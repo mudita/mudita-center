@@ -1,0 +1,25 @@
+{
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
+  "linterOptions": {
+    "exclude": [
+      "config/**/*.js",
+      "node_modules/**/*.ts"
+    ]
+  },
+  "rules": {
+    "semicolon": false,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "always",
+        "singleline": "never"
+      }
+    ],
+    "no-var-requires": false, //delete
+    "member-access": false, //delete
+    "interface-name": false,
+    "no-console": false,
+    "object-literal-sort-keys": false,
+    "jsx-boolean-value": false
+  }
+}
