@@ -1,6 +1,6 @@
 {
   "name": "electron-react-typescript-boilerplate",
-  "productName": "ElectronReactTypescript",
+  "productName": "Pure descopt app",
   "version": "0.10.0",
   "description": "Electron application boilerplate based on TypeScript, React, React Router, Webpack, React Hot Loader for rapid application development",
   "main": "main.js",
@@ -47,7 +47,7 @@
     ]
   },
   "build": {
-    "productName": "ElectronReactTypescript",
+    "productName": "Pure-desktop-app",
     "appId": "com.mudita.pure",
     "dmg": {
       "contents": [
@@ -62,7 +62,11 @@
           "y": 150,
           "type": "file"
         }
-      ]
+      ],
+      "publish": {
+        "provider": "s3",
+        "bucket": "pure-app-develop"
+      }
     },
     "files": [
       "dist/",
@@ -166,6 +170,9 @@
   },
   "dependencies": {
     "electron-debug": "^1.1.0",
+    "electron-log": "^2.2.17",
+    "electron-publisher-s3": "^20.17.2",
+    "electron-updater": "^3.1.1",
     "font-awesome": "^4.7.0",
     "history": "^4.6.1",
     "react": "^16.0.0",

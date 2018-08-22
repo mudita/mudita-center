@@ -1,4 +1,10 @@
-const { app, BrowserWindow, Menu, shell } = require('electron');
+const {app, BrowserWindow, Menu, shell} = require('electron');
+const {autoUpdater} = require("electron-updater");
+const log = require('electron-log');
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
 
 let menu;
 let template;
@@ -20,6 +26,10 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
+function sendStatusToWindow(text) {
+  log.info(text);
+  mainWindow.webContents.send('message', text);
+}
 
 const installExtensions = () => {
   if (process.env.NODE_ENV === 'development') {
@@ -36,14 +46,16 @@ const installExtensions = () => {
   return Promise.resolve([]);
 };
 
-app.on('ready', () =>
-  installExtensions()
-  .then(() => {
+app.on('ready', async () => {
+  await installExtensions();
+
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
     height: 728
   });
+
+  await autoUpdater.checkForUpdatesAndNotify();
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
@@ -52,14 +64,37 @@ app.on('ready', () =>
     mainWindow.focus();
   });
 
+
   mainWindow.on('closed', () => {
     mainWindow = null;
+  });
+
+  autoUpdater.on('checking-for-update', () => {
+    sendStatusToWindow('Checking for update...');
+  })
+  autoUpdater.on('update-available', (info) => {
+    sendStatusToWindow('Update available.');
+  })
+  autoUpdater.on('update-not-available', (info) => {
+    sendStatusToWindow('Update not available.');
+  })
+  autoUpdater.on('error', (err) => {
+    sendStatusToWindow('Error in auto-updater. ' + err);
+  })
+  autoUpdater.on('download-progress', (progressObj) => {
+    let log_message = "Download speed: " + progressObj.bytesPerSecond;
+    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    sendStatusToWindow(log_message);
+  })
+  autoUpdater.on('update-downloaded', (info) => {
+    sendStatusToWindow('Update downloaded');
   });
 
   if (process.env.NODE_ENV === 'development') {
     mainWindow.openDevTools();
     mainWindow.webContents.on('context-menu', (e, props) => {
-      const { x, y } = props;
+      const {x, y} = props;
 
       Menu.buildFromTemplate([{
         label: 'Inspect element',
@@ -267,6 +302,7 @@ app.on('ready', () =>
       }]
     }];
     menu = Menu.buildFromTemplate(template);
-    mainWindow.setMenu(menu);
+    mainWindow.setMenu(menu)
   }
-}));
+});
+

@@ -1,14 +1,14 @@
 import '../utils/enzymeConfig';
 
-import * as React from 'react';
 import { mount } from 'enzyme';
+import * as React from 'react';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import CounterPage from '../../app/containers/CounterPage';
 import { IState } from '../../app/reducers';
 
 const CounterPageAny = CounterPage as any;
-let { configureStore, history } = require('../../app/store/configureStore');
+const { configureStore, history } = require('../../app/store/configureStore');
 
 function setup(initialState?: IState) {
   const store = configureStore(initialState);
@@ -17,12 +17,12 @@ function setup(initialState?: IState) {
       <ConnectedRouter history={history}>
         <CounterPageAny />
       </ConnectedRouter>
-    </Provider>
+    </Provider>,
   );
   return {
     app,
     buttons: app.find('button'),
-    p: app.find('.counter')
+    p: app.find('.counter'),
   };
 }
 
