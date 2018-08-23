@@ -1,8 +1,8 @@
 {
   "name": "electron-react-typescript-boilerplate",
   "productName": "Pure descopt app",
-  "version": "0.10.0",
-  "description": "Electron application boilerplate based on TypeScript, React, React Router, Webpack, React Hot Loader for rapid application development",
+  "version": "1.0.0",
+  "description": "Electron pure desktop",
   "main": "main.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test node --trace-warnings ./test/runTests.js",
@@ -62,11 +62,7 @@
           "y": 150,
           "type": "file"
         }
-      ],
-      "publish": {
-        "provider": "s3",
-        "bucket": "pure-app-develop"
-      }
+      ]
     },
     "files": [
       "dist/",
@@ -79,6 +75,12 @@
     "directories": {
       "buildResources": "resources",
       "output": "release"
+    },
+    "publish": {
+      "provider": "s3",
+      "bucket": "pure-app-develop",
+      "path": "/release",
+      "acl": "public-read"
     },
     "win": {
       "target": "nsis"
@@ -138,7 +140,7 @@
     "css-modules-require-hook": "^4.0.6",
     "devtron": "^1.4.0",
     "electron": "1.8.4",
-    "electron-builder": "^19.56.2",
+    "electron-builder": "20.28.2",
     "electron-builder-http": "^19.15.0",
     "electron-devtools-installer": "^2.0.1",
     "enzyme": "^3.0.0",
