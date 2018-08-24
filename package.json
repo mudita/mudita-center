@@ -23,7 +23,8 @@
     "package-all": "npm run build && build -mwl",
     "cleanup": "mop -v",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "publish_s3": "npm run build && electron-builder --publish always"
   },
   "jest": {
     "moduleNameMapper": {
@@ -101,6 +102,7 @@
   },
   "author": {
     "name": "Appnroll",
+    "email": "dota@appnroll.com",
     "url": "https://github.com/Appnroll"
   },
   "license": "MIT",
