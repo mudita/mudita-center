@@ -1,6 +1,6 @@
 {
-  "name": "electron-react-typescript-boilerplate",
-  "productName": "Pure descopt app",
+  "name": "electron-pure-desktop-app",
+  "productName": "Pure desktop app",
   "version": "1.0.0",
   "description": "Electron pure desktop",
   "main": "main.js",
@@ -100,13 +100,12 @@
     "url": "git+https://github.com/irath96/electron-react-typescript-boilerplate.git"
   },
   "author": {
-    "name": "Alexander Rath",
-    "email": "irath96@gmail.com",
-    "url": "https://github.com/irath96"
+    "name": "Appnroll",
+    "url": "https://github.com/Appnroll"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/irath96/electron-react-typescript-boilerplate/issues"
+    "url": "https://github.com/Appnroll/pure-desktop-app/issues"
   },
   "keywords": [
     "electron",
