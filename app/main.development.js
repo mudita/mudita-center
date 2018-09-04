@@ -1,6 +1,5 @@
 const {app, BrowserWindow, Menu, shell} = require('electron');
 const {autoUpdater} = require("electron-updater");
-const usb = require('usb');
 const log = require('electron-log');
 
 log.transports.file.level = "debug";
@@ -30,13 +29,6 @@ function sendStatusToWindow(text) {
   log.info(text);
   mainWindow.webContents.send('message', text);
 }
-
-console.log(usb.getDeviceList().map(el => el.deviceAddress));
-
-const device = usb.getDeviceList().find(el => el.deviceAddress === 16);
-
-device.open();
-console.log(device.interfaces[0].descriptor)
 
 const installExtensions = () => {
   if (process.env.NODE_ENV === 'development') {
