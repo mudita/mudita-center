@@ -1,14 +1,14 @@
-import { combineReducers, Reducer } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
-import counter, { TState as TCounterState } from './counter';
+import { combineReducers, Reducer } from 'redux';
+import fileExplorer, { FileExplorerReducer } from "./file-explorer.reducer";
 
 const rootReducer = combineReducers({
-  counter,
+  fileExplorer,
   routing: routing as Reducer<any>
 });
 
-export interface IState {
-  counter: TCounterState;
+export interface RootState {
+  fileExplorer: FileExplorerReducer;
 }
 
 export default rootReducer;
