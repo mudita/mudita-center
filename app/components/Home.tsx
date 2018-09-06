@@ -1,26 +1,27 @@
 import * as React from "react";
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 interface HomeProps {
-    className?: string;
+  link?: string
 }
 
-const Component = styled.div`
-  color: red;
+const Input = styled.input`
+  padding: 0.5em;
+  margin: 0.5em;
+  color: palevioletred;
+  background: papayawhip;
+  border: none;
+  border-radius: 3px;
 `;
 
 class Home extends React.Component<HomeProps, {}> {
-    render() {
-        return <div className={this.props.className}> Home start</div>;
-    }
+  render() {
+    return (
+      <Input
+        placeholder="Hover here..."
+      />
+    );
+  }
 }
 
-const StyledHome = styled(Home)`
-  color: #fff;
-  font: 400 36px/1.4 "cardo";
-  margin: 20px 0;
-  text-align: left;
-  text-indent: -0px;
-`;
-
-export default StyledHome;
+export default Home;
