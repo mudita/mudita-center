@@ -1,15 +1,16 @@
 const {darwinWindow, windowsWindow} = require("./electron/window");
 const fsPromises = require("fs").promises;
-const {app, BrowserWindow, Menu, shell} = require('electron');
+const {app, BrowserWindow, Menu, ipcMain} = require('electron');
 const {autoUpdater} = require("electron-updater");
 const log = require('electron-log');
+
+log.transports.file.level = "debug";
+autoUpdater.logger = log;
 
 let menu;
 let template;
 let mainWindow = null;
 
-log.transports.file.level = "debug";
-autoUpdater.logger = log;
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
@@ -28,6 +29,9 @@ app.on('window-all-closed', () => {
 });
 
 //`fsPromises.readdir`
+//
+// mainWindow.webContents.send('ping', value)
+
 
 function sendStatusToWindow(text) {
   log.info(text);
@@ -37,6 +41,7 @@ function sendStatusToWindow(text) {
 const installExtensions = () => {
   if (process.env.NODE_ENV === 'development') {
     const installer = require('electron-devtools-installer'); // eslint-disable-line global-require
+    require('devtron').install();
 
     const extensions = [
       'REACT_DEVELOPER_TOOLS',
@@ -51,9 +56,6 @@ const installExtensions = () => {
 
 app.on('ready', async () => {
   await installExtensions();
-
-  const dir = await fsPromises.readdir('./');
-  console.log(dir);
 
   const appVersion = require('./package.json').version;
   log.info(`app.getVersion ${app.getVersion()}`);
@@ -130,3 +132,8 @@ app.on('ready', async () => {
   }
 });
 
+const listFiles = async (path = './') => {
+  return await fsPromises.readdir(path);
+};
+
+exports.listFiles = listFiles;

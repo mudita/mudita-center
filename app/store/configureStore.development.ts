@@ -5,7 +5,7 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
 
-import * as counterActions from '../actions/counter';
+import * as filesActions from '../files/actions/files.actions';
 
 declare const window: Window & {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?(a: any): void;
@@ -18,7 +18,7 @@ declare const module: NodeModule & {
 };
 
 const actionCreators = Object.assign({},
-  counterActions,
+    filesActions,
   {push}
 );
 
