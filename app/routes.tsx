@@ -1,12 +1,14 @@
-import * as React from 'react'
-import {Route, Switch} from 'react-router'
-import App from './containers/App'
-import HomePage from './containers/HomePage'
+import * as React from 'react';
+import { Route, Switch } from 'react-router';
+import App from './containers/App';
+import HomePage from './containers/HomePage';
+import FilesPage from "./files/pages/FilesPage";
 
 export default () => (
-    <App>
-        <Switch>
-            <Route path="/" component={HomePage}/>
-        </Switch>
-    </App>
+  <App>
+    <Switch>
+      <Route path="/files" component={FilesPage}/>
+      <Route path="/" component={HomePage}/>
+    </Switch>
+  </App>
 );

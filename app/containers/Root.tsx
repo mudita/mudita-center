@@ -1,12 +1,11 @@
+import { ConnectedRouter } from 'connected-react-router';
 import { History } from 'history';
 import * as React from 'react';
-import * as Redux from 'react-redux';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
 import Routes from '../routes';
 
 interface RootType {
-  store: Redux.Store<any>;
+  store: any;
   history: History
 }
 

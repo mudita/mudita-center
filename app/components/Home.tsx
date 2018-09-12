@@ -1,11 +1,9 @@
-import {remote} from 'electron'
-import * as React from "react"
-import styled from 'styled-components'
-
-const mainProcessRef = remote.require('./main')
+import * as React from "react";
+import { Link } from "react-router-dom";
+import styled from 'styled-components';
 
 interface HomeProps {
-    link?: string
+  link?: string
 }
 
 const Input = styled.input`
@@ -15,26 +13,20 @@ const Input = styled.input`
   background: papayawhip;
   border: none;
   border-radius: 3px;
-`
-
-// const List = styled.div`
-//
-// `
+`;
 
 class Home extends React.Component<HomeProps, {}> {
 
-    async componentDidMount(){
-        const files = await mainProcessRef.listFiles()
-        console.log(files);
-    }
-
-    render() {
-        return (
-            <Input
-                placeholder="Hover here..."
-            />
-        )
-    }
+  render() {
+    return (
+      <div>
+        <Link to='/files'>files</Link>
+        <Input
+          placeholder="Hover here..."
+        />
+      </div>
+    );
+  }
 }
 
-export default Home
+export default Home;

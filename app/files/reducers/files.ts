@@ -1,16 +1,16 @@
 import * as filesAction from '../actions/files.actions';
 
-export interface FileReducer {
+export interface State {
   readonly currentFolder: string,
   readonly names: string[]
 }
 
-const initState: FileReducer = {
+const initState: State = {
   currentFolder: '',
   names: []
 };
 
-export default function fileExplorer(state: FileReducer = initState, jobActions: filesAction.Actions) {
+export function reducer(state: State = initState, jobActions: filesAction.Actions) {
   switch (jobActions) {
 
   }

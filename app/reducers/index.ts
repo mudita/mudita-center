@@ -1,14 +1,9 @@
-import { routerReducer as routing } from 'react-router-redux';
-import { combineReducers, Reducer } from 'redux';
-import fileExplorer, { FileReducer } from "../files/reducers/file-explorer.reducer";
+import { combineReducers } from 'redux';
+import { reducer as fileReducer} from "../files/reducers/files";
+import RootState from './state'
 
-const rootReducer = combineReducers({
-  fileExplorer,
-  routing: routing as Reducer<any>
+const rootReducer = combineReducers<RootState>({
+  files: fileReducer
 });
-
-export interface RootState {
-  fileExplorer: FileReducer;
-}
 
 export default rootReducer;

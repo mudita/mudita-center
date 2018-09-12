@@ -10,7 +10,7 @@ const enhancer = applyMiddleware(thunk, router);
 
 export = {
   history,
-  configureStore(initialState: object | void) {
-    return createStore(rootReducer, initialState, enhancer);
+  configureStore() {
+    return createStore(rootReducer, {}, enhancer);
   }
 };

@@ -9,16 +9,4 @@ export class SetCurrentFiles implements Action {
   constructor(public payload: string[]) {}
 }
 
-// export function setFiles(payload: any) {
-//   return (dispatch: any) => {
-//     dispatch(actionCreator(SET_CURRENT_PATH)(payload));
-//   };
-// }
-
-// export function setCurrentFiles(payload: any) {
-//   return (dispatch: any) => {
-//     dispatch(actionCreator(SET_FILES)(payload));
-//   };
-// }
-
 export type Actions = SetCurrentFiles

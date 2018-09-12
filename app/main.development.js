@@ -1,6 +1,6 @@
 const {darwinWindow, windowsWindow} = require("./electron/window");
 const fsPromises = require("fs").promises;
-const {app, BrowserWindow, Menu, ipcMain} = require('electron');
+const {app, BrowserWindow, Menu} = require('electron');
 const {autoUpdater} = require("electron-updater");
 const log = require('electron-log');
 
@@ -57,9 +57,9 @@ const installExtensions = () => {
 app.on('ready', async () => {
   await installExtensions();
 
-  const appVersion = require('./package.json').version;
-  log.info(`app.getVersion ${app.getVersion()}`);
-  log.info(`package.json-require.version ${appVersion}`);
+  // const appVersion = require('./package.json').version;
+  // log.info(`app.getVersion ${app.getVersion()}`);
+  // log.info(`package.json-require.version ${appVersion}`);
 
   mainWindow = new BrowserWindow({
     show: false,
@@ -68,7 +68,7 @@ app.on('ready', async () => {
   });
 
 
-  mainWindow.loadURL(`file://${__dirname}/app.html#v${appVersion}`);
+  mainWindow.loadURL(`file://${__dirname}/app.html`);
 
   mainWindow.webContents.on('did-finish-load', async () => {
     mainWindow.show();
