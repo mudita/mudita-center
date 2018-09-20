@@ -27,7 +27,7 @@ const logger = (createLogger as any)({
   collapsed: true
 });
 
-const history = createHashHistory();
+const history = createHashHistory(); // must be hash, do not change
 
 const composeEnhancers: typeof compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({

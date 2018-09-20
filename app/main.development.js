@@ -1,5 +1,4 @@
 const {darwinWindow, windowsWindow} = require("./electron/window");
-const fsPromises = require("fs").promises;
 const {app, BrowserWindow, Menu} = require('electron');
 const {autoUpdater} = require("electron-updater");
 const log = require('electron-log');
@@ -132,8 +131,5 @@ app.on('ready', async () => {
   }
 });
 
-const listFiles = async (path = './') => {
-  return await fsPromises.readdir(path);
-};
 
-exports.listFiles = listFiles;
+exports.electronUtils = require('./utils/file.utils');
