@@ -1,8 +1,9 @@
 import * as filesAction from '../actions/files.actions';
+import { FileType } from "../actions/files.actions";
 
 export interface State {
   readonly currentFolder: string,
-  readonly filePaths: string[]
+  readonly filePaths: FileType[]
 }
 
 const initState: State = {
@@ -17,7 +18,7 @@ export function reducer(state: State = initState, action: filesAction.Actions) {
         ...state,
         currentFolder: action.payload
       };
-    case filesAction.SET_FILES:
+    case filesAction.SET_FILES_WITH_TYPES:
       return {
         ...state,
         filePaths: [...action.payload]

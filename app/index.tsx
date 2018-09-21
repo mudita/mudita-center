@@ -3,9 +3,12 @@ import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import './app.global.scss';
 import Root from './containers/Root';
-
-const {configureStore, history} = require('./store/configureStore');
+import { rootEpic } from "./effects/root.effects";
+const {configureStore, history, epicMiddleware} = require('./store/configureStore');
 const store = configureStore();
+
+
+epicMiddleware.run(rootEpic);
 
 render(
   <AppContainer>

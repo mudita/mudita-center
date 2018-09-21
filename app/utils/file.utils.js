@@ -1,4 +1,11 @@
 const fsPromises = require("fs").promises;
+const fs = require('fs');
+
+const FileType = {
+  file: 'file',
+  directory: 'directory',
+  unknown: 'unknown'
+};
 
 const listFiles = async (path = './') => {
   return await fsPromises.readdir(path);
@@ -22,8 +29,23 @@ const isElementDirectory = async (path) => {
   }
 };
 
+const checkType = (path) => {
+  const isFile = fs.lstatSync(path).isFile();
+  const isDirectory = fs.lstatSync(path).isDirectory();
+
+  if (isFile) {
+    return FileType.file;
+  }
+
+  if (isDirectory) {
+    return FileType.directory
+  }
+
+  return FileType.unknown
+};
 
 exports.fileUtils = {
+  checkType,
   listFiles,
   isElementFile,
   isElementDirectory

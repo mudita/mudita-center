@@ -13,7 +13,6 @@ const mainRef = remote.require("./main.js");
 
 const fileUtils = mainRef.electronUtils.fileUtils;
 
-
 interface FileProps {
   link?: string
 }
@@ -25,7 +24,6 @@ interface DispatchProps {
 
 const FilesWrapper = styled.div`
   background-color: #222;
-  height: 12rem;
   padding: 1rem;
   color: white;
 `;
@@ -56,7 +54,6 @@ class Files extends React.Component<FileProps & FileState & DispatchProps, {}> {
     this.props.setFiles(await fileUtils.listFiles());
   }
 
-
   render() {
     const {currentFolder, filePaths} = this.props;
     return (
@@ -67,14 +64,14 @@ class Files extends React.Component<FileProps & FileState & DispatchProps, {}> {
           File list below
         </FilesIntro>
         <FileListWrapper>
-          {filePaths.map((el, key) => <FileListElement onClick={this.onElementClick} key={key} el={el}/>)}
+          {filePaths.map((el, key) => <FileListElement onClick={this.onElementClick} key={key} el={el.name}/>)}
         </FileListWrapper>
       </FilesWrapper>
     );
   }
 
-  onElementClick(element: string){
-    console.log(element)
+  onElementClick = (element: string) => {
+    this.props.setCurrentPath(element)
   }
 
 }

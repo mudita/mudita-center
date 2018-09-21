@@ -2,10 +2,12 @@ import { connectRouter, push, routerMiddleware } from 'connected-react-router';
 import { createHashHistory } from 'history';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
+import { createEpicMiddleware } from "redux-observable";
 import thunk from 'redux-thunk';
+import * as filesAction from '../files/actions/files.actions';
 import rootReducer from '../reducers';
 
-import * as filesAction from '../files/actions/files.actions';
+const epicMiddleware = createEpicMiddleware();
 
 declare const window: Window & {
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?(a: any): void;
@@ -37,10 +39,11 @@ const composeEnhancers: typeof compose = window.__REDUX_DEVTOOLS_EXTENSION_COMPO
   compose;
 
 const enhancer = composeEnhancers(
-  applyMiddleware(thunk, logger, routerMiddleware(history))
+  applyMiddleware(thunk, logger, routerMiddleware(history), epicMiddleware)
 );
 
 export = {
+  epicMiddleware,
   history,
   configureStore() {
     const store = createStore(
