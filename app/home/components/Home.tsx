@@ -6,7 +6,7 @@ interface HomeProps {
   link?: string
 }
 
-const Input = styled.input`
+const StyledInput = styled.input`
   padding: 0.5em;
   margin: 0.5em;
   color: palevioletred;
@@ -21,7 +21,7 @@ class Home extends React.Component<HomeProps, {}> {
     return (
       <div>
         <Link to='/files'>files</Link>
-        <Input
+        <StyledInput
           placeholder="Hover here..."
         />
       </div>

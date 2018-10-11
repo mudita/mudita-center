@@ -11,9 +11,6 @@ const FileListElementWrapper = styled.li`
 `;
 
 class FileListElement extends React.Component<FileListElementProps, {}> {
-
-
-
   render() {
     const {el, onClick} = this.props;
     return (

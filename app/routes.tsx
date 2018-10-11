@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router';
 import App from './containers/App';
-import HomePage from './containers/HomePage';
+import HomePage from './home/pages/HomePage';
 import FilesPage from "./files/pages/FilesPage";
 
 export default () => (
