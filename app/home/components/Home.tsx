@@ -1,30 +1,19 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 import styled from 'styled-components';
 
 interface HomeProps {
   link?: string
 }
 
-const StyledInput = styled.input`
-  padding: 0.5em;
-  margin: 0.5em;
-  color: palevioletred;
-  background: papayawhip;
-  border: none;
-  border-radius: 3px;
+const HomeWrapper = styled.div`
+
 `;
 
-class Home extends React.Component<HomeProps, {}> {
 
+class Home extends React.Component<HomeProps, {}> {
   render() {
     return (
-      <div>
-        <Link to='/files'>files</Link>
-        <StyledInput
-          placeholder="Hover here..."
-        />
-      </div>
+      <HomeWrapper> Home </HomeWrapper>
     );
   }
 }
