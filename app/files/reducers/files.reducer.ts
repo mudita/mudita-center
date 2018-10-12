@@ -6,10 +6,12 @@ export interface State {
   readonly filePaths: FileType[]
 }
 
-const initState: State = {
+export const getInitialState = (): State => ({
   currentFolder: '',
   filePaths: []
-};
+} as State)
+
+const initState = getInitialState()
 
 export function reducer(state: State = initState, action: filesAction.Actions) {
   switch (action.type) {
