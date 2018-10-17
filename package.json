@@ -7,6 +7,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test node --trace-warnings ./test/runTests.js",
     "test-all": "npm run test && npm run build && npm run test-e2e",
+    "test:watch": "tsc && cross-env NODE_ENV=test cross-env TEST_DIALECT=sqlite mocha -w --recursive --compilers ts:ts-node/register --bail \"test/**/*.spec.ts\"",
     "test-watch": "npm test -- --watch",
     "test-e2e": "cross-env NODE_ENV=test node --trace-warnings ./test/runTests.js e2e",
     "hot-server": "cross-env NODE_ENV=development node --max_old_space_size=2096 server.js",
@@ -45,7 +46,12 @@
     },
     "testMatch": [
       "**/?(*.)(spec|test).ts?(x)"
-    ]
+    ],
+    "setupTestFrameworkScriptFile": "jest-enzyme",
+    "testEnvironment": "enzyme",
+    "testEnvironmentOptions": {
+      "enzymeAdapter": "react16"
+    }
   },
   "build": {
     "productName": "Pure-desktop-app",
@@ -120,6 +126,7 @@
   ],
   "homepage": "https://github.com/irath96/electron-react-typescript-boilerplate#readme",
   "devDependencies": {
+    "@types/chai": "^4.1.6",
     "@types/enzyme": "^3.1.1",
     "@types/history": "^4.5.2",
     "@types/jest": "^22.0.0",
@@ -146,14 +153,17 @@
     "electron-devtools-installer": "^2.0.1",
     "electron-rebuild": "^1.8.2",
     "enzyme": "^3.0.0",
-    "enzyme-adapter-react-16": "^1.0.0",
+    "enzyme-adapter-react-16": "1.6.0",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.5",
     "html-webpack-plugin": "^2.24.1",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "23.5.0",
+    "jest": "23.6.0",
+    "jest-environment-enzyme": "^7.0.0",
+    "jest-enzyme": "^7.0.0",
     "json-loader": "^0.5.4",
+    "mocha": "^5.2.0",
     "node-sass": "^4.1.1",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-test-renderer": "^16.0.0",
@@ -174,6 +184,7 @@
   },
   "dependencies": {
     "@types/styled-components": "^3.0.0",
+    "chai": "^4.2.0",
     "connected-react-router": "^4.4.1",
     "electron-debug": "^1.1.0",
     "electron-log": "^2.2.17",
