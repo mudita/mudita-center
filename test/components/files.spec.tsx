@@ -1,23 +1,30 @@
-import {shallow} from 'enzyme'
-import {Provider} from 'react-redux'
+import { mount } from 'enzyme';
+import 'jest-styled-components';
+import * as React from "react";
+import { Provider } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
-import Files from '../../app/files/components/Files'
+import Files, { FilesIntro, FilesTitle } from '../../app/files/components/Files';
+import { getInitialState } from '../../app/files/reducers/files.reducer';
 
 describe('files page', () => {
 
-  const initialState = {output: 10}
-  const mockStore = configureMockStore()
-  let store: any, wrapper: any
-
+  const mockStore = configureMockStore();
+  let store: any;
+  let wrapper: any;
 
   beforeEach(() => {
-    store = mockStore(initialState)
-    wrapper = shallow(<Provider store={store}><Files/></Provider>)
+    store = mockStore({files: getInitialState()});
+    wrapper = mount(<Provider store={store}><Files/></Provider>);
+  });
 
-  })
+  it('should files intro should', () => {
+    const intro = wrapper.find(FilesIntro);
+    expect(intro.text()).toEqual('File list below');
+  });
 
-  it('should match snapshot', () => {
+  it('should h1 title state be empty', () => {
+    const title = wrapper.find(FilesTitle);
+    expect(title.text()).toEqual('');
+  });
 
-  })
-
-})
+});
