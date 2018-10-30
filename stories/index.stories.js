@@ -5,8 +5,8 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 import { Button, Welcome } from '@storybook/react/demo';
-import Files from "../app/files/components/Files";
-import FilesPage from "../app/files/pages/FilesPage";
+import Home from "../app/home/components/Home";
+import {HomePage} from "../app/home/pages/HomePage";
 
 storiesOf('Welcome', module).add('to Storybook', () => <Welcome showApp={linkTo('Button')} />);
 
@@ -18,9 +18,5 @@ storiesOf('Button', module)
         😀 😎 👍 💯
       </span>
     </Button>
-  ));
-
-
-storiesOf('Files', module)
-  .add('files page', () => <FilesPage/>)
-  .add('files', () => <Files/>)
+  ))
+  .add('home', () => <HomePage/>)
