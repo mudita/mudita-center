@@ -5,14 +5,26 @@
 // IMPORTANT
 // When you add this file, we won't add the default configurations which is similar
 // to "React Create App". This only has babel loader to load JavaScript.
+//
+// module.exports = {
+//   plugins: [
+//     // your custom plugins
+//   ],
+//   module: {
+//     rules: [
+//       // add your custom rules.
+//     ],
+//   },
+// };
 
-module.exports = {
-  plugins: [
-    // your custom plugins
-  ],
-  module: {
-    rules: [
-      // add your custom rules.
-    ],
-  },
+const path = require('path');
+const TSDocgenPlugin = require('react-docgen-typescript-webpack-plugin');
+module.exports = (baseConfig, env, config) => {
+  config.module.rules.push({
+    test: /\.(ts|tsx)$/,
+    loader: require.resolve('awesome-typescript-loader'),
+  });
+  config.plugins.push(new TSDocgenPlugin()); // optional
+  config.resolve.extensions.push('.ts', '.tsx');
+  return config;
 };

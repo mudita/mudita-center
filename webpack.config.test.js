@@ -3,6 +3,7 @@
 const devConfig = require('./webpack.config.development');
 
 module.exports = {
+  mode: 'development',
   output: {
     libraryTarget: 'commonjs2'
   },

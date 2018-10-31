@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import Home from '../components/Home';
 import styled from "styled-components";
-import Navigation from "../../shared/components/Navigation";
 import Header from "../../shared/components/Header";
+import Navigation from "../../shared/components/Navigation";
+import Home from '../components/Home';
 
 const HomePageWrapper = styled.div``;
 
