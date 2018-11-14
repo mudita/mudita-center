@@ -2,21 +2,31 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
 
-interface NavigationProps {
-  link?: string
-}
+const NavigationWrapper = styled.div`
+  border: white 1px dotted;
+`;
 
-const NavigationWrapper = styled.div``;
+const UlStyle = styled.ul`
+  padding: 0;
+  list-style: none;
+`;
 
-class Navigation extends React.Component<NavigationProps, {}> {
+const LiStyle = styled.li`
+  display: inline;
+  padding: 10px;
+`;
 
-  render() {
-    return (
-      <NavigationWrapper>
-        <Link to='/files'> Files </Link>
-      </NavigationWrapper>
-    );
-  }
+function Navigation() {
+  return (
+    <NavigationWrapper>
+      <UlStyle>
+        <LiStyle>
+          <Link to='/Home'> Home </Link> </LiStyle>
+        <LiStyle>
+          <Link to='/files'> Files </Link> </LiStyle>
+      </UlStyle>
+    </NavigationWrapper>
+  );
 }
 
 export default Navigation;

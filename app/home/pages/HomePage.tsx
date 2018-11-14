@@ -1,22 +1,43 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
 import styled from "styled-components";
 import Header from "../../shared/components/Header";
 import Navigation from "../../shared/components/Navigation";
 import Home from '../components/Home';
 
-const HomePageWrapper = styled.div``;
+const HomePageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px #ccc dotted;
+  padding: 10px;
+`;
 
-export class HomePage extends React.Component<RouteComponentProps<any>, void> {
-  render() {
-    return (
-      <HomePageWrapper>
+const NavigationContainer = styled.div`
+  flex: 1;
+`;
+
+const HeaderContainer = styled.div`
+  flex: 1;
+`;
+
+const HomeContainer = styled.div`
+  flex: 1;
+`;
+
+
+function HomePage() {
+  return (
+    <HomePageWrapper>
+      <NavigationContainer>
         <Navigation/>
+      </NavigationContainer>
+      <HeaderContainer>
         <Header/>
+      </HeaderContainer>
+      <HomeContainer>
         <Home/>
-      </HomePageWrapper>
-    );
-  }
+      </HomeContainer>
+    </HomePageWrapper>
+  );
 }
 
-export default (HomePage as any as React.StatelessComponent<RouteComponentProps<any>>);
+export default HomePage;
