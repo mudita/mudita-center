@@ -7,10 +7,10 @@ import { State as FileState } from "../reducers/files.reducer";
 import { currentPath, selectFiles } from "../selectors/file.selector";
 import FileListElement from "./FileListElement";
 
-// const {remote} = require('electron')
-// const mainRef = remote.require("./main.js")
+const {remote} = require('electron')
+const mainRef = remote.require("./main.js")
 
-// const fileUtils = mainRef.electronUtils.fileUtils
+const fileUtils = mainRef.electronUtils.fileUtils
 
 interface FileProps {
   link?: string
@@ -50,14 +50,13 @@ const FileListWrapper = styled.ul`
 class Files extends React.Component<FileProps & FileState & DispatchProps, {}> {
 
   async componentDidMount() {
-    // this.props.setFiles(await fileUtils.listFiles())
+    this.props.setFiles(await fileUtils.listFiles())
   }
 
   render() {
     const {currentFolder, filePaths} = this.props;
     return (
       <FilesWrapper>
-        {/*<Link to='/'> home </Link>*/}
         <FilesTitle>{currentFolder}</FilesTitle>
         <FilesIntro>File list below</FilesIntro>
         <FileListWrapper>

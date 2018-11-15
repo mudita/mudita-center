@@ -24,7 +24,7 @@ function Home() {
 
   return (
     <HomeWrapper>
-      <HomeTitle onClick={()=> setInc(inc+1)}> {inc} </HomeTitle>
+      <HomeTitle onClick={()=> setInc(inc+1)}> Title {inc} </HomeTitle>
       <HomeContent>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean orci dolor, rutrum at quam sed, aliquet
         dapibus ante. Maecenas id commodo justo. Suspendisse potenti. Pellentesque ut tristique tortor, non ultrices
