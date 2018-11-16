@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from "styled-components"
 import Navigation from '../../shared/components/Navigation'
+import FilesHook from '../components/FilesHook'
 
 const FilePageWrapper = styled.div`
   display: flex;
@@ -13,6 +14,7 @@ function FilesPageHook() {
   return (
     <FilePageWrapper>
       <Navigation/>
+      <FilesHook/>
     </FilePageWrapper>
   )
 }

@@ -8,7 +8,7 @@ import FilesPageHook from './fileshook/pages/FilesHookPage'
 export default () => (
   <App>
     <Switch>
-      <Route path="/filesHook" component={FilesPageHook}/>
+      <Route path="/filesHooks" component={FilesPageHook}/>
       <Route path="/files" component={FilesPage}/>
       <Route path="/" component={HomePage}/>
     </Switch>
