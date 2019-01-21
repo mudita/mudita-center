@@ -8,7 +8,9 @@
       "dom",
       "es6",
       "dom.iterable",
-      "scripthost"
+      "scripthost",
+      "es5", "es7", "es2017"
+
     ],
     "types": [],
 

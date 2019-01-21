@@ -22,7 +22,7 @@ module.exports = merge(baseConfig, {
   },
 
   module: {
-    loaders: [
+    rules: [
       // Extract all .global.css to style.css as is
       {
         test: /\.(scss|sass)$/,

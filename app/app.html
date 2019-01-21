@@ -9,15 +9,14 @@
           const link = document.createElement('link');
           link.rel = 'stylesheet';
           link.href = './dist/style.css';
-          // HACK: Writing the script path should be done with webpack
           document.getElementsByTagName('head')[0].appendChild(link);
         }
       }());
     </script>
   </head>
   <body>
-    Current version: <span id="version">vX.Y.Z</span>
-    <div id="messages"></div>
+    <!--Current version: <span id="version">vX.Y.Z</span>-->
+    <!--<div id="messages"></div>-->
     <div id="root"></div>
     <script>
       {
@@ -29,16 +28,17 @@
         // HACK: Writing the script path should be done with webpack
         document.body.appendChild(script);
 
-          let version = window.location.hash.substring(1);
-          document.getElementById('version').innerText = version;
-            // Listen for messages
-            const {ipcRenderer} = require('electron');
-            ipcRenderer.on('message', function(event, text) {
-                var container = document.getElementById('messages');
-                var message = document.createElement('div');
-                message.innerHTML = text;
-                container.appendChild(message);
-            })
+          // let version = window.location.hash.substring(1);
+          // document.getElementById('version').innerText = version;
+          //   // Listen for messages
+          //   const {ipcRenderer} = require('electron');
+          //
+          //   ipcRenderer.on('message', function(event, text) {
+          //       var container = document.getElementById('messages');
+          //       var message = document.createElement('div');
+          //       message.innerHTML = text;
+          //       container.appendChild(message);
+          //   })
 
       }
     </script>

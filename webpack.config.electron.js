@@ -8,6 +8,7 @@ const baseConfig = require('./webpack.config.base');
 
 module.exports = merge(baseConfig, {
   devtool: 'source-map',
+  mode: 'development',
 
   entry: ['./app/main.development'],
 
