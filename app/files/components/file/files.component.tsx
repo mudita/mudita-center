@@ -58,8 +58,10 @@ const Files: FunctionComponent<FileProps & FileState & DispatchProps> = ({
   useEffect(() => {
     fileUtils.listFiles().then(setFilesAction)
   }, [])
-  const onElementClick = (element: string) => {
-    setCurrentPathAction(element)
+  const onElementClick = (element: string | undefined) => {
+    if (element) {
+      setCurrentPathAction(element)
+    }
   }
   return (
     <FilesWrapper>
