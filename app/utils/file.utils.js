@@ -1,40 +1,40 @@
-const fsPromises = require("fs").promises;
-const fs = require('fs');
+const fsPromises = require("fs").promises
+const fs = require("fs")
 
 const FileType = {
-  file: 'file',
-  directory: 'directory',
-  unknown: 'unknown'
-};
+  file: "file",
+  directory: "directory",
+  unknown: "unknown",
+}
 
-const listFiles = async (path = './') => {
-  return await fsPromises.readdir(path);
-};
+const listFiles = async (path = "./") => {
+  return await fsPromises.readdir(path)
+}
 
-const isElementFile = async (path) => {
+const isElementFile = async path => {
   try {
-    const file = await fsPromises.lstat(path);
-    return file.isFile();
+    const file = await fsPromises.lstat(path)
+    return file.isFile()
   } catch (err) {
-    throw new Error('is element file error')
+    throw new Error("is element file error")
   }
-};
+}
 
-const isElementDirectory = async (path) => {
+const isElementDirectory = async path => {
   try {
-    const file = await fsPromises.lstat(path);
-    return file.isDirectory();
+    const file = await fsPromises.lstat(path)
+    return file.isDirectory()
   } catch (err) {
-    throw new Error('is element file error')
+    throw new Error("is element file error")
   }
-};
+}
 
-const checkType = (path) => {
-  const isFile = fs.lstatSync(path).isFile();
-  const isDirectory = fs.lstatSync(path).isDirectory();
+const checkType = path => {
+  const isFile = fs.lstatSync(path).isFile()
+  const isDirectory = fs.lstatSync(path).isDirectory()
 
   if (isFile) {
-    return FileType.file;
+    return FileType.file
   }
 
   if (isDirectory) {
@@ -42,11 +42,11 @@ const checkType = (path) => {
   }
 
   return FileType.unknown
-};
+}
 
 exports.fileUtils = {
   checkType,
   listFiles,
   isElementFile,
-  isElementDirectory
-};
+  isElementDirectory,
+}
