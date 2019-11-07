@@ -1,11 +1,11 @@
-import { connectRouter, push, routerMiddleware } from 'connected-react-router';
+import { push, routerMiddleware } from 'connected-react-router';
 import { createHashHistory } from 'history';
 import { applyMiddleware, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import { createEpicMiddleware } from "redux-observable";
 import thunk from 'redux-thunk';
 import * as filesAction from '../files/actions/files.actions';
-import rootReducer from '../reducers';
+import createRootReducer from '../reducers';
 
 const epicMiddleware = createEpicMiddleware();
 
@@ -47,7 +47,7 @@ export = {
   history,
   configureStore() {
     const store = createStore(
-      connectRouter(history)(rootReducer),
+      createRootReducer(history),
       {},
       enhancer);
 
