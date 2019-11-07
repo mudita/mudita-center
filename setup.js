@@ -37,10 +37,6 @@ module.exports = {
       pattern: /counterActions/
     },
     {
-      file: 'app/app.global.scss',
-      clear: true
-    },
-    {
       file: 'app/routes.tsx',
       pattern: /CounterPage/
     },
