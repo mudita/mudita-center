@@ -1,6 +1,6 @@
 import * as React from "react"
-import {Link} from "react-router-dom"
-import styled from 'styled-components'
+import { Link } from "react-router-dom"
+import styled from "styled-components"
 
 const NavigationWrapper = styled.div`
   flex: 1;
@@ -22,13 +22,13 @@ const Navigation = () => {
     <NavigationWrapper>
       <UlStyle>
         <LiStyle>
-          <Link to='/Home'> Home </Link>
+          <Link to="/Home"> Home </Link>
         </LiStyle>
         <LiStyle>
-          <Link to='/files'> Files </Link>
+          <Link to="/files"> Files </Link>
         </LiStyle>
         <LiStyle>
-          <Link to='/filesHooks'> Files hook </Link>
+          <Link to="/filesHooks"> Files hook </Link>
         </LiStyle>
       </UlStyle>
     </NavigationWrapper>

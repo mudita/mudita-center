@@ -1,6 +1,6 @@
 import * as React from "react"
-import styled from 'styled-components'
-import FunctionComponent from '../../../types/function-component.interface'
+import styled from "styled-components"
+import FunctionComponent from "../../../types/function-component.interface"
 
 const HeaderWrapper = styled.div`
   flex: 1;
@@ -10,9 +10,7 @@ const HeaderWrapper = styled.div`
 `
 
 const Header: FunctionComponent = () => {
-  return (
-    <HeaderWrapper> Header </HeaderWrapper>
-  )
+  return <HeaderWrapper> Header </HeaderWrapper>
 }
 
 export default Header

@@ -1,16 +1,16 @@
 import * as React from "react"
-import {useEffect, useState} from "react"
-import styled from 'styled-components'
-import FunctionComponent from '../../../types/function-component.interface'
+import { useEffect, useState } from "react"
+import styled from "styled-components"
+import FunctionComponent from "../../../types/function-component.interface"
 
-const {remote} = require('electron')
+const { remote } = require("electron")
 const mainRef = remote.require("./main.js")
 
 const fileUtils = mainRef.electronUtils.fileUtils
-const basePath = require('electron').remote.app.getPath('documents');
+const basePath = require("electron").remote.app.getPath("documents")
 
 const FilesHookWrapper = styled.div`
-  flex: 1
+  flex: 1;
 `
 
 const UlStyle = styled.ul`
@@ -31,7 +31,8 @@ const FilesHook: FunctionComponent = () => {
     fileUtils.listFiles(currentPath).then((result: any[]) => {
       const structuredPaths = result.map(el => {
         return {
-          type: fileUtils.checkType(el), path: el
+          type: fileUtils.checkType(el),
+          path: el,
         }
       })
       console.log(structuredPaths)
@@ -41,22 +42,20 @@ const FilesHook: FunctionComponent = () => {
   }, [currentPath])
 
   const linkedPaths = paths.map((el, index) => {
-    return <LiStyle
-      onClick={() => {
-        setCurrentPath(`${currentPath}.\\${el.path}`)
-      }} key={index}>
-      {el.path}
-    </LiStyle>
+    const handleElementClick = () =>
+      setCurrentPath(`${currentPath}.\\${el.path}`)
+    return (
+      <LiStyle onClick={handleElementClick} key={index}>
+        {el.path}
+      </LiStyle>
+    )
   })
 
   return (
     <FilesHookWrapper>
-      <UlStyle>
-        {linkedPaths}
-      </UlStyle>
+      <UlStyle>{linkedPaths}</UlStyle>
     </FilesHookWrapper>
   )
 }
-
 
 export default FilesHook

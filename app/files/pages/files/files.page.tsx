@@ -1,8 +1,8 @@
-import * as React from 'react'
-import styled from 'styled-components'
-import Navigation from '../../../shared/components/navigation/navigation.component'
-import FunctionComponent from '../../../types/function-component.interface'
-import Files from '../../components/file/files.component'
+import * as React from "react"
+import styled from "styled-components"
+import Navigation from "../../../shared/components/navigation/navigation.component"
+import FunctionComponent from "../../../types/function-component.interface"
+import Files from "../../components/file/files.component"
 
 const FilePageWrapper = styled.div`
   display: flex;
@@ -14,8 +14,8 @@ const FilePageWrapper = styled.div`
 const FilesPage: FunctionComponent = () => {
   return (
     <FilePageWrapper>
-      <Navigation/>
-      <Files/>
+      <Navigation />
+      <Files />
     </FilePageWrapper>
   )
 }
