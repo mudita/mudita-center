@@ -10,7 +10,6 @@ let menu;
 let template;
 let mainWindow = null;
 
-
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support'); // eslint-disable-line
   sourceMapSupport.install();
@@ -30,7 +29,6 @@ app.on('window-all-closed', () => {
 //`fsPromises.readdir`
 //
 // mainWindow.webContents.send('ping', value)
-
 
 function sendStatusToWindow(text) {
   log.info(text);
@@ -63,9 +61,13 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({
     show: false,
     width: 1024,
-    height: 728
+    height: 728,
+    webPreferences: {
+      // Warning! https://github.com/electron/electron/issues/18139#issuecomment-489137050
+      // Leaving it for now as the current app requires access to the process.
+      nodeIntegration: true
+    }
   });
-
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
@@ -130,6 +132,5 @@ app.on('ready', async () => {
     mainWindow.setMenu(menu)
   }
 });
-
 
 exports.electronUtils = require('./utils/file.utils');
