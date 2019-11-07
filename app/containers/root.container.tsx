@@ -3,13 +3,14 @@ import { History } from 'history';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import Routes from '../routes';
+import FunctionComponent from '../types/function-component.interface'
 
-interface RootType {
+interface Props {
   store: any;
   history: History
 }
 
-export default function Root({store, history}: RootType) {
+const RootContainer: FunctionComponent<Props> = ({store, history}) => {
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
@@ -18,3 +19,5 @@ export default function Root({store, history}: RootType) {
     </Provider>
   );
 }
+
+export default RootContainer
