@@ -10,7 +10,7 @@ const FileListElementWrapper = styled.li`
       border-bottom: 1px solid #ddd;
 `;
 
-class FileListElement extends React.Component<FileListElementProps, {}> {
+class FileListElementComponent extends React.Component<FileListElementProps, {}> {
   render() {
     const {el, onClick} = this.props;
     return (
@@ -21,4 +21,4 @@ class FileListElement extends React.Component<FileListElementProps, {}> {
   }
 }
 
-export default FileListElement;
+export default FileListElementComponent;

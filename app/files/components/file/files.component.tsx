@@ -1,11 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import RootState from "../../reducers/state";
-import { setCurrentPath, setFiles } from "../actions/files.actions";
-import { State as FileState } from "../reducers/files.reducer";
-import { currentPath, selectFiles } from "../selectors/file.selector";
-import FileListElement from "./FileListElement";
+import RootState from "../../../reducers/state";
+import { setCurrentPath, setFiles } from "../../actions/files.actions";
+import { State as FileState } from "../../reducers/files.reducer";
+import { currentPath, selectFiles } from "../../selectors/file.selector";
+import FileListElementComponent from "../file-list-element/file-list-element.component";
 
 const {remote} = require('electron')
 const mainRef = remote.require("./main.js")
@@ -47,7 +47,7 @@ const FileListWrapper = styled.ul`
     border-left: 0.4rem solid red;
 `;
 
-class Files extends React.Component<FileProps & FileState & DispatchProps, {}> {
+class FilesComponent extends React.Component<FileProps & FileState & DispatchProps, {}> {
 
   async componentDidMount() {
     this.props.setFiles(await fileUtils.listFiles())
@@ -60,7 +60,7 @@ class Files extends React.Component<FileProps & FileState & DispatchProps, {}> {
         <FilesTitle>{currentFolder}</FilesTitle>
         <FilesIntro>File list below</FilesIntro>
         <FileListWrapper>
-          {filePaths.map((el, key) => <FileListElement onClick={this.onElementClick} key={key} el={el.name}/>)}
+          {filePaths.map((el, key) => <FileListElementComponent onClick={this.onElementClick} key={key} el={el.name}/>)}
         </FileListWrapper>
       </FilesWrapper>
     );
@@ -83,4 +83,4 @@ const mapDispatchToProps = (dispatch: any): DispatchProps => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Files);
+export default connect(mapStateToProps, mapDispatchToProps)(FilesComponent);

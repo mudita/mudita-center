@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {RouteComponentProps} from 'react-router'
 import styled from "styled-components"
-import Navigation from '../../shared/components/Navigation'
-import Files from "../components/Files"
+import Navigation from '../../../shared/components/Navigation'
+import Files from "../../components/file/files.component"
 
 const FilePageWrapper = styled.div`
   display: flex;

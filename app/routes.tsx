@@ -1,8 +1,8 @@
 import * as React from 'react'
 import {Route, Switch} from 'react-router'
 import App from './containers/App'
-import HomePage from './home/pages/HomePage'
-import FilesPage from "./files/pages/FilesPage"
+import HomePage from './home/pages/home.page'
+import FilesPage from "./files/pages/files/files.page"
 import FilesPageHook from './fileshook/pages/FilesHookPage'
 
 export default () => (
