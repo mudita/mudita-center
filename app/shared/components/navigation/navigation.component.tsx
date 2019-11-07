@@ -17,7 +17,7 @@ const LiStyle = styled.li`
   padding: 10px;
 `
 
-function Navigation() {
+const Navigation = () => {
   return (
     <NavigationWrapper>
       <UlStyle>

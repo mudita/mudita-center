@@ -1,5 +1,6 @@
 import * as React from "react"
 import styled from 'styled-components'
+import FunctionComponent from '../../../types/function-component.interface'
 
 const HeaderWrapper = styled.div`
   flex: 1;
@@ -8,7 +9,7 @@ const HeaderWrapper = styled.div`
   flex-direction: row;
 `
 
-const Header = () => {
+const Header: FunctionComponent = () => {
   return (
     <HeaderWrapper> Header </HeaderWrapper>
   )

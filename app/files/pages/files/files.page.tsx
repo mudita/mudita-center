@@ -1,8 +1,8 @@
 import * as React from 'react'
-import {RouteComponentProps} from 'react-router'
-import styled from "styled-components"
-import Navigation from '../../../shared/components/Navigation'
-import Files from "../../components/file/files.component"
+import styled from 'styled-components'
+import Navigation from '../../../shared/components/navigation/navigation.component'
+import FunctionComponent from '../../../types/function-component.interface'
+import Files from '../../components/file/files.component'
 
 const FilePageWrapper = styled.div`
   display: flex;
@@ -11,15 +11,13 @@ const FilePageWrapper = styled.div`
   padding: 10px;
 `
 
-export class FilesPage extends React.Component<RouteComponentProps<{}>, {}> {
-  render() {
-    return (
-      <FilePageWrapper>
-        <Navigation/>
-        <Files/>
-      </FilePageWrapper>
-    )
-  }
+const FilesPage: FunctionComponent = () => {
+  return (
+    <FilePageWrapper>
+      <Navigation/>
+      <Files/>
+    </FilePageWrapper>
+  )
 }
 
 export default FilesPage

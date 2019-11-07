@@ -1,6 +1,7 @@
 import * as React from "react"
 import {useEffect, useState} from "react"
 import styled from 'styled-components'
+import FunctionComponent from '../../../types/function-component.interface'
 
 const {remote} = require('electron')
 const mainRef = remote.require("./main.js")
@@ -22,12 +23,11 @@ const LiStyle = styled.li`
   padding-right: 8px;
 `
 
-function FilesHook() {
+const FilesHook: FunctionComponent = () => {
   const [currentPath, setCurrentPath] = useState(`${basePath}`)
   const [paths, setPaths] = useState([] as any[])
 
   useEffect(() => {
-    console.log(currentPath)
     fileUtils.listFiles(currentPath).then((result: any[]) => {
       const structuredPaths = result.map(el => {
         return {

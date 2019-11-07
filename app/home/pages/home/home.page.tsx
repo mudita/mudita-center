@@ -1,8 +1,9 @@
 import * as React from 'react'
 import styled from "styled-components"
-import Header from "../../shared/components/Header"
-import Navigation from "../../shared/components/Navigation"
-import Home from '../components/Home'
+import Header from "../../../shared/components/header/header.component"
+import Navigation from "../../../shared/components/navigation/navigation.component"
+import FunctionComponent from '../../../types/function-component.interface'
+import Home from '../../components/home/home.component'
 
 const HomePageWrapper = styled.div`
   display: flex;
@@ -16,7 +17,7 @@ const HomeContainer = styled.div`
 `
 
 
-function HomePage() {
+const HomePage:FunctionComponent = () => {
   return (
     <HomePageWrapper>
       <Navigation/>

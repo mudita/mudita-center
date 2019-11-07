@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import FunctionComponent from '../../../types/function-component.interface'
 
 interface FileListElementProps {
   el?: string
@@ -10,15 +11,12 @@ const FileListElementWrapper = styled.li`
       border-bottom: 1px solid #ddd;
 `;
 
-class FileListElementComponent extends React.Component<FileListElementProps, {}> {
-  render() {
-    const {el, onClick} = this.props;
+const FileListElement: FunctionComponent<FileListElementProps> = ({el, onClick}) => {
     return (
       <FileListElementWrapper onClick={() => onClick(el)}>
         {el}
       </FileListElementWrapper>
     );
-  }
 }
 
-export default FileListElementComponent;
+export default FileListElement;

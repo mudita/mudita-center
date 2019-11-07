@@ -1,7 +1,9 @@
+import { useEffect } from 'react'
 import * as React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import RootState from "../../../reducers/state";
+import FunctionComponent from '../../../types/function-component.interface'
 import { setCurrentPath, setFiles } from "../../actions/files.actions";
 import { State as FileState } from "../../reducers/files.reducer";
 import { currentPath, selectFiles } from "../../selectors/file.selector";
@@ -47,29 +49,22 @@ const FileListWrapper = styled.ul`
     border-left: 0.4rem solid red;
 `;
 
-class FilesComponent extends React.Component<FileProps & FileState & DispatchProps, {}> {
-
-  async componentDidMount() {
-    this.props.setFiles(await fileUtils.listFiles())
-  }
-
-  render() {
-    const {currentFolder, filePaths} = this.props;
-    return (
-      <FilesWrapper>
-        <FilesTitle>{currentFolder}</FilesTitle>
-        <FilesIntro>File list below</FilesIntro>
-        <FileListWrapper>
-          {filePaths.map((el, key) => <FileListElementComponent onClick={this.onElementClick} key={key} el={el.name}/>)}
-        </FileListWrapper>
-      </FilesWrapper>
-    );
-  }
-
-  onElementClick = (element: string) => {
-    this.props.setCurrentPath(element);
+const Files: FunctionComponent<FileProps & FileState & DispatchProps> = ({currentFolder, filePaths, setCurrentPath: setCurrentPathAction, setFiles: setFilesAction}) => {
+  useEffect(() => {
+      fileUtils.listFiles().then(setFilesAction)
+  }, [])
+  const onElementClick = (element: string) => {
+    setCurrentPathAction(element);
   };
-
+  return (
+    <FilesWrapper>
+      <FilesTitle>{currentFolder}</FilesTitle>
+      <FilesIntro>File list below</FilesIntro>
+      <FileListWrapper>
+        {filePaths.map((el, key) => <FileListElementComponent onClick={onElementClick} key={key} el={el.name}/>)}
+      </FileListWrapper>
+    </FilesWrapper>
+  );
 }
 
 const mapStateToProps = (state: RootState): FileState => ({
@@ -83,4 +78,4 @@ const mapDispatchToProps = (dispatch: any): DispatchProps => ({
 });
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilesComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(Files);

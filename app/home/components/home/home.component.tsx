@@ -19,7 +19,7 @@ const HomeContent = styled.div`
   margin: 10px 0px
 `;
 
-function Home() {
+const Home = () => {
   const [inc, setInc] = useState(0);
 
   return (
