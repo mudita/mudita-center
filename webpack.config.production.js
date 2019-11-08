@@ -23,24 +23,6 @@ module.exports = merge(baseConfig, {
 
   module: {
     rules: [
-      // Extract all .global.css to style.css as is
-      {
-        test: /\.(scss|sass)$/,
-        use: ExtractTextPlugin.extract({
-          use: [{
-            loader: 'css-loader',
-            options: {
-              //modules: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
-            }
-          },
-          {
-            loader: 'sass-loader'
-          }]
-        })
-      },
-
       // WOFF Font
       {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,

@@ -1,9 +1,26 @@
-import { configure } from '@storybook/react';
+import { configure, addDecorator } from "@storybook/react"
+import { action } from "@storybook/addon-actions"
+import GlobalStyle from "../app/theming/global-style.component"
+import { Normalize } from "styled-normalize"
+import React from "react"
+import { ThemeProvider } from "styled-components"
+import theme from "../app/theming/theme"
 
-// automatically import all files ending in *.stories.js
-const req = require.context('../stories', true, /.stories.jsx$/);
+const req = require.context("../app", true, /\.stories\.tsx$/)
 function loadStories() {
-  req.keys().forEach(filename => req(filename));
+  req.keys().forEach(filename => req(filename))
 }
 
-configure(loadStories, module);
+addDecorator(story => {
+  return (
+    <ThemeProvider theme={theme}>
+      <>
+        <GlobalStyle />
+        <Normalize />
+        {story()}
+      </>
+    </ThemeProvider>
+  )
+})
+
+configure(loadStories, module)
