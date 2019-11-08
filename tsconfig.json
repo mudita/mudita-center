@@ -5,7 +5,7 @@
     "module": "commonjs",
     "jsx": "react",
     "lib": ["dom", "es6", "dom.iterable", "scripthost", "es5", "es7", "es2017"],
-    "types": ["jest"],
+    "types": ["jest", "node"],
     "strict": true,
     "alwaysStrict": true,
     "strictNullChecks": true,
