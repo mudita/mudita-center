@@ -1,8 +1,10 @@
 import * as React from "react"
 import styled from "styled-components"
+import { textColor } from "../../../theming/theme-getters"
 import FunctionComponent from "../../../types/function-component.interface"
 
 const HomeWrapper = styled.div`
+  color: ${textColor("primary")}
   font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans,
     sans-serif;
   width: 80%;
