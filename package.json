@@ -29,8 +29,8 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "publish_s3": "npm run build && electron-builder --publish always",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook:serve": "start-storybook -p 6006",
+    "storybook:build": "build-storybook"
   },
   "build": {
     "productName": "Pure-desktop-app",
@@ -107,6 +107,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.7.1",
     "@storybook/addon-actions": "^5.2.5",
+    "@storybook/addon-knobs": "^5.2.5",
     "@storybook/addon-links": "^5.2.5",
     "@storybook/addons": "^5.2.5",
     "@storybook/react": "^5.2.5",
