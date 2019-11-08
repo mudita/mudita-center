@@ -1,15 +1,10 @@
-import { shallow, ShallowWrapper } from "enzyme"
+import "@testing-library/jest-dom/extend-expect"
+import { render } from "@testing-library/react"
 import "jest-styled-components"
 import * as React from "react"
 import FilesPage from "./files.page"
 
-let wrapper: ShallowWrapper
-const FilesPageAny = FilesPage as any
-
-beforeEach(() => {
-  wrapper = shallow(<FilesPageAny />)
-})
-
 test("matches snapshot", () => {
-  expect(wrapper.dive()).toMatchSnapshot()
+  const { getByText } = render(<FilesPage />)
+  expect(getByText("Files")).toBeInDocument()
 })
