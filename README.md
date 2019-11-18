@@ -11,8 +11,8 @@ npm install
 Both processes have to be started **simultaneously** in different console tabs:
 
 ```bash
-npm run start-renderer-dev
-npm run start-main-dev
+npm run start:renderer-dev
+npm run start:main-dev
 ```
 
 This will start the application with hot-reload so you can instantly start developing your application.
