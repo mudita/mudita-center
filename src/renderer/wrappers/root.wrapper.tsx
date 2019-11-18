@@ -12,6 +12,7 @@ import theme from "Renderer/styles/theming/theme"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 import { LANGUAGE } from "Renderer/constants/languages"
+import localeEn from "Renderer/locales/main/en-US.json"
 
 interface Props {
   store: any
@@ -19,13 +20,18 @@ interface Props {
 }
 
 const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
+  console.log({ localeEn })
   return (
     <ThemeProvider theme={theme}>
       <>
         <Normalize />
         <GlobalStyle />
         <Provider store={store}>
-          <IntlProvider locale={LANGUAGE.default}>
+          <IntlProvider
+            defaultLocale={LANGUAGE.default}
+            locale={LANGUAGE.default}
+            messages={localeEn}
+          >
             <ConnectedRouter history={history}>
               <BaseRoutes />
             </ConnectedRouter>
