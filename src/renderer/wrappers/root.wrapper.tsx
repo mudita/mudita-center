@@ -4,11 +4,14 @@ import * as React from "react"
 import { Provider } from "react-redux"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
+import { IntlProvider } from "react-intl";
 
 import BaseRoutes from "Renderer/routes/base-routes"
 import GlobalStyle from "Renderer/styles/global-style.component"
 import theme from "Renderer/styles/theming/theme"
 import FunctionComponent from "Renderer/types/function-component.interface"
+
+import { LANGUAGE } from "Renderer/constants/languages";
 
 interface Props {
   store: any
@@ -22,9 +25,11 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
         <Normalize />
         <GlobalStyle />
         <Provider store={store}>
-          <ConnectedRouter history={history}>
-            <BaseRoutes />
-          </ConnectedRouter>
+          <IntlProvider locale={LANGUAGE.default}>
+            <ConnectedRouter history={history}>
+              <BaseRoutes />
+            </ConnectedRouter>
+          </IntlProvider>
         </Provider>
       </>
     </ThemeProvider>
