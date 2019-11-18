@@ -1,12 +1,13 @@
-import { configure, addDecorator } from "@storybook/react"
-import { action } from "@storybook/addon-actions"
-import GlobalStyle from "../app/theming/global-style.component"
-import { Normalize } from "styled-normalize"
 import React from "react"
 import { ThemeProvider } from "styled-components"
-import theme from "../app/theming/theme"
+import { Normalize } from "styled-normalize"
+import { configure, addDecorator } from "@storybook/react"
+import { action } from "@storybook/addon-actions"
 
-const req = require.context("../app", true, /\.stories\.tsx$/)
+import GlobalStyle from "Renderer/styles/global-style.component"
+import theme from "Renderer/styles/theming/theme"
+
+const req = require.context("../src", true, /\.stories\.tsx$/)
 function loadStories() {
   req.keys().forEach(filename => req(filename))
 }

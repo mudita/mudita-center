@@ -1,111 +1,99 @@
 {
-  "name": "electron-pure-desktop-app",
-  "productName": "Pure desktop app",
-  "version": "1.0.0",
-  "description": "Electron pure desktop",
-  "main": "main.js",
+  "name": "pure-desktop-app",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/main.js",
   "scripts": {
-    "test": "jest --config=./.jest/config.js",
-    "test-all": "npm run test && npm run build && npm run test-e2e",
+    "build-main": "cross-env NODE_ENV=production webpack --config webpack.main.prod.config.js",
+    "build-renderer": "cross-env NODE_ENV=production webpack --config webpack.renderer.prod.config.js",
+    "build": "npm run build-main && npm run build-renderer",
+    "start-renderer-dev": "webpack-dev-server --config webpack.renderer.dev.config.js",
+    "start-main-dev": "webpack --config webpack.main.config.js && electron ./dist/main.js",
+    "start-dev": "cross-env START_HOT=1 npm run start-renderer-dev",
+    "prestart": "npm run build",
+    "start": "electron .",
+    "lint": "tslint '{src,test,mocks}/**/*.{ts,tsx}' --project ./tsconfig.json",
+    "test": "jest",
+    "test-all": "npm run test && npm run build",
     "test:watch": "tsc && cross-env NODE_ENV=test cross-env TEST_DIALECT=sqlite mocha -w --recursive --compilers ts:ts-node/register --bail \"test/**/*.spec.ts\"",
     "test-watch": "npm test -- --watch",
-    "test-e2e": "cross-env NODE_ENV=test node --trace-warnings ./test/runTests.js e2e",
-    "lint": "tslint --project .",
-    "type-check": "tsc --noEmit",
-    "hot-server": "cross-env NODE_ENV=development node --max_old_space_size=2096 server.js",
-    "build-main": "cross-env NODE_ENV=production node ./node_modules/webpack/bin/webpack --config webpack.config.electron.js --progress --profile --colors",
-    "build-renderer": "cross-env NODE_ENV=production node ./node_modules/webpack/bin/webpack --config webpack.config.production.js --progress --profile --colors",
-    "build": "npm run build-main && npm run build-renderer",
-    "start": "cross-env NODE_ENV=production electron ./app/",
-    "start-hot": "cross-env HOT=1 NODE_ENV=development electron ./app/main.development",
-    "postinstall": "npm run build",
-    "develop": "npm run hot-server -- --start-hot",
-    "format": "prettier --write app/**/*.{js,jsx,ts,tsx}",
-    "package": "npm run build && build --publish never",
-    "package-win": "npm run build && build --win --x64",
-    "package-linux": "npm run build && build --linux",
-    "package-all": "npm run build && build -mwl",
-    "cleanup": "mop -v",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder",
-    "publish_s3": "npm run build && electron-builder --publish always",
+    "pretest:e2e": "npm run build",
+    "test:e2e": "jest '(\\/test\\/e2e/).*'",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "postinstall": "electron-builder install-app-deps",
+    "beforecommit": "lint-staged && npm test && npm run check:translations",
+    "check:translations": "ts-node -r esm ./scripts/translationCheck",
+    "generate:translations": "ts-node -r esm ./scripts/translationRunner.js",
     "storybook:serve": "start-storybook -p 6006",
     "storybook:build": "build-storybook"
   },
+  "pre-commit": "beforecommit",
+  "lint-staged": {
+    "{src,test,mocks}/**/*.{js,ts,tsx,json,css,scss,md}": [
+      "tslint --fix",
+      "git add"
+    ]
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/test/.+\\.spec)\\.tsx?$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json",
+      "node"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/mocks/fileMock.js",
+      "\\.(s?css|sass)$": "<rootDir>/mocks/styleMock.js"
+    }
+  },
   "build": {
-    "productName": "Pure-desktop-app",
-    "appId": "com.mudita.pure",
-    "dmg": {
-      "contents": [
-        {
-          "x": 410,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        },
-        {
-          "x": 130,
-          "y": 150,
-          "type": "file"
-        }
-      ]
+    "productName": "PureDesktopApp",
+    "appId": "mudita.pure.desktopApp",
+    "mac": {
+      "category": "your.app.category.type"
+    },
+    "directories": {
+      "output": "release"
     },
     "files": [
       "dist/",
       "node_modules/",
-      "app.html",
-      "main.js",
-      "main.js.map",
       "package.json"
     ],
-    "directories": {
-      "buildResources": "resources",
-      "output": "release"
-    },
-    "publish": {
-      "provider": "s3",
-      "bucket": "pure-app-develop",
-      "path": "/release",
-      "acl": "public-read"
+    "linux": {
+      "target": "deb"
     },
     "win": {
       "target": "nsis"
-    },
-    "linux": {
-      "target": [
-        "deb",
-        "AppImage"
-      ]
     }
-  },
-  "bin": {
-    "electron": "./node_modules/.bin/electron"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/irath96/electron-react-typescript-boilerplate.git"
+    "url": "https://github.com/Appnroll/pure-desktop-app"
   },
   "author": {
-    "name": "Appnroll",
-    "email": "dota@appnroll.com",
-    "url": "https://github.com/Appnroll"
+    "name": "Mudita",
+    "email": "contact@mudita.com"
   },
-  "license": "MIT",
+  "license": "SEE LICENSE",
   "bugs": {
     "url": "https://github.com/Appnroll/pure-desktop-app/issues"
   },
-  "keywords": [
-    "electron",
-    "boilerplate",
-    "react",
-    "react-router",
-    "flux",
-    "webpack",
-    "react-hot"
-  ],
-  "homepage": "https://github.com/irath96/electron-react-typescript-boilerplate#readme",
+  "homepage": "https://github.com/Appnroll/pure-desktop-app",
   "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
+    "@babel/polyfill": "^7.7.0",
     "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "@babel/preset-typescript": "^7.7.2",
+    "@hot-loader/react-dom": "^16.11.0",
     "@storybook/addon-actions": "^5.2.5",
     "@storybook/addon-knobs": "^5.2.5",
     "@storybook/addon-links": "^5.2.5",
@@ -114,66 +102,92 @@
     "@testing-library/jest-dom": "^4.2.3",
     "@testing-library/react": "^9.3.2",
     "@types/chai": "^4.2.4",
+    "@types/electron-devtools-installer": "^2.2.0",
     "@types/history": "^4.7.3",
-    "@types/jest": "^24.0.22",
+    "@types/jest": "^24.0.13",
     "@types/node": "^12.12.6",
-    "@types/react": "16.9.11",
-    "@types/react-dom": "16.9.4",
-    "@types/react-hot-loader": "4.1.0",
-    "@types/react-redux": "7.1.5",
+    "@types/react": "^16.8.18",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-hot-loader": "^4.1.1",
+    "@types/react-redux": "^7.0.9",
     "@types/react-router": "^5.1.2",
     "@types/react-router-dom": "^5.1.2",
     "@types/react-router-redux": "^5.0.18",
+    "@types/react-test-renderer": "^16.9.1",
     "@types/redux-logger": "^3.0.7",
     "@types/redux-mock-store": "^1.0.1",
     "@types/sinon": "^7.5.0",
+    "@types/webdriverio": "^5.0.0",
+    "@types/webpack-env": "^1.14.1",
     "asar": "^2.0.1",
-    "babel-core": "7.0.0-bridge.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-styled-components": "^1.10.6",
     "babel-runtime": "^6.26.0",
     "boiler-room-custodian": "^0.6.2",
+    "chalk": "^3.0.0",
+    "circular-dependency-plugin": "^5.2.0",
     "concurrently": "^5.0.0",
     "cross-env": "^6.0.3",
+    "css-loader": "^3.2.0",
     "devtron": "^1.4.0",
-    "electron": "^7.1.0",
-    "electron-builder": "22.1.0",
+    "electron": "^7.1.1",
+    "electron-builder": "^21.2.0",
     "electron-builder-http": "^19.27.5",
     "electron-devtools-installer": "^2.2.4",
     "electron-rebuild": "^1.8.6",
     "express": "^4.17.1",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^4.2.0",
-    "html-webpack-plugin": "3.2.0",
+    "fork-ts-checker-webpack-plugin": "^3.1.0",
+    "fs": "0.0.1-security",
+    "glob": "^7.1.6",
+    "html-webpack-plugin": "^3.2.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "24.9.0",
+    "image-webpack-loader": "^6.0.0",
+    "jest": "^24.8.0",
     "jest-styled-components": "^6.3.3",
     "json-loader": "^0.5.7",
+    "lint-staged": "^9.4.3",
     "mini-css-extract-plugin": "0.8.0",
     "mocha": "^6.2.2",
-    "prettier": "^1.18.2",
-    "react-hot-loader": "^4.12.16",
-    "react-test-renderer": "^16.11.0",
+    "node-sass": "^4.13.0",
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.17.1",
+    "react-hot-loader": "^4.8.8",
+    "react-intl": "^3.6.0",
+    "react-intl-translations-manager": "^5.0.3",
+    "react-test-renderer": "^16.8.6",
+    "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.3",
+    "sass-loader": "^8.0.0",
     "sinon": "^7.5.0",
+    "source-map-loader": "^0.2.4",
     "spectron": "^9.0.0",
     "style-loader": "^1.0.0",
-    "ts-jest": "^24.1.0",
+    "ts-jest": "^24.0.2",
     "ts-loader": "6.2.1",
-    "ts-node": "^8.4.1",
-    "tslint": "^5.20.1",
+    "ts-node": "^8.5.2",
+    "tslint": "^5.16.0",
+    "tslint-config-airbnb": "^5.11.2",
+    "tslint-config-prettier": "^1.18.0",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "3.7.2",
+    "tslint-react": "^4.0.0",
+    "typescript": "^3.4.5",
     "url-loader": "2.2.0",
-    "webpack": "4.41.2",
-    "webpack-cli": "^3.3.10",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2",
     "webpack-dev-middleware": "3.7.2",
+    "webpack-dev-server": "^3.9.0",
     "webpack-hot-middleware": "2.25.0",
-    "webpack-merge": "4.2.2"
+    "webpack-merge": "^4.2.1"
   },
   "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-redux": "^7.0.3",
+    "redux": "^4.0.1",
     "@storybook/addon-info": "^5.2.5",
     "@storybook/cli": "^5.2.5",
     "@types/styled-components": "^4.1.21",
@@ -185,16 +199,10 @@
     "electron-publisher-s3": "^20.17.2",
     "electron-updater": "^4.2.0",
     "font-awesome": "^4.7.0",
-    "fork-ts-checker-webpack-plugin": "^3.0.1",
     "history": "^4.10.1",
-    "react": "16.11.0",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
-    "react-dom": "16.11.0",
-    "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
-    "react-router-redux": "^5.0.0-alpha.6",
-    "redux": "^4.0.4",
     "redux-observable": "^1.2.0",
     "redux-thunk": "^2.3.0",
     "rxjs": "^6.5.3",
@@ -205,9 +213,5 @@
     "tslint-react": "^4.1.0",
     "update-electron-app": "^1.5.0",
     "usb": "^1.6.1"
-  },
-  "devEngines": {
-    "node": ">=12.9",
-    "npm": ">=6.10"
   }
 }

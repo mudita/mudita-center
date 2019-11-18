@@ -1,30 +1,120 @@
 {
   "compilerOptions": {
+    /***** Basic Options ******/
+    /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
     "target": "es5",
-    "moduleResolution": "node",
+    /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
     "module": "commonjs",
-    "jsx": "react",
-    "lib": ["dom", "es6", "dom.iterable", "scripthost", "es5", "es7", "es2017"],
-    "types": ["jest", "node"],
+    /* Specify library files to be included in the compilation:  */
+    "lib": [
+      "dom",
+      "es6",
+      "dom.iterable",
+      "scripthost",
+      "es5",
+      "es7",
+      "es2017"
+    ],
+    /* Allow javascript files to be compiled. */
+     "allowJs": true,
+    /* Report errors in .js files. */
+    // "checkJs": true,
+    /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */
+     "jsx": "react",
+    /* Generates corresponding '.d.ts' file. */
+    // "declaration": true,
+    /* Generates corresponding '.map' file. */
+     "sourceMap": true,
+    /* Concatenate and emit output to single file. */
+    // "outFile": "./",
+    /* Redirect output structure to the directory. */
+     "outDir": "./dist",
+    /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    // "rootDir": "./",
+    /* Do not emit comments to output. */
+    // "removeComments": true,
+    /* Do not emit outputs. */
+    // "noEmit": true,
+    /* Import emit helpers from 'tslib'. */
+    // "importHelpers": true,
+    /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
+    // "downlevelIteration": true,
+    /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
+    // "isolatedModules": true,
+
+
+    /***** Strict Type-Checking Options ******/
+    /* Enable all strict type-checking options. */
     "strict": true,
-    "alwaysStrict": true,
-    "strictNullChecks": true,
+    /* Raise error on expressions and declarations with an implied 'any' type. */
     "noImplicitAny": true,
-    "noImplicitReturns": true,
+    /* Enable strict null checks. */
+    "strictNullChecks": true,
+    /* Enable strict checking of function types. */
+    // "strictFunctionTypes": true,
+    /* Raise error on 'this' expressions with an implied 'any' type. */
     "noImplicitThis": true,
+    /* Parse in strict mode and emit "use strict" for each source file. */
+    "alwaysStrict": true,
+
+    /***** Additional Checks *****/
+    /* Report errors on unused locals. */
     "noUnusedLocals": true,
-    "skipLibCheck": true,
+    /* Report errors on unused parameters. */
+    // "noUnusedParameters": true,
+    /* Report error when not all code paths in function return a value. */
+    "noImplicitReturns": true,
+    /* Report errors for fallthrough cases in switch statement. */
+    // "noFallthroughCasesInSwitch": true,
+
+
+    /***** Module Resolution Options *****/
+    /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    "moduleResolution": "node",
+    /* Base directory to resolve non-absolute module names. */
+    "baseUrl": "./",
+    /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
+    "paths": {
+      "App/*": ["src/*"],
+      "Renderer/*": ["src/renderer/*"],
+      "Cypress/*": ["cypress/*"],
+      "Storybook/*": [".storybook/*"]
+    },
+    /* List of root folders whose combined content represents the structure of the project at runtime. */
+    // "rootDirs": [],
+    /* List of folders to include type definitions from. */
+    // "typeRoots": [],
+    /* Type declaration files to be included in compilation. */
+    "types": ["jest", "node"],
+    /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    // "allowSyntheticDefaultImports": true,
+    /* Do not resolve the real path of symlinks. */
+    // "preserveSymlinks": true,
+
+
+    /***** Source Map Options *****/
+    /* Specify the location where debugger should locate TypeScript files instead of source locations. */
+    // "sourceRoot": "./",
+    /* Specify the location where debugger should locate map files instead of generated locations. */
+    // "mapRoot": "./",
+    /* Emit a single file with source maps instead of having a separate file. */
+    // "inlineSourceMap": true,
+    /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */
+    // "inlineSources": true,
+
+
+    /***** Experimental Options *****/
+    /* Enables experimental support for ES7 decorators. */
     "experimentalDecorators": true,
+    /* Enables experimental support for emitting type metadata for decorators. */
     "emitDecoratorMetadata": true,
 
-    "sourceMap": true,
-
-    "outDir": "dist"
+    "skipLibCheck": true
   },
-  "files": ["app/index.tsx"],
   "include": [
-    "app/**/*.ts",
-    "app/**/*.tsx"
+    "./src",
+    "./test",
+    "./mocks"
   ],
   "exclude": ["dist", "node_modules"]
 }
