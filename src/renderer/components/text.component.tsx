@@ -132,6 +132,13 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
           color: ${textColor("faded")};
           letter-spacing: 0.4px;
         `
+      case TextDisplayStyle.SmallFadedDimText:
+        return css`
+          ${smallTextSharedStyles};
+          ${uppercaseStyles};
+          color: ${textColor("faded")};
+          opacity: ${opacity("regular")};
+        `
       default:
         return null
     }
@@ -165,6 +172,7 @@ export enum TextDisplayStyle {
   SmallSupplementaryText,
   SmallTextInverted,
   SmallFadedText,
+  SmallFadedDimText,
 }
 
 interface ElementsMapping {
