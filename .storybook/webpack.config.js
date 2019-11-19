@@ -1,3 +1,5 @@
+const { resolve } = require('../webpack/resolve');
+
 module.exports = ({ config }) => {
   // use installed babel-loader which is v8.0-beta (which is meant to work with @babel/core@7)
   config.module.rules[0].use[0].loader = require.resolve("babel-loader")
@@ -27,7 +29,7 @@ module.exports = ({ config }) => {
       ],
     },
   })
-  config.resolve.extensions.push(".ts", ".tsx")
+  config.resolve = resolve
   return config
 }
 

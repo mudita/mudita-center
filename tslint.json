@@ -1,20 +1,20 @@
 {
-  "defaultSeverity": "error",
-  "extends": [
-    "tslint:recommended",
-    "tslint-react",
-    "tslint-eslint-rules",
-    "tslint-config-prettier"
-  ],
-  "jsRules": {},
-  "rules": {
-    "semicolon": false,
-    "interface-name": false,
-    "no-console": false,
-    "object-literal-sort-keys": false,
-    "jsx-boolean-value": false,
-    "no-var-requires": false,
-    "prettier": true
-  },
-  "rulesDirectory": ["tslint-plugin-prettier"]
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-react",
+        "tslint-eslint-rules",
+        "tslint-config-prettier"
+    ],
+    "jsRules": {},
+    "rules": {
+        "semicolon": false,
+        "interface-name": false,
+        "no-console": false,
+        "object-literal-sort-keys": false,
+        "jsx-boolean-value": false,
+        "no-var-requires": false,
+        "prettier": true
+    },
+    "rulesDirectory": ["tslint-plugin-prettier"]
 }
