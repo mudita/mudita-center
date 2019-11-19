@@ -1,4 +1,5 @@
 import * as React from "react"
+import { defineMessages, injectIntl } from "react-intl"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -25,13 +26,22 @@ const HomeContent = styled.div`
 interface Props {
   readonly onTitleClick: () => void
   readonly count: number
+  readonly intl: {
+    formatMessage: (messageId: object) => void
+  }
 }
 
-const HomeView: FunctionComponent<Props> = ({ onTitleClick, count }) => {
+const messages = defineMessages({
+  test: { id: "test.string" },
+})
+
+const HomeView: FunctionComponent<Props> = ({ onTitleClick, count, intl }) => {
   return (
     <HomeWrapper>
       <HomeTitle onClick={onTitleClick}> Title {count} </HomeTitle>
       <HomeContent>
+        {intl.formatMessage(messages.test)}
+        <br />
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean orci
         dolor, rutrum at quam sed, aliquet dapibus ante. Maecenas id commodo
         justo. Suspendisse potenti. Pellentesque ut tristique tortor, non
@@ -52,4 +62,5 @@ const HomeView: FunctionComponent<Props> = ({ onTitleClick, count }) => {
   )
 }
 
-export default HomeView
+// @ts-ignore
+export default injectIntl(HomeView)
