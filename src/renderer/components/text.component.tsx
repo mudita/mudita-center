@@ -1,8 +1,37 @@
 import * as React from "react"
 import { FormattedMessage } from "react-intl"
-import { textColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  fontWeight,
+  opacity,
+  textColor,
+} from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
+
+const tertiaryHeadingSharedStyles = css`
+  font-size: ${18 / 16}rem;
+  line-height: ${20 / 18}em;
+`
+
+const largeTextSharedStyles = css`
+  font-size: ${16 / 16}rem;
+  line-height: ${17 / 16}em;
+`
+
+const mediumTextSharedStyles = css`
+  font-size: ${14 / 16}rem;
+  line-height: ${15 / 14}em;
+`
+
+const smallTextSharedStyles = css`
+  font-size: ${12 / 16}rem;
+  line-height: ${14 / 12}em;
+`
+
+const uppercaseStyles = css`
+  text-transform: uppercase;
+`
 
 const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
   ${({ displayStyle }) => {
@@ -16,65 +45,92 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
         return css`
           font-size: ${24 / 16}rem;
           line-height: ${20 / 24}em;
-          font-weight: 700;
+          font-weight: ${fontWeight("bold")};
         `
       case TextDisplayStyle.TertiaryBoldHeading:
         return css`
-          font-size: ${18 / 16}rem;
-          line-height: ${20 / 18}em;
-          font-weight: 700;
+          ${tertiaryHeadingSharedStyles};
+          font-weight: ${fontWeight("bold")};
         `
-      case TextDisplayStyle.TertiaryRegularHeading:
+      case TextDisplayStyle.TertiaryMediumHeading:
+        return tertiaryHeadingSharedStyles
+      case TextDisplayStyle.LargeBoldMediumText:
         return css`
-          font-size: ${18 / 16}rem;
-          line-height: ${20 / 18}em;
+          ${largeTextSharedStyles};
+          font-weight: ${fontWeight("bold")};
         `
-      case TextDisplayStyle.LargeBoldRegularText:
+      case TextDisplayStyle.LargeMediumText:
+        return largeTextSharedStyles
+      case TextDisplayStyle.LargeFadedMediumText:
         return css`
-          font-size: ${16 / 16}rem;
-          line-height: ${17 / 16}em;
-          font-weight: 700;
-        `
-      case TextDisplayStyle.LargeRegularText:
-        return css`
-          font-size: ${16 / 16}rem;
-          line-height: ${17 / 16}em;
-        `
-      case TextDisplayStyle.LargeFadedRegularText:
-        return css`
-          font-size: ${16 / 16}rem;
-          line-height: ${17 / 16}em;
+          ${largeTextSharedStyles};
           color: ${textColor("faded")};
         `
-      case TextDisplayStyle.RegularBoldText:
+      case TextDisplayStyle.LargeTextCapitalLetters:
         return css`
-          font-size: ${14 / 16}rem;
-          line-height: ${15 / 14}em;
-          font-weight: 700;
+          ${largeTextSharedStyles};
+          ${uppercaseStyles};
         `
-      case TextDisplayStyle.RegularLightText:
+      case TextDisplayStyle.LargeFadedTextCapitalLetters:
         return css`
-          font-size: ${14 / 16}rem;
-          line-height: ${15 / 14}em;
-          font-weight: 300;
-        `
-      case TextDisplayStyle.RegularFadedLightText:
-        return css`
-          font-size: ${14 / 16}rem;
-          line-height: ${15 / 14}em;
+          ${largeTextSharedStyles};
+          ${uppercaseStyles};
           color: ${textColor("faded")};
-          font-weight: 300;
         `
-      case TextDisplayStyle.RegularText:
+      case TextDisplayStyle.LargeFadedDimTextCapitalLetters:
         return css`
-          font-size: ${14 / 16}rem;
-          line-height: ${15 / 14}em;
-        `
-      case TextDisplayStyle.RegularFadedText:
-        return css`
-          font-size: ${14 / 16}rem;
-          line-height: ${15 / 14}em;
+          ${largeTextSharedStyles};
+          ${uppercaseStyles};
           color: ${textColor("faded")};
+          opacity: ${opacity("regular")};
+        `
+      case TextDisplayStyle.MediumBoldText:
+        return css`
+          ${mediumTextSharedStyles};
+          font-weight: ${fontWeight("bold")};
+        `
+      case TextDisplayStyle.MediumLightText:
+        return css`
+          ${mediumTextSharedStyles};
+          font-weight: ${fontWeight("light")};
+        `
+      case TextDisplayStyle.MediumFadedLightText:
+        return css`
+          ${mediumTextSharedStyles};
+          color: ${textColor("faded")};
+          font-weight: ${fontWeight("light")};
+        `
+      case TextDisplayStyle.MediumText:
+        return mediumTextSharedStyles
+      case TextDisplayStyle.MediumFadedText:
+        return css`
+          ${mediumTextSharedStyles};
+          color: ${textColor("faded")};
+        `
+      case TextDisplayStyle.SmallText:
+        return css`
+          ${smallTextSharedStyles};
+          ${uppercaseStyles};
+        `
+      case TextDisplayStyle.SmallSupplementaryText:
+        return css`
+          ${smallTextSharedStyles};
+          ${uppercaseStyles};
+          color: ${textColor("supplementary")};
+        `
+      case TextDisplayStyle.SmallTextInverted:
+        return css`
+          ${smallTextSharedStyles};
+          ${uppercaseStyles};
+          color: ${textColor("inverted")};
+          background-color: ${backgroundColor("dark")};
+        `
+      case TextDisplayStyle.SmallFadedText:
+        return css`
+          ${smallTextSharedStyles};
+          ${uppercaseStyles};
+          color: ${textColor("faded")};
+          letter-spacing: 0.4px;
         `
       default:
         return null
@@ -93,15 +149,22 @@ export enum TextDisplayStyle {
   PrimaryHeading,
   SecondaryBoldHeading,
   TertiaryBoldHeading,
-  TertiaryRegularHeading,
-  LargeBoldRegularText,
-  LargeRegularText,
-  LargeFadedRegularText,
-  RegularBoldText,
-  RegularLightText,
-  RegularFadedLightText,
-  RegularText,
-  RegularFadedText,
+  TertiaryMediumHeading,
+  LargeBoldMediumText,
+  LargeMediumText,
+  LargeFadedMediumText,
+  LargeTextCapitalLetters,
+  LargeFadedTextCapitalLetters,
+  LargeFadedDimTextCapitalLetters,
+  MediumBoldText,
+  MediumLightText,
+  MediumFadedLightText,
+  MediumText,
+  MediumFadedText,
+  SmallText,
+  SmallSupplementaryText,
+  SmallTextInverted,
+  SmallFadedText,
 }
 
 interface ElementsMapping {
@@ -115,15 +178,16 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.PrimaryHeading]: "h1",
   [TextDisplayStyle.SecondaryBoldHeading]: "h2",
   [TextDisplayStyle.TertiaryBoldHeading]: "h3",
-  [TextDisplayStyle.TertiaryRegularHeading]: "h3",
-  [TextDisplayStyle.LargeBoldRegularText]: "p",
-  [TextDisplayStyle.LargeRegularText]: "p",
-  [TextDisplayStyle.LargeFadedRegularText]: "p",
-  [TextDisplayStyle.RegularBoldText]: "p",
-  [TextDisplayStyle.RegularLightText]: "p",
-  [TextDisplayStyle.RegularFadedLightText]: "p",
-  [TextDisplayStyle.RegularText]: "p",
-  [TextDisplayStyle.RegularFadedText]: "p",
+  [TextDisplayStyle.TertiaryMediumHeading]: "h3",
+  [TextDisplayStyle.LargeBoldMediumText]: "p",
+  [TextDisplayStyle.LargeMediumText]: "p",
+  [TextDisplayStyle.LargeFadedMediumText]: "p",
+  [TextDisplayStyle.MediumBoldText]: "p",
+  [TextDisplayStyle.MediumLightText]: "p",
+  [TextDisplayStyle.MediumFadedLightText]: "p",
+  [TextDisplayStyle.MediumText]: "p",
+  [TextDisplayStyle.MediumFadedText]: "p",
+  [TextDisplayStyle.SmallTextInverted]: "p",
 }
 
 const Text: FunctionComponent<Props> = ({
