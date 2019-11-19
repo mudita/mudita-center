@@ -20,7 +20,6 @@ interface Props {
 }
 
 const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
-  console.log({ localeEn })
   return (
     <ThemeProvider theme={theme}>
       <>
