@@ -3,6 +3,7 @@ import { History } from "history"
 import * as React from "react"
 import { IntlProvider } from "react-intl"
 import { Provider } from "react-redux"
+import { Store } from "redux"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
 
@@ -12,11 +13,13 @@ import GlobalStyle from "Renderer/styles/global-style.component"
 import theme from "Renderer/styles/theming/theme"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
+import RootState from "Renderer/reducers/state"
+
 import { LANGUAGE } from "Renderer/constants/languages"
 import localeEn from "Renderer/locales/main/en-US.json"
 
 interface Props {
-  store: any
+  store: Store<RootState | undefined>
   history: History
 }
 
