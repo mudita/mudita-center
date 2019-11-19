@@ -7,6 +7,10 @@ import { action } from "@storybook/addon-actions"
 import GlobalStyle from "Renderer/styles/global-style.component"
 import theme from "Renderer/styles/theming/theme"
 
+import localeEn from "Renderer/locales/main/en-US.json"
+import { IntlProvider } from "react-intl"
+import { LANGUAGE } from "../src/renderer/constants/languages"
+
 const req = require.context("../src", true, /\.stories\.tsx$/)
 function loadStories() {
   req.keys().forEach(filename => req(filename))
@@ -15,11 +19,17 @@ function loadStories() {
 addDecorator(story => {
   return (
     <ThemeProvider theme={theme}>
-      <>
-        <GlobalStyle />
-        <Normalize />
-        {story()}
-      </>
+      <IntlProvider
+        defaultLocale={LANGUAGE.default}
+        locale={LANGUAGE.default}
+        messages={localeEn}
+      >
+        <>
+          <GlobalStyle />
+          <Normalize />
+          {story()}
+        </>
+      </IntlProvider>
     </ThemeProvider>
   )
 })
