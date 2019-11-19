@@ -1,5 +1,6 @@
 import * as React from "react"
 import { defineMessages, injectIntl } from "react-intl"
+import Text from "Renderer/components/text.component"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -39,6 +40,9 @@ const HomeView: FunctionComponent<Props> = ({ onTitleClick, count, intl }) => {
   return (
     <HomeWrapper>
       <HomeTitle onClick={onTitleClick}> Title {count} </HomeTitle>
+      <Text stringId={"cos"} displayStyle={"primaryHeading"}>
+        lala
+      </Text>
       <HomeContent>
         {intl.formatMessage(messages.test)}
         <br />
