@@ -7,8 +7,6 @@ import styled from "styled-components"
 
 const HomeWrapper = styled.div`
   color: ${textColor("primary")}
-  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans,
-    sans-serif;
   width: 80%;
   margin: auto;
   border: 1px #ccc dotted;
@@ -38,9 +36,10 @@ const HomeView: FunctionComponent<Props> = ({ onTitleClick, count, intl }) => {
   return (
     <HomeWrapper>
       <HomeTitle onClick={onTitleClick}> Title {count} </HomeTitle>
-      <Text stringId={"cos"} displayStyle={TextDisplayStyle.PrimaryHeading}>
-        lala
-      </Text>
+      <Text
+        stringId={"test.string"}
+        displayStyle={TextDisplayStyle.SmallTextInverted}
+      />
       <HomeContent>
         {intl.formatMessage(messages.test)}
         <br />
