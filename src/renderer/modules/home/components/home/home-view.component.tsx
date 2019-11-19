@@ -1,5 +1,5 @@
 import * as React from "react"
-import { defineMessages, injectIntl } from "react-intl"
+import { defineMessages, injectIntl, IntlShape } from "react-intl"
 import Text from "Renderer/components/text.component"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -27,9 +27,7 @@ const HomeContent = styled.div`
 interface Props {
   readonly onTitleClick: () => void
   readonly count: number
-  readonly intl: {
-    formatMessage: (messageId: object) => void
-  }
+  readonly intl: IntlShape
 }
 
 const messages = defineMessages({
@@ -66,5 +64,4 @@ const HomeView: FunctionComponent<Props> = ({ onTitleClick, count, intl }) => {
   )
 }
 
-// @ts-ignore
 export default injectIntl(HomeView)
