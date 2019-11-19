@@ -1,21 +1,80 @@
-import { ReactNode } from "react"
 import * as React from "react"
 import { FormattedMessage } from "react-intl"
+import { textColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
-const TextWrapper = styled.div<{ displayStyle: string }>`
+const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
   ${({ displayStyle }) => {
     switch (displayStyle) {
-      case "primaryHeading":
+      case TextDisplayStyle.PrimaryHeading:
         return css`
           font-size: ${56 / 16}rem;
           line-height: ${62 / 56}em;
         `
-      case "secondaryBoldHeading":
+      case TextDisplayStyle.SecondaryBoldHeading:
         return css`
           font-size: ${24 / 16}rem;
           line-height: ${20 / 24}em;
+          font-weight: 700;
+        `
+      case TextDisplayStyle.TertiaryBoldHeading:
+        return css`
+          font-size: ${18 / 16}rem;
+          line-height: ${20 / 18}em;
+          font-weight: 700;
+        `
+      case TextDisplayStyle.TertiaryRegularHeading:
+        return css`
+          font-size: ${18 / 16}rem;
+          line-height: ${20 / 18}em;
+        `
+      case TextDisplayStyle.LargeBoldRegularText:
+        return css`
+          font-size: ${16 / 16}rem;
+          line-height: ${17 / 16}em;
+          font-weight: 700;
+        `
+      case TextDisplayStyle.LargeRegularText:
+        return css`
+          font-size: ${16 / 16}rem;
+          line-height: ${17 / 16}em;
+        `
+      case TextDisplayStyle.LargeFadedRegularText:
+        return css`
+          font-size: ${16 / 16}rem;
+          line-height: ${17 / 16}em;
+          color: ${textColor("faded")};
+        `
+      case TextDisplayStyle.RegularBoldText:
+        return css`
+          font-size: ${14 / 16}rem;
+          line-height: ${15 / 14}em;
+          font-weight: 700;
+        `
+      case TextDisplayStyle.RegularLightText:
+        return css`
+          font-size: ${14 / 16}rem;
+          line-height: ${15 / 14}em;
+          font-weight: 300;
+        `
+      case TextDisplayStyle.RegularFadedLightText:
+        return css`
+          font-size: ${14 / 16}rem;
+          line-height: ${15 / 14}em;
+          color: ${textColor("faded")};
+          font-weight: 300;
+        `
+      case TextDisplayStyle.RegularText:
+        return css`
+          font-size: ${14 / 16}rem;
+          line-height: ${15 / 14}em;
+        `
+      case TextDisplayStyle.RegularFadedText:
+        return css`
+          font-size: ${14 / 16}rem;
+          line-height: ${15 / 14}em;
+          color: ${textColor("faded")};
         `
       default:
         return null
@@ -24,47 +83,56 @@ const TextWrapper = styled.div<{ displayStyle: string }>`
 `
 
 interface Props {
-  readonly children: ReactNode
   readonly stringId?: string
-  readonly asSpan?: boolean
-  readonly displayStyle: keyof JSX.IntrinsicElements
+  readonly as?: Element
+  readonly displayStyle?: TextDisplayStyle
 }
 
-interface Mapping {
-  h1: string
-  h2: string
-  h3: string
-  body: string
-  caption: string
-  subtitle: string
-  sectionElementHeader: string
+export enum TextDisplayStyle {
+  Default,
+  PrimaryHeading,
+  SecondaryBoldHeading,
+  TertiaryBoldHeading,
+  TertiaryRegularHeading,
+  LargeBoldRegularText,
+  LargeRegularText,
+  LargeFadedRegularText,
+  RegularBoldText,
+  RegularLightText,
+  RegularFadedLightText,
+  RegularText,
+  RegularFadedText,
 }
 
-const matchComponentToDisplayStyle = <T extends keyof JSX.IntrinsicElements>(
-  displayStyle: T
-) => {
-  const mapping = {
-    primaryHeading: "h1",
-    secondaryBoldHeading: "h2",
-    h3: "h3",
-    body: "p",
-    caption: "p",
-    subtitle: "p",
-    sectionElementHeader: "p",
-  }
-  return mapping[displayStyle] || "div"
+interface ElementsMapping {
+  [key: number]: Element
+}
+
+type Element = "div" | "h1" | "h2" | "h3" | "span" | "p"
+
+const mapping: ElementsMapping = {
+  [TextDisplayStyle.Default]: "div",
+  [TextDisplayStyle.PrimaryHeading]: "h1",
+  [TextDisplayStyle.SecondaryBoldHeading]: "h2",
+  [TextDisplayStyle.TertiaryBoldHeading]: "h3",
+  [TextDisplayStyle.TertiaryRegularHeading]: "h3",
+  [TextDisplayStyle.LargeBoldRegularText]: "p",
+  [TextDisplayStyle.LargeRegularText]: "p",
+  [TextDisplayStyle.LargeFadedRegularText]: "p",
+  [TextDisplayStyle.RegularBoldText]: "p",
+  [TextDisplayStyle.RegularLightText]: "p",
+  [TextDisplayStyle.RegularFadedLightText]: "p",
+  [TextDisplayStyle.RegularText]: "p",
+  [TextDisplayStyle.RegularFadedText]: "p",
 }
 
 const Text: FunctionComponent<Props> = ({
   children,
   stringId,
-  asSpan,
-  displayStyle,
+  displayStyle = TextDisplayStyle.Default,
+  as,
 }) => (
-  <TextWrapper
-    as={asSpan ? "span" : matchComponentToDisplayStyle(displayStyle)}
-    displayStyle={displayStyle}
-  >
+  <TextWrapper as={as || mapping[displayStyle]} displayStyle={displayStyle}>
     {stringId ? <FormattedMessage id={stringId} /> : children}
   </TextWrapper>
 )

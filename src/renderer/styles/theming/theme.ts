@@ -2,6 +2,7 @@ const theme = {
   color: {
     text: {
       primary: "#0f0f1a",
+      faded: "#6A6A6A",
     },
     background: {
       light: "#ffffff",
