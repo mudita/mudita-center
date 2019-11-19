@@ -24,6 +24,10 @@ const theme = {
     light: 300,
     bold: 700,
   },
+  font: {
+    GtPressura:
+      "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
+  },
 }
 
 export type Theme = typeof theme

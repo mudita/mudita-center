@@ -22,7 +22,13 @@ export const fontWeight = (name: keyof Theme["fontWeight"]) => ({
   theme,
 }: {
   theme: Theme
-}) => theme.fontWeight[name] + "rem"
+}) => theme.fontWeight[name]
+
+export const font = (name: keyof Theme["font"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.font[name]
 
 export const minBreakpoint = (name: keyof Theme["breakpoint"]) => ({
   theme,
