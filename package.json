@@ -10,6 +10,7 @@
     "start:renderer-dev": "webpack-dev-server --config webpack.renderer.dev.config.js",
     "start:main-dev": "webpack --config webpack.main.config.js && electron ./dist/main.js",
     "start:dev": "cross-env START_HOT=1 npm run start:renderer-dev",
+    "develop": "npm run start:dev",
     "prestart": "npm run build",
     "start": "electron .",
     "lint": "tslint '{src,test,mocks}/**/*.{ts,tsx}' --project ./tsconfig.json",
@@ -27,7 +28,7 @@
     "generate:translations": "ts-node -r esm ./scripts/translationRunner.js",
     "storybook:serve": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
   },
   "pre-commit": "beforecommit",
   "build": {
