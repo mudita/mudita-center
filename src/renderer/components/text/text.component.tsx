@@ -159,7 +159,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
   }}
 `
 
-export interface Props {
+interface Props {
   readonly textId?: string
   readonly as?: Element
   readonly displayStyle?: TextDisplayStyle
