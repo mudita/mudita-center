@@ -1,5 +1,6 @@
 export const URL_MAIN = {
   root: "/",
+  news: "/news",
   overview: "/overview",
   messages: "/messages",
   phone: "/phone",
