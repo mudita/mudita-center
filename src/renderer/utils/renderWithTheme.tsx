@@ -25,13 +25,16 @@ export function renderWithTheme<Q extends Queries>(
 ) {
   // @ts-ignore
   return render<Q>(
-    <IntlProvider
-      defaultLocale={LANGUAGE.default}
-      locale={LANGUAGE.default}
-      messages={localeEn}
-    >
-      <ThemeProvider theme={theme}>{ui}</ThemeProvider>
-    </IntlProvider>,
+    <ThemeProvider theme={theme}>
+      <IntlProvider
+        defaultLocale={LANGUAGE.default}
+        locale={LANGUAGE.default}
+        messages={localeEn}
+      >
+        {ui}
+      </IntlProvider>
+    </ThemeProvider>,
+    // @ts-ignore
     options
   )
 }
