@@ -30,6 +30,7 @@ export default () => (
       <Route path={URL_MAIN.settings} component={Settings} />
       <Route path={URL_MAIN.tethering} component={Tethering} />
       <Route path={URL_MAIN.tools} component={Tools} />
+      <Redirect to={URL_MAIN.overview} />
     </Switch>
   </AppWrapper>
 )
