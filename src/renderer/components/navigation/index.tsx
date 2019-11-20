@@ -10,15 +10,15 @@ const NavigationWrapper = styled.div`
   flex-wrap: wrap;
 `
 
-const SLink = styled.div`
+const LinkWrapper = styled.div`
   margin: 0 10px;
 `
 
 const Navigation = () => {
   const links = Object.keys(URL_MAIN).map(link => (
-    <SLink key={link}>
+    <LinkWrapper key={link}>
       <Link to={link}>{link}</Link>
-    </SLink>
+    </LinkWrapper>
   ))
   return <NavigationWrapper>{links}</NavigationWrapper>
 }
