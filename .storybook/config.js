@@ -10,7 +10,7 @@ import "Renderer/fonts/fonts.css"
 
 import localeEn from "Renderer/locales/main/en-US.json"
 import { IntlProvider } from "react-intl"
-import { LANGUAGE } from "../src/renderer/constants/languages"
+import { LANGUAGE } from "Renderer/constants/languages"
 
 const req = require.context("../src", true, /\.stories\.tsx$/)
 function loadStories() {
