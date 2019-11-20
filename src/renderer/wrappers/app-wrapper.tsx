@@ -3,7 +3,7 @@ import styled from "styled-components"
 
 import FunctionComponent from "Renderer/types/function-component.interface"
 
-import Navigation from "Renderer/components/navigation"
+import Navigation from "Renderer/components/navigation/navigation.component"
 
 const SAppWrapper = styled.div``
 
