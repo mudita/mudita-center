@@ -2,6 +2,6 @@ import React from "react"
 
 import FunctionComponent from "Renderer/types/function-component.interface"
 
-const Overview: FunctionComponent = () => <div>Files manager</div>
+const FilesManager: FunctionComponent = () => <div>Files manager</div>
 
-export default Overview
+export default FilesManager
