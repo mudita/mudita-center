@@ -37,7 +37,7 @@ const HomeView: FunctionComponent<Props> = ({ onTitleClick, count, intl }) => {
     <HomeWrapper>
       <HomeTitle onClick={onTitleClick}> Title {count} </HomeTitle>
       <Text
-        stringId={"test.string"}
+        key={"test.string"}
         displayStyle={TextDisplayStyle.SmallTextInverted}
       />
       <HomeContent>
