@@ -10,23 +10,23 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
 const tertiaryHeadingSharedStyles = css`
-  font-size: ${18 / 16}rem;
-  line-height: ${20 / 18}em;
+  font-size: 1.8rem;
+  line-height: ${20 / 18};
 `
 
 const largeTextSharedStyles = css`
-  font-size: ${16 / 16}rem;
-  line-height: ${17 / 16}em;
+  font-size: 1.6rem;
+  line-height: ${17 / 16};
 `
 
 const mediumTextSharedStyles = css`
-  font-size: ${14 / 16}rem;
-  line-height: ${15 / 14}em;
+  font-size: 1.4rem;
+  line-height: ${15 / 14};
 `
 
 const smallTextSharedStyles = css`
-  font-size: ${12 / 16}rem;
-  line-height: ${14 / 12}em;
+  font-size: 1.2rem;
+  line-height: ${14 / 12};
 `
 
 const uppercaseStyles = css`
