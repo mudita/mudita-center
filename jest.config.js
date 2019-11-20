@@ -20,4 +20,5 @@ module.exports = {
   },
   testURL: "http://localhost",
   setupFiles: [],
+  roots: ["<rootDir>/src"],
 }
