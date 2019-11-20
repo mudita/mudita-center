@@ -12,7 +12,7 @@ afterEach(cleanup)
 
 test("should render default case", () => {
   const textId = "test.string"
-  const defaultTag = "div"
+  const defaultTag = mapping[TextDisplayStyle.Default]
   const { getByText } = renderWithTheme(
     <Text displayStyle={TextDisplayStyle.Default} textId={textId} />
   )
