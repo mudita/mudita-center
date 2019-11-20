@@ -22,10 +22,11 @@ const theme = {
   },
   fontWeight: {
     light: 300,
+    default: 400,
     bold: 700,
   },
   font: {
-    GtPressura:
+    primary:
       "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
   },
 }

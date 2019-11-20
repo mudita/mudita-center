@@ -40,28 +40,33 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
         return css`
           font-size: ${56 / 16}rem;
           line-height: ${62 / 56}em;
+          font-weight: ${fontWeight("light")};
         `
       case TextDisplayStyle.SecondaryBoldHeading:
         return css`
           font-size: ${24 / 16}rem;
           line-height: ${20 / 24}em;
           font-weight: ${fontWeight("bold")};
+          letter-spacing: -0.6px;
         `
       case TextDisplayStyle.TertiaryBoldHeading:
         return css`
           ${tertiaryHeadingSharedStyles};
           font-weight: ${fontWeight("bold")};
         `
-      case TextDisplayStyle.TertiaryMediumHeading:
-        return tertiaryHeadingSharedStyles
-      case TextDisplayStyle.LargeBoldMediumText:
+      case TextDisplayStyle.TertiaryHeading:
+        return css`
+          ${tertiaryHeadingSharedStyles};
+          font-weight: ${fontWeight("default")};
+        `
+      case TextDisplayStyle.LargeBoldText:
         return css`
           ${largeTextSharedStyles};
           font-weight: ${fontWeight("bold")};
         `
-      case TextDisplayStyle.LargeMediumText:
+      case TextDisplayStyle.LargeText:
         return largeTextSharedStyles
-      case TextDisplayStyle.LargeFadedMediumText:
+      case TextDisplayStyle.LargeFadedText:
         return css`
           ${largeTextSharedStyles};
           color: ${textColor("faded")};
@@ -81,8 +86,10 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
         return css`
           ${largeTextSharedStyles};
           ${uppercaseStyles};
+          font-weight: ${fontWeight("bold")};
           color: ${textColor("faded")};
           opacity: ${opacity("regular")};
+          letter-spacing: 1px;
         `
       case TextDisplayStyle.MediumBoldText:
         return css`
@@ -93,12 +100,14 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
         return css`
           ${mediumTextSharedStyles};
           font-weight: ${fontWeight("light")};
+          letter-spacing: 1px;
         `
       case TextDisplayStyle.MediumFadedLightText:
         return css`
           ${mediumTextSharedStyles};
           color: ${textColor("faded")};
           font-weight: ${fontWeight("light")};
+          letter-spacing: 0.4px;
         `
       case TextDisplayStyle.MediumText:
         return mediumTextSharedStyles
@@ -111,17 +120,20 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
         return css`
           ${smallTextSharedStyles};
           ${uppercaseStyles};
+          letter-spacing: 1px;
         `
       case TextDisplayStyle.SmallSupplementaryText:
         return css`
           ${smallTextSharedStyles};
           ${uppercaseStyles};
           color: ${textColor("supplementary")};
+          letter-spacing: 1px;
         `
       case TextDisplayStyle.SmallTextInverted:
         return css`
           ${smallTextSharedStyles};
           ${uppercaseStyles};
+          display: inline;
           color: ${textColor("inverted")};
           background-color: ${backgroundColor("dark")};
         `
@@ -136,8 +148,10 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
         return css`
           ${smallTextSharedStyles};
           ${uppercaseStyles};
+          font-weight: ${fontWeight("bold")};
           color: ${textColor("faded")};
           opacity: ${opacity("regular")};
+          letter-spacing: 0.75px;
         `
       default:
         return null
@@ -156,10 +170,10 @@ export enum TextDisplayStyle {
   PrimaryHeading,
   SecondaryBoldHeading,
   TertiaryBoldHeading,
-  TertiaryMediumHeading,
-  LargeBoldMediumText,
-  LargeMediumText,
-  LargeFadedMediumText,
+  TertiaryHeading,
+  LargeBoldText,
+  LargeText,
+  LargeFadedText,
   LargeTextCapitalLetters,
   LargeFadedTextCapitalLetters,
   LargeFadedDimTextCapitalLetters,
@@ -186,16 +200,23 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.PrimaryHeading]: "h1",
   [TextDisplayStyle.SecondaryBoldHeading]: "h2",
   [TextDisplayStyle.TertiaryBoldHeading]: "h3",
-  [TextDisplayStyle.TertiaryMediumHeading]: "h3",
-  [TextDisplayStyle.LargeBoldMediumText]: "p",
-  [TextDisplayStyle.LargeMediumText]: "p",
-  [TextDisplayStyle.LargeFadedMediumText]: "p",
+  [TextDisplayStyle.TertiaryHeading]: "h3",
+  [TextDisplayStyle.LargeBoldText]: "p",
+  [TextDisplayStyle.LargeText]: "p",
+  [TextDisplayStyle.LargeFadedText]: "p",
+  [TextDisplayStyle.LargeTextCapitalLetters]: "p",
+  [TextDisplayStyle.LargeFadedTextCapitalLetters]: "p",
+  [TextDisplayStyle.LargeFadedDimTextCapitalLetters]: "p",
   [TextDisplayStyle.MediumBoldText]: "p",
   [TextDisplayStyle.MediumLightText]: "p",
   [TextDisplayStyle.MediumFadedLightText]: "p",
   [TextDisplayStyle.MediumText]: "p",
   [TextDisplayStyle.MediumFadedText]: "p",
+  [TextDisplayStyle.SmallText]: "p",
+  [TextDisplayStyle.SmallSupplementaryText]: "p",
   [TextDisplayStyle.SmallTextInverted]: "p",
+  [TextDisplayStyle.SmallFadedText]: "p",
+  [TextDisplayStyle.SmallFadedDimText]: "p",
 }
 
 const Text: FunctionComponent<Props> = ({
