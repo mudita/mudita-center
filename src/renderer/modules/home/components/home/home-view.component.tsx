@@ -36,10 +36,6 @@ const HomeView: FunctionComponent<Props> = ({ onTitleClick, count, intl }) => {
   return (
     <HomeWrapper>
       <HomeTitle onClick={onTitleClick}> Title {count} </HomeTitle>
-      <Text
-        key={"test.string"}
-        displayStyle={TextDisplayStyle.SmallTextInverted}
-      />
       <HomeContent>
         {intl.formatMessage(messages.test)}
         <br />
