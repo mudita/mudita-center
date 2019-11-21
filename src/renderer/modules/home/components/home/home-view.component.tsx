@@ -6,8 +6,6 @@ import styled from "styled-components"
 
 const HomeWrapper = styled.div`
   color: ${textColor("primary")}
-  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans,
-    sans-serif;
   width: 80%;
   margin: auto;
   border: 1px #ccc dotted;
