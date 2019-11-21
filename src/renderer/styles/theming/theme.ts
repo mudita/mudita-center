@@ -10,6 +10,9 @@ const theme = {
       light: "#ffffff",
       dark: "#000000",
     },
+    border: {
+      norma: "CDCECF",
+    },
   },
   layout: {
     width: "73.75rem",
