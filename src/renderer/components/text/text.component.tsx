@@ -40,13 +40,13 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
       case TextDisplayStyle.PrimaryHeading:
         return css`
           font-size: 5.6rem;
-          line-height: ${62 / 56}em;
+          line-height: ${62 / 56};
           font-weight: ${fontWeight("light")};
         `
       case TextDisplayStyle.SecondaryBoldHeading:
         return css`
           font-size: 2.4rem;
-          line-height: ${20 / 24}em;
+          line-height: ${20 / 24};
           font-weight: ${fontWeight("bold")};
           letter-spacing: ${letterSpacing("negative")};
         `
