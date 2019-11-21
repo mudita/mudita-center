@@ -11,7 +11,8 @@ const theme = {
       dark: "#000000",
     },
     border: {
-      norma: "CDCECF",
+      default: "#CDCECF",
+      hover: "#3B3F42",
     },
   },
   layout: {
