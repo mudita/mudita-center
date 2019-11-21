@@ -171,7 +171,6 @@
     "@types/styled-components": "^4.1.21",
     "awesome-typescript-loader": "^5.2.1",
     "chai": "^4.2.0",
-    "connected-react-router": "^6.5.2",
     "electron-debug": "^3.0.1",
     "electron-log": "^3.0.9",
     "electron-publisher-s3": "^20.17.2",

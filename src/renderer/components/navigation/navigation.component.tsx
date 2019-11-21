@@ -15,11 +15,15 @@ const LinkWrapper = styled.div`
 `
 
 const Navigation = () => {
-  const links = Object.keys(URL_MAIN).map(link => (
-    <LinkWrapper key={link}>
-      <Link to={link}>{link}</Link>
-    </LinkWrapper>
-  ))
+  const links = Object.keys(URL_MAIN).map(link => {
+    // @ts-ignore
+    const url = URL_MAIN[link]
+    return (
+      <LinkWrapper key={link}>
+        <Link to={url}>{link}</Link>
+      </LinkWrapper>
+    )
+  })
   return <NavigationWrapper>{links}</NavigationWrapper>
 }
 
