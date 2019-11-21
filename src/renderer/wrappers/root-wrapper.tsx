@@ -1,8 +1,8 @@
+import { ConnectedRouter } from "connected-react-router"
 import { History } from "history"
 import * as React from "react"
 import { IntlProvider } from "react-intl"
 import { Provider } from "react-redux"
-import { Router } from "react-router"
 import { Store } from "redux"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
@@ -35,9 +35,9 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
             locale={LANGUAGE.default}
             messages={localeEn}
           >
-            <Router history={history}>
+            <ConnectedRouter history={history}>
               <BaseRoutes />
-            </Router>
+            </ConnectedRouter>
           </IntlProvider>
         </Provider>
       </>
