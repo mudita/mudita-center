@@ -30,6 +30,12 @@ export const font = (name: keyof Theme["font"]) => ({
   theme: Theme
 }) => theme.font[name]
 
+export const letterSpacing = (name: keyof Theme["letterSpacing"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.letterSpacing[name]
+
 export const minBreakpoint = (name: keyof Theme["breakpoint"]) => ({
   theme,
 }: {
