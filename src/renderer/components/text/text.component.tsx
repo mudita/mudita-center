@@ -12,22 +12,22 @@ import styled, { css } from "styled-components"
 
 const tertiaryHeadingSharedStyles = css`
   font-size: 1.8rem;
-  line-height: ${20 / 18};
+  line-height: 1.1;
 `
 
 const largeTextSharedStyles = css`
   font-size: 1.6rem;
-  line-height: ${17 / 16};
+  line-height: 1.05;
 `
 
 const mediumTextSharedStyles = css`
   font-size: 1.4rem;
-  line-height: ${15 / 14};
+  line-height: 1.05;
 `
 
 const smallTextSharedStyles = css`
   font-size: 1.2rem;
-  line-height: ${14 / 12};
+  line-height: 1.15;
 `
 
 const uppercaseStyles = css`
@@ -40,13 +40,13 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
       case TextDisplayStyle.PrimaryHeading:
         return css`
           font-size: 5.6rem;
-          line-height: ${62 / 56};
+          line-height: 1.05;
           font-weight: ${fontWeight("light")};
         `
       case TextDisplayStyle.SecondaryBoldHeading:
         return css`
           font-size: 2.4rem;
-          line-height: ${20 / 24};
+          line-height: 0.8;
           font-weight: ${fontWeight("bold")};
           letter-spacing: ${letterSpacing("negative")};
         `
