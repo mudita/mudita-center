@@ -25,6 +25,12 @@ const theme = {
     default: 400,
     bold: 700,
   },
+  letterSpacing: {
+    negative: -0.6,
+    small: 0.4,
+    medium: 0.75,
+    regular: 1,
+  },
   font: {
     primary:
       "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",

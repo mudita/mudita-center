@@ -6,14 +6,14 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/text/text.component"
 import localeEn from "Renderer/locales/main/en-US.json"
-import { renderWithTheme } from "Renderer/utils/renderWithTheme"
+import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme"
 
 afterEach(cleanup)
 
 test("should render default case", () => {
   const textId = "test.string"
   const defaultTag = mapping[TextDisplayStyle.Default]
-  const { getByText } = renderWithTheme(
+  const { getByText } = renderWithThemeAndIntl(
     <Text displayStyle={TextDisplayStyle.Default} textId={textId} />
   )
   expect(getByText(localeEn[textId]).tagName.toLowerCase()).toBe(defaultTag)
@@ -23,7 +23,7 @@ test("should render default case", () => {
 test("should render with children and as prop", () => {
   const headlineLevel = "h3"
   const headlineText = "Example"
-  const { getByText } = renderWithTheme(
+  const { getByText } = renderWithThemeAndIntl(
     <Text displayStyle={TextDisplayStyle.PrimaryHeading} as={headlineLevel}>
       {headlineText}
     </Text>
@@ -34,7 +34,7 @@ test("should render with children and as prop", () => {
 
 test("should render with mapped element tagname", () => {
   const textId = "test.string"
-  const { getByText } = renderWithTheme(
+  const { getByText } = renderWithThemeAndIntl(
     <Text displayStyle={TextDisplayStyle.PrimaryHeading} textId={textId} />
   )
   expect(getByText(localeEn[textId]).tagName.toLowerCase()).toBe(

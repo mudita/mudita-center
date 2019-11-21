@@ -11,19 +11,18 @@ import localeEn from "Renderer/locales/main/en-US.json"
 import { ThemeProvider } from "styled-components"
 import theme from "../styles/theming/theme"
 
-export function renderWithTheme(
+export function renderWithThemeAndIntl(
   ui: React.ReactElement,
   options?: Omit<RenderOptions, "queries">
 ): RenderResult
-export function renderWithTheme<Q extends Queries>(
+export function renderWithThemeAndIntl<Q extends Queries>(
   ui: React.ReactElement,
   options: RenderOptions<Q>
 ): RenderResult<Q>
-export function renderWithTheme<Q extends Queries>(
+export function renderWithThemeAndIntl<Q extends Queries>(
   ui: React.ReactElement,
   options?: RenderOptions<Q> | Omit<RenderOptions, "queries">
 ) {
-  // @ts-ignore
   return render<Q>(
     <ThemeProvider theme={theme}>
       <IntlProvider
