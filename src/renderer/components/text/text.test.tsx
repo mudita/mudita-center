@@ -1,18 +1,12 @@
 import "@testing-library/jest-dom/extend-expect"
-import { cleanup } from "@testing-library/react"
 import React from "react"
-import Text, {
-  mapping,
-  TextDisplayStyle,
-} from "Renderer/components/text/text.component"
+import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
 import localeEn from "Renderer/locales/main/en-US.json"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme"
-
-afterEach(cleanup)
+import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 test("should render default case", () => {
   const textId = "test.string"
-  const defaultTag = mapping[TextDisplayStyle.Default]
+  const defaultTag = "div"
   const { getByText } = renderWithThemeAndIntl(
     <Text displayStyle={TextDisplayStyle.Default} textId={textId} />
   )
@@ -34,10 +28,11 @@ test("should render with children and as prop", () => {
 
 test("should render with mapped element tagname", () => {
   const textId = "test.string"
+  const expectedPrimaryHeadingTag = "h1"
   const { getByText } = renderWithThemeAndIntl(
     <Text displayStyle={TextDisplayStyle.PrimaryHeading} textId={textId} />
   )
   expect(getByText(localeEn[textId]).tagName.toLowerCase()).toBe(
-    mapping[TextDisplayStyle.PrimaryHeading]
+    expectedPrimaryHeadingTag
   )
 })
