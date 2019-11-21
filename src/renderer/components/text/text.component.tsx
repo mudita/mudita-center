@@ -196,7 +196,7 @@ interface ElementsMapping {
 
 type Element = "div" | "h1" | "h2" | "h3" | "span" | "p"
 
-export const mapping: ElementsMapping = {
+const mapping: ElementsMapping = {
   [TextDisplayStyle.Default]: "div",
   [TextDisplayStyle.PrimaryHeading]: "h1",
   [TextDisplayStyle.SecondaryBoldHeading]: "h2",
