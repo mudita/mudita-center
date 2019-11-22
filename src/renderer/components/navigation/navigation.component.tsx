@@ -15,9 +15,7 @@ const LinkWrapper = styled.div`
 `
 
 const Navigation = () => {
-  const links = Object.keys(URL_MAIN).map(link => {
-    // @ts-ignore
-    const url = URL_MAIN[link]
+  const links = Object.entries(URL_MAIN).map(([link, url]) => {
     return (
       <LinkWrapper key={link}>
         <Link to={url}>{link}</Link>
