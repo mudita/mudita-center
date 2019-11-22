@@ -43,10 +43,11 @@ interface InputRadioProps extends InputHTMLAttributes<HTMLInputElement> {
 const InputRadio: FunctionComponent<Readonly<InputRadioProps>> = ({
   label,
   labelDisplayStyle = TextDisplayStyle.Default,
+  className,
   ...props
 }) => {
   return (
-    <Text displayStyle={labelDisplayStyle}>
+    <Text displayStyle={labelDisplayStyle} className={className}>
       <InputRadioWrapper>
         <Input type="radio" {...props} />
         {label}
