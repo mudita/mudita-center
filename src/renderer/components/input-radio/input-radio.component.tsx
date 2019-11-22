@@ -11,7 +11,6 @@ import styled from "styled-components"
 const InputRadioWrapper = styled.label`
   display: flex;
   align-items: center;
-  flex-direction: row;
 `
 
 const Input = styled.input`
