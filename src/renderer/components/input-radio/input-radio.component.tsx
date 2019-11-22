@@ -36,12 +36,12 @@ const Input = styled.input`
   }
 `
 
-interface RadioButtonProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputRadioProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   labelDisplayStyle?: TextDisplayStyle
 }
 
-const InputRadio: FunctionComponent<Readonly<RadioButtonProps>> = ({
+const InputRadio: FunctionComponent<Readonly<InputRadioProps>> = ({
   label,
   labelDisplayStyle = TextDisplayStyle.Default,
   ...props
