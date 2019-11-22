@@ -1,11 +1,18 @@
 import * as React from "react"
+import { InputHTMLAttributes } from "react"
+import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
 import {
   backgroundColor,
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
+
+const RadioInputWrapper = styled.label`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+`
 
 const Input = styled.input`
   appearance: none;
@@ -29,39 +36,23 @@ const Input = styled.input`
   }
 `
 
-interface InputRadioInterface {
-  isChecked?: boolean
-  isDisabled?: boolean
-  id?: string
-  name: string
-  onChange?: () => void
+interface RadioButtonProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
-  value?: string
+  labelDisplayStyle?: TextDisplayStyle
 }
 
-const InputRadio: FunctionComponent<Readonly<InputRadioInterface>> = ({
-  isChecked = false,
-  isDisabled = false,
-  id,
-  name,
-  onChange = () => noop,
+const InputRadio: FunctionComponent<Readonly<RadioButtonProps>> = ({
   label,
-  value,
+  labelDisplayStyle = TextDisplayStyle.Default,
+  ...props
 }) => {
   return (
-    <div>
-      <Input
-        type="radio"
-        id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
-        // checked psuje
-        checked={isChecked}
-        disabled={isDisabled}
-      />
-      {label && <label htmlFor={id}>{label}</label>}
-    </div>
+    <Text displayStyle={labelDisplayStyle}>
+      <RadioInputWrapper>
+        <Input type="radio" {...props} />
+        {label}
+      </RadioInputWrapper>
+    </Text>
   )
 }
 
