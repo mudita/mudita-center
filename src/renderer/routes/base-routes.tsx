@@ -8,6 +8,7 @@ import Help from "Renderer/modules/help/help.component"
 import Meditation from "Renderer/modules/meditation/meditation.component"
 import Messages from "Renderer/modules/messages/messages.component"
 import Music from "Renderer/modules/music/music.component"
+import News from "Renderer/modules/news/news.component"
 import Overview from "Renderer/modules/overview/overview.component"
 import Phone from "Renderer/modules/phone/phone.compnent"
 import Settings from "Renderer/modules/settings/settings.component"
@@ -25,6 +26,7 @@ export default () => (
       <Route path={URL_MAIN.meditation} component={Meditation} />
       <Route path={URL_MAIN.messages} component={Messages} />
       <Route path={URL_MAIN.music} component={Music} />
+      <Route path={URL_MAIN.news} component={News} />
       <Route path={URL_MAIN.overview} component={Overview} />
       <Route path={URL_MAIN.phone} component={Phone} />
       <Route path={URL_MAIN.settings} component={Settings} />
