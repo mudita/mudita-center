@@ -39,17 +39,15 @@ const Input = styled.input`
 interface InputRadioProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   labelDisplayStyle?: TextDisplayStyle
-  textId?: string
 }
 
 const InputRadio: FunctionComponent<Readonly<InputRadioProps>> = ({
   label,
   labelDisplayStyle = TextDisplayStyle.Default,
-  textId,
   ...props
 }) => {
   return (
-    <Text displayStyle={labelDisplayStyle} textId={textId}>
+    <Text displayStyle={labelDisplayStyle}>
       <InputRadioWrapper>
         <Input type="radio" {...props} />
         {label}
