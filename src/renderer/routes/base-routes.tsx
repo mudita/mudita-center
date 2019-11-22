@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from "react-router"
 
 import AppWrapper from "Renderer/wrappers/app-wrapper"
 
-import FilesManager from "Renderer/modules/filesManager/file-manager.component"
+import FilesManager from "Renderer/modules/filesManager/files-manager.component"
 import Help from "Renderer/modules/help/help.component"
 import Meditation from "Renderer/modules/meditation/meditation.component"
 import Messages from "Renderer/modules/messages/messages.component"

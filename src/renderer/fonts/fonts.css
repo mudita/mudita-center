@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "GT Pressura";
+  font-weight: 300;
+  font-display: fallback;
+  src: url(./GT-Pressura-Light.otf) format("opentype");
+}
+@font-face {
+  font-family: "GT Pressura";
+  font-weight: 500;
+  font-display: fallback;
+  src: url(./GT-Pressura-Regular.otf) format("opentype");
+}
+@font-face {
+  font-family: "GT Pressura";
+  font-weight: 700;
+  font-display: fallback;
+  src: url(./GT-Pressura-Bold.otf) format("opentype");
+}

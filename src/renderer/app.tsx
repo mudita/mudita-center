@@ -5,6 +5,7 @@ import { AppContainer } from "react-hot-loader"
 import history from "Renderer/routes/history"
 import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
+import "./fonts/fonts.css"
 
 // Create main element
 const mainElement = document.createElement("div")
