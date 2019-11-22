@@ -1,17 +1,17 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import InputRadio from "Renderer/components/input-radio/input-radio.component"
+import InputCheckbox from "Renderer/components/input-checkbox/input-checkbox.component"
 
-storiesOf("Components|Input", module).add("Radio", () => {
+storiesOf("Components|Input", module).add("Checkbox", () => {
   return (
     <form action="">
-      <InputRadio
+      <InputCheckbox
         name={"Example1"}
         value={"value1"}
         id={"id1"}
         defaultChecked
       />
-      <InputRadio
+      <InputCheckbox
         name={"Example1"}
         value={"value2"}
         id={"id2"}

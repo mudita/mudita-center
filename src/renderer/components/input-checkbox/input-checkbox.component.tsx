@@ -1,4 +1,5 @@
 import * as React from "react"
+import check from "Renderer/assets/icons/check-icon.svg"
 import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import {
@@ -8,7 +9,7 @@ import {
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
-const InputRadioWrapper = styled.label`
+const InputCheckboxWrapper = styled.label`
   display: flex;
   align-items: center;
 `
@@ -18,11 +19,20 @@ const Input = styled.input`
   display: inline-block;
   width: 2em;
   height: 2em;
-  padding: 3px;
   background-clip: content-box;
   border: 1px solid ${borderColor("default")};
+  border-radius: 2px;
   background-color: ${backgroundColor("light")};
-  border-radius: 50%;
+
+  &:after {
+    content: "";
+    display: block;
+    background-image: url(${check});
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 2em;
+    width: auto;
+  }
 
   &:hover {
     border-color: ${borderColor("hover")};
@@ -35,7 +45,7 @@ const Input = styled.input`
   }
 `
 
-const InputRadio: FunctionComponent<Readonly<InputProps>> = ({
+const InputCheckbox: FunctionComponent<Readonly<InputProps>> = ({
   label,
   labelDisplayStyle = TextDisplayStyle.Default,
   className,
@@ -43,12 +53,12 @@ const InputRadio: FunctionComponent<Readonly<InputProps>> = ({
 }) => {
   return (
     <Text displayStyle={labelDisplayStyle} className={className}>
-      <InputRadioWrapper>
-        <Input type="radio" {...props} />
+      <InputCheckboxWrapper>
+        <Input type="checkbox" {...props} />
         {label}
-      </InputRadioWrapper>
+      </InputCheckboxWrapper>
     </Text>
   )
 }
 
-export default InputRadio
+export default InputCheckbox
