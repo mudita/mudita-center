@@ -12,22 +12,22 @@ import styled, { css } from "styled-components"
 
 const tertiaryHeadingSharedStyles = css`
   font-size: 1.8rem;
-  line-height: ${20 / 18};
+  line-height: 1.1;
 `
 
 const largeTextSharedStyles = css`
   font-size: 1.6rem;
-  line-height: ${17 / 16};
+  line-height: 1.05;
 `
 
 const mediumTextSharedStyles = css`
   font-size: 1.4rem;
-  line-height: ${15 / 14};
+  line-height: 1.05;
 `
 
 const smallTextSharedStyles = css`
   font-size: 1.2rem;
-  line-height: ${14 / 12};
+  line-height: 1.15;
 `
 
 const uppercaseStyles = css`
@@ -39,14 +39,14 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
     switch (displayStyle) {
       case TextDisplayStyle.PrimaryHeading:
         return css`
-          font-size: ${56 / 16}rem;
-          line-height: ${62 / 56}em;
+          font-size: 5.6rem;
+          line-height: 1.05;
           font-weight: ${fontWeight("light")};
         `
       case TextDisplayStyle.SecondaryBoldHeading:
         return css`
-          font-size: ${24 / 16}rem;
-          line-height: ${20 / 24}em;
+          font-size: 2.4rem;
+          line-height: 0.8;
           font-weight: ${fontWeight("bold")};
           letter-spacing: ${letterSpacing("negative")};
         `
@@ -196,7 +196,7 @@ interface ElementsMapping {
 
 type Element = "div" | "h1" | "h2" | "h3" | "span" | "p"
 
-export const mapping: ElementsMapping = {
+const mapping: ElementsMapping = {
   [TextDisplayStyle.Default]: "div",
   [TextDisplayStyle.PrimaryHeading]: "h1",
   [TextDisplayStyle.SecondaryBoldHeading]: "h2",
