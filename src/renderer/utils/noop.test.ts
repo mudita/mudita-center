@@ -1,5 +1,5 @@
 import { noop } from "Renderer/utils/noop"
 
-test("should ", () => {
+test("noop should return undefined", () => {
   expect(noop()).toBeUndefined()
 })
