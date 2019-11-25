@@ -1,6 +1,7 @@
 import { Dispatch } from "redux"
 import { InitialState } from "./interfaces"
 
+// TODO: implement mock store feature.
 const initialState = {
   simCards: [],
   batteryLevel: 0,
