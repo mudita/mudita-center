@@ -9,11 +9,6 @@ import {
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
-const InputCheckboxWrapper = styled.label`
-  display: flex;
-  align-items: center;
-`
-
 const Input = styled.input`
   appearance: none;
   display: inline-block;
@@ -45,18 +40,17 @@ const Input = styled.input`
   }
 `
 
-const InputCheckbox: FunctionComponent<Readonly<InputProps>> = ({
-  label,
+type PropsWithoutType = Omit<InputProps, "type">
+
+const InputCheckbox: FunctionComponent<InputProps> = ({
   labelDisplayStyle = TextDisplayStyle.Default,
   className,
   ...props
 }) => {
+  const { type, ...propsWithoutType }: PropsWithoutType = props
   return (
     <Text displayStyle={labelDisplayStyle} className={className}>
-      <InputCheckboxWrapper>
-        <Input type="checkbox" {...props} />
-        {label}
-      </InputCheckboxWrapper>
+      <Input type="checkbox" {...propsWithoutType} />
     </Text>
   )
 }
