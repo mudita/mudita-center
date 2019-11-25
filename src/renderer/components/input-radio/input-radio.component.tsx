@@ -41,7 +41,7 @@ const InputRadio: FunctionComponent<InputRadioProps> = ({
 }) => {
   return (
     <Text displayStyle={labelDisplayStyle} className={className}>
-      <Input type="radio" {...props} />
+      <Input {...props} type="radio" />
     </Text>
   )
 }
