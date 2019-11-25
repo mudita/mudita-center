@@ -11,12 +11,7 @@ storiesOf("Components|Input", module).add("Radio input", () => {
         id={"id1"}
         defaultChecked
       />
-      <InputRadio
-        name={"Example1"}
-        value={"value2"}
-        id={"id2"}
-        label="Example label"
-      />
+      <InputRadio name={"Example1"} value={"value2"} id={"id2"} />
     </form>
   )
 })
