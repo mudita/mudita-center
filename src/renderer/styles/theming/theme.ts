@@ -27,6 +27,7 @@ const theme = {
   },
   letterSpacing: {
     negative: -0.6,
+    smaller: 0.2,
     small: 0.4,
     medium: 0.75,
     regular: 1,
