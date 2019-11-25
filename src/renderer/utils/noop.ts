@@ -1,3 +1,3 @@
-export const noop = () => {
-  // No operation performed.
+export const noop = (...args: any[]): any => {
+  // no operation here
 }

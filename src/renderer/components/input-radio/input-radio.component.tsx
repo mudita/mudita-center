@@ -8,11 +8,6 @@ import {
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
-const InputRadioWrapper = styled.label`
-  display: flex;
-  align-items: center;
-`
-
 const Input = styled.input`
   appearance: none;
   display: inline-block;
@@ -36,17 +31,13 @@ const Input = styled.input`
 `
 
 const InputRadio: FunctionComponent<Readonly<InputProps>> = ({
-  label,
   labelDisplayStyle = TextDisplayStyle.Default,
   className,
   ...props
 }) => {
   return (
     <Text displayStyle={labelDisplayStyle} className={className}>
-      <InputRadioWrapper>
-        <Input type="radio" {...props} />
-        {label}
-      </InputRadioWrapper>
+      <Input type="radio" {...props} />
     </Text>
   )
 }
