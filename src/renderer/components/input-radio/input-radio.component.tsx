@@ -1,6 +1,6 @@
 import * as React from "react"
-import { InputHTMLAttributes } from "react"
 import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
+import { InputProps } from "Renderer/interfaces/input.interface"
 import {
   backgroundColor,
   borderColor,
@@ -30,11 +30,7 @@ const Input = styled.input`
   }
 `
 
-interface InputRadioProps extends InputHTMLAttributes<HTMLInputElement> {
-  labelDisplayStyle?: TextDisplayStyle
-}
-
-const InputRadio: FunctionComponent<InputRadioProps> = ({
+const InputRadio: FunctionComponent<InputProps> = ({
   labelDisplayStyle = TextDisplayStyle.Default,
   className,
   ...props
