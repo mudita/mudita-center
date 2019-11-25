@@ -9,7 +9,6 @@ storiesOf("Components|Input", module).add("Checkbox", () => {
         name={"Example1"}
         value={"value1"}
         id={"id1"}
-        type={"text"}
         defaultChecked
       />
       <InputCheckbox name={"Example1"} value={"value2"} id={"id2"} />

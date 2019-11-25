@@ -40,17 +40,14 @@ const Input = styled.input`
   }
 `
 
-type PropsWithoutType = Omit<InputProps, "type">
-
-const InputCheckbox: FunctionComponent<Readonly<InputProps>> = ({
+const InputCheckbox: FunctionComponent<InputProps> = ({
   labelDisplayStyle = TextDisplayStyle.Default,
   className,
   ...props
 }) => {
-  const { type, ...propsWithoutType }: PropsWithoutType = props
   return (
     <Text displayStyle={labelDisplayStyle} className={className}>
-      <Input type="checkbox" {...propsWithoutType} />
+      <Input {...props} type="checkbox" />
     </Text>
   )
 }
