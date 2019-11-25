@@ -1,3 +1,3 @@
-export const noop = (...args: any[]): any => {
+export const noop = (...args: unknown[]): void => {
   // no operation here
 }
