@@ -9,6 +9,8 @@ import {
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
+console.log(check)
+
 const InputCheckboxWrapper = styled.label`
   display: flex;
   align-items: center;

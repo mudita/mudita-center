@@ -58,7 +58,15 @@ module.exports = {
       // SVG Font
       {
         test: /\.svg$/,
-        use: ["@svgr/webpack", "url-loader"],
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 10000,
+              mimetype: "image/svg+xml",
+            },
+          },
+        ],
       },
       // Common Image Formats
       {
