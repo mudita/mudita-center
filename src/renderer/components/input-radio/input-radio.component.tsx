@@ -1,17 +1,12 @@
 import * as React from "react"
-import { InputHTMLAttributes } from "react"
 import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
+import { InputProps } from "Renderer/interfaces/input.interface"
 import {
   backgroundColor,
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
-
-const InputRadioWrapper = styled.label`
-  display: flex;
-  align-items: center;
-`
 
 const Input = styled.input`
   appearance: none;
@@ -36,23 +31,14 @@ const Input = styled.input`
   }
 `
 
-interface InputRadioProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string
-  labelDisplayStyle?: TextDisplayStyle
-}
-
-const InputRadio: FunctionComponent<Readonly<InputRadioProps>> = ({
-  label,
+const InputRadio: FunctionComponent<InputProps> = ({
   labelDisplayStyle = TextDisplayStyle.Default,
   className,
   ...props
 }) => {
   return (
     <Text displayStyle={labelDisplayStyle} className={className}>
-      <InputRadioWrapper>
-        <Input type="radio" {...props} />
-        {label}
-      </InputRadioWrapper>
+      <Input {...props} type="radio" />
     </Text>
   )
 }
