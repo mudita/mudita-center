@@ -177,7 +177,6 @@
     "react": "^16.12.0",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
     "react-dom": "^16.12.0",
-    "react-portal": "^4.2.0",
     "react-redux": "^7.0.3",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
