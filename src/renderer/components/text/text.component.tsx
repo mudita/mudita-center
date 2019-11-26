@@ -143,7 +143,6 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
       case TextDisplayStyle.SmallFadedText:
         return css`
           ${smallTextSharedStyles};
-          ${uppercaseStyles};
           color: ${textColor("faded")};
           letter-spacing: ${letterSpacing("small")}rem;
         `
