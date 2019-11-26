@@ -1,5 +1,5 @@
 import * as React from "react"
-import { injectIntl, IntlShape } from "react-intl"
+import { FormattedMessage } from "react-intl"
 import { Message as MessageInterface } from "Renderer/interfaces/messageInterface"
 import {
   backgroundColor,
@@ -163,7 +163,6 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
 
 interface Props {
   readonly children?: any
-  readonly intl: IntlShape
   readonly stringId?: MessageInterface
   readonly as?: Element
   readonly displayStyle?: TextDisplayStyle
@@ -227,12 +226,11 @@ const Text: FunctionComponent<Props> = ({
   children,
   as,
   displayStyle = TextDisplayStyle.Default,
-  intl,
   stringId,
 }) => (
   <TextWrapper as={as || mapping[displayStyle]} displayStyle={displayStyle}>
-    {stringId ? intl.formatMessage(stringId) : children}
+    {stringId ? <FormattedMessage {...stringId} /> : children}
   </TextWrapper>
 )
 
-export default injectIntl(Text)
+export default Text
