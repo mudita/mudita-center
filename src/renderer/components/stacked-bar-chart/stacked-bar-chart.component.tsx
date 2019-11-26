@@ -22,7 +22,7 @@ const Bar = styled.div<{ color: string; percentage: number }>`
   background-color: ${({ color }) => color};
 `
 
-const OtherText = styled(Text)`
+const Label = styled(Text)`
   margin-left: 24px;
 `
 
@@ -49,12 +49,9 @@ const StackedBarChart: FunctionComponent<Props> = ({
           <Bar color={color} percentage={percentage} key={index} />
         ))}
       </Progress>
-      <OtherText
-        displayStyle={TextDisplayStyle.TertiaryBoldHeading}
-        element={"p"}
-      >
+      <Label displayStyle={TextDisplayStyle.TertiaryHeading} element={"p"}>
         {maxLabel}
-      </OtherText>
+      </Label>
     </ProgressWrapper>
   )
 }
