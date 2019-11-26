@@ -30,14 +30,14 @@ const Input = styled.input`
   }
 `
 
-const InputRadio: FunctionComponent<Readonly<InputProps>> = ({
+const InputRadio: FunctionComponent<InputProps> = ({
   labelDisplayStyle = TextDisplayStyle.Default,
   className,
   ...props
 }) => {
   return (
     <Text displayStyle={labelDisplayStyle} className={className}>
-      <Input type="radio" {...props} />
+      <Input {...props} type="radio" />
     </Text>
   )
 }

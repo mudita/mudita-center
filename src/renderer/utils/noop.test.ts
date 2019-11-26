@@ -7,7 +7,7 @@ test("noop should return undefined", () => {
 })
 
 test("passed arg returns undefined", () => {
-  expect(noop(testArr)).toBeUndefined()
+  expect(noop(...testArr)).toBeUndefined()
 })
 
 test("apply/bind/call return undefined", () => {

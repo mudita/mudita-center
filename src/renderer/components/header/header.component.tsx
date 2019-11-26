@@ -1,7 +1,6 @@
 import * as React from "react"
-import styled from "styled-components"
-
 import FunctionComponent from "Renderer/types/function-component.interface"
+import styled from "styled-components"
 
 const HeaderWrapper = styled.div`
   flex: 1;
