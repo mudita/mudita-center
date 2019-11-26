@@ -22,11 +22,11 @@ const Input = styled.input`
   &:after {
     content: "";
     display: block;
+    height: 2em;
+    width: auto;
     background-image: url(${check});
     background-repeat: no-repeat;
     background-position: center;
-    height: 2em;
-    width: auto;
   }
 
   &:hover {
