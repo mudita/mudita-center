@@ -1,4 +1,4 @@
-name: Build/release - Electron Builder Action
+name: Build/release - electron-builder
 
 on: push
 
