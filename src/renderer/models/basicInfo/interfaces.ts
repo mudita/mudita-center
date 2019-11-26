@@ -1,19 +1,19 @@
 export interface SimCard {
-  id: string
-  name: string
-  network: string
+  readonly id: string
+  readonly name: string
+  readonly network: string
 }
 
 export interface MemorySpace {
-  free: number
-  full: number
+  readonly free: number
+  readonly full: number
 }
 
 export interface InitialState {
-  simCards: SimCard[]
-  batteryLevel: number
-  networkName: string
-  osVersion: string
-  memorySpace: MemorySpace
-  lastBackup: string
+  readonly simCards: SimCard[]
+  readonly batteryLevel: number
+  readonly networkName: string
+  readonly osVersion: string
+  readonly memorySpace: MemorySpace
+  readonly lastBackup: string
 }
