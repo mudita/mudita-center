@@ -225,8 +225,13 @@ const Text: FunctionComponent<Props> = ({
   textId,
   displayStyle = TextDisplayStyle.Default,
   as,
+  className = "",
 }) => (
-  <TextWrapper as={as || mapping[displayStyle]} displayStyle={displayStyle}>
+  <TextWrapper
+    className={className}
+    as={as || mapping[displayStyle]}
+    displayStyle={displayStyle}
+  >
     {textId ? <FormattedMessage id={textId} /> : children}
   </TextWrapper>
 )
