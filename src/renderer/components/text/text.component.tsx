@@ -162,7 +162,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
 
 interface Props {
   readonly textId?: string
-  readonly as?: Element
+  readonly element?: Element
   readonly displayStyle?: TextDisplayStyle
 }
 
@@ -224,12 +224,12 @@ const Text: FunctionComponent<Props> = ({
   children,
   textId,
   displayStyle = TextDisplayStyle.Default,
-  as,
+  element,
   className = "",
 }) => (
   <TextWrapper
     className={className}
-    as={as || mapping[displayStyle]}
+    as={element || mapping[displayStyle]}
     displayStyle={displayStyle}
   >
     {textId ? <FormattedMessage id={textId} /> : children}

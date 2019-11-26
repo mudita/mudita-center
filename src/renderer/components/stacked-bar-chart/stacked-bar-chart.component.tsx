@@ -9,43 +9,50 @@ const ProgressWrapper = styled.div`
   align-items: center;
 `
 
-const Progress = styled.div`
+const Progress = styled.div<{ barHeight?: number }>`
   display: flex;
   background-color: ${backgroundColor("free")};
   width: 90%;
-  height: 10px;
+  height: ${({ barHeight }) => barHeight}px;
 `
 
 const Bar = styled.div<{ color: string; percentage: number }>`
   width: ${({ percentage }) => percentage}%;
-  height: 10px;
+  height: 100%;
   background-color: ${({ color }) => color};
 `
 
 const OtherText = styled(Text)`
-  margin-left: 30px;
+  margin-left: 24px;
 `
 
 interface Props {
   chartData: Array<{ value: number; color: string }>
   maxLabel: string
+  barHeight?: number
 }
 
-const StackedBarChart: FunctionComponent<Props> = ({ chartData, maxLabel }) => {
+const StackedBarChart: FunctionComponent<Props> = ({
+  chartData,
+  maxLabel,
+  barHeight = 8,
+}) => {
   const max = chartData.reduce((acc, { value }) => acc + value, 0)
   const barData = chartData.map(obj => ({
     ...obj,
     percentage: (obj.value / max) * 100,
   }))
-  console.log(barData)
   return (
     <ProgressWrapper>
-      <Progress>
-        {barData.map(bar => (
-          <Bar color={bar.color} percentage={bar.percentage} key={bar.color} />
+      <Progress barHeight={barHeight}>
+        {barData.map(({ color, percentage }, index) => (
+          <Bar color={color} percentage={percentage} key={index} />
         ))}
       </Progress>
-      <OtherText displayStyle={TextDisplayStyle.TertiaryBoldHeading} as="p">
+      <OtherText
+        displayStyle={TextDisplayStyle.TertiaryBoldHeading}
+        element={"p"}
+      >
         {maxLabel}
       </OtherText>
     </ProgressWrapper>
