@@ -25,14 +25,13 @@ class ModalService {
   }
 
   public openModal(modal: ReactNode) {
-    this.modal = true
-    this.domEl = modal
-
     if (!this.isModalOpen()) {
-      // create modal
+      this.domEl = modal
+
+      this.modal = true
     } else {
       throw new Error(
-        "Another modal is currently opened. Use forceModal method."
+        "Another modal is currently opened. Use forceModal method instead."
       )
     }
   }
