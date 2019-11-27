@@ -1,19 +1,18 @@
-import { ConnectedRouter } from "connected-react-router"
 import React, { ReactElement } from "react"
 import ReactDOM from "react-dom"
 import { IntlProvider } from "react-intl"
 import { Provider } from "react-redux"
-import { Store } from "redux"
+import { Router } from "react-router"
 import {
   ModalBackdrop,
   ModalWrapper,
 } from "Renderer/components/modal/modal.component"
 import localeEn from "Renderer/locales/main/en-US.json"
-import RootState from "Renderer/reducers/state"
 import history from "Renderer/routes/history"
+import { Store } from "Renderer/store"
 
 class ModalService {
-  private store?: Store<RootState | undefined>
+  private store?: Store
   private defaultLocale?: string
   private modalElement: HTMLDivElement | null = null
   private backdropElement: HTMLDivElement | null = null
@@ -125,9 +124,9 @@ class ModalService {
               locale={this.defaultLocale}
               messages={localeEn}
             >
-              <ConnectedRouter history={history}>
+              <Router history={history}>
                 <ModalWrapper>{modal}</ModalWrapper>
-              </ConnectedRouter>
+              </Router>
             </IntlProvider>
           </Provider>,
           this.modalElement
