@@ -56,7 +56,6 @@ const Progress = styled.div<{ barHeight: DisplayStyle }>`
   display: flex;
   background-color: ${backgroundColor("free")};
   width: 90%;
-  height: 8px;
   ${({ barHeight }) => {
     switch (barHeight) {
       case 0:
@@ -127,9 +126,18 @@ const StackedBarChart: FunctionComponent<Props> = ({
     <ProgressWrapper>
       <Progress barHeight={displayStyle}>
         {barData.map(({ color, percentage }, index) => {
-          if (index === oneBeforeLast) {
+          if (
+            index === oneBeforeLast &&
+            occupiedSpaceLabel &&
+            occupiedSpaceInPercent
+          ) {
             return (
-              <BarWithLabel color={color} percentage={percentage} key={index}>
+              <BarWithLabel
+                data-testid="bar-with-label"
+                color={color}
+                percentage={percentage}
+                key={index}
+              >
                 <BarLabel displayStyle={TextDisplayStyle.MediumText}>
                   {occupiedSpaceLabel}
                   <PercentageLabel
@@ -148,16 +156,19 @@ const StackedBarChart: FunctionComponent<Props> = ({
               color={color}
               percentage={percentage}
               key={index}
+              data-testid="bar"
             />
           )
         })}
       </Progress>
-      <MemoryLabel
-        displayStyle={TextDisplayStyle.TertiaryHeading}
-        element={"p"}
-      >
-        {maxLabel}
-      </MemoryLabel>
+      {maxLabel && (
+        <MemoryLabel
+          displayStyle={TextDisplayStyle.TertiaryHeading}
+          element={"p"}
+        >
+          {maxLabel}
+        </MemoryLabel>
+      )}
     </ProgressWrapper>
   )
 }

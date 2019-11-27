@@ -1,0 +1,366 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot multicolor 1`] = `
+.c7 {
+  font-size: 1.4rem;
+  line-height: 1.05;
+}
+
+.c9 {
+  font-size: 1.4rem;
+  line-height: 1.05;
+  color: #6A6A6A;
+  font-weight: 300;
+  -webkit-letter-spacing: 0.4;
+  -moz-letter-spacing: 0.4;
+  -ms-letter-spacing: 0.4;
+  letter-spacing: 0.4;
+}
+
+.c12 {
+  font-size: 1.8rem;
+  line-height: 1.1;
+  font-weight: 400;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #E9E9E9;
+  width: 90%;
+  height: 8px;
+}
+
+.c2 {
+  width: 4.166666666666666%;
+  height: 100%;
+  background-color: red;
+}
+
+.c2:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.c2:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.c3 {
+  width: 41.66666666666667%;
+  height: 100%;
+  background-color: orange;
+}
+
+.c3:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.c3:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.c4 {
+  width: 41.66666666666667%;
+  height: 100%;
+  background-color: yellow;
+}
+
+.c4:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.c4:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.c5 {
+  width: 4.166666666666666%;
+  height: 100%;
+  background-color: green;
+}
+
+.c5:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.c5:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.c11 {
+  width: 4.166666666666666%;
+  height: 100%;
+  background-color: pink;
+}
+
+.c11:first-child {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+.c11:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.c6 {
+  width: 4.166666666666666%;
+  height: 100%;
+  background-color: blue;
+  position: relative;
+}
+
+.c8 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  -webkit-transform: translateX(50%);
+  -ms-transform: translateX(50%);
+  transform: translateX(50%);
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.c10 {
+  margin-left: 5px;
+}
+
+.c13 {
+  margin-left: 24px;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <div
+      class="c2"
+      color="red"
+      data-testid="bar"
+    />
+    <div
+      class="c3"
+      color="orange"
+      data-testid="bar"
+    />
+    <div
+      class="c4"
+      color="yellow"
+      data-testid="bar"
+    />
+    <div
+      class="c5"
+      color="green"
+      data-testid="bar"
+    />
+    <div
+      class="c6"
+      color="blue"
+      data-testid="bar-with-label"
+    >
+      <p
+        class="c7 c8"
+      >
+        12.2 GB
+        <span
+          class="c9 c10"
+        >
+          ( 77%)
+        </span>
+      </p>
+    </div>
+    <div
+      class="c11"
+      color="pink"
+      data-testid="bar"
+    />
+  </div>
+  <p
+    class="c12 c13"
+  >
+    16 GB
+  </p>
+</div>
+`;
+
+exports[`should match snapshot simple 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #E9E9E9;
+  width: 90%;
+  height: 3px;
+}
+
+.c2 {
+  width: 4.166666666666666%;
+  height: 100%;
+  background-color: red;
+}
+
+.c2:first-child {
+  border-top-left-radius: 1.5px;
+  border-bottom-left-radius: 1.5px;
+}
+
+.c2:last-child {
+  border-top-right-radius: 1.5px;
+  border-bottom-right-radius: 1.5px;
+}
+
+.c3 {
+  width: 41.66666666666667%;
+  height: 100%;
+  background-color: orange;
+}
+
+.c3:first-child {
+  border-top-left-radius: 1.5px;
+  border-bottom-left-radius: 1.5px;
+}
+
+.c3:last-child {
+  border-top-right-radius: 1.5px;
+  border-bottom-right-radius: 1.5px;
+}
+
+.c4 {
+  width: 41.66666666666667%;
+  height: 100%;
+  background-color: yellow;
+}
+
+.c4:first-child {
+  border-top-left-radius: 1.5px;
+  border-bottom-left-radius: 1.5px;
+}
+
+.c4:last-child {
+  border-top-right-radius: 1.5px;
+  border-bottom-right-radius: 1.5px;
+}
+
+.c5 {
+  width: 4.166666666666666%;
+  height: 100%;
+  background-color: green;
+}
+
+.c5:first-child {
+  border-top-left-radius: 1.5px;
+  border-bottom-left-radius: 1.5px;
+}
+
+.c5:last-child {
+  border-top-right-radius: 1.5px;
+  border-bottom-right-radius: 1.5px;
+}
+
+.c6 {
+  width: 4.166666666666666%;
+  height: 100%;
+  background-color: blue;
+}
+
+.c6:first-child {
+  border-top-left-radius: 1.5px;
+  border-bottom-left-radius: 1.5px;
+}
+
+.c6:last-child {
+  border-top-right-radius: 1.5px;
+  border-bottom-right-radius: 1.5px;
+}
+
+.c7 {
+  width: 4.166666666666666%;
+  height: 100%;
+  background-color: pink;
+}
+
+.c7:first-child {
+  border-top-left-radius: 1.5px;
+  border-bottom-left-radius: 1.5px;
+}
+
+.c7:last-child {
+  border-top-right-radius: 1.5px;
+  border-bottom-right-radius: 1.5px;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <div
+      class="c2"
+      color="red"
+      data-testid="bar"
+    />
+    <div
+      class="c3"
+      color="orange"
+      data-testid="bar"
+    />
+    <div
+      class="c4"
+      color="yellow"
+      data-testid="bar"
+    />
+    <div
+      class="c5"
+      color="green"
+      data-testid="bar"
+    />
+    <div
+      class="c6"
+      color="blue"
+      data-testid="bar"
+    />
+    <div
+      class="c7"
+      color="pink"
+      data-testid="bar"
+    />
+  </div>
+</div>
+`;
