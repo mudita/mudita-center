@@ -1,6 +1,10 @@
 import * as React from "react"
 import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  borderRadius,
+  height,
+} from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
@@ -25,25 +29,25 @@ interface BarInterface {
 
 const simpleBorderStyles = css`
   &:first-child {
-    border-top-left-radius: 1.5px;
-    border-bottom-left-radius: 1.5px;
+    border-top-left-radius: ${borderRadius("simpleBar")}px;
+    border-bottom-left-radius: ${borderRadius("simpleBar")}px;
   }
 
   &:last-child {
-    border-top-right-radius: 1.5px;
-    border-bottom-right-radius: 1.5px;
+    border-top-right-radius: ${borderRadius("simpleBar")}px;
+    border-bottom-right-radius: ${borderRadius("simpleBar")}px;
   }
 `
 
 const multiColorBorderStyles = css`
   &:first-child {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
+    border-top-left-radius: ${borderRadius("multiColorBar")}px;
+    border-bottom-left-radius: ${borderRadius("multiColorBar")}px;
   }
 
   &:last-child {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-top-right-radius: ${borderRadius("multiColorBar")}px;
+    border-bottom-right-radius: ${borderRadius("multiColorBar")}px;
   }
 `
 
@@ -60,11 +64,11 @@ const Progress = styled.div<{ barHeight: DisplayStyle }>`
     switch (barHeight) {
       case 0:
         return css`
-          height: 3px;
+          height: ${height("simpleBar")}px;
         `
       case 1:
         return css`
-          height: 8px;
+          height: ${height("multiColorBar")}px;
         `
       default:
         return null

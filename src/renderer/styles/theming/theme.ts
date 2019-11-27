@@ -26,6 +26,14 @@ const theme = {
     default: 400,
     bold: 700,
   },
+  height: {
+    simpleBar: 3,
+    multiColorBar: 8,
+  },
+  borderRadius: {
+    simpleBar: 1.5,
+    multiColorBar: 4,
+  },
   letterSpacing: {
     negative: -0.6,
     small: 0.4,
