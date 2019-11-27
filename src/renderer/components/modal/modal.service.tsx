@@ -74,7 +74,7 @@ class ModalService {
         await this.closeModal(true)
       } else {
         throw new Error(
-          "Another modal is currently opened. Use it with `force` param."
+          "Another modal is currently opened. Use openModal with force param."
         )
       }
     }
