@@ -1,21 +1,92 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import useModal from "Renderer/components/modal/modal.component"
+import { useEffect, useState } from "react"
+import modalService from "Renderer/components/modal/modal.service"
+import { LANGUAGE } from "Renderer/constants/languages"
+import store from "Renderer/store"
+import FunctionComponent from "Renderer/types/function-component.interface"
 
-const CounterModal = () => (
-  <div>
-    <p>This is counter modal</p>
-  </div>
-)
+export const Modal: FunctionComponent = () => {
+  const [closable, setClosableState] = useState(false)
 
-const ModalUsage = () => {
-  const { open, close } = useModal(<CounterModal />)
+  const toggle = () => {
+    setClosableState(!closable)
+  }
+
+  useEffect(() => {
+    modalService.allowClosingModal(closable)
+  }, [closable])
 
   return (
     <div>
-      <button onClick={open}>open modal</button>
-      <button onClick={close}>close modal</button>
+      <h2>Hi, I'm Modal Two</h2>
+      <p>I'm an advanced modal</p>
+      <div>
+        <input
+          id="closable"
+          type="checkbox"
+          defaultChecked={!closable}
+          onChange={toggle}
+        />
+        <label htmlFor="closable">
+          {" "}
+          Closing: {closable ? "Allowed" : "Not allowed"}
+        </label>
+        <p>You can also close mi with force close button</p>
+      </div>
     </div>
+  )
+}
+
+export const ModalUsage: FunctionComponent = () => {
+  modalService.bindStore(store)
+  modalService.setDefaultLocale(LANGUAGE.default)
+
+  const modalOne = (
+    <div>
+      <h2>Hi, I'm Modal One</h2>
+    </div>
+  )
+  const modalTwo = <Modal />
+
+  const openModal = () => {
+    modalService.openModal(modalOne)
+  }
+
+  const openModalTwo = () => {
+    modalService.openModal(modalTwo)
+  }
+
+  const forceOpenModalOne = async () => {
+    await modalService.openModal(modalOne, true)
+  }
+
+  const forceOpenModalTwo = async () => {
+    await modalService.openModal(modalTwo, true)
+  }
+
+  const closeModal = async () => {
+    await modalService.closeModal()
+  }
+
+  const forceCloseModal = async () => {
+    await modalService.closeModal(true)
+  }
+
+  const checkIfModalOpen = () => {
+    alert(`Modal is ${modalService.isModalOpen() ? "open" : "closed"}`)
+  }
+
+  return (
+    <>
+      <button onClick={openModal}>open modal one</button>
+      <button onClick={openModalTwo}>open modal two</button>
+      <button onClick={forceOpenModalOne}>force open modal one</button>
+      <button onClick={forceOpenModalTwo}>force open modal two</button>
+      <button onClick={closeModal}>close modal</button>
+      <button onClick={forceCloseModal}>force close modal</button>
+      <button onClick={checkIfModalOpen}>check modal</button>
+    </>
   )
 }
 

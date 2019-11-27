@@ -4,18 +4,23 @@ import ReactDOM from "react-dom"
 import { IntlProvider } from "react-intl"
 import { Provider } from "react-redux"
 import { Store } from "redux"
-import { ModalWrapper } from "Renderer/components/modal/modal.component"
+import {
+  ModalBackdrop,
+  ModalWrapper,
+} from "Renderer/components/modal/modal.component"
 import localeEn from "Renderer/locales/main/en-US.json"
 import RootState from "Renderer/reducers/state"
 import history from "Renderer/routes/history"
 
-type ModalType = ReactElement
-
 class ModalService {
   private store?: Store<RootState | undefined>
   private defaultLocale?: string
-  private domEl: HTMLDivElement | null = null
+  private modalElement: HTMLDivElement | null = null
+  private backdropElement: HTMLDivElement | null = null
   private modal: boolean = false
+  private backdrop: boolean = false
+  private allowClosing: boolean = true
+  private closeBackdrop: boolean = true
 
   public bindStore(value: Store) {
     this.store = value
@@ -26,38 +31,91 @@ class ModalService {
   }
 
   public isModalOpen() {
-    return this.modal
+    return this.modal && this.backdrop
   }
 
-  public closeCurrentModal() {
-    if (this.isModalOpen()) {
-      this.modal = false
-      this.domEl!.remove()
+  public async closeModal(force: boolean = false) {
+    if (this.allowClosing || force) {
+      const animationEndPromise = (element: HTMLElement) => {
+        return new Promise(resolve => {
+          const child = element.firstChild as HTMLElement
+          child.style.animationName = "fadeOut"
+          child.addEventListener("webkitAnimationEnd", () => {
+            resolve()
+          })
+        })
+      }
+
+      const { modalElement, backdropElement, modal } = this
+
+      if (modalElement && backdropElement && modal) {
+        const modalPromise = animationEndPromise(modalElement)
+        const allPromises = [modalPromise]
+
+        if (this.closeBackdrop) {
+          const backdropPromise = animationEndPromise(backdropElement)
+          allPromises.push(backdropPromise)
+        }
+
+        await Promise.all(allPromises)
+
+        this.unMountModal()
+        if (this.closeBackdrop) {
+          this.unMountBackdrop()
+        }
+      }
+      this.closeBackdrop = true
     }
   }
 
-  public openModal(modal: ModalType) {
-    try {
-      if (this.isModalOpen()) {
+  public async openModal(modal: ReactElement, force: boolean = false) {
+    if (this.isModalOpen()) {
+      if (force) {
+        this.closeBackdrop = false
+        await this.closeModal(true)
+      } else {
         throw new Error(
-          "Another modal is currently opened. Use forceModal method instead."
+          "Another modal is currently opened. Use it with `force` param."
         )
       }
-      this.domEl = document.createElement("div")
-      document.body.appendChild(this.domEl)
-      this.Render(modal)
-      this.modal = true
-    } catch (error) {
-      throw error
+    }
+    this.allowClosingModal(true)
+    this.mountBackdrop()
+    this.renderBackdrop()
+    this.mountModal()
+    this.renderModal(modal)
+  }
+
+  public allowClosingModal(allow: boolean = true) {
+    this.allowClosing = allow
+  }
+
+  private mountModal = () => {
+    this.modalElement = document.createElement("div")
+    document.body.appendChild(this.modalElement)
+  }
+
+  private mountBackdrop = () => {
+    if (!this.backdrop) {
+      this.backdropElement = document.createElement("div")
+      document.body.appendChild(this.backdropElement)
+      this.backdropElement!.addEventListener("click", async () => {
+        await this.closeModal()
+      })
     }
   }
 
-  public forceModal(modal: ModalType) {
-    this.closeCurrentModal()
-    this.openModal(modal)
+  private unMountModal = () => {
+    this.modal = false
+    this.modalElement!.remove()
   }
 
-  private Render = (modal: ModalType) => {
+  private unMountBackdrop = () => {
+    this.backdrop = false
+    this.backdropElement!.remove()
+  }
+
+  private renderModal = (modal: ReactElement) => {
     try {
       if (this.store && this.defaultLocale) {
         ReactDOM.render(
@@ -72,12 +130,18 @@ class ModalService {
               </ConnectedRouter>
             </IntlProvider>
           </Provider>,
-          this.domEl
+          this.modalElement
         )
+        this.modal = true
       }
     } catch (error) {
       throw error
     }
+  }
+
+  private renderBackdrop = () => {
+    ReactDOM.render(<ModalBackdrop />, this.backdropElement)
+    this.backdrop = true
   }
 }
 
