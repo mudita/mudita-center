@@ -12,6 +12,12 @@ export const backgroundColor = (name: keyof Theme["color"]["background"]) => ({
   theme: Theme
 }) => theme.color.background[name]
 
+export const borderColor = (name: keyof Theme["color"]["border"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.color.border[name]
+
 export const opacity = (name: keyof Theme["opacity"]) => ({
   theme,
 }: {
