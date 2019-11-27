@@ -9,8 +9,8 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
 export enum DisplayStyle {
-  Simple,
-  MultiColor,
+  Simple = "SIMPLE",
+  MultiColor = "MULTICOLOR",
 }
 
 interface Props {
@@ -62,11 +62,11 @@ const Progress = styled.div<{ barHeight: DisplayStyle }>`
   width: 90%;
   ${({ barHeight }) => {
     switch (barHeight) {
-      case 0:
+      case "SIMPLE":
         return css`
           height: ${height("simpleBar")}px;
         `
-      case 1:
+      case "MULTICOLOR":
         return css`
           height: ${height("multiColorBar")}px;
         `
@@ -83,9 +83,9 @@ const Bar = styled.div<BarInterface>`
 
   ${({ borderType }) => {
     switch (borderType) {
-      case 0:
+      case "SIMPLE":
         return simpleBorderStyles
-      case 1:
+      case "MULTICOLOR":
         return multiColorBorderStyles
       default:
         return null
