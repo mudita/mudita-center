@@ -52,11 +52,25 @@ const ProgressWrapper = styled.div`
   align-items: center;
 `
 
-const Progress = styled.div`
+const Progress = styled.div<{ barHeight: DisplayStyle }>`
   display: flex;
   background-color: ${backgroundColor("free")};
   width: 90%;
   height: 8px;
+  ${({ barHeight }) => {
+    switch (barHeight) {
+      case 0:
+        return css`
+          height: 3px;
+        `
+      case 1:
+        return css`
+          height: 8px;
+        `
+      default:
+        return null
+    }
+  }}
 `
 
 const Bar = styled.div<BarInterface>`
@@ -111,7 +125,7 @@ const StackedBarChart: FunctionComponent<Props> = ({
   const oneBeforeLast = barData.length - 2
   return (
     <ProgressWrapper>
-      <Progress>
+      <Progress barHeight={displayStyle}>
         {barData.map(({ color, percentage }, index) => {
           if (index === oneBeforeLast) {
             return (
