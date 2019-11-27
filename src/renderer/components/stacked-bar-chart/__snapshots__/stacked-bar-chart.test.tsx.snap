@@ -39,7 +39,6 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  background-color: #E9E9E9;
   width: 90%;
   height: 8px;
 }
@@ -48,80 +47,75 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
   width: 4.166666666666666%;
   height: 100%;
   background-color: red;
+  --radius: 4px;
 }
 
 .c2:first-child {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
 .c2:last-child {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c3 {
   width: 41.66666666666667%;
   height: 100%;
   background-color: orange;
+  --radius: 4px;
 }
 
 .c3:first-child {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
 .c3:last-child {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c4 {
   width: 41.66666666666667%;
   height: 100%;
   background-color: yellow;
+  --radius: 4px;
 }
 
 .c4:first-child {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
 .c4:last-child {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c5 {
   width: 4.166666666666666%;
   height: 100%;
   background-color: green;
+  --radius: 4px;
 }
 
 .c5:first-child {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
 .c5:last-child {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c11 {
   width: 4.166666666666666%;
   height: 100%;
   background-color: pink;
+  --radius: 4px;
 }
 
 .c11:first-child {
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
 .c11:last-child {
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c6 {
@@ -129,6 +123,14 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
   height: 100%;
   background-color: blue;
   position: relative;
+}
+
+.c6:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c6:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c8 {
@@ -224,7 +226,6 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  background-color: #E9E9E9;
   width: 90%;
   height: 3px;
 }
@@ -233,96 +234,90 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
   width: 4.166666666666666%;
   height: 100%;
   background-color: red;
+  --radius: 1.5px;
 }
 
 .c2:first-child {
-  border-top-left-radius: 1.5px;
-  border-bottom-left-radius: 1.5px;
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
 .c2:last-child {
-  border-top-right-radius: 1.5px;
-  border-bottom-right-radius: 1.5px;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c3 {
   width: 41.66666666666667%;
   height: 100%;
   background-color: orange;
+  --radius: 1.5px;
 }
 
 .c3:first-child {
-  border-top-left-radius: 1.5px;
-  border-bottom-left-radius: 1.5px;
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
 .c3:last-child {
-  border-top-right-radius: 1.5px;
-  border-bottom-right-radius: 1.5px;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c4 {
   width: 41.66666666666667%;
   height: 100%;
   background-color: yellow;
+  --radius: 1.5px;
 }
 
 .c4:first-child {
-  border-top-left-radius: 1.5px;
-  border-bottom-left-radius: 1.5px;
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
 .c4:last-child {
-  border-top-right-radius: 1.5px;
-  border-bottom-right-radius: 1.5px;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c5 {
   width: 4.166666666666666%;
   height: 100%;
   background-color: green;
+  --radius: 1.5px;
 }
 
 .c5:first-child {
-  border-top-left-radius: 1.5px;
-  border-bottom-left-radius: 1.5px;
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
 .c5:last-child {
-  border-top-right-radius: 1.5px;
-  border-bottom-right-radius: 1.5px;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c6 {
   width: 4.166666666666666%;
   height: 100%;
   background-color: blue;
+  --radius: 1.5px;
 }
 
 .c6:first-child {
-  border-top-left-radius: 1.5px;
-  border-bottom-left-radius: 1.5px;
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
 .c6:last-child {
-  border-top-right-radius: 1.5px;
-  border-bottom-right-radius: 1.5px;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 .c7 {
   width: 4.166666666666666%;
   height: 100%;
   background-color: pink;
+  --radius: 1.5px;
 }
 
 .c7:first-child {
-  border-top-left-radius: 1.5px;
-  border-bottom-left-radius: 1.5px;
+  border-radius: var(--radius) 0 0 var(--radius);
 }
 
 .c7:last-child {
-  border-top-right-radius: 1.5px;
-  border-bottom-right-radius: 1.5px;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
 
 <div

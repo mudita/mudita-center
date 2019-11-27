@@ -1,16 +1,12 @@
 import * as React from "react"
 import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
-import {
-  backgroundColor,
-  borderRadius,
-  height,
-} from "Renderer/styles/theming/theme-getters"
+import { borderRadius, height } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
 export enum DisplayStyle {
-  Simple = "SIMPLE",
-  MultiColor = "MULTICOLOR",
+  Simple,
+  MultiColor,
 }
 
 interface ChartItem {
@@ -32,30 +28,6 @@ interface BarProps {
   borderType?: DisplayStyle
 }
 
-const simpleBorderStyles = css`
-  &:first-child {
-    border-top-left-radius: ${borderRadius("simpleBar")}px;
-    border-bottom-left-radius: ${borderRadius("simpleBar")}px;
-  }
-
-  &:last-child {
-    border-top-right-radius: ${borderRadius("simpleBar")}px;
-    border-bottom-right-radius: ${borderRadius("simpleBar")}px;
-  }
-`
-
-const multiColorBorderStyles = css`
-  &:first-child {
-    border-top-left-radius: ${borderRadius("multiColorBar")}px;
-    border-bottom-left-radius: ${borderRadius("multiColorBar")}px;
-  }
-
-  &:last-child {
-    border-top-right-radius: ${borderRadius("multiColorBar")}px;
-    border-bottom-right-radius: ${borderRadius("multiColorBar")}px;
-  }
-`
-
 const ProgressWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -63,15 +35,14 @@ const ProgressWrapper = styled.div`
 
 const Progress = styled.div<{ barHeight: DisplayStyle }>`
   display: flex;
-  background-color: ${backgroundColor("free")};
   width: 90%;
   ${({ barHeight }) => {
     switch (barHeight) {
-      case "SIMPLE":
+      case DisplayStyle.Simple:
         return css`
           height: ${height("simpleBar")}px;
         `
-      case "MULTICOLOR":
+      case DisplayStyle.MultiColor:
         return css`
           height: ${height("multiColorBar")}px;
         `
@@ -86,12 +57,23 @@ const Bar = styled.div<BarProps>`
   height: 100%;
   background-color: ${({ color }) => color};
 
+  &:first-child {
+    border-radius: var(--radius) 0 0 var(--radius);
+  }
+  &:last-child {
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+
   ${({ borderType }) => {
     switch (borderType) {
-      case "SIMPLE":
-        return simpleBorderStyles
-      case "MULTICOLOR":
-        return multiColorBorderStyles
+      case DisplayStyle.Simple:
+        return css`
+          --radius: ${borderRadius("simpleBar")}px;
+        `
+      case DisplayStyle.MultiColor:
+        return css`
+          --radius: ${borderRadius("multiColorBar")}px;
+        `
       default:
         return null
     }
