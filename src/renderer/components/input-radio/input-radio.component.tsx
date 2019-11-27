@@ -11,6 +11,7 @@ import styled from "styled-components"
 const Input = styled.input`
   appearance: none;
   display: inline-block;
+  outline: none;
   width: 2em;
   height: 2em;
   padding: 3px;
