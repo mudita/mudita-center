@@ -13,15 +13,20 @@ export enum DisplayStyle {
   MultiColor = "MULTICOLOR",
 }
 
+interface ChartItem {
+  value: number
+  color: string
+}
+
 interface Props {
-  chartData: Array<{ value: number; color: string }>
+  chartData: ChartItem[]
   maxLabel?: string
   displayStyle: DisplayStyle
   occupiedSpaceLabel?: string
   occupiedSpaceInPercent?: string
 }
 
-interface BarInterface {
+interface BarProps {
   color: string
   percentage: number
   borderType?: DisplayStyle
@@ -76,7 +81,7 @@ const Progress = styled.div<{ barHeight: DisplayStyle }>`
   }}
 `
 
-const Bar = styled.div<BarInterface>`
+const Bar = styled.div<BarProps>`
   width: ${({ percentage }) => percentage}%;
   height: 100%;
   background-color: ${({ color }) => color};
@@ -93,7 +98,7 @@ const Bar = styled.div<BarInterface>`
   }}
 `
 
-const BarWithLabel = styled(Bar)<Omit<BarInterface, "borderType">>`
+const BarWithLabel = styled(Bar)<Omit<BarProps, "borderType">>`
   position: relative;
 `
 
