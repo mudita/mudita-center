@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should match snapshot multicolor 1`] = `
+exports[`Snapshot tests should match snapshot multicolor 1`] = `
 .c7 {
   font-size: 1.4rem;
   line-height: 1.05;
@@ -207,7 +207,7 @@ exports[`should match snapshot multicolor 1`] = `
 </div>
 `;
 
-exports[`should match snapshot simple 1`] = `
+exports[`Snapshot tests should match snapshot simple 1`] = `
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
