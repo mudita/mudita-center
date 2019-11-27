@@ -22,7 +22,22 @@ const Bar = styled.div<{ color: string; percentage: number }>`
   background-color: ${({ color }) => color};
 `
 
-const Label = styled(Text)`
+const BarWithLabel = styled(Bar)`
+  position: relative;
+`
+
+const BarLabel = styled(Text)`
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  width: max-content;
+`
+
+const PercentageLabel = styled(Text)`
+  margin-left: 5px;
+`
+
+const MemoryLabel = styled(Text)`
   margin-left: 24px;
 `
 
@@ -30,11 +45,15 @@ interface Props {
   chartData: Array<{ value: number; color: string }>
   maxLabel: string
   barHeight?: number
+  occupiedSpaceLabel?: string
+  occupiedSpaceInPercent?: string
 }
 
 const StackedBarChart: FunctionComponent<Props> = ({
   chartData,
   maxLabel,
+  occupiedSpaceLabel,
+  occupiedSpaceInPercent,
   barHeight = 8,
 }) => {
   const max = chartData.reduce((acc, { value }) => acc + value, 0)
@@ -42,16 +61,35 @@ const StackedBarChart: FunctionComponent<Props> = ({
     ...obj,
     percentage: (obj.value / max) * 100,
   }))
+  const lastBar = barData.length - 1
   return (
     <ProgressWrapper>
       <Progress barHeight={barHeight}>
-        {barData.map(({ color, percentage }, index) => (
-          <Bar color={color} percentage={percentage} key={index} />
-        ))}
+        {barData.map(({ color, percentage }, index) => {
+          if (index === lastBar) {
+            return (
+              <BarWithLabel color={color} percentage={percentage} key={index}>
+                <BarLabel displayStyle={TextDisplayStyle.MediumBoldText}>
+                  {occupiedSpaceLabel}
+                  <PercentageLabel
+                    displayStyle={TextDisplayStyle.MediumFadedLightText}
+                    element="span"
+                  >
+                    {occupiedSpaceInPercent}
+                  </PercentageLabel>
+                </BarLabel>
+              </BarWithLabel>
+            )
+          }
+          return <Bar color={color} percentage={percentage} key={index} />
+        })}
       </Progress>
-      <Label displayStyle={TextDisplayStyle.TertiaryHeading} element={"p"}>
+      <MemoryLabel
+        displayStyle={TextDisplayStyle.TertiaryHeading}
+        element={"p"}
+      >
         {maxLabel}
-      </Label>
+      </MemoryLabel>
     </ProgressWrapper>
   )
 }
