@@ -11,10 +11,10 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
   line-height: 1.05;
   color: #6A6A6A;
   font-weight: 300;
-  -webkit-letter-spacing: 0.4;
-  -moz-letter-spacing: 0.4;
-  -ms-letter-spacing: 0.4;
-  letter-spacing: 0.4;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
 }
 
 .c12 {
