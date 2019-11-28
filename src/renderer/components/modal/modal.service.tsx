@@ -115,26 +115,22 @@ class ModalService {
   }
 
   private renderModal = (modal: ReactElement) => {
-    try {
-      if (this.store && this.defaultLocale) {
-        ReactDOM.render(
-          <Provider store={this.store}>
-            <IntlProvider
-              defaultLocale={this.defaultLocale}
-              locale={this.defaultLocale}
-              messages={localeEn}
-            >
-              <Router history={history}>
-                <ModalWrapper>{modal}</ModalWrapper>
-              </Router>
-            </IntlProvider>
-          </Provider>,
-          this.modalElement
-        )
-        this.modal = true
-      }
-    } catch (error) {
-      throw error
+    if (this.store && this.defaultLocale) {
+      ReactDOM.render(
+        <Provider store={this.store}>
+          <IntlProvider
+            defaultLocale={this.defaultLocale}
+            locale={this.defaultLocale}
+            messages={localeEn}
+          >
+            <Router history={history}>
+              <ModalWrapper>{modal}</ModalWrapper>
+            </Router>
+          </IntlProvider>
+        </Provider>,
+        this.modalElement
+      )
+      this.modal = true
     }
   }
 
