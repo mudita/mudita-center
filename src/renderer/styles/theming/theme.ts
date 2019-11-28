@@ -9,7 +9,6 @@ const theme = {
     background: {
       light: "#ffffff",
       dark: "#000000",
-      free: "#E9E9E9",
     },
     border: {
       default: "#CDCECF",

@@ -26,6 +26,7 @@ interface BarProps {
   color: string
   percentage: number
   borderType?: DisplayStyle
+  barHeight?: DisplayStyle
 }
 
 const ProgressWrapper = styled.div`
@@ -33,28 +34,13 @@ const ProgressWrapper = styled.div`
   align-items: center;
 `
 
-const Progress = styled.div<{ barHeight: DisplayStyle }>`
+const Progress = styled.div`
   display: flex;
   width: 90%;
-  ${({ barHeight }) => {
-    switch (barHeight) {
-      case DisplayStyle.Simple:
-        return css`
-          height: ${height("simpleBar")}px;
-        `
-      case DisplayStyle.MultiColor:
-        return css`
-          height: ${height("multiColorBar")}px;
-        `
-      default:
-        return null
-    }
-  }}
 `
 
 const Bar = styled.div<BarProps>`
   width: ${({ percentage }) => percentage}%;
-  height: 100%;
   background-color: ${({ color }) => color};
 
   &:first-child {
@@ -73,6 +59,21 @@ const Bar = styled.div<BarProps>`
       case DisplayStyle.MultiColor:
         return css`
           --radius: ${borderRadius("multiColorBar")}px;
+        `
+      default:
+        return null
+    }
+  }}
+
+  ${({ barHeight }) => {
+    switch (barHeight) {
+      case DisplayStyle.Simple:
+        return css`
+          height: ${height("simpleBar")}px;
+        `
+      case DisplayStyle.MultiColor:
+        return css`
+          height: ${height("multiColorBar")}px;
         `
       default:
         return null
@@ -107,15 +108,15 @@ const StackedBarChart: FunctionComponent<Props> = ({
   occupiedSpaceInPercent,
   displayStyle,
 }) => {
-  const max = chartData.reduce((acc, { value }) => acc + value, 0)
+  const sum = chartData.reduce((acc, { value }) => acc + value, 0)
   const barData = chartData.map(obj => ({
     ...obj,
-    percentage: (obj.value / max) * 100,
+    percentage: (obj.value / sum) * 100,
   }))
   const oneBeforeLast = barData.length - 2
   return (
     <ProgressWrapper>
-      <Progress barHeight={displayStyle}>
+      <Progress>
         {barData.map(({ color, percentage }, index) => {
           if (
             index === oneBeforeLast &&
@@ -124,6 +125,7 @@ const StackedBarChart: FunctionComponent<Props> = ({
           ) {
             return (
               <BarWithLabel
+                barHeight={displayStyle}
                 data-testid="bar-with-label"
                 color={color}
                 percentage={percentage}
@@ -144,6 +146,7 @@ const StackedBarChart: FunctionComponent<Props> = ({
           return (
             <Bar
               borderType={displayStyle}
+              barHeight={displayStyle}
               color={color}
               percentage={percentage}
               key={index}

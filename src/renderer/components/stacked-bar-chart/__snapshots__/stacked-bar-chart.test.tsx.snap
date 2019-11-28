@@ -40,14 +40,13 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
   display: -ms-flexbox;
   display: flex;
   width: 90%;
-  height: 8px;
 }
 
 .c2 {
   width: 4.166666666666666%;
-  height: 100%;
   background-color: red;
   --radius: 4px;
+  height: 8px;
 }
 
 .c2:first-child {
@@ -60,9 +59,9 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 
 .c3 {
   width: 41.66666666666667%;
-  height: 100%;
   background-color: orange;
   --radius: 4px;
+  height: 8px;
 }
 
 .c3:first-child {
@@ -75,9 +74,9 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 
 .c4 {
   width: 41.66666666666667%;
-  height: 100%;
   background-color: yellow;
   --radius: 4px;
+  height: 8px;
 }
 
 .c4:first-child {
@@ -90,9 +89,9 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 
 .c5 {
   width: 4.166666666666666%;
-  height: 100%;
   background-color: green;
   --radius: 4px;
+  height: 8px;
 }
 
 .c5:first-child {
@@ -105,9 +104,9 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 
 .c11 {
   width: 4.166666666666666%;
-  height: 100%;
   background-color: pink;
   --radius: 4px;
+  height: 8px;
 }
 
 .c11:first-child {
@@ -120,8 +119,8 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 
 .c6 {
   width: 4.166666666666666%;
-  height: 100%;
   background-color: blue;
+  height: 8px;
   position: relative;
 }
 
@@ -227,14 +226,13 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
   display: -ms-flexbox;
   display: flex;
   width: 90%;
-  height: 3px;
 }
 
 .c2 {
   width: 4.166666666666666%;
-  height: 100%;
   background-color: red;
   --radius: 1.5px;
+  height: 3px;
 }
 
 .c2:first-child {
@@ -247,9 +245,9 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 
 .c3 {
   width: 41.66666666666667%;
-  height: 100%;
   background-color: orange;
   --radius: 1.5px;
+  height: 3px;
 }
 
 .c3:first-child {
@@ -262,9 +260,9 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 
 .c4 {
   width: 41.66666666666667%;
-  height: 100%;
   background-color: yellow;
   --radius: 1.5px;
+  height: 3px;
 }
 
 .c4:first-child {
@@ -277,9 +275,9 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 
 .c5 {
   width: 4.166666666666666%;
-  height: 100%;
   background-color: green;
   --radius: 1.5px;
+  height: 3px;
 }
 
 .c5:first-child {
@@ -292,9 +290,9 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 
 .c6 {
   width: 4.166666666666666%;
-  height: 100%;
   background-color: blue;
   --radius: 1.5px;
+  height: 3px;
 }
 
 .c6:first-child {
@@ -307,9 +305,9 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 
 .c7 {
   width: 4.166666666666666%;
-  height: 100%;
   background-color: pink;
   --radius: 1.5px;
+  height: 3px;
 }
 
 .c7:first-child {
