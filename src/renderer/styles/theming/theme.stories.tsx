@@ -8,12 +8,12 @@ const Container = styled.div`
 `
 
 const ColorBox = styled.div<{ color: string }>`
-  width: 50px;
-  height: 50px;
-  border-radius: 3px;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.3rem;
   background: ${({ color }) => color};
   border: 1px solid lightgray;
-  padding: 4px;
+  padding: 0.4rem;
   background-clip: content-box;
 
   &::after {

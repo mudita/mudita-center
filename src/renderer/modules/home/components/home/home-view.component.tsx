@@ -12,13 +12,13 @@ const HomeWrapper = styled.div`
 `
 
 const HomeTitle = styled.div`
-  padding: 10px;
-  margin: 10px 0px;
+  padding: 1rem;
+  margin: 1rem 0;
 `
 
 const HomeContent = styled.div`
-  padding: 10px;
-  margin: 10px 0px;
+  padding: 1rem;
+  margin: 1rem 0;
 `
 
 interface Props {
