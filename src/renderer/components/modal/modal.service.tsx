@@ -98,7 +98,7 @@ class ModalService {
     if (!this.backdrop) {
       this.backdropElement = document.createElement("div")
       document.body.appendChild(this.backdropElement)
-      this.backdropElement!.addEventListener("click", async () => {
+      this.backdropElement.addEventListener("click", async () => {
         await this.closeModal()
       })
     }
