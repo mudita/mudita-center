@@ -102,6 +102,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
       case TextDisplayStyle.MediumLightText:
         return css`
           ${mediumTextSharedStyles};
+          line-height: 1.8rem;
           font-weight: ${fontWeight("light")};
           letter-spacing: ${letterSpacing("small")}rem;
         `
@@ -139,6 +140,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
           display: inline;
           color: ${textColor("inverted")};
           background-color: ${backgroundColor("dark")};
+          letter-spacing: ${letterSpacing("regular")}rem;
         `
       case TextDisplayStyle.SmallFadedText:
         return css`
