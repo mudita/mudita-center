@@ -10,6 +10,10 @@ const theme = {
       light: "#ffffff",
       dark: "#000000",
     },
+    border: {
+      default: "#CDCECF",
+      hover: "#3B3F42",
+    },
   },
   layout: {
     width: "73.75rem",
