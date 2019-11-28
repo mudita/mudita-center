@@ -14,7 +14,7 @@ const Container = styled.div`
 
 storiesOf("Components|Loader ", module)
   .addDecorator(withKnobs)
-  .add("Checked", () => {
+  .add("Loader", () => {
     const size = object("Loader Size Data", {
       height: 40,
       width: 40,

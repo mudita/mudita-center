@@ -113,7 +113,9 @@ const Loader: FunctionComponent<Props> = ({
 }) => {
   const arrayOfDots = Array(numberOfDots)
     .fill(0)
-    .map((_, index) => <LoaderDot color={loaderColor} key={index} />)
+    .map((_, index) => (
+      <LoaderDot data-testid="dot" color={loaderColor} key={index} />
+    ))
   return <LoaderWrapper size={size}>{arrayOfDots}</LoaderWrapper>
 }
 
