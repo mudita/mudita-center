@@ -11,18 +11,19 @@ import styled from "styled-components"
 
 const Input = styled.input`
   appearance: none;
+  outline: none;
   display: inline-block;
-  width: 2em;
-  height: 2em;
+  width: 2rem;
+  height: 2rem;
   background-clip: content-box;
-  border: 1px solid ${borderColor("default")};
-  border-radius: 2px;
+  border: 0.1rem solid ${borderColor("default")};
+  border-radius: 0.2rem;
   background-color: ${backgroundColor("light")};
 
   &:after {
     content: "";
     display: block;
-    height: 2em;
+    height: 2rem;
     width: auto;
     background-image: url(${check});
     background-repeat: no-repeat;
@@ -36,7 +37,8 @@ const Input = styled.input`
   }
 
   &:checked {
-    background-color: ${backgroundColor("dark")};
+    background-color: ${backgroundColor("inputDark")};
+    border-color: ${borderColor("hover")};
   }
 `
 
