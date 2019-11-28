@@ -5,10 +5,10 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
 const HomeWrapper = styled.div`
-  color: ${textColor("primary")}
+  color: ${textColor("primary")};
   width: 80%;
   margin: auto;
-  border: 1px #ccc dotted;
+  border: 0.1rem #ccc dotted;
 `
 
 const HomeTitle = styled.div`

@@ -12,7 +12,7 @@ const ColorBox = styled.div<{ color: string }>`
   height: 5rem;
   border-radius: 0.3rem;
   background: ${({ color }) => color};
-  border: 1px solid lightgray;
+  border: 0.1rem solid lightgray;
   padding: 0.4rem;
   background-clip: content-box;
 
@@ -31,7 +31,7 @@ const ColorBox = styled.div<{ color: string }>`
     opacity: 0;
     transition: opacity 150ms;
     color: #fff;
-    text-shadow: 1px 1px 15px rgba(0, 0, 0, 0.5);
+    text-shadow: 0.1rem 0.1rem 1.5rem rgba(0, 0, 0, 0.5);
     font-size: 3rem;
   }
 
@@ -48,11 +48,11 @@ const Row = styled.div`
   padding: 0.5rem;
   display: flex;
   align-items: center;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 0.1rem solid lightgray;
 `
 
 const Details = styled.div`
-  margin-left: 1rem;
+  margin-left: 0.1rem;
 `
 
 const ColorName = styled.span`

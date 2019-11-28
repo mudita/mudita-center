@@ -16,7 +16,7 @@ const Input = styled.input`
   height: 2em;
   padding: 0.3rem;
   background-clip: content-box;
-  border: 1px solid ${borderColor("default")};
+  border: 0.1rem solid ${borderColor("default")};
   background-color: ${backgroundColor("light")};
   border-radius: 50%;
 
