@@ -38,10 +38,11 @@ const theme = {
     multiColorBar: 4,
   },
   letterSpacing: {
-    negative: -0.6,
-    small: 0.4,
-    medium: 0.75,
-    regular: 1,
+    negative: -0.06,
+    smaller: 0.02,
+    small: 0.04,
+    medium: 0.075,
+    regular: 0.1,
   },
   font: {
     primary:
