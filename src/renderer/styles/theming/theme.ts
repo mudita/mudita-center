@@ -38,6 +38,18 @@ const theme = {
     primary:
       "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
   },
+  grid: {
+    columnWidth: 6.5,
+    gutterWidth: 4,
+  },
+  width: {
+    viewWidth() {
+      return theme.grid.columnWidth * 12 + theme.grid.gutterWidth * 13
+    },
+    menuWidth() {
+      return theme.grid.columnWidth * 3 + theme.grid.gutterWidth * 3
+    },
+  },
 }
 
 export type Theme = typeof theme
