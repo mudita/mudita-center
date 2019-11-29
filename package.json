@@ -1,7 +1,7 @@
 {
   "name": "pure-desktop-app",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.1.1",
+  "description": "Pure Desktop App",
   "main": "./dist/main.js",
   "scripts": {
     "build-main": "cross-env NODE_ENV=production webpack --config webpack.main.prod.config.js",
@@ -110,10 +110,9 @@
     "css-loader": "^3.2.0",
     "devtron": "^1.4.0",
     "electron": "^7.1.1",
-    "electron-builder": "^21.2.0",
+    "electron-builder": "^22.1.0",
     "electron-builder-http": "^19.27.5",
     "electron-devtools-installer": "^2.2.4",
-    "electron-rebuild": "^1.8.6",
     "express": "^4.17.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^4.2.0",
