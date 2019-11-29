@@ -13,8 +13,8 @@ test("loader should have height and width based on size prop", () => {
   const { container } = renderWithThemeAndIntl(<Loader />)
   const loaderWrapperElement = container.firstChild
   const expectedStyles = `
-    height: 40px;
-    width: 40px;
+    height: 4rem;
+    width: 4rem;
   `
   expect(loaderWrapperElement).toHaveStyle(expectedStyles)
 })
