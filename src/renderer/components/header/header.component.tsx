@@ -4,8 +4,8 @@ import styled from "styled-components"
 
 const HeaderWrapper = styled.div`
   flex: 1;
-  border: 1px #ccc dotted;
-  padding: 10px;
+  border: 0.1rem #ccc dotted;
+  padding: 1rem;
   flex-direction: row;
 `
 
