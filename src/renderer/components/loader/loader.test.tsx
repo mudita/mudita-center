@@ -31,27 +31,3 @@ test("loader should render correct amount of dots", () => {
 
   expect(loaderDotsList?.length).toEqual(defaultNumberOfDots)
 })
-
-test("loader should render default amount of dots", () => {
-  const { container } = renderWithThemeAndIntl(
-    <Loader size={size} loaderColor={loaderColor} />
-  )
-  const loaderDotsList = container.firstChild?.childNodes
-  const defaultNumberOfDots = 6
-
-  expect(loaderDotsList?.length).toEqual(defaultNumberOfDots)
-})
-
-test("loader should render custom amount of dots", () => {
-  const customNumberOfDots = 8
-  const { container } = renderWithThemeAndIntl(
-    <Loader
-      size={size}
-      loaderColor={loaderColor}
-      numberOfDots={customNumberOfDots}
-    />
-  )
-  const loaderDotsList = container.firstChild?.childNodes
-
-  expect(loaderDotsList?.length).toEqual(customNumberOfDots)
-})

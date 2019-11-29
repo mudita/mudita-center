@@ -103,15 +103,11 @@ interface Size {
 interface Props {
   size: Size
   loaderColor: string
-  numberOfDots?: number
 }
 
-const Loader: FunctionComponent<Props> = ({
-  size,
-  loaderColor,
-  numberOfDots = 6,
-}) => {
-  const arrayOfDots = Array(numberOfDots)
+const Loader: FunctionComponent<Props> = ({ size, loaderColor }) => {
+  const defaultNumberOfDots = 6
+  const arrayOfDots = Array(defaultNumberOfDots)
     .fill(0)
     .map((_, index) => (
       <LoaderDot data-testid="dot" color={loaderColor} key={index} />
