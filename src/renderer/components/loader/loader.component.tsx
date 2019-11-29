@@ -58,40 +58,40 @@ const LoaderDot = styled.div<{ color: string }>`
     ${dotBeforeAnimation}
   }
   &:nth-child(1) {
-    animation-delay: -1.1s;
+    &,
+    &:before {
+      animation-delay: -1.1s;
+    }
   }
   &:nth-child(2) {
-    animation-delay: -1s;
+    &,
+    &:before {
+      animation-delay: -1s;
+    }
   }
   &:nth-child(3) {
-    animation-delay: -0.9s;
+    &,
+    &:before {
+      animation-delay: -0.9s;
+    }
   }
   &:nth-child(4) {
-    animation-delay: -0.8s;
+    &,
+    &:before {
+      animation-delay: -0.8s;
+    }
   }
   &:nth-child(5) {
-    animation-delay: -0.7s;
+    &,
+    &:before {
+      animation-delay: -0.7s;
+    }
   }
   &:nth-child(6) {
-    animation-delay: -0.6s;
-  }
-  &:nth-child(1):before {
-    animation-delay: -1.1s;
-  }
-  &:nth-child(2):before {
-    animation-delay: -1s;
-  }
-  &:nth-child(3):before {
-    animation-delay: -0.9s;
-  }
-  &:nth-child(4):before {
-    animation-delay: -0.8s;
-  }
-  &:nth-child(5):before {
-    animation-delay: -0.7s;
-  }
-  &:nth-child(6):before {
-    animation-delay: -0.6s;
+    &,
+    &:before {
+      animation-delay: -0.6s;
+    }
   }
 `
 
