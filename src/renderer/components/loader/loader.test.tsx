@@ -9,6 +9,14 @@ const size = {
 }
 const loaderColor = "pink"
 
+test("should match snapshot", () => {
+  const { container } = renderWithThemeAndIntl(
+    <Loader size={size} loaderColor={loaderColor} />
+  )
+  const loaderWrapperElement = container.firstChild
+  expect(loaderWrapperElement).toMatchSnapshot()
+})
+
 test("loader should have height and width based on size prop", () => {
   const { container } = renderWithThemeAndIntl(
     <Loader size={size} loaderColor={loaderColor} />
