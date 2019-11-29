@@ -11,7 +11,7 @@ const NavigationWrapper = styled.div`
 `
 
 const LinkWrapper = styled.div`
-  margin: 0 10px;
+  margin: 0 1rem;
 `
 
 const Navigation = () => {
