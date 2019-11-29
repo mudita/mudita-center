@@ -36,8 +36,8 @@ const dotBeforeAnimation = css`
 `
 
 const LoaderWrapper = styled.div<{ size?: number }>`
-  width: ${({ size }) => size}px;
-  height: ${({ size }) => size}px;
+  width: ${({ size }) => size}rem;
+  height: ${({ size }) => size}rem;
   position: relative;
   ${chaseAnimation};
   color: ${textColor("supplementary")};
@@ -101,7 +101,7 @@ interface Props {
   size?: number
 }
 
-const Loader: FunctionComponent<Props> = ({ size = 40, className }) => {
+const Loader: FunctionComponent<Props> = ({ size = 4, className }) => {
   const defaultNumberOfDots = 6
   const arrayOfDots = Array(defaultNumberOfDots)
     .fill(0)
