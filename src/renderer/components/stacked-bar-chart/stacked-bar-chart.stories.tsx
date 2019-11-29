@@ -7,7 +7,7 @@ import StackedBarChart, {
 import styled from "styled-components"
 
 const Container = styled.div`
-  padding: 100px;
+  padding: 10rem;
 `
 
 storiesOf("Components|StackedBarChart", module)

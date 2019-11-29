@@ -30,12 +30,12 @@ const theme = {
     bold: 700,
   },
   height: {
-    small: 3,
-    medium: 8,
+    small: 0.3,
+    medium: 0.8,
   },
   borderRadius: {
-    small: 1.5,
-    medium: 4,
+    small: 0.15,
+    medium: 0.4,
   },
   letterSpacing: {
     negative: -0.06,

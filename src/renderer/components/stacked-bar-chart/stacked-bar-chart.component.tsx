@@ -54,11 +54,11 @@ const Bar = styled.div<BarProps>`
     switch (borderType) {
       case DisplayStyle.Simple:
         return css`
-          --radius: ${borderRadius("small")}px;
+          --radius: ${borderRadius("small")}rem;
         `
       case DisplayStyle.MultiColor:
         return css`
-          --radius: ${borderRadius("medium")}px;
+          --radius: ${borderRadius("medium")}rem;
         `
       default:
         return null
@@ -69,11 +69,11 @@ const Bar = styled.div<BarProps>`
     switch (barHeight) {
       case DisplayStyle.Simple:
         return css`
-          height: ${height("small")}px;
+          height: ${height("small")}rem;
         `
       case DisplayStyle.MultiColor:
         return css`
-          height: ${height("medium")}px;
+          height: ${height("medium")}rem;
         `
       default:
         return null
@@ -94,11 +94,11 @@ const BarLabel = styled(Text)`
 `
 
 const PercentageLabel = styled(Text)`
-  margin-left: 5px;
+  margin-left: 0.5rem;
 `
 
 const MemoryLabel = styled(Text)`
-  margin-left: 24px;
+  margin-left: 2.4rem;
 `
 
 const StackedBarChart: FunctionComponent<Props> = ({
