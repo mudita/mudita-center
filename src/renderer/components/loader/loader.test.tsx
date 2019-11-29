@@ -3,24 +3,14 @@ import React from "react"
 import Loader from "Renderer/components/loader/loader.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
-const size = {
-  height: 40,
-  width: 40,
-}
-const loaderColor = "pink"
-
 test("should match snapshot", () => {
-  const { container } = renderWithThemeAndIntl(
-    <Loader size={size} loaderColor={loaderColor} />
-  )
+  const { container } = renderWithThemeAndIntl(<Loader />)
   const loaderWrapperElement = container.firstChild
   expect(loaderWrapperElement).toMatchSnapshot()
 })
 
 test("loader should have height and width based on size prop", () => {
-  const { container } = renderWithThemeAndIntl(
-    <Loader size={size} loaderColor={loaderColor} />
-  )
+  const { container } = renderWithThemeAndIntl(<Loader />)
   const loaderWrapperElement = container.firstChild
   const expectedStyles = `
     height: 40px;
@@ -30,9 +20,7 @@ test("loader should have height and width based on size prop", () => {
 })
 
 test("loader should render correct amount of dots", () => {
-  const { container } = renderWithThemeAndIntl(
-    <Loader size={size} loaderColor={loaderColor} />
-  )
+  const { container } = renderWithThemeAndIntl(<Loader />)
 
   const loaderDotsList = container.firstChild?.childNodes
   const defaultNumberOfDots = 6

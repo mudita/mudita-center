@@ -1,4 +1,3 @@
-import { object, text, withKnobs } from "@storybook/addon-knobs"
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import Loader from "Renderer/components/loader/loader.component"
@@ -17,15 +16,17 @@ const HotLoader = styled(Loader)`
 `
 
 storiesOf("Components|Loader ", module)
-  .addDecorator(withKnobs)
-  .add("Loader", () => {
-    const size = object("Loader Size Data", {
-      height: 40,
-      width: 40,
-    })
+  .add("Default", () => {
     return (
       <Container>
-        <HotLoader size={size} />
+        <Loader />
+      </Container>
+    )
+  })
+  .add("Custom", () => {
+    return (
+      <Container>
+        <HotLoader />
       </Container>
     )
   })

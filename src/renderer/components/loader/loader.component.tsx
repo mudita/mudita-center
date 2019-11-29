@@ -35,9 +35,9 @@ const dotBeforeAnimation = css`
   animation: dot-before 2s infinite ease-in-out both;
 `
 
-const LoaderWrapper = styled.div<{ size: Size }>`
-  width: ${({ size }) => size.width}px;
-  height: ${({ size }) => size.height}px;
+const LoaderWrapper = styled.div<{ size?: number }>`
+  width: ${({ size }) => size}px;
+  height: ${({ size }) => size}px;
   position: relative;
   ${chaseAnimation};
   color: ${textColor("supplementary")};
@@ -97,16 +97,11 @@ const LoaderDot = styled.div`
   }
 `
 
-interface Size {
-  height: number
-  width: number
-}
-
 interface Props {
-  size: Size
+  size?: number
 }
 
-const Loader: FunctionComponent<Props> = ({ size, className }) => {
+const Loader: FunctionComponent<Props> = ({ size = 40, className }) => {
   const defaultNumberOfDots = 6
   const arrayOfDots = Array(defaultNumberOfDots)
     .fill(0)
