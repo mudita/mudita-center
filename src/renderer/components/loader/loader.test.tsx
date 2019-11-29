@@ -55,12 +55,3 @@ test("loader should render custom amount of dots", () => {
 
   expect(loaderDotsList?.length).toEqual(customNumberOfDots)
 })
-
-// test("loader should render current color passed into dots", () => {
-//   const { getAllByTestId } = renderWithThemeAndIntl(
-//     <Loader size={size} loaderColor={loaderColor} />
-//   )
-//   const dotId = "dot"
-//   const singleDot = getAllByTestId(dotId)[0]
-//   console.log(getComputedStyle(singleDot, ":before"))
-// })
