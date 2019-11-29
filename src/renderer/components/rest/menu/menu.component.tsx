@@ -20,7 +20,7 @@ const Menu = () => {
   const links = MENU_ELEMENTS.map(({ label, url }) => (
     <LinkWrapper key={url}>
       <Link to={url}>
-        <Text stringId={label} />
+        <Text message={label} />
       </Link>
     </LinkWrapper>
   ))

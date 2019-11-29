@@ -13,10 +13,10 @@ const messages = defineMessages({
 })
 
 test("should render default case", () => {
-  const stringId = messages.exampleMessage
+  const message = messages.exampleMessage
   const defaultTag = "div"
   const { getByText } = renderWithThemeAndIntl(
-    <Text displayStyle={TextDisplayStyle.Default} stringId={stringId} />
+    <Text displayStyle={TextDisplayStyle.Default} message={message} />
   )
   expect(getByText(localeEn[exampleMessageId]).tagName.toLowerCase()).toBe(
     defaultTag
@@ -39,10 +39,10 @@ test("should render with children and as prop", () => {
 })
 
 test("should render with mapped element tagname", () => {
-  const stringId = messages.exampleMessage
+  const message = messages.exampleMessage
   const expectedPrimaryHeadingTag = "h1"
   const { getByText } = renderWithThemeAndIntl(
-    <Text displayStyle={TextDisplayStyle.PrimaryHeading} stringId={stringId} />
+    <Text displayStyle={TextDisplayStyle.PrimaryHeading} message={message} />
   )
   expect(getByText(localeEn[exampleMessageId]).tagName.toLowerCase()).toBe(
     expectedPrimaryHeadingTag
