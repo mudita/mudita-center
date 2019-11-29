@@ -5,6 +5,8 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 
 import Menu from "Renderer/components/rest/menu/menu.component"
 
+import { borderColor } from "Renderer/styles/theming/theme-getters"
+
 const Layout = styled.div`
   display: flex;
   flex: 1;
@@ -12,7 +14,7 @@ const Layout = styled.div`
 `
 
 const MenuWrapper = styled.div`
-  border-right: 1px solid black;
+  border-right: 1px solid ${borderColor("dark")};
 `
 
 const ViewWrapper = styled.div`
@@ -20,7 +22,7 @@ const ViewWrapper = styled.div`
 `
 
 const Header = styled.div`
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${borderColor("dark")};
 `
 
 const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {

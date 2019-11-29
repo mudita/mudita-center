@@ -10,6 +10,9 @@ const theme = {
       light: "#ffffff",
       dark: "#000000",
     },
+    borderColor: {
+      dark: "#000000",
+    },
   },
   layout: {
     width: "73.75rem",
