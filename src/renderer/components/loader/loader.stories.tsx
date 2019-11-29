@@ -12,6 +12,10 @@ const Container = styled.div`
   width: 100%;
 `
 
+const HotLoader = styled(Loader)`
+  color: hotpink;
+`
+
 storiesOf("Components|Loader ", module)
   .addDecorator(withKnobs)
   .add("Loader", () => {
@@ -19,10 +23,9 @@ storiesOf("Components|Loader ", module)
       height: 40,
       width: 40,
     })
-    const loaderColor = text("Loader color", "pink")
     return (
       <Container>
-        <Loader size={size} loaderColor={loaderColor} />
+        <HotLoader size={size} />
       </Container>
     )
   })

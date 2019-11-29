@@ -1,4 +1,5 @@
 import * as React from "react"
+import { textColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
@@ -38,10 +39,11 @@ const LoaderWrapper = styled.div<{ size: Size }>`
   width: ${({ size }) => size.width}px;
   height: ${({ size }) => size.height}px;
   position: relative;
-  ${chaseAnimation}
+  ${chaseAnimation};
+  color: ${textColor("supplementary")};
 `
 
-const LoaderDot = styled.div<{ color: string }>`
+const LoaderDot = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
@@ -53,7 +55,7 @@ const LoaderDot = styled.div<{ color: string }>`
     display: block;
     width: 25%;
     height: 25%;
-    background-color: ${({ color }) => color};
+    background-color: currentColor;
     border-radius: 100%;
     ${dotBeforeAnimation}
   }
@@ -102,17 +104,18 @@ interface Size {
 
 interface Props {
   size: Size
-  loaderColor: string
 }
 
-const Loader: FunctionComponent<Props> = ({ size, loaderColor }) => {
+const Loader: FunctionComponent<Props> = ({ size, className }) => {
   const defaultNumberOfDots = 6
   const arrayOfDots = Array(defaultNumberOfDots)
     .fill(0)
-    .map((_, index) => (
-      <LoaderDot data-testid="dot" color={loaderColor} key={index} />
-    ))
-  return <LoaderWrapper size={size}>{arrayOfDots}</LoaderWrapper>
+    .map((_, index) => <LoaderDot data-testid="dot" key={index} />)
+  return (
+    <LoaderWrapper size={size} className={className}>
+      {arrayOfDots}
+    </LoaderWrapper>
+  )
 }
 
 export default Loader

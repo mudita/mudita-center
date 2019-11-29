@@ -2,36 +2,30 @@
 
 exports[`should match snapshot 1`] = `
 <div
-  class="sc-bdVaJa iBYErt"
+  class="sc-bdVaJa dRnEjx"
 >
   <div
-    class="sc-bwzfXH iVpYRg"
-    color="pink"
+    class="sc-bwzfXH csGQyV"
     data-testid="dot"
   />
   <div
-    class="sc-bwzfXH iVpYRg"
-    color="pink"
+    class="sc-bwzfXH csGQyV"
     data-testid="dot"
   />
   <div
-    class="sc-bwzfXH iVpYRg"
-    color="pink"
+    class="sc-bwzfXH csGQyV"
     data-testid="dot"
   />
   <div
-    class="sc-bwzfXH iVpYRg"
-    color="pink"
+    class="sc-bwzfXH csGQyV"
     data-testid="dot"
   />
   <div
-    class="sc-bwzfXH iVpYRg"
-    color="pink"
+    class="sc-bwzfXH csGQyV"
     data-testid="dot"
   />
   <div
-    class="sc-bwzfXH iVpYRg"
-    color="pink"
+    class="sc-bwzfXH csGQyV"
     data-testid="dot"
   />
 </div>
