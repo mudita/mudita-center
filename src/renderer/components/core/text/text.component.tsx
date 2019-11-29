@@ -162,7 +162,6 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
 `
 
 interface Props {
-  readonly children?: any
   readonly message?: MessageInterface
   readonly as?: Element
   readonly displayStyle?: TextDisplayStyle
