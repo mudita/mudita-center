@@ -15,21 +15,8 @@ module.exports = ({ config }) => {
   // Prefer Gatsby ES6 entrypoint (module) over commonjs (main) entrypoint
   config.resolve.mainFields = ["browser", "module", "main"]
 
-  config.module.rules.push({
-    test: /\.svg$/,
-    use: [
-      "babel-loader",
-      {
-        loader: "react-svg-loader",
-        options: {
-          svgo: {
-            plugins: [{ removeTitle: false }],
-            floatPrecision: 2,
-          },
-        },
-      },
-    ],
-  })
+  // Allow SVGs.
+  handleSVGs(config)
 
   // TypeScript config
   config.module.rules.push({
@@ -52,12 +39,12 @@ function handleSVGs(config) {
     if (
       String(rule.test) ===
       String(
-        /\.(svg|ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani)(\?.*)?$/
+        /\.(svg|ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/
       )
     ) {
       return {
         ...rule,
-        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani)(\?.*)?$/,
+        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/,
       }
     }
 
