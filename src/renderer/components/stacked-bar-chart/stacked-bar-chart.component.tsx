@@ -54,11 +54,11 @@ const Bar = styled.div<BarProps>`
     switch (borderType) {
       case DisplayStyle.Simple:
         return css`
-          --radius: ${borderRadius("simpleBar")}px;
+          --radius: ${borderRadius("small")}px;
         `
       case DisplayStyle.MultiColor:
         return css`
-          --radius: ${borderRadius("multiColorBar")}px;
+          --radius: ${borderRadius("medium")}px;
         `
       default:
         return null
@@ -69,11 +69,11 @@ const Bar = styled.div<BarProps>`
     switch (barHeight) {
       case DisplayStyle.Simple:
         return css`
-          height: ${height("simpleBar")}px;
+          height: ${height("small")}px;
         `
       case DisplayStyle.MultiColor:
         return css`
-          height: ${height("multiColorBar")}px;
+          height: ${height("medium")}px;
         `
       default:
         return null
