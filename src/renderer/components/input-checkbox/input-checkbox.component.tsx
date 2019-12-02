@@ -1,11 +1,11 @@
 import * as React from "react"
-import check from "Renderer/assets/icons/check-icon.svg"
 import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import {
   backgroundColor,
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
+import check from "Renderer/svg/check-icon.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
