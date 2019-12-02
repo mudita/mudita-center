@@ -7,8 +7,8 @@ const InputRadioGroup: FunctionComponent<{
   data: InputProps[]
   radioGroupName: string
 }> = ({ data, radioGroupName }) => {
-  const inputs = data.map((el, index) => (
-    <InputRadio {...el} name={radioGroupName} key={index} />
+  const inputs = data.map((inputProps, index) => (
+    <InputRadio {...inputProps} name={radioGroupName} key={index} />
   ))
   return <div>{inputs}</div>
 }
