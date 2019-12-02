@@ -1,5 +1,4 @@
 import * as React from "react"
-import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import {
   backgroundColor,
@@ -31,16 +30,8 @@ const Input = styled.input`
   }
 `
 
-const InputRadio: FunctionComponent<InputProps> = ({
-  labelDisplayStyle = TextDisplayStyle.Default,
-  className,
-  ...props
-}) => {
-  return (
-    <Text displayStyle={labelDisplayStyle} className={className}>
-      <Input {...props} type="radio" />
-    </Text>
-  )
+const InputRadio: FunctionComponent<InputProps> = ({ className, ...props }) => {
+  return <Input {...props} type="radio" />
 }
 
 export default InputRadio
