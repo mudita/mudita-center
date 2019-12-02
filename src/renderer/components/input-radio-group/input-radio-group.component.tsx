@@ -10,7 +10,7 @@ const InputGroup = styled.div`
 
 const Input = styled(InputRadio)`
   &:not(:last-child) {
-    margin-right: 15px;
+    margin-right: 1.5rem;
   }
 `
 
