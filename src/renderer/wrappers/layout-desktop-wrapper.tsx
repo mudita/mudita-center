@@ -13,12 +13,12 @@ const Layout = styled.div`
   height: 100vh;
   max-width: ${width("viewWidth")};
   margin: 0 auto;
-  border-left: 1px solid ${borderColor("dark")};
-  border-right: 1px solid ${borderColor("dark")};
+  border-left: 0.1rem solid ${borderColor("dark")};
+  border-right: 0.1rem solid ${borderColor("dark")};
 `
 
 const MenuWrapper = styled.div`
-  border-right: 1px solid ${borderColor("dark")};
+  border-right: 0.1rem solid ${borderColor("dark")};
   width: ${width("menuWidth")};
 `
 
@@ -27,7 +27,7 @@ const ViewWrapper = styled.div`
 `
 
 const Header = styled.div`
-  border-bottom: 1px solid ${borderColor("dark")};
+  border-bottom: 0.1rem solid ${borderColor("dark")};
 `
 
 const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
