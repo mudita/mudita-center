@@ -4,19 +4,23 @@ import InputRadioGroup from "Renderer/components/input-radio-group/input-radio-g
 
 const radioGroup = [
   {
-    name: "lala1",
+    value: "lala1",
+    id: "id1",
   },
   {
-    name: "lala2",
+    value: "lala2",
+    id: "id2",
   },
   {
-    name: "lala2",
+    value: "lala2",
+    id: "id3",
   },
   {
-    name: "lala2",
+    value: "lala2",
+    id: "id4",
   },
 ]
 
 storiesOf("Components|InputRadioGroup ", module).add("Checked", () => {
-  return <InputRadioGroup data={radioGroup} />
+  return <InputRadioGroup data={radioGroup} name={"radiogroupname"} />
 })
