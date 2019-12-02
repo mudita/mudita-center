@@ -31,7 +31,7 @@ const Input = styled.input`
 `
 
 const InputRadio: FunctionComponent<InputProps> = ({ className, ...props }) => {
-  return <Input {...props} type="radio" />
+  return <Input {...props} type="radio" className={className} />
 }
 
 export default InputRadio

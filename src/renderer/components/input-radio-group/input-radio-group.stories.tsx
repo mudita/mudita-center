@@ -21,6 +21,6 @@ const radioGroup = [
   },
 ]
 
-storiesOf("Components|InputRadioGroup ", module).add("Checked", () => {
+storiesOf("Components|InputRadioGroup ", module).add("Row", () => {
   return <InputRadioGroup data={radioGroup} radioGroupName={"radiogroupname"} />
 })
