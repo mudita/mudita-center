@@ -18,6 +18,7 @@ const Input = styled.input`
   border: 0.1rem solid ${borderColor("default")};
   background-color: ${backgroundColor("light")};
   border-radius: 50%;
+  margin-right: 1.2rem;
 
   &:hover {
     border-color: ${borderColor("hover")};
@@ -30,8 +31,27 @@ const Input = styled.input`
   }
 `
 
-const InputRadio: FunctionComponent<InputProps> = ({ className, ...props }) => {
-  return <Input {...props} type="radio" className={className} />
+const Label = styled.label`
+  display: flex;
+  align-items: center;
+`
+
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const InputRadio: FunctionComponent<InputProps> = ({
+  className,
+  children,
+  ...props
+}) => {
+  return (
+    <Label className={className}>
+      <Input {...props} type="radio" className={className} />
+      <TextWrapper>{children}</TextWrapper>
+    </Label>
+  )
 }
 
 export default InputRadio

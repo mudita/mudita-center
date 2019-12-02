@@ -3,36 +3,76 @@
 exports[`matches snapshot 1`] = `
 <div>
   <div
-    class="sc-bwzfXH jIEWCi"
+    class="sc-bxivhb cDFCAd"
   >
-    <input
-      class="sc-bdVaJa pEBXu sc-htpNat gjoTIt"
-      id="id1"
-      name="example"
-      type="radio"
-      value="lala1"
-    />
-    <input
-      class="sc-bdVaJa pEBXu sc-htpNat gjoTIt"
-      id="id2"
-      name="example"
-      type="radio"
-      value="lala2"
-    />
-    <input
-      class="sc-bdVaJa pEBXu sc-htpNat gjoTIt"
-      id="id3"
-      name="example"
-      type="radio"
-      value="lala2"
-    />
-    <input
-      class="sc-bdVaJa pEBXu sc-htpNat gjoTIt"
-      id="id4"
-      name="example"
-      type="radio"
-      value="lala2"
-    />
+    <label
+      class="sc-bwzfXH fNOhzS sc-ifAKCX scrlg"
+    >
+      <input
+        class="sc-bdVaJa epLgr sc-ifAKCX scrlg"
+        id="id1"
+        name="example"
+        type="radio"
+        value="lala1"
+      />
+      <div
+        class="sc-htpNat dePyzG"
+      >
+        <span />
+        <span />
+      </div>
+    </label>
+    <label
+      class="sc-bwzfXH fNOhzS sc-ifAKCX scrlg"
+    >
+      <input
+        class="sc-bdVaJa epLgr sc-ifAKCX scrlg"
+        id="id2"
+        name="example"
+        type="radio"
+        value="lala2"
+      />
+      <div
+        class="sc-htpNat dePyzG"
+      >
+        <span />
+        <span />
+      </div>
+    </label>
+    <label
+      class="sc-bwzfXH fNOhzS sc-ifAKCX scrlg"
+    >
+      <input
+        class="sc-bdVaJa epLgr sc-ifAKCX scrlg"
+        id="id3"
+        name="example"
+        type="radio"
+        value="lala2"
+      />
+      <div
+        class="sc-htpNat dePyzG"
+      >
+        <span />
+        <span />
+      </div>
+    </label>
+    <label
+      class="sc-bwzfXH fNOhzS sc-ifAKCX scrlg"
+    >
+      <input
+        class="sc-bdVaJa epLgr sc-ifAKCX scrlg"
+        id="id4"
+        name="example"
+        type="radio"
+        value="lala2"
+      />
+      <div
+        class="sc-htpNat dePyzG"
+      >
+        <span />
+        <span />
+      </div>
+    </label>
   </div>
 </div>
 `;

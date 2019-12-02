@@ -10,7 +10,7 @@ const InputGroup = styled.div`
 
 const Input = styled(InputRadio)`
   &:not(:last-child) {
-    margin: 0 1.5rem 1.5rem 0;
+    margin-right: 1.5rem;
   }
 `
 
@@ -19,7 +19,10 @@ const InputRadioGroup: FunctionComponent<{
   radioGroupName: string
 }> = ({ data, radioGroupName, className }) => {
   const inputs = data.map((inputProps, index) => (
-    <Input {...inputProps} name={radioGroupName} key={index} />
+    <Input {...inputProps} name={radioGroupName} key={index}>
+      <span>{inputProps.label}</span>
+      <span>{inputProps.subLabel}</span>
+    </Input>
   ))
   return <InputGroup className={className}>{inputs}</InputGroup>
 }
