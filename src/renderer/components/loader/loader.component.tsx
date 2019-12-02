@@ -102,8 +102,7 @@ interface Props {
 }
 
 const Loader: FunctionComponent<Props> = ({ size = 4, className }) => {
-  const defaultNumberOfDots = 6
-  const arrayOfDots = Array(defaultNumberOfDots)
+  const arrayOfDots = Array(6)
     .fill(0)
     .map((_, index) => <LoaderDot data-testid="dot" key={index} />)
   return (
