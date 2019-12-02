@@ -1,6 +1,6 @@
 import * as React from "react"
 import { FormattedMessage } from "react-intl"
-import { Message as MessageInterface } from "Renderer/interfaces/messageInterface"
+import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import {
   backgroundColor,
   fontWeight,
