@@ -6,28 +6,28 @@ exports[`matches snapshot 1`] = `
     class="sc-bwzfXH jIEWCi"
   >
     <input
-      class="sc-bdVaJa pEBXu sc-htpNat lbZGwU"
+      class="sc-bdVaJa pEBXu sc-htpNat gjoTIt"
       id="id1"
       name="example"
       type="radio"
       value="lala1"
     />
     <input
-      class="sc-bdVaJa pEBXu sc-htpNat lbZGwU"
+      class="sc-bdVaJa pEBXu sc-htpNat gjoTIt"
       id="id2"
       name="example"
       type="radio"
       value="lala2"
     />
     <input
-      class="sc-bdVaJa pEBXu sc-htpNat lbZGwU"
+      class="sc-bdVaJa pEBXu sc-htpNat gjoTIt"
       id="id3"
       name="example"
       type="radio"
       value="lala2"
     />
     <input
-      class="sc-bdVaJa pEBXu sc-htpNat lbZGwU"
+      class="sc-bdVaJa pEBXu sc-htpNat gjoTIt"
       id="id4"
       name="example"
       type="radio"
