@@ -68,7 +68,7 @@ describe("Correct rendering of chart elements and label", () => {
     )
     expect(getByText(occupiedSpaceLabel)).toBeInTheDocument()
     expect(getByText(occupiedSpaceLabel)).toHaveTextContent(
-      occupiedSpaceLabel + occupiedSpaceInPercent
+      `${occupiedSpaceLabel}( ${occupiedSpaceInPercent})`
     )
   })
 

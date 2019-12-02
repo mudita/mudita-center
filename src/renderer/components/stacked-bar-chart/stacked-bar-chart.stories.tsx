@@ -29,7 +29,7 @@ storiesOf("Components|StackedBarChart", module)
           maxLabel={maxLabel}
           displayStyle={DisplayStyle.MultiColor}
           occupiedSpaceLabel="12.2 GB"
-          occupiedSpaceInPercent="( 77%)"
+          occupiedSpaceInPercent="77%"
         />
       </Container>
     )

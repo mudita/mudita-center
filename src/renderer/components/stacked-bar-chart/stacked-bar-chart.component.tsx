@@ -137,7 +137,7 @@ const StackedBarChart: FunctionComponent<Props> = ({
                     displayStyle={TextDisplayStyle.MediumFadedLightText}
                     element="span"
                   >
-                    {occupiedSpaceInPercent}
+                    ( {occupiedSpaceInPercent})
                   </PercentageLabel>
                 </BarLabel>
               </BarWithLabel>

@@ -190,7 +190,9 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
         <span
           class="c9 c10"
         >
+          ( 
           ( 77%)
+          )
         </span>
       </p>
     </div>
