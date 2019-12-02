@@ -10,22 +10,22 @@ import {
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
-const tertiaryHeadingSharedStyles = css`
+export const tertiaryHeadingSharedStyles = css`
   font-size: 1.8rem;
   line-height: 1.1;
 `
 
-const largeTextSharedStyles = css`
+export const largeTextSharedStyles = css`
   font-size: 1.6rem;
   line-height: 1.05;
 `
 
-const mediumTextSharedStyles = css`
+export const mediumTextSharedStyles = css`
   font-size: 1.4rem;
   line-height: 1.05;
 `
 
-const smallTextSharedStyles = css`
+export const smallTextSharedStyles = css`
   font-size: 1.2rem;
   line-height: 1.15;
 `
@@ -34,133 +34,138 @@ const uppercaseStyles = css`
   text-transform: uppercase;
 `
 
+export const getTextStyles = (displayStyle: TextDisplayStyle) => {
+  switch (displayStyle) {
+    case TextDisplayStyle.PrimaryHeading:
+      return css`
+        font-size: 5.6rem;
+        line-height: 1.1;
+        font-weight: ${fontWeight("light")};
+      `
+    case TextDisplayStyle.SecondaryBoldHeading:
+      return css`
+        font-size: 2.4rem;
+        line-height: 0.8;
+        font-weight: ${fontWeight("bold")};
+        letter-spacing: ${letterSpacing("negative")}rem;
+      `
+    case TextDisplayStyle.TertiaryBoldHeading:
+      return css`
+        ${tertiaryHeadingSharedStyles};
+        font-weight: ${fontWeight("bold")};
+      `
+    case TextDisplayStyle.TertiaryHeading:
+      return css`
+        ${tertiaryHeadingSharedStyles};
+        font-weight: ${fontWeight("default")};
+      `
+    case TextDisplayStyle.LargeBoldText:
+      return css`
+        ${largeTextSharedStyles};
+        font-weight: ${fontWeight("bold")};
+        letter-spacing: ${letterSpacing("smaller")}rem;
+      `
+    case TextDisplayStyle.LargeText:
+      return largeTextSharedStyles
+    case TextDisplayStyle.LargeFadedText:
+      return css`
+        ${largeTextSharedStyles};
+        color: ${textColor("faded")};
+      `
+    case TextDisplayStyle.LargeTextCapitalLetters:
+      return css`
+        ${largeTextSharedStyles};
+        ${uppercaseStyles};
+      `
+    case TextDisplayStyle.LargeFadedTextCapitalLetters:
+      return css`
+        ${largeTextSharedStyles};
+        ${uppercaseStyles};
+        color: ${textColor("faded")};
+        letter-spacing: ${letterSpacing("regular")}rem;
+      `
+    case TextDisplayStyle.LargeFadedDimTextCapitalLetters:
+      return css`
+        ${largeTextSharedStyles};
+        ${uppercaseStyles};
+        font-weight: ${fontWeight("bold")};
+        color: ${textColor("faded")};
+        opacity: ${opacity("regular")};
+        letter-spacing: ${letterSpacing("regular")}rem;
+      `
+    case TextDisplayStyle.MediumBoldText:
+      return css`
+        ${mediumTextSharedStyles};
+        font-weight: ${fontWeight("bold")};
+      `
+    case TextDisplayStyle.MediumLightText:
+      return css`
+        ${mediumTextSharedStyles};
+        line-height: 1.8rem;
+        font-weight: ${fontWeight("light")};
+        letter-spacing: ${letterSpacing("small")}rem;
+      `
+    case TextDisplayStyle.MediumFadedLightText:
+      return css`
+        ${mediumTextSharedStyles};
+        color: ${textColor("faded")};
+        font-weight: ${fontWeight("light")};
+        letter-spacing: ${letterSpacing("small")}rem;
+      `
+    case TextDisplayStyle.MediumText:
+      return css`
+        ${mediumTextSharedStyles};
+        font-weight: ${fontWeight("default")};
+      `
+    case TextDisplayStyle.MediumFadedText:
+      return css`
+        ${mediumTextSharedStyles};
+        color: ${textColor("faded")};
+      `
+    case TextDisplayStyle.SmallText:
+      return css`
+        ${smallTextSharedStyles};
+        ${uppercaseStyles};
+        letter-spacing: ${letterSpacing("regular")}rem;
+      `
+    case TextDisplayStyle.SmallSupplementaryText:
+      return css`
+        ${smallTextSharedStyles};
+        ${uppercaseStyles};
+        color: ${textColor("supplementary")};
+        letter-spacing: ${letterSpacing("regular")}rem;
+      `
+    case TextDisplayStyle.SmallTextInverted:
+      return css`
+        ${smallTextSharedStyles};
+        ${uppercaseStyles};
+        display: inline;
+        color: ${textColor("inverted")};
+        background-color: ${backgroundColor("dark")};
+        letter-spacing: ${letterSpacing("regular")}rem;
+      `
+    case TextDisplayStyle.SmallFadedText:
+      return css`
+        ${smallTextSharedStyles};
+        color: ${textColor("faded")};
+        letter-spacing: ${letterSpacing("small")}rem;
+      `
+    case TextDisplayStyle.SmallFadedDimText:
+      return css`
+        ${smallTextSharedStyles};
+        ${uppercaseStyles};
+        font-weight: ${fontWeight("bold")};
+        color: ${textColor("faded")};
+        opacity: ${opacity("regular")};
+        letter-spacing: ${letterSpacing("medium")}rem;
+      `
+    default:
+      return null
+  }
+}
+
 const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
-  ${({ displayStyle }) => {
-    switch (displayStyle) {
-      case TextDisplayStyle.PrimaryHeading:
-        return css`
-          font-size: 5.6rem;
-          line-height: 1.1;
-          font-weight: ${fontWeight("light")};
-        `
-      case TextDisplayStyle.SecondaryBoldHeading:
-        return css`
-          font-size: 2.4rem;
-          line-height: 0.8;
-          font-weight: ${fontWeight("bold")};
-          letter-spacing: ${letterSpacing("negative")}rem;
-        `
-      case TextDisplayStyle.TertiaryBoldHeading:
-        return css`
-          ${tertiaryHeadingSharedStyles};
-          font-weight: ${fontWeight("bold")};
-        `
-      case TextDisplayStyle.TertiaryHeading:
-        return css`
-          ${tertiaryHeadingSharedStyles};
-          font-weight: ${fontWeight("default")};
-        `
-      case TextDisplayStyle.LargeBoldText:
-        return css`
-          ${largeTextSharedStyles};
-          font-weight: ${fontWeight("bold")};
-          letter-spacing: ${letterSpacing("smaller")}rem;
-        `
-      case TextDisplayStyle.LargeText:
-        return largeTextSharedStyles
-      case TextDisplayStyle.LargeFadedText:
-        return css`
-          ${largeTextSharedStyles};
-          color: ${textColor("faded")};
-        `
-      case TextDisplayStyle.LargeTextCapitalLetters:
-        return css`
-          ${largeTextSharedStyles};
-          ${uppercaseStyles};
-        `
-      case TextDisplayStyle.LargeFadedTextCapitalLetters:
-        return css`
-          ${largeTextSharedStyles};
-          ${uppercaseStyles};
-          color: ${textColor("faded")};
-          letter-spacing: ${letterSpacing("regular")}rem;
-        `
-      case TextDisplayStyle.LargeFadedDimTextCapitalLetters:
-        return css`
-          ${largeTextSharedStyles};
-          ${uppercaseStyles};
-          font-weight: ${fontWeight("bold")};
-          color: ${textColor("faded")};
-          opacity: ${opacity("regular")};
-          letter-spacing: ${letterSpacing("regular")}rem;
-        `
-      case TextDisplayStyle.MediumBoldText:
-        return css`
-          ${mediumTextSharedStyles};
-          font-weight: ${fontWeight("bold")};
-        `
-      case TextDisplayStyle.MediumLightText:
-        return css`
-          ${mediumTextSharedStyles};
-          line-height: 1.8rem;
-          font-weight: ${fontWeight("light")};
-          letter-spacing: ${letterSpacing("small")}rem;
-        `
-      case TextDisplayStyle.MediumFadedLightText:
-        return css`
-          ${mediumTextSharedStyles};
-          color: ${textColor("faded")};
-          font-weight: ${fontWeight("light")};
-          letter-spacing: ${letterSpacing("small")}rem;
-        `
-      case TextDisplayStyle.MediumText:
-        return mediumTextSharedStyles
-      case TextDisplayStyle.MediumFadedText:
-        return css`
-          ${mediumTextSharedStyles};
-          color: ${textColor("faded")};
-        `
-      case TextDisplayStyle.SmallText:
-        return css`
-          ${smallTextSharedStyles};
-          ${uppercaseStyles};
-          letter-spacing: ${letterSpacing("regular")}rem;
-        `
-      case TextDisplayStyle.SmallSupplementaryText:
-        return css`
-          ${smallTextSharedStyles};
-          ${uppercaseStyles};
-          color: ${textColor("supplementary")};
-          letter-spacing: ${letterSpacing("regular")}rem;
-        `
-      case TextDisplayStyle.SmallTextInverted:
-        return css`
-          ${smallTextSharedStyles};
-          ${uppercaseStyles};
-          display: inline;
-          color: ${textColor("inverted")};
-          background-color: ${backgroundColor("dark")};
-          letter-spacing: ${letterSpacing("regular")}rem;
-        `
-      case TextDisplayStyle.SmallFadedText:
-        return css`
-          ${smallTextSharedStyles};
-          color: ${textColor("faded")};
-          letter-spacing: ${letterSpacing("small")}rem;
-        `
-      case TextDisplayStyle.SmallFadedDimText:
-        return css`
-          ${smallTextSharedStyles};
-          ${uppercaseStyles};
-          font-weight: ${fontWeight("bold")};
-          color: ${textColor("faded")};
-          opacity: ${opacity("regular")};
-          letter-spacing: ${letterSpacing("medium")}rem;
-        `
-      default:
-        return null
-    }
-  }}
+  ${({ displayStyle }) => getTextStyles(displayStyle)};
 `
 
 interface Props {
