@@ -5,14 +5,18 @@ const theme = {
       inverted: "#FFFFFF",
       faded: "#6A6A6A",
       supplementary: "#6D9BBC",
+      placeholder: "#A5A5A5",
+      dark: "#000000",
     },
     background: {
       light: "#ffffff",
       dark: "#000000",
+      accent: "#F4F5F6",
     },
     border: {
       default: "#CDCECF",
       hover: "#3B3F42",
+      dark: "#000000",
     },
   },
   layout: {
@@ -39,6 +43,11 @@ const theme = {
   font: {
     primary:
       "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
+  },
+  borderRadius: {
+    small: 2,
+    medium: 4,
+    big: 12,
   },
 }
 
