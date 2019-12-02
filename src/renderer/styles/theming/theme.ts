@@ -9,6 +9,7 @@ const theme = {
     background: {
       light: "#ffffff",
       dark: "#000000",
+      inputDark: "#3B3F42",
     },
     borderColor: {
       dark: "#000000",
