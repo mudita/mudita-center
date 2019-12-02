@@ -5,10 +5,10 @@ import InputRadio from "../input-radio/input-radio.component"
 
 const InputRadioGroup: FunctionComponent<{
   data: InputProps[]
-  name: string
-}> = ({ data, name }) => {
+  radioGroupName: string
+}> = ({ data, radioGroupName }) => {
   const inputs = data.map((el, index) => (
-    <InputRadio {...el} name={name} key={index} />
+    <InputRadio {...el} name={radioGroupName} key={index} />
   ))
   return <div>{inputs}</div>
 }
