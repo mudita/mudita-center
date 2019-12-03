@@ -1,4 +1,5 @@
 import * as React from "react"
+import Svg from "Renderer/components/core/svg/svg.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -11,6 +12,12 @@ import check from "Renderer/svg/check-icon.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
+const InputWrapper = styled.div`
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+`
+
 const Input = styled.input`
   appearance: none;
   outline: none;
@@ -22,16 +29,6 @@ const Input = styled.input`
   border-radius: 0.2rem;
   background-color: ${backgroundColor("light")};
 
-  &:after {
-    content: "";
-    display: block;
-    height: 2rem;
-    width: auto;
-    background-image: url(${check});
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
   &:hover {
     border-color: ${borderColor("hover")};
     cursor: pointer;
@@ -41,6 +38,22 @@ const Input = styled.input`
   &:checked {
     background-color: ${backgroundColor("inputDark")};
     border-color: ${borderColor("hover")};
+    + svg {
+      display: initial;
+    }
+  }
+`
+
+const CheckIcon = styled(Svg)`
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  user-select: none;
+  path {
+    stroke: ${backgroundColor("light")};
   }
 `
 
@@ -49,9 +62,13 @@ const InputCheckbox: FunctionComponent<InputProps> = ({
   className,
   ...props
 }) => {
+  console.log(props)
   return (
     <Text displayStyle={labelDisplayStyle} className={className}>
-      <Input {...props} type="checkbox" />
+      <InputWrapper>
+        <Input {...props} type="checkbox" />
+        <CheckIcon Image={check} />
+      </InputWrapper>
     </Text>
   )
 }

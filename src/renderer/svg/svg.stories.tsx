@@ -9,7 +9,7 @@ const SvgWrapper = styled.div`
   display: flex;
   align-items: center;
   margin: 1rem;
-  background: pink;
+  border: 1px solid #000;
 `
 
 const BlackSvg = styled(Svg)`
