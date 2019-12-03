@@ -21,7 +21,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
 const focusedLabelStyles = css`
-  bottom: 24px;
+  bottom: 2.4rem;
   ${smallTextSharedStyles};
 `
 
@@ -31,11 +31,9 @@ const StandardInputLabel = styled.label<{
   position: absolute;
   left: 0;
   bottom: 0;
-
   color: ${textColor("placeholder")};
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
   line-height: 1.5rem;
-
   pointer-events: none;
   transition: bottom 0.1s ease-in-out, font-size 0.1s ease-in-out;
 
@@ -48,8 +46,7 @@ const StandardInputWrapper = styled.div`
 
 const TextInputIcon = styled.span`
   height: 100%;
-  max-height: 64px;
-
+  max-height: 6.4rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -63,7 +60,6 @@ const TextInput = styled.input`
   border-radius: inherit;
   background-color: transparent;
   padding: 0;
-
   color: ${textColor("dark")};
 
   ::-webkit-input-placeholder {
@@ -84,51 +80,50 @@ const TextInput = styled.input`
 `
 
 const outlinedLayout = css`
-  height: 40px;
-  padding: 0 24px;
-
-  border: 1px solid ${borderColor("default")};
-  border-radius: ${borderRadius("medium")}px;
+  height: 4rem;
+  padding: 0 2.4rem;
+  border: 0.1rem solid ${borderColor("default")};
+  border-radius: ${borderRadius("medium")}rem;
 
   ${TextInputIcon} {
     + ${TextInputIcon} {
-      margin-left: 12px;
+      margin-left: 1.2rem;
     }
     + ${TextInput} {
-      margin-left: 8px;
+      margin-left: 0.8rem;
     }
   }
 
   ${TextInput} {
     + ${TextInputIcon} {
-      margin-left: 8px;
+      margin-left: 0.8rem;
     }
   }
 `
 
 const standardLayout = css`
-  padding-top: 20px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid ${borderColor("default")};
+  padding-top: 2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 0.1rem solid ${borderColor("default")};
 
   ${TextInputIcon} {
     + ${TextInputIcon} {
-      margin-left: 12px;
+      margin-left: 1.2rem;
     }
     + ${StandardInputWrapper} {
-      margin-left: 8px;
+      margin-left: 0.8rem;
     }
   }
 
   ${StandardInputWrapper} {
     + ${TextInputIcon} {
-      margin-left: 8px;
+      margin-left: 0.8rem;
     }
   }
 `
 
 const condensedStyles = css`
-  padding: 0 16px;
+  padding: 0 1.6rem;
 `
 
 const focusedStyles = css`
@@ -155,7 +150,6 @@ const InputWrapper = styled.div<{
   align-items: center;
   width: fit-content;
   box-sizing: border-box;
-
   transition: border-color 0.1s ease-in-out;
 
   ${({ layout }) => {

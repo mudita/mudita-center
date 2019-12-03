@@ -49,9 +49,9 @@ const theme = {
       "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
   },
   borderRadius: {
-    small: 2,
-    medium: 4,
-    big: 12,
+    small: 0.2,
+    medium: 0.4,
+    big: 0.12,
   },
   grid: {
     columnWidth,
