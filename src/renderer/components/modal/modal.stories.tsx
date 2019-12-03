@@ -1,3 +1,4 @@
+import { button, withKnobs } from "@storybook/addon-knobs"
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import { useEffect, useState } from "react"
@@ -77,19 +78,19 @@ export const ModalUsage: FunctionComponent = () => {
     alert(`Modal is ${modalService.isModalOpen() ? "open" : "closed"}`)
   }
 
-  return (
-    <>
-      <button onClick={openModal}>open modal one</button>
-      <button onClick={openModalTwo}>open modal two</button>
-      <button onClick={forceOpenModalOne}>force open modal one</button>
-      <button onClick={forceOpenModalTwo}>force open modal two</button>
-      <button onClick={closeModal}>close modal</button>
-      <button onClick={forceCloseModal}>force close modal</button>
-      <button onClick={checkIfModalOpen}>check modal</button>
-    </>
-  )
+  button("open modal one", openModal)
+  button("open modal two", openModalTwo)
+  button("force open modal one", forceOpenModalOne)
+  button("force open modal two", forceOpenModalTwo)
+  button("close modal", closeModal)
+  button("force close modal", forceCloseModal)
+  button("check modal", checkIfModalOpen)
+
+  return <h2>Modal functions are available in knobs</h2>
 }
 
-storiesOf("Components|Modal", module).add("Modal", () => {
-  return <ModalUsage />
-})
+storiesOf("Components|Modal", module)
+  .add("Modal", () => {
+    return <ModalUsage />
+  })
+  .addDecorator(withKnobs)
