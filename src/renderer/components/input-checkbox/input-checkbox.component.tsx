@@ -60,7 +60,7 @@ const InputCheckbox: FunctionComponent<InputProps> = ({
     <Label>
       <Input {...props} type="checkbox" />
       <LabelText
-        displayStyle={TextDisplayStyle.MediumBoldText}
+        displayStyle={TextDisplayStyle.MediumText}
         className={className}
         element={"span"}
       >
