@@ -3,7 +3,7 @@ import React from "react"
 import InputText, {
   TextInputLayouts,
 } from "Renderer/components/core/input-text/input-text.component"
-import { icon } from "Renderer/components/core/input-text/input-text.stories"
+import { Icon } from "Renderer/components/core/input-text/input-text.stories"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 test("renders standard input properly", () => {
@@ -27,7 +27,7 @@ test("renders outlined condensed input properly", () => {
   )
 
   expect(getByRole("textbox")).toBeInTheDocument()
-  expect(container.querySelector("div")).toHaveStyle(`padding: 0 1.6rem;`)
+  expect(container.querySelector("label")).toHaveStyle(`padding: 0 1.6rem;`)
 })
 
 test("renders standard input with placeholder properly", () => {
@@ -56,37 +56,46 @@ test("renders disabled outlined input properly", () => {
   expect(getByRole("textbox")).toHaveAttribute("disabled")
 })
 
-test("renders standard input with leading icon properly", () => {
+test("renders standard input with leading Ico/n properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <InputText leadingIcons={[icon]} />
+    <InputText leadingIcons={[<Icon key={1} />]} />
   )
   expect(getByTestId("leading-icon-0")).toBeInTheDocument()
 })
 
-test("renders outlined input with leading icon properly", () => {
+test("renders outlined input with leading Ico/n properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <InputText layout={TextInputLayouts.Outlined} leadingIcons={[icon]} />
+    <InputText
+      layout={TextInputLayouts.Outlined}
+      leadingIcons={[<Icon key={1} />]}
+    />
   )
   expect(getByTestId("leading-icon-0")).toBeInTheDocument()
 })
 
-test("renders standard input with trailing icon properly", () => {
+test("renders standard input with trailing Ico/n properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <InputText trailingIcons={[icon]} />
+    <InputText trailingIcons={[<Icon key={1} />]} />
   )
   expect(getByTestId("trailing-icon-0")).toBeInTheDocument()
 })
 
-test("renders outlined input with trailing icon properly", () => {
+test("renders outlined input with trailing Ico/n properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <InputText layout={TextInputLayouts.Outlined} trailingIcons={[icon]} />
+    <InputText
+      layout={TextInputLayouts.Outlined}
+      trailingIcons={[<Icon key={1} />]}
+    />
   )
   expect(getByTestId("trailing-icon-0")).toBeInTheDocument()
 })
 
-test("renders standard input with multiple icons properly", () => {
+test("renders standard input with multiple Ico/ns properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <InputText leadingIcons={[icon, icon]} trailingIcons={[icon, icon]} />
+    <InputText
+      leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
+      trailingIcons={[<Icon key={1} />, <Icon key={2} />]}
+    />
   )
   expect(getByTestId("leading-icon-0")).toBeInTheDocument()
   expect(getByTestId("leading-icon-1")).toBeInTheDocument()
@@ -94,12 +103,12 @@ test("renders standard input with multiple icons properly", () => {
   expect(getByTestId("trailing-icon-1")).toBeInTheDocument()
 })
 
-test("renders outlined input with multiple icons properly", () => {
+test("renders outlined input with multiple Ico/ns properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
     <InputText
       layout={TextInputLayouts.Outlined}
-      leadingIcons={[icon, icon]}
-      trailingIcons={[icon, icon]}
+      leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
+      trailingIcons={[<Icon key={1} />, <Icon key={2} />]}
     />
   )
   expect(getByTestId("leading-icon-0")).toBeInTheDocument()

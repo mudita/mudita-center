@@ -230,12 +230,17 @@ const mapping: ElementsMapping = {
 }
 
 const Text: FunctionComponent<Props> = ({
+  className,
   children,
   as,
   displayStyle = TextDisplayStyle.Default,
   message,
 }) => (
-  <TextWrapper as={as || mapping[displayStyle]} displayStyle={displayStyle}>
+  <TextWrapper
+    className={className}
+    as={as || mapping[displayStyle]}
+    displayStyle={displayStyle}
+  >
     {message ? <FormattedMessage {...message} /> : children}
   </TextWrapper>
 )

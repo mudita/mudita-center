@@ -1,13 +1,12 @@
 import { storiesOf } from "@storybook/react"
-import * as React from "react"
+import React from "react"
 import InputText, {
   TextInputLayouts,
 } from "Renderer/components/core/input-text/input-text.component"
+import FunctionComponent from "Renderer/types/function-component.interface"
 
-export const icon = (
+export const Icon: FunctionComponent = () => (
   <svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1">
-    <title>5FEEDF87-5E73-492A-BCF6-FB5556FC4525</title>
-    <desc>Created with sketchtool.</desc>
     <g stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g
         id="PURE-DESKTOP-APP-STYLEGUIDE"
@@ -80,7 +79,7 @@ storiesOf("Components|InputText/Standard", module)
     return (
       <InputText
         layout={TextInputLayouts.Standard}
-        leadingIcons={[icon]}
+        leadingIcons={[<Icon key={1} />]}
         placeholder={"Placeholder"}
       />
     )
@@ -89,7 +88,7 @@ storiesOf("Components|InputText/Standard", module)
     return (
       <InputText
         layout={TextInputLayouts.Standard}
-        trailingIcons={[icon]}
+        trailingIcons={[<Icon key={1} />]}
         placeholder={"Placeholder"}
       />
     )
@@ -98,8 +97,8 @@ storiesOf("Components|InputText/Standard", module)
     return (
       <InputText
         layout={TextInputLayouts.Standard}
-        leadingIcons={[icon]}
-        trailingIcons={[icon]}
+        leadingIcons={[<Icon key={1} />]}
+        trailingIcons={[<Icon key={1} />]}
         placeholder={"Placeholder"}
       />
     )
@@ -108,8 +107,8 @@ storiesOf("Components|InputText/Standard", module)
     return (
       <InputText
         layout={TextInputLayouts.Standard}
-        leadingIcons={[icon, icon]}
-        trailingIcons={[icon, icon]}
+        leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
+        trailingIcons={[<Icon key={1} />, <Icon key={2} />]}
         placeholder={"Placeholder"}
       />
     )
@@ -159,7 +158,7 @@ storiesOf("Components|InputText/Outlined", module)
     return (
       <InputText
         layout={TextInputLayouts.Outlined}
-        leadingIcons={[icon]}
+        leadingIcons={[<Icon key={1} />]}
         placeholder={"Placeholder"}
       />
     )
@@ -168,7 +167,7 @@ storiesOf("Components|InputText/Outlined", module)
     return (
       <InputText
         layout={TextInputLayouts.Outlined}
-        trailingIcons={[icon]}
+        trailingIcons={[<Icon key={1} />]}
         placeholder={"Placeholder"}
       />
     )
@@ -177,8 +176,8 @@ storiesOf("Components|InputText/Outlined", module)
     return (
       <InputText
         layout={TextInputLayouts.Outlined}
-        leadingIcons={[icon]}
-        trailingIcons={[icon]}
+        leadingIcons={[<Icon key={1} />]}
+        trailingIcons={[<Icon key={1} />]}
         placeholder={"Placeholder"}
       />
     )
@@ -187,8 +186,8 @@ storiesOf("Components|InputText/Outlined", module)
     return (
       <InputText
         layout={TextInputLayouts.Outlined}
-        leadingIcons={[icon, icon]}
-        trailingIcons={[icon, icon]}
+        leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
+        trailingIcons={[<Icon key={1} />, <Icon key={2} />]}
         placeholder={"Placeholder"}
       />
     )
@@ -243,7 +242,7 @@ storiesOf("Components|InputText/Outlined condensed", module)
       <InputText
         layout={TextInputLayouts.Outlined}
         condensed
-        leadingIcons={[icon]}
+        leadingIcons={[<Icon key={1} />]}
         placeholder={"Placeholder"}
       />
     )
@@ -253,7 +252,7 @@ storiesOf("Components|InputText/Outlined condensed", module)
       <InputText
         layout={TextInputLayouts.Outlined}
         condensed
-        trailingIcons={[icon]}
+        trailingIcons={[<Icon key={1} />]}
         placeholder={"Placeholder"}
       />
     )
@@ -263,8 +262,8 @@ storiesOf("Components|InputText/Outlined condensed", module)
       <InputText
         layout={TextInputLayouts.Outlined}
         condensed
-        leadingIcons={[icon]}
-        trailingIcons={[icon]}
+        leadingIcons={[<Icon key={1} />]}
+        trailingIcons={[<Icon key={1} />]}
         placeholder={"Placeholder"}
       />
     )
@@ -274,8 +273,8 @@ storiesOf("Components|InputText/Outlined condensed", module)
       <InputText
         layout={TextInputLayouts.Outlined}
         condensed
-        leadingIcons={[icon, icon]}
-        trailingIcons={[icon, icon]}
+        leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
+        trailingIcons={[<Icon key={1} />, <Icon key={2} />]}
         placeholder={"Placeholder"}
       />
     )

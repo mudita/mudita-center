@@ -3,10 +3,11 @@ import React, {
   ChangeEvent,
   FocusEvent,
   InputHTMLAttributes,
+  ReactElement,
   ReactNode,
   useState,
 } from "react"
-import {
+import Text, {
   getTextStyles,
   smallTextSharedStyles,
   TextDisplayStyle,
@@ -25,7 +26,7 @@ const focusedLabelStyles = css`
   ${smallTextSharedStyles};
 `
 
-const StandardInputLabel = styled.label<{
+const StandardInputLabel = styled(Text)<{
   active: boolean
 }>`
   position: absolute;
@@ -35,6 +36,7 @@ const StandardInputLabel = styled.label<{
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
   line-height: 1.5rem;
   pointer-events: none;
+  user-select: none;
   transition: bottom 0.1s ease-in-out, font-size 0.1s ease-in-out;
 
   ${({ active }) => active && focusedLabelStyles};
@@ -50,6 +52,7 @@ const TextInputIcon = styled.span`
   display: flex;
   flex-direction: row;
   align-items: center;
+  user-select: none;
 `
 
 const TextInput = styled.input`
@@ -61,6 +64,7 @@ const TextInput = styled.input`
   background-color: transparent;
   padding: 0;
   color: ${textColor("dark")};
+  user-select: none;
 
   ::placeholder {
     color: ${textColor("placeholder")};
@@ -129,7 +133,7 @@ const disabledStyles = css`
   background-color: ${backgroundColor("accent")};
 `
 
-const InputWrapper = styled.div<{
+const InputWrapper = styled.label<{
   layout: TextInputLayouts
   condensed: boolean
   focused: boolean
@@ -165,7 +169,7 @@ export enum TextInputLayouts {
 interface TextInputProps {
   layout?: TextInputLayouts
   condensed?: boolean
-  leadingIcons?: ReactNode[]
+  leadingIcons?: ReactElement[]
   trailingIcons?: ReactNode[]
 }
 
@@ -228,7 +232,7 @@ const InputText: FunctionComponent<TextInputProps &
         id={uid}
         {...rest}
       />
-      <StandardInputLabel active={labelActive} htmlFor={uid}>
+      <StandardInputLabel active={labelActive}>
         {placeholder}
       </StandardInputLabel>
     </StandardInputWrapper>
@@ -243,6 +247,7 @@ const InputText: FunctionComponent<TextInputProps &
       value={value}
       defaultValue={defaultValue}
       disabled={disabled}
+      id={uid}
       {...rest}
     />
   )
@@ -253,6 +258,7 @@ const InputText: FunctionComponent<TextInputProps &
       condensed={condensed}
       focused={focused}
       disabled={disabled}
+      htmlFor={uid}
     >
       {leadingIcons.map((icon, index) => (
         <TextInputIcon key={index} data-testid={"leading-icon-" + index}>
