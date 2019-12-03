@@ -9,11 +9,11 @@ const SvgWrapper = styled.div`
   display: flex;
   align-items: center;
   margin: 1rem;
-  border: 1px solid #000;
+  border: 0.1rem solid #000;
 `
 
 const BlackSvg = styled(Svg)`
-  margin: 10px;
+  margin: 1rem;
 `
 
 /**
