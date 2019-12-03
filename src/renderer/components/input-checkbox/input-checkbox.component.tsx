@@ -9,6 +9,11 @@ import check from "Renderer/svg/check-icon.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
+const Label = styled.label`
+  display: flex;
+  align-items: center;
+`
+
 const Input = styled.input`
   appearance: none;
   outline: none;
@@ -42,15 +47,26 @@ const Input = styled.input`
   }
 `
 
+const LabelText = styled(Text)`
+  margin-left: 1.3rem;
+`
+
 const InputCheckbox: FunctionComponent<InputProps> = ({
-  labelDisplayStyle = TextDisplayStyle.Default,
   className,
+  label,
   ...props
 }) => {
   return (
-    <Text displayStyle={labelDisplayStyle} className={className}>
+    <Label>
       <Input {...props} type="checkbox" />
-    </Text>
+      <LabelText
+        displayStyle={TextDisplayStyle.MediumBoldText}
+        className={className}
+        element={"span"}
+      >
+        {label}
+      </LabelText>
+    </Label>
   )
 }
 

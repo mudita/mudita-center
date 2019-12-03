@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <label
+    class="sc-bwzfXH fNOhzS"
+  >
+    <input
+      class="sc-htpNat eLCkJ"
+      id="id2"
+      name="Example1"
+      type="checkbox"
+      value="value2"
+    />
+    <span
+      class="sc-bdVaJa fKYnEX sc-bxivhb hfBFWB"
+    >
+      label
+    </span>
+  </label>
+</div>
+`;

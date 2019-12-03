@@ -18,13 +18,7 @@ exports[`matches snapshot 1`] = `
           type="radio"
           value="lala1"
         />
-        <span
-          class="sc-bdVaJa fKYnEX"
-        />
       </label>
-      <p
-        class="sc-bdVaJa gopmN sc-bxivhb dATYlm"
-      />
     </div>
     <div
       class="sc-ifAKCX scrlg"
@@ -39,13 +33,7 @@ exports[`matches snapshot 1`] = `
           type="radio"
           value="lala2"
         />
-        <span
-          class="sc-bdVaJa fKYnEX"
-        />
       </label>
-      <p
-        class="sc-bdVaJa gopmN sc-bxivhb dATYlm"
-      />
     </div>
     <div
       class="sc-ifAKCX scrlg"
@@ -60,13 +48,7 @@ exports[`matches snapshot 1`] = `
           type="radio"
           value="lala2"
         />
-        <span
-          class="sc-bdVaJa fKYnEX"
-        />
       </label>
-      <p
-        class="sc-bdVaJa gopmN sc-bxivhb dATYlm"
-      />
     </div>
     <div
       class="sc-ifAKCX scrlg"
@@ -81,13 +63,7 @@ exports[`matches snapshot 1`] = `
           type="radio"
           value="lala2"
         />
-        <span
-          class="sc-bdVaJa fKYnEX"
-        />
       </label>
-      <p
-        class="sc-bdVaJa gopmN sc-bxivhb dATYlm"
-      />
     </div>
   </div>
 </div>
