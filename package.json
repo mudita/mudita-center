@@ -175,6 +175,7 @@
     "electron-log": "^3.0.9",
     "electron-publisher-s3": "^20.17.2",
     "electron-updater": "^4.2.0",
+    "faker": "^4.1.0",
     "font-awesome": "^4.7.0",
     "history": "^4.10.1",
     "minimist": "^1.2.0",
