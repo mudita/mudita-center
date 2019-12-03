@@ -16,8 +16,8 @@ class ModalService {
   private defaultLocale?: string
   private modalElement: HTMLDivElement | null = null
   private backdropElement: HTMLDivElement | null = null
-  private modal: boolean = false
-  private backdrop: boolean = false
+  private modalOpen: boolean = false
+  private backdropOpen: boolean = false
   private allowClosing: boolean = true
   private closeBackdrop: boolean = true
 
@@ -30,7 +30,7 @@ class ModalService {
   }
 
   public isModalOpen() {
-    return this.modal && this.backdrop
+    return this.modalOpen && this.backdropOpen
   }
 
   public async closeModal(force: boolean = false) {
@@ -45,9 +45,9 @@ class ModalService {
         })
       }
 
-      const { modalElement, backdropElement, modal } = this
+      const { modalElement, backdropElement, modalOpen } = this
 
-      if (modalElement && backdropElement && modal) {
+      if (modalElement && backdropElement && modalOpen) {
         const modalPromise = animationEndPromise(modalElement)
         const allPromises = [modalPromise]
 
@@ -95,7 +95,7 @@ class ModalService {
   }
 
   private mountBackdrop = () => {
-    if (!this.backdrop) {
+    if (!this.backdropOpen) {
       this.backdropElement = document.createElement("div")
       document.body.appendChild(this.backdropElement)
       this.backdropElement.addEventListener("click", async () => {
@@ -105,12 +105,12 @@ class ModalService {
   }
 
   private unMountModal = () => {
-    this.modal = false
+    this.modalOpen = false
     this.modalElement!.remove()
   }
 
   private unMountBackdrop = () => {
-    this.backdrop = false
+    this.backdropOpen = false
     this.backdropElement!.remove()
   }
 
@@ -130,13 +130,13 @@ class ModalService {
         </Provider>,
         this.modalElement
       )
-      this.modal = true
+      this.modalOpen = true
     }
   }
 
   private renderBackdrop = () => {
     ReactDOM.render(<ModalBackdrop />, this.backdropElement)
-    this.backdrop = true
+    this.backdropOpen = true
   }
 }
 
