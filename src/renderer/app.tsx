@@ -5,9 +5,12 @@ import { AppContainer } from "react-hot-loader"
 import modalService from "Renderer/components/modal/modal.service"
 import { LANGUAGE } from "Renderer/constants/languages"
 import history from "Renderer/routes/history"
+
 import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
 import "./fonts/fonts.css"
+
+import contextMenu from "Renderer/electron/contextMenu"
 
 // Create main element
 const mainElement = document.createElement("div")
@@ -22,3 +25,4 @@ ReactDOM.render(
 
 modalService.bindStore(store)
 modalService.setDefaultLocale(LANGUAGE.default)
+contextMenu()

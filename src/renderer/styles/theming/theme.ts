@@ -1,3 +1,6 @@
+const columnWidth = 6.5
+const gutterWidth = 4
+
 const theme = {
   color: {
     text: {
@@ -9,8 +12,10 @@ const theme = {
     background: {
       light: "#ffffff",
       dark: "#000000",
+      inputDark: "#3B3F42",
     },
-    border: {
+    borderColor: {
+      dark: "#000000",
       default: "#CDCECF",
       hover: "#3B3F42",
     },
@@ -30,14 +35,23 @@ const theme = {
     bold: 700,
   },
   letterSpacing: {
-    negative: -0.6,
-    small: 0.4,
-    medium: 0.75,
-    regular: 1,
+    negative: -0.06,
+    smaller: 0.02,
+    small: 0.04,
+    medium: 0.075,
+    regular: 0.1,
   },
   font: {
     primary:
       "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
+  },
+  grid: {
+    columnWidth,
+    gutterWidth,
+  },
+  width: {
+    viewWidth: columnWidth * 12 + gutterWidth * 13,
+    menuWidth: columnWidth * 3 + gutterWidth * 3,
   },
 }
 

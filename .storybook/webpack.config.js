@@ -1,4 +1,4 @@
-const { resolve } = require('../webpack/resolve');
+const { resolve } = require("../webpack/resolve")
 
 module.exports = ({ config }) => {
   // use installed babel-loader which is v8.0-beta (which is meant to work with @babel/core@7)
@@ -24,9 +24,7 @@ module.exports = ({ config }) => {
     loader: require.resolve("babel-loader"),
     options: {
       presets: [["react-app", { flow: false, typescript: true }]],
-      plugins: [
-        require.resolve("@babel/plugin-proposal-class-properties"),
-      ],
+      plugins: [require.resolve("@babel/plugin-proposal-class-properties")],
     },
   })
   config.resolve = resolve
@@ -41,12 +39,12 @@ function handleSVGs(config) {
     if (
       String(rule.test) ===
       String(
-        /\.(svg|ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani)(\?.*)?$/
+        /\.(svg|ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/
       )
     ) {
       return {
         ...rule,
-        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani)(\?.*)?$/,
+        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/,
       }
     }
 

@@ -5,7 +5,8 @@ import { Theme } from "./theming/theme"
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   html, body  {
     font-family: ${font("primary")};
-    font-size: 10px;
+    /* stylelint-disable unit-whitelist */
+    font-size: 10px; 
     font-weight: 300;
     line-height: 1.5;
   }

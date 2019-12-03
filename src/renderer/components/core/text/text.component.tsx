@@ -1,5 +1,6 @@
 import * as React from "react"
 import { FormattedMessage } from "react-intl"
+import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import {
   backgroundColor,
   fontWeight,
@@ -40,7 +41,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
       case TextDisplayStyle.PrimaryHeading:
         return css`
           font-size: 5.6rem;
-          line-height: 1.05;
+          line-height: 1.1;
           font-weight: ${fontWeight("light")};
         `
       case TextDisplayStyle.SecondaryBoldHeading:
@@ -48,7 +49,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
           font-size: 2.4rem;
           line-height: 0.8;
           font-weight: ${fontWeight("bold")};
-          letter-spacing: ${letterSpacing("negative")};
+          letter-spacing: ${letterSpacing("negative")}rem;
         `
       case TextDisplayStyle.TertiaryBoldHeading:
         return css`
@@ -64,6 +65,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
         return css`
           ${largeTextSharedStyles};
           font-weight: ${fontWeight("bold")};
+          letter-spacing: ${letterSpacing("smaller")}rem;
         `
       case TextDisplayStyle.LargeText:
         return largeTextSharedStyles
@@ -82,6 +84,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
           ${largeTextSharedStyles};
           ${uppercaseStyles};
           color: ${textColor("faded")};
+          letter-spacing: ${letterSpacing("regular")}rem;
         `
       case TextDisplayStyle.LargeFadedDimTextCapitalLetters:
         return css`
@@ -90,7 +93,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
           font-weight: ${fontWeight("bold")};
           color: ${textColor("faded")};
           opacity: ${opacity("regular")};
-          letter-spacing: ${letterSpacing("regular")};
+          letter-spacing: ${letterSpacing("regular")}rem;
         `
       case TextDisplayStyle.MediumBoldText:
         return css`
@@ -100,15 +103,16 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
       case TextDisplayStyle.MediumLightText:
         return css`
           ${mediumTextSharedStyles};
+          line-height: 1.8rem;
           font-weight: ${fontWeight("light")};
-          letter-spacing: ${letterSpacing("regular")};
+          letter-spacing: ${letterSpacing("small")}rem;
         `
       case TextDisplayStyle.MediumFadedLightText:
         return css`
           ${mediumTextSharedStyles};
           color: ${textColor("faded")};
           font-weight: ${fontWeight("light")};
-          letter-spacing: ${letterSpacing("small")};
+          letter-spacing: ${letterSpacing("small")}rem;
         `
       case TextDisplayStyle.MediumText:
         return mediumTextSharedStyles
@@ -121,14 +125,14 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
         return css`
           ${smallTextSharedStyles};
           ${uppercaseStyles};
-          letter-spacing: ${letterSpacing("regular")};
+          letter-spacing: ${letterSpacing("regular")}rem;
         `
       case TextDisplayStyle.SmallSupplementaryText:
         return css`
           ${smallTextSharedStyles};
           ${uppercaseStyles};
           color: ${textColor("supplementary")};
-          letter-spacing: ${letterSpacing("regular")};
+          letter-spacing: ${letterSpacing("regular")}rem;
         `
       case TextDisplayStyle.SmallTextInverted:
         return css`
@@ -137,13 +141,13 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
           display: inline;
           color: ${textColor("inverted")};
           background-color: ${backgroundColor("dark")};
+          letter-spacing: ${letterSpacing("regular")}rem;
         `
       case TextDisplayStyle.SmallFadedText:
         return css`
           ${smallTextSharedStyles};
-          ${uppercaseStyles};
           color: ${textColor("faded")};
-          letter-spacing: ${letterSpacing("small")};
+          letter-spacing: ${letterSpacing("small")}rem;
         `
       case TextDisplayStyle.SmallFadedDimText:
         return css`
@@ -152,7 +156,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
           font-weight: ${fontWeight("bold")};
           color: ${textColor("faded")};
           opacity: ${opacity("regular")};
-          letter-spacing: ${letterSpacing("medium")};
+          letter-spacing: ${letterSpacing("medium")}rem;
         `
       default:
         return null
@@ -161,7 +165,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
 `
 
 interface Props {
-  readonly textId?: string
+  readonly message?: MessageInterface
   readonly as?: Element
   readonly displayStyle?: TextDisplayStyle
 }
@@ -222,12 +226,12 @@ const mapping: ElementsMapping = {
 
 const Text: FunctionComponent<Props> = ({
   children,
-  textId,
-  displayStyle = TextDisplayStyle.Default,
   as,
+  displayStyle = TextDisplayStyle.Default,
+  message,
 }) => (
   <TextWrapper as={as || mapping[displayStyle]} displayStyle={displayStyle}>
-    {textId ? <FormattedMessage id={textId} /> : children}
+    {message ? <FormattedMessage {...message} /> : children}
   </TextWrapper>
 )
 

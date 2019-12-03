@@ -1,5 +1,7 @@
 import * as React from "react"
-import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import {
   backgroundColor,
@@ -14,9 +16,9 @@ const Input = styled.input`
   outline: none;
   width: 2em;
   height: 2em;
-  padding: 3px;
+  padding: 0.3rem;
   background-clip: content-box;
-  border: 1px solid ${borderColor("default")};
+  border: 0.1rem solid ${borderColor("default")};
   background-color: ${backgroundColor("light")};
   border-radius: 50%;
 
