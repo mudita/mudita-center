@@ -5,66 +5,34 @@ exports[`matches snapshot 1`] = `
   <div
     class="sc-EHOje fhxHOS"
   >
-    <div
-      class="sc-ifAKCX scrlg"
-    >
-      <label
-        class="sc-htpNat iTScjb sc-bZQynM enkTaC"
-      >
-        <input
-          class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
-          id="id1"
-          name="example"
-          type="radio"
-          value="lala1"
-        />
-      </label>
-    </div>
-    <div
-      class="sc-ifAKCX scrlg"
-    >
-      <label
-        class="sc-htpNat iTScjb sc-bZQynM enkTaC"
-      >
-        <input
-          class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
-          id="id2"
-          name="example"
-          type="radio"
-          value="lala2"
-        />
-      </label>
-    </div>
-    <div
-      class="sc-ifAKCX scrlg"
-    >
-      <label
-        class="sc-htpNat iTScjb sc-bZQynM enkTaC"
-      >
-        <input
-          class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
-          id="id3"
-          name="example"
-          type="radio"
-          value="lala2"
-        />
-      </label>
-    </div>
-    <div
-      class="sc-ifAKCX scrlg"
-    >
-      <label
-        class="sc-htpNat iTScjb sc-bZQynM enkTaC"
-      >
-        <input
-          class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
-          id="id4"
-          name="example"
-          type="radio"
-          value="lala2"
-        />
-      </label>
-    </div>
+    <input
+      class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
+      id="id1"
+      name="example"
+      type="radio"
+      value="lala1"
+    />
+    <input
+      class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
+      id="id2"
+      name="example"
+      type="radio"
+      value="lala2"
+    />
+    <input
+      class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
+      id="id3"
+      name="example"
+      type="radio"
+      value="lala2"
+    />
+    <input
+      class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
+      id="id4"
+      name="example"
+      type="radio"
+      value="lala2"
+    />
   </div>
 </div>
 `;

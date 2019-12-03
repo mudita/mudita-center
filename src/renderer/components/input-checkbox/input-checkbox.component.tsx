@@ -57,16 +57,22 @@ const InputCheckbox: FunctionComponent<InputProps> = ({
   ...props
 }) => {
   return (
-    <Label>
-      <Input {...props} type="checkbox" />
-      <LabelText
-        displayStyle={TextDisplayStyle.MediumText}
-        className={className}
-        element={"span"}
-      >
-        {label}
-      </LabelText>
-    </Label>
+    <>
+      {label ? (
+        <Label>
+          <Input {...props} type="checkbox" />
+          <LabelText
+            displayStyle={TextDisplayStyle.MediumText}
+            className={className}
+            element={"span"}
+          >
+            {label}
+          </LabelText>
+        </Label>
+      ) : (
+        <Input {...props} type="checkbox" />
+      )}
+    </>
   )
 }
 

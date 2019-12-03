@@ -55,21 +55,27 @@ const InputRadio: FunctionComponent<InputProps> = ({
   ...props
 }) => {
   return (
-    <LabelWrapper>
-      <Label className={className}>
+    <>
+      {label ? (
+        <LabelWrapper>
+          <Label className={className}>
+            <Input {...props} type="radio" className={className} />
+            {label && (
+              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+                {label}
+              </Text>
+            )}
+          </Label>
+          {subLabel && (
+            <SubLabel displayStyle={TextDisplayStyle.MediumFadedLightText}>
+              {subLabel}
+            </SubLabel>
+          )}
+        </LabelWrapper>
+      ) : (
         <Input {...props} type="radio" className={className} />
-        {label && (
-          <Text displayStyle={TextDisplayStyle.MediumBoldText} element={"span"}>
-            {label}
-          </Text>
-        )}
-      </Label>
-      {subLabel && (
-        <SubLabel displayStyle={TextDisplayStyle.MediumFadedLightText}>
-          {subLabel}
-        </SubLabel>
       )}
-    </LabelWrapper>
+    </>
   )
 }
 

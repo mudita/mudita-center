@@ -16,3 +16,13 @@ storiesOf("Components|InputRadio ", module)
   .add("Unchecked", () => {
     return <InputRadio name={"Example1"} value={"value2"} id={"id2"} />
   })
+  .add("With label", () => {
+    return (
+      <InputRadio
+        name={"Example1"}
+        value={"value2"}
+        id={"id2"}
+        label={"label"}
+      />
+    )
+  })
