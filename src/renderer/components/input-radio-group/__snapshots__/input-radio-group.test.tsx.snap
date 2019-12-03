@@ -3,76 +3,84 @@
 exports[`matches snapshot 1`] = `
 <div>
   <div
-    class="sc-bxivhb cDFCAd"
+    class="sc-ifAKCX WOpjk"
   >
-    <label
-      class="sc-bwzfXH fNOhzS sc-ifAKCX scrlg"
+    <div
+      class="sc-bxivhb bsUTya"
     >
-      <input
-        class="sc-bdVaJa epLgr sc-ifAKCX scrlg"
-        id="id1"
-        name="example"
-        type="radio"
-        value="lala1"
-      />
-      <div
-        class="sc-htpNat dePyzG"
+      <label
+        class="sc-htpNat iTScjb sc-EHOje ksPFUu"
       >
-        <span />
-        <span />
-      </div>
-    </label>
-    <label
-      class="sc-bwzfXH fNOhzS sc-ifAKCX scrlg"
+        <input
+          class="sc-bwzfXH fpzXDF sc-EHOje ksPFUu"
+          id="id1"
+          name="example"
+          type="radio"
+          value="lala1"
+        />
+        <p
+          class="sc-bdVaJa fKYnEX"
+        />
+      </label>
+      <span />
+    </div>
+    <div
+      class="sc-bxivhb bsUTya"
     >
-      <input
-        class="sc-bdVaJa epLgr sc-ifAKCX scrlg"
-        id="id2"
-        name="example"
-        type="radio"
-        value="lala2"
-      />
-      <div
-        class="sc-htpNat dePyzG"
+      <label
+        class="sc-htpNat iTScjb sc-EHOje ksPFUu"
       >
-        <span />
-        <span />
-      </div>
-    </label>
-    <label
-      class="sc-bwzfXH fNOhzS sc-ifAKCX scrlg"
+        <input
+          class="sc-bwzfXH fpzXDF sc-EHOje ksPFUu"
+          id="id2"
+          name="example"
+          type="radio"
+          value="lala2"
+        />
+        <p
+          class="sc-bdVaJa fKYnEX"
+        />
+      </label>
+      <span />
+    </div>
+    <div
+      class="sc-bxivhb bsUTya"
     >
-      <input
-        class="sc-bdVaJa epLgr sc-ifAKCX scrlg"
-        id="id3"
-        name="example"
-        type="radio"
-        value="lala2"
-      />
-      <div
-        class="sc-htpNat dePyzG"
+      <label
+        class="sc-htpNat iTScjb sc-EHOje ksPFUu"
       >
-        <span />
-        <span />
-      </div>
-    </label>
-    <label
-      class="sc-bwzfXH fNOhzS sc-ifAKCX scrlg"
+        <input
+          class="sc-bwzfXH fpzXDF sc-EHOje ksPFUu"
+          id="id3"
+          name="example"
+          type="radio"
+          value="lala2"
+        />
+        <p
+          class="sc-bdVaJa fKYnEX"
+        />
+      </label>
+      <span />
+    </div>
+    <div
+      class="sc-bxivhb bsUTya"
     >
-      <input
-        class="sc-bdVaJa epLgr sc-ifAKCX scrlg"
-        id="id4"
-        name="example"
-        type="radio"
-        value="lala2"
-      />
-      <div
-        class="sc-htpNat dePyzG"
+      <label
+        class="sc-htpNat iTScjb sc-EHOje ksPFUu"
       >
-        <span />
-        <span />
-      </div>
-    </label>
+        <input
+          class="sc-bwzfXH fpzXDF sc-EHOje ksPFUu"
+          id="id4"
+          name="example"
+          type="radio"
+          value="lala2"
+        />
+        <p
+          class="sc-bdVaJa fKYnEX"
+        />
+      </label>
+      <span />
+    </div>
   </div>
 </div>
 `;

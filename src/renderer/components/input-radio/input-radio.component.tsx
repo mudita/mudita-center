@@ -1,4 +1,5 @@
 import * as React from "react"
+import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import {
   backgroundColor,
@@ -36,21 +37,27 @@ const Label = styled.label`
   align-items: center;
 `
 
-const TextWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
+const LabelWrapper = styled.div`
+  span {
+    margin-left: 3.5rem;
+  }
 `
 
 const InputRadio: FunctionComponent<InputProps> = ({
   className,
   children,
+  label,
+  subLabel,
   ...props
 }) => {
   return (
-    <Label className={className}>
-      <Input {...props} type="radio" className={className} />
-      <TextWrapper>{children}</TextWrapper>
-    </Label>
+    <LabelWrapper>
+      <Label className={className}>
+        <Input {...props} type="radio" className={className} />
+        <Text displayStyle={TextDisplayStyle.MediumBoldText}>{label}</Text>
+      </Label>
+      <span>{subLabel}</span>
+    </LabelWrapper>
   )
 }
 

@@ -19,10 +19,13 @@ const InputRadioGroup: FunctionComponent<{
   radioGroupName: string
 }> = ({ data, radioGroupName, className }) => {
   const inputs = data.map((inputProps, index) => (
-    <Input {...inputProps} name={radioGroupName} key={index}>
-      <span>{inputProps.label}</span>
-      <span>{inputProps.subLabel}</span>
-    </Input>
+    <Input
+      {...inputProps}
+      name={radioGroupName}
+      key={index}
+      label={inputProps.label}
+      subLabel={inputProps.subLabel}
+    />
   ))
   return <InputGroup className={className}>{inputs}</InputGroup>
 }

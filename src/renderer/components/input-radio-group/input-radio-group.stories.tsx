@@ -7,26 +7,26 @@ const radioGroup = [
   {
     value: "lala1",
     id: "id1",
-    label: "lala11",
-    subLabel: "lala",
+    label: "label",
+    subLabel: "sublabel",
   },
   {
     value: "lala2",
     id: "id2",
-    label: "lala",
-    subLabel: "lala",
+    label: "label",
+    subLabel: "sublabel",
   },
   {
     value: "lala2",
     id: "id3",
-    label: "lala",
-    subLabel: "lala",
+    label: "label",
+    subLabel: "sublabel",
   },
   {
     value: "lala2",
     id: "id4",
-    label: "lala",
-    subLabel: "lala",
+    label: "label",
+    subLabel: "sublabel",
   },
 ]
 
