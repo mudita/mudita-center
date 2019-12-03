@@ -28,8 +28,10 @@ const fadeAnimation = css`
 
 export const ModalBackdrop = styled.div`
   position: fixed;
-  z-index: ${2 ** 31 - 2};
+  z-index: 2;
 
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
 
@@ -41,7 +43,7 @@ export const ModalBackdrop = styled.div`
 
 export const ModalWrapper = styled.section`
   position: fixed;
-  z-index: ${2 ** 31 - 1};
+  z-index: 3;
 
   top: 50%;
   left: 50%;
