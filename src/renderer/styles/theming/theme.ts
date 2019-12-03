@@ -1,3 +1,6 @@
+const columnWidth = 6.5
+const gutterWidth = 4
+
 const theme = {
   color: {
     text: {
@@ -11,6 +14,7 @@ const theme = {
     background: {
       light: "#ffffff",
       dark: "#000000",
+      inputDark: "#3B3F42",
       accent: "#F4F5F6",
     },
     border: {
@@ -48,6 +52,14 @@ const theme = {
     small: 2,
     medium: 4,
     big: 12,
+  },
+  grid: {
+    columnWidth,
+    gutterWidth,
+  },
+  width: {
+    viewWidth: columnWidth * 12 + gutterWidth * 13,
+    menuWidth: columnWidth * 3 + gutterWidth * 3,
   },
 }
 

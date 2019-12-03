@@ -1,3 +1,13 @@
 {
-  "test.string": "Test translated string"
+  "view.name.filesManager": "Files manager",
+  "view.name.help": "Help",
+  "view.name.meditation": "Meditation",
+  "view.name.messages": "Messages",
+  "view.name.music": "Music",
+  "view.name.news": "News",
+  "view.name.overview": "Overview",
+  "view.name.phone": "Phone",
+  "view.name.settings": "Settings",
+  "view.name.tethering": "Tethering",
+  "view.name.tools": "Tools"
 }

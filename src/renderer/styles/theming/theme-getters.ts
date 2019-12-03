@@ -59,3 +59,9 @@ export const maxBreakpoint = (name: keyof Theme["breakpoint"]) => ({
 }: {
   theme: Theme
 }) => theme.breakpoint[name] - 0.01 + "rem"
+
+export const width = (name: keyof Theme["width"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.width[name] + "rem"

@@ -10,7 +10,7 @@ import {
   getTextStyles,
   smallTextSharedStyles,
   TextDisplayStyle,
-} from "Renderer/components/text/text.component"
+} from "Renderer/components/core/text/text.component"
 import {
   backgroundColor,
   borderColor,

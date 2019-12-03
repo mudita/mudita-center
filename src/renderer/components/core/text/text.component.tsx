@@ -1,5 +1,6 @@
 import * as React from "react"
 import { FormattedMessage } from "react-intl"
+import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import {
   backgroundColor,
   fontWeight,
@@ -169,7 +170,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
 `
 
 interface Props {
-  readonly textId?: string
+  readonly message?: MessageInterface
   readonly as?: Element
   readonly displayStyle?: TextDisplayStyle
 }
@@ -230,12 +231,12 @@ const mapping: ElementsMapping = {
 
 const Text: FunctionComponent<Props> = ({
   children,
-  textId,
-  displayStyle = TextDisplayStyle.Default,
   as,
+  displayStyle = TextDisplayStyle.Default,
+  message,
 }) => (
   <TextWrapper as={as || mapping[displayStyle]} displayStyle={displayStyle}>
-    {textId ? <FormattedMessage id={textId} /> : children}
+    {message ? <FormattedMessage {...message} /> : children}
   </TextWrapper>
 )
 
