@@ -11,6 +11,12 @@ import localeEn from "Renderer/locales/main/en-US.json"
 import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
 
+interface EventListeners {
+  type: string
+  element: Node
+  event: () => void
+}
+
 class ModalService {
   private store?: Store
   private defaultLocale?: string
@@ -20,6 +26,7 @@ class ModalService {
   private backdropOpen: boolean = false
   private allowClosing: boolean = true
   private closeBackdrop: boolean = true
+  private eventListeners: EventListeners[] = []
 
   public bindStore(value: Store) {
     this.store = value
@@ -39,7 +46,7 @@ class ModalService {
         return new Promise(resolve => {
           const child = element.firstChild as HTMLElement
           child.style.animationName = "fadeOut"
-          child.addEventListener("webkitAnimationEnd", () => {
+          this.registerEventListener("webkitAnimationEnd", child, () => {
             resolve()
           })
         })
@@ -59,8 +66,16 @@ class ModalService {
         await Promise.all(allPromises)
 
         this.unMountModal()
+        this.unregisterEventListener(
+          "webkitAnimationEnd",
+          modalElement.firstChild!
+        )
         if (this.closeBackdrop) {
           this.unMountBackdrop()
+          this.unregisterEventListener(
+            "webkitAnimationEnd",
+            backdropElement.firstChild!
+          )
         }
       }
       this.closeBackdrop = true
@@ -89,6 +104,29 @@ class ModalService {
     this.allowClosing = allow
   }
 
+  private registerEventListener(
+    type: EventListeners["type"],
+    element: EventListeners["element"],
+    event: EventListeners["event"]
+  ) {
+    this.eventListeners.push({ type, element, event })
+    element.addEventListener(type, event)
+  }
+
+  private unregisterEventListener(
+    type: EventListeners["type"],
+    element: EventListeners["element"]
+  ) {
+    const eventIndex = this.eventListeners.findIndex(
+      ({ type: eventType, element: eventElement }) =>
+        eventElement === element && eventType === type
+    )
+    if (eventIndex >= 0) {
+      element.removeEventListener(type, this.eventListeners[eventIndex].event)
+      this.eventListeners.splice(eventIndex, 1)
+    }
+  }
+
   private mountModal = () => {
     this.modalElement = document.createElement("div")
     document.body.appendChild(this.modalElement)
@@ -98,8 +136,9 @@ class ModalService {
     if (!this.backdropOpen) {
       this.backdropElement = document.createElement("div")
       document.body.appendChild(this.backdropElement)
-      this.backdropElement.addEventListener("click", async () => {
-        await this.closeModal()
+
+      this.registerEventListener("click", this.backdropElement, () => {
+        this.closeModal()
       })
     }
   }
@@ -111,7 +150,11 @@ class ModalService {
 
   private unMountBackdrop = () => {
     this.backdropOpen = false
-    this.backdropElement!.remove()
+
+    if (this.backdropElement) {
+      this.unregisterEventListener("click", this.backdropElement)
+      this.backdropElement.remove()
+    }
   }
 
   private renderModal = (modal: ReactElement) => {
