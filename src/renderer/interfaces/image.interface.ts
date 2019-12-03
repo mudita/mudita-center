@@ -1,5 +1,5 @@
 export interface Image {
-  defaultProps: {
-    viewBox: string
-  }
+  width: string
+  height: string
+  viewBox?: string
 }

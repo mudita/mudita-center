@@ -4,13 +4,12 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 
 interface Props {
-  className?: string
-  Image: ImageInterface
+  Image: FunctionComponent<ImageInterface>
 }
 
 const Svg: FunctionComponent<Props> = ({ className, Image }) => {
-  const [, , width, height] = Image.defaultProps.viewBox.split(" ")
-  // @ts-ignore
+  // `!` to ensure TS that it exists (as default props are `?`).
+  const [, , width, height] = Image.defaultProps!.viewBox!.split(" ")
   return <Image className={className} width={width} height={height} />
 }
 
