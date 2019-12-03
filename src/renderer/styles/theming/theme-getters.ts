@@ -18,11 +18,11 @@ export const borderRadius = (name: keyof Theme["borderRadius"]) => ({
   theme: Theme
 }) => theme.borderRadius[name]
 
-export const borderColor = (name: keyof Theme["color"]["borderColor"]) => ({
+export const borderColor = (name: keyof Theme["color"]["border"]) => ({
   theme,
 }: {
   theme: Theme
-}) => theme.color.borderColor[name]
+}) => theme.color.border[name]
 
 export const opacity = (name: keyof Theme["opacity"]) => ({
   theme,

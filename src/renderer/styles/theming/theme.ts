@@ -14,7 +14,7 @@ const theme = {
       dark: "#000000",
       inputDark: "#3B3F42",
     },
-    borderColor: {
+    border: {
       dark: "#000000",
       default: "#CDCECF",
       hover: "#3B3F42",
