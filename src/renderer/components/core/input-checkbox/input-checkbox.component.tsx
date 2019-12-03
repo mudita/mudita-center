@@ -61,16 +61,13 @@ const InputCheckbox: FunctionComponent<InputProps> = ({
   labelDisplayStyle = TextDisplayStyle.Default,
   className,
   ...props
-}) => {
-  console.log(props)
-  return (
-    <Text displayStyle={labelDisplayStyle} className={className}>
-      <InputWrapper>
-        <Input {...props} type="checkbox" />
-        <CheckIcon Image={check} />
-      </InputWrapper>
-    </Text>
-  )
-}
+}) => (
+  <Text displayStyle={labelDisplayStyle} className={className}>
+    <InputWrapper>
+      <Input {...props} type="checkbox" />
+      <CheckIcon Image={check} />
+    </InputWrapper>
+  </Text>
+)
 
 export default InputCheckbox
