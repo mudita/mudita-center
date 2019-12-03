@@ -2,8 +2,8 @@ import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import InputText, {
   TextInputLayouts,
-} from "Renderer/components/input-text/input-text.component"
-import { icon } from "Renderer/components/input-text/input-text.stories"
+} from "Renderer/components/core/input-text/input-text.component"
+import { icon } from "Renderer/components/core/input-text/input-text.stories"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 test("renders standard input properly", () => {

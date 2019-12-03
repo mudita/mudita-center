@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import InputText, {
   TextInputLayouts,
-} from "Renderer/components/input-text/input-text.component"
+} from "Renderer/components/core/input-text/input-text.component"
 
 export const icon = (
   <svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1">
