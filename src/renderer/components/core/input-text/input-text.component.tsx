@@ -62,16 +62,7 @@ const TextInput = styled.input`
   padding: 0;
   color: ${textColor("dark")};
 
-  ::-webkit-input-placeholder {
-    color: ${textColor("placeholder")};
-  }
-  ::-moz-placeholder {
-    color: ${textColor("placeholder")};
-  }
-  :-ms-input-placeholder {
-    color: ${textColor("placeholder")};
-  }
-  :-moz-placeholder {
+  ::placeholder {
     color: ${textColor("placeholder")};
   }
 
