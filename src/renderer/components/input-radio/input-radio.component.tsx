@@ -37,9 +37,13 @@ const Label = styled.label`
   align-items: center;
 `
 
+const SubLabel = styled(Text)`
+  margin-left: 3.5rem;
+`
+
 const LabelWrapper = styled.div`
-  span {
-    margin-left: 3.5rem;
+  &:not(:last-child) {
+    margin-right: 1.5rem;
   }
 `
 
@@ -54,9 +58,13 @@ const InputRadio: FunctionComponent<InputProps> = ({
     <LabelWrapper>
       <Label className={className}>
         <Input {...props} type="radio" className={className} />
-        <Text displayStyle={TextDisplayStyle.MediumBoldText}>{label}</Text>
+        <Text displayStyle={TextDisplayStyle.MediumBoldText} element={"span"}>
+          {label}
+        </Text>
       </Label>
-      <span>{subLabel}</span>
+      <SubLabel displayStyle={TextDisplayStyle.MediumFadedLightText}>
+        {subLabel}
+      </SubLabel>
     </LabelWrapper>
   )
 }

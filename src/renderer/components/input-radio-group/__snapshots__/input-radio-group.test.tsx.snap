@@ -3,83 +3,91 @@
 exports[`matches snapshot 1`] = `
 <div>
   <div
-    class="sc-ifAKCX WOpjk"
+    class="sc-EHOje fhxHOS"
   >
     <div
-      class="sc-bxivhb bsUTya"
+      class="sc-ifAKCX scrlg"
     >
       <label
-        class="sc-htpNat iTScjb sc-EHOje ksPFUu"
+        class="sc-htpNat iTScjb sc-bZQynM enkTaC"
       >
         <input
-          class="sc-bwzfXH fpzXDF sc-EHOje ksPFUu"
+          class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
           id="id1"
           name="example"
           type="radio"
           value="lala1"
         />
-        <p
+        <span
           class="sc-bdVaJa fKYnEX"
         />
       </label>
-      <span />
+      <p
+        class="sc-bdVaJa gopmN sc-bxivhb dATYlm"
+      />
     </div>
     <div
-      class="sc-bxivhb bsUTya"
+      class="sc-ifAKCX scrlg"
     >
       <label
-        class="sc-htpNat iTScjb sc-EHOje ksPFUu"
+        class="sc-htpNat iTScjb sc-bZQynM enkTaC"
       >
         <input
-          class="sc-bwzfXH fpzXDF sc-EHOje ksPFUu"
+          class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
           id="id2"
           name="example"
           type="radio"
           value="lala2"
         />
-        <p
+        <span
           class="sc-bdVaJa fKYnEX"
         />
       </label>
-      <span />
+      <p
+        class="sc-bdVaJa gopmN sc-bxivhb dATYlm"
+      />
     </div>
     <div
-      class="sc-bxivhb bsUTya"
+      class="sc-ifAKCX scrlg"
     >
       <label
-        class="sc-htpNat iTScjb sc-EHOje ksPFUu"
+        class="sc-htpNat iTScjb sc-bZQynM enkTaC"
       >
         <input
-          class="sc-bwzfXH fpzXDF sc-EHOje ksPFUu"
+          class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
           id="id3"
           name="example"
           type="radio"
           value="lala2"
         />
-        <p
+        <span
           class="sc-bdVaJa fKYnEX"
         />
       </label>
-      <span />
+      <p
+        class="sc-bdVaJa gopmN sc-bxivhb dATYlm"
+      />
     </div>
     <div
-      class="sc-bxivhb bsUTya"
+      class="sc-ifAKCX scrlg"
     >
       <label
-        class="sc-htpNat iTScjb sc-EHOje ksPFUu"
+        class="sc-htpNat iTScjb sc-bZQynM enkTaC"
       >
         <input
-          class="sc-bwzfXH fpzXDF sc-EHOje ksPFUu"
+          class="sc-bwzfXH fpzXDF sc-bZQynM enkTaC"
           id="id4"
           name="example"
           type="radio"
           value="lala2"
         />
-        <p
+        <span
           class="sc-bdVaJa fKYnEX"
         />
       </label>
-      <span />
+      <p
+        class="sc-bdVaJa gopmN sc-bxivhb dATYlm"
+      />
     </div>
   </div>
 </div>
