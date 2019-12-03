@@ -1,13 +1,11 @@
 import * as React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
+import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
+
 interface Props {
   className?: string
-  Image: {
-    defaultProps: {
-      viewBox: string
-    }
-  }
+  Image: ImageInterface
 }
 
 const Svg: FunctionComponent<Props> = ({ className, Image }) => {
