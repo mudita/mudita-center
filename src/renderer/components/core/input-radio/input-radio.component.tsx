@@ -1,5 +1,7 @@
 import * as React from "react"
-import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import {
   backgroundColor,

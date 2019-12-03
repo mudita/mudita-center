@@ -12,11 +12,11 @@ export const backgroundColor = (name: keyof Theme["color"]["background"]) => ({
   theme: Theme
 }) => theme.color.background[name]
 
-export const borderColor = (name: keyof Theme["color"]["border"]) => ({
+export const borderColor = (name: keyof Theme["color"]["borderColor"]) => ({
   theme,
 }: {
   theme: Theme
-}) => theme.color.border[name]
+}) => theme.color.borderColor[name]
 
 export const opacity = (name: keyof Theme["opacity"]) => ({
   theme,
@@ -53,3 +53,9 @@ export const maxBreakpoint = (name: keyof Theme["breakpoint"]) => ({
 }: {
   theme: Theme
 }) => theme.breakpoint[name] - 0.01 + "rem"
+
+export const width = (name: keyof Theme["width"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.width[name] + "rem"

@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import InputRadioGroup from "Renderer/components/input-radio-group/input-radio-group.component"
+import InputRadioGroup from "Renderer/components/core/input-radio-group/input-radio-group.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 const radioGroup = [

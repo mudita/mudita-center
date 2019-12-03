@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import InputCheckbox from "Renderer/components/input-checkbox/input-checkbox.component"
+import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 test("matches snapshot", () => {

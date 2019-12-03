@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import InputRadioGroup from "Renderer/components/input-radio-group/input-radio-group.component"
+import InputRadioGroup from "Renderer/components/core/input-radio-group/input-radio-group.component"
 import styled from "styled-components"
 
 const radioGroup = [
