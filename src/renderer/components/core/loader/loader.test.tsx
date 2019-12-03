@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import Loader from "Renderer/components/loader/loader.component"
+import Loader from "Renderer/components/core/loader/loader.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 test("matches snapshot", () => {

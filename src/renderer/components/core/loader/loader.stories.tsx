@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import Loader from "Renderer/components/loader/loader.component"
+import Loader from "Renderer/components/core/loader/loader.component"
 import styled from "styled-components"
 
 const Container = styled.div`

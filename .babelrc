@@ -7,6 +7,9 @@
       "ssr": true,
       "displayName": true,
       "preprocess": false
+    }],
+    ["react-intl", {
+        "messagesDir": "./tmp/extractedMessages"
     }]
   ]
 }
