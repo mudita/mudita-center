@@ -1,3 +1,4 @@
+import uniqueId from "lodash/uniqueId"
 import React, {
   ChangeEvent,
   FocusEvent,
@@ -24,7 +25,7 @@ const focusedLabelStyles = css`
   ${smallTextSharedStyles};
 `
 
-const FilledInputLabel = styled.label<{
+const StandardInputLabel = styled.label<{
   active: boolean
 }>`
   position: absolute;
@@ -41,11 +42,11 @@ const FilledInputLabel = styled.label<{
   ${({ active }) => active && focusedLabelStyles};
 `
 
-const FilledInputWrapper = styled.div`
+const StandardInputWrapper = styled.div`
   position: relative;
 `
 
-const TextInputIcon = styled.div`
+const TextInputIcon = styled.span`
   height: 100%;
   max-height: 64px;
 
@@ -105,12 +106,7 @@ const outlinedLayout = css`
   }
 `
 
-const outlinedCondensedLayout = css`
-  ${outlinedLayout};
-  padding: 0 16px;
-`
-
-const filledLayout = css`
+const standardLayout = css`
   padding-top: 20px;
   padding-bottom: 8px;
   border-bottom: 1px solid ${borderColor("default")};
@@ -119,20 +115,37 @@ const filledLayout = css`
     + ${TextInputIcon} {
       margin-left: 12px;
     }
-    + ${FilledInputWrapper} {
+    + ${StandardInputWrapper} {
       margin-left: 8px;
     }
   }
 
-  ${FilledInputWrapper} {
+  ${StandardInputWrapper} {
     + ${TextInputIcon} {
       margin-left: 8px;
     }
   }
 `
 
+const condensedStyles = css`
+  padding: 0 16px;
+`
+
+const focusedStyles = css`
+  border-color: ${borderColor("dark")};
+
+  ${StandardInputLabel} {
+    ${focusedLabelStyles};
+  }
+`
+
+const disabledStyles = css`
+  background-color: ${backgroundColor("accent")};
+`
+
 const InputWrapper = styled.div<{
   layout: TextInputLayouts
+  condensed: boolean
   focused: boolean
   disabled?: boolean
 }>`
@@ -149,38 +162,24 @@ const InputWrapper = styled.div<{
     switch (layout) {
       case TextInputLayouts.Outlined:
         return outlinedLayout
-      case TextInputLayouts.OutlinedCondensed:
-        return outlinedCondensedLayout
-      case TextInputLayouts.Filled:
-        return filledLayout
+      case TextInputLayouts.Standard:
+        return standardLayout
     }
   }}
 
-  ${({ focused }) =>
-    focused &&
-    css`
-      border-color: ${borderColor("dark")};
-
-      ${FilledInputLabel} {
-        ${focusedLabelStyles};
-      }
-    `};
-
-  ${({ disabled }) =>
-    disabled &&
-    css`
-      background-color: ${backgroundColor("accent")};
-    `}
+  ${({ condensed }) => condensed && condensedStyles};
+  ${({ focused }) => focused && focusedStyles};
+  ${({ disabled }) => disabled && disabledStyles}
 `
 
 export enum TextInputLayouts {
+  Standard,
   Outlined,
-  OutlinedCondensed,
-  Filled,
 }
 
 interface TextInputProps {
-  layout: TextInputLayouts
+  layout?: TextInputLayouts
+  condensed?: boolean
   leadingIcons?: ReactNode[]
   trailingIcons?: ReactNode[]
 }
@@ -188,7 +187,8 @@ interface TextInputProps {
 const InputText: FunctionComponent<TextInputProps &
   InputHTMLAttributes<HTMLInputElement>> = ({
   className,
-  layout = TextInputLayouts.Outlined,
+  layout = TextInputLayouts.Standard,
+  condensed = false,
   leadingIcons = [],
   trailingIcons = [],
   placeholder,
@@ -200,6 +200,7 @@ const InputText: FunctionComponent<TextInputProps &
   value,
   ...rest
 }) => {
+  const [uid] = useState(uniqueId("input-text"))
   const [focused, setFocus] = useState(false)
   const [labelActive, setLabelActiveState] = useState(
     Boolean(
@@ -230,8 +231,8 @@ const InputText: FunctionComponent<TextInputProps &
     }
   }
 
-  const filledInput = (
-    <FilledInputWrapper>
+  const standardInput = (
+    <StandardInputWrapper>
       <TextInput
         onFocus={onFocusWrapper}
         onBlur={onBlurWrapper}
@@ -239,10 +240,13 @@ const InputText: FunctionComponent<TextInputProps &
         value={value}
         defaultValue={defaultValue}
         disabled={disabled}
+        id={uid}
         {...rest}
       />
-      <FilledInputLabel active={labelActive}>{placeholder}</FilledInputLabel>
-    </FilledInputWrapper>
+      <StandardInputLabel active={labelActive} htmlFor={uid}>
+        {placeholder}
+      </StandardInputLabel>
+    </StandardInputWrapper>
   )
 
   const outlinedInput = (
@@ -261,15 +265,20 @@ const InputText: FunctionComponent<TextInputProps &
     <InputWrapper
       className={className}
       layout={layout}
+      condensed={condensed}
       focused={focused}
       disabled={disabled}
     >
       {leadingIcons.map((icon, index) => (
-        <TextInputIcon key={index}>{icon}</TextInputIcon>
+        <TextInputIcon key={index} data-testid={"leading-icon-" + index}>
+          {icon}
+        </TextInputIcon>
       ))}
-      {layout === TextInputLayouts.Filled ? filledInput : outlinedInput}
+      {layout === TextInputLayouts.Standard ? standardInput : outlinedInput}
       {trailingIcons.map((icon, index) => (
-        <TextInputIcon key={index}>{icon}</TextInputIcon>
+        <TextInputIcon key={index} data-testid={"trailing-icon-" + index}>
+          {icon}
+        </TextInputIcon>
       ))}
     </InputWrapper>
   )

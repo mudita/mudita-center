@@ -4,7 +4,7 @@ import InputText, {
   TextInputLayouts,
 } from "Renderer/components/input-text/input-text.component"
 
-const icon = (
+export const icon = (
   <svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1">
     <title>5FEEDF87-5E73-492A-BCF6-FB5556FC4525</title>
     <desc>Created with sketchtool.</desc>
@@ -40,6 +40,80 @@ const icon = (
     </g>
   </svg>
 )
+
+storiesOf("Components|InputText/Standard", module)
+  .add("Empty", () => {
+    return <InputText layout={TextInputLayouts.Standard} />
+  })
+  .add("With placeholder", () => {
+    return <InputText layout={TextInputLayouts.Standard} placeholder="Name" />
+  })
+  .add("With value", () => {
+    return (
+      <InputText
+        defaultValue="John"
+        layout={TextInputLayouts.Standard}
+        placeholder="Name"
+      />
+    )
+  })
+  .add("Disabled with value", () => {
+    return (
+      <InputText
+        defaultValue="John"
+        layout={TextInputLayouts.Standard}
+        placeholder="Name"
+        disabled
+      />
+    )
+  })
+  .add("Focused", () => {
+    return (
+      <InputText
+        layout={TextInputLayouts.Standard}
+        autoFocus
+        placeholder={"Name"}
+      />
+    )
+  })
+  .add("With placeholder and leading icon", () => {
+    return (
+      <InputText
+        layout={TextInputLayouts.Standard}
+        leadingIcons={[icon]}
+        placeholder={"Placeholder"}
+      />
+    )
+  })
+  .add("With placeholder and trailing icon", () => {
+    return (
+      <InputText
+        layout={TextInputLayouts.Standard}
+        trailingIcons={[icon]}
+        placeholder={"Placeholder"}
+      />
+    )
+  })
+  .add("With placeholder, leading and trailing icon", () => {
+    return (
+      <InputText
+        layout={TextInputLayouts.Standard}
+        leadingIcons={[icon]}
+        trailingIcons={[icon]}
+        placeholder={"Placeholder"}
+      />
+    )
+  })
+  .add("With placeholder and multiple leading and trailing icons", () => {
+    return (
+      <InputText
+        layout={TextInputLayouts.Standard}
+        leadingIcons={[icon, icon]}
+        trailingIcons={[icon, icon]}
+        placeholder={"Placeholder"}
+      />
+    )
+  })
 
 storiesOf("Components|InputText/Outlined", module)
   .add("Empty", () => {
@@ -122,13 +196,14 @@ storiesOf("Components|InputText/Outlined", module)
 
 storiesOf("Components|InputText/Outlined condensed", module)
   .add("Empty", () => {
-    return <InputText layout={TextInputLayouts.OutlinedCondensed} />
+    return <InputText layout={TextInputLayouts.Outlined} condensed />
   })
   .add("With placeholder", () => {
     return (
       <InputText
         placeholder={"Placeholder"}
-        layout={TextInputLayouts.OutlinedCondensed}
+        layout={TextInputLayouts.Outlined}
+        condensed
       />
     )
   })
@@ -137,7 +212,8 @@ storiesOf("Components|InputText/Outlined condensed", module)
       <InputText
         autoFocus
         placeholder={"Placeholder"}
-        layout={TextInputLayouts.OutlinedCondensed}
+        layout={TextInputLayouts.Outlined}
+        condensed
       />
     )
   })
@@ -146,7 +222,8 @@ storiesOf("Components|InputText/Outlined condensed", module)
       <InputText
         placeholder={"Placeholder"}
         defaultValue={"John Doe"}
-        layout={TextInputLayouts.OutlinedCondensed}
+        layout={TextInputLayouts.Outlined}
+        condensed
       />
     )
   })
@@ -155,7 +232,8 @@ storiesOf("Components|InputText/Outlined condensed", module)
       <InputText
         placeholder={"Placeholder"}
         defaultValue={"John Doe"}
-        layout={TextInputLayouts.OutlinedCondensed}
+        layout={TextInputLayouts.Outlined}
+        condensed
         disabled
       />
     )
@@ -163,7 +241,8 @@ storiesOf("Components|InputText/Outlined condensed", module)
   .add("With placeholder and leading icon", () => {
     return (
       <InputText
-        layout={TextInputLayouts.OutlinedCondensed}
+        layout={TextInputLayouts.Outlined}
+        condensed
         leadingIcons={[icon]}
         placeholder={"Placeholder"}
       />
@@ -172,7 +251,8 @@ storiesOf("Components|InputText/Outlined condensed", module)
   .add("With placeholder and trailing icon", () => {
     return (
       <InputText
-        layout={TextInputLayouts.OutlinedCondensed}
+        layout={TextInputLayouts.Outlined}
+        condensed
         trailingIcons={[icon]}
         placeholder={"Placeholder"}
       />
@@ -181,7 +261,8 @@ storiesOf("Components|InputText/Outlined condensed", module)
   .add("With placeholder, leading and trailing icon", () => {
     return (
       <InputText
-        layout={TextInputLayouts.OutlinedCondensed}
+        layout={TextInputLayouts.Outlined}
+        condensed
         leadingIcons={[icon]}
         trailingIcons={[icon]}
         placeholder={"Placeholder"}
@@ -191,81 +272,8 @@ storiesOf("Components|InputText/Outlined condensed", module)
   .add("With placeholder and multiple leading and trailing icons", () => {
     return (
       <InputText
-        layout={TextInputLayouts.OutlinedCondensed}
-        leadingIcons={[icon, icon]}
-        trailingIcons={[icon, icon]}
-        placeholder={"Placeholder"}
-      />
-    )
-  })
-
-storiesOf("Components|InputText/Filled", module)
-  .add("Empty", () => {
-    return <InputText layout={TextInputLayouts.Filled} />
-  })
-  .add("With placeholder", () => {
-    return <InputText layout={TextInputLayouts.Filled} placeholder="Name" />
-  })
-  .add("With value", () => {
-    return (
-      <InputText
-        defaultValue="John"
-        layout={TextInputLayouts.Filled}
-        placeholder="Name"
-      />
-    )
-  })
-  .add("Disabled with value", () => {
-    return (
-      <InputText
-        defaultValue="John"
-        layout={TextInputLayouts.Filled}
-        placeholder="Name"
-        disabled
-      />
-    )
-  })
-  .add("Focused", () => {
-    return (
-      <InputText
-        layout={TextInputLayouts.Filled}
-        autoFocus
-        placeholder={"Name"}
-      />
-    )
-  })
-  .add("With placeholder and leading icon", () => {
-    return (
-      <InputText
-        layout={TextInputLayouts.Filled}
-        leadingIcons={[icon]}
-        placeholder={"Placeholder"}
-      />
-    )
-  })
-  .add("With placeholder and trailing icon", () => {
-    return (
-      <InputText
-        layout={TextInputLayouts.Filled}
-        trailingIcons={[icon]}
-        placeholder={"Placeholder"}
-      />
-    )
-  })
-  .add("With placeholder, leading and trailing icon", () => {
-    return (
-      <InputText
-        layout={TextInputLayouts.Filled}
-        leadingIcons={[icon]}
-        trailingIcons={[icon]}
-        placeholder={"Placeholder"}
-      />
-    )
-  })
-  .add("With placeholder and multiple leading and trailing icons", () => {
-    return (
-      <InputText
-        layout={TextInputLayouts.Filled}
+        layout={TextInputLayouts.Outlined}
+        condensed
         leadingIcons={[icon, icon]}
         trailingIcons={[icon, icon]}
         placeholder={"Placeholder"}
