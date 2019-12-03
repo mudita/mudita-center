@@ -11,6 +11,7 @@ const radioGroup = [
   {
     value: "lala2",
     id: "id2",
+    label: "label",
   },
   {
     value: "lala2",
@@ -30,10 +31,19 @@ test("matches snapshot", () => {
   )
   expect(container).toMatchSnapshot()
 })
+
 test("renders correct amount of radio inputs", () => {
   const { container } = renderWithThemeAndIntl(
     <InputRadioGroup data={radioGroup} radioGroupName={radioGroupName} />
   )
-  const radioInputs = container?.firstChild?.childNodes
+  const radioInputs = container.querySelectorAll("input")
   expect(radioInputs?.length).toEqual(radioGroup.length)
+})
+
+test("renders correct amount of labels", () => {
+  const { container } = renderWithThemeAndIntl(
+    <InputRadioGroup data={radioGroup} radioGroupName={radioGroupName} />
+  )
+  const labels = container.querySelectorAll("label")
+  expect(labels?.length).toEqual(1)
 })
