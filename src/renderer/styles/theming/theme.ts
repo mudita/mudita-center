@@ -1,3 +1,6 @@
+const columnWidth = 6.5
+const gutterWidth = 4
+
 const theme = {
   color: {
     text: {
@@ -43,16 +46,12 @@ const theme = {
       "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
   },
   grid: {
-    columnWidth: 6.5,
-    gutterWidth: 4,
+    columnWidth,
+    gutterWidth,
   },
   width: {
-    viewWidth() {
-      return theme.grid.columnWidth * 12 + theme.grid.gutterWidth * 13
-    },
-    menuWidth() {
-      return theme.grid.columnWidth * 3 + theme.grid.gutterWidth * 3
-    },
+    viewWidth: columnWidth * 12 + gutterWidth * 13,
+    menuWidth: columnWidth * 3 + gutterWidth * 3,
   },
 }
 
