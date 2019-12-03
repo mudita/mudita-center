@@ -34,17 +34,23 @@ const Input = styled.input`
 
 const Label = styled.label`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 `
 
-const SubLabel = styled(Text)`
-  margin-left: 3.5rem;
+const LabelText = styled(Text)`
+  margin-bottom: 0.8rem;
 `
 
 const LabelWrapper = styled.div`
   &:not(:last-child) {
     margin-right: 1.5rem;
   }
+`
+
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.4rem;
 `
 
 const InputRadio: FunctionComponent<InputProps> = ({
@@ -60,17 +66,25 @@ const InputRadio: FunctionComponent<InputProps> = ({
         <LabelWrapper>
           <Label className={className}>
             <Input {...props} type="radio" className={className} />
-            {label && (
-              <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
-                {label}
-              </Text>
-            )}
+            <TextWrapper>
+              {label && (
+                <LabelText
+                  displayStyle={TextDisplayStyle.MediumText}
+                  element={"span"}
+                >
+                  {label}
+                </LabelText>
+              )}
+              {subLabel && (
+                <Text
+                  displayStyle={TextDisplayStyle.MediumFadedLightText}
+                  element={"span"}
+                >
+                  {subLabel}
+                </Text>
+              )}
+            </TextWrapper>
           </Label>
-          {subLabel && (
-            <SubLabel displayStyle={TextDisplayStyle.MediumFadedLightText}>
-              {subLabel}
-            </SubLabel>
-          )}
         </LabelWrapper>
       ) : (
         <Input {...props} type="radio" className={className} />
