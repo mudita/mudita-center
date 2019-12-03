@@ -1,3 +1,4 @@
+const minimist = require("minimist")
 const webpack = require("webpack")
 const merge = require("webpack-merge")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
@@ -7,6 +8,9 @@ const baseConfig = require("./webpack.base.config")
 
 const htmlMinify = require("./webpack/htmlMinify")
 const isDev = require("./webpack/isDev")()
+
+const args = minimist(process.argv.slice(2))
+const noBabelLoaderCache = !!args.noBabelLoaderCache
 
 module.exports = merge.smart(baseConfig, {
   target: "electron-renderer",
@@ -20,8 +24,7 @@ module.exports = merge.smart(baseConfig, {
         exclude: /node_modules/,
         loader: "babel-loader",
         options: {
-          cacheDirectory: true,
-          babelrc: false,
+          cacheDirectory: !noBabelLoaderCache,
           presets: [
             [
               "@babel/preset-env",
@@ -44,7 +47,7 @@ module.exports = merge.smart(baseConfig, {
         loaders: ["style-loader", "css-loader"],
       },
       {
-        test: /\.(gif|png|jpe?g|svg)$/,
+        test: /\.(gif|png|jpe?g)$/,
         use: [
           "file-loader",
           {
@@ -56,7 +59,7 @@ module.exports = merge.smart(baseConfig, {
         ],
       },
       {
-        test: /\.(woff(2)?|ttf|eot|svg|otf)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(woff(2)?|ttf|eot|otf)(\?v=\d+\.\d+\.\d+)?$/,
         use: [
           {
             loader: "file-loader",

@@ -1,24 +1,36 @@
 import * as React from "react"
-import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import {
   backgroundColor,
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
+import check from "Renderer/svg/check-icon.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
 const Input = styled.input`
   appearance: none;
-  display: inline-block;
   outline: none;
-  width: 2em;
-  height: 2em;
-  padding: 0.3rem;
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
   background-clip: content-box;
   border: 0.1rem solid ${borderColor("default")};
+  border-radius: 0.2rem;
   background-color: ${backgroundColor("light")};
-  border-radius: 50%;
+
+  &:after {
+    content: "";
+    display: block;
+    height: 2rem;
+    width: auto;
+    background-image: url(${check});
+    background-repeat: no-repeat;
+    background-position: center;
+  }
 
   &:hover {
     border-color: ${borderColor("hover")};
@@ -27,20 +39,21 @@ const Input = styled.input`
   }
 
   &:checked {
-    background-color: ${backgroundColor("dark")};
+    background-color: ${backgroundColor("inputDark")};
+    border-color: ${borderColor("hover")};
   }
 `
 
-const InputRadio: FunctionComponent<InputProps> = ({
+const InputCheckbox: FunctionComponent<InputProps> = ({
   labelDisplayStyle = TextDisplayStyle.Default,
   className,
   ...props
 }) => {
   return (
     <Text displayStyle={labelDisplayStyle} className={className}>
-      <Input {...props} type="radio" />
+      <Input {...props} type="checkbox" />
     </Text>
   )
 }
 
-export default InputRadio
+export default InputCheckbox

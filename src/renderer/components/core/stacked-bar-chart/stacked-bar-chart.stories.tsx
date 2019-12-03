@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import StackedBarChart, {
   DisplayStyle,
-} from "Renderer/components/stacked-bar-chart/stacked-bar-chart.component"
+} from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import styled from "styled-components"
 
 const Container = styled.div`

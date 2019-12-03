@@ -2,6 +2,8 @@ import { app, BrowserWindow } from "electron"
 import * as path from "path"
 import * as url from "url"
 
+import { WINDOW_SIZE } from "./config"
+
 let win: BrowserWindow | null
 
 const installExtensions = async () => {
@@ -20,8 +22,8 @@ const createWindow = async () => {
   }
 
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: WINDOW_SIZE.width,
+    height: WINDOW_SIZE.height,
     webPreferences: {
       nodeIntegration: true,
     },

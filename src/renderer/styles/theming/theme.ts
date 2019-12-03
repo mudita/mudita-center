@@ -1,3 +1,6 @@
+const columnWidth = 6.5
+const gutterWidth = 4
+
 const theme = {
   color: {
     text: {
@@ -9,8 +12,10 @@ const theme = {
     background: {
       light: "#ffffff",
       dark: "#000000",
+      inputDark: "#3B3F42",
     },
-    border: {
+    borderColor: {
+      dark: "#000000",
       default: "#CDCECF",
       hover: "#3B3F42",
     },
@@ -47,6 +52,14 @@ const theme = {
   font: {
     primary:
       "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
+  },
+  grid: {
+    columnWidth,
+    gutterWidth,
+  },
+  width: {
+    viewWidth: columnWidth * 12 + gutterWidth * 13,
+    menuWidth: columnWidth * 3 + gutterWidth * 3,
   },
 }
 

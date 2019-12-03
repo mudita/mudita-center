@@ -1,5 +1,7 @@
 import * as React from "react"
-import Text, { TextDisplayStyle } from "Renderer/components/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import { borderRadius, height } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"

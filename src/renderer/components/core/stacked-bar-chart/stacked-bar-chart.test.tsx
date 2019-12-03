@@ -3,7 +3,7 @@ import "jest-styled-components"
 import React from "react"
 import StackedBarChart, {
   DisplayStyle,
-} from "Renderer/components/stacked-bar-chart/stacked-bar-chart.component"
+} from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 const barId = "bar"
