@@ -1,12 +1,28 @@
+import Faker from "faker"
+
 const initialState = {
   contactList: [
     {
       letter: "A",
       contacts: [
         {
-          name: "name",
-          phoneNumber: 123,
+          firstName: "Adam",
+          lastName: "Smiths",
+          phoneNumber: Faker.phone.phoneNumber(),
           id: 1,
+          favourite: true,
+        },
+      ],
+    },
+    {
+      letter: "Bob",
+      contacts: [
+        {
+          name: "Bob",
+          lastName: "Smiths",
+          phoneNumber: Faker.phone.phoneNumber(),
+          id: 1,
+          favourite: false,
         },
       ],
     },

@@ -1,14 +1,9 @@
 import { connect } from "react-redux"
-
-import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
+import { InitialContactList } from "Renderer/models/phone/phone.interface"
 
 import Phone from "./phone.component"
 
-const mapStateToProps = ({
-  phoneView,
-}: {
-  phoneView: BasicInfoInitialState
-}) => ({
+const mapStateToProps = ({ phoneView }: { phoneView: InitialContactList }) => ({
   ...phoneView,
 })
 
