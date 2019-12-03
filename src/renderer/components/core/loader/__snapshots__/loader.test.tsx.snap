@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div
+  class="sc-bdVaJa ieYFGe"
+  size="4"
+>
+  <div
+    class="sc-bwzfXH csGQyV"
+    data-testid="dot"
+  />
+  <div
+    class="sc-bwzfXH csGQyV"
+    data-testid="dot"
+  />
+  <div
+    class="sc-bwzfXH csGQyV"
+    data-testid="dot"
+  />
+  <div
+    class="sc-bwzfXH csGQyV"
+    data-testid="dot"
+  />
+  <div
+    class="sc-bwzfXH csGQyV"
+    data-testid="dot"
+  />
+  <div
+    class="sc-bwzfXH csGQyV"
+    data-testid="dot"
+  />
+</div>
+`;

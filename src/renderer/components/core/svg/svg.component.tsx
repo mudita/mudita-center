@@ -8,7 +8,6 @@ interface Props {
 }
 
 const Svg: FunctionComponent<Props> = ({ className, Image }) => {
-  // `!` to ensure TS that it exists (as default props are `?`).
   const [, , width, height] = Image.defaultProps!.viewBox!.split(" ")
   return <Image className={className} width={width} height={height} />
 }

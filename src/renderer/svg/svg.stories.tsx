@@ -2,30 +2,45 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import styled from "styled-components"
 
-import Svg from "Renderer/components/svg/svg.component"
+import Svg from "Renderer/components/core/svg/svg.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
-import RequireContext = __WebpackModuleApi.RequireContext
-
-const BlackSvg = styled(Svg)`
-  g,
-  path {
-    fill: #000;
-  }
+const SvgWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+  background: pink;
 `
 
-const requireAll = (requireContext: RequireContext) => {
-  return requireContext.keys().map(requireContext) as FunctionComponent[]
+const BlackSvg = styled(Svg)`
+  margin: 10px;
+`
+
+/**
+ * any is sick and should be banned, but here importing RequireContext from Webpack triggers * errors.
+ */
+const requireAll = (requireContext: any) => {
+  return requireContext.keys().map((fileName: string) => {
+    return {
+      fileName,
+      component: requireContext(fileName),
+    }
+  }) as Array<{ fileName: string; component: FunctionComponent }>
 }
 
 const allSvgs = requireAll(require.context("..", true, /.svg$/))
 
 storiesOf("Assets|Svg", module).add("Svg", () => {
   return (
-    <div>
-      {allSvgs.map((SvgImg, index) => (
-        <BlackSvg key={index} Image={SvgImg} />
-      ))}
+    <div style={{ fontSize: "16px" }}>
+      {allSvgs.map((svg, index) => {
+        return (
+          <SvgWrapper key={index}>
+            <BlackSvg Image={svg.component} />
+            {svg.fileName}
+          </SvgWrapper>
+        )
+      })}
     </div>
   )
 })
