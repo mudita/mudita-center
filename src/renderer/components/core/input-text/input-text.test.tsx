@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import InputText, {
@@ -90,7 +92,7 @@ test("renders outlined input with trailing Ico/n properly", () => {
   expect(getByTestId("trailing-icon-0")).toBeInTheDocument()
 })
 
-test("renders standard input with multiple Ico/ns properly", () => {
+test("renders standard input with multiple Icons properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
     <InputText
       leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
@@ -103,7 +105,7 @@ test("renders standard input with multiple Ico/ns properly", () => {
   expect(getByTestId("trailing-icon-1")).toBeInTheDocument()
 })
 
-test("renders outlined input with multiple Ico/ns properly", () => {
+test("renders outlined input with multiple Icons properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
     <InputText
       layout={TextInputLayouts.Outlined}

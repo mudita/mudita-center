@@ -21,4 +21,5 @@ module.exports = {
   testURL: "http://localhost",
   setupFiles: [],
   roots: ["<rootDir>/src"],
+  modulePathIgnorePatterns: ["input-text"],
 }
