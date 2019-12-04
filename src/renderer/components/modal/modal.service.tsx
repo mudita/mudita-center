@@ -32,10 +32,10 @@ class ModalService {
   private defaultLocale?: string
   private modalElement: HTMLDivElement | null = null
   private backdropElement: HTMLDivElement | null = null
-  private modalOpen: boolean = false
-  private backdropOpen: boolean = false
-  private allowClosing: boolean = true
-  private closeBackdrop: boolean = true
+  private modalOpened: boolean = false
+  private backdropOpened: boolean = false
+  private modalClosingAllowed: boolean = true
+  private backdropClosingAllowed: boolean = true
   private eventListeners: EventListeners[] = []
 
   public bindStore(value: Store) {
@@ -47,7 +47,7 @@ class ModalService {
   }
 
   public isModalOpen() {
-    return this.modalOpen && this.backdropOpen
+    return this.modalOpened && this.backdropOpened
   }
 
   public async closeModal(force: boolean = false) {
@@ -55,7 +55,7 @@ class ModalService {
       logError(ModalError.NO_MODAL_TO_CLOSE)
       return
     }
-    if (!this.allowClosing && !force) {
+    if (!this.modalClosingAllowed && !force) {
       logError(ModalError.CLOSING_FORBIDDEN)
       return
     }
@@ -70,13 +70,13 @@ class ModalService {
       })
     }
 
-    const { modalElement, backdropElement, modalOpen } = this
+    const { modalElement, backdropElement, modalOpened } = this
 
-    if (modalElement && backdropElement && modalOpen) {
+    if (modalElement && backdropElement && modalOpened) {
       const modalPromise = animationEndPromise(modalElement)
       const allPromises = [modalPromise]
 
-      if (this.closeBackdrop) {
+      if (this.backdropClosingAllowed) {
         const backdropPromise = animationEndPromise(backdropElement)
         allPromises.push(backdropPromise)
       }
@@ -89,7 +89,7 @@ class ModalService {
         modalElement.firstChild!
       )
 
-      if (this.closeBackdrop) {
+      if (this.backdropClosingAllowed) {
         this.unMountBackdrop()
         this.unregisterEventListener(
           "webkitAnimationEnd",
@@ -97,13 +97,13 @@ class ModalService {
         )
       }
     }
-    this.closeBackdrop = true
+    this.backdropClosingAllowed = true
   }
 
   public async openModal(modal: ReactElement, force: boolean = false) {
     if (this.isModalOpen()) {
       if (force) {
-        this.closeBackdrop = false
+        this.backdropClosingAllowed = false
         await this.closeModal(true)
       } else {
         logError(ModalError.ANOTHER_MODAL_OPENED)
@@ -118,7 +118,7 @@ class ModalService {
   }
 
   public allowClosingModal(allow: boolean = true) {
-    this.allowClosing = allow
+    this.modalClosingAllowed = allow
   }
 
   private registerEventListener(
@@ -150,7 +150,7 @@ class ModalService {
   }
 
   private mountBackdrop = () => {
-    if (!this.backdropOpen) {
+    if (!this.backdropOpened) {
       this.backdropElement = document.createElement("div")
       document.body.appendChild(this.backdropElement)
 
@@ -161,12 +161,12 @@ class ModalService {
   }
 
   private unMountModal = () => {
-    this.modalOpen = false
+    this.modalOpened = false
     this.modalElement!.remove()
   }
 
   private unMountBackdrop = () => {
-    this.backdropOpen = false
+    this.backdropOpened = false
 
     if (this.backdropElement) {
       this.unregisterEventListener("click", this.backdropElement)
@@ -190,13 +190,13 @@ class ModalService {
         </Provider>,
         this.modalElement
       )
-      this.modalOpen = true
+      this.modalOpened = true
     }
   }
 
   private renderBackdrop = () => {
     ReactDOM.render(<ModalBackdrop />, this.backdropElement)
-    this.backdropOpen = true
+    this.backdropOpened = true
   }
 }
 
