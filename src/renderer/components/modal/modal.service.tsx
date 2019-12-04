@@ -11,6 +11,16 @@ import localeEn from "Renderer/locales/main/en-US.json"
 import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
 
+enum ModalError {
+  NO_MODAL_TO_CLOSE = "Close modal action cannot be performed. There is no modal opened.",
+  CLOSING_FORBIDDEN = "Cannot close current modal. If you really want to close it, use force parameter or call allowClosingModal(true) method.",
+  ANOTHER_MODAL_OPENED = "Another modal is already opened. If you really want to open another one, use force parameter.",
+}
+
+const logError = (message: ModalError) => {
+  console.warn(`Modal error: ${message}`)
+}
+
 interface EventListeners {
   type: string
   element: Node
@@ -41,45 +51,53 @@ class ModalService {
   }
 
   public async closeModal(force: boolean = false) {
-    if (this.allowClosing || force) {
-      const animationEndPromise = (element: HTMLElement) => {
-        return new Promise(resolve => {
-          const child = element.firstChild as HTMLElement
-          child.style.animationName = "fadeOut"
-          this.registerEventListener("webkitAnimationEnd", child, () => {
-            resolve()
-          })
+    if (!this.isModalOpen()) {
+      logError(ModalError.NO_MODAL_TO_CLOSE)
+      return
+    }
+    if (!this.allowClosing && !force) {
+      logError(ModalError.CLOSING_FORBIDDEN)
+      return
+    }
+
+    const animationEndPromise = (element: HTMLElement) => {
+      return new Promise(resolve => {
+        const child = element.firstChild as HTMLElement
+        child.style.animationName = "fadeOut"
+        this.registerEventListener("webkitAnimationEnd", child, () => {
+          resolve()
         })
+      })
+    }
+
+    const { modalElement, backdropElement, modalOpen } = this
+
+    if (modalElement && backdropElement && modalOpen) {
+      const modalPromise = animationEndPromise(modalElement)
+      const allPromises = [modalPromise]
+
+      if (this.closeBackdrop) {
+        const backdropPromise = animationEndPromise(backdropElement)
+        allPromises.push(backdropPromise)
       }
 
-      const { modalElement, backdropElement, modalOpen } = this
+      await Promise.all(allPromises)
 
-      if (modalElement && backdropElement && modalOpen) {
-        const modalPromise = animationEndPromise(modalElement)
-        const allPromises = [modalPromise]
+      this.unMountModal()
+      this.unregisterEventListener(
+        "webkitAnimationEnd",
+        modalElement.firstChild!
+      )
 
-        if (this.closeBackdrop) {
-          const backdropPromise = animationEndPromise(backdropElement)
-          allPromises.push(backdropPromise)
-        }
-
-        await Promise.all(allPromises)
-
-        this.unMountModal()
+      if (this.closeBackdrop) {
+        this.unMountBackdrop()
         this.unregisterEventListener(
           "webkitAnimationEnd",
-          modalElement.firstChild!
+          backdropElement.firstChild!
         )
-        if (this.closeBackdrop) {
-          this.unMountBackdrop()
-          this.unregisterEventListener(
-            "webkitAnimationEnd",
-            backdropElement.firstChild!
-          )
-        }
       }
-      this.closeBackdrop = true
     }
+    this.closeBackdrop = true
   }
 
   public async openModal(modal: ReactElement, force: boolean = false) {
@@ -88,9 +106,8 @@ class ModalService {
         this.closeBackdrop = false
         await this.closeModal(true)
       } else {
-        throw new Error(
-          "Another modal is currently opened. Use openModal with force param."
-        )
+        logError(ModalError.ANOTHER_MODAL_OPENED)
+        return
       }
     }
     this.allowClosingModal(true)
