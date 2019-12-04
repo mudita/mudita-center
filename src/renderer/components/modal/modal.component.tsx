@@ -49,12 +49,12 @@ export const ModalWrapper = styled.section`
   left: 50%;
   transform: translate(-50%, -50%);
 
-  padding: 20px;
+  padding: 2rem;
   box-sizing: border-box;
 
-  border-radius: 4px;
+  border-radius: 0.4rem;
   background-color: #ffffff;
-  box-shadow: 0 2px 30px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0.2rem 3rem 0 rgba(0, 0, 0, 0.08);
 
   ${fadeAnimation};
 `
