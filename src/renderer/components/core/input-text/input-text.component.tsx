@@ -1,10 +1,4 @@
-import uniqueId from "lodash/uniqueId"
-import React, {
-  InputHTMLAttributes,
-  ReactElement,
-  ReactNode,
-  useState,
-} from "react"
+import React, { InputHTMLAttributes, ReactElement, ReactNode } from "react"
 import Text, {
   getTextStyles,
   smallTextSharedStyles,
@@ -186,30 +180,22 @@ const InputText: FunctionComponent<TextInputProps &
   disabled,
   ...rest
 }) => {
-  const [uid] = useState(uniqueId("input-text"))
-
   const standardInput = (
     <StandardInputWrapper>
-      <TextInput placeholder={" "} disabled={disabled} id={uid} {...rest} />
+      <TextInput placeholder={" "} disabled={disabled} {...rest} />
       <StandardInputLabel>{placeholder}</StandardInputLabel>
     </StandardInputWrapper>
   )
-
   const outlinedInput = (
-    <TextInput
-      placeholder={placeholder}
-      disabled={disabled}
-      id={uid}
-      {...rest}
-    />
+    <TextInput placeholder={placeholder} disabled={disabled} {...rest} />
   )
+
   return (
     <InputWrapper
       className={className}
       layout={layout}
       condensed={condensed}
       disabled={disabled}
-      htmlFor={uid}
     >
       {leadingIcons.map((icon, index) => (
         <TextInputIcon key={index} data-testid={"leading-icon-" + index}>
