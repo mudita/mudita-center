@@ -4,7 +4,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 
 const Phone: FunctionComponent = props => {
   console.log(props)
-  return <div>Phone</div>
+  return <div>Phonee</div>
 }
 
 export default Phone
