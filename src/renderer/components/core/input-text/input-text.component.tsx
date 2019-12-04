@@ -1,7 +1,5 @@
 import uniqueId from "lodash/uniqueId"
 import React, {
-  ChangeEvent,
-  FocusEvent,
   InputHTMLAttributes,
   ReactElement,
   ReactNode,
@@ -26,9 +24,7 @@ const focusedLabelStyles = css`
   ${smallTextSharedStyles};
 `
 
-const StandardInputLabel = styled(Text)<{
-  active: boolean
-}>`
+const StandardInputLabel = styled(Text)`
   position: absolute;
   left: 0;
   bottom: 0;
@@ -38,8 +34,6 @@ const StandardInputLabel = styled(Text)<{
   pointer-events: none;
   user-select: none;
   transition: bottom 0.1s ease-in-out, font-size 0.1s ease-in-out;
-
-  ${({ active }) => active && focusedLabelStyles};
 `
 
 const StandardInputWrapper = styled.div`
@@ -68,6 +62,12 @@ const TextInput = styled.input`
 
   ::placeholder {
     color: ${textColor("placeholder")};
+  }
+
+  :not(:placeholder-shown) {
+    & + ${StandardInputLabel} {
+      ${focusedLabelStyles};
+    }
   }
 
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
@@ -136,7 +136,6 @@ const disabledStyles = css`
 const InputWrapper = styled.label<{
   layout: TextInputLayouts
   condensed: boolean
-  focused: boolean
   disabled?: boolean
 }>`
   position: relative;
@@ -157,8 +156,11 @@ const InputWrapper = styled.label<{
   }}
 
   ${({ condensed }) => condensed && condensedStyles};
-  ${({ focused }) => focused && focusedStyles};
   ${({ disabled }) => disabled && disabledStyles}
+
+  &:focus-within {
+    ${focusedStyles};
+  }
 `
 
 export enum TextInputLayouts {
@@ -182,70 +184,20 @@ const InputText: FunctionComponent<TextInputProps &
   trailingIcons = [],
   placeholder,
   disabled,
-  onChange,
-  onFocus,
-  onBlur,
-  defaultValue,
-  value,
   ...rest
 }) => {
   const [uid] = useState(uniqueId("input-text"))
-  const [focused, setFocus] = useState(false)
-  const [labelActive, setLabelActiveState] = useState(
-    Boolean(
-      (value && value.toString().length) ||
-        (defaultValue && defaultValue.toString().length)
-    )
-  )
-
-  const onChangeWrapper = (event: ChangeEvent<HTMLInputElement>) => {
-    const { target } = event
-    setLabelActiveState(Boolean(target.value.length))
-    if (onChange) {
-      onChange(event)
-    }
-  }
-
-  const onFocusWrapper = (event: FocusEvent<HTMLInputElement>) => {
-    setFocus(true)
-    if (onFocus) {
-      onFocus(event)
-    }
-  }
-
-  const onBlurWrapper = (event: FocusEvent<HTMLInputElement>) => {
-    setFocus(false)
-    if (onBlur) {
-      onBlur(event)
-    }
-  }
 
   const standardInput = (
     <StandardInputWrapper>
-      <TextInput
-        onFocus={onFocusWrapper}
-        onBlur={onBlurWrapper}
-        onChange={onChangeWrapper}
-        value={value}
-        defaultValue={defaultValue}
-        disabled={disabled}
-        id={uid}
-        {...rest}
-      />
-      <StandardInputLabel active={labelActive}>
-        {placeholder}
-      </StandardInputLabel>
+      <TextInput placeholder={" "} disabled={disabled} id={uid} {...rest} />
+      <StandardInputLabel>{placeholder}</StandardInputLabel>
     </StandardInputWrapper>
   )
 
   const outlinedInput = (
     <TextInput
       placeholder={placeholder}
-      onFocus={onFocusWrapper}
-      onBlur={onBlurWrapper}
-      onChange={onChange}
-      value={value}
-      defaultValue={defaultValue}
       disabled={disabled}
       id={uid}
       {...rest}
@@ -256,7 +208,6 @@ const InputText: FunctionComponent<TextInputProps &
       className={className}
       layout={layout}
       condensed={condensed}
-      focused={focused}
       disabled={disabled}
       htmlFor={uid}
     >
