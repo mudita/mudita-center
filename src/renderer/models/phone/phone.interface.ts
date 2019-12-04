@@ -11,5 +11,5 @@ export interface ContactCategory {
 }
 
 export interface InitialContactList {
-  contacts: ContactCategory[]
+  contactList: ContactCategory[]
 }
