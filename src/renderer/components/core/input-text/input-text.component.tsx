@@ -60,18 +60,18 @@ const TextInput = styled.input`
   color: ${textColor("dark")};
   user-select: none;
 
-  ::placeholder {
-    color: ${textColor("placeholder")};
-  }
+  ${getTextStyles(TextDisplayStyle.MediumLightText)};
+  line-height: 1.5rem;
 
-  :not(:placeholder-shown) {
+  &:not(:placeholder-shown) {
     & + ${StandardInputLabel} {
       ${focusedLabelStyles};
     }
   }
 
-  ${getTextStyles(TextDisplayStyle.MediumLightText)};
-  line-height: 1.5rem;
+  ::placeholder {
+    color: ${textColor("placeholder")};
+  }
 `
 
 const outlinedLayout = css`
