@@ -64,9 +64,12 @@ class ModalService {
       return new Promise(resolve => {
         const child = element.firstChild as HTMLElement
         child.style.animationName = "fadeOut"
-        this.registerEventListener("webkitAnimationEnd", child, () => {
+
+        const resolvePromise = () => {
           resolve()
-        })
+          child.removeEventListener("webkitAnimationEnd", resolvePromise)
+        }
+        child.addEventListener("webkitAnimationEnd", resolvePromise)
       })
     }
 
