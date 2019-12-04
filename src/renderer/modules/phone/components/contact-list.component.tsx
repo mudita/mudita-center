@@ -12,7 +12,6 @@ const ContactListWrapper = styled.ul`
 const ContactList: FunctionComponent<InitialContactList> = ({
   contactList,
 }) => {
-  console.log(contactList)
   return (
     <section>
       <ContactListWrapper>

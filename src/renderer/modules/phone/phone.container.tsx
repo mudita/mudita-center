@@ -1,10 +1,9 @@
 import { connect } from "react-redux"
-import { InitialContactList } from "Renderer/models/phone/phone.interface"
-
+import { select } from "Renderer/store"
 import Phone from "./phone.component"
 
-const mapStateToProps = ({ phoneView }: { phoneView: InitialContactList }) => ({
-  ...phoneView,
-})
+const mapState = select(models => ({
+  grouped: models.phoneView.grouped,
+}))
 
-export default connect(mapStateToProps)(Phone)
+export default connect(mapState)(Phone)

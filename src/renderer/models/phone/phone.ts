@@ -1,3 +1,4 @@
+import { Slicer } from "@rematch/select"
 import Faker from "faker"
 
 const initialContactList = {
@@ -17,9 +18,9 @@ const generateLetters = (contactList: any) => {
   }
   return contactList
 }
-
+// TODO: remove before production
 const generateFakeState = (state: any) => {
-  const fakeData = Array(50)
+  const fakeData = Array(10)
     .fill(0)
     .map(_ => ({
       id: Faker.random.uuid(),
@@ -30,12 +31,9 @@ const generateFakeState = (state: any) => {
     }))
 
   for (const [i] of state.entries()) {
-    const letter = state[i].letter
     const contacts = state[i].contacts
     for (const item of fakeData) {
-      if (item.firstName.charAt(0) === letter) {
-        contacts.push(item)
-      }
+      contacts.push(item)
     }
   }
   return {
@@ -43,6 +41,16 @@ const generateFakeState = (state: any) => {
   }
 }
 
+const initialStateValue = {
+  contacts: generateFakeState(generateLetters(initialContactList.contactList)),
+  inputValue: "",
+}
+
 export default {
-  state: generateFakeState(generateLetters(initialContactList.contactList)),
+  state: initialStateValue,
+  selectors: (slice: Slicer<typeof initialStateValue>) => ({
+    grouped() {
+      return slice(state => state.contacts)
+    },
+  }),
 }
