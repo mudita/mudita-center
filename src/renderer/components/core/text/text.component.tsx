@@ -83,7 +83,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         ${largeTextSharedStyles};
         ${uppercaseStyles};
         color: ${textColor("faded")};
-        letter-spacing: ${letterSpacing("regular")}rem;
       `
     case TextDisplayStyle.LargeFadedDimTextCapitalLetters:
       return css`
@@ -114,10 +113,7 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         letter-spacing: ${letterSpacing("small")}rem;
       `
     case TextDisplayStyle.MediumText:
-      return css`
-        ${mediumTextSharedStyles};
-        font-weight: ${fontWeight("default")};
-      `
+      return mediumTextSharedStyles
     case TextDisplayStyle.MediumFadedText:
       return css`
         ${mediumTextSharedStyles};
