@@ -1,6 +1,20 @@
 import { Slicer } from "@rematch/select"
 import Faker from "faker"
 
+// TODO: remove before production
+const generateFakeData = (numberOfContacts: number) => {
+  const fakeData = Array(numberOfContacts)
+    .fill(0)
+    .map(_ => ({
+      id: Faker.random.uuid(),
+      firstName: Faker.name.firstName(),
+      lastName: Faker.name.lastName(),
+      phoneNumber: Faker.phone.phoneNumber(),
+      favourite: Faker.random.boolean(),
+    }))
+  return fakeData
+}
+
 const generateSortedStructure = (fakeState: any) => {
   const alphabet = new Array(26)
     .fill(1)
@@ -16,18 +30,18 @@ const generateSortedStructure = (fakeState: any) => {
     for (const letter of alphabet) {
       fakeStructure.push({
         letter,
-        contactList: [],
+        contacts: [],
       })
     }
 
     return fakeStructure
   }
 
-  const placeContactInStructure = () => {
+  const placeContactsInStructure = () => {
     const fakeStructure = generateFakeStructure()
     fakeStructure.forEach((fakeContact, index) => {
       const contactLetter = fakeContact.letter
-      const contactList: string[] = fakeContact.contactList
+      const contactList: string[] = fakeContact.contacts
       sortedContactList.forEach((sortedContact: any) => {
         if (sortedContact.firstName.charAt(0) === contactLetter) {
           contactList.push(sortedContact)
@@ -37,32 +51,23 @@ const generateSortedStructure = (fakeState: any) => {
     return fakeStructure
   }
 
-  return placeContactInStructure()
-}
+  const sanitizeContacts = () => {
+    const structure = placeContactsInStructure()
+    return structure.filter(el => el.contacts.length > 0)
+  }
 
-// TODO: remove before production
-const generateFakeState = (numberOfContacts: number) => {
-  const fakeData = Array(numberOfContacts)
-    .fill(0)
-    .map(_ => ({
-      id: Faker.random.uuid(),
-      firstName: Faker.name.firstName(),
-      lastName: Faker.name.lastName(),
-      phoneNumber: Faker.phone.phoneNumber(),
-      favourite: Faker.random.boolean(),
-    }))
-  return fakeData
+  return sanitizeContacts()
 }
 
 const initialStateValue = {
-  contacts: generateFakeState(20),
+  contacts: generateFakeData(20),
   inputValue: "",
 }
 
 const filterContacts = (contacts: any, substring: string) => {
-  return contacts.map((contactsByLetter: { contactList: any[] }) => ({
+  return contacts.map((contactsByLetter: any) => ({
     ...contactsByLetter,
-    contactList: contactsByLetter.contactList.filter(contact => {
+    contacts: contactsByLetter.contacts.filter((contact: any) => {
       const filterableFields = Object.values(contact).filter(value => {
         return typeof value === "string"
       })
