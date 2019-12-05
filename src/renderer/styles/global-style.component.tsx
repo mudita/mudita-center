@@ -7,8 +7,13 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     font-family: ${font("primary")};
     /* stylelint-disable unit-whitelist */
     font-size: 10px; 
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.5;
+  }
+  a {
+    appearance: none;
+    color: #000;
+    text-decoration: none;
   }
 `
 

@@ -1,9 +1,28 @@
 const columnWidth = 6.5
 const gutterWidth = 4
 
+/**
+ * All colors from palette.
+ * TODO: sync them with colors in theme and use abstract names.
+ */
+// const white = "#FFFFFF"
+// const black = "#000000"
+// const grey1 = "#3B3F42"
+// const grey2 = "#F4F5F6"
+// const grey3 = "#CDCECF"
+// const grey4 = "#6A6A6A"
+// const grey5 = "#FBFBFB"
+// const grey6 = "#D2D6DB"
+// const blue1 = "#6D9BBC"
+// const blue2 = "#3E6988"
+// const blue3 = "#F3F8FC"
+// const red1 = "#E96A6A"
+
 const theme = {
   color: {
     text: {
+      black: "#000000",
+      grey: "#CDCECF",
       primary: "#0f0f1a",
       inverted: "#FFFFFF",
       faded: "#6A6A6A",
@@ -12,11 +31,16 @@ const theme = {
     background: {
       light: "#ffffff",
       dark: "#000000",
+      dark2: "#232426",
+      grey: "#CDCECF",
+      grey2: "#F4F5F6",
+      grey3: "#E9E9E9",
       inputDark: "#3B3F42",
     },
     border: {
       dark: "#000000",
       default: "#CDCECF",
+      grey: "#CDCECF",
       hover: "#3B3F42",
     },
   },
@@ -58,6 +82,9 @@ const theme = {
     gutterWidth,
   },
   width: {
+    buttonBig: columnWidth * 2 + gutterWidth,
+    buttonMedium: gutterWidth * 3,
+    buttonSmall: columnWidth + gutterWidth,
     viewWidth: columnWidth * 12 + gutterWidth * 13,
     menuWidth: columnWidth * 3 + gutterWidth * 3,
   },

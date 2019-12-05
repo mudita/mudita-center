@@ -36,6 +36,7 @@ const uppercaseStyles = css`
 `
 
 const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
+  margin: 0;
   ${({ displayStyle }) => {
     switch (displayStyle) {
       case TextDisplayStyle.PrimaryHeading:
