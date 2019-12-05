@@ -11,6 +11,7 @@ const theme = {
     },
     background: {
       light: "#ffffff",
+      accent: "#F4F5F6",
       dark: "#000000",
       inputDark: "#3B3F42",
     },
@@ -18,6 +19,7 @@ const theme = {
       dark: "#000000",
       default: "#CDCECF",
       hover: "#3B3F42",
+      light: "#D2D6DB",
     },
   },
   layout: {

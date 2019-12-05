@@ -36,6 +36,7 @@ const uppercaseStyles = css`
 `
 
 const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
+  font-weight: 400;
   ${({ displayStyle }) => {
     switch (displayStyle) {
       case TextDisplayStyle.PrimaryHeading:
@@ -160,7 +161,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
       default:
         return null
     }
-  }}
+  }};
 `
 
 interface Props {
@@ -239,4 +240,4 @@ const Text: FunctionComponent<Props> = ({
   </TextWrapper>
 )
 
-export default Text
+export default styled(Text)``
