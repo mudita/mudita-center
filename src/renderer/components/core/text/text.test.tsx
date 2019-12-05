@@ -30,7 +30,10 @@ test("should render with children and as prop", () => {
   const headlineLevel = "h3"
   const headlineText = "Example"
   const { getByText } = renderWithThemeAndIntl(
-    <Text displayStyle={TextDisplayStyle.PrimaryHeading} as={headlineLevel}>
+    <Text
+      displayStyle={TextDisplayStyle.PrimaryHeading}
+      element={headlineLevel}
+    >
       {headlineText}
     </Text>
   )

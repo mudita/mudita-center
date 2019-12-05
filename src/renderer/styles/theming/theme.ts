@@ -14,7 +14,7 @@ const theme = {
       dark: "#000000",
       inputDark: "#3B3F42",
     },
-    borderColor: {
+    border: {
       dark: "#000000",
       default: "#CDCECF",
       hover: "#3B3F42",
@@ -33,6 +33,14 @@ const theme = {
     light: 300,
     default: 400,
     bold: 700,
+  },
+  height: {
+    small: 0.3,
+    medium: 0.8,
+  },
+  borderRadius: {
+    small: 0.15,
+    medium: 0.4,
   },
   letterSpacing: {
     negative: -0.06,
