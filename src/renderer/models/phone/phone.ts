@@ -59,6 +59,18 @@ const initialStateValue = {
   inputValue: "",
 }
 
+const filterContacts = (contacts: any, substring: string) => {
+  return contacts.map((contactsByLetter: { contactList: any[] }) => ({
+    ...contactsByLetter,
+    contactList: contactsByLetter.contactList.filter(contact => {
+      const filterableFields = Object.values(contact).filter(value => {
+        return typeof value === "string"
+      })
+      return filterableFields.some((value: any) => value.includes(substring))
+    }),
+  }))
+}
+
 export default {
   state: initialStateValue,
   reducers: {
@@ -70,7 +82,13 @@ export default {
   },
   selectors: (slice: Slicer<typeof initialStateValue>) => ({
     grouped() {
-      return slice(state => generateSortedStructure(state.contacts))
+      return slice(state => {
+        const sorted = generateSortedStructure(state.contacts)
+        if (state.inputValue === "") {
+          return sorted
+        }
+        return filterContacts(sorted, state.inputValue)
+      })
     },
   }),
 }
