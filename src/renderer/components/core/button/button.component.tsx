@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ComponentProps } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
@@ -64,7 +64,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   type = Type.button,
   ...rest
 }) => {
-  let Component
+  let Component: FunctionComponent<ComponentProps<typeof StyledButton>>
   const filteredProps = {}
 
   if (to) {
