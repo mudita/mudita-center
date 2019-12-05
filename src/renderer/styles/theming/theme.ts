@@ -18,9 +18,9 @@ const theme = {
       accent: "#F4F5F6",
     },
     border: {
+      dark: "#000000",
       default: "#CDCECF",
       hover: "#3B3F42",
-      dark: "#000000",
     },
   },
   layout: {
@@ -37,6 +37,15 @@ const theme = {
     default: 400,
     bold: 700,
   },
+  height: {
+    small: 0.3,
+    medium: 0.8,
+  },
+  borderRadius: {
+    small: 0.15,
+    medium: 0.4,
+    big: 0.12,
+  },
   letterSpacing: {
     negative: -0.06,
     smaller: 0.02,
@@ -47,11 +56,6 @@ const theme = {
   font: {
     primary:
       "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
-  },
-  borderRadius: {
-    small: 0.2,
-    medium: 0.4,
-    big: 0.12,
   },
   grid: {
     columnWidth,
