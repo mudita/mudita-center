@@ -8,7 +8,7 @@ const store = init({
   plugins: [selectPlugin()],
 })
 
-export const { select } = store
+export const { select, dispatch } = store
 
 export type Store = typeof store
 

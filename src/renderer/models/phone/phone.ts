@@ -1,26 +1,48 @@
 import { Slicer } from "@rematch/select"
 import Faker from "faker"
 
-const initialContactList = {
-  contactList: [],
-}
-
-const generateLetters = (contactList: any) => {
+const generateSortedStructure = (fakeState: any) => {
   const alphabet = new Array(26)
     .fill(1)
     .map((_, i) => String.fromCharCode(65 + i))
 
-  for (const letter of alphabet) {
-    contactList.push({
-      letter,
-      contacts: [],
-    })
+  const sortedContactList = fakeState.sort((a: any, b: any) =>
+    a.firstName.localeCompare(b.firstName)
+  )
+
+  const generateFakeStructure = () => {
+    const fakeStructure = []
+
+    for (const letter of alphabet) {
+      fakeStructure.push({
+        letter,
+        contactList: [],
+      })
+    }
+
+    return fakeStructure
   }
-  return contactList
+
+  const placeContactInStructure = () => {
+    const fakeStructure = generateFakeStructure()
+    fakeStructure.forEach((fakeContact, index) => {
+      const contactLetter = fakeContact.letter
+      const contactList: string[] = fakeContact.contactList
+      sortedContactList.forEach((sortedContact: any) => {
+        if (sortedContact.firstName.charAt(0) === contactLetter) {
+          contactList.push(sortedContact)
+        }
+      })
+    })
+    return fakeStructure
+  }
+
+  return placeContactInStructure()
 }
+
 // TODO: remove before production
-const generateFakeState = (state: any) => {
-  const fakeData = Array(10)
+const generateFakeState = (numberOfContacts: number) => {
+  const fakeData = Array(numberOfContacts)
     .fill(0)
     .map(_ => ({
       id: Faker.random.uuid(),
@@ -29,28 +51,26 @@ const generateFakeState = (state: any) => {
       phoneNumber: Faker.phone.phoneNumber(),
       favourite: Faker.random.boolean(),
     }))
-
-  for (const [i] of state.entries()) {
-    const contacts = state[i].contacts
-    for (const item of fakeData) {
-      contacts.push(item)
-    }
-  }
-  return {
-    contactList: state,
-  }
+  return fakeData
 }
 
 const initialStateValue = {
-  contacts: generateFakeState(generateLetters(initialContactList.contactList)),
+  contacts: generateFakeState(20),
   inputValue: "",
 }
 
 export default {
   state: initialStateValue,
+  reducers: {
+    handleInput(state: any, payload: string) {
+      return Object.assign({}, state, {
+        inputValue: payload,
+      })
+    },
+  },
   selectors: (slice: Slicer<typeof initialStateValue>) => ({
     grouped() {
-      return slice(state => state.contacts)
+      return slice(state => generateSortedStructure(state.contacts))
     },
   }),
 }
