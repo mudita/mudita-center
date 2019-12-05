@@ -2,7 +2,7 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { AppContainer } from "react-hot-loader"
 
-import modalService from "Renderer/components/modal/modal.service"
+import modalService from "Renderer/components/core/modal/modal.service"
 import { LANGUAGE } from "Renderer/constants/languages"
 import history from "Renderer/routes/history"
 

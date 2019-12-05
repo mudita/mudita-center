@@ -6,7 +6,7 @@ import { Router } from "react-router"
 import {
   ModalBackdrop,
   ModalWrapper,
-} from "Renderer/components/modal/modal.component"
+} from "Renderer/components/core/modal/modal.component"
 import localeEn from "Renderer/locales/main/en-US.json"
 import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
