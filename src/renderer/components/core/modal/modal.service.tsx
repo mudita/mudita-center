@@ -24,7 +24,7 @@ const logError = (message: ModalError) => {
 interface EventListeners {
   type: string
   element: Node
-  event: () => void
+  event: (e: Event) => void
 }
 
 class ModalService {
@@ -65,11 +65,14 @@ class ModalService {
         const child = element.firstChild as HTMLElement
         child.style.animationName = "fadeOut"
 
-        const resolvePromise = () => {
-          resolve()
-          child.removeEventListener("webkitAnimationEnd", resolvePromise)
-        }
-        child.addEventListener("webkitAnimationEnd", resolvePromise)
+        this.registerEventListener(
+          "webkitAnimationEnd",
+          child,
+          () => {
+            resolve()
+          },
+          true
+        )
       })
     }
 
@@ -87,17 +90,8 @@ class ModalService {
       await Promise.all(allPromises)
 
       this.unMountModal()
-      this.unregisterEventListener(
-        "webkitAnimationEnd",
-        modalElement.firstChild!
-      )
-
       if (this.backdropClosingAllowed) {
         this.unMountBackdrop()
-        this.unregisterEventListener(
-          "webkitAnimationEnd",
-          backdropElement.firstChild!
-        )
       }
     }
     this.backdropClosingAllowed = true
@@ -127,10 +121,17 @@ class ModalService {
   private registerEventListener(
     type: EventListeners["type"],
     element: EventListeners["element"],
-    event: EventListeners["event"]
+    event: EventListeners["event"],
+    once: boolean = false
   ) {
-    this.eventListeners.push({ type, element, event })
-    element.addEventListener(type, event)
+    const eventWrapper = (e: Event) => {
+      event(e)
+      if (once) {
+        element.removeEventListener(type, eventWrapper)
+      }
+    }
+    this.eventListeners.push({ type, element, event: eventWrapper })
+    element.addEventListener(type, eventWrapper)
   }
 
   private unregisterEventListener(
