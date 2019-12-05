@@ -59,6 +59,10 @@ module.exports = merge.smart(baseConfig, {
         ],
       },
       {
+        test: /\.svg$/,
+        use: ["svg-react-loader"],
+      },
+      {
         test: /\.(woff(2)?|ttf|eot|otf)(\?v=\d+\.\d+\.\d+)?$/,
         use: [
           {
