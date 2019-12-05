@@ -51,12 +51,11 @@ const generateSortedStructure = (fakeState: any) => {
     return fakeStructure
   }
 
-  const sanitizeContacts = () => {
-    const structure = placeContactsInStructure()
-    return structure.filter(el => el.contacts.length > 0)
-  }
+  return placeContactsInStructure()
+}
 
-  return sanitizeContacts()
+const sanitizeContacts = (structure: any) => {
+  return structure.filter((el: any) => el.contacts.length > 0)
 }
 
 const initialStateValue = {
@@ -88,11 +87,11 @@ export default {
   selectors: (slice: Slicer<typeof initialStateValue>) => ({
     grouped() {
       return slice(state => {
-        const sorted = generateSortedStructure(state.contacts)
+        const sorted = sanitizeContacts(generateSortedStructure(state.contacts))
         if (state.inputValue === "") {
           return sorted
         }
-        return filterContacts(sorted, state.inputValue)
+        return sanitizeContacts(filterContacts(sorted, state.inputValue))
       })
     },
   }),
