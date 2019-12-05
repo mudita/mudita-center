@@ -84,7 +84,6 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
           ${largeTextSharedStyles};
           ${uppercaseStyles};
           color: ${textColor("faded")};
-          letter-spacing: ${letterSpacing("regular")}rem;
         `
       case TextDisplayStyle.LargeFadedDimTextCapitalLetters:
         return css`
