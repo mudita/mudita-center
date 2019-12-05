@@ -130,7 +130,9 @@ class ModalService {
         element.removeEventListener(type, eventWrapper)
       }
     }
-    this.eventListeners.push({ type, element, event: eventWrapper })
+    if (!once) {
+      this.eventListeners.push({ type, element, event: eventWrapper })
+    }
     element.addEventListener(type, eventWrapper)
   }
 
