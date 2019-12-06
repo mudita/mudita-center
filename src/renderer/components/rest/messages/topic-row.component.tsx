@@ -10,16 +10,38 @@ import {
   textColor,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
+
+const Checkbox = styled.input.attrs(() => ({
+  type: "checkbox",
+}))`
+  grid-area: Avatar;
+  align-self: center;
+  justify-self: center;
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease-in-out;
+`
 
 const Avatar = styled.div<{ default: boolean }>`
   grid-area: Avatar;
+  width: 4.8rem;
+  height: 4.8rem;
+  align-self: center;
+  justify-self: center;
   border-radius: 50%;
   overflow: hidden;
   background-color: ${backgroundColor("accent")};
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.15s ease-in-out;
 
   img {
     width: 100%;
@@ -38,7 +60,6 @@ const Name = styled(Text)`
   align-self: end;
   margin: 0;
   padding-bottom: 0.4rem;
-  padding-left: 2.5rem;
 `
 
 const Time = styled(Text)`
@@ -53,7 +74,9 @@ const Message = styled(Text)`
   grid-area: Message;
   align-self: center;
   margin: 0;
-  padding-left: 2.5rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `
 
 const UnreadMessageDot = styled.span`
@@ -68,32 +91,55 @@ const UnreadMessageDot = styled.span`
 const Actions = styled.div`
   grid-area: Actions;
   align-self: center;
-  justify-self: end;
+  justify-self: center;
 `
 
-const TopicRowWrapper = styled.div`
+const topicHoverState = css`
+  ${Checkbox} {
+    opacity: 1;
+    visibility: visible;
+  }
+  ${Avatar} {
+    opacity: 0;
+    visibility: hidden;
+  }
+`
+
+const TopicRowWrapper = styled.div<{ showCheckbox: boolean }>`
   display: grid;
-  grid-template-columns: 4.8rem auto 1fr 9rem;
+  grid-template-columns: 11rem auto 1fr 9rem;
   grid-template-rows: 2.4rem 2.4rem;
   grid-template-areas:
     "Avatar Name Date Actions"
     "Avatar Message Message Actions";
   align-content: center;
   height: 9rem;
-  padding: 0 3rem;
   box-sizing: border-box;
   border-bottom: solid 0.1rem ${borderColor("light")};
+  transition: background-color 0.15s ease-in-out;
+
+  &:hover {
+    background-color: ${backgroundColor("accent")};
+    ${topicHoverState};
+  }
+
+  ${({ showCheckbox }) => showCheckbox && topicHoverState};
 `
 
 interface TopicRowProps extends Topic {
   actions: ReactNode
+  onCheckToggle: (id: string) => void
+  showCheckbox: boolean
 }
 
 const TopicRow: FunctionComponent<TopicRowProps> = ({
+  _id,
   caller,
   messages,
   unread,
   actions,
+  onCheckToggle,
+  showCheckbox,
 }) => {
   const { forename, surname, avatar } = caller
   const lastMessage = messages.sort((a, b) => {
@@ -102,8 +148,12 @@ const TopicRow: FunctionComponent<TopicRowProps> = ({
     return x > y ? -1 : x < y ? 1 : 0
   })[0]
 
+  const onCheckboxToggle = () => {
+    onCheckToggle(_id)
+  }
+
   return (
-    <TopicRowWrapper>
+    <TopicRowWrapper showCheckbox={showCheckbox}>
       <Avatar default={!avatar}>
         {avatar ? (
           <img src={avatar} alt={`${forename} ${surname}`} />
@@ -114,6 +164,7 @@ const TopicRow: FunctionComponent<TopicRowProps> = ({
           </Text>
         )}
       </Avatar>
+      <Checkbox onChange={onCheckboxToggle} />
       <Name displayStyle={TextDisplayStyle.LargeBoldText}>
         {forename} {surname}
       </Name>

@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import TopicRow from "Renderer/components/rest/messages/topic-row.component"
+import TopicsFiltering from "Renderer/components/rest/messages/topics-filtering.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import styled from "styled-components"
 
 export interface Caller {
   id: string
@@ -252,16 +254,366 @@ const mockedTopics = [
       },
     ],
   },
+  {
+    _id: "fb8ce43c-7d19-4110-87b0-cedd8ab16782",
+    caller: {
+      id: "5dea5f4678f81fe7f5e34977",
+      forename: "Misty",
+      surname: "Hayes",
+      phone: "+1 (892) 569-3463",
+      avatar: "http://placehold.it/96/80fe08",
+    },
+    unread: true,
+    messages: [
+      {
+        _id: "eeee6fd5-d1d2-460d-82bb-8bb3478918d9",
+        date: "2019-10-15T03:43:55.256Z",
+        content:
+          "Sit ea sunt est esse ad Lorem reprehenderit amet nisi quis in sint.",
+        isCaller: true,
+      },
+      {
+        _id: "21f99094-03fe-4a27-9b96-183a4a727e9c",
+        date: "2019-10-15T04:23:21.338Z",
+        content:
+          "Nostrud excepteur dolor cillum id deserunt incididunt eiusmod ad sunt eu aute eu.",
+        isCaller: true,
+      },
+      {
+        _id: "bbffcb26-0666-4906-ab9e-4c481d2d8628",
+        date: "2019-10-15T04:54:41.284Z",
+        content:
+          "Ut aute eiusmod nisi enim pariatur ea Lorem do ipsum aliquip.",
+        isCaller: true,
+      },
+      {
+        _id: "160cb043-365f-4195-845c-e70f23329056",
+        date: "2019-10-15T05:37:51.479Z",
+        content:
+          "Anim aliqua aute ad magna esse voluptate duis proident sint veniam mollit qui.",
+        isCaller: true,
+      },
+    ],
+  },
+  {
+    _id: "ed94e938-cad9-4ed1-9040-eec2e849efd8",
+    caller: {
+      id: "5dea5f46aa4b90fb24975e05",
+      forename: "Susanna",
+      surname: "Guthrie",
+      phone: "+1 (975) 481-3940",
+      avatar: "http://placehold.it/96/b83260",
+    },
+    unread: true,
+    messages: [
+      {
+        _id: "05661ee1-8587-4fe9-bc52-3fe7946f9924",
+        date: "2019-10-15T03:43:55.256Z",
+        content: "Est Lorem dolor ut id duis commodo eiusmod.",
+        isCaller: false,
+      },
+      {
+        _id: "95b865d1-2a53-43dc-b5d7-f5f388628102",
+        date: "2019-10-15T04:29:12.143Z",
+        content: "Ullamco pariatur in nulla velit incididunt.",
+        isCaller: true,
+      },
+      {
+        _id: "1afa5ade-fd80-480d-85a5-2d4523a688c6",
+        date: "2019-10-15T04:49:10.404Z",
+        content: "Non eu adipisicing aliqua et commodo.",
+        isCaller: true,
+      },
+      {
+        _id: "54d32f12-ebbe-4edd-a94b-537e6ba88493",
+        date: "2019-10-15T06:08:18.719Z",
+        content:
+          "Duis est officia elit nulla ut quis voluptate minim labore commodo aute eiusmod.",
+        isCaller: false,
+      },
+      {
+        _id: "7999f357-ab85-4bcb-b2b8-cfadf079dde2",
+        date: "2019-10-15T05:37:23.016Z",
+        content:
+          "Cupidatat eu cupidatat commodo eu proident occaecat aliqua eu aute nostrud ex elit nisi pariatur.",
+        isCaller: true,
+      },
+      {
+        _id: "9be0b8de-224f-4d08-a9c4-dc05f0dafbde",
+        date: "2019-10-15T07:19:53.126Z",
+        content:
+          "Esse voluptate fugiat officia tempor culpa culpa ullamco sint.",
+        isCaller: true,
+      },
+      {
+        _id: "6bbe37b3-26f6-438e-b5c0-6d0163de46b2",
+        date: "2019-10-15T06:31:42.014Z",
+        content: "Incididunt excepteur anim esse exercitation ullamco.",
+        isCaller: false,
+      },
+    ],
+  },
+  {
+    _id: "4422867b-ef3e-4184-b9be-f700c1ceb9e5",
+    caller: {
+      id: "5dea5f4616749205bf3c441f",
+      forename: "Lauren",
+      surname: "Mathews",
+      phone: "+1 (971) 570-2721",
+      avatar: "http://placehold.it/96/bbf6bc",
+    },
+    unread: true,
+    messages: [
+      {
+        _id: "87278291-374e-486c-94c1-141cf8137f3f",
+        date: "2019-10-15T03:43:55.256Z",
+        content:
+          "Incididunt enim occaecat excepteur ad elit qui elit consequat deserunt ad aliqua eiusmod.",
+        isCaller: false,
+      },
+      {
+        _id: "98bc9d9c-0d42-4f1b-b07a-5876a4387ac2",
+        date: "2019-10-15T04:01:15.004Z",
+        content: "Aliqua Lorem in elit laborum.",
+        isCaller: false,
+      },
+      {
+        _id: "18e58c97-16f8-41f6-b257-6fd9b92f0868",
+        date: "2019-10-15T05:19:45.496Z",
+        content: "Velit in nostrud nisi fugiat reprehenderit laboris.",
+        isCaller: false,
+      },
+      {
+        _id: "5291fb81-139d-4513-8cbf-203c1f5e5a6b",
+        date: "2019-10-15T05:43:52.262Z",
+        content:
+          "Nisi cupidatat mollit laborum culpa ex excepteur deserunt esse excepteur aute occaecat proident minim.",
+        isCaller: false,
+      },
+      {
+        _id: "b0d91c81-66a6-474a-adb9-bfb8cabfd284",
+        date: "2019-10-15T05:27:42.132Z",
+        content:
+          "Ex fugiat pariatur ipsum nulla voluptate officia ad anim ut ex sint ullamco eu consectetur.",
+        isCaller: false,
+      },
+      {
+        _id: "9c72980f-1e86-4f37-8539-3232a2c854ed",
+        date: "2019-10-15T07:30:20.211Z",
+        content: "Enim Lorem magna quis laborum.",
+        isCaller: false,
+      },
+    ],
+  },
+  {
+    _id: "79531385-f4b9-4d5a-b510-4369187c7556",
+    caller: {
+      id: "5dea5f46f55a9b8fa9df2745",
+      forename: "Bolton",
+      surname: "Harvey",
+      phone: "+1 (865) 474-3456",
+      avatar: "http://placehold.it/96/e07113",
+    },
+    unread: false,
+    messages: [
+      {
+        _id: "0eba4fa7-ab69-4d24-9312-d9da5bd2c08e",
+        date: "2019-10-15T03:43:55.256Z",
+        content: "Sunt dolore duis minim ad non.",
+        isCaller: true,
+      },
+      {
+        _id: "8d04a3ff-2bb9-4bac-b948-52e46b0498d6",
+        date: "2019-10-15T04:08:40.867Z",
+        content: "Est eu nisi in nostrud.",
+        isCaller: false,
+      },
+      {
+        _id: "08d0c9fb-5047-41aa-bfce-d8fde12b4d07",
+        date: "2019-10-15T05:15:54.070Z",
+        content: "Est aute dolor ullamco voluptate non.",
+        isCaller: false,
+      },
+      {
+        _id: "39715ca0-f50b-4085-ae91-6219377f8aca",
+        date: "2019-10-15T05:47:12.323Z",
+        content: "Laborum in dolore officia esse qui.",
+        isCaller: false,
+      },
+      {
+        _id: "7d6e2884-a3b8-42a6-9d11-6e05798900d9",
+        date: "2019-10-15T06:40:58.692Z",
+        content: "Eiusmod ipsum deserunt magna exercitation in non.",
+        isCaller: true,
+      },
+      {
+        _id: "8f0c8079-90a4-4a7f-b83e-93a33a4c7864",
+        date: "2019-10-15T07:32:07.031Z",
+        content:
+          "Aute exercitation adipisicing eu pariatur nulla non ex in nisi adipisicing veniam dolor aliquip.",
+        isCaller: true,
+      },
+      {
+        _id: "e0977cc3-7de6-4a26-a6b2-ee81c69c1b20",
+        date: "2019-10-15T05:25:44.030Z",
+        content: "Dolor excepteur velit proident id ea sit.",
+        isCaller: true,
+      },
+    ],
+  },
+  {
+    _id: "b13a56e4-8aad-4429-97f0-7af8c63084bb",
+    caller: {
+      id: "5dea5f46a7f5106ca729eaa7",
+      forename: "Concetta",
+      surname: "Rosario",
+      phone: "+1 (875) 435-2831",
+      avatar: undefined,
+    },
+    unread: false,
+    messages: [
+      {
+        _id: "6375bddc-d692-4820-b9cd-29cdc5d87b3c",
+        date: "2019-10-15T03:43:55.256Z",
+        content: "Ullamco ea amet ut quis minim irure do.",
+        isCaller: true,
+      },
+      {
+        _id: "30b7023c-05c8-4f24-981b-c3eb8a4ec89f",
+        date: "2019-10-15T04:19:04.669Z",
+        content:
+          "Lorem pariatur tempor Lorem in sunt pariatur dolor magna labore non ea amet voluptate voluptate.",
+        isCaller: true,
+      },
+    ],
+  },
+  {
+    _id: "db94ab2b-917f-4901-808d-dbec5e556ae4",
+    caller: {
+      id: "5dea5f4680c284a2d58ccd27",
+      forename: "Gwendolyn",
+      surname: "Morgan",
+      phone: "+1 (863) 593-2852",
+      avatar: "http://placehold.it/96/ccdee3",
+    },
+    unread: false,
+    messages: [
+      {
+        _id: "c722e0f4-bc17-4a66-8a73-0a3c5fb774e7",
+        date: "2019-10-15T03:43:55.256Z",
+        content:
+          "Deserunt ad consequat excepteur reprehenderit et veniam sit aute dolore cillum amet ut.",
+        isCaller: true,
+      },
+      {
+        _id: "f056a3bd-06ff-49f7-a27f-d4075c5c5698",
+        date: "2019-10-15T04:25:27.228Z",
+        content:
+          "Anim tempor anim magna mollit incididunt officia qui labore nulla labore.",
+        isCaller: false,
+      },
+    ],
+  },
+  {
+    _id: "e5e8a352-c526-4eb4-b8d3-a546785c430d",
+    caller: {
+      id: "5dea5f46a74c1bb00e8852fd",
+      forename: "Vincent",
+      surname: "Rowe",
+      phone: "+1 (922) 488-2206",
+      avatar: "http://placehold.it/96/31740",
+    },
+    unread: true,
+    messages: [
+      {
+        _id: "823ff47d-6523-4ac0-aad9-ae9ff7fda33e",
+        date: "2019-10-15T03:43:55.256Z",
+        content: "Labore elit nostrud minim Lorem Lorem.",
+        isCaller: false,
+      },
+      {
+        _id: "864d32ed-fc58-452c-8f4a-85fcb7dd92f5",
+        date: "2019-10-15T04:22:20.913Z",
+        content: "Commodo amet pariatur id ex labore excepteur sunt minim.",
+        isCaller: false,
+      },
+    ],
+  },
 ]
+
+const TopicsListWrapper = styled.div`
+  overflow: auto;
+`
 
 const MessagesActions: FunctionComponent = () => <div>•••</div>
 
 const Messages: FunctionComponent = () => {
+  const [allMessages, setAllMessagesFilter] = useState(false)
+  const [searchValue, setSearchValue] = useState("")
+  const [chosenTopics, setChosenTopics] = useState<Topic[]>([])
+  const [checkMode, setCheckMode] = useState(false)
+
+  const filteredTopics = mockedTopics
+    .filter(({ unread, caller, messages }) => {
+      const topicUnread = allMessages ? true : unread
+      const matchesForename = caller.forename
+        .toLowerCase()
+        .includes(searchValue)
+      const matchesSurname = caller.surname.toLowerCase().includes(searchValue)
+      const matchesPhone = caller.phone.includes(searchValue)
+      const matchesMessage = messages.some(({ content }) =>
+        content.toLowerCase().includes(searchValue)
+      )
+
+      return (
+        topicUnread &&
+        (matchesForename || matchesSurname || matchesPhone || matchesMessage)
+      )
+    })
+    .sort((a, b) => {
+      const lastMessageDate = (from: Topic) => {
+        const dates = from.messages.map(message =>
+          new Date(message.date).getTime()
+        )
+        return Math.max(...dates)
+      }
+      const x = lastMessageDate(a)
+      const y = lastMessageDate(b)
+      return x > y ? -1 : x < y ? 1 : 0
+    })
+
+  const updateChosenTopics = (id: string) => {
+    const chosenTopicsTemp = [...chosenTopics]
+    const foundTopic = chosenTopicsTemp.find(({ _id }) => _id === id)
+    if (foundTopic) {
+      const foundTopicIndex = chosenTopicsTemp.indexOf(foundTopic)
+      chosenTopicsTemp.splice(foundTopicIndex, 1)
+    } else {
+      const topic = filteredTopics.find(({ _id }) => _id === id)
+      chosenTopicsTemp.push(topic!)
+    }
+    setChosenTopics(chosenTopicsTemp)
+  }
+
+  useEffect(() => {
+    console.log(chosenTopics)
+    setCheckMode(Boolean(chosenTopics.length))
+  }, [chosenTopics])
+
   return (
     <>
-      {mockedTopics.map(topic => (
-        <TopicRow {...topic} key={topic._id} actions={<MessagesActions />} />
-      ))}
+      <TopicsFiltering search={setSearchValue} filter={setAllMessagesFilter} />
+      <TopicsListWrapper>
+        {filteredTopics.map(topic => (
+          <TopicRow
+            {...topic}
+            key={topic._id}
+            actions={<MessagesActions />}
+            onCheckToggle={updateChosenTopics}
+            showCheckbox={checkMode}
+          />
+        ))}
+      </TopicsListWrapper>
     </>
   )
 }
