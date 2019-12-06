@@ -80,13 +80,13 @@ const getStyles = css<{
           border-radius: 0.4rem;
           ${disabled
             ? css`
-                border: 0.2rem solid ${borderColor("grey")};
+                border: 0.1rem solid ${borderColor("grey")};
                 g {
                   fill: ${textColor("grey")};
                 }
               `
             : css`
-                border: 0.2rem solid ${borderColor("hover")};
+                border: 0.1rem solid ${borderColor("hover")};
                 g {
                   fill: ${textColor("black")};
                 }
