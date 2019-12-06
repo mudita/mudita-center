@@ -81,6 +81,12 @@ const theme = {
     columnWidth,
     gutterWidth,
   },
+  transitionTime: {
+    standard: "500ms",
+  },
+  transitionTimingFunction: {
+    standard: "linear",
+  },
   width: {
     buttonBig: columnWidth * 2 + gutterWidth,
     buttonMedium: gutterWidth * 3,

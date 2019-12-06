@@ -4,6 +4,7 @@ import styled, { css } from "styled-components"
 
 import { DisplayStyle, Size } from "./button.component"
 
+import transition from "Renderer/styles/functions/transition"
 import {
   backgroundColor,
   borderColor,
@@ -41,7 +42,7 @@ const getStyles = css<{
   justify-content: center;
   appearance: none;
   background: none;
-  transition: all 0.5s linear;
+  transition: ${transition("background")}, ${transition("border")};
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
