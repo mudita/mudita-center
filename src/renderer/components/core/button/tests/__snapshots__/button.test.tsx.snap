@@ -1,214 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disabled: false 1`] = `
-<button
-  class="sc-bxivhb eInoPr"
-  disabled=""
-  size="2"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Icon only displayStyle: 3 size: undefined disabled: false 1`] = `
-<button
-  class="sc-bxivhb BDKZv"
-  disabled=""
-  size="2"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Icon only displayStyle: 3 size: undefined disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Icon only displayStyle: 4 size: undefined disabled: false 1`] = `
-<button
-  class="sc-bxivhb lnnJun"
-  disabled=""
-  size="2"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Icon only displayStyle: 4 size: undefined disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 1`] = `
-<button
-  class="sc-bxivhb ehIzeP"
-  disabled=""
-  size="2"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 2`] = `
-<a
-  class="sc-htpNat gdnSIg"
-  disabled=""
-  href="http://www.google.pl"
-  size="2"
-  target="_blank"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</a>
-`;
+exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 2`] = `null`;
 
-exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 1`] = `
-<button
-  class="sc-bxivhb fteNWw"
-  disabled=""
-  size="2"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 2`] = `
-<a
-  class="sc-htpNat hlsiRb"
-  disabled=""
-  href="http://www.google.pl"
-  size="2"
-  target="_blank"
->
-  <test-file-stub
-    classname="sc-ifAKCX psvBQ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</a>
-`;
+exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 2`] = `null`;
 
-exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 1`] = `
-<button
-  class="sc-bxivhb blMxI"
-  disabled=""
-  size="2"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 2`] = `
-<a
-  class="sc-htpNat cgQsBJ"
-  disabled=""
-  href="http://www.google.pl"
-  size="2"
-  target="_blank"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</a>
-`;
+exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 2`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: false 1`] = `
-<button
-  class="sc-bxivhb eJNUrl"
-  disabled=""
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: true 1`] = `
-<button
-  class="sc-bxivhb eJNUrl"
-  disabled=""
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: true 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 disabled: false 1`] = `
-<button
-  class="sc-bxivhb hUbANr"
-  disabled=""
-  size="1"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 disabled: true 1`] = `
-<button
-  class="sc-bxivhb hUbANr"
-  disabled=""
-  size="1"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 disabled: true 1`] = `null`;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 disabled: false 1`] = `
 <button
-  class="sc-bxivhb iPPqLG"
-  disabled=""
+  class="sc-bxivhb jBRBGM"
   size="2"
   type="0"
 >
@@ -220,317 +40,40 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 </button>
 `;
 
-exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 disabled: true 1`] = `
-<button
-  class="sc-bxivhb iPPqLG"
-  disabled=""
-  size="2"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 disabled: true 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 disabled: false 1`] = `
-<button
-  class="sc-bxivhb jQhdW"
-  disabled=""
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 disabled: true 1`] = `
-<button
-  class="sc-bxivhb jQhdW"
-  disabled=""
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 disabled: true 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 disabled: false 1`] = `
-<button
-  class="sc-bxivhb eMCHGj"
-  disabled=""
-  size="1"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 disabled: true 1`] = `
-<button
-  class="sc-bxivhb eMCHGj"
-  disabled=""
-  size="1"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 disabled: true 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 disabled: false 1`] = `
-<button
-  class="sc-bxivhb imLuLo"
-  disabled=""
-  size="2"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 disabled: true 1`] = `
-<button
-  class="sc-bxivhb imLuLo"
-  disabled=""
-  size="2"
-  type="0"
->
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 disabled: true 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 0 disabled: false 1`] = `
-<button
-  class="sc-bxivhb eJNUrl"
-  disabled=""
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 0 disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 0 disabled: true 1`] = `
-<button
-  class="sc-bxivhb eJNUrl"
-  disabled=""
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 0 disabled: true 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 1 disabled: false 1`] = `
-<button
-  class="sc-bxivhb hUbANr"
-  disabled=""
-  size="1"
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 1 disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 1 disabled: true 1`] = `
-<button
-  class="sc-bxivhb hUbANr"
-  disabled=""
-  size="1"
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 1 disabled: true 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 2 disabled: false 1`] = `
-<button
-  class="sc-bxivhb iPPqLG"
-  disabled=""
-  size="2"
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 2 disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 2 disabled: true 1`] = `
-<button
-  class="sc-bxivhb iPPqLG"
-  disabled=""
-  size="2"
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 2 disabled: true 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 0 disabled: false 1`] = `
-<button
-  class="sc-bxivhb jQhdW"
-  disabled=""
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 0 disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 0 disabled: true 1`] = `
-<button
-  class="sc-bxivhb jQhdW"
-  disabled=""
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 0 disabled: true 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 1 disabled: false 1`] = `
-<button
-  class="sc-bxivhb eMCHGj"
-  disabled=""
-  size="1"
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 1 disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 1 disabled: true 1`] = `
-<button
-  class="sc-bxivhb eMCHGj"
-  disabled=""
-  size="1"
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 1 disabled: true 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 2 disabled: false 1`] = `
-<button
-  class="sc-bxivhb imLuLo"
-  disabled=""
-  size="2"
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 2 disabled: false 1`] = `null`;
 
-exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 2 disabled: true 1`] = `
-<button
-  class="sc-bxivhb imLuLo"
-  disabled=""
-  size="2"
-  type="0"
->
-  <test-file-stub
-    classname="sc-ifAKCX evOPPJ"
-  />
-  <p
-    class="sc-bdVaJa eQVBHH"
-  >
-    Click
-  </p>
-</button>
-`;
+exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 2 disabled: true 1`] = `null`;
