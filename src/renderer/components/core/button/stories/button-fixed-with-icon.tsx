@@ -32,8 +32,8 @@ export default () => {
                 Primary button
               </ButtonHeader>
               <Button100
-                displayStyle={DisplayStyle.primary}
-                size={Size.fixedBig}
+                displayStyle={DisplayStyle.Primary}
+                size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -44,8 +44,8 @@ export default () => {
                 Primary disabled button
               </ButtonHeader>
               <Button100
-                displayStyle={DisplayStyle.primary}
-                size={Size.fixedBig}
+                displayStyle={DisplayStyle.Primary}
+                size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
                 disabled
@@ -57,8 +57,8 @@ export default () => {
                 Secondary button
               </ButtonHeader>
               <Button100
-                displayStyle={DisplayStyle.secondary}
-                size={Size.fixedBig}
+                displayStyle={DisplayStyle.Secondary}
+                size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -69,8 +69,8 @@ export default () => {
                 Secondary disabled button
               </ButtonHeader>
               <Button100
-                displayStyle={DisplayStyle.secondary}
-                size={Size.fixedBig}
+                displayStyle={DisplayStyle.Secondary}
+                size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -89,8 +89,8 @@ export default () => {
                 Primary button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.primary}
-                size={Size.fixedBig}
+                displayStyle={DisplayStyle.Primary}
+                size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -101,8 +101,8 @@ export default () => {
                 Primary disabled button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.primary}
-                size={Size.fixedBig}
+                displayStyle={DisplayStyle.Primary}
+                size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -114,8 +114,8 @@ export default () => {
                 Secondary button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.secondary}
-                size={Size.fixedBig}
+                displayStyle={DisplayStyle.Secondary}
+                size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -126,8 +126,8 @@ export default () => {
                 Secondary disabled button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.secondary}
-                size={Size.fixedBig}
+                displayStyle={DisplayStyle.Secondary}
+                size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -144,8 +144,8 @@ export default () => {
                 Primary button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.primary}
-                size={Size.fixedMedium}
+                displayStyle={DisplayStyle.Primary}
+                size={Size.FixedMedium}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -156,8 +156,8 @@ export default () => {
                 Medium primary disabled button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.primary}
-                size={Size.fixedMedium}
+                displayStyle={DisplayStyle.Primary}
+                size={Size.FixedMedium}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -169,8 +169,8 @@ export default () => {
                 Secondary button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.secondary}
-                size={Size.fixedMedium}
+                displayStyle={DisplayStyle.Secondary}
+                size={Size.FixedMedium}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -181,8 +181,8 @@ export default () => {
                 Secondary disabled button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.secondary}
-                size={Size.fixedMedium}
+                displayStyle={DisplayStyle.Secondary}
+                size={Size.FixedMedium}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -201,8 +201,8 @@ export default () => {
                 Primary button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.primary}
-                size={Size.fixedSmall}
+                displayStyle={DisplayStyle.Primary}
+                size={Size.FixedSmall}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -213,8 +213,8 @@ export default () => {
                 Primary disabled button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.primary}
-                size={Size.fixedSmall}
+                displayStyle={DisplayStyle.Primary}
+                size={Size.FixedSmall}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -226,8 +226,8 @@ export default () => {
                 Secondary button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.secondary}
-                size={Size.fixedSmall}
+                displayStyle={DisplayStyle.Secondary}
+                size={Size.FixedSmall}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}
@@ -238,8 +238,8 @@ export default () => {
                 Secondary disabled button
               </ButtonHeader>
               <Button
-                displayStyle={DisplayStyle.secondary}
-                size={Size.fixedSmall}
+                displayStyle={DisplayStyle.Secondary}
+                size={Size.FixedSmall}
                 label="Click"
                 onClick={clickAlert}
                 Icon={Upload}

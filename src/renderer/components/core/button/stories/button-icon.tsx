@@ -13,7 +13,7 @@ export default () => {
         Button with icon only, style 1
       </ButtonHeader>
       <Button
-        displayStyle={DisplayStyle.iconOnly1}
+        displayStyle={DisplayStyle.IconOnly1}
         onClick={clickAlert}
         Icon={Upload}
       />
@@ -21,7 +21,7 @@ export default () => {
         Button with icon only, style 2
       </ButtonHeader>
       <Button
-        displayStyle={DisplayStyle.iconOnly2}
+        displayStyle={DisplayStyle.IconOnly2}
         onClick={clickAlert}
         Icon={Upload}
       />
@@ -29,7 +29,7 @@ export default () => {
         Button with icon only, style 3
       </ButtonHeader>
       <Button
-        displayStyle={DisplayStyle.iconOnly3}
+        displayStyle={DisplayStyle.IconOnly3}
         onClick={clickAlert}
         Icon={Upload}
       />

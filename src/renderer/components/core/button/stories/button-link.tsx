@@ -13,12 +13,12 @@ export default () => {
         Link, style 1
       </ButtonHeader>
       <Button
-        displayStyle={DisplayStyle.link1}
+        displayStyle={DisplayStyle.Link1}
         label="Click"
         onClick={clickAlert}
       />
       <Button
-        displayStyle={DisplayStyle.link1}
+        displayStyle={DisplayStyle.Link1}
         label="Click"
         onClick={clickAlert}
         Icon={Upload}
@@ -27,13 +27,13 @@ export default () => {
         Link, style 2
       </ButtonHeader>
       <Button
-        displayStyle={DisplayStyle.link2}
+        displayStyle={DisplayStyle.Link2}
         label="I open Google in new tab"
         href="http://www.google.pl"
         target="_blank"
       />
       <Button
-        displayStyle={DisplayStyle.link2}
+        displayStyle={DisplayStyle.Link2}
         label="I open Google in new tab and have an icon"
         href="http://www.google.pl"
         target="_blank"
@@ -43,13 +43,13 @@ export default () => {
         Link, style 3
       </ButtonHeader>
       <Button
-        displayStyle={DisplayStyle.link3}
+        displayStyle={DisplayStyle.Link3}
         label="I open Google in new tab"
         href="http://www.google.pl"
         target="_blank"
       />
       <Button
-        displayStyle={DisplayStyle.link3}
+        displayStyle={DisplayStyle.Link3}
         label="I open Google in new tab and have an icon"
         href="http://www.google.pl"
         target="_blank"
