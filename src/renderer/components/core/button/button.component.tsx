@@ -16,26 +16,26 @@ import {
 } from "./button.styled.elements"
 
 export enum DisplayStyle {
-  primary,
-  secondary,
-  iconOnly1,
-  iconOnly2,
-  iconOnly3,
-  link1,
-  link2,
-  link3,
+  Primary,
+  Secondary,
+  IconOnly1,
+  IconOnly2,
+  IconOnly3,
+  Link1,
+  Link2,
+  Link3,
 }
 
 export enum Type {
-  button,
-  submit,
-  reset,
+  Button,
+  Submit,
+  Reset,
 }
 
 export enum Size {
-  fixedSmall,
-  fixedMedium,
-  fixedBig,
+  FixedSmall,
+  FixedMedium,
+  FixedBig,
 }
 
 interface Props {
@@ -54,14 +54,14 @@ interface Props {
 /** Component for displaying buttons. Other props are passed down (object spread), some are filtered. */
 const ButtonComponent: FunctionComponent<Props> = ({
   disabled = false,
-  displayStyle = DisplayStyle.primary,
+  displayStyle = DisplayStyle.Primary,
   href,
   Icon,
   label,
-  size = Size.fixedBig,
+  size = Size.FixedBig,
   target,
   to,
-  type = Type.button,
+  type = Type.Button,
   ...rest
 }) => {
   let Component: FunctionComponent<ComponentProps<typeof StyledButton>>

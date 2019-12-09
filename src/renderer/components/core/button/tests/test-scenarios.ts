@@ -6,57 +6,57 @@ import Upload from "Renderer/svg/upload.svg"
 
 const buttonsFixedWidthCases = [
   {
-    displayStyle: DisplayStyle.primary,
-    size: Size.fixedBig,
+    displayStyle: DisplayStyle.Primary,
+    size: Size.FixedBig,
   },
   {
-    displayStyle: DisplayStyle.primary,
-    size: Size.fixedBig,
+    displayStyle: DisplayStyle.Primary,
+    size: Size.FixedBig,
     disabled: true,
   },
   {
-    displayStyle: DisplayStyle.primary,
-    size: Size.fixedMedium,
+    displayStyle: DisplayStyle.Primary,
+    size: Size.FixedMedium,
   },
   {
-    displayStyle: DisplayStyle.primary,
-    size: Size.fixedMedium,
+    displayStyle: DisplayStyle.Primary,
+    size: Size.FixedMedium,
     disabled: true,
   },
   {
-    displayStyle: DisplayStyle.primary,
-    size: Size.fixedSmall,
+    displayStyle: DisplayStyle.Primary,
+    size: Size.FixedSmall,
   },
   {
-    displayStyle: DisplayStyle.primary,
-    size: Size.fixedSmall,
+    displayStyle: DisplayStyle.Primary,
+    size: Size.FixedSmall,
     disabled: true,
   },
   {
-    displayStyle: DisplayStyle.secondary,
-    size: Size.fixedBig,
+    displayStyle: DisplayStyle.Secondary,
+    size: Size.FixedBig,
   },
   {
-    displayStyle: DisplayStyle.secondary,
-    size: Size.fixedBig,
+    displayStyle: DisplayStyle.Secondary,
+    size: Size.FixedBig,
     disabled: true,
   },
   {
-    displayStyle: DisplayStyle.secondary,
-    size: Size.fixedMedium,
+    displayStyle: DisplayStyle.Secondary,
+    size: Size.FixedMedium,
   },
   {
-    displayStyle: DisplayStyle.secondary,
-    size: Size.fixedMedium,
+    displayStyle: DisplayStyle.Secondary,
+    size: Size.FixedMedium,
     disabled: true,
   },
   {
-    displayStyle: DisplayStyle.secondary,
-    size: Size.fixedSmall,
+    displayStyle: DisplayStyle.Secondary,
+    size: Size.FixedSmall,
   },
   {
-    displayStyle: DisplayStyle.secondary,
-    size: Size.fixedSmall,
+    displayStyle: DisplayStyle.Secondary,
+    size: Size.FixedSmall,
     disabled: true,
   },
 ]
@@ -81,13 +81,13 @@ export default [
     name: "Icon only",
     cases: [
       {
-        displayStyle: DisplayStyle.iconOnly1,
+        displayStyle: DisplayStyle.IconOnly1,
       },
       {
-        displayStyle: DisplayStyle.iconOnly2,
+        displayStyle: DisplayStyle.IconOnly2,
       },
       {
-        displayStyle: DisplayStyle.iconOnly3,
+        displayStyle: DisplayStyle.IconOnly3,
       },
     ],
   },
@@ -95,28 +95,28 @@ export default [
     name: "Links",
     cases: [
       {
-        displayStyle: DisplayStyle.link1,
+        displayStyle: DisplayStyle.Link1,
       },
       {
-        displayStyle: DisplayStyle.link1,
+        displayStyle: DisplayStyle.Link1,
         href: "http://www.google.pl",
         target: "_blank",
         Icon: Upload,
       },
       {
-        displayStyle: DisplayStyle.link2,
+        displayStyle: DisplayStyle.Link2,
       },
       {
-        displayStyle: DisplayStyle.link2,
+        displayStyle: DisplayStyle.Link2,
         href: "http://www.google.pl",
         target: "_blank",
         Icon: Upload,
       },
       {
-        displayStyle: DisplayStyle.link3,
+        displayStyle: DisplayStyle.Link3,
       },
       {
-        displayStyle: DisplayStyle.link3,
+        displayStyle: DisplayStyle.Link3,
         href: "http://www.google.pl",
         target: "_blank",
         Icon: Upload,

@@ -15,15 +15,15 @@ import {
 
 const getSize = (size: Size) => {
   switch (size) {
-    case Size.fixedSmall:
+    case Size.FixedSmall:
       return css`
         width: ${width("buttonSmall")};
       `
-    case Size.fixedMedium:
+    case Size.FixedMedium:
       return css`
         width: ${width("buttonMedium")};
       `
-    case Size.fixedBig:
+    case Size.FixedBig:
       return css`
         width: ${width("buttonBig")};
       `
@@ -54,7 +54,7 @@ const getStyles = css<{
   `}
   ${({ displayStyle, disabled }) => {
     switch (displayStyle) {
-      case DisplayStyle.primary:
+      case DisplayStyle.Primary:
         return css`
           height: 4rem;
           color: ${textColor("inverted")};
@@ -75,7 +75,7 @@ const getStyles = css<{
             fill: ${textColor("inverted")};
           }
         `
-      case DisplayStyle.secondary:
+      case DisplayStyle.Secondary:
         return css`
           height: 4rem;
           border-radius: 0.4rem;
@@ -96,7 +96,7 @@ const getStyles = css<{
             border-color: ${borderColor("dark")};
           }
         `
-      case DisplayStyle.iconOnly1:
+      case DisplayStyle.IconOnly1:
         return css`
           height: 4rem;
           width: 4rem;
@@ -106,7 +106,7 @@ const getStyles = css<{
             border-color: ${borderColor("dark")};
           }
         `
-      case DisplayStyle.iconOnly2:
+      case DisplayStyle.IconOnly2:
         return css`
           height: 3.2rem;
           width: 3.2rem;
@@ -117,7 +117,7 @@ const getStyles = css<{
             background: ${backgroundColor("grey2")};
           }
         `
-      case DisplayStyle.iconOnly3:
+      case DisplayStyle.IconOnly3:
         return css`
           height: 3.2rem;
           width: 3.2rem;
@@ -131,7 +131,7 @@ const getStyles = css<{
             fill: ${textColor("supplementary")};
           }
         `
-      case DisplayStyle.link1:
+      case DisplayStyle.Link1:
         return css`
           justify-content: flex-start;
           height: 3rem;
@@ -144,7 +144,7 @@ const getStyles = css<{
             background-color: ${backgroundColor("grey2")};
           }
         `
-      case DisplayStyle.link2:
+      case DisplayStyle.Link2:
         return css`
           justify-content: flex-start;
           height: 4rem;
@@ -157,7 +157,7 @@ const getStyles = css<{
             background-color: ${backgroundColor("grey2")};
           }
         `
-      case DisplayStyle.link3:
+      case DisplayStyle.Link3:
         return css`
           justify-content: flex-start;
           height: 4rem;
@@ -195,7 +195,7 @@ export const StyledIcon = styled(Svg)<{
 }>`
   ${({ displayStyle, isLabel }) => {
     if (isLabel) {
-      if (displayStyle === DisplayStyle.link2) {
+      if (displayStyle === DisplayStyle.Link2) {
         return css`
           margin: 0 1.2rem 0 0;
         `
