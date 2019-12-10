@@ -48,7 +48,7 @@ interface FilterProps {
   offLabel: string
 }
 
-const FilterComponent: FunctionComponent<FilterProps> = ({
+export const FilterComponent: FunctionComponent<FilterProps> = ({
   onChange,
   onLabel,
   offLabel,
@@ -79,7 +79,7 @@ const FilterComponent: FunctionComponent<FilterProps> = ({
   )
 }
 
-const TopicsFiltering: FunctionComponent<TopicsFilteringProps> = ({
+const TopicsFilters: FunctionComponent<TopicsFilteringProps> = ({
   search,
   filter,
 }) => {
@@ -105,4 +105,4 @@ const TopicsFiltering: FunctionComponent<TopicsFilteringProps> = ({
   )
 }
 
-export default TopicsFiltering
+export default TopicsFilters
