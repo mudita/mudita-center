@@ -9,7 +9,7 @@ export const generateFakeData = (numberOfContacts: number) => {
       firstName: Faker.name.firstName(),
       lastName: Faker.name.lastName(),
       phoneNumber: Faker.phone.phoneNumber(),
-      favourite: Faker.random.boolean(),
+      favourite: false,
     }))
 }
 
@@ -23,12 +23,7 @@ export const generateSortedStructure = (fakeState: any) => {
   )
 
   const generateFakeStructure = () => {
-    const fakeStructure = [
-      {
-        category: "Favourite",
-        contacts: [],
-      },
-    ]
+    const fakeStructure = []
 
     for (const letter of alphabet) {
       fakeStructure.push({
@@ -36,6 +31,19 @@ export const generateSortedStructure = (fakeState: any) => {
         contacts: [],
       })
     }
+
+    fakeStructure.unshift({
+      category: "Favourite",
+      contacts: Array(5)
+        .fill(0)
+        .map(_ => ({
+          id: Faker.random.uuid(),
+          firstName: Faker.name.firstName(),
+          lastName: Faker.name.lastName(),
+          phoneNumber: Faker.phone.phoneNumber(),
+          favourite: true,
+        })),
+    })
 
     return fakeStructure
   }
