@@ -39,11 +39,15 @@ class ModalService {
   private eventListeners: EventListeners[] = []
 
   public bindStore(value: Store) {
-    this.store = value
+    if (!this.store) {
+      this.store = value
+    }
   }
 
   public setDefaultLocale(value: string) {
-    this.defaultLocale = value
+    if (!this.defaultLocale) {
+      this.defaultLocale = value
+    }
   }
 
   public isModalOpen() {
