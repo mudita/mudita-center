@@ -30,7 +30,7 @@ const getSize = (size: Size) => {
   }
 }
 
-const getStyles = css<{
+const buttonStyles = css<{
   displayStyle: DisplayStyle
   disabled: boolean
   size: Size
@@ -179,13 +179,13 @@ const getStyles = css<{
 `
 
 export const StyledLink = styled(Link)`
-  ${getStyles}
+  ${buttonStyles}
 `
 export const StyledA = styled.a`
-  ${getStyles}
+  ${buttonStyles}
 `
 export const StyledButton = styled.button`
-  ${getStyles}
+  ${buttonStyles}
 `
 export const StyledIcon = styled(Svg)<{
   displayStyle: DisplayStyle
