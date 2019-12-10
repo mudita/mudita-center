@@ -1,23 +1,22 @@
-import React, { ChangeEvent } from "react"
+import React from "react"
 import { InitialContactList } from "Renderer/models/phone/phone.interface"
 import ContactList from "Renderer/modules/phone/components/contact-list.component"
-import { dispatch } from "Renderer/store"
+import ContactPanel from "Renderer/modules/phone/components/contact-panel.component"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import styled from "styled-components"
 
-const Phone: FunctionComponent<InitialContactList> = ({
-  grouped,
-  contactList,
-}) => {
-  // console.log(grouped)
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: "phoneView/handleInput", payload: event.target.value })
-  }
+const ContactSection = styled.section`
+  padding: 0 4rem;
+  background-color: ${backgroundColor("primaryDark")};
+`
+
+const Phone: FunctionComponent<InitialContactList> = ({ grouped }) => {
   return (
-    <div>
-      <input type="text" onChange={onChange} />
+    <ContactSection>
+      <ContactPanel />
       <ContactList contactList={grouped} />
-      {/*<pre>{JSON.stringify(grouped, null, 2)}</pre>*/}
-    </div>
+    </ContactSection>
   )
 }
 

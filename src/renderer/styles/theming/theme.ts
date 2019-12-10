@@ -13,6 +13,7 @@ const theme = {
       light: "#ffffff",
       dark: "#000000",
       inputDark: "#3B3F42",
+      primaryDark: "#F4F5F6",
     },
     borderColor: {
       dark: "#000000",
