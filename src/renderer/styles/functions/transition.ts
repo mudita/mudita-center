@@ -4,7 +4,7 @@ import theme from "Renderer/styles/theming/theme"
  * Util returning transition property taken from theme defaults.
  * Easy to overwrite.
  *
- * @param property - propety that should be transitioned
+ * @param property - property that should be transitioned
  * @param time - transition time in ms
  * @param timingFunction - transition timing function
  */
