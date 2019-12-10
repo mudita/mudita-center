@@ -1,4 +1,5 @@
 import * as React from "react"
+import Svg from "Renderer/components/core/svg/svg.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -16,6 +17,12 @@ const Label = styled.label`
   align-items: center;
 `
 
+const InputWrapper = styled.div`
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+`
+
 const Input = styled.input`
   appearance: none;
   outline: none;
@@ -27,16 +34,6 @@ const Input = styled.input`
   border-radius: 0.2rem;
   background-color: ${backgroundColor("light")};
 
-  &:after {
-    content: "";
-    display: block;
-    height: 2rem;
-    width: auto;
-    background-image: url(${check});
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
   &:hover {
     border-color: ${borderColor("hover")};
     cursor: pointer;
@@ -46,6 +43,22 @@ const Input = styled.input`
   &:checked {
     background-color: ${backgroundColor("inputDark")};
     border-color: ${borderColor("hover")};
+    + svg {
+      display: initial;
+    }
+  }
+`
+
+const CheckIcon = styled(Svg)`
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  user-select: none;
+  path {
+    stroke: ${backgroundColor("light")};
   }
 `
 
@@ -62,7 +75,10 @@ const InputCheckbox: FunctionComponent<InputProps> = ({
     <>
       {label ? (
         <Label>
-          <Input {...props} type="checkbox" />
+          <InputWrapper>
+            <Input {...props} type="checkbox" />
+            <CheckIcon Image={check} />
+          </InputWrapper>
           <LabelText
             displayStyle={TextDisplayStyle.MediumText}
             className={className}
@@ -72,7 +88,10 @@ const InputCheckbox: FunctionComponent<InputProps> = ({
           </LabelText>
         </Label>
       ) : (
-        <Input {...props} type="checkbox" />
+        <InputWrapper>
+          <Input {...props} type="checkbox" />
+          <CheckIcon Image={check} />
+        </InputWrapper>
       )}
     </>
   )

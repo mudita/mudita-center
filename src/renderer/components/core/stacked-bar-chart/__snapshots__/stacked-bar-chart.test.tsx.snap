@@ -1,0 +1,361 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot tests should match snapshot multicolor 1`] = `
+.c7 {
+  font-size: 1.4rem;
+  line-height: 1.05;
+}
+
+.c9 {
+  font-size: 1.4rem;
+  line-height: 1.05;
+  color: #6A6A6A;
+  font-weight: 300;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+}
+
+.c12 {
+  font-size: 1.8rem;
+  line-height: 1.1;
+  font-weight: 400;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 90%;
+}
+
+.c2 {
+  width: 4.166666666666666%;
+  background-color: red;
+  --radius: 0.4rem;
+  height: 0.8rem;
+}
+
+.c2:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c2:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c3 {
+  width: 41.66666666666667%;
+  background-color: orange;
+  --radius: 0.4rem;
+  height: 0.8rem;
+}
+
+.c3:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c3:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c4 {
+  width: 41.66666666666667%;
+  background-color: yellow;
+  --radius: 0.4rem;
+  height: 0.8rem;
+}
+
+.c4:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c4:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c5 {
+  width: 4.166666666666666%;
+  background-color: green;
+  --radius: 0.4rem;
+  height: 0.8rem;
+}
+
+.c5:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c5:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c11 {
+  width: 4.166666666666666%;
+  background-color: pink;
+  --radius: 0.4rem;
+  height: 0.8rem;
+}
+
+.c11:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c11:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c6 {
+  width: 4.166666666666666%;
+  background-color: blue;
+  height: 0.8rem;
+  position: relative;
+}
+
+.c6:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c6:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c8 {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  -webkit-transform: translateX(50%);
+  -ms-transform: translateX(50%);
+  transform: translateX(50%);
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+.c10 {
+  margin-left: 0.5rem;
+}
+
+.c13 {
+  margin-left: 2.4rem;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <div
+      class="c2"
+      color="red"
+      data-testid="bar"
+    />
+    <div
+      class="c3"
+      color="orange"
+      data-testid="bar"
+    />
+    <div
+      class="c4"
+      color="yellow"
+      data-testid="bar"
+    />
+    <div
+      class="c5"
+      color="green"
+      data-testid="bar"
+    />
+    <div
+      class="c6"
+      color="blue"
+      data-testid="bar-with-label"
+    >
+      <p
+        class="c7 c8"
+      >
+        12.2 GB
+        <span
+          class="c9 c10"
+        >
+          ( 
+          ( 77%)
+          )
+        </span>
+      </p>
+    </div>
+    <div
+      class="c11"
+      color="pink"
+      data-testid="bar"
+    />
+  </div>
+  <p
+    class="c12 c13"
+  >
+    16 GB
+  </p>
+</div>
+`;
+
+exports[`Snapshot tests should match snapshot simple 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  width: 90%;
+}
+
+.c2 {
+  width: 4.166666666666666%;
+  background-color: red;
+  --radius: 0.15rem;
+  height: 0.3rem;
+}
+
+.c2:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c2:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c3 {
+  width: 41.66666666666667%;
+  background-color: orange;
+  --radius: 0.15rem;
+  height: 0.3rem;
+}
+
+.c3:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c3:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c4 {
+  width: 41.66666666666667%;
+  background-color: yellow;
+  --radius: 0.15rem;
+  height: 0.3rem;
+}
+
+.c4:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c4:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c5 {
+  width: 4.166666666666666%;
+  background-color: green;
+  --radius: 0.15rem;
+  height: 0.3rem;
+}
+
+.c5:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c5:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c6 {
+  width: 4.166666666666666%;
+  background-color: blue;
+  --radius: 0.15rem;
+  height: 0.3rem;
+}
+
+.c6:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c6:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c7 {
+  width: 4.166666666666666%;
+  background-color: pink;
+  --radius: 0.15rem;
+  height: 0.3rem;
+}
+
+.c7:first-child {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c7:last-child {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <div
+      class="c2"
+      color="red"
+      data-testid="bar"
+    />
+    <div
+      class="c3"
+      color="orange"
+      data-testid="bar"
+    />
+    <div
+      class="c4"
+      color="yellow"
+      data-testid="bar"
+    />
+    <div
+      class="c5"
+      color="green"
+      data-testid="bar"
+    />
+    <div
+      class="c6"
+      color="blue"
+      data-testid="bar"
+    />
+    <div
+      class="c7"
+      color="pink"
+      data-testid="bar"
+    />
+  </div>
+</div>
+`;
