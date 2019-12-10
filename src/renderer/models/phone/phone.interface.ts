@@ -6,7 +6,7 @@ export interface Contact {
 }
 
 export interface ContactCategory {
-  letter: string
+  category: string
   contacts: Contact[]
 }
 

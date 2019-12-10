@@ -16,10 +16,6 @@ const ListWrapper = styled.ul`
   padding: 0;
 `
 
-const ContactListWrapper = styled(ListWrapper)`
-  background-color: ${backgroundColor("light")};
-`
-
 const ContactCategory = styled(Text)`
   margin: 3rem 0 1.15rem 4rem;
 `
@@ -30,9 +26,15 @@ const ContactItem = styled(Text)`
   justify-content: space-between;
   height: 6.4rem;
   padding: 0 3rem 0 4rem;
+  background-color: ${backgroundColor("light")};
   border-top: 0.1rem solid ${borderColor("listItem")};
   &:last-child {
     border-bottom: 0.1rem solid ${borderColor("listItem")};
+  }
+
+  &:hover {
+    background-color: ${backgroundColor("primaryDark")};
+    cursor: pointer;
   }
 `
 
@@ -41,15 +43,15 @@ const ContactList: FunctionComponent<InitialContactList> = ({
 }) => {
   return (
     <ListWrapper>
-      {contactList.map(({ letter, contacts }, index) => (
-        <React.Fragment key={letter}>
+      {contactList.map(({ category, contacts }, index) => (
+        <React.Fragment key={category}>
           <ContactCategory
             displayStyle={TextDisplayStyle.LargeBoldText}
             element={"li"}
           >
-            {letter}
+            {category}
           </ContactCategory>
-          <ContactListWrapper key={index}>
+          <ListWrapper key={index}>
             {contacts.map(({ firstName, lastName, phoneNumber, id }) => (
               <ContactItem
                 displayStyle={TextDisplayStyle.MediumText}
@@ -62,7 +64,7 @@ const ContactList: FunctionComponent<InitialContactList> = ({
                 <p>{phoneNumber}</p>
               </ContactItem>
             ))}
-          </ContactListWrapper>
+          </ListWrapper>
         </React.Fragment>
       ))}
     </ListWrapper>

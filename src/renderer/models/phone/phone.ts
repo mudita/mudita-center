@@ -24,11 +24,16 @@ const generateSortedStructure = (fakeState: any) => {
   )
 
   const generateFakeStructure = () => {
-    const fakeStructure = []
+    const fakeStructure = [
+      {
+        category: "Favourite",
+        contacts: [],
+      },
+    ]
 
     for (const letter of alphabet) {
       fakeStructure.push({
-        letter,
+        category: letter,
         contacts: [],
       })
     }
@@ -37,16 +42,23 @@ const generateSortedStructure = (fakeState: any) => {
   }
 
   const placeContactsInStructure = () => {
-    const fakeStructure = generateFakeStructure()
-    fakeStructure.forEach((fakeContact, index) => {
-      const contactLetter = fakeContact.letter
+    const fakeStructure: any = generateFakeStructure()
+    fakeStructure.forEach((fakeContact: any) => {
+      const contactLetter = fakeContact.category
       const contactList: string[] = fakeContact.contacts
       sortedContactList.forEach((sortedContact: any) => {
-        if (sortedContact.firstName.charAt(0) === contactLetter) {
+        if (
+          sortedContact.firstName.charAt(0) === contactLetter &&
+          !sortedContact.favourite
+        ) {
           contactList.push(sortedContact)
+        }
+        if (sortedContact.favourite) {
+          fakeStructure[0].contacts.push(sortedContact)
         }
       })
     })
+    console.log(fakeStructure)
     return fakeStructure
   }
 
