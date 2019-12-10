@@ -1,9 +1,5 @@
 import { Link } from "react-router-dom"
 import Svg from "Renderer/components/core/svg/svg.component"
-import styled, { css } from "styled-components"
-
-import { DisplayStyle, Size } from "./button.component"
-
 import transition from "Renderer/styles/functions/transition"
 import {
   backgroundColor,
@@ -12,6 +8,8 @@ import {
   textColor,
   width,
 } from "Renderer/styles/theming/theme-getters"
+import styled, { css } from "styled-components"
+import { DisplayStyle, Size } from "./button.component"
 
 const getSize = (size: Size) => {
   switch (size) {

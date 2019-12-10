@@ -27,9 +27,9 @@ export enum DisplayStyle {
 }
 
 export enum Type {
-  Button,
-  Submit,
-  Reset,
+  Button = "button",
+  Submit = "submit",
+  Reset = "reset",
 }
 
 export enum Size {

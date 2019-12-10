@@ -4,7 +4,7 @@ exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disa
 <button
   class="sc-bxivhb hSOygD"
   size="2"
-  type="0"
+  type="button"
 />
 `;
 
@@ -12,7 +12,7 @@ exports[`Button matches snapshots Icon only displayStyle: 3 size: undefined disa
 <button
   class="sc-bxivhb efHhsQ"
   size="2"
-  type="0"
+  type="button"
 />
 `;
 
@@ -20,7 +20,7 @@ exports[`Button matches snapshots Icon only displayStyle: 4 size: undefined disa
 <button
   class="sc-bxivhb crfuQZ"
   size="2"
-  type="0"
+  type="button"
 />
 `;
 
@@ -28,7 +28,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 <button
   class="sc-bxivhb khTHXI"
   size="2"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -60,7 +60,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 <button
   class="sc-bxivhb kDudGh"
   size="2"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -92,7 +92,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 <button
   class="sc-bxivhb cJaWEV"
   size="2"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -123,7 +123,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: false 1`] = `
 <button
   class="sc-bxivhb fIEKYy"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -137,7 +137,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 <button
   class="sc-bxivhb eJNUrl"
   disabled=""
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -151,7 +151,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 <button
   class="sc-bxivhb dHCXNz"
   size="1"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -166,7 +166,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
   class="sc-bxivhb hUbANr"
   disabled=""
   size="1"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -180,7 +180,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 <button
   class="sc-bxivhb jBRBGM"
   size="2"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -195,7 +195,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
   class="sc-bxivhb iPPqLG"
   disabled=""
   size="2"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -208,7 +208,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 disabled: false 1`] = `
 <button
   class="sc-bxivhb gtUTFr"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -222,7 +222,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
 <button
   class="sc-bxivhb jQhdW"
   disabled=""
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -236,7 +236,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
 <button
   class="sc-bxivhb igSxuj"
   size="1"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -251,7 +251,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
   class="sc-bxivhb eMCHGj"
   disabled=""
   size="1"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -265,7 +265,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 <button
   class="sc-bxivhb islUIQ"
   size="2"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -280,7 +280,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
   class="sc-bxivhb imLuLo"
   disabled=""
   size="2"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -293,7 +293,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 0 disabled: false 1`] = `
 <button
   class="sc-bxivhb fIEKYy"
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -310,7 +310,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 <button
   class="sc-bxivhb eJNUrl"
   disabled=""
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -327,7 +327,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 <button
   class="sc-bxivhb dHCXNz"
   size="1"
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -345,7 +345,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   class="sc-bxivhb hUbANr"
   disabled=""
   size="1"
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -362,7 +362,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 <button
   class="sc-bxivhb jBRBGM"
   size="2"
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -380,7 +380,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   class="sc-bxivhb iPPqLG"
   disabled=""
   size="2"
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -396,7 +396,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 0 disabled: false 1`] = `
 <button
   class="sc-bxivhb gtUTFr"
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -413,7 +413,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 <button
   class="sc-bxivhb jQhdW"
   disabled=""
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -430,7 +430,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 <button
   class="sc-bxivhb igSxuj"
   size="1"
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -448,7 +448,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   class="sc-bxivhb eMCHGj"
   disabled=""
   size="1"
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -465,7 +465,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 <button
   class="sc-bxivhb islUIQ"
   size="2"
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -483,7 +483,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   class="sc-bxivhb imLuLo"
   disabled=""
   size="2"
-  type="0"
+  type="button"
 >
   <test-file-stub
     classname="sc-ifAKCX evOPPJ"
@@ -500,7 +500,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
 <button
   class="sc-bxivhb jBRBGM"
   size="2"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
@@ -514,7 +514,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
 <button
   class="sc-bxivhb jBRBGM"
   size="2"
-  type="0"
+  type="button"
 >
   <p
     class="sc-bdVaJa eQVBHH"
