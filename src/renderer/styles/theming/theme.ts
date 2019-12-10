@@ -22,6 +22,7 @@ const theme = {
       dark: "#000000",
       default: "#CDCECF",
       hover: "#3B3F42",
+      listItem: "#D2D6DB",
     },
   },
   layout: {

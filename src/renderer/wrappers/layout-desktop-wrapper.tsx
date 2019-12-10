@@ -10,7 +10,6 @@ import { borderColor, width } from "Renderer/styles/theming/theme-getters"
 const Layout = styled.div`
   display: flex;
   flex: 1;
-  height: 100vh;
   max-width: ${width("viewWidth")};
   margin: 0 auto;
   border-left: 0.1rem solid ${borderColor("dark")};

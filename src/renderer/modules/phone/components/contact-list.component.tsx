@@ -3,33 +3,65 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { InitialContactList } from "Renderer/models/phone/phone.interface"
+import {
+  backgroundColor,
+  borderColor,
+} from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
-const ContactListWrapper = styled.ul`
+const ListWrapper = styled.ul`
   list-style-type: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
+`
+
+const ContactListWrapper = styled(ListWrapper)`
+  background-color: ${backgroundColor("light")};
+`
+
+const ContactCategory = styled(Text)`
+  margin: 3rem 0 0 4rem;
+`
+
+const ContactItem = styled(Text)`
+  display: flex;
+  align-items: center;
+  height: 6.4rem;
+  padding: 0 3rem 0 4rem;
+  border-top: 0.1rem solid ${borderColor("listItem")};
+  &:last-child {
+    border-bottom: 0.1rem solid ${borderColor("listItem")};
+  }
 `
 
 const ContactList: FunctionComponent<InitialContactList> = ({
   contactList,
 }) => {
   return (
-    <ContactListWrapper>
+    <ListWrapper>
       {contactList.map(({ letter, contacts }, index) => (
         <React.Fragment key={letter}>
-          <Text displayStyle={TextDisplayStyle.LargeBoldText}>{letter}</Text>
+          <ContactCategory
+            displayStyle={TextDisplayStyle.LargeBoldText}
+            element={"li"}
+          >
+            {letter}
+          </ContactCategory>
           <ContactListWrapper key={index}>
             {contacts.map(({ firstName, lastName, phoneNumber, id }) => (
-              <li key={id}>
+              <ContactItem
+                displayStyle={TextDisplayStyle.MediumText}
+                element={"li"}
+                key={id}
+              >
                 {firstName} {lastName} {phoneNumber}
-              </li>
+              </ContactItem>
             ))}
           </ContactListWrapper>
         </React.Fragment>
       ))}
-    </ContactListWrapper>
+    </ListWrapper>
   )
 }
 
