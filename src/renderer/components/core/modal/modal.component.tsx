@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components"
 
+// TODO: Move transitions to theme
 const fadeAnimation = css`
   @keyframes fadeIn {
     from {
