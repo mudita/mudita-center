@@ -7,7 +7,6 @@ import Text from "Renderer/components/core/text/text.component"
 import { MENU_ELEMENTS } from "Renderer/constants/menuElements"
 
 const MenuWrapper = styled.div`
-  position: fixed;
   flex: 1;
   display: flex;
   flex-direction: column;
