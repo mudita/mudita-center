@@ -21,11 +21,10 @@ interface TestScenario {
 describe("Button matches snapshots", () => {
   testScenarios.map((testScenario: TestScenario) => {
     const { name } = testScenario
-    const label = "Click"
     testScenario.cases.forEach((testCase: TestCase) => {
       const { disabled, displayStyle, size } = testCase
       const { container } = renderWithThemeAndIntl(
-        <Button {...testCase} {...testScenario.commonProps} label={label} />
+        <Button {...testCase} {...testScenario.commonProps} />
       )
 
       test(`${name} displayStyle: ${displayStyle} size: ${size} disabled: ${!!disabled}`, () => {

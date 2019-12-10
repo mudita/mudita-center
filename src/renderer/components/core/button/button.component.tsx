@@ -2,6 +2,7 @@ import React, { ComponentProps } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
+import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 
 import Text, {
   TextDisplayStyle,
@@ -43,6 +44,7 @@ interface Props {
   href?: string
   Icon?: FunctionComponent<ImageInterface>
   label?: string
+  labelMessage?: MessageInterface
   onClick?: () => void
   size?: Size
   target?: string
@@ -57,6 +59,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   href,
   Icon,
   label,
+  labelMessage,
   size = Size.FixedBig,
   target,
   to,
@@ -77,6 +80,26 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Object.assign(filteredProps, { type, disabled })
   }
 
+  const getLabel = () => {
+    if (!label && !labelMessage) {
+      return
+    }
+    if (label && labelMessage) {
+      console.warn(
+        "Button: button can not take label and labelMessage and the same time"
+      )
+    }
+    if (labelMessage) {
+      return (
+        <Text
+          displayStyle={TextDisplayStyle.SmallText}
+          message={labelMessage}
+        />
+      )
+    }
+    return <Text displayStyle={TextDisplayStyle.SmallText}>{label}</Text>
+  }
+
   return (
     <Component
       {...filteredProps}
@@ -92,7 +115,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
           Image={Icon}
         />
       )}
-      {label && <Text displayStyle={TextDisplayStyle.SmallText}>{label}</Text>}
+      {getLabel()}
     </Component>
   )
 }
