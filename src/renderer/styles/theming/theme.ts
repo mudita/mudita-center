@@ -8,6 +8,8 @@ const theme = {
       inverted: "#FFFFFF",
       faded: "#6A6A6A",
       supplementary: "#6D9BBC",
+      placeholder: "#A5A5A5",
+      dark: "#000000",
     },
     background: {
       light: "#ffffff",
@@ -43,6 +45,7 @@ const theme = {
   borderRadius: {
     small: 0.15,
     medium: 0.4,
+    big: 0.12,
   },
   letterSpacing: {
     negative: -0.06,

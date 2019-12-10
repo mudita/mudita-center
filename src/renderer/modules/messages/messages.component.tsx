@@ -74,10 +74,6 @@ const Avatar = styled.div<{ hide: boolean }>`
     object-position: center;
   }
 
-  ${Text} {
-    margin: 0;
-  }
-
   ${({ hide }) =>
     hide &&
     css`
