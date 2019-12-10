@@ -2,7 +2,6 @@ import React, { ComponentProps } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
-import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 
 import Text, {
   TextDisplayStyle,
@@ -43,7 +42,7 @@ interface Props {
   displayStyle?: DisplayStyle
   href?: string
   Icon?: FunctionComponent<ImageInterface>
-  label?: string | MessageInterface
+  label?: string
   onClick?: () => void
   size?: Size
   target?: string
