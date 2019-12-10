@@ -15,6 +15,9 @@ module.exports = ({ config }) => {
   // Prefer Gatsby ES6 entrypoint (module) over commonjs (main) entrypoint
   config.resolve.mainFields = ["browser", "module", "main"]
 
+  // Allow SVGs.
+  handleSVGs(config)
+
   // TypeScript config
   config.module.rules.push({
     test: /\.(ts|tsx)$/,
@@ -26,4 +29,31 @@ module.exports = ({ config }) => {
   })
   config.resolve = resolve
   return config
+}
+
+// SVGs are broken in the default config, so have to apply
+// this fix: https://github.com/storybookjs/storybook/issues/6188#issuecomment-487705465
+function handleSVGs(config) {
+  // Remove svg from existing rule.
+  config.module.rules = config.module.rules.map(rule => {
+    if (
+      String(rule.test) ===
+      String(
+        /\.(svg|ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/
+      )
+    ) {
+      return {
+        ...rule,
+        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/,
+      }
+    }
+
+    return rule
+  })
+
+  // Use svgr for svg files.
+  config.module.rules.push({
+    test: /\.svg$/,
+    use: ["svg-react-loader"],
+  })
 }

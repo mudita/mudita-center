@@ -12,11 +12,17 @@ export const backgroundColor = (name: keyof Theme["color"]["background"]) => ({
   theme: Theme
 }) => theme.color.background[name]
 
-export const borderColor = (name: keyof Theme["color"]["borderColor"]) => ({
+export const borderRadius = (name: keyof Theme["borderRadius"]) => ({
   theme,
 }: {
   theme: Theme
-}) => theme.color.borderColor[name]
+}) => theme.borderRadius[name]
+
+export const borderColor = (name: keyof Theme["color"]["border"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.color.border[name]
 
 export const opacity = (name: keyof Theme["opacity"]) => ({
   theme,
@@ -35,6 +41,12 @@ export const font = (name: keyof Theme["font"]) => ({
 }: {
   theme: Theme
 }) => theme.font[name]
+
+export const height = (name: keyof Theme["height"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.height[name]
 
 export const letterSpacing = (name: keyof Theme["letterSpacing"]) => ({
   theme,
