@@ -7,7 +7,6 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
 const ContactSection = styled.section`
-  height: 100%;
   background-color: ${backgroundColor("primaryDark")};
 `
 
