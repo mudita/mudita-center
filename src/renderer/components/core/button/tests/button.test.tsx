@@ -23,11 +23,11 @@ describe("Button matches snapshots", () => {
     const { name } = testScenario
     testScenario.cases.forEach((testCase: TestCase) => {
       const { disabled, displayStyle, size } = testCase
-      const { container } = renderWithThemeAndIntl(
-        <Button {...testCase} {...testScenario.commonProps} />
-      )
 
       test(`${name} displayStyle: ${displayStyle} size: ${size} disabled: ${!!disabled}`, () => {
+        const { container } = renderWithThemeAndIntl(
+          <Button {...testCase} {...testScenario.commonProps} />
+        )
         const buttonElement = container.firstChild
         expect(buttonElement).toMatchSnapshot()
       })
