@@ -117,10 +117,6 @@ const condensedStyles = css`
 
 const focusedStyles = css`
   border-color: ${borderColor("dark")};
-
-  ${StandardInputLabel} {
-    ${focusedLabelStyles};
-  }
 `
 
 const disabledStyles = css`
@@ -152,8 +148,14 @@ const InputWrapper = styled.label<{
   ${({ condensed }) => condensed && condensedStyles};
   ${({ disabled }) => disabled && disabledStyles}
 
-  &:focus-within {
+  &:hover, &:focus-within {
     ${focusedStyles};
+  }
+
+  &:focus-within {
+    ${StandardInputLabel} {
+      ${focusedLabelStyles};
+    }
   }
 `
 
