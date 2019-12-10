@@ -1,6 +1,14 @@
 /*
-  There can be issue when two different parts of app wants to open modal at the same time.
-  It's unlikely that the issue occur, but in this case, the modal service must be refactored.
+  There can be an issue when a modal will be requested to open just after the closing
+  the previous one, without awaiting the closing procedure to end.
+
+  modalService.close()
+  modalService.open()
+
+  This will lead to an error, since the closing take some time (it waits for the
+  closing animation to finish before reporting the "ok" status.
+
+  In this, rather unlikely, scenario, the service should be refactored.
 */
 import React, { ReactElement } from "react"
 import ReactDOM from "react-dom"
