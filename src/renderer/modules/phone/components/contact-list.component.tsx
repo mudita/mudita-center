@@ -21,12 +21,13 @@ const ContactListWrapper = styled(ListWrapper)`
 `
 
 const ContactCategory = styled(Text)`
-  margin: 3rem 0 0 4rem;
+  margin: 3rem 0 1.15rem 4rem;
 `
 
 const ContactItem = styled(Text)`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   height: 6.4rem;
   padding: 0 3rem 0 4rem;
   border-top: 0.1rem solid ${borderColor("listItem")};
@@ -55,7 +56,10 @@ const ContactList: FunctionComponent<InitialContactList> = ({
                 element={"li"}
                 key={id}
               >
-                {firstName} {lastName} {phoneNumber}
+                <p>
+                  {firstName} {lastName}
+                </p>
+                <p>{phoneNumber}</p>
               </ContactItem>
             ))}
           </ContactListWrapper>

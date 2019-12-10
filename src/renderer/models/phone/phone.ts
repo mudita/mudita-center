@@ -3,7 +3,7 @@ import Faker from "faker"
 
 // TODO: remove before production
 const generateFakeData = (numberOfContacts: number) => {
-  const fakeData = Array(numberOfContacts)
+  return Array(numberOfContacts)
     .fill(0)
     .map(_ => ({
       id: Faker.random.uuid(),
@@ -12,7 +12,6 @@ const generateFakeData = (numberOfContacts: number) => {
       phoneNumber: Faker.phone.phoneNumber(),
       favourite: Faker.random.boolean(),
     }))
-  return fakeData
 }
 
 const generateSortedStructure = (fakeState: any) => {
@@ -70,7 +69,9 @@ const filterContacts = (contacts: any, substring: string) => {
       const filterableFields = Object.values(contact).filter(value => {
         return typeof value === "string"
       })
-      return filterableFields.some((value: any) => value.includes(substring))
+      return filterableFields.some((value: any) =>
+        value.toLowerCase().includes(substring.toLowerCase())
+      )
     }),
   }))
 }
