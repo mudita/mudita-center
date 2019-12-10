@@ -5,15 +5,22 @@ exports[`matches snapshot 1`] = `
   <label
     class="sc-bwzfXH fNOhzS"
   >
-    <input
-      class="sc-htpNat eLCkJ"
-      id="id2"
-      name="Example1"
-      type="checkbox"
-      value="value2"
-    />
+    <div
+      class="sc-htpNat fhZXHj"
+    >
+      <input
+        class="sc-bxivhb ysEZG"
+        id="id2"
+        name="Example1"
+        type="checkbox"
+        value="value2"
+      />
+      <test-file-stub
+        classname="sc-ifAKCX gYZWwe"
+      />
+    </div>
     <span
-      class="sc-bdVaJa ejqiOH sc-bxivhb hfBFWB"
+      class="sc-bdVaJa ifUZVM sc-EHOje eZpXZa"
     >
       label
     </span>
