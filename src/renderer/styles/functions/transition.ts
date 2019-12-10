@@ -1,8 +1,8 @@
 import theme from "Renderer/styles/theming/theme"
 
 /**
- * Util returning transition propety taken from theme defaults.
- * Easy to everwrite.
+ * Util returning transition property taken from theme defaults.
+ * Easy to overwrite.
  *
  * @param property - propety that should be transitioned
  * @param time - transition time in ms
