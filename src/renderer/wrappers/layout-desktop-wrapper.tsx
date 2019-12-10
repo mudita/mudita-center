@@ -5,6 +5,9 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 
 import Menu from "Renderer/components/rest/menu/menu.component"
 
+import { useEffect, useState } from "react"
+import { useLocation } from "react-router"
+import Header from "Renderer/components/rest/header/header.component"
 import { borderColor, width } from "Renderer/styles/theming/theme-getters"
 
 const Layout = styled.div`
@@ -26,10 +29,6 @@ const ViewWrapper = styled.div`
   flex: 1;
 `
 
-const Header = styled.div`
-  border-bottom: 0.1rem solid ${borderColor("dark")};
-`
-
 const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
   return (
     <Layout>
@@ -37,7 +36,7 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
         <Menu />
       </MenuWrapper>
       <ViewWrapper>
-        <Header>Header</Header>
+        <Header />
         {children}
       </ViewWrapper>
     </Layout>
