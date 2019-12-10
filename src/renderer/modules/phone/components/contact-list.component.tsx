@@ -1,4 +1,5 @@
 import React from "react"
+import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -20,12 +21,22 @@ const ContactCategory = styled(Text)`
   margin: 3rem 0 1.15rem 4rem;
 `
 
+const NameWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const Checkbox = styled(InputCheckbox)`
+  opacity: 0;
+  margin: 0 1.3rem;
+`
+
 const ContactItem = styled(Text)`
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 6.4rem;
-  padding: 0 3rem 0 4rem;
+  padding-right: 4rem;
   background-color: ${backgroundColor("light")};
   border-top: 0.1rem solid ${borderColor("listItem")};
   &:last-child {
@@ -35,6 +46,9 @@ const ContactItem = styled(Text)`
   &:hover {
     background-color: ${backgroundColor("primaryDark")};
     cursor: pointer;
+    ${Checkbox} {
+      opacity: 1;
+    }
   }
 `
 
@@ -58,9 +72,12 @@ const ContactList: FunctionComponent<InitialContactList> = ({
                 element={"li"}
                 key={id}
               >
-                <p>
-                  {firstName} {lastName}
-                </p>
+                <NameWrapper>
+                  <Checkbox />
+                  <p>
+                    {firstName} {lastName}
+                  </p>
+                </NameWrapper>
                 <p>{phoneNumber}</p>
               </ContactItem>
             ))}
