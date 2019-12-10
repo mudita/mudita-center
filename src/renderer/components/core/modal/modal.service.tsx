@@ -144,20 +144,6 @@ class ModalService {
     element.addEventListener(type, eventWrapper)
   }
 
-  private unregisterEventListener(
-    type: EventListeners["type"],
-    element: EventListeners["element"]
-  ) {
-    const eventIndex = this.eventListeners.findIndex(
-      ({ type: eventType, element: eventElement }) =>
-        eventElement === element && eventType === type
-    )
-    if (eventIndex >= 0) {
-      element.removeEventListener(type, this.eventListeners[eventIndex].event)
-      this.eventListeners.splice(eventIndex, 1)
-    }
-  }
-
   private mountModal = () => {
     this.modalElement = document.createElement("div")
     document.body.appendChild(this.modalElement)
@@ -183,8 +169,10 @@ class ModalService {
     this.backdropOpened = false
 
     if (this.backdropElement) {
-      this.unregisterEventListener("click", this.backdropElement)
       this.backdropElement.remove()
+      this.eventListeners.forEach(({ type, element, event }) => {
+        element.removeEventListener(type, event)
+      })
     }
   }
 
