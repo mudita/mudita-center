@@ -77,7 +77,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Component = StyledButton
     Object.assign(filteredProps, { type, disabled })
   }
-  // @ts-ignore
+
   return (
     <Component
       {...filteredProps}
