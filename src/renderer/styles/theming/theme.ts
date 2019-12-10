@@ -8,13 +8,16 @@ const theme = {
       inverted: "#FFFFFF",
       faded: "#6A6A6A",
       supplementary: "#6D9BBC",
+      placeholder: "#A5A5A5",
+      dark: "#000000",
     },
     background: {
       light: "#ffffff",
       dark: "#000000",
       inputDark: "#3B3F42",
+      accent: "#F4F5F6",
     },
-    borderColor: {
+    border: {
       dark: "#000000",
       default: "#CDCECF",
       hover: "#3B3F42",
@@ -33,6 +36,15 @@ const theme = {
     light: 300,
     default: 400,
     bold: 700,
+  },
+  height: {
+    small: 0.3,
+    medium: 0.8,
+  },
+  borderRadius: {
+    small: 0.15,
+    medium: 0.4,
+    big: 0.12,
   },
   letterSpacing: {
     negative: -0.06,
