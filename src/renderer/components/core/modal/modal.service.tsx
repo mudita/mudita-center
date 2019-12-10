@@ -12,9 +12,9 @@ import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
 
 enum ModalError {
-  NO_MODAL_TO_CLOSE = "Close modal action cannot be performed. There is no modal opened.",
-  CLOSING_FORBIDDEN = "Cannot close current modal. If you really want to close it, use force parameter or call allowClosingModal(true) method.",
-  ANOTHER_MODAL_OPENED = "Another modal is already opened. If you really want to open another one, use force parameter.",
+  NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
+  ClosingForbidden = "Cannot close current modal. If you really want to close it, use force parameter or call allowClosingModal(true) method.",
+  AnotherModalOpened = "Another modal is already opened. If you really want to open another one, use force parameter.",
 }
 
 const logError = (message: ModalError) => {
@@ -52,11 +52,11 @@ class ModalService {
 
   public async closeModal(force: boolean = false) {
     if (!this.isModalOpen()) {
-      logError(ModalError.NO_MODAL_TO_CLOSE)
+      logError(ModalError.NoModalToClose)
       return
     }
     if (!this.modalClosingAllowed && !force) {
-      logError(ModalError.CLOSING_FORBIDDEN)
+      logError(ModalError.ClosingForbidden)
       return
     }
 
@@ -103,7 +103,7 @@ class ModalService {
         this.backdropClosingAllowed = false
         await this.closeModal(true)
       } else {
-        logError(ModalError.ANOTHER_MODAL_OPENED)
+        logError(ModalError.AnotherModalOpened)
         return
       }
     }
