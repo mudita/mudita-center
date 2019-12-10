@@ -15,7 +15,9 @@ export const Modal: FunctionComponent = () => {
   }
 
   useEffect(() => {
-    modalService.allowClosingModal(closable)
+    closable
+      ? modalService.allowClosingModal()
+      : modalService.preventClosingModal()
   }, [closable])
 
   return (

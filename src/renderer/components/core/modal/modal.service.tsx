@@ -111,15 +111,19 @@ class ModalService {
         return
       }
     }
-    this.allowClosingModal(true)
+    this.allowClosingModal()
     this.mountBackdrop()
     this.renderBackdrop()
     this.mountModal()
     this.renderModal(modal)
   }
 
-  public allowClosingModal(allow: boolean = true) {
-    this.modalClosingAllowed = allow
+  public allowClosingModal() {
+    this.modalClosingAllowed = true
+  }
+
+  public preventClosingModal() {
+    this.modalClosingAllowed = false
   }
 
   private registerEventListener(
