@@ -25,12 +25,7 @@ describe("Button matches snapshots", () => {
     testScenario.cases.forEach((testCase: TestCase) => {
       const { disabled, displayStyle, size } = testCase
       const { container } = renderWithThemeAndIntl(
-        <Button
-          {...testCase}
-          {...testScenario.commonProps}
-          label={label}
-          disabled={!!disabled}
-        />
+        <Button {...testCase} {...testScenario.commonProps} label={label} />
       )
 
       test(`${name} displayStyle: ${displayStyle} size: ${size} disabled: ${!!disabled}`, () => {
