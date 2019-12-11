@@ -13,6 +13,10 @@ const HeaderWrapper = styled.div`
   border-bottom: 0.1rem solid ${borderColor("dark")};
 `
 
+const HeaderViewText = styled(Text)`
+  text-transform: capitalize;
+`
+
 const Header: FunctionComponent = () => {
   const location = useLocation()
   const [currentLocation, setCurrentLocation] = useState("")
@@ -21,9 +25,9 @@ const Header: FunctionComponent = () => {
   }, [location])
   return (
     <HeaderWrapper>
-      <Text displayStyle={TextDisplayStyle.TertiaryBoldHeading}>
+      <HeaderViewText displayStyle={TextDisplayStyle.TertiaryBoldHeading}>
         {currentLocation}
-      </Text>
+      </HeaderViewText>
     </HeaderWrapper>
   )
 }
