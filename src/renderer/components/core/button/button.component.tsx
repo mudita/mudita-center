@@ -1,4 +1,4 @@
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, MouseEventHandler } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
@@ -45,7 +45,7 @@ interface Props {
   Icon?: FunctionComponent<ImageInterface>
   label?: string
   labelMessage?: MessageInterface
-  onClick?: (args: object) => void
+  onClick?: (event: MouseEventHandler) => void
   size?: Size
   target?: string
   to?: string
