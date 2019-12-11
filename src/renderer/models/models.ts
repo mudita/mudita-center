@@ -1,7 +1,7 @@
 import basicInfo from "Renderer/models/basicInfo/basicInfo"
-import phoneView from "Renderer/models/phone/phone"
+import phone from "Renderer/models/phone/phone"
 
 export default {
   basicInfo,
-  phoneView,
+  phone,
 }
