@@ -16,8 +16,6 @@ const SearchInput = styled(InputText)`
   min-width: 39rem;
 `
 
-const ContactButtons = styled.div``
-
 interface PanelInterface {
   handleInput: (event: string) => string
 }
@@ -35,10 +33,10 @@ const ContactPanel: FunctionComponent<PanelInterface> = ({ handleInput }) => {
         placeholder="Search contacts"
         onChange={onChange}
       />
-      <ContactButtons>
+      <div>
         <button>Manage</button>
         <button>New contact</button>
-      </ContactButtons>
+      </div>
     </Panel>
   )
 }

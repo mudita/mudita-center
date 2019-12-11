@@ -52,9 +52,10 @@ const ContactItem = styled(Text)`
   }
 `
 
-const ContactList: FunctionComponent<InitialContactList> = ({
-  contactList,
-}) => {
+const ContactList: FunctionComponent<Omit<
+  InitialContactList,
+  "handleInput"
+>> = ({ contactList }) => {
   return (
     <ListWrapper>
       {contactList.map(({ category, contacts }, index) => (
