@@ -13,4 +13,5 @@ export interface ContactCategory {
 export interface InitialContactList {
   contactList: ContactCategory[]
   grouped?: any
+  handleInput?: () => string
 }

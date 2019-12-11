@@ -6,4 +6,8 @@ const mapState = select(models => ({
   grouped: models.phoneView.grouped,
 }))
 
-export default connect(mapState)(Phone)
+const mapDispatch = dispatch => ({
+  handleInput: e => dispatch.phoneView.handleInput(e),
+})
+
+export default connect(mapState, mapDispatch)(Phone)

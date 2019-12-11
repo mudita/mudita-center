@@ -11,10 +11,13 @@ const ContactSection = styled.section`
   background-color: ${backgroundColor("primaryDark")};
 `
 
-const Phone: FunctionComponent<InitialContactList> = ({ grouped }) => {
+const Phone: FunctionComponent<InitialContactList> = ({
+  handleInput,
+  grouped,
+}) => {
   return (
     <ContactSection>
-      <ContactPanel />
+      <ContactPanel handleInput={handleInput} />
       <ContactList contactList={grouped} />
     </ContactSection>
   )

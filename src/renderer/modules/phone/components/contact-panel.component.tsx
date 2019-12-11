@@ -3,7 +3,6 @@ import InputText, {
   TextInputLayouts,
 } from "Renderer/components/core/input-text/input-text.component"
 import { Icon } from "Renderer/components/core/input-text/input-text.stories"
-import { dispatch } from "Renderer/store"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
@@ -19,9 +18,13 @@ const SearchInput = styled(InputText)`
 
 const ContactButtons = styled.div``
 
-const ContactPanel: FunctionComponent = () => {
+interface PanelInterface {
+  handleInput: (event: string) => string
+}
+
+const ContactPanel: FunctionComponent<PanelInterface> = ({ handleInput }) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch({ type: "phoneView/handleInput", payload: event.target.value })
+    handleInput(event.target.value)
   }
   return (
     <Panel>
