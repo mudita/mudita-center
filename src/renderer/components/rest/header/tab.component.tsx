@@ -30,8 +30,8 @@ const TabText = styled(Text)``
 interface TabProps {
   icon: FunctionComponent<ImageInterface>
   tabText?: string
-  active: boolean
-  onClick: () => void
+  active?: boolean
+  onClick?: () => void
 }
 
 const Tab: FunctionComponent<TabProps> = ({
@@ -41,7 +41,7 @@ const Tab: FunctionComponent<TabProps> = ({
   onClick,
 }) => {
   return (
-    <TabWrapper onClick={onClick} active={active}>
+    <TabWrapper onClick={onClick} active={Boolean(active)}>
       <TabIcon Image={icon} />
       <TabText displayStyle={TextDisplayStyle.MediumText}>{tabText}</TabText>
     </TabWrapper>
