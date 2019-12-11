@@ -245,8 +245,8 @@ const Messages: FunctionComponent = () => {
     setFilter(on ? MessagesFilter.AllMessages : MessagesFilter.UnreadOnly)
   }
 
-  const filterByString = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target!.value)
+  const filterByString = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(target.value)
   }
 
   const topicFilters = ({ checkedRows, setCheckedRows }: FiltersProps) => {
