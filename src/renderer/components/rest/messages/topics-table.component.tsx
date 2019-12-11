@@ -4,7 +4,8 @@
   final version created in https://appnroll.atlassian.net/browse/PDA-55
 */
 
-import React, { useState } from "react"
+import React, { Dispatch, SetStateAction, useState } from "react"
+import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
   backgroundColor,
   borderColor,
@@ -23,8 +24,8 @@ export interface TableRowProps<T> {
 }
 
 export interface FiltersProps {
-  checkMode?: boolean
-  checkedRows?: Set<any>
+  checkedRows: Set<any>
+  setCheckedRows: Dispatch<SetStateAction<Set<any>>>
 }
 
 type FiltersFunction<T> = (props: FiltersProps) => JSX.Element
@@ -42,14 +43,8 @@ interface TableProps {
   rowLayoutStyle?: RowLayoutStyle
 }
 
-const Checkbox = styled.input.attrs(() => ({
-  type: "checkbox",
-}))`
+const Checkbox = styled(InputCheckbox)`
   grid-area: Checkbox;
-  width: 2rem;
-  height: 2rem;
-  margin: 0;
-  padding: 0;
   opacity: 0;
   visibility: hidden;
   transition: all 0.15s ease-in-out;
@@ -75,7 +70,7 @@ const checkboxActiveStyle = css`
   visibility: visible;
 `
 
-export const TableRow = styled.div<{
+const TableRow = styled.div<{
   layout?: RowLayoutStyle
   checkMode: boolean
 }>`
@@ -119,11 +114,11 @@ const Table: FunctionComponent<TableProps> = ({
   tableFilters,
 }) => {
   const [checkedRows, setCheckedRows] = useState(new Set())
-
   const checkMode = Boolean(checkedRows.size)
+
   return (
     <>
-      {tableFilters && tableFilters({ checkedRows, checkMode })}
+      {tableFilters && tableFilters({ checkedRows, setCheckedRows })}
       <TableWrapper>
         {rows.map((row, index) => {
           const toggleRowSelection = () => {

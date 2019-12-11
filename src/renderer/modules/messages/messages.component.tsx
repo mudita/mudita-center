@@ -1,11 +1,19 @@
 import moment from "moment"
-import React, { ChangeEvent, SetStateAction, useState } from "react"
+import React, {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import InputText, {
+  TextInputLayouts,
+} from "Renderer/components/core/input-text/input-text.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import mockedTopics from "Renderer/components/rest/messages/mocked-data"
-import { FilterComponent } from "Renderer/components/rest/messages/topics-filtering.component"
 import Table, {
   FiltersProps,
   TableRowProps,
@@ -40,16 +48,20 @@ export interface Topic {
   messages: Message[]
 }
 
+interface FilterProps {
+  onChange: Dispatch<SetStateAction<boolean>>
+  onLabel: string
+  offLabel: string
+}
+
 export enum MessagesFilter {
   AllMessages,
   UnreadOnly,
 }
 
-enum CheckedStatus {
-  Checked,
-  Unchecked,
-  Indeterminate,
-}
+const FilterButton = styled.button<{ active: boolean }>`
+  background-color: ${({ active }) => (active ? "hotpink" : "transparent")};
+`
 
 const Avatar = styled.div<{ hide: boolean }>`
   grid-area: Checkbox;
@@ -153,47 +165,58 @@ const Filter = styled.div`
   grid-area: Filter;
 `
 
-const Search = styled.div`
+const SearchInput = styled(InputText)`
   grid-area: Search;
-
-  input[type="text"] {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-`
-
-const CheckedModeInput = styled(Search)`
-  display: grid;
-  grid-template-areas: "Checkbox Text Buttons";
-  grid-template-columns: 4.8rem 1fr auto;
-
-  input[type="checkbox"] {
-    grid-area: Checkbox;
-    width: 2rem;
-    height: 2rem;
-    margin: 0;
-    padding: 0;
-    align-self: center;
-    justify-self: center;
-  }
-  input[type="text"] {
-    grid-area: Text;
-  }
+  width: 100%;
 `
 
 const Create = styled.div`
   grid-area: Create;
 `
 
+const TripleStateCheckbox = styled(InputCheckbox)`
+  width: 4.8rem;
+`
+
+const FilterComponent: FunctionComponent<FilterProps> = ({
+  onChange,
+  onLabel,
+  offLabel,
+}) => {
+  const [on, setOn] = useState(true)
+
+  useEffect(() => {
+    onChange(on)
+  }, [on])
+
+  const turnOn = () => {
+    setOn(true)
+  }
+
+  const turnOff = () => {
+    setOn(false)
+  }
+
+  return (
+    <>
+      <FilterButton onClick={turnOn} active={on}>
+        {onLabel}
+      </FilterButton>
+      <FilterButton onClick={turnOff} active={!on}>
+        {offLabel}
+      </FilterButton>
+    </>
+  )
+}
+
 const Messages: FunctionComponent = () => {
   const [filter, setFilter] = useState<MessagesFilter>(
     MessagesFilter.AllMessages
   )
   const [searchValue, setSearchValue] = useState("")
+  const [topics, setTopics] = useState(mockedTopics)
 
-  const filteredTopics = mockedTopics
+  const filteredTopics = topics
     .filter(({ unread, caller, messages }) => {
       const search = searchValue.toLowerCase()
       const topicUnread = filter === MessagesFilter.AllMessages ? true : unread
@@ -226,48 +249,47 @@ const Messages: FunctionComponent = () => {
     setSearchValue(e.target!.value)
   }
 
-  const topicFilters = ({ checkedRows, checkMode }: FiltersProps) => {
-    // const toggleAllCheckbox = useRef(null)
+  const topicFilters = ({ checkedRows, setCheckedRows }: FiltersProps) => {
+    const checkIndeterminate =
+      checkedRows.size < filteredTopics.length && checkedRows.size > 0
 
-    const getCheckStatus = () => {
-      if (checkedRows) {
-        switch (true) {
-          case checkedRows.size === filteredTopics.length:
-            return CheckedStatus.Checked
-          case checkedRows.size === 0:
-            return CheckedStatus.Unchecked
-          default:
-            return CheckedStatus.Indeterminate
-        }
+    const checkedAll = checkedRows.size === filteredTopics.length
+    const checkMode = Boolean(checkedRows.size)
+
+    const toggleAll = () => {
+      const tempCheckedRows = new Set(checkedRows)
+      if (checkedAll) {
+        tempCheckedRows.clear()
+      } else if (checkIndeterminate) {
+        filteredTopics.forEach(topic => {
+          tempCheckedRows.add(topic)
+        })
       }
-      return CheckedStatus.Indeterminate
+      setCheckedRows(tempCheckedRows)
     }
 
-    console.log(getCheckStatus())
+    const getCheckedItemsCountInfo = () => {
+      switch (true) {
+        case checkedRows.size === 1:
+          return `1 conversation selected`
+        case checkedRows.size < filteredTopics.length:
+          return `${checkedRows.size} conversations selected`
+        default:
+          return `All conversations selected`
+      }
+    }
 
-    // const [checkedStatus] = useState(getCheckStatus())
-
-    // useEffect(() => {
-    //   let status = CheckedStatus.Unchecked
-    //   if (checkedRows) {
-    //     switch (true) {
-    //       case checkedRows.size === filteredTopics.length:
-    //         status = CheckedStatus.Checked
-    //         break
-    //       case checkedRows.size === 0:
-    //         status = CheckedStatus.Unchecked
-    //         break
-    //       default:
-    //         status = CheckedStatus.Indeterminate
-    //         break
-    //     }
-    //   }
-    //   setCheckedStatus(status)
-    //   if (toggleAllCheckbox && toggleAllCheckbox.current) {
-    //     toggleAllCheckbox.current.indeterminate =
-    //       status === CheckedStatus.Indeterminate
-    //   }
-    // }, [checkedRows])
+    const deleteTopic = () => {
+      const deleted: string[] = []
+      checkedRows.forEach(row => {
+        deleted.push(row.id)
+      })
+      if (confirm(`Following topics will be deleted: ${deleted.join(", ")}`)) {
+        const newTopicsList = topics.filter(({ id }) => !deleted.includes(id))
+        setTopics(newTopicsList)
+        setCheckedRows(new Set())
+      }
+    }
 
     return (
       <TopicFiltersWrapper checkMode={checkMode}>
@@ -280,16 +302,33 @@ const Messages: FunctionComponent = () => {
             />
           </Filter>
         )}
-
         {checkMode ? (
-          <CheckedModeInput>
-            <InputCheckbox />
-            <input type="text" disabled />
-          </CheckedModeInput>
+          <SearchInput
+            placeholder="Search"
+            layout={TextInputLayouts.Outlined}
+            condensed
+            disabled
+            defaultValue={getCheckedItemsCountInfo()}
+            leadingIcons={[
+              <TripleStateCheckbox
+                onChange={toggleAll}
+                checked={checkedAll}
+                indeterminate={checkIndeterminate}
+                key="1"
+              />,
+            ]}
+            trailingIcons={[
+              <button key={"1"} onClick={deleteTopic}>
+                Delete
+              </button>,
+            ]}
+          />
         ) : (
-          <Search>
-            <input onChange={filterByString} type="text" placeholder="Search" />
-          </Search>
+          <SearchInput
+            onChange={filterByString}
+            placeholder="Search"
+            layout={TextInputLayouts.Outlined}
+          />
         )}
         <Create>
           <button>New message</button>
