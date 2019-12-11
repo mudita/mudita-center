@@ -45,7 +45,7 @@ interface Props {
   Icon?: FunctionComponent<ImageInterface>
   label?: string
   labelMessage?: MessageInterface
-  onClick?: () => void
+  onClick?: (args: object) => void
   size?: Size
   target?: string
   to?: string
