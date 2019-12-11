@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { useEffect } from "react"
 import { useLocation } from "react-router"
 import Text, {
@@ -11,10 +11,16 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
 const HeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
   border-bottom: 0.1rem solid ${borderColor("dark")};
 `
 
-const Header: FunctionComponent = () => {
+interface HeaderProps {
+  middleComponent: ReactNode
+}
+
+const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
   const location = useLocation()
   const [currentLocation, setCurrentLocation] = useState()
   useEffect(() => {
@@ -28,6 +34,7 @@ const Header: FunctionComponent = () => {
         displayStyle={TextDisplayStyle.TertiaryBoldHeading}
         message={currentLocation}
       />
+      {middleComponent}
     </HeaderWrapper>
   )
 }
