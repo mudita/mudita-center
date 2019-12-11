@@ -5,6 +5,7 @@ import { useLocation } from "react-router"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { MENU_ELEMENTS } from "Renderer/constants/menuElements"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -13,21 +14,20 @@ const HeaderWrapper = styled.div`
   border-bottom: 0.1rem solid ${borderColor("dark")};
 `
 
-const HeaderViewText = styled(Text)`
-  text-transform: capitalize;
-`
-
 const Header: FunctionComponent = () => {
   const location = useLocation()
-  const [currentLocation, setCurrentLocation] = useState("")
+  const [currentLocation, setCurrentLocation] = useState()
   useEffect(() => {
-    setCurrentLocation(location.pathname.split("/")[1])
+    const pathname = location.pathname
+    const label = MENU_ELEMENTS.filter(({ url }) => url === pathname)[0].label
+    setCurrentLocation(label)
   }, [location])
   return (
     <HeaderWrapper>
-      <HeaderViewText displayStyle={TextDisplayStyle.TertiaryBoldHeading}>
-        {currentLocation}
-      </HeaderViewText>
+      <Text
+        displayStyle={TextDisplayStyle.TertiaryBoldHeading}
+        message={currentLocation}
+      />
     </HeaderWrapper>
   )
 }
