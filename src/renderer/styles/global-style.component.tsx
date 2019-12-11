@@ -15,6 +15,9 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     color: #000;
     text-decoration: none;
   }
+  #root {
+    z-index: 1;
+    position: relative;
+  }
 `
-
 export default GlobalStyle
