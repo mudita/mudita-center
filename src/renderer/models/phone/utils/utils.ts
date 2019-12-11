@@ -32,19 +32,6 @@ export const generateSortedStructure = (fakeState: any) => {
       })
     }
 
-    fakeStructure.unshift({
-      category: "Favourite",
-      contacts: Array(5)
-        .fill(0)
-        .map(_ => ({
-          id: Faker.random.uuid(),
-          firstName: Faker.name.firstName(),
-          lastName: Faker.name.lastName(),
-          phoneNumber: Faker.phone.phoneNumber(),
-          favourite: true,
-        })),
-    })
-
     return fakeStructure
   }
 
