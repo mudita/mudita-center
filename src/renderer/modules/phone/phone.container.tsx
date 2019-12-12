@@ -7,7 +7,7 @@ const mapState = select(models => ({
 }))
 
 const mapDispatch = (dispatch: any) => ({
-  handleInput: (e: any) => dispatch.phone.handleInput(e),
+  handleInput: (event: string) => dispatch.phone.handleInput(event),
 })
 
 export default connect(mapState, mapDispatch)(Phone)

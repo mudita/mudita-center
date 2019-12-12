@@ -1,8 +1,8 @@
 export interface Contact {
   id: number
-  firstName: string
-  lastName: string
-  phoneNumber: number
+  firstName?: string
+  lastName?: string
+  phoneNumber?: string
 }
 
 export interface ContactCategory {
@@ -13,5 +13,4 @@ export interface ContactCategory {
 export interface InitialContactList {
   contactList: ContactCategory[]
   grouped?: any
-  handleInput: (event: string) => string
 }
