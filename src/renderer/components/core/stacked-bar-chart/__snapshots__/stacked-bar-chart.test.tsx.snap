@@ -3,14 +3,12 @@
 exports[`Snapshot tests should match snapshot multicolor 1`] = `
 .c7 {
   margin: 0;
-  font-weight: 400;
   font-size: 1.4rem;
   line-height: 1.05;
 }
 
 .c9 {
   margin: 0;
-  font-weight: 400;
   font-size: 1.4rem;
   line-height: 1.05;
   color: #6A6A6A;
@@ -23,7 +21,6 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 
 .c12 {
   margin: 0;
-  font-weight: 400;
   font-size: 1.8rem;
   line-height: 1.1;
   font-weight: 400;
@@ -148,6 +145,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
+  margin: 1.4rem 0;
 }
 
 .c10 {

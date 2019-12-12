@@ -163,7 +163,6 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
 
 const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
   margin: 0;
-  font-weight: 400;
   ${({ displayStyle }) => getTextStyles(displayStyle)};
 `
 

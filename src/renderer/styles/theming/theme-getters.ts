@@ -66,6 +66,16 @@ export const maxBreakpoint = (name: keyof Theme["breakpoint"]) => ({
   theme: Theme
 }) => theme.breakpoint[name] - 0.01 + "rem"
 
+export const transitionTime = (name: keyof Theme["transitionTime"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.transitionTime[name]
+
+export const transitionTimingFunction = (
+  name: keyof Theme["transitionTimingFunction"]
+) => ({ theme }: { theme: Theme }) => theme.transitionTimingFunction[name]
+
 export const width = (name: keyof Theme["width"]) => ({
   theme,
 }: {
