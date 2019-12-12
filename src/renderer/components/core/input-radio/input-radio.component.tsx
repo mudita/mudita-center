@@ -67,7 +67,7 @@ const InputRadio: FunctionComponent<InputProps> = ({
       {label ? (
         <LabelWrapper>
           <Label className={className}>
-            <Input {...props} type="radio" className={className} />
+            <Input {...props} type="radio" />
             <TextWrapper>
               {label && (
                 <LabelText

@@ -45,5 +45,5 @@ test("renders correct amount of labels", () => {
     <InputRadioGroup data={radioGroup} radioGroupName={radioGroupName} />
   )
   const labels = container.querySelectorAll("label")
-  expect(labels?.length).toEqual(1)
+  expect(labels).toHaveLength(1)
 })

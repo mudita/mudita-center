@@ -19,7 +19,7 @@ exports[`matches snapshot 1`] = `
         class="sc-htpNat hXlcgp sc-gzVnrw NFpoh"
       >
         <input
-          class="sc-bwzfXH fpzXDF sc-gzVnrw NFpoh"
+          class="sc-bwzfXH fpzXDF"
           id="id2"
           name="example"
           type="radio"
