@@ -17,8 +17,12 @@ const HeaderWrapper = styled.div`
 `
 
 interface HeaderProps {
-  middleComponent: ReactNode
+  middleComponent?: ReactNode
 }
+
+const HeaderText = styled(Text)`
+  margin: 0;
+`
 
 const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
   const location = useLocation()
@@ -30,9 +34,10 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
   }, [location])
   return (
     <HeaderWrapper>
-      <Text
+      <HeaderText
         displayStyle={TextDisplayStyle.TertiaryBoldHeading}
         message={currentLocation}
+        data-testid={"location"}
       />
       {middleComponent}
     </HeaderWrapper>

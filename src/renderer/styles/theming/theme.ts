@@ -19,6 +19,7 @@ const theme = {
       accent: "#F4F5F6",
     },
     border: {
+      active: "#191C20",
       dark: "#000000",
       default: "#CDCECF",
       hover: "#3B3F42",

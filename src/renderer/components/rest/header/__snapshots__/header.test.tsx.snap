@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div
+  class="sc-bwzfXH entmB"
+>
+  <h3
+    class="sc-bdVaJa cUWUCC sc-htpNat bhpHJD"
+    data-testid="location"
+  >
+    Overview
+  </h3>
+  <div
+    class="sc-EHOje fhxHOS"
+  >
+    <div
+      class="sc-ifAKCX JFPsQ"
+      data-testid="tab"
+    >
+      <test-file-stub
+        classname="sc-bxivhb cmYiCt"
+      />
+      <p
+        class="sc-bdVaJa ifUZVM"
+      >
+        Phone
+      </p>
+    </div>
+    <div
+      class="sc-ifAKCX hcBPdP"
+      data-testid="tab"
+    >
+      <test-file-stub
+        classname="sc-bxivhb cmYiCt"
+      />
+      <p
+        class="sc-bdVaJa ifUZVM"
+      >
+        Calls
+      </p>
+    </div>
+    <div
+      class="sc-ifAKCX hcBPdP"
+      data-testid="tab"
+    >
+      <test-file-stub
+        classname="sc-bxivhb cmYiCt"
+      />
+      <p
+        class="sc-bdVaJa ifUZVM"
+      >
+        Dial
+      </p>
+    </div>
+  </div>
+</div>
+`;

@@ -231,11 +231,13 @@ const Text: FunctionComponent<Props> = ({
   message,
   element,
   className = "",
+  ...rest
 }) => (
   <TextWrapper
     className={className}
     as={element || mapping[displayStyle]}
     displayStyle={displayStyle}
+    {...rest}
   >
     {message ? <FormattedMessage {...message} /> : children}
   </TextWrapper>

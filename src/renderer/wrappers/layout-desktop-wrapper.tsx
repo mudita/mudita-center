@@ -44,9 +44,9 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
         <Header
           middleComponent={
             <HeaderTabs>
-              <Tab icon={check} tabText={"lala1"} />
-              <Tab icon={check} tabText={"lala2"} />
-              <Tab icon={check} tabText={"lala3"} />
+              <Tab icon={check} tabText={"Phone"} />
+              <Tab icon={check} tabText={"Calls"} />
+              <Tab icon={check} tabText={"Dial"} />
             </HeaderTabs>
           }
         />
