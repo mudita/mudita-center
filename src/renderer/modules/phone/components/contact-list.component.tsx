@@ -3,10 +3,7 @@ import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbo
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import {
-  ContactCategory,
-  InitialContactList,
-} from "Renderer/models/phone/phone.interface"
+import { InitialContactList } from "Renderer/models/phone/phone.interface"
 import {
   backgroundColor,
   borderColor,
