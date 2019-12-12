@@ -9,6 +9,9 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     font-size: 10px; 
     line-height: 1.5;
   }
+  #root {
+    z-index: 1;
+    position: relative;
+  }
 `
-
 export default GlobalStyle
