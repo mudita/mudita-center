@@ -15,11 +15,11 @@ interface PhoneProps extends InitialContactList {
   handleInput: (event: string) => string
 }
 
-const Phone: FunctionComponent<PhoneProps> = ({ handleInput, grouped }) => {
+const Phone: FunctionComponent<PhoneProps> = ({ handleInput, contactList }) => {
   return (
     <ContactSection>
       <ContactPanel handleInput={handleInput} />
-      <ContactList contactList={grouped} />
+      <ContactList contactList={contactList} />
     </ContactSection>
   )
 }

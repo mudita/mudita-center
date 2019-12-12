@@ -3,7 +3,10 @@ import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbo
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { ContactCategory } from "Renderer/models/phone/phone.interface"
+import {
+  ContactCategory,
+  InitialContactList,
+} from "Renderer/models/phone/phone.interface"
 import {
   backgroundColor,
   borderColor,
@@ -52,11 +55,9 @@ const ContactItem = styled(Text)`
   }
 `
 
-interface ContactListProps {
-  contactList: ContactCategory[]
-}
-
-const ContactList: FunctionComponent<ContactListProps> = ({ contactList }) => {
+const ContactList: FunctionComponent<InitialContactList> = ({
+  contactList,
+}) => {
   return (
     <ListWrapper>
       {contactList.map(({ category, contacts }, index) => (

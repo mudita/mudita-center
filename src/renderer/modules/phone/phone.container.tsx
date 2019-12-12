@@ -3,7 +3,7 @@ import { select } from "Renderer/store"
 import Phone from "./phone.component"
 
 const mapState = select(models => ({
-  grouped: models.phone.grouped,
+  contactList: models.phone.grouped,
 }))
 
 const mapDispatch = (dispatch: any) => ({
