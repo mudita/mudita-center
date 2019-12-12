@@ -6,7 +6,7 @@ import LayoutDesktopWrapper from "Renderer/wrappers/layout-desktop-wrapper"
 import FilesManager from "Renderer/modules/filesManager/files-manager.component"
 import Help from "Renderer/modules/help/help.component"
 import Meditation from "Renderer/modules/meditation/meditation.component"
-import Messages from "Renderer/modules/messages/messages.component"
+import MessagesContainer from "Renderer/modules/messages/messages.container"
 import Music from "Renderer/modules/music/music.component"
 import News from "Renderer/modules/news/news.component"
 import OverviewContainer from "Renderer/modules/overview/overview.container"
@@ -24,7 +24,7 @@ export default () => (
       <Route path={URL_MAIN.filesManager} component={FilesManager} />
       <Route path={URL_MAIN.help} component={Help} />
       <Route path={URL_MAIN.meditation} component={Meditation} />
-      <Route path={URL_MAIN.messages} component={Messages} />
+      <Route path={URL_MAIN.messages} component={MessagesContainer} />
       <Route path={URL_MAIN.music} component={Music} />
       <Route path={URL_MAIN.news} component={News} />
       <Route path={URL_MAIN.overview} component={OverviewContainer} />
