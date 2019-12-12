@@ -189,10 +189,10 @@ export const StyledButton = styled.button`
 `
 export const StyledIcon = styled(Svg)<{
   displayStyle: DisplayStyle
-  isLabel: boolean
+  withMargin: boolean
 }>`
-  ${({ displayStyle, isLabel }) => {
-    if (isLabel) {
+  ${({ displayStyle, withMargin }) => {
+    if (withMargin) {
       if (displayStyle === DisplayStyle.Link2) {
         return css`
           margin: 0 1.2rem 0 0;

@@ -111,7 +111,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
       {Icon && (
         <StyledIcon
           displayStyle={displayStyle}
-          isLabel={Boolean(label)}
+          withMargin={Boolean(label)}
           Image={Icon}
         />
       )}
