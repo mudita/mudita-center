@@ -33,7 +33,7 @@ export const generateSortedStructure = (fakeState: any) => {
     }
 
     fakeStructure.unshift({
-      category: "Favs",
+      category: "Favourite",
       contacts: [],
     })
 
@@ -67,11 +67,14 @@ export const generateSortedStructure = (fakeState: any) => {
   return placeContactsInStructure()
 }
 
-export const sanitizeContacts = (structure: any) => {
+export const removeEmptyContacts = (structure: any) => {
   return structure.filter((el: any) => el.contacts.length > 0)
 }
 
 export const filterContacts = (contacts: any, substring: string) => {
+  if (!substring) {
+    return contacts
+  }
   return contacts.map((contactsByLetter: any) => ({
     ...contactsByLetter,
     contacts: contactsByLetter.contacts.filter((contact: any) => {
