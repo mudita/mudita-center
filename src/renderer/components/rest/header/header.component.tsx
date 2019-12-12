@@ -21,7 +21,7 @@ interface HeaderProps {
 }
 
 const HeaderText = styled(Text)`
-  margin: 0;
+  margin: 0 0 0 4rem;
 `
 
 const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
