@@ -6,8 +6,8 @@ const mapState = select(models => ({
   contactList: models.phone.grouped,
 }))
 
-const mapDispatch = (dispatch: any) => ({
-  handleInput: (event: string) => dispatch.phone.handleInput(event),
+const mapDispatch = ({ phone }: any) => ({
+  handleInput: (event: string) => phone.handleInput(event),
 })
 
 export default connect(mapState, mapDispatch)(Phone)
