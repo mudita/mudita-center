@@ -5,13 +5,13 @@ exports[`matches snapshot 1`] = `
   class="sc-bwzfXH fqREEC"
 >
   <h3
-    class="sc-bdVaJa cUWUCC sc-htpNat krvWeq"
+    class="sc-bdVaJa biEvWz sc-htpNat krvWeq"
     data-testid="location"
   >
     Overview
   </h3>
   <div
-    class="sc-EHOje fhxHOS"
+    class="sc-bZQynM kzlsZH"
   >
     <div
       class="sc-ifAKCX eomMzT"
@@ -21,7 +21,7 @@ exports[`matches snapshot 1`] = `
         classname="sc-bxivhb iRRKva"
       />
       <p
-        class="sc-bdVaJa ifUZVM"
+        class="sc-bdVaJa foWHke sc-EHOje CejkL"
       >
         Phone
       </p>
@@ -34,7 +34,7 @@ exports[`matches snapshot 1`] = `
         classname="sc-bxivhb iRRKva"
       />
       <p
-        class="sc-bdVaJa ifUZVM"
+        class="sc-bdVaJa foWHke sc-EHOje CejkL"
       >
         Calls
       </p>
@@ -47,7 +47,7 @@ exports[`matches snapshot 1`] = `
         classname="sc-bxivhb iRRKva"
       />
       <p
-        class="sc-bdVaJa ifUZVM"
+        class="sc-bdVaJa foWHke sc-EHOje CejkL"
       >
         Dial
       </p>

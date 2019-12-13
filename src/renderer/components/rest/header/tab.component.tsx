@@ -29,6 +29,10 @@ const TabWrapper = styled.div<{ active: boolean }>`
     `}
 `
 
+const TabText = styled(Text)`
+  margin: 1.6rem 0 1.3rem 0;
+`
+
 interface TabProps {
   icon: FunctionComponent<ImageInterface>
   tabText?: string
@@ -45,7 +49,7 @@ const Tab: FunctionComponent<TabProps> = ({
   return (
     <TabWrapper onClick={onClick} active={Boolean(active)} data-testid="tab">
       <TabIcon Image={icon} />
-      <Text displayStyle={TextDisplayStyle.MediumText}>{tabText}</Text>
+      <TabText displayStyle={TextDisplayStyle.MediumText}>{tabText}</TabText>
     </TabWrapper>
   )
 }
