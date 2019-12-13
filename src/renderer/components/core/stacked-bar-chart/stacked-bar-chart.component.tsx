@@ -93,6 +93,7 @@ const BarLabel = styled(Text)`
   right: 0;
   transform: translateX(50%);
   width: max-content;
+  margin: 1.4rem 0;
 `
 
 const PercentageLabel = styled(Text)`
