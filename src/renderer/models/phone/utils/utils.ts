@@ -79,16 +79,14 @@ export const filterContacts = (contacts: any, substring: string) => {
   return contacts.map((contactsByLetter: any) => ({
     ...contactsByLetter,
     contacts: contactsByLetter.contacts.filter((contact: any) => {
-      const filterableFields = Object.keys(contact)
+      return Object.keys(contact)
         .filter(key => {
           return allowedFields.includes(key)
         })
-        .reduce((res: any, key: string) => {
-          return (res[key] = contact[key]), res
-        }, {})
-      return Object.values(filterableFields).some((value: any) =>
-        value.toLowerCase().includes(substring.toLowerCase())
-      )
+        .map(key => contact[key])
+        .some((value: any) =>
+          value.toLowerCase().includes(substring.toLowerCase())
+        )
     }),
   }))
 }
