@@ -13,6 +13,7 @@ import styled from "styled-components"
 const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
   border-bottom: 0.1rem solid ${borderColor("dark")};
 `
 
@@ -21,7 +22,9 @@ interface HeaderProps {
 }
 
 const HeaderText = styled(Text)`
-  margin: 0 0 0 4rem;
+  margin: 0;
+  position: absolute;
+  left: 4rem;
 `
 
 const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
