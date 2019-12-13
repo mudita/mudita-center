@@ -9,15 +9,15 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
 const TabIcon = styled(Svg)`
-  height: 16px;
-  width: 16px;
+  height: 1.6rem;
+  width: 1.6rem;
   margin-right: 1rem;
 `
 
 const TabWrapper = styled.div<{ active: boolean }>`
   display: flex;
   align-items: center;
-  height: calc(100% - 2px);
+  height: calc(100% - 0.02rem);
 
   &:not(:last-child) {
     margin-right: 4rem;

@@ -14,11 +14,11 @@ exports[`matches snapshot 1`] = `
     class="sc-EHOje fhxHOS"
   >
     <div
-      class="sc-ifAKCX JFPsQ"
+      class="sc-ifAKCX eomMzT"
       data-testid="tab"
     >
       <test-file-stub
-        classname="sc-bxivhb cmYiCt"
+        classname="sc-bxivhb iRRKva"
       />
       <p
         class="sc-bdVaJa ifUZVM"
@@ -27,11 +27,11 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="sc-ifAKCX hcBPdP"
+      class="sc-ifAKCX jdyXUe"
       data-testid="tab"
     >
       <test-file-stub
-        classname="sc-bxivhb cmYiCt"
+        classname="sc-bxivhb iRRKva"
       />
       <p
         class="sc-bdVaJa ifUZVM"
@@ -40,11 +40,11 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="sc-ifAKCX hcBPdP"
+      class="sc-ifAKCX jdyXUe"
       data-testid="tab"
     >
       <test-file-stub
-        classname="sc-bxivhb cmYiCt"
+        classname="sc-bxivhb iRRKva"
       />
       <p
         class="sc-bdVaJa ifUZVM"
