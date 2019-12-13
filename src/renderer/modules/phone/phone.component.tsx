@@ -1,5 +1,5 @@
 import React from "react"
-import { InitialContactList } from "Renderer/models/phone/phone.interface"
+import { Contacts } from "Renderer/models/phone/phone.interface"
 import ContactList from "Renderer/modules/phone/components/contact-list.component"
 import ContactPanel from "Renderer/modules/phone/components/contact-panel.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
@@ -11,7 +11,7 @@ const ContactSection = styled.section`
   background-color: ${backgroundColor("primaryDark")};
 `
 
-interface PhoneProps extends InitialContactList {
+interface PhoneProps extends Contacts {
   handleInput: (event: string) => string
 }
 

@@ -10,6 +10,6 @@ export interface ContactCategory {
   contacts: Contact[]
 }
 
-export interface InitialContactList {
+export interface Contacts {
   contactList: ContactCategory[]
 }
