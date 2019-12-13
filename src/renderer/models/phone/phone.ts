@@ -14,10 +14,11 @@ const initialStateValue = {
 export default {
   state: initialStateValue,
   reducers: {
-    handleInput(state: any, payload: string) {
-      return Object.assign({}, state, {
-        inputValue: payload,
-      })
+    handleInput(state: any, inputValue: string) {
+      return {
+        ...state,
+        inputValue,
+      }
     },
   },
   selectors: (slice: Slicer<typeof initialStateValue>) => ({

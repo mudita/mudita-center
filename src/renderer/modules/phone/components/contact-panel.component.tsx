@@ -17,7 +17,7 @@ const SearchInput = styled(InputText)`
 `
 
 interface PanelInterface {
-  onSearchTermChange: (event: string) => string
+  onSearchTermChange: (event: string) => void
 }
 
 const ContactPanel: FunctionComponent<PanelInterface> = ({

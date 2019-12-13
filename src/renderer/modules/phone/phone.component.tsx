@@ -12,7 +12,7 @@ const ContactSection = styled.section`
 `
 
 interface PhoneProps extends Contacts {
-  onSearchTermChange: (event: string) => string
+  onSearchTermChange: (event: string) => void
 }
 
 const Phone: FunctionComponent<PhoneProps> = ({
