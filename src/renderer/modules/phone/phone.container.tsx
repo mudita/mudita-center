@@ -7,7 +7,7 @@ const mapState = select(models => ({
 }))
 
 const mapDispatch = ({ phone }: any) => ({
-  handleInput: (event: string) => phone.handleInput(event),
+  onSearchTermChange: (event: string) => phone.handleInput(event),
 })
 
 export default connect(mapState, mapDispatch)(Phone)

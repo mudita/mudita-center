@@ -12,13 +12,16 @@ const ContactSection = styled.section`
 `
 
 interface PhoneProps extends Contacts {
-  handleInput: (event: string) => string
+  onSearchTermChange: (event: string) => string
 }
 
-const Phone: FunctionComponent<PhoneProps> = ({ handleInput, contactList }) => {
+const Phone: FunctionComponent<PhoneProps> = ({
+  onSearchTermChange,
+  contactList,
+}) => {
   return (
     <ContactSection>
-      <ContactPanel handleInput={handleInput} />
+      <ContactPanel onSearchTermChange={onSearchTermChange} />
       <ContactList contactList={contactList} />
     </ContactSection>
   )

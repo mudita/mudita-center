@@ -17,12 +17,14 @@ const SearchInput = styled(InputText)`
 `
 
 interface PanelInterface {
-  handleInput: (event: string) => string
+  onSearchTermChange: (event: string) => string
 }
 
-const ContactPanel: FunctionComponent<PanelInterface> = ({ handleInput }) => {
+const ContactPanel: FunctionComponent<PanelInterface> = ({
+  onSearchTermChange,
+}) => {
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    handleInput(event.target.value)
+    onSearchTermChange(event.target.value)
   }
   return (
     <Panel>
