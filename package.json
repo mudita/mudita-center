@@ -165,8 +165,10 @@
   },
   "dependencies": {
     "@rematch/core": "^1.3.0",
+    "@rematch/select": "^2.0.5",
     "@storybook/addon-info": "^5.2.5",
     "@storybook/cli": "^5.2.5",
+    "@types/faker": "^4.1.8",
     "@types/styled-components": "^4.1.21",
     "awesome-typescript-loader": "^5.2.1",
     "babel-plugin-react-intl": "^5.1.8",
@@ -176,6 +178,7 @@
     "electron-log": "^3.0.9",
     "electron-publisher-s3": "^20.17.2",
     "electron-updater": "^4.2.0",
+    "faker": "^4.1.0",
     "font-awesome": "^4.7.0",
     "history": "^4.10.1",
     "minimist": "^1.2.0",
