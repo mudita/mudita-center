@@ -18,14 +18,17 @@ const initialState = {
 export default {
   state: initialState,
   reducers: {
-    handleSearchValue(state: StateProps, payload: StateProps["searchValue"]) {
-      return { ...state, searchValue: payload }
+    handleSearchValue(
+      state: StateProps,
+      searchValue: StateProps["searchValue"]
+    ) {
+      return { ...state, searchValue }
     },
     handleVisibilityFilter(
       state: StateProps,
-      payload: StateProps["visibilityFilter"]
+      visibilityFilter: StateProps["visibilityFilter"]
     ) {
-      return { ...state, visibilityFilter: payload }
+      return { ...state, visibilityFilter }
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({
