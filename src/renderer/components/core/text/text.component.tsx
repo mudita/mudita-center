@@ -162,6 +162,7 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
 }
 
 const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
+  margin: 0;
   ${({ displayStyle }) => getTextStyles(displayStyle)};
 `
 

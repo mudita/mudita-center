@@ -21,6 +21,7 @@ const Input = styled.input`
   border: 0.1rem solid ${borderColor("default")};
   background-color: ${backgroundColor("light")};
   border-radius: 50%;
+  margin-right: 1.2rem;
 
   &:hover {
     border-color: ${borderColor("hover")};
@@ -33,15 +34,64 @@ const Input = styled.input`
   }
 `
 
+const Label = styled.label`
+  display: flex;
+  align-items: flex-start;
+`
+
+const LabelText = styled(Text)`
+  margin-bottom: 0.8rem;
+`
+
+const LabelWrapper = styled.div`
+  &:not(:last-child) {
+    margin-right: 1.5rem;
+  }
+`
+
+const TextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.4rem;
+`
+
 const InputRadio: FunctionComponent<InputProps> = ({
-  labelDisplayStyle = TextDisplayStyle.Default,
   className,
+  children,
+  label,
+  subLabel,
   ...props
 }) => {
   return (
-    <Text displayStyle={labelDisplayStyle} className={className}>
-      <Input {...props} type="radio" />
-    </Text>
+    <>
+      {label ? (
+        <LabelWrapper>
+          <Label className={className}>
+            <Input {...props} type="radio" />
+            <TextWrapper>
+              {label && (
+                <LabelText
+                  displayStyle={TextDisplayStyle.MediumText}
+                  element={"span"}
+                >
+                  {label}
+                </LabelText>
+              )}
+              {subLabel && (
+                <Text
+                  displayStyle={TextDisplayStyle.MediumFadedLightText}
+                  element={"span"}
+                >
+                  {subLabel}
+                </Text>
+              )}
+            </TextWrapper>
+          </Label>
+        </LabelWrapper>
+      ) : (
+        <Input {...props} type="radio" className={className} />
+      )}
+    </>
   )
 }
 
