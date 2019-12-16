@@ -18,13 +18,13 @@ const initialState = {
 export default {
   state: initialState,
   reducers: {
-    handleSearchValue(
+    changeSearchValue(
       state: StateProps,
       searchValue: StateProps["searchValue"]
     ) {
       return { ...state, searchValue }
     },
-    handleVisibilityFilter(
+    changeVisibilityFilter(
       state: StateProps,
       visibilityFilter: StateProps["visibilityFilter"]
     ) {

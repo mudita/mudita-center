@@ -36,7 +36,7 @@ export type StateProps = Readonly<{
 
 export type ComponentProps = StateProps &
   Readonly<{
-    handleSearchValue: (event: ChangeEvent<HTMLInputElement>) => void
-    handleVisibilityFilter: (event: ChangeEvent<HTMLSelectElement>) => void
+    changeSearchValue: (event: ChangeEvent<HTMLInputElement>) => void
+    changeVisibilityFilter: (event: ChangeEvent<HTMLSelectElement>) => void
     list: Topic[]
   }>

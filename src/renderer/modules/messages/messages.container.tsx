@@ -9,9 +9,9 @@ const mapStateToProps = select(({ messages }) => ({
 }))
 
 const mapDispatchToProps = (dispatch: any) => ({
-  handleSearchValue: ({ target }: ChangeEvent<HTMLInputElement>) =>
+  changeSearchValue: ({ target }: ChangeEvent<HTMLInputElement>) =>
     dispatch.messages.handleSearchValue(target.value),
-  handleVisibilityFilter: ({ target }: ChangeEvent<HTMLSelectElement>) =>
+  changeVisibilityFilter: ({ target }: ChangeEvent<HTMLSelectElement>) =>
     dispatch.messages.handleVisibilityFilter(target.value),
 })
 

@@ -9,8 +9,8 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
   visibilityFilter,
-  handleSearchValue,
-  handleVisibilityFilter,
+  changeSearchValue,
+  changeVisibilityFilter,
   list,
 }) => {
   return (
@@ -19,11 +19,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
         <input
           type="text"
           defaultValue={searchValue}
-          onChange={handleSearchValue}
+          onChange={changeSearchValue}
         />
         <label>
           <select
-            onChange={handleVisibilityFilter}
+            onChange={changeVisibilityFilter}
             defaultValue={visibilityFilter}
           >
             <option value={VisibilityFilter.All}>Show all</option>
