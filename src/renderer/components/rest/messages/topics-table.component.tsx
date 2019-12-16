@@ -1,63 +1,55 @@
 /*
-  This is only placeholder for table component.
-  It should be removed in the future and replaced with
-  final version created in https://appnroll.atlassian.net/browse/PDA-55
+  There are only placeholders for table components.
+  They should be removed in the future and replaced with
+  final version of table and its components
+  created in https://appnroll.atlassian.net/browse/PDA-55
 */
 
-import React, { Dispatch, SetStateAction, useState } from "react"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import Text from "Renderer/components/core/text/text.component"
 import {
   backgroundColor,
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
-import styled, {
-  css,
-  FlattenInterpolation,
-  ThemeProps,
-} from "styled-components"
+import styled, { css } from "styled-components"
 
-export interface TableRowProps<T> {
-  row: T
-  index?: number
-  checkMode?: boolean
-}
+export const Name = styled(Text)`
+  grid-area: Name;
+  align-self: end;
+  margin-bottom: 0.4rem;
+`
 
-export interface FiltersProps {
-  checkedRows: Set<any>
-  setCheckedRows: Dispatch<SetStateAction<Set<any>>>
-}
+export const Time = styled(Text)`
+  grid-area: Time;
+  align-self: end;
+  margin-left: 1rem;
+  margin-bottom: 0.4rem;
+`
 
-type FiltersFunction<T> = (props: FiltersProps) => JSX.Element
+export const Message = styled(Text)`
+  grid-area: Message;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  align-self: top;
+  margin-top: 0.4rem;
+`
 
-type TemplateFunction<T> = (props: TableRowProps<T>) => JSX.Element
-
-type RowLayoutStyle = FlattenInterpolation<ThemeProps<any>>
-
-interface TableProps {
-  rows: any[]
-  rowTemplate: TemplateFunction<any>
-  actionsTemplate?: TemplateFunction<any>
-  tableFilters?: FiltersFunction<any>
-  selectable?: boolean
-  rowLayoutStyle?: RowLayoutStyle
-}
-
-const Checkbox = styled(InputCheckbox)`
+export const Checkbox = styled(InputCheckbox)`
   grid-area: Checkbox;
   opacity: 0;
   visibility: hidden;
   transition: all 0.15s ease-in-out;
 `
 
-const CheckboxWrapper = styled.div`
+export const CheckboxWrapper = styled.div`
   grid-area: Checkbox;
   display: flex;
   align-items: center;
   justify-content: center;
 `
 
-const ActionsWrapper = styled.div`
+export const ActionsWrapper = styled.div`
   grid-area: Actions;
   display: flex;
   align-items: center;
@@ -65,17 +57,23 @@ const ActionsWrapper = styled.div`
   width: 9rem;
 `
 
+export const DataWrapper = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 2.4rem 2.4rem;
+  grid-template-areas: "Name Time" "Message Message";
+`
+
 const checkboxActiveStyle = css`
   opacity: 1;
   visibility: visible;
 `
 
-const TableRow = styled.div<{
-  layout?: RowLayoutStyle
+export const TableRow = styled.div<{
   checkMode: boolean
 }>`
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 11rem 1fr 9rem;
   grid-template-areas: "Checkbox . Actions";
   align-content: center;
   height: 9rem;
@@ -95,59 +93,25 @@ const TableRow = styled.div<{
   ${Checkbox} {
     ${({ checkMode }) => checkMode && checkboxActiveStyle};
   }
-
-  ${({ layout }) => layout};
 `
 
-const TableWrapper = styled.div`
+export const UnreadFilters = styled.div`
+  grid-area: Filters;
+  display: flex;
+  flex-direction: row;
+`
+
+export const FiltersWrapper = styled.div<{ checkMode: boolean }>`
+  display: grid;
+  grid-column-gap: 4rem;
+  grid-template-areas: "Filters Search New";
+  align-items: center;
+  height: 10.5rem;
+  border-bottom: solid 0.1rem ${borderColor("light")};
+`
+
+export const TableWrapper = styled.div`
   overflow: auto;
   display: flex;
   flex-direction: column;
 `
-
-const Table: FunctionComponent<TableProps> = ({
-  rows,
-  rowTemplate,
-  actionsTemplate,
-  selectable = true,
-  rowLayoutStyle,
-  tableFilters,
-}) => {
-  const [checkedRows, setCheckedRows] = useState(new Set())
-  const checkMode = Boolean(checkedRows.size)
-
-  return (
-    <>
-      {tableFilters && tableFilters({ checkedRows, setCheckedRows })}
-      <TableWrapper>
-        {rows.map((row, index) => {
-          const toggleRowSelection = () => {
-            const tempSet = new Set(checkedRows)
-            tempSet.has(row) ? tempSet.delete(row) : tempSet.add(row)
-            setCheckedRows(tempSet)
-          }
-          return (
-            <TableRow key={index} layout={rowLayoutStyle} checkMode={checkMode}>
-              {rowTemplate({ row, index, checkMode })}
-              {selectable && (
-                <CheckboxWrapper>
-                  <Checkbox
-                    checked={checkedRows.has(row)}
-                    onChange={toggleRowSelection}
-                  />
-                </CheckboxWrapper>
-              )}
-              {actionsTemplate && (
-                <ActionsWrapper>
-                  {actionsTemplate({ row, index })}
-                </ActionsWrapper>
-              )}
-            </TableRow>
-          )
-        })}
-      </TableWrapper>
-    </>
-  )
-}
-
-export default Table
