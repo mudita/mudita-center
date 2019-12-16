@@ -13,6 +13,11 @@ import checkIndeterminate from "Renderer/svg/check-indeterminate.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
+const Label = styled.label`
+  display: flex;
+  align-items: center;
+`
+
 const InputWrapper = styled.div`
   position: relative;
   width: 2rem;
@@ -63,13 +68,17 @@ const CheckIcon = styled(Svg)`
   }
 `
 
+const LabelText = styled(Text)`
+  margin-left: 1.3rem;
+`
+
 const InputCheckbox: FunctionComponent<InputProps> = ({
-  labelDisplayStyle = TextDisplayStyle.Default,
   className,
+  label,
   indeterminate = false,
   ...props
-}) => (
-  <Text displayStyle={labelDisplayStyle} className={className}>
+}) => {
+  const checkbox = (
     <InputWrapper>
       <Input indeterminate={indeterminate} {...props} type="checkbox" />
       {indeterminate ? (
@@ -78,7 +87,25 @@ const InputCheckbox: FunctionComponent<InputProps> = ({
         <CheckIcon Image={check} />
       )}
     </InputWrapper>
-  </Text>
-)
+  )
+  return (
+    <>
+      {label ? (
+        <Label>
+          {checkbox}
+          <LabelText
+            displayStyle={TextDisplayStyle.MediumText}
+            className={className}
+            element={"span"}
+          >
+            {label}
+          </LabelText>
+        </Label>
+      ) : (
+        checkbox
+      )}
+    </>
+  )
+}
 
 export default InputCheckbox
