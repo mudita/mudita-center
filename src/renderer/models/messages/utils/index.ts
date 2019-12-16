@@ -529,18 +529,10 @@ export const searchTopics = (
 export const filterTopics = (
   topics: MessagesProps["topics"],
   visibilityFilter: MessagesProps["visibilityFilter"]
-) => {
-  return topics.filter(({ unread }) => {
-    switch (visibilityFilter) {
-      case VisibilityFilter.All:
-        return true
-      case VisibilityFilter.Read:
-        return !unread
-      case VisibilityFilter.Unread:
-        return unread
-    }
-  })
-}
+) =>
+  topics.filter(({ unread }) =>
+    visibilityFilter === VisibilityFilter.Unread ? unread : true
+  )
 
 export const sortTopics = (topics: MessagesProps["topics"]) => {
   const lastMessageDate = ({ messages }: Topic) => {

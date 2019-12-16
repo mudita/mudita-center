@@ -25,7 +25,6 @@ export interface Topic {
 export enum VisibilityFilter {
   All = "all",
   Unread = "unread",
-  Read = "read",
 }
 
 export type StateProps = Readonly<{
@@ -37,6 +36,6 @@ export type StateProps = Readonly<{
 export type ComponentProps = StateProps &
   Readonly<{
     changeSearchValue: (event: ChangeEvent<HTMLInputElement>) => void
-    changeVisibilityFilter: (event: ChangeEvent<HTMLSelectElement>) => void
+    changeVisibilityFilter: (filter: VisibilityFilter) => void
     list: Topic[]
   }>
