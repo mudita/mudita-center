@@ -1,7 +1,7 @@
 import React from "react"
 
 import {
-  MessagesProps,
+  ComponentProps as MessagesProps,
   VisibilityFilter,
 } from "Renderer/models/messages/messages.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"

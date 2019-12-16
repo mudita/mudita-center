@@ -1,5 +1,5 @@
 import {
-  InitialState as MessagesInitialState,
+  StateProps as MessagesProps,
   Topic,
   VisibilityFilter,
 } from "Renderer/models/messages/messages.interface"
@@ -511,8 +511,8 @@ export const mockedTopics = [
 ]
 
 export const searchTopics = (
-  topics: MessagesInitialState["topics"],
-  searchValue: MessagesInitialState["searchValue"]
+  topics: MessagesProps["topics"],
+  searchValue: MessagesProps["searchValue"]
 ) => {
   return topics.filter(({ caller, messages }) => {
     const search = searchValue.toLowerCase()
@@ -527,8 +527,8 @@ export const searchTopics = (
 }
 
 export const filterTopics = (
-  topics: MessagesInitialState["topics"],
-  visibilityFilter: MessagesInitialState["visibilityFilter"]
+  topics: MessagesProps["topics"],
+  visibilityFilter: MessagesProps["visibilityFilter"]
 ) => {
   return topics.filter(({ unread }) => {
     switch (visibilityFilter) {
@@ -542,7 +542,7 @@ export const filterTopics = (
   })
 }
 
-export const sortTopics = (topics: MessagesInitialState["topics"]) => {
+export const sortTopics = (topics: MessagesProps["topics"]) => {
   const lastMessageDate = ({ messages }: Topic) => {
     return messages[messages.length - 1].date
   }

@@ -1,6 +1,6 @@
 import { Slicer } from "@rematch/select"
 import {
-  InitialState,
+  StateProps,
   VisibilityFilter,
 } from "Renderer/models/messages/messages.interface"
 import {
@@ -18,20 +18,17 @@ const initialState = {
 export default {
   state: initialState,
   reducers: {
-    handleSearchValue(
-      state: InitialState,
-      payload: InitialState["searchValue"]
-    ) {
+    handleSearchValue(state: StateProps, payload: StateProps["searchValue"]) {
       return { ...state, searchValue: payload }
     },
     handleVisibilityFilter(
-      state: InitialState,
-      payload: InitialState["visibilityFilter"]
+      state: StateProps,
+      payload: StateProps["visibilityFilter"]
     ) {
       return { ...state, visibilityFilter: payload }
     },
   },
-  selectors: (slice: Slicer<InitialState>) => ({
+  selectors: (slice: Slicer<StateProps>) => ({
     visibilityFilter() {
       return slice(state => {
         return state.visibilityFilter
