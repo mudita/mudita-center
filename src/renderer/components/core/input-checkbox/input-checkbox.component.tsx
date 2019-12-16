@@ -12,6 +12,11 @@ import check from "Renderer/svg/check-icon.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
+const Label = styled.label`
+  display: flex;
+  align-items: center;
+`
+
 const InputWrapper = styled.div`
   position: relative;
   width: 2rem;
@@ -57,17 +62,39 @@ const CheckIcon = styled(Svg)`
   }
 `
 
+const LabelText = styled(Text)`
+  margin-left: 1.3rem;
+`
+
 const InputCheckbox: FunctionComponent<InputProps> = ({
-  labelDisplayStyle = TextDisplayStyle.Default,
   className,
+  label,
   ...props
-}) => (
-  <Text displayStyle={labelDisplayStyle} className={className}>
+}) => {
+  const checkbox = (
     <InputWrapper>
       <Input {...props} type="checkbox" />
       <CheckIcon Image={check} />
     </InputWrapper>
-  </Text>
-)
+  )
+  return (
+    <>
+      {label ? (
+        <Label>
+          {checkbox}
+          <LabelText
+            displayStyle={TextDisplayStyle.MediumText}
+            className={className}
+            element={"span"}
+          >
+            {label}
+          </LabelText>
+        </Label>
+      ) : (
+        checkbox
+      )}
+    </>
+  )
+}
 
 export default InputCheckbox

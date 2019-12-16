@@ -16,3 +16,13 @@ storiesOf("Components|InputCheckbox", module)
   .add("Unchecked", () => {
     return <InputCheckbox name={"Example1"} value={"value2"} id={"id2"} />
   })
+  .add("With Label", () => {
+    return (
+      <InputCheckbox
+        name={"Example1"}
+        value={"value2"}
+        id={"id2"}
+        label={"label"}
+      />
+    )
+  })
