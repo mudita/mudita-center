@@ -14,7 +14,7 @@ exports[`matches snapshot 1`] = `
     class="sc-bZQynM kzlsZH"
   >
     <div
-      class="sc-ifAKCX eomMzT"
+      class="sc-ifAKCX fumnMw"
       data-testid="tab"
     >
       <test-file-stub
@@ -27,7 +27,7 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="sc-ifAKCX jdyXUe"
+      class="sc-ifAKCX fumnMw"
       data-testid="tab"
     >
       <test-file-stub
@@ -40,7 +40,7 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="sc-ifAKCX jdyXUe"
+      class="sc-ifAKCX fumnMw"
       data-testid="tab"
     >
       <test-file-stub

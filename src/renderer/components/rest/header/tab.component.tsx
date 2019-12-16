@@ -4,9 +4,8 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
-import { borderColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 
 const TabIcon = styled(Svg)`
   height: 1.6rem;
@@ -14,7 +13,7 @@ const TabIcon = styled(Svg)`
   margin-right: 1rem;
 `
 
-const TabWrapper = styled.div<{ active: boolean }>`
+const TabWrapper = styled.div`
   display: flex;
   align-items: center;
   height: calc(100% - 0.02rem);
@@ -22,11 +21,6 @@ const TabWrapper = styled.div<{ active: boolean }>`
   &:not(:last-child) {
     margin-right: 4rem;
   }
-  ${({ active }) =>
-    active &&
-    css`
-      border-bottom: 0.02rem solid ${borderColor("active")};
-    `}
 `
 
 const TabText = styled(Text)`
@@ -36,18 +30,11 @@ const TabText = styled(Text)`
 interface TabProps {
   icon: FunctionComponent<ImageInterface>
   tabText?: string
-  active?: boolean
-  onClick?: () => void
 }
 
-const Tab: FunctionComponent<TabProps> = ({
-  icon,
-  tabText,
-  active,
-  onClick,
-}) => {
+const Tab: FunctionComponent<TabProps> = ({ icon, tabText }) => {
   return (
-    <TabWrapper onClick={onClick} active={Boolean(active)} data-testid="tab">
+    <TabWrapper data-testid="tab">
       <TabIcon Image={icon} />
       <TabText displayStyle={TextDisplayStyle.MediumText}>{tabText}</TabText>
     </TabWrapper>
