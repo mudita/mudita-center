@@ -40,9 +40,7 @@ export default {
     filteredList() {
       return slice(state => {
         let list = state.topics
-        if (state.searchValue.length) {
-          list = searchTopics(state.topics, state.searchValue)
-        }
+        list = searchTopics(list, state.searchValue)
         list = filterTopics(list, state.visibilityFilter)
         return list
       })
