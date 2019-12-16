@@ -514,16 +514,20 @@ export const searchTopics = (
   topics: MessagesProps["topics"],
   searchValue: MessagesProps["searchValue"]
 ) => {
-  return topics.filter(({ caller, messages }) => {
-    const search = searchValue.toLowerCase()
-    const matchesForename = caller.forename.toLowerCase().includes(search)
-    const matchesSurname = caller.surname.toLowerCase().includes(search)
-    const matchesPhone = caller.phone.includes(search)
-    const matchesMessage = messages.some(({ content }) =>
-      content.toLowerCase().includes(search)
-    )
-    return matchesForename || matchesSurname || matchesPhone || matchesMessage
-  })
+  if (searchValue && searchValue.length) {
+    return topics.filter(({ caller, messages }) => {
+      const search = searchValue.toLowerCase()
+      const matchesForename = caller.forename.toLowerCase().includes(search)
+      const matchesSurname = caller.surname.toLowerCase().includes(search)
+      const matchesPhone = caller.phone.includes(search)
+      const matchesMessage = messages.some(({ content }) =>
+        content.toLowerCase().includes(search)
+      )
+      return matchesForename || matchesSurname || matchesPhone || matchesMessage
+    })
+  } else {
+    return topics
+  }
 }
 
 export const filterTopics = (
