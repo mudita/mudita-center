@@ -32,7 +32,12 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
   const [currentLocation, setCurrentLocation] = useState()
   useEffect(() => {
     const pathname = location.pathname
-    const label = MENU_ELEMENTS.filter(({ url }) => url === pathname)[0].label
+    const label = MENU_ELEMENTS.filter(({ url }) => {
+      if (pathname === "/") {
+        return "/"
+      }
+      return url === pathname
+    })[0].label
     setCurrentLocation(label)
   }, [location])
   return (
