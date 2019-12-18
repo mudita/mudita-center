@@ -24,6 +24,7 @@ const MenuWrapper = styled.div`
 
 const ViewWrapper = styled.div`
   flex: 1;
+  overflow: auto;
 `
 
 const Header = styled.div`
