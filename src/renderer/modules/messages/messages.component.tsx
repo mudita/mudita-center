@@ -9,6 +9,7 @@ import {
   Checkbox,
   CheckboxWrapper,
   DataWrapper,
+  FilterButton,
   FiltersWrapper,
   Message,
   Name,
@@ -46,8 +47,18 @@ const Messages: FunctionComponent<MessagesProps> = ({
     <>
       <FiltersWrapper checkMode={checkMode}>
         <UnreadFilters>
-          <button onClick={showAllMessages}>All messages</button>
-          <button onClick={hideReadMessages}>Unread only</button>
+          <FilterButton
+            onClick={showAllMessages}
+            inactive={visibilityFilter !== VisibilityFilter.All}
+          >
+            All messages
+          </FilterButton>
+          <FilterButton
+            onClick={hideReadMessages}
+            inactive={visibilityFilter !== VisibilityFilter.Unread}
+          >
+            Unread only
+          </FilterButton>
         </UnreadFilters>
         <InputText
           layout={TextInputLayouts.Outlined}

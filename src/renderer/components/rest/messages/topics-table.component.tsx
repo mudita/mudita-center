@@ -95,6 +95,14 @@ export const TableRow = styled.div<{
   }
 `
 
+export const FilterButton = styled.button<{ inactive: boolean }>`
+  ${({ inactive }) =>
+    inactive &&
+    css`
+      opacity: 0.3;
+    `};
+`
+
 export const UnreadFilters = styled.div`
   grid-area: Filters;
   display: flex;
