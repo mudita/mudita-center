@@ -37,6 +37,7 @@ const theme = {
       grey: "#CDCECF",
       grey2: "#F4F5F6",
       grey3: "#E9E9E9",
+      grey4: "#A5A5A5",
       inputDark: "#3B3F42",
       accent: "#F4F5F6",
       primaryDark: "#F4F5F6",
