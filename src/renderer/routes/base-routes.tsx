@@ -10,7 +10,7 @@ import Messages from "Renderer/modules/messages/messages.component"
 import Music from "Renderer/modules/music/music.component"
 import News from "Renderer/modules/news/news.component"
 import OverviewContainer from "Renderer/modules/overview/overview.container"
-import Phone from "Renderer/modules/phone/phone.compnent"
+import PhoneContainer from "Renderer/modules/phone/phone.container"
 import Settings from "Renderer/modules/settings/settings.component"
 import Tethering from "Renderer/modules/tethering/tethering.component"
 import Tools from "Renderer/modules/tools/tools.component"
@@ -28,7 +28,7 @@ export default () => (
       <Route path={URL_MAIN.music} component={Music} />
       <Route path={URL_MAIN.news} component={News} />
       <Route path={URL_MAIN.overview} component={OverviewContainer} />
-      <Route path={URL_MAIN.phone} component={Phone} />
+      <Route path={URL_MAIN.phone} component={PhoneContainer} />
       <Route path={URL_MAIN.settings} component={Settings} />
       <Route path={URL_MAIN.tethering} component={Tethering} />
       <Route path={URL_MAIN.tools} component={Tools} />

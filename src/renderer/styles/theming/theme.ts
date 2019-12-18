@@ -39,12 +39,14 @@ const theme = {
       grey3: "#E9E9E9",
       inputDark: "#3B3F42",
       accent: "#F4F5F6",
+      primaryDark: "#F4F5F6",
     },
     border: {
       dark: "#000000",
       default: "#CDCECF",
       grey: "#CDCECF",
       hover: "#3B3F42",
+      listItem: "#D2D6DB",
     },
   },
   layout: {
