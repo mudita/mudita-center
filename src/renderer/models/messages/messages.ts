@@ -7,6 +7,7 @@ import {
   filterTopics,
   mockedTopics,
   searchTopics,
+  sortTopics,
 } from "Renderer/models/messages/utils"
 
 const initialState = {
@@ -42,7 +43,7 @@ export default {
         let list = state.topics
         list = searchTopics(list, state.searchValue)
         list = filterTopics(list, state.visibilityFilter)
-        return list
+        return sortTopics(list)
       })
     },
   }),
