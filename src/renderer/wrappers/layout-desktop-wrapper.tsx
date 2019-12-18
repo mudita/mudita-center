@@ -26,6 +26,7 @@ const ViewWrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: auto;
 `
 
 const Header = styled.div`
