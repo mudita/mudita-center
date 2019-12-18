@@ -514,7 +514,7 @@ export const searchTopics = (
   topics: MessagesProps["topics"],
   searchValue: MessagesProps["searchValue"]
 ) => {
-  if (searchValue && searchValue.length) {
+  if (searchValue.length) {
     return topics.filter(({ caller, messages }) => {
       const search = searchValue.toLowerCase()
       const matchesForename = caller.forename.toLowerCase().includes(search)
