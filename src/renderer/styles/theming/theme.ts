@@ -71,7 +71,7 @@ const theme = {
   borderRadius: {
     small: 0.15,
     medium: 0.4,
-    big: 0.12,
+    big: 1.2,
   },
   letterSpacing: {
     negative: -0.06,
