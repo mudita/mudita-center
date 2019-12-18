@@ -32,6 +32,7 @@ const StandardInputLabel = styled(Text)`
 
 const StandardInputWrapper = styled.div`
   position: relative;
+  order: 2;
 `
 
 const TextInputIcon = styled.span`
@@ -48,6 +49,7 @@ const TextInput = styled.input`
   border: none;
   outline: none;
   flex: 1;
+  order: 2;
   border-radius: inherit;
   background-color: transparent;
   padding: 0;
@@ -78,15 +80,6 @@ const outlinedLayout = css`
     + ${TextInputIcon} {
       margin-left: 1.2rem;
     }
-    + ${TextInput} {
-      margin-left: 0.8rem;
-    }
-  }
-
-  ${TextInput} {
-    + ${TextInputIcon} {
-      margin-left: 0.8rem;
-    }
   }
 `
 
@@ -99,20 +92,11 @@ const standardLayout = css`
     + ${TextInputIcon} {
       margin-left: 1.2rem;
     }
-    + ${StandardInputWrapper} {
-      margin-left: 0.8rem;
-    }
-  }
-
-  ${StandardInputWrapper} {
-    + ${TextInputIcon} {
-      margin-left: 0.8rem;
-    }
   }
 `
 
 const condensedStyles = css`
-  padding: 0 1.6rem;
+  padding: 0 1.3rem;
 `
 
 const focusedStyles = css`
@@ -121,6 +105,22 @@ const focusedStyles = css`
 
 const disabledStyles = css`
   background-color: ${backgroundColor("accent")};
+`
+
+const LeadingIcons = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  order: 1;
+  margin-right: 0.8rem;
+`
+
+const TrailingIcons = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  order: 3;
+  margin-left: 0.8rem;
 `
 
 const InputWrapper = styled.label<{
@@ -146,13 +146,14 @@ const InputWrapper = styled.label<{
   }}
 
   ${({ condensed }) => condensed && condensedStyles};
-  ${({ disabled }) => disabled && disabledStyles}
+  ${({ disabled }) => disabled && disabledStyles};
 
-  &:hover, &:focus-within {
+  &:hover:not([disabled]),
+  &:focus-within:not([disabled]) {
     ${focusedStyles};
   }
 
-  &:focus-within {
+  &:focus-within:not([disabled]) {
     ${StandardInputLabel} {
       ${focusedLabelStyles};
     }
@@ -199,17 +200,25 @@ const InputText: FunctionComponent<TextInputProps &
       condensed={condensed}
       disabled={disabled}
     >
-      {leadingIcons.map((icon, index) => (
-        <TextInputIcon key={index} data-testid={"leading-icon-" + index}>
-          {icon}
-        </TextInputIcon>
-      ))}
       {layout === TextInputLayouts.Standard ? standardInput : outlinedInput}
-      {trailingIcons.map((icon, index) => (
-        <TextInputIcon key={index} data-testid={"trailing-icon-" + index}>
-          {icon}
-        </TextInputIcon>
-      ))}
+      {Boolean(leadingIcons.length) && (
+        <LeadingIcons>
+          {leadingIcons.map((icon, index) => (
+            <TextInputIcon key={index} data-testid={"leading-icon-" + index}>
+              {icon}
+            </TextInputIcon>
+          ))}
+        </LeadingIcons>
+      )}
+      {Boolean(trailingIcons.length) && (
+        <TrailingIcons>
+          {trailingIcons.map((icon, index) => (
+            <TextInputIcon key={index} data-testid={"trailing-icon-" + index}>
+              {icon}
+            </TextInputIcon>
+          ))}
+        </TrailingIcons>
+      )}
     </InputWrapper>
   )
 }

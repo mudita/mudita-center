@@ -47,6 +47,7 @@ const theme = {
       grey: "#CDCECF",
       hover: "#3B3F42",
       listItem: "#D2D6DB",
+      light: "#D2D6DB",
     },
   },
   layout: {
