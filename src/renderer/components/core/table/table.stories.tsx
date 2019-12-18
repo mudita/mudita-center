@@ -1,9 +1,9 @@
 import { storiesOf } from "@storybook/react"
 import Faker from "faker"
 import * as React from "react"
-import Table from "Renderer/components/core/table/table.component"
+import TableComponent from "Renderer/components/core/table/table.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { css } from "styled-components"
+import styled, { css } from "styled-components"
 
 // Components
 export const fakeTableRows = Array.from({
@@ -23,6 +23,12 @@ export const Sidebar: FunctionComponent = () => (
     <p>Some sidebar stuff</p>
   </>
 )
+
+// Table with custom styles for storybook only
+const Table = styled(TableComponent)`
+  /* This fixes scrollbar placement */
+  height: 100vh;
+`
 
 // Styles
 export const labelsLayout = css`

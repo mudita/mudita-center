@@ -17,7 +17,7 @@ export const TableWrapper = styled.section`
     "Data Sidebar";
   grid-template-rows: auto auto;
   grid-template-columns: 1fr auto;
-  max-height: 100vh;
+  overflow: hidden;
 `
 
 /* Main parts */
