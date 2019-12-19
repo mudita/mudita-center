@@ -10,7 +10,7 @@ import styled from "styled-components"
 
 interface Props {
   Icon?: FunctionComponent<ImageInterface>
-  text?: string
+  text: string
 }
 
 const DropdownElement = styled.li`
