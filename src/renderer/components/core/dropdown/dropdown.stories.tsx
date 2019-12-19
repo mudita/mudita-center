@@ -6,16 +6,25 @@ import Dropdown, {
   Size,
 } from "Renderer/components/core/dropdown/dropdown.component"
 import Upload from "Renderer/svg/upload.svg"
+import styled from "styled-components"
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 
 storiesOf("Components|Dropdown", module).add("Dropdown", () => {
   return (
-    <Dropdown
-      size={Size.S}
-      toggler={<ButtonComponent label={"Click dropdown"} />}
-    >
-      <DropdownItem Icon={Upload} text={"Export"} />
-      <DropdownItem Icon={Upload} text={"Export"} />
-      <DropdownItem Icon={Upload} text={"Export"} />
-    </Dropdown>
+    <Wrapper>
+      <Dropdown
+        size={Size.S}
+        toggler={<ButtonComponent label={"Click dropdown"} />}
+      >
+        <DropdownItem Icon={Upload} text={"Export"} />
+        <DropdownItem Icon={Upload} text={"Export"} />
+        <DropdownItem Icon={Upload} text={"Export"} />
+      </Dropdown>
+    </Wrapper>
   )
 })

@@ -17,10 +17,11 @@ test("match snapshot", () => {
 })
 
 test("renders toggler passed to component", () => {
-  const { container } = renderWithThemeAndIntl(
-    <Dropdown toggler={<ButtonComponent />} size={Size.S} />
+  const buttonText = "Example"
+  const { getByText } = renderWithThemeAndIntl(
+    <Dropdown toggler={<ButtonComponent label={buttonText} />} size={Size.S} />
   )
-  expect(container.firstChild).toBeInTheDocument()
+  expect(getByText(buttonText)).toBeInTheDocument()
 })
 
 test("renders small dropdown", () => {

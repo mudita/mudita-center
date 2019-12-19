@@ -34,7 +34,13 @@ const injectSize = (size: Size) => {
   }
 }
 
+const DropdownWrapper = styled.div`
+  position: relative;
+`
+
 const DropdownList = styled.ul<{ size: Size }>`
+  position: absolute;
+  right: 100%;
   list-style-type: none;
   margin: 0;
   padding: 2.4rem 0;
@@ -53,7 +59,7 @@ const Dropdown: FunctionComponent<Props> = ({ toggler, size, children }) => {
     }
   })
   return (
-    <>
+    <DropdownWrapper>
       {React.cloneElement(toggler as React.ReactElement, {
         onClick: () => setOpen(!open),
       })}
@@ -62,7 +68,7 @@ const Dropdown: FunctionComponent<Props> = ({ toggler, size, children }) => {
           {children}
         </DropdownList>
       )}
-    </>
+    </DropdownWrapper>
   )
 }
 
