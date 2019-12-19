@@ -1,14 +1,17 @@
 import * as React from "react"
-import { ReactNode, useState } from "react"
-import { width } from "Renderer/styles/theming/theme-getters"
+import { ReactNode, useRef, useState } from "react"
+import {
+  backgroundColor,
+  boxShadowColor,
+  width,
+} from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import useOutsideClick from "Renderer/utils/hooks/useOutsideClick"
 import styled, { css } from "styled-components"
 
 export enum Size {
   S,
   M,
-  L,
-  XL,
 }
 
 interface Props {
@@ -24,15 +27,7 @@ const injectSize = (size: Size) => {
       `
     case Size.M:
       return css`
-        width: ${width("buttonMedium")};
-      `
-    case Size.L:
-      return css`
-        width: ${width("buttonBig")};
-      `
-    case Size.XL:
-      return css`
-        width: ${width("buttonBig")};
+        width: ${width("mediumPopUp")};
       `
     default:
       return
@@ -43,18 +38,30 @@ const DropdownList = styled.ul<{ size: Size }>`
   list-style-type: none;
   margin: 0;
   padding: 0;
+  background-color: ${backgroundColor("light")};
+  border-radius: 0.6rem;
+  box-shadow: 0 1rem 0.5rem -0.5rem ${boxShadowColor("grey")};
   ${({ size }) => injectSize(size)}
-  background-color: red;
 `
 
 const Dropdown: FunctionComponent<Props> = ({ toggler, size, children }) => {
   const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+  useOutsideClick(ref, () => {
+    if (open) {
+      setOpen(false)
+    }
+  })
   return (
     <>
       {React.cloneElement(toggler as React.ReactElement, {
         onClick: () => setOpen(!open),
       })}
-      {open && <DropdownList size={size}>{children}</DropdownList>}
+      {open && (
+        <DropdownList size={size} ref={ref}>
+          {children}
+        </DropdownList>
+      )}
     </>
   )
 }

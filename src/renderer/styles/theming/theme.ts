@@ -49,6 +49,9 @@ const theme = {
       listItem: "#D2D6DB",
       light: "#D2D6DB",
     },
+    boxShadow: {
+      grey: "rgba(188,188,188,0.5)",
+    },
   },
   layout: {
     width: "73.75rem",
@@ -100,7 +103,8 @@ const theme = {
     buttonSmall: columnWidth + gutterWidth,
     viewWidth: columnWidth * 12 + gutterWidth * 13,
     menuWidth: columnWidth * 3 + gutterWidth * 3,
-    smallPopUp: 3 * (columnWidth + gutterWidth),
+    smallPopUp: 27.5,
+    mediumPopUp: 38,
   },
 }
 
