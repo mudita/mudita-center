@@ -6,7 +6,7 @@ module.exports = {
   ],
   rules: {
     "unit-whitelist": [
-      ["%", "em", "rem", "vw", "vh", "s", "ms", "deg", "vmin", "vmax"],
+      ["%", "em", "rem", "vw", "vh", "s", "ms", "deg", "vmin", "vmax", "fr"],
       {
         ignoreProperties: { px: ["media-feature-name"] },
       },

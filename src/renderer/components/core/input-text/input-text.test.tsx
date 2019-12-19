@@ -27,7 +27,7 @@ test("renders outlined condensed input properly", () => {
   )
 
   expect(getByRole("textbox")).toBeInTheDocument()
-  expect(container.querySelector("label")).toHaveStyle(`padding: 0 1.6rem;`)
+  expect(container.querySelector("label")).toHaveStyle(`padding: 0 1.3rem;`)
 })
 
 test("renders standard input with placeholder properly", () => {

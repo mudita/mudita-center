@@ -9,8 +9,14 @@ import {
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
 import check from "Renderer/svg/check-icon.svg"
+import checkIndeterminate from "Renderer/svg/check-indeterminate.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
+
+const Label = styled.label`
+  display: flex;
+  align-items: center;
+`
 
 const InputWrapper = styled.div`
   position: relative;
@@ -18,7 +24,15 @@ const InputWrapper = styled.div`
   height: 2rem;
 `
 
-const Input = styled.input`
+const checkedStyles = css`
+  background-color: ${backgroundColor("inputDark")};
+  border-color: ${borderColor("hover")};
+  + svg {
+    display: initial;
+  }
+`
+
+const Input = styled.input<{ indeterminate: boolean }>`
   appearance: none;
   outline: none;
   display: inline-block;
@@ -36,12 +50,9 @@ const Input = styled.input`
   }
 
   &:checked {
-    background-color: ${backgroundColor("inputDark")};
-    border-color: ${borderColor("hover")};
-    + svg {
-      display: initial;
-    }
+    ${checkedStyles};
   }
+  ${({ indeterminate }) => indeterminate && checkedStyles};
 `
 
 const CheckIcon = styled(Svg)`
@@ -57,17 +68,44 @@ const CheckIcon = styled(Svg)`
   }
 `
 
+const LabelText = styled(Text)`
+  margin-left: 1.3rem;
+`
+
 const InputCheckbox: FunctionComponent<InputProps> = ({
-  labelDisplayStyle = TextDisplayStyle.Default,
   className,
+  label,
+  indeterminate = false,
   ...props
-}) => (
-  <Text displayStyle={labelDisplayStyle} className={className}>
+}) => {
+  const checkbox = (
     <InputWrapper>
-      <Input {...props} type="checkbox" />
-      <CheckIcon Image={check} />
+      <Input indeterminate={indeterminate} {...props} type="checkbox" />
+      {indeterminate ? (
+        <CheckIcon Image={checkIndeterminate} />
+      ) : (
+        <CheckIcon Image={check} />
+      )}
     </InputWrapper>
-  </Text>
-)
+  )
+  return (
+    <>
+      {label ? (
+        <Label>
+          {checkbox}
+          <LabelText
+            displayStyle={TextDisplayStyle.MediumText}
+            className={className}
+            element={"span"}
+          >
+            {label}
+          </LabelText>
+        </Label>
+      ) : (
+        checkbox
+      )}
+    </>
+  )
+}
 
 export default InputCheckbox
