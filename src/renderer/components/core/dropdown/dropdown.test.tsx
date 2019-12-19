@@ -9,7 +9,7 @@ import Dropdown, {
 import Upload from "Renderer/svg/upload.svg"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
-test("match snapshot", () => {
+test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
     <Dropdown toggler={<ButtonComponent />} size={Size.S} />
   )
