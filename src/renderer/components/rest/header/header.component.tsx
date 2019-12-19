@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ReactNode, useState } from "react"
+import { useState } from "react"
 import { useEffect } from "react"
 import { useLocation } from "react-router"
 import Text, {
@@ -18,7 +18,7 @@ const HeaderWrapper = styled.div`
 `
 
 interface HeaderProps {
-  middleComponent?: ReactNode
+  middleComponent?: any
 }
 
 const HeaderText = styled(Text)`
