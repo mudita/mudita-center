@@ -19,7 +19,7 @@ interface Props {
   size: Size
 }
 
-const injectSize = (size: Size) => {
+const injectWidth = (size: Size) => {
   switch (size) {
     case Size.S:
       return css`
@@ -47,7 +47,7 @@ const DropdownList = styled.ul<{ size: Size }>`
   background-color: ${backgroundColor("light")};
   border-radius: 0.6rem;
   box-shadow: 0 1rem 0.5rem -0.5rem ${boxShadowColor("grey")};
-  ${({ size }) => injectSize(size)}
+  ${({ size }) => injectWidth(size)}
 `
 
 const Dropdown: FunctionComponent<Props> = ({ toggler, size, children }) => {
