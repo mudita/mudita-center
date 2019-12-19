@@ -13,3 +13,12 @@ test("matches snapshot", () => {
   expect(dropdownItem).toMatchSnapshot()
   expect(dropdownItem).toHaveTextContent(text)
 })
+
+test("has icon", () => {
+  const text = "Export"
+  const { container } = renderWithThemeAndIntl(
+    <DropdownItem Icon={Upload} text={text} />
+  )
+  const icon = container.getElementsByTagName("test-file-stub")[0]
+  expect(icon).toBeInTheDocument()
+})
