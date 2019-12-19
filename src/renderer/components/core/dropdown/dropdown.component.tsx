@@ -58,7 +58,7 @@ const Dropdown: FunctionComponent<Props> = ({ toggler, size, children }) => {
         onClick: () => setOpen(!open),
       })}
       {open && (
-        <DropdownList size={size} ref={ref}>
+        <DropdownList size={size} ref={ref} data-testid="dropdown">
           {children}
         </DropdownList>
       )}

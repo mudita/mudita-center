@@ -10,7 +10,7 @@ import Upload from "Renderer/svg/upload.svg"
 storiesOf("Components|Dropdown", module).add("Dropdown", () => {
   return (
     <Dropdown
-      size={Size.M}
+      size={Size.S}
       toggler={<ButtonComponent label={"Click dropdown"} />}
     >
       <DropdownItem Icon={Upload} text={"Export"} />
