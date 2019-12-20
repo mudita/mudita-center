@@ -9,27 +9,27 @@ const initialStateValue: FilesManagerState = {
   memoryData: [
     {
       filesType: "Music",
-      occupiedMemory: 58485385,
+      occupiedMemory: 5848538500,
       filesAmount: 15,
-      color: "red",
+      color: "#6D9BBC",
     },
     {
       filesType: "Voice Recorder",
-      occupiedMemory: 58485,
+      occupiedMemory: 584850000,
       filesAmount: 3,
-      color: "blue",
+      color: "#AEBEC9",
     },
     {
       filesType: "Storage",
       occupiedMemory: 58485385111,
       filesAmount: 85,
-      color: "pink",
+      color: "#E3F3FF",
     },
     {
-      filesType: "Music",
+      filesType: "Free",
       occupiedMemory: 5848538522,
       filesAmount: 44,
-      color: "yellow",
+      color: "#E9E9E9",
     },
   ],
 }
