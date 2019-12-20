@@ -44,5 +44,10 @@ export default {
         )
       })
     },
+    memoryChart() {
+      return slice(state => {
+        return memoryDataWithConvertedBytes(state)
+      })
+    },
   }),
 }
