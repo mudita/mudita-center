@@ -4,7 +4,7 @@ import {
   memoryDataWithConvertedBytes,
   prepareDataForStackedBarChart,
 } from "Renderer/models/files-manager/utils"
-
+// TODO: add icon
 const initialStateValue: FilesManagerState = {
   memoryData: [
     {
