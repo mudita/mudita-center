@@ -11,7 +11,7 @@ export enum DisplayStyle {
   MultiColor,
 }
 
-interface ChartItem {
+export interface ChartItem {
   value: number
   color: string
 }

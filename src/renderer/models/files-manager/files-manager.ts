@@ -1,6 +1,9 @@
 import { Slicer } from "@rematch/select"
 import { FilesManagerState } from "Renderer/models/files-manager/files-manager.interface"
-import { memoryDataWithConvertedBytes } from "Renderer/modules/filesManager/utils"
+import {
+  memoryDataWithConvertedBytes,
+  prepareDataForStackedBarChart,
+} from "Renderer/models/files-manager/utils"
 
 const initialStateValue: FilesManagerState = {
   memoryData: [
@@ -8,25 +11,25 @@ const initialStateValue: FilesManagerState = {
       filesType: "Music",
       occupiedMemory: 58485385,
       filesAmount: 15,
-      color: "#000000",
+      color: "red",
     },
     {
       filesType: "Voice Recorder",
       occupiedMemory: 58485,
       filesAmount: 3,
-      color: "#000000",
+      color: "blue",
     },
     {
       filesType: "Storage",
       occupiedMemory: 58485385111,
       filesAmount: 85,
-      color: "#000000",
+      color: "pink",
     },
     {
       filesType: "Music",
       occupiedMemory: 5848538522,
       filesAmount: 44,
-      color: "#000000",
+      color: "yellow",
     },
   ],
 }
@@ -34,9 +37,11 @@ const initialStateValue: FilesManagerState = {
 export default {
   state: initialStateValue,
   selectors: (slice: Slicer<typeof initialStateValue>) => ({
-    withConvertedBytes() {
+    stackedBarChart() {
       return slice(state => {
-        return memoryDataWithConvertedBytes(state)
+        return prepareDataForStackedBarChart(
+          memoryDataWithConvertedBytes(state)
+        )
       })
     },
   }),

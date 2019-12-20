@@ -9,3 +9,13 @@ export const memoryDataWithConvertedBytes = (data: FilesManagerState) => {
     occupiedMemory: element.occupiedMemory / Math.pow(1024, 3),
   }))
 }
+
+export const prepareDataForStackedBarChart = (data: FilesManagerData[]) => {
+  return data.map(el => {
+    const { filesType, filesAmount, occupiedMemory, ...rest } = el
+    return {
+      value: occupiedMemory,
+      ...rest,
+    }
+  })
+}
