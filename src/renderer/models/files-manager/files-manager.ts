@@ -1,5 +1,6 @@
 import { Slicer } from "@rematch/select"
 import { FilesManagerState } from "Renderer/models/files-manager/files-manager.interface"
+import { memoryDataWithConvertedBytes } from "Renderer/modules/filesManager/utils"
 
 const initialStateValue: FilesManagerState = {
   memoryData: [
@@ -33,9 +34,9 @@ const initialStateValue: FilesManagerState = {
 export default {
   state: initialStateValue,
   selectors: (slice: Slicer<typeof initialStateValue>) => ({
-    grouped() {
+    withConvertedBytes() {
       return slice(state => {
-        return state
+        return memoryDataWithConvertedBytes(state)
       })
     },
   }),

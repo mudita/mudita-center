@@ -1,6 +1,6 @@
-interface FilesManagerData {
+export interface FilesManagerData {
   filesType: string
-  occupiedMemory?: number
+  occupiedMemory: number
   filesAmount: number
   color: string
 }
