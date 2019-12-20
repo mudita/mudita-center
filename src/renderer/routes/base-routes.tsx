@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from "react-router"
 
 import LayoutDesktopWrapper from "Renderer/wrappers/layout-desktop-wrapper"
 
-import FilesManagerContainer from "Renderer/modules/filesManager/files-manager.container"
+import FilesManager from "Renderer/modules/filesManager/files-manager.component"
 import Help from "Renderer/modules/help/help.component"
 import Meditation from "Renderer/modules/meditation/meditation.component"
 import MessagesContainer from "Renderer/modules/messages/messages.container"
@@ -21,7 +21,7 @@ export default () => (
   <LayoutDesktopWrapper>
     <Switch>
       <Redirect exact from={URL_MAIN.root} to={URL_MAIN.overview} />
-      <Route path={URL_MAIN.filesManager} component={FilesManagerContainer} />
+      <Route path={URL_MAIN.filesManager} component={FilesManager} />
       <Route path={URL_MAIN.help} component={Help} />
       <Route path={URL_MAIN.meditation} component={Meditation} />
       <Route path={URL_MAIN.messages} component={MessagesContainer} />
