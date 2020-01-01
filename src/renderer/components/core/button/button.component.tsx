@@ -8,35 +8,14 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 
+import { DisplayStyle, Size, Type } from "./button.config"
+
 import {
   StyledA,
   StyledButton,
   StyledIcon,
   StyledLink,
 } from "./button.styled.elements"
-
-export enum DisplayStyle {
-  Primary,
-  Secondary,
-  IconOnly1,
-  IconOnly2,
-  IconOnly3,
-  Link1,
-  Link2,
-  Link3,
-}
-
-export enum Type {
-  Button = "button",
-  Submit = "submit",
-  Reset = "reset",
-}
-
-export enum Size {
-  FixedSmall,
-  FixedMedium,
-  FixedBig,
-}
 
 interface Props {
   disabled?: boolean
@@ -80,6 +59,13 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Object.assign(filteredProps, { type, disabled })
   }
 
+  const getTextDisplayStyle = () => {
+    if (displayStyle === DisplayStyle.Link4) {
+      return TextDisplayStyle.LargeFadedText
+    }
+    return TextDisplayStyle.SmallText
+  }
+
   const getLabel = () => {
     if (!label && !labelMessage) {
       return
@@ -88,16 +74,13 @@ const ButtonComponent: FunctionComponent<Props> = ({
       console.warn(
         "Button: button can not take label and labelMessage and the same time"
       )
+      return
     }
+    const textDisplayStyle = getTextDisplayStyle()
     if (labelMessage) {
-      return (
-        <Text
-          displayStyle={TextDisplayStyle.SmallText}
-          message={labelMessage}
-        />
-      )
+      return <Text displayStyle={textDisplayStyle} message={labelMessage} />
     }
-    return <Text displayStyle={TextDisplayStyle.SmallText}>{label}</Text>
+    return <Text displayStyle={textDisplayStyle}>{label}</Text>
   }
 
   return (
@@ -111,7 +94,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
       {Icon && (
         <StyledIcon
           displayStyle={displayStyle}
-          withMargin={Boolean(label)}
+          withMargin={Boolean(label || labelMessage)}
           Image={Icon}
         />
       )}

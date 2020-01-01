@@ -5,7 +5,7 @@ import { useLocation } from "react-router"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { MENU_ELEMENTS } from "Renderer/constants/menuElements"
+import { VIEWS } from "Renderer/constants/views"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -32,8 +32,13 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
   const [currentLocation, setCurrentLocation] = useState()
   useEffect(() => {
     const pathname = location.pathname
-    const currentMenuElement = MENU_ELEMENTS.find(({ url }) => url === pathname)
+    let currentMenuElement = Object.keys(VIEWS).find(
+      // @ts-ignore
+      (key: keyof typeof VIEWS) => VIEWS[key].url === pathname
+    )
     if (currentMenuElement) {
+      // @ts-ignore
+      currentMenuElement = VIEWS[currentMenuElement]
       setCurrentLocation(currentMenuElement.label)
     }
   }, [location])

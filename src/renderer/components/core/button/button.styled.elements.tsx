@@ -9,7 +9,7 @@ import {
   width,
 } from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
-import { DisplayStyle, Size } from "./button.component"
+import { DisplayStyle, Size } from "./button.config"
 
 const getSize = (size: Size) => {
   switch (size) {
@@ -148,7 +148,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: 0.2rem;
+          border-radius: 0.6rem;
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
@@ -172,19 +172,48 @@ const buttonStyles = css<{
             fill: ${textColor("supplementary")};
           }
         `
+      case DisplayStyle.Link4:
+        return css`
+          justify-content: flex-start;
+          height: 4rem;
+          padding: 0.8rem;
+          border: none;
+          border-radius: 0.2rem;
+          color: ${textColor("faded")};
+          font-weight: ${fontWeight("default")};
+          width: 100%;
+          &:hover {
+            background-color: ${backgroundColor("grey2")};
+          }
+          g {
+            fill: ${textColor("faded")};
+          }
+        `
       default:
         return
     }
   }}
 `
 
-export const StyledLink = styled(Link)`
+export const StyledLink = styled(Link)<{
+  displayStyle: DisplayStyle
+  disabled: boolean
+  size: Size
+}>`
   ${buttonStyles}
 `
-export const StyledA = styled.a`
+export const StyledA = styled.a<{
+  displayStyle: DisplayStyle
+  disabled: boolean
+  size: Size
+}>`
   ${buttonStyles}
 `
-export const StyledButton = styled.button`
+export const StyledButton = styled.button<{
+  displayStyle: DisplayStyle
+  disabled: boolean
+  size: Size
+}>`
   ${buttonStyles}
 `
 export const StyledIcon = styled(Svg)<{

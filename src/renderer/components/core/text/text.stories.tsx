@@ -51,6 +51,9 @@ storiesOf("Theme|Text", module).add("Text", () => {
       <Text displayStyle={TextDisplayStyle.MediumFadedText}>
         I’m at the meetining now. I will call you later
       </Text>
+      <Text displayStyle={TextDisplayStyle.MediumFadedTextUppercased}>
+        I’m at the meetining now. I will call you later
+      </Text>
       <Text displayStyle={TextDisplayStyle.SmallText}>
         I’m at the meetining now. I will call you later
       </Text>

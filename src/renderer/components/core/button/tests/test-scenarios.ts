@@ -1,9 +1,6 @@
 import { defineMessages } from "react-intl"
-import {
-  DisplayStyle,
-  Size,
-} from "Renderer/components/core/button/button.component"
 import Upload from "Renderer/svg/upload.svg"
+import { DisplayStyle, Size } from "../button.config"
 
 const exampleMessageId = "view.name.news"
 const messages = defineMessages({

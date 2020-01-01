@@ -8,6 +8,7 @@ const messages = defineMessages({
   messages: { id: "view.name.messages" },
   phone: { id: "view.name.phone" },
   music: { id: "view.name.music" },
+  calendar: { id: "view.name.calendar" },
   tools: { id: "view.name.tools" },
   meditation: { id: "view.name.meditation" },
   filesManager: { id: "view.name.filesManager" },
@@ -36,6 +37,10 @@ export const VIEWS = {
   music: {
     label: messages.music,
     url: URL_MAIN.music,
+  },
+  calendar: {
+    label: messages.calendar,
+    url: URL_MAIN.calendar,
   },
   tools: {
     label: messages.tools,
