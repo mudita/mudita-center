@@ -4,14 +4,14 @@ import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import DropdownItem from "Renderer/components/core/dropdown/dropdown-item.component"
 import Dropdown, {
-  Size,
+  Width,
 } from "Renderer/components/core/dropdown/dropdown.component"
 import Upload from "Renderer/svg/upload.svg"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
-    <Dropdown toggler={<ButtonComponent />} size={Size.S} />
+    <Dropdown toggler={<ButtonComponent />} size={Width.S} />
   )
   expect(container).toMatchSnapshot()
 })
@@ -19,7 +19,7 @@ test("matches snapshot", () => {
 test("renders toggler passed to component", () => {
   const buttonText = "Example"
   const { getByText } = renderWithThemeAndIntl(
-    <Dropdown toggler={<ButtonComponent label={buttonText} />} size={Size.S} />
+    <Dropdown toggler={<ButtonComponent label={buttonText} />} size={Width.S} />
   )
   expect(getByText(buttonText)).toBeInTheDocument()
 })
@@ -27,7 +27,7 @@ test("renders toggler passed to component", () => {
 test("renders small dropdown", () => {
   const buttonText = "Example"
   const { getByTestId, getByText, container } = renderWithThemeAndIntl(
-    <Dropdown toggler={<ButtonComponent label={buttonText} />} size={Size.S} />
+    <Dropdown toggler={<ButtonComponent label={buttonText} />} size={Width.S} />
   )
 
   fireEvent.click(getByText(buttonText))
@@ -40,7 +40,7 @@ test("renders small dropdown", () => {
 test("renders medium dropdown", () => {
   const buttonText = "Example"
   const { getByTestId, getByText, container } = renderWithThemeAndIntl(
-    <Dropdown toggler={<ButtonComponent label={buttonText} />} size={Size.M} />
+    <Dropdown toggler={<ButtonComponent label={buttonText} />} size={Width.M} />
   )
 
   fireEvent.click(getByText(buttonText))
@@ -54,7 +54,7 @@ test("renders children", () => {
   const buttonText = "Example"
   const childText = "childText"
   const { getByText } = renderWithThemeAndIntl(
-    <Dropdown toggler={<ButtonComponent label={buttonText} />} size={Size.M}>
+    <Dropdown toggler={<ButtonComponent label={buttonText} />} size={Width.M}>
       <DropdownItem Icon={Upload} text={childText} />
     </Dropdown>
   )
