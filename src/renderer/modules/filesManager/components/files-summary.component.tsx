@@ -7,7 +7,6 @@ import styled from "styled-components"
 const FilesSummaryWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 2rem;
 `
 
 interface Props {

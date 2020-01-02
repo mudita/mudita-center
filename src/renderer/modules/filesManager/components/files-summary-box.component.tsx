@@ -1,13 +1,16 @@
 import React from "react"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import { FilesManagerData } from "Renderer/models/files-manager/files-manager.interface"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
-const Wrapper = styled.div`
-  width: 23.3rem;
+const Wrapper = styled.div<{ borderColor: string }>`
+  width: 19.1rem;
   background-color: ${backgroundColor("light")};
-  border: 1px solid black;
+  border-left: 0.3rem solid ${({ borderColor }) => borderColor};
 `
 
 const convertBytes = (bytes: number): string => {
@@ -33,9 +36,13 @@ const FilesManagerItem: FunctionComponent<FilesManagerData> = ({
   occupiedMemory,
 }) => {
   return (
-    <Wrapper>
-      {" "}
-      {filesType} {convertBytes(occupiedMemory)}
+    <Wrapper borderColor={color}>
+      <Text displayStyle={TextDisplayStyle.LargeText} element={"p"}>
+        {filesType}
+      </Text>
+      <Text displayStyle={TextDisplayStyle.SmallFadedText} element={"p"}>
+        {filesAmount} files {convertBytes(occupiedMemory)}
+      </Text>
     </Wrapper>
   )
 }
