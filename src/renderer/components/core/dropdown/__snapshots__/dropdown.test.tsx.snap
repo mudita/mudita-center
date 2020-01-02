@@ -31,7 +31,7 @@ exports[`renders medium dropdown 1`] = `
       </p>
     </button>
     <ul
-      class="sc-htoDjs hyQnZV"
+      class="sc-htoDjs dyNMVF"
       data-testid="dropdown"
       size="1"
     />
@@ -56,7 +56,7 @@ exports[`renders small dropdown 1`] = `
       </p>
     </button>
     <ul
-      class="sc-htoDjs ZKFOt"
+      class="sc-htoDjs kPWrFN"
       data-testid="dropdown"
     />
   </div>
