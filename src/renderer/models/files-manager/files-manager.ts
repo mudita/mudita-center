@@ -1,9 +1,6 @@
 import { Slicer } from "@rematch/select"
 import { FilesManagerState } from "Renderer/models/files-manager/files-manager.interface"
-import {
-  memoryDataWithConvertedBytes,
-  prepareDataForStackedBarChart,
-} from "Renderer/models/files-manager/utils"
+import { prepareDataForStackedBarChart } from "Renderer/models/files-manager/utils"
 // TODO: add icon
 const initialStateValue: FilesManagerState = {
   memoryData: [
@@ -39,14 +36,12 @@ export default {
   selectors: (slice: Slicer<typeof initialStateValue>) => ({
     stackedBarChart() {
       return slice(state => {
-        return prepareDataForStackedBarChart(
-          memoryDataWithConvertedBytes(state)
-        )
+        return prepareDataForStackedBarChart(state)
       })
     },
     memoryChart() {
       return slice(state => {
-        return memoryDataWithConvertedBytes(state)
+        return state.memoryData
       })
     },
   }),

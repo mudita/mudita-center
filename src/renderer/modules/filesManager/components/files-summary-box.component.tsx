@@ -10,13 +10,34 @@ const Wrapper = styled.div`
   border: 1px solid black;
 `
 
+const convertBytes = (bytes: number): string => {
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB"]
+
+  if (bytes === 0) {
+    return "n/a"
+  }
+
+  const i = parseInt(String(Math.floor(Math.log(bytes) / Math.log(1024))), 10)
+
+  if (i === 0) {
+    return bytes + " " + sizes[i]
+  }
+
+  return (bytes / Math.pow(1024, i)).toFixed(1) + " " + sizes[i]
+}
+
 const FilesManagerItem: FunctionComponent<FilesManagerData> = ({
   color,
   filesAmount,
   filesType,
   occupiedMemory,
 }) => {
-  return <Wrapper>{filesType}</Wrapper>
+  return (
+    <Wrapper>
+      {" "}
+      {filesType} {convertBytes(occupiedMemory)}
+    </Wrapper>
+  )
 }
 
 export default FilesManagerItem
