@@ -10,6 +10,7 @@ import Text, {
   smallTextSharedStyles,
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import transition from "Renderer/styles/functions/transition"
 import {
   backgroundColor,
   borderColor,
@@ -34,7 +35,8 @@ const StandardInputLabel = styled(Text)`
   line-height: 1.5rem;
   pointer-events: none;
   user-select: none;
-  transition: bottom 0.1s ease-in-out, font-size 0.1s ease-in-out;
+  transition: ${transition("bottom", "100ms", "ease-in-out")},
+    ${transition("font-size", "100ms", "ease-in-out")};
 `
 
 const condensedStyles = css`
@@ -171,7 +173,7 @@ const InputWrapper = styled.label<Partial<InputProps & TextareaProps>>`
   align-items: center;
   width: fit-content;
   box-sizing: border-box;
-  transition: border-color 0.1s ease-in-out;
+  transition: ${transition("border-color", "100ms", "ease-in-out")};
 
   ${({ layout }) => {
     switch (layout) {
