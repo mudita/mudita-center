@@ -270,13 +270,13 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   onChange = noop,
   ...rest
 }) => {
-  const textarea = useRef<HTMLTextAreaElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [value, setValue] = useState(defaultValue)
   const [rows, setRows] = useState(1)
   const [maxHeight, setMaxHeight] = useState(0)
 
   useEffect(() => {
-    const element = textarea && textarea.current
+    const element = textareaRef && textareaRef.current
     if (element) {
       const { scrollHeight } = element
       const lineHeight = parseInt(getComputedStyle(element).lineHeight, 0)
@@ -284,17 +284,17 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
       element.style.height = "auto"
       setRows(rowsCount)
     }
-  }, [textarea, value])
+  }, [textareaRef, value])
 
   useEffect(() => {
     if (maxRows) {
-      const element = textarea && textarea.current
+      const element = textareaRef && textareaRef.current
       if (element) {
         const lineHeight = parseInt(getComputedStyle(element).lineHeight, 0)
         setMaxHeight(lineHeight * maxRows)
       }
     }
-  }, [textarea])
+  }, [textareaRef])
 
   const onChangeWrapper = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setRows(1)
@@ -309,7 +309,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
       disabled={disabled}
     >
       <TextAreaInput
-        ref={textarea}
+        ref={textareaRef}
         value={value}
         rows={rows}
         disabled={disabled}
