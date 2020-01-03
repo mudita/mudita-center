@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import InputText from "Renderer/components/core/input-text/input-text.component"
-import { InputTextLayout } from "Renderer/components/core/input-text/input-text.inreface"
+import { InputTextLayout } from "Renderer/components/core/input-text/input-text.interface"
 import { Icon } from "Renderer/components/core/input-text/input-text.stories"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 

@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import { InputTextLayout } from "Renderer/components/core/input-text/input-text.inreface"
+import { InputTextLayout } from "Renderer/components/core/input-text/input-text.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export const Icon: FunctionComponent = () => (

@@ -4,7 +4,7 @@ import {
   InputProps,
   InputTextLayout,
   TextareaProps,
-} from "Renderer/components/core/input-text/input-text.inreface"
+} from "Renderer/components/core/input-text/input-text.interface"
 import Text, {
   getTextStyles,
   smallTextSharedStyles,
