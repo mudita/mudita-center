@@ -2,7 +2,6 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react"
 import {
   InputIconsProps,
   InputProps,
-  InputTextLayout,
   TextareaProps,
 } from "Renderer/components/core/input-text/input-text.interface"
 import Text, {
@@ -37,6 +36,13 @@ const StandardInputLabel = styled(Text)`
   user-select: none;
   transition: ${transition("bottom", "100ms", "ease-in-out")},
     ${transition("font-size", "100ms", "ease-in-out")};
+`
+
+const outlinedStyles = css`
+  height: 4rem;
+  padding: 0 2.4rem;
+  border: 0.1rem solid ${borderColor("default")};
+  border-radius: ${borderRadius("medium")};
 `
 
 const condensedStyles = css`
@@ -110,6 +116,39 @@ const TextInput = styled.input`
   user-select: none;
 `
 
+const InputWrapper = styled.label<Partial<InputProps & TextareaProps>>`
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: fit-content;
+  padding-top: 2rem;
+  padding-bottom: 0.8rem;
+  box-sizing: border-box;
+  border-bottom: 0.1rem solid ${borderColor("default")};
+  transition: ${transition("border-color", "100ms", "ease-in-out")};
+
+  ${TextInputIcon} {
+    + ${TextInputIcon} {
+      margin-left: 1.2rem;
+    }
+  }
+  ${({ outlined }) => outlined && outlinedStyles};
+  ${({ condensed }) => condensed && condensedStyles};
+  ${({ disabled }) => disabled && disabledStyles};
+
+  &:hover:not([disabled]),
+  &:focus-within:not([disabled]) {
+    ${focusedStyles};
+  }
+
+  &:focus-within:not([disabled]) {
+    ${StandardInputLabel} {
+      ${focusedLabelStyles};
+    }
+  }
+`
+
 const TextAreaInput = styled.textarea<{ maxHeight: number }>`
   ${generalInputStyles};
   resize: none;
@@ -127,33 +166,8 @@ const TextAreaInput = styled.textarea<{ maxHeight: number }>`
     `};
 `
 
-const outlinedLayout = css`
-  height: 4rem;
-  padding: 0 2.4rem;
-  border: 0.1rem solid ${borderColor("default")};
-  border-radius: ${borderRadius("medium")};
-
-  ${TextInputIcon} {
-    + ${TextInputIcon} {
-      margin-left: 1.2rem;
-    }
-  }
-`
-
-const standardLayout = css`
-  padding-top: 2rem;
-  padding-bottom: 0.8rem;
-  border-bottom: 0.1rem solid ${borderColor("default")};
-
-  ${TextInputIcon} {
-    + ${TextInputIcon} {
-      margin-left: 1.2rem;
-    }
-  }
-`
-
 const textAreaLayout = css`
-  ${outlinedLayout};
+  ${outlinedStyles};
 
   height: auto;
   min-height: 6.4rem;
@@ -166,39 +180,8 @@ const textAreaLayout = css`
   }
 `
 
-const InputWrapper = styled.label<Partial<InputProps & TextareaProps>>`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: fit-content;
-  box-sizing: border-box;
-  transition: ${transition("border-color", "100ms", "ease-in-out")};
-
-  ${({ layout }) => {
-    switch (layout) {
-      case InputTextLayout.Outlined:
-        return outlinedLayout
-      case InputTextLayout.TextArea:
-        return textAreaLayout
-      default:
-        return standardLayout
-    }
-  }}
-
-  ${({ condensed }) => condensed && condensedStyles};
-  ${({ disabled }) => disabled && disabledStyles};
-
-  &:hover:not([disabled]),
-  &:focus-within:not([disabled]) {
-    ${focusedStyles};
-  }
-
-  &:focus-within:not([disabled]) {
-    ${StandardInputLabel} {
-      ${focusedLabelStyles};
-    }
-  }
+const TextareaWrapper = styled(InputWrapper)`
+  ${textAreaLayout};
 `
 
 const InputIcons: FunctionComponent<InputIconsProps> = ({
@@ -231,8 +214,8 @@ const InputIcons: FunctionComponent<InputIconsProps> = ({
 
 export const InputText: FunctionComponent<InputProps> = ({
   className,
-  layout,
   condensed = false,
+  outlined = false,
   leadingIcons,
   trailingIcons,
   placeholder,
@@ -252,11 +235,11 @@ export const InputText: FunctionComponent<InputProps> = ({
   return (
     <InputWrapper
       className={className}
-      layout={layout}
+      outlined={outlined}
       condensed={condensed}
       disabled={disabled}
     >
-      {layout === InputTextLayout.Outlined ? outlinedInput : standardInput}
+      {outlined ? outlinedInput : standardInput}
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
     </InputWrapper>
   )
@@ -305,11 +288,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   }
 
   return (
-    <InputWrapper
-      layout={InputTextLayout.TextArea}
-      className={className}
-      disabled={disabled}
-    >
+    <TextareaWrapper className={className} disabled={disabled}>
       <TextAreaInput
         ref={textareaRef}
         value={value}
@@ -320,6 +299,6 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
         {...rest}
       />
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
-    </InputWrapper>
+    </TextareaWrapper>
   )
 }

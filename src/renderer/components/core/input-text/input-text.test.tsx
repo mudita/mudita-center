@@ -1,12 +1,13 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import InputText from "Renderer/components/core/input-text/input-text.component"
-import { InputTextLayout } from "Renderer/components/core/input-text/input-text.interface"
 import { Icon } from "Renderer/components/core/input-text/input-text.stories"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 test("renders standard input properly", () => {
-  const { getByRole, getByLabelText } = renderWithThemeAndIntl(<InputText />)
+  const { getByRole, getByLabelText } = renderWithThemeAndIntl(
+    <InputText type="text" />
+  )
 
   expect(getByRole("textbox")).toBeInTheDocument()
   expect(getByLabelText("")).toBeInTheDocument()
@@ -14,7 +15,7 @@ test("renders standard input properly", () => {
 
 test("renders outlined input properly", () => {
   const { getByRole } = renderWithThemeAndIntl(
-    <InputText layout={InputTextLayout.Outlined} />
+    <InputText type="text" outlined />
   )
 
   expect(getByRole("textbox")).toBeInTheDocument()
@@ -28,7 +29,7 @@ test("renders textarea properly", () => {
 
 test("renders outlined condensed input properly", () => {
   const { getByRole, container } = renderWithThemeAndIntl(
-    <InputText layout={InputTextLayout.Outlined} condensed />
+    <InputText type="text" outlined condensed />
   )
 
   expect(getByRole("textbox")).toBeInTheDocument()
@@ -37,14 +38,14 @@ test("renders outlined condensed input properly", () => {
 
 test("renders standard input with placeholder properly", () => {
   const { getByLabelText } = renderWithThemeAndIntl(
-    <InputText placeholder="Placeholder" />
+    <InputText type="text" placeholder="Placeholder" />
   )
   expect(getByLabelText("Placeholder")).toBeInTheDocument()
 })
 
 test("renders outlined input with placeholder properly", () => {
   const { getByPlaceholderText } = renderWithThemeAndIntl(
-    <InputText layout={InputTextLayout.Outlined} placeholder="Placeholder" />
+    <InputText type="text" outlined placeholder="Placeholder" />
   )
   expect(getByPlaceholderText("Placeholder")).toBeInTheDocument()
 })
@@ -57,13 +58,15 @@ test("renders textarea with placeholder properly", () => {
 })
 
 test("renders disabled standard input properly", () => {
-  const { getByRole } = renderWithThemeAndIntl(<InputText disabled />)
+  const { getByRole } = renderWithThemeAndIntl(
+    <InputText type="text" disabled />
+  )
   expect(getByRole("textbox")).toHaveAttribute("disabled")
 })
 
 test("renders disabled outlined input properly", () => {
   const { getByRole } = renderWithThemeAndIntl(
-    <InputText layout={InputTextLayout.Outlined} disabled />
+    <InputText type="text" outlined disabled />
   )
   expect(getByRole("textbox")).toHaveAttribute("disabled")
 })
@@ -77,17 +80,14 @@ test("renders disabled textarea properly", () => {
 
 test("renders standard input with leading icon properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <InputText leadingIcons={[<Icon key={1} />]} />
+    <InputText type="text" leadingIcons={[<Icon key={1} />]} />
   )
   expect(getByTestId("leading-icon-0")).toBeInTheDocument()
 })
 
 test("renders outlined input with leading icon properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <InputText
-      layout={InputTextLayout.Outlined}
-      leadingIcons={[<Icon key={1} />]}
-    />
+    <InputText type="text" outlined leadingIcons={[<Icon key={1} />]} />
   )
   expect(getByTestId("leading-icon-0")).toBeInTheDocument()
 })
@@ -101,17 +101,14 @@ test("renders textarea with leading icon properly", () => {
 
 test("renders standard input with trailing icon properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <InputText trailingIcons={[<Icon key={1} />]} />
+    <InputText type="text" trailingIcons={[<Icon key={1} />]} />
   )
   expect(getByTestId("trailing-icon-0")).toBeInTheDocument()
 })
 
 test("renders outlined input with trailing icon properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <InputText
-      layout={InputTextLayout.Outlined}
-      trailingIcons={[<Icon key={1} />]}
-    />
+    <InputText type="text" outlined trailingIcons={[<Icon key={1} />]} />
   )
   expect(getByTestId("trailing-icon-0")).toBeInTheDocument()
 })
@@ -126,6 +123,7 @@ test("renders textarea with trailing icon properly", () => {
 test("renders standard input with multiple Icons properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
     <InputText
+      type="text"
       leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
       trailingIcons={[<Icon key={1} />, <Icon key={2} />]}
     />
@@ -139,7 +137,8 @@ test("renders standard input with multiple Icons properly", () => {
 test("renders outlined input with multiple Icons properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
     <InputText
-      layout={InputTextLayout.Outlined}
+      type="text"
+      outlined
       leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
       trailingIcons={[<Icon key={1} />, <Icon key={2} />]}
     />

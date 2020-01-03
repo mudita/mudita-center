@@ -1,9 +1,5 @@
 import React, { ChangeEvent } from "react"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import {
-  HTMLInputComponent,
-  InputTextLayout,
-} from "Renderer/components/core/input-text/input-text.inreface"
 import { Icon } from "Renderer/components/core/input-text/input-text.stories"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -25,15 +21,13 @@ interface PanelInterface {
 const ContactPanel: FunctionComponent<PanelInterface> = ({
   onSearchTermChange,
 }) => {
-  const onChange = (event: ChangeEvent<HTMLInputComponent>) => {
-    onSearchTermChange(event.target.value)
+  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    onSearchTermChange(target.value)
   }
   return (
     <Panel>
       <SearchInput
         type="search"
-        layout={InputTextLayout.Outlined}
-        condensed
         leadingIcons={[<Icon key={1} />]}
         placeholder="Search contacts"
         onChange={onChange}

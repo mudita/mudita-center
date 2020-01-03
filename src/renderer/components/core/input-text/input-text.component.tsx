@@ -8,23 +8,17 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 
 export const InputComponent: FunctionComponent<InputComponentProps> = ({
   type = "text",
-  layout,
-  condensed,
-  maxRows,
   ...rest
 }) => {
   let Component: FunctionComponent<ComponentProps<any>>
-  let filteredProps: object
 
   if (type === "textarea") {
     Component = TextArea
-    filteredProps = { maxRows }
   } else {
     Component = InputText
-    filteredProps = { type, layout, condensed }
   }
 
-  return <Component {...filteredProps} {...rest} />
+  return <Component type={type} {...rest} />
 }
 
 export default InputComponent

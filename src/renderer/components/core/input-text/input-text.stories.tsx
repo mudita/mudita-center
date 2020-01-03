@@ -1,7 +1,6 @@
 import { storiesOf } from "@storybook/react"
-import React from "react"
+import React, { ChangeEvent, useEffect, useState } from "react"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import { InputTextLayout } from "Renderer/components/core/input-text/input-text.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export const Icon: FunctionComponent = () => (
@@ -23,49 +22,31 @@ const multipleIcons = [<Icon key="1" />, <Icon key="2" />]
 
 storiesOf("Components|Text input/Standard", module)
   .add("Empty", () => {
-    return <InputComponent layout={InputTextLayout.Standard} />
+    return <InputComponent type="text" />
   })
   .add("With label", () => {
-    return (
-      <InputComponent
-        type="text"
-        layout={InputTextLayout.Standard}
-        placeholder="Name"
-      />
-    )
+    return <InputComponent type="text" placeholder="Name" />
   })
   .add("With value", () => {
-    return (
-      <InputComponent
-        defaultValue="John"
-        layout={InputTextLayout.Standard}
-        placeholder="Name"
-      />
-    )
+    return <InputComponent defaultValue="John" type="text" placeholder="Name" />
   })
   .add("Disabled with value", () => {
     return (
       <InputComponent
         defaultValue="John"
-        layout={InputTextLayout.Standard}
+        type="text"
         placeholder="Name"
         disabled
       />
     )
   })
   .add("Focused", () => {
-    return (
-      <InputComponent
-        layout={InputTextLayout.Standard}
-        autoFocus
-        placeholder="Name"
-      />
-    )
+    return <InputComponent type="text" autoFocus placeholder="Name" />
   })
   .add("With label and leading icon", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Standard}
+        type="text"
         leadingIcons={singleIcon}
         placeholder="Name"
       />
@@ -74,7 +55,7 @@ storiesOf("Components|Text input/Standard", module)
   .add("With label and trailing icon", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Standard}
+        type="text"
         trailingIcons={singleIcon}
         placeholder="Name"
       />
@@ -83,7 +64,7 @@ storiesOf("Components|Text input/Standard", module)
   .add("With label, leading and trailing icon", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Standard}
+        type="text"
         leadingIcons={singleIcon}
         trailingIcons={singleIcon}
         placeholder="Name"
@@ -93,7 +74,7 @@ storiesOf("Components|Text input/Standard", module)
   .add("With label and multiple leading and trailing icons", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Standard}
+        type="text"
         leadingIcons={multipleIcons}
         trailingIcons={multipleIcons}
         placeholder="Name"
@@ -103,28 +84,21 @@ storiesOf("Components|Text input/Standard", module)
 
 storiesOf("Components|Text input/Outlined", module)
   .add("Empty", () => {
-    return <InputComponent layout={InputTextLayout.Outlined} />
+    return <InputComponent type="text" outlined />
   })
   .add("With placeholder", () => {
-    return (
-      <InputComponent placeholder="Name" layout={InputTextLayout.Outlined} />
-    )
+    return <InputComponent placeholder="Name" type="text" outlined />
   })
   .add("Focused with placeholder", () => {
-    return (
-      <InputComponent
-        autoFocus
-        placeholder="Name"
-        layout={InputTextLayout.Outlined}
-      />
-    )
+    return <InputComponent autoFocus placeholder="Name" type="text" outlined />
   })
   .add("With value", () => {
     return (
       <InputComponent
         placeholder="Name"
         defaultValue={"John Doe"}
-        layout={InputTextLayout.Outlined}
+        type="text"
+        outlined
       />
     )
   })
@@ -133,7 +107,8 @@ storiesOf("Components|Text input/Outlined", module)
       <InputComponent
         placeholder="Name"
         defaultValue={"John Doe"}
-        layout={InputTextLayout.Outlined}
+        type="text"
+        outlined
         disabled
       />
     )
@@ -141,7 +116,8 @@ storiesOf("Components|Text input/Outlined", module)
   .add("With placeholder and leading icon", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Outlined}
+        type="text"
+        outlined
         leadingIcons={singleIcon}
         placeholder="Name"
       />
@@ -150,7 +126,8 @@ storiesOf("Components|Text input/Outlined", module)
   .add("With placeholder and trailing icon", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Outlined}
+        type="text"
+        outlined
         trailingIcons={singleIcon}
         placeholder="Name"
       />
@@ -159,7 +136,8 @@ storiesOf("Components|Text input/Outlined", module)
   .add("With placeholder, leading and trailing icon", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Outlined}
+        type="text"
+        outlined
         leadingIcons={singleIcon}
         trailingIcons={singleIcon}
         placeholder="Name"
@@ -169,7 +147,8 @@ storiesOf("Components|Text input/Outlined", module)
   .add("With placeholder and multiple leading and trailing icons", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Outlined}
+        type="text"
+        outlined
         leadingIcons={multipleIcons}
         trailingIcons={multipleIcons}
         placeholder="Name"
@@ -179,23 +158,18 @@ storiesOf("Components|Text input/Outlined", module)
 
 storiesOf("Components|Text input/Outlined condensed", module)
   .add("Empty", () => {
-    return <InputComponent layout={InputTextLayout.Outlined} condensed />
+    return <InputComponent type="text" outlined condensed />
   })
   .add("With placeholder", () => {
-    return (
-      <InputComponent
-        placeholder="Name"
-        layout={InputTextLayout.Outlined}
-        condensed
-      />
-    )
+    return <InputComponent placeholder="Name" type="text" outlined condensed />
   })
   .add("Focused with placeholder", () => {
     return (
       <InputComponent
+        type="text"
         autoFocus
         placeholder="Name"
-        layout={InputTextLayout.Outlined}
+        outlined
         condensed
       />
     )
@@ -203,9 +177,9 @@ storiesOf("Components|Text input/Outlined condensed", module)
   .add("With value", () => {
     return (
       <InputComponent
+        type="text"
         placeholder="Name"
         defaultValue={"John Doe"}
-        layout={InputTextLayout.Outlined}
         condensed
       />
     )
@@ -215,7 +189,8 @@ storiesOf("Components|Text input/Outlined condensed", module)
       <InputComponent
         placeholder="Name"
         defaultValue={"John Doe"}
-        layout={InputTextLayout.Outlined}
+        type="text"
+        outlined
         condensed
         disabled
       />
@@ -224,7 +199,8 @@ storiesOf("Components|Text input/Outlined condensed", module)
   .add("With placeholder and leading icon", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Outlined}
+        type="text"
+        outlined
         condensed
         leadingIcons={singleIcon}
         placeholder="Name"
@@ -234,7 +210,8 @@ storiesOf("Components|Text input/Outlined condensed", module)
   .add("With placeholder and trailing icon", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Outlined}
+        type="text"
+        outlined
         condensed
         trailingIcons={singleIcon}
         placeholder="Name"
@@ -244,7 +221,8 @@ storiesOf("Components|Text input/Outlined condensed", module)
   .add("With placeholder, leading and trailing icon", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Outlined}
+        type="text"
+        outlined
         condensed
         leadingIcons={singleIcon}
         trailingIcons={singleIcon}
@@ -255,7 +233,8 @@ storiesOf("Components|Text input/Outlined condensed", module)
   .add("With placeholder and multiple leading and trailing icons", () => {
     return (
       <InputComponent
-        layout={InputTextLayout.Outlined}
+        type="text"
+        outlined
         condensed
         leadingIcons={multipleIcons}
         trailingIcons={multipleIcons}
@@ -265,6 +244,18 @@ storiesOf("Components|Text input/Outlined condensed", module)
   })
 
 storiesOf("Components|Text input/Textarea", module)
+  .add("Basic test", () => {
+    const [value, setValue] = useState("yolo")
+
+    const onChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
+      setValue(event.target.value)
+
+    useEffect(() => {
+      console.log(value)
+    }, [value])
+
+    return <InputComponent type="textarea" value={value} onChange={onChange} />
+  })
   .add("Basic", () => {
     return <InputComponent type="textarea" />
   })
