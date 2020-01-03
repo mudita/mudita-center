@@ -129,7 +129,7 @@ const outlinedLayout = css`
   height: 4rem;
   padding: 0 2.4rem;
   border: 0.1rem solid ${borderColor("default")};
-  border-radius: ${borderRadius("medium")}rem;
+  border-radius: ${borderRadius("medium")};
 
   ${TextInputIcon} {
     + ${TextInputIcon} {
@@ -156,7 +156,7 @@ const textAreaLayout = css`
   height: auto;
   min-height: 6.4rem;
   padding: 0 1.5rem;
-  border-radius: ${borderRadius("big")}rem;
+  border-radius: ${borderRadius("big")};
 
   ${LeadingIcons}, ${TrailingIcons} {
     height: 6.4rem;

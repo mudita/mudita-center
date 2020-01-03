@@ -16,7 +16,7 @@ export const borderRadius = (name: keyof Theme["borderRadius"]) => ({
   theme,
 }: {
   theme: Theme
-}) => theme.borderRadius[name]
+}) => theme.borderRadius[name] + "rem"
 
 export const borderColor = (name: keyof Theme["color"]["border"]) => ({
   theme,
