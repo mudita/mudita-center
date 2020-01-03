@@ -296,7 +296,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
         setMaxHeight(lineHeight * maxRows)
       }
     }
-  }, [textareaRef])
+  }, [textareaRef, maxRows])
 
   const onChangeWrapper = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setRows(1)
