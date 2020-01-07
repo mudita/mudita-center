@@ -21,10 +21,10 @@ import { ipcMain } from "electron-better-ipc"
  * @param name Ipc Request name.
  * @param handler Handler dealing with the logic of constructing data.
  */
-const createEndpoint = <Params, Response>({
+const createEndpoint = <CallerProps, Response>({
   name,
   handler,
-}: EndpointRegistrationProperties<Params, Response>) => (
+}: EndpointRegistrationProperties<CallerProps, Response>) => (
   adapters: Adapters
 ) => {
   ipcMain.answerRenderer<Response>(
