@@ -10,10 +10,10 @@ import { ipcMain } from "electron-better-ipc"
  * @example
  * const registerCandyEndpoint = createEndpoint({
  *   name: IpcRequest.GetCandy,
- *   handler: (taste: string) => createCandyWithTaste(taste)
+ *   handler: ({phone}, taste: string) => phone.createCandyWithTaste(taste)
  * })
  *
- * registerCandyEndpoint({phoneAdapter: createPhoneAdapter})
+ * registerCandyEndpoint({phone: createPhoneAdapter()})
  *
  * @info
  * Type casting of the callback is required due to how electron-better-ipc is typed.
