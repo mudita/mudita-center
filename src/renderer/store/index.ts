@@ -1,6 +1,5 @@
 import { init } from "@rematch/core"
 import selectPlugin from "@rematch/select"
-
 import models from "Renderer/models/models"
 
 const store = init({
