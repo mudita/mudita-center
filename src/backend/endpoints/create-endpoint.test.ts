@@ -28,7 +28,7 @@ jest.mock("electron-better-ipc", () => {
 test("registers an endpoint on IPC", () => {
   const name = (TestRequests.GetTestData as unknown) as IpcRequest
   const testValue = "II"
-  const handler = ({ app }: Adapters, testData?: string) =>
+  const handler = ({ app }: Adapters, testData: string) =>
     `${app.getName()} ${testData}`
   createEndpoint<string, string>({ name, handler })(adapters)
   const result = (ipcMain as any)._flush(testValue)
