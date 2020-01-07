@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/react"
-import React, { ChangeEvent, useEffect, useState } from "react"
+import React from "react"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
@@ -30,6 +30,19 @@ storiesOf("Components|Text input/Standard", module)
   .add("With value", () => {
     return <InputComponent defaultValue="John" type="text" placeholder="Name" />
   })
+  .add(
+    "Focused with value but as search type (with native clear button)",
+    () => {
+      return (
+        <InputComponent
+          autoFocus
+          placeholder="Name"
+          defaultValue={"John"}
+          type="search"
+        />
+      )
+    }
+  )
   .add("Disabled with value", () => {
     return (
       <InputComponent
@@ -102,6 +115,20 @@ storiesOf("Components|Text input/Outlined", module)
       />
     )
   })
+  .add(
+    "Focused with value but as search type (with native clear button)",
+    () => {
+      return (
+        <InputComponent
+          autoFocus
+          placeholder="Name"
+          defaultValue={"John Doe"}
+          type="search"
+          outlined
+        />
+      )
+    }
+  )
   .add("Disabled with value", () => {
     return (
       <InputComponent
@@ -180,6 +207,7 @@ storiesOf("Components|Text input/Outlined condensed", module)
         type="text"
         placeholder="Name"
         defaultValue={"John Doe"}
+        outlined
         condensed
       />
     )
@@ -244,24 +272,11 @@ storiesOf("Components|Text input/Outlined condensed", module)
   })
 
 storiesOf("Components|Text input/Textarea", module)
-  .add("Basic test", () => {
-    const [value, setValue] = useState("yolo")
-
-    const onChange = (event: ChangeEvent<HTMLTextAreaElement>) =>
-      setValue(event.target.value)
-
-    useEffect(() => {
-      console.log(value)
-    }, [value])
-
-    return <InputComponent type="textarea" value={value} onChange={onChange} />
-  })
-  .add("Basic", () => {
-    return <InputComponent type="textarea" />
-  })
-  .add("With placeholder", () => {
-    return <InputComponent type="textarea" placeholder="Message" />
-  })
+  .add("Basic test", () => <InputComponent type="textarea" />)
+  .add("Basic", () => <InputComponent type="textarea" />)
+  .add("With placeholder", () => (
+    <InputComponent type="textarea" placeholder="Message" />
+  ))
   .add("Focused with placeholder", () => {
     return <InputComponent autoFocus type="textarea" placeholder="Message" />
   })
