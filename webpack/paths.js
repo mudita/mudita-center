@@ -7,4 +7,5 @@ module.exports = {
   cypress: "./cypress",
   renderer: "./src/renderer",
   backend: "./src/backend",
+  common: "./src/common",
 }

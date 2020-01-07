@@ -12,6 +12,7 @@ module.exports = {
       Storybook: path.resolve(__dirname, "..", paths.storybook),
       Renderer: path.resolve(__dirname, "..", paths.renderer),
       Backend: path.resolve(__dirname, "..", paths.backend),
+      Common: path.resolve(__dirname, "..", paths.common),
       "react-intl": "react-intl/dist",
     },
   },

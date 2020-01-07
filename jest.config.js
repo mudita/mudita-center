@@ -13,6 +13,7 @@ module.exports = {
     "Cypress/(.*)": "cypress/$1",
     "Storybook/(.*)": ".storybook/$1",
     "Backend/(.*)": "<rootDir>/src/backend/$1",
+    "Common/(.*)": "<rootDir>/src/common/$1",
   },
   rootDir: "./",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],

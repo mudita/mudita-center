@@ -69,7 +69,8 @@
       "Renderer/*": ["src/renderer/*"],
       "Cypress/*": ["cypress/*"],
       "Storybook/*": [".storybook/*"],
-      "Backend/*": ["src/backend/*"]
+      "Backend/*": ["src/backend/*"],
+      "Common/*": ["src/common/*"]
     },
     /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "rootDirs": [],
