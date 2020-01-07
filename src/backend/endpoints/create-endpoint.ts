@@ -18,6 +18,10 @@ import { ipcMain } from "electron-better-ipc"
  * @info
  * Type casting of the callback is required due to how electron-better-ipc is typed.
  *
+ * @docs
+ * Documentation regarding creation of new endpoints:
+ * https://github.com/Appnroll/pure-desktop-app/wiki/Create-an-endpoint
+ *
  * @param name Ipc Request name.
  * @param handler Handler dealing with the logic of constructing data.
  */
