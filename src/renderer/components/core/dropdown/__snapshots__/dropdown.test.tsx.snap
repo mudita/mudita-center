@@ -31,7 +31,7 @@ exports[`renders dropdown 1`] = `
       </p>
     </button>
     <ul
-      class="sc-iwsKbI bbhiDF"
+      class="sc-iwsKbI kAYjpE"
       data-testid="dropdown"
     />
   </div>
