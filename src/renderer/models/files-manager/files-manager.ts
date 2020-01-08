@@ -1,4 +1,5 @@
 import { Slicer } from "@rematch/select"
+import { URL_MAIN } from "Renderer/constants/urls"
 import { FilesManagerState } from "Renderer/models/files-manager/files-manager.interface"
 import { prepareDataForStackedBarChart } from "Renderer/models/files-manager/utils"
 import Upload from "Renderer/svg/upload.svg"
@@ -11,6 +12,7 @@ const initialStateValue: FilesManagerState = {
       filesAmount: 15,
       color: "#6D9BBC",
       icon: Upload,
+      url: URL_MAIN.music,
     },
     {
       filesType: "Voice Recorder",
@@ -18,6 +20,7 @@ const initialStateValue: FilesManagerState = {
       filesAmount: 3,
       color: "#AEBEC9",
       icon: Upload,
+      dirPath: "/Users/kamilstaszewski/Projekty/",
     },
     {
       filesType: "Storage",

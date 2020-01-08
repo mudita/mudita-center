@@ -1,3 +1,4 @@
+import { shell } from "electron"
 import React from "react"
 import Svg from "Renderer/components/core/svg/svg.component"
 import Text, {
@@ -46,16 +47,25 @@ const FilesManagerItem: FunctionComponent<FilesManagerData> = ({
   filesType,
   occupiedMemory,
   icon,
+  url,
+  dirPath,
 }) => {
+  const openDirectory = () =>
+    shell.showItemInFolder("/Users/kamilstaszewski/Projekty/")
+  const handleOpenDirectory = (event: React.MouseEvent<HTMLElement>) => {
+    if (Boolean(dirPath)) {
+      openDirectory()
+    }
+  }
   return (
-    <Wrapper borderColor={color}>
+    <Wrapper borderColor={color} onClick={handleOpenDirectory}>
       <Icon Image={icon} />
       <TextWrapper>
         <Text displayStyle={TextDisplayStyle.LargeText} element={"p"}>
           {filesType}
         </Text>
         <Text displayStyle={TextDisplayStyle.SmallFadedText} element={"p"}>
-          {filesAmount} files {convertBytes(occupiedMemory)}
+          {filesAmount} files ({convertBytes(occupiedMemory)})
         </Text>
       </TextWrapper>
     </Wrapper>

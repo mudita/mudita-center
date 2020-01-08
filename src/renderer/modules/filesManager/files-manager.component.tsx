@@ -16,7 +16,7 @@ const FilesManagerHeading = styled(Text)`
   margin-bottom: 4.7rem;
 `
 
-const FilesManager: FunctionComponent = props => {
+const FilesManager: FunctionComponent = () => {
   return (
     <FilesManagerWrapper>
       <FilesManagerHeading displayStyle={TextDisplayStyle.TertiaryHeading}>
