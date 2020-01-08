@@ -3,54 +3,32 @@ import { ReactNode, useRef, useState } from "react"
 import {
   backgroundColor,
   boxShadowColor,
-  width,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import useOutsideClick from "Renderer/utils/hooks/useOutsideClick"
-import styled, { css } from "styled-components"
-
-export enum Width {
-  S,
-  M,
-}
+import styled from "styled-components"
 
 interface Props {
   toggler: ReactNode
-  size: Width
-}
-
-const injectWidth = (size: Width) => {
-  switch (size) {
-    case Width.S:
-      return css`
-        width: ${width("smallPopUp")};
-      `
-    case Width.M:
-      return css`
-        width: ${width("mediumPopUp")};
-      `
-    default:
-      return
-  }
 }
 
 const DropdownWrapper = styled.div`
   position: relative;
 `
 
-const DropdownList = styled.ul<{ size: Width }>`
+const DropdownList = styled.ul`
   position: absolute;
   right: 0;
   list-style-type: none;
-  margin: 0;
+  margin: 1.3rem 0 0 0;
   padding: 2.4rem 0;
   background-color: ${backgroundColor("light")};
   border-radius: 0.6rem 0.2rem;
   box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("grey")};
-  ${({ size }) => injectWidth(size)}
+  min-width: 17rem;
 `
 
-const Dropdown: FunctionComponent<Props> = ({ toggler, size, children }) => {
+const Dropdown: FunctionComponent<Props> = ({ toggler, children }) => {
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
   useOutsideClick(ref, () => {
@@ -64,7 +42,7 @@ const Dropdown: FunctionComponent<Props> = ({ toggler, size, children }) => {
         onClick: () => setOpen(!open),
       })}
       {open && (
-        <DropdownList size={size} ref={ref} data-testid="dropdown">
+        <DropdownList ref={ref} data-testid="dropdown">
           {children}
         </DropdownList>
       )}

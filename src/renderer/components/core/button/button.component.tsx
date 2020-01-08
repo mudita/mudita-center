@@ -8,6 +8,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 
+import styled from "styled-components"
 import {
   StyledA,
   StyledButton,
@@ -52,6 +53,10 @@ interface Props {
   type?: Type
 }
 
+const ButtonText = styled(Text)`
+  white-space: nowrap;
+`
+
 /** Component for displaying buttons. Other props are passed down (object spread), some are filtered. */
 const ButtonComponent: FunctionComponent<Props> = ({
   disabled = false,
@@ -91,13 +96,15 @@ const ButtonComponent: FunctionComponent<Props> = ({
     }
     if (labelMessage) {
       return (
-        <Text
+        <ButtonText
           displayStyle={TextDisplayStyle.SmallText}
           message={labelMessage}
         />
       )
     }
-    return <Text displayStyle={TextDisplayStyle.SmallText}>{label}</Text>
+    return (
+      <ButtonText displayStyle={TextDisplayStyle.SmallText}>{label}</ButtonText>
+    )
   }
 
   return (

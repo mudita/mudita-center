@@ -3,7 +3,7 @@
 exports[`matches snapshot 1`] = `
 <div>
   <div
-    class="sc-gzVnrw ihHoGK"
+    class="sc-dnqmqq hHLyWY"
   >
     <button
       class="sc-bxivhb jBRBGM"
@@ -14,10 +14,10 @@ exports[`matches snapshot 1`] = `
 </div>
 `;
 
-exports[`renders medium dropdown 1`] = `
+exports[`renders dropdown 1`] = `
 <div>
   <div
-    class="sc-gzVnrw ihHoGK"
+    class="sc-dnqmqq hHLyWY"
   >
     <button
       class="sc-bxivhb jBRBGM"
@@ -25,38 +25,13 @@ exports[`renders medium dropdown 1`] = `
       type="button"
     >
       <p
-        class="sc-bdVaJa Wzjkf"
+        class="sc-bdVaJa Wzjkf sc-EHOje asQWf"
       >
         Example
       </p>
     </button>
     <ul
-      class="sc-htoDjs jFWYEc"
-      data-testid="dropdown"
-      size="1"
-    />
-  </div>
-</div>
-`;
-
-exports[`renders small dropdown 1`] = `
-<div>
-  <div
-    class="sc-gzVnrw ihHoGK"
-  >
-    <button
-      class="sc-bxivhb jBRBGM"
-      size="2"
-      type="button"
-    >
-      <p
-        class="sc-bdVaJa Wzjkf"
-      >
-        Example
-      </p>
-    </button>
-    <ul
-      class="sc-htoDjs fPaFhZ"
+      class="sc-iwsKbI kAYjpE"
       data-testid="dropdown"
     />
   </div>

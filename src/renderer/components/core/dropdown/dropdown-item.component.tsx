@@ -25,10 +25,16 @@ const StyledIcon = styled(Svg)`
   margin-right: 0.8rem;
 `
 
+const DropdownText = styled(Text)`
+  white-space: nowrap;
+`
+
 const DropdownItem: FunctionComponent<Props> = ({ Icon, text }) => (
   <DropdownElement>
     {Icon && <StyledIcon Image={Icon} />}
-    <Text displayStyle={TextDisplayStyle.SmallText}>{text}</Text>
+    <DropdownText displayStyle={TextDisplayStyle.SmallText}>
+      {text}
+    </DropdownText>
   </DropdownElement>
 )
 
