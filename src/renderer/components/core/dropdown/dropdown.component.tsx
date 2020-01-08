@@ -41,7 +41,7 @@ const DropdownList = styled.ul<{ showAnimation: boolean }>`
   margin: 1.3rem 0 0 0;
   padding: 2.4rem 0;
   background-color: ${backgroundColor("light")};
-  border-radius: 0.6rem 0.2rem;
+  border-radius: 0.2rem 0.2rem;
   box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("grey")};
   min-width: 17rem;
   ${({ showAnimation }) => (showAnimation ? fadeEnter : fadeLeave)}
