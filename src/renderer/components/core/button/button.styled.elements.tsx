@@ -30,10 +30,22 @@ const getSize = (size: Size) => {
   }
 }
 
+const getPadding = (dropdown?: boolean) => {
+  if (dropdown) {
+    return css`
+      padding: 1.7rem 2.4rem;
+    `
+  }
+  return css`
+    padding: 0.8rem;
+  `
+}
+
 const buttonStyles = css<{
   displayStyle: DisplayStyle
   disabled: boolean
   size: Size
+  dropdown?: boolean
 }>`
   display: flex;
   align-items: center;
@@ -50,7 +62,7 @@ const buttonStyles = css<{
     `
       pointer-events: none;
   `}
-  ${({ displayStyle, disabled }) => {
+  ${({ displayStyle, disabled, dropdown }) => {
     switch (displayStyle) {
       case DisplayStyle.Primary:
         return css`
@@ -133,7 +145,7 @@ const buttonStyles = css<{
         return css`
           justify-content: flex-start;
           height: 3rem;
-          padding: 0.8rem;
+          ${getPadding(dropdown)};
           border: none;
           border-radius: 0.2rem;
           font-weight: ${fontWeight("default")};
@@ -146,7 +158,7 @@ const buttonStyles = css<{
         return css`
           justify-content: flex-start;
           height: 4rem;
-          padding: 0.8rem;
+          ${getPadding(dropdown)};
           border: none;
           border-radius: 0.2rem;
           font-weight: ${fontWeight("default")};
@@ -159,7 +171,7 @@ const buttonStyles = css<{
         return css`
           justify-content: flex-start;
           height: 4rem;
-          padding: 0.8rem;
+          ${getPadding(dropdown)};
           border: none;
           border-radius: 0.2rem;
           color: ${textColor("supplementary")};
@@ -179,10 +191,10 @@ const buttonStyles = css<{
 `
 
 export const StyledLink = styled(Link)`
-  ${buttonStyles}
+  ${buttonStyles};
 `
 export const StyledA = styled.a`
-  ${buttonStyles}
+  ${buttonStyles};
 `
 export const StyledButton = styled.button`
   ${buttonStyles}
