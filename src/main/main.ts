@@ -1,3 +1,4 @@
+import startBackend from "Backend/bootstrap"
 import { app, BrowserWindow } from "electron"
 import * as path from "path"
 import * as url from "url"
@@ -55,6 +56,7 @@ const createWindow = async () => {
 }
 
 app.on("ready", createWindow)
+app.on("ready", startBackend)
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
