@@ -1,4 +1,5 @@
 import React from "react"
+import Svg from "Renderer/components/core/svg/svg.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -8,7 +9,9 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
 const Wrapper = styled.div<{ borderColor: string }>`
-  width: 19.1rem;
+  display: flex;
+  align-items: center;
+  //width: 19.1rem;
   background-color: ${backgroundColor("light")};
   border-left: 0.3rem solid ${({ borderColor }) => borderColor};
 `
@@ -29,20 +32,30 @@ const convertBytes = (bytes: number): string => {
   return (bytes / Math.pow(1024, i)).toFixed(1) + " " + sizes[i]
 }
 
+const Icon = styled(Svg)`
+  margin: 1.9rem 2.4rem;
+`
+
+const TextWrapper = styled.div``
+
 const FilesManagerItem: FunctionComponent<FilesManagerData> = ({
   color,
   filesAmount,
   filesType,
   occupiedMemory,
+  icon,
 }) => {
   return (
     <Wrapper borderColor={color}>
-      <Text displayStyle={TextDisplayStyle.LargeText} element={"p"}>
-        {filesType}
-      </Text>
-      <Text displayStyle={TextDisplayStyle.SmallFadedText} element={"p"}>
-        {filesAmount} files {convertBytes(occupiedMemory)}
-      </Text>
+      <Icon Image={icon} />
+      <TextWrapper>
+        <Text displayStyle={TextDisplayStyle.LargeText} element={"p"}>
+          {filesType}
+        </Text>
+        <Text displayStyle={TextDisplayStyle.SmallFadedText} element={"p"}>
+          {filesAmount} files {convertBytes(occupiedMemory)}
+        </Text>
+      </TextWrapper>
     </Wrapper>
   )
 }
