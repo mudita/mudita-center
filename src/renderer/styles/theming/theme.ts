@@ -83,6 +83,9 @@ const theme = {
     medium: 0.075,
     regular: 0.1,
   },
+  lineHeight: {
+    textarea: 1.8,
+  },
   font: {
     primary:
       "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
