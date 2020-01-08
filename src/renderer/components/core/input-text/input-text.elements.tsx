@@ -10,10 +10,12 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import transition from "Renderer/styles/functions/transition"
+import theme from "Renderer/styles/theming/theme"
 import {
   backgroundColor,
   borderColor,
   borderRadius,
+  lineHeight as getLineHeight,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -154,7 +156,7 @@ const TextAreaInput = styled.textarea<{ maxHeight: number }>`
   resize: none;
   overflow: auto;
   margin: 1.2rem 1.6rem;
-  line-height: 1.8rem;
+  line-height: inherit;
   overflow-y: scroll;
   overflow-x: hidden;
   padding-right: 0.5rem;
@@ -181,6 +183,7 @@ const textAreaLayout = css`
 `
 
 const TextareaWrapper = styled(InputWrapper)`
+  line-height: ${getLineHeight("textarea")}rem;
   ${textAreaLayout};
 `
 
