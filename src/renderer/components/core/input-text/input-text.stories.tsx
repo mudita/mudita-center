@@ -1,3 +1,4 @@
+import { button, withKnobs } from "@storybook/addon-knobs"
 import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
@@ -272,22 +273,37 @@ storiesOf("Components|Text input/Outlined condensed", module)
   })
 
 storiesOf("Components|Text input/Textarea", module)
+  .addDecorator(withKnobs)
   .add("Basic test", () => {
-    const [value, setValue] = useState("yolo")
+    const [value, setValue] = useState("Lorem\nipsum\ndolor\nsit\namet\nsit")
+    const [maxRows, setMaxRows] = useState(5)
 
-    const updateValue = (event: any) => {
-      setValue(event.target.value)
-    }
+    const updateValue = (event: any) => setValue(event.target.value)
 
-    const setPredefinedValue = () => {
-      setValue("trolololo\ntrolololo\ntrolololo")
-    }
+    const setPredefinedValue = () => setValue("Lorem\nipsum\ndolor\nsit")
+
+    const decreaseMaxRows = () => setMaxRows(maxRows > 1 ? maxRows - 1 : 1)
+
+    const increaseMaxRows = () => setMaxRows(maxRows + 1)
+
+    const infiniteMaxRows = () => setMaxRows(0)
+
+    button("decrease max rows", decreaseMaxRows)
+    button("increase max rows", increaseMaxRows)
+    button("infinite max rows", infiniteMaxRows)
+    button("set predefined value", setPredefinedValue)
 
     return (
       <>
-        <InputComponent type="textarea" value={value} onChange={updateValue} />
-        <button onClick={setPredefinedValue}>trolololo</button>
+        <InputComponent
+          type="textarea"
+          value={value}
+          onChange={updateValue}
+          maxRows={maxRows}
+        />
         <pre>
+          MAX ROWS: {maxRows === 0 ? "inf" : maxRows}
+          <br />
           VALUE:
           <br />
           {value}

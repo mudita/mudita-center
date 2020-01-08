@@ -151,7 +151,7 @@ const InputWrapper = styled.label<Partial<InputProps & TextareaProps>>`
   }
 `
 
-const TextAreaInput = styled.textarea<{ maxHeight: number }>`
+const TextAreaInput = styled.textarea`
   ${generalInputStyles};
   resize: none;
   overflow: auto;
@@ -160,12 +160,6 @@ const TextAreaInput = styled.textarea<{ maxHeight: number }>`
   overflow-y: scroll;
   overflow-x: hidden;
   padding-right: 0.5rem;
-
-  ${({ maxHeight }) =>
-    maxHeight &&
-    css`
-      max-height: ${maxHeight / 10}rem;
-    `};
 `
 
 const textAreaLayout = css`
@@ -254,55 +248,59 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   trailingIcons,
   disabled,
   defaultValue,
-  maxRows,
+  maxRows = 0,
   onChange = noop,
   value,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [innerValue, setInnerValue] = useState(value || defaultValue)
-  const [rows, setRows] = useState(1)
-  const [maxHeight, setMaxHeight] = useState(0)
+  const [rowsCount, setRowsCount] = useState(1)
+
+  const defaultLineHeight = theme.lineHeight.textarea * 10
+  let textareaLineHeight = defaultLineHeight
+
+  // Compute line height in case of customized styling
+  if (textareaRef.current) {
+    textareaLineHeight =
+      parseFloat(getComputedStyle(textareaRef.current).lineHeight) ||
+      defaultLineHeight
+  }
+
+  const calculateHeight = () => {
+    const element = textareaRef.current
+    if (element) {
+      const lines = Math.ceil(element.scrollHeight / textareaLineHeight)
+      const rows = maxRows ? Math.min(Math.max(maxRows, 1), lines) : lines
+      setRowsCount(rows)
+    }
+  }
+
+  const onValueChange = (newValue: typeof value) => {
+    setRowsCount(1)
+    setInnerValue(newValue)
+  }
+
+  const onChangeWrapper = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    onValueChange(event.target.value)
+    onChange(event)
+  }
 
   useEffect(() => {
-    setInnerValue(value)
+    onValueChange(value)
   }, [value])
 
   useEffect(() => {
-    const element = textareaRef && textareaRef.current
-    if (element) {
-      const { scrollHeight } = element
-      const lineHeight = parseInt(getComputedStyle(element).lineHeight, 0)
-      const rowsCount = Math.ceil(scrollHeight / lineHeight)
-      element.style.height = "auto"
-      setRows(rowsCount)
-    }
-  }, [innerValue])
-
-  useEffect(() => {
-    if (maxRows) {
-      const element = textareaRef && textareaRef.current
-      if (element) {
-        const lineHeight = parseInt(getComputedStyle(element).lineHeight, 0)
-        setMaxHeight(lineHeight * maxRows)
-      }
-    }
-  }, [maxRows])
-
-  const onChangeWrapper = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setRows(1)
-    setInnerValue(event.target.value)
-    onChange(event)
-  }
+    calculateHeight()
+  }, [rowsCount, maxRows, innerValue])
 
   return (
     <TextareaWrapper className={className} disabled={disabled}>
       <TextAreaInput
         ref={textareaRef}
         value={innerValue}
-        rows={rows}
+        rows={rowsCount}
         disabled={disabled}
-        maxHeight={maxHeight}
         onChange={onChangeWrapper}
         {...rest}
       />
