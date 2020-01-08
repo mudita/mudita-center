@@ -3,7 +3,7 @@
 exports[`matches snapshot 1`] = `
 <div>
   <div
-    class="sc-dnqmqq hHLyWY"
+    class="sc-bZQynM iMWVsx"
   >
     <button
       class="sc-bxivhb jBRBGM"
@@ -17,7 +17,7 @@ exports[`matches snapshot 1`] = `
 exports[`renders dropdown 1`] = `
 <div>
   <div
-    class="sc-dnqmqq hHLyWY"
+    class="sc-bZQynM iMWVsx"
   >
     <button
       class="sc-bxivhb jBRBGM"
@@ -31,9 +31,25 @@ exports[`renders dropdown 1`] = `
       </p>
     </button>
     <ul
-      class="sc-iwsKbI kAYjpE"
+      class="sc-gzVnrw jgTpLN"
       data-testid="dropdown"
-    />
+    >
+      <a
+        class="sc-htpNat gwojaD"
+        href="http://www.google.pl"
+        size="2"
+        target="_blank"
+      >
+        <test-file-stub
+          classname="sc-ifAKCX evOPPJ"
+        />
+        <p
+          class="sc-bdVaJa Wzjkf sc-EHOje asQWf"
+        >
+          I open Google in new tab
+        </p>
+      </a>
+    </ul>
   </div>
 </div>
 `;
