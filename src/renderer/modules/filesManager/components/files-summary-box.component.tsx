@@ -36,7 +36,9 @@ const Icon = styled(Svg)`
   margin: 1.9rem 2.4rem;
 `
 
-const TextWrapper = styled.div``
+const TextWrapper = styled.div`
+  margin-right: 3.2rem;
+`
 
 const FilesManagerItem: FunctionComponent<FilesManagerData> = ({
   color,
