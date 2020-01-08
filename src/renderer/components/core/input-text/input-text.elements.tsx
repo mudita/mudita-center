@@ -253,12 +253,17 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   defaultValue,
   maxRows,
   onChange = noop,
+  value,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const [value, setValue] = useState(defaultValue)
+  const [innerValue, setInnerValue] = useState(value || defaultValue)
   const [rows, setRows] = useState(1)
   const [maxHeight, setMaxHeight] = useState(0)
+
+  useEffect(() => {
+    setInnerValue(value)
+  }, [value])
 
   useEffect(() => {
     const element = textareaRef && textareaRef.current
@@ -269,7 +274,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
       element.style.height = "auto"
       setRows(rowsCount)
     }
-  }, [textareaRef, value])
+  }, [innerValue])
 
   useEffect(() => {
     if (maxRows) {
@@ -279,11 +284,11 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
         setMaxHeight(lineHeight * maxRows)
       }
     }
-  }, [textareaRef, maxRows])
+  }, [maxRows])
 
   const onChangeWrapper = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setRows(1)
-    setValue(event.target.value)
+    setInnerValue(event.target.value)
     onChange(event)
   }
 
@@ -291,7 +296,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
     <TextareaWrapper className={className} disabled={disabled}>
       <TextAreaInput
         ref={textareaRef}
-        value={value}
+        value={innerValue}
         rows={rows}
         disabled={disabled}
         maxHeight={maxHeight}

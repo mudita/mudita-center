@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/react"
-import React from "react"
+import React, { useState } from "react"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
@@ -272,7 +272,29 @@ storiesOf("Components|Text input/Outlined condensed", module)
   })
 
 storiesOf("Components|Text input/Textarea", module)
-  .add("Basic test", () => <InputComponent type="textarea" />)
+  .add("Basic test", () => {
+    const [value, setValue] = useState("yolo")
+
+    const updateValue = (event: any) => {
+      setValue(event.target.value)
+    }
+
+    const setPredefinedValue = () => {
+      setValue("trolololo\ntrolololo\ntrolololo")
+    }
+
+    return (
+      <>
+        <InputComponent type="textarea" value={value} onChange={updateValue} />
+        <button onClick={setPredefinedValue}>trolololo</button>
+        <pre>
+          VALUE:
+          <br />
+          {value}
+        </pre>
+      </>
+    )
+  })
   .add("Basic", () => <InputComponent type="textarea" />)
   .add("With placeholder", () => (
     <InputComponent type="textarea" placeholder="Message" />
