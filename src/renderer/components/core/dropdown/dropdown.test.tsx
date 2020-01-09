@@ -33,7 +33,6 @@ test("renders dropdown", async () => {
         href="http://www.google.pl"
         target="_blank"
         Icon={Upload}
-        dropdown
       />
     </Dropdown>
   )
@@ -57,7 +56,6 @@ test("renders children", async () => {
         href="http://www.google.pl"
         target="_blank"
         Icon={Upload}
-        dropdown
       />
     </Dropdown>
   )
