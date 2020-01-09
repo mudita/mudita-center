@@ -22,6 +22,7 @@ const MemoryChart: FunctionComponent<Props> = ({
         displayStyle={DisplayStyle.MultiColor}
         chartData={stackedBarChartData}
         maxLabel={"16 GB"}
+        showStats
       />
       <FilesSummary memoryChartData={memoryChartData} />
     </>

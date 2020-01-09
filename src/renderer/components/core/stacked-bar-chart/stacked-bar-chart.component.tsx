@@ -111,21 +111,14 @@ const StackedBarChart: FunctionComponent<Props> = ({
   displayStyle,
   showStats = false,
 }) => {
-  const availableSpace = chartData.reduce((acc, { value }) => acc + value, 0)
-  const checkForFreeSpace = () => {
-    const freeSpace = chartData.filter(
-      chartObject => chartObject.filesType === "Free"
-    )[0].value
-    if (freeSpace === undefined) {
-      return 0
-    } else {
-      return freeSpace
-    }
-  }
-  const usedMemory =
-    showStats && convertBytes(availableSpace - checkForFreeSpace())
+  const availableSpace = (data: ChartItem[]): number =>
+    data.reduce((acc, { value }) => acc + value, 0)
+  const usedMemoryInBytes = chartData
+    .filter(chartObject => chartObject.filesType !== "Free")
+    .reduce((acc, { value }) => acc + value, 0)
+  const usedMemoryConverted = showStats && convertBytes(usedMemoryInBytes)
   const percentageOfAvailableSpace = (value: number) =>
-    (value / availableSpace) * 100
+    (value / availableSpace(chartData)) * 100
   const barData = chartData.map(obj => ({
     ...obj,
     percentage: percentageOfAvailableSpace(obj.value),
@@ -135,7 +128,7 @@ const StackedBarChart: FunctionComponent<Props> = ({
     <ProgressWrapper>
       <Progress>
         {barData.map(({ color, percentage }, index) => {
-          if (index === indexOfOneBeforeLast && usedMemory) {
+          if (index === indexOfOneBeforeLast && showStats) {
             return (
               <BarWithLabel
                 barHeight={displayStyle}
@@ -144,13 +137,16 @@ const StackedBarChart: FunctionComponent<Props> = ({
                 percentage={percentage}
                 key={index}
               >
-                <BarLabel displayStyle={TextDisplayStyle.MediumText}>
-                  {usedMemory}
+                <BarLabel
+                  displayStyle={TextDisplayStyle.MediumText}
+                  data-testid="occupied-space"
+                >
+                  {usedMemoryConverted}
                   <PercentageLabel
                     displayStyle={TextDisplayStyle.MediumFadedLightText}
                     element="span"
                   >
-                    ( 77%)
+                    {`( ${percentageOfAvailableSpace(usedMemoryInBytes)}%)`}
                   </PercentageLabel>
                 </BarLabel>
               </BarWithLabel>

@@ -11,7 +11,7 @@ const initialStateValue: FilesManagerState = {
   memoryData: [
     {
       filesType: "Music",
-      occupiedMemory: 5848538500,
+      occupiedMemory: 4294967296,
       filesAmount: 15,
       color: "#6D9BBC",
       icon: Music,
@@ -19,7 +19,7 @@ const initialStateValue: FilesManagerState = {
     },
     {
       filesType: "Voice Recorder",
-      occupiedMemory: 584850000,
+      occupiedMemory: 4294967296,
       filesAmount: 3,
       color: "#AEBEC9",
       icon: VoiceRecorder,
@@ -27,15 +27,14 @@ const initialStateValue: FilesManagerState = {
     },
     {
       filesType: "Storage",
-      occupiedMemory: 984443800,
+      occupiedMemory: 4294967296,
       filesAmount: 85,
       color: "#E3F3FF",
       icon: FilesManager,
     },
     {
       filesType: "Free",
-      occupiedMemory: 5848538522,
-      filesAmount: 44,
+      occupiedMemory: 4294967296,
       color: "#E9E9E9",
       icon: Mudita,
     },

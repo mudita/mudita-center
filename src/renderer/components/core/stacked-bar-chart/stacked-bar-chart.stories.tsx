@@ -28,6 +28,7 @@ storiesOf("Components|StackedBarChart", module)
           chartData={chartData}
           maxLabel={maxLabel}
           displayStyle={DisplayStyle.MultiColor}
+          showStats
         />
       </Container>
     )
@@ -39,7 +40,7 @@ storiesOf("Components|StackedBarChart", module)
       { value: 1000, color: "red" },
       { value: 100, color: "red" },
       { value: 100, color: "red" },
-      { value: 1000, color: "pink", filesType: "Free" },
+      { value: 1000, color: "pink" },
     ])
     return (
       <Container>

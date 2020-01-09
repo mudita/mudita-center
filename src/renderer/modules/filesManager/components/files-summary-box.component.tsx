@@ -50,7 +50,9 @@ const FilesManagerItem: FunctionComponent<FilesManagerData> = ({
           {filesType}
         </Text>
         <Text displayStyle={TextDisplayStyle.SmallFadedText} element={"p"}>
-          {filesAmount} files ({convertBytes(occupiedMemory)})
+          {filesAmount
+            ? `${filesAmount} files (${convertBytes(occupiedMemory)})`
+            : `${convertBytes(occupiedMemory)}`}
         </Text>
       </TextWrapper>
       {url && (
