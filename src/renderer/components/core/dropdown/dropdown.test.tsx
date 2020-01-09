@@ -64,6 +64,5 @@ test("renders children", async () => {
 
   await wait(() => {
     expect(getByText(childText)).toBeInTheDocument()
-    expect(getByText(childText)).toHaveTextContent(childText)
   })
 })
