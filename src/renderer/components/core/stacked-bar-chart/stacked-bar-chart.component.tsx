@@ -22,6 +22,7 @@ interface Props {
   chartData: ChartItem[]
   maxLabel?: string
   displayStyle: DisplayStyle
+  showStats?: boolean
 }
 
 interface BarProps {
@@ -108,17 +109,26 @@ const StackedBarChart: FunctionComponent<Props> = ({
   chartData,
   maxLabel,
   displayStyle,
+  showStats = false,
 }) => {
-  const availableMemory = chartData.reduce((acc, { value }) => acc + value, 0)
-  const freeMemory =
-    chartData.filter(chartObject => chartObject.filesType === "Free")[0]
-      .value || 0
-  const usedMemory = convertBytes(availableMemory - freeMemory)
-  const percentageOfAvailableMemory = (value: number) =>
-    (value / availableMemory) * 100
+  const availableSpace = chartData.reduce((acc, { value }) => acc + value, 0)
+  const checkForFreeSpace = () => {
+    const freeSpace = chartData.filter(
+      chartObject => chartObject.filesType === "Free"
+    )[0].value
+    if (freeSpace === undefined) {
+      return 0
+    } else {
+      return freeSpace
+    }
+  }
+  const usedMemory =
+    showStats && convertBytes(availableSpace - checkForFreeSpace())
+  const percentageOfAvailableSpace = (value: number) =>
+    (value / availableSpace) * 100
   const barData = chartData.map(obj => ({
     ...obj,
-    percentage: percentageOfAvailableMemory(obj.value),
+    percentage: percentageOfAvailableSpace(obj.value),
   }))
   const indexOfOneBeforeLast = barData.length >= 2 && barData.length - 2
   return (
