@@ -8,7 +8,6 @@ export interface FilesManagerData {
   color: string
   icon: FunctionComponent<ImageInterface>
   url?: string
-  dirPath?: string
 }
 
 export interface FilesManagerState {

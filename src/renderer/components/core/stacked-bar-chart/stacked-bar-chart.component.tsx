@@ -4,6 +4,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { borderRadius, height } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import { convertBytes } from "Renderer/utils/convert-bytes"
 import styled, { css } from "styled-components"
 
 export enum DisplayStyle {
@@ -14,14 +15,13 @@ export enum DisplayStyle {
 export interface ChartItem {
   value: number
   color: string
+  filesType?: string
 }
 
 interface Props {
   chartData: ChartItem[]
   maxLabel?: string
   displayStyle: DisplayStyle
-  occupiedSpaceLabel?: string
-  occupiedSpaceInPercent?: string
 }
 
 interface BarProps {
@@ -107,25 +107,25 @@ const MemoryLabel = styled(Text)`
 const StackedBarChart: FunctionComponent<Props> = ({
   chartData,
   maxLabel,
-  occupiedSpaceLabel,
-  occupiedSpaceInPercent,
   displayStyle,
 }) => {
-  const sum = chartData.reduce((acc, { value }) => acc + value, 0)
+  const availableMemory = chartData.reduce((acc, { value }) => acc + value, 0)
+  const freeMemory =
+    chartData.filter(chartObject => chartObject.filesType === "Free")[0]
+      .value || 0
+  const usedMemory = convertBytes(availableMemory - freeMemory)
+  const percentageOfAvailableMemory = (value: number) =>
+    (value / availableMemory) * 100
   const barData = chartData.map(obj => ({
     ...obj,
-    percentage: (obj.value / sum) * 100,
+    percentage: percentageOfAvailableMemory(obj.value),
   }))
-  const oneBeforeLast = barData.length - 2
+  const indexOfOneBeforeLast = barData.length >= 2 && barData.length - 2
   return (
     <ProgressWrapper>
       <Progress>
         {barData.map(({ color, percentage }, index) => {
-          if (
-            index === oneBeforeLast &&
-            occupiedSpaceLabel &&
-            occupiedSpaceInPercent
-          ) {
+          if (index === indexOfOneBeforeLast && usedMemory) {
             return (
               <BarWithLabel
                 barHeight={displayStyle}
@@ -135,12 +135,12 @@ const StackedBarChart: FunctionComponent<Props> = ({
                 key={index}
               >
                 <BarLabel displayStyle={TextDisplayStyle.MediumText}>
-                  {occupiedSpaceLabel}
+                  {usedMemory}
                   <PercentageLabel
                     displayStyle={TextDisplayStyle.MediumFadedLightText}
                     element="span"
                   >
-                    ( {occupiedSpaceInPercent})
+                    ( 77%)
                   </PercentageLabel>
                 </BarLabel>
               </BarWithLabel>
