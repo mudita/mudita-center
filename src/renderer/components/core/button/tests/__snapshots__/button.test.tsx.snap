@@ -26,7 +26,7 @@ exports[`Button matches snapshots Icon only displayStyle: 4 size: undefined disa
 
 exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 1`] = `
 <button
-  class="sc-bxivhb bMdmGm"
+  class="sc-bxivhb khTHXI"
   size="2"
   type="button"
 >
@@ -40,7 +40,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 2`] = `
 <a
-  class="sc-htpNat dTJuur"
+  class="sc-htpNat fXLetN"
   href="http://www.google.pl"
   size="2"
   target="_blank"
@@ -58,7 +58,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 1`] = `
 <button
-  class="sc-bxivhb hUtXKK"
+  class="sc-bxivhb kDudGh"
   size="2"
   type="button"
 >
@@ -72,7 +72,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 2`] = `
 <a
-  class="sc-htpNat hyhOCB"
+  class="sc-htpNat ibpqJv"
   href="http://www.google.pl"
   size="2"
   target="_blank"
@@ -90,7 +90,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 1`] = `
 <button
-  class="sc-bxivhb bqNiyu"
+  class="sc-bxivhb cJaWEV"
   size="2"
   type="button"
 >
@@ -104,7 +104,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 2`] = `
 <a
-  class="sc-htpNat hfpyqb"
+  class="sc-htpNat knYevG"
   href="http://www.google.pl"
   size="2"
   target="_blank"

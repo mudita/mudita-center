@@ -60,6 +60,7 @@ const ButtonText = styled(Text)`
 
 /** Component for displaying buttons. Other props are passed down (object spread), some are filtered. */
 const ButtonComponent: FunctionComponent<Props> = ({
+  className,
   disabled = false,
   displayStyle = DisplayStyle.Primary,
   dropdown = false,
@@ -113,6 +114,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
     <Component
       {...filteredProps}
       {...rest}
+      className={className}
       displayStyle={displayStyle}
       dropdown={dropdown}
       size={size}

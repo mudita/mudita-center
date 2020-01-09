@@ -35,7 +35,7 @@ exports[`renders dropdown 1`] = `
       data-testid="dropdown"
     >
       <a
-        class="sc-htpNat gwojaD"
+        class="sc-htpNat fXLetN"
         href="http://www.google.pl"
         size="2"
         target="_blank"
