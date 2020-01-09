@@ -254,7 +254,6 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const [innerValue, setInnerValue] = useState(value || defaultValue)
   const [rowsCount, setRowsCount] = useState(1)
 
   const defaultLineHeight = theme.lineHeight.textarea * 10
@@ -276,32 +275,35 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
     }
   }
 
-  const onValueChange = (newValue: typeof value) => {
-    setRowsCount(1)
-    setInnerValue(newValue)
-  }
-
-  const onChangeWrapper = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    onValueChange(event.target.value)
-    onChange(event)
-  }
+  /*
+   Float value will always trigger re-render as calculateHeight() always set
+   rowsCount to integer value (so they'll be always different).
+   Otherwise, rowsCount set by resetRowsCount() and then by calculateHeight()
+   could be the same, which doesn't trigger re-render and will cause a bug.
+  */
+  const resetRowsCount = () => setRowsCount(1.1)
 
   useEffect(() => {
-    onValueChange(value)
+    resetRowsCount()
   }, [value])
 
   useEffect(() => {
     calculateHeight()
-  }, [rowsCount, maxRows, innerValue])
+  }, [rowsCount, maxRows])
+
+  const onChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    resetRowsCount()
+    onChange(event)
+  }
 
   return (
     <TextareaWrapper className={className} disabled={disabled}>
       <TextAreaInput
         ref={textareaRef}
-        value={innerValue}
+        value={value || defaultValue}
         rows={rowsCount}
         disabled={disabled}
-        onChange={onChangeWrapper}
+        onChange={onChangeHandler}
         {...rest}
       />
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
