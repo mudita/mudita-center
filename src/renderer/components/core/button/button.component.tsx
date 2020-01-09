@@ -42,7 +42,6 @@ export enum Size {
 interface Props {
   disabled?: boolean
   displayStyle?: DisplayStyle
-  dropdown?: boolean
   href?: string
   Icon?: FunctionComponent<ImageInterface>
   label?: string
@@ -63,7 +62,6 @@ const ButtonComponent: FunctionComponent<Props> = ({
   className,
   disabled = false,
   displayStyle = DisplayStyle.Primary,
-  dropdown = false,
   href,
   Icon,
   label,
@@ -116,7 +114,6 @@ const ButtonComponent: FunctionComponent<Props> = ({
       {...rest}
       className={className}
       displayStyle={displayStyle}
-      dropdown={dropdown}
       size={size}
       disabled={disabled}
     >
