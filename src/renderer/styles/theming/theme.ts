@@ -21,6 +21,7 @@ const gutterWidth = 4
 const theme = {
   color: {
     text: {
+      active: "#191C20",
       black: "#000000",
       grey: "#CDCECF",
       primary: "#0f0f1a",
@@ -42,6 +43,7 @@ const theme = {
       primaryDark: "#F4F5F6",
     },
     border: {
+      active: "#191C20",
       dark: "#000000",
       default: "#CDCECF",
       grey: "#CDCECF",
