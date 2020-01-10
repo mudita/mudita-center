@@ -34,7 +34,7 @@ const TextWrapper = styled.div`
   margin-right: 3.2rem;
 `
 
-const FilesManagerItem: FunctionComponent<FilesManagerData> = ({
+const FilesSummaryItem: FunctionComponent<FilesManagerData> = ({
   color,
   filesAmount,
   filesType,
@@ -64,4 +64,4 @@ const FilesManagerItem: FunctionComponent<FilesManagerData> = ({
   )
 }
 
-export default FilesManagerItem
+export default FilesSummaryItem

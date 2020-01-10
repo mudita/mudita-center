@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should match snapshot with link 1`] = `
+<div
+  class="sc-bwzfXH gBQHvZ"
+  data-testid="files-manager-item"
+>
+  <test-file-stub
+    classname="sc-bxivhb hSTkeS"
+  />
+  <div
+    class="sc-ifAKCX EtoTg"
+  >
+    <p
+      class="sc-bdVaJa jCnOyj"
+    >
+      Voice Recorder
+    </p>
+    <p
+      class="sc-bdVaJa dHRpOS"
+    >
+      3 files (4.0 GB)
+    </p>
+  </div>
+  <a
+    class="sc-htpNat jiaXKm"
+    href="#/tools/voice-recorder"
+  >
+    <test-file-stub
+      image="test-file-stub"
+    />
+  </a>
+</div>
+`;
+
+exports[`should match snapshot without link 1`] = `
+<div
+  class="sc-bwzfXH gBQHvZ"
+  data-testid="files-manager-item"
+>
+  <test-file-stub
+    classname="sc-bxivhb hSTkeS"
+  />
+  <div
+    class="sc-ifAKCX EtoTg"
+  >
+    <p
+      class="sc-bdVaJa jCnOyj"
+    >
+      Voice Recorder
+    </p>
+    <p
+      class="sc-bdVaJa dHRpOS"
+    >
+      3 files (4.0 GB)
+    </p>
+  </div>
+</div>
+`;

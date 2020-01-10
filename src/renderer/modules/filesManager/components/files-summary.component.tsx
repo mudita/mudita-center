@@ -1,6 +1,6 @@
 import React from "react"
 import { FilesManagerData } from "Renderer/models/files-manager/files-manager.interface"
-import FilesManagerItem from "Renderer/modules/filesManager/components/files-summary-item.component"
+import FilesSummaryItem from "Renderer/modules/filesManager/components/files-summary-item.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
@@ -18,7 +18,7 @@ const FilesSummary: FunctionComponent<Props> = ({ memoryChartData }) => {
   return (
     <FilesSummaryWrapper>
       {memoryChartData.map((box, index: number) => (
-        <FilesManagerItem {...box} key={index} />
+        <FilesSummaryItem {...box} key={index} />
       ))}
     </FilesSummaryWrapper>
   )
