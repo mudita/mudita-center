@@ -15,7 +15,6 @@ const chartData = [
   { value: 4294967296, color: "yellow" },
   { value: 4294967296, color: "green" },
 ]
-const maxLabel = "16 GB"
 const occupiedSpaceId = "occupied-space"
 
 describe("Snapshot tests", () => {
@@ -33,7 +32,6 @@ describe("Snapshot tests", () => {
     const { container } = renderWithThemeAndIntl(
       <StackedBarChart
         chartData={chartData}
-        maxLabel={maxLabel}
         displayStyle={DisplayStyle.MultiColor}
       />
     )
@@ -56,7 +54,6 @@ describe("Correct rendering of chart elements and label", () => {
     const { getByTestId } = renderWithThemeAndIntl(
       <StackedBarChart
         chartData={chartData}
-        maxLabel={maxLabel}
         displayStyle={DisplayStyle.MultiColor}
         showStats
       />
@@ -69,7 +66,6 @@ describe("Correct rendering of chart elements and label", () => {
     const { getAllByTestId } = renderWithThemeAndIntl(
       <StackedBarChart
         chartData={chartData}
-        maxLabel={maxLabel}
         displayStyle={DisplayStyle.MultiColor}
         showStats
       />

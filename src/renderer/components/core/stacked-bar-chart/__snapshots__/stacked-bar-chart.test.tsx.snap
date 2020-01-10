@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Snapshot tests should match snapshot multicolor 1`] = `
-.c6 {
-  margin: 0;
-  font-size: 1.8rem;
-  line-height: 1.1;
-  font-weight: 400;
-}
-
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -87,10 +80,6 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c7 {
-  margin-left: 2.4rem;
-}
-
 <div
   class="c0"
 >
@@ -118,11 +107,6 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
       data-testid="bar"
     />
   </div>
-  <p
-    class="c6 c7"
-  >
-    16 GB
-  </p>
 </div>
 `;
 

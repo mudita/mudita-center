@@ -20,7 +20,6 @@ export interface ChartItem {
 
 interface Props {
   chartData: ChartItem[]
-  maxLabel?: string
   displayStyle: DisplayStyle
   showStats?: boolean
 }
@@ -107,7 +106,6 @@ const MemoryLabel = styled(Text)`
 
 const StackedBarChart: FunctionComponent<Props> = ({
   chartData,
-  maxLabel,
   displayStyle,
   showStats = false,
 }) => {
@@ -173,12 +171,12 @@ const StackedBarChart: FunctionComponent<Props> = ({
           )
         })}
       </Progress>
-      {maxLabel && (
+      {showStats && (
         <MemoryLabel
           displayStyle={TextDisplayStyle.TertiaryHeading}
           element={"p"}
         >
-          {maxLabel}
+          {convertBytes(availableSpace(chartData))}
         </MemoryLabel>
       )}
     </ProgressWrapper>

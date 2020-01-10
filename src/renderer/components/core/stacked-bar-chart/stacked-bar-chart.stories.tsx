@@ -1,4 +1,4 @@
-import { object, text, withKnobs } from "@storybook/addon-knobs"
+import { object, withKnobs } from "@storybook/addon-knobs"
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import StackedBarChart, {
@@ -21,12 +21,10 @@ storiesOf("Components|StackedBarChart", module)
       { value: 100, color: "blue", filesType: "Music" },
       { value: 100, color: "pink", filesType: "Free" },
     ])
-    const maxLabel = text("Label", "16 GB")
     return (
       <Container>
         <StackedBarChart
           chartData={chartData}
-          maxLabel={maxLabel}
           displayStyle={DisplayStyle.MultiColor}
           showStats
         />
