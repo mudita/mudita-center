@@ -22,7 +22,7 @@ const Wrapper = styled.div<{ fileColor: string }>`
 `
 
 const StyledLink = styled(Link)`
-  padding: 2.4rem 0.9rem;
+  padding: 2.4rem 1.25rem;
   border-left: 0.1rem solid ${borderColor("grey2")};
 `
 
@@ -43,7 +43,7 @@ const FilesManagerItem: FunctionComponent<FilesManagerData> = ({
   url,
 }) => {
   return (
-    <Wrapper fileColor={color}>
+    <Wrapper fileColor={color} data-testid="files-manager-item">
       <Icon Image={icon} />
       <TextWrapper>
         <Text displayStyle={TextDisplayStyle.LargeText} element={"p"}>
