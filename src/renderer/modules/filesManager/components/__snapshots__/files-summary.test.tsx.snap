@@ -26,7 +26,7 @@ exports[`should match snapshot 1`] = `
       </p>
     </div>
     <a
-      class="sc-htpNat jiaXKm"
+      class="sc-htpNat fQDsgi"
       href="#/music"
     >
       <test-file-stub
@@ -56,7 +56,7 @@ exports[`should match snapshot 1`] = `
       </p>
     </div>
     <a
-      class="sc-htpNat jiaXKm"
+      class="sc-htpNat fQDsgi"
       href="#/tools/voice-recorder"
     >
       <test-file-stub

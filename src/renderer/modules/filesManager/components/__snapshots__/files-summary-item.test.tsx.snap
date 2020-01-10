@@ -23,7 +23,7 @@ exports[`should match snapshot with link 1`] = `
     </p>
   </div>
   <a
-    class="sc-htpNat jiaXKm"
+    class="sc-htpNat fQDsgi"
     href="#/tools/voice-recorder"
   >
     <test-file-stub

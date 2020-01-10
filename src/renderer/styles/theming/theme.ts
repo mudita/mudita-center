@@ -52,6 +52,9 @@ const theme = {
       listItem: "#D2D6DB",
       light: "#D2D6DB",
     },
+    hover: {
+      dark: "#3E6988",
+    },
   },
   layout: {
     width: "73.75rem",

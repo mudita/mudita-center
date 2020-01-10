@@ -6,6 +6,12 @@ export const textColor = (name: keyof Theme["color"]["text"]) => ({
   theme: Theme
 }) => theme.color.text[name]
 
+export const hoverColor = (name: keyof Theme["color"]["hover"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.color.hover[name]
+
 export const backgroundColor = (name: keyof Theme["color"]["background"]) => ({
   theme,
 }: {

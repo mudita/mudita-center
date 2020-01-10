@@ -8,6 +8,7 @@ import { FilesManagerData } from "Renderer/models/files-manager/files-manager.in
 import {
   backgroundColor,
   borderColor,
+  hoverColor,
 } from "Renderer/styles/theming/theme-getters"
 import arrow from "Renderer/svg/arrow.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -24,6 +25,11 @@ const Wrapper = styled.div<{ fileColor: string }>`
 const StyledLink = styled(Link)`
   padding: 2.4rem 1.25rem;
   border-left: 0.1rem solid ${borderColor("grey2")};
+  &:hover {
+    .arrow {
+      fill: ${hoverColor("dark")};
+    }
+  }
 `
 
 const Icon = styled(Svg)`
