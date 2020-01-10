@@ -124,6 +124,13 @@ const StackedBarChart: FunctionComponent<Props> = ({
     percentage: percentageOfAvailableSpace(obj.value),
   }))
   const indexOfOneBeforeLast = barData.length >= 2 && barData.length - 2
+  const formatPercentage = (value: number) => {
+    const isInt = value % 1 === 0
+    if (isInt) {
+      return value
+    }
+    return value.toFixed(2)
+  }
   return (
     <ProgressWrapper>
       <Progress>
@@ -146,7 +153,9 @@ const StackedBarChart: FunctionComponent<Props> = ({
                     displayStyle={TextDisplayStyle.MediumFadedLightText}
                     element="span"
                   >
-                    {`( ${percentageOfAvailableSpace(usedMemoryInBytes)}%)`}
+                    {`( ${formatPercentage(
+                      percentageOfAvailableSpace(usedMemoryInBytes)
+                    )}%)`}
                   </PercentageLabel>
                 </BarLabel>
               </BarWithLabel>
