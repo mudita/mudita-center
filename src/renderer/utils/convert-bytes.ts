@@ -1,5 +1,5 @@
 export const convertBytes = (bytes: number): string => {
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB"]
+  const sizes = ["B", "KB", "MB", "GB", "TB"]
 
   if (bytes === 0) {
     return "n/a"
