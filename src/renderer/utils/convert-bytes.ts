@@ -5,7 +5,7 @@ export const convertBytes = (bytes: number): string => {
     return "n/a"
   }
 
-  const i = parseInt(String(Math.floor(Math.log(bytes) / Math.log(1024))), 10)
+  const i = Math.floor(Math.log(bytes) / Math.log(1024))
 
   if (i === 0) {
     return bytes + " " + sizes[i]
