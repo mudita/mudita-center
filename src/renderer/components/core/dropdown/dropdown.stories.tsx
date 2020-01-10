@@ -1,19 +1,16 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
+import { DropdownButton } from "Renderer/components/core/dropdown/dropdown-button.styled"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import Upload from "Renderer/svg/upload.svg"
 import styled from "styled-components"
-import Button, { DisplayStyle } from "../button/button.component"
+import { DisplayStyle } from "../button/button.component"
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
-
-const DropdownButton = styled(Button)`
-  padding: 1.7rem 2.4rem;
 `
 
 storiesOf("Components|Dropdown", module).add("dropdown specific link", () => {
