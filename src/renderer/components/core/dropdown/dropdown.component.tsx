@@ -13,7 +13,7 @@ export enum DropdownPosition {
   Left,
 }
 
-const getDropdownPosition = (position: DropdownPosition) => {
+const getDropdownPositionStyles = (position: DropdownPosition) => {
   switch (position) {
     case DropdownPosition.Right:
       return css`
@@ -52,7 +52,7 @@ const DropdownList = styled.ul<{
   pointer-events: ${({ visible }) => (visible ? "auto" : "none")};
   opacity: ${({ visible }) => (visible ? 1 : 0)};
   transition: opacity 500ms;
-  ${({ dropdownPosition }) => getDropdownPosition(dropdownPosition)}
+  ${({ dropdownPosition }) => getDropdownPositionStyles(dropdownPosition)}
 `
 
 const Dropdown: FunctionComponent<Props> = ({
