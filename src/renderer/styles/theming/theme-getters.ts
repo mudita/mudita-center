@@ -16,7 +16,7 @@ export const borderRadius = (name: keyof Theme["borderRadius"]) => ({
   theme,
 }: {
   theme: Theme
-}) => theme.borderRadius[name]
+}) => theme.borderRadius[name] + "rem"
 
 export const borderColor = (name: keyof Theme["color"]["border"]) => ({
   theme,
@@ -53,6 +53,12 @@ export const letterSpacing = (name: keyof Theme["letterSpacing"]) => ({
 }: {
   theme: Theme
 }) => theme.letterSpacing[name]
+
+export const lineHeight = (name: keyof Theme["lineHeight"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.lineHeight[name]
 
 export const minBreakpoint = (name: keyof Theme["breakpoint"]) => ({
   theme,
