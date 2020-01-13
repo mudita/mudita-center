@@ -1,7 +1,6 @@
 import { Slicer } from "@rematch/select"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { FilesManagerState } from "Renderer/models/files-manager/files-manager.interface"
-import { prepareDataForStackedBarChart } from "Renderer/models/files-manager/utils"
 import FilesManager from "Renderer/svg/files-manager.svg"
 import Mudita from "Renderer/svg/mudita.svg"
 import Music from "Renderer/svg/music.svg"
@@ -44,11 +43,6 @@ const initialStateValue: FilesManagerState = {
 export default {
   state: initialStateValue,
   selectors: (slice: Slicer<typeof initialStateValue>) => ({
-    stackedBarChartData() {
-      return slice(state => {
-        return prepareDataForStackedBarChart(state)
-      })
-    },
     memoryChartData() {
       return slice(state => {
         return state.memoryData

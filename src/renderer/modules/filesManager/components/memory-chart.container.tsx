@@ -3,7 +3,6 @@ import MemoryChart from "Renderer/modules/filesManager/components/memory-chart.c
 import { select } from "Renderer/store"
 
 const mapStateToProps = select(({ filesManager }) => ({
-  stackedBarChartData: filesManager.stackedBarChartData,
   memoryChartData: filesManager.memoryChartData,
 }))
 
