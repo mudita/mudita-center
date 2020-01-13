@@ -9,17 +9,17 @@ import useOutsideClick from "Renderer/utils/hooks/useOutsideClick"
 import styled, { css } from "styled-components"
 
 export enum DropdownPosition {
-  FromRightCornerToRight,
-  FromRightCornerToLeft,
+  Right,
+  Left,
 }
 
 const getDropdownPosition = (position: DropdownPosition) => {
   switch (position) {
-    case DropdownPosition.FromRightCornerToRight:
+    case DropdownPosition.Right:
       return css`
         margin-top: 0.5rem;
       `
-    case DropdownPosition.FromRightCornerToLeft:
+    case DropdownPosition.Left:
       return css`
         right: 0;
         margin-top: 1rem;

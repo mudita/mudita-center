@@ -16,11 +16,11 @@ const Wrapper = styled.div`
 `
 
 storiesOf("Components|Dropdown", module)
-  .add("FromRightCornerToRight", () => {
+  .add("Right", () => {
     return (
       <Wrapper>
         <Dropdown
-          dropdownPosition={DropdownPosition.FromRightCornerToRight}
+          dropdownPosition={DropdownPosition.Right}
           toggler={<ButtonComponent label={"Click dropdown"} />}
         >
           <DropdownButton
@@ -48,11 +48,11 @@ storiesOf("Components|Dropdown", module)
       </Wrapper>
     )
   })
-  .add("FromRightCornerToLeft", () => {
+  .add("Left", () => {
     return (
       <Wrapper>
         <Dropdown
-          dropdownPosition={DropdownPosition.FromRightCornerToLeft}
+          dropdownPosition={DropdownPosition.Left}
           toggler={<ButtonComponent label={"Click dropdown"} />}
         >
           <DropdownButton

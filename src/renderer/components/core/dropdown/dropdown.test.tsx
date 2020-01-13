@@ -14,7 +14,7 @@ test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
     <Dropdown
       toggler={<ButtonComponent />}
-      dropdownPosition={DropdownPosition.FromRightCornerToRight}
+      dropdownPosition={DropdownPosition.Right}
     />
   )
   expect(container).toMatchSnapshot()
@@ -25,7 +25,7 @@ test("renders toggler passed to component", () => {
   const { getByText } = renderWithThemeAndIntl(
     <Dropdown
       toggler={<ButtonComponent label={buttonText} />}
-      dropdownPosition={DropdownPosition.FromRightCornerToRight}
+      dropdownPosition={DropdownPosition.Right}
     />
   )
   expect(getByText(buttonText)).toBeInTheDocument()
@@ -36,7 +36,7 @@ test("renders dropdown", async () => {
   const { getByTestId, getByText, container } = renderWithThemeAndIntl(
     <Dropdown
       toggler={<ButtonComponent label={buttonText} />}
-      dropdownPosition={DropdownPosition.FromRightCornerToRight}
+      dropdownPosition={DropdownPosition.Right}
     >
       <Button
         displayStyle={DisplayStyle.Link1}
@@ -62,7 +62,7 @@ test("renders children", async () => {
   const { getByText } = renderWithThemeAndIntl(
     <Dropdown
       toggler={<ButtonComponent label={buttonText} />}
-      dropdownPosition={DropdownPosition.FromRightCornerToRight}
+      dropdownPosition={DropdownPosition.Right}
     >
       <Button
         displayStyle={DisplayStyle.Link1}
