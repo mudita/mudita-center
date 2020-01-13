@@ -11,7 +11,6 @@ import styled, { css } from "styled-components"
 export enum DropdownPosition {
   FromRightCornerToRight,
   FromRightCornerToLeft,
-  FromLeftCornerToRight,
 }
 
 const getDropdownPosition = (position: DropdownPosition) => {
@@ -23,11 +22,6 @@ const getDropdownPosition = (position: DropdownPosition) => {
     case DropdownPosition.FromRightCornerToLeft:
       return css`
         right: 0;
-        margin-top: 1rem;
-      `
-    case DropdownPosition.FromLeftCornerToRight:
-      return css`
-        left: 0;
         margin-top: 1rem;
       `
     default:

@@ -80,35 +80,3 @@ storiesOf("Components|Dropdown", module)
       </Wrapper>
     )
   })
-  .add("FromLeftCornerToRight", () => {
-    return (
-      <Wrapper>
-        <Dropdown
-          dropdownPosition={DropdownPosition.FromLeftCornerToRight}
-          toggler={<ButtonComponent label={"Click dropdown"} />}
-        >
-          <DropdownButton
-            displayStyle={DisplayStyle.Link1}
-            label="I open Google in new tab"
-            href="http://www.google.pl"
-            target="_blank"
-            Icon={Upload}
-          />
-          <DropdownButton
-            displayStyle={DisplayStyle.Link1}
-            label="I open Google in new tab"
-            href="http://www.google.pl"
-            target="_blank"
-            Icon={Upload}
-          />
-          <DropdownButton
-            displayStyle={DisplayStyle.Link1}
-            label="I open Google in new tab"
-            href="http://www.google.pl"
-            target="_blank"
-            Icon={Upload}
-          />
-        </Dropdown>
-      </Wrapper>
-    )
-  })
