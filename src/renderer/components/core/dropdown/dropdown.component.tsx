@@ -14,19 +14,15 @@ export enum DropdownPosition {
 }
 
 const getDropdownPositionStyles = (position: DropdownPosition) => {
-  switch (position) {
-    case DropdownPosition.Right:
-      return css`
-        margin-top: 0.5rem;
-      `
-    case DropdownPosition.Left:
-      return css`
-        right: 0;
-        margin-top: 1rem;
-      `
-    default:
-      return
+  if (position === DropdownPosition.Right) {
+    return css`
+      right: 0;
+      margin-top: 1rem;
+    `
   }
+  return css`
+    margin-top: 0.5rem;
+  `
 }
 
 interface Props {
@@ -58,7 +54,7 @@ const DropdownList = styled.ul<{
 const Dropdown: FunctionComponent<Props> = ({
   toggler,
   children,
-  dropdownPosition,
+  dropdownPosition = DropdownPosition.Right,
 }) => {
   const [show, setShow] = useState(false)
   const ref = useRef(null)

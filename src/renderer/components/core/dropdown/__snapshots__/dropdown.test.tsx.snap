@@ -11,7 +11,7 @@ exports[`matches snapshot 1`] = `
       type="button"
     />
     <ul
-      class="sc-gzVnrw egThHA"
+      class="sc-gzVnrw ehAoRP"
       data-testid="dropdown"
     />
   </div>
@@ -35,7 +35,7 @@ exports[`renders dropdown 1`] = `
       </p>
     </button>
     <ul
-      class="sc-gzVnrw jkOTfv"
+      class="sc-gzVnrw esXENl"
       data-testid="dropdown"
     >
       <a
