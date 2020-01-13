@@ -1,5 +1,6 @@
 import * as React from "react"
 import { ReactNode, useRef, useState } from "react"
+import transition from "Renderer/styles/functions/transition"
 import {
   backgroundColor,
   boxShadowColor,
@@ -47,7 +48,7 @@ const DropdownList = styled.ul<{
   min-width: 17rem;
   pointer-events: ${({ visible }) => (visible ? "auto" : "none")};
   opacity: ${({ visible }) => (visible ? 1 : 0)};
-  transition: opacity 500ms;
+  transition: ${transition("opacity", undefined, "ease")};
   ${({ dropdownPosition }) => getDropdownPositionStyles(dropdownPosition)}
 `
 
