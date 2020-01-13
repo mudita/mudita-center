@@ -3,13 +3,13 @@ import StackedBarChart, {
   ChartItem,
   DisplayStyle,
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import { FilesManagerData } from "Renderer/models/files-manager/files-manager.interface"
+import { DiskSpaceCategory } from "Renderer/models/files-manager/files-manager.interface"
 import FilesSummary from "Renderer/modules/filesManager/components/files-summary.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 interface Props {
   stackedBarChartData: ChartItem[]
-  memoryChartData: FilesManagerData[]
+  memoryChartData: DiskSpaceCategory[]
 }
 
 const MemoryChart: FunctionComponent<Props> = ({

@@ -4,7 +4,7 @@ import Svg from "Renderer/components/core/svg/svg.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FilesManagerData } from "Renderer/models/files-manager/files-manager.interface"
+import { DiskSpaceCategory } from "Renderer/models/files-manager/files-manager.interface"
 import {
   backgroundColor,
   borderColor,
@@ -40,7 +40,7 @@ const TextWrapper = styled.div`
   margin-right: 3.2rem;
 `
 
-const FilesSummaryItem: FunctionComponent<FilesManagerData> = ({
+const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
   color,
   filesAmount,
   filesType,

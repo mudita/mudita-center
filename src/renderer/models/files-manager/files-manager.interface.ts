@@ -1,7 +1,7 @@
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
-export interface FilesManagerData {
+export interface DiskSpaceCategory {
   filesType: string
   occupiedMemory: number
   filesAmount?: number
@@ -11,5 +11,5 @@ export interface FilesManagerData {
 }
 
 export interface FilesManagerState {
-  memoryData: FilesManagerData[]
+  memoryData: DiskSpaceCategory[]
 }
