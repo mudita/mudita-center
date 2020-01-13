@@ -123,7 +123,7 @@ const StackedBarChart: FunctionComponent<Props> = ({
   }))
   const indexOfOneBeforeLast = barData.length >= 2 && barData.length - 2
   const formatPercentage = (value: number) => {
-    const isInt = value % 1 === 0
+    const isInt = Number.isInteger(value)
     if (isInt) {
       return value
     }
