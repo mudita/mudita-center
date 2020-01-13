@@ -120,6 +120,38 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 </a>
 `;
 
+exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 1`] = `
+<button
+  class="sc-bxivhb hxpswH"
+  size="2"
+  type="button"
+>
+  <p
+    class="sc-bdVaJa byUSSw"
+  >
+    Click
+  </p>
+</button>
+`;
+
+exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 2`] = `
+<a
+  class="sc-htpNat jfOtAL"
+  href="http://www.google.pl"
+  size="2"
+  target="_blank"
+>
+  <test-file-stub
+    classname="sc-ifAKCX evOPPJ"
+  />
+  <p
+    class="sc-bdVaJa byUSSw"
+  >
+    Click
+  </p>
+</a>
+`;
+
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: false 1`] = `
 <button
   class="sc-bxivhb fIEKYy"

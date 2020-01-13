@@ -127,6 +127,15 @@ export default [
         target: "_blank",
         Icon: Upload,
       },
+      {
+        displayStyle: DisplayStyle.Link4,
+      },
+      {
+        displayStyle: DisplayStyle.Link4,
+        href: "http://www.google.pl",
+        target: "_blank",
+        Icon: Upload,
+      },
     ],
   },
   {
