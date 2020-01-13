@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ReactNode, useEffect, useRef, useState } from "react"
+import { ReactNode, useRef, useState } from "react"
 import {
   backgroundColor,
   boxShadowColor,
@@ -34,24 +34,6 @@ interface Props {
   dropdownPosition: DropdownPosition
 }
 
-const fadeEnter = css`
-  @keyframes fadeEnter {
-    from {
-      opacity: 0;
-    }
-  }
-  animation: fadeEnter 0.5s both ease-in;
-`
-
-const fadeLeave = css`
-  @keyframes fadeLeave {
-    to {
-      opacity: 0;
-    }
-  }
-  animation: fadeLeave 0.5s both ease-out;
-`
-
 const DropdownWrapper = styled.div`
   position: relative;
 `
@@ -67,7 +49,9 @@ const DropdownList = styled.ul<{
   border-radius: 0.2rem 0.2rem;
   box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("grey")};
   min-width: 17rem;
-  ${({ showAnimation }) => (showAnimation ? fadeEnter : fadeLeave)}
+  pointer-events: ${({ showAnimation }) => (showAnimation ? "auto" : "none")};
+  opacity: ${({ showAnimation }) => (showAnimation ? 1 : 0)};
+  transition: opacity 500ms;
   ${({ dropdownPosition }) => getDropdownPosition(dropdownPosition)}
 `
 
@@ -77,7 +61,6 @@ const Dropdown: FunctionComponent<Props> = ({
   dropdownPosition,
 }) => {
   const [show, setShow] = useState(false)
-  const [render, setRender] = useState(show)
   const ref = useRef(null)
   useOutsideClick(ref, () => {
     if (show) {
@@ -85,34 +68,19 @@ const Dropdown: FunctionComponent<Props> = ({
     }
   })
 
-  useEffect(() => {
-    if (show) {
-      setRender(true)
-    }
-  }, [show])
-
-  const onAnimationEnd = () => {
-    if (!show) {
-      setRender(false)
-    }
-  }
-
   return (
     <DropdownWrapper>
       {React.cloneElement(toggler as React.ReactElement, {
         onClick: () => setShow(!show),
       })}
-      {render && (
-        <DropdownList
-          dropdownPosition={dropdownPosition}
-          ref={ref}
-          showAnimation={show}
-          data-testid="dropdown"
-          onAnimationEnd={onAnimationEnd}
-        >
-          {children}
-        </DropdownList>
-      )}
+      <DropdownList
+        dropdownPosition={dropdownPosition}
+        ref={ref}
+        showAnimation={show}
+        data-testid="dropdown"
+      >
+        {children}
+      </DropdownList>
     </DropdownWrapper>
   )
 }
