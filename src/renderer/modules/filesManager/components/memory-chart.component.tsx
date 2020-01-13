@@ -1,6 +1,5 @@
 import React from "react"
 import StackedBarChart, {
-  ChartItem,
   DisplayStyle,
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { DiskSpaceCategory } from "Renderer/models/files-manager/files-manager.interface"
@@ -8,19 +7,25 @@ import FilesSummary from "Renderer/modules/filesManager/components/files-summary
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 interface Props {
-  stackedBarChartData: ChartItem[]
   memoryChartData: DiskSpaceCategory[]
 }
 
-const MemoryChart: FunctionComponent<Props> = ({
-  stackedBarChartData,
-  memoryChartData,
-}) => {
+const memorytoStackedBarChartData = (data: DiskSpaceCategory[]) => {
+  return data.map(el => {
+    const { icon, filesAmount, occupiedMemory, ...rest } = el
+    return {
+      value: occupiedMemory,
+      ...rest,
+    }
+  })
+}
+
+const MemoryChart: FunctionComponent<Props> = ({ memoryChartData }) => {
   return (
     <>
       <StackedBarChart
         displayStyle={DisplayStyle.MultiColor}
-        chartData={stackedBarChartData}
+        chartData={memorytoStackedBarChartData(memoryChartData)}
         showStats
       />
       <FilesSummary memoryChartData={memoryChartData} />

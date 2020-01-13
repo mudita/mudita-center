@@ -4,8 +4,8 @@ const tenMbInBytes = 10485760
 const fourGbInBytes = 4294967296
 const oneTbInBytes = 1099511627776
 
-test("returns n/a when 0 bytes provided", () => {
-  expect(convertBytes(0)).toBe("n/a")
+test("returns 0 B when 0 bytes provided", () => {
+  expect(convertBytes(0)).toBe("0 B")
 })
 
 test("returns correct format in bytes", () => {
