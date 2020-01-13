@@ -59,13 +59,6 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Object.assign(filteredProps, { type, disabled })
   }
 
-  const getTextDisplayStyle = () => {
-    if (displayStyle === DisplayStyle.Link4) {
-      return TextDisplayStyle.LargeFadedText
-    }
-    return TextDisplayStyle.SmallText
-  }
-
   const getLabel = () => {
     if (!label && !labelMessage) {
       return
@@ -76,7 +69,11 @@ const ButtonComponent: FunctionComponent<Props> = ({
       )
       return
     }
-    const textDisplayStyle = getTextDisplayStyle()
+    const textDisplayStyle =
+      displayStyle === DisplayStyle.Link4
+        ? TextDisplayStyle.LargeFadedText
+        : TextDisplayStyle.SmallText
+
     if (labelMessage) {
       return <Text displayStyle={textDisplayStyle} message={labelMessage} />
     }
