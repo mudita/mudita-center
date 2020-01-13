@@ -57,23 +57,23 @@ const Dropdown: FunctionComponent<Props> = ({
   children,
   dropdownPosition = DropdownPosition.Right,
 }) => {
-  const [show, setShow] = useState(false)
+  const [visible, setVisible] = useState(false)
   const ref = useRef(null)
   useOutsideClick(ref, () => {
-    if (show) {
-      setShow(false)
+    if (visible) {
+      setVisible(false)
     }
   })
 
   return (
     <DropdownWrapper>
       {React.cloneElement(toggler as React.ReactElement, {
-        onClick: () => setShow(!show),
+        onClick: () => setVisible(!visible),
       })}
       <DropdownList
         dropdownPosition={dropdownPosition}
         ref={ref}
-        visible={show}
+        visible={visible}
         data-testid="dropdown"
       >
         {children}
