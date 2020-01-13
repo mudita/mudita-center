@@ -3,8 +3,8 @@ import MemoryChart from "Renderer/modules/filesManager/components/memory-chart.c
 import { select } from "Renderer/store"
 
 const mapStateToProps = select(({ filesManager }) => ({
-  stackedBarChartData: filesManager.stackedBarChart,
-  memoryChartData: filesManager.memoryChart,
+  stackedBarChartData: filesManager.stackedBarChartData,
+  memoryChartData: filesManager.memoryChartData,
 }))
 
 export default connect(mapStateToProps, null)(MemoryChart)

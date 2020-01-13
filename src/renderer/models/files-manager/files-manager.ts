@@ -44,12 +44,12 @@ const initialStateValue: FilesManagerState = {
 export default {
   state: initialStateValue,
   selectors: (slice: Slicer<typeof initialStateValue>) => ({
-    stackedBarChart() {
+    stackedBarChartData() {
       return slice(state => {
         return prepareDataForStackedBarChart(state)
       })
     },
-    memoryChart() {
+    memoryChartData() {
       return slice(state => {
         return state.memoryData
       })
