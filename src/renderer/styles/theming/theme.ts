@@ -30,6 +30,7 @@ const theme = {
       supplementary: "#6D9BBC",
       placeholder: "#A5A5A5",
       dark: "#000000",
+      hover: "#3E6988",
     },
     background: {
       light: "#ffffff",
@@ -51,9 +52,6 @@ const theme = {
       hover: "#3B3F42",
       listItem: "#D2D6DB",
       light: "#D2D6DB",
-    },
-    hover: {
-      dark: "#3E6988",
     },
   },
   layout: {

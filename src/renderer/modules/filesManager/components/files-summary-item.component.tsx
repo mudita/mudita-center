@@ -8,7 +8,7 @@ import { DiskSpaceCategory } from "Renderer/models/files-manager/files-manager.i
 import {
   backgroundColor,
   borderColor,
-  hoverColor,
+  textColor,
 } from "Renderer/styles/theming/theme-getters"
 import arrow from "Renderer/svg/arrow.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -27,7 +27,7 @@ const StyledLink = styled(Link)`
   border-left: 0.1rem solid ${borderColor("grey2")};
   &:hover {
     .arrow {
-      fill: ${hoverColor("dark")};
+      fill: ${textColor("hover")};
     }
   }
 `
