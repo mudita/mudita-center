@@ -24,21 +24,18 @@ storiesOf("Components|Dropdown", module)
           toggler={<ButtonComponent label={"Click dropdown"} />}
         >
           <DropdownButton
-            displayStyle={DisplayStyle.Link1}
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
             Icon={Upload}
           />
           <DropdownButton
-            displayStyle={DisplayStyle.Link1}
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
             Icon={Upload}
           />
           <DropdownButton
-            displayStyle={DisplayStyle.Link1}
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
@@ -56,21 +53,18 @@ storiesOf("Components|Dropdown", module)
           toggler={<ButtonComponent label={"Click dropdown"} />}
         >
           <DropdownButton
-            displayStyle={DisplayStyle.Link1}
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
             Icon={Upload}
           />
           <DropdownButton
-            displayStyle={DisplayStyle.Link1}
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
             Icon={Upload}
           />
           <DropdownButton
-            displayStyle={DisplayStyle.Link1}
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
