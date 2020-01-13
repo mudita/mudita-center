@@ -7,7 +7,6 @@ import Dropdown, {
 } from "Renderer/components/core/dropdown/dropdown.component"
 import Upload from "Renderer/svg/upload.svg"
 import styled from "styled-components"
-import { DisplayStyle } from "../button/button.component"
 
 const Wrapper = styled.div`
   display: flex;
