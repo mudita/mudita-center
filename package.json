@@ -25,7 +25,7 @@
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder",
     "postinstall": "electron-builder install-app-deps",
-    "beforecommit": "lint-staged && npm test && npm run check:translations",
+    "beforecommit": "lint-staged",
     "check:translations": "ts-node -r esm ./scripts/translationCheck",
     "generate:translations": "ts-node -r esm ./scripts/translationRunner.js",
     "storybook:serve": "start-storybook -p 6006",
