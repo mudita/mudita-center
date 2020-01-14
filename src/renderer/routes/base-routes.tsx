@@ -16,6 +16,7 @@ import Tethering from "Renderer/modules/tethering/tethering.component"
 import Tools from "Renderer/modules/tools/tools.component"
 
 import { URL_MAIN } from "Renderer/constants/urls"
+import Calendar from "Renderer/modules/calendar/calendar.component"
 
 export default () => (
   <LayoutDesktopWrapper>
@@ -27,6 +28,7 @@ export default () => (
       <Route path={URL_MAIN.messages} component={MessagesContainer} />
       <Route path={URL_MAIN.music} component={Music} />
       <Route path={URL_MAIN.news} component={News} />
+      <Route path={URL_MAIN.calendar} component={Calendar} />
       <Route path={URL_MAIN.overview} component={OverviewContainer} />
       <Route path={URL_MAIN.phone} component={PhoneContainer} />
       <Route path={URL_MAIN.settings} component={Settings} />
