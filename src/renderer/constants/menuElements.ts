@@ -14,6 +14,10 @@ import MenuSettings from "Renderer/svg/menu_settings.svg"
 import MenuTethering from "Renderer/svg/menu_tethering.svg"
 import MenuTools from "Renderer/svg/menu_tools.svg"
 
+import Battery from "Renderer/svg/battery.svg"
+import Signal from "Renderer/svg/signal.svg"
+import Sim from "Renderer/svg/sim.svg"
+
 const messages = defineMessages({
   yourPure: { id: "menu.header.yourPure" },
   desktopApp: { id: "menu.header.desktopApp" },
@@ -44,6 +48,7 @@ export const MENU_ELEMENTS = [
   {
     type: "header",
     label: messages.yourPure,
+    icons: [Signal, Battery, Sim, MenuTethering],
   },
   {
     type: "buttons",

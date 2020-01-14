@@ -10,7 +10,9 @@ import Text, {
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { MENU_ELEMENTS } from "Renderer/constants/menuElements"
 
+import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import MuditaLogo from "Renderer/svg/mudita_logo.svg"
+import FunctionComponent from "Renderer/types/function-component.interface"
 
 const MenuWrapper = styled.div`
   flex: 1;
@@ -19,8 +21,21 @@ const MenuWrapper = styled.div`
   margin: 0 3.2rem;
 `
 
+const HeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
 const Header = styled(Text)`
   margin: 2.5rem 0 1.6rem 0;
+`
+
+const HeaderIcon = styled(Svg)`
+  margin: 2.5rem 0 1.6rem 0;
+  &:not(:last-of-type) {
+    margin-right: 1rem;
+  }
 `
 
 const LinkWrapper = styled.div`
@@ -38,31 +53,45 @@ const SvgMuditaLogo = styled(Svg)`
 `
 
 const Menu = () => {
-  const links = MENU_ELEMENTS.map(({ type, label, buttons }, indexMenu) => {
-    switch (type) {
-      case "header":
-        return (
-          <Header
-            key={indexMenu}
-            displayStyle={TextDisplayStyle.MediumFadedTextUppercased}
-            message={label}
-          />
-        )
-      case "buttons":
-        return buttons!.map(({ button, icon }, index) => (
-          <LinkWrapper key={index}>
-            <ButtonMenu
-              displayStyle={DisplayStyle.Link4}
-              labelMessage={button.label}
-              Icon={icon}
-              to={button.url}
-            />
-          </LinkWrapper>
-        ))
-      default:
-        return
+  const links = MENU_ELEMENTS.map(
+    ({ type, label, buttons, icons }, indexMenu) => {
+      switch (type) {
+        case "header":
+          return (
+            <HeaderWrapper>
+              <Header
+                key={indexMenu}
+                displayStyle={TextDisplayStyle.SmallText}
+                message={label}
+              />
+
+              {icons && (
+                <div>
+                  {icons.map(
+                    (icon: FunctionComponent<ImageInterface>, index) => (
+                      <HeaderIcon Image={icon} key={index} />
+                    )
+                  )}
+                </div>
+              )}
+            </HeaderWrapper>
+          )
+        case "buttons":
+          return buttons!.map(({ button, icon }, index) => (
+            <LinkWrapper key={index}>
+              <ButtonMenu
+                displayStyle={DisplayStyle.Link4}
+                labelMessage={button.label}
+                Icon={icon}
+                to={button.url}
+              />
+            </LinkWrapper>
+          ))
+        default:
+          return
+      }
     }
-  })
+  )
   return (
     <MenuWrapper>
       <SvgMuditaLogo Image={MuditaLogo} />
