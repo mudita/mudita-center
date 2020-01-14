@@ -32,13 +32,12 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
   const [currentLocation, setCurrentLocation] = useState()
   useEffect(() => {
     const pathname = location.pathname
-    let currentMenuElement = Object.keys(VIEWS).find(
-      // @ts-ignore
-      (key: keyof typeof VIEWS) => VIEWS[key].url === pathname
+    const currentMenuElementName = Object.keys(VIEWS).find(
+      key => VIEWS[key as keyof typeof VIEWS].url === pathname
     )
-    if (currentMenuElement) {
-      // @ts-ignore
-      currentMenuElement = VIEWS[currentMenuElement]
+    if (currentMenuElementName) {
+      const currentMenuElement =
+        VIEWS[currentMenuElementName as keyof typeof VIEWS]
       setCurrentLocation(currentMenuElement.label)
     }
   }, [location])
