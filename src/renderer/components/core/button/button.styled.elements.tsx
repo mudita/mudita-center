@@ -185,6 +185,10 @@ const buttonStyles = css<{
           width: 100%;
           &:hover {
             background-color: ${backgroundColor("grey2")};
+            * {
+              color: ${textColor("black")};
+              fill: ${textColor("black")};
+            }
           }
           g {
             fill: ${textColor("faded")};

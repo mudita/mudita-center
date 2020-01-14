@@ -122,7 +122,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 1`] = `
 <button
-  class="sc-bxivhb hxpswH"
+  class="sc-bxivhb fdnvZe"
   size="2"
   type="button"
 >
@@ -136,7 +136,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 2`] = `
 <a
-  class="sc-htpNat jfOtAL"
+  class="sc-htpNat kiqJFU"
   href="http://www.google.pl"
   size="2"
   target="_blank"
