@@ -29,8 +29,6 @@ const HeaderWrapper = styled.div`
 `
 
 const HeaderIcon = styled(Svg)`
-  height: 1.6rem;
-  width: 1.6rem;
   &:not(:last-of-type) {
     margin-right: 1rem;
   }
