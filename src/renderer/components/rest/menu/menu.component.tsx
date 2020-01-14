@@ -54,12 +54,8 @@ const Menu = () => {
       switch (type) {
         case "header":
           return (
-            <HeaderWrapper>
-              <Text
-                key={indexMenu}
-                displayStyle={TextDisplayStyle.SmallText}
-                message={label}
-              />
+            <HeaderWrapper key={indexMenu}>
+              <Text displayStyle={TextDisplayStyle.SmallText} message={label} />
               {icons && (
                 <div>
                   {icons.map(
