@@ -25,14 +25,12 @@ const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
-
-const Header = styled(Text)`
   margin: 2.5rem 0 1.6rem 0;
 `
 
 const HeaderIcon = styled(Svg)`
-  margin: 2.5rem 0 1.6rem 0;
+  height: 1.6rem;
+  width: 1.6rem;
   &:not(:last-of-type) {
     margin-right: 1rem;
   }
@@ -59,12 +57,11 @@ const Menu = () => {
         case "header":
           return (
             <HeaderWrapper>
-              <Header
+              <Text
                 key={indexMenu}
                 displayStyle={TextDisplayStyle.SmallText}
                 message={label}
               />
-
               {icons && (
                 <div>
                   {icons.map(

@@ -1,14 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="17px" height="17px" viewBox="0 0 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: sketchtool 59.1 (101010) - https://sketch.com -->
-    <title>9F4CF24D-2614-4087-A3D2-47C01BEB87C5</title>
-    <desc>Created with sketchtool.</desc>
-    <g id="Asset-Artboard-Page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="icon/battery-icon/signal" transform="translate(0.809524, 0.000000)">
-            <rect id="Rectangle" fill="#6A6A6A" x="0.666666667" y="10.0116277" width="2.66666667" height="4.00465107" rx="1"></rect>
-            <rect id="Rectangle" fill="#6A6A6A" x="4.66666667" y="7.34186029" width="2.66666667" height="6.67441845" rx="1"></rect>
-            <rect id="Rectangle" fill="#CDCECF" x="8.66666667" y="4.67209291" width="2.66666667" height="9.34418583" rx="1"></rect>
-            <rect id="Rectangle" fill="#CDCECF" x="12.6666667" y="2.00232553" width="2.66666667" height="12.0139532" rx="1"></rect>
-        </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+    <g fill="none" fill-rule="evenodd">
+        <rect width="2.667" height="4" x=".667" y="10" fill="#6A6A6A" rx="1"/>
+        <rect width="2.667" height="6.667" x="4.667" y="7.333" fill="#6A6A6A" rx="1"/>
+        <rect width="2.667" height="9.333" x="8.667" y="4.667" fill="#CDCECF" rx="1"/>
+        <rect width="2.667" height="12" x="12.667" y="2" fill="#CDCECF" rx="1"/>
     </g>
 </svg>
