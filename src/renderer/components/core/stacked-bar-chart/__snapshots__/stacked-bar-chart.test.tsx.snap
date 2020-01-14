@@ -48,7 +48,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 .c2 {
   width: 4.166666666666666%;
   background-color: red;
-  --radius: 0.4rem;
+  --radius: 0.5rem;
   height: 0.8rem;
 }
 
@@ -63,7 +63,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 .c3 {
   width: 41.66666666666667%;
   background-color: orange;
-  --radius: 0.4rem;
+  --radius: 0.5rem;
   height: 0.8rem;
 }
 
@@ -78,7 +78,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 .c4 {
   width: 41.66666666666667%;
   background-color: yellow;
-  --radius: 0.4rem;
+  --radius: 0.5rem;
   height: 0.8rem;
 }
 
@@ -93,7 +93,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 .c5 {
   width: 4.166666666666666%;
   background-color: green;
-  --radius: 0.4rem;
+  --radius: 0.5rem;
   height: 0.8rem;
 }
 
@@ -108,7 +108,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 .c11 {
   width: 4.166666666666666%;
   background-color: pink;
-  --radius: 0.4rem;
+  --radius: 0.5rem;
   height: 0.8rem;
 }
 
@@ -237,7 +237,7 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 .c2 {
   width: 4.166666666666666%;
   background-color: red;
-  --radius: 0.15rem;
+  --radius: 0.2rem;
   height: 0.3rem;
 }
 
@@ -252,7 +252,7 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 .c3 {
   width: 41.66666666666667%;
   background-color: orange;
-  --radius: 0.15rem;
+  --radius: 0.2rem;
   height: 0.3rem;
 }
 
@@ -267,7 +267,7 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 .c4 {
   width: 41.66666666666667%;
   background-color: yellow;
-  --radius: 0.15rem;
+  --radius: 0.2rem;
   height: 0.3rem;
 }
 
@@ -282,7 +282,7 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 .c5 {
   width: 4.166666666666666%;
   background-color: green;
-  --radius: 0.15rem;
+  --radius: 0.2rem;
   height: 0.3rem;
 }
 
@@ -297,7 +297,7 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 .c6 {
   width: 4.166666666666666%;
   background-color: blue;
-  --radius: 0.15rem;
+  --radius: 0.2rem;
   height: 0.3rem;
 }
 
@@ -312,7 +312,7 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 .c7 {
   width: 4.166666666666666%;
   background-color: pink;
-  --radius: 0.15rem;
+  --radius: 0.2rem;
   height: 0.3rem;
 }
 

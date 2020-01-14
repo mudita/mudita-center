@@ -71,8 +71,8 @@ const theme = {
     medium: 0.8,
   },
   borderRadius: {
-    small: 0.15,
-    medium: 0.4,
+    small: 0.2,
+    medium: 0.5,
     big: 0.12,
   },
   letterSpacing: {

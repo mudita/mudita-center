@@ -4,6 +4,7 @@ import transition from "Renderer/styles/functions/transition"
 import {
   backgroundColor,
   borderColor,
+  borderRadius,
   fontWeight,
   textColor,
   width,
@@ -56,7 +57,7 @@ const buttonStyles = css<{
         return css`
           height: 4rem;
           color: ${textColor("inverted")};
-          border-radius: 0.4rem;
+          border-radius: ${borderRadius("medium")}rem;
           ${disabled
             ? css`
                 background: ${backgroundColor("grey")};
@@ -76,7 +77,7 @@ const buttonStyles = css<{
       case DisplayStyle.Secondary:
         return css`
           height: 4rem;
-          border-radius: 0.4rem;
+          border-radius: ${borderRadius("medium")}rem;
           ${disabled
             ? css`
                 border: 0.1rem solid ${borderColor("grey")};
@@ -99,7 +100,7 @@ const buttonStyles = css<{
           height: 4rem;
           width: 4rem;
           border: 0.1rem solid ${borderColor("hover")};
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("small")}rem;
           &:hover {
             border-color: ${borderColor("dark")};
           }
@@ -108,7 +109,7 @@ const buttonStyles = css<{
         return css`
           height: 3.2rem;
           width: 3.2rem;
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("small")}rem;
           background: transparent;
           border: none;
           &:hover {
@@ -119,7 +120,7 @@ const buttonStyles = css<{
         return css`
           height: 3.2rem;
           width: 3.2rem;
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("small")}rem;
           background: transparent;
           border: none;
           &:hover {
@@ -135,7 +136,7 @@ const buttonStyles = css<{
           height: 3rem;
           padding: 0.8rem;
           border: none;
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("small")}rem;
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
@@ -148,7 +149,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: 0.6rem;
+          border-radius: ${borderRadius("medium")}rem;
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
@@ -161,7 +162,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("small")}rem;
           color: ${textColor("supplementary")};
           font-weight: ${fontWeight("default")};
           width: 100%;
@@ -178,7 +179,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("small")}rem;
           color: ${textColor("faded")};
           font-weight: ${fontWeight("default")};
           width: 100%;
