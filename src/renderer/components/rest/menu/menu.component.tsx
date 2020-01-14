@@ -49,8 +49,7 @@ const Menu = () => {
           />
         )
       case "buttons":
-        // @ts-ignore
-        return buttons.map(({ button, icon }, index) => (
+        return buttons!.map(({ button, icon }, index) => (
           <LinkWrapper key={index}>
             <ButtonMenu
               displayStyle={DisplayStyle.Link4}
