@@ -48,7 +48,8 @@ const SvgMuditaLogo = styled(Svg)`
   margin: 2rem 0 3.5rem;
 `
 
-const Menu = () => {
+const Menu = ({ unreadMessages }: any) => {
+  console.log(unreadMessages)
   const links = MENU_ELEMENTS.map(
     ({ type, label, buttons, icons }, indexMenu) => {
       switch (type) {
