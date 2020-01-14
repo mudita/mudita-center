@@ -78,6 +78,12 @@ export const transitionTime = (name: keyof Theme["transitionTime"]) => ({
   theme: Theme
 }) => theme.transitionTime[name]
 
+export const boxShadowColor = (name: keyof Theme["color"]["boxShadow"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.color.boxShadow[name]
+
 export const transitionTimingFunction = (
   name: keyof Theme["transitionTimingFunction"]
 ) => ({ theme }: { theme: Theme }) => theme.transitionTimingFunction[name]
