@@ -1,8 +1,6 @@
 import moment from "moment"
 import React, { ChangeEvent, useState } from "react"
-import InputText, {
-  TextInputLayouts,
-} from "Renderer/components/core/input-text/input-text.component"
+import InputText from "Renderer/components/core/input-text/input-text.component"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import {
   ActionsWrapper,
@@ -61,7 +59,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
           </FilterButton>
         </UnreadFilters>
         <InputText
-          layout={TextInputLayouts.Outlined}
+          type={"search"}
           placeholder={"Search"}
           defaultValue={searchValue}
           onChange={changeSearchValue}

@@ -179,10 +179,10 @@ const buttonStyles = css<{
 `
 
 export const StyledLink = styled(Link)`
-  ${buttonStyles}
+  ${buttonStyles};
 `
 export const StyledA = styled.a`
-  ${buttonStyles}
+  ${buttonStyles};
 `
 export const StyledButton = styled.button`
   ${buttonStyles}

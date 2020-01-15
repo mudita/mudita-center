@@ -1,8 +1,7 @@
+import { button, withKnobs } from "@storybook/addon-knobs"
 import { storiesOf } from "@storybook/react"
-import React from "react"
-import InputText, {
-  TextInputLayouts,
-} from "Renderer/components/core/input-text/input-text.component"
+import React, { useState } from "react"
+import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export const Icon: FunctionComponent = () => (
@@ -19,193 +18,208 @@ export const Icon: FunctionComponent = () => (
   </svg>
 )
 
-storiesOf("Components|InputText/Standard", module)
+const singleIcon = [<Icon key="1" />]
+const multipleIcons = [<Icon key="1" />, <Icon key="2" />]
+
+storiesOf("Components|Text input/Standard", module)
   .add("Empty", () => {
-    return <InputText layout={TextInputLayouts.Standard} />
+    return <InputComponent type="text" />
   })
   .add("With label", () => {
-    return <InputText layout={TextInputLayouts.Standard} placeholder="Name" />
+    return <InputComponent type="text" placeholder="Name" />
   })
   .add("With value", () => {
-    return (
-      <InputText
-        defaultValue="John"
-        layout={TextInputLayouts.Standard}
-        placeholder="Name"
-      />
-    )
+    return <InputComponent defaultValue="John" type="text" placeholder="Name" />
   })
+  .add(
+    "Focused with value but as search type (with native clear button)",
+    () => {
+      return (
+        <InputComponent
+          autoFocus
+          placeholder="Name"
+          defaultValue={"John"}
+          type="search"
+        />
+      )
+    }
+  )
   .add("Disabled with value", () => {
     return (
-      <InputText
+      <InputComponent
         defaultValue="John"
-        layout={TextInputLayouts.Standard}
+        type="text"
         placeholder="Name"
         disabled
       />
     )
   })
   .add("Focused", () => {
-    return (
-      <InputText
-        layout={TextInputLayouts.Standard}
-        autoFocus
-        placeholder="Name"
-      />
-    )
+    return <InputComponent type="text" autoFocus placeholder="Name" />
   })
   .add("With label and leading icon", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Standard}
-        leadingIcons={[<Icon key={1} />]}
+      <InputComponent
+        type="text"
+        leadingIcons={singleIcon}
         placeholder="Name"
       />
     )
   })
   .add("With label and trailing icon", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Standard}
-        trailingIcons={[<Icon key={1} />]}
+      <InputComponent
+        type="text"
+        trailingIcons={singleIcon}
         placeholder="Name"
       />
     )
   })
   .add("With label, leading and trailing icon", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Standard}
-        leadingIcons={[<Icon key={1} />]}
-        trailingIcons={[<Icon key={1} />]}
+      <InputComponent
+        type="text"
+        leadingIcons={singleIcon}
+        trailingIcons={singleIcon}
         placeholder="Name"
       />
     )
   })
   .add("With label and multiple leading and trailing icons", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Standard}
-        leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
-        trailingIcons={[<Icon key={1} />, <Icon key={2} />]}
+      <InputComponent
+        type="text"
+        leadingIcons={multipleIcons}
+        trailingIcons={multipleIcons}
         placeholder="Name"
       />
     )
   })
 
-storiesOf("Components|InputText/Outlined", module)
+storiesOf("Components|Text input/Outlined", module)
   .add("Empty", () => {
-    return <InputText layout={TextInputLayouts.Outlined} />
+    return <InputComponent type="text" outlined />
   })
   .add("With placeholder", () => {
-    return <InputText placeholder="Name" layout={TextInputLayouts.Outlined} />
+    return <InputComponent placeholder="Name" type="text" outlined />
   })
   .add("Focused with placeholder", () => {
-    return (
-      <InputText
-        autoFocus
-        placeholder="Name"
-        layout={TextInputLayouts.Outlined}
-      />
-    )
+    return <InputComponent autoFocus placeholder="Name" type="text" outlined />
   })
   .add("With value", () => {
     return (
-      <InputText
+      <InputComponent
         placeholder="Name"
         defaultValue={"John Doe"}
-        layout={TextInputLayouts.Outlined}
+        type="text"
+        outlined
       />
     )
   })
+  .add(
+    "Focused with value but as search type (with native clear button)",
+    () => {
+      return (
+        <InputComponent
+          autoFocus
+          placeholder="Name"
+          defaultValue={"John Doe"}
+          type="search"
+          outlined
+        />
+      )
+    }
+  )
   .add("Disabled with value", () => {
     return (
-      <InputText
+      <InputComponent
         placeholder="Name"
         defaultValue={"John Doe"}
-        layout={TextInputLayouts.Outlined}
+        type="text"
+        outlined
         disabled
       />
     )
   })
   .add("With placeholder and leading icon", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Outlined}
-        leadingIcons={[<Icon key={1} />]}
+      <InputComponent
+        type="text"
+        outlined
+        leadingIcons={singleIcon}
         placeholder="Name"
       />
     )
   })
   .add("With placeholder and trailing icon", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Outlined}
-        trailingIcons={[<Icon key={1} />]}
+      <InputComponent
+        type="text"
+        outlined
+        trailingIcons={singleIcon}
         placeholder="Name"
       />
     )
   })
   .add("With placeholder, leading and trailing icon", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Outlined}
-        leadingIcons={[<Icon key={1} />]}
-        trailingIcons={[<Icon key={1} />]}
+      <InputComponent
+        type="text"
+        outlined
+        leadingIcons={singleIcon}
+        trailingIcons={singleIcon}
         placeholder="Name"
       />
     )
   })
   .add("With placeholder and multiple leading and trailing icons", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Outlined}
-        leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
-        trailingIcons={[<Icon key={1} />, <Icon key={2} />]}
+      <InputComponent
+        type="text"
+        outlined
+        leadingIcons={multipleIcons}
+        trailingIcons={multipleIcons}
         placeholder="Name"
       />
     )
   })
 
-storiesOf("Components|InputText/Outlined condensed", module)
+storiesOf("Components|Text input/Outlined condensed", module)
   .add("Empty", () => {
-    return <InputText layout={TextInputLayouts.Outlined} condensed />
+    return <InputComponent type="text" outlined condensed />
   })
   .add("With placeholder", () => {
-    return (
-      <InputText
-        placeholder="Name"
-        layout={TextInputLayouts.Outlined}
-        condensed
-      />
-    )
+    return <InputComponent placeholder="Name" type="text" outlined condensed />
   })
   .add("Focused with placeholder", () => {
     return (
-      <InputText
+      <InputComponent
+        type="text"
         autoFocus
         placeholder="Name"
-        layout={TextInputLayouts.Outlined}
+        outlined
         condensed
       />
     )
   })
   .add("With value", () => {
     return (
-      <InputText
+      <InputComponent
+        type="text"
         placeholder="Name"
         defaultValue={"John Doe"}
-        layout={TextInputLayouts.Outlined}
+        outlined
         condensed
       />
     )
   })
   .add("Disabled With value", () => {
     return (
-      <InputText
+      <InputComponent
         placeholder="Name"
         defaultValue={"John Doe"}
-        layout={TextInputLayouts.Outlined}
+        type="text"
+        outlined
         condensed
         disabled
       />
@@ -213,42 +227,204 @@ storiesOf("Components|InputText/Outlined condensed", module)
   })
   .add("With placeholder and leading icon", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Outlined}
+      <InputComponent
+        type="text"
+        outlined
         condensed
-        leadingIcons={[<Icon key={1} />]}
+        leadingIcons={singleIcon}
         placeholder="Name"
       />
     )
   })
   .add("With placeholder and trailing icon", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Outlined}
+      <InputComponent
+        type="text"
+        outlined
         condensed
-        trailingIcons={[<Icon key={1} />]}
+        trailingIcons={singleIcon}
         placeholder="Name"
       />
     )
   })
   .add("With placeholder, leading and trailing icon", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Outlined}
+      <InputComponent
+        type="text"
+        outlined
         condensed
-        leadingIcons={[<Icon key={1} />]}
-        trailingIcons={[<Icon key={1} />]}
+        leadingIcons={singleIcon}
+        trailingIcons={singleIcon}
         placeholder="Name"
       />
     )
   })
   .add("With placeholder and multiple leading and trailing icons", () => {
     return (
-      <InputText
-        layout={TextInputLayouts.Outlined}
+      <InputComponent
+        type="text"
+        outlined
         condensed
-        leadingIcons={[<Icon key={1} />, <Icon key={2} />]}
-        trailingIcons={[<Icon key={1} />, <Icon key={2} />]}
+        leadingIcons={multipleIcons}
+        trailingIcons={multipleIcons}
+        placeholder="Name"
+      />
+    )
+  })
+
+storiesOf("Components|Text input/Textarea", module)
+  .addDecorator(withKnobs)
+  .add("Basic test", () => {
+    const [value, setValue] = useState("Lorem\nipsum\ndolor\nsit\namet\nsit")
+    const [maxRows, setMaxRows] = useState(5)
+
+    const updateValue = (event: any) => setValue(event.target.value)
+
+    const setPredefinedValue = () => setValue("Lorem\nipsum\ndolor\nsit")
+
+    const decreaseMaxRows = () => setMaxRows(maxRows > 1 ? maxRows - 1 : 1)
+
+    const increaseMaxRows = () => setMaxRows(maxRows + 1)
+
+    const infiniteMaxRows = () => setMaxRows(0)
+
+    button("decrease max rows", decreaseMaxRows)
+    button("increase max rows", increaseMaxRows)
+    button("infinite max rows", infiniteMaxRows)
+    button("set predefined value", setPredefinedValue)
+
+    return (
+      <>
+        <InputComponent
+          type="textarea"
+          value={value}
+          onChange={updateValue}
+          maxRows={maxRows}
+        />
+        <pre>
+          MAX ROWS: {maxRows === 0 ? "inf" : maxRows}
+          <br />
+          VALUE:
+          <br />
+          {value}
+        </pre>
+      </>
+    )
+  })
+  .add("Basic", () => <InputComponent type="textarea" />)
+  .add("With placeholder", () => (
+    <InputComponent type="textarea" placeholder="Message" />
+  ))
+  .add("Focused with placeholder", () => {
+    return <InputComponent autoFocus type="textarea" placeholder="Message" />
+  })
+  .add("With content", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
+        }
+      />
+    )
+  })
+  .add("Disabled with content", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
+        }
+        disabled
+      />
+    )
+  })
+  .add("With content and rows limit set to 6", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
+        }
+        maxRows={6}
+      />
+    )
+  })
+  .add("With small content and rows limit set to 6", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus."
+        }
+        maxRows={6}
+      />
+    )
+  })
+  .add("Disabled with content and rows limit set to 6", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
+        }
+        maxRows={6}
+        disabled
+      />
+    )
+  })
+  .add("With placeholder and leading icon", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        leadingIcons={singleIcon}
+        placeholder="Name"
+      />
+    )
+  })
+  .add("With content and leading and trailing icon", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        leadingIcons={singleIcon}
+        trailingIcons={singleIcon}
+        placeholder="Name"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
+        }
+      />
+    )
+  })
+  .add("With placeholder and trailing icon", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        trailingIcons={singleIcon}
+        placeholder="Name"
+      />
+    )
+  })
+  .add("With placeholder, leading and trailing icon", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        leadingIcons={singleIcon}
+        trailingIcons={singleIcon}
+        placeholder="Name"
+      />
+    )
+  })
+  .add("With placeholder and multiple leading and trailing icons", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        leadingIcons={multipleIcons}
+        trailingIcons={multipleIcons}
         placeholder="Name"
       />
     )
