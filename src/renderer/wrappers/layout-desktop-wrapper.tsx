@@ -5,7 +5,7 @@ import styled from "styled-components"
 
 import FunctionComponent from "Renderer/types/function-component.interface"
 
-import MenuContainer from "Renderer/components/rest/menu/menu.container"
+import Menu from "Renderer/components/rest/menu/menu.component"
 
 import Header from "Renderer/components/rest/header/header.component"
 import { borderColor, width } from "Renderer/styles/theming/theme-getters"
@@ -41,7 +41,7 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
   return (
     <Layout>
       <MenuWrapper>
-        <MenuContainer />
+        <Menu />
       </MenuWrapper>
       <ViewWrapper>
         <Header

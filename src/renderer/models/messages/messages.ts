@@ -46,10 +46,5 @@ export default {
         return sortTopics(list)
       })
     },
-    unreadMessages() {
-      return slice(state => {
-        return Boolean(filterTopics(state.topics, VisibilityFilter.Unread))
-      })
-    },
   }),
 }
