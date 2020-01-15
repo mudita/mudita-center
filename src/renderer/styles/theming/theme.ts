@@ -52,6 +52,9 @@ const theme = {
       listItem: "#D2D6DB",
       light: "#D2D6DB",
     },
+    boxShadow: {
+      grey: "rgba(188,188,188,0.5)",
+    },
   },
   layout: {
     width: "73.75rem",
