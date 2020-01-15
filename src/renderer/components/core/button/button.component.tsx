@@ -1,4 +1,5 @@
 import React, { ComponentProps, MouseEventHandler } from "react"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
@@ -34,6 +35,24 @@ interface Props {
 
 const ButtonText = styled(Text)`
   white-space: nowrap;
+`
+// TODO: when icon component is ready, this has to be added as parent of StyledIcon alongside correct logic
+// @ts-ignore
+const Badge = styled.div`
+  display: inline-block;
+  position: relative;
+  margin: 0 0.8rem 0 0;
+  &:after {
+    display: block;
+    content: "";
+    position: absolute;
+    top: -0.1rem;
+    right: 0.5rem;
+    height: 0.8rem;
+    width: 0.8rem;
+    border-radius: 50%;
+    background-color: ${backgroundColor("blue")};
+  }
 `
 
 /** Component for displaying buttons. Other props are passed down (object spread), some are filtered. */
