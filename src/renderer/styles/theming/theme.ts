@@ -32,6 +32,7 @@ const theme = {
       dark: "#000000",
     },
     background: {
+      blue: "#6D9BBC",
       light: "#ffffff",
       dark: "#000000",
       dark2: "#232426",
