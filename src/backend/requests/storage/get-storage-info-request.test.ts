@@ -3,22 +3,9 @@ import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storag
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 
-jest.mock("electron-better-ipc", () => {
-  const calls: Array<(...params: any[]) => any> = []
-  return {
-    ipcMain: {
-      answerRenderer: jest.fn(
-        (name, handler) =>
-          name === IpcRequest.GetStorageInfo && calls.push(handler)
-      ),
-      _flush: (value?: any) => calls.map(call => call(value)),
-    },
-  }
-})
-
 test("returns required device info", () => {
   registerPurePhoneStorageRequest(getFakeAdapters())
-  const [result] = (ipcMain as any)._flush()
+  const [result] = (ipcMain as any)._flush(IpcRequest.GetStorageInfo)
   expect(result).toMatchInlineSnapshot(`
     Object {
       "available": 4000,

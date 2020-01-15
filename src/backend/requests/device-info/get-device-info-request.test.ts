@@ -3,22 +3,9 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 import registerDeviceInfoRequest from "./get-device-info.request"
 
-jest.mock("electron-better-ipc", () => {
-  const calls: Array<(...params: any[]) => any> = []
-  return {
-    ipcMain: {
-      answerRenderer: jest.fn(
-        (name, handler) =>
-          name === IpcRequest.GetDeviceInfo && calls.push(handler)
-      ),
-      _flush: (value?: any) => calls.map(call => call(value)),
-    },
-  }
-})
-
 test("returns required device info", () => {
   registerDeviceInfoRequest(getFakeAdapters())
-  const [result] = (ipcMain as any)._flush()
+  const [result] = (ipcMain as any)._flush(IpcRequest.GetDeviceInfo)
   expect(result).toMatchInlineSnapshot(`
     Object {
       "modelName": "Ziemniaczek Puree",

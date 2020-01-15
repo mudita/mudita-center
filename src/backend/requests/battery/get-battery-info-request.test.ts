@@ -3,22 +3,9 @@ import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-inf
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 
-jest.mock("electron-better-ipc", () => {
-  const calls: Array<(...params: any[]) => any> = []
-  return {
-    ipcMain: {
-      answerRenderer: jest.fn(
-        (name, handler) =>
-          name === IpcRequest.GetBatteryInfo && calls.push(handler)
-      ),
-      _flush: (value?: any) => calls.map(call => call(value)),
-    },
-  }
-})
-
 test("returns required device info", () => {
   registerBatteryInfoRequest(getFakeAdapters())
-  const [result] = (ipcMain as any)._flush()
+  const [result] = (ipcMain as any)._flush(IpcRequest.GetBatteryInfo)
   expect(result).toMatchInlineSnapshot(`
     Object {
       "charging": false,
