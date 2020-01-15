@@ -3,7 +3,7 @@ import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-inf
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 
-test("returns required device info", () => {
+test("returns required battery info", () => {
   registerBatteryInfoRequest(getFakeAdapters())
   const [result] = (ipcMain as any)._flush(IpcRequest.GetBatteryInfo)
   expect(result).toMatchInlineSnapshot(`

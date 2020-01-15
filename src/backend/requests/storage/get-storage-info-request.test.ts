@@ -3,7 +3,7 @@ import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storag
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 
-test("returns required device info", () => {
+test("returns required storage info", () => {
   registerPurePhoneStorageRequest(getFakeAdapters())
   const [result] = (ipcMain as any)._flush(IpcRequest.GetStorageInfo)
   expect(result).toMatchInlineSnapshot(`
