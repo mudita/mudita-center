@@ -1,16 +1,7 @@
-import Adapters from "Backend/adapters/adapters.interface"
-import createFakeElectronAppAdapter from "Backend/adapters/electron-app/fake-electron-app.adapter"
-import createFakePurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service-fake.adapter"
-import createFakePurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-fake.adapter"
+import getFakeAdapters from "App/tests/get-fake-adapters"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 import registerDeviceInfoRequest from "./get-device-info.request"
-
-const adapters: Adapters = {
-  app: createFakeElectronAppAdapter(),
-  purePhone: createFakePurePhoneAdapter(),
-  pureBatteryService: createFakePurePhoneBatteryAdapter(),
-}
 
 jest.mock("electron-better-ipc", () => {
   const calls: Array<(...params: any[]) => any> = []
@@ -26,7 +17,7 @@ jest.mock("electron-better-ipc", () => {
 })
 
 test("returns required device info", () => {
-  registerDeviceInfoRequest(adapters)
+  registerDeviceInfoRequest(getFakeAdapters())
   const [result] = (ipcMain as any)._flush()
   expect(result).toMatchInlineSnapshot(`
     Object {
