@@ -32,7 +32,7 @@ const getSize = (size: Size) => {
 }
 
 const buttonStyles = css<{
-  displayStyle: DisplayStyle
+  displaystyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
@@ -51,8 +51,8 @@ const buttonStyles = css<{
     `
       pointer-events: none;
   `}
-  ${({ displayStyle, disabled }) => {
-    switch (displayStyle) {
+  ${({ displaystyle, disabled }) => {
+    switch (displaystyle) {
       case DisplayStyle.Primary:
         return css`
           height: 4rem;
@@ -201,33 +201,33 @@ const buttonStyles = css<{
 `
 
 export const StyledLink = styled(Link)<{
-  displayStyle: DisplayStyle
+  displaystyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
   ${buttonStyles}
 `
 export const StyledA = styled.a<{
-  displayStyle: DisplayStyle
+  displaystyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
   ${buttonStyles}
 `
 export const StyledButton = styled.button<{
-  displayStyle: DisplayStyle
+  displaystyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
   ${buttonStyles}
 `
 export const StyledIcon = styled(Svg)<{
-  displayStyle: DisplayStyle
+  displaystyle: DisplayStyle
   withMargin: boolean
 }>`
-  ${({ displayStyle, withMargin }) => {
+  ${({ displaystyle, withMargin }) => {
     if (withMargin) {
-      if (displayStyle === DisplayStyle.Link2) {
+      if (displaystyle === DisplayStyle.Link2) {
         return css`
           margin: 0 1.2rem 0 0;
         `

@@ -93,7 +93,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
       {...filteredProps}
       {...rest}
       className={className}
-      displayStyle={displayStyle}
+      displaystyle={displayStyle}
       size={size}
       disabled={disabled}
     >
