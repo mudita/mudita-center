@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ComponentProps } from "react"
 import styled from "styled-components"
 
 import Button from "Renderer/components/core/button/button.component"
