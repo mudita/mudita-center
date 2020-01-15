@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <div
+    class="sc-bZQynM iMWVsx"
+  >
+    <button
+      class="sc-bxivhb eGbwom"
+      size="2"
+      type="button"
+    />
+    <ul
+      class="sc-gzVnrw gFIUDN"
+      data-testid="dropdown"
+    />
+  </div>
+</div>
+`;
+
+exports[`renders dropdown 1`] = `
+<div>
+  <div
+    class="sc-bZQynM iMWVsx"
+  >
+    <button
+      class="sc-bxivhb eGbwom"
+      size="2"
+      type="button"
+    >
+      <p
+        class="sc-bdVaJa Wzjkf sc-EHOje asQWf"
+      >
+        Example
+      </p>
+    </button>
+    <ul
+      class="sc-gzVnrw kcxzHI"
+      data-testid="dropdown"
+    >
+      <a
+        class="sc-htpNat gnbYEO"
+        href="http://www.google.pl"
+        size="2"
+        target="_blank"
+      >
+        <test-file-stub
+          classname="sc-ifAKCX evOPPJ"
+        />
+        <p
+          class="sc-bdVaJa Wzjkf sc-EHOje asQWf"
+        >
+          I open Google in new tab
+        </p>
+      </a>
+    </ul>
+  </div>
+</div>
+`;

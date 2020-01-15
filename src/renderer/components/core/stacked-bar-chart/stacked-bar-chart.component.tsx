@@ -56,11 +56,11 @@ const Bar = styled.div<BarProps>`
     switch (borderType) {
       case DisplayStyle.Simple:
         return css`
-          --radius: ${borderRadius("small")}rem;
+          --radius: ${borderRadius("small")};
         `
       case DisplayStyle.MultiColor:
         return css`
-          --radius: ${borderRadius("medium")}rem;
+          --radius: ${borderRadius("medium")};
         `
       default:
         return null

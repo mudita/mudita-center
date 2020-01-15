@@ -38,6 +38,7 @@ const theme = {
       grey: "#CDCECF",
       grey2: "#F4F5F6",
       grey3: "#E9E9E9",
+      grey4: "#A5A5A5",
       inputDark: "#3B3F42",
       accent: "#F4F5F6",
       primaryDark: "#F4F5F6",
@@ -50,6 +51,9 @@ const theme = {
       hover: "#3B3F42",
       listItem: "#D2D6DB",
       light: "#D2D6DB",
+    },
+    boxShadow: {
+      grey: "rgba(188,188,188,0.5)",
     },
   },
   layout: {
@@ -73,7 +77,7 @@ const theme = {
   borderRadius: {
     small: 0.2,
     medium: 0.5,
-    big: 0.12,
+    big: 1.2,
   },
   letterSpacing: {
     negative: -0.06,
@@ -81,6 +85,9 @@ const theme = {
     small: 0.04,
     medium: 0.075,
     regular: 0.1,
+  },
+  lineHeight: {
+    textarea: 1.8,
   },
   font: {
     primary:

@@ -8,6 +8,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 
+import styled from "styled-components"
 import { DisplayStyle, Size, Type } from "./button.config"
 
 import {
@@ -31,8 +32,13 @@ interface Props {
   type?: Type
 }
 
+const ButtonText = styled(Text)`
+  white-space: nowrap;
+`
+
 /** Component for displaying buttons. Other props are passed down (object spread), some are filtered. */
 const ButtonComponent: FunctionComponent<Props> = ({
+  className,
   disabled = false,
   displayStyle = DisplayStyle.Primary,
   href,
@@ -75,15 +81,18 @@ const ButtonComponent: FunctionComponent<Props> = ({
         : TextDisplayStyle.SmallText
 
     if (labelMessage) {
-      return <Text displayStyle={textDisplayStyle} message={labelMessage} />
+      return (
+        <ButtonText displayStyle={textDisplayStyle} message={labelMessage} />
+      )
     }
-    return <Text displayStyle={textDisplayStyle}>{label}</Text>
+    return <ButtonText displayStyle={textDisplayStyle}>{label}</ButtonText>
   }
 
   return (
     <Component
       {...filteredProps}
       {...rest}
+      className={className}
       displayStyle={displayStyle}
       size={size}
       disabled={disabled}
