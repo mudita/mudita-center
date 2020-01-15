@@ -5,10 +5,8 @@ import { ipcRenderer } from "electron-better-ipc"
 /**
  * Ask the main process for the device information.
  */
-const getDeviceInfo = (value: string): Promise<DeviceInfo> => {
-  return ipcRenderer.callMain(IpcRequest.GetDeviceInfo, value) as Promise<
-    DeviceInfo
-  >
+const getDeviceInfo = (): Promise<DeviceInfo> => {
+  return ipcRenderer.callMain(IpcRequest.GetDeviceInfo) as Promise<DeviceInfo>
 }
 
 export default getDeviceInfo
