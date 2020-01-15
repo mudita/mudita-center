@@ -99,7 +99,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
     >
       {Icon && (
         <StyledIcon
-          displayStyle={displayStyle}
+          displaystyle={displayStyle}
           withMargin={Boolean(label || labelMessage)}
           Image={Icon}
         />
