@@ -1,31 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Snapshot tests should match snapshot multicolor 1`] = `
-.c7 {
-  margin: 0;
-  font-size: 1.4rem;
-  line-height: 1.05;
-}
-
-.c9 {
-  margin: 0;
-  font-size: 1.4rem;
-  line-height: 1.05;
-  color: #6A6A6A;
-  font-weight: 300;
-  -webkit-letter-spacing: 0.04rem;
-  -moz-letter-spacing: 0.04rem;
-  -ms-letter-spacing: 0.04rem;
-  letter-spacing: 0.04rem;
-}
-
-.c12 {
-  margin: 0;
-  font-size: 1.8rem;
-  line-height: 1.1;
-  font-weight: 400;
-}
-
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -46,7 +21,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 }
 
 .c2 {
-  width: 4.166666666666666%;
+  width: 25%;
   background-color: red;
   --radius: 0.5rem;
   height: 0.8rem;
@@ -61,7 +36,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 }
 
 .c3 {
-  width: 41.66666666666667%;
+  width: 25%;
   background-color: orange;
   --radius: 0.5rem;
   height: 0.8rem;
@@ -76,7 +51,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 }
 
 .c4 {
-  width: 41.66666666666667%;
+  width: 25%;
   background-color: yellow;
   --radius: 0.5rem;
   height: 0.8rem;
@@ -91,7 +66,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 }
 
 .c5 {
-  width: 4.166666666666666%;
+  width: 25%;
   background-color: green;
   --radius: 0.5rem;
   height: 0.8rem;
@@ -103,57 +78,6 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
 
 .c5:last-child {
   border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.c11 {
-  width: 4.166666666666666%;
-  background-color: pink;
-  --radius: 0.5rem;
-  height: 0.8rem;
-}
-
-.c11:first-child {
-  border-radius: var(--radius) 0 0 var(--radius);
-}
-
-.c11:last-child {
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.c6 {
-  width: 4.166666666666666%;
-  background-color: blue;
-  height: 0.8rem;
-  position: relative;
-}
-
-.c6:first-child {
-  border-radius: var(--radius) 0 0 var(--radius);
-}
-
-.c6:last-child {
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.c8 {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  -webkit-transform: translateX(50%);
-  -ms-transform: translateX(50%);
-  transform: translateX(50%);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-  margin: 1.4rem 0;
-}
-
-.c10 {
-  margin-left: 0.5rem;
-}
-
-.c13 {
-  margin-left: 2.4rem;
 }
 
 <div
@@ -182,35 +106,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
       color="green"
       data-testid="bar"
     />
-    <div
-      class="c6"
-      color="blue"
-      data-testid="bar-with-label"
-    >
-      <p
-        class="c7 c8"
-      >
-        12.2 GB
-        <span
-          class="c9 c10"
-        >
-          ( 
-          ( 77%)
-          )
-        </span>
-      </p>
-    </div>
-    <div
-      class="c11"
-      color="pink"
-      data-testid="bar"
-    />
   </div>
-  <p
-    class="c12 c13"
-  >
-    16 GB
-  </p>
 </div>
 `;
 
@@ -235,7 +131,7 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 }
 
 .c2 {
-  width: 4.166666666666666%;
+  width: 25%;
   background-color: red;
   --radius: 0.2rem;
   height: 0.3rem;
@@ -250,7 +146,7 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 }
 
 .c3 {
-  width: 41.66666666666667%;
+  width: 25%;
   background-color: orange;
   --radius: 0.2rem;
   height: 0.3rem;
@@ -265,7 +161,7 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 }
 
 .c4 {
-  width: 41.66666666666667%;
+  width: 25%;
   background-color: yellow;
   --radius: 0.2rem;
   height: 0.3rem;
@@ -280,7 +176,7 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 }
 
 .c5 {
-  width: 4.166666666666666%;
+  width: 25%;
   background-color: green;
   --radius: 0.2rem;
   height: 0.3rem;
@@ -291,36 +187,6 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
 }
 
 .c5:last-child {
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.c6 {
-  width: 4.166666666666666%;
-  background-color: blue;
-  --radius: 0.2rem;
-  height: 0.3rem;
-}
-
-.c6:first-child {
-  border-radius: var(--radius) 0 0 var(--radius);
-}
-
-.c6:last-child {
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.c7 {
-  width: 4.166666666666666%;
-  background-color: pink;
-  --radius: 0.2rem;
-  height: 0.3rem;
-}
-
-.c7:first-child {
-  border-radius: var(--radius) 0 0 var(--radius);
-}
-
-.c7:last-child {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
@@ -348,16 +214,6 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
     <div
       class="c5"
       color="green"
-      data-testid="bar"
-    />
-    <div
-      class="c6"
-      color="blue"
-      data-testid="bar"
-    />
-    <div
-      class="c7"
-      color="pink"
       data-testid="bar"
     />
   </div>

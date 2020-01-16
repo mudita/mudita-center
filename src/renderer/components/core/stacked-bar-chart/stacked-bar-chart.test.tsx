@@ -8,17 +8,14 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 
 const barId = "bar"
 const barWithLabelId = "bar-with-label"
+
 const chartData = [
-  { value: 100, color: "red" },
-  { value: 1000, color: "orange" },
-  { value: 1000, color: "yellow" },
-  { value: 100, color: "green" },
-  { value: 100, color: "blue" },
-  { value: 100, color: "pink" },
+  { value: 4294967296, color: "red" },
+  { value: 4294967296, color: "orange" },
+  { value: 4294967296, color: "yellow" },
+  { value: 4294967296, color: "green" },
 ]
-const maxLabel = "16 GB"
-const occupiedSpaceLabel = "12.2 GB"
-const occupiedSpaceInPercent = "( 77%)"
+const occupiedSpaceId = "occupied-space"
 
 describe("Snapshot tests", () => {
   test("should match snapshot simple", () => {
@@ -35,10 +32,7 @@ describe("Snapshot tests", () => {
     const { container } = renderWithThemeAndIntl(
       <StackedBarChart
         chartData={chartData}
-        maxLabel={maxLabel}
         displayStyle={DisplayStyle.MultiColor}
-        occupiedSpaceLabel={occupiedSpaceLabel}
-        occupiedSpaceInPercent={occupiedSpaceInPercent}
       />
     )
     expect(container.firstChild).toMatchSnapshot()
@@ -56,30 +50,24 @@ describe("Correct rendering of chart elements and label", () => {
     expect(queryByTestId(barWithLabelId)).toBeNull()
   })
 
-  test("label when provided should render", () => {
-    const { getByText } = renderWithThemeAndIntl(
+  test("label should render", () => {
+    const { getByTestId } = renderWithThemeAndIntl(
       <StackedBarChart
         chartData={chartData}
-        maxLabel={maxLabel}
         displayStyle={DisplayStyle.MultiColor}
-        occupiedSpaceLabel={occupiedSpaceLabel}
-        occupiedSpaceInPercent={occupiedSpaceInPercent}
+        showStats
       />
     )
-    expect(getByText(occupiedSpaceLabel)).toBeInTheDocument()
-    expect(getByText(occupiedSpaceLabel)).toHaveTextContent(
-      `${occupiedSpaceLabel}( ${occupiedSpaceInPercent})`
-    )
+    expect(getByTestId(occupiedSpaceId)).toBeInTheDocument()
+    expect(getByTestId(occupiedSpaceId)).toHaveTextContent(`16.0 GB( 100%)`)
   })
 
   test("number of elements rendered without label should equal to number of all elements - 1 (with label)", () => {
     const { getAllByTestId } = renderWithThemeAndIntl(
       <StackedBarChart
         chartData={chartData}
-        maxLabel={maxLabel}
         displayStyle={DisplayStyle.MultiColor}
-        occupiedSpaceLabel={occupiedSpaceLabel}
-        occupiedSpaceInPercent={occupiedSpaceInPercent}
+        showStats
       />
     )
     expect(getAllByTestId(barId).length).toEqual(chartData.length - 1)

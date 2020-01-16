@@ -1,4 +1,4 @@
-import { object, text, withKnobs } from "@storybook/addon-knobs"
+import { object, withKnobs } from "@storybook/addon-knobs"
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import StackedBarChart, {
@@ -14,22 +14,19 @@ storiesOf("Components|StackedBarChart", module)
   .addDecorator(withKnobs)
   .add("MultiColor", () => {
     const chartData = object("Chart Data", [
-      { value: 100, color: "red" },
-      { value: 1000, color: "orange" },
-      { value: 1000, color: "yellow" },
-      { value: 100, color: "green" },
-      { value: 100, color: "blue" },
-      { value: 100, color: "pink" },
+      { value: 100, color: "red", filesType: "Music" },
+      { value: 1000, color: "orange", filesType: "Music" },
+      { value: 1000, color: "yellow", filesType: "Music" },
+      { value: 100, color: "green", filesType: "Music" },
+      { value: 100, color: "blue", filesType: "Music" },
+      { value: 100, color: "pink", filesType: "Free" },
     ])
-    const maxLabel = text("Label", "16 GB")
     return (
       <Container>
         <StackedBarChart
           chartData={chartData}
-          maxLabel={maxLabel}
           displayStyle={DisplayStyle.MultiColor}
-          occupiedSpaceLabel="12.2 GB"
-          occupiedSpaceInPercent="77%"
+          showStats
         />
       </Container>
     )
