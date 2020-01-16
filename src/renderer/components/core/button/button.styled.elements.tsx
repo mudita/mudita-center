@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import Svg from "Renderer/components/core/svg/svg.component"
 import transition from "Renderer/styles/functions/transition"
 import {
@@ -31,7 +31,16 @@ const getSize = (size: Size) => {
   }
 }
 
+const navLinkStyles = css`
+  background-color: ${backgroundColor("grey2")};
+  * {
+    color: ${textColor("black")};
+    fill: ${textColor("black")};
+  }
+`
+
 const buttonStyles = css<{
+  activeClassName?: string
   displaystyle: DisplayStyle
   disabled: boolean
   size: Size
@@ -51,7 +60,7 @@ const buttonStyles = css<{
     `
       pointer-events: none;
   `}
-  ${({ displaystyle, disabled }) => {
+  ${({ activeClassName, displaystyle, disabled }) => {
     switch (displaystyle) {
       case DisplayStyle.Primary:
         return css`
@@ -183,12 +192,12 @@ const buttonStyles = css<{
           color: ${textColor("faded")};
           font-weight: ${fontWeight("default")};
           width: 100%;
+
+          &.${activeClassName} {
+            ${navLinkStyles}
+          }
           &:hover {
-            background-color: ${backgroundColor("grey2")};
-            * {
-              color: ${textColor("black")};
-              fill: ${textColor("black")};
-            }
+            ${navLinkStyles}
           }
           g {
             fill: ${textColor("faded")};
@@ -198,6 +207,21 @@ const buttonStyles = css<{
         return
     }
   }}
+`
+
+export const StyledNavLink = styled(NavLink).attrs<{
+  activeClassName?: string
+  displaystyle: DisplayStyle
+  disabled: boolean
+  size: Size
+}>(({ activeClassName }) => ({
+  activeClassName: activeClassName ? activeClassName : null,
+}))<{
+  displaystyle: DisplayStyle
+  disabled: boolean
+  size: Size
+}>`
+  ${buttonStyles}
 `
 
 export const StyledLink = styled(Link)<{

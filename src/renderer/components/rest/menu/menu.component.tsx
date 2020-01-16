@@ -71,6 +71,7 @@ const Menu = () => {
           return buttons!.map(({ button, icon }, index) => (
             <LinkWrapper key={index}>
               <ButtonMenu
+                navLink
                 displayStyle={DisplayStyle.Link4}
                 labelMessage={button.label}
                 Icon={icon}
