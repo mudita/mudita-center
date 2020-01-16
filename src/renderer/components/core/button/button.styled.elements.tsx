@@ -41,6 +41,7 @@ const navLinkStyles = css`
 
   svg {
     opacity: 1;
+    transition: ${transition("opacity", undefined, "ease")};
   }
 `
 
