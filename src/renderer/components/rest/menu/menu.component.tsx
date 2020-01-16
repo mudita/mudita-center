@@ -11,6 +11,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { MENU_ELEMENTS } from "Renderer/constants/menuElements"
 
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import MuditaLogo from "Renderer/svg/mudita_logo.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
@@ -26,6 +27,20 @@ const HeaderWrapper = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 2.5rem 0 1.6rem 0;
+`
+
+const HeaderIconContainer = styled.div`
+  display: flex;
+`
+
+const HeaderIconBg = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  &:hover {
+    background-color: ${backgroundColor("grey2")};
+  }
 `
 
 const HeaderIcon = styled(Svg)`
@@ -57,13 +72,15 @@ const Menu = () => {
             <HeaderWrapper key={indexMenu}>
               <Text displayStyle={TextDisplayStyle.SmallText} message={label} />
               {icons && (
-                <div>
+                <HeaderIconContainer>
                   {icons.map(
                     (icon: FunctionComponent<ImageInterface>, index) => (
-                      <HeaderIcon Image={icon} key={index} />
+                      <HeaderIconBg key={index}>
+                        <HeaderIcon Image={icon} />
+                      </HeaderIconBg>
                     )
                   )}
-                </div>
+                </HeaderIconContainer>
               )}
             </HeaderWrapper>
           )
