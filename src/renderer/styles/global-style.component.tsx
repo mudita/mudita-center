@@ -30,7 +30,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     }
     ::-webkit-scrollbar-thumb {
       border-radius: 0.2rem;
-      background-color: ${backgroundColor("grey3")};
+      background-color: transparent;
     }
     :hover, :focus {
       ::-webkit-scrollbar-thumb {
