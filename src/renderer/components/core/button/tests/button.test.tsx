@@ -4,6 +4,10 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import Button from "../button.component"
 import { DisplayStyle, Size } from "../button.config"
 
+import { fireEvent } from "@testing-library/dom"
+import { wait } from "@testing-library/react"
+import { MemoryRouter } from "react-router-dom"
+import Upload from "Renderer/svg/upload.svg"
 import testScenarios from "./test-scenarios"
 
 interface TestCase {
@@ -33,5 +37,27 @@ describe("Button matches snapshots", () => {
         expect(buttonElement).toMatchSnapshot()
       })
     })
+  })
+})
+
+test("link-button should have active class when clicked", async () => {
+  const data = {
+    displayStyle: DisplayStyle.Link4,
+    label: "Example",
+    to: "/overview",
+    Icon: Upload,
+    nav: true,
+  }
+  const { container, getByText } = renderWithThemeAndIntl(
+    <MemoryRouter initialEntries={["/overview"]}>
+      <Button {...data} />
+    </MemoryRouter>
+  )
+
+  fireEvent.click(getByText("Example"))
+
+  await wait(() => {
+    expect(container).toMatchSnapshot()
+    expect(container.querySelector("a")).toHaveClass("active")
   })
 })
