@@ -4,6 +4,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { borderRadius, height } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import { convertBytes } from "Renderer/utils/convert-bytes"
 import styled, { css } from "styled-components"
 
 export enum DisplayStyle {
@@ -11,17 +12,16 @@ export enum DisplayStyle {
   MultiColor,
 }
 
-interface ChartItem {
+export interface ChartItem {
   value: number
   color: string
+  filesType?: string
 }
 
 interface Props {
   chartData: ChartItem[]
-  maxLabel?: string
   displayStyle: DisplayStyle
-  occupiedSpaceLabel?: string
-  occupiedSpaceInPercent?: string
+  showStats?: boolean
 }
 
 interface BarProps {
@@ -56,11 +56,11 @@ const Bar = styled.div<BarProps>`
     switch (borderType) {
       case DisplayStyle.Simple:
         return css`
-          --radius: ${borderRadius("small")}rem;
+          --radius: ${borderRadius("small")};
         `
       case DisplayStyle.MultiColor:
         return css`
-          --radius: ${borderRadius("medium")}rem;
+          --radius: ${borderRadius("medium")};
         `
       default:
         return null
@@ -106,26 +106,34 @@ const MemoryLabel = styled(Text)`
 
 const StackedBarChart: FunctionComponent<Props> = ({
   chartData,
-  maxLabel,
-  occupiedSpaceLabel,
-  occupiedSpaceInPercent,
   displayStyle,
+  showStats = false,
 }) => {
-  const sum = chartData.reduce((acc, { value }) => acc + value, 0)
+  const availableSpace = (data: ChartItem[]): number =>
+    data.reduce((acc, { value }) => acc + value, 0)
+  const usedMemoryInBytes = chartData
+    .filter(chartObject => chartObject.filesType !== "Free")
+    .reduce((acc, { value }) => acc + value, 0)
+  const usedMemoryConverted = showStats && convertBytes(usedMemoryInBytes)
+  const percentageOfAvailableSpace = (value: number) =>
+    (value / availableSpace(chartData)) * 100
   const barData = chartData.map(obj => ({
     ...obj,
-    percentage: (obj.value / sum) * 100,
+    percentage: percentageOfAvailableSpace(obj.value),
   }))
-  const oneBeforeLast = barData.length - 2
+  const indexOfOneBeforeLast = barData.length >= 2 && barData.length - 2
+  const formatPercentage = (value: number) => {
+    const isInt = Number.isInteger(value)
+    if (isInt) {
+      return value
+    }
+    return value.toFixed(2)
+  }
   return (
     <ProgressWrapper>
       <Progress>
         {barData.map(({ color, percentage }, index) => {
-          if (
-            index === oneBeforeLast &&
-            occupiedSpaceLabel &&
-            occupiedSpaceInPercent
-          ) {
+          if (index === indexOfOneBeforeLast && showStats) {
             return (
               <BarWithLabel
                 barHeight={displayStyle}
@@ -134,13 +142,18 @@ const StackedBarChart: FunctionComponent<Props> = ({
                 percentage={percentage}
                 key={index}
               >
-                <BarLabel displayStyle={TextDisplayStyle.MediumText}>
-                  {occupiedSpaceLabel}
+                <BarLabel
+                  displayStyle={TextDisplayStyle.MediumText}
+                  data-testid="occupied-space"
+                >
+                  {usedMemoryConverted}
                   <PercentageLabel
                     displayStyle={TextDisplayStyle.MediumFadedLightText}
                     element="span"
                   >
-                    ( {occupiedSpaceInPercent})
+                    {`( ${formatPercentage(
+                      percentageOfAvailableSpace(usedMemoryInBytes)
+                    )}%)`}
                   </PercentageLabel>
                 </BarLabel>
               </BarWithLabel>
@@ -158,12 +171,12 @@ const StackedBarChart: FunctionComponent<Props> = ({
           )
         })}
       </Progress>
-      {maxLabel && (
+      {showStats && (
         <MemoryLabel
           displayStyle={TextDisplayStyle.TertiaryHeading}
           element={"p"}
         >
-          {maxLabel}
+          {convertBytes(availableSpace(chartData))}
         </MemoryLabel>
       )}
     </ProgressWrapper>

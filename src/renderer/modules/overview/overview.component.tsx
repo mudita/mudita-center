@@ -1,6 +1,10 @@
 import React from "react"
 import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
+import getBackupsInfo from "Renderer/requests/get-backups-info.request"
+import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
+import getNetworkInfo from "Renderer/requests/get-network-info.request"
+import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
@@ -10,25 +14,77 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   osVersion,
   ...rest
 }) => {
-  // FIXME: Remove this code later, when proper endpoints become available. Its purpose is to showcase requests functionality.
+  // Warning! DO NOT REVIEW code in this component. It's a throw-away.
+
   const getInfo = async () => {
-    const info = await getDeviceInfo("front-end passed value")
+    const info = await getDeviceInfo()
     document.getElementById("response")!.innerText = JSON.stringify(
       info,
       null,
       2
     )
   }
+
+  const handleBattery = () =>
+    getBatteryInfo().then(result => {
+      document.getElementById("battery")!.innerText = JSON.stringify(
+        result,
+        null,
+        2
+      )
+    })
+
+  const handleNetwork = () =>
+    getNetworkInfo().then(result => {
+      document.getElementById("network")!.innerText = JSON.stringify(
+        result,
+        null,
+        2
+      )
+    })
+
+  const handleStorage = () =>
+    getStorageInfo().then(result => {
+      document.getElementById("storage")!.innerText = JSON.stringify(
+        result,
+        null,
+        2
+      )
+    })
+
+  const handleBackups = () =>
+    getBackupsInfo().then(result => {
+      document.getElementById("backups")!.innerText = JSON.stringify(
+        result,
+        null,
+        2
+      )
+    })
+
   return (
     <div>
-      <pre id="response" />
-      <button onClick={getInfo}>Get Device Info</button>
       <div>Battery level: {batteryLevel}</div>
       <div>OS Version: {osVersion}</div>
       <div>Last backup {lastBackup}</div>
       <div>
         Memory: {memorySpace.free}/{memorySpace.full}
       </div>
+      <hr />
+      <h2>Device info</h2>
+      <button onClick={getInfo}>Get</button>
+      <pre id="response" />
+      <h2>Battery info</h2>
+      <button onClick={handleBattery}>Get</button>
+      <pre id="battery" />
+      <h2>Network info</h2>
+      <button onClick={handleNetwork}>Get</button>
+      <pre id="network" />
+      <h2>Storage info</h2>
+      <button onClick={handleStorage}>Get</button>
+      <pre id="storage" />
+      <h2>Backups info</h2>
+      <button onClick={handleBackups}>Get</button>
+      <pre id="backups" />
     </div>
   )
 }

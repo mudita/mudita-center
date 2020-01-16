@@ -30,6 +30,7 @@ const theme = {
       supplementary: "#6D9BBC",
       placeholder: "#A5A5A5",
       dark: "#000000",
+      hover: "#3E6988",
     },
     background: {
       light: "#ffffff",
@@ -50,10 +51,14 @@ const theme = {
       dark: "#000000",
       default: "#CDCECF",
       grey: "#CDCECF",
+      grey2: "#F4F5F6",
       hover: "#3B3F42",
       listItem: "#D2D6DB",
       light: "#D2D6DB",
       intense: "#6D9BBC",
+    },
+    boxShadow: {
+      grey: "rgba(188,188,188,0.5)",
     },
   },
   layout: {
@@ -77,7 +82,7 @@ const theme = {
   borderRadius: {
     small: 0.15,
     medium: 0.4,
-    big: 0.12,
+    big: 1.2,
   },
   letterSpacing: {
     negative: -0.06,
@@ -85,6 +90,9 @@ const theme = {
     small: 0.04,
     medium: 0.075,
     regular: 0.1,
+  },
+  lineHeight: {
+    textarea: 1.8,
   },
   font: {
     primary:
