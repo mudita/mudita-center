@@ -37,7 +37,10 @@ const navLinkStyles = css`
   background-color: ${backgroundColor("grey2")};
   * {
     color: ${textColor("black")};
-    fill: ${textColor("black")};
+  }
+
+  svg {
+    opacity: 1;
   }
 `
 
@@ -200,8 +203,8 @@ const buttonStyles = css<{
           &:hover {
             ${navLinkStyles}
           }
-          g {
-            fill: ${textColor("faded")};
+          svg {
+            opacity: 0.8;
           }
         `
       default:
