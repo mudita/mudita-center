@@ -122,7 +122,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 1`] = `
 <button
-  class="sc-ifAKCX gTsxDF"
+  class="sc-ifAKCX iaIcrG"
   size="2"
   type="button"
 >
@@ -136,7 +136,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 2`] = `
 <a
-  class="sc-bxivhb iEOMoQ"
+  class="sc-bxivhb fsOmnJ"
   href="http://www.google.pl"
   size="2"
   target="_blank"
@@ -560,7 +560,7 @@ exports[`link-button should have active class when clicked 1`] = `
 <div>
   <a
     aria-current="page"
-    class="sc-bwzfXH gvWDDv active"
+    class="sc-bwzfXH dCQjPx active"
     displaystyle="8"
     href="/overview"
     size="2"

@@ -6,13 +6,13 @@ exports[`matches snapshot 1`] = `
     class="sc-gzVnrw hdDONz"
   >
     <test-file-stub
-      classname="sc-gqjmRU esmWAh"
+      classname="sc-jTzLTM cKetjh"
     />
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/news"
         size="2"
@@ -35,26 +35,44 @@ exports[`matches snapshot 1`] = `
       >
         Your Pure
       </p>
-      <div>
-        <test-file-stub
-          classname="sc-dnqmqq bVwIUz"
-        />
-        <test-file-stub
-          classname="sc-dnqmqq bVwIUz"
-        />
-        <test-file-stub
-          classname="sc-dnqmqq bVwIUz"
-        />
-        <test-file-stub
-          classname="sc-dnqmqq bVwIUz"
-        />
+      <div
+        class="sc-dnqmqq iFsitv"
+      >
+        <div
+          class="sc-iwsKbI XqeNU"
+        >
+          <test-file-stub
+            classname="sc-gZMcBi hVWDRF"
+          />
+        </div>
+        <div
+          class="sc-iwsKbI XqeNU"
+        >
+          <test-file-stub
+            classname="sc-gZMcBi hVWDRF"
+          />
+        </div>
+        <div
+          class="sc-iwsKbI XqeNU"
+        >
+          <test-file-stub
+            classname="sc-gZMcBi hVWDRF"
+          />
+        </div>
+        <div
+          class="sc-iwsKbI XqeNU"
+        >
+          <test-file-stub
+            classname="sc-gZMcBi hVWDRF"
+          />
+        </div>
       </div>
     </div>
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/overview"
         size="2"
@@ -70,10 +88,10 @@ exports[`matches snapshot 1`] = `
       </a>
     </div>
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/messages"
         size="2"
@@ -89,10 +107,10 @@ exports[`matches snapshot 1`] = `
       </a>
     </div>
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/phone"
         size="2"
@@ -108,10 +126,10 @@ exports[`matches snapshot 1`] = `
       </a>
     </div>
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/music"
         size="2"
@@ -127,10 +145,10 @@ exports[`matches snapshot 1`] = `
       </a>
     </div>
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/calendar"
         size="2"
@@ -146,10 +164,10 @@ exports[`matches snapshot 1`] = `
       </a>
     </div>
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/tools"
         size="2"
@@ -165,10 +183,10 @@ exports[`matches snapshot 1`] = `
       </a>
     </div>
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/meditation"
         size="2"
@@ -184,10 +202,10 @@ exports[`matches snapshot 1`] = `
       </a>
     </div>
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/files-manager"
         size="2"
@@ -212,10 +230,10 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/tethering"
         size="2"
@@ -231,10 +249,10 @@ exports[`matches snapshot 1`] = `
       </a>
     </div>
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/settings"
         size="2"
@@ -250,10 +268,10 @@ exports[`matches snapshot 1`] = `
       </a>
     </div>
     <div
-      class="sc-iwsKbI gfKxvD"
+      class="sc-gqjmRU evzEAj"
     >
       <a
-        class="sc-bwzfXH gvWDDv sc-gZMcBi bocKKM"
+        class="sc-bwzfXH dCQjPx sc-VigVT fZAuzX"
         displaystyle="8"
         href="#/help"
         size="2"
