@@ -12,6 +12,7 @@ import styled from "styled-components"
 import { DisplayStyle, Size, Type } from "./button.config"
 
 import {
+  activeClassName,
   StyledA,
   StyledButton,
   StyledIcon,
@@ -20,7 +21,7 @@ import {
 } from "./button.styled.elements"
 
 interface Props {
-  navLink?: boolean
+  nav?: boolean
   disabled?: boolean
   displayStyle?: DisplayStyle
   href?: string
@@ -47,7 +48,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   Icon,
   label,
   labelMessage,
-  navLink,
+  nav,
   size = Size.FixedBig,
   target,
   to,
@@ -57,9 +58,12 @@ const ButtonComponent: FunctionComponent<Props> = ({
   let Component: FunctionComponent<ComponentProps<typeof StyledButton>>
   const filteredProps = {}
 
-  if (to && navLink) {
+  if (to && nav) {
     Component = StyledNavLink
-    Object.assign(filteredProps, { to, activeClassName: navLink })
+    Object.assign(filteredProps, {
+      to,
+      activeClassName,
+    })
   } else if (to) {
     Component = StyledLink
     Object.assign(filteredProps, { to })

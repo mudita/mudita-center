@@ -31,6 +31,8 @@ const getSize = (size: Size) => {
   }
 }
 
+export const activeClassName = "active"
+
 const navLinkStyles = css`
   background-color: ${backgroundColor("grey2")};
   * {
@@ -40,7 +42,6 @@ const navLinkStyles = css`
 `
 
 const buttonStyles = css<{
-  activeClassName?: string
   displaystyle: DisplayStyle
   disabled: boolean
   size: Size
@@ -60,7 +61,7 @@ const buttonStyles = css<{
     `
       pointer-events: none;
   `}
-  ${({ activeClassName, displaystyle, disabled }) => {
+  ${({ displaystyle, disabled }) => {
     switch (displaystyle) {
       case DisplayStyle.Primary:
         return css`
@@ -209,14 +210,7 @@ const buttonStyles = css<{
   }}
 `
 
-export const StyledNavLink = styled(NavLink).attrs<{
-  activeClassName?: string
-  displaystyle: DisplayStyle
-  disabled: boolean
-  size: Size
-}>(({ activeClassName }) => ({
-  activeClassName: activeClassName ? activeClassName : null,
-}))<{
+export const StyledNavLink = styled(NavLink)<{
   displaystyle: DisplayStyle
   disabled: boolean
   size: Size
