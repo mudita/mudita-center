@@ -65,7 +65,7 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
       )}
 
       {items &&
-        items!.map(({ button, icon }, index) => (
+        items.map(({ button, icon }, index) => (
           <LinkWrapper key={index}>
             <ButtonMenu
               nav
