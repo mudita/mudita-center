@@ -48,15 +48,28 @@ test("link-button should have active class when clicked", async () => {
     Icon: Upload,
     nav: true,
   }
+  const data2 = {
+    displayStyle: DisplayStyle.Link4,
+    label: "Music",
+    to: "/music",
+    Icon: Upload,
+    nav: true,
+  }
   const { container, getByText } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={["/overview"]}>
       <Button {...data} />
+      <Button {...data2} />
     </MemoryRouter>
   )
+  const firstButton = getByText("Example")
+  const anchors = container.querySelectorAll("a")
+  const firstLink = anchors[0]
+  const secondLink = anchors[1]
 
-  fireEvent.click(getByText("Example"))
+  fireEvent.click(firstButton)
 
   await wait(() => {
-    expect(container.querySelector("a")).toHaveClass("active")
+    expect(secondLink).not.toHaveClass("active")
+    expect(firstLink).toHaveClass("active")
   })
 })
