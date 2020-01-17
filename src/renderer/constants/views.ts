@@ -17,52 +17,76 @@ const messages = defineMessages({
   help: { id: "view.name.help" },
 })
 
-export const VIEWS = {
-  news: {
+export enum View {
+  News = "news",
+  Overview = "overview",
+  Messages = "messages",
+  Phone = "phone",
+  Music = "music",
+  Calendar = "calendar",
+  Tools = "tools",
+  Meditation = "meditation",
+  FilesManager = "filesManager",
+  Tethering = "tethering",
+  Settings = "settings",
+  Help = "help",
+}
+
+export type Views = {
+  [key in View]: {
+    label: {
+      id: string
+    }
+    url: string
+  }
+}
+
+export const VIEWS: Views = {
+  [View.News]: {
     label: messages.news,
     url: URL_MAIN.news,
   },
-  overview: {
+  [View.Overview]: {
     label: messages.overview,
     url: URL_MAIN.overview,
   },
-  messages: {
+  [View.Messages]: {
     label: messages.messages,
     url: URL_MAIN.messages,
   },
-  phone: {
+  [View.Phone]: {
     label: messages.phone,
     url: URL_MAIN.phone,
   },
-  music: {
+  [View.Music]: {
     label: messages.music,
     url: URL_MAIN.music,
   },
-  calendar: {
+  [View.Calendar]: {
     label: messages.calendar,
     url: URL_MAIN.calendar,
   },
-  tools: {
+  [View.Tools]: {
     label: messages.tools,
     url: URL_MAIN.tools,
   },
-  meditation: {
+  [View.Meditation]: {
     label: messages.meditation,
     url: URL_MAIN.meditation,
   },
-  filesManager: {
+  [View.FilesManager]: {
     label: messages.filesManager,
     url: URL_MAIN.filesManager,
   },
-  tethering: {
+  [View.Tethering]: {
     label: messages.tethering,
     url: URL_MAIN.tethering,
   },
-  settings: {
+  [View.Settings]: {
     label: messages.settings,
     url: URL_MAIN.settings,
   },
-  help: {
+  [View.Help]: {
     label: messages.help,
     url: URL_MAIN.help,
   },

@@ -1,5 +1,5 @@
 import { defineMessages } from "react-intl"
-import { VIEWS } from "Renderer/constants/views"
+import { View, VIEWS } from "Renderer/constants/views"
 
 import MenuCalendar from "Renderer/svg/menu_calendar.svg"
 import MenuFilesManager from "Renderer/svg/menu_filesManager.svg"
@@ -14,9 +14,11 @@ import MenuSettings from "Renderer/svg/menu_settings.svg"
 import MenuTethering from "Renderer/svg/menu_tethering.svg"
 import MenuTools from "Renderer/svg/menu_tools.svg"
 
+import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import Battery from "Renderer/svg/battery.svg"
 import Signal from "Renderer/svg/signal.svg"
 import Sim from "Renderer/svg/sim.svg"
+import FunctionComponent from "Renderer/types/function-component.interface"
 
 const messages = defineMessages({
   yourPure: { id: "menu.header.yourPure" },
@@ -40,26 +42,34 @@ const DESKTOP_APP_BUTTONS = [
   { button: VIEWS.help, icon: MenuHelp },
 ]
 
-export const MENU_ELEMENTS = [
+interface Item {
+  button: typeof VIEWS[View]
+  icon: FunctionComponent<ImageInterface>
+}
+
+export interface MenuElement {
+  items?: Item[]
+  label?: {
+    id: string
+  }
+  icons?: Array<FunctionComponent<ImageInterface>>
+}
+
+export const MENU_ELEMENTS: MenuElement[] = [
   {
-    type: "buttons",
-    buttons: [{ button: VIEWS.news, icon: MenuNews }],
+    items: [{ button: VIEWS[View.News], icon: MenuNews }],
   },
   {
-    type: "header",
     label: messages.yourPure,
     icons: [Signal, Battery, Sim, MenuTethering],
   },
   {
-    type: "buttons",
-    buttons: YOUR_PURE_BUTTONS,
+    items: YOUR_PURE_BUTTONS,
   },
   {
-    type: "header",
     label: messages.desktopApp,
   },
   {
-    type: "buttons",
-    buttons: DESKTOP_APP_BUTTONS,
+    items: DESKTOP_APP_BUTTONS,
   },
 ]
