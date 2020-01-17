@@ -48,7 +48,7 @@ const ButtonMenu = styled(Button)`
 
 const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
   return (
-    <div>
+    <>
       {label && (
         <HeaderWrapper>
           <Text displayStyle={TextDisplayStyle.SmallText} message={label} />
@@ -76,7 +76,7 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
             />
           </LinkWrapper>
         ))}
-    </div>
+    </>
   )
 }
 
