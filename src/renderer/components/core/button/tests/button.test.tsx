@@ -57,7 +57,6 @@ test("link-button should have active class when clicked", async () => {
   fireEvent.click(getByText("Example"))
 
   await wait(() => {
-    expect(container).toMatchSnapshot()
     expect(container.querySelector("a")).toHaveClass("active")
   })
 })
