@@ -1,7 +1,5 @@
 import React, { ChangeEvent } from "react"
-import InputText, {
-  TextInputLayouts,
-} from "Renderer/components/core/input-text/input-text.component"
+import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import { Icon } from "Renderer/components/core/input-text/input-text.stories"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -12,7 +10,7 @@ const Panel = styled.div`
   padding: 3.2rem 3rem 1rem 4rem;
 `
 
-const SearchInput = styled(InputText)`
+const SearchInput = styled(InputComponent)`
   min-width: 39rem;
 `
 
@@ -23,14 +21,13 @@ interface PanelInterface {
 const ContactPanel: FunctionComponent<PanelInterface> = ({
   onSearchTermChange,
 }) => {
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onSearchTermChange(event.target.value)
+  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    onSearchTermChange(target.value)
   }
   return (
     <Panel>
       <SearchInput
-        layout={TextInputLayouts.Outlined}
-        condensed
+        type="search"
         leadingIcons={[<Icon key={1} />]}
         placeholder="Search contacts"
         onChange={onChange}
