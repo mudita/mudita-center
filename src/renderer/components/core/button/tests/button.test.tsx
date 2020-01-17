@@ -41,6 +41,7 @@ describe("Button matches snapshots", () => {
 })
 
 test("link-button should have active class when clicked", async () => {
+  const currentPath = "/music"
   const data = {
     displayStyle: DisplayStyle.Link4,
     label: "Example",
@@ -51,25 +52,24 @@ test("link-button should have active class when clicked", async () => {
   const data2 = {
     displayStyle: DisplayStyle.Link4,
     label: "Music",
-    to: "/music",
+    to: currentPath,
     Icon: Upload,
     nav: true,
   }
   const { container, getByText } = renderWithThemeAndIntl(
-    <MemoryRouter initialEntries={["/overview"]}>
+    <MemoryRouter initialEntries={[currentPath]}>
       <Button {...data} />
       <Button {...data2} />
     </MemoryRouter>
   )
   const firstButton = getByText("Example")
-  const anchors = container.querySelectorAll("a")
-  const firstLink = anchors[0]
-  const secondLink = anchors[1]
+  const firstLink = container.querySelector("a")
+
+  expect(firstLink).not.toHaveClass("active")
 
   fireEvent.click(firstButton)
 
   await wait(() => {
-    expect(secondLink).not.toHaveClass("active")
     expect(firstLink).toHaveClass("active")
   })
 })
