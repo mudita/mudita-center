@@ -24,6 +24,7 @@ module.exports = merge.smart(baseConfig, {
           ],
           plugins: [
             ["@babel/plugin-proposal-class-properties", { loose: true }],
+            ["@babel/plugin-proposal-optional-chaining"],
           ],
         },
       },
