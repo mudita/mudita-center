@@ -50,6 +50,7 @@ const theme = {
       default: "#CDCECF",
       grey: "#CDCECF",
       grey2: "#F4F5F6",
+      grey3: "#E9E9E9",
       hover: "#3B3F42",
       listItem: "#D2D6DB",
       light: "#D2D6DB",
