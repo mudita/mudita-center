@@ -82,9 +82,7 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
         />
       </Info>
       {Boolean(buttons?.length) && (
-        <Buttons data-testid="buttons">
-          {buttons?.map(button => button)}
-        </Buttons>
+        <Buttons data-testid="buttons">{buttons}</Buttons>
       )}
     </SelectionManagerWrapper>
   )
