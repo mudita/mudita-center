@@ -73,7 +73,6 @@ export const PredefinedSelectionManager = ({
       messageId="view.name.messages.conversations.selectionsNumber"
       selectedItemsNumber={selectedItemsNumber}
       allItemsSelected={allItemsSelected}
-      collectionLabel={collectionLabel}
       {...props}
     />
   )

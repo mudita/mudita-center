@@ -11,6 +11,7 @@ import {
   borderRadius,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
 
 const Buttons = styled.div`
@@ -60,25 +61,15 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
   messageId,
   buttons,
   expanded,
-  onToggle,
+  onToggle = noop,
 }) => {
-  const collectionLabelPluralized = collectionLabelPlural
-    ? collectionLabelPlural
-    : `${collectionLabel}s`
-
-  const changeHandler = (e: ChangeEvent) => {
-    e.preventDefault()
-    if (onToggle) {
-      onToggle()
-    }
-  }
   return (
     <SelectionManagerWrapper className={className} expanded={expanded}>
       <CheckboxWrapper>
         <Checkbox
           checked
           indeterminate={!allItemsSelected}
-          onChange={changeHandler}
+          onChange={onToggle}
         />
       </CheckboxWrapper>
       <Info
