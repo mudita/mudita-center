@@ -4,6 +4,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
+import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
@@ -25,14 +26,14 @@ const TabWrapper = styled.div`
 
 interface TabProps {
   icon: FunctionComponent<ImageInterface>
-  tabText?: string
+  tabText?: MessageInterface
 }
 
 const Tab: FunctionComponent<TabProps> = ({ icon, tabText }) => {
   return (
     <TabWrapper data-testid="tab">
       <TabIcon Image={icon} />
-      <Text displayStyle={TextDisplayStyle.MediumText}>{tabText}</Text>
+      <Text displayStyle={TextDisplayStyle.MediumText} message={tabText} />
     </TabWrapper>
   )
 }

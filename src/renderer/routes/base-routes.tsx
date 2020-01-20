@@ -15,8 +15,9 @@ import Settings from "Renderer/modules/settings/settings.component"
 import Tethering from "Renderer/modules/tethering/tethering.component"
 import Tools from "Renderer/modules/tools/tools.component"
 
-import { URL_MAIN } from "Renderer/constants/urls"
+import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
 import Calendar from "Renderer/modules/calendar/calendar.component"
+import Conversations from "Renderer/modules/messages/tabs/conversations.component"
 
 export default () => (
   <LayoutDesktopWrapper>
@@ -26,6 +27,10 @@ export default () => (
       <Route path={URL_MAIN.help} component={Help} />
       <Route path={URL_MAIN.meditation} component={Meditation} />
       <Route path={URL_MAIN.messages} component={MessagesContainer} />
+      <Route
+        path={`${URL_MAIN.messages}${URL_TABS.conversations}`}
+        component={Conversations}
+      />
       <Route path={URL_MAIN.music} component={Music} />
       <Route path={URL_MAIN.news} component={News} />
       <Route path={URL_MAIN.calendar} component={Calendar} />

@@ -13,3 +13,7 @@ export const URL_MAIN = {
   settings: "/settings",
   help: "/help",
 }
+
+export const URL_TABS = {
+  conversations: "/conversations",
+}
