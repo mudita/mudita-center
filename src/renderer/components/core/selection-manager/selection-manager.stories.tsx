@@ -66,11 +66,11 @@ const useSelectionManager = () => {
 export const PredefinedSelectionManager = ({
   selectedItemsNumber = 1,
   allItemsSelected = false,
-  collectionLabel = "Item",
   ...props
 }: Partial<SelectionManagerProps>) => {
   return (
     <SelectionManager
+      messageId="view.name.messages.conversations.selectionsNumber"
       selectedItemsNumber={selectedItemsNumber}
       allItemsSelected={allItemsSelected}
       collectionLabel={collectionLabel}

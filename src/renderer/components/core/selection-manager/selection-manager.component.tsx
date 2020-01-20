@@ -1,4 +1,5 @@
-import React, { ChangeEvent } from "react"
+import React from "react"
+import { FormattedMessage } from "react-intl"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { SelectionManagerProps } from "Renderer/components/core/selection-manager/selection-manager.interface"
 import Text, {
@@ -56,8 +57,7 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
   className,
   selectedItemsNumber,
   allItemsSelected,
-  collectionLabel,
-  collectionLabelPlural,
+  messageId,
   buttons,
   expanded,
   onToggle,
@@ -85,11 +85,10 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
         displayStyle={TextDisplayStyle.MediumFadedLightText}
         data-testid="info"
       >
-        {allItemsSelected ? "All" : selectedItemsNumber}{" "}
-        {selectedItemsNumber > 1 || allItemsSelected
-          ? collectionLabelPluralized
-          : collectionLabel}{" "}
-        selected
+        <FormattedMessage
+          id={messageId}
+          values={{ num: allItemsSelected ? -1 : selectedItemsNumber }}
+        />
       </Info>
       {Boolean(buttons?.length) && (
         <Buttons data-testid="buttons">

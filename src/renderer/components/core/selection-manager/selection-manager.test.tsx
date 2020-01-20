@@ -59,17 +59,17 @@ test("render buttons properly", () => {
 
 test("renders text info for one item properly", () => {
   const { getInfo } = renderSelectionManager({ selectedItemsNumber: 1 })
-  expect(getInfo()).toHaveTextContent("1 Item selected")
+  expect(getInfo()).toHaveTextContent("1 Conversation selected")
 })
 
 test("renders text info for few items properly", () => {
   const { getInfo } = renderSelectionManager({ selectedItemsNumber: 4 })
-  expect(getInfo()).toHaveTextContent("4 Items selected")
+  expect(getInfo()).toHaveTextContent("4 Conversations selected")
 })
 
 test("renders text info for all items properly", () => {
   const { getInfo } = renderSelectionManager({ allItemsSelected: true })
-  expect(getInfo()).toHaveTextContent("All Items selected")
+  expect(getInfo()).toHaveTextContent("All Conversations selected")
 })
 
 test("renders indeterminate status properly", () => {
