@@ -17,9 +17,6 @@ const renderSelectionManager = (props: Partial<SelectionManagerProps> = {}) => {
     ...outcome,
     getWrapper: () => outcome.container.querySelector("section"),
     getCheckbox: () => outcome.getByRole("checkbox"),
-    getCheckboxIndeterminateIcon: () =>
-      outcome.queryByTestId("state-indeterminate"),
-    getCheckboxCheckedIcon: () => outcome.queryByTestId("state-checked"),
     getInfo: () => outcome.getByTestId("info"),
     getButtonsWrapper: () => outcome.queryByTestId("buttons"),
     getButtons: () => outcome.queryAllByTestId("button"),
@@ -73,17 +70,13 @@ test("renders text info for all items properly", () => {
 })
 
 test("renders indeterminate status properly", () => {
-  const { getCheckboxIndeterminateIcon } = renderSelectionManager({
-    allItemsSelected: false,
-  })
-  expect(getCheckboxIndeterminateIcon()).toBeInTheDocument()
+  const { queryByTestId } = renderSelectionManager({ allItemsSelected: false })
+  expect(queryByTestId("state-indeterminate")).toBeInTheDocument()
 })
 
 test("renders indeterminate status properly", () => {
-  const { getCheckboxCheckedIcon } = renderSelectionManager({
-    allItemsSelected: true,
-  })
-  expect(getCheckboxCheckedIcon()).toBeInTheDocument()
+  const { queryByTestId } = renderSelectionManager({ allItemsSelected: true })
+  expect(queryByTestId("state-checked")).toBeInTheDocument()
 })
 
 test("renders expanded selection manager properly", () => {
