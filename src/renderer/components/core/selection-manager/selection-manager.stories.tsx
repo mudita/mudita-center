@@ -1,3 +1,4 @@
+import { action } from "@storybook/addon-actions"
 import { button, withKnobs } from "@storybook/addon-knobs"
 import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
@@ -13,14 +14,6 @@ import Delete from "Renderer/svg/delete.svg"
 import Export from "Renderer/svg/upload.svg"
 import styled from "styled-components"
 
-const onDelete = () => {
-  alert("Deleted")
-}
-
-const onExport = () => {
-  alert("Exported")
-}
-
 export const deleteButton = (
   <ButtonComponent
     key="delete"
@@ -28,7 +21,7 @@ export const deleteButton = (
     displayStyle={DisplayStyle.Link1}
     Icon={Delete}
     data-testid="button"
-    onClick={onDelete}
+    onClick={action("delete")}
   />
 )
 
@@ -39,7 +32,7 @@ export const exportButton = (
     displayStyle={DisplayStyle.Link1}
     Icon={Export}
     data-testid="button"
-    onClick={onExport}
+    onClick={action("export")}
   />
 )
 
