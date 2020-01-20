@@ -1,10 +1,10 @@
-import { ReactElement } from "react"
+import { ChangeEvent, ReactElement } from "react"
 
 export interface SelectionManagerProps {
   selectedItemsNumber: number
   allItemsSelected: boolean
   messageId: string
   buttons?: ReactElement[]
-  expanded?: boolean
-  onToggle?: () => void
+  enlarged?: boolean
+  onToggle?: (e?: ChangeEvent) => void
 }

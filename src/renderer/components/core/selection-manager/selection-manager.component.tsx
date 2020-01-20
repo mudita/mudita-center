@@ -34,7 +34,7 @@ const Info = styled(Text)`
   line-height: 1.1;
 `
 
-const SelectionManagerWrapper = styled.section<{ expanded?: boolean }>`
+const SelectionManagerWrapper = styled.section<{ enlarged?: boolean }>`
   display: grid;
   grid-template-areas: "Checkbox Info Buttons";
   grid-template-columns: auto 1fr auto;
@@ -42,7 +42,7 @@ const SelectionManagerWrapper = styled.section<{ expanded?: boolean }>`
   align-items: center;
   height: 4rem;
   padding: 0 0.7rem;
-  padding-left: ${({ expanded }) => (expanded ? 1.4 : 0.7)}rem;
+  padding-left: ${({ enlarged }) => (enlarged ? 1.4 : 0.7)}rem;
   background-color: ${backgroundColor("accent")};
   border-radius: ${borderRadius("medium")};
   border: solid 0.1rem ${borderColor("grey3")};
@@ -50,7 +50,7 @@ const SelectionManagerWrapper = styled.section<{ expanded?: boolean }>`
 
   ${Checkbox} {
     /* TODO: Remove below style and add a size prop for checkbox */
-    transform: scale(${({ expanded }) => (expanded ? 1 : 0.7)});
+    transform: scale(${({ enlarged }) => (enlarged ? 1 : 0.7)});
   }
 `
 
@@ -60,11 +60,11 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
   allItemsSelected,
   messageId,
   buttons,
-  expanded,
+  enlarged,
   onToggle = noop,
 }) => {
   return (
-    <SelectionManagerWrapper className={className} expanded={expanded}>
+    <SelectionManagerWrapper className={className} enlarged={enlarged}>
       <CheckboxWrapper>
         <Checkbox
           checked

@@ -121,7 +121,7 @@ storiesOf("Components", module)
         <br />
         <br />
         <Text displayStyle={TextDisplayStyle.SmallText}>
-          Expanded with buttons
+          Enlarged with buttons
         </Text>
         <br />
         <PredefinedSelectionManager
@@ -129,7 +129,7 @@ storiesOf("Components", module)
           allItemsSelected={allItems}
           onToggle={onToggle}
           buttons={buttons}
-          expanded
+          enlarged
         />
       </div>
     )
