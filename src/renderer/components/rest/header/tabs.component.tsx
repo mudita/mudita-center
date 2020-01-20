@@ -16,9 +16,11 @@ const Tabs: FunctionComponent<Props> = ({ className, currentLocation }) => {
   const data = TAB_ELEMENTS.filter(
     ({ parentUrl, tabs }) => parentUrl === currentLocation && tabs
   )[0]
-  const tabsList = data.tabs.map(tab => (
+
+  const tabsList = data?.tabs.map(tab => (
     <Tab tabText={tab.label} icon={tab.icon} key={tab.label.id} />
   ))
+
   return <TabsWrapper className={className}>{tabsList}</TabsWrapper>
 }
 

@@ -17,7 +17,7 @@ interface Tab {
   icon: FunctionComponent<ImageInterface>
 }
 
-interface TabElement {
+export interface TabElement {
   parentUrl: string
   tabs: Tab[]
 }
