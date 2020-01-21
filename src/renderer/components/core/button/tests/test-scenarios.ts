@@ -1,9 +1,6 @@
 import { defineMessages } from "react-intl"
-import {
-  DisplayStyle,
-  Size,
-} from "Renderer/components/core/button/button.component"
 import Upload from "Renderer/svg/upload.svg"
+import { DisplayStyle, Size } from "../button.config"
 
 const exampleMessageId = "view.name.news"
 const messages = defineMessages({
@@ -126,6 +123,15 @@ export default [
       },
       {
         displayStyle: DisplayStyle.Link3,
+        href: "http://www.google.pl",
+        target: "_blank",
+        Icon: Upload,
+      },
+      {
+        displayStyle: DisplayStyle.Link4,
+      },
+      {
+        displayStyle: DisplayStyle.Link4,
         href: "http://www.google.pl",
         target: "_blank",
         Icon: Upload,

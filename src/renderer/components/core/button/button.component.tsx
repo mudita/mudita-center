@@ -9,37 +9,19 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 
 import styled from "styled-components"
+import { DisplayStyle, Size, Type } from "./button.config"
+
 import {
+  activeClassName,
   StyledA,
   StyledButton,
   StyledIcon,
   StyledLink,
+  StyledNavLink,
 } from "./button.styled.elements"
 
-export enum DisplayStyle {
-  Primary,
-  Secondary,
-  IconOnly1,
-  IconOnly2,
-  IconOnly3,
-  Link1,
-  Link2,
-  Link3,
-}
-
-export enum Type {
-  Button = "button",
-  Submit = "submit",
-  Reset = "reset",
-}
-
-export enum Size {
-  FixedSmall,
-  FixedMedium,
-  FixedBig,
-}
-
 interface Props {
+  nav?: boolean
   disabled?: boolean
   displayStyle?: DisplayStyle
   href?: string
@@ -66,6 +48,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   Icon,
   label,
   labelMessage,
+  nav,
   size = Size.FixedBig,
   target,
   to,
@@ -75,7 +58,13 @@ const ButtonComponent: FunctionComponent<Props> = ({
   let Component: FunctionComponent<ComponentProps<typeof StyledButton>>
   const filteredProps = {}
 
-  if (to) {
+  if (to && nav) {
+    Component = StyledNavLink
+    Object.assign(filteredProps, {
+      to,
+      activeClassName,
+    })
+  } else if (to) {
     Component = StyledLink
     Object.assign(filteredProps, { to })
   } else if (href) {
@@ -94,18 +83,19 @@ const ButtonComponent: FunctionComponent<Props> = ({
       console.warn(
         "Button: button can not take label and labelMessage and the same time"
       )
+      return
     }
+    const textDisplayStyle =
+      displayStyle === DisplayStyle.Link4
+        ? TextDisplayStyle.LargeFadedText
+        : TextDisplayStyle.SmallText
+
     if (labelMessage) {
       return (
-        <ButtonText
-          displayStyle={TextDisplayStyle.SmallText}
-          message={labelMessage}
-        />
+        <ButtonText displayStyle={textDisplayStyle} message={labelMessage} />
       )
     }
-    return (
-      <ButtonText displayStyle={TextDisplayStyle.SmallText}>{label}</ButtonText>
-    )
+    return <ButtonText displayStyle={textDisplayStyle}>{label}</ButtonText>
   }
 
   return (
@@ -113,14 +103,14 @@ const ButtonComponent: FunctionComponent<Props> = ({
       {...filteredProps}
       {...rest}
       className={className}
-      displayStyle={displayStyle}
+      displaystyle={displayStyle}
       size={size}
       disabled={disabled}
     >
       {Icon && (
         <StyledIcon
-          displayStyle={displayStyle}
-          withMargin={Boolean(label)}
+          displaystyle={displayStyle}
+          withMargin={Boolean(label || labelMessage)}
           Image={Icon}
         />
       )}
