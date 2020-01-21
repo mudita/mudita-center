@@ -5,7 +5,7 @@ import Svg from "Renderer/components/core/svg/svg.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { MenuElement } from "Renderer/constants/menuElements"
+import { MenuElement } from "Renderer/constants/menu-elements"
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"

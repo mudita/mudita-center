@@ -41,7 +41,7 @@ export type Views = {
   }
 }
 
-export const VIEWS: Views = {
+export const views: Views = {
   [View.News]: {
     label: messages.news,
     url: URL_MAIN.news,

@@ -1,5 +1,5 @@
 import { defineMessages } from "react-intl"
-import { View, VIEWS } from "Renderer/constants/views"
+import { View, views } from "Renderer/constants/views"
 
 import MenuCalendar from "Renderer/svg/menu_calendar.svg"
 import MenuFilesManager from "Renderer/svg/menu_filesManager.svg"
@@ -26,24 +26,24 @@ const messages = defineMessages({
 })
 
 const YOUR_PURE_BUTTONS = [
-  { button: VIEWS.overview, icon: MenuOverview },
-  { button: VIEWS.messages, icon: MenuMessages },
-  { button: VIEWS.phone, icon: MenuPhone },
-  { button: VIEWS.music, icon: MenuMusic },
-  { button: VIEWS.calendar, icon: MenuCalendar },
-  { button: VIEWS.tools, icon: MenuTools },
-  { button: VIEWS.meditation, icon: MenuMeditation },
-  { button: VIEWS.filesManager, icon: MenuFilesManager },
+  { button: views.overview, icon: MenuOverview },
+  { button: views.messages, icon: MenuMessages },
+  { button: views.phone, icon: MenuPhone },
+  { button: views.music, icon: MenuMusic },
+  { button: views.calendar, icon: MenuCalendar },
+  { button: views.tools, icon: MenuTools },
+  { button: views.meditation, icon: MenuMeditation },
+  { button: views.filesManager, icon: MenuFilesManager },
 ]
 
 const DESKTOP_APP_BUTTONS = [
-  { button: VIEWS.tethering, icon: MenuTethering },
-  { button: VIEWS.settings, icon: MenuSettings },
-  { button: VIEWS.help, icon: MenuHelp },
+  { button: views.tethering, icon: MenuTethering },
+  { button: views.settings, icon: MenuSettings },
+  { button: views.help, icon: MenuHelp },
 ]
 
 interface Item {
-  button: typeof VIEWS[View]
+  button: typeof views[View]
   icon: FunctionComponent<ImageInterface>
 }
 
@@ -55,21 +55,17 @@ export interface MenuElement {
   icons?: Array<FunctionComponent<ImageInterface>>
 }
 
-export const MENU_ELEMENTS: MenuElement[] = [
+export const menuElements: MenuElement[] = [
   {
-    items: [{ button: VIEWS[View.News], icon: MenuNews }],
+    items: [{ button: views[View.News], icon: MenuNews }],
   },
   {
     label: messages.yourPure,
+    items: YOUR_PURE_BUTTONS,
     icons: [Signal, Battery, Sim, MenuTethering],
   },
   {
-    items: YOUR_PURE_BUTTONS,
-  },
-  {
     label: messages.desktopApp,
-  },
-  {
     items: DESKTOP_APP_BUTTONS,
   },
 ]
