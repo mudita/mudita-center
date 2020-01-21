@@ -1,16 +1,17 @@
-import { Link } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
 import Svg from "Renderer/components/core/svg/svg.component"
 import transition from "Renderer/styles/functions/transition"
 import theme from "Renderer/styles/theming/theme"
 import {
   backgroundColor,
   borderColor,
+  borderRadius,
   fontWeight,
   textColor,
   width,
 } from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
-import { DisplayStyle, Size } from "./button.component"
+import { DisplayStyle, Size } from "./button.config"
 
 const getSize = (size: Size) => {
   switch (size) {
@@ -31,6 +32,20 @@ const getSize = (size: Size) => {
   }
 }
 
+export const activeClassName = "active"
+
+const navLinkStyles = css`
+  background-color: ${backgroundColor("grey2")};
+  * {
+    color: ${textColor("black")};
+  }
+
+  svg {
+    opacity: 1;
+    transition: ${transition("opacity", undefined, "ease")};
+  }
+`
+
 export const disabledPrimaryStyles = css`
   background: ${backgroundColor("grey")};
   border: 0.1rem solid ${backgroundColor("grey")};
@@ -38,7 +53,6 @@ export const disabledPrimaryStyles = css`
 
 export const disabledSecondaryStyles = css`
   border: 0.1rem solid ${borderColor("grey")};
-  color: ${textColor("grey")};
   g {
     fill: ${textColor("grey")};
   }
@@ -84,7 +98,7 @@ const buttonStyles = css<{
         return css`
           height: 4rem;
           color: ${textColor("inverted")};
-          border-radius: 0.4rem;
+          border-radius: ${borderRadius("medium")}rem;
           background: ${backgroundColor("inputDark")};
           border: 0.1rem solid ${backgroundColor("inputDark")};
           ${disabled && disabledPrimaryStyles};
@@ -98,7 +112,7 @@ const buttonStyles = css<{
       case DisplayStyle.Secondary:
         return css`
           height: 4rem;
-          border-radius: 0.4rem;
+          border-radius: ${borderRadius("medium")}rem;
           border: 0.1rem solid ${borderColor("hover")};
           g {
             fill: ${textColor("black")};
@@ -113,7 +127,7 @@ const buttonStyles = css<{
           height: 4rem;
           width: 4rem;
           border: 0.1rem solid ${borderColor("hover")};
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("small")}rem;
           &:hover {
             border-color: ${borderColor("dark")};
           }
@@ -122,7 +136,7 @@ const buttonStyles = css<{
         return css`
           height: 3.2rem;
           width: 3.2rem;
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("small")}rem;
           background: transparent;
           border: none;
           &:hover {
@@ -133,7 +147,7 @@ const buttonStyles = css<{
         return css`
           height: 3.2rem;
           width: 3.2rem;
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("small")}rem;
           background: transparent;
           border: none;
           &:hover {
@@ -149,7 +163,7 @@ const buttonStyles = css<{
           height: 3rem;
           padding: 0.8rem;
           border: none;
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("small")}rem;
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
@@ -162,7 +176,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("medium")}rem;
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
@@ -175,7 +189,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: 0.2rem;
+          border-radius: ${borderRadius("small")}rem;
           color: ${textColor("supplementary")};
           font-weight: ${fontWeight("default")};
           width: 100%;
@@ -186,19 +200,60 @@ const buttonStyles = css<{
             fill: ${textColor("supplementary")};
           }
         `
+      case DisplayStyle.Link4:
+        return css`
+          justify-content: flex-start;
+          height: 4rem;
+          padding: 0.8rem;
+          border: none;
+          border-radius: ${borderRadius("small")}rem;
+          color: ${textColor("faded")};
+          font-weight: ${fontWeight("default")};
+          width: 100%;
+
+          &.${activeClassName} {
+            ${navLinkStyles}
+          }
+          &:hover {
+            ${navLinkStyles}
+          }
+          svg {
+            opacity: 0.75;
+          }
+        `
       default:
         return
     }
   }}
 `
 
-export const StyledLink = styled(Link)`
-  ${buttonStyles};
+export const StyledNavLink = styled(NavLink)<{
+  displayStyle: DisplayStyle
+  disabled: boolean
+  size: Size
+}>`
+  ${buttonStyles}
 `
-export const StyledA = styled.a`
-  ${buttonStyles};
+
+export const StyledLink = styled(Link)<{
+  displayStyle: DisplayStyle
+  disabled: boolean
+  size: Size
+}>`
+  ${buttonStyles}
 `
-export const StyledButton = styled.button`
+export const StyledA = styled.a<{
+  displayStyle: DisplayStyle
+  disabled: boolean
+  size: Size
+}>`
+  ${buttonStyles}
+`
+export const StyledButton = styled.button<{
+  displayStyle: DisplayStyle
+  disabled: boolean
+  size: Size
+}>`
   ${buttonStyles}
 `
 export const StyledIcon = styled(Svg)<{

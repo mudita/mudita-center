@@ -1,8 +1,7 @@
 import React from "react"
 import { ButtonTogglerProps } from "Renderer/components/core/button-toggler/button-toggler.interface"
-import ButtonComponent, {
-  DisplayStyle,
-} from "Renderer/components/core/button/button.component"
+import ButtonComponent from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { disabledSecondaryStyles } from "Renderer/components/core/button/button.styled.elements"
 import { borderRadius } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"

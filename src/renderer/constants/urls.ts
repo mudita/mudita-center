@@ -5,6 +5,7 @@ export const URL_MAIN = {
   messages: "/messages",
   phone: "/phone",
   music: "/music",
+  calendar: "/calendar",
   tools: "/tools",
   meditation: "/meditation",
   filesManager: "/files-manager",

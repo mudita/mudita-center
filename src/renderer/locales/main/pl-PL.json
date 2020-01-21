@@ -1,4 +1,7 @@
 {
+  "menu.header.desktopApp": "menu.header.desktopApp",
+  "menu.header.yourPure": "menu.header.yourPure",
+  "view.name.calendar": "view.name.calendar",
   "view.name.filesManager": "view.name.filesManager",
   "view.name.help": "view.name.help",
   "view.name.meditation": "view.name.meditation",

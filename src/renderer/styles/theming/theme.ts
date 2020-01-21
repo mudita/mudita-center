@@ -33,6 +33,7 @@ const theme = {
       hover: "#3E6988",
     },
     background: {
+      blue: "#6D9BBC",
       light: "#ffffff",
       dark: "#000000",
       dark2: "#232426",
@@ -77,8 +78,8 @@ const theme = {
     medium: 0.8,
   },
   borderRadius: {
-    small: 0.15,
-    medium: 0.4,
+    small: 0.2,
+    medium: 0.5,
     big: 1.2,
   },
   letterSpacing: {

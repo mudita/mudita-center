@@ -1,8 +1,13 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import Button, { DisplayStyle, Size } from "../button.component"
+import Button from "../button.component"
+import { DisplayStyle, Size } from "../button.config"
 
+import { fireEvent } from "@testing-library/dom"
+import { wait } from "@testing-library/react"
+import { MemoryRouter } from "react-router-dom"
+import Upload from "Renderer/svg/upload.svg"
 import testScenarios from "./test-scenarios"
 
 interface TestCase {
@@ -32,5 +37,39 @@ describe("Button matches snapshots", () => {
         expect(buttonElement).toMatchSnapshot()
       })
     })
+  })
+})
+
+test("link-button should have active class when clicked", async () => {
+  const currentPath = "/music"
+  const data = {
+    displayStyle: DisplayStyle.Link4,
+    label: "Example",
+    to: "/overview",
+    Icon: Upload,
+    nav: true,
+  }
+  const data2 = {
+    displayStyle: DisplayStyle.Link4,
+    label: "Music",
+    to: currentPath,
+    Icon: Upload,
+    nav: true,
+  }
+  const { container, getByText } = renderWithThemeAndIntl(
+    <MemoryRouter initialEntries={[currentPath]}>
+      <Button {...data} />
+      <Button {...data2} />
+    </MemoryRouter>
+  )
+  const firstButton = getByText("Example")
+  const firstLink = container.querySelector("a")
+
+  expect(firstLink).not.toHaveClass("active")
+
+  fireEvent.click(firstButton)
+
+  await wait(() => {
+    expect(firstLink).toHaveClass("active")
   })
 })

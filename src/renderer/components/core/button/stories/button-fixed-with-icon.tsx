@@ -1,7 +1,8 @@
 import * as React from "react"
 import Upload from "Renderer/svg/upload.svg"
 import { TextDisplayStyle } from "../../text/text.component"
-import Button, { DisplayStyle, Size } from "../button.component"
+import Button from "../button.component"
+import { DisplayStyle, Size } from "../button.config"
 
 import {
   Button100,
