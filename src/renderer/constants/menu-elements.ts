@@ -61,15 +61,11 @@ export const menuElements: MenuElement[] = [
   },
   {
     label: messages.yourPure,
+    items: YOUR_PURE_BUTTONS,
     icons: [Signal, Battery, Sim, MenuTethering],
   },
   {
-    items: YOUR_PURE_BUTTONS,
-  },
-  {
     label: messages.desktopApp,
-  },
-  {
     items: DESKTOP_APP_BUTTONS,
   },
 ]
