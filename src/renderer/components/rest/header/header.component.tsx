@@ -45,9 +45,10 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
         message={currentLocation}
         data-testid={"location"}
       />
-      {React.cloneElement(middleComponent, {
-        currentLocation: location.pathname,
-      })}
+      {middleComponent &&
+        React.cloneElement(middleComponent, {
+          currentLocation: location.pathname,
+        })}
     </HeaderWrapper>
   )
 }
