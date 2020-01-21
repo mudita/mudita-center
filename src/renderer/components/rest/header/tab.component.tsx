@@ -19,6 +19,7 @@ const Tab: FunctionComponent<TabProps> = ({ icon, tabText, url }) => {
       labelMessage={tabText}
       Icon={icon}
       to={url}
+      exact
     />
   )
 }

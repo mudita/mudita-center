@@ -22,6 +22,7 @@ import {
 
 interface Props {
   nav?: boolean
+  exact?: boolean
   disabled?: boolean
   displayStyle?: DisplayStyle
   href?: string
@@ -44,6 +45,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   className,
   disabled = false,
   displayStyle = DisplayStyle.Primary,
+  exact,
   href,
   Icon,
   label,
@@ -62,7 +64,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Component = StyledNavLink
     Object.assign(filteredProps, {
       to,
-      exact: true,
+      exact,
       activeClassName,
     })
   } else if (to) {
