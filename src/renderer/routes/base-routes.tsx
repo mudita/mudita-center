@@ -17,7 +17,6 @@ import Tools from "Renderer/modules/tools/tools.component"
 
 import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
 import Calendar from "Renderer/modules/calendar/calendar.component"
-import Conversations from "Renderer/modules/messages/tabs/conversations.component"
 import Templates from "Renderer/modules/messages/tabs/templates.component"
 
 export default () => (
@@ -29,7 +28,7 @@ export default () => (
       <Route path={URL_MAIN.meditation} component={Meditation} />
       <Route
         path={`${URL_MAIN.messages}${URL_TABS.conversations}`}
-        component={Conversations}
+        component={MessagesContainer}
       />
       <Route
         path={`${URL_MAIN.messages}${URL_TABS.templates}`}
