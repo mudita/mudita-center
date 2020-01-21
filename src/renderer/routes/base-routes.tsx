@@ -21,6 +21,8 @@ import Templates from "Renderer/modules/messages/tabs/templates.component"
 import Playlist from "Renderer/modules/music/tabs/playlist.component"
 import Calls from "Renderer/modules/phone/tabs/calls.component"
 import Dial from "Renderer/modules/phone/tabs/dial.component"
+import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion.component"
+import Notifications from "Renderer/modules/settings/tabs/notifcations.component"
 import VoiceRecorder from "Renderer/modules/tools/tabs/voice-recorder.component"
 
 export default () => (
@@ -46,6 +48,14 @@ export default () => (
       <Route path={`${URL_MAIN.phone}${URL_TABS.calls}`} component={Calls} />
       <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
       <Route path={URL_MAIN.phone} component={PhoneContainer} />
+      <Route
+        path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
+        component={Notifications}
+      />
+      <Route
+        path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
+        component={AudioConversion}
+      />
       <Route path={URL_MAIN.settings} component={Settings} />
       <Route path={URL_MAIN.tethering} component={Tethering} />
       <Route

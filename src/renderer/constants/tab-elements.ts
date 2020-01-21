@@ -1,12 +1,14 @@
 import { defineMessages } from "react-intl"
 import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
+import TabConnection from "Renderer/svg/connection.svg"
 import TabContacts from "Renderer/svg/contacts.svg"
 import TabDial from "Renderer/svg/dial.svg"
 import TabMessage from "Renderer/svg/menu_messages.svg"
 import TabAllSongs from "Renderer/svg/menu_music.svg"
 import TabTemplates from "Renderer/svg/menu_overview.svg"
 import TabNotes from "Renderer/svg/notes.svg"
+import TabNotification from "Renderer/svg/notifications.svg"
 import TabCalls from "Renderer/svg/phone.svg"
 import TabVoiceRecorder from "Renderer/svg/voice-recorder.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -21,6 +23,9 @@ const messages = defineMessages({
   playlist: { id: "view.name.music.playlist" },
   notes: { id: "view.name.tools.notes" },
   voiceRecorder: { id: "view.name.tools.voiceRecorder" },
+  connection: { id: "view.name.settings.connection" },
+  notifications: { id: "view.name.settings.notifications" },
+  audioConversion: { id: "view.name.settings.audioConversion" },
 })
 
 interface Tab {
@@ -99,6 +104,26 @@ export const tabElements: TabElement[] = [
         label: messages.voiceRecorder,
         url: `${URL_MAIN.tools}${URL_TABS.voiceRecorder}`,
         icon: TabVoiceRecorder,
+      },
+    ],
+  },
+  {
+    parentUrl: URL_MAIN.settings,
+    tabs: [
+      {
+        label: messages.connection,
+        url: `${URL_MAIN.settings}`,
+        icon: TabConnection,
+      },
+      {
+        label: messages.notifications,
+        url: `${URL_MAIN.settings}${URL_TABS.notifications}`,
+        icon: TabNotification,
+      },
+      {
+        label: messages.audioConversion,
+        url: `${URL_MAIN.settings}${URL_TABS.audioConversion}`,
+        icon: TabAllSongs,
       },
     ],
   },
