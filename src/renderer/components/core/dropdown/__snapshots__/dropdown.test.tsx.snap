@@ -6,7 +6,7 @@ exports[`matches snapshot 1`] = `
     class="sc-bZQynM iMWVsx"
   >
     <button
-      class="sc-bxivhb jBRBGM"
+      class="sc-bxivhb dwjWev"
       size="2"
       type="button"
     />
@@ -24,12 +24,12 @@ exports[`renders dropdown 1`] = `
     class="sc-bZQynM iMWVsx"
   >
     <button
-      class="sc-bxivhb jBRBGM"
+      class="sc-bxivhb dwjWev"
       size="2"
       type="button"
     >
       <p
-        class="sc-bdVaJa Wzjkf sc-EHOje asQWf"
+        class="sc-bdVaJa ghJYji sc-EHOje asQWf"
       >
         Example
       </p>
@@ -39,7 +39,7 @@ exports[`renders dropdown 1`] = `
       data-testid="dropdown"
     >
       <a
-        class="sc-htpNat fXLetN"
+        class="sc-htpNat hnnQgf"
         href="http://www.google.pl"
         size="2"
         target="_blank"
@@ -48,7 +48,7 @@ exports[`renders dropdown 1`] = `
           classname="sc-ifAKCX evOPPJ"
         />
         <p
-          class="sc-bdVaJa Wzjkf sc-EHOje asQWf"
+          class="sc-bdVaJa ghJYji sc-EHOje asQWf"
         >
           I open Google in new tab
         </p>

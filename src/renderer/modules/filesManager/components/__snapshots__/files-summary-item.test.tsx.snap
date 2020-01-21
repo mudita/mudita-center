@@ -17,7 +17,7 @@ exports[`should match snapshot with link 1`] = `
       Voice Recorder
     </p>
     <p
-      class="sc-bdVaJa dHRpOS"
+      class="sc-bdVaJa fNwGmH"
     >
       3 files (4.0 GB)
     </p>
@@ -50,7 +50,7 @@ exports[`should match snapshot without link 1`] = `
       Voice Recorder
     </p>
     <p
-      class="sc-bdVaJa dHRpOS"
+      class="sc-bdVaJa fNwGmH"
     >
       3 files (4.0 GB)
     </p>
