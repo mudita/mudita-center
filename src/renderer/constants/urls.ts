@@ -15,6 +15,7 @@ export const URL_MAIN = {
 }
 
 export const URL_TABS = {
-  conversations: "/conversations",
   templates: "/templates",
+  calls: "/calls",
+  dial: "/dial",
 }
