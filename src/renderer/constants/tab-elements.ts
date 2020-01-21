@@ -29,12 +29,12 @@ export const tabElements: TabElement[] = [
     tabs: [
       {
         label: messages.conversations,
-        url: URL_TABS.conversations,
+        url: `${URL_MAIN.messages}${URL_TABS.conversations}`,
         icon: TabMessage,
       },
       {
         label: messages.templates,
-        url: URL_TABS.templates,
+        url: `${URL_MAIN.messages}${URL_TABS.templates}`,
         icon: TabTemplates,
       },
     ],

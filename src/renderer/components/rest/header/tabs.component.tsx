@@ -13,12 +13,12 @@ interface Props {
 }
 
 const Tabs: FunctionComponent<Props> = ({ className, currentLocation }) => {
-  const data = tabElements.filter(
-    ({ parentUrl, tabs }) => parentUrl === currentLocation && tabs
+  const data = tabElements.filter(({ parentUrl, tabs }) =>
+    currentLocation?.includes(parentUrl)
   )[0]
 
   const tabsList = data?.tabs.map(tab => (
-    <Tab tabText={tab.label} icon={tab.icon} key={tab.label.id} />
+    <Tab tabText={tab.label} icon={tab.icon} key={tab.label.id} url={tab.url} />
   ))
 
   return <TabsWrapper className={className}>{tabsList}</TabsWrapper>
