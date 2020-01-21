@@ -17,6 +17,7 @@ exports[`matches snapshot 1`] = `
       />
       <test-file-stub
         classname="sc-ifAKCX gYZWwe"
+        data-testid="state-checked"
       />
     </div>
     <span
