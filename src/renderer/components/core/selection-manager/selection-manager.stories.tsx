@@ -2,9 +2,8 @@ import { action } from "@storybook/addon-actions"
 import { button, withKnobs } from "@storybook/addon-knobs"
 import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
-import ButtonComponent, {
-  DisplayStyle,
-} from "Renderer/components/core/button/button.component"
+import ButtonComponent from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
 import { SelectionManagerProps } from "Renderer/components/core/selection-manager/selection-manager.interface"
 import Text, {
