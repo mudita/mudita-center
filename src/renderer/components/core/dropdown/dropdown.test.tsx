@@ -3,12 +3,13 @@ import "@testing-library/jest-dom/extend-expect"
 import { wait } from "@testing-library/react"
 import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Dropdown, {
   DropdownPosition,
 } from "Renderer/components/core/dropdown/dropdown.component"
 import Upload from "Renderer/svg/upload.svg"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import Button, { DisplayStyle } from "../button/button.component"
+import Button from "../button/button.component"
 
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(

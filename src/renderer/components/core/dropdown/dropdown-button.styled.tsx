@@ -1,6 +1,5 @@
-import Button, {
-  DisplayStyle,
-} from "Renderer/components/core/button/button.component"
+import Button from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import styled from "styled-components"
 
 export const DropdownButton = styled(Button).attrs(({ displayStyle }) => ({
