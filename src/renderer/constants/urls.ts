@@ -18,4 +18,5 @@ export const URL_TABS = {
   templates: "/templates",
   calls: "/calls",
   dial: "/dial",
+  playlist: "/playlist",
 }

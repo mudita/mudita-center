@@ -4,6 +4,7 @@ import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import TabContacts from "Renderer/svg/contacts.svg"
 import TabDial from "Renderer/svg/dial.svg"
 import TabMessage from "Renderer/svg/menu_messages.svg"
+import TabAllSongs from "Renderer/svg/menu_music.svg"
 import TabTemplates from "Renderer/svg/menu_overview.svg"
 import TabCalls from "Renderer/svg/phone.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -14,6 +15,8 @@ const messages = defineMessages({
   contacts: { id: "view.name.phone.contacts" },
   calls: { id: "view.name.phone.calls" },
   dial: { id: "view.name.phone.dial" },
+  allSongs: { id: "view.name.music.allSongs" },
+  playlist: { id: "view.name.music.playlist" },
 })
 
 interface Tab {
@@ -62,6 +65,21 @@ export const tabElements: TabElement[] = [
         label: messages.dial,
         url: `${URL_MAIN.phone}${URL_TABS.dial}`,
         icon: TabDial,
+      },
+    ],
+  },
+  {
+    parentUrl: URL_MAIN.music,
+    tabs: [
+      {
+        label: messages.allSongs,
+        url: `${URL_MAIN.music}`,
+        icon: TabAllSongs,
+      },
+      {
+        label: messages.playlist,
+        url: `${URL_MAIN.music}${URL_TABS.playlist}`,
+        icon: TabCalls,
       },
     ],
   },

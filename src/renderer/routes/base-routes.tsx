@@ -18,6 +18,7 @@ import Tools from "Renderer/modules/tools/tools.component"
 import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
 import Calendar from "Renderer/modules/calendar/calendar.component"
 import Templates from "Renderer/modules/messages/tabs/templates.component"
+import Playlist from "Renderer/modules/music/tabs/playlist.component"
 import Calls from "Renderer/modules/phone/tabs/calls.component"
 import Dial from "Renderer/modules/phone/tabs/dial.component"
 
@@ -33,6 +34,10 @@ export default () => (
         component={Templates}
       />
       <Route path={URL_MAIN.messages} component={MessagesContainer} />
+      <Route
+        path={`${URL_MAIN.music}${URL_TABS.playlist}`}
+        component={Playlist}
+      />
       <Route path={URL_MAIN.music} component={Music} />
       <Route path={URL_MAIN.news} component={News} />
       <Route path={URL_MAIN.calendar} component={Calendar} />
