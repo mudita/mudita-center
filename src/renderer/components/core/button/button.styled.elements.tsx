@@ -60,7 +60,7 @@ export const disabledSecondaryStyles = css`
 `
 
 const buttonStyles = css<{
-  displayStyle: DisplayStyle
+  displaystyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
@@ -93,13 +93,13 @@ const buttonStyles = css<{
     `
       pointer-events: none;
   `}
-  ${({ displayStyle, disabled }) => {
-    switch (displayStyle) {
+  ${({ displaystyle, disabled }) => {
+    switch (displaystyle) {
       case DisplayStyle.Primary:
         return css`
           height: 4rem;
           color: ${textColor("inverted")};
-          border-radius: ${borderRadius("medium")}rem;
+          border-radius: ${borderRadius("medium")};
           background: ${backgroundColor("inputDark")};
           border: 0.1rem solid ${backgroundColor("inputDark")};
           ${disabled && disabledPrimaryStyles};
@@ -113,7 +113,7 @@ const buttonStyles = css<{
       case DisplayStyle.Secondary:
         return css`
           height: 4rem;
-          border-radius: ${borderRadius("medium")}rem;
+          border-radius: ${borderRadius("medium")};
           border: 0.1rem solid ${borderColor("hover")};
           g {
             fill: ${textColor("black")};
@@ -128,7 +128,7 @@ const buttonStyles = css<{
           height: 4rem;
           width: 4rem;
           border: 0.1rem solid ${borderColor("hover")};
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           &:hover {
             border-color: ${borderColor("dark")};
           }
@@ -137,7 +137,7 @@ const buttonStyles = css<{
         return css`
           height: 3.2rem;
           width: 3.2rem;
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           background: transparent;
           border: none;
           &:hover {
@@ -148,7 +148,7 @@ const buttonStyles = css<{
         return css`
           height: 3.2rem;
           width: 3.2rem;
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           background: transparent;
           border: none;
           &:hover {
@@ -164,7 +164,7 @@ const buttonStyles = css<{
           height: 3rem;
           padding: 0.8rem;
           border: none;
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
@@ -177,7 +177,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: ${borderRadius("medium")}rem;
+          border-radius: ${borderRadius("medium")};
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
@@ -190,7 +190,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           color: ${textColor("supplementary")};
           font-weight: ${fontWeight("default")};
           width: 100%;
@@ -207,7 +207,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           color: ${textColor("faded")};
           font-weight: ${fontWeight("default")};
           width: 100%;
@@ -229,7 +229,7 @@ const buttonStyles = css<{
 `
 
 export const StyledNavLink = styled(NavLink)<{
-  displayStyle: DisplayStyle
+  displaystyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
@@ -237,33 +237,33 @@ export const StyledNavLink = styled(NavLink)<{
 `
 
 export const StyledLink = styled(Link)<{
-  displayStyle: DisplayStyle
+  displaystyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
   ${buttonStyles}
 `
 export const StyledA = styled.a<{
-  displayStyle: DisplayStyle
+  displaystyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
   ${buttonStyles}
 `
 export const StyledButton = styled.button<{
-  displayStyle: DisplayStyle
+  displaystyle: DisplayStyle
   disabled: boolean
   size: Size
 }>`
   ${buttonStyles}
 `
 export const StyledIcon = styled(Svg)<{
-  displayStyle: DisplayStyle
+  displaystyle: DisplayStyle
   withMargin: boolean
 }>`
-  ${({ displayStyle, withMargin }) => {
+  ${({ displaystyle, withMargin }) => {
     if (withMargin) {
-      if (displayStyle === DisplayStyle.Link2) {
+      if (displaystyle === DisplayStyle.Link2) {
         return css`
           margin: 0 1.2rem 0 0;
         `

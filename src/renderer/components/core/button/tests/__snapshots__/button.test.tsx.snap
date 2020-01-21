@@ -2,7 +2,7 @@
 
 exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disabled: false 1`] = `
 <button
-  class="sc-ifAKCX eCtzOH"
+  class="sc-ifAKCX KpBSM"
   size="2"
   type="button"
 />
@@ -10,7 +10,7 @@ exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disa
 
 exports[`Button matches snapshots Icon only displayStyle: 3 size: undefined disabled: false 1`] = `
 <button
-  class="sc-ifAKCX caKPkz"
+  class="sc-ifAKCX bHpkBe"
   size="2"
   type="button"
 />
@@ -18,7 +18,7 @@ exports[`Button matches snapshots Icon only displayStyle: 3 size: undefined disa
 
 exports[`Button matches snapshots Icon only displayStyle: 4 size: undefined disabled: false 1`] = `
 <button
-  class="sc-ifAKCX cDlFkk"
+  class="sc-ifAKCX bpMfQW"
   size="2"
   type="button"
 />
@@ -26,7 +26,7 @@ exports[`Button matches snapshots Icon only displayStyle: 4 size: undefined disa
 
 exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 1`] = `
 <button
-  class="sc-ifAKCX eQCXmc"
+  class="sc-ifAKCX ZlIPN"
   size="2"
   type="button"
 >
@@ -40,7 +40,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 2`] = `
 <a
-  class="sc-bxivhb nFTrI"
+  class="sc-bxivhb gVaOZN"
   href="http://www.google.pl"
   size="2"
   target="_blank"
@@ -58,7 +58,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 1`] = `
 <button
-  class="sc-ifAKCX bTPXJU"
+  class="sc-ifAKCX buAkqX"
   size="2"
   type="button"
 >
@@ -72,7 +72,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 2`] = `
 <a
-  class="sc-bxivhb csBpaR"
+  class="sc-bxivhb cbgfKv"
   href="http://www.google.pl"
   size="2"
   target="_blank"
@@ -90,7 +90,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 1`] = `
 <button
-  class="sc-ifAKCX gvsZMB"
+  class="sc-ifAKCX neAoH"
   size="2"
   type="button"
 >
@@ -104,7 +104,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 2`] = `
 <a
-  class="sc-bxivhb gFuJf"
+  class="sc-bxivhb iEeTlS"
   href="http://www.google.pl"
   size="2"
   target="_blank"
@@ -122,7 +122,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 1`] = `
 <button
-  class="sc-ifAKCX RQinE"
+  class="sc-ifAKCX gKzYfl"
   size="2"
   type="button"
 >
@@ -136,7 +136,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 2`] = `
 <a
-  class="sc-bxivhb etenIn"
+  class="sc-bxivhb iWpZOS"
   href="http://www.google.pl"
   size="2"
   target="_blank"
@@ -154,7 +154,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX iqQOeQ"
+  class="sc-ifAKCX fCDDHH"
   type="button"
 >
   <p
@@ -167,7 +167,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX grpXkn"
+  class="sc-ifAKCX fpGkCX"
   disabled=""
   type="button"
 >
@@ -181,7 +181,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX gAhqWg"
+  class="sc-ifAKCX efItOY"
   size="1"
   type="button"
 >
@@ -195,7 +195,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX idXxhK"
+  class="sc-ifAKCX kTCkfQ"
   disabled=""
   size="1"
   type="button"
@@ -210,7 +210,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX hLjDCb"
+  class="sc-ifAKCX eXmMTl"
   size="2"
   type="button"
 >
@@ -224,7 +224,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX gBpaxh"
+  class="sc-ifAKCX jyqOrr"
   disabled=""
   size="2"
   type="button"
@@ -239,7 +239,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX jPALgH"
+  class="sc-ifAKCX irOcBL"
   type="button"
 >
   <p
@@ -252,7 +252,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX cIsJob"
+  class="sc-ifAKCX fjNxpv"
   disabled=""
   type="button"
 >
@@ -266,7 +266,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX jSXFfO"
+  class="sc-ifAKCX cMAdNW"
   size="1"
   type="button"
 >
@@ -280,7 +280,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX eLSzxF"
+  class="sc-ifAKCX fncrGg"
   disabled=""
   size="1"
   type="button"
@@ -295,7 +295,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX TJjWm"
+  class="sc-ifAKCX PLUpB"
   size="2"
   type="button"
 >
@@ -309,7 +309,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX jkdUSp"
+  class="sc-ifAKCX iikIeh"
   disabled=""
   size="2"
   type="button"
@@ -324,7 +324,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 0 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX iqQOeQ"
+  class="sc-ifAKCX fCDDHH"
   type="button"
 >
   <test-file-stub
@@ -340,7 +340,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 0 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX grpXkn"
+  class="sc-ifAKCX fpGkCX"
   disabled=""
   type="button"
 >
@@ -357,7 +357,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 1 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX gAhqWg"
+  class="sc-ifAKCX efItOY"
   size="1"
   type="button"
 >
@@ -374,7 +374,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 1 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX idXxhK"
+  class="sc-ifAKCX kTCkfQ"
   disabled=""
   size="1"
   type="button"
@@ -392,7 +392,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 2 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX hLjDCb"
+  class="sc-ifAKCX eXmMTl"
   size="2"
   type="button"
 >
@@ -409,7 +409,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 2 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX gBpaxh"
+  class="sc-ifAKCX jyqOrr"
   disabled=""
   size="2"
   type="button"
@@ -427,7 +427,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 0 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX jPALgH"
+  class="sc-ifAKCX irOcBL"
   type="button"
 >
   <test-file-stub
@@ -443,7 +443,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 0 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX cIsJob"
+  class="sc-ifAKCX fjNxpv"
   disabled=""
   type="button"
 >
@@ -460,7 +460,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 1 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX jSXFfO"
+  class="sc-ifAKCX cMAdNW"
   size="1"
   type="button"
 >
@@ -477,7 +477,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 1 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX eLSzxF"
+  class="sc-ifAKCX fncrGg"
   disabled=""
   size="1"
   type="button"
@@ -495,7 +495,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 2 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX TJjWm"
+  class="sc-ifAKCX PLUpB"
   size="2"
   type="button"
 >
@@ -512,7 +512,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 2 disabled: true 1`] = `
 <button
-  class="sc-ifAKCX jkdUSp"
+  class="sc-ifAKCX iikIeh"
   disabled=""
   size="2"
   type="button"
@@ -530,7 +530,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 
 exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disabled: false 1`] = `
 <button
-  class="sc-ifAKCX hLjDCb"
+  class="sc-ifAKCX eXmMTl"
   size="2"
   type="button"
 >
@@ -544,7 +544,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
 
 exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disabled: false 2`] = `
 <button
-  class="sc-ifAKCX hLjDCb"
+  class="sc-ifAKCX eXmMTl"
   size="2"
   type="button"
 >

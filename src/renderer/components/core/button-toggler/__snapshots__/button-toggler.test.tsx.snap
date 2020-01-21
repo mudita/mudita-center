@@ -36,7 +36,7 @@ exports[`matches snapshot 1`] = `
   box-sizing: border-box;
   width: 17rem;
   height: 4rem;
-  border-radius: 0.5remrem;
+  border-radius: 0.5rem;
   border: 0.1rem solid #3B3F42;
 }
 
@@ -67,6 +67,7 @@ exports[`matches snapshot 1`] = `
 
 .c2:not(:hover) {
   border: 0.1rem solid #CDCECF;
+  color: #CDCECF;
 }
 
 .c2:not(:hover) g {
