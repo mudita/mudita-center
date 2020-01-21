@@ -19,5 +19,7 @@
   "view.name.phone": "Phone",
   "view.name.settings": "Settings",
   "view.name.tethering": "Tethering",
-  "view.name.tools": "Tools"
+  "view.name.tools": "Tools",
+  "view.name.tools.notes": "Notes",
+  "view.name.tools.voiceRecorder": "Voice Recorder"
 }

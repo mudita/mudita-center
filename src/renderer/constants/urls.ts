@@ -19,4 +19,5 @@ export const URL_TABS = {
   calls: "/calls",
   dial: "/dial",
   playlist: "/playlist",
+  voiceRecorder: "/voice-recorder",
 }

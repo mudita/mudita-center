@@ -21,6 +21,7 @@ import Templates from "Renderer/modules/messages/tabs/templates.component"
 import Playlist from "Renderer/modules/music/tabs/playlist.component"
 import Calls from "Renderer/modules/phone/tabs/calls.component"
 import Dial from "Renderer/modules/phone/tabs/dial.component"
+import VoiceRecorder from "Renderer/modules/tools/tabs/voice-recorder.component"
 
 export default () => (
   <LayoutDesktopWrapper>
@@ -47,6 +48,10 @@ export default () => (
       <Route path={URL_MAIN.phone} component={PhoneContainer} />
       <Route path={URL_MAIN.settings} component={Settings} />
       <Route path={URL_MAIN.tethering} component={Tethering} />
+      <Route
+        path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
+        component={VoiceRecorder}
+      />
       <Route path={URL_MAIN.tools} component={Tools} />
       <Redirect to={URL_MAIN.overview} />
     </Switch>

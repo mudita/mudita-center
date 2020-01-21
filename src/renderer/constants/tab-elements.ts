@@ -6,7 +6,9 @@ import TabDial from "Renderer/svg/dial.svg"
 import TabMessage from "Renderer/svg/menu_messages.svg"
 import TabAllSongs from "Renderer/svg/menu_music.svg"
 import TabTemplates from "Renderer/svg/menu_overview.svg"
+import TabNotes from "Renderer/svg/notes.svg"
 import TabCalls from "Renderer/svg/phone.svg"
+import TabVoiceRecorder from "Renderer/svg/voice-recorder.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 const messages = defineMessages({
@@ -17,6 +19,8 @@ const messages = defineMessages({
   dial: { id: "view.name.phone.dial" },
   allSongs: { id: "view.name.music.allSongs" },
   playlist: { id: "view.name.music.playlist" },
+  notes: { id: "view.name.tools.notes" },
+  voiceRecorder: { id: "view.name.tools.voiceRecorder" },
 })
 
 interface Tab {
@@ -80,6 +84,21 @@ export const tabElements: TabElement[] = [
         label: messages.playlist,
         url: `${URL_MAIN.music}${URL_TABS.playlist}`,
         icon: TabCalls,
+      },
+    ],
+  },
+  {
+    parentUrl: URL_MAIN.tools,
+    tabs: [
+      {
+        label: messages.notes,
+        url: `${URL_MAIN.tools}`,
+        icon: TabNotes,
+      },
+      {
+        label: messages.voiceRecorder,
+        url: `${URL_MAIN.tools}${URL_TABS.voiceRecorder}`,
+        icon: TabVoiceRecorder,
       },
     ],
   },
