@@ -18,6 +18,7 @@ import Tools from "Renderer/modules/tools/tools.component"
 import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
 import Calendar from "Renderer/modules/calendar/calendar.component"
 import Conversations from "Renderer/modules/messages/tabs/conversations.component"
+import Templates from "Renderer/modules/messages/tabs/templates.component"
 
 export default () => (
   <LayoutDesktopWrapper>
@@ -30,6 +31,10 @@ export default () => (
       <Route
         path={`${URL_MAIN.messages}${URL_TABS.conversations}`}
         component={Conversations}
+      />
+      <Route
+        path={`${URL_MAIN.messages}${URL_TABS.templates}`}
+        component={Templates}
       />
       <Route path={URL_MAIN.music} component={Music} />
       <Route path={URL_MAIN.news} component={News} />

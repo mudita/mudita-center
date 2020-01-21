@@ -7,6 +7,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 
 const messages = defineMessages({
   conversations: { id: "view.name.messages.conversations" },
+  templates: { id: "view.name.messages.templates" },
 })
 
 interface Tab {
@@ -22,7 +23,7 @@ export interface TabElement {
   tabs: Tab[]
 }
 
-export const TAB_ELEMENTS: TabElement[] = [
+export const tabElements: TabElement[] = [
   {
     parentUrl: URL_MAIN.messages,
     tabs: [
@@ -32,8 +33,8 @@ export const TAB_ELEMENTS: TabElement[] = [
         icon: TabMessage,
       },
       {
-        label: messages.conversations,
-        url: URL_TABS.conversations,
+        label: messages.templates,
+        url: URL_TABS.templates,
         icon: TabTemplates,
       },
     ],

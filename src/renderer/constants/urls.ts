@@ -16,4 +16,5 @@ export const URL_MAIN = {
 
 export const URL_TABS = {
   conversations: "/conversations",
+  templates: "/templates",
 }

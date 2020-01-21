@@ -1,6 +1,6 @@
 import * as React from "react"
 import Tab from "Renderer/components/rest/header/tab.component"
-import { TAB_ELEMENTS } from "Renderer/constants/tab-elements"
+import { tabElements } from "Renderer/constants/tab-elements"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const Tabs: FunctionComponent<Props> = ({ className, currentLocation }) => {
-  const data = TAB_ELEMENTS.filter(
+  const data = tabElements.filter(
     ({ parentUrl, tabs }) => parentUrl === currentLocation && tabs
   )[0]
 
