@@ -15,7 +15,7 @@ const Tab: FunctionComponent<TabProps> = ({ icon, tabText, url }) => {
   return (
     <Button
       nav
-      displayStyle={DisplayStyle.Primary}
+      displayStyle={DisplayStyle.Tab}
       labelMessage={tabText}
       Icon={icon}
       to={url}

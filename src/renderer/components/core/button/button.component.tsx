@@ -62,6 +62,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Component = StyledNavLink
     Object.assign(filteredProps, {
       to,
+      exact: true,
       activeClassName,
     })
   } else if (to) {
@@ -75,6 +76,17 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Object.assign(filteredProps, { type, disabled })
   }
 
+  const getTextDisplayStyle = (style: DisplayStyle) => {
+    switch (style) {
+      case DisplayStyle.Link4:
+        return TextDisplayStyle.LargeFadedText
+      case DisplayStyle.Tab:
+        return TextDisplayStyle.LargeText
+      default:
+        return TextDisplayStyle.SmallText
+    }
+  }
+
   const getLabel = () => {
     if (!label && !labelMessage) {
       return
@@ -85,17 +97,20 @@ const ButtonComponent: FunctionComponent<Props> = ({
       )
       return
     }
-    const textDisplayStyle =
-      displayStyle === DisplayStyle.Link4
-        ? TextDisplayStyle.LargeFadedText
-        : TextDisplayStyle.SmallText
 
     if (labelMessage) {
       return (
-        <ButtonText displayStyle={textDisplayStyle} message={labelMessage} />
+        <ButtonText
+          displayStyle={getTextDisplayStyle(displayStyle)}
+          message={labelMessage}
+        />
       )
     }
-    return <ButtonText displayStyle={textDisplayStyle}>{label}</ButtonText>
+    return (
+      <ButtonText displayStyle={getTextDisplayStyle(displayStyle)}>
+        {label}
+      </ButtonText>
+    )
   }
 
   return (

@@ -136,6 +136,15 @@ export default [
         target: "_blank",
         Icon: Upload,
       },
+      {
+        displayStyle: DisplayStyle.Tab,
+      },
+      {
+        displayStyle: DisplayStyle.Tab,
+        href: "http://www.google.pl",
+        target: "_blank",
+        Icon: Upload,
+      },
     ],
   },
   {
