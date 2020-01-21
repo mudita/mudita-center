@@ -1,7 +1,7 @@
 import React from "react"
 import Svg from "Renderer/components/core/svg/svg.component"
 import MenuGroup from "Renderer/components/rest/menu/menu-group.component"
-import { MENU_ELEMENTS } from "Renderer/constants/menuElements"
+import { menuElements } from "Renderer/constants/menu-elements"
 import MuditaLogo from "Renderer/svg/mudita_logo.svg"
 import styled from "styled-components"
 
@@ -19,7 +19,7 @@ const SvgMuditaLogo = styled(Svg)`
 `
 
 const Menu = () => {
-  const links = MENU_ELEMENTS.map(({ label, items, icons }, indexMenu) => {
+  const links = menuElements.map(({ label, items, icons }, indexMenu) => {
     return (
       <MenuGroup label={label} items={items} icons={icons} key={indexMenu} />
     )
