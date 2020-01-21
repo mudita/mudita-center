@@ -53,6 +53,7 @@ export const disabledPrimaryStyles = css`
 
 export const disabledSecondaryStyles = css`
   border: 0.1rem solid ${borderColor("grey")};
+  color: ${textColor("grey")};
   g {
     fill: ${textColor("grey")};
   }
