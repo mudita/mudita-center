@@ -1,6 +1,69 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`matches snapshot 1`] = `
+exports[`snapshot with tabs 1`] = `
+<div
+  class="sc-bwzfXH hazNYx"
+>
+  <h3
+    class="sc-bdVaJa biEvWz sc-htpNat jVQasR"
+    data-testid="location"
+  >
+    Phone
+  </h3>
+  <div
+    class="sc-dnqmqq iFsitv"
+  >
+    <a
+      aria-current="page"
+      class="sc-bxivhb fpPzdx sc-iwsKbI erPKrP active"
+      displaystyle="9"
+      href="/phone"
+      size="2"
+    >
+      <test-file-stub
+        classname="sc-gzVnrw iJuChZ"
+      />
+      <p
+        class="sc-bdVaJa jCnOyj sc-htoDjs kQKncc"
+      >
+        Contacts
+      </p>
+    </a>
+    <a
+      class="sc-bxivhb fpPzdx sc-iwsKbI erPKrP"
+      displaystyle="9"
+      href="/phone/calls"
+      size="2"
+    >
+      <test-file-stub
+        classname="sc-gzVnrw iJuChZ"
+      />
+      <p
+        class="sc-bdVaJa jCnOyj sc-htoDjs kQKncc"
+      >
+        Calls
+      </p>
+    </a>
+    <a
+      class="sc-bxivhb fpPzdx sc-iwsKbI erPKrP"
+      displaystyle="9"
+      href="/phone/dial"
+      size="2"
+    >
+      <test-file-stub
+        classname="sc-gzVnrw iJuChZ"
+      />
+      <p
+        class="sc-bdVaJa jCnOyj sc-htoDjs kQKncc"
+      >
+        Dial
+      </p>
+    </a>
+  </div>
+</div>
+`;
+
+exports[`snapshot without tabs 1`] = `
 <div
   class="sc-bwzfXH hazNYx"
 >
