@@ -7,22 +7,17 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 
 interface TabProps {
   icon: FunctionComponent<ImageInterface>
-  tabText?: MessageInterface
+  label?: MessageInterface
   url?: string
 }
 
-const Tab: FunctionComponent<TabProps> = ({
-  icon,
-  tabText,
-  url,
-  className,
-}) => {
+const Tab: FunctionComponent<TabProps> = ({ icon, label, url, className }) => {
   return (
     <Button
       className={className}
       nav
       displayStyle={DisplayStyle.Tab}
-      labelMessage={tabText}
+      labelMessage={label}
       Icon={icon}
       to={url}
       exact

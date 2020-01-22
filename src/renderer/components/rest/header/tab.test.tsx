@@ -12,7 +12,7 @@ const currentLocation = "/phone"
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>
-      <Tab icon={check} tabText={message} url={currentLocation} />
+      <Tab icon={check} label={message} url={currentLocation} />
     </MemoryRouter>
   )
   expect(container.firstChild).toMatchSnapshot()
@@ -21,7 +21,7 @@ test("matches snapshot", () => {
 test("has correct text content", () => {
   const { container } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>
-      <Tab icon={check} tabText={message} />
+      <Tab icon={check} label={message} />
     </MemoryRouter>
   )
   const tabNode = container.firstChild

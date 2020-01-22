@@ -21,13 +21,8 @@ const Tabs: FunctionComponent<Props> = ({ className, currentLocation }) => {
     currentLocation?.includes(parentUrl)
   )[0]
 
-  const tabsList = currentLocationTabs?.tabs.map(tab => (
-    <NavTab
-      tabText={tab.label}
-      icon={tab.icon}
-      key={tab.label.id}
-      url={tab.url}
-    />
+  const tabsList = currentLocationTabs?.tabs.map(({ label, icon, url }) => (
+    <NavTab label={label} icon={icon} key={label.id} url={url} />
   ))
 
   return <TabsWrapper className={className}>{tabsList}</TabsWrapper>
