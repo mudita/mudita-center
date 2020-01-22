@@ -78,7 +78,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Object.assign(filteredProps, { type, disabled })
   }
 
-  const getTextDisplayStyle = (style: DisplayStyle) => {
+  const getButtonTextDisplayStyle = (style: DisplayStyle) => {
     switch (style) {
       case DisplayStyle.Link4:
         return TextDisplayStyle.LargeFadedText
@@ -103,13 +103,13 @@ const ButtonComponent: FunctionComponent<Props> = ({
     if (labelMessage) {
       return (
         <ButtonText
-          displayStyle={getTextDisplayStyle(displayStyle)}
+          displayStyle={getButtonTextDisplayStyle(displayStyle)}
           message={labelMessage}
         />
       )
     }
     return (
-      <ButtonText displayStyle={getTextDisplayStyle(displayStyle)}>
+      <ButtonText displayStyle={getButtonTextDisplayStyle(displayStyle)}>
         {label}
       </ButtonText>
     )
