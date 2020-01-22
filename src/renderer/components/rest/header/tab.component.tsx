@@ -11,9 +11,15 @@ interface TabProps {
   url?: string
 }
 
-const Tab: FunctionComponent<TabProps> = ({ icon, tabText, url }) => {
+const Tab: FunctionComponent<TabProps> = ({
+  icon,
+  tabText,
+  url,
+  className,
+}) => {
   return (
     <Button
+      className={className}
       nav
       displayStyle={DisplayStyle.Tab}
       labelMessage={tabText}
