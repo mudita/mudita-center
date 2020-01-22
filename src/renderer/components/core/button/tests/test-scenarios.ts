@@ -1,11 +1,8 @@
-import { defineMessages } from "react-intl"
 import Upload from "Renderer/svg/upload.svg"
+import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { DisplayStyle, Size } from "../button.config"
 
-const exampleMessageId = "view.name.news"
-const messages = defineMessages({
-  exampleMessage: { id: exampleMessageId },
-})
+const message = mockDefineMessages()
 
 const buttonsFixedWidthCases = [
   {
@@ -157,7 +154,7 @@ export default [
       },
       {
         displayStyle: DisplayStyle.Primary,
-        labelMessage: messages.exampleMessage,
+        labelMessage: message,
         size: Size.FixedBig,
       },
     ],
