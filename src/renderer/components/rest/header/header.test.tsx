@@ -5,7 +5,7 @@ import Header from "Renderer/components/rest/header/header.component"
 import Tabs from "Renderer/components/rest/header/tabs.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
-test("snapshot without tabs", () => {
+test("matches snapshot without tabs", () => {
   const currentLocation = "/overview"
   const { container } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>
