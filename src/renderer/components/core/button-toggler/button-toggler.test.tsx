@@ -3,10 +3,7 @@ import "@testing-library/jest-dom/extend-expect"
 import { wait } from "@testing-library/react"
 import "jest-styled-components"
 import React from "react"
-import {
-  ButtonTogglerKey,
-  ButtonTogglerProps,
-} from "Renderer/components/core/button-toggler/button-toggler.interface"
+import { ButtonTogglerProps } from "Renderer/components/core/button-toggler/button-toggler.interface"
 import {
   PredefinedButtonToggler,
   singleStateToggler,
@@ -52,11 +49,7 @@ test("render buttons labels properly", () => {
 })
 
 test("switches active state properly", async () => {
-  let activeKey: ButtonTogglerKey = ""
-
-  const onToggle = (key?: ButtonTogglerKey) => {
-    activeKey = key || ""
-  }
+  const onToggle = jest.fn()
 
   const { getButtons } = renderButtonToggler({
     options: threeStateToggler,
@@ -65,10 +58,10 @@ test("switches active state properly", async () => {
 
   const clickOnButton = async (index: number) => {
     fireEvent.click(getButtons()[index])
-    await wait(() => expect(activeKey).toEqual(threeStateToggler[index].key))
+    await wait(() =>
+      expect(onToggle).toHaveBeenCalledWith(threeStateToggler[index].key)
+    )
   }
-
-  expect(activeKey).toEqual("")
 
   await clickOnButton(1)
   await clickOnButton(0)
