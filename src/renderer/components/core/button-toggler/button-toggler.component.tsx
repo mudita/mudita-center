@@ -7,14 +7,14 @@ import { borderRadius } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
-const ButtonWrapper = styled(ButtonComponent)<{ inactive?: boolean }>`
+const ButtonWrapper = styled(ButtonComponent)<{ active?: boolean }>`
   --radius: ${borderRadius("medium")};
   flex: 1;
   z-index: 1;
   pointer-events: all;
 
-  ${({ inactive }) =>
-    !inactive &&
+  ${({ active }) =>
+    active &&
     css`
       z-index: 3;
     `};
@@ -23,7 +23,7 @@ const ButtonWrapper = styled(ButtonComponent)<{ inactive?: boolean }>`
     z-index: 2;
   }
   &:not(:hover) {
-    ${({ inactive }) => inactive && disabledSecondaryStyles};
+    ${({ active }) => !active && disabledSecondaryStyles};
   }
   &:not(:first-of-type) {
     border-radius: 0;
@@ -66,7 +66,7 @@ const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
             displayStyle={displayStyle}
             label={label}
             onClick={onClickHandler}
-            inactive={!active}
+            active={active}
           />
         )
       })}
