@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`snapshot with tabs 1`] = `
+exports[`matches snapshot with tabs 1`] = `
 <div
   class="sc-bwzfXH hazNYx"
 >
@@ -63,7 +63,7 @@ exports[`snapshot with tabs 1`] = `
 </div>
 `;
 
-exports[`snapshot without tabs 1`] = `
+exports[`matches snapshot without tabs 1`] = `
 <div
   class="sc-bwzfXH hazNYx"
 >

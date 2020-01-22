@@ -19,11 +19,11 @@ interface Props {
 }
 
 const Tabs: FunctionComponent<Props> = ({ className, currentLocation }) => {
-  const currentLocationTabs = tabElements.filter(({ parentUrl, tabs }) =>
+  const currentLocationTabs = tabElements.find(({ parentUrl }) =>
     currentLocation?.includes(parentUrl)
-  )[0]
+  )?.tabs
 
-  const tabsList = currentLocationTabs?.tabs.map(({ label, icon, url }) => (
+  const tabsList = currentLocationTabs?.map(({ label, icon, url }) => (
     <NavTab label={label} icon={icon} key={label.id} url={url} />
   ))
 
