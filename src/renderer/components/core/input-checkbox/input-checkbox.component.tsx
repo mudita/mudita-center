@@ -79,12 +79,15 @@ const InputCheckbox: FunctionComponent<InputProps> = ({
   ...props
 }) => {
   const checkbox = (
-    <InputWrapper>
+    <InputWrapper className={className}>
       <Input indeterminate={indeterminate} {...props} type="checkbox" />
       {indeterminate ? (
-        <CheckIcon Image={checkIndeterminate} />
+        <CheckIcon
+          Image={checkIndeterminate}
+          data-testid="state-indeterminate"
+        />
       ) : (
-        <CheckIcon Image={check} />
+        <CheckIcon Image={check} data-testid="state-checked" />
       )}
     </InputWrapper>
   )
