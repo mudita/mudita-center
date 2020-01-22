@@ -16,7 +16,7 @@ test("matches snapshot without tabs", () => {
   expect(header).toMatchSnapshot()
 })
 
-test("snapshot with tabs", () => {
+test("matches snapshot with tabs", () => {
   const currentLocation = "/phone"
   const { container } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>
