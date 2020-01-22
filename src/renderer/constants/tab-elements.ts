@@ -10,6 +10,7 @@ import TabTemplates from "Renderer/svg/menu_overview.svg"
 import TabNotes from "Renderer/svg/notes.svg"
 import TabNotification from "Renderer/svg/notifications.svg"
 import TabCalls from "Renderer/svg/phone.svg"
+import TabPlaylist from "Renderer/svg/playlist.svg"
 import TabVoiceRecorder from "Renderer/svg/voice-recorder.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
@@ -88,7 +89,7 @@ export const tabElements: TabElement[] = [
       {
         label: messages.playlist,
         url: `${URL_MAIN.music}${URL_TABS.playlist}`,
-        icon: TabCalls,
+        icon: TabPlaylist,
       },
     ],
   },
