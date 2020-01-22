@@ -9,7 +9,9 @@ const TabsWrapper = styled.div`
 `
 
 const NavTab = styled(Tab)`
-  margin-right: 4rem;
+  &:not(:last-child) {
+    margin-right: 4rem;
+  }
 `
 
 interface Props {
