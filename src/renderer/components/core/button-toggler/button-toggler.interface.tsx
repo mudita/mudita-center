@@ -1,19 +1,11 @@
-import { Dispatch, SetStateAction } from "react"
-
-export type ButtonTogglerKey = string | number | boolean
-
 interface Option {
   label: string
-  key: ButtonTogglerKey
+  key: any
 }
 
-type ToggleDispatch = Dispatch<SetStateAction<ButtonTogglerKey>>
-
-type ToggleFunction = (key: ButtonTogglerKey) => void
-
 export interface ButtonTogglerProps {
-  activeKey?: ButtonTogglerKey
+  activeKey?: any
   options: Option[]
-  onToggle: ToggleFunction | ToggleDispatch
+  onToggle: (prop?: any) => void
   filled?: boolean
 }

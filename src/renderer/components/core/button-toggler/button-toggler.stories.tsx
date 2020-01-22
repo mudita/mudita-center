@@ -1,10 +1,11 @@
 import { storiesOf } from "@storybook/react"
-import React, { useState } from "react"
+import React from "react"
 import ButtonToggler from "Renderer/components/core/button-toggler/button-toggler.component"
 import { ButtonTogglerProps } from "Renderer/components/core/button-toggler/button-toggler.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
 
 export const singleStateToggler = [{ label: "Turn on", key: "on" }]
@@ -27,26 +28,11 @@ export const fourStateToggler = [
   { label: "Yearly", key: "yearly" },
 ]
 
-export const PredefinedButtonToggler = ({
-  options = twoStateToggler,
-  ...props
-}: Partial<ButtonTogglerProps>) => {
-  const [activeKey, setActiveKey] = useState()
-  return (
-    <ButtonToggler
-      activeKey={activeKey}
-      onToggle={setActiveKey}
-      options={options}
-      {...props}
-    />
-  )
-}
-
 const Wrapper = styled.div`
   margin: 2rem;
 `
 
-const renderStory = (
+export const renderStory = (
   options: ButtonTogglerProps["options"],
   filled: boolean = false
 ) => {
@@ -55,7 +41,11 @@ const renderStory = (
       <Wrapper>
         <Text displayStyle={TextDisplayStyle.SmallText}>None selected</Text>
         <br />
-        <PredefinedButtonToggler options={options} activeKey={undefined} />
+        <ButtonToggler
+          options={options}
+          activeKey={undefined}
+          onToggle={noop}
+        />
       </Wrapper>
       {options.map((option, index) => {
         return (
@@ -64,10 +54,11 @@ const renderStory = (
               {option.label} selected
             </Text>
             <br />
-            <PredefinedButtonToggler
+            <ButtonToggler
               options={options}
               activeKey={option.key}
               filled={filled}
+              onToggle={noop}
             />
           </Wrapper>
         )
