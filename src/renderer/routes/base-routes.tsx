@@ -32,22 +32,23 @@ export default () => (
       <Route path={URL_MAIN.filesManager} component={FilesManager} />
       <Route path={URL_MAIN.help} component={Help} />
       <Route path={URL_MAIN.meditation} component={Meditation} />
+      <Route path={URL_MAIN.messages} component={MessagesContainer} exact />
       <Route
         path={`${URL_MAIN.messages}${URL_TABS.templates}`}
         component={Templates}
       />
-      <Route path={URL_MAIN.messages} component={MessagesContainer} />
+      <Route path={URL_MAIN.music} component={Music} exact />
       <Route
         path={`${URL_MAIN.music}${URL_TABS.playlist}`}
         component={Playlist}
       />
-      <Route path={URL_MAIN.music} component={Music} />
       <Route path={URL_MAIN.news} component={News} />
       <Route path={URL_MAIN.calendar} component={Calendar} />
       <Route path={URL_MAIN.overview} component={OverviewContainer} />
+      <Route path={URL_MAIN.phone} component={PhoneContainer} exact />
       <Route path={`${URL_MAIN.phone}${URL_TABS.calls}`} component={Calls} />
       <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
-      <Route path={URL_MAIN.phone} component={PhoneContainer} />
+      <Route path={URL_MAIN.settings} component={Settings} exact />
       <Route
         path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
         component={Notifications}
@@ -56,13 +57,12 @@ export default () => (
         path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
         component={AudioConversion}
       />
-      <Route path={URL_MAIN.settings} component={Settings} />
       <Route path={URL_MAIN.tethering} component={Tethering} />
+      <Route path={URL_MAIN.tools} component={Tools} exact />
       <Route
         path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
         component={VoiceRecorder}
       />
-      <Route path={URL_MAIN.tools} component={Tools} />
       <Redirect to={URL_MAIN.overview} />
     </Switch>
   </LayoutDesktopWrapper>
