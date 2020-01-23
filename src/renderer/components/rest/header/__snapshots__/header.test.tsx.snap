@@ -2,7 +2,7 @@
 
 exports[`matches snapshot with tabs 1`] = `
 <div
-  class="sc-bwzfXH hazNYx"
+  class="sc-bwzfXH jpYVOX"
 >
   <h3
     class="sc-bdVaJa biEvWz sc-htpNat jVQasR"
@@ -15,7 +15,7 @@ exports[`matches snapshot with tabs 1`] = `
   >
     <a
       aria-current="page"
-      class="sc-bxivhb fpPzdx sc-iwsKbI kZQpJX active"
+      class="sc-bxivhb kazFXV sc-iwsKbI kZQpJX active"
       displaystyle="9"
       href="/phone"
       size="2"
@@ -30,7 +30,7 @@ exports[`matches snapshot with tabs 1`] = `
       </p>
     </a>
     <a
-      class="sc-bxivhb fpPzdx sc-iwsKbI kZQpJX"
+      class="sc-bxivhb kazFXV sc-iwsKbI kZQpJX"
       displaystyle="9"
       href="/phone/calls"
       size="2"
@@ -45,7 +45,7 @@ exports[`matches snapshot with tabs 1`] = `
       </p>
     </a>
     <a
-      class="sc-bxivhb fpPzdx sc-iwsKbI kZQpJX"
+      class="sc-bxivhb kazFXV sc-iwsKbI kZQpJX"
       displaystyle="9"
       href="/phone/dial"
       size="2"
@@ -60,12 +60,13 @@ exports[`matches snapshot with tabs 1`] = `
       </p>
     </a>
   </div>
+  <div />
 </div>
 `;
 
 exports[`matches snapshot without tabs 1`] = `
 <div
-  class="sc-bwzfXH hazNYx"
+  class="sc-bwzfXH jpYVOX"
 >
   <h3
     class="sc-bdVaJa biEvWz sc-htpNat jVQasR"
@@ -76,5 +77,6 @@ exports[`matches snapshot without tabs 1`] = `
   <div
     class="sc-dnqmqq iFsitv"
   />
+  <div />
 </div>
 `;
