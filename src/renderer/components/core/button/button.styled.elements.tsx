@@ -225,6 +225,7 @@ const buttonStyles = css<{
             position: absolute;
             display: block;
             bottom: 0;
+            left: 0;
             width: 0;
             height: 0.2rem;
             background-color: ${backgroundColor("dark")};
@@ -234,7 +235,7 @@ const buttonStyles = css<{
           &.${activeClassName} {
             color: ${textColor("black")};
             &:after {
-              width: 90%;
+              width: 100%;
             }
             svg {
               opacity: 1;
