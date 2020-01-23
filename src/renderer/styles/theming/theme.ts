@@ -3,20 +3,26 @@ const gutterWidth = 4
 
 /**
  * All colors from palette.
- * TODO: sync them with colors in theme and use abstract names.
  */
-// const white = "#FFFFFF"
-// const black = "#000000"
-// const grey1 = "#3B3F42"
-// const grey2 = "#F4F5F6"
-// const grey3 = "#CDCECF"
-// const grey4 = "#6A6A6A"
-// const grey5 = "#FBFBFB"
-// const grey6 = "#D2D6DB"
-// const blue1 = "#6D9BBC"
-// const blue2 = "#3E6988"
-// const blue3 = "#F3F8FC"
-// const red1 = "#E96A6A"
+
+const black = "#000000"
+const grey1 = "#232426"
+const grey2 = "#3b3f42"
+const grey3 = "#6a6a6a"
+const grey4 = "#a5a5a5"
+const grey5 = "#fbfbfb"
+const grey6 = "#d2d6db"
+const grey7 = "#cdcecf"
+const grey8 = "#f2f7fa"
+const grey9 = "#f4f5f6"
+const white = "#ffffff"
+const blue = "#3e6988"
+const blue1 = "#6d9bbc"
+const blue2 = "#aebec9"
+const blue3 = "#e3f3ff"
+const blue4 = "#f3f8fc"
+const red = "#e96a6a"
+const red1 = "#e9e9e9"
 
 const theme = {
   color: {
