@@ -2,31 +2,31 @@
 
 exports[`should match snapshot 1`] = `
 <div
-  class="sc-EHOje hSrDqz"
+  class="sc-AykKH bDlIwK"
 >
   <div
-    class="sc-bwzfXH htgWpD"
+    class="sc-AykKD jdBCOd"
     data-testid="files-manager-item"
   >
     <test-file-stub
-      classname="sc-bxivhb hSTkeS"
+      classname="sc-AykKF jZBrqQ"
     />
     <div
-      class="sc-ifAKCX EtoTg"
+      class="sc-AykKG iWSwBn"
     >
       <p
-        class="sc-bdVaJa jCnOyj"
+        class="sc-AykKC lnaoTj"
       >
         Music
       </p>
       <p
-        class="sc-bdVaJa dHRpOS"
+        class="sc-AykKC flnmGg"
       >
         15 files (4.0 GB)
       </p>
     </div>
     <a
-      class="sc-htpNat fQDsgi"
+      class="sc-AykKE hiWxHY"
       href="#/music"
     >
       <test-file-stub
@@ -35,28 +35,28 @@ exports[`should match snapshot 1`] = `
     </a>
   </div>
   <div
-    class="sc-bwzfXH gBQHvZ"
+    class="sc-AykKD hpqxCY"
     data-testid="files-manager-item"
   >
     <test-file-stub
-      classname="sc-bxivhb hSTkeS"
+      classname="sc-AykKF jZBrqQ"
     />
     <div
-      class="sc-ifAKCX EtoTg"
+      class="sc-AykKG iWSwBn"
     >
       <p
-        class="sc-bdVaJa jCnOyj"
+        class="sc-AykKC lnaoTj"
       >
         Voice Recorder
       </p>
       <p
-        class="sc-bdVaJa dHRpOS"
+        class="sc-AykKC flnmGg"
       >
         3 files (4.0 GB)
       </p>
     </div>
     <a
-      class="sc-htpNat fQDsgi"
+      class="sc-AykKE hiWxHY"
       href="#/tools/voice-recorder"
     >
       <test-file-stub
@@ -65,44 +65,44 @@ exports[`should match snapshot 1`] = `
     </a>
   </div>
   <div
-    class="sc-bwzfXH iJhYmU"
+    class="sc-AykKD jsGBAU"
     data-testid="files-manager-item"
   >
     <test-file-stub
-      classname="sc-bxivhb hSTkeS"
+      classname="sc-AykKF jZBrqQ"
     />
     <div
-      class="sc-ifAKCX EtoTg"
+      class="sc-AykKG iWSwBn"
     >
       <p
-        class="sc-bdVaJa jCnOyj"
+        class="sc-AykKC lnaoTj"
       >
         Storage
       </p>
       <p
-        class="sc-bdVaJa dHRpOS"
+        class="sc-AykKC flnmGg"
       >
         85 files (4.0 GB)
       </p>
     </div>
   </div>
   <div
-    class="sc-bwzfXH iQcxRP"
+    class="sc-AykKD eQVlkR"
     data-testid="files-manager-item"
   >
     <test-file-stub
-      classname="sc-bxivhb hSTkeS"
+      classname="sc-AykKF jZBrqQ"
     />
     <div
-      class="sc-ifAKCX EtoTg"
+      class="sc-AykKG iWSwBn"
     >
       <p
-        class="sc-bdVaJa jCnOyj"
+        class="sc-AykKC lnaoTj"
       >
         Free
       </p>
       <p
-        class="sc-bdVaJa dHRpOS"
+        class="sc-AykKC flnmGg"
       >
         4.0 GB
       </p>

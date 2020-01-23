@@ -2,28 +2,28 @@
 
 exports[`should match snapshot with link 1`] = `
 <div
-  class="sc-bwzfXH gBQHvZ"
+  class="sc-AykKD hpqxCY"
   data-testid="files-manager-item"
 >
   <test-file-stub
-    classname="sc-bxivhb hSTkeS"
+    classname="sc-AykKF jZBrqQ"
   />
   <div
-    class="sc-ifAKCX EtoTg"
+    class="sc-AykKG iWSwBn"
   >
     <p
-      class="sc-bdVaJa jCnOyj"
+      class="sc-AykKC lnaoTj"
     >
       Voice Recorder
     </p>
     <p
-      class="sc-bdVaJa dHRpOS"
+      class="sc-AykKC flnmGg"
     >
       3 files (4.0 GB)
     </p>
   </div>
   <a
-    class="sc-htpNat fQDsgi"
+    class="sc-AykKE hiWxHY"
     href="#/tools/voice-recorder"
   >
     <test-file-stub
@@ -35,22 +35,22 @@ exports[`should match snapshot with link 1`] = `
 
 exports[`should match snapshot without link 1`] = `
 <div
-  class="sc-bwzfXH gBQHvZ"
+  class="sc-AykKD hpqxCY"
   data-testid="files-manager-item"
 >
   <test-file-stub
-    classname="sc-bxivhb hSTkeS"
+    classname="sc-AykKF jZBrqQ"
   />
   <div
-    class="sc-ifAKCX EtoTg"
+    class="sc-AykKG iWSwBn"
   >
     <p
-      class="sc-bdVaJa jCnOyj"
+      class="sc-AykKC lnaoTj"
     >
       Voice Recorder
     </p>
     <p
-      class="sc-bdVaJa dHRpOS"
+      class="sc-AykKC flnmGg"
     >
       3 files (4.0 GB)
     </p>

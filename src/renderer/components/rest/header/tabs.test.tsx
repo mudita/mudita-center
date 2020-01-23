@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom/extend-expect"
+import "@testing-library/jest-dom"
 import React from "react"
 import Tab from "Renderer/components/rest/header/tab.component"
 import Tabs from "Renderer/components/rest/header/tabs.component"

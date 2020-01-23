@@ -2,52 +2,52 @@
 
 exports[`matches snapshot 1`] = `
 <div
-  class="sc-bwzfXH czRyJj"
+  class="sc-AykKD kxzEMS"
 >
   <h3
-    class="sc-bdVaJa biEvWz sc-htpNat fdhMPn"
+    class="sc-AykKC BIoNG sc-AykKE kktBeQ"
     data-testid="location"
   >
     Overview
   </h3>
   <div
-    class="sc-EHOje fhxHOS"
+    class="sc-AykKH efzdPl"
   >
     <div
-      class="sc-ifAKCX jjQnMc"
+      class="sc-AykKG bFxyNI"
       data-testid="tab"
     >
       <test-file-stub
-        classname="sc-bxivhb iRRKva"
+        classname="sc-AykKF dGxYgx"
       />
       <p
-        class="sc-bdVaJa foWHke"
+        class="sc-AykKC eyKqQd"
       >
         Phone
       </p>
     </div>
     <div
-      class="sc-ifAKCX jjQnMc"
+      class="sc-AykKG bFxyNI"
       data-testid="tab"
     >
       <test-file-stub
-        classname="sc-bxivhb iRRKva"
+        classname="sc-AykKF dGxYgx"
       />
       <p
-        class="sc-bdVaJa foWHke"
+        class="sc-AykKC eyKqQd"
       >
         Calls
       </p>
     </div>
     <div
-      class="sc-ifAKCX jjQnMc"
+      class="sc-AykKG bFxyNI"
       data-testid="tab"
     >
       <test-file-stub
-        classname="sc-bxivhb iRRKva"
+        classname="sc-AykKF dGxYgx"
       />
       <p
-        class="sc-bdVaJa foWHke"
+        class="sc-AykKC eyKqQd"
       >
         Dial
       </p>

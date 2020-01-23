@@ -1,5 +1,5 @@
 import { fireEvent } from "@testing-library/dom"
-import "@testing-library/jest-dom/extend-expect"
+import "@testing-library/jest-dom"
 import { wait } from "@testing-library/react"
 import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
