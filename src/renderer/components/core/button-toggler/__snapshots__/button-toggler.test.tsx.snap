@@ -52,6 +52,16 @@ exports[`matches snapshot 1`] = `
   white-space: nowrap;
 }
 
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
 .c2 {
   --radius: 0.5rem;
   -webkit-flex: 1;
@@ -85,16 +95,6 @@ exports[`matches snapshot 1`] = `
 
 .c2:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.c0 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
 }
 
 <div>

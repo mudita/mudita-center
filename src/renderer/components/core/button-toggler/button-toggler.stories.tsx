@@ -1,39 +1,27 @@
 import { storiesOf } from "@storybook/react"
-import React from "react"
-import ButtonToggler from "Renderer/components/core/button-toggler/button-toggler.component"
-import { ButtonTogglerProps } from "Renderer/components/core/button-toggler/button-toggler.interface"
+import React, { useState } from "react"
+import ButtonToggler, {
+  ButtonTogglerItem,
+} from "Renderer/components/core/button-toggler/button-toggler.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
 
-export const singleStateToggler = [{ label: "Turn on", key: "on" }]
+export const singleStateToggler = ["Turn on"]
 
-export const twoStateToggler = [
-  { label: "On", key: true },
-  { label: "Off", key: false },
-]
+export const twoStateToggler = ["On", "Off"]
 
-export const threeStateToggler = [
-  { label: "Weekly", key: "weekly" },
-  { label: "Monthly", key: "monthly" },
-  { label: "Yearly", key: "yearly" },
-]
+export const threeStateToggler = ["Weekly", "Monthly", "Yearly"]
 
-export const fourStateToggler = [
-  { label: "Daily", key: "daily" },
-  { label: "Weekly", key: "weekly" },
-  { label: "Monthly", key: "monthly" },
-  { label: "Yearly", key: "yearly" },
-]
+export const fourStateToggler = ["Daily", "Weekly", "Monthly", "Yearly"]
 
 const Wrapper = styled.div`
   margin: 2rem;
 `
 
 export const renderStory = (
-  options: ButtonTogglerProps["options"],
+  options: typeof singleStateToggler,
   filled: boolean = false
 ) => {
   return (
@@ -41,28 +29,25 @@ export const renderStory = (
       <Wrapper>
         <Text displayStyle={TextDisplayStyle.SmallText}>None selected</Text>
         <br />
-        <ButtonToggler
-          options={options}
-          activeKey={undefined}
-          onToggle={noop}
-        />
+        <ButtonToggler filled={filled}>
+          {options.map((label, i) => (
+            <ButtonTogglerItem key={i} label={label} />
+          ))}
+        </ButtonToggler>
       </Wrapper>
-      {options.map((option, index) => {
-        return (
-          <Wrapper key={index}>
-            <Text displayStyle={TextDisplayStyle.SmallText}>
-              {option.label} selected
-            </Text>
-            <br />
-            <ButtonToggler
-              options={options}
-              activeKey={option.key}
-              filled={filled}
-              onToggle={noop}
-            />
-          </Wrapper>
-        )
-      })}
+      {options.map((option, j) => (
+        <Wrapper key={j}>
+          <Text displayStyle={TextDisplayStyle.SmallText}>
+            {option} selected
+          </Text>
+          <br />
+          <ButtonToggler filled={filled}>
+            {options.map((label, k) => (
+              <ButtonTogglerItem key={k} label={label} active={j === k} />
+            ))}
+          </ButtonToggler>
+        </Wrapper>
+      ))}
     </>
   )
 }
@@ -78,3 +63,45 @@ storiesOf("Components|Button Toggler/filled style", module)
   .add("two states", () => renderStory(twoStateToggler, true))
   .add("three states", () => renderStory(threeStateToggler, true))
   .add("four states", () => renderStory(fourStateToggler, true))
+
+storiesOf("Components|Button Toggler", module).add("interactive", () => {
+  const [activeLabel, setActiveLabel] = useState(threeStateToggler[0])
+  return (
+    <>
+      <Wrapper>
+        <Text displayStyle={TextDisplayStyle.SmallText}>Outlined</Text>
+        <br />
+        <ButtonToggler>
+          {threeStateToggler.map((label, i) => {
+            const onClick = () => setActiveLabel(label)
+            return (
+              <ButtonTogglerItem
+                key={i}
+                label={label}
+                onClick={onClick}
+                active={activeLabel === label}
+              />
+            )
+          })}
+        </ButtonToggler>
+      </Wrapper>
+      <Wrapper>
+        <Text displayStyle={TextDisplayStyle.SmallText}>Filled</Text>
+        <br />
+        <ButtonToggler filled>
+          {threeStateToggler.map((label, i) => {
+            const onClick = () => setActiveLabel(label)
+            return (
+              <ButtonTogglerItem
+                key={i}
+                label={label}
+                onClick={onClick}
+                active={activeLabel === label}
+              />
+            )
+          })}
+        </ButtonToggler>
+      </Wrapper>
+    </>
+  )
+})

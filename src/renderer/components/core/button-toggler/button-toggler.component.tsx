@@ -1,5 +1,8 @@
-import React from "react"
-import { ButtonTogglerProps } from "Renderer/components/core/button-toggler/button-toggler.interface"
+import React, { ReactElement } from "react"
+import {
+  ButtonTogglerItemProps,
+  ButtonTogglerProps,
+} from "Renderer/components/core/button-toggler/button-toggler.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { disabledSecondaryStyles } from "Renderer/components/core/button/button.styled.elements"
@@ -7,7 +10,20 @@ import { borderRadius } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
-const ButtonWrapper = styled(ButtonComponent)<{ active?: boolean }>`
+const ButtonTogglerWrapper = styled.section`
+  display: flex;
+  flex-direction: row;
+`
+
+export const ButtonTogglerItem = styled(ButtonComponent).attrs<
+  ButtonTogglerItemProps
+>(({ filled, active }) => {
+  const displayStyle =
+    active && filled ? DisplayStyle.Primary : DisplayStyle.Secondary
+  return {
+    displayStyle,
+  }
+})<ButtonTogglerItemProps>`
   --radius: ${borderRadius("medium")};
   flex: 1;
   z-index: 1;
@@ -37,39 +53,18 @@ const ButtonWrapper = styled(ButtonComponent)<{ active?: boolean }>`
   }
 `
 
-const ButtonTogglerWrapper = styled.section`
-  display: flex;
-  flex-direction: row;
-`
-
 const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
   className,
-  activeKey,
-  options,
-  onToggle,
   filled,
+  children,
 }) => {
   return (
     <ButtonTogglerWrapper className={className}>
-      {options.map(({ key, label }) => {
-        const active = activeKey === key
-        const displayStyle =
-          active && filled ? DisplayStyle.Primary : DisplayStyle.Secondary
-
-        const onClickHandler = () => {
-          onToggle(key)
-        }
-
-        return (
-          <ButtonWrapper
-            key={key.toString()}
-            displayStyle={displayStyle}
-            label={label}
-            onClick={onClickHandler}
-            active={active}
-          />
-        )
-      })}
+      {React.Children.map(children, child =>
+        React.cloneElement(child as ReactElement, {
+          filled,
+        })
+      )}
     </ButtonTogglerWrapper>
   )
 }

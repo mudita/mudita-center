@@ -1,11 +1,8 @@
-interface Option {
-  label: string
-  key: any
+export interface ButtonTogglerItemProps {
+  filled?: boolean
+  active?: boolean
 }
 
 export interface ButtonTogglerProps {
-  activeKey?: any
-  options: Option[]
-  onToggle: (prop?: any) => void
   filled?: boolean
 }
