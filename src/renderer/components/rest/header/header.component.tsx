@@ -11,8 +11,8 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
 const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   border-bottom: 0.1rem solid ${borderColor("dark")};
 `
 
@@ -49,6 +49,7 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
         React.cloneElement(middleComponent, {
           currentLocation: location.pathname,
         })}
+      <div />
     </HeaderWrapper>
   )
 }
