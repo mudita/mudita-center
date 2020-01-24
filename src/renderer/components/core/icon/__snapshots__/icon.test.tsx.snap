@@ -2,7 +2,7 @@
 
 exports[`matches snapshot 1`] = `
 <div
-  class="sc-bdVaJa cmcTpL"
+  class="sc-bdVaJa dkyMGU"
   data-testid="icon-wrapper"
 >
   <test-file-stub
@@ -13,7 +13,7 @@ exports[`matches snapshot 1`] = `
 
 exports[`matches snapshot with badge 1`] = `
 <div
-  class="sc-bdVaJa KFaWu"
+  class="sc-bdVaJa AOKbZ"
   data-testid="icon-wrapper"
 >
   <test-file-stub

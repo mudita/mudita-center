@@ -34,14 +34,14 @@ storiesOf("Components|Icon", module)
   .add("Custom without badge", () => {
     return (
       <Container>
-        <CustomIcon type={Type.Message} size={{ height: 3, width: 3 }} />
+        <CustomIcon type={Type.Message} />
       </Container>
     )
   })
   .add("Custom with Badge", () => {
     return (
       <Container>
-        <CustomIcon type={Type.Message} badge size={{ height: 3, width: 3 }} />
+        <CustomIcon type={Type.Message} badge height={3} width={3} />
       </Container>
     )
   })

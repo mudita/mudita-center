@@ -5,14 +5,15 @@ import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
-interface SvgSize {
-  height: number
-  width: number
-}
+// interface SvgSize {
+//   height: number
+//   width: number
+// }
 
 interface Props {
   badge?: boolean
-  size?: SvgSize
+  height?: number
+  width?: number
   type: Type
 }
 
@@ -32,7 +33,8 @@ const badgeStyles = css`
 
 const Wrapper = styled.div<{
   badge?: boolean
-  size?: SvgSize
+  height?: number
+  width?: number
 }>`
   display: flex;
   justify-content: center;
@@ -44,8 +46,8 @@ const Wrapper = styled.div<{
   svg {
     max-height: 100%;
     max-width: 100%;
-    width: ${({ size }) => size?.width}rem;
-    height: ${({ size }) => size?.height}rem;
+    height: ${({ height }) => height}rem;
+    width: ${({ width }) => width}rem;
   }
 
   ${({ badge }) => badge && badgeStyles};
@@ -54,7 +56,8 @@ const Wrapper = styled.div<{
 const Icon: FunctionComponent<Props> = ({
   badge = false,
   className,
-  size,
+  height,
+  width,
   type,
 }) => {
   return (
@@ -62,7 +65,8 @@ const Icon: FunctionComponent<Props> = ({
       badge={badge}
       className={className}
       data-testid="icon-wrapper"
-      size={size}
+      height={height}
+      width={width}
     >
       <Svg Image={getIconType(type)} />
     </Wrapper>
