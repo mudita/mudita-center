@@ -103,9 +103,11 @@ const theme = {
   },
   transitionTime: {
     standard: "500ms",
+    quick: "250ms",
   },
   transitionTimingFunction: {
     standard: "linear",
+    easeInOut: "ease-in-out",
   },
   width: {
     buttonBig: columnWidth * 2 + gutterWidth,

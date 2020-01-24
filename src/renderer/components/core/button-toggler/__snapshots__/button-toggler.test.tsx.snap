@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3B3F42;
+}
+
+.c1 g {
+  fill: #000000;
+}
+
+.c1:hover {
+  border-color: #000000;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.c2 {
+  --radius: 0.5rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  z-index: 1;
+  pointer-events: all;
+}
+
+.c2:hover {
+  z-index: 2;
+}
+
+.c2:not(:hover) {
+  border: 0.1rem solid #CDCECF;
+  color: #CDCECF;
+}
+
+.c2:not(:hover) g {
+  fill: #CDCECF;
+}
+
+.c2:not(:first-of-type) {
+  border-radius: 0;
+  margin-left: -0.1rem;
+}
+
+.c2:first-of-type:not(:last-of-type) {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c2:last-of-type:not(:first-of-type) {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+<div>
+  <section
+    class="c0"
+  >
+    <button
+      class="c1 c2"
+      size="2"
+      type="button"
+    >
+      <p
+        class="c3 c4"
+      >
+        On
+      </p>
+    </button>
+    <button
+      class="c1 c2"
+      size="2"
+      type="button"
+    >
+      <p
+        class="c3 c4"
+      >
+        Off
+      </p>
+    </button>
+  </section>
+</div>
+`;
