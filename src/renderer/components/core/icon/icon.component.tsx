@@ -61,13 +61,7 @@ const Icon: FunctionComponent<Props> = ({
   type,
 }) => {
   return (
-    <Wrapper
-      badge={badge}
-      className={className}
-      data-testid="icon-wrapper"
-      height={height}
-      width={width}
-    >
+    <Wrapper badge={badge} className={className} height={height} width={width}>
       <Svg Image={getIconType(type)} />
     </Wrapper>
   )

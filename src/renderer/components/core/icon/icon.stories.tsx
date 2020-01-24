@@ -5,7 +5,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import styled from "styled-components"
 
 const Container = styled.div`
-  height: 50rem;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;

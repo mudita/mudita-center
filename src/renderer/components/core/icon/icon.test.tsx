@@ -10,10 +10,9 @@ test("matches snapshot", () => {
 })
 
 test("matches snapshot with badge", () => {
-  const badgeId = "icon-wrapper"
-  const { getByTestId } = renderWithThemeAndIntl(
+  const { container } = renderWithThemeAndIntl(
     <Icon type={Type.Battery} badge />
   )
 
-  expect(getByTestId(badgeId)).toMatchSnapshot()
+  expect(container.firstChild).toMatchSnapshot()
 })
