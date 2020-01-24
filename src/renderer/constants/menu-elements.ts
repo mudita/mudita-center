@@ -52,7 +52,7 @@ export interface MenuElement {
   label?: {
     id: string
   }
-  icons?: Array<FunctionComponent<ImageInterface>>
+  icons?: FunctionComponent<ImageInterface>[]
 }
 
 export const menuElements: MenuElement[] = [
