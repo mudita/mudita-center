@@ -15,7 +15,7 @@ exports[`matches snapshot with tabs 1`] = `
   >
     <a
       aria-current="page"
-      class="sc-bxivhb celveS sc-iwsKbI kZQpJX active"
+      class="sc-bxivhb cjgYpn sc-iwsKbI kZQpJX active"
       displaystyle="9"
       href="/phone"
       size="2"
@@ -30,7 +30,7 @@ exports[`matches snapshot with tabs 1`] = `
       </p>
     </a>
     <a
-      class="sc-bxivhb celveS sc-iwsKbI kZQpJX"
+      class="sc-bxivhb cjgYpn sc-iwsKbI kZQpJX"
       displaystyle="9"
       href="/phone/calls"
       size="2"
@@ -45,7 +45,7 @@ exports[`matches snapshot with tabs 1`] = `
       </p>
     </a>
     <a
-      class="sc-bxivhb celveS sc-iwsKbI kZQpJX"
+      class="sc-bxivhb cjgYpn sc-iwsKbI kZQpJX"
       displaystyle="9"
       href="/phone/dial"
       size="2"
