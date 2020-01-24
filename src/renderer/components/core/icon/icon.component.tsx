@@ -5,11 +5,6 @@ import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
-// interface SvgSize {
-//   height: number
-//   width: number
-// }
-
 interface Props {
   badge?: boolean
   height?: number
