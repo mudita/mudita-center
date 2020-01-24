@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import Icon, { Type } from "Renderer/components/core/icon/icon.component"
+import Icon from "Renderer/components/core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 test("matches snapshot", () => {

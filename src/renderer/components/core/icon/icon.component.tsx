@@ -1,37 +1,9 @@
 import * as React from "react"
-import { getIconType } from "Renderer/components/core/icon/icon.config"
+import { getIconType, Type } from "Renderer/components/core/icon/icon.config"
 import Svg from "Renderer/components/core/svg/svg.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
-
-export enum Type {
-  Arrow,
-  Battery,
-  Calendar,
-  Check,
-  CheckIndeterminate,
-  Delete,
-  FilesManager,
-  Magnifier,
-  MenuFilesManager,
-  MenuMeditation,
-  MenuMusic,
-  MenuNews,
-  MenuOverview,
-  MenuPhone,
-  MenuSettings,
-  MenuTethering,
-  MenuTools,
-  Message,
-  MuditaLogo,
-  MuditaLogoWithText,
-  Music,
-  Signal,
-  Sim,
-  Upload,
-  VoiceRecorder,
-}
 
 interface Props {
   type: Type

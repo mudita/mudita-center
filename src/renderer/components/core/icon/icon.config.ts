@@ -1,4 +1,3 @@
-import { Type } from "Renderer/components/core/icon/icon.component"
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import Arrow from "Renderer/svg/arrow.svg"
 import Battery from "Renderer/svg/battery.svg"
@@ -26,6 +25,34 @@ import Sim from "Renderer/svg/sim.svg"
 import Upload from "Renderer/svg/upload.svg"
 import VoiceRecorder from "Renderer/svg/voice-recorder.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
+
+export enum Type {
+  Arrow,
+  Battery,
+  Calendar,
+  Check,
+  CheckIndeterminate,
+  Delete,
+  FilesManager,
+  Magnifier,
+  MenuFilesManager,
+  MenuMeditation,
+  MenuMusic,
+  MenuNews,
+  MenuOverview,
+  MenuPhone,
+  MenuSettings,
+  MenuTethering,
+  MenuTools,
+  Message,
+  MuditaLogo,
+  MuditaLogoWithText,
+  Music,
+  Signal,
+  Sim,
+  Upload,
+  VoiceRecorder,
+}
 
 export const getIconType = (icon: Type): FunctionComponent<ImageInterface> => {
   switch (icon) {

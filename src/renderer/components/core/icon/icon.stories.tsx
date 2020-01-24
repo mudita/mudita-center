@@ -1,6 +1,7 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import Icon, { Type } from "Renderer/components/core/icon/icon.component"
+import Icon from "Renderer/components/core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
 import styled from "styled-components"
 
 const Container = styled.div`
