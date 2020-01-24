@@ -3,68 +3,68 @@ const gutterWidth = 4
 
 /**
  * All colors from palette.
+ * Unused are commented out
  */
 
 const black = "#000000"
-const grey1 = "#191c20"
-const grey2 = "#232426"
-const grey3 = "#3b3f42"
-const grey4 = "#6a6a6a"
-const grey5 = "#a5a5a5"
-const grey6 = "#fbfbfb"
-const grey7 = "#d2d6db"
-const grey8 = "#cdcecf"
-const grey9 = "#f2f7fa"
-const grey10 = "#f4f5f6"
 const white = "#ffffff"
-const blue = "#3e6988"
-const blue1 = "#6d9bbc"
-const blue2 = "#aebec9"
-const blue3 = "#e3f3ff"
-const blue4 = "#f3f8fc"
-const red = "#e96a6a"
-const red1 = "#e9e9e9"
+const grey1 = "#3b3f42"
+const grey2 = "#6a6a6a"
+const grey3 = "#a5a5a5"
+const grey4 = "#d2d6db"
+const grey5 = "#cdcecf"
+const grey6 = "#f4f5f6"
+// const grey7 = "#fbfbfb"
+const grey8 = "#e9e9e9"
+const blue1 = "#3e6988"
+const blue2 = "#6d9bbc"
+// const blue3 = "#aebec9"
+// const blue4 = "#e3f3ff"
+// const blue5 = "#f3f8fc"
+// const red1 = "#e96a6a"
+
+const transparentGrey1 = "rgba(188,188,188,0.5)"
 
 const theme = {
   color: {
     text: {
-      active: grey1,
+      active: black, // "#191c20"
       black,
-      grey: grey8,
-      primary: "#0f0f1a",
+      grey: grey5,
+      primary: black,
       inverted: white,
-      faded: grey4,
-      supplementary: blue1,
-      placeholder: grey5,
+      faded: grey2,
+      supplementary: blue2,
+      placeholder: grey3,
       dark: black,
-      hover: blue,
+      hover: blue1,
     },
     background: {
-      blue: blue1,
+      blue: blue2,
       light: white,
       dark: black,
-      dark2: grey2,
-      grey: grey8,
-      grey2: grey10,
-      grey3: red1,
-      grey4: grey5,
-      inputDark: grey3,
-      accent: grey10,
-      primaryDark: grey10,
+      dark2: grey1, // "#232426"
+      grey: grey5,
+      grey2: grey6,
+      grey3: grey8,
+      grey4: grey3,
+      inputDark: grey1,
+      accent: grey6,
+      primaryDark: grey6,
     },
     border: {
-      active: grey1,
+      active: black, // "#191c20"
       dark: black,
-      default: grey8,
-      grey: grey8,
-      grey2: grey10,
-      grey3: red1,
-      hover: grey3,
-      listItem: grey7,
-      light: grey7,
+      default: grey5,
+      grey: grey5,
+      grey2: grey6,
+      grey3: grey8,
+      hover: grey1,
+      listItem: grey4,
+      light: grey4,
     },
     boxShadow: {
-      grey: "rgba(188,188,188,0.5)",
+      grey: transparentGrey1,
     },
   },
   layout: {
