@@ -11,8 +11,13 @@ const Container = styled.div`
   align-items: center;
 `
 
+const CustomIcon = styled(Icon)`
+  height: 3rem;
+  width: 3rem;
+`
+
 storiesOf("Components|Icon", module)
-  .add("Default", () => {
+  .add("Without Badge", () => {
     return (
       <Container>
         <Icon type={Type.Message} />
@@ -23,6 +28,20 @@ storiesOf("Components|Icon", module)
     return (
       <Container>
         <Icon type={Type.Message} badge />
+      </Container>
+    )
+  })
+  .add("Custom without badge", () => {
+    return (
+      <Container>
+        <CustomIcon type={Type.Message} size={{ height: 3, width: 3 }} />
+      </Container>
+    )
+  })
+  .add("Custom with Badge", () => {
+    return (
+      <Container>
+        <CustomIcon type={Type.Message} badge size={{ height: 3, width: 3 }} />
       </Container>
     )
   })

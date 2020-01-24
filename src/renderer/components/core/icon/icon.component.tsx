@@ -5,9 +5,15 @@ import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
+interface SvgSize {
+  height: number
+  width: number
+}
+
 interface Props {
-  type: Type
   badge?: boolean
+  size?: SvgSize
+  type: Type
 }
 
 const badgeStyles = css`
@@ -24,7 +30,10 @@ const badgeStyles = css`
   }
 `
 
-const Wrapper = styled.div<{ badge?: boolean }>`
+const Wrapper = styled.div<{
+  badge?: boolean
+  size?: SvgSize
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,14 +44,26 @@ const Wrapper = styled.div<{ badge?: boolean }>`
   svg {
     max-height: 100%;
     max-width: 100%;
+    width: ${({ size }) => size?.width}rem;
+    height: ${({ size }) => size?.height}rem;
   }
 
   ${({ badge }) => badge && badgeStyles};
 `
 
-const Icon: FunctionComponent<Props> = ({ type, badge = false }) => {
+const Icon: FunctionComponent<Props> = ({
+  badge = false,
+  className,
+  size,
+  type,
+}) => {
   return (
-    <Wrapper data-testid="icon-wrapper" badge={badge}>
+    <Wrapper
+      badge={badge}
+      className={className}
+      data-testid="icon-wrapper"
+      size={size}
+    >
       <Svg Image={getIconType(type)} />
     </Wrapper>
   )
