@@ -20,7 +20,7 @@ exports[`should match snapshot 1`] = `
         Music
       </p>
       <p
-        class="sc-bdVaJa ijfHZx"
+        class="sc-bdVaJa bAPoXv"
       >
         15 files (4.0 GB)
       </p>
@@ -50,7 +50,7 @@ exports[`should match snapshot 1`] = `
         Voice Recorder
       </p>
       <p
-        class="sc-bdVaJa ijfHZx"
+        class="sc-bdVaJa bAPoXv"
       >
         3 files (4.0 GB)
       </p>
@@ -80,7 +80,7 @@ exports[`should match snapshot 1`] = `
         Storage
       </p>
       <p
-        class="sc-bdVaJa ijfHZx"
+        class="sc-bdVaJa bAPoXv"
       >
         85 files (4.0 GB)
       </p>
@@ -102,7 +102,7 @@ exports[`should match snapshot 1`] = `
         Free
       </p>
       <p
-        class="sc-bdVaJa ijfHZx"
+        class="sc-bdVaJa bAPoXv"
       >
         4.0 GB
       </p>

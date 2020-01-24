@@ -6,7 +6,7 @@ exports[`matches snapshot 1`] = `
     class="sc-gzVnrw ihHoGK"
   >
     <button
-      class="sc-ifAKCX kfWets"
+      class="sc-ifAKCX fBjzQi"
       size="2"
       type="button"
     />
@@ -24,7 +24,7 @@ exports[`renders dropdown 1`] = `
     class="sc-gzVnrw ihHoGK"
   >
     <button
-      class="sc-ifAKCX kfWets"
+      class="sc-ifAKCX fBjzQi"
       size="2"
       type="button"
     >
@@ -39,7 +39,7 @@ exports[`renders dropdown 1`] = `
       data-testid="dropdown"
     >
       <a
-        class="sc-bxivhb xtumP"
+        class="sc-bxivhb bOevKg"
         href="http://www.google.pl"
         size="2"
         target="_blank"
