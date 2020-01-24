@@ -21,6 +21,12 @@ const Buttons = styled.div`
   grid-auto-flow: column;
   grid-column-gap: 1.6rem;
   padding-right: 2.4rem;
+
+  button {
+    &:hover {
+      background-color: ${backgroundColor("grey3")};
+    }
+  }
 `
 
 const CheckboxWrapper = styled.div`
