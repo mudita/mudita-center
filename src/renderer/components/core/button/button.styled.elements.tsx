@@ -222,6 +222,43 @@ const buttonStyles = css<{
             opacity: 0.75;
           }
         `
+      case DisplayStyle.Tab:
+        return css`
+          justify-content: flex-start;
+          height: 100%;
+          padding: 0.8rem;
+          border: none;
+          position: relative;
+          border-radius: ${borderRadius("small")}rem;
+          color: ${textColor("faded")};
+          font-weight: ${fontWeight("default")};
+          width: 100%;
+
+          &:after {
+            content: "";
+            position: absolute;
+            display: block;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0.2rem;
+            background-color: ${backgroundColor("dark")};
+            transition: ${transition("width", undefined, "ease")};
+          }
+
+          &.${activeClassName} {
+            color: ${textColor("black")};
+            &:after {
+              width: 100%;
+            }
+            svg {
+              opacity: 1;
+            }
+          }
+          svg {
+            opacity: 0.75;
+          }
+        `
       default:
         return
     }
