@@ -8,6 +8,7 @@ export enum DisplayStyle {
   Link2,
   Link3,
   Link4,
+  Tab,
 }
 
 export enum Type {

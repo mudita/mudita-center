@@ -1,5 +1,4 @@
 import * as React from "react"
-import Tab from "Renderer/components/rest/header/tab.component"
 import Tabs from "Renderer/components/rest/header/tabs.component"
 import styled from "styled-components"
 
@@ -9,7 +8,6 @@ import Menu from "Renderer/components/rest/menu/menu.component"
 
 import Header from "Renderer/components/rest/header/header.component"
 import { borderColor, width } from "Renderer/styles/theming/theme-getters"
-import check from "Renderer/svg/check-icon.svg"
 
 const Layout = styled.div`
   display: flex;
@@ -44,15 +42,7 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
         <Menu />
       </MenuWrapper>
       <ViewWrapper>
-        <Header
-          middleComponent={
-            <HeaderTabs>
-              <Tab icon={check} tabText={"Phone"} />
-              <Tab icon={check} tabText={"Calls"} />
-              <Tab icon={check} tabText={"Dial"} />
-            </HeaderTabs>
-          }
-        />
+        <Header middleComponent={<HeaderTabs />} />
         {children}
       </ViewWrapper>
     </Layout>
