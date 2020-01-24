@@ -3,25 +3,25 @@
 exports[`matches snapshot 1`] = `
 <div>
   <label
-    class="sc-AykKD KbFQT"
+    class="sc-bwzfXH fNOhzS"
   >
     <div
-      class="sc-AykKE fkUMXh"
+      class="sc-htpNat fhZXHj"
     >
       <input
-        class="sc-AykKF elDaaB"
+        class="sc-bxivhb pSSKy"
         id="id2"
         name="Example1"
         type="checkbox"
         value="value2"
       />
       <test-file-stub
-        classname="sc-AykKG kXMpST"
+        classname="sc-ifAKCX gYZWwe"
         data-testid="state-checked"
       />
     </div>
     <span
-      class="sc-AykKC eyKqQd sc-AykKH cSAPWM"
+      class="sc-bdVaJa foWHke sc-EHOje eZpXZa"
     >
       label
     </span>

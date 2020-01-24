@@ -3,284 +3,284 @@
 exports[`matches snapshot 1`] = `
 <div>
   <div
-    class="sc-fzXfLS ewYPpL"
+    class="sc-VigVT dCQIgv"
   >
     <test-file-stub
-      classname="sc-fzXfLT jDYxEZ"
+      classname="sc-jTzLTM cKetjh"
     />
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/news"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           News
         </p>
       </a>
     </div>
     <div
-      class="sc-AykKJ kjryXE"
+      class="sc-gzVnrw ipxQai"
     >
       <p
-        class="sc-AykKC jujpib"
+        class="sc-bdVaJa Wzjkf"
       >
         Your Pure
       </p>
       <div
-        class="sc-AykKK iUZrLE"
+        class="sc-htoDjs juvQWM"
       >
         <div
-          class="sc-fzXfLO bZogIw"
+          class="sc-dnqmqq iLEhhb"
         >
           <test-file-stub
-            classname="sc-fzXfLP bVzEfZ"
+            classname="sc-iwsKbI gXpsRR"
           />
         </div>
         <div
-          class="sc-fzXfLO bZogIw"
+          class="sc-dnqmqq iLEhhb"
         >
           <test-file-stub
-            classname="sc-fzXfLP bVzEfZ"
+            classname="sc-iwsKbI gXpsRR"
           />
         </div>
         <div
-          class="sc-fzXfLO bZogIw"
+          class="sc-dnqmqq iLEhhb"
         >
           <test-file-stub
-            classname="sc-fzXfLP bVzEfZ"
+            classname="sc-iwsKbI gXpsRR"
           />
         </div>
         <div
-          class="sc-fzXfLO bZogIw"
+          class="sc-dnqmqq iLEhhb"
         >
           <test-file-stub
-            classname="sc-fzXfLP bVzEfZ"
+            classname="sc-iwsKbI gXpsRR"
           />
         </div>
       </div>
     </div>
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/overview"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           Overview
         </p>
       </a>
     </div>
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/messages"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           Messages
         </p>
       </a>
     </div>
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/phone"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           Phone
         </p>
       </a>
     </div>
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/music"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           Music
         </p>
       </a>
     </div>
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/calendar"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           Calendar
         </p>
       </a>
     </div>
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/tools"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           Tools
         </p>
       </a>
     </div>
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/meditation"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           Meditation
         </p>
       </a>
     </div>
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/files-manager"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           Files manager
         </p>
       </a>
     </div>
     <div
-      class="sc-AykKJ kjryXE"
+      class="sc-gzVnrw ipxQai"
     >
       <p
-        class="sc-AykKC jujpib"
+        class="sc-bdVaJa Wzjkf"
       >
         Desktop App
       </p>
     </div>
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/tethering"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           Tethering
         </p>
       </a>
     </div>
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/settings"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           Settings
         </p>
       </a>
     </div>
     <div
-      class="sc-fzXfLQ hEToOW"
+      class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-AykKD grBFqT sc-fzXfLR fypjtk"
+        class="sc-bwzfXH dCQjPx sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/help"
         size="2"
       >
         <test-file-stub
-          classname="sc-AykKH gYGJrf"
+          classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-AykKC cJwzAk sc-AykKI hVujcK"
+          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
         >
           Help
         </p>
