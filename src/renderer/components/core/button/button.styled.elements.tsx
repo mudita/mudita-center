@@ -1,6 +1,7 @@
 import { Link, NavLink } from "react-router-dom"
 import Svg from "Renderer/components/core/svg/svg.component"
 import transition from "Renderer/styles/functions/transition"
+import theme from "Renderer/styles/theming/theme"
 import {
   backgroundColor,
   borderColor,
@@ -45,6 +46,19 @@ const navLinkStyles = css`
   }
 `
 
+export const disabledPrimaryStyles = css`
+  background: ${backgroundColor("grey")};
+  border: 0.1rem solid ${backgroundColor("grey")};
+`
+
+export const disabledSecondaryStyles = css`
+  border: 0.1rem solid ${borderColor("grey")};
+  color: ${textColor("grey")};
+  g {
+    fill: ${textColor("grey")};
+  }
+`
+
 const buttonStyles = css<{
   displaystyle: DisplayStyle
   disabled: boolean
@@ -55,7 +69,21 @@ const buttonStyles = css<{
   justify-content: center;
   appearance: none;
   background: none;
-  transition: ${transition("background")}, ${transition("border")};
+  transition: ${transition(
+    "background",
+    theme.transitionTime.quick,
+    theme.transitionTimingFunction.easeInOut
+  )},
+    ${transition(
+      "color",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )},
+    ${transition(
+      "border",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )};
   cursor: pointer;
   outline: none;
   box-sizing: border-box;
@@ -72,15 +100,9 @@ const buttonStyles = css<{
           height: 4rem;
           color: ${textColor("inverted")};
           border-radius: ${borderRadius("medium")};
-          ${disabled
-            ? css`
-                background: ${backgroundColor("grey")};
-                border: 0.1rem solid ${backgroundColor("grey")};
-              `
-            : css`
-                background: ${backgroundColor("inputDark")};
-                border: 0.1rem solid ${backgroundColor("inputDark")};
-              `}
+          background: ${backgroundColor("inputDark")};
+          border: 0.1rem solid ${backgroundColor("inputDark")};
+          ${disabled && disabledPrimaryStyles};
           &:hover {
             background: ${backgroundColor("dark2")};
           }
@@ -92,19 +114,11 @@ const buttonStyles = css<{
         return css`
           height: 4rem;
           border-radius: ${borderRadius("medium")};
-          ${disabled
-            ? css`
-                border: 0.1rem solid ${borderColor("grey")};
-                g {
-                  fill: ${textColor("grey")};
-                }
-              `
-            : css`
-                border: 0.1rem solid ${borderColor("hover")};
-                g {
-                  fill: ${textColor("black")};
-                }
-              `}
+          border: 0.1rem solid ${borderColor("hover")};
+          g {
+            fill: ${textColor("black")};
+          }
+          ${disabled && disabledSecondaryStyles};
           &:hover {
             border-color: ${borderColor("dark")};
           }

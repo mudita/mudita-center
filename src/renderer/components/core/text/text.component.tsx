@@ -28,7 +28,7 @@ export const mediumTextSharedStyles = css`
 
 export const smallTextSharedStyles = css`
   font-size: 1.2rem;
-  line-height: 1.15;
+  line-height: 1.2;
 `
 
 const uppercaseStyles = css`

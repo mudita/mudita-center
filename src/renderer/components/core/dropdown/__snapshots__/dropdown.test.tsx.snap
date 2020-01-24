@@ -29,7 +29,7 @@ exports[`renders dropdown 1`] = `
       type="button"
     >
       <p
-        class="sc-bdVaJa Wzjkf sc-bZQynM flUvJk"
+        class="sc-bdVaJa ghJYji sc-bZQynM flUvJk"
       >
         Example
       </p>
@@ -48,7 +48,7 @@ exports[`renders dropdown 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa Wzjkf sc-bZQynM flUvJk"
+          class="sc-bdVaJa ghJYji sc-bZQynM flUvJk"
         >
           I open Google in new tab
         </p>

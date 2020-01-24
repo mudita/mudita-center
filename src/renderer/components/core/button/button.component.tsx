@@ -1,13 +1,10 @@
 import React, { ComponentProps, MouseEventHandler } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
-
-import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
-import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
-
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-
+import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
+import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
+import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import { DisplayStyle, Size, Type } from "./button.config"
 
