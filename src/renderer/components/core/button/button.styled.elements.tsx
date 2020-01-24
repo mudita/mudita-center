@@ -71,7 +71,7 @@ const buttonStyles = css<{
         return css`
           height: 4rem;
           color: ${textColor("inverted")};
-          border-radius: ${borderRadius("medium")}rem;
+          border-radius: ${borderRadius("medium")};
           ${disabled
             ? css`
                 background: ${backgroundColor("grey")};
@@ -91,7 +91,7 @@ const buttonStyles = css<{
       case DisplayStyle.Secondary:
         return css`
           height: 4rem;
-          border-radius: ${borderRadius("medium")}rem;
+          border-radius: ${borderRadius("medium")};
           ${disabled
             ? css`
                 border: 0.1rem solid ${borderColor("grey")};
@@ -114,7 +114,7 @@ const buttonStyles = css<{
           height: 4rem;
           width: 4rem;
           border: 0.1rem solid ${borderColor("hover")};
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           &:hover {
             border-color: ${borderColor("dark")};
           }
@@ -123,7 +123,7 @@ const buttonStyles = css<{
         return css`
           height: 3.2rem;
           width: 3.2rem;
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           background: transparent;
           border: none;
           &:hover {
@@ -134,7 +134,7 @@ const buttonStyles = css<{
         return css`
           height: 3.2rem;
           width: 3.2rem;
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           background: transparent;
           border: none;
           &:hover {
@@ -150,7 +150,7 @@ const buttonStyles = css<{
           height: 3rem;
           padding: 0.8rem;
           border: none;
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
@@ -163,7 +163,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: ${borderRadius("medium")}rem;
+          border-radius: ${borderRadius("medium")};
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
@@ -176,7 +176,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           color: ${textColor("supplementary")};
           font-weight: ${fontWeight("default")};
           width: 100%;
@@ -193,7 +193,7 @@ const buttonStyles = css<{
           height: 4rem;
           padding: 0.8rem;
           border: none;
-          border-radius: ${borderRadius("small")}rem;
+          border-radius: ${borderRadius("small")};
           color: ${textColor("faded")};
           font-weight: ${fontWeight("default")};
           width: 100%;
@@ -203,6 +203,43 @@ const buttonStyles = css<{
           }
           &:hover {
             ${navLinkStyles}
+          }
+          svg {
+            opacity: 0.75;
+          }
+        `
+      case DisplayStyle.Tab:
+        return css`
+          justify-content: flex-start;
+          height: 100%;
+          padding: 0.8rem;
+          border: none;
+          position: relative;
+          border-radius: ${borderRadius("small")}rem;
+          color: ${textColor("faded")};
+          font-weight: ${fontWeight("default")};
+          width: 100%;
+
+          &:after {
+            content: "";
+            position: absolute;
+            display: block;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0.2rem;
+            background-color: ${backgroundColor("dark")};
+            transition: ${transition("width", undefined, "ease")};
+          }
+
+          &.${activeClassName} {
+            color: ${textColor("black")};
+            &:after {
+              width: 100%;
+            }
+            svg {
+              opacity: 1;
+            }
           }
           svg {
             opacity: 0.75;

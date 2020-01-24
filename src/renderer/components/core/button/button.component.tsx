@@ -22,6 +22,7 @@ import {
 
 interface Props {
   nav?: boolean
+  exact?: boolean
   disabled?: boolean
   displayStyle?: DisplayStyle
   href?: string
@@ -44,6 +45,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   className,
   disabled = false,
   displayStyle = DisplayStyle.Primary,
+  exact,
   href,
   Icon,
   label,
@@ -62,6 +64,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Component = StyledNavLink
     Object.assign(filteredProps, {
       to,
+      exact,
       activeClassName,
     })
   } else if (to) {
@@ -75,6 +78,17 @@ const ButtonComponent: FunctionComponent<Props> = ({
     Object.assign(filteredProps, { type, disabled })
   }
 
+  const getButtonTextDisplayStyle = (style: DisplayStyle) => {
+    switch (style) {
+      case DisplayStyle.Link4:
+        return TextDisplayStyle.LargeFadedText
+      case DisplayStyle.Tab:
+        return TextDisplayStyle.LargeText
+      default:
+        return TextDisplayStyle.SmallText
+    }
+  }
+
   const getLabel = () => {
     if (!label && !labelMessage) {
       return
@@ -85,17 +99,20 @@ const ButtonComponent: FunctionComponent<Props> = ({
       )
       return
     }
-    const textDisplayStyle =
-      displayStyle === DisplayStyle.Link4
-        ? TextDisplayStyle.LargeFadedText
-        : TextDisplayStyle.SmallText
 
     if (labelMessage) {
       return (
-        <ButtonText displayStyle={textDisplayStyle} message={labelMessage} />
+        <ButtonText
+          displayStyle={getButtonTextDisplayStyle(displayStyle)}
+          message={labelMessage}
+        />
       )
     }
-    return <ButtonText displayStyle={textDisplayStyle}>{label}</ButtonText>
+    return (
+      <ButtonText displayStyle={getButtonTextDisplayStyle(displayStyle)}>
+        {label}
+      </ButtonText>
+    )
   }
 
   return (

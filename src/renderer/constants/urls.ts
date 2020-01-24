@@ -13,3 +13,14 @@ export const URL_MAIN = {
   settings: "/settings",
   help: "/help",
 }
+
+export const URL_TABS = {
+  templates: "/templates",
+  calls: "/calls",
+  dial: "/dial",
+  playlist: "/playlist",
+  voiceRecorder: "/voice-recorder",
+  connection: "/connection",
+  notifications: "/notifications",
+  audioConversion: "/audio-conversion",
+}
