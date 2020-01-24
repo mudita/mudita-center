@@ -8,11 +8,11 @@ test("matches snapshot", () => {
   expect(container.firstChild).toMatchSnapshot()
 })
 
-test("badge should render", () => {
-  const badgeId = "badge"
+test("matches snapshot with badge", () => {
+  const badgeId = "icon-wrapper"
   const { getByTestId } = renderWithThemeAndIntl(
     <Icon type={Type.Battery} badge />
   )
-  expect(getByTestId(badgeId)).toBeInTheDocument()
+
   expect(getByTestId(badgeId)).toMatchSnapshot()
 })

@@ -6,7 +6,7 @@ import Battery from "Renderer/svg/battery.svg"
 import Delete from "Renderer/svg/delete.svg"
 import Message from "Renderer/svg/menu_messages.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 
 export enum Type {
   Battery,
@@ -32,10 +32,7 @@ const getIconType = (icon: Type): FunctionComponent<ImageInterface> => {
   }
 }
 
-const Badge = styled.div`
-  display: inline-block;
-  position: relative;
-  margin: 0 0.8rem 0 0;
+const badgeStyles = css`
   &:after {
     display: block;
     content: "";
@@ -49,16 +46,28 @@ const Badge = styled.div`
   }
 `
 
-const Icon: FunctionComponent<Props> = ({ type, badge = false }) => {
-  if (badge) {
-    return (
-      <Badge data-testid="badge">
-        <Svg Image={getIconType(type)} />
-      </Badge>
-    )
-  } else {
-    return <Svg Image={getIconType(type)} />
+const Wrapper = styled.div<{ badge?: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+
+  svg {
+    max-height: 100%;
+    max-width: 100%;
   }
+
+  ${({ badge }) => badge && badgeStyles};
+`
+
+const Icon: FunctionComponent<Props> = ({ type, badge = false }) => {
+  return (
+    <Wrapper data-testid="icon-wrapper" badge={badge}>
+      <Svg Image={getIconType(type)} />
+    </Wrapper>
+  )
 }
 
 export default Icon

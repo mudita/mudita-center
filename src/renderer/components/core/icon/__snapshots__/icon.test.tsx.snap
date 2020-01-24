@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`badge should render 1`] = `
+exports[`matches snapshot 1`] = `
 <div
-  class="sc-bdVaJa AbQKQ"
-  data-testid="badge"
+  class="sc-bdVaJa cZZuEL"
+  data-testid="icon-wrapper"
 >
   <test-file-stub
     image="test-file-stub"
@@ -11,8 +11,13 @@ exports[`badge should render 1`] = `
 </div>
 `;
 
-exports[`matches snapshot 1`] = `
-<test-file-stub
-  image="test-file-stub"
-/>
+exports[`matches snapshot with badge 1`] = `
+<div
+  class="sc-bdVaJa iSeKVI"
+  data-testid="icon-wrapper"
+>
+  <test-file-stub
+    image="test-file-stub"
+  />
+</div>
 `;
