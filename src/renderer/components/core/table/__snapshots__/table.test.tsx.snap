@@ -1,11 +1,652 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`matches snapshot 1`] = `
+exports[`nested table matches snapshot 1`] = `
 <div>
-  <div>
-    <p>
-      Table
-    </p>
+  <div
+    class="sc-EHOje gRHaHa sc-bZQynM cRCinu"
+  >
+    <div
+      class="sc-htpNat sc-ifAKCX ehYSDj"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+        data-testid="column-label"
+      >
+        File type
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+        data-testid="column-label"
+      >
+        Last backup
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+        data-testid="column-label"
+      >
+        Size
+      </div>
+    </div>
+    <div
+      class="sc-htpNat dFjmtx"
+      data-testid="row"
+      size="4.8"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Messages
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        8/22/2019, 4:10:30 AM
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        10.31 MB
+      </div>
+    </div>
+    <div
+      class="sc-htpNat dFjmtx"
+      data-testid="row"
+      size="4.8"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Contacts
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        3/13/2019, 2:34:01 AM
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        15.99 MB
+      </div>
+    </div>
+    <div
+      class="sc-htpNat dFjmtx"
+      data-testid="row"
+      size="4.8"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Files
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        3/19/2019, 5:23:13 AM
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        12.83 MB
+      </div>
+    </div>
+    <div
+      class="sc-bxivhb diDWuo"
+    >
+      <div
+        class="sc-htpNat gSmDhk"
+        data-testid="nested-row"
+        size="4"
+      >
+        <div
+          class="sc-bwzfXH uTxCW"
+        >
+          Music files
+        </div>
+        <div
+          class="sc-bwzfXH uTxCW"
+        >
+          3/8/2019, 1:33:03 PM
+        </div>
+        <div
+          class="sc-bwzfXH uTxCW"
+        >
+          12.33 MB
+        </div>
+      </div>
+      <div
+        class="sc-htpNat gSmDhk"
+        data-testid="nested-row"
+        size="4"
+      >
+        <div
+          class="sc-bwzfXH uTxCW"
+        >
+          Recorded files
+        </div>
+        <div
+          class="sc-bwzfXH uTxCW"
+        >
+          11/27/2019, 8:29:41 AM
+        </div>
+        <div
+          class="sc-bwzfXH uTxCW"
+        >
+          31.68 MB
+        </div>
+      </div>
+      <div
+        class="sc-htpNat gSmDhk"
+        data-testid="nested-row"
+        size="4"
+      >
+        <div
+          class="sc-bwzfXH uTxCW"
+        >
+          Storage files
+        </div>
+        <div
+          class="sc-bwzfXH uTxCW"
+        >
+          4/17/2019, 4:42:38 PM
+        </div>
+        <div
+          class="sc-bwzfXH uTxCW"
+        >
+          4.92 MB
+        </div>
+      </div>
+    </div>
+    <div
+      class="sc-htpNat dFjmtx"
+      data-testid="row"
+      size="4.8"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Notes
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        10/8/2019, 7:51:33 PM
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        24.36 MB
+      </div>
+    </div>
+    <div
+      class="sc-htpNat dFjmtx"
+      data-testid="row"
+      size="4.8"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Meditation timer data
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        10/13/2019, 3:15:12 AM
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        44.32 MB
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`simple table matches snapshot 1`] = `
+<div>
+  <div
+    class="sc-EHOje gRHaHa"
+  >
+    <div
+      class="sc-htpNat sc-ifAKCX ehYSDj"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Name
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Phone
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Kiley
+         
+        Collier
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        451-981-6719 x781
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Lambert
+         
+        Nicolas
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        655-667-8937 x2052
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Euna
+         
+        Lebsack
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        1-910-757-7424 x53888
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Muriel
+         
+        Wunsch
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        946-568-8407 x8728
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Geraldine
+         
+        Marks
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        1-579-872-1729
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Ettie
+         
+        Rath
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        1-799-456-8290
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Rahul
+         
+        Powlowski
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        1-163-737-1009 x389
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Efren
+         
+        Watsica
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        548.041.1643
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Mariah
+         
+        Cummerata
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        1-785-636-4270
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Gerry
+         
+        Toy
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        651.722.8112 x27851
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Ettie
+         
+        Lesch
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        (787) 119-1261 x58468
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Pearlie
+         
+        Torphy
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        318.476.1845 x631
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Jermain
+         
+        Crist
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        634-227-9124
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Winfield
+         
+        Tromp
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        457-514-3661 x5418
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Verda
+         
+        Thompson
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        1-935-995-3325 x36257
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Jerad
+         
+        Graham
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        (481) 429-6193 x4315
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Gerhard
+         
+        Rempel
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        126.059.4195 x787
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Roel
+         
+        Kuhic
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        162-378-4754 x2769
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Wilburn
+         
+        Prosacco
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        039-060-8196 x16140
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Izabella
+         
+        Schmitt
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        1-866-877-0732
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Kaleigh
+         
+        Kessler
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        547.117.9907 x56741
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Heber
+         
+        Mohr
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        1-354-068-7649
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Audie
+         
+        Ruecker
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        902-440-8097
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Marvin
+         
+        Schowalter
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        (599) 201-9530
+      </div>
+    </div>
+    <div
+      class="sc-htpNat iKPCwm"
+      data-testid="row"
+    >
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        Ethelyn
+         
+        Hagenes
+      </div>
+      <div
+        class="sc-bwzfXH uTxCW"
+      >
+        1-065-466-9042 x0206
+      </div>
+    </div>
   </div>
 </div>
 `;
