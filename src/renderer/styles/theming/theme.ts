@@ -3,61 +3,68 @@ const gutterWidth = 4
 
 /**
  * All colors from palette.
- * TODO: sync them with colors in theme and use abstract names.
+ * Unused are commented out
  */
-// const white = "#FFFFFF"
-// const black = "#000000"
-// const grey1 = "#3B3F42"
-// const grey2 = "#F4F5F6"
-// const grey3 = "#CDCECF"
-// const grey4 = "#6A6A6A"
-// const grey5 = "#FBFBFB"
-// const grey6 = "#D2D6DB"
-// const blue1 = "#6D9BBC"
-// const blue2 = "#3E6988"
-// const blue3 = "#F3F8FC"
-// const red1 = "#E96A6A"
+
+const black = "#000000"
+const white = "#ffffff"
+const grey1 = "#3b3f42"
+const grey2 = "#6a6a6a"
+const grey3 = "#a5a5a5"
+const grey4 = "#d2d6db"
+const grey5 = "#cdcecf"
+const grey6 = "#f4f5f6"
+// const grey7 = "#fbfbfb"
+const grey8 = "#e9e9e9"
+const blue1 = "#3e6988"
+const blue2 = "#6d9bbc"
+// const blue3 = "#aebec9"
+// const blue4 = "#e3f3ff"
+// const blue5 = "#f3f8fc"
+// const red1 = "#e96a6a"
+
+const transparentGrey1 = "rgba(188,188,188,0.5)"
 
 const theme = {
   color: {
     text: {
-      active: "#191C20",
-      black: "#000000",
-      grey: "#CDCECF",
-      primary: "#0f0f1a",
-      inverted: "#FFFFFF",
-      faded: "#6A6A6A",
-      supplementary: "#6D9BBC",
-      placeholder: "#A5A5A5",
-      dark: "#000000",
-      hover: "#3E6988",
+      active: black, // "#191c20"
+      black,
+      grey: grey5,
+      primary: black,
+      inverted: white,
+      faded: grey2,
+      supplementary: blue2,
+      placeholder: grey3,
+      dark: black,
+      hover: blue1,
     },
     background: {
-      blue: "#6D9BBC",
-      light: "#ffffff",
-      dark: "#000000",
-      dark2: "#232426",
-      grey: "#CDCECF",
-      grey2: "#F4F5F6",
-      grey3: "#E9E9E9",
-      grey4: "#A5A5A5",
-      inputDark: "#3B3F42",
-      accent: "#F4F5F6",
-      primaryDark: "#F4F5F6",
+      blue: blue2,
+      light: white,
+      dark: black,
+      dark2: grey1, // "#232426"
+      grey: grey5,
+      grey2: grey6,
+      grey3: grey8,
+      grey4: grey3,
+      inputDark: grey1,
+      accent: grey6,
+      primaryDark: grey6,
     },
     border: {
-      active: "#191C20",
-      dark: "#000000",
-      default: "#CDCECF",
-      grey: "#CDCECF",
-      grey2: "#F4F5F6",
-      grey3: "#E9E9E9",
-      hover: "#3B3F42",
-      listItem: "#D2D6DB",
-      light: "#D2D6DB",
+      active: black, // "#191c20"
+      dark: black,
+      default: grey5,
+      grey: grey5,
+      grey2: grey6,
+      grey3: grey8,
+      hover: grey1,
+      listItem: grey4,
+      light: grey4,
     },
     boxShadow: {
-      grey: "rgba(188,188,188,0.5)",
+      grey: transparentGrey1,
     },
   },
   layout: {
