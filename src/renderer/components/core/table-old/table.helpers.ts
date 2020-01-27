@@ -3,7 +3,7 @@ import {
   Row,
   TableComponentProps,
   UID,
-} from "Renderer/components/core/table/table.interface"
+} from "Renderer/components/core/table-old/table.interface"
 
 // Group rows by _group key
 export const groupRows = (

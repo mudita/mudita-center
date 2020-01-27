@@ -12,17 +12,17 @@ import {
   TableRowLabel,
   TableSidebar,
   TableWrapper,
-} from "Renderer/components/core/table/table.elements"
+} from "Renderer/components/core/table-old/table.elements"
 import {
   getRowChildren,
   groupRows,
-} from "Renderer/components/core/table/table.helpers"
+} from "Renderer/components/core/table-old/table.helpers"
 import {
   Column,
   GroupedRows,
   Row,
   TableComponentProps,
-} from "Renderer/components/core/table/table.interface"
+} from "Renderer/components/core/table-old/table.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"

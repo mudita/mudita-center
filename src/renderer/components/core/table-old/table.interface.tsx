@@ -1,5 +1,5 @@
 import { Dispatch, MouseEvent, SetStateAction } from "react"
-import { RowSize } from "Renderer/components/core/table/table.elements"
+import { RowSize } from "Renderer/components/core/table-old/table.elements"
 
 export interface Column {
   size: string

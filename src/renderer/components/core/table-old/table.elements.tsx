@@ -2,7 +2,7 @@ import {
   LabelsProps,
   TableColumnProps,
   TableRowProps,
-} from "Renderer/components/core/table/table.interface"
+} from "Renderer/components/core/table-old/table.interface"
 import {
   backgroundColor,
   borderColor,

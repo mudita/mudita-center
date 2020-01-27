@@ -1,7 +1,7 @@
 import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
-import TableComponent from "Renderer/components/core/table/table.component"
-import { RowSize } from "Renderer/components/core/table/table.elements"
+import TableComponent from "Renderer/components/core/table-old/table.component"
+import { RowSize } from "Renderer/components/core/table-old/table.elements"
 import {
   basicRows,
   columnsBasic,
@@ -11,11 +11,11 @@ import {
   labeledRows,
   LabeledSingleRow,
   structuredRows,
-} from "Renderer/components/core/table/table.fake-data"
+} from "Renderer/components/core/table-old/table.fake-data"
 import {
   SidebarProps,
   UID,
-} from "Renderer/components/core/table/table.interface"
+} from "Renderer/components/core/table-old/table.interface"
 import styled from "styled-components"
 
 // Components
@@ -49,15 +49,15 @@ const Table = styled(TableComponent)`
 `
 
 // Stories
-storiesOf("Components|Table", module).add("Empty", () => {
+storiesOf("Components|Table Old", module).add("Empty", () => {
   return <Table rows={[]} columns={columnsBasic} />
 })
 
-storiesOf("Components|Table", module).add("Basic", () => {
+storiesOf("Components|Table Old", module).add("Basic", () => {
   return <Table rows={basicRows} columns={columnsBasic} />
 })
 
-storiesOf("Components|Table", module).add("With rows selecting", () => {
+storiesOf("Components|Table Old", module).add("With rows selecting", () => {
   const [selectedIds, setSelectedIds] = useState()
 
   return (
@@ -70,11 +70,11 @@ storiesOf("Components|Table", module).add("With rows selecting", () => {
   )
 })
 
-storiesOf("Components|Table", module).add("With labeled rows", () => {
+storiesOf("Components|Table Old", module).add("With labeled rows", () => {
   return <Table rows={labeledRows} columns={columnsWithoutLabels} />
 })
 
-storiesOf("Components|Table", module).add(
+storiesOf("Components|Table Old", module).add(
   "With labeled rows and custom rows size",
   () => {
     return (
@@ -87,7 +87,7 @@ storiesOf("Components|Table", module).add(
   }
 )
 
-storiesOf("Components|Table", module).add("With sidebar", () => {
+storiesOf("Components|Table Old", module).add("With sidebar", () => {
   const [activeId, setActiveId] = useState()
 
   return (
@@ -101,7 +101,7 @@ storiesOf("Components|Table", module).add("With sidebar", () => {
   )
 })
 
-storiesOf("Components|Table", module).add(
+storiesOf("Components|Table Old", module).add(
   "With sidebar and rows selecting",
   () => {
     const [selectedIds, setSelectedIds] = useState()
@@ -121,7 +121,7 @@ storiesOf("Components|Table", module).add(
   }
 )
 
-storiesOf("Components|Table", module).add(
+storiesOf("Components|Table Old", module).add(
   "Nested structure with selecting",
   () => {
     const [selectedRowsIds, setSelectedRows] = useState<UID[]>([])

@@ -1,7 +1,7 @@
 import Faker from "faker"
 import React, { MouseEvent } from "react"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import { RowRendererProps } from "Renderer/components/core/table/table.interface"
+import { RowRendererProps } from "Renderer/components/core/table-old/table.interface"
 
 // Fake columns
 export const columnsBasic = [

@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/extend-expect"
 import { renderHook } from "@testing-library/react-hooks"
 import React, { useCallback, useState } from "react"
-import TableComponent from "Renderer/components/core/table/table.component"
+import TableComponent from "Renderer/components/core/table-old/table.component"
 import {
   basicRows,
   columnsBasic,
@@ -9,16 +9,16 @@ import {
   columnsWithoutLabels,
   labeledRows,
   structuredRows,
-} from "Renderer/components/core/table/table.fake-data"
+} from "Renderer/components/core/table-old/table.fake-data"
 import {
   flattenRows,
   groupRows,
-} from "Renderer/components/core/table/table.helpers"
+} from "Renderer/components/core/table-old/table.helpers"
 import {
   TableComponentProps,
   UID,
-} from "Renderer/components/core/table/table.interface"
-import { sidebarRenderer } from "Renderer/components/core/table/table.stories"
+} from "Renderer/components/core/table-old/table.interface"
+import { sidebarRenderer } from "Renderer/components/core/table-old/table.stories"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 const useSidebar = (rowId?: UID) => {
