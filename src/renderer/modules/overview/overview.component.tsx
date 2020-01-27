@@ -3,6 +3,7 @@ import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo
 import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
+import getDisconnectInfo from "Renderer/requests/get-disconnect-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -61,6 +62,15 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       )
     })
 
+  const handleDisconnect = () =>
+    getDisconnectInfo().then(result => {
+      document.getElementById("disconnect")!.innerText = JSON.stringify(
+        result,
+        null,
+        2
+      )
+    })
+
   return (
     <div>
       <div>Battery level: {batteryLevel}</div>
@@ -85,6 +95,9 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       <h2>Backups info</h2>
       <button onClick={handleBackups}>Get</button>
       <pre id="backups" />
+      <h2>Disconnect info</h2>
+      <button onClick={handleDisconnect}>Get</button>
+      <pre id="disconnect" />
     </div>
   )
 }
