@@ -3,7 +3,7 @@ import registerDisconnectInfoRequest from "Backend/requests/disconnect-info/get-
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 
-test("returns required battery info", () => {
+test("returns disconnected info", () => {
   registerDisconnectInfoRequest(getFakeAdapters())
   const [result] = (ipcMain as any)._flush(IpcRequest.GetDisconnectInfo)
   expect(result).toMatchInlineSnapshot(`

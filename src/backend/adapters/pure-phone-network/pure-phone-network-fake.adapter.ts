@@ -30,6 +30,10 @@ class PurePhoneNetworkFake extends PurePhoneNetworkAdapter {
       },
     ]
   }
+
+  public changeSimCard(): number {
+    return 12345678
+  }
 }
 
 const createFakePurePhoneNetworkAdapter = (): PurePhoneNetworkAdapter =>
