@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom/extend-expect"
+import "@testing-library/jest-dom"
 import React from "react"
 import Image from "Renderer/components/core/image/image.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"

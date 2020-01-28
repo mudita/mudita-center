@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom/extend-expect"
+import "@testing-library/jest-dom"
 import "jest-styled-components"
 import React from "react"
 import { SelectionManagerProps } from "Renderer/components/core/selection-manager/selection-manager.interface"

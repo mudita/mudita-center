@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom/extend-expect"
+import "@testing-library/jest-dom"
 import React from "react"
 import { Router } from "react-router"
 import { fakeMemoryChartData } from "Renderer/modules/filesManager/components/fake-data"
