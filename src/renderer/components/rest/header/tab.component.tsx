@@ -1,39 +1,27 @@
 import * as React from "react"
-import Svg from "Renderer/components/core/svg/svg.component"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import Button from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
+import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import styled from "styled-components"
-
-const TabIcon = styled(Svg)`
-  height: 1.6rem;
-  width: 1.6rem;
-  margin-right: 1rem;
-`
-
-const TabWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 2.6rem 0 1.5rem 0;
-
-  &:not(:last-child) {
-    margin-right: 4rem;
-  }
-`
 
 interface TabProps {
   icon: FunctionComponent<ImageInterface>
-  tabText?: string
+  label?: MessageInterface
+  url?: string
 }
 
-const Tab: FunctionComponent<TabProps> = ({ icon, tabText }) => {
+const Tab: FunctionComponent<TabProps> = ({ icon, label, url, className }) => {
   return (
-    <TabWrapper data-testid="tab">
-      <TabIcon Image={icon} />
-      <Text displayStyle={TextDisplayStyle.MediumText}>{tabText}</Text>
-    </TabWrapper>
+    <Button
+      className={className}
+      nav
+      displayStyle={DisplayStyle.Tab}
+      labelMessage={label}
+      Icon={icon}
+      to={url}
+      exact
+    />
   )
 }
 
