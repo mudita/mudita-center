@@ -31,7 +31,7 @@ class PurePhoneNetworkFake extends PurePhoneNetworkAdapter {
     ]
   }
 
-  public changeSimCard(): number {
+  public setActiveCard(): number {
     return 12345678
   }
 }

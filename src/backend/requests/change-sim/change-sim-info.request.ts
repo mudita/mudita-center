@@ -7,7 +7,7 @@ const handleChangeSimRequestInfo = ({
   pureNetwork,
 }: Adapters): ChangeSimInfo => {
   return {
-    number: pureNetwork.changeSimCard(),
+    number: pureNetwork.setActiveCard(),
   }
 }
 
