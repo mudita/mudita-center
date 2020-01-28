@@ -4,10 +4,10 @@ import DisconnectInfo from "Common/interfaces/disconnect-info"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 
 const handleDisconnectInfoRequest = ({
-  pureDisconnectService,
+  purePhone,
 }: Adapters): DisconnectInfo => {
   return {
-    disconnected: pureDisconnectService.getDisconnectStatus(),
+    disconnected: purePhone.getDisconnectStatus(),
   }
 }
 

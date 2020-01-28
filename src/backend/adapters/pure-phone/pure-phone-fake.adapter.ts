@@ -24,6 +24,10 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getSerialNumber(): string {
     return "1UB13213MN14K1"
   }
+
+  public getDisconnectStatus(): boolean {
+    return false
+  }
 }
 
 const createFakePurePhoneAdapter = (): PurePhoneAdapter =>
