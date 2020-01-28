@@ -25,7 +25,7 @@ const requireAll = (requireContext: any) => {
       fileName,
       component: requireContext(fileName),
     }
-  }) as Array<{ fileName: string; component: FunctionComponent }>
+  }) as { fileName: string; component: FunctionComponent }[]
 }
 
 const allSvgs = requireAll(require.context("..", true, /.svg$/))

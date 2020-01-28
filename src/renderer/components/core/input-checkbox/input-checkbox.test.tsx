@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom/extend-expect"
+import "@testing-library/jest-dom"
 import React from "react"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
