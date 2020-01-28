@@ -82,20 +82,20 @@ export const TableLabels = styled(TableRow)`
   }
 `
 
+const openedSidebarStyles = css`
+  --columnsTemplate: var(--columnsTemplateWithOpenedSidebar) !important;
+
+  ${HideableCol} {
+    display: none;
+  }
+`
+
 const TableWrapper = styled.div<{ sidebarOpened?: boolean }>`
   --nestSize: 5rem;
   --columnsTemplate: repeat(auto-fit, minmax(0, 1fr));
   position: relative;
 
-  ${({ sidebarOpened }) =>
-    sidebarOpened &&
-    css`
-      --columnsTemplate: var(--columnsTemplateWithOpenedSidebar) !important;
-
-      ${HideableCol} {
-        display: none;
-      }
-    `}
+  ${({ sidebarOpened }) => sidebarOpened && openedSidebarStyles}
 `
 
 const Table: FunctionComponent<TableProps> = ({

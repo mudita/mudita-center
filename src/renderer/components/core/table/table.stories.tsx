@@ -14,34 +14,39 @@ import {
 } from "Renderer/components/core/table/table.fake-data"
 import styled from "styled-components"
 
-export const SimpleTable = () => {
+const CustomizedBasicTable = styled(Table)`
+  --columnsTemplate: 1fr 1fr 10rem;
+  --columnsTemplateWithOpenedSidebar: 1fr 1fr;
+`
+
+const CustomizedNestedTable = styled(Table)`
+  --columnsTemplate: 1fr 1fr;
+  --columnsTemplateWithOpenedSidebar: 1fr;
+`
+
+export const BasicTable = ({ sidebarOpened = false }) => {
   const Row = ({ data }: { data: typeof basicRows[number] }) => (
     <TableRow data-testid="row">
       <TableCol>
         {data.firstName} {data.lastName}
       </TableCol>
-      <TableCol>{data.phoneNumber}</TableCol>
+      <HideableCol>{data.phoneNumber}</HideableCol>
     </TableRow>
   )
   return (
-    <Table>
+    <CustomizedBasicTable sidebarOpened={sidebarOpened}>
       <TableLabels>
-        <TableCol>Name</TableCol>
-        <TableCol>Phone</TableCol>
+        <TableCol data-testid="column-label">Name</TableCol>
+        <HideableCol data-testid="column-label">Phone</HideableCol>
       </TableLabels>
       {basicRows.map((row, index) => (
         <Row key={index} data={row} />
       ))}
-    </Table>
+    </CustomizedBasicTable>
   )
 }
 
-const TableWithCustomizedColumnsTemplate = styled(Table)`
-  --columnsTemplate: 1fr 1fr 10rem;
-  --columnsTemplateWithOpenedSidebar: 1fr 1fr;
-`
-
-export const NestedTable = () => {
+export const NestedTable = ({ sidebarOpened = false }) => {
   const Row = ({ data, ...rest }: any) => (
     <TableRow {...rest}>
       <TableCol>{data.fileType}</TableCol>
@@ -50,7 +55,7 @@ export const NestedTable = () => {
     </TableRow>
   )
   return (
-    <TableWithCustomizedColumnsTemplate>
+    <CustomizedNestedTable sidebarOpened={sidebarOpened}>
       <TableLabels>
         <TableCol data-testid="column-label">File type</TableCol>
         <TableCol data-testid="column-label">Last backup</TableCol>
@@ -73,10 +78,18 @@ export const NestedTable = () => {
           )}
         </React.Fragment>
       ))}
-    </TableWithCustomizedColumnsTemplate>
+    </CustomizedNestedTable>
   )
 }
 
-storiesOf("Components|Table", module)
-  .add("Basic", () => <SimpleTable />)
-  .add("Nested", () => <NestedTable />)
+storiesOf("Components|Table/Basic", module)
+  .add("With column labels", () => <BasicTable />)
+  .add("With column labels and hideable columns disabled", () => (
+    <BasicTable sidebarOpened />
+  ))
+
+storiesOf("Components|Table/Nested", module)
+  .add("With column labels", () => <NestedTable />)
+  .add("With column labels and hideable columns disabled", () => (
+    <NestedTable sidebarOpened />
+  ))
