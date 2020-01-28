@@ -26,7 +26,7 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
   }
 
   public getDisconnectStatus(): boolean {
-    return false
+    return true
   }
 }
 
