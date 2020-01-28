@@ -4,7 +4,6 @@ export interface TableRowProps {
   size?: RowSize
   active?: boolean
   selected?: boolean
-  onClick?: (props?: any) => void
 }
 
 export interface TableProps {
