@@ -1,6 +1,7 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
 import Table, {
+  HideableCol,
   NestedRows,
   RowSize,
   TableCol,
@@ -36,8 +37,8 @@ export const SimpleTable = () => {
 }
 
 const TableWithCustomizedColumnsTemplate = styled(Table)`
-  --columnsTemplate: 1fr 1fr 5rem;
-  --nestSize: 4rem;
+  --columnsTemplate: 1fr 1fr 10rem;
+  --columnsTemplateWithOpenedSidebar: 1fr 1fr;
 `
 
 export const NestedTable = () => {
@@ -45,7 +46,7 @@ export const NestedTable = () => {
     <TableRow {...rest}>
       <TableCol>{data.fileType}</TableCol>
       <TableCol>{new Date(data.lastBackup).toLocaleString()}</TableCol>
-      <TableCol>{data.size}</TableCol>
+      <HideableCol>{data.size}</HideableCol>
     </TableRow>
   )
   return (
@@ -53,7 +54,7 @@ export const NestedTable = () => {
       <TableLabels>
         <TableCol data-testid="column-label">File type</TableCol>
         <TableCol data-testid="column-label">Last backup</TableCol>
-        <TableCol data-testid="column-label">Size</TableCol>
+        <HideableCol data-testid="column-label">Size</HideableCol>
       </TableLabels>
       {nestedRows.map((row, index) => (
         <React.Fragment key={index}>

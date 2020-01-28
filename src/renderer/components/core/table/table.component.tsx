@@ -1,5 +1,8 @@
 import React from "react"
-import { TableRowProps } from "Renderer/components/core/table/table.interface"
+import {
+  TableProps,
+  TableRowProps,
+} from "Renderer/components/core/table/table.interface"
 import {
   getTextStyles,
   TextDisplayStyle,
@@ -24,7 +27,11 @@ const clickableRowStyles = css`
   cursor: pointer;
 `
 
-export const TableCol = styled.div``
+export const TableCol = styled.div`
+  ${getTextStyles(TextDisplayStyle.MediumText)};
+`
+
+export const HideableCol = styled(TableCol)``
 
 export enum RowSize {
   Big = 9,
@@ -75,14 +82,32 @@ export const TableLabels = styled(TableRow)`
   }
 `
 
-const TableWrapper = styled.div`
-  --nestSize: 2rem;
+const TableWrapper = styled.div<{ sidebarOpened?: boolean }>`
+  --nestSize: 5rem;
   --columnsTemplate: repeat(auto-fit, minmax(0, 1fr));
   position: relative;
+
+  ${({ sidebarOpened }) =>
+    sidebarOpened &&
+    css`
+      --columnsTemplate: var(--columnsTemplateWithOpenedSidebar) !important;
+
+      ${HideableCol} {
+        display: none;
+      }
+    `}
 `
 
-const Table: FunctionComponent = ({ className, children }) => {
-  return <TableWrapper className={className}>{children}</TableWrapper>
+const Table: FunctionComponent<TableProps> = ({
+  className,
+  children,
+  sidebarOpened,
+}) => {
+  return (
+    <TableWrapper className={className} sidebarOpened={sidebarOpened}>
+      {children}
+    </TableWrapper>
+  )
 }
 
 export default Table

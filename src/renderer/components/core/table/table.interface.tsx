@@ -6,3 +6,7 @@ export interface TableRowProps {
   selected?: boolean
   onClick?: (props?: any) => void
 }
+
+export interface TableProps {
+  sidebarOpened?: boolean
+}
