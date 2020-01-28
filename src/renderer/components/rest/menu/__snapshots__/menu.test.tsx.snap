@@ -12,7 +12,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/news"
         size="2"
@@ -21,7 +21,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           News
         </p>
@@ -31,7 +31,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gzVnrw ipxQai"
     >
       <p
-        class="sc-bdVaJa Wzjkf"
+        class="sc-bdVaJa ghJYji"
       >
         Your Pure
       </p>
@@ -39,28 +39,28 @@ exports[`matches snapshot 1`] = `
         class="sc-htoDjs juvQWM"
       >
         <div
-          class="sc-dnqmqq iLEhhb"
+          class="sc-dnqmqq cPiSFR"
         >
           <test-file-stub
             classname="sc-iwsKbI gXpsRR"
           />
         </div>
         <div
-          class="sc-dnqmqq iLEhhb"
+          class="sc-dnqmqq cPiSFR"
         >
           <test-file-stub
             classname="sc-iwsKbI gXpsRR"
           />
         </div>
         <div
-          class="sc-dnqmqq iLEhhb"
+          class="sc-dnqmqq cPiSFR"
         >
           <test-file-stub
             classname="sc-iwsKbI gXpsRR"
           />
         </div>
         <div
-          class="sc-dnqmqq iLEhhb"
+          class="sc-dnqmqq cPiSFR"
         >
           <test-file-stub
             classname="sc-iwsKbI gXpsRR"
@@ -72,7 +72,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/overview"
         size="2"
@@ -81,7 +81,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           Overview
         </p>
@@ -91,7 +91,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/messages"
         size="2"
@@ -100,7 +100,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           Messages
         </p>
@@ -110,7 +110,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/phone"
         size="2"
@@ -119,7 +119,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           Phone
         </p>
@@ -129,7 +129,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/music"
         size="2"
@@ -138,7 +138,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           Music
         </p>
@@ -148,7 +148,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/calendar"
         size="2"
@@ -157,7 +157,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           Calendar
         </p>
@@ -167,7 +167,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/tools"
         size="2"
@@ -176,7 +176,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           Tools
         </p>
@@ -186,7 +186,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/meditation"
         size="2"
@@ -195,7 +195,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           Meditation
         </p>
@@ -205,7 +205,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/files-manager"
         size="2"
@@ -214,7 +214,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           Files manager
         </p>
@@ -224,7 +224,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gzVnrw ipxQai"
     >
       <p
-        class="sc-bdVaJa Wzjkf"
+        class="sc-bdVaJa ghJYji"
       >
         Desktop App
       </p>
@@ -233,7 +233,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/tethering"
         size="2"
@@ -242,7 +242,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           Tethering
         </p>
@@ -252,7 +252,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/settings"
         size="2"
@@ -261,7 +261,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           Settings
         </p>
@@ -271,7 +271,7 @@ exports[`matches snapshot 1`] = `
       class="sc-gZMcBi eUufuJ"
     >
       <a
-        class="sc-bwzfXH kVmknM sc-gqjmRU cAlxsW"
+        class="sc-bwzfXH dthLGP sc-gqjmRU cAlxsW"
         displaystyle="8"
         href="#/help"
         size="2"
@@ -280,7 +280,7 @@ exports[`matches snapshot 1`] = `
           classname="sc-EHOje cmLHsF"
         />
         <p
-          class="sc-bdVaJa byUSSw sc-bZQynM flUvJk"
+          class="sc-bdVaJa heXcAt sc-bZQynM flUvJk"
         >
           Help
         </p>
