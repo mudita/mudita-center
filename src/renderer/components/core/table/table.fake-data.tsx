@@ -1,17 +1,23 @@
 import Faker from "faker"
+import { groupRows } from "Renderer/components/core/table/table.helpers"
 
 export const basicRows = Array.from({
   length: Math.round(15 + Math.random() * 25),
-}).map(() => ({
-  firstName: Faker.name.firstName(),
-  lastName: Faker.name.lastName(),
-  phoneNumber: Faker.phone.phoneNumber(),
-  address: {
-    zip: Faker.address.zipCode(),
-    city: Faker.address.city(),
-    country: Faker.address.country(),
-  },
-}))
+}).map(() => {
+  const firstName = Faker.name.firstName()
+  const group = firstName.charAt(0)
+  return {
+    firstName,
+    lastName: Faker.name.lastName(),
+    phoneNumber: Faker.phone.phoneNumber(),
+    group,
+    address: {
+      zip: Faker.address.zipCode(),
+      city: Faker.address.city(),
+      country: Faker.address.country(),
+    },
+  }
+})
 
 export const nestedRows = [
   {
@@ -73,3 +79,9 @@ export const nestedRows = [
     )}${Faker.random.number(9)} MB`,
   },
 ]
+
+export const sortedBasicRows = [...basicRows].sort((a, b) => {
+  return a.firstName > b.firstName ? 1 : -1
+})
+
+export const labeledRows = groupRows(sortedBasicRows, "group")

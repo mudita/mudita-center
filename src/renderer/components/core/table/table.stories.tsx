@@ -1,7 +1,8 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
 import Table, {
-  HideableCol,
+  GroupedRows,
+  GroupLabel,
   NestedRows,
   RowSize,
   TableCol,
@@ -10,34 +11,41 @@ import Table, {
 } from "Renderer/components/core/table/table.component"
 import {
   basicRows,
+  labeledRows,
   nestedRows,
 } from "Renderer/components/core/table/table.fake-data"
 import styled from "styled-components"
 
 const CustomizedBasicTable = styled(Table)`
-  --columnsTemplate: 1fr 1fr 10rem;
-  --columnsTemplateWithOpenedSidebar: 1fr 1fr;
+  --columnsTemplate: 1fr 1fr;
+  --columnsTemplateWithOpenedSidebar: 1fr;
 `
 
 const CustomizedNestedTable = styled(Table)`
-  --columnsTemplate: 1fr 1fr;
+  --columnsTemplate: 1fr 1fr 10rem;
   --columnsTemplateWithOpenedSidebar: 1fr;
+`
+
+const ColWithPadding = styled(TableCol)`
+  padding-left: 2rem;
 `
 
 export const BasicTable = ({ sidebarOpened = false }) => {
   const Row = ({ data }: { data: typeof basicRows[number] }) => (
     <TableRow data-testid="row">
-      <TableCol>
+      <ColWithPadding>
         {data.firstName} {data.lastName}
-      </TableCol>
-      <HideableCol>{data.phoneNumber}</HideableCol>
+      </ColWithPadding>
+      <TableCol hideable>{data.phoneNumber}</TableCol>
     </TableRow>
   )
   return (
     <CustomizedBasicTable sidebarOpened={sidebarOpened}>
       <TableLabels>
-        <TableCol data-testid="column-label">Name</TableCol>
-        <HideableCol data-testid="column-label">Phone</HideableCol>
+        <ColWithPadding data-testid="column-label">Name</ColWithPadding>
+        <TableCol hideable data-testid="column-label">
+          Phone
+        </TableCol>
       </TableLabels>
       {basicRows.map((row, index) => (
         <Row key={index} data={row} />
@@ -49,17 +57,21 @@ export const BasicTable = ({ sidebarOpened = false }) => {
 export const NestedTable = ({ sidebarOpened = false }) => {
   const Row = ({ data, ...rest }: any) => (
     <TableRow {...rest}>
-      <TableCol>{data.fileType}</TableCol>
-      <TableCol>{new Date(data.lastBackup).toLocaleString()}</TableCol>
-      <HideableCol>{data.size}</HideableCol>
+      <ColWithPadding>{data.fileType}</ColWithPadding>
+      <TableCol hideable>{new Date(data.lastBackup).toLocaleString()}</TableCol>
+      <TableCol hideable>{data.size}</TableCol>
     </TableRow>
   )
   return (
     <CustomizedNestedTable sidebarOpened={sidebarOpened}>
       <TableLabels>
-        <TableCol data-testid="column-label">File type</TableCol>
-        <TableCol data-testid="column-label">Last backup</TableCol>
-        <HideableCol data-testid="column-label">Size</HideableCol>
+        <ColWithPadding data-testid="column-label">File type</ColWithPadding>
+        <TableCol hideable data-testid="column-label">
+          Last backup
+        </TableCol>
+        <TableCol hideable data-testid="column-label">
+          Size
+        </TableCol>
       </TableLabels>
       {nestedRows.map((row, index) => (
         <React.Fragment key={index}>
@@ -82,6 +94,31 @@ export const NestedTable = ({ sidebarOpened = false }) => {
   )
 }
 
+export const GroupedTable = ({ sidebarOpened = false }) => {
+  const Row = ({ data }: { data: typeof basicRows[number] }) => (
+    <TableRow data-testid="row">
+      <ColWithPadding>
+        {data.firstName} {data.lastName}
+      </ColWithPadding>
+      <TableCol hideable>{data.phoneNumber}</TableCol>
+    </TableRow>
+  )
+  return (
+    <CustomizedBasicTable sidebarOpened={sidebarOpened}>
+      {Object.keys(labeledRows).map(group => (
+        <GroupedRows key={group} data-testid="group">
+          <GroupLabel data-testid="group-label">
+            <ColWithPadding>{group}</ColWithPadding>
+          </GroupLabel>
+          {labeledRows[group].map((row: any, rowIndex: number) => (
+            <Row key={rowIndex} data={row} />
+          ))}
+        </GroupedRows>
+      ))}
+    </CustomizedBasicTable>
+  )
+}
+
 storiesOf("Components|Table/Basic", module)
   .add("With column labels", () => <BasicTable />)
   .add("With column labels and hideable columns disabled", () => (
@@ -93,3 +130,7 @@ storiesOf("Components|Table/Nested", module)
   .add("With column labels and hideable columns disabled", () => (
     <NestedTable sidebarOpened />
   ))
+
+storiesOf("Components|Table/Grouped", module)
+  .add("With all columns", () => <GroupedTable />)
+  .add("With hideable columns disabled", () => <GroupedTable sidebarOpened />)

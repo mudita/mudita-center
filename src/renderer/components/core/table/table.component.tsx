@@ -27,11 +27,10 @@ const clickableRowStyles = css`
   cursor: pointer;
 `
 
-export const TableCol = styled.div`
+export const TableCol = styled.div<{ hideable?: boolean }>`
   ${getTextStyles(TextDisplayStyle.MediumText)};
+  ${({ hideable }) => hideable && `display: none;`};
 `
-
-export const HideableCol = styled(TableCol)``
 
 export enum RowSize {
   Big = 9,
@@ -67,26 +66,31 @@ export const NestedRows = styled.div<{ level?: number }>`
   }
 `
 
+export const GroupLabel = styled(TableRow)`
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: ${backgroundColor("grey5")} !important;
+  ${getTextStyles(TextDisplayStyle.MediumBoldText)};
+`
+
+export const GroupedRows = styled.div`
+  position: relative;
+`
+
 export const TableLabels = styled(TableRow)`
   position: sticky;
   top: 0;
   left: 0;
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("grey5")} !important;
 
   ${TableCol} {
     ${getTextStyles(TextDisplayStyle.SmallText)};
     opacity: 0.35;
     text-transform: uppercase;
-    padding: 1.5rem 0;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
     line-height: 1.2;
-  }
-`
-
-const openedSidebarStyles = css`
-  --columnsTemplate: var(--columnsTemplateWithOpenedSidebar) !important;
-
-  ${HideableCol} {
-    display: none;
   }
 `
 
@@ -95,7 +99,16 @@ const TableWrapper = styled.div<{ sidebarOpened?: boolean }>`
   --columnsTemplate: repeat(auto-fit, minmax(0, 1fr));
   position: relative;
 
-  ${({ sidebarOpened }) => sidebarOpened && openedSidebarStyles}
+  ${({ sidebarOpened }) =>
+    sidebarOpened
+      ? css`
+          --columnsTemplate: var(--columnsTemplateWithOpenedSidebar) !important;
+        `
+      : css`
+          ${TableCol} {
+            display: block !important;
+          }
+        `};
 `
 
 const Table: FunctionComponent<TableProps> = ({

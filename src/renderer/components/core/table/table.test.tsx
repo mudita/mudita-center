@@ -1,11 +1,15 @@
 import "@testing-library/jest-dom/extend-expect"
+import "jest-styled-components"
 import React from "react"
 import {
   basicRows,
+  labeledRows,
   nestedRows,
+  sortedBasicRows,
 } from "Renderer/components/core/table/table.fake-data"
 import {
   BasicTable,
+  GroupedTable,
   NestedTable,
 } from "Renderer/components/core/table/table.stories"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
@@ -33,10 +37,17 @@ const renderNestedTable = ({ sidebarOpened = false } = {}) => {
   }
 }
 
-test("basic table matches snapshot", () => {
-  const { container } = renderBasicTable()
-  expect(container).toMatchSnapshot()
-})
+const renderGroupedTable = ({ sidebarOpened = false } = {}) => {
+  const outcome = renderWithThemeAndIntl(
+    <GroupedTable sidebarOpened={sidebarOpened} />
+  )
+  return {
+    ...outcome,
+    getRows: () => outcome.queryAllByTestId("row"),
+    getGroups: () => outcome.queryAllByTestId("group"),
+    getGroupsLabels: () => outcome.queryAllByTestId("group-label"),
+  }
+}
 
 test("basic table render rows properly", () => {
   const { getRows } = renderBasicTable()
@@ -69,11 +80,6 @@ test("basic table with sidebar opened render columns properly", () => {
 
   expect(getColumnsLabels()[0]).toBeVisible()
   expect(getColumnsLabels()[1]).not.toBeVisible()
-})
-
-test("nested table matches snapshot", () => {
-  const { container } = renderNestedTable()
-  expect(container).toMatchSnapshot()
 })
 
 test("nested table render rows properly", () => {
@@ -113,10 +119,45 @@ test("nested table with sidebar opened render columns properly", () => {
   const cols = getRows()[2].querySelectorAll("div")
 
   expect(cols[0]).toBeVisible()
-  expect(cols[1]).toBeVisible()
+  expect(cols[1]).not.toBeVisible()
   expect(cols[2]).not.toBeVisible()
 
   expect(getColumnsLabels()[0]).toBeVisible()
-  expect(getColumnsLabels()[1]).toBeVisible()
+  expect(getColumnsLabels()[1]).not.toBeVisible()
   expect(getColumnsLabels()[2]).not.toBeVisible()
+})
+
+test("grouped table render rows properly", () => {
+  const { getGroups, getRows } = renderGroupedTable()
+  expect(getGroups()).toHaveLength(Object.keys(labeledRows).length)
+  expect(getRows()).toHaveLength(basicRows.length)
+})
+
+test("grouped table render groups labels properly", () => {
+  const { getGroupsLabels } = renderGroupedTable()
+  expect(getGroupsLabels()).toHaveLength(Object.keys(labeledRows).length)
+  expect(getGroupsLabels()[0]).toHaveTextContent(
+    labeledRows[Object.keys(labeledRows)[0]][0].group
+  )
+  expect(getGroupsLabels()[2]).toHaveTextContent(
+    labeledRows[Object.keys(labeledRows)[2]][0].group
+  )
+})
+
+test("grouped table render columns data properly", () => {
+  const { getRows } = renderGroupedTable()
+  const cols = getRows()[5].querySelectorAll("div")
+  const rowData = sortedBasicRows[5]
+
+  expect(cols[0]).toHaveTextContent(`${rowData.firstName} ${rowData.lastName}`)
+  expect(cols[1]).toHaveTextContent(rowData.phoneNumber)
+})
+
+test("grouped table with sidebar opened render columns properly", () => {
+  const { getRows } = renderGroupedTable({
+    sidebarOpened: true,
+  })
+  const cols = getRows()[5].querySelectorAll("div")
+  expect(cols[0]).toBeVisible()
+  expect(cols[1]).not.toBeVisible()
 })
