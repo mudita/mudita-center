@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom/extend-expect"
+import "@testing-library/jest-dom"
 import React from "react"
 import { MemoryRouter } from "react-router-dom"
 import Header from "Renderer/components/rest/header/header.component"
