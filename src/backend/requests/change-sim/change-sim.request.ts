@@ -10,7 +10,7 @@ const handleChangeSimRequest = ({ pureNetwork }: Adapters): ChangeSimInfo => {
 }
 
 const registerChangeSimCardRequest = createEndpoint({
-  name: IpcRequest.PostChangeSim,
+  name: IpcRequest.ChangeSim,
   handler: handleChangeSimRequest,
 })
 

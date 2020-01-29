@@ -1,12 +1,12 @@
 import React from "react"
 import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
+import changeSimRequest from "Renderer/requests/change-sim.request"
+import disconnectDevice from "Renderer/requests/disconnect-device.request"
 import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
-import postChangeSimRequest from "Renderer/requests/post-change-sim.request"
-import postDisconnectDevice from "Renderer/requests/post-disconnect-device.request"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
@@ -64,7 +64,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
     })
 
   const handleDisconnectDevice = () =>
-    postDisconnectDevice().then(result => {
+    disconnectDevice().then(result => {
       document.getElementById("disconnect")!.innerText = JSON.stringify(
         result,
         null,
@@ -73,7 +73,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
     })
 
   const handleChangeSim = () =>
-    postChangeSimRequest().then(result => {
+    changeSimRequest().then(result => {
       document.getElementById("change-sim")!.innerText = JSON.stringify(
         result,
         null,

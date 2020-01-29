@@ -5,7 +5,7 @@ import { ipcMain } from "electron-better-ipc"
 
 test("returns change sim info", () => {
   registerChangeSimCardRequest(getFakeAdapters())
-  const [result] = (ipcMain as any)._flush(IpcRequest.PostChangeSim)
+  const [result] = (ipcMain as any)._flush(IpcRequest.ChangeSim)
   expect(result).toMatchInlineSnapshot(`
     Object {
       "number": 12345678,

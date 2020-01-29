@@ -10,7 +10,7 @@ const handleDisconnectDevice = ({ purePhone }: Adapters): DisconnectInfo => {
 }
 
 const registerDisconnectDeviceRequest = createEndpoint({
-  name: IpcRequest.PostDisconnectDevice,
+  name: IpcRequest.DisconnectDevice,
   handler: handleDisconnectDevice,
 })
 
