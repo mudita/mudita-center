@@ -1,11 +1,11 @@
 import getFakeAdapters from "App/tests/get-fake-adapters"
-import registerDisconnectInfoRequest from "Backend/requests/disconnect-info/get-disconnect-info.request"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
+import registerDisconnectDeviceRequest from "./disconnect-device.request"
 
 test("returns disconnected info", () => {
-  registerDisconnectInfoRequest(getFakeAdapters())
-  const [result] = (ipcMain as any)._flush(IpcRequest.GetDisconnectInfo)
+  registerDisconnectDeviceRequest(getFakeAdapters())
+  const [result] = (ipcMain as any)._flush(IpcRequest.DisconnectDevice)
   expect(result).toMatchInlineSnapshot(`
     Object {
       "disconnected": true,

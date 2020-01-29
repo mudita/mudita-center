@@ -1,10 +1,10 @@
 import React from "react"
 import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
+import disconnectDevice from "Renderer/requests/disconnect.request"
 import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getChangeSimRequest from "Renderer/requests/get-change-sim-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
-import getDisconnectInfo from "Renderer/requests/get-disconnect-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -63,8 +63,8 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       )
     })
 
-  const handleDisconnect = () =>
-    getDisconnectInfo().then(result => {
+  const handleDisconnectDevice = () =>
+    disconnectDevice().then(result => {
       document.getElementById("disconnect")!.innerText = JSON.stringify(
         result,
         null,
@@ -105,8 +105,8 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       <h2>Backups info</h2>
       <button onClick={handleBackups}>Get</button>
       <pre id="backups" />
-      <h2>Disconnect info</h2>
-      <button onClick={handleDisconnect}>Get</button>
+      <h2>Disconnect device</h2>
+      <button onClick={handleDisconnectDevice}>Get</button>
       <pre id="disconnect" />
       <h2>Change sim info</h2>
       <button onClick={handleChangeSim}>Get</button>

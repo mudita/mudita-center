@@ -1,4 +1,4 @@
-export default interface DisconnectInfo {
+export default interface DisconnectStatus {
   // Is the phone currently disconnected?
   readonly disconnected: boolean
 }

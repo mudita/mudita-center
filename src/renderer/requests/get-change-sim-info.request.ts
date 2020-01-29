@@ -1,8 +1,8 @@
-import DisconnectInfo from "Common/interfaces/disconnect-info"
+import ChangeSimInfo from "Common/interfaces/change-sim-info.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
 
-const getChangeSimRequest = (): Promise<DisconnectInfo> =>
-  ipcRenderer.callMain(IpcRequest.GetChangeSimInfo) as Promise<DisconnectInfo>
+const getChangeSimRequest = (): Promise<ChangeSimInfo> =>
+  ipcRenderer.callMain(IpcRequest.GetChangeSimInfo) as Promise<ChangeSimInfo>
 
 export default getChangeSimRequest
