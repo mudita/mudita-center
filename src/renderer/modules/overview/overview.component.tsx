@@ -1,5 +1,7 @@
 import React from "react"
 import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
+import changeSimRequest from "Renderer/requests/change-sim.request"
+import disconnectDevice from "Renderer/requests/disconnect-device.request"
 import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
@@ -61,6 +63,24 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       )
     })
 
+  const handleDisconnectDevice = () =>
+    disconnectDevice().then(result => {
+      document.getElementById("disconnect")!.innerText = JSON.stringify(
+        result,
+        null,
+        2
+      )
+    })
+
+  const handleChangeSim = () =>
+    changeSimRequest().then(result => {
+      document.getElementById("change-sim")!.innerText = JSON.stringify(
+        result,
+        null,
+        2
+      )
+    })
+
   return (
     <div>
       <div>Battery level: {batteryLevel}</div>
@@ -85,6 +105,12 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       <h2>Backups info</h2>
       <button onClick={handleBackups}>Get</button>
       <pre id="backups" />
+      <h2>Disconnect device</h2>
+      <button onClick={handleDisconnectDevice}>Get</button>
+      <pre id="disconnect" />
+      <h2>Change sim</h2>
+      <button onClick={handleChangeSim}>Get</button>
+      <pre id="change-sim" />
     </div>
   )
 }

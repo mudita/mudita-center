@@ -4,4 +4,6 @@ export enum IpcRequest {
   GetStorageInfo = "get-storage-info",
   GetNetworkInfo = "get-network-info",
   GetBackupsInfo = "get-backups-info",
+  DisconnectDevice = "disconnect-device",
+  ChangeSim = "change-sim",
 }
