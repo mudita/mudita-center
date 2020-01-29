@@ -1,16 +1,16 @@
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
-import DisconnectStatus from "Common/interfaces/disconnect-status"
+import DisconnectInfo from "Common/interfaces/disconnect-info"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 
-const handleDisconnectDevice = ({ purePhone }: Adapters): DisconnectStatus => {
+const handleDisconnectDevice = ({ purePhone }: Adapters): DisconnectInfo => {
   return {
-    disconnected: purePhone.getDisconnectStatus(),
+    disconnected: purePhone.disconnectDevice(),
   }
 }
 
 const registerDisconnectDeviceRequest = createEndpoint({
-  name: IpcRequest.DisconnectDevice,
+  name: IpcRequest.PostDisconnectDevice,
   handler: handleDisconnectDevice,
 })
 

@@ -3,17 +3,15 @@ import createEndpoint from "Backend/endpoints/create-endpoint"
 import ChangeSimInfo from "Common/interfaces/change-sim-info.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 
-const handleChangeSimRequestInfo = ({
-  pureNetwork,
-}: Adapters): ChangeSimInfo => {
+const handleChangeSimRequest = ({ pureNetwork }: Adapters): ChangeSimInfo => {
   return {
     number: pureNetwork.setActiveCard(),
   }
 }
 
-const registerChangeSimCardInfoRequest = createEndpoint({
-  name: IpcRequest.GetChangeSimInfo,
-  handler: handleChangeSimRequestInfo,
+const registerChangeSimCardRequest = createEndpoint({
+  name: IpcRequest.PostChangeSim,
+  handler: handleChangeSimRequest,
 })
 
-export default registerChangeSimCardInfoRequest
+export default registerChangeSimCardRequest

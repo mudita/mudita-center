@@ -5,5 +5,5 @@ export default abstract class PurePhoneAdapter {
   public abstract getSerialNumber(): string
   public abstract getOsVersion(): string
   public abstract getOsUpdateDate(): string
-  public abstract getDisconnectStatus(): boolean
+  public abstract disconnectDevice(): boolean
 }

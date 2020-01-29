@@ -25,7 +25,7 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     return "1UB13213MN14K1"
   }
 
-  public getDisconnectStatus(): boolean {
+  public disconnectDevice(): boolean {
     return true
   }
 }

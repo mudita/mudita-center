@@ -5,7 +5,7 @@ import registerDisconnectDeviceRequest from "./disconnect-device.request"
 
 test("returns disconnected info", () => {
   registerDisconnectDeviceRequest(getFakeAdapters())
-  const [result] = (ipcMain as any)._flush(IpcRequest.DisconnectDevice)
+  const [result] = (ipcMain as any)._flush(IpcRequest.PostDisconnectDevice)
   expect(result).toMatchInlineSnapshot(`
     Object {
       "disconnected": true,
