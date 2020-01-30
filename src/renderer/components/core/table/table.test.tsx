@@ -8,15 +8,15 @@ import {
   sortedBasicRows,
 } from "Renderer/components/core/table/table.fake-data"
 import {
-  BasicTable,
-  GroupedTable,
-  NestedTable,
+  BasicTableExample,
+  GroupedTableExample,
+  NestedTableExample,
 } from "Renderer/components/core/table/table.stories"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 const renderBasicTable = ({ sidebarOpened = false } = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <BasicTable sidebarOpened={sidebarOpened} />
+    <BasicTableExample sidebarOpened={sidebarOpened} />
   )
   return {
     ...outcome,
@@ -27,7 +27,7 @@ const renderBasicTable = ({ sidebarOpened = false } = {}) => {
 
 const renderNestedTable = ({ sidebarOpened = false } = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <NestedTable sidebarOpened={sidebarOpened} />
+    <NestedTableExample sidebarOpened={sidebarOpened} />
   )
   return {
     ...outcome,
@@ -39,7 +39,7 @@ const renderNestedTable = ({ sidebarOpened = false } = {}) => {
 
 const renderGroupedTable = ({ sidebarOpened = false } = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <GroupedTable sidebarOpened={sidebarOpened} />
+    <GroupedTableExample sidebarOpened={sidebarOpened} />
   )
   return {
     ...outcome,
