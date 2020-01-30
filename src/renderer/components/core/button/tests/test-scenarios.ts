@@ -1,14 +1,8 @@
-import { defineMessages } from "react-intl"
-import {
-  DisplayStyle,
-  Size,
-} from "Renderer/components/core/button/button.component"
 import Upload from "Renderer/svg/upload.svg"
+import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
+import { DisplayStyle, Size } from "../button.config"
 
-const exampleMessageId = "view.name.news"
-const messages = defineMessages({
-  exampleMessage: { id: exampleMessageId },
-})
+const message = mockDefineMessages()
 
 const buttonsFixedWidthCases = [
   {
@@ -130,6 +124,24 @@ export default [
         target: "_blank",
         Icon: Upload,
       },
+      {
+        displayStyle: DisplayStyle.Link4,
+      },
+      {
+        displayStyle: DisplayStyle.Link4,
+        href: "http://www.google.pl",
+        target: "_blank",
+        Icon: Upload,
+      },
+      {
+        displayStyle: DisplayStyle.Tab,
+      },
+      {
+        displayStyle: DisplayStyle.Tab,
+        href: "http://www.google.pl",
+        target: "_blank",
+        Icon: Upload,
+      },
     ],
   },
   {
@@ -142,7 +154,7 @@ export default [
       },
       {
         displayStyle: DisplayStyle.Primary,
-        labelMessage: messages.exampleMessage,
+        labelMessage: message,
         size: Size.FixedBig,
       },
     ],

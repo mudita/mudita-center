@@ -28,7 +28,7 @@ export const mediumTextSharedStyles = css`
 
 export const smallTextSharedStyles = css`
   font-size: 1.2rem;
-  line-height: 1.15;
+  line-height: 1.2;
 `
 
 const uppercaseStyles = css`
@@ -119,6 +119,12 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         ${mediumTextSharedStyles};
         color: ${textColor("faded")};
       `
+    case TextDisplayStyle.MediumFadedTextUppercased:
+      return css`
+        ${mediumTextSharedStyles};
+        text-transform: uppercase;
+        color: ${textColor("faded")};
+      `
     case TextDisplayStyle.SmallText:
       return css`
         ${smallTextSharedStyles};
@@ -187,6 +193,7 @@ export enum TextDisplayStyle {
   MediumBoldText,
   MediumLightText,
   MediumFadedLightText,
+  MediumFadedTextUppercased,
   MediumText,
   MediumFadedText,
   SmallText,
@@ -219,6 +226,7 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.MediumFadedLightText]: "p",
   [TextDisplayStyle.MediumText]: "p",
   [TextDisplayStyle.MediumFadedText]: "p",
+  [TextDisplayStyle.MediumFadedTextUppercased]: "p",
   [TextDisplayStyle.SmallText]: "p",
   [TextDisplayStyle.SmallSupplementaryText]: "p",
   [TextDisplayStyle.SmallTextInverted]: "p",

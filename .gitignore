@@ -42,6 +42,7 @@ dist
 main.js
 main.js.map
 
+tmp/extractedMessages
 .idea
 .vscode
 storybook-static

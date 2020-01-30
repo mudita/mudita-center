@@ -1,0 +1,120 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+.c5 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.05;
+  color: #6a6a6a;
+  font-weight: 300;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+}
+
+.c2 {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+}
+
+.c4 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  background-clip: content-box;
+  border: 0.1rem solid #cdcecf;
+  border-radius: 0.2rem;
+  background-color: #ffffff;
+  background-color: #3b3f42;
+  border-color: #3b3f42;
+}
+
+.c4:hover {
+  border-color: #3b3f42;
+  cursor: pointer;
+  -webkit-transition: border-color 0.5s linear;
+  transition: border-color 0.5s linear;
+}
+
+.c4:checked {
+  background-color: #3b3f42;
+  border-color: #3b3f42;
+}
+
+.c4:checked + svg {
+  display: initial;
+}
+
+.c4 + svg {
+  display: initial;
+}
+
+.c1 {
+  grid-area: Checkbox;
+}
+
+.c6 {
+  grid-area: Info;
+  line-height: 1.1;
+}
+
+.c0 {
+  display: grid;
+  grid-template-areas: "Checkbox Info Buttons";
+  grid-template-columns: auto 1fr auto;
+  grid-column-gap: 0.8rem;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 4rem;
+  padding: 0 0.7rem;
+  padding-left: 0.7rem;
+  background-color: #f4f5f6;
+  border-radius: 0.5rem;
+  border: solid 0.1rem #e9e9e9;
+  box-sizing: border-box;
+}
+
+.c0 .c3 {
+  -webkit-transform: scale(0.7);
+  -ms-transform: scale(0.7);
+  transform: scale(0.7);
+}
+
+<div>
+  <section
+    class="c0"
+  >
+    <div
+      class="c1"
+    >
+      <div
+        class="c2 c3 "
+      >
+        <input
+          checked=""
+          class="c4"
+          type="checkbox"
+        />
+        <test-file-stub
+          classname="sc-iwsKbI dGZOUg"
+          data-testid="state-indeterminate"
+        />
+      </div>
+    </div>
+    <p
+      class="c5 c6"
+      data-testid="info"
+    >
+      1 Conversation selected
+    </p>
+  </section>
+</div>
+`;

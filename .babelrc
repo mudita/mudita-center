@@ -1,15 +1,19 @@
 {
-  "presets": [
-    "@babel/preset-env"
-  ],
+  "presets": ["@babel/preset-env", "@babel/react"],
   "plugins": [
-    ["babel-plugin-styled-components", {
-      "ssr": true,
-      "displayName": true,
-      "preprocess": false
-    }],
-    ["react-intl", {
+    [
+      "babel-plugin-styled-components",
+      {
+        "ssr": true,
+        "displayName": true,
+        "preprocess": false
+      }
+    ],
+    [
+      "react-intl",
+      {
         "messagesDir": "./tmp/extractedMessages"
-    }]
+      }
+    ]
   ]
 }

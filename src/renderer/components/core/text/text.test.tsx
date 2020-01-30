@@ -1,19 +1,16 @@
-import "@testing-library/jest-dom/extend-expect"
+import "@testing-library/jest-dom"
 import React from "react"
-import { defineMessages } from "react-intl"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import localeEn from "Renderer/locales/main/en-US.json"
+import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 const exampleMessageId = "view.name.news"
-const messages = defineMessages({
-  exampleMessage: { id: exampleMessageId },
-})
+const message = mockDefineMessages()
 
 test("should render default case", () => {
-  const message = messages.exampleMessage
   const defaultTag = "div"
   const { getByText } = renderWithThemeAndIntl(
     <Text displayStyle={TextDisplayStyle.Default} message={message} />
@@ -42,7 +39,6 @@ test("should render with children and as prop", () => {
 })
 
 test("should render with mapped element tagname", () => {
-  const message = messages.exampleMessage
   const expectedPrimaryHeadingTag = "h1"
   const { getByText } = renderWithThemeAndIntl(
     <Text displayStyle={TextDisplayStyle.PrimaryHeading} message={message} />

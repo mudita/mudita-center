@@ -9,7 +9,7 @@ exports[`matches snapshot 1`] = `
       class="sc-htpNat fhZXHj"
     >
       <input
-        class="sc-bxivhb pSSKy"
+        class="sc-bxivhb gqvJdQ"
         id="id2"
         name="Example1"
         type="checkbox"
@@ -17,6 +17,7 @@ exports[`matches snapshot 1`] = `
       />
       <test-file-stub
         classname="sc-ifAKCX gYZWwe"
+        data-testid="state-checked"
       />
     </div>
     <span
