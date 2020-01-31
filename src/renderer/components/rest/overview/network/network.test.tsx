@@ -5,9 +5,16 @@ import { NetworkProps } from "Renderer/components/rest/overview/network/network.
 import Network from "Renderer/components/rest/overview/network/network.component"
 import { intl } from "Renderer/utils/intl"
 import getFakeAdapters from "App/tests/get-fake-adapters"
+import { fireEvent } from "@testing-library/dom"
+import { wait } from "@testing-library/react"
 
-const renderNetwork = ({ simCards = [] }: Partial<NetworkProps> = {}) => {
-  const outcome = renderWithThemeAndIntl(<Network simCards={simCards} />)
+const renderNetwork = ({
+  simCards = [],
+  onSimChange,
+}: Partial<NetworkProps> = {}) => {
+  const outcome = renderWithThemeAndIntl(
+    <Network simCards={simCards} onSimChange={onSimChange} />
+  )
   return {
     ...outcome,
     getButtons: () => outcome.queryAllByRole("button"),
@@ -17,6 +24,8 @@ const renderNetwork = ({ simCards = [] }: Partial<NetworkProps> = {}) => {
       ),
   }
 }
+
+const fakeSimCards = getFakeAdapters().pureNetwork.getSimCards()
 
 test("matches snapshot", () => {
   const { container } = renderNetwork()
@@ -40,7 +49,7 @@ test("renders 'no sim card' state properly", () => {
 })
 
 test("renders single active sim card info properly", () => {
-  const simCard = getFakeAdapters().pureNetwork.getSimCards()[0]
+  const simCard = fakeSimCards[0]
   const { getButtons, getDescription } = renderNetwork({
     simCards: [simCard],
   })
@@ -57,7 +66,7 @@ test("renders single active sim card info properly", () => {
 })
 
 test("renders single inactive sim card info properly", () => {
-  const simCard = getFakeAdapters().pureNetwork.getSimCards()[1]
+  const simCard = fakeSimCards[1]
   const { getButtons, getDescription } = renderNetwork({
     simCards: [simCard],
   })
@@ -74,12 +83,11 @@ test("renders single inactive sim card info properly", () => {
 })
 
 test("renders two sim cards info properly", () => {
-  const simCards = getFakeAdapters().pureNetwork.getSimCards()
   const { getButtons, getDescription } = renderNetwork({
-    simCards,
+    simCards: fakeSimCards,
   })
   expect(getButtons()).toHaveLength(2)
-  simCards.forEach((simCard, index) => {
+  fakeSimCards.forEach((simCard, index) => {
     expect(getButtons()[index]).toHaveTextContent(
       intl.formatMessage(
         {
@@ -90,4 +98,17 @@ test("renders two sim cards info properly", () => {
     )
   })
   expect(getDescription()).toBeInTheDocument()
+})
+
+test("returns a SIM info after its activation", async () => {
+  const onSimChange = jest.fn()
+
+  const { getButtons } = renderNetwork({
+    simCards: fakeSimCards,
+    onSimChange,
+  })
+
+  fireEvent.click(getButtons()[1])
+
+  await wait(() => expect(onSimChange).toHaveBeenCalledWith(fakeSimCards[1]))
 })

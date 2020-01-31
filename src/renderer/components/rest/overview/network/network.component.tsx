@@ -14,6 +14,7 @@ import Card, {
   CardActionButton,
   CardText,
 } from "Renderer/components/rest/overview/card.elements"
+import { noop } from "Renderer/utils/noop"
 
 const TextInfo = styled(CardText)`
   p {
@@ -22,26 +23,39 @@ const TextInfo = styled(CardText)`
   }
 `
 
-const SimButton = ({ slot, number: phone, active }: SimInfo) => {
+const SimButton: FunctionComponent<SimInfo & { onClick: () => void }> = ({
+  slot,
+  number: phone,
+  active,
+  onClick,
+}) => {
   const label = intl.formatMessage(
     {
       id: "view.name.overview.network.simInfo",
     },
     { slot, phone }
   )
-  return <CardActionButton label={label} active={active} />
+  return (
+    <CardActionButton
+      label={label}
+      active={active}
+      onClick={active ? noop : onClick}
+    />
+  )
 }
 
 const NoSimButton = () => {
   const label = intl.formatMessage({
     id: "view.name.overview.network.noSimInserted",
   })
+
   return <CardActionButton label={label} disabled />
 }
 
 const Network: FunctionComponent<NetworkProps> = ({
   className,
   simCards = [],
+  onSimChange = noop,
 }) => {
   const noActiveCard = simCards.every(({ active }) => !active)
   const activatingAvailable =
@@ -60,9 +74,12 @@ const Network: FunctionComponent<NetworkProps> = ({
       </TextInfo>
       <CardAction>
         {Boolean(simCards.length) ? (
-          simCards.map(simCard => (
-            <SimButton key={simCard.number} {...simCard} />
-          ))
+          simCards.map(simCard => {
+            const onClick = () => onSimChange(simCard)
+            return (
+              <SimButton key={simCard.number} {...simCard} onClick={onClick} />
+            )
+          })
         ) : (
           <NoSimButton />
         )}
