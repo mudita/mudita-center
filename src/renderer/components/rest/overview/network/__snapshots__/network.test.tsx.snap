@@ -3,10 +3,10 @@
 exports[`matches snapshot 1`] = `
 <div>
   <section
-    class="sc-gZMcBi jUBfBd"
+    class="sc-dnqmqq grFtFs"
   >
     <div
-      class="sc-dnqmqq bIvKlo"
+      class="sc-iwsKbI sc-VigVT lcktPs"
     >
       <h2
         class="sc-bdVaJa iSLnxf"
@@ -15,10 +15,10 @@ exports[`matches snapshot 1`] = `
       </h2>
     </div>
     <section
-      class="sc-gzVnrw jKdxIN sc-iwsKbI SPZke"
+      class="sc-gzVnrw jKdxIN sc-gZMcBi loPgns"
     >
       <button
-        class="sc-ifAKCX daQnTe sc-htoDjs bHauiZ"
+        class="sc-ifAKCX daQnTe sc-htoDjs sc-gqjmRU kwOocA"
         disabled=""
         size="2"
         type="button"

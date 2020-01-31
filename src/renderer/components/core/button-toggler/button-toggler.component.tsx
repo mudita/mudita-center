@@ -28,7 +28,6 @@ export const ButtonTogglerItem = styled(ButtonComponent).attrs<
   flex: 1;
   z-index: 1;
   pointer-events: all;
-  width: auto;
 
   ${({ active }) =>
     active &&

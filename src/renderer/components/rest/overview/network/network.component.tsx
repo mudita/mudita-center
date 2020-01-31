@@ -6,46 +6,20 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
-import ButtonToggler, {
-  ButtonTogglerItem,
-} from "Renderer/components/core/button-toggler/button-toggler.component"
 import { intl } from "Renderer/utils/intl"
 import SimInfo from "Common/interfaces/sim-info.interface"
-import {
-  backgroundColor,
-  borderRadius,
-  textColor,
-} from "Renderer/styles/theming/theme-getters"
+import { textColor } from "Renderer/styles/theming/theme-getters"
+import Card, {
+  CardAction,
+  CardActionButton,
+  CardText,
+} from "Renderer/components/rest/overview/card.elements"
 
-const TextInfo = styled.div`
-  grid-area: Text;
+const TextInfo = styled(CardText)`
   p {
     margin-top: 0.8rem;
     color: ${textColor("placeholder")};
   }
-`
-
-const Buttons = styled(ButtonToggler)`
-  grid-area: Buttons;
-  justify-self: end;
-  min-width: 17rem;
-
-  button {
-    padding: 0 1.6rem;
-    width: 50%;
-  }
-`
-
-const Section = styled.section`
-  display: grid;
-  align-items: center;
-  grid-template-areas: "Text Buttons";
-  grid-template-columns: auto minmax(17rem, 1fr);
-  height: 14.4rem;
-  padding: 0 4.8rem;
-  box-sizing: border-box;
-  border-radius: ${borderRadius("medium")};
-  background-color: ${backgroundColor("light")};
 `
 
 const SimButton = ({ slot, number: phone, active }: SimInfo) => {
@@ -55,14 +29,14 @@ const SimButton = ({ slot, number: phone, active }: SimInfo) => {
     },
     { slot, phone }
   )
-  return <ButtonTogglerItem label={label} active={active} />
+  return <CardActionButton label={label} active={active} />
 }
 
 const NoSimButton = () => {
   const label = intl.formatMessage({
     id: "view.name.overview.network.noSimInserted",
   })
-  return <ButtonTogglerItem label={label} disabled />
+  return <CardActionButton label={label} disabled />
 }
 
 const Network: FunctionComponent<NetworkProps> = ({
@@ -73,7 +47,7 @@ const Network: FunctionComponent<NetworkProps> = ({
   const activatingAvailable =
     (simCards.length && noActiveCard) || simCards.length > 1
   return (
-    <Section className={className}>
+    <Card className={className}>
       <TextInfo>
         <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
           <FormattedMessage id="view.name.overview.network.name" />
@@ -84,7 +58,7 @@ const Network: FunctionComponent<NetworkProps> = ({
           </Text>
         )}
       </TextInfo>
-      <Buttons>
+      <CardAction>
         {Boolean(simCards.length) ? (
           simCards.map(simCard => (
             <SimButton key={simCard.number} {...simCard} />
@@ -92,8 +66,8 @@ const Network: FunctionComponent<NetworkProps> = ({
         ) : (
           <NoSimButton />
         )}
-      </Buttons>
-    </Section>
+      </CardAction>
+    </Card>
   )
 }
 
