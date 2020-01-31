@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <section
+    class="sc-dnqmqq grFtFs"
+  >
+    <div
+      class="sc-iwsKbI sc-VigVT iBhdev"
+    >
+      <div
+        class="sc-jTzLTM dPxjWC"
+      >
+        <h2
+          class="sc-bdVaJa iSLnxf"
+        >
+          3.1.0
+        </h2>
+        <span
+          class="sc-bdVaJa jCnOyj"
+        >
+          OS version
+        </span>
+      </div>
+    </div>
+    <section
+      class="sc-gzVnrw jKdxIN sc-gZMcBi loPgns"
+    >
+      <button
+        class="sc-ifAKCX fBjzQi sc-htoDjs sc-gqjmRU kvoCCa"
+        size="2"
+        type="button"
+      >
+        <test-file-stub
+          classname="sc-EHOje cmLHsF"
+        />
+        <p
+          class="sc-bdVaJa ghJYji sc-bZQynM flUvJk"
+        >
+          Check for updates
+        </p>
+      </button>
+    </section>
+  </section>
+</div>
+`;

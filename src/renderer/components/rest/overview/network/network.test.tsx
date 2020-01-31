@@ -36,7 +36,7 @@ test("renders card name properly", () => {
   const { queryByText } = renderNetwork()
   expect(
     queryByText(intl.formatMessage({ id: "view.name.overview.network.name" }))
-  )
+  ).toBeInTheDocument()
 })
 
 test("renders 'no sim card' state properly", () => {

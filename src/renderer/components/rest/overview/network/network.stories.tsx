@@ -7,7 +7,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { action } from "@storybook/addon-actions"
 
-storiesOf("Overview", module).add("Network", () => {
+storiesOf("Overview/Network", module).add("Basic", () => {
   return (
     <div style={{ margin: "2rem", maxWidth: "59rem" }}>
       <Text displayStyle={TextDisplayStyle.SmallText}>No SIM card</Text>
