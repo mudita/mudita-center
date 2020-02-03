@@ -41,7 +41,7 @@ export const Row = styled.div<TableRowProps>`
   grid-auto-flow: column;
   grid-template-columns: var(--columnsTemplate);
   align-items: center;
-  height: ${({ size }) => size || RowSize.Medium}rem;
+  height: ${({ size = RowSize.Medium }) => size}rem;
   border-bottom: solid 0.1rem ${borderColor("listItem")};
 
   &:hover {
