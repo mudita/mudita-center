@@ -66,6 +66,12 @@ export const BasicTableExample = ({ sidebarOpened = false }) => {
   )
 }
 
+storiesOf("Components|Table/Basic", module)
+  .add("With column labels", () => <BasicTableExample />)
+  .add("With column labels and hideable columns disabled", () => (
+    <BasicTableExample sidebarOpened />
+  ))
+
 export const NestedTableExample = ({ sidebarOpened = false }) => {
   const SingleRow = ({ data, ...rest }: any) => (
     <Row {...rest}>
@@ -178,6 +184,13 @@ export const SelectableNestedTableExample = ({ sidebarOpened = false }) => {
   )
 }
 
+storiesOf("Components|Table/Nested", module)
+  .add("With column labels", () => <NestedTableExample />)
+  .add("With column labels and hideable columns disabled", () => (
+    <NestedTableExample sidebarOpened />
+  ))
+  .add("With selectable rows", () => <SelectableNestedTableExample />)
+
 export const GroupedTableExample = ({ sidebarOpened = false }) => {
   const SingleRow = ({ data }: { data: typeof basicRows[number] }) => (
     <Row data-testid="row">
@@ -244,19 +257,6 @@ export const SelectableGroupedTableExample = ({ sidebarOpened = false }) => {
     </CustomizedBasicTable>
   )
 }
-
-storiesOf("Components|Table/Basic", module)
-  .add("With column labels", () => <BasicTableExample />)
-  .add("With column labels and hideable columns disabled", () => (
-    <BasicTableExample sidebarOpened />
-  ))
-
-storiesOf("Components|Table/Nested", module)
-  .add("With column labels", () => <NestedTableExample />)
-  .add("With column labels and hideable columns disabled", () => (
-    <NestedTableExample sidebarOpened />
-  ))
-  .add("With selectable rows", () => <SelectableNestedTableExample />)
 
 storiesOf("Components|Table/Grouped", module)
   .add("With all columns", () => <GroupedTableExample />)
