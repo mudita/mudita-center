@@ -23,15 +23,15 @@ import Text, {
 import { noop } from "Renderer/utils/noop"
 import theme from "Renderer/styles/theming/theme"
 
-const Checkbox = styled(InputCheckbox)``
+export const Checkbox = styled(InputCheckbox)``
 
-const Contacts = styled(Table)`
+export const Contacts = styled(Table)`
   --columnsTemplate: 1fr 1fr;
   --columnsTemplateWithOpenedSidebar: 1fr;
   --columnsGap: 2rem;
 `
 
-const SelectableContacts = styled(Contacts)`
+export const SelectableContacts = styled(Contacts)`
   --columnsTemplate: 4rem 1fr 1fr;
   --columnsTemplateWithOpenedSidebar: 4rem 1fr;
 
@@ -42,14 +42,14 @@ const SelectableContacts = styled(Contacts)`
   }
 `
 
-const Files = styled(Table)`
+export const Files = styled(Table)`
   --columnsTemplate: 1fr 1fr 10rem;
   --columnsTemplateWithOpenedSidebar: 1fr;
   --columnsGap: 2rem;
   --nestSize: 2rem;
 `
 
-const SelectableFiles = styled(Files)`
+export const SelectableFiles = styled(Files)`
   ${Checkbox} {
     margin-right: 2rem;
   }
