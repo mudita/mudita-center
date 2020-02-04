@@ -236,7 +236,7 @@ storiesOf("Components|Table/Basic", module)
       </Labels>
       {basicRows.map((row, index) => {
         return (
-          <Row data-testid="row" key={index}>
+          <Row key={index}>
             <Col>
               {row.firstName} {row.lastName}
             </Col>
@@ -250,7 +250,7 @@ storiesOf("Components|Table/Basic", module)
     <Contacts>
       {basicRows.map((row, index) => {
         return (
-          <Row data-testid="row" key={index}>
+          <Row key={index}>
             <Col>
               {row.firstName} {row.lastName}
             </Col>
@@ -268,7 +268,7 @@ storiesOf("Components|Table/Basic", module)
       </Labels>
       {basicRows.map((row, index) => {
         return (
-          <Row data-testid="row" key={index}>
+          <Row key={index}>
             <Col>
               {row.firstName} {row.lastName}
             </Col>
@@ -291,7 +291,7 @@ storiesOf("Components|Table/Basic", module)
           const { selected, indeterminate } = getRowStatus(row)
           const onChange = () => toggleRow(row)
           return (
-            <Row data-testid="row" key={index}>
+            <Row key={index}>
               <Col>
                 <Checkbox
                   checked={selected}
@@ -340,7 +340,7 @@ storiesOf("Components|Table/Nested", module)
         </Labels>
         {nestedRows.map((row, index) => (
           <React.Fragment key={index}>
-            <SingleRow data={row} size={RowSize.Small} data-testid="row" />
+            <SingleRow data={row} size={RowSize.Small} />
             {row._children && (
               <NestedGroup>
                 {row._children.map((childRow, childIndex) => (
@@ -348,7 +348,6 @@ storiesOf("Components|Table/Nested", module)
                     data={childRow}
                     key={childIndex}
                     size={RowSize.Tiny}
-                    data-testid="nested-row"
                   />
                 ))}
               </NestedGroup>
@@ -370,7 +369,7 @@ storiesOf("Components|Table/Nested", module)
       <Files>
         {nestedRows.map((row, index) => (
           <React.Fragment key={index}>
-            <SingleRow data={row} size={RowSize.Small} data-testid="row" />
+            <SingleRow data={row} size={RowSize.Small} />
             {row._children && (
               <NestedGroup>
                 {row._children.map((childRow, childIndex) => (
@@ -378,7 +377,6 @@ storiesOf("Components|Table/Nested", module)
                     data={childRow}
                     key={childIndex}
                     size={RowSize.Tiny}
-                    data-testid="nested-row"
                   />
                 ))}
               </NestedGroup>
@@ -405,7 +403,7 @@ storiesOf("Components|Table/Nested", module)
         </Labels>
         {nestedRows.map((row, index) => (
           <React.Fragment key={index}>
-            <SingleRow data={row} size={RowSize.Small} data-testid="row" />
+            <SingleRow data={row} size={RowSize.Small} />
             {row._children && (
               <NestedGroup>
                 {row._children.map((childRow, childIndex) => (
@@ -413,7 +411,6 @@ storiesOf("Components|Table/Nested", module)
                     data={childRow}
                     key={childIndex}
                     size={RowSize.Tiny}
-                    data-testid="nested-row"
                   />
                 ))}
               </NestedGroup>
@@ -463,12 +460,12 @@ storiesOf("Components|Table/Nested", module)
             />
             <div>File type</div>
           </Col>
-          <Col data-testid="column-label">Last backup</Col>
-          <Col data-testid="column-label">Size</Col>
+          <Col>Last backup</Col>
+          <Col>Size</Col>
         </Labels>
         {nestedRows.map((row, index) => (
           <React.Fragment key={index}>
-            <SingleRow data={row} size={RowSize.Small} data-testid="row" />
+            <SingleRow data={row} size={RowSize.Small} />
             {row._children && (
               <NestedGroup>
                 {row._children.map((childRow, childIndex) => (
@@ -476,7 +473,6 @@ storiesOf("Components|Table/Nested", module)
                     data={childRow}
                     key={childIndex}
                     size={RowSize.Tiny}
-                    data-testid="nested-row"
                   />
                 ))}
               </NestedGroup>
@@ -498,12 +494,12 @@ storiesOf("Components|Table/Grouped", module)
   .add("With data", () => (
     <Contacts>
       {Object.keys(labeledRows).map(group => (
-        <Group key={group} data-testid="group">
-          <Labels data-testid="group-label">
+        <Group key={group}>
+          <Labels>
             <Col>{group}</Col>
           </Labels>
           {labeledRows[group].map((row: any, index: number) => (
-            <Row data-testid="row" key={index}>
+            <Row key={index}>
               <Col>
                 {row.firstName} {row.lastName}
               </Col>
@@ -517,12 +513,12 @@ storiesOf("Components|Table/Grouped", module)
   .add("With hidden columns", () => (
     <Contacts hideableColumnsIndexes={[1]} hideColumns>
       {Object.keys(labeledRows).map(group => (
-        <Group key={group} data-testid="group">
-          <Labels data-testid="group-label">
+        <Group key={group}>
+          <Labels>
             <Col>{group}</Col>
           </Labels>
           {labeledRows[group].map((row: any, index: number) => (
-            <Row data-testid="row" key={index}>
+            <Row key={index}>
               <Col>
                 {row.firstName} {row.lastName}
               </Col>
@@ -538,8 +534,8 @@ storiesOf("Components|Table/Grouped", module)
     return (
       <SelectableContacts>
         {Object.keys(labeledRows).map(group => (
-          <Group key={group} data-testid="group">
-            <Labels data-testid="group-label">
+          <Group key={group}>
+            <Labels>
               <Col />
               <Col>{group}</Col>
             </Labels>
@@ -547,7 +543,7 @@ storiesOf("Components|Table/Grouped", module)
               const { selected, indeterminate } = getRowStatus(row)
               const onChange = () => toggleRow(row)
               return (
-                <Row data-testid="row" key={index}>
+                <Row key={index}>
                   <Col>
                     <Checkbox
                       checked={selected}
