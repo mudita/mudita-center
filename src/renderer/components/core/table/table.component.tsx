@@ -88,6 +88,9 @@ export const Col = styled.div`
   :first-of-type {
     padding-left: var(--columnsGap);
   }
+  :last-of-type {
+    padding-right: var(--columnsGap);
+  }
 `
 
 /* Labels */
