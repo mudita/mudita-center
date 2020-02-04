@@ -46,6 +46,7 @@ const Files = styled(Table)`
   --columnsTemplate: 1fr 1fr 10rem;
   --columnsTemplateWithOpenedSidebar: 1fr;
   --columnsGap: 2rem;
+  --nestSize: 2rem;
 `
 
 const SelectableFiles = styled(Files)`
