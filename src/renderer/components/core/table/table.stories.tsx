@@ -36,7 +36,7 @@ export const SelectableContacts = styled(Contacts)`
   --columnsTemplateWithOpenedSidebar: 4rem 1fr;
 
   ${Col} {
-    &:first-of-type {
+    :first-of-type {
       justify-content: flex-end;
     }
   }

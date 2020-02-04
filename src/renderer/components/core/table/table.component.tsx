@@ -85,7 +85,7 @@ export const Col = styled.div`
   ${getTextStyles(TextDisplayStyle.MediumText)};
   display: flex;
   align-items: center;
-  &:first-of-type {
+  :first-of-type {
     padding-left: var(--columnsGap);
   }
 `
