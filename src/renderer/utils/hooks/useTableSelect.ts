@@ -8,55 +8,81 @@ interface Row {
   [key: string]: any
 }
 
-enum ActionTypes {
-  TOGGLE_ALL,
-  TOGGLE_ROW,
+enum ActionType {
+  toggleAll,
+  toggleRow,
 }
 
 interface Action {
-  type: ActionTypes
+  type: ActionType
   payload?: Row
 }
 
 const useTableSelect = (rows: Row[]) => {
   const initialState = {
+    // A set containing only currently selected rows
     selectedRows: new Set(),
-    availableRows: new Set([...flattenRows(rows)]),
-    allChecked: false,
-    noneChecked: true,
+
+    /*
+      A set containing all rows excluding those having children. That's because
+      rows with children are needed only for UI purposes (think of them as labels).
+      They aren't data per se. That's why they are not selectable. However they
+      can imitate (un)selected or indeterminate state depending on select status
+      of their children.
+    */
+    selectableRows: new Set([...flattenRows(rows)]),
+
+    // Flag representing a status when all selectable rows are selected
+    allSelected: false,
+
+    // Flag representing a status when no rows are selected
+    noneSelected: true,
   }
 
   const toggleAllHandler = (prevState: typeof initialState) => {
+    // If all rows are selected deselect them, otherwise select all
     const tempRows = new Set(
-      prevState.allChecked ? [] : Array.from(prevState.availableRows)
+      prevState.allSelected ? [] : Array.from(prevState.selectableRows)
     )
 
     return {
       ...prevState,
       selectedRows: tempRows,
-      allChecked: tempRows.size === prevState.availableRows.size,
-      noneChecked: tempRows.size === 0,
+      allSelected: tempRows.size === prevState.selectableRows.size,
+      noneSelected: tempRows.size === 0,
     }
   }
 
   const toggleRowHandler = (prevState: typeof initialState, payload: Row) => {
-    const tempRows = new Set(prevState.selectedRows)
+    const selectedRowsTemp = new Set(prevState.selectedRows)
     const children = getRowChildren(payload)
 
+    // When row has nested rows
     if (children.length) {
-      if (children.every(row => tempRows.has(row))) {
-        children.forEach(row => tempRows.delete(row))
-      } else {
-        children.forEach(row => tempRows.add(row))
+      // check if all children are selected
+      if (children.every(row => selectedRowsTemp.has(row))) {
+        // and deselect all of them
+        children.forEach(row => selectedRowsTemp.delete(row))
       }
-    } else {
-      tempRows.has(payload) ? tempRows.delete(payload) : tempRows.add(payload)
+      // or if row has zero or not all children selected
+      else {
+        // select all its children
+        children.forEach(row => selectedRowsTemp.add(row))
+      }
     }
+    // When row doesn't have any nested rows
+    else {
+      // simply check if it's selected and deselect it, otherwise select it
+      selectedRowsTemp.has(payload)
+        ? selectedRowsTemp.delete(payload)
+        : selectedRowsTemp.add(payload)
+    }
+
     return {
       ...prevState,
-      selectedRows: tempRows,
-      allChecked: tempRows.size === prevState.availableRows.size,
-      noneChecked: tempRows.size === 0,
+      selectedRows: selectedRowsTemp,
+      allSelected: selectedRowsTemp.size === prevState.selectableRows.size,
+      noneSelected: selectedRowsTemp.size === 0,
     }
   }
 
@@ -65,9 +91,9 @@ const useTableSelect = (rows: Row[]) => {
     { type, payload = {} }: Action
   ) => {
     switch (type) {
-      case ActionTypes.TOGGLE_ALL:
+      case ActionType.toggleAll:
         return toggleAllHandler(prevState)
-      case ActionTypes.TOGGLE_ROW:
+      case ActionType.toggleRow:
         return toggleRowHandler(prevState, payload)
       default:
         return prevState
@@ -76,41 +102,50 @@ const useTableSelect = (rows: Row[]) => {
 
   const [state, dispatch] = useReducer(reducer, initialState)
 
+  // Get status of selected and intermediate values of given row
   const getRowStatus = (row: Row) => {
-    let checked = false
-    let indeterminate = false
+    const status = {
+      selected: false,
+      indeterminate: false,
+    }
 
     const children = getRowChildren(row)
 
+    // When row has nested rows
     if (children.length) {
+      // and all children are selected
       if (children.every(child => state.selectedRows.has(child))) {
-        checked = true
-      } else if (children.some(child => state.selectedRows.has(child))) {
-        indeterminate = true
+        // set parent's status as selected
+        status.selected = true
       }
-    } else if (state.selectedRows.has(row)) {
-      checked = true
+      // or if only some children are selected
+      else if (children.some(child => state.selectedRows.has(child))) {
+        // set parent's status as indeterminate
+        status.indeterminate = true
+      }
+    }
+    // When row doesn't have any nested rows and is selected
+    else if (state.selectedRows.has(row)) {
+      // set its status as selected
+      status.selected = true
     }
 
-    return {
-      checked,
-      indeterminate,
-    }
+    return status
   }
 
-  const toggleAll = () => dispatch({ type: ActionTypes.TOGGLE_ALL })
+  const toggleAll = () => dispatch({ type: ActionType.toggleAll })
 
   const toggleRow = (row: Row) =>
-    dispatch({ type: ActionTypes.TOGGLE_ROW, payload: row })
+    dispatch({ type: ActionType.toggleRow, payload: row })
 
   return {
     getRowStatus,
     toggleAll,
     toggleRow,
     selectedRows: Array.from(state.selectedRows) as Row[],
-    availableRows: Array.from(state.availableRows) as Row[],
-    allRowsChecked: state.allChecked,
-    noneRowsChecked: state.noneChecked,
+    selectableRows: Array.from(state.selectableRows) as Row[],
+    allRowsSelected: state.allSelected,
+    noneRowsSelected: state.noneSelected,
   }
 }
 
