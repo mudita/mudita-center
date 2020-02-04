@@ -10,6 +10,7 @@ import {
 import {
   backgroundColor,
   borderColor,
+  borderRadius,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -23,13 +24,24 @@ export enum RowSize {
   Tiny = 4,
 }
 
-const activeRowStyles = css`
-  border-right: solid 0.4rem ${borderColor("intense")};
+const selectedRowStyles = css`
+  background-color: ${backgroundColor("accent")};
 `
 
-const selectedRowStyles = css`
-  ${activeRowStyles};
-  background-color: ${backgroundColor("accent")};
+const activeRowStyles = css`
+  ${selectedRowStyles};
+
+  &:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    width: 0.3rem;
+    height: 100%;
+    background-color: ${backgroundColor("blue")};
+    border-radius: ${borderRadius("small")};
+  }
 `
 
 const clickableRowStyles = css`
@@ -40,7 +52,10 @@ export const Row = styled.div<TableRowProps>`
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: var(--columnsTemplate);
+  grid-column-gap: var(--columnsGap);
   align-items: center;
+  position: relative;
+  box-sizing: border-box;
   height: ${({ size = RowSize.Medium }) => size}rem;
   border-bottom: solid 0.1rem ${borderColor("listItem")};
 
@@ -54,11 +69,13 @@ export const Row = styled.div<TableRowProps>`
 `
 
 /* Column */
-export const Col = styled.div<{ hideable?: boolean }>`
+export const Col = styled.div`
   ${getTextStyles(TextDisplayStyle.MediumText)};
   display: flex;
   align-items: center;
-  ${({ hideable }) => hideable && `display: none;`};
+  &:first-of-type {
+    padding-left: var(--columnsGap);
+  }
 `
 
 /* Labels */
@@ -109,34 +126,51 @@ export const NestedGroup = styled.div<{ level?: number }>`
   }
 `
 
-const TableComponent = styled.div<{ sidebarOpened?: boolean }>`
+const TableComponent = styled.div<
+  Pick<TableProps, "hideColumns" | "hideableColumnsIndexes">
+>`
   --nestSize: 4rem;
   --columnsTemplate: repeat(auto-fit, minmax(0, 1fr));
+  --columnsGap: 2rem;
   position: relative;
 
   & > ${Labels} {
     ${columnLabelStyles};
   }
 
-  ${({ sidebarOpened }) =>
-    sidebarOpened
-      ? css`
-          --columnsTemplate: var(--columnsTemplateWithOpenedSidebar) !important;
-        `
-      : css`
-          ${Col} {
-            display: flex;
-          }
-        `};
+  ${({ hideColumns, hideableColumnsIndexes = [] }) =>
+    hideColumns &&
+    css`
+      --columnsTemplate: var(--columnsTemplateWithOpenedSidebar) !important;
+
+      ${Col} {
+        ${hideableColumnsIndexes.map(
+          column => `&:nth-of-type(${column + 1}) { display: none; }`
+        )};
+      }
+    `};
+`
+
+/* Default empty state */
+export const EmptyState = styled(Row)`
+  ${Col} {
+    ${getTextStyles(TextDisplayStyle.MediumFadedText)};
+    font-style: italic;
+  }
 `
 
 const Table: FunctionComponent<TableProps> = ({
   className,
   children,
-  sidebarOpened,
+  hideColumns,
+  hideableColumnsIndexes,
 }) => {
   return (
-    <TableComponent className={className} sidebarOpened={sidebarOpened}>
+    <TableComponent
+      className={className}
+      hideColumns={hideColumns}
+      hideableColumnsIndexes={hideableColumnsIndexes}
+    >
       {children}
     </TableComponent>
   )
