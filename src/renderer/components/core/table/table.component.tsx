@@ -18,10 +18,10 @@ import styled, { css } from "styled-components"
 
 /* Row */
 export enum RowSize {
-  Big = 9,
-  Medium = 6.4,
-  Small = 4.8,
-  Tiny = 4,
+  Big,
+  Medium,
+  Small,
+  Tiny,
 }
 
 const selectedRowStyles = css`
@@ -56,8 +56,20 @@ export const Row = styled.div<TableRowProps>`
   align-items: center;
   position: relative;
   box-sizing: border-box;
-  height: ${({ size = RowSize.Medium }) => size}rem;
   border-bottom: solid 0.1rem ${borderColor("listItem")};
+
+  height: ${({ size }) => {
+    switch (size) {
+      case RowSize.Big:
+        return 9
+      case RowSize.Small:
+        return 4.8
+      case RowSize.Tiny:
+        return 4
+      default:
+        return 6.4
+    }
+  }}rem;
 
   &:hover {
     background-color: ${backgroundColor("accent")};
