@@ -7,5 +7,6 @@ export interface TableRowProps {
 }
 
 export interface TableProps {
-  sidebarOpened?: boolean
+  hideColumns?: boolean
+  hideableColumnsIndexes?: number[]
 }
