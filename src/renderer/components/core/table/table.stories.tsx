@@ -1,8 +1,8 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Table, {
   Col,
+  EmptyState,
   Group,
   Labels,
   NestedGroup,
@@ -13,254 +13,556 @@ import {
   basicRows,
   labeledRows,
   nestedRows,
-  sortedBasicRows,
 } from "Renderer/components/core/table/table.fake-data"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import styled from "styled-components"
+import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import { noop } from "Renderer/utils/noop"
+import theme from "Renderer/styles/theming/theme"
 
-const CustomizedBasicTable = styled(Table)`
+const Checkbox = styled(InputCheckbox)``
+
+const Contacts = styled(Table)`
   --columnsTemplate: 1fr 1fr;
   --columnsTemplateWithOpenedSidebar: 1fr;
+  --columnsGap: 2rem;
 `
 
-const CustomizedNestedTable = styled(Table)`
+const SelectableContacts = styled(Contacts)`
+  --columnsTemplate: 4rem 1fr 1fr;
+  --columnsTemplateWithOpenedSidebar: 4rem 1fr;
+
+  ${Col} {
+    &:first-of-type {
+      justify-content: flex-end;
+    }
+  }
+`
+
+const Files = styled(Table)`
   --columnsTemplate: 1fr 1fr 10rem;
   --columnsTemplateWithOpenedSidebar: 1fr;
+  --columnsGap: 2rem;
 `
 
-const ColWithPadding = styled(Col)`
-  padding-left: 2rem;
-`
-
-const StyledSelectableCol = styled(Col)`
-  div {
-    margin-left: 2rem;
-  }
-  > div:first-of-type {
-    transform: scale(0.7);
+const SelectableFiles = styled(Files)`
+  ${Checkbox} {
+    margin-right: 2rem;
   }
 `
 
-export const BasicTableExample = ({ sidebarOpened = false }) => {
-  const SingleRow = ({ data }: { data: typeof basicRows[number] }) => (
-    <Row data-testid="row">
-      <ColWithPadding>
-        {data.firstName} {data.lastName}
-      </ColWithPadding>
-      <Col hideable>{data.phoneNumber}</Col>
-    </Row>
-  )
+const Part = styled.div`
+  padding: 2rem;
+  p {
+    margin-bottom: 2rem;
+  }
+`
 
-  return (
-    <CustomizedBasicTable sidebarOpened={sidebarOpened}>
-      <Labels>
-        <ColWithPadding data-testid="column-label">Name</ColWithPadding>
-        <Col hideable data-testid="column-label">
-          Phone
-        </Col>
-      </Labels>
-      {basicRows.map((row, index) => (
-        <SingleRow key={index} data={row} />
-      ))}
-    </CustomizedBasicTable>
-  )
-}
+storiesOf("Components|Table/Parts", module)
+  .add("Labels", () => (
+    <>
+      <Part>
+        <Text displayStyle={TextDisplayStyle.SmallText}>Column labels</Text>
+        <Files>
+          <Labels>
+            <Col>File type</Col>
+            <Col>Last backup</Col>
+            <Col>Size</Col>
+          </Labels>
+        </Files>
+      </Part>
+      <Part>
+        <Text displayStyle={TextDisplayStyle.SmallText}>Group label</Text>
+        <Files>
+          <Group>
+            <Labels>
+              <Col>Favourites</Col>
+            </Labels>
+          </Group>
+        </Files>
+      </Part>
+    </>
+  ))
+  .add("Rows / types", () => (
+    <>
+      <Part>
+        <Text displayStyle={TextDisplayStyle.SmallText}>Big row</Text>
+        <Files>
+          <Row size={RowSize.Big}>
+            <Col>Music</Col>
+            <Col>{new Date().toLocaleString()}</Col>
+            <Col>50 MB</Col>
+          </Row>
+        </Files>
+      </Part>
+      <Part>
+        <Text displayStyle={TextDisplayStyle.SmallText}>
+          Medium (default) row
+        </Text>
+        <Files>
+          <Row>
+            <Col>Music</Col>
+            <Col>{new Date().toLocaleString()}</Col>
+            <Col>50 MB</Col>
+          </Row>
+        </Files>
+      </Part>
+      <Part>
+        <Text displayStyle={TextDisplayStyle.SmallText}>Small row</Text>
+        <Files>
+          <Row size={RowSize.Small}>
+            <Col>Music</Col>
+            <Col>{new Date().toLocaleString()}</Col>
+            <Col>50 MB</Col>
+          </Row>
+        </Files>
+      </Part>
+      <Part>
+        <Text displayStyle={TextDisplayStyle.SmallText}>Tiny row</Text>
+        <Files>
+          <Row size={RowSize.Tiny}>
+            <Col>Music</Col>
+            <Col>{new Date().toLocaleString()}</Col>
+            <Col>50 MB</Col>
+          </Row>
+        </Files>
+      </Part>
+      <Part>
+        <Text displayStyle={TextDisplayStyle.SmallText}>
+          Nested rows (default and small)
+        </Text>
+        <Files>
+          <Row>
+            <Col>Music</Col>
+            <Col>{new Date().toLocaleString()}</Col>
+            <Col>50 MB</Col>
+          </Row>
+          <NestedGroup>
+            <Row size={RowSize.Small}>
+              <Col>Ringtones</Col>
+              <Col>{new Date().toLocaleString()}</Col>
+              <Col>10 MB</Col>
+            </Row>
+            <Row size={RowSize.Small}>
+              <Col>Songs</Col>
+              <Col>{new Date().toLocaleString()}</Col>
+              <Col>40 MB</Col>
+            </Row>
+          </NestedGroup>
+        </Files>
+      </Part>
+    </>
+  ))
+  .add("Rows / states", () => (
+    <>
+      <Part>
+        <Text displayStyle={TextDisplayStyle.SmallText}>Default</Text>
+        <SelectableFiles>
+          <Row>
+            <Col>
+              <Checkbox checked={false} onChange={noop} />
+              <div>Music</div>
+            </Col>
+            <Col>{new Date().toLocaleString()}</Col>
+            <Col>50 MB</Col>
+          </Row>
+        </SelectableFiles>
+      </Part>
+      <Part>
+        <Text displayStyle={TextDisplayStyle.SmallText}>Hovered</Text>
+        <SelectableFiles>
+          <Row style={{ backgroundColor: theme.color.background.accent }}>
+            <Col>
+              <Checkbox checked={false} onChange={noop} />
+              <div>Music</div>
+            </Col>
+            <Col>{new Date().toLocaleString()}</Col>
+            <Col>50 MB</Col>
+          </Row>
+        </SelectableFiles>
+      </Part>
+      <Part>
+        <Text displayStyle={TextDisplayStyle.SmallText}>
+          Active (clickable)
+        </Text>
+        <SelectableFiles>
+          <Row active onClick={noop}>
+            <Col>
+              <Checkbox checked={false} onChange={noop} />
+              <div>Music</div>
+            </Col>
+            <Col>{new Date().toLocaleString()}</Col>
+            <Col>50 MB</Col>
+          </Row>
+        </SelectableFiles>
+      </Part>
+      <Part>
+        <Text displayStyle={TextDisplayStyle.SmallText}>Selected</Text>
+        <SelectableFiles>
+          <Row selected>
+            <Col>
+              <Checkbox checked={true} onChange={noop} />
+              <div>Music</div>
+            </Col>
+            <Col>{new Date().toLocaleString()}</Col>
+            <Col>50 MB</Col>
+          </Row>
+        </SelectableFiles>
+      </Part>
+    </>
+  ))
 
 storiesOf("Components|Table/Basic", module)
-  .add("With column labels", () => <BasicTableExample />)
-  .add("With column labels and hideable columns disabled", () => (
-    <BasicTableExample sidebarOpened />
+  .add("Empty", () => (
+    <Contacts>
+      <Labels>
+        <Col>Name</Col>
+        <Col>Phone</Col>
+      </Labels>
+      <EmptyState>
+        <Col>No contacts available</Col>
+      </EmptyState>
+    </Contacts>
   ))
-
-export const NestedTableExample = ({ sidebarOpened = false }) => {
-  const SingleRow = ({ data, ...rest }: any) => (
-    <Row {...rest}>
-      <ColWithPadding>{data.fileType}</ColWithPadding>
-      <Col hideable>{new Date(data.lastBackup).toLocaleString()}</Col>
-      <Col hideable>{data.size}</Col>
-    </Row>
-  )
-
-  return (
-    <CustomizedNestedTable sidebarOpened={sidebarOpened}>
+  .add("With data", () => (
+    <Contacts>
       <Labels>
-        <ColWithPadding data-testid="column-label">File type</ColWithPadding>
-        <Col hideable data-testid="column-label">
-          Last backup
-        </Col>
-        <Col hideable data-testid="column-label">
-          Size
-        </Col>
+        <Col>Name</Col>
+        <Col>Phone</Col>
       </Labels>
-      {nestedRows.map((row, index) => (
-        <React.Fragment key={index}>
-          <SingleRow data={row} size={RowSize.Small} data-testid="row" />
-          {row._children && (
-            <NestedGroup>
-              {row._children.map((childRow, childIndex) => (
-                <SingleRow
-                  data={childRow}
-                  key={childIndex}
-                  size={RowSize.Tiny}
-                  data-testid="nested-row"
-                />
-              ))}
-            </NestedGroup>
-          )}
-        </React.Fragment>
-      ))}
-    </CustomizedNestedTable>
-  )
-}
-
-export const SelectableNestedTableExample = ({ sidebarOpened = false }) => {
-  const {
-    toggleRow,
-    toggleAll,
-    getRowStatus,
-    allRowsChecked,
-    noneRowsChecked,
-  } = useTableSelect(nestedRows)
-
-  const SingleRow = ({ data, ...rest }: any) => {
-    const onChange = () => {
-      toggleRow(data)
-    }
-
-    const { checked, indeterminate } = getRowStatus(data)
-
+      {basicRows.map((row, index) => {
+        return (
+          <Row data-testid="row" key={index}>
+            <Col>
+              {row.firstName} {row.lastName}
+            </Col>
+            <Col>{row.phoneNumber}</Col>
+          </Row>
+        )
+      })}
+    </Contacts>
+  ))
+  .add("Without labels", () => (
+    <Contacts>
+      {basicRows.map((row, index) => {
+        return (
+          <Row data-testid="row" key={index}>
+            <Col>
+              {row.firstName} {row.lastName}
+            </Col>
+            <Col>{row.phoneNumber}</Col>
+          </Row>
+        )
+      })}
+    </Contacts>
+  ))
+  .add("With columns hidden", () => (
+    <Contacts hideableColumnsIndexes={[1]} hideColumns>
+      <Labels>
+        <Col>Name</Col>
+        <Col>Phone</Col>
+      </Labels>
+      {basicRows.map((row, index) => {
+        return (
+          <Row data-testid="row" key={index}>
+            <Col>
+              {row.firstName} {row.lastName}
+            </Col>
+            <Col>{row.phoneNumber}</Col>
+          </Row>
+        )
+      })}
+    </Contacts>
+  ))
+  .add("With selectable rows", () => {
+    const { getRowStatus, toggleRow } = useTableSelect(basicRows)
     return (
-      <Row {...rest}>
-        <StyledSelectableCol>
-          <InputCheckbox
-            checked={checked}
-            indeterminate={indeterminate}
-            onChange={onChange}
-          />
-          <div>{data.fileType}</div>
-        </StyledSelectableCol>
-        <Col hideable>{new Date(data.lastBackup).toLocaleString()}</Col>
-        <Col hideable>{data.size}</Col>
-      </Row>
-    )
-  }
-
-  return (
-    <CustomizedNestedTable sidebarOpened={sidebarOpened}>
-      <Labels>
-        <StyledSelectableCol>
-          <InputCheckbox
-            onChange={toggleAll}
-            checked={allRowsChecked}
-            indeterminate={!allRowsChecked && !noneRowsChecked}
-          />
-          <div>File type</div>
-        </StyledSelectableCol>
-        <Col hideable data-testid="column-label">
-          Last backup
-        </Col>
-        <Col hideable data-testid="column-label">
-          Size
-        </Col>
-      </Labels>
-      {nestedRows.map((row, index) => (
-        <React.Fragment key={index}>
-          <SingleRow data={row} size={RowSize.Small} data-testid="row" />
-          {row._children && (
-            <NestedGroup>
-              {row._children.map((childRow, childIndex) => (
-                <SingleRow
-                  data={childRow}
-                  key={childIndex}
-                  size={RowSize.Tiny}
-                  data-testid="nested-row"
+      <SelectableContacts>
+        <Labels>
+          <Col />
+          <Col>Name</Col>
+          <Col>Phone</Col>
+        </Labels>
+        {basicRows.map((row, index) => {
+          const { selected, indeterminate } = getRowStatus(row)
+          const onChange = () => toggleRow(row)
+          return (
+            <Row data-testid="row" key={index}>
+              <Col>
+                <Checkbox
+                  checked={selected}
+                  indeterminate={indeterminate}
+                  onChange={onChange}
                 />
-              ))}
-            </NestedGroup>
-          )}
-        </React.Fragment>
-      ))}
-    </CustomizedNestedTable>
-  )
-}
+              </Col>
+              <Col>
+                {row.firstName} {row.lastName}
+              </Col>
+              <Col>{row.phoneNumber}</Col>
+            </Row>
+          )
+        })}
+      </SelectableContacts>
+    )
+  })
 
 storiesOf("Components|Table/Nested", module)
-  .add("With column labels", () => <NestedTableExample />)
-  .add("With column labels and hideable columns disabled", () => (
-    <NestedTableExample sidebarOpened />
+  .add("Empty", () => (
+    <Files>
+      <Labels>
+        <Col>File type</Col>
+        <Col>Last backup</Col>
+        <Col>Size</Col>
+      </Labels>
+      <EmptyState>
+        <Col>No files available</Col>
+      </EmptyState>
+    </Files>
   ))
-  .add("With selectable rows", () => <SelectableNestedTableExample />)
-
-export const GroupedTableExample = ({ sidebarOpened = false }) => {
-  const SingleRow = ({ data }: { data: typeof basicRows[number] }) => (
-    <Row data-testid="row">
-      <ColWithPadding>
-        {data.firstName} {data.lastName}
-      </ColWithPadding>
-      <Col hideable>{data.phoneNumber}</Col>
-    </Row>
-  )
-
-  return (
-    <CustomizedBasicTable sidebarOpened={sidebarOpened}>
-      {Object.keys(labeledRows).map(group => (
-        <Group key={group} data-testid="group">
-          <Labels data-testid="group-label">
-            <ColWithPadding>{group}</ColWithPadding>
-          </Labels>
-          {labeledRows[group].map((row: any, rowIndex: number) => (
-            <SingleRow key={rowIndex} data={row} />
-          ))}
-        </Group>
-      ))}
-    </CustomizedBasicTable>
-  )
-}
-
-export const SelectableGroupedTableExample = ({ sidebarOpened = false }) => {
-  const { toggleRow, getRowStatus } = useTableSelect(sortedBasicRows)
-
-  const SingleRow = ({ data }: { data: typeof basicRows[number] }) => {
-    const onChange = () => {
-      toggleRow(data)
-    }
-    const { checked, indeterminate } = getRowStatus(data)
-    return (
-      <Row data-testid="row">
-        <StyledSelectableCol>
-          <InputCheckbox
-            onChange={onChange}
-            checked={checked}
-            indeterminate={indeterminate}
-          />
-          <div>
-            {data.firstName} {data.lastName}
-          </div>
-        </StyledSelectableCol>
-        <Col hideable>{data.phoneNumber}</Col>
+  .add("With data", () => {
+    const SingleRow = ({ data, ...rest }: any) => (
+      <Row {...rest}>
+        <Col>{data.fileType}</Col>
+        <Col>{new Date(data.lastBackup).toLocaleString()}</Col>
+        <Col>{data.size}</Col>
       </Row>
     )
-  }
+    return (
+      <Files>
+        <Labels>
+          <Col>File type</Col>
+          <Col>Last backup</Col>
+          <Col>Size</Col>
+        </Labels>
+        {nestedRows.map((row, index) => (
+          <React.Fragment key={index}>
+            <SingleRow data={row} size={RowSize.Small} data-testid="row" />
+            {row._children && (
+              <NestedGroup>
+                {row._children.map((childRow, childIndex) => (
+                  <SingleRow
+                    data={childRow}
+                    key={childIndex}
+                    size={RowSize.Tiny}
+                    data-testid="nested-row"
+                  />
+                ))}
+              </NestedGroup>
+            )}
+          </React.Fragment>
+        ))}
+      </Files>
+    )
+  })
+  .add("Without labels", () => {
+    const SingleRow = ({ data, ...rest }: any) => (
+      <Row {...rest}>
+        <Col>{data.fileType}</Col>
+        <Col>{new Date(data.lastBackup).toLocaleString()}</Col>
+        <Col>{data.size}</Col>
+      </Row>
+    )
+    return (
+      <Files>
+        {nestedRows.map((row, index) => (
+          <React.Fragment key={index}>
+            <SingleRow data={row} size={RowSize.Small} data-testid="row" />
+            {row._children && (
+              <NestedGroup>
+                {row._children.map((childRow, childIndex) => (
+                  <SingleRow
+                    data={childRow}
+                    key={childIndex}
+                    size={RowSize.Tiny}
+                    data-testid="nested-row"
+                  />
+                ))}
+              </NestedGroup>
+            )}
+          </React.Fragment>
+        ))}
+      </Files>
+    )
+  })
+  .add("With columns hidden", () => {
+    const SingleRow = ({ data, ...rest }: any) => (
+      <Row {...rest}>
+        <Col>{data.fileType}</Col>
+        <Col>{new Date(data.lastBackup).toLocaleString()}</Col>
+        <Col>{data.size}</Col>
+      </Row>
+    )
+    return (
+      <Files hideableColumnsIndexes={[1, 2]} hideColumns>
+        <Labels>
+          <Col>File type</Col>
+          <Col>Last backup</Col>
+          <Col>Size</Col>
+        </Labels>
+        {nestedRows.map((row, index) => (
+          <React.Fragment key={index}>
+            <SingleRow data={row} size={RowSize.Small} data-testid="row" />
+            {row._children && (
+              <NestedGroup>
+                {row._children.map((childRow, childIndex) => (
+                  <SingleRow
+                    data={childRow}
+                    key={childIndex}
+                    size={RowSize.Tiny}
+                    data-testid="nested-row"
+                  />
+                ))}
+              </NestedGroup>
+            )}
+          </React.Fragment>
+        ))}
+      </Files>
+    )
+  })
+  .add("With selectable rows", () => {
+    const {
+      toggleRow,
+      toggleAll,
+      getRowStatus,
+      allRowsSelected,
+      noneRowsSelected,
+    } = useTableSelect(nestedRows)
 
-  return (
-    <CustomizedBasicTable sidebarOpened={sidebarOpened}>
+    const SingleRow = ({ data, ...rest }: any) => {
+      const onChange = () => {
+        toggleRow(data)
+      }
+      const { selected, indeterminate } = getRowStatus(data)
+      return (
+        <Row {...rest}>
+          <Col>
+            <Checkbox
+              checked={selected}
+              indeterminate={indeterminate}
+              onChange={onChange}
+            />
+            <div>{data.fileType}</div>
+          </Col>
+          <Col>{new Date(data.lastBackup).toLocaleString()}</Col>
+          <Col>{data.size}</Col>
+        </Row>
+      )
+    }
+    return (
+      <SelectableFiles>
+        <Labels>
+          <Col>
+            <Checkbox
+              onChange={toggleAll}
+              checked={allRowsSelected}
+              indeterminate={!allRowsSelected && !noneRowsSelected}
+            />
+            <div>File type</div>
+          </Col>
+          <Col data-testid="column-label">Last backup</Col>
+          <Col data-testid="column-label">Size</Col>
+        </Labels>
+        {nestedRows.map((row, index) => (
+          <React.Fragment key={index}>
+            <SingleRow data={row} size={RowSize.Small} data-testid="row" />
+            {row._children && (
+              <NestedGroup>
+                {row._children.map((childRow, childIndex) => (
+                  <SingleRow
+                    data={childRow}
+                    key={childIndex}
+                    size={RowSize.Tiny}
+                    data-testid="nested-row"
+                  />
+                ))}
+              </NestedGroup>
+            )}
+          </React.Fragment>
+        ))}
+      </SelectableFiles>
+    )
+  })
+
+storiesOf("Components|Table/Grouped", module)
+  .add("Empty", () => (
+    <Contacts>
+      <EmptyState>
+        <Col>No contacts available</Col>
+      </EmptyState>
+    </Contacts>
+  ))
+  .add("With data", () => (
+    <Contacts>
       {Object.keys(labeledRows).map(group => (
         <Group key={group} data-testid="group">
           <Labels data-testid="group-label">
-            <ColWithPadding>{group}</ColWithPadding>
+            <Col>{group}</Col>
           </Labels>
-          {labeledRows[group].map((row: any, rowIndex: number) => (
-            <SingleRow key={rowIndex} data={row} />
+          {labeledRows[group].map((row: any, index: number) => (
+            <Row data-testid="row" key={index}>
+              <Col>
+                {row.firstName} {row.lastName}
+              </Col>
+              <Col>{row.phoneNumber}</Col>
+            </Row>
           ))}
         </Group>
       ))}
-    </CustomizedBasicTable>
-  )
-}
-
-storiesOf("Components|Table/Grouped", module)
-  .add("With all columns", () => <GroupedTableExample />)
-  .add("With hideable columns disabled", () => (
-    <GroupedTableExample sidebarOpened />
+    </Contacts>
   ))
-  .add("With selectable rows", () => <SelectableGroupedTableExample />)
+  .add("With hidden columns", () => (
+    <Contacts hideableColumnsIndexes={[1]} hideColumns>
+      {Object.keys(labeledRows).map(group => (
+        <Group key={group} data-testid="group">
+          <Labels data-testid="group-label">
+            <Col>{group}</Col>
+          </Labels>
+          {labeledRows[group].map((row: any, index: number) => (
+            <Row data-testid="row" key={index}>
+              <Col>
+                {row.firstName} {row.lastName}
+              </Col>
+              <Col>{row.phoneNumber}</Col>
+            </Row>
+          ))}
+        </Group>
+      ))}
+    </Contacts>
+  ))
+  .add("With selectable rows", () => {
+    const { toggleRow, getRowStatus } = useTableSelect(nestedRows)
+    return (
+      <SelectableContacts>
+        {Object.keys(labeledRows).map(group => (
+          <Group key={group} data-testid="group">
+            <Labels data-testid="group-label">
+              <Col />
+              <Col>{group}</Col>
+            </Labels>
+            {labeledRows[group].map((row: any, index: number) => {
+              const { selected, indeterminate } = getRowStatus(row)
+              const onChange = () => toggleRow(row)
+              return (
+                <Row data-testid="row" key={index}>
+                  <Col>
+                    <Checkbox
+                      checked={selected}
+                      indeterminate={indeterminate}
+                      onChange={onChange}
+                    />
+                  </Col>
+                  <Col>
+                    {row.firstName} {row.lastName}
+                  </Col>
+                  <Col>{row.phoneNumber}</Col>
+                </Row>
+              )
+            })}
+          </Group>
+        ))}
+      </SelectableContacts>
+    )
+  })
