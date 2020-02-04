@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <section
+    class="sc-dnqmqq grFtFs"
+  >
+    <div
+      class="sc-iwsKbI sc-VigVT lcktPs"
+    >
+      <h2
+        class="sc-bdVaJa iSLnxf"
+      >
+        Network
+      </h2>
+    </div>
+    <section
+      class="sc-gzVnrw jKdxIN sc-gZMcBi loPgns"
+    >
+      <button
+        class="sc-ifAKCX daQnTe sc-htoDjs sc-gqjmRU kwOocA"
+        disabled=""
+        size="2"
+        type="button"
+      >
+        <p
+          class="sc-bdVaJa ghJYji sc-bZQynM flUvJk"
+        >
+          No SIM card inserted
+        </p>
+      </button>
+    </section>
+  </section>
+</div>
+`;

@@ -14,7 +14,7 @@ const grey3 = "#a5a5a5"
 const grey4 = "#d2d6db"
 const grey5 = "#cdcecf"
 const grey6 = "#f4f5f6"
-// const grey7 = "#fbfbfb"
+const grey7 = "#fbfbfb"
 const grey8 = "#e9e9e9"
 const blue1 = "#3e6988"
 const blue2 = "#6d9bbc"
@@ -42,6 +42,7 @@ const theme = {
     background: {
       blue: blue2,
       light: white,
+      app: grey7,
       dark: black,
       dark2: grey1, // "#232426"
       grey: grey5,
