@@ -105,6 +105,7 @@ const MemoryLabel = styled(Text)`
 `
 
 const StackedBarChart: FunctionComponent<Props> = ({
+  className,
   chartData,
   displayStyle,
   showStats = false,
@@ -130,7 +131,7 @@ const StackedBarChart: FunctionComponent<Props> = ({
     return value.toFixed(2)
   }
   return (
-    <ProgressWrapper>
+    <ProgressWrapper className={className}>
       <Progress>
         {barData.map(({ color, percentage }, index) => {
           if (index === indexOfOneBeforeLast && showStats) {
