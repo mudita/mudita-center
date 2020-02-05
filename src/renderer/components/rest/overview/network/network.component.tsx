@@ -36,13 +36,7 @@ const SimButton: FunctionComponent<SimInfo & { onClick: () => void }> = ({
     },
     { slot, phone }
   )
-  return (
-    <CardActionButton
-      label={label}
-      active={active}
-      onClick={active ? noop : onClick}
-    />
-  )
+  return <CardActionButton label={label} active={active} onClick={onClick} />
 }
 
 const NoSimButton = () => {
