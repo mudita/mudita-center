@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom/extend-expect"
 import {
-  filterSelectedOnly,
   flattenRows,
   getRowChildren,
   groupRows,
@@ -79,35 +78,5 @@ test("flatting sub-rows of given rows works properly", () => {
     { path: "Bar/Bar", selected: true },
     { path: "Bar/Baz", selected: false },
     { path: "Baz/Foo", selected: true },
-  ])
-})
-
-test("filtering nested structure with given rows works properly", () => {
-  const selectedRows = flattenRows(nestedRows, "items").filter(
-    row => row.selected
-  )
-  expect(filterSelectedOnly(nestedRows, selectedRows, "items")).toMatchObject([
-    {
-      path: "Bar",
-      items: [
-        {
-          path: "Bar/Foo",
-          selected: true,
-        },
-        {
-          path: "Bar/Bar",
-          selected: true,
-        },
-      ],
-    },
-    {
-      path: "Baz",
-      items: [
-        {
-          path: "Baz/Foo",
-          selected: true,
-        },
-      ],
-    },
   ])
 })

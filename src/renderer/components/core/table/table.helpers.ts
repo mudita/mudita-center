@@ -37,28 +37,3 @@ export const flattenRows = (rows: Row[], childrenKey: string = "_children") => {
     return [...acc, ...nextRows]
   }, [])
 }
-
-// Return only selected rows preserving original rows structure
-export const filterSelectedOnly = (
-  rows: Row[],
-  selectedRows: Row[],
-  childrenKey: string = "_children"
-) => {
-  const copyRows = (row: Row) => Object.assign({}, row)
-  const filterRows = (row: Row): boolean => {
-    const includesRow = selectedRows.some(
-      selectedRow => JSON.stringify(row) === JSON.stringify(selectedRow)
-    )
-    if (includesRow) {
-      return true
-    }
-    if (row[childrenKey]) {
-      return Boolean(
-        (row[childrenKey] = row[childrenKey].map(copyRows).filter(filterRows))
-          .length
-      )
-    }
-    return false
-  }
-  return rows.map(copyRows).filter(filterRows)
-}
