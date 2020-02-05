@@ -2,17 +2,6 @@ interface Row {
   [key: string]: any
 }
 
-// Group rows by given key
-export const groupRows = (rows: Row[], groupKey: string = "group") => {
-  return rows.reduce((groups, item) => {
-    const group = item[groupKey].toString()
-    return {
-      ...groups,
-      [group]: [...(groups[group] || []), item],
-    }
-  }, {})
-}
-
 // Recursively get all sub-rows applied to given key
 export const getRowChildren = (
   parent: Row,

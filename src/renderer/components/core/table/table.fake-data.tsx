@@ -1,16 +1,14 @@
 import Faker from "faker"
-import { groupRows } from "Renderer/components/core/table/table.helpers"
+import { groupBy } from "lodash"
 
 export const basicRows = Array.from({
   length: Math.round(15 + Math.random() * 25),
 }).map(() => {
   const firstName = Faker.name.firstName()
-  const group = firstName.charAt(0)
   return {
     firstName,
     lastName: Faker.name.lastName(),
     phoneNumber: Faker.phone.phoneNumber(),
-    group,
     address: {
       zip: Faker.address.zipCode(),
       city: Faker.address.city(),
@@ -84,4 +82,6 @@ export const sortedBasicRows = [...basicRows].sort((a, b) => {
   return a.firstName > b.firstName ? 1 : -1
 })
 
-export const labeledRows = groupRows(sortedBasicRows)
+export const labeledRows = groupBy(sortedBasicRows, row =>
+  row.firstName.charAt(0)
+)

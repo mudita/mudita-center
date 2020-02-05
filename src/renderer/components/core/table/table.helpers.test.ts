@@ -2,33 +2,7 @@ import "@testing-library/jest-dom/extend-expect"
 import {
   flattenRows,
   getRowChildren,
-  groupRows,
 } from "Renderer/components/core/table/table.helpers"
-
-const basicRows = [
-  {
-    name: "Foo",
-    label: "F",
-  },
-  {
-    name: "Bar",
-    label: "B",
-  },
-  {
-    name: "Baz",
-    label: "B",
-  },
-]
-
-test("rows grouping works properly", () => {
-  expect(groupRows(basicRows, "label")).toMatchObject({
-    F: [{ name: "Foo", label: "F" }],
-    B: [
-      { name: "Bar", label: "B" },
-      { name: "Baz", label: "B" },
-    ],
-  })
-})
 
 const nestedRows = [
   {
