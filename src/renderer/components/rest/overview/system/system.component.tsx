@@ -13,7 +13,11 @@ import Text, {
 import { FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import Reload from "Renderer/svg/circle-arrow.svg"
-import { letterSpacing } from "Renderer/styles/theming/theme-getters"
+import {
+  fontWeight,
+  letterSpacing,
+  textColor,
+} from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
 
 const TextInfo = styled(CardText)``
@@ -24,24 +28,33 @@ const Version = styled.div`
 
   span {
     margin-left: 0.8rem;
+    font-weight: ${fontWeight("light")};
+    text-transform: none;
   }
 `
 
 const LastUpdate = styled(Text)`
-  margin-top: 2.4rem;
-  letter-spacing: ${letterSpacing("regular")}rem;
+  margin-top: 1.2rem;
+  letter-spacing: ${letterSpacing("small")}rem;
+  color: ${textColor("placeholder")};
+`
+
+const AvailableUpdate = styled(Text)`
+  margin-top: 1.6rem;
+  text-transform: none;
+  letter-spacing: ${letterSpacing("small")}rem;
 `
 
 const System: FunctionComponent<SystemProps> = ({
   className,
   osVersion,
   lastUpdate,
-  onUpdatesCheck = noop,
+  updateAvailable,
+  onUpdateCheck = noop,
+  onUpdate = noop,
 }) => {
-  const date = lastUpdate
-    ? new Date(lastUpdate).toLocaleDateString("en-US")
-    : undefined
-  const checkUpdates = () => onUpdatesCheck()
+  const checkUpdates = () => onUpdateCheck()
+  const update = () => onUpdate()
 
   return (
     <Card className={className}>
@@ -50,28 +63,44 @@ const System: FunctionComponent<SystemProps> = ({
           <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
             {osVersion}
           </Text>
-          <Text element={"span"} displayStyle={TextDisplayStyle.LargeText}>
+          <Text element={"span"} displayStyle={TextDisplayStyle.SmallText}>
             <FormattedMessage id="view.name.overview.system.version" />
           </Text>
         </Version>
         {Boolean(lastUpdate) && (
-          <LastUpdate displayStyle={TextDisplayStyle.MediumText}>
+          <LastUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
             <FormattedMessage
               id="view.name.overview.system.lastUpdate"
-              values={{ date }}
+              values={{ date: lastUpdate }}
             />
           </LastUpdate>
         )}
+        {updateAvailable && (
+          <AvailableUpdate displayStyle={TextDisplayStyle.SmallText}>
+            <FormattedMessage id="view.name.overview.system.updateAvailable" />
+          </AvailableUpdate>
+        )}
       </TextInfo>
       <CardAction filled>
-        <CardActionButton
-          active
-          label={intl.formatMessage({
-            id: "view.name.overview.system.checkForUpdates",
-          })}
-          Icon={Reload}
-          onClick={checkUpdates}
-        />
+        {updateAvailable ? (
+          <CardActionButton
+            active
+            label={intl.formatMessage({
+              id: "view.name.overview.system.updateAction",
+            })}
+            Icon={Reload}
+            onClick={update}
+          />
+        ) : (
+          <CardActionButton
+            active
+            label={intl.formatMessage({
+              id: "view.name.overview.system.checkForUpdates",
+            })}
+            Icon={Reload}
+            onClick={checkUpdates}
+          />
+        )}
       </CardAction>
     </Card>
   )

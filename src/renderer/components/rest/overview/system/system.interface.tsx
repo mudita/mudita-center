@@ -1,6 +1,7 @@
 export interface SystemProps {
   osVersion: string
   lastUpdate?: string
-  onUpdatesCheck?: () => void
+  onUpdateCheck?: () => void
+  onUpdate?: () => void
   updateAvailable?: boolean
 }
