@@ -11,7 +11,7 @@ const Card = styled.section`
   display: grid;
   align-items: center;
   grid-template-areas: "Text Buttons";
-  grid-template-columns: auto minmax(17rem, 1fr);
+  grid-template-columns: auto minmax(18rem, 1fr);
   height: 14.4rem;
   padding: 0 4.8rem;
   box-sizing: border-box;
@@ -26,7 +26,7 @@ export const CardText = styled.div`
 export const CardAction = styled(ButtonToggler)`
   grid-area: Buttons;
   justify-self: end;
-  min-width: 17rem;
+  min-width: 18rem;
 `
 
 export const CardActionButton = styled(ButtonTogglerItem)`
