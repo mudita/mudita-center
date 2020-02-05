@@ -12,18 +12,10 @@ const renderFilesManager = ({
   usedSpace = 0,
   ...props
 }: Partial<FilesManagerProps> = {}) => {
-  const outcome = renderWithThemeAndIntl(
+  return renderWithThemeAndIntl(
     <FilesManager onFilesOpen={onFilesOpen} usedSpace={usedSpace} {...props} />
   )
-  return {
-    ...outcome,
-  }
 }
-
-test("matches snapshot", () => {
-  const { container } = renderFilesManager()
-  expect(container).toMatchSnapshot()
-})
 
 test("renders space info properly", () => {
   const { getByText } = renderFilesManager({
