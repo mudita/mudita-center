@@ -60,7 +60,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   unit = "GB",
   onFilesOpen,
 }) => {
-  const openFiles = () => onFilesOpen()
   const stackedBarData = [
     {
       value: usedSpace,
@@ -100,7 +99,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           active
           label={buttonLabel}
           Icon={FolderIcon}
-          onClick={openFiles}
+          onClick={onFilesOpen}
         />
       </CardAction>
     </Card>
