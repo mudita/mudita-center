@@ -18,11 +18,3 @@ export const getRowChildren = (
   }
   return children
 }
-
-// Convert given row's sub-rows into flat array.
-export const flattenRows = (rows: Row[], childrenKey: string = "_children") => {
-  return rows.reduce((acc: any[], row: any) => {
-    const nextRows = row[childrenKey] ? getRowChildren(row, childrenKey) : [row]
-    return [...acc, ...nextRows]
-  }, [])
-}

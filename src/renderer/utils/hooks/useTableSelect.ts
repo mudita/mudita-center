@@ -1,8 +1,5 @@
 import { useState } from "react"
-import {
-  flattenRows,
-  getRowChildren,
-} from "Renderer/components/core/table/table.helpers"
+import { getRowChildren } from "Renderer/components/core/table/table.helpers"
 
 interface Row {
   [key: string]: any
@@ -10,7 +7,21 @@ interface Row {
 
 const useTableSelect = (rows: Row[], childrenKey: string = "_children") => {
   const [selectedRows, setSelectedRows] = useState<Row[]>([])
-  const selectableRows = flattenRows(rows, childrenKey)
+
+  /*
+    An array containing all rows excluding those having children. That's because
+    rows with children are needed only for UI purposes (think of them as labels).
+    They aren't data per se. That's why they are not selectable. However they
+    can imitate (un)selected or indeterminate state depending on select status
+    of their children.
+  */
+  const selectableRows = rows.reduce((acc: Row[], row: Row) => {
+    return [
+      ...acc,
+      ...(row[childrenKey] ? getRowChildren(row, childrenKey) : [row]),
+    ]
+  }, [])
+
   const allSelected = selectedRows.length === selectableRows.length
 
   const toggleAll = () => {
