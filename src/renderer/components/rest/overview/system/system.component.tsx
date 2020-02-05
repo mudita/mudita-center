@@ -53,9 +53,6 @@ const System: FunctionComponent<SystemProps> = ({
   onUpdateCheck = noop,
   onUpdate = noop,
 }) => {
-  const checkUpdates = () => onUpdateCheck()
-  const update = () => onUpdate()
-
   return (
     <Card className={className}>
       <TextInfo>
@@ -89,7 +86,7 @@ const System: FunctionComponent<SystemProps> = ({
               id: "view.name.overview.system.updateAction",
             })}
             Icon={Reload}
-            onClick={update}
+            onClick={onUpdate}
           />
         ) : (
           <CardActionButton
@@ -98,7 +95,7 @@ const System: FunctionComponent<SystemProps> = ({
               id: "view.name.overview.system.checkForUpdates",
             })}
             Icon={Reload}
-            onClick={checkUpdates}
+            onClick={onUpdateCheck}
           />
         )}
       </CardAction>
