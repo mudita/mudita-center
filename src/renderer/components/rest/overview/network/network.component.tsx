@@ -8,7 +8,7 @@ import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 import { intl } from "Renderer/utils/intl"
 import SimInfo from "Common/interfaces/sim-info.interface"
-import { textColor } from "Renderer/styles/theming/theme-getters"
+import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
 import Card, {
   CardAction,
   CardActionButton,
@@ -18,7 +18,8 @@ import { noop } from "Renderer/utils/noop"
 
 const TextInfo = styled(CardText)`
   p {
-    margin-top: 0.8rem;
+    margin-top: 1.2rem;
+    letter-spacing: ${letterSpacing("small")}rem;
     color: ${textColor("placeholder")};
   }
 `
@@ -61,7 +62,7 @@ const Network: FunctionComponent<NetworkProps> = ({
           <FormattedMessage id="view.name.overview.network.name" />
         </Text>
         {activatingAvailable && (
-          <Text displayStyle={TextDisplayStyle.MediumText}>
+          <Text displayStyle={TextDisplayStyle.SmallFadedText}>
             <FormattedMessage id="view.name.overview.network.description" />
           </Text>
         )}
