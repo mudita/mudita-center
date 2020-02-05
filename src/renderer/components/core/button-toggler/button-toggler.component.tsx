@@ -35,6 +35,9 @@ export const ButtonTogglerItem = styled(ButtonComponent).attrs<
       z-index: 3;
     `};
 
+  &:disabled {
+    pointer-events: none;
+  }
   &:hover {
     z-index: 2;
   }
@@ -60,11 +63,11 @@ const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
 }) => {
   return (
     <ButtonTogglerWrapper className={className}>
-      {React.Children.map(children, child =>
-        React.cloneElement(child as ReactElement, {
+      {React.Children.map(children, child => {
+        return React.cloneElement(child as ReactElement, {
           filled,
         })
-      )}
+      })}
     </ButtonTogglerWrapper>
   )
 }

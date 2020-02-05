@@ -42,6 +42,7 @@ const theme = {
     background: {
       blue: blue2,
       light: white,
+      app: grey7,
       dark: black,
       dark2: grey1, // "#232426"
       grey: grey5,

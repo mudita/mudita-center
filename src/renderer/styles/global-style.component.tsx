@@ -4,7 +4,7 @@ import { Theme } from "./theming/theme"
 
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   html, body  {
-    background-color: white;
+    background-color: ${backgroundColor("app")};
     font-family: ${font("primary")};
     /* stylelint-disable unit-whitelist */
     font-size: 10px;

@@ -71,6 +71,10 @@ exports[`matches snapshot 1`] = `
   pointer-events: all;
 }
 
+.c2:disabled {
+  pointer-events: none;
+}
+
 .c2:hover {
   z-index: 2;
 }
