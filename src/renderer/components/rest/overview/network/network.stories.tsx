@@ -17,7 +17,7 @@ const Part = styled.div`
 
 storiesOf("Overview|Network", module).add("Network", () => {
   return (
-    <div style={{ margin: "2rem", maxWidth: "59rem" }}>
+    <div style={{ maxWidth: "59rem" }}>
       <Part>
         <Text displayStyle={TextDisplayStyle.SmallText}>No SIM card</Text>
         <Network />
