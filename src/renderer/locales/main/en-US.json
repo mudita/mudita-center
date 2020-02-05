@@ -27,6 +27,8 @@
   "view.name.overview.system.checkForUpdates": "Check for updates",
   "view.name.overview.system.updateAvailable": "New update is available",
   "view.name.overview.system.updateAction": "Update now",
+  "view.name.overview.filesManager.usedSpace": "Used space",
+  "view.name.overview.filesManager.openFilesManager": "Open files manager",
   "view.name.phone": "Phone",
   "view.name.phone.contacts": "Contacts",
   "view.name.phone.contacts.selectionsNumber": "{num, plural, =-1 {All Contacts} one {# Contact} other {# Contacts}} selected",
