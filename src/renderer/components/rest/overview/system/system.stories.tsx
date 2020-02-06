@@ -58,7 +58,7 @@ storiesOf("Overview|System", module).add("System", () => {
         </Text>
         <System
           osVersion={osVersion}
-          onUpdateCheck={action("checked for update")}
+          onUpdate={action("update requested")}
           updateAvailable
         />
       </Part>

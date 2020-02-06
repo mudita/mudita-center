@@ -49,6 +49,7 @@ const theme = {
       grey2: grey6,
       grey3: grey8,
       grey4: grey3,
+      grey5: grey7,
       inputDark: grey1,
       accent: grey6,
       primaryDark: grey6,
@@ -63,6 +64,7 @@ const theme = {
       hover: grey1,
       listItem: grey4,
       light: grey4,
+      intense: blue2,
     },
     boxShadow: {
       grey: transparentGrey1,
