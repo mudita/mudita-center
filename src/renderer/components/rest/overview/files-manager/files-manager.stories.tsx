@@ -16,7 +16,7 @@ const Part = styled.div`
 
 storiesOf("Overview|FilesManager", module).add("FilesManager", () => {
   return (
-    <div style={{ maxWidth: "59rem" }}>
+    <div style={{ maxWidth: "63rem" }}>
       <Part>
         <Text displayStyle={TextDisplayStyle.SmallText}>No space used</Text>
         <FilesManager
