@@ -39,7 +39,9 @@ test("renders no backup info properly", () => {
 })
 
 test("renders available backup info properly", () => {
-  const { getByText, restoreButton } = renderBackup({ lastBackup })
+  const { getByText, restoreButton, createButton } = renderBackup({
+    lastBackup,
+  })
   expect(
     getByText(
       intl.formatMessage({ id: "view.name.overview.backup.lastBackup" })
@@ -47,6 +49,7 @@ test("renders available backup info properly", () => {
   ).toBeInTheDocument()
   expect(getByText(lastBackup)).toBeInTheDocument()
   expect(restoreButton()).toBeInTheDocument()
+  expect(createButton()).toBeInTheDocument()
 })
 
 test("backup creation button works properly", async () => {
