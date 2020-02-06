@@ -41,8 +41,8 @@ const Wrapper = styled.div<{
   svg {
     max-height: 100%;
     max-width: 100%;
-    height: ${({ height }) => height}rem;
-    width: ${({ width }) => width}rem;
+    height: ${({ height }) => (height ? height + "rem" : "100%")};
+    width: ${({ width }) => (width ? width + "rem" : "100%")};
   }
 
   ${({ badge }) => badge && badgeStyles};
