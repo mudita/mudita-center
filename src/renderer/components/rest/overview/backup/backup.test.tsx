@@ -29,12 +29,13 @@ const renderBackup = ({
 }
 
 test("renders no backup info properly", () => {
-  const { getByText } = renderBackup()
+  const { getByText, createButton } = renderBackup()
   expect(
     getByText(
       intl.formatMessage({ id: "view.name.overview.backup.createFirst" })
     )
   ).toBeInTheDocument()
+  expect(createButton()).toBeInTheDocument()
 })
 
 test("renders available backup info properly", () => {
