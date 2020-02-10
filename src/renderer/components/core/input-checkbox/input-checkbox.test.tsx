@@ -33,19 +33,6 @@ test("renders label when provided with text", () => {
   expect(label).toHaveTextContent(labelText)
 })
 
-test("has correct size", () => {
-  const { getByTestId } = renderWithThemeAndIntl(
-    <InputCheckbox
-      name={"Example1"}
-      value={"value2"}
-      id={"id2"}
-      label={"label"}
-    />
-  )
-  const dataTestId = "checkbox-wrapper"
-  expect(getByTestId(dataTestId)).toHaveStyleRule("height", "2rem")
-})
-
 describe("checkbox matches sizes", () => {
   const dataTestId = "checkbox-wrapper"
   const testScenario = [
