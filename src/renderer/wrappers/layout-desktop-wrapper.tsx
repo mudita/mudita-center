@@ -22,6 +22,7 @@ const Layout = styled.div`
 const MenuWrapper = styled.div`
   border-right: 0.1rem solid ${borderColor("dark")};
   width: ${width("menuWidth")};
+  overflow: auto;
 `
 
 const ViewWrapper = styled.div`
