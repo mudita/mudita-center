@@ -13,15 +13,42 @@ import checkIndeterminate from "Renderer/svg/check-indeterminate.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
+export enum Size {
+  FixedSmall,
+  FixedMedium,
+  FixedLarge,
+}
+
+const getSize = (size: Size) => {
+  switch (size) {
+    case Size.FixedSmall:
+      return css`
+        height: 1.4rem;
+        width: 1.4rem;
+      `
+    case Size.FixedMedium:
+      return css`
+        height: 1.6rem;
+        width: 1.6rem;
+      `
+    case Size.FixedLarge:
+      return css`
+        height: 2rem;
+        width: 2rem;
+      `
+    default:
+      return
+  }
+}
+
 const Label = styled.label`
   display: flex;
   align-items: center;
 `
 
-const InputWrapper = styled.div`
+const InputWrapper = styled.div<{ size: Size }>`
   position: relative;
-  width: 2rem;
-  height: 2rem;
+  ${({ size }) => getSize(size)}
 `
 
 const checkedStyles = css`
@@ -36,8 +63,8 @@ const Input = styled.input<{ indeterminate: boolean }>`
   appearance: none;
   outline: none;
   display: inline-block;
-  width: 2rem;
-  height: 2rem;
+  height: 100%;
+  width: 100%;
   background-clip: content-box;
   border: 0.1rem solid ${borderColor("default")};
   border-radius: 0.2rem;
@@ -72,14 +99,23 @@ const LabelText = styled(Text)`
   margin-left: 1.3rem;
 `
 
-const InputCheckbox: FunctionComponent<InputProps> = ({
+interface InputCheckboxProps extends InputProps {
+  size?: Size
+}
+
+const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
   className,
   label,
   indeterminate = false,
+  size = Size.FixedLarge,
   ...props
 }) => {
   const checkbox = (
-    <InputWrapper className={className}>
+    <InputWrapper
+      className={className}
+      size={size}
+      data-testid="checkbox-wrapper"
+    >
       <Input indeterminate={indeterminate} {...props} type="checkbox" />
       {indeterminate ? (
         <CheckIcon

@@ -1,9 +1,11 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import InputCheckbox, {
+  Size,
+} from "Renderer/components/core/input-checkbox/input-checkbox.component"
 
-storiesOf("Components|InputCheckbox", module)
-  .add("Checked", () => {
+storiesOf("Components|InputCheckbox/checked", module)
+  .add("Large", () => {
     return (
       <InputCheckbox
         name={"Example1"}
@@ -13,16 +15,84 @@ storiesOf("Components|InputCheckbox", module)
       />
     )
   })
-  .add("Unchecked", () => {
+  .add("Medium", () => {
+    return (
+      <InputCheckbox
+        name={"Example1"}
+        value={"value1"}
+        id={"id1"}
+        size={Size.FixedMedium}
+        defaultChecked
+      />
+    )
+  })
+  .add("Small", () => {
+    return (
+      <InputCheckbox
+        name={"Example1"}
+        value={"value1"}
+        id={"id1"}
+        size={Size.FixedSmall}
+        defaultChecked
+      />
+    )
+  })
+
+storiesOf("Components|InputCheckbox/unchecked", module)
+  .add("Large", () => {
     return <InputCheckbox name={"Example1"} value={"value2"} id={"id2"} />
   })
-  .add("With Label", () => {
+  .add("Medium", () => {
+    return (
+      <InputCheckbox
+        name={"Example1"}
+        value={"value2"}
+        id={"id2"}
+        size={Size.FixedMedium}
+      />
+    )
+  })
+  .add("Small", () => {
+    return (
+      <InputCheckbox
+        name={"Example1"}
+        value={"value2"}
+        id={"id2"}
+        size={Size.FixedSmall}
+      />
+    )
+  })
+
+storiesOf("Components|InputCheckbox/with label", module)
+  .add("Large", () => {
     return (
       <InputCheckbox
         name={"Example1"}
         value={"value2"}
         id={"id2"}
         label={"label"}
+      />
+    )
+  })
+  .add("Medium", () => {
+    return (
+      <InputCheckbox
+        name={"Example1"}
+        value={"value2"}
+        id={"id2"}
+        label={"label"}
+        size={Size.FixedMedium}
+      />
+    )
+  })
+  .add("Small", () => {
+    return (
+      <InputCheckbox
+        name={"Example1"}
+        value={"value2"}
+        id={"id2"}
+        label={"label"}
+        size={Size.FixedSmall}
       />
     )
   })

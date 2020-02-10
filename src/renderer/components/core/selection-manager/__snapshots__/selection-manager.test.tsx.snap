@@ -15,8 +15,8 @@ exports[`matches snapshot 1`] = `
 
 .c2 {
   position: relative;
-  width: 2rem;
   height: 2rem;
+  width: 2rem;
 }
 
 .c4 {
@@ -25,8 +25,8 @@ exports[`matches snapshot 1`] = `
   appearance: none;
   outline: none;
   display: inline-block;
-  width: 2rem;
-  height: 2rem;
+  height: 100%;
+  width: 100%;
   background-clip: content-box;
   border: 0.1rem solid #cdcecf;
   border-radius: 0.2rem;
@@ -97,6 +97,8 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="c2 c3 "
+        data-testid="checkbox-wrapper"
+        size="2"
       >
         <input
           checked=""
