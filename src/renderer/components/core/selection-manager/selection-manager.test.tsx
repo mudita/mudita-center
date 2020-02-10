@@ -17,7 +17,6 @@ const renderSelectionManager = (props: Partial<SelectionManagerProps> = {}) => {
     ...outcome,
     getWrapper: () => outcome.container.querySelector("section"),
     getCheckbox: () => outcome.getByRole("checkbox"),
-    getCheckboxWrapper: () => outcome.getByTestId("checkbox-wrapper"),
     getInfo: () => outcome.getByTestId("info"),
     getButtonsWrapper: () => outcome.queryByTestId("buttons"),
     getButtons: () => outcome.queryAllByTestId("button"),
@@ -81,9 +80,8 @@ test("renders indeterminate status properly", () => {
 })
 
 test("renders enlarged selection manager properly", () => {
-  const { getWrapper, getCheckboxWrapper } = renderSelectionManager({
+  const { getWrapper } = renderSelectionManager({
     enlarged: true,
   })
   expect(getWrapper()).toHaveStyleRule("padding-left", "1.4rem")
-  expect(getCheckboxWrapper()).toHaveStyleRule("height", "2rem")
 })
