@@ -36,9 +36,9 @@ test("renders label when provided with text", () => {
 describe("checkbox matches sizes", () => {
   const dataTestId = "checkbox-wrapper"
   const testScenario = [
-    { size: Size.FixedLarge, result: "2rem" },
-    { size: Size.FixedMedium, result: "1.6rem" },
-    { size: Size.FixedSmall, result: "1.4rem" },
+    { size: Size.Large, result: "2rem" },
+    { size: Size.Medium, result: "1.6rem" },
+    { size: Size.Small, result: "1.4rem" },
   ]
   testScenario.forEach(({ size, result }) => {
     test(`size: ${size}`, () => {

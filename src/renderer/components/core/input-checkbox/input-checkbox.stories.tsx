@@ -21,7 +21,7 @@ storiesOf("Components|InputCheckbox/checked", module)
         name={"Example1"}
         value={"value1"}
         id={"id1"}
-        size={Size.FixedMedium}
+        size={Size.Medium}
         defaultChecked
       />
     )
@@ -32,7 +32,7 @@ storiesOf("Components|InputCheckbox/checked", module)
         name={"Example1"}
         value={"value1"}
         id={"id1"}
-        size={Size.FixedSmall}
+        size={Size.Small}
         defaultChecked
       />
     )
@@ -48,7 +48,7 @@ storiesOf("Components|InputCheckbox/unchecked", module)
         name={"Example1"}
         value={"value2"}
         id={"id2"}
-        size={Size.FixedMedium}
+        size={Size.Medium}
       />
     )
   })
@@ -58,7 +58,7 @@ storiesOf("Components|InputCheckbox/unchecked", module)
         name={"Example1"}
         value={"value2"}
         id={"id2"}
-        size={Size.FixedSmall}
+        size={Size.Small}
       />
     )
   })
@@ -81,7 +81,7 @@ storiesOf("Components|InputCheckbox/with label", module)
         value={"value2"}
         id={"id2"}
         label={"label"}
-        size={Size.FixedMedium}
+        size={Size.Medium}
       />
     )
   })
@@ -92,7 +92,7 @@ storiesOf("Components|InputCheckbox/with label", module)
         value={"value2"}
         id={"id2"}
         label={"label"}
-        size={Size.FixedSmall}
+        size={Size.Small}
       />
     )
   })

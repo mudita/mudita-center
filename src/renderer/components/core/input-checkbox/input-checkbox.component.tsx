@@ -14,24 +14,24 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
 export enum Size {
-  FixedSmall,
-  FixedMedium,
-  FixedLarge,
+  Small,
+  Medium,
+  Large,
 }
 
 const getSize = (size: Size) => {
   switch (size) {
-    case Size.FixedSmall:
+    case Size.Small:
       return css`
         height: 1.4rem;
         width: 1.4rem;
       `
-    case Size.FixedMedium:
+    case Size.Medium:
       return css`
         height: 1.6rem;
         width: 1.6rem;
       `
-    case Size.FixedLarge:
+    case Size.Large:
       return css`
         height: 2rem;
         width: 2rem;
@@ -107,7 +107,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
   className,
   label,
   indeterminate = false,
-  size = Size.FixedLarge,
+  size = Size.Large,
   ...props
 }) => {
   const checkbox = (

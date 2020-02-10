@@ -89,7 +89,7 @@ storiesOf("Components", module)
           selectedItemsNumber={itemsNumber}
           allItemsSelected={allItems}
           onToggle={onToggle}
-          checkboxSize={Size.FixedMedium}
+          checkboxSize={Size.Medium}
         />
         <br />
         <br />
@@ -101,7 +101,7 @@ storiesOf("Components", module)
           selectedItemsNumber={itemsNumber}
           allItemsSelected={allItems}
           onToggle={onToggle}
-          checkboxSize={Size.FixedMedium}
+          checkboxSize={Size.Medium}
         />
         <br />
         <br />
@@ -112,7 +112,7 @@ storiesOf("Components", module)
           allItemsSelected={allItems}
           onToggle={onToggle}
           buttons={buttons}
-          checkboxSize={Size.FixedMedium}
+          checkboxSize={Size.Medium}
         />
         <br />
         <br />
