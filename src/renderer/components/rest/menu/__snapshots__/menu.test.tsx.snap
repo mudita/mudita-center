@@ -5,9 +5,13 @@ exports[`matches snapshot 1`] = `
   <div
     class="sc-VigVT dCQIgv"
   >
-    <test-file-stub
-      classname="sc-jTzLTM cKetjh"
-    />
+    <div
+      class="sc-jTzLTM LryKQ"
+    >
+      <test-file-stub
+        classname="sc-fjdhpX jhieFv"
+      />
+    </div>
     <div
       class="sc-gZMcBi eUufuJ"
     >
