@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.c5 {
+.c4 {
   margin: 0;
   font-size: 1.4rem;
   line-height: 1.05;
@@ -19,7 +19,7 @@ exports[`matches snapshot 1`] = `
   width: 2rem;
 }
 
-.c4 {
+.c3 {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -35,23 +35,23 @@ exports[`matches snapshot 1`] = `
   border-color: #3b3f42;
 }
 
-.c4:hover {
+.c3:hover {
   border-color: #3b3f42;
   cursor: pointer;
   -webkit-transition: border-color 0.5s linear;
   transition: border-color 0.5s linear;
 }
 
-.c4:checked {
+.c3:checked {
   background-color: #3b3f42;
   border-color: #3b3f42;
 }
 
-.c4:checked + svg {
+.c3:checked + svg {
   display: initial;
 }
 
-.c4 + svg {
+.c3 + svg {
   display: initial;
 }
 
@@ -59,7 +59,7 @@ exports[`matches snapshot 1`] = `
   grid-area: Checkbox;
 }
 
-.c6 {
+.c5 {
   grid-area: Info;
   line-height: 1.1;
 }
@@ -82,12 +82,6 @@ exports[`matches snapshot 1`] = `
   box-sizing: border-box;
 }
 
-.c0 .c3 {
-  -webkit-transform: scale(0.7);
-  -ms-transform: scale(0.7);
-  transform: scale(0.7);
-}
-
 <div>
   <section
     class="c0"
@@ -96,13 +90,13 @@ exports[`matches snapshot 1`] = `
       class="c1"
     >
       <div
-        class="c2 c3 "
+        class="c2"
         data-testid="checkbox-wrapper"
         size="2"
       >
         <input
           checked=""
-          class="c4"
+          class="c3"
           type="checkbox"
         />
         <test-file-stub
@@ -112,7 +106,7 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <p
-      class="c5 c6"
+      class="c4 c5"
       data-testid="info"
     >
       1 Conversation selected
