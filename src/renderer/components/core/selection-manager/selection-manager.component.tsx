@@ -33,8 +33,6 @@ const CheckboxWrapper = styled.div`
   grid-area: Checkbox;
 `
 
-const Checkbox = styled(InputCheckbox)``
-
 const Info = styled(Text)`
   grid-area: Info;
   line-height: 1.1;
@@ -53,11 +51,6 @@ const SelectionManagerWrapper = styled.section<{ enlarged?: boolean }>`
   border-radius: ${borderRadius("medium")};
   border: solid 0.1rem ${borderColor("grey3")};
   box-sizing: border-box;
-
-  ${Checkbox} {
-    /* TODO: Remove below style and add a size prop for checkbox */
-    transform: scale(${({ enlarged }) => (enlarged ? 1 : 0.7)});
-  }
 `
 
 const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
@@ -67,15 +60,17 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
   messageId,
   buttons,
   enlarged,
+  checkboxSize,
   onToggle = noop,
 }) => {
   return (
     <SelectionManagerWrapper className={className} enlarged={enlarged}>
       <CheckboxWrapper>
-        <Checkbox
+        <InputCheckbox
           checked
           indeterminate={!allItemsSelected}
           onChange={onToggle}
+          size={checkboxSize}
         />
       </CheckboxWrapper>
       <Info

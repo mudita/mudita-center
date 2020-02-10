@@ -12,6 +12,7 @@ import Text, {
 import Delete from "Renderer/svg/delete.svg"
 import Export from "Renderer/svg/upload.svg"
 import styled from "styled-components"
+import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 
 export const deleteButton = (
   <ButtonComponent
@@ -88,6 +89,7 @@ storiesOf("Components", module)
           selectedItemsNumber={itemsNumber}
           allItemsSelected={allItems}
           onToggle={onToggle}
+          checkboxSize={Size.FixedMedium}
         />
         <br />
         <br />
@@ -99,6 +101,7 @@ storiesOf("Components", module)
           selectedItemsNumber={itemsNumber}
           allItemsSelected={allItems}
           onToggle={onToggle}
+          checkboxSize={Size.FixedMedium}
         />
         <br />
         <br />
@@ -109,6 +112,7 @@ storiesOf("Components", module)
           allItemsSelected={allItems}
           onToggle={onToggle}
           buttons={buttons}
+          checkboxSize={Size.FixedMedium}
         />
         <br />
         <br />
