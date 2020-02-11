@@ -8,6 +8,30 @@ import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import styled from "styled-components"
+import Phone from "Renderer/components/rest/overview/phone/phone.component"
+import { action } from "@storybook/addon-actions"
+import Network from "Renderer/components/rest/overview/network/network.component"
+import getFakeAdapters from "App/tests/get-fake-adapters"
+import System from "Renderer/components/rest/overview/system/system.component"
+import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
+import Backup from "Renderer/components/rest/overview/backup/backup.component"
+import { noop } from "Renderer/utils/noop"
+
+const OverviewWrapper = styled.div`
+  display: grid;
+  grid-template-columns: minmax(27rem, 1fr) minmax(59rem, 1fr);
+  grid-template-rows: 1fr;
+  grid-column-gap: 40px;
+  grid-row-gap: 32px;
+  padding: 3.2rem 3rem 3.7rem 4rem;
+`
+
+const PhoneInfo = styled.div`
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  grid-row-gap: 32px;
+`
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel,
@@ -82,36 +106,23 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
     })
 
   return (
-    <div>
-      <div>Battery level: {batteryLevel}</div>
-      <div>OS Version: {osVersion}</div>
-      <div>Last backup {lastBackup}</div>
-      <div>
-        Memory: {memorySpace.free}/{memorySpace.full}
-      </div>
-      <hr />
-      <h2>Device info</h2>
-      <button onClick={getInfo}>Get</button>
-      <pre id="response" />
-      <h2>Battery info</h2>
-      <button onClick={handleBattery}>Get</button>
-      <pre id="battery" />
-      <h2>Network info</h2>
-      <button onClick={handleNetwork}>Get</button>
-      <pre id="network" />
-      <h2>Storage info</h2>
-      <button onClick={handleStorage}>Get</button>
-      <pre id="storage" />
-      <h2>Backups info</h2>
-      <button onClick={handleBackups}>Get</button>
-      <pre id="backups" />
-      <h2>Disconnect device</h2>
-      <button onClick={handleDisconnectDevice}>Get</button>
-      <pre id="disconnect" />
-      <h2>Change sim</h2>
-      <button onClick={handleChangeSim}>Get</button>
-      <pre id="change-sim" />
-    </div>
+    <OverviewWrapper>
+      <Phone
+        onDisconnect={action("disconnect phone")}
+        batteryLevel={0.75}
+        network={"Play"}
+      />
+      <PhoneInfo>
+        <Network simCards={getFakeAdapters().pureNetwork.getSimCards()} />
+        <System osVersion={osVersion} lastUpdate={"just now"} />
+        <FilesManager usedSpace={16} onFilesOpen={noop} />
+        <Backup
+          lastBackup={lastBackup}
+          onBackupCreate={noop}
+          onBackupRestore={noop}
+        />
+      </PhoneInfo>
+    </OverviewWrapper>
   )
 }
 
