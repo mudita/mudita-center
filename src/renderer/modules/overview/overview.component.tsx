@@ -14,15 +14,14 @@ const OverviewWrapper = styled.div`
   display: grid;
   grid-template-columns: minmax(27rem, 1fr) minmax(59rem, 1fr);
   grid-template-rows: 1fr;
-  grid-column-gap: 40px;
-  grid-row-gap: 32px;
+  grid-column-gap: 4rem;
   padding: 3.2rem 3rem 3.7rem 4rem;
 `
 
 const PhoneInfo = styled.div`
   display: grid;
   grid-template-rows: repeat(4, 1fr);
-  grid-row-gap: 32px;
+  grid-row-gap: 3.2rem;
 `
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
