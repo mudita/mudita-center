@@ -15,7 +15,6 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   lastBackup,
   memorySpace,
   osVersion,
-  ...rest
 }) => {
   // Warning! DO NOT REVIEW code in this component. It's a throw-away.
 
@@ -32,8 +31,14 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
     /* This code is written only for testing purposes */
     let port = null
     const ports = await usb.getPorts()
-    alert(JSON.stringify(ports, null, 2))
-    const purePhone = ports.find(({ locationId }) => locationId === "14100000")
+    document.getElementById("usb-ports")!.innerText = JSON.stringify(
+      ports,
+      null,
+      2
+    )
+    const purePhone = ports.find(
+      ({ vendorId }) => vendorId?.toLowerCase() === "1fc9"
+    )
     if (purePhone) {
       usb.setDevice(purePhone)
       port = usb.connect()
@@ -113,6 +118,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       <pre id="response" />
       <h2>Battery info</h2>
       <button onClick={handleBattery}>Get</button>
+      <pre id="usb-ports" />
       <pre id="battery" />
       <h2>Network info</h2>
       <button onClick={handleNetwork}>Get</button>

@@ -18,10 +18,6 @@ class USB {
     }
     return this.port
   }
-
-  public getPort() {
-    return this.port
-  }
 }
 
 const usb = new USB()
