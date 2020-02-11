@@ -4,12 +4,20 @@ import MenuGroup from "Renderer/components/rest/menu/menu-group.component"
 import { menuElements } from "Renderer/constants/menu-elements"
 import MuditaLogo from "Renderer/svg/mudita_logo.svg"
 import styled from "styled-components"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 const MenuWrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   margin: 0 3.2rem;
+`
+
+const LogoWrapper = styled.div`
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: ${backgroundColor("app")};
 `
 
 const SvgMuditaLogo = styled(Svg)`
@@ -26,7 +34,9 @@ const Menu = () => {
   })
   return (
     <MenuWrapper>
-      <SvgMuditaLogo Image={MuditaLogo} />
+      <LogoWrapper>
+        <SvgMuditaLogo Image={MuditaLogo} />
+      </LogoWrapper>
       {links}
     </MenuWrapper>
   )

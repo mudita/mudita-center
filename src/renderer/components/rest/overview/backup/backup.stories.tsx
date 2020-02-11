@@ -21,7 +21,7 @@ export const lastBackup = new Date(fakeBackupInfo.createdAt).toLocaleDateString(
 )
 
 storiesOf("Overview|Backup", module).add("Backup", () => (
-  <div style={{ maxWidth: "59rem" }}>
+  <div style={{ maxWidth: "63rem" }}>
     <Part>
       <Text displayStyle={TextDisplayStyle.SmallText}>No backup available</Text>
       <Backup onBackupCreate={action("create backup")} />

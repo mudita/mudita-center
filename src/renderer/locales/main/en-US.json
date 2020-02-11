@@ -33,6 +33,8 @@
   "view.name.overview.backup.createFirst": "Create first backup",
   "view.name.overview.backup.restoreAction": "Restore last backup",
   "view.name.overview.backup.createAction": "Create backup",
+  "view.name.overview.phone.battery": "Battery",
+  "view.name.overview.phone.disconnectAction": "Disconnect",
   "view.name.phone": "Phone",
   "view.name.phone.contacts": "Contacts",
   "view.name.phone.contacts.selectionsNumber": "{num, plural, =-1 {All Contacts} one {# Contact} other {# Contacts}} selected",
