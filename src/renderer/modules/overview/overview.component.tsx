@@ -3,11 +3,12 @@ import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo
 import changeSimRequest from "Renderer/requests/change-sim.request"
 import disconnectDevice from "Renderer/requests/disconnect-device.request"
 import getBackupsInfo from "Renderer/requests/get-backups-info.request"
-import getBatteryInfo from "Renderer/requests/get-battery-info.request"
+// import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import usb from "Renderer/utils/serialport"
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel,
@@ -27,14 +28,31 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
     )
   }
 
-  const handleBattery = () =>
-    getBatteryInfo().then(result => {
-      document.getElementById("battery")!.innerText = JSON.stringify(
-        result,
-        null,
-        2
+  const handleBattery = async () => {
+    /* This code is written only for testing purposes */
+    let port = null
+    const ports = await usb.getPorts()
+    alert(JSON.stringify(ports, null, 2))
+    const purePhone = ports.find(({ locationId }) => locationId === "14100000")
+    if (purePhone) {
+      usb.setDevice(purePhone)
+      port = usb.connect()
+    }
+    if (port) {
+      port.write(
+        `#000000053{"endpoint":0, "method":0, "payload":{"test":"test"}}`
       )
-    })
+      port.on("data", data => {
+        document.getElementById("battery")!.innerText = JSON.stringify(
+          JSON.parse(data.replace(/#\d+/, "")).body,
+          null,
+          2
+        )
+      })
+    } else {
+      document.getElementById("battery")!.innerText = "No pure phone connected"
+    }
+  }
 
   const handleNetwork = () =>
     getNetworkInfo().then(result => {
