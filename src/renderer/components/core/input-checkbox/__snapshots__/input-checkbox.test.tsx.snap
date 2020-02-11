@@ -1,15 +1,74 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.05;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c1 {
+  position: relative;
+  height: 2rem;
+  width: 2rem;
+}
+
+.c2 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  background-clip: content-box;
+  border: 0.1rem solid #cdcecf;
+  border-radius: 0.2rem;
+  background-color: #ffffff;
+}
+
+.c2:hover {
+  border-color: #3b3f42;
+  cursor: pointer;
+  -webkit-transition: border-color 0.5s linear;
+  transition: border-color 0.5s linear;
+}
+
+.c2:checked {
+  background-color: #3b3f42;
+  border-color: #3b3f42;
+}
+
+.c2:checked + svg {
+  display: initial;
+}
+
+.c4 {
+  margin-left: 1.3rem;
+}
+
 <div>
   <label
-    class="sc-bwzfXH fNOhzS"
+    class="c0"
   >
     <div
-      class="sc-htpNat fhZXHj"
+      class="c1"
+      data-testid="checkbox-wrapper"
+      size="2"
     >
       <input
-        class="sc-bxivhb gqvJdQ"
+        class="c2"
         id="id2"
         name="Example1"
         type="checkbox"
@@ -21,7 +80,7 @@ exports[`matches snapshot 1`] = `
       />
     </div>
     <span
-      class="sc-bdVaJa foWHke sc-EHOje eZpXZa"
+      class="c3 c4"
     >
       label
     </span>

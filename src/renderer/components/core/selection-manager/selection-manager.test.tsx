@@ -80,7 +80,8 @@ test("renders indeterminate status properly", () => {
 })
 
 test("renders enlarged selection manager properly", () => {
-  const { getWrapper, getCheckbox } = renderSelectionManager({ enlarged: true })
+  const { getWrapper } = renderSelectionManager({
+    enlarged: true,
+  })
   expect(getWrapper()).toHaveStyleRule("padding-left", "1.4rem")
-  expect(getCheckbox()).toHaveStyleRule("height", "2rem")
 })
