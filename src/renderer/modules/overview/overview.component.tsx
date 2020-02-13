@@ -8,6 +8,9 @@ import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import modalService from "Renderer/components/core/modal/modal.service"
+import store from "Renderer/store"
+import { LANGUAGE } from "Renderer/constants/languages"
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel,
@@ -81,6 +84,19 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       )
     })
 
+  modalService.bindStore(store)
+  modalService.setDefaultLocale(LANGUAGE.default)
+
+  const modalOne = (
+    <div>
+      <h2>Hi, I'm Modal One</h2>
+    </div>
+  )
+
+  const openModal = () => {
+    modalService.openModal(modalOne)
+  }
+
   return (
     <div>
       <div>Battery level: {batteryLevel}</div>
@@ -111,6 +127,8 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       <h2>Change sim</h2>
       <button onClick={handleChangeSim}>Get</button>
       <pre id="change-sim" />
+      {/*this will be removed*/}
+      <button onClick={openModal}>open modal</button>
     </div>
   )
 }

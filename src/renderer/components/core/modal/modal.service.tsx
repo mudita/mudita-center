@@ -18,10 +18,15 @@ import { Router } from "react-router"
 import {
   ModalBackdrop,
   ModalWrapper,
-} from "Renderer/components/core/modal/modal.component"
+} from "Renderer/components/core/modal/modal.styled.elements"
 import localeEn from "Renderer/locales/main/en-US.json"
 import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
+import Button from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import Upload from "Renderer/svg/upload.svg"
+import { ThemeProvider } from "styled-components"
+import theme from "Renderer/styles/theming/theme"
 
 enum ModalError {
   NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
@@ -189,18 +194,30 @@ class ModalService {
   }
 
   private renderModal = (modal: ReactElement) => {
+    const closeModal = async () => {
+      await modalService.closeModal()
+    }
     if (this.store && this.defaultLocale) {
       ReactDOM.render(
         <Provider store={this.store}>
-          <IntlProvider
-            defaultLocale={this.defaultLocale}
-            locale={this.defaultLocale}
-            messages={localeEn}
-          >
-            <Router history={history}>
-              <ModalWrapper>{modal}</ModalWrapper>
-            </Router>
-          </IntlProvider>
+          <ThemeProvider theme={theme}>
+            <IntlProvider
+              defaultLocale={this.defaultLocale}
+              locale={this.defaultLocale}
+              messages={localeEn}
+            >
+              <Router history={history}>
+                <ModalWrapper>
+                  <Button
+                    displayStyle={DisplayStyle.IconOnly2}
+                    onClick={closeModal}
+                    Icon={Upload}
+                  />
+                  {modal}
+                </ModalWrapper>
+              </Router>
+            </IntlProvider>
+          </ThemeProvider>
         </Provider>,
         this.modalElement
       )
