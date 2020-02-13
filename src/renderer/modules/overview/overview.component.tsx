@@ -10,18 +10,26 @@ import FilesManager from "Renderer/components/rest/overview/files-manager/files-
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
 
+const PhoneInfo = styled(Phone)`
+  grid-area: Phone;
+`
+
+const NetworkInfo = styled(Network)`
+  grid-area: Network;
+`
+
 const OverviewWrapper = styled.div`
   display: grid;
   grid-template-columns: minmax(27rem, 1fr) minmax(59rem, 1fr);
-  grid-template-rows: 1fr;
-  grid-column-gap: 4rem;
-  padding: 3.2rem 3rem 3.7rem 4rem;
-`
-
-const PhoneInfo = styled.div`
-  display: grid;
   grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 4rem;
   grid-row-gap: 3.2rem;
+  padding: 3.2rem 3rem 3.7rem 4rem;
+  grid-template-areas:
+    "Phone Network"
+    "Phone System"
+    "Phone FilesManager"
+    "Phone Backup";
 `
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
@@ -31,17 +39,19 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
 }) => {
   return (
     <OverviewWrapper>
-      <Phone onDisconnect={noop} batteryLevel={batteryLevel} network={"Play"} />
-      <PhoneInfo>
-        <Network simCards={getFakeAdapters().pureNetwork.getSimCards()} />
-        <System osVersion={osVersion} lastUpdate={"just now"} />
-        <FilesManager usedSpace={16} onFilesOpen={noop} />
-        <Backup
-          lastBackup={lastBackup}
-          onBackupCreate={noop}
-          onBackupRestore={noop}
-        />
-      </PhoneInfo>
+      <PhoneInfo
+        onDisconnect={noop}
+        batteryLevel={batteryLevel}
+        network={"Play"}
+      />
+      <NetworkInfo simCards={getFakeAdapters().pureNetwork.getSimCards()} />
+      <System osVersion={osVersion} lastUpdate={"just now"} />
+      <FilesManager usedSpace={16} onFilesOpen={noop} />
+      <Backup
+        lastBackup={lastBackup}
+        onBackupCreate={noop}
+        onBackupRestore={noop}
+      />
     </OverviewWrapper>
   )
 }
