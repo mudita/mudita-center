@@ -18,6 +18,14 @@ const NetworkInfo = styled(Network)`
   grid-area: Network;
 `
 
+const FileManagerInfo = styled(FilesManager)`
+  grid-area: FilesManager;
+`
+
+const BackupInfo = styled(Backup)`
+  grid-area: Backup;
+`
+
 const OverviewWrapper = styled.div`
   display: grid;
   grid-template-columns: minmax(27rem, 1fr) minmax(59rem, 1fr);
@@ -46,8 +54,8 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       />
       <NetworkInfo simCards={getFakeAdapters().pureNetwork.getSimCards()} />
       <System osVersion={osVersion} lastUpdate={"just now"} />
-      <FilesManager usedSpace={16} onFilesOpen={noop} />
-      <Backup
+      <FileManagerInfo usedSpace={16} onFilesOpen={noop} />
+      <BackupInfo
         lastBackup={lastBackup}
         onBackupCreate={noop}
         onBackupRestore={noop}
