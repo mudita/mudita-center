@@ -5,6 +5,7 @@ import Close from "Renderer/svg/close.svg"
 import modalService from "Renderer/components/core/modal/modal.service"
 import styled, { css } from "styled-components"
 import Button from "Renderer/components/core/button/button.component"
+import { ReactElement } from "react"
 
 export enum ModalSize {
   Small,
@@ -41,7 +42,7 @@ const Header = styled.div`
 `
 
 interface Props {
-  heading?: any
+  heading?: ReactElement
   size?: ModalSize
   renderCloseButton?: boolean
 }
