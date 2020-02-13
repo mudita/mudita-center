@@ -30,7 +30,7 @@
     "generate:translations": "ts-node -r esm ./scripts/translationRunner.js",
     "storybook:serve": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit"
   },
   "pre-commit": "beforecommit",
   "build": {
