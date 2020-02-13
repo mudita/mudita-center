@@ -119,7 +119,7 @@
     "cross-env": "^7.0.0",
     "css-loader": "^3.4.2",
     "devtron": "^1.4.0",
-    "electron": "^7.1.10",
+    "electron": "^7.1.12",
     "electron-builder": "^22.3.2",
     "electron-builder-http": "^19.27.5",
     "electron-devtools-installer": "^2.2.4",
