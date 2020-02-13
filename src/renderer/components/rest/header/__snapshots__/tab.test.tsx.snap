@@ -3,16 +3,16 @@
 exports[`matches snapshot 1`] = `
 <a
   aria-current="page"
-  class="sc-bwzfXH dApmJh active"
+  class="sc-AxirZ gpJjJM active"
   displaystyle="9"
   href="/phone"
   size="2"
 >
   <test-file-stub
-    classname="sc-EHOje cmLHsF"
+    classname="sc-AxgMl yaFjd"
   />
   <p
-    class="sc-bdVaJa jCnOyj sc-bZQynM flUvJk"
+    class="sc-AxjAm eGfSTk sc-AxheI bhLjYx"
   >
     Phone
   </p>

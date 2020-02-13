@@ -100,7 +100,7 @@ exports[`matches snapshot 1`] = `
           type="checkbox"
         />
         <test-file-stub
-          classname="sc-iwsKbI dGZOUg"
+          classname="sc-fzoLsD yZpTT"
           data-testid="state-indeterminate"
         />
       </div>

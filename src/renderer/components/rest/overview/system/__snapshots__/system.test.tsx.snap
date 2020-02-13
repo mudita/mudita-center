@@ -3,39 +3,39 @@
 exports[`matches snapshot 1`] = `
 <div>
   <section
-    class="sc-dnqmqq cNtIGj"
+    class="sc-fzozJi heyPMz"
   >
     <div
-      class="sc-iwsKbI sc-VigVT iBhdev"
+      class="sc-fzoLsD sc-fznyAO inJdhM"
     >
       <div
-        class="sc-jTzLTM kVYyLr"
+        class="sc-fznKkj cSWNzP"
       >
         <h2
-          class="sc-bdVaJa iSLnxf"
+          class="sc-AxjAm esSvjJ"
         >
           3.1.0
         </h2>
         <span
-          class="sc-bdVaJa ghJYji"
+          class="sc-AxjAm pMKRu"
         >
           OS version
         </span>
       </div>
     </div>
     <section
-      class="sc-gzVnrw jKdxIN sc-gZMcBi FnzbX"
+      class="sc-Axmtr hhzESy sc-fzpans flLJLi"
     >
       <button
-        class="sc-ifAKCX fBjzQi sc-htoDjs sc-gqjmRU kvoCCa"
+        class="sc-AxhUy egMyME sc-AxmLO sc-fzplWN dpspgd"
         size="2"
         type="button"
       >
         <test-file-stub
-          classname="sc-EHOje cmLHsF"
+          classname="sc-AxgMl yaFjd"
         />
         <p
-          class="sc-bdVaJa ghJYji sc-bZQynM flUvJk"
+          class="sc-AxjAm pMKRu sc-AxheI bhLjYx"
         >
           Check for updates
         </p>

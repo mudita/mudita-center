@@ -3,28 +3,28 @@
 exports[`matches snapshot 1`] = `
 <div>
   <section
-    class="sc-dnqmqq cNtIGj"
+    class="sc-fzozJi heyPMz"
   >
     <div
-      class="sc-iwsKbI sc-VigVT jYsuWm"
+      class="sc-fzoLsD sc-fznyAO fevNNM"
     >
       <h2
-        class="sc-bdVaJa iSLnxf"
+        class="sc-AxjAm esSvjJ"
       >
         Network
       </h2>
     </div>
     <section
-      class="sc-gzVnrw jKdxIN sc-gZMcBi FnzbX"
+      class="sc-Axmtr hhzESy sc-fzpans flLJLi"
     >
       <button
-        class="sc-ifAKCX daQnTe sc-htoDjs sc-gqjmRU kwOocA"
+        class="sc-AxhUy byjXja sc-AxmLO sc-fzplWN iNYYib"
         disabled=""
         size="2"
         type="button"
       >
         <p
-          class="sc-bdVaJa ghJYji sc-bZQynM flUvJk"
+          class="sc-AxjAm pMKRu sc-AxheI bhLjYx"
         >
           No SIM card inserted
         </p>
