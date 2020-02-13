@@ -43,12 +43,14 @@ const Header = styled.div`
 interface Props {
   heading?: any
   size?: ModalSize
+  renderCloseButton?: boolean
 }
 
 const Modal: FunctionComponent<Props> = ({
   children,
   heading,
   size = ModalSize.Large,
+  renderCloseButton = true,
 }) => {
   const closeModal = async () => {
     modalService.allowClosingModal()
@@ -58,11 +60,13 @@ const Modal: FunctionComponent<Props> = ({
     <ModalWrapper size={size}>
       <Header>
         {heading}
-        <Button
-          displayStyle={DisplayStyle.IconOnly2}
-          onClick={closeModal}
-          Icon={Close}
-        />
+        {renderCloseButton && (
+          <Button
+            displayStyle={DisplayStyle.IconOnly2}
+            onClick={closeModal}
+            Icon={Close}
+          />
+        )}
       </Header>
       {children}
     </ModalWrapper>

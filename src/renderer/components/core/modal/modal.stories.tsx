@@ -80,6 +80,16 @@ export const ModalUsage: FunctionComponent = () => {
     </Modal>
   )
 
+  const modelComponentWithoutCloseButton = (
+    <Modal
+      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      size={ModalSize.Small}
+      renderCloseButton={false}
+    >
+      <h1>lala</h1>
+    </Modal>
+  )
+
   const openModalClosable = () => {
     modalService.openModal(modalClosable)
   }
@@ -94,6 +104,10 @@ export const ModalUsage: FunctionComponent = () => {
 
   const openLargeModal = () => {
     modalService.openModal(modelComponentLarge)
+  }
+
+  const openModalWithoutCloseButton = () => {
+    modalService.openModal(modelComponentWithoutCloseButton)
   }
 
   const forceOpenModalClosable = async () => {
@@ -112,6 +126,10 @@ export const ModalUsage: FunctionComponent = () => {
     await modalService.openModal(modelComponentLarge, true)
   }
 
+  const forceOpenModalWithoutCloseButton = async () => {
+    await modalService.openModal(modelComponentWithoutCloseButton, true)
+  }
+
   const closeModal = async () => {
     await modalService.closeModal()
   }
@@ -128,10 +146,18 @@ export const ModalUsage: FunctionComponent = () => {
   button("open small modal component", openSmallModal)
   button("open medium modal component", openMediumModal)
   button("open large modal component", openLargeModal)
+  button(
+    "open modal component without close button",
+    openModalWithoutCloseButton
+  )
   button("force open closable modal", forceOpenModalClosable)
   button("force open small modal", forceOpenSmallModal)
   button("force open medium modal", forceOpenMediumModal)
   button("force open large modal", forceOpenLargeModal)
+  button(
+    "force open modal without close button",
+    forceOpenModalWithoutCloseButton
+  )
   button("close modal", closeModal)
   button("force close modal", forceCloseModal)
   button("check modal", checkIfModalOpen)
