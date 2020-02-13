@@ -24,7 +24,7 @@
     "test:e2e": "jest '(\\/test\\/e2e/).*'",
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder",
-    "postinstall": "electron-builder install-app-deps electron-rebuild -f",
+    "postinstall": "electron-builder install-app-deps && electron-rebuild -f",
     "beforecommit": "lint-staged",
     "check:translations": "ts-node -r esm ./scripts/translationCheck",
     "generate:translations": "ts-node -r esm ./scripts/translationRunner.js",
