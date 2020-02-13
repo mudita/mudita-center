@@ -6,8 +6,14 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import { LANGUAGE } from "Renderer/constants/languages"
 import store from "Renderer/store"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import Modal, {
+  ModalSize,
+} from "Renderer/components/core/modal/modal.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 
-export const Modal: FunctionComponent = () => {
+export const ModalExample: FunctionComponent = () => {
   const [closable, setClosableState] = useState(false)
 
   const toggle = () => {
@@ -45,27 +51,65 @@ export const ModalUsage: FunctionComponent = () => {
   modalService.bindStore(store)
   modalService.setDefaultLocale(LANGUAGE.default)
 
-  const modalOne = (
-    <div>
-      <h2>Hi, I'm Modal One</h2>
-    </div>
+  const modalClosable = <ModalExample />
+
+  const modelComponentSmall = (
+    <Modal
+      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      size={ModalSize.Small}
+    >
+      <h1>lala</h1>
+    </Modal>
   )
-  const modalTwo = <Modal />
 
-  const openModal = () => {
-    modalService.openModal(modalOne)
+  const modelComponentMedium = (
+    <Modal
+      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      size={ModalSize.Medium}
+    >
+      <h1>lala</h1>
+    </Modal>
+  )
+
+  const modelComponentLarge = (
+    <Modal
+      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      size={ModalSize.Large}
+    >
+      <h1>lala</h1>
+    </Modal>
+  )
+
+  const openModalClosable = () => {
+    modalService.openModal(modalClosable)
   }
 
-  const openModalTwo = () => {
-    modalService.openModal(modalTwo)
+  const openSmallModal = () => {
+    modalService.openModal(modelComponentSmall)
   }
 
-  const forceOpenModalOne = async () => {
-    await modalService.openModal(modalOne, true)
+  const openMediumModal = () => {
+    modalService.openModal(modelComponentMedium)
   }
 
-  const forceOpenModalTwo = async () => {
-    await modalService.openModal(modalTwo, true)
+  const openLargeModal = () => {
+    modalService.openModal(modelComponentLarge)
+  }
+
+  const forceOpenModalClosable = async () => {
+    await modalService.openModal(modalClosable, true)
+  }
+
+  const forceOpenSmallModal = async () => {
+    await modalService.openModal(modelComponentSmall, true)
+  }
+
+  const forceOpenMediumModal = async () => {
+    await modalService.openModal(modelComponentMedium, true)
+  }
+
+  const forceOpenLargeModal = async () => {
+    await modalService.openModal(modelComponentLarge, true)
   }
 
   const closeModal = async () => {
@@ -80,10 +124,14 @@ export const ModalUsage: FunctionComponent = () => {
     alert(`Modal is ${modalService.isModalOpen() ? "open" : "closed"}`)
   }
 
-  button("open modal one", openModal)
-  button("open modal two", openModalTwo)
-  button("force open modal one", forceOpenModalOne)
-  button("force open modal two", forceOpenModalTwo)
+  button("open closable modal", openModalClosable)
+  button("open small modal component", openSmallModal)
+  button("open medium modal component", openMediumModal)
+  button("open large modal component", openLargeModal)
+  button("force open closable modal", forceOpenModalClosable)
+  button("force open small modal", forceOpenSmallModal)
+  button("force open medium modal", forceOpenMediumModal)
+  button("force open large modal", forceOpenLargeModal)
   button("close modal", closeModal)
   button("force close modal", forceCloseModal)
   button("check modal", checkIfModalOpen)
