@@ -46,6 +46,9 @@ export const ModalWrapper = styled.section`
   position: fixed;
   z-index: 3;
 
+  display: flex;
+  flex-direction: column;
+
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

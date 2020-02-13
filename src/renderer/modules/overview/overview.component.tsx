@@ -11,6 +11,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import modalService from "Renderer/components/core/modal/modal.service"
 import store from "Renderer/store"
 import { LANGUAGE } from "Renderer/constants/languages"
+import Modal from "Renderer/components/core/modal/modal.component"
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel,
@@ -87,14 +88,8 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   modalService.bindStore(store)
   modalService.setDefaultLocale(LANGUAGE.default)
 
-  const modalOne = (
-    <div>
-      <h2>Hi, I'm Modal One</h2>
-    </div>
-  )
-
   const openModal = () => {
-    modalService.openModal(modalOne)
+    modalService.openModal(<Modal>ślubublubl</Modal>)
   }
 
   return (
