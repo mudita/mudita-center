@@ -3,10 +3,36 @@ import * as React from "react"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Close from "Renderer/svg/close.svg"
 import modalService from "Renderer/components/core/modal/modal.service"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import Button from "Renderer/components/core/button/button.component"
 
-const ModalWrapper = styled.div``
+export enum ModalSize {
+  Small,
+  Medium,
+  Large,
+}
+
+const getModalSize = (size: ModalSize) => {
+  switch (size) {
+    case ModalSize.Small:
+      return css`
+        width: calc(38rem - 4rem);
+      `
+    case ModalSize.Medium:
+      return css`
+        width: calc(59rem - 4rem);
+      `
+    case ModalSize.Large:
+      return css`
+        width: calc(101rem - 4rem);
+      `
+    default:
+      return
+  }
+}
+const ModalWrapper = styled.div<{ size: ModalSize }>`
+  ${({ size }) => getModalSize(size)}
+`
 
 const Header = styled.div`
   display: flex;
@@ -14,24 +40,30 @@ const Header = styled.div`
   align-items: center;
 `
 
-const CloseButton = styled(Button)``
+interface Props {
+  heading?: any
+  size?: ModalSize
+}
 
-const Modal: FunctionComponent<{}> = ({ children }) => {
+const Modal: FunctionComponent<Props> = ({
+  children,
+  heading,
+  size = ModalSize.Large,
+}) => {
   const closeModal = async () => {
     modalService.allowClosingModal()
     await modalService.closeModal()
   }
   return (
-    <ModalWrapper>
+    <ModalWrapper size={size}>
       <Header>
-        <h1>laal</h1>
-        <CloseButton
+        {heading}
+        <Button
           displayStyle={DisplayStyle.IconOnly2}
           onClick={closeModal}
           Icon={Close}
         />
       </Header>
-
       {children}
     </ModalWrapper>
   )

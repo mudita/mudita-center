@@ -11,7 +11,12 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import modalService from "Renderer/components/core/modal/modal.service"
 import store from "Renderer/store"
 import { LANGUAGE } from "Renderer/constants/languages"
-import Modal from "Renderer/components/core/modal/modal.component"
+import Modal, {
+  ModalSize,
+} from "Renderer/components/core/modal/modal.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel,
@@ -89,7 +94,14 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   modalService.setDefaultLocale(LANGUAGE.default)
 
   const openModal = () => {
-    modalService.openModal(<Modal>ślubublubl</Modal>)
+    modalService.openModal(
+      <Modal
+        heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+        size={ModalSize.Medium}
+      >
+        <h1>lala</h1>
+      </Modal>
+    )
   }
 
   return (
@@ -123,7 +135,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       <button onClick={handleChangeSim}>Get</button>
       <pre id="change-sim" />
       {/*this will be removed*/}
-      <button onClick={openModal}>open modal</button>
+      <button onClick={openModal}>lala</button>
     </div>
   )
 }
