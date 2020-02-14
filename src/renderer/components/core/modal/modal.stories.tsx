@@ -12,6 +12,7 @@ import Modal, {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { ModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 
 export const ModalExample: FunctionComponent = () => {
   const [closable, setClosableState] = useState(false)
@@ -190,3 +191,53 @@ storiesOf("Components|Modal", module)
     return <ModalUsage />
   })
   .addDecorator(withKnobs)
+
+storiesOf("Components|Modal/static", module)
+  .add("Very small", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+          size={ModalSize.VerySmall}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Small", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+          size={ModalSize.Small}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Medium", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+          size={ModalSize.Medium}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Large", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+          size={ModalSize.Large}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
