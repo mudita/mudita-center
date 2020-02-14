@@ -2,59 +2,59 @@
 
 exports[`matches snapshot with tabs 1`] = `
 <div
-  class="sc-bwzfXH jpYVOX"
+  class="sc-AxirZ eyuKeT"
 >
   <h3
-    class="sc-bdVaJa biEvWz sc-htpNat jVQasR"
+    class="sc-AxjAm liSvtH sc-AxiKw gnMQvJ"
     data-testid="location"
   >
     Phone
   </h3>
   <div
-    class="sc-dnqmqq iFsitv"
+    class="sc-fzozJi cKrXJI"
   >
     <a
       aria-current="page"
-      class="sc-bxivhb gmxicG sc-iwsKbI kZQpJX active"
+      class="sc-AxhCb euWTOk sc-fzoLsD eCQDqv active"
       displaystyle="9"
       href="/phone"
       size="2"
     >
       <test-file-stub
-        classname="sc-gzVnrw iJuChZ"
+        classname="sc-Axmtr qrato"
       />
       <p
-        class="sc-bdVaJa jCnOyj sc-htoDjs kQKncc"
+        class="sc-AxjAm eGfSTk sc-AxmLO bpBasD"
       >
         Contacts
       </p>
     </a>
     <a
-      class="sc-bxivhb gmxicG sc-iwsKbI kZQpJX"
+      class="sc-AxhCb euWTOk sc-fzoLsD eCQDqv"
       displaystyle="9"
       href="/phone/calls"
       size="2"
     >
       <test-file-stub
-        classname="sc-gzVnrw iJuChZ"
+        classname="sc-Axmtr qrato"
       />
       <p
-        class="sc-bdVaJa jCnOyj sc-htoDjs kQKncc"
+        class="sc-AxjAm eGfSTk sc-AxmLO bpBasD"
       >
         Calls
       </p>
     </a>
     <a
-      class="sc-bxivhb gmxicG sc-iwsKbI kZQpJX"
+      class="sc-AxhCb euWTOk sc-fzoLsD eCQDqv"
       displaystyle="9"
       href="/phone/dial"
       size="2"
     >
       <test-file-stub
-        classname="sc-gzVnrw iJuChZ"
+        classname="sc-Axmtr qrato"
       />
       <p
-        class="sc-bdVaJa jCnOyj sc-htoDjs kQKncc"
+        class="sc-AxjAm eGfSTk sc-AxmLO bpBasD"
       >
         Dial
       </p>
@@ -66,16 +66,16 @@ exports[`matches snapshot with tabs 1`] = `
 
 exports[`matches snapshot without tabs 1`] = `
 <div
-  class="sc-bwzfXH jpYVOX"
+  class="sc-AxirZ eyuKeT"
 >
   <h3
-    class="sc-bdVaJa biEvWz sc-htpNat jVQasR"
+    class="sc-AxjAm liSvtH sc-AxiKw gnMQvJ"
     data-testid="location"
   >
     Overview
   </h3>
   <div
-    class="sc-dnqmqq iFsitv"
+    class="sc-fzozJi cKrXJI"
   />
   <div />
 </div>

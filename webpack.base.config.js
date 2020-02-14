@@ -5,6 +5,9 @@ const plugins = require("./webpack/plugins")()
 
 module.exports = {
   mode: "development",
+  externals: {
+    serialport: "require('serialport')",
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",

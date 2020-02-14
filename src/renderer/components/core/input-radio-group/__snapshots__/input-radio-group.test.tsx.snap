@@ -3,33 +3,33 @@
 exports[`matches snapshot 1`] = `
 <div>
   <div
-    class="sc-bZQynM kzlsZH"
+    class="sc-AxheI dkiJtT"
   >
     <input
-      class="sc-bwzfXH bidNQy sc-gzVnrw NFpoh"
+      class="sc-AxirZ cMoRvA sc-Axmtr cAwfeH"
       id="id1"
       name="example"
       type="radio"
       value="lala1"
     />
     <div
-      class="sc-ifAKCX scrlg"
+      class="sc-AxhUy cAeQnk"
     >
       <label
-        class="sc-htpNat hXlcgp sc-gzVnrw NFpoh"
+        class="sc-AxiKw jczndt sc-Axmtr cAwfeH"
       >
         <input
-          class="sc-bwzfXH bidNQy"
+          class="sc-AxirZ cMoRvA"
           id="id2"
           name="example"
           type="radio"
           value="lala2"
         />
         <div
-          class="sc-EHOje iMWhCi"
+          class="sc-AxgMl fEfMQY"
         >
           <span
-            class="sc-bdVaJa foWHke sc-bxivhb hUkWQA"
+            class="sc-AxjAm ifcepG sc-AxhCb hEYuHf"
           >
             label
           </span>
@@ -37,14 +37,14 @@ exports[`matches snapshot 1`] = `
       </label>
     </div>
     <input
-      class="sc-bwzfXH bidNQy sc-gzVnrw NFpoh"
+      class="sc-AxirZ cMoRvA sc-Axmtr cAwfeH"
       id="id3"
       name="example"
       type="radio"
       value="lala2"
     />
     <input
-      class="sc-bwzfXH bidNQy sc-gzVnrw NFpoh"
+      class="sc-AxirZ cMoRvA sc-Axmtr cAwfeH"
       id="id4"
       name="example"
       type="radio"
