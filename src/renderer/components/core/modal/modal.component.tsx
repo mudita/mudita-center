@@ -8,6 +8,7 @@ import Button from "Renderer/components/core/button/button.component"
 import { ReactElement } from "react"
 
 export enum ModalSize {
+  VerySmall,
   Small,
   Medium,
   Large,
@@ -15,6 +16,10 @@ export enum ModalSize {
 
 const getModalSize = (size: ModalSize) => {
   switch (size) {
+    case ModalSize.VerySmall:
+      return css`
+        width: calc(27.5rem - 4rem);
+      `
     case ModalSize.Small:
       return css`
         width: calc(38rem - 4rem);
@@ -32,7 +37,8 @@ const getModalSize = (size: ModalSize) => {
   }
 }
 const ModalWrapper = styled.div<{ size: ModalSize }>`
-  ${({ size }) => getModalSize(size)}
+  box-sizing: border-box;
+  ${({ size }) => getModalSize(size)};
 `
 
 const Header = styled.div`

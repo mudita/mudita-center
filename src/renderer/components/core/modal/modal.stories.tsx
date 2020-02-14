@@ -53,6 +53,15 @@ export const ModalUsage: FunctionComponent = () => {
 
   const modalClosable = <ModalExample />
 
+  const modelComponentVerySmall = (
+    <Modal
+      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      size={ModalSize.VerySmall}
+    >
+      <h1>lala</h1>
+    </Modal>
+  )
+
   const modelComponentSmall = (
     <Modal
       heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
@@ -94,6 +103,10 @@ export const ModalUsage: FunctionComponent = () => {
     modalService.openModal(modalClosable)
   }
 
+  const openVerySmallModal = () => {
+    modalService.openModal(modelComponentVerySmall)
+  }
+
   const openSmallModal = () => {
     modalService.openModal(modelComponentSmall)
   }
@@ -112,6 +125,10 @@ export const ModalUsage: FunctionComponent = () => {
 
   const forceOpenModalClosable = async () => {
     await modalService.openModal(modalClosable, true)
+  }
+
+  const forceOpenVerySmallModal = async () => {
+    await modalService.openModal(modelComponentVerySmall, true)
   }
 
   const forceOpenSmallModal = async () => {
@@ -143,6 +160,7 @@ export const ModalUsage: FunctionComponent = () => {
   }
 
   button("open closable modal", openModalClosable)
+  button("open very small modal component", openVerySmallModal)
   button("open small modal component", openSmallModal)
   button("open medium modal component", openMediumModal)
   button("open large modal component", openLargeModal)
@@ -151,6 +169,7 @@ export const ModalUsage: FunctionComponent = () => {
     openModalWithoutCloseButton
   )
   button("force open closable modal", forceOpenModalClosable)
+  button("force open very small modal", forceOpenVerySmallModal)
   button("force open small modal", forceOpenSmallModal)
   button("force open medium modal", forceOpenMediumModal)
   button("force open large modal", forceOpenLargeModal)
@@ -166,7 +185,7 @@ export const ModalUsage: FunctionComponent = () => {
 }
 
 storiesOf("Components|Modal", module)
-  .add("Modal", () => {
+  .add("Interactive", () => {
     return <ModalUsage />
   })
   .addDecorator(withKnobs)
