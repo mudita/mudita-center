@@ -36,7 +36,7 @@ const getModalSize = (size: ModalSize) => {
       return
   }
 }
-const ModalWrapper = styled.div<{ size: ModalSize }>`
+const ModalFrame = styled.div<{ size: ModalSize }>`
   box-sizing: border-box;
   ${({ size }) => getModalSize(size)};
 `
@@ -59,12 +59,12 @@ const Modal: FunctionComponent<Props> = ({
   size = ModalSize.Large,
   closeable = true,
 }) => {
-  const closeModal = async () => {
+  const closeModal = () => {
     modalService.allowClosingModal()
-    await modalService.closeModal()
+    modalService.closeModal()
   }
   return (
-    <ModalWrapper size={size}>
+    <ModalFrame size={size}>
       <Header>
         {heading}
         {closeable && (
@@ -76,7 +76,7 @@ const Modal: FunctionComponent<Props> = ({
         )}
       </Header>
       {children}
-    </ModalWrapper>
+    </ModalFrame>
   )
 }
 
