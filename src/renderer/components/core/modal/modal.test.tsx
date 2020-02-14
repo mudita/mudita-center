@@ -8,18 +8,6 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 
-test("matches snapshot", () => {
-  const { container } = renderWithThemeAndIntl(
-    <Modal
-      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
-      size={ModalSize.Medium}
-    >
-      <h1>lala</h1>
-    </Modal>
-  )
-  expect(container.firstChild).toMatchSnapshot()
-})
-
 test("close button is rendered", () => {
   const { container } = renderWithThemeAndIntl(
     <Modal
