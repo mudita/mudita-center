@@ -37,7 +37,6 @@ const getModalSize = (size: ModalSize) => {
   }
 }
 const ModalFrame = styled.div<{ size: ModalSize }>`
-  box-sizing: border-box;
   ${({ size }) => getModalSize(size)};
 `
 
