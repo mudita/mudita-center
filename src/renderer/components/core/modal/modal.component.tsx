@@ -48,16 +48,18 @@ const Header = styled.div`
 `
 
 interface Props {
-  heading?: ReactElement
+  title?: ReactElement
+  subTitle?: ReactElement
   size?: ModalSize
   closeable?: boolean
 }
 
 const Modal: FunctionComponent<Props> = ({
   children,
-  heading,
-  size = ModalSize.Large,
   closeable = true,
+  title,
+  subTitle,
+  size = ModalSize.Large,
 }) => {
   const closeModal = () => {
     modalService.allowClosingModal()
@@ -66,7 +68,7 @@ const Modal: FunctionComponent<Props> = ({
   return (
     <ModalFrame size={size}>
       <Header>
-        {heading}
+        {title}
         {closeable && (
           <Button
             displayStyle={DisplayStyle.IconOnly2}
@@ -75,6 +77,7 @@ const Modal: FunctionComponent<Props> = ({
           />
         )}
       </Header>
+      {subTitle}
       {children}
     </ModalFrame>
   )

@@ -11,7 +11,7 @@ import Text, {
 test("close button is rendered", () => {
   const { container } = renderWithThemeAndIntl(
     <Modal
-      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
       size={ModalSize.Medium}
     >
       <h1>lala</h1>
@@ -25,7 +25,7 @@ test("close button is rendered", () => {
 test("close button is not rendered", () => {
   const { container } = renderWithThemeAndIntl(
     <Modal
-      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
       size={ModalSize.Medium}
       closeable={false}
     >

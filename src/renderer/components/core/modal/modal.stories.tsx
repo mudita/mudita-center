@@ -55,7 +55,7 @@ export const ModalUsage: FunctionComponent = () => {
 
   const modelComponentVerySmall = (
     <Modal
-      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
       size={ModalSize.VerySmall}
     >
       <h1>lala</h1>
@@ -64,7 +64,7 @@ export const ModalUsage: FunctionComponent = () => {
 
   const modelComponentSmall = (
     <Modal
-      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
       size={ModalSize.Small}
     >
       <h1>lala</h1>
@@ -73,7 +73,7 @@ export const ModalUsage: FunctionComponent = () => {
 
   const modelComponentMedium = (
     <Modal
-      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
       size={ModalSize.Medium}
     >
       <h1>lala</h1>
@@ -82,7 +82,8 @@ export const ModalUsage: FunctionComponent = () => {
 
   const modelComponentLarge = (
     <Modal
-      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      title={<Text displayStyle={TextDisplayStyle.LargeText}>Heading</Text>}
+      subTitle={<Text displayStyle={TextDisplayStyle.SmallText}>Subtitle</Text>}
       size={ModalSize.Large}
     >
       <h1>lala</h1>
@@ -91,7 +92,7 @@ export const ModalUsage: FunctionComponent = () => {
 
   const modelComponentWithoutCloseButton = (
     <Modal
-      heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
+      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
       size={ModalSize.Small}
       closeable={false}
     >
