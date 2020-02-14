@@ -27,7 +27,7 @@ test("close button is not rendered", () => {
     <Modal
       heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
       size={ModalSize.Medium}
-      renderCloseButton={false}
+      closeable={false}
     >
       <h1>lala</h1>
     </Modal>

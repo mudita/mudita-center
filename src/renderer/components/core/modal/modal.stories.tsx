@@ -93,7 +93,7 @@ export const ModalUsage: FunctionComponent = () => {
     <Modal
       heading={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
       size={ModalSize.Small}
-      renderCloseButton={false}
+      closeable={false}
     >
       <h1>lala</h1>
     </Modal>
