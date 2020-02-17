@@ -55,35 +55,26 @@ export const ModalUsage: FunctionComponent = () => {
   const modalClosable = <ModalExample />
 
   const modelComponentVerySmall = (
-    <Modal
-      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
-      size={ModalSize.VerySmall}
-    >
+    <Modal title={"Title"} size={ModalSize.VerySmall}>
       <h1>lala</h1>
     </Modal>
   )
 
   const modelComponentSmall = (
-    <Modal
-      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
-      size={ModalSize.Small}
-    >
+    <Modal title={"Title"} size={ModalSize.Small}>
       <h1>lala</h1>
     </Modal>
   )
 
   const modelComponentMedium = (
-    <Modal
-      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
-      size={ModalSize.Medium}
-    >
+    <Modal title={"Title"} size={ModalSize.Medium}>
       <h1>lala</h1>
     </Modal>
   )
 
   const modelComponentLarge = (
     <Modal
-      title={<Text displayStyle={TextDisplayStyle.LargeText}>Heading</Text>}
+      title={"Title"}
       subTitle={<Text displayStyle={TextDisplayStyle.SmallText}>Subtitle</Text>}
       size={ModalSize.Large}
     >
@@ -92,11 +83,7 @@ export const ModalUsage: FunctionComponent = () => {
   )
 
   const modelComponentWithoutCloseButton = (
-    <Modal
-      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
-      size={ModalSize.Small}
-      closeable={false}
-    >
+    <Modal title={"Title"} size={ModalSize.Small} closeable={false}>
       <h1>lala</h1>
     </Modal>
   )
@@ -196,10 +183,7 @@ storiesOf("Components|Modal/static", module)
   .add("Very small", () => {
     return (
       <ModalWrapper>
-        <Modal
-          title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
-          size={ModalSize.VerySmall}
-        >
+        <Modal title={"Title"} size={ModalSize.VerySmall}>
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>
@@ -208,10 +192,7 @@ storiesOf("Components|Modal/static", module)
   .add("Small", () => {
     return (
       <ModalWrapper>
-        <Modal
-          title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
-          size={ModalSize.Small}
-        >
+        <Modal title={"Title"} size={ModalSize.Small}>
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>
@@ -220,10 +201,7 @@ storiesOf("Components|Modal/static", module)
   .add("Medium", () => {
     return (
       <ModalWrapper>
-        <Modal
-          title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
-          size={ModalSize.Medium}
-        >
+        <Modal title={"Title"} size={ModalSize.Medium}>
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>
@@ -232,10 +210,7 @@ storiesOf("Components|Modal/static", module)
   .add("Large", () => {
     return (
       <ModalWrapper>
-        <Modal
-          title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
-          size={ModalSize.Large}
-        >
+        <Modal title={"Title"} size={ModalSize.Large}>
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>

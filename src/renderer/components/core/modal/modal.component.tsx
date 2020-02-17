@@ -5,8 +5,11 @@ import Close from "Renderer/svg/close.svg"
 import modalService from "Renderer/components/core/modal/modal.service"
 import styled, { css } from "styled-components"
 import Button from "Renderer/components/core/button/button.component"
-import { ReactElement } from "react"
 import { noop } from "Renderer/utils/noop"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import { ReactElement } from "react"
 
 export enum ModalSize {
   VerySmall,
@@ -37,6 +40,20 @@ const getModalSize = (size: ModalSize) => {
       return
   }
 }
+
+const getTitleStyleBasedOnModalSize = (size: ModalSize): TextDisplayStyle => {
+  switch (size) {
+    case ModalSize.VerySmall:
+      return TextDisplayStyle.LargeBoldText
+    case ModalSize.Small || ModalSize.Medium:
+      return TextDisplayStyle.SecondaryBoldHeading
+    case ModalSize.Large:
+      return TextDisplayStyle.TertiaryBoldHeading
+    default:
+      return TextDisplayStyle.TertiaryBoldHeading
+  }
+}
+
 const ModalFrame = styled.div<{ size: ModalSize }>`
   ${({ size }) => getModalSize(size)};
 `
@@ -50,9 +67,9 @@ const Header = styled.div`
 interface Props {
   closeable?: boolean
   onClose?: () => void
-  size?: ModalSize
+  size: ModalSize
   subTitle?: ReactElement
-  title?: ReactElement
+  title?: string
 }
 
 const Modal: FunctionComponent<Props> = ({
@@ -71,7 +88,9 @@ const Modal: FunctionComponent<Props> = ({
   return (
     <ModalFrame size={size}>
       <Header>
-        {title}
+        <Text displayStyle={getTitleStyleBasedOnModalSize(size)} element={"h2"}>
+          {title}
+        </Text>
         {closeable && (
           <Button
             displayStyle={DisplayStyle.IconOnly2}

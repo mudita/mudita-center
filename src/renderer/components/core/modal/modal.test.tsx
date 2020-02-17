@@ -4,16 +4,10 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import Modal, {
   ModalSize,
 } from "Renderer/components/core/modal/modal.component"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
 
 test("close button is rendered", () => {
   const { container } = renderWithThemeAndIntl(
-    <Modal
-      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
-      size={ModalSize.Medium}
-    >
+    <Modal title={"Title"} size={ModalSize.Medium}>
       <h1>lala</h1>
     </Modal>
   )
@@ -24,11 +18,7 @@ test("close button is rendered", () => {
 
 test("close button is not rendered", () => {
   const { container } = renderWithThemeAndIntl(
-    <Modal
-      title={<Text displayStyle={TextDisplayStyle.SmallText}>Heading</Text>}
-      size={ModalSize.Medium}
-      closeable={false}
-    >
+    <Modal title={"Title"} size={ModalSize.Medium} closeable={false}>
       <h1>lala</h1>
     </Modal>
   )
