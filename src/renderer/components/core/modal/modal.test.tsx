@@ -26,3 +26,13 @@ test("close button is not rendered", () => {
   const closeButton = container.querySelector("test-file-stub")
   expect(closeButton).not.toBeInTheDocument()
 })
+
+test("subtitle is rendered", () => {
+  const subTitleText = "Subtitle"
+  const { getByText } = renderWithThemeAndIntl(
+    <Modal title={"Title"} size={ModalSize.Medium} subTitle={subTitleText}>
+      <h1>lala</h1>
+    </Modal>
+  )
+  expect(getByText(subTitleText)).toBeInTheDocument()
+})

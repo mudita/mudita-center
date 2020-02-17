@@ -9,9 +9,6 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import Modal, {
   ModalSize,
 } from "Renderer/components/core/modal/modal.component"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
 import { ModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 
 export const ModalExample: FunctionComponent = () => {
@@ -73,11 +70,7 @@ export const ModalUsage: FunctionComponent = () => {
   )
 
   const modelComponentLarge = (
-    <Modal
-      title={"Title"}
-      subTitle={<Text displayStyle={TextDisplayStyle.SmallText}>Subtitle</Text>}
-      size={ModalSize.Large}
-    >
+    <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.Large}>
       <h1>lala</h1>
     </Modal>
   )
@@ -198,6 +191,15 @@ storiesOf("Components|Modal/static", module)
       </ModalWrapper>
     )
   })
+  .add("Small with subtitle", () => {
+    return (
+      <ModalWrapper>
+        <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.Small}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
   .add("Medium", () => {
     return (
       <ModalWrapper>
@@ -211,6 +213,15 @@ storiesOf("Components|Modal/static", module)
     return (
       <ModalWrapper>
         <Modal title={"Title"} size={ModalSize.Large}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Large with subtitle", () => {
+    return (
+      <ModalWrapper>
+        <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.Large}>
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>

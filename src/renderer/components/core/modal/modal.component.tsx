@@ -9,7 +9,6 @@ import { noop } from "Renderer/utils/noop"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { ReactElement } from "react"
 
 export enum ModalSize {
   VerySmall,
@@ -54,6 +53,19 @@ const getTitleStyleBasedOnModalSize = (size: ModalSize): TextDisplayStyle => {
   }
 }
 
+const getSubTitleStyleBasedOnModalSize = (
+  size: ModalSize
+): TextDisplayStyle => {
+  switch (size) {
+    case ModalSize.Small:
+      return TextDisplayStyle.SmallFadedText
+    case ModalSize.Large:
+      return TextDisplayStyle.MediumText
+    default:
+      return TextDisplayStyle.MediumText
+  }
+}
+
 const ModalFrame = styled.div<{ size: ModalSize }>`
   ${({ size }) => getModalSize(size)};
 `
@@ -64,11 +76,19 @@ const Header = styled.div`
   align-items: center;
 `
 
+const ModalTitle = styled(Text)<{ subTitle?: string }>`
+  ${({ subTitle }) =>
+    subTitle &&
+    css`
+      margin-bottom: 1rem;
+    `};
+`
+
 interface Props {
   closeable?: boolean
   onClose?: () => void
   size: ModalSize
-  subTitle?: ReactElement
+  subTitle?: string
   title?: string
 }
 
@@ -88,9 +108,13 @@ const Modal: FunctionComponent<Props> = ({
   return (
     <ModalFrame size={size}>
       <Header>
-        <Text displayStyle={getTitleStyleBasedOnModalSize(size)} element={"h2"}>
+        <ModalTitle
+          displayStyle={getTitleStyleBasedOnModalSize(size)}
+          subTitle={subTitle}
+          element={"h2"}
+        >
           {title}
-        </Text>
+        </ModalTitle>
         {closeable && (
           <Button
             displayStyle={DisplayStyle.IconOnly2}
@@ -99,7 +123,14 @@ const Modal: FunctionComponent<Props> = ({
           />
         )}
       </Header>
-      {subTitle}
+      {subTitle && (
+        <Text
+          displayStyle={getSubTitleStyleBasedOnModalSize(size)}
+          element={"p"}
+        >
+          {subTitle}
+        </Text>
+      )}
       {children}
     </ModalFrame>
   )
