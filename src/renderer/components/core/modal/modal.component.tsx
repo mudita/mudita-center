@@ -6,6 +6,7 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import styled, { css } from "styled-components"
 import Button from "Renderer/components/core/button/button.component"
 import { ReactElement } from "react"
+import { noop } from "Renderer/utils/noop"
 
 export enum ModalSize {
   VerySmall,
@@ -47,22 +48,25 @@ const Header = styled.div`
 `
 
 interface Props {
-  title?: ReactElement
-  subTitle?: ReactElement
-  size?: ModalSize
   closeable?: boolean
+  onClose?: () => void
+  size?: ModalSize
+  subTitle?: ReactElement
+  title?: ReactElement
 }
 
 const Modal: FunctionComponent<Props> = ({
   children,
   closeable = true,
-  title,
-  subTitle,
+  onClose = noop,
   size = ModalSize.Large,
+  subTitle,
+  title,
 }) => {
   const closeModal = () => {
     modalService.allowClosingModal()
     modalService.closeModal()
+    onClose()
   }
   return (
     <ModalFrame size={size}>
