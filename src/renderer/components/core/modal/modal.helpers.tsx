@@ -1,6 +1,9 @@
 import { css } from "styled-components"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.component"
+import {
+  ModalSize,
+  TitleOrder,
+} from "Renderer/components/core/modal/modal.component"
 
 export const getModalSize = (size: ModalSize) => {
   switch (size) {
@@ -25,9 +28,7 @@ export const getModalSize = (size: ModalSize) => {
   }
 }
 
-export const getTitleStyleBasedOnModalSize = (
-  size: ModalSize
-): TextDisplayStyle => {
+export const getTitleStyleBasedOnModalSize = (size: ModalSize) => {
   switch (size) {
     case ModalSize.VerySmall:
       return TextDisplayStyle.LargeBoldText
@@ -36,19 +37,36 @@ export const getTitleStyleBasedOnModalSize = (
     case ModalSize.Large:
       return TextDisplayStyle.TertiaryBoldHeading
     default:
-      return TextDisplayStyle.TertiaryBoldHeading
+      return
   }
 }
 
-export const getSubTitleStyleBasedOnModalSize = (
-  size: ModalSize
-): TextDisplayStyle => {
+export const getSubTitleStyleBasedOnModalSize = (size: ModalSize) => {
   switch (size) {
     case ModalSize.Small:
       return TextDisplayStyle.SmallFadedText
     case ModalSize.Large:
       return TextDisplayStyle.MediumText
     default:
-      return TextDisplayStyle.MediumText
+      return
+  }
+}
+
+export const getHeaderTemplate = (order: TitleOrder) => {
+  switch (order) {
+    case TitleOrder.TitleFirst:
+      return css`
+        grid-template-areas:
+          "Title CloseButton"
+          "Subtitle CloseButton";
+      `
+    case TitleOrder.SubTitleFirst:
+      return css`
+        grid-template-areas:
+          "Subtitle CloseButton"
+          "Title CloseButton";
+      `
+    default:
+      return
   }
 }

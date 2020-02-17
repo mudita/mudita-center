@@ -183,10 +183,33 @@ storiesOf("Components|Modal/static", module)
       </ModalWrapper>
     )
   })
+  .add("Very small with subtitle", () => {
+    return (
+      <ModalWrapper>
+        <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.VerySmall}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Very small with titles reversed", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subTitle={"Subtitle"}
+          size={ModalSize.VerySmall}
+          titleOrder={TitleOrder.SubTitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
   .add("Small", () => {
     return (
       <ModalWrapper>
-        <Modal title={"Title"} size={ModalSize.Small}>
+        <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.Small}>
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>
@@ -201,10 +224,47 @@ storiesOf("Components|Modal/static", module)
       </ModalWrapper>
     )
   })
+  .add("Small with titles reversed", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subTitle={"Subtitle"}
+          size={ModalSize.Small}
+          titleOrder={TitleOrder.SubTitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
   .add("Medium", () => {
     return (
       <ModalWrapper>
         <Modal title={"Title"} size={ModalSize.Medium}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Medium with subtitle", () => {
+    return (
+      <ModalWrapper>
+        <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.Medium}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Medium with titles reversed", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subTitle={"Subtitle"}
+          size={ModalSize.Medium}
+          titleOrder={TitleOrder.SubTitleFirst}
+        >
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>
@@ -227,6 +287,20 @@ storiesOf("Components|Modal/static", module)
           subTitle={"Subtitle"}
           size={ModalSize.Large}
           titleOrder={TitleOrder.TitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Large with titles reversed", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subTitle={"Subtitle"}
+          size={ModalSize.Large}
+          titleOrder={TitleOrder.SubTitleFirst}
         >
           <h1>lala</h1>
         </Modal>

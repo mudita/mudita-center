@@ -3,11 +3,12 @@ import * as React from "react"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Close from "Renderer/svg/close.svg"
 import modalService from "Renderer/components/core/modal/modal.service"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import Button from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
 import Text from "Renderer/components/core/text/text.component"
 import {
+  getHeaderTemplate,
   getModalSize,
   getSubTitleStyleBasedOnModalSize,
   getTitleStyleBasedOnModalSize,
@@ -29,18 +30,25 @@ const ModalFrame = styled.div<{ size: ModalSize }>`
   ${({ size }) => getModalSize(size)};
 `
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+const Header = styled.div<{ titleOrder: TitleOrder }>`
+  display: grid;
+  grid-template-columns: 1fr 5rem;
+  grid-row-gap: 1rem;
+  ${({ titleOrder }) => getHeaderTemplate(titleOrder)};
 `
 
 const ModalTitle = styled(Text)<{ subTitle?: string }>`
-  ${({ subTitle }) =>
-    subTitle &&
-    css`
-      margin-bottom: 1rem;
-    `};
+  grid-area: Title;
+`
+
+const ModalSubTitle = styled(Text)`
+  grid-area: Subtitle;
+`
+
+const CloseButton = styled(Button)`
+  margin-top: -0.5rem;
+  grid-area: CloseButton;
+  justify-self: end;
 `
 
 interface Props {
@@ -68,39 +76,7 @@ const Modal: FunctionComponent<Props> = ({
   }
   return (
     <ModalFrame size={size}>
-      <Header>
-        {titleOrder === TitleOrder.TitleFirst ? (
-          <ModalTitle
-            displayStyle={getTitleStyleBasedOnModalSize(size)}
-            subTitle={subTitle}
-            element={"h2"}
-          >
-            {title}
-          </ModalTitle>
-        ) : (
-          <Text
-            displayStyle={getSubTitleStyleBasedOnModalSize(size)}
-            element={"p"}
-          >
-            {subTitle}
-          </Text>
-        )}
-        {closeable && (
-          <Button
-            displayStyle={DisplayStyle.IconOnly2}
-            onClick={closeModal}
-            Icon={Close}
-          />
-        )}
-      </Header>
-      {titleOrder === TitleOrder.TitleFirst ? (
-        <Text
-          displayStyle={getSubTitleStyleBasedOnModalSize(size)}
-          element={"p"}
-        >
-          {subTitle}
-        </Text>
-      ) : (
+      <Header titleOrder={titleOrder}>
         <ModalTitle
           displayStyle={getTitleStyleBasedOnModalSize(size)}
           subTitle={subTitle}
@@ -108,7 +84,21 @@ const Modal: FunctionComponent<Props> = ({
         >
           {title}
         </ModalTitle>
-      )}
+        {closeable && (
+          <CloseButton
+            displayStyle={DisplayStyle.IconOnly2}
+            onClick={closeModal}
+            Icon={Close}
+          />
+        )}
+        <ModalSubTitle
+          displayStyle={getSubTitleStyleBasedOnModalSize(size)}
+          element={"p"}
+        >
+          {subTitle}
+        </ModalSubTitle>
+      </Header>
+
       {children}
     </ModalFrame>
   )
