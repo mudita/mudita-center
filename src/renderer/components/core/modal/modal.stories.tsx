@@ -8,6 +8,7 @@ import store from "Renderer/store"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import Modal, {
   ModalSize,
+  TitleOrder,
 } from "Renderer/components/core/modal/modal.component"
 import { ModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 
@@ -221,7 +222,12 @@ storiesOf("Components|Modal/static", module)
   .add("Large with subtitle", () => {
     return (
       <ModalWrapper>
-        <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.Large}>
+        <Modal
+          title={"Title"}
+          subTitle={"Subtitle"}
+          size={ModalSize.Large}
+          titleOrder={TitleOrder.TitleFirst}
+        >
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>

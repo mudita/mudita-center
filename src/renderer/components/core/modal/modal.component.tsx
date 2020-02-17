@@ -6,9 +6,12 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import styled, { css } from "styled-components"
 import Button from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import Text from "Renderer/components/core/text/text.component"
+import {
+  getModalSize,
+  getSubTitleStyleBasedOnModalSize,
+  getTitleStyleBasedOnModalSize,
+} from "Renderer/components/core/modal/modal.helpers"
 
 export enum ModalSize {
   VerySmall,
@@ -17,53 +20,9 @@ export enum ModalSize {
   Large,
 }
 
-const getModalSize = (size: ModalSize) => {
-  switch (size) {
-    case ModalSize.VerySmall:
-      return css`
-        width: calc(27.5rem - 4rem);
-      `
-    case ModalSize.Small:
-      return css`
-        width: calc(38rem - 4rem);
-      `
-    case ModalSize.Medium:
-      return css`
-        width: calc(59rem - 4rem);
-      `
-    case ModalSize.Large:
-      return css`
-        width: calc(101rem - 4rem);
-      `
-    default:
-      return
-  }
-}
-
-const getTitleStyleBasedOnModalSize = (size: ModalSize): TextDisplayStyle => {
-  switch (size) {
-    case ModalSize.VerySmall:
-      return TextDisplayStyle.LargeBoldText
-    case ModalSize.Small || ModalSize.Medium:
-      return TextDisplayStyle.SecondaryBoldHeading
-    case ModalSize.Large:
-      return TextDisplayStyle.TertiaryBoldHeading
-    default:
-      return TextDisplayStyle.TertiaryBoldHeading
-  }
-}
-
-const getSubTitleStyleBasedOnModalSize = (
-  size: ModalSize
-): TextDisplayStyle => {
-  switch (size) {
-    case ModalSize.Small:
-      return TextDisplayStyle.SmallFadedText
-    case ModalSize.Large:
-      return TextDisplayStyle.MediumText
-    default:
-      return TextDisplayStyle.MediumText
-  }
+export enum TitleOrder {
+  TitleFirst,
+  SubTitleFirst,
 }
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
@@ -90,6 +49,7 @@ interface Props {
   size: ModalSize
   subTitle?: string
   title?: string
+  titleOrder?: TitleOrder
 }
 
 const Modal: FunctionComponent<Props> = ({
@@ -99,6 +59,7 @@ const Modal: FunctionComponent<Props> = ({
   size = ModalSize.Large,
   subTitle,
   title,
+  titleOrder = TitleOrder.TitleFirst,
 }) => {
   const closeModal = () => {
     modalService.allowClosingModal()
@@ -108,13 +69,22 @@ const Modal: FunctionComponent<Props> = ({
   return (
     <ModalFrame size={size}>
       <Header>
-        <ModalTitle
-          displayStyle={getTitleStyleBasedOnModalSize(size)}
-          subTitle={subTitle}
-          element={"h2"}
-        >
-          {title}
-        </ModalTitle>
+        {titleOrder === TitleOrder.TitleFirst ? (
+          <ModalTitle
+            displayStyle={getTitleStyleBasedOnModalSize(size)}
+            subTitle={subTitle}
+            element={"h2"}
+          >
+            {title}
+          </ModalTitle>
+        ) : (
+          <Text
+            displayStyle={getSubTitleStyleBasedOnModalSize(size)}
+            element={"p"}
+          >
+            {subTitle}
+          </Text>
+        )}
         {closeable && (
           <Button
             displayStyle={DisplayStyle.IconOnly2}
@@ -123,13 +93,21 @@ const Modal: FunctionComponent<Props> = ({
           />
         )}
       </Header>
-      {subTitle && (
+      {titleOrder === TitleOrder.TitleFirst ? (
         <Text
           displayStyle={getSubTitleStyleBasedOnModalSize(size)}
           element={"p"}
         >
           {subTitle}
         </Text>
+      ) : (
+        <ModalTitle
+          displayStyle={getTitleStyleBasedOnModalSize(size)}
+          subTitle={subTitle}
+          element={"h2"}
+        >
+          {title}
+        </ModalTitle>
       )}
       {children}
     </ModalFrame>
