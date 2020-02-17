@@ -5,6 +5,9 @@ const plugins = require("./webpack/plugins")()
 
 module.exports = {
   mode: "development",
+  externals: {
+    serialport: "require('serialport')",
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
@@ -54,11 +57,6 @@ module.exports = {
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         use: "file-loader",
-      },
-      // Common Image Formats
-      {
-        test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        use: "url-loader",
       },
     ],
   },

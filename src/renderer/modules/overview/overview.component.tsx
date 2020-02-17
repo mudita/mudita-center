@@ -1,117 +1,66 @@
 import React from "react"
 import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
-import changeSimRequest from "Renderer/requests/change-sim.request"
-import disconnectDevice from "Renderer/requests/disconnect-device.request"
-import getBackupsInfo from "Renderer/requests/get-backups-info.request"
-import getBatteryInfo from "Renderer/requests/get-battery-info.request"
-import getDeviceInfo from "Renderer/requests/get-device-info.request"
-import getNetworkInfo from "Renderer/requests/get-network-info.request"
-import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import styled from "styled-components"
+import Phone from "Renderer/components/rest/overview/phone/phone.component"
+import Network from "Renderer/components/rest/overview/network/network.component"
+import getFakeAdapters from "App/tests/get-fake-adapters"
+import System from "Renderer/components/rest/overview/system/system.component"
+import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
+import Backup from "Renderer/components/rest/overview/backup/backup.component"
+import { noop } from "Renderer/utils/noop"
+
+const PhoneInfo = styled(Phone)`
+  grid-area: Phone;
+`
+
+const NetworkInfo = styled(Network)`
+  grid-area: Network;
+`
+
+const FileManagerInfo = styled(FilesManager)`
+  grid-area: FilesManager;
+`
+
+const BackupInfo = styled(Backup)`
+  grid-area: Backup;
+`
+
+const OverviewWrapper = styled.div`
+  display: grid;
+  grid-template-columns: minmax(27rem, 1fr) minmax(59rem, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 4rem;
+  grid-row-gap: 3.2rem;
+  padding: 3.2rem 3rem 3.7rem 4rem;
+  grid-template-areas:
+    "Phone Network"
+    "Phone System"
+    "Phone FilesManager"
+    "Phone Backup";
+`
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel,
   lastBackup,
-  memorySpace,
   osVersion,
-  ...rest
 }) => {
-  // Warning! DO NOT REVIEW code in this component. It's a throw-away.
-
-  const getInfo = async () => {
-    const info = await getDeviceInfo()
-    document.getElementById("response")!.innerText = JSON.stringify(
-      info,
-      null,
-      2
-    )
-  }
-
-  const handleBattery = () =>
-    getBatteryInfo().then(result => {
-      document.getElementById("battery")!.innerText = JSON.stringify(
-        result,
-        null,
-        2
-      )
-    })
-
-  const handleNetwork = () =>
-    getNetworkInfo().then(result => {
-      document.getElementById("network")!.innerText = JSON.stringify(
-        result,
-        null,
-        2
-      )
-    })
-
-  const handleStorage = () =>
-    getStorageInfo().then(result => {
-      document.getElementById("storage")!.innerText = JSON.stringify(
-        result,
-        null,
-        2
-      )
-    })
-
-  const handleBackups = () =>
-    getBackupsInfo().then(result => {
-      document.getElementById("backups")!.innerText = JSON.stringify(
-        result,
-        null,
-        2
-      )
-    })
-
-  const handleDisconnectDevice = () =>
-    disconnectDevice().then(result => {
-      document.getElementById("disconnect")!.innerText = JSON.stringify(
-        result,
-        null,
-        2
-      )
-    })
-
-  const handleChangeSim = () =>
-    changeSimRequest().then(result => {
-      document.getElementById("change-sim")!.innerText = JSON.stringify(
-        result,
-        null,
-        2
-      )
-    })
-
   return (
-    <div>
-      <div>Battery level: {batteryLevel}</div>
-      <div>OS Version: {osVersion}</div>
-      <div>Last backup {lastBackup}</div>
-      <div>
-        Memory: {memorySpace.free}/{memorySpace.full}
-      </div>
-      <hr />
-      <h2>Device info</h2>
-      <button onClick={getInfo}>Get</button>
-      <pre id="response" />
-      <h2>Battery info</h2>
-      <button onClick={handleBattery}>Get</button>
-      <pre id="battery" />
-      <h2>Network info</h2>
-      <button onClick={handleNetwork}>Get</button>
-      <pre id="network" />
-      <h2>Storage info</h2>
-      <button onClick={handleStorage}>Get</button>
-      <pre id="storage" />
-      <h2>Backups info</h2>
-      <button onClick={handleBackups}>Get</button>
-      <pre id="backups" />
-      <h2>Disconnect device</h2>
-      <button onClick={handleDisconnectDevice}>Get</button>
-      <pre id="disconnect" />
-      <h2>Change sim</h2>
-      <button onClick={handleChangeSim}>Get</button>
-      <pre id="change-sim" />
-    </div>
+    <OverviewWrapper>
+      <PhoneInfo
+        onDisconnect={noop}
+        batteryLevel={batteryLevel}
+        network={"Play"}
+      />
+      <NetworkInfo simCards={getFakeAdapters().pureNetwork.getSimCards()} />
+      <System osVersion={osVersion} lastUpdate={"just now"} />
+      <FileManagerInfo usedSpace={16} onFilesOpen={noop} />
+      <BackupInfo
+        lastBackup={lastBackup}
+        onBackupCreate={noop}
+        onBackupRestore={noop}
+      />
+    </OverviewWrapper>
   )
 }
 

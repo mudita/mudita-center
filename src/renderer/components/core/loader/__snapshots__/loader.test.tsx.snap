@@ -2,31 +2,31 @@
 
 exports[`matches snapshot 1`] = `
 <div
-  class="sc-bdVaJa favxUC"
+  class="sc-AxjAm dclKcW"
   size="4"
 >
   <div
-    class="sc-bwzfXH csGQyV"
+    class="sc-AxirZ jaiFcm"
     data-testid="dot"
   />
   <div
-    class="sc-bwzfXH csGQyV"
+    class="sc-AxirZ jaiFcm"
     data-testid="dot"
   />
   <div
-    class="sc-bwzfXH csGQyV"
+    class="sc-AxirZ jaiFcm"
     data-testid="dot"
   />
   <div
-    class="sc-bwzfXH csGQyV"
+    class="sc-AxirZ jaiFcm"
     data-testid="dot"
   />
   <div
-    class="sc-bwzfXH csGQyV"
+    class="sc-AxirZ jaiFcm"
     data-testid="dot"
   />
   <div
-    class="sc-bwzfXH csGQyV"
+    class="sc-AxirZ jaiFcm"
     data-testid="dot"
   />
 </div>

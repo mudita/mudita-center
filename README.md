@@ -3,11 +3,13 @@
 ### A Boilerplate for an Easy Start with TypeScript, React, and Electron.
 
 ## Install
+
 ```bash
 npm install
 ```
 
 ## Usage
+
 Both processes have to be started **simultaneously** in different console tabs:
 
 ```bash
@@ -24,6 +26,7 @@ npm run start:dev
 ```
 
 ## Packaging
+
 We use [Electron builder](https://www.electron.build/) to build and package the application. By default you can run the following to package for your current platform:
 
 ```bash
@@ -39,4 +42,21 @@ npm run dist -- -mwl
 ```
 
 ## Precommit and Prettier
+
 This project comes with both Precommit and Prettier setup to ensure a consistent code style.
+
+## Troubleshooting
+
+- ##### Error:
+  ```
+  Uncaught Error: The module '../node_modules/@serialport/bindings/build/Release/bindings.node'
+  was compiled against a different Node.js version using
+  NODE_MODULE_VERSION 72. This version of Node.js requires
+  NODE_MODULE_VERSION 75. Please try re-compiling or re-installing
+  the module (for instance, using `npm rebuild` or `npm install`).
+  ```
+  ##### Solution:
+  ```bash
+  npm run rebuild
+  ```
+  > :warning: To omit possible issues, you should execute the above command after every dependencies update.
