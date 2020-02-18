@@ -72,7 +72,7 @@ const CloseButton = styled(Button)<{ actionButton?: string }>`
 
 interface Props {
   actionButtonLabel?: string
-  actionButtonOnClick?: () => void
+  onActionButtonClick?: () => void
   closeable?: boolean
   closeButton?: boolean
   onClose?: () => void
@@ -84,7 +84,7 @@ interface Props {
 
 const Modal: FunctionComponent<Props> = ({
   actionButtonLabel,
-  actionButtonOnClick = noop,
+  onActionButtonClick = noop,
   children,
   closeable = true,
   closeButton = true,
@@ -138,7 +138,7 @@ const Modal: FunctionComponent<Props> = ({
               displayStyle={DisplayStyle.Primary}
               size={getModalButtonsSize(size)}
               label={actionButtonLabel}
-              onClick={actionButtonOnClick}
+              onClick={onActionButtonClick}
               data-testid={"modal-action-button"}
             />
           )}
