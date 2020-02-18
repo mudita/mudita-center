@@ -60,7 +60,6 @@ const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
 
 const ButtonWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
 `
 
 const CloseButton = styled(Button)<{ actionButton?: string }>`
