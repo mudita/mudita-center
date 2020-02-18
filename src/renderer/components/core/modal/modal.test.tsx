@@ -6,14 +6,14 @@ import Modal, {
 } from "Renderer/components/core/modal/modal.component"
 
 test("close button is rendered", () => {
-  const { container } = renderWithThemeAndIntl(
+  const closeButtonTestId = "close-modal-button"
+  const { getByTestId } = renderWithThemeAndIntl(
     <Modal title={"Title"} size={ModalSize.Medium}>
       <h1>lala</h1>
     </Modal>
   )
 
-  const closeButton = container.querySelector("test-file-stub")
-  expect(closeButton).toBeInTheDocument()
+  expect(getByTestId(closeButtonTestId)).toBeInTheDocument()
 })
 
 test("close button is not rendered", () => {

@@ -114,6 +114,7 @@ const Modal: FunctionComponent<Props> = ({
             displayStyle={DisplayStyle.IconOnly2}
             onClick={closeModal}
             Icon={CloseIcon}
+            data-testid={"close-modal-button"}
           />
         )}
         <ModalSubTitle displayStyle={getSubtitleStyle(size)} element={"p"}>
