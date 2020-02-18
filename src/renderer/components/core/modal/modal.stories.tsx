@@ -71,7 +71,7 @@ export const ModalUsage: FunctionComponent = () => {
   )
 
   const modelComponentLarge = (
-    <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.Large}>
+    <Modal title={"Title"} subtitle={"Subtitle"} size={ModalSize.Large}>
       <h1>lala</h1>
     </Modal>
   )
@@ -186,7 +186,7 @@ storiesOf("Components|Modal/static", module)
   .add("Very small with subtitle", () => {
     return (
       <ModalWrapper>
-        <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.VerySmall}>
+        <Modal title={"Title"} subtitle={"Subtitle"} size={ModalSize.VerySmall}>
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>
@@ -197,9 +197,23 @@ storiesOf("Components|Modal/static", module)
       <ModalWrapper>
         <Modal
           title={"Title"}
-          subTitle={"Subtitle"}
+          subtitle={"Subtitle"}
           size={ModalSize.VerySmall}
-          titleOrder={TitleOrder.SubTitleFirst}
+          titleOrder={TitleOrder.SubtitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Very small with action button", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.VerySmall}
+          actionButtonLabel={"Done"}
         >
           <h1>lala</h1>
         </Modal>
@@ -209,7 +223,7 @@ storiesOf("Components|Modal/static", module)
   .add("Small", () => {
     return (
       <ModalWrapper>
-        <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.Small}>
+        <Modal title={"Title"} subtitle={"Subtitle"} size={ModalSize.Small}>
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>
@@ -218,7 +232,7 @@ storiesOf("Components|Modal/static", module)
   .add("Small with subtitle", () => {
     return (
       <ModalWrapper>
-        <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.Small}>
+        <Modal title={"Title"} subtitle={"Subtitle"} size={ModalSize.Small}>
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>
@@ -229,9 +243,23 @@ storiesOf("Components|Modal/static", module)
       <ModalWrapper>
         <Modal
           title={"Title"}
-          subTitle={"Subtitle"}
+          subtitle={"Subtitle"}
           size={ModalSize.Small}
-          titleOrder={TitleOrder.SubTitleFirst}
+          titleOrder={TitleOrder.SubtitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Small with action button", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Small}
+          actionButtonLabel={"Done"}
         >
           <h1>lala</h1>
         </Modal>
@@ -250,7 +278,7 @@ storiesOf("Components|Modal/static", module)
   .add("Medium with subtitle", () => {
     return (
       <ModalWrapper>
-        <Modal title={"Title"} subTitle={"Subtitle"} size={ModalSize.Medium}>
+        <Modal title={"Title"} subtitle={"Subtitle"} size={ModalSize.Medium}>
           <h1>lala</h1>
         </Modal>
       </ModalWrapper>
@@ -261,9 +289,23 @@ storiesOf("Components|Modal/static", module)
       <ModalWrapper>
         <Modal
           title={"Title"}
-          subTitle={"Subtitle"}
+          subtitle={"Subtitle"}
           size={ModalSize.Medium}
-          titleOrder={TitleOrder.SubTitleFirst}
+          titleOrder={TitleOrder.SubtitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Medium with action button", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Medium}
+          actionButtonLabel={"Done"}
         >
           <h1>lala</h1>
         </Modal>
@@ -284,7 +326,7 @@ storiesOf("Components|Modal/static", module)
       <ModalWrapper>
         <Modal
           title={"Title"}
-          subTitle={"Subtitle"}
+          subtitle={"Subtitle"}
           size={ModalSize.Large}
           titleOrder={TitleOrder.TitleFirst}
         >
@@ -298,9 +340,23 @@ storiesOf("Components|Modal/static", module)
       <ModalWrapper>
         <Modal
           title={"Title"}
-          subTitle={"Subtitle"}
+          subtitle={"Subtitle"}
           size={ModalSize.Large}
-          titleOrder={TitleOrder.SubTitleFirst}
+          titleOrder={TitleOrder.SubtitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Large with action button", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Large}
+          actionButtonLabel={"Done"}
         >
           <h1>lala</h1>
         </Modal>

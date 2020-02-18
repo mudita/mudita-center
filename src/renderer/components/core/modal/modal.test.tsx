@@ -30,9 +30,35 @@ test("close button is not rendered", () => {
 test("subtitle is rendered", () => {
   const subTitleText = "Subtitle"
   const { getByText } = renderWithThemeAndIntl(
-    <Modal title={"Title"} size={ModalSize.Medium} subTitle={subTitleText}>
+    <Modal title={"Title"} size={ModalSize.Medium} subtitle={subTitleText}>
       <h1>lala</h1>
     </Modal>
   )
   expect(getByText(subTitleText)).toBeInTheDocument()
+})
+
+test("only close button is rendered", () => {
+  const closeButtonText = "Close"
+  const { getByText } = renderWithThemeAndIntl(
+    <Modal title={"Title"} size={ModalSize.Medium} subtitle={"Subtitle"}>
+      <h1>lala</h1>
+    </Modal>
+  )
+  expect(getByText(closeButtonText)).toBeInTheDocument()
+})
+
+test("close button and action button is rendered", () => {
+  const modalActionButtonsId = "modal-action-button"
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <Modal
+      title={"Title"}
+      size={ModalSize.Medium}
+      subtitle={"Subtitle"}
+      actionButtonLabel={"Action"}
+    >
+      <h1>lala</h1>
+    </Modal>
+  )
+
+  expect(getAllByTestId(modalActionButtonsId)).toHaveLength(2)
 })

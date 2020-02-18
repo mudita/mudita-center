@@ -1,17 +1,19 @@
 import FunctionComponent from "Renderer/types/function-component.interface"
 import * as React from "react"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import Close from "Renderer/svg/close.svg"
+import CloseIcon from "Renderer/svg/close.svg"
 import modalService from "Renderer/components/core/modal/modal.service"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import Button from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
 import Text from "Renderer/components/core/text/text.component"
 import {
+  getButtonsPosition,
   getHeaderTemplate,
+  getModalButtonsSize,
   getModalSize,
-  getSubTitleStyleBasedOnModalSize,
-  getTitleStyleBasedOnModalSize,
+  getSubtitleStyle,
+  getTitleStyle,
 } from "Renderer/components/core/modal/modal.helpers"
 
 export enum ModalSize {
@@ -23,7 +25,7 @@ export enum ModalSize {
 
 export enum TitleOrder {
   TitleFirst,
-  SubTitleFirst,
+  SubtitleFirst,
 }
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
@@ -45,27 +47,51 @@ const ModalSubTitle = styled(Text)`
   grid-area: Subtitle;
 `
 
-const CloseButton = styled(Button)`
+const Close = styled(Button)`
   margin-top: -0.5rem;
-  grid-area: CloseButton;
+  grid-area: Close;
   justify-self: end;
 `
 
+const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
+  display: flex;
+  ${({ buttonsPosition }) => getButtonsPosition(buttonsPosition)};
+`
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const CloseButton = styled(Button)<{ actionButton?: string }>`
+  ${({ actionButton }) =>
+    actionButton &&
+    css`
+      margin-right: 1.5rem;
+    `};
+`
+
 interface Props {
+  actionButtonLabel?: string
+  actionButtonOnClick?: () => void
   closeable?: boolean
+  closeButton?: boolean
   onClose?: () => void
   size: ModalSize
-  subTitle?: string
+  subtitle?: string
   title?: string
   titleOrder?: TitleOrder
 }
 
 const Modal: FunctionComponent<Props> = ({
+  actionButtonLabel,
+  actionButtonOnClick = noop,
   children,
   closeable = true,
+  closeButton = true,
   onClose = noop,
   size = ModalSize.Large,
-  subTitle,
+  subtitle,
   title,
   titleOrder = TitleOrder.TitleFirst,
 }) => {
@@ -78,28 +104,47 @@ const Modal: FunctionComponent<Props> = ({
     <ModalFrame size={size}>
       <Header titleOrder={titleOrder}>
         <ModalTitle
-          displayStyle={getTitleStyleBasedOnModalSize(size)}
-          subTitle={subTitle}
+          displayStyle={getTitleStyle(size)}
+          subTitle={subtitle}
           element={"h2"}
         >
           {title}
         </ModalTitle>
         {closeable && (
-          <CloseButton
+          <Close
             displayStyle={DisplayStyle.IconOnly2}
             onClick={closeModal}
-            Icon={Close}
+            Icon={CloseIcon}
           />
         )}
-        <ModalSubTitle
-          displayStyle={getSubTitleStyleBasedOnModalSize(size)}
-          element={"p"}
-        >
-          {subTitle}
+        <ModalSubTitle displayStyle={getSubtitleStyle(size)} element={"p"}>
+          {subtitle}
         </ModalSubTitle>
       </Header>
-
       {children}
+      <ButtonContainer buttonsPosition={size}>
+        <ButtonWrapper>
+          {closeButton && (
+            <CloseButton
+              actionButton={actionButtonLabel}
+              displayStyle={DisplayStyle.Secondary}
+              size={getModalButtonsSize(size)}
+              label="Close"
+              onClick={closeModal}
+              data-testid={"modal-action-button"}
+            />
+          )}
+          {actionButtonLabel && (
+            <Button
+              displayStyle={DisplayStyle.Primary}
+              size={getModalButtonsSize(size)}
+              label={actionButtonLabel}
+              onClick={actionButtonOnClick}
+              data-testid={"modal-action-button"}
+            />
+          )}
+        </ButtonWrapper>
+      </ButtonContainer>
     </ModalFrame>
   )
 }

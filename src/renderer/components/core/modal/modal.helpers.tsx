@@ -4,6 +4,7 @@ import {
   ModalSize,
   TitleOrder,
 } from "Renderer/components/core/modal/modal.component"
+import { Size } from "Renderer/components/core/button/button.config"
 
 export const getModalSize = (size: ModalSize) => {
   switch (size) {
@@ -28,11 +29,12 @@ export const getModalSize = (size: ModalSize) => {
   }
 }
 
-export const getTitleStyleBasedOnModalSize = (size: ModalSize) => {
+export const getTitleStyle = (size: ModalSize) => {
   switch (size) {
     case ModalSize.VerySmall:
       return TextDisplayStyle.LargeBoldText
-    case ModalSize.Small || ModalSize.Medium:
+    case ModalSize.Small:
+    case ModalSize.Medium:
       return TextDisplayStyle.SecondaryBoldHeading
     case ModalSize.Large:
       return TextDisplayStyle.TertiaryBoldHeading
@@ -41,7 +43,7 @@ export const getTitleStyleBasedOnModalSize = (size: ModalSize) => {
   }
 }
 
-export const getSubTitleStyleBasedOnModalSize = (size: ModalSize) => {
+export const getSubtitleStyle = (size: ModalSize) => {
   switch (size) {
     case ModalSize.Small:
       return TextDisplayStyle.SmallFadedText
@@ -57,14 +59,45 @@ export const getHeaderTemplate = (order: TitleOrder) => {
     case TitleOrder.TitleFirst:
       return css`
         grid-template-areas:
-          "Title CloseButton"
-          "Subtitle CloseButton";
+          "Title Close"
+          "Subtitle Close";
       `
-    case TitleOrder.SubTitleFirst:
+    case TitleOrder.SubtitleFirst:
       return css`
         grid-template-areas:
-          "Subtitle CloseButton"
-          "Title CloseButton";
+          "Subtitle Close"
+          "Title Close";
+      `
+    default:
+      return
+  }
+}
+
+export const getModalButtonsSize = (size: ModalSize) => {
+  switch (size) {
+    case ModalSize.VerySmall:
+      return Size.FixedSmall
+    case ModalSize.Small:
+      return Size.FixedMedium
+    case ModalSize.Medium:
+    case ModalSize.Large:
+      return Size.FixedBig
+    default:
+      return
+  }
+}
+
+export const getButtonsPosition = (size: ModalSize) => {
+  switch (size) {
+    case ModalSize.VerySmall:
+    case ModalSize.Small:
+    case ModalSize.Medium:
+      return css`
+        justify-content: space-evenly;
+      `
+    case ModalSize.Large:
+      return css`
+        justify-content: flex-end;
       `
     default:
       return
