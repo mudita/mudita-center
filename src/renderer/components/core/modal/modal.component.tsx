@@ -94,9 +94,9 @@ const Modal: FunctionComponent<Props> = ({
   title,
   titleOrder = TitleOrder.TitleFirst,
 }) => {
-  const closeModal = () => {
-    modalService.allowClosingModal()
-    modalService.closeModal()
+  const closeModal = async () => {
+    await modalService.allowClosingModal()
+    await modalService.closeModal()
     onClose()
   }
   return (
