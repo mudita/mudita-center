@@ -10,7 +10,6 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
-import { formatDateToMMDDYYYY } from "Renderer/utils/format-date"
 import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
 import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
@@ -55,7 +54,7 @@ const Backup: FunctionComponent<BackupProps> = ({
             <FormattedMessage id="view.name.overview.backup.lastBackup" />
           </Text>
           <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-            {formatDateToMMDDYYYY(lastBackup)}
+            {lastBackup && new Date(lastBackup).toLocaleDateString("en-US")}
           </Text>
           <ButtonComponent
             displayStyle={DisplayStyle.Link3}
