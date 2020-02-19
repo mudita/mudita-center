@@ -1,4 +1,5 @@
-import { Dispatch } from "redux"
+import getDeviceInfo from "Renderer/requests/get-device-info.request"
+import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import { InitialState } from "./interfaces"
 
 // TODO: implement mock store feature.
@@ -17,13 +18,21 @@ const initialState = {
 export default {
   state: initialState,
   reducers: {
-    updatePhoneBasicInfo(state: InitialState, payload: InitialState) {
-      return { ...payload }
+    update(state: InitialState, payload: InitialState) {
+      return { ...state, ...payload }
     },
   },
-  effects: (dispatch: Dispatch) => ({
+  effects: (dispatch: any) => ({
     updatePhoneBasicInfo(basicInfo: InitialState) {
       this.updatePhoneBasicInfo(basicInfo)
+    },
+    async loadData() {
+      const info = await getDeviceInfo()
+      const networkInfo = await getNetworkInfo()
+      dispatch.basicInfo.update({
+        modelName: info.modelName,
+        simCards: networkInfo.simCards,
+      })
     },
   }),
 }

@@ -1,7 +1,5 @@
 import { connect } from "react-redux"
-
 import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
-
 import Overview from "./overview.component"
 
 const mapStateToProps = ({
@@ -12,4 +10,8 @@ const mapStateToProps = ({
   ...basicInfo,
 })
 
-export default connect(mapStateToProps)(Overview)
+const mapDispatchToProps = (dispatch: any) => ({
+  loadData: () => dispatch.basicInfo.loadData(),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Overview)

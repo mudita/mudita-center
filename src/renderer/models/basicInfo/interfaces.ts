@@ -16,4 +16,5 @@ export interface InitialState {
   readonly osVersion: string
   readonly memorySpace: MemorySpace
   readonly lastBackup: string
+  readonly loadData: () => void
 }

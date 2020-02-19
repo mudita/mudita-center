@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -44,7 +44,12 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel,
   lastBackup,
   osVersion,
+  loadData,
 }) => {
+  useEffect(async () => {
+    const data = await loadData()
+    console.log(data)
+  }, [])
   return (
     <OverviewWrapper>
       <PhoneInfo
