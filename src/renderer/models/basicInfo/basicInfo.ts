@@ -1,5 +1,8 @@
+import getBackupsInfo from "Renderer/requests/get-backups-info.request"
+import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
+import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import { InitialState } from "./interfaces"
 
 // TODO: implement mock store feature.
@@ -29,9 +32,20 @@ export default {
     async loadData() {
       const info = await getDeviceInfo()
       const networkInfo = await getNetworkInfo()
+      const storageInfo = await getStorageInfo()
+      const batteryInfo = await getBatteryInfo()
+      const backupsInfo = await getBackupsInfo()
+      console.log("info", info)
+      console.log("network", networkInfo)
+      console.log("storage", storageInfo)
+      console.log("battery", batteryInfo)
+      console.log("backups", backupsInfo)
       dispatch.basicInfo.update({
+        batteryLevel: batteryInfo.level,
         modelName: info.modelName,
         simCards: networkInfo.simCards,
+        memorySpace: storageInfo,
+        lastBackup: backupsInfo.backups[0].createdAt,
       })
     },
   }),
