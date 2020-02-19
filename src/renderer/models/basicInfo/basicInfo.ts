@@ -42,9 +42,13 @@ export default {
       console.log("backups", backupsInfo)
       dispatch.basicInfo.update({
         batteryLevel: batteryInfo.level,
-        modelName: info.modelName,
+        osVersion: info.osVersion,
+        modelName: info,
         simCards: networkInfo.simCards,
-        memorySpace: storageInfo,
+        memorySpace: {
+          full: storageInfo.capacity,
+          free: storageInfo.available,
+        },
         lastBackup: backupsInfo.backups[0].createdAt,
       })
     },

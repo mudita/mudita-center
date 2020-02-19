@@ -45,6 +45,8 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   lastBackup,
   osVersion,
   loadData,
+  memorySpace,
+  simCards,
 }) => {
   useEffect(() => {
     loadData()
@@ -58,7 +60,11 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       />
       <NetworkInfo simCards={getFakeAdapters().pureNetwork.getSimCards()} />
       <System osVersion={osVersion} lastUpdate={"just now"} />
-      <FileManagerInfo usedSpace={16} onFilesOpen={noop} />
+      <FileManagerInfo
+        usedSpace={memorySpace.full - memorySpace.free}
+        maxSpace={memorySpace.full}
+        onFilesOpen={noop}
+      />
       <BackupInfo
         lastBackup={lastBackup}
         onBackupCreate={noop}
