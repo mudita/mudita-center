@@ -213,7 +213,12 @@ class ModalService {
   }
 
   private renderBackdrop = () => {
-    ReactDOM.render(<ModalBackdrop />, this.backdropElement)
+    ReactDOM.render(
+      <ThemeProvider theme={theme}>
+        <ModalBackdrop />
+      </ThemeProvider>,
+      this.backdropElement
+    )
     this.backdropOpened = true
   }
 }

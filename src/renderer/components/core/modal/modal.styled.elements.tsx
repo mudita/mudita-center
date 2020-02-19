@@ -1,6 +1,10 @@
+import {
+  backgroundColor,
+  transitionTime,
+  transitionTimingFunction,
+} from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 
-// TODO: Move transitions to theme
 const fadeAnimation = css`
   @keyframes fadeIn {
     from {
@@ -21,10 +25,10 @@ const fadeAnimation = css`
   }
 
   animation-name: fadeIn;
-  animation-duration: 0.3s;
+  animation-duration: ${transitionTime("faster")};
   animation-direction: normal;
   animation-fill-mode: forwards;
-  animation-timing-function: ease-in-out;
+  animation-timing-function: ${transitionTimingFunction("easeInOut")};
 `
 
 export const ModalBackdrop = styled.div`
@@ -39,7 +43,7 @@ export const ModalBackdrop = styled.div`
   background-color: rgba(0, 0, 0, 0.3);
 
   ${fadeAnimation};
-  animation-duration: 0.15s;
+  animation-duration: ${transitionTime("veryQuick")};
 `
 
 export const ModalWrapper = styled.section`
@@ -57,7 +61,7 @@ export const ModalWrapper = styled.section`
   box-sizing: border-box;
 
   border-radius: 0.4rem;
-  background-color: #ffffff;
+  background-color: ${backgroundColor("light")};
   box-shadow: 0 0.2rem 3rem 0 rgba(0, 0, 0, 0.08);
 
   ${fadeAnimation};
