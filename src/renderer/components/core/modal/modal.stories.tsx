@@ -11,6 +11,7 @@ import Modal, {
   TitleOrder,
 } from "Renderer/components/core/modal/modal.component"
 import { ModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
+import { noop } from "Renderer/utils/noop"
 
 export const ModalExample: FunctionComponent = () => {
   const [closable, setClosableState] = useState(false)
@@ -214,6 +215,7 @@ storiesOf("Components|Modal/static", module)
           subtitle={"Subtitle"}
           size={ModalSize.VerySmall}
           actionButtonLabel={"Done"}
+          onActionButtonClick={noop}
         >
           <h1>lala</h1>
         </Modal>
@@ -260,6 +262,7 @@ storiesOf("Components|Modal/static", module)
           subtitle={"Subtitle"}
           size={ModalSize.Small}
           actionButtonLabel={"Done"}
+          onActionButtonClick={noop}
         >
           <h1>lala</h1>
         </Modal>
@@ -306,6 +309,7 @@ storiesOf("Components|Modal/static", module)
           subtitle={"Subtitle"}
           size={ModalSize.Medium}
           actionButtonLabel={"Done"}
+          onActionButtonClick={noop}
         >
           <h1>lala</h1>
         </Modal>
@@ -357,6 +361,7 @@ storiesOf("Components|Modal/static", module)
           subtitle={"Subtitle"}
           size={ModalSize.Large}
           actionButtonLabel={"Done"}
+          onActionButtonClick={noop}
         >
           <h1>lala</h1>
         </Modal>
