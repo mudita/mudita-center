@@ -46,9 +46,8 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   osVersion,
   loadData,
 }) => {
-  useEffect(async () => {
-    const data = await loadData()
-    console.log(data)
+  useEffect(() => {
+    loadData()
   }, [])
   return (
     <OverviewWrapper>
