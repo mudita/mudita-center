@@ -6,4 +6,5 @@ export enum IpcRequest {
   GetBackupsInfo = "get-backups-info",
   DisconnectDevice = "disconnect-device",
   ChangeSim = "change-sim",
+  DownloadFile = "download-file",
 }

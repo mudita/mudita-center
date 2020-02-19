@@ -9,6 +9,7 @@ import System from "Renderer/components/rest/overview/system/system.component"
 import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
+import downloadFile from "Renderer/requests/file-download.request"
 
 const PhoneInfo = styled(Phone)`
   grid-area: Phone;
@@ -45,6 +46,15 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   lastBackup,
   osVersion,
 }) => {
+  const checkForUpdates = async () => {
+    // console.log(timestamp, file)
+    const data = await downloadFile("http://00.cba.pl/pda/latest.json")
+    console.log(data)
+    // console.log(app.getPath("userData"))
+    // console.log(ipcRenderer)
+    // "http://00.cba.pl/pda/os-update.txt"
+  }
+
   return (
     <OverviewWrapper>
       <PhoneInfo
@@ -53,7 +63,11 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
         network={"Play"}
       />
       <NetworkInfo simCards={getFakeAdapters().pureNetwork.getSimCards()} />
-      <System osVersion={osVersion} lastUpdate={"just now"} />
+      <System
+        osVersion={osVersion}
+        lastUpdate={"just now"}
+        onUpdateCheck={checkForUpdates}
+      />
       <FileManagerInfo usedSpace={16} onFilesOpen={noop} />
       <BackupInfo
         lastBackup={lastBackup}
