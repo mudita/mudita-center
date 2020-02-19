@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
+import { noop } from "Renderer/utils/noop"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Modal, {
   ModalSize,
@@ -47,7 +48,24 @@ test("only close button is rendered by default", () => {
   expect(getByText(closeButtonText)).toBeInTheDocument()
 })
 
-test("action button is rendered when label is provided", () => {
+test("action button is rendered when label and onActionButtonClick are provided", () => {
+  const modalActionButtonsId = "modal-action-button"
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <Modal
+      title={"Title"}
+      size={ModalSize.Medium}
+      subtitle={"Subtitle"}
+      actionButtonLabel={"Action"}
+      onActionButtonClick={noop}
+    >
+      <h1>lala</h1>
+    </Modal>
+  )
+
+  expect(getAllByTestId(modalActionButtonsId)).toHaveLength(2)
+})
+
+test("action button is not rendered when only label is provided", () => {
   const modalActionButtonsId = "modal-action-button"
   const { getAllByTestId } = renderWithThemeAndIntl(
     <Modal
@@ -60,5 +78,21 @@ test("action button is rendered when label is provided", () => {
     </Modal>
   )
 
-  expect(getAllByTestId(modalActionButtonsId)).toHaveLength(2)
+  expect(getAllByTestId(modalActionButtonsId)).toHaveLength(1)
+})
+
+test("action button is not rendered when only onActionButtonClick is provided", () => {
+  const modalActionButtonsId = "modal-action-button"
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <Modal
+      title={"Title"}
+      size={ModalSize.Medium}
+      subtitle={"Subtitle"}
+      onActionButtonClick={noop}
+    >
+      <h1>lala</h1>
+    </Modal>
+  )
+
+  expect(getAllByTestId(modalActionButtonsId)).toHaveLength(1)
 })

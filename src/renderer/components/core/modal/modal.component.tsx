@@ -84,7 +84,7 @@ interface Props {
 
 const Modal: FunctionComponent<Props> = ({
   actionButtonLabel,
-  onActionButtonClick = noop,
+  onActionButtonClick,
   children,
   closeable = true,
   closeButton = true,
@@ -134,7 +134,7 @@ const Modal: FunctionComponent<Props> = ({
               data-testid={"modal-action-button"}
             />
           )}
-          {actionButtonLabel && (
+          {actionButtonLabel && onActionButtonClick && (
             <Button
               displayStyle={DisplayStyle.Primary}
               size={getModalButtonsSize(size)}
