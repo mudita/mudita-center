@@ -6,8 +6,14 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import { LANGUAGE } from "Renderer/constants/languages"
 import store from "Renderer/store"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import Modal, {
+  ModalSize,
+  TitleOrder,
+} from "Renderer/components/core/modal/modal.component"
+import { ModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
+import { noop } from "Renderer/utils/noop"
 
-export const Modal: FunctionComponent = () => {
+export const ModalExample: FunctionComponent = () => {
   const [closable, setClosableState] = useState(false)
 
   const toggle = () => {
@@ -45,27 +51,84 @@ export const ModalUsage: FunctionComponent = () => {
   modalService.bindStore(store)
   modalService.setDefaultLocale(LANGUAGE.default)
 
-  const modalOne = (
-    <div>
-      <h2>Hi, I'm Modal One</h2>
-    </div>
+  const modalClosable = <ModalExample />
+
+  const modelComponentVerySmall = (
+    <Modal title={"Title"} size={ModalSize.VerySmall}>
+      <h1>lala</h1>
+    </Modal>
   )
-  const modalTwo = <Modal />
 
-  const openModal = () => {
-    modalService.openModal(modalOne)
+  const modelComponentSmall = (
+    <Modal title={"Title"} size={ModalSize.Small}>
+      <h1>lala</h1>
+    </Modal>
+  )
+
+  const modelComponentMedium = (
+    <Modal title={"Title"} size={ModalSize.Medium}>
+      <h1>lala</h1>
+    </Modal>
+  )
+
+  const modelComponentLarge = (
+    <Modal title={"Title"} subtitle={"Subtitle"} size={ModalSize.Large}>
+      <h1>lala</h1>
+    </Modal>
+  )
+
+  const modelComponentWithoutCloseButton = (
+    <Modal title={"Title"} size={ModalSize.Small} closeable={false}>
+      <h1>lala</h1>
+    </Modal>
+  )
+
+  const openModalClosable = () => {
+    modalService.openModal(modalClosable)
   }
 
-  const openModalTwo = () => {
-    modalService.openModal(modalTwo)
+  const openVerySmallModal = () => {
+    modalService.openModal(modelComponentVerySmall)
   }
 
-  const forceOpenModalOne = async () => {
-    await modalService.openModal(modalOne, true)
+  const openSmallModal = () => {
+    modalService.openModal(modelComponentSmall)
   }
 
-  const forceOpenModalTwo = async () => {
-    await modalService.openModal(modalTwo, true)
+  const openMediumModal = () => {
+    modalService.openModal(modelComponentMedium)
+  }
+
+  const openLargeModal = () => {
+    modalService.openModal(modelComponentLarge)
+  }
+
+  const openModalWithoutCloseButton = () => {
+    modalService.openModal(modelComponentWithoutCloseButton)
+  }
+
+  const forceOpenModalClosable = async () => {
+    await modalService.openModal(modalClosable, true)
+  }
+
+  const forceOpenVerySmallModal = async () => {
+    await modalService.openModal(modelComponentVerySmall, true)
+  }
+
+  const forceOpenSmallModal = async () => {
+    await modalService.openModal(modelComponentSmall, true)
+  }
+
+  const forceOpenMediumModal = async () => {
+    await modalService.openModal(modelComponentMedium, true)
+  }
+
+  const forceOpenLargeModal = async () => {
+    await modalService.openModal(modelComponentLarge, true)
+  }
+
+  const forceOpenModalWithoutCloseButton = async () => {
+    await modalService.openModal(modelComponentWithoutCloseButton, true)
   }
 
   const closeModal = async () => {
@@ -80,10 +143,24 @@ export const ModalUsage: FunctionComponent = () => {
     alert(`Modal is ${modalService.isModalOpen() ? "open" : "closed"}`)
   }
 
-  button("open modal one", openModal)
-  button("open modal two", openModalTwo)
-  button("force open modal one", forceOpenModalOne)
-  button("force open modal two", forceOpenModalTwo)
+  button("open closable modal", openModalClosable)
+  button("open very small modal component", openVerySmallModal)
+  button("open small modal component", openSmallModal)
+  button("open medium modal component", openMediumModal)
+  button("open large modal component", openLargeModal)
+  button(
+    "open modal component without close button",
+    openModalWithoutCloseButton
+  )
+  button("force open closable modal", forceOpenModalClosable)
+  button("force open very small modal", forceOpenVerySmallModal)
+  button("force open small modal", forceOpenSmallModal)
+  button("force open medium modal", forceOpenMediumModal)
+  button("force open large modal", forceOpenLargeModal)
+  button(
+    "force open modal without close button",
+    forceOpenModalWithoutCloseButton
+  )
   button("close modal", closeModal)
   button("force close modal", forceCloseModal)
   button("check modal", checkIfModalOpen)
@@ -92,7 +169,202 @@ export const ModalUsage: FunctionComponent = () => {
 }
 
 storiesOf("Components|Modal", module)
-  .add("Modal", () => {
+  .add("Interactive", () => {
     return <ModalUsage />
   })
   .addDecorator(withKnobs)
+
+storiesOf("Components|Modal/static", module)
+  .add("Very small", () => {
+    return (
+      <ModalWrapper>
+        <Modal title={"Title"} size={ModalSize.VerySmall}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Very small with subtitle", () => {
+    return (
+      <ModalWrapper>
+        <Modal title={"Title"} subtitle={"Subtitle"} size={ModalSize.VerySmall}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Very small with titles reversed", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.VerySmall}
+          titleOrder={TitleOrder.SubtitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Very small with action button", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.VerySmall}
+          actionButtonLabel={"Done"}
+          onActionButtonClick={noop}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Small", () => {
+    return (
+      <ModalWrapper>
+        <Modal title={"Title"} subtitle={"Subtitle"} size={ModalSize.Small}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Small with subtitle", () => {
+    return (
+      <ModalWrapper>
+        <Modal title={"Title"} subtitle={"Subtitle"} size={ModalSize.Small}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Small with titles reversed", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Small}
+          titleOrder={TitleOrder.SubtitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Small with action button", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Small}
+          actionButtonLabel={"Done"}
+          onActionButtonClick={noop}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Medium", () => {
+    return (
+      <ModalWrapper>
+        <Modal title={"Title"} size={ModalSize.Medium}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Medium with subtitle", () => {
+    return (
+      <ModalWrapper>
+        <Modal title={"Title"} subtitle={"Subtitle"} size={ModalSize.Medium}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Medium with titles reversed", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Medium}
+          titleOrder={TitleOrder.SubtitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Medium with action button", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Medium}
+          actionButtonLabel={"Done"}
+          onActionButtonClick={noop}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Large", () => {
+    return (
+      <ModalWrapper>
+        <Modal title={"Title"} size={ModalSize.Large}>
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Large with subtitle", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Large}
+          titleOrder={TitleOrder.TitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Large with titles reversed", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Large}
+          titleOrder={TitleOrder.SubtitleFirst}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })
+  .add("Large with action button", () => {
+    return (
+      <ModalWrapper>
+        <Modal
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Large}
+          actionButtonLabel={"Done"}
+          onActionButtonClick={noop}
+        >
+          <h1>lala</h1>
+        </Modal>
+      </ModalWrapper>
+    )
+  })

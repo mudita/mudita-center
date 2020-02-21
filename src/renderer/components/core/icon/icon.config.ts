@@ -3,6 +3,7 @@ import Arrow from "Renderer/svg/arrow.svg"
 import Battery from "Renderer/svg/battery.svg"
 import Check from "Renderer/svg/check-icon.svg"
 import CheckIndeterminate from "Renderer/svg/check-indeterminate.svg"
+import Close from "Renderer/svg/close.svg"
 import Delete from "Renderer/svg/delete.svg"
 import FilesManager from "Renderer/svg/files-manager.svg"
 import Magnifier from "Renderer/svg/magnifier.svg"
@@ -32,6 +33,7 @@ export enum Type {
   Calendar,
   Check,
   CheckIndeterminate,
+  Close,
   Delete,
   FilesManager,
   Magnifier,
@@ -66,6 +68,8 @@ export const getIconType = (icon: Type): FunctionComponent<ImageInterface> => {
       return Check
     case Type.CheckIndeterminate:
       return CheckIndeterminate
+    case Type.Close:
+      return Close
     case Type.Delete:
       return Delete
     case Type.FilesManager:
