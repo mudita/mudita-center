@@ -74,7 +74,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   const buttonLabel = intl.formatMessage({
     id: "view.name.overview.filesManager.openFilesManager",
   })
-  console.log("maxSpacej", maxSpace)
   return (
     <Card className={className}>
       <TextInfo>

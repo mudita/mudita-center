@@ -4,7 +4,6 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Phone from "Renderer/components/rest/overview/phone/phone.component"
 import Network from "Renderer/components/rest/overview/network/network.component"
-import getFakeAdapters from "App/tests/get-fake-adapters"
 import System from "Renderer/components/rest/overview/system/system.component"
 import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
@@ -58,7 +57,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
         batteryLevel={batteryLevel}
         network={"Play"}
       />
-      <NetworkInfo simCards={getFakeAdapters().pureNetwork.getSimCards()} />
+      <NetworkInfo simCards={simCards} />
       <System osVersion={osVersion} lastUpdate={"just now"} />
       <FileManagerInfo
         usedSpace={memorySpace.full - memorySpace.free}

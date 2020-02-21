@@ -1,7 +1,8 @@
 export interface SimCard {
-  readonly id: string
-  readonly name: string
   readonly network: string
+  readonly number: number
+  readonly slot: 1 | 2
+  readonly active: boolean
 }
 
 export interface MemorySpace {
