@@ -10,7 +10,7 @@ import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
+import { FormattedDate, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import Reload from "Renderer/svg/circle-arrow.svg"
 import {
@@ -64,12 +64,9 @@ const System: FunctionComponent<SystemProps> = ({
             <FormattedMessage id="view.name.overview.system.version" />
           </Text>
         </Version>
-        {Boolean(lastUpdate) && (
+        {Boolean(lastUpdate) && lastUpdate !== undefined && (
           <LastUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
-            <FormattedMessage
-              id="view.name.overview.system.lastUpdate"
-              values={{ date: lastUpdate }}
-            />
+            <FormattedDate value={new Date(lastUpdate)} format={"en-US"} />
           </LastUpdate>
         )}
         {updateAvailable && (

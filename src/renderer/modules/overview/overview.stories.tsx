@@ -11,10 +11,12 @@ const fakeState = {
     full: 16000000000,
   },
   simCards: [],
+  networkName: "Orange",
+  osUpdateDate: 1459832991883,
 }
 
 storiesOf("Views|Overview", module).add("Overview", () => (
   <div style={{ maxWidth: "63rem" }}>
-    <OverviewUI {...fakeState} networkName={"Orange"} />
+    <OverviewUI {...fakeState} />
   </div>
 ))

@@ -17,6 +17,7 @@ const initialState = {
     full: 16000000000,
   },
   lastBackup: "10.11.2019",
+  osUpdateDate: "",
 }
 
 export default {
@@ -41,6 +42,7 @@ export default {
       console.log("storage", storageInfo)
       console.log("battery", batteryInfo)
       console.log("backups", backupsInfo)
+      console.log("updatedate", info.osUpdateDate)
       dispatch.basicInfo.update({
         batteryLevel: batteryInfo.level,
         osVersion: info.osVersion,
@@ -53,6 +55,7 @@ export default {
         networkName: getActiveNetworkFromSim(networkInfo.simCards),
         lastBackup:
           backupsInfo.backups[backupsInfo.backups.length - 1].createdAt,
+        osUpdateDate: info.osUpdateDate,
       })
     },
   }),
