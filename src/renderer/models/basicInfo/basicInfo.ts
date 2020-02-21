@@ -1,3 +1,4 @@
+import { getActiveNetworkFromSim } from "Renderer/models/basicInfo/utils/helpers"
 import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
@@ -9,7 +10,7 @@ import { InitialState } from "./interfaces"
 const initialState = {
   simCards: [],
   batteryLevel: 0,
-  networkName: null,
+  networkName: "",
   osVersion: "1.0",
   memorySpace: {
     free: 0,
@@ -49,7 +50,9 @@ export default {
           full: storageInfo.capacity,
           free: storageInfo.available,
         },
-        lastBackup: backupsInfo.backups[0].createdAt,
+        networkName: getActiveNetworkFromSim(networkInfo.simCards),
+        lastBackup:
+          backupsInfo.backups[backupsInfo.backups.length - 1].createdAt,
       })
     },
   }),

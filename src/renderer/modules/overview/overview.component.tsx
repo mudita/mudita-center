@@ -10,12 +10,11 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   loadData,
   memorySpace,
   simCards,
+  networkName,
 }) => {
   useEffect(() => {
     loadData()
   }, [])
-
-  console.log({ batteryLevel, lastBackup, osVersion, memorySpace, simCards })
   return (
     <OverviewUI
       batteryLevel={batteryLevel}
@@ -23,6 +22,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       osVersion={osVersion}
       memorySpace={memorySpace}
       simCards={simCards}
+      networkName={networkName}
     />
   )
 }

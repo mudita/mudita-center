@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -39,25 +39,23 @@ const OverviewWrapper = styled.div`
     "Phone Backup";
 `
 
-const OverviewUI: FunctionComponent<BasicInfoInitialState> = ({
+const OverviewUI: FunctionComponent<Omit<
+  BasicInfoInitialState,
+  "loadData"
+>> = ({
   batteryLevel,
+  networkName,
   lastBackup,
   osVersion,
-  loadData,
   memorySpace,
   simCards,
 }) => {
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  console.log({ batteryLevel, lastBackup, osVersion, memorySpace, simCards })
   return (
     <OverviewWrapper>
       <PhoneInfo
         onDisconnect={noop}
         batteryLevel={batteryLevel}
-        network={"Play"}
+        network={networkName}
       />
       <NetworkInfo simCards={simCards} />
       <System osVersion={osVersion} lastUpdate={"just now"} />

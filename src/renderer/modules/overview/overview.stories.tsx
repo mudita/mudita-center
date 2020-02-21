@@ -1,6 +1,5 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import { noop } from "Renderer/utils/noop"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 
 const fakeState = {
@@ -16,6 +15,6 @@ const fakeState = {
 
 storiesOf("Views|Overview", module).add("Overview", () => (
   <div style={{ maxWidth: "63rem" }}>
-    <OverviewUI {...fakeState} loadData={noop} networkName={"Orange"} />
+    <OverviewUI {...fakeState} networkName={"Orange"} />
   </div>
 ))
