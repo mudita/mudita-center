@@ -18,10 +18,12 @@ import { Router } from "react-router"
 import {
   ModalBackdrop,
   ModalWrapper,
-} from "Renderer/components/core/modal/modal.component"
+} from "Renderer/components/core/modal/modal.styled.elements"
 import localeEn from "Renderer/locales/main/en-US.json"
 import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
+import { ThemeProvider } from "styled-components"
+import theme from "Renderer/styles/theming/theme"
 
 enum ModalError {
   NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
@@ -192,15 +194,17 @@ class ModalService {
     if (this.store && this.defaultLocale) {
       ReactDOM.render(
         <Provider store={this.store}>
-          <IntlProvider
-            defaultLocale={this.defaultLocale}
-            locale={this.defaultLocale}
-            messages={localeEn}
-          >
-            <Router history={history}>
-              <ModalWrapper>{modal}</ModalWrapper>
-            </Router>
-          </IntlProvider>
+          <ThemeProvider theme={theme}>
+            <IntlProvider
+              defaultLocale={this.defaultLocale}
+              locale={this.defaultLocale}
+              messages={localeEn}
+            >
+              <Router history={history}>
+                <ModalWrapper>{modal}</ModalWrapper>
+              </Router>
+            </IntlProvider>
+          </ThemeProvider>
         </Provider>,
         this.modalElement
       )
@@ -209,7 +213,12 @@ class ModalService {
   }
 
   private renderBackdrop = () => {
-    ReactDOM.render(<ModalBackdrop />, this.backdropElement)
+    ReactDOM.render(
+      <ThemeProvider theme={theme}>
+        <ModalBackdrop />
+      </ThemeProvider>,
+      this.backdropElement
+    )
     this.backdropOpened = true
   }
 }
