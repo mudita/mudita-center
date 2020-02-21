@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
 import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
-import Overview from "./overview.component"
+import Overview from "Renderer/modules/overview/overview.component"
 
 const mapStateToProps = ({
   basicInfo,
