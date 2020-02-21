@@ -9,7 +9,8 @@ import System from "Renderer/components/rest/overview/system/system.component"
 import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
-import downloadFile from "Renderer/requests/file-download.request"
+import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
+import downloadOsUpdateRequest from "Renderer/requests/download-os-update.request"
 
 const PhoneInfo = styled(Phone)`
   grid-area: Phone;
@@ -41,18 +42,30 @@ const OverviewWrapper = styled.div`
     "Phone Backup";
 `
 
+const lastUpdate = "2020-02-19T13:54:22.943Z"
+
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel,
   lastBackup,
   osVersion,
 }) => {
   const checkForUpdates = async () => {
-    // console.log(timestamp, file)
-    const data = await downloadFile("http://00.cba.pl/pda/latest.json")
-    console.log(data)
-    // console.log(app.getPath("userData"))
-    // console.log(ipcRenderer)
-    // "http://00.cba.pl/pda/os-update.txt"
+    console.log("Checking for updates...")
+    const { available, version, file } = await availableOsUpdateRequest(
+      lastUpdate
+    )
+
+    if (available) {
+      const updateNow = confirm(
+        `Pure OS version ${version} is available. Do you want to update it now?`
+      )
+
+      if (updateNow && file) {
+        await downloadOsUpdateRequest(file)
+      } else {
+        console.log("Update dismissed")
+      }
+    }
   }
 
   return (
