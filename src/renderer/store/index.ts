@@ -1,6 +1,6 @@
-import { init } from "@rematch/core"
+import { init, RematchDispatch } from "@rematch/core"
 import selectPlugin from "@rematch/select"
-import models from "Renderer/models/models"
+import { models, RootModel } from "Renderer/models/models"
 
 const store = init({
   models,
@@ -10,5 +10,6 @@ const store = init({
 export const { select } = store
 
 export type Store = typeof store
+export type Dispatch = RematchDispatch<RootModel>
 
 export default store

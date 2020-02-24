@@ -7,6 +7,7 @@ import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import { InitialState } from "./interfaces"
 import disconnectDevice from "Renderer/requests/disconnect-device.request"
 import changeSimRequest from "Renderer/requests/change-sim.request"
+import { Dispatch } from "Renderer/store"
 
 // TODO: implement mock store feature.
 const initialState = {
@@ -26,11 +27,11 @@ const initialState = {
 export default {
   state: initialState,
   reducers: {
-    update(state: InitialState, payload: InitialState) {
+    update(state: InitialState, payload: any) {
       return { ...state, ...payload }
     },
   },
-  effects: (dispatch: any) => ({
+  effects: (dispatch: Dispatch) => ({
     updatePhoneBasicInfo(basicInfo: InitialState) {
       this.updatePhoneBasicInfo(basicInfo)
     },
