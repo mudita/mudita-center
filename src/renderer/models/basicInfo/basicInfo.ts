@@ -5,9 +5,11 @@ import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import { InitialState } from "./interfaces"
+import disconnectDevice from "Renderer/requests/disconnect-device.request"
 
 // TODO: implement mock store feature.
 const initialState = {
+  disconnectedDevice: false,
   simCards: [],
   batteryLevel: 0,
   networkName: "",
@@ -56,6 +58,12 @@ export default {
         lastBackup:
           backupsInfo.backups[backupsInfo.backups.length - 1].createdAt,
         osUpdateDate: info.osUpdateDate,
+      })
+    },
+    async disconnect() {
+      const disconnectInfo = await disconnectDevice()
+      dispatch.basicInfo.update({
+        disconnectedDevice: disconnectInfo.disconnected,
       })
     },
   }),

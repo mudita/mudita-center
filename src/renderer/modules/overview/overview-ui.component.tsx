@@ -44,6 +44,7 @@ const OverviewUI: FunctionComponent<Omit<
   "loadData"
 >> = ({
   batteryLevel,
+  disconnectDevice,
   networkName,
   lastBackup,
   osVersion,
@@ -54,9 +55,9 @@ const OverviewUI: FunctionComponent<Omit<
   return (
     <OverviewWrapper>
       <PhoneInfo
-        onDisconnect={noop}
         batteryLevel={batteryLevel}
         network={networkName}
+        onDisconnect={disconnectDevice}
       />
       <NetworkInfo simCards={simCards} />
       <System

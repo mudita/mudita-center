@@ -16,6 +16,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
+import { useHistory } from "react-router"
 
 const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
@@ -63,11 +64,16 @@ const SignalStats = styled.div`
 `
 
 const Phone: FunctionComponent<PhoneProps> = ({
-  className,
-  onDisconnect,
   batteryLevel,
+  className,
   network,
+  onDisconnect,
 }) => {
+  const history = useHistory()
+  const handleClick = () => {
+    onDisconnect()
+    history.push("/news")
+  }
   return (
     <PhoneCard className={className}>
       <PhoneInfo>
@@ -94,7 +100,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           label={intl.formatMessage({
             id: "view.name.overview.phone.disconnectAction",
           })}
-          onClick={onDisconnect}
+          onClick={handleClick}
         />
       </CardAction>
     </PhoneCard>
