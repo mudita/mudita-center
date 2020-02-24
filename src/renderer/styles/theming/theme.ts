@@ -113,7 +113,9 @@ const theme = {
   },
   transitionTime: {
     standard: "500ms",
+    faster: "0.3s",
     quick: "250ms",
+    veryQuick: "0.15s",
   },
   transitionTimingFunction: {
     standard: "linear",
