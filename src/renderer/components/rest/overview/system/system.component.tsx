@@ -64,7 +64,7 @@ const System: FunctionComponent<SystemProps> = ({
             <FormattedMessage id="view.name.overview.system.version" />
           </Text>
         </Version>
-        {Boolean(lastUpdate) && lastUpdate !== undefined && (
+        {Boolean(lastUpdate) && (
           <LastUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
             <FormattedMessage
               id="view.name.overview.system.lastUpdate"
