@@ -24,6 +24,7 @@ import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
 import { ThemeProvider } from "styled-components"
 import theme from "Renderer/styles/theming/theme"
+import { MockStoreEnhanced } from "redux-mock-store"
 
 enum ModalError {
   NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
@@ -42,7 +43,7 @@ interface EventListeners {
 }
 
 class ModalService {
-  private store?: Store
+  private store?: Store | MockStoreEnhanced
   private defaultLocale?: string
   private modalElement: HTMLDivElement | null = null
   private backdropElement: HTMLDivElement | null = null
@@ -52,7 +53,7 @@ class ModalService {
   private backdropClosingAllowed: boolean = true
   private eventListeners: EventListeners[] = []
 
-  public bindStore(value: Store) {
+  public bindStore(value: Store | MockStoreEnhanced) {
     if (!this.store) {
       this.store = value
     }
