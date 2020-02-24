@@ -7,6 +7,8 @@ import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
 import { wait } from "@testing-library/react"
 import { intl } from "Renderer/utils/intl"
+import history from "Renderer/routes/history"
+import { Router } from "react-router"
 
 const renderPhone = ({
   onDisconnect = noop,
@@ -14,11 +16,13 @@ const renderPhone = ({
   network = "Play",
 }: Partial<PhoneProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <Phone
-      onDisconnect={onDisconnect}
-      batteryLevel={batteryLevel}
-      network={network}
-    />
+    <Router history={history}>
+      <Phone
+        onDisconnect={onDisconnect}
+        batteryLevel={batteryLevel}
+        network={network}
+      />
+    </Router>
   )
   return {
     ...outcome,
