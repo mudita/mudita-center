@@ -7,6 +7,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel,
   lastBackup,
   osVersion,
+  osUpdateDate,
   loadData,
   memorySpace,
   simCards,
@@ -20,6 +21,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       batteryLevel={batteryLevel}
       lastBackup={lastBackup}
       osVersion={osVersion}
+      osUpdateDate={osUpdateDate}
       memorySpace={memorySpace}
       simCards={simCards}
       networkName={networkName}

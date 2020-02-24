@@ -47,6 +47,7 @@ const OverviewUI: FunctionComponent<Omit<
   networkName,
   lastBackup,
   osVersion,
+  osUpdateDate,
   memorySpace,
   simCards,
 }) => {
@@ -58,7 +59,10 @@ const OverviewUI: FunctionComponent<Omit<
         network={networkName}
       />
       <NetworkInfo simCards={simCards} />
-      <System osVersion={osVersion} lastUpdate={"just now"} />
+      <System
+        osVersion={osVersion}
+        lastUpdate={new Date(osUpdateDate).toLocaleDateString("en-US")}
+      />
       <FileManagerInfo
         usedSpace={memorySpace.full - memorySpace.free}
         maxSpace={memorySpace.full}
