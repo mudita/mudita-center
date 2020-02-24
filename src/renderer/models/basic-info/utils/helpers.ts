@@ -1,4 +1,4 @@
-import { SimCard } from "Renderer/models/basicInfo/interfaces"
+import { SimCard } from "Renderer/models/basic-info/interfaces"
 
 export const getActiveNetworkFromSim = (simCards: SimCard[]) => {
   if (simCards.length === 0) {

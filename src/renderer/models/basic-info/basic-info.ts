@@ -1,4 +1,4 @@
-import { getActiveNetworkFromSim } from "Renderer/models/basicInfo/utils/helpers"
+import { getActiveNetworkFromSim } from "Renderer/models/basic-info/utils/helpers"
 import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"

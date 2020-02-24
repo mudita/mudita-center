@@ -14,7 +14,7 @@ import Card, {
   CardText,
 } from "Renderer/components/rest/overview/card.elements"
 import { noop } from "Renderer/utils/noop"
-import { SimCard } from "Renderer/models/basicInfo/interfaces"
+import { SimCard } from "Renderer/models/basic-info/interfaces"
 
 const TextInfo = styled(CardText)`
   p {
