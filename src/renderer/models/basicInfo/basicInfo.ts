@@ -6,6 +6,7 @@ import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import { InitialState } from "./interfaces"
 import disconnectDevice from "Renderer/requests/disconnect-device.request"
+import changeSimRequest from "Renderer/requests/change-sim.request"
 
 // TODO: implement mock store feature.
 const initialState = {
@@ -39,16 +40,9 @@ export default {
       const storageInfo = await getStorageInfo()
       const batteryInfo = await getBatteryInfo()
       const backupsInfo = await getBackupsInfo()
-      console.log("info", info)
-      console.log("network", networkInfo)
-      console.log("storage", storageInfo)
-      console.log("battery", batteryInfo)
-      console.log("backups", backupsInfo)
-      console.log("updatedate", info.osUpdateDate)
       dispatch.basicInfo.update({
         batteryLevel: batteryInfo.level,
         osVersion: info.osVersion,
-        modelName: info,
         simCards: networkInfo.simCards,
         memorySpace: {
           full: storageInfo.capacity,
@@ -64,6 +58,12 @@ export default {
       const disconnectInfo = await disconnectDevice()
       dispatch.basicInfo.update({
         disconnectedDevice: disconnectInfo.disconnected,
+      })
+    },
+    async changeSim() {
+      const changeSimInfo = await changeSimRequest()
+      dispatch.basicInfo.update({
+        activeSim: changeSimInfo.number,
       })
     },
   }),

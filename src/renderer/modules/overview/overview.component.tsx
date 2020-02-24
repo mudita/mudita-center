@@ -5,6 +5,7 @@ import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel,
+  changeSim,
   disconnectDevice,
   lastBackup,
   osVersion,
@@ -20,6 +21,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   return (
     <OverviewUI
       batteryLevel={batteryLevel}
+      changeSim={changeSim}
       disconnectDevice={disconnectDevice}
       lastBackup={lastBackup}
       osVersion={osVersion}

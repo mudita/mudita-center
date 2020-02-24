@@ -12,6 +12,7 @@ export interface MemorySpace {
 
 export interface InitialState {
   readonly batteryLevel: number
+  readonly changeSim: () => void
   readonly disconnectDevice: () => void
   readonly networkName: string
   readonly osVersion: string

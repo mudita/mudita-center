@@ -19,6 +19,6 @@ const fakeState = {
 
 storiesOf("Views|Overview", module).add("Overview", () => (
   <div style={{ maxWidth: "63rem" }}>
-    <OverviewUI {...fakeState} disconnectDevice={noop} />
+    <OverviewUI {...fakeState} disconnectDevice={noop} changeSim={noop} />
   </div>
 ))

@@ -44,6 +44,7 @@ const OverviewUI: FunctionComponent<Omit<
   "loadData"
 >> = ({
   batteryLevel,
+  changeSim,
   disconnectDevice,
   networkName,
   lastBackup,
@@ -59,7 +60,7 @@ const OverviewUI: FunctionComponent<Omit<
         network={networkName}
         onDisconnect={disconnectDevice}
       />
-      <NetworkInfo simCards={simCards} />
+      <NetworkInfo simCards={simCards} onSimChange={changeSim} />
       <System
         osVersion={osVersion}
         lastUpdate={new Date(osUpdateDate).toLocaleDateString("en-US")}

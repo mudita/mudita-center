@@ -13,6 +13,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: any) => ({
   loadData: () => dispatch.basicInfo.loadData(),
   disconnectDevice: () => dispatch.basicInfo.disconnect(),
+  changeSim: () => dispatch.basicInfo.changeSim(),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)
