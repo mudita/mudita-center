@@ -47,12 +47,10 @@ const ModalExample: FunctionComponent = () => {
   )
 }
 
-const middlewares: any[] = []
-const mockStore = configureStore(middlewares)
-
 export const ModalUsage: FunctionComponent = () => {
-  const initialState = {}
-  const store = mockStore(initialState)
+  const middlewares: any[] = []
+  const mockStore = configureStore(middlewares)
+  const store = mockStore({})
   modalService.bindStore(store)
   modalService.setDefaultLocale(LANGUAGE.default)
 
