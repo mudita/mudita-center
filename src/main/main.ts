@@ -3,7 +3,7 @@ import { app, BrowserWindow } from "electron"
 import * as path from "path"
 import * as url from "url"
 import { WINDOW_SIZE } from "./config"
-import registerIpcEvents from "./ipc"
+import registerEvents from "./events"
 
 let win: BrowserWindow | null
 
@@ -30,7 +30,7 @@ const createWindow = async () => {
     },
   })
 
-  registerIpcEvents(win)
+  registerEvents(win)
 
   if (process.env.NODE_ENV !== "production") {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"

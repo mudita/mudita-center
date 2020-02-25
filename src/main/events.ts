@@ -1,27 +1,51 @@
 import { app, net } from "electron"
 import { ipcMain } from "electron-better-ipc"
 import { BrowserWindow } from "electron"
+import {
+  DownloadStatus,
+  OSDownloadProgressing,
+} from "Renderer/requests/download-os-update.request"
 
 export default (win: BrowserWindow) => {
   win.webContents.session.on("will-download", (event, item, webContents) => {
+    const onDownloadCancel = () => {
+      item.cancel()
+    }
+
     item.setSavePath(
       app.getPath("userData") + "/downloads/" + item.getFilename()
     )
 
+    ipcMain.once("cancel-download", onDownloadCancel)
+
     item.on("updated", (_, state) => {
-      const progress = {
-        status: state as string,
+      const total = item.getTotalBytes()
+      const received = item.getReceivedBytes()
+      const percent = Math.round((received / total) * 100)
+      const startTime = Math.round(item.getStartTime())
+      const lastUpdate = new Date().getTime() / 1000
+      const timeDiff = lastUpdate - startTime
+      const timeLeft = (timeDiff / percent) * (100 - percent)
+
+      const progress: OSDownloadProgressing = {
+        status: state,
         data: {
-          total: item.getTotalBytes(),
-          received: item.getReceivedBytes(),
+          total,
+          received,
+          percent,
+          timeLeft,
         },
       }
+
       if (item.isPaused()) {
-        progress.status = "paused"
+        progress.status = DownloadStatus.Paused
       }
+
       ipcMain.sendToRenderers("download-progress", progress)
     })
+
     item.once("done", (_, state) => {
+      ipcMain.removeListener("cancel-download", onDownloadCancel)
       ipcMain.sendToRenderers("download-finished", {
         status: state,
         directory: item.savePath,
@@ -30,7 +54,7 @@ export default (win: BrowserWindow) => {
     })
   })
 
-  ipcMain.on("download", (e, { url }) => {
+  ipcMain.on("download", (e, { url }: { url: string }) => {
     win!.webContents.session.downloadURL(url)
   })
 
