@@ -1,5 +1,8 @@
 import { connect } from "react-redux"
-import { InitialState as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
+import {
+  InitialState as BasicInfoInitialState,
+  SimCard,
+} from "Renderer/models/basic-info/interfaces"
 import Overview from "Renderer/modules/overview/overview.component"
 
 const mapStateToProps = ({
@@ -13,7 +16,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: any) => ({
   loadData: () => dispatch.basicInfo.loadData(),
   disconnectDevice: () => dispatch.basicInfo.disconnect(),
-  changeSim: () => dispatch.basicInfo.changeSim(),
+  changeSim: (card: SimCard) => dispatch.basicInfo.changeSim(card),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)

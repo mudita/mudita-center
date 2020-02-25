@@ -4,10 +4,11 @@ import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
-import { InitialState } from "./interfaces"
+import { InitialState, SimCard } from "./interfaces"
 import disconnectDevice from "Renderer/requests/disconnect-device.request"
 import changeSimRequest from "Renderer/requests/change-sim.request"
 import { Dispatch } from "Renderer/store"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 
 // TODO: implement mock store feature.
 const initialState = {
@@ -30,11 +31,21 @@ export default {
     update(state: InitialState, payload: any) {
       return { ...state, ...payload }
     },
+    updateSim(state: InitialState, payload: number) {
+      const newSim = [
+        {
+          ...state.simCards[0],
+          active: state.simCards[0].number === payload,
+        },
+        {
+          ...state.simCards[1],
+          active: state.simCards[1].number === payload,
+        },
+      ]
+      return { ...state, simCards: newSim }
+    },
   },
   effects: (dispatch: Dispatch) => ({
-    updatePhoneBasicInfo(basicInfo: InitialState) {
-      this.updatePhoneBasicInfo(basicInfo)
-    },
     async loadData() {
       const info = await getDeviceInfo()
       const networkInfo = await getNetworkInfo()
@@ -61,11 +72,11 @@ export default {
         disconnectedDevice: disconnectInfo.disconnected,
       })
     },
-    async changeSim() {
+    async changeSim(simCard: SimCard) {
       const changeSimInfo = await changeSimRequest()
-      dispatch.basicInfo.update({
-        activeSim: changeSimInfo.number,
-      })
+      if (changeSimInfo.status === DeviceResponseStatus.Ok) {
+        dispatch.basicInfo.updateSim(simCard.number)
+      }
     },
   }),
 }
