@@ -8,7 +8,7 @@ class PurePhoneNetworkFake extends PurePhoneNetworkAdapter {
         slot: 1,
         active: true,
         number: 12345678,
-        network: "Yo mama",
+        network: "Y-Mobile",
         carrier: "Yo mama 36.0",
         networkLevel: 0.5,
         iccid: 1234,
