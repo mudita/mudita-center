@@ -36,12 +36,12 @@ const ProgressWrapper = styled.div`
   align-items: center;
 `
 
-const Progress = styled.div`
+export const Progress = styled.div`
   display: flex;
   width: 90%;
 `
 
-const Bar = styled.div<BarProps>`
+export const Bar = styled.div<BarProps>`
   width: ${({ percentage }) => percentage}%;
   background-color: ${({ color }) => color};
 
