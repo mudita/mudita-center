@@ -24,7 +24,9 @@ import Music from "Renderer/svg/music.svg"
 import Signal from "Renderer/svg/signal.svg"
 import Sim from "Renderer/svg/sim.svg"
 import Upload from "Renderer/svg/upload.svg"
+import Download from "Renderer/svg/download.svg"
 import VoiceRecorder from "Renderer/svg/voice-recorder.svg"
+import Pure from "Renderer/svg/pure.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -54,6 +56,8 @@ export enum Type {
   Sim,
   Upload,
   VoiceRecorder,
+  Download,
+  Pure,
 }
 
 export const getIconType = (icon: Type): FunctionComponent<ImageInterface> => {
@@ -110,6 +114,10 @@ export const getIconType = (icon: Type): FunctionComponent<ImageInterface> => {
       return Upload
     case Type.VoiceRecorder:
       return VoiceRecorder
+    case Type.Download:
+      return Download
+    case Type.Pure:
+      return Pure
     default:
       return Message
   }
