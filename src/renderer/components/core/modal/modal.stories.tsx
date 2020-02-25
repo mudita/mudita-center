@@ -6,12 +6,13 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import { LANGUAGE } from "Renderer/constants/languages"
 import store from "Renderer/store"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import Modal, {
-  ModalSize,
-  TitleOrder,
-} from "Renderer/components/core/modal/modal.component"
+import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 import { noop } from "Renderer/utils/noop"
+import {
+  ModalSize,
+  TitleOrder,
+} from "Renderer/components/core/modal/modal.interface"
 
 export const ModalExample: FunctionComponent = () => {
   const [closable, setClosableState] = useState(false)
