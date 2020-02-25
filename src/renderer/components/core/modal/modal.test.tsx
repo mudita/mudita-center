@@ -2,9 +2,8 @@ import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { noop } from "Renderer/utils/noop"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import Modal, {
-  ModalSize,
-} from "Renderer/components/core/modal/modal.component"
+import Modal from "Renderer/components/core/modal/modal.component"
+import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 
 test("close button is rendered because modal is closeable by default", () => {
   const closeButtonTestId = "close-modal-button"

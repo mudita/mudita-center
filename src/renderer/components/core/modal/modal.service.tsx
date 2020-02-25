@@ -132,6 +132,10 @@ class ModalService {
     this.renderModal(modal)
   }
 
+  public rerenderModal(modal: ReactElement) {
+    this.renderModal(modal)
+  }
+
   public allowClosingModal() {
     this.modalClosingAllowed = true
   }
