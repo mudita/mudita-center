@@ -34,8 +34,8 @@ const Wrapper = styled.div<{
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 2rem;
-  width: 2rem;
+  height: ${({ height }) => (height ? height + "rem" : "2rem")};
+  width: ${({ width }) => (width ? width + "rem" : "2rem")};
   position: relative;
 
   svg {
