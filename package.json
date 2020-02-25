@@ -202,7 +202,6 @@
     "redux": "^4.0.5",
     "redux-observable": "^1.2.0",
     "redux-thunk": "^2.3.0",
-    "serialport": "^8.0.7",
     "source-map-support": "^0.5.16",
     "styled-components": "^5.0.1",
     "styled-normalize": "^8.0.7",
