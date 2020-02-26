@@ -1,9 +1,9 @@
-// import { getActiveNetworkFromSim } from "Renderer/models/basic-info/utils/helpers"
+import { getActiveNetworkFromSim } from "Renderer/models/basic-info/utils/helpers"
 import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
-// import getDeviceInfo from "Renderer/requests/get-device-info.request"
-// import getNetworkInfo from "Renderer/requests/get-network-info.request"
-// import getStorageInfo from "Renderer/requests/get-storage-info.request"
+import getDeviceInfo from "Renderer/requests/get-device-info.request"
+import getNetworkInfo from "Renderer/requests/get-network-info.request"
+import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import { InitialState, SimCard } from "./interfaces"
 import disconnectDevice from "Renderer/requests/disconnect-device.request"
 import changeSimRequest from "Renderer/requests/change-sim.request"
@@ -47,23 +47,23 @@ export default {
   },
   effects: (dispatch: Dispatch) => ({
     async loadData() {
-      // const info = await getDeviceInfo()
-      // const networkInfo = await getNetworkInfo()
-      // const storageInfo = await getStorageInfo()
+      const info = await getDeviceInfo()
+      const networkInfo = await getNetworkInfo()
+      const storageInfo = await getStorageInfo()
       const batteryInfo = await getBatteryInfo()
       const backupsInfo = await getBackupsInfo()
       dispatch.basicInfo.update({
         batteryLevel: batteryInfo.level,
-        // osVersion: info.osVersion,
-        // simCards: networkInfo.simCards,
-        // memorySpace: {
-        //   full: storageInfo.capacity,
-        //   free: storageInfo.available,
-        // },
-        // networkName: getActiveNetworkFromSim(networkInfo.simCards),
+        osVersion: info.osVersion,
+        simCards: networkInfo.simCards,
+        memorySpace: {
+          full: storageInfo.capacity,
+          free: storageInfo.available,
+        },
+        networkName: getActiveNetworkFromSim(networkInfo.simCards),
         lastBackup:
           backupsInfo.backups[backupsInfo.backups.length - 1].createdAt,
-        // osUpdateDate: info.osUpdateDate,
+        osUpdateDate: info.osUpdateDate,
       })
     },
     async disconnect() {
