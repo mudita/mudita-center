@@ -70,7 +70,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   onDisconnect,
 }) => {
   const history = useHistory()
-  const handleClick = () => {
+  const handleDisconnect = () => {
     onDisconnect()
     history.push("/news")
   }
@@ -100,7 +100,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           label={intl.formatMessage({
             id: "view.name.overview.phone.disconnectAction",
           })}
-          onClick={handleClick}
+          onClick={handleDisconnect}
         />
       </CardAction>
     </PhoneCard>
