@@ -9,6 +9,7 @@ import disconnectDevice from "Renderer/requests/disconnect-device.request"
 import changeSimRequest from "Renderer/requests/change-sim.request"
 import { Dispatch } from "Renderer/store"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { Slicer } from "@rematch/select"
 
 // TODO: implement mock store feature.
 const initialState = {
@@ -60,7 +61,6 @@ export default {
           full: storageInfo.capacity,
           free: storageInfo.available,
         },
-        networkName: getActiveNetworkFromSim(networkInfo.simCards),
         lastBackup:
           backupsInfo.backups[backupsInfo.backups.length - 1].createdAt,
         osUpdateDate: info.osUpdateDate,
@@ -77,6 +77,13 @@ export default {
       if (changeSimInfo.status === DeviceResponseStatus.Ok) {
         dispatch.basicInfo.updateSim(simCard.number)
       }
+    },
+  }),
+  selectors: (slice: Slicer<typeof initialState>) => ({
+    activeSimNetworkName() {
+      return slice(state => {
+        return getActiveNetworkFromSim(state.simCards)
+      })
     },
   }),
 }
