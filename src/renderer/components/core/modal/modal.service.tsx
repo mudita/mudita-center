@@ -32,7 +32,9 @@ enum ModalError {
 }
 
 const logError = (message: ModalError) => {
-  console.warn(`Modal error: ${message}`)
+  if (process.env.NODE_ENV !== "production") {
+    console.warn(`Modal error: ${message}`)
+  }
 }
 
 interface EventListeners {
@@ -130,6 +132,12 @@ class ModalService {
     this.renderBackdrop()
     this.mountModal()
     this.renderModal(modal)
+  }
+
+  public rerenderModal(modal: ReactElement) {
+    if (this.isModalOpen()) {
+      this.renderModal(modal)
+    }
   }
 
   public allowClosingModal() {

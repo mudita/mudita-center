@@ -3,7 +3,7 @@ import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import {
   ModalSize,
   TitleOrder,
-} from "Renderer/components/core/modal/modal.component"
+} from "Renderer/components/core/modal/modal.interface"
 import { Size } from "Renderer/components/core/button/button.config"
 
 export const getModalSize = (size: ModalSize) => {
