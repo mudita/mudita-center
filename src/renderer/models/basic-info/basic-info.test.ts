@@ -107,7 +107,7 @@ Object {
       "free": 99999999999999,
       "full": 9001,
     },
-    "networkName": "Y-Mobile",
+    "networkName": "",
     "osUpdateDate": "12-12-2003",
     "osVersion": "0.123v",
     "simCards": Array [
@@ -139,4 +139,38 @@ Object {
   },
 }
 `)
+})
+
+test("disconnect returns true and updates state", async () => {
+  const store = init({
+    models: { basicInfo },
+  })
+  ;(ipcRenderer as any).__rendererCalls = {
+    [IpcRequest.DisconnectDevice]: Promise.resolve({
+      disconnected: true,
+    }),
+  }
+
+  await store.dispatch.basicInfo.disconnect()
+
+  const state = store.getState()
+
+  expect(state).toMatchInlineSnapshot(`
+Object {
+  "basicInfo": Object {
+    "batteryLevel": 0,
+    "disconnectedDevice": true,
+    "lastBackup": "10.11.2019",
+    "memorySpace": Object {
+      "free": 0,
+      "full": 16000000000,
+    },
+    "networkName": "",
+    "osUpdateDate": "",
+    "osVersion": "1.0",
+    "simCards": Array [],
+  },
+}
+`)
+  expect(state.basicInfo.disconnectedDevice).toBeTruthy()
 })
