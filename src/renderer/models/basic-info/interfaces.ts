@@ -22,3 +22,8 @@ export interface InitialState {
   readonly loadData: () => void
   readonly simCards: SimCard[]
 }
+
+export type StoreInitialState = Omit<
+  InitialState,
+  "changeSim" | "disconnectDevice" | "loadData"
+>

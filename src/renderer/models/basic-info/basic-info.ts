@@ -4,22 +4,25 @@ import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
-import { InitialState, SimCard } from "./interfaces"
 import disconnectDevice from "Renderer/requests/disconnect-device.request"
 import changeSimRequest from "Renderer/requests/change-sim.request"
 import { Dispatch } from "Renderer/store"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Slicer } from "@rematch/select"
+import {
+  SimCard,
+  StoreInitialState,
+} from "Renderer/models/basic-info/interfaces"
 
 const initialState = {}
 
 export default {
   state: initialState,
   reducers: {
-    update(state: InitialState, payload: any) {
+    update(state: StoreInitialState, payload: any) {
       return { ...state, ...payload }
     },
-    updateSim(state: InitialState, payload: number) {
+    updateSim(state: StoreInitialState, payload: number) {
       const newSim = [
         {
           ...state.simCards[0],
