@@ -11,7 +11,6 @@ import { Dispatch } from "Renderer/store"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Slicer } from "@rematch/select"
 
-// TODO: implement mock store feature.
 const initialState = {
   disconnectedDevice: false,
   simCards: [],
