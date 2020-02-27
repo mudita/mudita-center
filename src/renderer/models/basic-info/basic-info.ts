@@ -48,11 +48,19 @@ export default {
   },
   effects: (dispatch: Dispatch) => ({
     async loadData() {
-      const info = await getDeviceInfo()
-      const networkInfo = await getNetworkInfo()
-      const storageInfo = await getStorageInfo()
-      const batteryInfo = await getBatteryInfo()
-      const backupsInfo = await getBackupsInfo()
+      const [
+        info,
+        networkInfo,
+        storageInfo,
+        batteryInfo,
+        backupsInfo,
+      ] = await Promise.all([
+        getDeviceInfo(),
+        getNetworkInfo(),
+        getStorageInfo(),
+        getBatteryInfo(),
+        getBackupsInfo(),
+      ])
       dispatch.basicInfo.update({
         batteryLevel: batteryInfo.level,
         osVersion: info.osVersion,
