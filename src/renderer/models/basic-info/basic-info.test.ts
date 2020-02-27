@@ -135,7 +135,7 @@ test("disconnect returns true and updates state", async () => {
   })
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcRequest.DisconnectDevice]: Promise.resolve({
-      disconnected: true,
+      status: DeviceResponseStatus.Ok,
     }),
   }
 
@@ -144,12 +144,14 @@ test("disconnect returns true and updates state", async () => {
   const state = store.getState()
 
   expect(state).toMatchInlineSnapshot(`
-    Object {
-      "basicInfo": Object {
-        "disconnectedDevice": true,
-      },
-    }
-  `)
+Object {
+  "basicInfo": Object {
+    "disconnectedDevice": Object {
+      "status": "ok",
+    },
+  },
+}
+`)
 })
 
 test("change sim switches active property on sim cards", async () => {

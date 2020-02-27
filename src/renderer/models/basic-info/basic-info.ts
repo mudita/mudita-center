@@ -63,9 +63,11 @@ export default {
     },
     async disconnect() {
       const disconnectInfo = await disconnectDevice()
-      dispatch.basicInfo.update({
-        disconnectedDevice: disconnectInfo.disconnected,
-      })
+      if (disconnectInfo.status === DeviceResponseStatus.Ok) {
+        dispatch.basicInfo.update({
+          disconnectedDevice: disconnectInfo,
+        })
+      }
     },
     async changeSim(simCard: SimCard) {
       const changeSimInfo = await changeSimRequest()
