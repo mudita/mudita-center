@@ -2,18 +2,29 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import { InitialState as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
 import React, { useEffect } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
+import { noop } from "Renderer/utils/noop"
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
-  batteryLevel,
-  changeSim,
-  disconnectDevice,
-  lastBackup,
-  osVersion,
-  osUpdateDate,
-  loadData,
-  memorySpace,
-  simCards,
-  networkName,
+  batteryLevel = 0,
+  changeSim = noop,
+  disconnectDevice = noop,
+  lastBackup = "N/A",
+  osVersion = "N/A",
+  osUpdateDate = 0,
+  loadData = noop,
+  memorySpace = {
+    free: 0,
+    full: 16000000000,
+  },
+  simCards = [
+    {
+      network: "No connection",
+      active: false,
+      number: 0,
+      slot: 1,
+    },
+  ],
+  networkName = "No connection",
 }) => {
   useEffect(() => {
     loadData()

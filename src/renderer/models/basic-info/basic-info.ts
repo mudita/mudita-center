@@ -11,19 +11,7 @@ import { Dispatch } from "Renderer/store"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Slicer } from "@rematch/select"
 
-const initialState = {
-  disconnectedDevice: false,
-  simCards: [],
-  batteryLevel: 0,
-  networkName: "",
-  osVersion: "1.0",
-  memorySpace: {
-    free: 0,
-    full: 16000000000,
-  },
-  lastBackup: "10.11.2019",
-  osUpdateDate: "",
-}
+const initialState = {}
 
 export default {
   state: initialState,
@@ -88,7 +76,7 @@ export default {
   }),
   selectors: (slice: Slicer<typeof initialState>) => ({
     activeSimNetworkName() {
-      return slice(state => {
+      return slice((state: { simCards?: SimCard[] }) => {
         return getActiveNetworkFromSim(state.simCards)
       })
     },

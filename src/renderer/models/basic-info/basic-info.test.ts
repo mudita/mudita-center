@@ -174,7 +174,6 @@ Object {
   },
 }
 `)
-  expect(state.basicInfo.disconnectedDevice).toBeTruthy()
 })
 
 test("change sim switches active property on sim cards", async () => {
