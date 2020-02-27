@@ -5,6 +5,14 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { SimCard } from "Renderer/models/basic-info/interfaces"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 
+afterEach(() => {
+  for (const property in (ipcRenderer as any).__rendererCalls) {
+    if ((ipcRenderer as any).__rendererCalls.hasOwnProperty(property)) {
+      delete (ipcRenderer as any).__rendererCalls[property]
+    }
+  }
+})
+
 test("store returns initial state", () => {
   const store = init({
     models: { basicInfo },
