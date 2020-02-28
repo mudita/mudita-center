@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -9,24 +9,7 @@ import System from "Renderer/components/rest/overview/system/system.component"
 import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
-import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
-import downloadOsUpdateRequest, {
-  DownloadStatus,
-  OSDownloadProgressing,
-  UpdateRequestFile,
-} from "Renderer/requests/download-os-update.request"
-import modalService from "Renderer/components/core/modal/modal.service"
-import { ipcRenderer } from "electron-better-ipc"
-import {
-  DownloadingUpdateModal,
-  UpdateAvailable,
-  DownloadingUpdateCancelledModal,
-  DownloadingUpdateFinishedModal,
-  DownloadingUpdateInterruptedModal,
-  UpdateNotAvailable,
-  CheckingUpdatesModal,
-} from "Renderer/modules/overview/overview.modals"
-import delayResponse from "Renderer/utils/delay-response"
+import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 
 const PhoneInfo = styled(Phone)`
   grid-area: Phone;
@@ -58,107 +41,15 @@ const OverviewWrapper = styled.div`
     "Phone Backup";
 `
 
-// Mocked data, only for testing purposes.
-// TODO: Remove after merge with https://appnroll.atlassian.net/browse/PDA-70
-const lastUpdate = "2020-02-18T13:54:32.943Z"
-
-// Rerender modal while downloading file
-const useOnDownloadProgress = (
-  downloadCallback: (props: OSDownloadProgressing["data"]) => void
-) => {
-  useEffect(() => {
-    const downloadListener = (event: Event, { data }: OSDownloadProgressing) =>
-      downloadCallback(data)
-    ipcRenderer.on("download-progress", downloadListener)
-    return () => {
-      ipcRenderer.removeListener("download-progress", downloadListener)
-    }
-  }, [])
-}
-
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel,
   lastBackup,
   osVersion,
 }) => {
-  useOnDownloadProgress(({ percent, timeLeft }) => {
-    modalService.rerenderModal(
-      <DownloadingUpdateModal progress={percent} estimatedTime={timeLeft} />
-    )
-  })
-
-  const updatePure = () => {
-    // TODO: Continue update process when Pure updates through USB become available
-    console.log("Updating Pure OS...")
-  }
-
-  const checkForUpdates = async () => {
-    await modalService.openModal(<CheckingUpdatesModal />)
-    return await delayResponse(availableOsUpdateRequest(lastUpdate))
-  }
-
-  const downloadUpdateFile = async (file: UpdateRequestFile) => {
-    await modalService.openModal(<DownloadingUpdateModal />, true)
-    modalService.preventClosingModal()
-    return await delayResponse(downloadOsUpdateRequest(file))
-  }
-
-  const downloadSucceeded = () => {
-    return modalService.openModal(
-      <DownloadingUpdateFinishedModal osUpdateHandler={updatePure} />,
-      true
-    )
-  }
-
-  const downloadCanceled = () => {
-    return modalService.openModal(<DownloadingUpdateCancelledModal />, true)
-  }
-
-  const downloadInterrupted = (retryHandler: () => void) => {
-    return modalService.openModal(
-      <DownloadingUpdateInterruptedModal retryHandler={retryHandler} />,
-      true
-    )
-  }
-
-  const availableUpdate = async (
-    downloadActionHandler: () => void,
-    version: string
-  ) => {
-    return await modalService.openModal(
-      <UpdateAvailable
-        downloadActionHandler={downloadActionHandler}
-        version={version}
-      />,
-      true
-    )
-  }
-
-  const notAvailableUpdate = async () => {
-    return await modalService.openModal(<UpdateNotAvailable />, true)
-  }
-
-  const onUpdateCheck = async () => {
-    const { available, version, file } = await checkForUpdates()
-
-    if (available && version && file) {
-      const downloadUpdate = async () => {
-        try {
-          await downloadUpdateFile(file)
-          await downloadSucceeded()
-        } catch (error) {
-          if (error.status === DownloadStatus.Cancelled) {
-            await downloadCanceled()
-          } else {
-            await downloadInterrupted(downloadUpdate)
-          }
-        }
-      }
-      await availableUpdate(downloadUpdate, version)
-    } else {
-      await notAvailableUpdate()
-    }
-  }
+  // Mocked data, only for testing purposes.
+  // TODO: Remove after merge with https://appnroll.atlassian.net/browse/PDA-70
+  const lastUpdate = "2020-02-18T13:54:32.943Z"
+  const onUpdateCheck = useSystemUpdateFlow(lastUpdate)
 
   return (
     <OverviewWrapper>
@@ -170,7 +61,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       <NetworkInfo simCards={getFakeAdapters().pureNetwork.getSimCards()} />
       <System
         osVersion={osVersion}
-        lastUpdate={"just now"}
+        lastUpdate={new Date(lastUpdate).toLocaleDateString()}
         onUpdateCheck={onUpdateCheck}
       />
       <FileManagerInfo usedSpace={16} onFilesOpen={noop} />

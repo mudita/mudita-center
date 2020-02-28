@@ -1,4 +1,3 @@
-// System update modals
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
@@ -6,11 +5,6 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import StackedBarChart, {
-  Bar,
-  DisplayStyle,
-  Progress,
-} from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import React from "react"
 import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
@@ -18,8 +12,9 @@ import Loader from "Renderer/components/core/loader/loader.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { ipcRenderer } from "electron-better-ipc"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import { DownloadProgress } from "App/main/functions/register-download-listener"
+import { cancelOsDownload } from "Renderer/requests/download-os-update.request"
 
 const ModalContent = styled.div`
   display: flex;
@@ -43,15 +38,20 @@ const RoundIconWrapper = styled.div`
   margin-bottom: 3.2rem;
 `
 
-const DownloadBar = styled(StackedBarChart)`
+const DownloadBar = styled.div`
   width: 22rem;
   margin-top: 3.2rem;
+  height: 0.4rem;
+  position: relative;
+  border-radius: 0.4rem;
+  background-color: ${backgroundColor("grey2")};
 
-  ${Progress} {
-    width: 100%;
-  }
-  ${Bar} {
-    transition: width 0.4s ease-in-out;
+  span {
+    display: block;
+    height: inherit;
+    border-radius: inherit;
+    background-color: ${backgroundColor("progressBar")};
+    transition: width 0.3s ease-in-out;
   }
 `
 
@@ -108,23 +108,30 @@ export const UpdateNotAvailable = () => (
   </OSUpdateModal>
 )
 
-interface DownloadingModalProps {
-  progress?: number
-  estimatedTime?: number
-}
+export const UpdateServerError = ({ retryHandler = noop }) => (
+  <OSUpdateModal actionButtonLabel={"Retry"} onActionButtonClick={retryHandler}>
+    <RoundIconWrapper>
+      <Icon type={Type.Pure} width={4} />
+    </RoundIconWrapper>
+    <Text displayStyle={TextDisplayStyle.LargeBoldText}>
+      Update cannot be performed
+    </Text>
+    <Text displayStyle={TextDisplayStyle.MediumFadedText}>
+      Please check your internet connection and try again.
+    </Text>
+  </OSUpdateModal>
+)
 
 export const DownloadingUpdateModal = ({
-  progress = 0,
-  estimatedTime = Infinity,
-}: DownloadingModalProps) => {
-  const cancelDownload = () => {
-    ipcRenderer.send("cancel-download")
-  }
+  percent = 0,
+  timeLeft = Infinity,
+  speed = 0,
+}: Partial<DownloadProgress>) => {
   const infiniteTime = <span>Starting download...</span>
   const finiteTime = (
     <span>
-      Estimated time left: {Math.ceil(estimatedTime)} second
-      {estimatedTime <= 1 ? "" : "s"}.
+      Estimated time left: {Math.ceil(timeLeft)} second
+      {timeLeft <= 1 ? "" : "s"}. Current speed: {Math.round(speed / 1024)} KB/s
     </span>
   )
   const zeroTime = <span>Finishing download...</span>
@@ -133,7 +140,7 @@ export const DownloadingUpdateModal = ({
       closeable={false}
       closeButton={false}
       actionButtonLabel={"Abort"}
-      onActionButtonClick={cancelDownload}
+      onActionButtonClick={cancelOsDownload}
     >
       <RoundIconWrapper>
         <Icon type={Type.Download} width={4} />
@@ -142,19 +149,15 @@ export const DownloadingUpdateModal = ({
         <span>Downloading update...</span>
       </Text>
       <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-        {!isFinite(estimatedTime)
+        {!isFinite(timeLeft)
           ? infiniteTime
-          : estimatedTime === 0
+          : timeLeft === 0
           ? zeroTime
           : finiteTime}
       </Text>
-      <DownloadBar
-        chartData={[
-          { value: progress, color: "#e3f3ff" },
-          { value: 100 - progress, color: "#f4f5f6" },
-        ]}
-        displayStyle={DisplayStyle.Simple}
-      />
+      <DownloadBar>
+        <span style={{ width: `${percent}%` }} />
+      </DownloadBar>
     </OSUpdateModal>
   )
 }
@@ -191,6 +194,9 @@ export const DownloadingUpdateInterruptedModal = ({ retryHandler = noop }) => (
     </RoundIconWrapper>
     <Text displayStyle={TextDisplayStyle.LargeBoldText}>
       Download interrupted
+    </Text>
+    <Text displayStyle={TextDisplayStyle.MediumFadedText}>
+      Please check your internet connection and try again.
     </Text>
   </OSUpdateModal>
 )
