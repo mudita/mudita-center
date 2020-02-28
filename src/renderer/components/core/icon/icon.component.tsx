@@ -34,15 +34,15 @@ const Wrapper = styled.div<{
   display: flex;
   justify-content: center;
   align-items: center;
-  height: ${({ height }) => (height ? height + "rem" : "2rem")};
-  width: ${({ width }) => (width ? width + "rem" : "2rem")};
+  height: ${({ height = 2 }) => height + "rem"};
+  width: ${({ width = 2 }) => width + "rem"};
   position: relative;
 
   svg {
     max-height: 100%;
     max-width: 100%;
-    height: ${({ height }) => (height ? height + "rem" : "100%")};
-    width: ${({ width }) => (width ? width + "rem" : "100%")};
+    height: 100%;
+    width: 100%;
   }
 
   ${({ badge }) => badge && badgeStyles};
