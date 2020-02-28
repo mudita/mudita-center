@@ -24,7 +24,7 @@ import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
 import { ThemeProvider } from "styled-components"
 import theme from "Renderer/styles/theming/theme"
-import { MockStore } from "redux-mock-store"
+import ModalProvider from "Renderer/components/core/modal/modal.context"
 
 enum ModalError {
   NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
@@ -42,8 +42,9 @@ interface EventListeners {
   event: (e: Event) => void
 }
 
-class ModalService {
-  private store?: Store | MockStore
+export class ModalService {
+  public service!: ModalService
+  private store?: Store
   private defaultLocale?: string
   private modalElement: HTMLDivElement | null = null
   private backdropElement: HTMLDivElement | null = null
@@ -53,7 +54,7 @@ class ModalService {
   private backdropClosingAllowed: boolean = true
   private eventListeners: EventListeners[] = []
 
-  public bindStore(value: Store | MockStore) {
+  public bindStore(value: Store) {
     if (!this.store) {
       this.store = value
     }
@@ -195,17 +196,19 @@ class ModalService {
     if (this.store && this.defaultLocale) {
       ReactDOM.render(
         <Provider store={this.store}>
-          <ThemeProvider theme={theme}>
-            <IntlProvider
-              defaultLocale={this.defaultLocale}
-              locale={this.defaultLocale}
-              messages={localeEn}
-            >
-              <Router history={history}>
-                <ModalWrapper>{modal}</ModalWrapper>
-              </Router>
-            </IntlProvider>
-          </ThemeProvider>
+          <ModalProvider service={this}>
+            <ThemeProvider theme={theme}>
+              <IntlProvider
+                defaultLocale={this.defaultLocale}
+                locale={this.defaultLocale}
+                messages={localeEn}
+              >
+                <Router history={history}>
+                  <ModalWrapper>{modal}</ModalWrapper>
+                </Router>
+              </IntlProvider>
+            </ThemeProvider>
+          </ModalProvider>
         </Provider>,
         this.modalElement
       )
