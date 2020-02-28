@@ -1,12 +1,13 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import { useEffect, useState } from "react"
-import Modal, {
-  ModalSize,
-  TitleOrder,
-} from "Renderer/components/core/modal/modal.component"
+import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 import { noop } from "Renderer/utils/noop"
+import {
+  ModalSize,
+  TitleOrder,
+} from "Renderer/components/core/modal/modal.interface"
 import { button, withKnobs } from "@storybook/addon-knobs"
 import { LANGUAGE } from "Renderer/constants/languages"
 import FunctionComponent from "Renderer/types/function-component.interface"

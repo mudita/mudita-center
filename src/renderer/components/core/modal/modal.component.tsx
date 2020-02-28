@@ -15,18 +15,10 @@ import {
   getTitleStyle,
 } from "Renderer/components/core/modal/modal.helpers"
 import { useModalServiceContext } from "Renderer/components/core/modal/modal.context"
-
-export enum ModalSize {
-  VerySmall,
-  Small,
-  Medium,
-  Large,
-}
-
-export enum TitleOrder {
-  TitleFirst,
-  SubtitleFirst,
-}
+import {
+  ModalSize,
+  TitleOrder,
+} from "Renderer/components/core/modal/modal.interface"
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
   ${({ size }) => getModalSize(size)};
@@ -70,7 +62,7 @@ const CloseButton = styled(Button)<{ actionButton?: string }>`
     `};
 `
 
-interface Props {
+export interface ModalProps {
   actionButtonLabel?: string
   onActionButtonClick?: () => void
   closeable?: boolean
@@ -82,7 +74,7 @@ interface Props {
   titleOrder?: TitleOrder
 }
 
-const Modal: FunctionComponent<Props> = ({
+const Modal: FunctionComponent<ModalProps> = ({
   actionButtonLabel,
   onActionButtonClick,
   children,
