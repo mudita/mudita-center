@@ -6,17 +6,18 @@ import {
 import Overview from "Renderer/modules/overview/overview.component"
 import { select } from "Renderer/store"
 
+const selection = select(models => ({
+  networkName: models.basicInfo.activeSimNetworkName,
+}))
+
 const mapStateToProps = ({
   basicInfo,
 }: {
   basicInfo: BasicInfoInitialState
 }) => ({
   ...basicInfo,
+  ...selection,
 })
-
-const selection = select(models => ({
-  networkName: models.basicInfo.activeSimNetworkName,
-}))
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadData: () => dispatch.basicInfo.loadData(),
@@ -24,11 +25,4 @@ const mapDispatchToProps = (dispatch: any) => ({
   changeSim: (card: SimCard) => dispatch.basicInfo.changeSim(card),
 })
 
-export default connect(
-  state => ({
-    // @ts-ignore
-    ...mapStateToProps(state),
-    ...selection(state, null),
-  }),
-  mapDispatchToProps
-)(Overview)
+export default connect(mapStateToProps, mapDispatchToProps)(Overview)
