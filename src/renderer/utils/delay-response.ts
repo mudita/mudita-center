@@ -8,23 +8,30 @@
  */
 const delayResponse = async (
   promise: Promise<any>,
-  delay: number = 1000
+  delay: number = 500
 ): Promise<any> => {
   return new Promise(async (resolve, reject) => {
-    try {
-      const startTime = new Date().getTime()
-      const result = await promise
-      const timeDiff = new Date().getTime() - startTime
+    const startTime = new Date().getTime()
+    let timeDiff = 0
+
+    const delayTimeout = (callback: () => void) => {
       if (timeDiff < delay) {
         const timeout = setTimeout(() => {
-          resolve(result)
+          callback()
           clearTimeout(timeout)
         }, delay - timeDiff)
       } else {
-        resolve(result)
+        callback()
       }
+    }
+
+    try {
+      const result = await promise
+      timeDiff = new Date().getTime() - startTime
+      delayTimeout(() => resolve(result))
     } catch (error) {
-      reject(error)
+      timeDiff = new Date().getTime() - startTime
+      delayTimeout(() => reject(error))
     }
   })
 }
