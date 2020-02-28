@@ -1,6 +1,7 @@
 import { ipcRenderer } from "electron-better-ipc"
+import { OsUpdateChannel } from "App/main/functions/register-pure-os-update-listener"
 
-interface UpdateStatusResponse {
+export interface UpdateStatusResponse {
   available: boolean
   version?: string
   file?: string
@@ -15,17 +16,17 @@ const updateStatus: UpdateStatusResponse = {
 const availableOsUpdateRequest = (
   lastUpdate: string
 ): Promise<UpdateStatusResponse> => {
-  return new Promise((resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
-      ipcRenderer.send("os-update-request")
-      ipcRenderer.on("os-update-reply", (event, { date, file, version }) => {
-        if (new Date(date) > new Date(lastUpdate)) {
-          updateStatus.available = true
-          updateStatus.version = version
-          updateStatus.file = file
-        }
-        resolve(updateStatus)
-      })
+      const { date, version, file } = await ipcRenderer.callMain(
+        OsUpdateChannel.Request
+      )
+      if (new Date(date) > new Date(lastUpdate)) {
+        updateStatus.available = true
+        updateStatus.version = version
+        updateStatus.file = file
+      }
+      resolve(updateStatus)
     } catch (error) {
       reject(error)
     }
