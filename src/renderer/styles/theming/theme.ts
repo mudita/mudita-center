@@ -19,7 +19,7 @@ const grey8 = "#e9e9e9"
 const blue1 = "#3e6988"
 const blue2 = "#6d9bbc"
 // const blue3 = "#aebec9"
-// const blue4 = "#e3f3ff"
+const blue4 = "#e3f3ff"
 const blue5 = "#f3f8fc"
 // const red1 = "#e96a6a"
 
@@ -42,6 +42,7 @@ const theme = {
     background: {
       blue: blue2,
       lightBlue: blue5,
+      progressBar: blue4,
       light: white,
       app: grey7,
       dark: black,
