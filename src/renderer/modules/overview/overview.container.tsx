@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
 import {
-  InitialState as BasicInfoInitialState,
+  Store as BasicInfoInitialState,
   SimCard,
 } from "Renderer/models/basic-info/interfaces"
 import Overview from "Renderer/modules/overview/overview.component"

@@ -1,5 +1,5 @@
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { InitialState as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
+import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
 import React, { useEffect } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"

@@ -10,20 +10,20 @@ export interface MemorySpace {
   readonly full: number
 }
 
-export interface InitialState {
+export interface StoreValues {
   readonly batteryLevel: number
-  readonly changeSim: (card: SimCard) => void
-  readonly disconnectDevice: () => void
   readonly networkName: string
   readonly osVersion: string
   readonly osUpdateDate: number
   readonly memorySpace: MemorySpace
   readonly lastBackup: string
-  readonly loadData: () => void
   readonly simCards: SimCard[]
 }
 
-export type StoreInitialState = Omit<
-  InitialState,
-  "changeSim" | "disconnectDevice" | "loadData"
->
+interface StoreEffects {
+  readonly changeSim: (card: SimCard) => void
+  readonly loadData: () => void
+  readonly disconnectDevice: () => void
+}
+
+export type Store = StoreValues & StoreEffects

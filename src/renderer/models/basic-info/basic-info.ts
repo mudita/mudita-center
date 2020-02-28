@@ -9,20 +9,17 @@ import changeSimRequest from "Renderer/requests/change-sim.request"
 import { Dispatch } from "Renderer/store"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Slicer } from "@rematch/select"
-import {
-  SimCard,
-  StoreInitialState,
-} from "Renderer/models/basic-info/interfaces"
+import { SimCard, Store } from "Renderer/models/basic-info/interfaces"
 
 const initialState = {}
 
 export default {
   state: initialState,
   reducers: {
-    update(state: StoreInitialState, payload: any) {
+    update(state: Store, payload: any) {
       return { ...state, ...payload }
     },
-    updateSim(state: StoreInitialState, payload: number) {
+    updateSim(state: Store, payload: number) {
       const newSim = [
         {
           ...state.simCards[0],
