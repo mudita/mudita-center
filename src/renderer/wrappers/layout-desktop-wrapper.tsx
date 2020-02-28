@@ -1,13 +1,14 @@
 import * as React from "react"
 import Tabs from "Renderer/components/rest/header/tabs.component"
 import styled from "styled-components"
-
 import FunctionComponent from "Renderer/types/function-component.interface"
-
 import Menu from "Renderer/components/rest/menu/menu.component"
-
 import Header from "Renderer/components/rest/header/header.component"
-import { borderColor, width } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  boxShadowColor,
+  width,
+} from "Renderer/styles/theming/theme-getters"
 
 const Layout = styled.div`
   display: flex;
@@ -15,14 +16,14 @@ const Layout = styled.div`
   height: 100vh;
   max-width: ${width("viewWidth")};
   margin: 0 auto;
-  border-left: 0.1rem solid ${borderColor("dark")};
-  border-right: 0.1rem solid ${borderColor("dark")};
 `
 
 const MenuWrapper = styled.div`
-  border-right: 0.1rem solid ${borderColor("dark")};
+  box-shadow: 0 0.2rem 3rem 0 ${boxShadowColor("app")};
   width: ${width("menuWidth")};
   overflow: auto;
+  background-color: ${backgroundColor("light")};
+  z-index: 1;
 `
 
 const ViewWrapper = styled.div`
