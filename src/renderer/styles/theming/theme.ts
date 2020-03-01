@@ -18,6 +18,7 @@ const grey7 = "#fbfbfb"
 const grey8 = "#e9e9e9"
 const blue1 = "#3e6988"
 const blue2 = "#6d9bbc"
+const dark = "#232426"
 // const blue3 = "#aebec9"
 // const blue4 = "#e3f3ff"
 // const blue5 = "#f3f8fc"
@@ -44,7 +45,7 @@ const theme = {
       light: white,
       app: grey7,
       dark: black,
-      dark2: grey1, // "#232426"
+      dark2: dark,
       grey: grey5,
       grey2: grey6,
       grey3: grey8,
