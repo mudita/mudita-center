@@ -186,7 +186,7 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: false 1`] = `
 <button
-  class="sc-AxhUy cDByRo"
+  class="sc-AxhUy hTjJct"
   type="button"
 >
   <p
@@ -199,7 +199,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: true 1`] = `
 <button
-  class="sc-AxhUy hCxKQG"
+  class="sc-AxhUy gtmtqz"
   disabled=""
   type="button"
 >
@@ -213,7 +213,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 disabled: false 1`] = `
 <button
-  class="sc-AxhUy hdowlx"
+  class="sc-AxhUy jXEncA"
   size="1"
   type="button"
 >
@@ -227,7 +227,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 disabled: true 1`] = `
 <button
-  class="sc-AxhUy boLxxv"
+  class="sc-AxhUy foYsAO"
   disabled=""
   size="1"
   type="button"
@@ -242,7 +242,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 disabled: false 1`] = `
 <button
-  class="sc-AxhUy egMyME"
+  class="sc-AxhUy jiYFbt"
   size="2"
   type="button"
 >
@@ -256,7 +256,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 disabled: true 1`] = `
 <button
-  class="sc-AxhUy gtczHW"
+  class="sc-AxhUy bPlJqL"
   disabled=""
   size="2"
   type="button"
@@ -356,7 +356,7 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 0 disabled: false 1`] = `
 <button
-  class="sc-AxhUy cDByRo"
+  class="sc-AxhUy hTjJct"
   type="button"
 >
   <test-file-stub
@@ -372,7 +372,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 0 disabled: true 1`] = `
 <button
-  class="sc-AxhUy hCxKQG"
+  class="sc-AxhUy gtmtqz"
   disabled=""
   type="button"
 >
@@ -389,7 +389,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 1 disabled: false 1`] = `
 <button
-  class="sc-AxhUy hdowlx"
+  class="sc-AxhUy jXEncA"
   size="1"
   type="button"
 >
@@ -406,7 +406,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 1 disabled: true 1`] = `
 <button
-  class="sc-AxhUy boLxxv"
+  class="sc-AxhUy foYsAO"
   disabled=""
   size="1"
   type="button"
@@ -424,7 +424,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 2 disabled: false 1`] = `
 <button
-  class="sc-AxhUy egMyME"
+  class="sc-AxhUy jiYFbt"
   size="2"
   type="button"
 >
@@ -441,7 +441,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 2 disabled: true 1`] = `
 <button
-  class="sc-AxhUy gtczHW"
+  class="sc-AxhUy bPlJqL"
   disabled=""
   size="2"
   type="button"
@@ -562,7 +562,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 
 exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disabled: false 1`] = `
 <button
-  class="sc-AxhUy egMyME"
+  class="sc-AxhUy jiYFbt"
   size="2"
   type="button"
 >
@@ -576,7 +576,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
 
 exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disabled: false 2`] = `
 <button
-  class="sc-AxhUy egMyME"
+  class="sc-AxhUy jiYFbt"
   size="2"
   type="button"
 >
