@@ -80,14 +80,8 @@ export const CheckingUpdatesModal = () => (
   </OSUpdateModal>
 )
 
-export const UpdateAvailable = ({
-  downloadActionHandler = noop,
-  version = "",
-}) => (
-  <OSUpdateModal
-    actionButtonLabel="Download"
-    onActionButtonClick={downloadActionHandler}
-  >
+export const UpdateAvailable = ({ onDownload = noop, version = "" }) => (
+  <OSUpdateModal actionButtonLabel="Download" onActionButtonClick={onDownload}>
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
@@ -111,8 +105,8 @@ export const UpdateNotAvailable = () => (
   </OSUpdateModal>
 )
 
-export const UpdateServerError = ({ retryHandler = noop }) => (
-  <OSUpdateModal actionButtonLabel={"Retry"} onActionButtonClick={retryHandler}>
+export const UpdateServerError = ({ onRetry = noop }) => (
+  <OSUpdateModal actionButtonLabel={"Retry"} onActionButtonClick={onRetry}>
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
@@ -165,10 +159,10 @@ export const DownloadingUpdateModal = ({
   )
 }
 
-export const DownloadingUpdateFinishedModal = ({ osUpdateHandler = noop }) => (
+export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
   <OSUpdateModal
     actionButtonLabel="Update now"
-    onActionButtonClick={osUpdateHandler}
+    onActionButtonClick={onOsUpdate}
   >
     <RoundIconWrapper>
       <Icon type={Type.Download} width={4} />
@@ -190,8 +184,8 @@ export const DownloadingUpdateCancelledModal = () => (
   </OSUpdateModal>
 )
 
-export const DownloadingUpdateInterruptedModal = ({ retryHandler = noop }) => (
-  <OSUpdateModal actionButtonLabel={"Retry"} onActionButtonClick={retryHandler}>
+export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
+  <OSUpdateModal actionButtonLabel={"Retry"} onActionButtonClick={onRetry}>
     <RoundIconWrapper>
       <Icon type={Type.Close} width={4} />
     </RoundIconWrapper>

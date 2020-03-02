@@ -54,11 +54,8 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
     return delayResponse(availableOsUpdateRequest(lastUpdate))
   }
 
-  const checkForUpdatesFailed = (retryHandler: () => void) => {
-    return modalService.openModal(
-      <UpdateServerError retryHandler={retryHandler} />,
-      true
-    )
+  const checkForUpdatesFailed = (onRetry: () => void) => {
+    return modalService.openModal(<UpdateServerError onRetry={onRetry} />, true)
   }
 
   const downloadUpdateFile = async (file: Filename) => {
@@ -69,7 +66,7 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
 
   const downloadSucceeded = () => {
     return modalService.openModal(
-      <DownloadingUpdateFinishedModal osUpdateHandler={updatePure} />,
+      <DownloadingUpdateFinishedModal onOsUpdate={updatePure} />,
       true
     )
   }
@@ -78,22 +75,16 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
     return modalService.openModal(<DownloadingUpdateCancelledModal />, true)
   }
 
-  const downloadInterrupted = (retryHandler: () => void) => {
+  const downloadInterrupted = (onRetry: () => void) => {
     return modalService.openModal(
-      <DownloadingUpdateInterruptedModal retryHandler={retryHandler} />,
+      <DownloadingUpdateInterruptedModal onRetry={onRetry} />,
       true
     )
   }
 
-  const availableUpdate = (
-    downloadActionHandler: () => void,
-    version: string
-  ) => {
+  const availableUpdate = (onDownload: () => void, version: string) => {
     return modalService.openModal(
-      <UpdateAvailable
-        downloadActionHandler={downloadActionHandler}
-        version={version}
-      />,
+      <UpdateAvailable onDownload={onDownload} version={version} />,
       true
     )
   }
