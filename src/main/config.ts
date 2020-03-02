@@ -1,4 +1,4 @@
 export const WINDOW_SIZE = {
-  width: 1280,
-  height: 720,
+  width: 1260,
+  height: 800,
 }

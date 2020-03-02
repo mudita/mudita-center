@@ -25,6 +25,7 @@ const createWindow = async () => {
   win = new BrowserWindow({
     width: WINDOW_SIZE.width,
     height: WINDOW_SIZE.height,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
     },
