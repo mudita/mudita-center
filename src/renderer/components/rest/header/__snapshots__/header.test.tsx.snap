@@ -2,7 +2,7 @@
 
 exports[`matches snapshot with tabs 1`] = `
 <div
-  class="sc-AxirZ eyuKeT"
+  class="sc-AxirZ kzGTef"
 >
   <h3
     class="sc-AxjAm liSvtH sc-AxiKw gnMQvJ"
@@ -66,7 +66,7 @@ exports[`matches snapshot with tabs 1`] = `
 
 exports[`matches snapshot without tabs 1`] = `
 <div
-  class="sc-AxirZ eyuKeT"
+  class="sc-AxirZ kzGTef"
 >
   <h3
     class="sc-AxjAm liSvtH sc-AxiKw gnMQvJ"
