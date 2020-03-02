@@ -15,7 +15,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 
 import { LANGUAGE } from "Renderer/constants/languages"
 import localeEn from "Renderer/locales/main/en-US.json"
-import ModalProvider from "Renderer/components/core/modal/modal.context"
+import { ModalProvider } from "Renderer/components/core/modal/modal.service"
 import modalService from "Renderer/components/core/modal/modal.service"
 
 interface Props {

@@ -10,7 +10,7 @@
 
   In this, rather unlikely, scenario, the service should be refactored.
 */
-import React, { ReactElement } from "react"
+import React, { createContext, ReactElement, useContext } from "react"
 import ReactDOM from "react-dom"
 import { IntlProvider } from "react-intl"
 import { Provider } from "react-redux"
@@ -24,7 +24,8 @@ import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
 import { ThemeProvider } from "styled-components"
 import theme from "Renderer/styles/theming/theme"
-import ModalProvider from "Renderer/components/core/modal/modal.context"
+// import ModalProvider from "Renderer/components/core/modal/modal.context"
+import FunctionComponent from "Renderer/types/function-component.interface"
 
 enum ModalError {
   NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
@@ -236,5 +237,22 @@ export class ModalService {
 }
 
 const modalService = new ModalService()
+
+const ModalContext = createContext(modalService)
+
+interface Props {
+  service: ModalService
+}
+
+export const ModalProvider: FunctionComponent<Props> = ({
+  service,
+  children,
+}) => {
+  return (
+    <ModalContext.Provider value={service}>{children}</ModalContext.Provider>
+  )
+}
+
+export const useModalServiceContext = () => useContext(ModalContext)
 
 export default modalService

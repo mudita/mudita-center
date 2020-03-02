@@ -12,7 +12,7 @@ import { button, withKnobs } from "@storybook/addon-knobs"
 import { LANGUAGE } from "Renderer/constants/languages"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { ModalService } from "Renderer/components/core/modal/modal.service"
-import ModalProvider from "Renderer/components/core/modal/modal.context"
+import { ModalProvider } from "Renderer/components/core/modal/modal.service"
 import configureStore from "redux-mock-store"
 import { Store } from "Renderer/store"
 

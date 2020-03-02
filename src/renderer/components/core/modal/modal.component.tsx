@@ -14,7 +14,7 @@ import {
   getSubtitleStyle,
   getTitleStyle,
 } from "Renderer/components/core/modal/modal.helpers"
-import { useModalServiceContext } from "Renderer/components/core/modal/modal.context"
+import { useModalServiceContext } from "Renderer/components/core/modal/modal.service"
 import {
   ModalSize,
   TitleOrder,
