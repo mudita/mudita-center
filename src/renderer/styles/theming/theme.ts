@@ -130,6 +130,12 @@ const theme = {
     viewWidth: columnWidth * 12 + gutterWidth * 13,
     menuWidth: columnWidth * 3 + gutterWidth * 3,
   },
+  zIndex: {
+    content: 1,
+    dropdown: 2,
+    modalBackdrop: 3,
+    modal: 4,
+  },
 }
 
 export type Theme = typeof theme
