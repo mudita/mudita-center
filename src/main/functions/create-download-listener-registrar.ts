@@ -43,7 +43,7 @@ export interface DownloadListener {
 
 export type Filename = string
 
-const registerDownloadListener = (win: BrowserWindow) => ({
+const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
   url,
   path,
   channels,
@@ -135,4 +135,4 @@ const registerDownloadListener = (win: BrowserWindow) => ({
   })
 }
 
-export default registerDownloadListener
+export default createDownloadListenerRegistrar

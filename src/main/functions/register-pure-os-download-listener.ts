@@ -2,7 +2,7 @@ import { ipcMain } from "electron-better-ipc"
 import {
   DownloadFinished,
   DownloadListener,
-} from "App/main/functions/register-download-listener"
+} from "App/main/functions/create-download-listener-registrar"
 import { app } from "electron"
 import { name } from "../../../package.json"
 

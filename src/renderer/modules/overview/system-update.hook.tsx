@@ -2,7 +2,7 @@ import {
   DownloadProgress,
   DownloadStatus,
   Filename,
-} from "App/main/functions/register-download-listener"
+} from "App/main/functions/create-download-listener-registrar"
 import React, { useEffect } from "react"
 import { ipcRenderer } from "electron-better-ipc"
 import modalService from "Renderer/components/core/modal/modal.service"

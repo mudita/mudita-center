@@ -3,7 +3,7 @@ import {
   DownloadFinished,
   DownloadStatus,
   Filename,
-} from "App/main/functions/register-download-listener"
+} from "App/main/functions/create-download-listener-registrar"
 import { PureOsDownloadChannel } from "App/main/functions/register-pure-os-download-listener"
 
 export const cancelOsDownload = () => {

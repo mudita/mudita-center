@@ -16,7 +16,7 @@ import {
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { DownloadProgress } from "App/main/functions/register-download-listener"
+import { DownloadProgress } from "App/main/functions/create-download-listener-registrar"
 import { cancelOsDownload } from "Renderer/requests/download-os-update.request"
 
 const ModalContent = styled.div`
