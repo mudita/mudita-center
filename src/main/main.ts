@@ -9,9 +9,10 @@ import registerPureOsDownloadListener from "App/main/functions/register-pure-os-
 
 let win: BrowserWindow | null
 
-// Fetch all errors and display in console instead of alert box
+// Fetch all errors and display in console along with alert box
 process.on("uncaughtException", error => {
   console.log(error)
+  alert(error)
 })
 
 const installExtensions = async () => {
