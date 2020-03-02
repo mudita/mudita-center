@@ -12,7 +12,7 @@ let win: BrowserWindow | null
 // Fetch all errors and display in console along with alert box
 process.on("uncaughtException", error => {
   console.log(error)
-  alert(error)
+  alert(error.message)
 })
 
 const installExtensions = async () => {
