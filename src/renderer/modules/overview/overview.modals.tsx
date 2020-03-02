@@ -9,7 +9,10 @@ import React from "react"
 import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
 import Loader from "Renderer/components/core/loader/loader.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  transitionTime,
+} from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -51,7 +54,7 @@ const DownloadBar = styled.div`
     height: inherit;
     border-radius: inherit;
     background-color: ${backgroundColor("progressBar")};
-    transition: width 0.3s ease-in-out;
+    transition: width ${transitionTime("faster")} ease-in-out;
   }
 `
 
