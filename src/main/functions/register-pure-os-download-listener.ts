@@ -14,12 +14,14 @@ export enum PureOsDownloadChannel {
 }
 
 const registerPureOsDownloadListener = (
-  download: (params: DownloadListener) => Promise<DownloadFinished>
+  registerDownloadListener: (
+    params: DownloadListener
+  ) => Promise<DownloadFinished>
 ) => {
   ipcMain.answerRenderer(
     PureOsDownloadChannel.Start,
     ({ url }: { url: string }) => {
-      return download({
+      return registerDownloadListener({
         url,
         path: `${app.getPath("appData")}/${name}/pure-os/`,
         channels: PureOsDownloadChannel,
