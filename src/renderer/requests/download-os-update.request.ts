@@ -1,10 +1,10 @@
 import { ipcRenderer } from "electron-better-ipc"
+import { PureOsDownloadChannel } from "App/main/functions/register-pure-os-download-listener"
 import {
+  Filename,
   DownloadFinished,
   DownloadStatus,
-  Filename,
-} from "App/main/functions/create-download-listener-registrar"
-import { PureOsDownloadChannel } from "App/main/functions/register-pure-os-download-listener"
+} from "Renderer/interfaces/file-download.interface"
 
 export const cancelOsDownload = () => {
   ipcRenderer.send(PureOsDownloadChannel.Cancel)

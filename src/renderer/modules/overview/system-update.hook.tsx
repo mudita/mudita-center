@@ -1,8 +1,3 @@
-import {
-  DownloadProgress,
-  DownloadStatus,
-  Filename,
-} from "App/main/functions/create-download-listener-registrar"
 import React, { useEffect } from "react"
 import { ipcRenderer } from "electron-better-ipc"
 import modalService from "Renderer/components/core/modal/modal.service"
@@ -20,6 +15,11 @@ import delayResponse from "Renderer/utils/delay-response"
 import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
 import downloadOsUpdateRequest from "Renderer/requests/download-os-update.request"
 import { PureOsDownloadChannel } from "App/main/functions/register-pure-os-download-listener"
+import {
+  DownloadProgress,
+  DownloadStatus,
+  Filename,
+} from "Renderer/interfaces/file-download.interface"
 
 const useSystemUpdateFlow = (lastUpdate: string) => {
   useEffect(() => {

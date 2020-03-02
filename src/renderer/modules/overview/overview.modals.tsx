@@ -16,9 +16,10 @@ import {
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { DownloadProgress } from "App/main/functions/create-download-listener-registrar"
+import { DownloadProgress } from "Renderer/interfaces/file-download.interface"
 import { cancelOsDownload } from "Renderer/requests/download-os-update.request"
 
+import { convertBytes } from "Renderer/utils/convert-bytes"
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;

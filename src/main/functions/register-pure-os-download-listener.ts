@@ -1,10 +1,10 @@
 import { ipcMain } from "electron-better-ipc"
+import { app } from "electron"
+import { name } from "../../../package.json"
 import {
   DownloadFinished,
   DownloadListener,
-} from "App/main/functions/create-download-listener-registrar"
-import { app } from "electron"
-import { name } from "../../../package.json"
+} from "Renderer/interfaces/file-download.interface"
 
 export enum PureOsDownloadChannel {
   Start = "os-download-start",
