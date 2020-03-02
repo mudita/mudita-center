@@ -13,7 +13,9 @@ import {
 } from "Renderer/modules/overview/overview.modals"
 import delayResponse from "Renderer/utils/delay-response"
 import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
-import downloadOsUpdateRequest from "Renderer/requests/download-os-update.request"
+import downloadOsUpdateRequest, {
+  cancelOsDownload,
+} from "Renderer/requests/download-os-update.request"
 import { PureOsDownloadChannel } from "App/main/functions/register-pure-os-download-listener"
 import {
   DownloadProgress,
@@ -32,6 +34,7 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
           percent={percent}
           speed={speed}
           timeLeft={timeLeft}
+          onCancel={cancelOsDownload}
         />
       )
     }
@@ -59,7 +62,10 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
   }
 
   const downloadUpdateFile = async (file: Filename) => {
-    await modalService.openModal(<DownloadingUpdateModal />, true)
+    await modalService.openModal(
+      <DownloadingUpdateModal onCancel={cancelOsDownload} />,
+      true
+    )
     modalService.preventClosingModal()
     return delayResponse(downloadOsUpdateRequest(file))
   }

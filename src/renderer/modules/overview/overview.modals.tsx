@@ -17,9 +17,8 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { DownloadProgress } from "Renderer/interfaces/file-download.interface"
-import { cancelOsDownload } from "Renderer/requests/download-os-update.request"
-
 import { convertBytes } from "Renderer/utils/convert-bytes"
+
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -124,12 +123,14 @@ export const DownloadingUpdateModal = ({
   percent = 0,
   timeLeft = Infinity,
   speed = 0,
-}: Partial<DownloadProgress>) => {
+  onCancel = noop,
+}: Partial<DownloadProgress & { onCancel: () => void }>) => {
   const infiniteTime = <span>Starting download...</span>
   const finiteTime = (
     <span>
       Estimated time left: {Math.ceil(timeLeft)} second
-      {timeLeft <= 1 ? "" : "s"}. Current speed: {Math.round(speed / 1024)} KB/s
+      {timeLeft <= 1 ? "" : "s"}. Current speed:{" "}
+      {convertBytes(Math.round(speed))}/s
     </span>
   )
   const zeroTime = <span>Finishing download...</span>
@@ -138,7 +139,7 @@ export const DownloadingUpdateModal = ({
       closeable={false}
       closeButton={false}
       actionButtonLabel={"Abort"}
-      onActionButtonClick={cancelOsDownload}
+      onActionButtonClick={onCancel}
     >
       <RoundIconWrapper>
         <Icon type={Type.Download} width={4} />
