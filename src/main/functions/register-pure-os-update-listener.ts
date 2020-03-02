@@ -6,7 +6,7 @@ export enum OsUpdateChannel {
 }
 
 const osUpdateServerUrl =
-  "https://mudita-desktop-app.s3-eu-central-1.amazonaws.com/pure-os/latest.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVLNHCTENZY3X4VS4/20200226/eu-central-1/s3/aws4_request&X-Amz-Date=20200226T154632Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=c1828bee0234273169782d83691facbbbd2fb8baeee304454a88c0b97bdeb09a"
+  "https://mudita-desktop-app.s3-eu-central-1.amazonaws.com/pure-os/latest.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVLNHCTENZY3X4VS4/20200302/eu-central-1/s3/aws4_request&X-Amz-Date=20200302T114104Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=ff675a92887b2e0815859cb9cd581c446e581460329ca4c985c9febbb09084a8"
 
 const registerPureOsUpdateListener = () => {
   ipcMain.answerRenderer(OsUpdateChannel.Request, async () => {
