@@ -1,23 +1,19 @@
 import { connect } from "react-redux"
-import {
-  Store as BasicInfoInitialState,
-  SimCard,
-} from "Renderer/models/basic-info/interfaces"
+import { SimCard } from "Renderer/models/basic-info/interfaces"
 import Overview from "Renderer/modules/overview/overview.component"
 import { select } from "Renderer/store"
+import { RootModel } from "Renderer/models/models"
 
 const selection = select(models => ({
   networkName: models.basicInfo.activeSimNetworkName,
 }))
 
-const mapStateToProps = ({
-  basicInfo,
-}: {
-  basicInfo: BasicInfoInitialState
-}) => ({
-  ...basicInfo,
-  ...selection,
-})
+const mapStateToProps = (state: RootModel) => {
+  return {
+    ...state.basicInfo,
+    ...selection(state, null),
+  }
+}
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadData: () => dispatch.basicInfo.loadData(),
