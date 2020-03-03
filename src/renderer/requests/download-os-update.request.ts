@@ -6,8 +6,8 @@ import {
   DownloadStatus,
 } from "Renderer/interfaces/file-download.interface"
 
-export const cancelOsDownload = () => {
-  ipcRenderer.send(PureOsDownloadChannel.Cancel)
+export const cancelOsDownload = (interrupt = false) => {
+  ipcRenderer.send(PureOsDownloadChannel.Cancel, interrupt)
 }
 
 const downloadOsUpdateRequest = (

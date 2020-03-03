@@ -23,18 +23,23 @@ import {
   Filename,
 } from "Renderer/interfaces/file-download.interface"
 
+const onOsDownloadCancel = () => {
+  cancelOsDownload()
+}
+
 const useSystemUpdateFlow = (lastUpdate: string) => {
   useEffect(() => {
-    const downloadListener = (
-      event: Event,
-      { percent, speed, timeLeft }: DownloadProgress
-    ) => {
+    const downloadListener = (event: Event, progress: DownloadProgress) => {
+      const { status, percent, speed, timeLeft } = progress
+      if (status === DownloadStatus.Interrupted) {
+        cancelOsDownload(true)
+      }
       modalService.rerenderModal(
         <DownloadingUpdateModal
           percent={percent}
           speed={speed}
           timeLeft={timeLeft}
-          onCancel={cancelOsDownload}
+          onCancel={onOsDownloadCancel}
         />
       )
     }
@@ -63,7 +68,7 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
 
   const downloadUpdateFile = async (file: Filename) => {
     await modalService.openModal(
-      <DownloadingUpdateModal onCancel={cancelOsDownload} />,
+      <DownloadingUpdateModal onCancel={onOsDownloadCancel} />,
       true
     )
     modalService.preventClosingModal()
