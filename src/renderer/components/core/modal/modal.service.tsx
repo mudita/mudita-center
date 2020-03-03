@@ -24,7 +24,6 @@ import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
 import { ThemeProvider } from "styled-components"
 import theme from "Renderer/styles/theming/theme"
-// import ModalProvider from "Renderer/components/core/modal/modal.context"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 enum ModalError {
@@ -46,7 +45,6 @@ interface EventListeners {
 }
 
 export class ModalService {
-  public service!: ModalService
   private store?: Store
   private defaultLocale?: string
   private modalElement: HTMLDivElement | null = null
