@@ -6,14 +6,18 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { views } from "Renderer/constants/views"
-import { borderColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
+import {
+  backgroundColor,
+  borderColor,
+} from "Renderer/styles/theming/theme-getters"
 
 const HeaderWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  border-bottom: 0.1rem solid ${borderColor("dark")};
+  background-color: ${backgroundColor("light")};
+  border-bottom: 0.1rem solid ${borderColor("app")};
 `
 
 interface HeaderProps {
