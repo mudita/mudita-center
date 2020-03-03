@@ -8,8 +8,8 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
-  lastBackup = "N/A",
-  osVersion = "N/A",
+  lastBackup,
+  osVersion,
   osUpdateDate = 0,
   loadData = noop,
   memorySpace = {
