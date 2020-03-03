@@ -15,7 +15,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
+import { defineMessages } from "react-intl"
 import { useHistory } from "react-router"
 
 const PhoneCard = styled(Card)`
@@ -63,6 +63,11 @@ const SignalStats = styled.div`
   }
 `
 
+const messages = defineMessages({
+  battery: { id: "view.name.overview.phone.battery" },
+  noConnection: { id: "view.name.overview.phone.noConnection" },
+})
+
 const Phone: FunctionComponent<PhoneProps> = ({
   batteryLevel,
   className,
@@ -84,14 +89,22 @@ const Phone: FunctionComponent<PhoneProps> = ({
           <Text displayStyle={TextDisplayStyle.LargeBoldText} element={"h2"}>
             {batteryLevel * 100} %
           </Text>
-          <Text displayStyle={TextDisplayStyle.SmallFadedText}>
-            <FormattedMessage id={"view.name.overview.phone.battery"} />
-          </Text>
+          <Text
+            displayStyle={TextDisplayStyle.SmallFadedText}
+            message={messages.battery}
+          />
         </BatteryStats>
         <SignalStats>
           {/* TODO: Replace with animated icon component */}
           <Icon type={Type.Signal} width={1.6} />
-          <Text displayStyle={TextDisplayStyle.LargeBoldText}>{network}</Text>
+          {network ? (
+            <Text displayStyle={TextDisplayStyle.LargeBoldText}>{network}</Text>
+          ) : (
+            <Text
+              displayStyle={TextDisplayStyle.LargeBoldText}
+              message={messages.noConnection}
+            />
+          )}
         </SignalStats>
       </PhoneInfo>
       <CardAction>

@@ -1,5 +1,5 @@
 export interface SimCard {
-  readonly network: string
+  readonly network?: string
   readonly number: number
   readonly slot: 1 | 2
   readonly active: boolean

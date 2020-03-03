@@ -18,13 +18,13 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   },
   simCards = [
     {
-      network: "No connection",
+      network: undefined,
       active: false,
       number: 0,
       slot: 1,
     },
   ],
-  networkName = "No connection",
+  networkName,
 }) => {
   useEffect(() => {
     loadData()
