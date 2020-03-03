@@ -9,12 +9,24 @@ import {
 } from "Renderer/interfaces/file-download.interface"
 import transferProgress from "Renderer/utils/transfer-progress"
 
-export const createDownloadChannels = (uniqueKey: string): DownloadChannel => ({
-  start: uniqueKey + "-download-start",
-  progress: uniqueKey + "-download-progress",
-  cancel: uniqueKey + "-download-cancel",
-  done: uniqueKey + "-download-finished",
-})
+const registeredChannels: string[] = []
+
+export const createDownloadChannels = (uniqueKey: string): DownloadChannel => {
+  if (registeredChannels.includes(uniqueKey)) {
+    console.warn(
+      `The "${uniqueKey}" download channel key is not unique. This may cause unexpected issues.`
+    )
+  } else {
+    registeredChannels.push(uniqueKey)
+  }
+
+  return {
+    start: uniqueKey + "-download-start",
+    progress: uniqueKey + "-download-progress",
+    cancel: uniqueKey + "-download-cancel",
+    done: uniqueKey + "-download-finished",
+  }
+}
 
 const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
   url,
