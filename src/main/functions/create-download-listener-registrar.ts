@@ -1,12 +1,20 @@
 import { BrowserWindow, DownloadItem } from "electron"
 import { ipcMain } from "electron-better-ipc"
 import {
+  DownloadChannel,
   DownloadFinished,
   DownloadListener,
   DownloadProgress,
   DownloadStatus,
 } from "Renderer/interfaces/file-download.interface"
 import transferProgress from "Renderer/utils/transfer-progress"
+
+export const createDownloadChannels = (uniqueKey: string): DownloadChannel => ({
+  start: uniqueKey + "-download-start",
+  progress: uniqueKey + "-download-progress",
+  cancel: uniqueKey + "-download-cancel",
+  done: uniqueKey + "-download-finished",
+})
 
 const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
   url,
@@ -23,7 +31,7 @@ const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
           item.cancel()
         }
 
-        ipcMain.on(channels.Cancel, (evt, interrupt) => {
+        ipcMain.on(channels.cancel, (evt, interrupt) => {
           onDownloadCancel(interrupt)
         })
 
@@ -60,7 +68,7 @@ const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
             progress.status = DownloadStatus.Paused
           }
 
-          ipcMain.sendToRenderers(channels.Progress, progress)
+          ipcMain.sendToRenderers(channels.progress, progress)
         })
 
         item.once("done", (_, state) => {
@@ -76,7 +84,7 @@ const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
             clearTimeout(timeoutHelper)
           }
 
-          ipcMain.removeAllListeners(channels.Cancel)
+          ipcMain.removeAllListeners(channels.cancel)
           win.webContents.session.removeListener(
             "will-download",
             willDownloadListener

@@ -8,6 +8,13 @@ export enum DownloadStatus {
   Paused = "paused",
 }
 
+export interface DownloadChannel {
+  start: string
+  progress: string
+  cancel: string
+  done: string
+}
+
 export interface DownloadProgress extends TransferProgress {
   status: Omit<
     DownloadStatus,
@@ -27,12 +34,7 @@ export interface DownloadFinished {
 export interface DownloadListener {
   url: string
   path: string
-  channels: {
-    Start: string
-    Progress: string
-    Cancel: string
-    Done: string
-  }
+  channels: DownloadChannel
 }
 
 export type Filename = string
