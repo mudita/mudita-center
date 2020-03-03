@@ -2,6 +2,7 @@ import * as React from "react"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
+import { LoaderProps } from "Renderer/components/core/loader/loader.interface"
 
 const chaseAnimation = css`
   @keyframes chase {
@@ -97,11 +98,7 @@ const LoaderDot = styled.div`
   }
 `
 
-interface Props {
-  size?: number
-}
-
-const Loader: FunctionComponent<Props> = ({ size = 4, className }) => {
+const Loader: FunctionComponent<LoaderProps> = ({ size = 4, className }) => {
   const arrayOfDots = Array(6)
     .fill(0)
     .map((_, index) => <LoaderDot data-testid="dot" key={index} />)
