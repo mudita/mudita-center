@@ -52,12 +52,7 @@ storiesOf("Components|Loader ", module)
     const value = select(label, options, defaultValue)
     return (
       <Container>
-        <LoaderResolver
-          type={value}
-          loaderProps={{
-            size: 11,
-          }}
-        />
+        <LoaderResolver type={value} />
       </Container>
     )
   })

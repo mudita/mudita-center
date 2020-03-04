@@ -9,9 +9,9 @@ import LoaderGif from "Renderer/components/core/loader/loader-gif.component"
 
 const LoaderResolver: FunctionComponent<LoaderResolverProp> = ({
   type,
-  loaderProps,
+  loaderProps = {},
 }) => {
-  const { size, ...rest } = loaderProps
+  const { size = 2, ...rest } = loaderProps as any
   return (
     <>
       {type === LoaderType.Gif ? (

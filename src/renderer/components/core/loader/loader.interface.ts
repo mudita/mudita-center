@@ -11,5 +11,5 @@ export enum LoaderType {
 
 export interface LoaderResolverProp {
   type: LoaderType
-  loaderProps: LoaderProps & ImgHTMLAttributes<HTMLImageElement>
+  loaderProps?: LoaderProps & ImgHTMLAttributes<HTMLImageElement>
 }

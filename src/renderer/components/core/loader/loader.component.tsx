@@ -103,7 +103,7 @@ const Loader: FunctionComponent<LoaderProps> = ({ size = 4, className }) => {
     .fill(0)
     .map((_, index) => <LoaderDot data-testid="dot" key={index} />)
   return (
-    <LoaderWrapper size={size} className={className}>
+    <LoaderWrapper data-testid="loader-css" size={size} className={className}>
       {arrayOfDots}
     </LoaderWrapper>
   )
