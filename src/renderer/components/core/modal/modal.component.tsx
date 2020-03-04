@@ -19,6 +19,7 @@ import {
   ModalSize,
   TitleOrder,
 } from "Renderer/components/core/modal/modal.interface"
+import { intl } from "Renderer/utils/intl"
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
   ${({ size }) => getModalSize(size)};
@@ -67,6 +68,7 @@ export interface ModalProps {
   onActionButtonClick?: () => void
   closeable?: boolean
   closeButton?: boolean
+  closeButtonLabel?: string
   onClose?: () => void
   size: ModalSize
   subtitle?: string
@@ -80,6 +82,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   children,
   closeable = true,
   closeButton = true,
+  closeButtonLabel = intl.formatMessage({ id: "component.modal.closeButton" }),
   onClose = noop,
   size = ModalSize.Large,
   subtitle,
@@ -121,7 +124,7 @@ const Modal: FunctionComponent<ModalProps> = ({
               actionButton={actionButtonLabel}
               displayStyle={DisplayStyle.Secondary}
               size={getModalButtonsSize(size)}
-              label="Close"
+              label={closeButtonLabel}
               onClick={closeModal}
               data-testid={"modal-action-button"}
             />
