@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     text-decoration: none;
   }
   #root, body > div:first-of-type {
-    z-index: ${zIndex("content")};;
+    z-index: ${zIndex("content")};
     position: relative;
   }
   * {
