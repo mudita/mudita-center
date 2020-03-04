@@ -88,20 +88,27 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
     )
   }
 
-  const availableUpdate = (onDownload: () => void, version: string) => {
+  const availableUpdate = (
+    onDownload: () => void,
+    version: string,
+    date: string
+  ) => {
     return modalService.openModal(
-      <UpdateAvailable onDownload={onDownload} version={version} />,
+      <UpdateAvailable onDownload={onDownload} version={version} date={date} />,
       true
     )
   }
 
-  const notAvailableUpdate = () => {
-    return modalService.openModal(<UpdateNotAvailable />, true)
+  const notAvailableUpdate = (version: string, date: string) => {
+    return modalService.openModal(
+      <UpdateNotAvailable version={version} date={date} />,
+      true
+    )
   }
 
   const onUpdateCheck = async (retry?: boolean) => {
     try {
-      const { available, version, file } = await checkForUpdates(retry)
+      const { available, version, file, date } = await checkForUpdates(retry)
 
       if (available && version && file) {
         const downloadUpdate = async () => {
@@ -116,9 +123,9 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
             }
           }
         }
-        await availableUpdate(downloadUpdate, version)
+        await availableUpdate(downloadUpdate, version, date)
       } else {
-        await notAvailableUpdate()
+        await notAvailableUpdate(version, date)
       }
     } catch (error) {
       await checkForUpdatesFailed(() => onUpdateCheck(true))

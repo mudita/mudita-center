@@ -51,32 +51,32 @@ storiesOf("Views|Overview/Modals", module)
   ))
   .add("Update is available", () => (
     <ModalStory>
-      <UpdateAvailable />
+      <UpdateAvailable version={"1.3"} date={new Date().toISOString()} />
     </ModalStory>
   ))
-  .add("Update is not available", () => (
+  .add("Mudita OS is up to date", () => (
     <ModalStory>
-      <UpdateNotAvailable />
+      <UpdateNotAvailable version={"1.3"} date={new Date().toISOString()} />
     </ModalStory>
   ))
-  .add("Update error", () => (
+  .add("Checking for update failed", () => (
     <ModalStory>
       <UpdateServerError />
     </ModalStory>
   ))
   .add("Starting download", () => (
     <ModalStory>
-      <DownloadingUpdateModal />
+      <DownloadingUpdateModal timeLeft={undefined} />
     </ModalStory>
   ))
   .add("Downloading", () => (
     <ModalStory>
-      <DownloadingUpdateModal timeLeft={30} speed={5678} />
+      <DownloadingUpdateModal timeLeft={97} speed={56789} percent={34} />
     </ModalStory>
   ))
   .add("Finishing download", () => (
     <ModalStory>
-      <DownloadingUpdateModal timeLeft={0} speed={5678} />
+      <DownloadingUpdateModal timeLeft={0} percent={100} />
     </ModalStory>
   ))
   .add("Downloading finished", () => (

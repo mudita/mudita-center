@@ -18,6 +18,9 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { DownloadProgress } from "Renderer/interfaces/file-download.interface"
 import { convertBytes } from "Renderer/utils/convert-bytes"
+import { FormattedMessage } from "react-intl"
+import { intl } from "Renderer/utils/intl"
+import formatDuration from "Renderer/utils/format-duration"
 
 const ModalContent = styled.div`
   display: flex;
@@ -27,6 +30,10 @@ const ModalContent = styled.div`
 
   p + p {
     margin-top: 1.2rem;
+  }
+
+  & + * {
+    margin-bottom: 2.8rem;
   }
 `
 
@@ -61,98 +68,175 @@ const DownloadBar = styled.div`
 const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
   children,
   size = ModalSize.Small,
-  title = "Pure OS",
   ...props
 }) => (
-  <Modal size={size} title={title} {...props}>
+  <Modal
+    size={size}
+    title={intl.formatMessage({
+      id: "view.name.overview.system.modal.muditaOsUpdate.title",
+    })}
+    {...props}
+  >
     <ModalContent>{children}</ModalContent>
   </Modal>
 )
 
 export const CheckingUpdatesModal = () => (
-  <OSUpdateModal>
+  <OSUpdateModal
+    closeButtonLabel={intl.formatMessage({
+      id: "view.name.overview.system.modal.checkingForUpdates.closeButton",
+    })}
+  >
     <RoundIconWrapper>
       <Loader />
     </RoundIconWrapper>
     <Text displayStyle={TextDisplayStyle.LargeBoldText}>
-      Checking for OS updates...
+      <FormattedMessage
+        id={"view.name.overview.system.modal.checkingForUpdates.message"}
+      />
     </Text>
   </OSUpdateModal>
 )
 
-export const UpdateAvailable = ({ onDownload = noop, version = "" }) => (
-  <OSUpdateModal actionButtonLabel="Download" onActionButtonClick={onDownload}>
+export const UpdateAvailable = ({
+  onDownload = noop,
+  version = "",
+  date = "",
+}) => (
+  <OSUpdateModal
+    actionButtonLabel={intl.formatMessage({
+      id: "view.name.overview.system.modal.updateAvailable.button",
+    })}
+    onActionButtonClick={onDownload}
+    closeButton={false}
+  >
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
     <Text displayStyle={TextDisplayStyle.LargeBoldText}>
-      New update available
+      <FormattedMessage
+        id={"view.name.overview.system.modal.updateAvailable.message"}
+      />
     </Text>
     <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-      PureOS v{version} (released on 01/01/2020)
+      <FormattedMessage
+        id={"view.name.overview.system.modal.updateAvailable.description"}
+        values={{
+          version,
+          date: new Date(date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }),
+        }}
+      />
     </Text>
   </OSUpdateModal>
 )
 
-export const UpdateNotAvailable = () => (
+export const UpdateNotAvailable = ({ version = "", date = "" }) => (
   <OSUpdateModal>
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
     <Text displayStyle={TextDisplayStyle.LargeBoldText}>
-      Your Pure OS is up to date
+      <FormattedMessage
+        id={"view.name.overview.system.modal.updateNotAvailable.message"}
+      />
+    </Text>
+    <Text displayStyle={TextDisplayStyle.MediumFadedText}>
+      <FormattedMessage
+        id={"view.name.overview.system.modal.updateAvailable.description"}
+        values={{
+          version,
+          date: new Date(date).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }),
+        }}
+      />
     </Text>
   </OSUpdateModal>
 )
 
 export const UpdateServerError = ({ onRetry = noop }) => (
-  <OSUpdateModal actionButtonLabel={"Retry"} onActionButtonClick={onRetry}>
+  <OSUpdateModal
+    actionButtonLabel={intl.formatMessage({
+      id: "view.name.overview.system.modal.checkingUpdateFailed.button",
+    })}
+    onActionButtonClick={onRetry}
+  >
     <RoundIconWrapper>
-      <Icon type={Type.Pure} width={4} />
+      <Icon type={Type.Fail} width={4} />
     </RoundIconWrapper>
     <Text displayStyle={TextDisplayStyle.LargeBoldText}>
-      Update cannot be performed
+      <FormattedMessage
+        id={"view.name.overview.system.modal.checkingUpdateFailed.message"}
+      />
     </Text>
     <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-      Please check your internet connection and try again.
+      <FormattedMessage
+        id={"view.name.overview.system.modal.checkingUpdateFailed.description"}
+      />
     </Text>
   </OSUpdateModal>
 )
 
 export const DownloadingUpdateModal = ({
   percent = 0,
-  timeLeft = Infinity,
   speed = 0,
+  timeLeft,
   onCancel = noop,
 }: Partial<DownloadProgress & { onCancel: () => void }>) => {
-  const infiniteTime = <span>Starting download...</span>
-  const finiteTime = (
-    <span>
-      Estimated time left: {Math.ceil(timeLeft)} second
-      {timeLeft <= 1 ? "" : "s"}. Current speed:{" "}
-      {convertBytes(Math.round(speed))}/s
-    </span>
+  const starting = (
+    <FormattedMessage
+      id={
+        "view.name.overview.system.modal.downloadingUpdate.description.starting"
+      }
+    />
   )
-  const zeroTime = <span>Finishing download...</span>
+  const downloading = (
+    <FormattedMessage
+      id={
+        "view.name.overview.system.modal.downloadingUpdate.description.downloading"
+      }
+      values={{
+        speed: convertBytes(speed) + "/s",
+        timeLeft: formatDuration(timeLeft || 0),
+      }}
+    />
+  )
+  const finishing = (
+    <FormattedMessage
+      id={
+        "view.name.overview.system.modal.downloadingUpdate.description.finishing"
+      }
+    />
+  )
   return (
     <OSUpdateModal
       closeable={false}
       closeButton={false}
-      actionButtonLabel={"Abort"}
+      actionButtonLabel={intl.formatMessage({
+        id: "view.name.overview.system.modal.downloadingUpdate.button",
+      })}
       onActionButtonClick={onCancel}
     >
       <RoundIconWrapper>
         <Icon type={Type.Download} width={4} />
       </RoundIconWrapper>
       <Text displayStyle={TextDisplayStyle.LargeBoldText}>
-        <span>Downloading update...</span>
+        <FormattedMessage
+          id={"view.name.overview.system.modal.downloadingUpdate.message"}
+        />
       </Text>
       <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-        {!isFinite(timeLeft)
-          ? infiniteTime
-          : timeLeft === 0
-          ? zeroTime
-          : finiteTime}
+        {timeLeft === undefined
+          ? starting
+          : timeLeft < 1
+          ? finishing
+          : downloading}
       </Text>
       <DownloadBar>
         <span style={{ width: `${percent}%` }} />
@@ -163,14 +247,26 @@ export const DownloadingUpdateModal = ({
 
 export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
   <OSUpdateModal
-    actionButtonLabel="Update now"
+    actionButtonLabel={intl.formatMessage({
+      id: "view.name.overview.system.modal.downloadCompleted.button",
+    })}
+    closeButtonLabel={intl.formatMessage({
+      id: "view.name.overview.system.modal.downloadCompleted.closeButton",
+    })}
     onActionButtonClick={onOsUpdate}
   >
     <RoundIconWrapper>
       <Icon type={Type.Download} width={4} />
     </RoundIconWrapper>
     <Text displayStyle={TextDisplayStyle.LargeBoldText}>
-      Download completed
+      <FormattedMessage
+        id={"view.name.overview.system.modal.downloadCompleted.message"}
+      />
+    </Text>
+    <Text displayStyle={TextDisplayStyle.MediumFadedText}>
+      <FormattedMessage
+        id={"view.name.overview.system.modal.downloadCompleted.description"}
+      />
     </Text>
   </OSUpdateModal>
 )
@@ -178,24 +274,35 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
 export const DownloadingUpdateCancelledModal = () => (
   <OSUpdateModal>
     <RoundIconWrapper>
-      <Icon type={Type.Close} width={4} />
+      <Icon type={Type.Fail} width={4} />
     </RoundIconWrapper>
     <Text displayStyle={TextDisplayStyle.LargeBoldText}>
-      Download cancelled
+      <FormattedMessage
+        id={"view.name.overview.system.modal.downloadingCancelled.message"}
+      />
     </Text>
   </OSUpdateModal>
 )
 
 export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
-  <OSUpdateModal actionButtonLabel={"Retry"} onActionButtonClick={onRetry}>
+  <OSUpdateModal
+    actionButtonLabel={intl.formatMessage({
+      id: "view.name.overview.system.modal.downloadingCancelled.button",
+    })}
+    onActionButtonClick={onRetry}
+  >
     <RoundIconWrapper>
-      <Icon type={Type.Close} width={4} />
+      <Icon type={Type.Fail} width={4} />
     </RoundIconWrapper>
     <Text displayStyle={TextDisplayStyle.LargeBoldText}>
-      Download interrupted
+      <FormattedMessage
+        id={"view.name.overview.system.modal.downloadingFailed.message"}
+      />
     </Text>
     <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-      Please check your internet connection and try again.
+      <FormattedMessage
+        id={"view.name.overview.system.modal.downloadingFailed.description"}
+      />
     </Text>
   </OSUpdateModal>
 )
