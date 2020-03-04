@@ -5,6 +5,7 @@ import styled from "styled-components"
 import LoaderGif from "Renderer/components/core/loader/loader-gif.component"
 import LoaderResolver from "Renderer/components/core/loader/loader-resolver.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import { select, withKnobs } from "@storybook/addon-knobs"
 
 const Container = styled.div`
   display: flex;
@@ -41,15 +42,23 @@ storiesOf("Components|Loader ", module)
     )
   })
   .add("Loader resolver", () => {
+    const label = "Loaders type"
+    const options = {
+      Gif: LoaderType.Gif,
+      Css: LoaderType.Css,
+    }
+    const defaultValue = LoaderType.Css
+
+    const value = select(label, options, defaultValue)
     return (
       <Container>
         <LoaderResolver
-          type={LoaderType.Gif}
+          type={value}
           loaderProps={{
-            height: 100,
-            size: 111,
+            size: 11,
           }}
         />
       </Container>
     )
   })
+  .addDecorator(withKnobs)
