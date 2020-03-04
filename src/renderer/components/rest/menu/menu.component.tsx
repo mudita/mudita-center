@@ -38,7 +38,7 @@ const Menu: FunctionComponent<Props> = ({ disconnectedDevice }) => {
   const checkForDisconnectStatus = (
     elements: MenuElement[],
     disconnectStatus?: DeviceResponse
-  ) => {
+  ): MenuElement[] => {
     if (disconnectStatus?.status === DeviceResponseStatus.Ok) {
       const [news, , desktopMenu] = elements
       return [news, desktopMenu]
