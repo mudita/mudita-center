@@ -5,12 +5,7 @@ export interface UpdateStatusResponse {
   available: boolean
   version?: string
   file?: string
-}
-
-const updateStatus: UpdateStatusResponse = {
-  available: false,
-  version: undefined,
-  file: undefined,
+  date?: string
 }
 
 const availableOsUpdateRequest = (
@@ -18,15 +13,18 @@ const availableOsUpdateRequest = (
 ): Promise<UpdateStatusResponse> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { date, version, file } = await ipcRenderer.callMain(
+      const { date, ...rest } = await ipcRenderer.callMain(
         OsUpdateChannel.Request
       )
       if (new Date(date) > new Date(lastUpdate)) {
-        updateStatus.available = true
-        updateStatus.version = version
-        updateStatus.file = file
+        resolve({
+          available: true,
+          date,
+          ...rest,
+        })
+      } else {
+        resolve({ available: false })
       }
-      resolve(updateStatus)
     } catch (error) {
       reject(error)
     }
