@@ -6,6 +6,9 @@ import MuditaLogo from "Renderer/svg/mudita_logo.svg"
 import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 
 const MenuWrapper = styled.div`
   flex: 1;
@@ -28,15 +31,15 @@ const SvgMuditaLogo = styled(Svg)`
 `
 
 interface Props {
-  disconnectedDevice?: boolean
+  disconnectedDevice?: DeviceResponse
 }
 
 const Menu: FunctionComponent<Props> = ({ disconnectedDevice }) => {
   const checkForDisconnectStatus = (
     elements: MenuElement[],
-    disconnectStatus?: boolean
+    disconnectStatus?: DeviceResponse
   ) => {
-    if (disconnectStatus) {
+    if (disconnectStatus?.status === DeviceResponseStatus.Ok) {
       const [news, , desktopMenu] = elements
       return [news, desktopMenu]
     }
