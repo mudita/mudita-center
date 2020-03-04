@@ -11,7 +11,7 @@ const LoaderResolver: FunctionComponent<LoaderResolverProp> = ({
   type,
   loaderProps = {},
 }) => {
-  const { size = 2, ...rest } = loaderProps
+  const { size, ...rest } = loaderProps
   return (
     <>
       {type === LoaderType.Gif ? (
