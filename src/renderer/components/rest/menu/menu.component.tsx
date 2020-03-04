@@ -1,10 +1,11 @@
 import React from "react"
 import Svg from "Renderer/components/core/svg/svg.component"
 import MenuGroup from "Renderer/components/rest/menu/menu-group.component"
-import { menuElements } from "Renderer/constants/menu-elements"
+import { MenuElement, menuElements } from "Renderer/constants/menu-elements"
 import MuditaLogo from "Renderer/svg/mudita_logo.svg"
 import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import FunctionComponent from "Renderer/types/function-component.interface"
 
 const MenuWrapper = styled.div`
   flex: 1;
@@ -26,12 +27,29 @@ const SvgMuditaLogo = styled(Svg)`
   margin: 2rem 0 3.5rem;
 `
 
-const Menu = () => {
-  const links = menuElements.map(({ label, items, icons }, indexMenu) => {
-    return (
-      <MenuGroup label={label} items={items} icons={icons} key={indexMenu} />
-    )
-  })
+interface Props {
+  disconnectedDevice?: boolean
+}
+
+const Menu: FunctionComponent<Props> = ({ disconnectedDevice }) => {
+  const checkForDisconnectStatus = (
+    elements: MenuElement[],
+    disconnectStatus?: boolean
+  ) => {
+    if (disconnectStatus) {
+      const [news, , desktopMenu] = elements
+      return [news, desktopMenu]
+    }
+    return elements
+  }
+
+  const links = checkForDisconnectStatus(menuElements, disconnectedDevice).map(
+    ({ label, items, icons }, indexMenu) => {
+      return (
+        <MenuGroup label={label} items={items} icons={icons} key={indexMenu} />
+      )
+    }
+  )
   return (
     <MenuWrapper>
       <LogoWrapper>
