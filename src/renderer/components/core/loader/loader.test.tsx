@@ -1,29 +1,21 @@
 import "@testing-library/jest-dom"
 import React from "react"
-import Loader from "Renderer/components/core/loader/loader.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import Loader from "Renderer/components/core/loader/loader.component"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 
-test("matches snapshot", () => {
-  const { container } = renderWithThemeAndIntl(<Loader />)
-  const loaderWrapperElement = container.firstChild
-  expect(loaderWrapperElement).toMatchSnapshot()
+test("returns css loader", () => {
+  const testId = "loader-css"
+  const { getByTestId } = renderWithThemeAndIntl(
+    <Loader type={LoaderType.Css} />
+  )
+  expect(getByTestId(testId)).toBeInTheDocument()
 })
 
-test("loader has height and width based on size prop", () => {
-  const { container } = renderWithThemeAndIntl(<Loader />)
-  const loaderWrapperElement = container.firstChild
-  const expectedStyles = `
-    height: 4rem;
-    width: 4rem;
-  `
-  expect(loaderWrapperElement).toHaveStyle(expectedStyles)
-})
-
-test("renders correct amount of dots", () => {
-  const { container } = renderWithThemeAndIntl(<Loader />)
-
-  const loaderDotsList = container.firstChild?.childNodes
-  const defaultNumberOfDots = 6
-
-  expect(loaderDotsList?.length).toEqual(defaultNumberOfDots)
+test("returns gif loader", () => {
+  const testId = "loader-gif"
+  const { getByTestId } = renderWithThemeAndIntl(
+    <Loader type={LoaderType.Gif} />
+  )
+  expect(getByTestId(testId)).toBeInTheDocument()
 })

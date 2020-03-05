@@ -1,9 +1,9 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import Loader from "Renderer/components/core/loader/loader.component"
+import LoaderSpinner from "Renderer/components/core/loader/loader-spinner.component"
 import styled from "styled-components"
 import LoaderGif from "Renderer/components/core/loader/loader-gif.component"
-import LoaderResolver from "Renderer/components/core/loader/loader-resolver.component"
+import LoaderResolver from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { select, withKnobs } from "@storybook/addon-knobs"
 
@@ -15,7 +15,7 @@ const Container = styled.div`
   width: 100%;
 `
 
-const HotLoader = styled(Loader)`
+const HotLoader = styled(LoaderSpinner)`
   color: hotpink;
 `
 
@@ -23,7 +23,7 @@ storiesOf("Components|Loader ", module)
   .add("Default", () => {
     return (
       <Container>
-        <Loader />
+        <LoaderSpinner />
       </Container>
     )
   })
