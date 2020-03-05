@@ -1,24 +1,45 @@
-/**
- * Please do not review.
- * This component is going to be merged with https://github.com/Appnroll/pure-desktop-app/pull/75
- */
-import React from "react"
-import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
+import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
+import React, { useEffect } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
+import { noop } from "Renderer/utils/noop"
 
-const Overview: FunctionComponent<BasicInfoInitialState> = props => {
-  // Mocked data, only for testing purposes.
-  // TODO: Remove after merge with https://appnroll.atlassian.net/browse/PDA-70
-  const lastUpdate = "2020-02-18T13:54:32.943Z"
-  const onUpdateCheck = useSystemUpdateFlow(lastUpdate)
-
+const Overview: FunctionComponent<BasicInfoInitialState> = ({
+  batteryLevel = 0,
+  changeSim = noop,
+  disconnectDevice = noop,
+  lastBackup,
+  osVersion,
+  osUpdateDate = 0,
+  loadData = noop,
+  memorySpace = {
+    free: 0,
+    full: 16000000000,
+  },
+  simCards = [
+    {
+      network: undefined,
+      active: false,
+      number: 0,
+      slot: 1,
+    },
+  ],
+  networkName,
+}) => {
+  useEffect(() => {
+    loadData()
+  }, [])
   return (
     <OverviewUI
-      onUpdateCheck={onUpdateCheck}
-      lastUpdate={lastUpdate}
-      {...props}
+      batteryLevel={batteryLevel}
+      changeSim={changeSim}
+      disconnectDevice={disconnectDevice}
+      lastBackup={lastBackup}
+      osVersion={osVersion}
+      osUpdateDate={osUpdateDate}
+      memorySpace={memorySpace}
+      simCards={simCards}
+      networkName={networkName}
     />
   )
 }

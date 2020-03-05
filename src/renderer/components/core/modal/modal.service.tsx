@@ -10,7 +10,7 @@
 
   In this, rather unlikely, scenario, the service should be refactored.
 */
-import React, { ReactElement } from "react"
+import React, { createContext, ReactElement, useContext } from "react"
 import ReactDOM from "react-dom"
 import { IntlProvider } from "react-intl"
 import { Provider } from "react-redux"
@@ -24,6 +24,7 @@ import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
 import { ThemeProvider } from "styled-components"
 import theme from "Renderer/styles/theming/theme"
+import FunctionComponent from "Renderer/types/function-component.interface"
 
 enum ModalError {
   NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
@@ -43,7 +44,7 @@ interface EventListeners {
   event: (e: Event) => void
 }
 
-class ModalService {
+export class ModalService {
   private store?: Store
   private defaultLocale?: string
   private modalElement: HTMLDivElement | null = null
@@ -202,17 +203,19 @@ class ModalService {
     if (this.store && this.defaultLocale) {
       ReactDOM.render(
         <Provider store={this.store}>
-          <ThemeProvider theme={theme}>
-            <IntlProvider
-              defaultLocale={this.defaultLocale}
-              locale={this.defaultLocale}
-              messages={localeEn}
-            >
-              <Router history={history}>
-                <ModalWrapper>{modal}</ModalWrapper>
-              </Router>
-            </IntlProvider>
-          </ThemeProvider>
+          <ModalProvider service={this}>
+            <ThemeProvider theme={theme}>
+              <IntlProvider
+                defaultLocale={this.defaultLocale}
+                locale={this.defaultLocale}
+                messages={localeEn}
+              >
+                <Router history={history}>
+                  <ModalWrapper>{modal}</ModalWrapper>
+                </Router>
+              </IntlProvider>
+            </ThemeProvider>
+          </ModalProvider>
         </Provider>,
         this.modalElement
       )
@@ -232,5 +235,22 @@ class ModalService {
 }
 
 const modalService = new ModalService()
+
+const ModalContext = createContext(modalService)
+
+interface Props {
+  service: ModalService
+}
+
+export const ModalProvider: FunctionComponent<Props> = ({
+  service,
+  children,
+}) => {
+  return (
+    <ModalContext.Provider value={service}>{children}</ModalContext.Provider>
+  )
+}
+
+export const useModalServiceContext = () => useContext(ModalContext)
 
 export default modalService

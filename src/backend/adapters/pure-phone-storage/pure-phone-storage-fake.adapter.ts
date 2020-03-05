@@ -3,11 +3,11 @@ import StorageCategoryInfo from "Common/interfaces/storage-category-info.interfa
 
 class PurePhoneStorageFakeAdapter extends PurePhoneStorageAdapter {
   public getAvailableSpace(): number {
-    return 4000
+    return 1717986918
   }
 
   public getCapacity(): number {
-    return 10000
+    return 17179869184
   }
 
   public getStorageCategories(): StorageCategoryInfo[] {

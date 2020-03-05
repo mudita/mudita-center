@@ -1,4 +1,7 @@
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 
 class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
@@ -25,8 +28,10 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     return "1UB13213MN14K1"
   }
 
-  public disconnectDevice(): boolean {
-    return true
+  public disconnectDevice(): DeviceResponse {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
   }
 }
 

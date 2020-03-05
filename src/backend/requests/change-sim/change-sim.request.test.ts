@@ -8,7 +8,7 @@ test("returns change sim info", () => {
   const [result] = (ipcMain as any)._flush(IpcRequest.ChangeSim)
   expect(result).toMatchInlineSnapshot(`
     Object {
-      "number": 12345678,
+      "status": "ok",
     }
   `)
 })
