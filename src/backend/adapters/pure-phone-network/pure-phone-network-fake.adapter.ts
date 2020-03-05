@@ -1,5 +1,8 @@
 import PurePhoneNetworkAdapter from "Backend/adapters/pure-phone-network/pure-phone-network-adapter.class"
 import SimInfo from "Common/interfaces/sim-info.interface"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 
 class PurePhoneNetworkFake extends PurePhoneNetworkAdapter {
   public getSimCards(): SimInfo[] {
@@ -8,7 +11,7 @@ class PurePhoneNetworkFake extends PurePhoneNetworkAdapter {
         slot: 1,
         active: true,
         number: 12345678,
-        network: "Yo mama",
+        network: "Y-Mobile",
         carrier: "Yo mama 36.0",
         networkLevel: 0.5,
         iccid: 1234,
@@ -31,8 +34,10 @@ class PurePhoneNetworkFake extends PurePhoneNetworkAdapter {
     ]
   }
 
-  public setActiveCard(): number {
-    return 12345678
+  public setActiveCard(): DeviceResponse {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
   }
 }
 

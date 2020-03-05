@@ -1,6 +1,6 @@
-import SimInfo from "Common/interfaces/sim-info.interface"
+import { SimCard } from "Renderer/models/basic-info/interfaces"
 
 export interface NetworkProps {
-  simCards?: SimInfo[]
-  onSimChange?: (sim: SimInfo) => void
+  simCards?: SimCard[]
+  onSimChange?: (sim: SimCard) => void
 }

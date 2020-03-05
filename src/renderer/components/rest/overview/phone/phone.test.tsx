@@ -7,18 +7,23 @@ import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
 import { wait } from "@testing-library/react"
 import { intl } from "Renderer/utils/intl"
+import { Router } from "react-router"
+import { createMemoryHistory } from "history"
 
 const renderPhone = ({
   onDisconnect = noop,
   batteryLevel = 0.75,
   network = "Play",
 }: Partial<PhoneProps> = {}) => {
+  const history = createMemoryHistory()
   const outcome = renderWithThemeAndIntl(
-    <Phone
-      onDisconnect={onDisconnect}
-      batteryLevel={batteryLevel}
-      network={network}
-    />
+    <Router history={history}>
+      <Phone
+        onDisconnect={onDisconnect}
+        batteryLevel={batteryLevel}
+        network={network}
+      />
+    </Router>
   )
   return {
     ...outcome,
