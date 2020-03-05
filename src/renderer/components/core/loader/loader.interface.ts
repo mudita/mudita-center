@@ -5,8 +5,8 @@ export interface LoaderSpinnerProps {
 }
 
 export enum LoaderType {
-  Gif,
-  Css,
+  Logo,
+  Spinner,
 }
 
 export interface LoaderProps {

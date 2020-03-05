@@ -106,7 +106,11 @@ const LoaderSpinner: FunctionComponent<LoaderSpinnerProps> = ({
     .fill(0)
     .map((_, index) => <LoaderDot data-testid="dot" key={index} />)
   return (
-    <LoaderWrapper data-testid="loader-css" size={size} className={className}>
+    <LoaderWrapper
+      data-testid="loader-spinner"
+      size={size}
+      className={className}
+    >
       {arrayOfDots}
     </LoaderWrapper>
   )

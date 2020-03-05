@@ -44,10 +44,10 @@ storiesOf("Components|Loader ", module)
   .add("Loader resolver", () => {
     const label = "Loaders type"
     const options = {
-      Gif: LoaderType.Gif,
-      Css: LoaderType.Css,
+      Logo: LoaderType.Logo,
+      Spinner: LoaderType.Spinner,
     }
-    const defaultValue = LoaderType.Css
+    const defaultValue = LoaderType.Spinner
 
     const value = select(label, options, defaultValue)
     return (

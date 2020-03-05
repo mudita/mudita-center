@@ -6,6 +6,6 @@ import Gif from "Renderer/images/loader.gif"
 
 const LoaderLogo: FunctionComponent<ImgHTMLAttributes<HTMLImageElement>> = ({
   ...rest
-}) => <Image data-testid="loader-gif" src={Gif} {...rest} />
+}) => <Image data-testid="loader-logo" src={Gif} {...rest} />
 
 export default LoaderLogo

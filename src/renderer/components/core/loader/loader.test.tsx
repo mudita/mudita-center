@@ -5,17 +5,17 @@ import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 
 test("returns css loader", () => {
-  const testId = "loader-css"
+  const testId = "loader-spinner"
   const { getByTestId } = renderWithThemeAndIntl(
-    <Loader type={LoaderType.Css} />
+    <Loader type={LoaderType.Spinner} />
   )
   expect(getByTestId(testId)).toBeInTheDocument()
 })
 
-test("returns gif loader", () => {
-  const testId = "loader-gif"
+test("returns logo loader", () => {
+  const testId = "loader-logo"
   const { getByTestId } = renderWithThemeAndIntl(
-    <Loader type={LoaderType.Gif} />
+    <Loader type={LoaderType.Logo} />
   )
   expect(getByTestId(testId)).toBeInTheDocument()
 })
