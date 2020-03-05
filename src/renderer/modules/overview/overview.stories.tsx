@@ -41,7 +41,7 @@ storiesOf("Views|Overview", module).add("Overview", () => (
         {...fakeState}
         disconnectDevice={noop}
         changeSim={noop}
-        checkUpdate={noop}
+        onUpdateCheck={noop}
       />
     </Router>
   </div>
@@ -54,7 +54,7 @@ const ModalStory: FunctionComponent = ({ children }) => (
         {...fakeState}
         disconnectDevice={noop}
         changeSim={noop}
-        checkUpdate={noop}
+        onUpdateCheck={noop}
       />
     </Router>
     <ModalWrapper>{children}</ModalWrapper>
