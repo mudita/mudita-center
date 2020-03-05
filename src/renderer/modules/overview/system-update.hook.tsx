@@ -21,13 +21,19 @@ import {
   DownloadProgress,
   DownloadStatus,
   Filename,
+  Filesize,
 } from "Renderer/interfaces/file-download.interface"
+import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-downloaded.request"
+import { OsUpdateAvailability } from "Renderer/models/basic-info/interfaces"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
 }
 
-const useSystemUpdateFlow = (lastUpdate: string) => {
+const useSystemUpdateFlow = (
+  lastUpdate: string,
+  storeUpdater: (updateInfo: OsUpdateAvailability) => void
+) => {
   useEffect(() => {
     const downloadListener = (event: Event, progress: DownloadProgress) => {
       const { status, percent, speed, timeLeft } = progress
@@ -66,6 +72,10 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
     return modalService.openModal(<UpdateServerError onRetry={onRetry} />, true)
   }
 
+  const alreadyDownloadedCheck = (file: Filename, size: Filesize) => {
+    return osUpdateAlreadyDownloadedCheck(file, size)
+  }
+
   const downloadUpdateFile = async (file: Filename) => {
     await modalService.openModal(
       <DownloadingUpdateModal onCancel={onOsDownloadCancel} />,
@@ -75,9 +85,9 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
     return delayResponse(downloadOsUpdateRequest(file))
   }
 
-  const downloadSucceeded = () => {
+  const downloadSucceeded = (onOsUpdate: () => void) => {
     return modalService.openModal(
-      <DownloadingUpdateFinishedModal onOsUpdate={updatePure} />,
+      <DownloadingUpdateFinishedModal onOsUpdate={onOsUpdate} />,
       true
     )
   }
@@ -111,33 +121,50 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
     )
   }
 
-  const onUpdateCheck = async (retry?: boolean) => {
-    try {
-      const { available, version, file, date } = await checkForUpdates(retry)
+  const install = async () => {
+    updatePure()
+  }
 
+  const download = async (file: Filename) => {
+    try {
+      await downloadUpdateFile(file)
+      storeUpdater({ downloaded: true })
+      await downloadSucceeded(install)
+    } catch (error) {
+      if (error.status === DownloadStatus.Cancelled) {
+        await downloadCanceled()
+      } else {
+        await downloadInterrupted(async () => await download(file))
+      }
+    }
+  }
+
+  const check = async (retry?: boolean) => {
+    try {
+      const { available, version, file, date, size } = await checkForUpdates(
+        retry
+      )
       if (available) {
-        const downloadUpdate = async () => {
-          try {
-            await downloadUpdateFile(file)
-            await downloadSucceeded()
-          } catch (error) {
-            if (error.status === DownloadStatus.Cancelled) {
-              await downloadCanceled()
-            } else {
-              await downloadInterrupted(downloadUpdate)
-            }
-          }
+        storeUpdater({ filename: file, available: true })
+        if (await alreadyDownloadedCheck(file, size)) {
+          storeUpdater({ downloaded: true })
+          await downloadSucceeded(install)
+        } else {
+          await availableUpdate(async () => await download(file), version, date)
         }
-        await availableUpdate(downloadUpdate, version, date)
       } else {
         await notAvailableUpdate(version, date)
       }
     } catch (error) {
-      await checkForUpdatesFailed(() => onUpdateCheck(true))
+      await checkForUpdatesFailed(async () => await check(true))
     }
   }
 
-  return onUpdateCheck
+  return {
+    check,
+    download,
+    install,
+  }
 }
 
 export default useSystemUpdateFlow
