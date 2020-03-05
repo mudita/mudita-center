@@ -1,10 +1,10 @@
 import { connect } from "react-redux"
-import { RootModel } from "Renderer/models/models"
 import Menu from "Renderer/components/rest/menu/menu.component"
+import { RootState } from "Renderer/store"
 
-const mapStateToProps = (state: RootModel) => {
+const mapStateToProps = (state: RootState) => {
   return {
-    ...state.basicInfo,
+    disconnectedDevice: state.basicInfo.disconnectedDevice,
   }
 }
 
