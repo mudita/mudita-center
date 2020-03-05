@@ -41,9 +41,14 @@ const OverviewWrapper = styled.div`
 
 interface OverviewUIProps {
   readonly onUpdateCheck: () => void
+  readonly onUpdateDownload: () => void
+  readonly onUpdateInstall: () => void
 }
 
-const OverviewUI: FunctionComponent<Omit<BasicInfoInitialState, "loadData"> &
+const OverviewUI: FunctionComponent<Omit<
+  BasicInfoInitialState,
+  "loadData" | "osUpdateFilename" | "setOsInfo"
+> &
   OverviewUIProps> = ({
   batteryLevel,
   changeSim,
@@ -54,33 +59,39 @@ const OverviewUI: FunctionComponent<Omit<BasicInfoInitialState, "loadData"> &
   osUpdateDate,
   memorySpace,
   simCards,
+  osUpdateAvailable,
+  osUpdateAlreadyDownloaded,
   onUpdateCheck,
-}) => {
-  return (
-    <OverviewWrapper>
-      <PhoneInfo
-        batteryLevel={batteryLevel}
-        network={networkName}
-        onDisconnect={disconnectDevice}
-      />
-      <NetworkInfo simCards={simCards} onSimChange={changeSim} />
-      <System
-        osVersion={osVersion}
-        lastUpdate={new Date(osUpdateDate).toLocaleDateString("en-US")}
-        onUpdateCheck={onUpdateCheck}
-      />
-      <FileManagerInfo
-        usedSpace={memorySpace.full - memorySpace.free}
-        maxSpace={memorySpace.full}
-        onFilesOpen={noop}
-      />
-      <BackupInfo
-        lastBackup={lastBackup}
-        onBackupCreate={noop}
-        onBackupRestore={noop}
-      />
-    </OverviewWrapper>
-  )
-}
+  onUpdateDownload,
+  onUpdateInstall,
+}) => (
+  <OverviewWrapper>
+    <PhoneInfo
+      batteryLevel={batteryLevel}
+      network={networkName}
+      onDisconnect={disconnectDevice}
+    />
+    <NetworkInfo simCards={simCards} onSimChange={changeSim} />
+    <System
+      updateDownloaded={osUpdateAlreadyDownloaded}
+      updateAvailable={osUpdateAvailable}
+      osVersion={osVersion}
+      lastUpdate={new Date(osUpdateDate).toLocaleDateString("en-US")}
+      onUpdateCheck={onUpdateCheck}
+      onDownload={onUpdateDownload}
+      onUpdate={onUpdateInstall}
+    />
+    <FileManagerInfo
+      usedSpace={memorySpace.full - memorySpace.free}
+      maxSpace={memorySpace.full}
+      onFilesOpen={noop}
+    />
+    <BackupInfo
+      lastBackup={lastBackup}
+      onBackupCreate={noop}
+      onBackupRestore={noop}
+    />
+  </OverviewWrapper>
+)
 
 export default OverviewUI
