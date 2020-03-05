@@ -7,7 +7,7 @@ import Overview from "Renderer/modules/overview/overview.component"
 import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 
-const selection = select(models => ({
+const selection = select((models: any) => ({
   networkName: models.basicInfo.activeSimNetworkName,
 }))
 
