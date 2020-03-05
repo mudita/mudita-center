@@ -53,7 +53,7 @@ export interface MenuElement {
     id: string
   }
   icons?: FunctionComponent<ImageInterface>[]
-  hideOnDisconnect?: boolean
+  phoneDisconnected?: boolean
 }
 
 export const menuElements: MenuElement[] = [
@@ -64,7 +64,7 @@ export const menuElements: MenuElement[] = [
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
     icons: [Signal, Battery, Sim, MenuTethering],
-    hideOnDisconnect: true,
+    phoneDisconnected: true,
   },
   {
     label: messages.desktopApp,

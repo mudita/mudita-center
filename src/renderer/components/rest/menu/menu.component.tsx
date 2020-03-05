@@ -33,10 +33,10 @@ interface Props {
 
 const Menu: FunctionComponent<Props> = ({ disconnectedDevice }) => {
   const links = menuElements
-    .filter(({ hideOnDisconnect }) =>
-      disconnectedDevice ? !hideOnDisconnect : true
+    .filter(({ phoneDisconnected }) =>
+      disconnectedDevice ? !phoneDisconnected : true
     )
-    .map(({ hideOnDisconnect, ...props }, indexMenu) => {
+    .map(({ phoneDisconnected, ...props }, indexMenu) => {
       return <MenuGroup {...props} key={indexMenu} />
     })
   return (
