@@ -1,6 +1,6 @@
 import { ImgHTMLAttributes } from "react"
 
-export interface LoaderProps {
+export interface LoaderSpinnerProps {
   size?: number
 }
 
@@ -9,7 +9,7 @@ export enum LoaderType {
   Css,
 }
 
-export interface LoaderResolverProp {
+export interface LoaderProps {
   type: LoaderType
-  loaderProps?: LoaderProps & ImgHTMLAttributes<HTMLImageElement>
+  loaderProps?: LoaderSpinnerProps & ImgHTMLAttributes<HTMLImageElement>
 }

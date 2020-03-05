@@ -2,7 +2,7 @@ import * as React from "react"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
-import { LoaderProps } from "Renderer/components/core/loader/loader.interface"
+import { LoaderSpinnerProps } from "Renderer/components/core/loader/loader.interface"
 
 const chaseAnimation = css`
   @keyframes chase {
@@ -98,7 +98,7 @@ const LoaderDot = styled.div`
   }
 `
 
-const LoaderSpinner: FunctionComponent<LoaderProps> = ({
+const LoaderSpinner: FunctionComponent<LoaderSpinnerProps> = ({
   size = 4,
   className,
 }) => {
