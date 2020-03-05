@@ -1,7 +1,7 @@
 import React from "react"
 import Svg from "Renderer/components/core/svg/svg.component"
 import MenuGroup from "Renderer/components/rest/menu/menu-group.component"
-import { MenuElement, menuElements } from "Renderer/constants/menu-elements"
+import { menuElements } from "Renderer/constants/menu-elements"
 import MuditaLogo from "Renderer/svg/mudita_logo.svg"
 import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
@@ -35,24 +35,15 @@ interface Props {
 }
 
 const Menu: FunctionComponent<Props> = ({ disconnectedDevice }) => {
-  const checkForDisconnectStatus = (
-    elements: MenuElement[],
-    disconnectStatus?: DeviceResponse
-  ): MenuElement[] => {
-    if (disconnectStatus?.status === DeviceResponseStatus.Ok) {
-      const [news, , desktopMenu] = elements
-      return [news, desktopMenu]
-    }
-    return elements
-  }
-
-  const links = checkForDisconnectStatus(menuElements, disconnectedDevice).map(
-    ({ label, items, icons }, indexMenu) => {
-      return (
-        <MenuGroup label={label} items={items} icons={icons} key={indexMenu} />
-      )
-    }
-  )
+  const links = menuElements
+    .filter(({ hideOnDisconnect }) =>
+      disconnectedDevice?.status === DeviceResponseStatus.Ok
+        ? !hideOnDisconnect
+        : true
+    )
+    .map(({ hideOnDisconnect, ...props }, indexMenu) => {
+      return <MenuGroup {...props} key={indexMenu} />
+    })
   return (
     <MenuWrapper>
       <LogoWrapper>
