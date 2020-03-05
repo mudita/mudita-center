@@ -9,7 +9,7 @@ export enum LoaderType {
   Spinner,
 }
 
-export interface LoaderProps {
+export interface LoaderProps extends ImgHTMLAttributes<HTMLImageElement> {
+  size?: number
   type: LoaderType
-  loaderProps?: LoaderSpinnerProps & ImgHTMLAttributes<HTMLImageElement>
 }
