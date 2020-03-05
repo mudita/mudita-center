@@ -35,7 +35,7 @@ interface StoreEffects {
   readonly changeSim: (card: SimCard) => void
   readonly loadData: () => void
   readonly disconnectDevice: () => void
-  readonly setOsInfo: () => void
+  readonly setOsInfo: (updateInfo: OsUpdateAvailability) => void
 }
 
 export type Store = StoreValues & StoreEffects
