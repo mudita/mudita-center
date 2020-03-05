@@ -2,7 +2,7 @@ import * as React from "react"
 import Tabs from "Renderer/components/rest/header/tabs.component"
 import styled from "styled-components"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import MenuContainer from "Renderer/components/rest/menu/menu.container"
+import Menu from "Renderer/components/rest/menu/menu.container"
 import Header from "Renderer/components/rest/header/header.component"
 import {
   backgroundColor,
@@ -41,7 +41,7 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
   return (
     <Layout>
       <MenuWrapper>
-        <MenuContainer />
+        <Menu />
       </MenuWrapper>
       <ViewWrapper>
         <Header middleComponent={<HeaderTabs />} />
