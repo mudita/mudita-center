@@ -115,7 +115,7 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
     try {
       const { available, version, file, date } = await checkForUpdates(retry)
 
-      if (available && version && file) {
+      if (available) {
         const downloadUpdate = async () => {
           try {
             await downloadUpdateFile(file)
