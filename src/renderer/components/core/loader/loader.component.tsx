@@ -5,7 +5,7 @@ import {
   LoaderType,
 } from "Renderer/components/core/loader/loader.interface"
 import LoaderSpinner from "Renderer/components/core/loader/loader-spinner.component"
-import LoaderGif from "Renderer/components/core/loader/loader-gif.component"
+import LoaderLogo from "Renderer/components/core/loader/loader-logo.component"
 
 const Loader: FunctionComponent<LoaderResolverProp> = ({
   type,
@@ -15,7 +15,7 @@ const Loader: FunctionComponent<LoaderResolverProp> = ({
   return (
     <>
       {type === LoaderType.Gif ? (
-        <LoaderGif {...rest} />
+        <LoaderLogo {...rest} />
       ) : (
         <LoaderSpinner size={size} />
       )}
