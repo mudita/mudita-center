@@ -6,6 +6,7 @@ import { WINDOW_SIZE } from "./config"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
+import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 
 let win: BrowserWindow | null
 
@@ -44,6 +45,7 @@ const createWindow = async () => {
 
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
+  registerOsUpdateAlreadyDownloadedCheck()
 
   if (process.env.NODE_ENV !== "production") {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"

@@ -7,7 +7,7 @@ export enum OsUpdateChannel {
 
 // TODO: Replace the temporary link with the final one after changing S3 read access to public
 const osUpdateServerUrl =
-  "https://mudita-desktop-app.s3-eu-central-1.amazonaws.com/pure-os/latest.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVLNHCTENZY3X4VS4/20200302/eu-central-1/s3/aws4_request&X-Amz-Date=20200302T114104Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=ff675a92887b2e0815859cb9cd581c446e581460329ca4c985c9febbb09084a8"
+  "https://mudita-desktop-app.s3-eu-central-1.amazonaws.com/pure-os/latest.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVLNHCTENZY3X4VS4/20200305/eu-central-1/s3/aws4_request&X-Amz-Date=20200305T153234Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=584e080b386ab2de1d7127a0fd25a1793d72c9c6ad733178949dbc48a939fc78"
 
 const registerPureOsUpdateListener = () => {
   ipcMain.answerRenderer(OsUpdateChannel.Request, async () => {
