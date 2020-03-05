@@ -9,9 +9,17 @@ import changeSimRequest from "Renderer/requests/change-sim.request"
 import { Dispatch } from "Renderer/store"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Slicer } from "@rematch/select"
-import { SimCard, Store } from "Renderer/models/basic-info/interfaces"
+import {
+  OsUpdateAvailability,
+  SimCard,
+  Store,
+} from "Renderer/models/basic-info/interfaces"
 
-const initialState = {}
+const initialState = {
+  osUpdateFilename: "",
+  osUpdateAvailable: false,
+  osUpdateAlreadyDownloaded: false,
+}
 
 export default {
   state: initialState,
@@ -74,6 +82,17 @@ export default {
       if (changeSimInfo.status === DeviceResponseStatus.Ok) {
         dispatch.basicInfo.updateSim(simCard.number)
       }
+    },
+    setOsUpdateAvailability({
+      filename,
+      available,
+      downloaded,
+    }: OsUpdateAvailability) {
+      dispatch.basicInfo.update({
+        ...(filename ? { osUpdateFilename: filename } : {}),
+        ...(available ? { osUpdateAvailable: available } : {}),
+        ...(downloaded ? { osUpdateAlreadyDownloaded: downloaded } : {}),
+      })
     },
   }),
   selectors: (slice: Slicer<typeof initialState>) => ({

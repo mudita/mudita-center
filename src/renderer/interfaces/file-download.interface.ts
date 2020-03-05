@@ -38,3 +38,5 @@ export interface DownloadListener {
 }
 
 export type Filename = string
+
+export type Filesize = number

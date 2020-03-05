@@ -21,7 +21,11 @@ test("store returns initial state", () => {
 
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {},
+      "basicInfo": Object {
+        "osUpdateAlreadyDownloaded": false,
+        "osUpdateAvailable": false,
+        "osUpdateFilename": "",
+      },
     }
   `)
 })
@@ -45,7 +49,10 @@ test("mock calls update state", async () => {
           "free": 99999999999999,
           "full": 9001,
         },
+        "osUpdateAlreadyDownloaded": false,
+        "osUpdateAvailable": false,
         "osUpdateDate": "12-12-2003",
+        "osUpdateFilename": "",
         "osVersion": "0.123v",
         "simCards": Array [
           Object {
@@ -93,14 +100,17 @@ test("disconnect returns true and updates state", async () => {
   const state = store.getState()
 
   expect(state).toMatchInlineSnapshot(`
-Object {
-  "basicInfo": Object {
-    "disconnectedDevice": Object {
-      "status": "ok",
-    },
-  },
-}
-`)
+    Object {
+      "basicInfo": Object {
+        "disconnectedDevice": Object {
+          "status": "ok",
+        },
+        "osUpdateAlreadyDownloaded": false,
+        "osUpdateAvailable": false,
+        "osUpdateFilename": "",
+      },
+    }
+  `)
 })
 
 test("change sim switches active property on sim cards", async () => {
@@ -132,7 +142,10 @@ test("change sim switches active property on sim cards", async () => {
           "free": 99999999999999,
           "full": 9001,
         },
+        "osUpdateAlreadyDownloaded": false,
+        "osUpdateAvailable": false,
         "osUpdateDate": "12-12-2003",
+        "osUpdateFilename": "",
         "osVersion": "0.123v",
         "simCards": Array [
           Object {
