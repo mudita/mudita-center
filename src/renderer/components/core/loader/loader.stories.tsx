@@ -37,7 +37,7 @@ storiesOf("Components|Loader ", module)
   .add("Loader gif", () => {
     return (
       <Container>
-        <LoaderLogo height={200} width={200} />
+        <LoaderLogo />
       </Container>
     )
   })
