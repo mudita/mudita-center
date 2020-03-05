@@ -27,6 +27,7 @@
   "view.name.overview.system.checkForUpdates": "Check for updates",
   "view.name.overview.system.updateAvailable": "New update is available",
   "view.name.overview.system.updateAction": "Update now",
+  "view.name.overview.system.downloadAction": "Download now",
   "view.name.overview.system.modal.muditaOsUpdate.title": "Mudita OS",
   "view.name.overview.system.modal.checkingForUpdates.message": "Checking for OS updates...",
   "view.name.overview.system.modal.checkingForUpdates.closeButton": "Cancel",
