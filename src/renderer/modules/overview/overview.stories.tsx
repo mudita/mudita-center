@@ -17,6 +17,8 @@ import {
   UpdateNotAvailable,
   UpdateServerError,
 } from "Renderer/modules/overview/overview.modals"
+import { Router } from "react-router"
+import history from "Renderer/routes/history"
 
 const fakeState = {
   batteryLevel: 0,
@@ -34,13 +36,27 @@ const fakeState = {
 
 storiesOf("Views|Overview", module).add("Overview", () => (
   <div style={{ maxWidth: "63rem" }}>
-    <OverviewUI {...fakeState} disconnectDevice={noop} changeSim={noop} />
+    <Router history={history}>
+      <OverviewUI
+        {...fakeState}
+        disconnectDevice={noop}
+        changeSim={noop}
+        checkUpdate={noop}
+      />
+    </Router>
   </div>
 ))
 
 const ModalStory: FunctionComponent = ({ children }) => (
   <div style={{ maxWidth: "63rem" }}>
-    <OverviewUI {...fakeState} disconnectDevice={noop} changeSim={noop} />
+    <Router history={history}>
+      <OverviewUI
+        {...fakeState}
+        disconnectDevice={noop}
+        changeSim={noop}
+        checkUpdate={noop}
+      />
+    </Router>
     <ModalWrapper>{children}</ModalWrapper>
     <ModalBackdrop />
   </div>
