@@ -7,7 +7,6 @@ import Text, {
 import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 import { intl } from "Renderer/utils/intl"
-import SimInfo from "Common/interfaces/sim-info.interface"
 import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
 import Card, {
   CardAction,
@@ -15,6 +14,7 @@ import Card, {
   CardText,
 } from "Renderer/components/rest/overview/card.elements"
 import { noop } from "Renderer/utils/noop"
+import { SimCard } from "Renderer/models/basic-info/interfaces"
 
 const TextInfo = styled(CardText)`
   p {
@@ -24,7 +24,7 @@ const TextInfo = styled(CardText)`
   }
 `
 
-const SimButton: FunctionComponent<SimInfo & { onClick: () => void }> = ({
+const SimButton: FunctionComponent<SimCard & { onClick: () => void }> = ({
   slot,
   number: phone,
   active,

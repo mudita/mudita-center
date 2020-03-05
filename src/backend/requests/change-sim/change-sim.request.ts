@@ -1,12 +1,10 @@
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
-import ChangeSimInfo from "Common/interfaces/change-sim-info.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
+import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const handleChangeSimRequest = ({ pureNetwork }: Adapters): ChangeSimInfo => {
-  return {
-    number: pureNetwork.setActiveCard(),
-  }
+const handleChangeSimRequest = ({ pureNetwork }: Adapters): DeviceResponse => {
+  return pureNetwork.setActiveCard()
 }
 
 const registerChangeSimCardRequest = createEndpoint({

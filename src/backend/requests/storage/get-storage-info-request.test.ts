@@ -8,8 +8,8 @@ test("returns required storage info", () => {
   const [result] = (ipcMain as any)._flush(IpcRequest.GetStorageInfo)
   expect(result).toMatchInlineSnapshot(`
     Object {
-      "available": 4000,
-      "capacity": 10000,
+      "available": 1717986918,
+      "capacity": 17179869184,
       "categories": Array [
         Object {
           "filesCount": 42,

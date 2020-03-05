@@ -29,7 +29,6 @@ storiesOf("Overview|FilesManager", module).add("FilesManager", () => {
         <FilesManager
           usedSpace={29}
           maxSpace={512}
-          unit={"MB"}
           onFilesOpen={action("open files manager")}
         />
       </Part>

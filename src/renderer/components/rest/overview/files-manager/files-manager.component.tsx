@@ -9,6 +9,7 @@ import Card, {
 import StackedBarChart, {
   DisplayStyle,
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
+import { convertBytes } from "Renderer/utils/convert-bytes"
 import styled from "styled-components"
 import { intl } from "Renderer/utils/intl"
 import Text, {
@@ -57,7 +58,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   className,
   usedSpace,
   maxSpace = 16,
-  unit = "GB",
   onFilesOpen,
 }) => {
   const stackedBarData = [
@@ -74,16 +74,15 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
   const buttonLabel = intl.formatMessage({
     id: "view.name.overview.filesManager.openFilesManager",
   })
-
   return (
     <Card className={className}>
       <TextInfo>
         <SpaceData>
           <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-            {usedSpace}
+            {convertBytes(usedSpace)}
           </Text>
           <Text element={"span"} displayStyle={TextDisplayStyle.SmallText}>
-            /{maxSpace} {unit}
+            / {convertBytes(maxSpace)}
           </Text>
         </SpaceData>
         <Text displayStyle={TextDisplayStyle.SmallFadedText}>
