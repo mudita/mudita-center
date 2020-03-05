@@ -16,32 +16,37 @@ import availableOsUpdateRequest from "Renderer/requests/available-os-update.requ
 import downloadOsUpdateRequest, {
   cancelOsDownload,
 } from "Renderer/requests/download-os-update.request"
-import { PureOsDownloadChannel } from "App/main/functions/register-pure-os-download-listener"
+import { PureOsDownloadChannels } from "App/main/functions/register-pure-os-download-listener"
 import {
   DownloadProgress,
   DownloadStatus,
   Filename,
 } from "Renderer/interfaces/file-download.interface"
 
+const onOsDownloadCancel = () => {
+  cancelOsDownload()
+}
+
 const useSystemUpdateFlow = (lastUpdate: string) => {
   useEffect(() => {
-    const downloadListener = (
-      event: Event,
-      { percent, speed, timeLeft }: DownloadProgress
-    ) => {
+    const downloadListener = (event: Event, progress: DownloadProgress) => {
+      const { status, percent, speed, timeLeft } = progress
+      if (status === DownloadStatus.Interrupted) {
+        cancelOsDownload(true)
+      }
       modalService.rerenderModal(
         <DownloadingUpdateModal
           percent={percent}
           speed={speed}
           timeLeft={timeLeft}
-          onCancel={cancelOsDownload}
+          onCancel={onOsDownloadCancel}
         />
       )
     }
-    ipcRenderer.on(PureOsDownloadChannel.Progress, downloadListener)
+    ipcRenderer.on(PureOsDownloadChannels.progress, downloadListener)
     return () => {
       ipcRenderer.removeListener(
-        PureOsDownloadChannel.Progress,
+        PureOsDownloadChannels.progress,
         downloadListener
       )
     }
@@ -63,7 +68,7 @@ const useSystemUpdateFlow = (lastUpdate: string) => {
 
   const downloadUpdateFile = async (file: Filename) => {
     await modalService.openModal(
-      <DownloadingUpdateModal onCancel={cancelOsDownload} />,
+      <DownloadingUpdateModal onCancel={onOsDownloadCancel} />,
       true
     )
     modalService.preventClosingModal()

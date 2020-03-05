@@ -1,8 +1,12 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import { Provider } from "react-redux"
-import store from "Renderer/store"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
+import { noop } from "Renderer/utils/noop"
+import FunctionComponent from "Renderer/types/function-component.interface"
+import {
+  ModalBackdrop,
+  ModalWrapper,
+} from "Renderer/components/core/modal/modal.styled.elements"
 import {
   CheckingUpdatesModal,
   DownloadingUpdateCancelledModal,
@@ -13,36 +17,35 @@ import {
   UpdateNotAvailable,
   UpdateServerError,
 } from "Renderer/modules/overview/overview.modals"
-import {
-  ModalBackdrop,
-  ModalWrapper,
-} from "Renderer/components/core/modal/modal.styled.elements"
-import FunctionComponent from "Renderer/types/function-component.interface"
 
-/**
- * Please do not review.
- * This is going to be merged with https://github.com/Appnroll/pure-desktop-app/pull/75
- */
+const fakeState = {
+  batteryLevel: 0,
+  disconnectDevice: false,
+  lastBackup: "10.11.2019",
+  osVersion: "3.0",
+  memorySpace: {
+    free: 0,
+    full: 16000000000,
+  },
+  simCards: [],
+  networkName: "Orange",
+  osUpdateDate: 1459832991883,
+}
+
 storiesOf("Views|Overview", module).add("Overview", () => (
   <div style={{ maxWidth: "63rem" }}>
-    <Provider store={store}>
-      <OverviewUI />
-    </Provider>
+    <OverviewUI {...fakeState} disconnectDevice={noop} changeSim={noop} />
   </div>
 ))
 
-/**
- * This can be reviewed.
- */
 const ModalStory: FunctionComponent = ({ children }) => (
   <div style={{ maxWidth: "63rem" }}>
-    <Provider store={store}>
-      <OverviewUI />
-    </Provider>
+    <OverviewUI {...fakeState} disconnectDevice={noop} changeSim={noop} />
     <ModalWrapper>{children}</ModalWrapper>
     <ModalBackdrop />
   </div>
 )
+
 storiesOf("Views|Overview/Modals", module)
   .add("Checking for updates", () => (
     <ModalStory>
@@ -51,12 +54,18 @@ storiesOf("Views|Overview/Modals", module)
   ))
   .add("Update is available", () => (
     <ModalStory>
-      <UpdateAvailable version={"1.3"} date={new Date().toISOString()} />
+      <UpdateAvailable
+        version={fakeState.osVersion + ".1"}
+        date={new Date().toISOString()}
+      />
     </ModalStory>
   ))
   .add("Mudita OS is up to date", () => (
     <ModalStory>
-      <UpdateNotAvailable version={"1.3"} date={new Date().toISOString()} />
+      <UpdateNotAvailable
+        version={fakeState.osVersion}
+        date={new Date().toISOString()}
+      />
     </ModalStory>
   ))
   .add("Checking for update failed", () => (

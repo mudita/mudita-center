@@ -1,3 +1,5 @@
+import { TransferProgress } from "Renderer/utils/transfer-progress"
+
 export enum DownloadStatus {
   Progressing = "progressing",
   Interrupted = "interrupted",
@@ -6,16 +8,18 @@ export enum DownloadStatus {
   Paused = "paused",
 }
 
-export interface DownloadProgress {
+export interface DownloadChannel {
+  start: string
+  progress: string
+  cancel: string
+  done: string
+}
+
+export interface DownloadProgress extends TransferProgress {
   status: Omit<
     DownloadStatus,
     DownloadStatus.Cancelled | DownloadStatus.Completed
   >
-  total: number
-  received: number
-  percent: number
-  timeLeft: number
-  speed: number
 }
 
 export interface DownloadFinished {
@@ -30,12 +34,7 @@ export interface DownloadFinished {
 export interface DownloadListener {
   url: string
   path: string
-  channels: {
-    Start: string
-    Progress: string
-    Cancel: string
-    Done: string
-  }
+  channels: DownloadChannel
 }
 
 export type Filename = string

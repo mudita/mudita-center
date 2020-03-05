@@ -2,7 +2,6 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import * as React from "react"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import CloseIcon from "Renderer/svg/close.svg"
-import modalService from "Renderer/components/core/modal/modal.service"
 import styled, { css } from "styled-components"
 import Button from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
@@ -15,6 +14,7 @@ import {
   getSubtitleStyle,
   getTitleStyle,
 } from "Renderer/components/core/modal/modal.helpers"
+import { useModalServiceContext } from "Renderer/components/core/modal/modal.service"
 import {
   ModalSize,
   TitleOrder,
@@ -89,6 +89,8 @@ const Modal: FunctionComponent<ModalProps> = ({
   title,
   titleOrder = TitleOrder.TitleFirst,
 }) => {
+  const modalService = useModalServiceContext()
+
   const closeModal = async () => {
     await modalService.allowClosingModal()
     await modalService.closeModal()

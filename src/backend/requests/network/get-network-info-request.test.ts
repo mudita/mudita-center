@@ -15,7 +15,7 @@ test("returns required network info", () => {
           "iccid": 1234,
           "imei": 5678,
           "meid": 8765,
-          "network": "Yo mama",
+          "network": "Y-Mobile",
           "networkLevel": 0.5,
           "number": 12345678,
           "seid": "1234",

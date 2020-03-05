@@ -54,7 +54,7 @@ const Backup: FunctionComponent<BackupProps> = ({
             <FormattedMessage id="view.name.overview.backup.lastBackup" />
           </Text>
           <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-            {lastBackup}
+            {lastBackup && new Date(lastBackup).toLocaleDateString("en-US")}
           </Text>
           <ButtonComponent
             displayStyle={DisplayStyle.Link3}

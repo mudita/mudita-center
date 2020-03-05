@@ -8,7 +8,7 @@ test("returns disconnected info", () => {
   const [result] = (ipcMain as any)._flush(IpcRequest.DisconnectDevice)
   expect(result).toMatchInlineSnapshot(`
     Object {
-      "disconnected": true,
+      "status": "ok",
     }
   `)
 })

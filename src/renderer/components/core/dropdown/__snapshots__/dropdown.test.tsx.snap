@@ -6,7 +6,7 @@ exports[`matches snapshot 1`] = `
     class="sc-Axmtr dXgRrs"
   >
     <button
-      class="sc-AxhUy egMyME"
+      class="sc-AxhUy jiYFbt"
       size="2"
       type="button"
     />
@@ -24,7 +24,7 @@ exports[`renders dropdown 1`] = `
     class="sc-Axmtr dXgRrs"
   >
     <button
-      class="sc-AxhUy egMyME"
+      class="sc-AxhUy jiYFbt"
       size="2"
       type="button"
     >

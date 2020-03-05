@@ -5,13 +5,9 @@ import {
   DownloadFinished,
   DownloadListener,
 } from "Renderer/interfaces/file-download.interface"
+import { createDownloadChannels } from "App/main/functions/create-download-listener-registrar"
 
-export enum PureOsDownloadChannel {
-  Start = "os-download-start",
-  Progress = "os-download-progress",
-  Cancel = "os-download-cancel",
-  Done = "os-download-finished",
-}
+export const PureOsDownloadChannels = createDownloadChannels("os")
 
 const registerPureOsDownloadListener = (
   registerDownloadListener: (
@@ -19,12 +15,12 @@ const registerPureOsDownloadListener = (
   ) => Promise<DownloadFinished>
 ) => {
   ipcMain.answerRenderer(
-    PureOsDownloadChannel.Start,
+    PureOsDownloadChannels.start,
     ({ url }: { url: string }) => {
       return registerDownloadListener({
         url,
         path: `${app.getPath("appData")}/${name}/pure-os/`,
-        channels: PureOsDownloadChannel,
+        channels: PureOsDownloadChannels,
       })
     }
   )

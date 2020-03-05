@@ -1,11 +1,6 @@
-import { button, withKnobs } from "@storybook/addon-knobs"
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import { useEffect, useState } from "react"
-import modalService from "Renderer/components/core/modal/modal.service"
-import { LANGUAGE } from "Renderer/constants/languages"
-import store from "Renderer/store"
-import FunctionComponent from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 import { noop } from "Renderer/utils/noop"
@@ -13,8 +8,17 @@ import {
   ModalSize,
   TitleOrder,
 } from "Renderer/components/core/modal/modal.interface"
+import { button, withKnobs } from "@storybook/addon-knobs"
+import { LANGUAGE } from "Renderer/constants/languages"
+import FunctionComponent from "Renderer/types/function-component.interface"
+import { ModalService } from "Renderer/components/core/modal/modal.service"
+import { ModalProvider } from "Renderer/components/core/modal/modal.service"
+import configureStore from "redux-mock-store"
+import { Store } from "Renderer/store"
 
-export const ModalExample: FunctionComponent = () => {
+const modalService = new ModalService()
+
+const ModalExample: FunctionComponent = () => {
   const [closable, setClosableState] = useState(false)
 
   const toggle = () => {
@@ -49,7 +53,10 @@ export const ModalExample: FunctionComponent = () => {
 }
 
 export const ModalUsage: FunctionComponent = () => {
-  modalService.bindStore(store)
+  const middlewares: any[] = []
+  const mockStore = configureStore(middlewares)
+  const store = mockStore({})
+  modalService.bindStore((store as unknown) as Store)
   modalService.setDefaultLocale(LANGUAGE.default)
 
   const modalClosable = <ModalExample />
@@ -171,10 +178,13 @@ export const ModalUsage: FunctionComponent = () => {
 
 storiesOf("Components|Modal", module)
   .add("Interactive", () => {
-    return <ModalUsage />
+    return (
+      <ModalProvider service={modalService}>
+        <ModalUsage />
+      </ModalProvider>
+    )
   })
   .addDecorator(withKnobs)
-
 storiesOf("Components|Modal/static", module)
   .add("Very small", () => {
     return (
