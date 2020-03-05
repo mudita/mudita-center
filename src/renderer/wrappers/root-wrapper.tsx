@@ -15,6 +15,8 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 
 import { LANGUAGE } from "Renderer/constants/languages"
 import localeEn from "Renderer/locales/main/en-US.json"
+import { ModalProvider } from "Renderer/components/core/modal/modal.service"
+import modalService from "Renderer/components/core/modal/modal.service"
 
 interface Props {
   store: Store
@@ -24,21 +26,23 @@ interface Props {
 const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   return (
     <ThemeProvider theme={theme}>
-      <>
-        <Normalize />
-        <GlobalStyle />
-        <Provider store={store}>
-          <IntlProvider
-            defaultLocale={LANGUAGE.default}
-            locale={LANGUAGE.default}
-            messages={localeEn}
-          >
-            <Router history={history}>
-              <BaseRoutes />
-            </Router>
-          </IntlProvider>
-        </Provider>
-      </>
+      <ModalProvider service={modalService}>
+        <>
+          <Normalize />
+          <GlobalStyle />
+          <Provider store={store}>
+            <IntlProvider
+              defaultLocale={LANGUAGE.default}
+              locale={LANGUAGE.default}
+              messages={localeEn}
+            >
+              <Router history={history}>
+                <BaseRoutes />
+              </Router>
+            </IntlProvider>
+          </Provider>
+        </>
+      </ModalProvider>
     </ThemeProvider>
   )
 }
