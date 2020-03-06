@@ -47,9 +47,10 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
     <HeaderWrapper>
       <HeaderText
         displayStyle={TextDisplayStyle.TertiaryBoldHeading}
-        message={currentLocation + "version " + version}
+        message={currentLocation}
         data-testid={"location"}
       />
+      <span>v {version}</span>
       {middleComponent &&
         React.cloneElement(middleComponent, {
           currentLocation: location.pathname,
