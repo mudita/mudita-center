@@ -15,7 +15,7 @@ storiesOf("Components|Interactive Icon", module).add("Range", () => {
   return (
     <Container>
       <InteractiveIcon
-        iconState={100}
+        iconState={1}
         interactiveIconType={InteractiveIconType.Range}
       />
     </Container>

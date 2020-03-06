@@ -9,6 +9,7 @@ export interface Props {
   badge?: boolean
   height?: number
   width?: number
+  testId?: string
   type?: Type
 }
 
@@ -53,11 +54,13 @@ const Icon: FunctionComponent<Props> = ({
   className,
   height,
   width,
+  testId,
   type,
 }) => {
   return (
     <Wrapper
       badge={badge}
+      data-testid={testId}
       className={className}
       height={height || width}
       width={width || height}

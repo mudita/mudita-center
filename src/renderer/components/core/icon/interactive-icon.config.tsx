@@ -18,15 +18,15 @@ export const getInteractiveRangeIcon = (
   rest: Partial<IconProps>
 ) => {
   if (status > 0 && status < 5) {
-    return <Icon type={Type.VeryLowRange} {...rest} />
-  } else if (status > 5 && status < 25) {
-    return <Icon type={Type.LowRange} {...rest} />
-  } else if (status > 25 && status < 50) {
-    return <Icon type={Type.MediumRange} {...rest} />
-  } else if (status > 50 && status < 75) {
-    return <Icon type={Type.HighRange} {...rest} />
+    return <Icon type={Type.VeryLowRange} testId="very-low-range" {...rest} />
+  } else if (status >= 5 && status < 25) {
+    return <Icon type={Type.LowRange} testId="low-range" {...rest} />
+  } else if (status >= 25 && status < 50) {
+    return <Icon type={Type.MediumRange} testId="medium-range" {...rest} />
+  } else if (status >= 50 && status < 75) {
+    return <Icon type={Type.HighRange} testId="high-range" {...rest} />
   } else {
-    return <Icon type={Type.VeryHighRange} {...rest} />
+    return <Icon type={Type.VeryHighRange} testId="very-high-range" {...rest} />
   }
 }
 
