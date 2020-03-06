@@ -2,8 +2,8 @@ import startBackend from "Backend/bootstrap"
 import { app, BrowserWindow } from "electron"
 import * as path from "path"
 import * as url from "url"
-
 import { WINDOW_SIZE } from "./config"
+import autoupdate from "./autoupdate"
 
 let win: BrowserWindow | null
 
@@ -29,6 +29,8 @@ const createWindow = async () => {
       nodeIntegration: true,
     },
   })
+
+  autoupdate()
 
   if (process.env.NODE_ENV !== "production") {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"

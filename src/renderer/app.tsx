@@ -11,6 +11,13 @@ import RootWrapper from "Renderer/wrappers/root-wrapper"
 import "./fonts/fonts.css"
 
 import contextMenu from "Renderer/electron/contextMenu"
+import { ipcRenderer } from "electron-better-ipc"
+import { AppUpdateStatus } from "App/main/autoupdate"
+import Modal from "Renderer/components/core/modal/modal.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 
 // Create main element
 const mainElement = document.createElement("div")
@@ -26,3 +33,23 @@ ReactDOM.render(
 modalService.bindStore(store)
 modalService.setDefaultLocale(LANGUAGE.default)
 contextMenu()
+
+const update = () => {
+  ipcRenderer.send("download-app-update")
+}
+
+ipcRenderer.on(AppUpdateStatus.Available, (event, args) => {
+  modalService.openModal(
+    <Modal
+      title={"App update"}
+      size={ModalSize.VerySmall}
+      actionButtonLabel={"Update now"}
+      onActionButtonClick={update}
+    >
+      <Text displayStyle={TextDisplayStyle.LargeBoldText}>
+        App update is available
+        <pre>{JSON.stringify(args, null, 2)}</pre>
+      </Text>
+    </Modal>
+  )
+})

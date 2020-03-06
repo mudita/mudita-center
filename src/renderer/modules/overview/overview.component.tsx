@@ -9,6 +9,7 @@ import System from "Renderer/components/rest/overview/system/system.component"
 import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
+import { version } from "../../../../package.json"
 
 const PhoneInfo = styled(Phone)`
   grid-area: Phone;
@@ -50,7 +51,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       <PhoneInfo
         onDisconnect={noop}
         batteryLevel={batteryLevel}
-        network={"Play"}
+        network={"APP version " + version}
       />
       <NetworkInfo simCards={getFakeAdapters().pureNetwork.getSimCards()} />
       <System osVersion={osVersion} lastUpdate={"just now"} />
