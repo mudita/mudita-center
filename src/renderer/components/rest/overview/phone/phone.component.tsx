@@ -96,7 +96,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
         </BatteryStats>
         <SignalStats>
           {/* TODO: Replace with animated icon component */}
-          <Icon type={Type.Signal} width={1.6} />
+          <Icon type={Type.MediumRange} width={1.6} />
           {network ? (
             <Text displayStyle={TextDisplayStyle.LargeBoldText}>{network}</Text>
           ) : (
