@@ -8,7 +8,6 @@ import System from "Renderer/components/rest/overview/system/system.component"
 import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
-import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 
 const PhoneInfo = styled(Phone)`
   grid-area: Phone;
@@ -40,10 +39,12 @@ const OverviewWrapper = styled.div`
     "Phone Backup";
 `
 
-const OverviewUI: FunctionComponent<Omit<
-  BasicInfoInitialState,
-  "loadData"
->> = ({
+interface OverviewUIProps {
+  readonly onUpdateCheck: () => void
+}
+
+const OverviewUI: FunctionComponent<Omit<BasicInfoInitialState, "loadData"> &
+  OverviewUIProps> = ({
   batteryLevel,
   changeSim,
   disconnectDevice,
@@ -53,10 +54,8 @@ const OverviewUI: FunctionComponent<Omit<
   osUpdateDate,
   memorySpace,
   simCards,
+  onUpdateCheck,
 }) => {
-  const onUpdateCheck = useSystemUpdateFlow(
-    new Date(osUpdateDate).toISOString()
-  )
   return (
     <OverviewWrapper>
       <PhoneInfo

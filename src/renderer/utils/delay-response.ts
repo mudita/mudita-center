@@ -6,10 +6,10 @@
  * @returns {Promise} - Rejected or fulfilled promise
  *
  */
-const delayResponse = async (
-  promise: Promise<any>,
+const delayResponse = async <T>(
+  promise: Promise<T>,
   delay: number = 500
-): Promise<any> => {
+): Promise<T> => {
   return new Promise(async (resolve, reject) => {
     const startTime = new Date().getTime()
     let timeDiff = 0

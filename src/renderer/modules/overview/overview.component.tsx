@@ -3,6 +3,7 @@ import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/inter
 import React, { useEffect } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
+import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
   batteryLevel = 0,
@@ -29,6 +30,10 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   useEffect(() => {
     loadData()
   }, [])
+  const onUpdateCheck = useSystemUpdateFlow(
+    new Date(osUpdateDate).toISOString()
+  )
+
   return (
     <OverviewUI
       batteryLevel={batteryLevel}
@@ -40,6 +45,7 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       memorySpace={memorySpace}
       simCards={simCards}
       networkName={networkName}
+      onUpdateCheck={onUpdateCheck}
     />
   )
 }
