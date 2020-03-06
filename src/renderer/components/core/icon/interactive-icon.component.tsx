@@ -1,30 +1,10 @@
-import { Type } from "Renderer/components/core/icon/icon.config"
 import * as React from "react"
-import Icon, {
-  Props as IconProps,
-} from "Renderer/components/core/icon/icon.component"
+import { Props as IconProps } from "Renderer/components/core/icon/icon.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
-
-export enum InteractiveIconType {
-  Range,
-}
-
-interface InteractiveIconProps {
-  iconState: number
-  interactiveIconType: InteractiveIconType
-}
-
-const getRangeIcon = (
-  status: number,
-  type: InteractiveIconType,
-  rest: Partial<IconProps>
-) => {
-  if (status > 0 && status < 25) {
-    return <Icon type={Type.VeryLowRange} {...rest} />
-  } else {
-    return <Icon type={Type.LowRange} {...rest} />
-  }
-}
+import {
+  getInteractiveIconType,
+  InteractiveIconProps,
+} from "Renderer/components/core/icon/interactive-icon.config"
 
 const InteractiveIcon: FunctionComponent<InteractiveIconProps & IconProps> = ({
   className,
@@ -32,10 +12,7 @@ const InteractiveIcon: FunctionComponent<InteractiveIconProps & IconProps> = ({
   interactiveIconType,
   ...rest
 }) => {
-  if (iconState === 0) {
-    console.log("ślububububu")
-  }
-  return <>{getRangeIcon(iconState, interactiveIconType, rest)}</>
+  return <>{getInteractiveIconType(iconState, interactiveIconType, rest)}</>
 }
 
 export default InteractiveIcon
