@@ -197,7 +197,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "@rematch/core": "^1.3.0",
+    "@rematch/core": "^1.4.0",
     "@rematch/select": "^2.0.5",
     "awesome-typescript-loader": "^5.2.1",
     "electron-better-ipc": "^0.8.0",

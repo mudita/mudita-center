@@ -1,67 +1,46 @@
-import React from "react"
-import { InitialState as BasicInfoInitialState } from "Renderer/models/basicInfo/interfaces"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import styled from "styled-components"
-import Phone from "Renderer/components/rest/overview/phone/phone.component"
-import Network from "Renderer/components/rest/overview/network/network.component"
-import getFakeAdapters from "App/tests/get-fake-adapters"
-import System from "Renderer/components/rest/overview/system/system.component"
-import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
-import Backup from "Renderer/components/rest/overview/backup/backup.component"
+import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
+import React, { useEffect } from "react"
+import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
-import { version } from "../../../../package.json"
-
-const PhoneInfo = styled(Phone)`
-  grid-area: Phone;
-`
-
-const NetworkInfo = styled(Network)`
-  grid-area: Network;
-`
-
-const FileManagerInfo = styled(FilesManager)`
-  grid-area: FilesManager;
-`
-
-const BackupInfo = styled(Backup)`
-  grid-area: Backup;
-`
-
-const OverviewWrapper = styled.div`
-  display: grid;
-  grid-template-columns: minmax(27rem, 1fr) minmax(59rem, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  grid-column-gap: 4rem;
-  grid-row-gap: 3.2rem;
-  padding: 3.2rem 3rem 3.7rem 4rem;
-  grid-template-areas:
-    "Phone Network"
-    "Phone System"
-    "Phone FilesManager"
-    "Phone Backup";
-`
 
 const Overview: FunctionComponent<BasicInfoInitialState> = ({
-  batteryLevel,
+  batteryLevel = 0,
+  changeSim = noop,
+  disconnectDevice = noop,
   lastBackup,
   osVersion,
+  osUpdateDate = 0,
+  loadData = noop,
+  memorySpace = {
+    free: 0,
+    full: 16000000000,
+  },
+  simCards = [
+    {
+      network: undefined,
+      active: false,
+      number: 0,
+      slot: 1,
+    },
+  ],
+  networkName,
 }) => {
+  useEffect(() => {
+    loadData()
+  }, [])
   return (
-    <OverviewWrapper>
-      <PhoneInfo
-        onDisconnect={noop}
-        batteryLevel={batteryLevel}
-        network={"APP version " + version}
-      />
-      <NetworkInfo simCards={getFakeAdapters().pureNetwork.getSimCards()} />
-      <System osVersion={osVersion} lastUpdate={"just now"} />
-      <FileManagerInfo usedSpace={16} onFilesOpen={noop} />
-      <BackupInfo
-        lastBackup={lastBackup}
-        onBackupCreate={noop}
-        onBackupRestore={noop}
-      />
-    </OverviewWrapper>
+    <OverviewUI
+      batteryLevel={batteryLevel}
+      changeSim={changeSim}
+      disconnectDevice={disconnectDevice}
+      lastBackup={lastBackup}
+      osVersion={osVersion}
+      osUpdateDate={osUpdateDate}
+      memorySpace={memorySpace}
+      simCards={simCards}
+      networkName={networkName}
+    />
   )
 }
 
