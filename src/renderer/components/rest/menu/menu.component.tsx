@@ -5,6 +5,7 @@ import { menuElements } from "Renderer/constants/menu-elements"
 import MuditaLogo from "Renderer/svg/mudita_logo.svg"
 import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import FunctionComponent from "Renderer/types/function-component.interface"
 
 const MenuWrapper = styled.div`
   flex: 1;
@@ -26,12 +27,18 @@ const SvgMuditaLogo = styled(Svg)`
   margin: 2rem 0 3.5rem;
 `
 
-const Menu = () => {
-  const links = menuElements.map(({ label, items, icons }, indexMenu) => {
-    return (
-      <MenuGroup label={label} items={items} icons={icons} key={indexMenu} />
+interface Props {
+  deviceDisconnected?: boolean
+}
+
+const Menu: FunctionComponent<Props> = ({ deviceDisconnected }) => {
+  const links = menuElements
+    .filter(({ visibleWithPhone }) =>
+      deviceDisconnected ? visibleWithPhone : true
     )
-  })
+    .map(({ visibleWithPhone, ...props }, indexMenu) => {
+      return <MenuGroup {...props} key={indexMenu} />
+    })
   return (
     <MenuWrapper>
       <LogoWrapper>

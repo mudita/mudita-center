@@ -21,7 +21,9 @@ test("store returns initial state", () => {
 
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
-      "basicInfo": Object {},
+      "basicInfo": Object {
+        "disconnectedDevice": false,
+      },
     }
   `)
 })
@@ -40,6 +42,7 @@ test("mock calls update state", async () => {
     Object {
       "basicInfo": Object {
         "batteryLevel": 9001,
+        "disconnectedDevice": false,
         "lastBackup": "20-01-30T07:35:01.562Z20",
         "memorySpace": Object {
           "free": 99999999999999,
@@ -93,14 +96,12 @@ test("disconnect returns true and updates state", async () => {
   const state = store.getState()
 
   expect(state).toMatchInlineSnapshot(`
-Object {
-  "basicInfo": Object {
-    "disconnectedDevice": Object {
-      "status": "ok",
-    },
-  },
-}
-`)
+    Object {
+      "basicInfo": Object {
+        "disconnectedDevice": true,
+      },
+    }
+  `)
 })
 
 test("change sim switches active property on sim cards", async () => {
@@ -127,6 +128,7 @@ test("change sim switches active property on sim cards", async () => {
     Object {
       "basicInfo": Object {
         "batteryLevel": 9001,
+        "disconnectedDevice": false,
         "lastBackup": "20-01-30T07:35:01.562Z20",
         "memorySpace": Object {
           "free": 99999999999999,
