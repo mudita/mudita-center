@@ -6,6 +6,7 @@ import CheckIndeterminate from "Renderer/svg/check-indeterminate.svg"
 import Close from "Renderer/svg/close.svg"
 import Delete from "Renderer/svg/delete.svg"
 import FilesManager from "Renderer/svg/files-manager.svg"
+import LowRange from "Renderer/svg/range-1.svg"
 import Magnifier from "Renderer/svg/magnifier.svg"
 import Calendar from "Renderer/svg/menu_calendar.svg"
 import MenuFilesManager from "Renderer/svg/menu_filesManager.svg"
@@ -21,6 +22,7 @@ import MenuTools from "Renderer/svg/menu_tools.svg"
 import MuditaLogo from "Renderer/svg/mudita.svg"
 import MuditaLogoWithText from "Renderer/svg/mudita_logo.svg"
 import Music from "Renderer/svg/music.svg"
+import VeryLowRange from "Renderer/svg/range-0.svg"
 import Signal from "Renderer/svg/signal.svg"
 import Sim from "Renderer/svg/sim.svg"
 import Upload from "Renderer/svg/upload.svg"
@@ -36,6 +38,7 @@ export enum Type {
   Close,
   Delete,
   FilesManager,
+  LowRange,
   Magnifier,
   MenuFilesManager,
   MenuMeditation,
@@ -50,13 +53,16 @@ export enum Type {
   MuditaLogo,
   MuditaLogoWithText,
   Music,
+  VeryLowRange,
   Signal,
   Sim,
   Upload,
   VoiceRecorder,
 }
 
-export const getIconType = (icon: Type): FunctionComponent<ImageInterface> => {
+export const getIconType = (
+  icon: Type = Type.Arrow
+): FunctionComponent<ImageInterface> => {
   switch (icon) {
     case Type.Arrow:
       return Arrow
@@ -74,6 +80,8 @@ export const getIconType = (icon: Type): FunctionComponent<ImageInterface> => {
       return Delete
     case Type.FilesManager:
       return FilesManager
+    case Type.LowRange:
+      return LowRange
     case Type.Magnifier:
       return Magnifier
     case Type.MenuFilesManager:
@@ -108,6 +116,8 @@ export const getIconType = (icon: Type): FunctionComponent<ImageInterface> => {
       return Sim
     case Type.Upload:
       return Upload
+    case Type.VeryLowRange:
+      return VeryLowRange
     case Type.VoiceRecorder:
       return VoiceRecorder
     default:

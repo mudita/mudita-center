@@ -5,11 +5,11 @@ import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
-interface Props {
+export interface Props {
   badge?: boolean
   height?: number
   width?: number
-  type: Type
+  type?: Type
 }
 
 const badgeStyles = css`
