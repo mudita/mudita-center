@@ -4,7 +4,7 @@ import { RootState } from "Renderer/store"
 
 const mapStateToProps = (state: RootState) => {
   return {
-    disconnectedDevice: state.basicInfo.disconnectedDevice,
+    deviceDisconnected: state.basicInfo.disconnectedDevice,
   }
 }
 

@@ -28,15 +28,15 @@ const SvgMuditaLogo = styled(Svg)`
 `
 
 interface Props {
-  disconnectedDevice?: boolean
+  deviceDisconnected?: boolean
 }
 
-const Menu: FunctionComponent<Props> = ({ disconnectedDevice }) => {
+const Menu: FunctionComponent<Props> = ({ deviceDisconnected }) => {
   const links = menuElements
-    .filter(({ phoneDisconnected }) =>
-      disconnectedDevice ? !phoneDisconnected : true
+    .filter(({ visibleWithPhone }) =>
+      deviceDisconnected ? visibleWithPhone : true
     )
-    .map(({ phoneDisconnected, ...props }, indexMenu) => {
+    .map(({ visibleWithPhone, ...props }, indexMenu) => {
       return <MenuGroup {...props} key={indexMenu} />
     })
   return (
