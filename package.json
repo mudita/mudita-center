@@ -1,6 +1,6 @@
 {
   "name": "pure-desktop-app",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Pure Desktop App",
   "main": "./dist/main.js",
   "scripts": {
@@ -140,8 +140,7 @@
     "css-loader": "^3.4.2",
     "devtron": "^1.4.0",
     "electron": "^8.0.3",
-    "electron-builder": "^22.3.5",
-    "electron-builder-http": "^19.27.5",
+    "electron-builder": "^22.4.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-rebuild": "^1.10.0",
     "express": "^4.17.1",
@@ -205,7 +204,7 @@
     "electron-debug": "^3.0.1",
     "electron-log": "^4.0.6",
     "electron-publisher-s3": "^20.17.2",
-    "electron-updater": "^4.2.4",
+    "electron-updater": "4.2.2",
     "faker": "^4.1.0",
     "history": "^4.10.1",
     "lodash": "^4.17.15",

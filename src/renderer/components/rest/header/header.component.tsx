@@ -12,7 +12,6 @@ import {
   backgroundColor,
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
-import { version } from "../../../../../package.json"
 
 const HeaderWrapper = styled.div`
   display: grid;
@@ -50,7 +49,7 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
         message={currentLocation}
         data-testid={"location"}
       />
-      <span>v {version}</span>
+      <span>v 0.0.1</span>
       {middleComponent &&
         React.cloneElement(middleComponent, {
           currentLocation: location.pathname,

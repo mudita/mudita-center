@@ -32,8 +32,6 @@ const createWindow = async () => {
     },
   })
 
-  autoupdate()
-
   if (process.env.NODE_ENV !== "production") {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     win.loadURL(`http://localhost:2003`)
@@ -45,6 +43,8 @@ const createWindow = async () => {
         slashes: true,
       })
     )
+
+    autoupdate(win)
   }
 
   if (process.env.NODE_ENV !== "production") {
