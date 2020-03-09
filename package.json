@@ -135,6 +135,7 @@
     "boiler-room-custodian": "^0.6.2",
     "chalk": "^3.0.0",
     "circular-dependency-plugin": "^5.2.0",
+    "codesign": "0.0.9",
     "concurrently": "^5.1.0",
     "cross-env": "^7.0.0",
     "css-loader": "^3.4.2",
