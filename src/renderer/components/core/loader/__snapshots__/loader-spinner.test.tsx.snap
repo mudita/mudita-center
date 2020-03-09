@@ -3,6 +3,7 @@
 exports[`matches snapshot 1`] = `
 <div
   class="sc-AxjAm dclKcW"
+  data-testid="loader-spinner"
   size="4"
 >
   <div
