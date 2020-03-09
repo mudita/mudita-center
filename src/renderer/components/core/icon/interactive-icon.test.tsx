@@ -8,6 +8,11 @@ describe("interactive icon returns correct component", () => {
   const testScenario = [
     {
       interactiveIconType: InteractiveIconType.Range,
+      iconState: 0,
+      dataTestId: "no-range",
+    },
+    {
+      interactiveIconType: InteractiveIconType.Range,
       iconState: 1,
       dataTestId: "very-low-range",
     },
