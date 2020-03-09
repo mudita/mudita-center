@@ -25,7 +25,7 @@
     "pack": "npm run build && electron-builder --dir --publish never",
     "dist": "npm run build && electron-builder --publish never",
     "dist:all": "npm run dist -- -mwl",
-    "postinstall": "electron-builder install-app-deps && electron-rebuild -f && npm run sign-dev-electron-app",
+    "postinstall": "electron-builder install-app-deps && electron-rebuild -f",
     "beforecommit": "lint-staged",
     "check:translations": "ts-node -r esm ./scripts/translationCheck",
     "generate:translations": "ts-node -r esm ./scripts/translationRunner.js",
