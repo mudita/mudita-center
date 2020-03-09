@@ -53,19 +53,23 @@ export interface MenuElement {
     id: string
   }
   icons?: FunctionComponent<ImageInterface>[]
+  visibleWithPhone?: boolean
 }
 
 export const menuElements: MenuElement[] = [
   {
     items: [{ button: views[View.News], icon: MenuNews }],
+    visibleWithPhone: true,
   },
   {
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
     icons: [MediumRange, Battery, Sim, MenuTethering],
+    visibleWithPhone: false,
   },
   {
     label: messages.desktopApp,
     items: DESKTOP_APP_BUTTONS,
+    visibleWithPhone: true,
   },
 ]
