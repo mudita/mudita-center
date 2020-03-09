@@ -50,5 +50,13 @@
   "view.name.tools.notes": "Notes",
   "view.name.tools.notes.selectionsNumber": "{num, plural, =-1 {All Notes} one {# Note} other {# Notes}} selected",
   "view.name.tools.voiceRecorder": "Voice Recorder",
-  "view.name.tools.voiceRecorder.selectionsNumber": "{num, plural, =-1 {All Recordings} one {# Recording} other {# Recordings}} selected"
+  "view.name.tools.voiceRecorder.selectionsNumber": "{num, plural, =-1 {All Recordings} one {# Recording} other {# Recordings}} selected",
+  "component.modal.closeButton": "Close",
+  "app.update.modal.title": "App update",
+  "app.update.available.modal.message": "New update is available",
+  "app.update.available.modal.button": "Download",
+  "app.update.downloaded.modal.message": "Update downloaded",
+  "app.update.downloaded.modal.description": "Do you want to update app now or during next launch?",
+  "app.update.downloaded.modal.button": "Now",
+  "app.update.downloaded.modal.closeButton": "Later"
 }

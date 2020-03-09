@@ -4,12 +4,14 @@ import log from "electron-log"
 import { BrowserWindow } from "electron"
 
 export enum AppUpdateStatus {
-  Checking = "app-update-checking",
   Available = "app-update-available",
-  NotAvailable = "app-update-not-available",
   Error = "app-update-error",
-  Downloading = "app-update-downloading",
   Downloaded = "app-update-downloaded",
+}
+
+export enum AppUpdateActions {
+  Download = "app-update-download",
+  Install = "app-update-install",
 }
 
 export default (win: BrowserWindow) => {
@@ -19,17 +21,14 @@ export default (win: BrowserWindow) => {
   autoUpdater.autoDownload = false
   autoUpdater.autoInstallOnAppQuit = true
 
-  autoUpdater.on("checking-for-update", info => {
-    ipcMain.sendToRenderers(AppUpdateStatus.Checking, info)
-  })
   autoUpdater.on("update-available", info => {
     ipcMain.sendToRenderers(AppUpdateStatus.Available, info)
   })
   autoUpdater.on("error", error => {
     ipcMain.sendToRenderers(AppUpdateStatus.Error, error)
+    win.setProgressBar(-1)
   })
   autoUpdater.on("download-progress", progressObj => {
-    ipcMain.sendToRenderers(AppUpdateStatus.Downloading, progressObj)
     win.setProgressBar(progressObj.percent / 100)
   })
   autoUpdater.on("update-downloaded", info => {
@@ -37,11 +36,11 @@ export default (win: BrowserWindow) => {
     win.setProgressBar(-1)
   })
 
-  ipcMain.on("download-app-update", () => {
+  ipcMain.answerRenderer(AppUpdateActions.Download, () => {
     autoUpdater.downloadUpdate()
   })
 
-  ipcMain.on("install-app-update", () => {
+  ipcMain.answerRenderer(AppUpdateActions.Install, () => {
     autoUpdater.quitAndInstall(true, true)
   })
 
