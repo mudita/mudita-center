@@ -11,7 +11,9 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import { Slicer } from "@rematch/select"
 import { SimCard, Store } from "Renderer/models/basic-info/interfaces"
 
-const initialState = {}
+const initialState = {
+  disconnectedDevice: false,
+}
 
 export default {
   state: initialState,
@@ -65,7 +67,7 @@ export default {
       const disconnectInfo = await disconnectDevice()
       if (disconnectInfo.status === DeviceResponseStatus.Ok) {
         dispatch.basicInfo.update({
-          disconnectedDevice: disconnectInfo,
+          disconnectedDevice: true,
         })
       }
     },
