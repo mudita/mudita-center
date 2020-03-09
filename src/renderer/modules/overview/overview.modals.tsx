@@ -21,6 +21,7 @@ import { convertBytes } from "Renderer/utils/convert-bytes"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 
 const ModalContent = styled.div`
   display: flex;
@@ -164,7 +165,7 @@ export const CheckingUpdatesModal = () => (
     )}
   >
     <RoundIconWrapper>
-      <Loader />
+      <Loader type={LoaderType.Spinner} />
     </RoundIconWrapper>
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
