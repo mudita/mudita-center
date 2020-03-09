@@ -1,28 +1,33 @@
 import React from "react"
 import { ipcRenderer } from "electron-better-ipc"
 import { AppUpdateActions, AppUpdateStatus } from "App/main/autoupdate"
-import modalService from "Renderer/components/core/modal/modal.service"
+import { ModalService } from "Renderer/components/core/modal/modal.service"
 import {
   AppUpdateAvailable,
   AppUpdateDownloaded,
+  AppUpdateError,
 } from "Renderer/components/rest/app-update/app-update.modals"
 
-const download = () => {
-  ipcRenderer.callMain(AppUpdateActions.Download)
-  modalService.closeModal()
-}
+export default (appModalService: ModalService) => {
+  const download = () => {
+    ipcRenderer.callMain(AppUpdateActions.Download)
+    appModalService.closeModal()
+  }
 
-const install = () => {
-  ipcRenderer.callMain(AppUpdateActions.Install)
-  modalService.closeModal()
-}
+  const install = () => {
+    ipcRenderer.callMain(AppUpdateActions.Install)
+    appModalService.closeModal()
+  }
 
-export default () => {
   ipcRenderer.answerMain(AppUpdateStatus.Available, () => {
-    modalService.openModal(<AppUpdateAvailable onDownload={download} />)
+    appModalService.openModal(<AppUpdateAvailable onDownload={download} />)
   })
 
   ipcRenderer.answerMain(AppUpdateStatus.Downloaded, () => {
-    modalService.openModal(<AppUpdateDownloaded onInstall={install} />)
+    appModalService.openModal(<AppUpdateDownloaded onInstall={install} />)
+  })
+
+  ipcRenderer.answerMain(AppUpdateStatus.Error, () => {
+    appModalService.openModal(<AppUpdateError />, true)
   })
 }

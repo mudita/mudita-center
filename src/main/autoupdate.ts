@@ -21,18 +21,18 @@ export default (win: BrowserWindow) => {
   autoUpdater.autoDownload = false
   autoUpdater.autoInstallOnAppQuit = true
 
-  autoUpdater.on("update-available", info => {
-    ipcMain.sendToRenderers(AppUpdateStatus.Available, info)
+  autoUpdater.on("update-available", () => {
+    ipcMain.callFocusedRenderer(AppUpdateStatus.Available)
   })
   autoUpdater.on("error", error => {
-    ipcMain.sendToRenderers(AppUpdateStatus.Error, error)
+    ipcMain.callFocusedRenderer(AppUpdateStatus.Error, error)
     win.setProgressBar(-1)
   })
   autoUpdater.on("download-progress", progressObj => {
     win.setProgressBar(progressObj.percent / 100)
   })
-  autoUpdater.on("update-downloaded", info => {
-    ipcMain.sendToRenderers(AppUpdateStatus.Downloaded, info)
+  autoUpdater.on("update-downloaded", () => {
+    ipcMain.callFocusedRenderer(AppUpdateStatus.Downloaded)
     win.setProgressBar(-1)
   })
 

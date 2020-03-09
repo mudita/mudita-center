@@ -55,8 +55,11 @@
   "app.update.modal.title": "App update",
   "app.update.available.modal.message": "New update is available",
   "app.update.available.modal.button": "Download",
-  "app.update.downloaded.modal.message": "Update downloaded",
+  "app.update.downloaded.modal.message": "Update is ready to install",
   "app.update.downloaded.modal.description": "Do you want to update app now or during next launch?",
-  "app.update.downloaded.modal.button": "Now",
-  "app.update.downloaded.modal.closeButton": "Later"
+  "app.update.downloaded.modal.warning": "Note that update process will require app restart.\nMake sure you saved all data you're currently working on.",
+  "app.update.downloaded.modal.button": "Install",
+  "app.update.downloaded.modal.closeButton": "Later",
+  "app.update.error.modal.message": "Error",
+  "app.update.error.modal.description": "Please restart the app or update it manually."
 }

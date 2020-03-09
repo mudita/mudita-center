@@ -3,6 +3,7 @@ import React from "react"
 import {
   AppUpdateAvailable,
   AppUpdateDownloaded,
+  AppUpdateError,
 } from "Renderer/components/rest/app-update/app-update.modals"
 import {
   ModalBackdrop,
@@ -26,6 +27,16 @@ storiesOf("App|Update", module)
         <ModalBackdrop />
         <ModalWrapper>
           <AppUpdateDownloaded />
+        </ModalWrapper>
+      </div>
+    )
+  })
+  .add("Update error", () => {
+    return (
+      <div>
+        <ModalBackdrop />
+        <ModalWrapper>
+          <AppUpdateError />
         </ModalWrapper>
       </div>
     )
