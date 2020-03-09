@@ -9,10 +9,12 @@ import {
 
 const download = () => {
   ipcRenderer.callMain(AppUpdateActions.Download)
+  modalService.closeModal()
 }
 
 const install = () => {
   ipcRenderer.callMain(AppUpdateActions.Install)
+  modalService.closeModal()
 }
 
 export default () => {

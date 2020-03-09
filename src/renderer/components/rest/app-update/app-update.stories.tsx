@@ -4,22 +4,29 @@ import {
   AppUpdateAvailable,
   AppUpdateDownloaded,
 } from "Renderer/components/rest/app-update/app-update.modals"
-import { ModalBackdrop } from "Renderer/components/core/modal/modal.styled.elements"
+import {
+  ModalBackdrop,
+  ModalWrapper,
+} from "Renderer/components/core/modal/modal.styled.elements"
 
 storiesOf("App|Update", module)
   .add("Available update", () => {
     return (
-      <>
+      <div>
         <ModalBackdrop />
-        <AppUpdateAvailable />
-      </>
+        <ModalWrapper>
+          <AppUpdateAvailable />
+        </ModalWrapper>
+      </div>
     )
   })
   .add("Downloaded update", () => {
     return (
-      <>
+      <div>
         <ModalBackdrop />
-        <AppUpdateDownloaded />
-      </>
+        <ModalWrapper>
+          <AppUpdateDownloaded />
+        </ModalWrapper>
+      </div>
     )
   })
