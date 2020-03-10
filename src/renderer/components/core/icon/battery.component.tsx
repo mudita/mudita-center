@@ -87,6 +87,7 @@ const Battery: FunctionComponent<Props> = ({
       <path fill="#FFF" d="M1.2 1.28H20.4V14.08H1.2z" />
       {batteryBars && batteryBars.length === 0 && (
         <path
+          data-testid="no-battery"
           fill="#6A6A6A"
           d="M11.743 8.357c0 .114-.1.229-.229.229H9.971c-.128 0-.228-.115-.228-.229V2.63c0-.115.1-.229.228-.229h1.543c.129 0 .229.114.229.229v5.728zM9.886 12.4c-.157 0-.286-.129-.286-.286V10.4c0-.157.129-.286.286-.286H11.6c.157 0 .286.129.286.286v1.714c0 .157-.129.286-.286.286H9.886z"
         />
@@ -109,6 +110,7 @@ const Battery: FunctionComponent<Props> = ({
         })}
       {charging && (
         <text
+          data-testid="charging-text"
           fill="#6A6A6A"
           fontFamily="GTPressura-Bold, GT Pressura"
           fontSize="8"
