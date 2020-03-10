@@ -101,6 +101,8 @@ const Phone: FunctionComponent<PhoneProps> = ({
           <InteractiveIcon
             iconState={40}
             interactiveIconType={InteractiveIconType.Range}
+            height={1.6}
+            width={1.6}
           />
           {network ? (
             <Text displayStyle={TextDisplayStyle.LargeBoldText}>{network}</Text>
