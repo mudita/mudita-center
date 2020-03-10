@@ -5,13 +5,6 @@ import {
   getInteractiveIconType,
   InteractiveIconProps,
 } from "Renderer/components/core/icon/interactive-icon.config"
-import styled from "styled-components"
-
-const Elo = styled.path`
-  fill: red;
-  width: 100px;
-  height: 5px;
-`
 
 const InteractiveIcon: FunctionComponent<InteractiveIconProps & IconProps> = ({
   className,
@@ -19,12 +12,7 @@ const InteractiveIcon: FunctionComponent<InteractiveIconProps & IconProps> = ({
   interactiveIconType,
   ...rest
 }) => {
-  return (
-    <>
-      <Elo />
-      {getInteractiveIconType(iconState, interactiveIconType, rest)}
-    </>
-  )
+  return <>{getInteractiveIconType(iconState, interactiveIconType, rest)}</>
 }
 
 export default InteractiveIcon

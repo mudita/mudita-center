@@ -10,10 +10,18 @@ const Container = styled.div`
   align-items: center;
 `
 
-storiesOf("Components|Battery Icon", module).add("One bar", () => {
-  return (
-    <Container>
-      <Battery />
-    </Container>
-  )
-})
+storiesOf("Components|Battery Icon", module)
+  .add("One bar", () => {
+    return (
+      <Container>
+        <Battery />
+      </Container>
+    )
+  })
+  .add("Charging", () => {
+    return (
+      <Container>
+        <Battery charging batteryLevel={0.5} />
+      </Container>
+    )
+  })
