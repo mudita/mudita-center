@@ -16,7 +16,7 @@ import MenuTools from "Renderer/svg/menu_tools.svg"
 
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import Battery from "Renderer/svg/battery.svg"
-import Signal from "Renderer/svg/Signal.svg"
+import Signal from "Renderer/svg/signal.svg"
 import Sim from "Renderer/svg/sim.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
