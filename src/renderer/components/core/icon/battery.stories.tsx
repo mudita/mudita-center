@@ -11,10 +11,45 @@ const Container = styled.div`
 `
 
 storiesOf("Components|Battery Icon", module)
+  .add("No battery", () => {
+    return (
+      <Container>
+        <Battery batteryLevel={0} />
+      </Container>
+    )
+  })
   .add("One bar", () => {
     return (
       <Container>
-        <Battery />
+        <Battery batteryLevel={0.1} />
+      </Container>
+    )
+  })
+  .add("Two bars", () => {
+    return (
+      <Container>
+        <Battery batteryLevel={0.3} />
+      </Container>
+    )
+  })
+  .add("Three bars", () => {
+    return (
+      <Container>
+        <Battery batteryLevel={0.5} />
+      </Container>
+    )
+  })
+  .add("Four bars", () => {
+    return (
+      <Container>
+        <Battery batteryLevel={0.7} />
+      </Container>
+    )
+  })
+  .add("Five bars", () => {
+    return (
+      <Container>
+        <Battery batteryLevel={0.9} />
       </Container>
     )
   })
