@@ -7,7 +7,6 @@ import {
 } from "Renderer/components/core/icon/interactive-icon.config"
 
 const InteractiveIcon: FunctionComponent<InteractiveIconProps & IconProps> = ({
-  className,
   iconState,
   interactiveIconType,
   ...rest
