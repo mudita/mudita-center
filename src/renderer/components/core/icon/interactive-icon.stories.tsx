@@ -19,9 +19,9 @@ storiesOf("Components|Interactive Icon", module)
     const options = {
       noRange: 0,
       veryLowRange: 1,
-      lowRange: 10,
-      mediumRange: 40,
-      highRange: 60,
+      lowRange: 21,
+      mediumRange: 41,
+      highRange: 61,
       veryHighRange: 90,
     }
 
