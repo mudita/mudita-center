@@ -7,27 +7,27 @@ describe("range icon returns correct component", () => {
   const testScenario = [
     {
       strength: 0,
-      dataTestId: "no-range",
+      dataTestId: "icon-NoRange",
     },
     {
       strength: 1,
-      dataTestId: "very-low-range",
+      dataTestId: "icon-VeryLowRange",
     },
     {
       strength: 21,
-      dataTestId: "low-range",
+      dataTestId: "icon-LowRange",
     },
     {
       strength: 41,
-      dataTestId: "medium-range",
+      dataTestId: "icon-MediumRange",
     },
     {
       strength: 61,
-      dataTestId: "high-range",
+      dataTestId: "icon-HighRange",
     },
     {
       strength: 90,
-      dataTestId: "very-high-range",
+      dataTestId: "icon-VeryHighRange",
     },
   ]
   testScenario.forEach(({ strength, dataTestId }) => {

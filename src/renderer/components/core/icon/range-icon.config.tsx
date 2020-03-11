@@ -14,19 +14,17 @@ export const getInteractiveRangeIcon = (
 ) => {
   switch (true) {
     case strength === 0:
-      return <Icon type={Type.NoRange} testId="no-range" {...rest} />
+      return <Icon type={Type.NoRange} {...rest} />
     case strength > 0 && strength <= 20:
-      return <Icon type={Type.VeryLowRange} testId="very-low-range" {...rest} />
+      return <Icon type={Type.VeryLowRange} {...rest} />
     case strength > 20 && strength <= 40:
-      return <Icon type={Type.LowRange} testId="low-range" {...rest} />
+      return <Icon type={Type.LowRange} {...rest} />
     case strength > 40 && strength <= 60:
-      return <Icon type={Type.MediumRange} testId="medium-range" {...rest} />
+      return <Icon type={Type.MediumRange} {...rest} />
     case strength > 60 && strength <= 80:
-      return <Icon type={Type.HighRange} testId="high-range" {...rest} />
+      return <Icon type={Type.HighRange} {...rest} />
     case strength > 80 && strength <= 100:
-      return (
-        <Icon type={Type.VeryHighRange} testId="very-high-range" {...rest} />
-      )
+      return <Icon type={Type.VeryHighRange} {...rest} />
     default:
       return
   }
