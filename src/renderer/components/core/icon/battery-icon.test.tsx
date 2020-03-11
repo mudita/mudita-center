@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import Battery from "Renderer/components/core/icon/battery.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 
 const barsTestId = "bar"
 const textTestId = "charging-text"
@@ -34,7 +34,7 @@ describe("renders correct amount of bars", () => {
   testScenario.forEach(({ batteryLevel, numberOfBars }) => {
     test(`batteryLevel: ${batteryLevel}, numberOfBars: ${numberOfBars}`, () => {
       const { queryAllByTestId } = renderWithThemeAndIntl(
-        <Battery batteryLevel={batteryLevel} />
+        <BatteryIcon batteryLevel={batteryLevel} />
       )
       expect(queryAllByTestId(barsTestId)).toHaveLength(numberOfBars)
     })
@@ -43,7 +43,7 @@ describe("renders correct amount of bars", () => {
 
 test("charging text renders with no bars and no-battery path", () => {
   const { queryByTestId } = renderWithThemeAndIntl(
-    <Battery charging batteryLevel={0.5} />
+    <BatteryIcon charging batteryLevel={0.5} />
   )
   expect(queryByTestId(textTestId)).toBeInTheDocument()
   expect(queryByTestId(barsTestId)).not.toBeInTheDocument()
@@ -51,7 +51,9 @@ test("charging text renders with no bars and no-battery path", () => {
 })
 
 test("renders no-battery with no bars and charging text", () => {
-  const { queryByTestId } = renderWithThemeAndIntl(<Battery batteryLevel={0} />)
+  const { queryByTestId } = renderWithThemeAndIntl(
+    <BatteryIcon batteryLevel={0} />
+  )
   expect(queryByTestId(noBatteryTestId)).toBeInTheDocument()
   expect(queryByTestId(barsTestId)).not.toBeInTheDocument()
   expect(queryByTestId(textTestId)).not.toBeInTheDocument()

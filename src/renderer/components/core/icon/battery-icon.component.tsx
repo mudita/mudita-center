@@ -4,6 +4,8 @@ import * as React from "react"
 interface Props {
   batteryLevel: number
   charging?: boolean
+  height?: number
+  width?: number
 }
 
 const getBarsBasedOnBatteryLevel = (batteryLevel: number) => {
@@ -75,14 +77,21 @@ const getBarsBasedOnBatteryLevel = (batteryLevel: number) => {
   }
 }
 
-const Battery: FunctionComponent<Props> = ({
+const BatteryIcon: FunctionComponent<Props> = ({
+  batteryLevel,
   charging,
   className,
-  batteryLevel,
+  height = 16,
+  width = 24,
 }) => {
   const batteryBars = getBarsBasedOnBatteryLevel(batteryLevel)
   return (
-    <svg className={className} width="24" height="16" viewBox="0 0 24 16">
+    <svg
+      className={className}
+      width={height}
+      height={width}
+      viewBox="0 0 24 16"
+    >
       <rect width="21.6" height="15.36" fill="#6A6A6A" rx="1" />
       <path fill="#FFF" d="M1.2 1.28H20.4V14.08H1.2z" />
       {batteryBars && batteryBars.length === 0 && (
@@ -129,4 +138,4 @@ const Battery: FunctionComponent<Props> = ({
   )
 }
 
-export default Battery
+export default BatteryIcon

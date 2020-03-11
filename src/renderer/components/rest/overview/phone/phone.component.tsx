@@ -10,14 +10,13 @@ import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
 import Image from "Renderer/components/core/image/image.component"
 import PureImage from "Renderer/images/pure-render.png"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
+import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 
 const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
@@ -85,8 +84,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
       <PhoneInfo>
         <Image src={PureImage} />
         <BatteryStats>
-          {/* TODO: Replace with animated icon component */}
-          <Icon type={Type.Battery} width={1.6} />
+          <BatteryIcon width={16} batteryLevel={0.1} />
           <Text displayStyle={TextDisplayStyle.LargeBoldText} element={"h2"}>
             {batteryLevel * 100} %
           </Text>
