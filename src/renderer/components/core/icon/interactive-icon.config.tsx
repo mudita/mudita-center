@@ -20,15 +20,15 @@ export const getInteractiveRangeIcon = (
   switch (true) {
     case status === 0:
       return <Icon type={Type.NoRange} testId="no-range" {...rest} />
-    case status > 0 && status < 5:
+    case status > 0 && status <= 20:
       return <Icon type={Type.VeryLowRange} testId="very-low-range" {...rest} />
-    case status >= 5 && status < 25:
+    case status > 20 && status <= 40:
       return <Icon type={Type.LowRange} testId="low-range" {...rest} />
-    case status >= 25 && status < 50:
+    case status > 40 && status <= 60:
       return <Icon type={Type.MediumRange} testId="medium-range" {...rest} />
-    case status >= 50 && status < 75:
+    case status > 60 && status <= 80:
       return <Icon type={Type.HighRange} testId="high-range" {...rest} />
-    case status >= 75 && status <= 100:
+    case status > 80 && status <= 100:
       return (
         <Icon type={Type.VeryHighRange} testId="very-high-range" {...rest} />
       )
