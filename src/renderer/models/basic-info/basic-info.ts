@@ -19,6 +19,7 @@ const initialState = {
   osUpdateFilename: "",
   osUpdateAvailable: false,
   osUpdateAlreadyDownloaded: false,
+  disconnectedDevice: false,
 }
 
 export default {
@@ -73,7 +74,7 @@ export default {
       const disconnectInfo = await disconnectDevice()
       if (disconnectInfo.status === DeviceResponseStatus.Ok) {
         dispatch.basicInfo.update({
-          disconnectedDevice: disconnectInfo,
+          disconnectedDevice: true,
         })
       }
     },

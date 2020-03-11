@@ -1,7 +1,11 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import Loader from "Renderer/components/core/loader/loader.component"
+import LoaderSpinner from "Renderer/components/core/loader/loader-spinner.component"
 import styled from "styled-components"
+import LoaderLogo from "Renderer/components/core/loader/loader-logo.component"
+import Loader from "Renderer/components/core/loader/loader.component"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import { select, withKnobs } from "@storybook/addon-knobs"
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +15,7 @@ const Container = styled.div`
   width: 100%;
 `
 
-const HotLoader = styled(Loader)`
+const HotLoader = styled(LoaderSpinner)`
   color: hotpink;
 `
 
@@ -19,7 +23,7 @@ storiesOf("Components|Loader ", module)
   .add("Default", () => {
     return (
       <Container>
-        <Loader />
+        <LoaderSpinner />
       </Container>
     )
   })
@@ -30,3 +34,26 @@ storiesOf("Components|Loader ", module)
       </Container>
     )
   })
+  .add("Loader gif", () => {
+    return (
+      <Container>
+        <LoaderLogo />
+      </Container>
+    )
+  })
+  .add("Loader resolver", () => {
+    const label = "Loaders type"
+    const options = {
+      Logo: LoaderType.Logo,
+      Spinner: LoaderType.Spinner,
+    }
+    const defaultValue = LoaderType.Spinner
+
+    const value = select(label, options, defaultValue)
+    return (
+      <Container>
+        <Loader type={value} />
+      </Container>
+    )
+  })
+  .addDecorator(withKnobs)
