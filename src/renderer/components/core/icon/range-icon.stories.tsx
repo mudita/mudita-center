@@ -1,9 +1,8 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import InteractiveIcon from "Renderer/components/core/icon/interactive-icon.component"
 import styled from "styled-components"
-import { InteractiveIconType } from "Renderer/components/core/icon/interactive-icon.config"
 import { select, withKnobs } from "@storybook/addon-knobs"
+import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 
 const Container = styled.div`
   height: 100vh;
@@ -19,9 +18,9 @@ storiesOf("Components|Interactive Icon", module)
     const options = {
       noRange: 0,
       veryLowRange: 1,
-      lowRange: 10,
-      mediumRange: 40,
-      highRange: 60,
+      lowRange: 21,
+      mediumRange: 41,
+      highRange: 61,
       veryHighRange: 90,
     }
 
@@ -30,10 +29,7 @@ storiesOf("Components|Interactive Icon", module)
     const value = select(label, options, defaultValue)
     return (
       <Container>
-        <InteractiveIcon
-          iconState={value}
-          interactiveIconType={InteractiveIconType.Range}
-        />
+        <RangeIcon strenght={value} />
       </Container>
     )
   })

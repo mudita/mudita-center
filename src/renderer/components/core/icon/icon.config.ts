@@ -136,3 +136,7 @@ export const getIconType = (
       return Message
   }
 }
+
+export const getEnumName = (m?: Type) => {
+  return m !== undefined ? Type[m] : null
+}
