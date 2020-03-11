@@ -22,10 +22,10 @@ test("store returns initial state", () => {
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {
+        "disconnectedDevice": false,
         "osUpdateAlreadyDownloaded": false,
         "osUpdateAvailable": false,
         "osUpdateFilename": "",
-        "disconnectedDevice": false,
       },
     }
   `)
@@ -102,15 +102,15 @@ test("disconnect returns true and updates state", async () => {
   const state = store.getState()
 
   expect(state).toMatchInlineSnapshot(`
-    Object {
-      "basicInfo": Object {
-        "osUpdateAlreadyDownloaded": false,
-        "osUpdateAvailable": false,
-        "osUpdateFilename": "",
-        "disconnectedDevice": true,
-      },
-    }
-  `)
+Object {
+  "basicInfo": Object {
+    "disconnectedDevice": true,
+    "osUpdateAlreadyDownloaded": false,
+    "osUpdateAvailable": false,
+    "osUpdateFilename": "",
+  },
+}
+`)
 })
 
 test("change sim switches active property on sim cards", async () => {
