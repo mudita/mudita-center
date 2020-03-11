@@ -3,6 +3,7 @@
 exports[`matches snapshot 1`] = `
 <div
   class="sc-AxjAm kEgiZE"
+  data-testid="icon-Battery"
 >
   <test-file-stub
     image="test-file-stub"
@@ -13,6 +14,7 @@ exports[`matches snapshot 1`] = `
 exports[`matches snapshot with badge 1`] = `
 <div
   class="sc-AxjAm fZIJFY"
+  data-testid="icon-Battery"
 >
   <test-file-stub
     image="test-file-stub"
