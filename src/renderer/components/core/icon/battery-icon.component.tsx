@@ -90,7 +90,7 @@ const BatteryIcon: FunctionComponent<Props> = ({
       className={className}
       width={height}
       height={width}
-      viewBox="0 0 24 16"
+      viewBox={`0 0 ${width} ${height}`}
     >
       <rect width="21.6" height="15.36" fill="#6A6A6A" rx="1" />
       <path fill="#FFF" d="M1.2 1.28H20.4V14.08H1.2z" />
