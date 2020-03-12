@@ -46,3 +46,5 @@ tmp/extractedMessages
 .idea
 .vscode
 storybook-static
+
+*.env
