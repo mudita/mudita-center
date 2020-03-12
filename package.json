@@ -1,6 +1,6 @@
 {
   "name": "pure-desktop-app",
-  "version": "0.1.1",
+  "version": "0.0.1",
   "description": "Pure Desktop App",
   "main": "./dist/main.js",
   "scripts": {
@@ -22,8 +22,8 @@
     "test-watch": "npm test -- --watch",
     "pretest:e2e": "npm run build",
     "test:e2e": "jest '(\\/test\\/e2e/).*'",
-    "pack": "npm run build && electron-builder --dir",
-    "dist": "npm run build && electron-builder",
+    "pack": "npm run build && electron-builder --dir --publish never",
+    "dist": "npm run build && electron-builder --publish never",
     "dist:all": "npm run dist -- -mwl",
     "postinstall": "electron-builder install-app-deps && electron-rebuild -f",
     "beforecommit": "lint-staged",
@@ -31,10 +31,27 @@
     "generate:translations": "ts-node -r esm ./scripts/translationRunner.js",
     "storybook:serve": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "update-server": "http-server release/ -p 3333",
+    "sign-dev-electron-app": "codesign --deep --force --verbose --sign - node_modules/electron/dist/electron.app",
+    "release": "npm run build && electron-builder --publish always"
   },
   "pre-commit": "beforecommit",
   "build": {
+    "publish": {
+      "provider": "s3",
+      "bucket": "mudita-desktop-app",
+      "path": "/app/"
+    },
+    "nsis": {
+      "include": "installer.nsh",
+      "artifactName": "PureDesktopApp-Setup-${version}.${ext}",
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": true
+    },
     "productName": "PureDesktopApp",
     "appId": "mudita.pure.desktopApp",
     "mac": {
@@ -49,7 +66,7 @@
       "package.json"
     ],
     "linux": {
-      "target": "deb"
+      "target": "AppImage"
     },
     "win": {
       "target": "nsis"
@@ -123,9 +140,8 @@
     "cross-env": "^7.0.0",
     "css-loader": "^3.4.2",
     "devtron": "^1.4.0",
-    "electron": "^8.0.1",
-    "electron-builder": "^22.3.2",
-    "electron-builder-http": "^19.27.5",
+    "electron": "^8.0.3",
+    "electron-builder": "^22.4.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-rebuild": "^1.10.0",
     "express": "^4.17.1",
@@ -133,6 +149,7 @@
     "file-loader": "^5.0.2",
     "fork-ts-checker-webpack-plugin": "^4.0.4",
     "fs": "0.0.1-security",
+    "fs-extra": "^8.1.0",
     "glob": "^7.1.6",
     "html-webpack-plugin": "^3.2.0",
     "identity-obj-proxy": "^3.0.0",
@@ -187,7 +204,7 @@
     "electron-debug": "^3.0.1",
     "electron-log": "^4.0.6",
     "electron-publisher-s3": "^20.17.2",
-    "electron-updater": "^4.2.0",
+    "electron-updater": "4.2.2",
     "faker": "^4.1.0",
     "history": "^4.10.1",
     "lodash": "^4.17.15",

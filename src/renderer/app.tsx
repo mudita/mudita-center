@@ -11,6 +11,7 @@ import RootWrapper from "Renderer/wrappers/root-wrapper"
 import "./fonts/fonts.css"
 
 import contextMenu from "Renderer/electron/contextMenu"
+import appUpdate from "./components/rest/app-update/app-update.service"
 
 // Create main element
 const mainElement = document.createElement("div")
@@ -25,4 +26,7 @@ ReactDOM.render(
 
 modalService.bindStore(store)
 modalService.setDefaultLocale(LANGUAGE.default)
+
+appUpdate()
+
 contextMenu()
