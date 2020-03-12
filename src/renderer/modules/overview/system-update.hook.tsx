@@ -139,6 +139,22 @@ const useSystemUpdateFlow = (
     }
   }
 
+  const initialCheck = async () => {
+    try {
+      const { available, file, size } = await checkForUpdates(false, true)
+
+      if (available) {
+        if (await alreadyDownloadedCheck(file, size)) {
+          onUpdate({ pureOsAvailable: true, pureOsDownloaded: true })
+        } else {
+          onUpdate({ pureOsAvailable: true, pureOsFileName: file })
+        }
+      }
+    } catch (error) {
+      // do nothing
+    }
+  }
+
   const check = async (retry?: boolean) => {
     try {
       const { available, version, file, date, size } = await checkForUpdates(
@@ -161,6 +177,7 @@ const useSystemUpdateFlow = (
   }
 
   return {
+    initialCheck,
     check,
     download,
     install,

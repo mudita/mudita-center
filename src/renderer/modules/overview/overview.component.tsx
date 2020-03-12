@@ -35,10 +35,11 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
     loadData()
   }, [])
 
-  const { check, download, install } = useSystemUpdateFlow(
+  const { initialCheck, check, download, install } = useSystemUpdateFlow(
     new Date(osUpdateDate).toISOString(),
     updatePhoneOsInfo
   )
+  initialCheck()
 
   const onUpdateDownload = () => download(pureOsFileName)
 
