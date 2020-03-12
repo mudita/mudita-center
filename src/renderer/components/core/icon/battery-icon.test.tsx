@@ -33,7 +33,7 @@ describe("battery icon returns correct component", () => {
   testScenario.forEach(({ batteryLevel, dataTestId }) => {
     test(`batteryLevel: ${batteryLevel}, dataTestId: ${dataTestId}`, () => {
       const { getByTestId } = renderWithThemeAndIntl(
-        <BatteryIcon batteryLevel={batteryLevel} />
+        <BatteryIcon level={batteryLevel} />
       )
       expect(getByTestId(dataTestId)).toBeInTheDocument()
     })

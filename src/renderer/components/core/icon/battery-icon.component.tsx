@@ -10,7 +10,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 
 interface Props {
-  batteryLevel: number
+  level: number
   charging?: boolean
 }
 
@@ -56,11 +56,11 @@ const getInteractiveBatteryIcon = (
 }
 
 const BatteryIcon: FunctionComponent<Props & IconProps> = ({
-  batteryLevel,
+  level,
   charging = false,
   ...rest
 }) => {
-  return <>{getInteractiveBatteryIcon(batteryLevel, charging, rest)}</>
+  return <>{getInteractiveBatteryIcon(level, charging, rest)}</>
 }
 
 export default BatteryIcon

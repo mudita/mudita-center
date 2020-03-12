@@ -84,7 +84,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
       <PhoneInfo>
         <Image src={PureImage} />
         <BatteryStats>
-          <BatteryIcon width={16} batteryLevel={0.1} />
+          <BatteryIcon width={16} level={0.1} />
           <Text displayStyle={TextDisplayStyle.LargeBoldText} element={"h2"}>
             {batteryLevel * 100} %
           </Text>
