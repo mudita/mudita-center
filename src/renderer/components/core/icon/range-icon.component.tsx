@@ -24,8 +24,6 @@ const getInteractiveRangeIcon = (
       return <Icon type={Type.LowRange} {...rest} />
     case strength > 0:
       return <Icon type={Type.VeryLowRange} {...rest} />
-    case strength === 0:
-      return <Icon type={Type.NoRange} {...rest} />
     default:
       return <Icon type={Type.NoRange} {...rest} />
   }
