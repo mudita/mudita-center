@@ -1,141 +1,66 @@
 import FunctionComponent from "Renderer/types/function-component.interface"
 import * as React from "react"
+import Icon, {
+  Props as IconProps,
+} from "Renderer/components/core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import styled from "styled-components"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 
 interface Props {
   batteryLevel: number
   charging?: boolean
-  height?: number
-  width?: number
 }
 
-const getBarsBasedOnBatteryLevel = (batteryLevel: number) => {
+const BatteryWrapper = styled.div`
+  position: relative;
+`
+
+const BatteryChargingText = styled(Text)`
+  position: absolute;
+  top: 25%;
+  left: 15%;
+  font-size: 0.8rem;
+`
+
+const getInteractiveBatteryIcon = (
+  batteryLevel: number,
+  charging: boolean,
+  rest: Partial<IconProps>
+) => {
   switch (true) {
-    case batteryLevel === 0:
-      return []
-    case batteryLevel > 0 && batteryLevel <= 0.2:
-      return [
-        {
-          x: "2.4",
-        },
-      ]
-    case batteryLevel > 0.2 && batteryLevel <= 0.4:
-      return [
-        {
-          x: "2.4",
-        },
-        {
-          x: "6",
-        },
-      ]
-    case batteryLevel > 0.4 && batteryLevel <= 0.6:
-      return [
-        {
-          x: "2.4",
-        },
-        {
-          x: "6",
-        },
-        {
-          x: "9.6",
-        },
-      ]
-    case batteryLevel > 0.6 && batteryLevel <= 0.8:
-      return [
-        {
-          x: "2.4",
-        },
-        {
-          x: "6",
-        },
-        {
-          x: "9.6",
-        },
-        {
-          x: "13.2",
-        },
-      ]
-    case batteryLevel > 0.8 && batteryLevel <= 1:
-      return [
-        {
-          x: "2.4",
-        },
-        {
-          x: "6",
-        },
-        {
-          x: "9.6",
-        },
-        {
-          x: "13.2",
-        },
-        {
-          x: "16.8",
-        },
-      ]
+    case charging:
+      return (
+        <BatteryWrapper>
+          <Icon type={Type.ChargingBattery} {...rest} />
+          <BatteryChargingText displayStyle={TextDisplayStyle.SmallFadedText}>
+            {batteryLevel * 100}%
+          </BatteryChargingText>
+        </BatteryWrapper>
+      )
+    case batteryLevel > 80:
+      return <Icon type={Type.VeryHighRange} {...rest} />
+    case batteryLevel > 60:
+      return <Icon type={Type.HighRange} {...rest} />
+    case batteryLevel > 40:
+      return <Icon type={Type.MediumRange} {...rest} />
+    case batteryLevel > 20:
+      return <Icon type={Type.LowRange} {...rest} />
+    case batteryLevel > 0:
+      return <Icon type={Type.VeryLowBattery} {...rest} />
     default:
-      return
+      return <Icon type={Type.NoBattery} {...rest} />
   }
 }
 
-const BatteryIcon: FunctionComponent<Props> = ({
+const BatteryIcon: FunctionComponent<Props & IconProps> = ({
   batteryLevel,
-  charging,
-  className,
-  height = 16,
-  width = 24,
+  charging = false,
+  ...rest
 }) => {
-  const batteryBars = getBarsBasedOnBatteryLevel(batteryLevel)
-  return (
-    <svg
-      className={className}
-      width={height}
-      height={width}
-      viewBox={`0 0 ${width} ${height}`}
-    >
-      <rect width="21.6" height="15.36" fill="#6A6A6A" rx="1" />
-      <path fill="#FFF" d="M1.2 1.28H20.4V14.08H1.2z" />
-      {batteryBars && batteryBars.length === 0 && (
-        <path
-          data-testid="no-battery"
-          fill="#6A6A6A"
-          d="M11.743 8.357c0 .114-.1.229-.229.229H9.971c-.128 0-.228-.115-.228-.229V2.63c0-.115.1-.229.228-.229h1.543c.129 0 .229.114.229.229v5.728zM9.886 12.4c-.157 0-.286-.129-.286-.286V10.4c0-.157.129-.286.286-.286H11.6c.157 0 .286.129.286.286v1.714c0 .157-.129.286-.286.286H9.886z"
-        />
-      )}
-      {batteryBars &&
-        !charging &&
-        batteryBars.map(({ x }) => {
-          return (
-            <rect
-              data-testid="bar"
-              key={x}
-              width="2.4"
-              height="11.52"
-              x={x}
-              y="1.92"
-              fill="#6A6A6A"
-              rx=".4"
-            />
-          )
-        })}
-      {charging && (
-        <text
-          data-testid="charging-text"
-          fill="#6A6A6A"
-          fontFamily="GTPressura-Bold, GT Pressura"
-          fontSize="8"
-          fontWeight="bold"
-        >
-          <tspan x="4.62" y="10.7">
-            {batteryLevel && batteryLevel * 100}%
-          </tspan>
-        </text>
-      )}
-      <path
-        fill="#6A6A6A"
-        d="M21.6 3.2H23c.552 0 1 .448 1 1v6.96c0 .552-.448 1-1 1h-1.4V3.2z"
-      />
-    </svg>
-  )
+  return <>{getInteractiveBatteryIcon(batteryLevel, charging, rest)}</>
 }
 
 export default BatteryIcon

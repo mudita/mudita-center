@@ -1,6 +1,7 @@
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import Arrow from "Renderer/svg/arrow.svg"
 import Battery from "Renderer/svg/battery.svg"
+import ChargingBattery from "Renderer/svg/charging-battery.svg"
 import Check from "Renderer/svg/check-icon.svg"
 import CheckIndeterminate from "Renderer/svg/check-indeterminate.svg"
 import Close from "Renderer/svg/close.svg"
@@ -23,12 +24,14 @@ import MenuTools from "Renderer/svg/menu_tools.svg"
 import MuditaLogo from "Renderer/svg/mudita.svg"
 import MuditaLogoWithText from "Renderer/svg/mudita_logo.svg"
 import Music from "Renderer/svg/music.svg"
+import NoBattery from "Renderer/svg/no-battery.svg"
 import NoRange from "Renderer/svg/no-range.svg"
 import MediumRange from "Renderer/svg/medium-range.svg"
 import Sim from "Renderer/svg/sim.svg"
 import Upload from "Renderer/svg/upload.svg"
 import VoiceRecorder from "Renderer/svg/voice-recorder.svg"
 import VeryHighRange from "Renderer/svg/very-high-range.svg"
+import VeryLowBattery from "Renderer/svg/very-low-battery.svg"
 import VeryLowRange from "Renderer/svg/very-low-range.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
@@ -36,6 +39,7 @@ export enum Type {
   Arrow,
   Battery,
   Calendar,
+  ChargingBattery,
   Check,
   CheckIndeterminate,
   Close,
@@ -58,10 +62,12 @@ export enum Type {
   MuditaLogoWithText,
   Music,
   MediumRange,
+  NoBattery,
   NoRange,
   Sim,
   Upload,
   VeryHighRange,
+  VeryLowBattery,
   VeryLowRange,
   VoiceRecorder,
 }
@@ -74,6 +80,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Battery
     case Type.Calendar:
       return Calendar
+    case Type.ChargingBattery:
+      return ChargingBattery
     case Type.Check:
       return Check
     case Type.CheckIndeterminate:
@@ -118,6 +126,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Music
     case Type.MediumRange:
       return MediumRange
+    case Type.NoBattery:
+      return NoBattery
     case Type.NoRange:
       return NoRange
     case Type.Sim:
@@ -126,6 +136,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Upload
     case Type.VeryHighRange:
       return VeryHighRange
+    case Type.VeryLowBattery:
+      return VeryLowBattery
     case Type.VeryLowRange:
       return VeryLowRange
     case Type.VoiceRecorder:
