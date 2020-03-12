@@ -40,14 +40,14 @@ const getInteractiveBatteryIcon = (
           </BatteryChargingText>
         </BatteryWrapper>
       )
-    case batteryLevel > 80:
-      return <Icon type={Type.VeryHighRange} {...rest} />
-    case batteryLevel > 60:
-      return <Icon type={Type.HighRange} {...rest} />
-    case batteryLevel > 40:
-      return <Icon type={Type.MediumRange} {...rest} />
-    case batteryLevel > 20:
-      return <Icon type={Type.LowRange} {...rest} />
+    case batteryLevel > 0.8:
+      return <Icon type={Type.VeryHighBattery} {...rest} />
+    case batteryLevel > 0.6:
+      return <Icon type={Type.HighBattery} {...rest} />
+    case batteryLevel > 0.4:
+      return <Icon type={Type.MediumBattery} {...rest} />
+    case batteryLevel > 0.2:
+      return <Icon type={Type.LowBattery} {...rest} />
     case batteryLevel > 0:
       return <Icon type={Type.VeryLowBattery} {...rest} />
     default:

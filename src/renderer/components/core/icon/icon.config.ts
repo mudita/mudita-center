@@ -7,10 +7,14 @@ import CheckIndeterminate from "Renderer/svg/check-indeterminate.svg"
 import Close from "Renderer/svg/close.svg"
 import Delete from "Renderer/svg/delete.svg"
 import FilesManager from "Renderer/svg/files-manager.svg"
+import HighBattery from "Renderer/svg/high-battery.svg"
 import HighRange from "Renderer/svg/high-range.svg"
+import LowBattery from "Renderer/svg/low-battery.svg"
 import LowRange from "Renderer/svg/low-range.svg"
 import Magnifier from "Renderer/svg/magnifier.svg"
 import Calendar from "Renderer/svg/menu_calendar.svg"
+import MediumBattery from "Renderer/svg/medium-battery.svg"
+import MediumRange from "Renderer/svg/medium-range.svg"
 import MenuFilesManager from "Renderer/svg/menu_filesManager.svg"
 import MenuMeditation from "Renderer/svg/menu_meditation.svg"
 import Message from "Renderer/svg/menu_messages.svg"
@@ -26,10 +30,10 @@ import MuditaLogoWithText from "Renderer/svg/mudita_logo.svg"
 import Music from "Renderer/svg/music.svg"
 import NoBattery from "Renderer/svg/no-battery.svg"
 import NoRange from "Renderer/svg/no-range.svg"
-import MediumRange from "Renderer/svg/medium-range.svg"
 import Sim from "Renderer/svg/sim.svg"
 import Upload from "Renderer/svg/upload.svg"
 import VoiceRecorder from "Renderer/svg/voice-recorder.svg"
+import VeryHighBattery from "Renderer/svg/very-high-battery.svg"
 import VeryHighRange from "Renderer/svg/very-high-range.svg"
 import VeryLowBattery from "Renderer/svg/very-low-battery.svg"
 import VeryLowRange from "Renderer/svg/very-low-range.svg"
@@ -45,7 +49,9 @@ export enum Type {
   Close,
   Delete,
   FilesManager,
+  HighBattery,
   HighRange,
+  LowBattery,
   LowRange,
   Magnifier,
   MenuFilesManager,
@@ -61,11 +67,13 @@ export enum Type {
   MuditaLogo,
   MuditaLogoWithText,
   Music,
+  MediumBattery,
   MediumRange,
   NoBattery,
   NoRange,
   Sim,
   Upload,
+  VeryHighBattery,
   VeryHighRange,
   VeryLowBattery,
   VeryLowRange,
@@ -92,12 +100,20 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Delete
     case Type.FilesManager:
       return FilesManager
+    case Type.HighBattery:
+      return HighBattery
     case Type.HighRange:
       return HighRange
+    case Type.LowBattery:
+      return LowBattery
     case Type.LowRange:
       return LowRange
     case Type.Magnifier:
       return Magnifier
+    case Type.MediumBattery:
+      return MediumBattery
+    case Type.MediumRange:
+      return MediumRange
     case Type.MenuFilesManager:
       return MenuFilesManager
     case Type.MenuMeditation:
@@ -124,8 +140,6 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return MuditaLogoWithText
     case Type.Music:
       return Music
-    case Type.MediumRange:
-      return MediumRange
     case Type.NoBattery:
       return NoBattery
     case Type.NoRange:
@@ -134,6 +148,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Sim
     case Type.Upload:
       return Upload
+    case Type.VeryHighBattery:
+      return VeryHighBattery
     case Type.VeryHighRange:
       return VeryHighRange
     case Type.VeryLowBattery:
