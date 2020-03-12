@@ -12,10 +12,10 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
   lastBackup,
   osVersion,
   osUpdateDate = 0,
-  osUpdateFilename,
-  osUpdateAvailable = false,
-  osUpdateAlreadyDownloaded = false,
-  setOsInfo = noop,
+  pureOsFileName = "",
+  pureOsAvailable,
+  pureOsDownloaded,
+  updatePhoneOsInfo = noop,
   loadData = noop,
   memorySpace = {
     free: 0,
@@ -37,10 +37,10 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
 
   const { check, download, install } = useSystemUpdateFlow(
     new Date(osUpdateDate).toISOString(),
-    setOsInfo
+    updatePhoneOsInfo
   )
 
-  const onUpdateDownload = () => download(osUpdateFilename)
+  const onUpdateDownload = () => download(pureOsFileName)
 
   return (
     <OverviewUI
@@ -53,8 +53,8 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       memorySpace={memorySpace}
       simCards={simCards}
       networkName={networkName}
-      osUpdateAvailable={osUpdateAvailable}
-      osUpdateAlreadyDownloaded={osUpdateAlreadyDownloaded}
+      osUpdateAvailable={pureOsAvailable}
+      osUpdateAlreadyDownloaded={pureOsDownloaded}
       onUpdateCheck={check}
       onUpdateInstall={install}
       onUpdateDownload={onUpdateDownload}

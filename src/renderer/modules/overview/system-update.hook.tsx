@@ -24,7 +24,7 @@ import {
   Filesize,
 } from "Renderer/interfaces/file-download.interface"
 import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-downloaded.request"
-import { OsUpdateAvailability } from "Renderer/models/basic-info/interfaces"
+import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -32,7 +32,7 @@ const onOsDownloadCancel = () => {
 
 const useSystemUpdateFlow = (
   lastUpdate: string,
-  storeUpdater: (updateInfo: OsUpdateAvailability) => void
+  onUpdate: (updateInfo: PhoneUpdate) => void
 ) => {
   useEffect(() => {
     const downloadListener = (event: Event, progress: DownloadProgress) => {
@@ -63,9 +63,9 @@ const useSystemUpdateFlow = (
     console.log("Updating Pure OS...")
   }
 
-  const checkForUpdates = (retry?: boolean) => {
-    modalService.openModal(<CheckingUpdatesModal />, retry)
-    return delayResponse(availableOsUpdateRequest(lastUpdate))
+  const checkForUpdates = (retry?: boolean, silent?: boolean) => {
+    if (!silent) modalService.openModal(<CheckingUpdatesModal />, retry)
+    return delayResponse(availableOsUpdateRequest(lastUpdate), silent ? 0 : 500)
   }
 
   const checkForUpdatesFailed = (onRetry: () => void) => {
@@ -128,7 +128,7 @@ const useSystemUpdateFlow = (
   const download = async (file: Filename) => {
     try {
       await downloadUpdateFile(file)
-      storeUpdater({ downloaded: true })
+      onUpdate({ pureOsDownloaded: true })
       await downloadSucceeded(install)
     } catch (error) {
       if (error.status === DownloadStatus.Cancelled) {
@@ -145,9 +145,9 @@ const useSystemUpdateFlow = (
         retry
       )
       if (available) {
-        storeUpdater({ filename: file, available: true })
+        onUpdate({ pureOsFileName: file, pureOsAvailable: true })
         if (await alreadyDownloadedCheck(file, size)) {
-          storeUpdater({ downloaded: true })
+          onUpdate({ pureOsDownloaded: true })
           await downloadSucceeded(install)
         } else {
           await availableUpdate(async () => await download(file), version, date)

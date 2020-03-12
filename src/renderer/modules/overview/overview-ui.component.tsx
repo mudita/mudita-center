@@ -8,6 +8,7 @@ import System from "Renderer/components/rest/overview/system/system.component"
 import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
+import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 
 const PhoneInfo = styled(Phone)`
   grid-area: Phone;
@@ -43,11 +44,13 @@ interface OverviewUIProps {
   readonly onUpdateCheck: () => void
   readonly onUpdateDownload: () => void
   readonly onUpdateInstall: () => void
+  readonly osUpdateAvailable: PhoneUpdate["pureOsAvailable"]
+  readonly osUpdateAlreadyDownloaded: PhoneUpdate["pureOsDownloaded"]
 }
 
 const OverviewUI: FunctionComponent<Omit<
   BasicInfoInitialState,
-  "loadData" | "osUpdateFilename" | "setOsInfo"
+  "loadData" | "phoneUpdate" | "updatePhoneOsInfo"
 > &
   OverviewUIProps> = ({
   batteryLevel,

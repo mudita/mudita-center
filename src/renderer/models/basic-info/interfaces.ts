@@ -1,10 +1,4 @@
-import { Filename } from "Renderer/interfaces/file-download.interface"
-
-export interface OsUpdateAvailability {
-  filename?: Filename
-  available?: boolean
-  downloaded?: boolean
-}
+import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 
 export interface SimCard {
   readonly network?: string
@@ -18,7 +12,7 @@ export interface MemorySpace {
   readonly full: number
 }
 
-export interface StoreValues {
+export interface StoreValues extends PhoneUpdate {
   readonly batteryLevel: number
   readonly networkName: string
   readonly osVersion: string
@@ -26,16 +20,13 @@ export interface StoreValues {
   readonly memorySpace: MemorySpace
   readonly lastBackup: string
   readonly simCards: SimCard[]
-  readonly osUpdateFilename: Filename
-  readonly osUpdateAvailable: boolean
-  readonly osUpdateAlreadyDownloaded: boolean
 }
 
 interface StoreEffects {
   readonly changeSim: (card: SimCard) => void
   readonly loadData: () => void
   readonly disconnectDevice: () => void
-  readonly setOsInfo: (updateInfo: OsUpdateAvailability) => void
+  readonly updatePhoneOsInfo: (updateInfo: PhoneUpdate) => void
 }
 
 export type Store = StoreValues & StoreEffects
