@@ -12,6 +12,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
+import Download from "Renderer/svg/download-white.svg"
 import Reload from "Renderer/svg/circle-arrow.svg"
 import {
   fontWeight,
@@ -50,8 +51,10 @@ const System: FunctionComponent<SystemProps> = ({
   osVersion,
   lastUpdate,
   updateAvailable,
+  updateDownloaded,
   onUpdateCheck = noop,
   onUpdate = noop,
+  onDownload = noop,
 }) => {
   return (
     <Card className={className}>
@@ -80,14 +83,25 @@ const System: FunctionComponent<SystemProps> = ({
       </TextInfo>
       <CardAction filled>
         {updateAvailable ? (
-          <CardActionButton
-            active
-            label={intl.formatMessage({
-              id: "view.name.overview.system.updateAction",
-            })}
-            Icon={Reload}
-            onClick={onUpdate}
-          />
+          updateDownloaded ? (
+            <CardActionButton
+              active
+              label={intl.formatMessage({
+                id: "view.name.overview.system.updateAction",
+              })}
+              Icon={Reload}
+              onClick={onUpdate}
+            />
+          ) : (
+            <CardActionButton
+              active
+              label={intl.formatMessage({
+                id: "view.name.overview.system.downloadAction",
+              })}
+              Icon={Download}
+              onClick={onDownload}
+            />
+          )
         ) : (
           <CardActionButton
             active

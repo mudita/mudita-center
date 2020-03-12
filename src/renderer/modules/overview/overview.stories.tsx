@@ -25,6 +25,8 @@ const fakeState = {
   disconnectDevice: false,
   lastBackup: "10.11.2019",
   osVersion: "3.0",
+  osUpdateAvailable: false,
+  osUpdateAlreadyDownloaded: false,
   memorySpace: {
     free: 0,
     full: 16000000000,
@@ -42,6 +44,8 @@ storiesOf("Views|Overview", module).add("Overview", () => (
         disconnectDevice={noop}
         changeSim={noop}
         onUpdateCheck={noop}
+        onUpdateDownload={noop}
+        onUpdateInstall={noop}
       />
     </Router>
   </div>
@@ -55,6 +59,8 @@ const ModalStory: FunctionComponent = ({ children }) => (
         disconnectDevice={noop}
         changeSim={noop}
         onUpdateCheck={noop}
+        onUpdateDownload={noop}
+        onUpdateInstall={noop}
       />
     </Router>
     <ModalWrapper>{children}</ModalWrapper>

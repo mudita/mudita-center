@@ -6,6 +6,7 @@ interface UpdateStatusResponse {
   version: string
   file: string
   date: string
+  size: number
 }
 
 const availableOsUpdateRequest = (

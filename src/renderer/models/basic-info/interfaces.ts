@@ -1,3 +1,5 @@
+import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
+
 export interface SimCard {
   readonly network?: string
   readonly number: number
@@ -10,7 +12,7 @@ export interface MemorySpace {
   readonly full: number
 }
 
-export interface StoreValues {
+export interface StoreValues extends PhoneUpdate {
   readonly batteryLevel: number
   readonly networkName: string
   readonly osVersion: string
@@ -24,6 +26,7 @@ interface StoreEffects {
   readonly changeSim: (card: SimCard) => void
   readonly loadData: () => void
   readonly disconnectDevice: () => void
+  readonly updatePhoneOsInfo: (updateInfo: PhoneUpdate) => void
 }
 
 export type Store = StoreValues & StoreEffects
