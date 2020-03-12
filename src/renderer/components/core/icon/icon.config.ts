@@ -66,9 +66,7 @@ export enum Type {
   VoiceRecorder,
 }
 
-export const getIconType = (
-  icon: Type = Type.Arrow
-): FunctionComponent<ImageInterface> => {
+export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
   switch (icon) {
     case Type.Arrow:
       return Arrow
@@ -137,6 +135,6 @@ export const getIconType = (
   }
 }
 
-export const getEnumName = (m?: Type) => {
-  return m !== undefined ? Type[m] : null
+export const getEnumName = (type?: Type) => {
+  return type !== undefined ? Type[type] : null
 }
