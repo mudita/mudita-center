@@ -3,58 +3,39 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 
-const barsTestId = "bar"
-const textTestId = "charging-text"
-const noBatteryTestId = "no-battery"
-
-describe("renders correct amount of bars", () => {
+describe("battery icon returns correct component", () => {
   const testScenario = [
-    { batteryLevel: 0, numberOfBars: 0 },
+    {
+      batteryLevel: 0,
+      dataTestId: "icon-NoBattery",
+    },
     {
       batteryLevel: 0.1,
-      numberOfBars: 1,
+      dataTestId: "icon-VeryLowBattery",
     },
     {
-      batteryLevel: 0.3,
-      numberOfBars: 2,
+      batteryLevel: 0.21,
+      dataTestId: "icon-LowBattery",
     },
     {
-      batteryLevel: 0.5,
-      numberOfBars: 3,
+      batteryLevel: 0.41,
+      dataTestId: "icon-MediumBattery",
     },
     {
-      batteryLevel: 0.7,
-      numberOfBars: 4,
+      batteryLevel: 0.61,
+      dataTestId: "icon-HighBattery",
     },
     {
       batteryLevel: 0.9,
-      numberOfBars: 5,
+      dataTestId: "icon-VeryHighBattery",
     },
   ]
-  testScenario.forEach(({ batteryLevel, numberOfBars }) => {
-    test(`batteryLevel: ${batteryLevel}, numberOfBars: ${numberOfBars}`, () => {
-      const { queryAllByTestId } = renderWithThemeAndIntl(
+  testScenario.forEach(({ batteryLevel, dataTestId }) => {
+    test(`batteryLevel: ${batteryLevel}, dataTestId: ${dataTestId}`, () => {
+      const { getByTestId } = renderWithThemeAndIntl(
         <BatteryIcon batteryLevel={batteryLevel} />
       )
-      expect(queryAllByTestId(barsTestId)).toHaveLength(numberOfBars)
+      expect(getByTestId(dataTestId)).toBeInTheDocument()
     })
   })
-})
-
-test("charging text renders with no bars and no-battery path", () => {
-  const { queryByTestId } = renderWithThemeAndIntl(
-    <BatteryIcon charging batteryLevel={0.5} />
-  )
-  expect(queryByTestId(textTestId)).toBeInTheDocument()
-  expect(queryByTestId(barsTestId)).not.toBeInTheDocument()
-  expect(queryByTestId(noBatteryTestId)).not.toBeInTheDocument()
-})
-
-test("renders no-battery with no bars and charging text", () => {
-  const { queryByTestId } = renderWithThemeAndIntl(
-    <BatteryIcon batteryLevel={0} />
-  )
-  expect(queryByTestId(noBatteryTestId)).toBeInTheDocument()
-  expect(queryByTestId(barsTestId)).not.toBeInTheDocument()
-  expect(queryByTestId(textTestId)).not.toBeInTheDocument()
 })
