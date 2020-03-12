@@ -135,6 +135,6 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
   }
 }
 
-export const getEnumName = (m?: Type) => {
-  return m !== undefined ? Type[m] : null
+export const getEnumName = (type?: Type) => {
+  return type !== undefined ? Type[type] : null
 }
