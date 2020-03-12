@@ -3,14 +3,18 @@
 exports[`matches snapshot 1`] = `
 <div>
   <div
-    class="sc-fznyAO dsQQgg"
+    class="sc-fznKkj cwKPQl"
   >
     <div
-      class="sc-fznKkj kNsKAz"
+      class="sc-fznZeY dOla-dX"
     >
-      <test-file-stub
-        classname="sc-fznZeY dZxTuI"
-      />
+      <div
+        class="sc-fznyAO eqCkfC sc-fzokOt cKxNDb"
+      >
+        <test-file-stub
+          image="test-file-stub"
+        />
+      </div>
     </div>
     <div
       class="sc-fzpans eiNDFa"

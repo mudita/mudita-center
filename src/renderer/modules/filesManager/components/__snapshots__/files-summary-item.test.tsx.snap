@@ -2,14 +2,18 @@
 
 exports[`should match snapshot with link 1`] = `
 <div
-  class="sc-AxirZ hxAaYH"
+  class="sc-AxiKw ePUWgf"
   data-testid="files-manager-item"
 >
-  <test-file-stub
-    classname="sc-AxhCb crtuZn"
-  />
   <div
-    class="sc-AxhUy jSCssk"
+    class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
+  >
+    <test-file-stub
+      image="test-file-stub"
+    />
+  </div>
+  <div
+    class="sc-AxgMl ioCkNe"
   >
     <p
       class="sc-AxjAm eGfSTk"
@@ -23,26 +27,34 @@ exports[`should match snapshot with link 1`] = `
     </p>
   </div>
   <a
-    class="sc-AxiKw gSUrlS"
+    class="sc-AxhCb uAwSu"
     href="#/tools/voice-recorder"
   >
-    <test-file-stub
-      image="test-file-stub"
-    />
+    <div
+      class="sc-AxirZ btYaIv"
+    >
+      <test-file-stub
+        image="test-file-stub"
+      />
+    </div>
   </a>
 </div>
 `;
 
 exports[`should match snapshot without link 1`] = `
 <div
-  class="sc-AxirZ hxAaYH"
+  class="sc-AxiKw ePUWgf"
   data-testid="files-manager-item"
 >
-  <test-file-stub
-    classname="sc-AxhCb crtuZn"
-  />
   <div
-    class="sc-AxhUy jSCssk"
+    class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
+  >
+    <test-file-stub
+      image="test-file-stub"
+    />
+  </div>
+  <div
+    class="sc-AxgMl ioCkNe"
   >
     <p
       class="sc-AxjAm eGfSTk"

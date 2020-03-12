@@ -2,17 +2,21 @@
 
 exports[`should match snapshot 1`] = `
 <div
-  class="sc-AxgMl jHuPpC"
+  class="sc-AxheI gErkvw"
 >
   <div
-    class="sc-AxirZ jbvrDe"
+    class="sc-AxiKw dMAZum"
     data-testid="files-manager-item"
   >
-    <test-file-stub
-      classname="sc-AxhCb crtuZn"
-    />
     <div
-      class="sc-AxhUy jSCssk"
+      class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
+    >
+      <test-file-stub
+        image="test-file-stub"
+      />
+    </div>
+    <div
+      class="sc-AxgMl ioCkNe"
     >
       <p
         class="sc-AxjAm eGfSTk"
@@ -26,23 +30,31 @@ exports[`should match snapshot 1`] = `
       </p>
     </div>
     <a
-      class="sc-AxiKw gSUrlS"
+      class="sc-AxhCb uAwSu"
       href="#/music"
+    >
+      <div
+        class="sc-AxirZ btYaIv"
+      >
+        <test-file-stub
+          image="test-file-stub"
+        />
+      </div>
+    </a>
+  </div>
+  <div
+    class="sc-AxiKw ePUWgf"
+    data-testid="files-manager-item"
+  >
+    <div
+      class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
     >
       <test-file-stub
         image="test-file-stub"
       />
-    </a>
-  </div>
-  <div
-    class="sc-AxirZ hxAaYH"
-    data-testid="files-manager-item"
-  >
-    <test-file-stub
-      classname="sc-AxhCb crtuZn"
-    />
+    </div>
     <div
-      class="sc-AxhUy jSCssk"
+      class="sc-AxgMl ioCkNe"
     >
       <p
         class="sc-AxjAm eGfSTk"
@@ -56,23 +68,31 @@ exports[`should match snapshot 1`] = `
       </p>
     </div>
     <a
-      class="sc-AxiKw gSUrlS"
+      class="sc-AxhCb uAwSu"
       href="#/tools/voice-recorder"
+    >
+      <div
+        class="sc-AxirZ btYaIv"
+      >
+        <test-file-stub
+          image="test-file-stub"
+        />
+      </div>
+    </a>
+  </div>
+  <div
+    class="sc-AxiKw kRsdtB"
+    data-testid="files-manager-item"
+  >
+    <div
+      class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
     >
       <test-file-stub
         image="test-file-stub"
       />
-    </a>
-  </div>
-  <div
-    class="sc-AxirZ oOSFh"
-    data-testid="files-manager-item"
-  >
-    <test-file-stub
-      classname="sc-AxhCb crtuZn"
-    />
+    </div>
     <div
-      class="sc-AxhUy jSCssk"
+      class="sc-AxgMl ioCkNe"
     >
       <p
         class="sc-AxjAm eGfSTk"
@@ -87,14 +107,18 @@ exports[`should match snapshot 1`] = `
     </div>
   </div>
   <div
-    class="sc-AxirZ bXYcqS"
+    class="sc-AxiKw lbTSjK"
     data-testid="files-manager-item"
   >
-    <test-file-stub
-      classname="sc-AxhCb crtuZn"
-    />
     <div
-      class="sc-AxhUy jSCssk"
+      class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
+    >
+      <test-file-stub
+        image="test-file-stub"
+      />
+    </div>
+    <div
+      class="sc-AxgMl ioCkNe"
     >
       <p
         class="sc-AxjAm eGfSTk"
