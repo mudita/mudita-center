@@ -29,7 +29,7 @@ storiesOf("Components|Interactive Icon", module)
     const value = select(label, options, defaultValue)
     return (
       <Container>
-        <RangeIcon strenght={value} />
+        <RangeIcon strength={value} />
       </Container>
     )
   })

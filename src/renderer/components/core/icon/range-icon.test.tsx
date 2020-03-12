@@ -33,7 +33,7 @@ describe("range icon returns correct component", () => {
   testScenario.forEach(({ strength, dataTestId }) => {
     test(`strength: ${strength}, dataTestId: ${dataTestId}`, () => {
       const { getByTestId } = renderWithThemeAndIntl(
-        <RangeIcon strenght={strength} />
+        <RangeIcon strength={strength} />
       )
       expect(getByTestId(dataTestId)).toBeInTheDocument()
     })

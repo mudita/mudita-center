@@ -6,7 +6,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
 interface InteractiveIconProps {
-  strenght: number
+  strength: number
 }
 
 const getInteractiveRangeIcon = (
@@ -32,10 +32,10 @@ const getInteractiveRangeIcon = (
 }
 
 const RangeIcon: FunctionComponent<InteractiveIconProps & IconProps> = ({
-  strenght,
+  strength,
   ...rest
 }) => {
-  return <>{getInteractiveRangeIcon(strenght, rest)}</>
+  return <>{getInteractiveRangeIcon(strength, rest)}</>
 }
 
 export default RangeIcon
