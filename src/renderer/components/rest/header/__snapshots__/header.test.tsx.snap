@@ -11,50 +11,62 @@ exports[`matches snapshot with tabs 1`] = `
     Phone
   </h3>
   <div
-    class="sc-fzozJi cKrXJI"
+    class="sc-fzoLsD fekCvi"
   >
     <a
       aria-current="page"
-      class="sc-AxhCb euWTOk sc-fzoLsD eCQDqv active"
+      class="sc-AxhUy cCyBop sc-fzpans hdyjEv active"
       displaystyle="9"
       href="/phone"
       size="2"
     >
-      <test-file-stub
-        classname="sc-Axmtr qrato"
-      />
+      <div
+        class="sc-AxhCb heipDb sc-AxmLO gRomDR"
+      >
+        <test-file-stub
+          image="test-file-stub"
+        />
+      </div>
       <p
-        class="sc-AxjAm eGfSTk sc-AxmLO bpBasD"
+        class="sc-AxjAm eGfSTk sc-fzozJi bcHpXu"
       >
         Contacts
       </p>
     </a>
     <a
-      class="sc-AxhCb euWTOk sc-fzoLsD eCQDqv"
+      class="sc-AxhUy cCyBop sc-fzpans hdyjEv"
       displaystyle="9"
       href="/phone/calls"
       size="2"
     >
-      <test-file-stub
-        classname="sc-Axmtr qrato"
-      />
+      <div
+        class="sc-AxhCb heipDb sc-AxmLO gRomDR"
+      >
+        <test-file-stub
+          image="test-file-stub"
+        />
+      </div>
       <p
-        class="sc-AxjAm eGfSTk sc-AxmLO bpBasD"
+        class="sc-AxjAm eGfSTk sc-fzozJi bcHpXu"
       >
         Calls
       </p>
     </a>
     <a
-      class="sc-AxhCb euWTOk sc-fzoLsD eCQDqv"
+      class="sc-AxhUy cCyBop sc-fzpans hdyjEv"
       displaystyle="9"
       href="/phone/dial"
       size="2"
     >
-      <test-file-stub
-        classname="sc-Axmtr qrato"
-      />
+      <div
+        class="sc-AxhCb heipDb sc-AxmLO gRomDR"
+      >
+        <test-file-stub
+          image="test-file-stub"
+        />
+      </div>
       <p
-        class="sc-AxjAm eGfSTk sc-AxmLO bpBasD"
+        class="sc-AxjAm eGfSTk sc-fzozJi bcHpXu"
       >
         Dial
       </p>
@@ -75,7 +87,7 @@ exports[`matches snapshot without tabs 1`] = `
     Overview
   </h3>
   <div
-    class="sc-fzozJi cKrXJI"
+    class="sc-fzoLsD fekCvi"
   />
   <div />
 </div>

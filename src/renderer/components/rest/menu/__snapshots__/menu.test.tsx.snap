@@ -9,7 +9,7 @@ exports[`matches snapshot 1`] = `
       class="sc-fznZeY dOla-dX"
     >
       <div
-        class="sc-fznyAO eqCkfC sc-fzokOt cKxNDb"
+        class="sc-AxirZ btYaIv sc-fzokOt cKxNDb"
       >
         <test-file-stub
           image="test-file-stub"
@@ -17,26 +17,30 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/news"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           News
         </p>
       </a>
     </div>
     <div
-      class="sc-Axmtr lgKbxl"
+      class="sc-AxmLO hMTqKY"
     >
       <p
         class="sc-AxjAm pMKRu"
@@ -44,192 +48,248 @@ exports[`matches snapshot 1`] = `
         Your Pure
       </p>
       <div
-        class="sc-AxmLO MKJBh"
+        class="sc-fzozJi cKrXJI"
       >
         <div
-          class="sc-fzozJi iYZFTC"
+          class="sc-fzoLsD orcQk"
         >
-          <test-file-stub
-            classname="sc-fzoLsD ekZwXI"
-          />
+          <div
+            class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            height="1.6"
+            width="1.6"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </div>
         </div>
         <div
-          class="sc-fzozJi iYZFTC"
+          class="sc-fzoLsD orcQk"
         >
-          <test-file-stub
-            classname="sc-fzoLsD ekZwXI"
-          />
+          <div
+            class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            height="1.6"
+            width="1.6"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </div>
         </div>
         <div
-          class="sc-fzozJi iYZFTC"
+          class="sc-fzoLsD orcQk"
         >
-          <test-file-stub
-            classname="sc-fzoLsD ekZwXI"
-          />
+          <div
+            class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            height="1.6"
+            width="1.6"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </div>
         </div>
         <div
-          class="sc-fzozJi iYZFTC"
+          class="sc-fzoLsD orcQk"
         >
-          <test-file-stub
-            classname="sc-fzoLsD ekZwXI"
-          />
+          <div
+            class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            height="1.6"
+            width="1.6"
+          >
+            <test-file-stub
+              image="test-file-stub"
+            />
+          </div>
         </div>
       </div>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/overview"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           Overview
         </p>
       </a>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/messages"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           Messages
         </p>
       </a>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/phone"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           Phone
         </p>
       </a>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/music"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           Music
         </p>
       </a>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/calendar"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           Calendar
         </p>
       </a>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/tools"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           Tools
         </p>
       </a>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/meditation"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           Meditation
         </p>
       </a>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/files-manager"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           Files manager
         </p>
       </a>
     </div>
     <div
-      class="sc-Axmtr lgKbxl"
+      class="sc-AxmLO hMTqKY"
     >
       <p
         class="sc-AxjAm pMKRu"
@@ -238,57 +298,69 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/tethering"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           Tethering
         </p>
       </a>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/settings"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           Settings
         </p>
       </a>
     </div>
     <div
-      class="sc-fzpans eiNDFa"
+      class="sc-fzplWN hPZhPX"
     >
       <a
-        class="sc-AxirZ evhyaq sc-fzplWN kZsgic"
+        class="sc-AxiKw biGVFO sc-fznyAO kLzeLA"
         displaystyle="8"
         href="#/help"
         size="2"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm jcsRXt sc-AxheI bhLjYx"
+          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
         >
           Help
         </p>

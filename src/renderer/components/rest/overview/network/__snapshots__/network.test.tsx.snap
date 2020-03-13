@@ -3,10 +3,10 @@
 exports[`matches snapshot 1`] = `
 <div>
   <section
-    class="sc-fzozJi heyPMz"
+    class="sc-fzoLsD eJkQzV"
   >
     <div
-      class="sc-fzoLsD sc-fznyAO fevNNM"
+      class="sc-fzpans sc-fznKkj RYPPB"
     >
       <h2
         class="sc-AxjAm esSvjJ"
@@ -15,16 +15,16 @@ exports[`matches snapshot 1`] = `
       </h2>
     </div>
     <section
-      class="sc-Axmtr hhzESy sc-fzpans flLJLi"
+      class="sc-AxmLO kIxrzP sc-fzplWN bWZbFz"
     >
       <button
-        class="sc-AxhUy byjXja sc-AxmLO sc-fzplWN iNYYib"
+        class="sc-AxgMl kWEbHI sc-fzozJi sc-fznyAO eViSpr"
         disabled=""
         size="2"
         type="button"
       >
         <p
-          class="sc-AxjAm pMKRu sc-AxheI bhLjYx"
+          class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
         >
           No SIM card inserted
         </p>

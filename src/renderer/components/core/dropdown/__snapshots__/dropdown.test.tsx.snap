@@ -3,15 +3,15 @@
 exports[`matches snapshot 1`] = `
 <div>
   <div
-    class="sc-Axmtr dXgRrs"
+    class="sc-AxmLO kmtPrp"
   >
     <button
-      class="sc-AxhUy jiYFbt"
+      class="sc-AxgMl fvnHkD"
       size="2"
       type="button"
     />
     <ul
-      class="sc-AxmLO lpkuxJ"
+      class="sc-fzozJi dqvYrE"
       data-testid="dropdown"
     />
   </div>
@@ -21,34 +21,38 @@ exports[`matches snapshot 1`] = `
 exports[`renders dropdown 1`] = `
 <div>
   <div
-    class="sc-Axmtr dXgRrs"
+    class="sc-AxmLO kmtPrp"
   >
     <button
-      class="sc-AxhUy jiYFbt"
+      class="sc-AxgMl fvnHkD"
       size="2"
       type="button"
     >
       <p
-        class="sc-AxjAm pMKRu sc-AxheI bhLjYx"
+        class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
       >
         Example
       </p>
     </button>
     <ul
-      class="sc-AxmLO jSGhjh"
+      class="sc-fzozJi efVIsU"
       data-testid="dropdown"
     >
       <a
-        class="sc-AxhCb fNYure"
+        class="sc-AxhUy kKWhET"
         href="http://www.google.pl"
         size="2"
         target="_blank"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm pMKRu sc-AxheI bhLjYx"
+          class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
         >
           I open Google in new tab
         </p>
