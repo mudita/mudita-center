@@ -2,8 +2,8 @@ import startBackend from "Backend/bootstrap"
 import { app, BrowserWindow } from "electron"
 import * as path from "path"
 import * as url from "url"
-
 import { WINDOW_SIZE } from "./config"
+import autoupdate from "./autoupdate"
 
 let win: BrowserWindow | null
 
@@ -43,6 +43,8 @@ const createWindow = async () => {
         slashes: true,
       })
     )
+
+    autoupdate(win)
   }
 
   if (process.env.NODE_ENV !== "production") {
