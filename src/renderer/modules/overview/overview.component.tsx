@@ -4,8 +4,9 @@ import React, { useEffect } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
+import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
 
-const Overview: FunctionComponent<BasicInfoInitialState> = ({
+const Overview: FunctionComponent<BasicInfoInitialState & PhoneUpdateStore> = ({
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
@@ -54,8 +55,8 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       memorySpace={memorySpace}
       simCards={simCards}
       networkName={networkName}
-      osUpdateAvailable={pureOsAvailable}
-      osUpdateAlreadyDownloaded={pureOsDownloaded}
+      pureOsAvailable={pureOsAvailable}
+      pureOsDownloaded={pureOsDownloaded}
       onUpdateCheck={check}
       onUpdateInstall={install}
       onUpdateDownload={onUpdateDownload}

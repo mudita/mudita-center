@@ -44,14 +44,10 @@ interface OverviewUIProps {
   readonly onUpdateCheck: () => void
   readonly onUpdateDownload: () => void
   readonly onUpdateInstall: () => void
-  readonly osUpdateAvailable: PhoneUpdate["pureOsAvailable"]
-  readonly osUpdateAlreadyDownloaded: PhoneUpdate["pureOsDownloaded"]
 }
 
-const OverviewUI: FunctionComponent<Omit<
-  BasicInfoInitialState,
-  "loadData" | "phoneUpdate" | "updatePhoneOsInfo"
-> &
+const OverviewUI: FunctionComponent<Omit<BasicInfoInitialState, "loadData"> &
+  PhoneUpdate &
   OverviewUIProps> = ({
   batteryLevel,
   changeSim,
@@ -62,8 +58,8 @@ const OverviewUI: FunctionComponent<Omit<
   osUpdateDate,
   memorySpace,
   simCards,
-  osUpdateAvailable,
-  osUpdateAlreadyDownloaded,
+  pureOsAvailable,
+  pureOsDownloaded,
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
@@ -76,8 +72,8 @@ const OverviewUI: FunctionComponent<Omit<
     />
     <NetworkInfo simCards={simCards} onSimChange={changeSim} />
     <System
-      updateDownloaded={osUpdateAlreadyDownloaded}
-      updateAvailable={osUpdateAvailable}
+      updateDownloaded={pureOsDownloaded}
+      updateAvailable={pureOsAvailable}
       osVersion={osVersion}
       lastUpdate={new Date(osUpdateDate).toLocaleDateString("en-US")}
       onUpdateCheck={onUpdateCheck}
