@@ -25,6 +25,13 @@ import Music from "Renderer/svg/music.svg"
 import Signal from "Renderer/svg/signal.svg"
 import Sim from "Renderer/svg/sim.svg"
 import Upload from "Renderer/svg/upload.svg"
+import Calls from "Renderer/svg/phone.svg"
+import Connection from "Renderer/svg/connection.svg"
+import Contacts from "Renderer/svg/contacts.svg"
+import Notes from "Renderer/svg/notes.svg"
+import Notification from "Renderer/svg/notifications.svg"
+import Dial from "Renderer/svg/dial.svg"
+import Playlist from "Renderer/svg/playlist.svg"
 import VoiceRecorder from "Renderer/svg/voice-recorder.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
@@ -54,6 +61,13 @@ export enum Type {
   Music,
   Signal,
   Sim,
+  Calls,
+  Connection,
+  Contacts,
+  Dial,
+  Notes,
+  Notification,
+  Playlist,
   Upload,
   VoiceRecorder,
 }
@@ -110,6 +124,20 @@ export const getIconType = (icon: Type): FunctionComponent<ImageInterface> => {
       return Signal
     case Type.Sim:
       return Sim
+    case Type.Calls:
+      return Calls
+    case Type.Connection:
+      return Connection
+    case Type.Contacts:
+      return Contacts
+    case Type.Dial:
+      return Dial
+    case Type.Notes:
+      return Notes
+    case Type.Notification:
+      return Notification
+    case Type.Playlist:
+      return Playlist
     case Type.Upload:
       return Upload
     case Type.VoiceRecorder:

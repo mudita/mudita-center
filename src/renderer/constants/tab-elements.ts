@@ -1,18 +1,6 @@
 import { defineMessages } from "react-intl"
 import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
-import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
-import TabConnection from "Renderer/svg/connection.svg"
-import TabContacts from "Renderer/svg/contacts.svg"
-import TabDial from "Renderer/svg/dial.svg"
-import TabMessage from "Renderer/svg/menu_messages.svg"
-import TabAllSongs from "Renderer/svg/menu_music.svg"
-import TabTemplates from "Renderer/svg/menu_overview.svg"
-import TabNotes from "Renderer/svg/notes.svg"
-import TabNotification from "Renderer/svg/notifications.svg"
-import TabCalls from "Renderer/svg/phone.svg"
-import TabPlaylist from "Renderer/svg/playlist.svg"
-import TabVoiceRecorder from "Renderer/svg/voice-recorder.svg"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const messages = defineMessages({
   conversations: { id: "view.name.messages.conversations" },
@@ -34,7 +22,7 @@ interface Tab {
     id: string
   }
   url: string
-  icon: FunctionComponent<ImageInterface>
+  icon: Type
 }
 
 export interface TabElement {
@@ -49,12 +37,12 @@ export const tabElements: TabElement[] = [
       {
         label: messages.conversations,
         url: `${URL_MAIN.messages}`,
-        icon: TabMessage,
+        icon: Type.Message,
       },
       {
         label: messages.templates,
         url: `${URL_MAIN.messages}${URL_TABS.templates}`,
-        icon: TabTemplates,
+        icon: Type.MenuOverview,
       },
     ],
   },
@@ -64,17 +52,17 @@ export const tabElements: TabElement[] = [
       {
         label: messages.contacts,
         url: `${URL_MAIN.phone}`,
-        icon: TabContacts,
+        icon: Type.Contacts,
       },
       {
         label: messages.calls,
         url: `${URL_MAIN.phone}${URL_TABS.calls}`,
-        icon: TabCalls,
+        icon: Type.Calls,
       },
       {
         label: messages.dial,
         url: `${URL_MAIN.phone}${URL_TABS.dial}`,
-        icon: TabDial,
+        icon: Type.Dial,
       },
     ],
   },
@@ -84,12 +72,12 @@ export const tabElements: TabElement[] = [
       {
         label: messages.allSongs,
         url: `${URL_MAIN.music}`,
-        icon: TabAllSongs,
+        icon: Type.MenuMusic,
       },
       {
         label: messages.playlist,
         url: `${URL_MAIN.music}${URL_TABS.playlist}`,
-        icon: TabPlaylist,
+        icon: Type.Playlist,
       },
     ],
   },
@@ -99,12 +87,12 @@ export const tabElements: TabElement[] = [
       {
         label: messages.notes,
         url: `${URL_MAIN.tools}`,
-        icon: TabNotes,
+        icon: Type.Notes,
       },
       {
         label: messages.voiceRecorder,
         url: `${URL_MAIN.tools}${URL_TABS.voiceRecorder}`,
-        icon: TabVoiceRecorder,
+        icon: Type.VoiceRecorder,
       },
     ],
   },
@@ -114,17 +102,17 @@ export const tabElements: TabElement[] = [
       {
         label: messages.connection,
         url: `${URL_MAIN.settings}`,
-        icon: TabConnection,
+        icon: Type.Connection,
       },
       {
         label: messages.notifications,
         url: `${URL_MAIN.settings}${URL_TABS.notifications}`,
-        icon: TabNotification,
+        icon: Type.Notification,
       },
       {
         label: messages.audioConversion,
         url: `${URL_MAIN.settings}${URL_TABS.audioConversion}`,
-        icon: TabAllSongs,
+        icon: Type.MenuMusic,
       },
     ],
   },
