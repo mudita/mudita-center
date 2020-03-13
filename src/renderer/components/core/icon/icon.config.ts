@@ -9,6 +9,7 @@ import FilesManager from "Renderer/svg/files-manager.svg"
 import Magnifier from "Renderer/svg/magnifier.svg"
 import Calendar from "Renderer/svg/menu_calendar.svg"
 import MenuFilesManager from "Renderer/svg/menu_filesManager.svg"
+import MenuHelp from "Renderer/svg/menu_help.svg"
 import MenuMeditation from "Renderer/svg/menu_meditation.svg"
 import Message from "Renderer/svg/menu_messages.svg"
 import MenuMusic from "Renderer/svg/menu_music.svg"
@@ -38,6 +39,7 @@ export enum Type {
   FilesManager,
   Magnifier,
   MenuFilesManager,
+  MenuHelp,
   MenuMeditation,
   MenuMusic,
   MenuNews,
@@ -78,6 +80,8 @@ export const getIconType = (icon: Type): FunctionComponent<ImageInterface> => {
       return Magnifier
     case Type.MenuFilesManager:
       return MenuFilesManager
+    case Type.MenuHelp:
+      return MenuHelp
     case Type.MenuMeditation:
       return MenuMeditation
     case Type.MenuMusic:

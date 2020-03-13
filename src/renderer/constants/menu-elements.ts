@@ -1,24 +1,7 @@
 import { defineMessages } from "react-intl"
 import { View, views } from "Renderer/constants/views"
-
-import MenuCalendar from "Renderer/svg/menu_calendar.svg"
-import MenuFilesManager from "Renderer/svg/menu_filesManager.svg"
-import MenuHelp from "Renderer/svg/menu_help.svg"
-import MenuMeditation from "Renderer/svg/menu_meditation.svg"
-import MenuMessages from "Renderer/svg/menu_messages.svg"
-import MenuMusic from "Renderer/svg/menu_music.svg"
+import { Type } from "Renderer/components/core/icon/icon.config"
 import MenuNews from "Renderer/svg/menu_news.svg"
-import MenuOverview from "Renderer/svg/menu_overview.svg"
-import MenuPhone from "Renderer/svg/menu_phone.svg"
-import MenuSettings from "Renderer/svg/menu_settings.svg"
-import MenuTethering from "Renderer/svg/menu_tethering.svg"
-import MenuTools from "Renderer/svg/menu_tools.svg"
-
-import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
-import Battery from "Renderer/svg/battery.svg"
-import Signal from "Renderer/svg/signal.svg"
-import Sim from "Renderer/svg/sim.svg"
-import FunctionComponent from "Renderer/types/function-component.interface"
 
 const messages = defineMessages({
   yourPure: { id: "menu.header.yourPure" },
@@ -26,25 +9,25 @@ const messages = defineMessages({
 })
 
 const YOUR_PURE_BUTTONS = [
-  { button: views.overview, icon: MenuOverview },
-  { button: views.messages, icon: MenuMessages },
-  { button: views.phone, icon: MenuPhone },
-  { button: views.music, icon: MenuMusic },
-  { button: views.calendar, icon: MenuCalendar },
-  { button: views.tools, icon: MenuTools },
-  { button: views.meditation, icon: MenuMeditation },
-  { button: views.filesManager, icon: MenuFilesManager },
+  { button: views.overview, icon: Type.MenuOverview },
+  { button: views.messages, icon: Type.Message },
+  { button: views.phone, icon: Type.MenuPhone },
+  { button: views.music, icon: Type.MenuMusic },
+  { button: views.calendar, icon: Type.Calendar },
+  { button: views.tools, icon: Type.MenuTools },
+  { button: views.meditation, icon: Type.MenuMeditation },
+  { button: views.filesManager, icon: Type.MenuFilesManager },
 ]
 
 const DESKTOP_APP_BUTTONS = [
-  { button: views.tethering, icon: MenuTethering },
-  { button: views.settings, icon: MenuSettings },
-  { button: views.help, icon: MenuHelp },
+  { button: views.tethering, icon: Type.MenuTethering },
+  { button: views.settings, icon: Type.MenuSettings },
+  { button: views.help, icon: Type.MenuHelp },
 ]
 
 interface Item {
   button: typeof views[View]
-  icon: FunctionComponent<ImageInterface>
+  icon: Type
 }
 
 export interface MenuElement {
@@ -52,7 +35,7 @@ export interface MenuElement {
   label?: {
     id: string
   }
-  icons?: FunctionComponent<ImageInterface>[]
+  icons?: Type[]
   visibleWithPhone?: boolean
 }
 
@@ -64,7 +47,7 @@ export const menuElements: MenuElement[] = [
   {
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
-    icons: [Signal, Battery, Sim, MenuTethering],
+    icons: [Type.Signal, Type.Battery, Type.Sim, Type.MenuTethering],
     visibleWithPhone: false,
   },
   {
