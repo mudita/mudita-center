@@ -20,8 +20,9 @@ const BatteryWrapper = styled.div`
 
 const BatteryChargingText = styled(Text)`
   position: absolute;
-  top: 25%;
-  left: 15%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 0.8rem;
 `
 
