@@ -1,7 +1,6 @@
 import FunctionComponent from "Renderer/types/function-component.interface"
 import * as React from "react"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import CloseIcon from "Renderer/svg/close.svg"
 import styled, { css } from "styled-components"
 import Button from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
@@ -19,6 +18,7 @@ import {
   ModalSize,
   TitleOrder,
 } from "Renderer/components/core/modal/modal.interface"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
   ${({ size }) => getModalSize(size)};
@@ -107,7 +107,7 @@ const Modal: FunctionComponent<ModalProps> = ({
           <Close
             displayStyle={DisplayStyle.IconOnly2}
             onClick={closeModal}
-            Icon={CloseIcon}
+            Icon={Type.Close}
             data-testid={"close-modal-button"}
           />
         )}

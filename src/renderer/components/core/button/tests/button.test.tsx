@@ -7,7 +7,8 @@ import { DisplayStyle, Size } from "../button.config"
 import { fireEvent } from "@testing-library/dom"
 import { wait } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
-import Upload from "Renderer/svg/upload.svg"
+import { Type } from "Renderer/components/core/icon/icon.config"
+
 import testScenarios from "./test-scenarios"
 
 interface TestCase {
@@ -46,14 +47,14 @@ test("link-button should have active class when clicked", async () => {
     displayStyle: DisplayStyle.Link4,
     label: "Example",
     to: "/overview",
-    Icon: Upload,
+    Icon: Type.Upload,
     nav: true,
   }
   const data2 = {
     displayStyle: DisplayStyle.Link4,
     label: "Music",
     to: currentPath,
-    Icon: Upload,
+    Icon: Type.Upload,
     nav: true,
   }
   const { container, getByText } = renderWithThemeAndIntl(
