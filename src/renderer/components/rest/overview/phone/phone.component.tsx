@@ -17,6 +17,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import { useHistory } from "react-router"
+import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 
 const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
@@ -95,8 +96,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           />
         </BatteryStats>
         <SignalStats>
-          {/* TODO: Replace with animated icon component */}
-          <Icon type={Type.Signal} width={1.6} />
+          <RangeIcon strength={40} height={1.6} width={1.6} />
           {network ? (
             <Text displayStyle={TextDisplayStyle.LargeBoldText}>{network}</Text>
           ) : (

@@ -1,15 +1,19 @@
 import * as React from "react"
-import { getIconType, Type } from "Renderer/components/core/icon/icon.config"
+import {
+  getEnumName,
+  getIconType,
+  Type,
+} from "Renderer/components/core/icon/icon.config"
 import Svg from "Renderer/components/core/svg/svg.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
-interface Props {
+export interface Props {
   badge?: boolean
   height?: number
   width?: number
-  type: Type
+  type?: Type
 }
 
 const badgeStyles = css`
@@ -58,6 +62,7 @@ const Icon: FunctionComponent<Props> = ({
   return (
     <Wrapper
       badge={badge}
+      data-testid={`icon-${getEnumName(type)}`}
       className={className}
       height={height || width}
       width={width || height}
