@@ -17,7 +17,6 @@ const downloadOsUpdateRequest = (
     const data: DownloadFinished = await ipcRenderer.callMain(
       PureOsDownloadChannels.start,
       {
-        // TODO: Replace the temporary link with the final one after changing S3 read access to public
         url: `https://mudita-desktop-app.s3-eu-central-1.amazonaws.com/pure-os/${filename}`,
         filename,
       }
