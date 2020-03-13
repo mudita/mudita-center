@@ -18,17 +18,18 @@ const BatteryWrapper = styled.div`
   position: relative;
 `
 
-const BatteryChargingText = styled(Text)`
+const BatteryChargingText = styled(Text)<{ size: number }>`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 0.8rem;
+  font-size: ${({ size }) => size / 2.5}rem;
 `
 
 const getInteractiveBatteryIcon = (
   batteryLevel: number,
   charging: boolean,
+  size: number,
   rest: Partial<IconProps>
 ) => {
   switch (true) {
@@ -36,7 +37,10 @@ const getInteractiveBatteryIcon = (
       return (
         <BatteryWrapper>
           <Icon type={Type.ChargingBattery} {...rest} />
-          <BatteryChargingText displayStyle={TextDisplayStyle.SmallFadedText}>
+          <BatteryChargingText
+            size={size}
+            displayStyle={TextDisplayStyle.SmallFadedText}
+          >
             {batteryLevel * 100}%
           </BatteryChargingText>
         </BatteryWrapper>
@@ -59,9 +63,10 @@ const getInteractiveBatteryIcon = (
 const BatteryIcon: FunctionComponent<Props & IconProps> = ({
   level,
   charging = false,
+  height = 2,
   ...rest
 }) => {
-  return <>{getInteractiveBatteryIcon(level, charging, rest)}</>
+  return <>{getInteractiveBatteryIcon(level, charging, height, rest)}</>
 }
 
 export default BatteryIcon
