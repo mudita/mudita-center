@@ -6,6 +6,11 @@ import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 describe("battery icon returns correct component", () => {
   const testScenario = [
     {
+      batteryLevel: 0.2,
+      charging: true,
+      dataTestId: "icon-ChargingBattery",
+    },
+    {
       batteryLevel: 0,
       dataTestId: "icon-NoBattery",
     },
@@ -30,10 +35,10 @@ describe("battery icon returns correct component", () => {
       dataTestId: "icon-VeryHighBattery",
     },
   ]
-  testScenario.forEach(({ batteryLevel, dataTestId }) => {
-    test(`batteryLevel: ${batteryLevel}, dataTestId: ${dataTestId}`, () => {
+  testScenario.forEach(({ batteryLevel, charging = false, dataTestId }) => {
+    test(`batteryLevel: ${batteryLevel}, charging ${charging}, dataTestId: ${dataTestId}`, () => {
       const { getByTestId } = renderWithThemeAndIntl(
-        <BatteryIcon level={batteryLevel} />
+        <BatteryIcon level={batteryLevel} charging={charging} />
       )
       expect(getByTestId(dataTestId)).toBeInTheDocument()
     })
