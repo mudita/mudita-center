@@ -1,5 +1,4 @@
 import * as React from "react"
-import Svg from "Renderer/components/core/svg/svg.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -8,10 +7,10 @@ import {
   backgroundColor,
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
-import check from "Renderer/svg/check-icon.svg"
-import checkIndeterminate from "Renderer/svg/check-indeterminate.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
+import Icon from "Renderer/components/core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 export enum Size {
   Small,
@@ -82,7 +81,7 @@ const Input = styled.input<{ indeterminate: boolean }>`
   ${({ indeterminate }) => indeterminate && checkedStyles};
 `
 
-const CheckIcon = styled(Svg)`
+const CheckIcon = styled(Icon)`
   display: none;
   position: absolute;
   top: 50%;
@@ -119,11 +118,11 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
       <Input indeterminate={indeterminate} {...props} type="checkbox" />
       {indeterminate ? (
         <CheckIcon
-          Image={checkIndeterminate}
+          type={Type.CheckIndeterminate}
           data-testid="state-indeterminate"
         />
       ) : (
-        <CheckIcon Image={check} data-testid="state-checked" />
+        <CheckIcon type={Type.Check} data-testid="state-checked" />
       )}
     </InputWrapper>
   )
