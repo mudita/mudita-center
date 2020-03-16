@@ -82,7 +82,6 @@ const Input = styled.input<{ indeterminate: boolean }>`
 `
 
 const CheckIcon = styled(Icon)<{ indeterminate?: boolean }>`
-  //display: none;
   display: ${({ indeterminate }) => (indeterminate ? "none" : "block")};
   position: absolute;
   top: 50%;
