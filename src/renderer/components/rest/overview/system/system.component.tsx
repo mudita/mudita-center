@@ -77,7 +77,11 @@ const System: FunctionComponent<SystemProps> = ({
         )}
         {updateAvailable && (
           <AvailableUpdate displayStyle={TextDisplayStyle.SmallText}>
-            <FormattedMessage id="view.name.overview.system.updateAvailable" />
+            {updateDownloaded ? (
+              <FormattedMessage id="view.name.overview.system.updateDownloaded" />
+            ) : (
+              <FormattedMessage id="view.name.overview.system.updateAvailable" />
+            )}
           </AvailableUpdate>
         )}
       </TextInfo>
