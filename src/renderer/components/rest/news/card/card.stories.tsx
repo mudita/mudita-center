@@ -16,11 +16,13 @@ storiesOf("Components|Card", module).add("Card", () => {
     <Container>
       <Card
         header={"Example header"}
-        imageSource={"http://placekitten.com/g/300/400"}
+        imageSource={"http://placekitten.com/g/300/300"}
         url={"www.google.pl"}
         content={
           "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?"
         }
+        count={30}
+        communityLink={"www.google.pl"}
       />
     </Container>
   )

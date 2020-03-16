@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render header 1`] = `
+<div
+  class="sc-AxirZ dcRNoi"
+>
+  <a
+    href="www.google.pl"
+    target="_blank"
+  >
+    <img
+      alt=""
+      class="sc-AxiKw hZOckX"
+      src="http://placekitten.com/g/300/300"
+    />
+  </a>
+  <div
+    class="sc-AxhCb fUKKjB"
+  >
+    <a
+      href="www.google.pl"
+    >
+      <p
+        class="sc-AxjAm rBydD"
+      >
+        Example header
+      </p>
+    </a>
+    <p
+      class="sc-AxjAm ijRVAY sc-AxhUy iMeTqu"
+    >
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?
+    </p>
+    <a
+      href="www.google.pl"
+    >
+      <p
+        class="sc-AxjAm rBydD"
+      >
+        30 Comments
+      </p>
+    </a>
+  </div>
+</div>
+`;

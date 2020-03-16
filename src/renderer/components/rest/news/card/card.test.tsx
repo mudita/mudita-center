@@ -4,17 +4,18 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import Card from "Renderer/components/rest/news/card/card.component"
 
 test("should render header", () => {
-  const headerText = "Example test"
-  const { container } = renderWithThemeAndIntl(<Card />)
-  const header = container.querySelector("h2")
-  expect(header).toBeInTheDocument()
-  expect(header).toHaveTextContent(headerText)
-})
-
-test("should render header", () => {
-  const headerText = "Example test"
-  const { container } = renderWithThemeAndIntl(<Card />)
-  const header = container.querySelector("h2")
-  expect(header).toBeInTheDocument()
-  expect(header).toHaveTextContent(headerText)
+  const { container } = renderWithThemeAndIntl(
+    <Card
+      header={"Example header"}
+      imageSource={"http://placekitten.com/g/300/300"}
+      url={"www.google.pl"}
+      content={
+        "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?"
+      }
+      count={30}
+      communityLink={"www.google.pl"}
+    />
+  )
+  const card = container.firstChild
+  expect(card).toMatchSnapshot()
 })
