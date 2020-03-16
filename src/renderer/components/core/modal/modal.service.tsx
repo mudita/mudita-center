@@ -29,7 +29,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 enum ModalError {
   NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
   ClosingForbidden = "Cannot close current modal. If you really want to close it, use force parameter or call allowClosingModal(true) method.",
-  AnotherModalOpened = "Another modal is already opened. If you really want to open another one, use force parameter.",
+  AnotherModalOpened = "Another modal is already opened. Modal added to queue.",
 }
 
 const logError = (message: ModalError) => {
@@ -54,6 +54,7 @@ export class ModalService {
   private modalClosingAllowed: boolean = true
   private backdropClosingAllowed: boolean = true
   private eventListeners: EventListeners[] = []
+  private modalsQueue: ReactElement[] = []
 
   public bindStore(value: Store) {
     if (!this.store) {
@@ -78,6 +79,11 @@ export class ModalService {
     }
     if (!this.modalClosingAllowed && !force) {
       logError(ModalError.ClosingForbidden)
+      return
+    }
+
+    if (this.modalsQueue.length) {
+      this.openModal(this.modalsQueue.shift() as ReactElement, true)
       return
     }
 
@@ -124,6 +130,7 @@ export class ModalService {
         this.backdropClosingAllowed = false
         await this.closeModal(true)
       } else {
+        this.modalsQueue.push(modal)
         logError(ModalError.AnotherModalOpened)
         return
       }

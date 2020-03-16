@@ -23,7 +23,7 @@ const blue2 = "#6d9bbc"
 const dark = "#232426"
 // const blue3 = "#aebec9"
 // const blue4 = "#e3f3ff"
-// const blue5 = "#f3f8fc"
+const blue5 = "#f3f8fc"
 // const red1 = "#e96a6a"
 
 const transparentGrey1 = "rgba(188,188,188,0.5)"
@@ -44,6 +44,7 @@ const theme = {
     },
     background: {
       blue: blue2,
+      lightBlue: blue5,
       light: white,
       app: grey7,
       dark: black,
