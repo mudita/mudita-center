@@ -112,6 +112,12 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         font-weight: ${fontWeight("light")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
+    case TextDisplayStyle.MediumTextUppercased:
+      return css`
+        ${mediumTextSharedStyles};
+        text-transform: uppercase;
+        letter-spacing: ${letterSpacing("medium")}rem;
+      `
     case TextDisplayStyle.MediumText:
       return mediumTextSharedStyles
     case TextDisplayStyle.MediumFadedText:
@@ -194,6 +200,7 @@ export enum TextDisplayStyle {
   MediumLightText,
   MediumFadedLightText,
   MediumFadedTextUppercased,
+  MediumTextUppercased,
   MediumText,
   MediumFadedText,
   SmallText,
@@ -227,6 +234,7 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.MediumText]: "p",
   [TextDisplayStyle.MediumFadedText]: "p",
   [TextDisplayStyle.MediumFadedTextUppercased]: "p",
+  [TextDisplayStyle.MediumTextUppercased]: "p",
   [TextDisplayStyle.SmallText]: "p",
   [TextDisplayStyle.SmallSupplementaryText]: "p",
   [TextDisplayStyle.SmallTextInverted]: "p",
