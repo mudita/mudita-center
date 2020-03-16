@@ -3,6 +3,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import {
   backgroundColor,
+  borderColor,
   borderRadius,
 } from "Renderer/styles/theming/theme-getters"
 import Text, {
@@ -32,7 +33,7 @@ const CardDescription = styled(Text)`
   margin-top: 1.8rem;
   margin-bottom: 2.4rem;
   min-height: 6.5em;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid ${borderColor("grey3")};
 `
 
 interface Props {
