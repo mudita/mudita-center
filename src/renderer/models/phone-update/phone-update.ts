@@ -9,15 +9,10 @@ const initialState: PhoneUpdate = {
 export default {
   state: initialState,
   reducers: {
-    update(
-      state: Readonly<PhoneUpdate>,
-      { pureOsFileName, pureOsAvailable, pureOsDownloaded }: PhoneUpdate
-    ) {
+    update(state: Readonly<PhoneUpdate>, payload: PhoneUpdate) {
       return {
         ...state,
-        ...(pureOsFileName ? { pureOsFileName } : {}),
-        ...(pureOsAvailable ? { pureOsAvailable } : {}),
-        ...(pureOsDownloaded ? { pureOsDownloaded } : {}),
+        ...payload,
       }
     },
   },
