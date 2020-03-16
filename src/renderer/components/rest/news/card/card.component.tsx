@@ -39,7 +39,7 @@ const CardDescription = styled(Text)`
 interface Props {
   content: string
   communityLink: string
-  count: number
+  count?: number
   header: string
   imageSource: string
   imageAlt?: string

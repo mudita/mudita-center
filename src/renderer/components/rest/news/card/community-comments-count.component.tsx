@@ -5,7 +5,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 
 interface Props {
-  count: number
+  count?: number
 }
 
 const CommunityCommentsCount: FunctionComponent<Props> = ({ count }) => {
