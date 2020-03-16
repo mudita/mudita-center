@@ -33,6 +33,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-undefined"
         >
           <test-file-stub
             image="test-file-stub"

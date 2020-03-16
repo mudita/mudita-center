@@ -1,15 +1,12 @@
 import { URL_MAIN } from "Renderer/constants/urls"
-import FilesManager from "Renderer/svg/files-manager.svg"
-import Mudita from "Renderer/svg/mudita.svg"
-import Music from "Renderer/svg/music.svg"
-import VoiceRecorder from "Renderer/svg/voice-recorder.svg"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 export const fakeDataWithUrl = {
   filesType: "Voice Recorder",
   occupiedMemory: 4294967296,
   filesAmount: 3,
   color: "#AEBEC9",
-  icon: VoiceRecorder,
+  icon: Type.VoiceRecorder,
   url: "/tools/voice-recorder",
 }
 
@@ -21,7 +18,7 @@ export const fakeMemoryChartData = [
     occupiedMemory: 4294967296,
     filesAmount: 15,
     color: "#6D9BBC",
-    icon: Music,
+    icon: Type.Music,
     url: URL_MAIN.music,
   },
   {
@@ -29,7 +26,7 @@ export const fakeMemoryChartData = [
     occupiedMemory: 4294967296,
     filesAmount: 3,
     color: "#AEBEC9",
-    icon: VoiceRecorder,
+    icon: Type.VoiceRecorder,
     url: "/tools/voice-recorder",
   },
   {
@@ -37,12 +34,12 @@ export const fakeMemoryChartData = [
     occupiedMemory: 4294967296,
     filesAmount: 85,
     color: "#E3F3FF",
-    icon: FilesManager,
+    icon: Type.FilesManager,
   },
   {
     filesType: "Free",
     occupiedMemory: 4294967296,
     color: "#E9E9E9",
-    icon: Mudita,
+    icon: Type.MuditaLogo,
   },
 ]

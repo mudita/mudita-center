@@ -10,6 +10,7 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="sc-AxirZ btYaIv sc-fzokOt cKxNDb"
+        data-testid="icon-MuditaLogoWithText"
       >
         <test-file-stub
           image="test-file-stub"
@@ -27,6 +28,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-undefined"
         >
           <test-file-stub
             image="test-file-stub"
@@ -55,6 +57,7 @@ exports[`matches snapshot 1`] = `
         >
           <div
             class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            data-testid="icon-MediumRange"
             height="1.6"
             width="1.6"
           >
@@ -68,6 +71,7 @@ exports[`matches snapshot 1`] = `
         >
           <div
             class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            data-testid="icon-Battery"
             height="1.6"
             width="1.6"
           >
@@ -81,6 +85,7 @@ exports[`matches snapshot 1`] = `
         >
           <div
             class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            data-testid="icon-Sim"
             height="1.6"
             width="1.6"
           >
@@ -94,6 +99,7 @@ exports[`matches snapshot 1`] = `
         >
           <div
             class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            data-testid="icon-MenuTethering"
             height="1.6"
             width="1.6"
           >
@@ -115,6 +121,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-MenuOverview"
         >
           <test-file-stub
             image="test-file-stub"
@@ -138,6 +145,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-Message"
         >
           <test-file-stub
             image="test-file-stub"
@@ -161,6 +169,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-MenuPhone"
         >
           <test-file-stub
             image="test-file-stub"
@@ -184,6 +193,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-MenuMusic"
         >
           <test-file-stub
             image="test-file-stub"
@@ -207,6 +217,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-Calendar"
         >
           <test-file-stub
             image="test-file-stub"
@@ -230,6 +241,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-MenuTools"
         >
           <test-file-stub
             image="test-file-stub"
@@ -253,6 +265,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-MenuMeditation"
         >
           <test-file-stub
             image="test-file-stub"
@@ -276,6 +289,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-MenuFilesManager"
         >
           <test-file-stub
             image="test-file-stub"
@@ -308,6 +322,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-MenuTethering"
         >
           <test-file-stub
             image="test-file-stub"
@@ -331,6 +346,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-MenuSettings"
         >
           <test-file-stub
             image="test-file-stub"
@@ -354,6 +370,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-MenuHelp"
         >
           <test-file-stub
             image="test-file-stub"

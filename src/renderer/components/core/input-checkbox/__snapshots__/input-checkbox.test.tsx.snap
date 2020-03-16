@@ -1,10 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.c3 {
+.c5 {
   margin: 0;
   font-size: 1.4rem;
   line-height: 1.05;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c3 svg {
+  max-height: 100%;
+  max-width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .c0 {
@@ -55,6 +80,25 @@ exports[`matches snapshot 1`] = `
 }
 
 .c4 {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c4 path {
+  stroke: #ffffff;
+}
+
+.c6 {
   margin-left: 1.3rem;
 }
 
@@ -74,13 +118,17 @@ exports[`matches snapshot 1`] = `
         type="checkbox"
         value="value2"
       />
-      <test-file-stub
-        classname="sc-AxhUy iGEQau"
-        data-testid="state-checked"
-      />
+      <div
+        class="c3 c4"
+        data-testid="icon-Check"
+      >
+        <test-file-stub
+          image="test-file-stub"
+        />
+      </div>
     </div>
     <span
-      class="c3 c4"
+      class="c5 c6"
     >
       label
     </span>
