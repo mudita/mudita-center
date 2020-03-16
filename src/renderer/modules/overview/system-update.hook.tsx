@@ -32,7 +32,8 @@ const onOsDownloadCancel = () => {
 
 const useSystemUpdateFlow = (
   lastUpdate: string,
-  onUpdate: (updateInfo: PhoneUpdate) => void
+  onUpdate: (updateInfo: PhoneUpdate) => void,
+  fakeUpdatedStatus: () => void
 ) => {
   useEffect(() => {
     const downloadListener = (event: Event, progress: DownloadProgress) => {
@@ -58,9 +59,17 @@ const useSystemUpdateFlow = (
     }
   }, [])
 
-  const updatePure = () => {
+  const updatePure = async () => {
     // TODO: Continue update process when Pure updates through USB become available
     console.log("Updating Pure OS...")
+
+    // TODO: remove after implementing real phone update process
+    await onUpdate({
+      pureOsFileName: "",
+      pureOsDownloaded: false,
+      pureOsAvailable: false,
+    })
+    await fakeUpdatedStatus()
   }
 
   const checkForUpdates = (retry?: boolean, silent?: boolean) => {

@@ -23,6 +23,13 @@ const mapDispatchToProps = (dispatch: any) => ({
   changeSim: (card: SimCard) => dispatch.basicInfo.changeSim(card),
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),
+  // TODO: remove after implementing real phone update process
+  fakeUpdatedStatus: () => {
+    dispatch.basicInfo.update({
+      osUpdateDate: new Date().toISOString(),
+      osVersion: "3.1.1",
+    })
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Overview)

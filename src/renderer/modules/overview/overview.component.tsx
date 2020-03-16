@@ -6,7 +6,14 @@ import { noop } from "Renderer/utils/noop"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
 
-const Overview: FunctionComponent<BasicInfoInitialState & PhoneUpdateStore> = ({
+// TODO: remove after implementing real phone update process
+interface FakeUpdatedStatus {
+  fakeUpdatedStatus?: () => void
+}
+
+const Overview: FunctionComponent<BasicInfoInitialState &
+  PhoneUpdateStore &
+  FakeUpdatedStatus> = ({
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
@@ -31,16 +38,20 @@ const Overview: FunctionComponent<BasicInfoInitialState & PhoneUpdateStore> = ({
     },
   ],
   networkName,
+  fakeUpdatedStatus = noop,
 }) => {
-  useEffect(() => {
-    loadData()
-  }, [])
-
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     new Date(osUpdateDate).toISOString(),
-    updatePhoneOsInfo
+    updatePhoneOsInfo,
+    fakeUpdatedStatus
   )
-  initialCheck()
+
+  useEffect(() => {
+    ;(async () => {
+      await loadData()
+      initialCheck()
+    })()
+  }, [])
 
   const onUpdateDownload = () => download(pureOsFileName)
 
