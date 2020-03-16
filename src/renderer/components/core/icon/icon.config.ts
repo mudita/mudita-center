@@ -40,6 +40,7 @@ import Notes from "Renderer/svg/notes.svg"
 import Notification from "Renderer/svg/notifications.svg"
 import Dial from "Renderer/svg/dial.svg"
 import Playlist from "Renderer/svg/playlist.svg"
+import Reload from "Renderer/svg/circle-arrow.svg"
 import VoiceRecorder from "Renderer/svg/voice-recorder.svg"
 import VeryHighBattery from "Renderer/svg/very-high-battery.svg"
 import VeryHighRange from "Renderer/svg/very-high-range.svg"
@@ -88,6 +89,7 @@ export enum Type {
   Notes,
   Notification,
   Playlist,
+  Reload,
   Upload,
   VeryHighBattery,
   VeryHighRange,
@@ -178,6 +180,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Notification
     case Type.Playlist:
       return Playlist
+    case Type.Reload:
+      return Reload
     case Type.Upload:
       return Upload
     case Type.VeryHighBattery:
