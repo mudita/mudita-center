@@ -33,7 +33,7 @@ const CardDescription = styled(Text)`
   margin-top: 1.8rem;
   margin-bottom: 2.4rem;
   min-height: 6.5em;
-  border-bottom: 1px solid ${borderColor("grey3")};
+  border-bottom: 0.01rem solid ${borderColor("grey3")};
 `
 
 interface Props {
