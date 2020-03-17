@@ -3,7 +3,6 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import OnboardingWelcome from "Renderer/components/rest/onboarding/onboarding-welcome.component"
 import { fireEvent } from "@testing-library/dom"
-import { wait } from "@testing-library/react"
 import OnboardingConnecting from "Renderer/components/rest/onboarding/onboarding-connecting.component"
 import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
 
@@ -14,10 +13,7 @@ test("onboarding: welcome continue button works properly", async () => {
   )
 
   fireEvent.click(getByRole("button"))
-
-  await wait(() => {
-    expect(onContinue).toBeCalled()
-  })
+  expect(onContinue).toBeCalled()
 })
 
 test("onboarding: welcome autostart checkbox works properly", async () => {
@@ -27,16 +23,10 @@ test("onboarding: welcome autostart checkbox works properly", async () => {
   )
 
   fireEvent.click(getByRole("checkbox"))
-
-  await wait(() => {
-    expect(setAutostartOption).toBeCalledWith(true)
-  })
+  expect(setAutostartOption).toBeCalledWith(true)
 
   fireEvent.click(getByRole("checkbox"))
-
-  await wait(() => {
-    expect(setAutostartOption).toBeCalledWith(false)
-  })
+  expect(setAutostartOption).toBeCalledWith(false)
 })
 
 test("onboarding: connecting cancel button works properly", async () => {
@@ -46,10 +36,7 @@ test("onboarding: connecting cancel button works properly", async () => {
   )
 
   fireEvent.click(getByRole("button"))
-
-  await wait(() => {
-    expect(onCancel).toBeCalled()
-  })
+  expect(onCancel).toBeCalled()
 })
 
 test("onboarding: troubleshooting retry button works properly", async () => {
@@ -59,10 +46,7 @@ test("onboarding: troubleshooting retry button works properly", async () => {
   )
 
   fireEvent.click(getByTestId("retry"))
-
-  await wait(() => {
-    expect(onRetry).toBeCalled()
-  })
+  expect(onRetry).toBeCalled()
 })
 
 test("onboarding: troubleshooting contact button works properly", async () => {
@@ -72,8 +56,5 @@ test("onboarding: troubleshooting contact button works properly", async () => {
   )
 
   fireEvent.click(getByTestId("contact-support"))
-
-  await wait(() => {
-    expect(onContact).toBeCalled()
-  })
+  expect(onContact).toBeCalled()
 })
