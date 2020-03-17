@@ -23,10 +23,10 @@ import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion.com
 import Notifications from "Renderer/modules/settings/tabs/notifcations.component"
 import VoiceRecorder from "Renderer/modules/tools/tabs/voice-recorder.component"
 import AppRoute from "Renderer/routes/app-route"
-import OnboardingWelcome from "Renderer/components/rest/onboarding/onboarding-welcome.component"
-import OnboardingConnecting from "Renderer/components/rest/onboarding/onboarding-connecting.component"
-import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
 import LayoutOnboardingWrapper from "Renderer/wrappers/layout-onboarding-wrapper"
+import Welcome from "Renderer/modules/onboarding/welcome.component"
+import Connecting from "Renderer/modules/onboarding/connecting.component"
+import Troubleshooting from "Renderer/modules/onboarding/troubleshooting.component"
 
 export default () => (
   <Switch>
@@ -72,19 +72,19 @@ export default () => (
     />
     <AppRoute
       path={URL_MAIN.onboardingWelcome}
-      component={OnboardingWelcome}
+      component={Welcome}
       layout={LayoutOnboardingWrapper}
       exact
     />
     <AppRoute
       path={URL_MAIN.onboardingConnecting}
-      component={OnboardingConnecting}
+      component={Connecting}
       layout={LayoutOnboardingWrapper}
       exact
     />
     <AppRoute
       path={URL_MAIN.onboardingTroubleshooting}
-      component={OnboardingTroubleshooting}
+      component={Troubleshooting}
       layout={LayoutOnboardingWrapper}
       exact
     />
