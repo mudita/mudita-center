@@ -66,7 +66,7 @@ const Card: FunctionComponent<Props> = ({
         <CardImage src={imageSource} alt={imageAlt} />
       </a>
       <CardContent>
-        <a href={url} data-testid="header-link">
+        <a href={url} data-testid="header-link" target="_blank">
           <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
             {header}
           </Text>
