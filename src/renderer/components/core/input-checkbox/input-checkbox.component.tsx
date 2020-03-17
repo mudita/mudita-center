@@ -82,7 +82,7 @@ const Input = styled.input<{ indeterminate: boolean }>`
 `
 
 const CheckIcon = styled(Icon)<{ indeterminate?: boolean }>`
-  display: ${({ indeterminate }) => (indeterminate ? "none" : "block")};
+  display: block;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -118,7 +118,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
       <Input indeterminate={indeterminate} {...props} type="checkbox" />
       {indeterminate ? (
         <CheckIcon
-          type={Type.CheckIndeterminate}
+          type={indeterminate ? Type.CheckIndeterminate : Type.Check}
           height={1.5}
           width={0.8}
           indeterminate={indeterminate}

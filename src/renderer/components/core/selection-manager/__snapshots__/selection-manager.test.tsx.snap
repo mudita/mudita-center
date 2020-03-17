@@ -81,7 +81,7 @@ exports[`matches snapshot 1`] = `
 }
 
 .c5 {
-  display: none;
+  display: block;
   position: absolute;
   top: 50%;
   left: 50%;
