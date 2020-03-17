@@ -19,7 +19,7 @@ describe("battery icon returns correct component", () => {
     },
     {
       count: undefined,
-      countString: "Loading comments ...",
+      countString: "Loading comments...",
     },
   ]
   testScenario.forEach(({ count, countString }) => {
