@@ -27,9 +27,6 @@ const Steps = styled.ol`
     align-items: center;
     counter-increment: custom-counter;
 
-    &:not(:first-of-type) {
-      margin-top: 3.2rem;
-    }
     &::before {
       content: counter(custom-counter);
       width: 3.2rem;
@@ -42,18 +39,22 @@ const Steps = styled.ol`
       background-color: ${backgroundColor("lightBlue")};
       box-shadow: 0 0.5rem 1rem 0 #00000019;
     }
-  }
 
-  ul {
-    padding-left: 3.2rem;
-    margin-left: 3.2rem;
-    list-style-type: disc;
+    + ul {
+      padding-left: 3.2rem;
+      margin-left: 3.2rem;
+      list-style-type: disc;
 
-    li {
-      margin-left: 1.6rem;
-      padding-left: 0;
-      margin-top: 0.8rem;
-      line-height: 2.4rem;
+      li {
+        margin-left: 1.6rem;
+        padding-left: 0;
+        margin-top: 0.8rem;
+        line-height: 2.4rem;
+      }
+    }
+
+    &:not(:first-of-type) {
+      margin-top: 3.2rem;
     }
   }
 `
