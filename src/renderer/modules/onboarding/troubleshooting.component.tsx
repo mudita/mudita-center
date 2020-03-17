@@ -10,7 +10,11 @@ const Troubleshooting = () => {
     // TODO: do some logic to retry connection
     history.push(URL_MAIN.onboardingConnecting)
   }
-  return <OnboardingTroubleshooting onRetry={onRetry} />
+  const onContact = () => {
+    // TODO: Implement error modal (will be made in near future)
+    alert("Support is suspended due to SARS-CoV-2 pandemic 🦠")
+  }
+  return <OnboardingTroubleshooting onRetry={onRetry} onContact={onContact} />
 }
 
 export default Troubleshooting
