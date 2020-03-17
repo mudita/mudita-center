@@ -1,4 +1,8 @@
 export const URL_MAIN = {
+  onboarding: "/onboarding",
+  onboardingWelcome: "/onboarding/welcome",
+  onboardingConnecting: "/onboarding/connecting",
+  onboardingTroubleshooting: "/onboarding/troubleshooting",
   root: "/",
   news: "/news",
   overview: "/overview",

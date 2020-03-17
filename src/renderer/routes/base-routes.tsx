@@ -1,7 +1,5 @@
 import * as React from "react"
-import { Redirect, Route, Switch } from "react-router"
-
-import LayoutDesktopWrapper from "Renderer/wrappers/layout-desktop-wrapper"
+import { Redirect, Switch } from "react-router"
 
 import FilesManager from "Renderer/modules/filesManager/files-manager.component"
 import Help from "Renderer/modules/help/help.component"
@@ -24,46 +22,45 @@ import Dial from "Renderer/modules/phone/tabs/dial.component"
 import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion.component"
 import Notifications from "Renderer/modules/settings/tabs/notifcations.component"
 import VoiceRecorder from "Renderer/modules/tools/tabs/voice-recorder.component"
+import AppRoute from "Renderer/routes/app-route"
 
 export default () => (
-  <LayoutDesktopWrapper>
-    <Switch>
-      <Redirect exact from={URL_MAIN.root} to={URL_MAIN.overview} />
-      <Route path={URL_MAIN.filesManager} component={FilesManager} />
-      <Route path={URL_MAIN.help} component={Help} />
-      <Route path={URL_MAIN.meditation} component={Meditation} />
-      <Route path={URL_MAIN.messages} component={MessagesContainer} exact />
-      <Route
-        path={`${URL_MAIN.messages}${URL_TABS.templates}`}
-        component={Templates}
-      />
-      <Route path={URL_MAIN.music} component={Music} exact />
-      <Route
-        path={`${URL_MAIN.music}${URL_TABS.playlist}`}
-        component={Playlist}
-      />
-      <Route path={URL_MAIN.news} component={News} />
-      <Route path={URL_MAIN.calendar} component={Calendar} />
-      <Route path={URL_MAIN.overview} component={OverviewContainer} />
-      <Route path={URL_MAIN.phone} component={PhoneContainer} exact />
-      <Route path={`${URL_MAIN.phone}${URL_TABS.calls}`} component={Calls} />
-      <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
-      <Route path={URL_MAIN.settings} component={Settings} exact />
-      <Route
-        path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
-        component={Notifications}
-      />
-      <Route
-        path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
-        component={AudioConversion}
-      />
-      <Route path={URL_MAIN.tethering} component={Tethering} />
-      <Route path={URL_MAIN.tools} component={Tools} exact />
-      <Route
-        path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
-        component={VoiceRecorder}
-      />
-      <Redirect to={URL_MAIN.overview} />
-    </Switch>
-  </LayoutDesktopWrapper>
+  <Switch>
+    <Redirect exact from={URL_MAIN.root} to={URL_MAIN.overview} />
+    <AppRoute path={URL_MAIN.filesManager} component={FilesManager} />
+    <AppRoute path={URL_MAIN.help} component={Help} />
+    <AppRoute path={URL_MAIN.meditation} component={Meditation} />
+    <AppRoute path={URL_MAIN.messages} component={MessagesContainer} exact />
+    <AppRoute
+      path={`${URL_MAIN.messages}${URL_TABS.templates}`}
+      component={Templates}
+    />
+    <AppRoute path={URL_MAIN.music} component={Music} exact />
+    <AppRoute
+      path={`${URL_MAIN.music}${URL_TABS.playlist}`}
+      component={Playlist}
+    />
+    <AppRoute path={URL_MAIN.news} component={News} />
+    <AppRoute path={URL_MAIN.calendar} component={Calendar} />
+    <AppRoute path={URL_MAIN.overview} component={OverviewContainer} />
+    <AppRoute path={URL_MAIN.phone} component={PhoneContainer} exact />
+    <AppRoute path={`${URL_MAIN.phone}${URL_TABS.calls}`} component={Calls} />
+    <AppRoute path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
+    <AppRoute path={URL_MAIN.settings} component={Settings} exact />
+    <AppRoute
+      path={`${URL_MAIN.settings}${URL_TABS.notifications}`}
+      component={Notifications}
+    />
+    <AppRoute
+      path={`${URL_MAIN.settings}${URL_TABS.audioConversion}`}
+      component={AudioConversion}
+    />
+    <AppRoute path={URL_MAIN.tethering} component={Tethering} />
+    <AppRoute path={URL_MAIN.tools} component={Tools} exact />
+    <AppRoute
+      path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
+      component={VoiceRecorder}
+    />
+    <Redirect to={URL_MAIN.overview} />
+  </Switch>
 )
