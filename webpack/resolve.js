@@ -14,6 +14,7 @@ module.exports = {
       Backend: path.resolve(__dirname, "..", paths.backend),
       Common: path.resolve(__dirname, "..", paths.common),
       "react-intl": "react-intl/dist",
+      fs: path.resolve(__dirname, "..", "__mocks__/fs-mock.js"),
     },
   },
 }
