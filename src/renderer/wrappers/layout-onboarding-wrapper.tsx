@@ -7,6 +7,8 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { Link } from "react-router-dom"
+import { URL_MAIN } from "Renderer/constants/urls"
 
 const Layout = styled.div`
   display: flex;
@@ -25,6 +27,7 @@ const LayoutOnboardingWrapper: FunctionComponent = ({ children }) => {
       <Header>
         <Icon type={Type.MuditaLogo} />
         <Text displayStyle={TextDisplayStyle.LargeFadedText} />
+        <Link to={URL_MAIN.news}>X</Link>
       </Header>
       {children}
     </Layout>
