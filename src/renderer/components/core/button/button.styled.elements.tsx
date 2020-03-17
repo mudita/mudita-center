@@ -1,5 +1,4 @@
 import { Link, NavLink } from "react-router-dom"
-import Svg from "Renderer/components/core/svg/svg.component"
 import transition from "Renderer/styles/functions/transition"
 import theme from "Renderer/styles/theming/theme"
 import {
@@ -12,6 +11,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 import { DisplayStyle, Size } from "./button.config"
+import Icon from "Renderer/components/core/icon/icon.component"
 
 const getSize = (size: Size) => {
   switch (size) {
@@ -294,7 +294,7 @@ export const StyledButton = styled.button<{
 }>`
   ${buttonStyles}
 `
-export const StyledIcon = styled(Svg)<{
+export const StyledIcon = styled(Icon)<{
   displaystyle: DisplayStyle
   withMargin: boolean
 }>`

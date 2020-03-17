@@ -16,6 +16,7 @@ import Calendar from "Renderer/svg/menu_calendar.svg"
 import MediumBattery from "Renderer/svg/medium-battery.svg"
 import MediumRange from "Renderer/svg/medium-range.svg"
 import MenuFilesManager from "Renderer/svg/menu_filesManager.svg"
+import MenuHelp from "Renderer/svg/menu_help.svg"
 import MenuMeditation from "Renderer/svg/menu_meditation.svg"
 import Message from "Renderer/svg/menu_messages.svg"
 import MenuMusic from "Renderer/svg/menu_music.svg"
@@ -33,6 +34,15 @@ import NoRange from "Renderer/svg/no-range.svg"
 import Sim from "Renderer/svg/sim.svg"
 import Upload from "Renderer/svg/upload.svg"
 import Download from "Renderer/svg/download.svg"
+import DownloadWhite from "Renderer/svg/download-white.svg"
+import Calls from "Renderer/svg/phone.svg"
+import Connection from "Renderer/svg/connection.svg"
+import Contacts from "Renderer/svg/contacts.svg"
+import Notes from "Renderer/svg/notes.svg"
+import Notification from "Renderer/svg/notifications.svg"
+import Dial from "Renderer/svg/dial.svg"
+import Playlist from "Renderer/svg/playlist.svg"
+import Reload from "Renderer/svg/circle-arrow.svg"
 import VoiceRecorder from "Renderer/svg/voice-recorder.svg"
 import VeryHighBattery from "Renderer/svg/very-high-battery.svg"
 import Pure from "Renderer/svg/pure.svg"
@@ -58,6 +68,7 @@ export enum Type {
   LowRange,
   Magnifier,
   MenuFilesManager,
+  MenuHelp,
   MenuMeditation,
   MenuMusic,
   MenuNews,
@@ -75,6 +86,14 @@ export enum Type {
   NoBattery,
   NoRange,
   Sim,
+  Calls,
+  Connection,
+  Contacts,
+  Dial,
+  Notes,
+  Notification,
+  Playlist,
+  Reload,
   Upload,
   VeryHighBattery,
   VeryHighRange,
@@ -82,6 +101,7 @@ export enum Type {
   VeryLowRange,
   VoiceRecorder,
   Download,
+  DownloadWhite,
   Pure,
   Fail,
 }
@@ -122,6 +142,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return MediumRange
     case Type.MenuFilesManager:
       return MenuFilesManager
+    case Type.MenuHelp:
+      return MenuHelp
     case Type.MenuMeditation:
       return MenuMeditation
     case Type.MenuMusic:
@@ -152,6 +174,22 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return NoRange
     case Type.Sim:
       return Sim
+    case Type.Calls:
+      return Calls
+    case Type.Connection:
+      return Connection
+    case Type.Contacts:
+      return Contacts
+    case Type.Dial:
+      return Dial
+    case Type.Notes:
+      return Notes
+    case Type.Notification:
+      return Notification
+    case Type.Playlist:
+      return Playlist
+    case Type.Reload:
+      return Reload
     case Type.Upload:
       return Upload
     case Type.VeryHighBattery:
@@ -166,6 +204,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return VoiceRecorder
     case Type.Download:
       return Download
+    case Type.DownloadWhite:
+      return DownloadWhite
     case Type.Pure:
       return Pure
     case Type.Fail:

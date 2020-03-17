@@ -5,8 +5,8 @@ import { DropdownButton } from "Renderer/components/core/dropdown/dropdown-butto
 import Dropdown, {
   DropdownPosition,
 } from "Renderer/components/core/dropdown/dropdown.component"
-import Upload from "Renderer/svg/upload.svg"
 import styled from "styled-components"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,19 +26,19 @@ storiesOf("Components|Dropdown", module)
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
-            Icon={Upload}
+            Icon={Type.Upload}
           />
           <DropdownButton
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
-            Icon={Upload}
+            Icon={Type.Upload}
           />
           <DropdownButton
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
-            Icon={Upload}
+            Icon={Type.Upload}
           />
         </Dropdown>
       </Wrapper>
@@ -55,19 +55,19 @@ storiesOf("Components|Dropdown", module)
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
-            Icon={Upload}
+            Icon={Type.Upload}
           />
           <DropdownButton
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
-            Icon={Upload}
+            Icon={Type.Upload}
           />
           <DropdownButton
             label="I open Google in new tab"
             href="http://www.google.pl"
             target="_blank"
-            Icon={Upload}
+            Icon={Type.Upload}
           />
         </Dropdown>
       </Wrapper>
