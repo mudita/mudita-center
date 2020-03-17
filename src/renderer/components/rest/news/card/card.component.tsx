@@ -30,10 +30,13 @@ const CardContent = styled.div`
 
 const CardDescription = styled(Text)`
   margin-top: 1.8rem;
+  margin-bottom: 2.4rem;
+  overflow: hidden;
+  /* stylelint-disable */
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 7;
-  overflow: hidden;
+  -webkit-line-clamp: 3;
+  /* stylelint-enable */
 `
 
 interface Props {
