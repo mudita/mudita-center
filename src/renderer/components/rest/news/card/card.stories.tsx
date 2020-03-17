@@ -19,7 +19,7 @@ storiesOf("News|Card", module).add("Card", () => {
         imageSource={"http://placekitten.com/g/300/300"}
         url={"https://www.google.com/"}
         content={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?"
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda, ipsam iste! Blanditiis facere, maiores! A accusamus, ad adipisci asperiores dignissimos dolorum et harum id itaque iure laboriosam minus modi mollitia nesciunt nulla numquam officia optio perferendis, porro provident quia vitae voluptates. Dolore facilis magni modi praesentium quam quia rem saepe sunt? Ad aliquam animi asperiores consequatur corporis dolore, dolorem est explicabo fuga hic officia pariatur, quod quos repellendus sapiente, totam unde? Animi asperiores autem consectetur dolor error hic id, ipsa, labore laborum maiores non perspiciatis quaerat repudiandae sequi sint velit voluptas voluptatibus. Accusantium, atque autem dolor fugiat itaque quidem totam."
         }
         count={30}
         communityLink={"https://www.google.com/"}

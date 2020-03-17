@@ -3,7 +3,6 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import {
   backgroundColor,
-  borderColor,
   borderRadius,
 } from "Renderer/styles/theming/theme-getters"
 import Text, {
@@ -31,9 +30,10 @@ const CardContent = styled.div`
 
 const CardDescription = styled(Text)`
   margin-top: 1.8rem;
-  margin-bottom: 2.4rem;
-  min-height: 6.5em;
-  border-bottom: 0.01rem solid ${borderColor("grey3")};
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  overflow: hidden;
 `
 
 interface Props {
@@ -72,9 +72,7 @@ const Card: FunctionComponent<Props> = ({
         >
           {content}
         </CardDescription>
-        <a href={communityLink} data-testid="community-link">
-          <CommunityCommentsCount count={count} />
-        </a>
+        <CommunityCommentsCount count={count} communityLink={communityLink} />
       </CardContent>
     </CardContainer>
   )
