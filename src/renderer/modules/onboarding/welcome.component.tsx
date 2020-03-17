@@ -10,7 +10,18 @@ const Welcome = () => {
     // TODO: do some logic to start connecting to the phone, add error handling
     history.push(URL_MAIN.onboardingConnecting)
   }
-  return <OnboardingWelcome onContinue={onContinue} />
+  const setAutostartOption = (enabled?: boolean) => {
+    // TODO: implement toggling auto-start setting
+    setTimeout(() => {
+      alert(`Auto-start is now ${enabled ? "enabled" : "disabled"}`)
+    }, 250)
+  }
+  return (
+    <OnboardingWelcome
+      onContinue={onContinue}
+      setAutostartOption={setAutostartOption}
+    />
+  )
 }
 
 export default Welcome
