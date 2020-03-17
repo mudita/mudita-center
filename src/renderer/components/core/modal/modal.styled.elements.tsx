@@ -2,6 +2,7 @@ import {
   backgroundColor,
   transitionTime,
   transitionTimingFunction,
+  zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 
@@ -33,7 +34,7 @@ const fadeAnimation = css`
 
 export const ModalBackdrop = styled.div`
   position: fixed;
-  z-index: 2;
+  z-index: ${zIndex("modalBackdrop")};
 
   top: 0;
   left: 0;
@@ -48,7 +49,7 @@ export const ModalBackdrop = styled.div`
 
 export const ModalWrapper = styled.section`
   position: fixed;
-  z-index: 3;
+  z-index: ${zIndex("modal")};
 
   display: flex;
   flex-direction: column;

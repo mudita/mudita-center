@@ -50,8 +50,10 @@ const System: FunctionComponent<SystemProps> = ({
   osVersion,
   lastUpdate,
   updateAvailable,
+  updateDownloaded,
   onUpdateCheck = noop,
   onUpdate = noop,
+  onDownload = noop,
 }) => {
   return (
     <Card className={className}>
@@ -74,20 +76,35 @@ const System: FunctionComponent<SystemProps> = ({
         )}
         {updateAvailable && (
           <AvailableUpdate displayStyle={TextDisplayStyle.SmallText}>
-            <FormattedMessage id="view.name.overview.system.updateAvailable" />
+            {updateDownloaded ? (
+              <FormattedMessage id="view.name.overview.system.updateDownloaded" />
+            ) : (
+              <FormattedMessage id="view.name.overview.system.updateAvailable" />
+            )}
           </AvailableUpdate>
         )}
       </TextInfo>
       <CardAction filled>
         {updateAvailable ? (
-          <CardActionButton
-            active
-            label={intl.formatMessage({
-              id: "view.name.overview.system.updateAction",
-            })}
-            Icon={Type.Reload}
-            onClick={onUpdate}
-          />
+          updateDownloaded ? (
+            <CardActionButton
+              active
+              label={intl.formatMessage({
+                id: "view.name.overview.system.updateAction",
+              })}
+              Icon={Type.Reload}
+              onClick={onUpdate}
+            />
+          ) : (
+            <CardActionButton
+              active
+              label={intl.formatMessage({
+                id: "view.name.overview.system.downloadAction",
+              })}
+              Icon={Type.DownloadWhite}
+              onClick={onDownload}
+            />
+          )
         ) : (
           <CardActionButton
             active

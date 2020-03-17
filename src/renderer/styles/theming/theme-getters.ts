@@ -93,3 +93,9 @@ export const width = (name: keyof Theme["width"]) => ({
 }: {
   theme: Theme
 }) => theme.width[name] + "rem"
+
+export const zIndex = (name: keyof Theme["zIndex"]) => ({
+  theme,
+}: {
+  theme: Theme
+}) => theme.zIndex[name]
