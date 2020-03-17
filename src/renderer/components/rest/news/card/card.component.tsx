@@ -57,19 +57,22 @@ const Card: FunctionComponent<Props> = ({
 }) => {
   return (
     <CardContainer>
-      <a href={url} target="_blank">
+      <a href={url} target="_blank" data-testid="image-link">
         <CardImage src={imageSource} alt={imageAlt} />
       </a>
       <CardContent>
-        <a href={url}>
+        <a href={url} data-testid="header-link">
           <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
             {header}
           </Text>
         </a>
-        <CardDescription displayStyle={TextDisplayStyle.MediumFadedLightText}>
+        <CardDescription
+          displayStyle={TextDisplayStyle.MediumFadedLightText}
+          data-testid="content"
+        >
           {content}
         </CardDescription>
-        <a href={communityLink}>
+        <a href={communityLink} data-testid="community-link">
           <CommunityCommentsCount count={count} />
         </a>
       </CardContent>
