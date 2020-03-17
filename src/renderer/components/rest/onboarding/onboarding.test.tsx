@@ -7,7 +7,7 @@ import { wait } from "@testing-library/react"
 import OnboardingConnecting from "Renderer/components/rest/onboarding/onboarding-connecting.component"
 import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
 
-test("welcome: continue button works properly", async () => {
+test("onboarding: welcome continue button works properly", async () => {
   const onContinue = jest.fn()
   const { getByRole } = renderWithThemeAndIntl(
     <OnboardingWelcome onContinue={onContinue} />
@@ -20,7 +20,7 @@ test("welcome: continue button works properly", async () => {
   })
 })
 
-test("welcome: autostart checkbox works properly", async () => {
+test("onboarding: welcome autostart checkbox works properly", async () => {
   const setAutostartOption = jest.fn()
   const { getByRole } = renderWithThemeAndIntl(
     <OnboardingWelcome setAutostartOption={setAutostartOption} />
@@ -39,7 +39,7 @@ test("welcome: autostart checkbox works properly", async () => {
   })
 })
 
-test("welcome: connecting cancel button works properly", async () => {
+test("onboarding: connecting cancel button works properly", async () => {
   const onCancel = jest.fn()
   const { getByRole } = renderWithThemeAndIntl(
     <OnboardingConnecting onCancel={onCancel} />
@@ -52,15 +52,28 @@ test("welcome: connecting cancel button works properly", async () => {
   })
 })
 
-test("welcome: troubleshooting retry button works properly", async () => {
+test("onboarding: troubleshooting retry button works properly", async () => {
   const onRetry = jest.fn()
-  const { getByRole } = renderWithThemeAndIntl(
+  const { getByTestId } = renderWithThemeAndIntl(
     <OnboardingTroubleshooting onRetry={onRetry} />
   )
 
-  fireEvent.click(getByRole("button"))
+  fireEvent.click(getByTestId("retry"))
 
   await wait(() => {
     expect(onRetry).toBeCalled()
+  })
+})
+
+test("onboarding: troubleshooting contact button works properly", async () => {
+  const onContact = jest.fn()
+  const { getByTestId } = renderWithThemeAndIntl(
+    <OnboardingTroubleshooting onContact={onContact} />
+  )
+
+  fireEvent.click(getByTestId("contact-support"))
+
+  await wait(() => {
+    expect(onContact).toBeCalled()
   })
 })

@@ -5,7 +5,10 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
-import { Type as ButtonType } from "Renderer/components/core/button/button.config"
+import {
+  DisplayStyle,
+  Type as ButtonType,
+} from "Renderer/components/core/button/button.config"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import {
@@ -13,7 +16,10 @@ import {
   Title,
 } from "Renderer/components/rest/onboarding/onboarding.elements"
 import styled from "styled-components"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  fontWeight,
+} from "Renderer/styles/theming/theme-getters"
 
 const Steps = styled.ol`
   min-width: 59rem;
@@ -59,8 +65,24 @@ const Steps = styled.ol`
   }
 `
 
+const Support = styled.div`
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: ${fontWeight("light")};
+
+  button {
+    margin-left: 0.4rem;
+    padding: 0.4rem;
+    width: auto;
+    height: auto;
+  }
+`
+
 const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProps> = ({
   onRetry = noop,
+  onContact = noop,
 }) => {
   return (
     <OnboardingWrapper>
@@ -127,7 +149,24 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
             id: "view.name.onboarding.troubleshooting.button",
           })}
           onClick={onRetry}
+          data-testid="retry"
         />
+        <Support>
+          <Text
+            displayStyle={TextDisplayStyle.SmallFadedText}
+            message={{
+              id: "view.name.onboarding.troubleshooting.support.message",
+            }}
+          />
+          <ButtonComponent
+            displayStyle={DisplayStyle.Link3}
+            labelMessage={{
+              id: "view.name.onboarding.troubleshooting.support.button",
+            }}
+            onClick={onContact}
+            data-testid="contact-support"
+          />
+        </Support>
       </footer>
     </OnboardingWrapper>
   )

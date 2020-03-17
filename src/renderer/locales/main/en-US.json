@@ -95,6 +95,8 @@
   "view.name.onboarding.troubleshooting.steps.4.b": "Make sure the plug goes all the way into the port",
   "view.name.onboarding.troubleshooting.steps.5": "Unlock Pure’s screen",
   "view.name.onboarding.troubleshooting.button": "Try again",
+  "view.name.onboarding.troubleshooting.support.message": "Still doesn't work?",
+  "view.name.onboarding.troubleshooting.support.button": "Contact support",
   "component.modal.closeButton": "Close",
   "app.update.modal.title": "App update",
   "app.update.available.modal.message": "New update is available",

@@ -9,4 +9,5 @@ export interface OnboardingConnectingProps {
 
 export interface OnboardingTroubleshootingProps {
   onRetry?: () => void
+  onContact?: () => void
 }
