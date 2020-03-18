@@ -11,9 +11,20 @@ const Container = styled.div`
 `
 
 storiesOf("News|Update Button", module).add("Image", () => {
+  const [state, setState] = React.useState(false)
+
+  const performFakeUpdate = async () => {
+    setState(true)
+    setTimeout(() => {
+      setState(false)
+    }, 2000)
+  }
   return (
     <Container>
-      <UpdateButtonComponent />
+      <UpdateButtonComponent
+        onUpdating={performFakeUpdate}
+        isUpadating={state}
+      />
     </Container>
   )
 })

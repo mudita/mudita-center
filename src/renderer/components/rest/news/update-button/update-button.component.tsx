@@ -1,11 +1,12 @@
 import * as React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import Button, { Props } from "Renderer/components/core/button/button.component"
+import Button, {
+  Props as ButtonProps,
+} from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import Upload from "Renderer/svg/upload.svg"
-import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
-import { useState } from "react"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import { noop } from "Renderer/utils/noop"
 
 const rotateAnimation = css`
   @keyframes rotate {
@@ -19,23 +20,30 @@ const rotateAnimation = css`
 
   animation: rotate 2s infinite linear;
 `
-const UpdateButton = styled(Button)`
+const UpdateButton = styled(Button)<{ isUpadating?: boolean }>`
   display: flex;
   width: auto;
   svg {
-    ${rotateAnimation};
+    ${({ isUpadating }) => isUpadating && rotateAnimation}
   }
 `
 
-const UpdateButtonComponent: FunctionComponent<Props> = () => {
-  const [state, setState] = useState()
+interface UpdateButtonProps {
+  onUpdating: () => void
+  isUpadating?: boolean
+}
+
+const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
+  ButtonProps> = ({ onUpdating, isUpadating }) => {
+  console.log(isUpadating)
   return (
     <UpdateButton
       displayStyle={DisplayStyle.Link2}
       label="Update"
       target="_blank"
-      Icon={Upload}
-      onClick={noop}
+      Icon={Type.Refresh}
+      onClick={onUpdating}
+      isUpadating={isUpadating}
     />
   )
 }
