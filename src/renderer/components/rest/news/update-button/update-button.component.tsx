@@ -10,6 +10,7 @@ import {
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
+import { noop } from "Renderer/utils/noop"
 
 const rotateAnimation = css`
   @keyframes rotate {
@@ -38,7 +39,7 @@ interface UpdateButtonProps {
 }
 
 const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
-  ButtonProps> = ({ onUpdating, isUpadating }) => {
+  ButtonProps> = ({ onUpdating = noop, isUpadating = false }) => {
   return (
     <UpdateButton
       displayStyle={DisplayStyle.Link2}
