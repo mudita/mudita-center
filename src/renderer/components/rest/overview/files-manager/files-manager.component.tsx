@@ -22,7 +22,7 @@ import {
   letterSpacing,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
-import FolderIcon from "Renderer/svg/files-manager.svg"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const TextInfo = styled(CardText)`
   > p {
@@ -97,7 +97,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         <Button
           active
           label={buttonLabel}
-          Icon={FolderIcon}
+          Icon={Type.FilesManager}
           onClick={onFilesOpen}
         />
       </CardAction>

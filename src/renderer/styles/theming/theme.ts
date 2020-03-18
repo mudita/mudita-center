@@ -22,7 +22,7 @@ const blue1 = "#3e6988"
 const blue2 = "#6d9bbc"
 const dark = "#232426"
 // const blue3 = "#aebec9"
-// const blue4 = "#e3f3ff"
+const blue4 = "#e3f3ff"
 const blue5 = "#f3f8fc"
 // const red1 = "#e96a6a"
 
@@ -45,6 +45,7 @@ const theme = {
     background: {
       blue: blue2,
       lightBlue: blue5,
+      progressBar: blue4,
       light: white,
       app: grey7,
       dark: black,
@@ -133,6 +134,12 @@ const theme = {
     buttonSmall: columnWidth + gutterWidth,
     viewWidth: columnWidth * 12 + gutterWidth * 13,
     menuWidth: columnWidth * 3 + gutterWidth * 3,
+  },
+  zIndex: {
+    content: 1,
+    dropdown: 2,
+    modalBackdrop: 3,
+    modal: 4,
   },
 }
 

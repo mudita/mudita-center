@@ -3,14 +3,27 @@ import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/inter
 import React, { useEffect } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
+import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
+import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
 
-const Overview: FunctionComponent<BasicInfoInitialState> = ({
+// TODO: remove after implementing real phone update process
+interface FakeUpdatedStatus {
+  fakeUpdatedStatus?: () => void
+}
+
+const Overview: FunctionComponent<BasicInfoInitialState &
+  PhoneUpdateStore &
+  FakeUpdatedStatus> = ({
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
   lastBackup,
   osVersion,
   osUpdateDate = 0,
+  pureOsFileName = "",
+  pureOsAvailable,
+  pureOsDownloaded,
+  updatePhoneOsInfo = noop,
   loadData = noop,
   memorySpace = {
     free: 0,
@@ -25,10 +38,23 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
     },
   ],
   networkName,
+  fakeUpdatedStatus = noop,
 }) => {
+  const { initialCheck, check, download, install } = useSystemUpdateFlow(
+    new Date(osUpdateDate).toISOString(),
+    updatePhoneOsInfo,
+    fakeUpdatedStatus
+  )
+
   useEffect(() => {
-    loadData()
+    ;(async () => {
+      await loadData()
+      initialCheck()
+    })()
   }, [])
+
+  const onUpdateDownload = () => download(pureOsFileName)
+
   return (
     <OverviewUI
       batteryLevel={batteryLevel}
@@ -40,6 +66,11 @@ const Overview: FunctionComponent<BasicInfoInitialState> = ({
       memorySpace={memorySpace}
       simCards={simCards}
       networkName={networkName}
+      pureOsAvailable={pureOsAvailable}
+      pureOsDownloaded={pureOsDownloaded}
+      onUpdateCheck={check}
+      onUpdateInstall={install}
+      onUpdateDownload={onUpdateDownload}
     />
   )
 }

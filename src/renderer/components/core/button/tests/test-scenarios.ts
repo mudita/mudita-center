@@ -1,6 +1,6 @@
-import Upload from "Renderer/svg/upload.svg"
 import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { DisplayStyle, Size } from "../button.config"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const message = mockDefineMessages()
 
@@ -72,7 +72,7 @@ export default [
   {
     name: "Standard/fixed width with icon",
     commonProps: {
-      Icon: Upload,
+      Icon: Type.Upload,
       label: "Click",
     },
     cases: buttonsFixedWidthCases,
@@ -104,7 +104,7 @@ export default [
         displayStyle: DisplayStyle.Link1,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Upload,
+        Icon: Type.Upload,
       },
       {
         displayStyle: DisplayStyle.Link2,
@@ -113,7 +113,7 @@ export default [
         displayStyle: DisplayStyle.Link2,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Upload,
+        Icon: Type.Upload,
       },
       {
         displayStyle: DisplayStyle.Link3,
@@ -122,7 +122,7 @@ export default [
         displayStyle: DisplayStyle.Link3,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Upload,
+        Icon: Type.Upload,
       },
       {
         displayStyle: DisplayStyle.Link4,
@@ -131,7 +131,7 @@ export default [
         displayStyle: DisplayStyle.Link4,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Upload,
+        Icon: Type.Upload,
       },
       {
         displayStyle: DisplayStyle.Tab,
@@ -140,7 +140,7 @@ export default [
         displayStyle: DisplayStyle.Tab,
         href: "http://www.google.pl",
         target: "_blank",
-        Icon: Upload,
+        Icon: Type.Upload,
       },
     ],
   },

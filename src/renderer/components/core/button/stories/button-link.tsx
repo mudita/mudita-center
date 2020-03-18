@@ -1,10 +1,10 @@
 import * as React from "react"
-import Upload from "Renderer/svg/upload.svg"
 import { TextDisplayStyle } from "../../text/text.component"
 import Button from "../button.component"
 import { DisplayStyle } from "../button.config"
 
 import { ButtonHeader, StoryWrapper } from "./styled-elements"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 export default () => {
   const clickAlert = () => alert("You clicked me")
@@ -22,7 +22,7 @@ export default () => {
         displayStyle={DisplayStyle.Link1}
         label="Click"
         onClick={clickAlert}
-        Icon={Upload}
+        Icon={Type.Upload}
       />
       <ButtonHeader displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
         Link, style 2
@@ -38,7 +38,7 @@ export default () => {
         label="I open Google in new tab and have an icon"
         href="http://www.google.pl"
         target="_blank"
-        Icon={Upload}
+        Icon={Type.Upload}
       />
       <ButtonHeader displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
         Link, style 3
@@ -54,7 +54,7 @@ export default () => {
         label="I open Google in new tab and have an icon"
         href="http://www.google.pl"
         target="_blank"
-        Icon={Upload}
+        Icon={Type.Upload}
       />
       <ButtonHeader displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
         Link, style 4
@@ -70,7 +70,7 @@ export default () => {
         label="I open Google in new tab and have an icon"
         href="http://www.google.pl"
         target="_blank"
-        Icon={Upload}
+        Icon={Type.Upload}
       />
       <ButtonHeader displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
         Link, style Tab
@@ -86,7 +86,7 @@ export default () => {
         label="I open Google in new tab and have an icon"
         href="http://www.google.pl"
         target="_blank"
-        Icon={Upload}
+        Icon={Type.Upload}
       />
     </StoryWrapper>
   )

@@ -9,17 +9,16 @@ import { SelectionManagerProps } from "Renderer/components/core/selection-manage
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import Delete from "Renderer/svg/delete.svg"
-import Export from "Renderer/svg/upload.svg"
 import styled from "styled-components"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 export const deleteButton = (
   <ButtonComponent
     key="delete"
     label={"Delete"}
     displayStyle={DisplayStyle.Link1}
-    Icon={Delete}
+    Icon={Type.Delete}
     data-testid="button"
     onClick={action("delete")}
   />
@@ -30,7 +29,7 @@ export const exportButton = (
     key="export"
     label={"Export"}
     displayStyle={DisplayStyle.Link1}
-    Icon={Export}
+    Icon={Type.Upload}
     data-testid="button"
     onClick={action("export")}
   />
