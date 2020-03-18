@@ -1,6 +1,5 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import Svg from "Renderer/components/core/svg/svg.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -10,10 +9,11 @@ import {
   borderColor,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
-import arrow from "Renderer/svg/arrow.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { convertBytes } from "Renderer/utils/convert-bytes"
 import styled from "styled-components"
+import Icon from "Renderer/components/core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const Wrapper = styled.div<{ fileColor: string }>`
   display: flex;
@@ -32,7 +32,7 @@ const StyledLink = styled(Link)`
   }
 `
 
-const Icon = styled(Svg)`
+const SummaryIcon = styled(Icon)`
   margin: 1.9rem 2.4rem;
 `
 
@@ -50,7 +50,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
 }) => {
   return (
     <Wrapper fileColor={color} data-testid="files-manager-item">
-      <Icon Image={icon} />
+      <SummaryIcon type={icon} />
       <TextWrapper>
         <Text displayStyle={TextDisplayStyle.LargeText} element={"p"}>
           {filesType}
@@ -63,7 +63,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
       </TextWrapper>
       {url && (
         <StyledLink to={url}>
-          <Svg Image={arrow} />
+          <Icon type={Type.Arrow} />
         </StyledLink>
       )}
     </Wrapper>

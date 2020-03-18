@@ -71,12 +71,12 @@ test("renders text info for all items properly", () => {
 
 test("renders indeterminate status properly", () => {
   const { queryByTestId } = renderSelectionManager({ allItemsSelected: false })
-  expect(queryByTestId("state-indeterminate")).toBeInTheDocument()
+  expect(queryByTestId("icon-CheckIndeterminate")).toBeInTheDocument()
 })
 
 test("renders indeterminate status properly", () => {
   const { queryByTestId } = renderSelectionManager({ allItemsSelected: true })
-  expect(queryByTestId("state-checked")).toBeInTheDocument()
+  expect(queryByTestId("icon-Check")).toBeInTheDocument()
 })
 
 test("renders enlarged selection manager properly", () => {

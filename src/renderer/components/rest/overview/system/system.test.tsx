@@ -63,41 +63,51 @@ test("renders 'check for updates' button properly", () => {
 test("renders 'update now' button properly", () => {
   const { queryByRole } = renderSystem({ updateAvailable: true })
   expect(queryByRole("button")).toHaveTextContent(
-    intl.formatMessage({ id: "view.name.overview.system.updateAction" })
+    intl.formatMessage({ id: "view.name.overview.system.downloadAction" })
   )
 })
 
 test("checks for update after button click", async () => {
   const onUpdateCheck = jest.fn()
-  const onUpdate = jest.fn()
 
   const { getByRole } = renderSystem({
     onUpdateCheck,
-    onUpdate,
   })
 
   fireEvent.click(getByRole("button"))
 
   await wait(() => {
     expect(onUpdateCheck).toHaveBeenCalled()
-    expect(onUpdate).not.toHaveBeenCalled()
+  })
+})
+
+test("triggers download after button click", async () => {
+  const onDownload = jest.fn()
+
+  const { getByRole } = renderSystem({
+    updateAvailable: true,
+    onDownload,
+  })
+
+  fireEvent.click(getByRole("button"))
+
+  await wait(() => {
+    expect(onDownload).toHaveBeenCalled()
   })
 })
 
 test("triggers update after button click", async () => {
-  const onUpdateCheck = jest.fn()
   const onUpdate = jest.fn()
 
   const { getByRole } = renderSystem({
     updateAvailable: true,
-    onUpdateCheck,
+    updateDownloaded: true,
     onUpdate,
   })
 
   fireEvent.click(getByRole("button"))
 
   await wait(() => {
-    expect(onUpdateCheck).not.toHaveBeenCalled()
     expect(onUpdate).toHaveBeenCalled()
   })
 })

@@ -1,5 +1,4 @@
 import * as React from "react"
-import Upload from "Renderer/svg/upload.svg"
 import { TextDisplayStyle } from "../../text/text.component"
 import Button from "../button.component"
 import { DisplayStyle, Size } from "../button.config"
@@ -14,6 +13,7 @@ import {
   SectionHeader,
   StoryWrapper,
 } from "./styled-elements"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 export default () => {
   const clickAlert = () => alert("You clicked me")
@@ -37,7 +37,7 @@ export default () => {
                 size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
               />
             </ButtonElement>
             <ButtonElement>
@@ -50,7 +50,7 @@ export default () => {
                 label="Click"
                 onClick={clickAlert}
                 disabled
-                Icon={Upload}
+                Icon={Type.Upload}
               />
             </ButtonElement>
             <ButtonElement>
@@ -62,7 +62,7 @@ export default () => {
                 size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
               />
             </ButtonElement>
             <ButtonElement>
@@ -74,7 +74,7 @@ export default () => {
                 size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
                 disabled
               />
             </ButtonElement>
@@ -94,7 +94,7 @@ export default () => {
                 size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
               />
             </ButtonElement>
             <ButtonElement>
@@ -106,7 +106,7 @@ export default () => {
                 size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
                 disabled
               />
             </ButtonElement>
@@ -119,7 +119,7 @@ export default () => {
                 size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
               />
             </ButtonElement>
             <ButtonElement>
@@ -131,7 +131,7 @@ export default () => {
                 size={Size.FixedBig}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
                 disabled
               />
             </ButtonElement>
@@ -149,7 +149,7 @@ export default () => {
                 size={Size.FixedMedium}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
               />
             </ButtonElement>
             <ButtonElement>
@@ -161,7 +161,7 @@ export default () => {
                 size={Size.FixedMedium}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
                 disabled
               />
             </ButtonElement>
@@ -174,7 +174,7 @@ export default () => {
                 size={Size.FixedMedium}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
               />
             </ButtonElement>
             <ButtonElement>
@@ -186,7 +186,7 @@ export default () => {
                 size={Size.FixedMedium}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
                 disabled
               />
             </ButtonElement>
@@ -206,7 +206,7 @@ export default () => {
                 size={Size.FixedSmall}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
               />
             </ButtonElement>
             <ButtonElement>
@@ -218,7 +218,7 @@ export default () => {
                 size={Size.FixedSmall}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
                 disabled
               />
             </ButtonElement>
@@ -231,7 +231,7 @@ export default () => {
                 size={Size.FixedSmall}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
               />
             </ButtonElement>
             <ButtonElement>
@@ -243,7 +243,7 @@ export default () => {
                 size={Size.FixedSmall}
                 label="Click"
                 onClick={clickAlert}
-                Icon={Upload}
+                Icon={Type.Upload}
                 disabled
               />
             </ButtonElement>

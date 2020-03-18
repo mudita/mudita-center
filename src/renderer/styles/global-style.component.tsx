@@ -1,4 +1,8 @@
-import { backgroundColor, font } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  font,
+  zIndex,
+} from "Renderer/styles/theming/theme-getters"
 import { createGlobalStyle } from "styled-components"
 import { Theme } from "./theming/theme"
 
@@ -17,7 +21,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     text-decoration: none;
   }
   #root, body > div:first-of-type {
-    z-index: 1;
+    z-index: ${zIndex("content")};
     position: relative;
   }
   * {

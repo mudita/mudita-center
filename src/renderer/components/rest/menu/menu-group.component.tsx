@@ -1,15 +1,15 @@
 import * as React from "react"
 import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import Svg from "Renderer/components/core/svg/svg.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { MenuElement } from "Renderer/constants/menu-elements"
-import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
+import Icon from "Renderer/components/core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -32,7 +32,7 @@ const HeaderIconBg = styled.div`
   }
 `
 
-const HeaderIcon = styled(Svg)`
+const HeaderIcon = styled(Icon)`
   &:not(:last-of-type) {
     margin-right: 1rem;
   }
@@ -54,9 +54,9 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
           <Text displayStyle={TextDisplayStyle.SmallText} message={label} />
           {icons && (
             <HeaderIconContainer>
-              {icons.map((icon: FunctionComponent<ImageInterface>, index) => (
+              {icons.map((icon: Type, index) => (
                 <HeaderIconBg key={index}>
-                  <HeaderIcon Image={icon} />
+                  <HeaderIcon type={icon} width={1.6} />
                 </HeaderIconBg>
               ))}
             </HeaderIconContainer>

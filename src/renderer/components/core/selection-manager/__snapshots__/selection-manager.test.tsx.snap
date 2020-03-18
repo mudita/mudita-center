@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.c4 {
+.c6 {
   margin: 0;
   font-size: 1.4rem;
   line-height: 1.05;
@@ -11,6 +11,31 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 1.5rem;
+  width: 0.8rem;
+  position: relative;
+}
+
+.c4 svg {
+  max-height: 100%;
+  max-width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .c2 {
@@ -55,11 +80,30 @@ exports[`matches snapshot 1`] = `
   display: initial;
 }
 
+.c5 {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c5 path {
+  stroke: #ffffff;
+}
+
 .c1 {
   grid-area: Checkbox;
 }
 
-.c5 {
+.c7 {
   grid-area: Info;
   line-height: 1.1;
 }
@@ -99,14 +143,20 @@ exports[`matches snapshot 1`] = `
           class="c3"
           type="checkbox"
         />
-        <test-file-stub
-          classname="sc-fzoLsD yZpTT"
-          data-testid="state-indeterminate"
-        />
+        <div
+          class="c4 c5"
+          data-testid="icon-CheckIndeterminate"
+          height="1.5"
+          width="0.8"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
       </div>
     </div>
     <p
-      class="c4 c5"
+      class="c6 c7"
       data-testid="info"
     >
       1 Conversation selected
