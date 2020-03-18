@@ -3,16 +3,21 @@
 exports[`matches snapshot 1`] = `
 <a
   aria-current="page"
-  class="sc-AxirZ gpJjJM active"
+  class="sc-AxiKw WIVtA active"
   displaystyle="9"
   href="/phone"
   size="2"
 >
-  <test-file-stub
-    classname="sc-AxgMl yaFjd"
-  />
+  <div
+    class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+    data-testid="icon-Check"
+  >
+    <test-file-stub
+      image="test-file-stub"
+    />
+  </div>
   <p
-    class="sc-AxjAm eGfSTk sc-AxheI bhLjYx"
+    class="sc-AxjAm eGfSTk sc-Axmtr fhTfIi"
   >
     Phone
   </p>

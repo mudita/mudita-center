@@ -1,10 +1,10 @@
 import * as React from "react"
-import Upload from "Renderer/svg/upload.svg"
 import { TextDisplayStyle } from "../../text/text.component"
 import Button from "../button.component"
 import { DisplayStyle } from "../button.config"
 
 import { ButtonHeader, StoryWrapper } from "./styled-elements"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 export default () => {
   const clickAlert = () => alert("You clicked me")
@@ -16,7 +16,7 @@ export default () => {
       <Button
         displayStyle={DisplayStyle.IconOnly1}
         onClick={clickAlert}
-        Icon={Upload}
+        Icon={Type.Upload}
       />
       <ButtonHeader displayStyle={TextDisplayStyle.SmallText}>
         Button with icon only, style 2
@@ -24,7 +24,7 @@ export default () => {
       <Button
         displayStyle={DisplayStyle.IconOnly2}
         onClick={clickAlert}
-        Icon={Upload}
+        Icon={Type.Upload}
       />
       <ButtonHeader displayStyle={TextDisplayStyle.SmallText}>
         Button with icon only, style 3
@@ -32,7 +32,7 @@ export default () => {
       <Button
         displayStyle={DisplayStyle.IconOnly3}
         onClick={clickAlert}
-        Icon={Upload}
+        Icon={Type.Upload}
       />
     </StoryWrapper>
   )

@@ -280,7 +280,7 @@ test("selecting single (non-parent) row works properly", async () => {
 
   await wait(() => {
     expect(getRowCheckboxes()[0]).toBeChecked()
-    expect(queryAllByTestId("state-indeterminate")).toHaveLength(1)
+    expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(1)
   })
 })
 
@@ -293,7 +293,7 @@ test("selecting single (parent) row works properly", async () => {
     for (let i = 2; i < 5; i++) {
       expect(getRowCheckboxes()[i]).toBeChecked()
     }
-    expect(queryAllByTestId("state-indeterminate")).toHaveLength(1)
+    expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(1)
   })
 })
 
@@ -304,7 +304,7 @@ test("selecting single (nested) row works properly", async () => {
 
   await wait(() => {
     expect(getRowCheckboxes()[4]).toBeChecked()
-    expect(queryAllByTestId("state-indeterminate")).toHaveLength(2)
+    expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(2)
   })
 })
 
@@ -319,6 +319,6 @@ test("selecting all nested rows works properly", async () => {
     for (let i = 2; i < 5; i++) {
       expect(getRowCheckboxes()[i]).toBeChecked()
     }
-    expect(queryAllByTestId("state-indeterminate")).toHaveLength(1)
+    expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(1)
   })
 })

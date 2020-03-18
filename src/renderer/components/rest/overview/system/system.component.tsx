@@ -12,13 +12,13 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import Reload from "Renderer/svg/circle-arrow.svg"
 import {
   fontWeight,
   letterSpacing,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const TextInfo = styled(CardText)``
 
@@ -50,8 +50,10 @@ const System: FunctionComponent<SystemProps> = ({
   osVersion,
   lastUpdate,
   updateAvailable,
+  updateDownloaded,
   onUpdateCheck = noop,
   onUpdate = noop,
+  onDownload = noop,
 }) => {
   return (
     <Card className={className}>
@@ -74,27 +76,42 @@ const System: FunctionComponent<SystemProps> = ({
         )}
         {updateAvailable && (
           <AvailableUpdate displayStyle={TextDisplayStyle.SmallText}>
-            <FormattedMessage id="view.name.overview.system.updateAvailable" />
+            {updateDownloaded ? (
+              <FormattedMessage id="view.name.overview.system.updateDownloaded" />
+            ) : (
+              <FormattedMessage id="view.name.overview.system.updateAvailable" />
+            )}
           </AvailableUpdate>
         )}
       </TextInfo>
       <CardAction filled>
         {updateAvailable ? (
-          <CardActionButton
-            active
-            label={intl.formatMessage({
-              id: "view.name.overview.system.updateAction",
-            })}
-            Icon={Reload}
-            onClick={onUpdate}
-          />
+          updateDownloaded ? (
+            <CardActionButton
+              active
+              label={intl.formatMessage({
+                id: "view.name.overview.system.updateAction",
+              })}
+              Icon={Type.Reload}
+              onClick={onUpdate}
+            />
+          ) : (
+            <CardActionButton
+              active
+              label={intl.formatMessage({
+                id: "view.name.overview.system.downloadAction",
+              })}
+              Icon={Type.DownloadWhite}
+              onClick={onDownload}
+            />
+          )
         ) : (
           <CardActionButton
             active
             label={intl.formatMessage({
               id: "view.name.overview.system.checkForUpdates",
             })}
-            Icon={Reload}
+            Icon={Type.Reload}
             onClick={onUpdateCheck}
           />
         )}

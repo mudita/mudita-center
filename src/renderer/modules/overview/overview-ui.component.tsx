@@ -8,6 +8,7 @@ import System from "Renderer/components/rest/overview/system/system.component"
 import FilesManager from "Renderer/components/rest/overview/files-manager/files-manager.component"
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
+import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 
 const PhoneInfo = styled(Phone)`
   grid-area: Phone;
@@ -39,10 +40,15 @@ const OverviewWrapper = styled.div`
     "Phone Backup";
 `
 
-const OverviewUI: FunctionComponent<Omit<
-  BasicInfoInitialState,
-  "loadData"
->> = ({
+interface OverviewUIProps {
+  readonly onUpdateCheck: () => void
+  readonly onUpdateDownload: () => void
+  readonly onUpdateInstall: () => void
+}
+
+const OverviewUI: FunctionComponent<Omit<BasicInfoInitialState, "loadData"> &
+  PhoneUpdate &
+  OverviewUIProps> = ({
   batteryLevel,
   changeSim,
   disconnectDevice,
@@ -52,31 +58,39 @@ const OverviewUI: FunctionComponent<Omit<
   osUpdateDate,
   memorySpace,
   simCards,
-}) => {
-  return (
-    <OverviewWrapper>
-      <PhoneInfo
-        batteryLevel={batteryLevel}
-        network={networkName}
-        onDisconnect={disconnectDevice}
-      />
-      <NetworkInfo simCards={simCards} onSimChange={changeSim} />
-      <System
-        osVersion={osVersion}
-        lastUpdate={new Date(osUpdateDate).toLocaleDateString("en-US")}
-      />
-      <FileManagerInfo
-        usedSpace={memorySpace.full - memorySpace.free}
-        maxSpace={memorySpace.full}
-        onFilesOpen={noop}
-      />
-      <BackupInfo
-        lastBackup={lastBackup}
-        onBackupCreate={noop}
-        onBackupRestore={noop}
-      />
-    </OverviewWrapper>
-  )
-}
+  pureOsAvailable,
+  pureOsDownloaded,
+  onUpdateCheck,
+  onUpdateDownload,
+  onUpdateInstall,
+}) => (
+  <OverviewWrapper>
+    <PhoneInfo
+      batteryLevel={batteryLevel}
+      network={networkName}
+      onDisconnect={disconnectDevice}
+    />
+    <NetworkInfo simCards={simCards} onSimChange={changeSim} />
+    <System
+      updateDownloaded={pureOsDownloaded}
+      updateAvailable={pureOsAvailable}
+      osVersion={osVersion}
+      lastUpdate={new Date(osUpdateDate).toLocaleDateString("en-US")}
+      onUpdateCheck={onUpdateCheck}
+      onDownload={onUpdateDownload}
+      onUpdate={onUpdateInstall}
+    />
+    <FileManagerInfo
+      usedSpace={memorySpace.full - memorySpace.free}
+      maxSpace={memorySpace.full}
+      onFilesOpen={noop}
+    />
+    <BackupInfo
+      lastBackup={lastBackup}
+      onBackupCreate={noop}
+      onBackupRestore={noop}
+    />
+  </OverviewWrapper>
+)
 
 export default OverviewUI

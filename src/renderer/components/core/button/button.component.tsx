@@ -2,7 +2,7 @@ import React, { ComponentProps, MouseEventHandler } from "react"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
+import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -23,7 +23,7 @@ export interface Props {
   disabled?: boolean
   displayStyle?: DisplayStyle
   href?: string
-  Icon?: FunctionComponent<ImageInterface>
+  Icon?: IconType
   label?: string
   labelMessage?: MessageInterface
   onClick?: MouseEventHandler
@@ -125,7 +125,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
         <StyledIcon
           displaystyle={displayStyle}
           withMargin={Boolean(label || labelMessage)}
-          Image={Icon}
+          type={Icon}
         />
       )}
       {getLabel()}
