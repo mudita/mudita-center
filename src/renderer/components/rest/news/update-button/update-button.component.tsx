@@ -6,19 +6,23 @@ import Button, {
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import styled, { css } from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { noop } from "Renderer/utils/noop"
+import {
+  transitionTime,
+  transitionTimingFunction,
+} from "Renderer/styles/theming/theme-getters"
 
 const rotateAnimation = css`
   @keyframes rotate {
     from {
-      transform: rotate(360deg);
+      transform: rotate(0deg);
     }
     to {
-      transform: rotate(0deg);
+      transform: rotate(360deg);
     }
   }
 
-  animation: rotate 2s infinite linear;
+  animation: rotate ${transitionTime("slow")} infinite
+    ${transitionTimingFunction("easeInOut")};
 `
 const UpdateButton = styled(Button)<{ isUpadating?: boolean }>`
   display: flex;
@@ -35,7 +39,6 @@ interface UpdateButtonProps {
 
 const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
   ButtonProps> = ({ onUpdating, isUpadating }) => {
-  console.log(isUpadating)
   return (
     <UpdateButton
       displayStyle={DisplayStyle.Link2}
@@ -44,6 +47,7 @@ const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
       Icon={Type.Refresh}
       onClick={onUpdating}
       isUpadating={isUpadating}
+      disabled={isUpadating}
     />
   )
 }
