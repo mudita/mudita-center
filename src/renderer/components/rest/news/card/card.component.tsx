@@ -33,7 +33,7 @@ const CardDescription = styled(Text)`
   margin-bottom: 2.4rem;
   overflow: hidden;
   line-height: 2.2rem;
-  max-height: calc(2.2rem * 3);
+  min-height: calc(2.2rem * 3);
   /* stylelint-disable */
   display: -webkit-box;
   -webkit-box-orient: vertical;
