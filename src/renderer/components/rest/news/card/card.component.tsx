@@ -41,7 +41,7 @@ const CardDescription = styled(Text)`
   /* stylelint-enable */
 `
 
-interface Props {
+export interface Props {
   content: string
   communityLink: string
   count?: number
@@ -61,7 +61,7 @@ const Card: FunctionComponent<Props> = ({
   url,
 }) => {
   return (
-    <CardContainer>
+    <CardContainer data-testid="news-card">
       <a href={url} target="_blank" data-testid="image-link">
         <CardImage src={imageSource} alt={imageAlt} />
       </a>
