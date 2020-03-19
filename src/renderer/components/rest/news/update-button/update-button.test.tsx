@@ -17,5 +17,6 @@ test("calls function passed through props", async () => {
 
   await wait(() => {
     expect(onUpdating).toHaveBeenCalled()
+    expect(onUpdating).toHaveBeenCalledTimes(1)
   })
 })
