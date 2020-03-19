@@ -1,14 +1,14 @@
 import React from "react"
 import OnboardingWelcome from "Renderer/components/rest/onboarding/onboarding-welcome.component"
 import { useHistory } from "react-router"
-import { URL_MAIN } from "Renderer/constants/urls"
+import { URL_ONBOARDING } from "Renderer/constants/urls"
 
 const Welcome = () => {
   const history = useHistory()
 
   const onContinue = () => {
     // TODO: do some logic to start connecting to the phone, add error handling
-    history.push(URL_MAIN.onboardingConnecting)
+    history.push(URL_ONBOARDING.connecting)
   }
   const setAutostartOption = (enabled?: boolean) => {
     // TODO: implement toggling auto-start setting

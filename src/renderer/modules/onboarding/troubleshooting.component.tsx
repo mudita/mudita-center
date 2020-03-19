@@ -1,6 +1,6 @@
 import React from "react"
 import { useHistory } from "react-router"
-import { URL_MAIN } from "Renderer/constants/urls"
+import { URL_ONBOARDING } from "Renderer/constants/urls"
 import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
 
 const Troubleshooting = () => {
@@ -8,7 +8,7 @@ const Troubleshooting = () => {
 
   const onRetry = () => {
     // TODO: do some logic to retry connection
-    history.push(URL_MAIN.onboardingConnecting)
+    history.push(URL_ONBOARDING.connecting)
   }
   const onContact = () => {
     // TODO: Implement error modal (will be made in near future)

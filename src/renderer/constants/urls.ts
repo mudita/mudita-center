@@ -1,8 +1,4 @@
 export const URL_MAIN = {
-  onboarding: "/onboarding",
-  onboardingWelcome: "/onboarding/welcome",
-  onboardingConnecting: "/onboarding/connecting",
-  onboardingTroubleshooting: "/onboarding/troubleshooting",
   root: "/",
   news: "/news",
   overview: "/overview",
@@ -27,4 +23,11 @@ export const URL_TABS = {
   connection: "/connection",
   notifications: "/notifications",
   audioConversion: "/audio-conversion",
+}
+
+export const URL_ONBOARDING = {
+  root: "/onboarding",
+  welcome: "/onboarding/welcome",
+  connecting: "/onboarding/connecting",
+  troubleshooting: "/onboarding/troubleshooting",
 }
