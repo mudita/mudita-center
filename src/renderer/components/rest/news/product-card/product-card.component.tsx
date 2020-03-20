@@ -78,7 +78,7 @@ interface Props {
   imageSource?: string
   imageAlt?: string
   title?: string
-  subTitle?: string
+  subtitle?: string
   label?: string
   featuresElements?: string[]
   buttonLabel?: string
@@ -89,7 +89,7 @@ const ProductCard: FunctionComponent<Props> = ({
   imageSource,
   imageAlt,
   title,
-  subTitle,
+  subtitle,
   label,
   featuresElements,
   buttonLabel,
@@ -101,7 +101,7 @@ const ProductCard: FunctionComponent<Props> = ({
     <ProductCardDescription>
       <Text displayStyle={TextDisplayStyle.TertiaryHeading}>{title}</Text>
       <ProductCardSubTitle displayStyle={TextDisplayStyle.MediumLightText}>
-        {subTitle}
+        {subtitle}
       </ProductCardSubTitle>
       <ProductCardLabel displayStyle={TextDisplayStyle.SmallText}>
         {label}
@@ -123,6 +123,7 @@ const ProductCard: FunctionComponent<Props> = ({
         label={buttonLabel}
         href={url}
         target="_blank"
+        data-testid="button-link"
       />
     </ProductCardDescription>
   </ProductCardContainer>
