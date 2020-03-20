@@ -47,17 +47,6 @@ const ProductCardLabel = styled(Text)`
   box-shadow: 0 0.2rem 2rem 0 ${boxShadowColor("app")};
 `
 
-const ProductCardList = styled.ul`
-  margin: 1.6rem 0 0 0;
-  min-height: 19.2rem;
-  list-style: none;
-  padding-left: 2.4rem;
-`
-
-const ProductCardListText = styled(Text)`
-  margin-bottom: 1.6rem;
-`
-
 const ProductListElement = styled.li`
   position: relative;
   &::before {
@@ -71,6 +60,16 @@ const ProductListElement = styled.li`
     width: 0.5rem;
     border-radius: 50%;
     background-color: black;
+  }
+`
+
+const ProductCardList = styled.ul`
+  margin: 1.6rem 0 0 0;
+  min-height: 22rem;
+  list-style: none;
+  padding-left: 2.4rem;
+  ${ProductListElement}:not(:last-child) {
+    margin-bottom: 1.6rem;
   }
 `
 
@@ -111,11 +110,9 @@ const ProductCard: FunctionComponent<Props> = ({
         {featuresElements?.map((element, index) => {
           return (
             <ProductListElement key={index}>
-              <ProductCardListText
-                displayStyle={TextDisplayStyle.MediumFadedLightText}
-              >
+              <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
                 {element}
-              </ProductCardListText>
+              </Text>
             </ProductListElement>
           )
         })}
