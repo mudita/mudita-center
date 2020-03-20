@@ -2,9 +2,9 @@ import "@testing-library/jest-dom"
 import React from "react"
 import { MemoryRouter } from "react-router-dom"
 import Tab from "Renderer/components/rest/header/tab.component"
-import check from "Renderer/svg/check-icon.svg"
 import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const message = mockDefineMessages("view.name.phone")
 const currentLocation = "/phone"
@@ -12,7 +12,7 @@ const currentLocation = "/phone"
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>
-      <Tab icon={check} label={message} url={currentLocation} />
+      <Tab icon={Type.Check} label={message} url={currentLocation} />
     </MemoryRouter>
   )
   expect(container.firstChild).toMatchSnapshot()
@@ -21,7 +21,7 @@ test("matches snapshot", () => {
 test("has correct text content", () => {
   const { container } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>
-      <Tab icon={check} label={message} />
+      <Tab icon={Type.Check} label={message} />
     </MemoryRouter>
   )
   const tabNode = container.firstChild

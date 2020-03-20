@@ -1,5 +1,5 @@
 import startBackend from "Backend/bootstrap"
-import { app, BrowserWindow } from "electron"
+import { app, BrowserWindow, shell } from "electron"
 import * as path from "path"
 import * as url from "url"
 import { WINDOW_SIZE } from "./config"
@@ -62,6 +62,11 @@ const createWindow = async () => {
 
     autoupdate(win)
   }
+
+  win.webContents.on("new-window", (event, href) => {
+    event.preventDefault()
+    shell.openExternal(href)
+  })
 
   if (process.env.NODE_ENV !== "production") {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready

@@ -12,14 +12,13 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import Download from "Renderer/svg/download-white.svg"
-import Reload from "Renderer/svg/circle-arrow.svg"
 import {
   fontWeight,
   letterSpacing,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const TextInfo = styled(CardText)``
 
@@ -93,7 +92,7 @@ const System: FunctionComponent<SystemProps> = ({
               label={intl.formatMessage({
                 id: "view.name.overview.system.updateAction",
               })}
-              Icon={Reload}
+              Icon={Type.Reload}
               onClick={onUpdate}
             />
           ) : (
@@ -102,7 +101,7 @@ const System: FunctionComponent<SystemProps> = ({
               label={intl.formatMessage({
                 id: "view.name.overview.system.downloadAction",
               })}
-              Icon={Download}
+              Icon={Type.DownloadWhite}
               onClick={onDownload}
             />
           )
@@ -112,7 +111,7 @@ const System: FunctionComponent<SystemProps> = ({
             label={intl.formatMessage({
               id: "view.name.overview.system.checkForUpdates",
             })}
-            Icon={Reload}
+            Icon={Type.Reload}
             onClick={onUpdateCheck}
           />
         )}
