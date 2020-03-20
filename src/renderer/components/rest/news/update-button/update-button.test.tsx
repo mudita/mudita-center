@@ -8,7 +8,7 @@ test("calls function passed through props", async () => {
   const onUpdating = jest.fn()
 
   const { getByText } = renderWithThemeAndIntl(
-    <UpdateButtonComponent onUpdating={onUpdating} />
+    <UpdateButtonComponent onClick={onUpdating} />
   )
 
   const button = getByText("Update")
