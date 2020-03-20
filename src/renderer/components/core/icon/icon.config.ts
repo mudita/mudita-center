@@ -50,6 +50,7 @@ import Fail from "Renderer/svg/fail.svg"
 import VeryHighRange from "Renderer/svg/very-high-range.svg"
 import VeryLowBattery from "Renderer/svg/very-low-battery.svg"
 import VeryLowRange from "Renderer/svg/very-low-range.svg"
+import Info from "Renderer/svg/info.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -100,6 +101,7 @@ export enum Type {
   VeryLowBattery,
   VeryLowRange,
   VoiceRecorder,
+  Info,
   Download,
   DownloadWhite,
   Pure,
@@ -202,6 +204,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return VeryLowRange
     case Type.VoiceRecorder:
       return VoiceRecorder
+    case Type.Info:
+      return Info
     case Type.Download:
       return Download
     case Type.DownloadWhite:
