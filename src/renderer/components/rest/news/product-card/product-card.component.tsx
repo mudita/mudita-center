@@ -5,20 +5,16 @@ import Image from "Renderer/components/core/image/image.component"
 import {
   backgroundColor,
   borderRadius,
+  boxShadowColor,
 } from "Renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import {
-  Button100,
-  ButtonElement,
-} from "Renderer/components/core/button/stories/styled-elements"
+import { Button100 } from "Renderer/components/core/button/stories/styled-elements"
 import {
   DisplayStyle,
   Size,
 } from "Renderer/components/core/button/button.config"
-import { Type } from "Renderer/components/core/icon/icon.config"
-import Button from "Renderer/components/core/button/button.component"
 
 const ProductCardContainer = styled.div`
   width: 27.5rem;
@@ -29,15 +25,11 @@ const ProductCardImage = styled(Image)`
   height: 32.5rem;
   width: 100%;
   object-fit: contain;
-  margin-top: -8rem;
+  margin-top: -6rem;
 `
 
 const ProductCardDescription = styled.div`
-  padding: 0 2.4rem;
-`
-
-const ProductCardTitle = styled(Text)`
-  margin-top: 4rem;
+  padding: 4rem 2.4rem;
 `
 
 const ProductCardSubTitle = styled(Text)`
@@ -52,16 +44,34 @@ const ProductCardLabel = styled(Text)`
   white-space: nowrap;
   vertical-align: middle;
   border-radius: ${borderRadius("medium")};
-  box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 0.2rem 2rem 0 ${boxShadowColor("app")};
 `
 
 const ProductCardList = styled.ul`
-  margin-top: 1.6rem;
+  margin: 1.6rem 0 0 0;
   min-height: 19.2rem;
+  list-style: none;
+  padding-left: 2.4rem;
 `
 
-const ProductCardListElement = styled(Text)`
+const ProductCardListText = styled(Text)`
   margin-bottom: 1.6rem;
+`
+
+const ProductListElement = styled.li`
+  position: relative;
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -10%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 50%;
+    background-color: black;
+  }
 `
 
 interface Props {
@@ -83,15 +93,14 @@ const ProductCard: FunctionComponent<Props> = ({
   subTitle,
   label,
   featuresElements,
+  buttonLabel,
 }) => (
   <ProductCardContainer>
     <a href={url} target="_blank" data-testid="image-link">
       <ProductCardImage src={imageSource} alt={imageAlt} />
     </a>
     <ProductCardDescription>
-      <ProductCardTitle displayStyle={TextDisplayStyle.TertiaryHeading}>
-        {title}
-      </ProductCardTitle>
+      <Text displayStyle={TextDisplayStyle.TertiaryHeading}>{title}</Text>
       <ProductCardSubTitle displayStyle={TextDisplayStyle.MediumLightText}>
         {subTitle}
       </ProductCardSubTitle>
@@ -101,21 +110,21 @@ const ProductCard: FunctionComponent<Props> = ({
       <ProductCardList>
         {featuresElements?.map((element, index) => {
           return (
-            <li key={index}>
-              <ProductCardListElement
+            <ProductListElement key={index}>
+              <ProductCardListText
                 displayStyle={TextDisplayStyle.MediumFadedLightText}
               >
                 {element}
-              </ProductCardListElement>
-            </li>
+              </ProductCardListText>
+            </ProductListElement>
           )
         })}
       </ProductCardList>
       <Button100
         displayStyle={DisplayStyle.Primary}
         size={Size.FixedBig}
-        label="Click"
-        href="http://www.google.pl"
+        label={buttonLabel}
+        href={url}
         target="_blank"
       />
     </ProductCardDescription>

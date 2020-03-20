@@ -21,11 +21,13 @@ storiesOf("News|Product Card", module).add("Product Card", () => {
   return (
     <Container>
       <ProductCard
+        url={"https://www.mudita.com/"}
         imageSource={NickLewis}
         title="Nick Lewis Album"
         subTitle="Halfway to the begin"
         label="In development"
         featuresElements={listElements}
+        buttonLabel="Learn more"
       />
     </Container>
   )
