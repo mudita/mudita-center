@@ -3,13 +3,13 @@
 exports[`matches snapshot 1`] = `
 <div>
   <section
-    class="sc-fzozJi heyPMz"
+    class="sc-fzoLsD eJkQzV"
   >
     <div
-      class="sc-fzoLsD sc-fznyAO inJdhM"
+      class="sc-fzpans sc-fznKkj cDYALB"
     >
       <div
-        class="sc-fznKkj cSWNzP"
+        class="sc-fznZeY eVRWWb"
       >
         <h2
           class="sc-AxjAm esSvjJ"
@@ -24,18 +24,23 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <section
-      class="sc-Axmtr hhzESy sc-fzpans flLJLi"
+      class="sc-AxmLO kIxrzP sc-fzplWN bWZbFz"
     >
       <button
-        class="sc-AxhUy jiYFbt sc-AxmLO sc-fzplWN dpspgd"
+        class="sc-AxgMl fvnHkD sc-fzozJi sc-fznyAO egUIcV"
         size="2"
         type="button"
       >
-        <test-file-stub
-          classname="sc-AxgMl yaFjd"
-        />
+        <div
+          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          data-testid="icon-Reload"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
         <p
-          class="sc-AxjAm pMKRu sc-AxheI bhLjYx"
+          class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
         >
           Check for updates
         </p>

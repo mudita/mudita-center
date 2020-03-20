@@ -7,9 +7,9 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Dropdown, {
   DropdownPosition,
 } from "Renderer/components/core/dropdown/dropdown.component"
-import Upload from "Renderer/svg/upload.svg"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Button from "../button/button.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
@@ -44,7 +44,7 @@ test("renders dropdown", async () => {
         label="I open Google in new tab"
         href="http://www.google.pl"
         target="_blank"
-        Icon={Upload}
+        Icon={Type.Upload}
       />
     </Dropdown>
   )
@@ -70,7 +70,7 @@ test("renders children", async () => {
         label={childText}
         href="http://www.google.pl"
         target="_blank"
-        Icon={Upload}
+        Icon={Type.Upload}
       />
     </Dropdown>
   )
