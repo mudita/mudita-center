@@ -21,10 +21,7 @@ storiesOf("News|Update Button", module).add("Image", () => {
   }
   return (
     <Container>
-      <UpdateButtonComponent
-        onUpdating={performFakeUpdate}
-        isUpadating={state}
-      />
+      <UpdateButtonComponent onUpdating={performFakeUpdate} updated={state} />
     </Container>
   )
 })
