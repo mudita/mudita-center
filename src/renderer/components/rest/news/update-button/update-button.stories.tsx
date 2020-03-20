@@ -10,18 +10,18 @@ const Container = styled.div`
   align-items: center;
 `
 
-storiesOf("News|Update Button", module).add("Image", () => {
-  const [state, setState] = React.useState(false)
-
-  const performFakeUpdate = async () => {
-    setState(true)
-    setTimeout(() => {
-      setState(false)
-    }, 2000)
-  }
-  return (
-    <Container>
-      <UpdateButtonComponent onClick={performFakeUpdate} updated={state} />
-    </Container>
-  )
-})
+storiesOf("News|Update Button", module)
+  .add("Updating", () => {
+    return (
+      <Container>
+        <UpdateButtonComponent updated={true} />
+      </Container>
+    )
+  })
+  .add("Default state", () => {
+    return (
+      <Container>
+        <UpdateButtonComponent />
+      </Container>
+    )
+  })
