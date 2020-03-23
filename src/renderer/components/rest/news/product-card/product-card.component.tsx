@@ -15,10 +15,41 @@ import {
   DisplayStyle,
   Size,
 } from "Renderer/components/core/button/button.config"
+import { FormattedMessage } from "react-intl"
+import Icon from "Renderer/components/core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const ProductCardContainer = styled.div`
   width: 27.5rem;
   background-color: ${backgroundColor("light")};
+  position: relative;
+`
+
+const ProductCardNotification = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: -3%;
+  right: 0;
+  width: 20rem;
+  padding: 2.4rem 0;
+  box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("grey")};
+  border-radius: 0.4rem;
+  background-color: inherit;
+`
+
+const ProductCardNotificationIcon = styled(Icon)`
+  border-radius: 50%;
+  background-color: ${backgroundColor("blue")};
+  margin-right: 0.8rem;
+  svg {
+    height: 1rem;
+    width: 1rem;
+  }
+  path {
+    stroke: white;
+  }
 `
 
 const ProductCardImage = styled(Image)`
@@ -61,7 +92,7 @@ const ProductListElement = styled.li`
     height: 0.5rem;
     width: 0.5rem;
     border-radius: 50%;
-    background-color: black;
+    background-color: ${backgroundColor("dark")};
   }
 `
 
@@ -94,6 +125,12 @@ const ProductCard: FunctionComponent<Props> = ({
   buttonLabel,
 }) => (
   <ProductCardContainer>
+    <ProductCardNotification>
+      <ProductCardNotificationIcon type={Type.Check} height={2.1} width={2.1} />
+      <Text displayStyle={TextDisplayStyle.LargeText}>
+        <FormattedMessage id="view.name.news.productCardNotification" />
+      </Text>
+    </ProductCardNotification>
     <a href={url} target="_blank" data-testid="image-link">
       <ProductCardImage src={imageSource} alt={imageAlt} />
     </a>
