@@ -60,9 +60,8 @@ const ProductCardLink = styled.a`
 
 const ProductCardImage = styled(Image)`
   width: 100%;
-  max-width: 13.5rem;
   object-fit: contain;
-  margin: 7.7rem 0;
+  margin-bottom: 2.4rem;
 `
 
 const ProductCardDescription = styled.div`
