@@ -26,11 +26,11 @@ const rotateAnimation = css`
   animation: rotate ${transitionTime("slow")} infinite
     ${transitionTimingFunction("easeInOut")};
 `
-const UpdateButton = styled(Button)<{ isUpadating?: boolean }>`
+const UpdateButton = styled(Button)<{ updating?: boolean }>`
   display: flex;
   width: auto;
   svg {
-    ${({ isUpadating }) => isUpadating && rotateAnimation}
+    ${({ updating }) => updating && rotateAnimation}
   }
 `
 
