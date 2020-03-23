@@ -11,6 +11,7 @@ import {
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
+import { intl } from "Renderer/utils/intl"
 
 const rotateAnimation = css`
   @keyframes rotate {
@@ -43,7 +44,7 @@ const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
   ButtonProps> = ({
   onClick = noop,
   updating = false,
-  label = "Update",
+  label = intl.formatMessage({ id: "view.name.news.updateButtonLabel" }),
   ...rest
 }) => {
   return (
