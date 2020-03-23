@@ -13,3 +13,11 @@ test("should render offline text when offline prop is set to true", () => {
     intl.formatMessage({ id: "view.name.news.offlineText" })
   )
 })
+
+test("date is passed correctly and renders with correct format", () => {
+  const { container } = renderWithThemeAndIntl(
+    <LastUpdate offline date="2019-10-19T11:27:15.256Z" />
+  )
+
+  expect(container.firstChild).toHaveTextContent("Last updated: Oct 19, 2019")
+})
