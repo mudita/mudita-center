@@ -35,14 +35,14 @@ const UpdateButton = styled(Button)<{ isUpadating?: boolean }>`
 
 interface UpdateButtonProps {
   onClick?: () => void
-  updated?: boolean
+  updating?: boolean
   label?: string
 }
 
 const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
   ButtonProps> = ({
   onClick = noop,
-  updated = false,
+  updating = false,
   label = "Update",
   ...rest
 }) => {
@@ -53,8 +53,8 @@ const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
       target="_blank"
       Icon={Type.Refresh}
       onClick={onClick}
-      isUpadating={updated}
-      disabled={updated}
+      isUpadating={updating}
+      disabled={updating}
       {...rest}
     />
   )
