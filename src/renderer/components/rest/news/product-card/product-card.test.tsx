@@ -41,3 +41,10 @@ test("render correct amount of elements", () => {
 
   expect(liElements).toHaveLength(3)
 })
+
+test("renders notification when connected", () => {
+  const notificationId = "card-notification"
+  const { getByTestId } = renderWithThemeAndIntl(<ProductCard connected />)
+
+  expect(getByTestId(notificationId)).toBeInTheDocument()
+})

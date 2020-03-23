@@ -23,6 +23,7 @@ const ProductCardContainer = styled.div`
   width: 27.5rem;
   background-color: ${backgroundColor("light")};
   position: relative;
+  border-radius: ${borderRadius("medium")};
 `
 
 const ProductCardNotification = styled.div`
@@ -133,7 +134,7 @@ const ProductCard: FunctionComponent<Props> = ({
 }) => (
   <ProductCardContainer>
     {connected && (
-      <ProductCardNotification>
+      <ProductCardNotification data-testid="card-notification">
         <ProductCardNotificationIcon
           type={Type.Check}
           height={2.1}
