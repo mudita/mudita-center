@@ -52,15 +52,20 @@ const ProductCardNotificationIcon = styled(Icon)`
   }
 `
 
+const ProductCardLink = styled.a`
+  display: flex;
+  justify-content: center;
+`
+
 const ProductCardImage = styled(Image)`
-  height: 32.5rem;
   width: 100%;
+  max-width: 13.5rem;
   object-fit: contain;
-  margin-top: -6rem;
+  margin: 7.7rem 0;
 `
 
 const ProductCardDescription = styled.div`
-  padding: 4rem 2.4rem;
+  padding: 0 2.4rem 2.4rem 2.4rem;
 `
 
 const ProductCardSubTitle = styled(Text)`
@@ -97,8 +102,8 @@ const ProductListElement = styled.li`
 `
 
 const ProductCardList = styled.ul`
-  margin: 1.6rem 0 0 0;
-  min-height: 21rem;
+  margin: 1.6rem 0 5.6rem 0;
+  min-height: 19.2rem;
   list-style: none;
   padding-left: 2.4rem;
 `
@@ -112,6 +117,7 @@ interface Props {
   label?: string
   featuresElements?: string[]
   buttonLabel?: string
+  connected?: boolean
 }
 
 const ProductCard: FunctionComponent<Props> = ({
@@ -123,17 +129,24 @@ const ProductCard: FunctionComponent<Props> = ({
   label,
   featuresElements,
   buttonLabel,
+  connected = false,
 }) => (
   <ProductCardContainer>
-    <ProductCardNotification>
-      <ProductCardNotificationIcon type={Type.Check} height={2.1} width={2.1} />
-      <Text displayStyle={TextDisplayStyle.LargeText}>
-        <FormattedMessage id="view.name.news.productCardNotification" />
-      </Text>
-    </ProductCardNotification>
-    <a href={url} target="_blank" data-testid="image-link">
+    {connected && (
+      <ProductCardNotification>
+        <ProductCardNotificationIcon
+          type={Type.Check}
+          height={2.1}
+          width={2.1}
+        />
+        <Text displayStyle={TextDisplayStyle.LargeText}>
+          <FormattedMessage id="view.name.news.productCardNotification" />
+        </Text>
+      </ProductCardNotification>
+    )}
+    <ProductCardLink href={url} target="_blank" data-testid="image-link">
       <ProductCardImage src={imageSource} alt={imageAlt} />
-    </a>
+    </ProductCardLink>
     <ProductCardDescription>
       <Text displayStyle={TextDisplayStyle.TertiaryHeading}>{title}</Text>
       <ProductCardSubTitle displayStyle={TextDisplayStyle.MediumLightText}>
