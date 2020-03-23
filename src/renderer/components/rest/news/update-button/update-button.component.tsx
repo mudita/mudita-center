@@ -51,7 +51,6 @@ const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
     <UpdateButton
       displayStyle={DisplayStyle.Link2}
       label={label}
-      target="_blank"
       Icon={Type.Refresh}
       onClick={onClick}
       isUpadating={updating}
