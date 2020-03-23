@@ -40,7 +40,12 @@ interface UpdateButtonProps {
 }
 
 const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
-  ButtonProps> = ({ onClick = noop, updated = false, label = "Update" }) => {
+  ButtonProps> = ({
+  onClick = noop,
+  updated = false,
+  label = "Update",
+  ...rest
+}) => {
   return (
     <UpdateButton
       displayStyle={DisplayStyle.Link2}
@@ -50,6 +55,7 @@ const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
       onClick={onClick}
       isUpadating={updated}
       disabled={updated}
+      {...rest}
     />
   )
 }
