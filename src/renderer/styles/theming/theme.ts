@@ -123,6 +123,7 @@ const theme = {
     faster: "0.3s",
     quick: "250ms",
     veryQuick: "0.15s",
+    slow: "1s",
   },
   transitionTimingFunction: {
     standard: "linear",
