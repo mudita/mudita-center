@@ -38,17 +38,19 @@ const ProductCardSubTitle = styled(Text)`
 
 const ProductCardLabel = styled(Text)`
   display: inline-block;
-  color: inherit;
-  padding: 0.8rem 3.5rem;
+  width: 12.8rem;
+  padding: 0.8rem 0;
   margin-top: 1.6rem;
-  white-space: nowrap;
-  vertical-align: middle;
+  text-align: center;
   border-radius: ${borderRadius("medium")};
   box-shadow: 0 0.2rem 2rem 0 ${boxShadowColor("app")};
 `
 
 const ProductListElement = styled.li`
   position: relative;
+  &:not(:last-child) {
+    margin-bottom: 1.6rem;
+  }
   &::before {
     content: "";
     display: block;
@@ -65,12 +67,9 @@ const ProductListElement = styled.li`
 
 const ProductCardList = styled.ul`
   margin: 1.6rem 0 0 0;
-  min-height: 22rem;
+  min-height: 21rem;
   list-style: none;
   padding-left: 2.4rem;
-  ${ProductListElement}:not(:last-child) {
-    margin-bottom: 1.6rem;
-  }
 `
 
 interface Props {
@@ -103,7 +102,10 @@ const ProductCard: FunctionComponent<Props> = ({
       <ProductCardSubTitle displayStyle={TextDisplayStyle.MediumLightText}>
         {subtitle}
       </ProductCardSubTitle>
-      <ProductCardLabel displayStyle={TextDisplayStyle.SmallText}>
+      <ProductCardLabel
+        displayStyle={TextDisplayStyle.SmallText}
+        element="span"
+      >
         {label}
       </ProductCardLabel>
       <ProductCardList>
