@@ -10,7 +10,7 @@ interface Props {
   date: string
 }
 
-const LastUpdate: FunctionComponent<Props> = ({ offline, date }) => (
+const LastUpdate: FunctionComponent<Props> = ({ offline = false, date }) => (
   <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
     {offline && <FormattedMessage id="view.name.news.offlineText" />}
     <FormattedMessage id="view.name.news.lastUpdate" />
