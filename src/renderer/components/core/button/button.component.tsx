@@ -17,7 +17,7 @@ import {
   StyledNavLink,
 } from "./button.styled.elements"
 
-interface Props {
+export interface Props {
   nav?: boolean
   exact?: boolean
   disabled?: boolean
