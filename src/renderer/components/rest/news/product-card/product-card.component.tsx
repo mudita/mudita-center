@@ -49,7 +49,7 @@ const ProductCardNotificationIcon = styled(Icon)`
     width: 1rem;
   }
   path {
-    stroke: white;
+    stroke: ${backgroundColor("light")};
   }
 `
 
