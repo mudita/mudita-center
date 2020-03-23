@@ -53,7 +53,7 @@ const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
       label={label}
       Icon={Type.Refresh}
       onClick={onClick}
-      isUpadating={updating}
+      updating={updating}
       disabled={updating}
       {...rest}
     />
