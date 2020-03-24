@@ -7,19 +7,23 @@ import { FormattedDate, FormattedMessage } from "react-intl"
 
 interface Props {
   offline?: boolean
-  date: string
+  date?: string
 }
 
 const LastUpdate: FunctionComponent<Props> = ({ offline = false, date }) => (
   <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
     {offline && <FormattedMessage id="view.name.news.offlineText" />}
-    <FormattedMessage id="view.name.news.lastUpdate" />
-    <FormattedDate
-      value={new Date(date)}
-      year="numeric"
-      month="short"
-      day="2-digit"
-    />
+    {date && (
+      <>
+        <FormattedMessage id="view.name.news.lastUpdate" />
+        <FormattedDate
+          value={new Date(date)}
+          year="numeric"
+          month="short"
+          day="2-digit"
+        />
+      </>
+    )}
   </Text>
 )
 

@@ -26,3 +26,10 @@ storiesOf("News|Last Update", module)
       </Container>
     )
   })
+  .add("First use of app without internet connection", () => {
+    return (
+      <Container>
+        <LastUpdate offline />
+      </Container>
+    )
+  })

@@ -21,3 +21,11 @@ test("date is passed correctly and renders with correct format", () => {
 
   expect(container).toHaveTextContent("Last updated: Oct 19, 2019")
 })
+
+test("when date is not provided, formatted date is not displayed", () => {
+  const { container } = renderWithThemeAndIntl(<LastUpdate offline />)
+  expect(container.textContent).toBe(
+    intl.formatMessage({ id: "view.name.news.offlineText" })
+  )
+  expect(container).not.toHaveTextContent("Last updated: Oct 19, 2019")
+})
