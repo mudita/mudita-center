@@ -31,6 +31,7 @@ import MuditaLogoWithText from "Renderer/svg/mudita_logo.svg"
 import Music from "Renderer/svg/music.svg"
 import NoBattery from "Renderer/svg/no-battery.svg"
 import NoRange from "Renderer/svg/no-range.svg"
+import Refresh from "Renderer/svg/refresh.svg"
 import Sim from "Renderer/svg/sim.svg"
 import Upload from "Renderer/svg/upload.svg"
 import Download from "Renderer/svg/download.svg"
@@ -86,6 +87,7 @@ export enum Type {
   MediumRange,
   NoBattery,
   NoRange,
+  Refresh,
   Sim,
   Calls,
   Connection,
@@ -174,6 +176,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return NoBattery
     case Type.NoRange:
       return NoRange
+    case Type.Refresh:
+      return Refresh
     case Type.Sim:
       return Sim
     case Type.Calls:
