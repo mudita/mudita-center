@@ -5,17 +5,18 @@ import { useLocation } from "react-router"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { views } from "Renderer/constants/views"
+import { View, views } from "Renderer/constants/views"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import {
   backgroundColor,
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
+import Button from "Renderer/components/core/button/button.component"
 
 const HeaderWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  justify-content: space-evenly;
   background-color: ${backgroundColor("light")};
   border-bottom: 0.1rem solid ${borderColor("app")};
 `
@@ -28,9 +29,15 @@ const HeaderText = styled(Text)`
   margin: 2.4rem 0 1.5rem 4rem;
 `
 
+const HeaderButton = styled(Button)`
+  align-self: center;
+  margin-right: 3rem;
+`
+
 const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
   const location = useLocation()
   const [currentLocation, setCurrentLocation] = useState()
+  const [renderButton, setRenderButton] = useState(false)
   useEffect(() => {
     const pathname = location.pathname
     const currentMenuElementName = Object.keys(views).find(
@@ -41,7 +48,17 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
         views[currentMenuElementName as keyof typeof views]
       setCurrentLocation(currentMenuElement.label)
     }
+
+    console.log(currentMenuElementName)
+
+    if (currentMenuElementName === View.News) {
+      setRenderButton(true)
+    } else {
+      setRenderButton(false)
+    }
   }, [location])
+
+  console.log(renderButton)
   return (
     <HeaderWrapper>
       <HeaderText
@@ -53,7 +70,13 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
         React.cloneElement(middleComponent, {
           currentLocation: location.pathname,
         })}
-      <div />
+      {renderButton && (
+        <HeaderButton
+          label={"lala"}
+          href={"https://www.google.com/"}
+          target="_blank"
+        />
+      )}
     </HeaderWrapper>
   )
 }
