@@ -112,7 +112,7 @@ const ProductCardButton = styled(Button)`
   width: 100%;
 `
 
-interface Props {
+export interface Props {
   url?: string
   imageSource?: string
   imageAlt?: string
