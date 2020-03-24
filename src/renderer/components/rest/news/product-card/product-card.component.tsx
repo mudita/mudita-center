@@ -135,7 +135,7 @@ const ProductCard: FunctionComponent<Props> = ({
   buttonLabel,
   connected = false,
 }) => (
-  <ProductCardContainer>
+  <ProductCardContainer data-testid="product-card">
     {connected && (
       <ProductCardNotification data-testid="card-notification">
         <ProductCardNotificationIcon
