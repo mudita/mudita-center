@@ -58,6 +58,8 @@ const theme = {
       inputDark: grey1,
       accent: grey6,
       primaryDark: grey6,
+      avatarDark: grey6,
+      avatarLight: white,
     },
     border: {
       app: grey9,
