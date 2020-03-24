@@ -10,7 +10,7 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { Button100 } from "Renderer/components/core/button/stories/styled-elements"
+import Button from "Renderer/components/core/button/button.component"
 import {
   DisplayStyle,
   Size,
@@ -108,6 +108,10 @@ const ProductCardList = styled.ul`
   padding-left: 2.4rem;
 `
 
+const ProductCardButton = styled(Button)`
+  width: 100%;
+`
+
 interface Props {
   url?: string
   imageSource?: string
@@ -169,7 +173,7 @@ const ProductCard: FunctionComponent<Props> = ({
           )
         })}
       </ProductCardList>
-      <Button100
+      <ProductCardButton
         displayStyle={DisplayStyle.Primary}
         size={Size.FixedBig}
         label={buttonLabel}

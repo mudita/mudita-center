@@ -21,9 +21,9 @@ test("title, subtitle and label receive correct props values", () => {
     <ProductCard title={title} subtitle={subtitle} label={label} />
   )
 
-  expect(getByText(title)).toHaveTextContent(title)
-  expect(getByText(subtitle)).toHaveTextContent(subtitle)
-  expect(getByText(label)).toHaveTextContent(label)
+  expect(getByText(title)).toBeInTheDocument()
+  expect(getByText(subtitle)).toBeInTheDocument()
+  expect(getByText(label)).toBeInTheDocument()
 })
 
 test("render correct amount of elements", () => {
