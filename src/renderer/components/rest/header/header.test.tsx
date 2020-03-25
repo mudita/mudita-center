@@ -35,3 +35,25 @@ test("header should render correct pathname", () => {
   )
   expect(getByTestId("location")).toHaveTextContent("Overview")
 })
+
+test("button renders on news page", () => {
+  const currentLocation = "/news"
+  const buttonsIconId = "icon-More"
+  const { getByTestId } = renderWithThemeAndIntl(
+    <MemoryRouter initialEntries={[currentLocation]}>
+      <Header middleComponent={<Tabs currentLocation={currentLocation} />} />
+    </MemoryRouter>
+  )
+  expect(getByTestId(buttonsIconId)).toBeInTheDocument()
+})
+
+test("button doesnt render on other pages than news", () => {
+  const currentLocation = "/phone"
+  const buttonsIconId = "icon-More"
+  const { queryByTestId } = renderWithThemeAndIntl(
+    <MemoryRouter initialEntries={[currentLocation]}>
+      <Header middleComponent={<Tabs currentLocation={currentLocation} />} />
+    </MemoryRouter>
+  )
+  expect(queryByTestId(buttonsIconId)).not.toBeInTheDocument()
+})
