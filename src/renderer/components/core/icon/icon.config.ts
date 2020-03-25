@@ -26,6 +26,7 @@ import MenuPhone from "Renderer/svg/menu_phone.svg"
 import MenuSettings from "Renderer/svg/menu_settings.svg"
 import MenuTethering from "Renderer/svg/menu_tethering.svg"
 import MenuTools from "Renderer/svg/menu_tools.svg"
+import More from "Renderer/svg/more.svg"
 import MuditaLogo from "Renderer/svg/mudita.svg"
 import MuditaLogoWithText from "Renderer/svg/mudita_logo.svg"
 import Music from "Renderer/svg/music.svg"
@@ -80,6 +81,7 @@ export enum Type {
   MenuTethering,
   MenuTools,
   Message,
+  More,
   MuditaLogo,
   MuditaLogoWithText,
   Music,
@@ -166,6 +168,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return MenuTools
     case Type.Message:
       return Message
+    case Type.More:
+      return More
     case Type.MuditaLogo:
       return MuditaLogo
     case Type.MuditaLogoWithText:

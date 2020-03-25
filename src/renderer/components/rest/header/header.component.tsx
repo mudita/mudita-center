@@ -13,6 +13,8 @@ import {
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
 import Button from "Renderer/components/core/button/button.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import { intl } from "Renderer/utils/intl"
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -32,6 +34,10 @@ const HeaderText = styled(Text)`
 const HeaderButton = styled(Button)`
   align-self: center;
   margin-right: 3rem;
+  svg {
+    height: 1.4rem;
+    width: 1.4rem;
+  }
 `
 
 const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
@@ -49,16 +55,12 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
       setCurrentLocation(currentMenuElement.label)
     }
 
-    console.log(currentMenuElementName)
-
     if (currentMenuElementName === View.News) {
       setRenderButton(true)
     } else {
       setRenderButton(false)
     }
   }, [location])
-
-  console.log(renderButton)
   return (
     <HeaderWrapper>
       <HeaderText
@@ -72,8 +74,11 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
         })}
       {renderButton && (
         <HeaderButton
-          label={"lala"}
-          href={"https://www.google.com/"}
+          Icon={Type.More}
+          label={intl.formatMessage({
+            id: "view.name.news.moreNewsButtonLabel",
+          })}
+          href={"https://www.mudita.com/"}
           target="_blank"
         />
       )}
