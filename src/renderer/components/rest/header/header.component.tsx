@@ -17,8 +17,8 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { intl } from "Renderer/utils/intl"
 
 const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-evenly;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   background-color: ${backgroundColor("light")};
   border-bottom: 0.1rem solid ${borderColor("app")};
 `
@@ -33,6 +33,7 @@ const HeaderText = styled(Text)`
 
 const HeaderButton = styled(Button)`
   align-self: center;
+  justify-self: right;
   margin-right: 3rem;
   svg {
     height: 1.4rem;
