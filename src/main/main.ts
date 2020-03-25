@@ -8,6 +8,7 @@ import createDownloadListenerRegistrar from "App/main/functions/create-download-
 import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
+import registerSettingsListeners from "App/main/functions/register-settings-listeners"
 
 let win: BrowserWindow | null
 
@@ -47,6 +48,7 @@ const createWindow = async () => {
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()
+  registerSettingsListeners()
 
   if (process.env.NODE_ENV !== "production") {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
