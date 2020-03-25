@@ -3,13 +3,17 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import ProductCard from "Renderer/components/rest/news/product-card/product-card.component"
 
-test("image and button receive correct url", () => {
+test("image, title and button receive correct url", () => {
   const linkId = "image-link"
   const buttonId = "button-link"
   const url = "https://mudita.com/"
-  const { getByTestId } = renderWithThemeAndIntl(<ProductCard url={url} />)
+  const titleId = "title-link"
+  const { getByTestId } = renderWithThemeAndIntl(
+    <ProductCard url={url} title="Example title" />
+  )
   expect(getByTestId(linkId)).toHaveAttribute("href", url)
   expect(getByTestId(buttonId)).toHaveAttribute("href", url)
+  expect(getByTestId(titleId)).toHaveAttribute("href", url)
 })
 
 test("title, subtitle and label receive correct props values", () => {

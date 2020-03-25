@@ -152,7 +152,9 @@ const ProductCard: FunctionComponent<Props> = ({
       <ProductCardImage src={imageSource} alt={imageAlt} />
     </ProductCardLink>
     <ProductCardDescription>
-      <Text displayStyle={TextDisplayStyle.TertiaryHeading}>{title}</Text>
+      <a href={url} target="_blank" data-testid="title-link">
+        <Text displayStyle={TextDisplayStyle.TertiaryHeading}>{title}</Text>
+      </a>
       <ProductCardSubTitle displayStyle={TextDisplayStyle.MediumLightText}>
         {subtitle}
       </ProductCardSubTitle>
