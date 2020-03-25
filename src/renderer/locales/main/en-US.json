@@ -16,7 +16,7 @@
   "view.name.music.allSongs.selectionsNumber": "{num, plural, =-1 {All Songs} one {# Song} other {# Songs}} selected",
   "view.name.music.playlist": "Playlist",
   "view.name.music.playlists.selectionsNumber": "{num, plural, =-1 {All Playlists} one {# Playlist} other {# Playlists}} selected",
-  "view.name.news": "News",
+  "view.name.news": "Mudita News",
   "view.name.news.cardCommunityCommentsLoading": "Loading comments...",
   "view.name.news.cardCommunityComments": "{count, plural, =0 {Be the first to comment} one {# Comment} other {# Comments}}",
   "view.name.news.updateButtonLabel": "Update",
