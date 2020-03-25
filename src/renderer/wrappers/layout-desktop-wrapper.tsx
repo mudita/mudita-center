@@ -33,7 +33,7 @@ const ViewWrapper = styled.div`
   overflow: auto;
 `
 
-const HeaderTabs = styled(Tabs)`
+export const HeaderTabs = styled(Tabs)`
   margin: 0 auto;
 `
 
