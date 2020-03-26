@@ -1,24 +1,19 @@
 import { Dispatch } from "Renderer/store"
-import { Store } from "Renderer/models/basic-info/interfaces"
-
-const initialStateValue = {
-  online: false,
-}
+import { Store } from "Renderer/models/network-status/network-status.interface"
 
 export default {
-  state: initialStateValue,
+  state: {},
   reducers: {
     update(state: Store, payload: any) {
       return { ...state, ...payload }
     },
   },
   effects: (dispatch: Dispatch) => ({
-    async getOnlineStatus() {
-      console.log("lala")
-      // const onlineStatus = window.navigator.onLine
-      // dispatch.networkStatus.update({
-      //   online: onlineStatus,
-      // })
+    updateOnlineStatus() {
+      const online = navigator.onLine
+      dispatch.networkStatus.update({
+        online,
+      })
     },
   }),
 }

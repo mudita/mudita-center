@@ -2,17 +2,16 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import { useEffect } from "react"
 
 interface Props {
-  getOnlineStatus: () => void
+  updateOnlineStatus: () => void
 }
 
 const NetworkStatusChecker: FunctionComponent<Props> = ({
-  getOnlineStatus,
+  updateOnlineStatus,
 }) => {
   useEffect(() => {
-    const timer = setTimeout(() => {
-      getOnlineStatus()
-    }, 1000)
-    return () => clearTimeout(timer)
+    updateOnlineStatus()
+    window.addEventListener("online", updateOnlineStatus)
+    window.addEventListener("offline", updateOnlineStatus)
   }, [])
   return null
 }
