@@ -2,8 +2,13 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import { MemoryRouter } from "react-router"
 import styled from "styled-components"
-import { HeaderTabs } from "Renderer/wrappers/layout-desktop-wrapper"
+import {
+  HeaderButton,
+  HeaderTabs,
+} from "Renderer/wrappers/layout-desktop-wrapper"
 import Header from "Renderer/components/rest/header/header.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import { intl } from "Renderer/utils/intl"
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +36,19 @@ storiesOf("Components|Header", module)
   .add("With button", () => {
     return (
       <Container>
-        <Header middleComponent={<HeaderTabs currentLocation={"/news"} />} />
+        <Header
+          middleComponent={<HeaderTabs currentLocation={"/news"} />}
+          button={
+            <HeaderButton
+              Icon={Type.More}
+              label={intl.formatMessage({
+                id: "view.name.news.moreNewsButtonLabel",
+              })}
+              href={"https://www.mudita.com/"}
+              target="_blank"
+            />
+          }
+        />
       </Container>
     )
   })

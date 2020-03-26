@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useState } from "react"
+import { ReactElement, useState } from "react"
 import { useEffect } from "react"
 import { useLocation } from "react-router"
 import Text, {
@@ -12,9 +12,6 @@ import {
   backgroundColor,
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
-import Button from "Renderer/components/core/button/button.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
-import { intl } from "Renderer/utils/intl"
 
 const HeaderWrapper = styled.div`
   display: grid;
@@ -25,23 +22,17 @@ const HeaderWrapper = styled.div`
 
 interface HeaderProps {
   middleComponent?: any
+  button?: ReactElement
 }
 
 const HeaderText = styled(Text)`
   margin: 2.4rem 0 1.5rem 4rem;
 `
 
-const HeaderButton = styled(Button)`
-  align-self: center;
-  justify-self: right;
-  margin-right: 3rem;
-  svg {
-    height: 1.4rem;
-    width: 1.4rem;
-  }
-`
-
-const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
+const Header: FunctionComponent<HeaderProps> = ({
+  middleComponent,
+  button,
+}) => {
   const location = useLocation()
   const [currentLocation, setCurrentLocation] = useState()
   const [renderButton, setRenderButton] = useState(false)
@@ -73,16 +64,7 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
         React.cloneElement(middleComponent, {
           currentLocation: location.pathname,
         })}
-      {renderButton && (
-        <HeaderButton
-          Icon={Type.More}
-          label={intl.formatMessage({
-            id: "view.name.news.moreNewsButtonLabel",
-          })}
-          href={"https://www.mudita.com/"}
-          target="_blank"
-        />
-      )}
+      {renderButton && button}
     </HeaderWrapper>
   )
 }

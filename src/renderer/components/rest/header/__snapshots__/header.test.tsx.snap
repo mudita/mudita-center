@@ -2,26 +2,26 @@
 
 exports[`matches snapshot with tabs 1`] = `
 <div
-  class="sc-AxmLO kVLvIs"
+  class="sc-AxirZ kzGTef"
 >
   <h3
-    class="sc-AxjAm liSvtH sc-fzozJi cjxhJv"
+    class="sc-AxjAm liSvtH sc-AxiKw gnMQvJ"
     data-testid="location"
   >
     Phone
   </h3>
   <div
-    class="sc-fzpans kLztrW"
+    class="sc-fzoLsD fekCvi"
   >
     <a
       aria-current="page"
-      class="sc-AxiKw WIVtA sc-fzplWN bKyPjq active"
+      class="sc-AxhUy cCyBop sc-fzpans hdyjEv active"
       displaystyle="9"
       href="/phone"
       size="2"
     >
       <div
-        class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        class="sc-AxhCb heipDb sc-AxmLO gRomDR"
         data-testid="icon-Contacts"
       >
         <test-file-stub
@@ -29,19 +29,19 @@ exports[`matches snapshot with tabs 1`] = `
         />
       </div>
       <p
-        class="sc-AxjAm eGfSTk sc-Axmtr fhTfIi"
+        class="sc-AxjAm eGfSTk sc-fzozJi bcHpXu"
       >
         Contacts
       </p>
     </a>
     <a
-      class="sc-AxiKw WIVtA sc-fzplWN bKyPjq"
+      class="sc-AxhUy cCyBop sc-fzpans hdyjEv"
       displaystyle="9"
       href="/phone/calls"
       size="2"
     >
       <div
-        class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        class="sc-AxhCb heipDb sc-AxmLO gRomDR"
         data-testid="icon-Calls"
       >
         <test-file-stub
@@ -49,19 +49,19 @@ exports[`matches snapshot with tabs 1`] = `
         />
       </div>
       <p
-        class="sc-AxjAm eGfSTk sc-Axmtr fhTfIi"
+        class="sc-AxjAm eGfSTk sc-fzozJi bcHpXu"
       >
         Calls
       </p>
     </a>
     <a
-      class="sc-AxiKw WIVtA sc-fzplWN bKyPjq"
+      class="sc-AxhUy cCyBop sc-fzpans hdyjEv"
       displaystyle="9"
       href="/phone/dial"
       size="2"
     >
       <div
-        class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+        class="sc-AxhCb heipDb sc-AxmLO gRomDR"
         data-testid="icon-Dial"
       >
         <test-file-stub
@@ -69,7 +69,7 @@ exports[`matches snapshot with tabs 1`] = `
         />
       </div>
       <p
-        class="sc-AxjAm eGfSTk sc-Axmtr fhTfIi"
+        class="sc-AxjAm eGfSTk sc-fzozJi bcHpXu"
       >
         Dial
       </p>
@@ -80,16 +80,16 @@ exports[`matches snapshot with tabs 1`] = `
 
 exports[`matches snapshot without tabs 1`] = `
 <div
-  class="sc-AxmLO kVLvIs"
+  class="sc-AxirZ kzGTef"
 >
   <h3
-    class="sc-AxjAm liSvtH sc-fzozJi cjxhJv"
+    class="sc-AxjAm liSvtH sc-AxiKw gnMQvJ"
     data-testid="location"
   >
     Overview
   </h3>
   <div
-    class="sc-fzpans kLztrW"
+    class="sc-fzoLsD fekCvi"
   />
 </div>
 `;
