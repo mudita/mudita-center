@@ -16,6 +16,17 @@ export enum AvatarSize {
   Big = 4.8,
 }
 
+const getSize = (size: AvatarSize) => {
+  switch (size) {
+    case AvatarSize.Small:
+      return 3.2
+    case AvatarSize.Medium:
+      return 4
+    case AvatarSize.Big:
+      return 4.8
+  }
+}
+
 const AvatarImage = styled(Image)`
   object-fit: contain;
   width: 100%;
@@ -26,8 +37,8 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${({ size }) => size}rem;
-  height: ${({ size }) => size}rem;
+  width: ${({ size }) => getSize(size)}rem;
+  height: ${({ size }) => getSize(size)}rem;
   overflow: hidden;
   border-radius: 50%;
   background-color: ${backgroundColor("avatarDark")};
