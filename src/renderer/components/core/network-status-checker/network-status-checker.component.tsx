@@ -12,6 +12,10 @@ const NetworkStatusChecker: FunctionComponent<Props> = ({
     updateOnlineStatus()
     window.addEventListener("online", updateOnlineStatus)
     window.addEventListener("offline", updateOnlineStatus)
+    return () => {
+      window.addEventListener("online", updateOnlineStatus)
+      window.addEventListener("offline", updateOnlineStatus)
+    }
   }, [])
   return null
 }
