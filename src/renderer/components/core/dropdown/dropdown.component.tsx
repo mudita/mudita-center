@@ -4,40 +4,27 @@ import transition from "Renderer/styles/functions/transition"
 import {
   backgroundColor,
   boxShadowColor,
+  zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import useOutsideClick from "Renderer/utils/hooks/useOutsideClick"
 import styled, { css } from "styled-components"
 
-export enum DropdownPosition {
-  Right,
-  Left,
-}
-
-const getDropdownPositionStyles = (position: DropdownPosition) => {
-  if (position === DropdownPosition.Right) {
-    return css`
-      right: 0;
-      margin-top: 1rem;
-    `
-  }
-  return css`
-    margin-top: 0.5rem;
-  `
-}
-
 interface Props {
   toggler: ReactNode
-  dropdownPosition: DropdownPosition
+  leftPosition?: boolean
 }
 
-const DropdownWrapper = styled.div`
+const DropdownWrapper = styled.div<{ visible: boolean }>`
   position: relative;
+  z-index: ${({ visible }) => (visible ? zIndex("dropdown") : 0)};
+  overflow: ${({ visible }) => (visible ? "initial" : "hidden")};
 `
 
 const DropdownList = styled.ul<{
   visible: boolean
-  dropdownPosition: DropdownPosition
+  leftPosition?: boolean
+  reversedPosition: boolean
 }>`
   position: absolute;
   list-style-type: none;
@@ -49,29 +36,60 @@ const DropdownList = styled.ul<{
   pointer-events: ${({ visible }) => (visible ? "auto" : "none")};
   opacity: ${({ visible }) => (visible ? 1 : 0)};
   transition: ${transition("opacity", undefined, "ease")};
-  ${({ dropdownPosition }) => getDropdownPositionStyles(dropdownPosition)}
+  ${({ leftPosition }) =>
+    leftPosition
+      ? css`
+          left: 0;
+        `
+      : css`
+          right: 0;
+        `};
+  ${({ reversedPosition }) =>
+    reversedPosition
+      ? css`
+          bottom: 100%;
+          margin-bottom: 1rem;
+        `
+      : css`
+          top: 100%;
+          margin-top: 1rem;
+        `};
 `
 
 const Dropdown: FunctionComponent<Props> = ({
   toggler,
   children,
-  dropdownPosition = DropdownPosition.Right,
+  leftPosition,
 }) => {
   const [visible, setVisible] = useState(false)
-  const ref = useRef(null)
+  const [reversedPosition, setReversedPosition] = useState(false)
+  const ref = useRef<HTMLUListElement>(null)
+
   useOutsideClick(ref, () => {
     if (visible) {
       setVisible(false)
+      setReversedPosition(false)
     }
   })
 
+  const calculateVerticalPosition = () => {
+    if (ref.current) {
+      const box = (ref.current as HTMLUListElement).getBoundingClientRect()
+      setReversedPosition(box.bottom > window.innerHeight)
+    }
+  }
+
   return (
-    <DropdownWrapper>
+    <DropdownWrapper visible={visible}>
       {React.cloneElement(toggler as React.ReactElement, {
-        onClick: () => setVisible(!visible),
+        onClick: () => {
+          calculateVerticalPosition()
+          setVisible(!visible)
+        },
       })}
       <DropdownList
-        dropdownPosition={dropdownPosition}
+        reversedPosition={reversedPosition}
+        leftPosition={leftPosition}
         ref={ref}
         visible={visible}
         data-testid="dropdown"

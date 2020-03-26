@@ -2,9 +2,7 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DropdownButton } from "Renderer/components/core/dropdown/dropdown-button.styled"
-import Dropdown, {
-  DropdownPosition,
-} from "Renderer/components/core/dropdown/dropdown.component"
+import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import styled from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
@@ -18,10 +16,7 @@ storiesOf("Components|Dropdown", module)
   .add("Right", () => {
     return (
       <Wrapper>
-        <Dropdown
-          dropdownPosition={DropdownPosition.Right}
-          toggler={<ButtonComponent label={"Click dropdown"} />}
-        >
+        <Dropdown toggler={<ButtonComponent label={"Click dropdown"} />}>
           <DropdownButton
             label="I open Google in new tab"
             href="http://www.google.pl"
@@ -48,7 +43,7 @@ storiesOf("Components|Dropdown", module)
     return (
       <Wrapper>
         <Dropdown
-          dropdownPosition={DropdownPosition.Left}
+          leftPosition
           toggler={<ButtonComponent label={"Click dropdown"} />}
         >
           <DropdownButton
