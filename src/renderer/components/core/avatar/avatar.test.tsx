@@ -5,6 +5,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { AvatarProps } from "Renderer/components/core/avatar/avatar.interface"
 import Avatar, {
   AvatarSize,
+  getSize,
 } from "Renderer/components/core/avatar/avatar.component"
 import { pieknaPaniJPG } from "Renderer/components/core/avatar/avatar.stories"
 
@@ -15,34 +16,22 @@ const renderAvatar = ({ ...props }: Partial<AvatarProps> = {}) => {
   }
 }
 
+const sizeTest = (size: AvatarSize) => {
+  const { container } = renderAvatar({ size })
+  expect(container.firstChild).toHaveStyleRule("width", getSize(size) + "rem")
+  expect(container.firstChild).toHaveStyleRule("height", getSize(size) + "rem")
+}
+
 test("avatar renders in small size properly", () => {
-  const { container } = renderAvatar({ size: AvatarSize.Small })
-  expect(container.firstChild).toHaveStyleRule(
-    "width",
-    AvatarSize.Small + "rem"
-  )
-  expect(container.firstChild).toHaveStyleRule(
-    "height",
-    AvatarSize.Small + "rem"
-  )
+  sizeTest(AvatarSize.Small)
 })
 
-test("avatar renders in default size properly", () => {
-  const { container } = renderAvatar()
-  expect(container.firstChild).toHaveStyleRule(
-    "width",
-    AvatarSize.Medium + "rem"
-  )
-  expect(container.firstChild).toHaveStyleRule(
-    "height",
-    AvatarSize.Medium + "rem"
-  )
+test("avatar renders in medium size properly", () => {
+  sizeTest(AvatarSize.Medium)
 })
 
 test("avatar renders in big size properly", () => {
-  const { container } = renderAvatar({ size: AvatarSize.Big })
-  expect(container.firstChild).toHaveStyleRule("width", AvatarSize.Big + "rem")
-  expect(container.firstChild).toHaveStyleRule("height", AvatarSize.Big + "rem")
+  sizeTest(AvatarSize.Big)
 })
 
 test("avatar renders text content properly", () => {

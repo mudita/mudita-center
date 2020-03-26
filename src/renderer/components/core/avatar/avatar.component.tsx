@@ -16,7 +16,7 @@ export enum AvatarSize {
   Big,
 }
 
-const getSize = (size: AvatarSize) => {
+export const getSize = (size: AvatarSize) => {
   switch (size) {
     case AvatarSize.Small:
       return 3.2
@@ -66,7 +66,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
     ) : Boolean(imageSrc) ? (
       <AvatarImage data-testid="avatar-image" src={imageSrc} />
     ) : (
-      <Icon type={Type.Contacts} width={size / 2} />
+      <Icon type={Type.Contacts} width={getSize(size) / 2.5} />
     )}
   </AvatarWrapper>
 )
