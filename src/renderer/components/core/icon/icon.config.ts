@@ -52,6 +52,9 @@ import VeryHighRange from "Renderer/svg/very-high-range.svg"
 import VeryLowBattery from "Renderer/svg/very-low-battery.svg"
 import VeryLowRange from "Renderer/svg/very-low-range.svg"
 import Info from "Renderer/svg/info.svg"
+import More from "Renderer/svg/more.svg"
+import Blocked from "Renderer/svg/blocked.svg"
+import Forward from "Renderer/svg/forward.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -108,6 +111,9 @@ export enum Type {
   DownloadWhite,
   Pure,
   Fail,
+  More,
+  Blocked,
+  Forward,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -218,6 +224,12 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Pure
     case Type.Fail:
       return Fail
+    case Type.More:
+      return More
+    case Type.Blocked:
+      return Blocked
+    case Type.Forward:
+      return Forward
     default:
       return Message
   }
