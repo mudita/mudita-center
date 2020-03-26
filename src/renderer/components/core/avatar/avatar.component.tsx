@@ -11,9 +11,9 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
 export enum AvatarSize {
-  Small = 3.2,
-  Medium = 4,
-  Big = 4.8,
+  Small,
+  Medium,
+  Big,
 }
 
 const getSize = (size: AvatarSize) => {
