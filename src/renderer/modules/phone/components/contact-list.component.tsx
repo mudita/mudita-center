@@ -1,5 +1,5 @@
 import React from "react"
-import { Contacts } from "Renderer/models/phone/phone.interface"
+import { Contact, Contacts } from "Renderer/models/phone/phone.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -115,7 +115,20 @@ const SelectableContacts = styled(Table)`
   }
 `
 
-const ContactList: FunctionComponent<Contacts> = ({ contactList }) => {
+export interface ContactListProps extends Contacts {
+  onContactExport: (contact: Contact) => void
+  onContactForward: (contact: Contact) => void
+  onContactBlock: (contact: Contact) => void
+  onContactDelete: (contact: Contact) => void
+}
+
+const ContactList: FunctionComponent<ContactListProps> = ({
+  contactList,
+  onContactExport,
+  onContactForward,
+  onContactBlock,
+  onContactDelete,
+}) => {
   const { toggleRow, getRowStatus, noneRowsSelected } = useTableSelect(
     contactList
   )
@@ -127,13 +140,27 @@ const ContactList: FunctionComponent<Contacts> = ({ contactList }) => {
             <Col />
             <Col>{category}</Col>
           </Labels>
-          {contacts.map((row, index) => {
-            const { selected } = getRowStatus(row)
-            const onChange = () => toggleRow(row)
-            const initials = row.firstName.charAt(0) + row.lastName.charAt(0)
-            const phoneNumbers = [...row.phoneNumbers]
+          {contacts.map((contact, index) => {
+            const { selected } = getRowStatus(contact)
+            const onChange = () => toggleRow(contact)
+            const initials =
+              contact.firstName.charAt(0) + contact.lastName.charAt(0)
+            const phoneNumbers = [...contact.phoneNumbers]
             const firstNumber = phoneNumbers.shift()
             const restNumbers = phoneNumbers.length
+
+            const contactExportHandler = () => {
+              onContactExport(contact)
+            }
+            const contactForwardHandler = () => {
+              onContactForward(contact)
+            }
+            const contactBlockHandler = () => {
+              onContactBlock(contact)
+            }
+            const contactDeleteHandler = () => {
+              onContactDelete(contact)
+            }
             return (
               <Row key={index} selected={selected}>
                 <Col>
@@ -146,8 +173,8 @@ const ContactList: FunctionComponent<Contacts> = ({ contactList }) => {
                 </Col>
                 <Col>
                   <InitialsAvatar text={initials} light={selected} />
-                  {row.firstName} {row.lastName}
-                  {row.blocked && <BlockedIcon width={1.4} height={1.4} />}
+                  {contact.firstName} {contact.lastName}
+                  {contact.blocked && <BlockedIcon width={1.4} height={1.4} />}
                 </Col>
                 <Col>{firstNumber}</Col>
                 <Col>
@@ -165,13 +192,23 @@ const ContactList: FunctionComponent<Contacts> = ({ contactList }) => {
                       <DropdownButton
                         label="Export as vcard"
                         Icon={Type.Upload}
+                        onClick={contactExportHandler}
                       />
                       <DropdownButton
                         label="Forward namecard"
                         Icon={Type.Forward}
+                        onClick={contactForwardHandler}
                       />
-                      <DropdownButton label="block" Icon={Type.Blocked} />
-                      <DropdownButton label="delete" Icon={Type.Delete} />
+                      <DropdownButton
+                        label="block"
+                        Icon={Type.Blocked}
+                        onClick={contactBlockHandler}
+                      />
+                      <DropdownButton
+                        label="delete"
+                        Icon={Type.Delete}
+                        onClick={contactDeleteHandler}
+                      />
                     </ActionsDropdown>
                   </Actions>
                 </Col>

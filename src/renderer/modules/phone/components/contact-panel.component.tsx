@@ -32,12 +32,16 @@ const Buttons = styled.div`
   }
 `
 
-interface PanelInterface {
+export interface ContactPanelProps {
   onSearchTermChange: (event: string) => void
+  onManageButtonClick: () => void
+  onNewButtonClick: () => void
 }
 
-const ContactPanel: FunctionComponent<PanelInterface> = ({
+const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   onSearchTermChange,
+  onManageButtonClick,
+  onNewButtonClick,
 }) => {
   const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     onSearchTermChange(target.value)
@@ -57,11 +61,13 @@ const ContactPanel: FunctionComponent<PanelInterface> = ({
         <ButtonComponent
           displayStyle={DisplayStyle.Secondary}
           labelMessage={{ id: "view.name.phone.contacts.panel.manageButton" }}
+          onClick={onManageButtonClick}
         />
         <ButtonComponent
           labelMessage={{
             id: "view.name.phone.contacts.panel.newContactButton",
           }}
+          onClick={onNewButtonClick}
         />
       </Buttons>
     </Panel>
