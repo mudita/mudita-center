@@ -32,7 +32,7 @@ const AvatarImage = styled(Image)`
   height: 100%;
 `
 
-const AvatarWrapper = styled.div<{ size: AvatarSize; light: boolean }>`
+const AvatarWrapper = styled.div<{ size: AvatarSize; light?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,7 +40,8 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light: boolean }>`
   height: ${({ size }) => getSize(size)}rem;
   overflow: hidden;
   border-radius: 50%;
-  background-color: ${backgroundColor("avatarDark")};
+  background-color: ${({ light }) =>
+    light ? backgroundColor("avatarLight") : backgroundColor("avatarDark")};
   text-transform: uppercase;
 `
 
@@ -58,7 +59,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
   imageSrc,
   light,
 }) => (
-  <AvatarWrapper className={className} size={size} light={Boolean(light)}>
+  <AvatarWrapper className={className} size={size} light={light}>
     {Boolean(text) ? (
       <Text
         displayStyle={
