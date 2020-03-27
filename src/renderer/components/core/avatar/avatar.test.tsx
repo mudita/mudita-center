@@ -10,10 +10,7 @@ import Avatar, {
 import { pieknaPaniJPG } from "Renderer/components/core/avatar/avatar.stories"
 
 const renderAvatar = ({ ...props }: Partial<AvatarProps> = {}) => {
-  const outcome = renderWithThemeAndIntl(<Avatar {...props} />)
-  return {
-    ...outcome,
-  }
+  return renderWithThemeAndIntl(<Avatar {...props} />)
 }
 
 const sizeTest = (size: AvatarSize) => {
