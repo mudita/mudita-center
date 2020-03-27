@@ -44,3 +44,12 @@ test("avatar renders default image properly", () => {
   const { getByTestId } = renderAvatar()
   expect(getByTestId("icon-Contacts")).toBeInTheDocument()
 })
+
+test("avatar renders image first", () => {
+  const { getByTestId, queryByText } = renderAvatar({
+    text: "abc",
+    imageSrc: "someImageSrc",
+  })
+  expect(getByTestId("avatar-image")).toBeInTheDocument()
+  expect(queryByText("abc")).not.toBeInTheDocument()
+})

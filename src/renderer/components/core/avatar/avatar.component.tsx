@@ -60,7 +60,9 @@ const Avatar: FunctionComponent<AvatarProps> = ({
   light,
 }) => (
   <AvatarWrapper className={className} size={size} light={light}>
-    {text ? (
+    {imageSrc ? (
+      <AvatarImage data-testid="avatar-image" src={imageSrc} />
+    ) : text ? (
       <Text
         displayStyle={
           size === AvatarSize.Big
@@ -70,8 +72,6 @@ const Avatar: FunctionComponent<AvatarProps> = ({
       >
         {text}
       </Text>
-    ) : Boolean(imageSrc) ? (
-      <AvatarImage data-testid="avatar-image" src={imageSrc} />
     ) : (
       <Icon type={Type.Contacts} width={getSize(size) / 2.5} />
     )}
