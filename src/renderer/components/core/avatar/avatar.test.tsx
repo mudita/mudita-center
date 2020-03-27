@@ -2,8 +2,8 @@ import "@testing-library/jest-dom/extend-expect"
 import "jest-styled-components"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { AvatarProps } from "Renderer/components/core/avatar/avatar.interface"
 import Avatar, {
+  AvatarProps,
   AvatarSize,
   getSize,
 } from "Renderer/components/core/avatar/avatar.component"

@@ -45,7 +45,7 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light?: boolean }>`
   text-transform: uppercase;
 `
 
-interface AvatarProps {
+export interface AvatarProps {
   size?: AvatarSize
   text?: string
   light?: boolean
