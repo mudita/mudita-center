@@ -7,7 +7,6 @@ import Avatar, {
   AvatarSize,
   getSize,
 } from "Renderer/components/core/avatar/avatar.component"
-import { pieknaPaniJPG } from "Renderer/components/core/avatar/avatar.stories"
 
 const renderAvatar = ({ ...props }: Partial<AvatarProps> = {}) => {
   return renderWithThemeAndIntl(<Avatar {...props} />)
@@ -37,7 +36,7 @@ test("avatar renders text content properly", () => {
 })
 
 test("avatar renders image properly", () => {
-  const { getByTestId } = renderAvatar({ imageSrc: pieknaPaniJPG })
+  const { getByTestId } = renderAvatar({ imageSrc: "someImageSrc" })
   expect(getByTestId("avatar-image")).toBeInTheDocument()
 })
 
