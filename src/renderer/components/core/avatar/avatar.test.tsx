@@ -12,22 +12,22 @@ const renderAvatar = ({ ...props }: Partial<AvatarProps> = {}) => {
   return renderWithThemeAndIntl(<Avatar {...props} />)
 }
 
-const sizeTest = (size: AvatarSize) => {
+const testSize = (size: AvatarSize) => {
   const { container } = renderAvatar({ size })
   expect(container.firstChild).toHaveStyleRule("width", getSize(size) + "rem")
   expect(container.firstChild).toHaveStyleRule("height", getSize(size) + "rem")
 }
 
 test("avatar renders in small size properly", () => {
-  sizeTest(AvatarSize.Small)
+  testSize(AvatarSize.Small)
 })
 
 test("avatar renders in medium size properly", () => {
-  sizeTest(AvatarSize.Medium)
+  testSize(AvatarSize.Medium)
 })
 
 test("avatar renders in big size properly", () => {
-  sizeTest(AvatarSize.Big)
+  testSize(AvatarSize.Big)
 })
 
 test("avatar renders text content properly", () => {
