@@ -60,7 +60,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
   light,
 }) => (
   <AvatarWrapper className={className} size={size} light={light}>
-    {Boolean(text) ? (
+    {text ? (
       <Text
         displayStyle={
           size === AvatarSize.Big
