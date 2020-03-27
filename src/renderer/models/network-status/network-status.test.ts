@@ -16,6 +16,8 @@ test("effect is dispatched and store is updated - false return variant", async (
       online: false,
     },
   })
+
+  onLine.mockRestore()
 })
 
 test("effect is dispatched and store is updated - true return variant", async () => {
@@ -33,4 +35,6 @@ test("effect is dispatched and store is updated - true return variant", async ()
       online: true,
     },
   })
+
+  onLine.mockRestore()
 })
