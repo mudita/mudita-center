@@ -16,6 +16,7 @@ const mapDispatch = ({ phone }: any) => ({
   onContactForward: noop,
   onContactBlock: noop,
   onContactDelete: noop,
+  onContactSelect: noop,
 })
 
 export default connect(mapState, mapDispatch)(Phone)

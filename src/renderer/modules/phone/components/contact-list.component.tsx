@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Contact, Contacts } from "Renderer/models/phone/phone.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
@@ -28,8 +28,8 @@ import Text, {
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
-import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import ButtonComponent from "Renderer/components/core/button/button.component"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -71,15 +71,9 @@ const MoreNumbers = styled(Text).attrs(() => ({
   border-radius: ${borderRadius("medium")};
 `
 
-const ActionsDropdown = styled(Dropdown)``
-
 const ActionsButton = styled.span`
   cursor: pointer;
 `
-
-const DropdownButton = styled(ButtonComponent).attrs(() => ({
-  displayStyle: DisplayStyle.Dropdown,
-}))``
 
 const Actions = styled.div`
   display: flex;
@@ -120,6 +114,7 @@ export interface ContactListProps extends Contacts {
   onContactForward: (contact: Contact) => void
   onContactBlock: (contact: Contact) => void
   onContactDelete: (contact: Contact) => void
+  onContactSelect: (contacts: Contact[]) => void
 }
 
 const ContactList: FunctionComponent<ContactListProps> = ({
@@ -128,10 +123,21 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   onContactForward,
   onContactBlock,
   onContactDelete,
+  onContactSelect,
 }) => {
-  const { toggleRow, getRowStatus, noneRowsSelected } = useTableSelect(
-    contactList
-  )
+  const {
+    toggleRow,
+    getRowStatus,
+    noneRowsSelected,
+    selectedRows,
+  } = useTableSelect(contactList)
+
+  useEffect(() => {
+    if (selectedRows.length) {
+      onContactSelect(selectedRows as Contact[])
+    }
+  }, [selectedRows])
+
   return (
     <SelectableContacts>
       {contactList.map(({ category, contacts }) => (
@@ -161,6 +167,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             const contactDeleteHandler = () => {
               onContactDelete(contact)
             }
+
             return (
               <Row key={index} selected={selected}>
                 <Col>
@@ -182,34 +189,38 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                 </Col>
                 <Col>
                   <Actions>
-                    <ActionsDropdown
+                    <Dropdown
                       toggler={
                         <ActionsButton>
                           <Icon type={Type.More} />
                         </ActionsButton>
                       }
                     >
-                      <DropdownButton
+                      <ButtonComponent
                         label="Export as vcard"
                         Icon={Type.Upload}
                         onClick={contactExportHandler}
+                        displayStyle={DisplayStyle.Dropdown}
                       />
-                      <DropdownButton
+                      <ButtonComponent
                         label="Forward namecard"
                         Icon={Type.Forward}
                         onClick={contactForwardHandler}
+                        displayStyle={DisplayStyle.Dropdown}
                       />
-                      <DropdownButton
+                      <ButtonComponent
                         label="block"
                         Icon={Type.Blocked}
                         onClick={contactBlockHandler}
+                        displayStyle={DisplayStyle.Dropdown}
                       />
-                      <DropdownButton
+                      <ButtonComponent
                         label="delete"
                         Icon={Type.Delete}
                         onClick={contactDeleteHandler}
+                        displayStyle={DisplayStyle.Dropdown}
                       />
-                    </ActionsDropdown>
+                    </Dropdown>
                   </Actions>
                 </Col>
               </Row>

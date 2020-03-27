@@ -27,6 +27,7 @@ storiesOf("Views|Phone", module).add("Phone", () => (
       onContactForward={action("Forward contact")}
       onContactBlock={action("Block contact")}
       onContactDelete={action("Delete contact")}
+      onContactSelect={action("Selected contact")}
     />
   </PhoneWrapper>
 ))
