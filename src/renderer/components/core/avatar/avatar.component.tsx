@@ -1,5 +1,4 @@
 import React from "react"
-import { AvatarProps } from "Renderer/components/core/avatar/avatar.interface"
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
@@ -44,6 +43,13 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light: boolean }>`
   background-color: ${backgroundColor("avatarDark")};
   text-transform: uppercase;
 `
+
+interface AvatarProps {
+  size?: AvatarSize
+  text?: string
+  light?: boolean
+  imageSrc?: string
+}
 
 const Avatar: FunctionComponent<AvatarProps> = ({
   className,
