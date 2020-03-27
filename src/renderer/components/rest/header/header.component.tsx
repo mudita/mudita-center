@@ -5,7 +5,7 @@ import { useLocation } from "react-router"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { View, views } from "Renderer/constants/views"
+import { views } from "Renderer/constants/views"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import {
@@ -35,22 +35,22 @@ const Header: FunctionComponent<HeaderProps> = ({
 }) => {
   const location = useLocation()
   const [currentLocation, setCurrentLocation] = useState()
-  const [renderButton, setRenderButton] = useState(false)
+  const [renderHeaderButton, setRenderHeaderButton] = useState(false)
   useEffect(() => {
     const pathname = location.pathname
     const currentMenuElementName = Object.keys(views).find(
       key => views[key as keyof typeof views].url === pathname
     )
+    const menuElementNameWithHeaderButton = Object.keys(views).find(
+      key => views[key as keyof typeof views].renderHeaderButton
+    )
     if (currentMenuElementName) {
       const currentMenuElement =
         views[currentMenuElementName as keyof typeof views]
       setCurrentLocation(currentMenuElement.label)
-    }
-
-    if (currentMenuElementName === View.News) {
-      setRenderButton(true)
-    } else {
-      setRenderButton(false)
+      setRenderHeaderButton(
+        menuElementNameWithHeaderButton === currentMenuElementName
+      )
     }
   }, [location])
   return (
@@ -64,7 +64,7 @@ const Header: FunctionComponent<HeaderProps> = ({
         React.cloneElement(middleComponent, {
           currentLocation: location.pathname,
         })}
-      {renderButton && button}
+      {renderHeaderButton && button}
     </HeaderWrapper>
   )
 }
