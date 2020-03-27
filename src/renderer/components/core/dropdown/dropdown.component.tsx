@@ -10,9 +10,14 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import useOutsideClick from "Renderer/utils/hooks/useOutsideClick"
 import styled, { css } from "styled-components"
 
+export enum DropdownPosition {
+  Left,
+  Right,
+}
+
 interface Props {
   toggler: ReactNode
-  leftPosition?: boolean
+  dropdownPosition?: DropdownPosition
 }
 
 const DropdownWrapper = styled.div<{ visible: boolean }>`
@@ -23,7 +28,7 @@ const DropdownWrapper = styled.div<{ visible: boolean }>`
 
 const DropdownList = styled.ul<{
   visible: boolean
-  leftPosition?: boolean
+  dropdownPosition?: DropdownPosition
   reversedPosition: boolean
 }>`
   position: absolute;
@@ -36,8 +41,8 @@ const DropdownList = styled.ul<{
   pointer-events: ${({ visible }) => (visible ? "auto" : "none")};
   opacity: ${({ visible }) => (visible ? 1 : 0)};
   transition: ${transition("opacity", undefined, "ease")};
-  ${({ leftPosition }) =>
-    leftPosition
+  ${({ dropdownPosition }) =>
+    dropdownPosition === DropdownPosition.Left
       ? css`
           left: 0;
         `
@@ -59,7 +64,7 @@ const DropdownList = styled.ul<{
 const Dropdown: FunctionComponent<Props> = ({
   toggler,
   children,
-  leftPosition,
+  dropdownPosition = DropdownPosition.Right,
 }) => {
   const [visible, setVisible] = useState(false)
   const [reversedPosition, setReversedPosition] = useState(false)
@@ -89,7 +94,7 @@ const Dropdown: FunctionComponent<Props> = ({
       })}
       <DropdownList
         reversedPosition={reversedPosition}
-        leftPosition={leftPosition}
+        dropdownPosition={dropdownPosition}
         ref={ref}
         visible={visible}
         data-testid="dropdown"
