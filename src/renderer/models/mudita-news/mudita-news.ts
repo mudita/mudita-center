@@ -35,16 +35,16 @@ export default {
     newsCards() {
       return slice((state: { newsItems?: EntryCollection<NewsEntry> }) => {
         const newsCards = state?.newsItems?.items?.map(item => item.fields)
-        const images = state?.newsItems?.includes?.Asset?.map(
-          (asset: Asset) => {
+        const newsImages = state?.newsItems?.includes?.Asset?.map(
+          (image: Asset) => {
             return {
-              imageSource: asset.fields.file.url,
-              imageAlt: asset.fields.title,
+              imageSource: image.fields.file.url,
+              imageAlt: image.fields.title,
             }
           }
         )
         return newsCards?.map((newsCard, index) => {
-          return { ...newsCard, ...images[index] }
+          return { ...newsCard, ...newsImages[index] }
         })
       })
     },

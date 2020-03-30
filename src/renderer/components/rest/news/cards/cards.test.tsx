@@ -5,7 +5,7 @@ import Cards from "Renderer/components/rest/news/cards/cards.component"
 
 const cardsData = [
   {
-    header: "Example header",
+    title: "Example header",
     imageSource: "http://placekitten.com/g/300/300",
     url: "https://www.google.com/",
     content: "Lorem ipsum dolor sit amet.",
@@ -13,7 +13,7 @@ const cardsData = [
     communityLink: "https://www.google.com/",
   },
   {
-    header: "Example header",
+    title: "Example header",
     imageSource: "http://placekitten.com/g/300/300",
     url: "https://www.google.com/",
     content: "Lorem ipsum dolor sit amet.",
@@ -21,7 +21,7 @@ const cardsData = [
     communityLink: "https://www.google.com/",
   },
   {
-    header: "Example header",
+    title: "Example header",
     imageSource: "http://placekitten.com/g/300/300",
     url: "https://www.google.com/",
     content: "Lorem ipsum dolor sit amet.",
@@ -33,7 +33,7 @@ const cardsData = [
 const moreThan3CardsData = [
   ...cardsData,
   {
-    header: "Example header",
+    title: "Example header",
     imageSource: "http://placekitten.com/g/300/300",
     url: "https://www.google.com/",
     content: "Lorem ipsum dolor sit amet.",
