@@ -22,7 +22,6 @@ export default {
         const newsItems = await axios.get(
           `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=newsItem`
         )
-        console.log(newsItems)
         dispatch.muditaNews.update({
           newsItems: newsItems.data,
         })
