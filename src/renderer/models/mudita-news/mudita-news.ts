@@ -7,6 +7,7 @@ import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
 const initialState = {
   newsItems: [],
+  commentsCount: [],
 }
 
 export default {
@@ -25,8 +26,22 @@ export default {
         dispatch.muditaNews.update({
           newsItems: newsItems.data,
         })
+        console.log(newsItems.data)
       } catch (error) {
         console.error(error)
+      }
+    },
+    async getCommentsCount(postId: number, rootState) {
+      console.log(postId)
+      try {
+        const response = await axios.get(
+          `${process.env.GATSBY_COMMUNITY_URL}/t/${postId}.json`
+        )
+        dispatch.muditaNews.update({
+          commentsCount: response.data.posts_count,
+        })
+      } catch (e) {
+        console.log(e)
       }
     },
   }),

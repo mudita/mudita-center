@@ -10,6 +10,8 @@ import { noop } from "Renderer/utils/noop"
 interface Cards {
   cards: CardProps[]
   loadData?: () => void
+  getCommentsCount?: (postId: number) => void
+  commentsCount?: number
 }
 
 const CardContainer = styled.div`
@@ -18,7 +20,12 @@ const CardContainer = styled.div`
   grid-column-gap: 4rem;
 `
 
-const Cards: FunctionComponent<Cards> = ({ cards, loadData = noop }) => {
+const Cards: FunctionComponent<Cards> = ({
+  cards,
+  getCommentsCount = noop,
+  commentsCount,
+  loadData = noop,
+}) => {
   useEffect(() => {
     loadData()
   }, [])
@@ -26,7 +33,6 @@ const Cards: FunctionComponent<Cards> = ({ cards, loadData = noop }) => {
     <CardContainer>
       {cards &&
         cards.slice(0, 3).map((card, index) => {
-          console.log(card.communityLink)
           return (
             <Card
               key={index}
@@ -35,7 +41,9 @@ const Cards: FunctionComponent<Cards> = ({ cards, loadData = noop }) => {
               imageSource={card.imageSource}
               communityLink={card.communityLink}
               url={card.communityLink}
-              count={1}
+              discussionId={card.discussionId}
+              getCommentsCount={getCommentsCount}
+              count={commentsCount}
               imageAlt={card.imageAlt}
             />
           )
