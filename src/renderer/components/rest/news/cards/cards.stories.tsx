@@ -18,6 +18,8 @@ storiesOf("News|Cards", module).add("Cards", () => {
       content: "Lorem ipsum dolor sit amet.",
       count: 2,
       communityLink: "https://www.google.com/",
+      imageSource: "http://placekitten.com/g/300/300",
+      imageAlt: "Kitten",
     },
     {
       title: "Example header",
@@ -25,6 +27,8 @@ storiesOf("News|Cards", module).add("Cards", () => {
       content: "Lorem ipsum dolor sit amet.",
       count: 2,
       communityLink: "https://www.google.com/",
+      imageSource: "http://placekitten.com/g/300/300",
+      imageAlt: "Kitten",
     },
     {
       title: "Example header",
@@ -32,25 +36,13 @@ storiesOf("News|Cards", module).add("Cards", () => {
       content: "Lorem ipsum dolor sit amet.",
       count: 2,
       communityLink: "https://www.google.com/",
-    },
-  ]
-  const newsImages = [
-    {
-      url: "http://placekitten.com/g/300/300",
-      title: "Kitten",
-    },
-    {
-      url: "http://placekitten.com/g/300/300",
-      title: "Kitten",
-    },
-    {
-      url: "http://placekitten.com/g/300/300",
-      title: "Kitten",
+      imageSource: "http://placekitten.com/g/300/300",
+      imageAlt: "Kitten",
     },
   ]
   return (
     <Container>
-      <Cards cards={cardsData} newsImages={newsImages} />
+      <Cards cards={cardsData} />
     </Container>
   )
 })

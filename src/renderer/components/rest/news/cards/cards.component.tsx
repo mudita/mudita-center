@@ -7,15 +7,9 @@ import styled from "styled-components"
 import { useEffect } from "react"
 import { noop } from "Renderer/utils/noop"
 
-interface NewsImage {
-  url: string
-  title?: string
-}
-
 interface Cards {
-  cards: Omit<CardProps, "imageSource" | "imageAlt">[]
+  cards: CardProps[]
   loadData?: () => void
-  newsImages: NewsImage[]
 }
 
 const CardContainer = styled.div`
@@ -24,11 +18,7 @@ const CardContainer = styled.div`
   grid-column-gap: 4rem;
 `
 
-const Cards: FunctionComponent<Cards> = ({
-  newsImages,
-  cards,
-  loadData = noop,
-}) => {
+const Cards: FunctionComponent<Cards> = ({ cards, loadData = noop }) => {
   useEffect(() => {
     loadData()
   }, [])
@@ -42,11 +32,11 @@ const Cards: FunctionComponent<Cards> = ({
               key={index}
               title={card.title}
               content={card.content}
-              imageSource={newsImages[index].url}
+              imageSource={card.imageSource}
               communityLink={card.communityLink}
               url={card.communityLink}
               count={1}
-              imageAlt={newsImages[index].title}
+              imageAlt={card.imageAlt}
             />
           )
         })}

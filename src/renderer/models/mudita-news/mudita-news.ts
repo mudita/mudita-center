@@ -7,7 +7,6 @@ import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
 const initialState = {
   newsItems: [],
-  newsImages: [],
 }
 
 export default {
@@ -35,13 +34,17 @@ export default {
   selectors: (slice: Slicer<typeof initialState>) => ({
     newsCards() {
       return slice((state: { newsItems?: EntryCollection<NewsEntry> }) => {
-        return state?.newsItems?.items?.map(item => item.fields)
-      })
-    },
-    newsImages() {
-      return slice((state: { newsItems?: EntryCollection<NewsEntry> }) => {
-        return state?.newsItems?.includes?.Asset?.map((asset: Asset) => {
-          return { url: asset.fields.file.url, title: asset.fields.title }
+        const newsCards = state?.newsItems?.items?.map(item => item.fields)
+        const images = state?.newsItems?.includes?.Asset?.map(
+          (asset: Asset) => {
+            return {
+              imageSource: asset.fields.file.url,
+              imageAlt: asset.fields.title,
+            }
+          }
+        )
+        return newsCards?.map((newsCard, index) => {
+          return { ...newsCard, ...images[index] }
         })
       })
     },
