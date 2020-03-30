@@ -1,4 +1,5 @@
 import { RowSize } from "Renderer/components/core/table/table.component"
+import { ReactNode } from "react"
 
 export interface TableRowProps {
   size?: RowSize
@@ -6,7 +7,15 @@ export interface TableRowProps {
   selected?: boolean
 }
 
+export interface SidebarProps {
+  show?: boolean
+  onClose?: () => void
+  headerLeft?: ReactNode
+  headerRight?: ReactNode
+}
+
 export interface TableProps {
   hideColumns?: boolean
   hideableColumnsIndexes?: number[]
+  sidebar?: ReactNode
 }
