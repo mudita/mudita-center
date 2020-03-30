@@ -3,7 +3,8 @@ import { select } from "Renderer/store"
 import Cards from "Renderer/components/rest/news/cards/cards.component"
 
 const mapStateToProps = select(models => ({
-  newsItems: models.muditaNews.newsCards,
+  cards: models.muditaNews.newsCards,
+  newsImagesUrls: models.muditaNews.newsImages,
 }))
 
 const mapDispatchToProps = (dispatch: any) => ({

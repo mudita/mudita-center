@@ -60,6 +60,7 @@ const Card: FunctionComponent<Props> = ({
   imageAlt,
   url,
 }) => {
+  console.log(imageSource)
   return (
     <CardContainer data-testid="news-card">
       <a href={url} target="_blank" data-testid="image-link">
