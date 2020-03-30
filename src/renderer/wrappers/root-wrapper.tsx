@@ -18,6 +18,8 @@ import localeEn from "Renderer/locales/main/en-US.json"
 import { ModalProvider } from "Renderer/components/core/modal/modal.service"
 import modalService from "Renderer/components/core/modal/modal.service"
 
+require("dotenv").config()
+
 interface Props {
   store: Store
   history: History

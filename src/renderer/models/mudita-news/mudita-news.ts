@@ -20,7 +20,7 @@ export default {
     async loadData() {
       try {
         const newsItems = await axios.get(
-          "https://cdn.contentful.com/spaces/isxmxtc67n72/environments/master/entries/?access_token=4OjM0WvVo9FOXtnUmZdCKflW_Ra9qD--W8hdTvTVwGM&content_type=newsItem"
+          `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=newsItem`
         )
         console.log(newsItems)
         dispatch.muditaNews.update({
