@@ -45,7 +45,7 @@ export interface Props {
   content: string
   communityLink: string
   count?: number
-  header: string
+  title: string
   imageSource: string
   imageAlt?: string
   url: string
@@ -55,12 +55,11 @@ const Card: FunctionComponent<Props> = ({
   content,
   communityLink,
   count,
-  header,
+  title,
   imageSource,
   imageAlt,
   url,
 }) => {
-  console.log(imageSource)
   return (
     <CardContainer data-testid="news-card">
       <a href={url} target="_blank" data-testid="image-link">
@@ -69,7 +68,7 @@ const Card: FunctionComponent<Props> = ({
       <CardContent>
         <a href={url} data-testid="header-link" target="_blank">
           <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
-            {header}
+            {title}
           </Text>
         </a>
         <CardDescription

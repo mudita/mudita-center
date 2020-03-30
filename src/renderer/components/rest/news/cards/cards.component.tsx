@@ -1,13 +1,20 @@
 import * as React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import Card from "Renderer/components/rest/news/card/card.component"
+import Card, {
+  Props as CardProps,
+} from "Renderer/components/rest/news/card/card.component"
 import styled from "styled-components"
 import { useEffect } from "react"
 
+interface NewsImage {
+  url: string
+  title?: string
+}
+
 interface Cards {
-  cards: any[]
+  cards: Omit<CardProps, "imageSource" | "imageAlt">[]
   loadData: () => void
-  newsImagesUrls: any[]
+  newsImages: NewsImage[]
 }
 
 const CardContainer = styled.div`
@@ -16,11 +23,7 @@ const CardContainer = styled.div`
   grid-column-gap: 4rem;
 `
 
-const Cards: FunctionComponent<Cards> = ({
-  newsImagesUrls,
-  cards,
-  loadData,
-}) => {
+const Cards: FunctionComponent<Cards> = ({ newsImages, cards, loadData }) => {
   useEffect(() => {
     loadData()
   }, [])
@@ -28,12 +31,17 @@ const Cards: FunctionComponent<Cards> = ({
     <CardContainer>
       {cards &&
         cards.slice(0, 3).map((card, index) => {
+          console.log(card.communityLink)
           return (
             <Card
               key={index}
-              header={card.title}
+              title={card.title}
               content={card.content}
-              imageSource={newsImagesUrls[index]}
+              imageSource={newsImages[index].url}
+              communityLink={card.communityLink}
+              url={card.communityLink}
+              count={1}
+              imageAlt={newsImages[index].title}
             />
           )
         })}

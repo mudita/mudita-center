@@ -2,7 +2,7 @@ import { Dispatch } from "Renderer/store"
 import { Store } from "Renderer/models/basic-info/interfaces"
 import { Slicer } from "@rematch/select"
 import axios from "axios"
-import { EntryCollection } from "contentful"
+import { Asset, EntryCollection } from "contentful"
 import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
 const initialState = {
@@ -23,7 +23,7 @@ export default {
         const newsItems = await axios.get(
           "https://cdn.contentful.com/spaces/isxmxtc67n72/environments/master/entries/?access_token=4OjM0WvVo9FOXtnUmZdCKflW_Ra9qD--W8hdTvTVwGM&content_type=newsItem"
         )
-        console.log(newsItems.data)
+        console.log(newsItems)
         dispatch.muditaNews.update({
           newsItems: newsItems.data,
         })
@@ -35,16 +35,14 @@ export default {
   selectors: (slice: Slicer<typeof initialState>) => ({
     newsCards() {
       return slice((state: { newsItems?: EntryCollection<NewsEntry> }) => {
-        const newsFields = state?.newsItems?.items?.map(el => el.fields)
-        return newsFields
+        return state?.newsItems?.items?.map(item => item.fields)
       })
     },
     newsImages() {
       return slice((state: { newsItems?: EntryCollection<NewsEntry> }) => {
-        const newsImagesUrls = state?.newsItems?.includes?.Asset?.map(
-          (el: { fields: { file: { url?: string } } }) => el.fields.file.url
-        )
-        return newsImagesUrls
+        return state?.newsItems?.includes?.Asset?.map((asset: Asset) => {
+          return { url: asset.fields.file.url, title: asset.fields.title }
+        })
       })
     },
   }),

@@ -4,7 +4,7 @@ import Cards from "Renderer/components/rest/news/cards/cards.component"
 
 const mapStateToProps = select(models => ({
   cards: models.muditaNews.newsCards,
-  newsImagesUrls: models.muditaNews.newsImages,
+  newsImages: models.muditaNews.newsImages,
 }))
 
 const mapDispatchToProps = (dispatch: any) => ({
