@@ -13,33 +13,44 @@ const Container = styled.div`
 storiesOf("News|Cards", module).add("Cards", () => {
   const cardsData = [
     {
-      header: "Example header",
-      imageSource: "http://placekitten.com/g/300/300",
+      title: "Example header",
       url: "https://www.google.com/",
       content: "Lorem ipsum dolor sit amet.",
       count: 2,
       communityLink: "https://www.google.com/",
     },
     {
-      header: "Example header",
-      imageSource: "http://placekitten.com/g/300/300",
+      title: "Example header",
       url: "https://www.google.com/",
       content: "Lorem ipsum dolor sit amet.",
       count: 2,
       communityLink: "https://www.google.com/",
     },
     {
-      header: "Example header",
-      imageSource: "http://placekitten.com/g/300/300",
+      title: "Example header",
       url: "https://www.google.com/",
       content: "Lorem ipsum dolor sit amet.",
       count: 2,
       communityLink: "https://www.google.com/",
     },
   ]
+  const newsImages = [
+    {
+      url: "http://placekitten.com/g/300/300",
+      title: "Kitten",
+    },
+    {
+      url: "http://placekitten.com/g/300/300",
+      title: "Kitten",
+    },
+    {
+      url: "http://placekitten.com/g/300/300",
+      title: "Kitten",
+    },
+  ]
   return (
     <Container>
-      <Cards cards={cardsData} />
+      <Cards cards={cardsData} newsImages={newsImages} />
     </Container>
   )
 })

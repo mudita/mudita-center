@@ -5,6 +5,7 @@ import Card, {
 } from "Renderer/components/rest/news/card/card.component"
 import styled from "styled-components"
 import { useEffect } from "react"
+import { noop } from "Renderer/utils/noop"
 
 interface NewsImage {
   url: string
@@ -13,7 +14,7 @@ interface NewsImage {
 
 interface Cards {
   cards: Omit<CardProps, "imageSource" | "imageAlt">[]
-  loadData: () => void
+  loadData?: () => void
   newsImages: NewsImage[]
 }
 
@@ -23,7 +24,11 @@ const CardContainer = styled.div`
   grid-column-gap: 4rem;
 `
 
-const Cards: FunctionComponent<Cards> = ({ newsImages, cards, loadData }) => {
+const Cards: FunctionComponent<Cards> = ({
+  newsImages,
+  cards,
+  loadData = noop,
+}) => {
   useEffect(() => {
     loadData()
   }, [])
