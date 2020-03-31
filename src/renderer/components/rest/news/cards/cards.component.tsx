@@ -6,12 +6,13 @@ import Card, {
 import styled from "styled-components"
 import { useEffect } from "react"
 import { noop } from "Renderer/utils/noop"
+import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
-interface Cards {
-  cards: CardProps[]
+interface Props {
+  newsItems: Record<string, NewsEntry>
+  newsIds: string[]
+  commentsCount: Record<string, number>
   loadData?: () => void
-  getCommentsCount?: (postId: number) => void
-  commentsCount?: number
 }
 
 const CardContainer = styled.div`
@@ -20,34 +21,33 @@ const CardContainer = styled.div`
   grid-column-gap: 4rem;
 `
 
-const Cards: FunctionComponent<Cards> = ({
-  cards,
-  getCommentsCount = noop,
+const Cards: FunctionComponent<Props> = ({
+  newsItems,
+  newsIds,
   commentsCount,
   loadData = noop,
 }) => {
   useEffect(() => {
     loadData()
   }, [])
+  const news = newsIds.map(id => newsItems[id])
   return (
     <CardContainer>
-      {cards &&
-        cards.slice(0, 3).map((card, index) => {
-          return (
-            <Card
-              key={index}
-              title={card.title}
-              content={card.content}
-              imageSource={card.imageSource}
-              communityLink={card.communityLink}
-              url={card.communityLink}
-              discussionId={card.discussionId}
-              getCommentsCount={getCommentsCount}
-              count={commentsCount}
-              imageAlt={card.imageAlt}
-            />
-          )
-        })}
+      {news.slice(0, 3).map(newsItem => {
+        return (
+          <Card
+            key={newsItem.discussionId}
+            title={newsItem.title}
+            content={newsItem.content}
+            imageSource={""}
+            communityLink={newsItem.communityLink}
+            url={newsItem.communityLink}
+            discussionId={newsItem.discussionId}
+            count={commentsCount[newsItem.discussionId] || 0}
+            imageAlt={""}
+          />
+        )
+      })}
     </CardContainer>
   )
 }

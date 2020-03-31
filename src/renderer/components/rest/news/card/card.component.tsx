@@ -10,8 +10,6 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import Image from "Renderer/components/core/image/image.component"
 import CommunityCommentsCount from "Renderer/components/rest/news/card/community-comments-count.component"
-import { useEffect } from "react"
-import { noop } from "Renderer/utils/noop"
 
 const CardContainer = styled.div`
   max-width: 27.5rem;
@@ -47,28 +45,21 @@ export interface Props {
   content: string
   communityLink: string
   count?: number
-  discussionId?: number
   title: string
   imageSource: string
   imageAlt?: string
   url: string
-  getCommentsCount?: (postId: number) => void
 }
 
 const Card: FunctionComponent<Props> = ({
   content,
   communityLink,
   count,
-  discussionId,
   title,
   imageSource,
   imageAlt,
   url,
-  getCommentsCount = noop,
 }) => {
-  useEffect(() => {
-    getCommentsCount(discussionId)
-  }, [discussionId])
   return (
     <CardContainer data-testid="news-card">
       <a href={url} target="_blank" data-testid="image-link">
