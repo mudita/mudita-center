@@ -219,6 +219,12 @@ export const SidebarHeaderIcon = styled(ButtonComponent).attrs(() => ({
   width: 3.2rem;
   height: 3.2rem;
   margin-left: 0.6rem;
+  opacity: 0.6;
+  transition: opacity ${transitionTime("quick")}
+    ${transitionTimingFunction("smooth")};
+  :hover {
+    opacity: 1;
+  }
 
   > div {
     width: 1.6rem;
