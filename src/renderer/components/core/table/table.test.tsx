@@ -324,7 +324,6 @@ test("selecting all nested rows works properly", async () => {
   })
 })
 
-// Sidebar
 test("sidebar renders close button properly", () => {
   const { getByRole } = renderWithThemeAndIntl(<Sidebar />)
   expect(getByRole("button")).toBeInTheDocument()
