@@ -286,19 +286,8 @@ export const EmptyState = styled(Row)`
   }
 `
 
-const Table: FunctionComponent<TableProps> = ({
-  className,
-  children,
-  hideColumns,
-  hideableColumnsIndexes,
-}) => (
-  <TableComponent
-    className={className}
-    hideColumns={hideColumns}
-    hideableColumnsIndexes={hideableColumnsIndexes}
-  >
-    {children}
-  </TableComponent>
+const Table: FunctionComponent<TableProps> = ({ children, ...props }) => (
+  <TableComponent {...props}>{children}</TableComponent>
 )
 
 export default Table
