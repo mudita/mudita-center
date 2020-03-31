@@ -6,6 +6,7 @@ export interface NewsEntry {
   communityLink: string
   link: string
   discussionId: string
+  imageSource: string
 }
 
 export interface Store {

@@ -1,8 +1,6 @@
 import * as React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import Card, {
-  Props as CardProps,
-} from "Renderer/components/rest/news/card/card.component"
+import Card from "Renderer/components/rest/news/card/card.component"
 import styled from "styled-components"
 import { useEffect } from "react"
 import { noop } from "Renderer/utils/noop"
@@ -39,10 +37,9 @@ const Cards: FunctionComponent<Props> = ({
             key={newsItem.discussionId}
             title={newsItem.title}
             content={newsItem.content}
-            imageSource={""}
+            imageSource={newsItem.imageSource}
             communityLink={newsItem.communityLink}
             url={newsItem.communityLink}
-            discussionId={newsItem.discussionId}
             count={commentsCount[newsItem.discussionId] || 0}
             imageAlt={""}
           />

@@ -58,11 +58,17 @@ export default {
       }
       try {
         const {
-          data: { items },
+          data: { items, includes },
         } = await axios.get(
           `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=newsItem`
         )
-        const news = items.map(({ fields }: Entry<NewsEntry>) => fields)
+        const news = items.map(
+          ({ fields }: Entry<NewsEntry>, index: number) => ({
+            ...fields,
+            imageSource: includes.Asset[index].fields.file.url,
+            imageAlt: includes.Asset[index].fields.file.title,
+          })
+        )
         dispatch.muditaNews.update(news)
         const commentsCalls = news.map(
           ({
