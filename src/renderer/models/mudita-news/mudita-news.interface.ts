@@ -7,3 +7,13 @@ export interface NewsEntry {
   link: string
   discussionId: string
 }
+
+export interface Store {
+  newsIds: string[]
+  newsItems: {
+    [key: string]: NewsEntry
+  }
+  commentsCount: {
+    [key: string]: number
+  }
+}

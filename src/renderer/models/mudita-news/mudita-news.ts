@@ -1,11 +1,13 @@
 import { Dispatch } from "Renderer/store"
-import { Store } from "Renderer/models/basic-info/interfaces"
 import { Slicer } from "@rematch/select"
 import axios from "axios"
-import { Asset, EntryCollection } from "contentful"
-import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
+import { Entry } from "contentful"
+import {
+  NewsEntry,
+  Store,
+} from "Renderer/models/mudita-news/mudita-news.interface"
 
-const initialState = {
+const initialState: Store = {
   newsIds: [],
   newsItems: {},
   commentsCount: {},
@@ -27,7 +29,7 @@ export default {
     },
     updateComments(
       state: Store,
-      payload: { discussionId: number; count: number }[]
+      payload: { discussionId: string; count: number }[]
     ) {
       const counts = payload.reduce((acc, { discussionId, count }) => {
         acc[discussionId] = count
@@ -44,7 +46,9 @@ export default {
   },
   effects: (dispatch: Dispatch) => ({
     async loadData() {
-      const getCommentsCountByDiscussionId = async (discussionId: number) => {
+      const getCommentsCountByDiscussionId = async (
+        discussionId?: string
+      ): Promise<{ discussionId?: string; count: number }> => {
         const {
           data: { posts_count },
         } = await axios.get(
@@ -58,13 +62,20 @@ export default {
         } = await axios.get(
           `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=newsItem`
         )
-        const news = items.map(({ fields }: NewsEntry[]) => fields)
-        console.log(news)
+        const news = items.map(({ fields }: Entry<NewsEntry>) => fields)
         dispatch.muditaNews.update(news)
-        const commentsCalls = news.map(({ discussionId }) =>
-          getCommentsCountByDiscussionId(discussionId)
+        const commentsCalls = news.map(
+          ({
+            discussionId,
+          }: Partial<NewsEntry>): Promise<{
+            discussionId?: string
+            count: number
+          }> => getCommentsCountByDiscussionId(discussionId)
         )
-        const commentsCounts = await Promise.all(commentsCalls)
+        const commentsCounts: {
+          discussionId: string
+          count: number
+        }[] = await Promise.all(commentsCalls)
         dispatch.muditaNews.updateComments(commentsCounts)
       } catch (error) {
         console.error(error)
