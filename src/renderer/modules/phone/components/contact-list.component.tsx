@@ -151,9 +151,9 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             const onChange = () => toggleRow(contact)
             const initials =
               contact.firstName.charAt(0) + contact.lastName.charAt(0)
-            const phoneNumbers = [...contact.phoneNumbers]
-            const firstNumber = phoneNumbers.shift()
-            const restNumbers = phoneNumbers.length
+            const [firstNumber, ...{ length: restNumbers }] = [
+              ...contact.phoneNumbers,
+            ]
 
             const contactExportHandler = () => {
               onContactExport(contact)
