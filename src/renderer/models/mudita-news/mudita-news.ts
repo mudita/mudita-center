@@ -16,7 +16,7 @@ const initialState: Store = {
 export default {
   state: initialState,
   reducers: {
-    update(state: Store, payload: any) {
+    update(state: Store, payload: NewsEntry[]) {
       const newsIds = payload.map((news: NewsEntry) => news.discussionId)
       const newsItems = payload.reduce(
         (acc: Record<string, NewsEntry>, newsItem: NewsEntry) => {
@@ -66,7 +66,7 @@ export default {
           ({ fields }: Entry<NewsEntry>, index: number) => ({
             ...fields,
             imageSource: includes.Asset[index].fields.file.url,
-            imageAlt: includes.Asset[index].fields.file.title,
+            imageAlt: includes.Asset[index].fields.title,
           })
         )
         dispatch.muditaNews.update(news)

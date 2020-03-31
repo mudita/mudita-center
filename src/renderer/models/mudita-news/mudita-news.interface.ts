@@ -7,6 +7,7 @@ export interface NewsEntry {
   link: string
   discussionId: string
   imageSource: string
+  imageAlt: string
 }
 
 export interface Store {

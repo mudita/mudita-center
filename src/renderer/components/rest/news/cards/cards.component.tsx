@@ -40,8 +40,8 @@ const Cards: FunctionComponent<Props> = ({
             imageSource={newsItem.imageSource}
             communityLink={newsItem.communityLink}
             url={newsItem.communityLink}
-            count={commentsCount[newsItem.discussionId] || 0}
-            imageAlt={""}
+            count={commentsCount[newsItem.discussionId]}
+            imageAlt={newsItem.imageAlt}
           />
         )
       })}
