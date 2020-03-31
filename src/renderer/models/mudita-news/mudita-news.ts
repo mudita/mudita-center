@@ -9,6 +9,7 @@ import {
 
 const initialState: Store = {
   newsIds: [],
+  images: {},
   newsItems: {},
   commentsCount: {},
 }
@@ -43,6 +44,13 @@ export default {
         },
       }
     },
+    updateImages(state: Store, payload: any) {
+      const images = payload.reduce((acc, { imageId, imageUrl }) => {
+        acc[imageId] = imageUrl
+        return acc
+      }, {} as Record<string, NewsEntry>)
+      return { ...state, images }
+    },
   },
   effects: (dispatch: Dispatch) => ({
     async loadData() {
@@ -63,12 +71,19 @@ export default {
           `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=newsItem`
         )
         const news = items.map(
-          ({ fields }: Entry<NewsEntry>, index: number) => ({
-            ...fields,
-            imageSource: includes.Asset[index].fields.file.url,
-            imageAlt: includes.Asset[index].fields.title,
-          })
+          ({ fields }: Entry<NewsEntry>, index: number) => {
+            console.log(fields)
+            return {
+              ...fields,
+              imageId: fields.image.sys.id,
+            }
+          }
         )
+        const images = includes.Asset.map(image => ({
+          imageId: image.sys.id,
+          imageUrl: image.fields.file.url,
+        }))
+        dispatch.muditaNews.updateImages(images)
         dispatch.muditaNews.update(news)
         const commentsCalls = news.map(
           ({
