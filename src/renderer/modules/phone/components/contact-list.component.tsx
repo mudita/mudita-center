@@ -149,8 +149,6 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           {contacts.map((contact, index) => {
             const { selected } = getRowStatus(contact)
             const onChange = () => toggleRow(contact)
-            const initials =
-              contact.firstName.charAt(0) + contact.lastName.charAt(0)
             const [firstNumber, ...{ length: restNumbers }] = [
               ...contact.phoneNumbers,
             ]
@@ -179,7 +177,10 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                   />
                 </Col>
                 <Col>
-                  <InitialsAvatar text={initials} light={selected} />
+                  <InitialsAvatar
+                    text={contact.firstName[0] + contact.lastName[0]}
+                    light={selected}
+                  />
                   {contact.firstName} {contact.lastName}
                   {contact.blocked && <BlockedIcon width={1.4} height={1.4} />}
                 </Col>
