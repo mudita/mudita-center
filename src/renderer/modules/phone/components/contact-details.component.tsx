@@ -30,7 +30,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
 }) => {
   const Icons = () => (
     <>
-      <SidebarHeaderIcon Icon={Type.Notes} onClick={onEdit} />
+      <SidebarHeaderIcon Icon={Type.Edit} onClick={onEdit} />
       <SidebarHeaderIcon Icon={Type.Upload} onClick={onExport} />
       <SidebarHeaderIcon Icon={Type.Forward} onClick={onForward} />
       <SidebarHeaderIcon Icon={Type.Blocked} onClick={onBlock} />
