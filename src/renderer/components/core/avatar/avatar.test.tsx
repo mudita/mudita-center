@@ -1,0 +1,55 @@
+import "@testing-library/jest-dom/extend-expect"
+import "jest-styled-components"
+import React from "react"
+import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import Avatar, {
+  AvatarProps,
+  AvatarSize,
+  getSize,
+} from "Renderer/components/core/avatar/avatar.component"
+
+const renderAvatar = ({ ...props }: Partial<AvatarProps> = {}) => {
+  return renderWithThemeAndIntl(<Avatar {...props} />)
+}
+
+const testSize = (size: AvatarSize) => {
+  const { container } = renderAvatar({ size })
+  expect(container.firstChild).toHaveStyleRule("width", getSize(size) + "rem")
+  expect(container.firstChild).toHaveStyleRule("height", getSize(size) + "rem")
+}
+
+test("avatar renders in small size properly", () => {
+  testSize(AvatarSize.Small)
+})
+
+test("avatar renders in medium size properly", () => {
+  testSize(AvatarSize.Medium)
+})
+
+test("avatar renders in big size properly", () => {
+  testSize(AvatarSize.Big)
+})
+
+test("avatar renders text content properly", () => {
+  const { container } = renderAvatar({ text: "abc" })
+  expect(container).toHaveTextContent("abc")
+})
+
+test("avatar renders image properly", () => {
+  const { getByTestId } = renderAvatar({ imageSrc: "someImageSrc" })
+  expect(getByTestId("avatar-image")).toBeInTheDocument()
+})
+
+test("avatar renders default image properly", () => {
+  const { getByTestId } = renderAvatar()
+  expect(getByTestId("icon-Contacts")).toBeInTheDocument()
+})
+
+test("avatar renders image first", () => {
+  const { getByTestId, queryByText } = renderAvatar({
+    text: "abc",
+    imageSrc: "someImageSrc",
+  })
+  expect(getByTestId("avatar-image")).toBeInTheDocument()
+  expect(queryByText("abc")).not.toBeInTheDocument()
+})
