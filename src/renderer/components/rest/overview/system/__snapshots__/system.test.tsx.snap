@@ -32,7 +32,7 @@ exports[`matches snapshot 1`] = `
         type="button"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          class="sc-AxirZ btYaIv sc-AxheI kuvChn"
           data-testid="icon-Reload"
         >
           <test-file-stub

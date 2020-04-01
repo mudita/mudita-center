@@ -18,10 +18,7 @@ storiesOf("Components|Dropdown", module)
   .add("Right", () => {
     return (
       <Wrapper>
-        <Dropdown
-          dropdownPosition={DropdownPosition.Right}
-          toggler={<ButtonComponent label={"Click dropdown"} />}
-        >
+        <Dropdown toggler={<ButtonComponent label={"Click dropdown"} />}>
           <DropdownButton
             label="I open Google in new tab"
             href="http://www.google.pl"

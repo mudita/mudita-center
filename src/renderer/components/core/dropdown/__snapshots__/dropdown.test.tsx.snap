@@ -3,7 +3,7 @@
 exports[`matches snapshot 1`] = `
 <div>
   <div
-    class="sc-AxmLO kmtPrp"
+    class="sc-AxmLO eAHgVm"
   >
     <button
       class="sc-AxgMl fvnHkD"
@@ -11,7 +11,7 @@ exports[`matches snapshot 1`] = `
       type="button"
     />
     <ul
-      class="sc-fzozJi dqvYrE"
+      class="sc-fzozJi dryWRL"
       data-testid="dropdown"
     />
   </div>
@@ -21,7 +21,7 @@ exports[`matches snapshot 1`] = `
 exports[`renders dropdown 1`] = `
 <div>
   <div
-    class="sc-AxmLO kmtPrp"
+    class="sc-AxmLO ichFZJ"
   >
     <button
       class="sc-AxgMl fvnHkD"
@@ -35,7 +35,7 @@ exports[`renders dropdown 1`] = `
       </p>
     </button>
     <ul
-      class="sc-fzozJi efVIsU"
+      class="sc-fzozJi fTRFFP"
       data-testid="dropdown"
     >
       <a
@@ -45,7 +45,7 @@ exports[`renders dropdown 1`] = `
         target="_blank"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI cZhjTr"
+          class="sc-AxirZ btYaIv sc-AxheI kuvChn"
           data-testid="icon-Upload"
         >
           <test-file-stub

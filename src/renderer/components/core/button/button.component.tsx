@@ -81,6 +81,8 @@ const ButtonComponent: FunctionComponent<Props> = ({
         return TextDisplayStyle.LargeFadedText
       case DisplayStyle.Tab:
         return TextDisplayStyle.LargeText
+      case DisplayStyle.Dropdown:
+        return TextDisplayStyle.SmallText
       default:
         return TextDisplayStyle.SmallText
     }
