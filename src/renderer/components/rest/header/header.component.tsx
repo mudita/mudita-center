@@ -1,5 +1,5 @@
 import * as React from "react"
-import { useState } from "react"
+import { ReactElement, useState } from "react"
 import { useEffect } from "react"
 import { useLocation } from "react-router"
 import Text, {
@@ -22,24 +22,35 @@ const HeaderWrapper = styled.div`
 
 interface HeaderProps {
   middleComponent?: any
+  button?: ReactElement
 }
 
 const HeaderText = styled(Text)`
   margin: 2.4rem 0 1.5rem 4rem;
 `
 
-const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
+const Header: FunctionComponent<HeaderProps> = ({
+  middleComponent,
+  button,
+}) => {
   const location = useLocation()
   const [currentLocation, setCurrentLocation] = useState()
+  const [renderHeaderButton, setRenderHeaderButton] = useState(false)
   useEffect(() => {
     const pathname = location.pathname
     const currentMenuElementName = Object.keys(views).find(
       key => views[key as keyof typeof views].url === pathname
     )
+    const menuElementNameWithHeaderButton = Object.keys(views).find(
+      key => views[key as keyof typeof views].renderHeaderButton
+    )
     if (currentMenuElementName) {
       const currentMenuElement =
         views[currentMenuElementName as keyof typeof views]
       setCurrentLocation(currentMenuElement.label)
+      setRenderHeaderButton(
+        menuElementNameWithHeaderButton === currentMenuElementName
+      )
     }
   }, [location])
   return (
@@ -53,7 +64,7 @@ const Header: FunctionComponent<HeaderProps> = ({ middleComponent }) => {
         React.cloneElement(middleComponent, {
           currentLocation: location.pathname,
         })}
-      <div />
+      {renderHeaderButton && button}
     </HeaderWrapper>
   )
 }
