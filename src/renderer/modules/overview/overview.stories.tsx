@@ -37,7 +37,7 @@ const fakeState = {
 }
 
 storiesOf("Views|Overview", module).add("Overview", () => (
-  <div style={{ maxWidth: "63rem" }}>
+  <div style={{ maxWidth: "97.5rem" }}>
     <Router history={history}>
       <OverviewUI
         {...fakeState}
@@ -52,7 +52,7 @@ storiesOf("Views|Overview", module).add("Overview", () => (
 ))
 
 const ModalStory: FunctionComponent = ({ children }) => (
-  <div style={{ maxWidth: "63rem" }}>
+  <div style={{ maxWidth: "97.5rem" }}>
     <Router history={history}>
       <OverviewUI
         {...fakeState}

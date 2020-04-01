@@ -88,6 +88,22 @@ export default () => {
         target="_blank"
         Icon={Type.Upload}
       />
+      <ButtonHeader displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
+        Link, style Dropdown
+      </ButtonHeader>
+      <Button
+        displayStyle={DisplayStyle.Dropdown}
+        label="I open Google in new tab"
+        href="http://www.google.pl"
+        target="_blank"
+      />
+      <Button
+        displayStyle={DisplayStyle.Dropdown}
+        label="I open Google in new tab and have an icon"
+        href="http://www.google.pl"
+        target="_blank"
+        Icon={Type.Upload}
+      />
     </StoryWrapper>
   )
 }

@@ -9,6 +9,7 @@ export enum DisplayStyle {
   Link3,
   Link4,
   Tab,
+  Dropdown,
 }
 
 export enum Type {

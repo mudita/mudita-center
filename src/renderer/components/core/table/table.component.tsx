@@ -13,6 +13,8 @@ import {
   borderColor,
   borderRadius,
   textColor,
+  transitionTime,
+  transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
@@ -61,6 +63,9 @@ export const Row = styled.div<TableRowProps>`
   position: relative;
   box-sizing: border-box;
   border-bottom: solid 0.1rem ${borderColor("listItem")};
+  background-color: ${backgroundColor("tableRow")};
+  transition: background-color ${transitionTime("faster")}
+    ${transitionTimingFunction("smooth")};
 
   height: ${({ size }) => {
     switch (size) {
@@ -123,7 +128,7 @@ export const Labels = styled(Row)`
   position: sticky;
   top: 0;
   left: 0;
-  background-color: ${backgroundColor("grey5")} !important;
+  background-color: ${backgroundColor("tableLabel")} !important;
 `
 
 /* Group */

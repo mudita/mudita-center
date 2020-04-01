@@ -3,11 +3,10 @@ import {
   filterContacts,
   generateFakeData,
   generateSortedStructure,
-  removeEmptyContacts,
 } from "Renderer/models/phone/utils/utils"
 
 const initialStateValue = {
-  contacts: generateFakeData(20),
+  contacts: generateFakeData(40),
   inputValue: "",
 }
 
@@ -24,11 +23,9 @@ export default {
   selectors: (slice: Slicer<typeof initialStateValue>) => ({
     grouped() {
       return slice(state => {
-        return removeEmptyContacts(
-          filterContacts(
-            generateSortedStructure(state.contacts),
-            state.inputValue
-          )
+        return filterContacts(
+          generateSortedStructure(state.contacts),
+          state.inputValue
         )
       })
     },

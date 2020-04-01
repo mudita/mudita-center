@@ -34,6 +34,7 @@ const theme = {
       active: black, // "#191c20"
       black,
       grey: grey5,
+      darkGrey: grey1,
       primary: black,
       inverted: white,
       faded: grey2,
@@ -58,6 +59,10 @@ const theme = {
       inputDark: grey1,
       accent: grey6,
       primaryDark: grey6,
+      avatarDark: grey6,
+      avatarLight: white,
+      tableLabel: grey7,
+      tableRow: white,
     },
     border: {
       app: grey9,
@@ -128,6 +133,7 @@ const theme = {
   transitionTimingFunction: {
     standard: "linear",
     easeInOut: "ease-in-out",
+    smooth: "ease-in-out",
   },
   width: {
     buttonBig: columnWidth * 2 + gutterWidth,
@@ -138,9 +144,10 @@ const theme = {
   },
   zIndex: {
     content: 1,
-    dropdown: 2,
-    modalBackdrop: 3,
-    modal: 4,
+    menu: 2,
+    dropdown: 3,
+    modalBackdrop: 4,
+    modal: 5,
   },
 }
 
