@@ -8,7 +8,8 @@ export const newsItems = {
     link:
       "https://forum.mudita.com/t/one-feature-i-would-love-to-see-added/299",
     discussionId: "299",
-    imageId: "6j1K3VOLf3aAdijTuObagd",
+    imageSource:
+      "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
   },
   "703": {
     category: "Blog",
@@ -20,7 +21,8 @@ export const newsItems = {
     link:
       "https://mudita.com/community/blog/the-kickstarter-campaign-of-mudita-pure-is-finished/",
     discussionId: "703",
-    imageId: "6mdeQ9Pm5Kgsek3x8Pt7Yh",
+    imageSource:
+      "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
   },
   "1027": {
     category: "Blog",
@@ -31,7 +33,8 @@ export const newsItems = {
     link:
       "https://mudita.com/community/blog/attention-the-precious-currency-were-giving-away-for-free/",
     discussionId: "1027",
-    imageId: "7qdkPb6OhjDR3ZRb90bcck",
+    imageSource:
+      "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
   },
 }
 
@@ -63,7 +66,8 @@ export const moreNewsItems = {
     link:
       "https://mudita.com/community/blog/attention-the-precious-currency-were-giving-away-for-free/",
     discussionId: "1023",
-    imageId: "7qdkPb6OhjDR3ZRb90bcck",
+    imageSource:
+      "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
   },
 }
 
