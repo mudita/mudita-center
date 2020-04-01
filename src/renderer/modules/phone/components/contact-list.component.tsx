@@ -149,7 +149,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           {contacts.map((contact, index) => {
             const { selected } = getRowStatus(contact)
             const onChange = () => toggleRow(contact)
-            const [firstNumber, ...{ length: restNumbers }] = [
+            const [firstNumber, ...{ length: restNumbersCount }] = [
               ...contact.phoneNumbers,
             ]
 
@@ -186,7 +186,9 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                 </Col>
                 <Col>{firstNumber}</Col>
                 <Col>
-                  {restNumbers > 0 && <MoreNumbers>+{restNumbers}</MoreNumbers>}
+                  {restNumbersCount > 0 && (
+                    <MoreNumbers>+{restNumbersCount}</MoreNumbers>
+                  )}
                 </Col>
                 <Col>
                   <Actions>
