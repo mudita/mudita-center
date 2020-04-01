@@ -1,8 +1,10 @@
 export interface Contact {
   id: string
-  firstName?: string
-  lastName?: string
-  phoneNumber?: string
+  firstName: string
+  lastName: string
+  phoneNumbers: string[]
+  favourite: boolean
+  blocked: boolean
 }
 
 export interface ContactCategory {

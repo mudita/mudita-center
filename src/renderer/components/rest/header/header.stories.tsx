@@ -40,7 +40,7 @@ storiesOf("Components|Header", module)
           middleComponent={<HeaderTabs currentLocation={"/news"} />}
           button={
             <HeaderButton
-              Icon={Type.More}
+              Icon={Type.ExternalLink}
               label={intl.formatMessage({
                 id: "view.name.news.moreNewsButtonLabel",
               })}

@@ -8,32 +8,39 @@ import {
   backgroundColor,
   boxShadowColor,
   width,
+  zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import Button from "Renderer/components/core/button/button.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { intl } from "Renderer/utils/intl"
 
 const Layout = styled.div`
-  display: flex;
-  flex: 1;
+  display: grid;
   height: 100vh;
+  grid-template-rows: 6rem calc(100vh - 6rem);
+  grid-template-columns: 30.5rem 1fr;
+  grid-template-areas: "Menu Header" "Menu View";
   max-width: ${width("viewWidth")};
   margin: 0 auto;
+  overflow: hidden;
 `
 
 const MenuWrapper = styled.div`
   box-shadow: 0 0.2rem 3rem 0 ${boxShadowColor("app")};
-  width: ${width("menuWidth")};
   overflow: auto;
   background-color: ${backgroundColor("light")};
-  z-index: 1;
+  z-index: ${zIndex("menu")};
+  grid-area: Menu;
+`
+
+const HeaderWrapper = styled.div`
+  grid-area: Header;
 `
 
 const ViewWrapper = styled.div`
-  flex: 1;
+  grid-area: View;
   display: flex;
   flex-direction: column;
-  overflow: auto;
 `
 
 export const HeaderTabs = styled(Tabs)`
@@ -56,12 +63,12 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
       <MenuWrapper>
         <Menu />
       </MenuWrapper>
-      <ViewWrapper>
+      <HeaderWrapper>
         <Header
           middleComponent={<HeaderTabs />}
           button={
             <HeaderButton
-              Icon={Type.More}
+              Icon={Type.ExternalLink}
               label={intl.formatMessage({
                 id: "view.name.news.moreNewsButtonLabel",
               })}
@@ -70,8 +77,8 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
             />
           }
         />
-        {children}
-      </ViewWrapper>
+      </HeaderWrapper>
+      <ViewWrapper>{children}</ViewWrapper>
     </Layout>
   )
 }

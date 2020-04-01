@@ -25,19 +25,19 @@ storiesOf("Components|Avatar", module)
         <Wrapper>
           <Text displayStyle={TextDisplayStyle.SmallText}>Small</Text>
           <br />
-          <Avatar size={AvatarSize.Small} text={"WWW"} />
+          <Avatar size={AvatarSize.Small} text={"MK"} />
         </Wrapper>
         <Wrapper>
           <Text displayStyle={TextDisplayStyle.SmallText}>
             Medium (default)
           </Text>
           <br />
-          <Avatar text={"WWW"} />
+          <Avatar text={"MK"} />
         </Wrapper>
         <Wrapper>
           <Text displayStyle={TextDisplayStyle.SmallText}>Big</Text>
           <br />
-          <Avatar size={AvatarSize.Big} text={"WWW"} />
+          <Avatar size={AvatarSize.Big} text={"MK"} />
         </Wrapper>
       </>
     )
@@ -48,19 +48,19 @@ storiesOf("Components|Avatar", module)
         <WrapperWithBG>
           <Text displayStyle={TextDisplayStyle.SmallText}>Small</Text>
           <br />
-          <Avatar size={AvatarSize.Small} text={"WWW"} light />
+          <Avatar size={AvatarSize.Small} text={"MK"} light />
         </WrapperWithBG>
         <WrapperWithBG>
           <Text displayStyle={TextDisplayStyle.SmallText}>
             Medium (default)
           </Text>
           <br />
-          <Avatar text={"WWW"} light />
+          <Avatar text={"MK"} light />
         </WrapperWithBG>
         <WrapperWithBG>
           <Text displayStyle={TextDisplayStyle.SmallText}>Big</Text>
           <br />
-          <Avatar size={AvatarSize.Big} text={"WWW"} light />
+          <Avatar size={AvatarSize.Big} text={"MK"} light />
         </WrapperWithBG>
       </>
     )

@@ -41,14 +41,14 @@ test("header should render correct pathname", () => {
 
 test("button renders on news page", () => {
   const currentLocation = "/news"
-  const buttonsIconId = "icon-More"
+  const buttonsIconId = "icon-ExternalLink"
   const { getByTestId } = renderWithThemeAndIntl(
     <MemoryRouter initialEntries={[currentLocation]}>
       <Header
         middleComponent={<Tabs currentLocation={currentLocation} />}
         button={
           <HeaderButton
-            Icon={Type.More}
+            Icon={Type.ExternalLink}
             label={intl.formatMessage({
               id: "view.name.news.moreNewsButtonLabel",
             })}
