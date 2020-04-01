@@ -3,6 +3,8 @@ import { intl } from "Renderer/utils/intl"
 import { Contact, ContactCategory } from "Renderer/models/phone/phone.interface"
 
 // TODO: remove before production
+const speedDials = Array.from({ length: 10 }).map((_, index) => index)
+
 export const generateFakeData = (numberOfContacts: number) => {
   return Array(numberOfContacts)
     .fill(0)
@@ -13,10 +15,14 @@ export const generateFakeData = (numberOfContacts: number) => {
         firstName: Faker.name.firstName(),
         lastName: Faker.name.lastName(),
         phoneNumbers: Array.from({
-          length: Math.floor(Math.random() * 4),
+          length: Math.random() < 0.3 ? 0 : Math.ceil(Math.random() * 2),
         }).map(() => Faker.phone.phoneNumber("+## ### ### ###")),
+        email: Faker.internet.email(),
+        notes: Faker.lorem.paragraph(1),
         favourite,
         blocked: !favourite ? Math.random() < 0.15 : false,
+        speedDial: favourite ? speedDials.shift() : undefined,
+        address: Faker.address.streetAddress(),
       }
     })
 }
