@@ -6,10 +6,8 @@ import {
   commentsCount,
   moreCommentsCount,
   moreNewsIds,
-  moreNewsImages,
   moreNewsItems,
   newsIds,
-  newsImages,
   newsItems,
 } from "Renderer/components/rest/news/cards/cards-mock-data"
 
@@ -20,7 +18,6 @@ test("should render 3 cards", () => {
       newsItems={newsItems}
       newsIds={newsIds}
       commentsCount={commentsCount}
-      images={newsImages}
     />
   )
 
@@ -33,7 +30,6 @@ test("should render 3 cards even when more than 3 elements are passed through pr
     <Cards
       newsItems={moreNewsItems}
       newsIds={moreNewsIds}
-      images={moreNewsImages}
       commentsCount={moreCommentsCount}
     />
   )

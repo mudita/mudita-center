@@ -46,15 +46,6 @@ export const commentsCount = {
   "1027": 3,
 }
 
-export const newsImages = {
-  "6j1K3VOLf3aAdijTuObagd":
-    "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
-  "6mdeQ9Pm5Kgsek3x8Pt7Yh":
-    "//images.ctfassets.net/isxmxtc67n72/6mdeQ9Pm5Kgsek3x8Pt7Yh/2a946227e8a874a8dd047b0497309d4c/final.jpg",
-  "7qdkPb6OhjDR3ZRb90bcck":
-    "//images.ctfassets.net/isxmxtc67n72/7qdkPb6OhjDR3ZRb90bcck/67c404e8e737a86ed743569ebb39f761/attention.jpg",
-}
-
 export const moreNewsItems = {
   ...newsItems,
   "1023": {
@@ -74,9 +65,3 @@ export const moreNewsItems = {
 export const moreNewsIds = [...newsIds, "1023"]
 
 export const moreCommentsCount = { ...commentsCount, "1023": 33 }
-
-export const moreNewsImages = {
-  ...newsImages,
-  "6j1K3VOLf3aAdijTuObagd":
-    "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
-}

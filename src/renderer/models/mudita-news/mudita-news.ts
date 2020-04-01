@@ -3,13 +3,11 @@ import axios from "axios"
 import { Entry, Asset } from "contentful"
 import {
   NewsEntry,
-  NewsImage,
   Store,
 } from "Renderer/models/mudita-news/mudita-news.interface"
 
 const initialState: Store = {
   newsIds: [],
-  images: {},
   newsItems: {},
   commentsCount: {},
 }
@@ -43,16 +41,6 @@ export default {
           ...counts,
         },
       }
-    },
-    updateImages(state: Store, payload: any) {
-      const images = payload.reduce(
-        (acc: Record<string, string>, { imageId, imageUrl }: NewsImage) => {
-          acc[imageId] = imageUrl
-          return acc
-        },
-        {} as Record<string, NewsEntry>
-      )
-      return { ...state, images }
     },
   },
   effects: (dispatch: Dispatch) => ({

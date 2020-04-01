@@ -5,7 +5,6 @@ import Cards from "Renderer/components/rest/news/cards/cards.component"
 import {
   commentsCount,
   newsIds,
-  newsImages,
   newsItems,
 } from "Renderer/components/rest/news/cards/cards-mock-data"
 
@@ -23,7 +22,6 @@ storiesOf("News|Cards", module).add("Cards", () => {
         newsItems={newsItems}
         newsIds={newsIds}
         commentsCount={commentsCount}
-        images={newsImages}
       />
     </Container>
   )

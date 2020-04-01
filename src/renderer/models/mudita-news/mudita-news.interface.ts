@@ -19,15 +19,7 @@ export interface Store {
   newsItems: {
     [key: string]: NewsEntry
   }
-  images: {
-    [key: string]: string
-  }
   commentsCount: {
     [key: string]: number
   }
-}
-
-export interface NewsImage {
-  imageId: string
-  imageUrl: string
 }
