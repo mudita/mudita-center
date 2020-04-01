@@ -9,6 +9,7 @@ import {
   Labels,
   NestedGroup,
   Row,
+  Sidebar,
 } from "Renderer/components/core/table/table.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { nestedRows } from "Renderer/components/core/table/table.fake-data"
@@ -321,4 +322,29 @@ test("selecting all nested rows works properly", async () => {
     }
     expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(1)
   })
+})
+
+test("sidebar renders close button properly", () => {
+  const { getByRole } = renderWithThemeAndIntl(<Sidebar />)
+  expect(getByRole("button")).toBeInTheDocument()
+})
+
+test("sidebar close button works properly", () => {
+  const onClose = jest.fn()
+  const { getByRole } = renderWithThemeAndIntl(<Sidebar onClose={onClose} />)
+  fireEvent.click(getByRole("button"))
+  expect(onClose).toBeCalled()
+})
+
+test("sidebar renders content correctly", () => {
+  const { getByText } = renderWithThemeAndIntl(<Sidebar>Content</Sidebar>)
+  expect(getByText("Content")).toBeInTheDocument()
+})
+
+test("sidebar renders header slots correctly", () => {
+  const { getByText } = renderWithThemeAndIntl(
+    <Sidebar headerLeft={<p>Left slot</p>} headerRight={<p>Right slot</p>} />
+  )
+  expect(getByText("Left slot")).toBeInTheDocument()
+  expect(getByText("Right slot")).toBeInTheDocument()
 })

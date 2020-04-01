@@ -1,5 +1,6 @@
 import React from "react"
 import {
+  SidebarProps,
   TableProps,
   TableRowProps,
 } from "Renderer/components/core/table/table.interface"
@@ -17,6 +18,9 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import ButtonComponent from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 
 /* Row */
 export enum RowSize {
@@ -148,13 +152,110 @@ export const NestedGroup = styled.div<{ level?: number }>`
   }
 `
 
+/* Sidebar */
+const SidebarClose = styled.div`
+  grid-area: Close;
+  cursor: pointer;
+  justify-self: end;
+`
+
+const SidebarHeaderLeft = styled.div`
+  grid-area: Left;
+`
+
+const SidebarHeaderRight = styled.div`
+  grid-area: Right;
+  position: relative;
+  padding-right: 1.6rem;
+  display: flex;
+  flex-direction: row;
+
+  &:after {
+    content: "";
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    width: 0.1rem;
+    height: 1.6rem;
+    background-color: ${borderColor("light")};
+  }
+`
+
+const SidebarHeader = styled.div`
+  display: grid;
+  height: var(--header-height);
+  grid-template-columns: 1fr auto 3.8rem;
+  grid-template-areas: "Left Right Close";
+  align-items: center;
+  background-color: var(--header-background);
+  padding: 0 2.3rem 0 3rem;
+`
+
+const SidebarContent = styled.div`
+  padding: 0 3rem;
+  overflow: auto;
+  flex: 1;
+`
+
+const SidebarWrapper = styled.div<{ show?: boolean }>`
+  --header-height: 6rem;
+  --header-background: transparent;
+
+  width: 62rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: ${backgroundColor("light")};
+  border-left: solid 0.1rem ${borderColor("light")};
+  transition: transform 0.15s ease-in-out;
+  margin-right: ${({ show }) => (show ? 0 : -62)}rem;
+  transform: translateX(${({ show }) => (show ? 0 : 1)}rem);
+`
+
+export const SidebarHeaderIcon = styled(ButtonComponent).attrs(() => ({
+  displayStyle: DisplayStyle.IconOnly2,
+}))`
+  width: 3.2rem;
+  height: 3.2rem;
+  margin-left: 0.6rem;
+
+  > div {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+`
+
+export const Sidebar: FunctionComponent<SidebarProps> = ({
+  show,
+  className,
+  onClose,
+  children,
+  headerLeft,
+  headerRight,
+}) => (
+  <SidebarWrapper className={className} show={show}>
+    <SidebarHeader>
+      {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
+      {headerRight && <SidebarHeaderRight>{headerRight}</SidebarHeaderRight>}
+      <SidebarClose onClick={onClose}>
+        <SidebarHeaderIcon Icon={Type.Close} />
+      </SidebarClose>
+    </SidebarHeader>
+    <SidebarContent>{children}</SidebarContent>
+  </SidebarWrapper>
+)
+
+/* Table */
 const TableComponent = styled.div<
   Pick<TableProps, "hideColumns" | "hideableColumnsIndexes">
 >`
   --nestSize: 4rem;
   --columnsTemplate: repeat(auto-fit, minmax(0, 1fr));
   --columnsGap: 2rem;
+  flex: 1;
   position: relative;
+  overflow: auto;
 
   & > ${Labels} {
     ${columnLabelStyles};
@@ -167,10 +268,21 @@ const TableComponent = styled.div<
 
       ${Col} {
         ${hideableColumnsIndexes.map(
-          column => `&:nth-of-type(${column + 1}) { display: none; }`
+          column =>
+            css`
+              &:nth-of-type(${column + 1}) {
+                display: none;
+              }
+            `
         )};
       }
     `};
+`
+
+export const TableWithSidebarWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
 `
 
 /* Default empty state */
@@ -181,21 +293,8 @@ export const EmptyState = styled(Row)`
   }
 `
 
-const Table: FunctionComponent<TableProps> = ({
-  className,
-  children,
-  hideColumns,
-  hideableColumnsIndexes,
-}) => {
-  return (
-    <TableComponent
-      className={className}
-      hideColumns={hideColumns}
-      hideableColumnsIndexes={hideableColumnsIndexes}
-    >
-      {children}
-    </TableComponent>
-  )
-}
+const Table: FunctionComponent<TableProps> = ({ children, ...props }) => (
+  <TableComponent {...props}>{children}</TableComponent>
+)
 
 export default Table

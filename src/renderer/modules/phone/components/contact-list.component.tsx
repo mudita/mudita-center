@@ -194,11 +194,9 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             {contacts.map((contact, index) => {
               const { selected } = getRowStatus(contact)
               const onChange = () => toggleRow(contact)
-              const initials =
-                contact.firstName.charAt(0) + contact.lastName.charAt(0)
-              const phoneNumbers = [...contact.phoneNumbers]
-              const firstNumber = phoneNumbers.shift()
-              const restNumbers = phoneNumbers.length
+              const [firstNumber, ...{ length: restNumbersCount }] = [
+                ...contact.phoneNumbers,
+              ]
 
               const exportAction = () => {
                 contactExportHandler(contact)
@@ -232,7 +230,10 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                     />
                   </Col>
                   <Col onClick={onClick}>
-                    <InitialsAvatar text={initials} light={selected} />
+                    <InitialsAvatar
+                      text={contact.firstName[0] + contact.lastName[0]}
+                      light={selected}
+                    />
                     {contact.firstName} {contact.lastName}
                     {contact.blocked && (
                       <BlockedIcon width={1.4} height={1.4} />
@@ -240,8 +241,8 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                   </Col>
                   <Col>{firstNumber}</Col>
                   <Col>
-                    {restNumbers > 0 && (
-                      <MoreNumbers>+{restNumbers}</MoreNumbers>
+                    {restNumbersCount > 0 && (
+                      <MoreNumbers>+{restNumbersCount}</MoreNumbers>
                     )}
                   </Col>
                   <Col>

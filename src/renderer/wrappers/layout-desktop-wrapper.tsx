@@ -10,6 +10,9 @@ import {
   width,
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
+import Button from "Renderer/components/core/button/button.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import { intl } from "Renderer/utils/intl"
 
 const Layout = styled.div`
   display: grid;
@@ -40,8 +43,18 @@ const ViewWrapper = styled.div`
   flex-direction: column;
 `
 
-const HeaderTabs = styled(Tabs)`
+export const HeaderTabs = styled(Tabs)`
   margin: 0 auto;
+`
+
+export const HeaderButton = styled(Button)`
+  align-self: center;
+  justify-self: right;
+  margin-right: 3rem;
+  svg {
+    height: 1.4rem;
+    width: 1.4rem;
+  }
 `
 
 const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
@@ -51,7 +64,19 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
         <Menu />
       </MenuWrapper>
       <HeaderWrapper>
-        <Header middleComponent={<HeaderTabs />} />
+        <Header
+          middleComponent={<HeaderTabs />}
+          button={
+            <HeaderButton
+              Icon={Type.ExternalLink}
+              label={intl.formatMessage({
+                id: "view.name.news.moreNewsButtonLabel",
+              })}
+              href={"https://www.mudita.com/"}
+              target="_blank"
+            />
+          }
+        />
       </HeaderWrapper>
       <ViewWrapper>{children}</ViewWrapper>
     </Layout>
