@@ -78,6 +78,8 @@ const TrailingIcons = styled.div`
 const StandardInputWrapper = styled.div`
   position: relative;
   order: 2;
+  flex: 1;
+  display: flex;
 `
 
 const TextInputIcon = styled.span`
@@ -151,15 +153,21 @@ const InputWrapper = styled.label<Partial<InputProps & TextareaProps>>`
   }
 `
 
-const TextAreaInput = styled.textarea`
+const TextAreaInput = styled.textarea<{ inputLike?: boolean }>`
   ${generalInputStyles};
   resize: none;
   overflow: auto;
-  margin: 1.2rem 1.6rem;
+
   line-height: inherit;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding-right: 0.5rem;
+
+  ${({ inputLike }) =>
+    !inputLike &&
+    css`
+      margin: 1.2rem 1.6rem;
+      padding-right: 0.5rem;
+    `}
 `
 
 const textAreaLayout = css`
@@ -176,9 +184,10 @@ const textAreaLayout = css`
   }
 `
 
-const TextareaWrapper = styled(InputWrapper)`
+const TextareaWrapper = styled(InputWrapper)<{ inputLike?: boolean }>`
   line-height: ${getLineHeight("textarea")}rem;
-  ${textAreaLayout};
+
+  ${({ inputLike }) => !inputLike && textAreaLayout};
 `
 
 const InputIcons: FunctionComponent<InputIconsProps> = ({
@@ -251,6 +260,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   maxRows = 0,
   onChange = noop,
   value,
+  inputLike,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -285,7 +295,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
 
   useEffect(() => {
     resetRowsCount()
-  }, [value])
+  }, [value, defaultValue])
 
   useEffect(() => {
     calculateHeight()
@@ -297,13 +307,18 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   }
 
   return (
-    <TextareaWrapper className={className} disabled={disabled}>
+    <TextareaWrapper
+      className={className}
+      disabled={disabled}
+      inputLike={inputLike}
+    >
       <TextAreaInput
         ref={textareaRef}
         value={value || defaultValue}
         rows={rowsCount}
         disabled={disabled}
         onChange={onChangeHandler}
+        inputLike={inputLike}
         {...rest}
       />
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />

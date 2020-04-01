@@ -24,6 +24,7 @@ export interface TextareaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement>,
     BasicProps {
   maxRows?: number
+  inputLike?: boolean
   type?: "textarea"
 }
 
