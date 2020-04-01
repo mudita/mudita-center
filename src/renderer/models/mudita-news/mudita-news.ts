@@ -79,14 +79,16 @@ export default {
             imageId: fields?.image?.sys?.id,
           }
         })
-        console.log(includes.Asset)
-        const images = includes.Asset.map(
-          (image: Asset): NewsImage => ({
-            imageId: image.sys.id,
-            imageUrl: image.fields.file.url,
+        news.forEach((item: NewsEntry) => {
+          const {
+            fields: {
+              file: { url },
+            },
+          } = includes.Asset.find((asset: Asset) => {
+            return item?.image?.sys?.id === asset.sys.id
           })
-        )
-        dispatch.muditaNews.updateImages(images)
+          item.imageSource = url
+        })
         dispatch.muditaNews.update(news)
         const commentsCalls = news.map(
           ({

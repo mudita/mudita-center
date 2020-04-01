@@ -10,7 +10,7 @@ export interface NewsEntry {
   communityLink: string
   link: string
   discussionId: string
-  imageId: string
+  imageSource: string
   imageAlt?: string
 }
 
