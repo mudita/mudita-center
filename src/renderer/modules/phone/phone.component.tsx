@@ -23,12 +23,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   onManageButtonClick,
   onNewButtonClick,
   contactList,
-  onContactEdit,
-  onContactExport,
-  onContactForward,
-  onContactBlock,
-  onContactDelete,
-  onContactSelect,
+  ...rest
 }) => (
   <ContactSection>
     <ContactPanel
@@ -36,15 +31,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
       onManageButtonClick={onManageButtonClick}
       onNewButtonClick={onNewButtonClick}
     />
-    <ContactList
-      contactList={contactList}
-      onContactEdit={onContactEdit}
-      onContactExport={onContactExport}
-      onContactForward={onContactForward}
-      onContactBlock={onContactBlock}
-      onContactDelete={onContactDelete}
-      onContactSelect={onContactSelect}
-    />
+    <ContactList contactList={contactList} {...rest} />
   </ContactSection>
 )
 
