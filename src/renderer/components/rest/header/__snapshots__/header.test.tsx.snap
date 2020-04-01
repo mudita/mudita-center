@@ -75,7 +75,6 @@ exports[`matches snapshot with tabs 1`] = `
       </p>
     </a>
   </div>
-  <div />
 </div>
 `;
 
@@ -92,6 +91,5 @@ exports[`matches snapshot without tabs 1`] = `
   <div
     class="sc-fzoLsD fekCvi"
   />
-  <div />
 </div>
 `;

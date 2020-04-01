@@ -9,6 +9,9 @@ import {
   boxShadowColor,
   width,
 } from "Renderer/styles/theming/theme-getters"
+import Button from "Renderer/components/core/button/button.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import { intl } from "Renderer/utils/intl"
 
 const Layout = styled.div`
   display: flex;
@@ -33,8 +36,18 @@ const ViewWrapper = styled.div`
   overflow: auto;
 `
 
-const HeaderTabs = styled(Tabs)`
+export const HeaderTabs = styled(Tabs)`
   margin: 0 auto;
+`
+
+export const HeaderButton = styled(Button)`
+  align-self: center;
+  justify-self: right;
+  margin-right: 3rem;
+  svg {
+    height: 1.4rem;
+    width: 1.4rem;
+  }
 `
 
 const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
@@ -44,7 +57,19 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
         <Menu />
       </MenuWrapper>
       <ViewWrapper>
-        <Header middleComponent={<HeaderTabs />} />
+        <Header
+          middleComponent={<HeaderTabs />}
+          button={
+            <HeaderButton
+              Icon={Type.More}
+              label={intl.formatMessage({
+                id: "view.name.news.moreNewsButtonLabel",
+              })}
+              href={"https://www.mudita.com/"}
+              target="_blank"
+            />
+          }
+        />
         {children}
       </ViewWrapper>
     </Layout>
