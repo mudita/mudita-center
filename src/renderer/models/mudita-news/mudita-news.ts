@@ -1,9 +1,9 @@
 import { Dispatch } from "Renderer/store"
-import { Slicer } from "@rematch/select"
 import axios from "axios"
-import { Entry } from "contentful"
+import { Entry, Asset } from "contentful"
 import {
   NewsEntry,
+  NewsImage,
   Store,
 } from "Renderer/models/mudita-news/mudita-news.interface"
 
@@ -45,10 +45,13 @@ export default {
       }
     },
     updateImages(state: Store, payload: any) {
-      const images = payload.reduce((acc, { imageId, imageUrl }) => {
-        acc[imageId] = imageUrl
-        return acc
-      }, {} as Record<string, NewsEntry>)
+      const images = payload.reduce(
+        (acc: Record<string, string>, { imageId, imageUrl }: NewsImage) => {
+          acc[imageId] = imageUrl
+          return acc
+        },
+        {} as Record<string, NewsEntry>
+      )
       return { ...state, images }
     },
   },
@@ -70,19 +73,19 @@ export default {
         } = await axios.get(
           `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=newsItem`
         )
-        const news = items.map(
-          ({ fields }: Entry<NewsEntry>, index: number) => {
-            console.log(fields)
-            return {
-              ...fields,
-              imageId: fields.image.sys.id,
-            }
+        const news = items.map(({ fields }: Entry<NewsEntry>) => {
+          return {
+            ...fields,
+            imageId: fields?.image?.sys?.id,
           }
+        })
+        console.log(includes.Asset)
+        const images = includes.Asset.map(
+          (image: Asset): NewsImage => ({
+            imageId: image.sys.id,
+            imageUrl: image.fields.file.url,
+          })
         )
-        const images = includes.Asset.map(image => ({
-          imageId: image.sys.id,
-          imageUrl: image.fields.file.url,
-        }))
         dispatch.muditaNews.updateImages(images)
         dispatch.muditaNews.update(news)
         const commentsCalls = news.map(
@@ -103,5 +106,4 @@ export default {
       }
     },
   }),
-  selectors: (slice: Slicer<typeof initialState>) => ({}),
 }
