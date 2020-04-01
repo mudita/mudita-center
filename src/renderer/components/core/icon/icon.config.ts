@@ -57,6 +57,7 @@ import More from "Renderer/svg/more.svg"
 import Blocked from "Renderer/svg/blocked.svg"
 import Forward from "Renderer/svg/forward.svg"
 import Edit from "Renderer/svg/edit.svg"
+import Favourites from "Renderer/svg/favourites.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -118,6 +119,7 @@ export enum Type {
   Blocked,
   Forward,
   Edit,
+  Favourites,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -238,6 +240,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Forward
     case Type.Edit:
       return Edit
+    case Type.Favourites:
+      return Favourites
     default:
       return Message
   }
