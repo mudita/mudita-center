@@ -9,9 +9,6 @@ import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 interface Props {
   newsItems: Record<string, NewsEntry>
   newsIds: string[]
-  images: {
-    [key: string]: string
-  }
   commentsCount: Record<string, number>
   loadData?: () => void
 }
@@ -25,7 +22,6 @@ const CardContainer = styled.div`
 const Cards: FunctionComponent<Props> = ({
   newsItems,
   newsIds,
-  images,
   commentsCount,
   loadData = noop,
 }) => {
