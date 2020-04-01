@@ -70,12 +70,14 @@ export default {
         news.forEach((item: NewsEntry) => {
           const {
             fields: {
+              title,
               file: { url },
             },
           } = includes.Asset.find((asset: Asset) => {
             return item?.image?.sys?.id === asset.sys.id
           })
           item.imageSource = url
+          item.imageAlt = title
         })
         dispatch.muditaNews.update(news)
         const commentsCalls = news.map(
