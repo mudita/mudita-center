@@ -1,5 +1,4 @@
 import React from "react"
-import { AvatarProps } from "Renderer/components/core/avatar/avatar.interface"
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
@@ -33,7 +32,7 @@ const AvatarImage = styled(Image)`
   height: 100%;
 `
 
-const AvatarWrapper = styled.div<{ size: AvatarSize; light: boolean }>`
+const AvatarWrapper = styled.div<{ size: AvatarSize; light?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,9 +40,17 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light: boolean }>`
   height: ${({ size }) => getSize(size)}rem;
   overflow: hidden;
   border-radius: 50%;
-  background-color: ${backgroundColor("avatarDark")};
+  background-color: ${({ light }) =>
+    light ? backgroundColor("avatarLight") : backgroundColor("avatarDark")};
   text-transform: uppercase;
 `
+
+export interface AvatarProps {
+  size?: AvatarSize
+  text?: string
+  light?: boolean
+  imageSrc?: string
+}
 
 const Avatar: FunctionComponent<AvatarProps> = ({
   className,
@@ -52,8 +59,10 @@ const Avatar: FunctionComponent<AvatarProps> = ({
   imageSrc,
   light,
 }) => (
-  <AvatarWrapper className={className} size={size} light={Boolean(light)}>
-    {Boolean(text) ? (
+  <AvatarWrapper className={className} size={size} light={light}>
+    {imageSrc ? (
+      <AvatarImage data-testid="avatar-image" src={imageSrc} />
+    ) : text ? (
       <Text
         displayStyle={
           size === AvatarSize.Big
@@ -63,8 +72,6 @@ const Avatar: FunctionComponent<AvatarProps> = ({
       >
         {text}
       </Text>
-    ) : Boolean(imageSrc) ? (
-      <AvatarImage data-testid="avatar-image" src={imageSrc} />
     ) : (
       <Icon type={Type.Contacts} width={getSize(size) / 2.5} />
     )}

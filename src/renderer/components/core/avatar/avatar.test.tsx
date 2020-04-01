@@ -2,36 +2,32 @@ import "@testing-library/jest-dom/extend-expect"
 import "jest-styled-components"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { AvatarProps } from "Renderer/components/core/avatar/avatar.interface"
 import Avatar, {
+  AvatarProps,
   AvatarSize,
   getSize,
 } from "Renderer/components/core/avatar/avatar.component"
-import { pieknaPaniJPG } from "Renderer/components/core/avatar/avatar.stories"
 
 const renderAvatar = ({ ...props }: Partial<AvatarProps> = {}) => {
-  const outcome = renderWithThemeAndIntl(<Avatar {...props} />)
-  return {
-    ...outcome,
-  }
+  return renderWithThemeAndIntl(<Avatar {...props} />)
 }
 
-const sizeTest = (size: AvatarSize) => {
+const testSize = (size: AvatarSize) => {
   const { container } = renderAvatar({ size })
   expect(container.firstChild).toHaveStyleRule("width", getSize(size) + "rem")
   expect(container.firstChild).toHaveStyleRule("height", getSize(size) + "rem")
 }
 
 test("avatar renders in small size properly", () => {
-  sizeTest(AvatarSize.Small)
+  testSize(AvatarSize.Small)
 })
 
 test("avatar renders in medium size properly", () => {
-  sizeTest(AvatarSize.Medium)
+  testSize(AvatarSize.Medium)
 })
 
 test("avatar renders in big size properly", () => {
-  sizeTest(AvatarSize.Big)
+  testSize(AvatarSize.Big)
 })
 
 test("avatar renders text content properly", () => {
@@ -40,11 +36,20 @@ test("avatar renders text content properly", () => {
 })
 
 test("avatar renders image properly", () => {
-  const { getByTestId } = renderAvatar({ imageSrc: pieknaPaniJPG })
+  const { getByTestId } = renderAvatar({ imageSrc: "someImageSrc" })
   expect(getByTestId("avatar-image")).toBeInTheDocument()
 })
 
 test("avatar renders default image properly", () => {
   const { getByTestId } = renderAvatar()
   expect(getByTestId("icon-Contacts")).toBeInTheDocument()
+})
+
+test("avatar renders image first", () => {
+  const { getByTestId, queryByText } = renderAvatar({
+    text: "abc",
+    imageSrc: "someImageSrc",
+  })
+  expect(getByTestId("avatar-image")).toBeInTheDocument()
+  expect(queryByText("abc")).not.toBeInTheDocument()
 })

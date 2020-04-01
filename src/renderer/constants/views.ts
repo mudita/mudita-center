@@ -38,6 +38,7 @@ export type Views = {
       id: string
     }
     url: string
+    renderHeaderButton?: boolean
   }
 }
 
@@ -45,6 +46,7 @@ export const views: Views = {
   [View.News]: {
     label: messages.news,
     url: URL_MAIN.news,
+    renderHeaderButton: true,
   },
   [View.Overview]: {
     label: messages.overview,

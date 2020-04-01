@@ -668,7 +668,7 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
   <p
     class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
   >
-    News
+    Mudita News
   </p>
 </button>
 `;
