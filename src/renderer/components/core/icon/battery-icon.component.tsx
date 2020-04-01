@@ -23,7 +23,7 @@ const BatteryChargingText = styled(Text)<{ size: number }>`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: ${({ size }) => size / 2.5}rem;
+  font-size: ${({ size }) => size / 3}rem;
 `
 
 const getInteractiveBatteryIcon = (

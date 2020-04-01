@@ -30,43 +30,43 @@ storiesOf("Components|Battery Icon", module).add("All States", () => {
         <StoryText displayStyle={TextDisplayStyle.SmallText}>
           No Battery
         </StoryText>
-        <BatteryIcon level={0} />
+        <BatteryIcon level={0} height={2.4} width={2.4} />
       </BatteryWrapper>
       <BatteryWrapper>
         <StoryText displayStyle={TextDisplayStyle.SmallText}>
           Very Low Battery
         </StoryText>
-        <BatteryIcon level={0.1} />
+        <BatteryIcon level={0.1} height={2.4} width={2.4} />
       </BatteryWrapper>
       <BatteryWrapper>
         <StoryText displayStyle={TextDisplayStyle.SmallText}>
           Low Battery
         </StoryText>
-        <BatteryIcon level={0.3} />
+        <BatteryIcon level={0.3} height={2.4} width={2.4} />
       </BatteryWrapper>
       <BatteryWrapper>
         <StoryText displayStyle={TextDisplayStyle.SmallText}>
           Medium Battery
         </StoryText>
-        <BatteryIcon level={0.5} />
+        <BatteryIcon level={0.5} height={2.4} width={2.4} />
       </BatteryWrapper>
       <BatteryWrapper>
         <StoryText displayStyle={TextDisplayStyle.SmallText}>
           High Battery
         </StoryText>
-        <BatteryIcon level={0.7} />
+        <BatteryIcon level={0.7} height={2.4} width={2.4} />
       </BatteryWrapper>
       <BatteryWrapper>
         <StoryText displayStyle={TextDisplayStyle.SmallText}>
           Very High Battery
         </StoryText>
-        <BatteryIcon level={0.9} />
+        <BatteryIcon level={0.9} height={2.4} width={2.4} />
       </BatteryWrapper>
       <BatteryWrapper>
         <StoryText displayStyle={TextDisplayStyle.SmallText}>
           Charging Battery
         </StoryText>
-        <BatteryIcon charging level={0.5} />
+        <BatteryIcon charging level={0.5} height={2.4} width={2.4} />
       </BatteryWrapper>
     </Container>
   )
