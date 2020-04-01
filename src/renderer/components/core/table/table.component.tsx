@@ -15,6 +15,7 @@ import {
   textColor,
   transitionTime,
   transitionTimingFunction,
+  width,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
@@ -40,7 +41,7 @@ const activeRowStyles = css`
   &:after {
     content: "";
     position: absolute;
-    z-index: 1;
+    z-index: 0;
     right: 0;
     top: 0;
     width: 0.3rem;
@@ -136,16 +137,23 @@ export const Labels = styled(Row)`
 /* Group */
 export const Group = styled.div`
   position: relative;
+  margin-top: -0.1rem;
 
   ${Labels} {
     ${rowLabelStyles};
+  }
+
+  ${Row} {
+    :last-of-type {
+      border-width: 0.2rem;
+    }
   }
 `
 
 export const NestedGroup = styled.div<{ level?: number }>`
   position: relative;
   ${Row} > ${Col} {
-    &:nth-child(1) {
+    :nth-child(1) {
       border-left: solid transparent calc(${({ level }) =>
         level || 1} * var(--nestSize));
     }
@@ -208,9 +216,8 @@ const SidebarWrapper = styled.div<{ show?: boolean }>`
   overflow: hidden;
   background-color: ${backgroundColor("light")};
   border-left: solid 0.1rem ${borderColor("light")};
-  transition: transform 0.15s ease-in-out;
+  border-top: solid 0.1rem ${borderColor("light")};
   margin-right: ${({ show }) => (show ? 0 : -62)}rem;
-  transform: translateX(${({ show }) => (show ? 0 : 1)}rem);
 `
 
 export const SidebarHeaderIcon = styled(ButtonComponent).attrs(() => ({
@@ -222,7 +229,8 @@ export const SidebarHeaderIcon = styled(ButtonComponent).attrs(() => ({
   opacity: 0.6;
   transition: opacity ${transitionTime("quick")}
     ${transitionTimingFunction("smooth")};
-  :hover {
+
+  &:hover {
     opacity: 1;
   }
 
@@ -253,17 +261,23 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
 )
 
 /* Table */
-const TableComponent = styled.div<
-  Pick<TableProps, "hideColumns" | "hideableColumnsIndexes">
->`
+const TableComponent = styled.div<TableProps>`
   --nestSize: 4rem;
   --columnsTemplate: repeat(auto-fit, minmax(0, 1fr));
   --columnsGap: 2rem;
   flex: 1;
   position: relative;
-  overflow: auto;
+  ${({ scrollable = true }) =>
+    scrollable
+      ? css`
+          overflow: auto !important;
+        `
+      : css`
+          overflow: hidden !important;
+          padding-right: ${width("scrollbar")};
+        `};
 
-  & > ${Labels} {
+  > ${Labels} {
     ${columnLabelStyles};
   }
 
@@ -289,6 +303,7 @@ export const TableWithSidebarWrapper = styled.div`
   display: flex;
   flex-direction: row;
   overflow: hidden;
+  background: ${backgroundColor("app")};
 `
 
 /* Default empty state */
@@ -299,8 +314,8 @@ export const EmptyState = styled(Row)`
   }
 `
 
-const Table: FunctionComponent<TableProps> = ({ children, ...props }) => (
-  <TableComponent {...props}>{children}</TableComponent>
+const Table: FunctionComponent<TableProps> = ({ children, ...rest }) => (
+  <TableComponent {...rest}>{children}</TableComponent>
 )
 
 export default Table
