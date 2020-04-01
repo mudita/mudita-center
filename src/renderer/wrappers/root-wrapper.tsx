@@ -17,6 +17,7 @@ import { LANGUAGE } from "Renderer/constants/languages"
 import localeEn from "Renderer/locales/main/en-US.json"
 import { ModalProvider } from "Renderer/components/core/modal/modal.service"
 import modalService from "Renderer/components/core/modal/modal.service"
+import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
 
 interface Props {
   store: Store
@@ -36,6 +37,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
               locale={LANGUAGE.default}
               messages={localeEn}
             >
+              <NetworkStatusChecker />
               <Router history={history}>
                 <BaseRoutes />
               </Router>
