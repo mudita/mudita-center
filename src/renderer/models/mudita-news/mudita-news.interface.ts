@@ -2,12 +2,11 @@ export interface NewsEntry {
   category?: string
   title: string
   content: string
-  image: any
   communityLink: string
   link: string
   discussionId: string
-  imageSource: string
-  imageAlt: string
+  imageId: string
+  imageAlt?: string
 }
 
 export interface Store {

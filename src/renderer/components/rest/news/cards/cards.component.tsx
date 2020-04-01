@@ -9,7 +9,9 @@ import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 interface Props {
   newsItems: Record<string, NewsEntry>
   newsIds: string[]
-  images: any
+  images: {
+    [key: string]: string
+  }
   commentsCount: Record<string, number>
   loadData?: () => void
 }
@@ -33,11 +35,9 @@ const Cards: FunctionComponent<Props> = ({
   const news = newsIds.map(id => {
     return newsItems[id]
   })
-  console.log("images", images)
   return (
     <CardContainer>
       {news.slice(0, 3).map((newsItem, index) => {
-        console.log(images[newsItem.imageId])
         return (
           <Card
             key={newsItem.discussionId}
