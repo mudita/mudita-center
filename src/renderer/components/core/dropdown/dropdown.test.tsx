@@ -4,19 +4,14 @@ import { wait } from "@testing-library/react"
 import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import Dropdown, {
-  DropdownPosition,
-} from "Renderer/components/core/dropdown/dropdown.component"
+import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Button from "../button/button.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
-    <Dropdown
-      toggler={<ButtonComponent />}
-      dropdownPosition={DropdownPosition.Right}
-    />
+    <Dropdown toggler={<ButtonComponent />} />
   )
   expect(container).toMatchSnapshot()
 })
@@ -24,10 +19,7 @@ test("matches snapshot", () => {
 test("renders toggler passed to component", () => {
   const buttonText = "Example"
   const { getByText } = renderWithThemeAndIntl(
-    <Dropdown
-      toggler={<ButtonComponent label={buttonText} />}
-      dropdownPosition={DropdownPosition.Right}
-    />
+    <Dropdown toggler={<ButtonComponent label={buttonText} />} />
   )
   expect(getByText(buttonText)).toBeInTheDocument()
 })
@@ -35,10 +27,7 @@ test("renders toggler passed to component", () => {
 test("renders dropdown", async () => {
   const buttonText = "Example"
   const { getByTestId, getByText, container } = renderWithThemeAndIntl(
-    <Dropdown
-      toggler={<ButtonComponent label={buttonText} />}
-      dropdownPosition={DropdownPosition.Right}
-    >
+    <Dropdown toggler={<ButtonComponent label={buttonText} />}>
       <Button
         displayStyle={DisplayStyle.Link1}
         label="I open Google in new tab"
@@ -61,10 +50,7 @@ test("renders children", async () => {
   const buttonText = "Example"
   const childText = "childText"
   const { getByText } = renderWithThemeAndIntl(
-    <Dropdown
-      toggler={<ButtonComponent label={buttonText} />}
-      dropdownPosition={DropdownPosition.Right}
-    >
+    <Dropdown toggler={<ButtonComponent label={buttonText} />}>
       <Button
         displayStyle={DisplayStyle.Link1}
         label={childText}
