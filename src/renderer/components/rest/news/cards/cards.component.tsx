@@ -38,7 +38,7 @@ const Cards: FunctionComponent<Props> = ({
       loadOfflineData()
     }
     loadData()
-  }, [])
+  }, [online])
   const news = sortedIds.map(({ id }) => {
     return newsItems[id]
   })
