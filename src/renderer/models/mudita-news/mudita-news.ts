@@ -2,9 +2,12 @@ import { Dispatch } from "Renderer/store"
 import axios from "axios"
 import { Entry, Asset } from "contentful"
 import {
+  IdItem,
   NewsEntry,
   Store,
 } from "Renderer/models/mudita-news/mudita-news.interface"
+import { Slicer } from "@rematch/select"
+import { sortDescending } from "Renderer/models/mudita-news/utils/helpers"
 
 const initialState: Store = {
   newsIds: [],
@@ -16,7 +19,12 @@ export default {
   state: initialState,
   reducers: {
     update(state: Store, payload: NewsEntry[]) {
-      const newsIds = payload.map((news: NewsEntry) => news.discussionId)
+      const newsIds = payload.map(
+        (news: NewsEntry): IdItem => ({
+          id: news.discussionId,
+          createdAt: news.createdAt,
+        })
+      )
       const newsItems = payload.reduce(
         (acc: Record<string, NewsEntry>, newsItem: NewsEntry) => {
           acc[newsItem.discussionId] = newsItem
@@ -61,9 +69,10 @@ export default {
         } = await axios.get(
           `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=newsItem`
         )
-        const news = items.map(({ fields }: Entry<NewsEntry>) => {
+        const news = items.map(({ fields, sys }: Entry<NewsEntry>) => {
           return {
             ...fields,
+            createdAt: sys.createdAt,
             imageId: fields?.image?.sys?.id,
           }
         })
@@ -96,6 +105,13 @@ export default {
       } catch (error) {
         console.error(error)
       }
+    },
+  }),
+  selectors: (slice: Slicer<typeof initialState>) => ({
+    sortedIds() {
+      return slice(state => {
+        return sortDescending(state.newsIds)
+      })
     },
   }),
 }
