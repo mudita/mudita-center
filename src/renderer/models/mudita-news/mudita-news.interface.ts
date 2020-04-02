@@ -20,6 +20,12 @@ export interface IdItem {
   createdAt: string
 }
 
+export interface DownloadError {
+  message?: string
+  name?: string
+  stack?: string
+}
+
 export interface Store {
   newsIds: string[]
   newsItems: {
@@ -28,4 +34,5 @@ export interface Store {
   commentsCount: {
     [key: string]: number
   }
+  downloadError?: DownloadError
 }

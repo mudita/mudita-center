@@ -2,6 +2,7 @@ import { Dispatch } from "Renderer/store"
 import axios from "axios"
 import { Entry, Asset } from "contentful"
 import {
+  DownloadError,
   IdItem,
   NewsEntry,
   Store,
@@ -48,6 +49,12 @@ export default {
           ...state.commentsCount,
           ...counts,
         },
+      }
+    },
+    updateError(state: Store, payload: DownloadError) {
+      return {
+        ...state,
+        downloadError: payload,
       }
     },
   },
@@ -103,6 +110,7 @@ export default {
         }[] = await Promise.all(commentsCalls)
         dispatch.muditaNews.updateComments(commentsCounts)
       } catch (error) {
+        dispatch.muditaNews.updateError(error)
         console.error(error)
       }
     },
