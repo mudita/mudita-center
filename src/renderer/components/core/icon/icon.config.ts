@@ -26,6 +26,7 @@ import MenuPhone from "Renderer/svg/menu_phone.svg"
 import MenuSettings from "Renderer/svg/menu_settings.svg"
 import MenuTethering from "Renderer/svg/menu_tethering.svg"
 import MenuTools from "Renderer/svg/menu_tools.svg"
+import ExternalLink from "Renderer/svg/external-link.svg"
 import MuditaLogo from "Renderer/svg/mudita.svg"
 import MuditaLogoWithText from "Renderer/svg/mudita_logo.svg"
 import Music from "Renderer/svg/music.svg"
@@ -52,6 +53,9 @@ import VeryHighRange from "Renderer/svg/very-high-range.svg"
 import VeryLowBattery from "Renderer/svg/very-low-battery.svg"
 import VeryLowRange from "Renderer/svg/very-low-range.svg"
 import Info from "Renderer/svg/info.svg"
+import More from "Renderer/svg/more.svg"
+import Blocked from "Renderer/svg/blocked.svg"
+import Forward from "Renderer/svg/forward.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -80,6 +84,7 @@ export enum Type {
   MenuTethering,
   MenuTools,
   Message,
+  ExternalLink,
   MuditaLogo,
   MuditaLogoWithText,
   Music,
@@ -108,6 +113,9 @@ export enum Type {
   DownloadWhite,
   Pure,
   Fail,
+  More,
+  Blocked,
+  Forward,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -166,6 +174,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return MenuTools
     case Type.Message:
       return Message
+    case Type.ExternalLink:
+      return ExternalLink
     case Type.MuditaLogo:
       return MuditaLogo
     case Type.MuditaLogoWithText:
@@ -218,6 +228,12 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Pure
     case Type.Fail:
       return Fail
+    case Type.More:
+      return More
+    case Type.Blocked:
+      return Blocked
+    case Type.Forward:
+      return Forward
     default:
       return Message
   }

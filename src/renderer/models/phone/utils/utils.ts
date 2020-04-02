@@ -1,74 +1,55 @@
 import Faker from "faker"
+import { intl } from "Renderer/utils/intl"
+import { Contact, ContactCategory } from "Renderer/models/phone/phone.interface"
 
 // TODO: remove before production
 export const generateFakeData = (numberOfContacts: number) => {
   return Array(numberOfContacts)
     .fill(0)
-    .map(_ => ({
-      id: Faker.random.uuid(),
-      firstName: Faker.name.firstName(),
-      lastName: Faker.name.lastName(),
-      phoneNumber: Faker.phone.phoneNumber(),
-      favourite: Faker.random.boolean(),
-    }))
-}
-
-export const generateSortedStructure = (fakeState: any) => {
-  const alphabet = new Array(26)
-    .fill(1)
-    .map((_, i) => String.fromCharCode(65 + i))
-
-  const sortedContactList = fakeState.sort((a: any, b: any) =>
-    a.firstName.localeCompare(b.firstName)
-  )
-
-  const generateFakeStructure = () => {
-    const fakeStructure = []
-
-    for (const letter of alphabet) {
-      fakeStructure.push({
-        category: letter,
-        contacts: [],
-      })
-    }
-
-    fakeStructure.unshift({
-      category: "Favourite",
-      contacts: [],
-    })
-
-    return fakeStructure
-  }
-
-  const placeContactsInStructure = () => {
-    const fakeStructure: any = generateFakeStructure()
-    fakeStructure.forEach((fakeContact: any) => {
-      const contactLetter = fakeContact.category
-      const contactList: string[] = fakeContact.contacts
-      sortedContactList.forEach((sortedContact: any) => {
-        if (
-          sortedContact.firstName.charAt(0) === contactLetter &&
-          !sortedContact.favourite
-        ) {
-          contactList.push(sortedContact)
-        }
-      })
-    })
-
-    sortedContactList.forEach((contacts: any) => {
-      if (contacts.favourite) {
-        fakeStructure[0].contacts.push(contacts)
+    .map(_ => {
+      const favourite = Math.random() < 0.15
+      return {
+        id: Faker.random.uuid(),
+        firstName: Faker.name.firstName(),
+        lastName: Faker.name.lastName(),
+        phoneNumbers: Array.from({
+          length: Math.floor(Math.random() * 4),
+        }).map(() => Faker.phone.phoneNumber("+## ### ### ###")),
+        favourite,
+        blocked: !favourite ? Math.random() < 0.15 : false,
       }
     })
-
-    return fakeStructure
-  }
-
-  return placeContactsInStructure()
 }
 
-export const removeEmptyContacts = (structure: any) => {
-  return structure.filter((el: any) => el.contacts.length > 0)
+export const generateSortedStructure = (contacts: Contact[]) => {
+  const sorted = contacts.sort((a, b) => a.firstName.localeCompare(b.firstName))
+  const grouped: ContactCategory[] = [
+    {
+      category: intl.formatMessage({
+        id: "view.name.phone.contacts.list.favourites",
+      }),
+      contacts: [],
+    },
+  ]
+  for (const contact of sorted) {
+    if (contact.favourite) {
+      grouped[0].contacts.push(contact)
+    }
+    const firstLetter = contact.firstName.charAt(0)
+    const groupIndex = grouped.findIndex(
+      group => group.category === firstLetter
+    )
+    if (groupIndex === -1) {
+      grouped.push({
+        category: firstLetter,
+        contacts: [contact],
+      })
+    } else {
+      grouped[groupIndex].contacts.push(contact)
+    }
+  }
+
+  return grouped
 }
 
 export const filterContacts = (contacts: any, substring: string) => {

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="4" viewBox="0 0 20 4">
+    <g fill="#6D9BBC" fill-rule="evenodd" transform="rotate(90 10 10)">
+        <circle cx="2" cy="2" r="2"/>
+        <circle cx="2" cy="10" r="2"/>
+        <circle cx="2" cy="18" r="2"/>
+    </g>
+</svg>

@@ -259,6 +259,27 @@ const buttonStyles = css<{
             opacity: 0.75;
           }
         `
+      case DisplayStyle.Dropdown:
+        return css`
+          justify-content: flex-start;
+          height: 3.2rem;
+          padding: 0 2.4rem;
+          border: none;
+          border-radius: ${borderRadius("small")};
+          color: ${textColor("faded")};
+          font-weight: ${fontWeight("default")};
+          width: 100%;
+
+          &.${activeClassName} {
+            ${navLinkStyles}
+          }
+          &:hover {
+            ${navLinkStyles}
+          }
+          svg {
+            opacity: 0.75;
+          }
+        `
       default:
         return
     }
@@ -311,4 +332,10 @@ export const StyledIcon = styled(Icon)<{
     }
     return css``
   }}
+
+  ${({ displaystyle }) =>
+    displaystyle === DisplayStyle.Dropdown &&
+    css`
+      height: 1.6rem;
+    `};
 `

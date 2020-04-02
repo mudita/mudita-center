@@ -112,7 +112,7 @@ const ProductCardButton = styled(Button)`
   width: 100%;
 `
 
-interface Props {
+export interface Props {
   url?: string
   imageSource?: string
   imageAlt?: string
@@ -135,7 +135,7 @@ const ProductCard: FunctionComponent<Props> = ({
   buttonLabel,
   connected = false,
 }) => (
-  <ProductCardContainer>
+  <ProductCardContainer data-testid="product-card">
     {connected && (
       <ProductCardNotification data-testid="card-notification">
         <ProductCardNotificationIcon
