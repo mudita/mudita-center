@@ -9,15 +9,25 @@ Object {
       "703": "10",
     },
     "newsIds": Array [
-      "299",
-      "1027",
-      "703",
+      Object {
+        "createdAt": "2019-07-11T08:54:31.710Z",
+        "id": "299",
+      },
+      Object {
+        "createdAt": "2019-07-11T09:48:32.097Z",
+        "id": "1027",
+      },
+      Object {
+        "createdAt": "2019-07-11T08:58:38.928Z",
+        "id": "703",
+      },
     ],
     "newsItems": Object {
       "1027": Object {
         "category": "Blog",
         "communityLink": "https://forum.mudita.com/t/attention-the-precious-currency-we-re-giving-away-for-free/1027",
         "content": "Attention: The precious currency we’re giving away for free.",
+        "createdAt": "2019-07-11T09:48:32.097Z",
         "discussionId": "1027",
         "image": Object {
           "sys": Object {
@@ -36,6 +46,7 @@ Object {
         "category": "Forum",
         "communityLink": "https://forum.mudita.com/t/one-feature-i-would-love-to-see-added/299",
         "content": "One feature I would love to see added",
+        "createdAt": "2019-07-11T08:54:31.710Z",
         "discussionId": "299",
         "image": Object {
           "sys": Object {
@@ -54,6 +65,7 @@ Object {
         "category": "Blog",
         "communityLink": "https://forum.mudita.com/t/mudita-pure-kickstarter-campaign-is-live/703",
         "content": "Our campaign on Kickstarter was a success, reaching 262% of the initial goal!",
+        "createdAt": "2019-07-11T08:58:38.928Z",
         "discussionId": "703",
         "image": Object {
           "sys": Object {
