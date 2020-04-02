@@ -1,6 +1,33 @@
 import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import {
+  IdItem,
+  NewsEntry,
+} from "Renderer/models/mudita-news/mudita-news.interface"
+import { noop } from "Renderer/utils/noop"
+import Cards from "Renderer/components/rest/news/cards/cards.component"
 
-const News: FunctionComponent = () => <div>News</div>
+interface Props {
+  newsItems: Record<string, NewsEntry>
+  sortedIds: IdItem[]
+  commentsCount: Record<string, number>
+  loadData?: () => void
+}
+
+const News: FunctionComponent<Props> = ({
+  newsItems,
+  commentsCount,
+  loadData = noop,
+  sortedIds,
+}) => (
+  <div>
+    <Cards
+      newsItems={newsItems}
+      commentsCount={commentsCount}
+      loadData={loadData}
+      sortedIds={sortedIds}
+    />
+  </div>
+)
 
 export default News
