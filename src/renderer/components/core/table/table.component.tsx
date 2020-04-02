@@ -204,6 +204,8 @@ const SidebarContent = styled.div`
   padding: 0 3rem;
   overflow: auto;
   flex: 1;
+  display: flex;
+  flex-direction: column;
 `
 
 const SidebarWrapper = styled.div<{ show?: boolean }>`
