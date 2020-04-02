@@ -9,6 +9,7 @@ import {
 } from "Renderer/models/mudita-news/mudita-news.interface"
 import { Slicer } from "@rematch/select"
 import { sortDescending } from "Renderer/models/mudita-news/utils/helpers"
+import { getDefaultNews } from "Renderer/requests/get-news.request"
 
 const initialState: Store = {
   newsIds: [],
@@ -34,6 +35,14 @@ export default {
         {} as Record<string, NewsEntry>
       )
       return { ...state, newsIds, newsItems }
+    },
+    updateOffline(state: Store, payload: Record<string, NewsEntry>) {
+      console.log(payload)
+      return {
+        ...state,
+        newsItems: payload.newsItems,
+        newsIds: payload.newsIds,
+      }
     },
     updateComments(
       state: Store,
@@ -113,6 +122,10 @@ export default {
         dispatch.muditaNews.updateError(error)
         console.error(error)
       }
+    },
+    async loadOfflineData() {
+      const defaultNews = await getDefaultNews()
+      dispatch.muditaNews.updateOffline(defaultNews)
     },
   }),
   selectors: (slice: Slicer<typeof initialState>) => ({

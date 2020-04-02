@@ -14,6 +14,8 @@ interface Props {
   sortedIds: IdItem[]
   commentsCount: Record<string, number>
   loadData?: () => void
+  loadOfflineData: () => void
+  online?: boolean
 }
 
 const CardContainer = styled.div`
@@ -26,9 +28,15 @@ const Cards: FunctionComponent<Props> = ({
   newsItems,
   commentsCount,
   loadData = noop,
+  loadOfflineData,
   sortedIds,
+  online,
 }) => {
+  console.log(online)
   useEffect(() => {
+    if (!online) {
+      loadOfflineData()
+    }
     loadData()
   }, [])
   const news = sortedIds.map(({ id }) => {

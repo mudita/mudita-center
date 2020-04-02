@@ -1,14 +1,23 @@
-import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
+import {
+  IdItem,
+  NewsEntry,
+} from "Renderer/models/mudita-news/mudita-news.interface"
 
 export interface DefaultNewsItems {
   newsItems: Record<string, NewsEntry>
+  newsIds: IdItem[]
 }
 
 const getDefaultNewsItems = (): DefaultNewsItems => {
   return {
+    newsIds: [
+      { id: "299", createdAt: "2019-07-11T09:48:32.097Z" },
+      { id: "1027", createdAt: "2019-07-11T09:55:32.097Z" },
+      { id: "703", createdAt: "2019-07-11T09:56:32.097Z" },
+    ],
     newsItems: {
       "299": {
-        category: "Forum",
+        category: "Takie inne Forum",
         title: "Hot discussion",
         content: "One feature I would love to see added",
         createdAt: "2019-07-11T09:48:32.097Z",

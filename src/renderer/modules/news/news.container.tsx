@@ -8,11 +8,16 @@ const selection = select((models: any) => ({
 }))
 
 const mapStateToProps = (state: RootModel) => {
-  return { ...state.muditaNews, ...selection(state, null) }
+  return {
+    ...state.muditaNews,
+    ...state.networkStatus,
+    ...selection(state, null),
+  }
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadData: () => dispatch.muditaNews.loadData(),
+  loadOfflineData: () => dispatch.muditaNews.loadOfflineData(),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(News)
