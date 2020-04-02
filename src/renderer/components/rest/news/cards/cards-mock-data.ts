@@ -3,6 +3,7 @@ export const newsItems = {
     category: "Forum",
     title: "Hot discussion",
     content: "One feature I would love to see added",
+    createdAt: "2019-07-11T09:48:32.097Z",
     communityLink:
       "https://forum.mudita.com/t/one-feature-i-would-love-to-see-added/299",
     link:
@@ -16,6 +17,7 @@ export const newsItems = {
     title: "Latest News",
     content:
       "Our campaign on Kickstarter was a success, reaching 262% of the initial goal!",
+    createdAt: "2019-07-11T09:56:32.097Z",
     communityLink:
       "https://forum.mudita.com/t/mudita-pure-kickstarter-campaign-is-live/703",
     link:
@@ -28,6 +30,7 @@ export const newsItems = {
     category: "Blog",
     title: "Featured Article",
     content: "Attention: The precious currency we’re giving away for free.",
+    createdAt: "2019-07-11T09:55:32.097Z",
     communityLink:
       "https://forum.mudita.com/t/attention-the-precious-currency-we-re-giving-away-for-free/1027",
     link:
@@ -38,7 +41,11 @@ export const newsItems = {
   },
 }
 
-export const newsIds = ["299", "1027", "703"]
+export const newsIds = [
+  { id: "299", createdAt: "2019-07-11T09:48:32.097Z" },
+  { id: "1027", createdAt: "2019-07-11T09:55:32.097Z" },
+  { id: "703", createdAt: "2019-07-11T09:56:32.097Z" },
+]
 
 export const commentsCount = {
   "299": 54,
@@ -52,6 +59,7 @@ export const moreNewsItems = {
     category: "Blog",
     title: "Featured Article",
     content: "Attention: The precious currency we’re giving away for free.",
+    createdAt: "2019-07-11T09:57:32.097Z",
     communityLink:
       "https://forum.mudita.com/t/attention-the-precious-currency-we-re-giving-away-for-free/1027",
     link:
@@ -62,6 +70,9 @@ export const moreNewsItems = {
   },
 }
 
-export const moreNewsIds = [...newsIds, "1023"]
+export const moreNewsIds = [
+  ...newsIds,
+  { id: "1023", createdAt: "2019-07-11T09:57:32.097Z" },
+]
 
 export const moreCommentsCount = { ...commentsCount, "1023": 33 }

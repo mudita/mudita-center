@@ -20,7 +20,7 @@ storiesOf("News|Cards", module).add("Cards", () => {
     <Container>
       <Cards
         newsItems={newsItems}
-        newsIds={newsIds}
+        sortedIds={newsIds}
         commentsCount={commentsCount}
       />
     </Container>

@@ -16,7 +16,7 @@ test("should render 3 cards", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <Cards
       newsItems={newsItems}
-      newsIds={newsIds}
+      sortedIds={newsIds}
       commentsCount={commentsCount}
     />
   )
@@ -29,7 +29,7 @@ test("should render 3 cards even when more than 3 elements are passed through pr
   const { getAllByTestId } = renderWithThemeAndIntl(
     <Cards
       newsItems={moreNewsItems}
-      newsIds={moreNewsIds}
+      sortedIds={moreNewsIds}
       commentsCount={moreCommentsCount}
     />
   )
