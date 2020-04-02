@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import {
   IdItem,
@@ -6,6 +6,7 @@ import {
 } from "Renderer/models/mudita-news/mudita-news.interface"
 import { noop } from "Renderer/utils/noop"
 import Cards from "Renderer/components/rest/news/cards/cards.component"
+import { getDefaultNews } from "Renderer/requests/get-news.request"
 
 interface Props {
   newsItems: Record<string, NewsEntry>
@@ -19,15 +20,24 @@ const News: FunctionComponent<Props> = ({
   commentsCount,
   loadData = noop,
   sortedIds,
-}) => (
-  <div>
-    <Cards
-      newsItems={newsItems}
-      commentsCount={commentsCount}
-      loadData={loadData}
-      sortedIds={sortedIds}
-    />
-  </div>
-)
+}) => {
+  const [defaultNews, setDefaultNews] = useState()
+  useEffect(() => {
+    ;(async () => {
+      setDefaultNews(await getDefaultNews())
+    })()
+  }, [])
+  console.log(defaultNews)
+  return (
+    <div>
+      <Cards
+        newsItems={newsItems}
+        commentsCount={commentsCount}
+        loadData={loadData}
+        sortedIds={sortedIds}
+      />
+    </div>
+  )
+}
 
 export default News
