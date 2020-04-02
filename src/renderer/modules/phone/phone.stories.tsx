@@ -9,6 +9,7 @@ import {
 import styled from "styled-components"
 import ContactDetails from "Renderer/modules/phone/components/contact-details.component"
 import { Contact } from "Renderer/models/phone/phone.interface"
+import ContactEdit from "Renderer/modules/phone/components/contact-edit.component"
 
 const contactList = generateSortedStructure(generateFakeData(40))
 
@@ -121,3 +122,12 @@ storiesOf("Views|Phone/Show contact details", module)
       onClose={action("Close sidebar")}
     />
   ))
+
+storiesOf("Views|Phone/Edit contact", module).add("Default", () => (
+  <ContactEdit
+    contact={singleContact()}
+    onCancel={action("Cancel")}
+    onSave={action("Save")}
+    onClose={action("Close sidebar")}
+  />
+))
