@@ -36,7 +36,7 @@ const Cards: FunctionComponent<Props> = ({
   })
   return (
     <CardContainer>
-      {news.slice(0, 3).map((newsItem, index) => {
+      {news.slice(0, 3).map(newsItem => {
         return (
           <Card
             key={newsItem.discussionId}
