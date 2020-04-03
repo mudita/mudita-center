@@ -125,7 +125,7 @@ export default {
       }
     },
     async loadOfflineData() {
-      const defaultNews = await getDefaultNews()
+      const defaultNews: DefaultNewsItems = await getDefaultNews()
       dispatch.muditaNews.updateOffline(defaultNews)
     },
   }),
