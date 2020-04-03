@@ -19,8 +19,6 @@ import { ModalProvider } from "Renderer/components/core/modal/modal.service"
 import modalService from "Renderer/components/core/modal/modal.service"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
 
-require("dotenv").config()
-
 interface Props {
   store: Store
   history: History
