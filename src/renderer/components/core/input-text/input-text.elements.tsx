@@ -169,10 +169,6 @@ const textAreaLayout = css`
   min-height: 6.4rem;
   padding: 0 1.5rem;
   border-radius: ${borderRadius("big")};
-
-  ${LeadingIcons}, ${TrailingIcons} {
-    height: 6.4rem;
-  }
 `
 
 const TextareaWrapper = styled(InputWrapper)<{ outlined: boolean }>`
@@ -191,6 +187,7 @@ const TextareaWrapper = styled(InputWrapper)<{ outlined: boolean }>`
 
   ${LeadingIcons}, ${TrailingIcons} {
     align-self: flex-end;
+    height: ${({ outlined }) => (outlined ? "6.4rem" : "auto")};
   }
 `
 
