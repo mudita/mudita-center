@@ -19,6 +19,7 @@ export const generateFakeData = (numberOfContacts: number) => {
         }).map(() => Faker.phone.phoneNumber("+## ### ### ###")),
         email: Faker.internet.email(),
         notes: Faker.lorem.paragraph(1),
+        ice: Math.random() < 0.2,
         favourite,
         blocked: !favourite ? Math.random() < 0.15 : false,
         speedDial: favourite ? speedDials.shift() : undefined,

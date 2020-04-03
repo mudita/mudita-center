@@ -19,6 +19,7 @@ import InputCheckbox, {
   Size,
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Icon from "Renderer/components/core/icon/icon.component"
+import useForm from "Renderer/utils/hooks/use-form"
 
 const messages = defineMessages({
   title: { id: "view.name.phone.contacts.edit.title" },
@@ -44,6 +45,7 @@ interface ContactEditProps {
   contact: Contact
   onClose: () => void
   onCancel: () => void
+  onSpeedDialSettingsOpen: () => void
   onSave: (contact: Contact) => void
 }
 
@@ -96,9 +98,10 @@ const DropdownButton = styled(ButtonComponent)`
   padding-left: 1.5rem;
 `
 
-const SpeedDialSettings = styled(Text)`
-  padding-bottom: 0.9rem;
-  cursor: pointer;
+const SpeedDialSettings = styled(ButtonComponent)`
+  padding: 0.9rem;
+  height: auto;
+  width: auto;
 `
 
 const SpeedDial = styled.div`
@@ -135,8 +138,15 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   contact,
   onCancel,
   onSave,
+  onSpeedDialSettingsOpen,
   ...rest
 }) => {
+  const { fields, updateField } = useForm<Contact>(contact)
+
+  const saveHandler = () => {
+    onSave(fields)
+  }
+
   const Title = () => (
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
@@ -167,10 +177,30 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     <ContactDetailsWrapper {...rest} show headerLeft={<Title />}>
       <Content>
         <div>
-          <Input placeholder={intl.formatMessage(messages.firstName)} />
-          <Input placeholder={intl.formatMessage(messages.secondName)} />
-          <Input placeholder={intl.formatMessage(messages.number)} />
-          <Input placeholder={intl.formatMessage(messages.otherNumber)} />
+          <Input
+            placeholder={intl.formatMessage(messages.firstName)}
+            name="firstName"
+            value={fields.firstName}
+            onChange={updateField}
+          />
+          <Input
+            placeholder={intl.formatMessage(messages.secondName)}
+            name="lastName"
+            value={fields.lastName}
+            onChange={updateField}
+          />
+          <Input
+            placeholder={intl.formatMessage(messages.number)}
+            name="phoneNumbers[0]"
+            value={fields.phoneNumbers[0]}
+            onChange={updateField}
+          />
+          <Input
+            placeholder={intl.formatMessage(messages.otherNumber)}
+            name="phoneNumbers[1]"
+            value={fields.phoneNumbers[1]}
+            onChange={updateField}
+          />
           <Input placeholder={intl.formatMessage(messages.email)} />
         </div>
         <div>
@@ -179,22 +209,36 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               placeholder={intl.formatMessage(messages.speedDialKey)}
               trailingIcons={[<SpeedDialDropdown key={"dropdown"} />]}
               defaultValue={intl.formatMessage(messages.speedDialKeySelect)}
+              value={fields.speedDial}
+              name="speedDial"
+              onChange={updateField}
               disabled
             />
             <SpeedDialSettings
-              displayStyle={TextDisplayStyle.SmallSupplementaryText}
-              message={messages.speedDialSettings}
+              displayStyle={DisplayStyle.Link3}
+              labelMessage={messages.speedDialSettings}
+              onClick={onSpeedDialSettingsOpen}
             />
           </SpeedDial>
           <CustomCheckbox>
-            <InputCheckbox size={Size.Medium} />
+            <InputCheckbox
+              size={Size.Medium}
+              checked={fields.favourite}
+              name="favourite"
+              onChange={updateField}
+            />
             <Text displayStyle={TextDisplayStyle.SmallText}>
               {intl.formatMessage(messages.addToFavourites)}
             </Text>
             <Icon type={Type.Favourites} height={1} />
           </CustomCheckbox>
           <CustomCheckbox>
-            <InputCheckbox size={Size.Medium} />
+            <InputCheckbox
+              size={Size.Medium}
+              checked={fields.ice}
+              name="ice"
+              onChange={updateField}
+            />
             <Text displayStyle={TextDisplayStyle.SmallText}>
               {intl.formatMessage(messages.iceContact)}
             </Text>
@@ -204,11 +248,17 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             type="textarea"
             inputLike={true}
             placeholder={intl.formatMessage(messages.address)}
+            value={fields.address}
+            name="address"
+            onChange={updateField}
           />
           <Input
             type="textarea"
             inputLike={true}
             placeholder={intl.formatMessage(messages.notes)}
+            value={fields.notes}
+            name="notes"
+            onChange={updateField}
           />
         </div>
       </Content>
@@ -216,8 +266,9 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
         <ButtonComponent
           displayStyle={DisplayStyle.Secondary}
           labelMessage={messages.cancel}
+          onClick={onCancel}
         />
-        <ButtonComponent labelMessage={messages.save} />
+        <ButtonComponent labelMessage={messages.save} onClick={saveHandler} />
       </Buttons>
     </ContactDetailsWrapper>
   )

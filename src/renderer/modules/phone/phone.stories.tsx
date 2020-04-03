@@ -54,6 +54,7 @@ const singleContact = ({
   favourite,
   blocked,
   speedDial,
+  ice: true,
 })
 
 storiesOf("Views|Phone/Show contact details", module)
@@ -129,5 +130,6 @@ storiesOf("Views|Phone/Edit contact", module).add("Default", () => (
     onCancel={action("Cancel")}
     onSave={action("Save")}
     onClose={action("Close sidebar")}
+    onSpeedDialSettingsOpen={action("Open speed dial settings")}
   />
 ))
