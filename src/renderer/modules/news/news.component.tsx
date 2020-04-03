@@ -24,7 +24,6 @@ const News: FunctionComponent<Props> = ({
   sortedIds,
   online,
 }) => {
-  console.log(commentsCount)
   return (
     <div>
       <Cards

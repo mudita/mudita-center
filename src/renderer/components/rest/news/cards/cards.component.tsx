@@ -32,7 +32,6 @@ const Cards: FunctionComponent<Props> = ({
   sortedIds,
   online,
 }) => {
-  console.log(online)
   useEffect(() => {
     if (!online) {
       loadOfflineData()
