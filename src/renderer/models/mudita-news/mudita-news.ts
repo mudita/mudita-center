@@ -10,6 +10,7 @@ import {
 import { Slicer } from "@rematch/select"
 import { sortDescending } from "Renderer/models/mudita-news/utils/helpers"
 import { getDefaultNews } from "Renderer/requests/get-news.request"
+import { DefaultNewsItems } from "App/main/default-news-item"
 
 const initialState: Store = {
   newsIds: [],
@@ -36,7 +37,7 @@ export default {
       )
       return { ...state, newsIds, newsItems }
     },
-    updateOffline(state: Store, payload: Record<string, NewsEntry>) {
+    updateOffline(state: Store, payload: DefaultNewsItems) {
       return {
         ...state,
         newsItems: payload.newsItems,
