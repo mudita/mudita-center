@@ -14,7 +14,7 @@ interface Props {
   sortedIds: IdItem[]
   commentsCount: Record<string, number>
   loadData?: () => void
-  loadOfflineData: () => void
+  loadOfflineData?: () => void
   online?: boolean
 }
 
@@ -28,7 +28,7 @@ const Cards: FunctionComponent<Props> = ({
   newsItems,
   commentsCount,
   loadData = noop,
-  loadOfflineData,
+  loadOfflineData = noop,
   sortedIds,
   online,
 }) => {

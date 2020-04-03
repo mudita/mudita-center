@@ -42,6 +42,7 @@ export default {
         ...state,
         newsItems: payload.newsItems,
         newsIds: payload.newsIds,
+        commentsCount: payload.commentsCount,
       }
     },
     updateComments(
