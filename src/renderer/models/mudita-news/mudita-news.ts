@@ -105,10 +105,10 @@ export default {
             count: number
           }> => getCommentsCountByDiscussionId(discussionId, newsId)
         )
-        const commentsCounts: {
+        const commentsCounts = await Promise.all<{
           newsId: string
           count: number
-        }[] = await Promise.all(commentsCalls)
+        }>(commentsCalls)
         dispatch.muditaNews.updateComments(commentsCounts)
       } catch (error) {
         dispatch.muditaNews.updateError(error)
