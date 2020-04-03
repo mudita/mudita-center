@@ -1,5 +1,5 @@
 export const newsItems = {
-  "299": {
+  "23cbaCgEf6PC1llqI5XYBf": {
     category: "Forum",
     title: "Hot discussion",
     content: "One feature I would love to see added",
@@ -8,11 +8,12 @@ export const newsItems = {
       "https://forum.mudita.com/t/one-feature-i-would-love-to-see-added/299",
     link:
       "https://forum.mudita.com/t/one-feature-i-would-love-to-see-added/299",
+    newsId: "23cbaCgEf6PC1llqI5XYBf",
     discussionId: "299",
     imageSource:
       "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
   },
-  "703": {
+  "3RU0ukJVFGhzT61mXB4xn9": {
     category: "Blog",
     title: "Latest News",
     content:
@@ -23,10 +24,11 @@ export const newsItems = {
     link:
       "https://mudita.com/community/blog/the-kickstarter-campaign-of-mudita-pure-is-finished/",
     discussionId: "703",
+    newsId: "3RU0ukJVFGhzT61mXB4xn9",
     imageSource:
       "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
   },
-  "1027": {
+  "9YFH9NLyIvt8Z1dDEc1nf": {
     category: "Blog",
     title: "Featured Article",
     content: "Attention: The precious currency we’re giving away for free.",
@@ -36,26 +38,27 @@ export const newsItems = {
     link:
       "https://mudita.com/community/blog/attention-the-precious-currency-were-giving-away-for-free/",
     discussionId: "1027",
+    newsId: "9YFH9NLyIvt8Z1dDEc1nf",
     imageSource:
       "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
   },
 }
 
 export const newsIds = [
-  { id: "299", createdAt: "2019-07-11T09:48:32.097Z" },
-  { id: "1027", createdAt: "2019-07-11T09:55:32.097Z" },
-  { id: "703", createdAt: "2019-07-11T09:56:32.097Z" },
+  { id: "23cbaCgEf6PC1llqI5XYBf", createdAt: "2019-07-11T09:48:32.097Z" },
+  { id: "3RU0ukJVFGhzT61mXB4xn9", createdAt: "2019-07-11T09:55:32.097Z" },
+  { id: "9YFH9NLyIvt8Z1dDEc1nf", createdAt: "2019-07-11T09:56:32.097Z" },
 ]
 
 export const commentsCount = {
-  "299": 54,
-  "703": 2,
-  "1027": 3,
+  "23cbaCgEf6PC1llqI5XYBf": 54,
+  "3RU0ukJVFGhzT61mXB4xn9": 2,
+  "9YFH9NLyIvt8Z1dDEc1nf": 3,
 }
 
 export const moreNewsItems = {
   ...newsItems,
-  "1023": {
+  "9YFH9NLyIvt8Z1dDEc1nfD": {
     category: "Blog",
     title: "Featured Article",
     content: "Attention: The precious currency we’re giving away for free.",
@@ -65,6 +68,7 @@ export const moreNewsItems = {
     link:
       "https://mudita.com/community/blog/attention-the-precious-currency-were-giving-away-for-free/",
     discussionId: "1023",
+    newsId: "9YFH9NLyIvt8Z1dDEc1nfD",
     imageSource:
       "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
   },

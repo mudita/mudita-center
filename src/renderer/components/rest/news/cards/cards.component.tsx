@@ -34,12 +34,13 @@ const Cards: FunctionComponent<Props> = ({
   const news = sortedIds.map(({ id }) => {
     return newsItems[id]
   })
+  console.log(newsItems)
   return (
     <CardContainer>
       {news.slice(0, 3).map(newsItem => {
         return (
           <Card
-            key={newsItem.discussionId}
+            key={newsItem.newsId}
             title={newsItem.title}
             content={newsItem.content}
             imageSource={newsItem.imageSource}
