@@ -14,7 +14,6 @@ const registerNewsListener = () => {
     "appData"
   )}/${name}/default-news-items.json`
 
-  // If there's no settings file, create one with default settings
   if (!fs.readJsonSync(settingsFilePath, { throws: false })) {
     fs.writeJsonSync(settingsFilePath, defaultNews)
   }
