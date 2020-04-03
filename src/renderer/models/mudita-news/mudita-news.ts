@@ -37,7 +37,6 @@ export default {
       return { ...state, newsIds, newsItems }
     },
     updateOffline(state: Store, payload: Record<string, NewsEntry>) {
-      console.log(payload)
       return {
         ...state,
         newsItems: payload.newsItems,
