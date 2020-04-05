@@ -3,7 +3,6 @@ import axios from "axios"
 import { Entry, Asset } from "contentful"
 import {
   DownloadError,
-  IdItem,
   NewsEntry,
   Store,
 } from "Renderer/models/mudita-news/mudita-news.interface"
@@ -12,7 +11,7 @@ import { sortByCreationDateInDescendingOrder } from "Renderer/models/mudita-news
 
 const initialState: Store = {
   newsIds: [],
-  newsItems: {},
+  newsItems: [],
   commentsCount: {},
 }
 
@@ -20,20 +19,7 @@ export default {
   state: initialState,
   reducers: {
     update(state: Store, payload: NewsEntry[]) {
-      const newsIds = payload.map(
-        (news: NewsEntry): IdItem => ({
-          id: news.newsId,
-          createdAt: news.createdAt,
-        })
-      )
-      const newsItems = payload.reduce(
-        (acc: Record<string, NewsEntry>, newsItem: NewsEntry) => {
-          acc[newsItem.newsId] = newsItem
-          return acc
-        },
-        {} as Record<string, NewsEntry>
-      )
-      return { ...state, newsIds, newsItems }
+      return { ...state, newsItems: payload }
     },
     updateComments(state: Store, payload: { newsId: string; count: number }[]) {
       const counts = payload.reduce((acc, { newsId, count }) => {
@@ -120,6 +106,11 @@ export default {
     sortedIds() {
       return slice(state => {
         return sortByCreationDateInDescendingOrder(state.newsIds)
+      })
+    },
+    newsSortedByCreationDateInDescendingOrder() {
+      return slice(state => {
+        return sortByCreationDateInDescendingOrder(state.newsItems)
       })
     },
   }),

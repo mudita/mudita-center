@@ -4,14 +4,10 @@ import Card from "Renderer/components/rest/news/card/card.component"
 import styled from "styled-components"
 import { useEffect } from "react"
 import { noop } from "Renderer/utils/noop"
-import {
-  IdItem,
-  NewsEntry,
-} from "Renderer/models/mudita-news/mudita-news.interface"
+import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
 interface Props {
-  newsItems: Record<string, NewsEntry>
-  sortedIds: IdItem[]
+  newsItems: NewsEntry[]
   commentsCount: Record<string, number>
   loadData?: () => void
 }
@@ -26,17 +22,13 @@ const Cards: FunctionComponent<Props> = ({
   newsItems,
   commentsCount,
   loadData = noop,
-  sortedIds,
 }) => {
   useEffect(() => {
     loadData()
   }, [])
-  const news = sortedIds.map(({ id }) => {
-    return newsItems[id]
-  })
   return (
     <CardContainer>
-      {news.slice(0, 3).map(newsItem => {
+      {newsItems.slice(0, 3).map(newsItem => {
         return (
           <Card
             key={newsItem.newsId}
@@ -45,7 +37,7 @@ const Cards: FunctionComponent<Props> = ({
             imageSource={newsItem.imageSource}
             communityLink={newsItem.communityLink}
             url={newsItem.link}
-            count={commentsCount[newsItem.discussionId]}
+            count={commentsCount[newsItem.newsId]}
             imageAlt={newsItem.imageAlt}
           />
         )

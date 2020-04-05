@@ -4,7 +4,7 @@ import { select } from "Renderer/store"
 import News from "Renderer/modules/news/news-ui.component"
 
 const selection = select((models: any) => ({
-  sortedIds: models.muditaNews.sortedIds,
+  newsItems: models.muditaNews.newsSortedByCreationDateInDescendingOrder,
 }))
 
 const mapStateToProps = (state: RootModel) => {
