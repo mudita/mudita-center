@@ -31,14 +31,10 @@ const Cards: FunctionComponent<Props> = ({
       {newsItems.slice(0, 3).map(newsItem => {
         return (
           <Card
+            {...newsItem}
             key={newsItem.newsId}
-            title={newsItem.title}
-            content={newsItem.content}
-            imageSource={newsItem.imageSource}
-            communityLink={newsItem.communityLink}
             url={newsItem.link}
             count={commentsCount[newsItem.newsId]}
-            imageAlt={newsItem.imageAlt}
           />
         )
       })}
