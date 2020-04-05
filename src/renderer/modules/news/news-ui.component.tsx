@@ -8,7 +8,7 @@ import { noop } from "Renderer/utils/noop"
 import Cards from "Renderer/components/rest/news/cards/cards.component"
 
 interface Props {
-  newsItems: Record<string, NewsEntry>
+  newsItems: NewsEntry[]
   sortedIds: IdItem[]
   commentsCount: Record<string, number>
   loadData?: () => void
@@ -18,14 +18,12 @@ const News: FunctionComponent<Props> = ({
   newsItems,
   commentsCount,
   loadData = noop,
-  sortedIds,
 }) => (
   <div>
     <Cards
       newsItems={newsItems}
       commentsCount={commentsCount}
       loadData={loadData}
-      sortedIds={sortedIds}
     />
   </div>
 )

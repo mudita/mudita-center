@@ -8,22 +8,9 @@ Object {
       "3RU0ukJVFGhzT61mXB4xn9": "10",
       "9YFH9NLyIvt8Z1dDEc1nf": "10",
     },
-    "newsIds": Array [
+    "newsIds": Array [],
+    "newsItems": Array [
       Object {
-        "createdAt": "2019-07-11T08:54:31.710Z",
-        "id": "23cbaCgEf6PC1llqI5XYBf",
-      },
-      Object {
-        "createdAt": "2019-07-11T09:48:32.097Z",
-        "id": "3RU0ukJVFGhzT61mXB4xn9",
-      },
-      Object {
-        "createdAt": "2019-07-11T08:58:38.928Z",
-        "id": "9YFH9NLyIvt8Z1dDEc1nf",
-      },
-    ],
-    "newsItems": Object {
-      "23cbaCgEf6PC1llqI5XYBf": Object {
         "category": "Forum",
         "communityLink": "https://forum.mudita.com/t/one-feature-i-would-love-to-see-added/299",
         "content": "One feature I would love to see added",
@@ -43,7 +30,7 @@ Object {
         "newsId": "23cbaCgEf6PC1llqI5XYBf",
         "title": "Hot discussion",
       },
-      "3RU0ukJVFGhzT61mXB4xn9": Object {
+      Object {
         "category": "Blog",
         "communityLink": "https://forum.mudita.com/t/attention-the-precious-currency-we-re-giving-away-for-free/1027",
         "content": "Attention: The precious currency we’re giving away for free.",
@@ -63,7 +50,7 @@ Object {
         "newsId": "3RU0ukJVFGhzT61mXB4xn9",
         "title": "Featured Article",
       },
-      "9YFH9NLyIvt8Z1dDEc1nf": Object {
+      Object {
         "category": "Blog",
         "communityLink": "https://forum.mudita.com/t/mudita-pure-kickstarter-campaign-is-live/703",
         "content": "Our campaign on Kickstarter was a success, reaching 262% of the initial goal!",
@@ -83,7 +70,7 @@ Object {
         "newsId": "9YFH9NLyIvt8Z1dDEc1nf",
         "title": "Latest News",
       },
-    },
+    ],
   },
 }
 `;
