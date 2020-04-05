@@ -80,7 +80,6 @@ export default {
           item.imageSource = url
           item.imageAlt = title
         })
-        dispatch.muditaNews.update(news)
         const commentsCalls = news.map(
           ({
             discussionId,
@@ -95,6 +94,8 @@ export default {
           newsId: string
           count: number
         }>(commentsCalls)
+
+        dispatch.muditaNews.update(news)
         dispatch.muditaNews.updateComments(commentsCounts)
       } catch (error) {
         dispatch.muditaNews.updateError(error)
