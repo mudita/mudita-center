@@ -6,9 +6,9 @@ export interface Contact {
   favourite: boolean
   blocked: boolean
   speedDial?: number
-  notes?: string
-  email?: string
-  address?: string
+  note: string
+  email: string
+  address: string
 }
 
 export interface ContactCategory {
