@@ -298,7 +298,8 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   const standardTextarea = (
     <TextAreaInput
       ref={textareaRef}
-      value={value || defaultValue}
+      value={value}
+      defaultValue={defaultValue}
       disabled={disabled}
       placeholder={placeholder}
       onChange={onChangeHandler}
@@ -310,7 +311,8 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
     <LabeledInputWrapper>
       <TextAreaInput
         ref={textareaRef}
-        value={value || defaultValue}
+        value={value}
+        defaultValue={defaultValue}
         disabled={disabled}
         placeholder={" "}
         onChange={onChangeHandler}
