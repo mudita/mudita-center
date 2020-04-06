@@ -2,6 +2,7 @@ export interface NewsEntry {
   category?: string
   title: string
   content: string
+  updatedAt: string
   createdAt: string
   image?: {
     sys?: {
