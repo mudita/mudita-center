@@ -17,6 +17,22 @@ import InputComponent from "Renderer/components/core/input-text/input-text.compo
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
+import { intl } from "Renderer/utils/intl"
+import { defineMessages } from "react-intl"
+import { noop } from "Renderer/utils/noop"
+
+const messages = defineMessages({
+  favourites: { id: "view.name.phone.contacts.details.favourites" },
+  speedDial: { id: "view.name.phone.contacts.details.speedDial" },
+  blocked: { id: "view.name.phone.contacts.details.blocked" },
+  information: { id: "view.name.phone.contacts.details.information" },
+  address: { id: "view.name.phone.contacts.details.address" },
+  notes: { id: "view.name.phone.contacts.details.notes" },
+  noPhoneNumber: { id: "view.name.phone.contacts.details.noPhoneNumber" },
+  noEmail: { id: "view.name.phone.contacts.details.noEmail" },
+  noAddress: { id: "view.name.phone.contacts.details.noAddress" },
+  noNotes: { id: "view.name.phone.contacts.details.noNotes" },
+})
 
 export interface ContactActions {
   onEdit: (contact: Contact) => void
@@ -99,12 +115,18 @@ const AdditionalInfoItem = styled.div`
   margin-bottom: 4.2rem;
 `
 
-const Input = styled(InputComponent).attrs(() => ({
+const Input = styled(InputComponent).attrs(({ value, placeholder }) => ({
+  onChange: noop,
+  placeholder: value ? undefined : placeholder,
   disabled: true,
 }))<InputComponentProps>`
   width: 100%;
   background-color: transparent;
   padding: 2.4rem 0 1.6rem 0;
+
+  div {
+    transition: all 0s;
+  }
 `
 
 const ContactDetailsWrapper = styled(Sidebar)`
@@ -147,9 +169,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
         {contact.favourite && (
           <InfoItem>
             <Icon type={Type.Favourites} />
-            <InfoItemName
-              message={{ id: "view.name.phone.contacts.details.favourites" }}
-            />
+            <InfoItemName message={messages.favourites} />
           </InfoItem>
         )}
         {contact.speedDial !== undefined && (
@@ -157,73 +177,76 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             <InfoItemSpeedDialNumber>
               {contact.speedDial}
             </InfoItemSpeedDialNumber>
-            <InfoItemName
-              message={{ id: "view.name.phone.contacts.details.speedDial" }}
-            />
+            <InfoItemName message={messages.speedDial} />
           </InfoItem>
         )}
         {contact.blocked && (
           <InfoItem>
             <Icon type={Type.Blocked} />
-            <InfoItemName
-              message={{ id: "view.name.phone.contacts.details.blocked" }}
-            />
+            <InfoItemName message={messages.blocked} />
           </InfoItem>
         )}
       </BasicInfo>
       <AdditionalInfo>
         <div>
           <AdditionalInfoItem>
-            <InfoItemName
-              message={{ id: "view.name.phone.contacts.details.information" }}
+            <InfoItemName message={messages.information} />
+            {contact.phoneNumbers.length ? (
+              contact.phoneNumbers.map(phoneNumber => {
+                const callHandler = () => {
+                  onCall(phoneNumber)
+                }
+                const messageHandler = () => {
+                  onMessage(phoneNumber)
+                }
+                const trailingIcons = [
+                  <ButtonComponent
+                    displayStyle={DisplayStyle.InputIcon}
+                    Icon={Type.Calls}
+                    key="Call"
+                    onClick={callHandler}
+                  />,
+                  <ButtonComponent
+                    displayStyle={DisplayStyle.InputIcon}
+                    Icon={Type.Message}
+                    key="Message"
+                    onClick={messageHandler}
+                  />,
+                ]
+                return (
+                  <Input
+                    key={phoneNumber}
+                    value={phoneNumber}
+                    trailingIcons={trailingIcons}
+                  />
+                )
+              })
+            ) : (
+              <Input placeholder={intl.formatMessage(messages.noPhoneNumber)} />
+            )}
+            <Input
+              value={contact.email}
+              placeholder={intl.formatMessage(messages.noEmail)}
             />
-            {contact.phoneNumbers.map(phoneNumber => {
-              const callHandler = () => {
-                onCall(phoneNumber)
-              }
-              const messageHandler = () => {
-                onMessage(phoneNumber)
-              }
-              const trailingIcons = [
-                <ButtonComponent
-                  displayStyle={DisplayStyle.InputIcon}
-                  Icon={Type.Calls}
-                  key="Call"
-                  onClick={callHandler}
-                />,
-                <ButtonComponent
-                  displayStyle={DisplayStyle.InputIcon}
-                  Icon={Type.Message}
-                  key="Message"
-                  onClick={messageHandler}
-                />,
-              ]
-              return (
-                <Input
-                  key={phoneNumber}
-                  defaultValue={phoneNumber}
-                  trailingIcons={trailingIcons}
-                />
-              )
-            })}
-            <Input defaultValue={contact.email} />
           </AdditionalInfoItem>
         </div>
         <div>
           <AdditionalInfoItem>
-            <InfoItemName
-              message={{ id: "view.name.phone.contacts.details.address" }}
-            />
-            <Input defaultValue={contact.address} />
-          </AdditionalInfoItem>
-          <AdditionalInfoItem>
-            <InfoItemName
-              message={{ id: "view.name.phone.contacts.details.notes" }}
-            />
+            <InfoItemName message={messages.address} />
             <Input
               type="textarea"
-              inputLike={true}
-              defaultValue={contact.notes}
+              outlined={false}
+              value={contact.address}
+              placeholder={intl.formatMessage(messages.noAddress)}
+            />
+          </AdditionalInfoItem>
+          <AdditionalInfoItem>
+            <InfoItemName message={messages.notes} />
+            <Input
+              type="textarea"
+              outlined={false}
+              value={contact.note}
+              placeholder={intl.formatMessage(messages.noNotes)}
             />
           </AdditionalInfoItem>
         </div>
