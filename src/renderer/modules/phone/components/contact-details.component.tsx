@@ -150,7 +150,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   const blockHandler = () => onBlock(contact)
   const deleteHandler = () => onDelete(contact)
 
-  const Icons = () => (
+  const icons = (
     <>
       <SidebarHeaderIcon Icon={Type.Edit} onClick={editHandler} />
       <SidebarHeaderIcon Icon={Type.Upload} onClick={exportHandler} />
@@ -161,7 +161,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   )
 
   return (
-    <ContactDetailsWrapper {...rest} show headerRight={<Icons />}>
+    <ContactDetailsWrapper {...rest} show headerRight={icons}>
       <BasicInfo>
         <Name>
           {contact.firstName} {contact.lastName}
