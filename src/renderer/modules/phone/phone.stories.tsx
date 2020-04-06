@@ -23,6 +23,7 @@ storiesOf("Views|Phone", module).add("Phone", () => (
       onSearchTermChange={action("Search")}
       onManageButtonClick={action("Manage contact")}
       onNewButtonClick={action("New contact")}
+      onContactEdit={action("Edit contact")}
       onContactExport={action("Export contact")}
       onContactForward={action("Forward contact")}
       onContactBlock={action("Block contact")}

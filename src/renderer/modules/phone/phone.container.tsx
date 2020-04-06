@@ -12,6 +12,7 @@ const mapDispatch = ({ phone }: any) => ({
   // TODO: Add proper actions
   onManageButtonClick: noop,
   onNewButtonClick: noop,
+  onContactEdit: noop,
   onContactExport: noop,
   onContactForward: noop,
   onContactBlock: noop,

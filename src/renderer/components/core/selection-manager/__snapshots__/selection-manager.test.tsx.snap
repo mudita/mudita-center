@@ -56,6 +56,8 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #cdcecf;
   border-radius: 0.2rem;
   background-color: #ffffff;
+  -webkit-transition: border-color 250ms ease-in-out;
+  transition: border-color 250ms ease-in-out;
   background-color: #3b3f42;
   border-color: #3b3f42;
 }
@@ -63,8 +65,6 @@ exports[`matches snapshot 1`] = `
 .c3:hover {
   border-color: #3b3f42;
   cursor: pointer;
-  -webkit-transition: border-color 0.5s linear;
-  transition: border-color 0.5s linear;
 }
 
 .c3:checked {

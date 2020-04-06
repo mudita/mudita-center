@@ -141,6 +141,7 @@ const theme = {
     buttonSmall: columnWidth + gutterWidth,
     viewWidth: columnWidth * 12 + gutterWidth * 13,
     menuWidth: columnWidth * 3 + gutterWidth * 3,
+    scrollbar: 0.2,
   },
   zIndex: {
     content: 1,

@@ -5,6 +5,10 @@ export interface Contact {
   phoneNumbers: string[]
   favourite: boolean
   blocked: boolean
+  speedDial?: number
+  notes?: string
+  email?: string
+  address?: string
 }
 
 export interface ContactCategory {

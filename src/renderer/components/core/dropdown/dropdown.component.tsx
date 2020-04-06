@@ -18,6 +18,8 @@ export enum DropdownPosition {
 interface Props {
   toggler: ReactNode
   dropdownPosition?: DropdownPosition
+  onOpen?: () => void
+  onClose?: () => void
 }
 
 const DropdownWrapper = styled.div<{ visible: boolean }>`
@@ -65,6 +67,8 @@ const Dropdown: FunctionComponent<Props> = ({
   toggler,
   children,
   dropdownPosition = DropdownPosition.Right,
+  onOpen,
+  onClose,
 }) => {
   const [visible, setVisible] = useState(false)
   const [reversedPosition, setReversedPosition] = useState(false)
@@ -74,6 +78,9 @@ const Dropdown: FunctionComponent<Props> = ({
     if (visible) {
       setVisible(false)
       setReversedPosition(false)
+      if (onClose) {
+        onClose()
+      }
     }
   })
 
@@ -90,6 +97,9 @@ const Dropdown: FunctionComponent<Props> = ({
         onClick: () => {
           calculateVerticalPosition()
           setVisible(!visible)
+          if (onOpen) {
+            onOpen()
+          }
         },
       })}
       <DropdownList
