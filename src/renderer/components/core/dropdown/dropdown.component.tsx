@@ -78,7 +78,9 @@ const Dropdown: FunctionComponent<Props> = ({
     if (visible) {
       setVisible(false)
       setReversedPosition(false)
-      if (onClose) onClose()
+      if (onClose) {
+        onClose()
+      }
     }
   })
 
@@ -95,7 +97,9 @@ const Dropdown: FunctionComponent<Props> = ({
         onClick: () => {
           calculateVerticalPosition()
           setVisible(!visible)
-          if (onOpen) onOpen()
+          if (onOpen) {
+            onOpen()
+          }
         },
       })}
       <DropdownList
