@@ -4,14 +4,10 @@ import Card from "Renderer/components/rest/news/card/card.component"
 import styled from "styled-components"
 import { useEffect } from "react"
 import { noop } from "Renderer/utils/noop"
-import {
-  IdItem,
-  NewsEntry,
-} from "Renderer/models/mudita-news/mudita-news.interface"
+import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
 interface Props {
-  newsItems: Record<string, NewsEntry>
-  sortedIds: IdItem[]
+  newsItems: NewsEntry[]
   commentsCount: Record<string, number>
   loadData?: () => void
   loadOfflineData?: () => void
@@ -29,7 +25,6 @@ const Cards: FunctionComponent<Props> = ({
   commentsCount,
   loadData = noop,
   loadOfflineData = noop,
-  sortedIds,
   online,
 }) => {
   useEffect(() => {
@@ -38,22 +33,15 @@ const Cards: FunctionComponent<Props> = ({
     }
     loadData()
   }, [online])
-  const news = sortedIds.map(({ id }) => {
-    return newsItems[id]
-  })
   return (
     <CardContainer>
-      {news.slice(0, 3).map(newsItem => {
+      {newsItems.slice(0, 3).map(newsItem => {
         return (
           <Card
-            key={newsItem.discussionId}
-            title={newsItem.title}
-            content={newsItem.content}
-            imageSource={newsItem.imageSource}
-            communityLink={newsItem.communityLink}
+            {...newsItem}
+            key={newsItem.newsId}
             url={newsItem.link}
-            count={commentsCount[newsItem.discussionId]}
-            imageAlt={newsItem.imageAlt}
+            count={commentsCount[newsItem.newsId]}
           />
         )
       })}

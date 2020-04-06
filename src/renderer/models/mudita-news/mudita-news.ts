@@ -3,18 +3,17 @@ import axios from "axios"
 import { Entry, Asset } from "contentful"
 import {
   DownloadError,
-  IdItem,
   NewsEntry,
   Store,
 } from "Renderer/models/mudita-news/mudita-news.interface"
 import { Slicer } from "@rematch/select"
-import { sortDescending } from "Renderer/models/mudita-news/utils/helpers"
+import { sortByCreationDateInDescendingOrder } from "Renderer/models/mudita-news/sort-by-creation-date-in-descending-order"
 import { getDefaultNews } from "Renderer/requests/get-news.request"
 import { DefaultNewsItems } from "App/main/default-news-item"
 
 const initialState: Store = {
   newsIds: [],
-  newsItems: {},
+  newsItems: [],
   commentsCount: {},
 }
 
@@ -22,35 +21,19 @@ export default {
   state: initialState,
   reducers: {
     update(state: Store, payload: NewsEntry[]) {
-      const newsIds = payload.map(
-        (news: NewsEntry): IdItem => ({
-          id: news.discussionId,
-          createdAt: news.createdAt,
-        })
-      )
-      const newsItems = payload.reduce(
-        (acc: Record<string, NewsEntry>, newsItem: NewsEntry) => {
-          acc[newsItem.discussionId] = newsItem
-          return acc
-        },
-        {} as Record<string, NewsEntry>
-      )
-      return { ...state, newsIds, newsItems }
+      console.log(payload)
+      return { ...state, newsItems: payload }
     },
     updateOffline(state: Store, payload: DefaultNewsItems) {
       return {
         ...state,
         newsItems: payload.newsItems,
-        newsIds: payload.newsIds,
         commentsCount: payload.commentsCount,
       }
     },
-    updateComments(
-      state: Store,
-      payload: { discussionId: string; count: number }[]
-    ) {
-      const counts = payload.reduce((acc, { discussionId, count }) => {
-        acc[discussionId] = count
+    updateComments(state: Store, payload: { newsId: string; count: number }[]) {
+      const counts = payload.reduce((acc, { newsId, count }) => {
+        acc[newsId] = count
         return acc
       }, {} as Record<string, number>)
       return {
@@ -71,14 +54,15 @@ export default {
   effects: (dispatch: Dispatch) => ({
     async loadData() {
       const getCommentsCountByDiscussionId = async (
-        discussionId?: string
-      ): Promise<{ discussionId?: string; count: number }> => {
+        discussionId?: string,
+        newsId?: string
+      ): Promise<{ newsId?: string; count: number }> => {
         const {
           data: { posts_count },
         } = await axios.get(
           `${process.env.GATSBY_COMMUNITY_URL}/t/${discussionId}.json`
         )
-        return { discussionId, count: posts_count }
+        return { newsId, count: posts_count }
       }
       try {
         const {
@@ -89,6 +73,7 @@ export default {
         const news = items.map(({ fields, sys }: Entry<NewsEntry>) => {
           return {
             ...fields,
+            newsId: sys.id,
             createdAt: sys.createdAt,
             imageId: fields?.image?.sys?.id,
           }
@@ -109,19 +94,21 @@ export default {
         const commentsCalls = news.map(
           ({
             discussionId,
+            newsId,
           }: Partial<NewsEntry>): Promise<{
+            newsId?: string
             discussionId?: string
             count: number
-          }> => getCommentsCountByDiscussionId(discussionId)
+          }> => getCommentsCountByDiscussionId(discussionId, newsId)
         )
-        const commentsCounts: {
-          discussionId: string
+        const commentsCounts = await Promise.all<{
+          newsId: string
           count: number
-        }[] = await Promise.all(commentsCalls)
+        }>(commentsCalls)
+
         dispatch.muditaNews.updateComments(commentsCounts)
       } catch (error) {
         dispatch.muditaNews.updateError(error)
-        console.error(error)
       }
     },
     async loadOfflineData() {
@@ -130,9 +117,9 @@ export default {
     },
   }),
   selectors: (slice: Slicer<typeof initialState>) => ({
-    sortedIds() {
+    newsSortedByCreationDateInDescendingOrder() {
       return slice(state => {
-        return sortDescending(state.newsIds)
+        return sortByCreationDateInDescendingOrder(state.newsItems)
       })
     },
   }),

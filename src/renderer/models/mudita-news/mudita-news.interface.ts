@@ -10,6 +10,7 @@ export interface NewsEntry {
   }
   communityLink: string
   link: string
+  newsId: string
   discussionId: string
   imageSource: string
   imageAlt?: string
@@ -28,9 +29,7 @@ export interface DownloadError {
 
 export interface Store {
   newsIds: string[]
-  newsItems: {
-    [key: string]: NewsEntry
-  }
+  newsItems: NewsEntry[]
   commentsCount: {
     [key: string]: number
   }

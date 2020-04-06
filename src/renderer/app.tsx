@@ -17,6 +17,8 @@ import appUpdate from "./components/rest/app-update/app-update.service"
 const mainElement = document.createElement("div")
 document.body.appendChild(mainElement)
 
+require("dotenv").config()
+
 ReactDOM.render(
   <AppContainer>
     <RootWrapper store={store} history={history} />

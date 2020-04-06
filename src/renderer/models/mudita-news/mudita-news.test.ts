@@ -21,7 +21,7 @@ it("call is performed after dispatching effect and gets initial state", () => {
       "muditaNews": Object {
         "commentsCount": Object {},
         "newsIds": Array [],
-        "newsItems": Object {},
+        "newsItems": Array [],
       },
     }
   `)

@@ -1,41 +1,23 @@
-import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
-import {
-  IdItem,
-  NewsEntry,
-} from "Renderer/models/mudita-news/mudita-news.interface"
-import { noop } from "Renderer/utils/noop"
-import Cards from "Renderer/components/rest/news/cards/cards.component"
+import { connect } from "react-redux"
+import { RootModel } from "Renderer/models/models"
+import { select } from "Renderer/store"
+import News from "Renderer/modules/news/news-ui.component"
 
-interface Props {
-  newsItems: Record<string, NewsEntry>
-  sortedIds: IdItem[]
-  commentsCount: Record<string, number>
-  loadData?: () => void
-  loadOfflineData?: () => void
-  online?: boolean
+const selection = select((models: any) => ({
+  newsItems: models.muditaNews.newsSortedByCreationDateInDescendingOrder,
+}))
+
+const mapStateToProps = (state: RootModel) => {
+  return {
+    ...state.muditaNews,
+    ...state.networkStatus,
+    ...selection(state, null),
+  }
 }
 
-const News: FunctionComponent<Props> = ({
-  newsItems,
-  commentsCount,
-  loadData = noop,
-  loadOfflineData = noop,
-  sortedIds,
-  online,
-}) => {
-  return (
-    <div>
-      <Cards
-        newsItems={newsItems}
-        commentsCount={commentsCount}
-        online={online}
-        loadData={loadData}
-        loadOfflineData={loadOfflineData}
-        sortedIds={sortedIds}
-      />
-    </div>
-  )
-}
+const mapDispatchToProps = (dispatch: any) => ({
+  loadData: () => dispatch.muditaNews.loadData(),
+  loadOfflineData: () => dispatch.muditaNews.loadOfflineData(),
+})
 
-export default News
+export default connect(mapStateToProps, mapDispatchToProps)(News)
