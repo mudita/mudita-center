@@ -99,7 +99,6 @@ export default {
         dispatch.muditaNews.updateComments(commentsCounts)
       } catch (error) {
         dispatch.muditaNews.updateError(error)
-        console.error(error)
       }
     },
   }),
