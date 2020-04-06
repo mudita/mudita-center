@@ -14,6 +14,7 @@ export enum NewsEvents {
   Get = "get-news-items",
   Save = "save-news-items",
   Update = "update-news-items",
+  Init = "init-news-items",
 }
 
 const registerNewsListener = () => {
@@ -70,6 +71,21 @@ const registerNewsListener = () => {
       return data
     }
     return null
+  })
+
+  ipcMain.answerRenderer(NewsEvents.Init, async () => {
+    if (await isUpdateAvailable()) {
+      const newsData = await downloadContentful()
+      const comments = await downloadComments(newsData.newsItems)
+      const data = {
+        ...newsData,
+        ...comments,
+      }
+      await fs.writeJson(newsFilePath, data)
+      return data
+    } else {
+      return fs.readJson(newsFilePath)
+    }
   })
 }
 

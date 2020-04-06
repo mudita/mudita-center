@@ -2,7 +2,7 @@ import { Dispatch } from "Renderer/store"
 import { Store } from "Renderer/models/mudita-news/mudita-news.interface"
 import { Slicer } from "@rematch/select"
 import { sortByCreationDateInDescendingOrder } from "Renderer/models/mudita-news/sort-by-creation-date-in-descending-order"
-import { getNews } from "Renderer/requests/get-news.request"
+import { getNews, initNews } from "Renderer/requests/get-news.request"
 import { DefaultNewsItems } from "App/main/default-news-item"
 import {
   downloadComments,
@@ -32,10 +32,8 @@ export default {
   },
   effects: (dispatch: Dispatch) => ({
     async loadData() {
-      const newsData = await downloadContentful()
-      dispatch.muditaNews.update(newsData)
-      const comments = await downloadComments(newsData.newsItems)
-      dispatch.muditaNews.update(comments)
+      const data = await initNews()
+      dispatch.muditaNews.update(data)
     },
     async loadOfflineData() {
       const defaultNews: DefaultNewsItems = await getNews()
