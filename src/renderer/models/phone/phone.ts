@@ -3,7 +3,7 @@ import {
   filterContacts,
   generateFakeData,
   generateSortedStructure,
-} from "Renderer/models/phone/utils/utils"
+} from "Renderer/models/phone/phone.utils"
 
 const initialStateValue = {
   contacts: generateFakeData(40),
