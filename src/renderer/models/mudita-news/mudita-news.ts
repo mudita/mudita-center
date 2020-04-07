@@ -4,10 +4,6 @@ import { Slicer } from "@rematch/select"
 import { sortByCreationDateInDescendingOrder } from "Renderer/models/mudita-news/sort-by-creation-date-in-descending-order"
 import { getNews, initNews } from "Renderer/requests/get-news.request"
 import { DefaultNewsItems } from "App/main/default-news-item"
-import {
-  downloadComments,
-  downloadContentful,
-} from "Renderer/models/mudita-news/download-contentful-and-comments"
 
 const initialState: Store = {
   newsIds: [],
