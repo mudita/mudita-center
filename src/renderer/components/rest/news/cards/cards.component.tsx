@@ -31,9 +31,7 @@ const Cards: FunctionComponent<Props> = ({
     if (!online) {
       loadOfflineData()
     }
-    if (newsItems.length === 0) {
-      loadData()
-    }
+    loadData()
   }, [online])
   return (
     <CardContainer>
