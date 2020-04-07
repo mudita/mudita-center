@@ -173,10 +173,10 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                 ...contact.phoneNumbers,
               ]
 
-              const exportHandler = () => onExport(contact)
-              const forwardHandler = () => onForward(contact)
-              const blockHandler = () => onBlock(contact)
-              const deleteHandler = () => onDelete(contact)
+              const handleExport = () => onExport(contact)
+              const handleForward = () => onForward(contact)
+              const handleBlock = () => onBlock(contact)
+              const handleDelete = () => onDelete(contact)
 
               const onClick = () => {
                 openSidebar(contact)
@@ -228,7 +228,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             id: "view.name.phone.contacts.action.exportAsVcard",
                           }}
                           Icon={Type.Upload}
-                          onClick={exportHandler}
+                          onClick={handleExport}
                           displayStyle={DisplayStyle.Dropdown}
                         />
                         <ButtonComponent
@@ -237,7 +237,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                               "view.name.phone.contacts.action.forwardNamecard",
                           }}
                           Icon={Type.Forward}
-                          onClick={forwardHandler}
+                          onClick={handleForward}
                           displayStyle={DisplayStyle.Dropdown}
                         />
                         <ButtonComponent
@@ -245,7 +245,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             id: "view.name.phone.contacts.action.block",
                           }}
                           Icon={Type.Blocked}
-                          onClick={blockHandler}
+                          onClick={handleBlock}
                           displayStyle={DisplayStyle.Dropdown}
                         />
                         <ButtonComponent
@@ -253,7 +253,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             id: "view.name.phone.contacts.action.delete",
                           }}
                           Icon={Type.Delete}
-                          onClick={deleteHandler}
+                          onClick={handleDelete}
                           displayStyle={DisplayStyle.Dropdown}
                         />
                       </Dropdown>
