@@ -142,19 +142,19 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onMessage,
   ...rest
 }) => {
-  const editHandler = () => onEdit(contact)
-  const exportHandler = () => onExport(contact)
-  const forwardHandler = () => onForward(contact)
-  const blockHandler = () => onBlock(contact)
-  const deleteHandler = () => onDelete(contact)
+  const handleEdit = () => onEdit(contact)
+  const handleExport = () => onExport(contact)
+  const handleForward = () => onForward(contact)
+  const handleBlock = () => onBlock(contact)
+  const handleDelete = () => onDelete(contact)
 
   const icons = (
     <>
-      <SidebarHeaderIcon Icon={Type.Edit} onClick={editHandler} />
-      <SidebarHeaderIcon Icon={Type.Upload} onClick={exportHandler} />
-      <SidebarHeaderIcon Icon={Type.Forward} onClick={forwardHandler} />
-      <SidebarHeaderIcon Icon={Type.Blocked} onClick={blockHandler} />
-      <SidebarHeaderIcon Icon={Type.Delete} onClick={deleteHandler} />
+      <SidebarHeaderIcon Icon={Type.Edit} onClick={handleEdit} />
+      <SidebarHeaderIcon Icon={Type.Upload} onClick={handleExport} />
+      <SidebarHeaderIcon Icon={Type.Forward} onClick={handleForward} />
+      <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleBlock} />
+      <SidebarHeaderIcon Icon={Type.Delete} onClick={handleDelete} />
     </>
   )
 
