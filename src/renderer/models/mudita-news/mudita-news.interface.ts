@@ -1,12 +1,12 @@
+import { ContentTypeLink } from "contentful"
+
 export interface NewsEntry {
   category?: string
   title: string
   content: string
   createdAt: string
   image?: {
-    sys?: {
-      id?: string
-    }
+    sys?: ContentTypeLink
   }
   communityLink: string
   link: string
