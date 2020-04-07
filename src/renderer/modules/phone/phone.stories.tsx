@@ -9,7 +9,9 @@ import {
 import styled from "styled-components"
 import ContactDetails from "Renderer/modules/phone/components/contact-details.component"
 import { Contact } from "Renderer/models/phone/phone.interface"
-import ContactEdit from "Renderer/modules/phone/components/contact-edit.component"
+import ContactEdit, {
+  defaultContact,
+} from "Renderer/modules/phone/components/contact-edit.component"
 
 const contactList = generateSortedStructure(generateFakeData(40))
 
@@ -43,11 +45,12 @@ const singleContact = ({
   blocked = false,
   speedDial,
 }: Partial<Contact> = {}) => ({
+  ...defaultContact,
   id: "107c8787-31a8-4499-ab43-776640fd3ca7",
-  firstName: "Belle",
-  lastName: "Krajcik",
+  firstName: "John",
+  lastName: "Doe",
   phoneNumbers: ["+40 211 456 285", "+37 030 922 283"],
-  email: "BelleK38@gmail.com",
+  email: "jondoe@gmail.com",
   note:
     "Et ut debitis veritatis dolorum. Facilis magni sit voluptas consequatur est libero quam.",
   address: "50856 Mabelle Motorway",
@@ -57,7 +60,7 @@ const singleContact = ({
   ice: true,
 })
 
-storiesOf("Views|Phone/Show contact details", module)
+storiesOf("Views|Phone/Contact details/Existing", module)
   .add("Default", () => (
     <ContactDetails
       contact={singleContact()}
@@ -124,9 +127,18 @@ storiesOf("Views|Phone/Show contact details", module)
     />
   ))
 
-storiesOf("Views|Phone/Edit contact", module).add("Default", () => (
+storiesOf("Views|Phone/Contact details/Edit", module).add("Default", () => (
   <ContactEdit
     contact={singleContact()}
+    onCancel={action("Cancel")}
+    onSave={action("Save")}
+    onClose={action("Close sidebar")}
+    onSpeedDialSettingsOpen={action("Open speed dial settings")}
+  />
+))
+
+storiesOf("Views|Phone/Contact details/New", module).add("Default", () => (
+  <ContactEdit
     onCancel={action("Cancel")}
     onSave={action("Save")}
     onClose={action("Close sidebar")}

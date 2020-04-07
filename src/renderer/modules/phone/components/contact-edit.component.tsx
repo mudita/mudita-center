@@ -12,7 +12,6 @@ import { intl } from "Renderer/utils/intl"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { fontWeight } from "Renderer/styles/theming/theme-getters"
 import InputCheckbox, {
@@ -22,7 +21,8 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import useForm from "Renderer/utils/hooks/use-form"
 
 const messages = defineMessages({
-  title: { id: "view.name.phone.contacts.edit.title" },
+  editTitle: { id: "view.name.phone.contacts.edit.title" },
+  newTitle: { id: "view.name.phone.contacts.new.title" },
   firstName: { id: "view.name.phone.contacts.edit.firstName" },
   secondName: { id: "view.name.phone.contacts.edit.secondName" },
   number: { id: "view.name.phone.contacts.edit.number" },
@@ -41,8 +41,8 @@ const messages = defineMessages({
   save: { id: "view.name.phone.contacts.edit.save" },
 })
 
-interface ContactEditProps {
-  contact: Contact
+export interface ContactEditProps {
+  contact?: Contact
   onClose: () => void
   onCancel: () => void
   onSpeedDialSettingsOpen: () => void
@@ -58,6 +58,13 @@ const Content = styled.div`
 
   > div {
     width: calc(50% - 3.2rem);
+  }
+
+  // TODO: Remove after adding select input
+  select {
+    height: 1.8rem;
+    margin-top: 3.8rem;
+    margin-bottom: 0.7rem;
   }
 `
 
@@ -80,22 +87,6 @@ const Input = styled(InputComponent)<InputComponentProps>`
   input {
     font-weight: ${fontWeight("default")};
   }
-`
-
-const SpeedDialDropdownWrapper = styled(Dropdown)`
-  ul {
-    min-width: 8rem;
-    padding: 1rem 0;
-  }
-`
-
-const DropdownIconButton = styled(ButtonComponent)`
-  width: 1rem;
-  height: 1rem;
-`
-
-const DropdownButton = styled(ButtonComponent)`
-  padding-left: 1.5rem;
 `
 
 const SpeedDialSettings = styled(ButtonComponent)`
@@ -134,6 +125,20 @@ const CustomCheckbox = styled.label`
   }
 `
 
+export const defaultContact = {
+  id: "",
+  firstName: "",
+  lastName: "",
+  phoneNumbers: [],
+  email: "",
+  note: "",
+  address: "",
+  favourite: false,
+  blocked: false,
+  speedDial: undefined,
+  ice: false,
+}
+
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
   contact,
   onCancel,
@@ -141,40 +146,19 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   onSpeedDialSettingsOpen,
   ...rest
 }) => {
-  const { fields, updateField } = useForm<Contact>(contact)
+  const { fields, updateField } = useForm<Contact>(contact || defaultContact)
 
-  const saveHandler = () => {
-    onSave(fields)
-  }
+  const handleSave = () => onSave(fields)
 
-  const Title = () => (
+  const headerLeft = (
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
-      message={messages.title}
+      message={contact ? messages.editTitle : messages.newTitle}
     />
   )
 
-  const SpeedDialDropdown = () => (
-    <SpeedDialDropdownWrapper
-      toggler={
-        <DropdownIconButton
-          displayStyle={DisplayStyle.InputIcon}
-          Icon={Type.ArrowDown}
-        />
-      }
-    >
-      {[...Array.from({ length: 10 })].map((_, index) => (
-        <DropdownButton
-          key={index}
-          label={index.toString()}
-          displayStyle={DisplayStyle.Link1}
-        />
-      ))}
-    </SpeedDialDropdownWrapper>
-  )
-
   return (
-    <ContactDetailsWrapper {...rest} show headerLeft={<Title />}>
+    <ContactDetailsWrapper {...rest} show headerLeft={headerLeft}>
       <Content>
         <div>
           <Input
@@ -205,15 +189,18 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
         </div>
         <div>
           <SpeedDial>
-            <Input
-              placeholder={intl.formatMessage(messages.speedDialKey)}
-              trailingIcons={[<SpeedDialDropdown key={"dropdown"} />]}
-              defaultValue={intl.formatMessage(messages.speedDialKeySelect)}
+            <select
               value={fields.speedDial}
               name="speedDial"
               onChange={updateField}
-              disabled
-            />
+            >
+              <option value="">Select</option>
+              {[...Array.from({ length: 10 })].map((_, index) => (
+                <option key={index} value={index}>
+                  {index}
+                </option>
+              ))}
+            </select>
             <SpeedDialSettings
               displayStyle={DisplayStyle.Link3}
               labelMessage={messages.speedDialSettings}
@@ -268,7 +255,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           labelMessage={messages.cancel}
           onClick={onCancel}
         />
-        <ButtonComponent labelMessage={messages.save} onClick={saveHandler} />
+        <ButtonComponent labelMessage={messages.save} onClick={handleSave} />
       </Buttons>
     </ContactDetailsWrapper>
   )

@@ -9,8 +9,8 @@ const useForm = <T extends object>(initialFields: T) => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { value, name, checked } = event.target as HTMLInputElement
-    const newValue = checked === undefined ? value : checked
+    const { value, name, checked, type } = event.target as HTMLInputElement
+    const newValue = type === "checkbox" ? Boolean(checked) : value
 
     setFields(set({ ...fields }, name, newValue))
   }

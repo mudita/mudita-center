@@ -88,6 +88,7 @@
   "view.name.phone.contacts.action.block": "Block",
   "view.name.phone.contacts.action.delete": "Delete",
   "view.name.phone.contacts.edit.title": "Edit contact",
+  "view.name.phone.contacts.new.title": "New contact",
   "view.name.phone.contacts.edit.firstName": "First name",
   "view.name.phone.contacts.edit.secondName": "Second name",
   "view.name.phone.contacts.edit.number": "Number",
