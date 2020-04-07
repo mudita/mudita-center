@@ -16,11 +16,6 @@ export interface NewsEntry {
   imageAlt?: string
 }
 
-export interface IdItem {
-  id: string
-  createdAt: string
-}
-
 export interface DownloadError {
   message?: string
   name?: string
