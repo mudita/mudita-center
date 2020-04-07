@@ -25,8 +25,6 @@ export interface DownloadError {
 export interface Store {
   newsIds: string[]
   newsItems: NewsEntry[]
-  commentsCount: {
-    [key: string]: number
-  }
+  commentsCount: Record<string, number>
   downloadError?: DownloadError
 }
