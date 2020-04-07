@@ -19,7 +19,6 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { noop } from "Renderer/utils/noop"
 
 const messages = defineMessages({
   favourites: { id: "view.name.phone.contacts.details.favourites" },
@@ -116,7 +115,6 @@ const AdditionalInfoItem = styled.div`
 `
 
 const Input = styled(InputComponent).attrs(({ value, placeholder }) => ({
-  onChange: noop,
   placeholder: value ? undefined : placeholder,
   disabled: true,
 }))<InputComponentProps>`

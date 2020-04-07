@@ -227,16 +227,27 @@ export const InputText: FunctionComponent<InputProps> = ({
   trailingIcons,
   placeholder,
   disabled,
+  onChange = noop,
   ...rest
 }) => {
   const standardInput = (
     <LabeledInputWrapper>
-      <TextInput placeholder={" "} disabled={disabled} {...rest} />
+      <TextInput
+        placeholder={" "}
+        disabled={disabled}
+        onChange={onChange}
+        {...rest}
+      />
       <InputLabel>{placeholder}</InputLabel>
     </LabeledInputWrapper>
   )
   const outlinedInput = (
-    <TextInput placeholder={placeholder} disabled={disabled} {...rest} />
+    <TextInput
+      placeholder={placeholder}
+      disabled={disabled}
+      onChange={onChange}
+      {...rest}
+    />
   )
 
   return (
