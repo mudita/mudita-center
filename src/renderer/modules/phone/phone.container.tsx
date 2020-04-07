@@ -12,12 +12,14 @@ const mapDispatch = ({ phone }: any) => ({
   // TODO: Add proper actions
   onManageButtonClick: noop,
   onNewButtonClick: noop,
-  onContactEdit: noop,
-  onContactExport: noop,
-  onContactForward: noop,
-  onContactBlock: noop,
-  onContactDelete: noop,
-  onContactSelect: noop,
+  onEdit: noop,
+  onExport: noop,
+  onForward: noop,
+  onBlock: noop,
+  onDelete: noop,
+  onSelect: noop,
+  onCall: noop,
+  onMessage: noop,
 })
 
 export default connect(mapState, mapDispatch)(Phone)

@@ -227,16 +227,27 @@ export const InputText: FunctionComponent<InputProps> = ({
   trailingIcons,
   placeholder,
   disabled,
+  onChange = noop,
   ...rest
 }) => {
   const standardInput = (
     <LabeledInputWrapper>
-      <TextInput placeholder={" "} disabled={disabled} {...rest} />
+      <TextInput
+        placeholder={" "}
+        disabled={disabled}
+        onChange={onChange}
+        {...rest}
+      />
       <InputLabel>{placeholder}</InputLabel>
     </LabeledInputWrapper>
   )
   const outlinedInput = (
-    <TextInput placeholder={placeholder} disabled={disabled} {...rest} />
+    <TextInput
+      placeholder={placeholder}
+      disabled={disabled}
+      onChange={onChange}
+      {...rest}
+    />
   )
 
   return (
@@ -298,7 +309,8 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   const standardTextarea = (
     <TextAreaInput
       ref={textareaRef}
-      value={value || defaultValue}
+      value={value}
+      defaultValue={defaultValue}
       disabled={disabled}
       placeholder={placeholder}
       onChange={onChangeHandler}
@@ -310,7 +322,8 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
     <LabeledInputWrapper>
       <TextAreaInput
         ref={textareaRef}
-        value={value || defaultValue}
+        value={value}
+        defaultValue={defaultValue}
         disabled={disabled}
         placeholder={" "}
         onChange={onChangeHandler}

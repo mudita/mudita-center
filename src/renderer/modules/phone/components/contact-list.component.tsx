@@ -31,18 +31,24 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
-import ContactDetails from "Renderer/modules/phone/components/contact-details.component"
+import ContactDetails, {
+  ContactActions,
+  ContactDetailsActions,
+} from "Renderer/modules/phone/components/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
   visibility: visible;
 `
+
 const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
   opacity: 0;
   visibility: hidden;
-  transition: all ${transitionTime("faster")}
-    ${transitionTimingFunction("smooth")};
+  transition: opacity ${transitionTime("faster")}
+      ${transitionTimingFunction("smooth")},
+    visibility ${transitionTime("faster")} ${transitionTimingFunction("smooth")};
   margin: 0 auto;
 
   ${({ visible }) => visible && visibleCheckboxStyles};
@@ -112,24 +118,26 @@ const SelectableContacts = styled(Table)`
   }
 `
 
-export interface ContactListProps extends Contacts {
-  onContactEdit: (contact: Contact) => void
-  onContactExport: (contact: Contact) => void
-  onContactForward: (contact: Contact) => void
-  onContactBlock: (contact: Contact) => void
-  onContactDelete: (contact: Contact) => void
-  onContactSelect: (contacts: Contact[]) => void
+export interface ContactListProps
+  extends Contacts,
+    ContactActions,
+    ContactDetailsActions {
+  onSelect: (contacts: Contact[]) => void
 }
 
 const ContactList: FunctionComponent<ContactListProps> = ({
   contactList,
-  onContactEdit,
-  onContactExport,
-  onContactForward,
-  onContactBlock,
-  onContactDelete,
-  onContactSelect,
+  onSelect,
+  onEdit,
+  onExport,
+  onForward,
+  onBlock,
+  onDelete,
+  onCall,
+  onMessage,
 }) => {
+  const { enableScroll, disableScroll, scrollable } = useTableScrolling()
+
   const {
     toggleRow,
     getRowStatus,
@@ -137,53 +145,20 @@ const ContactList: FunctionComponent<ContactListProps> = ({
     selectedRows,
   } = useTableSelect(contactList)
 
-  const {
-    openSidebar,
-    closeSidebar,
-    sidebarOpened,
-    activeRow,
-  } = useTableSidebar<Contact>()
+  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
 
   useEffect(() => {
     if (selectedRows.length) {
-      onContactSelect(selectedRows as Contact[])
+      onSelect(selectedRows as Contact[])
     }
   }, [selectedRows])
-
-  const contactEditHandler = (contact = activeRow) => {
-    if (contact) {
-      onContactEdit(contact)
-    }
-  }
-  const contactExportHandler = (contact = activeRow) => {
-    if (contact) {
-      onContactExport(contact)
-    }
-  }
-
-  const contactForwardHandler = (contact = activeRow) => {
-    if (contact) {
-      onContactForward(contact)
-    }
-  }
-
-  const contactBlockHandler = (contact = activeRow) => {
-    if (contact) {
-      onContactBlock(contact)
-    }
-  }
-
-  const contactDeleteHandler = (contact = activeRow) => {
-    if (contact) {
-      onContactDelete(contact)
-    }
-  }
 
   return (
     <TableWithSidebarWrapper>
       <SelectableContacts
         hideableColumnsIndexes={[2, 3, 4]}
-        hideColumns={sidebarOpened}
+        hideColumns={Boolean(activeRow)}
+        scrollable={scrollable}
       >
         {contactList.map(({ category, contacts }) => (
           <Group key={category}>
@@ -198,18 +173,10 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                 ...contact.phoneNumbers,
               ]
 
-              const exportAction = () => {
-                contactExportHandler(contact)
-              }
-              const forwardAction = () => {
-                contactForwardHandler(contact)
-              }
-              const blockAction = () => {
-                contactBlockHandler(contact)
-              }
-              const deleteAction = () => {
-                contactDeleteHandler(contact)
-              }
+              const handleExport = () => onExport(contact)
+              const handleForward = () => onForward(contact)
+              const handleBlock = () => onBlock(contact)
+              const handleDelete = () => onDelete(contact)
 
               const onClick = () => {
                 openSidebar(contact)
@@ -253,29 +220,40 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             <Icon type={Type.More} />
                           </ActionsButton>
                         }
+                        onOpen={disableScroll}
+                        onClose={enableScroll}
                       >
                         <ButtonComponent
-                          label="Export as vcard"
+                          labelMessage={{
+                            id: "view.name.phone.contacts.action.exportAsVcard",
+                          }}
                           Icon={Type.Upload}
-                          onClick={exportAction}
+                          onClick={handleExport}
                           displayStyle={DisplayStyle.Dropdown}
                         />
                         <ButtonComponent
-                          label="Forward namecard"
+                          labelMessage={{
+                            id:
+                              "view.name.phone.contacts.action.forwardNamecard",
+                          }}
                           Icon={Type.Forward}
-                          onClick={forwardAction}
+                          onClick={handleForward}
                           displayStyle={DisplayStyle.Dropdown}
                         />
                         <ButtonComponent
-                          label="block"
+                          labelMessage={{
+                            id: "view.name.phone.contacts.action.block",
+                          }}
                           Icon={Type.Blocked}
-                          onClick={blockAction}
+                          onClick={handleBlock}
                           displayStyle={DisplayStyle.Dropdown}
                         />
                         <ButtonComponent
-                          label="delete"
+                          labelMessage={{
+                            id: "view.name.phone.contacts.action.delete",
+                          }}
                           Icon={Type.Delete}
-                          onClick={deleteAction}
+                          onClick={handleDelete}
                           displayStyle={DisplayStyle.Dropdown}
                         />
                       </Dropdown>
@@ -287,16 +265,19 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           </Group>
         ))}
       </SelectableContacts>
-      <ContactDetails
-        show={sidebarOpened}
-        data={activeRow}
-        onEdit={contactEditHandler}
-        onExport={contactExportHandler}
-        onForward={contactForwardHandler}
-        onBlock={contactBlockHandler}
-        onDelete={contactDeleteHandler}
-        onClose={closeSidebar}
-      />
+      {activeRow && (
+        <ContactDetails
+          contact={activeRow}
+          onClose={closeSidebar}
+          onExport={onExport}
+          onForward={onForward}
+          onBlock={onBlock}
+          onDelete={onDelete}
+          onEdit={onEdit}
+          onCall={onCall}
+          onMessage={onMessage}
+        />
+      )}
     </TableWithSidebarWrapper>
   )
 }

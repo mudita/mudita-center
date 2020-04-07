@@ -10,19 +10,23 @@ export const generateFakeData = (numberOfContacts: number) => {
     .fill(0)
     .map(_ => {
       const favourite = Math.random() < 0.15
+      const firstName = Faker.name.firstName()
+      const lastName = Faker.name.lastName()
+
       return {
         id: Faker.random.uuid(),
-        firstName: Faker.name.firstName(),
-        lastName: Faker.name.lastName(),
+        firstName,
+        lastName,
         phoneNumbers: Array.from({
           length: Math.random() < 0.3 ? 0 : Math.ceil(Math.random() * 2),
         }).map(() => Faker.phone.phoneNumber("+## ### ### ###")),
-        email: Faker.internet.email(),
-        notes: Faker.lorem.paragraph(1),
+        email:
+          Math.random() < 0.5 ? Faker.internet.email(firstName, lastName) : "",
+        note: Math.random() < 0.5 ? Faker.lorem.paragraph(1) : "",
         favourite,
         blocked: !favourite ? Math.random() < 0.15 : false,
         speedDial: favourite ? speedDials.shift() : undefined,
-        address: Faker.address.streetAddress(),
+        address: Math.random() < 0.5 ? Faker.address.streetAddress() : "",
       }
     })
 }
