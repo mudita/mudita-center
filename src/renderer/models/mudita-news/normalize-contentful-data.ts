@@ -1,5 +1,6 @@
 import { Asset, Entry, EntryCollection } from "contentful"
 import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
+import { getBase64 } from "Renderer/models/mudita-news/get-base-64"
 
 export const normalizeContentfulData = async (
   data: EntryCollection<NewsEntry>
@@ -14,7 +15,7 @@ export const normalizeContentfulData = async (
       imageId: fields?.image?.sys?.id,
     }
   })
-  news.forEach((item: NewsEntry) => {
+  for (const item of news) {
     const {
       fields: {
         title,
@@ -23,9 +24,9 @@ export const normalizeContentfulData = async (
     } = includes.Asset.find((asset: Asset) => {
       return item?.image?.sys?.id === asset.sys.id
     })
-    item.imageSource = url
+    item.imageSource = await getBase64(url)
     item.imageAlt = title
-  })
+  }
   return {
     newsItems: news,
   }
