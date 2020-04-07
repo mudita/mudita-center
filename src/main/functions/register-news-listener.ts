@@ -4,10 +4,8 @@ import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
 import getDefaultNewsItems from "App/main/default-news-item"
 import axios from "axios"
-import {
-  downloadComments,
-  normalizeContentfulData,
-} from "Renderer/models/mudita-news/download-contentful-and-comments"
+import { normalizeContentfulData } from "Renderer/models/mudita-news/normalize-contentful-data"
+import { downloadComments } from "Renderer/models/mudita-news/download-comments"
 
 require("dotenv").config()
 export enum NewsEvents {
