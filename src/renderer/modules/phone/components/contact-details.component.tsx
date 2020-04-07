@@ -34,7 +34,6 @@ const messages = defineMessages({
 })
 
 export interface ContactActions {
-  onEdit: (contact: Contact) => void
   onExport: (contact: Contact) => void
   onForward: (contact: Contact) => void
   onBlock: (contact: Contact) => void
@@ -42,6 +41,7 @@ export interface ContactActions {
 }
 
 export interface ContactDetailsActions {
+  onEdit: (contact: Contact) => void
   onCall: (phoneNumber: string) => void
   onMessage: (phoneNumber: string) => void
 }

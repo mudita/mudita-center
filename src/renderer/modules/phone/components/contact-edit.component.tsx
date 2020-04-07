@@ -43,7 +43,6 @@ const messages = defineMessages({
 
 export interface ContactEditProps {
   contact?: Contact
-  onClose: () => void
   onCancel: () => void
   onSpeedDialSettingsOpen: () => void
   onSave: (contact: Contact) => void
@@ -158,7 +157,12 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   )
 
   return (
-    <ContactDetailsWrapper {...rest} show headerLeft={headerLeft}>
+    <ContactDetailsWrapper
+      {...rest}
+      show
+      onClose={onCancel}
+      headerLeft={headerLeft}
+    >
       <Content>
         <div>
           <Input

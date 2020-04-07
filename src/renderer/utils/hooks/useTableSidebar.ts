@@ -2,7 +2,7 @@ import { useState } from "react"
 
 const useTableSidebar = <T>() => {
   const [sidebarOpened, setSidebarVisibility] = useState()
-  const [activeRow, setActiveRow] = useState<T | null>()
+  const [activeRow, setActiveRow] = useState<T | undefined>()
 
   const openSidebar = (row: T) => {
     setActiveRow(row)
@@ -10,7 +10,7 @@ const useTableSidebar = <T>() => {
   }
   const closeSidebar = () => {
     setSidebarVisibility(false)
-    setActiveRow(null)
+    setActiveRow(undefined)
   }
 
   return {

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { createRef, useEffect } from "react"
 import { Contact, Contacts } from "Renderer/models/phone/phone.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
@@ -7,7 +7,6 @@ import Table, {
   Group,
   Labels,
   Row,
-  TableWithSidebarWrapper,
 } from "Renderer/components/core/table/table.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox, {
@@ -31,11 +30,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
-import ContactDetails, {
-  ContactActions,
-  ContactDetailsActions,
-} from "Renderer/modules/phone/components/contact-details.component"
-import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import { ContactActions } from "Renderer/modules/phone/components/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 
 const visibleCheckboxStyles = css`
@@ -99,12 +94,13 @@ const BlockedIcon = styled(Icon).attrs(() => ({
   margin-left: 1.6rem;
 `
 
-const SelectableContacts = styled(Table)`
+const SelectableContacts = styled(Table)<{ adding?: boolean }>`
   flex: 1;
   overflow: auto;
   --columnsTemplate: 4rem 1fr auto 4.8rem 13.5rem;
   --columnsTemplateWithOpenedSidebar: 4rem 1fr;
   --columnsGap: 0;
+  pointer-events: ${({ adding }) => (adding ? "none" : "all")};
 
   ${Row} {
     :hover {
@@ -118,25 +114,26 @@ const SelectableContacts = styled(Table)`
   }
 `
 
-export interface ContactListProps
-  extends Contacts,
-    ContactActions,
-    ContactDetailsActions {
-  onSelect: (contacts: Contact[]) => void
+export interface ContactListProps extends Contacts, ContactActions {
+  activeRow?: Contact
+  onCheck: (contacts: Contact[]) => void
+  onSelect: (contact: Contact) => void
+  adding?: boolean
 }
 
 const ContactList: FunctionComponent<ContactListProps> = ({
   contactList,
+  activeRow,
+  onCheck,
   onSelect,
-  onEdit,
   onExport,
   onForward,
   onBlock,
   onDelete,
-  onCall,
-  onMessage,
+  adding,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
+  const tableRef = createRef<HTMLDivElement>()
 
   const {
     toggleRow,
@@ -145,140 +142,147 @@ const ContactList: FunctionComponent<ContactListProps> = ({
     selectedRows,
   } = useTableSelect(contactList)
 
-  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
-
   useEffect(() => {
-    if (selectedRows.length) {
-      onSelect(selectedRows as Contact[])
-    }
+    onCheck(selectedRows as Contact[])
   }, [selectedRows])
 
+  useEffect(() => {
+    const table = tableRef.current
+    if (table) {
+      if (adding) {
+        table.scrollTop = 0
+        disableScroll()
+      } else {
+        enableScroll()
+      }
+    }
+  }, [adding])
+
+  // useEffect(() => {
+  //   // addingNew ? disableScroll() : enableScroll()
+  // }, [addingNew])
+
   return (
-    <TableWithSidebarWrapper>
-      <SelectableContacts
-        hideableColumnsIndexes={[2, 3, 4]}
-        hideColumns={Boolean(activeRow)}
-        scrollable={scrollable}
-      >
-        {contactList.map(({ category, contacts }) => (
-          <Group key={category}>
-            <Labels>
-              <Col />
-              <Col>{category}</Col>
-            </Labels>
-            {contacts.map((contact, index) => {
-              const { selected } = getRowStatus(contact)
-              const onChange = () => toggleRow(contact)
-              const [firstNumber, ...{ length: restNumbersCount }] = [
-                ...contact.phoneNumbers,
-              ]
-
-              const handleExport = () => onExport(contact)
-              const handleForward = () => onForward(contact)
-              const handleBlock = () => onBlock(contact)
-              const handleDelete = () => onDelete(contact)
-
-              const onClick = () => {
-                openSidebar(contact)
-              }
-
-              return (
-                <Row
-                  key={index}
-                  selected={selected}
-                  active={activeRow === contact}
-                >
-                  <Col>
-                    <Checkbox
-                      checked={selected}
-                      onChange={onChange}
-                      size={Size.Small}
-                      visible={!noneRowsSelected}
-                    />
-                  </Col>
-                  <Col onClick={onClick}>
-                    <InitialsAvatar
-                      text={contact.firstName[0] + contact.lastName[0]}
-                      light={selected}
-                    />
-                    {contact.firstName} {contact.lastName}
-                    {contact.blocked && (
-                      <BlockedIcon width={1.4} height={1.4} />
-                    )}
-                  </Col>
-                  <Col>{firstNumber}</Col>
-                  <Col>
-                    {restNumbersCount > 0 && (
-                      <MoreNumbers>+{restNumbersCount}</MoreNumbers>
-                    )}
-                  </Col>
-                  <Col>
-                    <Actions>
-                      <Dropdown
-                        toggler={
-                          <ActionsButton>
-                            <Icon type={Type.More} />
-                          </ActionsButton>
-                        }
-                        onOpen={disableScroll}
-                        onClose={enableScroll}
-                      >
-                        <ButtonComponent
-                          labelMessage={{
-                            id: "view.name.phone.contacts.action.exportAsVcard",
-                          }}
-                          Icon={Type.Upload}
-                          onClick={handleExport}
-                          displayStyle={DisplayStyle.Dropdown}
-                        />
-                        <ButtonComponent
-                          labelMessage={{
-                            id:
-                              "view.name.phone.contacts.action.forwardNamecard",
-                          }}
-                          Icon={Type.Forward}
-                          onClick={handleForward}
-                          displayStyle={DisplayStyle.Dropdown}
-                        />
-                        <ButtonComponent
-                          labelMessage={{
-                            id: "view.name.phone.contacts.action.block",
-                          }}
-                          Icon={Type.Blocked}
-                          onClick={handleBlock}
-                          displayStyle={DisplayStyle.Dropdown}
-                        />
-                        <ButtonComponent
-                          labelMessage={{
-                            id: "view.name.phone.contacts.action.delete",
-                          }}
-                          Icon={Type.Delete}
-                          onClick={handleDelete}
-                          displayStyle={DisplayStyle.Dropdown}
-                        />
-                      </Dropdown>
-                    </Actions>
-                  </Col>
-                </Row>
-              )
-            })}
-          </Group>
-        ))}
-      </SelectableContacts>
-      {activeRow && (
-        <ContactDetails
-          contact={activeRow}
-          onClose={closeSidebar}
-          onExport={onExport}
-          onForward={onForward}
-          onBlock={onBlock}
-          onDelete={onDelete}
-          onEdit={onEdit}
-          onCall={onCall}
-          onMessage={onMessage}
-        />
+    <SelectableContacts
+      hideableColumnsIndexes={[2, 3, 4]}
+      hideColumns={Boolean(activeRow) || adding}
+      scrollable={scrollable && !adding}
+      ref={tableRef}
+      adding={adding}
+    >
+      {adding && (
+        <Group>
+          <Labels>
+            <Col />
+            <Col>New contact</Col>
+          </Labels>
+          <Row active>
+            <Col />
+            <Col>
+              <InitialsAvatar light />
+            </Col>
+          </Row>
+        </Group>
       )}
-    </TableWithSidebarWrapper>
+      {contactList.map(({ category, contacts }) => (
+        <Group key={category}>
+          <Labels>
+            <Col />
+            <Col>{category}</Col>
+          </Labels>
+          {contacts.map((contact, index) => {
+            const { selected } = getRowStatus(contact)
+            const onChange = () => toggleRow(contact)
+            const [firstNumber, ...{ length: restNumbersCount }] = [
+              ...contact.phoneNumbers,
+            ]
+
+            const handleExport = () => onExport(contact)
+            const handleForward = () => onForward(contact)
+            const handleBlock = () => onBlock(contact)
+            const handleDelete = () => onDelete(contact)
+            const handleSelect = () => onSelect(contact)
+
+            return (
+              <Row
+                key={index}
+                selected={selected}
+                active={activeRow === contact}
+              >
+                <Col>
+                  <Checkbox
+                    checked={selected}
+                    onChange={onChange}
+                    size={Size.Small}
+                    visible={!noneRowsSelected}
+                  />
+                </Col>
+                <Col onClick={handleSelect}>
+                  <InitialsAvatar
+                    text={contact.firstName[0] + contact.lastName[0]}
+                    light={selected}
+                  />
+                  {contact.firstName} {contact.lastName}
+                  {contact.blocked && <BlockedIcon width={1.4} height={1.4} />}
+                </Col>
+                <Col>{firstNumber}</Col>
+                <Col>
+                  {restNumbersCount > 0 && (
+                    <MoreNumbers>+{restNumbersCount}</MoreNumbers>
+                  )}
+                </Col>
+                <Col>
+                  <Actions>
+                    <Dropdown
+                      toggler={
+                        <ActionsButton>
+                          <Icon type={Type.More} />
+                        </ActionsButton>
+                      }
+                      onOpen={disableScroll}
+                      onClose={enableScroll}
+                    >
+                      <ButtonComponent
+                        labelMessage={{
+                          id: "view.name.phone.contacts.action.exportAsVcard",
+                        }}
+                        Icon={Type.Upload}
+                        onClick={handleExport}
+                        displayStyle={DisplayStyle.Dropdown}
+                      />
+                      <ButtonComponent
+                        labelMessage={{
+                          id: "view.name.phone.contacts.action.forwardNamecard",
+                        }}
+                        Icon={Type.Forward}
+                        onClick={handleForward}
+                        displayStyle={DisplayStyle.Dropdown}
+                      />
+                      <ButtonComponent
+                        labelMessage={{
+                          id: "view.name.phone.contacts.action.block",
+                        }}
+                        Icon={Type.Blocked}
+                        onClick={handleBlock}
+                        displayStyle={DisplayStyle.Dropdown}
+                      />
+                      <ButtonComponent
+                        labelMessage={{
+                          id: "view.name.phone.contacts.action.delete",
+                        }}
+                        Icon={Type.Delete}
+                        onClick={handleDelete}
+                        displayStyle={DisplayStyle.Dropdown}
+                      />
+                    </Dropdown>
+                  </Actions>
+                </Col>
+              </Row>
+            )
+          })}
+        </Group>
+      ))}
+    </SelectableContacts>
   )
 }
 

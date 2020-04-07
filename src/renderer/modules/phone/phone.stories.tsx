@@ -33,7 +33,6 @@ storiesOf("Views|Phone", module).add("Phone", () => (
       onForward={action("Forward contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
-      onSelect={action("Selected contact")}
       onMessage={action("Send message")}
       onCall={action("Call")}
     />
@@ -132,7 +131,6 @@ storiesOf("Views|Phone/Contact details/Edit", module).add("Default", () => (
     contact={singleContact()}
     onCancel={action("Cancel")}
     onSave={action("Save")}
-    onClose={action("Close sidebar")}
     onSpeedDialSettingsOpen={action("Open speed dial settings")}
   />
 ))
@@ -141,7 +139,6 @@ storiesOf("Views|Phone/Contact details/New", module).add("Default", () => (
   <ContactEdit
     onCancel={action("Cancel")}
     onSave={action("Save")}
-    onClose={action("Close sidebar")}
     onSpeedDialSettingsOpen={action("Open speed dial settings")}
   />
 ))
