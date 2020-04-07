@@ -272,7 +272,7 @@ storiesOf("Components|Text input/Outlined condensed", module)
     )
   })
 
-storiesOf("Components|Text input/Textarea", module)
+storiesOf("Components|Text input/Standard textarea (outlined)", module)
   .addDecorator(withKnobs)
   .add("Basic test", () => {
     const [value, setValue] = useState("Lorem\nipsum\ndolor\nsit\namet\nsit")
@@ -286,8 +286,11 @@ storiesOf("Components|Text input/Textarea", module)
 
     const increaseMaxRows = () => setMaxRows(maxRows + 1)
 
-    const infiniteMaxRows = () => setMaxRows(0)
+    const setFiveMaxRows = () => setMaxRows(5)
 
+    const infiniteMaxRows = () => setMaxRows(Infinity)
+
+    button("set 5 max rows", setFiveMaxRows)
     button("decrease max rows", decreaseMaxRows)
     button("increase max rows", increaseMaxRows)
     button("infinite max rows", infiniteMaxRows)
@@ -426,6 +429,185 @@ storiesOf("Components|Text input/Textarea", module)
         leadingIcons={multipleIcons}
         trailingIcons={multipleIcons}
         placeholder="Name"
+      />
+    )
+  })
+
+storiesOf("Components|Text input/Input-like textarea", module)
+  .addDecorator(withKnobs)
+  .add("Basic test", () => {
+    const [value, setValue] = useState("Lorem\nipsum\ndolor\nsit\namet\nsit")
+    const [maxRows, setMaxRows] = useState(5)
+
+    const updateValue = (event: any) => setValue(event.target.value)
+
+    const setPredefinedValue = () => setValue("Lorem\nipsum\ndolor\nsit")
+
+    const decreaseMaxRows = () => setMaxRows(maxRows > 1 ? maxRows - 1 : 1)
+
+    const increaseMaxRows = () => setMaxRows(maxRows + 1)
+
+    const setFiveMaxRows = () => setMaxRows(5)
+
+    const infiniteMaxRows = () => setMaxRows(Infinity)
+
+    button("set 5 max rows", setFiveMaxRows)
+    button("decrease max rows", decreaseMaxRows)
+    button("increase max rows", increaseMaxRows)
+    button("infinite max rows", infiniteMaxRows)
+    button("set predefined value", setPredefinedValue)
+
+    return (
+      <>
+        <InputComponent
+          type="textarea"
+          value={value}
+          onChange={updateValue}
+          maxRows={maxRows}
+          outlined={false}
+        />
+        <pre>
+          MAX ROWS: {maxRows === 0 ? "inf" : maxRows}
+          <br />
+          VALUE:
+          <br />
+          {value}
+        </pre>
+      </>
+    )
+  })
+  .add("Basic", () => <InputComponent type="textarea" outlined={false} />)
+  .add("With placeholder", () => (
+    <InputComponent type="textarea" placeholder="Name" outlined={false} />
+  ))
+  .add("Focused with placeholder", () => {
+    return (
+      <InputComponent
+        autoFocus
+        type="textarea"
+        placeholder="Message"
+        outlined={false}
+      />
+    )
+  })
+  .add("With content", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
+        }
+        outlined={false}
+      />
+    )
+  })
+  .add("Disabled with content", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
+        }
+        disabled
+        outlined={false}
+      />
+    )
+  })
+  .add("With content and rows limit set to 6", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
+        }
+        maxRows={6}
+        outlined={false}
+      />
+    )
+  })
+  .add("With small content and rows limit set to 6", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus."
+        }
+        maxRows={6}
+        outlined={false}
+      />
+    )
+  })
+  .add("Disabled with content and rows limit set to 6", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
+        }
+        maxRows={6}
+        disabled
+        outlined={false}
+      />
+    )
+  })
+  .add("With placeholder and leading icon", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        leadingIcons={singleIcon}
+        placeholder="Name"
+        outlined={false}
+      />
+    )
+  })
+  .add("With content and leading and trailing icon", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        leadingIcons={singleIcon}
+        trailingIcons={singleIcon}
+        placeholder="Name"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
+        }
+        outlined={false}
+      />
+    )
+  })
+  .add("With placeholder and trailing icon", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        trailingIcons={singleIcon}
+        placeholder="Name"
+        outlined={false}
+      />
+    )
+  })
+  .add("With placeholder, leading and trailing icon", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        leadingIcons={singleIcon}
+        trailingIcons={singleIcon}
+        placeholder="Name"
+        outlined={false}
+      />
+    )
+  })
+  .add("With placeholder and multiple leading and trailing icons", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        leadingIcons={multipleIcons}
+        trailingIcons={multipleIcons}
+        placeholder="Name"
+        outlined={false}
       />
     )
   })

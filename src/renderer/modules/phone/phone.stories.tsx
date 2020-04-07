@@ -48,7 +48,7 @@ const singleContact = ({
   lastName: "Krajcik",
   phoneNumbers: ["+40 211 456 285", "+37 030 922 283"],
   email: "BelleK38@gmail.com",
-  notes:
+  note:
     "Et ut debitis veritatis dolorum. Facilis magni sit voluptas consequatur est libero quam.",
   address: "50856 Mabelle Motorway",
   favourite,

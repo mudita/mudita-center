@@ -124,7 +124,7 @@ const CustomCheckbox = styled.label`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 3rem;
+  margin-top: 3.3rem;
   padding-bottom: 1.4rem;
   cursor: pointer;
 
@@ -246,7 +246,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           </CustomCheckbox>
           <Input
             type="textarea"
-            inputLike={true}
+            outlined={false}
             placeholder={intl.formatMessage(messages.address)}
             value={fields.address}
             name="address"
@@ -254,10 +254,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           />
           <Input
             type="textarea"
-            inputLike={true}
+            outlined={false}
             placeholder={intl.formatMessage(messages.notes)}
-            value={fields.notes}
-            name="notes"
+            value={fields.note}
+            name="note"
             onChange={updateField}
           />
         </div>

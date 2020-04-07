@@ -10,13 +10,13 @@ export interface InputIconsProps {
 interface BasicProps extends InputIconsProps {
   placeholder?: string
   disabled?: boolean
+  outlined?: boolean
 }
 
 export interface InputProps
   extends InputHTMLAttributes<HTMLInputElement>,
     BasicProps {
   condensed?: boolean
-  outlined?: boolean
   type: "text" | "email" | "password" | "search" | "tel" | "url"
 }
 
@@ -24,7 +24,6 @@ export interface TextareaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement>,
     BasicProps {
   maxRows?: number
-  inputLike?: boolean
   type?: "textarea"
 }
 
