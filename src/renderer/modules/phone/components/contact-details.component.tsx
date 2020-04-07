@@ -19,7 +19,6 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { noop } from "Renderer/utils/noop"
 
 const messages = defineMessages({
   favourites: { id: "view.name.phone.contacts.details.favourites" },
@@ -116,7 +115,6 @@ const AdditionalInfoItem = styled.div`
 `
 
 const Input = styled(InputComponent).attrs(({ value, placeholder }) => ({
-  onChange: noop,
   placeholder: value ? undefined : placeholder,
   disabled: true,
 }))<InputComponentProps>`
@@ -143,19 +141,19 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onMessage,
   ...rest
 }) => {
-  const editHandler = () => onEdit(contact)
-  const exportHandler = () => onExport(contact)
-  const forwardHandler = () => onForward(contact)
-  const blockHandler = () => onBlock(contact)
-  const deleteHandler = () => onDelete(contact)
+  const handleEdit = () => onEdit(contact)
+  const handleExport = () => onExport(contact)
+  const handleForward = () => onForward(contact)
+  const handleBlock = () => onBlock(contact)
+  const handleDelete = () => onDelete(contact)
 
   const icons = (
     <>
-      <SidebarHeaderIcon Icon={Type.Edit} onClick={editHandler} />
-      <SidebarHeaderIcon Icon={Type.Upload} onClick={exportHandler} />
-      <SidebarHeaderIcon Icon={Type.Forward} onClick={forwardHandler} />
-      <SidebarHeaderIcon Icon={Type.Blocked} onClick={blockHandler} />
-      <SidebarHeaderIcon Icon={Type.Delete} onClick={deleteHandler} />
+      <SidebarHeaderIcon Icon={Type.Edit} onClick={handleEdit} />
+      <SidebarHeaderIcon Icon={Type.Upload} onClick={handleExport} />
+      <SidebarHeaderIcon Icon={Type.Forward} onClick={handleForward} />
+      <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleBlock} />
+      <SidebarHeaderIcon Icon={Type.Delete} onClick={handleDelete} />
     </>
   )
 

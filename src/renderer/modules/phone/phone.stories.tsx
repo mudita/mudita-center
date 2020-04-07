@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions"
 import {
   generateFakeData,
   generateSortedStructure,
-} from "Renderer/models/phone/utils/utils"
+} from "Renderer/models/phone/phone.utils"
 import styled from "styled-components"
 import ContactDetails from "Renderer/modules/phone/components/contact-details.component"
 import { Contact } from "Renderer/models/phone/phone.interface"
