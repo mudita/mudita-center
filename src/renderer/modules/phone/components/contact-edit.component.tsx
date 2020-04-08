@@ -53,7 +53,6 @@ const Content = styled.div`
     width: calc(50% - 3.2rem);
   }
 
-  // TODO: Remove after adding select input
   select {
     height: 1.8rem;
     margin-top: 3.8rem;
