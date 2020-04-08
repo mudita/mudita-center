@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import ContactList from "Renderer/modules/phone/components/contact-list.component"
 import ContactPanel, {
   ContactPanelProps,
@@ -13,7 +13,9 @@ import ContactDetails, {
 } from "Renderer/modules/phone/components/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { Contact, Contacts } from "Renderer/models/phone/phone.interface"
-import ContactEdit from "Renderer/modules/phone/components/contact-edit.component"
+import ContactEdit, {
+  defaultContact,
+} from "Renderer/modules/phone/components/contact-edit.component"
 import { noop } from "Renderer/utils/noop"
 
 const ContactSection = styled.section`
@@ -36,27 +38,33 @@ const Phone: FunctionComponent<PhoneProps> = ({
   onForward,
   onBlock,
   onDelete,
-  onEdit,
   onCall,
   onMessage,
 }) => {
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
-  const [adding, setAddingState] = useState(false)
-  const [editing, setEditingState] = useState(false)
+  const [newContact, setNewContact] = useState<Contact>()
+  const [editedContact, setEditedContact] = useState<Contact>()
 
-  useEffect(() => {
-    if (adding) {
-      closeSidebar()
+  const handleAddingCancel = () => {
+    closeSidebar()
+    setNewContact(undefined)
+  }
+
+  const handleAddingContact = () => setNewContact(defaultContact)
+
+  const handleNameUpdate = (firstName: string, lastName: string) => {
+    if (!editedContact) {
+      setNewContact({
+        ...(newContact as Contact),
+        firstName,
+        lastName,
+      })
     }
-  }, [adding])
+  }
 
   const handleEditCancel = () => {
     closeSidebar()
-    setAddingState(false)
-  }
-
-  const handleAddingContact = () => {
-    setAddingState(true)
+    setEditedContact(undefined)
   }
 
   return (
@@ -76,16 +84,26 @@ const Phone: FunctionComponent<PhoneProps> = ({
           onBlock={onBlock}
           onDelete={onDelete}
           onCheck={noop}
-          adding={adding}
+          newContact={newContact}
+          editedContact={editedContact}
         />
-        {adding && (
+        {newContact && (
           <ContactEdit
+            onCancel={handleAddingCancel}
+            onSpeedDialSettingsOpen={noop}
+            onSave={noop}
+            onNameUpdate={handleNameUpdate}
+          />
+        )}
+        {editedContact && (
+          <ContactEdit
+            contact={editedContact}
             onCancel={handleEditCancel}
             onSpeedDialSettingsOpen={noop}
             onSave={noop}
           />
         )}
-        {activeRow && !adding && (
+        {activeRow && !newContact && !editedContact && (
           <ContactDetails
             contact={activeRow}
             onClose={closeSidebar}
@@ -93,7 +111,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
             onForward={onForward}
             onBlock={onBlock}
             onDelete={onDelete}
-            onEdit={onEdit}
+            onEdit={setEditedContact}
             onCall={onCall}
             onMessage={onMessage}
           />

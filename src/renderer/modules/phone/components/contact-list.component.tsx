@@ -32,6 +32,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { ContactActions } from "Renderer/modules/phone/components/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
+import { FormattedMessage } from "react-intl"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -94,13 +95,13 @@ const BlockedIcon = styled(Icon).attrs(() => ({
   margin-left: 1.6rem;
 `
 
-const SelectableContacts = styled(Table)<{ adding?: boolean }>`
+const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   flex: 1;
   overflow: auto;
   --columnsTemplate: 4rem 1fr auto 4.8rem 13.5rem;
   --columnsTemplateWithOpenedSidebar: 4rem 1fr;
   --columnsGap: 0;
-  pointer-events: ${({ adding }) => (adding ? "none" : "all")};
+  pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
 
   ${Row} {
     :hover {
@@ -118,7 +119,8 @@ export interface ContactListProps extends Contacts, ContactActions {
   activeRow?: Contact
   onCheck: (contacts: Contact[]) => void
   onSelect: (contact: Contact) => void
-  adding?: boolean
+  newContact?: Contact
+  editedContact?: Contact
 }
 
 const ContactList: FunctionComponent<ContactListProps> = ({
@@ -130,7 +132,8 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   onForward,
   onBlock,
   onDelete,
-  adding,
+  newContact,
+  editedContact,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
@@ -149,37 +152,38 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   useEffect(() => {
     const table = tableRef.current
     if (table) {
-      if (adding) {
+      if (newContact) {
         table.scrollTop = 0
+        disableScroll()
+      } else if (editedContact) {
         disableScroll()
       } else {
         enableScroll()
       }
     }
-  }, [adding])
-
-  // useEffect(() => {
-  //   // addingNew ? disableScroll() : enableScroll()
-  // }, [addingNew])
+  }, [newContact, editedContact])
 
   return (
     <SelectableContacts
       hideableColumnsIndexes={[2, 3, 4]}
-      hideColumns={Boolean(activeRow) || adding}
-      scrollable={scrollable && !adding}
+      hideColumns={Boolean(activeRow) || Boolean(newContact)}
+      scrollable={scrollable && !newContact}
+      mouseLock={Boolean(newContact || editedContact)}
       ref={tableRef}
-      adding={adding}
     >
-      {adding && (
+      {newContact && (
         <Group>
           <Labels>
             <Col />
-            <Col>New contact</Col>
+            <Col>
+              <FormattedMessage id={"view.name.phone.contacts.new.title"} />
+            </Col>
           </Labels>
           <Row active>
             <Col />
             <Col>
-              <InitialsAvatar light />
+              <InitialsAvatar user={newContact} light />
+              {newContact.firstName} {newContact.lastName}
             </Col>
           </Row>
         </Group>
@@ -218,10 +222,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                   />
                 </Col>
                 <Col onClick={handleSelect}>
-                  <InitialsAvatar
-                    text={contact.firstName[0] + contact.lastName[0]}
-                    light={selected}
-                  />
+                  <InitialsAvatar user={contact} light={selected} />
                   {contact.firstName} {contact.lastName}
                   {contact.blocked && <BlockedIcon width={1.4} height={1.4} />}
                 </Col>

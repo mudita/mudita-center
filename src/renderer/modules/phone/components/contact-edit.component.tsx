@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import styled from "styled-components"
@@ -19,6 +19,7 @@ import InputCheckbox, {
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import useForm from "Renderer/utils/hooks/use-form"
+import { noop } from "Renderer/utils/noop"
 
 const messages = defineMessages({
   editTitle: { id: "view.name.phone.contacts.edit.title" },
@@ -40,13 +41,6 @@ const messages = defineMessages({
   cancel: { id: "view.name.phone.contacts.edit.cancel" },
   save: { id: "view.name.phone.contacts.edit.save" },
 })
-
-export interface ContactEditProps {
-  contact?: Contact
-  onCancel: () => void
-  onSpeedDialSettingsOpen: () => void
-  onSave: (contact: Contact) => void
-}
 
 const Content = styled.div`
   flex: 1;
@@ -128,7 +122,7 @@ export const defaultContact = {
   id: "",
   firstName: "",
   lastName: "",
-  phoneNumbers: [],
+  phoneNumbers: ["", ""],
   email: "",
   note: "",
   address: "",
@@ -138,11 +132,20 @@ export const defaultContact = {
   ice: false,
 }
 
+export interface ContactEditProps {
+  contact?: Contact
+  onCancel: () => void
+  onSpeedDialSettingsOpen: () => void
+  onSave: (contact: Contact) => void
+  onNameUpdate?: (firstName: string, lastName: string) => void
+}
+
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
   contact,
   onCancel,
   onSave,
   onSpeedDialSettingsOpen,
+  onNameUpdate = noop,
   ...rest
 }) => {
   const { fields, updateField } = useForm<Contact>(contact || defaultContact)
@@ -155,6 +158,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
       message={contact ? messages.editTitle : messages.newTitle}
     />
   )
+
+  useEffect(() => {
+    onNameUpdate(fields.firstName, fields.lastName)
+  }, [fields.firstName, fields.lastName])
 
   return (
     <ContactDetailsWrapper
@@ -180,13 +187,13 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           <Input
             placeholder={intl.formatMessage(messages.number)}
             name="phoneNumbers[0]"
-            value={fields.phoneNumbers[0]}
+            value={fields.phoneNumbers[0] || ""}
             onChange={updateField}
           />
           <Input
             placeholder={intl.formatMessage(messages.otherNumber)}
             name="phoneNumbers[1]"
-            value={fields.phoneNumbers[1]}
+            value={fields.phoneNumbers[1] || ""}
             onChange={updateField}
           />
           <Input placeholder={intl.formatMessage(messages.email)} />
