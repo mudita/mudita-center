@@ -1,3 +1,5 @@
+import { ContentTypeLink } from "contentful"
+
 export interface NewsEntry {
   category?: string
   title: string
@@ -5,9 +7,7 @@ export interface NewsEntry {
   updatedAt: string
   createdAt: string
   image?: {
-    sys?: {
-      id?: string
-    }
+    sys?: ContentTypeLink
   }
   communityLink: string
   link: string
@@ -15,11 +15,6 @@ export interface NewsEntry {
   discussionId: string
   imageSource?: string
   imageAlt?: string
-}
-
-export interface IdItem {
-  id: string
-  createdAt: string
 }
 
 export interface DownloadError {
@@ -31,8 +26,6 @@ export interface DownloadError {
 export interface Store {
   newsIds: string[]
   newsItems: NewsEntry[]
-  commentsCount: {
-    [key: string]: number
-  }
+  commentsCount: Record<string, number>
   downloadError?: DownloadError
 }
