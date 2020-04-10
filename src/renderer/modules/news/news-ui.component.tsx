@@ -15,13 +15,11 @@ const News: FunctionComponent<Props> = ({
   commentsCount,
   loadData = noop,
 }) => (
-  <div>
-    <Cards
-      newsItems={newsItems}
-      commentsCount={commentsCount}
-      loadData={loadData}
-    />
-  </div>
+  <Cards
+    newsItems={newsItems}
+    commentsCount={commentsCount}
+    loadData={loadData}
+  />
 )
 
 export default News
