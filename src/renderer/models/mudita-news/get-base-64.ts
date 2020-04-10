@@ -1,6 +1,6 @@
 import axios from "axios"
 
-export const getBase64 = async (url?: string) => {
+export const getBase64 = async (url: string) => {
   try {
     return await axios
       .get("https:" + url, {
@@ -12,6 +12,7 @@ export const getBase64 = async (url?: string) => {
           Buffer.from(response.data, "binary").toString("base64")
       )
   } catch (e) {
-    console.log(e)
+    // TODO: Return value to trigger placeholder gradient on image
+    return ""
   }
 }

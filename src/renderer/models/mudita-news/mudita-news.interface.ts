@@ -13,7 +13,7 @@ export interface NewsEntry {
   link: string
   newsId: string
   discussionId: string
-  imageSource: string
+  imageSource?: string
   imageAlt?: string
 }
 
