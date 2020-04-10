@@ -4,6 +4,7 @@ export const newsItems = [
     title: "Hot discussion",
     content: "One feature I would love to see added",
     createdAt: "2019-07-11T09:48:32.097Z",
+    updatedAt: "2019-07-11T09:48:32.097Z",
     communityLink:
       "https://forum.mudita.com/t/one-feature-i-would-love-to-see-added/299",
     link:
@@ -19,6 +20,7 @@ export const newsItems = [
     content:
       "Our campaign on Kickstarter was a success, reaching 262% of the initial goal!",
     createdAt: "2019-07-11T09:56:32.097Z",
+    updatedAt: "2019-07-11T09:56:32.097Z",
     communityLink:
       "https://forum.mudita.com/t/mudita-pure-kickstarter-campaign-is-live/703",
     link:
@@ -33,6 +35,7 @@ export const newsItems = [
     title: "Featured Article",
     content: "Attention: The precious currency we’re giving away for free.",
     createdAt: "2019-07-11T09:55:32.097Z",
+    updatedAt: "2019-07-11T09:55:32.097Z",
     communityLink:
       "https://forum.mudita.com/t/attention-the-precious-currency-we-re-giving-away-for-free/1027",
     link:
@@ -57,6 +60,7 @@ export const moreNewsItems = [
     title: "Featured Article",
     content: "Attention: The precious currency we’re giving away for free.",
     createdAt: "2019-07-11T09:57:32.097Z",
+    updatedAt: "2019-07-11T09:57:32.097Z",
     communityLink:
       "https://forum.mudita.com/t/attention-the-precious-currency-we-re-giving-away-for-free/1027",
     link:
