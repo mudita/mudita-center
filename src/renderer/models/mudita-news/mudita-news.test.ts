@@ -1,14 +1,18 @@
-import moxios from "moxios"
 import { init } from "@rematch/core"
 import muditaNews from "Renderer/models/mudita-news/mudita-news"
-import { newsResponse } from "Renderer/models/mudita-news/mudita-news.fixtures"
-
-beforeEach(() => {
-  moxios.install()
-})
+import { ipcRenderer } from "electron-better-ipc"
+import { NewsEvents } from "App/main/functions/register-news-listener"
+import {
+  commentsCount,
+  newsItems,
+} from "Renderer/components/rest/news/cards/cards-mock-data"
 
 afterEach(() => {
-  moxios.uninstall()
+  for (const property in (ipcRenderer as any).__rendererCalls) {
+    if ((ipcRenderer as any).__rendererCalls.hasOwnProperty(property)) {
+      delete (ipcRenderer as any).__rendererCalls[property]
+    }
+  }
 })
 
 it("call is performed after dispatching effect and gets initial state", () => {
@@ -28,27 +32,13 @@ it("call is performed after dispatching effect and gets initial state", () => {
 })
 
 it("call is performed after dispatching effect with data", async () => {
-  moxios.stubRequest(
-    `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=newsItem`,
-    {
-      status: 200,
-      response: newsResponse,
-    }
-  )
-
-  moxios.stubRequest(
-    new RegExp(process.env.GATSBY_COMMUNITY_URL + "/t/\\d+\\.json"),
-    {
-      status: 200,
-      response: {
-        posts_count: "10",
-      },
-    }
-  )
-
   const store = init({
     models: { muditaNews },
   })
+  ;(ipcRenderer as any).__rendererCalls = {
+    [NewsEvents.Init]: Promise.resolve({ newsItems, commentsCount }),
+  }
+
   await store.dispatch.muditaNews.loadData()
 
   expect(store.getState()).toMatchSnapshot()
