@@ -7,7 +7,6 @@ import axios from "axios"
 import { normalizeContentfulData } from "Renderer/models/mudita-news/normalize-contentful-data"
 import { downloadComments } from "Renderer/models/mudita-news/download-comments"
 
-require("dotenv").config()
 export enum NewsEvents {
   Get = "get-news-items",
   Save = "save-news-items",

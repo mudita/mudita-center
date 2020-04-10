@@ -11,6 +11,8 @@ import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-
 import registerSettingsListeners from "App/main/functions/register-settings-listeners"
 import registerNewsListener from "App/main/functions/register-news-listener"
 
+require("dotenv").config()
+
 let win: BrowserWindow | null
 
 // Fetch all errors and display in console along with alert box
