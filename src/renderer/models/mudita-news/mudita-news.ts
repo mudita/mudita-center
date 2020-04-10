@@ -34,7 +34,7 @@ export default {
       const defaultNews: DefaultNewsItems = await getNews()
       dispatch.muditaNews.updateOffline(defaultNews)
     },
-    async updateData(data: any) {
+    async updateData(data: DefaultNewsItems) {
       dispatch.muditaNews.update(data)
     },
   }),
