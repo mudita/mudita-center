@@ -2,9 +2,7 @@ import { Dispatch } from "Renderer/store"
 import { Store } from "Renderer/models/network-status/network-status.interface"
 
 export default {
-  state: {
-    online: true,
-  },
+  state: {},
   reducers: {
     update(state: Store, payload: any) {
       return { ...state, ...payload }
