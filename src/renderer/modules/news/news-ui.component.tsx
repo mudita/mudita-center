@@ -22,6 +22,7 @@ const News: FunctionComponent<Props> = ({
   updateData = noop,
   online,
 }) => {
+  // Do not review. It will be removed in different task where we add update button
   const handleNewsUpdate = async () => {
     const updatedNews = await updateNews()
     updateData(updatedNews)
