@@ -1,15 +1,9 @@
 import { Dispatch } from "Renderer/store"
-import {
-  NewsEntry,
-  Store,
-} from "Renderer/models/mudita-news/mudita-news.interface"
+import { Store } from "Renderer/models/mudita-news/mudita-news.interface"
 import { Slicer } from "@rematch/select"
 import { sortByCreationDateInDescendingOrder } from "Renderer/models/mudita-news/sort-by-creation-date-in-descending-order"
 import { getNews, initNews } from "Renderer/requests/get-news.request"
 import { DefaultNewsItems } from "App/main/default-news-item"
-import axios from "axios"
-import { Asset, Entry } from "contentful"
-import { getBase64 } from "Renderer/models/mudita-news/get-base-64"
 
 const initialState: Store = {
   newsIds: [],
@@ -21,7 +15,6 @@ export default {
   state: initialState,
   reducers: {
     update(state: Store, payload: Partial<Store>) {
-      console.log(payload)
       return { ...state, ...payload }
     },
     updateOffline(state: Store, payload: DefaultNewsItems) {
