@@ -45,7 +45,7 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light?: boolean }>`
   text-transform: uppercase;
 `
 
-interface User extends Object {
+interface User {
   firstName: string
   lastName: string
 }
