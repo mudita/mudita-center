@@ -129,7 +129,7 @@ export const defaultContact = {
   blocked: false,
   speedDial: undefined,
   ice: false,
-}
+} as Readonly<Contact>
 
 export interface ContactEditProps {
   contact?: Contact
