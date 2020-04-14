@@ -75,8 +75,8 @@ const Avatar: FunctionComponent<AvatarProps> = ({
             : TextDisplayStyle.SmallFadedDimText
         }
       >
-        {user?.firstName?.charAt(0)}
-        {user?.lastName?.charAt(0)}
+        {user.firstName.charAt(0)}
+        {user.lastName.charAt(0)}
       </Text>
     ) : (
       <Icon type={Type.Contacts} width={getSize(size) / 2.5} />
