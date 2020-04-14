@@ -118,7 +118,7 @@ export const tabElements: TabElement[] = [
       {
         label: messages.backup,
         url: `${URL_MAIN.settings}${URL_TABS.backup}`,
-        icon: Type.MenuMusic,
+        icon: Type.BackupFolder,
       },
     ],
   },

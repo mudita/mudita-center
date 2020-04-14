@@ -1,5 +1,6 @@
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import Arrow from "Renderer/svg/arrow.svg"
+import BackupFolder from "Renderer/svg/backup-folder.svg"
 import Battery from "Renderer/svg/battery.svg"
 import ChargingBattery from "Renderer/svg/charging-battery.svg"
 import Check from "Renderer/svg/check-icon.svg"
@@ -62,6 +63,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
   Arrow,
+  BackupFolder,
   Battery,
   Calendar,
   ChargingBattery,
@@ -126,6 +128,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
   switch (icon) {
     case Type.Arrow:
       return Arrow
+    case Type.BackupFolder:
+      return BackupFolder
     case Type.Battery:
       return Battery
     case Type.Calendar:
