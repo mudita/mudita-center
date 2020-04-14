@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React, { ComponentProps } from "react"
 import {
   SidebarProps,
   TableProps,
@@ -315,14 +315,10 @@ export const EmptyState = styled(Row)`
     font-style: italic;
   }
 `
-type Props = { children: ReactNode } & TableProps
 
-const Table = React.forwardRef<HTMLDivElement, Props>(
-  ({ children, ...rest }, ref) => (
-    <TableComponent ref={ref} {...rest}>
-      {children}
-    </TableComponent>
-  )
-)
+const Table = React.forwardRef<
+  HTMLDivElement,
+  ComponentProps<typeof TableComponent>
+>((props, ref) => <TableComponent {...props} ref={ref} />)
 
 export default Table
