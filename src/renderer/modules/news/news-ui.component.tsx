@@ -4,13 +4,14 @@ import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 import { noop } from "Renderer/utils/noop"
 import Cards from "Renderer/components/rest/news/cards/cards.component"
 import { updateNews } from "Renderer/requests/get-news.request"
+import { DefaultNewsItems } from "App/main/default-news-item"
 
 interface Props {
   newsItems: NewsEntry[]
   commentsCount: Record<string, number>
   loadData?: () => void
   loadOfflineData?: () => void
-  updateData?: (news: any) => void
+  updateData?: (news: DefaultNewsItems) => void
   online?: boolean
 }
 
