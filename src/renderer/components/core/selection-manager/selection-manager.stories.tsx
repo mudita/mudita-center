@@ -38,7 +38,7 @@ export const exportButton = (
 const buttons = [exportButton, deleteButton]
 
 const useSelectionManager = () => {
-  const [itemsNumber, setItemsNumber] = useState()
+  const [itemsNumber, setItemsNumber] = useState<number>()
   const allItems = itemsNumber === 10
 
   const onToggle = () => {
