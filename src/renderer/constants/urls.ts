@@ -23,6 +23,7 @@ export const URL_TABS = {
   connection: "/connection",
   notifications: "/notifications",
   audioConversion: "/audio-conversion",
+  backup: "/backup",
 }
 
 export const URL_ONBOARDING = {
