@@ -1,8 +1,8 @@
 import React, { useState } from "react"
-import ContactList from "Renderer/modules/phone/components/contact-list.component"
+import ContactList from "Renderer/components/rest/phone/contact-list.component"
 import ContactPanel, {
   ContactPanelProps,
-} from "Renderer/modules/phone/components/contact-panel.component"
+} from "Renderer/components/rest/phone/contact-panel.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -10,12 +10,12 @@ import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.co
 import ContactDetails, {
   ContactActions,
   ContactDetailsActions,
-} from "Renderer/modules/phone/components/contact-details.component"
+} from "Renderer/components/rest/phone/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { Contact, Contacts } from "Renderer/models/phone/phone.interface"
 import ContactEdit, {
   defaultContact,
-} from "Renderer/modules/phone/components/contact-edit.component"
+} from "Renderer/components/rest/phone/contact-edit.component"
 import { noop } from "Renderer/utils/noop"
 
 const ContactSection = styled.section`

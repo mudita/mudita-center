@@ -7,11 +7,11 @@ import {
   generateSortedStructure,
 } from "Renderer/models/phone/phone.utils"
 import styled from "styled-components"
-import ContactDetails from "Renderer/modules/phone/components/contact-details.component"
+import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
 import { Contact } from "Renderer/models/phone/phone.interface"
 import ContactEdit, {
   defaultContact,
-} from "Renderer/modules/phone/components/contact-edit.component"
+} from "Renderer/components/rest/phone/contact-edit.component"
 
 const contactList = generateSortedStructure(generateFakeData(40))
 

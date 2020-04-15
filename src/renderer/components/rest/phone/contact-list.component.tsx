@@ -30,7 +30,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
-import { ContactActions } from "Renderer/modules/phone/components/contact-details.component"
+import { ContactActions } from "Renderer/components/rest/phone/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import { FormattedMessage } from "react-intl"
 
