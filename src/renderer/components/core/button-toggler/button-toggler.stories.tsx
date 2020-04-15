@@ -43,7 +43,7 @@ export const renderStory = (
           <br />
           <ButtonToggler filled={filled}>
             {options.map((label, k) => (
-              <ButtonTogglerItem key={k} label={label} active={j === k} />
+              <ButtonTogglerItem key={k} label={label} />
             ))}
           </ButtonToggler>
         </Wrapper>
