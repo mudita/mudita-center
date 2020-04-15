@@ -131,7 +131,7 @@ export const defaultContact = {
   ice: false,
 } as Readonly<Contact>
 
-export interface ContactEditProps {
+interface ContactEditProps {
   contact?: Contact
   onCancel: () => void
   onSpeedDialSettingsOpen: () => void
