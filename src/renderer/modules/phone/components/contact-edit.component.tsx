@@ -136,7 +136,10 @@ interface ContactEditProps {
   onCancel: () => void
   onSpeedDialSettingsOpen: () => void
   onSave: (contact: Contact) => void
-  onNameUpdate?: (firstName: string, lastName: string) => void
+  onNameUpdate?: ({
+    firstName,
+    lastName,
+  }: Pick<Contact, "firstName" | "lastName">) => void
 }
 
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
@@ -159,7 +162,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   )
 
   useEffect(() => {
-    onNameUpdate(fields.firstName, fields.lastName)
+    onNameUpdate({ firstName: fields.firstName, lastName: fields.lastName })
   }, [fields.firstName, fields.lastName])
 
   return (

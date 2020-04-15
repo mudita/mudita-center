@@ -52,7 +52,10 @@ const Phone: FunctionComponent<PhoneProps> = ({
 
   const handleAddingContact = () => setNewContact(defaultContact)
 
-  const handleNameUpdate = (firstName: string, lastName: string) => {
+  const handleNameUpdate = ({
+    firstName,
+    lastName,
+  }: Pick<Contact, "firstName" | "lastName">) => {
     if (!editedContact) {
       setNewContact({
         ...(newContact as Contact),
