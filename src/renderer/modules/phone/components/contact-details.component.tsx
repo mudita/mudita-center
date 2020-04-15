@@ -34,7 +34,6 @@ const messages = defineMessages({
 })
 
 export interface ContactActions {
-  onEdit: (contact: Contact) => void
   onExport: (contact: Contact) => void
   onForward: (contact: Contact) => void
   onBlock: (contact: Contact) => void
@@ -42,6 +41,7 @@ export interface ContactActions {
 }
 
 export interface ContactDetailsActions {
+  onEdit: (contact: Contact) => void
   onCall: (phoneNumber: string) => void
   onMessage: (phoneNumber: string) => void
 }
@@ -118,7 +118,6 @@ const Input = styled(InputComponent).attrs(({ value, placeholder }) => ({
   placeholder: value ? undefined : placeholder,
   disabled: true,
 }))<InputComponentProps>`
-  width: 100%;
   background-color: transparent;
   padding: 2.4rem 0 1.6rem 0;
 

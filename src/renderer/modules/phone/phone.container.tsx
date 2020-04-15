@@ -11,8 +11,6 @@ const mapDispatch = ({ phone }: any) => ({
   onSearchTermChange: (event: string) => phone.handleInput(event),
   // TODO: Add proper actions
   onManageButtonClick: noop,
-  onNewButtonClick: noop,
-  onEdit: noop,
   onExport: noop,
   onForward: noop,
   onBlock: noop,

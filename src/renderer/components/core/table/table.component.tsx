@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ComponentProps } from "react"
 import {
   SidebarProps,
   TableProps,
@@ -204,6 +204,8 @@ const SidebarContent = styled.div`
   padding: 0 3rem;
   overflow: auto;
   flex: 1;
+  display: flex;
+  flex-direction: column;
 `
 
 const SidebarWrapper = styled.div<{ show?: boolean }>`
@@ -314,8 +316,9 @@ export const EmptyState = styled(Row)`
   }
 `
 
-const Table: FunctionComponent<TableProps> = ({ children, ...rest }) => (
-  <TableComponent {...rest}>{children}</TableComponent>
-)
+const Table = React.forwardRef<
+  HTMLDivElement,
+  ComponentProps<typeof TableComponent>
+>((props, ref) => <TableComponent {...props} ref={ref} />)
 
 export default Table

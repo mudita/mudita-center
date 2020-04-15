@@ -38,6 +38,7 @@ const InputLabel = styled(Text)`
   user-select: none;
   transition: ${transition("top", "100ms", "ease-in-out")},
     ${transition("font-size", "100ms", "ease-in-out")};
+  white-space: nowrap;
 `
 
 const outlinedStyles = css`
@@ -81,6 +82,7 @@ const LabeledInputWrapper = styled.div`
   flex: 1;
   display: flex;
   min-height: ${lineHeight("textarea")}rem;
+  width: 100%;
 `
 
 const TextInputIcon = styled.span`
@@ -101,6 +103,7 @@ const generalInputStyles = css`
   background-color: transparent;
   padding: 0;
   color: ${textColor("dark")};
+  width: 100%;
 
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
   line-height: 1.5rem;
@@ -126,7 +129,7 @@ const InputWrapper = styled.label<Partial<InputProps & TextareaProps>>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: fit-content;
+  width: 100%;
   padding-top: 2rem;
   padding-bottom: 0.6rem;
   box-sizing: border-box;
