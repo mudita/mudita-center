@@ -5,6 +5,7 @@ export interface Contact {
   phoneNumbers: string[]
   favourite: boolean
   blocked: boolean
+  ice: boolean
   speedDial?: number
   note: string
   email: string
