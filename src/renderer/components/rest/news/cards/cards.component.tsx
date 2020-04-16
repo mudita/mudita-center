@@ -30,8 +30,9 @@ const Cards: FunctionComponent<Props> = ({
   useEffect(() => {
     if (!online) {
       loadOfflineData()
+    } else {
+      loadData()
     }
-    loadData()
   }, [online])
   return (
     <CardContainer>
