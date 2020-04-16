@@ -9,7 +9,7 @@ export const downloadComments = async (news: any) => {
     const {
       data: { posts_count },
     } = await axios.get(
-      `${process.env.GATSBY_COMMUNITY_URL}/t/${discussionId}.json`
+      `${process.env.MUDITA_COMMUNITY_URL}/t/${discussionId}.json`
     )
     return { newsId, count: posts_count }
   }
