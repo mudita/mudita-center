@@ -6,20 +6,11 @@ import Cards from "Renderer/components/rest/news/cards/cards.component"
 
 interface Props {
   newsItems: NewsEntry[]
-  commentsCount: Record<string, number>
   loadData?: () => void
 }
 
-const News: FunctionComponent<Props> = ({
-  newsItems,
-  commentsCount,
-  loadData = noop,
-}) => (
-  <Cards
-    newsItems={newsItems}
-    commentsCount={commentsCount}
-    loadData={loadData}
-  />
+const News: FunctionComponent<Props> = ({ newsItems, loadData = noop }) => (
+  <Cards newsItems={newsItems} loadData={loadData} />
 )
 
 export default News
