@@ -8,6 +8,11 @@ import Avatar, {
   getSize,
 } from "Renderer/components/core/avatar/avatar.component"
 
+const avatarUser = {
+  firstName: "John",
+  lastName: "Doe",
+}
+
 const renderAvatar = ({ ...props }: Partial<AvatarProps> = {}) => {
   return renderWithThemeAndIntl(<Avatar {...props} />)
 }
@@ -31,8 +36,8 @@ test("avatar renders in big size properly", () => {
 })
 
 test("avatar renders text content properly", () => {
-  const { container } = renderAvatar({ text: "abc" })
-  expect(container).toHaveTextContent("abc")
+  const { container } = renderAvatar({ user: avatarUser })
+  expect(container).toHaveTextContent("JD")
 })
 
 test("avatar renders image properly", () => {
@@ -47,9 +52,9 @@ test("avatar renders default image properly", () => {
 
 test("avatar renders image first", () => {
   const { getByTestId, queryByText } = renderAvatar({
-    text: "abc",
+    user: avatarUser,
     imageSrc: "someImageSrc",
   })
   expect(getByTestId("avatar-image")).toBeInTheDocument()
-  expect(queryByText("abc")).not.toBeInTheDocument()
+  expect(queryByText("JD")).not.toBeInTheDocument()
 })

@@ -1,20 +1,16 @@
 import { useState } from "react"
 
-interface Row {
-  [key: string]: any
-}
+const useTableSidebar = <T>() => {
+  const [sidebarOpened, setSidebarVisibility] = useState<boolean>()
+  const [activeRow, setActiveRow] = useState<T | undefined>()
 
-const useTableSidebar = () => {
-  const [sidebarOpened, setSidebarVisibility] = useState()
-  const [activeRow, setActiveRow] = useState<Row | null>()
-
-  const openSidebar = (row: Row) => {
+  const openSidebar = (row: T) => {
     setActiveRow(row)
     setSidebarVisibility(true)
   }
   const closeSidebar = () => {
     setSidebarVisibility(false)
-    setActiveRow(null)
+    setActiveRow(undefined)
   }
 
   return {

@@ -18,4 +18,5 @@ export interface TableProps {
   hideColumns?: boolean
   hideableColumnsIndexes?: number[]
   sidebar?: ReactNode
+  scrollable?: boolean
 }

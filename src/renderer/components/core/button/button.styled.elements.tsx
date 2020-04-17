@@ -280,6 +280,14 @@ const buttonStyles = css<{
             opacity: 0.75;
           }
         `
+      case DisplayStyle.InputIcon:
+        return css`
+          justify-content: flex-start;
+          height: 1.4rem;
+          width: 1.4rem;
+          border: none;
+          padding: 0;
+        `
       default:
         return
     }
@@ -337,5 +345,12 @@ export const StyledIcon = styled(Icon)<{
     displaystyle === DisplayStyle.Dropdown &&
     css`
       height: 1.6rem;
+    `};
+
+  ${({ displaystyle }) =>
+    displaystyle === DisplayStyle.InputIcon &&
+    css`
+      width: 100%;
+      height: 100%;
     `};
 `

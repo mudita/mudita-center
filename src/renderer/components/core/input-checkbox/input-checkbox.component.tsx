@@ -6,6 +6,8 @@ import { InputProps } from "Renderer/interfaces/input.interface"
 import {
   backgroundColor,
   borderColor,
+  transitionTime,
+  transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
@@ -68,11 +70,12 @@ const Input = styled.input<{ indeterminate: boolean }>`
   border: 0.1rem solid ${borderColor("default")};
   border-radius: 0.2rem;
   background-color: ${backgroundColor("light")};
+  transition: border-color ${transitionTime("quick")}
+    ${transitionTimingFunction("smooth")};
 
   &:hover {
     border-color: ${borderColor("hover")};
     cursor: pointer;
-    transition: border-color 0.5s linear;
   }
 
   &:checked {

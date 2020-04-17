@@ -18,6 +18,11 @@ const WrapperWithBG = styled(Wrapper)`
   background-color: rgba(0, 0, 0, 0.1);
 `
 
+const avatarUser = {
+  firstName: "John",
+  lastName: "Doe",
+}
+
 storiesOf("Components|Avatar", module)
   .add("Dark with text", () => {
     return (
@@ -25,19 +30,19 @@ storiesOf("Components|Avatar", module)
         <Wrapper>
           <Text displayStyle={TextDisplayStyle.SmallText}>Small</Text>
           <br />
-          <Avatar size={AvatarSize.Small} text={"MK"} />
+          <Avatar size={AvatarSize.Small} user={avatarUser} />
         </Wrapper>
         <Wrapper>
           <Text displayStyle={TextDisplayStyle.SmallText}>
             Medium (default)
           </Text>
           <br />
-          <Avatar text={"MK"} />
+          <Avatar user={avatarUser} />
         </Wrapper>
         <Wrapper>
           <Text displayStyle={TextDisplayStyle.SmallText}>Big</Text>
           <br />
-          <Avatar size={AvatarSize.Big} text={"MK"} />
+          <Avatar size={AvatarSize.Big} user={avatarUser} />
         </Wrapper>
       </>
     )
@@ -48,19 +53,19 @@ storiesOf("Components|Avatar", module)
         <WrapperWithBG>
           <Text displayStyle={TextDisplayStyle.SmallText}>Small</Text>
           <br />
-          <Avatar size={AvatarSize.Small} text={"MK"} light />
+          <Avatar size={AvatarSize.Small} user={avatarUser} light />
         </WrapperWithBG>
         <WrapperWithBG>
           <Text displayStyle={TextDisplayStyle.SmallText}>
             Medium (default)
           </Text>
           <br />
-          <Avatar text={"MK"} light />
+          <Avatar user={avatarUser} light />
         </WrapperWithBG>
         <WrapperWithBG>
           <Text displayStyle={TextDisplayStyle.SmallText}>Big</Text>
           <br />
-          <Avatar size={AvatarSize.Big} text={"MK"} light />
+          <Avatar size={AvatarSize.Big} user={avatarUser} light />
         </WrapperWithBG>
       </>
     )

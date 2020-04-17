@@ -11,12 +11,13 @@ const mapDispatch = ({ phone }: any) => ({
   onSearchTermChange: (event: string) => phone.handleInput(event),
   // TODO: Add proper actions
   onManageButtonClick: noop,
-  onNewButtonClick: noop,
-  onContactExport: noop,
-  onContactForward: noop,
-  onContactBlock: noop,
-  onContactDelete: noop,
-  onContactSelect: noop,
+  onExport: noop,
+  onForward: noop,
+  onBlock: noop,
+  onDelete: noop,
+  onSelect: noop,
+  onCall: noop,
+  onMessage: noop,
 })
 
 export default connect(mapState, mapDispatch)(Phone)

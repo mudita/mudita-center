@@ -10,6 +10,7 @@ export enum DisplayStyle {
   Link4,
   Tab,
   Dropdown,
+  InputIcon,
 }
 
 export enum Type {

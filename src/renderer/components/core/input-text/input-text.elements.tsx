@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react"
+import React, { ChangeEvent, useLayoutEffect, useRef } from "react"
 import {
   InputIconsProps,
   InputProps,
@@ -15,7 +15,7 @@ import {
   backgroundColor,
   borderColor,
   borderRadius,
-  lineHeight as getLineHeight,
+  lineHeight,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -23,21 +23,22 @@ import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
 
 const focusedLabelStyles = css`
-  bottom: 2.4rem;
+  top: -2rem;
   ${smallTextSharedStyles};
 `
 
-const StandardInputLabel = styled(Text)`
+const InputLabel = styled(Text)`
   position: absolute;
   left: 0;
-  bottom: 0;
+  top: 0.3rem;
   color: ${textColor("placeholder")};
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
   line-height: 1.5rem;
   pointer-events: none;
   user-select: none;
-  transition: ${transition("bottom", "100ms", "ease-in-out")},
+  transition: ${transition("top", "100ms", "ease-in-out")},
     ${transition("font-size", "100ms", "ease-in-out")};
+  white-space: nowrap;
 `
 
 const outlinedStyles = css`
@@ -75,9 +76,13 @@ const TrailingIcons = styled.div`
   margin-left: 0.8rem;
 `
 
-const StandardInputWrapper = styled.div`
+const LabeledInputWrapper = styled.div`
   position: relative;
   order: 2;
+  flex: 1;
+  display: flex;
+  min-height: ${lineHeight("textarea")}rem;
+  width: 100%;
 `
 
 const TextInputIcon = styled.span`
@@ -98,12 +103,13 @@ const generalInputStyles = css`
   background-color: transparent;
   padding: 0;
   color: ${textColor("dark")};
+  width: 100%;
 
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
   line-height: 1.5rem;
 
   &:not(:placeholder-shown) {
-    & + ${StandardInputLabel} {
+    & + ${InputLabel} {
       ${focusedLabelStyles};
     }
   }
@@ -123,9 +129,9 @@ const InputWrapper = styled.label<Partial<InputProps & TextareaProps>>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: fit-content;
+  width: 100%;
   padding-top: 2rem;
-  padding-bottom: 0.8rem;
+  padding-bottom: 0.6rem;
   box-sizing: border-box;
   border-bottom: 0.1rem solid ${borderColor("default")};
   transition: ${transition("border-color", "100ms", "ease-in-out")};
@@ -145,7 +151,7 @@ const InputWrapper = styled.label<Partial<InputProps & TextareaProps>>`
   }
 
   &:focus-within:not([disabled]) {
-    ${StandardInputLabel} {
+    ${InputLabel} {
       ${focusedLabelStyles};
     }
   }
@@ -155,30 +161,37 @@ const TextAreaInput = styled.textarea`
   ${generalInputStyles};
   resize: none;
   overflow: auto;
-  margin: 1.2rem 1.6rem;
+
   line-height: inherit;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding-right: 0.5rem;
 `
 
 const textAreaLayout = css`
-  ${outlinedStyles};
-
   height: auto;
   min-height: 6.4rem;
   padding: 0 1.5rem;
   border-radius: ${borderRadius("big")};
-
-  ${LeadingIcons}, ${TrailingIcons} {
-    height: 6.4rem;
-    align-self: flex-end;
-  }
 `
 
-const TextareaWrapper = styled(InputWrapper)`
-  line-height: ${getLineHeight("textarea")}rem;
-  ${textAreaLayout};
+const TextareaWrapper = styled(InputWrapper)<{ outlined: boolean }>`
+  line-height: ${lineHeight("textarea")}rem;
+
+  ${({ outlined }) => outlined && textAreaLayout};
+
+  ${({ outlined }) =>
+    outlined &&
+    css`
+      ${TextAreaInput} {
+        margin: 1.2rem 1.6rem;
+        padding-right: 0.5rem;
+      }
+    `}
+
+  ${LeadingIcons}, ${TrailingIcons} {
+    align-self: flex-end;
+    height: ${({ outlined }) => (outlined ? "6.4rem" : "auto")};
+  }
 `
 
 const InputIcons: FunctionComponent<InputIconsProps> = ({
@@ -217,16 +230,27 @@ export const InputText: FunctionComponent<InputProps> = ({
   trailingIcons,
   placeholder,
   disabled,
+  onChange = noop,
   ...rest
 }) => {
   const standardInput = (
-    <StandardInputWrapper>
-      <TextInput placeholder={" "} disabled={disabled} {...rest} />
-      <StandardInputLabel>{placeholder}</StandardInputLabel>
-    </StandardInputWrapper>
+    <LabeledInputWrapper>
+      <TextInput
+        placeholder={" "}
+        disabled={disabled}
+        onChange={onChange}
+        {...rest}
+      />
+      <InputLabel>{placeholder}</InputLabel>
+    </LabeledInputWrapper>
   )
   const outlinedInput = (
-    <TextInput placeholder={placeholder} disabled={disabled} {...rest} />
+    <TextInput
+      placeholder={placeholder}
+      disabled={disabled}
+      onChange={onChange}
+      {...rest}
+    />
   )
 
   return (
@@ -248,13 +272,14 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   trailingIcons,
   disabled,
   defaultValue,
-  maxRows = 0,
+  maxRows = Infinity,
   onChange = noop,
   value,
+  outlined = true,
+  placeholder,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const [rowsCount, setRowsCount] = useState(1)
 
   const defaultLineHeight = theme.lineHeight.textarea * 10
   let textareaLineHeight = defaultLineHeight
@@ -269,43 +294,55 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   const calculateHeight = () => {
     const element = textareaRef.current
     if (element) {
-      const lines = Math.ceil(element.scrollHeight / textareaLineHeight)
-      const rows = maxRows ? Math.min(Math.max(maxRows, 1), lines) : lines
-      setRowsCount(rows)
+      element.style.height = textareaLineHeight + "px"
+      element.style.height =
+        Math.min(element.scrollHeight, maxRows * textareaLineHeight) + "px"
     }
   }
 
-  /*
-   Float value will always trigger re-render as calculateHeight() always set
-   rowsCount to integer value (so they'll be always different).
-   Otherwise, rowsCount set by resetRowsCount() and then by calculateHeight()
-   could be the same, which doesn't trigger re-render and will cause a bug.
-  */
-  const resetRowsCount = () => setRowsCount(1.1)
-
-  useEffect(() => {
-    resetRowsCount()
-  }, [value])
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     calculateHeight()
-  }, [rowsCount, maxRows])
+  }, [value, defaultValue, maxRows])
 
   const onChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    resetRowsCount()
+    calculateHeight()
     onChange(event)
   }
 
-  return (
-    <TextareaWrapper className={className} disabled={disabled}>
+  const standardTextarea = (
+    <TextAreaInput
+      ref={textareaRef}
+      value={value}
+      defaultValue={defaultValue}
+      disabled={disabled}
+      placeholder={placeholder}
+      onChange={onChangeHandler}
+      {...rest}
+    />
+  )
+
+  const inputLikeTextarea = (
+    <LabeledInputWrapper>
       <TextAreaInput
         ref={textareaRef}
-        value={value || defaultValue}
-        rows={rowsCount}
+        value={value}
+        defaultValue={defaultValue}
         disabled={disabled}
+        placeholder={" "}
         onChange={onChangeHandler}
         {...rest}
       />
+      <InputLabel>{placeholder}</InputLabel>
+    </LabeledInputWrapper>
+  )
+
+  return (
+    <TextareaWrapper
+      className={className}
+      disabled={disabled}
+      outlined={outlined}
+    >
+      {outlined ? standardTextarea : inputLikeTextarea}
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
     </TextareaWrapper>
   )

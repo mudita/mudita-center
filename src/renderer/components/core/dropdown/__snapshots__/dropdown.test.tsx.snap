@@ -45,7 +45,7 @@ exports[`renders dropdown 1`] = `
         target="_blank"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI kuvChn"
+          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
           data-testid="icon-Upload"
         >
           <test-file-stub

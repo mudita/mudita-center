@@ -61,13 +61,13 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #cdcecf;
   border-radius: 0.2rem;
   background-color: #ffffff;
+  -webkit-transition: border-color 250ms ease-in-out;
+  transition: border-color 250ms ease-in-out;
 }
 
 .c2:hover {
   border-color: #3b3f42;
   cursor: pointer;
-  -webkit-transition: border-color 0.5s linear;
-  transition: border-color 0.5s linear;
 }
 
 .c2:checked {

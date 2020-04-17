@@ -34,6 +34,14 @@ export default () => {
         onClick={clickAlert}
         Icon={Type.Upload}
       />
+      <ButtonHeader displayStyle={TextDisplayStyle.SmallText}>
+        Button with icon only, style for text inputs
+      </ButtonHeader>
+      <Button
+        displayStyle={DisplayStyle.InputIcon}
+        onClick={clickAlert}
+        Icon={Type.Upload}
+      />
     </StoryWrapper>
   )
 }

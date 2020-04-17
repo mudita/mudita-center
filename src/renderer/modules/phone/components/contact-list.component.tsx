@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { createRef, useEffect } from "react"
 import { Contact, Contacts } from "Renderer/models/phone/phone.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
@@ -30,16 +30,21 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
+import { ContactActions } from "Renderer/modules/phone/components/contact-details.component"
+import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
+import { FormattedMessage } from "react-intl"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
   visibility: visible;
 `
+
 const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
   opacity: 0;
   visibility: hidden;
-  transition: all ${transitionTime("faster")}
-    ${transitionTimingFunction("smooth")};
+  transition: opacity ${transitionTime("faster")}
+      ${transitionTimingFunction("smooth")},
+    visibility ${transitionTime("faster")} ${transitionTimingFunction("smooth")};
   margin: 0 auto;
 
   ${({ visible }) => visible && visibleCheckboxStyles};
@@ -90,12 +95,13 @@ const BlockedIcon = styled(Icon).attrs(() => ({
   margin-left: 1.6rem;
 `
 
-const SelectableContacts = styled(Table)`
+const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   flex: 1;
   overflow: auto;
   --columnsTemplate: 4rem 1fr auto 4.8rem 13.5rem;
-  --columnsTemplateWithOpenedSidebar: 1fr;
+  --columnsTemplateWithOpenedSidebar: 4rem 1fr;
   --columnsGap: 0;
+  pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
 
   ${Row} {
     :hover {
@@ -109,22 +115,29 @@ const SelectableContacts = styled(Table)`
   }
 `
 
-export interface ContactListProps extends Contacts {
-  onContactExport: (contact: Contact) => void
-  onContactForward: (contact: Contact) => void
-  onContactBlock: (contact: Contact) => void
-  onContactDelete: (contact: Contact) => void
-  onContactSelect: (contacts: Contact[]) => void
+export interface ContactListProps extends Contacts, ContactActions {
+  activeRow?: Contact
+  onCheck: (contacts: Contact[]) => void
+  onSelect: (contact: Contact) => void
+  newContact?: Contact
+  editedContact?: Contact
 }
 
 const ContactList: FunctionComponent<ContactListProps> = ({
   contactList,
-  onContactExport,
-  onContactForward,
-  onContactBlock,
-  onContactDelete,
-  onContactSelect,
+  activeRow,
+  onCheck,
+  onSelect,
+  onExport,
+  onForward,
+  onBlock,
+  onDelete,
+  newContact,
+  editedContact,
 }) => {
+  const { enableScroll, disableScroll, scrollable } = useTableScrolling()
+  const tableRef = createRef<HTMLDivElement>()
+
   const {
     toggleRow,
     getRowStatus,
@@ -133,13 +146,48 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   } = useTableSelect(contactList)
 
   useEffect(() => {
-    if (selectedRows.length) {
-      onContactSelect(selectedRows as Contact[])
-    }
+    onCheck(selectedRows as Contact[])
   }, [selectedRows])
 
+  useEffect(() => {
+    const table = tableRef.current
+    if (table) {
+      if (newContact) {
+        table.scrollTop = 0
+        disableScroll()
+      } else if (editedContact) {
+        disableScroll()
+      } else {
+        enableScroll()
+      }
+    }
+  }, [newContact, editedContact])
+
   return (
-    <SelectableContacts>
+    <SelectableContacts
+      hideableColumnsIndexes={[2, 3, 4]}
+      hideColumns={Boolean(activeRow) || Boolean(newContact)}
+      scrollable={scrollable && !newContact}
+      mouseLock={Boolean(newContact || editedContact)}
+      ref={tableRef}
+    >
+      {newContact && (
+        <Group>
+          <Labels>
+            <Col />
+            <Col>
+              <FormattedMessage id={"view.name.phone.contacts.new.title"} />
+            </Col>
+          </Labels>
+          <Row active>
+            <Col />
+            <Col>
+              <InitialsAvatar user={newContact} light />
+              {newContact.firstName} {newContact.lastName}
+            </Col>
+          </Row>
+        </Group>
+      )}
       {contactList.map(({ category, contacts }) => (
         <Group key={category}>
           <Labels>
@@ -153,21 +201,18 @@ const ContactList: FunctionComponent<ContactListProps> = ({
               ...contact.phoneNumbers,
             ]
 
-            const contactExportHandler = () => {
-              onContactExport(contact)
-            }
-            const contactForwardHandler = () => {
-              onContactForward(contact)
-            }
-            const contactBlockHandler = () => {
-              onContactBlock(contact)
-            }
-            const contactDeleteHandler = () => {
-              onContactDelete(contact)
-            }
+            const handleExport = () => onExport(contact)
+            const handleForward = () => onForward(contact)
+            const handleBlock = () => onBlock(contact)
+            const handleDelete = () => onDelete(contact)
+            const handleSelect = () => onSelect(contact)
 
             return (
-              <Row key={index} selected={selected}>
+              <Row
+                key={index}
+                selected={selected}
+                active={activeRow === contact}
+              >
                 <Col>
                   <Checkbox
                     checked={selected}
@@ -176,11 +221,8 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                     visible={!noneRowsSelected}
                   />
                 </Col>
-                <Col>
-                  <InitialsAvatar
-                    text={contact.firstName[0] + contact.lastName[0]}
-                    light={selected}
-                  />
+                <Col onClick={handleSelect}>
+                  <InitialsAvatar user={contact} light={selected} />
                   {contact.firstName} {contact.lastName}
                   {contact.blocked && <BlockedIcon width={1.4} height={1.4} />}
                 </Col>
@@ -198,29 +240,39 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                           <Icon type={Type.More} />
                         </ActionsButton>
                       }
+                      onOpen={disableScroll}
+                      onClose={enableScroll}
                     >
                       <ButtonComponent
-                        label="Export as vcard"
+                        labelMessage={{
+                          id: "view.name.phone.contacts.action.exportAsVcard",
+                        }}
                         Icon={Type.Upload}
-                        onClick={contactExportHandler}
+                        onClick={handleExport}
                         displayStyle={DisplayStyle.Dropdown}
                       />
                       <ButtonComponent
-                        label="Forward namecard"
+                        labelMessage={{
+                          id: "view.name.phone.contacts.action.forwardNamecard",
+                        }}
                         Icon={Type.Forward}
-                        onClick={contactForwardHandler}
+                        onClick={handleForward}
                         displayStyle={DisplayStyle.Dropdown}
                       />
                       <ButtonComponent
-                        label="block"
+                        labelMessage={{
+                          id: "view.name.phone.contacts.action.block",
+                        }}
                         Icon={Type.Blocked}
-                        onClick={contactBlockHandler}
+                        onClick={handleBlock}
                         displayStyle={DisplayStyle.Dropdown}
                       />
                       <ButtonComponent
-                        label="delete"
+                        labelMessage={{
+                          id: "view.name.phone.contacts.action.delete",
+                        }}
                         Icon={Type.Delete}
-                        onClick={contactDeleteHandler}
+                        onClick={handleDelete}
                         displayStyle={DisplayStyle.Dropdown}
                       />
                     </Dropdown>

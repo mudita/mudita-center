@@ -1,6 +1,7 @@
 import {
   backgroundColor,
   font,
+  width,
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import { createGlobalStyle } from "styled-components"
@@ -26,14 +27,14 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   }
   * {
     ::-webkit-scrollbar {
-      width: 0.2rem;
+      width: ${width("scrollbar")};
     }
     ::-webkit-scrollbar-track {
-      border-radius: 0.2rem;
+      border-radius: ${width("scrollbar")};
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      border-radius: 0.2rem;
+      border-radius: ${width("scrollbar")};
       background-color: transparent;
     }
     :hover, :focus {
