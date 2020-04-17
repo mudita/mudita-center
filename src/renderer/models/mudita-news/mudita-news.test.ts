@@ -2,10 +2,7 @@ import { init } from "@rematch/core"
 import muditaNews from "Renderer/models/mudita-news/mudita-news"
 import { ipcRenderer } from "electron-better-ipc"
 import { NewsEvents } from "App/main/functions/register-news-listener"
-import {
-  commentsCount,
-  newsItems,
-} from "Renderer/components/rest/news/cards/cards-mock-data"
+import { newsItems } from "Renderer/components/rest/news/cards/cards-mock-data"
 
 afterEach(() => {
   for (const property in (ipcRenderer as any).__rendererCalls) {
@@ -23,8 +20,6 @@ it("call is performed after dispatching effect and gets initial state", () => {
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "muditaNews": Object {
-        "commentsCount": Object {},
-        "newsIds": Array [],
         "newsItems": Array [],
       },
     }
@@ -36,7 +31,7 @@ it("call is performed after dispatching effect with data", async () => {
     models: { muditaNews },
   })
   ;(ipcRenderer as any).__rendererCalls = {
-    [NewsEvents.Init]: Promise.resolve({ newsItems, commentsCount }),
+    [NewsEvents.Init]: Promise.resolve({ newsItems }),
   }
 
   await store.dispatch.muditaNews.loadData()

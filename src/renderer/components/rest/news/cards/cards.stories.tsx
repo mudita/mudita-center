@@ -2,10 +2,7 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import styled from "styled-components"
 import Cards from "Renderer/components/rest/news/cards/cards.component"
-import {
-  commentsCount,
-  newsItems,
-} from "Renderer/components/rest/news/cards/cards-mock-data"
+import { newsItems } from "Renderer/components/rest/news/cards/cards-mock-data"
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +14,7 @@ const Container = styled.div`
 storiesOf("News|Cards", module).add("Cards", () => {
   return (
     <Container>
-      <Cards newsItems={newsItems} commentsCount={commentsCount} />
+      <Cards newsItems={newsItems} />
     </Container>
   )
 })

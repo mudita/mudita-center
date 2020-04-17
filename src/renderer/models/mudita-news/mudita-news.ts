@@ -19,7 +19,6 @@ export default {
       return {
         ...state,
         newsItems: payload.newsItems,
-        commentsCount: payload.commentsCount,
       }
     },
   },

@@ -3,15 +3,10 @@
 exports[`call is performed after dispatching effect with data 1`] = `
 Object {
   "muditaNews": Object {
-    "commentsCount": Object {
-      "23cbaCgEf6PC1llqI5XYBf": 54,
-      "3RU0ukJVFGhzT61mXB4xn9": 2,
-      "9YFH9NLyIvt8Z1dDEc1nf": 3,
-    },
-    "newsIds": Array [],
     "newsItems": Array [
       Object {
         "category": "Forum",
+        "commentsCount": 11,
         "communityLink": "https://forum.mudita.com/t/one-feature-i-would-love-to-see-added/299",
         "content": "One feature I would love to see added",
         "createdAt": "2019-07-11T09:48:32.097Z",
@@ -24,6 +19,7 @@ Object {
       },
       Object {
         "category": "Blog",
+        "commentsCount": 11,
         "communityLink": "https://forum.mudita.com/t/mudita-pure-kickstarter-campaign-is-live/703",
         "content": "Our campaign on Kickstarter was a success, reaching 262% of the initial goal!",
         "createdAt": "2019-07-11T09:56:32.097Z",
@@ -36,6 +32,7 @@ Object {
       },
       Object {
         "category": "Blog",
+        "commentsCount": 11,
         "communityLink": "https://forum.mudita.com/t/attention-the-precious-currency-we-re-giving-away-for-free/1027",
         "content": "Attention: The precious currency we’re giving away for free.",
         "createdAt": "2019-07-11T09:55:32.097Z",
