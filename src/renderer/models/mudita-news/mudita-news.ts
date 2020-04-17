@@ -6,9 +6,7 @@ import { getNews, initNews } from "Renderer/requests/get-news.request"
 import { DefaultNewsItems } from "App/main/default-news-item"
 
 const initialState: Store = {
-  newsIds: [],
   newsItems: [],
-  commentsCount: {},
 }
 
 export default {

@@ -5,7 +5,7 @@ import fs from "fs-extra"
 import getDefaultNewsItems from "App/main/default-news-item"
 import axios from "axios"
 import { normalizeContentfulData } from "Renderer/models/mudita-news/normalize-contentful-data"
-import { downloadComments } from "Renderer/models/mudita-news/download-comments"
+// import { downloadComments } from "Renderer/models/mudita-news/download-comments"
 
 export enum NewsEvents {
   Get = "get-news-items",
@@ -43,10 +43,10 @@ const registerNewsListener = () => {
     const updatedNews = await checkForUpdateAndGetNewData()
     if (updatedNews) {
       const newsData = await normalizeContentfulData(updatedNews)
-      const comments = await downloadComments(newsData.newsItems)
+      // const comments = await downloadComments(newsData.newsItems)
       const data = {
         ...newsData,
-        ...comments,
+        // ...comments,
       }
       await fs.writeJson(newsFilePath, data)
       return data
