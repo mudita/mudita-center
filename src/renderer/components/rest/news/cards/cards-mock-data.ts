@@ -44,6 +44,12 @@ export const newsItems = [
   },
 ]
 
+export const commentsCount = {
+  "23cbaCgEf6PC1llqI5XYBf": 54,
+  "3RU0ukJVFGhzT61mXB4xn9": 2,
+  "9YFH9NLyIvt8Z1dDEc1nf": 3,
+}
+
 export const moreNewsItems = [
   ...newsItems,
   {
@@ -61,3 +67,8 @@ export const moreNewsItems = [
       "//images.ctfassets.net/isxmxtc67n72/6j1K3VOLf3aAdijTuObagd/5c406b7a69a6806003aff0a4b8cb5493/MuditaOS.jpg",
   },
 ]
+
+export const moreCommentsCount = {
+  ...commentsCount,
+  "9YFH9NLyIvt8Z1dDEc1nfDD": 33,
+}
