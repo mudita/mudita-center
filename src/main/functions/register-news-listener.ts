@@ -39,15 +39,7 @@ const registerNewsListener = () => {
     }
   }
 
-  if (!fs.readJsonSync(newsFilePath, { throws: false })) {
-    fs.writeJsonSync(newsFilePath, defaultNews)
-  }
-
-  ipcMain.answerRenderer(NewsEvents.Get, () => {
-    return fs.readJson(newsFilePath)
-  })
-
-  ipcMain.answerRenderer(NewsEvents.Update, async () => {
+  const getUpdatedNews = async () => {
     const updatedNews = await checkForUpdateAndGetNewData()
     if (updatedNews) {
       const newsData = await normalizeContentfulData(updatedNews)
@@ -60,22 +52,20 @@ const registerNewsListener = () => {
       return data
     }
     return null
+  }
+
+  if (!fs.readJsonSync(newsFilePath, { throws: false })) {
+    fs.writeJsonSync(newsFilePath, defaultNews)
+  }
+
+  ipcMain.answerRenderer(NewsEvents.Get, () => {
+    return fs.readJson(newsFilePath)
   })
 
+  ipcMain.answerRenderer(NewsEvents.Update, getUpdatedNews)
+
   ipcMain.answerRenderer(NewsEvents.Init, async () => {
-    const updatedNews = await checkForUpdateAndGetNewData()
-    if (updatedNews) {
-      const newsData = await normalizeContentfulData(updatedNews)
-      const comments = await downloadComments(newsData.newsItems)
-      const data = {
-        ...newsData,
-        ...comments,
-      }
-      await fs.writeJson(newsFilePath, data)
-      return data
-    } else {
-      return fs.readJson(newsFilePath)
-    }
+    return (await getUpdatedNews()) ?? (await fs.readJson(newsFilePath))
   })
 }
 
