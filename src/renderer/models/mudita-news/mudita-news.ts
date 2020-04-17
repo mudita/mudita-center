@@ -35,7 +35,7 @@ export default {
         const {
           data: { posts_count },
         } = await axios.get(
-          `${process.env.GATSBY_COMMUNITY_URL}/t/${discussionId}.json`
+          `${process.env.MUDITA_COMMUNITY_URL}/t/${discussionId}.json`
         )
         return posts_count
       }
