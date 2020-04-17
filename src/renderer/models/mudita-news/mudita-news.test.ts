@@ -19,6 +19,7 @@ it("call is performed after dispatching effect and gets initial state", () => {
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "muditaNews": Object {
+        "commentsCount": Object {},
         "newsIds": Array [],
         "newsItems": Array [],
       },
@@ -28,7 +29,7 @@ it("call is performed after dispatching effect and gets initial state", () => {
 
 it("call is performed after dispatching effect with data", async () => {
   moxios.stubRequest(
-    `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=newsItem&limit=3`,
+    `https://cdn.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/master/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=newsItem`,
     {
       status: 200,
       response: newsResponse,
@@ -36,7 +37,7 @@ it("call is performed after dispatching effect with data", async () => {
   )
 
   moxios.stubRequest(
-    new RegExp(process.env.MUDITA_COMMUNITY_URL + "/t/\\d+\\.json"),
+    new RegExp(process.env.GATSBY_COMMUNITY_URL + "/t/\\d+\\.json"),
     {
       status: 200,
       response: {
