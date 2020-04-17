@@ -14,7 +14,6 @@ export interface NewsEntry {
   discussionId: string
   imageSource: string
   imageAlt?: string
-  commentsCount?: number
 }
 
 export interface DownloadError {
@@ -26,5 +25,6 @@ export interface DownloadError {
 export interface Store {
   newsIds: string[]
   newsItems: NewsEntry[]
+  commentsCount: Record<string, number>
   downloadError?: DownloadError
 }

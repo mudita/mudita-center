@@ -8,6 +8,7 @@ import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
 interface Props {
   newsItems: NewsEntry[]
+  commentsCount: Record<string, number>
   loadData?: () => void
 }
 
@@ -17,7 +18,11 @@ const CardContainer = styled.div`
   grid-column-gap: 4rem;
 `
 
-const Cards: FunctionComponent<Props> = ({ newsItems, loadData = noop }) => {
+const Cards: FunctionComponent<Props> = ({
+  newsItems,
+  commentsCount,
+  loadData = noop,
+}) => {
   useEffect(() => {
     loadData()
   }, [])
@@ -29,7 +34,7 @@ const Cards: FunctionComponent<Props> = ({ newsItems, loadData = noop }) => {
             {...newsItem}
             key={newsItem.newsId}
             url={newsItem.link}
-            count={newsItem.commentsCount}
+            count={commentsCount[newsItem.newsId]}
           />
         )
       })}
