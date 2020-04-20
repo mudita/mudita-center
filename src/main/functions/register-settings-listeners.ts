@@ -1,4 +1,4 @@
-import { app } from "electron"
+import { app, dialog } from "electron"
 import { name } from "../../../package.json"
 import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
@@ -30,9 +30,20 @@ const registerSettingsListeners = () => {
     async (data: Partial<AppSettings>) => {
       const currentSettings = await fs.readJson(settingsFilePath)
 
+      const { filePaths } = await dialog.showOpenDialog({
+        properties: ["openDirectory"],
+      })
+      console.log("filePath:", filePaths)
+      console.log("data", data)
+
+      const updatedData = {
+        ...data,
+        pureOsBackupLocation: filePaths,
+      }
+
       const updatedSettings = {
         ...currentSettings,
-        ...data,
+        ...updatedData,
       }
 
       return fs.writeJson(settingsFilePath, updatedSettings)
