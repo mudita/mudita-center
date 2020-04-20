@@ -75,13 +75,13 @@ const Settings: FunctionComponent = () => {
         </Data>
         <ActionsWrapper>
           <SettingsToggler filled>
-            {twoStateToggler.map((label, i) => {
-              const onClick = () => setAutostartStatus(label)
+            {twoStateToggler.map((label, index) => {
+              const changeStatus = () => setAutostartStatus(label)
               return (
                 <SettingsTogglerItem
-                  key={i}
+                  key={index}
                   label={label}
-                  onClick={onClick}
+                  onClick={changeStatus}
                   active={autostartStatus === label}
                 />
               )
@@ -97,13 +97,13 @@ const Settings: FunctionComponent = () => {
         </Data>
         <ActionsWrapper>
           <SettingsToggler filled>
-            {twoStateToggler.map((label, i) => {
-              const onClick = () => setTetheringStatus(label)
+            {twoStateToggler.map((label, index) => {
+              const changeStatus = () => setTetheringStatus(label)
               return (
                 <SettingsTogglerItem
-                  key={i}
+                  key={index}
                   label={label}
-                  onClick={onClick}
+                  onClick={changeStatus}
                   active={tetheringStatus === label}
                 />
               )
