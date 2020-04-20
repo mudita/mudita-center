@@ -7,7 +7,7 @@ export enum ToggleState {
   Off = "Off",
 }
 
-const twoStateToggler = [ToggleState.Off, ToggleState.On]
+export const twoStateToggler = [ToggleState.Off, ToggleState.On] as const
 
 const Settings: FunctionComponent = () => {
   const [autostartStatus, setAutostartStatus] = useState<string>(

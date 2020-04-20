@@ -14,7 +14,7 @@ import ButtonToggler, {
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import { ToggleState } from "Renderer/modules/settings/settings.component"
+import { twoStateToggler } from "Renderer/modules/settings/settings.component"
 
 const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Checkbox Actions Actions";
@@ -58,7 +58,7 @@ interface Props {
   tetheringStatus?: string
   setAutostartStatus: (label: string) => void
   setTetheringStatus: (label: string) => void
-  togglerState: ToggleState[]
+  togglerState: typeof twoStateToggler
 }
 
 const SettingsUI: FunctionComponent<Props> = ({
@@ -85,11 +85,11 @@ const SettingsUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <SettingsToggler filled>
-            {togglerState.map((label, index) => {
+            {togglerState.map(label => {
               const changeStatus = () => setAutostartStatus(label)
               return (
                 <SettingsTogglerItem
-                  key={index}
+                  key={label}
                   label={label}
                   onClick={changeStatus}
                   active={autostartStatus === label}
@@ -107,11 +107,11 @@ const SettingsUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <SettingsToggler filled>
-            {togglerState.map((label, index) => {
+            {togglerState.map(label => {
               const changeStatus = () => setTetheringStatus(label)
               return (
                 <SettingsTogglerItem
-                  key={index}
+                  key={label}
                   label={label}
                   onClick={changeStatus}
                   active={tetheringStatus === label}
