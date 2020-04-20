@@ -28,7 +28,7 @@ const Cards: FunctionComponent<Props> = ({
   }, [online])
   return (
     <CardContainer>
-      {newsItems.slice(0, 3).map(newsItem => {
+      {newsItems.map(newsItem => {
         return (
           <Card
             {...newsItem}
