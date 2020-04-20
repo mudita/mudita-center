@@ -5,11 +5,7 @@ import { NewsEvents } from "App/main/functions/register-news-listener"
 import { newsItems } from "Renderer/components/rest/news/cards/cards-mock-data"
 
 afterEach(() => {
-  for (const property in (ipcRenderer as any).__rendererCalls) {
-    if ((ipcRenderer as any).__rendererCalls.hasOwnProperty(property)) {
-      delete (ipcRenderer as any).__rendererCalls[property]
-    }
-  }
+  ;(ipcRenderer as any).__rendererCalls = {}
 })
 
 it("call is performed after dispatching effect and gets initial state", () => {
