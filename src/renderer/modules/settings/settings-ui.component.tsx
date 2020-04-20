@@ -17,8 +17,8 @@ import { borderColor } from "Renderer/styles/theming/theme-getters"
 import { twoStateToggler } from "Renderer/modules/settings/settings.component"
 
 const SettingsTableRow = styled(TableRow)`
-  grid-template-areas: "Checkbox Checkbox Actions Actions";
-  grid-template-columns: 11rem 1fr 15rem;
+  grid-template-areas: "Checkbox Actions";
+  grid-template-columns: 1fr 15rem;
   border-bottom: solid 0.2rem ${borderColor("listItem")};
 `
 
