@@ -11,6 +11,7 @@ import {
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { AppSettings } from "App/main/default-app-settings"
 import { InputText } from "Renderer/components/core/input-text/input-text.elements"
+import Location from "Renderer/components/core/location/location.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 
@@ -87,7 +88,9 @@ const Backup: FunctionComponent = () => {
               onChange={changeDownloadLocation}
             />
             <br />
-            <ButtonComponent label={"Save"} onClick={save} />
+            <Location currentLocation={settings}>
+              <ButtonComponent label={"Save"} />
+            </Location>
             <br />
             <ButtonComponent
               label={"Reset"}
