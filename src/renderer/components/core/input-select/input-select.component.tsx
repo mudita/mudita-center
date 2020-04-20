@@ -105,12 +105,9 @@ export interface InputSelectProps extends Partial<InputProps> {
   value?: any
   options: any[]
   emptyOption?: any
-  searchable?: boolean
-  outlined?: boolean
   valueRenderer?: (item: any) => string
   listItemRenderer?: (item: any) => string | JSX.Element
   onSelect?: (option: any) => void
-  onFilter?: (value: string) => void
   listStyles?: FlattenSimpleInterpolation
 }
 
@@ -119,7 +116,6 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
   value = "",
   options,
   emptyOption = "",
-  outlined,
   valueRenderer = (item: string) => item,
   listItemRenderer = (item: string) => item,
   onSelect = noop,
@@ -184,7 +180,6 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
         type="text"
         value={valueRenderer(inputValue) || ""}
         onChange={handleInputChange}
-        outlined={outlined}
         trailingIcons={[toggleIcon]}
         onFocus={focusIn}
         onBlur={focusOut}
