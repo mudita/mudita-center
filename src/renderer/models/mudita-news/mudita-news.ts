@@ -15,21 +15,16 @@ export default {
     update(state: Store, payload: Partial<Store>) {
       return { ...state, ...payload }
     },
-    updateOffline(state: Store, payload: DefaultNewsItems) {
-      return {
-        ...state,
-        newsItems: payload.newsItems,
-      }
-    },
   },
   effects: (dispatch: Dispatch) => ({
-    async loadData() {
-      const data = await initNews()
-      dispatch.muditaNews.update(data)
-    },
-    async loadOfflineData() {
-      const defaultNews: DefaultNewsItems = await getNews()
-      dispatch.muditaNews.updateOffline(defaultNews)
+    async loadData(_: any, rootState: { networkStatus: { online: boolean } }) {
+      if (rootState.networkStatus.online) {
+        const data = await initNews()
+        dispatch.muditaNews.update(data)
+      } else {
+        const defaultNews: DefaultNewsItems = await getNews()
+        dispatch.muditaNews.update(defaultNews)
+      }
     },
     async updateData(data: DefaultNewsItems) {
       dispatch.muditaNews.update(data)

@@ -18,7 +18,6 @@ const mapStateToProps = (state: RootModel) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadData: () => dispatch.muditaNews.loadData(),
-  loadOfflineData: () => dispatch.muditaNews.loadOfflineData(),
   updateData: (data: DefaultNewsItems) => dispatch.muditaNews.updateData(data),
 })
 

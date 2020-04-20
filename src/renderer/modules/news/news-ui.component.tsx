@@ -9,7 +9,6 @@ import { DefaultNewsItems } from "App/main/default-news-item"
 interface Props {
   newsItems: NewsEntry[]
   loadData?: () => void
-  loadOfflineData?: () => void
   updateData?: (news: DefaultNewsItems) => void
   online?: boolean
 }
@@ -17,7 +16,6 @@ interface Props {
 const News: FunctionComponent<Props> = ({
   newsItems,
   loadData = noop,
-  loadOfflineData = noop,
   updateData = noop,
   online,
 }) => {
@@ -28,12 +26,7 @@ const News: FunctionComponent<Props> = ({
   }
   return (
     <div>
-      <Cards
-        newsItems={newsItems}
-        loadData={loadData}
-        loadOfflineData={loadOfflineData}
-        online={online}
-      />
+      <Cards newsItems={newsItems} loadData={loadData} online={online} />
       <button onClick={handleNewsUpdate}>Update</button>
     </div>
   )

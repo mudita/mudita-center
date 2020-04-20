@@ -9,7 +9,6 @@ import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 interface Props {
   newsItems: NewsEntry[]
   loadData?: () => void
-  loadOfflineData?: () => void
   online?: boolean
 }
 
@@ -22,15 +21,10 @@ const CardContainer = styled.div`
 const Cards: FunctionComponent<Props> = ({
   newsItems,
   loadData = noop,
-  loadOfflineData = noop,
   online,
 }) => {
   useEffect(() => {
-    if (!online) {
-      loadOfflineData()
-    } else {
-      loadData()
-    }
+    loadData()
   }, [online])
   return (
     <CardContainer>
