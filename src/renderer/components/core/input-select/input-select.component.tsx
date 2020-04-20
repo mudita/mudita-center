@@ -65,7 +65,7 @@ const SelectInputList = styled.ul<{
   box-sizing: border-box;
   list-style: none;
   background-color: ${backgroundColor("light")};
-  box-shadow: 0 5px 15px 0 ${boxShadowColor("lightGrey")};
+  box-shadow: 0 0.5rem 1.5rem 0 ${boxShadowColor("lightGrey")};
   border-radius: ${borderRadius("medium")};
   margin: 0;
   padding: 0;
