@@ -198,6 +198,7 @@
   "dependencies": {
     "@rematch/core": "^1.4.0",
     "@rematch/select": "^2.0.5",
+    "@seznam/compose-react-refs": "^1.0.4",
     "awesome-typescript-loader": "^5.2.1",
     "electron-better-ipc": "^0.8.0",
     "electron-context-menu": "^0.16.0",

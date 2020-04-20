@@ -21,6 +21,7 @@ import {
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
+import composeRefs from "@seznam/compose-react-refs"
 
 const focusedLabelStyles = css`
   top: -2rem;
@@ -231,11 +232,13 @@ export const InputText: FunctionComponent<InputProps> = ({
   placeholder,
   disabled,
   onChange = noop,
+  inputRef,
   ...rest
 }) => {
   const standardInput = (
     <LabeledInputWrapper>
       <TextInput
+        ref={inputRef}
         placeholder={" "}
         disabled={disabled}
         onChange={onChange}
@@ -246,9 +249,11 @@ export const InputText: FunctionComponent<InputProps> = ({
   )
   const outlinedInput = (
     <TextInput
+      ref={inputRef}
       placeholder={placeholder}
       disabled={disabled}
       onChange={onChange}
+      autoFocus
       {...rest}
     />
   )
@@ -277,6 +282,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   value,
   outlined = true,
   placeholder,
+  inputRef,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -311,7 +317,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
 
   const standardTextarea = (
     <TextAreaInput
-      ref={textareaRef}
+      ref={composeRefs(textareaRef, inputRef)}
       value={value}
       defaultValue={defaultValue}
       disabled={disabled}
@@ -324,7 +330,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   const inputLikeTextarea = (
     <LabeledInputWrapper>
       <TextAreaInput
-        ref={textareaRef}
+        ref={composeRefs(textareaRef, inputRef)}
         value={value}
         defaultValue={defaultValue}
         disabled={disabled}
