@@ -6,11 +6,11 @@ import InputSelect, {
 } from "Renderer/components/core/input-select/input-select.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/dom"
-import { fruitsInfo } from "Renderer/components/core/input-select/input-select.stories"
+import { data } from "Renderer/components/core/input-select/input-select.stories"
 
 const renderInputSelect = ({ ...props }: Partial<InputSelectProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <InputSelect options={fruitsInfo} {...props} />
+    <InputSelect options={data} {...props} />
   )
   return {
     ...outcome,
@@ -34,19 +34,11 @@ test("input focus/blur toggles the list", () => {
   expect(list).not.toBeVisible()
 })
 
-test("basic input icon click toggles the list", async () => {
+test("input arrow click toggles the list", async () => {
   const { list, icon } = renderInputSelect()
   expect(list).not.toBeVisible()
-  fireEvent.mouseDown(icon)
+  fireEvent.click(icon)
   expect(list).toBeVisible()
-  fireEvent.mouseDown(icon)
+  fireEvent.click(icon)
   expect(list).not.toBeVisible()
-})
-
-test("searchable input icon click clears out the input", async () => {
-  const { input, icon } = renderInputSelect({ searchable: true })
-  fireEvent.change(input, { target: { value: "abc" } })
-  expect(input).toHaveValue("abc")
-  fireEvent.mouseDown(icon)
-  expect(input).toHaveValue("")
 })

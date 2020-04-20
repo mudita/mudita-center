@@ -6,7 +6,7 @@ import React, {
   ChangeEvent,
 } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import styled, { css } from "styled-components"
+import styled, { css, FlattenSimpleInterpolation } from "styled-components"
 import { InputText } from "Renderer/components/core/input-text/input-text.elements"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -15,12 +15,14 @@ import {
   borderColor,
   borderRadius,
   boxShadowColor,
+  textColor,
   transitionTime,
   transitionTimingFunction,
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
 import { mediumTextSharedStyles } from "Renderer/components/core/text/text.component"
+import { InputProps } from "Renderer/components/core/input-text/input-text.interface"
 
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
@@ -28,10 +30,6 @@ const ToggleIcon = styled.span<{ rotated?: boolean }>`
     ${transitionTimingFunction("smooth")};
 
   transform: rotateZ(${({ rotated }) => (rotated ? 180 : 0)}deg);
-`
-
-const ResetIcon = styled.span`
-  cursor: pointer;
 `
 
 const SelectInputItem = styled.li<{ empty?: boolean }>`
@@ -51,13 +49,14 @@ const SelectInputItem = styled.li<{ empty?: boolean }>`
   ${({ empty }) =>
     empty &&
     css`
-      opacity: 0.7;
+      color: ${textColor("placeholder")};
     `}
 `
 
-const Input = styled(InputText)``
-
-const SelectInputList = styled.ul<{ focused?: boolean }>`
+const SelectInputList = styled.ul<{
+  expanded?: boolean
+  listStyles?: FlattenSimpleInterpolation
+}>`
   z-index: ${zIndex("dropdown")};
   position: absolute;
   top: 100%;
@@ -76,9 +75,15 @@ const SelectInputList = styled.ul<{ focused?: boolean }>`
   visibility: hidden;
   transition: all ${transitionTime("faster")}
     ${transitionTimingFunction("smooth")};
+  overflow: auto;
 
-  ${({ focused }) =>
-    focused &&
+  ${({ listStyles }) =>
+    css`
+      ${listStyles}
+    `};
+
+  ${({ expanded }) =>
+    expanded &&
     css`
       opacity: 1;
       visibility: visible;
@@ -86,22 +91,17 @@ const SelectInputList = styled.ul<{ focused?: boolean }>`
     `};
 `
 
-const SelectInputWrapper = styled.div<{
-  focused?: boolean
-  searchable?: boolean
-}>`
+const SelectInputWrapper = styled.div`
   position: relative;
 
+  label,
   input {
-    ${({ searchable }) =>
-      !searchable &&
-      css`
-        cursor: pointer;
-      `}
+    cursor: pointer;
+    user-select: none;
   }
 `
 
-export interface InputSelectProps {
+export interface InputSelectProps extends Partial<InputProps> {
   value?: any
   options: any[]
   emptyOption?: any
@@ -111,60 +111,55 @@ export interface InputSelectProps {
   listItemRenderer?: (item: any) => string | JSX.Element
   onSelect?: (option: any) => void
   onFilter?: (value: string) => void
+  listStyles?: FlattenSimpleInterpolation
 }
 
 const InputSelect: FunctionComponent<InputSelectProps> = ({
   className,
   value = "",
   options,
-  emptyOption,
-  searchable,
-  outlined = searchable,
+  emptyOption = "",
+  outlined,
   valueRenderer = (item: string) => item,
   listItemRenderer = (item: string) => item,
   onSelect = noop,
-  onFilter = noop,
+  listStyles,
+  ...rest
 }) => {
   const [inputValue, setInputValue] = useState(value)
-  const [focused, setFocusedState] = useState(false)
-  const selectInput = useRef(null)
+  const [expanded, setExpandedState] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const slideDown = () => {
-    setFocusedState(true)
+  const focusIn = () => {
+    setExpandedState(true)
   }
 
-  const slideUp = () => {
-    setFocusedState(false)
+  const focusOut = () => {
+    setExpandedState(false)
   }
 
-  const preventClick = (e: MouseEvent) => e.preventDefault()
-
-  const toggleList = () => (focused ? slideUp() : slideDown())
-
-  useEffect(() => {
-    const label = selectInput.current
-    if (label) {
-      const input = (label as HTMLLabelElement).querySelector("input")
-      if (input) {
-        focused ? input.focus() : input.blur()
-      }
-    }
-  }, [focused, selectInput.current])
-
-  const resetInputValue = (e: MouseEvent) => {
-    setInputValue("")
-    onFilter("")
-    onSelect("")
+  const toggleList = (e: MouseEvent) => {
+    e.stopPropagation()
     e.preventDefault()
+
+    if (inputRef.current) {
+      expanded ? inputRef.current.blur() : inputRef.current.focus()
+    }
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value)
-    onFilter(e.target.value)
   }
 
-  const selectEmptyOption = () => {
+  const resetSelection = () => {
     onSelect("")
+  }
+
+  const preventExpanding = (e: MouseEvent) => {
+    if (expanded) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
   }
 
   useEffect(() => {
@@ -173,41 +168,32 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
 
   const toggleIcon = (
     <ToggleIcon
-      rotated={focused}
-      onMouseDown={toggleList}
+      rotated={expanded}
+      onClick={toggleList}
+      onMouseDown={preventExpanding}
       data-testid="actionIcon"
     >
       <Icon width={1} type={Type.ArrowDown} />
     </ToggleIcon>
   )
 
-  const resetIcon = inputValue && (
-    <ResetIcon onMouseDown={resetInputValue} data-testid="actionIcon">
-      <Icon width={1.2} type={Type.Close} />
-    </ResetIcon>
-  )
-
   return (
-    <SelectInputWrapper
-      className={className}
-      focused={focused}
-      searchable={searchable}
-      ref={selectInput}
-      onClick={preventClick}
-    >
-      <Input
+    <SelectInputWrapper className={className}>
+      <InputText
+        {...rest}
         type="text"
-        value={valueRenderer(inputValue) || emptyOption}
+        value={valueRenderer(inputValue) || ""}
         onChange={handleInputChange}
         outlined={outlined}
-        trailingIcons={[searchable ? resetIcon : toggleIcon]}
-        onFocus={slideDown}
-        onBlur={slideUp}
-        readOnly={!searchable}
+        trailingIcons={[toggleIcon]}
+        onFocus={focusIn}
+        onBlur={focusOut}
+        readOnly
+        inputRef={inputRef}
       />
-      <SelectInputList focused={focused}>
+      <SelectInputList expanded={expanded} listStyles={listStyles}>
         {emptyOption && (
-          <SelectInputItem onClick={selectEmptyOption} empty>
+          <SelectInputItem onClick={resetSelection} empty>
             {emptyOption}
           </SelectInputItem>
         )}

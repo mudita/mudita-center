@@ -1,11 +1,14 @@
 import { storiesOf } from "@storybook/react"
-import React, { useEffect, useState } from "react"
-import InputSelect from "Renderer/components/core/input-select/input-select.component"
-import styled from "styled-components"
+import React, { useState } from "react"
+import InputSelect, {
+  InputSelectProps,
+} from "Renderer/components/core/input-select/input-select.component"
+import styled, { css } from "styled-components"
 import { action } from "@storybook/addon-actions"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import FunctionComponent from "Renderer/types/function-component.interface"
 
 const StoryWrapper = styled.div`
   max-width: 20rem;
@@ -17,7 +20,7 @@ const StoryWrapper = styled.div`
   }
 `
 
-export const fruitsInfo = [
+export const data = [
   "apple",
   "banana",
   "orange",
@@ -28,172 +31,87 @@ export const fruitsInfo = [
   "cabbage",
 ]
 
-export const advancedFruitsInfo = [
-  { name: "Apple", value: "apple", type: "fruit" },
-  { name: "Banana", value: "banana", type: "fruit" },
-  { name: "Orange", value: "orange", type: "fruit" },
-  { name: "Pineapple", value: "pineapple", type: "fruit" },
-  { name: "Strawberry", value: "strawberry", type: "fruit" },
-  { name: "Potato", value: "potato", type: "vegetable" },
-  { name: "Tomato", value: "tomato", type: "vegetable" },
-  { name: "Cabbage", value: "cabbage", type: "vegetable" },
+export const advancedData = [
+  { name: "Apple", value: "apple", type: "fruit", icon: "🍏" },
+  { name: "Banana", value: "banana", type: "fruit", icon: "🍌" },
+  { name: "Orange", value: "orange", type: "fruit", icon: "🍊" },
+  { name: "Pineapple", value: "pineapple", type: "fruit", icon: "🍍" },
+  { name: "Strawberry", value: "strawberry", type: "fruit", icon: "🍓" },
+  { name: "Potato", value: "potato", type: "vegetable", icon: "🥔" },
+  { name: "Tomato", value: "tomato", type: "vegetable", icon: "🍅" },
+  { name: "Cabbage", value: "cabbage", type: "vegetable", icon: "🥬" },
 ]
 
-storiesOf("Components|InputSelect/Basic", module)
-  .add("Standard", () => {
-    return (
-      <>
-        <StoryWrapper>
-          <Text displayStyle={TextDisplayStyle.SmallText}>Default</Text>
-          <InputSelect
-            options={fruitsInfo}
-            emptyOption={"Select"}
-            onSelect={action("Select")}
-          />
-        </StoryWrapper>
-        <StoryWrapper>
-          <Text displayStyle={TextDisplayStyle.SmallText}>Outlined</Text>
-          <InputSelect
-            options={fruitsInfo}
-            emptyOption={"Select"}
-            onSelect={action("Select")}
-            outlined
-          />
-        </StoryWrapper>
-      </>
-    )
-  })
-  .add("Preselected", () => {
-    return (
-      <>
-        <StoryWrapper>
-          <Text displayStyle={TextDisplayStyle.SmallText}>Default</Text>
-          <InputSelect
-            options={fruitsInfo}
-            emptyOption={"Select"}
-            onSelect={action("Select")}
-            value={fruitsInfo[2]}
-          />
-        </StoryWrapper>
-        <StoryWrapper>
-          <Text displayStyle={TextDisplayStyle.SmallText}>Outlined</Text>
-          <InputSelect
-            options={fruitsInfo}
-            emptyOption={"Select"}
-            onSelect={action("Select")}
-            value={fruitsInfo[2]}
-            outlined
-          />
-        </StoryWrapper>
-      </>
-    )
-  })
-  .add("Customized list", () => {
-    const valueRenderer = (item: typeof advancedFruitsInfo[number]) => item.name
+const Story: FunctionComponent<Partial<InputSelectProps>> = ({
+  options = data,
+  value = "",
+  ...rest
+}) => {
+  const [selectedFruit, setSelectedFruit] = useState(value)
 
-    const listItemRenderer = (item: typeof advancedFruitsInfo[number]) => (
-      <>
-        <strong>{item.name}</strong> <em>{item.type}</em>
-      </>
-    )
+  const handleSelect = (fruit: string) => {
+    action("Select")(fruit)
+    setSelectedFruit(fruit)
+  }
 
-    return (
-      <>
-        <StoryWrapper>
-          <Text displayStyle={TextDisplayStyle.SmallText}>Default</Text>
-          <InputSelect
-            options={advancedFruitsInfo}
-            value={advancedFruitsInfo[2]}
-            valueRenderer={valueRenderer}
-            listItemRenderer={listItemRenderer}
-            emptyOption={"Select"}
-            onSelect={action("Select")}
-          />
-        </StoryWrapper>
-        <StoryWrapper>
-          <Text displayStyle={TextDisplayStyle.SmallText}>Outlined</Text>
-          <InputSelect
-            options={advancedFruitsInfo}
-            value={advancedFruitsInfo[2]}
-            valueRenderer={valueRenderer}
-            listItemRenderer={listItemRenderer}
-            emptyOption={"Select"}
-            onSelect={action("Select")}
-            outlined
-          />
-        </StoryWrapper>
-      </>
-    )
-  })
-
-storiesOf("Components|InputSelect/Searchable", module)
-  .add("Standard", () => {
-    const [selectedFruit, setSelectedFruit] = useState("")
-    const [filteredFruits, setFilteredFruits] = useState(advancedFruitsInfo)
-    const [filter, setFilter] = useState("")
-
-    const valueRenderer = (item: typeof advancedFruitsInfo[number]) => item.name
-
-    const listItemRenderer = (item: typeof advancedFruitsInfo[number]) => (
-      <>
-        <strong>{item.name}</strong> <em>{item.type}</em>
-      </>
-    )
-
-    const onFilter = (value: string) => {
-      setFilter(value)
-    }
-
-    const handleSelect = fruit => {
-      setSelectedFruit(fruit)
-      console.log(fruit)
-    }
-
-    useEffect(() => {
-      const fruits = advancedFruitsInfo.filter(fruit =>
-        fruit.value.includes(filter.toLowerCase())
-      )
-      setFilteredFruits(fruits)
-    }, [filter])
-
-    useEffect(() => {
-      setFilter("")
-    }, [selectedFruit])
-
-    return (
-      <>
-        <StoryWrapper>
-          <Text displayStyle={TextDisplayStyle.SmallText}>Default</Text>
-          <InputSelect
-            options={filteredFruits}
-            value={selectedFruit}
-            valueRenderer={valueRenderer}
-            listItemRenderer={listItemRenderer}
-            onSelect={handleSelect}
-            onFilter={onFilter}
-            searchable
-          />
-        </StoryWrapper>
-        <StoryWrapper>
-          <Text displayStyle={TextDisplayStyle.SmallText}>Non-outlined</Text>
-          <InputSelect
-            options={filteredFruits}
-            value={selectedFruit}
-            valueRenderer={valueRenderer}
-            listItemRenderer={listItemRenderer}
-            onSelect={handleSelect}
-            onFilter={onFilter}
-            outlined={false}
-            searchable
-          />
-        </StoryWrapper>
-      </>
-    )
-  })
-  .add("Searchable not outlined", () => {
-    return (
+  return (
+    <>
       <StoryWrapper>
-        <InputSelect options={fruitsInfo} searchable outlined={false} />
+        <Text displayStyle={TextDisplayStyle.SmallText}>Default</Text>
+        <InputSelect
+          value={selectedFruit}
+          options={options}
+          onSelect={handleSelect}
+          {...rest}
+        />
       </StoryWrapper>
+      <StoryWrapper>
+        <Text displayStyle={TextDisplayStyle.SmallText}>Outlined</Text>
+        <InputSelect
+          value={selectedFruit}
+          options={options}
+          onSelect={handleSelect}
+          outlined
+          {...rest}
+        />
+      </StoryWrapper>
+    </>
+  )
+}
+
+storiesOf("Components|InputSelect/Basic", module)
+  .add("Standard", () => <Story placeholder={"Fruit"} />)
+  .add("Standard and empty option", () => (
+    <Story placeholder={"Fruit"} emptyOption={"Select"} />
+  ))
+  .add("Preselected", () => <Story value={data[2]} />)
+  .add("Customized list", () => {
+    const valueRenderer = (item: typeof advancedData[number]) => item.name
+
+    const listItemRenderer = ({
+      name,
+      type,
+      icon,
+    }: typeof advancedData[number]) => (
+      <>
+        <strong>
+          {icon} {name}
+        </strong>
+        <br />
+        <em>{type}</em>
+      </>
+    )
+
+    return (
+      <Story
+        emptyOption={"None"}
+        placeholder={"Fruit"}
+        options={advancedData}
+        valueRenderer={valueRenderer}
+        listItemRenderer={listItemRenderer}
+        listStyles={css`
+          max-height: 33rem;
+        `}
+      />
     )
   })
