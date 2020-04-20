@@ -19,7 +19,7 @@ const News: FunctionComponent<Props> = ({
   updateData = noop,
   online,
 }) => {
-  // FIXME: Function beneath and button are placeholder. Remove in task regarding update button
+  // TODO: Function beneath and button are placeholder. Implement correct update process in different task
   const handleNewsUpdate = async () => {
     const updatedNews = await updateNews()
     updateData(updatedNews)
