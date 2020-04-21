@@ -26,7 +26,7 @@ const ToggleIcon = styled.span<{ rotated?: boolean }>`
   transform: rotateZ(${({ rotated }) => (rotated ? 180 : 0)}deg);
 `
 
-const SelectInputItem = styled.li<{ empty?: boolean; selected: boolean }>`
+const SelectInputItem = styled.li<{ empty?: boolean; selected?: boolean }>`
   cursor: pointer;
   padding: 1.2rem 2.4rem;
   ${mediumTextSharedStyles};
