@@ -34,6 +34,7 @@ exports[`matches snapshot 1`] = `
         >
           <button
             class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
+            data-testid="autostart-toggler-active"
             size="2"
             type="button"
           >
@@ -45,6 +46,7 @@ exports[`matches snapshot 1`] = `
           </button>
           <button
             class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
+            data-testid="autostart-toggler-inactive"
             size="2"
             type="button"
           >
@@ -77,6 +79,7 @@ exports[`matches snapshot 1`] = `
         >
           <button
             class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
+            data-testid="tethering-toggler-active"
             size="2"
             type="button"
           >
@@ -88,6 +91,7 @@ exports[`matches snapshot 1`] = `
           </button>
           <button
             class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
+            data-testid="tethering-toggler-inactive"
             size="2"
             type="button"
           >

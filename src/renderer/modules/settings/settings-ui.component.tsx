@@ -99,6 +99,11 @@ const SettingsUI: FunctionComponent<Props> = ({
                   })}
                   onClick={changeStatus}
                   active={autostartStatus === label}
+                  data-testid={
+                    autostartStatus === label
+                      ? "autostart-toggler-active"
+                      : "autostart-toggler-inactive"
+                  }
                 />
               )
             })}
@@ -123,6 +128,11 @@ const SettingsUI: FunctionComponent<Props> = ({
                   })}
                   onClick={changeStatus}
                   active={tetheringStatus === label}
+                  data-testid={
+                    tetheringStatus === label
+                      ? "tethering-toggler-active"
+                      : "tethering-toggler-inactive"
+                  }
                 />
               )
             })}
