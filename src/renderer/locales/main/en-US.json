@@ -90,6 +90,8 @@
   "view.name.phone.calls": "Calls",
   "view.name.phone.dial": "Dial",
   "view.name.settings": "Settings",
+  "view.name.settings.onLabel": "On",
+  "view.name.settings.offLabel": "Off",
   "view.name.settings.connection": "Connection",
   "view.name.settings.notifications": "Notifications",
   "view.name.settings.audioConversion": "Audio Conversion",

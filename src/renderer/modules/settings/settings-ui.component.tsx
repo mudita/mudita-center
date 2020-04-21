@@ -18,6 +18,7 @@ import {
   ToggleState,
   twoStateToggler,
 } from "Renderer/modules/settings/settings.component"
+import { intl } from "Renderer/utils/intl"
 
 const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -93,7 +94,9 @@ const SettingsUI: FunctionComponent<Props> = ({
               return (
                 <SettingsTogglerItem
                   key={label}
-                  label={label}
+                  label={intl.formatMessage({
+                    id: label,
+                  })}
                   onClick={changeStatus}
                   active={autostartStatus === label}
                 />
@@ -115,7 +118,9 @@ const SettingsUI: FunctionComponent<Props> = ({
               return (
                 <SettingsTogglerItem
                   key={label}
-                  label={label}
+                  label={intl.formatMessage({
+                    id: label,
+                  })}
                   onClick={changeStatus}
                   active={tetheringStatus === label}
                 />

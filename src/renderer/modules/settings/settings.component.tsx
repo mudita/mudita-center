@@ -3,8 +3,8 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import SettingsUI from "Renderer/modules/settings/settings-ui.component"
 
 export enum ToggleState {
-  On = "On",
-  Off = "Off",
+  On = "view.name.settings.onLabel",
+  Off = "view.name.settings.offLabel",
 }
 
 export const twoStateToggler = [ToggleState.Off, ToggleState.On] as const
