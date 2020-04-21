@@ -42,11 +42,8 @@ const registerNewsListener = () => {
     const updatedNews = await checkForUpdateAndGetNewData()
     if (updatedNews) {
       const newsData = await normalizeContentfulData(updatedNews)
-      const data = {
-        ...newsData,
-      }
-      await fs.writeJson(newsFilePath, data)
-      return data
+      await fs.writeJson(newsFilePath, newsData)
+      return newsData
     }
     return null
   }
