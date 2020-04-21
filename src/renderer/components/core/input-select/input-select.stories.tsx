@@ -86,9 +86,9 @@ storiesOf("Components|InputSelect/Basic", module)
   ))
   .add("Preselected", () => <Story value={data[2]} />)
   .add("Customized list", () => {
-    const valueRenderer = (item: typeof advancedData[number]) => item.name
+    const renderValue = (item: typeof advancedData[number]) => item.name
 
-    const listItemRenderer = ({
+    const renderListItem = ({
       name,
       type,
       icon,
@@ -107,8 +107,8 @@ storiesOf("Components|InputSelect/Basic", module)
         emptyOption={"None"}
         placeholder={"Fruit"}
         options={advancedData}
-        valueRenderer={valueRenderer}
-        listItemRenderer={listItemRenderer}
+        renderValue={renderValue}
+        renderListItem={renderListItem}
         listStyles={css`
           max-height: 33rem;
         `}

@@ -105,8 +105,8 @@ export interface InputSelectProps extends Partial<InputProps> {
   value?: any
   options: any[]
   emptyOption?: any
-  valueRenderer?: (item: any) => string
-  listItemRenderer?: (item: any) => string | JSX.Element
+  renderValue?: (item: any) => string
+  renderListItem?: (item: any) => string | JSX.Element
   onSelect?: (option: any) => void
   listStyles?: FlattenSimpleInterpolation
 }
@@ -116,12 +116,13 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
   value = "",
   options,
   emptyOption = "",
-  valueRenderer = (item: string) => item,
-  listItemRenderer = (item: string) => item,
+  renderValue = (item: string) => item,
+  renderListItem = (item: string) => item,
   onSelect = noop,
   listStyles,
   ...rest
 }) => {
+  const [inputValue, setInputValue] = useState(value)
   const [expanded, setExpansion] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -173,7 +174,7 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
       <InputText
         {...rest}
         type="text"
-        value={valueRenderer(inputValue) || ""}
+        value={renderValue(inputValue) || ""}
         onChange={handleInputChange}
         trailingIcons={[toggleIcon]}
         onFocus={focusIn}
@@ -193,7 +194,7 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
           }
           return (
             <SelectInputItem key={index} onClick={selectOption}>
-              {listItemRenderer(option)}
+              {renderListItem(option)}
             </SelectInputItem>
           )
         })}
