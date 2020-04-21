@@ -32,20 +32,9 @@ const registerSettingsListeners = () => {
     async (data: Partial<AppSettings>) => {
       const currentSettings = await fs.readJson(settingsFilePath)
 
-      const { filePaths } = await dialog.showOpenDialog({
-        properties: ["openDirectory"],
-      })
-      console.log("filePath:", filePaths)
-      console.log("data", data)
-
-      const updatedData = {
-        ...data,
-        pureOsBackupLocation: filePaths[0],
-      }
-
       const updatedSettings = {
         ...currentSettings,
-        ...updatedData,
+        ...data,
       }
 
       return fs.writeJson(settingsFilePath, updatedSettings)
