@@ -39,6 +39,7 @@ const InputLabel = styled(Text)`
   user-select: none;
   transition: ${transition("top", "100ms", "ease-in-out")},
     ${transition("font-size", "100ms", "ease-in-out")};
+  transition-delay: 0.1s;
   white-space: nowrap;
 `
 
