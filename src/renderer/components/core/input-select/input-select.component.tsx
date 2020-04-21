@@ -120,8 +120,8 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
   const inputRef = useRef<HTMLInputElement>(null)
 
   const focusIn = () => setExpansion(true)
-
   const focusOut = () => setExpansion(false)
+  const resetSelection = () => onSelect("")
 
   const toggleList = (event: MouseEvent) => {
     event.stopPropagation()
@@ -130,10 +130,6 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
     if (inputRef.current) {
       expanded ? inputRef.current.blur() : inputRef.current.focus()
     }
-  }
-
-  const resetSelection = () => {
-    onSelect("")
   }
 
   const preventExpanding = (event: MouseEvent) => {
@@ -173,9 +169,7 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
           </SelectInputItem>
         )}
         {options.map((option, index) => {
-          const selectOption = () => {
-            onSelect(option)
-          }
+          const selectOption = () => onSelect(option)
           return (
             <SelectInputItem key={index} onClick={selectOption}>
               {renderListItem(option)}
