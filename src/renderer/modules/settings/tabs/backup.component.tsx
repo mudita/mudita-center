@@ -14,6 +14,7 @@ import { InputText } from "Renderer/components/core/input-text/input-text.elemen
 import Location from "Renderer/components/core/location/location.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { LocationPath } from "Renderer/components/core/location/location.enum"
 
 // DO NOT REVIEW THIS CODE, IT'S FOR TESTING PURPOSES ONLY
 const Backup: FunctionComponent = () => {
@@ -88,7 +89,7 @@ const Backup: FunctionComponent = () => {
               onChange={changeDownloadLocation}
             />
             <br />
-            <Location currentLocation={settings}>
+            <Location locationToUpdate={LocationPath.PureOsDownload}>
               <ButtonComponent label={"Save"} />
             </Location>
             <br />

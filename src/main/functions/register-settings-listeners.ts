@@ -5,11 +5,13 @@ import fs from "fs-extra"
 import getDefaultAppSettings, {
   AppSettings,
 } from "App/main/default-app-settings"
+import { LocationPath } from "Renderer/components/core/location/location.enum"
 
 export enum SettingsEvents {
   Update = "update-app-settings",
   Get = "get-app-settings",
   Reset = "reset-app-settings",
+  UpdateLocation = "update-location-settings",
 }
 
 const registerSettingsListeners = () => {
@@ -38,7 +40,7 @@ const registerSettingsListeners = () => {
 
       const updatedData = {
         ...data,
-        pureOsBackupLocation: filePaths,
+        pureOsBackupLocation: filePaths[0],
       }
 
       const updatedSettings = {
@@ -53,6 +55,34 @@ const registerSettingsListeners = () => {
   ipcMain.answerRenderer(SettingsEvents.Get, () => {
     return fs.readJson(settingsFilePath)
   })
+
+  ipcMain.answerRenderer(
+    SettingsEvents.UpdateLocation,
+    async (location: LocationPath) => {
+      const currentSettings = await fs.readJson(settingsFilePath)
+
+      const { filePaths } = await dialog.showOpenDialog({
+        properties: ["openDirectory"],
+      })
+      console.log("filePath:", filePaths)
+      console.log("location", location)
+
+      const getLocationProperty = (locationToUpdate: LocationPath) => {
+        if (locationToUpdate === LocationPath.PureOsBackup) {
+          return { pureOsBackupLocation: filePaths[0] }
+        } else {
+          return { pureOsDownloadLocation: filePaths[0] }
+        }
+      }
+
+      const updatedSettings = {
+        ...currentSettings,
+        ...getLocationProperty(location),
+      }
+
+      return fs.writeJson(settingsFilePath, updatedSettings)
+    }
+  )
 }
 
 export default registerSettingsListeners

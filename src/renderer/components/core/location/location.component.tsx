@@ -1,22 +1,17 @@
 import FunctionComponent from "Renderer/types/function-component.interface"
 import React from "react"
-import { updateAppSettings } from "Renderer/requests/app-settings.request"
-import { AppSettings } from "App/main/default-app-settings"
+import { updateLocationSettings } from "Renderer/requests/app-settings.request"
+import { LocationPath } from "Renderer/components/core/location/location.enum"
 
 interface Props {
-  currentLocation: Partial<AppSettings>
+  locationToUpdate: LocationPath
 }
 
-enum LocationPath {
-  PureOsBackup,
-  PureOsDownload,
-}
-
-const Location: FunctionComponent<Props> = ({ children, currentLocation }) => {
+const Location: FunctionComponent<Props> = ({ children, locationToUpdate }) => {
   return (
     <>
       {React.cloneElement(children as React.ReactElement, {
-        onClick: async () => updateAppSettings(currentLocation),
+        onClick: async () => updateLocationSettings(locationToUpdate),
       })}
     </>
   )
