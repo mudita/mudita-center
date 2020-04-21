@@ -26,7 +26,7 @@ const ToggleIcon = styled.span<{ rotated?: boolean }>`
   transform: rotateZ(${({ rotated }) => (rotated ? 180 : 0)}deg);
 `
 
-const SelectInputItem = styled.li<{ empty?: boolean }>`
+const SelectInputItem = styled.li<{ empty?: boolean; selected: boolean }>`
   cursor: pointer;
   padding: 1.2rem 2.4rem;
   ${mediumTextSharedStyles};
@@ -45,6 +45,12 @@ const SelectInputItem = styled.li<{ empty?: boolean }>`
     css`
       color: ${textColor("placeholder")};
     `}
+
+  ${({ selected }) =>
+    selected &&
+    css`
+      background-color: ${backgroundColor("accent")};
+    `};
 `
 
 const SelectInputList = styled.ul<{
@@ -171,7 +177,11 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
         {options.map((option, index) => {
           const selectOption = () => onSelect(option)
           return (
-            <SelectInputItem key={index} onClick={selectOption}>
+            <SelectInputItem
+              key={index}
+              onClick={selectOption}
+              selected={option === value}
+            >
               {renderListItem(option)}
             </SelectInputItem>
           )
