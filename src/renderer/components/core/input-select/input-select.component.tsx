@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  MouseEvent,
-  useRef,
-  useEffect,
-  ChangeEvent,
-} from "react"
+import React, { useState, MouseEvent, useRef } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css, FlattenSimpleInterpolation } from "styled-components"
 import { InputText } from "Renderer/components/core/input-text/input-text.elements"
@@ -122,7 +116,6 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
   listStyles,
   ...rest
 }) => {
-  const [inputValue, setInputValue] = useState(value)
   const [expanded, setExpansion] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -139,10 +132,6 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
     }
   }
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value)
-  }
-
   const resetSelection = () => {
     onSelect("")
   }
@@ -153,10 +142,6 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
       event.preventDefault()
     }
   }
-
-  useEffect(() => {
-    setInputValue(value)
-  }, [value])
 
   const toggleIcon = (
     <ToggleIcon
@@ -174,8 +159,7 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
       <InputText
         {...rest}
         type="text"
-        value={renderValue(inputValue) || ""}
-        onChange={handleInputChange}
+        value={renderValue(value) || ""}
         trailingIcons={[toggleIcon]}
         onFocus={focusIn}
         onBlur={focusOut}
