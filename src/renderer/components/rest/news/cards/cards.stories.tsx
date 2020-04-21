@@ -2,6 +2,10 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import styled from "styled-components"
 import Cards from "Renderer/components/rest/news/cards/cards.component"
+import {
+  commentsCount,
+  newsItems,
+} from "Renderer/components/rest/news/cards/cards-mock-data"
 
 const Container = styled.div`
   display: flex;
@@ -11,35 +15,9 @@ const Container = styled.div`
 `
 
 storiesOf("News|Cards", module).add("Cards", () => {
-  const cardsData = [
-    {
-      header: "Example header",
-      imageSource: "http://placekitten.com/g/300/300",
-      url: "https://www.google.com/",
-      content: "Lorem ipsum dolor sit amet.",
-      count: 2,
-      communityLink: "https://www.google.com/",
-    },
-    {
-      header: "Example header",
-      imageSource: "http://placekitten.com/g/300/300",
-      url: "https://www.google.com/",
-      content: "Lorem ipsum dolor sit amet.",
-      count: 2,
-      communityLink: "https://www.google.com/",
-    },
-    {
-      header: "Example header",
-      imageSource: "http://placekitten.com/g/300/300",
-      url: "https://www.google.com/",
-      content: "Lorem ipsum dolor sit amet.",
-      count: 2,
-      communityLink: "https://www.google.com/",
-    },
-  ]
   return (
     <Container>
-      <Cards cards={cardsData} />
+      <Cards newsItems={newsItems} commentsCount={commentsCount} />
     </Container>
   )
 })

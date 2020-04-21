@@ -11,7 +11,7 @@ test("should render links with passed urls", () => {
     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?"
   const { getByTestId } = renderWithThemeAndIntl(
     <Card
-      header={"Example header"}
+      title={"Example header"}
       imageSource={"http://placekitten.com/g/300/300"}
       url={url}
       content={content}
@@ -34,7 +34,7 @@ test("header, content and comments text render in card", () => {
   const commentsText = "30 Comments"
   const { getByTestId } = renderWithThemeAndIntl(
     <Card
-      header={headerText}
+      title={headerText}
       imageSource={"http://placekitten.com/g/300/300"}
       url={"https://mudita.com/"}
       content={content}
