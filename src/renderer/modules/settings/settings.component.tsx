@@ -10,11 +10,11 @@ export enum ToggleState {
 export const twoStateToggler = [ToggleState.Off, ToggleState.On] as const
 
 const Settings: FunctionComponent = () => {
-  const [autostartStatus, setAutostartStatus] = useState<string>(
-    twoStateToggler[0]
+  const [autostartStatus, setAutostartStatus] = useState<ToggleState>(
+    ToggleState.Off
   )
-  const [tetheringStatus, setTetheringStatus] = useState<string>(
-    twoStateToggler[0]
+  const [tetheringStatus, setTetheringStatus] = useState<ToggleState>(
+    ToggleState.Off
   )
   return (
     <SettingsUI

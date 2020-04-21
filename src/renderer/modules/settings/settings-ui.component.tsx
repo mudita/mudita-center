@@ -14,7 +14,10 @@ import ButtonToggler, {
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import { twoStateToggler } from "Renderer/modules/settings/settings.component"
+import {
+  ToggleState,
+  twoStateToggler,
+} from "Renderer/modules/settings/settings.component"
 
 const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -56,8 +59,8 @@ const SettingsWrapper = styled.section`
 interface Props {
   autostartStatus?: string
   tetheringStatus?: string
-  setAutostartStatus: (label: string) => void
-  setTetheringStatus: (label: string) => void
+  setAutostartStatus: (label: ToggleState) => void
+  setTetheringStatus: (label: ToggleState) => void
   togglerState: typeof twoStateToggler
 }
 
