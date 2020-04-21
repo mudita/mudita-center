@@ -122,17 +122,12 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
   listStyles,
   ...rest
 }) => {
-  const [inputValue, setInputValue] = useState(value)
-  const [expanded, setExpandedState] = useState(false)
+  const [expanded, setExpansion] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const focusIn = () => {
-    setExpandedState(true)
-  }
+  const focusIn = () => setExpansion(true)
 
-  const focusOut = () => {
-    setExpandedState(false)
-  }
+  const focusOut = () => setExpansion(false)
 
   const toggleList = (e: MouseEvent) => {
     e.stopPropagation()
