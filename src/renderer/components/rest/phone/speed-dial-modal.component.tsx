@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -42,48 +42,34 @@ const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
   onSave = noop,
   onClose = noop,
   contacts = [],
-}) => {
-  const [speedDialContacts, setSpeedDialContacts] = useState(
-    contacts.filter(contact => contact.speedDial)
-  )
-
-  return (
-    <ModalComponent
-      title={"Speed dial settings"}
-      size={ModalSize.Medium}
-      onActionButtonClick={onSave}
-      actionButtonLabel={"Save"}
-      onClose={onClose}
-      closeButtonLabel={"Cancel"}
-    >
-      <SpeedDialTable>
-        <Labels size={RowSize.Small}>
-          <Col>Speed dial number</Col>
-          <Col>Contact</Col>
-        </Labels>
-        {Array.from({ length: 8 }).map((_, index) => {
-          const speedDialNumber = index + 2
-          const speedDialContact = speedDialContacts.find(
-            contact => contact.speedDial === speedDialNumber
-          )
-          return (
-            <Row size={RowSize.Small} key={index}>
-              <Col>{speedDialNumber}</Col>
-              {speedDialContact ? (
-                <Col>{speedDialContact.firstName}</Col>
-              ) : (
-                <Col>
-                  <select>
-                    <option value="">blabla</option>
-                  </select>
-                </Col>
-              )}
-            </Row>
-          )
-        })}
-      </SpeedDialTable>
-    </ModalComponent>
-  )
-}
+}) => (
+  <ModalComponent
+    title={"Speed dial settings"}
+    size={ModalSize.Medium}
+    onActionButtonClick={onSave}
+    actionButtonLabel={"Save"}
+    onClose={onClose}
+    closeButtonLabel={"Cancel"}
+  >
+    <SpeedDialTable>
+      <Labels size={RowSize.Small}>
+        <Col>Speed dial number</Col>
+        <Col>Contact</Col>
+      </Labels>
+      {Array.from({ length: 8 }).map((_, index) => {
+        const speedDialNumber = index + 2
+        const speedDialContact = contacts.find(
+          contact => contact.speedDial === speedDialNumber
+        )
+        return (
+          <Row size={RowSize.Small} key={index}>
+            <Col>{speedDialNumber}</Col>
+            <Col>{speedDialContact?.firstName}</Col>
+          </Row>
+        )
+      })}
+    </SpeedDialTable>
+  </ModalComponent>
+)
 
 export default SpeedDialModal
