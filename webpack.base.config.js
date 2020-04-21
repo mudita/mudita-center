@@ -11,7 +11,7 @@ module.exports = {
      * More info at https://github.com/serialport/node-serialport/issues/2031
      * JIRA task: https://appnroll.atlassian.net/browse/PDA-134
      */
-    // serialport: "require('serialport')"
+    serialport: "require('serialport')",
   },
   output: {
     path: path.resolve(__dirname, "dist"),
