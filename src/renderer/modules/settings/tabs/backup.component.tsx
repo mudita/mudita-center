@@ -6,7 +6,6 @@ import { URL_ONBOARDING } from "Renderer/constants/urls"
 import {
   getAppSettings,
   resetAppSettings,
-  updateAppSettings,
 } from "Renderer/requests/app-settings.request"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { AppSettings } from "App/main/default-app-settings"
@@ -42,12 +41,6 @@ const Backup: FunctionComponent = () => {
   const changeDownloadLocation = (event: ChangeEvent<HTMLInputElement>) => {
     if (settings) {
       setSettings({ ...settings, pureOsDownloadLocation: event.target.value })
-    }
-  }
-
-  const save = async () => {
-    if (settings) {
-      await updateAppSettings(settings)
     }
   }
 
@@ -89,8 +82,11 @@ const Backup: FunctionComponent = () => {
               onChange={changeDownloadLocation}
             />
             <br />
+            <Location locationToUpdate={LocationPath.PureOsBackup}>
+              <ButtonComponent label={"Change Backup Location"} />
+            </Location>
             <Location locationToUpdate={LocationPath.PureOsDownload}>
-              <ButtonComponent label={"Save"} />
+              <ButtonComponent label={"Change OSdownload location"} />
             </Location>
             <br />
             <ButtonComponent

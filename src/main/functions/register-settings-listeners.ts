@@ -60,13 +60,9 @@ const registerSettingsListeners = () => {
     SettingsEvents.UpdateLocation,
     async (location: LocationPath) => {
       const currentSettings = await fs.readJson(settingsFilePath)
-
       const { filePaths } = await dialog.showOpenDialog({
         properties: ["openDirectory"],
       })
-      console.log("filePath:", filePaths)
-      console.log("location", location)
-
       const getLocationProperty = (locationToUpdate: LocationPath) => {
         if (locationToUpdate === LocationPath.PureOsBackup) {
           return { pureOsBackupLocation: filePaths[0] }

@@ -11,7 +11,7 @@ const Location: FunctionComponent<Props> = ({ children, locationToUpdate }) => {
   return (
     <>
       {React.cloneElement(children as React.ReactElement, {
-        onClick: async () => updateLocationSettings(locationToUpdate),
+        onClick: async () => await updateLocationSettings(locationToUpdate),
       })}
     </>
   )
