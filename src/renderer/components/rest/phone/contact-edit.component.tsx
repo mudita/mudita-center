@@ -131,15 +131,14 @@ export const defaultContact = {
   ice: false,
 } as Readonly<Contact>
 
+type NameUpdateProps = Pick<Contact, "firstName" | "lastName">
+
 interface ContactEditProps {
   contact?: Contact
   onCancel: () => void
   onSpeedDialSettingsOpen: () => void
   onSave: (contact: Contact) => void
-  onNameUpdate?: ({
-    firstName,
-    lastName,
-  }: Pick<Contact, "firstName" | "lastName">) => void
+  onNameUpdate?: ({ firstName, lastName }: NameUpdateProps) => void
 }
 
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
