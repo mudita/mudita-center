@@ -104,7 +104,8 @@ const SelectInputWrapper = styled.div`
 export interface InputSelectProps extends Partial<InputProps> {
   value?: any
   options: any[]
-  emptyOption?: string | any
+  emptyOption?: any
+  renderEmptyOption?: (item: any) => string
   renderValue?: (item: any) => string
   renderListItem?: (item: any) => string | JSX.Element
   onSelect?: (option: any) => void
@@ -116,6 +117,7 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
   value = "",
   options,
   emptyOption = "",
+  renderEmptyOption = (item: string) => item,
   renderValue = (item: string) => item,
   renderListItem = (item: string) => item,
   onSelect = noop,
@@ -171,9 +173,7 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
       <SelectInputList expanded={expanded} listStyles={listStyles}>
         {emptyOption && (
           <SelectInputItem onClick={resetSelection} empty>
-            {typeof emptyOption === "string"
-              ? emptyOption
-              : renderListItem(emptyOption)}
+            {renderEmptyOption(emptyOption)}
           </SelectInputItem>
         )}
         {options.map((option, index) => {
