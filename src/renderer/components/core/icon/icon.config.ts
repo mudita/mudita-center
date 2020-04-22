@@ -60,6 +60,7 @@ import Edit from "Renderer/svg/edit.svg"
 import Favourites from "Renderer/svg/favourites.svg"
 import Ice from "Renderer/svg/ice.svg"
 import ArrowDown from "Renderer/svg/arrow-down.svg"
+import DeleteBig from "Renderer/svg/delete-big.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -124,6 +125,7 @@ export enum Type {
   Favourites,
   Ice,
   ArrowDown,
+  DeleteBig,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -250,6 +252,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Ice
     case Type.ArrowDown:
       return ArrowDown
+    case Type.DeleteBig:
+      return DeleteBig
     default:
       return Message
   }
