@@ -18,10 +18,11 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
+import { Size } from "Renderer/components/core/button/button.config"
 
 const BackupTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
-  grid-template-columns: 1fr 15rem;
+  grid-template-columns: 1fr 20rem;
   border-bottom: solid 0.2rem ${borderColor("listItem")};
 `
 
@@ -40,6 +41,10 @@ const BackupWrapper = styled.section`
 
 const BackupDataWrapper = styled(DataWrapper)`
   margin-left: 4rem;
+`
+
+const BackupActionsWrapper = styled(ActionsWrapper)`
+  width: fit-content;
 `
 // DO NOT REVIEW THIS CODE, IT'S FOR TESTING PURPOSES ONLY
 const Backup: FunctionComponent = () => {
@@ -65,13 +70,14 @@ const Backup: FunctionComponent = () => {
             {settings?.pureOsBackupLocation}
           </Message>
         </BackupDataWrapper>
-        <ActionsWrapper>
+        <BackupActionsWrapper>
           <Location locationToUpdate={LocationPath.PureOsDownload}>
             <ButtonComponent
               labelMessage={{ id: "view.name.settings.backup.buttonLabel" }}
+              size={Size.FixedBig}
             />
           </Location>
-        </ActionsWrapper>
+        </BackupActionsWrapper>
       </BackupTableRow>
     </BackupWrapper>
   )
