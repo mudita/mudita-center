@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { getAppSettings } from "Renderer/requests/app-settings.request"
-import { AppSettings } from "App/main/default-app-settings"
 import Location from "Renderer/components/core/location/location.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { LocationPath } from "Renderer/components/core/location/location.enum"
@@ -50,13 +48,7 @@ interface Props {
   backupLocation?: string
 }
 
-const BackupUI: FunctionComponent<Props> = () => {
-  const [settings, setSettings] = useState<AppSettings>()
-  useEffect(() => {
-    ;(async () => {
-      setSettings(await getAppSettings())
-    })()
-  }, [])
+const BackupUI: FunctionComponent<Props> = ({ backupLocation }) => {
   return (
     <BackupWrapper>
       <BackupDescriptionWrapper>
@@ -70,7 +62,7 @@ const BackupUI: FunctionComponent<Props> = () => {
             <FormattedMessage id="view.name.settings.backup.label" />
           </Name>
           <Message displayStyle={TextDisplayStyle.MediumFadedLightText}>
-            {settings?.pureOsBackupLocation}
+            {backupLocation}
           </Message>
         </BackupDataWrapper>
         <BackupActionsWrapper>
