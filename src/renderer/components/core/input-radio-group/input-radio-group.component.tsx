@@ -3,6 +3,7 @@ import { InputProps } from "Renderer/interfaces/input.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import InputRadio from "../input-radio/input-radio.component"
+import { noop } from "Renderer/utils/noop"
 
 const InputGroup = styled.div`
   display: flex;
@@ -17,7 +18,8 @@ const Input = styled(InputRadio)`
 const InputRadioGroup: FunctionComponent<{
   data: InputProps[]
   radioGroupName: string
-}> = ({ data, radioGroupName, className }) => {
+  onChangeRadioGroup?: () => void
+}> = ({ data, radioGroupName, className, onChangeRadioGroup = noop }) => {
   const inputs = data.map((inputProps, index) => (
     <Input
       {...inputProps}
@@ -25,6 +27,7 @@ const InputRadioGroup: FunctionComponent<{
       key={index}
       label={inputProps.label}
       subLabel={inputProps.subLabel}
+      onChange={onChangeRadioGroup}
     />
   ))
   return <InputGroup className={className}>{inputs}</InputGroup>
