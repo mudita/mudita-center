@@ -81,6 +81,17 @@ const CustomizedSidebar = styled(Sidebar)`
   max-height: 24rem;
 `
 
+interface RowProps {
+  firstName: string
+  lastName: string
+  phoneNumber: string
+  address: {
+    zip: string
+    city: string
+    country: string
+  }
+}
+
 storiesOf("Components|Table/Parts", module)
   .add("Labels", () => (
     <>
@@ -408,8 +419,7 @@ storiesOf("Components|Table/Basic", module)
       closeSidebar,
       sidebarOpened,
       activeRow,
-    } = useTableSidebar()
-
+    } = useTableSidebar<RowProps | undefined>()
     const SidebarTitle = () => (
       <Text displayStyle={TextDisplayStyle.LargeText}>
         {activeRow?.firstName} {activeRow?.lastName}
@@ -703,7 +713,7 @@ storiesOf("Components|Table/Grouped", module)
       closeSidebar,
       sidebarOpened,
       activeRow,
-    } = useTableSidebar()
+    } = useTableSidebar<RowProps | undefined>()
 
     const SidebarTitle = () => (
       <Text displayStyle={TextDisplayStyle.LargeText}>

@@ -19,7 +19,7 @@ storiesOf("News|Card", module)
     return (
       <Container>
         <Card
-          header={"Example header"}
+          title={"Example header"}
           imageSource={"http://placekitten.com/g/300/300"}
           url={"https://www.google.com/"}
           content={content}

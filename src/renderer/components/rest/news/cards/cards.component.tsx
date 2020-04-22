@@ -1,12 +1,15 @@
 import * as React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import Card, {
-  Props as CardProps,
-} from "Renderer/components/rest/news/card/card.component"
+import Card from "Renderer/components/rest/news/card/card.component"
 import styled from "styled-components"
+import { useEffect } from "react"
+import { noop } from "Renderer/utils/noop"
+import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
-interface Cards {
-  cards: CardProps[]
+interface Props {
+  newsItems: NewsEntry[]
+  commentsCount: Record<string, number>
+  loadData?: () => void
 }
 
 const CardContainer = styled.div`
@@ -15,12 +18,28 @@ const CardContainer = styled.div`
   grid-column-gap: 4rem;
 `
 
-const Cards: FunctionComponent<Cards> = ({ cards }) => (
-  <CardContainer>
-    {cards.slice(0, 3).map((card, index) => {
-      return <Card key={index} {...card} />
-    })}
-  </CardContainer>
-)
+const Cards: FunctionComponent<Props> = ({
+  newsItems,
+  commentsCount,
+  loadData = noop,
+}) => {
+  useEffect(() => {
+    loadData()
+  }, [])
+  return (
+    <CardContainer>
+      {newsItems.slice(0, 3).map(newsItem => {
+        return (
+          <Card
+            {...newsItem}
+            key={newsItem.newsId}
+            url={newsItem.link}
+            count={commentsCount[newsItem.newsId]}
+          />
+        )
+      })}
+    </CardContainer>
+  )
+}
 
 export default Cards
