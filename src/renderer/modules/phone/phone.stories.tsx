@@ -42,6 +42,7 @@ storiesOf("Views|Phone", module).add("Phone", () => (
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
       onCall={action("Call")}
+      onSpeedDialSettingsSave={action("Save speed dial settings")}
     />
   </PhoneWrapper>
 ))
@@ -155,7 +156,7 @@ storiesOf("Views|Phone/Modals", module)
     <>
       <ModalWrapper>
         <SpeedDialModal
-          contacts={contactList}
+          contacts={labeledContactList}
           onSave={action("Save")}
           onClose={action("Close")}
         />

@@ -18,6 +18,7 @@ const mapDispatch = ({ phone }: any) => ({
   onSelect: noop,
   onCall: noop,
   onMessage: noop,
+  onSpeedDialSettingsSave: noop,
 })
 
 export default connect(mapState, mapDispatch)(Phone)

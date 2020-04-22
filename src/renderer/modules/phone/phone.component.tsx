@@ -19,6 +19,7 @@ import ContactEdit, {
 import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteContactModal from "Renderer/components/rest/phone/delete-contact-modal.component"
+import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.component"
 
 const ContactSection = styled.section`
   height: 100%;
@@ -30,7 +31,9 @@ const ContactSection = styled.section`
 type PhoneProps = Contacts &
   ContactActions &
   ContactPanelProps &
-  ContactDetailsActions
+  ContactDetailsActions & {
+    onSpeedDialSettingsSave: (contacts?: Contact[]) => void
+  }
 
 const Phone: FunctionComponent<PhoneProps> = ({
   onSearchTermChange,
@@ -42,6 +45,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   onDelete,
   onCall,
   onMessage,
+  onSpeedDialSettingsSave,
 }) => {
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<Contact>()
@@ -78,6 +82,12 @@ const Phone: FunctionComponent<PhoneProps> = ({
       <DeleteContactModal contact={contact} onDelete={handleDelete} />
     )
   }
+      
+  const handleSpeedDialEdit = () => {
+    modalService.openModal(
+      <SpeedDialModal onSave={onSpeedDialSettingsSave} contacts={contactList} />
+    )
+  }
 
   return (
     <ContactSection>
@@ -102,7 +112,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
         {newContact && (
           <ContactEdit
             onCancel={handleAddingCancel}
-            onSpeedDialSettingsOpen={noop}
+            onSpeedDialSettingsOpen={handleSpeedDialEdit}
             onSave={noop}
             onNameUpdate={handleNameUpdate}
           />
@@ -111,7 +121,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           <ContactEdit
             contact={editedContact}
             onCancel={handleEditCancel}
-            onSpeedDialSettingsOpen={noop}
+            onSpeedDialSettingsOpen={handleSpeedDialEdit}
             onSave={noop}
           />
         )}
