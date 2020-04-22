@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <section
+    class="sc-fznMAR fHdawV"
+  >
+    <div
+      class="sc-fzpmMD eZizNk"
+    >
+      <p
+        class="sc-AxjAm ijRVAY sc-fznxKY EqPfb"
+      >
+        Select what happens when connecting Pure to this computer:
+      </p>
+    </div>
+    <div
+      class="sc-fznKkj sc-fzqARJ iptkhj"
+    >
+      <div
+        class="sc-fzqNqU eTaJlx"
+      >
+        <p
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoyTs hiplei"
+        >
+          Incoming calls notifications
+        </p>
+      </div>
+      <div
+        class="sc-fzplWN bdMOMJ"
+      >
+        <section
+          class="sc-fznWqX laCmAU sc-fzoNJl cLGJvB"
+        >
+          <button
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              Off
+            </p>
+          </button>
+          <button
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              On
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+    <div
+      class="sc-fznKkj sc-fzqARJ iptkhj"
+    >
+      <div
+        class="sc-fzqNqU eTaJlx"
+      >
+        <p
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoyTs hiplei"
+        >
+          Incoming messages notifications
+        </p>
+      </div>
+      <div
+        class="sc-fzplWN bdMOMJ"
+      >
+        <section
+          class="sc-fznWqX laCmAU sc-fzoNJl cLGJvB"
+        >
+          <button
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              Off
+            </p>
+          </button>
+          <button
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              On
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+    <div
+      class="sc-fznKkj sc-fzqARJ iptkhj"
+    >
+      <div
+        class="sc-fzqNqU eTaJlx"
+      >
+        <p
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoyTs hiplei"
+        >
+          Low battery level notifications
+        </p>
+      </div>
+      <div
+        class="sc-fzplWN bdMOMJ"
+      >
+        <section
+          class="sc-fznWqX laCmAU sc-fzoNJl cLGJvB"
+        >
+          <button
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              Off
+            </p>
+          </button>
+          <button
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              On
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+    <div
+      class="sc-fznKkj sc-fzqARJ iptkhj"
+    >
+      <div
+        class="sc-fzqNqU eTaJlx"
+      >
+        <p
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoyTs hiplei"
+        >
+          PureOS updates notifications
+        </p>
+      </div>
+      <div
+        class="sc-fzplWN bdMOMJ"
+      >
+        <section
+          class="sc-fznWqX laCmAU sc-fzoNJl cLGJvB"
+        >
+          <button
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              Off
+            </p>
+          </button>
+          <button
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              On
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+  </section>
+</div>
+`;
