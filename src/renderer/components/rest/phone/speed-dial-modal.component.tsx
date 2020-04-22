@@ -3,7 +3,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
-import { Contact } from "Renderer/models/phone/phone.interface"
+import { Contact, ContactCategory } from "Renderer/models/phone/phone.interface"
 import Table, {
   Col,
   Labels,
@@ -45,8 +45,8 @@ const messages = defineMessages({
 })
 
 interface SpeedDialModalProps {
-  contacts?: Contact[]
-  onSave?: () => void
+  contacts: ContactCategory[]
+  onSave?: (contacts?: Contact[]) => void
   onClose?: () => void
 }
 
@@ -54,34 +54,43 @@ const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
   onSave = noop,
   onClose = noop,
   contacts = [],
-}) => (
-  <ModalComponent
-    title={intl.formatMessage(messages.title)}
-    size={ModalSize.Medium}
-    onActionButtonClick={onSave}
-    actionButtonLabel={intl.formatMessage(messages.saveButton)}
-    onClose={onClose}
-    closeButtonLabel={intl.formatMessage(messages.cancelButton)}
-  >
-    <SpeedDialTable>
-      <Labels size={RowSize.Small}>
-        <Col>{intl.formatMessage(messages.speedDialLabel)}</Col>
-        <Col>{intl.formatMessage(messages.contactLabel)}</Col>
-      </Labels>
-      {Array.from({ length: 8 }).map((_, index) => {
-        const speedDialNumber = index + 2
-        const speedDialContact = contacts.find(
-          contact => contact.speedDial === speedDialNumber
-        )
-        return (
-          <Row size={RowSize.Small} key={index}>
-            <Col>{speedDialNumber}</Col>
-            <Col>{speedDialContact?.firstName}</Col>
-          </Row>
-        )
-      })}
-    </SpeedDialTable>
-  </ModalComponent>
-)
+}) => {
+  // TODO: Refactor during data integration
+  // DO NOT REVIEW LINES 60-62
+  const flatContactsList = contacts.reduce((acc: Contact[], group) => {
+    return [...acc, ...group.contacts]
+  }, [])
+
+  return (
+    <ModalComponent
+      title={intl.formatMessage(messages.title)}
+      size={ModalSize.Medium}
+      onActionButtonClick={onSave}
+      actionButtonLabel={intl.formatMessage(messages.saveButton)}
+      onClose={onClose}
+      closeButtonLabel={intl.formatMessage(messages.cancelButton)}
+    >
+      <SpeedDialTable>
+        <Labels size={RowSize.Small}>
+          <Col>{intl.formatMessage(messages.speedDialLabel)}</Col>
+          <Col>{intl.formatMessage(messages.contactLabel)}</Col>
+        </Labels>
+        {Array.from({ length: 8 }).map((_, index) => {
+          const speedDialNumber = index + 2
+          const speedDialContact = flatContactsList.find(
+            contact => contact.speedDial === speedDialNumber
+          )
+
+          return (
+            <Row size={RowSize.Small} key={index}>
+              <Col>{speedDialNumber}</Col>
+              <Col>{speedDialContact?.firstName}</Col>
+            </Row>
+          )
+        })}
+      </SpeedDialTable>
+    </ModalComponent>
+  )
+}
 
 export default SpeedDialModal
