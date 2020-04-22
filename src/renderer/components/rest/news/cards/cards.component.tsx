@@ -9,7 +9,6 @@ import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 interface Props {
   newsItems: NewsEntry[]
   loadData?: () => void
-  online?: boolean
 }
 
 const CardContainer = styled.div`
@@ -18,14 +17,10 @@ const CardContainer = styled.div`
   grid-column-gap: 4rem;
 `
 
-const Cards: FunctionComponent<Props> = ({
-  newsItems,
-  loadData = noop,
-  online,
-}) => {
+const Cards: FunctionComponent<Props> = ({ newsItems, loadData = noop }) => {
   useEffect(() => {
     loadData()
-  }, [online])
+  }, [])
   return (
     <CardContainer>
       {newsItems.map(newsItem => {

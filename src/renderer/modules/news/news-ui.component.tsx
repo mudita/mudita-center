@@ -10,14 +10,12 @@ interface Props {
   newsItems: NewsEntry[]
   loadData?: () => void
   updateData?: (news: DefaultNewsItems) => void
-  online?: boolean
 }
 
 const News: FunctionComponent<Props> = ({
   newsItems,
   loadData = noop,
   updateData = noop,
-  online,
 }) => {
   // TODO: Function beneath and button are placeholder. Implement correct update process in different task
   const handleNewsUpdate = async () => {
@@ -26,7 +24,7 @@ const News: FunctionComponent<Props> = ({
   }
   return (
     <div>
-      <Cards newsItems={newsItems} loadData={loadData} online={online} />
+      <Cards newsItems={newsItems} loadData={loadData} />
       <button onClick={handleNewsUpdate}>Update</button>
     </div>
   )

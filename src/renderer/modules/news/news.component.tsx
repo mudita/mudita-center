@@ -11,7 +11,6 @@ const selection = select((models: any) => ({
 const mapStateToProps = (state: RootModel) => {
   return {
     ...state.muditaNews,
-    ...state.networkStatus,
     ...selection(state, null),
   }
 }
