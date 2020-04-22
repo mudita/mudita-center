@@ -20,40 +20,40 @@ import {
 } from "Renderer/modules/settings/settings.component"
 import { intl } from "Renderer/utils/intl"
 
-const SettingsTableRow = styled(TableRow)`
+export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 15rem;
   border-bottom: solid 0.2rem ${borderColor("listItem")};
 `
 
-const Data = styled.div`
+export const Data = styled.div`
   grid-area: Checkbox;
   align-self: center;
 `
 
-const SettingsLabel = styled(Name)`
+export const SettingsLabel = styled(Name)`
   margin-left: 4rem;
 `
 
-const SettingsToggler = styled(ButtonToggler)`
+export const SettingsToggler = styled(ButtonToggler)`
   margin-right: 4rem;
 `
 
-const SettingsTogglerItem = styled(ButtonTogglerItem)`
+export const SettingsTogglerItem = styled(ButtonTogglerItem)`
   padding: 0 3.6rem;
   width: 75%;
 `
 
-const SettingsDescriptionWrapper = styled.div`
+export const SettingsDescriptionWrapper = styled.div`
   border-bottom: solid 0.2rem ${borderColor("listItem")};
 `
 
-const SettingsDescription = styled(Text)`
+export const SettingsDescription = styled(Text)`
   margin-left: 4rem;
   margin-bottom: 3.2rem;
 `
 
-const SettingsWrapper = styled.section`
+export const SettingsWrapper = styled.section`
   padding-top: 3.2rem;
 `
 
