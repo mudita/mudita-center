@@ -9,7 +9,7 @@ import {
   DisplayStyle,
   Type as ButtonType,
 } from "Renderer/components/core/button/button.config"
-import { intl } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import {
   OnboardingWrapper,
@@ -91,9 +91,7 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
           displayStyle={TextDisplayStyle.PrimaryHeading}
           message={{
             id: "view.name.onboarding.troubleshooting.title",
-            values: {
-              bold: (...chunks) => <strong>{chunks}</strong>,
-            },
+            values: textFormatters,
           }}
         />
         <Text
