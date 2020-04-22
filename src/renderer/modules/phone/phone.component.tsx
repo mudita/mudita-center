@@ -82,7 +82,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
       <DeleteContactModal contact={contact} onDelete={handleDelete} />
     )
   }
-      
+
   const handleSpeedDialEdit = () => {
     modalService.openModal(
       <SpeedDialModal onSave={onSpeedDialSettingsSave} contacts={contactList} />
