@@ -1,4 +1,4 @@
-import { app, dialog } from "electron"
+import { app, BrowserWindow, dialog } from "electron"
 import { name } from "../../../package.json"
 import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
@@ -14,7 +14,7 @@ export enum SettingsEvents {
   UpdateLocation = "update-location-settings",
 }
 
-const registerSettingsListeners = () => {
+const registerSettingsListeners = (win: BrowserWindow) => {
   const defaultSettings = getDefaultAppSettings()
   const settingsFilePath = `${app.getPath("appData")}/${name}/settings.json`
 
@@ -49,7 +49,7 @@ const registerSettingsListeners = () => {
     SettingsEvents.UpdateLocation,
     async (location: LocationPath) => {
       const currentSettings = await fs.readJson(settingsFilePath)
-      const { filePaths } = await dialog.showOpenDialog({
+      const { filePaths } = await dialog.showOpenDialog(win, {
         properties: ["openDirectory"],
       })
       const getLocationProperty = (locationToUpdate: LocationPath) => {
