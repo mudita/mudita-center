@@ -11,12 +11,8 @@ import Table, {
   RowSize,
 } from "Renderer/components/core/table/table.component"
 import styled from "styled-components"
-
-interface SpeedDialModalProps {
-  contacts?: Contact[]
-  onSave?: () => void
-  onClose?: () => void
-}
+import { defineMessages } from "react-intl"
+import { intl } from "Renderer/utils/intl"
 
 const SpeedDialTable = styled(Table)`
   --labelBackground: none;
@@ -38,23 +34,39 @@ const ModalComponent = styled(Modal)`
   }
 `
 
+const messages = defineMessages({
+  title: { id: "view.name.phone.contacts.modal.speedDial.title" },
+  saveButton: { id: "view.name.phone.contacts.modal.speedDial.saveButton" },
+  cancelButton: { id: "view.name.phone.contacts.modal.speedDial.cancelButton" },
+  speedDialLabel: {
+    id: "view.name.phone.contacts.modal.speedDial.speedDialLabel",
+  },
+  contactLabel: { id: "view.name.phone.contacts.modal.speedDial.contactLabel" },
+})
+
+interface SpeedDialModalProps {
+  contacts?: Contact[]
+  onSave?: () => void
+  onClose?: () => void
+}
+
 const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
   onSave = noop,
   onClose = noop,
   contacts = [],
 }) => (
   <ModalComponent
-    title={"Speed dial settings"}
+    title={intl.formatMessage(messages.title)}
     size={ModalSize.Medium}
     onActionButtonClick={onSave}
-    actionButtonLabel={"Save"}
+    actionButtonLabel={intl.formatMessage(messages.saveButton)}
     onClose={onClose}
-    closeButtonLabel={"Cancel"}
+    closeButtonLabel={intl.formatMessage(messages.cancelButton)}
   >
     <SpeedDialTable>
       <Labels size={RowSize.Small}>
-        <Col>Speed dial number</Col>
-        <Col>Contact</Col>
+        <Col>{intl.formatMessage(messages.speedDialLabel)}</Col>
+        <Col>{intl.formatMessage(messages.contactLabel)}</Col>
       </Labels>
       {Array.from({ length: 8 }).map((_, index) => {
         const speedDialNumber = index + 2
