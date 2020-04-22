@@ -46,8 +46,11 @@ const BackupDataWrapper = styled(DataWrapper)`
 const BackupActionsWrapper = styled(ActionsWrapper)`
   width: fit-content;
 `
-// DO NOT REVIEW THIS CODE, IT'S FOR TESTING PURPOSES ONLY
-const Backup: FunctionComponent = () => {
+interface Props {
+  backupLocation?: string
+}
+
+const BackupUI: FunctionComponent<Props> = () => {
   const [settings, setSettings] = useState<AppSettings>()
   useEffect(() => {
     ;(async () => {
@@ -83,4 +86,4 @@ const Backup: FunctionComponent = () => {
   )
 }
 
-export default Backup
+export default BackupUI
