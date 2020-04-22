@@ -97,7 +97,7 @@ const Backup: FunctionComponent = () => {
       <BackupTableRow checkMode={false}>
         <BackupDataWrapper>
           <Name displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.backup.autostartLabel" />
+            <FormattedMessage id="view.name.settings.backup.label" />
           </Name>
           <Message displayStyle={TextDisplayStyle.MediumFadedLightText}>
             lala
@@ -105,7 +105,9 @@ const Backup: FunctionComponent = () => {
         </BackupDataWrapper>
         <ActionsWrapper>
           <Location locationToUpdate={LocationPath.PureOsDownload}>
-            <ButtonComponent label={"Change OSdownload location"} />
+            <ButtonComponent
+              labelMessage={{ id: "view.name.settings.backup.buttonLabel" }}
+            />
           </Location>
         </ActionsWrapper>
       </BackupTableRow>

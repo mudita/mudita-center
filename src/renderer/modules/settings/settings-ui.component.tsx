@@ -74,13 +74,13 @@ const SettingsUI: FunctionComponent<Props> = ({
         <SettingsDescription
           displayStyle={TextDisplayStyle.MediumFadedLightText}
         >
-          <FormattedMessage id="view.name.settings.backup.description" />
+          <FormattedMessage id="view.name.settings.description" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>
       <SettingsTableRow checkMode={false}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.backup.autostartLabel" />
+            <FormattedMessage id="view.name.settings.autostartLabel" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
@@ -102,7 +102,7 @@ const SettingsUI: FunctionComponent<Props> = ({
       <SettingsTableRow checkMode={false}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.backup.tetheringLabel" />
+            <FormattedMessage id="view.name.settings.tetheringLabel" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
