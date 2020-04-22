@@ -1,7 +1,10 @@
 import React, { ChangeEvent, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import AudioConversionUI from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion-ui.component"
-import { ToggleState } from "Renderer/modules/settings/settings.component"
+import {
+  ToggleState,
+  twoStateToggler,
+} from "Renderer/modules/settings/settings.component"
 import { intl } from "Renderer/utils/intl"
 
 const convertRadioGroup = [
@@ -38,6 +41,7 @@ const AudioConversion: FunctionComponent = () => {
       setConvertNonStandardAudioFiles={setConvertNonStandardAudioFiles}
       convertRadioGroupData={convertRadioGroup}
       onChangeRadioGroup={changeConvertRadioGroupValue}
+      togglerState={twoStateToggler}
     />
   )
 }

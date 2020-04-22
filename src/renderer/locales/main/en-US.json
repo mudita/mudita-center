@@ -103,6 +103,8 @@
   "view.name.settings.notifications.incomingMessagesNotifications": "Incoming messages notifications",
   "view.name.settings.notifications.lowBatteryNotifications": "Low battery level notifications",
   "view.name.settings.notifications.pureOsUpdatesNotifications": "PureOS updates notifications",
+  "view.name.settings.audioConversion.description": "Select what happens when uploading new music files:",
+  "view.name.settings.audioConversion.convertNonStandardFilesLabel": "Convert non-standard audio files",
   "view.name.settings.audioConversion.alwaysAskLabel": "Always ask",
   "view.name.settings.audioConversion.convertAutomatically": "Convert automatically",
   "view.name.tethering": "Tethering",
