@@ -104,7 +104,7 @@ const SelectInputWrapper = styled.div`
 export interface InputSelectProps extends Partial<InputProps> {
   value?: any
   options: any[]
-  emptyOption?: string | any
+  emptyOption?: any
   renderValue?: (item: any) => string
   renderListItem?: (item: any) => string | JSX.Element
   onSelect?: (option: any) => void
