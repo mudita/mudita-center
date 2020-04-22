@@ -16,7 +16,6 @@ const Input = styled.input`
   outline: none;
   width: 2em;
   height: 2em;
-  padding: 0.3rem;
   background-clip: content-box;
   border: 0.1rem solid ${borderColor("default")};
   background-color: ${backgroundColor("light")};
@@ -31,6 +30,7 @@ const Input = styled.input`
 
   &:checked {
     background-color: ${backgroundColor("dark")};
+    padding: 0.3rem;
   }
 `
 

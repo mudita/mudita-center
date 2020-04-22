@@ -23,6 +23,8 @@ import {
 } from "Renderer/modules/settings/settings-ui.component"
 
 const ConvertRadioGroup = styled(InputRadioGroup)`
+  margin-left: 4rem;
+  margin-top: 3.4rem;
   flex-direction: column;
 `
 
