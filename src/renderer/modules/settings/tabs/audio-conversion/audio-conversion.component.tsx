@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import AudioConversionUI from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion-ui.component"
 import { twoStateToggler } from "Renderer/modules/settings/settings.enum"
 import { intl } from "Renderer/utils/intl"
+import AudioConversionUI from "Renderer/components/rest/settings/audio-conversion-ui.component"
 
 const convertRadioGroup = [
   {

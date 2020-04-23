@@ -1,7 +1,6 @@
 import React, { ChangeEvent } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { twoStateToggler } from "Renderer/modules/settings/settings.enum"
-import InputRadioGroup from "Renderer/components/core/input-radio-group/input-radio-group.component"
 import styled from "styled-components"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import Text, {
@@ -18,8 +17,9 @@ import {
   SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+import AudioConversionRadioGroup from "Renderer/components/rest/settings/audio-conversion-radio-group.component"
 
-const ConvertRadioGroup = styled(InputRadioGroup)`
+const ConvertRadioGroup = styled(AudioConversionRadioGroup)`
   margin-left: 4rem;
   margin-top: 3.4rem;
   flex-direction: column;
@@ -30,7 +30,7 @@ const ConversionFormat = styled.div`
   margin-left: 4rem;
 `
 
-const ConversionFormatRadioGroup = styled(InputRadioGroup)`
+const ConversionFormatRadioGroup = styled(AudioConversionRadioGroup)`
   margin-top: 3.4rem;
   flex-direction: column;
 `
@@ -47,8 +47,6 @@ const AudioConversionUI: FunctionComponent<Props> = ({
   togglerState,
   convertRadioGroupData,
   conversionFormatRadioGroup,
-  changeConvertValue,
-  changeConversionFormat,
 }) => {
   return (
     <>
@@ -72,18 +70,16 @@ const AudioConversionUI: FunctionComponent<Props> = ({
         </SettingsTableRow>
       </SettingsWrapper>
       <ConvertRadioGroup
-        data={convertRadioGroupData}
+        radioButtonsData={convertRadioGroupData}
         radioGroupName={"convert"}
-        onChangeRadioGroup={changeConvertValue}
       />
       <ConversionFormat>
         <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
           <FormattedMessage id="view.name.settings.audioConversion.conversionFormat" />
         </Text>
         <ConversionFormatRadioGroup
-          data={conversionFormatRadioGroup}
+          radioButtonsData={conversionFormatRadioGroup}
           radioGroupName={"conversion-format"}
-          onChangeRadioGroup={changeConversionFormat}
         />
       </ConversionFormat>
     </>

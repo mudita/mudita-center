@@ -22,8 +22,8 @@ const Input = styled(InputRadio)`
 const InputRadioGroup: FunctionComponent<{
   data: InputProps[]
   radioGroupName: string
-  onChangeRadioGroup?: (event: ChangeEvent<HTMLInputElement>) => void
-}> = ({ data, radioGroupName, className, onChangeRadioGroup = noop }) => {
+  onRadioChange?: (event: ChangeEvent<HTMLInputElement>) => void
+}> = ({ data, radioGroupName, className, onRadioChange = noop }) => {
   const inputs = data.map((inputProps, index) => (
     <Input
       {...inputProps}
@@ -31,7 +31,7 @@ const InputRadioGroup: FunctionComponent<{
       key={index}
       label={inputProps.label}
       subLabel={inputProps.subLabel}
-      onChange={onChangeRadioGroup}
+      onChange={onRadioChange}
     />
   ))
   return <InputGroup className={className}>{inputs}</InputGroup>
