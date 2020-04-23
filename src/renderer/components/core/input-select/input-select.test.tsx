@@ -34,7 +34,7 @@ test("input focus/blur toggles the list", () => {
   expect(list).not.toBeVisible()
 })
 
-test("input arrow click toggles the list", async () => {
+test("input arrow click toggles the list", () => {
   const { list, icon } = renderInputSelect()
   expect(list).not.toBeVisible()
   fireEvent.click(icon)
