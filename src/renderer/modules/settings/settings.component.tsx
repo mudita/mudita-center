@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import SettingsUI from "Renderer/modules/settings/settings-ui.component"
 import {
   ToggleState,
   twoStateToggler,
 } from "Renderer/modules/settings/settings.enum"
+import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
 
 const Settings: FunctionComponent = () => {
   const [autostartStatus, setAutostartStatus] = useState<ToggleState>(

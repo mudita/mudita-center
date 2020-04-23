@@ -11,11 +11,11 @@ import Text, {
 import styled from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import SettingsToggler from "Renderer/modules/settings/settings-toggler.component"
 import {
   ToggleState,
   twoStateToggler,
 } from "Renderer/modules/settings/settings.enum"
+import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 
 export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
