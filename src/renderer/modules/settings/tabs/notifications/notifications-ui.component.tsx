@@ -17,7 +17,7 @@ import {
 import {
   ToggleState,
   twoStateToggler,
-} from "Renderer/modules/settings/settings.component"
+} from "Renderer/modules/settings/settings.enum"
 
 interface Props {
   incomingCallsNotifications?: string

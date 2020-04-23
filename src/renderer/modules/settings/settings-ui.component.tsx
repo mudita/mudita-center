@@ -9,16 +9,13 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import styled from "styled-components"
-import ButtonToggler, {
-  ButtonTogglerItem,
-} from "Renderer/components/core/button-toggler/button-toggler.component"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
+import SettingsToggler from "Renderer/modules/settings/settings-toggler.component"
 import {
   ToggleState,
   twoStateToggler,
-} from "Renderer/modules/settings/settings.component"
-import { intl } from "Renderer/utils/intl"
+} from "Renderer/modules/settings/settings.enum"
 
 export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -33,15 +30,6 @@ export const Data = styled.div`
 
 export const SettingsLabel = styled(Name)`
   margin-left: 4rem;
-`
-
-export const SettingsToggler = styled(ButtonToggler)`
-  margin-right: 4rem;
-`
-
-export const SettingsTogglerItem = styled(ButtonTogglerItem)`
-  padding: 0 3.6rem;
-  width: 75%;
 `
 
 export const SettingsDescriptionWrapper = styled.div`
@@ -88,26 +76,11 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler filled>
-            {togglerState.map(label => {
-              const changeStatus = () => setAutostartStatus(label)
-              return (
-                <SettingsTogglerItem
-                  key={label}
-                  label={intl.formatMessage({
-                    id: label,
-                  })}
-                  onClick={changeStatus}
-                  active={autostartStatus === label}
-                  data-testid={
-                    autostartStatus === label
-                      ? "autostart-toggler-active"
-                      : "autostart-toggler-inactive"
-                  }
-                />
-              )
-            })}
-          </SettingsToggler>
+          <SettingsToggler
+            changeTogglerValue={setAutostartStatus}
+            togglerState={twoStateToggler}
+            togglerValue={autostartStatus}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -117,26 +90,11 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler filled>
-            {togglerState.map(label => {
-              const changeStatus = () => setTetheringStatus(label)
-              return (
-                <SettingsTogglerItem
-                  key={label}
-                  label={intl.formatMessage({
-                    id: label,
-                  })}
-                  onClick={changeStatus}
-                  active={tetheringStatus === label}
-                  data-testid={
-                    tetheringStatus === label
-                      ? "tethering-toggler-active"
-                      : "tethering-toggler-inactive"
-                  }
-                />
-              )
-            })}
-          </SettingsToggler>
+          <SettingsToggler
+            changeTogglerValue={setTetheringStatus}
+            togglerState={twoStateToggler}
+            togglerValue={tetheringStatus}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>
