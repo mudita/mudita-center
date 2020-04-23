@@ -51,7 +51,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
   changeConversionFormat,
 }) => {
   return (
-    <div>
+    <>
       <SettingsWrapper>
         <SettingsDescriptionWrapper>
           <SettingsDescription
@@ -73,7 +73,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
       </SettingsWrapper>
       <ConvertRadioGroup
         data={convertRadioGroupData}
-        radioGroupName={"name"}
+        radioGroupName={"convert"}
         onChangeRadioGroup={changeConvertValue}
       />
       <ConversionFormat>
@@ -82,11 +82,11 @@ const AudioConversionUI: FunctionComponent<Props> = ({
         </Text>
         <ConversionFormatRadioGroup
           data={conversionFormatRadioGroup}
-          radioGroupName={"name"}
+          radioGroupName={"conversion-format"}
           onChangeRadioGroup={changeConversionFormat}
         />
       </ConversionFormat>
-    </div>
+    </>
   )
 }
 
