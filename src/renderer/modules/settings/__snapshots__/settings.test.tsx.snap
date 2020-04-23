@@ -15,13 +15,13 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="sc-fznKkj sc-fzqARJ iptkhj"
+      class="sc-fznKkj sc-fzoyTs hNATta"
     >
       <div
-        class="sc-fzqNqU eTaJlx"
+        class="sc-fzoNJl OYErR"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoyTs hiplei"
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
         >
           Autostart Desktop App
         </p>
@@ -30,11 +30,11 @@ exports[`matches snapshot 1`] = `
         class="sc-fzplWN bdMOMJ"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzoNJl cLGJvB"
+          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
-            data-testid="autostart-toggler-active"
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            data-testid="toggler-active"
             size="2"
             type="button"
           >
@@ -45,8 +45,8 @@ exports[`matches snapshot 1`] = `
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
-            data-testid="autostart-toggler-inactive"
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            data-testid="toggler-inactive"
             size="2"
             type="button"
           >
@@ -60,13 +60,13 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj sc-fzqARJ iptkhj"
+      class="sc-fznKkj sc-fzoyTs hNATta"
     >
       <div
-        class="sc-fzqNqU eTaJlx"
+        class="sc-fzoNJl OYErR"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoyTs hiplei"
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
         >
           Start tethering
         </p>
@@ -75,11 +75,11 @@ exports[`matches snapshot 1`] = `
         class="sc-fzplWN bdMOMJ"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzoNJl cLGJvB"
+          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
-            data-testid="tethering-toggler-active"
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            data-testid="toggler-active"
             size="2"
             type="button"
           >
@@ -90,8 +90,8 @@ exports[`matches snapshot 1`] = `
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
-            data-testid="tethering-toggler-inactive"
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            data-testid="toggler-inactive"
             size="2"
             type="button"
           >

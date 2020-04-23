@@ -15,13 +15,13 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="sc-fznKkj sc-fzqARJ iptkhj"
+      class="sc-fznKkj sc-fzoyTs hNATta"
     >
       <div
-        class="sc-fzqNqU eTaJlx"
+        class="sc-fzoNJl OYErR"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoyTs hiplei"
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
         >
           Incoming calls notifications
         </p>
@@ -30,10 +30,11 @@ exports[`matches snapshot 1`] = `
         class="sc-fzplWN bdMOMJ"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzoNJl cLGJvB"
+          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            data-testid="toggler-active"
             size="2"
             type="button"
           >
@@ -44,7 +45,8 @@ exports[`matches snapshot 1`] = `
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            data-testid="toggler-inactive"
             size="2"
             type="button"
           >
@@ -58,13 +60,13 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj sc-fzqARJ iptkhj"
+      class="sc-fznKkj sc-fzoyTs hNATta"
     >
       <div
-        class="sc-fzqNqU eTaJlx"
+        class="sc-fzoNJl OYErR"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoyTs hiplei"
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
         >
           Incoming messages notifications
         </p>
@@ -73,10 +75,11 @@ exports[`matches snapshot 1`] = `
         class="sc-fzplWN bdMOMJ"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzoNJl cLGJvB"
+          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            data-testid="toggler-active"
             size="2"
             type="button"
           >
@@ -87,7 +90,8 @@ exports[`matches snapshot 1`] = `
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            data-testid="toggler-inactive"
             size="2"
             type="button"
           >
@@ -101,13 +105,13 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj sc-fzqARJ iptkhj"
+      class="sc-fznKkj sc-fzoyTs hNATta"
     >
       <div
-        class="sc-fzqNqU eTaJlx"
+        class="sc-fzoNJl OYErR"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoyTs hiplei"
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
         >
           Low battery level notifications
         </p>
@@ -116,10 +120,11 @@ exports[`matches snapshot 1`] = `
         class="sc-fzplWN bdMOMJ"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzoNJl cLGJvB"
+          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            data-testid="toggler-active"
             size="2"
             type="button"
           >
@@ -130,7 +135,8 @@ exports[`matches snapshot 1`] = `
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            data-testid="toggler-inactive"
             size="2"
             type="button"
           >
@@ -144,13 +150,13 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj sc-fzqARJ iptkhj"
+      class="sc-fznKkj sc-fzoyTs hNATta"
     >
       <div
-        class="sc-fzqNqU eTaJlx"
+        class="sc-fzoNJl OYErR"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoyTs hiplei"
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
         >
           PureOS updates notifications
         </p>
@@ -159,10 +165,11 @@ exports[`matches snapshot 1`] = `
         class="sc-fzplWN bdMOMJ"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzoNJl cLGJvB"
+          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzoXWK gHbSlK"
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            data-testid="toggler-active"
             size="2"
             type="button"
           >
@@ -173,7 +180,8 @@ exports[`matches snapshot 1`] = `
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzoXWK jgdrrg"
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            data-testid="toggler-inactive"
             size="2"
             type="button"
           >
