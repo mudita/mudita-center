@@ -4,6 +4,7 @@ export interface NewsEntry {
   category?: string
   title: string
   content: string
+  updatedAt: string
   createdAt: string
   image?: {
     sys?: ContentTypeLink
@@ -12,8 +13,9 @@ export interface NewsEntry {
   link: string
   newsId: string
   discussionId: string
-  imageSource: string
+  imageSource?: string
   imageAlt?: string
+  commentsCount?: number
 }
 
 export interface DownloadError {
@@ -23,8 +25,6 @@ export interface DownloadError {
 }
 
 export interface Store {
-  newsIds: string[]
   newsItems: NewsEntry[]
-  commentsCount: Record<string, number>
   downloadError?: DownloadError
 }

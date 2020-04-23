@@ -47,7 +47,7 @@ export interface Props {
   communityLink: string
   count?: number
   title: string
-  imageSource: string
+  imageSource?: string
   imageAlt?: string
   url: string
 }
