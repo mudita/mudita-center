@@ -46,6 +46,7 @@ const LabelText = styled(Text)`
 const LabelWrapper = styled.div`
   &:not(:last-child) {
     margin-right: 1.5rem;
+    margin-bottom: 0.8rem;
   }
 `
 

@@ -8,6 +8,9 @@ import { ChangeEvent } from "react"
 
 const InputGroup = styled.div`
   display: flex;
+  &:not(:last-child) {
+    margin-bottom: 0.8rem;
+  }
 `
 
 const Input = styled(InputRadio)`
