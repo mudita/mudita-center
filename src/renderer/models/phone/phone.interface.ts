@@ -7,9 +7,9 @@ export interface Contact {
   blocked: boolean
   ice: boolean
   speedDial?: number
-  note: string
+  note: string[]
   email: string
-  address: string
+  address: string[]
 }
 
 export interface ContactCategory {

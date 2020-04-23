@@ -13,6 +13,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { ComponentProps } from "react"
 
 export enum Size {
   Small,
@@ -110,6 +111,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
   label,
   indeterminate = false,
   size = Size.Large,
+  inputRef,
   ...props
 }) => {
   const checkbox = (
@@ -118,7 +120,12 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
       size={size}
       data-testid="checkbox-wrapper"
     >
-      <Input indeterminate={indeterminate} {...props} type="checkbox" />
+      <Input
+        indeterminate={indeterminate}
+        ref={inputRef}
+        type="checkbox"
+        {...props}
+      />
       {indeterminate ? (
         <CheckIcon
           type={indeterminate ? Type.CheckIndeterminate : Type.Check}
@@ -151,4 +158,7 @@ const InputCheckbox: FunctionComponent<InputCheckboxProps> = ({
   )
 }
 
-export default InputCheckbox
+export default React.forwardRef<
+  HTMLInputElement,
+  ComponentProps<typeof InputCheckbox>
+>((props, ref) => <InputCheckbox {...props} inputRef={ref} />)

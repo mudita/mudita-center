@@ -58,9 +58,8 @@ const singleContact = ({
   lastName: "Doe",
   phoneNumbers: ["+40 211 456 285", "+37 030 922 283"],
   email: "jondoe@gmail.com",
-  note:
-    "Et ut debitis veritatis dolorum. Facilis magni sit voluptas consequatur est libero quam.",
-  address: "50856 Mabelle Motorway",
+  note: ["First line of note", "Second line of note"],
+  address: ["50856 Mabelle Motorway", "USA"],
   favourite,
   blocked,
   speedDial,

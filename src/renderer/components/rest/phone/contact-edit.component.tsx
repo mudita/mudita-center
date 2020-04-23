@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import styled from "styled-components"
@@ -18,7 +18,7 @@ import InputCheckbox, {
   Size,
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Icon from "Renderer/components/core/icon/icon.component"
-import useForm from "Renderer/utils/hooks/use-form"
+import { useForm } from "react-hook-form"
 import { noop } from "Renderer/utils/noop"
 
 const messages = defineMessages({
@@ -81,6 +81,10 @@ const Input = styled(InputComponent)<InputComponentProps>`
   }
 `
 
+const SecondaryInput = styled(Input)`
+  margin-top: 0.5rem;
+`
+
 const SpeedDialSettings = styled(ButtonComponent)`
   padding: 0.9rem;
   height: auto;
@@ -123,8 +127,8 @@ export const defaultContact = {
   lastName: "",
   phoneNumbers: ["", ""],
   email: "",
-  note: "",
-  address: "",
+  note: ["", ""],
+  address: ["", ""],
   favourite: false,
   blocked: false,
   speedDial: undefined,
@@ -149,9 +153,18 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   onNameUpdate = noop,
   ...rest
 }) => {
-  const { fields, updateField } = useForm<Contact>(contact || defaultContact)
+  const { register, handleSubmit, watch } = useForm()
 
-  const handleSave = () => onSave(fields)
+  console.log(watch())
+
+  const handleSave = () => {
+    handleSubmit(data => {
+      console.log(data)
+    })
+    // if (allValid) {
+    //   onSave(fields)
+    // }
+  }
 
   const headerLeft = (
     <Text
@@ -159,10 +172,19 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
       message={contact ? messages.editTitle : messages.newTitle}
     />
   )
-
-  useEffect(() => {
-    onNameUpdate({ firstName: fields.firstName, lastName: fields.lastName })
-  }, [fields.firstName, fields.lastName])
+  //
+  // const savingPossible =
+  //   fields.firstName ||
+  //   fields.lastName ||
+  //   fields.phoneNumbers[0] ||
+  //   fields.phoneNumbers[1] ||
+  //   fields.email ||
+  //   fields.address[0] ||
+  //   fields.note[0]
+  //
+  // useEffect(() => {
+  //   onNameUpdate({ firstName: fields.firstName, lastName: fields.lastName })
+  // }, [fields.firstName, fields.lastName])
 
   return (
     <ContactDetailsWrapper
@@ -176,36 +198,33 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           <Input
             placeholder={intl.formatMessage(messages.firstName)}
             name="firstName"
-            value={fields.firstName}
-            onChange={updateField}
+            defaultValue={contact?.firstName}
+            inputRef={register}
           />
           <Input
             placeholder={intl.formatMessage(messages.secondName)}
             name="lastName"
-            value={fields.lastName}
-            onChange={updateField}
+            inputRef={register}
           />
           <Input
             placeholder={intl.formatMessage(messages.number)}
             name="phoneNumbers[0]"
-            value={fields.phoneNumbers[0] || ""}
-            onChange={updateField}
+            inputRef={register}
           />
           <Input
             placeholder={intl.formatMessage(messages.otherNumber)}
             name="phoneNumbers[1]"
-            value={fields.phoneNumbers[1] || ""}
-            onChange={updateField}
+            inputRef={register}
           />
-          <Input placeholder={intl.formatMessage(messages.email)} />
+          <Input
+            name="email"
+            placeholder={intl.formatMessage(messages.email)}
+            inputRef={register}
+          />
         </div>
         <div>
           <SpeedDial>
-            <select
-              value={fields.speedDial}
-              name="speedDial"
-              onChange={updateField}
-            >
+            <select name="speedDial" ref={register}>
               <option value="">Select</option>
               {[...Array.from({ length: 10 })].map((_, index) => (
                 <option key={index} value={index}>
@@ -222,9 +241,9 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           <CustomCheckbox>
             <InputCheckbox
               size={Size.Medium}
-              checked={fields.favourite}
+              defaultChecked={contact?.favourite}
               name="favourite"
-              onChange={updateField}
+              inputRef={register}
             />
             <Text displayStyle={TextDisplayStyle.SmallText}>
               {intl.formatMessage(messages.addToFavourites)}
@@ -234,9 +253,9 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           <CustomCheckbox>
             <InputCheckbox
               size={Size.Medium}
-              checked={fields.ice}
               name="ice"
-              onChange={updateField}
+              inputRef={register}
+              defaultChecked={contact?.ice}
             />
             <Text displayStyle={TextDisplayStyle.SmallText}>
               {intl.formatMessage(messages.iceContact)}
@@ -244,20 +263,36 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Icon type={Type.Ice} height={1} />
           </CustomCheckbox>
           <Input
-            type="textarea"
+            type="text"
             outlined={false}
-            placeholder={intl.formatMessage(messages.address)}
-            value={fields.address}
-            name="address"
-            onChange={updateField}
+            placeholder={intl.formatMessage(messages.address) + " line 1"}
+            name="address[0]"
+            maxLength={30}
+            inputRef={register}
+          />
+          <SecondaryInput
+            type="text"
+            outlined={false}
+            placeholder={intl.formatMessage(messages.address) + " line 2"}
+            name="address[1]"
+            maxLength={30}
+            inputRef={register}
           />
           <Input
-            type="textarea"
+            type="text"
             outlined={false}
-            placeholder={intl.formatMessage(messages.notes)}
-            value={fields.note}
-            name="note"
-            onChange={updateField}
+            placeholder={"Note line 1"}
+            name="note[0]"
+            maxLength={30}
+            inputRef={register}
+          />
+          <SecondaryInput
+            type="text"
+            outlined={false}
+            placeholder={"Note line 2"}
+            name="note[1]"
+            maxLength={30}
+            inputRef={register}
           />
         </div>
       </Content>
@@ -267,7 +302,11 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           labelMessage={messages.cancel}
           onClick={onCancel}
         />
-        <ButtonComponent labelMessage={messages.save} onClick={handleSave} />
+        <ButtonComponent
+          // disabled={!savingPossible || !allValid}
+          labelMessage={messages.save}
+          onClick={handleSave}
+        />
       </Buttons>
     </ContactDetailsWrapper>
   )

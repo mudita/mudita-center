@@ -103,6 +103,7 @@
   "view.name.phone.contacts.edit.notes": "Notes",
   "view.name.phone.contacts.edit.cancel": "Cancel",
   "view.name.phone.contacts.edit.save": "Save",
+  "view.name.phone.contacts.edit.error.wrongEmail": "The email you entered is wrong",
   "view.name.phone.contacts.modal.delete.title": "Delete contact",
   "view.name.phone.contacts.modal.delete.text": "Do you really want to delete\n<b>the {name} contact?</b>",
   "view.name.phone.contacts.modal.delete.cancelButton": "Cancel",
@@ -159,5 +160,7 @@
   "app.update.downloaded.modal.button": "Install",
   "app.update.downloaded.modal.closeButton": "Later",
   "app.update.error.modal.message": "Error",
-  "app.update.error.modal.description": "Please restart the app or update it manually."
+  "app.update.error.modal.description": "Please restart the app or update it manually.",
+  "form.error.phoneNumber.wrong": "Phone number is invalid",
+  "form.error.email.wrong": "Email is invalid"
 }

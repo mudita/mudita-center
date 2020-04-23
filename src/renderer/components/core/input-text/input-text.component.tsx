@@ -8,6 +8,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 
 export const InputComponent: FunctionComponent<InputComponentProps> = ({
   type = "text",
+  inputRef,
   ...rest
 }) => {
   let Component: FunctionComponent<ComponentProps<any>>
@@ -18,7 +19,7 @@ export const InputComponent: FunctionComponent<InputComponentProps> = ({
     Component = InputText
   }
 
-  return <Component type={type} {...rest} />
+  return <Component type={type} ref={inputRef} {...rest} />
 }
 
 export default InputComponent

@@ -22,12 +22,18 @@ export const generateFakeData = (numberOfContacts: number) => {
         }).map(() => Faker.phone.phoneNumber("+## ### ### ###")),
         email:
           Math.random() < 0.5 ? Faker.internet.email(firstName, lastName) : "",
-        note: Math.random() < 0.5 ? Faker.lorem.paragraph(1) : "",
+        note: Array.from({
+          length: Math.random() < 0.3 ? 0 : Math.ceil(Math.random() * 2),
+        }).map(() => (Math.random() < 0.5 ? Faker.lorem.words(3) : "")),
         ice: Math.random() < 0.2,
         favourite,
         blocked: !favourite ? Math.random() < 0.15 : false,
         speedDial: favourite ? speedDials.shift() : undefined,
-        address: Math.random() < 0.5 ? Faker.address.streetAddress() : "",
+        address: Array.from({
+          length: Math.random() < 0.3 ? 0 : Math.ceil(Math.random() * 2),
+        }).map(() =>
+          Math.random() < 0.5 ? Faker.address.streetAddress() : ""
+        ),
       }
     })
 }
