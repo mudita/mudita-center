@@ -4,7 +4,9 @@ import { twoStateToggler } from "Renderer/modules/settings/settings.enum"
 import InputRadioGroup from "Renderer/components/core/input-radio-group/input-radio-group.component"
 import styled from "styled-components"
 import { InputProps } from "Renderer/interfaces/input.interface"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import { ActionsWrapper } from "Renderer/components/rest/messages/topics-table.component"
 import {
@@ -23,16 +25,30 @@ const ConvertRadioGroup = styled(InputRadioGroup)`
   flex-direction: column;
 `
 
+const ConversionFormat = styled.div`
+  margin-top: 3rem;
+  margin-left: 4rem;
+`
+
+const ConversionFormatRadioGroup = styled(InputRadioGroup)`
+  margin-top: 3.4rem;
+  flex-direction: column;
+`
+
 interface Props {
   togglerState: typeof twoStateToggler
   convertRadioGroupData: InputProps[]
-  onChangeRadioGroup: (event: ChangeEvent<HTMLInputElement>) => void
+  conversionFormatRadioGroup: InputProps[]
+  changeConvertValue: (event: ChangeEvent<HTMLInputElement>) => void
+  changeConversionFormat: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 const AudioConversionUI: FunctionComponent<Props> = ({
   togglerState,
   convertRadioGroupData,
-  onChangeRadioGroup,
+  conversionFormatRadioGroup,
+  changeConvertValue,
+  changeConversionFormat,
 }) => {
   return (
     <div>
@@ -58,8 +74,18 @@ const AudioConversionUI: FunctionComponent<Props> = ({
       <ConvertRadioGroup
         data={convertRadioGroupData}
         radioGroupName={"name"}
-        onChangeRadioGroup={onChangeRadioGroup}
+        onChangeRadioGroup={changeConvertValue}
       />
+      <ConversionFormat>
+        <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+          <FormattedMessage id="view.name.settings.audioConversion.conversionFormat" />
+        </Text>
+        <ConversionFormatRadioGroup
+          data={conversionFormatRadioGroup}
+          radioGroupName={"name"}
+          onChangeRadioGroup={changeConversionFormat}
+        />
+      </ConversionFormat>
     </div>
   )
 }

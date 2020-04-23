@@ -21,17 +21,51 @@ const convertRadioGroup = [
   },
 ]
 
+const conversionFormatRadioGroup = [
+  {
+    value: "FLAC",
+    id: "id1",
+    label: "FLAC",
+    subLabel: intl.formatMessage({
+      id: "view.name.settings.audioConversion.conversionFormatFlacSubLabel",
+    }),
+  },
+  {
+    value: "WAV",
+    id: "id2",
+    label: `WAV (${intl.formatMessage({
+      id: "view.name.settings.audioConversion.conversionFormatWavLabel",
+    })})`,
+    subLabel: intl.formatMessage({
+      id: "view.name.settings.audioConversion.conversionFormatWavSubLabel",
+    }),
+  },
+  {
+    value: "MP3",
+    id: "id3",
+    label: "MP3",
+    subLabel: intl.formatMessage({
+      id: "view.name.settings.audioConversion.conversionFormatMp3SubLabel",
+    }),
+  },
+]
+
 const AudioConversion: FunctionComponent = () => {
-  const [, setConvertRadioGroupValue] = useState()
-  const changeConvertRadioGroupValue = (
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    setConvertRadioGroupValue({ [event.target.value]: true })
+  const [, setConvert] = useState()
+  const [, setConversionFormat] = useState()
+
+  const changeConvertValue = (event: ChangeEvent<HTMLInputElement>) => {
+    setConvert(event.target.value)
+  }
+  const changeConversionFormat = (event: ChangeEvent<HTMLInputElement>) => {
+    setConversionFormat(event.target.value)
   }
   return (
     <AudioConversionUI
       convertRadioGroupData={convertRadioGroup}
-      onChangeRadioGroup={changeConvertRadioGroupValue}
+      conversionFormatRadioGroup={conversionFormatRadioGroup}
+      changeConvertValue={changeConvertValue}
+      changeConversionFormat={changeConversionFormat}
       togglerState={twoStateToggler}
     />
   )
