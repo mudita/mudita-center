@@ -46,20 +46,10 @@ export const SettingsWrapper = styled.section`
 `
 
 interface Props {
-  autostartStatus?: string
-  tetheringStatus?: string
-  setAutostartStatus: (label: ToggleState) => void
-  setTetheringStatus: (label: ToggleState) => void
   togglerState: typeof twoStateToggler
 }
 
-const SettingsUI: FunctionComponent<Props> = ({
-  autostartStatus,
-  tetheringStatus,
-  setAutostartStatus,
-  setTetheringStatus,
-  togglerState,
-}) => {
+const SettingsUI: FunctionComponent<Props> = ({ togglerState }) => {
   return (
     <SettingsWrapper>
       <SettingsDescriptionWrapper>
@@ -76,11 +66,7 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            changeTogglerValue={setAutostartStatus}
-            togglerState={twoStateToggler}
-            togglerValue={autostartStatus}
-          />
+          <SettingsToggler togglerState={togglerState} />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -90,11 +76,7 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            changeTogglerValue={setTetheringStatus}
-            togglerState={twoStateToggler}
-            togglerValue={tetheringStatus}
-          />
+          <SettingsToggler togglerState={togglerState} />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>

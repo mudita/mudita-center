@@ -5,19 +5,18 @@ import { ActionsWrapper } from "Renderer/components/rest/messages/topics-table.c
 import { intl } from "Renderer/utils/intl"
 import React from "react"
 import {
+  ToggleState,
+  twoStateToggler,
+} from "Renderer/modules/settings/settings.enum"
+import {
   Data,
   SettingsDescription,
   SettingsDescriptionWrapper,
   SettingsLabel,
   SettingsTableRow,
-  SettingsToggler,
-  SettingsTogglerItem,
   SettingsWrapper,
-} from "Renderer/modules/settings/settings-ui.component"
-import {
-  ToggleState,
-  twoStateToggler,
-} from "Renderer/modules/settings/settings.enum"
+} from "Renderer/components/rest/settings/settings-ui.component"
+import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 
 interface Props {
   incomingCallsNotifications?: string
@@ -42,113 +41,113 @@ const NotificationsUI: FunctionComponent<Props> = ({
   setPureOsUpdatesNotifications,
   togglerState,
 }) => {
-  return (
-    <SettingsWrapper>
-      <SettingsDescriptionWrapper>
-        <SettingsDescription
-          displayStyle={TextDisplayStyle.MediumFadedLightText}
-        >
-          <FormattedMessage id="view.name.settings.backup.description" />
-        </SettingsDescription>
-      </SettingsDescriptionWrapper>
-      <SettingsTableRow checkMode={false}>
-        <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.incomingCallsNotificationsLabel" />
-          </SettingsLabel>
-        </Data>
-        <ActionsWrapper>
-          <SettingsToggler filled>
-            {togglerState.map(label => {
-              const changeStatus = () => setIncomingCallsNotifications(label)
-              return (
-                <SettingsTogglerItem
-                  key={label}
-                  label={intl.formatMessage({
-                    id: label,
-                  })}
-                  onClick={changeStatus}
-                  active={incomingCallsNotifications === label}
-                />
-              )
-            })}
-          </SettingsToggler>
-        </ActionsWrapper>
-      </SettingsTableRow>
-      <SettingsTableRow checkMode={false}>
-        <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.incomingMessagesNotifications" />
-          </SettingsLabel>
-        </Data>
-        <ActionsWrapper>
-          <SettingsToggler filled>
-            {togglerState.map(label => {
-              const changeStatus = () => setIncomingMessagesNotifications(label)
-              return (
-                <SettingsTogglerItem
-                  key={label}
-                  label={intl.formatMessage({
-                    id: label,
-                  })}
-                  onClick={changeStatus}
-                  active={incomingMessagesNotifications === label}
-                />
-              )
-            })}
-          </SettingsToggler>
-        </ActionsWrapper>
-      </SettingsTableRow>
-      <SettingsTableRow checkMode={false}>
-        <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.lowBatteryNotifications" />
-          </SettingsLabel>
-        </Data>
-        <ActionsWrapper>
-          <SettingsToggler filled>
-            {togglerState.map(label => {
-              const changeStatus = () => setLowBatteryNotifications(label)
-              return (
-                <SettingsTogglerItem
-                  key={label}
-                  label={intl.formatMessage({
-                    id: label,
-                  })}
-                  onClick={changeStatus}
-                  active={lowBatteryNotifications === label}
-                />
-              )
-            })}
-          </SettingsToggler>
-        </ActionsWrapper>
-      </SettingsTableRow>
-      <SettingsTableRow checkMode={false}>
-        <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.pureOsUpdatesNotifications" />
-          </SettingsLabel>
-        </Data>
-        <ActionsWrapper>
-          <SettingsToggler filled>
-            {togglerState.map(label => {
-              const changeStatus = () => setPureOsUpdatesNotifications(label)
-              return (
-                <SettingsTogglerItem
-                  key={label}
-                  label={intl.formatMessage({
-                    id: label,
-                  })}
-                  onClick={changeStatus}
-                  active={pureOsUpdatesNotifications === label}
-                />
-              )
-            })}
-          </SettingsToggler>
-        </ActionsWrapper>
-      </SettingsTableRow>
-    </SettingsWrapper>
-  )
+  // return (
+  // <SettingsWrapper>
+  //   <SettingsDescriptionWrapper>
+  //     <SettingsDescription
+  //       displayStyle={TextDisplayStyle.MediumFadedLightText}
+  //     >
+  //       <FormattedMessage id="view.name.settings.backup.description" />
+  //     </SettingsDescription>
+  //   </SettingsDescriptionWrapper>
+  //   <SettingsTableRow checkMode={false}>
+  //     <Data>
+  //       <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+  //         <FormattedMessage id="view.name.settings.notifications.incomingCallsNotificationsLabel" />
+  //       </SettingsLabel>
+  //     </Data>
+  //     <ActionsWrapper>
+  //       <SettingsToggler filled>
+  //         {togglerState.map(label => {
+  //           const changeStatus = () => setIncomingCallsNotifications(label)
+  //           return (
+  //             <SettingsTogglerItem
+  //               key={label}
+  //               label={intl.formatMessage({
+  //                 id: label,
+  //               })}
+  //               onClick={changeStatus}
+  //               active={incomingCallsNotifications === label}
+  //             />
+  //           )
+  //         })}
+  //       </SettingsToggler>
+  //     </ActionsWrapper>
+  //   </SettingsTableRow>
+  //   <SettingsTableRow checkMode={false}>
+  //     <Data>
+  //       <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+  //         <FormattedMessage id="view.name.settings.notifications.incomingMessagesNotifications" />
+  //       </SettingsLabel>
+  //     </Data>
+  //     <ActionsWrapper>
+  //       <SettingsToggler filled>
+  //         {togglerState.map(label => {
+  //           const changeStatus = () => setIncomingMessagesNotifications(label)
+  //           return (
+  //             <SettingsTogglerItem
+  //               key={label}
+  //               label={intl.formatMessage({
+  //                 id: label,
+  //               })}
+  //               onClick={changeStatus}
+  //               active={incomingMessagesNotifications === label}
+  //             />
+  //           )
+  //         })}
+  //       </SettingsToggler>
+  //     </ActionsWrapper>
+  //   </SettingsTableRow>
+  //   <SettingsTableRow checkMode={false}>
+  //     <Data>
+  //       <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+  //         <FormattedMessage id="view.name.settings.notifications.lowBatteryNotifications" />
+  //       </SettingsLabel>
+  //     </Data>
+  //     <ActionsWrapper>
+  //       <SettingsToggler filled>
+  //         {togglerState.map(label => {
+  //           const changeStatus = () => setLowBatteryNotifications(label)
+  //           return (
+  //             <SettingsTogglerItem
+  //               key={label}
+  //               label={intl.formatMessage({
+  //                 id: label,
+  //               })}
+  //               onClick={changeStatus}
+  //               active={lowBatteryNotifications === label}
+  //             />
+  //           )
+  //         })}
+  //       </SettingsToggler>
+  //     </ActionsWrapper>
+  //   </SettingsTableRow>
+  //   <SettingsTableRow checkMode={false}>
+  //     <Data>
+  //       <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+  //         <FormattedMessage id="view.name.settings.notifications.pureOsUpdatesNotifications" />
+  //       </SettingsLabel>
+  //     </Data>
+  //     <ActionsWrapper>
+  //       <SettingsToggler filled>
+  //         {togglerState.map(label => {
+  //           const changeStatus = () => setPureOsUpdatesNotifications(label)
+  //           return (
+  //             <SettingsTogglerItem
+  //               key={label}
+  //               label={intl.formatMessage({
+  //                 id: label,
+  //               })}
+  //               onClick={changeStatus}
+  //               active={pureOsUpdatesNotifications === label}
+  //             />
+  //           )
+  //         })}
+  //       </SettingsToggler>
+  //     </ActionsWrapper>
+  //   </SettingsTableRow>
+  // </SettingsWrapper>
+  // )
 }
 
 export default NotificationsUI

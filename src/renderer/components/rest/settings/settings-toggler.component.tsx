@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
@@ -9,6 +9,7 @@ import {
   ToggleState,
   twoStateToggler,
 } from "Renderer/modules/settings/settings.enum"
+import { noop } from "Renderer/utils/noop"
 
 const Toggler = styled(ButtonToggler)`
   margin-right: 4rem;
@@ -20,20 +21,22 @@ const TogglerItem = styled(ButtonTogglerItem)`
 `
 
 interface Props {
-  togglerValue?: string
-  changeTogglerValue: (label: ToggleState) => void
   togglerState: typeof twoStateToggler
+  onToggleValueChange?: () => void
 }
 
 const SettingsToggler: FunctionComponent<Props> = ({
-  changeTogglerValue,
   togglerState,
-  togglerValue,
+  onToggleValueChange = noop,
 }) => {
+  const [toggleValue, setToggleValue] = useState<ToggleState>(ToggleState.Off)
   return (
     <Toggler filled>
       {togglerState.map(label => {
-        const changeStatus = () => changeTogglerValue(label)
+        const changeStatus = () => {
+          setToggleValue(label)
+          onToggleValueChange()
+        }
         return (
           <TogglerItem
             key={label}
@@ -41,9 +44,9 @@ const SettingsToggler: FunctionComponent<Props> = ({
               id: label,
             })}
             onClick={changeStatus}
-            active={togglerValue === label}
+            active={toggleValue === label}
             data-testid={
-              togglerValue === label ? "toggler-active" : "toggler-inactive"
+              toggleValue === label ? "toggler-active" : "toggler-inactive"
             }
           />
         )
