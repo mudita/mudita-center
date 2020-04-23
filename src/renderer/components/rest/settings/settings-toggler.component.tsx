@@ -5,11 +5,9 @@ import styled from "styled-components"
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
-import {
-  ToggleState,
-  twoStateToggler,
-} from "Renderer/modules/settings/settings.enum"
 import { noop } from "Renderer/utils/noop"
+import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
+import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 const Toggler = styled(ButtonToggler)`
   margin-right: 4rem;

@@ -2,8 +2,8 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
-import { twoStateToggler } from "Renderer/modules/settings/settings.enum"
 import { fireEvent } from "@testing-library/dom"
+import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
 
 test("off button is active by default", async () => {
   const { queryAllByRole } = renderWithThemeAndIntl(

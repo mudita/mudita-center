@@ -11,7 +11,7 @@ import Text, {
 import styled from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import { twoStateToggler } from "Renderer/modules/settings/settings.enum"
+import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 
 export const SettingsTableRow = styled(TableRow)`

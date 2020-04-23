@@ -3,7 +3,6 @@ import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import { ActionsWrapper } from "Renderer/components/rest/messages/topics-table.component"
 import React from "react"
-import { twoStateToggler } from "Renderer/modules/settings/settings.enum"
 import {
   Data,
   SettingsDescription,
@@ -13,6 +12,7 @@ import {
   SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
 
 interface Props {
   togglerState: typeof twoStateToggler
