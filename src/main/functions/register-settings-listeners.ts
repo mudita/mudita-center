@@ -51,22 +51,32 @@ const registerSettingsListeners = (win: BrowserWindow) => {
       const currentSettings = await fs.readJson(settingsFilePath)
       const {
         filePaths: [path],
+        canceled,
       } = await dialog.showOpenDialog(win, {
         properties: ["openDirectory"],
       })
-      const getLocationProperty = (locationToUpdate: LocationPath) => {
-        if (locationToUpdate === LocationPath.PureOsBackup) {
+      const getLocationProperty = (
+        locationToUpdate: LocationPath,
+        dialogCancelled: boolean
+      ) => {
+        if (
+          locationToUpdate === LocationPath.PureOsBackup &&
+          !dialogCancelled
+        ) {
           return { pureOsBackupLocation: path }
-        } else {
+        } else if (
+          locationToUpdate === LocationPath.PureOsDownload &&
+          !dialogCancelled
+        ) {
           return { pureOsDownloadLocation: path }
+        } else {
+          return null
         }
       }
-
       const updatedSettings = {
         ...currentSettings,
-        ...getLocationProperty(location),
+        ...getLocationProperty(location, canceled),
       }
-
       return fs.writeJson(settingsFilePath, updatedSettings)
     }
   )
