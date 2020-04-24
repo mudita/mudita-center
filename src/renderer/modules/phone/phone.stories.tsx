@@ -7,13 +7,19 @@ import {
   generateSortedStructure,
 } from "Renderer/models/phone/phone.utils"
 import styled from "styled-components"
-import ContactDetails from "Renderer/modules/phone/components/contact-details.component"
+import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
 import { Contact } from "Renderer/models/phone/phone.interface"
 import ContactEdit, {
   defaultContact,
-} from "Renderer/modules/phone/components/contact-edit.component"
+} from "Renderer/components/rest/phone/contact-edit.component"
+import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.component"
+import {
+  ModalBackdrop,
+  ModalWrapper,
+} from "Renderer/components/core/modal/modal.styled.elements"
 
-const contactList = generateSortedStructure(generateFakeData(40))
+const contactList = generateFakeData(40)
+const labeledContactList = generateSortedStructure(contactList)
 
 const PhoneWrapper = styled.div`
   max-width: 97.5rem;
@@ -24,7 +30,7 @@ const PhoneWrapper = styled.div`
 storiesOf("Views|Phone", module).add("Phone", () => (
   <PhoneWrapper>
     <Phone
-      contactList={contactList}
+      contactList={labeledContactList}
       onSearchTermChange={action("Search")}
       onManageButtonClick={action("Manage contact")}
       onNewButtonClick={action("New contact")}
@@ -35,6 +41,7 @@ storiesOf("Views|Phone", module).add("Phone", () => (
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
       onCall={action("Call")}
+      onSpeedDialSettingsSave={action("Save speed dial settings")}
     />
   </PhoneWrapper>
 ))
@@ -141,4 +148,17 @@ storiesOf("Views|Phone/Contact details/New", module).add("Default", () => (
     onSave={action("Save")}
     onSpeedDialSettingsOpen={action("Open speed dial settings")}
   />
+))
+
+storiesOf("Views|Phone/Modals", module).add("Speed dial settings", () => (
+  <>
+    <ModalWrapper>
+      <SpeedDialModal
+        contacts={labeledContactList}
+        onSave={action("Save")}
+        onClose={action("Close")}
+      />
+    </ModalWrapper>
+    <ModalBackdrop />
+  </>
 ))

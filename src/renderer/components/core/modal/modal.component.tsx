@@ -70,13 +70,14 @@ export interface ModalProps {
   closeButton?: boolean
   closeButtonLabel?: string
   onClose?: () => void
-  size: ModalSize
+  size?: ModalSize
   subtitle?: string
   title?: string
   titleOrder?: TitleOrder
 }
 
 const Modal: FunctionComponent<ModalProps> = ({
+  className,
   actionButtonLabel,
   onActionButtonClick,
   children,
@@ -97,7 +98,7 @@ const Modal: FunctionComponent<ModalProps> = ({
     onClose()
   }
   return (
-    <ModalFrame size={size}>
+    <ModalFrame size={size} className={className}>
       <Header titleOrder={titleOrder}>
         <ModalTitle
           displayStyle={getTitleStyle(size)}

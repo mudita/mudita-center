@@ -1,8 +1,8 @@
 import React, { useState } from "react"
-import ContactList from "Renderer/modules/phone/components/contact-list.component"
+import ContactList from "Renderer/components/rest/phone/contact-list.component"
 import ContactPanel, {
   ContactPanelProps,
-} from "Renderer/modules/phone/components/contact-panel.component"
+} from "Renderer/components/rest/phone/contact-panel.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -10,13 +10,15 @@ import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.co
 import ContactDetails, {
   ContactActions,
   ContactDetailsActions,
-} from "Renderer/modules/phone/components/contact-details.component"
+} from "Renderer/components/rest/phone/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { Contact, Contacts } from "Renderer/models/phone/phone.interface"
 import ContactEdit, {
   defaultContact,
-} from "Renderer/modules/phone/components/contact-edit.component"
+} from "Renderer/components/rest/phone/contact-edit.component"
 import { noop } from "Renderer/utils/noop"
+import modalService from "Renderer/components/core/modal/modal.service"
+import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.component"
 
 const ContactSection = styled.section`
   height: 100%;
@@ -28,7 +30,9 @@ const ContactSection = styled.section`
 type PhoneProps = Contacts &
   ContactActions &
   ContactPanelProps &
-  ContactDetailsActions
+  ContactDetailsActions & {
+    onSpeedDialSettingsSave: (contacts?: Contact[]) => void
+  }
 
 const Phone: FunctionComponent<PhoneProps> = ({
   onSearchTermChange,
@@ -40,6 +44,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   onDelete,
   onCall,
   onMessage,
+  onSpeedDialSettingsSave,
 }) => {
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<Contact>()
@@ -70,6 +75,12 @@ const Phone: FunctionComponent<PhoneProps> = ({
     setEditedContact(undefined)
   }
 
+  const handleSpeedDialEdit = () => {
+    modalService.openModal(
+      <SpeedDialModal onSave={onSpeedDialSettingsSave} contacts={contactList} />
+    )
+  }
+
   return (
     <ContactSection>
       <ContactPanel
@@ -93,7 +104,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
         {newContact && (
           <ContactEdit
             onCancel={handleAddingCancel}
-            onSpeedDialSettingsOpen={noop}
+            onSpeedDialSettingsOpen={handleSpeedDialEdit}
             onSave={noop}
             onNameUpdate={handleNameUpdate}
           />
@@ -102,7 +113,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           <ContactEdit
             contact={editedContact}
             onCancel={handleEditCancel}
-            onSpeedDialSettingsOpen={noop}
+            onSpeedDialSettingsOpen={handleSpeedDialEdit}
             onSave={noop}
           />
         )}
