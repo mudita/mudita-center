@@ -199,6 +199,7 @@
   "dependencies": {
     "@rematch/core": "^1.4.0",
     "@rematch/select": "^2.0.5",
+    "@seznam/compose-react-refs": "^1.0.4",
     "@types/moxios": "^0.4.9",
     "awesome-typescript-loader": "^5.2.1",
     "axios": "^0.19.2",
