@@ -69,7 +69,9 @@ const AudioConversion: FunctionComponent = () => {
       setConvertNonStandardFiles={setConvertNonStandardFiles}
       convertRadioGroupData={convertRadioGroup}
       conversionFormatRadioGroup={conversionFormatRadioGroup}
+      convert={convert}
       changeConvertValue={changeConvertValue}
+      conversionFormat={conversionFormat}
       changeConversionFormat={changeConversionFormat}
     />
   )
