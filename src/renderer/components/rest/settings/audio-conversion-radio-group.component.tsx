@@ -29,7 +29,7 @@ const AudioConversionRadioGroup: FunctionComponent<Props> = ({
       className={className}
       data={radioButtonsData}
       radioGroupName={radioGroupName}
-      onRadioChange={changeRadioValue}
+      onChange={changeRadioValue}
     />
   )
 }
