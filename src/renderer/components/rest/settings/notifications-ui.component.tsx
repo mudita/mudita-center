@@ -53,7 +53,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
         <ActionsWrapper>
           <SettingsToggler
             toggleValue={incomingCalls}
-            onToggle={setIncomingCalls}
+            changeToggleValue={setIncomingCalls}
           />
         </ActionsWrapper>
       </SettingsTableRow>
@@ -66,7 +66,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
         <ActionsWrapper>
           <SettingsToggler
             toggleValue={incomingMessages}
-            onToggle={setIncomingMessages}
+            changeToggleValue={setIncomingMessages}
           />
         </ActionsWrapper>
       </SettingsTableRow>
@@ -77,7 +77,10 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={lowBattery} onToggle={setLowBattery} />
+          <SettingsToggler
+            toggleValue={lowBattery}
+            changeToggleValue={setLowBattery}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -87,7 +90,10 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={osUpdates} onToggle={setOsUpdates} />
+          <SettingsToggler
+            toggleValue={osUpdates}
+            changeToggleValue={setOsUpdates}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>
