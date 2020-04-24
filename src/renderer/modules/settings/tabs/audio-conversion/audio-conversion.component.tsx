@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { twoStateToggler } from "Renderer/modules/settings/settings.enum"
 import { intl } from "Renderer/utils/intl"
 import AudioConversionUI from "Renderer/components/rest/settings/audio-conversion-ui.component"
+import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 const convertRadioGroup = [
   {
@@ -51,6 +51,9 @@ const conversionFormatRadioGroup = [
 ]
 
 const AudioConversion: FunctionComponent = () => {
+  const [convertNonStandardFiles, setConvertNonStandardFiles] = useState<
+    ToggleState
+  >(ToggleState.Off)
   const [, setConvert] = useState()
   const [, setConversionFormat] = useState()
 
@@ -62,11 +65,12 @@ const AudioConversion: FunctionComponent = () => {
   }
   return (
     <AudioConversionUI
+      convertNonStandardFiles={convertNonStandardFiles}
+      setConvertNonStandardFiles={setConvertNonStandardFiles}
       convertRadioGroupData={convertRadioGroup}
       conversionFormatRadioGroup={conversionFormatRadioGroup}
       changeConvertValue={changeConvertValue}
       changeConversionFormat={changeConversionFormat}
-      togglerState={twoStateToggler}
     />
   )
 }

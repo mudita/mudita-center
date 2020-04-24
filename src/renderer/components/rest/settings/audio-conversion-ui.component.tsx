@@ -1,6 +1,5 @@
 import React, { ChangeEvent } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { twoStateToggler } from "Renderer/modules/settings/settings.enum"
 import styled from "styled-components"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import Text, {
@@ -18,6 +17,7 @@ import {
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import AudioConversionRadioGroup from "Renderer/components/rest/settings/audio-conversion-radio-group.component"
+import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 const ConvertRadioGroup = styled(AudioConversionRadioGroup)`
   margin-left: 4rem;
@@ -36,7 +36,8 @@ const ConversionFormatRadioGroup = styled(AudioConversionRadioGroup)`
 `
 
 interface Props {
-  togglerState: typeof twoStateToggler
+  convertNonStandardFiles?: string
+  setConvertNonStandardFiles: (label: ToggleState) => void
   convertRadioGroupData: InputProps[]
   conversionFormatRadioGroup: InputProps[]
   changeConvertValue: (event: ChangeEvent<HTMLInputElement>) => void
@@ -44,7 +45,8 @@ interface Props {
 }
 
 const AudioConversionUI: FunctionComponent<Props> = ({
-  togglerState,
+  convertNonStandardFiles,
+  setConvertNonStandardFiles,
   convertRadioGroupData,
   conversionFormatRadioGroup,
 }) => {
@@ -65,7 +67,10 @@ const AudioConversionUI: FunctionComponent<Props> = ({
             </SettingsLabel>
           </Data>
           <ActionsWrapper>
-            <SettingsToggler togglerState={togglerState} />
+            <SettingsToggler
+              toggleValue={convertNonStandardFiles}
+              changeToggleValue={setConvertNonStandardFiles}
+            />
           </ActionsWrapper>
         </SettingsTableRow>
       </SettingsWrapper>
