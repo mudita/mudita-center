@@ -17,16 +17,35 @@ const convertRadioGroup = [
   },
 ]
 
-test("onRadioValueChange is called", () => {
-  const onRadioValueChange = jest.fn()
+test("changeValue is called", () => {
+  const changeValue = jest.fn()
   const { container } = renderWithThemeAndIntl(
     <AudioConversionRadioGroup
       radioButtonsData={convertRadioGroup}
       radioGroupName={"example name"}
-      onRadioValueChange={onRadioValueChange}
+      changeValue={changeValue}
     />
   )
   const inputs = container.querySelectorAll('[type="radio"]')
   fireEvent.click(inputs[0], { value: "cos" })
-  expect(onRadioValueChange).toHaveBeenCalled()
+  expect(changeValue).toHaveBeenCalled()
+})
+
+test("onChangeValue is called", () => {
+  const changeValue = jest.fn()
+  const onChangeValue = jest.fn()
+  const valueToBeCalledWith = "cos"
+  const { container } = renderWithThemeAndIntl(
+    <AudioConversionRadioGroup
+      radioValue={valueToBeCalledWith}
+      radioButtonsData={convertRadioGroup}
+      radioGroupName={"example name"}
+      changeValue={changeValue}
+      onChangeValue={onChangeValue}
+    />
+  )
+  const inputs = container.querySelectorAll('[type="radio"]')
+  fireEvent.click(inputs[0], { value: "lala" })
+  expect(onChangeValue).toHaveBeenCalled()
+  expect(onChangeValue).toHaveBeenCalledWith(valueToBeCalledWith)
 })

@@ -1,25 +1,28 @@
-import React, { ChangeEvent, useState } from "react"
+import React, { ChangeEvent } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import InputRadioGroup from "Renderer/components/core/input-radio-group/input-radio-group.component"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import { noop } from "Renderer/utils/noop"
 
 interface Props {
+  radioValue?: string
   radioButtonsData: InputProps[]
   radioGroupName: string
-  onRadioValueChange?: (radioValue?: string) => void
+  changeValue: (event: ChangeEvent<HTMLInputElement>) => void
+  onChangeValue?: (radioValue?: string) => void
 }
 
 const AudioConversionRadioGroup: FunctionComponent<Props> = ({
-  onRadioValueChange = noop,
+  changeValue,
+  onChangeValue = noop,
   radioButtonsData,
   radioGroupName,
+  radioValue,
   className,
 }) => {
-  const [radioValue, setRadioValue] = useState()
   const changeRadioValue = (event: ChangeEvent<HTMLInputElement>) => {
-    setRadioValue(event.target.value)
-    onRadioValueChange(radioValue)
+    changeValue(event)
+    onChangeValue(radioValue)
   }
   return (
     <InputRadioGroup

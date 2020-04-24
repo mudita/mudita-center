@@ -54,8 +54,8 @@ const AudioConversion: FunctionComponent = () => {
   const [convertNonStandardFiles, setConvertNonStandardFiles] = useState<
     ToggleState
   >(ToggleState.Off)
-  const [, setConvert] = useState()
-  const [, setConversionFormat] = useState()
+  const [convert, setConvert] = useState()
+  const [conversionFormat, setConversionFormat] = useState()
 
   const changeConvertValue = (event: ChangeEvent<HTMLInputElement>) => {
     setConvert(event.target.value)
