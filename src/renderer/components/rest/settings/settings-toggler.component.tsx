@@ -18,19 +18,17 @@ const TogglerItem = styled(ButtonTogglerItem)`
 `
 
 interface Props {
-  togglerState: typeof twoStateToggler
   toggleValue?: string
   onToggle: (label: ToggleState) => void
 }
 
 const SettingsToggler: FunctionComponent<Props> = ({
-  togglerState,
   toggleValue,
   onToggle,
 }) => {
   return (
     <Toggler filled>
-      {togglerState.map(label => {
+      {twoStateToggler.map(label => {
         const changeStatus = () => {
           onToggle(label)
         }

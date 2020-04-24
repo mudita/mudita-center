@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.component"
-import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
 import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 const Notifications: FunctionComponent = () => {
@@ -15,7 +14,6 @@ const Notifications: FunctionComponent = () => {
   const [osUpdates, setOsUpdates] = useState<ToggleState>(ToggleState.Off)
   return (
     <NotificationsUI
-      togglerState={twoStateToggler}
       incomingCalls={incomingCalls}
       setIncomingCalls={setIncomingCalls}
       incomingMessages={incomingMessages}

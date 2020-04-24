@@ -11,7 +11,6 @@ import Text, {
 import styled from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
@@ -48,11 +47,9 @@ interface Props {
   setAutostart: (label: ToggleState) => void
   tethering?: string
   setTethering: (label: ToggleState) => void
-  togglerState: typeof twoStateToggler
 }
 
 const SettingsUI: FunctionComponent<Props> = ({
-  togglerState,
   autostart,
   setAutostart,
   tethering,
@@ -74,11 +71,7 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            togglerState={togglerState}
-            toggleValue={autostart}
-            onToggle={setAutostart}
-          />
+          <SettingsToggler toggleValue={autostart} onToggle={setAutostart} />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -88,11 +81,7 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            togglerState={togglerState}
-            toggleValue={tethering}
-            onToggle={setTethering}
-          />
+          <SettingsToggler toggleValue={tethering} onToggle={setTethering} />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>

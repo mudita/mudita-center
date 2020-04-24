@@ -12,7 +12,6 @@ import {
   SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
-import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
 import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 interface Props {
@@ -24,11 +23,9 @@ interface Props {
   setLowBattery: (label: ToggleState) => void
   osUpdates?: string
   setOsUpdates: (label: ToggleState) => void
-  togglerState: typeof twoStateToggler
 }
 
 const NotificationsUI: FunctionComponent<Props> = ({
-  togglerState,
   incomingCalls,
   setIncomingCalls,
   incomingMessages,
@@ -55,7 +52,6 @@ const NotificationsUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <SettingsToggler
-            togglerState={togglerState}
             toggleValue={incomingCalls}
             onToggle={setIncomingCalls}
           />
@@ -69,7 +65,6 @@ const NotificationsUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <SettingsToggler
-            togglerState={togglerState}
             toggleValue={incomingMessages}
             onToggle={setIncomingMessages}
           />
@@ -82,11 +77,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            togglerState={togglerState}
-            toggleValue={lowBattery}
-            onToggle={setLowBattery}
-          />
+          <SettingsToggler toggleValue={lowBattery} onToggle={setLowBattery} />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -96,11 +87,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            togglerState={togglerState}
-            toggleValue={osUpdates}
-            onToggle={setOsUpdates}
-          />
+          <SettingsToggler toggleValue={osUpdates} onToggle={setOsUpdates} />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>

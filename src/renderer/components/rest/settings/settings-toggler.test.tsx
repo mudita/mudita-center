@@ -3,14 +3,12 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import "@testing-library/jest-dom/extend-expect"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { fireEvent } from "@testing-library/dom"
-import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
 import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 test("off button is active by default", async () => {
   const onToggleValueChange = jest.fn()
   const { queryAllByRole } = renderWithThemeAndIntl(
     <SettingsToggler
-      togglerState={twoStateToggler}
       onToggle={onToggleValueChange}
       toggleValue={ToggleState.Off}
     />
@@ -25,7 +23,6 @@ test("passed function is called with right argument", async () => {
   const onToggleValueChange = jest.fn()
   const { queryAllByRole } = renderWithThemeAndIntl(
     <SettingsToggler
-      togglerState={twoStateToggler}
       onToggle={onToggleValueChange}
       toggleValue={ToggleState.Off}
     />
@@ -39,10 +36,7 @@ test("passed function is called with right argument", async () => {
 test("onToggleValueChange function is called after click when passed", async () => {
   const onToggleValueChange = jest.fn()
   const { queryAllByRole } = renderWithThemeAndIntl(
-    <SettingsToggler
-      togglerState={twoStateToggler}
-      onToggle={onToggleValueChange}
-    />
+    <SettingsToggler onToggle={onToggleValueChange} />
   )
   const buttons = queryAllByRole("button")
   const onButton = buttons[1]
