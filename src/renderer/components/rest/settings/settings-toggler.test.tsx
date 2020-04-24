@@ -33,7 +33,7 @@ test("passed function is called with right argument", async () => {
   expect(onToggleValueChange).toBeCalledWith(ToggleState.On)
 })
 
-test("onToggleValueChange function is called after click when passed", async () => {
+test("informs about toggle", async () => {
   const onToggleValueChange = jest.fn()
   const { queryAllByRole } = renderWithThemeAndIntl(
     <SettingsToggler onToggle={onToggleValueChange} />
