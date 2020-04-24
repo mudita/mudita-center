@@ -17,6 +17,7 @@ import {
   ModalBackdrop,
   ModalWrapper,
 } from "Renderer/components/core/modal/modal.styled.elements"
+import DeleteContactModal from "Renderer/components/rest/phone/delete-contact-modal.component"
 
 const contactList = generateFakeData(40)
 const labeledContactList = generateSortedStructure(contactList)
@@ -150,15 +151,28 @@ storiesOf("Views|Phone/Contact details/New", module).add("Default", () => (
   />
 ))
 
-storiesOf("Views|Phone/Modals", module).add("Speed dial settings", () => (
-  <>
-    <ModalWrapper>
-      <SpeedDialModal
-        contacts={labeledContactList}
-        onSave={action("Save")}
-        onClose={action("Close")}
-      />
-    </ModalWrapper>
-    <ModalBackdrop />
-  </>
-))
+storiesOf("Views|Phone/Modals", module)
+  .add("Speed dial settings", () => (
+    <>
+      <ModalWrapper>
+        <SpeedDialModal
+          contacts={labeledContactList}
+          onSave={action("Save")}
+          onClose={action("Close")}
+        />
+      </ModalWrapper>
+      <ModalBackdrop />
+    </>
+  ))
+  .add("Delete contact", () => (
+    <>
+      <ModalWrapper>
+        <DeleteContactModal
+          contact={contactList[0]}
+          onDelete={action("Delete")}
+          onClose={action("Close")}
+        />
+      </ModalWrapper>
+      <ModalBackdrop />
+    </>
+  ))

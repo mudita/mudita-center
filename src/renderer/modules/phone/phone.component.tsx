@@ -18,6 +18,7 @@ import ContactEdit, {
 } from "Renderer/components/rest/phone/contact-edit.component"
 import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
+import DeleteContactModal from "Renderer/components/rest/phone/delete-contact-modal.component"
 import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.component"
 
 const ContactSection = styled.section`
@@ -75,6 +76,13 @@ const Phone: FunctionComponent<PhoneProps> = ({
     setEditedContact(undefined)
   }
 
+  const openDeleteModal = (contact: Contact) => {
+    const handleDelete = () => onDelete(contact)
+    modalService.openModal(
+      <DeleteContactModal contact={contact} onDelete={handleDelete} />
+    )
+  }
+
   const handleSpeedDialEdit = () => {
     modalService.openModal(
       <SpeedDialModal onSave={onSpeedDialSettingsSave} contacts={contactList} />
@@ -96,7 +104,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           onExport={onExport}
           onForward={onForward}
           onBlock={onBlock}
-          onDelete={onDelete}
+          onDelete={openDeleteModal}
           onCheck={noop}
           newContact={newContact}
           editedContact={editedContact}
@@ -124,7 +132,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
             onExport={onExport}
             onForward={onForward}
             onBlock={onBlock}
-            onDelete={onDelete}
+            onDelete={openDeleteModal}
             onEdit={setEditedContact}
             onCall={onCall}
             onMessage={onMessage}
