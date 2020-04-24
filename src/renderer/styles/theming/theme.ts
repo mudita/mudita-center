@@ -27,6 +27,7 @@ const blue5 = "#f3f8fc"
 // const red1 = "#e96a6a"
 
 const transparentGrey1 = "rgba(188,188,188,0.5)"
+const transparentGrey2 = "rgba(214, 214, 214, 0.5)"
 
 const theme = {
   color: {
@@ -80,6 +81,7 @@ const theme = {
     boxShadow: {
       app: grey10,
       grey: transparentGrey1,
+      lightGrey: transparentGrey2,
     },
   },
   layout: {

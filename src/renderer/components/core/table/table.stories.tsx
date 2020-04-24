@@ -81,6 +81,17 @@ const CustomizedSidebar = styled(Sidebar)`
   max-height: 24rem;
 `
 
+interface RowProps {
+  firstName: string
+  lastName: string
+  phoneNumber: string
+  address: {
+    zip: string
+    city: string
+    country: string
+  }
+}
+
 storiesOf("Components|Table/Parts", module)
   .add("Labels", () => (
     <>

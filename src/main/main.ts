@@ -9,6 +9,9 @@ import registerPureOsUpdateListener from "App/main/functions/register-pure-os-up
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
 import registerSettingsListeners from "App/main/functions/register-settings-listeners"
+import registerNewsListener from "App/main/functions/register-news-listener"
+
+require("dotenv").config()
 
 let win: BrowserWindow | null
 
@@ -49,6 +52,7 @@ const createWindow = async () => {
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerSettingsListeners()
+  registerNewsListener()
 
   if (process.env.NODE_ENV !== "production") {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
