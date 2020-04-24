@@ -3,7 +3,6 @@ import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import { ActionsWrapper } from "Renderer/components/rest/messages/topics-table.component"
 import React from "react"
-import { twoStateToggler } from "Renderer/modules/settings/settings.enum"
 import {
   Data,
   SettingsDescription,
@@ -13,12 +12,29 @@ import {
   SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 interface Props {
-  togglerState: typeof twoStateToggler
+  incomingCalls?: string
+  setIncomingCalls: (label: ToggleState) => void
+  incomingMessages?: string
+  setIncomingMessages: (label: ToggleState) => void
+  lowBattery?: string
+  setLowBattery: (label: ToggleState) => void
+  osUpdates?: string
+  setOsUpdates: (label: ToggleState) => void
 }
 
-const NotificationsUI: FunctionComponent<Props> = ({ togglerState }) => {
+const NotificationsUI: FunctionComponent<Props> = ({
+  incomingCalls,
+  setIncomingCalls,
+  incomingMessages,
+  setIncomingMessages,
+  lowBattery,
+  setLowBattery,
+  osUpdates,
+  setOsUpdates,
+}) => {
   return (
     <SettingsWrapper>
       <SettingsDescriptionWrapper>
@@ -35,7 +51,10 @@ const NotificationsUI: FunctionComponent<Props> = ({ togglerState }) => {
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler togglerState={togglerState} />
+          <SettingsToggler
+            toggleValue={incomingCalls}
+            changeToggleValue={setIncomingCalls}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -45,7 +64,10 @@ const NotificationsUI: FunctionComponent<Props> = ({ togglerState }) => {
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler togglerState={togglerState} />
+          <SettingsToggler
+            toggleValue={incomingMessages}
+            changeToggleValue={setIncomingMessages}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -55,7 +77,10 @@ const NotificationsUI: FunctionComponent<Props> = ({ togglerState }) => {
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler togglerState={togglerState} />
+          <SettingsToggler
+            toggleValue={lowBattery}
+            changeToggleValue={setLowBattery}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -65,7 +90,10 @@ const NotificationsUI: FunctionComponent<Props> = ({ togglerState }) => {
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler togglerState={togglerState} />
+          <SettingsToggler
+            toggleValue={osUpdates}
+            changeToggleValue={setOsUpdates}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>

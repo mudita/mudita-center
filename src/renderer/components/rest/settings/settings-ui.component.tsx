@@ -11,8 +11,8 @@ import Text, {
 import styled from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import { twoStateToggler } from "Renderer/modules/settings/settings.enum"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -43,10 +43,18 @@ export const SettingsWrapper = styled.section`
 `
 
 interface Props {
-  togglerState: typeof twoStateToggler
+  autostart?: string
+  setAutostart: (label: ToggleState) => void
+  tethering?: string
+  setTethering: (label: ToggleState) => void
 }
 
-const SettingsUI: FunctionComponent<Props> = ({ togglerState }) => {
+const SettingsUI: FunctionComponent<Props> = ({
+  autostart,
+  setAutostart,
+  tethering,
+  setTethering,
+}) => {
   return (
     <SettingsWrapper>
       <SettingsDescriptionWrapper>
@@ -63,7 +71,10 @@ const SettingsUI: FunctionComponent<Props> = ({ togglerState }) => {
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler togglerState={togglerState} />
+          <SettingsToggler
+            toggleValue={autostart}
+            changeToggleValue={setAutostart}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -73,7 +84,10 @@ const SettingsUI: FunctionComponent<Props> = ({ togglerState }) => {
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler togglerState={togglerState} />
+          <SettingsToggler
+            toggleValue={tethering}
+            changeToggleValue={setTethering}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>
