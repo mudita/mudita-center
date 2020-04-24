@@ -4,10 +4,16 @@ import "@testing-library/jest-dom/extend-expect"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { fireEvent } from "@testing-library/dom"
 import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
+import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 test("off button is active by default", async () => {
+  const onToggleValueChange = jest.fn()
   const { queryAllByRole } = renderWithThemeAndIntl(
-    <SettingsToggler togglerState={twoStateToggler} />
+    <SettingsToggler
+      togglerState={twoStateToggler}
+      onToggle={onToggleValueChange}
+      toggleValue={ToggleState.Off}
+    />
   )
   const buttons = queryAllByRole("button")
   const offButton = buttons[0]
@@ -15,18 +21,19 @@ test("off button is active by default", async () => {
   expect(offButton).toHaveAttribute("data-testid", "toggler-active")
 })
 
-test("on button clicked becomes active, off button becomes inactive", async () => {
+test("passed function is called with right argument", async () => {
+  const onToggleValueChange = jest.fn()
   const { queryAllByRole } = renderWithThemeAndIntl(
-    <SettingsToggler togglerState={twoStateToggler} />
+    <SettingsToggler
+      togglerState={twoStateToggler}
+      onToggle={onToggleValueChange}
+      toggleValue={ToggleState.Off}
+    />
   )
-  const buttons = queryAllByRole("button")
-  const offButton = buttons[0]
-  const onButton = buttons[1]
+  const [, onButton] = queryAllByRole("button")
 
-  expect(offButton).toHaveAttribute("data-testid", "toggler-active")
   await fireEvent.click(onButton)
-  expect(offButton).toHaveAttribute("data-testid", "toggler-inactive")
-  expect(onButton).toHaveAttribute("data-testid", "toggler-active")
+  expect(onToggleValueChange).toBeCalledWith(ToggleState.On)
 })
 
 test("onToggleValueChange function is called after click when passed", async () => {
@@ -34,7 +41,7 @@ test("onToggleValueChange function is called after click when passed", async () 
   const { queryAllByRole } = renderWithThemeAndIntl(
     <SettingsToggler
       togglerState={twoStateToggler}
-      onToggleValueChange={onToggleValueChange}
+      onToggle={onToggleValueChange}
     />
   )
   const buttons = queryAllByRole("button")
