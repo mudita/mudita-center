@@ -9,64 +9,51 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import styled from "styled-components"
-import ButtonToggler, {
-  ButtonTogglerItem,
-} from "Renderer/components/core/button-toggler/button-toggler.component"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import { twoStateToggler } from "Renderer/modules/settings/settings.component"
+import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
-const SettingsTableRow = styled(TableRow)`
+export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 15rem;
   border-bottom: solid 0.2rem ${borderColor("listItem")};
 `
 
-const Data = styled.div`
+export const Data = styled.div`
   grid-area: Checkbox;
   align-self: center;
 `
 
-const SettingsLabel = styled(Name)`
+export const SettingsLabel = styled(Name)`
   margin-left: 4rem;
 `
 
-const SettingsToggler = styled(ButtonToggler)`
-  margin-right: 4rem;
-`
-
-const SettingsTogglerItem = styled(ButtonTogglerItem)`
-  padding: 0 3.6rem;
-  width: 75%;
-`
-
-const SettingsDescriptionWrapper = styled.div`
+export const SettingsDescriptionWrapper = styled.div`
   border-bottom: solid 0.2rem ${borderColor("listItem")};
 `
 
-const SettingsDescription = styled(Text)`
+export const SettingsDescription = styled(Text)`
   margin-left: 4rem;
   margin-bottom: 3.2rem;
 `
 
-const SettingsWrapper = styled.section`
+export const SettingsWrapper = styled.section`
   padding-top: 3.2rem;
 `
 
 interface Props {
-  autostartStatus?: string
-  tetheringStatus?: string
-  setAutostartStatus: (label: string) => void
-  setTetheringStatus: (label: string) => void
-  togglerState: typeof twoStateToggler
+  autostart?: string
+  setAutostart: (label: ToggleState) => void
+  tethering?: string
+  setTethering: (label: ToggleState) => void
 }
 
 const SettingsUI: FunctionComponent<Props> = ({
-  autostartStatus,
-  tetheringStatus,
-  setAutostartStatus,
-  setTetheringStatus,
-  togglerState,
+  autostart,
+  setAutostart,
+  tethering,
+  setTethering,
 }) => {
   return (
     <SettingsWrapper>
@@ -84,19 +71,10 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler filled>
-            {togglerState.map(label => {
-              const changeStatus = () => setAutostartStatus(label)
-              return (
-                <SettingsTogglerItem
-                  key={label}
-                  label={label}
-                  onClick={changeStatus}
-                  active={autostartStatus === label}
-                />
-              )
-            })}
-          </SettingsToggler>
+          <SettingsToggler
+            toggleValue={autostart}
+            changeToggleValue={setAutostart}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -106,19 +84,10 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler filled>
-            {togglerState.map(label => {
-              const changeStatus = () => setTetheringStatus(label)
-              return (
-                <SettingsTogglerItem
-                  key={label}
-                  label={label}
-                  onClick={changeStatus}
-                  active={tetheringStatus === label}
-                />
-              )
-            })}
-          </SettingsToggler>
+          <SettingsToggler
+            toggleValue={tethering}
+            changeToggleValue={setTethering}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>
