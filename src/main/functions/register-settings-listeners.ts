@@ -73,11 +73,21 @@ const registerSettingsListeners = (win: BrowserWindow) => {
           return null
         }
       }
+      const updatedLocationPath = getLocationProperty(location, canceled)
       const updatedSettings = {
         ...currentSettings,
-        ...getLocationProperty(location, canceled),
+        ...updatedLocationPath,
       }
-      return fs.writeJson(settingsFilePath, updatedSettings)
+      fs.writeJson(settingsFilePath, updatedSettings)
+      if (updatedLocationPath !== null) {
+        return {
+          success: true,
+        }
+      } else {
+        return {
+          success: false,
+        }
+      }
     }
   )
 }
