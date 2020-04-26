@@ -82,12 +82,14 @@ const Backup: FunctionComponent = () => {
               onChange={changeDownloadLocation}
             />
             <br />
-            <Location locationToUpdate={LocationPath.PureOsBackup}>
-              <ButtonComponent label={"Change Backup Location"} />
-            </Location>
-            <Location locationToUpdate={LocationPath.PureOsDownload}>
-              <ButtonComponent label={"Change OSdownload location"} />
-            </Location>
+            <Location
+              locationToUpdate={LocationPath.PureOsBackup}
+              buttonLabel={"Change Backup Location"}
+            />
+            <Location
+              locationToUpdate={LocationPath.PureOsDownload}
+              buttonLabel={"Change OSdownload location"}
+            />
             <br />
             <ButtonComponent
               label={"Reset"}

@@ -2,19 +2,19 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import React from "react"
 import { updateLocationSettings } from "Renderer/requests/app-settings.request"
 import { LocationPath } from "Renderer/components/core/location/location.enum"
+import ButtonComponent from "Renderer/components/core/button/button.component"
 
 interface Props {
   locationToUpdate: LocationPath
+  buttonLabel: string
 }
 
-const Location: FunctionComponent<Props> = ({ children, locationToUpdate }) => {
-  return (
-    <>
-      {React.cloneElement(children as React.ReactElement, {
-        onClick: async () => await updateLocationSettings(locationToUpdate),
-      })}
-    </>
-  )
+const Location: FunctionComponent<Props> = ({
+  locationToUpdate,
+  buttonLabel,
+}) => {
+  const useLocationPicker = () => updateLocationSettings(locationToUpdate)
+  return <ButtonComponent onClick={useLocationPicker} label={buttonLabel} />
 }
 
 export default Location
