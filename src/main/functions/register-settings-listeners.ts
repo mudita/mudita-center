@@ -78,7 +78,7 @@ const registerSettingsListeners = (win: BrowserWindow) => {
         ...currentSettings,
         ...updatedLocationPath,
       }
-      fs.writeJson(settingsFilePath, updatedSettings)
+      await fs.writeJson(settingsFilePath, updatedSettings)
       if (updatedLocationPath !== null) {
         return true
       } else {
