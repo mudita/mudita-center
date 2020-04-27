@@ -1,9 +1,4 @@
-import React, {
-  ChangeEvent,
-  ComponentProps,
-  useLayoutEffect,
-  useRef,
-} from "react"
+import React, { ChangeEvent, useLayoutEffect, useRef } from "react"
 import {
   InputIconsProps,
   InputProps,
@@ -228,7 +223,7 @@ const InputIcons: FunctionComponent<InputIconsProps> = ({
   )
 }
 
-const InputTextComponent: FunctionComponent<InputProps> = ({
+export const InputText: FunctionComponent<InputProps> = ({
   className,
   condensed = false,
   outlined = false,
@@ -275,11 +270,6 @@ const InputTextComponent: FunctionComponent<InputProps> = ({
     </InputWrapper>
   )
 }
-
-export const InputText = React.forwardRef<
-  HTMLInputElement,
-  ComponentProps<typeof InputTextComponent>
->((props, ref) => <InputTextComponent {...props} inputRef={ref} />)
 
 export const TextArea: FunctionComponent<TextareaProps> = ({
   className,
