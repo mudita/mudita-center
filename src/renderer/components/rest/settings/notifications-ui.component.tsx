@@ -41,7 +41,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
         <SettingsDescription
           displayStyle={TextDisplayStyle.MediumFadedLightText}
         >
-          <FormattedMessage id="view.name.settings.backup.description" />
+          <FormattedMessage id="view.name.settings.notifications.description" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>
       <SettingsTableRow checkMode={false}>
