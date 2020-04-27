@@ -1,5 +1,6 @@
 import {
   InputHTMLAttributes,
+  ReactElement,
   ReactNode,
   Ref,
   TextareaHTMLAttributes,
@@ -16,6 +17,7 @@ interface BasicProps extends InputIconsProps {
   placeholder?: string
   disabled?: boolean
   outlined?: boolean
+  errorMessage?: string | ReactElement
 }
 
 export interface InputProps
