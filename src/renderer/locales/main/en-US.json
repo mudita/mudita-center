@@ -97,6 +97,7 @@
   "view.name.settings.tetheringLabel": "Start tethering",
   "view.name.settings.connection": "Connection",
   "view.name.settings.notifications": "Notifications",
+  "view.name.settings.notifications.description": "Select which notifications you want to receive while using Desktop App:",
   "view.name.settings.audioConversion": "Audio Conversion",
   "view.name.settings.backup": "Backup",
   "view.name.settings.backup.autostartLabel": "Autostart Desktop App",
