@@ -60,7 +60,10 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation }) => {
           <Name displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="view.name.settings.backup.label" />
           </Name>
-          <Message displayStyle={TextDisplayStyle.MediumFadedLightText}>
+          <Message
+            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            data-testid="backup-location"
+          >
             {backupLocation}
           </Message>
         </BackupDataWrapper>
