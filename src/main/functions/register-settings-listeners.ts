@@ -80,13 +80,9 @@ const registerSettingsListeners = (win: BrowserWindow) => {
       }
       fs.writeJson(settingsFilePath, updatedSettings)
       if (updatedLocationPath !== null) {
-        return {
-          success: true,
-        }
+        return true
       } else {
-        return {
-          success: false,
-        }
+        return false
       }
     }
   )

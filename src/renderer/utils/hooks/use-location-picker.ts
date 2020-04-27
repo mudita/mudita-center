@@ -1,13 +1,20 @@
 import { updateLocationSettings } from "Renderer/requests/app-settings.request"
 import { useState } from "react"
+import { LocationPath } from "Renderer/components/core/location/location.enum"
 
-const useLocationPicker = async (locationToUpdate: any) => {
-  const [state, setState] = useState()
+const useLocationPicker = (
+  locationToUpdate: LocationPath,
+  onSuccessCallback?: () => void
+) => {
+  const [successState, setState] = useState()
   const openDialog = async () => {
-    const { success } = await updateLocationSettings(locationToUpdate)
+    const success = await updateLocationSettings(locationToUpdate)
     setState(success)
   }
-  return [state, openDialog]
+  if (successState === true) {
+    onSuccessCallback?.()
+  }
+  return openDialog
 }
 
 export default useLocationPicker
