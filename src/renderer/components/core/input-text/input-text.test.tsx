@@ -149,7 +149,7 @@ test("renders outlined input with multiple Icons properly", () => {
   expect(getByTestId("trailing-icon-1")).toBeInTheDocument()
 })
 
-test("renders outlined input with multiple Icons properly", () => {
+test("renders textarea input with multiple Icons properly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
     <InputText
       type="textarea"
@@ -161,4 +161,17 @@ test("renders outlined input with multiple Icons properly", () => {
   expect(getByTestId("leading-icon-1")).toBeInTheDocument()
   expect(getByTestId("trailing-icon-0")).toBeInTheDocument()
   expect(getByTestId("trailing-icon-1")).toBeInTheDocument()
+})
+
+test("renders standard input error properly", () => {
+  const { getByText } = renderWithThemeAndIntl(
+    <InputText type="text" errorMessage={"Error"} />
+  )
+  expect(getByText("Error")).toBeInTheDocument()
+})
+test("renders textarea input error properly", () => {
+  const { getByText } = renderWithThemeAndIntl(
+    <InputText type="textarea" errorMessage={"Error"} />
+  )
+  expect(getByText("Error")).toBeInTheDocument()
 })
