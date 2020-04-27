@@ -16,7 +16,9 @@ interface Props {
 }
 
 const MuditaNews = styled.section`
-  overflow: scroll;
+  overflow: auto;
+  padding-left: 4rem;
+  padding-right: 3rem;
 `
 
 const News: FunctionComponent<Props> = ({
@@ -33,7 +35,7 @@ const News: FunctionComponent<Props> = ({
   return (
     <MuditaNews>
       <Cards newsItems={newsItems} loadData={loadData} />
-      <button onClick={handleNewsUpdate}>Update</button>
+      {/*<button onClick={handleNewsUpdate}>Update</button>*/}
       <ProductCards productCards={productCards} />
     </MuditaNews>
   )
