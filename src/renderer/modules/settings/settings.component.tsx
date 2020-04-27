@@ -1,28 +1,17 @@
 import React, { useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import SettingsUI from "Renderer/modules/settings/settings-ui.component"
-
-export enum ToggleState {
-  On = "On",
-  Off = "Off",
-}
-
-export const twoStateToggler = [ToggleState.Off, ToggleState.On] as const
+import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
+import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 const Settings: FunctionComponent = () => {
-  const [autostartStatus, setAutostartStatus] = useState<string>(
-    twoStateToggler[0]
-  )
-  const [tetheringStatus, setTetheringStatus] = useState<string>(
-    twoStateToggler[0]
-  )
+  const [autostart, setAutostart] = useState<ToggleState>(ToggleState.Off)
+  const [tethering, setTethering] = useState<ToggleState>(ToggleState.Off)
   return (
     <SettingsUI
-      autostartStatus={autostartStatus}
-      tetheringStatus={tetheringStatus}
-      setAutostartStatus={setAutostartStatus}
-      setTetheringStatus={setTetheringStatus}
-      togglerState={twoStateToggler}
+      autostart={autostart}
+      setAutostart={setAutostart}
+      tethering={tethering}
+      setTethering={setTethering}
     />
   )
 }

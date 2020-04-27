@@ -1,7 +1,6 @@
 import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import Location from "Renderer/components/core/location/location.component"
-import ButtonComponent from "Renderer/components/core/button/button.component"
 import { LocationPath } from "Renderer/components/core/location/location.enum"
 import styled from "styled-components"
 import {
@@ -16,7 +15,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
-import { Size } from "Renderer/components/core/button/button.config"
+import { intl } from "Renderer/utils/intl"
 
 const BackupTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -66,12 +65,12 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation }) => {
           </Message>
         </BackupDataWrapper>
         <BackupActionsWrapper>
-          <Location locationToUpdate={LocationPath.PureOsDownload}>
-            <ButtonComponent
-              labelMessage={{ id: "view.name.settings.backup.buttonLabel" }}
-              size={Size.FixedBig}
-            />
-          </Location>
+          <Location
+            locationToUpdate={LocationPath.PureOsBackup}
+            buttonLabel={intl.formatMessage({
+              id: "view.name.settings.backup.buttonLabel",
+            })}
+          />
         </BackupActionsWrapper>
       </BackupTableRow>
     </BackupWrapper>

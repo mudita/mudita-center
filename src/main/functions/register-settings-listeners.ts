@@ -49,23 +49,41 @@ const registerSettingsListeners = (win: BrowserWindow) => {
     SettingsEvents.UpdateLocation,
     async (location: LocationPath) => {
       const currentSettings = await fs.readJson(settingsFilePath)
-      const { filePaths } = await dialog.showOpenDialog(win, {
+      const {
+        filePaths: [path],
+        canceled,
+      } = await dialog.showOpenDialog(win, {
         properties: ["openDirectory"],
       })
-      const getLocationProperty = (locationToUpdate: LocationPath) => {
-        if (locationToUpdate === LocationPath.PureOsBackup) {
-          return { pureOsBackupLocation: filePaths[0] }
+      const getLocationProperty = (
+        locationToUpdate: LocationPath,
+        dialogCancelled: boolean
+      ) => {
+        if (
+          locationToUpdate === LocationPath.PureOsBackup &&
+          !dialogCancelled
+        ) {
+          return { pureOsBackupLocation: path }
+        } else if (
+          locationToUpdate === LocationPath.PureOsDownload &&
+          !dialogCancelled
+        ) {
+          return { pureOsDownloadLocation: path }
         } else {
-          return { pureOsDownloadLocation: filePaths[0] }
+          return null
         }
       }
-
+      const updatedLocationPath = getLocationProperty(location, canceled)
       const updatedSettings = {
         ...currentSettings,
-        ...getLocationProperty(location),
+        ...updatedLocationPath,
       }
-
-      return fs.writeJson(settingsFilePath, updatedSettings)
+      fs.writeJson(settingsFilePath, updatedSettings)
+      if (updatedLocationPath !== null) {
+        return true
+      } else {
+        return false
+      }
     }
   )
 }
