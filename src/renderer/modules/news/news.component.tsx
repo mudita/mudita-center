@@ -11,6 +11,7 @@ const selection = select((models: any) => ({
 const mapStateToProps = (state: RootModel) => {
   return {
     ...state.muditaNews,
+    ...state.muditaProductCards,
     ...selection(state, null),
   }
 }

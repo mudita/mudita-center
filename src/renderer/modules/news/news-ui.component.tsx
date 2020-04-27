@@ -5,17 +5,25 @@ import { noop } from "Renderer/utils/noop"
 import Cards from "Renderer/components/rest/news/cards/cards.component"
 import { updateNews } from "Renderer/requests/get-news.request"
 import { DefaultNewsItems } from "App/main/default-news-item"
+import ProductCards from "Renderer/components/rest/news/product-cards/product-cards.component"
+import styled from "styled-components"
 
 interface Props {
   newsItems: NewsEntry[]
   loadData?: () => void
   updateData?: (news: DefaultNewsItems) => void
+  productCards: any[]
 }
+
+const MuditaNews = styled.section`
+  overflow: scroll;
+`
 
 const News: FunctionComponent<Props> = ({
   newsItems,
   loadData = noop,
   updateData = noop,
+  productCards,
 }) => {
   // TODO: Function beneath and button are placeholder. Implement correct update process in different task
   const handleNewsUpdate = async () => {
@@ -23,10 +31,11 @@ const News: FunctionComponent<Props> = ({
     updateData(updatedNews)
   }
   return (
-    <div>
+    <MuditaNews>
       <Cards newsItems={newsItems} loadData={loadData} />
       <button onClick={handleNewsUpdate}>Update</button>
-    </div>
+      <ProductCards productCards={productCards} />
+    </MuditaNews>
   )
 }
 

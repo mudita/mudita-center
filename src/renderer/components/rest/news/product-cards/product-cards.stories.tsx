@@ -22,7 +22,7 @@ export const mockedCards = [
   {
     url: "https://www.mudita.com/",
     imageSource: NickLewis,
-    editTitle: "Nick Lewis Album",
+    title: "Nick Lewis Album",
     subtitle: "Halfway to the begin",
     label: "In development",
     featuresElements: listElements,
@@ -32,7 +32,7 @@ export const mockedCards = [
   {
     url: "https://www.mudita.com/",
     imageSource: NickLewis,
-    editTitle: "Nick Lewis Album",
+    title: "Nick Lewis Album",
     subtitle: "Halfway to the begin",
     label: "In development",
     featuresElements: listElements,
@@ -42,7 +42,7 @@ export const mockedCards = [
   {
     url: "https://www.mudita.com/",
     imageSource: NickLewis,
-    editTitle: "Nick Lewis Album",
+    title: "Nick Lewis Album",
     subtitle: "Halfway to the begin",
     label: "In development",
     featuresElements: listElements,
