@@ -99,7 +99,6 @@
   "view.name.settings.notifications": "Notifications",
   "view.name.settings.audioConversion": "Audio Conversion",
   "view.name.settings.backup": "Backup",
-  "view.name.settings.backup.description": "Select what happens when connecting Pure to this computer:",
   "view.name.settings.backup.autostartLabel": "Autostart Desktop App",
   "view.name.settings.backup.tetheringLabel": "Start tethering",
   "view.name.settings.notifications.incomingCallsNotificationsLabel": "Incoming calls notifications",
