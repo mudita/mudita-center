@@ -53,10 +53,9 @@ const News: FunctionComponent<Props> = ({
     <MuditaNews>
       <LastUpdateWrapper>
         <NewsLastUpdate offline date="2019-10-18T11:27:15.256Z" />
-        <UpdateButtonComponent />
+        <UpdateButtonComponent onClick={handleNewsUpdate} />
       </LastUpdateWrapper>
       <Cards newsItems={newsItems} loadData={loadData} />
-      {/*<button onClick={handleNewsUpdate}>Update</button>*/}
       <NewsProductCards productCards={productCards} />
     </MuditaNews>
   )
