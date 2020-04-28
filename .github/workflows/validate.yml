@@ -1,9 +1,9 @@
-name: Linting
+name: Automatic Quality Checks
 
 on: [push]
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-latest
 
     strategy:
@@ -16,9 +16,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install, build, and test
+      - name: npm install, lint, typecheck and test
         run: |
           npm install
           npm run lint
+          npm run type-check
+          npm run test
         env:
           CI: true
