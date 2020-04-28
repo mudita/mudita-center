@@ -12,7 +12,6 @@ import Text, {
 import transition from "Renderer/styles/functions/transition"
 import theme from "Renderer/styles/theming/theme"
 import {
-  backgroundColor,
   borderColor,
   borderRadius,
   lineHeight,
@@ -87,7 +86,7 @@ const focusedStyles = css`
 `
 
 const disabledStyles = css`
-  background-color: ${backgroundColor("accent")};
+  opacity: 0.5;
 `
 
 const LeadingIcons = styled.div`
