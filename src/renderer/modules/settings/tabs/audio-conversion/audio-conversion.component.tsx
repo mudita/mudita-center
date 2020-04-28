@@ -7,14 +7,12 @@ import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enu
 const convertRadioGroup = [
   {
     value: "Always ask",
-    id: "id1",
     label: intl.formatMessage({
       id: "view.name.settings.audioConversion.alwaysAskLabel",
     }),
   },
   {
     value: "Convert automatically",
-    id: "id2",
     label: intl.formatMessage({
       id: "view.name.settings.audioConversion.convertAutomatically",
     }),
@@ -24,7 +22,6 @@ const convertRadioGroup = [
 const conversionFormatRadioGroup = [
   {
     value: "FLAC",
-    id: "id1",
     label: "FLAC",
     subLabel: intl.formatMessage({
       id: "view.name.settings.audioConversion.conversionFormatFlacSubLabel",
@@ -32,7 +29,6 @@ const conversionFormatRadioGroup = [
   },
   {
     value: "WAV",
-    id: "id2",
     label: `WAV (${intl.formatMessage({
       id: "view.name.settings.audioConversion.conversionFormatWavLabel",
     })})`,
@@ -42,7 +38,6 @@ const conversionFormatRadioGroup = [
   },
   {
     value: "MP3",
-    id: "id3",
     label: "MP3",
     subLabel: intl.formatMessage({
       id: "view.name.settings.audioConversion.conversionFormatMp3SubLabel",

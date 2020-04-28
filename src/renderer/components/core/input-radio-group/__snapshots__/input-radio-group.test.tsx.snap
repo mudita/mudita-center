@@ -7,7 +7,7 @@ exports[`matches snapshot 1`] = `
   >
     <input
       class="sc-AxirZ gpAzgg sc-Axmtr cAwfeH"
-      id="id1"
+      id="example0"
       name="example"
       type="radio"
       value="lala1"
@@ -20,7 +20,7 @@ exports[`matches snapshot 1`] = `
       >
         <input
           class="sc-AxirZ gpAzgg"
-          id="id2"
+          id="example1"
           name="example"
           type="radio"
           value="lala2"
@@ -38,14 +38,14 @@ exports[`matches snapshot 1`] = `
     </div>
     <input
       class="sc-AxirZ gpAzgg sc-Axmtr cAwfeH"
-      id="id3"
+      id="example2"
       name="example"
       type="radio"
       value="lala2"
     />
     <input
       class="sc-AxirZ gpAzgg sc-Axmtr cAwfeH"
-      id="id4"
+      id="example3"
       name="example"
       type="radio"
       value="lala2"

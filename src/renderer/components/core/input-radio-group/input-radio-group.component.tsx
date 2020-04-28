@@ -27,6 +27,7 @@ const InputRadioGroup: FunctionComponent<{
   const inputs = data.map((inputProps, index) => (
     <Input
       {...inputProps}
+      id={`${radioGroupName}${index}`}
       name={radioGroupName}
       key={index}
       label={inputProps.label}
