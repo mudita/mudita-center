@@ -16,6 +16,7 @@ const convertRadioGroup = [
     label: intl.formatMessage({
       id: "view.name.settings.audioConversion.convertAutomatically",
     }),
+    checked: true,
   },
 ]
 
@@ -35,6 +36,7 @@ const conversionFormatRadioGroup = [
     subLabel: intl.formatMessage({
       id: "view.name.settings.audioConversion.conversionFormatWavSubLabel",
     }),
+    checked: true,
   },
   {
     value: "MP3",
