@@ -4,7 +4,7 @@ import Location from "Renderer/components/core/location/location.component"
 import { LocationPath } from "Renderer/components/core/location/location.enum"
 import React from "react"
 
-test("button has passed label", () => {
+test("Button's label is passed properly", () => {
   const buttonLabel = "Example button label"
   const { container } = renderWithThemeAndIntl(
     <Location
