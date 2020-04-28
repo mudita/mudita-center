@@ -54,9 +54,8 @@ const AudioConversion: FunctionComponent = () => {
   const [convertNonStandardFiles, setConvertNonStandardFiles] = useState<
     ToggleState
   >(ToggleState.Off)
-  const [convert, setConvert] = useState()
-  const [conversionFormat, setConversionFormat] = useState()
-
+  const [, setConvert] = useState()
+  const [, setConversionFormat] = useState()
   const changeConvertValue = (event: ChangeEvent<HTMLInputElement>) => {
     setConvert(event.target.value)
   }
@@ -69,9 +68,7 @@ const AudioConversion: FunctionComponent = () => {
       setConvertNonStandardFiles={setConvertNonStandardFiles}
       convertRadioGroupData={convertRadioGroup}
       conversionFormatRadioGroup={conversionFormatRadioGroup}
-      convert={convert}
       changeConvertValue={changeConvertValue}
-      conversionFormat={conversionFormat}
       changeConversionFormat={changeConversionFormat}
     />
   )
