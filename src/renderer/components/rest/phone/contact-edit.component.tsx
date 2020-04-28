@@ -176,14 +176,18 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     (fields.primaryPhoneNumber || fields.secondaryPhoneNumber)
 
   const savingPossible =
-    fields.firstName ||
-    fields.lastName ||
+    fields.firstName?.trim() ||
+    fields.lastName?.trim() ||
     fields.primaryPhoneNumber ||
     fields.secondaryPhoneNumber ||
     fields.email ||
-    fields.firstAddressLine ||
-    fields.secondAddressLine ||
-    fields.note
+    fields.firstAddressLine?.trim() ||
+    fields.secondAddressLine?.trim() ||
+    fields.note?.trim()
+
+  const trimInputValue = (event: FocusEvent<HTMLInputElement>) => {
+    event.target.value = event.target.value.trim()
+  }
 
   useEffect(() => {
     onNameUpdate({ firstName: fields.firstName, lastName: fields.lastName })
@@ -212,6 +216,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               name="firstName"
               ref={register}
               errorMessage={errors.firstName?.message}
+              onBlur={trimInputValue}
             />
             <Input
               type="text"
@@ -219,6 +224,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               name="lastName"
               ref={register}
               errorMessage={errors.lastName?.message}
+              onBlur={trimInputValue}
             />
             <Input
               type="tel"
@@ -294,6 +300,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               ref={register}
               errorMessage={errors.firstAddressLine?.message}
               maxLength={30}
+              onBlur={trimInputValue}
             />
             <Input
               type="text"
@@ -302,6 +309,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               ref={register}
               errorMessage={errors.secondAddressLine?.message}
               maxLength={30}
+              onBlur={trimInputValue}
             />
             <Input
               type="text"
@@ -311,6 +319,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               ref={register}
               errorMessage={errors.note?.message}
               maxLength={30}
+              onBlur={trimInputValue}
             />
           </div>
         </Content>
