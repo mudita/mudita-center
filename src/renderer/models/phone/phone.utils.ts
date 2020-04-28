@@ -45,7 +45,7 @@ export const generateFakeData = (numberOfContacts: number) => {
     })
 }
 
-const getFullName = ({ firstName, lastName }: Contact) => {
+export const getFullName = ({ firstName, lastName }: Contact) => {
   return `${firstName} ${lastName}`.trim()
 }
 

@@ -151,6 +151,7 @@
   "view.name.phone.contacts.panel.manageButton": "Manage",
   "view.name.phone.contacts.panel.newContactButton": "New contact",
   "view.name.phone.contacts.list.favourites": "Favourites",
+  "view.name.phone.contacts.list.unnamedContact": "No name",
   "component.modal.closeButton": "Close",
   "app.update.modal.title": "App update",
   "app.update.available.modal.message": "New update is available",
