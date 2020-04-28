@@ -13,8 +13,9 @@ import LastUpdate from "Renderer/components/rest/news/last-update/last-update.co
 interface Props {
   newsItems: NewsEntry[]
   loadData?: () => void
-  updateData?: (news: DefaultNewsItems) => void
+  updateData?: (news: DefaultNewsItems | { updating: boolean }) => void
   lastUpdate?: string
+  updating?: boolean
   productCards: any[]
 }
 
@@ -45,19 +46,23 @@ const News: FunctionComponent<Props> = ({
   updateData = noop,
   lastUpdate,
   productCards,
+  updating,
 }) => {
   // TODO: Function beneath and button are placeholder. Implement correct update process in different task
   const handleNewsUpdate = async () => {
+    updateData({ updating: true })
     const updatedNews = await updateNews()
     if (updatedNews !== null) {
-      updateData(updatedNews)
+      await updateData(updatedNews)
+      updateData({ updating: false })
     }
   }
+  console.log(updating)
   return (
     <MuditaNews>
       <LastUpdateWrapper>
         <NewsLastUpdate offline date={lastUpdate} />
-        <UpdateButtonComponent onClick={handleNewsUpdate} />
+        <UpdateButtonComponent onClick={handleNewsUpdate} updating={updating} />
       </LastUpdateWrapper>
       <Cards newsItems={newsItems} loadData={loadData} />
       <NewsProductCards productCards={productCards} />

@@ -18,7 +18,8 @@ const mapStateToProps = (state: RootModel) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadData: () => dispatch.muditaNews.loadData(),
-  updateData: (data: DefaultNewsItems) => dispatch.muditaNews.updateData(data),
+  updateData: (data: DefaultNewsItems | { updating: boolean }) =>
+    dispatch.muditaNews.updateData(data),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(News)
