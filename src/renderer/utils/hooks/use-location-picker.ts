@@ -8,8 +8,7 @@ const useLocationPicker = (
 ) => {
   const [successState, setSuccessState] = useState()
   const openDialog = async () => {
-    const success = await updateLocationSettings(locationToUpdate)
-    setSuccessState(success)
+    setSuccessState(await updateLocationSettings(locationToUpdate))
   }
   useEffect(() => {
     if (successState) {
