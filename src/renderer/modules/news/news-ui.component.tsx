@@ -14,6 +14,7 @@ interface Props {
   newsItems: NewsEntry[]
   loadData?: () => void
   updateData?: (news: DefaultNewsItems) => void
+  lastUpdate?: string
   productCards: any[]
 }
 
@@ -42,17 +43,20 @@ const News: FunctionComponent<Props> = ({
   newsItems,
   loadData = noop,
   updateData = noop,
+  lastUpdate,
   productCards,
 }) => {
   // TODO: Function beneath and button are placeholder. Implement correct update process in different task
   const handleNewsUpdate = async () => {
     const updatedNews = await updateNews()
-    updateData(updatedNews)
+    if (updatedNews !== null) {
+      updateData(updatedNews)
+    }
   }
   return (
     <MuditaNews>
       <LastUpdateWrapper>
-        <NewsLastUpdate offline date="2019-10-18T11:27:15.256Z" />
+        <NewsLastUpdate offline date={lastUpdate} />
         <UpdateButtonComponent onClick={handleNewsUpdate} />
       </LastUpdateWrapper>
       <Cards newsItems={newsItems} loadData={loadData} />
