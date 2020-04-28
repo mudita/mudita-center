@@ -45,17 +45,17 @@ export const generateFakeData = (numberOfContacts: number) => {
     })
 }
 
-export const getFullName = ({ firstName, lastName }: Contact) => {
+export const createFullName = ({ firstName, lastName }: Contact) => {
   return `${firstName} ${lastName}`.trim()
 }
 
 export const generateSortedStructure = (contacts: Contact[]) => {
-  const unnamedContacts = []
+  const anonymousContacts = []
   const favouriteContacts = []
   const labeledContacts: ContactCategory[] = []
 
   const sortedContacts = contacts.sort((a, b) => {
-    return getFullName(a).localeCompare(getFullName(b))
+    return createFullName(a).localeCompare(createFullName(b))
   })
 
   for (const contact of sortedContacts) {
@@ -79,7 +79,7 @@ export const generateSortedStructure = (contacts: Contact[]) => {
         favouriteContacts.push(contact)
       }
     } else {
-      unnamedContacts.push(contact)
+      anonymousContacts.push(contact)
     }
   }
 
@@ -92,10 +92,10 @@ export const generateSortedStructure = (contacts: Contact[]) => {
     })
   }
 
-  if (unnamedContacts.length) {
+  if (anonymousContacts.length) {
     labeledContacts.push({
       category: "#",
-      contacts: unnamedContacts,
+      contacts: anonymousContacts,
     })
   }
 

@@ -33,7 +33,7 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import { ContactActions } from "Renderer/components/rest/phone/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import { FormattedMessage } from "react-intl"
-import { getFullName } from "Renderer/models/phone/phone.utils"
+import { createFullName } from "Renderer/models/phone/phone.utils"
 import { intl } from "Renderer/utils/intl"
 
 const visibleCheckboxStyles = css`
@@ -197,7 +197,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             <Col>{category}</Col>
           </Labels>
           {contacts.map((contact, index) => {
-            const fullName = getFullName(contact)
+            const fullName = createFullName(contact)
             const { selected } = getRowStatus(contact)
             const onChange = () => toggleRow(contact)
             const handleExport = () => onExport(contact)
