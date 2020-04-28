@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { FocusEvent, useEffect } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import styled from "styled-components"
@@ -25,9 +25,7 @@ import { useForm } from "react-hook-form"
 import { noop } from "Renderer/utils/noop"
 import {
   emailValidator,
-  nameValidator,
   phoneNumberValidator,
-  standardTextLineValidator,
 } from "Renderer/utils/form-validators"
 
 const messages = defineMessages({
@@ -209,15 +207,17 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
         <Content>
           <div>
             <Input
+              type="text"
               placeholder={intl.formatMessage(messages.firstName)}
               name="firstName"
-              ref={register(nameValidator)}
+              ref={register}
               errorMessage={errors.firstName?.message}
             />
             <Input
+              type="text"
               placeholder={intl.formatMessage(messages.secondName)}
               name="lastName"
-              ref={register(nameValidator)}
+              ref={register}
               errorMessage={errors.lastName?.message}
             />
             <Input
@@ -291,23 +291,26 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               type="text"
               placeholder={intl.formatMessage(messages.firstAddressLine)}
               name="firstAddressLine"
-              ref={register(standardTextLineValidator)}
+              ref={register}
               errorMessage={errors.firstAddressLine?.message}
+              maxLength={30}
             />
             <Input
               type="text"
               placeholder={intl.formatMessage(messages.secondAddressLine)}
               name="secondAddressLine"
-              ref={register(standardTextLineValidator)}
+              ref={register}
               errorMessage={errors.secondAddressLine?.message}
+              maxLength={30}
             />
             <Input
               type="text"
               placeholder={"Note"}
               defaultValue={contact?.note}
               name="note"
-              ref={register(standardTextLineValidator)}
+              ref={register}
               errorMessage={errors.note?.message}
+              maxLength={30}
             />
           </div>
         </Content>

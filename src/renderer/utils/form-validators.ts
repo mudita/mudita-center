@@ -1,23 +1,6 @@
 import { ValidationOptions } from "react-hook-form/dist/types"
 import { intl } from "Renderer/utils/intl"
 
-export const nameValidator: ValidationOptions = {
-  validate: value => {
-    switch (true) {
-      case /^\s/m.test(value):
-        return intl.formatMessage({
-          id: "form.error.cannotStartWithSpace",
-        })
-      case /\s$/m.test(value):
-        return intl.formatMessage({
-          id: "form.error.cannotEndWithSpace",
-        })
-      default:
-        return true
-    }
-  },
-}
-
 export const phoneNumberValidator: ValidationOptions = {
   minLength: {
     value: 5,
@@ -43,15 +26,5 @@ export const emailValidator: ValidationOptions = {
   pattern: {
     value: /^\S+@\S+(\.\S+)+$/im,
     message: intl.formatMessage({ id: "form.error.invalidEmail" }),
-  },
-}
-
-export const standardTextLineValidator: ValidationOptions = {
-  maxLength: {
-    value: 30,
-    message: intl.formatMessage(
-      { id: "form.error.tooLong" },
-      { maxLength: 30 }
-    ),
   },
 }

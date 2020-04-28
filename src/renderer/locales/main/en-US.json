@@ -162,8 +162,6 @@
   "app.update.downloaded.modal.closeButton": "Later",
   "app.update.error.modal.message": "Error",
   "app.update.error.modal.description": "Please restart the app or update it manually.",
-  "form.error.cannotStartWithSpace": "Cannot start with space",
-  "form.error.cannotEndWithSpace": "Cannot end with space",
   "form.error.phoneNumber.numbersOnly": "May contain only numbers and + sign",
   "form.error.tooShort": "Must be longer than {minLength} characters",
   "form.error.tooLong": "Must be shorter than {maxLength} characters",
