@@ -7,6 +7,8 @@ import { updateNews } from "Renderer/requests/get-news.request"
 import { DefaultNewsItems } from "App/main/default-news-item"
 import ProductCards from "Renderer/components/rest/news/product-cards/product-cards.component"
 import styled from "styled-components"
+import UpdateButtonComponent from "Renderer/components/rest/news/update-button/update-button.component"
+import LastUpdate from "Renderer/components/rest/news/last-update/last-update.component"
 
 interface Props {
   newsItems: NewsEntry[]
@@ -19,6 +21,21 @@ const MuditaNews = styled.section`
   overflow: auto;
   padding-left: 4rem;
   padding-right: 3rem;
+`
+
+const LastUpdateWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 1.6rem 0;
+`
+
+const NewsLastUpdate = styled(LastUpdate)`
+  margin-right: 3.2rem;
+`
+
+const NewsProductCards = styled(ProductCards)`
+  margin-top: 5.6rem;
 `
 
 const News: FunctionComponent<Props> = ({
@@ -34,9 +51,13 @@ const News: FunctionComponent<Props> = ({
   }
   return (
     <MuditaNews>
+      <LastUpdateWrapper>
+        <NewsLastUpdate offline date="2019-10-18T11:27:15.256Z" />
+        <UpdateButtonComponent />
+      </LastUpdateWrapper>
       <Cards newsItems={newsItems} loadData={loadData} />
       {/*<button onClick={handleNewsUpdate}>Update</button>*/}
-      <ProductCards productCards={productCards} />
+      <NewsProductCards productCards={productCards} />
     </MuditaNews>
   )
 }
