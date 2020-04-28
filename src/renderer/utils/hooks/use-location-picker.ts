@@ -1,5 +1,5 @@
 import { updateLocationSettings } from "Renderer/requests/app-settings.request"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { LocationPath } from "Renderer/components/core/location/location.enum"
 
 const useLocationPicker = (
@@ -11,9 +11,11 @@ const useLocationPicker = (
     const success = await updateLocationSettings(locationToUpdate)
     setState(success)
   }
-  if (successState === true) {
-    onSuccessCallback?.()
-  }
+  useEffect(() => {
+    if (successState) {
+      onSuccessCallback?.()
+    }
+  }, [successState])
   return openDialog
 }
 

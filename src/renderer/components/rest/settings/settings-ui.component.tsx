@@ -71,10 +71,7 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            toggleValue={autostart}
-            changeToggleValue={setAutostart}
-          />
+          <SettingsToggler toggleValue={autostart} onToggle={setAutostart} />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -84,10 +81,7 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            toggleValue={tethering}
-            changeToggleValue={setTethering}
-          />
+          <SettingsToggler toggleValue={tethering} onToggle={setTethering} />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>
