@@ -55,10 +55,10 @@ const registerSettingsListeners = (win: BrowserWindow) => {
       } = await dialog.showOpenDialog(win, {
         properties: ["openDirectory"],
       })
-      if (canceled) {
-        return null
-      }
       let updatedLocationPath = null
+      if (canceled) {
+        return updatedLocationPath
+      }
       if (location === LocationPath.PureOsBackup) {
         updatedLocationPath = { pureOsBackupLocation: path }
       } else if (location === LocationPath.PureOsDownload) {
