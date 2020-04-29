@@ -2,7 +2,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import React from "react"
 import { LocationPath } from "Renderer/components/core/location/location.enum"
 import ButtonComponent from "Renderer/components/core/button/button.component"
-import useLocationPicker from "Renderer/components/core/location/use-location-picker"
+import useLocationPicker from "Renderer/utils/hooks/use-location-picker"
 
 interface Props {
   locationToUpdate: LocationPath
