@@ -36,7 +36,6 @@ const conversionFormatRadioGroup = [
     subLabel: intl.formatMessage({
       id: "view.name.settings.audioConversion.conversionFormatWavSubLabel",
     }),
-    checked: true,
   },
   {
     value: "MP3",
@@ -51,8 +50,8 @@ const AudioConversion: FunctionComponent = () => {
   const [nonStandardFilesConversion, setNonStandardFilesConversion] = useState<
     ToggleState
   >(ToggleState.Off)
-  const [, setConvert] = useState()
-  const [, setConversionFormat] = useState()
+  const [convert, setConvert] = useState("Convert automatically")
+  const [conversionFormat, setConversionFormat] = useState("WAV")
   const changeConvertValue = (event: ChangeEvent<HTMLInputElement>) => {
     setConvert(event.target.value)
   }
@@ -65,7 +64,9 @@ const AudioConversion: FunctionComponent = () => {
       setNonStandardFilesConversion={setNonStandardFilesConversion}
       convertRadioGroupData={convertRadioGroup}
       conversionFormatRadioGroup={conversionFormatRadioGroup}
+      convert={convert}
       changeConvertValue={changeConvertValue}
+      conversionFormat={conversionFormat}
       changeConversionFormat={changeConversionFormat}
     />
   )

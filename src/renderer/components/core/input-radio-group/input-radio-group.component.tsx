@@ -23,7 +23,8 @@ const InputRadioGroup: FunctionComponent<{
   data: InputProps[]
   radioGroupName: string
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void
-}> = ({ data, radioGroupName, className, onChange = noop }) => {
+  value?: string
+}> = ({ value, data, radioGroupName, className, onChange = noop }) => {
   const inputs = data.map((inputProps, index) => (
     <Input
       {...inputProps}
@@ -33,6 +34,7 @@ const InputRadioGroup: FunctionComponent<{
       label={inputProps.label}
       subLabel={inputProps.subLabel}
       onChange={onChange}
+      checked={value === inputProps.value}
     />
   ))
   return <InputGroup className={className}>{inputs}</InputGroup>
