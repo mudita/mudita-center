@@ -4,7 +4,7 @@ import { intl } from "Renderer/utils/intl"
 import AudioConversionUI from "Renderer/components/rest/settings/audio-conversion-ui.component"
 import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
-const convertRadioGroup = [
+const conversionRadioGroup = [
   {
     value: "Always ask",
     label: intl.formatMessage({
@@ -62,7 +62,7 @@ const AudioConversion: FunctionComponent = () => {
     <AudioConversionUI
       nonStandardFilesConversion={nonStandardFilesConversion}
       setNonStandardFilesConversion={setNonStandardFilesConversion}
-      convertRadioGroupData={convertRadioGroup}
+      conversionRadioGroup={conversionRadioGroup}
       conversionFormatRadioGroup={conversionFormatRadioGroup}
       convert={convert}
       changeConvertValue={changeConvertValue}
