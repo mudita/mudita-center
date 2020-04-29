@@ -7,12 +7,10 @@ import { fireEvent } from "@testing-library/dom"
 const convertRadioGroup = [
   {
     value: "Always ask",
-    id: "id1",
     label: "Label1",
   },
   {
     value: "Convert automatically",
-    id: "id2",
     label: "Label2",
   },
 ]
