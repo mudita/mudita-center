@@ -12,6 +12,7 @@ const mapStateToProps = (state: RootModel) => {
   return {
     ...state.muditaNews,
     ...state.muditaProductCards,
+    ...state.networkStatus,
     ...selection(state, null),
   }
 }

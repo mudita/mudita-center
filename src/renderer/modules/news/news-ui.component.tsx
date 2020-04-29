@@ -16,6 +16,7 @@ interface Props {
   updateData?: (news: DefaultNewsItems | { updating: boolean }) => void
   lastUpdate?: string
   updating?: boolean
+  online?: boolean
   productCards: any[]
 }
 
@@ -47,6 +48,7 @@ const News: FunctionComponent<Props> = ({
   lastUpdate,
   productCards,
   updating,
+  online,
 }) => {
   const getUpdatedNews = async () => {
     updateData({ updating: true })
@@ -59,7 +61,7 @@ const News: FunctionComponent<Props> = ({
   return (
     <MuditaNews>
       <LastUpdateWrapper>
-        <NewsLastUpdate offline date={lastUpdate} />
+        <NewsLastUpdate date={lastUpdate} online={online} />
         <UpdateButtonComponent onClick={getUpdatedNews} updating={updating} />
       </LastUpdateWrapper>
       <Cards newsItems={newsItems} loadData={loadData} />

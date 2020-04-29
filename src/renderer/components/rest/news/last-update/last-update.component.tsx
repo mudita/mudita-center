@@ -6,20 +6,20 @@ import Text, {
 import { FormattedDate, FormattedMessage } from "react-intl"
 
 interface Props {
-  offline?: boolean
+  online?: boolean
   date?: string
 }
 
 const LastUpdate: FunctionComponent<Props> = ({
   className,
-  offline = false,
+  online = false,
   date,
 }) => (
   <Text
     displayStyle={TextDisplayStyle.MediumFadedLightText}
     className={className}
   >
-    {offline && <FormattedMessage id="view.name.news.offlineText" />}{" "}
+    {!online && <FormattedMessage id="view.name.news.offlineText" />}{" "}
     {date && (
       <>
         <FormattedMessage id="view.name.news.lastUpdate" />
