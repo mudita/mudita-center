@@ -3,24 +3,24 @@
 exports[`matches snapshot 1`] = `
 <div>
   <div
-    class="sc-AxheI dkiJtT"
+    class="sc-AxheI bGwkoZ"
   >
     <input
-      class="sc-AxirZ cMoRvA sc-Axmtr cAwfeH"
-      id="id1"
+      class="sc-AxirZ gpAzgg sc-Axmtr cAwfeH"
+      id="example0"
       name="example"
       type="radio"
       value="lala1"
     />
     <div
-      class="sc-AxhUy cAeQnk"
+      class="sc-AxhUy ldrFxj"
     >
       <label
         class="sc-AxiKw jczndt sc-Axmtr cAwfeH"
       >
         <input
-          class="sc-AxirZ cMoRvA"
-          id="id2"
+          class="sc-AxirZ gpAzgg"
+          id="example1"
           name="example"
           type="radio"
           value="lala2"
@@ -37,15 +37,15 @@ exports[`matches snapshot 1`] = `
       </label>
     </div>
     <input
-      class="sc-AxirZ cMoRvA sc-Axmtr cAwfeH"
-      id="id3"
+      class="sc-AxirZ gpAzgg sc-Axmtr cAwfeH"
+      id="example2"
       name="example"
       type="radio"
       value="lala2"
     />
     <input
-      class="sc-AxirZ cMoRvA sc-Axmtr cAwfeH"
-      id="id4"
+      class="sc-AxirZ gpAzgg sc-Axmtr cAwfeH"
+      id="example3"
       name="example"
       type="radio"
       value="lala2"
