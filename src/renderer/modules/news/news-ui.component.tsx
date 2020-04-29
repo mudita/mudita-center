@@ -48,8 +48,7 @@ const News: FunctionComponent<Props> = ({
   productCards,
   updating,
 }) => {
-  // TODO: Function beneath and button are placeholder. Implement correct update process in different task
-  const handleNewsUpdate = async () => {
+  const getUpdatedNews = async () => {
     updateData({ updating: true })
     const updatedNews = await updateNews()
     if (updatedNews !== null) {
@@ -57,12 +56,11 @@ const News: FunctionComponent<Props> = ({
       updateData({ updating: false })
     }
   }
-  console.log(updating)
   return (
     <MuditaNews>
       <LastUpdateWrapper>
         <NewsLastUpdate offline date={lastUpdate} />
-        <UpdateButtonComponent onClick={handleNewsUpdate} updating={updating} />
+        <UpdateButtonComponent onClick={getUpdatedNews} updating={updating} />
       </LastUpdateWrapper>
       <Cards newsItems={newsItems} loadData={loadData} />
       <NewsProductCards productCards={productCards} />
