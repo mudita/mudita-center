@@ -10,7 +10,7 @@ const Backup: FunctionComponent = () => {
     ;(async () => {
       setSettings(await getAppSettings())
     })()
-  }, [])
+  }, [settings])
   return <BackupUI backupLocation={settings?.pureOsBackupLocation} />
 }
 
