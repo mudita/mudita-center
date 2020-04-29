@@ -36,20 +36,24 @@ const ConversionFormatRadioGroup = styled(AudioConversionRadioGroup)`
 `
 
 interface Props {
-  convertNonStandardFiles?: string
-  setConvertNonStandardFiles: (label: ToggleState) => void
-  convertRadioGroupData: InputProps[]
+  nonStandardFilesConversion?: string
+  setNonStandardFilesConversion: (label: ToggleState) => void
+  conversionRadioGroup: InputProps[]
   conversionFormatRadioGroup: InputProps[]
+  convert?: string
   changeConvertValue: (event: ChangeEvent<HTMLInputElement>) => void
+  conversionFormat?: string
   changeConversionFormat: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 const AudioConversionUI: FunctionComponent<Props> = ({
-  convertNonStandardFiles,
-  setConvertNonStandardFiles,
-  convertRadioGroupData,
+  nonStandardFilesConversion,
+  setNonStandardFilesConversion,
+  conversionRadioGroup,
   conversionFormatRadioGroup,
+  convert,
   changeConvertValue,
+  conversionFormat,
   changeConversionFormat,
 }) => {
   return (
@@ -70,15 +74,16 @@ const AudioConversionUI: FunctionComponent<Props> = ({
           </Data>
           <ActionsWrapper>
             <SettingsToggler
-              toggleValue={convertNonStandardFiles}
-              onToggle={setConvertNonStandardFiles}
+              toggleValue={nonStandardFilesConversion}
+              onToggle={setNonStandardFilesConversion}
             />
           </ActionsWrapper>
         </SettingsTableRow>
       </SettingsWrapper>
       <ConvertRadioGroup
+        value={convert}
         onChange={changeConvertValue}
-        radioButtonsData={convertRadioGroupData}
+        radioButtonsData={conversionRadioGroup}
         radioGroupName={"convert"}
       />
       <ConversionFormat>
@@ -86,6 +91,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
           <FormattedMessage id="view.name.settings.audioConversion.conversionFormat" />
         </Text>
         <ConversionFormatRadioGroup
+          value={conversionFormat}
           onChange={changeConversionFormat}
           radioButtonsData={conversionFormatRadioGroup}
           radioGroupName={"conversion-format"}

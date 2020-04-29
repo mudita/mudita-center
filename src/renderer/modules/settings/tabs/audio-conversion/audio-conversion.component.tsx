@@ -4,7 +4,7 @@ import { intl } from "Renderer/utils/intl"
 import AudioConversionUI from "Renderer/components/rest/settings/audio-conversion-ui.component"
 import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
-const convertRadioGroup = [
+const conversionRadioGroup = [
   {
     value: "Always ask",
     label: intl.formatMessage({
@@ -36,7 +36,6 @@ const conversionFormatRadioGroup = [
     subLabel: intl.formatMessage({
       id: "view.name.settings.audioConversion.conversionFormatWavSubLabel",
     }),
-    checked: true,
   },
   {
     value: "MP3",
@@ -48,11 +47,11 @@ const conversionFormatRadioGroup = [
 ]
 
 const AudioConversion: FunctionComponent = () => {
-  const [convertNonStandardFiles, setConvertNonStandardFiles] = useState<
+  const [nonStandardFilesConversion, setNonStandardFilesConversion] = useState<
     ToggleState
   >(ToggleState.Off)
-  const [, setConvert] = useState()
-  const [, setConversionFormat] = useState()
+  const [convert, setConvert] = useState("Convert automatically")
+  const [conversionFormat, setConversionFormat] = useState("WAV")
   const changeConvertValue = (event: ChangeEvent<HTMLInputElement>) => {
     setConvert(event.target.value)
   }
@@ -61,11 +60,13 @@ const AudioConversion: FunctionComponent = () => {
   }
   return (
     <AudioConversionUI
-      convertNonStandardFiles={convertNonStandardFiles}
-      setConvertNonStandardFiles={setConvertNonStandardFiles}
-      convertRadioGroupData={convertRadioGroup}
+      nonStandardFilesConversion={nonStandardFilesConversion}
+      setNonStandardFilesConversion={setNonStandardFilesConversion}
+      conversionRadioGroup={conversionRadioGroup}
       conversionFormatRadioGroup={conversionFormatRadioGroup}
+      convert={convert}
       changeConvertValue={changeConvertValue}
+      conversionFormat={conversionFormat}
       changeConversionFormat={changeConversionFormat}
     />
   )
