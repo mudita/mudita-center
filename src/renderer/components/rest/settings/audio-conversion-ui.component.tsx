@@ -40,7 +40,9 @@ interface Props {
   setConvertNonStandardFiles: (label: ToggleState) => void
   convertRadioGroupData: InputProps[]
   conversionFormatRadioGroup: InputProps[]
+  convert?: string
   changeConvertValue: (event: ChangeEvent<HTMLInputElement>) => void
+  conversionFormat?: string
   changeConversionFormat: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
@@ -49,7 +51,9 @@ const AudioConversionUI: FunctionComponent<Props> = ({
   setConvertNonStandardFiles,
   convertRadioGroupData,
   conversionFormatRadioGroup,
+  convert,
   changeConvertValue,
+  conversionFormat,
   changeConversionFormat,
 }) => {
   return (
@@ -77,6 +81,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
         </SettingsTableRow>
       </SettingsWrapper>
       <ConvertRadioGroup
+        value={convert}
         onChange={changeConvertValue}
         radioButtonsData={convertRadioGroupData}
         radioGroupName={"convert"}
@@ -86,6 +91,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
           <FormattedMessage id="view.name.settings.audioConversion.conversionFormat" />
         </Text>
         <ConversionFormatRadioGroup
+          value={conversionFormat}
           onChange={changeConversionFormat}
           radioButtonsData={conversionFormatRadioGroup}
           radioGroupName={"conversion-format"}
