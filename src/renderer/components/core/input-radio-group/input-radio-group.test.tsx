@@ -6,20 +6,16 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 const radioGroup = [
   {
     value: "lala1",
-    id: "id1",
   },
   {
     value: "lala2",
-    id: "id2",
     label: "label",
   },
   {
     value: "lala2",
-    id: "id3",
   },
   {
     value: "lala2",
-    id: "id4",
   },
 ]
 

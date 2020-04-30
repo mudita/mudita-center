@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <section
+    class="sc-fzqNqU enhkfO"
+  >
+    <div
+      class="sc-fzoiQi cENPxq"
+    >
+      <p
+        class="sc-AxjAm ijRVAY sc-fzqARJ edorez"
+      >
+        Select a folder for Pure backup files on this computer
+      </p>
+    </div>
+    <div
+      class="sc-fzoLag sc-fznWqX bQDmMt"
+    >
+      <div
+        class="sc-fzoyAV sc-fzoyTs juHJqJ"
+      >
+        <p
+          class="sc-AxjAm eGfSTk sc-fznyAO epKhlk"
+        >
+          Backup Location
+        </p>
+        <p
+          class="sc-AxjAm ijRVAY sc-fznZeY iFSKSK"
+          data-testid="backup-location"
+        >
+          C:/MuditaOs
+        </p>
+      </div>
+      <div
+        class="sc-fzqNJr sc-fzoNJl gAaxJe"
+      >
+        <button
+          class="sc-AxgMl fvnHkD"
+          size="2"
+          type="button"
+        >
+          <p
+            class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+          >
+            Change location
+          </p>
+        </button>
+      </div>
+    </div>
+  </section>
+</div>
+`;

@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<div>
+  <section
+    class="sc-fznMAR fHdawV"
+  >
+    <div
+      class="sc-fzpmMD eZizNk"
+    >
+      <p
+        class="sc-AxjAm ijRVAY sc-fznxKY EqPfb"
+      >
+        Select which notifications you want to receive while using Desktop App:
+      </p>
+    </div>
+    <div
+      class="sc-fznKkj sc-fzoyTs hNATta"
+    >
+      <div
+        class="sc-fzoNJl OYErR"
+      >
+        <p
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
+        >
+          Incoming calls notifications
+        </p>
+      </div>
+      <div
+        class="sc-fzplWN bdMOMJ"
+      >
+        <section
+          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
+        >
+          <button
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            data-testid="toggler-active"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              Off
+            </p>
+          </button>
+          <button
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            data-testid="toggler-inactive"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              On
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+    <div
+      class="sc-fznKkj sc-fzoyTs hNATta"
+    >
+      <div
+        class="sc-fzoNJl OYErR"
+      >
+        <p
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
+        >
+          Incoming messages notifications
+        </p>
+      </div>
+      <div
+        class="sc-fzplWN bdMOMJ"
+      >
+        <section
+          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
+        >
+          <button
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            data-testid="toggler-active"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              Off
+            </p>
+          </button>
+          <button
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            data-testid="toggler-inactive"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              On
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+    <div
+      class="sc-fznKkj sc-fzoyTs hNATta"
+    >
+      <div
+        class="sc-fzoNJl OYErR"
+      >
+        <p
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
+        >
+          Low battery level notifications
+        </p>
+      </div>
+      <div
+        class="sc-fzplWN bdMOMJ"
+      >
+        <section
+          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
+        >
+          <button
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            data-testid="toggler-active"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              Off
+            </p>
+          </button>
+          <button
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            data-testid="toggler-inactive"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              On
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+    <div
+      class="sc-fznKkj sc-fzoyTs hNATta"
+    >
+      <div
+        class="sc-fzoNJl OYErR"
+      >
+        <p
+          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
+        >
+          PureOS updates notifications
+        </p>
+      </div>
+      <div
+        class="sc-fzplWN bdMOMJ"
+      >
+        <section
+          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
+        >
+          <button
+            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            data-testid="toggler-active"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              Off
+            </p>
+          </button>
+          <button
+            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            data-testid="toggler-inactive"
+            size="2"
+            type="button"
+          >
+            <p
+              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            >
+              On
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
+  </section>
+</div>
+`;
