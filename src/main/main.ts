@@ -51,8 +51,8 @@ const createWindow = async () => {
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()
-  registerSettingsListeners()
   registerNewsListener()
+  registerSettingsListeners(win)
 
   if (process.env.NODE_ENV !== "production") {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
