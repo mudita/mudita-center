@@ -18,8 +18,26 @@ import {
   ModalWrapper,
 } from "Renderer/components/core/modal/modal.styled.elements"
 import DeleteContactModal from "Renderer/components/rest/phone/delete-contact-modal.component"
+import Faker from "faker"
 
 const contactList = generateFakeData(40)
+
+contactList.push({
+  id: Faker.random.uuid(),
+  firstName: "Ędward",
+  lastName: "Ącki",
+  primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+  secondaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+  email: Faker.internet.email("Ędward", "Ącki"),
+  note: Faker.lorem.words(Math.random() * 4),
+  ice: Math.random() < 0.2,
+  favourite: true,
+  blocked: false,
+  speedDial: undefined,
+  firstAddressLine: Faker.address.streetAddress(),
+  secondAddressLine: Faker.address.city(),
+})
+
 const labeledContactList = generateSortedStructure(contactList)
 
 const PhoneWrapper = styled.div`
