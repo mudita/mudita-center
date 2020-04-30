@@ -11,24 +11,10 @@ interface Props {
 }
 
 const AudioConversionRadioGroup: FunctionComponent<Props> = ({
-  onChange,
   radioButtonsData,
-  radioGroupName,
-  className,
-  value,
+  ...props
 }) => {
-  const changeRadioValue = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event)
-  }
-  return (
-    <InputRadioGroup
-      value={value}
-      className={className}
-      data={radioButtonsData}
-      radioGroupName={radioGroupName}
-      onChange={changeRadioValue}
-    />
-  )
+  return <InputRadioGroup {...props} data={radioButtonsData} />
 }
 
 export default AudioConversionRadioGroup
