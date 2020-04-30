@@ -57,6 +57,7 @@ const News: FunctionComponent<Props> = ({
       await updateData(updatedNews)
       updateData({ updating: false })
     }
+    updateData({ updating: false })
   }
   return (
     <MuditaNews>
