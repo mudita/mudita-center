@@ -64,6 +64,7 @@ const DropdownList = styled.ul<{
 `
 
 const Dropdown: FunctionComponent<Props> = ({
+  className,
   toggler,
   children,
   dropdownPosition = DropdownPosition.Right,
@@ -92,7 +93,7 @@ const Dropdown: FunctionComponent<Props> = ({
   }
 
   return (
-    <DropdownWrapper visible={visible}>
+    <DropdownWrapper visible={visible} className={className}>
       {React.cloneElement(toggler as React.ReactElement, {
         onClick: () => {
           calculateVerticalPosition()

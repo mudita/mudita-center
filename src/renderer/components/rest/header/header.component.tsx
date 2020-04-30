@@ -34,7 +34,7 @@ const Header: FunctionComponent<HeaderProps> = ({
   button,
 }) => {
   const location = useLocation()
-  const [currentLocation, setCurrentLocation] = useState()
+  const [currentLocation, setCurrentLocation] = useState<{ id: string }>()
   const [renderHeaderButton, setRenderHeaderButton] = useState(false)
   useEffect(() => {
     const pathname = location.pathname

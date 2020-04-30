@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ComponentProps } from "react"
 import {
   SidebarProps,
   TableProps,
@@ -64,7 +64,7 @@ export const Row = styled.div<TableRowProps>`
   position: relative;
   box-sizing: border-box;
   border-bottom: solid 0.1rem ${borderColor("listItem")};
-  background-color: ${backgroundColor("tableRow")};
+  background-color: var(--rowBackground);
   transition: background-color ${transitionTime("faster")}
     ${transitionTimingFunction("smooth")};
 
@@ -131,7 +131,7 @@ export const Labels = styled(Row)`
   position: sticky;
   top: 0;
   left: 0;
-  background-color: ${backgroundColor("tableLabel")} !important;
+  background-color: var(--labelBackground) !important;
 `
 
 /* Group */
@@ -204,6 +204,8 @@ const SidebarContent = styled.div`
   padding: 0 3rem;
   overflow: auto;
   flex: 1;
+  display: flex;
+  flex-direction: column;
 `
 
 const SidebarWrapper = styled.div<{ show?: boolean }>`
@@ -265,6 +267,8 @@ const TableComponent = styled.div<TableProps>`
   --nestSize: 4rem;
   --columnsTemplate: repeat(auto-fit, minmax(0, 1fr));
   --columnsGap: 2rem;
+  --labelBackground: ${backgroundColor("tableLabel")};
+  --rowBackground: ${backgroundColor("tableRow")};
   flex: 1;
   position: relative;
   ${({ scrollable = true }) =>
@@ -314,8 +318,9 @@ export const EmptyState = styled(Row)`
   }
 `
 
-const Table: FunctionComponent<TableProps> = ({ children, ...rest }) => (
-  <TableComponent {...rest}>{children}</TableComponent>
-)
+const Table = React.forwardRef<
+  HTMLDivElement,
+  ComponentProps<typeof TableComponent>
+>((props, ref) => <TableComponent {...props} ref={ref} />)
 
 export default Table

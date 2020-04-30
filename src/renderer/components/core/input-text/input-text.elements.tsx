@@ -21,6 +21,7 @@ import {
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
+import composeRefs from "@seznam/compose-react-refs"
 
 const focusedLabelStyles = css`
   top: -2rem;
@@ -38,6 +39,8 @@ const InputLabel = styled(Text)`
   user-select: none;
   transition: ${transition("top", "100ms", "ease-in-out")},
     ${transition("font-size", "100ms", "ease-in-out")};
+  transition-delay: 0.1s;
+  white-space: nowrap;
 `
 
 const outlinedStyles = css`
@@ -81,6 +84,7 @@ const LabeledInputWrapper = styled.div`
   flex: 1;
   display: flex;
   min-height: ${lineHeight("textarea")}rem;
+  width: 100%;
 `
 
 const TextInputIcon = styled.span`
@@ -101,6 +105,7 @@ const generalInputStyles = css`
   background-color: transparent;
   padding: 0;
   color: ${textColor("dark")};
+  width: 100%;
 
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
   line-height: 1.5rem;
@@ -126,7 +131,7 @@ const InputWrapper = styled.label<Partial<InputProps & TextareaProps>>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: fit-content;
+  width: 100%;
   padding-top: 2rem;
   padding-bottom: 0.6rem;
   box-sizing: border-box;
@@ -228,11 +233,13 @@ export const InputText: FunctionComponent<InputProps> = ({
   placeholder,
   disabled,
   onChange = noop,
+  inputRef,
   ...rest
 }) => {
   const standardInput = (
     <LabeledInputWrapper>
       <TextInput
+        ref={inputRef}
         placeholder={" "}
         disabled={disabled}
         onChange={onChange}
@@ -243,9 +250,11 @@ export const InputText: FunctionComponent<InputProps> = ({
   )
   const outlinedInput = (
     <TextInput
+      ref={inputRef}
       placeholder={placeholder}
       disabled={disabled}
       onChange={onChange}
+      autoFocus
       {...rest}
     />
   )
@@ -274,6 +283,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   value,
   outlined = true,
   placeholder,
+  inputRef,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -308,7 +318,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
 
   const standardTextarea = (
     <TextAreaInput
-      ref={textareaRef}
+      ref={composeRefs(textareaRef, inputRef)}
       value={value}
       defaultValue={defaultValue}
       disabled={disabled}
@@ -321,7 +331,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   const inputLikeTextarea = (
     <LabeledInputWrapper>
       <TextAreaInput
-        ref={textareaRef}
+        ref={composeRefs(textareaRef, inputRef)}
         value={value}
         defaultValue={defaultValue}
         disabled={disabled}

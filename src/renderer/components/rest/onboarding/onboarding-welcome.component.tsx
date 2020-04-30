@@ -11,7 +11,7 @@ import Infographic from "Renderer/images/onboarding/infographic.png"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { Type as ButtonType } from "Renderer/components/core/button/button.config"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
-import { intl } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { noop } from "Renderer/utils/noop"
 import {
@@ -53,9 +53,7 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
           displayStyle={TextDisplayStyle.PrimaryHeading}
           message={{
             id: "view.name.onboarding.welcome.title",
-            values: {
-              bold: (...chunks) => <strong>{chunks}</strong>,
-            },
+            values: textFormatters,
           }}
         />
         <Text

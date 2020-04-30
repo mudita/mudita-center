@@ -19,6 +19,7 @@ const CardContainer = styled.div`
 `
 
 const CardImage = styled(Image)`
+  object-fit: cover;
   height: 22rem;
   width: 100%;
 `
@@ -45,8 +46,8 @@ export interface Props {
   content: string
   communityLink: string
   count?: number
-  header: string
-  imageSource: string
+  title: string
+  imageSource?: string
   imageAlt?: string
   url: string
 }
@@ -55,7 +56,7 @@ const Card: FunctionComponent<Props> = ({
   content,
   communityLink,
   count,
-  header,
+  title,
   imageSource,
   imageAlt,
   url,
@@ -68,7 +69,7 @@ const Card: FunctionComponent<Props> = ({
       <CardContent>
         <a href={url} data-testid="header-link" target="_blank">
           <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
-            {header}
+            {title}
           </Text>
         </a>
         <CardDescription

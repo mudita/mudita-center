@@ -23,6 +23,7 @@ export const generateFakeData = (numberOfContacts: number) => {
         email:
           Math.random() < 0.5 ? Faker.internet.email(firstName, lastName) : "",
         note: Math.random() < 0.5 ? Faker.lorem.paragraph(1) : "",
+        ice: Math.random() < 0.2,
         favourite,
         blocked: !favourite ? Math.random() < 0.15 : false,
         speedDial: favourite ? speedDials.shift() : undefined,

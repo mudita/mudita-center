@@ -45,24 +45,29 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light?: boolean }>`
   text-transform: uppercase;
 `
 
+interface User {
+  firstName: string
+  lastName: string
+}
+
 export interface AvatarProps {
   size?: AvatarSize
-  text?: string
   light?: boolean
   imageSrc?: string
+  user?: User
 }
 
 const Avatar: FunctionComponent<AvatarProps> = ({
   className,
   size = AvatarSize.Medium,
-  text,
   imageSrc,
   light,
+  user,
 }) => (
   <AvatarWrapper className={className} size={size} light={light}>
     {imageSrc ? (
       <AvatarImage data-testid="avatar-image" src={imageSrc} />
-    ) : text ? (
+    ) : user ? (
       <Text
         displayStyle={
           size === AvatarSize.Big
@@ -70,7 +75,8 @@ const Avatar: FunctionComponent<AvatarProps> = ({
             : TextDisplayStyle.SmallFadedDimText
         }
       >
-        {text}
+        {user.firstName.charAt(0)}
+        {user.lastName.charAt(0)}
       </Text>
     ) : (
       <Icon type={Type.Contacts} width={getSize(size) / 2.5} />

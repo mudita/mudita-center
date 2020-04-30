@@ -21,7 +21,7 @@ test("should render 3 product cards even when more than 3 elements are passed th
     {
       url: "https://www.mudita.com/",
       imageSource: NickLewis,
-      title: "Nick Lewis Album",
+      editTitle: "Nick Lewis Album",
       subtitle: "Halfway to the begin",
       label: "In development",
       featuresElements: [],
