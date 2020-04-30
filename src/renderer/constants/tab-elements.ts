@@ -15,6 +15,7 @@ const messages = defineMessages({
   connection: { id: "view.name.settings.connection" },
   notifications: { id: "view.name.settings.notifications" },
   audioConversion: { id: "view.name.settings.audioConversion" },
+  backup: { id: "view.name.settings.backup" },
 })
 
 interface Tab {
@@ -113,6 +114,11 @@ export const tabElements: TabElement[] = [
         label: messages.audioConversion,
         url: `${URL_MAIN.settings}${URL_TABS.audioConversion}`,
         icon: Type.MenuMusic,
+      },
+      {
+        label: messages.backup,
+        url: `${URL_MAIN.settings}${URL_TABS.backup}`,
+        icon: Type.BackupFolder,
       },
     ],
   },
