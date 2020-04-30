@@ -4,9 +4,9 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import LastUpdate from "Renderer/components/rest/news/last-update/last-update.component"
 import { intl } from "Renderer/utils/intl"
 
-test("should render offline text when offline prop is set to true", () => {
+test("should render offline text by default", () => {
   const { container } = renderWithThemeAndIntl(
-    <LastUpdate online date="2019-10-18T11:27:15.256Z" />
+    <LastUpdate date="2019-10-18T11:27:15.256Z" />
   )
 
   expect(container).toHaveTextContent(
@@ -23,7 +23,7 @@ test("date is passed correctly and renders with correct format", () => {
 })
 
 test("when date is not provided, formatted date is not displayed", () => {
-  const { container } = renderWithThemeAndIntl(<LastUpdate online />)
+  const { container } = renderWithThemeAndIntl(<LastUpdate />)
   expect(container).toHaveTextContent(
     intl.formatMessage({ id: "view.name.news.offlineText" })
   )
