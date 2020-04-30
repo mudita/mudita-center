@@ -39,6 +39,7 @@ const NewsLastUpdate = styled(LastUpdate)`
 
 const NewsProductCards = styled(ProductCards)`
   margin-top: 5.6rem;
+  margin-bottom: 5.5rem;
 `
 
 const News: FunctionComponent<Props> = ({
