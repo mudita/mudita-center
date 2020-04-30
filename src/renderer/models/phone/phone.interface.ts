@@ -2,14 +2,16 @@ export interface Contact {
   id: string
   firstName: string
   lastName: string
-  phoneNumbers: string[]
+  primaryPhoneNumber: string
+  secondaryPhoneNumber: string
   favourite: boolean
   blocked: boolean
   ice: boolean
   speedDial?: number
   note: string
   email: string
-  address: string
+  firstAddressLine: string
+  secondAddressLine: string
 }
 
 export interface ContactCategory {

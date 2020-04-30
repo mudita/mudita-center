@@ -21,4 +21,7 @@ export const InputComponent: FunctionComponent<InputComponentProps> = ({
   return <Component type={type} {...rest} />
 }
 
-export default InputComponent
+export default React.forwardRef<
+  HTMLInputElement & HTMLTextAreaElement,
+  ComponentProps<typeof InputComponent>
+>((props, ref) => <InputComponent {...props} inputRef={ref} />)

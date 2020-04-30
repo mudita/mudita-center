@@ -1,7 +1,8 @@
 import {
   InputHTMLAttributes,
+  ReactElement,
   ReactNode,
-  RefObject,
+  Ref,
   TextareaHTMLAttributes,
 } from "react"
 
@@ -16,13 +17,14 @@ interface BasicProps extends InputIconsProps {
   placeholder?: string
   disabled?: boolean
   outlined?: boolean
+  errorMessage?: string | ReactElement
 }
 
 export interface InputProps
   extends InputHTMLAttributes<HTMLInputElement>,
     BasicProps {
   condensed?: boolean
-  inputRef?: RefObject<HTMLInputElement>
+  inputRef?: Ref<HTMLInputElement>
   type: "text" | "email" | "password" | "search" | "tel" | "url"
 }
 
@@ -30,7 +32,7 @@ export interface TextareaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement>,
     BasicProps {
   maxRows?: number
-  inputRef?: RefObject<HTMLTextAreaElement>
+  inputRef?: Ref<HTMLTextAreaElement>
   type?: "textarea"
 }
 

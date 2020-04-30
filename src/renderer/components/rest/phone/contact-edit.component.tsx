@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { FocusEvent, useEffect } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import styled from "styled-components"
@@ -11,23 +11,30 @@ import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import { Type as IconType } from "Renderer/components/core/icon/icon.config"
+import {
+  DisplayStyle,
+  Type,
+} from "Renderer/components/core/button/button.config"
 import { fontWeight } from "Renderer/styles/theming/theme-getters"
 import InputCheckbox, {
   Size,
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Icon from "Renderer/components/core/icon/icon.component"
-import useForm from "Renderer/utils/hooks/use-form"
+import { useForm } from "react-hook-form"
 import { noop } from "Renderer/utils/noop"
+import {
+  emailValidator,
+  phoneNumberValidator,
+} from "Renderer/utils/form-validators"
 
 const messages = defineMessages({
   editTitle: { id: "view.name.phone.contacts.edit.title" },
   newTitle: { id: "view.name.phone.contacts.new.title" },
   firstName: { id: "view.name.phone.contacts.edit.firstName" },
   secondName: { id: "view.name.phone.contacts.edit.secondName" },
-  number: { id: "view.name.phone.contacts.edit.number" },
-  otherNumber: { id: "view.name.phone.contacts.edit.otherNumber" },
+  primaryNumber: { id: "view.name.phone.contacts.edit.primaryNumber" },
+  secondaryNumber: { id: "view.name.phone.contacts.edit.secondaryNumber" },
   email: { id: "view.name.phone.contacts.edit.email" },
   speedDialKeySelect: {
     id: "view.name.phone.contacts.edit.speedDialKeySelect",
@@ -36,7 +43,8 @@ const messages = defineMessages({
   speedDialSettings: { id: "view.name.phone.contacts.edit.speedDialSettings" },
   addToFavourites: { id: "view.name.phone.contacts.edit.addToFavourites" },
   iceContact: { id: "view.name.phone.contacts.edit.iceContact" },
-  address: { id: "view.name.phone.contacts.edit.address" },
+  firstAddressLine: { id: "view.name.phone.contacts.edit.firstAddressLine" },
+  secondAddressLine: { id: "view.name.phone.contacts.edit.secondAddressLine" },
   notes: { id: "view.name.phone.contacts.edit.notes" },
   cancel: { id: "view.name.phone.contacts.edit.cancel" },
   save: { id: "view.name.phone.contacts.edit.save" },
@@ -121,10 +129,12 @@ export const defaultContact = {
   id: "",
   firstName: "",
   lastName: "",
-  phoneNumbers: ["", ""],
+  primaryPhoneNumber: "",
+  secondaryPhoneNumber: "",
   email: "",
   note: "",
-  address: "",
+  firstAddressLine: "",
+  secondAddressLine: "",
   favourite: false,
   blocked: false,
   speedDial: undefined,
@@ -149,9 +159,39 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   onNameUpdate = noop,
   ...rest
 }) => {
-  const { fields, updateField } = useForm<Contact>(contact || defaultContact)
+  const { register, handleSubmit, watch, errors } = useForm({
+    defaultValues: contact,
+    mode: "onChange",
+  })
 
-  const handleSave = () => onSave(fields)
+  const handleSave = handleSubmit(data => {
+    onSave(data)
+  })
+
+  const fields = watch()
+
+  const speedDialAssignPossible =
+    !errors.primaryPhoneNumber &&
+    !errors.secondaryPhoneNumber &&
+    (fields.primaryPhoneNumber || fields.secondaryPhoneNumber)
+
+  const savingPossible =
+    fields.firstName?.trim() ||
+    fields.lastName?.trim() ||
+    fields.primaryPhoneNumber ||
+    fields.secondaryPhoneNumber ||
+    fields.email ||
+    fields.firstAddressLine?.trim() ||
+    fields.secondAddressLine?.trim() ||
+    fields.note?.trim()
+
+  const trimInputValue = (event: FocusEvent<HTMLInputElement>) => {
+    event.target.value = event.target.value.trim()
+  }
+
+  useEffect(() => {
+    onNameUpdate({ firstName: fields.firstName, lastName: fields.lastName })
+  }, [fields.firstName, fields.lastName])
 
   const headerLeft = (
     <Text
@@ -160,10 +200,6 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     />
   )
 
-  useEffect(() => {
-    onNameUpdate({ firstName: fields.firstName, lastName: fields.lastName })
-  }, [fields.firstName, fields.lastName])
-
   return (
     <ContactDetailsWrapper
       {...rest}
@@ -171,104 +207,135 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
       onClose={onCancel}
       headerLeft={headerLeft}
     >
-      <Content>
-        <div>
-          <Input
-            placeholder={intl.formatMessage(messages.firstName)}
-            name="firstName"
-            value={fields.firstName}
-            onChange={updateField}
-          />
-          <Input
-            placeholder={intl.formatMessage(messages.secondName)}
-            name="lastName"
-            value={fields.lastName}
-            onChange={updateField}
-          />
-          <Input
-            placeholder={intl.formatMessage(messages.number)}
-            name="phoneNumbers[0]"
-            value={fields.phoneNumbers[0] || ""}
-            onChange={updateField}
-          />
-          <Input
-            placeholder={intl.formatMessage(messages.otherNumber)}
-            name="phoneNumbers[1]"
-            value={fields.phoneNumbers[1] || ""}
-            onChange={updateField}
-          />
-          <Input placeholder={intl.formatMessage(messages.email)} />
-        </div>
-        <div>
-          <SpeedDial>
-            <select
-              value={fields.speedDial}
-              name="speedDial"
-              onChange={updateField}
-            >
-              <option value="">Select</option>
-              {[...Array.from({ length: 10 })].map((_, index) => (
-                <option key={index} value={index}>
-                  {index}
-                </option>
-              ))}
-            </select>
-            <SpeedDialSettings
-              displayStyle={DisplayStyle.Link3}
-              labelMessage={messages.speedDialSettings}
-              onClick={onSpeedDialSettingsOpen}
+      <form onSubmit={handleSave}>
+        <Content>
+          <div>
+            <Input
+              type="text"
+              placeholder={intl.formatMessage(messages.firstName)}
+              name="firstName"
+              ref={register}
+              errorMessage={errors.firstName?.message}
+              onBlur={trimInputValue}
             />
-          </SpeedDial>
-          <CustomCheckbox>
-            <InputCheckbox
-              size={Size.Medium}
-              checked={fields.favourite}
-              name="favourite"
-              onChange={updateField}
+            <Input
+              type="text"
+              placeholder={intl.formatMessage(messages.secondName)}
+              name="lastName"
+              ref={register}
+              errorMessage={errors.lastName?.message}
+              onBlur={trimInputValue}
             />
-            <Text displayStyle={TextDisplayStyle.SmallText}>
-              {intl.formatMessage(messages.addToFavourites)}
-            </Text>
-            <Icon type={Type.Favourites} height={1} />
-          </CustomCheckbox>
-          <CustomCheckbox>
-            <InputCheckbox
-              size={Size.Medium}
-              checked={fields.ice}
-              name="ice"
-              onChange={updateField}
+            <Input
+              type="tel"
+              placeholder={intl.formatMessage(messages.primaryNumber)}
+              name="primaryPhoneNumber"
+              ref={register(phoneNumberValidator)}
+              errorMessage={errors.primaryPhoneNumber?.message}
             />
-            <Text displayStyle={TextDisplayStyle.SmallText}>
-              {intl.formatMessage(messages.iceContact)}
-            </Text>
-            <Icon type={Type.Ice} height={1} />
-          </CustomCheckbox>
-          <Input
-            type="textarea"
-            outlined={false}
-            placeholder={intl.formatMessage(messages.address)}
-            value={fields.address}
-            name="address"
-            onChange={updateField}
+            <Input
+              type="tel"
+              placeholder={intl.formatMessage(messages.secondaryNumber)}
+              name="secondaryPhoneNumber"
+              ref={register(phoneNumberValidator)}
+              errorMessage={errors.secondaryPhoneNumber?.message}
+            />
+            <Input
+              type="email"
+              name="email"
+              placeholder={intl.formatMessage(messages.email)}
+              defaultValue={contact?.email}
+              ref={register(emailValidator)}
+              errorMessage={errors.email?.message}
+            />
+          </div>
+          <div>
+            <SpeedDial>
+              <select
+                disabled={!speedDialAssignPossible}
+                name="speedDial"
+                ref={register}
+              >
+                <option value="">Select</option>
+                {[...Array.from({ length: 10 })].map((_, index) => (
+                  <option key={index} value={index}>
+                    {index}
+                  </option>
+                ))}
+              </select>
+              <SpeedDialSettings
+                displayStyle={DisplayStyle.Link3}
+                labelMessage={messages.speedDialSettings}
+                onClick={onSpeedDialSettingsOpen}
+              />
+            </SpeedDial>
+            <CustomCheckbox>
+              <InputCheckbox
+                size={Size.Medium}
+                name="favourite"
+                ref={register}
+                defaultChecked={contact?.favourite}
+              />
+              <Text displayStyle={TextDisplayStyle.SmallText}>
+                {intl.formatMessage(messages.addToFavourites)}
+              </Text>
+              <Icon type={IconType.Favourites} height={1} />
+            </CustomCheckbox>
+            <CustomCheckbox>
+              <InputCheckbox
+                size={Size.Medium}
+                name="ice"
+                ref={register}
+                defaultChecked={contact?.ice}
+              />
+              <Text displayStyle={TextDisplayStyle.SmallText}>
+                {intl.formatMessage(messages.iceContact)}
+              </Text>
+              <Icon type={IconType.Ice} height={1} />
+            </CustomCheckbox>
+            <Input
+              type="text"
+              placeholder={intl.formatMessage(messages.firstAddressLine)}
+              name="firstAddressLine"
+              ref={register}
+              errorMessage={errors.firstAddressLine?.message}
+              maxLength={30}
+              onBlur={trimInputValue}
+            />
+            <Input
+              type="text"
+              placeholder={intl.formatMessage(messages.secondAddressLine)}
+              name="secondAddressLine"
+              ref={register}
+              errorMessage={errors.secondAddressLine?.message}
+              maxLength={30}
+              onBlur={trimInputValue}
+            />
+            <Input
+              type="text"
+              placeholder={"Note"}
+              defaultValue={contact?.note}
+              name="note"
+              ref={register}
+              errorMessage={errors.note?.message}
+              maxLength={30}
+              onBlur={trimInputValue}
+            />
+          </div>
+        </Content>
+        <Buttons>
+          <ButtonComponent
+            displayStyle={DisplayStyle.Secondary}
+            labelMessage={messages.cancel}
+            onClick={onCancel}
           />
-          <Input
-            type="textarea"
-            outlined={false}
-            placeholder={intl.formatMessage(messages.notes)}
-            value={fields.note}
-            name="note"
-            onChange={updateField}
+          <ButtonComponent
+            type={Type.Submit}
+            disabled={!savingPossible || Object.keys(errors).length > 0}
+            labelMessage={messages.save}
           />
-        </div>
-      </Content>
-      <Buttons>
-        <ButtonComponent
-          displayStyle={DisplayStyle.Secondary}
-          labelMessage={messages.cancel}
-          onClick={onCancel}
-        />
-        <ButtonComponent labelMessage={messages.save} onClick={handleSave} />
-      </Buttons>
+        </Buttons>
+      </form>
     </ContactDetailsWrapper>
   )
 }

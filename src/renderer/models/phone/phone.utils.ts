@@ -17,18 +17,21 @@ export const generateFakeData = (numberOfContacts: number) => {
         id: Faker.random.uuid(),
         firstName,
         lastName,
-        phoneNumbers: Array.from({
-          length: Math.random() < 0.3 ? 0 : Math.ceil(Math.random() * 2),
-        }).map(() => Faker.phone.phoneNumber("+## ### ### ###")),
+        primaryPhoneNumber:
+          Math.random() < 0.5 ? Faker.phone.phoneNumber("+## ### ### ###") : "",
+        secondaryPhoneNumber:
+          Math.random() < 0.5 ? Faker.phone.phoneNumber("+## ### ### ###") : "",
         email:
           Math.random() < 0.5 ? Faker.internet.email(firstName, lastName) : "",
-        note: Math.random() < 0.5 ? Faker.lorem.paragraph(1) : "",
+        note: Faker.lorem.words(Math.random() * 4),
         ice: Math.random() < 0.2,
         favourite,
         blocked: !favourite ? Math.random() < 0.15 : false,
         speedDial: favourite ? speedDials.shift() : undefined,
-        address: Math.random() < 0.5 ? Faker.address.streetAddress() : "",
-      }
+        firstAddressLine:
+          Math.random() < 0.5 ? Faker.address.streetAddress() : "",
+        secondAddressLine: Math.random() < 0.5 ? Faker.address.city() : "",
+      } as Contact
     })
 }
 

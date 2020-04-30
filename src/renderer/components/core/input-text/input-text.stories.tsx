@@ -31,6 +31,16 @@ storiesOf("Components|Text input/Standard", module)
   .add("With value", () => {
     return <InputComponent defaultValue="John" type="text" placeholder="Name" />
   })
+  .add("With error", () => {
+    return (
+      <InputComponent
+        defaultValue="John5"
+        type="text"
+        placeholder="Name"
+        errorMessage="May contain letters only"
+      />
+    )
+  })
   .add(
     "Focused with value but as search type (with native clear button)",
     () => {
@@ -113,6 +123,17 @@ storiesOf("Components|Text input/Outlined", module)
         defaultValue={"John Doe"}
         type="text"
         outlined
+      />
+    )
+  })
+  .add("With error", () => {
+    return (
+      <InputComponent
+        placeholder="Name"
+        defaultValue={"John Doe5"}
+        type="text"
+        outlined
+        errorMessage="May contain letters only"
       />
     )
   })
@@ -210,6 +231,18 @@ storiesOf("Components|Text input/Outlined condensed", module)
         defaultValue={"John Doe"}
         outlined
         condensed
+      />
+    )
+  })
+  .add("With error", () => {
+    return (
+      <InputComponent
+        type="text"
+        placeholder="Name"
+        defaultValue={"John Doe5"}
+        outlined
+        condensed
+        errorMessage="May contain letters only"
       />
     )
   })
@@ -329,6 +362,18 @@ storiesOf("Components|Text input/Standard textarea (outlined)", module)
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
+      />
+    )
+  })
+  .add("With error", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
+        }
+        errorMessage="Text is too long"
       />
     )
   })
@@ -499,6 +544,19 @@ storiesOf("Components|Text input/Input-like textarea", module)
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
         outlined={false}
+      />
+    )
+  })
+  .add("With error", () => {
+    return (
+      <InputComponent
+        type="textarea"
+        placeholder="Message"
+        defaultValue={
+          "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\nCurabitur aliquet quam id dui posuere blandit."
+        }
+        outlined={false}
+        errorMessage="Text is too long"
       />
     )
   })

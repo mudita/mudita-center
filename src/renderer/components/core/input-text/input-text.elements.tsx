@@ -17,6 +17,8 @@ import {
   borderRadius,
   lineHeight,
   textColor,
+  transitionTime,
+  transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
@@ -41,6 +43,32 @@ const InputLabel = styled(Text)`
     ${transition("font-size", "100ms", "ease-in-out")};
   transition-delay: 0.1s;
   white-space: nowrap;
+`
+
+const errorStyles = css`
+  border-color: ${borderColor("error")};
+`
+
+const InputError = styled(Text)<{ visible: boolean }>`
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  margin-top: 0.4rem;
+  padding-left: 0.8rem;
+  color: ${textColor("error")};
+  opacity: 0;
+  visibility: hidden;
+  transition: all ${transitionTime("quick")}
+    ${transitionTimingFunction("smooth")};
+  ${smallTextSharedStyles};
+
+  ${({ visible }) =>
+    visible &&
+    css`
+      opacity: 1;
+      visibility: visible;
+    `};
 `
 
 const outlinedStyles = css`
@@ -126,7 +154,9 @@ const TextInput = styled.input`
   user-select: none;
 `
 
-const InputWrapper = styled.label<Partial<InputProps & TextareaProps>>`
+const InputWrapper = styled.label<
+  Partial<InputProps & TextareaProps> & { error: boolean }
+>`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -146,10 +176,11 @@ const InputWrapper = styled.label<Partial<InputProps & TextareaProps>>`
   ${({ outlined }) => outlined && outlinedStyles};
   ${({ condensed }) => condensed && condensedStyles};
   ${({ disabled }) => disabled && disabledStyles};
+  ${({ error }) => error && errorStyles};
 
   &:hover:not([disabled]),
   &:focus-within:not([disabled]) {
-    ${focusedStyles};
+    ${({ error }) => !error && focusedStyles};
   }
 
   &:focus-within:not([disabled]) {
@@ -176,10 +207,14 @@ const textAreaLayout = css`
   border-radius: ${borderRadius("big")};
 `
 
-const TextareaWrapper = styled(InputWrapper)<{ outlined: boolean }>`
+const TextareaWrapper = styled(InputWrapper)<{
+  outlined: boolean
+  error: boolean
+}>`
   line-height: ${lineHeight("textarea")}rem;
 
   ${({ outlined }) => outlined && textAreaLayout};
+  ${({ error }) => error && errorStyles};
 
   ${({ outlined }) =>
     outlined &&
@@ -234,6 +269,7 @@ export const InputText: FunctionComponent<InputProps> = ({
   disabled,
   onChange = noop,
   inputRef,
+  errorMessage,
   ...rest
 }) => {
   const standardInput = (
@@ -265,9 +301,11 @@ export const InputText: FunctionComponent<InputProps> = ({
       outlined={outlined}
       condensed={condensed}
       disabled={disabled}
+      error={Boolean(errorMessage)}
     >
       {outlined ? outlinedInput : standardInput}
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
+      <InputError visible={Boolean(errorMessage)}>{errorMessage}</InputError>
     </InputWrapper>
   )
 }
@@ -284,6 +322,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   outlined = true,
   placeholder,
   inputRef,
+  errorMessage,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -348,9 +387,11 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
       className={className}
       disabled={disabled}
       outlined={outlined}
+      error={Boolean(errorMessage)}
     >
       {outlined ? standardTextarea : inputLikeTextarea}
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
+      <InputError visible={Boolean(errorMessage)}>{errorMessage}</InputError>
     </TextareaWrapper>
   )
 }

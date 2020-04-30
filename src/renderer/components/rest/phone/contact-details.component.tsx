@@ -157,6 +157,26 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     </>
   )
 
+  const phoneActions = (phoneNumber: string) => {
+    const callHandler = () => onCall(phoneNumber)
+    const messageHandler = () => onMessage(phoneNumber)
+
+    return [
+      <ButtonComponent
+        displayStyle={DisplayStyle.InputIcon}
+        Icon={Type.Calls}
+        key="Call"
+        onClick={callHandler}
+      />,
+      <ButtonComponent
+        displayStyle={DisplayStyle.InputIcon}
+        Icon={Type.Message}
+        key="Message"
+        onClick={messageHandler}
+      />,
+    ]
+  }
+
   return (
     <ContactDetailsWrapper {...rest} show headerRight={icons}>
       <BasicInfo>
@@ -188,37 +208,19 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
         <div>
           <AdditionalInfoItem>
             <InfoItemName message={messages.information} />
-            {contact.phoneNumbers.length ? (
-              contact.phoneNumbers.map(phoneNumber => {
-                const callHandler = () => {
-                  onCall(phoneNumber)
-                }
-                const messageHandler = () => {
-                  onMessage(phoneNumber)
-                }
-                const trailingIcons = [
-                  <ButtonComponent
-                    displayStyle={DisplayStyle.InputIcon}
-                    Icon={Type.Calls}
-                    key="Call"
-                    onClick={callHandler}
-                  />,
-                  <ButtonComponent
-                    displayStyle={DisplayStyle.InputIcon}
-                    Icon={Type.Message}
-                    key="Message"
-                    onClick={messageHandler}
-                  />,
-                ]
-                return (
-                  <Input
-                    key={phoneNumber}
-                    value={phoneNumber}
-                    trailingIcons={trailingIcons}
-                  />
-                )
-              })
-            ) : (
+            {contact.primaryPhoneNumber && (
+              <Input
+                value={contact.primaryPhoneNumber}
+                trailingIcons={phoneActions(contact.primaryPhoneNumber)}
+              />
+            )}
+            {contact.secondaryPhoneNumber && (
+              <Input
+                value={contact.secondaryPhoneNumber}
+                trailingIcons={phoneActions(contact.secondaryPhoneNumber)}
+              />
+            )}
+            {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber && (
               <Input placeholder={intl.formatMessage(messages.noPhoneNumber)} />
             )}
             <Input
@@ -233,7 +235,9 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             <Input
               type="textarea"
               outlined={false}
-              value={contact.address}
+              value={
+                contact.firstAddressLine + "\n" + contact.secondAddressLine
+              }
               placeholder={intl.formatMessage(messages.noAddress)}
             />
           </AdditionalInfoItem>

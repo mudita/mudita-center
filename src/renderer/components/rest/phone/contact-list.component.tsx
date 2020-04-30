@@ -197,10 +197,6 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           {contacts.map((contact, index) => {
             const { selected } = getRowStatus(contact)
             const onChange = () => toggleRow(contact)
-            const [firstNumber, ...{ length: restNumbersCount }] = [
-              ...contact.phoneNumbers,
-            ]
-
             const handleExport = () => onExport(contact)
             const handleForward = () => onForward(contact)
             const handleBlock = () => onBlock(contact)
@@ -226,11 +222,14 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                   {contact.firstName} {contact.lastName}
                   {contact.blocked && <BlockedIcon width={1.4} height={1.4} />}
                 </Col>
-                <Col>{firstNumber}</Col>
                 <Col>
-                  {restNumbersCount > 0 && (
-                    <MoreNumbers>+{restNumbersCount}</MoreNumbers>
-                  )}
+                  {contact.primaryPhoneNumber || contact.secondaryPhoneNumber}
+                </Col>
+                <Col>
+                  {contact.primaryPhoneNumber &&
+                    contact.secondaryPhoneNumber && (
+                      <MoreNumbers>+1</MoreNumbers>
+                    )}
                 </Col>
                 <Col>
                   <Actions>

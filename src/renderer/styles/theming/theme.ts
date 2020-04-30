@@ -24,7 +24,7 @@ const dark = "#232426"
 // const blue3 = "#aebec9"
 const blue4 = "#e3f3ff"
 const blue5 = "#f3f8fc"
-// const red1 = "#e96a6a"
+const red1 = "#e96a6a"
 
 const transparentGrey1 = "rgba(188,188,188,0.5)"
 const transparentGrey2 = "rgba(214, 214, 214, 0.5)"
@@ -43,6 +43,7 @@ const theme = {
       placeholder: grey3,
       dark: black,
       hover: blue1,
+      error: red1,
     },
     background: {
       blue: blue2,
@@ -77,6 +78,7 @@ const theme = {
       listItem: grey4,
       light: grey4,
       intense: blue2,
+      error: red1,
     },
     boxShadow: {
       app: grey10,
