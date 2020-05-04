@@ -1,6 +1,7 @@
 import Faker from "faker"
 import { intl } from "Renderer/utils/intl"
 import { Contact, ContactCategory } from "Renderer/models/phone/phone.interface"
+import { deburr } from "lodash"
 
 // TODO: remove before production
 const speedDials = Array.from({ length: 8 }).map((_, index) => index + 2)
@@ -61,7 +62,9 @@ export const generateSortedStructure = (contacts: Contact[]) => {
   for (const contact of sortedContacts) {
     const { firstName, lastName, favourite } = contact
     if (firstName || lastName) {
-      const groupLetter = firstName?.charAt(0) || lastName?.charAt(0)
+      const groupLetter = deburr(
+        firstName?.charAt(0) || lastName?.charAt(0)
+      ).toUpperCase()
       const groupIndex = labeledContacts.findIndex(
         group => group.category === groupLetter
       )
