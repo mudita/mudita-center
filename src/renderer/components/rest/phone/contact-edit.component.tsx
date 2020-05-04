@@ -1,8 +1,8 @@
-import React, { FocusEvent, useEffect } from "react"
+import React, { FocusEvent } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import styled, { css } from "styled-components"
-import { Contact } from "Renderer/models/phone/phone.interface"
+import { Contact, NewContact } from "Renderer/models/phone/phone.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -27,7 +27,13 @@ import {
   emailValidator,
   phoneNumberValidator,
 } from "Renderer/utils/form-validators"
-import InputSelect from "Renderer/components/core/input-select/input-select.component"
+import InputSelect, {
+  ListItemProps,
+  SelectInputItem,
+} from "Renderer/components/core/input-select/input-select.component"
+import Loader from "Renderer/components/core/loader/loader.component"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import { speedDialNumbers } from "Renderer/models/phone/phone.utils"
 
 const messages = defineMessages({
   editTitle: { id: "view.name.phone.contacts.edit.title" },
@@ -93,6 +99,15 @@ const Input = styled(InputComponent)<InputComponentProps>`
   }
 `
 
+const SpeedDialListItem = styled(SelectInputItem)<{ inactive?: boolean }>`
+  ${({ inactive }) =>
+    inactive &&
+    css`
+      pointer-events: none;
+      opacity: 0.5;
+    `};
+`
+
 const SpeedDialSettings = styled(ButtonComponent)`
   padding: 0.9rem;
   height: auto;
@@ -104,6 +119,7 @@ const SpeedDial = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
+  margin-top: 1.8rem;
 
   label {
     width: 8.5rem;
@@ -135,7 +151,6 @@ const CustomCheckbox = styled.label`
 `
 
 export const defaultContact = {
-  id: "",
   firstName: "",
   lastName: "",
   primaryPhoneNumber: "",
@@ -148,7 +163,7 @@ export const defaultContact = {
   blocked: false,
   speedDial: undefined,
   ice: false,
-} as Readonly<Contact>
+} as NewContact
 
 type NameUpdateProps = Pick<Contact, "firstName" | "lastName">
 
@@ -159,15 +174,17 @@ interface ContactEditProps {
   onSpeedDialSettingsOpen: () => void
   onSave: (contact: Contact) => void
   onNameUpdate?: ({ firstName, lastName }: NameUpdateProps) => void
+  saving?: boolean
 }
 
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
-  availableSpeedDials = [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  availableSpeedDials = [],
   contact,
   onCancel,
   onSave,
   onSpeedDialSettingsOpen,
   onNameUpdate = noop,
+  saving,
   ...rest
 }) => {
   const { register, handleSubmit, watch, errors, setValue } = useForm({
@@ -177,12 +194,13 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
 
   const handleSave = handleSubmit(data => {
     const formData = {
+      ...contact,
       ...data,
       speedDial:
         data.speedDial.toString() ===
         intl.formatMessage(messages.speedDialKeySelect)
           ? undefined
-          : data.speedDial,
+          : Number(data.speedDial),
     }
     onSave(formData)
   })
@@ -190,9 +208,8 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   const fields = watch()
 
   const speedDialAssignPossible =
-    !errors.primaryPhoneNumber &&
-    !errors.secondaryPhoneNumber &&
-    (fields.primaryPhoneNumber || fields.secondaryPhoneNumber)
+    (fields.primaryPhoneNumber && !errors.primaryPhoneNumber) ||
+    (fields.secondaryPhoneNumber && !errors.secondaryPhoneNumber)
 
   const savingPossible =
     fields.firstName?.trim() ||
@@ -208,13 +225,23 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     event.target.value = event.target.value.trim()
   }
 
+  const handleUsernameBlur = (event: FocusEvent<HTMLInputElement>) => {
+    trimInputValue(event)
+    onNameUpdate({ firstName: fields.firstName, lastName: fields.lastName })
+  }
+
   const handleSpeedDialSelect = (value: number) => {
     setValue("speedDial", value)
   }
 
-  useEffect(() => {
-    onNameUpdate({ firstName: fields.firstName, lastName: fields.lastName })
-  }, [fields.firstName, fields.lastName])
+  const speedDialListItemRenderer = (item: number, props: ListItemProps) => (
+    <SpeedDialListItem
+      {...props}
+      inactive={!availableSpeedDials.includes(item)}
+    >
+      {item}
+    </SpeedDialListItem>
+  )
 
   const headerLeft = (
     <Text
@@ -239,7 +266,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               name="firstName"
               ref={register}
               errorMessage={errors.firstName?.message}
-              onBlur={trimInputValue}
+              onBlur={handleUsernameBlur}
             />
             <Input
               type="text"
@@ -247,7 +274,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               name="lastName"
               ref={register}
               errorMessage={errors.lastName?.message}
-              onBlur={trimInputValue}
+              onBlur={handleUsernameBlur}
             />
             <Input
               type="tel"
@@ -278,7 +305,8 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
                 name="speedDial"
                 ref={register}
                 disabled={!speedDialAssignPossible}
-                options={availableSpeedDials}
+                options={speedDialNumbers}
+                renderListItem={speedDialListItemRenderer}
                 placeholder={intl.formatMessage(messages.speedDialKey)}
                 emptyOption={intl.formatMessage(
                   messages.speedDialKeyEmptyOption
@@ -358,8 +386,16 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           />
           <ButtonComponent
             type={Type.Submit}
-            disabled={!savingPossible || Object.keys(errors).length > 0}
-            labelMessage={messages.save}
+            disabled={
+              !savingPossible || Object.keys(errors).length > 0 || saving
+            }
+            label={
+              saving ? (
+                <Loader size={2} type={LoaderType.Spinner} />
+              ) : (
+                intl.formatMessage(messages.save)
+              )
+            }
           />
         </Buttons>
       </form>

@@ -116,7 +116,7 @@ const AdditionalInfoItem = styled.div`
 
 const Input = styled(InputComponent).attrs(({ value, placeholder }) => ({
   placeholder: value ? undefined : placeholder,
-  disabled: true,
+  readonly: true,
 }))<InputComponentProps>`
   background-color: transparent;
   padding: 2.4rem 0 1.6rem 0;

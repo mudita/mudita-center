@@ -4,23 +4,25 @@ import { Contact, ContactCategory } from "Renderer/models/phone/phone.interface"
 import { deburr } from "lodash"
 
 // TODO: remove before production
-const speedDials = Array.from({ length: 8 }).map((_, index) => index + 2)
+export const speedDialNumbers = [2, 3, 4, 5, 6, 7, 8, 9]
 
-export const generateFakeContact = (): Contact => {
+export const generateFakeContact = (speedDials: number[] = []): Contact => {
   const favourite = Math.random() < 0.15
   const firstName =
     Math.random() < 0.6 || favourite ? Faker.name.firstName() : ""
   const lastName = Math.random() < 0.6 ? Faker.name.lastName() : ""
   const primaryPhoneNumber =
-    Math.random() < 0.5 ? Faker.phone.phoneNumber("+## ### ### ###") : ""
+    Math.random() < 0.5 ? Faker.phone.phoneNumber("+###########") : ""
   const secondaryPhoneNumber =
-    Math.random() < 0.5 ? Faker.phone.phoneNumber("+## ### ### ###") : ""
+    Math.random() < 0.5 ? Faker.phone.phoneNumber("+###########") : ""
   const blocked =
     !favourite && (primaryPhoneNumber || secondaryPhoneNumber)
       ? Math.random() < 0.5
       : false
   const speedDial =
-    !favourite && (primaryPhoneNumber || secondaryPhoneNumber)
+    !blocked &&
+    (firstName || lastName) &&
+    (primaryPhoneNumber || secondaryPhoneNumber)
       ? speedDials.shift()
       : undefined
 
@@ -42,13 +44,15 @@ export const generateFakeContact = (): Contact => {
 }
 
 export const generateFakeData = (numberOfContacts: number) => {
+  const speedDials = [...speedDialNumbers]
+
   return Array(numberOfContacts)
     .fill(0)
-    .map(() => generateFakeContact())
+    .map(() => generateFakeContact(speedDials))
 }
 
 export const createFullName = ({ firstName, lastName }: Contact) => {
-  return `${firstName} ${lastName}`.trim()
+  return `${firstName || ""} ${lastName || ""}`.trim()
 }
 
 export const generateSortedStructure = (contacts: Contact[]) => {

@@ -2,19 +2,24 @@ import { connect } from "react-redux"
 import { select } from "Renderer/store"
 import Phone from "./phone.component"
 import { noop } from "Renderer/utils/noop"
+import { Contact } from "Renderer/models/phone/phone.interface"
 
 const mapState = select(models => ({
   contactList: models.phone.grouped,
+  speedDialContacts: models.phone.speedDialContacts,
 }))
 
 const mapDispatch = ({ phone }: any) => ({
   onSearchTermChange: (event: string) => phone.handleInput(event),
+  loadData: () => phone.loadData(),
+  addContact: (contact: Contact) => phone.addContact(contact),
+  editContact: (contact: Contact) => phone.editContact(contact),
+  deleteContacts: (contacts: Contact[]) => phone.deleteContacts(contacts),
   // TODO: Add proper actions
   onManageButtonClick: noop,
   onExport: noop,
   onForward: noop,
   onBlock: noop,
-  onDelete: noop,
   onSelect: noop,
   onCall: noop,
   onMessage: noop,

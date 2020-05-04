@@ -20,11 +20,11 @@ import {
 import DeleteContactModal from "Renderer/components/rest/phone/delete-contact-modal.component"
 import Faker from "faker"
 
-const contactList = generateFakeData(40)
+const contactList: Contact[] = generateFakeData(40)
 
 contactList.push(
   {
-    id: Faker.random.uuid(),
+    id: "id1",
     firstName: "Ędward",
     lastName: "Ącki",
     primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
@@ -39,7 +39,7 @@ contactList.push(
     secondAddressLine: Faker.address.city(),
   },
   {
-    id: Faker.random.uuid(),
+    id: "id2",
     firstName: ".Info",
     lastName: "",
     primaryPhoneNumber: "*121#",
