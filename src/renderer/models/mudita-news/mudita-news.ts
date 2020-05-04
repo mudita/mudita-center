@@ -26,7 +26,7 @@ export default {
         dispatch.muditaNews.update(defaultNews)
       }
     },
-    async updateData(data: DefaultNewsItems) {
+    async updateData(data: DefaultNewsItems | { updating: boolean }) {
       dispatch.muditaNews.update(data)
     },
   }),

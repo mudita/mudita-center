@@ -31,7 +31,10 @@ it("call is performed after dispatching effect with data", async () => {
     },
   })
   ;(ipcRenderer as any).__rendererCalls = {
-    [NewsEvents.Init]: Promise.resolve({ newsItems }),
+    [NewsEvents.Init]: Promise.resolve({
+      newsItems,
+      lastUpdate: "2020-04-28T11:23:22.696Z",
+    }),
   }
   await store.dispatch.networkStatus.updateOnlineStatus()
   await store.dispatch.muditaNews.loadData("", store.getState())
