@@ -22,21 +22,38 @@ import Faker from "faker"
 
 const contactList = generateFakeData(40)
 
-contactList.push({
-  id: Faker.random.uuid(),
-  firstName: "Ędward",
-  lastName: "Ącki",
-  primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-  secondaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-  email: Faker.internet.email("Ędward", "Ącki"),
-  note: Faker.lorem.words(Math.random() * 4),
-  ice: Math.random() < 0.2,
-  favourite: true,
-  blocked: false,
-  speedDial: undefined,
-  firstAddressLine: Faker.address.streetAddress(),
-  secondAddressLine: Faker.address.city(),
-})
+contactList.push(
+  {
+    id: Faker.random.uuid(),
+    firstName: "Ędward",
+    lastName: "Ącki",
+    primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+    secondaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+    email: Faker.internet.email("Ędward", "Ącki"),
+    note: Faker.lorem.words(Math.random() * 4),
+    ice: Math.random() < 0.2,
+    favourite: true,
+    blocked: false,
+    speedDial: undefined,
+    firstAddressLine: Faker.address.streetAddress(),
+    secondAddressLine: Faker.address.city(),
+  },
+  {
+    id: Faker.random.uuid(),
+    firstName: ".Info",
+    lastName: "",
+    primaryPhoneNumber: "*121#",
+    secondaryPhoneNumber: "",
+    email: "",
+    note: "Account billing",
+    ice: false,
+    favourite: false,
+    blocked: false,
+    speedDial: undefined,
+    firstAddressLine: "",
+    secondAddressLine: "",
+  }
+)
 
 const labeledContactList = generateSortedStructure(contactList)
 

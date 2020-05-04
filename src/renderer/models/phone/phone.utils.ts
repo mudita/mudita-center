@@ -53,6 +53,7 @@ export const createFullName = ({ firstName, lastName }: Contact) => {
 export const generateSortedStructure = (contacts: Contact[]) => {
   const anonymousContacts = []
   const favouriteContacts = []
+  const uncategorizedContacts = []
   const labeledContacts: ContactCategory[] = []
 
   const sortedContacts = contacts.sort((a, b) => {
@@ -61,25 +62,31 @@ export const generateSortedStructure = (contacts: Contact[]) => {
 
   for (const contact of sortedContacts) {
     const { firstName, lastName, favourite } = contact
+
+    if (favourite) {
+      favouriteContacts.push(contact)
+    }
+
     if (firstName || lastName) {
       const groupLetter = deburr(
         firstName?.charAt(0) || lastName?.charAt(0)
       ).toUpperCase()
-      const groupIndex = labeledContacts.findIndex(
-        group => group.category === groupLetter
-      )
 
-      if (groupIndex === -1) {
-        labeledContacts.push({
-          category: groupLetter,
-          contacts: [contact],
-        })
+      if (/[A-Z]/.test(groupLetter)) {
+        const groupIndex = labeledContacts.findIndex(
+          group => group.category === groupLetter
+        )
+
+        if (groupIndex === -1) {
+          labeledContacts.push({
+            category: groupLetter,
+            contacts: [contact],
+          })
+        } else {
+          labeledContacts[groupIndex].contacts.push(contact)
+        }
       } else {
-        labeledContacts[groupIndex].contacts.push(contact)
-      }
-
-      if (favourite) {
-        favouriteContacts.push(contact)
+        uncategorizedContacts.push(contact)
       }
     } else {
       anonymousContacts.push(contact)
@@ -98,7 +105,7 @@ export const generateSortedStructure = (contacts: Contact[]) => {
   if (anonymousContacts.length) {
     labeledContacts.push({
       category: "#",
-      contacts: anonymousContacts,
+      contacts: [...uncategorizedContacts, ...anonymousContacts],
     })
   }
 
