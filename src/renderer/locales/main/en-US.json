@@ -94,6 +94,7 @@
   "view.name.phone.contacts.edit.primaryNumber": "Primary number",
   "view.name.phone.contacts.edit.secondaryNumber": "Secondary number",
   "view.name.phone.contacts.edit.email": "E-mail",
+  "view.name.phone.contacts.edit.speedDialKeyEmptyOption": "None",
   "view.name.phone.contacts.edit.speedDialKeySelect": "Select",
   "view.name.phone.contacts.edit.speedDialKey": "Speed dial key",
   "view.name.phone.contacts.edit.speedDialSettings": "Speed dial settings",

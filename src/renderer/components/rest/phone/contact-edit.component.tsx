@@ -1,7 +1,7 @@
 import React, { FocusEvent, useEffect } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { Sidebar } from "Renderer/components/core/table/table.component"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { Contact } from "Renderer/models/phone/phone.interface"
 import Text, {
   TextDisplayStyle,
@@ -27,6 +27,7 @@ import {
   emailValidator,
   phoneNumberValidator,
 } from "Renderer/utils/form-validators"
+import InputSelect from "Renderer/components/core/input-select/input-select.component"
 
 const messages = defineMessages({
   editTitle: { id: "view.name.phone.contacts.edit.title" },
@@ -36,6 +37,9 @@ const messages = defineMessages({
   primaryNumber: { id: "view.name.phone.contacts.edit.primaryNumber" },
   secondaryNumber: { id: "view.name.phone.contacts.edit.secondaryNumber" },
   email: { id: "view.name.phone.contacts.edit.email" },
+  speedDialKeyEmptyOption: {
+    id: "view.name.phone.contacts.edit.speedDialKeyEmptyOption",
+  },
   speedDialKeySelect: {
     id: "view.name.phone.contacts.edit.speedDialKeySelect",
   },
@@ -101,9 +105,14 @@ const SpeedDial = styled.div`
   justify-content: space-between;
   align-items: flex-end;
 
-  ${Input} {
-    width: 8rem;
-    background-color: transparent;
+  label {
+    width: 8.5rem;
+  }
+`
+
+const speedDialListStyles = css`
+  li {
+    padding-left: 0.8rem;
   }
 `
 
@@ -144,6 +153,7 @@ export const defaultContact = {
 type NameUpdateProps = Pick<Contact, "firstName" | "lastName">
 
 interface ContactEditProps {
+  availableSpeedDials?: number[]
   contact?: Contact
   onCancel: () => void
   onSpeedDialSettingsOpen: () => void
@@ -152,6 +162,7 @@ interface ContactEditProps {
 }
 
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
+  availableSpeedDials = [1, 2, 3, 4, 5, 6, 7, 8, 9],
   contact,
   onCancel,
   onSave,
@@ -159,13 +170,21 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   onNameUpdate = noop,
   ...rest
 }) => {
-  const { register, handleSubmit, watch, errors } = useForm({
+  const { register, handleSubmit, watch, errors, setValue } = useForm({
     defaultValues: contact,
     mode: "onChange",
   })
 
   const handleSave = handleSubmit(data => {
-    onSave(data)
+    const formData = {
+      ...data,
+      speedDial:
+        data.speedDial.toString() ===
+        intl.formatMessage(messages.speedDialKeySelect)
+          ? undefined
+          : data.speedDial,
+    }
+    onSave(formData)
   })
 
   const fields = watch()
@@ -187,6 +206,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
 
   const trimInputValue = (event: FocusEvent<HTMLInputElement>) => {
     event.target.value = event.target.value.trim()
+  }
+
+  const handleSpeedDialSelect = (value: number) => {
+    setValue("speedDial", value)
   }
 
   useEffect(() => {
@@ -251,18 +274,22 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           </div>
           <div>
             <SpeedDial>
-              <select
-                disabled={!speedDialAssignPossible}
+              <InputSelect
                 name="speedDial"
                 ref={register}
-              >
-                <option value="">Select</option>
-                {[...Array.from({ length: 10 })].map((_, index) => (
-                  <option key={index} value={index}>
-                    {index}
-                  </option>
-                ))}
-              </select>
+                disabled={!speedDialAssignPossible}
+                options={availableSpeedDials}
+                placeholder={intl.formatMessage(messages.speedDialKey)}
+                emptyOption={intl.formatMessage(
+                  messages.speedDialKeyEmptyOption
+                )}
+                onSelect={handleSpeedDialSelect}
+                value={
+                  fields.speedDial ||
+                  intl.formatMessage(messages.speedDialKeySelect)
+                }
+                listStyles={speedDialListStyles}
+              />
               <SpeedDialSettings
                 displayStyle={DisplayStyle.Link3}
                 labelMessage={messages.speedDialSettings}

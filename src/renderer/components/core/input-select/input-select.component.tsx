@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useRef } from "react"
+import React, { useState, MouseEvent, useRef, ComponentProps } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css, FlattenSimpleInterpolation } from "styled-components"
 import { InputText } from "Renderer/components/core/input-text/input-text.elements"
@@ -17,6 +17,7 @@ import {
 import { noop } from "Renderer/utils/noop"
 import { mediumTextSharedStyles } from "Renderer/components/core/text/text.component"
 import { InputProps } from "Renderer/components/core/input-text/input-text.interface"
+import composeRefs from "@seznam/compose-react-refs/composeRefs"
 
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
@@ -101,18 +102,20 @@ const SelectInputWrapper = styled.div`
   }
 `
 
+type InputValue = string | number
+
 export interface InputSelectProps extends Partial<InputProps> {
   value?: any
   options: any[]
   emptyOption?: any
-  renderEmptyOption?: (item: any) => string
-  renderValue?: (item: any) => string
-  renderListItem?: (item: any) => string | JSX.Element
+  renderEmptyOption?: (item: any) => InputValue
+  renderValue?: (item: any) => InputValue
+  renderListItem?: (item: any) => InputValue | JSX.Element
   onSelect?: (option: any) => void
   listStyles?: FlattenSimpleInterpolation
 }
 
-const InputSelect: FunctionComponent<InputSelectProps> = ({
+const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   className,
   value = "",
   options,
@@ -122,10 +125,11 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
   renderListItem = (item: string) => item,
   onSelect = noop,
   listStyles,
+  inputRef,
   ...rest
 }) => {
   const [expanded, setExpansion] = useState(false)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const selectRef = useRef<HTMLInputElement>(null)
 
   const focusIn = () => setExpansion(true)
   const focusOut = () => setExpansion(false)
@@ -135,8 +139,8 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
     event.stopPropagation()
     event.preventDefault()
 
-    if (inputRef.current) {
-      expanded ? inputRef.current.blur() : inputRef.current.focus()
+    if (selectRef.current) {
+      expanded ? selectRef.current.blur() : selectRef.current.focus()
     }
   }
 
@@ -168,7 +172,7 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
         onFocus={focusIn}
         onBlur={focusOut}
         readOnly
-        inputRef={inputRef}
+        inputRef={composeRefs(selectRef, inputRef)}
       />
       <SelectInputList expanded={expanded} listStyles={listStyles}>
         {emptyOption && (
@@ -192,5 +196,10 @@ const InputSelect: FunctionComponent<InputSelectProps> = ({
     </SelectInputWrapper>
   )
 }
+
+const InputSelect = React.forwardRef<
+  HTMLInputElement,
+  ComponentProps<typeof InputSelectComponent>
+>((props, ref) => <InputSelectComponent {...props} inputRef={ref} />)
 
 export default InputSelect

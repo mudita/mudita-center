@@ -137,6 +137,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
 
 storiesOf("Views|Phone/Contact details/Edit", module).add("Default", () => (
   <ContactEdit
+    availableSpeedDials={[3, 4, 6, 7, 8]}
     contact={singleContact()}
     onCancel={action("Cancel")}
     onSave={action("Save")}
@@ -146,6 +147,7 @@ storiesOf("Views|Phone/Contact details/Edit", module).add("Default", () => (
 
 storiesOf("Views|Phone/Contact details/New", module).add("Default", () => (
   <ContactEdit
+    availableSpeedDials={[3, 4, 6, 7, 8]}
     onCancel={action("Cancel")}
     onSave={action("Save")}
     onSpeedDialSettingsOpen={action("Open speed dial settings")}
