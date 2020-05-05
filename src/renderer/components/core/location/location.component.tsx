@@ -1,21 +1,17 @@
 import FunctionComponent from "Renderer/types/function-component.interface"
 import React from "react"
-import { LocationPath } from "Renderer/components/core/location/location.enum"
 import ButtonComponent from "Renderer/components/core/button/button.component"
-import useLocationPicker from "Renderer/utils/hooks/use-location-picker"
+import { noop } from "Renderer/utils/noop"
 
 interface Props {
-  locationToUpdate: LocationPath
   buttonLabel: string
-  onSuccess?: () => void
+  openDialog?: () => void
 }
 
 const Location: FunctionComponent<Props> = ({
-  locationToUpdate,
   buttonLabel,
-  onSuccess,
+  openDialog = noop,
 }) => {
-  const openDialog = useLocationPicker(locationToUpdate, onSuccess)
   return <ButtonComponent onClick={openDialog} label={buttonLabel} />
 }
 

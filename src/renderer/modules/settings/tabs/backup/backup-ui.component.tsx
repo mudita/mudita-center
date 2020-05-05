@@ -45,9 +45,10 @@ const BackupActionsWrapper = styled(ActionsWrapper)`
 `
 interface Props {
   backupLocation?: string
+  openDialog?: () => void
 }
 
-const BackupUI: FunctionComponent<Props> = ({ backupLocation }) => {
+const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => {
   return (
     <BackupWrapper>
       <BackupDescriptionWrapper>
@@ -69,7 +70,7 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation }) => {
         </BackupDataWrapper>
         <BackupActionsWrapper>
           <Location
-            locationToUpdate={LocationPath.PureOsBackup}
+            openDialog={openDialog}
             buttonLabel={intl.formatMessage({
               id: "view.name.settings.backup.buttonLabel",
             })}

@@ -6,6 +6,7 @@ const useLocationPicker = (
   onSuccessCallback?: () => void
 ) => {
   return async () => {
+    console.log("lala")
     if (await updateLocationSettings(locationToUpdate)) {
       onSuccessCallback?.()
     }
