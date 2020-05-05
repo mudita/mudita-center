@@ -1,9 +1,13 @@
 import React from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  transitionTime,
+  transitionTimingFunction,
+} from "Renderer/styles/theming/theme-getters"
 import Image from "Renderer/components/core/image/image.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -26,6 +30,14 @@ export const getSize = (size: AvatarSize) => {
   }
 }
 
+export const basicAvatarStyles = css<{ size?: AvatarSize }>`
+  display: flex;
+  width: ${({ size = AvatarSize.Small }) => getSize(size)}rem;
+  height: ${({ size = AvatarSize.Small }) => getSize(size)}rem;
+  border-radius: 50%;
+  background-color: ${backgroundColor("avatarDark")};
+`
+
 const AvatarImage = styled(Image)`
   object-fit: contain;
   width: 100%;
@@ -33,16 +45,16 @@ const AvatarImage = styled(Image)`
 `
 
 const AvatarWrapper = styled.div<{ size: AvatarSize; light?: boolean }>`
-  display: flex;
+  ${basicAvatarStyles};
+
   align-items: center;
   justify-content: center;
-  width: ${({ size }) => getSize(size)}rem;
-  height: ${({ size }) => getSize(size)}rem;
   overflow: hidden;
-  border-radius: 50%;
   background-color: ${({ light }) =>
     light ? backgroundColor("avatarLight") : backgroundColor("avatarDark")};
   text-transform: uppercase;
+  transition: background-color ${transitionTime("faster")}
+    ${transitionTimingFunction("smooth")};
 `
 
 interface User {

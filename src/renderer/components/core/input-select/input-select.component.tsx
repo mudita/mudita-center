@@ -27,7 +27,10 @@ const ToggleIcon = styled.span<{ rotated?: boolean }>`
   transform: rotateZ(${({ rotated }) => (rotated ? 180 : 0)}deg);
 `
 
-const SelectInputItem = styled.li<{ empty?: boolean; selected?: boolean }>`
+export const SelectInputItem = styled.li<{
+  empty?: boolean
+  selected?: boolean
+}>`
   cursor: pointer;
   padding: 1.2rem 2.4rem;
   ${mediumTextSharedStyles};
@@ -104,13 +107,20 @@ const SelectInputWrapper = styled.div`
 
 type InputValue = string | number
 
+type RenderableListItem = InputValue | JSX.Element
+
+export type ListItemProps = {
+  onClick: (option: any) => void
+  selected: boolean
+}
+
 export interface InputSelectProps extends Partial<InputProps> {
   value?: any
   options: any[]
   emptyOption?: any
   renderEmptyOption?: (item: any) => InputValue
   renderValue?: (item: any) => InputValue
-  renderListItem?: (item: any) => InputValue | JSX.Element
+  renderListItem?: (item: any, props: ListItemProps) => RenderableListItem
   onSelect?: (option: any) => void
   listStyles?: FlattenSimpleInterpolation
 }
@@ -122,7 +132,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   emptyOption = "",
   renderEmptyOption = (item: string) => item,
   renderValue = (item: string) => item,
-  renderListItem = (item: string) => item,
+  renderListItem,
   onSelect = noop,
   listStyles,
   inputRef,
@@ -181,15 +191,21 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
           </SelectInputItem>
         )}
         {options.map((option, index) => {
-          const selectOption = () => onSelect(option)
+          const onClick = () => onSelect(option)
+          const selected = option === value
           return (
-            <SelectInputItem
-              key={index}
-              onClick={selectOption}
-              selected={option === value}
-            >
-              {renderListItem(option)}
-            </SelectInputItem>
+            <React.Fragment key={index}>
+              {renderListItem ? (
+                renderListItem(option, {
+                  onClick,
+                  selected,
+                })
+              ) : (
+                <SelectInputItem onClick={onClick} selected={option === value}>
+                  {option}
+                </SelectInputItem>
+              )}
+            </React.Fragment>
           )
         })}
       </SelectInputList>
