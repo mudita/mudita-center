@@ -20,11 +20,11 @@ import { intl } from "Renderer/utils/intl"
 const BackupTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 20rem;
-  border-bottom: solid 0.2rem ${borderColor("listItem")};
+  border-bottom: solid 0.1rem ${borderColor("listItem")};
 `
 
 const BackupDescriptionWrapper = styled.div`
-  border-bottom: solid 0.2rem ${borderColor("listItem")};
+  border-bottom: solid 0.1rem ${borderColor("listItem")};
 `
 
 const BackupDescription = styled(Text)`
