@@ -1,7 +1,6 @@
 import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import Location from "Renderer/components/core/location/location.component"
-import { LocationPath } from "Renderer/components/core/location/location.enum"
 import styled from "styled-components"
 import {
   ActionsWrapper,

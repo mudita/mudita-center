@@ -4,11 +4,6 @@ import { LocationPath } from "Renderer/components/core/location/location.enum"
 
 export default {
   state: {},
-  reducers: {
-    update(state: any, payload: any) {
-      return { ...state, ...payload }
-    },
-  },
   effects: (dispatch: Dispatch) => ({
     async openDialog() {
       const openDialog = useLocationPicker(LocationPath.PureOsBackup)
