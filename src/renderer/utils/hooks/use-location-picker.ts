@@ -1,12 +1,11 @@
 import { updateLocationSettings } from "Renderer/requests/app-settings.request"
-import { LocationPath } from "Renderer/components/core/location/location.enum"
+import { LocationPath } from "Renderer/modules/settings/tabs/backup/location-path.enum"
 
 const useLocationPicker = (
   locationToUpdate: LocationPath,
   onSuccessCallback?: () => void
 ) => {
   return async () => {
-    console.log("lala")
     if (await updateLocationSettings(locationToUpdate)) {
       onSuccessCallback?.()
     }

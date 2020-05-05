@@ -1,6 +1,5 @@
 import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import Location from "Renderer/components/core/location/location.component"
 import styled from "styled-components"
 import {
   ActionsWrapper,
@@ -15,6 +14,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
+import ButtonComponent from "App/renderer/components/core/button/button.component"
 
 const BackupTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -68,9 +68,9 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => {
           </Message>
         </BackupDataWrapper>
         <BackupActionsWrapper>
-          <Location
-            openDialog={openDialog}
-            buttonLabel={intl.formatMessage({
+          <ButtonComponent
+            onClick={openDialog}
+            label={intl.formatMessage({
               id: "view.name.settings.backup.buttonLabel",
             })}
           />

@@ -1,6 +1,6 @@
 import { Dispatch } from "Renderer/store"
 import useLocationPicker from "Renderer/utils/hooks/use-location-picker"
-import { LocationPath } from "Renderer/components/core/location/location.enum"
+import { LocationPath } from "Renderer/modules/settings/tabs/backup/location-path.enum"
 
 export default {
   state: {},
