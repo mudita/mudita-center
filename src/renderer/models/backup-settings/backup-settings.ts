@@ -4,9 +4,9 @@ import { LocationPath } from "Renderer/modules/settings/tabs/backup/location-pat
 export default {
   state: {},
   effects: () => ({
-    async openDialog() {
+    openDialog() {
       const openDialog = useLocationPicker(LocationPath.PureOsBackup)
-      await openDialog()
+      openDialog()
     },
   }),
 }
