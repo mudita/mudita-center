@@ -13,6 +13,7 @@ import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
+import { noop } from "Renderer/utils/noop"
 
 export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -43,17 +44,17 @@ export const SettingsWrapper = styled.section`
 `
 
 interface Props {
-  autostart?: string
-  setAutostart: (label: ToggleState) => void
-  tethering?: string
-  setTethering: (label: ToggleState) => void
+  autostart?: ToggleState
+  setAutostart?: (label: ToggleState) => void
+  tethering?: ToggleState
+  setTethering?: (label: ToggleState) => void
 }
 
 const SettingsUI: FunctionComponent<Props> = ({
   autostart,
-  setAutostart,
+  setAutostart = noop,
   tethering,
-  setTethering,
+  setTethering = noop,
 }) => {
   return (
     <SettingsWrapper>

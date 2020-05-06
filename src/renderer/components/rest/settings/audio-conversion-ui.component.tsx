@@ -36,7 +36,7 @@ const ConversionFormatRadioGroup = styled(AudioConversionRadioGroup)`
 `
 
 interface Props {
-  nonStandardFilesConversion?: string
+  nonStandardFilesConversion?: ToggleState
   setNonStandardFilesConversion: (label: ToggleState) => void
   conversionRadioGroup: InputProps[]
   conversionFormatRadioGroup: InputProps[]

@@ -18,8 +18,8 @@ const TogglerItem = styled(ButtonTogglerItem)`
 `
 
 interface Props {
-  toggleValue?: string
-  onToggle: (label: ToggleState) => void
+  toggleValue?: ToggleState
+  onToggle: (value: ToggleState) => void
 }
 
 const SettingsToggler: FunctionComponent<Props> = ({
@@ -28,20 +28,22 @@ const SettingsToggler: FunctionComponent<Props> = ({
 }) => {
   return (
     <Toggler filled>
-      {twoStateToggler.map(label => {
+      {twoStateToggler.map(value => {
         const changeStatus = () => {
-          onToggle(label)
+          onToggle(value)
         }
         return (
           <TogglerItem
-            key={label}
+            key={value}
             label={intl.formatMessage({
-              id: label,
+              id: Boolean(value)
+                ? "view.name.settings.onLabel"
+                : "view.name.settings.offLabel",
             })}
             onClick={changeStatus}
-            active={toggleValue === label}
+            active={toggleValue === value}
             data-testid={
-              toggleValue === label ? "toggler-active" : "toggler-inactive"
+              toggleValue === value ? "toggler-active" : "toggler-inactive"
             }
           />
         )

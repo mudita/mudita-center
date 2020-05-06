@@ -15,13 +15,13 @@ import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.
 import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 interface Props {
-  incomingCalls?: string
+  incomingCalls?: ToggleState
   setIncomingCalls: (label: ToggleState) => void
-  incomingMessages?: string
+  incomingMessages?: ToggleState
   setIncomingMessages: (label: ToggleState) => void
-  lowBattery?: string
+  lowBattery?: ToggleState
   setLowBattery: (label: ToggleState) => void
-  osUpdates?: string
+  osUpdates?: ToggleState
   setOsUpdates: (label: ToggleState) => void
 }
 
