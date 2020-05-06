@@ -1,3 +1,9 @@
-import { AppSettings } from "App/main/default-app-settings"
+import { AppSettings as StoreValues } from "App/main/default-app-settings"
 
-export type Store = AppSettings
+interface StoreEffects {
+  loadSettings: () => void
+  setAutostart: (option: boolean) => void
+  setTethering: (option: boolean) => void
+}
+
+export type Store = StoreValues & StoreEffects
