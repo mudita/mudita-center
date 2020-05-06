@@ -2,7 +2,6 @@ import { ipcRenderer } from "electron-better-ipc"
 import { init } from "@rematch/core"
 import settings from "Renderer/models/settings/settings"
 import { SettingsEvents } from "App/main/functions/register-settings-listeners"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 test("loadSettings updates state", async () => {
   const store = init({
@@ -10,8 +9,8 @@ test("loadSettings updates state", async () => {
   })
   ;(ipcRenderer as any).__rendererCalls = {
     [SettingsEvents.Get]: Promise.resolve({
-      autostart: ToggleState.Off,
-      tethering: ToggleState.Off,
+      autostart: false,
+      tethering: false,
     }),
   }
   await store.dispatch.settings.loadSettings()
@@ -19,8 +18,8 @@ test("loadSettings updates state", async () => {
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
-        "autostart": 0,
-        "tethering": 0,
+        "autostart": false,
+        "tethering": false,
       },
     }
   `)

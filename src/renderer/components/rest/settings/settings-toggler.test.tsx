@@ -5,12 +5,11 @@ import SettingsToggler, {
   Option,
 } from "Renderer/components/rest/settings/settings-toggler.component"
 import { fireEvent } from "@testing-library/dom"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 test("off button is active by default", async () => {
   const onToggle = jest.fn()
   const { queryAllByRole } = renderWithThemeAndIntl(
-    <SettingsToggler onToggle={onToggle} toggleValue={ToggleState.Off} />
+    <SettingsToggler onToggle={onToggle} toggleValue={false} />
   )
   const buttons = queryAllByRole("button")
   const offButton = buttons[0]
@@ -23,7 +22,7 @@ test("passed function is called with right argument", async () => {
   const { queryAllByRole } = renderWithThemeAndIntl(
     <SettingsToggler
       onToggle={onToggle}
-      toggleValue={ToggleState.Off}
+      toggleValue={false}
       optionToUpdate={Option.Autostart}
     />
   )
@@ -31,7 +30,7 @@ test("passed function is called with right argument", async () => {
 
   await fireEvent.click(onButton)
   expect(onToggle).toBeCalledWith({
-    [String(Option.Autostart)]: ToggleState.On,
+    [String(Option.Autostart)]: true,
   })
 })
 

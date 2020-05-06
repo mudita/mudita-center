@@ -6,7 +6,6 @@ import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 import { noop } from "Renderer/utils/noop"
 
 const Toggler = styled(ButtonToggler)`
@@ -24,8 +23,8 @@ export enum Option {
 }
 
 interface Props {
-  toggleValue?: ToggleState
-  onToggle?: (option: Record<string, ToggleState>) => void
+  toggleValue?: boolean
+  onToggle?: (option: Record<string, boolean>) => void
   optionToUpdate?: Option
 }
 
@@ -40,10 +39,9 @@ const SettingsToggler: FunctionComponent<Props> = ({
         const changeStatus = () => {
           onToggle({ [String(optionToUpdate)]: value })
         }
-
         return (
           <TogglerItem
-            key={value}
+            key={Number(value)}
             label={intl.formatMessage({
               id: Boolean(value)
                 ? "view.name.settings.onLabel"

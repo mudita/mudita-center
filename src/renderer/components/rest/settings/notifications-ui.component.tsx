@@ -12,17 +12,16 @@ import {
   SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 interface Props {
-  incomingCalls?: ToggleState
-  setIncomingCalls: (label: ToggleState) => void
-  incomingMessages?: ToggleState
-  setIncomingMessages: (label: ToggleState) => void
-  lowBattery?: ToggleState
-  setLowBattery: (label: ToggleState) => void
-  osUpdates?: ToggleState
-  setOsUpdates: (label: ToggleState) => void
+  incomingCalls?: boolean
+  setIncomingCalls: (label: boolean) => void
+  incomingMessages?: boolean
+  setIncomingMessages: (label: boolean) => void
+  lowBattery?: boolean
+  setLowBattery: (label: boolean) => void
+  osUpdates?: boolean
+  setOsUpdates: (label: boolean) => void
 }
 
 const NotificationsUI: FunctionComponent<Props> = ({

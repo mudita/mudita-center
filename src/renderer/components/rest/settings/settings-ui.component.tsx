@@ -14,7 +14,6 @@ import { borderColor } from "Renderer/styles/theming/theme-getters"
 import SettingsToggler, {
   Option,
 } from "Renderer/components/rest/settings/settings-toggler.component"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 import { noop } from "Renderer/utils/noop"
 
 export const SettingsTableRow = styled(TableRow)`
@@ -46,10 +45,10 @@ export const SettingsWrapper = styled.section`
 `
 
 interface Props {
-  autostart?: ToggleState
-  setAutostart?: (option: Record<string, ToggleState>) => void
-  tethering?: ToggleState
-  setTethering?: (option: Record<string, ToggleState>) => void
+  autostart?: boolean
+  setAutostart?: (option: Record<string, boolean>) => void
+  tethering?: boolean
+  setTethering?: (option: Record<string, boolean>) => void
 }
 
 const SettingsUI: FunctionComponent<Props> = ({
