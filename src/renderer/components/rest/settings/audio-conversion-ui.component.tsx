@@ -73,10 +73,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
             </SettingsLabel>
           </Data>
           <ActionsWrapper>
-            <SettingsToggler
-              toggleValue={nonStandardFilesConversion}
-              onToggle={setNonStandardFilesConversion}
-            />
+            <SettingsToggler toggleValue={nonStandardFilesConversion} />
           </ActionsWrapper>
         </SettingsTableRow>
       </SettingsWrapper>

@@ -7,6 +7,7 @@ import ButtonToggler, {
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
 import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
+import { noop } from "Renderer/utils/noop"
 
 const Toggler = styled(ButtonToggler)`
   margin-right: 4rem;
@@ -24,21 +25,20 @@ export enum Option {
 
 interface Props {
   toggleValue?: ToggleState
-  onToggle: (option: Record<string, ToggleState>) => void
-  optionToUpdate: Option
+  onToggle?: (option: Record<string, ToggleState>) => void
+  optionToUpdate?: Option
 }
 
 const SettingsToggler: FunctionComponent<Props> = ({
   toggleValue,
-  onToggle,
+  onToggle = noop,
   optionToUpdate,
 }) => {
   return (
     <Toggler filled>
       {twoStateToggler.map(value => {
         const changeStatus = () => {
-          console.log("prawdopodobnie false", toggleValue === value)
-          onToggle({ [optionToUpdate]: value })
+          onToggle({ [String(optionToUpdate)]: value })
         }
 
         return (
