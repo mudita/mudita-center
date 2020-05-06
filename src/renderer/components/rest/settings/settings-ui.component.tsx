@@ -11,7 +11,9 @@ import Text, {
 import styled from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+import SettingsToggler, {
+  Option,
+} from "Renderer/components/rest/settings/settings-toggler.component"
 import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 import { noop } from "Renderer/utils/noop"
 
@@ -45,9 +47,9 @@ export const SettingsWrapper = styled.section`
 
 interface Props {
   autostart?: ToggleState
-  setAutostart?: (label: ToggleState) => void
+  setAutostart?: (option: Record<string, ToggleState>) => void
   tethering?: ToggleState
-  setTethering?: (label: ToggleState) => void
+  setTethering?: (option: Record<string, ToggleState>) => void
 }
 
 const SettingsUI: FunctionComponent<Props> = ({
@@ -72,7 +74,11 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={autostart} onToggle={setAutostart} />
+          <SettingsToggler
+            toggleValue={autostart}
+            onToggle={setAutostart}
+            optionToUpdate={Option.Autostart}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -82,7 +88,11 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={tethering} onToggle={setTethering} />
+          <SettingsToggler
+            toggleValue={tethering}
+            onToggle={setTethering}
+            optionToUpdate={Option.Tethering}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>

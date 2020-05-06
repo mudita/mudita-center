@@ -17,21 +17,30 @@ const TogglerItem = styled(ButtonTogglerItem)`
   width: 75%;
 `
 
+export enum Option {
+  Autostart = "autostart",
+  Tethering = "tethering",
+}
+
 interface Props {
   toggleValue?: ToggleState
-  onToggle: (value: ToggleState) => void
+  onToggle: (option: Record<string, ToggleState>) => void
+  optionToUpdate: Option
 }
 
 const SettingsToggler: FunctionComponent<Props> = ({
   toggleValue,
   onToggle,
+  optionToUpdate,
 }) => {
   return (
     <Toggler filled>
       {twoStateToggler.map(value => {
         const changeStatus = () => {
-          onToggle(value)
+          console.log("prawdopodobnie false", toggleValue === value)
+          onToggle({ [optionToUpdate]: value })
         }
+
         return (
           <TogglerItem
             key={value}
