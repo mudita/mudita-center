@@ -5,7 +5,7 @@ import fs from "fs-extra"
 import getDefaultAppSettings, {
   AppSettings,
 } from "App/main/default-app-settings"
-import { LocationPath } from "Renderer/components/core/location/location.enum"
+import { LocationPath } from "App/renderer/modules/settings/tabs/backup/location-path.enum"
 
 export enum SettingsEvents {
   Update = "update-app-settings",
