@@ -19,8 +19,10 @@ import { noop } from "Renderer/utils/noop"
 interface Props {
   appIncomingCalls?: boolean
   setIncomingCalls?: (option: Record<Option.IncomingCalls, boolean>) => void
-  incomingMessages?: boolean
-  setIncomingMessages?: (label: boolean) => void
+  appIncomingMessages?: boolean
+  setIncomingMessages?: (
+    option: Record<Option.IncomingMessages, boolean>
+  ) => void
   lowBattery?: boolean
   setLowBattery?: (label: boolean) => void
   osUpdates?: boolean
@@ -30,7 +32,7 @@ interface Props {
 const NotificationsUI: FunctionComponent<Props> = ({
   appIncomingCalls,
   setIncomingCalls = noop,
-  incomingMessages,
+  appIncomingMessages,
   setIncomingMessages = noop,
   lowBattery,
   setLowBattery = noop,
@@ -67,7 +69,11 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={incomingMessages} />
+          <SettingsToggler
+            toggleValue={appIncomingMessages}
+            onToggle={setIncomingMessages}
+            optionToUpdate={Option.IncomingMessages}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>

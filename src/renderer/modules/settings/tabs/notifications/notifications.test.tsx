@@ -6,7 +6,7 @@ test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
     <NotificationsUI
       appIncomingCalls={false}
-      incomingMessages={false}
+      appIncomingMessages={false}
       lowBattery={false}
       osUpdates={false}
     />

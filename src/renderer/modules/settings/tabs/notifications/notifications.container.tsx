@@ -13,6 +13,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   loadSettings: () => dispatch.settings.loadSettings(),
   setIncomingCalls: (option: Record<Option.IncomingCalls, boolean>) =>
     dispatch.settings.setIncomingCalls(option),
+  setIncomingMessages: (option: Record<Option.IncomingMessages, boolean>) =>
+    dispatch.settings.setIncomingMessages(option),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications)

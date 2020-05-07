@@ -28,5 +28,11 @@ export default {
       await updateSettingsRequest(option)
       dispatch.settings.update(option)
     },
+    async setIncomingMessages(
+      option: Record<Option.IncomingMessages, boolean>
+    ) {
+      await updateSettingsRequest(option)
+      dispatch.settings.update(option)
+    },
   }),
 }
