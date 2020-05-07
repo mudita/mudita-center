@@ -45,16 +45,16 @@ export const SettingsWrapper = styled.section`
 `
 
 interface Props {
-  autostart?: boolean
-  setAutostart?: (option: Record<string, boolean>) => void
-  tethering?: boolean
-  setTethering?: (option: Record<string, boolean>) => void
+  appAutostart?: boolean
+  setAutostart?: (option: Record<Option, boolean>) => void
+  appTethering?: boolean
+  setTethering?: (option: Record<Option, boolean>) => void
 }
 
 const SettingsUI: FunctionComponent<Props> = ({
-  autostart,
+  appAutostart,
   setAutostart = noop,
-  tethering,
+  appTethering,
   setTethering = noop,
 }) => {
   return (
@@ -74,7 +74,7 @@ const SettingsUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <SettingsToggler
-            toggleValue={autostart}
+            toggleValue={appAutostart}
             onToggle={setAutostart}
             optionToUpdate={Option.Autostart}
           />
@@ -88,7 +88,7 @@ const SettingsUI: FunctionComponent<Props> = ({
         </Data>
         <ActionsWrapper>
           <SettingsToggler
-            toggleValue={tethering}
+            toggleValue={appTethering}
             onToggle={setTethering}
             optionToUpdate={Option.Tethering}
           />

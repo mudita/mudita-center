@@ -30,7 +30,7 @@ test("passed function is called with right argument", async () => {
 
   await fireEvent.click(onButton)
   expect(onToggle).toBeCalledWith({
-    [String(Option.Autostart)]: true,
+    [Option.Autostart]: true,
   })
 })
 
