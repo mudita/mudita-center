@@ -63,3 +63,22 @@ test("updates tethering key in store", async () => {
     }
   `)
 })
+
+test("updates incomingCalls key in store", async () => {
+  const store = init({
+    models: { settings },
+  })
+  const updatedOption = { [Option.IncomingCalls]: true }
+  ;(ipcRenderer as any).__rendererCalls = {
+    [SettingsEvents.Update]: Promise.resolve(updatedOption),
+  }
+  await store.dispatch.settings.setIncomingCalls(updatedOption)
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "appIncomingCalls": true,
+      },
+    }
+  `)
+})

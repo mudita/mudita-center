@@ -5,7 +5,7 @@ import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
     <NotificationsUI
-      incomingCalls={false}
+      appIncomingCalls={false}
       incomingMessages={false}
       lowBattery={false}
       osUpdates={false}

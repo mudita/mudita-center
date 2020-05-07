@@ -24,5 +24,9 @@ export default {
       await updateSettingsRequest(option)
       dispatch.settings.update(option)
     },
+    async setIncomingCalls(option: Record<Option.IncomingCalls, boolean>) {
+      await updateSettingsRequest(option)
+      dispatch.settings.update(option)
+    },
   }),
 }

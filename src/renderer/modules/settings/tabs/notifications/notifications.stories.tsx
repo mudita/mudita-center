@@ -5,7 +5,7 @@ import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.
 storiesOf("Settings|Notifications", module).add("Notifications", () => (
   <div style={{ maxWidth: "63rem" }}>
     <NotificationsUI
-      incomingCalls={false}
+      appIncomingCalls={false}
       incomingMessages={false}
       lowBattery={false}
       osUpdates={false}

@@ -11,12 +11,14 @@ import {
   SettingsTableRow,
   SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
-import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+import SettingsToggler, {
+  Option,
+} from "Renderer/components/rest/settings/settings-toggler.component"
 import { noop } from "Renderer/utils/noop"
 
 interface Props {
-  incomingCalls?: boolean
-  setIncomingCalls?: (label: boolean) => void
+  appIncomingCalls?: boolean
+  setIncomingCalls?: (option: Record<Option.IncomingCalls, boolean>) => void
   incomingMessages?: boolean
   setIncomingMessages?: (label: boolean) => void
   lowBattery?: boolean
@@ -26,7 +28,7 @@ interface Props {
 }
 
 const NotificationsUI: FunctionComponent<Props> = ({
-  incomingCalls,
+  appIncomingCalls,
   setIncomingCalls = noop,
   incomingMessages,
   setIncomingMessages = noop,
@@ -51,7 +53,11 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={incomingCalls} />
+          <SettingsToggler
+            toggleValue={appIncomingCalls}
+            onToggle={setIncomingCalls}
+            optionToUpdate={Option.IncomingCalls}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
