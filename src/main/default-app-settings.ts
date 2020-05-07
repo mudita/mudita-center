@@ -9,6 +9,10 @@ export interface AppSettings {
   pureOsDownloadLocation: string
   autostart: boolean
   tethering: boolean
+  incomingCalls: boolean
+  incomingMessages: boolean
+  lowBattery: boolean
+  osUpdates: boolean
 }
 
 const getDefaultAppSettings = (): AppSettings => {
@@ -22,6 +26,10 @@ const getDefaultAppSettings = (): AppSettings => {
     pureOsDownloadLocation: `${appPath}/pure/os/downloads/`,
     autostart: false,
     tethering: false,
+    incomingCalls: false,
+    incomingMessages: false,
+    lowBattery: false,
+    osUpdates: false,
   }
 }
 
