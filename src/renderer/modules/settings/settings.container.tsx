@@ -1,6 +1,7 @@
 import { connect } from "react-redux"
 import Settings from "Renderer/modules/settings/settings.component"
 import { RootModel } from "Renderer/models/models"
+import { Option } from "Renderer/components/rest/settings/settings-toggler.component"
 
 const mapStateToProps = (state: RootModel) => {
   return {
@@ -10,9 +11,9 @@ const mapStateToProps = (state: RootModel) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadSettings: () => dispatch.settings.loadSettings(),
-  setAutostart: (option: Record<string, boolean>) =>
+  setAutostart: (option: Record<Option.Autostart, boolean>) =>
     dispatch.settings.setAutostart(option),
-  setTethering: (option: Record<string, boolean>) =>
+  setTethering: (option: Record<Option.Tethering, boolean>) =>
     dispatch.settings.setTethering(option),
 })
 
