@@ -16,7 +16,6 @@ const Notifications: FunctionComponent<Props> = ({
       await loadSettings()
     })()
   }, [])
-  console.log(incomingCalls)
   // const [incomingCalls, setIncomingCalls] = useState<boolean>(false)
   const [incomingMessages, setIncomingMessages] = useState<boolean>(false)
   const [lowBattery, setLowBattery] = useState<boolean>(false)

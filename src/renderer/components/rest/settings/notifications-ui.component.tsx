@@ -12,27 +12,28 @@ import {
   SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+import { noop } from "Renderer/utils/noop"
 
 interface Props {
   incomingCalls?: boolean
-  setIncomingCalls: (label: boolean) => void
+  setIncomingCalls?: (label: boolean) => void
   incomingMessages?: boolean
-  setIncomingMessages: (label: boolean) => void
+  setIncomingMessages?: (label: boolean) => void
   lowBattery?: boolean
-  setLowBattery: (label: boolean) => void
+  setLowBattery?: (label: boolean) => void
   osUpdates?: boolean
-  setOsUpdates: (label: boolean) => void
+  setOsUpdates?: (label: boolean) => void
 }
 
 const NotificationsUI: FunctionComponent<Props> = ({
   incomingCalls,
-  setIncomingCalls,
+  setIncomingCalls = noop,
   incomingMessages,
-  setIncomingMessages,
+  setIncomingMessages = noop,
   lowBattery,
-  setLowBattery,
+  setLowBattery = noop,
   osUpdates,
-  setOsUpdates,
+  setOsUpdates = noop,
 }) => {
   return (
     <SettingsWrapper>

@@ -1,9 +1,14 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.component"
+import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.component"
 
 storiesOf("Settings|Notifications", module).add("Notifications", () => (
   <div style={{ maxWidth: "63rem" }}>
-    <Notifications />
+    <NotificationsUI
+      incomingCalls={false}
+      incomingMessages={false}
+      lowBattery={false}
+      osUpdates={false}
+    />
   </div>
 ))

@@ -1,8 +1,15 @@
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.component"
+import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.component"
 
 test("matches snapshot", () => {
-  const { container } = renderWithThemeAndIntl(<Notifications />)
+  const { container } = renderWithThemeAndIntl(
+    <NotificationsUI
+      incomingCalls={false}
+      incomingMessages={false}
+      lowBattery={false}
+      osUpdates={false}
+    />
+  )
   expect(container).toMatchSnapshot()
 })
