@@ -3,6 +3,7 @@ import { getAppSettings } from "Renderer/requests/app-settings.request"
 import { Store } from "Renderer/models/settings/settings.interface"
 import updateSettingsRequest from "Renderer/requests/update-settings.request"
 import { AppSettings } from "App/main/default-app-settings"
+import { Option } from "Renderer/components/rest/settings/settings-toggler.component"
 
 export default {
   state: {},
@@ -15,11 +16,11 @@ export default {
     async loadSettings() {
       dispatch.settings.update(await getAppSettings())
     },
-    async setAutostart(option: Record<string, boolean>) {
+    async setAutostart(option: Record<Option.Autostart, boolean>) {
       await updateSettingsRequest(option)
       dispatch.settings.update(option)
     },
-    async setTethering(option: Record<string, boolean>) {
+    async setTethering(option: Record<Option.Tethering, boolean>) {
       await updateSettingsRequest(option)
       dispatch.settings.update(option)
     },

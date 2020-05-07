@@ -37,7 +37,7 @@ const SettingsToggler: FunctionComponent<Props> = ({
     <Toggler filled>
       {twoStateToggler.map(value => {
         const changeStatus = () => {
-          onToggle({ [String(optionToUpdate)]: value })
+          onToggle({ [optionToUpdate as string]: value })
         }
         return (
           <TogglerItem

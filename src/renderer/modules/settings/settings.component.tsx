@@ -1,13 +1,14 @@
 import React, { useEffect } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
+import { Option } from "Renderer/components/rest/settings/settings-toggler.component"
 
 interface Props {
   appAutostart: boolean
   appTethering: boolean
   loadSettings: () => void
-  setAutostart: (option: Record<string, boolean>) => void
-  setTethering: (option: Record<string, boolean>) => void
+  setAutostart: (option: Record<Option, boolean>) => void
+  setTethering: (option: Record<Option, boolean>) => void
 }
 
 const Settings: FunctionComponent<Props> = ({
