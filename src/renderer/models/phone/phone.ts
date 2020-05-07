@@ -25,9 +25,8 @@ export default {
   selectors: (slice: Slicer<State>) => ({
     grouped() {
       return slice(state => {
-        return filterContacts(
-          generateSortedStructure(state.contacts),
-          state.inputValue
+        return generateSortedStructure(
+          filterContacts(state.contacts, state.inputValue)
         )
       })
     },

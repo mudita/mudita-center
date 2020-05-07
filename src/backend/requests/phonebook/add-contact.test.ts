@@ -5,16 +5,16 @@ import registerAddContactRequest from "Backend/requests/phonebook/add-contact.re
 import { defaultContact } from "Renderer/components/rest/phone/contact-edit.component"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 
-test("adds contact properly", () => {
+test("adds contact properly", async () => {
   registerAddContactRequest(getFakeAdapters())
 
-  const [result] = (ipcMain as any)._flush(
+  const [result] = await (ipcMain as any)._flush(
     IpcRequest.AddContact,
     defaultContact
   )
 
   const { id } = result.data
 
-  expect(result.data).toStrictEqual({ id, ...defaultContact })
+  expect(result.data).toStrictEqual({ ...defaultContact, id })
   expect(result.status).toBe(DeviceResponseStatus.Ok)
 })

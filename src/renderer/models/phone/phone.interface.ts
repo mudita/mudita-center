@@ -16,6 +16,8 @@ export interface Contact {
   secondAddressLine: string
 }
 
+export type NewContact = Omit<Contact, "id">
+
 export interface ContactCategory {
   category: string
   contacts: Contact[]
