@@ -46,9 +46,9 @@ export const SettingsWrapper = styled.section`
 
 interface Props {
   appAutostart?: boolean
-  setAutostart?: (option: Record<Option.Autostart, boolean>) => void
+  setAutostart?: (option: boolean) => void
   appTethering?: boolean
-  setTethering?: (option: Record<Option.Tethering, boolean>) => void
+  setTethering?: (option: boolean) => void
 }
 
 const SettingsUI: FunctionComponent<Props> = ({
