@@ -18,9 +18,7 @@ const Settings: FunctionComponent<Props> = ({
   loadSettings,
 }) => {
   useEffect(() => {
-    ;(async () => {
-      await loadSettings()
-    })()
+    loadSettings()
   }, [])
   return (
     <SettingsUI
