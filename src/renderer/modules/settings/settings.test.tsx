@@ -5,7 +5,7 @@ import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
 
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
-    <SettingsUI autostart={false} tethering={false} />
+    <SettingsUI appAutostart={false} appTethering={false} />
   )
   expect(container).toMatchSnapshot()
 })

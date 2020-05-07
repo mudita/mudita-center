@@ -18,8 +18,8 @@ const TogglerItem = styled(ButtonTogglerItem)`
 `
 
 export enum Option {
-  Autostart = "autostart",
-  Tethering = "tethering",
+  Autostart = "appAutostart",
+  Tethering = "appTethering",
 }
 
 interface Props {

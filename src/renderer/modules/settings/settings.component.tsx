@@ -3,16 +3,16 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
 
 interface Props {
-  autostart: boolean
-  tethering: boolean
+  appAutostart: boolean
+  appTethering: boolean
   loadSettings: () => void
   setAutostart: (option: Record<string, boolean>) => void
   setTethering: (option: Record<string, boolean>) => void
 }
 
 const Settings: FunctionComponent<Props> = ({
-  autostart,
-  tethering,
+  appAutostart,
+  appTethering,
   setAutostart,
   setTethering,
   loadSettings,
@@ -24,8 +24,8 @@ const Settings: FunctionComponent<Props> = ({
   }, [])
   return (
     <SettingsUI
-      autostart={autostart}
-      tethering={tethering}
+      appAutostart={appAutostart}
+      appTethering={appTethering}
       setAutostart={setAutostart}
       setTethering={setTethering}
     />

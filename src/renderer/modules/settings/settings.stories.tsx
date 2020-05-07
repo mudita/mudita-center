@@ -6,7 +6,7 @@ storiesOf("Settings|Settings(connection)", module).add(
   "Settings(connection)",
   () => (
     <div style={{ maxWidth: "63rem" }}>
-      <SettingsUI autostart={false} tethering={false} />
+      <SettingsUI appAutostart={false} appTethering={false} />
     </div>
   )
 )
