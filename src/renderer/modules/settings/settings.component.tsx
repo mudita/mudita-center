@@ -7,8 +7,8 @@ interface Props {
   appAutostart: boolean
   appTethering: boolean
   loadSettings: () => void
-  setAutostart: (option: Record<Option, boolean>) => void
-  setTethering: (option: Record<Option, boolean>) => void
+  setAutostart: (option: Record<Option.Autostart, boolean>) => void
+  setTethering: (option: Record<Option.Tethering, boolean>) => void
 }
 
 const Settings: FunctionComponent<Props> = ({
