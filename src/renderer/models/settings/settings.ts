@@ -34,5 +34,9 @@ export default {
       await updateSettingsRequest(option)
       dispatch.settings.update(option)
     },
+    async setLowBattery(option: Record<Option.LowBattery, boolean>) {
+      await updateSettingsRequest(option)
+      dispatch.settings.update(option)
+    },
   }),
 }

@@ -7,7 +7,7 @@ test("matches snapshot", () => {
     <NotificationsUI
       appIncomingCalls={false}
       appIncomingMessages={false}
-      lowBattery={false}
+      appLowBattery={false}
       osUpdates={false}
     />
   )

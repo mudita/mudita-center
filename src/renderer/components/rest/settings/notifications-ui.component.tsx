@@ -18,13 +18,13 @@ import { noop } from "Renderer/utils/noop"
 
 interface Props {
   appIncomingCalls?: boolean
-  setIncomingCalls?: (option: Record<Option.IncomingCalls, boolean>) => void
   appIncomingMessages?: boolean
+  appLowBattery?: boolean
+  setIncomingCalls?: (option: Record<Option.IncomingCalls, boolean>) => void
   setIncomingMessages?: (
     option: Record<Option.IncomingMessages, boolean>
   ) => void
-  lowBattery?: boolean
-  setLowBattery?: (label: boolean) => void
+  setLowBattery?: (option: Record<Option.LowBattery, boolean>) => void
   osUpdates?: boolean
   setOsUpdates?: (label: boolean) => void
 }
@@ -34,7 +34,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
   setIncomingCalls = noop,
   appIncomingMessages,
   setIncomingMessages = noop,
-  lowBattery,
+  appLowBattery,
   setLowBattery = noop,
   osUpdates,
   setOsUpdates = noop,
@@ -83,7 +83,11 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={lowBattery} />
+          <SettingsToggler
+            toggleValue={appLowBattery}
+            onToggle={setLowBattery}
+            optionToUpdate={Option.LowBattery}
+          />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>

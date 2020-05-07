@@ -22,6 +22,7 @@ export enum Option {
   Tethering = "appTethering",
   IncomingCalls = "appIncomingCalls",
   IncomingMessages = "appIncomingMessages",
+  LowBattery = "appLowBattery",
 }
 
 interface Props {

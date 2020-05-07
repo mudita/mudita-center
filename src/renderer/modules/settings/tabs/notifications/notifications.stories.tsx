@@ -7,7 +7,7 @@ storiesOf("Settings|Notifications", module).add("Notifications", () => (
     <NotificationsUI
       appIncomingCalls={false}
       appIncomingMessages={false}
-      lowBattery={false}
+      appLowBattery={false}
       osUpdates={false}
     />
   </div>

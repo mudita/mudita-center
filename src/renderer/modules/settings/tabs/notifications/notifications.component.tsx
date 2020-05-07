@@ -6,18 +6,22 @@ import { Option } from "Renderer/components/rest/settings/settings-toggler.compo
 interface Props {
   appIncomingCalls?: boolean
   appIncomingMessages?: boolean
+  appLowBattery?: boolean
   setIncomingCalls: (option: Record<Option.IncomingCalls, boolean>) => void
   setIncomingMessages: (
     option: Record<Option.IncomingMessages, boolean>
   ) => void
+  setLowBattery: (option: Record<Option.LowBattery, boolean>) => void
   loadSettings: () => void
 }
 
 const Notifications: FunctionComponent<Props> = ({
   appIncomingCalls,
   appIncomingMessages,
+  appLowBattery,
   setIncomingCalls,
   setIncomingMessages,
+  setLowBattery,
   loadSettings,
 }) => {
   useEffect(() => {
@@ -25,7 +29,6 @@ const Notifications: FunctionComponent<Props> = ({
       await loadSettings()
     })()
   }, [])
-  const [lowBattery, setLowBattery] = useState<boolean>(false)
   const [osUpdates, setOsUpdates] = useState<boolean>(false)
   return (
     <NotificationsUI
@@ -33,7 +36,7 @@ const Notifications: FunctionComponent<Props> = ({
       setIncomingCalls={setIncomingCalls}
       appIncomingMessages={appIncomingMessages}
       setIncomingMessages={setIncomingMessages}
-      lowBattery={lowBattery}
+      appLowBattery={appLowBattery}
       setLowBattery={setLowBattery}
       osUpdates={osUpdates}
       setOsUpdates={setOsUpdates}
