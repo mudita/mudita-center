@@ -1,16 +1,30 @@
-import React, { useState } from "react"
+import React, { useEffect } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
-const Settings: FunctionComponent = () => {
-  const [autostart, setAutostart] = useState<ToggleState>(ToggleState.Off)
-  const [tethering, setTethering] = useState<ToggleState>(ToggleState.Off)
+interface Props {
+  appAutostart: boolean
+  appTethering: boolean
+  loadSettings: () => void
+  setAutostart: (option: boolean) => void
+  setTethering: (option: boolean) => void
+}
+
+const Settings: FunctionComponent<Props> = ({
+  appAutostart,
+  appTethering,
+  setAutostart,
+  setTethering,
+  loadSettings,
+}) => {
+  useEffect(() => {
+    loadSettings()
+  }, [])
   return (
     <SettingsUI
-      autostart={autostart}
+      appAutostart={appAutostart}
+      appTethering={appTethering}
       setAutostart={setAutostart}
-      tethering={tethering}
       setTethering={setTethering}
     />
   )

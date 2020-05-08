@@ -9,7 +9,7 @@ import Music from "Renderer/modules/music/music.component"
 import News from "Renderer/modules/news/news.component"
 import OverviewContainer from "Renderer/modules/overview/overview.container"
 import PhoneContainer from "Renderer/modules/phone/phone.container"
-import Settings from "Renderer/modules/settings/settings.component"
+import Settings from "Renderer/modules/settings/settings.container"
 import Tethering from "Renderer/modules/tethering/tethering.component"
 import Tools from "Renderer/modules/tools/tools.component"
 

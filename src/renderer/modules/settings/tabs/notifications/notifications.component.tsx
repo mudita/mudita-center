@@ -1,17 +1,12 @@
 import React, { useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.component"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 const Notifications: FunctionComponent = () => {
-  const [incomingCalls, setIncomingCalls] = useState<ToggleState>(
-    ToggleState.Off
-  )
-  const [incomingMessages, setIncomingMessages] = useState<ToggleState>(
-    ToggleState.Off
-  )
-  const [lowBattery, setLowBattery] = useState<ToggleState>(ToggleState.Off)
-  const [osUpdates, setOsUpdates] = useState<ToggleState>(ToggleState.Off)
+  const [incomingCalls, setIncomingCalls] = useState<boolean>(false)
+  const [incomingMessages, setIncomingMessages] = useState<boolean>(false)
+  const [lowBattery, setLowBattery] = useState<boolean>(false)
+  const [osUpdates, setOsUpdates] = useState<boolean>(false)
   return (
     <NotificationsUI
       incomingCalls={incomingCalls}

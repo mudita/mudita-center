@@ -6,6 +6,7 @@ import phoneUpdate from "Renderer/models/phone-update/phone-update"
 import muditaNews from "Renderer/models/mudita-news/mudita-news"
 import networkStatus from "Renderer/models/network-status/network-status"
 import muditaProductCards from "Renderer/models/mudita-product-cards/mudita-product-cards"
+import settings from "Renderer/models/settings/settings"
 import backupSettings from "Renderer/models/backup-settings/backup-settings"
 
 export interface RootModel {
@@ -17,6 +18,7 @@ export interface RootModel {
   muditaNews: typeof muditaNews
   networkStatus: typeof networkStatus
   muditaProductCards: typeof muditaProductCards
+  settings: typeof settings
   backupSettings: typeof backupSettings
 }
 
@@ -29,5 +31,6 @@ export const models: RootModel = {
   muditaNews,
   networkStatus,
   muditaProductCards,
+  settings,
   backupSettings,
 }

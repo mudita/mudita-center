@@ -12,17 +12,16 @@ import {
   SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 interface Props {
-  incomingCalls?: string
-  setIncomingCalls: (label: ToggleState) => void
-  incomingMessages?: string
-  setIncomingMessages: (label: ToggleState) => void
-  lowBattery?: string
-  setLowBattery: (label: ToggleState) => void
-  osUpdates?: string
-  setOsUpdates: (label: ToggleState) => void
+  incomingCalls?: boolean
+  setIncomingCalls: (label: boolean) => void
+  incomingMessages?: boolean
+  setIncomingMessages: (label: boolean) => void
+  lowBattery?: boolean
+  setLowBattery: (label: boolean) => void
+  osUpdates?: boolean
+  setOsUpdates: (label: boolean) => void
 }
 
 const NotificationsUI: FunctionComponent<Props> = ({
@@ -51,10 +50,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            toggleValue={incomingCalls}
-            onToggle={setIncomingCalls}
-          />
+          <SettingsToggler toggleValue={incomingCalls} />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -64,10 +60,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            toggleValue={incomingMessages}
-            onToggle={setIncomingMessages}
-          />
+          <SettingsToggler toggleValue={incomingMessages} />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -77,7 +70,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={lowBattery} onToggle={setLowBattery} />
+          <SettingsToggler toggleValue={lowBattery} />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -87,7 +80,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={osUpdates} onToggle={setOsUpdates} />
+          <SettingsToggler toggleValue={osUpdates} />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>
