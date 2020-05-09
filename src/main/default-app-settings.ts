@@ -1,5 +1,6 @@
 import { name } from "../../package.json"
 import { app } from "electron"
+import { Convert } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 
 export interface AppSettings {
   appAutostart: boolean
@@ -9,6 +10,7 @@ export interface AppSettings {
   appLowBattery: boolean
   appOsUpdates: boolean
   appNonStandardAudioFilesConversion: boolean
+  appConvert: Convert
   appTray: boolean
   pureOsBackupLocation: string
   pureOsDownloadLocation: string
@@ -25,6 +27,7 @@ const getDefaultAppSettings = (): AppSettings => {
     appLowBattery: false,
     appOsUpdates: false,
     appNonStandardAudioFilesConversion: false,
+    appConvert: Convert.ConvertAutomatically,
     appTray: true,
     pureOsBackupLocation: `${appPath}/pure/phone/backups/`,
     pureOsDownloadLocation: `${appPath}/pure/os/downloads/`,
