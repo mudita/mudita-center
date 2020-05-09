@@ -27,7 +27,7 @@ export enum Option {
 
 interface Props {
   toggleValue?: boolean
-  onToggle?: (option: Record<Option, boolean>) => void
+  onToggle?: (option: boolean) => void
   optionToUpdate?: Option
 }
 
@@ -40,10 +40,7 @@ const SettingsToggler: FunctionComponent<Props> = ({
     <Toggler filled>
       {twoStateToggler.map(value => {
         const changeStatus = () => {
-          onToggle({ [optionToUpdate as Option]: value } as Record<
-            Option,
-            boolean
-          >)
+          onToggle(value)
         }
         return (
           <TogglerItem

@@ -29,9 +29,7 @@ test("passed function is called with right argument", async () => {
   const [, onButton] = queryAllByRole("button")
 
   await fireEvent.click(onButton)
-  expect(onToggle).toBeCalledWith({
-    [Option.Autostart]: true,
-  })
+  expect(onToggle).toBeCalledWith(true)
 })
 
 test("informs about toggle", async () => {

@@ -40,7 +40,7 @@ test("updates appAutostart key in store", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [SettingsEvents.Update]: Promise.resolve(updatedOption),
   }
-  await store.dispatch.settings.setAutostart(updatedOption)
+  await store.dispatch.settings.setAutostart(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
@@ -59,7 +59,7 @@ test("updates appTethering key in store", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [SettingsEvents.Update]: Promise.resolve(updatedOption),
   }
-  await store.dispatch.settings.setTethering(updatedOption)
+  await store.dispatch.settings.setTethering(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
