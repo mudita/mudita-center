@@ -27,7 +27,7 @@ import LayoutDesktopWrapper from "Renderer/wrappers/layout-desktop-wrapper"
 import LayoutOnboardingWrapper from "Renderer/wrappers/layout-onboarding-wrapper"
 import Backup from "Renderer/modules/settings/tabs/backup/backup-container.component"
 import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.container"
-import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.component"
+import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.container"
 
 export default () => (
   <Switch>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react"
+import React, { ChangeEvent, useEffect, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import AudioConversionUI from "Renderer/components/rest/settings/audio-conversion-ui.component"
@@ -45,10 +45,18 @@ const conversionFormatRadioGroup = [
   },
 ]
 
-const AudioConversion: FunctionComponent = () => {
-  const [nonStandardFilesConversion, setNonStandardFilesConversion] = useState<
-    boolean
-  >(false)
+interface Props {
+  appNonStandardAudioFilesConversion: boolean
+  loadSettings: () => void
+}
+
+const AudioConversion: FunctionComponent<Props> = ({
+  loadSettings,
+  appNonStandardAudioFilesConversion,
+}) => {
+  useEffect(() => {
+    loadSettings()
+  }, [])
   const [convert, setConvert] = useState("Convert automatically")
   const [conversionFormat, setConversionFormat] = useState("WAV")
   const changeConvertValue = (event: ChangeEvent<HTMLInputElement>) => {
@@ -59,8 +67,7 @@ const AudioConversion: FunctionComponent = () => {
   }
   return (
     <AudioConversionUI
-      nonStandardFilesConversion={nonStandardFilesConversion}
-      setNonStandardFilesConversion={setNonStandardFilesConversion}
+      appNonStandardAudioFilesConversion={appNonStandardAudioFilesConversion}
       conversionRadioGroup={conversionRadioGroup}
       conversionFormatRadioGroup={conversionFormatRadioGroup}
       convert={convert}
