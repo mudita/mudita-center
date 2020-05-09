@@ -11,9 +11,7 @@ import Text, {
 import styled from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import SettingsToggler, {
-  Option,
-} from "Renderer/components/rest/settings/settings-toggler.component"
+import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { noop } from "Renderer/utils/noop"
 
 export const SettingsTableRow = styled(TableRow)`
@@ -73,11 +71,7 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            toggleValue={appAutostart}
-            onToggle={setAutostart}
-            optionToUpdate={Option.Autostart}
-          />
+          <SettingsToggler toggleValue={appAutostart} onToggle={setAutostart} />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -87,11 +81,7 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler
-            toggleValue={appTethering}
-            onToggle={setTethering}
-            optionToUpdate={Option.Tethering}
-          />
+          <SettingsToggler toggleValue={appTethering} onToggle={setTethering} />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>

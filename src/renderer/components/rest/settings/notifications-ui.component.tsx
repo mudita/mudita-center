@@ -11,9 +11,7 @@ import {
   SettingsTableRow,
   SettingsWrapper,
 } from "Renderer/components/rest/settings/settings-ui.component"
-import SettingsToggler, {
-  Option,
-} from "Renderer/components/rest/settings/settings-toggler.component"
+import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { noop } from "Renderer/utils/noop"
 
 interface Props {
@@ -56,7 +54,6 @@ const NotificationsUI: FunctionComponent<Props> = ({
           <SettingsToggler
             toggleValue={appIncomingCalls}
             onToggle={setIncomingCalls}
-            optionToUpdate={Option.IncomingCalls}
           />
         </ActionsWrapper>
       </SettingsTableRow>
@@ -70,7 +67,6 @@ const NotificationsUI: FunctionComponent<Props> = ({
           <SettingsToggler
             toggleValue={appIncomingMessages}
             onToggle={setIncomingMessages}
-            optionToUpdate={Option.IncomingMessages}
           />
         </ActionsWrapper>
       </SettingsTableRow>
@@ -84,7 +80,6 @@ const NotificationsUI: FunctionComponent<Props> = ({
           <SettingsToggler
             toggleValue={appLowBattery}
             onToggle={setLowBattery}
-            optionToUpdate={Option.LowBattery}
           />
         </ActionsWrapper>
       </SettingsTableRow>

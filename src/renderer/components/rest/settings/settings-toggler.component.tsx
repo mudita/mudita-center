@@ -29,13 +29,11 @@ export enum Option {
 interface Props {
   toggleValue?: boolean
   onToggle?: (option: boolean) => void
-  optionToUpdate?: Option
 }
 
 const SettingsToggler: FunctionComponent<Props> = ({
   toggleValue,
   onToggle = noop,
-  optionToUpdate,
 }) => {
   return (
     <Toggler filled>

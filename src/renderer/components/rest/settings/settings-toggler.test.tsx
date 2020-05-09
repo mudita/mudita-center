@@ -1,9 +1,7 @@
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import "@testing-library/jest-dom/extend-expect"
-import SettingsToggler, {
-  Option,
-} from "Renderer/components/rest/settings/settings-toggler.component"
+import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { fireEvent } from "@testing-library/dom"
 
 test("off button is active by default", async () => {
@@ -20,11 +18,7 @@ test("off button is active by default", async () => {
 test("passed function is called with right argument", async () => {
   const onToggle = jest.fn()
   const { queryAllByRole } = renderWithThemeAndIntl(
-    <SettingsToggler
-      onToggle={onToggle}
-      toggleValue={false}
-      optionToUpdate={Option.Autostart}
-    />
+    <SettingsToggler onToggle={onToggle} toggleValue={false} />
   )
   const [, onButton] = queryAllByRole("button")
 
