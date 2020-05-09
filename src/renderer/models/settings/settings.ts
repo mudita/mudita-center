@@ -25,19 +25,20 @@ export default {
       await updateSettingsRequest(propertyToUpdate)
       dispatch.settings.update(propertyToUpdate)
     },
-    async setIncomingCalls(option: Record<Option.IncomingCalls, boolean>) {
-      await updateSettingsRequest(option)
-      dispatch.settings.update(option)
+    async setIncomingCalls(option: boolean) {
+      const propertyToUpdate = { [Option.IncomingCalls]: option }
+      await updateSettingsRequest(propertyToUpdate)
+      dispatch.settings.update(propertyToUpdate)
     },
-    async setIncomingMessages(
-      option: Record<Option.IncomingMessages, boolean>
-    ) {
-      await updateSettingsRequest(option)
-      dispatch.settings.update(option)
+    async setIncomingMessages(option: boolean) {
+      const propertyToUpdate = { [Option.IncomingMessages]: option }
+      await updateSettingsRequest(propertyToUpdate)
+      dispatch.settings.update(propertyToUpdate)
     },
-    async setLowBattery(option: Record<Option.LowBattery, boolean>) {
-      await updateSettingsRequest(option)
-      dispatch.settings.update(option)
+    async setLowBattery(option: boolean) {
+      const propertyToUpdate = { [Option.LowBattery]: option }
+      await updateSettingsRequest(propertyToUpdate)
+      dispatch.settings.update(propertyToUpdate)
     },
   }),
 }

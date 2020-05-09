@@ -1,7 +1,6 @@
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
 import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.component"
-import { Option } from "Renderer/components/rest/settings/settings-toggler.component"
 
 const mapStateToProps = (state: RootModel) => {
   return {
@@ -11,12 +10,11 @@ const mapStateToProps = (state: RootModel) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadSettings: () => dispatch.settings.loadSettings(),
-  setIncomingCalls: (option: Record<Option.IncomingCalls, boolean>) =>
+  setIncomingCalls: (option: boolean) =>
     dispatch.settings.setIncomingCalls(option),
-  setIncomingMessages: (option: Record<Option.IncomingMessages, boolean>) =>
+  setIncomingMessages: (option: boolean) =>
     dispatch.settings.setIncomingMessages(option),
-  setLowBattery: (option: Record<Option.LowBattery, boolean>) =>
-    dispatch.settings.setLowBattery(option),
+  setLowBattery: (option: boolean) => dispatch.settings.setLowBattery(option),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications)

@@ -78,7 +78,7 @@ test("updates incomingCalls key in store", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [SettingsEvents.Update]: Promise.resolve(updatedOption),
   }
-  await store.dispatch.settings.setIncomingCalls(updatedOption)
+  await store.dispatch.settings.setIncomingCalls(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
@@ -97,7 +97,7 @@ test("updates appIncomingMessages key in store", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [SettingsEvents.Update]: Promise.resolve(updatedOption),
   }
-  await store.dispatch.settings.setIncomingMessages(updatedOption)
+  await store.dispatch.settings.setIncomingMessages(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
@@ -116,7 +116,7 @@ test("updates appLowBattery key in store", async () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [SettingsEvents.Update]: Promise.resolve(updatedOption),
   }
-  await store.dispatch.settings.setLowBattery(updatedOption)
+  await store.dispatch.settings.setLowBattery(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {

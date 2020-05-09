@@ -20,11 +20,9 @@ interface Props {
   appIncomingCalls?: boolean
   appIncomingMessages?: boolean
   appLowBattery?: boolean
-  setIncomingCalls?: (option: Record<Option.IncomingCalls, boolean>) => void
-  setIncomingMessages?: (
-    option: Record<Option.IncomingMessages, boolean>
-  ) => void
-  setLowBattery?: (option: Record<Option.LowBattery, boolean>) => void
+  setIncomingCalls?: (option: boolean) => void
+  setIncomingMessages?: (option: boolean) => void
+  setLowBattery?: (option: boolean) => void
   osUpdates?: boolean
   setOsUpdates?: (label: boolean) => void
 }

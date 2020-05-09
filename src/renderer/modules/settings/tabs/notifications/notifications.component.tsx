@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.component"
-import { Option } from "Renderer/components/rest/settings/settings-toggler.component"
 
 interface Props {
   appIncomingCalls?: boolean
   appIncomingMessages?: boolean
   appLowBattery?: boolean
-  setIncomingCalls: (option: Record<Option.IncomingCalls, boolean>) => void
-  setIncomingMessages: (
-    option: Record<Option.IncomingMessages, boolean>
-  ) => void
-  setLowBattery: (option: Record<Option.LowBattery, boolean>) => void
+  setIncomingCalls: (option: boolean) => void
+  setIncomingMessages: (option: boolean) => void
+  setLowBattery: (option: boolean) => void
   loadSettings: () => void
 }
 
