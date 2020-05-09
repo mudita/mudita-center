@@ -16,6 +16,7 @@ test("loads settings", async () => {
       [Option.IncomingMessages]: false,
       [Option.LowBattery]: false,
       [Option.OsUpdates]: false,
+      [Option.NonStandardAudioFilesConversion]: false,
     }),
   }
   await store.dispatch.settings.loadSettings()
@@ -27,6 +28,7 @@ test("loads settings", async () => {
         "appIncomingCalls": false,
         "appIncomingMessages": false,
         "appLowBattery": false,
+        "appNonStandardAudioFilesConversion": false,
         "appOsUpdates": false,
         "appTethering": false,
       },
@@ -143,6 +145,25 @@ test("updates appOsUpdates key in store", async () => {
     Object {
       "settings": Object {
         "appOsUpdates": true,
+      },
+    }
+  `)
+})
+
+test("updates appNonStandardAudioFilesConversion key in store", async () => {
+  const store = init({
+    models: { settings },
+  })
+  const updatedOption = { [Option.NonStandardAudioFilesConversion]: true }
+  ;(ipcRenderer as any).__rendererCalls = {
+    [SettingsEvents.Update]: Promise.resolve(updatedOption),
+  }
+  await store.dispatch.settings.setNonStandardAudioFilesConversion(true)
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "appNonStandardAudioFilesConversion": true,
       },
     }
   `)

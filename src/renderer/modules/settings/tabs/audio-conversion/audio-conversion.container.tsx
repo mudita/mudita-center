@@ -10,6 +10,8 @@ const mapStateToProps = (state: RootModel) => {
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadSettings: () => dispatch.settings.loadSettings(),
+  setNonStandardAudioFilesConversion: (option: boolean) =>
+    dispatch.settings.setNonStandardAudioFilesConversion(option),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AudioConversion)

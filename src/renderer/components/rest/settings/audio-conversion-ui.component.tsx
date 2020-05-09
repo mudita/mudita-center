@@ -17,6 +17,7 @@ import {
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import AudioConversionRadioGroup from "Renderer/components/rest/settings/audio-conversion-radio-group.component"
+import { noop } from "Renderer/utils/noop"
 
 const ConvertRadioGroup = styled(AudioConversionRadioGroup)`
   margin-left: 4rem;
@@ -36,18 +37,18 @@ const ConversionFormatRadioGroup = styled(AudioConversionRadioGroup)`
 
 interface Props {
   appNonStandardAudioFilesConversion?: boolean
-  setNonStandardFilesConversion?: (option: boolean) => void
+  setNonStandardAudioFilesConversion?: (option: boolean) => void
   conversionRadioGroup: InputProps[]
   conversionFormatRadioGroup: InputProps[]
   convert?: string
-  changeConvertValue: (event: ChangeEvent<HTMLInputElement>) => void
+  changeConvertValue?: (event: ChangeEvent<HTMLInputElement>) => void
   conversionFormat?: string
-  changeConversionFormat: (event: ChangeEvent<HTMLInputElement>) => void
+  changeConversionFormat?: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 const AudioConversionUI: FunctionComponent<Props> = ({
   appNonStandardAudioFilesConversion,
-  setNonStandardFilesConversion,
+  setNonStandardAudioFilesConversion = noop,
   conversionRadioGroup,
   conversionFormatRadioGroup,
   convert,
@@ -72,7 +73,10 @@ const AudioConversionUI: FunctionComponent<Props> = ({
             </SettingsLabel>
           </Data>
           <ActionsWrapper>
-            <SettingsToggler toggleValue={appNonStandardAudioFilesConversion} />
+            <SettingsToggler
+              toggleValue={appNonStandardAudioFilesConversion}
+              onToggle={setNonStandardAudioFilesConversion}
+            />
           </ActionsWrapper>
         </SettingsTableRow>
       </SettingsWrapper>

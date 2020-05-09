@@ -45,5 +45,12 @@ export default {
       await updateSettingsRequest(propertyToUpdate)
       dispatch.settings.update(propertyToUpdate)
     },
+    async setNonStandardAudioFilesConversion(option: boolean) {
+      const propertyToUpdate = {
+        [Option.NonStandardAudioFilesConversion]: option,
+      }
+      await updateSettingsRequest(propertyToUpdate)
+      dispatch.settings.update(propertyToUpdate)
+    },
   }),
 }

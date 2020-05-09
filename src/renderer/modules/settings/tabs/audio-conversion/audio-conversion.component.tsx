@@ -3,7 +3,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import AudioConversionUI from "Renderer/components/rest/settings/audio-conversion-ui.component"
 
-const conversionRadioGroup = [
+export const conversionRadioGroup = [
   {
     value: "Always ask",
     label: intl.formatMessage({
@@ -19,7 +19,7 @@ const conversionRadioGroup = [
   },
 ]
 
-const conversionFormatRadioGroup = [
+export const conversionFormatRadioGroup = [
   {
     value: "FLAC",
     label: "FLAC",
@@ -47,12 +47,14 @@ const conversionFormatRadioGroup = [
 
 interface Props {
   appNonStandardAudioFilesConversion: boolean
+  setNonStandardAudioFilesConversion: (option: boolean) => void
   loadSettings: () => void
 }
 
 const AudioConversion: FunctionComponent<Props> = ({
-  loadSettings,
   appNonStandardAudioFilesConversion,
+  setNonStandardAudioFilesConversion,
+  loadSettings,
 }) => {
   useEffect(() => {
     loadSettings()
@@ -68,6 +70,7 @@ const AudioConversion: FunctionComponent<Props> = ({
   return (
     <AudioConversionUI
       appNonStandardAudioFilesConversion={appNonStandardAudioFilesConversion}
+      setNonStandardAudioFilesConversion={setNonStandardAudioFilesConversion}
       conversionRadioGroup={conversionRadioGroup}
       conversionFormatRadioGroup={conversionFormatRadioGroup}
       convert={convert}
