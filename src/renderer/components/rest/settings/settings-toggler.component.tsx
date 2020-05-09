@@ -23,6 +23,7 @@ export enum Option {
   IncomingCalls = "appIncomingCalls",
   IncomingMessages = "appIncomingMessages",
   LowBattery = "appLowBattery",
+  OsUpdates = "appOsUpdates",
 }
 
 interface Props {

@@ -40,5 +40,10 @@ export default {
       await updateSettingsRequest(propertyToUpdate)
       dispatch.settings.update(propertyToUpdate)
     },
+    async setOsUpdates(option: boolean) {
+      const propertyToUpdate = { [Option.OsUpdates]: option }
+      await updateSettingsRequest(propertyToUpdate)
+      dispatch.settings.update(propertyToUpdate)
+    },
   }),
 }

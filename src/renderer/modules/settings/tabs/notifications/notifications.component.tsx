@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.component"
 
@@ -6,9 +6,11 @@ interface Props {
   appIncomingCalls?: boolean
   appIncomingMessages?: boolean
   appLowBattery?: boolean
+  appOsUpdates?: boolean
   setIncomingCalls: (option: boolean) => void
   setIncomingMessages: (option: boolean) => void
   setLowBattery: (option: boolean) => void
+  setOsUpdates: (option: boolean) => void
   loadSettings: () => void
 }
 
@@ -16,17 +18,16 @@ const Notifications: FunctionComponent<Props> = ({
   appIncomingCalls,
   appIncomingMessages,
   appLowBattery,
+  appOsUpdates,
   setIncomingCalls,
   setIncomingMessages,
   setLowBattery,
+  setOsUpdates,
   loadSettings,
 }) => {
   useEffect(() => {
-    ;(async () => {
-      await loadSettings()
-    })()
+    loadSettings()
   }, [])
-  const [osUpdates, setOsUpdates] = useState<boolean>(false)
   return (
     <NotificationsUI
       appIncomingCalls={appIncomingCalls}
@@ -35,7 +36,7 @@ const Notifications: FunctionComponent<Props> = ({
       setIncomingMessages={setIncomingMessages}
       appLowBattery={appLowBattery}
       setLowBattery={setLowBattery}
-      osUpdates={osUpdates}
+      appOsUpdates={appOsUpdates}
       setOsUpdates={setOsUpdates}
     />
   )

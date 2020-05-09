@@ -8,7 +8,7 @@ test("matches snapshot", () => {
       appIncomingCalls={false}
       appIncomingMessages={false}
       appLowBattery={false}
-      osUpdates={false}
+      appOsUpdates={false}
     />
   )
   expect(container).toMatchSnapshot()

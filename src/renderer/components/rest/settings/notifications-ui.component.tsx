@@ -20,11 +20,11 @@ interface Props {
   appIncomingCalls?: boolean
   appIncomingMessages?: boolean
   appLowBattery?: boolean
+  appOsUpdates?: boolean
   setIncomingCalls?: (option: boolean) => void
   setIncomingMessages?: (option: boolean) => void
   setLowBattery?: (option: boolean) => void
-  osUpdates?: boolean
-  setOsUpdates?: (label: boolean) => void
+  setOsUpdates?: (option: boolean) => void
 }
 
 const NotificationsUI: FunctionComponent<Props> = ({
@@ -34,7 +34,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
   setIncomingMessages = noop,
   appLowBattery,
   setLowBattery = noop,
-  osUpdates,
+  appOsUpdates,
   setOsUpdates = noop,
 }) => {
   return (
@@ -95,7 +95,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={osUpdates} />
+          <SettingsToggler toggleValue={appOsUpdates} onToggle={setOsUpdates} />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>
