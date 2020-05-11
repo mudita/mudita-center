@@ -10,11 +10,22 @@ import DeviceResponse, {
 import Faker from "faker"
 import { generateFakeData } from "Renderer/models/phone/phone.utils"
 
+export interface PhonebookFakeAdapterProps {
+  contactsCount: number
+}
+
 class PhonebookFake extends PhonebookAdapter {
+  private readonly contactsCount: number
+
+  constructor({ contactsCount }: PhonebookFakeAdapterProps) {
+    super()
+    this.contactsCount = contactsCount
+  }
+
   public getContacts(): DeviceResponse<Contact[]> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: generateFakeData(100),
+      data: generateFakeData(this.contactsCount),
     }
   }
 
@@ -45,6 +56,9 @@ class PhonebookFake extends PhonebookAdapter {
   }
 }
 
-const createFakePhonebookAdapter = (): PhonebookAdapter => new PhonebookFake()
+const createFakePhonebookAdapter = ({
+  contactsCount,
+}: PhonebookFakeAdapterProps): PhonebookAdapter =>
+  new PhonebookFake({ contactsCount })
 
 export default createFakePhonebookAdapter
