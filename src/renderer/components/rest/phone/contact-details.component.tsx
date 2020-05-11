@@ -37,6 +37,7 @@ export interface ContactActions {
   onExport: (contact: Contact) => void
   onForward: (contact: Contact) => void
   onBlock: (contact: Contact) => void
+  onUnblock: (contact: Contact) => void
   onDelete: (contact: Contact) => void
 }
 
@@ -135,6 +136,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onEdit,
   onExport,
   onForward,
+  onUnblock,
   onBlock,
   onDelete,
   onCall,
@@ -145,6 +147,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   const handleExport = () => onExport(contact)
   const handleForward = () => onForward(contact)
   const handleBlock = () => onBlock(contact)
+  const handleUnblock = () => onUnblock(contact)
   const handleDelete = () => onDelete(contact)
 
   const icons = (
@@ -152,7 +155,11 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       <SidebarHeaderIcon Icon={Type.Edit} onClick={handleEdit} />
       <SidebarHeaderIcon Icon={Type.Upload} onClick={handleExport} />
       <SidebarHeaderIcon Icon={Type.Forward} onClick={handleForward} />
-      <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleBlock} />
+      {contact.blocked ? (
+        <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleUnblock} />
+      ) : (
+        <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleBlock} />
+      )}
       <SidebarHeaderIcon Icon={Type.Delete} onClick={handleDelete} />
     </>
   )

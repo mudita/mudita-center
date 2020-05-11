@@ -57,6 +57,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
   const [operationInProgress, setOperationStatus] = useState(false)
+  const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
     if (!contactList.length) {
@@ -126,6 +127,17 @@ const Phone: FunctionComponent<PhoneProps> = ({
     )
   }
 
+  const handleUnblock = async (contact: Contact) => {
+    const unblockedContact: Contact = {
+      ...contact,
+      blocked: false,
+    }
+    await editContact(unblockedContact)
+    if (detailsEnabled) {
+      openSidebar(unblockedContact)
+    }
+  }
+
   const openBlockModal = (contact: Contact) => {
     const handleBlock = async () => {
       modalService.rerenderModal(
@@ -138,7 +150,9 @@ const Phone: FunctionComponent<PhoneProps> = ({
       }
       await editContact(blockedContact)
       modalService.closeModal()
-      closeSidebar()
+      if (detailsEnabled) {
+        openSidebar(blockedContact)
+      }
     }
 
     modalService.openModal(
@@ -171,6 +185,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           onSelect={openSidebar}
           onExport={noop}
           onForward={noop}
+          onUnblock={handleUnblock}
           onBlock={openBlockModal}
           onDelete={openDeleteModal}
           onCheck={noop}
@@ -197,12 +212,13 @@ const Phone: FunctionComponent<PhoneProps> = ({
             availableSpeedDials={availableSpeedDials}
           />
         )}
-        {activeRow && !newContact && !editedContact && (
+        {detailsEnabled && (
           <ContactDetails
-            contact={activeRow}
+            contact={activeRow as Contact}
             onClose={closeSidebar}
             onExport={noop}
             onForward={noop}
+            onUnblock={handleUnblock}
             onBlock={openBlockModal}
             onDelete={openDeleteModal}
             onEdit={handleEditingContact}

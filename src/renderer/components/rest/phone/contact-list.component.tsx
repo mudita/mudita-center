@@ -148,6 +148,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   onExport,
   onForward,
   onBlock,
+  onUnblock,
   onDelete,
   newContact,
   editedContact,
@@ -219,6 +220,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             const handleExport = () => onExport(contact)
             const handleForward = () => onForward(contact)
             const handleBlock = () => onBlock(contact)
+            const handleUnblock = () => onUnblock(contact)
             const handleDelete = () => onDelete(contact)
             const handleSelect = () => onSelect(contact)
 
@@ -229,7 +231,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             const interactiveRow = (ref: Ref<HTMLDivElement>) => (
               <Row
                 selected={selected}
-                active={(activeRow || editedContact) === contact}
+                active={(activeRow || editedContact)?.id === contact.id}
                 ref={ref}
               >
                 <Col>
@@ -286,14 +288,25 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         onClick={handleForward}
                         displayStyle={DisplayStyle.Dropdown}
                       />
-                      <ButtonComponent
-                        labelMessage={{
-                          id: "view.name.phone.contacts.action.block",
-                        }}
-                        Icon={Type.Blocked}
-                        onClick={handleBlock}
-                        displayStyle={DisplayStyle.Dropdown}
-                      />
+                      {contact.blocked ? (
+                        <ButtonComponent
+                          labelMessage={{
+                            id: "view.name.phone.contacts.action.unblock",
+                          }}
+                          Icon={Type.Blocked}
+                          onClick={handleUnblock}
+                          displayStyle={DisplayStyle.Dropdown}
+                        />
+                      ) : (
+                        <ButtonComponent
+                          labelMessage={{
+                            id: "view.name.phone.contacts.action.block",
+                          }}
+                          Icon={Type.Blocked}
+                          onClick={handleBlock}
+                          displayStyle={DisplayStyle.Dropdown}
+                        />
+                      )}
                       <ButtonComponent
                         labelMessage={{
                           id: "view.name.phone.contacts.action.delete",

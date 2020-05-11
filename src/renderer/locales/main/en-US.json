@@ -86,6 +86,7 @@
   "view.name.phone.contacts.action.exportAsVcard": "Export as vCard",
   "view.name.phone.contacts.action.forwardNamecard": "Forward namecard",
   "view.name.phone.contacts.action.block": "Block",
+  "view.name.phone.contacts.action.unblock": "Unblock",
   "view.name.phone.contacts.action.delete": "Delete",
   "view.name.phone.contacts.edit.title": "Edit contact",
   "view.name.phone.contacts.new.title": "New contact",

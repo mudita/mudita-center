@@ -73,6 +73,7 @@ storiesOf("Views|Phone", module).add("Phone", () => (
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
@@ -110,6 +111,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
@@ -123,6 +125,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
@@ -136,6 +139,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
@@ -149,6 +153,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
@@ -162,6 +167,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
