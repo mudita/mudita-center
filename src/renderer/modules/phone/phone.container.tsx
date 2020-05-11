@@ -2,7 +2,6 @@ import { connect } from "react-redux"
 import { select } from "Renderer/store"
 import Phone from "./phone.component"
 import { noop } from "Renderer/utils/noop"
-import { Contact } from "Renderer/models/phone/phone.interface"
 
 const mapState = select(models => ({
   contactList: models.phone.grouped,
@@ -11,7 +10,7 @@ const mapState = select(models => ({
 
 const mapDispatch = ({ phone }: any) => ({
   onSearchTermChange: (event: string) => phone.handleInput(event),
-  ...phone
+  ...phone,
   // TODO: Add proper actions
   onManageButtonClick: noop,
   onExport: noop,
