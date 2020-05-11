@@ -18,6 +18,10 @@ import {
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import AudioConversionRadioGroup from "Renderer/components/rest/settings/audio-conversion-radio-group.component"
 import { noop } from "Renderer/utils/noop"
+import {
+  ConversionFormat,
+  Convert,
+} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 
 const ConvertRadioGroup = styled(AudioConversionRadioGroup)`
   margin-left: 4rem;
@@ -25,7 +29,7 @@ const ConvertRadioGroup = styled(AudioConversionRadioGroup)`
   flex-direction: column;
 `
 
-const ConversionFormat = styled.div`
+const ConversionFormatWrapper = styled.div`
   margin-top: 3rem;
   margin-left: 4rem;
 `
@@ -40,9 +44,9 @@ interface Props {
   setNonStandardAudioFilesConversion?: (option: boolean) => void
   conversionRadioGroup: InputProps[]
   conversionFormatRadioGroup: InputProps[]
-  appConvert?: string
+  appConvert?: Convert
   changeConvertValue?: (event: ChangeEvent<HTMLInputElement>) => void
-  conversionFormat?: string
+  appConversionFormat?: ConversionFormat
   changeConversionFormat?: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
@@ -53,7 +57,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
   conversionFormatRadioGroup,
   appConvert,
   changeConvertValue,
-  conversionFormat,
+  appConversionFormat,
   changeConversionFormat,
 }) => {
   return (
@@ -86,17 +90,17 @@ const AudioConversionUI: FunctionComponent<Props> = ({
         radioButtonsData={conversionRadioGroup}
         radioGroupName={"convert"}
       />
-      <ConversionFormat>
+      <ConversionFormatWrapper>
         <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
           <FormattedMessage id="view.name.settings.audioConversion.conversionFormat" />
         </Text>
         <ConversionFormatRadioGroup
-          value={conversionFormat}
+          value={appConversionFormat}
           onChange={changeConversionFormat}
           radioButtonsData={conversionFormatRadioGroup}
           radioGroupName={"conversion-format"}
         />
-      </ConversionFormat>
+      </ConversionFormatWrapper>
     </>
   )
 }

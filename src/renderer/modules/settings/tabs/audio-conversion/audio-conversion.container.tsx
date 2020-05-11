@@ -1,7 +1,10 @@
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
 import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.component"
-import { Convert } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
+import {
+  ConversionFormat,
+  Convert,
+} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 
 const mapStateToProps = (state: RootModel) => {
   return {
@@ -14,6 +17,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   setNonStandardAudioFilesConversion: (option: boolean) =>
     dispatch.settings.setNonStandardAudioFilesConversion(option),
   setConvert: (option: Convert) => dispatch.settings.setConvert(option),
+  setConversionFormat: (option: ConversionFormat) =>
+    dispatch.settings.setConversionFormat(option),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AudioConversion)

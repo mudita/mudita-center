@@ -5,7 +5,10 @@ import updateSettingsRequest, {
 } from "Renderer/requests/update-settings.request"
 import { Option } from "Renderer/components/rest/settings/settings-toggler.component"
 import { AppSettings as StoreValues } from "App/main/default-app-settings"
-import { Convert } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
+import {
+  ConversionFormat,
+  Convert,
+} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 
 const updateSettings = async (
   property: Option,
@@ -55,6 +58,9 @@ export default {
     },
     async setConvert(option: Convert) {
       await updateSettings(Option.Convert, option, dispatch)
+    },
+    async setConversionFormat(option: ConversionFormat) {
+      await updateSettings(Option.ConversionFormat, option, dispatch)
     },
   }),
 }

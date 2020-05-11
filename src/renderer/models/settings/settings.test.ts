@@ -3,7 +3,10 @@ import { init } from "@rematch/core"
 import settings from "Renderer/models/settings/settings"
 import { SettingsEvents } from "App/main/functions/register-settings-listeners"
 import { Option } from "Renderer/components/rest/settings/settings-toggler.component"
-import { Convert } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
+import {
+  ConversionFormat,
+  Convert,
+} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 
 test("loads settings", async () => {
   const store = init({
@@ -19,6 +22,7 @@ test("loads settings", async () => {
       [Option.OsUpdates]: false,
       [Option.NonStandardAudioFilesConversion]: false,
       [Option.Convert]: Convert.ConvertAutomatically,
+      [Option.ConversionFormat]: ConversionFormat.WAV,
     }),
   }
   await store.dispatch.settings.loadSettings()
@@ -27,6 +31,7 @@ test("loads settings", async () => {
     Object {
       "settings": Object {
         "appAutostart": false,
+        "appConversionFormat": "WAV",
         "appConvert": "Convert automatically",
         "appIncomingCalls": false,
         "appIncomingMessages": false,
@@ -186,6 +191,25 @@ test("updates appConvert key in store", async () => {
     Object {
       "settings": Object {
         "appConvert": "Convert automatically",
+      },
+    }
+  `)
+})
+
+test("updates appConversionFormat key in store", async () => {
+  const store = init({
+    models: { settings },
+  })
+  const updatedOption = { [Option.ConversionFormat]: ConversionFormat.WAV }
+  ;(ipcRenderer as any).__rendererCalls = {
+    [SettingsEvents.Update]: Promise.resolve(updatedOption),
+  }
+  await store.dispatch.settings.setConversionFormat(ConversionFormat.WAV)
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "appConversionFormat": "WAV",
       },
     }
   `)

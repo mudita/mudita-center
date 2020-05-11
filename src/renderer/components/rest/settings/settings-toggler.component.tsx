@@ -26,6 +26,7 @@ export enum Option {
   OsUpdates = "appOsUpdates",
   NonStandardAudioFilesConversion = "appNonStandardAudioFilesConversion",
   Convert = "appConvert",
+  ConversionFormat = "appConversionFormat",
 }
 
 interface Props {
