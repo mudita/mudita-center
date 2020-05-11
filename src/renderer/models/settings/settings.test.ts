@@ -44,7 +44,7 @@ test("loads settings", async () => {
   `)
 })
 
-test("updates appAutostart key in store", async () => {
+test("updates autostart setting", async () => {
   const store = init({
     models: { settings },
   })
@@ -63,7 +63,7 @@ test("updates appAutostart key in store", async () => {
   `)
 })
 
-test("updates appTethering key in store", async () => {
+test("updates tethering setting", async () => {
   const store = init({
     models: { settings },
   })
@@ -82,7 +82,7 @@ test("updates appTethering key in store", async () => {
   `)
 })
 
-test("updates incomingCalls key in store", async () => {
+test("updates incoming calls setting", async () => {
   const store = init({
     models: { settings },
   })
@@ -101,7 +101,7 @@ test("updates incomingCalls key in store", async () => {
   `)
 })
 
-test("updates appIncomingMessages key in store", async () => {
+test("updates incoming messages setting", async () => {
   const store = init({
     models: { settings },
   })
@@ -120,7 +120,7 @@ test("updates appIncomingMessages key in store", async () => {
   `)
 })
 
-test("updates appLowBattery key in store", async () => {
+test("updates low battery setting", async () => {
   const store = init({
     models: { settings },
   })
@@ -139,7 +139,7 @@ test("updates appLowBattery key in store", async () => {
   `)
 })
 
-test("updates appOsUpdates key in store", async () => {
+test("updates os updates setting", async () => {
   const store = init({
     models: { settings },
   })
