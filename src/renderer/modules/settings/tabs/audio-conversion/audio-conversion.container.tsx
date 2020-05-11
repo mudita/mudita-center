@@ -6,8 +6,6 @@ const mapStateToProps = (state: RootModel) => {
   return state.settings
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
-  ...dispatch.settings,
-})
+const mapDispatchToProps = (dispatch: any) => dispatch.settings
 
 export default connect(mapStateToProps, mapDispatchToProps)(AudioConversion)
