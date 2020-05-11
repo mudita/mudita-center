@@ -17,18 +17,6 @@ const TogglerItem = styled(ButtonTogglerItem)`
   width: 75%;
 `
 
-export enum Option {
-  Autostart = "appAutostart",
-  Tethering = "appTethering",
-  IncomingCalls = "appIncomingCalls",
-  IncomingMessages = "appIncomingMessages",
-  LowBattery = "appLowBattery",
-  OsUpdates = "appOsUpdates",
-  NonStandardAudioFilesConversion = "appNonStandardAudioFilesConversion",
-  Convert = "appConvert",
-  ConversionFormat = "appConversionFormat",
-}
-
 interface Props {
   toggleValue?: boolean
   onToggle?: (option: boolean) => void

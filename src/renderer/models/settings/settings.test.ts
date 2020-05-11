@@ -2,7 +2,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { init } from "@rematch/core"
 import settings from "Renderer/models/settings/settings"
 import { SettingsEvents } from "App/main/functions/register-settings-listeners"
-import { Option } from "Renderer/components/rest/settings/settings-toggler.component"
+import { Option } from "Renderer/components/rest/settings/option.enum"
 import {
   ConversionFormat,
   Convert,

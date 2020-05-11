@@ -3,7 +3,7 @@ import { getAppSettings } from "Renderer/requests/app-settings.request"
 import updateSettingsRequest, {
   UpdateType,
 } from "Renderer/requests/update-settings.request"
-import { Option } from "Renderer/components/rest/settings/settings-toggler.component"
+import { Option } from "Renderer/components/rest/settings/option.enum"
 import { AppSettings as StoreValues } from "App/main/default-app-settings"
 import {
   ConversionFormat,
