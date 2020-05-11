@@ -11,10 +11,7 @@ const mapState = select(models => ({
 
 const mapDispatch = ({ phone }: any) => ({
   onSearchTermChange: (event: string) => phone.handleInput(event),
-  loadData: () => phone.loadData(),
-  addContact: (contact: Contact) => phone.addContact(contact),
-  editContact: (contact: Contact) => phone.editContact(contact),
-  deleteContacts: (contacts: Contact[]) => phone.deleteContacts(contacts),
+  ...phone
   // TODO: Add proper actions
   onManageButtonClick: noop,
   onExport: noop,
