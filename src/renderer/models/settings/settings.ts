@@ -25,23 +25,23 @@ export default {
     async loadSettings() {
       dispatch.settings.update(await getAppSettings())
     },
-    async setAutostart(option: boolean) {
-      await updateSettings(Option.Autostart, option, dispatch)
+    setAutostart(option: boolean) {
+      updateSettings(Option.Autostart, option, dispatch)
     },
-    async setTethering(option: boolean) {
-      await updateSettings(Option.Tethering, option, dispatch)
+    setTethering(option: boolean) {
+      updateSettings(Option.Tethering, option, dispatch)
     },
-    async setIncomingCalls(option: boolean) {
-      await updateSettings(Option.IncomingCalls, option, dispatch)
+    setIncomingCalls(option: boolean) {
+      updateSettings(Option.IncomingCalls, option, dispatch)
     },
-    async setIncomingMessages(option: boolean) {
-      await updateSettings(Option.IncomingMessages, option, dispatch)
+    setIncomingMessages(option: boolean) {
+      updateSettings(Option.IncomingMessages, option, dispatch)
     },
-    async setLowBattery(option: boolean) {
-      await updateSettings(Option.LowBattery, option, dispatch)
+    setLowBattery(option: boolean) {
+      updateSettings(Option.LowBattery, option, dispatch)
     },
-    async setOsUpdates(option: boolean) {
-      await updateSettings(Option.OsUpdates, option, dispatch)
+    setOsUpdates(option: boolean) {
+      updateSettings(Option.OsUpdates, option, dispatch)
     },
   }),
 }
