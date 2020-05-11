@@ -49,18 +49,14 @@ export default {
     setOsUpdates(option: boolean) {
       updateSettings(Option.OsUpdates, option, dispatch)
     },
-    async setNonStandardAudioFilesConversion(option: boolean) {
-      await updateSettings(
-        Option.NonStandardAudioFilesConversion,
-        option,
-        dispatch
-      )
+    setNonStandardAudioFilesConversion(option: boolean) {
+      updateSettings(Option.NonStandardAudioFilesConversion, option, dispatch)
     },
-    async setConvert(option: Convert) {
-      await updateSettings(Option.Convert, option, dispatch)
+    setConvert(option: Convert) {
+      updateSettings(Option.Convert, option, dispatch)
     },
-    async setConversionFormat(option: ConversionFormat) {
-      await updateSettings(Option.ConversionFormat, option, dispatch)
+    setConversionFormat(option: ConversionFormat) {
+      updateSettings(Option.ConversionFormat, option, dispatch)
     },
   }),
 }
