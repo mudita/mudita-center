@@ -7,13 +7,7 @@ const mapStateToProps = (state: RootModel) => {
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  loadSettings: () => dispatch.settings.loadSettings(),
-  setIncomingCalls: (option: boolean) =>
-    dispatch.settings.setIncomingCalls(option),
-  setIncomingMessages: (option: boolean) =>
-    dispatch.settings.setIncomingMessages(option),
-  setLowBattery: (option: boolean) => dispatch.settings.setLowBattery(option),
-  setOsUpdates: (option: boolean) => dispatch.settings.setOsUpdates(option),
+  ...dispatch.settings,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications)
