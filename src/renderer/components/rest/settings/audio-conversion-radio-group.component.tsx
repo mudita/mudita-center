@@ -6,7 +6,7 @@ import { InputProps } from "Renderer/interfaces/input.interface"
 interface Props {
   radioButtonsData: InputProps[]
   radioGroupName: string
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void
   value?: string
 }
 

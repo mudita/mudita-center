@@ -56,9 +56,9 @@ const AudioConversionUI: FunctionComponent<Props> = ({
   conversionRadioGroup,
   conversionFormatRadioGroup,
   appConvert,
-  changeConvertValue,
+  changeConvertValue = noop,
   appConversionFormat,
-  changeConversionFormat,
+  changeConversionFormat = noop,
 }) => {
   return (
     <>
