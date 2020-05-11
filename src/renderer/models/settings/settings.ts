@@ -5,6 +5,16 @@ import { Option } from "Renderer/components/rest/settings/settings-toggler.compo
 import { AppSettings as StoreValues } from "App/main/default-app-settings"
 import { Convert } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 
+const updateSettings = async (
+  property: Option,
+  value: boolean,
+  dispatch: Dispatch
+) => {
+  const propertyToUpdate = { [property]: value }
+  await updateSettingsRequest(propertyToUpdate)
+  dispatch.settings.update(propertyToUpdate)
+}
+
 export default {
   state: {},
   reducers: {
@@ -17,34 +27,22 @@ export default {
       dispatch.settings.update(await getAppSettings())
     },
     async setAutostart(option: boolean) {
-      const propertyToUpdate = { [Option.Autostart]: option }
-      await updateSettingsRequest(propertyToUpdate)
-      dispatch.settings.update(propertyToUpdate)
+      await updateSettings(Option.Autostart, option, dispatch)
     },
     async setTethering(option: boolean) {
-      const propertyToUpdate = { [Option.Tethering]: option }
-      await updateSettingsRequest(propertyToUpdate)
-      dispatch.settings.update(propertyToUpdate)
+      await updateSettings(Option.Tethering, option, dispatch)
     },
     async setIncomingCalls(option: boolean) {
-      const propertyToUpdate = { [Option.IncomingCalls]: option }
-      await updateSettingsRequest(propertyToUpdate)
-      dispatch.settings.update(propertyToUpdate)
+      await updateSettings(Option.IncomingCalls, option, dispatch)
     },
     async setIncomingMessages(option: boolean) {
-      const propertyToUpdate = { [Option.IncomingMessages]: option }
-      await updateSettingsRequest(propertyToUpdate)
-      dispatch.settings.update(propertyToUpdate)
+      await updateSettings(Option.IncomingMessages, option, dispatch)
     },
     async setLowBattery(option: boolean) {
-      const propertyToUpdate = { [Option.LowBattery]: option }
-      await updateSettingsRequest(propertyToUpdate)
-      dispatch.settings.update(propertyToUpdate)
+      await updateSettings(Option.LowBattery, option, dispatch)
     },
     async setOsUpdates(option: boolean) {
-      const propertyToUpdate = { [Option.OsUpdates]: option }
-      await updateSettingsRequest(propertyToUpdate)
-      dispatch.settings.update(propertyToUpdate)
+      await updateSettings(Option.OsUpdates, option, dispatch)
     },
     async setNonStandardAudioFilesConversion(option: boolean) {
       const propertyToUpdate = {
