@@ -18,6 +18,7 @@ import editContact from "Renderer/requests/edit-contact.request"
 const initialState: StoreData = {
   inputValue: "",
   contacts: [],
+  savingContact: false,
 }
 
 export default {
@@ -33,6 +34,12 @@ export default {
       return {
         ...state,
         contacts,
+      }
+    },
+    updateSavingStatus(state: StoreData, savingContact: boolean) {
+      return {
+        ...state,
+        savingContact,
       }
     },
   },
@@ -51,6 +58,7 @@ export default {
       }
     },
     async editContact(contact: Contact, state: RootState) {
+      dispatch.phone.updateSavingStatus(true)
       const editedContact: Contact = await editContact(contact)
       if (editedContact) {
         const editedContactIndex = state.phone.contacts.findIndex(
@@ -59,7 +67,8 @@ export default {
         if (editedContactIndex >= 0) {
           const updatedContacts = [...state.phone.contacts]
           updatedContacts[editedContactIndex] = editedContact
-          dispatch.phone.updateContacts(updatedContacts)
+          await dispatch.phone.updateContacts(updatedContacts)
+          dispatch.phone.updateSavingStatus(false)
         }
       }
     },
@@ -87,6 +96,9 @@ export default {
       return slice(state => {
         return state.contacts.filter((contact: Contact) => contact.speedDial)
       })
+    },
+    savingContact() {
+      return slice(state => state.savingContact)
     },
   }),
 }

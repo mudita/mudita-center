@@ -30,10 +30,12 @@ export interface Contacts {
 export interface StoreData {
   inputValue: string
   contacts: Contact[]
+  savingContact: boolean
 }
 
 interface StoreSelectors extends Contacts {
   speedDialContacts: Contact[]
+  savingContact: boolean
 }
 
 interface StoreEffects {

@@ -52,11 +52,11 @@ const Phone: FunctionComponent<PhoneProps> = ({
   onCall,
   onMessage,
   onSpeedDialSettingsSave,
+  savingContact,
 }) => {
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
-  const [operationInProgress, setOperationStatus] = useState(false)
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
@@ -89,10 +89,8 @@ const Phone: FunctionComponent<PhoneProps> = ({
   }
 
   const saveNewContact = async (contact: Contact) => {
-    setOperationStatus(true)
     await addContact(contact)
     cancelAddingContact()
-    setOperationStatus(false)
   }
 
   const handleEditingContact = (contact: Contact) => {
@@ -106,10 +104,8 @@ const Phone: FunctionComponent<PhoneProps> = ({
   }
 
   const saveEditedContact = async (contact: Contact) => {
-    setOperationStatus(true)
     await editContact(contact)
     cancelEditingContact()
-    setOperationStatus(false)
   }
 
   const openDeleteModal = (contact: Contact) => {
@@ -198,7 +194,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
             onSpeedDialSettingsOpen={openSpeedDialModal}
             onSave={saveNewContact}
             onNameUpdate={handleNameUpdate}
-            saving={operationInProgress}
+            saving={savingContact}
             availableSpeedDials={availableSpeedDials}
           />
         )}
@@ -208,7 +204,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
             onCancel={cancelEditingContact}
             onSpeedDialSettingsOpen={openSpeedDialModal}
             onSave={saveEditedContact}
-            saving={operationInProgress}
+            saving={savingContact}
             availableSpeedDials={availableSpeedDials}
           />
         )}

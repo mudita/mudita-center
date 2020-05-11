@@ -5,7 +5,7 @@ import { noop } from "Renderer/utils/noop"
 
 const mapState = select(models => ({
   contactList: models.phone.grouped,
-  speedDialContacts: models.phone.speedDialContacts,
+  ...models.phone,
 }))
 
 const mapDispatch = ({ phone }: any) => ({
