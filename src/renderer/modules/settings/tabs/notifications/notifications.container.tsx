@@ -3,9 +3,7 @@ import { RootModel } from "Renderer/models/models"
 import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.component"
 
 const mapStateToProps = (state: RootModel) => {
-  return {
-    ...state.settings,
-  }
+  return state.settings
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
