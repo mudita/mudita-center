@@ -66,6 +66,10 @@ const InitialsAvatar = styled(Avatar)`
   margin-right: 1.2rem;
 `
 
+const ClickableCol = styled(Col)`
+  height: 100%;
+`
+
 const AvatarPlaceholder = styled.div`
   ${basicAvatarStyles};
   margin-right: 1.2rem;
@@ -242,7 +246,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                     visible={!noneRowsSelected}
                   />
                 </Col>
-                <Col onClick={handleSelect}>
+                <ClickableCol onClick={handleSelect}>
                   <InitialsAvatar
                     user={contact}
                     light={selected || activeRow === contact}
@@ -253,7 +257,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                       id: "view.name.phone.contacts.list.unnamedContact",
                     })}
                   {contact.blocked && <BlockedIcon width={1.4} height={1.4} />}
-                </Col>
+                </ClickableCol>
                 <Col>{phoneNumber}</Col>
                 <Col>
                   {contact.primaryPhoneNumber &&
