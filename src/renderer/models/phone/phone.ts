@@ -45,7 +45,7 @@ export default {
       if (newContact) {
         const updatedContacts = [
           ...state.phone.contacts,
-          ...[{ ...defaultContact, ...newContact }],
+          { ...defaultContact, ...newContact },
         ]
         dispatch.phone.updateContacts(updatedContacts)
       }
