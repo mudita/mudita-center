@@ -6,10 +6,10 @@ import {
   Convert,
 } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 
-export type UpdateType = boolean | Convert | ConversionFormat
+export type UpdateValueType = boolean | Convert | ConversionFormat
 
-const updateSettingsRequest = (option: { [key in Option]?: UpdateType }) =>
-  ipcRenderer.callMain<{ [key in Option]?: UpdateType }>(
+const updateSettingsRequest = (option: { [key in Option]?: UpdateValueType }) =>
+  ipcRenderer.callMain<{ [key in Option]?: UpdateValueType }>(
     SettingsEvents.Update,
     option
   )
