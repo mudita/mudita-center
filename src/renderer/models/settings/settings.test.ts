@@ -158,7 +158,7 @@ test("updates os updates setting", async () => {
   `)
 })
 
-test("updates appNonStandardAudioFilesConversion key in store", async () => {
+test("updates os audio files conversion setting", async () => {
   const store = init({
     models: { settings },
   })
@@ -177,7 +177,7 @@ test("updates appNonStandardAudioFilesConversion key in store", async () => {
   `)
 })
 
-test("updates appConvert key in store", async () => {
+test("updates convert setting", async () => {
   const store = init({
     models: { settings },
   })
@@ -196,7 +196,7 @@ test("updates appConvert key in store", async () => {
   `)
 })
 
-test("updates appConversionFormat key in store", async () => {
+test("updates conversion format setting", async () => {
   const store = init({
     models: { settings },
   })
