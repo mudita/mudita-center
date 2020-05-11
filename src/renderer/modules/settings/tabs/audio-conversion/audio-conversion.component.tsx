@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import AudioConversionUI from "Renderer/components/rest/settings/audio-conversion-ui.component"
+import { Convert } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 
 export const conversionRadioGroup = [
   {
@@ -15,7 +16,6 @@ export const conversionRadioGroup = [
     label: intl.formatMessage({
       id: "view.name.settings.audioConversion.convertAutomatically",
     }),
-    checked: true,
   },
 ]
 
@@ -47,22 +47,25 @@ export const conversionFormatRadioGroup = [
 
 interface Props {
   appNonStandardAudioFilesConversion: boolean
+  appConvert: string
   setNonStandardAudioFilesConversion: (option: boolean) => void
+  setConvert: (option: Convert) => void
   loadSettings: () => void
 }
 
 const AudioConversion: FunctionComponent<Props> = ({
   appNonStandardAudioFilesConversion,
+  appConvert,
   setNonStandardAudioFilesConversion,
+  setConvert,
   loadSettings,
 }) => {
   useEffect(() => {
     loadSettings()
   }, [])
-  const [convert, setConvert] = useState("Convert automatically")
   const [conversionFormat, setConversionFormat] = useState("WAV")
   const changeConvertValue = (event: ChangeEvent<HTMLInputElement>) => {
-    setConvert(event.target.value)
+    setConvert(event.target.value as Convert)
   }
   const changeConversionFormat = (event: ChangeEvent<HTMLInputElement>) => {
     setConversionFormat(event.target.value)
@@ -73,7 +76,7 @@ const AudioConversion: FunctionComponent<Props> = ({
       setNonStandardAudioFilesConversion={setNonStandardAudioFilesConversion}
       conversionRadioGroup={conversionRadioGroup}
       conversionFormatRadioGroup={conversionFormatRadioGroup}
-      convert={convert}
+      appConvert={appConvert}
       changeConvertValue={changeConvertValue}
       conversionFormat={conversionFormat}
       changeConversionFormat={changeConversionFormat}

@@ -25,7 +25,7 @@ export enum Option {
   LowBattery = "appLowBattery",
   OsUpdates = "appOsUpdates",
   NonStandardAudioFilesConversion = "appNonStandardAudioFilesConversion",
-  Covert = "appConvert",
+  Convert = "appConvert",
 }
 
 interface Props {

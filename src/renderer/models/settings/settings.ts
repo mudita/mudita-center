@@ -1,13 +1,15 @@
 import { Dispatch } from "Renderer/store"
 import { getAppSettings } from "Renderer/requests/app-settings.request"
-import updateSettingsRequest from "Renderer/requests/update-settings.request"
+import updateSettingsRequest, {
+  UpdateType,
+} from "Renderer/requests/update-settings.request"
 import { Option } from "Renderer/components/rest/settings/settings-toggler.component"
 import { AppSettings as StoreValues } from "App/main/default-app-settings"
 import { Convert } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 
 const updateSettings = async (
   property: Option,
-  value: boolean,
+  value: UpdateType,
   dispatch: Dispatch
 ) => {
   const propertyToUpdate = { [property]: value }
@@ -45,18 +47,14 @@ export default {
       await updateSettings(Option.OsUpdates, option, dispatch)
     },
     async setNonStandardAudioFilesConversion(option: boolean) {
-      const propertyToUpdate = {
-        [Option.NonStandardAudioFilesConversion]: option,
-      }
-      await updateSettingsRequest(propertyToUpdate)
-      dispatch.settings.update(propertyToUpdate)
+      await updateSettings(
+        Option.NonStandardAudioFilesConversion,
+        option,
+        dispatch
+      )
     },
     async setConvert(option: Convert) {
-      const propertyToUpdate = {
-        [Option.Covert]: option,
-      }
-      await updateSettingsRequest(propertyToUpdate)
-      dispatch.settings.update(propertyToUpdate)
+      await updateSettings(Option.Convert, option, dispatch)
     },
   }),
 }
