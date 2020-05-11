@@ -23,8 +23,11 @@ interface Props {
   productCards: ProductCardProps[]
 }
 
-const ProductCards: FunctionComponent<Props> = ({ productCards }) => (
-  <div>
+const ProductCards: FunctionComponent<Props> = ({
+  className,
+  productCards,
+}) => (
+  <div className={className}>
     <ProductCardsTitle displayStyle={TextDisplayStyle.TertiaryBoldHeading}>
       {intl.formatMessage({
         id: "view.name.news.productCardsTitle",

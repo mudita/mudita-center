@@ -11,13 +11,16 @@ const selection = select((models: any) => ({
 const mapStateToProps = (state: RootModel) => {
   return {
     ...state.muditaNews,
+    ...state.muditaProductCards,
+    ...state.networkStatus,
     ...selection(state, null),
   }
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
   loadData: () => dispatch.muditaNews.loadData(),
-  updateData: (data: DefaultNewsItems) => dispatch.muditaNews.updateData(data),
+  updateData: (data: DefaultNewsItems | { updating: boolean }) =>
+    dispatch.muditaNews.updateData(data),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(News)

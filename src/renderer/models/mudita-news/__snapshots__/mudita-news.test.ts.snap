@@ -3,6 +3,7 @@
 exports[`call is performed after dispatching effect with data 1`] = `
 Object {
   "muditaNews": Object {
+    "lastUpdate": "2020-04-28T11:23:22.696Z",
     "newsItems": Array [
       Object {
         "category": "Forum",

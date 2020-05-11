@@ -1,7 +1,5 @@
 import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import Location from "Renderer/components/core/location/location.component"
-import { LocationPath } from "Renderer/components/core/location/location.enum"
 import styled from "styled-components"
 import {
   ActionsWrapper,
@@ -16,15 +14,16 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
+import ButtonComponent from "App/renderer/components/core/button/button.component"
 
 const BackupTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 20rem;
-  border-bottom: solid 0.2rem ${borderColor("listItem")};
+  border-bottom: solid 0.1rem ${borderColor("listItem")};
 `
 
 const BackupDescriptionWrapper = styled.div`
-  border-bottom: solid 0.2rem ${borderColor("listItem")};
+  border-bottom: solid 0.1rem ${borderColor("listItem")};
 `
 
 const BackupDescription = styled(Text)`
@@ -45,9 +44,10 @@ const BackupActionsWrapper = styled(ActionsWrapper)`
 `
 interface Props {
   backupLocation?: string
+  openDialog?: () => void
 }
 
-const BackupUI: FunctionComponent<Props> = ({ backupLocation }) => {
+const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => {
   return (
     <BackupWrapper>
       <BackupDescriptionWrapper>
@@ -68,9 +68,9 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation }) => {
           </Message>
         </BackupDataWrapper>
         <BackupActionsWrapper>
-          <Location
-            locationToUpdate={LocationPath.PureOsBackup}
-            buttonLabel={intl.formatMessage({
+          <ButtonComponent
+            onClick={openDialog}
+            label={intl.formatMessage({
               id: "view.name.settings.backup.buttonLabel",
             })}
           />

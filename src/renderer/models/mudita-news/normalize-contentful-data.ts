@@ -31,5 +31,6 @@ export const normalizeContentfulData = async (
   }
   return {
     newsItems: news,
+    lastUpdate: new Date().toISOString(),
   }
 }

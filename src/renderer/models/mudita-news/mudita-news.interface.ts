@@ -26,5 +26,7 @@ export interface DownloadError {
 
 export interface Store {
   newsItems: NewsEntry[]
+  lastUpdate?: string
+  updating?: boolean
   downloadError?: DownloadError
 }

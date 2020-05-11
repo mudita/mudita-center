@@ -2,7 +2,6 @@ import React, { ChangeEvent, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import AudioConversionUI from "Renderer/components/rest/settings/audio-conversion-ui.component"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 const conversionRadioGroup = [
   {
@@ -48,8 +47,8 @@ const conversionFormatRadioGroup = [
 
 const AudioConversion: FunctionComponent = () => {
   const [nonStandardFilesConversion, setNonStandardFilesConversion] = useState<
-    ToggleState
-  >(ToggleState.Off)
+    boolean
+  >(false)
   const [convert, setConvert] = useState("Convert automatically")
   const [conversionFormat, setConversionFormat] = useState("WAV")
   const changeConvertValue = (event: ChangeEvent<HTMLInputElement>) => {

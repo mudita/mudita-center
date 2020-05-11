@@ -4,14 +4,23 @@ import { getAppSettings } from "Renderer/requests/app-settings.request"
 import { AppSettings } from "App/main/default-app-settings"
 import BackupUI from "Renderer/modules/settings/tabs/backup/backup-ui.component"
 
-const Backup: FunctionComponent = () => {
+interface Props {
+  openDialog: () => void
+}
+
+const Backup: FunctionComponent<Props> = ({ openDialog }) => {
   const [settings, setSettings] = useState<AppSettings>()
   useEffect(() => {
     ;(async () => {
       setSettings(await getAppSettings())
     })()
   }, [settings])
-  return <BackupUI backupLocation={settings?.pureOsBackupLocation} />
+  return (
+    <BackupUI
+      backupLocation={settings?.pureOsBackupLocation}
+      openDialog={openDialog}
+    />
+  )
 }
 
 export default Backup
