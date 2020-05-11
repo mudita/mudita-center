@@ -56,7 +56,7 @@ export default {
         const editedContactIndex = state.phone.contacts.findIndex(
           ({ id }) => id === editedContact.id
         )
-        if (editedContactIndex) {
+        if (editedContactIndex >= 0) {
           const updatedContacts = [...state.phone.contacts]
           updatedContacts.splice(editedContactIndex, 1, editedContact)
           dispatch.phone.updateContacts(updatedContacts)
