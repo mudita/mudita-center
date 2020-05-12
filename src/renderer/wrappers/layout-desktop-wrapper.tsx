@@ -72,7 +72,7 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
               label={intl.formatMessage({
                 id: "view.name.news.moreNewsButtonLabel",
               })}
-              href={"https://www.mudita.com/"}
+              href={"https://www.mudita.com/#news"}
               target="_blank"
             />
           }
