@@ -170,7 +170,7 @@ type NameUpdateProps = Pick<Contact, "firstName" | "lastName">
 interface ContactEditProps {
   availableSpeedDials?: number[]
   contact?: Contact
-  onCancel: () => void
+  onCancel: (contact?: Contact) => void
   onSpeedDialSettingsOpen: () => void
   onSave: (contact: Contact) => void
   onNameUpdate?: ({ firstName, lastName }: NameUpdateProps) => void
@@ -191,6 +191,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     defaultValues: contact,
     mode: "onChange",
   })
+
+  const handleCancel = () => {
+    onCancel(contact)
+  }
 
   const handleSave = handleSubmit(data => {
     const formData = {
@@ -254,7 +258,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     <ContactDetailsWrapper
       {...rest}
       show
-      onClose={onCancel}
+      onClose={handleCancel}
       headerLeft={headerLeft}
     >
       <form onSubmit={handleSave}>
@@ -382,7 +386,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           <ButtonComponent
             displayStyle={DisplayStyle.Secondary}
             labelMessage={messages.cancel}
-            onClick={onCancel}
+            onClick={handleCancel}
           />
           <ButtonComponent
             type={Type.Submit}

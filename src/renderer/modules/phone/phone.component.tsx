@@ -98,14 +98,15 @@ const Phone: FunctionComponent<PhoneProps> = ({
     setEditedContact(contact)
   }
 
-  const cancelEditingContact = () => {
+  const cancelEditingContact = (contact?: Contact) => {
     closeSidebar()
     setEditedContact(undefined)
+    openSidebar(contact as Contact)
   }
 
   const saveEditedContact = async (contact: Contact) => {
     await editContact(contact)
-    cancelEditingContact()
+    cancelEditingContact(contact)
   }
 
   const openDeleteModal = (contact: Contact) => {
