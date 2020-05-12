@@ -84,7 +84,7 @@ const Buttons = styled.div`
   grid-template-columns: repeat(2, minmax(13rem, 1fr));
   grid-column-gap: 1.6rem;
   width: fit-content;
-  margin: 4.8rem 0 4.8rem auto;
+  margin: 4.8rem 0 1rem auto;
 
   button {
     width: auto;
