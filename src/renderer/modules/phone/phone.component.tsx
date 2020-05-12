@@ -60,9 +60,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
-    if (!contactList.length) {
-      loadData()
-    }
+    loadData()
   }, [])
 
   const handleNameUpdate = ({
