@@ -20,18 +20,20 @@ const TogglerItem = styled(ButtonTogglerItem)`
 export enum Option {
   Autostart = "appAutostart",
   Tethering = "appTethering",
+  IncomingCalls = "appIncomingCalls",
+  IncomingMessages = "appIncomingMessages",
+  LowBattery = "appLowBattery",
+  OsUpdates = "appOsUpdates",
 }
 
 interface Props {
   toggleValue?: boolean
   onToggle?: (option: boolean) => void
-  optionToUpdate?: Option
 }
 
 const SettingsToggler: FunctionComponent<Props> = ({
   toggleValue,
   onToggle = noop,
-  optionToUpdate,
 }) => {
   return (
     <Toggler filled>

@@ -10,8 +10,12 @@ test("loads settings", async () => {
   })
   ;(ipcRenderer as any).__rendererCalls = {
     [SettingsEvents.Get]: Promise.resolve({
-      appAutostart: false,
-      appTethering: false,
+      [Option.Autostart]: false,
+      [Option.Tethering]: false,
+      [Option.IncomingCalls]: false,
+      [Option.IncomingMessages]: false,
+      [Option.LowBattery]: false,
+      [Option.OsUpdates]: false,
     }),
   }
   await store.dispatch.settings.loadSettings()
@@ -20,13 +24,17 @@ test("loads settings", async () => {
     Object {
       "settings": Object {
         "appAutostart": false,
+        "appIncomingCalls": false,
+        "appIncomingMessages": false,
+        "appLowBattery": false,
+        "appOsUpdates": false,
         "appTethering": false,
       },
     }
   `)
 })
 
-test("updates autostart key in store", async () => {
+test("updates autostart setting", async () => {
   const store = init({
     models: { settings },
   })
@@ -45,7 +53,7 @@ test("updates autostart key in store", async () => {
   `)
 })
 
-test("updates tethering key in store", async () => {
+test("updates tethering setting", async () => {
   const store = init({
     models: { settings },
   })
@@ -59,6 +67,82 @@ test("updates tethering key in store", async () => {
     Object {
       "settings": Object {
         "appTethering": true,
+      },
+    }
+  `)
+})
+
+test("updates incoming calls setting", async () => {
+  const store = init({
+    models: { settings },
+  })
+  const updatedOption = { [Option.IncomingCalls]: true }
+  ;(ipcRenderer as any).__rendererCalls = {
+    [SettingsEvents.Update]: Promise.resolve(updatedOption),
+  }
+  await store.dispatch.settings.setIncomingCalls(true)
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "appIncomingCalls": true,
+      },
+    }
+  `)
+})
+
+test("updates incoming messages setting", async () => {
+  const store = init({
+    models: { settings },
+  })
+  const updatedOption = { [Option.IncomingMessages]: true }
+  ;(ipcRenderer as any).__rendererCalls = {
+    [SettingsEvents.Update]: Promise.resolve(updatedOption),
+  }
+  await store.dispatch.settings.setIncomingMessages(true)
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "appIncomingMessages": true,
+      },
+    }
+  `)
+})
+
+test("updates low battery setting", async () => {
+  const store = init({
+    models: { settings },
+  })
+  const updatedOption = { [Option.LowBattery]: true }
+  ;(ipcRenderer as any).__rendererCalls = {
+    [SettingsEvents.Update]: Promise.resolve(updatedOption),
+  }
+  await store.dispatch.settings.setLowBattery(true)
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "appLowBattery": true,
+      },
+    }
+  `)
+})
+
+test("updates os updates setting", async () => {
+  const store = init({
+    models: { settings },
+  })
+  const updatedOption = { [Option.OsUpdates]: true }
+  ;(ipcRenderer as any).__rendererCalls = {
+    [SettingsEvents.Update]: Promise.resolve(updatedOption),
+  }
+  await store.dispatch.settings.setOsUpdates(true)
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "appOsUpdates": true,
       },
     }
   `)
