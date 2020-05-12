@@ -24,7 +24,7 @@ export interface Props {
   displayStyle?: DisplayStyle
   href?: string
   Icon?: IconType
-  label?: string
+  label?: string | JSX.Element
   labelMessage?: MessageInterface
   onClick?: MouseEventHandler
   size?: Size

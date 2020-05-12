@@ -65,7 +65,7 @@ export const Row = styled.div<TableRowProps>`
   box-sizing: border-box;
   border-bottom: solid 0.1rem ${borderColor("listItem")};
   background-color: var(--rowBackground);
-  transition: background-color ${transitionTime("faster")}
+  transition: background-color ${transitionTime("veryQuick")}
     ${transitionTimingFunction("smooth")};
 
   height: ${({ size }) => {

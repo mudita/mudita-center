@@ -1,34 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-<div
-  class="sc-AxjAm dclKcW"
+<span
+  class="sc-AxjAm eFzjyW"
   data-testid="loader-spinner"
   size="4"
 >
-  <div
-    class="sc-AxirZ jaiFcm"
+  <span
+    class="sc-AxirZ cfJumS"
     data-testid="dot"
   />
-  <div
-    class="sc-AxirZ jaiFcm"
+  <span
+    class="sc-AxirZ cfJumS"
     data-testid="dot"
   />
-  <div
-    class="sc-AxirZ jaiFcm"
+  <span
+    class="sc-AxirZ cfJumS"
     data-testid="dot"
   />
-  <div
-    class="sc-AxirZ jaiFcm"
+  <span
+    class="sc-AxirZ cfJumS"
     data-testid="dot"
   />
-  <div
-    class="sc-AxirZ jaiFcm"
+  <span
+    class="sc-AxirZ cfJumS"
     data-testid="dot"
   />
-  <div
-    class="sc-AxirZ jaiFcm"
+  <span
+    class="sc-AxirZ cfJumS"
     data-testid="dot"
   />
-</div>
+</span>
 `;

@@ -36,7 +36,8 @@ const dotBeforeAnimation = css`
   animation: dot-before 2s infinite ease-in-out both;
 `
 
-const LoaderWrapper = styled.div<{ size?: number }>`
+const LoaderWrapper = styled.span<{ size?: number }>`
+  display: block;
   width: ${({ size }) => size}rem;
   height: ${({ size }) => size}rem;
   position: relative;
@@ -44,7 +45,8 @@ const LoaderWrapper = styled.div<{ size?: number }>`
   color: ${textColor("supplementary")};
 `
 
-const LoaderDot = styled.div`
+const LoaderDot = styled.span`
+  display: block;
   width: 100%;
   height: 100%;
   position: absolute;
