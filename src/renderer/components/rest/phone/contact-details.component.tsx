@@ -19,6 +19,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
+import { noop } from "Renderer/utils/noop"
 
 const messages = defineMessages({
   favourites: { id: "view.name.phone.contacts.details.favourites" },
@@ -183,6 +184,13 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     ]
   }
 
+  const fullAddress = []
+
+  contact.firstAddressLine ? fullAddress.push(contact.firstAddressLine) : noop()
+  contact.secondAddressLine
+    ? fullAddress.push(contact.secondAddressLine)
+    : noop()
+
   return (
     <ContactDetailsWrapper {...rest} show headerRight={icons}>
       <BasicInfo>
@@ -241,9 +249,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             <Input
               type="textarea"
               outlined={false}
-              value={
-                contact.firstAddressLine + "\n" + contact.secondAddressLine
-              }
+              value={fullAddress.join("\n")}
               placeholder={intl.formatMessage(messages.noAddress)}
             />
           </AdditionalInfoItem>
