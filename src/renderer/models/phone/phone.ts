@@ -45,6 +45,8 @@ export default {
   },
   effects: (dispatch: Dispatch): any => ({
     async loadData(payload: any, { phone: { contacts } }: RootState) {
+      // TODO: Add 'downloaded' flag in case phonebook will be empty and there will
+      //  be no way to add a contact from phone when it's connected to the app.
       if (contacts.length === 0) {
         dispatch.phone.updateContacts(await getContacts())
       }
