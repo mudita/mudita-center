@@ -2,6 +2,7 @@ import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
 import InputSelect, {
   InputSelectProps,
+  renderSearchableText,
 } from "Renderer/components/core/input-select/input-select.component"
 import styled, { css } from "styled-components"
 import { action } from "@storybook/addon-actions"
@@ -41,6 +42,8 @@ export const advancedData = [
   { name: "Tomato", value: "tomato", type: "vegetable", icon: "🍅" },
   { name: "Cabbage", value: "cabbage", type: "vegetable", icon: "🥬" },
 ]
+
+type AdvancedItem = typeof advancedData[number]
 
 const Story: FunctionComponent<Partial<InputSelectProps>> = ({
   options = data,
@@ -86,13 +89,9 @@ storiesOf("Components|InputSelect/Basic", module)
   ))
   .add("Preselected", () => <Story value={data[2]} />)
   .add("Customized list", () => {
-    const renderValue = (item: typeof advancedData[number]) => item.name
+    const renderValue = (item: AdvancedItem) => item.name
 
-    const renderListItem = ({
-      name,
-      type,
-      icon,
-    }: typeof advancedData[number]) => (
+    const renderListItem = ({ name, type, icon }: AdvancedItem) => (
       <>
         <strong>
           {icon} {name}
@@ -112,6 +111,48 @@ storiesOf("Components|InputSelect/Basic", module)
         listStyles={css`
           max-height: 33rem;
         `}
+      />
+    )
+  })
+
+storiesOf("Components|InputSelect/Searchable", module)
+  .add("Standard", () => <Story placeholder={"Fruit"} searchable />)
+  .add("Standard and empty option", () => (
+    <Story placeholder={"Fruit"} emptyOption={"Select"} searchable />
+  ))
+  .add("Preselected", () => <Story value={data[2]} searchable />)
+  .add("Customized list", () => {
+    const renderValue = (item: AdvancedItem) => item.name
+
+    const renderListItem = (
+      { name, type, icon }: AdvancedItem,
+      search: string
+    ) => (
+      <>
+        <strong>
+          {icon} {renderSearchableText(name, search)}
+        </strong>
+        <br />
+        <em>{type}</em>
+      </>
+    )
+
+    const filteringFunction = (item: AdvancedItem, search: string) => {
+      return item.name.toLowerCase().includes(search.toLowerCase())
+    }
+
+    return (
+      <Story
+        emptyOption={"None"}
+        placeholder={"Fruit"}
+        options={advancedData}
+        renderValue={renderValue}
+        renderListItem={renderListItem}
+        filteringFunction={filteringFunction}
+        listStyles={css`
+          max-height: 33rem;
+        `}
+        searchable
       />
     )
   })
