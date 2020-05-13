@@ -7,7 +7,6 @@ import {
   Checkbox,
   CheckboxWrapper,
   DataWrapper,
-  FilterButton,
   FiltersWrapper,
   Message,
   Name,
@@ -30,20 +29,32 @@ import styled from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
+import ButtonToggler, {
+  ButtonTogglerItem,
+} from "Renderer/components/core/button-toggler/button-toggler.component"
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
 `
 
+const toggleState = [
+  intl.formatMessage({
+    id: "view.name.messages.allMessages",
+  }),
+  intl.formatMessage({
+    id: "view.name.messages.unreadOnly",
+  }),
+] as const
+
 const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
-  visibilityFilter,
   changeSearchValue,
   changeVisibilityFilter,
   list,
 }) => {
   const [selectedTopics, setSelectedTopics] = useState(new Set())
+  const [activeLabel, setActiveLabel] = useState(toggleState[0])
 
   const showAllMessages = () => {
     changeVisibilityFilter(VisibilityFilter.All)
@@ -59,18 +70,22 @@ const Messages: FunctionComponent<MessagesProps> = ({
     <>
       <FiltersWrapper checkMode={checkMode}>
         <UnreadFilters>
-          <FilterButton
-            onClick={showAllMessages}
-            inactive={visibilityFilter !== VisibilityFilter.All}
-          >
-            All messages
-          </FilterButton>
-          <FilterButton
-            onClick={hideReadMessages}
-            inactive={visibilityFilter !== VisibilityFilter.Unread}
-          >
-            Unread only
-          </FilterButton>
+          <ButtonToggler>
+            {toggleState.map((label, i) => {
+              const onClick = () => {
+                i === 0 ? showAllMessages() : hideReadMessages()
+                setActiveLabel(label)
+              }
+              return (
+                <ButtonTogglerItem
+                  key={i}
+                  label={label}
+                  onClick={onClick}
+                  active={activeLabel === label}
+                />
+              )
+            })}
+          </ButtonToggler>
         </UnreadFilters>
         <InputText
           type={"search"}

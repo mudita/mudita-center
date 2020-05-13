@@ -6,7 +6,7 @@ import Messages from "./messages.component"
 
 const mapStateToProps = select(({ messages }) => ({
   list: messages.filteredList,
-  visibilityFilter: messages.visibilityFilter,
+  // visibilityFilter: messages.visibilityFilter,
 }))
 
 const mapDispatchToProps = (dispatch: any) => ({

@@ -1,8 +1,5 @@
 import { Slicer } from "@rematch/select"
-import {
-  StateProps,
-  VisibilityFilter,
-} from "Renderer/models/messages/messages.interface"
+import { StateProps } from "Renderer/models/messages/messages.interface"
 import {
   filterTopics,
   mockedTopics,
@@ -13,7 +10,6 @@ import {
 const initialState = {
   topics: mockedTopics,
   searchValue: "",
-  visibilityFilter: VisibilityFilter.All,
 }
 
 export default {
@@ -33,11 +29,6 @@ export default {
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({
-    visibilityFilter() {
-      return slice(state => {
-        return state.visibilityFilter
-      })
-    },
     filteredList() {
       return slice(state => {
         let list = state.topics
