@@ -9,7 +9,7 @@ import Music from "Renderer/modules/music/music.component"
 import News from "Renderer/modules/news/news.component"
 import OverviewContainer from "Renderer/modules/overview/overview.container"
 import PhoneContainer from "Renderer/modules/phone/phone.container"
-import Settings from "Renderer/modules/settings/settings.component"
+import Settings from "Renderer/modules/settings/settings.container"
 import Tethering from "Renderer/modules/tethering/tethering.component"
 import Tools from "Renderer/modules/tools/tools.component"
 
@@ -25,9 +25,9 @@ import Connecting from "Renderer/modules/onboarding/connecting.component"
 import Troubleshooting from "Renderer/modules/onboarding/troubleshooting.component"
 import LayoutDesktopWrapper from "Renderer/wrappers/layout-desktop-wrapper"
 import LayoutOnboardingWrapper from "Renderer/wrappers/layout-onboarding-wrapper"
-import Backup from "Renderer/modules/settings/tabs/backup/backup.component"
-import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.component"
-import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.component"
+import Backup from "Renderer/modules/settings/tabs/backup/backup-container.component"
+import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.container"
+import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.container"
 
 export default () => (
   <Switch>

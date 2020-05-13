@@ -3,12 +3,11 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import "@testing-library/jest-dom/extend-expect"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { fireEvent } from "@testing-library/dom"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
 
 test("off button is active by default", async () => {
   const onToggle = jest.fn()
   const { queryAllByRole } = renderWithThemeAndIntl(
-    <SettingsToggler onToggle={onToggle} toggleValue={ToggleState.Off} />
+    <SettingsToggler onToggle={onToggle} toggleValue={false} />
   )
   const buttons = queryAllByRole("button")
   const offButton = buttons[0]
@@ -19,12 +18,12 @@ test("off button is active by default", async () => {
 test("passed function is called with right argument", async () => {
   const onToggle = jest.fn()
   const { queryAllByRole } = renderWithThemeAndIntl(
-    <SettingsToggler onToggle={onToggle} toggleValue={ToggleState.Off} />
+    <SettingsToggler onToggle={onToggle} toggleValue={false} />
   )
   const [, onButton] = queryAllByRole("button")
 
   await fireEvent.click(onButton)
-  expect(onToggle).toBeCalledWith(ToggleState.On)
+  expect(onToggle).toBeCalledWith(true)
 })
 
 test("informs about toggle", async () => {

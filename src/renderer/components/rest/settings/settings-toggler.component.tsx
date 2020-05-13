@@ -6,7 +6,7 @@ import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
+import { noop } from "Renderer/utils/noop"
 
 const Toggler = styled(ButtonToggler)`
   margin-right: 4rem;
@@ -18,30 +18,32 @@ const TogglerItem = styled(ButtonTogglerItem)`
 `
 
 interface Props {
-  toggleValue?: string
-  onToggle: (label: ToggleState) => void
+  toggleValue?: boolean
+  onToggle?: (option: boolean) => void
 }
 
 const SettingsToggler: FunctionComponent<Props> = ({
   toggleValue,
-  onToggle,
+  onToggle = noop,
 }) => {
   return (
     <Toggler filled>
-      {twoStateToggler.map(label => {
+      {twoStateToggler.map(value => {
         const changeStatus = () => {
-          onToggle(label)
+          onToggle(value)
         }
         return (
           <TogglerItem
-            key={label}
+            key={Number(value)}
             label={intl.formatMessage({
-              id: label,
+              id: Boolean(value)
+                ? "view.name.settings.onLabel"
+                : "view.name.settings.offLabel",
             })}
             onClick={changeStatus}
-            active={toggleValue === label}
+            active={toggleValue === value}
             data-testid={
-              toggleValue === label ? "toggler-active" : "toggler-inactive"
+              toggleValue === value ? "toggler-active" : "toggler-inactive"
             }
           />
         )

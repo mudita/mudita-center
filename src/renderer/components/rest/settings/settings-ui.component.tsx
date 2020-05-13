@@ -12,12 +12,12 @@ import styled from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
+import { noop } from "Renderer/utils/noop"
 
 export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 15rem;
-  border-bottom: solid 0.2rem ${borderColor("listItem")};
+  border-bottom: solid 0.1rem ${borderColor("listItem")};
 `
 
 export const Data = styled.div`
@@ -30,7 +30,7 @@ export const SettingsLabel = styled(Name)`
 `
 
 export const SettingsDescriptionWrapper = styled.div`
-  border-bottom: solid 0.2rem ${borderColor("listItem")};
+  border-bottom: solid 0.1rem ${borderColor("listItem")};
 `
 
 export const SettingsDescription = styled(Text)`
@@ -43,17 +43,17 @@ export const SettingsWrapper = styled.section`
 `
 
 interface Props {
-  autostart?: string
-  setAutostart: (label: ToggleState) => void
-  tethering?: string
-  setTethering: (label: ToggleState) => void
+  appAutostart?: boolean
+  setAutostart?: (option: boolean) => void
+  appTethering?: boolean
+  setTethering?: (option: boolean) => void
 }
 
 const SettingsUI: FunctionComponent<Props> = ({
-  autostart,
-  setAutostart,
-  tethering,
-  setTethering,
+  appAutostart,
+  setAutostart = noop,
+  appTethering,
+  setTethering = noop,
 }) => {
   return (
     <SettingsWrapper>
@@ -71,7 +71,7 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={autostart} onToggle={setAutostart} />
+          <SettingsToggler toggleValue={appAutostart} onToggle={setAutostart} />
         </ActionsWrapper>
       </SettingsTableRow>
       <SettingsTableRow checkMode={false}>
@@ -81,7 +81,7 @@ const SettingsUI: FunctionComponent<Props> = ({
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
-          <SettingsToggler toggleValue={tethering} onToggle={setTethering} />
+          <SettingsToggler toggleValue={appTethering} onToggle={setTethering} />
         </ActionsWrapper>
       </SettingsTableRow>
     </SettingsWrapper>

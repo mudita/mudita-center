@@ -1,10 +1,13 @@
-import React, { ChangeEvent, useState } from "react"
+import React, { ChangeEvent, useEffect } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import AudioConversionUI from "Renderer/components/rest/settings/audio-conversion-ui.component"
-import { ToggleState } from "Renderer/modules/settings/settings-toggle-state.enum"
+import {
+  ConversionFormat,
+  Convert,
+} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 
-const conversionRadioGroup = [
+export const conversionRadioGroup = [
   {
     value: "Always ask",
     label: intl.formatMessage({
@@ -16,11 +19,10 @@ const conversionRadioGroup = [
     label: intl.formatMessage({
       id: "view.name.settings.audioConversion.convertAutomatically",
     }),
-    checked: true,
   },
 ]
 
-const conversionFormatRadioGroup = [
+export const conversionFormatRadioGroup = [
   {
     value: "FLAC",
     label: "FLAC",
@@ -46,27 +48,43 @@ const conversionFormatRadioGroup = [
   },
 ]
 
-const AudioConversion: FunctionComponent = () => {
-  const [nonStandardFilesConversion, setNonStandardFilesConversion] = useState<
-    ToggleState
-  >(ToggleState.Off)
-  const [convert, setConvert] = useState("Convert automatically")
-  const [conversionFormat, setConversionFormat] = useState("WAV")
+interface Props {
+  appNonStandardAudioFilesConversion: boolean
+  appConvert: Convert
+  appConversionFormat: ConversionFormat
+  setNonStandardAudioFilesConversion: (option: boolean) => void
+  setConvert: (option: Convert) => void
+  setConversionFormat: (option: ConversionFormat) => void
+  loadSettings: () => void
+}
+
+const AudioConversion: FunctionComponent<Props> = ({
+  appNonStandardAudioFilesConversion,
+  appConvert,
+  appConversionFormat,
+  setNonStandardAudioFilesConversion,
+  setConvert,
+  setConversionFormat,
+  loadSettings,
+}) => {
+  useEffect(() => {
+    loadSettings()
+  }, [])
   const changeConvertValue = (event: ChangeEvent<HTMLInputElement>) => {
-    setConvert(event.target.value)
+    setConvert(event.target.value as Convert)
   }
   const changeConversionFormat = (event: ChangeEvent<HTMLInputElement>) => {
-    setConversionFormat(event.target.value)
+    setConversionFormat(event.target.value as ConversionFormat)
   }
   return (
     <AudioConversionUI
-      nonStandardFilesConversion={nonStandardFilesConversion}
-      setNonStandardFilesConversion={setNonStandardFilesConversion}
+      appNonStandardAudioFilesConversion={appNonStandardAudioFilesConversion}
+      setNonStandardAudioFilesConversion={setNonStandardAudioFilesConversion}
       conversionRadioGroup={conversionRadioGroup}
       conversionFormatRadioGroup={conversionFormatRadioGroup}
-      convert={convert}
+      appConvert={appConvert}
       changeConvertValue={changeConvertValue}
-      conversionFormat={conversionFormat}
+      appConversionFormat={appConversionFormat}
       changeConversionFormat={changeConversionFormat}
     />
   )

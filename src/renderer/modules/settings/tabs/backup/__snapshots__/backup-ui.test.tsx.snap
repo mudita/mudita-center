@@ -6,7 +6,7 @@ exports[`matches snapshot 1`] = `
     class="sc-fzqNqU enhkfO"
   >
     <div
-      class="sc-fzoiQi cENPxq"
+      class="sc-fzoiQi bKmodZ"
     >
       <p
         class="sc-AxjAm ijRVAY sc-fzqARJ edorez"
@@ -15,33 +15,33 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="sc-fzoLag sc-fznWqX bQDmMt"
+      class="sc-fznKkj sc-fznWqX dFQTVS"
     >
       <div
-        class="sc-fzoyAV sc-fzoyTs juHJqJ"
+        class="sc-fznyAO sc-fzoyTs juHJqJ"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-fznyAO epKhlk"
+          class="sc-AxjAm eGfSTk sc-Axmtr dKSsZf"
         >
           Backup Location
         </p>
         <p
-          class="sc-AxjAm ijRVAY sc-fznZeY iFSKSK"
+          class="sc-AxjAm ijRVAY sc-fzozJi kEWxNo"
           data-testid="backup-location"
         >
           C:/MuditaOs
         </p>
       </div>
       <div
-        class="sc-fzqNJr sc-fzoNJl gAaxJe"
+        class="sc-fzplWN sc-fzoNJl gAaxJe"
       >
         <button
-          class="sc-AxgMl fvnHkD"
+          class="sc-fzpjYC VyHWg"
           size="2"
           type="button"
         >
           <p
-            class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+            class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
           >
             Change location
           </p>

@@ -15,21 +15,21 @@ storiesOf("News|Last Update", module)
   .add("Offline", () => {
     return (
       <Container>
-        <LastUpdate offline date="2019-10-18T11:27:15.256Z" />
+        <LastUpdate online date="2019-10-18T11:27:15.256Z" />
       </Container>
     )
   })
   .add("Online", () => {
     return (
       <Container>
-        <LastUpdate offline={false} date="2019-10-18T11:27:15.256Z" />
+        <LastUpdate online={false} date="2019-10-18T11:27:15.256Z" />
       </Container>
     )
   })
   .add("First use of app without internet connection", () => {
     return (
       <Container>
-        <LastUpdate offline />
+        <LastUpdate online />
       </Container>
     )
   })
