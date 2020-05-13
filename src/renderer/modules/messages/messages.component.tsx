@@ -29,6 +29,7 @@ import Button from "Renderer/components/core/button/button.component"
 import styled from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
+import { intl } from "Renderer/utils/intl"
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -81,7 +82,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
           <Button
             displayStyle={DisplayStyle.Primary}
             size={Size.FixedBig}
-            label="Click"
+            label={intl.formatMessage({
+              id: "view.name.messages.newMessage",
+            })}
             onClick={noop}
             Icon={Type.PlusSign}
           />
