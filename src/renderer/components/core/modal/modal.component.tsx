@@ -2,7 +2,9 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import * as React from "react"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import styled, { css } from "styled-components"
-import Button from "Renderer/components/core/button/button.component"
+import Button, {
+  Props as ButtonProps,
+} from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
 import Text from "Renderer/components/core/text/text.component"
 import {
@@ -55,7 +57,7 @@ const ButtonWrapper = styled.div`
   display: flex;
 `
 
-const CloseButton = styled(Button)<{ actionButton?: string }>`
+const CloseButton = styled(Button)<{ actionButton?: boolean }>`
   ${({ actionButton }) =>
     actionButton &&
     css`
@@ -64,11 +66,11 @@ const CloseButton = styled(Button)<{ actionButton?: string }>`
 `
 
 export interface ModalProps {
-  actionButtonLabel?: string
+  actionButtonLabel?: ButtonProps["label"]
   onActionButtonClick?: () => void
   closeable?: boolean
   closeButton?: boolean
-  closeButtonLabel?: string
+  closeButtonLabel?: ButtonProps["label"]
   onClose?: () => void
   size?: ModalSize
   subtitle?: string
@@ -124,7 +126,7 @@ const Modal: FunctionComponent<ModalProps> = ({
         <ButtonWrapper>
           {closeButton && (
             <CloseButton
-              actionButton={actionButtonLabel}
+              actionButton={Boolean(actionButtonLabel)}
               displayStyle={DisplayStyle.Secondary}
               size={getModalButtonsSize(size)}
               label={closeButtonLabel}

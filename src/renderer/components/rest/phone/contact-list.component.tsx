@@ -1,5 +1,9 @@
-import React, { createRef, useEffect } from "react"
-import { Contact, Contacts } from "Renderer/models/phone/phone.interface"
+import React, { createRef, Ref, useEffect } from "react"
+import {
+  Contact,
+  Contacts,
+  NewContact,
+} from "Renderer/models/phone/phone.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -14,6 +18,7 @@ import InputCheckbox, {
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Avatar, {
   AvatarSize,
+  basicAvatarStyles,
 } from "Renderer/components/core/avatar/avatar.component"
 import {
   backgroundColor,
@@ -27,14 +32,15 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import ButtonComponent from "Renderer/components/core/button/button.component"
 import { ContactActions } from "Renderer/components/rest/phone/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import { FormattedMessage } from "react-intl"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import { intl } from "Renderer/utils/intl"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import ButtonComponent from "Renderer/components/core/button/button.component"
+import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
+import { InView } from "react-intersection-observer"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -56,13 +62,26 @@ const lightAvatarStyles = css`
   background-color: ${backgroundColor("avatarLight")};
 `
 
-const InitialsAvatar = styled(Avatar).attrs(() => ({
-  size: AvatarSize.Small,
-}))<{ light?: boolean }>`
+const InitialsAvatar = styled(Avatar)`
   margin-right: 1.2rem;
-  transition: background-color ${transitionTime("faster")}
-    ${transitionTimingFunction("smooth")};
-  ${({ light }) => light && lightAvatarStyles}
+`
+
+const ClickableCol = styled(Col)`
+  height: 100%;
+`
+
+const AvatarPlaceholder = styled.div`
+  ${basicAvatarStyles};
+  margin-right: 1.2rem;
+`
+
+const TextPlaceholder = styled.span<{ charsCount: number }>`
+  display: block;
+  background-color: ${backgroundColor("accent")};
+  height: 1em;
+  border-radius: ${borderRadius("medium")};
+  width: ${({ charsCount }) => charsCount * 0.6}rem;
+  min-width: 5rem;
 `
 
 const MoreNumbers = styled(Text).attrs(() => ({
@@ -121,7 +140,7 @@ export interface ContactListProps extends Contacts, ContactActions {
   activeRow?: Contact
   onCheck: (contacts: Contact[]) => void
   onSelect: (contact: Contact) => void
-  newContact?: Contact
+  newContact?: NewContact
   editedContact?: Contact
 }
 
@@ -133,6 +152,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   onExport,
   onForward,
   onBlock,
+  onUnblock,
   onDelete,
   newContact,
   editedContact,
@@ -168,7 +188,9 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   return (
     <SelectableContacts
       hideableColumnsIndexes={[2, 3, 4]}
-      hideColumns={Boolean(activeRow) || Boolean(newContact)}
+      hideColumns={
+        Boolean(activeRow) || Boolean(newContact) || Boolean(editedContact)
+      }
       scrollable={scrollable && !newContact}
       mouseLock={Boolean(newContact || editedContact)}
       ref={tableRef}
@@ -184,7 +206,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           <Row active>
             <Col />
             <Col>
-              <InitialsAvatar user={newContact} light />
+              <InitialsAvatar user={newContact} light size={AvatarSize.Small} />
               {newContact.firstName} {newContact.lastName}
             </Col>
           </Row>
@@ -196,21 +218,25 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             <Col />
             <Col>{category}</Col>
           </Labels>
-          {contacts.map((contact, index) => {
-            const fullName = createFullName(contact)
+          {contacts.map(contact => {
             const { selected } = getRowStatus(contact)
             const onChange = () => toggleRow(contact)
             const handleExport = () => onExport(contact)
             const handleForward = () => onForward(contact)
             const handleBlock = () => onBlock(contact)
+            const handleUnblock = () => onUnblock(contact)
             const handleDelete = () => onDelete(contact)
             const handleSelect = () => onSelect(contact)
 
-            return (
+            const fullName = createFullName(contact)
+            const phoneNumber =
+              contact.primaryPhoneNumber || contact.secondaryPhoneNumber
+
+            const interactiveRow = (ref: Ref<HTMLDivElement>) => (
               <Row
-                key={index}
                 selected={selected}
-                active={activeRow === contact}
+                active={(activeRow || editedContact)?.id === contact.id}
+                ref={ref}
               >
                 <Col>
                   <Checkbox
@@ -220,17 +246,19 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                     visible={!noneRowsSelected}
                   />
                 </Col>
-                <Col onClick={handleSelect}>
-                  <InitialsAvatar user={contact} light={selected} />
+                <ClickableCol onClick={handleSelect}>
+                  <InitialsAvatar
+                    user={contact}
+                    light={selected || activeRow === contact}
+                    size={AvatarSize.Small}
+                  />
                   {fullName ||
                     intl.formatMessage({
                       id: "view.name.phone.contacts.list.unnamedContact",
                     })}
                   {contact.blocked && <BlockedIcon width={1.4} height={1.4} />}
-                </Col>
-                <Col>
-                  {contact.primaryPhoneNumber || contact.secondaryPhoneNumber}
-                </Col>
+                </ClickableCol>
+                <Col>{phoneNumber}</Col>
                 <Col>
                   {contact.primaryPhoneNumber &&
                     contact.secondaryPhoneNumber && (
@@ -264,14 +292,25 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         onClick={handleForward}
                         displayStyle={DisplayStyle.Dropdown}
                       />
-                      <ButtonComponent
-                        labelMessage={{
-                          id: "view.name.phone.contacts.action.block",
-                        }}
-                        Icon={Type.Blocked}
-                        onClick={handleBlock}
-                        displayStyle={DisplayStyle.Dropdown}
-                      />
+                      {contact.blocked ? (
+                        <ButtonComponent
+                          labelMessage={{
+                            id: "view.name.phone.contacts.action.unblock",
+                          }}
+                          Icon={Type.Blocked}
+                          onClick={handleUnblock}
+                          displayStyle={DisplayStyle.Dropdown}
+                        />
+                      ) : (
+                        <ButtonComponent
+                          labelMessage={{
+                            id: "view.name.phone.contacts.action.block",
+                          }}
+                          Icon={Type.Blocked}
+                          onClick={handleBlock}
+                          displayStyle={DisplayStyle.Dropdown}
+                        />
+                      )}
                       <ButtonComponent
                         labelMessage={{
                           id: "view.name.phone.contacts.action.delete",
@@ -284,6 +323,31 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                   </Actions>
                 </Col>
               </Row>
+            )
+
+            const placeholderRow = (ref: Ref<HTMLDivElement>) => {
+              return (
+                <Row ref={ref}>
+                  <Col />
+                  <Col>
+                    <AvatarPlaceholder />
+                    <TextPlaceholder charsCount={fullName.length} />
+                  </Col>
+                  <Col>
+                    {phoneNumber && (
+                      <TextPlaceholder charsCount={phoneNumber.length} />
+                    )}
+                  </Col>
+                </Row>
+              )
+            }
+
+            return (
+              <InView key={contact.id + category}>
+                {({ inView, ref }) =>
+                  inView ? interactiveRow(ref) : placeholderRow(ref)
+                }
+              </InView>
             )
           })}
         </Group>

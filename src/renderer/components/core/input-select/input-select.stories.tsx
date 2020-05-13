@@ -2,7 +2,9 @@ import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
 import InputSelect, {
   InputSelectProps,
+  RenderListItemProps,
   renderSearchableText,
+  SelectInputItem,
 } from "Renderer/components/core/input-select/input-select.component"
 import styled, { css } from "styled-components"
 import { action } from "@storybook/addon-actions"
@@ -91,14 +93,17 @@ storiesOf("Components|InputSelect/Basic", module)
   .add("Customized list", () => {
     const renderValue = (item: AdvancedItem) => item.name
 
-    const renderListItem = ({ name, type, icon }: AdvancedItem) => (
-      <>
+    const renderListItem = ({
+      item: { name, type, icon },
+      props,
+    }: RenderListItemProps<AdvancedItem>) => (
+      <SelectInputItem {...props}>
         <strong>
           {icon} {name}
         </strong>
         <br />
         <em>{type}</em>
-      </>
+      </SelectInputItem>
     )
 
     return (
@@ -124,17 +129,18 @@ storiesOf("Components|InputSelect/Searchable", module)
   .add("Customized list", () => {
     const renderValue = (item: AdvancedItem) => item.name
 
-    const renderListItem = (
-      { name, type, icon }: AdvancedItem,
-      search: string
-    ) => (
-      <>
+    const renderListItem = ({
+      item: { name, type, icon },
+      searchString,
+      props,
+    }: RenderListItemProps<AdvancedItem>) => (
+      <SelectInputItem {...props}>
         <strong>
-          {icon} {renderSearchableText(name, search)}
+          {icon} {renderSearchableText(name, searchString)}
         </strong>
         <br />
         <em>{type}</em>
-      </>
+      </SelectInputItem>
     )
 
     const filteringFunction = (item: AdvancedItem, search: string) => {

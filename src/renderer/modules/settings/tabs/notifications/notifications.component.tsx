@@ -1,21 +1,42 @@
-import React, { useState } from "react"
+import React, { useEffect } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.component"
 
-const Notifications: FunctionComponent = () => {
-  const [incomingCalls, setIncomingCalls] = useState<boolean>(false)
-  const [incomingMessages, setIncomingMessages] = useState<boolean>(false)
-  const [lowBattery, setLowBattery] = useState<boolean>(false)
-  const [osUpdates, setOsUpdates] = useState<boolean>(false)
+interface Props {
+  appIncomingCalls?: boolean
+  appIncomingMessages?: boolean
+  appLowBattery?: boolean
+  appOsUpdates?: boolean
+  setIncomingCalls: (option: boolean) => void
+  setIncomingMessages: (option: boolean) => void
+  setLowBattery: (option: boolean) => void
+  setOsUpdates: (option: boolean) => void
+  loadSettings: () => void
+}
+
+const Notifications: FunctionComponent<Props> = ({
+  appIncomingCalls,
+  appIncomingMessages,
+  appLowBattery,
+  appOsUpdates,
+  setIncomingCalls,
+  setIncomingMessages,
+  setLowBattery,
+  setOsUpdates,
+  loadSettings,
+}) => {
+  useEffect(() => {
+    loadSettings()
+  }, [])
   return (
     <NotificationsUI
-      incomingCalls={incomingCalls}
+      appIncomingCalls={appIncomingCalls}
       setIncomingCalls={setIncomingCalls}
-      incomingMessages={incomingMessages}
+      appIncomingMessages={appIncomingMessages}
       setIncomingMessages={setIncomingMessages}
-      lowBattery={lowBattery}
+      appLowBattery={appLowBattery}
       setLowBattery={setLowBattery}
-      osUpdates={osUpdates}
+      appOsUpdates={appOsUpdates}
       setOsUpdates={setOsUpdates}
     />
   )

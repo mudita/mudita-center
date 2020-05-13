@@ -20,11 +20,11 @@ import {
 import DeleteContactModal from "Renderer/components/rest/phone/delete-contact-modal.component"
 import Faker from "faker"
 
-const contactList = generateFakeData(40)
+const contactList: Contact[] = generateFakeData(40)
 
 contactList.push(
   {
-    id: Faker.random.uuid(),
+    id: "id1",
     firstName: "Ędward",
     lastName: "Ącki",
     primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
@@ -39,7 +39,7 @@ contactList.push(
     secondAddressLine: Faker.address.city(),
   },
   {
-    id: Faker.random.uuid(),
+    id: "id2",
     firstName: ".Info",
     lastName: "",
     primaryPhoneNumber: "*121#",
@@ -73,6 +73,7 @@ storiesOf("Views|Phone", module).add("Phone", () => (
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
@@ -110,6 +111,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
@@ -123,6 +125,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
@@ -136,6 +139,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
@@ -149,6 +153,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}
@@ -162,6 +167,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onEdit={action("Edit contact")}
       onExport={action("Export contact")}
       onForward={action("Forward contact")}
+      onUnblock={action("Unblock contact")}
       onBlock={action("Block contact")}
       onDelete={action("Delete contact")}
       onMessage={action("Send message")}

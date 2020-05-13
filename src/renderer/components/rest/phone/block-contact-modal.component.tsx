@@ -36,35 +36,35 @@ const ModalContent = styled.div`
 `
 
 const messages = defineMessages({
-  title: { id: "view.name.phone.contacts.modal.delete.title" },
-  text: { id: "view.name.phone.contacts.modal.delete.text" },
-  cancelButton: { id: "view.name.phone.contacts.modal.delete.cancelButton" },
-  deleteButton: { id: "view.name.phone.contacts.modal.delete.deleteButton" },
+  title: { id: "view.name.phone.contacts.modal.block.title" },
+  text: { id: "view.name.phone.contacts.modal.block.text" },
+  cancelButton: { id: "view.name.phone.contacts.modal.block.cancelButton" },
+  blockButton: { id: "view.name.phone.contacts.modal.block.blockButton" },
 })
 
 interface DeleteContactModalProps {
   contact: Contact
-  onDelete?: () => void
+  onBlock?: () => void
   onClose?: () => void
-  deleting?: boolean
+  blocking?: boolean
 }
 
-const DeleteContactModal: FunctionComponent<DeleteContactModalProps> = ({
-  onDelete = noop,
+const BlockContactModal: FunctionComponent<DeleteContactModalProps> = ({
+  onBlock = noop,
   onClose = noop,
-  deleting,
+  blocking,
   contact,
 }) => {
   return (
     <ModalComponent
       title={intl.formatMessage(messages.title)}
       size={ModalSize.Small}
-      onActionButtonClick={onDelete}
+      onActionButtonClick={onBlock}
       actionButtonLabel={
-        deleting ? (
+        blocking ? (
           <Loader size={2} type={LoaderType.Spinner} />
         ) : (
-          intl.formatMessage(messages.deleteButton)
+          intl.formatMessage(messages.blockButton)
         )
       }
       onClose={onClose}
@@ -84,4 +84,4 @@ const DeleteContactModal: FunctionComponent<DeleteContactModalProps> = ({
   )
 }
 
-export default DeleteContactModal
+export default BlockContactModal

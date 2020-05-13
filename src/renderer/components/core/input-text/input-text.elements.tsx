@@ -177,16 +177,21 @@ const InputWrapper = styled.label<
   ${({ disabled }) => disabled && disabledStyles};
   ${({ error }) => error && errorStyles};
 
-  &:hover:not([disabled]),
-  &:focus-within:not([disabled]) {
-    ${({ error }) => !error && focusedStyles};
-  }
+  ${({ disabled, readOnly, error }) =>
+    !disabled &&
+    !readOnly &&
+    css`
+      &:focus-within {
+        ${InputLabel} {
+          ${focusedLabelStyles};
+        }
+      }
 
-  &:focus-within:not([disabled]) {
-    ${InputLabel} {
-      ${focusedLabelStyles};
-    }
-  }
+      &:hover,
+      &:focus-within {
+        ${!error && focusedStyles};
+      }
+    `}
 `
 
 const TextAreaInput = styled.textarea`
@@ -266,6 +271,7 @@ export const InputText: FunctionComponent<InputProps> = ({
   trailingIcons,
   placeholder,
   disabled,
+  readOnly,
   onChange = noop,
   inputRef,
   errorMessage,
@@ -277,6 +283,7 @@ export const InputText: FunctionComponent<InputProps> = ({
         ref={inputRef}
         placeholder={" "}
         disabled={disabled}
+        readOnly={readOnly}
         onChange={onChange}
         {...rest}
       />
@@ -288,6 +295,7 @@ export const InputText: FunctionComponent<InputProps> = ({
       ref={inputRef}
       placeholder={placeholder}
       disabled={disabled}
+      readOnly={readOnly}
       onChange={onChange}
       autoFocus
       {...rest}
@@ -300,6 +308,7 @@ export const InputText: FunctionComponent<InputProps> = ({
       outlined={outlined}
       condensed={condensed}
       disabled={disabled}
+      readOnly={readOnly}
       error={Boolean(errorMessage)}
     >
       {outlined ? outlinedInput : standardInput}
@@ -314,6 +323,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   leadingIcons,
   trailingIcons,
   disabled,
+  readOnly,
   defaultValue,
   maxRows = Infinity,
   onChange = noop,
@@ -360,6 +370,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
       value={value}
       defaultValue={defaultValue}
       disabled={disabled}
+      readOnly={readOnly}
       placeholder={placeholder}
       onChange={onChangeHandler}
       {...rest}
@@ -373,6 +384,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
         value={value}
         defaultValue={defaultValue}
         disabled={disabled}
+        readOnly={readOnly}
         placeholder={" "}
         onChange={onChangeHandler}
         {...rest}
@@ -385,6 +397,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
     <TextareaWrapper
       className={className}
       disabled={disabled}
+      readOnly={readOnly}
       outlined={outlined}
       error={Boolean(errorMessage)}
     >

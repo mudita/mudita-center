@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
-import Settings from "Renderer/modules/settings/settings.component"
 import { RootModel } from "Renderer/models/models"
+import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.component"
 
 const mapStateToProps = (state: RootModel) => {
   return state.settings
@@ -8,4 +8,4 @@ const mapStateToProps = (state: RootModel) => {
 
 const mapDispatchToProps = (dispatch: any) => dispatch.settings
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings)
+export default connect(mapStateToProps, mapDispatchToProps)(AudioConversion)

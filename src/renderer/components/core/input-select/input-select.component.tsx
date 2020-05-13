@@ -35,7 +35,10 @@ const ToggleIcon = styled.span<{ rotated?: boolean }>`
   transform: rotateZ(${({ rotated }) => (rotated ? 180 : 0)}deg);
 `
 
-const SelectInputItem = styled.li<{ empty?: boolean; selected?: boolean }>`
+export const SelectInputItem = styled.li<{
+  empty?: boolean
+  selected?: boolean
+}>`
   cursor: pointer;
   padding: 1.2rem 2.4rem;
   ${mediumTextSharedStyles};
@@ -136,13 +139,30 @@ export const renderSearchableText = (text: string, search: string) => {
 
 type InputValue = string | number
 
+type RenderableListItem = InputValue | JSX.Element
+
+export type ListItemProps = {
+  onClick: (option: any) => void
+  selected: boolean
+}
+
+export interface RenderListItemProps<T> {
+  item: T
+  props: ListItemProps
+  searchString: string
+}
+
 export interface InputSelectProps extends Partial<InputProps> {
   value?: any
   options: any[]
   emptyOption?: any
   renderEmptyOption?: (item: any) => InputValue
   renderValue?: (item: any) => InputValue
-  renderListItem?: (item: any, searchString: string) => InputValue | JSX.Element
+  renderListItem?: ({
+    item,
+    props,
+    searchString,
+  }: RenderListItemProps<any>) => RenderableListItem
   filteringFunction?: (option: any, searchString: string) => boolean
   onSelect?: (option: any) => void
   listStyles?: FlattenSimpleInterpolation
@@ -156,7 +176,11 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   emptyOption = "",
   renderEmptyOption = (item: string) => item,
   renderValue = (item: string) => item,
-  renderListItem = (item, search = "") => renderSearchableText(item, search),
+  renderListItem = ({ item, props, searchString }) => (
+    <SelectInputItem {...props}>
+      {renderSearchableText(item, searchString)}
+    </SelectInputItem>
+  ),
   filteringFunction = (option, search) =>
     option.toLowerCase().includes(search.toLowerCase()),
   onSelect = noop,
@@ -252,24 +276,26 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         expanded={expanded}
         listStyles={listStyles}
         ref={listRef}
-        role="list"
       >
         {emptyOption && (
-          <SelectInputItem onClick={resetSelection} empty role="listitem">
+          <SelectInputItem onClick={resetSelection} empty>
             {renderEmptyOption(emptyOption)}
           </SelectInputItem>
         )}
         {filteredOptions.map((option, index) => {
-          const selectOption = () => onSelect(option)
+          const onClick = () => onSelect(option)
+          const selected = option === value
           return (
-            <SelectInputItem
-              key={index}
-              onClick={selectOption}
-              selected={option === value}
-              role="listitem"
-            >
-              {renderListItem(option, searchValue || "")}
-            </SelectInputItem>
+            <React.Fragment key={index}>
+              {renderListItem({
+                item: option,
+                props: {
+                  onClick,
+                  selected,
+                },
+                searchString: searchValue || "",
+              })}
+            </React.Fragment>
           )
         })}
       </SelectInputList>
