@@ -21,7 +21,7 @@ exports[`matches snapshot with tabs 1`] = `
       size="2"
     >
       <div
-        class="sc-AxhCb heipDb sc-AxmLO eQeysd"
+        class="sc-AxhCb hlagim sc-AxmLO eQeysd"
         data-testid="icon-Contacts"
       >
         <test-file-stub
@@ -41,7 +41,7 @@ exports[`matches snapshot with tabs 1`] = `
       size="2"
     >
       <div
-        class="sc-AxhCb heipDb sc-AxmLO eQeysd"
+        class="sc-AxhCb hlagim sc-AxmLO eQeysd"
         data-testid="icon-Calls"
       >
         <test-file-stub
@@ -61,7 +61,7 @@ exports[`matches snapshot with tabs 1`] = `
       size="2"
     >
       <div
-        class="sc-AxhCb heipDb sc-AxmLO eQeysd"
+        class="sc-AxhCb hlagim sc-AxmLO eQeysd"
         data-testid="icon-Dial"
       >
         <test-file-stub

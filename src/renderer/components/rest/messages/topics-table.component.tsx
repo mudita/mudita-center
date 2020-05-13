@@ -107,6 +107,7 @@ export const UnreadFilters = styled.div`
   grid-area: Filters;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
 `
 
 export const FiltersWrapper = styled.div<{ checkMode: boolean }>`
@@ -116,6 +117,7 @@ export const FiltersWrapper = styled.div<{ checkMode: boolean }>`
   align-items: center;
   height: 10.5rem;
   border-bottom: solid 0.1rem ${borderColor("light")};
+  padding: 0 3rem;
 `
 
 export const TableWrapper = styled.div`

@@ -21,6 +21,19 @@ import {
   VisibilityFilter,
 } from "Renderer/models/messages/messages.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import {
+  DisplayStyle,
+  Size,
+} from "Renderer/components/core/button/button.config"
+import Button from "Renderer/components/core/button/button.component"
+import styled from "styled-components"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import { noop } from "Renderer/utils/noop"
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
 
 const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
@@ -64,6 +77,15 @@ const Messages: FunctionComponent<MessagesProps> = ({
           defaultValue={searchValue}
           onChange={changeSearchValue}
         />
+        <ButtonWrapper>
+          <Button
+            displayStyle={DisplayStyle.Primary}
+            size={Size.FixedBig}
+            label="Click"
+            onClick={noop}
+            Icon={Type.PlusSign}
+          />
+        </ButtonWrapper>
       </FiltersWrapper>
       <TableWrapper>
         {list.map(({ id, caller, messages }, index) => {

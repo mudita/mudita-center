@@ -6,7 +6,7 @@ exports[`should match snapshot with link 1`] = `
   data-testid="files-manager-item"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
+    class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
     data-testid="icon-VoiceRecorder"
   >
     <test-file-stub
@@ -32,7 +32,7 @@ exports[`should match snapshot with link 1`] = `
     href="#/tools/voice-recorder"
   >
     <div
-      class="sc-AxirZ btYaIv"
+      class="sc-AxirZ XgaKu"
       data-testid="icon-Arrow"
     >
       <test-file-stub
@@ -49,7 +49,7 @@ exports[`should match snapshot without link 1`] = `
   data-testid="files-manager-item"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
+    class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
     data-testid="icon-VoiceRecorder"
   >
     <test-file-stub

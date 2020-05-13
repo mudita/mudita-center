@@ -9,7 +9,7 @@ exports[`matches snapshot 1`] = `
       class="sc-fznZeY dOla-dX"
     >
       <div
-        class="sc-AxirZ btYaIv sc-fzokOt cKxNDb"
+        class="sc-AxirZ XgaKu sc-fzokOt cKxNDb"
         data-testid="icon-MuditaLogoWithText"
       >
         <test-file-stub
@@ -27,7 +27,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-undefined"
         >
           <test-file-stub
@@ -56,7 +56,7 @@ exports[`matches snapshot 1`] = `
           class="sc-fzoLsD orcQk"
         >
           <div
-            class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            class="sc-AxirZ kOycEm sc-fzpans fPVDuo"
             data-testid="icon-MediumRange"
             height="1.6"
             width="1.6"
@@ -70,7 +70,7 @@ exports[`matches snapshot 1`] = `
           class="sc-fzoLsD orcQk"
         >
           <div
-            class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            class="sc-AxirZ kOycEm sc-fzpans fPVDuo"
             data-testid="icon-Battery"
             height="1.6"
             width="1.6"
@@ -84,7 +84,7 @@ exports[`matches snapshot 1`] = `
           class="sc-fzoLsD orcQk"
         >
           <div
-            class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            class="sc-AxirZ kOycEm sc-fzpans fPVDuo"
             data-testid="icon-Sim"
             height="1.6"
             width="1.6"
@@ -98,7 +98,7 @@ exports[`matches snapshot 1`] = `
           class="sc-fzoLsD orcQk"
         >
           <div
-            class="sc-AxirZ iwSCZb sc-fzpans fPVDuo"
+            class="sc-AxirZ kOycEm sc-fzpans fPVDuo"
             data-testid="icon-MenuTethering"
             height="1.6"
             width="1.6"
@@ -120,7 +120,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-MenuOverview"
         >
           <test-file-stub
@@ -144,7 +144,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-Message"
         >
           <test-file-stub
@@ -168,7 +168,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-MenuPhone"
         >
           <test-file-stub
@@ -192,7 +192,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-MenuMusic"
         >
           <test-file-stub
@@ -216,7 +216,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-Calendar"
         >
           <test-file-stub
@@ -240,7 +240,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-MenuTools"
         >
           <test-file-stub
@@ -264,7 +264,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-MenuMeditation"
         >
           <test-file-stub
@@ -288,7 +288,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-MenuFilesManager"
         >
           <test-file-stub
@@ -321,7 +321,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-MenuTethering"
         >
           <test-file-stub
@@ -345,7 +345,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-MenuSettings"
         >
           <test-file-stub
@@ -369,7 +369,7 @@ exports[`matches snapshot 1`] = `
         size="2"
       >
         <div
-          class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
           data-testid="icon-MenuHelp"
         >
           <test-file-stub
