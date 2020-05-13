@@ -6,44 +6,45 @@ import { deburr } from "lodash"
 // TODO: remove before production
 const speedDials = Array.from({ length: 8 }).map((_, index) => index + 2)
 
+export const generateFakeContact = (): Contact => {
+  const favourite = Math.random() < 0.15
+  const firstName =
+    Math.random() < 0.6 || favourite ? Faker.name.firstName() : ""
+  const lastName = Math.random() < 0.6 ? Faker.name.lastName() : ""
+  const primaryPhoneNumber =
+    Math.random() < 0.5 ? Faker.phone.phoneNumber("+## ### ### ###") : ""
+  const secondaryPhoneNumber =
+    Math.random() < 0.5 ? Faker.phone.phoneNumber("+## ### ### ###") : ""
+  const blocked =
+    !favourite && (primaryPhoneNumber || secondaryPhoneNumber)
+      ? Math.random() < 0.5
+      : false
+  const speedDial =
+    !favourite && (primaryPhoneNumber || secondaryPhoneNumber)
+      ? speedDials.shift()
+      : undefined
+
+  return {
+    id: Faker.random.uuid(),
+    firstName,
+    lastName,
+    primaryPhoneNumber,
+    secondaryPhoneNumber,
+    email: Math.random() < 0.5 ? Faker.internet.email(firstName, lastName) : "",
+    note: Faker.lorem.words(Math.random() * 4),
+    ice: Math.random() < 0.2,
+    favourite,
+    blocked,
+    speedDial,
+    firstAddressLine: Math.random() < 0.5 ? Faker.address.streetAddress() : "",
+    secondAddressLine: Math.random() < 0.5 ? Faker.address.city() : "",
+  }
+}
+
 export const generateFakeData = (numberOfContacts: number) => {
   return Array(numberOfContacts)
     .fill(0)
-    .map(_ => {
-      const favourite = Math.random() < 0.15
-      const firstName = Math.random() < 0.6 ? Faker.name.firstName() : ""
-      const lastName = Math.random() < 0.6 ? Faker.name.lastName() : ""
-      const primaryPhoneNumber =
-        Math.random() < 0.5 ? Faker.phone.phoneNumber("+## ### ### ###") : ""
-      const secondaryPhoneNumber =
-        Math.random() < 0.5 ? Faker.phone.phoneNumber("+## ### ### ###") : ""
-      const blocked =
-        !favourite && (primaryPhoneNumber || secondaryPhoneNumber)
-          ? Math.random() < 0.5
-          : false
-      const speedDial =
-        !favourite && (primaryPhoneNumber || secondaryPhoneNumber)
-          ? speedDials.shift()
-          : undefined
-
-      return {
-        id: Faker.random.uuid(),
-        firstName,
-        lastName,
-        primaryPhoneNumber,
-        secondaryPhoneNumber,
-        email:
-          Math.random() < 0.5 ? Faker.internet.email(firstName, lastName) : "",
-        note: Faker.lorem.words(Math.random() * 4),
-        ice: Math.random() < 0.2,
-        favourite,
-        blocked,
-        speedDial,
-        firstAddressLine:
-          Math.random() < 0.5 ? Faker.address.streetAddress() : "",
-        secondAddressLine: Math.random() < 0.5 ? Faker.address.city() : "",
-      } as Contact
-    })
+    .map(() => generateFakeContact())
 }
 
 export const createFullName = ({ firstName, lastName }: Contact) => {
@@ -112,22 +113,22 @@ export const generateSortedStructure = (contacts: Contact[]) => {
   return labeledContacts
 }
 
-export const filterContacts = (contacts: any, substring: string) => {
-  const allowedFields = ["firstName", "lastName", "phoneNumber"]
+export const filterContacts = (contacts: Contact[], substring: string) => {
+  const allowedFields: (keyof Partial<Contact>)[] = [
+    "firstName",
+    "lastName",
+    "primaryPhoneNumber",
+    "secondaryPhoneNumber",
+  ]
   if (!substring) {
     return contacts
   }
-  return contacts.map((contactsByLetter: any) => ({
-    ...contactsByLetter,
-    contacts: contactsByLetter.contacts.filter((contact: any) => {
-      return Object.keys(contact)
-        .filter(key => {
-          return allowedFields.includes(key)
-        })
-        .map(key => contact[key])
-        .some((value: any) =>
-          value.toLowerCase().includes(substring.toLowerCase())
-        )
-    }),
-  }))
+  return contacts.filter((contact: Contact) => {
+    return allowedFields.some(field => {
+      return contact[field]
+        ?.toString()
+        .toLowerCase()
+        .includes(substring.toLowerCase())
+    })
+  })
 }

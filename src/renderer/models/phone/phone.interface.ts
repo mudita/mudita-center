@@ -1,11 +1,13 @@
+export type ContactUid = string
+
 export interface Contact {
-  id: string
+  id?: ContactUid
   firstName: string
   lastName: string
   primaryPhoneNumber: string
   secondaryPhoneNumber: string
-  favourite: boolean
   blocked: boolean
+  favourite: boolean
   ice: boolean
   speedDial?: number
   note: string
@@ -13,6 +15,8 @@ export interface Contact {
   firstAddressLine: string
   secondAddressLine: string
 }
+
+export type NewContact = Omit<Contact, "id">
 
 export interface ContactCategory {
   category: string
@@ -22,3 +26,15 @@ export interface ContactCategory {
 export interface Contacts {
   contactList: ContactCategory[]
 }
+
+export interface StoreData {
+  inputValue: string
+  contacts: Contact[]
+}
+
+interface StoreEffects {
+  readonly loadData?: () => void
+  readonly addContact?: (contact: Contact) => void
+}
+
+export type Store = StoreEffects & StoreData
