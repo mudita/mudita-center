@@ -13,6 +13,7 @@ import Table, {
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
+import { createFullName } from "Renderer/models/phone/phone.utils"
 
 const SpeedDialTable = styled(Table)`
   --labelBackground: none;
@@ -84,7 +85,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
           return (
             <Row size={RowSize.Small} key={index}>
               <Col>{speedDialNumber}</Col>
-              <Col>{speedDialContact?.firstName}</Col>
+              <Col>{speedDialContact && createFullName(speedDialContact)}</Col>
             </Row>
           )
         })}

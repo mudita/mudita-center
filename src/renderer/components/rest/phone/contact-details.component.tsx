@@ -19,6 +19,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
+import { noop } from "Renderer/utils/noop"
 
 const messages = defineMessages({
   favourites: { id: "view.name.phone.contacts.details.favourites" },
@@ -37,6 +38,7 @@ export interface ContactActions {
   onExport: (contact: Contact) => void
   onForward: (contact: Contact) => void
   onBlock: (contact: Contact) => void
+  onUnblock: (contact: Contact) => void
   onDelete: (contact: Contact) => void
 }
 
@@ -116,9 +118,8 @@ const AdditionalInfoItem = styled.div`
 
 const Input = styled(InputComponent).attrs(({ value, placeholder }) => ({
   placeholder: value ? undefined : placeholder,
-  disabled: true,
+  readOnly: true,
 }))<InputComponentProps>`
-  background-color: transparent;
   padding: 2.4rem 0 1.6rem 0;
 
   div {
@@ -135,6 +136,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onEdit,
   onExport,
   onForward,
+  onUnblock,
   onBlock,
   onDelete,
   onCall,
@@ -145,6 +147,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   const handleExport = () => onExport(contact)
   const handleForward = () => onForward(contact)
   const handleBlock = () => onBlock(contact)
+  const handleUnblock = () => onUnblock(contact)
   const handleDelete = () => onDelete(contact)
 
   const icons = (
@@ -152,7 +155,11 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       <SidebarHeaderIcon Icon={Type.Edit} onClick={handleEdit} />
       <SidebarHeaderIcon Icon={Type.Upload} onClick={handleExport} />
       <SidebarHeaderIcon Icon={Type.Forward} onClick={handleForward} />
-      <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleBlock} />
+      {contact.blocked ? (
+        <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleUnblock} />
+      ) : (
+        <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleBlock} />
+      )}
       <SidebarHeaderIcon Icon={Type.Delete} onClick={handleDelete} />
     </>
   )
@@ -176,6 +183,13 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       />,
     ]
   }
+
+  const fullAddress = []
+
+  contact.firstAddressLine ? fullAddress.push(contact.firstAddressLine) : noop()
+  contact.secondAddressLine
+    ? fullAddress.push(contact.secondAddressLine)
+    : noop()
 
   return (
     <ContactDetailsWrapper {...rest} show headerRight={icons}>
@@ -235,9 +249,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             <Input
               type="textarea"
               outlined={false}
-              value={
-                contact.firstAddressLine + "\n" + contact.secondAddressLine
-              }
+              value={fullAddress.join("\n")}
               placeholder={intl.formatMessage(messages.noAddress)}
             />
           </AdditionalInfoItem>

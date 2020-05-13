@@ -5,16 +5,17 @@ import { noop } from "Renderer/utils/noop"
 
 const mapState = select(models => ({
   contactList: models.phone.grouped,
+  ...models.phone,
 }))
 
 const mapDispatch = ({ phone }: any) => ({
   onSearchTermChange: (event: string) => phone.handleInput(event),
+  ...phone,
   // TODO: Add proper actions
   onManageButtonClick: noop,
   onExport: noop,
   onForward: noop,
   onBlock: noop,
-  onDelete: noop,
   onSelect: noop,
   onCall: noop,
   onMessage: noop,
