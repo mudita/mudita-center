@@ -297,7 +297,6 @@ export const InputText: FunctionComponent<InputProps> = ({
       disabled={disabled}
       readOnly={readOnly}
       onChange={onChange}
-      autoFocus
       {...rest}
     />
   )
