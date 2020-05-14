@@ -172,14 +172,14 @@ const InputWrapper = styled.label<
       margin-left: 1.2rem;
     }
   }
+
   ${({ outlined }) => outlined && outlinedStyles};
   ${({ condensed }) => condensed && condensedStyles};
   ${({ disabled }) => disabled && disabledStyles};
   ${({ error }) => error && errorStyles};
 
-  ${({ disabled, readOnly, error }) =>
-    !disabled &&
-    !readOnly &&
+  ${({ disabled, readOnly, focusable, error }) =>
+    (!(disabled || readOnly) || focusable) &&
     css`
       &:focus-within {
         ${InputLabel} {
@@ -275,6 +275,7 @@ export const InputText: FunctionComponent<InputProps> = ({
   onChange = noop,
   inputRef,
   errorMessage,
+  focusable,
   ...rest
 }) => {
   const standardInput = (
@@ -298,7 +299,6 @@ export const InputText: FunctionComponent<InputProps> = ({
       disabled={disabled}
       readOnly={readOnly}
       onChange={onChange}
-      autoFocus
     />
   )
 
@@ -310,6 +310,7 @@ export const InputText: FunctionComponent<InputProps> = ({
       disabled={disabled}
       readOnly={readOnly}
       error={Boolean(errorMessage)}
+      focusable={focusable}
     >
       {outlined ? outlinedInput : standardInput}
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
@@ -332,6 +333,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   label,
   inputRef,
   errorMessage,
+  focusable,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -400,6 +402,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
       readOnly={readOnly}
       outlined={outlined}
       error={Boolean(errorMessage)}
+      focusable={focusable}
     >
       {outlined ? standardTextarea : inputLikeTextarea}
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
