@@ -55,6 +55,8 @@ export const Files = styled(Table)`
   --columnsTemplateWithOpenedSidebar: 1fr;
   --columnsGap: 2rem;
   --nestSize: 2rem;
+
+  height: 100vh;
 `
 
 export const SelectableFiles = styled(Files)`
@@ -347,9 +349,12 @@ storiesOf("Components|Table/Basic", module)
         <Col>Name</Col>
         <Col>Phone</Col>
       </Labels>
-      <EmptyState>
-        <Col>No contacts available</Col>
-      </EmptyState>
+      <EmptyState
+        title={{ id: "view.name.phone.contacts.emptyList.title" }}
+        description={{
+          id: "view.name.phone.contacts.emptyList.emptyPhonebook.description",
+        }}
+      />
     </Contacts>
   ))
   .add("With data", () => (
@@ -486,9 +491,12 @@ storiesOf("Components|Table/Nested", module)
         <Col>Last backup</Col>
         <Col>Size</Col>
       </Labels>
-      <EmptyState>
-        <Col>No files available</Col>
-      </EmptyState>
+      <EmptyState
+        title={{ id: "view.name.phone.contacts.emptyList.title" }}
+        description={{
+          id: "view.name.phone.contacts.emptyList.emptyPhonebook.description",
+        }}
+      />
     </Files>
   ))
   .add("With data", () => {
@@ -654,9 +662,12 @@ storiesOf("Components|Table/Nested", module)
 storiesOf("Components|Table/Grouped", module)
   .add("Empty", () => (
     <Contacts>
-      <EmptyState>
-        <Col>No contacts available</Col>
-      </EmptyState>
+      <EmptyState
+        title={{ id: "view.name.phone.contacts.emptyList.title" }}
+        description={{
+          id: "view.name.phone.contacts.emptyList.emptyPhonebook.description",
+        }}
+      />
     </Contacts>
   ))
   .add("With data", () => (
