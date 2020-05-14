@@ -32,10 +32,19 @@ import { intl } from "Renderer/utils/intl"
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
+import Icon from "Renderer/components/core/icon/icon.component"
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
+`
+
+const MessagesButtonTogglerItem = styled(ButtonTogglerItem)`
+  width: 13.8rem;
+`
+
+const SearchInput = styled(InputText)`
+  width: 38rem;
 `
 
 const toggleState = [
@@ -46,6 +55,8 @@ const toggleState = [
     id: "view.name.messages.unreadOnly",
   }),
 ] as const
+
+const searchIcon = <Icon type={Type.Magnifier} />
 
 const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
@@ -77,7 +88,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
                 setActiveLabel(label)
               }
               return (
-                <ButtonTogglerItem
+                <MessagesButtonTogglerItem
                   key={i}
                   label={label}
                   onClick={onClick}
@@ -87,11 +98,15 @@ const Messages: FunctionComponent<MessagesProps> = ({
             })}
           </ButtonToggler>
         </UnreadFilters>
-        <InputText
+        <SearchInput
           type={"search"}
-          placeholder={"Search"}
+          placeholder={intl.formatMessage({
+            id: "view.name.messages.search",
+          })}
+          outlined
           defaultValue={searchValue}
           onChange={changeSearchValue}
+          leadingIcons={[searchIcon]}
         />
         <ButtonWrapper>
           <Button
