@@ -271,6 +271,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         onBlur={handleBlur}
         inputRef={composeRefs(selectRef, inputRef)}
         readOnly={!searchable}
+        focusable
       />
       <SelectInputList
         expanded={expanded}
