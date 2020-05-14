@@ -269,7 +269,7 @@ export const InputText: FunctionComponent<InputProps> = ({
   outlined = false,
   leadingIcons,
   trailingIcons,
-  placeholder,
+  label,
   disabled,
   readOnly,
   onChange = noop,
@@ -280,25 +280,25 @@ export const InputText: FunctionComponent<InputProps> = ({
   const standardInput = (
     <LabeledInputWrapper>
       <TextInput
-        ref={inputRef}
+        {...rest}
         placeholder={" "}
+        ref={inputRef}
         disabled={disabled}
         readOnly={readOnly}
         onChange={onChange}
-        {...rest}
       />
-      <InputLabel>{placeholder}</InputLabel>
+      <InputLabel>{label}</InputLabel>
     </LabeledInputWrapper>
   )
   const outlinedInput = (
     <TextInput
+      {...rest}
       ref={inputRef}
-      placeholder={placeholder}
+      placeholder={label}
       disabled={disabled}
       readOnly={readOnly}
       onChange={onChange}
       autoFocus
-      {...rest}
     />
   )
 
@@ -329,7 +329,7 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   onChange = noop,
   value,
   outlined = true,
-  placeholder,
+  label,
   inputRef,
   errorMessage,
   ...rest
@@ -366,20 +366,21 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
 
   const standardTextarea = (
     <TextAreaInput
+      {...rest}
       ref={composeRefs(textareaRef, inputRef)}
       value={value}
       defaultValue={defaultValue}
       disabled={disabled}
       readOnly={readOnly}
-      placeholder={placeholder}
+      placeholder={label}
       onChange={onChangeHandler}
-      {...rest}
     />
   )
 
   const inputLikeTextarea = (
     <LabeledInputWrapper>
       <TextAreaInput
+        {...rest}
         ref={composeRefs(textareaRef, inputRef)}
         value={value}
         defaultValue={defaultValue}
@@ -387,9 +388,8 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
         readOnly={readOnly}
         placeholder={" "}
         onChange={onChangeHandler}
-        {...rest}
       />
-      <InputLabel>{placeholder}</InputLabel>
+      <InputLabel>{label}</InputLabel>
     </LabeledInputWrapper>
   )
 

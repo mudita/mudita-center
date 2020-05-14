@@ -60,7 +60,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         </UnreadFilters>
         <InputText
           type={"search"}
-          placeholder={"Search"}
+          label={"Search"}
           defaultValue={searchValue}
           onChange={changeSearchValue}
         />
