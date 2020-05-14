@@ -56,7 +56,7 @@ const lightAvatarStyles = css`
   background-color: ${backgroundColor("avatarLight")};
 `
 
-const InitialsAvatar = styled(Avatar).attrs(() => ({
+export const InitialsAvatar = styled(Avatar).attrs(() => ({
   size: AvatarSize.Small,
 }))<{ light?: boolean }>`
   margin-right: 1.2rem;

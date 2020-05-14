@@ -33,6 +33,19 @@ import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import Icon from "Renderer/components/core/icon/icon.component"
+import ContactList, {
+  InitialsAvatar,
+} from "Renderer/components/rest/phone/contact-list.component"
+import {
+  Col,
+  Group,
+  Labels,
+  Row,
+} from "Renderer/components/core/table/table.component"
+import { FormattedMessage } from "react-intl"
+import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
+import ButtonComponent from "Renderer/components/core/button/button.component"
+import MessagesList from "Renderer/modules/messages/messages-list.component"
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -64,7 +77,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   changeVisibilityFilter,
   list,
 }) => {
-  const [selectedTopics, setSelectedTopics] = useState(new Set())
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
 
   const showAllMessages = () => {
@@ -75,11 +87,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
     changeVisibilityFilter(VisibilityFilter.Unread)
   }
 
-  const checkMode = Boolean(selectedTopics.size)
+  // const checkMode = Boolean(selectedTopics.size)
 
   return (
     <>
-      <FiltersWrapper checkMode={checkMode}>
+      <FiltersWrapper checkMode>
         <UnreadFilters>
           <ButtonToggler>
             {toggleState.map((label, i) => {
@@ -121,47 +133,48 @@ const Messages: FunctionComponent<MessagesProps> = ({
         </ButtonWrapper>
       </FiltersWrapper>
       <TableWrapper>
-        {list.map(({ id, caller, messages }, index) => {
-          const onCheckboxToggle = ({
-            target,
-          }: ChangeEvent<HTMLInputElement>) => {
-            const selectedTopicsTemp = new Set(selectedTopics)
-            target.checked
-              ? selectedTopicsTemp.add(id)
-              : selectedTopicsTemp.delete(id)
-            setSelectedTopics(selectedTopicsTemp)
-          }
-          const customAction = () => {
-            console.log(`Action on row with id: ${id}`)
-          }
+        {/*{list.map(({ id, caller, messages }, index) => {*/}
+        {/*  const onCheckboxToggle = ({*/}
+        {/*    target,*/}
+        {/*  }: ChangeEvent<HTMLInputElement>) => {*/}
+        {/*    const selectedTopicsTemp = new Set(selectedTopics)*/}
+        {/*    target.checked*/}
+        {/*      ? selectedTopicsTemp.add(id)*/}
+        {/*      : selectedTopicsTemp.delete(id)*/}
+        {/*    setSelectedTopics(selectedTopicsTemp)*/}
+        {/*  }*/}
+        {/*  const customAction = () => {*/}
+        {/*    console.log(`Action on row with id: ${id}`)*/}
+        {/*  }*/}
 
-          const lastMessage = messages[messages.length - 1]
+        {/*  const lastMessage = messages[messages.length - 1]*/}
 
-          return (
-            <TableRow key={index} checkMode={checkMode}>
-              <CheckboxWrapper>
-                <Checkbox
-                  onChange={onCheckboxToggle}
-                  checked={selectedTopics.has(id)}
-                />
-              </CheckboxWrapper>
-              <DataWrapper>
-                <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {caller.forename} {caller.surname}
-                </Name>
-                <Time displayStyle={TextDisplayStyle.SmallFadedText}>
-                  {moment(lastMessage.date).format("h:mm:ss A, MMM Do YYYY")}
-                </Time>
-                <Message displayStyle={TextDisplayStyle.MediumFadedLightText}>
-                  {lastMessage.content}
-                </Message>
-              </DataWrapper>
-              <ActionsWrapper>
-                <button onClick={customAction}>•••</button>
-              </ActionsWrapper>
-            </TableRow>
-          )
-        })}
+        {/*  return (*/}
+        {/*    <TableRow key={index} checkMode={checkMode}>*/}
+        {/*      <CheckboxWrapper>*/}
+        {/*        <Checkbox*/}
+        {/*          onChange={onCheckboxToggle}*/}
+        {/*          checked={selectedTopics.has(id)}*/}
+        {/*        />*/}
+        {/*      </CheckboxWrapper>*/}
+        {/*      <DataWrapper>*/}
+        {/*        <Name displayStyle={TextDisplayStyle.LargeBoldText}>*/}
+        {/*          {caller.forename} {caller.surname}*/}
+        {/*        </Name>*/}
+        {/*        <Time displayStyle={TextDisplayStyle.SmallFadedText}>*/}
+        {/*          {moment(lastMessage.date).format("h:mm:ss A, MMM Do YYYY")}*/}
+        {/*        </Time>*/}
+        {/*        <Message displayStyle={TextDisplayStyle.MediumFadedLightText}>*/}
+        {/*          {lastMessage.content}*/}
+        {/*        </Message>*/}
+        {/*      </DataWrapper>*/}
+        {/*      <ActionsWrapper>*/}
+        {/*        <button onClick={customAction}>•••</button>*/}
+        {/*      </ActionsWrapper>*/}
+        {/*    </TableRow>*/}
+        {/*  )*/}
+        {/*})}*/}
+        <MessagesList contactList={list} />
       </TableWrapper>
     </>
   )

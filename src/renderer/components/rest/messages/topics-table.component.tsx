@@ -124,4 +124,5 @@ export const TableWrapper = styled.div`
   overflow: auto;
   display: flex;
   flex-direction: column;
+  background-color: white;
 `
