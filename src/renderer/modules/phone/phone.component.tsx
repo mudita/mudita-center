@@ -55,12 +55,17 @@ const Phone: FunctionComponent<PhoneProps> = ({
   savingContact,
 }) => {
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
+  const [loading, setLoadingState] = useState(true)
+  const [searching, setSearchingState] = useState(false)
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
-    loadData()
+    ;(async () => {
+      await loadData()
+      setLoadingState(false)
+    })()
   }, [])
 
   const handleNameUpdate = ({
@@ -133,6 +138,11 @@ const Phone: FunctionComponent<PhoneProps> = ({
     }
   }
 
+  const handleSearching = (value: string) => {
+    onSearchTermChange(value)
+    setSearchingState(Boolean(value))
+  }
+
   const openBlockModal = (contact: Contact) => {
     const handleBlock = async () => {
       modalService.rerenderModal(
@@ -169,7 +179,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   return (
     <ContactSection>
       <ContactPanel
-        onSearchTermChange={onSearchTermChange}
+        onSearchTermChange={handleSearching}
         onManageButtonClick={onManageButtonClick}
         onNewButtonClick={handleAddingContact}
       />
@@ -186,6 +196,8 @@ const Phone: FunctionComponent<PhoneProps> = ({
           onCheck={noop}
           newContact={newContact}
           editedContact={editedContact}
+          loadingList={loading}
+          searching={searching}
         />
         {newContact && (
           <ContactEdit

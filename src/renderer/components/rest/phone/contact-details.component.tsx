@@ -3,9 +3,9 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import {
   Sidebar,
   SidebarHeaderIcon,
+  SidebarProps,
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { SidebarProps } from "Renderer/components/core/table/table.interface"
 import styled from "styled-components"
 import { Contact } from "Renderer/models/phone/phone.interface"
 import Text, {

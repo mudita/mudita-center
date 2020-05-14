@@ -8,6 +8,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
   Col,
+  EmptyState,
   Group,
   Labels,
   Row,
@@ -142,6 +143,8 @@ export interface ContactListProps extends Contacts, ContactActions {
   onSelect: (contact: Contact) => void
   newContact?: NewContact
   editedContact?: Contact
+  loadingList?: boolean
+  searching?: boolean
 }
 
 const ContactList: FunctionComponent<ContactListProps> = ({
@@ -155,6 +158,8 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   onUnblock,
   onDelete,
   newContact,
+  loadingList,
+  searching,
   editedContact,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
@@ -352,6 +357,25 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           })}
         </Group>
       ))}
+      {contactList.length === 0 &&
+        (loadingList ? (
+          <EmptyState loading />
+        ) : searching ? (
+          <EmptyState
+            title={{ id: "view.name.phone.contacts.emptyList.title" }}
+            description={{
+              id: "view.name.phone.contacts.emptyList.emptySearch.description",
+            }}
+          />
+        ) : (
+          <EmptyState
+            title={{ id: "view.name.phone.contacts.emptyList.title" }}
+            description={{
+              id:
+                "view.name.phone.contacts.emptyList.emptyPhonebook.description",
+            }}
+          />
+        ))}
     </SelectableContacts>
   )
 }

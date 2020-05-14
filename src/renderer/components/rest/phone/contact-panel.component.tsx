@@ -33,7 +33,7 @@ const Buttons = styled.div`
 `
 
 export interface ContactPanelProps {
-  onSearchTermChange: (event: string) => void
+  onSearchTermChange: (value: string) => void
   onManageButtonClick: () => void
   onNewButtonClick: () => void
 }
