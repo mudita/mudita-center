@@ -148,14 +148,6 @@ export const Group = styled.div`
       border-width: 0.2rem;
     }
   }
-
-  :last-of-type {
-    ${Row} {
-      :last-of-type {
-        border-width: 0.1rem;
-      }
-    }
-  }
 `
 
 export const NestedGroup = styled.div<{ level?: number }>`
@@ -291,6 +283,16 @@ const TableComponent = styled.div<TableProps>`
 
   > ${Labels} {
     ${columnLabelStyles};
+  }
+
+  ${Group} {
+    :last-of-type {
+      ${Row} {
+        :last-of-type {
+          border-width: 0.1rem;
+        }
+      }
+    }
   }
 
   ${({ hideColumns, hideableColumnsIndexes = [] }) =>
