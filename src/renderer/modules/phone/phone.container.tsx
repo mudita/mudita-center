@@ -3,10 +3,15 @@ import { select } from "Renderer/store"
 import Phone from "./phone.component"
 import { noop } from "Renderer/utils/noop"
 
-const mapState = select(models => ({
+const selection = select(models => ({
   contactList: models.phone.grouped,
   ...models.phone,
 }))
+
+const mapStateToProps = (models: any) => ({
+  ...models.phone,
+  ...selection(models, {}),
+})
 
 const mapDispatch = ({ phone }: any) => ({
   onSearchTermChange: (event: string) => phone.handleInput(event),
@@ -22,4 +27,4 @@ const mapDispatch = ({ phone }: any) => ({
   onSpeedDialSettingsSave: noop,
 })
 
-export default connect(mapState, mapDispatch)(Phone)
+export default connect(mapStateToProps, mapDispatch)(Phone)

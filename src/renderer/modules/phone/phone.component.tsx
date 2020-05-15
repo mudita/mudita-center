@@ -15,6 +15,7 @@ import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import {
   Contact,
   NewContact,
+  ResultsState,
   Store,
 } from "Renderer/models/phone/phone.interface"
 import ContactEdit, {
@@ -34,7 +35,7 @@ const ContactSection = styled.section`
   background-color: ${backgroundColor("primaryDark")};
 `
 
-type PhoneProps = ContactActions &
+export type PhoneProps = ContactActions &
   ContactPanelProps &
   ContactDetailsActions & {
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
@@ -53,19 +54,15 @@ const Phone: FunctionComponent<PhoneProps> = ({
   onMessage,
   onSpeedDialSettingsSave,
   savingContact,
+  resultsState,
 }) => {
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
-  const [loading, setLoadingState] = useState(true)
-  const [searching, setSearchingState] = useState(false)
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
-    ;(async () => {
-      await loadData()
-      setLoadingState(false)
-    })()
+    loadData()
   }, [])
 
   const handleNameUpdate = ({
@@ -138,11 +135,6 @@ const Phone: FunctionComponent<PhoneProps> = ({
     }
   }
 
-  const handleSearching = (value: string) => {
-    onSearchTermChange(value)
-    setSearchingState(Boolean(value))
-  }
-
   const openBlockModal = (contact: Contact) => {
     const handleBlock = async () => {
       modalService.rerenderModal(
@@ -179,7 +171,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   return (
     <ContactSection>
       <ContactPanel
-        onSearchTermChange={handleSearching}
+        onSearchTermChange={onSearchTermChange}
         onManageButtonClick={onManageButtonClick}
         onNewButtonClick={handleAddingContact}
       />
@@ -196,8 +188,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           onCheck={noop}
           newContact={newContact}
           editedContact={editedContact}
-          loadingList={loading}
-          searching={searching}
+          resultsState={resultsState as ResultsState}
         />
         {newContact && (
           <ContactEdit
