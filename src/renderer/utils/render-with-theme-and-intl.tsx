@@ -37,3 +37,35 @@ export function renderWithThemeAndIntl<Q extends Queries>(
     options
   )
 }
+
+export function renderWithTheme(
+  ui: React.ReactElement,
+  options?: Omit<RenderOptions, "queries">
+): RenderResult
+export function renderWithTheme<Q extends Queries>(
+  ui: React.ReactElement,
+  options: RenderOptions<Q>
+): RenderResult<Q>
+export function renderWithTheme<Q extends Queries>(
+  ui: React.ReactElement,
+  options?: RenderOptions<Q> | Omit<RenderOptions, "queries">
+) {
+  const originalConsoleError = console.error
+  console.error = (...args: any) => {
+    if (
+      !(
+        args[0].startsWith("[React Intl] Cannot format message:") ||
+        args[0].startsWith("[React Intl] Missing message:")
+      )
+    ) {
+      originalConsoleError.call(console, ...args)
+    }
+  }
+  return render<Q>(
+    <ThemeProvider theme={theme}>
+      <IntlProvider locale={LANGUAGE.default}>{ui}</IntlProvider>
+    </ThemeProvider>,
+    // @ts-ignore
+    options
+  )
+}
