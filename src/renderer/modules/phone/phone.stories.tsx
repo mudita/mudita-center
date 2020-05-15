@@ -1,6 +1,6 @@
 import React from "react"
 import { storiesOf } from "@storybook/react"
-import Phone from "Renderer/modules/phone/phone.component"
+import Phone, { PhoneProps } from "Renderer/modules/phone/phone.component"
 import { action } from "@storybook/addon-actions"
 import {
   generateFakeData,
@@ -8,7 +8,7 @@ import {
 } from "Renderer/models/phone/phone.utils"
 import styled from "styled-components"
 import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
-import { Contact } from "Renderer/models/phone/phone.interface"
+import { Contact, ResultsState } from "Renderer/models/phone/phone.interface"
 import ContactEdit, {
   defaultContact,
 } from "Renderer/components/rest/phone/contact-edit.component"
@@ -20,9 +20,9 @@ import {
 import DeleteContactModal from "Renderer/components/rest/phone/delete-contact-modal.component"
 import Faker from "faker"
 
-const contactList: Contact[] = generateFakeData(40)
+const contacts: Contact[] = generateFakeData(40)
 
-contactList.push(
+contacts.push(
   {
     id: "id1",
     firstName: "Ędward",
@@ -55,7 +55,7 @@ contactList.push(
   }
 )
 
-const labeledContactList = generateSortedStructure(contactList)
+const labeledContactList = generateSortedStructure(contacts)
 
 const PhoneWrapper = styled.div`
   max-width: 97.5rem;
@@ -63,25 +63,49 @@ const PhoneWrapper = styled.div`
   overflow: hidden;
 `
 
-storiesOf("Views|Phone", module).add("Phone", () => (
-  <PhoneWrapper>
-    <Phone
-      contactList={labeledContactList}
-      onSearchTermChange={action("Search")}
-      onManageButtonClick={action("Manage contact")}
-      onNewButtonClick={action("New contact")}
-      onEdit={action("Edit contact")}
-      onExport={action("Export contact")}
-      onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
-      onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
-      onSpeedDialSettingsSave={action("Save speed dial settings")}
-    />
-  </PhoneWrapper>
-))
+const PhoneComponent = ({
+  resultsState,
+  contactList = labeledContactList,
+}: Partial<Pick<PhoneProps, "resultsState" | "contactList">>) => (
+  <Phone
+    contactList={contactList}
+    onSearchTermChange={action("Search")}
+    onManageButtonClick={action("Manage contact")}
+    onNewButtonClick={action("New contact")}
+    onEdit={action("Edit contact")}
+    onExport={action("Export contact")}
+    onForward={action("Forward contact")}
+    onUnblock={action("Unblock contact")}
+    onBlock={action("Block contact")}
+    onDelete={action("Delete contact")}
+    onMessage={action("Send message")}
+    onCall={action("Call")}
+    onSpeedDialSettingsSave={action("Save speed dial settings")}
+    resultsState={resultsState}
+  />
+)
+
+storiesOf("Views|Phone", module)
+  .add("Loading", () => (
+    <PhoneWrapper>
+      <PhoneComponent resultsState={ResultsState.Loading} />
+    </PhoneWrapper>
+  ))
+  .add("Empty", () => (
+    <PhoneWrapper>
+      <PhoneComponent resultsState={ResultsState.Empty} />
+    </PhoneWrapper>
+  ))
+  .add("Loaded", () => (
+    <PhoneWrapper>
+      <PhoneComponent resultsState={ResultsState.Loaded} />
+    </PhoneWrapper>
+  ))
+  .add("No search results", () => (
+    <PhoneWrapper>
+      <PhoneComponent resultsState={ResultsState.Loaded} contactList={[]} />
+    </PhoneWrapper>
+  ))
 
 const singleContact = ({
   favourite = false,
@@ -212,7 +236,7 @@ storiesOf("Views|Phone/Modals", module)
     <>
       <ModalWrapper>
         <DeleteContactModal
-          contact={contactList[0]}
+          contact={contacts[0]}
           onDelete={action("Delete")}
           onClose={action("Close")}
         />
