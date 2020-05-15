@@ -194,6 +194,7 @@
   "app.update.downloaded.modal.closeButton": "Later",
   "app.update.error.modal.message": "Error",
   "app.update.error.modal.description": "Please restart the app or update it manually.",
+  "form.field.fileUpload.description": "Drag & drop a file to attach it, or <b>browse files</b>.",
   "form.error.phoneNumber.numbersOnly": "May contain only numbers and + sign",
   "form.error.tooShort": "Must be longer than {minLength} characters",
   "form.error.tooLong": "Must be shorter than {maxLength} characters",
