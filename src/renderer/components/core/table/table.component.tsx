@@ -262,47 +262,33 @@ const EmptyStateWrapper = styled.div`
   }
 `
 
-interface EmptyStateLoader {
-  loading: true
-}
-
-interface EmptyStateMessage {
+interface EmptyState {
   title: MessageInterface
   description?: MessageInterface
-  loading?: false
 }
 
-export const EmptyState: FunctionComponent<
-  EmptyStateLoader | EmptyStateMessage
-> = ({ className, loading, ...rest }) => {
-  let title
-  let description
+export const EmptyState: FunctionComponent<EmptyState> = ({
+  className,
+  title,
+  description,
+}) => (
+  <EmptyStateWrapper className={className}>
+    <Text displayStyle={TextDisplayStyle.TertiaryHeading} message={title} />
+    {description && (
+      <Text
+        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        message={description}
+      />
+    )}
+  </EmptyStateWrapper>
+)
 
-  if (!loading) {
-    ;({ title, description } = rest as EmptyStateMessage)
-  }
-
-  return (
-    <EmptyStateWrapper className={className}>
-      {loading ? (
-        <Loader type={LoaderType.Logo} width="100" />
-      ) : (
-        <>
-          <Text
-            displayStyle={TextDisplayStyle.TertiaryHeading}
-            message={title}
-          />
-          {description && (
-            <Text
-              displayStyle={TextDisplayStyle.MediumFadedLightText}
-              message={description}
-            />
-          )}
-        </>
-      )}
-    </EmptyStateWrapper>
-  )
-}
+/* Loading state */
+export const LoadingState: FunctionComponent = ({ className }) => (
+  <EmptyStateWrapper className={className}>
+    <Loader type={LoaderType.Logo} width="100" />
+  </EmptyStateWrapper>
+)
 
 /* Sidebar */
 export interface SidebarProps {

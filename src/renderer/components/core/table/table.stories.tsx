@@ -5,6 +5,7 @@ import Table, {
   EmptyState,
   Group,
   Labels,
+  LoadingState,
   NestedGroup,
   Row,
   RowSize,
@@ -70,6 +71,11 @@ const Part = styled.div`
   p {
     margin-bottom: 2rem;
   }
+`
+
+const PartWrapper = styled.div`
+  display: flex;
+  height: 100vh;
 `
 
 const CustomSidebarTitle = styled(Text)`
@@ -341,6 +347,21 @@ storiesOf("Components|Table/Parts", module)
       </>
     )
   })
+  .add("Loading state", () => (
+    <PartWrapper>
+      <LoadingState />
+    </PartWrapper>
+  ))
+  .add("Empty state", () => (
+    <PartWrapper>
+      <EmptyState
+        title={{ id: "view.name.phone.contacts.emptyList.title" }}
+        description={{
+          id: "view.name.phone.contacts.emptyList.emptyPhonebook.description",
+        }}
+      />
+    </PartWrapper>
+  ))
 
 storiesOf("Components|Table/Basic", module)
   .add("Empty", () => (
