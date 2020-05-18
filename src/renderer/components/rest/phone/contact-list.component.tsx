@@ -36,7 +36,7 @@ import { FormattedMessage } from "react-intl"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import { intl } from "Renderer/utils/intl"
 
-const visibleCheckboxStyles = css`
+export const visibleCheckboxStyles = css`
   opacity: 1;
   visibility: visible;
 `
@@ -52,7 +52,7 @@ const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
   ${({ visible }) => visible && visibleCheckboxStyles};
 `
 
-const lightAvatarStyles = css`
+export const lightAvatarStyles = css`
   background-color: ${backgroundColor("avatarLight")};
 `
 

@@ -6,14 +6,7 @@ import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox, {
   Size,
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import Avatar, {
-  AvatarSize,
-} from "Renderer/components/core/avatar/avatar.component"
-import {
-  backgroundColor,
-  transitionTime,
-  transitionTimingFunction,
-} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -31,14 +24,14 @@ import {
   Time,
 } from "Renderer/components/rest/messages/topics-table.component"
 import moment from "moment"
+import {
+  visibleCheckboxStyles,
+  InitialsAvatar,
+  lightAvatarStyles,
+} from "Renderer/components/rest/phone/contact-list.component"
 
 const MessageRow = styled(Row)`
   height: 9rem;
-`
-
-const visibleCheckboxStyles = css`
-  opacity: 1;
-  visibility: visible;
 `
 
 const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
@@ -47,10 +40,6 @@ const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
 
   ${({ visible }) => visible && visibleCheckboxStyles};
-`
-
-const lightAvatarStyles = css`
-  background-color: ${backgroundColor("avatarLight")};
 `
 
 const dotStyles = css`
@@ -65,15 +54,6 @@ const dotStyles = css`
     border-radius: 50%;
     background-color: ${backgroundColor("blue")};
   }
-`
-
-export const InitialsAvatar = styled(Avatar).attrs(() => ({
-  size: AvatarSize.Small,
-}))<{ light?: boolean }>`
-  margin-right: 1.2rem;
-  transition: background-color ${transitionTime("faster")}
-    ${transitionTimingFunction("smooth")};
-  ${({ light }) => light && lightAvatarStyles}
 `
 
 const MessageCol = styled(Col)`
