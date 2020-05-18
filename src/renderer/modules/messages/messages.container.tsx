@@ -1,13 +1,12 @@
 import { ChangeEvent } from "react"
 import { connect } from "react-redux"
 import { VisibilityFilter } from "Renderer/models/messages/messages.interface"
-import { select } from "Renderer/store"
 import Messages from "./messages.component"
+import { RootModel } from "Renderer/models/models"
 
-const mapStateToProps = select(({ messages }) => ({
-  list: messages.filteredList,
-  // visibilityFilter: messages.visibilityFilter,
-}))
+const mapStateToProps = (state: RootModel) => {
+  return state.messages
+}
 
 const mapDispatchToProps = (dispatch: any) => ({
   changeSearchValue: ({ target }: ChangeEvent<HTMLInputElement>) =>

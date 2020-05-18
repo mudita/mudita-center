@@ -1,5 +1,4 @@
 import React from "react"
-import { Contact, Contacts } from "Renderer/models/phone/phone.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, { Col, Row } from "Renderer/components/core/table/table.component"
@@ -151,30 +150,18 @@ const SelectableContacts = styled(Table)<{
   }
 `
 
-export interface Props extends Contacts {
+interface Props {
   list: Topic[]
-  activeRow?: Contact
-  onCheck: (contacts: Contact[]) => void
-  onSelect: (contact: Contact) => void
-  newContact?: Contact
-  editedContact?: Contact
 }
 
-const MessagesList: FunctionComponent<Props> = ({
-  list,
-  activeRow,
-  onCheck,
-  onSelect,
-  newContact,
-  editedContact,
-}) => {
+const MessagesList: FunctionComponent<Props> = ({ list }) => {
   const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
     rowsMessages
   )
   const { enableScroll, disableScroll } = useTableScrolling()
   return (
     <SelectableContacts noneRowsSelected={noneRowsSelected}>
-      {rowsMessages.map((row, index) => {
+      {list.map((row, index) => {
         const { selected, indeterminate } = getRowStatus(row)
         const lastMessage = row.messages[row.messages.length - 1]
         const checkForNotReadMessages = Boolean(
@@ -183,15 +170,6 @@ const MessagesList: FunctionComponent<Props> = ({
         const onChange = () => toggleRow(row)
         return (
           <MessageRow key={index}>
-            {/*<Col>*/}
-            {/*<Checkbox*/}
-            {/*  checked={selected}*/}
-            {/*  onChange={onChange}*/}
-            {/*  size={Size.Small}*/}
-            {/*  indeterminate={indeterminate}*/}
-            {/*  visible={!noneRowsSelected}*/}
-            {/*/>*/}
-            {/*</Col>*/}
             <AvatarCol>
               <Checkbox
                 checked={selected}
