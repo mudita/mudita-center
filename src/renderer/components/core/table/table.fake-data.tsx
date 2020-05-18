@@ -5,6 +5,7 @@ export const rowsMessages = Array.from({
   length: Math.round(15 + Math.random() * 25),
 }).map(() => {
   return {
+    id: Faker.random.uuid(),
     caller: {
       id: Faker.random.uuid(),
       firstName: Faker.name.firstName(),

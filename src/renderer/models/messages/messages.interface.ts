@@ -11,7 +11,6 @@ export interface Message {
   id: string
   date: string
   content: string
-  isCaller: boolean
 }
 
 export interface Topic {
@@ -27,14 +26,14 @@ export enum VisibilityFilter {
 }
 
 export type StateProps = Readonly<{
-  topics: Topic[]
+  topics?: Topic[]
   searchValue: string
-  visibilityFilter: VisibilityFilter
+  visibilityFilter?: VisibilityFilter
 }>
 
 export type ComponentProps = StateProps &
   Readonly<{
-    changeSearchValue: (event: ChangeEvent<HTMLInputElement>) => void
-    changeVisibilityFilter: (filter: VisibilityFilter) => void
+    changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
+    changeVisibilityFilter?: (filter: VisibilityFilter) => void
     list: Topic[]
   }>

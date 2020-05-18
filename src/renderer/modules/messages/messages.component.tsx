@@ -51,8 +51,8 @@ const searchIcon = <Icon type={Type.Magnifier} />
 
 const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
-  changeSearchValue,
-  changeVisibilityFilter,
+  changeSearchValue = noop,
+  changeVisibilityFilter = noop,
   list,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
