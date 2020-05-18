@@ -1,13 +1,8 @@
-import React, { ChangeEvent, createRef, useEffect, useState } from "react"
+import React from "react"
 import { Contact, Contacts } from "Renderer/models/phone/phone.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
-import Table, {
-  Col,
-  Group,
-  Labels,
-  Row,
-} from "Renderer/components/core/table/table.component"
+import Table, { Col, Row } from "Renderer/components/core/table/table.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox, {
   Size,
@@ -17,27 +12,26 @@ import Avatar, {
 } from "Renderer/components/core/avatar/avatar.component"
 import {
   backgroundColor,
-  borderRadius,
-  textColor,
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
-import { ContactActions } from "Renderer/components/rest/phone/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
-import { FormattedMessage } from "react-intl"
-import { createFullName } from "Renderer/models/phone/phone.utils"
-import { intl } from "Renderer/utils/intl"
 import { Topic } from "Renderer/models/messages/messages.interface"
 import { noop } from "Renderer/utils/noop"
 import { rowsMessages } from "Renderer/components/core/table/table.fake-data"
+import {
+  DataWrapper,
+  Message,
+  Name,
+  Time,
+} from "Renderer/components/rest/messages/topics-table.component"
+import moment from "moment"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -51,9 +45,6 @@ const visibleCheckboxStyles = css`
 const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
   opacity: 0;
   visibility: hidden;
-  transition: opacity ${transitionTime("faster")}
-      ${transitionTimingFunction("smooth")},
-    visibility ${transitionTime("faster")} ${transitionTimingFunction("smooth")};
   margin: 0 auto;
 
   ${({ visible }) => visible && visibleCheckboxStyles};
@@ -91,10 +82,15 @@ const MessageCol = styled(Col)`
   align-items: flex-start;
 `
 
-const LastMessageText = styled(Text)<{ notReadMessages?: boolean }>`
+const AvatarCol = styled(Col)`
+  position: relative;
+`
+
+const LastMessageText = styled(Message)<{ notReadMessages?: boolean }>`
   margin-top: 0.8rem;
   margin-left: 1.8rem;
   position: relative;
+  overflow: initial;
 
   ${({ notReadMessages }) => notReadMessages && dotStyles};
 `
@@ -112,21 +108,44 @@ const Actions = styled.div`
   box-sizing: border-box;
 `
 
-const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
+const SelectableContacts = styled(Table)<{
+  mouseLock?: boolean
+  noneRowsSelected?: boolean
+}>`
   flex: 1;
   overflow: auto;
-  --columnsTemplate: 4rem 4rem 1fr;
+  --columnsTemplate: 8rem 1fr;
   --columnsTemplateWithOpenedSidebar: 4rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
+
+  ${({ noneRowsSelected }) =>
+    !noneRowsSelected &&
+    css`
+      ${InitialsAvatar} {
+        display: none;
+      }
+      ${Checkbox} {
+        ${visibleCheckboxStyles};
+        position: absolute;
+        right: 0;
+        margin-right: 1.8rem;
+      }
+    `};
 
   ${Row} {
     :hover {
       ${Checkbox} {
         ${visibleCheckboxStyles};
+        position: absolute;
+        right: 0;
+        margin-right: 1.8rem;
       }
       ${InitialsAvatar} {
         ${lightAvatarStyles};
+      }
+      ${InitialsAvatar} {
+        display: none;
       }
     }
   }
@@ -149,51 +168,58 @@ const MessagesList: FunctionComponent<Props> = ({
   newContact,
   editedContact,
 }) => {
-  const { getRowStatus, noneRowsSelected } = useTableSelect(rowsMessages)
-  const { enableScroll, disableScroll, scrollable } = useTableScrolling()
-  const [selectedTopics, setSelectedTopics] = useState(new Set())
+  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
+    rowsMessages
+  )
+  const { enableScroll, disableScroll } = useTableScrolling()
   return (
-    <SelectableContacts>
+    <SelectableContacts noneRowsSelected={noneRowsSelected}>
       {rowsMessages.map((row, index) => {
         const { selected, indeterminate } = getRowStatus(row)
-        const onCheckboxToggle = ({
-          target,
-        }: ChangeEvent<HTMLInputElement>) => {
-          const selectedTopicsTemp = new Set(selectedTopics)
-          target.checked
-            ? selectedTopicsTemp.add(row)
-            : selectedTopicsTemp.delete(row)
-          setSelectedTopics(selectedTopicsTemp)
-        }
         const lastMessage = row.messages[row.messages.length - 1]
         const checkForNotReadMessages = Boolean(
           row.messages.filter(msg => !msg.wasRead).length
         )
-        console.log(checkForNotReadMessages)
+        const onChange = () => toggleRow(row)
         return (
           <MessageRow key={index}>
-            <Col>
+            {/*<Col>*/}
+            {/*<Checkbox*/}
+            {/*  checked={selected}*/}
+            {/*  onChange={onChange}*/}
+            {/*  size={Size.Small}*/}
+            {/*  indeterminate={indeterminate}*/}
+            {/*  visible={!noneRowsSelected}*/}
+            {/*/>*/}
+            {/*</Col>*/}
+            <AvatarCol>
               <Checkbox
                 checked={selected}
-                onChange={onCheckboxToggle}
-                size={Size.Small}
+                onChange={onChange}
+                size={Size.Large}
+                indeterminate={indeterminate}
                 visible={!noneRowsSelected}
               />
-            </Col>
-            <Col onClick={noop}>
               <InitialsAvatar
                 user={{ firstName: row.firstName, lastName: row.lastName }}
                 light={selected}
               />
-            </Col>
+            </AvatarCol>
             <MessageCol>
-              {row.firstName} {row.lastName}
-              <LastMessageText
-                notReadMessages={checkForNotReadMessages}
-                displayStyle={TextDisplayStyle.MediumText}
-              >
-                {lastMessage.content}
-              </LastMessageText>
+              <DataWrapper>
+                <Name displayStyle={TextDisplayStyle.LargeBoldText}>
+                  {row.firstName} {row.lastName}
+                </Name>
+                <Time displayStyle={TextDisplayStyle.SmallFadedText}>
+                  {moment(lastMessage.date).format("h:mm:ss A, MMM Do YYYY")}
+                </Time>
+                <LastMessageText
+                  notReadMessages={checkForNotReadMessages}
+                  displayStyle={TextDisplayStyle.MediumFadedLightText}
+                >
+                  {lastMessage.content}
+                </LastMessageText>
+              </DataWrapper>
             </MessageCol>
             <Col>
               <Actions>

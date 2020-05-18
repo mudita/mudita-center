@@ -6,6 +6,7 @@ export const rowsMessages = Array.from({
 }).map(() => {
   const firstName = Faker.name.firstName()
   return {
+    id: Faker.random.uuid(),
     firstName,
     lastName: Faker.name.lastName(),
     phoneNumber: Faker.phone.phoneNumber(),
