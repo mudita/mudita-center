@@ -53,7 +53,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
   changeSearchValue,
   changeVisibilityFilter,
-  topics,
+  list,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
 
@@ -109,7 +109,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         </ButtonWrapper>
       </FiltersWrapper>
       <TableWrapper>
-        <MessagesList list={topics} />
+        <MessagesList list={list} />
       </TableWrapper>
     </>
   )

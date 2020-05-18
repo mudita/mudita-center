@@ -85,13 +85,13 @@ const AvatarCol = styled(Col)`
   position: relative;
 `
 
-const LastMessageText = styled(Message)<{ notReadMessages?: boolean }>`
+const LastMessageText = styled(Message)<{ unread?: boolean }>`
   margin-top: 0.8rem;
   margin-left: 1.8rem;
   position: relative;
   overflow: initial;
 
-  ${({ notReadMessages }) => notReadMessages && dotStyles};
+  ${({ unread }) => unread && dotStyles};
 `
 
 const ActionsButton = styled.span`
@@ -107,7 +107,7 @@ const Actions = styled.div`
   box-sizing: border-box;
 `
 
-const SelectableContacts = styled(Table)<{
+const Messages = styled(Table)<{
   mouseLock?: boolean
   noneRowsSelected?: boolean
 }>`
@@ -160,14 +160,11 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
   )
   const { enableScroll, disableScroll } = useTableScrolling()
   return (
-    <SelectableContacts noneRowsSelected={noneRowsSelected}>
-      {list.map((row, index) => {
-        const { selected, indeterminate } = getRowStatus(row)
-        const lastMessage = row.messages[row.messages.length - 1]
-        const checkForNotReadMessages = Boolean(
-          row.messages.filter(msg => !msg.wasRead).length
-        )
-        const onChange = () => toggleRow(row)
+    <Messages noneRowsSelected={noneRowsSelected}>
+      {list.map(({ caller, messages, unread }, index) => {
+        const { selected, indeterminate } = getRowStatus(caller)
+        const lastMessage = messages[messages.length - 1]
+        const onChange = () => toggleRow(caller)
         return (
           <MessageRow key={index}>
             <AvatarCol>
@@ -179,20 +176,23 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
                 visible={!noneRowsSelected}
               />
               <InitialsAvatar
-                user={{ firstName: row.firstName, lastName: row.lastName }}
+                user={{
+                  firstName: caller.firstName,
+                  lastName: caller.lastName,
+                }}
                 light={selected}
               />
             </AvatarCol>
             <MessageCol>
               <DataWrapper>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {row.firstName} {row.lastName}
+                  {caller.firstName} {caller.lastName}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage.date).format("h:mm:ss A, MMM Do YYYY")}
                 </Time>
                 <LastMessageText
-                  notReadMessages={checkForNotReadMessages}
+                  unread={unread}
                   displayStyle={TextDisplayStyle.MediumFadedLightText}
                 >
                   {lastMessage.content}
@@ -224,7 +224,7 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
           </MessageRow>
         )
       })}
-    </SelectableContacts>
+    </Messages>
   )
 }
 

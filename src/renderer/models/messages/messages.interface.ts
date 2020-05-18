@@ -2,10 +2,9 @@ import { ChangeEvent } from "react"
 
 export interface Caller {
   id: string
-  forename: string
-  surname: string
-  phone: string
-  avatar?: string
+  firstName: string
+  lastName: string
+  phoneNumber: string
 }
 
 export interface Message {
@@ -37,5 +36,5 @@ export type ComponentProps = StateProps &
   Readonly<{
     changeSearchValue: (event: ChangeEvent<HTMLInputElement>) => void
     changeVisibilityFilter: (filter: VisibilityFilter) => void
-    topics: Topic[]
+    list: Topic[]
   }>
