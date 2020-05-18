@@ -156,6 +156,7 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
                 size={Size.Large}
                 indeterminate={indeterminate}
                 visible={!noneRowsSelected}
+                data-testid="checkbox"
               />
               <InitialsAvatar
                 user={{
