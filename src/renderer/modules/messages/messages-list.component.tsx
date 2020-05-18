@@ -37,7 +37,11 @@ import { createFullName } from "Renderer/models/phone/phone.utils"
 import { intl } from "Renderer/utils/intl"
 import { Topic } from "Renderer/models/messages/messages.interface"
 import { noop } from "Renderer/utils/noop"
-import { basicRows } from "Renderer/components/core/table/table.fake-data"
+import { rowsMessages } from "Renderer/components/core/table/table.fake-data"
+
+const MessageRow = styled(Row)`
+  height: 9rem;
+`
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -59,6 +63,20 @@ const lightAvatarStyles = css`
   background-color: ${backgroundColor("avatarLight")};
 `
 
+const dotStyles = css`
+  &:after {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 0.2rem;
+    left: -1.8rem;
+    height: 0.6rem;
+    width: 0.6rem;
+    border-radius: 50%;
+    background-color: ${backgroundColor("blue")};
+  }
+`
+
 export const InitialsAvatar = styled(Avatar).attrs(() => ({
   size: AvatarSize.Small,
 }))<{ light?: boolean }>`
@@ -68,17 +86,17 @@ export const InitialsAvatar = styled(Avatar).attrs(() => ({
   ${({ light }) => light && lightAvatarStyles}
 `
 
-const MoreNumbers = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallText,
-}))`
-  width: 3.2rem;
-  padding: 0 1rem;
-  box-sizing: border-box;
-  margin-left: 1.6rem;
-  text-align: center;
-  color: ${textColor("darkGrey")};
-  background-color: ${backgroundColor("grey")};
-  border-radius: ${borderRadius("medium")};
+const MessageCol = styled(Col)`
+  flex-direction: column;
+  align-items: flex-start;
+`
+
+const LastMessageText = styled(Text)<{ notReadMessages?: boolean }>`
+  margin-top: 0.8rem;
+  margin-left: 1.8rem;
+  position: relative;
+
+  ${({ notReadMessages }) => notReadMessages && dotStyles};
 `
 
 const ActionsButton = styled.span`
@@ -92,12 +110,6 @@ const Actions = styled.div`
   flex: 1;
   padding-right: 3rem;
   box-sizing: border-box;
-`
-
-const BlockedIcon = styled(Icon).attrs(() => ({
-  type: Type.Blocked,
-}))`
-  margin-left: 1.6rem;
 `
 
 const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
@@ -137,12 +149,12 @@ const MessagesList: FunctionComponent<Props> = ({
   newContact,
   editedContact,
 }) => {
-  const { getRowStatus, noneRowsSelected } = useTableSelect(basicRows)
+  const { getRowStatus, noneRowsSelected } = useTableSelect(rowsMessages)
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const [selectedTopics, setSelectedTopics] = useState(new Set())
   return (
     <SelectableContacts>
-      {basicRows.map((row, index) => {
+      {rowsMessages.map((row, index) => {
         const { selected, indeterminate } = getRowStatus(row)
         const onCheckboxToggle = ({
           target,
@@ -153,8 +165,13 @@ const MessagesList: FunctionComponent<Props> = ({
             : selectedTopicsTemp.delete(row)
           setSelectedTopics(selectedTopicsTemp)
         }
+        const lastMessage = row.messages[row.messages.length - 1]
+        const checkForNotReadMessages = Boolean(
+          row.messages.filter(msg => !msg.wasRead).length
+        )
+        console.log(checkForNotReadMessages)
         return (
-          <Row key={index}>
+          <MessageRow key={index}>
             <Col>
               <Checkbox
                 checked={selected}
@@ -169,9 +186,15 @@ const MessagesList: FunctionComponent<Props> = ({
                 light={selected}
               />
             </Col>
-            <Col>
+            <MessageCol>
               {row.firstName} {row.lastName}
-            </Col>
+              <LastMessageText
+                notReadMessages={checkForNotReadMessages}
+                displayStyle={TextDisplayStyle.MediumText}
+              >
+                {lastMessage.content}
+              </LastMessageText>
+            </MessageCol>
             <Col>
               <Actions>
                 <Dropdown
@@ -194,7 +217,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 </Dropdown>
               </Actions>
             </Col>
-          </Row>
+          </MessageRow>
         )
       })}
     </SelectableContacts>

@@ -1,6 +1,38 @@
 import Faker from "faker"
 import { groupBy } from "lodash"
 
+export const rowsMessages = Array.from({
+  length: Math.round(15 + Math.random() * 25),
+}).map(() => {
+  const firstName = Faker.name.firstName()
+  return {
+    firstName,
+    lastName: Faker.name.lastName(),
+    phoneNumber: Faker.phone.phoneNumber(),
+    address: {
+      zip: Faker.address.zipCode(),
+      city: Faker.address.city(),
+      country: Faker.address.country(),
+    },
+    messages: [
+      {
+        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+        date: "2019-10-18T11:27:15.256Z",
+        content:
+          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        wasRead: false,
+      },
+      {
+        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+        date: "2019-10-18T11:45:35.112Z",
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        wasRead: true,
+      },
+    ],
+  }
+})
+
 export const basicRows = Array.from({
   length: Math.round(15 + Math.random() * 25),
 }).map(() => {
