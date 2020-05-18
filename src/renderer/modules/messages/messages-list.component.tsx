@@ -73,7 +73,7 @@ const AvatarCol = styled(Col)`
 
 const LastMessageText = styled(Message)<{ unread?: boolean }>`
   margin-top: 0.8rem;
-  margin-left: 1.8rem;
+  margin-left: ${({ unread }) => (unread ? "1.8rem" : "0")};
   position: relative;
   overflow: initial;
 
@@ -175,7 +175,11 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
                 </Time>
                 <LastMessageText
                   unread={unread}
-                  displayStyle={TextDisplayStyle.MediumFadedLightText}
+                  displayStyle={
+                    unread
+                      ? TextDisplayStyle.MediumText
+                      : TextDisplayStyle.MediumFadedLightText
+                  }
                 >
                   {lastMessage.content}
                 </LastMessageText>
