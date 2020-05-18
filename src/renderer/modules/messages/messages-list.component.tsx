@@ -30,6 +30,12 @@ import {
   lightAvatarStyles,
 } from "Renderer/components/rest/phone/contact-list.component"
 
+const checkboxHoverAndCheckedStyles = css`
+  position: absolute;
+  right: 0;
+  margin-right: 1.8rem;
+`
+
 const MessageRow = styled(Row)`
   height: 9rem;
 `
@@ -106,9 +112,7 @@ const Messages = styled(Table)<{
       }
       ${Checkbox} {
         ${visibleCheckboxStyles};
-        position: absolute;
-        right: 0;
-        margin-right: 1.8rem;
+        ${checkboxHoverAndCheckedStyles};
       }
     `};
 
@@ -116,9 +120,7 @@ const Messages = styled(Table)<{
     :hover {
       ${Checkbox} {
         ${visibleCheckboxStyles};
-        position: absolute;
-        right: 0;
-        margin-right: 1.8rem;
+        ${checkboxHoverAndCheckedStyles};
       }
       ${InitialsAvatar} {
         ${lightAvatarStyles};
