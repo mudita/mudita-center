@@ -23,7 +23,7 @@ import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import Icon from "Renderer/components/core/icon/icon.component"
-import MessagesList from "Renderer/modules/messages/messages-list.component"
+import MessagesList from "Renderer/components/rest/messages/messages-list.component"
 
 const ButtonWrapper = styled.div`
   display: flex;
