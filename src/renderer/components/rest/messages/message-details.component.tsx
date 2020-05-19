@@ -11,6 +11,8 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import styled from "styled-components"
+import InputComponent from "Renderer/components/core/input-text/input-text.component"
+import Icon from "Renderer/components/core/icon/icon.component"
 
 interface Props {
   details: ActiveRow
@@ -20,6 +22,24 @@ interface Props {
 const PhoneNumberText = styled(Text)`
   margin-top: 0.8rem;
 `
+
+const MessagesWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`
+
+const Textarea = styled(InputComponent)`
+  margin-bottom: 1.6rem;
+`
+
+const leadingIcons = [
+  <Icon type={Type.AttachContact} key={Type.AttachContact} />,
+  <Icon type={Type.Template} key={Type.Template} />,
+]
+
+const trailingIcon = [<Icon type={Type.Send} key={Type.Send} />]
 
 const MessageDetails: FunctionComponent<Props> = ({
   details,
@@ -49,7 +69,18 @@ const MessageDetails: FunctionComponent<Props> = ({
       headerRight={icons}
       onClose={onClose}
       appColorSidebarHeader
-    />
+    >
+      <MessagesWrapper>
+        <Textarea
+          type="textarea"
+          value={""}
+          onChange={noop}
+          leadingIcons={leadingIcons}
+          trailingIcons={trailingIcon}
+          disabled
+        />
+      </MessagesWrapper>
+    </Sidebar>
   )
 }
 
