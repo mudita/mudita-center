@@ -9,9 +9,13 @@ import { noop } from "Renderer/utils/noop"
 
 interface Props {
   details: any
+  onClose?: () => void
 }
 
-const MessageDetails: FunctionComponent<Props> = ({ details }) => {
+const MessageDetails: FunctionComponent<Props> = ({
+  details,
+  onClose = noop,
+}) => {
   const icons = (
     <>
       <SidebarHeaderIcon Icon={Type.Calls} onClick={noop} />
@@ -21,7 +25,7 @@ const MessageDetails: FunctionComponent<Props> = ({ details }) => {
     </>
   )
   return (
-    <Sidebar show headerRight={icons}>
+    <Sidebar show headerRight={icons} onClose={onClose}>
       {details.caller.firstName}
     </Sidebar>
   )

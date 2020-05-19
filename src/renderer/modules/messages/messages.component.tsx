@@ -25,12 +25,7 @@ import ButtonToggler, {
 import Icon from "Renderer/components/core/icon/icon.component"
 import MessagesList from "Renderer/components/rest/messages/messages-list.component"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
-import { basicRows } from "Renderer/components/core/table/table.fake-data"
-import {
-  Sidebar,
-  TableWithSidebarWrapper,
-} from "Renderer/components/core/table/table.component"
-import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
+import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import MessageDetails from "Renderer/components/rest/messages/message-details.component"
 
 const ButtonWrapper = styled.div`
@@ -129,7 +124,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
           openSidebar={openSidebar}
           activeRow={activeRow}
         />
-        {activeRow && <MessageDetails details={activeRow} />}
+        {activeRow && (
+          <MessageDetails details={activeRow} onClose={closeSidebar} />
+        )}
       </TableWithSidebarWrapper>
     </>
   )
