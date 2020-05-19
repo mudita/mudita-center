@@ -2,7 +2,7 @@ import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import Arrow from "Renderer/svg/arrow.svg"
 import BackupFolder from "Renderer/svg/backup-folder.svg"
 import Battery from "Renderer/svg/battery.svg"
-import BorderCheckIcon from "Renderer/svg/border-check-icon.svg"
+import BorderCheck from "Renderer/svg/border-check-icon.svg"
 import ChargingBattery from "Renderer/svg/charging-battery.svg"
 import Check from "Renderer/svg/check-icon.svg"
 import CheckIndeterminate from "Renderer/svg/check-indeterminate.svg"
@@ -143,7 +143,7 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
     case Type.Battery:
       return Battery
     case Type.BorderCheckIcon:
-      return BorderCheckIcon
+      return BorderCheck
     case Type.Calendar:
       return Calendar
     case Type.ChargingBattery:
