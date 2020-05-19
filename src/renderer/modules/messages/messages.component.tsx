@@ -62,8 +62,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<ActiveRow>()
 
-  console.log(activeRow)
-
   const showAllMessages = () => {
     changeVisibilityFilter(VisibilityFilter.All)
   }

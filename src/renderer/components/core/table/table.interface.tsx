@@ -12,6 +12,7 @@ export interface SidebarProps {
   onClose?: () => void
   headerLeft?: ReactNode
   headerRight?: ReactNode
+  appColorSidebarHeader?: boolean
 }
 
 export interface TableProps {

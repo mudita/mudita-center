@@ -25,7 +25,7 @@ const MessageDetails: FunctionComponent<Props> = ({
     </>
   )
   return (
-    <Sidebar show headerRight={icons} onClose={onClose}>
+    <Sidebar show headerRight={icons} onClose={onClose} appColorSidebarHeader>
       {details.caller.firstName}
     </Sidebar>
   )
