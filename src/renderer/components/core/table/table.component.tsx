@@ -1,10 +1,5 @@
-import React, { ComponentProps } from "react"
-import {
-  SidebarProps,
-  TableProps,
-  TableRowProps,
-} from "Renderer/components/core/table/table.interface"
-import {
+import React, { ComponentProps, ReactNode } from "react"
+import Text, {
   getTextStyles,
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -22,6 +17,9 @@ import styled, { css } from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
+import Loader from "Renderer/components/core/loader/loader.component"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 
 /* Row */
 export enum RowSize {
@@ -54,6 +52,12 @@ const activeRowStyles = css`
 const clickableRowStyles = css`
   cursor: pointer;
 `
+
+interface TableRowProps {
+  size?: RowSize
+  active?: boolean
+  selected?: boolean
+}
 
 export const Row = styled.div<TableRowProps>`
   display: grid;
@@ -242,6 +246,58 @@ export const SidebarHeaderIcon = styled(ButtonComponent).attrs(() => ({
   }
 `
 
+/* Empty state */
+const EmptyStateWrapper = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: ${backgroundColor("light")};
+  border-top: solid 0.1rem ${borderColor("listItem")};
+  margin-top: 2.2rem;
+
+  p:first-of-type {
+    margin-top: 2.4rem;
+  }
+`
+
+interface EmptyState {
+  title: MessageInterface
+  description?: MessageInterface
+}
+
+export const EmptyState: FunctionComponent<EmptyState> = ({
+  className,
+  title,
+  description,
+}) => (
+  <EmptyStateWrapper className={className}>
+    <Text displayStyle={TextDisplayStyle.TertiaryHeading} message={title} />
+    {description && (
+      <Text
+        displayStyle={TextDisplayStyle.MediumFadedLightText}
+        message={description}
+      />
+    )}
+  </EmptyStateWrapper>
+)
+
+/* Loading state */
+export const LoadingState: FunctionComponent = ({ className }) => (
+  <EmptyStateWrapper className={className}>
+    <Loader type={LoaderType.Logo} width="100" />
+  </EmptyStateWrapper>
+)
+
+/* Sidebar */
+export interface SidebarProps {
+  show?: boolean
+  onClose?: () => void
+  headerLeft?: ReactNode
+  headerRight?: ReactNode
+}
+
 export const Sidebar: FunctionComponent<SidebarProps> = ({
   show,
   className,
@@ -263,12 +319,21 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
 )
 
 /* Table */
+interface TableProps {
+  hideColumns?: boolean
+  hideableColumnsIndexes?: number[]
+  sidebar?: ReactNode
+  scrollable?: boolean
+}
+
 const TableComponent = styled.div<TableProps>`
   --nestSize: 4rem;
   --columnsTemplate: repeat(auto-fit, minmax(0, 1fr));
   --columnsGap: 2rem;
   --labelBackground: ${backgroundColor("tableLabel")};
   --rowBackground: ${backgroundColor("tableRow")};
+  display: flex;
+  flex-direction: column;
   flex: 1;
   position: relative;
   ${({ scrollable = true }) =>
@@ -283,6 +348,11 @@ const TableComponent = styled.div<TableProps>`
 
   > ${Labels} {
     ${columnLabelStyles};
+
+    + ${EmptyStateWrapper} {
+      border-top: none;
+      margin-top: 0;
+    }
   }
 
   ${Group} {
@@ -319,14 +389,6 @@ export const TableWithSidebarWrapper = styled.div`
   overflow: hidden;
   flex: 1;
   background: ${backgroundColor("app")};
-`
-
-/* Default empty state */
-export const EmptyState = styled(Row)`
-  ${Col} {
-    ${getTextStyles(TextDisplayStyle.MediumFadedText)};
-    font-style: italic;
-  }
 `
 
 const Table = React.forwardRef<

@@ -27,10 +27,17 @@ export interface Contacts {
   contactList: ContactCategory[]
 }
 
+export enum ResultsState {
+  Loading,
+  Loaded,
+  Empty,
+}
+
 export interface StoreData {
   inputValue: string
   contacts: Contact[]
   savingContact: boolean
+  resultsState: ResultsState
 }
 
 interface StoreSelectors extends Contacts {

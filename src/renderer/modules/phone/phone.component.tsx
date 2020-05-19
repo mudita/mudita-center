@@ -15,6 +15,7 @@ import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import {
   Contact,
   NewContact,
+  ResultsState,
   Store,
 } from "Renderer/models/phone/phone.interface"
 import ContactEdit, {
@@ -34,7 +35,7 @@ const ContactSection = styled.section`
   background-color: ${backgroundColor("primaryDark")};
 `
 
-type PhoneProps = ContactActions &
+export type PhoneProps = ContactActions &
   ContactPanelProps &
   ContactDetailsActions & {
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
@@ -53,6 +54,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   onMessage,
   onSpeedDialSettingsSave,
   savingContact,
+  resultsState,
 }) => {
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<NewContact>()
@@ -186,6 +188,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           onCheck={noop}
           newContact={newContact}
           editedContact={editedContact}
+          resultsState={resultsState as ResultsState}
         />
         {newContact && (
           <ContactEdit

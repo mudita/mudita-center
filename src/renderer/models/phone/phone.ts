@@ -7,6 +7,7 @@ import { Dispatch, RootState } from "Renderer/store"
 import {
   Contact,
   NewContact,
+  ResultsState,
   StoreData,
 } from "Renderer/models/phone/phone.interface"
 import getContacts from "Renderer/requests/get-contacts.request"
@@ -19,6 +20,7 @@ const initialState: StoreData = {
   inputValue: "",
   contacts: [],
   savingContact: false,
+  resultsState: ResultsState.Loading,
 }
 
 export default {
@@ -42,13 +44,25 @@ export default {
         savingContact,
       }
     },
+    setResultsState(state: StoreData, resultsState: ResultsState) {
+      return {
+        ...state,
+        resultsState,
+      }
+    },
   },
   effects: (dispatch: Dispatch): any => ({
     async loadData(payload: any, { phone: { contacts } }: RootState) {
       // TODO: Add 'downloaded' flag in case phonebook will be empty and there will
       //  be no way to add a contact from phone when it's connected to the app.
       if (contacts.length === 0) {
-        dispatch.phone.updateContacts(await getContacts())
+        const phonebookContacts = await getContacts()
+        if (phonebookContacts.length) {
+          dispatch.phone.updateContacts(phonebookContacts)
+          dispatch.phone.setResultsState(ResultsState.Loaded)
+        } else {
+          dispatch.phone.setResultsState(ResultsState.Empty)
+        }
       }
     },
     async addContact(contact: NewContact, state: RootState) {
@@ -94,9 +108,6 @@ export default {
       return slice(state => {
         return state.contacts.filter((contact: Contact) => contact.speedDial)
       })
-    },
-    savingContact() {
-      return slice(state => state.savingContact)
     },
   }),
 }
