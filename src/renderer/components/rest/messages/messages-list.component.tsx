@@ -207,6 +207,15 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
                   />
+                  <ButtonComponent
+                    labelMessage={{
+                      id: "view.name.messages.dropdownContactDetails",
+                    }}
+                    Icon={Type.Contacts}
+                    onClick={noop}
+                    displayStyle={DisplayStyle.Dropdown}
+                    data-testid={"dropdown-contact-details"}
+                  />
                 </Dropdown>
               </Actions>
             </Col>

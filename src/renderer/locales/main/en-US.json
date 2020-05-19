@@ -12,6 +12,7 @@
   "view.name.messages.unreadOnly": "Unread only",
   "view.name.messages.search": "Search",
   "view.name.messages.dropdownCall": "Call {name}",
+  "view.name.messages.dropdownContactDetails": "Contact Details / Add to Contacts",
   "view.name.messages.conversations": "Conversations",
   "view.name.messages.conversations.selectionsNumber": "{num, plural, =-1 {All Conversations} one {# Conversation} other {# Conversations}} selected",
   "view.name.messages.templates": "Templates",

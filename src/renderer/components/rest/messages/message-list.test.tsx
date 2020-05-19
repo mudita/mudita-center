@@ -105,3 +105,31 @@ test("dropdown call button has correct content", () => {
     )
   )
 })
+
+test("correct amount of dropdown call buttons is displayed", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessagesList list={testList} />
+  )
+  expect(getAllByTestId("dropdown-call")).toHaveLength(3)
+})
+
+test("dropdown contact details button has correct content ", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessagesList list={testList} />
+  )
+
+  getAllByTestId("dropdown-contact-details").forEach(element =>
+    expect(element).toHaveTextContent(
+      intl.formatMessage({
+        id: "view.name.messages.dropdownContactDetails",
+      })
+    )
+  )
+})
+
+test("correct amount of dropdown contact details buttons is displayed", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessagesList list={testList} />
+  )
+  expect(getAllByTestId("dropdown-contact-details")).toHaveLength(3)
+})
