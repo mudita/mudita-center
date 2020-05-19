@@ -24,7 +24,7 @@ exports[`should match snapshot with link 1`] = `
     <p
       class="sc-AxjAm Oohkf"
     >
-      3 files (4.0 GB)
+      3 files (4.00 GB)
     </p>
   </div>
   <a
@@ -67,7 +67,7 @@ exports[`should match snapshot without link 1`] = `
     <p
       class="sc-AxjAm Oohkf"
     >
-      3 files (4.0 GB)
+      3 files (4.00 GB)
     </p>
   </div>
 </div>
