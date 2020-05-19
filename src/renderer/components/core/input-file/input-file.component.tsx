@@ -79,6 +79,13 @@ const Border = styled.div<{ draggingOver?: boolean }>`
     `};
 `
 
+const InputFileWrapper = styled.div`
+  ${InputError} {
+    position: relative;
+    padding-left: 0;
+  }
+`
+
 const Label = styled.label<{ draggingOver?: boolean }>`
   padding: 1.2rem 1.6rem;
   position: relative;
@@ -141,13 +148,6 @@ const FilesList = styled.ul`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-`
-
-const InputFileWrapper = styled.div`
-  ${InputError} {
-    position: relative;
-    padding-left: 0;
-  }
 `
 
 const messages = defineMessages({
