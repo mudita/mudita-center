@@ -117,7 +117,6 @@ test("dropdown contact details button has correct content ", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessagesList list={testList} />
   )
-
   getAllByTestId("dropdown-contact-details").forEach(element =>
     expect(element).toHaveTextContent(
       intl.formatMessage({
@@ -132,4 +131,24 @@ test("correct amount of dropdown contact details buttons is displayed", () => {
     <MessagesList list={testList} />
   )
   expect(getAllByTestId("dropdown-contact-details")).toHaveLength(3)
+})
+
+test("dropdown mark as read button has correct content ", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessagesList list={testList} />
+  )
+  getAllByTestId("dropdown-mark-as-read").forEach(element =>
+    expect(element).toHaveTextContent(
+      intl.formatMessage({
+        id: "view.name.messages.dropdownMarkAsRead",
+      })
+    )
+  )
+})
+
+test("correct amount of dropdown mark as read buttons is displayed", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessagesList list={testList} />
+  )
+  expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(3)
 })

@@ -214,7 +214,16 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
                     Icon={Type.Contacts}
                     onClick={noop}
                     displayStyle={DisplayStyle.Dropdown}
-                    data-testid={"dropdown-contact-details"}
+                    data-testid="dropdown-contact-details"
+                  />
+                  <ButtonComponent
+                    labelMessage={{
+                      id: "view.name.messages.dropdownMarkAsRead",
+                    }}
+                    Icon={Type.BorderCheckIcon}
+                    onClick={noop}
+                    displayStyle={DisplayStyle.Dropdown}
+                    data-testid="dropdown-mark-as-read"
                   />
                 </Dropdown>
               </Actions>
