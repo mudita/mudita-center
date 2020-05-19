@@ -129,7 +129,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
           openSidebar={openSidebar}
           activeRow={activeRow}
         />
-        {activeRow && <MessageDetails />}
+        {activeRow && <MessageDetails details={activeRow} />}
       </TableWithSidebarWrapper>
     </>
   )

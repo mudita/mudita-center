@@ -100,7 +100,7 @@ const Messages = styled(Table)<{
   flex: 1;
   overflow: auto;
   --columnsTemplate: 8rem 1fr;
-  --columnsTemplateWithOpenedSidebar: 4rem 1fr;
+  --columnsTemplateWithOpenedSidebar: 6rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
 
@@ -157,12 +157,12 @@ const MessagesList: FunctionComponent<Props> = ({
         const { selected, indeterminate } = getRowStatus(caller)
         const lastMessage = messages[messages.length - 1]
         const onChange = () => toggleRow(caller)
-        const onClick = () => openSidebar(caller)
+        const onClick = () => openSidebar({ caller, messages })
         return (
           <MessageRow
             key={index}
             onClick={onClick}
-            active={activeRow === caller}
+            active={activeRow === { caller, messages }}
           >
             <AvatarCol>
               <Checkbox
