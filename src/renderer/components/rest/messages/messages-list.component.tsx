@@ -199,11 +199,13 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
                 >
                   <ButtonComponent
                     labelMessage={{
-                      id: "view.name.phone.contacts.action.exportAsVcard",
+                      id: "view.name.messages.dropdownCall",
+                      values: { name: caller.firstName },
                     }}
-                    Icon={Type.Upload}
+                    Icon={Type.Calls}
                     onClick={noop}
                     displayStyle={DisplayStyle.Dropdown}
+                    data-testid="dropdown-call"
                   />
                 </Dropdown>
               </Actions>

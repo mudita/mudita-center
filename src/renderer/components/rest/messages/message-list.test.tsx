@@ -3,6 +3,7 @@ import React from "react"
 import MessagesList from "Renderer/components/rest/messages/messages-list.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
+import { intl } from "Renderer/utils/intl"
 
 const testList = [
   {
@@ -87,4 +88,20 @@ test("when at least one checkbox is checked, all checkboxes are visible", () => 
   checkboxes.forEach(checkbox => expect(checkbox).not.toBeVisible())
   fireEvent.click(checkboxes[0])
   checkboxes.forEach(checkbox => expect(checkbox).toBeVisible())
+})
+
+test("dropdown call button has correct content", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessagesList list={testList} />
+  )
+  getAllByTestId("dropdown-call").forEach((element, index) =>
+    expect(element).toHaveTextContent(
+      intl.formatMessage(
+        {
+          id: "view.name.messages.dropdownCall",
+        },
+        { name: testList[index].caller.firstName }
+      )
+    )
+  )
 })
