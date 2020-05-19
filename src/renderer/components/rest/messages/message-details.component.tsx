@@ -6,11 +6,20 @@ import {
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
+import { ActiveRow } from "Renderer/components/rest/messages/messages-list.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import styled from "styled-components"
 
 interface Props {
-  details: any
+  details: ActiveRow
   onClose?: () => void
 }
+
+const PhoneNumberText = styled(Text)`
+  margin-top: 0.8rem;
+`
 
 const MessageDetails: FunctionComponent<Props> = ({
   details,
@@ -25,9 +34,22 @@ const MessageDetails: FunctionComponent<Props> = ({
     </>
   )
   return (
-    <Sidebar show headerRight={icons} onClose={onClose} appColorSidebarHeader>
-      {details.caller.firstName}
-    </Sidebar>
+    <Sidebar
+      show
+      headerLeft={
+        <>
+          <Text displayStyle={TextDisplayStyle.LargeBoldText}>
+            {details.caller.firstName} {details.caller.lastName}
+          </Text>
+          <PhoneNumberText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+            {details.caller.phoneNumber}
+          </PhoneNumberText>
+        </>
+      }
+      headerRight={icons}
+      onClose={onClose}
+      appColorSidebarHeader
+    />
   )
 }
 
