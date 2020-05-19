@@ -269,7 +269,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           <div>
             <Input
               type="text"
-              placeholder={intl.formatMessage(messages.firstName)}
+              label={intl.formatMessage(messages.firstName)}
               name="firstName"
               ref={register}
               errorMessage={errors.firstName?.message}
@@ -277,7 +277,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             />
             <Input
               type="text"
-              placeholder={intl.formatMessage(messages.secondName)}
+              label={intl.formatMessage(messages.secondName)}
               name="lastName"
               ref={register}
               errorMessage={errors.lastName?.message}
@@ -285,14 +285,14 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             />
             <Input
               type="tel"
-              placeholder={intl.formatMessage(messages.primaryNumber)}
+              label={intl.formatMessage(messages.primaryNumber)}
               name="primaryPhoneNumber"
               ref={register(phoneNumberValidator)}
               errorMessage={errors.primaryPhoneNumber?.message}
             />
             <Input
               type="tel"
-              placeholder={intl.formatMessage(messages.secondaryNumber)}
+              label={intl.formatMessage(messages.secondaryNumber)}
               name="secondaryPhoneNumber"
               ref={register(phoneNumberValidator)}
               errorMessage={errors.secondaryPhoneNumber?.message}
@@ -300,7 +300,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="email"
               name="email"
-              placeholder={intl.formatMessage(messages.email)}
+              label={intl.formatMessage(messages.email)}
               defaultValue={contact?.email}
               ref={register(emailValidator)}
               errorMessage={errors.email?.message}
@@ -314,7 +314,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
                 disabled={!speedDialAssignPossible}
                 options={speedDialNumbers}
                 renderListItem={speedDialListItemRenderer}
-                placeholder={intl.formatMessage(messages.speedDialKey)}
+                label={intl.formatMessage(messages.speedDialKey)}
                 emptyOption={intl.formatMessage(
                   messages.speedDialKeyEmptyOption
                 )}
@@ -357,7 +357,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             </CustomCheckbox>
             <Input
               type="text"
-              placeholder={intl.formatMessage(messages.firstAddressLine)}
+              label={intl.formatMessage(messages.firstAddressLine)}
               name="firstAddressLine"
               ref={register}
               errorMessage={errors.firstAddressLine?.message}
@@ -366,7 +366,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             />
             <Input
               type="text"
-              placeholder={intl.formatMessage(messages.secondAddressLine)}
+              label={intl.formatMessage(messages.secondAddressLine)}
               name="secondAddressLine"
               ref={register}
               errorMessage={errors.secondAddressLine?.message}
@@ -375,7 +375,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             />
             <Input
               type="text"
-              placeholder={"Note"}
+              label={"Note"}
               defaultValue={contact?.note}
               name="note"
               ref={register}

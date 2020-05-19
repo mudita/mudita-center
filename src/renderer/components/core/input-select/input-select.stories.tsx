@@ -67,6 +67,7 @@ const Story: FunctionComponent<Partial<InputSelectProps>> = ({
           value={selectedFruit}
           options={options}
           onSelect={handleSelect}
+          label={"Fruit"}
           {...rest}
         />
       </StoryWrapper>
@@ -77,6 +78,7 @@ const Story: FunctionComponent<Partial<InputSelectProps>> = ({
           options={options}
           onSelect={handleSelect}
           outlined
+          label={"Fruit"}
           {...rest}
         />
       </StoryWrapper>
@@ -85,10 +87,8 @@ const Story: FunctionComponent<Partial<InputSelectProps>> = ({
 }
 
 storiesOf("Components|InputSelect/Basic", module)
-  .add("Standard", () => <Story placeholder={"Fruit"} />)
-  .add("Standard and empty option", () => (
-    <Story placeholder={"Fruit"} emptyOption={"Select"} />
-  ))
+  .add("Standard", () => <Story />)
+  .add("Standard and empty option", () => <Story emptyOption={"Select"} />)
   .add("Preselected", () => <Story value={data[2]} />)
   .add("Customized list", () => {
     const renderValue = (item: AdvancedItem) => item.name
@@ -109,7 +109,6 @@ storiesOf("Components|InputSelect/Basic", module)
     return (
       <Story
         emptyOption={"None"}
-        placeholder={"Fruit"}
         options={advancedData}
         renderValue={renderValue}
         renderListItem={renderListItem}
@@ -121,9 +120,9 @@ storiesOf("Components|InputSelect/Basic", module)
   })
 
 storiesOf("Components|InputSelect/Searchable", module)
-  .add("Standard", () => <Story placeholder={"Fruit"} searchable />)
+  .add("Standard", () => <Story searchable />)
   .add("Standard and empty option", () => (
-    <Story placeholder={"Fruit"} emptyOption={"Select"} searchable />
+    <Story emptyOption={"Select"} searchable />
   ))
   .add("Preselected", () => <Story value={data[2]} searchable />)
   .add("Customized list", () => {
@@ -150,7 +149,6 @@ storiesOf("Components|InputSelect/Searchable", module)
     return (
       <Story
         emptyOption={"None"}
-        placeholder={"Fruit"}
         options={advancedData}
         renderValue={renderValue}
         renderListItem={renderListItem}

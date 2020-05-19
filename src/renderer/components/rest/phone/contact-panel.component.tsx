@@ -50,7 +50,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     <Panel>
       <InputComponent
         leadingIcons={[<Icon key={1} />]}
-        placeholder={intl.formatMessage({
+        label={intl.formatMessage({
           id: "view.name.phone.contacts.panel.searchPlaceholder",
         })}
         onChange={onChange}

@@ -116,8 +116,8 @@ const AdditionalInfoItem = styled.div`
   margin-bottom: 4.2rem;
 `
 
-const Input = styled(InputComponent).attrs(({ value, placeholder }) => ({
-  placeholder: value ? undefined : placeholder,
+const Input = styled(InputComponent).attrs(({ value, label }) => ({
+  label: value ? undefined : label,
   readOnly: true,
 }))<InputComponentProps>`
   padding: 2.4rem 0 1.6rem 0;
@@ -235,11 +235,11 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               />
             )}
             {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber && (
-              <Input placeholder={intl.formatMessage(messages.noPhoneNumber)} />
+              <Input label={intl.formatMessage(messages.noPhoneNumber)} />
             )}
             <Input
               value={contact.email}
-              placeholder={intl.formatMessage(messages.noEmail)}
+              label={intl.formatMessage(messages.noEmail)}
             />
           </AdditionalInfoItem>
         </div>
@@ -250,7 +250,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               type="textarea"
               outlined={false}
               value={fullAddress.join("\n")}
-              placeholder={intl.formatMessage(messages.noAddress)}
+              label={intl.formatMessage(messages.noAddress)}
             />
           </AdditionalInfoItem>
           <AdditionalInfoItem>
@@ -259,7 +259,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               type="textarea"
               outlined={false}
               value={contact.note}
-              placeholder={intl.formatMessage(messages.noNotes)}
+              label={intl.formatMessage(messages.noNotes)}
             />
           </AdditionalInfoItem>
         </div>
