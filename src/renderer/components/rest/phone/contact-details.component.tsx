@@ -176,7 +176,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       />,
     ]
   }
-
   return (
     <ContactDetailsWrapper {...rest} show headerRight={icons}>
       <BasicInfo>
