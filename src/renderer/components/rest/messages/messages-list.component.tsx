@@ -14,7 +14,11 @@ import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
-import { Topic } from "Renderer/models/messages/messages.interface"
+import {
+  Caller,
+  Topic,
+  Message as Msg,
+} from "Renderer/models/messages/messages.interface"
 import { noop } from "Renderer/utils/noop"
 import { rowsMessages } from "Renderer/components/core/table/table.fake-data"
 import {
@@ -132,16 +136,21 @@ const Messages = styled(Table)<{
   }
 `
 
+export interface ActiveRow {
+  caller: Caller
+  messages: Msg[]
+}
+
 interface Props {
   list: Topic[]
-  openSidebar: (row: any) => void
-  activeRow: any
+  openSidebar?: (row: any) => void
+  activeRow?: ActiveRow
 }
 
 const MessagesList: FunctionComponent<Props> = ({
   activeRow,
   list,
-  openSidebar,
+  openSidebar = noop,
 }) => {
   const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
     rowsMessages
