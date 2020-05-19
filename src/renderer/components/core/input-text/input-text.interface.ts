@@ -18,6 +18,7 @@ interface BasicProps extends InputIconsProps {
   disabled?: boolean
   outlined?: boolean
   errorMessage?: string | ReactElement
+  focusable?: boolean
 }
 
 export interface InputProps

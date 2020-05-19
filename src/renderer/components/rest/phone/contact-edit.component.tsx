@@ -28,7 +28,7 @@ import {
   phoneNumberValidator,
 } from "Renderer/utils/form-validators"
 import InputSelect, {
-  ListItemProps,
+  RenderListItemProps,
   SelectInputItem,
 } from "Renderer/components/core/input-select/input-select.component"
 import Loader from "Renderer/components/core/loader/loader.component"
@@ -238,7 +238,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     setValue("speedDial", value)
   }
 
-  const speedDialListItemRenderer = (item: number, props: ListItemProps) => (
+  const speedDialListItemRenderer = ({
+    item,
+    props,
+  }: RenderListItemProps<typeof speedDialNumbers[number]>) => (
     <SpeedDialListItem
       {...props}
       inactive={!availableSpeedDials.includes(item)}
