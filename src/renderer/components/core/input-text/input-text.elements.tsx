@@ -48,7 +48,7 @@ const errorStyles = css`
   border-color: ${borderColor("error")};
 `
 
-const InputError = styled(Text)<{ visible: boolean }>`
+export const InputError = styled(Text)<{ visible: boolean }>`
   position: absolute;
   left: 0;
   top: 100%;

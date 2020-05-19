@@ -2,6 +2,7 @@ import React, {
   ChangeEvent,
   InputHTMLAttributes,
   useEffect,
+  useRef,
   useState,
 } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -16,10 +17,13 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { textFormatters } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { InputError } from "Renderer/components/core/input-text/input-text.elements"
+import { convertBytes } from "Renderer/utils/convert-bytes"
+import { defineMessages } from "react-intl"
 
 const Message = styled(Text)<{ dragging?: boolean }>`
   position: relative;
@@ -77,7 +81,6 @@ const Border = styled.div<{ draggingOver?: boolean }>`
 
 const Label = styled.label<{ draggingOver?: boolean }>`
   padding: 1.2rem 1.6rem;
-  margin-bottom: 1.2rem;
   position: relative;
   display: block;
   overflow: hidden;
@@ -140,10 +143,48 @@ const FilesList = styled.ul`
   justify-content: space-between;
 `
 
-const InputFileWrapper = styled.div``
+const InputFileWrapper = styled.div`
+  ${InputError} {
+    position: relative;
+    padding-left: 0;
+  }
+`
+
+const messages = defineMessages({
+  single: {
+    id: "form.field.fileUpload.description",
+  },
+  multiple: {
+    id: "form.field.multipleFileUpload.description",
+  },
+  sizeError: {
+    id: "form.field.fileUpload.error.tooBig",
+  },
+  typeError: {
+    id: "form.field.fileUpload.error.typeNotAllowed",
+  },
+  countError: {
+    id: "form.field.fileUpload.error.tooManyFiles",
+  },
+})
+
+export enum FileInputErrorReason {
+  Type,
+  Size,
+  Count,
+}
+
+export interface FileInputError {
+  reason: FileInputErrorReason
+  file?: File
+}
 
 export interface InputFileProps extends InputHTMLAttributes<HTMLInputElement> {
   onUpdate?: (files: File[]) => void
+  maxFileSize?: number
+  handleError?: (error: FileInputError) => void
+  maxAllowedFiles?: number
+  errorTimeout?: number
 }
 
 const InputFile: FunctionComponent<InputFileProps> = ({
@@ -151,45 +192,158 @@ const InputFile: FunctionComponent<InputFileProps> = ({
   onChange = noop,
   multiple,
   onUpdate = noop,
+  maxFileSize = Infinity,
+  handleError = noop,
+  accept = "",
+  maxAllowedFiles = Infinity,
+  errorTimeout = 5000,
   ...rest
 }) => {
   const [draggingState, setDraggingState] = useState(false)
   const [files, setFiles] = useState<File[]>([])
+  const [errorMessage, setErrorMessage] = useState<string>("")
+  const [errorMessageTimeout, setErrorMessageTimeout] = useState<
+    NodeJS.Timeout
+  >()
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const enableDraggingState = () => setDraggingState(true)
+  const enableDraggingState = () => {
+    resetError()
+    setDraggingState(true)
+  }
 
   const disableDraggingState = () => setDraggingState(false)
+
+  const resetError = () => setErrorMessage("")
+
+  const hasAllowedExtension = (file: File) => {
+    const acceptedTypes = accept
+      .split(",")
+      .map(acceptedType => acceptedType.trim())
+
+    const fileTypeAllowed = acceptedTypes.some(acceptedType => {
+      if (acceptedType.includes("/")) {
+        // MIME type
+        return file.type.startsWith(acceptedType.replace("/*", "/"))
+      } else {
+        // Extension
+        return acceptedType.slice(1) === file.name.split(".").pop()
+      }
+    })
+
+    if (!fileTypeAllowed && !errorMessage) {
+      const extensions = acceptedTypes
+        .map(acceptedType => {
+          return acceptedType.replace("/*", "")
+        })
+        .join(", ")
+
+      setError(
+        {
+          reason: FileInputErrorReason.Type,
+          file,
+        },
+        intl.formatMessage(messages.typeError, {
+          name: file.name,
+          extensions,
+          ...textFormatters,
+        }) as string
+      )
+    }
+
+    return fileTypeAllowed
+  }
+
+  const hasAllowedSize = (file: File) => {
+    const sizeValid = file.size <= maxFileSize
+    if (!sizeValid && !errorMessage) {
+      disableDraggingState()
+      setError(
+        {
+          reason: FileInputErrorReason.Size,
+          file,
+        },
+        intl.formatMessage(messages.sizeError, {
+          name: file.name,
+          size: convertBytes(maxFileSize, false),
+          ...textFormatters,
+        }) as string
+      )
+    }
+    return sizeValid
+  }
+
+  const filterFiles = (file: File) => {
+    return hasAllowedExtension(file) && hasAllowedSize(file)
+  }
+
+  const filterDuplicates = (newFile: File) => {
+    return !files.some(
+      (file: File) =>
+        file.name === newFile.name &&
+        file.size === newFile.size &&
+        file.lastModified === newFile.lastModified
+    )
+  }
+
+  const setError = (error: FileInputError, message: string) => {
+    clearTimeout(errorMessageTimeout as NodeJS.Timeout)
+
+    setErrorMessageTimeout(
+      setTimeout(() => {
+        resetError()
+        clearTimeout(errorMessageTimeout as NodeJS.Timeout)
+      }, errorTimeout)
+    )
+
+    setErrorMessage(message)
+    handleError(error)
+  }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange(event)
     if (event.target.files) {
+      let newFiles: File[]
+
       if (multiple) {
-        const filterDuplicates = (newFile: File) => {
-          return !files.some(
-            (file: File) =>
-              file.name === newFile.name &&
-              file.size === newFile.size &&
-              file.lastModified === newFile.lastModified
-          )
-        }
-        setFiles([
+        newFiles = [
           ...files,
-          ...Array.from(event.target.files).filter(filterDuplicates),
-        ])
+          ...Array.from(event.target.files)
+            .filter(filterFiles)
+            .filter(filterDuplicates),
+        ]
       } else {
-        setFiles(Array.from(event.target.files))
+        newFiles = Array.from(event.target.files).filter(filterFiles)
       }
+
+      if (multiple && newFiles.length > maxAllowedFiles) {
+        setError(
+          {
+            reason: FileInputErrorReason.Count,
+          },
+          intl.formatMessage(messages.countError, {
+            limit: maxAllowedFiles,
+          }) as string
+        )
+
+        newFiles = newFiles.splice(0, maxAllowedFiles)
+      }
+
+      setFiles(newFiles)
     }
   }
 
   useEffect(() => {
     onUpdate(files)
+    if (inputRef.current) {
+      inputRef.current.value = ""
+    }
   }, [files])
 
   return (
     <InputFileWrapper className={className}>
       <Label
-        onDragOver={enableDraggingState}
+        onDragEnter={enableDraggingState}
         onDragLeave={disableDraggingState}
         onDragEnd={disableDraggingState}
         onDrop={disableDraggingState}
@@ -199,24 +353,29 @@ const InputFile: FunctionComponent<InputFileProps> = ({
         <input
           {...rest}
           multiple={multiple}
+          accept={accept}
           type="file"
           onChange={handleChange}
+          onClick={resetError}
+          ref={inputRef}
         />
         <Message
           dragging={draggingState}
           displayStyle={TextDisplayStyle.MediumLightText}
           message={{
-            id: "form.field.fileUpload.description",
+            ...(multiple ? messages.multiple : messages.single),
             values: textFormatters,
           }}
         />
       </Label>
+      <InputError visible={Boolean(errorMessage)}>{errorMessage}</InputError>
       <FilesList>
         {files.map((file, index) => {
           const removeAttachment = () => {
             const tempFiles = [...files]
             tempFiles.splice(index, 1)
             setFiles(tempFiles)
+            resetError()
           }
           return (
             <File key={index}>
