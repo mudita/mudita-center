@@ -217,6 +217,10 @@ const InputFile: FunctionComponent<InputFileProps> = ({
   const resetError = () => setErrorMessage("")
 
   const hasAllowedExtension = (file: File) => {
+    if (!accept) {
+      return true
+    }
+
     const acceptedTypes = accept
       .split(",")
       .map(acceptedType => acceptedType.trim())
