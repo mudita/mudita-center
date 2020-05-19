@@ -152,3 +152,23 @@ test("correct amount of dropdown mark as read buttons is displayed", () => {
   )
   expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(3)
 })
+
+test("dropdown delete button has correct content ", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessagesList list={testList} />
+  )
+  getAllByTestId("dropdown-delete").forEach(element =>
+    expect(element).toHaveTextContent(
+      intl.formatMessage({
+        id: "view.name.messages.dropdownDelete",
+      })
+    )
+  )
+})
+
+test("correct amount of dropdown delete buttons is displayed", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessagesList list={testList} />
+  )
+  expect(getAllByTestId("dropdown-delete")).toHaveLength(3)
+})

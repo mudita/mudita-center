@@ -14,6 +14,7 @@
   "view.name.messages.dropdownCall": "Call {name}",
   "view.name.messages.dropdownContactDetails": "Contact Details / Add to Contacts",
   "view.name.messages.dropdownMarkAsRead": "Mark as read",
+  "view.name.messages.dropdownDelete": "Delete Conversation",
   "view.name.messages.conversations": "Conversations",
   "view.name.messages.conversations.selectionsNumber": "{num, plural, =-1 {All Conversations} one {# Conversation} other {# Conversations}} selected",
   "view.name.messages.templates": "Templates",

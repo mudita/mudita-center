@@ -225,6 +225,15 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-mark-as-read"
                   />
+                  <ButtonComponent
+                    labelMessage={{
+                      id: "view.name.messages.dropdownDelete",
+                    }}
+                    Icon={Type.Delete}
+                    onClick={noop}
+                    displayStyle={DisplayStyle.Dropdown}
+                    data-testid="dropdown-delete"
+                  />
                 </Dropdown>
               </Actions>
             </Col>
