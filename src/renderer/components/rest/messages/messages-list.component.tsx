@@ -172,7 +172,7 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
                   {caller.firstName} {caller.lastName}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
-                  {moment(lastMessage.date).format("h:mm:ss A, MMM Do YYYY")}
+                  {moment(lastMessage.date).format("h:mm:ss A")}
                 </Time>
                 <LastMessageText
                   unread={unread}
