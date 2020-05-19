@@ -24,6 +24,14 @@ import ButtonToggler, {
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import MessagesList from "Renderer/components/rest/messages/messages-list.component"
+import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import { basicRows } from "Renderer/components/core/table/table.fake-data"
+import {
+  Sidebar,
+  TableWithSidebarWrapper,
+} from "Renderer/components/core/table/table.component"
+import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
+import MessageDetails from "Renderer/components/rest/messages/message-details.component"
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -56,6 +64,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
   list,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
+
+  const {
+    openSidebar,
+    closeSidebar,
+    sidebarOpened,
+    activeRow,
+  } = useTableSidebar<{}>()
 
   const showAllMessages = () => {
     changeVisibilityFilter(VisibilityFilter.All)
@@ -108,9 +123,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
           />
         </ButtonWrapper>
       </FiltersWrapper>
-      <TableWrapper>
-        <MessagesList list={list} />
-      </TableWrapper>
+      <TableWithSidebarWrapper>
+        <MessagesList
+          list={list}
+          openSidebar={openSidebar}
+          activeRow={activeRow}
+        />
+        {activeRow && <MessageDetails />}
+      </TableWithSidebarWrapper>
     </>
   )
 }

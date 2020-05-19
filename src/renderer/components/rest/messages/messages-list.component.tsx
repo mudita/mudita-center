@@ -134,21 +134,36 @@ const Messages = styled(Table)<{
 
 interface Props {
   list: Topic[]
+  openSidebar: (row: any) => void
+  activeRow: any
 }
 
-const MessagesList: FunctionComponent<Props> = ({ list }) => {
+const MessagesList: FunctionComponent<Props> = ({
+  activeRow,
+  list,
+  openSidebar,
+}) => {
   const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
     rowsMessages
   )
   const { enableScroll, disableScroll } = useTableScrolling()
   return (
-    <Messages noneRowsSelected={noneRowsSelected}>
+    <Messages
+      noneRowsSelected={noneRowsSelected}
+      hideableColumnsIndexes={[2, 3, 4]}
+      hideColumns={Boolean(activeRow)}
+    >
       {list.map(({ caller, messages, unread }, index) => {
         const { selected, indeterminate } = getRowStatus(caller)
         const lastMessage = messages[messages.length - 1]
         const onChange = () => toggleRow(caller)
+        const onClick = () => openSidebar(caller)
         return (
-          <MessageRow key={index}>
+          <MessageRow
+            key={index}
+            onClick={onClick}
+            active={activeRow === caller}
+          >
             <AvatarCol>
               <Checkbox
                 checked={selected}
