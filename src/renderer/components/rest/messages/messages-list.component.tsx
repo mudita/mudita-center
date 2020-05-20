@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Ref } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, { Col, Row } from "Renderer/components/core/table/table.component"
@@ -28,7 +28,10 @@ import {
   visibleCheckboxStyles,
   InitialsAvatar,
   lightAvatarStyles,
+  TextPlaceholder,
+  AvatarPlaceholder,
 } from "Renderer/components/rest/phone/contact-list.component"
+import { InView } from "react-intersection-observer"
 
 const checkboxHoverAndCheckedStyles = css`
   position: absolute;
@@ -143,12 +146,13 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
   const { enableScroll, disableScroll } = useTableScrolling()
   return (
     <Messages noneRowsSelected={noneRowsSelected}>
-      {list.map(({ caller, messages, unread }, index) => {
+      {list.map(({ id, caller, messages, unread }, index) => {
         const { selected, indeterminate } = getRowStatus(caller)
         const lastMessage = messages[messages.length - 1]
         const onChange = () => toggleRow(caller)
-        return (
-          <MessageRow key={index}>
+
+        const interactiveRow = (ref: Ref<HTMLDivElement>) => (
+          <MessageRow key={index} ref={ref}>
             <AvatarCol>
               <Checkbox
                 checked={selected}
@@ -209,6 +213,24 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
               </Actions>
             </Col>
           </MessageRow>
+        )
+
+        const placeholderRow = (ref: Ref<HTMLDivElement>) => (
+          <MessageRow key={index} ref={ref}>
+            <Col />
+            <Col>
+              <AvatarPlaceholder />
+              <TextPlaceholder charsCount={caller.firstName.length} />
+            </Col>
+          </MessageRow>
+        )
+
+        return (
+          <InView key={id}>
+            {({ inView, ref }) =>
+              inView ? interactiveRow(ref) : placeholderRow(ref)
+            }
+          </InView>
         )
       })}
     </Messages>

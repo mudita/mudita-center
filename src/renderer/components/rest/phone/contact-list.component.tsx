@@ -73,12 +73,12 @@ const ClickableCol = styled(Col)`
   height: 100%;
 `
 
-const AvatarPlaceholder = styled.div`
+export const AvatarPlaceholder = styled.div`
   ${basicAvatarStyles};
   margin-right: 1.2rem;
 `
 
-const TextPlaceholder = styled.span<{ charsCount: number }>`
+export const TextPlaceholder = styled.span<{ charsCount: number }>`
   display: block;
   background-color: ${backgroundColor("accent")};
   height: 1em;
