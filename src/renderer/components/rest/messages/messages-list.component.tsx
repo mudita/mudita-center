@@ -163,7 +163,7 @@ const MessagesList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      {list.map(({ id, caller, messages, unread }, index) => {
+      {list.map(({ id, caller, messages, unread }) => {
         const { selected, indeterminate } = getRowStatus(caller)
         const lastMessage = messages[messages.length - 1]
         const onChange = () => toggleRow(caller)
@@ -171,7 +171,7 @@ const MessagesList: FunctionComponent<Props> = ({
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
-            key={index}
+            key={id}
             ref={ref}
             onClick={onClick}
             active={activeRow === { caller, messages }}
@@ -268,7 +268,7 @@ const MessagesList: FunctionComponent<Props> = ({
         )
 
         const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow key={index} ref={ref}>
+          <MessageRow key={id} ref={ref}>
             <Col />
             <Col>
               <AvatarPlaceholder />
