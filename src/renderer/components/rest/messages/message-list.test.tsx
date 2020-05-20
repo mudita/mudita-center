@@ -107,7 +107,7 @@ test("dropdown call button has correct content", () => {
   )
 })
 
-test("correct amount of dropdown call buttons is displayed", () => {
+test("displays correct amount of dropdown call buttons", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessagesList list={testList} />
   )
@@ -127,7 +127,7 @@ test("dropdown contact details button has correct content ", () => {
   )
 })
 
-test("correct amount of dropdown contact details buttons is displayed", () => {
+test("displays correct amount of dropdown contact details buttons", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessagesList list={testList} />
   )
@@ -147,7 +147,7 @@ test("dropdown mark as read button has correct content ", () => {
   )
 })
 
-test("correct amount of dropdown mark as read buttons is displayed", () => {
+test("displays correct amount of dropdown mark as read buttons", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessagesList list={testList} />
   )
@@ -155,7 +155,7 @@ test("correct amount of dropdown mark as read buttons is displayed", () => {
   expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(3)
 })
 
-test("dropdown delete button has correct content ", () => {
+test("dropdown delete button has correct content", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessagesList list={testList} />
   )
@@ -167,7 +167,7 @@ test("dropdown delete button has correct content ", () => {
   )
 })
 
-test("correct amount of dropdown delete buttons is displayed", () => {
+test("displays correct amount of dropdown delete buttons", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessagesList list={testList} />
   )
