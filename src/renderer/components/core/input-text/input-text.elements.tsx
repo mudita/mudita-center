@@ -172,21 +172,26 @@ const InputWrapper = styled.label<
       margin-left: 1.2rem;
     }
   }
+
   ${({ outlined }) => outlined && outlinedStyles};
   ${({ condensed }) => condensed && condensedStyles};
   ${({ disabled }) => disabled && disabledStyles};
   ${({ error }) => error && errorStyles};
 
-  &:hover:not([disabled]),
-  &:focus-within:not([disabled]) {
-    ${({ error }) => !error && focusedStyles};
-  }
+  ${({ disabled, readOnly, focusable, error }) =>
+    (!(disabled || readOnly) || focusable) &&
+    css`
+      &:focus-within {
+        ${InputLabel} {
+          ${focusedLabelStyles};
+        }
+      }
 
-  &:focus-within:not([disabled]) {
-    ${InputLabel} {
-      ${focusedLabelStyles};
-    }
-  }
+      &:hover,
+      &:focus-within {
+        ${!error && focusedStyles};
+      }
+    `}
 `
 
 const TextAreaInput = styled.textarea`
@@ -264,33 +269,36 @@ export const InputText: FunctionComponent<InputProps> = ({
   outlined = false,
   leadingIcons,
   trailingIcons,
-  placeholder,
+  label,
   disabled,
+  readOnly,
   onChange = noop,
   inputRef,
   errorMessage,
+  focusable,
   ...rest
 }) => {
   const standardInput = (
     <LabeledInputWrapper>
       <TextInput
-        ref={inputRef}
-        placeholder={" "}
-        disabled={disabled}
-        onChange={onChange}
         {...rest}
+        placeholder={" "}
+        ref={inputRef}
+        disabled={disabled}
+        readOnly={readOnly}
+        onChange={onChange}
       />
-      <InputLabel>{placeholder}</InputLabel>
+      <InputLabel>{label}</InputLabel>
     </LabeledInputWrapper>
   )
   const outlinedInput = (
     <TextInput
-      ref={inputRef}
-      placeholder={placeholder}
-      disabled={disabled}
-      onChange={onChange}
-      autoFocus
       {...rest}
+      ref={inputRef}
+      placeholder={label}
+      disabled={disabled}
+      readOnly={readOnly}
+      onChange={onChange}
     />
   )
 
@@ -300,7 +308,9 @@ export const InputText: FunctionComponent<InputProps> = ({
       outlined={outlined}
       condensed={condensed}
       disabled={disabled}
+      readOnly={readOnly}
       error={Boolean(errorMessage)}
+      focusable={focusable}
     >
       {outlined ? outlinedInput : standardInput}
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
@@ -314,14 +324,16 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   leadingIcons,
   trailingIcons,
   disabled,
+  readOnly,
   defaultValue,
   maxRows = Infinity,
   onChange = noop,
   value,
   outlined = true,
-  placeholder,
+  label,
   inputRef,
   errorMessage,
+  focusable,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -356,28 +368,30 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
 
   const standardTextarea = (
     <TextAreaInput
+      {...rest}
       ref={composeRefs(textareaRef, inputRef)}
       value={value}
       defaultValue={defaultValue}
       disabled={disabled}
-      placeholder={placeholder}
+      readOnly={readOnly}
+      placeholder={label}
       onChange={onChangeHandler}
-      {...rest}
     />
   )
 
   const inputLikeTextarea = (
     <LabeledInputWrapper>
       <TextAreaInput
+        {...rest}
         ref={composeRefs(textareaRef, inputRef)}
         value={value}
         defaultValue={defaultValue}
         disabled={disabled}
+        readOnly={readOnly}
         placeholder={" "}
         onChange={onChangeHandler}
-        {...rest}
       />
-      <InputLabel>{placeholder}</InputLabel>
+      <InputLabel>{label}</InputLabel>
     </LabeledInputWrapper>
   )
 
@@ -385,8 +399,10 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
     <TextareaWrapper
       className={className}
       disabled={disabled}
+      readOnly={readOnly}
       outlined={outlined}
       error={Boolean(errorMessage)}
+      focusable={focusable}
     >
       {outlined ? standardTextarea : inputLikeTextarea}
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />

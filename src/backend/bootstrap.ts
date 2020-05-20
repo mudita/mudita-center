@@ -7,6 +7,10 @@ import registerDeviceInfoRequest from "Backend/requests/device-info/get-device-i
 import registerDisconnectDeviceRequest from "Backend/requests/disconnect-device/disconnect-device.request"
 import registerNetworkInfoRequest from "Backend/requests/network/get-network-info.request"
 import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
+import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.request"
+import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
+import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.request"
+import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
 
 const bootstrap = () => {
   const appAdapter = createElectronAppAdapter()
@@ -18,6 +22,10 @@ const bootstrap = () => {
     registerBatteryInfoRequest,
     registerDisconnectDeviceRequest,
     registerChangeSimCardRequest,
+    registerGetContactsRequest,
+    registerAddContactRequest,
+    registerEditContactRequest,
+    registerDeleteContactsRequest,
   ].forEach(register =>
     register({
       // TODO: Replace with a proper adapters when phone becomes available.

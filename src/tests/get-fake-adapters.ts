@@ -5,14 +5,22 @@ import createFakePurePhoneBatteryAdapter from "Backend/adapters/pure-phone-batte
 import createFakePurePhoneNetworkAdapter from "Backend/adapters/pure-phone-network/pure-phone-network-fake.adapter"
 import createFakePurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage-fake.adapter"
 import createFakePurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-fake.adapter"
+import createFakePhonebookAdapter, {
+  PhonebookFakeAdapterProps,
+} from "Backend/adapters/phonebook/phonebook-fake.adapter"
 
-const getFakeAdapters = (): Adapters => ({
+type FakeAdaptersProps = PhonebookFakeAdapterProps
+
+const getFakeAdapters = ({
+  contactsCount = 100,
+}: Partial<FakeAdaptersProps> = {}): Adapters => ({
   app: createFakeElectronAppAdapter(),
   purePhone: createFakePurePhoneAdapter(),
   pureBatteryService: createFakePurePhoneBatteryAdapter(),
   pureStorage: createFakePurePhoneStorageAdapter(),
   pureNetwork: createFakePurePhoneNetworkAdapter(),
   pureBackups: createFakePurePhoneBackupsAdapter(),
+  phonebook: createFakePhonebookAdapter({ contactsCount }),
 })
 
 export default getFakeAdapters

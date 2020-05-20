@@ -26,17 +26,17 @@ storiesOf("Components|Text input/Standard", module)
     return <InputComponent type="text" />
   })
   .add("With label", () => {
-    return <InputComponent type="text" placeholder="Name" />
+    return <InputComponent type="text" label="Name" />
   })
   .add("With value", () => {
-    return <InputComponent defaultValue="John" type="text" placeholder="Name" />
+    return <InputComponent defaultValue="John" type="text" label="Name" />
   })
   .add("With error", () => {
     return (
       <InputComponent
         defaultValue="John5"
         type="text"
-        placeholder="Name"
+        label="Name"
         errorMessage="May contain letters only"
       />
     )
@@ -47,7 +47,7 @@ storiesOf("Components|Text input/Standard", module)
       return (
         <InputComponent
           autoFocus
-          placeholder="Name"
+          label="Name"
           defaultValue={"John"}
           type="search"
         />
@@ -56,33 +56,18 @@ storiesOf("Components|Text input/Standard", module)
   )
   .add("Disabled with value", () => {
     return (
-      <InputComponent
-        defaultValue="John"
-        type="text"
-        placeholder="Name"
-        disabled
-      />
+      <InputComponent defaultValue="John" type="text" label="Name" disabled />
     )
   })
   .add("Focused", () => {
-    return <InputComponent type="text" autoFocus placeholder="Name" />
+    return <InputComponent type="text" autoFocus label="Name" />
   })
   .add("With label and leading icon", () => {
-    return (
-      <InputComponent
-        type="text"
-        leadingIcons={singleIcon}
-        placeholder="Name"
-      />
-    )
+    return <InputComponent type="text" leadingIcons={singleIcon} label="Name" />
   })
   .add("With label and trailing icon", () => {
     return (
-      <InputComponent
-        type="text"
-        trailingIcons={singleIcon}
-        placeholder="Name"
-      />
+      <InputComponent type="text" trailingIcons={singleIcon} label="Name" />
     )
   })
   .add("With label, leading and trailing icon", () => {
@@ -91,7 +76,7 @@ storiesOf("Components|Text input/Standard", module)
         type="text"
         leadingIcons={singleIcon}
         trailingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
@@ -101,7 +86,7 @@ storiesOf("Components|Text input/Standard", module)
         type="text"
         leadingIcons={multipleIcons}
         trailingIcons={multipleIcons}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
@@ -110,16 +95,16 @@ storiesOf("Components|Text input/Outlined", module)
   .add("Empty", () => {
     return <InputComponent type="text" outlined />
   })
-  .add("With placeholder", () => {
-    return <InputComponent placeholder="Name" type="text" outlined />
+  .add("With label", () => {
+    return <InputComponent label="Name" type="text" outlined />
   })
-  .add("Focused with placeholder", () => {
-    return <InputComponent autoFocus placeholder="Name" type="text" outlined />
+  .add("Focused with label", () => {
+    return <InputComponent autoFocus label="Name" type="text" outlined />
   })
   .add("With value", () => {
     return (
       <InputComponent
-        placeholder="Name"
+        label="Name"
         defaultValue={"John Doe"}
         type="text"
         outlined
@@ -129,7 +114,7 @@ storiesOf("Components|Text input/Outlined", module)
   .add("With error", () => {
     return (
       <InputComponent
-        placeholder="Name"
+        label="Name"
         defaultValue={"John Doe5"}
         type="text"
         outlined
@@ -143,7 +128,7 @@ storiesOf("Components|Text input/Outlined", module)
       return (
         <InputComponent
           autoFocus
-          placeholder="Name"
+          label="Name"
           defaultValue={"John Doe"}
           type="search"
           outlined
@@ -154,7 +139,7 @@ storiesOf("Components|Text input/Outlined", module)
   .add("Disabled with value", () => {
     return (
       <InputComponent
-        placeholder="Name"
+        label="Name"
         defaultValue={"John Doe"}
         type="text"
         outlined
@@ -162,45 +147,45 @@ storiesOf("Components|Text input/Outlined", module)
       />
     )
   })
-  .add("With placeholder and leading icon", () => {
+  .add("With label and leading icon", () => {
     return (
       <InputComponent
         type="text"
         outlined
         leadingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
-  .add("With placeholder and trailing icon", () => {
+  .add("With label and trailing icon", () => {
     return (
       <InputComponent
         type="text"
         outlined
         trailingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
-  .add("With placeholder, leading and trailing icon", () => {
+  .add("With label, leading and trailing icon", () => {
     return (
       <InputComponent
         type="text"
         outlined
         leadingIcons={singleIcon}
         trailingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
-  .add("With placeholder and multiple leading and trailing icons", () => {
+  .add("With label and multiple leading and trailing icons", () => {
     return (
       <InputComponent
         type="text"
         outlined
         leadingIcons={multipleIcons}
         trailingIcons={multipleIcons}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
@@ -209,25 +194,19 @@ storiesOf("Components|Text input/Outlined condensed", module)
   .add("Empty", () => {
     return <InputComponent type="text" outlined condensed />
   })
-  .add("With placeholder", () => {
-    return <InputComponent placeholder="Name" type="text" outlined condensed />
+  .add("With label", () => {
+    return <InputComponent label="Name" type="text" outlined condensed />
   })
-  .add("Focused with placeholder", () => {
+  .add("Focused with label", () => {
     return (
-      <InputComponent
-        type="text"
-        autoFocus
-        placeholder="Name"
-        outlined
-        condensed
-      />
+      <InputComponent type="text" autoFocus label="Name" outlined condensed />
     )
   })
   .add("With value", () => {
     return (
       <InputComponent
         type="text"
-        placeholder="Name"
+        label="Name"
         defaultValue={"John Doe"}
         outlined
         condensed
@@ -238,7 +217,7 @@ storiesOf("Components|Text input/Outlined condensed", module)
     return (
       <InputComponent
         type="text"
-        placeholder="Name"
+        label="Name"
         defaultValue={"John Doe5"}
         outlined
         condensed
@@ -249,7 +228,7 @@ storiesOf("Components|Text input/Outlined condensed", module)
   .add("Disabled With value", () => {
     return (
       <InputComponent
-        placeholder="Name"
+        label="Name"
         defaultValue={"John Doe"}
         type="text"
         outlined
@@ -258,29 +237,29 @@ storiesOf("Components|Text input/Outlined condensed", module)
       />
     )
   })
-  .add("With placeholder and leading icon", () => {
+  .add("With label and leading icon", () => {
     return (
       <InputComponent
         type="text"
         outlined
         condensed
         leadingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
-  .add("With placeholder and trailing icon", () => {
+  .add("With label and trailing icon", () => {
     return (
       <InputComponent
         type="text"
         outlined
         condensed
         trailingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
-  .add("With placeholder, leading and trailing icon", () => {
+  .add("With label, leading and trailing icon", () => {
     return (
       <InputComponent
         type="text"
@@ -288,11 +267,11 @@ storiesOf("Components|Text input/Outlined condensed", module)
         condensed
         leadingIcons={singleIcon}
         trailingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
-  .add("With placeholder and multiple leading and trailing icons", () => {
+  .add("With label and multiple leading and trailing icons", () => {
     return (
       <InputComponent
         type="text"
@@ -300,7 +279,7 @@ storiesOf("Components|Text input/Outlined condensed", module)
         condensed
         leadingIcons={multipleIcons}
         trailingIcons={multipleIcons}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
@@ -348,17 +327,15 @@ storiesOf("Components|Text input/Standard textarea (outlined)", module)
     )
   })
   .add("Basic", () => <InputComponent type="textarea" />)
-  .add("With placeholder", () => (
-    <InputComponent type="textarea" placeholder="Message" />
-  ))
-  .add("Focused with placeholder", () => {
-    return <InputComponent autoFocus type="textarea" placeholder="Message" />
+  .add("With label", () => <InputComponent type="textarea" label="Message" />)
+  .add("Focused with label", () => {
+    return <InputComponent autoFocus type="textarea" label="Message" />
   })
   .add("With content", () => {
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
@@ -369,7 +346,7 @@ storiesOf("Components|Text input/Standard textarea (outlined)", module)
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
@@ -381,7 +358,7 @@ storiesOf("Components|Text input/Standard textarea (outlined)", module)
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
@@ -393,7 +370,7 @@ storiesOf("Components|Text input/Standard textarea (outlined)", module)
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
@@ -405,7 +382,7 @@ storiesOf("Components|Text input/Standard textarea (outlined)", module)
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus."
         }
@@ -417,7 +394,7 @@ storiesOf("Components|Text input/Standard textarea (outlined)", module)
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
@@ -426,13 +403,9 @@ storiesOf("Components|Text input/Standard textarea (outlined)", module)
       />
     )
   })
-  .add("With placeholder and leading icon", () => {
+  .add("With label and leading icon", () => {
     return (
-      <InputComponent
-        type="textarea"
-        leadingIcons={singleIcon}
-        placeholder="Name"
-      />
+      <InputComponent type="textarea" leadingIcons={singleIcon} label="Name" />
     )
   })
   .add("With content and leading and trailing icon", () => {
@@ -441,39 +414,35 @@ storiesOf("Components|Text input/Standard textarea (outlined)", module)
         type="textarea"
         leadingIcons={singleIcon}
         trailingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
       />
     )
   })
-  .add("With placeholder and trailing icon", () => {
+  .add("With label and trailing icon", () => {
     return (
-      <InputComponent
-        type="textarea"
-        trailingIcons={singleIcon}
-        placeholder="Name"
-      />
+      <InputComponent type="textarea" trailingIcons={singleIcon} label="Name" />
     )
   })
-  .add("With placeholder, leading and trailing icon", () => {
+  .add("With label, leading and trailing icon", () => {
     return (
       <InputComponent
         type="textarea"
         leadingIcons={singleIcon}
         trailingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
-  .add("With placeholder and multiple leading and trailing icons", () => {
+  .add("With label and multiple leading and trailing icons", () => {
     return (
       <InputComponent
         type="textarea"
         leadingIcons={multipleIcons}
         trailingIcons={multipleIcons}
-        placeholder="Name"
+        label="Name"
       />
     )
   })
@@ -522,15 +491,15 @@ storiesOf("Components|Text input/Input-like textarea", module)
     )
   })
   .add("Basic", () => <InputComponent type="textarea" outlined={false} />)
-  .add("With placeholder", () => (
-    <InputComponent type="textarea" placeholder="Name" outlined={false} />
+  .add("With label", () => (
+    <InputComponent type="textarea" label="Name" outlined={false} />
   ))
-  .add("Focused with placeholder", () => {
+  .add("Focused with label", () => {
     return (
       <InputComponent
         autoFocus
         type="textarea"
-        placeholder="Message"
+        label="Message"
         outlined={false}
       />
     )
@@ -539,7 +508,7 @@ storiesOf("Components|Text input/Input-like textarea", module)
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
@@ -551,7 +520,7 @@ storiesOf("Components|Text input/Input-like textarea", module)
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\nCurabitur aliquet quam id dui posuere blandit."
         }
@@ -564,7 +533,7 @@ storiesOf("Components|Text input/Input-like textarea", module)
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
@@ -577,7 +546,7 @@ storiesOf("Components|Text input/Input-like textarea", module)
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
@@ -590,7 +559,7 @@ storiesOf("Components|Text input/Input-like textarea", module)
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus."
         }
@@ -603,7 +572,7 @@ storiesOf("Components|Text input/Input-like textarea", module)
     return (
       <InputComponent
         type="textarea"
-        placeholder="Message"
+        label="Message"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
@@ -613,12 +582,12 @@ storiesOf("Components|Text input/Input-like textarea", module)
       />
     )
   })
-  .add("With placeholder and leading icon", () => {
+  .add("With label and leading icon", () => {
     return (
       <InputComponent
         type="textarea"
         leadingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
         outlined={false}
       />
     )
@@ -629,7 +598,7 @@ storiesOf("Components|Text input/Input-like textarea", module)
         type="textarea"
         leadingIcons={singleIcon}
         trailingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
         defaultValue={
           "Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.\n\nCurabitur aliquet quam id dui posuere blandit."
         }
@@ -637,34 +606,34 @@ storiesOf("Components|Text input/Input-like textarea", module)
       />
     )
   })
-  .add("With placeholder and trailing icon", () => {
+  .add("With label and trailing icon", () => {
     return (
       <InputComponent
         type="textarea"
         trailingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
         outlined={false}
       />
     )
   })
-  .add("With placeholder, leading and trailing icon", () => {
+  .add("With label, leading and trailing icon", () => {
     return (
       <InputComponent
         type="textarea"
         leadingIcons={singleIcon}
         trailingIcons={singleIcon}
-        placeholder="Name"
+        label="Name"
         outlined={false}
       />
     )
   })
-  .add("With placeholder and multiple leading and trailing icons", () => {
+  .add("With label and multiple leading and trailing icons", () => {
     return (
       <InputComponent
         type="textarea"
         leadingIcons={multipleIcons}
         trailingIcons={multipleIcons}
-        placeholder="Name"
+        label="Name"
         outlined={false}
       />
     )

@@ -2,6 +2,9 @@ import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
 import InputSelect, {
   InputSelectProps,
+  RenderListItemProps,
+  renderSearchableText,
+  SelectInputItem,
 } from "Renderer/components/core/input-select/input-select.component"
 import styled, { css } from "styled-components"
 import { action } from "@storybook/addon-actions"
@@ -42,6 +45,8 @@ export const advancedData = [
   { name: "Cabbage", value: "cabbage", type: "vegetable", icon: "🥬" },
 ]
 
+type AdvancedItem = typeof advancedData[number]
+
 const Story: FunctionComponent<Partial<InputSelectProps>> = ({
   options = data,
   value = "",
@@ -62,6 +67,7 @@ const Story: FunctionComponent<Partial<InputSelectProps>> = ({
           value={selectedFruit}
           options={options}
           onSelect={handleSelect}
+          label={"Fruit"}
           {...rest}
         />
       </StoryWrapper>
@@ -72,6 +78,7 @@ const Story: FunctionComponent<Partial<InputSelectProps>> = ({
           options={options}
           onSelect={handleSelect}
           outlined
+          label={"Fruit"}
           {...rest}
         />
       </StoryWrapper>
@@ -80,38 +87,76 @@ const Story: FunctionComponent<Partial<InputSelectProps>> = ({
 }
 
 storiesOf("Components|InputSelect/Basic", module)
-  .add("Standard", () => <Story placeholder={"Fruit"} />)
-  .add("Standard and empty option", () => (
-    <Story placeholder={"Fruit"} emptyOption={"Select"} />
-  ))
+  .add("Standard", () => <Story />)
+  .add("Standard and empty option", () => <Story emptyOption={"Select"} />)
   .add("Preselected", () => <Story value={data[2]} />)
   .add("Customized list", () => {
-    const renderValue = (item: typeof advancedData[number]) => item.name
+    const renderValue = (item: AdvancedItem) => item.name
 
     const renderListItem = ({
-      name,
-      type,
-      icon,
-    }: typeof advancedData[number]) => (
-      <>
+      item: { name, type, icon },
+      props,
+    }: RenderListItemProps<AdvancedItem>) => (
+      <SelectInputItem {...props}>
         <strong>
           {icon} {name}
         </strong>
         <br />
         <em>{type}</em>
-      </>
+      </SelectInputItem>
     )
 
     return (
       <Story
         emptyOption={"None"}
-        placeholder={"Fruit"}
         options={advancedData}
         renderValue={renderValue}
         renderListItem={renderListItem}
         listStyles={css`
           max-height: 33rem;
         `}
+      />
+    )
+  })
+
+storiesOf("Components|InputSelect/Searchable", module)
+  .add("Standard", () => <Story searchable />)
+  .add("Standard and empty option", () => (
+    <Story emptyOption={"Select"} searchable />
+  ))
+  .add("Preselected", () => <Story value={data[2]} searchable />)
+  .add("Customized list", () => {
+    const renderValue = (item: AdvancedItem) => item.name
+
+    const renderListItem = ({
+      item: { name, type, icon },
+      searchString,
+      props,
+    }: RenderListItemProps<AdvancedItem>) => (
+      <SelectInputItem {...props}>
+        <strong>
+          {icon} {renderSearchableText(name, searchString)}
+        </strong>
+        <br />
+        <em>{type}</em>
+      </SelectInputItem>
+    )
+
+    const filteringFunction = (item: AdvancedItem, search: string) => {
+      return item.name.toLowerCase().includes(search.toLowerCase())
+    }
+
+    return (
+      <Story
+        emptyOption={"None"}
+        options={advancedData}
+        renderValue={renderValue}
+        renderListItem={renderListItem}
+        filteringFunction={filteringFunction}
+        listStyles={css`
+          max-height: 33rem;
+        `}
+        searchable
       />
     )
   })

@@ -36,25 +36,25 @@ test("renders outlined condensed input properly", () => {
   expect(container.querySelector("label")).toHaveStyle(`padding: 0 1.3rem;`)
 })
 
-test("renders standard input with placeholder properly", () => {
+test("renders standard input with label properly", () => {
   const { getByLabelText } = renderWithThemeAndIntl(
-    <InputText type="text" placeholder="Placeholder" />
+    <InputText type="text" label="Label" />
   )
-  expect(getByLabelText("Placeholder")).toBeInTheDocument()
+  expect(getByLabelText("Label")).toBeInTheDocument()
 })
 
-test("renders outlined input with placeholder properly", () => {
+test("renders outlined input with label properly", () => {
   const { getByPlaceholderText } = renderWithThemeAndIntl(
-    <InputText type="text" outlined placeholder="Placeholder" />
+    <InputText type="text" outlined label="Label" />
   )
-  expect(getByPlaceholderText("Placeholder")).toBeInTheDocument()
+  expect(getByPlaceholderText("Label")).toBeInTheDocument()
 })
 
-test("renders textarea with placeholder properly", () => {
+test("renders textarea with label properly", () => {
   const { getByPlaceholderText } = renderWithThemeAndIntl(
-    <InputText type="textarea" placeholder="Placeholder" />
+    <InputText type="textarea" label="Label" />
   )
-  expect(getByPlaceholderText("Placeholder")).toBeInTheDocument()
+  expect(getByPlaceholderText("Label")).toBeInTheDocument()
 })
 
 test("renders disabled standard input properly", () => {
