@@ -320,7 +320,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
     <SidebarHeader>
       {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
       {headerRight && <SidebarHeaderRight>{headerRight}</SidebarHeaderRight>}
-      <SidebarClose onClick={onClose}>
+      <SidebarClose onClick={onClose} data-testid="sidebar-close">
         <SidebarHeaderIcon Icon={Type.Close} />
       </SidebarClose>
     </SidebarHeader>

@@ -58,10 +58,16 @@ const MessageDetails: FunctionComponent<Props> = ({
       show
       headerLeft={
         <>
-          <Text displayStyle={TextDisplayStyle.LargeBoldText}>
+          <Text
+            displayStyle={TextDisplayStyle.LargeBoldText}
+            data-testid="sidebar-fullname"
+          >
             {details.caller.firstName} {details.caller.lastName}
           </Text>
-          <PhoneNumberText displayStyle={TextDisplayStyle.MediumFadedLightText}>
+          <PhoneNumberText
+            displayStyle={TextDisplayStyle.MediumFadedLightText}
+            data-testid="sidebar-phone-number"
+          >
             {details.caller.phoneNumber}
           </PhoneNumberText>
         </>
