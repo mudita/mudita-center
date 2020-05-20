@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Ref } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, { Col, Row } from "Renderer/components/core/table/table.component"
@@ -32,7 +32,10 @@ import {
   visibleCheckboxStyles,
   InitialsAvatar,
   lightAvatarStyles,
+  TextPlaceholder,
+  AvatarPlaceholder,
 } from "Renderer/components/rest/phone/contact-list.component"
+import { InView } from "react-intersection-observer"
 
 const checkboxHoverAndCheckedStyles = css`
   position: absolute;
@@ -58,7 +61,7 @@ const dotStyles = css`
     content: "";
     position: absolute;
     top: 0.2rem;
-    left: -1.8rem;
+    margin-left: -1.8rem;
     height: 0.6rem;
     width: 0.6rem;
     border-radius: 50%;
@@ -77,10 +80,8 @@ const AvatarCol = styled(Col)`
 
 const LastMessageText = styled(Message)<{ unread?: boolean }>`
   margin-top: 0.8rem;
-  margin-left: ${({ unread }) => (unread ? "1.8rem" : "0")};
+  padding-left: ${({ unread }) => (unread ? "1.8rem" : "0")};
   position: relative;
-  overflow: initial;
-
   ${({ unread }) => unread && dotStyles};
 `
 
@@ -162,14 +163,16 @@ const MessagesList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      {list.map(({ caller, messages, unread }, index) => {
+      {list.map(({ id, caller, messages, unread }, index) => {
         const { selected, indeterminate } = getRowStatus(caller)
         const lastMessage = messages[messages.length - 1]
         const onChange = () => toggleRow(caller)
         const onClick = () => openSidebar({ caller, messages })
-        return (
+
+        const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
             key={index}
+            ref={ref}
             onClick={onClick}
             active={activeRow === { caller, messages }}
           >
@@ -196,7 +199,7 @@ const MessagesList: FunctionComponent<Props> = ({
                   {caller.firstName} {caller.lastName}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
-                  {moment(lastMessage.date).format("h:mm:ss A, MMM Do YYYY")}
+                  {moment(lastMessage.date).format("h:mm A")}
                 </Time>
                 <LastMessageText
                   unread={unread}
@@ -262,6 +265,24 @@ const MessagesList: FunctionComponent<Props> = ({
               </Actions>
             </Col>
           </MessageRow>
+        )
+
+        const placeholderRow = (ref: Ref<HTMLDivElement>) => (
+          <MessageRow key={index} ref={ref}>
+            <Col />
+            <Col>
+              <AvatarPlaceholder />
+              <TextPlaceholder charsCount={caller.firstName.length} />
+            </Col>
+          </MessageRow>
+        )
+
+        return (
+          <InView key={id}>
+            {({ inView, ref }) =>
+              inView ? interactiveRow(ref) : placeholderRow(ref)
+            }
+          </InView>
         )
       })}
     </Messages>

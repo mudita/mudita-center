@@ -14,10 +14,11 @@ export interface InputIconsProps {
 }
 
 interface BasicProps extends InputIconsProps {
-  placeholder?: string
+  label?: string
   disabled?: boolean
   outlined?: boolean
   errorMessage?: string | ReactElement
+  focusable?: boolean
 }
 
 export interface InputProps

@@ -17,15 +17,11 @@ const renderInputSelect = ({ ...props }: Partial<InputSelectProps> = {}) => {
     input: outcome.getByRole("textbox"),
     icon: outcome.getByTestId("actionIcon"),
     list: outcome.container.querySelector("ul"),
+    listItems: outcome.container.querySelectorAll("ul li"),
   }
 }
 
-test("select input renders properly", () => {
-  const { input } = renderInputSelect()
-  expect(input).toBeInTheDocument()
-})
-
-test("input focus/blur toggles the list", () => {
+test("select input focus/blur toggles the list", () => {
   const { list, input } = renderInputSelect()
   expect(list).not.toBeVisible()
   fireEvent.focus(input)
@@ -34,11 +30,29 @@ test("input focus/blur toggles the list", () => {
   expect(list).not.toBeVisible()
 })
 
-test("input arrow click toggles the list", () => {
+test("select input arrow click toggles the list", () => {
   const { list, icon } = renderInputSelect()
   expect(list).not.toBeVisible()
   fireEvent.click(icon)
   expect(list).toBeVisible()
   fireEvent.click(icon)
   expect(list).not.toBeVisible()
+})
+
+test("select input returns selected list item", () => {
+  const onSelect = jest.fn()
+  const { listItems } = renderInputSelect({ onSelect })
+  fireEvent.click(listItems[2])
+  expect(onSelect).toBeCalledWith(data[2])
+})
+
+test("select input resets after selecting empty option", () => {
+  const onSelect = jest.fn()
+  const { listItems } = renderInputSelect({
+    onSelect,
+    emptyOption: "empty",
+  })
+  expect(listItems[0]).toHaveTextContent("empty")
+  fireEvent.click(listItems[0])
+  expect(onSelect).toBeCalledWith("")
 })
