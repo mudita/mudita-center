@@ -3,11 +3,12 @@ import React from "react"
 import MessagesList from "Renderer/components/rest/messages/messages-list.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
+import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { intl } from "Renderer/utils/intl"
 
 const testList = [
   {
-    id: "123",
+    id: "1231",
     caller: {
       id: "123",
       firstName: "John",
@@ -55,7 +56,7 @@ const testList = [
     ],
   },
   {
-    id: "1233",
+    id: "1234",
     caller: {
       id: "123",
       firstName: "Jane",
@@ -84,6 +85,7 @@ test("when at least one checkbox is checked, all checkboxes are visible", () => 
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessagesList list={testList} />
   )
+  mockAllIsIntersecting(true)
   const checkboxes = getAllByTestId("checkbox")
   checkboxes.forEach(checkbox => expect(checkbox).not.toBeVisible())
   fireEvent.click(checkboxes[0])
