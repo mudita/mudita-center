@@ -144,7 +144,7 @@ export interface ActiveRow {
 
 interface Props {
   list: Topic[]
-  openSidebar?: (row: any) => void
+  openSidebar?: (row: ActiveRow) => void
   activeRow?: ActiveRow
 }
 
