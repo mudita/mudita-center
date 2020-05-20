@@ -24,7 +24,7 @@ export const rowsMessages = Array.from({
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
         content:
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
       },
     ],
   }

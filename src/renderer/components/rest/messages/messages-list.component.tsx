@@ -57,7 +57,7 @@ const dotStyles = css`
     content: "";
     position: absolute;
     top: 0.2rem;
-    left: -1.8rem;
+    margin-left: -1.8rem;
     height: 0.6rem;
     width: 0.6rem;
     border-radius: 50%;
@@ -76,10 +76,8 @@ const AvatarCol = styled(Col)`
 
 const LastMessageText = styled(Message)<{ unread?: boolean }>`
   margin-top: 0.8rem;
-  margin-left: ${({ unread }) => (unread ? "1.8rem" : "0")};
+  padding-left: ${({ unread }) => (unread ? "1.8rem" : "0")};
   position: relative;
-  overflow: initial;
-
   ${({ unread }) => unread && dotStyles};
 `
 
