@@ -175,6 +175,7 @@ const MessagesList: FunctionComponent<Props> = ({
             ref={ref}
             onClick={onClick}
             active={activeRow === { caller, messages }}
+            data-testid="message-row"
           >
             <AvatarCol>
               <Checkbox

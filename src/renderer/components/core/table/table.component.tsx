@@ -316,6 +316,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
     className={className}
     show={show}
     appColorSidebarHeader={appColorSidebarHeader}
+    data-testid="sidebar"
   >
     <SidebarHeader>
       {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
