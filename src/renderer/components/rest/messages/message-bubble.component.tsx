@@ -17,7 +17,6 @@ import transition from "Renderer/styles/functions/transition"
 const MessageBubbleDropdown = styled(Dropdown)<{ interlocutor: boolean }>`
   margin-right: ${({ interlocutor }) => (interlocutor ? "0" : "1.1rem")};
   margin-left: ${({ interlocutor }) => (interlocutor ? "1.1rem" : "0")};
-  opacity: 0;
 `
 
 const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
@@ -81,6 +80,7 @@ const MessageBubble: FunctionComponent<Props> = ({
         onClose={onClose}
         dropdownPosition={dropdownPosition}
         interlocutor={interlocutor}
+        forceOpen={true}
       />
       <Bubble>
         <Text displayStyle={TextDisplayStyle.MediumLightText}>{content}</Text>
