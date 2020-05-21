@@ -174,9 +174,7 @@ const MessagesList: FunctionComponent<Props> = ({
           <MessageRow
             key={id}
             ref={ref}
-            onClick={onClick}
             active={isEqual(activeRow, { caller, messages })}
-            data-testid="message-row"
           >
             <AvatarCol>
               <Checkbox
@@ -195,7 +193,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 light={selected}
               />
             </AvatarCol>
-            <MessageCol>
+            <MessageCol onClick={onClick} data-testid="message-row">
               <DataWrapper>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                   {caller.firstName} {caller.lastName}
