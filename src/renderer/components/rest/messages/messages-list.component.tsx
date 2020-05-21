@@ -36,6 +36,7 @@ import {
   AvatarPlaceholder,
 } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
+import { isEqual } from "lodash"
 
 const checkboxHoverAndCheckedStyles = css`
   position: absolute;
@@ -174,7 +175,7 @@ const MessagesList: FunctionComponent<Props> = ({
             key={id}
             ref={ref}
             onClick={onClick}
-            active={activeRow === { caller, messages }}
+            active={isEqual(activeRow, { caller, messages })}
             data-testid="message-row"
           >
             <AvatarCol>
