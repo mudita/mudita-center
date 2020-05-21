@@ -10,15 +10,29 @@ const Wrapper = styled.div`
   align-items: center;
 `
 
-storiesOf("Components|Message Bubble", module).add("Bubble", () => {
-  return (
-    <Wrapper>
-      <MessageBubble
-        user={{ firstName: "user", lastName: "Luserowski" }}
-        content={
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?"
-        }
-      />
-    </Wrapper>
-  )
-})
+storiesOf("Components|Message Bubble", module)
+  .add("Owner bubble", () => {
+    return (
+      <Wrapper>
+        <MessageBubble
+          user={{ firstName: "user", lastName: "Luserowski" }}
+          content={
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?"
+          }
+        />
+      </Wrapper>
+    )
+  })
+  .add("Interlocutor bubble", () => {
+    return (
+      <Wrapper>
+        <MessageBubble
+          user={{ firstName: "user", lastName: "Luserowski" }}
+          content={
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?"
+          }
+          interlocutor
+        />
+      </Wrapper>
+    )
+  })
