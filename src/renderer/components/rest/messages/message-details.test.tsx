@@ -27,7 +27,7 @@ const details = {
   ],
 }
 
-test("sidebar close button works properly", () => {
+test("sidebar close button informs parent about closing", () => {
   const onClose = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
     <MessageDetails details={details} onClose={onClose} />
