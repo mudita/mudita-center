@@ -24,6 +24,7 @@ const dark = "#232426"
 // const blue3 = "#aebec9"
 const blue4 = "#e3f3ff"
 const blue5 = "#f3f8fc"
+const blue6 = "#f2f7fa"
 const red1 = "#e96a6a"
 
 const transparentGrey1 = "rgba(188,188,188,0.5)"
@@ -65,6 +66,7 @@ const theme = {
       avatarLight: white,
       tableLabel: grey7,
       tableRow: white,
+      messageBlue: blue6,
     },
     border: {
       app: grey9,
