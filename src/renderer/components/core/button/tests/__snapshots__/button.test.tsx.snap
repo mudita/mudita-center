@@ -46,7 +46,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   target="_blank"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -83,7 +83,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   target="_blank"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI fzyqlo"
+    class="sc-AxirZ XgaKu sc-AxheI fzyqlo"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -120,7 +120,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   target="_blank"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -157,7 +157,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   target="_blank"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -194,7 +194,7 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   target="_blank"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -385,7 +385,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -407,7 +407,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -429,7 +429,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -452,7 +452,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -474,7 +474,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -497,7 +497,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -518,7 +518,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -540,7 +540,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -562,7 +562,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -585,7 +585,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -607,7 +607,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -630,7 +630,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   type="button"
 >
   <div
-    class="sc-AxirZ btYaIv sc-AxheI bvYSmX"
+    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
     data-testid="icon-Upload"
   >
     <test-file-stub

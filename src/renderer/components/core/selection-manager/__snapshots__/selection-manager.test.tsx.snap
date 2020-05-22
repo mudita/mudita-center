@@ -34,8 +34,6 @@ exports[`matches snapshot 1`] = `
 .c4 svg {
   max-height: 100%;
   max-width: 100%;
-  height: 100%;
-  width: 100%;
 }
 
 .c2 {

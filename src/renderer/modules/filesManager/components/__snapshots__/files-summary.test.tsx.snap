@@ -9,7 +9,7 @@ exports[`should match snapshot 1`] = `
     data-testid="files-manager-item"
   >
     <div
-      class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
+      class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
       data-testid="icon-Music"
     >
       <test-file-stub
@@ -35,7 +35,7 @@ exports[`should match snapshot 1`] = `
       href="#/music"
     >
       <div
-        class="sc-AxirZ btYaIv"
+        class="sc-AxirZ XgaKu"
         data-testid="icon-Arrow"
       >
         <test-file-stub
@@ -49,7 +49,7 @@ exports[`should match snapshot 1`] = `
     data-testid="files-manager-item"
   >
     <div
-      class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
+      class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
       data-testid="icon-VoiceRecorder"
     >
       <test-file-stub
@@ -75,7 +75,7 @@ exports[`should match snapshot 1`] = `
       href="#/tools/voice-recorder"
     >
       <div
-        class="sc-AxirZ btYaIv"
+        class="sc-AxirZ XgaKu"
         data-testid="icon-Arrow"
       >
         <test-file-stub
@@ -89,7 +89,7 @@ exports[`should match snapshot 1`] = `
     data-testid="files-manager-item"
   >
     <div
-      class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
+      class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
       data-testid="icon-FilesManager"
     >
       <test-file-stub
@@ -116,7 +116,7 @@ exports[`should match snapshot 1`] = `
     data-testid="files-manager-item"
   >
     <div
-      class="sc-AxirZ btYaIv sc-AxhUy iKxUnG"
+      class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
       data-testid="icon-MuditaLogo"
     >
       <test-file-stub
