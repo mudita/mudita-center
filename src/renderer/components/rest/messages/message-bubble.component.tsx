@@ -38,9 +38,13 @@ const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
   }
 `
 
-const Bubble = styled.div`
+const Bubble = styled.div<{ interlocutor: boolean }>`
   padding: 1.1rem 1.2rem;
   background-color: ${backgroundColor("messageBlue")};
+  background-color: ${({ interlocutor }) =>
+    interlocutor
+      ? backgroundColor("primaryDark")
+      : backgroundColor("messageBlue")};
   border-radius: 1.2rem 1.2rem 1.2rem 0.2rem;
   max-width: 38rem;
 `
@@ -54,6 +58,10 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
   margin-right: ${({ interlocutor }) => (interlocutor ? "2.7rem" : "0")};
   height: 4.8rem;
   width: 4.8rem;
+  background-color: ${({ interlocutor }) =>
+    interlocutor
+      ? backgroundColor("primaryDark")
+      : backgroundColor("messageBlue")};
 `
 
 interface Props {
@@ -106,7 +114,7 @@ const MessageBubble: FunctionComponent<Props> = ({
           data-testid="dropdown-mark-as-read"
         />
       </MessageBubbleDropdown>
-      <Bubble>
+      <Bubble interlocutor={interlocutor}>
         <Text displayStyle={TextDisplayStyle.MediumLightText}>{content}</Text>
       </Bubble>
       <InitialsAvatar user={user} interlocutor={interlocutor} />

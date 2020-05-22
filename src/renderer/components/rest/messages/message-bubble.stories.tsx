@@ -2,7 +2,6 @@ import { storiesOf } from "@storybook/react"
 import React from "react"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 import styled from "styled-components"
-import { DropdownPosition } from "Renderer/components/core/dropdown/dropdown.component"
 
 const Wrapper = styled.div`
   height: 100vh;
