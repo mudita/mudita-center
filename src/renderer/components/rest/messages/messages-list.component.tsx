@@ -138,6 +138,10 @@ const Messages = styled(Table)<{
   }
 `
 
+const MessageDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
+  margin-right: ${({ sidebarOpened }) => (sidebarOpened ? "4rem" : "0")};
+`
+
 export interface ActiveRow {
   caller: Caller
   messages: Msg[]
@@ -193,7 +197,7 @@ const MessagesList: FunctionComponent<Props> = ({
               />
             </AvatarCol>
             <MessageCol onClick={onClick} data-testid="message-row">
-              <DataWrapper>
+              <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                   {caller.firstName} {caller.lastName}
                 </Name>
@@ -210,7 +214,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 >
                   {lastMessage.content}
                 </LastMessageText>
-              </DataWrapper>
+              </MessageDataWrapper>
             </MessageCol>
             <Col>
               <Actions>
