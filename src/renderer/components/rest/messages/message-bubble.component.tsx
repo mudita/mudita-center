@@ -83,7 +83,7 @@ const MessageBubble: FunctionComponent<Props> = ({
     <MessageBubbleWrapper className={className} interlocutor={interlocutor}>
       <MessageBubbleDropdown
         toggler={
-          <ActionsButton>
+          <ActionsButton data-testid="dropdown-action-button">
             <Icon type={Type.More} />
           </ActionsButton>
         }
@@ -94,6 +94,7 @@ const MessageBubble: FunctionComponent<Props> = ({
         }
         interlocutor={interlocutor}
         forceOpen={clicked}
+        data-testid="dropdown"
       >
         <ButtonComponent
           labelMessage={{
