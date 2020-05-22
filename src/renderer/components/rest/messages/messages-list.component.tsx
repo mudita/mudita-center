@@ -29,31 +29,26 @@ import {
 } from "Renderer/components/rest/messages/topics-table.component"
 import moment from "moment"
 import {
-  visibleCheckboxStyles,
-  InitialsAvatar,
   lightAvatarStyles,
   TextPlaceholder,
   AvatarPlaceholder,
 } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
+import Avatar from "Renderer/components/core/avatar/avatar.component"
 import { isEqual } from "lodash"
 
-const checkboxHoverAndCheckedStyles = css`
-  position: absolute;
-  right: 0;
-  margin-right: 1.8rem;
+const checkboxVisibleStyles = css`
+  display: block;
 `
 
 const MessageRow = styled(Row)`
   height: 9rem;
 `
 
-const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
-  opacity: 0;
-  visibility: hidden;
-  margin: 0 auto;
-
-  ${({ visible }) => visible && visibleCheckboxStyles};
+const Checkbox = styled(InputCheckbox)`
+  position: absolute;
+  left: 5.4rem;
+  display: none;
 `
 
 const dotStyles = css`
@@ -77,6 +72,13 @@ const MessageCol = styled(Col)`
 
 const AvatarCol = styled(Col)`
   position: relative;
+`
+
+const InitialsAvatar = styled(Avatar)`
+  height: 4.8rem;
+  width: 4.8rem;
+  position: absolute;
+  right: 2.4rem;
 `
 
 const LastMessageText = styled(Message)<{ unread?: boolean }>`
@@ -105,7 +107,7 @@ const Messages = styled(Table)<{
 }>`
   flex: 1;
   overflow: auto;
-  --columnsTemplate: 8rem 1fr;
+  --columnsTemplate: 11.2rem 60.5rem 1fr;
   --columnsTemplateWithOpenedSidebar: 6rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
@@ -117,16 +119,14 @@ const Messages = styled(Table)<{
         display: none;
       }
       ${Checkbox} {
-        ${visibleCheckboxStyles};
-        ${checkboxHoverAndCheckedStyles};
+        ${checkboxVisibleStyles};
       }
     `};
 
   ${Row} {
     :hover {
       ${Checkbox} {
-        ${visibleCheckboxStyles};
-        ${checkboxHoverAndCheckedStyles};
+        display: block;
       }
       ${InitialsAvatar} {
         ${lightAvatarStyles};
@@ -182,7 +182,6 @@ const MessagesList: FunctionComponent<Props> = ({
                 onChange={onChange}
                 size={Size.Large}
                 indeterminate={indeterminate}
-                visible={!noneRowsSelected}
                 data-testid="checkbox"
               />
               <InitialsAvatar
