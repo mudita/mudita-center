@@ -18,11 +18,11 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
-  forceOpen: boolean
+  display: boolean
 }>`
   margin-right: ${({ interlocutor }) => (interlocutor ? "0" : "1.1rem")};
   margin-left: ${({ interlocutor }) => (interlocutor ? "1.1rem" : "0")};
-  opacity: ${({ forceOpen }) => (forceOpen ? "1" : "0")};
+  opacity: ${({ display }) => (display ? "1" : "0")};
 `
 
 const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
@@ -93,7 +93,7 @@ const MessageBubble: FunctionComponent<Props> = ({
           interlocutor ? DropdownPosition.Left : DropdownPosition.Right
         }
         interlocutor={interlocutor}
-        forceOpen={clicked}
+        display={clicked}
         data-testid="dropdown"
       >
         <ButtonComponent
