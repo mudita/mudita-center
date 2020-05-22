@@ -51,3 +51,13 @@ storiesOf("Components|Message Bubble", module)
       </Wrapper>
     )
   })
+  .add("Owner bubble - multiple messages", () => {
+    return (
+      <Wrapper>
+        <MessageBubble
+          user={{ firstName: "Kuser", lastName: "Xuserowski" }}
+          messages={multipleMessages}
+        />
+      </Wrapper>
+    )
+  })
