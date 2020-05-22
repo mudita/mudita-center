@@ -103,7 +103,6 @@ const MessageBubble: FunctionComponent<Props> = ({
           Icon={Type.Forward}
           onClick={noop}
           displayStyle={DisplayStyle.Dropdown}
-          data-testid="dropdown-contact-details"
         />
         <ButtonComponent
           labelMessage={{
@@ -112,7 +111,6 @@ const MessageBubble: FunctionComponent<Props> = ({
           Icon={Type.Delete}
           onClick={noop}
           displayStyle={DisplayStyle.Dropdown}
-          data-testid="dropdown-mark-as-read"
         />
       </MessageBubbleDropdown>
       <Bubble interlocutor={interlocutor}>
