@@ -58,7 +58,6 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
 
 interface Props {
   user: User
-  dropdownPosition?: DropdownPosition
   content: string
   interlocutor?: boolean
 }
@@ -66,7 +65,6 @@ interface Props {
 const MessageBubble: FunctionComponent<Props> = ({
   className,
   user,
-  dropdownPosition = DropdownPosition.Right,
   content,
   interlocutor = false,
 }) => {
@@ -83,7 +81,9 @@ const MessageBubble: FunctionComponent<Props> = ({
         }
         onOpen={onOpen}
         onClose={onClose}
-        dropdownPosition={dropdownPosition}
+        dropdownPosition={
+          interlocutor ? DropdownPosition.Left : DropdownPosition.Right
+        }
         interlocutor={interlocutor}
         forceOpen={clicked}
       >
