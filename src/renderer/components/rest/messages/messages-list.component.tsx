@@ -200,11 +200,40 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
                 >
                   <ButtonComponent
                     labelMessage={{
-                      id: "view.name.phone.contacts.action.exportAsVcard",
+                      id: "view.name.messages.dropdownCall",
+                      values: { name: caller.firstName },
                     }}
-                    Icon={Type.Upload}
+                    Icon={Type.Calls}
                     onClick={noop}
                     displayStyle={DisplayStyle.Dropdown}
+                    data-testid="dropdown-call"
+                  />
+                  <ButtonComponent
+                    labelMessage={{
+                      id: "view.name.messages.dropdownContactDetails",
+                    }}
+                    Icon={Type.Contacts}
+                    onClick={noop}
+                    displayStyle={DisplayStyle.Dropdown}
+                    data-testid="dropdown-contact-details"
+                  />
+                  <ButtonComponent
+                    labelMessage={{
+                      id: "view.name.messages.dropdownMarkAsRead",
+                    }}
+                    Icon={Type.BorderCheckIcon}
+                    onClick={noop}
+                    displayStyle={DisplayStyle.Dropdown}
+                    data-testid="dropdown-mark-as-read"
+                  />
+                  <ButtonComponent
+                    labelMessage={{
+                      id: "view.name.messages.dropdownDelete",
+                    }}
+                    Icon={Type.Delete}
+                    onClick={noop}
+                    displayStyle={DisplayStyle.Dropdown}
+                    data-testid="dropdown-delete"
                   />
                 </Dropdown>
               </Actions>
