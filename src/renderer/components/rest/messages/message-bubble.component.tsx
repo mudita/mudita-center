@@ -113,7 +113,7 @@ const MessageBubble: FunctionComponent<Props> = ({
           displayStyle={DisplayStyle.Dropdown}
         />
       </MessageBubbleDropdown>
-      <Bubble interlocutor={interlocutor}>
+      <Bubble interlocutor={interlocutor} data-testid="message-content">
         <Text displayStyle={TextDisplayStyle.MediumLightText}>{content}</Text>
       </Bubble>
       <InitialsAvatar user={user} interlocutor={interlocutor} />
