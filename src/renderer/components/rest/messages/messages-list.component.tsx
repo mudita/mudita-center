@@ -108,7 +108,7 @@ const Messages = styled(Table)<{
   flex: 1;
   overflow: auto;
   --columnsTemplate: 11.2rem 60.5rem 1fr;
-  --columnsTemplateWithOpenedSidebar: 6rem 1fr;
+  --columnsTemplateWithOpenedSidebar: 11.2rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
 
