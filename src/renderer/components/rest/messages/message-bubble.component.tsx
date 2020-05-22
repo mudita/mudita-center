@@ -12,6 +12,9 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import transition from "Renderer/styles/functions/transition"
+import ButtonComponent from "Renderer/components/core/button/button.component"
+import { noop } from "Renderer/utils/noop"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
@@ -83,7 +86,26 @@ const MessageBubble: FunctionComponent<Props> = ({
         dropdownPosition={dropdownPosition}
         interlocutor={interlocutor}
         forceOpen={clicked}
-      />
+      >
+        <ButtonComponent
+          labelMessage={{
+            id: "view.name.messages.messageDropdownForward",
+          }}
+          Icon={Type.Forward}
+          onClick={noop}
+          displayStyle={DisplayStyle.Dropdown}
+          data-testid="dropdown-contact-details"
+        />
+        <ButtonComponent
+          labelMessage={{
+            id: "view.name.messages.messageDropdownDelete",
+          }}
+          Icon={Type.Delete}
+          onClick={noop}
+          displayStyle={DisplayStyle.Dropdown}
+          data-testid="dropdown-mark-as-read"
+        />
+      </MessageBubbleDropdown>
       <Bubble>
         <Text displayStyle={TextDisplayStyle.MediumLightText}>{content}</Text>
       </Bubble>
