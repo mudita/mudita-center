@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Dropdown, {
@@ -6,7 +6,6 @@ import Dropdown, {
 } from "Renderer/components/core/dropdown/dropdown.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { noop } from "Renderer/utils/noop"
 import Avatar, { User } from "Renderer/components/core/avatar/avatar.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Text, {
@@ -14,9 +13,13 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import transition from "Renderer/styles/functions/transition"
 
-const MessageBubbleDropdown = styled(Dropdown)<{ interlocutor: boolean }>`
+const MessageBubbleDropdown = styled(Dropdown)<{
+  interlocutor: boolean
+  forceOpen: boolean
+}>`
   margin-right: ${({ interlocutor }) => (interlocutor ? "0" : "1.1rem")};
   margin-left: ${({ interlocutor }) => (interlocutor ? "1.1rem" : "0")};
+  opacity: ${({ forceOpen }) => (forceOpen ? "1" : "0")};
 `
 
 const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
@@ -51,8 +54,6 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
 `
 
 interface Props {
-  onOpen?: () => void
-  onClose?: () => void
   user: User
   dropdownPosition?: DropdownPosition
   content: string
@@ -61,13 +62,14 @@ interface Props {
 
 const MessageBubble: FunctionComponent<Props> = ({
   className,
-  onOpen = noop,
-  onClose = noop,
   user,
   dropdownPosition = DropdownPosition.Right,
   content,
   interlocutor = false,
 }) => {
+  const [clicked, setClicked] = useState<boolean>(false)
+  const onOpen = () => setClicked(!clicked)
+  const onClose = () => setClicked(false)
   return (
     <MessageBubbleWrapper className={className} interlocutor={interlocutor}>
       <MessageBubbleDropdown
@@ -80,7 +82,7 @@ const MessageBubble: FunctionComponent<Props> = ({
         onClose={onClose}
         dropdownPosition={dropdownPosition}
         interlocutor={interlocutor}
-        forceOpen={true}
+        forceOpen={clicked}
       />
       <Bubble>
         <Text displayStyle={TextDisplayStyle.MediumLightText}>{content}</Text>

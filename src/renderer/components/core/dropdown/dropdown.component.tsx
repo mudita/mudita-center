@@ -16,7 +16,6 @@ export enum DropdownPosition {
 }
 
 interface Props {
-  forceOpen?: boolean
   toggler: ReactNode
   dropdownPosition?: DropdownPosition
   onOpen?: () => void
@@ -66,7 +65,6 @@ const DropdownList = styled.ul<{
 
 const Dropdown: FunctionComponent<Props> = ({
   className,
-  forceOpen = false,
   toggler,
   children,
   dropdownPosition = DropdownPosition.Right,
@@ -99,7 +97,7 @@ const Dropdown: FunctionComponent<Props> = ({
       {React.cloneElement(toggler as React.ReactElement, {
         onClick: () => {
           calculateVerticalPosition()
-          setVisible(!visible || forceOpen)
+          setVisible(!visible)
           if (onOpen) {
             onOpen()
           }
