@@ -10,14 +10,14 @@ const content =
 
 test("by default dropdown is not visible", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble user={user} content={content} />
+    <MessageBubble user={user} messages={content} />
   )
   expect(getByTestId("dropdown")).not.toBeVisible()
 })
 
 test("after clicking button, dropdown is displayed", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble user={user} content={content} />
+    <MessageBubble user={user} messages={content} />
   )
   fireEvent.click(getByTestId("dropdown-action-button"))
   expect(getByTestId("dropdown")).toBeVisible()
@@ -25,7 +25,7 @@ test("after clicking button, dropdown is displayed", () => {
 
 test("content is displayed in right place", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble user={user} content={content} />
+    <MessageBubble user={user} messages={content} />
   )
   expect(getByTestId("message-content")).toHaveTextContent(content)
 })

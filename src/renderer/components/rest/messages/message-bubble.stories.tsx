@@ -10,15 +10,21 @@ const Wrapper = styled.div`
   align-items: center;
 `
 
+const messages = [
+  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
+]
+const multipleMessages = [
+  "1Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
+  "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
+]
+
 storiesOf("Components|Message Bubble", module)
   .add("Owner bubble", () => {
     return (
       <Wrapper>
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
-          content={
-            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?"
-          }
+          messages={messages}
         />
       </Wrapper>
     )
@@ -28,9 +34,18 @@ storiesOf("Components|Message Bubble", module)
       <Wrapper>
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
-          content={
-            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?"
-          }
+          messages={messages}
+          interlocutor
+        />
+      </Wrapper>
+    )
+  })
+  .add("Interlocutor bubble - multiple messages", () => {
+    return (
+      <Wrapper>
+        <MessageBubble
+          user={{ firstName: "user", lastName: "Luserowski" }}
+          messages={multipleMessages}
           interlocutor
         />
       </Wrapper>

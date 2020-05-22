@@ -25,7 +25,7 @@ const MessageBubbleDropdown = styled(Dropdown)<{
   opacity: ${({ display }) => (display ? "1" : "0")};
 `
 
-const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
+const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: ${({ interlocutor }) =>
@@ -38,9 +38,16 @@ const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
   }
 `
 
+const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
+  display: flex;
+  align-items: center;
+  flex-direction: ${({ interlocutor }) =>
+    interlocutor ? "row-reverse" : "row"};
+`
+
 const Bubble = styled.div<{ interlocutor: boolean }>`
   padding: 1.1rem 1.2rem;
-  background-color: ${backgroundColor("messageBlue")};
+  margin-top: 0.8rem;
   background-color: ${({ interlocutor }) =>
     interlocutor
       ? backgroundColor("primaryDark")
@@ -62,60 +69,74 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
     interlocutor
       ? backgroundColor("primaryDark")
       : backgroundColor("messageBlue")};
+  align-self: end;
 `
 
 interface Props {
   user: User
-  content: string
+  messages: string[]
   interlocutor?: boolean
 }
 
 const MessageBubble: FunctionComponent<Props> = ({
   className,
   user,
-  content,
+  messages,
   interlocutor = false,
 }) => {
-  const [clicked, setClicked] = useState<boolean>(false)
-  const onOpen = () => setClicked(!clicked)
-  const onClose = () => setClicked(false)
   return (
     <MessageBubbleWrapper className={className} interlocutor={interlocutor}>
-      <MessageBubbleDropdown
-        toggler={
-          <ActionsButton data-testid="dropdown-action-button">
-            <Icon type={Type.More} />
-          </ActionsButton>
-        }
-        onOpen={onOpen}
-        onClose={onClose}
-        dropdownPosition={
-          interlocutor ? DropdownPosition.Left : DropdownPosition.Right
-        }
-        interlocutor={interlocutor}
-        display={clicked}
-        data-testid="dropdown"
-      >
-        <ButtonComponent
-          labelMessage={{
-            id: "view.name.messages.messageDropdownForward",
-          }}
-          Icon={Type.Forward}
-          onClick={noop}
-          displayStyle={DisplayStyle.Dropdown}
-        />
-        <ButtonComponent
-          labelMessage={{
-            id: "view.name.messages.messageDropdownDelete",
-          }}
-          Icon={Type.Delete}
-          onClick={noop}
-          displayStyle={DisplayStyle.Dropdown}
-        />
-      </MessageBubbleDropdown>
-      <Bubble interlocutor={interlocutor} data-testid="message-content">
-        <Text displayStyle={TextDisplayStyle.MediumLightText}>{content}</Text>
-      </Bubble>
+      <div>
+        {messages.map((msg, index) => {
+          const [clicked, setClicked] = useState<boolean>(false)
+          const onOpen = () => setClicked(!clicked)
+          const onClose = () => setClicked(false)
+          return (
+            <MessageBubbleContainer
+              interlocutor={interlocutor}
+              key={msg + index}
+            >
+              <MessageBubbleDropdown
+                toggler={
+                  <ActionsButton data-testid="dropdown-action-button">
+                    <Icon type={Type.More} />
+                  </ActionsButton>
+                }
+                onOpen={onOpen}
+                onClose={onClose}
+                dropdownPosition={
+                  interlocutor ? DropdownPosition.Left : DropdownPosition.Right
+                }
+                interlocutor={interlocutor}
+                display={clicked}
+                data-testid="dropdown"
+              >
+                <ButtonComponent
+                  labelMessage={{
+                    id: "view.name.messages.messageDropdownForward",
+                  }}
+                  Icon={Type.Forward}
+                  onClick={noop}
+                  displayStyle={DisplayStyle.Dropdown}
+                />
+                <ButtonComponent
+                  labelMessage={{
+                    id: "view.name.messages.messageDropdownDelete",
+                  }}
+                  Icon={Type.Delete}
+                  onClick={noop}
+                  displayStyle={DisplayStyle.Dropdown}
+                />
+              </MessageBubbleDropdown>
+              <Bubble interlocutor={interlocutor} data-testid="message-content">
+                <Text displayStyle={TextDisplayStyle.MediumLightText}>
+                  {msg}
+                </Text>
+              </Bubble>
+            </MessageBubbleContainer>
+          )
+        })}
+      </div>
       <InitialsAvatar user={user} interlocutor={interlocutor} />
     </MessageBubbleWrapper>
   )
