@@ -92,10 +92,7 @@ const MessageBubble: FunctionComponent<Props> = ({
           const onOpen = () => setClicked(!clicked)
           const onClose = () => setClicked(false)
           return (
-            <MessageBubbleContainer
-              interlocutor={interlocutor}
-              key={msg + index}
-            >
+            <MessageBubbleContainer interlocutor={interlocutor} key={index}>
               <MessageBubbleDropdown
                 toggler={
                   <ActionsButton data-testid="dropdown-action-button">
