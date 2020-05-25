@@ -275,7 +275,10 @@ const InputFile: FunctionComponent<InputFileProps> = ({
         },
         intl.formatMessage(messages.sizeError, {
           name: file.name,
-          size: convertBytes(maxFileSize, false),
+          size: convertBytes(maxFileSize, {
+            fixedFractionDigits: false,
+            precision: 2,
+          }),
           ...textFormatters,
         }) as string
       )

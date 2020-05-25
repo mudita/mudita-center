@@ -27,7 +27,7 @@ exports[`should match snapshot 1`] = `
       <p
         class="sc-AxjAm Oohkf"
       >
-        15 files (4.00 GB)
+        15 files (4.0 GB)
       </p>
     </div>
     <a
@@ -67,7 +67,7 @@ exports[`should match snapshot 1`] = `
       <p
         class="sc-AxjAm Oohkf"
       >
-        3 files (4.00 GB)
+        3 files (4.0 GB)
       </p>
     </div>
     <a
@@ -107,7 +107,7 @@ exports[`should match snapshot 1`] = `
       <p
         class="sc-AxjAm Oohkf"
       >
-        85 files (4.00 GB)
+        85 files (4.0 GB)
       </p>
     </div>
   </div>
@@ -134,7 +134,7 @@ exports[`should match snapshot 1`] = `
       <p
         class="sc-AxjAm Oohkf"
       >
-        4.00 GB
+        4.0 GB
       </p>
     </div>
   </div>

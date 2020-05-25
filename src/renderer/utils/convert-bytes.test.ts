@@ -17,25 +17,47 @@ test("returns correct format in B", () => {
 })
 
 test("returns correct format in KB", () => {
-  expect(convertBytes(oneKbInBytes)).toBe("1.00 KB")
+  expect(convertBytes(oneKbInBytes)).toBe("1.0 KB")
 })
 
 test("returns correct format in MB", () => {
-  expect(convertBytes(tenMbInBytes)).toBe("10.00 MB")
+  expect(convertBytes(tenMbInBytes)).toBe("10.0 MB")
 })
 
 test("returns correct format in GB", () => {
-  expect(convertBytes(fourGbInBytes)).toBe("4.00 GB")
+  expect(convertBytes(fourGbInBytes)).toBe("4.0 GB")
 })
 
 test("returns correct format in TB", () => {
-  expect(convertBytes(oneTbInBytes)).toBe("1.00 TB")
+  expect(convertBytes(oneTbInBytes)).toBe("1.0 TB")
 })
 
 test("returns correct format when not forcing fraction digits", () => {
-  expect(convertBytes(oneKbInBytes, false)).toBe("1 KB")
-  expect(convertBytes(oneKbInBytes + 100, false)).toBe("1.1 KB")
-  expect(convertBytes(oneKbInBytes + 151, false)).toBe("1.15 KB")
-  expect(convertBytes(oneKbInBytes + 151, false, 3)).toBe("1.147 KB")
-  expect(convertBytes(oneKbInBytes + 256, false, 3)).toBe("1.25 KB")
+  expect(convertBytes(oneKbInBytes, { fixedFractionDigits: false })).toBe(
+    "1 KB"
+  )
+  expect(
+    convertBytes(oneKbInBytes + 100, {
+      fixedFractionDigits: false,
+      precision: 2,
+    })
+  ).toBe("1.1 KB")
+  expect(
+    convertBytes(oneKbInBytes + 151, {
+      fixedFractionDigits: false,
+      precision: 2,
+    })
+  ).toBe("1.15 KB")
+  expect(
+    convertBytes(oneKbInBytes + 151, {
+      fixedFractionDigits: false,
+      precision: 3,
+    })
+  ).toBe("1.147 KB")
+  expect(
+    convertBytes(oneKbInBytes + 256, {
+      fixedFractionDigits: false,
+      precision: 3,
+    })
+  ).toBe("1.25 KB")
 })

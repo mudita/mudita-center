@@ -1,9 +1,13 @@
 import round from "lodash/round"
 
+interface ConvertBytesOptions {
+  precision?: number
+  fixedFractionDigits?: boolean
+}
+
 export const convertBytes = (
   bytes: number,
-  forceFractions: boolean = true,
-  fractionDigits: number = 2
+  { precision = 1, fixedFractionDigits = true }: ConvertBytesOptions = {}
 ): string => {
   const sizes = ["B", "KB", "MB", "GB", "TB"]
 
@@ -19,9 +23,9 @@ export const convertBytes = (
 
   const value = bytes / 1024 ** i
 
-  const returnedValue = forceFractions
-    ? value.toFixed(fractionDigits)
-    : round(value, fractionDigits)
+  const returnedValue = fixedFractionDigits
+    ? value.toFixed(precision)
+    : round(value, precision)
 
   return returnedValue + " " + sizes[i]
 }
