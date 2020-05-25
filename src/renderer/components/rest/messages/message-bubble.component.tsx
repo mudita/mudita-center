@@ -89,7 +89,7 @@ const MessageBubble: FunctionComponent<Props> = ({
       <div>
         {messages.map((msg, index) => {
           const [clicked, setClicked] = useState<boolean>(false)
-          const onOpen = () => setClicked(!clicked)
+          const onOpen = () => setClicked(true)
           const onClose = () => setClicked(false)
           return (
             <MessageBubbleContainer interlocutor={interlocutor} key={index}>
