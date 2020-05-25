@@ -66,8 +66,7 @@ const dotStyles = css`
 `
 
 const MessageCol = styled(Col)`
-  flex-direction: column;
-  align-items: flex-start;
+  height: 100%;
 `
 
 const AvatarCol = styled(Col)`
