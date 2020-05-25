@@ -89,8 +89,8 @@ const MessageBubble: FunctionComponent<Props> = ({
       <div>
         {messages.map((msg, index) => {
           const [clicked, setClicked] = useState<boolean>(false)
-          const onOpen = () => setClicked(true)
-          const onClose = () => setClicked(false)
+          const open = () => setClicked(true)
+          const close = () => setClicked(false)
           return (
             <MessageBubbleContainer interlocutor={interlocutor} key={index}>
               <MessageBubbleDropdown
@@ -99,8 +99,8 @@ const MessageBubble: FunctionComponent<Props> = ({
                     <Icon type={Type.More} />
                   </ActionsButton>
                 }
-                onOpen={onOpen}
-                onClose={onClose}
+                onOpen={open}
+                onClose={close}
                 dropdownPosition={
                   interlocutor ? DropdownPosition.Left : DropdownPosition.Right
                 }
