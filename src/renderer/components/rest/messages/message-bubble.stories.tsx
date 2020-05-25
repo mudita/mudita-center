@@ -58,6 +58,11 @@ storiesOf("Components|Message Bubble", module)
           user={{ firstName: "Kuser", lastName: "Xuserowski" }}
           messages={multipleMessages}
         />
+        <MessageBubble
+          user={{ firstName: "user", lastName: "Luserowski" }}
+          messages={multipleMessages}
+          interlocutor
+        />
       </Wrapper>
     )
   })

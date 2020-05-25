@@ -52,7 +52,10 @@ const Bubble = styled.div<{ interlocutor: boolean }>`
     interlocutor
       ? backgroundColor("primaryDark")
       : backgroundColor("messageBlue")};
-  border-radius: 1.2rem 1.2rem 1.2rem 0.2rem;
+  border-radius: ${({ interlocutor }) =>
+    interlocutor
+      ? "1.2rem 1.2rem 1.2rem 0.2rem"
+      : "1.2rem 1.2rem 0.2rem 1.2rem"};
   max-width: 38rem;
 `
 
