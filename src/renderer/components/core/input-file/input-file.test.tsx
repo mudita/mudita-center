@@ -3,11 +3,11 @@ import React from "react"
 import InputFile, {
   InputFileProps,
 } from "Renderer/components/core/input-file/input-file.component"
-import { renderWithTheme } from "Renderer/utils/render-with-theme-and-intl"
+import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/react"
 
 const renderInputFile = ({ ...props }: Partial<InputFileProps> = {}) => {
-  const outcome = renderWithTheme(<InputFile {...props} />)
+  const outcome = renderWithThemeAndIntl(<InputFile {...props} />)
   return {
     ...outcome,
     input: outcome.container.querySelector(
@@ -30,10 +30,10 @@ const mockEvent = (...files: File[]) => ({
 })
 
 test("file input renders properly", () => {
-  const { input, getByText, getByRole } = renderInputFile()
+  const { input, getByRole } = renderInputFile()
   expect(input).toBeInTheDocument()
-  expect(getByText("form.field.fileUpload.description")).toBeInTheDocument()
   expect(getByRole("list")).toBeInTheDocument()
+  // TODO: Add check for text after implementing https://appnroll.atlassian.net/browse/PDA-159
 })
 
 test("file input shows uploaded file name properly", () => {
