@@ -216,9 +216,9 @@ const InputFile: FunctionComponent<InputFileProps> = ({
 
   const resetError = () => setErrorMessage("")
 
-  const hasAllowedExtension = (file: File) => {
+  const checkExtension = (file: File) => {
     if (!accept) {
-      return true
+      return !accept
     }
 
     const acceptedTypes = accept
@@ -258,7 +258,7 @@ const InputFile: FunctionComponent<InputFileProps> = ({
     return fileTypeAllowed
   }
 
-  const hasAllowedSize = (file: File) => {
+  const checkSize = (file: File) => {
     const sizeValid = file.size <= maxFileSize
     if (!sizeValid && !errorMessage) {
       disableDraggingState()
@@ -277,11 +277,9 @@ const InputFile: FunctionComponent<InputFileProps> = ({
     return sizeValid
   }
 
-  const filterFiles = (file: File) => {
-    return hasAllowedExtension(file) && hasAllowedSize(file)
-  }
+  const checkFile = (file: File) => checkExtension(file) && checkSize(file)
 
-  const filterDuplicates = (newFile: File) => {
+  const checkForDuplicate = (newFile: File) => {
     return !files.some(
       (file: File) =>
         file.name === newFile.name &&
@@ -313,11 +311,11 @@ const InputFile: FunctionComponent<InputFileProps> = ({
         newFiles = [
           ...files,
           ...Array.from(event.target.files)
-            .filter(filterFiles)
-            .filter(filterDuplicates),
+            .filter(checkFile)
+            .filter(checkForDuplicate),
         ]
       } else {
-        newFiles = Array.from(event.target.files).filter(filterFiles)
+        newFiles = Array.from(event.target.files).filter(checkFile)
       }
 
       if (multiple && newFiles.length > maxAllowedFiles) {
