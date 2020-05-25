@@ -178,6 +178,7 @@ const MessagesList: FunctionComponent<Props> = ({
           <MessageRow
             key={id}
             ref={ref}
+            selected={selected}
             active={isEqual(activeRow, { caller, messages })}
           >
             <AvatarCol>
