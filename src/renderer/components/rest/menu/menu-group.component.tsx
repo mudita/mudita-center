@@ -10,6 +10,8 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import RangeIcon from "Renderer/components/core/icon/range-icon.component"
+import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -54,11 +56,27 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
           <Text displayStyle={TextDisplayStyle.SmallText} message={label} />
           {icons && (
             <HeaderIconContainer>
-              {icons.map((icon: Type, index) => (
-                <HeaderIconBg key={index}>
-                  <HeaderIcon type={icon} width={1.6} />
-                </HeaderIconBg>
-              ))}
+              {icons.map((icon: Type, index) => {
+                if (icon === Type.MenuRange) {
+                  return (
+                    <HeaderIconBg>
+                      <RangeIcon strength={21} />
+                    </HeaderIconBg>
+                  )
+                }
+                if (icon === Type.MenuBattery) {
+                  return (
+                    <HeaderIconBg>
+                      <BatteryIcon level={0} height={2.4} width={2.4} />
+                    </HeaderIconBg>
+                  )
+                }
+                return (
+                  <HeaderIconBg key={index}>
+                    <HeaderIcon type={icon} width={1.6} />
+                  </HeaderIconBg>
+                )
+              })}
             </HeaderIconContainer>
           )}
         </HeaderWrapper>

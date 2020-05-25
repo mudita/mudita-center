@@ -47,7 +47,7 @@ export const menuElements: MenuElement[] = [
   {
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
-    icons: [Type.MediumRange, Type.Battery, Type.Sim, Type.MenuTethering],
+    icons: [Type.MenuRange, Type.Battery, Type.Sim, Type.MenuTethering],
     visibleWithPhone: false,
   },
   {
