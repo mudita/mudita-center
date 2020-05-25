@@ -60,14 +60,14 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
                 if (icon === Type.MenuRange) {
                   return (
                     <HeaderIconBg>
-                      <RangeIcon strength={21} />
+                      <RangeIcon strength={21} height={1.6} width={1.6} />
                     </HeaderIconBg>
                   )
                 }
                 if (icon === Type.MenuBattery) {
                   return (
                     <HeaderIconBg>
-                      <BatteryIcon level={0} height={2.4} width={2.4} />
+                      <BatteryIcon level={0} />
                     </HeaderIconBg>
                   )
                 }
