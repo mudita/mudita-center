@@ -10,6 +10,10 @@ const Wrapper = styled.div`
   align-items: center;
 `
 
+const ColumnWrapper = styled(Wrapper)`
+  flex-direction: column;
+`
+
 const messages = [
   "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
 ]
@@ -42,18 +46,22 @@ storiesOf("Components|Message Bubble", module)
   })
   .add("Interlocutor bubble - multiple messages", () => {
     return (
-      <Wrapper>
+      <ColumnWrapper>
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
           messages={multipleMessages}
           interlocutor
         />
-      </Wrapper>
+        <MessageBubble
+          user={{ firstName: "user", lastName: "Luserowski" }}
+          messages={multipleMessages}
+        />
+      </ColumnWrapper>
     )
   })
   .add("Owner bubble - multiple messages", () => {
     return (
-      <Wrapper>
+      <ColumnWrapper>
         <MessageBubble
           user={{ firstName: "Kuser", lastName: "Xuserowski" }}
           messages={multipleMessages}
@@ -63,6 +71,6 @@ storiesOf("Components|Message Bubble", module)
           messages={multipleMessages}
           interlocutor
         />
-      </Wrapper>
+      </ColumnWrapper>
     )
   })
