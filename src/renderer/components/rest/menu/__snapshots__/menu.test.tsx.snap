@@ -57,7 +57,7 @@ exports[`matches snapshot 1`] = `
         >
           <div
             class="sc-AxirZ kOycEm"
-            data-testid="icon-LowRange"
+            data-testid="icon-HighRange"
             height="1.6"
             width="1.6"
           >
@@ -70,8 +70,8 @@ exports[`matches snapshot 1`] = `
           class="sc-fzplWN cVhLKd"
         >
           <div
-            class="sc-AxirZ kOycEm sc-fznyAO lmCWoJ"
-            data-testid="icon-Battery"
+            class="sc-AxirZ kOycEm"
+            data-testid="icon-VeryHighBattery"
             height="1.6"
             width="1.6"
           >

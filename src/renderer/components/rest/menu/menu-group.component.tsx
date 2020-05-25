@@ -56,27 +56,17 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
           <Text displayStyle={TextDisplayStyle.SmallText} message={label} />
           {icons && (
             <HeaderIconContainer>
-              {icons.map((icon: Type, index) => {
-                if (icon === Type.MenuRange) {
-                  return (
-                    <HeaderIconBg key={index}>
-                      <RangeIcon strength={21} height={1.6} width={1.6} />
-                    </HeaderIconBg>
-                  )
-                }
-                if (icon === Type.MenuBattery) {
-                  return (
-                    <HeaderIconBg key={index}>
-                      <BatteryIcon level={0} />
-                    </HeaderIconBg>
-                  )
-                }
-                return (
-                  <HeaderIconBg key={index}>
+              {icons.map((icon: Type, index) => (
+                <HeaderIconBg key={index}>
+                  {icon === Type.MenuRange ? (
+                    <RangeIcon strength={61} width={1.6} />
+                  ) : icon === Type.MenuBattery ? (
+                    <BatteryIcon level={0.9} height={1.6} width={1.6} />
+                  ) : (
                     <HeaderIcon type={icon} width={1.6} />
-                  </HeaderIconBg>
-                )
-              })}
+                  )}
+                </HeaderIconBg>
+              ))}
             </HeaderIconContainer>
           )}
         </HeaderWrapper>
