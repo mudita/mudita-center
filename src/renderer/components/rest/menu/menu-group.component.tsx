@@ -59,14 +59,14 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
               {icons.map((icon: Type, index) => {
                 if (icon === Type.MenuRange) {
                   return (
-                    <HeaderIconBg>
+                    <HeaderIconBg key={index}>
                       <RangeIcon strength={21} height={1.6} width={1.6} />
                     </HeaderIconBg>
                   )
                 }
                 if (icon === Type.MenuBattery) {
                   return (
-                    <HeaderIconBg>
+                    <HeaderIconBg key={index}>
                       <BatteryIcon level={0} />
                     </HeaderIconBg>
                   )
