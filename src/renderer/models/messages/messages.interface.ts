@@ -12,6 +12,10 @@ export interface Message {
   date: string
   content: string
   interlocutor: boolean
+  author: {
+    firstName: string
+    lastName: string
+  }
 }
 
 export interface Topic {

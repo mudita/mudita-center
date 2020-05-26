@@ -43,6 +43,7 @@ const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
   align-items: center;
   flex-direction: ${({ interlocutor }) =>
     interlocutor ? "row-reverse" : "row"};
+  justify-content: space-between;
 `
 
 const Bubble = styled.div<{ interlocutor: boolean }>`
