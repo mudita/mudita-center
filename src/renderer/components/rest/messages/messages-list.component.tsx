@@ -160,6 +160,11 @@ const MessagesList: FunctionComponent<Props> = ({
   const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
     rowsMessages
   )
+  /* TODO in new message feature task:
+          1. Destructure scrollable from useTableScrolling
+              when adding new message feature and use it in <Messages />
+          2. Add mouseLock prop to <Messages /> in new message feature task
+   */
   const { enableScroll, disableScroll } = useTableScrolling()
   return (
     <Messages
