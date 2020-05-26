@@ -162,8 +162,8 @@ const MessagesList: FunctionComponent<Props> = ({
   )
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
-              when adding new message feature and use it in <Messages />
-          2. Add mouseLock prop to <Messages /> in new message feature task
+              and use it in <Messages />
+          2. Add mouseLock prop to <Messages />
    */
   const { enableScroll, disableScroll } = useTableScrolling()
   return (
