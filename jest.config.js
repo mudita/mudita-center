@@ -24,4 +24,17 @@ module.exports = {
   testURL: "http://localhost",
   setupFiles: ["<rootDir>/test-envs.js"],
   roots: ["<rootDir>/src"],
+  testResultsProcessor: "./jest.processor.js",
+  collectCoverage: true,
+  collectCoverageFrom: ["src/**/*.{js,ts,tsx}"],
+  coverageReporters: ["lcov", "text-summary"],
+  coverageDirectory: "coverage",
+  coverageThreshold: {
+    global: {
+      statements: 46.97,
+      branches: 53.73,
+      functions: 33.18,
+      lines: 48.6,
+    },
+  },
 }
