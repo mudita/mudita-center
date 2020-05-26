@@ -59,7 +59,7 @@ describe("Correct rendering of chart elements and label", () => {
       />
     )
     expect(getByTestId(occupiedSpaceId)).toBeInTheDocument()
-    expect(getByTestId(occupiedSpaceId)).toHaveTextContent(`16.0 GB( 100%)`)
+    expect(getByTestId(occupiedSpaceId)).toHaveTextContent(`16 GB( 100%)`)
   })
 
   test("number of elements rendered without label should equal to number of all elements - 1 (with label)", () => {

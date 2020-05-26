@@ -31,3 +31,33 @@ test("returns correct format in GB", () => {
 test("returns correct format in TB", () => {
   expect(convertBytes(oneTbInBytes)).toBe("1.0 TB")
 })
+
+test("returns correct format when not forcing fraction digits", () => {
+  expect(convertBytes(oneKbInBytes, { fixedFractionDigits: false })).toBe(
+    "1 KB"
+  )
+  expect(
+    convertBytes(oneKbInBytes + 100, {
+      fixedFractionDigits: false,
+      precision: 2,
+    })
+  ).toBe("1.1 KB")
+  expect(
+    convertBytes(oneKbInBytes + 151, {
+      fixedFractionDigits: false,
+      precision: 2,
+    })
+  ).toBe("1.15 KB")
+  expect(
+    convertBytes(oneKbInBytes + 151, {
+      fixedFractionDigits: false,
+      precision: 3,
+    })
+  ).toBe("1.147 KB")
+  expect(
+    convertBytes(oneKbInBytes + 256, {
+      fixedFractionDigits: false,
+      precision: 3,
+    })
+  ).toBe("1.25 KB")
+})
