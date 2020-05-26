@@ -95,6 +95,8 @@ export enum Type {
   MenuSettings,
   MenuTethering,
   MenuTools,
+  MenuRange,
+  MenuBattery,
   Message,
   ExternalLink,
   MuditaLogo,
