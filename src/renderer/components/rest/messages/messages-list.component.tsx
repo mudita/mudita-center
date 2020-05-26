@@ -14,7 +14,11 @@ import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
-import { Topic } from "Renderer/models/messages/messages.interface"
+import {
+  Caller,
+  Topic,
+  Message as Msg,
+} from "Renderer/models/messages/messages.interface"
 import { noop } from "Renderer/utils/noop"
 import { rowsMessages } from "Renderer/components/core/table/table.fake-data"
 import {
@@ -31,6 +35,7 @@ import {
 } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
+import { isEqual } from "lodash"
 
 const checkboxVisibleStyles = css`
   display: block;
@@ -61,8 +66,7 @@ const dotStyles = css`
 `
 
 const MessageCol = styled(Col)`
-  flex-direction: column;
-  align-items: flex-start;
+  height: 100%;
 `
 
 const AvatarCol = styled(Col)`
@@ -103,7 +107,7 @@ const Messages = styled(Table)<{
   flex: 1;
   overflow: auto;
   --columnsTemplate: 11.2rem 60.5rem 1fr;
-  --columnsTemplateWithOpenedSidebar: 6rem 1fr;
+  --columnsTemplateWithOpenedSidebar: 11.2rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
 
@@ -133,24 +137,54 @@ const Messages = styled(Table)<{
   }
 `
 
-interface Props {
-  list: Topic[]
+const MessageDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
+  margin-right: ${({ sidebarOpened }) => (sidebarOpened ? "4rem" : "0")};
+`
+
+export interface ActiveRow {
+  caller: Caller
+  messages: Msg[]
 }
 
-const MessagesList: FunctionComponent<Props> = ({ list }) => {
+interface Props {
+  list: Topic[]
+  openSidebar?: (row: ActiveRow) => void
+  activeRow?: ActiveRow
+}
+
+const MessagesList: FunctionComponent<Props> = ({
+  activeRow,
+  list,
+  openSidebar = noop,
+}) => {
   const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
     rowsMessages
   )
+  /* TODO in new message feature task:
+          1. Destructure scrollable from useTableScrolling
+              and use it in <Messages />
+          2. Add mouseLock prop to <Messages />
+   */
   const { enableScroll, disableScroll } = useTableScrolling()
   return (
-    <Messages noneRowsSelected={noneRowsSelected}>
-      {list.map(({ id, caller, messages, unread }, index) => {
+    <Messages
+      noneRowsSelected={noneRowsSelected}
+      hideableColumnsIndexes={[2, 3, 4]}
+      hideColumns={Boolean(activeRow)}
+    >
+      {list.map(({ id, caller, messages, unread }) => {
         const { selected, indeterminate } = getRowStatus(caller)
         const lastMessage = messages[messages.length - 1]
         const onChange = () => toggleRow(caller)
+        const onClick = () => openSidebar({ caller, messages })
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow key={index} ref={ref}>
+          <MessageRow
+            key={id}
+            ref={ref}
+            selected={selected}
+            active={isEqual(activeRow, { caller, messages })}
+          >
             <AvatarCol>
               <Checkbox
                 checked={selected}
@@ -167,8 +201,8 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
                 light={selected}
               />
             </AvatarCol>
-            <MessageCol>
-              <DataWrapper>
+            <MessageCol onClick={onClick} data-testid="message-row">
+              <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                   {caller.firstName} {caller.lastName}
                 </Name>
@@ -185,7 +219,7 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
                 >
                   {lastMessage.content}
                 </LastMessageText>
-              </DataWrapper>
+              </MessageDataWrapper>
             </MessageCol>
             <Col>
               <Actions>
@@ -242,7 +276,7 @@ const MessagesList: FunctionComponent<Props> = ({ list }) => {
         )
 
         const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow key={index} ref={ref}>
+          <MessageRow key={id} ref={ref}>
             <Col />
             <Col>
               <AvatarPlaceholder />

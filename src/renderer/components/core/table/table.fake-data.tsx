@@ -10,7 +10,7 @@ export const rowsMessages = Array.from({
       id: Faker.random.uuid(),
       firstName: Faker.name.firstName(),
       lastName: Faker.name.lastName(),
-      phoneNumber: Faker.phone.phoneNumber(),
+      phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
     },
     unread: Faker.random.boolean(),
     messages: [

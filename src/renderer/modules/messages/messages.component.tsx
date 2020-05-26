@@ -2,7 +2,6 @@ import React, { useState } from "react"
 import InputText from "Renderer/components/core/input-text/input-text.component"
 import {
   FiltersWrapper,
-  TableWrapper,
   UnreadFilters,
 } from "Renderer/components/rest/messages/topics-table.component"
 import {
@@ -23,7 +22,12 @@ import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import Icon from "Renderer/components/core/icon/icon.component"
-import MessagesList from "Renderer/components/rest/messages/messages-list.component"
+import MessagesList, {
+  ActiveRow,
+} from "Renderer/components/rest/messages/messages-list.component"
+import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
+import MessageDetails from "Renderer/components/rest/messages/message-details.component"
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -56,6 +60,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   list,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
+  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<ActiveRow>()
 
   const showAllMessages = () => {
     changeVisibilityFilter(VisibilityFilter.All)
@@ -108,9 +113,16 @@ const Messages: FunctionComponent<MessagesProps> = ({
           />
         </ButtonWrapper>
       </FiltersWrapper>
-      <TableWrapper>
-        <MessagesList list={list} />
-      </TableWrapper>
+      <TableWithSidebarWrapper>
+        <MessagesList
+          list={list}
+          openSidebar={openSidebar}
+          activeRow={activeRow}
+        />
+        {activeRow && (
+          <MessageDetails details={activeRow} onClose={closeSidebar} />
+        )}
+      </TableWithSidebarWrapper>
     </>
   )
 }

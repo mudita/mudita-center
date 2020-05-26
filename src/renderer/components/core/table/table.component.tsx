@@ -212,9 +212,13 @@ const SidebarContent = styled.div`
   flex-direction: column;
 `
 
-const SidebarWrapper = styled.div<{ show?: boolean }>`
-  --header-height: 6rem;
-  --header-background: transparent;
+const SidebarWrapper = styled.div<{
+  show?: boolean
+  appColorSidebarHeader: boolean
+}>`
+  --header-height: 10.4rem;
+  --header-background: ${({ appColorSidebarHeader = "transparent" }) =>
+    appColorSidebarHeader && backgroundColor("app")};
 
   width: 62rem;
   display: flex;
@@ -296,6 +300,7 @@ export interface SidebarProps {
   onClose?: () => void
   headerLeft?: ReactNode
   headerRight?: ReactNode
+  appColorSidebarHeader?: boolean
 }
 
 export const Sidebar: FunctionComponent<SidebarProps> = ({
@@ -305,12 +310,18 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
   children,
   headerLeft,
   headerRight,
+  appColorSidebarHeader = false,
 }) => (
-  <SidebarWrapper className={className} show={show}>
+  <SidebarWrapper
+    className={className}
+    show={show}
+    appColorSidebarHeader={appColorSidebarHeader}
+    data-testid="sidebar"
+  >
     <SidebarHeader>
       {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
       {headerRight && <SidebarHeaderRight>{headerRight}</SidebarHeaderRight>}
-      <SidebarClose onClick={onClose}>
+      <SidebarClose onClick={onClose} data-testid="sidebar-close">
         <SidebarHeaderIcon Icon={Type.Close} />
       </SidebarClose>
     </SidebarHeader>

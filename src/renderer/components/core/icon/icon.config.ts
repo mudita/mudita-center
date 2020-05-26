@@ -1,5 +1,6 @@
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import Arrow from "Renderer/svg/arrow.svg"
+import AttachContact from "Renderer/svg/attach-contact.svg"
 import BackupFolder from "Renderer/svg/backup-folder.svg"
 import Battery from "Renderer/svg/battery.svg"
 import BorderCheck from "Renderer/svg/border-check-icon.svg"
@@ -35,7 +36,9 @@ import Music from "Renderer/svg/music.svg"
 import NoBattery from "Renderer/svg/no-battery.svg"
 import NoRange from "Renderer/svg/no-range.svg"
 import Refresh from "Renderer/svg/refresh.svg"
+import Send from "Renderer/svg/send.svg"
 import Sim from "Renderer/svg/sim.svg"
+import Template from "Renderer/svg/template.svg"
 import Upload from "Renderer/svg/upload.svg"
 import Download from "Renderer/svg/download.svg"
 import DownloadWhite from "Renderer/svg/download-white.svg"
@@ -70,6 +73,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
   Arrow,
+  AttachContact,
   BackupFolder,
   Battery,
   BorderCheckIcon,
@@ -107,7 +111,9 @@ export enum Type {
   NoBattery,
   NoRange,
   Refresh,
+  Send,
   Sim,
+  Template,
   Calls,
   Connection,
   Contacts,
@@ -144,6 +150,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
   switch (icon) {
     case Type.Arrow:
       return Arrow
+    case Type.AttachContact:
+      return AttachContact
     case Type.BackupFolder:
       return BackupFolder
     case Type.Battery:
@@ -214,8 +222,12 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return NoRange
     case Type.Refresh:
       return Refresh
+    case Type.Send:
+      return Send
     case Type.Sim:
       return Sim
+    case Type.Template:
+      return Template
     case Type.Calls:
       return Calls
     case Type.Connection:
