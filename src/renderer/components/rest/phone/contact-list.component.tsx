@@ -45,7 +45,7 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
 
-export const visibleCheckboxStyles = css`
+const visibleCheckboxStyles = css`
   opacity: 1;
   visibility: visible;
 `
@@ -65,7 +65,7 @@ export const lightAvatarStyles = css`
   background-color: ${backgroundColor("avatarLight")};
 `
 
-export const InitialsAvatar = styled(Avatar)`
+const InitialsAvatar = styled(Avatar)`
   margin-right: 1.2rem;
 `
 
