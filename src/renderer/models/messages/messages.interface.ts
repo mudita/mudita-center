@@ -11,6 +11,7 @@ export interface Message {
   id: string
   date: string
   content: string
+  interlocutor: boolean
 }
 
 export interface Topic {

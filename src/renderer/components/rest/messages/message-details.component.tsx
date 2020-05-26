@@ -13,6 +13,7 @@ import Text, {
 import styled from "styled-components"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import Icon from "Renderer/components/core/icon/icon.component"
+import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 
 interface Props {
   details: ActiveRow
@@ -45,6 +46,7 @@ const MessageDetails: FunctionComponent<Props> = ({
   details,
   onClose = noop,
 }) => {
+  // console.log(details)
   const icons = (
     <>
       <SidebarHeaderIcon Icon={Type.Calls} onClick={noop} />
@@ -77,6 +79,16 @@ const MessageDetails: FunctionComponent<Props> = ({
       appColorSidebarHeader
     >
       <MessagesWrapper>
+        {details.messages.map(({ author, content, interlocutor, id }) => {
+          return (
+            <MessageBubble
+              key={id}
+              user={author}
+              messages={[content]}
+              interlocutor={interlocutor}
+            />
+          )
+        })}
         <Textarea
           type="textarea"
           value={""}
