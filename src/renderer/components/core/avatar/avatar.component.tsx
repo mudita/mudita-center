@@ -57,7 +57,7 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light?: boolean }>`
     ${transitionTimingFunction("smooth")};
 `
 
-interface User {
+export interface User {
   firstName: string
   lastName: string
 }
