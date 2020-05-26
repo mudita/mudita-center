@@ -67,6 +67,7 @@ const CloseButton = styled(Button)<{ actionButton?: boolean }>`
 
 export interface ModalProps {
   actionButtonLabel?: ButtonProps["label"]
+  actionButtonIcon?: ButtonProps["Icon"]
   onActionButtonClick?: () => void
   closeable?: boolean
   closeButton?: boolean
@@ -81,6 +82,7 @@ export interface ModalProps {
 const Modal: FunctionComponent<ModalProps> = ({
   className,
   actionButtonLabel,
+  actionButtonIcon,
   onActionButtonClick,
   children,
   closeable = true,
@@ -141,6 +143,7 @@ const Modal: FunctionComponent<ModalProps> = ({
               label={actionButtonLabel}
               onClick={onActionButtonClick}
               data-testid={"modal-action-button"}
+              Icon={actionButtonIcon}
             />
           )}
         </ButtonWrapper>
