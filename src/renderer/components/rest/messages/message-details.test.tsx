@@ -53,3 +53,10 @@ test("left part of sidebar displays details correctly", () => {
     "+90 578 340 138"
   )
 })
+
+test("correct amount of message bubbles is displayed", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessageDetails details={details} />
+  )
+  expect(getAllByTestId("message-content")).toHaveLength(2)
+})
