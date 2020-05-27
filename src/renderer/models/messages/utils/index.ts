@@ -14,10 +14,15 @@ export const searchTopics = (
       const matchesForename = caller.firstName.toLowerCase().includes(search)
       const matchesSurname = caller.lastName.toLowerCase().includes(search)
       const matchesPhone = caller.phoneNumber.includes(search)
-      const matchesMessage = messages.some(({ content }) =>
-        content.toLowerCase().includes(search)
+      const matchedMessages = messages.map(({ content }) =>
+        content.map(msg => msg.toLowerCase().includes(search))
       )
-      return matchesForename || matchesSurname || matchesPhone || matchesMessage
+      const matchesMessages = matchedMessages
+        .map(msg => msg.some(item => item))
+        .includes(true)
+      return (
+        matchesForename || matchesSurname || matchesPhone || matchesMessages
+      )
     })
   } else {
     return topics

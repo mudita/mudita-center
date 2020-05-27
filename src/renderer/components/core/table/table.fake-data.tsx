@@ -19,8 +19,9 @@ export const rowsMessages = Array.from({
         author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content:
-          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        content: [
+          "LALAAdipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        ],
         interlocutor: true,
       },
       {
@@ -30,8 +31,10 @@ export const rowsMessages = Array.from({
         },
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
-        content:
+        content: [
           "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        ],
         interlocutor: false,
       },
     ],

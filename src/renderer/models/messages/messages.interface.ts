@@ -10,7 +10,7 @@ export interface Caller {
 export interface Message {
   id: string
   date: string
-  content: string
+  content: string[]
   interlocutor: boolean
   author: {
     firstName: string
