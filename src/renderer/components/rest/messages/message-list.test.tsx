@@ -6,76 +6,80 @@ import "@testing-library/jest-dom/extend-expect"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { intl } from "Renderer/utils/intl"
 
+const caller = {
+  id: "123",
+  firstName: "John",
+  lastName: "Doe",
+  phoneNumber: "123",
+}
+
 const testList = [
   {
     id: "1231",
-    caller: {
-      id: "123",
-      firstName: "John",
-      lastName: "Doe",
-      phoneNumber: "123",
-    },
+    caller,
     unread: true,
     messages: [
       {
+        author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content:
+        content: [
           "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        ],
       },
       {
+        author: caller,
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
-        content:
+        content: [
           "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        ],
       },
     ],
   },
   {
     id: "1233",
-    caller: {
-      id: "123",
-      firstName: "Jane",
-      lastName: "Doe",
-      phoneNumber: "321",
-    },
+    caller,
     unread: false,
     messages: [
       {
+        author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content:
+        content: [
           "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        ],
       },
       {
+        author: caller,
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
-        content:
+        content: [
           "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        ],
       },
     ],
   },
   {
     id: "1234",
-    caller: {
-      id: "123",
-      firstName: "Jane",
-      lastName: "Doe",
-      phoneNumber: "321",
-    },
+    caller,
     unread: false,
     messages: [
       {
+        author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content:
+        content: [
           "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        ],
       },
       {
+        author: caller,
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
-        content:
+        content: [
           "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        ],
       },
     ],
   },

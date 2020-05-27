@@ -92,7 +92,7 @@ const MessageDetails: FunctionComponent<Props> = ({
               <MessageDetailsBubble
                 key={id}
                 user={author}
-                messages={[content]}
+                messages={content}
                 interlocutor={interlocutor}
               />
             )

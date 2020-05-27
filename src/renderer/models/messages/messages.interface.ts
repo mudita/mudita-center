@@ -11,7 +11,7 @@ export interface Message {
   id: string
   date: string
   content: string[]
-  interlocutor: boolean
+  interlocutor?: boolean
   author: {
     firstName: string
     lastName: string
