@@ -1,6 +1,6 @@
 {
   "name": "pure-desktop-app",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Pure Desktop App",
   "main": "./dist/main.js",
   "scripts": {
@@ -122,7 +122,7 @@
     "@types/react-test-renderer": "^16.9.2",
     "@types/redux-logger": "^3.0.7",
     "@types/redux-mock-store": "^1.0.2",
-    "@types/serialport": "^8.0.0",
+    "@types/serialport": "^8.0.1",
     "@types/sinon": "^7.5.2",
     "@types/styled-components": "^4.4.3",
     "@types/webdriverio": "^5.0.0",
@@ -227,7 +227,7 @@
     "redux": "^4.0.5",
     "redux-observable": "^1.2.0",
     "redux-thunk": "^2.3.0",
-    "serialport": "^8.0.8",
+    "serialport": "^9.0.0",
     "source-map-support": "^0.5.19",
     "styled-components": "^5.1.0",
     "styled-normalize": "^8.0.7",
