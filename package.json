@@ -16,7 +16,7 @@
     "lint": "npm run lint:tslint && npm run lint:css",
     "lint:tslint": "tslint '{src,test,mocks}/**/*.{ts,tsx}' --project ./tsconfig.json",
     "lint:css": "stylelint '{src,test,mocks}/**/*.{ts,tsx}'",
-    "test": "jest && prettier --write ./jest.config.js",
+    "test": "jest",
     "test-all": "npm run test && npm run build",
     "test:watch": "tsc && cross-env NODE_ENV=test cross-env TEST_DIALECT=sqlite mocha -w --recursive --compilers ts:ts-node/register --bail \"test/**/*.spec.ts\"",
     "test-watch": "npm test -- --watch",
