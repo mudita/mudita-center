@@ -14,10 +14,9 @@ export const searchTopics = (
       const matchesForename = caller.firstName.toLowerCase().includes(search)
       const matchesSurname = caller.lastName.toLowerCase().includes(search)
       const matchesPhone = caller.phoneNumber.includes(search)
-      const matchedListOfMessages = messages.map(({ content }) =>
-        content.map(msg => msg.toLowerCase().includes(search))
+      const matchesMessages = messages.some(({ content }) =>
+        content.some(msg => msg.toLowerCase().includes(search))
       )
-      const matchesMessages = matchedListOfMessages.flat().includes(true)
       return (
         matchesForename || matchesSurname || matchesPhone || matchesMessages
       )
