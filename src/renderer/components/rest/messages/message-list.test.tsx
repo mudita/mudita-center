@@ -5,13 +5,7 @@ import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { intl } from "Renderer/utils/intl"
-
-const caller = {
-  id: "123",
-  firstName: "John",
-  lastName: "Doe",
-  phoneNumber: "123",
-}
+import caller from "./__mocks__/caller-data"
 
 const testList = [
   {
@@ -106,7 +100,7 @@ test("dropdown call button has correct content", () => {
       {
         id: "view.name.messages.dropdownCall",
       },
-      { name: testList[0].caller.firstName }
+      { name: caller.firstName }
     )
   )
 })
