@@ -3,13 +3,7 @@ import React from "react"
 import MessageDetails from "Renderer/components/rest/messages/message-details.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
-
-const caller = {
-  id: "1c5cbd07-de9a-4085-a2ec-8c1618157a36",
-  firstName: "Norris",
-  lastName: "Hammes",
-  phoneNumber: "+90 578 340 138",
-}
+import caller from "./__mocks__/caller-data"
 
 const details = {
   caller,
@@ -48,9 +42,11 @@ test("left part of sidebar displays details correctly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
     <MessageDetails details={details} />
   )
-  expect(getByTestId("sidebar-fullname")).toHaveTextContent("Norris Hammes")
+  expect(getByTestId("sidebar-fullname")).toHaveTextContent(
+    `${caller.firstName} ${caller.lastName}`
+  )
   expect(getByTestId("sidebar-phone-number")).toHaveTextContent(
-    "+90 578 340 138"
+    caller.phoneNumber
   )
 })
 
@@ -58,5 +54,7 @@ test("correct amount of message bubbles is displayed", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessageDetails details={details} />
   )
-  expect(getAllByTestId("message-content")).toHaveLength(2)
+  expect(getAllByTestId("message-content")).toHaveLength(
+    details.messages.length
+  )
 })
