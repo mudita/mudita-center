@@ -4,13 +4,7 @@ import React from "react"
 import Messages from "./messages.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { fireEvent } from "@testing-library/dom"
-
-const caller = {
-  id: "59198364-5ba4-4e4b-8802-330db16911b5",
-  firstName: "Lance",
-  lastName: "Goyette",
-  phoneNumber: "+93 832 460 374",
-}
+import caller from "Renderer/components/rest/messages/__mocks__/caller-data"
 
 const list = [
   {
