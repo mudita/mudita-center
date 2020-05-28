@@ -3,6 +3,7 @@ import {
   Topic,
   VisibilityFilter,
 } from "Renderer/models/messages/messages.interface"
+import { flatten } from "lodash"
 
 export const searchTopics = (
   topics: MessagesProps["topics"],
@@ -14,12 +15,10 @@ export const searchTopics = (
       const matchesForename = caller.firstName.toLowerCase().includes(search)
       const matchesSurname = caller.lastName.toLowerCase().includes(search)
       const matchesPhone = caller.phoneNumber.includes(search)
-      const matchedMessages = messages.map(({ content }) =>
+      const matchedListOfMessages = messages.map(({ content }) =>
         content.map(msg => msg.toLowerCase().includes(search))
       )
-      const matchesMessages = matchedMessages
-        .map(msg => msg.some(item => item))
-        .includes(true)
+      const matchesMessages = flatten(matchedListOfMessages).includes(true)
       return (
         matchesForename || matchesSurname || matchesPhone || matchesMessages
       )
