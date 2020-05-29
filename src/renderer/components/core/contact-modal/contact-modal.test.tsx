@@ -13,36 +13,36 @@ const renderContactModal = ({ ...props }: Partial<ContactModalProps> = {}) => {
   const outcome = renderWithThemeAndIntl(<ContactModal {...props} />)
   return {
     ...outcome,
-    emailInput: () => outcome.container.querySelector("input[type='text']"),
-    messageInput: () => outcome.container.querySelector("textarea"),
-    fileInput: () => outcome.container.querySelector("input[type='file']"),
-    detailsField: () => outcome.container.querySelector("pre"),
+    getEmailInput: () => outcome.container.querySelector("input[type='text']"),
+    getMessageInput: () => outcome.container.querySelector("textarea"),
+    getFileInput: () => outcome.container.querySelector("input[type='file']"),
+    getDetailsField: () => outcome.container.querySelector("pre"),
   }
 }
 
 test("contact modal form renders properly", () => {
   const {
-    emailInput,
-    messageInput,
-    fileInput,
-    detailsField,
+    getEmailInput,
+    getMessageInput,
+    getFileInput,
+    getDetailsField,
   } = renderContactModal()
 
-  expect(emailInput()).toBeInTheDocument()
-  expect(messageInput()).toBeInTheDocument()
-  expect(fileInput()).toBeInTheDocument()
-  expect(detailsField()).toBeInTheDocument()
+  expect(getEmailInput()).toBeInTheDocument()
+  expect(getMessageInput()).toBeInTheDocument()
+  expect(getFileInput()).toBeInTheDocument()
+  expect(getDetailsField()).toBeInTheDocument()
 })
 
 test("contact modal details toggles properly", () => {
-  const { detailsField, getByText } = renderContactModal()
+  const { getDetailsField, getByText } = renderContactModal()
 
   const testDetailsField = (expanded = false) => {
-    expect(detailsField()).toHaveStyleRule(
+    expect(getDetailsField()).toHaveStyleRule(
       "max-height",
       expanded ? "8rem" : "4rem"
     )
-    expect(detailsField()).toHaveStyleRule(
+    expect(getDetailsField()).toHaveStyleRule(
       "overflow",
       expanded ? "auto" : "hidden"
     )
@@ -70,9 +70,9 @@ test("contact modal details toggles properly", () => {
 test("contact modal form sending works properly", () => {
   const onSend = jest.fn()
   const {
-    emailInput,
-    messageInput,
-    fileInput,
+    getEmailInput,
+    getMessageInput,
+    getFileInput,
     getByTestId,
   } = renderContactModal({
     onSend,
@@ -80,13 +80,13 @@ test("contact modal form sending works properly", () => {
 
   const file = mockJpg("screenshot1")
 
-  fireEvent.change(emailInput() as Element, {
+  fireEvent.change(getEmailInput() as Element, {
     target: { value: "email@example.com" },
   })
-  fireEvent.change(messageInput() as Element, {
+  fireEvent.change(getMessageInput() as Element, {
     target: { value: "Example message" },
   })
-  fireEvent.change(fileInput() as Element, {
+  fireEvent.change(getFileInput() as Element, {
     target: {
       files: [file],
     },
