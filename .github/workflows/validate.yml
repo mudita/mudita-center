@@ -16,11 +16,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install, lint, typecheck and test
+      - name: npm install
         run: |
           npm install
+      - name: Jest code coverage report
+        uses: ziishaned/jest-reporter-action@0.1.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          test-command: "npm run test"
+      - name: Lint and typecheck
+        run: |
           npm run lint
           npm run type-check
-          npm run test
         env:
           CI: true

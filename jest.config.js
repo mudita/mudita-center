@@ -1,3 +1,5 @@
+const { coverageThreshold } = require("./jest.coverage.js")
+
 module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
@@ -24,4 +26,10 @@ module.exports = {
   testURL: "http://localhost",
   setupFiles: ["<rootDir>/test-envs.js"],
   roots: ["<rootDir>/src"],
+  testResultsProcessor: "./jest.processor.js",
+  collectCoverage: true,
+  collectCoverageFrom: ["src/**/*.{js,ts,tsx}"],
+  coverageReporters: ["lcov", "text-summary"],
+  coverageDirectory: "coverage",
+  coverageThreshold,
 }

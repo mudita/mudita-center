@@ -156,6 +156,7 @@
     "identity-obj-proxy": "^3.0.0",
     "image-webpack-loader": "^6.0.0",
     "jest": "^25.5.4",
+    "jest-coverage-processor": "^2.1.0",
     "jest-styled-components": "^7.0.2",
     "json-loader": "^0.5.7",
     "lint-staged": "^10.2.2",
