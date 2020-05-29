@@ -40,3 +40,10 @@ test("fails search - messages", () => {
   const wrongSearchValue = "lalal sadrsa"
   expect(searchTopics(randomMockedList, wrongSearchValue)).toHaveLength(0)
 })
+
+test("no search value returns initial list", () => {
+  const emptySearchValue = ""
+  expect(searchTopics(randomMockedList, emptySearchValue)).toBe(
+    randomMockedList
+  )
+})
