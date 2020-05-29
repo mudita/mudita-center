@@ -27,10 +27,10 @@ const ModalFrame = styled.div<{ size: ModalSize }>`
   ${({ size }) => getModalSize(size)};
 `
 
-const Header = styled.div<{ titleOrder: TitleOrder }>`
+const Header = styled.div<{ titleOrder: TitleOrder; subtitleGap: boolean }>`
   display: grid;
   grid-template-columns: 1fr 5rem;
-  grid-row-gap: 1rem;
+  grid-row-gap: ${({ subtitleGap }) => (subtitleGap ? "1rem" : "initial")};
   ${({ titleOrder }) => getHeaderTemplate(titleOrder)};
 `
 
@@ -101,7 +101,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   }
   return (
     <ModalFrame size={size} className={className}>
-      <Header titleOrder={titleOrder}>
+      <Header titleOrder={titleOrder} subtitleGap={Boolean(subtitle)}>
         <ModalTitle
           displayStyle={getTitleStyle(size)}
           subTitle={subtitle}
