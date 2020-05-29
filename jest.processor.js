@@ -38,6 +38,8 @@ const coverageAutoBump = (coverageTolerance = 2) => {
 }
 
 module.exports = results => {
-  coverageAutoBump()
+  if (results.hasOwnProperty("coverageMap")) {
+    coverageAutoBump()
+  }
   return results
 }
