@@ -1,11 +1,29 @@
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import TemplateModal from "Renderer/modules/messages/template-modal.component"
+import { fireEvent } from "@testing-library/react"
+import { mockedTemplateData } from "Renderer/modules/messages/__mocks__/template-modal-data"
 
 test("correct amount of templates is rendered", () => {
-  const templates = ["ads", "123", "erqwrqww"]
   const { getAllByTestId } = renderWithThemeAndIntl(
-    <TemplateModal templates={templates} />
+    <TemplateModal templates={mockedTemplateData} />
   )
-  expect(getAllByTestId("template-element")).toHaveLength(templates.length)
+  expect(getAllByTestId("template-element")).toHaveLength(
+    mockedTemplateData.length
+  )
+})
+
+test("template can be selected", () => {
+  const selectTemplate = jest.fn()
+  const { getAllByText } = renderWithThemeAndIntl(
+    <TemplateModal
+      templates={mockedTemplateData}
+      selectTemplate={selectTemplate}
+    />
+  )
+  const templateElement = getAllByText(mockedTemplateData[0])
+  fireEvent.click(templateElement[0])
+  expect(selectTemplate).toHaveBeenCalled()
+  expect(selectTemplate).toHaveBeenCalledTimes(1)
+  expect(selectTemplate).toHaveBeenCalledWith(mockedTemplateData[0])
 })

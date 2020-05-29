@@ -15,6 +15,7 @@ import { intl } from "Renderer/utils/intl"
 
 interface Props {
   templates: string[]
+  selectTemplate?: (template: string) => void
 }
 
 const ModalFrame = styled(Modal)`
@@ -28,20 +29,34 @@ const TemplatesWrapper = styled.ul`
   padding: 0;
 `
 
-const TemplateModal: FunctionComponent<Props> = ({ templates }) => (
+const TemplateModal: FunctionComponent<Props> = ({
+  selectTemplate = noop,
+  templates,
+}) => (
   <ModalFrame
     size={ModalSize.Large}
     closeButton={false}
-    title={intl.formatMessage({ id: "view.name.messages.templatesModalTitle" })}
+    title={intl.formatMessage({
+      id: "view.name.messages.templatesModalTitle",
+    })}
   >
     <TemplatesWrapper>
-      {templates.map((template, index) => (
-        <li key={index} data-testid="template-element">
-          <Row size={RowSize.Tiny} onClick={noop}>
-            <Text displayStyle={TextDisplayStyle.MediumText}>{template}</Text>
-          </Row>
-        </li>
-      ))}
+      {templates.map((template, index) => {
+        const chooseTemplate = () => {
+          selectTemplate(template)
+        }
+        return (
+          <li
+            key={index}
+            data-testid="template-element"
+            onClick={chooseTemplate}
+          >
+            <Row size={RowSize.Tiny} onClick={noop}>
+              <Text displayStyle={TextDisplayStyle.MediumText}>{template}</Text>
+            </Row>
+          </li>
+        )
+      })}
     </TemplatesWrapper>
   </ModalFrame>
 )
