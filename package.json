@@ -34,6 +34,7 @@
     "type-check": "tsc --noEmit",
     "update-server": "http-server release/ -p 3333",
     "sign-dev-electron-app": "codesign --deep --force --verbose --sign - node_modules/electron/dist/electron.app",
+    "prerelease": "npm run build",
     "release": "electron-builder --publish always --mac --win --linux"
   },
   "pre-commit": "beforecommit",
