@@ -10,33 +10,31 @@ import {
   Row,
   RowSize,
 } from "App/renderer/components/core/table/table.component"
+import { noop } from "Renderer/utils/noop"
+import { intl } from "Renderer/utils/intl"
 
 interface Props {
   templates: string[]
 }
 
-const ModalTitle = styled(Text)`
-  margin-left: 3rem;
-`
-
-const RowsWrapper = styled.div`
-  padding: 4rem;
-`
-
 const ModalFrame = styled(Modal)`
   background-color: white;
+  margin-bottom: 14.8rem;
 `
 
 const TemplateModal: FunctionComponent<Props> = ({ templates }) => (
-  <ModalFrame size={ModalSize.Large} closeButton={false}>
-    <ModalTitle displayStyle={TextDisplayStyle.LargeBoldText}>lala</ModalTitle>
-    <RowsWrapper>
+  <ModalFrame
+    size={ModalSize.Large}
+    closeButton={false}
+    title={intl.formatMessage({ id: "view.name.messages.templatesModalTitle" })}
+  >
+    <div>
       {templates.map((template, index) => (
-        <Row size={RowSize.Tiny} key={index}>
-          <Text displayStyle={TextDisplayStyle.MediumText}>lala</Text>
+        <Row size={RowSize.Tiny} key={index} onClick={noop}>
+          <Text displayStyle={TextDisplayStyle.MediumText}>{template}</Text>
         </Row>
       ))}
-    </RowsWrapper>
+    </div>
   </ModalFrame>
 )
 
