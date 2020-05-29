@@ -7,8 +7,7 @@ test("searches value - first name", () => {
 })
 
 test("fails search - first name", () => {
-  const wrongSearchValue = "asdadaa"
-  expect(searchTopics(randomMockedList, wrongSearchValue)).toHaveLength(0)
+  expect(searchTopics(randomMockedList, "asdadaa")).toHaveLength(0)
 })
 
 test("searches value - last name", () => {
@@ -17,8 +16,7 @@ test("searches value - last name", () => {
 })
 
 test("fails search - last name", () => {
-  const wrongSearchValue = "ladakslodasiopd"
-  expect(searchTopics(randomMockedList, wrongSearchValue)).toHaveLength(0)
+  expect(searchTopics(randomMockedList, "ladakslodasiopd")).toHaveLength(0)
 })
 
 test("searches value - phone number", () => {
@@ -27,8 +25,7 @@ test("searches value - phone number", () => {
 })
 
 test("fails search - phone number", () => {
-  const wrongSearchValue = "+123 456 789"
-  expect(searchTopics(randomMockedList, wrongSearchValue)).toHaveLength(0)
+  expect(searchTopics(randomMockedList, "+123 456 789")).toHaveLength(0)
 })
 
 test("searches value - messages", () => {
@@ -37,13 +34,9 @@ test("searches value - messages", () => {
 })
 
 test("fails search - messages", () => {
-  const wrongSearchValue = "lalal sadrsa"
-  expect(searchTopics(randomMockedList, wrongSearchValue)).toHaveLength(0)
+  expect(searchTopics(randomMockedList, "lalal sadrsa")).toHaveLength(0)
 })
 
 test("no search value returns initial list", () => {
-  const emptySearchValue = ""
-  expect(searchTopics(randomMockedList, emptySearchValue)).toBe(
-    randomMockedList
-  )
+  expect(searchTopics(randomMockedList, "")).toBe(randomMockedList)
 })
