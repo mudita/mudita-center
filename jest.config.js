@@ -1,4 +1,4 @@
-const { coverageThreshold } = require("./jest.coverage.js")
+const { coverageThreshold } = require("./jest.coverage.json")
 
 module.exports = {
   transform: {
@@ -29,7 +29,7 @@ module.exports = {
   testResultsProcessor: "./jest.processor.js",
   collectCoverage: true,
   collectCoverageFrom: ["src/**/*.{js,ts,tsx}"],
-  coverageReporters: ["lcov", "text-summary"],
+  coverageReporters: ["lcov", "text-summary", "json-summary"],
   coverageDirectory: "coverage",
   coverageThreshold,
 }
