@@ -22,19 +22,27 @@ const ModalFrame = styled(Modal)`
   margin-bottom: 14.8rem;
 `
 
+const TemplatesWrapper = styled.ul`
+  margin-top: 2.2rem;
+  list-style-type: none;
+  padding: 0;
+`
+
 const TemplateModal: FunctionComponent<Props> = ({ templates }) => (
   <ModalFrame
     size={ModalSize.Large}
     closeButton={false}
     title={intl.formatMessage({ id: "view.name.messages.templatesModalTitle" })}
   >
-    <div>
+    <TemplatesWrapper>
       {templates.map((template, index) => (
-        <Row size={RowSize.Tiny} key={index} onClick={noop}>
-          <Text displayStyle={TextDisplayStyle.MediumText}>{template}</Text>
-        </Row>
+        <li key={index} data-testid="template-element">
+          <Row size={RowSize.Tiny} onClick={noop}>
+            <Text displayStyle={TextDisplayStyle.MediumText}>{template}</Text>
+          </Row>
+        </li>
       ))}
-    </div>
+    </TemplatesWrapper>
   </ModalFrame>
 )
 
