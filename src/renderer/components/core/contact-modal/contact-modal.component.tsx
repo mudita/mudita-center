@@ -73,7 +73,11 @@ const Form = styled.form<{ detailsEnabled?: boolean }>`
   display: flex;
   flex-direction: column;
 
-  margin-bottom: ${({ detailsEnabled }) => detailsEnabled && 0};
+  ${({ detailsEnabled }) =>
+    detailsEnabled &&
+    css`
+      margin-bottom: 0;
+    `};
 `
 
 const DetailsLabel = styled.div`
