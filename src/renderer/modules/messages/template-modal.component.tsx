@@ -38,6 +38,7 @@ const TemplatesWrapper = styled.ul`
 
 const TemplateRow = styled(Row)`
   height: 4.8rem;
+  cursor: pointer;
 `
 
 const TemplateText = styled(Text)`
