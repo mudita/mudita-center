@@ -40,7 +40,7 @@ const TemplatesWrapper = styled.ul`
   margin: 2.2rem 0 0 0;
   list-style-type: none;
   padding: 0;
-  height: calc((8 * 4.8rem) + 2.2rem);
+  height: 40.6rem;
   overflow: scroll;
   li:first-child {
     border-top: solid 0.1rem ${borderColor("listItem")};
