@@ -26,7 +26,6 @@ interface Props {
 
 const ModalFrame = styled(Modal)`
   background-color: ${backgroundColor("light")};
-  //margin-bottom: calc(14rem - 4rem);
 `
 
 const TemplatesWrapper = styled.ul`
