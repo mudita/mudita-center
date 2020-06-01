@@ -22,7 +22,7 @@ export const getModalSize = (size: ModalSize) => {
       `
     case ModalSize.Large:
       return css`
-        width: calc(101rem - 4rem);
+        width: calc(101rem - 6.4rem);
       `
     default:
       return

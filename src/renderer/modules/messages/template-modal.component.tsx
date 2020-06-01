@@ -26,13 +26,17 @@ interface Props {
 
 const ModalFrame = styled(Modal)`
   background-color: ${backgroundColor("light")};
-  margin-bottom: 14.8rem;
+  margin-bottom: calc(14rem - 4rem);
 `
 
 const TemplatesWrapper = styled.ul`
   margin-top: 2.2rem;
   list-style-type: none;
   padding: 0;
+`
+
+const TemplateRow = styled(Row)`
+  height: 4.8rem;
 `
 
 const TemplateText = styled(Text)`
@@ -63,11 +67,11 @@ const TemplateModal: FunctionComponent<Props> = ({
             data-testid="template-element"
             onClick={chooseTemplate}
           >
-            <Row size={RowSize.Tiny}>
+            <TemplateRow size={RowSize.Tiny}>
               <TemplateText displayStyle={TextDisplayStyle.MediumText}>
                 {template.content}
               </TemplateText>
-            </Row>
+            </TemplateRow>
           </li>
         )
       })}
