@@ -154,7 +154,9 @@ const TextInput = styled.input`
 `
 
 const InputWrapper = styled.label<
-  Partial<InputProps & TextareaProps> & { error: boolean }
+  Partial<InputProps & TextareaProps> & { error: boolean } & {
+    inputType?: string
+  }
 >`
   position: relative;
   display: flex;
@@ -178,12 +180,23 @@ const InputWrapper = styled.label<
   ${({ disabled }) => disabled && disabledStyles};
   ${({ error }) => error && errorStyles};
 
-  ${({ disabled, readOnly, focusable, error }) =>
-    (!(disabled || readOnly) || focusable) &&
+  ${({ disabled, readOnly, focusable, error, inputType }) =>
+    (!(disabled || readOnly) || focusable || inputType) &&
     css`
       &:focus-within {
         ${InputLabel} {
           ${focusedLabelStyles};
+        }
+        ${LeadingIcons} {
+          ${({ inputType: inputType2 }) => {
+            console.log(inputType2)
+            return (
+              inputType2 === "search" &&
+              css`
+                display: none;
+              `
+            )
+          }};
         }
       }
 
@@ -311,6 +324,7 @@ export const InputText: FunctionComponent<InputProps> = ({
       readOnly={readOnly}
       error={Boolean(errorMessage)}
       focusable={focusable}
+      inputType={rest.type}
     >
       {outlined ? outlinedInput : standardInput}
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />

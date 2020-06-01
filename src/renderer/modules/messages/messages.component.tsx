@@ -28,6 +28,7 @@ import MessagesList, {
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import MessageDetails from "Renderer/components/rest/messages/message-details.component"
+import { textColor } from "Renderer/styles/theming/theme-getters"
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -51,7 +52,12 @@ const toggleState = [
   }),
 ] as const
 
-const searchIcon = <Icon type={Type.Magnifier} />
+const SearchIcon = styled(Icon)`
+  g {
+    fill: ${textColor("faded")};
+  }
+`
+const searchIcon = <SearchIcon type={Type.Magnifier} />
 
 const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
@@ -93,7 +99,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         </UnreadFilters>
         <SearchInput
           type={"search"}
-          placeholder={intl.formatMessage({
+          label={intl.formatMessage({
             id: "view.name.messages.search",
           })}
           outlined
