@@ -31,18 +31,20 @@ const ModalFrame = styled(Modal)`
   background-color: ${backgroundColor("light")};
 `
 
+const TemplateRow = styled(Row)`
+  height: 4.8rem;
+  cursor: pointer;
+`
+
 const TemplatesWrapper = styled.ul`
   margin: 2.2rem 0 0 0;
   list-style-type: none;
   padding: 0;
   height: calc((8 * 4.8rem) + 2.2rem);
   overflow: scroll;
-  border-top: solid 0.1rem ${borderColor("listItem")};
-`
-
-const TemplateRow = styled(Row)`
-  height: 4.8rem;
-  cursor: pointer;
+  li:first-child {
+    border-top: solid 0.1rem ${borderColor("listItem")};
+  }
 `
 
 const TemplateText = styled(Text)`
