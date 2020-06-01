@@ -58,6 +58,7 @@ const Bubble = styled.div<{ interlocutor: boolean }>`
       ? "1.2rem 1.2rem 1.2rem 0.2rem"
       : "1.2rem 1.2rem 0.2rem 1.2rem"};
   max-width: 38rem;
+  box-sizing: border-box;
 `
 
 const ActionsButton = styled.span`
