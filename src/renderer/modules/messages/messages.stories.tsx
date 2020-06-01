@@ -9,7 +9,10 @@ import {
   ModalWrapper,
 } from "Renderer/components/core/modal/modal.styled.elements"
 import { mockedList } from "Renderer/components/rest/messages/__mocks__/caller-data"
-import { mockedTemplateData } from "Renderer/modules/messages/__mocks__/template-modal-data"
+import {
+  mockedTemplateData,
+  extendedTemplateData,
+} from "Renderer/modules/messages/__mocks__/template-modal-data"
 
 const TemplateModalWrapper = styled(ModalWrapper)`
   padding: 4rem 3.2rem;
@@ -21,12 +24,22 @@ storiesOf("Views|Messages", module).add("Messages", () => (
   </div>
 ))
 
-storiesOf("Views|Messages/Modals", module).add("Template modal", () => (
-  <div style={{ maxWidth: "97.5rem" }}>
-    <Messages searchValue="" list={mockedList} />
-    <TemplateModalWrapper>
-      <TemplateModal templates={mockedTemplateData} />
-    </TemplateModalWrapper>
-    <ModalBackdrop />
-  </div>
-))
+storiesOf("Views|Messages/Modals", module)
+  .add("Template modal", () => (
+    <div style={{ maxWidth: "97.5rem" }}>
+      <Messages searchValue="" list={mockedList} />
+      <TemplateModalWrapper>
+        <TemplateModal templates={mockedTemplateData} />
+      </TemplateModalWrapper>
+      <ModalBackdrop />
+    </div>
+  ))
+  .add("Template modal - extended", () => (
+    <div style={{ maxWidth: "97.5rem" }}>
+      <Messages searchValue="" list={mockedList} />
+      <TemplateModalWrapper>
+        <TemplateModal templates={extendedTemplateData} />
+      </TemplateModalWrapper>
+      <ModalBackdrop />
+    </div>
+  ))

@@ -25,3 +25,17 @@ export const mockedTemplateData = [
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?",
   },
 ]
+
+export const extendedTemplateData = [
+  ...mockedTemplateData,
+  {
+    id: "12333133",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?",
+  },
+  {
+    id: "12333122",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?",
+  },
+]

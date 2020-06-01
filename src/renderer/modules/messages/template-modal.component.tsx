@@ -30,9 +30,11 @@ const ModalFrame = styled(Modal)`
 `
 
 const TemplatesWrapper = styled.ul`
-  margin-top: 2.2rem;
+  margin: 2.2rem 0 0 0;
   list-style-type: none;
   padding: 0;
+  max-height: calc((5 * 4.8rem) + 2.2rem);
+  overflow: scroll;
 `
 
 const TemplateRow = styled(Row)`
@@ -57,13 +59,13 @@ const TemplateModal: FunctionComponent<Props> = ({
     })}
   >
     <TemplatesWrapper>
-      {templates.map((template, index) => {
+      {templates.map(template => {
         const chooseTemplate = () => {
           selectTemplate(template.id)
         }
         return (
           <li
-            key={index}
+            key={template.id}
             data-testid="template-element"
             onClick={chooseTemplate}
           >
