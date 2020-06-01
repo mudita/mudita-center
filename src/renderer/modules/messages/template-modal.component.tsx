@@ -57,7 +57,7 @@ const TemplateModal: FunctionComponent<Props> = ({
             data-testid="template-element"
             onClick={chooseTemplate}
           >
-            <Row size={RowSize.Tiny} onClick={noop}>
+            <Row size={RowSize.Tiny}>
               <TemplateText displayStyle={TextDisplayStyle.MediumText}>
                 {template}
               </TemplateText>
