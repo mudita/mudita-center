@@ -64,11 +64,7 @@ const TemplateModal: FunctionComponent<Props> = ({
           selectTemplate(template.id)
         }
         return (
-          <li
-            key={template.id}
-            data-testid="template-element"
-            onClick={chooseTemplate}
-          >
+          <li key={template.id} onClick={chooseTemplate}>
             <TemplateRow size={RowSize.Tiny}>
               <TemplateText displayStyle={TextDisplayStyle.MediumText}>
                 {template.content}

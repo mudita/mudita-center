@@ -5,12 +5,10 @@ import { fireEvent } from "@testing-library/react"
 import { mockedTemplateData } from "Renderer/modules/messages/__mocks__/template-modal-data"
 
 test("correct amount of templates is rendered", () => {
-  const { getAllByTestId } = renderWithThemeAndIntl(
+  const { getAllByRole } = renderWithThemeAndIntl(
     <TemplateModal templates={mockedTemplateData} />
   )
-  expect(getAllByTestId("template-element")).toHaveLength(
-    mockedTemplateData.length
-  )
+  expect(getAllByRole("listitem")).toHaveLength(mockedTemplateData.length)
 })
 
 test("template can be selected", () => {
