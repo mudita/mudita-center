@@ -21,9 +21,9 @@ test("template can be selected", () => {
       selectTemplate={selectTemplate}
     />
   )
-  const templateElement = getAllByText(mockedTemplateData[0])
+  const templateElement = getAllByText(mockedTemplateData[0].content)
   fireEvent.click(templateElement[0])
   expect(selectTemplate).toHaveBeenCalled()
   expect(selectTemplate).toHaveBeenCalledTimes(1)
-  expect(selectTemplate).toHaveBeenCalledWith(mockedTemplateData[0])
+  expect(selectTemplate).toHaveBeenCalledWith(mockedTemplateData[0].id)
 })

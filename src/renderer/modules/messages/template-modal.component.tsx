@@ -14,9 +14,14 @@ import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
+interface Template {
+  id: string
+  content: string
+}
+
 interface Props {
-  templates: string[]
-  selectTemplate?: (template: string) => void
+  templates: Template[]
+  selectTemplate?: (id: string) => void
 }
 
 const ModalFrame = styled(Modal)`
@@ -50,7 +55,7 @@ const TemplateModal: FunctionComponent<Props> = ({
     <TemplatesWrapper>
       {templates.map((template, index) => {
         const chooseTemplate = () => {
-          selectTemplate(template)
+          selectTemplate(template.id)
         }
         return (
           <li
@@ -60,7 +65,7 @@ const TemplateModal: FunctionComponent<Props> = ({
           >
             <Row size={RowSize.Tiny}>
               <TemplateText displayStyle={TextDisplayStyle.MediumText}>
-                {template}
+                {template.content}
               </TemplateText>
             </Row>
           </li>
