@@ -38,4 +38,14 @@ export const extendedTemplateData = [
     content:
       "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?",
   },
+  {
+    id: "12312233",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?",
+  },
+  {
+    id: "123122334",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?",
+  },
 ]

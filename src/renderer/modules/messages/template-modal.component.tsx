@@ -26,14 +26,14 @@ interface Props {
 
 const ModalFrame = styled(Modal)`
   background-color: ${backgroundColor("light")};
-  margin-bottom: calc(14rem - 4rem);
+  //margin-bottom: calc(14rem - 4rem);
 `
 
 const TemplatesWrapper = styled.ul`
   margin: 2.2rem 0 0 0;
   list-style-type: none;
   padding: 0;
-  max-height: calc((5 * 4.8rem) + 2.2rem);
+  height: calc((8 * 4.8rem) + 2.2rem);
   overflow: scroll;
 `
 
