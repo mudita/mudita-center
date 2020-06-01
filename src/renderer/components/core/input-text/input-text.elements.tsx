@@ -153,11 +153,11 @@ const TextInput = styled.input`
   user-select: none;
 `
 
-const InputWrapper = styled.label<
-  Partial<InputProps & TextareaProps> & { error: boolean } & {
-    inputType?: string
-  }
->`
+type InputWrapperProps = Partial<InputProps & TextareaProps> & {
+  error: boolean
+} & { inputType?: string }
+
+const InputWrapper = styled.label<InputWrapperProps>`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -182,21 +182,17 @@ const InputWrapper = styled.label<
 
   ${({ disabled, readOnly, focusable, error, inputType }) =>
     (!(disabled || readOnly) || focusable || inputType) &&
-    css`
+    css<InputWrapperProps>`
       &:focus-within {
         ${InputLabel} {
           ${focusedLabelStyles};
         }
         ${LeadingIcons} {
-          ${({ inputType: inputType2 }) => {
-            console.log(inputType2)
-            return (
-              inputType2 === "search" &&
-              css`
-                display: none;
-              `
-            )
-          }};
+          ${({ inputType: input }) =>
+            input === "search" &&
+            css`
+              display: none;
+            `};
         }
       }
 
