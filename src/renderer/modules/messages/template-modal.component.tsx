@@ -12,6 +12,7 @@ import {
 } from "App/renderer/components/core/table/table.component"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 interface Props {
   templates: string[]
@@ -19,7 +20,7 @@ interface Props {
 }
 
 const ModalFrame = styled(Modal)`
-  background-color: white;
+  background-color: ${backgroundColor("light")};
   margin-bottom: 14.8rem;
 `
 
