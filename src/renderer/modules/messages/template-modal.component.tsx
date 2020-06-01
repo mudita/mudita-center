@@ -12,7 +12,10 @@ import {
 } from "App/renderer/components/core/table/table.component"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  borderColor,
+} from "Renderer/styles/theming/theme-getters"
 
 interface Template {
   id: string
@@ -34,6 +37,7 @@ const TemplatesWrapper = styled.ul`
   padding: 0;
   height: calc((8 * 4.8rem) + 2.2rem);
   overflow: scroll;
+  border-top: solid 0.1rem ${borderColor("listItem")};
 `
 
 const TemplateRow = styled(Row)`
@@ -45,6 +49,7 @@ const TemplateText = styled(Text)`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  margin: 0 2.4rem;
 `
 
 const TemplateModal: FunctionComponent<Props> = ({
