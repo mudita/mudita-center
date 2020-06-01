@@ -29,6 +29,12 @@ const TemplatesWrapper = styled.ul`
   padding: 0;
 `
 
+const TemplateText = styled(Text)`
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+`
+
 const TemplateModal: FunctionComponent<Props> = ({
   selectTemplate = noop,
   templates,
@@ -52,7 +58,9 @@ const TemplateModal: FunctionComponent<Props> = ({
             onClick={chooseTemplate}
           >
             <Row size={RowSize.Tiny} onClick={noop}>
-              <Text displayStyle={TextDisplayStyle.MediumText}>{template}</Text>
+              <TemplateText displayStyle={TextDisplayStyle.MediumText}>
+                {template}
+              </TemplateText>
             </Row>
           </li>
         )
