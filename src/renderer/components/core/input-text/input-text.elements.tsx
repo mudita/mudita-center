@@ -236,8 +236,8 @@ const TextareaWrapper = styled(InputWrapper)<{
 `
 
 const InputIcons: FunctionComponent<InputIconsProps> = ({
-  leadingIcons = [],
-  trailingIcons = [],
+  leadingIcons,
+  trailingIcons,
 }) => {
   return (
     <>

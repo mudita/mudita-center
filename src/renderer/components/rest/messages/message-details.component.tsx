@@ -13,6 +13,7 @@ import Text, {
 import styled from "styled-components"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import Icon from "Renderer/components/core/icon/icon.component"
+import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 
 interface Props {
   details: ActiveRow
@@ -27,7 +28,15 @@ const MessagesWrapper = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
+`
+
+const MessageBubblesWrapper = styled.div`
+  margin-top: 3.2rem;
+`
+
+const MessageDetailsBubble = styled(MessageBubble)`
+  margin-bottom: 2.4rem;
 `
 
 const Textarea = styled(InputComponent)`
@@ -77,14 +86,28 @@ const MessageDetails: FunctionComponent<Props> = ({
       appColorSidebarHeader
     >
       <MessagesWrapper>
-        <Textarea
-          type="textarea"
-          value={""}
-          onChange={noop}
-          leadingIcons={leadingIcons}
-          trailingIcons={trailingIcon}
-          disabled
-        />
+        <MessageBubblesWrapper>
+          {details.messages.map(({ author, content, interlocutor, id }) => {
+            return (
+              <MessageDetailsBubble
+                key={id}
+                user={author}
+                messages={content}
+                interlocutor={interlocutor}
+              />
+            )
+          })}
+        </MessageBubblesWrapper>
+        <div>
+          <Textarea
+            type="textarea"
+            value={""}
+            onChange={noop}
+            leadingIcons={leadingIcons}
+            trailingIcons={trailingIcon}
+            disabled
+          />
+        </div>
       </MessagesWrapper>
     </Sidebar>
   )

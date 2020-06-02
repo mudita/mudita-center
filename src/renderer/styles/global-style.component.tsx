@@ -37,11 +37,27 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
       border-radius: ${width("scrollbar")};
       background-color: transparent;
     }
+    ::-webkit-scrollbar:horizontal {
+      height: ${width("scrollbar")};
+    }
+    ::-webkit-scrollbar-track:horizontal {
+      border-radius: ${width("scrollbar")};
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb:horizontal {
+      border-radius: ${width("scrollbar")};
+      background-color: transparent;
+    }
+    /* stylelint-disable no-descending-specificity */
     :hover, :focus {
       ::-webkit-scrollbar-thumb {
         background-color: ${backgroundColor("grey4")};
       }
+      ::-webkit-scrollbar-thumb:horizontal {
+        background-color: ${backgroundColor("grey4")};
+      }
     }
+    /* stylelint-enable no-descending-specificity */
   }
 `
 export default GlobalStyle
