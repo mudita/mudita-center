@@ -108,7 +108,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Item>()
 
   return (
-    <TemplatesListTable>
+    <TemplatesListTable role="list">
       {templates.map(item => {
         const { selected } = getRowStatus(item)
         const handleCheckboxChange = () => {
@@ -123,6 +123,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
             selected={selected}
             active={activeRow === item}
             ref={ref}
+            role="listitem"
           >
             <Col>
               <Checkbox
@@ -147,7 +148,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
         )
 
         const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-          <ListRow key={item.id} ref={ref}>
+          <ListRow key={item.id} ref={ref} role="listitem">
             <Col />
             <Col>
               <TextPlaceholder charsCount={item.text.length} />

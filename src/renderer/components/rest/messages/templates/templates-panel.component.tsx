@@ -17,7 +17,7 @@ import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { Template } from "App/renderer/modules/messages/tabs/templates.component"
 import { defineMessages } from "react-intl"
 
-const messages = defineMessages({
+export const messages = defineMessages({
   searchPlaceholder: {
     id: "view.name.messages.templates.searchPlaceholder",
   },

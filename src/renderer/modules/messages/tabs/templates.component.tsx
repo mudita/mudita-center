@@ -1,7 +1,6 @@
 import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { notes } from "Renderer/components/core/table/table.fake-data"
-import { noop } from "Renderer/utils/noop"
 import TemplatesPanel from "Renderer/components/rest/messages/templates/templates-panel.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import TemplatesList from "Renderer/components/rest/messages/templates/templates-list.component"
@@ -12,14 +11,16 @@ export interface Template {
   text: string
 }
 
-interface TemplatesProps {
+export interface TemplatesProps {
   onDeleteButtonClick: () => void
   onNewButtonClick: () => void
+  onSearchTermChange: () => void
 }
 
 const Templates: FunctionComponent<TemplatesProps> = ({
   onDeleteButtonClick,
   onNewButtonClick,
+  onSearchTermChange,
 }) => {
   const { selectedRows, allRowsSelected, toggleAll, ...rest } = useTableSelect<
     Template
@@ -30,7 +31,7 @@ const Templates: FunctionComponent<TemplatesProps> = ({
       <TemplatesPanel
         onDeleteButtonClick={onDeleteButtonClick}
         onNewButtonClick={onNewButtonClick}
-        onSearchTermChange={noop}
+        onSearchTermChange={onSearchTermChange}
         selectedItemsCount={selectedRows.length}
         allItemsSelected={allRowsSelected}
         toggleAll={toggleAll}
