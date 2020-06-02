@@ -27,7 +27,7 @@ module.exports = {
   setupFiles: ["<rootDir>/test-envs.js"],
   roots: ["<rootDir>/src"],
   testResultsProcessor: "./jest.processor.js",
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: ["src/**/*.{js,ts,tsx}"],
   coverageReporters: ["lcov", "text-summary", "json-summary"],
   coverageDirectory: "coverage",

@@ -20,6 +20,7 @@
     "test-all": "npm run test && npm run build",
     "test:watch": "tsc && cross-env NODE_ENV=test cross-env TEST_DIALECT=sqlite mocha -w --recursive --compilers ts:ts-node/register --bail \"test/**/*.spec.ts\"",
     "test-watch": "npm test -- --watch",
+    "test:coverage": "npm test -- --coverage",
     "pretest:e2e": "npm run build",
     "test:e2e": "jest '(\\/test\\/e2e/).*'",
     "pack": "npm run build && electron-builder --dir --publish never",

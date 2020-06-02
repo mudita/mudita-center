@@ -1,11 +1,11 @@
 import { Slicer } from "@rematch/select"
 import { StateProps } from "Renderer/models/messages/messages.interface"
+import { rowsMessages } from "Renderer/components/core/table/table.fake-data"
 import {
   filterTopics,
   searchTopics,
   sortTopics,
-} from "Renderer/models/messages/utils"
-import { rowsMessages } from "Renderer/components/core/table/table.fake-data"
+} from "Renderer/models/messages/utils/topics-utils"
 
 const initialState = {
   topics: rowsMessages,

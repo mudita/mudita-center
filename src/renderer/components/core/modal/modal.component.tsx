@@ -27,10 +27,10 @@ const ModalFrame = styled.div<{ size: ModalSize }>`
   ${({ size }) => getModalSize(size)};
 `
 
-const Header = styled.div<{ titleOrder: TitleOrder }>`
+const Header = styled.div<{ titleOrder: TitleOrder; subtitleGap: boolean }>`
   display: grid;
   grid-template-columns: 1fr 5rem;
-  grid-row-gap: 1rem;
+  grid-row-gap: ${({ subtitleGap }) => (subtitleGap ? "1rem" : "initial")};
   ${({ titleOrder }) => getHeaderTemplate(titleOrder)};
 `
 
@@ -67,6 +67,7 @@ const CloseButton = styled(Button)<{ actionButton?: boolean }>`
 
 export interface ModalProps {
   actionButtonLabel?: ButtonProps["label"]
+  actionButtonIcon?: ButtonProps["Icon"]
   onActionButtonClick?: () => void
   closeable?: boolean
   closeButton?: boolean
@@ -81,6 +82,7 @@ export interface ModalProps {
 const Modal: FunctionComponent<ModalProps> = ({
   className,
   actionButtonLabel,
+  actionButtonIcon,
   onActionButtonClick,
   children,
   closeable = true,
@@ -101,7 +103,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   }
   return (
     <ModalFrame size={size} className={className}>
-      <Header titleOrder={titleOrder}>
+      <Header titleOrder={titleOrder} subtitleGap={Boolean(subtitle)}>
         <ModalTitle
           displayStyle={getTitleStyle(size)}
           subTitle={subtitle}
@@ -141,6 +143,7 @@ const Modal: FunctionComponent<ModalProps> = ({
               label={actionButtonLabel}
               onClick={onActionButtonClick}
               data-testid={"modal-action-button"}
+              Icon={actionButtonIcon}
             />
           )}
         </ButtonWrapper>

@@ -6,7 +6,16 @@
     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
     "module": "commonjs",
     /* Specify library files to be included in the compilation:  */
-    "lib": ["dom", "es6", "dom.iterable", "scripthost", "es5", "es7", "es2017"],
+    "lib": [
+      "dom",
+      "es6",
+      "dom.iterable",
+      "scripthost",
+      "es5",
+      "es7",
+      "es2017",
+      "ESNext"
+    ],
     /* Allow javascript files to be compiled. */
     "allowJs": true,
     /* Report errors in .js files. */

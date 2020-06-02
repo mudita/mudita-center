@@ -69,6 +69,7 @@ import ArrowDown from "Renderer/svg/arrow-down.svg"
 import DeleteBig from "Renderer/svg/delete-big.svg"
 import Attachment from "Renderer/svg/attachment.svg"
 import Remove from "Renderer/svg/remove.svg"
+import SendButton from "Renderer/svg/send-button.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -144,6 +145,7 @@ export enum Type {
   DeleteBig,
   Attachment,
   Remove,
+  SendButton,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -288,6 +290,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Attachment
     case Type.Remove:
       return Remove
+    case Type.SendButton:
+      return SendButton
     default:
       return Message
   }

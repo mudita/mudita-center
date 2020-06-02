@@ -23,7 +23,7 @@ jobs:
         uses: ziishaned/jest-reporter-action@0.1.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          test-command: "npm run test"
+          test-command: "npm run test:coverage"
       - name: Lint and typecheck
         run: |
           npm run lint
