@@ -638,3 +638,14 @@ storiesOf("Components|Text input/Input-like textarea", module)
       />
     )
   })
+
+storiesOf("Components|Text input/Search", module).add("Basic", () => {
+  return (
+    <InputComponent
+      type="search"
+      leadingIcons={singleIcon}
+      outlined
+      condensed
+    />
+  )
+})
