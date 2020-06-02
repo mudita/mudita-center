@@ -23,8 +23,10 @@ import { InView } from "react-intersection-observer"
 const animatedOpacityStyles = css`
   opacity: 0;
   visibility: hidden;
-  transition: all ${transitionTime("veryQuick")}
-    ${transitionTimingFunction("smooth")};
+  transition: opacity ${transitionTime("veryQuick")}
+      ${transitionTimingFunction("smooth")},
+    visibility ${transitionTime("veryQuick")}
+      ${transitionTimingFunction("smooth")};
 `
 
 const animatedOpacityActiveStyles = css`
