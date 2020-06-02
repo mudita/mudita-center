@@ -81,6 +81,8 @@ interface Props {
   user?: User
   messages: string[]
   interlocutor?: boolean
+  forwardMessage?: () => void
+  deleteMessage?: () => void
 }
 
 const MessageBubble: FunctionComponent<Props> = ({
@@ -88,6 +90,8 @@ const MessageBubble: FunctionComponent<Props> = ({
   user,
   messages,
   interlocutor = false,
+  forwardMessage = noop,
+  deleteMessage = noop,
 }) => {
   return (
     <MessageBubbleWrapper className={className} interlocutor={interlocutor}>
@@ -118,16 +122,18 @@ const MessageBubble: FunctionComponent<Props> = ({
                     id: "view.name.messages.messageDropdownForward",
                   }}
                   Icon={Type.Forward}
-                  onClick={noop}
+                  onClick={forwardMessage}
                   displayStyle={DisplayStyle.Dropdown}
+                  data-testid="forward-message"
                 />
                 <ButtonComponent
                   labelMessage={{
                     id: "view.name.messages.messageDropdownDelete",
                   }}
                   Icon={Type.Delete}
-                  onClick={noop}
+                  onClick={deleteMessage}
                   displayStyle={DisplayStyle.Dropdown}
+                  data-testid="delete-message"
                 />
               </MessageBubbleDropdown>
               <Bubble interlocutor={interlocutor} data-testid="message-content">

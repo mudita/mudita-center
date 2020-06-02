@@ -43,3 +43,31 @@ test("multiple messages are displayed correctly", () => {
   expect(messsageBubbles[0]).toHaveTextContent(multipleMessages[0])
   expect(messsageBubbles[1]).toHaveTextContent(multipleMessages[1])
 })
+
+test("forwards message", () => {
+  const forwardMessage = jest.fn()
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessageBubble
+      user={user}
+      messages={multipleMessages}
+      forwardMessage={forwardMessage}
+    />
+  )
+  fireEvent.click(getAllByTestId("forward-message")[0])
+  expect(forwardMessage).toHaveBeenCalled()
+  expect(forwardMessage).toHaveBeenCalledTimes(1)
+})
+
+test("deletes message", () => {
+  const deleteMessage = jest.fn()
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessageBubble
+      user={user}
+      messages={multipleMessages}
+      deleteMessage={deleteMessage}
+    />
+  )
+  fireEvent.click(getAllByTestId("delete-message")[0])
+  expect(deleteMessage).toHaveBeenCalled()
+  expect(deleteMessage).toHaveBeenCalledTimes(1)
+})
