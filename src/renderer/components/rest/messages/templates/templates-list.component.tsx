@@ -62,22 +62,24 @@ const ListRow = styled(Row)`
     button {
       ${animatedOpacityStyles};
     }
+  }
+  :hover {
+    ${Col} {
+      button {
+        ${animatedOpacityActiveStyles};
+      }
+      ${Checkbox} {
+        ${animatedOpacityActiveStyles};
+      }
+    }
+  }
+  ${Col} {
     :first-of-type {
       justify-content: center;
     }
     :last-of-type {
       justify-content: flex-end;
       padding-right: 2.4rem;
-    }
-  }
-  :hover {
-    ${Col} {
-      ${Checkbox} {
-        ${animatedOpacityActiveStyles};
-      }
-      button {
-        ${animatedOpacityActiveStyles};
-      }
     }
   }
 `
