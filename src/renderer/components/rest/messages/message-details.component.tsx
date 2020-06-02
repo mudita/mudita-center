@@ -71,14 +71,18 @@ const MessageDetails: FunctionComponent<Props> = ({
             displayStyle={TextDisplayStyle.LargeBoldText}
             data-testid="sidebar-fullname"
           >
-            {details.caller.firstName} {details.caller.lastName}
+            {details.contact
+              ? `${details.caller.firstName} ${details.caller.lastName}`
+              : details.caller.phoneNumber}
           </Text>
-          <PhoneNumberText
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
-            data-testid="sidebar-phone-number"
-          >
-            {details.caller.phoneNumber}
-          </PhoneNumberText>
+          {details.contact && (
+            <PhoneNumberText
+              displayStyle={TextDisplayStyle.MediumFadedLightText}
+              data-testid="sidebar-phone-number"
+            >
+              {details.caller.phoneNumber}
+            </PhoneNumberText>
+          )}
         </>
       }
       headerRight={icons}
