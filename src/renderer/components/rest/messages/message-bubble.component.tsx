@@ -43,6 +43,7 @@ const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
   align-items: center;
   flex-direction: ${({ interlocutor }) =>
     interlocutor ? "row-reverse" : "row"};
+  justify-content: flex-end;
 `
 
 const Bubble = styled.div<{ interlocutor: boolean }>`
@@ -57,6 +58,7 @@ const Bubble = styled.div<{ interlocutor: boolean }>`
       ? "1.2rem 1.2rem 1.2rem 0.2rem"
       : "1.2rem 1.2rem 0.2rem 1.2rem"};
   max-width: 38rem;
+  box-sizing: border-box;
 `
 
 const ActionsButton = styled.span`
