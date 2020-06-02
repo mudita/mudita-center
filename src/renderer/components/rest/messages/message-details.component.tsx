@@ -54,7 +54,6 @@ const MessageDetails: FunctionComponent<Props> = ({
   details,
   onClose = noop,
 }) => {
-  console.log(details)
   const icons = (
     <>
       <SidebarHeaderIcon Icon={Type.Calls} onClick={noop} />

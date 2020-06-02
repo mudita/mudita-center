@@ -209,7 +209,9 @@ const MessagesList: FunctionComponent<Props> = ({
             <MessageCol onClick={onClick} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {caller.firstName} {caller.lastName}
+                  {contact
+                    ? `${caller.firstName} ${caller.lastName}`
+                    : caller.phoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage.date).format("h:mm A")}
