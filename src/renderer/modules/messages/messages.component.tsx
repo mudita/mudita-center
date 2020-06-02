@@ -21,14 +21,13 @@ import { intl } from "Renderer/utils/intl"
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
-import Icon from "Renderer/components/core/icon/icon.component"
 import MessagesList, {
   ActiveRow,
 } from "Renderer/components/rest/messages/messages-list.component"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import MessageDetails from "Renderer/components/rest/messages/message-details.component"
-import { textColor } from "Renderer/styles/theming/theme-getters"
+import { SearchIcon } from "Renderer/components/core/input-text/input-text.elements"
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -52,11 +51,6 @@ const toggleState = [
   }),
 ] as const
 
-const SearchIcon = styled(Icon)`
-  g {
-    fill: ${textColor("faded")};
-  }
-`
 const searchIcon = <SearchIcon type={Type.Magnifier} />
 
 const Messages: FunctionComponent<MessagesProps> = ({

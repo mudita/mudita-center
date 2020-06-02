@@ -24,6 +24,13 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
 import composeRefs from "@seznam/compose-react-refs"
+import Icon from "Renderer/components/core/icon/icon.component"
+
+export const SearchIcon = styled(Icon)`
+  g {
+    fill: ${textColor("faded")};
+  }
+`
 
 const focusedLabelStyles = css`
   top: -2rem;
