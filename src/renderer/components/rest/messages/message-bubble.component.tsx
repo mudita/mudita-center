@@ -78,7 +78,7 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
 `
 
 interface Props {
-  user: User
+  user?: User
   messages: string[]
   interlocutor?: boolean
 }

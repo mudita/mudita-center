@@ -54,6 +54,7 @@ const MessageDetails: FunctionComponent<Props> = ({
   details,
   onClose = noop,
 }) => {
+  console.log(details)
   const icons = (
     <>
       <SidebarHeaderIcon Icon={Type.Calls} onClick={noop} />
@@ -91,7 +92,7 @@ const MessageDetails: FunctionComponent<Props> = ({
             return (
               <MessageDetailsBubble
                 key={id}
-                user={author}
+                user={details.contact || !interlocutor ? author : undefined}
                 messages={content}
                 interlocutor={interlocutor}
               />

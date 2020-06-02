@@ -13,9 +13,7 @@ export const rowsMessages = Array.from({
   const contact = Faker.random.boolean()
   return {
     id: Faker.random.uuid(),
-    caller: contact
-      ? caller
-      : { firstName: Faker.phone.phoneNumber("+## ### ### ###") },
+    caller: contact ? caller : { firstName: caller.phoneNumber },
     unread: Faker.random.boolean(),
     contact,
     messages: [

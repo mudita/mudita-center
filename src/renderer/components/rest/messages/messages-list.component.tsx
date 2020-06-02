@@ -144,6 +144,7 @@ const MessageDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
 export interface ActiveRow {
   caller: Caller
   messages: Msg[]
+  contact: boolean
 }
 
 interface Props {
@@ -176,14 +177,14 @@ const MessagesList: FunctionComponent<Props> = ({
         const { selected, indeterminate } = getRowStatus(caller)
         const lastMessage = messages[messages.length - 1]
         const onChange = () => toggleRow(caller)
-        const onClick = () => openSidebar({ caller, messages })
+        const onClick = () => openSidebar({ caller, messages, contact })
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
             key={id}
             ref={ref}
             selected={selected}
-            active={isEqual(activeRow, { caller, messages })}
+            active={isEqual(activeRow, { caller, messages, contact })}
           >
             <AvatarCol>
               <Checkbox
@@ -194,10 +195,14 @@ const MessagesList: FunctionComponent<Props> = ({
                 data-testid="checkbox"
               />
               <InitialsAvatar
-                user={{
-                  firstName: caller.firstName,
-                  lastName: caller.lastName,
-                }}
+                user={
+                  contact
+                    ? {
+                        firstName: caller.firstName,
+                        lastName: caller.lastName,
+                      }
+                    : undefined
+                }
                 light={selected}
               />
             </AvatarCol>
