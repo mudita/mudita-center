@@ -25,12 +25,15 @@ import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
 import composeRefs from "@seznam/compose-react-refs"
 import Icon from "Renderer/components/core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
-export const SearchIcon = styled(Icon)`
+const SearchIcon = styled(Icon)`
   g {
     fill: ${textColor("faded")};
   }
 `
+
+export const searchIcon = <SearchIcon type={Type.Magnifier} />
 
 const focusedLabelStyles = css`
   top: -2rem;

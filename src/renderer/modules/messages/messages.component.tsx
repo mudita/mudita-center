@@ -27,7 +27,7 @@ import MessagesList, {
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import MessageDetails from "Renderer/components/rest/messages/message-details.component"
-import { SearchIcon } from "Renderer/components/core/input-text/input-text.elements"
+import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -50,8 +50,6 @@ const toggleState = [
     id: "view.name.messages.unreadOnly",
   }),
 ] as const
-
-const searchIcon = <SearchIcon type={Type.Magnifier} />
 
 const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,

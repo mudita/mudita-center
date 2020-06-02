@@ -3,6 +3,7 @@ import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 
 export const Icon: FunctionComponent = () => (
   <svg
@@ -643,7 +644,7 @@ storiesOf("Components|Text input/Search", module).add("Basic", () => {
   return (
     <InputComponent
       type="search"
-      leadingIcons={singleIcon}
+      leadingIcons={[searchIcon]}
       outlined
       condensed
     />

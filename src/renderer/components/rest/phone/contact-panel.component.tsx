@@ -6,8 +6,7 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl } from "Renderer/utils/intl"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import { SearchIcon } from "Renderer/components/core/input-text/input-text.elements"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 
 const Panel = styled.div`
   display: grid;
@@ -32,8 +31,6 @@ const Buttons = styled.div`
     width: auto;
   }
 `
-
-const searchIcon = <SearchIcon type={Type.Magnifier} />
 
 export interface ContactPanelProps {
   onSearchTermChange: (value: string) => void
