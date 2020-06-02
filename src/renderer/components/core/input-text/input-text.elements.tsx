@@ -12,6 +12,7 @@ import Text, {
 import transition from "Renderer/styles/functions/transition"
 import theme from "Renderer/styles/theming/theme"
 import {
+  backgroundColor,
   borderColor,
   borderRadius,
   lineHeight,
@@ -184,6 +185,11 @@ const InputWrapper = styled.label<InputWrapperProps>`
     (!(disabled || readOnly) || focusable || inputType) &&
     css<InputWrapperProps>`
       &:focus-within {
+        ${({ inputType: input }) =>
+          input === "search" &&
+          css`
+            background-color: ${backgroundColor("light")};
+          `};
         ${InputLabel} {
           ${focusedLabelStyles};
         }
