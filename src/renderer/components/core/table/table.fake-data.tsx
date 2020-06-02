@@ -1,6 +1,13 @@
 import Faker from "faker"
 import { groupBy } from "lodash"
 
+export const notes = Array.from({
+  length: Math.round(15 + Math.random() * 25),
+}).map(() => ({
+  id: Faker.random.uuid(),
+  text: Faker.lorem.paragraphs(Math.random() * 3 + 1),
+}))
+
 export const rowsMessages = Array.from({
   length: Math.round(15 + Math.random() * 25),
 }).map(() => {
