@@ -172,7 +172,7 @@ const MessagesList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      {list.map(({ id, caller, messages, unread }) => {
+      {list.map(({ id, caller, messages, unread, contact }) => {
         const { selected, indeterminate } = getRowStatus(caller)
         const lastMessage = messages[messages.length - 1]
         const onChange = () => toggleRow(caller)
@@ -242,15 +242,27 @@ const MessagesList: FunctionComponent<Props> = ({
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
                   />
-                  <ButtonComponent
-                    labelMessage={{
-                      id: "view.name.messages.dropdownContactDetails",
-                    }}
-                    Icon={Type.Contacts}
-                    onClick={noop}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-contact-details"
-                  />
+                  {contact ? (
+                    <ButtonComponent
+                      labelMessage={{
+                        id: "view.name.messages.dropdownContactDetails",
+                      }}
+                      Icon={Type.Contacts}
+                      onClick={noop}
+                      displayStyle={DisplayStyle.Dropdown}
+                      data-testid="dropdown-contact-details"
+                    />
+                  ) : (
+                    <ButtonComponent
+                      labelMessage={{
+                        id: "view.name.messages.dropdownAddToContacts",
+                      }}
+                      Icon={Type.Contacts}
+                      onClick={noop}
+                      displayStyle={DisplayStyle.Dropdown}
+                      data-testid="dropdown-add-to-contacts"
+                    />
+                  )}
                   <ButtonComponent
                     labelMessage={{
                       id: "view.name.messages.dropdownMarkAsRead",

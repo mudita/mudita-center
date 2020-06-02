@@ -10,10 +10,14 @@ export const rowsMessages = Array.from({
     lastName: Faker.name.lastName(),
     phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
   }
+  const contact = Faker.random.boolean()
   return {
     id: Faker.random.uuid(),
-    caller,
+    caller: contact
+      ? caller
+      : { firstName: Faker.phone.phoneNumber("+## ### ### ###") },
     unread: Faker.random.boolean(),
+    contact,
     messages: [
       {
         author: caller,
