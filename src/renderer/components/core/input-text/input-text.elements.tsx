@@ -168,6 +168,15 @@ type InputWrapperProps = Partial<InputProps & TextareaProps> & {
   error: boolean
 } & { inputType?: string }
 
+const searchStyles = css`
+  &:focus-within {
+    background-color: ${backgroundColor("light")};
+    ${LeadingIcons} {
+      display: none;
+    }
+  }
+`
+
 const InputWrapper = styled.label<InputWrapperProps>`
   position: relative;
   display: flex;
@@ -190,25 +199,14 @@ const InputWrapper = styled.label<InputWrapperProps>`
   ${({ condensed }) => condensed && condensedStyles};
   ${({ disabled }) => disabled && disabledStyles};
   ${({ error }) => error && errorStyles};
+  ${({ inputType }) => inputType === "search" && searchStyles};
 
-  ${({ disabled, readOnly, focusable, error, inputType }) =>
-    (!(disabled || readOnly) || focusable || inputType) &&
-    css<InputWrapperProps>`
+  ${({ disabled, readOnly, focusable, error }) =>
+    (!(disabled || readOnly) || focusable) &&
+    css`
       &:focus-within {
-        ${({ inputType: input }) =>
-          input === "search" &&
-          css`
-            background-color: ${backgroundColor("light")};
-          `};
         ${InputLabel} {
           ${focusedLabelStyles};
-        }
-        ${LeadingIcons} {
-          ${({ inputType: input }) =>
-            input === "search" &&
-            css`
-              display: none;
-            `};
         }
       }
 
