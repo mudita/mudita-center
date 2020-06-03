@@ -159,9 +159,18 @@ const generalInputStyles = css`
   }
 `
 
-const TextInput = styled.input`
+const TextInput = styled.input<{ type?: string }>`
   ${generalInputStyles};
   user-select: none;
+  :focus {
+    ${({ type }) =>
+      type === "search" &&
+      css`
+        + ${LeadingIcons} {
+          display: none;
+        }
+      `};
+  }
 `
 
 type InputWrapperProps = Partial<InputProps & TextareaProps> & {
@@ -171,9 +180,6 @@ type InputWrapperProps = Partial<InputProps & TextareaProps> & {
 const searchStyles = css`
   &:focus-within {
     background-color: ${backgroundColor("light")};
-    ${LeadingIcons} {
-      display: none;
-    }
   }
 `
 
@@ -188,19 +194,16 @@ const InputWrapper = styled.label<InputWrapperProps>`
   box-sizing: border-box;
   border-bottom: 0.1rem solid ${borderColor("default")};
   transition: ${transition("border-color", "100ms", "ease-in-out")};
-
   ${TextInputIcon} {
     + ${TextInputIcon} {
       margin-left: 1.2rem;
     }
   }
-
   ${({ outlined }) => outlined && outlinedStyles};
   ${({ condensed }) => condensed && condensedStyles};
   ${({ disabled }) => disabled && disabledStyles};
   ${({ error }) => error && errorStyles};
   ${({ inputType }) => inputType === "search" && searchStyles};
-
   ${({ disabled, readOnly, focusable, error }) =>
     (!(disabled || readOnly) || focusable) &&
     css`
@@ -209,7 +212,6 @@ const InputWrapper = styled.label<InputWrapperProps>`
           ${focusedLabelStyles};
         }
       }
-
       &:hover,
       &:focus-within {
         ${!error && focusedStyles};
