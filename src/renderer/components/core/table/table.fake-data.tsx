@@ -1,47 +1,44 @@
 import Faker from "faker"
-import { groupBy } from "lodash"
+import { groupBy, times, random } from "lodash"
 
-export const rowsMessages = Array.from({
-  length: Math.round(15 + Math.random() * 25),
-}).map(() => {
-  const caller = {
-    id: Faker.random.uuid(),
-    firstName: Faker.name.firstName(),
-    lastName: Faker.name.lastName(),
-    phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-  }
-  const contact = Faker.random.boolean()
-  const randomCaller = contact
-    ? caller
+const createCaller = (contact: boolean) => {
+  return contact
+    ? {
+        id: Faker.random.uuid(),
+        firstName: Faker.name.firstName(),
+        lastName: Faker.name.lastName(),
+        phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+      }
     : {
         id: Faker.random.uuid(),
         firstName: "",
         lastName: "",
         phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
       }
+}
+const createMessage = () => Faker.lorem.sentence(10, 2)
+const createListOfMessages = () => times(random(1, 3), createMessage)
+const createTopic = () => {
+  const contact = Faker.random.boolean()
+  const caller = createCaller(contact)
   return {
     id: Faker.random.uuid(),
-    caller: randomCaller,
+    caller,
     unread: Faker.random.boolean(),
     contact,
     messages: [
       {
-        author: randomCaller,
+        author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd572",
         date: "2019-10-18T11:27:15.256Z",
-        content: [
-          "LALAAdipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, voluptates?",
-        ],
+        content: createListOfMessages(),
         interlocutor: true,
       },
       {
-        author: randomCaller,
+        author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content: [
-          "LALAAdipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-        ],
+        content: createListOfMessages(),
         interlocutor: true,
       },
       {
@@ -51,15 +48,14 @@ export const rowsMessages = Array.from({
         },
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
-        content: [
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-        ],
+        content: createListOfMessages(),
         interlocutor: false,
       },
     ],
   }
-})
+}
+
+export const rowsMessages = times(random(15, 25), createTopic)
 
 export const basicRows = Array.from({
   length: Math.round(15 + Math.random() * 25),
