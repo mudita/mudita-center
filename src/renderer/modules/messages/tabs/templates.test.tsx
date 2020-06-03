@@ -28,27 +28,28 @@ const renderTemplates = ({
     ...outcome,
     getInput: () => outcome.getByRole("searchbox") as HTMLInputElement,
     getButtons: () => outcome.getAllByRole("button") as HTMLButtonElement[],
-    newTemplateButton: outcome.getByText(
-      intl.formatMessage(messages.newButton)
-    ),
+    getNewTemplateButton: () =>
+      outcome.getByText(intl.formatMessage(messages.newButton)),
   }
 }
 
 test("renders new template button properly", () => {
-  const { newTemplateButton } = renderTemplates()
-  expect(newTemplateButton).toBeInTheDocument()
+  const { getNewTemplateButton } = renderTemplates()
+  expect(getNewTemplateButton()).toBeInTheDocument()
 })
 
 test("renders search input properly", () => {
-  const { getInput } = renderTemplates()
-  expect(getInput().placeholder).toEqual(
-    intl.formatMessage(messages.searchPlaceholder)
-  )
+  const { getByPlaceholderText } = renderTemplates()
+  expect(
+    getByPlaceholderText(intl.formatMessage(messages.searchPlaceholder))
+  ).toBeInTheDocument()
 })
 
 test("calls proper action after new template button click", () => {
   const onClick = jest.fn()
-  const { newTemplateButton } = renderTemplates({ onNewButtonClick: onClick })
-  fireEvent.click(newTemplateButton)
+  const { getNewTemplateButton } = renderTemplates({
+    onNewButtonClick: onClick,
+  })
+  fireEvent.click(getNewTemplateButton())
   expect(onClick).toBeCalled()
 })
