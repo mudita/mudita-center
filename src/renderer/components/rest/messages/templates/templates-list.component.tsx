@@ -112,7 +112,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
       {templates.map(item => {
         const { selected } = getRowStatus(item)
 
-        const toggle = () => {
+        const toggleSelection = () => {
           closeSidebar()
           toggleRow(item)
         }
@@ -130,7 +130,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
               <Checkbox
                 size={Size.Small}
                 checked={selected}
-                onChange={toggle}
+                onChange={toggleSelection}
                 visible={!noneRowsSelected}
               />
             </Col>
