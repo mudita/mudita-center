@@ -29,7 +29,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 
 const SearchIcon = styled(Icon)`
   g {
-    fill: ${textColor("faded")};
+    opacity: 58.43%;
   }
 `
 
