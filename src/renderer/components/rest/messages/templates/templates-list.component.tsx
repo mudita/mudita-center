@@ -111,11 +111,12 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
     <TemplatesListTable role="list">
       {templates.map(item => {
         const { selected } = getRowStatus(item)
-        const handleCheckboxChange = () => {
+
+        const toggle = () => {
           closeSidebar()
           toggleRow(item)
         }
-        const handlePreviewClick = () => openSidebar(item)
+        const openPreview = () => openSidebar(item)
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <ListRow
@@ -129,11 +130,11 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
               <Checkbox
                 size={Size.Small}
                 checked={selected}
-                onChange={handleCheckboxChange}
+                onChange={toggle}
                 visible={!noneRowsSelected}
               />
             </Col>
-            <TextPreview onClick={handlePreviewClick}>
+            <TextPreview onClick={openPreview}>
               <Text displayStyle={TextDisplayStyle.LargeText}>
                 {item.text.substr(0, 250)}
               </Text>

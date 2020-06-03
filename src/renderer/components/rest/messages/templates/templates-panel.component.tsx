@@ -90,7 +90,7 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
   allItemsSelected,
   toggleAll,
 }) => {
-  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+  const search = ({ target }: ChangeEvent<HTMLInputElement>) => {
     onSearchTermChange(target.value)
   }
   const selectionMode = selectedItemsCount > 0
@@ -118,7 +118,7 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
         <InputComponent
           leadingIcons={[<Icon type={Type.Magnifier} key={1} />]}
           label={intl.formatMessage(messages.searchPlaceholder)}
-          onChange={onChange}
+          onChange={search}
           type="search"
           outlined
         />
