@@ -11,21 +11,22 @@ export const rowsMessages = Array.from({
     phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
   }
   const contact = Faker.random.boolean()
+  const randomCaller = contact
+    ? caller
+    : {
+        id: Faker.random.uuid(),
+        firstName: "",
+        lastName: "",
+        phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+      }
   return {
     id: Faker.random.uuid(),
-    caller: contact
-      ? caller
-      : {
-          id: Faker.random.uuid(),
-          firstName: "",
-          lastName: "",
-          phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-        },
+    caller: randomCaller,
     unread: Faker.random.boolean(),
     contact,
     messages: [
       {
-        author: caller,
+        author: randomCaller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd572",
         date: "2019-10-18T11:27:15.256Z",
         content: [
@@ -35,7 +36,7 @@ export const rowsMessages = Array.from({
         interlocutor: true,
       },
       {
-        author: caller,
+        author: randomCaller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
         content: [
