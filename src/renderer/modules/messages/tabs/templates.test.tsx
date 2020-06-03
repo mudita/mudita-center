@@ -26,7 +26,6 @@ const renderTemplates = ({
   )
   return {
     ...outcome,
-    getInput: () => outcome.getByRole("searchbox") as HTMLInputElement,
     getButtons: () => outcome.getAllByRole("button") as HTMLButtonElement[],
     getNewTemplateButton: () =>
       outcome.getByText(intl.formatMessage(messages.newButton)),
