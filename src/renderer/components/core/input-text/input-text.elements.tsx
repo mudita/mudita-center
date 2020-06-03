@@ -159,7 +159,7 @@ const generalInputStyles = css`
   }
 `
 
-const TextInput = styled.input<{ type?: string }>`
+const TextInput = styled.input<{ type: string }>`
   ${generalInputStyles};
   user-select: none;
   :focus {
@@ -175,7 +175,8 @@ const TextInput = styled.input<{ type?: string }>`
 
 type InputWrapperProps = Partial<InputProps & TextareaProps> & {
   error: boolean
-} & { inputType?: string }
+  inputType?: string
+}
 
 const searchStyles = css`
   &:focus-within {
