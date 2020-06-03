@@ -8,6 +8,12 @@ const createCaller = () => ({
 })
 
 const caller = createCaller()
+const unknownContact = {
+  id: "11",
+  firstName: "",
+  lastName: "",
+  phoneNumber: "+123 456 123",
+}
 
 export const mockedList = [
   {
@@ -36,12 +42,12 @@ export const mockedList = [
   },
   {
     id: "1233",
-    caller,
+    caller: unknownContact,
     unread: false,
-    contact: true,
+    contact: false,
     messages: [
       {
-        author: caller,
+        author: unknownContact,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
         content: [
@@ -49,7 +55,7 @@ export const mockedList = [
         ],
       },
       {
-        author: caller,
+        author: unknownContact,
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
         content: [

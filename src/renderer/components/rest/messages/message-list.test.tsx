@@ -41,7 +41,7 @@ test("displays correct amount of dropdown call buttons", () => {
   expect(getAllByTestId("dropdown-call")).toHaveLength(3)
 })
 
-test("dropdown contact details button has correct content ", () => {
+test("dropdown contact details button has correct content", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessagesList list={mockedList} />
   )
@@ -58,7 +58,15 @@ test("displays correct amount of dropdown contact details buttons", () => {
     <MessagesList list={mockedList} />
   )
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-contact-details")).toHaveLength(3)
+  expect(getAllByTestId("dropdown-contact-details")).toHaveLength(2)
+})
+
+test("displays correct amount of dropdown add to contacts buttons", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessagesList list={mockedList} />
+  )
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-add-to-contacts")).toHaveLength(1)
 })
 
 test("dropdown mark as read button has correct content ", () => {
@@ -91,6 +99,14 @@ test("dropdown delete button has correct content", () => {
       id: "view.name.messages.dropdownDelete",
     })
   )
+})
+
+test("displays correct amount of dropdown delete buttons", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessagesList list={mockedList} />
+  )
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-delete")).toHaveLength(3)
 })
 
 test("displays correct amount of dropdown delete buttons", () => {
