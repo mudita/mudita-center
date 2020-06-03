@@ -157,7 +157,6 @@ const MessagesList: FunctionComponent<Props> = ({
   list,
   openSidebar = noop,
 }) => {
-  // TODO: Fix 'any'
   const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect<
     ActiveRow
   >(rowsMessages)
