@@ -86,17 +86,17 @@ const ListRow = styled(Row)`
   }
 `
 
-type Item = {
+interface Template {
   id: string
   text: string
 }
 
 export interface TemplatesListProps
   extends Pick<
-    UseTableSelect<Item>,
+    UseTableSelect<Template>,
     "getRowStatus" | "toggleRow" | "noneRowsSelected"
   > {
-  templates: Item[]
+  templates: Template[]
 }
 
 const TemplatesList: FunctionComponent<TemplatesListProps> = ({
@@ -105,7 +105,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   toggleRow,
   noneRowsSelected,
 }) => {
-  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Item>()
+  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Template>()
 
   return (
     <TemplatesListTable role="list">
