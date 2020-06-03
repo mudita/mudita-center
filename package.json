@@ -214,7 +214,6 @@
     "electron-updater": "4.2.2",
     "faker": "^4.1.0",
     "history": "^4.10.1",
-    "intersection-observer": "^0.10.0",
     "lodash": "^4.17.15",
     "minimist": "^1.2.5",
     "moment": "^2.25.3",

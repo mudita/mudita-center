@@ -8,7 +8,9 @@ import Templates, {
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
-import "intersection-observer"
+import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
+
+mockAllIsIntersecting(true)
 
 const renderTemplates = ({
   onDeleteButtonClick = noop,
