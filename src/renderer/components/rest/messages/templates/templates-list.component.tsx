@@ -1,6 +1,6 @@
 import React, { Ref } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import styled, { css, FlattenSimpleInterpolation } from "styled-components"
+import styled, { css } from "styled-components"
 import Table, { Col, Row } from "Renderer/components/core/table/table.component"
 import InputCheckbox, {
   Size,
@@ -34,9 +34,7 @@ const animatedOpacityActiveStyles = css`
   visibility: visible;
 `
 
-const TemplatesListTable = styled(Table)<{
-  additionalStyles?: FlattenSimpleInterpolation
-}>`
+const TemplatesListTable = styled(Table)`
   --columnsGap: 0;
   --columnsTemplate: 4rem 69.5rem 1fr;
 `
