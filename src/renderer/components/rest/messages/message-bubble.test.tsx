@@ -71,3 +71,10 @@ test("deletes message", () => {
   expect(deleteMessage).toHaveBeenCalled()
   expect(deleteMessage).toHaveBeenCalledTimes(1)
 })
+
+test("when author of message is unknown, displays default icon in avatar", () => {
+  const { getByTestId } = renderWithThemeAndIntl(
+    <MessageBubble user={undefined} messages={multipleMessages} />
+  )
+  expect(getByTestId("icon-Contacts")).toBeInTheDocument()
+})
