@@ -66,7 +66,7 @@ export interface AvatarProps {
   size?: AvatarSize
   light?: boolean
   imageSrc?: string
-  user?: User
+  user?: User | boolean
 }
 
 const Avatar: FunctionComponent<AvatarProps> = ({
@@ -79,7 +79,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
   <AvatarWrapper className={className} size={size} light={light}>
     {imageSrc ? (
       <AvatarImage data-testid="avatar-image" src={imageSrc} />
-    ) : user ? (
+    ) : user && typeof user === "object" ? (
       <Text
         displayStyle={
           size === AvatarSize.Big
