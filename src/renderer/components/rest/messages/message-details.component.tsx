@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import {
   Sidebar,
@@ -54,6 +54,12 @@ const MessageDetails: FunctionComponent<Props> = ({
   details,
   onClose = noop,
 }) => {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollIntoView()
+    }
+  }, [])
   const icons = (
     <>
       <SidebarHeaderIcon Icon={Type.Calls} onClick={noop} />
@@ -98,7 +104,7 @@ const MessageDetails: FunctionComponent<Props> = ({
             )
           })}
         </MessageBubblesWrapper>
-        <div>
+        <div ref={ref}>
           <Textarea
             type="textarea"
             value={""}
