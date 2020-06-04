@@ -195,14 +195,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 data-testid="checkbox"
               />
               <InitialsAvatar
-                user={
-                  isInContacts
-                    ? {
-                        firstName: caller.firstName,
-                        lastName: caller.lastName,
-                      }
-                    : undefined
-                }
+                user={isInContacts ? caller : undefined}
                 light={selected}
               />
             </AvatarCol>
