@@ -1,5 +1,5 @@
 export interface DevMode {
-  isDevModeEnabled: boolean
+  isDevModeEnabled?: boolean
 }
 
 export type DevModePayload = boolean

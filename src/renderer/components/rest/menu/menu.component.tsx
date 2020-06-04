@@ -1,11 +1,16 @@
 import React from "react"
 import MenuGroup from "Renderer/components/rest/menu/menu-group.component"
 import { menuElements } from "Renderer/constants/menu-elements"
+import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
 import styled from "styled-components"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  textColor,
+} from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { intl } from "Renderer/utils/intl"
 
 const MenuWrapper = styled.div`
   flex: 1;
@@ -27,11 +32,22 @@ const SvgMuditaLogo = styled(Icon)`
   margin: 2rem 0 3.5rem;
 `
 
-interface Props {
+const DevSign = styled.span`
+  position: absolute;
+  right: 0;
+  top: 2rem;
+  line-height: 2rem;
+  color: ${textColor("faded")};
+`
+
+interface Props extends DevMode {
   deviceDisconnected?: boolean
 }
 
-const Menu: FunctionComponent<Props> = ({ deviceDisconnected }) => {
+const Menu: FunctionComponent<Props> = ({
+  deviceDisconnected,
+  isDevModeEnabled,
+}) => {
   const links = menuElements
     .filter(({ visibleWithPhone }) =>
       deviceDisconnected ? visibleWithPhone : true
@@ -43,6 +59,9 @@ const Menu: FunctionComponent<Props> = ({ deviceDisconnected }) => {
     <MenuWrapper>
       <LogoWrapper>
         <SvgMuditaLogo type={Type.MuditaLogoWithText} />
+        {isDevModeEnabled && (
+          <DevSign>{intl.formatMessage({ id: "dev.view.header" })}</DevSign>
+        )}
       </LogoWrapper>
       {links}
     </MenuWrapper>
