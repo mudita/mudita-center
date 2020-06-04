@@ -144,7 +144,7 @@ const MessageDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
 export interface ActiveRow {
   caller: Caller
   messages: Msg[]
-  contact: boolean
+  isInContacts: boolean
 }
 
 interface Props {
@@ -173,18 +173,18 @@ const MessagesList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      {list.map(({ id, caller, messages, unread, contact }) => {
+      {list.map(({ id, caller, messages, unread, isInContacts }) => {
         const { selected, indeterminate } = getRowStatus(caller)
         const lastMessage = messages[messages.length - 1]
         const onChange = () => toggleRow(caller)
-        const onClick = () => openSidebar({ caller, messages, contact })
+        const onClick = () => openSidebar({ caller, messages, isInContacts })
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
             key={id}
             ref={ref}
             selected={selected}
-            active={isEqual(activeRow, { caller, messages, contact })}
+            active={isEqual(activeRow, { caller, messages, isInContacts })}
           >
             <AvatarCol>
               <Checkbox
@@ -196,7 +196,7 @@ const MessagesList: FunctionComponent<Props> = ({
               />
               <InitialsAvatar
                 user={
-                  contact
+                  isInContacts
                     ? {
                         firstName: caller.firstName,
                         lastName: caller.lastName,
@@ -209,7 +209,7 @@ const MessagesList: FunctionComponent<Props> = ({
             <MessageCol onClick={onClick} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {contact
+                  {isInContacts
                     ? `${caller.firstName} ${caller.lastName}`
                     : caller.phoneNumber}
                 </Name>
@@ -242,7 +242,7 @@ const MessagesList: FunctionComponent<Props> = ({
                   <ButtonComponent
                     labelMessage={{
                       id: "view.name.messages.dropdownCall",
-                      values: contact
+                      values: isInContacts
                         ? { name: caller.firstName }
                         : { name: caller.phoneNumber },
                     }}
@@ -251,7 +251,7 @@ const MessagesList: FunctionComponent<Props> = ({
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
                   />
-                  {contact ? (
+                  {isInContacts ? (
                     <ButtonComponent
                       labelMessage={{
                         id: "view.name.messages.dropdownContactDetails",

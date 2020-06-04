@@ -19,13 +19,13 @@ const createCaller = (contact: boolean) => {
 const createMessage = () => Faker.lorem.sentence(10, 2)
 const createListOfMessages = () => times(2, createMessage)
 const createTopic = () => {
-  const contact = Faker.random.boolean()
-  const caller = createCaller(contact)
+  const isInContacts = Faker.random.boolean()
+  const caller = createCaller(isInContacts)
   return {
     id: Faker.random.uuid(),
     caller,
     unread: Faker.random.boolean(),
-    contact,
+    isInContacts,
     messages: [
       {
         author: caller,

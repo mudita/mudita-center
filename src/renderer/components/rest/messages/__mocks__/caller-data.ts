@@ -20,7 +20,7 @@ export const mockedList = [
     id: "1231",
     caller,
     unread: true,
-    contact: true,
+    isInContacts: true,
     messages: [
       {
         author: caller,
@@ -44,7 +44,7 @@ export const mockedList = [
     id: "1233",
     caller: unknownContact,
     unread: false,
-    contact: false,
+    isInContacts: false,
     messages: [
       {
         author: unknownContact,
@@ -68,7 +68,7 @@ export const mockedList = [
     id: "1234",
     caller,
     unread: false,
-    contact: true,
+    isInContacts: true,
     messages: [
       {
         author: caller,
@@ -112,7 +112,7 @@ export const mockedDetails = {
       interlocutor: true,
     },
   ],
-  contact: true,
+  isInContacts: true,
 }
 
 export const unknownCallerMockedDetails = {
@@ -137,7 +137,7 @@ export const unknownCallerMockedDetails = {
       interlocutor: true,
     },
   ],
-  contact: false,
+  isInContacts: false,
 }
 
 const randomCaller = createCaller()
@@ -147,7 +147,7 @@ export const randomMockedList = [
     id: "1231",
     caller: randomCaller,
     unread: true,
-    contact: true,
+    isInContacts: true,
     messages: [
       {
         author: randomCaller,
@@ -169,7 +169,7 @@ export const randomMockedList = [
     id: "1233",
     caller,
     unread: false,
-    contact: true,
+    isInContacts: true,
     messages: [
       {
         author: caller,
@@ -193,7 +193,7 @@ export const randomMockedList = [
     id: "1234",
     caller,
     unread: false,
-    contact: true,
+    isInContacts: true,
     messages: [
       {
         author: caller,

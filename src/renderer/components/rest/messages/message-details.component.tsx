@@ -71,11 +71,11 @@ const MessageDetails: FunctionComponent<Props> = ({
             displayStyle={TextDisplayStyle.LargeBoldText}
             data-testid="sidebar-fullname"
           >
-            {details.contact
+            {details.isInContacts
               ? `${details.caller.firstName} ${details.caller.lastName}`
               : details.caller.phoneNumber}
           </Text>
-          {details.contact && (
+          {details.isInContacts && (
             <PhoneNumberText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"
@@ -95,7 +95,9 @@ const MessageDetails: FunctionComponent<Props> = ({
             return (
               <MessageDetailsBubble
                 key={id}
-                user={details.contact || !interlocutor ? author : undefined}
+                user={
+                  details.isInContacts || !interlocutor ? author : undefined
+                }
                 messages={content}
                 interlocutor={interlocutor}
               />

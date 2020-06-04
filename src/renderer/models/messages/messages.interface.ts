@@ -23,7 +23,7 @@ export interface Topic {
   caller: Caller
   unread: boolean
   messages: Message[]
-  contact: boolean
+  isInContacts: boolean
 }
 
 export enum VisibilityFilter {
