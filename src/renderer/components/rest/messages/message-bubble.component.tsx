@@ -93,13 +93,13 @@ const MessageBubble: FunctionComponent<Props> = ({
   forwardMessage = noop,
   deleteMessage = noop,
 }) => {
+  const [clicked, setClicked] = useState<boolean>(false)
+  const open = () => setClicked(true)
+  const close = () => setClicked(false)
   return (
     <MessageBubbleWrapper className={className} interlocutor={interlocutor}>
       <div>
         {messages.map((msg, index) => {
-          const [clicked, setClicked] = useState<boolean>(false)
-          const open = () => setClicked(true)
-          const close = () => setClicked(false)
           return (
             <MessageBubbleContainer interlocutor={interlocutor} key={index}>
               <MessageBubbleDropdown

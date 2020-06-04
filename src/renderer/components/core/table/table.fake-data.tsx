@@ -1,5 +1,5 @@
 import Faker from "faker"
-import { groupBy, times } from "lodash"
+import { groupBy, times, random } from "lodash"
 
 const createCaller = (contact: boolean) => {
   return contact
@@ -17,7 +17,7 @@ const createCaller = (contact: boolean) => {
       }
 }
 const createMessage = () => Faker.lorem.sentence(10, 2)
-const createListOfMessages = () => times(2, createMessage)
+const createListOfMessages = () => times(random(1, 3), createMessage)
 const createTopic = () => {
   const isInContacts = Faker.random.boolean()
   const caller = createCaller(isInContacts)
@@ -55,7 +55,7 @@ const createTopic = () => {
   }
 }
 
-export const rowsMessages = times(10, createTopic)
+export const rowsMessages = times(random(5, 15), createTopic)
 
 export const basicRows = Array.from({
   length: Math.round(15 + Math.random() * 25),
