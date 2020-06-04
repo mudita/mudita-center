@@ -14,6 +14,7 @@ import styled from "styled-components"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
+import { createFullName } from "Renderer/models/phone/phone.utils"
 
 interface Props {
   details: ActiveRow
@@ -72,7 +73,7 @@ const MessageDetails: FunctionComponent<Props> = ({
             data-testid="sidebar-fullname"
           >
             {details.isInContacts
-              ? `${details.caller.firstName} ${details.caller.lastName}`
+              ? createFullName(details.caller)
               : details.caller.phoneNumber}
           </Text>
           {details.isInContacts && (
