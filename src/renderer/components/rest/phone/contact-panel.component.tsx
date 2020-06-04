@@ -1,12 +1,12 @@
 import React, { ChangeEvent } from "react"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import { Icon } from "Renderer/components/core/input-text/input-text.stories"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl } from "Renderer/utils/intl"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 
 const Panel = styled.div`
   display: grid;
@@ -49,7 +49,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   return (
     <Panel>
       <InputComponent
-        leadingIcons={[<Icon key={1} />]}
+        leadingIcons={[searchIcon]}
         label={intl.formatMessage({
           id: "view.name.phone.contacts.panel.searchPlaceholder",
         })}
