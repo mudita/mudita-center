@@ -36,6 +36,7 @@ import {
 import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
 import { isEqual } from "lodash"
+import { createFullName } from "Renderer/models/phone/phone.utils"
 
 const checkboxVisibleStyles = css`
   display: block;
@@ -202,9 +203,7 @@ const MessagesList: FunctionComponent<Props> = ({
             <MessageCol onClick={onClick} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {isInContacts
-                    ? `${caller.firstName} ${caller.lastName}`
-                    : caller.phoneNumber}
+                  {isInContacts ? createFullName(caller) : caller.phoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage.date).format("h:mm A")}
