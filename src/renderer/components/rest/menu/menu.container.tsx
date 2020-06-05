@@ -5,7 +5,7 @@ import { RootState } from "Renderer/store"
 const mapStateToProps = (state: RootState) => {
   return {
     deviceDisconnected: state.basicInfo.disconnectedDevice,
-    isDevModeEnabled: state.devMode.isDevModeEnabled,
+    devModeEnabled: state.devMode.devModeEnabled,
   }
 }
 

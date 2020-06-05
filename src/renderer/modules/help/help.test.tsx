@@ -20,7 +20,7 @@ test("Help component renders", () => {
 
 test("Help components displays Dev Mode", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <Help {...defaultProps} isDevModeEnabled />
+    <Help {...defaultProps} devModeEnabled />
   )
 
   expect(getByTestId(DevModeTestIds.Wrapper)).toBeInTheDocument()

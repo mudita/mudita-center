@@ -48,7 +48,7 @@ const Help: FunctionComponent<HelpProps> = props => {
       >
         App Version 1.0.0
       </p>
-      {props.isDevModeEnabled && <DevMode disable={props.disable} />}
+      {props.devModeEnabled && <DevMode disable={props.disable} />}
     </div>
   )
 }

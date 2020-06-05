@@ -46,7 +46,7 @@ interface Props extends DevMode {
 
 const Menu: FunctionComponent<Props> = ({
   deviceDisconnected,
-  isDevModeEnabled,
+  devModeEnabled,
 }) => {
   const links = menuElements
     .filter(({ visibleWithPhone }) =>
@@ -59,7 +59,7 @@ const Menu: FunctionComponent<Props> = ({
     <MenuWrapper>
       <LogoWrapper>
         <SvgMuditaLogo type={Type.MuditaLogoWithText} />
-        {isDevModeEnabled && (
+        {devModeEnabled && (
           <DevSign>{intl.formatMessage({ id: "dev.view.header" })}</DevSign>
         )}
       </LogoWrapper>
