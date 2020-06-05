@@ -176,6 +176,8 @@ const MessagesList: FunctionComponent<Props> = ({
       {list.map(({ id, caller, messages, unread }) => {
         const { selected, indeterminate } = getRowStatus(caller)
         const lastMessage = messages[messages.length - 1]
+        const lastMessageText =
+          lastMessage.content[lastMessage.content.length - 1].text
         const onChange = () => toggleRow(caller)
         const onClick = () => openSidebar({ caller, messages })
 
@@ -217,7 +219,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       : TextDisplayStyle.MediumFadedLightText
                   }
                 >
-                  {lastMessage.content}
+                  {lastMessageText}
                 </LastMessageText>
               </MessageDataWrapper>
             </MessageCol>

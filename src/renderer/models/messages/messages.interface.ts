@@ -8,10 +8,15 @@ export interface Caller {
   inContacts: boolean
 }
 
+export interface Content {
+  id: string
+  text: string
+}
+
 export interface Message {
   id: string
   date: string
-  content: string[]
+  content: Content[]
   interlocutor?: boolean
   author: {
     firstName: string
