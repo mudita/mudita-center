@@ -231,5 +231,6 @@
   "form.error.invalidEmail": "Email is invalid",
   "dev.view.enabled": "Dev Mode is ready!",
   "dev.view.header": "DEV",
+  "dev.view.wrapperName": "Developer Options",
   "dev.action.disable": "Turn it off!"
 }
