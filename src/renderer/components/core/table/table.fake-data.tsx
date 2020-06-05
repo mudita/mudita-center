@@ -8,12 +8,14 @@ const createCaller = (contact: boolean) => {
         firstName: Faker.name.firstName(),
         lastName: Faker.name.lastName(),
         phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+        contact,
       }
     : {
         id: Faker.random.uuid(),
         firstName: "",
         lastName: "",
         phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+        contact,
       }
 }
 const createMessage = () => Faker.lorem.sentence(10, 2)
@@ -45,6 +47,7 @@ const createTopic = () => {
         author: {
           firstName: "John",
           lastName: "Doe",
+          contact: true,
         },
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",

@@ -5,6 +5,7 @@ export interface Caller {
   firstName: string
   lastName: string
   phoneNumber: string
+  contact: boolean
 }
 
 export interface Message {

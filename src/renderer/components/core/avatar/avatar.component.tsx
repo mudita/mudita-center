@@ -60,13 +60,14 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light?: boolean }>`
 export interface User {
   firstName: string
   lastName: string
+  contact?: boolean
 }
 
 export interface AvatarProps {
   size?: AvatarSize
   light?: boolean
   imageSrc?: string
-  user?: User | boolean
+  user?: User | false
 }
 
 const Avatar: FunctionComponent<AvatarProps> = ({
@@ -79,7 +80,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
   <AvatarWrapper className={className} size={size} light={light}>
     {imageSrc ? (
       <AvatarImage data-testid="avatar-image" src={imageSrc} />
-    ) : user && typeof user === "object" ? (
+    ) : user ? (
       <Text
         displayStyle={
           size === AvatarSize.Big

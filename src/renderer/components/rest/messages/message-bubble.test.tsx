@@ -74,7 +74,7 @@ test("deletes message", () => {
 
 test("when author of message is unknown, displays default icon in avatar", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble user={undefined} messages={multipleMessages} />
+    <MessageBubble user={user} messages={multipleMessages} />
   )
   expect(getByTestId("icon-Contacts")).toBeInTheDocument()
 })

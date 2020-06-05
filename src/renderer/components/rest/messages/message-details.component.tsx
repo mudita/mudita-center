@@ -96,7 +96,7 @@ const MessageDetails: FunctionComponent<Props> = ({
             return (
               <MessageDetailsBubble
                 key={id}
-                user={details.isInContacts || !interlocutor ? author : false}
+                user={author}
                 messages={content}
                 interlocutor={interlocutor}
               />

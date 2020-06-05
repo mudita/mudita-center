@@ -179,6 +179,7 @@ const MessagesList: FunctionComponent<Props> = ({
         const lastMessage = messages[messages.length - 1]
         const onChange = () => toggleRow(caller)
         const onClick = () => openSidebar({ caller, messages, isInContacts })
+        console.log(caller.contact && caller)
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
@@ -196,7 +197,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 data-testid="checkbox"
               />
               <InitialsAvatar
-                user={isInContacts ? caller : undefined}
+                user={caller.contact && caller}
                 light={selected}
               />
             </AvatarCol>

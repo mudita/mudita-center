@@ -78,7 +78,7 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
 `
 
 interface Props {
-  user?: User | boolean
+  user: User
   messages: string[]
   interlocutor?: boolean
   forwardMessage?: () => void
@@ -145,7 +145,7 @@ const MessageBubble: FunctionComponent<Props> = ({
           )
         })}
       </div>
-      <InitialsAvatar user={user} interlocutor={interlocutor} />
+      <InitialsAvatar user={user.contact && user} interlocutor={interlocutor} />
     </MessageBubbleWrapper>
   )
 }
