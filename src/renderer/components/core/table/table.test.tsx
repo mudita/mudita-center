@@ -1,5 +1,4 @@
 import "@testing-library/jest-dom/extend-expect"
-import "jest-styled-components"
 import React from "react"
 import { Checkbox, Files } from "Renderer/components/core/table/table.stories"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"

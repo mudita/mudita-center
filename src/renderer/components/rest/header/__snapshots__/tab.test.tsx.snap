@@ -1,15 +1,118 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 100%;
+  padding: 0.8rem;
+  border: none;
+  position: relative;
+  border-radius: 0.2remrem;
+  color: #6a6a6a;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c0:after {
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0.2rem;
+  background-color: #000000;
+  -webkit-transition: width 500ms ease;
+  transition: width 500ms ease;
+}
+
+.c0.active {
+  color: #000000;
+}
+
+.c0.active:after {
+  width: 100%;
+}
+
+.c0.active svg {
+  opacity: 1;
+}
+
+.c0 svg {
+  opacity: 0.75;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <a
   aria-current="page"
-  class="sc-AxiKw WIVtA active"
+  class="c0 active"
   displaystyle="9"
   href="/phone"
   size="2"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Check"
   >
     <test-file-stub
@@ -17,7 +120,7 @@ exports[`matches snapshot 1`] = `
     />
   </div>
   <p
-    class="sc-AxjAm eGfSTk sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Phone
   </p>

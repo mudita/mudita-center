@@ -1,12 +1,82 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should match snapshot with link 1`] = `
+.c4 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.c5 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: #6a6a6a;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-left: 0.3rem solid #AEBEC9;
+}
+
+.c6 {
+  padding: 2.4rem 1.25rem;
+  border-left: 0.1rem solid #f4f5f6;
+}
+
+.c6:hover .arrow {
+  fill: #3e6988;
+}
+
+.c2 {
+  margin: 1.9rem 2.4rem;
+}
+
+.c3 {
+  margin-right: 3.2rem;
+}
+
 <div
-  class="sc-AxiKw ePUWgf"
+  class="c0"
   data-testid="files-manager-item"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
+    class="c1 c2"
     data-testid="icon-VoiceRecorder"
   >
     <test-file-stub
@@ -14,25 +84,25 @@ exports[`should match snapshot with link 1`] = `
     />
   </div>
   <div
-    class="sc-AxgMl ioCkNe"
+    class="c3"
   >
     <p
-      class="sc-AxjAm eGfSTk"
+      class="c4"
     >
       Voice Recorder
     </p>
     <p
-      class="sc-AxjAm Oohkf"
+      class="c5"
     >
       3 files (4.0 GB)
     </p>
   </div>
   <a
-    class="sc-AxhCb uAwSu"
+    class="c6"
     href="#/tools/voice-recorder"
   >
     <div
-      class="sc-AxirZ XgaKu"
+      class="c1"
       data-testid="icon-Arrow"
     >
       <test-file-stub
@@ -44,12 +114,73 @@ exports[`should match snapshot with link 1`] = `
 `;
 
 exports[`should match snapshot without link 1`] = `
+.c4 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.c5 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: #6a6a6a;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-left: 0.3rem solid #AEBEC9;
+}
+
+.c2 {
+  margin: 1.9rem 2.4rem;
+}
+
+.c3 {
+  margin-right: 3.2rem;
+}
+
 <div
-  class="sc-AxiKw ePUWgf"
+  class="c0"
   data-testid="files-manager-item"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
+    class="c1 c2"
     data-testid="icon-VoiceRecorder"
   >
     <test-file-stub
@@ -57,15 +188,15 @@ exports[`should match snapshot without link 1`] = `
     />
   </div>
   <div
-    class="sc-AxgMl ioCkNe"
+    class="c3"
   >
     <p
-      class="sc-AxjAm eGfSTk"
+      class="c4"
     >
       Voice Recorder
     </p>
     <p
-      class="sc-AxjAm Oohkf"
+      class="c5"
     >
       3 files (4.0 GB)
     </p>

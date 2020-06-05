@@ -1,38 +1,214 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 2.4rem;
+  line-height: 0.8;
+  font-weight: 700;
+  -webkit-letter-spacing: -0.06rem;
+  -moz-letter-spacing: -0.06rem;
+  -ms-letter-spacing: -0.06rem;
+  letter-spacing: -0.06rem;
+}
+
+.c4 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c9 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c7:hover {
+  background: #232426;
+}
+
+.c7 g {
+  fill: #ffffff;
+}
+
+.c10 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c11 {
+  white-space: nowrap;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.c0 {
+  display: grid;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  grid-template-areas: "Text Buttons";
+  grid-template-columns: auto minmax(18rem,1fr);
+  height: 14.4rem;
+  padding: 0 4.8rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+}
+
+.c6 {
+  grid-area: Buttons;
+  justify-self: end;
+  min-width: 18rem;
+}
+
+.c8 {
+  --radius: 0.5rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  z-index: 1;
+  pointer-events: all;
+  z-index: 3;
+  padding: 0 1.6rem;
+  width: 50%;
+}
+
+.c8:disabled {
+  pointer-events: none;
+}
+
+.c8:hover {
+  z-index: 2;
+}
+
+.c8:not(:first-of-type) {
+  border-radius: 0;
+  margin-left: -0.1rem;
+}
+
+.c8:first-of-type:not(:last-of-type) {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c8:last-of-type:not(:first-of-type) {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c1 {
+  grid-area: Text;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: baseline;
+  -webkit-box-align: baseline;
+  -ms-flex-align: baseline;
+  align-items: baseline;
+}
+
+.c2 span {
+  margin-left: 0.8rem;
+  font-weight: 300;
+  text-transform: none;
+}
+
 <div>
   <section
-    class="sc-fzoaKM kXidsN"
+    class="c0"
   >
     <div
-      class="sc-fzomuh sc-fzowVh buBpCD"
+      class="sc-fzqAui c1"
     >
       <div
-        class="sc-fzoJus iBTFYs"
+        class="c2"
       >
         <h2
-          class="sc-AxjAm esSvjJ"
+          class="c3"
         >
           3.1.0
         </h2>
         <span
-          class="sc-AxjAm pMKRu"
+          class="c4"
         >
           OS version
         </span>
       </div>
     </div>
     <section
-      class="sc-fznAgC dLlVeT sc-fzqAui qOBpG"
+      class="c5 c6"
     >
       <button
-        class="sc-AxgMl fvnHkD sc-fznLPX sc-fzqMdD kvjNEk"
+        class="c7 sc-fzoaKM c8"
         size="2"
         type="button"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c9 c10"
           data-testid="icon-Reload"
         >
           <test-file-stub
@@ -40,7 +216,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+          class="c4 c11"
         >
           Check for updates
         </p>
