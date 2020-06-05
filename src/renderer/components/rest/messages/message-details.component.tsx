@@ -72,11 +72,11 @@ const MessageDetails: FunctionComponent<Props> = ({
             displayStyle={TextDisplayStyle.LargeBoldText}
             data-testid="sidebar-fullname"
           >
-            {details.caller.contact
+            {details.caller.inContacts
               ? createFullName(details.caller)
               : details.caller.phoneNumber}
           </Text>
-          {details.caller.contact && (
+          {details.caller.inContacts && (
             <PhoneNumberText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"

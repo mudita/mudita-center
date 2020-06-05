@@ -1,28 +1,28 @@
 import Faker from "faker"
 import { groupBy, times, random } from "lodash"
 
-const createCaller = (contact: boolean) => {
-  return contact
+const createCaller = (inContacts: boolean) => {
+  return inContacts
     ? {
         id: Faker.random.uuid(),
         firstName: Faker.name.firstName(),
         lastName: Faker.name.lastName(),
         phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-        contact,
+        inContacts,
       }
     : {
         id: Faker.random.uuid(),
         firstName: "",
         lastName: "",
         phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-        contact,
+        inContacts,
       }
 }
 const createMessage = () => Faker.lorem.sentence(10, 2)
 const createListOfMessages = () => times(random(1, 3), createMessage)
 const createTopic = () => {
-  const contact = Faker.random.boolean()
-  const caller = createCaller(contact)
+  const inContacts = Faker.random.boolean()
+  const caller = createCaller(inContacts)
   return {
     id: Faker.random.uuid(),
     caller,
@@ -46,7 +46,7 @@ const createTopic = () => {
         author: {
           firstName: "John",
           lastName: "Doe",
-          contact: true,
+          inContacts: true,
         },
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",

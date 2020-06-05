@@ -145,7 +145,10 @@ const MessageBubble: FunctionComponent<Props> = ({
           )
         })}
       </div>
-      <InitialsAvatar user={user.contact && user} interlocutor={interlocutor} />
+      <InitialsAvatar
+        user={user.inContacts && user}
+        interlocutor={interlocutor}
+      />
     </MessageBubbleWrapper>
   )
 }

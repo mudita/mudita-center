@@ -23,21 +23,21 @@ const mockedTopics = [
         date: "2019-10-18T11:27:15.256Z",
         content:
           "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-        isCaller: true,
+        inContacts: true,
       },
       {
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
         content:
           "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-        isCaller: false,
+        inContacts: false,
       },
       {
         id: "a405b5ce-a77b-4abd-9671-50a04678ec77",
         date: "2019-10-18T12:38:18.726Z",
         content:
           "Mollit et enim esse labore dolore velit ipsum elit sunt dolor sit sunt aliquip sit.",
-        isCaller: false,
+        inContacts: false,
       },
       {
         id: "c46c8652-1764-4d2a-aed0-cc10c9290ec9",

@@ -5,7 +5,7 @@ const createCaller = () => ({
   firstName: Faker.name.firstName(),
   lastName: Faker.name.lastName(),
   phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-  contact: true,
+  inContacts: true,
 })
 
 const caller = createCaller()
@@ -14,7 +14,7 @@ const unknownContact = {
   firstName: "",
   lastName: "",
   phoneNumber: "+123 456 123",
-  contact: false,
+  inContacts: false,
 }
 
 export const mockedList = [

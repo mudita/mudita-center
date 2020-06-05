@@ -195,14 +195,16 @@ const MessagesList: FunctionComponent<Props> = ({
                 data-testid="checkbox"
               />
               <InitialsAvatar
-                user={caller.contact && caller}
+                user={caller.inContacts && caller}
                 light={selected}
               />
             </AvatarCol>
             <MessageCol onClick={onClick} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {caller.contact ? createFullName(caller) : caller.phoneNumber}
+                  {caller.inContacts
+                    ? createFullName(caller)
+                    : caller.phoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage.date).format("h:mm A")}
@@ -233,7 +235,7 @@ const MessagesList: FunctionComponent<Props> = ({
                   <ButtonComponent
                     labelMessage={{
                       id: "view.name.messages.dropdownCall",
-                      values: caller.contact
+                      values: caller.inContacts
                         ? { name: caller.firstName }
                         : { name: caller.phoneNumber },
                     }}
@@ -242,7 +244,7 @@ const MessagesList: FunctionComponent<Props> = ({
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
                   />
-                  {caller.contact ? (
+                  {caller.inContacts ? (
                     <ButtonComponent
                       labelMessage={{
                         id: "view.name.messages.dropdownContactDetails",
