@@ -35,7 +35,7 @@ import {
 } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
-import { isEqual } from "lodash"
+import { createFullName } from "Renderer/models/phone/phone.utils"
 
 const checkboxVisibleStyles = css`
   display: block;
@@ -157,9 +157,9 @@ const MessagesList: FunctionComponent<Props> = ({
   list,
   openSidebar = noop,
 }) => {
-  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
-    rowsMessages
-  )
+  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect<
+    ActiveRow
+  >(rowsMessages)
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
               and use it in <Messages />
@@ -172,18 +172,19 @@ const MessagesList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      {list.map(({ id, caller, messages, unread }) => {
-        const { selected, indeterminate } = getRowStatus(caller)
+      {list.map(row => {
+        const { selected, indeterminate } = getRowStatus(row)
+        const { id, caller, messages, unread } = row
         const lastMessage = messages[messages.length - 1]
-        const onChange = () => toggleRow(caller)
-        const onClick = () => openSidebar({ caller, messages })
+        const onChange = () => toggleRow(row)
+        const onClick = () => openSidebar(row)
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
             key={id}
             ref={ref}
             selected={selected}
-            active={isEqual(activeRow, { caller, messages })}
+            active={row === activeRow}
           >
             <AvatarCol>
               <Checkbox
@@ -193,18 +194,12 @@ const MessagesList: FunctionComponent<Props> = ({
                 indeterminate={indeterminate}
                 data-testid="checkbox"
               />
-              <InitialsAvatar
-                user={{
-                  firstName: caller.firstName,
-                  lastName: caller.lastName,
-                }}
-                light={selected}
-              />
+              <InitialsAvatar user={caller} light={selected} />
             </AvatarCol>
             <MessageCol onClick={onClick} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {caller.firstName} {caller.lastName}
+                  {createFullName(caller)}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage.date).format("h:mm A")}

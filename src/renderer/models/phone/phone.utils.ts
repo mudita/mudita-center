@@ -51,7 +51,13 @@ export const generateFakeData = (numberOfContacts: number) => {
     .map(() => generateFakeContact(speedDials))
 }
 
-export const createFullName = ({ firstName, lastName }: Contact) => {
+export const createFullName = ({
+  firstName,
+  lastName,
+}: {
+  firstName: string
+  lastName: string
+}) => {
   return `${firstName || ""} ${lastName || ""}`.trim()
 }
 

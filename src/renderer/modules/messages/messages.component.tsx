@@ -7,13 +7,11 @@ import {
   DisplayStyle,
   Size,
 } from "Renderer/components/core/button/button.config"
-import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import InputText from "Renderer/components/core/input-text/input-text.component"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
-import MessageDetails from "Renderer/components/rest/messages/message-details.component"
 import MessagesList, {
   ActiveRow,
 } from "Renderer/components/rest/messages/messages-list.component"
@@ -26,10 +24,12 @@ import {
   VisibilityFilter,
 } from "Renderer/models/messages/messages.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
+import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import MessageDetails from "Renderer/components/rest/messages/message-details.component"
+import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -52,8 +52,6 @@ const toggleState = [
     id: "view.name.messages.unreadOnly",
   }),
 ] as const
-
-const searchIcon = <Icon type={Type.Magnifier} />
 
 const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
@@ -108,7 +106,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         </UnreadFilters>
         <SearchInput
           type={"search"}
-          placeholder={intl.formatMessage({
+          label={intl.formatMessage({
             id: "view.name.messages.search",
           })}
           outlined

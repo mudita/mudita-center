@@ -16,9 +16,9 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install
+      - name: Install dependencies
         run: |
-          npm install
+          npm ci
       - name: Jest code coverage report
         uses: ziishaned/jest-reporter-action@0.1.1
         with:
