@@ -64,7 +64,9 @@ const Overview: FunctionComponent<BasicInfoInitialState &
         <p>Phone signal: 1800Mhz</p>
         <p>Battery cycles: 99/100</p>
         <Button onClick={noop} label="Restart phone" />
+        <br />
         <Button onClick={noop} label="Hard restart phone" />
+        <br />
         <Button onClick={noop} label="Flush phone data" />
       </DevModeWrapper>
       <OverviewUI

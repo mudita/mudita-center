@@ -232,5 +232,6 @@
   "dev.view.enabled": "Dev Mode is ready!",
   "dev.view.header": "DEV",
   "dev.view.wrapperName": "Developer Options",
-  "dev.action.disable": "Turn it off!"
+  "dev.action.disable": "Turn it off!",
+  "dev.action.toggle": "Toggle dev window"
 }
