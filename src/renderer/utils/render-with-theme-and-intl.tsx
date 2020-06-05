@@ -6,8 +6,10 @@ import {
 } from "@testing-library/react"
 import React from "react"
 import { IntlProvider } from "react-intl"
+import { Provider } from "react-redux"
 import { LANGUAGE } from "Renderer/constants/languages"
 import localeEn from "Renderer/locales/main/en-US.json"
+import store from "Renderer/store"
 import { ThemeProvider } from "styled-components"
 import theme from "../styles/theming/theme"
 
@@ -24,15 +26,17 @@ export function renderWithThemeAndIntl<Q extends Queries>(
   options?: RenderOptions<Q> | Omit<RenderOptions, "queries">
 ) {
   return render<Q>(
-    <ThemeProvider theme={theme}>
-      <IntlProvider
-        defaultLocale={LANGUAGE.default}
-        locale={LANGUAGE.default}
-        messages={localeEn}
-      >
-        {ui}
-      </IntlProvider>
-    </ThemeProvider>,
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <IntlProvider
+          defaultLocale={LANGUAGE.default}
+          locale={LANGUAGE.default}
+          messages={localeEn}
+        >
+          {ui}
+        </IntlProvider>
+      </ThemeProvider>
+    </Provider>,
     // @ts-ignore
     options
   )

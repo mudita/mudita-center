@@ -3,55 +3,55 @@
 exports[`matches snapshot 1`] = `
 <div>
   <section
-    class="sc-fznMAR fHdawV"
+    class="sc-fznOgF htFOnZ"
   >
     <div
-      class="sc-fzpmMD hCCPBz"
+      class="sc-fzplgP khsKkY"
     >
       <p
-        class="sc-AxjAm ijRVAY sc-fznxKY EqPfb"
+        class="sc-AxjAm ijRVAY sc-fznzqM jWCIwH"
       >
         Select which notifications you want to receive while using Desktop App:
       </p>
     </div>
     <div
-      class="sc-fznKkj sc-fzoyTs cNPZIx"
+      class="sc-fzoJus sc-fzoxnE edpdHE"
     >
       <div
-        class="sc-fzoNJl OYErR"
+        class="sc-fzoMdx dPNgag"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
+          class="sc-AxjAm eGfSTk sc-fznAgC sc-fzoWqW dhbCMp"
         >
           Incoming calls notifications
         </p>
       </div>
       <div
-        class="sc-fzplWN bdMOMJ"
+        class="sc-fzqMdD hCKUzo"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
+          class="sc-fznXWL ewxScJ sc-fzqzlV hueVtT"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            class="sc-AxgMl fvnHkD sc-fzokvW sc-fzqLLg WWsRb"
             data-testid="toggler-active"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
             >
               Off
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            class="sc-AxgMl kZNYpP sc-fzokvW sc-fzqLLg eMtbBl"
             data-testid="toggler-inactive"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
             >
               On
             </p>
@@ -60,43 +60,43 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj sc-fzoyTs cNPZIx"
+      class="sc-fzoJus sc-fzoxnE edpdHE"
     >
       <div
-        class="sc-fzoNJl OYErR"
+        class="sc-fzoMdx dPNgag"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
+          class="sc-AxjAm eGfSTk sc-fznAgC sc-fzoWqW dhbCMp"
         >
           Incoming messages notifications
         </p>
       </div>
       <div
-        class="sc-fzplWN bdMOMJ"
+        class="sc-fzqMdD hCKUzo"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
+          class="sc-fznXWL ewxScJ sc-fzqzlV hueVtT"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            class="sc-AxgMl fvnHkD sc-fzokvW sc-fzqLLg WWsRb"
             data-testid="toggler-active"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
             >
               Off
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            class="sc-AxgMl kZNYpP sc-fzokvW sc-fzqLLg eMtbBl"
             data-testid="toggler-inactive"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
             >
               On
             </p>
@@ -105,43 +105,43 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj sc-fzoyTs cNPZIx"
+      class="sc-fzoJus sc-fzoxnE edpdHE"
     >
       <div
-        class="sc-fzoNJl OYErR"
+        class="sc-fzoMdx dPNgag"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
+          class="sc-AxjAm eGfSTk sc-fznAgC sc-fzoWqW dhbCMp"
         >
           Low battery level notifications
         </p>
       </div>
       <div
-        class="sc-fzplWN bdMOMJ"
+        class="sc-fzqMdD hCKUzo"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
+          class="sc-fznXWL ewxScJ sc-fzqzlV hueVtT"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            class="sc-AxgMl fvnHkD sc-fzokvW sc-fzqLLg WWsRb"
             data-testid="toggler-active"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
             >
               Off
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            class="sc-AxgMl kZNYpP sc-fzokvW sc-fzqLLg eMtbBl"
             data-testid="toggler-inactive"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
             >
               On
             </p>
@@ -150,43 +150,43 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj sc-fzoyTs cNPZIx"
+      class="sc-fzoJus sc-fzoxnE edpdHE"
     >
       <div
-        class="sc-fzoNJl OYErR"
+        class="sc-fzoMdx dPNgag"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
+          class="sc-AxjAm eGfSTk sc-fznAgC sc-fzoWqW dhbCMp"
         >
           PureOS updates notifications
         </p>
       </div>
       <div
-        class="sc-fzplWN bdMOMJ"
+        class="sc-fzqMdD hCKUzo"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
+          class="sc-fznXWL ewxScJ sc-fzqzlV hueVtT"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            class="sc-AxgMl fvnHkD sc-fzokvW sc-fzqLLg WWsRb"
             data-testid="toggler-active"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
             >
               Off
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            class="sc-AxgMl kZNYpP sc-fzokvW sc-fzqLLg eMtbBl"
             data-testid="toggler-inactive"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
             >
               On
             </p>

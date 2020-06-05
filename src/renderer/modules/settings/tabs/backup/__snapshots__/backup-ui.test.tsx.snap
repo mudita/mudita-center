@@ -3,45 +3,45 @@
 exports[`matches snapshot 1`] = `
 <div>
   <section
-    class="sc-fzqNqU enhkfO"
+    class="sc-fzqLLg ellPWX"
   >
     <div
-      class="sc-fzoiQi bKmodZ"
+      class="sc-fzokvW fEdynq"
     >
       <p
-        class="sc-AxjAm ijRVAY sc-fzqARJ edorez"
+        class="sc-AxjAm ijRVAY sc-fzqzlV httwHm"
       >
         Select a folder for Pure backup files on this computer
       </p>
     </div>
     <div
-      class="sc-fznKkj sc-fznWqX dFQTVS"
+      class="sc-fzoJus sc-fznXWL bTnddj"
     >
       <div
-        class="sc-fznyAO sc-fzoyTs juHJqJ"
+        class="sc-fzowVh sc-fzoxnE lhOLiU"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr dKSsZf"
+          class="sc-AxjAm eGfSTk sc-fznAgC cEAcES"
         >
           Backup Location
         </p>
         <p
-          class="sc-AxjAm ijRVAY sc-fzozJi kEWxNo"
+          class="sc-AxjAm ijRVAY sc-fzoaKM kGZIVi"
           data-testid="backup-location"
         >
           C:/MuditaOs
         </p>
       </div>
       <div
-        class="sc-fzplWN sc-fzoNJl gAaxJe"
+        class="sc-fzqMdD sc-fzoMdx daarVn"
       >
         <button
-          class="sc-fzpjYC VyHWg"
+          class="sc-AxgMl fvnHkD"
           size="2"
           type="button"
         >
           <p
-            class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
           >
             Change location
           </p>

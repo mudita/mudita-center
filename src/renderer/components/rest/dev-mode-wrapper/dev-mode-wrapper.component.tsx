@@ -4,6 +4,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
+import { DevModeWrapperTestIds } from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.interface"
 import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
 import { intl } from "Renderer/utils/intl"
 
@@ -56,7 +57,7 @@ const DevModeContainer = styled.div<{ active: boolean }>`
       ${DevModeToggle} {
         opacity: 0.5;
       }
-    `}
+    `};
   );
 `
 
@@ -66,20 +67,24 @@ interface Props extends DevMode {
 
 const DevModeWrapper: FunctionComponent<Props> = ({
   children,
-  isDevModeEnabled,
+  devModeEnabled,
 }) => {
   const [active, setActive] = React.useState(true)
   const toggleState = () => setActive(prevState => !prevState)
 
-  if (isDevModeEnabled) {
+  if (devModeEnabled) {
     return (
-      <DevModeContainer active={active}>
+      <DevModeContainer
+        active={active}
+        data-testid={DevModeWrapperTestIds.Container}
+      >
         <DevModeToggle
           label={intl.formatMessage({ id: "dev.action.toggle" })}
           onClick={toggleState}
           displayStyle={DisplayStyle.Secondary}
+          data-testid={DevModeWrapperTestIds.ToggleButton}
         />
-        <DevModeInside>
+        <DevModeInside data-testid={DevModeWrapperTestIds.Inner}>
           <Text displayStyle={TextDisplayStyle.LargeFadedText}>
             {intl.formatMessage({ id: "dev.view.wrapperName" })}
           </Text>

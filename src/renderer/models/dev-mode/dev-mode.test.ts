@@ -12,35 +12,35 @@ beforeEach(() => {
   })
 })
 
-it("should have default state properly defined", () => {
+test("have default state properly defined", () => {
   const { getState } = store
 
-  expect(getState().devMode).toMatchObject({ enabled: false })
+  expect(getState().devMode).toMatchObject({ devModeEnabled: false })
 })
 
-it("should properly toggle dev mode state", () => {
+test("properly toggle dev mode state", () => {
   const { dispatch, getState } = store
 
-  expect(getState().devMode).toMatchObject({ enabled: false })
+  expect(getState().devMode).toMatchObject({ devModeEnabled: false })
   dispatch.devMode.toggle()
-  expect(getState().devMode).toMatchObject({ enabled: true })
+  expect(getState().devMode).toMatchObject({ devModeEnabled: true })
   dispatch.devMode.toggle()
-  expect(getState().devMode).toMatchObject({ enabled: false })
+  expect(getState().devMode).toMatchObject({ devModeEnabled: false })
 })
 
-it("should forcefully enable dev mode", () => {
+test("forcefully enable dev mode", () => {
   const { dispatch, getState } = store
 
-  expect(getState().devMode).toMatchObject({ enabled: false })
+  expect(getState().devMode).toMatchObject({ devModeEnabled: false })
   dispatch.devMode.enable()
-  expect(getState().devMode).toMatchObject({ enabled: true })
+  expect(getState().devMode).toMatchObject({ devModeEnabled: true })
 })
 
-it("should forcefully disable dev mode", () => {
+test("forcefully disable dev mode", () => {
   const { dispatch, getState } = store
 
   dispatch.devMode.enable()
-  expect(getState().devMode).toMatchObject({ enabled: true })
+  expect(getState().devMode).toMatchObject({ devModeEnabled: true })
   dispatch.devMode.disable()
-  expect(getState().devMode).toMatchObject({ enabled: false })
+  expect(getState().devMode).toMatchObject({ devModeEnabled: false })
 })

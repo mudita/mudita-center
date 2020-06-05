@@ -1,20 +1,20 @@
 import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
 
 const initialStateValue: DevMode = {
-  isDevModeEnabled: false,
+  devModeEnabled: false,
 }
 
 export default {
   state: initialStateValue,
   reducers: {
     toggle(state: Readonly<DevMode>) {
-      return { isDevModeEnabled: !state.isDevModeEnabled }
+      return { devModeEnabled: !state.devModeEnabled }
     },
     enable() {
-      return { isDevModeEnabled: true }
+      return { devModeEnabled: true }
     },
     disable() {
-      return { isDevModeEnabled: false }
+      return { devModeEnabled: false }
     },
   },
 }
