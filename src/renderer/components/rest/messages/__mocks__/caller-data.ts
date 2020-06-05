@@ -28,7 +28,11 @@ export const mockedList = [
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
         content: [
-          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+          {
+            id: "1",
+            text:
+              "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+          },
         ],
       },
       {
@@ -36,7 +40,11 @@ export const mockedList = [
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
         content: [
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+          {
+            id: "2",
+            text:
+              "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+          },
         ],
       },
     ],
@@ -51,7 +59,11 @@ export const mockedList = [
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
         content: [
-          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+          {
+            id: "123",
+            text:
+              "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+          },
         ],
       },
       {
@@ -59,7 +71,11 @@ export const mockedList = [
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
         content: [
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+          {
+            id: "321",
+            text:
+              "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+          },
         ],
       },
     ],
@@ -74,7 +90,11 @@ export const mockedList = [
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
         content: [
-          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+          {
+            id: "3212",
+            text:
+              "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+          },
         ],
       },
       {
@@ -82,7 +102,11 @@ export const mockedList = [
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
         content: [
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+          {
+            id: "321233",
+            text:
+              "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+          },
         ],
       },
     ],
@@ -97,7 +121,11 @@ export const mockedDetails = {
       id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
       date: "2019-10-18T11:27:15.256Z",
       content: [
-        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        {
+          id: "32123",
+          text:
+            "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        },
       ],
       interlocutor: true,
     },
@@ -106,7 +134,11 @@ export const mockedDetails = {
       id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
       date: "2019-10-18T11:45:35.112Z",
       content: [
-        "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        {
+          id: "32123",
+          text:
+            "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        },
       ],
       interlocutor: true,
     },
@@ -121,7 +153,11 @@ export const unknownCallerMockedDetails = {
       id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
       date: "2019-10-18T11:27:15.256Z",
       content: [
-        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        {
+          id: "32123",
+          text:
+            "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        },
       ],
       interlocutor: true,
     },
@@ -130,7 +166,11 @@ export const unknownCallerMockedDetails = {
       id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
       date: "2019-10-18T11:45:35.112Z",
       content: [
-        "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        {
+          id: "3212333",
+          text:
+            "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        },
       ],
       interlocutor: true,
     },

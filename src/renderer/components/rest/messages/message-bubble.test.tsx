@@ -6,11 +6,23 @@ import "@testing-library/jest-dom"
 
 const user = { firstName: "user", lastName: "userowski" }
 const singleMessage = [
-  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  {
+    id: "123",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  },
 ]
 const multipleMessages = [
-  "1Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
-  "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  {
+    id: "321",
+    text:
+      "1Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  },
+  {
+    id: "444",
+    text:
+      "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  },
 ]
 
 test("by default dropdown is not visible", () => {
@@ -32,7 +44,9 @@ test("single message is displayed correctly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
     <MessageBubble user={user} messages={singleMessage} />
   )
-  expect(getByTestId("message-content")).toHaveTextContent(singleMessage[0])
+  expect(getByTestId("message-content")).toHaveTextContent(
+    singleMessage[0].text
+  )
 })
 
 test("multiple messages are displayed correctly", () => {
@@ -40,8 +54,8 @@ test("multiple messages are displayed correctly", () => {
     <MessageBubble user={user} messages={multipleMessages} />
   )
   const messsageBubbles = getAllByTestId("message-content")
-  expect(messsageBubbles[0]).toHaveTextContent(multipleMessages[0])
-  expect(messsageBubbles[1]).toHaveTextContent(multipleMessages[1])
+  expect(messsageBubbles[0]).toHaveTextContent(multipleMessages[0].text)
+  expect(messsageBubbles[1]).toHaveTextContent(multipleMessages[1].text)
 })
 
 test("forwards message", () => {
