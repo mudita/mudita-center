@@ -16,7 +16,7 @@ const Help: FunctionComponent<HelpProps> = props => {
     setCount(state => state + 1)
   }
 
-  function getKeyboardInput({ key }: KeyboardEvent) {
+  const getKeyboardInput = ({ key }: KeyboardEvent) => {
     setCheat(current => `${current}${key}`)
   }
 

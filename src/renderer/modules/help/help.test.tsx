@@ -1,5 +1,4 @@
 import React from "react"
-import { fireEvent } from "@testing-library/dom"
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
@@ -27,12 +26,17 @@ test("Help components displays Dev Mode", () => {
 })
 
 test("Help component should enable Dev Mode when conditions are met", () => {
-  const enable = () => console.log("hello there")
+  /**
+   * This involves Redux flow, which is tested on its own
+   */
+  const enable = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
     <Help {...defaultProps} enable={enable} />
   )
 
-  for (let i = 0; i < 10; i++) {
-    fireEvent.click(getByTestId(HelpComponentTestIds.Wrapper))
+  for (let i = 0; i <= 10; i++) {
+    getByTestId(HelpComponentTestIds.ToggleButton).click()
   }
+
+  expect(enable).toBeCalledTimes(1)
 })
