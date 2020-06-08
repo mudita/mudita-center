@@ -3,7 +3,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { DevModeWrapperTestIds } from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.interface"
+import { DevModeWrapperTestIds } from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.enum"
 import {
   DevModeContainer,
   DevModeInside,

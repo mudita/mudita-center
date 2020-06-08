@@ -2,7 +2,7 @@ import React from "react"
 
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.component"
 
-import { DevModeWrapperTestIds } from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.interface"
+import { DevModeWrapperTestIds } from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.enum"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 const TEST_STRING = "Hello there"

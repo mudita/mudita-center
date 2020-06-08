@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from "react"
 import { random } from "lodash"
-import { HelpComponentTestIds } from "Renderer/modules/help/help.interface"
+import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import DevMode from "Renderer/modules/help/devmode/devmode.component"
 
 import FunctionComponent from "Renderer/types/function-component.interface"

@@ -2,7 +2,7 @@ import React from "react"
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
-import { HelpComponentTestIds } from "Renderer/modules/help/help.interface"
+import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import { DevModeTestIds } from "Renderer/modules/help/devmode/devmode.interface"
 import Help from "Renderer/modules/help/help.component"
 
