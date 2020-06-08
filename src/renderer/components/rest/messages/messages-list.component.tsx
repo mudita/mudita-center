@@ -177,8 +177,8 @@ const MessagesList: FunctionComponent<Props> = ({
         const { selected, indeterminate } = getRowStatus({ caller, messages })
         const lastMessage = last(messages)
         const lastMessageText = last(lastMessage?.content)?.text
-        const onChange = () => toggleRow({ caller, messages })
-        const onClick = () => openSidebar({ caller, messages })
+        const toggle = () => toggleRow({ caller, messages })
+        const open = () => openSidebar({ caller, messages })
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
@@ -190,7 +190,7 @@ const MessagesList: FunctionComponent<Props> = ({
             <AvatarCol>
               <Checkbox
                 checked={selected}
-                onChange={onChange}
+                onChange={toggle}
                 size={Size.Large}
                 indeterminate={indeterminate}
                 data-testid="checkbox"
@@ -200,7 +200,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 light={selected}
               />
             </AvatarCol>
-            <MessageCol onClick={onClick} data-testid="message-row">
+            <MessageCol onClick={open} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                   {caller.inContacts
