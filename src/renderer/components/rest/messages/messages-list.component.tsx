@@ -35,7 +35,7 @@ import {
 } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
-import { isEqual } from "lodash"
+import { isEqual, last } from "lodash"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 
 const checkboxVisibleStyles = css`
@@ -175,9 +175,8 @@ const MessagesList: FunctionComponent<Props> = ({
     >
       {list.map(({ id, caller, messages, unread }) => {
         const { selected, indeterminate } = getRowStatus({ caller, messages })
-        const lastMessage = messages[messages.length - 1]
-        const lastMessageText =
-          lastMessage.content[lastMessage.content.length - 1].text
+        const lastMessage = last(messages)
+        const lastMessageText = last(lastMessage?.content)?.text
         const onChange = () => toggleRow({ caller, messages })
         const onClick = () => openSidebar({ caller, messages })
 
@@ -209,7 +208,7 @@ const MessagesList: FunctionComponent<Props> = ({
                     : caller.phoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
-                  {moment(lastMessage.date).format("h:mm A")}
+                  {moment(lastMessage?.date).format("h:mm A")}
                 </Time>
                 <LastMessageText
                   unread={unread}
