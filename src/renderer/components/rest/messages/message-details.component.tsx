@@ -14,6 +14,7 @@ import styled from "styled-components"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 interface Props {
   details: ActiveRow
@@ -37,6 +38,13 @@ const MessageBubblesWrapper = styled.div`
 
 const MessageDetailsBubble = styled(MessageBubble)`
   margin-bottom: 2.4rem;
+`
+
+const TextareaWrapper = styled.div`
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  background-color: ${backgroundColor("light")};
 `
 
 const Textarea = styled(InputComponent)`
@@ -98,7 +106,7 @@ const MessageDetails: FunctionComponent<Props> = ({
             )
           })}
         </MessageBubblesWrapper>
-        <div>
+        <TextareaWrapper>
           <Textarea
             type="textarea"
             value={""}
@@ -107,7 +115,7 @@ const MessageDetails: FunctionComponent<Props> = ({
             trailingIcons={trailingIcon}
             disabled
           />
-        </div>
+        </TextareaWrapper>
       </MessagesWrapper>
     </Sidebar>
   )
