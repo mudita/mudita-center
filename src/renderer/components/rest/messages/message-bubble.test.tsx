@@ -69,7 +69,7 @@ test("forwards message", () => {
   )
   fireEvent.click(getAllByTestId("forward-message")[0])
   expect(forwardMessage).toHaveBeenCalled()
-  expect(forwardMessage).toHaveBeenCalledTimes(1)
+  expect(forwardMessage).toHaveBeenCalledWith(multipleMessages[0].id)
 })
 
 test("deletes message", () => {
@@ -83,7 +83,7 @@ test("deletes message", () => {
   )
   fireEvent.click(getAllByTestId("delete-message")[0])
   expect(deleteMessage).toHaveBeenCalled()
-  expect(deleteMessage).toHaveBeenCalledTimes(1)
+  expect(deleteMessage).toHaveBeenCalledWith(multipleMessages[0].id)
 })
 
 test("when author of message is unknown, displays default icon in avatar", () => {
