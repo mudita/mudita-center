@@ -1,6 +1,13 @@
 import Faker from "faker"
 import { groupBy, times, random } from "lodash"
 
+const createText = () => ({
+  id: Faker.random.uuid(),
+  text: Faker.lorem.paragraphs(random(1, 3)),
+})
+
+export const notes = times(random(15, 25), createText)
+
 const createCaller = (inContacts: boolean) => {
   return inContacts
     ? {

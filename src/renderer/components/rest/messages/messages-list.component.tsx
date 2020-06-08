@@ -158,9 +158,9 @@ const MessagesList: FunctionComponent<Props> = ({
   list,
   openSidebar = noop,
 }) => {
-  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
-    rowsMessages
-  )
+  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect<
+    ActiveRow
+  >(rowsMessages)
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
               and use it in <Messages />
@@ -174,11 +174,11 @@ const MessagesList: FunctionComponent<Props> = ({
       hideColumns={Boolean(activeRow)}
     >
       {list.map(({ id, caller, messages, unread }) => {
-        const { selected, indeterminate } = getRowStatus(caller)
+        const { selected, indeterminate } = getRowStatus({ caller, messages })
         const lastMessage = messages[messages.length - 1]
         const lastMessageText =
           lastMessage.content[lastMessage.content.length - 1].text
-        const onChange = () => toggleRow(caller)
+        const onChange = () => toggleRow({ caller, messages })
         const onClick = () => openSidebar({ caller, messages })
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (

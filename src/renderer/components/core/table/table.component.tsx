@@ -11,6 +11,7 @@ import {
   transitionTime,
   transitionTimingFunction,
   width,
+  zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
@@ -346,6 +347,7 @@ const TableComponent = styled.div<TableProps>`
   display: flex;
   flex-direction: column;
   flex: 1;
+  z-index: ${zIndex("content")};
   position: relative;
   ${({ scrollable = true }) =>
     scrollable
