@@ -30,10 +30,15 @@ const MessagesWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 0 3rem;
 `
 
 const MessageBubblesWrapper = styled.div`
   margin-top: 3.2rem;
+  height: 40rem;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
 `
 
 const MessageDetailsBubble = styled(MessageBubble)`
@@ -43,8 +48,8 @@ const MessageDetailsBubble = styled(MessageBubble)`
 const TextareaWrapper = styled.div`
   position: sticky;
   bottom: 0;
-  width: 100%;
   background-color: ${backgroundColor("light")};
+  padding: 0 3rem;
 `
 
 const Textarea = styled(InputComponent)`
@@ -92,31 +97,34 @@ const MessageDetails: FunctionComponent<Props> = ({
       headerRight={icons}
       onClose={onClose}
       appColorSidebarHeader
+      padded={false}
     >
       <MessagesWrapper>
         <MessageBubblesWrapper>
-          {details.messages.map(({ author, content, interlocutor, id }) => {
-            return (
-              <MessageDetailsBubble
-                key={id}
-                user={author}
-                messages={content}
-                interlocutor={interlocutor}
-              />
-            )
-          })}
+          {details.messages
+            .reverse()
+            .map(({ author, content, interlocutor, id }) => {
+              return (
+                <MessageDetailsBubble
+                  key={id}
+                  user={author}
+                  messages={content}
+                  interlocutor={interlocutor}
+                />
+              )
+            })}
         </MessageBubblesWrapper>
-        <TextareaWrapper>
-          <Textarea
-            type="textarea"
-            value={""}
-            onChange={noop}
-            leadingIcons={leadingIcons}
-            trailingIcons={trailingIcon}
-            disabled
-          />
-        </TextareaWrapper>
       </MessagesWrapper>
+      <TextareaWrapper>
+        <Textarea
+          type="textarea"
+          value={""}
+          onChange={noop}
+          leadingIcons={leadingIcons}
+          trailingIcons={trailingIcon}
+          disabled
+        />
+      </TextareaWrapper>
     </Sidebar>
   )
 }
