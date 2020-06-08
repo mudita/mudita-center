@@ -1,12 +1,17 @@
-import { random } from "lodash"
 import React, { useEffect, useLayoutEffect, useState } from "react"
-import {
-  HelpComponentTestIds,
-  HelpProps,
-} from "Renderer/modules/help/help.interface"
+import { random } from "lodash"
+import { HelpComponentTestIds } from "Renderer/modules/help/help.interface"
 import DevMode from "Renderer/modules/help/devmode/devmode.component"
 
 import FunctionComponent from "Renderer/types/function-component.interface"
+import { DevMode as DevModeProps } from "Renderer/models/dev-mode/dev-mode.interface"
+
+interface HelpProps extends DevModeProps {
+  enable: () => void
+  disable: () => void
+}
+
+import { version } from "../../../../package.json"
 
 const Help: FunctionComponent<HelpProps> = props => {
   const [count, setCount] = useState<number>(0)
@@ -46,7 +51,7 @@ const Help: FunctionComponent<HelpProps> = props => {
         onClick={increaseCount}
         data-testid={HelpComponentTestIds.ToggleButton}
       >
-        App Version 1.0.0
+        App Version: {version}
       </p>
       {props.devModeEnabled && <DevMode disable={props.disable} />}
     </div>

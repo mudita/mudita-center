@@ -1,6 +1,7 @@
 import React from "react"
 
 import Button from "Renderer/components/core/button/button.component"
+import Text from "Renderer/components/core/text/text.component"
 import {
   DisplayStyle,
   Size,
@@ -8,7 +9,6 @@ import {
 import { DevModeTestIds } from "Renderer/modules/help/devmode/devmode.interface"
 
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { intl } from "Renderer/utils/intl"
 
 interface Props {
   disable: () => void
@@ -17,12 +17,13 @@ interface Props {
 const DevMode: FunctionComponent<Props> = ({ disable }) => {
   return (
     <>
-      <p data-testid={DevModeTestIds.Wrapper}>
-        {intl.formatMessage({ id: "dev.view.enabled" })}
-      </p>
+      <Text
+        message={{ id: "dev.view.enabled" }}
+        data-testid={DevModeTestIds.Wrapper}
+      />
       <Button
         displayStyle={DisplayStyle.Secondary}
-        label={intl.formatMessage({ id: "dev.action.disable" })}
+        labelMessage={{ id: "dev.action.disable" }}
         size={Size.FixedSmall}
         onClick={disable}
       />

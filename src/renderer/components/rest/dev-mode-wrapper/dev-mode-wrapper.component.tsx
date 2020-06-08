@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, ReactNode } from "react"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Text, {
   TextDisplayStyle,
@@ -14,15 +14,15 @@ import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 
-interface Props extends DevMode {
-  children: React.ReactNode
+interface DevModeProps extends DevMode {
+  children: ReactNode
 }
 
-const DevModeWrapper: FunctionComponent<Props> = ({
+const DevModeWrapper: FunctionComponent<DevModeProps> = ({
   children,
   devModeEnabled,
 }) => {
-  const [active, setActive] = React.useState(true)
+  const [active, setActive] = useState(true)
   const toggleState = () => setActive(prevState => !prevState)
 
   if (devModeEnabled) {
@@ -38,9 +38,10 @@ const DevModeWrapper: FunctionComponent<Props> = ({
           data-testid={DevModeWrapperTestIds.ToggleButton}
         />
         <DevModeInside data-testid={DevModeWrapperTestIds.Inner}>
-          <Text displayStyle={TextDisplayStyle.LargeFadedText}>
-            {intl.formatMessage({ id: "dev.view.wrapperName" })}
-          </Text>
+          <Text
+            displayStyle={TextDisplayStyle.LargeFadedText}
+            message={{ id: "dev.view.wrapperName" }}
+          />
           {children}
         </DevModeInside>
       </DevModeContainer>

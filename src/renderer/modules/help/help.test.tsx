@@ -12,15 +12,28 @@ const defaultProps = {
   isDevModeEnabled: false,
 }
 
+interface RendererProps {
+  disable?: () => void
+  enable?: () => void
+  devModeEnabled?: boolean
+}
+
+const renderer = (extraProps: RendererProps = {}) => {
+  const props = {
+    ...defaultProps,
+    ...extraProps,
+  }
+
+  return renderWithThemeAndIntl(<Help {...props} />)
+}
+
 test("Help component renders", () => {
-  const { getByTestId } = renderWithThemeAndIntl(<Help {...defaultProps} />)
+  const { getByTestId } = renderer()
   expect(getByTestId(HelpComponentTestIds.Wrapper)).toBeInTheDocument()
 })
 
 test("Help components displays Dev Mode", () => {
-  const { getByTestId } = renderWithThemeAndIntl(
-    <Help {...defaultProps} devModeEnabled />
-  )
+  const { getByTestId } = renderer({ devModeEnabled: true })
 
   expect(getByTestId(DevModeTestIds.Wrapper)).toBeInTheDocument()
 })
@@ -30,9 +43,7 @@ test("Help component should enable Dev Mode when conditions are met", () => {
    * This involves Redux flow, which is tested on its own
    */
   const enable = jest.fn()
-  const { getByTestId } = renderWithThemeAndIntl(
-    <Help {...defaultProps} enable={enable} />
-  )
+  const { getByTestId } = renderer({ enable })
 
   for (let i = 0; i <= 10; i++) {
     getByTestId(HelpComponentTestIds.ToggleButton).click()
