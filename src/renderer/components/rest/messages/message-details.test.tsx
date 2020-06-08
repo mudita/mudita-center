@@ -6,7 +6,6 @@ import "@testing-library/jest-dom/extend-expect"
 import { mockedDetails } from "./__mocks__/caller-data"
 
 test("sidebar close button informs parent about closing", () => {
-  Element.prototype.scrollIntoView = jest.fn()
   const onClose = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
     <MessageDetails details={mockedDetails} onClose={onClose} />

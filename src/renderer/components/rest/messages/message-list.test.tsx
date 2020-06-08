@@ -8,7 +8,6 @@ import { intl } from "Renderer/utils/intl"
 import { mockedList } from "./__mocks__/caller-data"
 
 test("when at least one checkbox is checked, all checkboxes are visible", () => {
-  Element.prototype.scrollIntoView = jest.fn()
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessagesList list={mockedList} />
   )
