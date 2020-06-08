@@ -30,6 +30,25 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.1rem;
 }
 
+.c7 {
+  grid-area: Name;
+  -webkit-align-self: end;
+  -ms-flex-item-align: end;
+  align-self: end;
+  margin-bottom: 0.4rem;
+}
+
+.c8 {
+  grid-area: Message;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-align-self: top;
+  -ms-flex-item-align: top;
+  align-self: top;
+  margin-top: 0.4rem;
+}
+
 .c10 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -72,25 +91,6 @@ exports[`matches snapshot 1`] = `
   white-space: nowrap;
 }
 
-.c7 {
-  grid-area: Name;
-  -webkit-align-self: end;
-  -ms-flex-item-align: end;
-  align-self: end;
-  margin-bottom: 0.4rem;
-}
-
-.c8 {
-  grid-area: Message;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  -webkit-align-self: top;
-  -ms-flex-item-align: top;
-  align-self: top;
-  margin-top: 0.4rem;
-}
-
 .c4 {
   display: grid;
   grid-template-columns: 11rem 1fr 9rem;
@@ -113,7 +113,7 @@ exports[`matches snapshot 1`] = `
   background-color: #f4f5f6;
 }
 
-.c4:hover .sc-fzqAui {
+.c4:hover .sc-fzoLsD {
   opacity: 1;
   visibility: visible;
 }
@@ -173,10 +173,10 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="sc-fzoVTD c4"
+      class="sc-fznKkj c4"
     >
       <div
-        class="sc-fzoJus c5"
+        class="sc-fznyAO c5"
       >
         <p
           class="c6 c7"
@@ -191,7 +191,7 @@ exports[`matches snapshot 1`] = `
         </p>
       </div>
       <div
-        class="sc-fzowVh c9"
+        class="sc-fzplWN c9"
       >
         <button
           class="c10"

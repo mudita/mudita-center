@@ -1,10 +1,13 @@
 import React from "react"
 
+// import { Provider } from "react-redux"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import { DevModeTestIds } from "Renderer/modules/help/devmode/devmode.interface"
 import Help from "Renderer/modules/help/help.component"
+
+// import store from "Renderer/store"
 
 const defaultProps = {
   disable: jest.fn(),
