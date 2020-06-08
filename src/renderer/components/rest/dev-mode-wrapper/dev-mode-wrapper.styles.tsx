@@ -43,6 +43,5 @@ export const DevModeContainer = styled.div<{ active: boolean }>`
       ${DevModeToggle} {
         opacity: 0.5;
       }
-    `} : false;
-  );
+    `}
 `
