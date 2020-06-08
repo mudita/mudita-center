@@ -195,10 +195,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 indeterminate={indeterminate}
                 data-testid="checkbox"
               />
-              <InitialsAvatar
-                user={caller.inContacts && caller}
-                light={selected}
-              />
+              <InitialsAvatar user={caller} light={selected} />
             </AvatarCol>
             <MessageCol onClick={open} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>

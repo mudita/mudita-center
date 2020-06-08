@@ -5,6 +5,7 @@ import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom"
 
 const user = { firstName: "user", lastName: "userowski" }
+const emptyUser = { firstName: "", lastName: "" }
 const singleMessage = [
   {
     id: "123",
@@ -88,7 +89,7 @@ test("deletes message", () => {
 
 test("when author of message is unknown, displays default icon in avatar", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble user={user} messages={multipleMessages} />
+    <MessageBubble user={emptyUser} messages={multipleMessages} />
   )
   expect(getByTestId("icon-Contacts")).toBeInTheDocument()
 })
