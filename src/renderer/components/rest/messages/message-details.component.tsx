@@ -39,6 +39,9 @@ const MessageBubblesWrapper = styled.div`
   overflow: auto;
   display: flex;
   flex-direction: column-reverse;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
 
 const MessageDetailsBubble = styled(MessageBubble)`
