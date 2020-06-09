@@ -22,8 +22,6 @@ export const DevModeToggle = styled(ButtonComponent)`
   background: ${backgroundColor("light")};
 `
 export const DevModeContainer = styled.div<{ active: boolean }>`
-  position: sticky;
-
   ${({ active }) =>
     active &&
     css`
