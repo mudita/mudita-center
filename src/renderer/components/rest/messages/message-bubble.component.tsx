@@ -38,6 +38,15 @@ const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
   }
 `
 
+const MessageElementsWrapper = styled.div<{ interlocutor: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  align-items: ${({ interlocutor }) =>
+    interlocutor ? "flex-start" : "flex-end"};
+`
+
 const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
   display: flex;
   align-items: center;
@@ -91,7 +100,7 @@ const MessageBubble: FunctionComponent<Props> = ({
 }) => {
   return (
     <MessageBubbleWrapper className={className} interlocutor={interlocutor}>
-      <div>
+      <MessageElementsWrapper interlocutor={interlocutor}>
         {messages.map((msg, index) => {
           const [clicked, setClicked] = useState<boolean>(false)
           const open = () => setClicked(true)
@@ -138,7 +147,7 @@ const MessageBubble: FunctionComponent<Props> = ({
             </MessageBubbleContainer>
           )
         })}
-      </div>
+      </MessageElementsWrapper>
       <InitialsAvatar user={user} interlocutor={interlocutor} />
     </MessageBubbleWrapper>
   )
