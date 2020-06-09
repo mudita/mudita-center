@@ -17,7 +17,7 @@ export const rowsMessages = Array.from({
     messages: [
       {
         author: caller,
-        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd572",
+        id: Faker.random.uuid(),
         date: "2019-10-18T11:27:15.256Z",
         content: [
           "LALAAdipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
@@ -27,7 +27,7 @@ export const rowsMessages = Array.from({
       },
       {
         author: caller,
-        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+        id: Faker.random.uuid(),
         date: "2019-10-18T11:27:15.256Z",
         content: [
           "LALAAdipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
@@ -39,7 +39,7 @@ export const rowsMessages = Array.from({
           firstName: "John",
           lastName: "Doe",
         },
-        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+        id: Faker.random.uuid(),
         date: "2019-10-18T11:45:35.112Z",
         content: [
           "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",

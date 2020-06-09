@@ -7,6 +7,7 @@ import { fireEvent } from "@testing-library/dom"
 import { mockedList } from "Renderer/components/rest/messages/__mocks__/caller-data"
 
 test("sidebar is hidden by default", () => {
+  Element.prototype.scrollIntoView = jest.fn()
   const { queryByTestId } = renderWithThemeAndIntl(
     <Messages searchValue={""} list={mockedList} />
   )
@@ -15,6 +16,7 @@ test("sidebar is hidden by default", () => {
 })
 
 test("clicked row display sidebar", () => {
+  Element.prototype.scrollIntoView = jest.fn()
   const { getAllByTestId, getByTestId } = renderWithThemeAndIntl(
     <Messages searchValue={""} list={mockedList} />
   )
@@ -25,6 +27,7 @@ test("clicked row display sidebar", () => {
 })
 
 test("sidebar closes after clicking close button", () => {
+  Element.prototype.scrollIntoView = jest.fn()
   const { getAllByTestId, getByTestId, queryByTestId } = renderWithThemeAndIntl(
     <Messages searchValue={""} list={mockedList} />
   )
