@@ -60,7 +60,6 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light?: boolean }>`
 export interface User {
   firstName: string
   lastName: string
-  inContacts?: boolean
 }
 
 export interface AvatarProps {
