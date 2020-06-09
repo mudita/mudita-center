@@ -64,12 +64,12 @@ const MessageDetails: FunctionComponent<Props> = ({
   details,
   onClose = noop,
 }) => {
-  const refs = details.messages.map(_ => useRef<HTMLDivElement>(null))
+  const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    if (Boolean(refs.length)) {
-      refs[details.messages.length - 1]?.current?.scrollIntoView()
+    if (ref.current) {
+      ref.current.scrollIntoView()
     }
-  }, [refs])
+  }, [ref.current])
   const icons = (
     <>
       <SidebarHeaderIcon Icon={Type.Calls} onClick={noop} />
@@ -106,15 +106,24 @@ const MessageDetails: FunctionComponent<Props> = ({
         <MessageBubblesWrapper>
           {details.messages.map(
             ({ author, content, interlocutor, id }, index) => {
+              if (index === details.messages.length - 1) {
+                return (
+                  <div ref={ref} key={id}>
+                    <MessageDetailsBubble
+                      user={author}
+                      messages={content}
+                      interlocutor={interlocutor}
+                    />
+                  </div>
+                )
+              }
               return (
-                <div ref={refs[index]} key={id}>
-                  <MessageDetailsBubble
-                    key={id}
-                    user={author}
-                    messages={content}
-                    interlocutor={interlocutor}
-                  />
-                </div>
+                <MessageDetailsBubble
+                  key={id}
+                  user={author}
+                  messages={content}
+                  interlocutor={interlocutor}
+                />
               )
             }
           )}

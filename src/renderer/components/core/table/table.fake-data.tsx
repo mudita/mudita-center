@@ -39,7 +39,7 @@ export const rowsMessages = Array.from({
           firstName: "John",
           lastName: "Doe",
         },
-        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+        id: Faker.random.uuid(),
         date: "2019-10-18T11:45:35.112Z",
         content: [
           "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
