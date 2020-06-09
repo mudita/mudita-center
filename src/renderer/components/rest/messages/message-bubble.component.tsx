@@ -83,7 +83,7 @@ interface Props {
   messages: Content[]
   interlocutor?: boolean
   forwardMessage?: () => void
-  deleteMessage?: () => void
+  removeMessage?: () => void
 }
 
 const MessageBubble: FunctionComponent<Props> = ({
@@ -92,17 +92,17 @@ const MessageBubble: FunctionComponent<Props> = ({
   messages,
   interlocutor = false,
   forwardMessage = noop,
-  deleteMessage = noop,
+  removeMessage = noop,
 }) => {
   const [clicked, setClicked] = useState<string>("")
   return (
     <MessageBubbleWrapper className={className} interlocutor={interlocutor}>
       <div>
         {messages.map(({ text, id }, index) => {
-          const openAction = () => setClicked(id)
-          const closeAction = () => setClicked("")
-          const forwardAction = () => forwardMessage(id)
-          const deleteAction = () => deleteMessage(id)
+          const open = () => setClicked(id)
+          const close = () => setClicked("")
+          const forward = () => forwardMessage(id)
+          const remove = () => removeMessage(id)
           return (
             <MessageBubbleContainer interlocutor={interlocutor} key={index}>
               <MessageBubbleDropdown
@@ -111,8 +111,8 @@ const MessageBubble: FunctionComponent<Props> = ({
                     <Icon type={Type.More} />
                   </ActionsButton>
                 }
-                onOpen={openAction}
-                onClose={closeAction}
+                onOpen={open}
+                onClose={close}
                 dropdownPosition={
                   interlocutor ? DropdownPosition.Left : DropdownPosition.Right
                 }
@@ -125,7 +125,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                     id: "view.name.messages.messageDropdownForward",
                   }}
                   Icon={Type.Forward}
-                  onClick={forwardAction}
+                  onClick={forward}
                   displayStyle={DisplayStyle.Dropdown}
                   data-testid="forward-message"
                 />
@@ -134,7 +134,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                     id: "view.name.messages.messageDropdownDelete",
                   }}
                   Icon={Type.Delete}
-                  onClick={deleteAction}
+                  onClick={remove}
                   displayStyle={DisplayStyle.Dropdown}
                   data-testid="delete-message"
                 />

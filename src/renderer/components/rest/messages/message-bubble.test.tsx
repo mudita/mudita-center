@@ -73,18 +73,18 @@ test("forwards message", () => {
   expect(forwardMessage).toHaveBeenCalledWith(multipleMessages[0].id)
 })
 
-test("deletes message", () => {
-  const deleteMessage = jest.fn()
+test("removes message", () => {
+  const removeMessage = jest.fn()
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessageBubble
       user={user}
       messages={multipleMessages}
-      deleteMessage={deleteMessage}
+      removeMessage={removeMessage}
     />
   )
   fireEvent.click(getAllByTestId("delete-message")[0])
-  expect(deleteMessage).toHaveBeenCalled()
-  expect(deleteMessage).toHaveBeenCalledWith(multipleMessages[0].id)
+  expect(removeMessage).toHaveBeenCalled()
+  expect(removeMessage).toHaveBeenCalledWith(multipleMessages[0].id)
 })
 
 test("when author of message is unknown, displays default icon in avatar", () => {
