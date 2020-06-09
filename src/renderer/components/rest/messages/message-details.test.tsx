@@ -5,7 +5,7 @@ import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
 import { mockedDetails } from "./__mocks__/caller-data"
 
-beforeEach(() => (Element.prototype.scrollIntoView = jest.fn()))
+beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
 test("sidebar close button informs parent about closing", () => {
   const onClose = jest.fn()
