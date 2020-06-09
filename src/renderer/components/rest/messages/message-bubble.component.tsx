@@ -25,6 +25,20 @@ const MessageBubbleDropdown = styled(Dropdown)<{
   opacity: ${({ display }) => (display ? "1" : "0")};
 `
 
+const Bubble = styled.div<{ interlocutor: boolean }>`
+  padding: 1.1rem 1.2rem;
+  background-color: ${({ interlocutor }) =>
+    interlocutor
+      ? backgroundColor("primaryDark")
+      : backgroundColor("messageBlue")};
+  border-radius: ${({ interlocutor }) =>
+    interlocutor
+      ? "1.2rem 1.2rem 1.2rem 0.2rem"
+      : "1.2rem 1.2rem 0.2rem 1.2rem"};
+  max-width: 38rem;
+  box-sizing: border-box;
+`
+
 const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
   display: flex;
   align-items: center;
@@ -36,13 +50,15 @@ const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
       transition: ${transition("opacity", undefined, "ease")};
     }
   }
+  margin-bottom: 0.8rem;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 `
 
 const MessageElementsWrapper = styled.div<{ interlocutor: boolean }>`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-
   align-items: ${({ interlocutor }) =>
     interlocutor ? "flex-start" : "flex-end"};
 `
@@ -53,21 +69,6 @@ const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
   flex-direction: ${({ interlocutor }) =>
     interlocutor ? "row-reverse" : "row"};
   justify-content: flex-end;
-`
-
-const Bubble = styled.div<{ interlocutor: boolean }>`
-  padding: 1.1rem 1.2rem;
-  margin-top: 0.8rem;
-  background-color: ${({ interlocutor }) =>
-    interlocutor
-      ? backgroundColor("primaryDark")
-      : backgroundColor("messageBlue")};
-  border-radius: ${({ interlocutor }) =>
-    interlocutor
-      ? "1.2rem 1.2rem 1.2rem 0.2rem"
-      : "1.2rem 1.2rem 0.2rem 1.2rem"};
-  max-width: 38rem;
-  box-sizing: border-box;
 `
 
 const ActionsButton = styled.span`
