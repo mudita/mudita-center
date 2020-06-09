@@ -6,7 +6,7 @@ import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { fireEvent } from "@testing-library/dom"
 import { mockedList } from "Renderer/components/rest/messages/__mocks__/caller-data"
 
-beforeEach(() => (Element.prototype.scrollIntoView = jest.fn()))
+beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
 test("sidebar is hidden by default", () => {
   const { queryByTestId } = renderWithThemeAndIntl(
