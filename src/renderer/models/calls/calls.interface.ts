@@ -4,13 +4,7 @@ export enum VisibilityFilter {
   Missed = "missed",
 }
 
-export type StateProps = Readonly<{
+export interface StateProps {
   calls?: any[]
   visibilityFilter?: VisibilityFilter
-}>
-
-export type ComponentProps = StateProps &
-  Readonly<{
-    changeVisibilityFilter?: (filter: VisibilityFilter) => void
-    list: any[]
-  }>
+}
