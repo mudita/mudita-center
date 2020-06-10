@@ -45,34 +45,42 @@ const CallsHeader: FunctionComponent<Props> = ({
   changeVisibilityFilter = noop,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0].label)
-  const showAllCalls = () => changeVisibilityFilter(VisibilityFilter.All)
-  const showReceivedCalls = () =>
-    changeVisibilityFilter(VisibilityFilter.Received)
-  const showMissedCalls = () => changeVisibilityFilter(VisibilityFilter.Missed)
+  const getFilterByLabel = ({
+    label,
+    visibilityFilter,
+  }: {
+    label: string
+    visibilityFilter: VisibilityFilter
+  }) => {
+    switch (visibilityFilter) {
+      case VisibilityFilter.Received:
+        changeVisibilityFilter(VisibilityFilter.Received)
+        setActiveLabel(label)
+        break
+      case VisibilityFilter.Missed:
+        changeVisibilityFilter(VisibilityFilter.Missed)
+        setActiveLabel(label)
+        break
+      default:
+        changeVisibilityFilter(VisibilityFilter.All)
+        setActiveLabel(label)
+        break
+    }
+  }
   return (
     <FiltersWrapper checkMode>
       <UnreadFilters>
         <ButtonToggler>
           {toggleState.map(({ label, visibilityFilter }, i) => {
-            const getFilterByLabel = () => {
-              switch (visibilityFilter) {
-                case VisibilityFilter.All:
-                  showAllCalls()
-                  setActiveLabel(label)
-                case VisibilityFilter.Received:
-                  showReceivedCalls()
-                  setActiveLabel(label)
-                case VisibilityFilter.Missed:
-                  showMissedCalls()
-                  setActiveLabel(label)
-              }
-            }
+            const filter = () => getFilterByLabel({ label, visibilityFilter })
+
             return (
               <CallsButtonTogglerItem
                 key={i}
                 label={label}
-                onClick={getFilterByLabel}
+                onClick={filter}
                 active={activeLabel === label}
+                data-testid={visibilityFilter}
               />
             )
           })}
