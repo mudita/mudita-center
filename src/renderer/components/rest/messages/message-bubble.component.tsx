@@ -15,6 +15,7 @@ import transition from "Renderer/styles/functions/transition"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { Content } from "Renderer/models/messages/messages.interface"
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
@@ -79,8 +80,10 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
 
 interface Props {
   user: User
-  messages: string[]
+  messages: Content[]
   interlocutor?: boolean
+  forwardMessage?: () => void
+  removeMessage?: () => void
 }
 
 const MessageBubble: FunctionComponent<Props> = ({
@@ -88,14 +91,18 @@ const MessageBubble: FunctionComponent<Props> = ({
   user,
   messages,
   interlocutor = false,
+  forwardMessage = noop,
+  removeMessage = noop,
 }) => {
+  const [clicked, setClicked] = useState<string>("")
   return (
     <MessageBubbleWrapper className={className} interlocutor={interlocutor}>
       <div>
-        {messages.map((msg, index) => {
-          const [clicked, setClicked] = useState<boolean>(false)
-          const open = () => setClicked(true)
-          const close = () => setClicked(false)
+        {messages.map(({ text, id }, index) => {
+          const open = () => setClicked(id)
+          const close = () => setClicked("")
+          const forward = () => forwardMessage(id)
+          const remove = () => removeMessage(id)
           return (
             <MessageBubbleContainer interlocutor={interlocutor} key={index}>
               <MessageBubbleDropdown
@@ -110,7 +117,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                   interlocutor ? DropdownPosition.Left : DropdownPosition.Right
                 }
                 interlocutor={interlocutor}
-                display={clicked}
+                display={clicked === id}
                 data-testid="dropdown"
               >
                 <ButtonComponent
@@ -118,21 +125,23 @@ const MessageBubble: FunctionComponent<Props> = ({
                     id: "view.name.messages.messageDropdownForward",
                   }}
                   Icon={Type.Forward}
-                  onClick={noop}
+                  onClick={forward}
                   displayStyle={DisplayStyle.Dropdown}
+                  data-testid="forward-message"
                 />
                 <ButtonComponent
                   labelMessage={{
                     id: "view.name.messages.messageDropdownDelete",
                   }}
                   Icon={Type.Delete}
-                  onClick={noop}
+                  onClick={remove}
                   displayStyle={DisplayStyle.Dropdown}
+                  data-testid="delete-message"
                 />
               </MessageBubbleDropdown>
               <Bubble interlocutor={interlocutor} data-testid="message-content">
                 <Text displayStyle={TextDisplayStyle.MediumLightText}>
-                  {msg}
+                  {text}
                 </Text>
               </Bubble>
             </MessageBubbleContainer>

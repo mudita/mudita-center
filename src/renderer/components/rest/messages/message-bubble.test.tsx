@@ -5,12 +5,25 @@ import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom"
 
 const user = { firstName: "user", lastName: "userowski" }
+const emptyUser = { firstName: "", lastName: "" }
 const singleMessage = [
-  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  {
+    id: "123",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  },
 ]
 const multipleMessages = [
-  "1Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
-  "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  {
+    id: "321",
+    text:
+      "1Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  },
+  {
+    id: "444",
+    text:
+      "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae",
+  },
 ]
 
 test("by default dropdown is not visible", () => {
@@ -32,7 +45,9 @@ test("single message is displayed correctly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
     <MessageBubble user={user} messages={singleMessage} />
   )
-  expect(getByTestId("message-content")).toHaveTextContent(singleMessage[0])
+  expect(getByTestId("message-content")).toHaveTextContent(
+    singleMessage[0].text
+  )
 })
 
 test("multiple messages are displayed correctly", () => {
@@ -40,6 +55,41 @@ test("multiple messages are displayed correctly", () => {
     <MessageBubble user={user} messages={multipleMessages} />
   )
   const messsageBubbles = getAllByTestId("message-content")
-  expect(messsageBubbles[0]).toHaveTextContent(multipleMessages[0])
-  expect(messsageBubbles[1]).toHaveTextContent(multipleMessages[1])
+  expect(messsageBubbles[0]).toHaveTextContent(multipleMessages[0].text)
+  expect(messsageBubbles[1]).toHaveTextContent(multipleMessages[1].text)
+})
+
+test("forwards message", () => {
+  const forwardMessage = jest.fn()
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessageBubble
+      user={user}
+      messages={multipleMessages}
+      forwardMessage={forwardMessage}
+    />
+  )
+  fireEvent.click(getAllByTestId("forward-message")[0])
+  expect(forwardMessage).toHaveBeenCalled()
+  expect(forwardMessage).toHaveBeenCalledWith(multipleMessages[0].id)
+})
+
+test("removes message", () => {
+  const removeMessage = jest.fn()
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessageBubble
+      user={user}
+      messages={multipleMessages}
+      removeMessage={removeMessage}
+    />
+  )
+  fireEvent.click(getAllByTestId("delete-message")[0])
+  expect(removeMessage).toHaveBeenCalled()
+  expect(removeMessage).toHaveBeenCalledWith(multipleMessages[0].id)
+})
+
+test("when author of message is unknown, displays default icon in avatar", () => {
+  const { getByTestId } = renderWithThemeAndIntl(
+    <MessageBubble user={emptyUser} messages={multipleMessages} />
+  )
+  expect(getByTestId("icon-Contacts")).toBeInTheDocument()
 })
