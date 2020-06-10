@@ -234,5 +234,10 @@
   "form.error.phoneNumber.numbersOnly": "May contain only numbers and + sign",
   "form.error.tooShort": "Must be longer than {minLength} characters",
   "form.error.tooLong": "Must be shorter than {maxLength} characters",
-  "form.error.invalidEmail": "Email is invalid"
+  "form.error.invalidEmail": "Email is invalid",
+  "dev.view.enabled": "Dev Mode is ready!",
+  "dev.view.header": "DEV",
+  "dev.view.wrapperName": "Developer Options",
+  "dev.action.disable": "Turn it off!",
+  "dev.action.toggle": "Toggle dev window"
 }

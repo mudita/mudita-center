@@ -1,18 +1,19 @@
 import * as React from "react"
-import Tabs from "Renderer/components/rest/header/tabs.component"
-import styled from "styled-components"
-import FunctionComponent from "Renderer/types/function-component.interface"
-import Menu from "Renderer/components/rest/menu/menu.container"
+import Button from "Renderer/components/core/button/button.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
 import Header from "Renderer/components/rest/header/header.component"
+import Tabs from "Renderer/components/rest/header/tabs.component"
+import Menu from "Renderer/components/rest/menu/menu.container"
 import {
   backgroundColor,
   boxShadowColor,
   width,
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
-import Button from "Renderer/components/core/button/button.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import FunctionComponent from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
+import ViewWrapper from "Renderer/wrappers/view-wrapper/view-wrapper.container"
+import styled from "styled-components"
 
 const Layout = styled.div`
   display: grid;
@@ -35,12 +36,6 @@ const MenuWrapper = styled.div`
 
 const HeaderWrapper = styled.div`
   grid-area: Header;
-`
-
-const ViewWrapper = styled.div`
-  grid-area: View;
-  display: flex;
-  flex-direction: column;
 `
 
 export const HeaderTabs = styled(Tabs)`

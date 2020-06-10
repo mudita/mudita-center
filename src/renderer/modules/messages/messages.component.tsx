@@ -1,5 +1,20 @@
 import React, { useState } from "react"
+import ButtonToggler, {
+  ButtonTogglerItem,
+} from "Renderer/components/core/button-toggler/button-toggler.component"
+import Button from "Renderer/components/core/button/button.component"
+import {
+  DisplayStyle,
+  Size,
+} from "Renderer/components/core/button/button.config"
+import { Type } from "Renderer/components/core/icon/icon.config"
 import InputText from "Renderer/components/core/input-text/input-text.component"
+import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
+
+import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
+import MessagesList, {
+  ActiveRow,
+} from "Renderer/components/rest/messages/messages-list.component"
 import {
   FiltersWrapper,
   UnreadFilters,
@@ -9,23 +24,10 @@ import {
   VisibilityFilter,
 } from "Renderer/models/messages/messages.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import {
-  DisplayStyle,
-  Size,
-} from "Renderer/components/core/button/button.config"
-import Button from "Renderer/components/core/button/button.component"
-import styled from "styled-components"
-import { Type } from "Renderer/components/core/icon/icon.config"
-import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
-import ButtonToggler, {
-  ButtonTogglerItem,
-} from "Renderer/components/core/button-toggler/button-toggler.component"
-import MessagesList, {
-  ActiveRow,
-} from "Renderer/components/rest/messages/messages-list.component"
+import { noop } from "Renderer/utils/noop"
+import styled from "styled-components"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
-import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import MessageDetails from "Renderer/components/rest/messages/message-details.component"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 
@@ -58,6 +60,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   list,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
+  const [messagesList, setMessagesList] = useState(list)
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<ActiveRow>()
 
   const showAllMessages = () => {
@@ -68,8 +71,20 @@ const Messages: FunctionComponent<MessagesProps> = ({
     changeVisibilityFilter(VisibilityFilter.Unread)
   }
 
+  const _devClearMessages = () => setMessagesList([])
+  const _devLoadDefaultMessages = () => setMessagesList(list)
+
   return (
     <>
+      <DevModeWrapper>
+        <p>Messages on list: {messagesList.length}</p>
+        <Button onClick={_devClearMessages} label="Remove all messages" />
+        <br />
+        <Button
+          onClick={_devLoadDefaultMessages}
+          label="Load default messages"
+        />
+      </DevModeWrapper>
       <FiltersWrapper checkMode>
         <UnreadFilters>
           <ButtonToggler>
@@ -113,7 +128,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       </FiltersWrapper>
       <TableWithSidebarWrapper>
         <MessagesList
-          list={list}
+          list={messagesList}
           openSidebar={openSidebar}
           activeRow={activeRow}
         />

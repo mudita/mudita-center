@@ -1,35 +1,114 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
+.c6 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.05;
+}
+
+.c1 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  outline: none;
+  width: 2em;
+  height: 2em;
+  background-clip: content-box;
+  border: 0.1rem solid #cdcecf;
+  background-color: #ffffff;
+  border-radius: 50%;
+  margin-right: 1.2rem;
+}
+
+.c1:hover {
+  border-color: #3b3f42;
+  cursor: pointer;
+  -webkit-transition: border-color 0.5s linear;
+  transition: border-color 0.5s linear;
+}
+
+.c1:checked {
+  background-color: #000000;
+  padding: 0.3rem;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c7 {
+  margin-bottom: 0.8rem;
+}
+
+.c3:not(:last-child) {
+  margin-right: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin-top: 0.4rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c0:not(:last-child) {
+  margin-bottom: 0.8rem;
+}
+
+.c2:not(:last-child) {
+  margin-right: 1.5rem;
+}
+
 <div>
   <div
-    class="sc-AxheI bGwkoZ"
+    class="c0"
   >
     <input
-      class="sc-AxirZ gpAzgg sc-Axmtr cAwfeH"
+      class="c1 c2"
       id="example0"
       name="example"
       type="radio"
       value="lala1"
     />
     <div
-      class="sc-AxhUy ldrFxj"
+      class="c3"
     >
       <label
-        class="sc-AxiKw jczndt sc-Axmtr cAwfeH"
+        class="c4 c2"
       >
         <input
-          class="sc-AxirZ gpAzgg"
+          class="c1"
           id="example1"
           name="example"
           type="radio"
           value="lala2"
         />
         <div
-          class="sc-AxgMl fEfMQY"
+          class="c5"
         >
           <span
-            class="sc-AxjAm ifcepG sc-AxhCb hEYuHf"
+            class="c6 c7"
           >
             label
           </span>
@@ -37,14 +116,14 @@ exports[`matches snapshot 1`] = `
       </label>
     </div>
     <input
-      class="sc-AxirZ gpAzgg sc-Axmtr cAwfeH"
+      class="c1 c2"
       id="example2"
       name="example"
       type="radio"
       value="lala2"
     />
     <input
-      class="sc-AxirZ gpAzgg sc-Axmtr cAwfeH"
+      class="c1 c2"
       id="example3"
       name="example"
       type="radio"

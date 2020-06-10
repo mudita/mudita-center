@@ -1,57 +1,325 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
+.c2 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.05;
+  color: #6a6a6a;
+  font-weight: 300;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+}
+
+.c6 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.c13 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c8 {
+  grid-area: Actions;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 9rem;
+}
+
+.c11 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c11:hover {
+  background: #232426;
+}
+
+.c11 g {
+  fill: #ffffff;
+}
+
+.c15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c15 g {
+  fill: #000000;
+}
+
+.c15:hover {
+  border-color: #000000;
+}
+
+.c14 {
+  white-space: nowrap;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+}
+
+.c10 {
+  margin-right: 4rem;
+}
+
+.c12 {
+  --radius: 0.5rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  z-index: 1;
+  pointer-events: all;
+  z-index: 3;
+  padding: 0 3.6rem;
+  width: 75%;
+}
+
+.c12:disabled {
+  pointer-events: none;
+}
+
+.c12:hover {
+  z-index: 2;
+}
+
+.c12:not(:first-of-type) {
+  border-radius: 0;
+  margin-left: -0.1rem;
+}
+
+.c12:first-of-type:not(:last-of-type) {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c12:last-of-type:not(:first-of-type) {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c16 {
+  --radius: 0.5rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  z-index: 1;
+  pointer-events: all;
+  padding: 0 3.6rem;
+  width: 75%;
+}
+
+.c16:disabled {
+  pointer-events: none;
+}
+
+.c16:hover {
+  z-index: 2;
+}
+
+.c16:not(:hover) {
+  border: 0.1rem solid #cdcecf;
+  color: #cdcecf;
+}
+
+.c16:not(:hover) g {
+  fill: #cdcecf;
+}
+
+.c16:not(:first-of-type) {
+  border-radius: 0;
+  margin-left: -0.1rem;
+}
+
+.c16:first-of-type:not(:last-of-type) {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c16:last-of-type:not(:first-of-type) {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c4 {
+  display: grid;
+  grid-template-columns: 11rem 1fr 9rem;
+  grid-template-areas: "Checkbox . Actions";
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  height: 9rem;
+  min-height: 9rem;
+  box-sizing: border-box;
+  border-bottom: solid 0.1rem #d2d6db;
+  -webkit-transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out;
+  grid-template-areas: "Checkbox Actions";
+  grid-template-columns: 1fr 15rem;
+  border-bottom: solid 0.1rem #d2d6db;
+}
+
+.c4:hover {
+  background-color: #f4f5f6;
+}
+
+.c4:hover .sc-fzoLsD {
+  opacity: 1;
+  visibility: visible;
+}
+
+.c5 {
+  grid-area: Checkbox;
+  -webkit-align-self: center;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.c7 {
+  grid-area: Name;
+  -webkit-align-self: end;
+  -ms-flex-item-align: end;
+  align-self: end;
+  margin-bottom: 0.4rem;
+  margin-left: 4rem;
+}
+
+.c1 {
+  border-bottom: solid 0.1rem #d2d6db;
+}
+
+.c3 {
+  margin-left: 4rem;
+  margin-bottom: 3.2rem;
+}
+
+.c0 {
+  padding-top: 3.2rem;
+}
+
 <div>
   <section
-    class="sc-fznMAR fHdawV"
+    class="c0"
   >
     <div
-      class="sc-fzpmMD hCCPBz"
+      class="c1"
     >
       <p
-        class="sc-AxjAm ijRVAY sc-fznxKY EqPfb"
+        class="c2 c3"
       >
         Select what happens when connecting Pure to this computer:
       </p>
     </div>
     <div
-      class="sc-fznKkj sc-fzoyTs cNPZIx"
+      class="sc-fznKkj c4"
     >
       <div
-        class="sc-fzoNJl OYErR"
+        class="c5"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
+          class="c6 sc-Axmtr c7"
         >
           Autostart Desktop App
         </p>
       </div>
       <div
-        class="sc-fzplWN bdMOMJ"
+        class="c8"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
+          class="c9 c10"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            class="c11 sc-fzoiQi c12"
             data-testid="toggler-active"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="c13 c14"
             >
               Off
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            class="c15 sc-fzoiQi c16"
             data-testid="toggler-inactive"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="c13 c14"
             >
               On
             </p>
@@ -60,43 +328,43 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj sc-fzoyTs cNPZIx"
+      class="sc-fznKkj c4"
     >
       <div
-        class="sc-fzoNJl OYErR"
+        class="c5"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr sc-fzoXWK YLzkA"
+          class="c6 sc-Axmtr c7"
         >
           Start tethering
         </p>
       </div>
       <div
-        class="sc-fzplWN bdMOMJ"
+        class="c8"
       >
         <section
-          class="sc-fznWqX laCmAU sc-fzqARJ iaTaaG"
+          class="c9 c10"
         >
           <button
-            class="sc-fzpjYC VyHWg sc-fzoiQi sc-fzqNqU chOgnm"
+            class="c11 sc-fzoiQi c12"
             data-testid="toggler-active"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="c13 c14"
             >
               Off
             </p>
           </button>
           <button
-            class="sc-fzpjYC dvSvag sc-fzoiQi sc-fzqNqU lezRAc"
+            class="c15 sc-fzoiQi c16"
             data-testid="toggler-inactive"
             size="2"
             type="button"
           >
             <p
-              class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+              class="c13 c14"
             >
               On
             </p>

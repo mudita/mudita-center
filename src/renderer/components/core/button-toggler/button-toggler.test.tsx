@@ -1,7 +1,6 @@
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
 import { wait } from "@testing-library/react"
-import "jest-styled-components"
 import React from "react"
 import ButtonToggler, {
   ButtonTogglerItem,

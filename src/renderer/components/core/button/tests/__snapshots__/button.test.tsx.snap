@@ -1,37 +1,196 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Button matches snapshots Icon only displayStyle: 2 size: undefined disabled: false 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  width: 4rem;
+  border: 0.1rem solid #3b3f42;
+  border-radius: 0.2rem;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
 <button
-  class="sc-AxgMl efzdiw"
+  class="c0"
   size="2"
   type="button"
 />
 `;
 
 exports[`Button matches snapshots Icon only displayStyle: 3 size: undefined disabled: false 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 3.2rem;
+  width: 3.2rem;
+  border-radius: 0.2rem;
+  background: transparent;
+  border: none;
+}
+
+.c0:hover {
+  background: #f4f5f6;
+}
+
 <button
-  class="sc-AxgMl dbouKv"
+  class="c0"
   size="2"
   type="button"
 />
 `;
 
 exports[`Button matches snapshots Icon only displayStyle: 4 size: undefined disabled: false 1`] = `
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 3.2rem;
+  width: 3.2rem;
+  border-radius: 0.2rem;
+  background: transparent;
+  border: none;
+}
+
+.c0:hover {
+  background: #e9e9e9;
+}
+
+.c0 g {
+  fill: #6d9bbc;
+}
+
 <button
-  class="sc-AxgMl bYhxFk"
+  class="c0"
   size="2"
   type="button"
 />
 `;
 
 exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 3rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.2rem;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c0:hover {
+  background-color: #f4f5f6;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl dfosmN"
+  class="c0"
   size="2"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -39,14 +198,95 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 `;
 
 exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled: false 2`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 3rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.2rem;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c0:hover {
+  background-color: #f4f5f6;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <a
-  class="sc-AxhUy kKWhET"
+  class="c0"
   href="http://www.google.pl"
   size="2"
   target="_blank"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -54,7 +294,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -62,13 +302,67 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
 `;
 
 exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 4rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c0:hover {
+  background-color: #f4f5f6;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl fQsMqx"
+  class="c0"
   size="2"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -76,14 +370,95 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 `;
 
 exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled: false 2`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 4rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c0:hover {
+  background-color: #f4f5f6;
+}
+
+.c2 {
+  margin: 0 1.2rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <a
-  class="sc-AxhUy svlnH"
+  class="c0"
   href="http://www.google.pl"
   size="2"
   target="_blank"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI fzyqlo"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -91,7 +466,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -99,13 +474,72 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
 `;
 
 exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 4rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.2rem;
+  color: #6d9bbc;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c0:hover {
+  background-color: #f4f5f6;
+}
+
+.c0 g {
+  fill: #6d9bbc;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl iaQuzV"
+  class="c0"
   size="2"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -113,14 +547,100 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 `;
 
 exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled: false 2`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 4rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.2rem;
+  color: #6d9bbc;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c0:hover {
+  background-color: #f4f5f6;
+}
+
+.c0 g {
+  fill: #6d9bbc;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <a
-  class="sc-AxhUy bfTNar"
+  class="c0"
   href="http://www.google.pl"
   size="2"
   target="_blank"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -128,7 +648,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -136,13 +656,92 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
 `;
 
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+  color: #6a6a6a;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 4rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.2rem;
+  color: #6a6a6a;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c0.active {
+  background-color: #f4f5f6;
+}
+
+.c0.active * {
+  color: #000000;
+}
+
+.c0.active svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+.c0:hover {
+  background-color: #f4f5f6;
+}
+
+.c0:hover * {
+  color: #000000;
+}
+
+.c0:hover svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+.c0 svg {
+  opacity: 0.75;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl cDgXlR"
+  class="c0"
   size="2"
   type="button"
 >
   <p
-    class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -150,14 +749,120 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 `;
 
 exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled: false 2`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+  color: #6a6a6a;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 4rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.2rem;
+  color: #6a6a6a;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c0.active {
+  background-color: #f4f5f6;
+}
+
+.c0.active * {
+  color: #000000;
+}
+
+.c0.active svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+.c0:hover {
+  background-color: #f4f5f6;
+}
+
+.c0:hover * {
+  color: #000000;
+}
+
+.c0:hover svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+.c0 svg {
+  opacity: 0.75;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <a
-  class="sc-AxhUy gQQyXb"
+  class="c0"
   href="http://www.google.pl"
   size="2"
   target="_blank"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -165,7 +870,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
     />
   </div>
   <p
-    class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -173,13 +878,89 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
 `;
 
 exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 100%;
+  padding: 0.8rem;
+  border: none;
+  position: relative;
+  border-radius: 0.2remrem;
+  color: #6a6a6a;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c0:after {
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0.2rem;
+  background-color: #000000;
+  -webkit-transition: width 500ms ease;
+  transition: width 500ms ease;
+}
+
+.c0.active {
+  color: #000000;
+}
+
+.c0.active:after {
+  width: 100%;
+}
+
+.c0.active svg {
+  opacity: 1;
+}
+
+.c0 svg {
+  opacity: 0.75;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl dmuWef"
+  class="c0"
   size="2"
   type="button"
 >
   <p
-    class="sc-AxjAm eGfSTk sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -187,14 +968,117 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
 `;
 
 exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled: false 2`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 100%;
+  padding: 0.8rem;
+  border: none;
+  position: relative;
+  border-radius: 0.2remrem;
+  color: #6a6a6a;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c0:after {
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0.2rem;
+  background-color: #000000;
+  -webkit-transition: width 500ms ease;
+  transition: width 500ms ease;
+}
+
+.c0.active {
+  color: #000000;
+}
+
+.c0.active:after {
+  width: 100%;
+}
+
+.c0.active svg {
+  opacity: 1;
+}
+
+.c0 svg {
+  opacity: 0.75;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <a
-  class="sc-AxhUy cCyBop"
+  class="c0"
   href="http://www.google.pl"
   size="2"
   target="_blank"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -202,7 +1086,7 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
     />
   </div>
   <p
-    class="sc-AxjAm eGfSTk sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -210,12 +1094,65 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 10.5rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl jPPCTf"
+  class="c0"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -223,13 +1160,69 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 disabled: true 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 10.5rem;
+  pointer-events: none;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+  background: #cdcecf;
+  border: 0.1rem solid #cdcecf;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl jBoIDh"
+  class="c0"
   disabled=""
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -237,13 +1230,66 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 0 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 12rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl jtvYxe"
+  class="c0"
   size="1"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -251,14 +1297,70 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 disabled: true 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 12rem;
+  pointer-events: none;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+  background: #cdcecf;
+  border: 0.1rem solid #cdcecf;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl dbHUmc"
+  class="c0"
   disabled=""
   size="1"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -266,13 +1368,66 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 1 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl fvnHkD"
+  class="c0"
   size="2"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -280,14 +1435,70 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 disabled: true 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  pointer-events: none;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+  background: #cdcecf;
+  border: 0.1rem solid #cdcecf;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl dbqXdR"
+  class="c0"
   disabled=""
   size="2"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -295,12 +1506,63 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 0 size: 2 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 10.5rem;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl exRycH"
+  class="c0"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -308,13 +1570,71 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 disabled: true 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 10.5rem;
+  pointer-events: none;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+  border: 0.1rem solid #cdcecf;
+  color: #cdcecf;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0 g {
+  fill: #cdcecf;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl elVQlE"
+  class="c0"
   disabled=""
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -322,13 +1642,64 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 0 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 12rem;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl eQudLC"
+  class="c0"
   size="1"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -336,14 +1707,72 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 disabled: true 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 12rem;
+  pointer-events: none;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+  border: 0.1rem solid #cdcecf;
+  color: #cdcecf;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0 g {
+  fill: #cdcecf;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl bpjYkB"
+  class="c0"
   disabled=""
   size="1"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -351,13 +1780,64 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 1 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl kZNYpP"
+  class="c0"
   size="2"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -365,14 +1845,72 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 disabled: true 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  pointer-events: none;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+  border: 0.1rem solid #cdcecf;
+  color: #cdcecf;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0 g {
+  fill: #cdcecf;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl kWEbHI"
+  class="c0"
   disabled=""
   size="2"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -380,12 +1918,92 @@ exports[`Button matches snapshots Standard/fixed width displayStyle: 1 size: 2 d
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 0 disabled: false 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 10.5rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl jPPCTf"
+  class="c0"
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -393,7 +2011,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -401,13 +2019,96 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 0 disabled: true 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 10.5rem;
+  pointer-events: none;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+  background: #cdcecf;
+  border: 0.1rem solid #cdcecf;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl jBoIDh"
+  class="c0"
   disabled=""
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -415,7 +2116,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -423,13 +2124,93 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 1 disabled: false 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 12rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl jtvYxe"
+  class="c0"
   size="1"
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -437,7 +2218,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -445,14 +2226,97 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 1 disabled: true 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 12rem;
+  pointer-events: none;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+  background: #cdcecf;
+  border: 0.1rem solid #cdcecf;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl dbHUmc"
+  class="c0"
   disabled=""
   size="1"
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -460,7 +2324,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -468,13 +2332,93 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 2 disabled: false 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl fvnHkD"
+  class="c0"
   size="2"
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -482,7 +2426,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -490,14 +2434,97 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0 size: 2 disabled: true 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  pointer-events: none;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+  background: #cdcecf;
+  border: 0.1rem solid #cdcecf;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl dbqXdR"
+  class="c0"
   disabled=""
   size="2"
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -505,7 +2532,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -513,12 +2540,90 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 0 disabled: false 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 10.5rem;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl exRycH"
+  class="c0"
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -526,7 +2631,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -534,13 +2639,98 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 0 disabled: true 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 10.5rem;
+  pointer-events: none;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+  border: 0.1rem solid #cdcecf;
+  color: #cdcecf;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0 g {
+  fill: #cdcecf;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl elVQlE"
+  class="c0"
   disabled=""
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -548,7 +2738,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -556,13 +2746,91 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 1 disabled: false 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 12rem;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl eQudLC"
+  class="c0"
   size="1"
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -570,7 +2838,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -578,14 +2846,99 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 1 disabled: true 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 12rem;
+  pointer-events: none;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+  border: 0.1rem solid #cdcecf;
+  color: #cdcecf;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0 g {
+  fill: #cdcecf;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl bpjYkB"
+  class="c0"
   disabled=""
   size="1"
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -593,7 +2946,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -601,13 +2954,91 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 2 disabled: false 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl kZNYpP"
+  class="c0"
   size="2"
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -615,7 +3046,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -623,14 +3054,99 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 `;
 
 exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1 size: 2 disabled: true 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c1 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  pointer-events: none;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+  border: 0.1rem solid #cdcecf;
+  color: #cdcecf;
+}
+
+.c0 g {
+  fill: #000000;
+}
+
+.c0 g {
+  fill: #cdcecf;
+}
+
+.c0:hover {
+  border-color: #000000;
+}
+
+.c2 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c4 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl kWEbHI"
+  class="c0"
   disabled=""
   size="2"
   type="button"
 >
   <div
-    class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+    class="c1 c2"
     data-testid="icon-Upload"
   >
     <test-file-stub
@@ -638,7 +3154,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     />
   </div>
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c3 c4"
   >
     Click
   </p>
@@ -646,13 +3162,66 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
 `;
 
 exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disabled: false 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl fvnHkD"
+  class="c0"
   size="2"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Click
   </p>
@@ -660,13 +3229,66 @@ exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disa
 `;
 
 exports[`Button matches snapshots With intl message displayStyle: 0 size: 2 disabled: false 2`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c0:hover {
+  background: #232426;
+}
+
+.c0 g {
+  fill: #ffffff;
+}
+
+.c2 {
+  white-space: nowrap;
+}
+
 <button
-  class="sc-AxgMl fvnHkD"
+  class="c0"
   size="2"
   type="button"
 >
   <p
-    class="sc-AxjAm pMKRu sc-Axmtr fhTfIi"
+    class="c1 c2"
   >
     Mudita News
   </p>

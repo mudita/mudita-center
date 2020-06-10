@@ -2,7 +2,7 @@ import * as React from "react"
 import { Redirect, Route, Switch } from "react-router"
 
 import FilesManager from "Renderer/modules/filesManager/files-manager.component"
-import Help from "Renderer/modules/help/help.component"
+import Help from "Renderer/modules/help/help.container"
 import Meditation from "Renderer/modules/meditation/meditation.component"
 import MessagesContainer from "Renderer/modules/messages/messages.container"
 import Music from "Renderer/modules/music/music.component"
