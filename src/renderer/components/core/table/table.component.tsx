@@ -409,4 +409,33 @@ const Table = React.forwardRef<
   ComponentProps<typeof TableComponent>
 >((props, ref) => <TableComponent {...props} ref={ref} />)
 
+/* Sort */
+interface TableSortButtonProps {
+  asc?: boolean
+  onClick?: () => void
+}
+export const TableSortButton = styled((props: TableSortButtonProps) => (
+  <button {...props} />
+))`
+  background: none;
+  color: currentColor;
+
+  cursor: pointer;
+
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0 1rem;
+  border-style: solid;
+  border-width: 0.5rem 0.3rem 0 0.3rem;
+  border-color: currentColor transparent transparent transparent;
+
+  transform: ${props => (props.asc ? "rotate(540deg)" : "rotate(360deg)")};
+
+  &:active,
+  &:focus {
+    outline: 0;
+  }
+`
+
 export default Table

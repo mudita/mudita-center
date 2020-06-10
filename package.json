@@ -106,6 +106,7 @@
     "@storybook/react": "^5.3.18",
     "@testing-library/jest-dom": "^5.7.0",
     "@testing-library/react": "^9.5.0",
+    "@testing-library/react-hooks": "^3.3.0",
     "@types/chai": "^4.2.11",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/faker": "^4.1.11",
