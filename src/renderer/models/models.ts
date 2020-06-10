@@ -8,6 +8,7 @@ import networkStatus from "Renderer/models/network-status/network-status"
 import muditaProductCards from "Renderer/models/mudita-product-cards/mudita-product-cards"
 import settings from "Renderer/models/settings/settings"
 import backupSettings from "Renderer/models/backup-settings/backup-settings"
+import calls from "Renderer/models/calls/calls"
 
 export interface RootModel {
   basicInfo: typeof basicInfo
@@ -20,6 +21,7 @@ export interface RootModel {
   muditaProductCards: typeof muditaProductCards
   settings: typeof settings
   backupSettings: typeof backupSettings
+  calls: typeof calls
 }
 
 export const models: RootModel = {
@@ -33,4 +35,5 @@ export const models: RootModel = {
   muditaProductCards,
   settings,
   backupSettings,
+  calls,
 }
