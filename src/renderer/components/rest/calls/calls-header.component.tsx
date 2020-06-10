@@ -73,7 +73,6 @@ const CallsHeader: FunctionComponent<Props> = ({
         <ButtonToggler>
           {toggleState.map(({ label, visibilityFilter }, i) => {
             const filter = () => getFilterByLabel({ label, visibilityFilter })
-
             return (
               <CallsButtonTogglerItem
                 key={i}
