@@ -410,13 +410,7 @@ const Table = React.forwardRef<
 >((props, ref) => <TableComponent {...props} ref={ref} />)
 
 /* Sort */
-interface TableSortButtonProps {
-  asc?: boolean
-  onClick?: () => void
-}
-export const TableSortButton = styled((props: TableSortButtonProps) => (
-  <button {...props} />
-))`
+export const TableSortButton = styled.button<{ asc?: boolean }>`
   background: none;
   color: currentColor;
 
@@ -430,7 +424,7 @@ export const TableSortButton = styled((props: TableSortButtonProps) => (
   border-width: 0.5rem 0.3rem 0 0.3rem;
   border-color: currentColor transparent transparent transparent;
 
-  transform: ${props => (props.asc ? "rotate(540deg)" : "rotate(360deg)")};
+  transform: ${({ asc }) => (asc ? "rotate(540deg)" : "rotate(360deg)")};
 
   &:active,
   &:focus {
