@@ -15,6 +15,8 @@ test("properly sorts data", () => {
     result.current.sort(SORT_KEY)
   })
 
+  expect(result.current.data.length).toBe(fakeData.length)
+
   expect(SORT_KEY in result.current.sortDir).toBeTruthy()
   expect(result.current.sortDir[SORT_KEY]).toBeTruthy()
 
