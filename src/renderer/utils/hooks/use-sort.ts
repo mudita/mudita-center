@@ -1,21 +1,22 @@
 import { useState } from "react"
 import { sortBy } from "lodash"
 
-type Dict = { [term: string]: boolean }
+type SortDirType = { [term: string]: boolean }
+
 interface UseSort<T> {
   data: T[]
   sort: (term: string) => void
-  sortDir: Dict
+  sortDir: SortDirType
 }
 
-export default function useSort<T = any>(input: T[]): UseSort<T> {
+export default function useSort<T = SortDirType>(input: T[]): UseSort<T> {
   const [data, setData] = useState(input)
-  const [sortDir, setSortDir] = useState<{ [k: string]: boolean }>({})
+  const [sortDir, setSortDir] = useState<SortDirType>({})
 
   const sort = (term: string): void => {
     const sorted = sortBy([...data], term)
 
-    setSortDir((current: Dict) => ({
+    setSortDir((current: SortDirType) => ({
       ...current,
       [term]: term in current ? !current[term] : true,
     }))
