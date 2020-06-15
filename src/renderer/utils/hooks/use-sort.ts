@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { sortBy } from "lodash"
 
-type Dictionary = { [k: string]: boolean }
+type Dictionary = Record<string, boolean>
 
 interface UseSort<T> {
   data: T[]
