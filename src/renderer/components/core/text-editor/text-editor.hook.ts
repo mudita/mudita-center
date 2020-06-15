@@ -30,7 +30,7 @@ interface Options {
 }
 
 export const useTextEditor = (
-  defaultTextObject: Text,
+  defaultTextObject: Text = { id: "", text: "" },
   saveResults: (textObject: Text) => Promise<any>,
   options: Options = {
     autosaveDebounceTime: 1000,
