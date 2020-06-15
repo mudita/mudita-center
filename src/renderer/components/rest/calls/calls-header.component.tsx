@@ -71,11 +71,11 @@ const CallsHeader: FunctionComponent<Props> = ({
     <FiltersWrapper checkMode>
       <UnreadFilters>
         <ButtonToggler>
-          {toggleState.map(({ label, visibilityFilter }, i) => {
+          {toggleState.map(({ label, visibilityFilter }) => {
             const filter = () => getFilterByLabel({ label, visibilityFilter })
             return (
               <CallsButtonTogglerItem
-                key={i}
+                key={visibilityFilter}
                 label={label}
                 onClick={filter}
                 active={activeLabel === label}
