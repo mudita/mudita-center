@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import Button from "Renderer/components/core/button/button.component"
 import ContactList from "Renderer/components/rest/phone/contact-list.component"
 import ContactPanel, {
   ContactPanelProps,
@@ -27,6 +28,7 @@ import DeleteContactModal from "Renderer/components/rest/phone/delete-contact-mo
 import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.component"
 import BlockContactModal from "Renderer/components/rest/phone/block-contact-modal.component"
 import { speedDialNumbers } from "Renderer/models/phone/phone.utils"
+import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 
 const ContactSection = styled.section`
   height: 100%;
@@ -59,11 +61,16 @@ const Phone: FunctionComponent<PhoneProps> = ({
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
+  const [contacts, setContacts] = useState(contactList)
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
     loadData()
   }, [])
+
+  useEffect(() => {
+    setContacts(contactList)
+  }, [contactList.length])
 
   const handleNameUpdate = ({
     firstName,
@@ -168,64 +175,78 @@ const Phone: FunctionComponent<PhoneProps> = ({
       !speedDialContacts.find(({ speedDial }) => speedDial === dialNumber)
   )
 
+  const _devClearContacts = () => setContacts([])
+  const _devLoadDefaultContacts = () => setContacts(contactList)
+
   return (
-    <ContactSection>
-      <ContactPanel
-        onSearchTermChange={onSearchTermChange}
-        onManageButtonClick={onManageButtonClick}
-        onNewButtonClick={handleAddingContact}
-      />
-      <TableWithSidebarWrapper>
-        <ContactList
-          activeRow={activeRow}
-          contactList={contactList}
-          onSelect={openSidebar}
-          onExport={noop}
-          onForward={noop}
-          onUnblock={handleUnblock}
-          onBlock={openBlockModal}
-          onDelete={openDeleteModal}
-          onCheck={noop}
-          newContact={newContact}
-          editedContact={editedContact}
-          resultsState={resultsState as ResultsState}
+    <>
+      <DevModeWrapper>
+        <p>Messages on list: {contacts.length}</p>
+        <Button onClick={_devClearContacts} label="Remove all contacts" />
+        <br />
+        <Button
+          onClick={_devLoadDefaultContacts}
+          label="Load default contact list"
         />
-        {newContact && (
-          <ContactEdit
-            onCancel={cancelAddingContact}
-            onSpeedDialSettingsOpen={openSpeedDialModal}
-            onSave={saveNewContact}
-            onNameUpdate={handleNameUpdate}
-            saving={savingContact}
-            availableSpeedDials={availableSpeedDials}
-          />
-        )}
-        {editedContact && (
-          <ContactEdit
-            contact={editedContact}
-            onCancel={cancelEditingContact}
-            onSpeedDialSettingsOpen={openSpeedDialModal}
-            onSave={saveEditedContact}
-            saving={savingContact}
-            availableSpeedDials={availableSpeedDials}
-          />
-        )}
-        {detailsEnabled && (
-          <ContactDetails
-            contact={activeRow as Contact}
-            onClose={closeSidebar}
+      </DevModeWrapper>
+      <ContactSection>
+        <ContactPanel
+          onSearchTermChange={onSearchTermChange}
+          onManageButtonClick={onManageButtonClick}
+          onNewButtonClick={handleAddingContact}
+        />
+        <TableWithSidebarWrapper>
+          <ContactList
+            activeRow={activeRow}
+            contactList={contacts}
+            onSelect={openSidebar}
             onExport={noop}
             onForward={noop}
             onUnblock={handleUnblock}
             onBlock={openBlockModal}
             onDelete={openDeleteModal}
-            onEdit={handleEditingContact}
-            onCall={onCall}
-            onMessage={onMessage}
+            onCheck={noop}
+            newContact={newContact}
+            editedContact={editedContact}
+            resultsState={resultsState as ResultsState}
           />
-        )}
-      </TableWithSidebarWrapper>
-    </ContactSection>
+          {newContact && (
+            <ContactEdit
+              onCancel={cancelAddingContact}
+              onSpeedDialSettingsOpen={openSpeedDialModal}
+              onSave={saveNewContact}
+              onNameUpdate={handleNameUpdate}
+              saving={savingContact}
+              availableSpeedDials={availableSpeedDials}
+            />
+          )}
+          {editedContact && (
+            <ContactEdit
+              contact={editedContact}
+              onCancel={cancelEditingContact}
+              onSpeedDialSettingsOpen={openSpeedDialModal}
+              onSave={saveEditedContact}
+              saving={savingContact}
+              availableSpeedDials={availableSpeedDials}
+            />
+          )}
+          {detailsEnabled && (
+            <ContactDetails
+              contact={activeRow as Contact}
+              onClose={closeSidebar}
+              onExport={noop}
+              onForward={noop}
+              onUnblock={handleUnblock}
+              onBlock={openBlockModal}
+              onDelete={openDeleteModal}
+              onEdit={handleEditingContact}
+              onCall={onCall}
+              onMessage={onMessage}
+            />
+          )}
+        </TableWithSidebarWrapper>
+      </ContactSection>
+    </>
   )
 }
 

@@ -1,27 +1,159 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot with tabs 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.8rem;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.c8 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.c0 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: #ffffff;
+  border-bottom: 0.1rem solid #e6e8eb;
+}
+
+.c2 {
+  margin: 2.4rem 0 1.5rem 4rem;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c6 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 100%;
+  padding: 0.8rem;
+  border: none;
+  position: relative;
+  border-radius: 0.2remrem;
+  color: #6a6a6a;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c4:after {
+  content: "";
+  position: absolute;
+  display: block;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0.2rem;
+  background-color: #000000;
+  -webkit-transition: width 500ms ease;
+  transition: width 500ms ease;
+}
+
+.c4.active {
+  color: #000000;
+}
+
+.c4.active:after {
+  width: 100%;
+}
+
+.c4.active svg {
+  opacity: 1;
+}
+
+.c4 svg {
+  opacity: 0.75;
+}
+
+.c7 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c9 {
+  white-space: nowrap;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c5:not(:last-child) {
+  margin-right: 4rem;
+}
+
 <div
-  class="sc-AxirZ kzGTef"
+  class="c0"
 >
   <h3
-    class="sc-AxjAm liSvtH sc-AxiKw gnMQvJ"
+    class="c1 c2"
     data-testid="location"
   >
     Phone
   </h3>
   <div
-    class="sc-fzoLsD fekCvi"
+    class="c3"
   >
     <a
       aria-current="page"
-      class="sc-AxhUy cCyBop sc-fzpans hdyjEv active"
+      class="c4 c5 active"
       displaystyle="9"
       href="/phone"
       size="2"
     >
       <div
-        class="sc-AxhCb hlagim sc-AxmLO eQeysd"
+        class="c6 c7"
         data-testid="icon-Contacts"
       >
         <test-file-stub
@@ -29,19 +161,19 @@ exports[`matches snapshot with tabs 1`] = `
         />
       </div>
       <p
-        class="sc-AxjAm eGfSTk sc-fzozJi bcHpXu"
+        class="c8 c9"
       >
         Contacts
       </p>
     </a>
     <a
-      class="sc-AxhUy cCyBop sc-fzpans hdyjEv"
+      class="c4 c5"
       displaystyle="9"
       href="/phone/calls"
       size="2"
     >
       <div
-        class="sc-AxhCb hlagim sc-AxmLO eQeysd"
+        class="c6 c7"
         data-testid="icon-Calls"
       >
         <test-file-stub
@@ -49,19 +181,19 @@ exports[`matches snapshot with tabs 1`] = `
         />
       </div>
       <p
-        class="sc-AxjAm eGfSTk sc-fzozJi bcHpXu"
+        class="c8 c9"
       >
         Calls
       </p>
     </a>
     <a
-      class="sc-AxhUy cCyBop sc-fzpans hdyjEv"
+      class="c4 c5"
       displaystyle="9"
       href="/phone/dial"
       size="2"
     >
       <div
-        class="sc-AxhCb hlagim sc-AxmLO eQeysd"
+        class="c6 c7"
         data-testid="icon-Dial"
       >
         <test-file-stub
@@ -69,7 +201,7 @@ exports[`matches snapshot with tabs 1`] = `
         />
       </div>
       <p
-        class="sc-AxjAm eGfSTk sc-fzozJi bcHpXu"
+        class="c8 c9"
       >
         Dial
       </p>
@@ -79,17 +211,42 @@ exports[`matches snapshot with tabs 1`] = `
 `;
 
 exports[`matches snapshot without tabs 1`] = `
+.c1 {
+  margin: 0;
+  font-size: 1.8rem;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.c0 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background-color: #ffffff;
+  border-bottom: 0.1rem solid #e6e8eb;
+}
+
+.c2 {
+  margin: 2.4rem 0 1.5rem 4rem;
+}
+
+.c3 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 <div
-  class="sc-AxirZ kzGTef"
+  class="c0"
 >
   <h3
-    class="sc-AxjAm liSvtH sc-AxiKw gnMQvJ"
+    class="c1 c2"
     data-testid="location"
   >
     Overview
   </h3>
   <div
-    class="sc-fzoLsD fekCvi"
+    class="c3"
   />
 </div>
 `;

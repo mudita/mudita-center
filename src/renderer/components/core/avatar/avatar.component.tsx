@@ -79,7 +79,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
   <AvatarWrapper className={className} size={size} light={light}>
     {imageSrc ? (
       <AvatarImage data-testid="avatar-image" src={imageSrc} />
-    ) : user ? (
+    ) : user?.firstName || user?.lastName ? (
       <Text
         displayStyle={
           size === AvatarSize.Big

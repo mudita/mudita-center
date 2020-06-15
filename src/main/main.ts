@@ -39,7 +39,7 @@ const createWindow = async () => {
   win = new BrowserWindow({
     width: WINDOW_SIZE.width,
     height: WINDOW_SIZE.height,
-    resizable: false,
+    resizable: process.env.NODE_ENV === "development",
     fullscreen: false,
     webPreferences: {
       nodeIntegration: true,

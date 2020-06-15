@@ -7,7 +7,6 @@ import ContactModal, {
 import { fireEvent } from "@testing-library/dom"
 import { mockJpg } from "Renderer/components/core/input-file/input-file.test"
 import { intl } from "Renderer/utils/intl"
-import "jest-styled-components"
 
 const renderContactModal = ({ ...props }: Partial<ContactModalProps> = {}) => {
   const outcome = renderWithThemeAndIntl(<ContactModal {...props} />)

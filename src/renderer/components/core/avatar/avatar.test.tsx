@@ -1,5 +1,4 @@
 import "@testing-library/jest-dom/extend-expect"
-import "jest-styled-components"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Avatar, {

@@ -131,6 +131,7 @@
     "@types/webpack-env": "^1.15.2",
     "asar": "^2.1.0",
     "babel-loader": "^8.1.0",
+    "babel-plugin-jsx-remove-data-test-id": "^2.1.3",
     "babel-plugin-react-intl": "^5.1.18",
     "babel-plugin-styled-components": "^1.10.7",
     "babel-preset-react-app": "^9.1.2",

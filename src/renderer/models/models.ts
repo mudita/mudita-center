@@ -9,6 +9,7 @@ import muditaProductCards from "Renderer/models/mudita-product-cards/mudita-prod
 import settings from "Renderer/models/settings/settings"
 import backupSettings from "Renderer/models/backup-settings/backup-settings"
 import calls from "Renderer/models/calls/calls"
+import devMode from "Renderer/models/dev-mode/dev-mode"
 
 export interface RootModel {
   basicInfo: typeof basicInfo
@@ -22,6 +23,7 @@ export interface RootModel {
   settings: typeof settings
   backupSettings: typeof backupSettings
   calls: typeof calls
+  devMode: typeof devMode
 }
 
 export const models: RootModel = {
@@ -36,4 +38,5 @@ export const models: RootModel = {
   settings,
   backupSettings,
   calls,
+  devMode,
 }
