@@ -120,6 +120,9 @@ export const useTextEditor = (
     if (init.current) {
       if (textChanged) {
         setStatus({ type: Action.Save, payload: SaveStatus.Unsaved })
+      } else {
+        setStatus({ type: Action.Save, payload: undefined })
+        setStatus({ type: Action.EditMode, payload: false })
       }
       init.current = false
     } else {
@@ -139,6 +142,7 @@ export const useTextEditor = (
 
   useEffect(() => {
     setText(defaultText)
+    init.current = true
   }, [defaultTextObject])
 
   return {
@@ -146,7 +150,6 @@ export const useTextEditor = (
     keepTemporaryText: handleChangeEvent,
     rejectChanges,
     saveChanges,
-    textChanged,
     enableEditMode,
     disableEditMode,
     status: {
