@@ -40,8 +40,10 @@ export const useTextEditor = (
   const sessionItemKey = `autosave_${defaultTextObject.id}`
   const autosavedText = window.sessionStorage.getItem(sessionItemKey)
 
+  const defaultText = autosavedText || defaultTextObject.text
+
   const { autosaveDebounceTime, statusChangeDelay } = options
-  const [text, setText] = useState(autosavedText || defaultTextObject.text)
+  const [text, setText] = useState(defaultText)
   const init = useRef(true)
 
   const textChanged =
@@ -134,6 +136,10 @@ export const useTextEditor = (
       _setAutoSavedStatus.cancel()
     }
   }, [text])
+
+  useEffect(() => {
+    setText(defaultText)
+  }, [defaultTextObject])
 
   return {
     temporaryText: text,
