@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import TextEditor, {
@@ -8,7 +7,6 @@ import TextEditor, {
 } from "Renderer/components/core/text-editor/text-editor.component"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
-import "jest-styled-components"
 import { fireEvent } from "@testing-library/react"
 
 const text = `Lorem ipsum.\nDolor sit amet`
