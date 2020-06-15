@@ -9,7 +9,7 @@ interface UseSort<T> {
   sortDir: Dictionary
 }
 
-export default function useSort<T = Dictionary>(input: T[]): UseSort<T> {
+const useSort = <T = Dictionary>(input: T[]): UseSort<T> => {
   const [data, setData] = useState(input)
   const [sortDir, setSortDir] = useState<Dictionary>({})
 
@@ -26,3 +26,5 @@ export default function useSort<T = Dictionary>(input: T[]): UseSort<T> {
 
   return { data, sort, sortDir }
 }
+
+export default useSort
