@@ -15,6 +15,7 @@ import transition from "Renderer/styles/functions/transition"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { Content } from "Renderer/models/messages/messages.interface"
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
@@ -23,20 +24,6 @@ const MessageBubbleDropdown = styled(Dropdown)<{
   margin-right: ${({ interlocutor }) => (interlocutor ? "0" : "1.1rem")};
   margin-left: ${({ interlocutor }) => (interlocutor ? "1.1rem" : "0")};
   opacity: ${({ display }) => (display ? "1" : "0")};
-`
-
-const Bubble = styled.div<{ interlocutor: boolean }>`
-  padding: 1.1rem 1.2rem;
-  background-color: ${({ interlocutor }) =>
-    interlocutor
-      ? backgroundColor("primaryDark")
-      : backgroundColor("messageBlue")};
-  border-radius: ${({ interlocutor }) =>
-    interlocutor
-      ? "1.2rem 1.2rem 1.2rem 0.2rem"
-      : "1.2rem 1.2rem 0.2rem 1.2rem"};
-  max-width: 38rem;
-  box-sizing: border-box;
 `
 
 const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
@@ -56,19 +43,27 @@ const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
   }
 `
 
-const MessageElementsWrapper = styled.div<{ interlocutor: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: ${({ interlocutor }) =>
-    interlocutor ? "flex-start" : "flex-end"};
-`
-
 const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: ${({ interlocutor }) =>
     interlocutor ? "row-reverse" : "row"};
   justify-content: flex-end;
+`
+
+const Bubble = styled.div<{ interlocutor: boolean }>`
+  padding: 1.1rem 1.2rem;
+  margin-top: 0.8rem;
+  background-color: ${({ interlocutor }) =>
+    interlocutor
+      ? backgroundColor("primaryDark")
+      : backgroundColor("messageBlue")};
+  border-radius: ${({ interlocutor }) =>
+    interlocutor
+      ? "1.2rem 1.2rem 1.2rem 0.2rem"
+      : "1.2rem 1.2rem 0.2rem 1.2rem"};
+  max-width: 38rem;
+  box-sizing: border-box;
 `
 
 const ActionsButton = styled.span`
@@ -89,8 +84,10 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
 
 interface Props {
   user: User
-  messages: string[]
+  messages: Content[]
   interlocutor?: boolean
+  forwardMessage?: () => void
+  removeMessage?: () => void
 }
 
 const MessageBubble: FunctionComponent<Props> = ({
@@ -98,14 +95,18 @@ const MessageBubble: FunctionComponent<Props> = ({
   user,
   messages,
   interlocutor = false,
+  forwardMessage = noop,
+  removeMessage = noop,
 }) => {
+  const [clicked, setClicked] = useState<string>("")
   return (
     <MessageBubbleWrapper className={className} interlocutor={interlocutor}>
-      <MessageElementsWrapper interlocutor={interlocutor}>
-        {messages.map((msg, index) => {
-          const [clicked, setClicked] = useState<boolean>(false)
-          const open = () => setClicked(true)
-          const close = () => setClicked(false)
+      <div>
+        {messages.map(({ text, id }, index) => {
+          const open = () => setClicked(id)
+          const close = () => setClicked("")
+          const forward = () => forwardMessage(id)
+          const remove = () => removeMessage(id)
           return (
             <MessageBubbleContainer interlocutor={interlocutor} key={index}>
               <MessageBubbleDropdown
@@ -120,7 +121,7 @@ const MessageBubble: FunctionComponent<Props> = ({
                   interlocutor ? DropdownPosition.Left : DropdownPosition.Right
                 }
                 interlocutor={interlocutor}
-                display={clicked}
+                display={clicked === id}
                 data-testid="dropdown"
               >
                 <ButtonComponent
@@ -128,27 +129,29 @@ const MessageBubble: FunctionComponent<Props> = ({
                     id: "view.name.messages.messageDropdownForward",
                   }}
                   Icon={Type.Forward}
-                  onClick={noop}
+                  onClick={forward}
                   displayStyle={DisplayStyle.Dropdown}
+                  data-testid="forward-message"
                 />
                 <ButtonComponent
                   labelMessage={{
                     id: "view.name.messages.messageDropdownDelete",
                   }}
                   Icon={Type.Delete}
-                  onClick={noop}
+                  onClick={remove}
                   displayStyle={DisplayStyle.Dropdown}
+                  data-testid="delete-message"
                 />
               </MessageBubbleDropdown>
               <Bubble interlocutor={interlocutor} data-testid="message-content">
                 <Text displayStyle={TextDisplayStyle.MediumLightText}>
-                  {msg}
+                  {text}
                 </Text>
               </Bubble>
             </MessageBubbleContainer>
           )
         })}
-      </MessageElementsWrapper>
+      </div>
       <InitialsAvatar user={user} interlocutor={interlocutor} />
     </MessageBubbleWrapper>
   )

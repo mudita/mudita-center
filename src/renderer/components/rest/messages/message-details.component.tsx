@@ -14,6 +14,7 @@ import styled from "styled-components"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
+import { createFullName } from "Renderer/models/phone/phone.utils"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 interface Props {
@@ -91,14 +92,18 @@ const MessageDetails: FunctionComponent<Props> = ({
             displayStyle={TextDisplayStyle.LargeBoldText}
             data-testid="sidebar-fullname"
           >
-            {details.caller.firstName} {details.caller.lastName}
+            {details.caller.inContacts
+              ? createFullName(details.caller)
+              : details.caller.phoneNumber}
           </Text>
-          <PhoneNumberText
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
-            data-testid="sidebar-phone-number"
-          >
-            {details.caller.phoneNumber}
-          </PhoneNumberText>
+          {details.caller.inContacts && (
+            <PhoneNumberText
+              displayStyle={TextDisplayStyle.MediumFadedLightText}
+              data-testid="sidebar-phone-number"
+            >
+              {details.caller.phoneNumber}
+            </PhoneNumberText>
+          )}
         </>
       }
       headerRight={icons}

@@ -3,7 +3,10 @@ import React from "react"
 import MessageDetails from "Renderer/components/rest/messages/message-details.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
-import { mockedDetails } from "./__mocks__/caller-data"
+import {
+  mockedDetails,
+  unknownCallerMockedDetails,
+} from "./__mocks__/caller-data"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
@@ -34,5 +37,14 @@ test("correct amount of message bubbles is displayed", () => {
   )
   expect(getAllByTestId("message-content")).toHaveLength(
     mockedDetails.messages.length
+  )
+})
+
+test("message from unknown person displays only phone number", () => {
+  const { getByTestId } = renderWithThemeAndIntl(
+    <MessageDetails details={unknownCallerMockedDetails} />
+  )
+  expect(getByTestId("sidebar-fullname")).toHaveTextContent(
+    unknownCallerMockedDetails.caller.phoneNumber
   )
 })

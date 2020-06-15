@@ -1,15 +1,238 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
+.c8 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+  color: #6a6a6a;
+}
+
+.c11 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c2 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c14 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 1.6rem;
+  width: 1.6rem;
+  position: relative;
+}
+
+.c14 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c5 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 4rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.2rem;
+  color: #6a6a6a;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c5.active {
+  background-color: #f4f5f6;
+}
+
+.c5.active * {
+  color: #000000;
+}
+
+.c5.active svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+.c5:hover {
+  background-color: #f4f5f6;
+}
+
+.c5:hover * {
+  color: #000000;
+}
+
+.c5:hover svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+.c5 svg {
+  opacity: 0.75;
+}
+
+.c7 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c9 {
+  white-space: nowrap;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin: 2.5rem 0 1.6rem 0;
+}
+
+.c12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c13 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 0.4rem;
+}
+
+.c13:hover {
+  background-color: #f4f5f6;
+}
+
+.c15:not(:last-of-type) {
+  margin-right: 1rem;
+}
+
+.c4 {
+  margin: 0 1rem;
+}
+
+.c6 {
+  margin: 0 0 0.8rem 0;
+}
+
+.c0 {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  margin: 0 3.2rem;
+}
+
+.c1 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #ffffff;
+}
+
+.c3 {
+  height: 2rem;
+  width: 8.6rem;
+  margin: 2rem 0 3.5rem;
+}
+
 <div>
   <div
-    class="sc-fzokOt LXbGi"
+    class="c0"
   >
     <div
-      class="sc-fzqBZW ePBpLh"
+      class="c1"
     >
       <div
-        class="sc-AxirZ XgaKu sc-fzqNJr gQbzVX"
+        class="c2 c3"
         data-testid="icon-MuditaLogoWithText"
       >
         <test-file-stub
@@ -18,16 +241,16 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/news"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-undefined"
         >
           <test-file-stub
@@ -35,28 +258,28 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Mudita News
         </p>
       </a>
     </div>
     <div
-      class="sc-fzoLsD jJEGMf"
+      class="c10"
     >
       <p
-        class="sc-AxjAm pMKRu"
+        class="c11"
       >
         Your Pure
       </p>
       <div
-        class="sc-fzpans kLztrW"
+        class="c12"
       >
         <div
-          class="sc-fzplWN cVhLKd"
+          class="c13"
         >
           <div
-            class="sc-AxirZ kOycEm"
+            class="c14"
             data-testid="icon-HighRange"
             height="1.6"
             width="1.6"
@@ -67,10 +290,10 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-fzplWN cVhLKd"
+          class="c13"
         >
           <div
-            class="sc-AxirZ kOycEm"
+            class="c14"
             data-testid="icon-VeryHighBattery"
             height="1.6"
             width="1.6"
@@ -81,10 +304,10 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-fzplWN cVhLKd"
+          class="c13"
         >
           <div
-            class="sc-AxirZ kOycEm sc-fznyAO lmCWoJ"
+            class="c14 c15"
             data-testid="icon-Sim"
             height="1.6"
             width="1.6"
@@ -95,10 +318,10 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-fzplWN cVhLKd"
+          class="c13"
         >
           <div
-            class="sc-AxirZ kOycEm sc-fznyAO lmCWoJ"
+            class="c14 c15"
             data-testid="icon-MenuTethering"
             height="1.6"
             width="1.6"
@@ -111,16 +334,16 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/overview"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-MenuOverview"
         >
           <test-file-stub
@@ -128,23 +351,23 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Overview
         </p>
       </a>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/messages"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-Message"
         >
           <test-file-stub
@@ -152,23 +375,23 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Messages
         </p>
       </a>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/phone"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-MenuPhone"
         >
           <test-file-stub
@@ -176,23 +399,23 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Phone
         </p>
       </a>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/music"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-MenuMusic"
         >
           <test-file-stub
@@ -200,23 +423,23 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Music
         </p>
       </a>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/calendar"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-Calendar"
         >
           <test-file-stub
@@ -224,23 +447,23 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Calendar
         </p>
       </a>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/tools"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-MenuTools"
         >
           <test-file-stub
@@ -248,23 +471,23 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Tools
         </p>
       </a>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/meditation"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-MenuMeditation"
         >
           <test-file-stub
@@ -272,23 +495,23 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Meditation
         </p>
       </a>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/files-manager"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-MenuFilesManager"
         >
           <test-file-stub
@@ -296,32 +519,32 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Files manager
         </p>
       </a>
     </div>
     <div
-      class="sc-fzoLsD jJEGMf"
+      class="c10"
     >
       <p
-        class="sc-AxjAm pMKRu"
+        class="c11"
       >
         Desktop App
       </p>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/tethering"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-MenuTethering"
         >
           <test-file-stub
@@ -329,23 +552,23 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Tethering
         </p>
       </a>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/settings"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-MenuSettings"
         >
           <test-file-stub
@@ -353,23 +576,23 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Settings
         </p>
       </a>
     </div>
     <div
-      class="sc-fznKkj bMCzZO"
+      class="c4"
     >
       <a
-        class="sc-AxiKw biGVFO sc-fznZeY ezpiiV"
+        class="c5 c6"
         displaystyle="8"
         href="#/help"
         size="2"
       >
         <div
-          class="sc-AxirZ XgaKu sc-AxheI bvYSmX"
+          class="c2 c7"
           data-testid="icon-MenuHelp"
         >
           <test-file-stub
@@ -377,7 +600,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="sc-AxjAm jcsRXt sc-Axmtr fhTfIi"
+          class="c8 c9"
         >
           Help
         </p>

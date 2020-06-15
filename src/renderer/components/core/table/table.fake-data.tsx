@@ -1,15 +1,38 @@
 import Faker from "faker"
-import { groupBy } from "lodash"
+import { groupBy, times, random } from "lodash"
 
-export const rowsMessages = Array.from({
-  length: Math.round(15 + Math.random() * 25),
-}).map(() => {
-  const caller = {
-    id: Faker.random.uuid(),
-    firstName: Faker.name.firstName(),
-    lastName: Faker.name.lastName(),
-    phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-  }
+const createText = () => ({
+  id: Faker.random.uuid(),
+  text: Faker.lorem.paragraphs(random(1, 3)),
+})
+
+export const notes = times(random(15, 25), createText)
+
+const createCaller = (inContacts: boolean) => {
+  return inContacts
+    ? {
+        id: Faker.random.uuid(),
+        firstName: Faker.name.firstName(),
+        lastName: Faker.name.lastName(),
+        phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+        inContacts,
+      }
+    : {
+        id: Faker.random.uuid(),
+        firstName: "",
+        lastName: "",
+        phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+        inContacts,
+      }
+}
+const createMessage = () => ({
+  id: Faker.random.uuid(),
+  text: Faker.lorem.sentence(10, 2),
+})
+const createListOfMessages = () => times(random(1, 3), createMessage)
+const createTopic = () => {
+  const inContacts = Faker.random.boolean()
+  const caller = createCaller(inContacts)
   return {
     id: Faker.random.uuid(),
     caller,
@@ -19,37 +42,32 @@ export const rowsMessages = Array.from({
         author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd572",
         date: "2019-10-18T11:27:15.256Z",
-        content: [
-          "LALAAdipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe, voluptates?",
-        ],
+        content: createListOfMessages(),
         interlocutor: true,
       },
       {
         author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content: [
-          "LALAAdipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-        ],
+        content: createListOfMessages(),
         interlocutor: true,
       },
       {
         author: {
           firstName: "John",
           lastName: "Doe",
+          inContacts: true,
         },
         id: Faker.random.uuid(),
         date: "2019-10-18T11:45:35.112Z",
-        content: [
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-        ],
+        content: createListOfMessages(),
         interlocutor: false,
       },
     ],
   }
-})
+}
+
+export const rowsMessages = times(random(5, 15), createTopic)
 
 export const basicRows = Array.from({
   length: Math.round(15 + Math.random() * 25),

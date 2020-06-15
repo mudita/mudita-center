@@ -35,7 +35,8 @@ import {
 } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
-import { isEqual } from "lodash"
+import { isEqual, last } from "lodash"
+import { createFullName } from "Renderer/models/phone/phone.utils"
 
 const checkboxVisibleStyles = css`
   display: block;
@@ -157,9 +158,9 @@ const MessagesList: FunctionComponent<Props> = ({
   list,
   openSidebar = noop,
 }) => {
-  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
-    rowsMessages
-  )
+  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect<
+    ActiveRow
+  >(rowsMessages)
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
               and use it in <Messages />
@@ -173,10 +174,11 @@ const MessagesList: FunctionComponent<Props> = ({
       hideColumns={Boolean(activeRow)}
     >
       {list.map(({ id, caller, messages, unread }) => {
-        const { selected, indeterminate } = getRowStatus(caller)
-        const lastMessage = messages[messages.length - 1]
-        const onChange = () => toggleRow(caller)
-        const onClick = () => openSidebar({ caller, messages })
+        const { selected, indeterminate } = getRowStatus({ caller, messages })
+        const lastMessage = last(messages)
+        const lastMessageText = last(lastMessage?.content)?.text
+        const toggle = () => toggleRow({ caller, messages })
+        const open = () => openSidebar({ caller, messages })
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
@@ -188,26 +190,22 @@ const MessagesList: FunctionComponent<Props> = ({
             <AvatarCol>
               <Checkbox
                 checked={selected}
-                onChange={onChange}
+                onChange={toggle}
                 size={Size.Large}
                 indeterminate={indeterminate}
                 data-testid="checkbox"
               />
-              <InitialsAvatar
-                user={{
-                  firstName: caller.firstName,
-                  lastName: caller.lastName,
-                }}
-                light={selected}
-              />
+              <InitialsAvatar user={caller} light={selected} />
             </AvatarCol>
-            <MessageCol onClick={onClick} data-testid="message-row">
+            <MessageCol onClick={open} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {caller.firstName} {caller.lastName}
+                  {caller.inContacts
+                    ? createFullName(caller)
+                    : caller.phoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
-                  {moment(lastMessage.date).format("h:mm A")}
+                  {moment(lastMessage?.date).format("h:mm A")}
                 </Time>
                 <LastMessageText
                   unread={unread}
@@ -217,7 +215,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       : TextDisplayStyle.MediumFadedLightText
                   }
                 >
-                  {lastMessage.content}
+                  {lastMessageText}
                 </LastMessageText>
               </MessageDataWrapper>
             </MessageCol>
@@ -235,22 +233,36 @@ const MessagesList: FunctionComponent<Props> = ({
                   <ButtonComponent
                     labelMessage={{
                       id: "view.name.messages.dropdownCall",
-                      values: { name: caller.firstName },
+                      values: caller.inContacts
+                        ? { name: caller.firstName }
+                        : { name: caller.phoneNumber },
                     }}
                     Icon={Type.Calls}
                     onClick={noop}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
                   />
-                  <ButtonComponent
-                    labelMessage={{
-                      id: "view.name.messages.dropdownContactDetails",
-                    }}
-                    Icon={Type.Contacts}
-                    onClick={noop}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-contact-details"
-                  />
+                  {caller.inContacts ? (
+                    <ButtonComponent
+                      labelMessage={{
+                        id: "view.name.messages.dropdownContactDetails",
+                      }}
+                      Icon={Type.Contacts}
+                      onClick={noop}
+                      displayStyle={DisplayStyle.Dropdown}
+                      data-testid="dropdown-contact-details"
+                    />
+                  ) : (
+                    <ButtonComponent
+                      labelMessage={{
+                        id: "view.name.messages.dropdownAddToContacts",
+                      }}
+                      Icon={Type.Contacts}
+                      onClick={noop}
+                      displayStyle={DisplayStyle.Dropdown}
+                      data-testid="dropdown-add-to-contacts"
+                    />
+                  )}
                   <ButtonComponent
                     labelMessage={{
                       id: "view.name.messages.dropdownMarkAsRead",

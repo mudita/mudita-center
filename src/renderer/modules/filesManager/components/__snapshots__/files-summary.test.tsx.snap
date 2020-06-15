@@ -1,15 +1,136 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should match snapshot 1`] = `
+.c5 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.c6 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: #6a6a6a;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+
+.c2 svg {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-left: 0.3rem solid #6D9BBC;
+}
+
+.c8 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-left: 0.3rem solid #AEBEC9;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-left: 0.3rem solid #E3F3FF;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #ffffff;
+  border-left: 0.3rem solid #E9E9E9;
+}
+
+.c7 {
+  padding: 2.4rem 1.25rem;
+  border-left: 0.1rem solid #f4f5f6;
+}
+
+.c7:hover .arrow {
+  fill: #3e6988;
+}
+
+.c3 {
+  margin: 1.9rem 2.4rem;
+}
+
+.c4 {
+  margin-right: 3.2rem;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-top: 2.4rem;
+}
+
 <div
-  class="sc-AxheI gErkvw"
+  class="c0"
 >
   <div
-    class="sc-AxiKw dMAZum"
+    class="c1"
     data-testid="files-manager-item"
   >
     <div
-      class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
+      class="c2 c3"
       data-testid="icon-Music"
     >
       <test-file-stub
@@ -17,25 +138,25 @@ exports[`should match snapshot 1`] = `
       />
     </div>
     <div
-      class="sc-AxgMl ioCkNe"
+      class="c4"
     >
       <p
-        class="sc-AxjAm eGfSTk"
+        class="c5"
       >
         Music
       </p>
       <p
-        class="sc-AxjAm Oohkf"
+        class="c6"
       >
         15 files (4.0 GB)
       </p>
     </div>
     <a
-      class="sc-AxhCb uAwSu"
+      class="c7"
       href="#/music"
     >
       <div
-        class="sc-AxirZ XgaKu"
+        class="c2"
         data-testid="icon-Arrow"
       >
         <test-file-stub
@@ -45,11 +166,11 @@ exports[`should match snapshot 1`] = `
     </a>
   </div>
   <div
-    class="sc-AxiKw ePUWgf"
+    class="c8"
     data-testid="files-manager-item"
   >
     <div
-      class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
+      class="c2 c3"
       data-testid="icon-VoiceRecorder"
     >
       <test-file-stub
@@ -57,25 +178,25 @@ exports[`should match snapshot 1`] = `
       />
     </div>
     <div
-      class="sc-AxgMl ioCkNe"
+      class="c4"
     >
       <p
-        class="sc-AxjAm eGfSTk"
+        class="c5"
       >
         Voice Recorder
       </p>
       <p
-        class="sc-AxjAm Oohkf"
+        class="c6"
       >
         3 files (4.0 GB)
       </p>
     </div>
     <a
-      class="sc-AxhCb uAwSu"
+      class="c7"
       href="#/tools/voice-recorder"
     >
       <div
-        class="sc-AxirZ XgaKu"
+        class="c2"
         data-testid="icon-Arrow"
       >
         <test-file-stub
@@ -85,11 +206,11 @@ exports[`should match snapshot 1`] = `
     </a>
   </div>
   <div
-    class="sc-AxiKw kRsdtB"
+    class="c9"
     data-testid="files-manager-item"
   >
     <div
-      class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
+      class="c2 c3"
       data-testid="icon-FilesManager"
     >
       <test-file-stub
@@ -97,26 +218,26 @@ exports[`should match snapshot 1`] = `
       />
     </div>
     <div
-      class="sc-AxgMl ioCkNe"
+      class="c4"
     >
       <p
-        class="sc-AxjAm eGfSTk"
+        class="c5"
       >
         Storage
       </p>
       <p
-        class="sc-AxjAm Oohkf"
+        class="c6"
       >
         85 files (4.0 GB)
       </p>
     </div>
   </div>
   <div
-    class="sc-AxiKw lbTSjK"
+    class="c10"
     data-testid="files-manager-item"
   >
     <div
-      class="sc-AxirZ XgaKu sc-AxhUy iKxUnG"
+      class="c2 c3"
       data-testid="icon-MuditaLogo"
     >
       <test-file-stub
@@ -124,15 +245,15 @@ exports[`should match snapshot 1`] = `
       />
     </div>
     <div
-      class="sc-AxgMl ioCkNe"
+      class="c4"
     >
       <p
-        class="sc-AxjAm eGfSTk"
+        class="c5"
       >
         Free
       </p>
       <p
-        class="sc-AxjAm Oohkf"
+        class="c6"
       >
         4.0 GB
       </p>

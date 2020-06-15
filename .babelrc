@@ -15,5 +15,14 @@
         "messagesDir": "./tmp/extractedMessages"
       }
     ]
-  ]
+  ],
+    "env": {
+        "production": {
+            "plugins": [
+                ["babel-plugin-jsx-remove-data-test-id", {
+                    "attributes": ["data-testid", "data-test-id"]
+                }]
+            ]
+        }
+    }
 }

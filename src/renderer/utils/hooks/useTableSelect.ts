@@ -1,12 +1,26 @@
 import { useState } from "react"
 import { getRowChildren } from "Renderer/components/core/table/table.helpers"
 
-interface Row {
-  [key: string]: any
+export interface UseTableSelect<T> {
+  getRowStatus: (
+    row: T
+  ) => {
+    selected: boolean
+    indeterminate: boolean
+  }
+  toggleAll: () => void
+  toggleRow: (row: T) => void
+  selectedRows: T[]
+  selectableRows: T[]
+  allRowsSelected: boolean
+  noneRowsSelected: boolean
 }
 
-const useTableSelect = (rows: Row[], childrenKey: string = "_children") => {
-  const [selectedRows, setSelectedRows] = useState<Row[]>([])
+const useTableSelect = <T, K = T>(
+  rows: K[],
+  childrenKey: string = "_children"
+): UseTableSelect<T> => {
+  const [selectedRows, setSelectedRows] = useState<T[]>([])
 
   /*
     An array containing all rows excluding those having children. That's because
@@ -15,10 +29,12 @@ const useTableSelect = (rows: Row[], childrenKey: string = "_children") => {
     can imitate (un)selected or indeterminate state depending on select status
     of their children.
   */
-  const selectableRows = rows.reduce((acc: Row[], row: Row) => {
+  const selectableRows = rows.reduce((acc: T[], row: K) => {
     return [
       ...acc,
-      ...(row[childrenKey] ? getRowChildren(row, childrenKey) : [row]),
+      ...((row as Record<string, any>)[childrenKey]
+        ? ((getRowChildren<K>(row, childrenKey) as unknown) as T[])
+        : [(row as unknown) as T]),
     ]
   }, [])
 
@@ -29,9 +45,9 @@ const useTableSelect = (rows: Row[], childrenKey: string = "_children") => {
     allSelected ? setSelectedRows([]) : setSelectedRows(selectableRows)
   }
 
-  const toggleRow = (row: Row) => {
+  const toggleRow = (row: T) => {
     const selectedRowsTemp = new Set(selectedRows)
-    const children = getRowChildren(row, childrenKey)
+    const children = getRowChildren<T>(row, childrenKey)
 
     // When row has nested rows
     if (children.length) {
@@ -58,13 +74,13 @@ const useTableSelect = (rows: Row[], childrenKey: string = "_children") => {
   }
 
   // Get status of selected and indeterminate values of given row
-  const getRowStatus = (row: Row) => {
+  const getRowStatus = (row: T) => {
     const status = {
       selected: false,
       indeterminate: false,
     }
 
-    const children = getRowChildren(row, childrenKey)
+    const children = getRowChildren<T>(row, childrenKey)
 
     // When row has nested rows
     if (children.length) {

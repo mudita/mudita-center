@@ -1,6 +1,7 @@
 import React, { createRef, Ref, useEffect } from "react"
 import {
   Contact,
+  ContactCategory,
   Contacts,
   NewContact,
   ResultsState,
@@ -170,7 +171,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
     getRowStatus,
     noneRowsSelected,
     selectedRows,
-  } = useTableSelect(contactList)
+  } = useTableSelect<Contact, ContactCategory>(contactList, "contacts")
 
   useEffect(() => {
     onCheck(selectedRows as Contact[])

@@ -15,11 +15,23 @@ const ColumnWrapper = styled(Wrapper)`
 `
 
 const messages = [
-  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
+  {
+    id: "123",
+    text:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
+  },
 ]
 const multipleMessages = [
-  "1Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
-  "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
+  {
+    id: "123",
+    text:
+      "1Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
+  },
+  {
+    id: "13323",
+    text:
+      "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
+  },
 ]
 
 storiesOf("Components|Message Bubble", module)

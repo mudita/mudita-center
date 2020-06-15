@@ -1,47 +1,205 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
+.c2 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.05;
+  color: #6a6a6a;
+  font-weight: 300;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+}
+
+.c6 {
+  margin: 0;
+  font-size: 1.6rem;
+  line-height: 1.05;
+}
+
+.c11 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c7 {
+  grid-area: Name;
+  -webkit-align-self: end;
+  -ms-flex-item-align: end;
+  align-self: end;
+  margin-bottom: 0.4rem;
+}
+
+.c8 {
+  grid-area: Message;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-align-self: top;
+  -ms-flex-item-align: top;
+  align-self: top;
+  margin-top: 0.4rem;
+}
+
+.c10 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c10:hover {
+  background: #232426;
+}
+
+.c10 g {
+  fill: #ffffff;
+}
+
+.c12 {
+  white-space: nowrap;
+}
+
+.c4 {
+  display: grid;
+  grid-template-columns: 11rem 1fr 9rem;
+  grid-template-areas: "Checkbox . Actions";
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  height: 9rem;
+  min-height: 9rem;
+  box-sizing: border-box;
+  border-bottom: solid 0.1rem #d2d6db;
+  -webkit-transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out;
+  grid-template-areas: "Checkbox Actions";
+  grid-template-columns: 1fr 20rem;
+  border-bottom: solid 0.1rem #d2d6db;
+}
+
+.c4:hover {
+  background-color: #f4f5f6;
+}
+
+.c4:hover .sc-fzoLsD {
+  opacity: 1;
+  visibility: visible;
+}
+
+.c1 {
+  border-bottom: solid 0.1rem #d2d6db;
+}
+
+.c3 {
+  margin-left: 4rem;
+  margin-bottom: 3.2rem;
+}
+
+.c0 {
+  padding-top: 3.2rem;
+}
+
+.c5 {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 2.4rem 2.4rem;
+  grid-template-areas: "Name Time" "Message Message";
+  margin-left: 4rem;
+}
+
+.c9 {
+  grid-area: Actions;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 9rem;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
 <div>
   <section
-    class="sc-fzqNqU enhkfO"
+    class="c0"
   >
     <div
-      class="sc-fzoiQi bKmodZ"
+      class="c1"
     >
       <p
-        class="sc-AxjAm ijRVAY sc-fzqARJ edorez"
+        class="c2 c3"
       >
         Select a folder for Pure backup files on this computer
       </p>
     </div>
     <div
-      class="sc-fznKkj sc-fznWqX dFQTVS"
+      class="sc-fznKkj c4"
     >
       <div
-        class="sc-fznyAO sc-fzoyTs juHJqJ"
+        class="sc-fznyAO c5"
       >
         <p
-          class="sc-AxjAm eGfSTk sc-Axmtr dKSsZf"
+          class="c6 c7"
         >
           Backup Location
         </p>
         <p
-          class="sc-AxjAm ijRVAY sc-fzozJi kEWxNo"
+          class="c2 c8"
           data-testid="backup-location"
         >
           C:/MuditaOs
         </p>
       </div>
       <div
-        class="sc-fzplWN sc-fzoNJl gAaxJe"
+        class="sc-fzplWN c9"
       >
         <button
-          class="sc-fzpjYC VyHWg"
+          class="c10"
           size="2"
           type="button"
         >
           <p
-            class="sc-AxjAm pMKRu sc-fznJRM lkkbJj"
+            class="c11 c12"
           >
             Change location
           </p>

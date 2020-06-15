@@ -12,6 +12,7 @@ import Text, {
 import transition from "Renderer/styles/functions/transition"
 import theme from "Renderer/styles/theming/theme"
 import {
+  backgroundColor,
   borderColor,
   borderRadius,
   lineHeight,
@@ -23,6 +24,16 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
 import composeRefs from "@seznam/compose-react-refs"
+import Icon from "Renderer/components/core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+
+const SearchIcon = styled(Icon)`
+  g {
+    opacity: 58.43%;
+  }
+`
+
+export const searchIcon = <SearchIcon type={Type.Magnifier} />
 
 const focusedLabelStyles = css`
   top: -2rem;
@@ -148,14 +159,32 @@ const generalInputStyles = css`
   }
 `
 
-const TextInput = styled.input`
+const TextInput = styled.input<{ type: string }>`
   ${generalInputStyles};
   user-select: none;
+  :focus {
+    ${({ type }) =>
+      type === "search" &&
+      css`
+        + ${LeadingIcons} {
+          display: none;
+        }
+      `};
+  }
 `
 
-const InputWrapper = styled.label<
-  Partial<InputProps & TextareaProps> & { error: boolean }
->`
+type InputWrapperProps = Partial<InputProps & TextareaProps> & {
+  error: boolean
+  inputType?: string
+}
+
+const searchStyles = css`
+  &:focus-within {
+    background-color: ${backgroundColor("light")};
+  }
+`
+
+const InputWrapper = styled.label<InputWrapperProps>`
   position: relative;
   display: flex;
   flex-direction: row;
@@ -166,18 +195,16 @@ const InputWrapper = styled.label<
   box-sizing: border-box;
   border-bottom: 0.1rem solid ${borderColor("default")};
   transition: ${transition("border-color", "100ms", "ease-in-out")};
-
   ${TextInputIcon} {
     + ${TextInputIcon} {
       margin-left: 1.2rem;
     }
   }
-
   ${({ outlined }) => outlined && outlinedStyles};
   ${({ condensed }) => condensed && condensedStyles};
   ${({ disabled }) => disabled && disabledStyles};
   ${({ error }) => error && errorStyles};
-
+  ${({ inputType }) => inputType === "search" && searchStyles};
   ${({ disabled, readOnly, focusable, error }) =>
     (!(disabled || readOnly) || focusable) &&
     css`
@@ -186,7 +213,6 @@ const InputWrapper = styled.label<
           ${focusedLabelStyles};
         }
       }
-
       &:hover,
       &:focus-within {
         ${!error && focusedStyles};
@@ -311,6 +337,7 @@ export const InputText: FunctionComponent<InputProps> = ({
       readOnly={readOnly}
       error={Boolean(errorMessage)}
       focusable={focusable}
+      inputType={rest.type}
     >
       {outlined ? outlinedInput : standardInput}
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />

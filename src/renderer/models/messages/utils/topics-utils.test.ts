@@ -29,7 +29,7 @@ test("fails search - phone number", () => {
 })
 
 test("searches value - messages", () => {
-  const searchValue = randomMockedList[0].messages[0].content[0]
+  const searchValue = randomMockedList[0].messages[0].content[0].text
   expect(searchTopics(randomMockedList, searchValue)).toHaveLength(1)
 })
 

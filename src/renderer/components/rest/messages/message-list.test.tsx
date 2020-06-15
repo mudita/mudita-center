@@ -38,10 +38,10 @@ test("displays correct amount of dropdown call buttons", () => {
     <MessagesList list={mockedList} />
   )
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-call")).toHaveLength(3)
+  expect(getAllByTestId("dropdown-call")).toHaveLength(mockedList.length)
 })
 
-test("dropdown contact details button has correct content ", () => {
+test("dropdown contact details button has correct content", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessagesList list={mockedList} />
   )
@@ -53,12 +53,20 @@ test("dropdown contact details button has correct content ", () => {
   )
 })
 
-test("displays correct amount of dropdown contact details buttons", () => {
+test("displays correct amount of dropdown contact details buttons for contacts", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessagesList list={mockedList} />
   )
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-contact-details")).toHaveLength(3)
+  expect(getAllByTestId("dropdown-contact-details")).toHaveLength(2)
+})
+
+test("displays correct amount of dropdown add to contacts buttons for person that is unknown", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessagesList list={mockedList} />
+  )
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-add-to-contacts")).toHaveLength(1)
 })
 
 test("dropdown mark as read button has correct content ", () => {
@@ -78,7 +86,9 @@ test("displays correct amount of dropdown mark as read buttons", () => {
     <MessagesList list={mockedList} />
   )
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(3)
+  expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(
+    mockedList.length
+  )
 })
 
 test("dropdown delete button has correct content", () => {
@@ -98,5 +108,5 @@ test("displays correct amount of dropdown delete buttons", () => {
     <MessagesList list={mockedList} />
   )
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-delete")).toHaveLength(3)
+  expect(getAllByTestId("dropdown-delete")).toHaveLength(mockedList.length)
 })
