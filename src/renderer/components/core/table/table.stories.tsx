@@ -506,7 +506,7 @@ storiesOf("Components|Table/Basic", module)
     )
   })
   .add("Sortable", () => {
-    const { data, sort, sortDir } = useSort(basicRows)
+    const { data, sort, sortDirection } = useSort(basicRows)
 
     const sortByName = () => {
       sort("firstName")
@@ -520,10 +520,10 @@ storiesOf("Components|Table/Basic", module)
       <Contacts>
         <Labels>
           <Col onClick={sortByName}>
-            Name <TableSortButton asc={sortDir.firstName || false} />
+            Name <TableSortButton asc={sortDirection.firstName || false} />
           </Col>
           <Col onClick={sortByPhoneNumber}>
-            Phone <TableSortButton asc={sortDir.phoneNumber || false} />
+            Phone <TableSortButton asc={sortDirection.phoneNumber || false} />
           </Col>
         </Labels>
         {data.map(row => {

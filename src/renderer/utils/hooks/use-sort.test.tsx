@@ -17,8 +17,8 @@ test("properly sorts data", () => {
 
   expect(result.current.data.length).toBe(fakeData.length)
 
-  expect(SORT_KEY in result.current.sortDir).toBeTruthy()
-  expect(result.current.sortDir[SORT_KEY]).toBeTruthy()
+  expect(SORT_KEY in result.current.sortDirection).toBeTruthy()
+  expect(result.current.sortDirection[SORT_KEY]).toBeTruthy()
 
   expect(result.current.data[0]).toMatchObject(fakeData[1])
   expect(result.current.data[1]).toMatchObject(fakeData[2])
@@ -28,7 +28,7 @@ test("properly sorts data", () => {
     result.current.sort(SORT_KEY)
   })
 
-  expect(result.current.sortDir[SORT_KEY]).toBeFalsy()
+  expect(result.current.sortDirection[SORT_KEY]).toBeFalsy()
 
   expect(result.current.data[0]).toMatchObject(fakeData[0])
   expect(result.current.data[1]).toMatchObject(fakeData[2])
