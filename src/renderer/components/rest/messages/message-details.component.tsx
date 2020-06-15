@@ -53,6 +53,10 @@ const Textarea = styled(InputComponent)`
   margin-bottom: 1.6rem;
 `
 
+const MessagesSidebar = styled(Sidebar)`
+  border-top: none;
+`
+
 const leadingIcons = [
   <Icon type={Type.AttachContact} key={Type.AttachContact} />,
   <Icon type={Type.Template} key={Type.Template} />,
@@ -79,7 +83,7 @@ const MessageDetails: FunctionComponent<Props> = ({
     </>
   )
   return (
-    <Sidebar
+    <MessagesSidebar
       show
       headerLeft={
         <>
@@ -139,7 +143,7 @@ const MessageDetails: FunctionComponent<Props> = ({
           disabled
         />
       </TextareaWrapper>
-    </Sidebar>
+    </MessagesSidebar>
   )
 }
 
