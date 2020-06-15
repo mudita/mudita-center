@@ -14,7 +14,7 @@ const useSort = <T = Dictionary>(input: T[]): UseSort<T> => {
   const [sortDirection, setSortDirection] = useState<Dictionary>({})
 
   const sort = (term: string): void => {
-    const sorted = sortBy([...data], term)
+    const sorted = sortBy(data, term)
 
     setSortDirection((current: Dictionary) => ({
       ...current,
