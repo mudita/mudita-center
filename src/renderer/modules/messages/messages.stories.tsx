@@ -8,26 +8,32 @@ import {
   ModalBackdrop,
   ModalWrapper,
 } from "Renderer/components/core/modal/modal.styled.elements"
-import { mockedList } from "Renderer/components/rest/messages/__mocks__/caller-data"
 import {
   mockedTemplateData,
   extendedTemplateData,
 } from "Renderer/modules/messages/__mocks__/template-modal-data"
+import { Provider } from "react-redux"
+import { init } from "@rematch/core"
+import selectPlugin from "@rematch/select"
+import devMode from "Renderer/models/dev-mode/dev-mode"
 
 const TemplateModalWrapper = styled(ModalWrapper)`
   padding: 4rem 3.2rem;
 `
 
+const store = init({ models: { devMode }, plugins: [selectPlugin()] })
+
 storiesOf("Views|Messages", module).add("Messages", () => (
   <div style={{ maxWidth: "97.5rem" }}>
-    <Messages list={rowsMessages} searchValue={""} />
+    <Provider store={store}>
+      <Messages list={rowsMessages} searchValue={""} />
+    </Provider>
   </div>
 ))
 
 storiesOf("Views|Messages/Modals", module)
   .add("Template modal", () => (
     <div style={{ maxWidth: "97.5rem" }}>
-      <Messages searchValue="" list={mockedList} />
       <TemplateModalWrapper>
         <TemplateModal templates={mockedTemplateData} />
       </TemplateModalWrapper>
@@ -36,7 +42,6 @@ storiesOf("Views|Messages/Modals", module)
   ))
   .add("Template modal - extended", () => (
     <div style={{ maxWidth: "97.5rem" }}>
-      <Messages searchValue="" list={mockedList} />
       <TemplateModalWrapper>
         <TemplateModal templates={extendedTemplateData} />
       </TemplateModalWrapper>
