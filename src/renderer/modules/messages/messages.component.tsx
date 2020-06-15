@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
@@ -74,6 +74,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const _devClearMessages = () => setMessagesList([])
   const _devLoadDefaultMessages = () => setMessagesList(list)
 
+  useEffect(() => setMessagesList(list), [list])
   return (
     <>
       <DevModeWrapper>
