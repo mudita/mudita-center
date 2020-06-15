@@ -13,10 +13,16 @@ import {
   Text,
 } from "Renderer/components/core/text-editor/text-editor.component"
 
+enum Action {
+  AutoSave,
+  Save,
+  EditMode,
+}
+
 type ReducerAction =
-  | { type: "autosave"; payload?: SaveStatus }
-  | { type: "save"; payload?: SaveStatus }
-  | { type: "editMode"; payload?: boolean }
+  | { type: Action.AutoSave; payload?: SaveStatus }
+  | { type: Action.Save; payload?: SaveStatus }
+  | { type: Action.EditMode; payload?: boolean }
 
 interface Options {
   autosaveDebounceTime?: number
@@ -44,11 +50,11 @@ export const useTextEditor = (
 
   const reduceStatus = (state: Status, action: ReducerAction) => {
     switch (action.type) {
-      case "autosave":
+      case Action.AutoSave:
         return { ...state, autosave: action.payload }
-      case "save":
+      case Action.Save:
         return { ...state, save: action.payload }
-      case "editMode":
+      case Action.EditMode:
         return { ...state, editMode: action.payload }
     }
   }
@@ -59,20 +65,23 @@ export const useTextEditor = (
     editMode: false,
   })
 
-  const enableEditMode = () => setStatus({ type: "editMode", payload: true })
-  const disableEditMode = () => setStatus({ type: "editMode", payload: false })
+  const enableEditMode = () =>
+    setStatus({ type: Action.EditMode, payload: true })
+  const disableEditMode = () =>
+    setStatus({ type: Action.EditMode, payload: false })
 
   const setAutoSavedStatus = () =>
-    setStatus({ type: "autosave", payload: SaveStatus.Saved })
+    setStatus({ type: Action.AutoSave, payload: SaveStatus.Saved })
   const _setAutoSavedStatus = useCallback(
     debounce(setAutoSavedStatus, statusChangeDelay),
     []
   )
 
-  const resetSaveStatus = () => setStatus({ type: "save", payload: undefined })
+  const resetSaveStatus = () =>
+    setStatus({ type: Action.Save, payload: undefined })
 
   const autoSave = () => {
-    setStatus({ type: "autosave", payload: SaveStatus.Saving })
+    setStatus({ type: Action.AutoSave, payload: SaveStatus.Saving })
     window.sessionStorage.setItem(sessionItemKey, text)
     _setAutoSavedStatus()
   }
@@ -81,7 +90,7 @@ export const useTextEditor = (
   ])
 
   const clearAutoSave = () => {
-    setStatus({ type: "autosave", payload: undefined })
+    setStatus({ type: Action.AutoSave, payload: undefined })
     window.sessionStorage.removeItem(sessionItemKey)
   }
 
@@ -93,7 +102,7 @@ export const useTextEditor = (
   }
 
   const saveChanges = async () => {
-    setStatus({ type: "save", payload: SaveStatus.Saving })
+    setStatus({ type: Action.Save, payload: SaveStatus.Saving })
     await saveResults({ ...defaultTextObject, text })
     clearAutoSave()
     resetSaveStatus()
@@ -105,10 +114,10 @@ export const useTextEditor = (
   }
 
   useEffect(() => {
-    setStatus({ type: "autosave", payload: undefined })
+    setStatus({ type: Action.AutoSave, payload: undefined })
     if (init.current) {
       if (textChanged) {
-        setStatus({ type: "save", payload: SaveStatus.Unsaved })
+        setStatus({ type: Action.Save, payload: SaveStatus.Unsaved })
       }
       init.current = false
     } else {
