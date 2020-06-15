@@ -8,18 +8,13 @@ test("by default, visibility should be set to all calls", () => {
   expect(visibilityFilter).toBe(VisibilityFilter.All)
 })
 
-describe("filter changes", () => {
-  const desiredFilters = [
-    VisibilityFilter.Missed,
-    VisibilityFilter.Received,
-    VisibilityFilter.All,
-  ]
+test.each([
+  [VisibilityFilter.Missed, VisibilityFilter.Missed],
+  [VisibilityFilter.Received, VisibilityFilter.Received],
+  [VisibilityFilter.All, VisibilityFilter.All],
+])("given %p filter changes", (firstArg, expectedResult) => {
   const store = init({ models: { calls } })
-  desiredFilters.forEach(filter => {
-    test(`filter: ${filter}`, () => {
-      store.dispatch.calls.changeVisibilityFilter(filter)
-      const { visibilityFilter } = store.getState().calls
-      expect(visibilityFilter).toBe(filter)
-    })
-  })
+  store.dispatch.calls.changeVisibilityFilter(firstArg)
+  const { visibilityFilter } = store.getState().calls
+  expect(visibilityFilter).toBe(expectedResult)
 })
