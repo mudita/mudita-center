@@ -70,6 +70,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
   disableEditMode = noop,
   ...rest
 }) => {
+  // console.log(status.editMode, status.textChanged)
   const reject = () => {
     rejectChanges()
     disableEditMode()
@@ -91,14 +92,15 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
   }
 
   const autosaveStatusMessage = (() => {
+    const { save: saveStatus, autosave, textChanged, editMode } = status
     switch (true) {
-      case status.save === SaveStatus.Unsaved:
+      case textChanged && saveStatus === SaveStatus.Unsaved:
         return messages.unsaved
-      case status.autosave === SaveStatus.Saving:
+      case textChanged && autosave === SaveStatus.Saving:
         return messages.autoSaving
-      case status.autosave === SaveStatus.Saved:
+      case textChanged && autosave === SaveStatus.Saved:
         return messages.autoSaved
-      case status.editMode:
+      case editMode:
         return messages.editMode
       default:
         return messages.clickToEdit
@@ -117,7 +119,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
         onFocus={focus}
       />
       {statsInfo && <StatsInfo data-testid="stats-info">{statsInfo}</StatsInfo>}
-      {status.editMode && (
+      {(status.editMode || status.save === SaveStatus.Unsaved) && (
         <Buttons>
           <ButtonComponent
             data-testid="reject"
