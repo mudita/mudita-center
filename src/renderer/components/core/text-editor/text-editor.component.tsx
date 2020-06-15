@@ -98,8 +98,10 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
         return messages.autoSaving
       case status.autosave === SaveStatus.Saved:
         return messages.autoSaved
+      case status.editMode:
+        return messages.editMode
       default:
-        return status.editMode ? messages.editMode : messages.clickToEdit
+        return messages.clickToEdit
     }
   })()
 
