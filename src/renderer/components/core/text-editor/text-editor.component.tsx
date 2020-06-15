@@ -70,22 +70,22 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
   disableEditMode = noop,
   ...rest
 }) => {
-  const handleChangesReject = () => {
+  const reject = () => {
     rejectChanges()
     disableEditMode()
   }
 
-  const handleChangesSave = async () => {
+  const save = async () => {
     await saveChanges()
     disableEditMode()
   }
 
-  const handleFocusEvent = (event: FocusEvent<HTMLTextAreaElement>) => {
+  const focus = (event: FocusEvent<HTMLTextAreaElement>) => {
     onFocus(event)
     enableEditMode()
   }
 
-  const handleChangeEvent = (event: ChangeEvent<HTMLTextAreaElement>) => {
+  const change = (event: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(event)
     keepTemporaryText(event)
   }
@@ -113,8 +113,8 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
       <Textarea
         {...rest}
         value={temporaryText}
-        onChange={handleChangeEvent}
-        onFocus={handleFocusEvent}
+        onChange={change}
+        onFocus={focus}
       />
       {statsInfo && <StatsInfo data-testid="stats-info">{statsInfo}</StatsInfo>}
       {status.editMode && (
@@ -123,7 +123,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
             data-testid="reject"
             displayStyle={DisplayStyle.Secondary}
             labelMessage={messages.cancelButton}
-            onClick={handleChangesReject}
+            onClick={reject}
             disabled={saving || !status.textChanged}
           />
           <SaveButton
@@ -131,7 +131,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
             saving={saving}
             disabled={!status.textChanged}
             labelMessage={saving ? messages.savingButton : messages.saveButton}
-            onClick={handleChangesSave}
+            onClick={save}
             Icon={saving ? Type.Reload : undefined}
           />
         </Buttons>
