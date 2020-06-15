@@ -2,13 +2,22 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin")
 const HTMLWebpackPlugin = require("html-webpack-plugin")
 const CircularDependencyPlugin = require("circular-dependency-plugin")
 const { DefinePlugin } = require("webpack")
+const path = require("path")
+const { spawn } = require("child_process")
 
-export const externals = {
+const production = process.env.NODE_ENV === "production"
+
+const externals = {
+  /**
+   * TODO: enable when serialport bindings for node v76 will become available
+   * More info at https://github.com/serialport/node-serialport/issues/2031
+   * JIRA task: https://appnroll.atlassian.net/browse/PDA-134
+   */
   serialport: "require('serialport')",
 }
 
-export const entry = isRenderer =>
-  isRenderer
+const entry = renderer =>
+  renderer
     ? {
         app: ["@babel/polyfill", "./src/renderer/app.tsx"],
       }
@@ -16,59 +25,79 @@ export const entry = isRenderer =>
         main: "./src/main/main.ts",
       }
 
-export const output = {
-  path: path.resolve(__dirname, "dist"),
+const output = {
+  path: path.resolve(__dirname, "..", "dist"),
   filename: "[name].js",
 }
 
-export const node = {
+const node = {
   __dirname: false,
   __filename: false,
 }
 
-export const devtool = isProd => (isProd ? "none" : "source-map")
+const devtool = production => (production ? "none" : "source-map")
 
-export const target = isRenderer =>
-  `electron-${isRenderer ? "renderer" : "main"}`
+const target = renderer => `electron-${renderer ? "renderer" : "main"}`
 
-export const resolve = {
-  extensions: [".tsx", ".ts", ".js", ".json"],
-  alias: {
-    App: path.resolve(__dirname, "./src"),
-    Cypress: path.resolve(__dirname, "./cypress"),
-    Storybook: path.resolve(__dirname, "./.storybook"),
-    Renderer: path.resolve(__dirname, "./src/renderer"),
-    Backend: path.resolve(__dirname, "./src/backend"),
-    Common: path.resolve(__dirname, "./src/common"),
-    "react-intl": "react-intl/dist",
-    fs: path.resolve(__dirname, "__mocks__/fs-mock.js"),
-  },
+const resolve = production => {
+  const resolveConfig = {
+    extensions: [".tsx", ".ts", ".js", ".json"],
+    alias: {
+      App: path.resolve(__dirname, "..", "src"),
+      Cypress: path.resolve(__dirname, "..", "cypress"),
+      Storybook: path.resolve(__dirname, "..", ".storybook"),
+      Renderer: path.resolve(__dirname, "..", "src", "renderer"),
+      Backend: path.resolve(__dirname, "..", "src", "backend"),
+      Common: path.resolve(__dirname, "..", "src", "common"),
+      "react-intl": "react-intl/dist",
+      fs: path.resolve(__dirname, "..", "__mocks__", "fs-mock.js"),
+    },
+  }
+
+  if (!production) {
+    resolveConfig.alias = {
+      ...resolveConfig.alias,
+      "react-dom": "@hot-loader/react-dom",
+    }
+  }
+
+  return resolveConfig
 }
 
 const tsxMain = {
-  cacheDirectory: true,
-  presets: [
-    ["@babel/preset-env", { targets: "maintained node versions" }],
-    "@babel/preset-typescript",
-  ],
-  plugins: [["@babel/plugin-proposal-class-properties", { loose: true }]],
+  test: /\.tsx?$/,
+  exclude: /node_modules/,
+  loader: "babel-loader",
+  options: {
+    cacheDirectory: production,
+    presets: [
+      ["@babel/preset-env", { targets: "maintained node versions" }],
+      "@babel/preset-typescript",
+    ],
+    plugins: [["@babel/plugin-proposal-class-properties", { loose: true }]],
+  },
 }
 
 const tsxRenderer = {
-  cacheDirectory: false,
-  presets: [
-    ["@babel/preset-env", { targets: { browsers: "last 2 versions " } }],
-    "@babel/preset-typescript",
-    "@babel/preset-react",
-  ],
-  plugins: [
-    ["@babel/plugin-proposal-class-properties", { loose: true }],
-    ["@babel/plugin-proposal-optional-chaining"],
-    ["@babel/plugin-proposal-nullish-coalescing-operator"],
-  ],
+  test: /\.tsx?$/,
+  exclude: /node_modules/,
+  loader: "babel-loader",
+  options: {
+    cacheDirectory: production,
+    presets: [
+      ["@babel/preset-env", { targets: { browsers: "last 2 versions " } }],
+      "@babel/preset-typescript",
+      "@babel/preset-react",
+    ],
+    plugins: [
+      ["@babel/plugin-proposal-class-properties", { loose: true }],
+      ["@babel/plugin-proposal-optional-chaining"],
+      ["@babel/plugin-proposal-nullish-coalescing-operator"],
+    ],
+  },
 }
 
-export const rules = {
+const rules = {
   woff: {
     test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
     use: {
@@ -103,7 +132,7 @@ export const rules = {
     test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
     use: "file-loader",
   },
-  tsx: isRenderer => (isRenderer ? tsxRenderer : tsxMain),
+  tsx: renderer => (renderer ? tsxRenderer : tsxMain),
   scss: {
     test: /\.scss$/,
     loaders: ["style-loader", "css-loader", "sass-loader"],
@@ -139,10 +168,10 @@ export const rules = {
   },
 }
 
-export const plugins = {
-  tsChecked: isRenderer =>
+const plugins = {
+  tsChecker: renderer =>
     new ForkTsCheckerWebpackPlugin({
-      reportFiles: [`src/${isRenderer ? "renderer" : "main"}/**/*`],
+      reportFiles: [`src/${renderer ? "renderer" : "main"}/**/*`],
     }),
   define: new DefinePlugin({
     "process.env.NODE_ENV": JSON.stringify(
@@ -153,30 +182,67 @@ export const plugins = {
     exclude: /node_modules/,
     failOnError: true,
     cwd: process.cwd(),
-    onStart({ compilation }) {
+    onStart() {
       console.log(
         "circular-dependency-plugin: start detecting webpack modules cycles"
       )
     },
-    onEnd({ compilation }) {
+    onEnd() {
       console.log(
         "circular-dependency-plugin: end detecting webpack modules cycles"
       )
     },
   }),
-  minify: prod =>
-    prod
-      ? {}
-      : new HTMLWebpackPlugin({
-          removeComments: false,
-          collapseWhitespace: true,
-          removeRedundantAttributes: true,
-          useShortDoctype: true,
-          removeEmptyAttributes: true,
-          removeStyleLinkTypeAttributes: true,
-          keepClosingSlash: true,
-          minifyJS: false,
-          minifyCSS: false,
-          minifyURLs: true,
-        }),
+  minify: new HTMLWebpackPlugin({
+    removeComments: false,
+    collapseWhitespace: true,
+    removeRedundantAttributes: true,
+    useShortDoctype: true,
+    removeEmptyAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    keepClosingSlash: true,
+    minifyJS: false,
+    minifyCSS: false,
+    minifyURLs: true,
+  }),
+}
+
+const devserver = {
+  port: 2003,
+  compress: true,
+  noInfo: true,
+  stats: "errors-only",
+  inline: true,
+  hot: true,
+  headers: { "Access-Control-Allow-Origin": "*" },
+  historyApiFallback: {
+    verbose: true,
+    disableDotRule: false,
+  },
+  before() {
+    if (process.env.START_HOT) {
+      console.log("Starting main process")
+      spawn("npm", ["run", "start:main-dev"], {
+        shell: true,
+        env: process.env,
+        stdio: "inherit",
+      })
+        .on("close", code => process.exit(code))
+        .on("error", spawnError => console.error(spawnError))
+    }
+  },
+}
+
+module.exports = {
+  production,
+  externals,
+  entry,
+  output,
+  node,
+  devtool,
+  target,
+  resolve,
+  rules,
+  plugins,
+  devserver,
 }

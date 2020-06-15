@@ -1,17 +1,26 @@
-const IS_PROD = process.env.NODE_ENV === "production"
-
-const { target, entry, rules, resolve, output } = require("./webpack/common")
-const { externals, woff, woff2, tff, eot, tsx, plugins } = rules
+const {
+  isProd,
+  externals,
+  target,
+  entry,
+  rules,
+  resolve,
+  plugins,
+  output,
+  node,
+} = require("./webpack/common")
+const { woff, woff2, tff, eot, tsx } = rules
 
 module.exports = {
-  externals,
-  mode: IS_PROD ? "production" : "development",
-  target: target(false),
-  output,
+  mode: isProd ? "production" : "development",
   entry: entry(false),
-  resolve,
+  node,
+  resolve: resolve(isProd),
+  output,
+  externals,
+  target: target(false),
+  plugins: [plugins.circulars, plugins.define, plugins.minify],
   module: {
     rules: [woff, woff2, tff, eot, tsx(false)],
   },
-  plugins: [plugins.circulars],
 }
