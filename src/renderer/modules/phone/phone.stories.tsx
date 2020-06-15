@@ -19,10 +19,6 @@ import {
 } from "Renderer/components/core/modal/modal.styled.elements"
 import DeleteContactModal from "Renderer/components/rest/phone/delete-contact-modal.component"
 import Faker from "faker"
-import { init } from "@rematch/core"
-import devMode from "Renderer/models/dev-mode/dev-mode"
-import selectPlugin from "@rematch/select"
-import { Provider } from "react-redux"
 
 const contacts: Contact[] = generateFakeData(40)
 
@@ -67,30 +63,26 @@ const PhoneWrapper = styled.div`
   overflow: hidden;
 `
 
-const store = init({ models: { devMode }, plugins: [selectPlugin()] })
-
 const PhoneComponent = ({
   resultsState,
   contactList = labeledContactList,
 }: Partial<Pick<PhoneProps, "resultsState" | "contactList">>) => (
-  <Provider store={store}>
-    <Phone
-      contactList={contactList}
-      onSearchTermChange={action("Search")}
-      onManageButtonClick={action("Manage contact")}
-      onNewButtonClick={action("New contact")}
-      onEdit={action("Edit contact")}
-      onExport={action("Export contact")}
-      onForward={action("Forward contact")}
-      onUnblock={action("Unblock contact")}
-      onBlock={action("Block contact")}
-      onDelete={action("Delete contact")}
-      onMessage={action("Send message")}
-      onCall={action("Call")}
-      onSpeedDialSettingsSave={action("Save speed dial settings")}
-      resultsState={resultsState}
-    />
-  </Provider>
+  <Phone
+    contactList={contactList}
+    onSearchTermChange={action("Search")}
+    onManageButtonClick={action("Manage contact")}
+    onNewButtonClick={action("New contact")}
+    onEdit={action("Edit contact")}
+    onExport={action("Export contact")}
+    onForward={action("Forward contact")}
+    onUnblock={action("Unblock contact")}
+    onBlock={action("Block contact")}
+    onDelete={action("Delete contact")}
+    onMessage={action("Send message")}
+    onCall={action("Call")}
+    onSpeedDialSettingsSave={action("Save speed dial settings")}
+    resultsState={resultsState}
+  />
 )
 
 storiesOf("Views|Phone", module)

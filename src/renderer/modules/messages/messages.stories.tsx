@@ -12,22 +12,14 @@ import {
   mockedTemplateData,
   extendedTemplateData,
 } from "Renderer/modules/messages/__mocks__/template-modal-data"
-import { Provider } from "react-redux"
-import { init } from "@rematch/core"
-import selectPlugin from "@rematch/select"
-import devMode from "Renderer/models/dev-mode/dev-mode"
 
 const TemplateModalWrapper = styled(ModalWrapper)`
   padding: 4rem 3.2rem;
 `
 
-const store = init({ models: { devMode }, plugins: [selectPlugin()] })
-
 storiesOf("Views|Messages", module).add("Messages", () => (
   <div style={{ maxWidth: "97.5rem" }}>
-    <Provider store={store}>
-      <Messages list={rowsMessages} searchValue={""} />
-    </Provider>
+    <Messages list={rowsMessages} searchValue={""} />
   </div>
 ))
 
