@@ -31,9 +31,8 @@ export const useTextEditor = (
     statusChangeDelay: 500,
   }
 ) => {
-  const autosavedText = window.sessionStorage.getItem(
-    "autosave_" + defaultTextObject.id
-  )
+  const sessionItemKey = `autosave_${defaultTextObject.id}`
+  const autosavedText = window.sessionStorage.getItem(sessionItemKey)
 
   const { autosaveDebounceTime, statusChangeDelay } = options
   const [text, setText] = useState(autosavedText || defaultTextObject.text)
@@ -74,7 +73,7 @@ export const useTextEditor = (
 
   const autoSave = () => {
     setStatus({ type: "autosave", payload: SaveStatus.Saving })
-    window.sessionStorage.setItem("autosave_" + defaultTextObject.id, text)
+    window.sessionStorage.setItem(sessionItemKey, text)
     _setAutoSavedStatus()
   }
   const _autoSave = useCallback(debounce(autoSave, autosaveDebounceTime), [
@@ -83,7 +82,7 @@ export const useTextEditor = (
 
   const clearAutoSave = () => {
     setStatus({ type: "autosave", payload: undefined })
-    window.sessionStorage.removeItem("autosave_" + defaultTextObject.id)
+    window.sessionStorage.removeItem(sessionItemKey)
   }
 
   const rejectChanges = () => {
