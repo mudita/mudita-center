@@ -13,6 +13,10 @@ import {
   Text,
 } from "Renderer/components/core/text-editor/text-editor.component"
 
+const normalizeText = (text: string) => {
+  return text.replace(new RegExp(/\r?\n|\r/g), " ")
+}
+
 enum Action {
   AutoSave,
   Save,
@@ -46,8 +50,7 @@ export const useTextEditor = (
   const init = useRef(true)
 
   const textChanged =
-    text.replace(new RegExp(/\r?\n|\r/g), " ") !==
-    defaultTextObject.text.replace(new RegExp(/\r?\n|\r/g), " ")
+    normalizeText(text) !== normalizeText(defaultTextObject.text)
 
   const reduceStatus = (state: Status, action: ReducerAction) => {
     switch (action.type) {
