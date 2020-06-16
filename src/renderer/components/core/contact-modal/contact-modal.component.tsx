@@ -69,15 +69,9 @@ const FileInput = styled(InputFile)`
 `
 
 const Form = styled.form<{ detailsEnabled?: boolean }>`
-  margin-bottom: 0.8rem;
   display: flex;
   flex-direction: column;
-
-  ${({ detailsEnabled }) =>
-    detailsEnabled &&
-    css`
-      margin-bottom: -3.2rem;
-    `};
+  margin-bottom: ${({ detailsEnabled }) => (detailsEnabled ? -3.2 : 0.8)}rem;
 `
 
 const DetailsLabel = styled.div`
