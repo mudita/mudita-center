@@ -2,12 +2,12 @@ import { sortBy } from "lodash"
 import { useReducer } from "react"
 import {
   createSortDirection,
-  Dictionary,
   getData,
   getSortingDirection,
-  SimpleDictionary,
 } from "Renderer/utils/hooks/use-sort/use-sort.helpers"
 import {
+  Dictionary,
+  SimpleDictionary,
   SortAction,
   SortState,
   UseSort,

@@ -1,14 +1,9 @@
-import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
-
-export type Dictionary = Record<string, SortDirection>
-export type SimpleDictionary<T = any> = Record<string, T>
-
-interface GetData<T = Dictionary> {
-  dataToSort: T[]
-  hasBeenSorted: boolean
-  sortDirection: Dictionary
-  sortKey: string
-}
+import {
+  Dictionary,
+  GetData,
+  SimpleDictionary,
+  SortDirection,
+} from "Renderer/utils/hooks/use-sort/use-sort.types"
 
 export const getData = <T = Dictionary>({
   dataToSort,
