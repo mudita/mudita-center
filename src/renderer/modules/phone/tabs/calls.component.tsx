@@ -6,6 +6,7 @@ import {
   VisibilityFilter,
 } from "App/renderer/models/calls/calls.interface"
 import CallsHeader from "Renderer/components/rest/calls/calls-header.component"
+import CallsTable from "Renderer/components/rest/calls/calls-table.component"
 
 interface Props extends StateProps {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
@@ -13,7 +14,12 @@ interface Props extends StateProps {
 }
 
 const Calls: FunctionComponent<Props> = ({ changeVisibilityFilter = noop }) => {
-  return <CallsHeader changeVisibilityFilter={changeVisibilityFilter} />
+  return (
+    <>
+      <CallsHeader changeVisibilityFilter={changeVisibilityFilter} />
+      <CallsTable />
+    </>
+  )
 }
 
 export default Calls
