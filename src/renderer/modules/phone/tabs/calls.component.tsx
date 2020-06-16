@@ -2,22 +2,13 @@ import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import {
-  StateProps,
+  Call,
   VisibilityFilter,
 } from "App/renderer/models/calls/calls.interface"
 import CallsHeader from "Renderer/components/rest/calls/calls-header.component"
 import CallsTable from "Renderer/components/rest/calls/calls-table.component"
-import { Contact } from "Renderer/models/phone/phone.interface"
 
-export interface Call {
-  id: string
-  caller: Pick<Contact, "firstName" | "lastName" | "primaryPhoneNumber">
-  duration: number
-  date: string
-  timesMissed: number
-}
-
-interface Props extends StateProps {
+interface Props {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
   calls: Call[]
 }

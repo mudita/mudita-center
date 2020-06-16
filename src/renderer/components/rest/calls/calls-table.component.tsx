@@ -26,7 +26,7 @@ import {
 import moment from "moment"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import formatDuration from "Renderer/utils/format-duration"
-import { Call } from "Renderer/modules/phone/tabs/calls.component"
+import { Call } from "Renderer/models/calls/calls.interface"
 
 const visibleCheckboxStyles = css`
   opacity: 1;

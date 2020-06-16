@@ -1,6 +1,11 @@
 import Faker from "faker"
 import { groupBy, times, random } from "lodash"
 
+export enum CallStatus {
+  Missed,
+  Received,
+}
+
 const createCall = () => ({
   id: Faker.random.uuid(),
   caller: {
@@ -9,8 +14,9 @@ const createCall = () => ({
     primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
   },
   duration: Faker.random.number(500),
-  date: Math.random() < 0.6 ? Faker.date.past() : Faker.date.recent(),
+  date: String(Math.random() < 0.6 ? Faker.date.past() : Faker.date.recent()),
   timesMissed: Faker.random.number(3),
+  status: Math.random() < 0.6 ? CallStatus.Received : CallStatus.Missed,
 })
 
 export const calls = times(random(5, 15), createCall)
