@@ -3,12 +3,12 @@ export enum SortDirection {
   Descending,
 }
 
-export type Dictionary = Record<string, SortDirection>
-export type SimpleDictionary<T = any> = Record<string, T>
+export type SortingDictionary = Record<string, SortDirection>
+export type SimpleSortingDictionary<T = any> = Record<string, T>
 
 export interface SortState<T> {
   data: T[]
-  sortDirection: Dictionary
+  sortDirection: SortingDictionary
 }
 
 export interface SortAction<T> {
@@ -19,12 +19,12 @@ export interface SortAction<T> {
 export interface UseSort<T> {
   data: T[]
   sort: (term: string) => void
-  sortDirection: Dictionary
+  sortDirection: SortingDictionary
 }
 
-export interface GetData<T = Dictionary> {
+export interface GetData<T = SortingDictionary> {
   dataToSort: T[]
   hasBeenSorted: boolean
-  sortDirection: Dictionary
+  sortDirection: SortingDictionary
   sortKey: string
 }

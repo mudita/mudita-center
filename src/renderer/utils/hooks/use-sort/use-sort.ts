@@ -6,14 +6,14 @@ import {
   getSortingDirection,
 } from "Renderer/utils/hooks/use-sort/use-sort.helpers"
 import {
-  Dictionary,
-  SimpleDictionary,
+  SortingDictionary,
+  SimpleSortingDictionary,
   SortAction,
   SortState,
   UseSort,
 } from "Renderer/utils/hooks/use-sort/use-sort.types"
 
-const sortReducer = <T = Dictionary>(
+const sortReducer = <T = SortingDictionary>(
   state: SortState<T>,
   action: SortAction<T>
 ): SortState<T> => {
@@ -34,7 +34,7 @@ const sortReducer = <T = Dictionary>(
   }
 }
 
-const useSort = <T = SimpleDictionary>(input: T[]): UseSort<T> => {
+const useSort = <T = SimpleSortingDictionary>(input: T[]): UseSort<T> => {
   const [state, dispatch] = useReducer(sortReducer, {
     data: [...input],
     sortDirection: createSortDirection(input),

@@ -1,11 +1,11 @@
 import {
-  Dictionary,
+  SortingDictionary,
   GetData,
-  SimpleDictionary,
+  SimpleSortingDictionary,
   SortDirection,
 } from "Renderer/utils/hooks/use-sort/use-sort.types"
 
-export const getData = <T = Dictionary>({
+export const getData = <T = SortingDictionary>({
   dataToSort,
   hasBeenSorted,
   sortDirection,
@@ -34,8 +34,8 @@ export const getSortingDirection = (term: SortDirection): SortDirection => {
   }
 }
 export const createSortDirection = (
-  input: (Dictionary | SimpleDictionary)[]
-): Dictionary => {
+  input: (SortingDictionary | SimpleSortingDictionary)[]
+): SortingDictionary => {
   return Object.keys(input[0]).reduce(
     (acc, item) => ({
       ...acc,
