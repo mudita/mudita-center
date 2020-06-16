@@ -26,6 +26,7 @@ import {
 import moment from "moment"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import formatDuration from "Renderer/utils/format-duration"
+import { Call } from "Renderer/modules/phone/tabs/calls.component"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -61,7 +62,7 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
 `
 
 interface Props {
-  calls: any[]
+  calls: Call[]
 }
 
 const today = (date: string) => moment(date).isSame(Date.now(), "days")
@@ -90,9 +91,9 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
               />
             </Col>
             <Col>
-              {caller.firstName.length > 0 && caller.lastName.length > 0
+              {caller?.firstName?.length > 0 && caller?.lastName?.length > 0
                 ? createFullName(caller)
-                : caller.phoneNumber}
+                : caller.primaryPhoneNumber}
               {timesMissed > 1 && ` (${timesMissed})`}
             </Col>
             <Col>{formatDuration(duration)}</Col>

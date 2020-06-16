@@ -7,10 +7,19 @@ import {
 } from "App/renderer/models/calls/calls.interface"
 import CallsHeader from "Renderer/components/rest/calls/calls-header.component"
 import CallsTable from "Renderer/components/rest/calls/calls-table.component"
+import { Contact } from "Renderer/models/phone/phone.interface"
+
+export interface Call {
+  id: string
+  caller: Pick<Contact, "firstName" | "lastName" | "primaryPhoneNumber">
+  duration: number
+  date: string
+  timesMissed: number
+}
 
 interface Props extends StateProps {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
-  calls: any[]
+  calls: Call[]
 }
 
 const Calls: FunctionComponent<Props> = ({

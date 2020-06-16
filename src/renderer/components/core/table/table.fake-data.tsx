@@ -6,7 +6,7 @@ const createCall = () => ({
   caller: {
     firstName: Math.random() < 0.6 ? Faker.name.firstName() : "",
     lastName: Math.random() < 0.6 ? Faker.name.lastName() : "",
-    phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+    primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
   },
   duration: Faker.random.number(500),
   date: Math.random() < 0.6 ? Faker.date.past() : Faker.date.recent(),
