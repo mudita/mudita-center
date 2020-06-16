@@ -87,7 +87,7 @@ const ListRow = styled(Row)`
   }
 `
 
-type Template = {
+interface Template {
   id: string
   text: string
 }
