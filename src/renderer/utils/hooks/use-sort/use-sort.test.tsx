@@ -8,7 +8,7 @@ const fakeData = [
   { id: 3, name: "B" },
 ]
 
-test("properly sorts data", () => {
+test("data is sorted properly", () => {
   const SORT_KEY = "name"
   const { result } = renderHook(() => useSort(fakeData))
 
