@@ -69,14 +69,14 @@ const FileInput = styled(InputFile)`
 `
 
 const Form = styled.form<{ detailsEnabled?: boolean }>`
-  margin: 2.4rem 0 4rem 0;
+  margin-bottom: 0.8rem;
   display: flex;
   flex-direction: column;
 
   ${({ detailsEnabled }) =>
     detailsEnabled &&
     css`
-      margin-bottom: 0;
+      margin-bottom: -3.2rem;
     `};
 `
 
@@ -123,6 +123,7 @@ const Log = styled.pre<{ enabled?: boolean }>`
   border: 0.1rem solid ${borderColor("default")};
   box-sizing: border-box;
   resize: none;
+  margin-top: 0;
 
   ${({ enabled }) =>
     enabled &&
@@ -157,8 +158,10 @@ const FormInputLabelComponent: FunctionComponent<FormInputLabelProps> = ({
 )
 
 const FormInputLabel = styled(FormInputLabelComponent)`
-  margin-top: 2.4rem;
   margin-bottom: 1.2rem;
+  &:not(:first-of-type) {
+    margin-top: 2.4rem;
+  }
 `
 
 interface FormData {

@@ -12,10 +12,7 @@ import {
 } from "App/renderer/components/core/table/table.component"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
-import {
-  backgroundColor,
-  borderColor,
-} from "Renderer/styles/theming/theme-getters"
+import { borderColor } from "Renderer/styles/theming/theme-getters"
 
 interface Template {
   id: string
@@ -26,10 +23,6 @@ interface Props {
   templates: Template[]
   selectTemplate?: (id: string) => void
 }
-
-const ModalFrame = styled(Modal)`
-  background-color: ${backgroundColor("light")};
-`
 
 const TemplateRow = styled(Row)`
   height: 4.8rem;
@@ -58,7 +51,7 @@ const TemplateModal: FunctionComponent<Props> = ({
   selectTemplate = noop,
   templates,
 }) => (
-  <ModalFrame
+  <Modal
     size={ModalSize.Large}
     closeButton={false}
     title={intl.formatMessage({
@@ -81,7 +74,7 @@ const TemplateModal: FunctionComponent<Props> = ({
         )
       })}
     </TemplatesWrapper>
-  </ModalFrame>
+  </Modal>
 )
 
 export default TemplateModal
