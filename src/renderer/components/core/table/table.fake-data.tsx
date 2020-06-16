@@ -10,6 +10,7 @@ const createCall = () => ({
   },
   duration: Faker.random.number(500),
   date: Math.random() < 0.6 ? Faker.date.past() : Faker.date.recent(),
+  timesMissed: Faker.random.number(3),
 })
 
 export const calls = times(random(5, 15), createCall)

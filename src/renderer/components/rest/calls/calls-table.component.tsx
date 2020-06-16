@@ -64,7 +64,7 @@ interface Props {
   calls: any[]
 }
 
-const isToday = (date: string) => moment(date).isSame(Date.now(), "days")
+const today = (date: string) => moment(date).isSame(Date.now(), "days")
 
 const CallsTable: FunctionComponent<Props> = ({ calls }) => {
   const { getRowStatus, toggleRow } = useTableSelect(basicRows)
@@ -76,7 +76,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
         <Col>Duration</Col>
         <Col>Date</Col>
       </Labels>
-      {calls.map(({ caller, id, date, duration }, index) => {
+      {calls.map(({ caller, id, date, duration, timesMissed }, index) => {
         const { selected, indeterminate } = getRowStatus(id)
         const toggle = () => toggleRow(id)
         return (
@@ -93,10 +93,11 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
               {caller.firstName.length > 0 && caller.lastName.length > 0
                 ? createFullName(caller)
                 : caller.phoneNumber}
+              {timesMissed > 1 && ` (${timesMissed})`}
             </Col>
             <Col>{formatDuration(duration)}</Col>
             <Col>
-              {isToday(date)
+              {today(date)
                 ? moment(date).format("h:mm")
                 : moment(date).format("LL")}
             </Col>
