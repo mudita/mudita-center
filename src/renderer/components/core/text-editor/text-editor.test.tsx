@@ -47,9 +47,7 @@ test("renders preview mode properly", () => {
     intl.formatMessage(messages.clickToEdit)
   )
   expect(getTextarea()).toHaveValue(text)
-  expect(getByTestId("stats-info")).toHaveTextContent(
-    `${text.length} characters`
-  )
+  expect(getByTestId("stats-info")).toHaveTextContent(text.length.toString())
   expect(queryByTestId("reject")).not.toBeInTheDocument()
   expect(queryByTestId("save")).not.toBeInTheDocument()
 })
