@@ -8,7 +8,6 @@ import {
   ModalBackdrop,
   ModalWrapper,
 } from "Renderer/components/core/modal/modal.styled.elements"
-import { mockedList } from "Renderer/components/rest/messages/__mocks__/caller-data"
 import {
   mockedTemplateData,
   extendedTemplateData,
@@ -27,7 +26,6 @@ storiesOf("Views|Messages", module).add("Messages", () => (
 storiesOf("Views|Messages/Modals", module)
   .add("Template modal", () => (
     <div style={{ maxWidth: "97.5rem" }}>
-      <Messages searchValue="" list={mockedList} />
       <TemplateModalWrapper>
         <TemplateModal templates={mockedTemplateData} />
       </TemplateModalWrapper>
@@ -36,7 +34,6 @@ storiesOf("Views|Messages/Modals", module)
   ))
   .add("Template modal - extended", () => (
     <div style={{ maxWidth: "97.5rem" }}>
-      <Messages searchValue="" list={mockedList} />
       <TemplateModalWrapper>
         <TemplateModal templates={extendedTemplateData} />
       </TemplateModalWrapper>
