@@ -26,9 +26,6 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 const ModalFrame = styled.div<{ size: ModalSize }>`
   padding: 4rem 3.2rem 4.8rem 3.2rem;
   box-sizing: border-box;
-  border-radius: 0.4rem;
-  box-shadow: 0 0.2rem 3rem 0 rgba(0, 0, 0, 0.08);
-  overflow: hidden;
   ${({ size }) => getModalSize(size)};
 `
 
