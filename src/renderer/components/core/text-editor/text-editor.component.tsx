@@ -70,7 +70,6 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
   disableEditMode = noop,
   ...rest
 }) => {
-  // console.log(status.editMode, status.textChanged)
   const reject = () => {
     rejectChanges()
     disableEditMode()
