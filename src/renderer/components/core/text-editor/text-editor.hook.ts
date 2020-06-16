@@ -12,6 +12,7 @@ import {
   Status,
   Text,
 } from "Renderer/components/core/text-editor/text-editor.component"
+import { asyncNoop } from "Renderer/utils/noop"
 
 enum Action {
   AutoSave,
@@ -31,7 +32,7 @@ interface Options {
 
 export const useTextEditor = (
   defaultTextObject: Text = { id: "", text: "" },
-  saveResults: (textObject: Text) => Promise<any>,
+  saveResults: (textObject: Text) => Promise<any> = asyncNoop,
   options: Options = {
     autosaveDebounceTime: 1000,
     statusChangeDelay: 500,

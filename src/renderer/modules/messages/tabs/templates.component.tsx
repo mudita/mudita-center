@@ -12,7 +12,6 @@ import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import styled from "styled-components"
 import { useTextEditor } from "Renderer/components/core/text-editor/text-editor.hook"
 import TextEditor from "Renderer/components/core/text-editor/text-editor.component"
-import { asyncNoop } from "Renderer/utils/noop"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 
@@ -48,7 +47,7 @@ const Templates: FunctionComponent<TemplatesProps> = ({
   const sidebarHook = useTableSidebar<Template>()
   const { closeSidebar, activeRow } = sidebarHook
 
-  const textEditorHook = useTextEditor(activeRow, asyncNoop)
+  const textEditorHook = useTextEditor(activeRow)
   const {
     temporaryText: { length: textLength },
   } = textEditorHook
