@@ -3,12 +3,15 @@ import { groupBy, times, random } from "lodash"
 
 const createCall = () => ({
   id: Faker.random.uuid(),
-  firstName: Math.random() < 0.6 ? Faker.name.firstName() : "",
-  lastName: Math.random() < 0.6 ? Faker.name.lastName() : "",
-  phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+  caller: {
+    firstName: Math.random() < 0.6 ? Faker.name.firstName() : "",
+    lastName: Math.random() < 0.6 ? Faker.name.lastName() : "",
+    phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+  },
+  date: Math.random() < 0.6 ? Faker.date.past() : Faker.date.recent(),
 })
 
-export const calls = times(random(1, 10), createCall)
+export const calls = times(random(5, 15), createCall)
 
 const createText = () => ({
   id: Faker.random.uuid(),

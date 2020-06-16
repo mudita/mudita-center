@@ -23,6 +23,8 @@ import {
   Actions,
   ActionsButton,
 } from "Renderer/components/rest/messages/messages-list.component"
+import moment from "moment"
+import { createFullName } from "Renderer/models/phone/phone.utils"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -43,7 +45,7 @@ const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
 const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   flex: 1;
   overflow: auto;
-  --columnsTemplate: 4rem 53.8rem 21rem 10.5rem auto;
+  --columnsTemplate: 4rem 53.8rem 19.5rem 11.5rem auto;
   --columnsTemplateWithOpenedSidebar: 4rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
@@ -61,6 +63,8 @@ interface Props {
   calls: any[]
 }
 
+const isToday = (date: string) => moment(date).isSame(Date.now(), "days")
+
 const CallsTable: FunctionComponent<Props> = ({ calls }) => {
   const { getRowStatus, toggleRow } = useTableSelect(basicRows)
   return (
@@ -71,9 +75,9 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
         <Col>Phone</Col>
         <Col>Date</Col>
       </Labels>
-      {calls.map((row, index) => {
-        const { selected, indeterminate } = getRowStatus(row)
-        const onChange = () => toggleRow(row)
+      {calls.map(({ caller, id, date }, index) => {
+        const { selected, indeterminate } = getRowStatus(id)
+        const onChange = () => toggleRow(id)
         return (
           <Row key={index}>
             <Col>
@@ -85,10 +89,16 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
               />
             </Col>
             <Col>
-              {row.firstName} {row.lastName}
+              {caller.firstName.length > 0 && caller.lastName.length > 0
+                ? createFullName(caller)
+                : caller.phoneNumber}
             </Col>
-            <Col>{row.phoneNumber}</Col>
-            <Col>{row.phoneNumber}</Col>
+            <Col>{caller.phoneNumber}</Col>
+            <Col>
+              {isToday(date)
+                ? moment(date).format("h:mm")
+                : moment(date).format("LL")}
+            </Col>
             <Col>
               <Actions>
                 <Dropdown
