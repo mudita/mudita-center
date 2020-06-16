@@ -25,6 +25,7 @@ import {
 } from "Renderer/components/rest/messages/messages-list.component"
 import moment from "moment"
 import { createFullName } from "Renderer/models/phone/phone.utils"
+import formatDuration from "Renderer/utils/format-duration"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -72,10 +73,10 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
       <Labels>
         <Col />
         <Col>Name</Col>
-        <Col>Phone</Col>
+        <Col>Duration</Col>
         <Col>Date</Col>
       </Labels>
-      {calls.map(({ caller, id, date }, index) => {
+      {calls.map(({ caller, id, date, duration }, index) => {
         const { selected, indeterminate } = getRowStatus(id)
         const onChange = () => toggleRow(id)
         return (
@@ -93,7 +94,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
                 ? createFullName(caller)
                 : caller.phoneNumber}
             </Col>
-            <Col>{caller.phoneNumber}</Col>
+            <Col>{formatDuration(duration)}</Col>
             <Col>
               {isToday(date)
                 ? moment(date).format("h:mm")
