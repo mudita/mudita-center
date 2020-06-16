@@ -2,9 +2,10 @@ import {
   StateProps as State,
   VisibilityFilter,
 } from "Renderer/models/calls/calls.interface"
+import { calls } from "App/renderer/components/core/table/table.fake-data"
 
 const initalState: State = {
-  calls: [],
+  calls,
   visibilityFilter: VisibilityFilter.All,
 }
 

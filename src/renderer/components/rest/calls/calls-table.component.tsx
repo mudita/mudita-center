@@ -18,9 +18,7 @@ import {
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import ButtonComponent from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import {
   Actions,
   ActionsButton,
@@ -45,7 +43,7 @@ const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
 const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   flex: 1;
   overflow: auto;
-  --columnsTemplate: 4rem 51rem 21rem 15rem auto;
+  --columnsTemplate: 4rem 53.8rem 21rem 10.5rem auto;
   --columnsTemplateWithOpenedSidebar: 4rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
@@ -59,7 +57,11 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   }
 `
 
-const CallsTable: FunctionComponent<{}> = () => {
+interface Props {
+  calls: any[]
+}
+
+const CallsTable: FunctionComponent<Props> = ({ calls }) => {
   const { getRowStatus, toggleRow } = useTableSelect(basicRows)
   return (
     <SelectableContacts>
@@ -67,9 +69,9 @@ const CallsTable: FunctionComponent<{}> = () => {
         <Col />
         <Col>Name</Col>
         <Col>Phone</Col>
-        <Col>Phone</Col>
+        <Col>Date</Col>
       </Labels>
-      {basicRows.map((row, index) => {
+      {calls.map((row, index) => {
         const { selected, indeterminate } = getRowStatus(row)
         const onChange = () => toggleRow(row)
         return (
@@ -97,35 +99,7 @@ const CallsTable: FunctionComponent<{}> = () => {
                   }
                   onOpen={noop}
                   onClose={noop}
-                >
-                  <ButtonComponent
-                    labelMessage={{
-                      id: "view.name.messages.dropdownCall",
-                    }}
-                    Icon={Type.Calls}
-                    onClick={noop}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-call"
-                  />
-                  <ButtonComponent
-                    labelMessage={{
-                      id: "view.name.messages.dropdownMarkAsRead",
-                    }}
-                    Icon={Type.BorderCheckIcon}
-                    onClick={noop}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-mark-as-read"
-                  />
-                  <ButtonComponent
-                    labelMessage={{
-                      id: "view.name.messages.dropdownDelete",
-                    }}
-                    Icon={Type.Delete}
-                    onClick={noop}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-delete"
-                  />
-                </Dropdown>
+                />
               </Actions>
             </Col>
           </Row>

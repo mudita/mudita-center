@@ -10,14 +10,17 @@ import CallsTable from "Renderer/components/rest/calls/calls-table.component"
 
 interface Props extends StateProps {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
-  list: any[]
+  calls: any[]
 }
 
-const Calls: FunctionComponent<Props> = ({ changeVisibilityFilter = noop }) => {
+const Calls: FunctionComponent<Props> = ({
+  calls,
+  changeVisibilityFilter = noop,
+}) => {
   return (
     <>
       <CallsHeader changeVisibilityFilter={changeVisibilityFilter} />
-      <CallsTable />
+      <CallsTable calls={calls} />
     </>
   )
 }
