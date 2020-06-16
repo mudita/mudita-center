@@ -36,12 +36,14 @@ const sortReducer = <T = SortingDictionary>(
 
 const useSort = <T = SimpleSortingDictionary>(input: T[]): UseSort<T> => {
   const [state, dispatch] = useReducer(sortReducer, {
-    data: [...input],
+    data: input,
     sortDirection: createSortDirection(input),
   })
-
-  const sort = (term: string): void => dispatch({ data: input, sortKey: term })
   const { data, sortDirection } = state
+
+  const sort = (term: string): void => {
+    return dispatch({ data, sortKey: term })
+  }
 
   return { sort, data: data as T[], sortDirection }
 }
