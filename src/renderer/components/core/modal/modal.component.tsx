@@ -32,6 +32,8 @@ const Header = styled.div<{ titleOrder: TitleOrder; subtitleGap: boolean }>`
   grid-template-columns: 1fr 5rem;
   grid-row-gap: ${({ subtitleGap }) => (subtitleGap ? "1rem" : "initial")};
   ${({ titleOrder }) => getHeaderTemplate(titleOrder)};
+  box-sizing: border-box;
+  padding-bottom: 3.2rem;
 `
 
 const ModalTitle = styled(Text)<{ subTitle?: string }>`
@@ -51,6 +53,8 @@ const Close = styled(Button)`
 const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
   display: flex;
   ${({ buttonsPosition }) => getButtonsPosition(buttonsPosition)};
+  box-sizing: border-box;
+  padding-top: 3.2rem;
 `
 
 const ButtonWrapper = styled.div`
