@@ -4,6 +4,7 @@ import {
 } from "Renderer/models/calls/calls.interface"
 import { calls } from "App/renderer/components/core/table/table.fake-data"
 import { Slicer } from "@rematch/select"
+import { filterCalls } from "Renderer/models/calls/filter-calls"
 
 const initalState: StateProps = {
   calls,
@@ -23,8 +24,7 @@ export default {
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {
       return slice(state => {
-        const list = state.calls
-        return list
+        return filterCalls(state.calls, state.visibilityFilter)
       })
     },
   }),

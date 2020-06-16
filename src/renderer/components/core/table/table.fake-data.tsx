@@ -1,10 +1,6 @@
 import Faker from "faker"
 import { groupBy, times, random } from "lodash"
-
-export enum CallStatus {
-  Missed,
-  Received,
-}
+import { CallStatus } from "Renderer/models/calls/calls.interface"
 
 const createCall = () => ({
   id: Faker.random.uuid(),

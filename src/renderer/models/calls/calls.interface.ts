@@ -1,5 +1,10 @@
 import { Contact } from "Renderer/models/phone/phone.interface"
 
+export enum CallStatus {
+  Missed,
+  Received,
+}
+
 export enum VisibilityFilter {
   All = "all",
   Received = "received",
@@ -12,6 +17,7 @@ export interface Call {
   duration: number
   date: Date
   timesMissed: number
+  status: CallStatus
 }
 
 export interface StateProps {
