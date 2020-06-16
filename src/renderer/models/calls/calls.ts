@@ -3,6 +3,7 @@ import {
   VisibilityFilter,
 } from "Renderer/models/calls/calls.interface"
 import { calls } from "App/renderer/components/core/table/table.fake-data"
+import { Slicer } from "@rematch/select"
 
 const initalState: StateProps = {
   calls,
@@ -19,4 +20,12 @@ export default {
       return { ...state, visibilityFilter }
     },
   },
+  selectors: (slice: Slicer<StateProps>) => ({
+    filteredList() {
+      return slice(state => {
+        const list = state.calls
+        return list
+      })
+    },
+  }),
 }

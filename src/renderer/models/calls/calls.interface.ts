@@ -10,7 +10,7 @@ export interface Call {
   id: string
   caller: Pick<Contact, "firstName" | "lastName" | "primaryPhoneNumber">
   duration: number
-  date: string
+  date: Date
   timesMissed: number
 }
 

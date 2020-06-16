@@ -98,7 +98,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
             </Col>
             <Col>{formatDuration(duration)}</Col>
             <Col>
-              {today(date)
+              {today(String(date))
                 ? moment(date).format("h:mm")
                 : moment(date).format("LL")}
             </Col>
