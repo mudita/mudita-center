@@ -7,7 +7,7 @@ export interface UseTableSidebar<T> {
   activeRow?: T
 }
 
-const useTableSidebar = <T>() => {
+const useTableSidebar = <T>(): UseTableSidebar<T> => {
   const [sidebarOpened, setSidebarVisibility] = useState<boolean>()
   const [activeRow, setActiveRow] = useState<T | undefined>()
 
