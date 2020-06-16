@@ -14,6 +14,7 @@ import {
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import styled, { css } from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
@@ -410,7 +411,7 @@ const Table = React.forwardRef<
 >((props, ref) => <TableComponent {...props} ref={ref} />)
 
 /* Sort */
-export const TableSortButton = styled.button<{ asc?: boolean }>`
+export const TableSortButton = styled.button<{ sortDirection?: SortDirection }>`
   background: none;
   color: currentColor;
 
@@ -424,7 +425,10 @@ export const TableSortButton = styled.button<{ asc?: boolean }>`
   border-width: 0.5rem 0.3rem 0 0.3rem;
   border-color: currentColor transparent transparent transparent;
 
-  transform: ${({ asc }) => (asc ? "rotate(540deg)" : "rotate(360deg)")};
+  transform: ${({ sortDirection }) =>
+    sortDirection === SortDirection.Ascending
+      ? "rotate(540deg)"
+      : "rotate(360deg)"};
 
   &:active,
   &:focus {

@@ -1,5 +1,8 @@
+import { action } from "@storybook/addon-actions"
 import { storiesOf } from "@storybook/react"
 import React from "react"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Table, {
   Col,
   EmptyState,
@@ -19,18 +22,16 @@ import {
   labeledRows,
   nestedRows,
 } from "Renderer/components/core/table/table.fake-data"
-import useSort from "Renderer/utils/hooks/use-sort"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import styled from "styled-components"
-import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { noop } from "Renderer/utils/noop"
 import theme from "Renderer/styles/theming/theme"
-import { action } from "@storybook/addon-actions"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import useSort from "Renderer/utils/hooks/use-sort/use-sort"
+import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
+import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import { noop } from "Renderer/utils/noop"
+import styled from "styled-components"
 
 export const Checkbox = styled(InputCheckbox)``
 
@@ -520,10 +521,18 @@ storiesOf("Components|Table/Basic", module)
       <Contacts>
         <Labels>
           <Col onClick={sortByName}>
-            Name <TableSortButton asc={sortDirection.firstName || false} />
+            Name{" "}
+            <TableSortButton
+              sortDirection={sortDirection.firstName || SortDirection.Ascending}
+            />
           </Col>
           <Col onClick={sortByPhoneNumber}>
-            Phone <TableSortButton asc={sortDirection.phoneNumber || false} />
+            Phone{" "}
+            <TableSortButton
+              sortDirection={
+                sortDirection.phoneNumber || SortDirection.Ascending
+              }
+            />
           </Col>
         </Labels>
         {data.map(row => {

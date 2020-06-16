@@ -1,5 +1,5 @@
 import { renderHook, act } from "@testing-library/react-hooks"
-import useSort from "Renderer/utils/hooks/use-sort"
+import useSort from "Renderer/utils/hooks/use-sort/use-sort"
 
 const fakeData = [
   { id: 1, name: "A" },
