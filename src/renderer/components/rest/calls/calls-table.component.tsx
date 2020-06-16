@@ -78,14 +78,14 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
       </Labels>
       {calls.map(({ caller, id, date, duration }, index) => {
         const { selected, indeterminate } = getRowStatus(id)
-        const onChange = () => toggleRow(id)
+        const toggle = () => toggleRow(id)
         return (
           <Row key={index}>
             <Col>
               <Checkbox
                 checked={selected}
                 indeterminate={indeterminate}
-                onChange={onChange}
+                onChange={toggle}
                 size={Size.Small}
               />
             </Col>
