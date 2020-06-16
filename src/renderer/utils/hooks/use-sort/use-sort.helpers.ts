@@ -7,11 +7,11 @@ import {
 
 export const getData = <T = SortingDictionary>({
   dataToSort,
-  hasBeenSorted,
+  sorted,
   sortDirection,
   sortKey,
 }: GetData<T>) => {
-  if (hasBeenSorted) {
+  if (sorted) {
     return sortDirection[sortKey] === SortDirection.Descending
       ? dataToSort
       : dataToSort.reverse()

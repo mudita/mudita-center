@@ -23,7 +23,7 @@ const sortReducer = <T = SortingDictionary>(
   return {
     data: getData({
       dataToSort: sortBy(data, sortKey),
-      hasBeenSorted: sortKey in sortDirection,
+      sorted: sortKey in sortDirection,
       sortDirection,
       sortKey,
     }),

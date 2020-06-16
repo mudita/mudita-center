@@ -24,7 +24,7 @@ export interface UseSort<T> {
 
 export interface GetData<T = SortingDictionary> {
   dataToSort: T[]
-  hasBeenSorted: boolean
+  sorted: boolean
   sortDirection: SortingDictionary
   sortKey: string
 }
