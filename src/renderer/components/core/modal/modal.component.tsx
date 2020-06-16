@@ -24,6 +24,11 @@ import { intl } from "Renderer/utils/intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
+  padding: 4rem 3.2rem 4.8rem 3.2rem;
+  box-sizing: border-box;
+  border-radius: 0.4rem;
+  box-shadow: 0 0.2rem 3rem 0 rgba(0, 0, 0, 0.08);
+  overflow: hidden;
   ${({ size }) => getModalSize(size)};
 `
 
@@ -45,7 +50,8 @@ const ModalSubTitle = styled(Text)`
 `
 
 const Close = styled(Button)`
-  margin-top: -0.5rem;
+  margin-top: -0.6rem;
+  margin-right: -0.8rem;
   grid-area: Close;
   justify-self: end;
 `
