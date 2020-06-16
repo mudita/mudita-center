@@ -411,6 +411,10 @@ const Table = React.forwardRef<
 >((props, ref) => <TableComponent {...props} ref={ref} />)
 
 /* Sort */
+/**
+ * Extra rotation added to avoid jagged edges on older displays.
+ * @see http://apps.eky.hk/css-triangle-generator/
+ */
 export const TableSortButton = styled.button<{ sortDirection?: SortDirection }>`
   background: none;
   color: currentColor;
