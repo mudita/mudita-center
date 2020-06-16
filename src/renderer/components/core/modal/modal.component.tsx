@@ -54,8 +54,9 @@ const Close = styled(Button)`
 `
 
 const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
-  display: flex;
   ${({ buttonsPosition }) => getButtonsPosition(buttonsPosition)};
+
+  display: flex;
   box-sizing: border-box;
   padding-top: 3.2rem;
 `

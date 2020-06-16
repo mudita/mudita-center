@@ -153,6 +153,7 @@ const FormInputLabelComponent: FunctionComponent<FormInputLabelProps> = ({
 
 const FormInputLabel = styled(FormInputLabelComponent)`
   margin-bottom: 1.2rem;
+
   &:not(:first-of-type) {
     margin-top: 2.4rem;
   }
