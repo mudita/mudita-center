@@ -4,7 +4,6 @@ import {
   SimpleSortingDictionary,
   SortDirection,
 } from "Renderer/utils/hooks/use-sort/use-sort.types"
-// import { mapValues } from "lodash"
 
 export const getData = <T = SortingDictionary>({
   dataToSort,
