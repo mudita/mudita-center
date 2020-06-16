@@ -122,7 +122,7 @@ export const useTextEditor = (
     setStatus({ type: Action.AutoSave, payload: undefined })
     if (init.current) {
       if (textChanged) {
-        setStatus({ type: Action.Save, payload: SaveStatus.Unsaved })
+        setStatus({ type: Action.Save, payload: SaveStatus.NotSaved })
       } else {
         setStatus({ type: Action.Save, payload: undefined })
         setStatus({ type: Action.EditMode, payload: false })

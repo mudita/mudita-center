@@ -28,7 +28,7 @@ export const messages = defineMessages({
 export enum SaveStatus {
   Saving,
   Saved,
-  Unsaved,
+  NotSaved,
 }
 
 export interface Status {
@@ -93,7 +93,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
   const getAutosaveStatusMessage = () => {
     const { save: saveStatus, autosave, textChanged, editMode } = status
     switch (true) {
-      case textChanged && saveStatus === SaveStatus.Unsaved:
+      case textChanged && saveStatus === SaveStatus.NotSaved:
         return messages.unsaved
       case textChanged && autosave === SaveStatus.Saving:
         return messages.autoSaving
@@ -118,7 +118,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
         onFocus={focus}
       />
       {statsInfo && <StatsInfo data-testid="stats-info">{statsInfo}</StatsInfo>}
-      {(status.editMode || status.save === SaveStatus.Unsaved) && (
+      {(status.editMode || status.save === SaveStatus.NotSaved) && (
         <Buttons>
           <ButtonComponent
             data-testid="reject"
