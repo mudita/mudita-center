@@ -90,7 +90,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
     keepTemporaryText(event)
   }
 
-  const autosaveStatusMessage = (() => {
+  const getAutosaveStatusMessage = () => {
     const { save: saveStatus, autosave, textChanged, editMode } = status
     switch (true) {
       case textChanged && saveStatus === SaveStatus.Unsaved:
@@ -104,13 +104,13 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
       default:
         return messages.clickToEdit
     }
-  })()
+  }
 
   const saving = status.save === SaveStatus.Saving
 
   return (
     <TextEditorWrapper>
-      <Info data-testid="status" message={autosaveStatusMessage} />
+      <Info data-testid="status" message={getAutosaveStatusMessage()} />
       <Textarea
         {...rest}
         value={temporaryText}

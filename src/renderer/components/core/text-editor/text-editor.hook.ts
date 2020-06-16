@@ -14,6 +14,10 @@ import {
 } from "Renderer/components/core/text-editor/text-editor.component"
 import { asyncNoop } from "Renderer/utils/noop"
 
+const normalizeText = (text: string) => {
+  return text.replace(new RegExp(/\r?\n|\r/g), " ")
+}
+
 enum Action {
   AutoSave,
   Save,
@@ -40,7 +44,6 @@ export const useTextEditor = (
 ) => {
   const sessionItemKey = `autosave_${defaultTextObject.id}`
   const autosavedText = window.sessionStorage.getItem(sessionItemKey)
-
   const defaultText = autosavedText || defaultTextObject.text
 
   const { autosaveDebounceTime, statusChangeDelay } = options
@@ -48,8 +51,7 @@ export const useTextEditor = (
   const init = useRef(true)
 
   const textChanged =
-    text.replace(new RegExp(/\r?\n|\r/g), " ") !==
-    defaultTextObject.text.replace(new RegExp(/\r?\n|\r/g), " ")
+    normalizeText(text) !== normalizeText(defaultTextObject.text)
 
   const reduceStatus = (state: Status, action: ReducerAction) => {
     switch (action.type) {
@@ -75,7 +77,7 @@ export const useTextEditor = (
 
   const setAutoSavedStatus = () =>
     setStatus({ type: Action.AutoSave, payload: SaveStatus.Saved })
-  const _setAutoSavedStatus = useCallback(
+  const debounceAutoSavedStatusSetter = useCallback(
     debounce(setAutoSavedStatus, statusChangeDelay),
     []
   )
@@ -86,11 +88,12 @@ export const useTextEditor = (
   const autoSave = () => {
     setStatus({ type: Action.AutoSave, payload: SaveStatus.Saving })
     window.sessionStorage.setItem(sessionItemKey, text)
-    _setAutoSavedStatus()
+    debounceAutoSavedStatusSetter()
   }
-  const _autoSave = useCallback(debounce(autoSave, autosaveDebounceTime), [
-    text,
-  ])
+  const debounceAutoSave = useCallback(
+    debounce(autoSave, autosaveDebounceTime),
+    [text]
+  )
 
   const clearAutoSave = () => {
     setStatus({ type: Action.AutoSave, payload: undefined })
@@ -129,15 +132,15 @@ export const useTextEditor = (
     } else {
       resetSaveStatus()
       if (textChanged) {
-        _autoSave()
+        debounceAutoSave()
       } else {
         clearAutoSave()
       }
     }
 
     return () => {
-      _autoSave.cancel()
-      _setAutoSavedStatus.cancel()
+      debounceAutoSave.cancel()
+      debounceAutoSavedStatusSetter.cancel()
     }
   }, [text])
 
