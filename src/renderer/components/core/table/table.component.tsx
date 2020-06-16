@@ -205,8 +205,8 @@ const SidebarHeader = styled.div`
   padding: 0 2.3rem 0 3rem;
 `
 
-const SidebarContent = styled.div`
-  padding: 0 3rem;
+const SidebarContent = styled.div<{ padded: boolean }>`
+  padding: ${({ padded }) => (padded ? `0 3rem` : "0")};
   overflow: auto;
   flex: 1;
   display: flex;
@@ -302,6 +302,7 @@ export interface SidebarProps {
   headerLeft?: ReactNode
   headerRight?: ReactNode
   appColorSidebarHeader?: boolean
+  padded?: boolean
 }
 
 export const Sidebar: FunctionComponent<SidebarProps> = ({
@@ -312,6 +313,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
   headerLeft,
   headerRight,
   appColorSidebarHeader = false,
+  padded = true,
 }) => (
   <SidebarWrapper
     className={className}
@@ -326,7 +328,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
         <SidebarHeaderIcon Icon={Type.Close} />
       </SidebarClose>
     </SidebarHeader>
-    <SidebarContent>{children}</SidebarContent>
+    <SidebarContent padded={padded}>{children}</SidebarContent>
   </SidebarWrapper>
 )
 

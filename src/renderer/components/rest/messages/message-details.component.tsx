@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import {
   Sidebar,
@@ -15,6 +15,7 @@ import InputComponent from "Renderer/components/core/input-text/input-text.compo
 import Icon from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 import { createFullName } from "Renderer/models/phone/phone.utils"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 interface Props {
   details: ActiveRow
@@ -30,6 +31,8 @@ const MessagesWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 0 3rem;
+  overflow: auto;
 `
 
 const MessageBubblesWrapper = styled.div`
@@ -40,8 +43,19 @@ const MessageDetailsBubble = styled(MessageBubble)`
   margin-bottom: 2.4rem;
 `
 
+const TextareaWrapper = styled.div`
+  position: sticky;
+  bottom: 0;
+  background-color: ${backgroundColor("light")};
+  padding: 0 3rem;
+`
+
 const Textarea = styled(InputComponent)`
   margin-bottom: 1.6rem;
+`
+
+const MessagesSidebar = styled(Sidebar)`
+  border-top: none;
 `
 
 const leadingIcons = [
@@ -55,6 +69,12 @@ const MessageDetails: FunctionComponent<Props> = ({
   details,
   onClose = noop,
 }) => {
+  const ref = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollIntoView()
+    }
+  }, [ref.current])
   const icons = (
     <>
       <SidebarHeaderIcon Icon={Type.Calls} onClick={noop} />
@@ -64,7 +84,7 @@ const MessageDetails: FunctionComponent<Props> = ({
     </>
   )
   return (
-    <Sidebar
+    <MessagesSidebar
       show
       headerLeft={
         <>
@@ -89,32 +109,46 @@ const MessageDetails: FunctionComponent<Props> = ({
       headerRight={icons}
       onClose={onClose}
       appColorSidebarHeader
+      padded={false}
     >
       <MessagesWrapper>
         <MessageBubblesWrapper>
-          {details.messages.map(({ author, content, interlocutor, id }) => {
-            return (
-              <MessageDetailsBubble
-                key={id}
-                user={author}
-                messages={content}
-                interlocutor={interlocutor}
-              />
-            )
-          })}
+          {details.messages.map(
+            ({ author, content, interlocutor, id }, index) => {
+              if (index === details.messages.length - 1) {
+                return (
+                  <div ref={ref} key={id}>
+                    <MessageDetailsBubble
+                      user={author}
+                      messages={content}
+                      interlocutor={interlocutor}
+                    />
+                  </div>
+                )
+              }
+              return (
+                <MessageDetailsBubble
+                  key={id}
+                  user={author}
+                  messages={content}
+                  interlocutor={interlocutor}
+                />
+              )
+            }
+          )}
         </MessageBubblesWrapper>
-        <div>
-          <Textarea
-            type="textarea"
-            value={""}
-            onChange={noop}
-            leadingIcons={leadingIcons}
-            trailingIcons={trailingIcon}
-            disabled
-          />
-        </div>
       </MessagesWrapper>
-    </Sidebar>
+      <TextareaWrapper>
+        <Textarea
+          type="textarea"
+          value={""}
+          onChange={noop}
+          leadingIcons={leadingIcons}
+          trailingIcons={trailingIcon}
+          disabled
+        />
+      </TextareaWrapper>
+    </MessagesSidebar>
   )
 }
 

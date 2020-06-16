@@ -37,6 +37,10 @@ const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
       transition: ${transition("opacity", undefined, "ease")};
     }
   }
+  margin-bottom: 0.8rem;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 `
 
 const MessageBubbleWrapper = styled.div<{ interlocutor: boolean }>`

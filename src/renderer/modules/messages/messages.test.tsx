@@ -8,6 +8,8 @@ import { fireEvent } from "@testing-library/dom"
 import { mockedList } from "Renderer/components/rest/messages/__mocks__/caller-data"
 import store from "Renderer/store"
 
+beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
+
 test("sidebar is hidden by default", () => {
   const { queryByTestId } = renderWithThemeAndIntl(
     <Provider store={store}>
