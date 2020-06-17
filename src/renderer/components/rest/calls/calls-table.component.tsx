@@ -44,7 +44,7 @@ const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
   ${({ visible }) => visible && visibleCheckboxStyles};
 `
 
-const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
+const SelectableCalls = styled(Table)<{ mouseLock?: boolean }>`
   flex: 1;
   overflow: auto;
   --columnsTemplate: 4rem 53.8rem 19.5rem 11.5rem auto;
@@ -70,7 +70,7 @@ export const today = (date: Date) => moment(date).isSame(Date.now(), "days")
 const CallsTable: FunctionComponent<Props> = ({ calls }) => {
   const { getRowStatus, toggleRow } = useTableSelect(basicRows)
   return (
-    <SelectableContacts>
+    <SelectableCalls>
       <Labels>
         <Col />
         <Col>Name</Col>
@@ -118,7 +118,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
           </Row>
         )
       })}
-    </SelectableContacts>
+    </SelectableCalls>
   )
 }
 
