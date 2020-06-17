@@ -65,7 +65,7 @@ interface Props {
   calls: Call[]
 }
 
-const today = (date: string) => moment(date).isSame(Date.now(), "days")
+export const today = (date: string) => moment(date).isSame(Date.now(), "days")
 
 const CallsTable: FunctionComponent<Props> = ({ calls }) => {
   const { getRowStatus, toggleRow } = useTableSelect(basicRows)
@@ -90,14 +90,14 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
                 size={Size.Small}
               />
             </Col>
-            <Col>
+            <Col data-testid="caller-name">
               {caller?.firstName?.length > 0 && caller?.lastName?.length > 0
                 ? createFullName(caller)
                 : caller.primaryPhoneNumber}
               {timesMissed > 1 && ` (${timesMissed})`}
             </Col>
             <Col>{formatDuration(duration)}</Col>
-            <Col>
+            <Col data-testid="call-date">
               {today(date)
                 ? moment(date).format("h:mm")
                 : moment(date).format("LL")}

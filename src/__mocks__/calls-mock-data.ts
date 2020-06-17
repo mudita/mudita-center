@@ -4,7 +4,7 @@ export const mockData = [
   {
     id: "05ed5479-1770-44e8-9e7c-09b2ddc87195",
     caller: {
-      firstName: "",
+      firstName: "Judge",
       lastName: "Kris",
       primaryPhoneNumber: "+48 755 853 217",
     },
@@ -49,6 +49,21 @@ export const mockData = [
     status: CallStatus.Missed,
     timesMissed: 3,
   },
+  {
+    id: "3a94a064-de00-4d8f-8cf9-56edecee0ce6",
+    caller: {
+      firstName: "Shyann",
+      lastName: "Feil",
+      primaryPhoneNumber: "+56 159 553 446",
+    },
+    duration: 85,
+    date: "2020-06-16T20:10:34.812Z",
+    status: CallStatus.Received,
+    timesMissed: 0,
+  },
+]
+
+export const callerWithCallsPastDate = [
   {
     id: "3a94a064-de00-4d8f-8cf9-56edecee0ce6",
     caller: {
