@@ -23,6 +23,6 @@ module.exports = {
   target: target(false),
   plugins: [plugins.circulars, plugins.define, plugins.minify],
   module: {
-    rules: [woff, woff2, tff, eot, tsx(false)],
+    rules: [woff, woff2, tff, eot, tsx(false, production)],
   },
 }

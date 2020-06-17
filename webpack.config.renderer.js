@@ -29,7 +29,19 @@ const config = {
     plugins.define,
   ],
   module: {
-    rules: [woff, woff2, tff, eot, tsx(true), css, scss, img, svg, fonts, js],
+    rules: [
+      woff,
+      woff2,
+      tff,
+      eot,
+      tsx(true, production),
+      css,
+      scss,
+      img,
+      svg,
+      fonts,
+      js,
+    ],
   },
 }
 
