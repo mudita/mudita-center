@@ -1,19 +1,28 @@
 import Faker from "faker"
-import { groupBy, times, random } from "lodash"
+import { groupBy, random, times, sample } from "lodash"
 import { CallStatus } from "Renderer/models/calls/calls.interface"
 
-const createCall = () => ({
-  id: Faker.random.uuid(),
-  caller: {
-    firstName: Math.random() < 0.6 ? Faker.name.firstName() : "",
-    lastName: Math.random() < 0.6 ? Faker.name.lastName() : "",
-    primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-  },
-  duration: Faker.random.number(500),
-  date: Math.random() < 0.6 ? Faker.date.past() : Faker.date.recent(),
-  timesMissed: Faker.random.number(3),
-  status: Math.random() < 0.6 ? CallStatus.Received : CallStatus.Missed,
-})
+const createCall = () => {
+  const status = sample([CallStatus.Missed, CallStatus.Received]) as CallStatus
+  return {
+    id: Faker.random.uuid(),
+    caller: {
+      firstName: Math.random() < 0.6 ? Faker.name.firstName() : "",
+      lastName: Math.random() < 0.6 ? Faker.name.lastName() : "",
+      primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+    },
+    duration: Faker.random.number(500),
+    date: Math.random() < 0.6 ? Faker.date.past() : Faker.date.recent(),
+    status,
+    timesMissed:
+      status === CallStatus.Missed
+        ? Faker.random.number({
+            min: 2,
+            max: 5,
+          })
+        : 0,
+  }
+}
 
 export const calls = times(random(5, 15), createCall)
 
