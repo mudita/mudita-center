@@ -91,7 +91,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
               />
             </Col>
             <Col data-testid="caller-name">
-              {caller?.firstName?.length > 0 && caller?.lastName?.length > 0
+              {caller?.firstName && caller?.lastName
                 ? createFullName(caller)
                 : caller.primaryPhoneNumber}
               {timesMissed > 1 && ` (${timesMissed})`}
