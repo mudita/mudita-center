@@ -100,7 +100,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
             <Col data-testid="call-date">
               {today(date)
                 ? moment(date).format("h:mm")
-                : moment(date).format("LL")}
+                : moment(date).format("ll")}
             </Col>
             <Col>
               <Actions>

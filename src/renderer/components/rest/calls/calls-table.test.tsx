@@ -40,5 +40,5 @@ test("past date is displayed correctly", () => {
     <CallsTable calls={callerWithCallsPastDate} />
   )
   const exampleCol = getAllByTestId("call-date")[0]
-  expect(exampleCol).toHaveTextContent(`June 16, 2020`)
+  expect(exampleCol).toHaveTextContent(`Jun 16, 2020`)
 })
