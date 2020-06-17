@@ -18,7 +18,7 @@ const createCall = () => {
       status === CallStatus.Missed
         ? Faker.random.number({
             min: 2,
-            max: 5,
+            max: 20,
           })
         : 0,
   }
