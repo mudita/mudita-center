@@ -15,7 +15,7 @@ export interface Call {
   id: string
   caller: Pick<Contact, "firstName" | "lastName" | "primaryPhoneNumber">
   duration: number
-  date: Date
+  date: string
   timesMissed: number
   status: CallStatus
 }

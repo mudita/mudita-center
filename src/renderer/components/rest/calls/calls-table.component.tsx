@@ -81,7 +81,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
         const { selected, indeterminate } = getRowStatus(id)
         const toggle = () => toggleRow(id)
         return (
-          <Row key={index}>
+          <Row key={id} data-testid="calls-row">
             <Col>
               <Checkbox
                 checked={selected}
@@ -98,7 +98,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
             </Col>
             <Col>{formatDuration(duration)}</Col>
             <Col>
-              {today(String(date))
+              {today(date)
                 ? moment(date).format("h:mm")
                 : moment(date).format("LL")}
             </Col>
