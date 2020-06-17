@@ -65,7 +65,7 @@ interface Props {
   calls: Call[]
 }
 
-export const today = (date: string) => moment(date).isSame(Date.now(), "days")
+export const today = (date: Date) => moment(date).isSame(Date.now(), "days")
 
 const CallsTable: FunctionComponent<Props> = ({ calls }) => {
   const { getRowStatus, toggleRow } = useTableSelect(basicRows)

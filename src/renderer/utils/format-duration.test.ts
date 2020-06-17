@@ -1,7 +1,7 @@
 import formatDuration from "Renderer/utils/format-duration"
 
 test("returns proper duration for 0s", () => {
-  expect(formatDuration(0)).toBe("0s")
+  expect(formatDuration(0)).toBe("0m 0s")
 })
 
 test("returns proper duration for several dozens of seconds", () => {
