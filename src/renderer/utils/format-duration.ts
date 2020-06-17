@@ -6,7 +6,10 @@ enum Unit {
   Day = Unit.Hour * 24,
 }
 
-const formatDuration = (seconds: Seconds) => {
+const formatDuration = (
+  seconds: Seconds,
+  shortNotationOfZeroDuration: boolean = true
+) => {
   let secondsLeft = seconds
 
   const countDuration = (unit: Unit) => {
@@ -22,12 +25,14 @@ const formatDuration = (seconds: Seconds) => {
     s: secondsLeft,
   }
 
+  const zeroNotation = shortNotationOfZeroDuration ? "0s" : "0m 0s"
+
   return (
     Object.keys(duration)
       .reduce((a, b) => {
         return duration[b] !== 0 ? (a += `${duration[b]}${b} `) : a
       }, "")
-      .slice(0, -1) || "0m 0s"
+      .slice(0, -1) || zeroNotation
   )
 }
 
