@@ -27,7 +27,7 @@ const formatDuration = (seconds: Seconds) => {
       .reduce((a, b) => {
         return duration[b] !== 0 ? (a += `${duration[b]}${b} `) : a
       }, "")
-      .slice(0, -1) || "0s"
+      .slice(0, -1) || "0m 0s"
   )
 }
 
