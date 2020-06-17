@@ -1,10 +1,7 @@
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import CallsTable from "Renderer/components/rest/calls/calls-table.component"
-import {
-  mockData,
-  callerWithCallsPastDate,
-} from "App/__mocks__/calls-mock-data"
+import { mockData } from "App/__mocks__/calls-mock-data"
 
 test("render correct amount of rows", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
@@ -37,8 +34,8 @@ test("when caller is unknown, displays only phone number + times missed", () => 
 
 test("past date is displayed correctly", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
-    <CallsTable calls={callerWithCallsPastDate} />
+    <CallsTable calls={mockData} />
   )
-  const exampleCol = getAllByTestId("call-date")[0]
-  expect(exampleCol).toHaveTextContent(`Jun 16, 2020`)
+  const pastDataExampleCol = getAllByTestId("call-date")[0]
+  expect(pastDataExampleCol).toHaveTextContent(`Jul 2, 2019`)
 })
