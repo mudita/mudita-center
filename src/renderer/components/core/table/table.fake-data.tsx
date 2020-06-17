@@ -11,7 +11,7 @@ const createCall = () => {
       lastName: Math.random() < 0.6 ? Faker.name.lastName() : "",
       primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
     },
-    duration: Faker.random.number(500),
+    duration: status === CallStatus.Missed ? 0 : Faker.random.number(500),
     date:
       Math.random() < 0.6
         ? String(Faker.date.past())
