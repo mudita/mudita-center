@@ -2,6 +2,7 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin")
 const HTMLWebpackPlugin = require("html-webpack-plugin")
 const CircularDependencyPlugin = require("circular-dependency-plugin")
 const { DefinePlugin } = require("webpack")
+const TerserPlugin = require("terser-webpack-plugin")
 const path = require("path")
 const { spawn } = require("child_process")
 
@@ -233,6 +234,29 @@ const devserver = {
   },
 }
 
+const optimization = production => {
+  console.log("===================", production)
+  const config = {
+    minimize: production,
+    nodeEnv: production ? "production" : "development",
+  }
+
+  if (production) {
+    console.log("Minimizing output...")
+    config.minimizer = [
+      new TerserPlugin({
+        terserOptions: {
+          output: {
+            comments: false,
+          },
+        },
+      }),
+    ]
+  }
+
+  return config
+}
+
 module.exports = {
   production,
   externals,
@@ -245,4 +269,5 @@ module.exports = {
   rules,
   plugins,
   devserver,
+  optimization,
 }

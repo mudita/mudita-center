@@ -1,5 +1,5 @@
 const {
-  isProd,
+  production,
   externals,
   target,
   entry,
@@ -9,17 +9,19 @@ const {
   plugins,
   node,
   devserver,
+  optimization,
 } = require("./webpack/common")
 const { woff, woff2, tff, eot, tsx, css, scss, img, svg, fonts, js } = rules
 
 const config = {
-  mode: isProd ? "production" : "development",
+  mode: production ? "production" : "development",
   entry: entry(true),
   node,
-  resolve: resolve(isProd),
+  resolve: resolve(production),
   output,
   externals,
   target: target(true),
+  optimization: optimization(production),
   plugins: [
     plugins.circulars,
     plugins.tsChecker(true),
@@ -31,7 +33,7 @@ const config = {
   },
 }
 
-if (!isProd) {
+if (!production) {
   config.devServer = devserver
 }
 
