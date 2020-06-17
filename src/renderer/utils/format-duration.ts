@@ -8,7 +8,7 @@ enum Unit {
 
 const formatDuration = (
   seconds: Seconds,
-  shortNotationOfZeroDuration: boolean = true
+  shortZeroNotation: boolean = true
 ) => {
   let secondsLeft = seconds
 
@@ -25,7 +25,7 @@ const formatDuration = (
     s: secondsLeft,
   }
 
-  const zeroNotation = shortNotationOfZeroDuration ? "0s" : "0m 0s"
+  const zeroNotation = shortZeroNotation ? "0s" : "0m 0s"
 
   return (
     Object.keys(duration)
