@@ -51,13 +51,8 @@ export const tabElements: TabElement[] = [
     parentUrl: URL_MAIN.phone,
     tabs: [
       {
-        label: messages.contacts,
-        url: `${URL_MAIN.phone}`,
-        icon: Type.Contacts,
-      },
-      {
         label: messages.calls,
-        url: `${URL_MAIN.phone}${URL_TABS.calls}`,
+        url: `${URL_MAIN.phone}`,
         icon: Type.Calls,
       },
       {

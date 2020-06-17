@@ -63,8 +63,8 @@ export default () => (
         <Route path={URL_MAIN.news} component={News} />
         <Route path={URL_MAIN.calendar} component={Calendar} />
         <Route path={URL_MAIN.overview} component={OverviewContainer} />
-        <Route path={URL_MAIN.phone} component={PhoneContainer} exact />
-        <Route path={`${URL_MAIN.phone}${URL_TABS.calls}`} component={Calls} />
+        <Route path={URL_MAIN.contacts} component={PhoneContainer} exact />
+        <Route path={`${URL_MAIN.phone}`} component={Calls} />
         <Route path={`${URL_MAIN.phone}${URL_TABS.dial}`} component={Dial} />
         <Route path={URL_MAIN.settings} component={Settings} exact />
         <Route

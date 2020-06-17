@@ -411,6 +411,30 @@ exports[`matches snapshot 1`] = `
       <a
         class="c5 c6"
         displaystyle="8"
+        href="#/contacts"
+        size="2"
+      >
+        <div
+          class="c2 c7"
+          data-testid="icon-MenuPhone"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
+        <p
+          class="c8 c9"
+        >
+          Phone
+        </p>
+      </a>
+    </div>
+    <div
+      class="c4"
+    >
+      <a
+        class="c5 c6"
+        displaystyle="8"
         href="#/music"
         size="2"
       >

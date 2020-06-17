@@ -22,6 +22,7 @@ export enum View {
   Overview = "overview",
   Messages = "messages",
   Phone = "phone",
+  Contacts = "contacts",
   Music = "music",
   Calendar = "calendar",
   Tools = "tools",
@@ -59,6 +60,10 @@ export const views: Views = {
   [View.Phone]: {
     label: messages.phone,
     url: URL_MAIN.phone,
+  },
+  [View.Contacts]: {
+    label: messages.phone,
+    url: URL_MAIN.contacts,
   },
   [View.Music]: {
     label: messages.music,
