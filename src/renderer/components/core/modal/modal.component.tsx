@@ -24,6 +24,8 @@ import { intl } from "Renderer/utils/intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
+  padding: 4rem 3.2rem 4.8rem 3.2rem;
+  box-sizing: border-box;
   ${({ size }) => getModalSize(size)};
 `
 
@@ -32,6 +34,8 @@ const Header = styled.div<{ titleOrder: TitleOrder; subtitleGap: boolean }>`
   grid-template-columns: 1fr 5rem;
   grid-row-gap: ${({ subtitleGap }) => (subtitleGap ? "1rem" : "initial")};
   ${({ titleOrder }) => getHeaderTemplate(titleOrder)};
+  box-sizing: border-box;
+  padding-bottom: 3.2rem;
 `
 
 const ModalTitle = styled(Text)<{ subTitle?: string }>`
@@ -43,14 +47,18 @@ const ModalSubTitle = styled(Text)`
 `
 
 const Close = styled(Button)`
-  margin-top: -0.5rem;
+  margin-top: -0.6rem;
+  margin-right: -0.8rem;
   grid-area: Close;
   justify-self: end;
 `
 
 const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
-  display: flex;
   ${({ buttonsPosition }) => getButtonsPosition(buttonsPosition)};
+
+  display: flex;
+  box-sizing: border-box;
+  padding-top: 3.2rem;
 `
 
 const ButtonWrapper = styled.div`

@@ -10,19 +10,21 @@ export const getModalSize = (size: ModalSize) => {
   switch (size) {
     case ModalSize.VerySmall:
       return css`
-        width: calc(27.5rem - 4rem);
+        width: 27.5rem;
+        padding: 2.4rem;
       `
     case ModalSize.Small:
       return css`
-        width: calc(38rem - 4rem);
+        width: 38rem;
+        padding: 3.2rem 2.4rem 4.8rem 2.4rem;
       `
     case ModalSize.Medium:
       return css`
-        width: calc(59rem - 4rem);
+        width: 59rem;
       `
     case ModalSize.Large:
       return css`
-        width: calc(101rem - 6.4rem);
+        width: 101rem;
       `
     default:
       return
