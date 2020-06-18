@@ -22,7 +22,7 @@
     "dev:start:renderer": "webpack-dev-server --config webpack.renderer.dev.config.js --noBabelLoaderCache",
 
     "LINT COMMANDS": "=========================================================",
-    "lint": "npm run lint:tslint && npm run lint:css",
+    "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint '{src,test,mocks}/**/*.{ts,tsx}'",
     "lint:js": "tslint '{src,test,mocks}/**/*.{ts,tsx}' --project ./tsconfig.json",
     "lint:typecheck": "tsc --noEmit",
