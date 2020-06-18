@@ -154,7 +154,7 @@ exports[`matches snapshot 1`] = `
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  margin: 2.5rem 0 1.6rem 0;
+  margin: 2.4rem 0 1.6rem 0;
 }
 
 .c12 {
@@ -221,7 +221,7 @@ exports[`matches snapshot 1`] = `
 .c3 {
   height: 2rem;
   width: 8.6rem;
-  margin: 2rem 0 3.5rem;
+  margin: 2rem 0 2.4rem;
 }
 
 <div>
@@ -416,7 +416,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="c2 c7"
-          data-testid="icon-MenuMusic"
+          data-testid="icon-MenuContacts"
         >
           <test-file-stub
             image="test-file-stub"
