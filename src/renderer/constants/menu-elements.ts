@@ -12,7 +12,7 @@ const YOUR_PURE_BUTTONS = [
   { button: views.overview, icon: Type.MenuOverview },
   { button: views.messages, icon: Type.Message },
   { button: views.phone, icon: Type.MenuPhone },
-  { button: views.contacts, icon: Type.MenuMusic },
+  { button: views.contacts, icon: Type.MenuContacts },
   { button: views.music, icon: Type.MenuMusic },
   { button: views.calendar, icon: Type.Calendar },
   { button: views.tools, icon: Type.MenuTools },
