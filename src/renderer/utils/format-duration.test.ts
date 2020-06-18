@@ -5,15 +5,15 @@ test("returns proper duration for 0s with short notation of zero value", () => {
 })
 
 test("returns proper duration for 0s with short notation of zero value", () => {
-  expect(formatDuration(0, false)).toBe("0m 0s")
+  expect(formatDuration(0, { shortZeroNotation: false })).toBe("0m 0s")
 })
 
 test("returns proper duration for 120s with short notation of zero value", () => {
-  expect(formatDuration(120, false)).toBe("2m 0s")
+  expect(formatDuration(120, { shortZeroNotation: false })).toBe("2m 0s")
 })
 
 test("returns proper duration for 45s with short notation of zero value", () => {
-  expect(formatDuration(45, false)).toBe("45s")
+  expect(formatDuration(45, { shortZeroNotation: false })).toBe("45s")
 })
 
 test("returns proper duration for several dozens of seconds", () => {

@@ -6,11 +6,16 @@ enum Unit {
   Day = Unit.Hour * 24,
 }
 
+interface Options {
+  shortZeroNotation: boolean
+}
+
 const formatDuration = (
   seconds: Seconds,
-  shortZeroNotation: boolean = true
+  options: Options = { shortZeroNotation: true }
 ) => {
   let secondsLeft = seconds
+  const { shortZeroNotation } = options
 
   const countDuration = (unit: Unit) => {
     const unitsCount = Math.floor(secondsLeft / unit)
