@@ -416,7 +416,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="c2 c7"
-          data-testid="icon-MenuPhone"
+          data-testid="icon-MenuMusic"
         >
           <test-file-stub
             image="test-file-stub"
@@ -425,7 +425,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Phone
+          Contacts
         </p>
       </a>
     </div>
