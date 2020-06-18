@@ -3,6 +3,7 @@ import { defineMessages } from "react-intl"
 import { URL_MAIN } from "./urls"
 
 const messages = defineMessages({
+  contacts: { id: "view.name.contacts" },
   news: { id: "view.name.news" },
   overview: { id: "view.name.overview" },
   messages: { id: "view.name.messages" },
@@ -62,7 +63,7 @@ export const views: Views = {
     url: URL_MAIN.phone,
   },
   [View.Contacts]: {
-    label: messages.phone,
+    label: messages.contacts,
     url: URL_MAIN.contacts,
   },
   [View.Music]: {
