@@ -41,6 +41,7 @@ const createWindow = async () => {
     height: WINDOW_SIZE.height,
     resizable: process.env.NODE_ENV === "development",
     fullscreen: false,
+    useContentSize: true,
     webPreferences: {
       nodeIntegration: true,
     },

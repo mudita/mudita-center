@@ -17,7 +17,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 2.4rem 0 1.6rem 0;
+  margin: 1.6rem 0 1.6rem 0;
 `
 
 const HeaderIconContainer = styled.div`
