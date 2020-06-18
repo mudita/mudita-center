@@ -12,6 +12,7 @@ import {
   Status,
   Text,
 } from "Renderer/components/core/text-editor/text-editor.component"
+import { asyncNoop } from "Renderer/utils/noop"
 
 const normalizeText = (text: string) => {
   return text.replace(new RegExp(/\r?\n|\r/g), " ")
@@ -35,7 +36,7 @@ interface Options {
 
 export const useTextEditor = (
   defaultTextObject: Text = { id: "", text: "" },
-  saveResults: (textObject: Text) => Promise<any>,
+  saveResults: (textObject: Text) => Promise<any> = asyncNoop,
   options: Options = {
     autosaveDebounceTime: 1000,
     statusChangeDelay: 500,

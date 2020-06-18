@@ -1,6 +1,6 @@
 import React, { Ref } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import styled, { css } from "styled-components"
+import styled, { css, FlattenSimpleInterpolation } from "styled-components"
 import Table, { Col, Row } from "Renderer/components/core/table/table.component"
 import InputCheckbox, {
   Size,
@@ -16,7 +16,7 @@ import {
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
-import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import { UseTableSidebar } from "Renderer/utils/hooks/useTableSidebar"
 import { TextPlaceholder } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
 
@@ -34,9 +34,12 @@ const animatedOpacityActiveStyles = css`
   visibility: visible;
 `
 
-const TemplatesListTable = styled(Table)`
+const TemplatesListTable = styled(Table)<{
+  additionalStyles?: FlattenSimpleInterpolation
+}>`
   --columnsGap: 0;
   --columnsTemplate: 4rem 69.5rem 1fr;
+  --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
 `
 
 const TextPreview = styled(Col)`
@@ -89,11 +92,14 @@ interface Template {
   text: string
 }
 
+type SelectHook = Pick<
+  UseTableSelect<Template>,
+  "getRowStatus" | "toggleRow" | "noneRowsSelected"
+>
+
 export interface TemplatesListProps
-  extends Pick<
-    UseTableSelect<Template>,
-    "getRowStatus" | "toggleRow" | "noneRowsSelected"
-  > {
+  extends SelectHook,
+    UseTableSidebar<Template> {
   templates: Template[]
 }
 
@@ -102,19 +108,35 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   getRowStatus,
   toggleRow,
   noneRowsSelected,
+  openSidebar,
+  closeSidebar,
+  activeRow,
+  sidebarOpened,
 }) => {
-  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Template>()
-
   return (
-    <TemplatesListTable role="list">
+    <TemplatesListTable
+      role="list"
+      hide
+      hideColumns={sidebarOpened}
+      hideableColumnsIndexes={[2]}
+    >
       {templates.map(item => {
         const { selected } = getRowStatus(item)
 
-        const toggleSelection = () => {
-          closeSidebar()
+        const toggle = () => {
+          if (sidebarOpened) {
+            closeSidebar()
+          }
           toggleRow(item)
         }
-        const openPreview = () => openSidebar(item)
+
+        const handleTextPreviewClick = () => {
+          if (noneRowsSelected) {
+            openSidebar(item)
+          } else {
+            toggle()
+          }
+        }
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <ListRow
@@ -128,11 +150,11 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
               <Checkbox
                 size={Size.Small}
                 checked={selected}
-                onChange={toggleSelection}
+                onChange={toggle}
                 visible={!noneRowsSelected}
               />
             </Col>
-            <TextPreview onClick={openPreview}>
+            <TextPreview onClick={handleTextPreviewClick}>
               <Text displayStyle={TextDisplayStyle.LargeText}>
                 {item.text.substr(0, 250)}
               </Text>
