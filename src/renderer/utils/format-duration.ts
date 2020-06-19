@@ -27,14 +27,12 @@ const formatDuration = (
 
   const zeroNotation = shortZeroNotation ? "0s" : "0m 0s"
 
-  const secs = shortZeroNotation || duration.s > 0 ? "" : `${duration.s}s`
-
   return (
     Object.keys(duration)
       .reduce((a, b) => {
-        return duration[b] !== 0 ? (a += `${duration[b]}${b} ${secs}`) : a
+        return duration[b] !== 0 ? (a += `${duration[b]}${b} `) : a
       }, "")
-      .trim() || zeroNotation
+      .slice(0, -1) || zeroNotation
   )
 }
 
