@@ -12,6 +12,7 @@ import { init } from "@rematch/core"
 import devMode from "Renderer/models/dev-mode/dev-mode"
 import selectPlugin from "@rematch/select"
 import { Provider } from "react-redux"
+import StorybookWrapper from "../src/renderer/components/storybook/storybook-wrapper.component"
 
 const req = require.context("../src", true, /\.stories\.tsx$/)
 function loadStories() {
@@ -32,7 +33,7 @@ addDecorator(story => {
           <>
             <GlobalStyle />
             <Normalize />
-            {story()}
+            <StorybookWrapper>{story()}</StorybookWrapper>
           </>
         </IntlProvider>
       </ThemeProvider>
