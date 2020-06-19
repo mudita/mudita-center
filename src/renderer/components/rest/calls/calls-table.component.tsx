@@ -96,7 +96,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
                 : caller.primaryPhoneNumber}
               {timesMissed > 1 && ` (${timesMissed})`}
             </Col>
-            <Col>{formatDuration(duration, { shortZeroNotation: false })}</Col>
+            <Col>{formatDuration(duration, false)}</Col>
             <Col data-testid="call-date">
               {isToday(date)
                 ? moment(date).format("h:mm")
