@@ -45,6 +45,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
+import { TextPlaceholder } from "Renderer/components/rest/phone/text-placeholder.styled.elements"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -77,15 +78,6 @@ const ClickableCol = styled(Col)`
 export const AvatarPlaceholder = styled.div`
   ${basicAvatarStyles};
   margin-right: 1.2rem;
-`
-
-export const TextPlaceholder = styled.span<{ charsCount: number }>`
-  display: block;
-  background-color: ${backgroundColor("accent")};
-  height: 1em;
-  border-radius: ${borderRadius("medium")};
-  width: ${({ charsCount }) => charsCount * 0.6}rem;
-  min-width: 5rem;
 `
 
 const MoreNumbers = styled(Text).attrs(() => ({

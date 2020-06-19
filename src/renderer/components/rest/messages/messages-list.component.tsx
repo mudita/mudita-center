@@ -30,13 +30,13 @@ import {
 import moment from "moment"
 import {
   lightAvatarStyles,
-  TextPlaceholder,
   AvatarPlaceholder,
 } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
 import { isEqual, last } from "lodash"
 import { createFullName } from "Renderer/models/phone/phone.utils"
+import { TextPlaceholder } from "Renderer/components/rest/phone/text-placeholder.styled.elements"
 
 const checkboxVisibleStyles = css`
   display: block;

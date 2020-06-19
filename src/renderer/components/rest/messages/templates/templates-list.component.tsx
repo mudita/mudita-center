@@ -17,8 +17,8 @@ import {
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import { UseTableSidebar } from "Renderer/utils/hooks/useTableSidebar"
-import { TextPlaceholder } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
+import { TextPlaceholder } from "Renderer/components/rest/phone/text-placeholder.styled.elements"
 
 const animatedOpacityStyles = css`
   opacity: 0;
