@@ -86,7 +86,7 @@ const InputFileWrapper = styled.div`
   }
 `
 
-const Label = styled.label<{ draggingOver?: boolean }>`
+const Label = styled.label`
   padding: 1.2rem 1.6rem;
   position: relative;
   display: block;
@@ -360,7 +360,6 @@ const InputFile: FunctionComponent<InputFileProps> = ({
         onDragLeave={disableDraggingState}
         onDragEnd={disableDraggingState}
         onDrop={disableDraggingState}
-        draggingOver={draggingState}
       >
         <Border draggingOver={draggingState} />
         <input

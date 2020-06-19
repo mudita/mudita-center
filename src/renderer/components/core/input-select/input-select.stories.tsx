@@ -1,29 +1,22 @@
 import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
 import InputSelect, {
-  InputSelectProps,
   RenderListItemProps,
   renderSearchableText,
   SelectInputItem,
 } from "Renderer/components/core/input-select/input-select.component"
-import styled, { css } from "styled-components"
+import { css } from "styled-components"
 import { action } from "@storybook/addon-actions"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import StoryContainer from "Renderer/components/storybook/story-container.component"
+import Story from "Renderer/components/storybook/story.component"
 
-const StoryWrapper = styled.div`
-  max-width: 20rem;
-  margin: 3rem 2rem;
-
-  p {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+const storyContainerStyles = css`
+  main > * {
+    width: 20rem;
   }
 `
 
-export const data = [
+export const basicOptions = [
   "apple",
   "banana",
   "orange",
@@ -34,7 +27,7 @@ export const data = [
   "cabbage",
 ]
 
-export const advancedData = [
+export const advancedOptions = [
   { name: "Apple", value: "apple", type: "fruit", icon: "🍏" },
   { name: "Banana", value: "banana", type: "fruit", icon: "🍌" },
   { name: "Orange", value: "orange", type: "fruit", icon: "🍊" },
@@ -45,118 +38,205 @@ export const advancedData = [
   { name: "Cabbage", value: "cabbage", type: "vegetable", icon: "🥬" },
 ]
 
-type AdvancedItem = typeof advancedData[number]
+type AdvancedItem = typeof advancedOptions[number]
 
-const Story: FunctionComponent<Partial<InputSelectProps>> = ({
-  options = data,
-  value = "",
-  ...rest
-}) => {
-  const [selectedFruit, setSelectedFruit] = useState(value)
+const renderCustomValue = (item: AdvancedItem) => item.name
 
-  const handleSelect = (fruit: string) => {
-    action("Select")(fruit)
-    setSelectedFruit(fruit)
-  }
+const renderCustomListItem = ({
+  item: { name, type, icon },
+  searchString,
+  props,
+}: RenderListItemProps<AdvancedItem>) => (
+  <SelectInputItem {...props}>
+    <strong>
+      {icon} {renderSearchableText(name, searchString)}
+    </strong>
+    <br />
+    <em>{type}</em>
+  </SelectInputItem>
+)
 
-  return (
-    <>
-      <StoryWrapper>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Default</Text>
-        <InputSelect
-          value={selectedFruit}
-          options={options}
-          onSelect={handleSelect}
-          label={"Fruit"}
-          {...rest}
-        />
-      </StoryWrapper>
-      <StoryWrapper>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Outlined</Text>
-        <InputSelect
-          value={selectedFruit}
-          options={options}
-          onSelect={handleSelect}
-          outlined
-          label={"Fruit"}
-          {...rest}
-        />
-      </StoryWrapper>
-    </>
-  )
+const renderSearchableCustomListItem = ({
+  item: { name, type, icon },
+  searchString,
+  props,
+}: RenderListItemProps<AdvancedItem>) => (
+  <SelectInputItem {...props}>
+    <strong>
+      {icon} {renderSearchableText(name, searchString)}
+    </strong>
+    <br />
+    <em>{type}</em>
+  </SelectInputItem>
+)
+
+const filteringFunction = (item: AdvancedItem, search: string) => {
+  return item.name.toLowerCase().includes(search.toLowerCase())
 }
 
-storiesOf("Components|InputSelect/Basic", module)
-  .add("Standard", () => <Story />)
-  .add("Standard and empty option", () => <Story emptyOption={"Select"} />)
-  .add("Preselected", () => <Story value={data[2]} />)
-  .add("Customized list", () => {
-    const renderValue = (item: AdvancedItem) => item.name
-
-    const renderListItem = ({
-      item: { name, type, icon },
-      props,
-    }: RenderListItemProps<AdvancedItem>) => (
-      <SelectInputItem {...props}>
-        <strong>
-          {icon} {name}
-        </strong>
-        <br />
-        <em>{type}</em>
-      </SelectInputItem>
-    )
-
-    return (
-      <Story
-        emptyOption={"None"}
-        options={advancedData}
-        renderValue={renderValue}
-        renderListItem={renderListItem}
-        listStyles={css`
-          max-height: 33rem;
-        `}
-      />
-    )
-  })
-
-storiesOf("Components|InputSelect/Searchable", module)
-  .add("Standard", () => <Story searchable />)
-  .add("Standard and empty option", () => (
-    <Story emptyOption={"Select"} searchable />
+storiesOf("Components|Core/InputSelect", module)
+  .add("Default", () => (
+    <>
+      <StoryContainer title="Themes" customStyle={storyContainerStyles}>
+        <Story title="Default">
+          <InputSelect options={basicOptions} label="Fruit type" />
+        </Story>
+        <Story title="Outlined">
+          <InputSelect options={basicOptions} outlined label="Fruit type" />
+        </Story>
+        <Story title="Condensed (default)">
+          <InputSelect options={basicOptions} condensed label="Fruit type" />
+        </Story>
+        <Story title="Condensed (outlined)">
+          <InputSelect
+            options={basicOptions}
+            condensed
+            outlined
+            label="Fruit type"
+          />
+        </Story>
+      </StoryContainer>
+      <StoryContainer title="Modifiers" customStyle={storyContainerStyles}>
+        <Story title="Label (default)">
+          <InputSelect options={basicOptions} label="Fruit type" />
+        </Story>
+        <Story title="Label (outlined)">
+          <InputSelect options={basicOptions} label="Fruit type" outlined />
+        </Story>
+        <Story title="Value (default)">
+          <InputSelect
+            options={basicOptions}
+            label="Fruit type"
+            value={basicOptions[1]}
+          />
+        </Story>
+        <Story title="Value (outlined)">
+          <InputSelect
+            options={basicOptions}
+            label="Fruit type"
+            value={basicOptions[1]}
+            outlined
+          />
+        </Story>
+      </StoryContainer>
+      <StoryContainer title="Customizations" customStyle={storyContainerStyles}>
+        <Story title="Empty option">
+          <InputSelect
+            options={basicOptions}
+            label="Fruit type"
+            emptyOption="No fruit"
+          />
+        </Story>
+        <Story title="List items">
+          <InputSelect
+            label="Fruit type"
+            emptyOption="No fruit"
+            options={advancedOptions}
+            renderValue={renderCustomValue}
+            renderListItem={renderCustomListItem}
+            listStyles={css`
+              max-height: 19rem;
+            `}
+          />
+        </Story>
+      </StoryContainer>
+      <StoryContainer title="Searchable" customStyle={storyContainerStyles}>
+        <Story title="Basic list">
+          <InputSelect
+            searchable
+            options={basicOptions}
+            label="Fruit type"
+            emptyOption="No fruit"
+          />
+        </Story>
+        <Story title="Custom rendered list">
+          <InputSelect
+            searchable
+            label="Fruit type"
+            emptyOption="No fruit"
+            options={advancedOptions}
+            renderValue={renderCustomValue}
+            renderListItem={renderSearchableCustomListItem}
+            filteringFunction={filteringFunction}
+            listStyles={css`
+              max-height: 19rem;
+            `}
+          />
+        </Story>
+      </StoryContainer>
+    </>
   ))
-  .add("Preselected", () => <Story value={data[2]} searchable />)
-  .add("Customized list", () => {
-    const renderValue = (item: AdvancedItem) => item.name
+  .add("Interactive", () => {
+    const [selectedFruit, setSelectedFruit] = useState("")
+    const [selectedAdvancedFruit, setSelectedAdvancedFruit] = useState<
+      AdvancedItem
+    >()
 
-    const renderListItem = ({
-      item: { name, type, icon },
-      searchString,
-      props,
-    }: RenderListItemProps<AdvancedItem>) => (
-      <SelectInputItem {...props}>
-        <strong>
-          {icon} {renderSearchableText(name, searchString)}
-        </strong>
-        <br />
-        <em>{type}</em>
-      </SelectInputItem>
-    )
+    const handleSelect = (fruit: string) => {
+      action("Select")(fruit)
+      setSelectedFruit(fruit)
+    }
 
-    const filteringFunction = (item: AdvancedItem, search: string) => {
-      return item.name.toLowerCase().includes(search.toLowerCase())
+    const handleAdvancedSelect = (fruitItem: AdvancedItem) => {
+      action("Select")(fruitItem)
+      setSelectedAdvancedFruit(fruitItem)
     }
 
     return (
-      <Story
-        emptyOption={"None"}
-        options={advancedData}
-        renderValue={renderValue}
-        renderListItem={renderListItem}
-        filteringFunction={filteringFunction}
-        listStyles={css`
-          max-height: 33rem;
-        `}
-        searchable
-      />
+      <>
+        <StoryContainer title="Basic" customStyle={storyContainerStyles}>
+          <Story title="Simple data">
+            <InputSelect
+              options={basicOptions}
+              label="Fruit type"
+              emptyOption="No fruit"
+              onSelect={handleSelect}
+              value={selectedFruit}
+            />
+          </Story>
+          <Story title="Customized data">
+            <InputSelect
+              label="Fruit type"
+              emptyOption="No fruit"
+              options={advancedOptions}
+              renderValue={renderCustomValue}
+              renderListItem={renderCustomListItem}
+              onSelect={handleAdvancedSelect}
+              value={selectedAdvancedFruit}
+              listStyles={css`
+                max-height: 33rem;
+              `}
+            />
+          </Story>
+        </StoryContainer>
+        <StoryContainer title="Searchable" customStyle={storyContainerStyles}>
+          <Story title="Simple data">
+            <InputSelect
+              options={basicOptions}
+              label="Fruit type"
+              emptyOption="No fruit"
+              onSelect={handleSelect}
+              value={selectedFruit}
+              searchable
+            />
+          </Story>
+          <Story title="Customized data">
+            <InputSelect
+              searchable
+              label="Fruit type"
+              emptyOption="No fruit"
+              options={advancedOptions}
+              renderValue={renderCustomValue}
+              renderListItem={renderSearchableCustomListItem}
+              filteringFunction={filteringFunction}
+              onSelect={handleAdvancedSelect}
+              value={selectedAdvancedFruit}
+              listStyles={css`
+                max-height: 19rem;
+              `}
+            />
+          </Story>
+        </StoryContainer>
+      </>
     )
   })

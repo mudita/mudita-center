@@ -64,3 +64,15 @@ export const ModalWrapper = styled.section`
 
   ${fadeAnimation};
 `
+
+export const StoryModalWrapper = styled.section`
+  z-index: ${zIndex("modal")};
+
+  display: flex;
+  flex-direction: column;
+  background-color: ${backgroundColor("light")};
+  border-radius: ${borderRadius("medium")};
+  box-shadow: 0 0.2rem 3rem 0 rgba(0, 0, 0, 0.08);
+
+  ${fadeAnimation};
+`
