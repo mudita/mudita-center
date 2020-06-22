@@ -1,7 +1,11 @@
 import React, { Ref } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
-import Table, { Col, Row } from "Renderer/components/core/table/table.component"
+import Table, {
+  Col,
+  Row,
+  TextPlaceholder,
+} from "Renderer/components/core/table/table.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox, {
   Size,
@@ -36,7 +40,6 @@ import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
 import { isEqual, last } from "lodash"
 import { createFullName } from "Renderer/models/phone/phone.utils"
-import { TextPlaceholder } from "Renderer/components/rest/phone/text-placeholder.styled.elements"
 
 const checkboxVisibleStyles = css`
   display: block;

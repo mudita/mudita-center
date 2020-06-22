@@ -15,6 +15,7 @@ import Table, {
   Labels,
   LoadingState,
   Row,
+  TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox, {
@@ -45,7 +46,6 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
-import { TextPlaceholder } from "Renderer/components/rest/phone/text-placeholder.styled.elements"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
