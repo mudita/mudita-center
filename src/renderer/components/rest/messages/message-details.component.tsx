@@ -83,6 +83,7 @@ const MessageDetails: FunctionComponent<Props> = ({
       <SidebarHeaderIcon Icon={Type.Delete} onClick={noop} />
     </>
   )
+  const checkForName = details.caller.firstName || details.caller.lastName
   return (
     <MessagesSidebar
       show
@@ -92,16 +93,18 @@ const MessageDetails: FunctionComponent<Props> = ({
             displayStyle={TextDisplayStyle.LargeBoldText}
             data-testid="sidebar-fullname"
           >
-            {details.caller.inContacts
+            {checkForName
               ? createFullName(details.caller)
-              : details.caller.phoneNumber}
+              : details.caller.primaryPhoneNumber ||
+                details.caller.secondaryPhoneNumber}
           </Text>
-          {details.caller.inContacts && (
+          {checkForName && (
             <PhoneNumberText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"
             >
-              {details.caller.phoneNumber}
+              {details.caller.primaryPhoneNumber ||
+                details.caller.secondaryPhoneNumber}
             </PhoneNumberText>
           )}
         </>

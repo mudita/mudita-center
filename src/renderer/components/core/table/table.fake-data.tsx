@@ -1,5 +1,6 @@
 import Faker from "faker"
 import { groupBy, times, random } from "lodash"
+import { generateFakeContact } from "Renderer/models/phone/phone.utils"
 
 const createText = () => ({
   id: Faker.random.uuid(),
@@ -10,19 +11,14 @@ export const notes = times(random(15, 25), createText)
 
 const createCaller = (inContacts: boolean) => {
   return inContacts
-    ? {
-        id: Faker.random.uuid(),
-        firstName: Faker.name.firstName(),
-        lastName: Faker.name.lastName(),
-        phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-        inContacts,
-      }
+    ? generateFakeContact()
     : {
         id: Faker.random.uuid(),
         firstName: "",
         lastName: "",
-        phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-        inContacts,
+        primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+        secondaryPhoneNumber: "",
+        // inContacts,
       }
 }
 const createMessage = () => ({
