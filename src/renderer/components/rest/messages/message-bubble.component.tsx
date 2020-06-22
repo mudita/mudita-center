@@ -91,7 +91,7 @@ interface Props {
   user: User
   message: string
   interlocutor?: boolean
-  newAuthor: boolean
+  newAuthor?: boolean
   forwardMessage?: () => void
   removeMessage?: () => void
 }
@@ -102,7 +102,7 @@ const MessageBubble: FunctionComponent<Props> = ({
   user,
   message,
   interlocutor = false,
-  newAuthor,
+  newAuthor = false,
   forwardMessage = noop,
   removeMessage = noop,
 }) => {
