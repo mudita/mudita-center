@@ -18,14 +18,9 @@ const createCaller = (inContacts: boolean) => {
         lastName: "",
         primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
         secondaryPhoneNumber: "",
-        // inContacts,
       }
 }
-const createMessage = () => ({
-  id: Faker.random.uuid(),
-  text: Faker.lorem.sentence(10, 2),
-})
-const createListOfMessages = () => times(random(1, 3), createMessage)
+
 const createTopic = () => {
   const inContacts = Faker.random.boolean()
   const caller = createCaller(inContacts)
@@ -38,7 +33,8 @@ const createTopic = () => {
         author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd572",
         date: "2019-10-18T11:27:15.256Z",
-        content: "lala",
+        content:
+          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
         interlocutor: true,
       },
       {

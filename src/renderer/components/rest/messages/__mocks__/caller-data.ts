@@ -29,25 +29,15 @@ export const mockedList = [
         author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content: [
-          {
-            id: "1",
-            text:
-              "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-          },
-        ],
+        content:
+          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       },
       {
         author: caller,
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
-        content: [
-          {
-            id: "2",
-            text:
-              "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-          },
-        ],
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
       },
     ],
   },
@@ -60,25 +50,15 @@ export const mockedList = [
         author: unknownContact,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content: [
-          {
-            id: "123",
-            text:
-              "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-          },
-        ],
+        content:
+          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       },
       {
         author: unknownContact,
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
-        content: [
-          {
-            id: "321",
-            text:
-              "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-          },
-        ],
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
       },
     ],
   },
@@ -91,25 +71,15 @@ export const mockedList = [
         author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content: [
-          {
-            id: "3212",
-            text:
-              "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-          },
-        ],
+        content:
+          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       },
       {
         author: caller,
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
-        content: [
-          {
-            id: "321233",
-            text:
-              "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-          },
-        ],
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
       },
     ],
   },
@@ -122,26 +92,17 @@ export const mockedDetails = {
       author: caller,
       id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
       date: "2019-10-18T11:27:15.256Z",
-      content: [
-        {
-          id: "32123",
-          text:
-            "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-        },
-      ],
+      content:
+        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       interlocutor: true,
     },
     {
       author: caller,
       id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
       date: "2019-10-18T11:45:35.112Z",
-      content: [
-        {
-          id: "32123",
-          text:
-            "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-        },
-      ],
+      content:
+        "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+
       interlocutor: true,
     },
   ],
@@ -154,26 +115,16 @@ export const unknownCallerMockedDetails = {
       author: unknownContact,
       id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
       date: "2019-10-18T11:27:15.256Z",
-      content: [
-        {
-          id: "32123",
-          text:
-            "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-        },
-      ],
+      content:
+        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       interlocutor: true,
     },
     {
       author: unknownContact,
       id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
       date: "2019-10-18T11:45:35.112Z",
-      content: [
-        {
-          id: "3212333",
-          text:
-            "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-        },
-      ],
+      content:
+        "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
       interlocutor: true,
     },
   ],
@@ -191,19 +142,14 @@ export const randomMockedList = [
         author: randomCaller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content: [{ id: "123", text: "Idziemy na grzyby?" }],
+        content: "Idziemy na grzyby?",
       },
       {
         author: createCaller(),
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
-        content: [
-          {
-            id: "321",
-            text:
-              "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-          },
-        ],
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
       },
     ],
   },
@@ -216,25 +162,15 @@ export const randomMockedList = [
         author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content: [
-          {
-            id: "321",
-            text:
-              "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-          },
-        ],
+        content:
+          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       },
       {
         author: caller,
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
-        content: [
-          {
-            id: "322221",
-            text:
-              "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-          },
-        ],
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
       },
     ],
   },
@@ -247,25 +183,15 @@ export const randomMockedList = [
         author: caller,
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: "2019-10-18T11:27:15.256Z",
-        content: [
-          {
-            id: "55321",
-            text:
-              "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-          },
-        ],
+        content:
+          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       },
       {
         author: caller,
         id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
         date: "2019-10-18T11:45:35.112Z",
-        content: [
-          {
-            id: "32223321",
-            text:
-              "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-          },
-        ],
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
       },
     ],
   },

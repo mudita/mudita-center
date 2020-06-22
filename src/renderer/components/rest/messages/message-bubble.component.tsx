@@ -44,15 +44,18 @@ const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
 
 const MessageBubbleWrapper = styled.div<{
   interlocutor: boolean
-  withAvatar: boolean
+  newAuthor: boolean
 }>`
   display: flex;
   align-items: center;
   flex-direction: ${({ interlocutor }) =>
     interlocutor ? "row-reverse" : "row"};
   justify-content: flex-end;
-  margin-left: ${({ withAvatar }) => (withAvatar ? "0" : "7.5rem")};
-  margin-bottom: ${({ withAvatar }) => (withAvatar ? "0" : "2.4rem")};
+  margin-left: ${({ newAuthor, interlocutor }) =>
+    newAuthor && interlocutor ? "0" : "7.5rem"};
+  margin-bottom: ${({ newAuthor }) => (newAuthor ? "0" : "2.4rem")};
+  margin-right: ${({ newAuthor, interlocutor }) =>
+    newAuthor && interlocutor ? "7.5rem" : "0"};
 `
 
 const Bubble = styled.div<{ interlocutor: boolean }>`
@@ -115,7 +118,7 @@ const MessageBubble: FunctionComponent<Props> = ({
     <MessageBubbleWrapper
       className={className}
       interlocutor={interlocutor}
-      withAvatar={newAuthor}
+      newAuthor={newAuthor}
     >
       <div>
         <MessageBubbleContainer interlocutor={interlocutor}>

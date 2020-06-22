@@ -14,25 +14,8 @@ const ColumnWrapper = styled(Wrapper)`
   flex-direction: column;
 `
 
-const messages = [
-  {
-    id: "123",
-    text:
-      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
-  },
-]
-const multipleMessages = [
-  {
-    id: "123",
-    text:
-      "1Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
-  },
-  {
-    id: "13323",
-    text:
-      "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
-  },
-]
+const message =
+  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?"
 
 storiesOf("Components|Message Bubble", module)
   .add("Owner bubble", () => {
@@ -40,7 +23,9 @@ storiesOf("Components|Message Bubble", module)
       <Wrapper>
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
-          messages={messages}
+          message={message}
+          id="123"
+          newAuthor
         />
       </Wrapper>
     )
@@ -50,8 +35,10 @@ storiesOf("Components|Message Bubble", module)
       <Wrapper>
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
-          messages={messages}
+          message={message}
           interlocutor
+          id="123"
+          newAuthor
         />
       </Wrapper>
     )
@@ -61,12 +48,16 @@ storiesOf("Components|Message Bubble", module)
       <ColumnWrapper>
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
-          messages={multipleMessages}
+          message={message}
           interlocutor
+          id="123"
+          newAuthor
         />
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
-          messages={multipleMessages}
+          message={message}
+          interlocutor
+          id="321"
         />
       </ColumnWrapper>
     )
@@ -75,13 +66,15 @@ storiesOf("Components|Message Bubble", module)
     return (
       <ColumnWrapper>
         <MessageBubble
-          user={{ firstName: "Kuser", lastName: "Xuserowski" }}
-          messages={multipleMessages}
+          user={{ firstName: "Kuser", lastName: "Luserowski" }}
+          message={message}
+          newAuthor
+          id="321"
         />
         <MessageBubble
-          user={{ firstName: "user", lastName: "Luserowski" }}
-          messages={multipleMessages}
-          interlocutor
+          user={{ firstName: "Kuser", lastName: "Luserowski" }}
+          message={message}
+          id="123"
         />
       </ColumnWrapper>
     )
