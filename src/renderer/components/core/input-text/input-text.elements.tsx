@@ -44,7 +44,7 @@ const InputLabel = styled(Text)`
   position: absolute;
   left: 0;
   top: 0.3rem;
-  color: ${textColor("placeholder")};
+  color: ${textColor("disabled")};
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
   line-height: 1.5rem;
   pointer-events: none;
@@ -84,7 +84,7 @@ export const InputError = styled(Text)<{ visible: boolean }>`
 const outlinedStyles = css`
   height: 4rem;
   padding: 0 2.4rem;
-  border: 0.1rem solid ${borderColor("default")};
+  border: 0.1rem solid ${borderColor("secondary")};
   border-radius: ${borderRadius("medium")};
 `
 
@@ -93,7 +93,7 @@ const condensedStyles = css`
 `
 
 const focusedStyles = css`
-  border-color: ${borderColor("dark")};
+  border-color: ${borderColor("primary")};
 `
 
 const disabledStyles = css`
@@ -142,7 +142,7 @@ const generalInputStyles = css`
   order: 2;
   background-color: transparent;
   padding: 0;
-  color: ${textColor("dark")};
+  color: ${textColor("primary")};
   width: 100%;
 
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
@@ -155,7 +155,7 @@ const generalInputStyles = css`
   }
 
   ::placeholder {
-    color: ${textColor("placeholder")};
+    color: ${textColor("disabled")};
   }
 `
 
@@ -180,7 +180,7 @@ type InputWrapperProps = Partial<InputProps & TextareaProps> & {
 
 const searchStyles = css`
   &:focus-within {
-    background-color: ${backgroundColor("light")};
+    background-color: ${backgroundColor("row")};
   }
 `
 
@@ -193,7 +193,7 @@ const InputWrapper = styled.label<InputWrapperProps>`
   padding-top: 2rem;
   padding-bottom: 0.6rem;
   box-sizing: border-box;
-  border-bottom: 0.1rem solid ${borderColor("default")};
+  border-bottom: 0.1rem solid ${borderColor("secondary")};
   transition: ${transition("border-color", "100ms", "ease-in-out")};
   ${TextInputIcon} {
     + ${TextInputIcon} {

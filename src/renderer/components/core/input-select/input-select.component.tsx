@@ -45,23 +45,23 @@ export const SelectInputItem = styled.li<{
   font-weight: 300;
 
   :not(:last-of-type) {
-    border-bottom: solid ${borderColor("listItem")} 0.1rem;
+    border-bottom: solid ${borderColor("list")} 0.1rem;
   }
 
   &:hover {
-    background-color: ${backgroundColor("accent")};
+    background-color: ${backgroundColor("minor")};
   }
 
   ${({ empty }) =>
     empty &&
     css`
-      color: ${textColor("placeholder")};
+      color: ${textColor("disabled")};
     `}
 
   ${({ selected }) =>
     selected &&
     css`
-      background-color: ${backgroundColor("accent")};
+      background-color: ${backgroundColor("minor")};
     `};
 `
 
@@ -76,8 +76,8 @@ const SelectInputList = styled.ul<{
   width: 100%;
   box-sizing: border-box;
   list-style: none;
-  background-color: ${backgroundColor("light")};
-  box-shadow: 0 0.5rem 1.5rem 0 ${boxShadowColor("lightGrey")};
+  background-color: ${backgroundColor("row")};
+  box-shadow: 0 0.5rem 1.5rem 0 ${boxShadowColor("light")};
   border-radius: ${borderRadius("medium")};
   margin: 0;
   padding: 0;

@@ -20,7 +20,7 @@ const TextInfo = styled(CardText)`
   p {
     margin-top: 1.2rem;
     letter-spacing: ${letterSpacing("small")}rem;
-    color: ${textColor("placeholder")};
+    color: ${textColor("disabled")};
   }
 `
 

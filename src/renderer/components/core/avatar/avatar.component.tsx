@@ -35,7 +35,7 @@ export const basicAvatarStyles = css<{ size?: AvatarSize }>`
   width: ${({ size = AvatarSize.Small }) => getSize(size)}rem;
   height: ${({ size = AvatarSize.Small }) => getSize(size)}rem;
   border-radius: 50%;
-  background-color: ${backgroundColor("avatarDark")};
+  background-color: ${backgroundColor("minor")};
 `
 
 const AvatarImage = styled(Image)`
@@ -51,7 +51,7 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light?: boolean }>`
   justify-content: center;
   overflow: hidden;
   background-color: ${({ light }) =>
-    light ? backgroundColor("avatarLight") : backgroundColor("avatarDark")};
+    light ? backgroundColor("row") : backgroundColor("minor")};
   text-transform: uppercase;
   transition: background-color ${transitionTime("faster")}
     ${transitionTimingFunction("smooth")};

@@ -16,8 +16,8 @@ import {
 const HeaderWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  background-color: ${backgroundColor("light")};
-  border-bottom: 0.1rem solid ${borderColor("app")};
+  background-color: ${backgroundColor("row")};
+  border-bottom: 0.1rem solid ${borderColor("separator")};
 `
 
 interface HeaderProps {

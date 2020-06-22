@@ -30,7 +30,7 @@ const HeaderIconBg = styled.div`
   justify-content: center;
   padding: 0.4rem;
   &:hover {
-    background-color: ${backgroundColor("grey2")};
+    background-color: ${backgroundColor("minor")};
   }
 `
 

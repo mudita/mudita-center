@@ -1,102 +1,46 @@
 const columnWidth = 6.5
 const gutterWidth = 4
 
-/**
- * All colors from palette.
- * Unused are commented out
- */
-
-const black = "#000000"
-const white = "#ffffff"
-const grey1 = "#3b3f42"
-const grey2 = "#6a6a6a"
-const grey3 = "#a5a5a5"
-const grey4 = "#d2d6db"
-const grey5 = "#cdcecf"
-const grey6 = "#f4f5f6"
-const grey7 = "#fbfbfb"
-const grey8 = "#e9e9e9"
-const grey9 = "#e6e8eb"
-const grey10 = "rgba(0, 0, 0, 0.08)"
-const blue1 = "#3e6988"
-const blue2 = "#6d9bbc"
-const dark = "#232426"
-// const blue3 = "#aebec9"
-const blue4 = "#e3f3ff"
-const blue5 = "#f3f8fc"
-const blue6 = "#f2f7fa"
-const red1 = "#e96a6a"
-
-const transparentGrey1 = "rgba(188,188,188,0.5)"
-const transparentGrey2 = "rgba(214, 214, 214, 0.5)"
-
-// const colors = {
-//   background: {
-//     main: "#fbfbfb", // --grey7
-//     row: "#ffffff", // --white
-//     activity: "#6d9bbc", // --blue2
-//     icon: "#f3f8fc", // -- blue5
-//     primary: "#3b3f42", // --grey1
-//     minor: "#f4f5f6", // --grey6,
-//   },
-// }
-
 const theme = {
   color: {
     text: {
-      active: black, // "#191c20"
-      black,
-      grey: grey5,
-      darkGrey: grey1,
-      primary: black,
-      inverted: white,
-      faded: grey2,
-      supplementary: blue2,
-      placeholder: grey3,
-      dark: black,
-      hover: blue1,
-      error: red1,
+      accent: "#cdcecf", // --grey5
+      action: "#6d9bbc", // --blue2
+      active: "#ffffff", // --white
+      disabled: "#a5a5a5", // --grey3
+      error: "#e96a6a", // --red1
+      iconHighlight: "#3e6988", // --blue1
+      primary: "#000000", // --black
+      secondary: "#6a6a6a", // --grey2
     },
     background: {
-      blue: blue2,
-      lightBlue: blue5,
-      progressBar: blue4,
-      light: white,
-      app: grey7,
-      dark: black,
-      dark2: dark,
-      grey: grey5,
-      grey2: grey6,
-      grey3: grey8,
-      grey4: grey3,
-      grey5: grey7,
-      inputDark: grey1,
-      accent: grey6,
-      primaryDark: grey6,
-      avatarDark: grey6,
-      avatarLight: white,
-      tableLabel: grey7,
-      tableRow: white,
-      messageBlue: blue6,
+      activity: "#6d9bbc", // --blue2
+      disabled: "#cdcecf", // --grey5,
+      icon: "#f3f8fc", // -- blue5
+      main: "#fbfbfb", // --grey7
+      message: "#f2f7fa", // --messageBlue
+      minor: "#f4f5f6", // --grey6,
+      minorHover: "#e9e9e9", // --grey8
+      primary: "#3b3f42", // --grey1
+      primaryHover: "#232426", // --dark
+      row: "#ffffff", // --white
+      scroll: "#a5a5a5", // --grey3
+      super: "#000000", // --black
     },
     border: {
-      app: grey9,
-      active: black, // "#191c20"
-      dark: black,
-      default: grey5,
-      grey: grey5,
-      grey2: grey6,
-      grey3: grey8,
-      hover: grey1,
-      listItem: grey4,
-      light: grey4,
-      intense: blue2,
-      error: red1,
+      error: "#e96a6a", // --red1
+      hover: "#3b3f42", // --grey1
+      list: "#d2d6db", // --grey4
+      primary: "#000000", // --black
+      secondary: "#cdcecf", // --grey5
+      separator: "#e6e8eb", // --grey9
+      smallSeparator: "#f4f5f6", // --grey4
+      verticalSeparator: "#e9e9e9", // --grey3
     },
     boxShadow: {
-      app: grey10,
-      grey: transparentGrey1,
-      lightGrey: transparentGrey2,
+      full: "rgba(0, 0, 0, 0.08)", // --grey10
+      light: "rgba(214, 214, 214, 0.5)", // transparentGrey2
+      semi: "rgba(188,188,188,0.5)", // transparentGrey1
     },
   },
   layout: {

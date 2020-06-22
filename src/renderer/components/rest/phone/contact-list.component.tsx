@@ -63,7 +63,7 @@ const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
 `
 
 export const lightAvatarStyles = css`
-  background-color: ${backgroundColor("avatarLight")};
+  background-color: ${backgroundColor("row")};
 `
 
 const InitialsAvatar = styled(Avatar)`
@@ -81,7 +81,7 @@ export const AvatarPlaceholder = styled.div`
 
 export const TextPlaceholder = styled.span<{ charsCount: number }>`
   display: block;
-  background-color: ${backgroundColor("accent")};
+  background-color: ${backgroundColor("minor")};
   height: 1em;
   border-radius: ${borderRadius("medium")};
   width: ${({ charsCount }) => charsCount * 0.6}rem;
@@ -96,8 +96,8 @@ const MoreNumbers = styled(Text).attrs(() => ({
   box-sizing: border-box;
   margin-left: 1.6rem;
   text-align: center;
-  color: ${textColor("darkGrey")};
-  background-color: ${backgroundColor("grey")};
+  color: ${textColor("primary")};
+  background-color: ${backgroundColor("disabled")};
   border-radius: ${borderRadius("medium")};
 `
 

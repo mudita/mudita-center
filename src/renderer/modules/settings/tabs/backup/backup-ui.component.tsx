@@ -19,11 +19,11 @@ import ButtonComponent from "App/renderer/components/core/button/button.componen
 const BackupTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 20rem;
-  border-bottom: solid 0.1rem ${borderColor("listItem")};
+  border-bottom: solid 0.1rem ${borderColor("list")};
 `
 
 const BackupDescriptionWrapper = styled.div`
-  border-bottom: solid 0.1rem ${borderColor("listItem")};
+  border-bottom: solid 0.1rem ${borderColor("list")};
 `
 
 const BackupDescription = styled(Text)`

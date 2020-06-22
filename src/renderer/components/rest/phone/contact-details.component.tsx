@@ -89,7 +89,7 @@ const InfoItemName = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.SmallFadedText,
 }))`
   text-transform: uppercase;
-  color: ${textColor("placeholder")};
+  color: ${textColor("disabled")};
 `
 
 const InfoItemSpeedDialNumber = styled(Text).attrs(() => ({

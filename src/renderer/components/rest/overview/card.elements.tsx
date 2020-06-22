@@ -16,7 +16,7 @@ const Card = styled.section`
   padding: 0 4.8rem;
   box-sizing: border-box;
   border-radius: ${borderRadius("medium")};
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("row")};
 `
 
 export const CardText = styled.div`

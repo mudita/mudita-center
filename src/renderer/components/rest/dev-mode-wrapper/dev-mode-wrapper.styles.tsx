@@ -5,9 +5,9 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 
-const stripe = textColor("grey")
+const stripe = textColor("accent")
 export const DevModeInside = styled.div`
-  background: ${backgroundColor("light")};
+  background: ${backgroundColor("row")};
   padding: 1.5rem;
   display: none;
 `
@@ -19,7 +19,7 @@ export const DevModeToggle = styled(ButtonComponent)`
   top: 1.5rem;
   right: 1.5rem;
   border: 0;
-  background: ${backgroundColor("light")};
+  background: ${backgroundColor("row")};
 `
 export const DevModeContainer = styled.div<{ active: boolean }>`
   ${({ active }) =>

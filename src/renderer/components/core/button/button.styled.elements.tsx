@@ -35,9 +35,9 @@ const getSize = (size: Size) => {
 export const activeClassName = "active"
 
 const navLinkStyles = css`
-  background-color: ${backgroundColor("grey2")};
+  background-color: ${backgroundColor("minor")};
   * {
-    color: ${textColor("black")};
+    color: ${textColor("primary")};
   }
 
   svg {
@@ -47,15 +47,15 @@ const navLinkStyles = css`
 `
 
 export const disabledPrimaryStyles = css`
-  background: ${backgroundColor("grey")};
-  border: 0.1rem solid ${backgroundColor("grey")};
+  background: ${backgroundColor("disabled")};
+  border: 0.1rem solid ${backgroundColor("disabled")};
 `
 
 export const disabledSecondaryStyles = css`
-  border: 0.1rem solid ${borderColor("grey")};
-  color: ${textColor("grey")};
+  border: 0.1rem solid ${borderColor("secondary")};
+  color: ${textColor("accent")};
   g {
-    fill: ${textColor("grey")};
+    fill: ${textColor("accent")};
   }
 `
 
@@ -98,16 +98,16 @@ const buttonStyles = css<{
       case DisplayStyle.Primary:
         return css`
           height: 4rem;
-          color: ${textColor("inverted")};
+          color: ${textColor("active")};
           border-radius: ${borderRadius("medium")};
-          background: ${backgroundColor("inputDark")};
-          border: 0.1rem solid ${backgroundColor("inputDark")};
+          background: ${backgroundColor("primary")};
+          border: 0.1rem solid ${backgroundColor("primary")};
           ${disabled && disabledPrimaryStyles};
           &:hover {
-            background: ${backgroundColor("dark2")};
+            background: ${backgroundColor("primaryHover")};
           }
           g {
-            fill: ${textColor("inverted")};
+            fill: ${textColor("active")};
           }
         `
       case DisplayStyle.Secondary:
@@ -116,11 +116,11 @@ const buttonStyles = css<{
           border-radius: ${borderRadius("medium")};
           border: 0.1rem solid ${borderColor("hover")};
           g {
-            fill: ${textColor("black")};
+            fill: ${textColor("primary")};
           }
           ${disabled && disabledSecondaryStyles};
           &:hover {
-            border-color: ${borderColor("dark")};
+            border-color: ${borderColor("primary")};
           }
         `
       case DisplayStyle.IconOnly1:
@@ -130,7 +130,7 @@ const buttonStyles = css<{
           border: 0.1rem solid ${borderColor("hover")};
           border-radius: ${borderRadius("small")};
           &:hover {
-            border-color: ${borderColor("dark")};
+            border-color: ${borderColor("primary")};
           }
         `
       case DisplayStyle.IconOnly2:
@@ -141,7 +141,7 @@ const buttonStyles = css<{
           background: transparent;
           border: none;
           &:hover {
-            background: ${backgroundColor("grey2")};
+            background: ${backgroundColor("minor")};
           }
         `
       case DisplayStyle.IconOnly3:
@@ -152,10 +152,10 @@ const buttonStyles = css<{
           background: transparent;
           border: none;
           &:hover {
-            background: ${backgroundColor("grey3")};
+            background: ${backgroundColor("minorHover")};
           }
           g {
-            fill: ${textColor("supplementary")};
+            fill: ${textColor("action")};
           }
         `
       case DisplayStyle.Link1:
@@ -168,7 +168,7 @@ const buttonStyles = css<{
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
-            background-color: ${backgroundColor("grey2")};
+            background-color: ${backgroundColor("minor")};
           }
         `
       case DisplayStyle.Link2:
@@ -181,7 +181,7 @@ const buttonStyles = css<{
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
-            background-color: ${backgroundColor("grey2")};
+            background-color: ${backgroundColor("minor")};
           }
         `
       case DisplayStyle.Link3:
@@ -191,14 +191,14 @@ const buttonStyles = css<{
           padding: 0.8rem;
           border: none;
           border-radius: ${borderRadius("small")};
-          color: ${textColor("supplementary")};
+          color: ${textColor("action")};
           font-weight: ${fontWeight("default")};
           width: 100%;
           &:hover {
-            background-color: ${backgroundColor("grey2")};
+            background-color: ${backgroundColor("minor")};
           }
           g {
-            fill: ${textColor("supplementary")};
+            fill: ${textColor("action")};
           }
         `
       case DisplayStyle.Link4:
@@ -208,7 +208,7 @@ const buttonStyles = css<{
           padding: 0.8rem;
           border: none;
           border-radius: ${borderRadius("small")};
-          color: ${textColor("faded")};
+          color: ${textColor("secondary")};
           font-weight: ${fontWeight("default")};
           width: 100%;
 
@@ -230,7 +230,7 @@ const buttonStyles = css<{
           border: none;
           position: relative;
           border-radius: ${borderRadius("small")}rem;
-          color: ${textColor("faded")};
+          color: ${textColor("secondary")};
           font-weight: ${fontWeight("default")};
           width: 100%;
 
@@ -242,12 +242,12 @@ const buttonStyles = css<{
             left: 0;
             width: 0;
             height: 0.2rem;
-            background-color: ${backgroundColor("dark")};
+            background-color: ${backgroundColor("super")};
             transition: ${transition("width", undefined, "ease")};
           }
 
           &.${activeClassName} {
-            color: ${textColor("black")};
+            color: ${textColor("primary")};
             &:after {
               width: 100%;
             }
@@ -266,7 +266,7 @@ const buttonStyles = css<{
           padding: 0 2.4rem;
           border: none;
           border-radius: ${borderRadius("small")};
-          color: ${textColor("faded")};
+          color: ${textColor("secondary")};
           font-weight: ${fontWeight("default")};
           width: 100%;
 

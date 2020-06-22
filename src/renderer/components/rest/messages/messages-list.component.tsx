@@ -62,7 +62,7 @@ const dotStyles = css`
     height: 0.6rem;
     width: 0.6rem;
     border-radius: 50%;
-    background-color: ${backgroundColor("blue")};
+    background-color: ${backgroundColor("activity")};
   }
 `
 

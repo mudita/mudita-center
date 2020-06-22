@@ -27,9 +27,9 @@ const Layout = styled.div`
 `
 
 const MenuWrapper = styled.div`
-  box-shadow: 0 0.2rem 3rem 0 ${boxShadowColor("app")};
+  box-shadow: 0 0.2rem 3rem 0 ${boxShadowColor("full")};
   overflow: auto;
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("row")};
   z-index: ${zIndex("menu")};
   grid-area: Menu;
 `

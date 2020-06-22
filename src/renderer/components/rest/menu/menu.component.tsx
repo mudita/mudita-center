@@ -23,7 +23,7 @@ const LogoWrapper = styled.div`
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("row")};
 `
 
 const SvgMuditaLogo = styled(Icon)`
@@ -37,7 +37,7 @@ const DevSign = styled.span`
   right: 0;
   top: 2rem;
   line-height: 2rem;
-  color: ${textColor("faded")};
+  color: ${textColor("secondary")};
 `
 
 interface Props extends DevMode {
