@@ -50,9 +50,11 @@ const createTopic = () => {
       },
       {
         author: {
+          id: "1",
           firstName: "John",
           lastName: "Doe",
-          inContacts: true,
+          primaryPhoneNumber: "",
+          secondaryPhoneNumber: "",
         },
         id: Faker.random.uuid(),
         date: "2019-10-18T11:45:35.112Z",

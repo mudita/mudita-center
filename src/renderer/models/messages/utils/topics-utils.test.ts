@@ -20,7 +20,7 @@ test("fails search - last name", () => {
 })
 
 test("searches value - phone number", () => {
-  const searchValue = randomMockedList[0].caller.phoneNumber
+  const searchValue = randomMockedList[0].caller.primaryPhoneNumber
   expect(searchTopics(randomMockedList, searchValue)).toHaveLength(1)
 })
 

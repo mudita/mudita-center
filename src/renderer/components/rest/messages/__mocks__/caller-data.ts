@@ -4,7 +4,8 @@ const createCaller = () => ({
   id: Faker.random.uuid(),
   firstName: Faker.name.firstName(),
   lastName: Faker.name.lastName(),
-  phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+  primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+  secondaryPhoneNumber: "",
   inContacts: true,
 })
 
@@ -13,7 +14,8 @@ const unknownContact = {
   id: "11",
   firstName: "",
   lastName: "",
-  phoneNumber: "+123 456 123",
+  primaryPhoneNumber: "+123 456 123",
+  secondaryPhoneNumber: "",
   inContacts: false,
 }
 
