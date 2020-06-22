@@ -101,7 +101,7 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
         <TemplatesSelectionManager
           selectedItemsNumber={selectedItemsCount}
           allItemsSelected={Boolean(allItemsSelected)}
-          messageId="view.name.messages.templates.selectionsNumber"
+          message={messages.selectionsNumber}
           checkboxSize={Size.Small}
           onToggle={toggleAll}
           buttons={[

@@ -14,7 +14,7 @@ module.exports = {
   },
   before() {
     if (process.env.START_HOT) {
-      spawn("npm", ["run", "start:main-dev"], {
+      spawn("npm", ["run", "dev:start:main"], {
         shell: true,
         env: process.env,
         stdio: "inherit",

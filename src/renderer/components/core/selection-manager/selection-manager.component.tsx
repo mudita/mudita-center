@@ -57,7 +57,7 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
   className,
   selectedItemsNumber,
   allItemsSelected,
-  messageId,
+  message,
   buttons,
   enlarged,
   checkboxSize,
@@ -78,7 +78,7 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
         data-testid="info"
       >
         <FormattedMessage
-          id={messageId}
+          {...message}
           values={{ num: allItemsSelected ? -1 : selectedItemsNumber }}
         />
       </Info>

@@ -8,6 +8,8 @@ import {
   unknownCallerMockedDetails,
 } from "./__mocks__/caller-data"
 
+beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
+
 test("sidebar close button informs parent about closing", () => {
   const onClose = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(

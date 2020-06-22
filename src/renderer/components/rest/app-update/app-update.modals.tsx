@@ -23,7 +23,6 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 4.8rem 0;
 
   p {
     text-align: center;
@@ -33,10 +32,6 @@ const ModalContent = styled.div`
 
   p + p {
     margin-top: 1.2rem;
-  }
-
-  & + * {
-    margin-bottom: 2.8rem;
   }
 `
 

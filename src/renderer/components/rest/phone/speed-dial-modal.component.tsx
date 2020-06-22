@@ -21,9 +21,6 @@ const SpeedDialTable = styled(Table)`
 `
 
 const ModalComponent = styled(Modal)`
-  padding: 2rem;
-  box-sizing: border-box;
-
   ${Labels} {
     border: none;
 

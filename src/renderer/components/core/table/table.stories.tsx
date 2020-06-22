@@ -1,5 +1,8 @@
+import { action } from "@storybook/addon-actions"
 import { storiesOf } from "@storybook/react"
 import React from "react"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Table, {
   Col,
   EmptyState,
@@ -11,6 +14,7 @@ import Table, {
   RowSize,
   Sidebar,
   SidebarHeaderIcon,
+  TableSortButton,
   TableWithSidebarWrapper,
 } from "Renderer/components/core/table/table.component"
 import {
@@ -18,17 +22,16 @@ import {
   labeledRows,
   nestedRows,
 } from "Renderer/components/core/table/table.fake-data"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import styled from "styled-components"
-import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { noop } from "Renderer/utils/noop"
 import theme from "Renderer/styles/theming/theme"
-import { action } from "@storybook/addon-actions"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import useSort from "Renderer/utils/hooks/use-sort/use-sort"
+import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
+import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import { noop } from "Renderer/utils/noop"
+import styled from "styled-components"
 
 export const Checkbox = styled(InputCheckbox)``
 
@@ -501,6 +504,48 @@ storiesOf("Components|Table/Basic", module)
           )
         })}
       </SelectableContacts>
+    )
+  })
+  .add("Sortable", () => {
+    const { data, sort, sortDirection } = useSort(basicRows)
+
+    const sortByName = () => {
+      sort("firstName")
+    }
+
+    const sortByPhoneNumber = () => {
+      sort("phoneNumber")
+    }
+
+    return (
+      <Contacts>
+        <Labels>
+          <Col onClick={sortByName}>
+            Name{" "}
+            <TableSortButton
+              sortDirection={sortDirection.firstName || SortDirection.Ascending}
+            />
+          </Col>
+          <Col onClick={sortByPhoneNumber}>
+            Phone{" "}
+            <TableSortButton
+              sortDirection={
+                sortDirection.phoneNumber || SortDirection.Ascending
+              }
+            />
+          </Col>
+        </Labels>
+        {data.map(row => {
+          return (
+            <Row key={`${row.firstName} ${row.lastName}`}>
+              <Col>
+                {row.firstName} {row.lastName}
+              </Col>
+              <Col>{row.phoneNumber}</Col>
+            </Row>
+          )
+        })}
+      </Contacts>
     )
   })
 
