@@ -68,7 +68,9 @@ interface Props {
 const isToday = (date: Date) => moment(date).isSame(Date.now(), "days")
 
 const CallsTable: FunctionComponent<Props> = ({ calls }) => {
-  const { getRowStatus, toggleRow } = useTableSelect(basicRows)
+  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
+    basicRows
+  )
   return (
     <SelectableCalls>
       <Labels>
@@ -88,6 +90,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
                 indeterminate={indeterminate}
                 onChange={toggle}
                 size={Size.Small}
+                visible={!noneRowsSelected}
               />
             </Col>
             <Col data-testid="caller-name">
