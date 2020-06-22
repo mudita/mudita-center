@@ -21,6 +21,23 @@ const createCaller = (inContacts: boolean) => {
       }
 }
 
+const createMessages = () => {
+  const interlocutor = Faker.random.boolean()
+  return {
+    author: interlocutor
+      ? generateFakeContact()
+      : {
+          firstName: "John",
+          lastName: "Doe",
+          primaryPhoneNumber: "123 123 123",
+        },
+    id: Faker.random.uuid(),
+    date: Faker.date.past(),
+    content: Faker.lorem.sentences(2),
+    interlocutor,
+  }
+}
+
 const createTopic = () => {
   const inContacts = Faker.random.boolean()
   const caller = createCaller(inContacts)
@@ -28,36 +45,7 @@ const createTopic = () => {
     id: Faker.random.uuid(),
     caller,
     unread: Faker.random.boolean(),
-    messages: [
-      {
-        author: caller,
-        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd572",
-        date: "2019-10-18T11:27:15.256Z",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?",
-        interlocutor: true,
-      },
-      {
-        author: caller,
-        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-        date: "2019-10-18T11:27:15.256Z",
-        content: "lala",
-        interlocutor: true,
-      },
-      {
-        author: {
-          id: "1",
-          firstName: "John",
-          lastName: "Doe",
-          primaryPhoneNumber: "",
-          secondaryPhoneNumber: "",
-        },
-        id: Faker.random.uuid(),
-        date: "2019-10-18T11:45:35.112Z",
-        content: "lala1",
-        interlocutor: false,
-      },
-    ],
+    messages: times(random(5, 15), createMessages),
   }
 }
 
