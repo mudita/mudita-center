@@ -1,7 +1,11 @@
 import React, { Ref } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css, FlattenSimpleInterpolation } from "styled-components"
-import Table, { Col, Row } from "Renderer/components/core/table/table.component"
+import Table, {
+  Col,
+  Row,
+  TextPlaceholder,
+} from "Renderer/components/core/table/table.component"
 import InputCheckbox, {
   Size,
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
@@ -17,7 +21,6 @@ import {
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import { UseTableSidebar } from "Renderer/utils/hooks/useTableSidebar"
-import { TextPlaceholder } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
 
 const animatedOpacityStyles = css`

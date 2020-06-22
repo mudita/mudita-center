@@ -268,6 +268,15 @@ const EmptyStateWrapper = styled.div`
   }
 `
 
+export const TextPlaceholder = styled.span<{ charsCount: number }>`
+  display: block;
+  background-color: ${backgroundColor("accent")};
+  height: 1em;
+  border-radius: ${borderRadius("medium")};
+  width: ${({ charsCount }) => charsCount * 0.6}rem;
+  min-width: 5rem;
+`
+
 interface EmptyState {
   title: MessageInterface
   description?: MessageInterface
