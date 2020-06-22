@@ -28,7 +28,7 @@ export interface Content {
 export interface Message {
   id: string
   date: string
-  content: Content[]
+  content: string
   interlocutor?: boolean
   author: Author
 }

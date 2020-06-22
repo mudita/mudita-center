@@ -39,10 +39,6 @@ const MessageBubblesWrapper = styled.div`
   margin-top: 3.2rem;
 `
 
-const MessageDetailsBubble = styled(MessageBubble)`
-  margin-bottom: 2.4rem;
-`
-
 const TextareaWrapper = styled.div`
   position: sticky;
   bottom: 0;
@@ -118,23 +114,30 @@ const MessageDetails: FunctionComponent<Props> = ({
         <MessageBubblesWrapper>
           {details.messages.map(
             ({ author, content, interlocutor, id }, index) => {
+              const prevMessage = details.messages[index - 1]
+              const newAuthor =
+                !prevMessage || (prevMessage && prevMessage.author !== author)
               if (index === details.messages.length - 1) {
                 return (
                   <div ref={ref} key={id}>
-                    <MessageDetailsBubble
+                    <MessageBubble
+                      id={id}
                       user={author}
-                      messages={content}
+                      message={content}
                       interlocutor={interlocutor}
+                      newAuthor={newAuthor}
                     />
                   </div>
                 )
               }
               return (
-                <MessageDetailsBubble
+                <MessageBubble
                   key={id}
+                  id={id}
                   user={author}
-                  messages={content}
+                  message={content}
                   interlocutor={interlocutor}
+                  newAuthor={newAuthor}
                 />
               )
             }
