@@ -30,6 +30,17 @@ const red1 = "#e96a6a"
 const transparentGrey1 = "rgba(188,188,188,0.5)"
 const transparentGrey2 = "rgba(214, 214, 214, 0.5)"
 
+// const colors = {
+//   background: {
+//     main: "#fbfbfb", // --grey7
+//     row: "#ffffff", // --white
+//     activity: "#6d9bbc", // --blue2
+//     icon: "#f3f8fc", // -- blue5
+//     primary: "#3b3f42", // --grey1
+//     minor: "#f4f5f6", // --grey6,
+//   },
+// }
+
 const theme = {
   color: {
     text: {
