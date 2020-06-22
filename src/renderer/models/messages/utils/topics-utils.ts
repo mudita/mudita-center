@@ -17,7 +17,7 @@ export const searchTopics = (
         caller.primaryPhoneNumber.includes(search) ||
         caller.secondaryPhoneNumber.includes(search)
       const matchesMessages = messages.some(({ content }) =>
-        content.some(msg => msg.text.toLowerCase().includes(search))
+        content.toLowerCase().includes(search)
       )
       return (
         matchesForename || matchesSurname || matchesPhone || matchesMessages
