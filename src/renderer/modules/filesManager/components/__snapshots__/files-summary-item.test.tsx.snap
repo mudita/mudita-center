@@ -60,7 +60,7 @@ exports[`should match snapshot with link 1`] = `
 }
 
 .c6:hover .arrow {
-  fill: #3e6988;
+  fill: #000000;
 }
 
 .c2 {

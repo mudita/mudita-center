@@ -99,7 +99,7 @@ exports[`should match snapshot 1`] = `
 }
 
 .c7:hover .arrow {
-  fill: #3e6988;
+  fill: #000000;
 }
 
 .c3 {

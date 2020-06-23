@@ -43,9 +43,9 @@ exports[`matches snapshot 1`] = `
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  -webkit-align-self: top;
-  -ms-flex-item-align: top;
-  align-self: top;
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
   margin-top: 0.4rem;
 }
 
