@@ -16,7 +16,6 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import { isEqual } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 
 interface Props {
@@ -116,7 +115,7 @@ const MessageDetails: FunctionComponent<Props> = ({
           {details.messages.map(
             ({ author, content, interlocutor, id }, index) => {
               const prevMessage = details.messages[index - 1]
-              const previousAuthor = !isEqual(prevMessage?.author, author)
+              const previousAuthor = prevMessage?.author.id !== author.id
               if (index === details.messages.length - 1) {
                 return (
                   <div ref={ref} key={id}>
