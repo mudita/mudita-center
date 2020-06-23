@@ -4,4 +4,4 @@ export const isNameAvailable = ({
 }: {
   firstName?: string
   lastName?: string
-}) => firstName || lastName
+}): boolean => Boolean(firstName || lastName)
