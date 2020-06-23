@@ -5,7 +5,6 @@ const createCaller = () => ({
   firstName: Faker.name.firstName(),
   lastName: Faker.name.lastName(),
   primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-  secondaryPhoneNumber: "",
   inContacts: true,
 })
 
@@ -15,7 +14,6 @@ const unknownContact = {
   firstName: "",
   lastName: "",
   primaryPhoneNumber: "+123 456 123",
-  secondaryPhoneNumber: "",
   inContacts: false,
 }
 
