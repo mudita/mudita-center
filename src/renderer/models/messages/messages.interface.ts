@@ -1,14 +1,6 @@
 import { ChangeEvent } from "react"
 import { Contact } from "Renderer/models/phone/phone.interface"
 
-export interface Caller {
-  id: string
-  firstName: string
-  lastName: string
-  phoneNumber: string
-  inContacts: boolean
-}
-
 export type Author = Pick<
   Contact,
   "id" | "firstName" | "lastName" | "primaryPhoneNumber"
