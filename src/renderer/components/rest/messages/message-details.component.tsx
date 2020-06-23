@@ -93,16 +93,14 @@ const MessageDetails: FunctionComponent<Props> = ({
           >
             {checkForName
               ? createFullName(details.caller)
-              : details.caller.primaryPhoneNumber ||
-                details.caller.secondaryPhoneNumber}
+              : details.caller.primaryPhoneNumber}
           </Text>
           {checkForName && (
             <PhoneNumberText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"
             >
-              {details.caller.primaryPhoneNumber ||
-                details.caller.secondaryPhoneNumber}
+              {details.caller.primaryPhoneNumber}
             </PhoneNumberText>
           )}
         </>

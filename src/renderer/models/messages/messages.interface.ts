@@ -9,16 +9,10 @@ export interface Caller {
   inContacts: boolean
 }
 
-type UnknownContact = Pick<
+export type Author = Pick<
   Contact,
-  | "id"
-  | "firstName"
-  | "lastName"
-  | "primaryPhoneNumber"
-  | "secondaryPhoneNumber"
+  "id" | "firstName" | "lastName" | "primaryPhoneNumber"
 >
-
-export type Author = Contact | UnknownContact
 
 export interface Content {
   id: string

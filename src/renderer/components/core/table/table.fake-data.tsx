@@ -10,16 +10,15 @@ const createText = () => ({
 
 export const notes = times(random(15, 25), createText)
 
+const generateEmptyContact = (): Author => ({
+  id: Faker.random.uuid(),
+  firstName: "",
+  lastName: "",
+  primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+})
+
 const createAuthor = (inContacts: boolean): Author => {
-  return inContacts
-    ? generateFakeContact()
-    : {
-        id: Faker.random.uuid(),
-        firstName: "",
-        lastName: "",
-        primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-        secondaryPhoneNumber: "",
-      }
+  return inContacts ? generateFakeContact() : generateEmptyContact()
 }
 
 const createMessages = (author: Author) => {
@@ -28,12 +27,13 @@ const createMessages = (author: Author) => {
     author: interlocutor
       ? author
       : {
+          id: "123",
           firstName: "John",
           lastName: "Doe",
           primaryPhoneNumber: "123 123 123",
         },
     id: Faker.random.uuid(),
-    date: Faker.date.past(),
+    date: String(Faker.date.past()),
     content: Faker.lorem.sentences(2),
     interlocutor,
   }

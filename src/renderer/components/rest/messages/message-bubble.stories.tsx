@@ -25,7 +25,7 @@ storiesOf("Components|Message Bubble", module)
           user={{ firstName: "user", lastName: "Luserowski" }}
           message={message}
           id="123"
-          newAuthor
+          prevAuthor
         />
       </Wrapper>
     )
@@ -38,7 +38,7 @@ storiesOf("Components|Message Bubble", module)
           message={message}
           interlocutor
           id="123"
-          newAuthor
+          prevAuthor
         />
       </Wrapper>
     )
@@ -51,7 +51,7 @@ storiesOf("Components|Message Bubble", module)
           message={message}
           interlocutor
           id="123"
-          newAuthor
+          prevAuthor
         />
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
@@ -68,7 +68,7 @@ storiesOf("Components|Message Bubble", module)
         <MessageBubble
           user={{ firstName: "Kuser", lastName: "Luserowski" }}
           message={message}
-          newAuthor
+          prevAuthor
           id="321"
         />
         <MessageBubble

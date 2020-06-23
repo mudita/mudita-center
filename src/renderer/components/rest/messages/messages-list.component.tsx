@@ -198,7 +198,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                   {caller.firstName || caller.lastName
                     ? `${caller.firstName} ${caller.lastName}`
-                    : caller.primaryPhoneNumber || caller.secondaryPhoneNumber}
+                    : caller.primaryPhoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage?.date).format("h:mm A")}
@@ -232,9 +232,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       values: caller.firstName
                         ? { name: caller.firstName }
                         : {
-                            name:
-                              caller.primaryPhoneNumber ||
-                              caller.secondaryPhoneNumber,
+                            name: caller.primaryPhoneNumber,
                           },
                     }}
                     Icon={Type.Calls}
