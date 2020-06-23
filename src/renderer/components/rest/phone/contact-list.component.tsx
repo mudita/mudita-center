@@ -15,6 +15,7 @@ import Table, {
   Labels,
   LoadingState,
   Row,
+  TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox, {
@@ -77,15 +78,6 @@ const ClickableCol = styled(Col)`
 export const AvatarPlaceholder = styled.div`
   ${basicAvatarStyles};
   margin-right: 1.2rem;
-`
-
-export const TextPlaceholder = styled.span<{ charsCount: number }>`
-  display: block;
-  background-color: ${backgroundColor("accent")};
-  height: 1em;
-  border-radius: ${borderRadius("medium")};
-  width: ${({ charsCount }) => charsCount * 0.6}rem;
-  min-width: 5rem;
 `
 
 const MoreNumbers = styled(Text).attrs(() => ({

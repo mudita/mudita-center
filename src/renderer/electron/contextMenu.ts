@@ -1,6 +1,6 @@
 import contextMenu from "electron-context-menu"
 
-const isDev = require("../../../webpack/isDev")()
+const isDev = process.env.NODE_ENV === "development"
 
 export default () => {
   /* On dev init config menu */

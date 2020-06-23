@@ -1,6 +1,6 @@
 import formatDuration from "Renderer/utils/format-duration"
 
-test("returns proper duration for 0s", () => {
+test("returns proper duration for 0s with short notation of zero value", () => {
   expect(formatDuration(0)).toBe("0s")
 })
 
