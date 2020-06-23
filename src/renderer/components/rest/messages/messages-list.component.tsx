@@ -180,7 +180,7 @@ const MessagesList: FunctionComponent<Props> = ({
         const lastMessage = last(messages)
         const toggle = () => toggleRow({ caller, messages })
         const open = () => openSidebar({ caller, messages })
-        const nameAvailable = isNameAvailable(caller.firstName, caller.lastName)
+        const nameAvailable = isNameAvailable(caller)
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
             key={id}

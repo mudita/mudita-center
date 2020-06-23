@@ -82,10 +82,7 @@ const MessageDetails: FunctionComponent<Props> = ({
       <SidebarHeaderIcon Icon={Type.Delete} onClick={noop} />
     </>
   )
-  const nameAvailable = isNameAvailable(
-    details.caller.firstName,
-    details.caller.lastName
-  )
+  const nameAvailable = isNameAvailable(details.caller)
   return (
     <MessagesSidebar
       show

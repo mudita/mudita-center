@@ -1,2 +1,7 @@
-export const isNameAvailable = (firstName: string, lastName: string): string =>
-  firstName || lastName
+export const isNameAvailable = ({
+  firstName,
+  lastName,
+}: {
+  firstName?: string
+  lastName?: string
+}) => firstName || lastName
