@@ -1,4 +1,4 @@
-const { resolve } = require("../webpack/resolve")
+const { resolve } = require("../webpack/common")
 
 module.exports = ({ config }) => {
   // use installed babel-loader which is v8.0-beta (which is meant to work with @babel/core@7)
@@ -27,7 +27,7 @@ module.exports = ({ config }) => {
       plugins: [require.resolve("@babel/plugin-proposal-class-properties")],
     },
   })
-  config.resolve = resolve
+  config.resolve = resolve(false)
   return config
 }
 

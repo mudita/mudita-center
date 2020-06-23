@@ -14,6 +14,7 @@ import {
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
+import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import styled, { css } from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
@@ -267,6 +268,15 @@ const EmptyStateWrapper = styled.div`
   }
 `
 
+export const TextPlaceholder = styled.span<{ charsCount: number }>`
+  display: block;
+  background-color: ${backgroundColor("accent")};
+  height: 1em;
+  border-radius: ${borderRadius("medium")};
+  width: ${({ charsCount }) => charsCount * 0.6}rem;
+  min-width: 5rem;
+`
+
 interface EmptyState {
   title: MessageInterface
   description?: MessageInterface
@@ -410,5 +420,35 @@ const Table = React.forwardRef<
   HTMLDivElement,
   ComponentProps<typeof TableComponent>
 >((props, ref) => <TableComponent {...props} ref={ref} />)
+
+/* Sort */
+/**
+ * Extra rotation added to avoid jagged edges on older displays.
+ * @see http://apps.eky.hk/css-triangle-generator/
+ */
+export const TableSortButton = styled.button<{ sortDirection?: SortDirection }>`
+  background: none;
+  color: currentColor;
+
+  cursor: pointer;
+
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0 1rem;
+  border-style: solid;
+  border-width: 0.5rem 0.3rem 0 0.3rem;
+  border-color: currentColor transparent transparent transparent;
+
+  transform: ${({ sortDirection }) =>
+    sortDirection === SortDirection.Ascending
+      ? "rotate(540deg)"
+      : "rotate(360deg)"};
+
+  &:active,
+  &:focus {
+    outline: 0;
+  }
+`
 
 export default Table

@@ -16,16 +16,10 @@ import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 
-const ModalComponent = styled(Modal)`
-  padding: 2rem;
-  box-sizing: border-box;
-`
-
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 4.8rem 0;
 
   p {
     white-space: pre-wrap;
@@ -56,7 +50,7 @@ const BlockContactModal: FunctionComponent<DeleteContactModalProps> = ({
   contact,
 }) => {
   return (
-    <ModalComponent
+    <Modal
       title={intl.formatMessage(messages.title)}
       size={ModalSize.Small}
       onActionButtonClick={onBlock}
@@ -80,7 +74,7 @@ const BlockContactModal: FunctionComponent<DeleteContactModalProps> = ({
           }}
         />
       </ModalContent>
-    </ModalComponent>
+    </Modal>
   )
 }
 
