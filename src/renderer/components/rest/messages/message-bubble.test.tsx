@@ -51,7 +51,6 @@ test("removes message", () => {
     />
   )
   fireEvent.click(getByTestId("delete-message"))
-  expect(removeMessage).toHaveBeenCalled()
   expect(removeMessage).toHaveBeenCalledWith(id)
 })
 
