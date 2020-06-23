@@ -115,7 +115,7 @@ const MessageDetails: FunctionComponent<Props> = ({
           {details.messages.map(
             ({ author, content, interlocutor, id }, index) => {
               const prevMessage = details.messages[index - 1]
-              const prevAuthor = !isEqual(prevMessage?.author, author)
+              const previousAuthor = !isEqual(prevMessage?.author, author)
               if (index === details.messages.length - 1) {
                 return (
                   <div ref={ref} key={id}>
@@ -124,7 +124,7 @@ const MessageDetails: FunctionComponent<Props> = ({
                       user={author}
                       message={content}
                       interlocutor={interlocutor}
-                      prevAuthor={prevAuthor}
+                      previousAuthor={previousAuthor}
                     />
                   </div>
                 )
@@ -136,7 +136,7 @@ const MessageDetails: FunctionComponent<Props> = ({
                   user={author}
                   message={content}
                   interlocutor={interlocutor}
-                  prevAuthor={prevAuthor}
+                  previousAuthor={previousAuthor}
                 />
               )
             }

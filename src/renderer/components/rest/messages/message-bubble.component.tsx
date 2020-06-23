@@ -94,7 +94,7 @@ interface Props {
   user: User
   message: string
   interlocutor?: boolean
-  prevAuthor?: boolean
+  previousAuthor?: boolean
   forwardMessage?: () => void
   removeMessage?: () => void
 }
@@ -105,7 +105,7 @@ const MessageBubble: FunctionComponent<Props> = ({
   user,
   message,
   interlocutor = false,
-  prevAuthor = false,
+  previousAuthor = false,
   forwardMessage = noop,
   removeMessage = noop,
 }) => {
@@ -118,7 +118,7 @@ const MessageBubble: FunctionComponent<Props> = ({
     <MessageBubbleWrapper
       className={className}
       interlocutor={interlocutor}
-      prevAuthor={prevAuthor}
+      prevAuthor={previousAuthor}
     >
       <div>
         <MessageBubbleContainer interlocutor={interlocutor}>
@@ -163,7 +163,9 @@ const MessageBubble: FunctionComponent<Props> = ({
           </Bubble>
         </MessageBubbleContainer>
       </div>
-      {prevAuthor && <InitialsAvatar user={user} interlocutor={interlocutor} />}
+      {previousAuthor && (
+        <InitialsAvatar user={user} interlocutor={interlocutor} />
+      )}
     </MessageBubbleWrapper>
   )
 }
