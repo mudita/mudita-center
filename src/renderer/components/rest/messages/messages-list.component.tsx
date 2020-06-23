@@ -91,11 +91,11 @@ const LastMessageText = styled(Message)<{ unread?: boolean }>`
   ${({ unread }) => unread && dotStyles};
 `
 
-const ActionsButton = styled.span`
+export const ActionsButton = styled.span`
   cursor: pointer;
 `
 
-const Actions = styled.div`
+export const Actions = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
