@@ -17,7 +17,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 2.5rem 0 1.6rem 0;
+  margin: 1.6rem 0 1.6rem 0;
 `
 
 const HeaderIconContainer = styled.div`
@@ -45,7 +45,7 @@ const LinkWrapper = styled.div`
 `
 
 const ButtonMenu = styled(Button)`
-  margin: 0 0 0.8rem 0;
+  margin: 0 0 0.4rem 0;
 `
 
 const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {

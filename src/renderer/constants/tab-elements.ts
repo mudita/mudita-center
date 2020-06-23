@@ -37,7 +37,7 @@ export const tabElements: TabElement[] = [
     tabs: [
       {
         label: messages.conversations,
-        url: `${URL_MAIN.messages}`,
+        url: URL_MAIN.messages,
         icon: Type.Message,
       },
       {
@@ -51,13 +51,8 @@ export const tabElements: TabElement[] = [
     parentUrl: URL_MAIN.phone,
     tabs: [
       {
-        label: messages.contacts,
-        url: `${URL_MAIN.phone}`,
-        icon: Type.Contacts,
-      },
-      {
         label: messages.calls,
-        url: `${URL_MAIN.phone}${URL_TABS.calls}`,
+        url: URL_MAIN.phone,
         icon: Type.Calls,
       },
       {
@@ -72,7 +67,7 @@ export const tabElements: TabElement[] = [
     tabs: [
       {
         label: messages.allSongs,
-        url: `${URL_MAIN.music}`,
+        url: URL_MAIN.music,
         icon: Type.MenuMusic,
       },
       {
@@ -87,7 +82,7 @@ export const tabElements: TabElement[] = [
     tabs: [
       {
         label: messages.notes,
-        url: `${URL_MAIN.tools}`,
+        url: URL_MAIN.tools,
         icon: Type.Notes,
       },
       {
@@ -102,7 +97,7 @@ export const tabElements: TabElement[] = [
     tabs: [
       {
         label: messages.connection,
-        url: `${URL_MAIN.settings}`,
+        url: URL_MAIN.settings,
         icon: Type.Connection,
       },
       {
