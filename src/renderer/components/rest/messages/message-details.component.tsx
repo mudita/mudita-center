@@ -16,6 +16,7 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { isEqual } from "lodash"
 
 interface Props {
   details: ActiveRow
@@ -36,7 +37,8 @@ const MessagesWrapper = styled.div`
 `
 
 const MessageBubblesWrapper = styled.div`
-  margin-top: 3.2rem;
+  margin-top: 1.2rem;
+  margin-bottom: 2.4rem;
 `
 
 const TextareaWrapper = styled.div`
@@ -115,8 +117,7 @@ const MessageDetails: FunctionComponent<Props> = ({
           {details.messages.map(
             ({ author, content, interlocutor, id }, index) => {
               const prevMessage = details.messages[index - 1]
-              const newAuthor =
-                !prevMessage || (prevMessage && prevMessage.author !== author)
+              const prevAuthor = !isEqual(prevMessage?.author, author)
               if (index === details.messages.length - 1) {
                 return (
                   <div ref={ref} key={id}>
@@ -125,7 +126,7 @@ const MessageDetails: FunctionComponent<Props> = ({
                       user={author}
                       message={content}
                       interlocutor={interlocutor}
-                      newAuthor={newAuthor}
+                      prevAuthor={prevAuthor}
                     />
                   </div>
                 )
@@ -137,7 +138,7 @@ const MessageDetails: FunctionComponent<Props> = ({
                   user={author}
                   message={content}
                   interlocutor={interlocutor}
-                  newAuthor={newAuthor}
+                  prevAuthor={prevAuthor}
                 />
               )
             }

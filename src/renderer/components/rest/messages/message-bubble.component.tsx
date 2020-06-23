@@ -44,18 +44,18 @@ const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
 
 const MessageBubbleWrapper = styled.div<{
   interlocutor: boolean
-  newAuthor: boolean
+  prevAuthor: boolean
 }>`
   display: flex;
   align-items: center;
   flex-direction: ${({ interlocutor }) =>
     interlocutor ? "row-reverse" : "row"};
   justify-content: flex-end;
-  margin-left: ${({ newAuthor, interlocutor }) =>
-    newAuthor && interlocutor ? "0" : "7.5rem"};
-  margin-bottom: ${({ newAuthor }) => (newAuthor ? "0" : "2.4rem")};
-  margin-right: ${({ newAuthor, interlocutor }) =>
-    newAuthor && interlocutor ? "7.5rem" : "0"};
+  margin-left: ${({ prevAuthor, interlocutor }) =>
+    prevAuthor && interlocutor ? "0" : "7.5rem"};
+  margin-top: ${({ prevAuthor }) => (prevAuthor ? "2.4rem" : "0")};
+  margin-right: ${({ prevAuthor, interlocutor }) =>
+    prevAuthor && !interlocutor ? "0" : "7.5rem"};
 `
 
 const Bubble = styled.div<{ interlocutor: boolean }>`
@@ -94,7 +94,7 @@ interface Props {
   user: User
   message: string
   interlocutor?: boolean
-  newAuthor?: boolean
+  prevAuthor?: boolean
   forwardMessage?: () => void
   removeMessage?: () => void
 }
@@ -105,7 +105,7 @@ const MessageBubble: FunctionComponent<Props> = ({
   user,
   message,
   interlocutor = false,
-  newAuthor = false,
+  prevAuthor = false,
   forwardMessage = noop,
   removeMessage = noop,
 }) => {
@@ -118,7 +118,7 @@ const MessageBubble: FunctionComponent<Props> = ({
     <MessageBubbleWrapper
       className={className}
       interlocutor={interlocutor}
-      newAuthor={newAuthor}
+      prevAuthor={prevAuthor}
     >
       <div>
         <MessageBubbleContainer interlocutor={interlocutor}>
@@ -163,7 +163,7 @@ const MessageBubble: FunctionComponent<Props> = ({
           </Bubble>
         </MessageBubbleContainer>
       </div>
-      {newAuthor && <InitialsAvatar user={user} interlocutor={interlocutor} />}
+      {prevAuthor && <InitialsAvatar user={user} interlocutor={interlocutor} />}
     </MessageBubbleWrapper>
   )
 }
