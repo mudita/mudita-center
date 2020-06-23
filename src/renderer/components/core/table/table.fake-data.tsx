@@ -58,7 +58,7 @@ const createMessages = (author: Author) => {
           primaryPhoneNumber: "123 123 123",
         },
     id: Faker.random.uuid(),
-    date: String(Faker.date.past()),
+    date: Faker.date.past(),
     content: Faker.lorem.sentences(2),
     interlocutor,
   }
