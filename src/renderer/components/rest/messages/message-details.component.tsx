@@ -17,6 +17,7 @@ import MessageBubble from "Renderer/components/rest/messages/message-bubble.comp
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { isEqual } from "lodash"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 
 interface Props {
   details: ActiveRow
@@ -81,7 +82,10 @@ const MessageDetails: FunctionComponent<Props> = ({
       <SidebarHeaderIcon Icon={Type.Delete} onClick={noop} />
     </>
   )
-  const checkForName = details.caller.firstName || details.caller.lastName
+  const nameAvailable = isNameAvailable(
+    details.caller.firstName,
+    details.caller.lastName
+  )
   return (
     <MessagesSidebar
       show
@@ -91,11 +95,11 @@ const MessageDetails: FunctionComponent<Props> = ({
             displayStyle={TextDisplayStyle.LargeBoldText}
             data-testid="sidebar-fullname"
           >
-            {checkForName
+            {nameAvailable
               ? createFullName(details.caller)
               : details.caller.primaryPhoneNumber}
           </Text>
-          {checkForName && (
+          {nameAvailable && (
             <PhoneNumberText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"

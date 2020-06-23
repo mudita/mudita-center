@@ -38,6 +38,7 @@ import {
 import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
 import { isEqual, last } from "lodash"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 
 const checkboxVisibleStyles = css`
   display: block;
@@ -179,6 +180,7 @@ const MessagesList: FunctionComponent<Props> = ({
         const lastMessage = last(messages)
         const toggle = () => toggleRow({ caller, messages })
         const open = () => openSidebar({ caller, messages })
+        const nameAvailable = isNameAvailable(caller.firstName, caller.lastName)
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
             key={id}
@@ -199,7 +201,7 @@ const MessagesList: FunctionComponent<Props> = ({
             <MessageCol onClick={open} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {caller.firstName || caller.lastName
+                  {nameAvailable
                     ? `${caller.firstName} ${caller.lastName}`
                     : caller.primaryPhoneNumber}
                 </Name>
@@ -243,7 +245,7 @@ const MessagesList: FunctionComponent<Props> = ({
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
                   />
-                  {caller.firstName || caller.lastName ? (
+                  {nameAvailable ? (
                     <ButtonComponent
                       labelMessage={{
                         id: "view.name.messages.dropdownContactDetails",
