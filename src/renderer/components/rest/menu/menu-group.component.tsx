@@ -45,7 +45,7 @@ const LinkWrapper = styled.div`
 `
 
 const ButtonMenu = styled(Button)`
-  margin: 0 0 0.8rem 0;
+  margin: 0 0 0.4rem 0;
 `
 
 const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
