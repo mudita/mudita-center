@@ -1,46 +1,70 @@
 const columnWidth = 6.5
 const gutterWidth = 4
 
+const blue1 = "#3e6988"
+const blue2 = "#6d9bbc"
+const blue5 = "#f3f8fc"
+const messageBlue = "#f2f7fa"
+
+const black = "#000000"
+const dark = "#232426"
+const grey1 = "#3b3f42"
+const grey10 = "rgba(0, 0, 0, 0.08)"
+const grey2 = "#6a6a6a"
+const grey3 = "#a5a5a5"
+const grey4 = "#d2d6db"
+const grey5 = "#cdcecf"
+const grey6 = "#f4f5f6"
+const grey7 = "#fbfbfb"
+const grey8 = "#e9e9e9"
+const grey9 = "#e6e8eb"
+const transparentGrey1 = "rgba(188,188,188,0.5)"
+const transparentGrey2 = "rgba(214, 214, 214, 0.5)"
+
+const red1 = "#e96a6a"
+
+const white = "#ffffff"
+
 const theme = {
   color: {
     text: {
-      accent: "#cdcecf", // --grey5
-      action: "#6d9bbc", // --blue2
-      active: "#ffffff", // --white
-      disabled: "#a5a5a5", // --grey3
-      error: "#e96a6a", // --red1
-      iconHighlight: "#3e6988", // --blue1
-      primary: "#000000", // --black
-      secondary: "#6a6a6a", // --grey2
+      accent: grey5,
+      action: blue2,
+      active: white,
+      disabled: grey3,
+      error: red1,
+      iconHighlight: blue1,
+      primary: black,
+      secondary: grey2,
     },
     background: {
-      activity: "#6d9bbc", // --blue2
-      disabled: "#cdcecf", // --grey5,
-      icon: "#f3f8fc", // -- blue5
-      main: "#fbfbfb", // --grey7
-      message: "#f2f7fa", // --messageBlue
-      minor: "#f4f5f6", // --grey6,
-      minorHover: "#e9e9e9", // --grey8
-      primary: "#3b3f42", // --grey1
-      primaryHover: "#232426", // --dark
-      row: "#ffffff", // --white
-      scroll: "#a5a5a5", // --grey3
-      super: "#000000", // --black
+      activity: blue2,
+      disabled: grey5,
+      icon: blue5,
+      main: grey7,
+      message: messageBlue,
+      minor: grey6,
+      minorHover: grey8,
+      primary: grey1,
+      primaryHover: dark,
+      row: white,
+      scroll: grey3,
+      super: black,
     },
     border: {
-      error: "#e96a6a", // --red1
-      hover: "#3b3f42", // --grey1
-      list: "#d2d6db", // --grey4
-      primary: "#000000", // --black
-      secondary: "#cdcecf", // --grey5
-      separator: "#e6e8eb", // --grey9
-      smallSeparator: "#f4f5f6", // --grey4
-      verticalSeparator: "#e9e9e9", // --grey3
+      error: red1,
+      hover: grey1,
+      list: grey4,
+      primary: black,
+      secondary: grey5,
+      separator: grey9,
+      smallSeparator: grey4,
+      verticalSeparator: grey3,
     },
     boxShadow: {
-      full: "rgba(0, 0, 0, 0.08)", // --grey10
-      light: "rgba(214, 214, 214, 0.5)", // transparentGrey2
-      semi: "rgba(188,188,188,0.5)", // transparentGrey1
+      full: grey10,
+      light: transparentGrey2,
+      semi: transparentGrey1,
     },
   },
   layout: {
