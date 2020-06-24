@@ -8,9 +8,9 @@ export const speedDialNumbers = [2, 3, 4, 5, 6, 7, 8, 9]
 
 const createPrimaryPhoneNumber = (force?: boolean) => {
   if (force) {
-    return Faker.phone.phoneNumber("+###########")
+    return Faker.phone.phoneNumber("+## ### ### ###")
   }
-  return Math.random() < 0.5 ? Faker.phone.phoneNumber("+###########") : ""
+  return Math.random() < 0.5 ? Faker.phone.phoneNumber("+## ### ### ###") : ""
 }
 
 export const generateFakeContact = (
@@ -25,7 +25,7 @@ export const generateFakeContact = (
     options?.forcePrimaryPhoneNumber
   )
   const secondaryPhoneNumber =
-    Math.random() < 0.5 ? Faker.phone.phoneNumber("+###########") : ""
+    Math.random() < 0.5 ? Faker.phone.phoneNumber("+## ### ### ###") : ""
   const blocked =
     !favourite && (primaryPhoneNumber || secondaryPhoneNumber)
       ? Math.random() < 0.5
