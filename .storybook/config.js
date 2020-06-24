@@ -21,6 +21,14 @@ function loadStories() {
 
 const store = init({ models: { devMode }, plugins: [selectPlugin()] })
 
+// refactoredStories is an array containing parts of URLs assigned to already refactored stories
+// TODO: Remove after refactoring all stories
+const refactoredStories = ["components-core", "components-rest"]
+const newStory =
+  refactoredStories.some(story => {
+    return window.location.search.includes(`?id=${story}`)
+  }) || window.location.search.includes("?id=undefined")
+
 addDecorator(story => {
   return (
     <Provider store={store}>
@@ -33,7 +41,11 @@ addDecorator(story => {
           <>
             <GlobalStyle />
             <Normalize />
-            <StorybookWrapper>{story()}</StorybookWrapper>
+            {newStory ? (
+              <StorybookWrapper>{story()}</StorybookWrapper>
+            ) : (
+              story()
+            )}
           </>
         </IntlProvider>
       </ThemeProvider>
