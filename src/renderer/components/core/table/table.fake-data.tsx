@@ -44,7 +44,7 @@ const generateEmptyContact = (): Author => ({
 
 const createAuthor = (inContacts: boolean): Author => {
   return inContacts
-    ? generateFakeContact(undefined, { forcePrimaryPhoneNumber: true })
+    ? generateFakeContact([], { forcePrimaryPhoneNumber: true })
     : generateEmptyContact()
 }
 
