@@ -39,7 +39,7 @@ const RoundIconWrapper = styled.div`
   width: 12rem;
   height: 12rem;
   border-radius: 50%;
-  background-color: ${backgroundColor("lightBlue")};
+  background-color: ${backgroundColor("icon")};
   display: flex;
   align-items: center;
   justify-content: center;

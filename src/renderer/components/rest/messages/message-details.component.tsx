@@ -44,7 +44,7 @@ const MessageBubblesWrapper = styled.div`
 const TextareaWrapper = styled.div`
   position: sticky;
   bottom: 0;
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("row")};
   padding: 0 3rem;
 `
 

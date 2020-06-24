@@ -36,7 +36,7 @@ const Version = styled.div`
 const LastUpdate = styled(Text)`
   margin-top: 1.2rem;
   letter-spacing: ${letterSpacing("small")}rem;
-  color: ${textColor("placeholder")};
+  color: ${textColor("disabled")};
 `
 
 const AvailableUpdate = styled(Text)`

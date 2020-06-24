@@ -17,7 +17,7 @@ import { noop } from "Renderer/utils/noop"
 export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 15rem;
-  border-bottom: solid 0.1rem ${borderColor("listItem")};
+  border-bottom: solid 0.1rem ${borderColor("list")};
 `
 
 export const Data = styled.div`
@@ -30,7 +30,7 @@ export const SettingsLabel = styled(Name)`
 `
 
 export const SettingsDescriptionWrapper = styled.div`
-  border-bottom: solid 0.1rem ${borderColor("listItem")};
+  border-bottom: solid 0.1rem ${borderColor("list")};
 `
 
 export const SettingsDescription = styled(Text)`

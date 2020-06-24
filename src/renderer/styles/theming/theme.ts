@@ -1,13 +1,13 @@
 const columnWidth = 6.5
 const gutterWidth = 4
 
-/**
- * All colors from palette.
- * Unused are commented out
- */
+const blue1 = "#3e6988"
+const blue2 = "#6d9bbc"
+const blue5 = "#f3f8fc"
+const messageBlue = "#f2f7fa"
 
 const black = "#000000"
-const white = "#ffffff"
+const dark = "#232426"
 const grey1 = "#3b3f42"
 const grey2 = "#6a6a6a"
 const grey3 = "#a5a5a5"
@@ -18,74 +18,53 @@ const grey7 = "#fbfbfb"
 const grey8 = "#e9e9e9"
 const grey9 = "#e6e8eb"
 const grey10 = "rgba(0, 0, 0, 0.08)"
-const blue1 = "#3e6988"
-const blue2 = "#6d9bbc"
-const dark = "#232426"
-// const blue3 = "#aebec9"
-const blue4 = "#e3f3ff"
-const blue5 = "#f3f8fc"
-const blue6 = "#f2f7fa"
-const red1 = "#e96a6a"
-
 const transparentGrey1 = "rgba(188,188,188,0.5)"
 const transparentGrey2 = "rgba(214, 214, 214, 0.5)"
+
+const red1 = "#e96a6a"
+
+const white = "#ffffff"
 
 const theme = {
   color: {
     text: {
-      active: black, // "#191c20"
-      black,
-      grey: grey5,
-      darkGrey: grey1,
-      primary: black,
-      inverted: white,
-      faded: grey2,
-      supplementary: blue2,
-      placeholder: grey3,
-      dark: black,
-      hover: blue1,
+      accent: grey5,
+      action: blue2,
+      active: white,
+      disabled: grey3,
       error: red1,
+      iconHighlight: blue1,
+      primary: black,
+      secondary: grey2,
     },
     background: {
-      blue: blue2,
-      lightBlue: blue5,
-      progressBar: blue4,
-      light: white,
-      app: grey7,
-      dark: black,
-      dark2: dark,
-      grey: grey5,
-      grey2: grey6,
-      grey3: grey8,
-      grey4: grey3,
-      grey5: grey7,
-      inputDark: grey1,
-      accent: grey6,
-      primaryDark: grey6,
-      avatarDark: grey6,
-      avatarLight: white,
-      tableLabel: grey7,
-      tableRow: white,
-      messageBlue: blue6,
+      activity: blue2,
+      disabled: grey5,
+      icon: blue5,
+      main: grey7,
+      message: messageBlue,
+      minor: grey6,
+      minorHover: grey8,
+      primary: grey1,
+      primaryHover: dark,
+      row: white,
+      scroll: grey3,
+      super: black,
     },
     border: {
-      app: grey9,
-      active: black, // "#191c20"
-      dark: black,
-      default: grey5,
-      grey: grey5,
-      grey2: grey6,
-      grey3: grey8,
-      hover: grey1,
-      listItem: grey4,
-      light: grey4,
-      intense: blue2,
       error: red1,
+      hover: grey1,
+      list: grey4,
+      primary: black,
+      secondary: grey5,
+      separator: grey9,
+      smallSeparator: grey4,
+      verticalSeparator: grey3,
     },
     boxShadow: {
-      app: grey10,
-      grey: transparentGrey1,
-      lightGrey: transparentGrey2,
+      full: grey10,
+      light: transparentGrey2,
+      semi: transparentGrey1,
     },
   },
   layout: {

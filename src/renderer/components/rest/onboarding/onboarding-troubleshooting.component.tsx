@@ -42,7 +42,7 @@ const Steps = styled.ol`
       border-radius: 50%;
       align-items: center;
       justify-content: center;
-      background-color: ${backgroundColor("lightBlue")};
+      background-color: ${backgroundColor("icon")};
       box-shadow: 0 0.5rem 1rem 0 #00000019;
     }
 

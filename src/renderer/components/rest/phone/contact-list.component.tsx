@@ -64,7 +64,7 @@ const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
 `
 
 export const lightAvatarStyles = css`
-  background-color: ${backgroundColor("avatarLight")};
+  background-color: ${backgroundColor("row")};
 `
 
 const InitialsAvatar = styled(Avatar)`
@@ -88,8 +88,8 @@ const MoreNumbers = styled(Text).attrs(() => ({
   box-sizing: border-box;
   margin-left: 1.6rem;
   text-align: center;
-  color: ${textColor("darkGrey")};
-  background-color: ${backgroundColor("grey")};
+  color: ${textColor("primary")};
+  background-color: ${backgroundColor("disabled")};
   border-radius: ${borderRadius("medium")};
 `
 

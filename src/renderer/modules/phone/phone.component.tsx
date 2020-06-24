@@ -34,7 +34,7 @@ const ContactSection = styled.section`
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: ${backgroundColor("primaryDark")};
+  background-color: ${backgroundColor("minor")};
 `
 
 export type PhoneProps = ContactActions &

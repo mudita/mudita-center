@@ -18,16 +18,16 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 const Wrapper = styled.div<{ fileColor: string }>`
   display: flex;
   align-items: center;
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("row")};
   border-left: 0.3rem solid ${({ fileColor }) => fileColor};
 `
 
 const StyledLink = styled(Link)`
   padding: 2.4rem 1.25rem;
-  border-left: 0.1rem solid ${borderColor("grey2")};
+  border-left: 0.1rem solid ${borderColor("smallSeparator")};
   &:hover {
     .arrow {
-      fill: ${textColor("hover")};
+      fill: ${textColor("primary")};
     }
   }
 `

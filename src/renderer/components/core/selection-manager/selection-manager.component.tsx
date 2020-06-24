@@ -24,7 +24,7 @@ const Buttons = styled.div`
 
   button {
     &:hover {
-      background-color: ${backgroundColor("grey3")};
+      background-color: ${backgroundColor("minorHover")};
     }
   }
 `
@@ -47,9 +47,9 @@ const SelectionManagerWrapper = styled.section<{ enlarged?: boolean }>`
   height: 4rem;
   padding: 0 0.7rem;
   padding-left: ${({ enlarged }) => (enlarged ? 1.4 : 0.7)}rem;
-  background-color: ${backgroundColor("accent")};
+  background-color: ${backgroundColor("minor")};
   border-radius: ${borderRadius("medium")};
-  border: solid 0.1rem ${borderColor("grey3")};
+  border: solid 0.1rem ${borderColor("verticalSeparator")};
   box-sizing: border-box;
 `
 

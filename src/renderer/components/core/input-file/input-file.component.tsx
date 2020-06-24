@@ -28,12 +28,12 @@ import { defineMessages } from "react-intl"
 const Message = styled(Text)<{ dragging?: boolean }>`
   position: relative;
   z-index: ${({ dragging }) => (dragging ? -1 : 1)};
-  color: ${textColor("placeholder")};
+  color: ${textColor("disabled")};
   letter-spacing: normal;
 
   strong {
     font-weight: inherit;
-    color: ${textColor("supplementary")};
+    color: ${textColor("action")};
     cursor: pointer;
   }
 `
@@ -57,12 +57,12 @@ const Border = styled.div<{ draggingOver?: boolean }>`
   border-radius: ${borderRadius("medium")};
   background-image: linear-gradient(
       90deg,
-      ${borderColor("dark")} 50%,
+      ${borderColor("primary")} 50%,
       transparent 50%
     ),
-    linear-gradient(90deg, ${borderColor("dark")} 50%, transparent 50%),
-    linear-gradient(0deg, ${borderColor("dark")} 50%, transparent 50%),
-    linear-gradient(0deg, ${borderColor("dark")} 50%, transparent 50%);
+    linear-gradient(90deg, ${borderColor("primary")} 50%, transparent 50%),
+    linear-gradient(0deg, ${borderColor("primary")} 50%, transparent 50%),
+    linear-gradient(0deg, ${borderColor("primary")} 50%, transparent 50%);
   background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
   background-size: 1rem 0.1rem, 1rem 0.1rem, 0.1rem 1rem, 0.1rem 1rem;
   background-position: 0 0, 100% 100%, 0 100%, 100% 0;
@@ -135,7 +135,7 @@ const File = styled.li`
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: ${textColor("placeholder")};
+    color: ${textColor("disabled")};
     margin: 0 2rem 0 0.5rem;
     white-space: nowrap;
   }

@@ -21,7 +21,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 const LastBackup = styled(CardText)`
   span {
     letter-spacing: ${letterSpacing("small")}rem;
-    color: ${textColor("placeholder")};
+    color: ${textColor("disabled")};
     margin-bottom: 1.2rem;
     display: block;
   }
@@ -36,7 +36,7 @@ const LastBackup = styled(CardText)`
 const FirstBackup = styled(CardText)`
   p {
     letter-spacing: ${letterSpacing("small")}rem;
-    color: ${textColor("placeholder")};
+    color: ${textColor("disabled")};
   }
 `
 

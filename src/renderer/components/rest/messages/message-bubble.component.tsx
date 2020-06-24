@@ -62,9 +62,7 @@ const Bubble = styled.div<{ interlocutor: boolean }>`
   padding: 1.1rem 1.2rem;
   margin-top: 0.8rem;
   background-color: ${({ interlocutor }) =>
-    interlocutor
-      ? backgroundColor("primaryDark")
-      : backgroundColor("messageBlue")};
+    interlocutor ? backgroundColor("minor") : backgroundColor("message")};
   border-radius: ${({ interlocutor }) =>
     interlocutor
       ? "1.2rem 1.2rem 1.2rem 0.2rem"
@@ -83,9 +81,7 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
   height: 4.8rem;
   width: 4.8rem;
   background-color: ${({ interlocutor }) =>
-    interlocutor
-      ? backgroundColor("primaryDark")
-      : backgroundColor("messageBlue")};
+    interlocutor ? backgroundColor("minor") : backgroundColor("message")};
   align-self: end;
 `
 

@@ -17,8 +17,8 @@ const Input = styled.input`
   width: 2em;
   height: 2em;
   background-clip: content-box;
-  border: 0.1rem solid ${borderColor("default")};
-  background-color: ${backgroundColor("light")};
+  border: 0.1rem solid ${borderColor("secondary")};
+  background-color: ${backgroundColor("row")};
   border-radius: 50%;
   margin-right: 1.2rem;
 
@@ -29,7 +29,7 @@ const Input = styled.input`
   }
 
   &:checked {
-    background-color: ${backgroundColor("dark")};
+    background-color: ${backgroundColor("super")};
     padding: 0.3rem;
   }
 `
