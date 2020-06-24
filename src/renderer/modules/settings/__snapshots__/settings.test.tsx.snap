@@ -279,7 +279,7 @@ exports[`matches snapshot 1`] = `
       <p
         class="c2 c3"
       >
-        Select what happens when connecting Pure to this computer:
+        view.name.settings.description
       </p>
     </div>
     <div
@@ -291,7 +291,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c6 sc-Axmtr c7"
         >
-          Autostart Desktop App
+          view.name.settings.autostartLabel
         </p>
       </div>
       <div
@@ -309,7 +309,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              Off
+              view.name.settings.offLabel
             </p>
           </button>
           <button
@@ -321,7 +321,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              On
+              view.name.settings.onLabel
             </p>
           </button>
         </section>
@@ -336,7 +336,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c6 sc-Axmtr c7"
         >
-          Start tethering
+          view.name.settings.tetheringLabel
         </p>
       </div>
       <div
@@ -354,7 +354,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              Off
+              view.name.settings.offLabel
             </p>
           </button>
           <button
@@ -366,7 +366,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              On
+              view.name.settings.onLabel
             </p>
           </button>
         </section>

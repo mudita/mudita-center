@@ -38,7 +38,7 @@ test("subtitle is rendered when provided", () => {
 })
 
 test("only close button is rendered by default", () => {
-  const closeButtonText = "Close"
+  const closeButtonText = "component.modal.closeButton"
   const { getByText } = renderWithThemeAndIntl(
     <Modal title={"Title"} size={ModalSize.Medium} subtitle={"Subtitle"}>
       <h1>lala</h1>

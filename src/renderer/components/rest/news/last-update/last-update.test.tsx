@@ -19,7 +19,7 @@ test("date is passed correctly and renders with correct format", () => {
     <LastUpdate online date="2019-10-19T11:27:15.256Z" />
   )
 
-  expect(container).toHaveTextContent("Last updated: Oct 19, 2019")
+  expect(container).toHaveTextContent("view.name.news.lastUpdateOct 19, 2019")
 })
 
 test("when date is not provided, formatted date is not displayed", () => {

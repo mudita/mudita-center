@@ -165,7 +165,7 @@ exports[`matches snapshot 1`] = `
       <h2
         class="c2"
       >
-        Network
+        view.name.overview.network.name
       </h2>
     </div>
     <section
@@ -180,7 +180,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c7 c8"
         >
-          No SIM card inserted
+          view.name.overview.network.noSimInserted
         </p>
       </button>
     </section>

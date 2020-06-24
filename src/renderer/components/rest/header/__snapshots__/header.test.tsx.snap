@@ -140,7 +140,7 @@ exports[`matches snapshot with tabs 1`] = `
     class="c1 c2"
     data-testid="location"
   >
-    Phone
+    view.name.phone
   </h3>
   <div
     class="c3"
@@ -163,7 +163,7 @@ exports[`matches snapshot with tabs 1`] = `
       <p
         class="c8 c9"
       >
-        Contacts
+        view.name.phone.contacts
       </p>
     </a>
     <a
@@ -183,7 +183,7 @@ exports[`matches snapshot with tabs 1`] = `
       <p
         class="c8 c9"
       >
-        Calls
+        view.name.phone.calls
       </p>
     </a>
     <a
@@ -203,7 +203,7 @@ exports[`matches snapshot with tabs 1`] = `
       <p
         class="c8 c9"
       >
-        Dial
+        view.name.phone.dial
       </p>
     </a>
   </div>
@@ -243,7 +243,7 @@ exports[`matches snapshot without tabs 1`] = `
     class="c1 c2"
     data-testid="location"
   >
-    Overview
+    view.name.overview
   </h3>
   <div
     class="c3"

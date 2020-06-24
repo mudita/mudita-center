@@ -157,7 +157,7 @@ exports[`matches snapshot 1`] = `
       class="c6 c7"
       data-testid="info"
     >
-      1 Conversation selected
+      view.name.messages.conversations.selectionsNumber
     </p>
   </section>
 </div>

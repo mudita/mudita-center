@@ -36,7 +36,7 @@ test("header should render correct pathname", () => {
       <Header />
     </MemoryRouter>
   )
-  expect(getByTestId("location")).toHaveTextContent("Overview")
+  expect(getByTestId("location")).toHaveTextContent("view.name.overview")
 })
 
 test("button renders on news page", () => {
