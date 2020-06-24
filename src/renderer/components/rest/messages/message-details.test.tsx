@@ -27,7 +27,7 @@ test("left part of sidebar displays details correctly", () => {
     `${mockedDetails.caller.firstName} ${mockedDetails.caller.lastName}`
   )
   expect(getByTestId("sidebar-phone-number")).toHaveTextContent(
-    mockedDetails.caller.phoneNumber
+    mockedDetails.caller.primaryPhoneNumber
   )
 })
 
@@ -45,6 +45,6 @@ test("message from unknown person displays only phone number", () => {
     <MessageDetails details={unknownCallerMockedDetails} />
   )
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
-    unknownCallerMockedDetails.caller.phoneNumber
+    unknownCallerMockedDetails.caller.primaryPhoneNumber
   )
 })

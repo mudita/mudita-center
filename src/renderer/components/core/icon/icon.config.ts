@@ -70,6 +70,7 @@ import DeleteBig from "Renderer/svg/delete-big.svg"
 import Attachment from "Renderer/svg/attachment.svg"
 import Remove from "Renderer/svg/remove.svg"
 import SendButton from "Renderer/svg/send-button.svg"
+import MenuContacts from "Renderer/svg/menu-contacts.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -92,6 +93,7 @@ export enum Type {
   Magnifier,
   MenuFilesManager,
   MenuHelp,
+  MenuContacts,
   MenuMeditation,
   MenuMusic,
   MenuNews,
@@ -186,6 +188,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Magnifier
     case Type.MediumBattery:
       return MediumBattery
+    case Type.MenuContacts:
+      return MenuContacts
     case Type.MediumRange:
       return MediumRange
     case Type.MenuFilesManager:

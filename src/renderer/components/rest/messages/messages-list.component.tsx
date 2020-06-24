@@ -19,12 +19,11 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import {
-  Caller,
   Topic,
   Message as Msg,
+  Author,
 } from "Renderer/models/messages/messages.interface"
 import { noop } from "Renderer/utils/noop"
-import { rowsMessages } from "Renderer/components/core/table/table.fake-data"
 import {
   DataWrapper,
   Message,
@@ -39,7 +38,7 @@ import {
 import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
 import { isEqual, last } from "lodash"
-import { createFullName } from "Renderer/models/phone/phone.utils"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 
 const checkboxVisibleStyles = css`
   display: block;
@@ -146,7 +145,7 @@ const MessageDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
 `
 
 export interface ActiveRow {
-  caller: Caller
+  caller: Author
   messages: Msg[]
 }
 
@@ -163,7 +162,7 @@ const MessagesList: FunctionComponent<Props> = ({
 }) => {
   const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect<
     ActiveRow
-  >(rowsMessages)
+  >(list)
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
               and use it in <Messages />
@@ -179,10 +178,9 @@ const MessagesList: FunctionComponent<Props> = ({
       {list.map(({ id, caller, messages, unread }) => {
         const { selected, indeterminate } = getRowStatus({ caller, messages })
         const lastMessage = last(messages)
-        const lastMessageText = last(lastMessage?.content)?.text
         const toggle = () => toggleRow({ caller, messages })
         const open = () => openSidebar({ caller, messages })
-
+        const nameAvailable = isNameAvailable(caller)
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
             key={id}
@@ -203,9 +201,9 @@ const MessagesList: FunctionComponent<Props> = ({
             <MessageCol onClick={open} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {caller.inContacts
-                    ? createFullName(caller)
-                    : caller.phoneNumber}
+                  {nameAvailable
+                    ? `${caller.firstName} ${caller.lastName}`
+                    : caller.primaryPhoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage?.date).format("h:mm A")}
@@ -218,7 +216,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       : TextDisplayStyle.MediumFadedLightText
                   }
                 >
-                  {lastMessageText}
+                  {lastMessage?.content}
                 </LastMessageText>
               </MessageDataWrapper>
             </MessageCol>
@@ -236,16 +234,18 @@ const MessagesList: FunctionComponent<Props> = ({
                   <ButtonComponent
                     labelMessage={{
                       id: "view.name.messages.dropdownCall",
-                      values: caller.inContacts
+                      values: caller.firstName
                         ? { name: caller.firstName }
-                        : { name: caller.phoneNumber },
+                        : {
+                            name: caller.primaryPhoneNumber,
+                          },
                     }}
                     Icon={Type.Calls}
                     onClick={noop}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
                   />
-                  {caller.inContacts ? (
+                  {nameAvailable ? (
                     <ButtonComponent
                       labelMessage={{
                         id: "view.name.messages.dropdownContactDetails",

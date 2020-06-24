@@ -29,7 +29,7 @@ const LogoWrapper = styled.div`
 const SvgMuditaLogo = styled(Icon)`
   height: 2rem;
   width: 8.6rem;
-  margin: 2rem 0 3.5rem;
+  margin: 2rem 0 2.4rem;
 `
 
 const DevSign = styled.span`
