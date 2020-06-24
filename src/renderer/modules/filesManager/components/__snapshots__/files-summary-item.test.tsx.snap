@@ -56,7 +56,7 @@ exports[`should match snapshot with link 1`] = `
 
 .c6 {
   padding: 2.4rem 1.25rem;
-  border-left: 0.1rem solid #f4f5f6;
+  border-left: 0.1rem solid #d2d6db;
 }
 
 .c6:hover .arrow {
