@@ -6,13 +6,22 @@ import { deburr } from "lodash"
 // TODO: remove before production
 export const speedDialNumbers = [2, 3, 4, 5, 6, 7, 8, 9]
 
-export const generateFakeContact = (speedDials: number[] = []): Contact => {
+const createPrimaryPhoneNumber = (force: boolean) => {
+  if (force) {
+    return Faker.phone.phoneNumber("+###########")
+  }
+  return Math.random() < 0.5 ? Faker.phone.phoneNumber("+###########") : ""
+}
+
+export const generateFakeContact = (
+  speedDials: number[] = [],
+  forcePrimaryPhoneNumber = false
+): Contact => {
   const favourite = Math.random() < 0.15
   const firstName =
     Math.random() < 0.6 || favourite ? Faker.name.firstName() : ""
   const lastName = Math.random() < 0.6 ? Faker.name.lastName() : ""
-  const primaryPhoneNumber =
-    Math.random() < 0.5 ? Faker.phone.phoneNumber("+###########") : ""
+  const primaryPhoneNumber = createPrimaryPhoneNumber(forcePrimaryPhoneNumber)
   const secondaryPhoneNumber =
     Math.random() < 0.5 ? Faker.phone.phoneNumber("+###########") : ""
   const blocked =
