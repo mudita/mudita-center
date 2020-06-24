@@ -6,7 +6,7 @@ import { deburr } from "lodash"
 // TODO: remove before production
 export const speedDialNumbers = [2, 3, 4, 5, 6, 7, 8, 9]
 
-const createPrimaryPhoneNumber = (force?: boolean) => {
+const generatePhoneNumberOrEmptyString = (force?: boolean) => {
   if (force) {
     return Faker.phone.phoneNumber("+## ### ### ###")
   }
@@ -21,11 +21,10 @@ export const generateFakeContact = (
   const firstName =
     Math.random() < 0.6 || favourite ? Faker.name.firstName() : ""
   const lastName = Math.random() < 0.6 ? Faker.name.lastName() : ""
-  const primaryPhoneNumber = createPrimaryPhoneNumber(
+  const primaryPhoneNumber = generatePhoneNumberOrEmptyString(
     options?.forcePrimaryPhoneNumber
   )
-  const secondaryPhoneNumber =
-    Math.random() < 0.5 ? Faker.phone.phoneNumber("+## ### ### ###") : ""
+  const secondaryPhoneNumber = generatePhoneNumberOrEmptyString()
   const blocked =
     !favourite && (primaryPhoneNumber || secondaryPhoneNumber)
       ? Math.random() < 0.5
