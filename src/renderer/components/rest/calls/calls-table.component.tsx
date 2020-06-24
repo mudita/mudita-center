@@ -85,7 +85,6 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
       {calls.map(({ caller, id, date, duration, timesMissed }, index) => {
         const { selected, indeterminate } = getRowStatus(id)
         const toggle = () => toggleRow(id)
-        const nameAvailable = isNameAvailable(caller)
         return (
           <Row key={id} data-testid="calls-row">
             <Col>
@@ -98,7 +97,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
               />
             </Col>
             <Col data-testid="caller-name">
-              {nameAvailable
+              {isNameAvailable(caller)
                 ? createFullName(caller)
                 : caller.primaryPhoneNumber}
               {timesMissed > 1 && ` (${timesMissed})`}
