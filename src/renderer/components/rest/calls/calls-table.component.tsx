@@ -85,6 +85,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
       {calls.map(({ caller, id, date, duration, timesMissed }, index) => {
         const { selected, indeterminate } = getRowStatus(id)
         const toggle = () => toggleRow(id)
+        const nameAvailable = isNameAvailable(caller)
         return (
           <Row key={id} data-testid="calls-row">
             <Col>
@@ -97,7 +98,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
               />
             </Col>
             <Col data-testid="caller-name">
-              {isNameAvailable(caller)
+              {nameAvailable
                 ? createFullName(caller)
                 : caller.primaryPhoneNumber}
               {timesMissed > 1 && ` (${timesMissed})`}
@@ -122,12 +123,11 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
                   <ButtonComponent
                     labelMessage={{
                       id: "component.dropdown.call",
-                      values:
-                        caller.firstName || caller.lastName
-                          ? { name: caller.firstName || caller.lastName }
-                          : {
-                              name: caller.primaryPhoneNumber,
-                            },
+                      values: nameAvailable
+                        ? { name: caller.firstName || caller.lastName }
+                        : {
+                            name: caller.primaryPhoneNumber,
+                          },
                     }}
                     Icon={Type.Calls}
                     onClick={noop}
