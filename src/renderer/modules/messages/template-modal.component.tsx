@@ -36,7 +36,7 @@ const TemplatesWrapper = styled.ul`
   height: 40.6rem;
   overflow: scroll;
   li:first-child {
-    border-top: solid 0.1rem ${borderColor("listItem")};
+    border-top: solid 0.1rem ${borderColor("list")};
   }
 `
 

@@ -32,7 +32,10 @@ const installExtensions = async () => {
 }
 
 const createWindow = async () => {
-  if (process.env.NODE_ENV !== "production") {
+  if (
+    process.env.NODE_ENV !== "production" &&
+    process.env.NODE_ENV !== "test"
+  ) {
     await installExtensions()
   }
 
@@ -41,6 +44,7 @@ const createWindow = async () => {
     height: WINDOW_SIZE.height,
     resizable: process.env.NODE_ENV === "development",
     fullscreen: false,
+    useContentSize: true,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -54,7 +58,10 @@ const createWindow = async () => {
   registerNewsListener()
   registerSettingsListeners(win)
 
-  if (process.env.NODE_ENV !== "production") {
+  if (
+    process.env.NODE_ENV !== "production" &&
+    process.env.NODE_ENV !== "test"
+  ) {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     win.loadURL(`http://localhost:2003`)
   } else {
@@ -74,10 +81,13 @@ const createWindow = async () => {
     shell.openExternal(href)
   })
 
-  if (process.env.NODE_ENV !== "production") {
+  if (
+    process.env.NODE_ENV !== "production" &&
+    process.env.NODE_ENV !== "test"
+  ) {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once("dom-ready", () => {
-      // win!.webContents.openDevTools()
+      win!.webContents.openDevTools()
     })
   }
 

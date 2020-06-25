@@ -42,7 +42,7 @@ const LoaderWrapper = styled.span<{ size?: number }>`
   height: ${({ size }) => size}rem;
   position: relative;
   ${chaseAnimation};
-  color: ${textColor("supplementary")};
+  color: ${textColor("action")};
 `
 
 const LoaderDot = styled.span`

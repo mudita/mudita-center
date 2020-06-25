@@ -37,6 +37,10 @@ const CallsButtonTogglerItem = styled(ButtonTogglerItem)`
   width: 12.7rem;
 `
 
+const CallsFiltersWrapper = styled(FiltersWrapper)`
+  border-bottom: none;
+`
+
 interface Props {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
 }
@@ -68,7 +72,7 @@ const CallsHeader: FunctionComponent<Props> = ({
     }
   }
   return (
-    <FiltersWrapper checkMode>
+    <CallsFiltersWrapper checkMode>
       <UnreadFilters>
         <ButtonToggler>
           {toggleState.map(({ label, visibilityFilter }) => {
@@ -85,7 +89,7 @@ const CallsHeader: FunctionComponent<Props> = ({
           })}
         </ButtonToggler>
       </UnreadFilters>
-    </FiltersWrapper>
+    </CallsFiltersWrapper>
   )
 }
 

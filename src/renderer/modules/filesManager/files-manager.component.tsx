@@ -9,7 +9,7 @@ import styled from "styled-components"
 
 const FilesManagerWrapper = styled.div`
   padding: 3.2rem 3rem 4.8rem 4rem;
-  background-color: ${backgroundColor("grey2")};
+  background-color: ${backgroundColor("minor")};
 `
 
 const FilesManagerHeading = styled(Text)`

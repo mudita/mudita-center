@@ -1,0 +1,43 @@
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin")
+const HTMLWebpackPlugin = require("html-webpack-plugin")
+const CircularDependencyPlugin = require("circular-dependency-plugin")
+const { DefinePlugin } = require("webpack")
+
+module.exports = {
+  tsChecker: renderer =>
+    new ForkTsCheckerWebpackPlugin({
+      reportFiles: [`src/${renderer ? "renderer" : "main"}/**/*`],
+    }),
+  define: new DefinePlugin({
+    "process.env.NODE_ENV": JSON.stringify(
+      process.env.NODE_ENV || "development"
+    ),
+  }),
+  circulars: new CircularDependencyPlugin({
+    exclude: /node_modules/,
+    failOnError: true,
+    cwd: process.cwd(),
+    onStart() {
+      console.log(
+        "circular-dependency-plugin: start detecting webpack modules cycles"
+      )
+    },
+    onEnd() {
+      console.log(
+        "circular-dependency-plugin: end detecting webpack modules cycles"
+      )
+    },
+  }),
+  minify: new HTMLWebpackPlugin({
+    removeComments: false,
+    collapseWhitespace: true,
+    removeRedundantAttributes: true,
+    useShortDoctype: true,
+    removeEmptyAttributes: true,
+    removeStyleLinkTypeAttributes: true,
+    keepClosingSlash: true,
+    minifyJS: false,
+    minifyCSS: false,
+    minifyURLs: true,
+  }),
+}

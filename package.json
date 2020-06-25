@@ -5,39 +5,47 @@
   "main": "./dist/main.js",
   "scripts": {
     "MAIN COMMANDS": "=========================================================",
-    "develop": "npm run start:dev",
+    "develop": "npm run dev:start",
     "pack": "npm run build && electron-builder --dir --publish never",
     "release": "electron-builder --publish always --mac --win --linux",
     "sign-dev-electron-app": "codesign --deep --force --verbose --sign - node_modules/electron/dist/electron.app",
     "start": "electron .",
+
     "BUILD COMMANDS": "========================================================",
     "build": "npm run build:main && npm run build:renderer",
-    "build:main": "cross-env NODE_ENV=production webpack --config webpack.main.prod.config.js",
-    "build:renderer": "cross-env NODE_ENV=production webpack --config webpack.renderer.prod.config.js",
+    "build:main": "cross-env NODE_ENV=production webpack --config webpack.config.main.js",
+    "build:renderer": "cross-env NODE_ENV=production webpack --config webpack.config.renderer.js",
+
     "DEV COMMANDS": "==========================================================",
     "dev:start": "cross-env START_HOT=1 npm run dev:start:renderer",
-    "dev:start:main": "webpack --config webpack.main.config.js && electron ./dist/main.js",
-    "dev:start:renderer": "webpack-dev-server --config webpack.renderer.dev.config.js --noBabelLoaderCache",
+    "dev:start:main": "webpack --config webpack.config.main.js && electron ./dist/main.js",
+    "dev:start:renderer": "webpack-dev-server --config webpack.config.renderer.js --noBabelLoaderCache",
+
     "LINT COMMANDS": "=========================================================",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint '{src,test,mocks}/**/*.{ts,tsx}'",
     "lint:js": "tslint '{src,test,mocks}/**/*.{ts,tsx}' --project ./tsconfig.json",
     "lint:typecheck": "tsc --noEmit",
+
     "DIST COMMANDS": "=========================================================",
     "dist": "npm run build && electron-builder --publish never",
     "dist:all": "npm run dist -- -mwl",
+
     "TEST COMMANDS": "=========================================================",
     "test": "jest",
     "test:all": "npm t && npm run build",
     "test:coverage": "npm t -- --coverage",
-    "test:e2e": "jest '(\\/test\\/e2e/).*'",
+    "test:e2e": "jest '(/__tests__/.*|(\\.|/)(e2e))\\.([tj]sx?)$'",
     "test:watch": "npm test -- --watch",
+
     "TRANSLATIONS COMMANDS": "=================================================",
     "translations:check": "ts-node -r esm ./scripts/translationCheck",
     "translations:generate": "ts-node -r esm ./scripts/translationRunner.js",
+
     "STORYBOOK COMMANDS": "====================================================",
     "storybook:serve": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
+
     "UTILITY/AUTO COMMANDS": "=================================================",
     "beforecommit": "lint-staged",
     "postinstall": "electron-builder install-app-deps && electron-rebuild -f",
@@ -189,6 +197,7 @@
     "stylelint-config-styled-components": "^0.1.1",
     "stylelint-processor-styled-components": "^1.10.0",
     "svg-react-loader": "^0.4.6",
+    "terser-webpack-plugin": "^3.0.5",
     "ts-jest": "^25.5.1",
     "ts-loader": "6.2.1",
     "ts-node": "^8.10.2",
@@ -204,8 +213,7 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-middleware": "3.7.2",
     "webpack-dev-server": "^3.11.0",
-    "webpack-hot-middleware": "2.25.0",
-    "webpack-merge": "^4.2.2"
+    "webpack-hot-middleware": "2.25.0"
   },
   "dependencies": {
     "@rematch/core": "^1.4.0",

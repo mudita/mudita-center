@@ -1,7 +1,11 @@
 import React, { Ref } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
-import Table, { Col, Row } from "Renderer/components/core/table/table.component"
+import Table, {
+  Col,
+  Row,
+  TextPlaceholder,
+} from "Renderer/components/core/table/table.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox, {
   Size,
@@ -15,12 +19,11 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import {
-  Caller,
   Topic,
   Message as Msg,
+  Author,
 } from "Renderer/models/messages/messages.interface"
 import { noop } from "Renderer/utils/noop"
-import { rowsMessages } from "Renderer/components/core/table/table.fake-data"
 import {
   DataWrapper,
   Message,
@@ -30,12 +33,12 @@ import {
 import moment from "moment"
 import {
   lightAvatarStyles,
-  TextPlaceholder,
   AvatarPlaceholder,
 } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
 import { isEqual, last } from "lodash"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 
 const checkboxVisibleStyles = css`
@@ -62,7 +65,7 @@ const dotStyles = css`
     height: 0.6rem;
     width: 0.6rem;
     border-radius: 50%;
-    background-color: ${backgroundColor("blue")};
+    background-color: ${backgroundColor("activity")};
   }
 `
 
@@ -88,11 +91,11 @@ const LastMessageText = styled(Message)<{ unread?: boolean }>`
   ${({ unread }) => unread && dotStyles};
 `
 
-const ActionsButton = styled.span`
+export const ActionsButton = styled.span`
   cursor: pointer;
 `
 
-const Actions = styled.div`
+export const Actions = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -143,7 +146,7 @@ const MessageDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
 `
 
 export interface ActiveRow {
-  caller: Caller
+  caller: Author
   messages: Msg[]
 }
 
@@ -160,7 +163,7 @@ const MessagesList: FunctionComponent<Props> = ({
 }) => {
   const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect<
     ActiveRow
-  >(rowsMessages)
+  >(list)
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
               and use it in <Messages />
@@ -176,10 +179,9 @@ const MessagesList: FunctionComponent<Props> = ({
       {list.map(({ id, caller, messages, unread }) => {
         const { selected, indeterminate } = getRowStatus({ caller, messages })
         const lastMessage = last(messages)
-        const lastMessageText = last(lastMessage?.content)?.text
         const toggle = () => toggleRow({ caller, messages })
         const open = () => openSidebar({ caller, messages })
-
+        const nameAvailable = isNameAvailable(caller)
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
             key={id}
@@ -200,9 +202,9 @@ const MessagesList: FunctionComponent<Props> = ({
             <MessageCol onClick={open} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {caller.inContacts
+                  {nameAvailable
                     ? createFullName(caller)
-                    : caller.phoneNumber}
+                    : caller.primaryPhoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage?.date).format("h:mm A")}
@@ -215,7 +217,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       : TextDisplayStyle.MediumFadedLightText
                   }
                 >
-                  {lastMessageText}
+                  {lastMessage?.content}
                 </LastMessageText>
               </MessageDataWrapper>
             </MessageCol>
@@ -232,17 +234,20 @@ const MessagesList: FunctionComponent<Props> = ({
                 >
                   <ButtonComponent
                     labelMessage={{
-                      id: "view.name.messages.dropdownCall",
-                      values: caller.inContacts
-                        ? { name: caller.firstName }
-                        : { name: caller.phoneNumber },
+                      id: "component.dropdown.call",
+                      values:
+                        caller.firstName || caller.lastName
+                          ? { name: caller.firstName || caller.lastName }
+                          : {
+                              name: caller.primaryPhoneNumber,
+                            },
                     }}
                     Icon={Type.Calls}
                     onClick={noop}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
                   />
-                  {caller.inContacts ? (
+                  {nameAvailable ? (
                     <ButtonComponent
                       labelMessage={{
                         id: "view.name.messages.dropdownContactDetails",

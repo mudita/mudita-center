@@ -93,7 +93,7 @@ const ModalComponent = styled(Modal)`
   h2 {
     ~ p {
       ${mediumTextSharedStyles};
-      color: ${textColor("faded")};
+      color: ${textColor("secondary")};
     }
   }
 
@@ -114,7 +114,7 @@ const Log = styled.pre<{ enabled?: boolean }>`
   max-height: 4rem;
   padding: 0.4rem 1.2rem;
   border-radius: ${borderRadius("medium")};
-  border: 0.1rem solid ${borderColor("default")};
+  border: 0.1rem solid ${borderColor("secondary")};
   box-sizing: border-box;
   resize: none;
   margin-top: 0;

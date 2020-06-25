@@ -71,7 +71,7 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
     case TextDisplayStyle.LargeFadedText:
       return css`
         ${largeTextSharedStyles};
-        color: ${textColor("faded")};
+        color: ${textColor("secondary")};
       `
     case TextDisplayStyle.LargeTextCapitalLetters:
       return css`
@@ -82,14 +82,14 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
       return css`
         ${largeTextSharedStyles};
         ${uppercaseStyles};
-        color: ${textColor("faded")};
+        color: ${textColor("secondary")};
       `
     case TextDisplayStyle.LargeFadedDimTextCapitalLetters:
       return css`
         ${largeTextSharedStyles};
         ${uppercaseStyles};
         font-weight: ${fontWeight("bold")};
-        color: ${textColor("faded")};
+        color: ${textColor("secondary")};
         opacity: ${opacity("regular")};
         letter-spacing: ${letterSpacing("regular")}rem;
       `
@@ -108,7 +108,7 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
     case TextDisplayStyle.MediumFadedLightText:
       return css`
         ${mediumTextSharedStyles};
-        color: ${textColor("faded")};
+        color: ${textColor("secondary")};
         font-weight: ${fontWeight("light")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
@@ -123,13 +123,13 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
     case TextDisplayStyle.MediumFadedText:
       return css`
         ${mediumTextSharedStyles};
-        color: ${textColor("faded")};
+        color: ${textColor("secondary")};
       `
     case TextDisplayStyle.MediumFadedTextUppercased:
       return css`
         ${mediumTextSharedStyles};
         text-transform: uppercase;
-        color: ${textColor("faded")};
+        color: ${textColor("secondary")};
       `
     case TextDisplayStyle.SmallText:
       return css`
@@ -141,7 +141,7 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
       return css`
         ${smallTextSharedStyles};
         ${uppercaseStyles};
-        color: ${textColor("supplementary")};
+        color: ${textColor("action")};
         letter-spacing: ${letterSpacing("regular")}rem;
       `
     case TextDisplayStyle.SmallTextInverted:
@@ -149,14 +149,14 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         ${smallTextSharedStyles};
         ${uppercaseStyles};
         display: inline;
-        color: ${textColor("inverted")};
-        background-color: ${backgroundColor("dark")};
+        color: ${textColor("active")};
+        background-color: ${backgroundColor("super")};
         letter-spacing: ${letterSpacing("regular")}rem;
       `
     case TextDisplayStyle.SmallFadedText:
       return css`
         ${smallTextSharedStyles};
-        color: ${textColor("faded")};
+        color: ${textColor("secondary")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
     case TextDisplayStyle.SmallFadedDimText:
@@ -164,7 +164,7 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         ${smallTextSharedStyles};
         ${uppercaseStyles};
         font-weight: ${fontWeight("bold")};
-        color: ${textColor("faded")};
+        color: ${textColor("secondary")};
         opacity: ${opacity("regular")};
         letter-spacing: ${letterSpacing("medium")}rem;
       `

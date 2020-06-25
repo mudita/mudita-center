@@ -15,6 +15,7 @@ import Table, {
   Labels,
   LoadingState,
   Row,
+  TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox, {
@@ -63,7 +64,7 @@ const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
 `
 
 export const lightAvatarStyles = css`
-  background-color: ${backgroundColor("avatarLight")};
+  background-color: ${backgroundColor("row")};
 `
 
 const InitialsAvatar = styled(Avatar)`
@@ -79,15 +80,6 @@ export const AvatarPlaceholder = styled.div`
   margin-right: 1.2rem;
 `
 
-export const TextPlaceholder = styled.span<{ charsCount: number }>`
-  display: block;
-  background-color: ${backgroundColor("accent")};
-  height: 1em;
-  border-radius: ${borderRadius("medium")};
-  width: ${({ charsCount }) => charsCount * 0.6}rem;
-  min-width: 5rem;
-`
-
 const MoreNumbers = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.SmallText,
 }))`
@@ -96,8 +88,8 @@ const MoreNumbers = styled(Text).attrs(() => ({
   box-sizing: border-box;
   margin-left: 1.6rem;
   text-align: center;
-  color: ${textColor("darkGrey")};
-  background-color: ${backgroundColor("grey")};
+  color: ${textColor("primary")};
+  background-color: ${backgroundColor("disabled")};
   border-radius: ${borderRadius("medium")};
 `
 

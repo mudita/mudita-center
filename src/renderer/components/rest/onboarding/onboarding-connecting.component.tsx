@@ -24,7 +24,7 @@ const LoaderWrapper = styled.div`
   border-radius: 50%;
   align-items: center;
   justify-content: center;
-  background-color: ${backgroundColor("lightBlue")};
+  background-color: ${backgroundColor("icon")};
   margin-bottom: 4rem;
 `
 

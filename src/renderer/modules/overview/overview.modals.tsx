@@ -37,7 +37,7 @@ const RoundIconWrapper = styled.div`
   width: 12rem;
   height: 12rem;
   border-radius: 50%;
-  background-color: ${backgroundColor("lightBlue")};
+  background-color: ${backgroundColor("icon")};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,13 +50,13 @@ const DownloadBar = styled.div`
   height: 0.4rem;
   position: relative;
   border-radius: 0.4rem;
-  background-color: ${backgroundColor("grey2")};
+  background-color: ${backgroundColor("minor")};
 
   span {
     display: block;
     height: inherit;
     border-radius: inherit;
-    background-color: ${backgroundColor("progressBar")};
+    background-color: ${backgroundColor("activity")};
     transition: width ${transitionTime("faster")} ease-in-out;
   }
 `

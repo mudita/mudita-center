@@ -26,7 +26,7 @@ const CardImage = styled(Image)`
 
 const CardContent = styled.div`
   padding: 2.4rem;
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("row")};
 `
 
 const CardDescription = styled(Text)`

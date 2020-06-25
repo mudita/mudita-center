@@ -120,7 +120,7 @@ exports[`matches snapshot 1`] = `
   padding-left: 0.7rem;
   background-color: #f4f5f6;
   border-radius: 0.5rem;
-  border: solid 0.1rem #e9e9e9;
+  border: solid 0.1rem #a5a5a5;
   box-sizing: border-box;
 }
 

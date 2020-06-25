@@ -29,7 +29,7 @@ const TextInfo = styled(CardText)`
     margin-top: 1.2rem;
     margin-bottom: 0.8rem;
     letter-spacing: ${letterSpacing("small")}rem;
-    color: ${textColor("placeholder")};
+    color: ${textColor("disabled")};
   }
 `
 
@@ -50,7 +50,7 @@ const BarChart = styled(StackedBarChart)`
 
 const Button = styled(CardActionButton)`
   svg * {
-    fill: ${backgroundColor("light")};
+    fill: ${backgroundColor("row")};
   }
 `
 

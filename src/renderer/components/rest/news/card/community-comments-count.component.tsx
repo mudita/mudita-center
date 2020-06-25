@@ -13,7 +13,7 @@ interface Props {
 }
 
 const CommentsLine = styled.div`
-  border-top: 0.01rem solid ${borderColor("grey3")};
+  border-top: 0.01rem solid ${borderColor("verticalSeparator")};
   margin-bottom: 2.4rem;
 `
 

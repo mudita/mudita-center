@@ -16,6 +16,7 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 
 interface Props {
   details: ActiveRow
@@ -36,17 +37,14 @@ const MessagesWrapper = styled.div`
 `
 
 const MessageBubblesWrapper = styled.div`
-  margin-top: 3.2rem;
-`
-
-const MessageDetailsBubble = styled(MessageBubble)`
+  margin-top: 1.2rem;
   margin-bottom: 2.4rem;
 `
 
 const TextareaWrapper = styled.div`
   position: sticky;
   bottom: 0;
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("row")};
   padding: 0 3rem;
 `
 
@@ -83,6 +81,7 @@ const MessageDetails: FunctionComponent<Props> = ({
       <SidebarHeaderIcon Icon={Type.Delete} onClick={noop} />
     </>
   )
+  const nameAvailable = isNameAvailable(details.caller)
   return (
     <MessagesSidebar
       show
@@ -92,16 +91,16 @@ const MessageDetails: FunctionComponent<Props> = ({
             displayStyle={TextDisplayStyle.LargeBoldText}
             data-testid="sidebar-fullname"
           >
-            {details.caller.inContacts
+            {nameAvailable
               ? createFullName(details.caller)
-              : details.caller.phoneNumber}
+              : details.caller.primaryPhoneNumber}
           </Text>
-          {details.caller.inContacts && (
+          {nameAvailable && (
             <PhoneNumberText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"
             >
-              {details.caller.phoneNumber}
+              {details.caller.primaryPhoneNumber}
             </PhoneNumberText>
           )}
         </>
@@ -115,23 +114,29 @@ const MessageDetails: FunctionComponent<Props> = ({
         <MessageBubblesWrapper>
           {details.messages.map(
             ({ author, content, interlocutor, id }, index) => {
+              const prevMessage = details.messages[index - 1]
+              const previousAuthor = prevMessage?.author.id !== author.id
               if (index === details.messages.length - 1) {
                 return (
                   <div ref={ref} key={id}>
-                    <MessageDetailsBubble
+                    <MessageBubble
+                      id={id}
                       user={author}
-                      messages={content}
+                      message={content}
                       interlocutor={interlocutor}
+                      previousAuthor={previousAuthor}
                     />
                   </div>
                 )
               }
               return (
-                <MessageDetailsBubble
+                <MessageBubble
                   key={id}
+                  id={id}
                   user={author}
-                  messages={content}
+                  message={content}
                   interlocutor={interlocutor}
+                  previousAuthor={previousAuthor}
                 />
               )
             }

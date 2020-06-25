@@ -58,7 +58,7 @@ export const ModalWrapper = styled.section`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("row")};
   border-radius: ${borderRadius("medium")};
   box-shadow: 0 0.2rem 3rem 0 rgba(0, 0, 0, 0.08);
 

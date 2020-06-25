@@ -4,7 +4,7 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.([tj]sx?)$",
+  testRegex: "(/__tests__/.*|(\\.|/)(test|spec|e2e))\\.([tj]sx?)$",
   moduleNameMapper: {
     ".+\\.(css|styl|less|sass|scss)$": "identity-obj-proxy",
     "(.*)svg.component": "<rootDir>/__mocks__/file-mock.js",

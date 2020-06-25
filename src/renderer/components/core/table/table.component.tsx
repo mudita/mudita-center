@@ -32,7 +32,7 @@ export enum RowSize {
 }
 
 const selectedRowStyles = css`
-  background-color: ${backgroundColor("accent")};
+  background-color: ${backgroundColor("minor")};
 `
 
 const activeRowStyles = css`
@@ -46,7 +46,7 @@ const activeRowStyles = css`
     top: 0;
     width: 0.3rem;
     height: 100%;
-    background-color: ${backgroundColor("blue")};
+    background-color: ${backgroundColor("activity")};
     border-radius: ${borderRadius("small")};
   }
 `
@@ -69,7 +69,7 @@ export const Row = styled.div<TableRowProps>`
   align-items: center;
   position: relative;
   box-sizing: border-box;
-  border-bottom: solid 0.1rem ${borderColor("listItem")};
+  border-bottom: solid 0.1rem ${borderColor("list")};
   background-color: var(--rowBackground);
   transition: background-color ${transitionTime("veryQuick")}
     ${transitionTimingFunction("smooth")};
@@ -88,7 +88,7 @@ export const Row = styled.div<TableRowProps>`
   }}rem;
 
   &:hover {
-    background-color: ${backgroundColor("accent")};
+    background-color: ${backgroundColor("minor")};
   }
 
   ${({ active }) => active && activeRowStyles};
@@ -125,7 +125,7 @@ const columnLabelStyles = css`
   z-index: 2;
   ${Col} {
     ${getTextStyles(TextDisplayStyle.SmallFadedText)};
-    color: ${textColor("placeholder")};
+    color: ${textColor("disabled")};
     text-transform: uppercase;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -192,7 +192,7 @@ const SidebarHeaderRight = styled.div`
     position: absolute;
     width: 0.1rem;
     height: 1.6rem;
-    background-color: ${borderColor("light")};
+    background-color: ${borderColor("list")};
   }
 `
 
@@ -220,15 +220,15 @@ const SidebarWrapper = styled.div<{
 }>`
   --header-height: 10.4rem;
   --header-background: ${({ appColorSidebarHeader = "transparent" }) =>
-    appColorSidebarHeader && backgroundColor("app")};
+    appColorSidebarHeader && backgroundColor("main")};
 
   width: 62rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: ${backgroundColor("light")};
-  border-left: solid 0.1rem ${borderColor("light")};
-  border-top: solid 0.1rem ${borderColor("light")};
+  background-color: ${backgroundColor("row")};
+  border-left: solid 0.1rem ${borderColor("list")};
+  border-top: solid 0.1rem ${borderColor("list")};
   margin-right: ${({ show }) => (show ? 0 : -62)}rem;
 `
 
@@ -259,13 +259,22 @@ const EmptyStateWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${backgroundColor("light")};
-  border-top: solid 0.1rem ${borderColor("listItem")};
+  background-color: ${backgroundColor("row")};
+  border-top: solid 0.1rem ${borderColor("list")};
   margin-top: 2.2rem;
 
   p:first-of-type {
     margin-top: 2.4rem;
   }
+`
+
+export const TextPlaceholder = styled.span<{ charsCount: number }>`
+  display: block;
+  background-color: ${backgroundColor("minor")};
+  height: 1em;
+  border-radius: ${borderRadius("medium")};
+  width: ${({ charsCount }) => charsCount * 0.6}rem;
+  min-width: 5rem;
 `
 
 interface EmptyState {
@@ -345,8 +354,8 @@ const TableComponent = styled.div<TableProps>`
   --nestSize: 4rem;
   --columnsTemplate: repeat(auto-fit, minmax(0, 1fr));
   --columnsGap: 2rem;
-  --labelBackground: ${backgroundColor("tableLabel")};
-  --rowBackground: ${backgroundColor("tableRow")};
+  --labelBackground: ${backgroundColor("main")};
+  --rowBackground: ${backgroundColor("row")};
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -404,7 +413,7 @@ export const TableWithSidebarWrapper = styled.div`
   flex-direction: row;
   overflow: hidden;
   flex: 1;
-  background: ${backgroundColor("app")};
+  background: ${backgroundColor("main")};
 `
 
 const Table = React.forwardRef<

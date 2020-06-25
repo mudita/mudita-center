@@ -1,12 +1,10 @@
 import { ChangeEvent } from "react"
+import { Contact } from "Renderer/models/phone/phone.interface"
 
-export interface Caller {
-  id: string
-  firstName: string
-  lastName: string
-  phoneNumber: string
-  inContacts: boolean
-}
+export type Author = Pick<
+  Contact,
+  "id" | "firstName" | "lastName" | "primaryPhoneNumber"
+>
 
 export interface Content {
   id: string
@@ -15,18 +13,15 @@ export interface Content {
 
 export interface Message {
   id: string
-  date: string
-  content: Content[]
+  date: Date
+  content: string
   interlocutor?: boolean
-  author: {
-    firstName: string
-    lastName: string
-  }
+  author: Author
 }
 
 export interface Topic {
   id: string
-  caller: Caller
+  caller: Author
   unread: boolean
   messages: Message[]
 }

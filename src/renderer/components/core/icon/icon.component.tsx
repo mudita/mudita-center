@@ -26,7 +26,7 @@ const badgeStyles = css`
     height: 0.8rem;
     width: 0.8rem;
     border-radius: 50%;
-    background-color: ${backgroundColor("blue")};
+    background-color: ${backgroundColor("activity")};
   }
 `
 

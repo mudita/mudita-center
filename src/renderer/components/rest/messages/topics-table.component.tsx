@@ -31,7 +31,7 @@ export const Message = styled(Text)`
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  align-self: top;
+  align-self: flex-start;
   margin-top: 0.4rem;
 `
 
@@ -79,11 +79,11 @@ export const TableRow = styled.div<{
   height: 9rem;
   min-height: 9rem;
   box-sizing: border-box;
-  border-bottom: solid 0.1rem ${borderColor("light")};
+  border-bottom: solid 0.1rem ${borderColor("list")};
   transition: background-color 0.15s ease-in-out;
 
   &:hover {
-    background-color: ${backgroundColor("accent")};
+    background-color: ${backgroundColor("minor")};
 
     ${Checkbox} {
       ${checkboxActiveStyle};
@@ -116,7 +116,7 @@ export const FiltersWrapper = styled.div<{ checkMode: boolean }>`
   grid-template-areas: "Filters Search New";
   align-items: center;
   height: 10.5rem;
-  border-bottom: solid 0.1rem ${borderColor("light")};
+  border-bottom: solid 0.1rem ${borderColor("list")};
   padding: 0 3rem;
 `
 
