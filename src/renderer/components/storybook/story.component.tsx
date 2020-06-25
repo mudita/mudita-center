@@ -1,7 +1,10 @@
 import React, { useContext } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css, FlattenInterpolation } from "styled-components"
-import { StoryContext } from "Renderer/components/storybook/storybook-wrapper.component"
+import {
+  StoryContext,
+  StorySettingsAction,
+} from "Renderer/components/storybook/storybook-wrapper.component"
 import {
   Button,
   Heading,
@@ -79,13 +82,14 @@ const Story: FunctionComponent<StoryProps> = ({
   customStyle,
   noCode,
 }) => {
-  const { borderMode, sourcePreview, currentLine, setCurrentLine } = useContext(
-    StoryContext
-  )
-
+  const { storySettings, setStorySettings } = useContext(StoryContext)
   const { lineNumber } = getSource(children as StoryChildren)
 
-  const showLine = () => setCurrentLine(lineNumber)
+  const showLine = () =>
+    setStorySettings({
+      type: StorySettingsAction.CurrentLine,
+      payload: lineNumber,
+    })
 
   return (
     <Wrapper className={className}>
@@ -93,8 +97,8 @@ const Story: FunctionComponent<StoryProps> = ({
         <Heading>{title}</Heading>
         <Button
           onClick={showLine}
-          enabled={lineNumber === currentLine}
-          visible={sourcePreview && !noCode}
+          enabled={lineNumber === storySettings.currentLine}
+          visible={storySettings.sourcePreview && !noCode}
         >
           <svg height="24" viewBox="0 0 24 24" width="24">
             <path d="M0 0h24v24H0V0z" fill="none" />
@@ -103,7 +107,7 @@ const Story: FunctionComponent<StoryProps> = ({
         </Button>
       </Header>
       <Container
-        borderMode={borderMode}
+        borderMode={storySettings.borderMode}
         darkMode={darkMode}
         transparentMode={transparentMode}
         customStyle={customStyle}

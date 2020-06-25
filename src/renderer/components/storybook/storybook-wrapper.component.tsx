@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useReducer } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import SourceCode from "Renderer/components/storybook/source-code.component"
@@ -37,43 +37,77 @@ const Wrapper = styled.section`
   align-items: flex-start;
 `
 
-const storySettings = {
+const defaultStorySettings = {
   borderMode: false,
   sourcePreview: false,
   currentLine: 0,
-  setCurrentLine: (line: number) => {
-    // Do nothing
-  },
 }
 
-export const StoryContext = createContext(storySettings)
+export const StoryContext = createContext({
+  storySettings: defaultStorySettings,
+  setStorySettings: (action: ActionType) => {
+    // Do nothing
+  },
+})
+
+interface StorySettings {
+  borderMode: boolean
+  sourcePreview: boolean
+  currentLine: number
+}
+
+export enum StorySettingsAction {
+  BorderMode,
+  SourcePreview,
+  CurrentLine,
+}
+
+type ActionType =
+  | { type: StorySettingsAction.BorderMode }
+  | { type: StorySettingsAction.SourcePreview }
+  | { type: StorySettingsAction.CurrentLine; payload: number }
+
+const reduceStorySettings = (state: StorySettings, action: ActionType) => {
+  switch (action.type) {
+    case StorySettingsAction.BorderMode:
+      return { ...state, borderMode: !state.borderMode }
+    case StorySettingsAction.SourcePreview:
+      return { ...state, sourcePreview: !state.sourcePreview }
+    case StorySettingsAction.CurrentLine:
+      return { ...state, currentLine: action.payload }
+  }
+}
 
 const StorybookWrapper: FunctionComponent = ({ className, children }) => {
-  const [borderMode, setBorderMode] = useState(false)
-  const [sourcePreview, setSourcePreview] = useState(false)
-  const [currentLine, setCurrentLine] = useState(0)
+  const [storySettings, setStorySettings] = useReducer(
+    reduceStorySettings,
+    defaultStorySettings
+  )
 
-  const toggleBorderMode = () => setBorderMode(prevState => !prevState)
-  const toggleSourcePreview = () => setSourcePreview(prevState => !prevState)
+  const toggleBorderMode = () =>
+    setStorySettings({ type: StorySettingsAction.BorderMode })
+  const toggleSourcePreview = () =>
+    setStorySettings({ type: StorySettingsAction.SourcePreview })
 
   const { fileName } = getSource(children as StoryChildren)
 
   return (
     <StoryContext.Provider
       value={{
-        borderMode,
-        sourcePreview,
-        currentLine,
-        setCurrentLine,
+        storySettings,
+        setStorySettings,
       }}
     >
       <Wrapper className={className}>
         <Container>{children}</Container>
-        {sourcePreview && fileName && (
-          <SourceCode filePath={fileName} currentLine={currentLine} />
+        {storySettings.sourcePreview && fileName && (
+          <SourceCode
+            filePath={fileName}
+            currentLine={storySettings.currentLine}
+          />
         )}
         <Settings>
-          <Button enabled={borderMode} onClick={toggleBorderMode}>
+          <Button enabled={storySettings.borderMode} onClick={toggleBorderMode}>
             <svg height="24" viewBox="0 0 24 24" width="24">
               <g>
                 <rect fill="none" height="24" width="24" />
@@ -81,7 +115,10 @@ const StorybookWrapper: FunctionComponent = ({ className, children }) => {
               </g>
             </svg>
           </Button>
-          <Button enabled={sourcePreview} onClick={toggleSourcePreview}>
+          <Button
+            enabled={storySettings.sourcePreview}
+            onClick={toggleSourcePreview}
+          >
             <svg height="24" viewBox="0 0 24 24" width="24">
               <path d="M0 0h24v24H0V0z" fill="none" />
               <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
