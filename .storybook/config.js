@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
 import { configure, addDecorator } from "@storybook/react"
@@ -24,12 +24,18 @@ const store = init({ models: { devMode }, plugins: [selectPlugin()] })
 // refactoredStories is an array containing parts of URLs assigned to already refactored stories
 // TODO: Remove after refactoring all stories
 const refactoredStories = ["components-core", "components-rest"]
-const newStory =
-  refactoredStories.some(story => {
-    return window.location.search.includes(`?id=${story}`)
-  }) || window.location.search.includes("?id=undefined")
 
 addDecorator(story => {
+  const [refactored, setRefactored] = useState(false)
+
+  useEffect(() => {
+    const newStory = refactoredStories.some(story => {
+      return window.location.search.includes(`?id=${story}`)
+    })
+
+    setRefactored(newStory)
+  }, [window.location])
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -41,7 +47,7 @@ addDecorator(story => {
           <>
             <GlobalStyle />
             <Normalize />
-            {newStory ? (
+            {refactored ? (
               <StorybookWrapper>{story()}</StorybookWrapper>
             ) : (
               story()
