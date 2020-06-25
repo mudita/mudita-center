@@ -70,7 +70,7 @@ export const StoryModalWrapper = styled.section`
 
   display: flex;
   flex-direction: column;
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("row")};
   border-radius: ${borderRadius("medium")};
   box-shadow: 0 0.2rem 3rem 0 rgba(0, 0, 0, 0.08);
 

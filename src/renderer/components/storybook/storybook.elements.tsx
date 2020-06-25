@@ -35,7 +35,7 @@ export const Heading = styled.h1`
   line-height: 1.2;
   white-space: pre-line;
 
-  // Default storybook font
+  /* Default storybook font */
   font-family: "Nunito Sans", -apple-system, ".SFNSText-Regular",
     "San Francisco", BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Helvetica,
     Arial, sans-serif;
