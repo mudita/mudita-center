@@ -6,7 +6,7 @@ import Table, {
   Row,
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox, {
   Size,
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
@@ -144,25 +144,30 @@ const MessageDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
   margin-right: ${({ sidebarOpened }) => (sidebarOpened ? "4rem" : "0")};
 `
 
+type SelectHook = Pick<
+  UseTableSelect<Topic>,
+  "getRowStatus" | "toggleRow" | "noneRowsSelected"
+>
+
 export interface ActiveRow {
   caller: Author
   messages: Msg[]
 }
 
-interface Props {
+interface Props extends SelectHook {
   list: Topic[]
-  openSidebar?: (row: ActiveRow) => void
-  activeRow?: ActiveRow
+  openSidebar?: (row: Topic) => void
+  activeRow?: Topic
 }
 
 const MessagesList: FunctionComponent<Props> = ({
   activeRow,
   list,
   openSidebar = noop,
+  getRowStatus,
+  toggleRow,
+  noneRowsSelected,
 }) => {
-  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect<
-    ActiveRow
-  >(list)
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
               and use it in <Messages />
@@ -175,18 +180,18 @@ const MessagesList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      {list.map(({ id, caller, messages, unread }) => {
-        const { selected, indeterminate } = getRowStatus({ caller, messages })
-        const lastMessage = last(messages)
-        const toggle = () => toggleRow({ caller, messages })
-        const open = () => openSidebar({ caller, messages })
-        const nameAvailable = isNameAvailable(caller)
+      {list.map(item => {
+        const { selected, indeterminate } = getRowStatus(item)
+        const lastMessage = last(item.messages)
+        const toggle = () => toggleRow(item)
+        const open = () => openSidebar(item)
+        const nameAvailable = isNameAvailable(item.caller)
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
-            key={id}
+            key={item.id}
             ref={ref}
             selected={selected}
-            active={isEqual(activeRow, { caller, messages })}
+            active={isEqual(activeRow, item)}
           >
             <AvatarCol>
               <Checkbox
@@ -196,22 +201,22 @@ const MessagesList: FunctionComponent<Props> = ({
                 indeterminate={indeterminate}
                 data-testid="checkbox"
               />
-              <InitialsAvatar user={caller} light={selected} />
+              <InitialsAvatar user={item.caller} light={selected} />
             </AvatarCol>
             <MessageCol onClick={open} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                   {nameAvailable
-                    ? `${caller.firstName} ${caller.lastName}`
-                    : caller.primaryPhoneNumber}
+                    ? `${item.caller.firstName} ${item.caller.lastName}`
+                    : item.caller.primaryPhoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage?.date).format("h:mm A")}
                 </Time>
                 <LastMessageText
-                  unread={unread}
+                  unread={item.unread}
                   displayStyle={
-                    unread
+                    item.unread
                       ? TextDisplayStyle.MediumText
                       : TextDisplayStyle.MediumFadedLightText
                   }
@@ -234,10 +239,10 @@ const MessagesList: FunctionComponent<Props> = ({
                   <ButtonComponent
                     labelMessage={{
                       id: "view.name.messages.dropdownCall",
-                      values: caller.firstName
-                        ? { name: caller.firstName }
+                      values: item.caller.firstName
+                        ? { name: item.caller.firstName }
                         : {
-                            name: caller.primaryPhoneNumber,
+                            name: item.caller.primaryPhoneNumber,
                           },
                     }}
                     Icon={Type.Calls}
@@ -291,17 +296,17 @@ const MessagesList: FunctionComponent<Props> = ({
         )
 
         const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow key={id} ref={ref}>
+          <MessageRow key={item.id} ref={ref}>
             <Col />
             <Col>
               <AvatarPlaceholder />
-              <TextPlaceholder charsCount={caller.firstName.length} />
+              <TextPlaceholder charsCount={item.caller.firstName.length} />
             </Col>
           </MessageRow>
         )
 
         return (
-          <InView key={id}>
+          <InView key={item.id}>
             {({ inView, ref }) =>
               inView ? interactiveRow(ref) : placeholderRow(ref)
             }
