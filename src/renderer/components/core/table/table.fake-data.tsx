@@ -1,6 +1,8 @@
 import Faker from "faker"
 import { groupBy, random, times, sample } from "lodash"
 import { CallStatus } from "Renderer/models/calls/calls.interface"
+import { generateFakeContact } from "Renderer/models/phone/phone.utils"
+import { Author } from "Renderer/models/messages/messages.interface"
 
 const createCall = () => {
   const status = sample([CallStatus.Missed, CallStatus.Received]) as CallStatus
@@ -33,62 +35,44 @@ const createText = () => ({
 
 export const notes = times(random(15, 25), createText)
 
-const createCaller = (inContacts: boolean) => {
-  return inContacts
-    ? {
-        id: Faker.random.uuid(),
-        firstName: Faker.name.firstName(),
-        lastName: Faker.name.lastName(),
-        phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-        inContacts,
-      }
-    : {
-        id: Faker.random.uuid(),
-        firstName: "",
-        lastName: "",
-        phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-        inContacts,
-      }
-}
-const createMessage = () => ({
+const generateEmptyContact = (): Author => ({
   id: Faker.random.uuid(),
-  text: Faker.lorem.sentence(10, 2),
+  firstName: "",
+  lastName: "",
+  primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
 })
-const createListOfMessages = () => times(random(1, 3), createMessage)
+
+const createAuthor = (inContacts: boolean): Author => {
+  return inContacts ? generateFakeContact() : generateEmptyContact()
+}
+
+const createMessages = (author: Author) => {
+  const interlocutor = Faker.random.boolean()
+  return {
+    author: interlocutor
+      ? author
+      : {
+          id: "123",
+          firstName: "John",
+          lastName: "Doe",
+          primaryPhoneNumber: "123 123 123",
+        },
+    id: Faker.random.uuid(),
+    date: Faker.date.past(),
+    content: Faker.lorem.sentences(2),
+    interlocutor,
+  }
+}
+
 const createTopic = () => {
   const inContacts = Faker.random.boolean()
-  const caller = createCaller(inContacts)
+  const caller = createAuthor(inContacts)
+  const createMessagesWithAuthor = () => createMessages(caller)
   return {
     id: Faker.random.uuid(),
     caller,
     unread: Faker.random.boolean(),
-    messages: [
-      {
-        author: caller,
-        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd572",
-        date: "2019-10-18T11:27:15.256Z",
-        content: createListOfMessages(),
-        interlocutor: true,
-      },
-      {
-        author: caller,
-        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-        date: "2019-10-18T11:27:15.256Z",
-        content: createListOfMessages(),
-        interlocutor: true,
-      },
-      {
-        author: {
-          firstName: "John",
-          lastName: "Doe",
-          inContacts: true,
-        },
-        id: Faker.random.uuid(),
-        date: "2019-10-18T11:45:35.112Z",
-        content: createListOfMessages(),
-        interlocutor: false,
-      },
-    ],
+    messages: times(random(5, 15), createMessagesWithAuthor),
   }
 }
 

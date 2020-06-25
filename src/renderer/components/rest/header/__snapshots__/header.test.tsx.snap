@@ -154,26 +154,6 @@ exports[`matches snapshot with tabs 1`] = `
     >
       <div
         class="c6 c7"
-        data-testid="icon-Contacts"
-      >
-        <test-file-stub
-          image="test-file-stub"
-        />
-      </div>
-      <p
-        class="c8 c9"
-      >
-        view.name.phone.contacts
-      </p>
-    </a>
-    <a
-      class="c4 c5"
-      displaystyle="9"
-      href="/phone/calls"
-      size="2"
-    >
-      <div
-        class="c6 c7"
         data-testid="icon-Calls"
       >
         <test-file-stub

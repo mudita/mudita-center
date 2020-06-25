@@ -9,7 +9,7 @@ import { Theme } from "./theming/theme"
 
 const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   html, body  {
-    background-color: ${backgroundColor("app")};
+    background-color: ${backgroundColor("main")};
     font-family: ${font("primary")};
     /* stylelint-disable unit-whitelist */
     font-size: 10px;
@@ -51,10 +51,10 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
     /* stylelint-disable no-descending-specificity */
     :hover, :focus {
       ::-webkit-scrollbar-thumb {
-        background-color: ${backgroundColor("grey4")};
+        background-color: ${backgroundColor("scroll")};
       }
       ::-webkit-scrollbar-thumb:horizontal {
-        background-color: ${backgroundColor("grey4")};
+        background-color: ${backgroundColor("scroll")};
       }
     }
     /* stylelint-enable no-descending-specificity */

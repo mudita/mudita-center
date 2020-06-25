@@ -37,8 +37,8 @@ const Panel = styled.div<{ selectionMode?: boolean }>`
   grid-auto-flow: column;
   grid-template-columns: 38rem 1fr;
   padding: 3.2rem 3rem 3.2rem 4rem;
-  background-color: ${backgroundColor("tableLabel")};
-  border-bottom: solid 0.1rem ${borderColor("listItem")};
+  background-color: ${backgroundColor("main")};
+  border-bottom: solid 0.1rem ${borderColor("list")};
 
   label {
     width: auto;

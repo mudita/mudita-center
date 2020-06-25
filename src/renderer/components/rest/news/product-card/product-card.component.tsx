@@ -21,7 +21,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 
 const ProductCardContainer = styled.div`
   width: 27.5rem;
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("row")};
   position: relative;
   border-radius: ${borderRadius("medium")};
 `
@@ -35,21 +35,21 @@ const ProductCardNotification = styled.div`
   right: 0;
   width: 20rem;
   padding: 2.4rem 0;
-  box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("grey")};
+  box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("semi")};
   border-radius: 0.4rem;
   background-color: inherit;
 `
 
 const ProductCardNotificationIcon = styled(Icon)`
   border-radius: 50%;
-  background-color: ${backgroundColor("blue")};
+  background-color: ${backgroundColor("activity")};
   margin-right: 0.8rem;
   svg {
     height: 1rem;
     width: 1rem;
   }
   path {
-    stroke: ${backgroundColor("light")};
+    stroke: ${backgroundColor("row")};
   }
 `
 
@@ -79,7 +79,7 @@ const ProductCardLabel = styled(Text)`
   margin-top: 1.6rem;
   text-align: center;
   border-radius: ${borderRadius("medium")};
-  box-shadow: 0 0.2rem 2rem 0 ${boxShadowColor("app")};
+  box-shadow: 0 0.2rem 2rem 0 ${boxShadowColor("full")};
 `
 
 const ProductListElement = styled.li`
@@ -97,7 +97,7 @@ const ProductListElement = styled.li`
     height: 0.5rem;
     width: 0.5rem;
     border-radius: 50%;
-    background-color: ${backgroundColor("dark")};
+    background-color: ${backgroundColor("super")};
   }
 `
 

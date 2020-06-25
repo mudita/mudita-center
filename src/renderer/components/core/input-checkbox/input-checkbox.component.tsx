@@ -54,7 +54,7 @@ const InputWrapper = styled.div<{ size: Size }>`
 `
 
 const checkedStyles = css`
-  background-color: ${backgroundColor("inputDark")};
+  background-color: ${backgroundColor("primary")};
   border-color: ${borderColor("hover")};
   + svg {
     display: initial;
@@ -68,9 +68,9 @@ const Input = styled.input<{ indeterminate: boolean }>`
   height: 100%;
   width: 100%;
   background-clip: content-box;
-  border: 0.1rem solid ${borderColor("default")};
+  border: 0.1rem solid ${borderColor("secondary")};
   border-radius: 0.2rem;
-  background-color: ${backgroundColor("light")};
+  background-color: ${backgroundColor("row")};
   transition: border-color ${transitionTime("quick")}
     ${transitionTimingFunction("smooth")};
 
@@ -94,7 +94,7 @@ const CheckIcon = styled(Icon)<{ indeterminate?: boolean }>`
   pointer-events: none;
   user-select: none;
   path {
-    stroke: ${backgroundColor("light")};
+    stroke: ${backgroundColor("row")};
   }
 `
 

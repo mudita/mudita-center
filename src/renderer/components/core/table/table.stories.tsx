@@ -205,7 +205,7 @@ storiesOf("Components|Table/Parts", module)
       <Part>
         <Text displayStyle={TextDisplayStyle.SmallText}>Hovered</Text>
         <SelectableFiles>
-          <Row style={{ backgroundColor: theme.color.background.accent }}>
+          <Row style={{ backgroundColor: theme.color.background.minor }}>
             <Col>
               <Checkbox checked={false} onChange={noop} />
               <div>Music</div>

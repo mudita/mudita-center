@@ -4,6 +4,7 @@ export const URL_MAIN = {
   overview: "/overview",
   messages: "/messages",
   phone: "/phone",
+  contacts: "/contacts",
   music: "/music",
   calendar: "/calendar",
   tools: "/tools",

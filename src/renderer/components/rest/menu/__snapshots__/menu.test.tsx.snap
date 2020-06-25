@@ -154,7 +154,7 @@ exports[`matches snapshot 1`] = `
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  margin: 2.5rem 0 1.6rem 0;
+  margin: 1.6rem 0 1.6rem 0;
 }
 
 .c12 {
@@ -193,7 +193,7 @@ exports[`matches snapshot 1`] = `
 }
 
 .c6 {
-  margin: 0 0 0.8rem 0;
+  margin: 0 0 0.4rem 0;
 }
 
 .c0 {
@@ -221,7 +221,7 @@ exports[`matches snapshot 1`] = `
 .c3 {
   height: 2rem;
   width: 8.6rem;
-  margin: 2rem 0 3.5rem;
+  margin: 2rem 0 2.4rem;
 }
 
 <div>
@@ -402,6 +402,30 @@ exports[`matches snapshot 1`] = `
           class="c8 c9"
         >
           view.name.phone
+        </p>
+      </a>
+    </div>
+    <div
+      class="c4"
+    >
+      <a
+        class="c5 c6"
+        displaystyle="8"
+        href="#/contacts"
+        size="2"
+      >
+        <div
+          class="c2 c7"
+          data-testid="icon-MenuContacts"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </div>
+        <p
+          class="c8 c9"
+        >
+          view.name.contacts
         </p>
       </a>
     </div>
