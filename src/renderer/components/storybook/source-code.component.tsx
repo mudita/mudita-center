@@ -85,12 +85,10 @@ const SourceCode: FunctionComponent<SourceCodeProps> = ({
 }) => {
   const codeRef = useRef<HTMLDivElement>(null)
   const [linesCount, setLinesCount] = useState(1)
-
-  const path = filePath.split("/src/")[1].replace(".stories.tsx", ".json")
-  const file = require(`../../../../.storybook/tmp/${path}`)
+  const [code, setCode] = useState("")
 
   useEffect(() => {
-    if (codeRef.current) {
+    if (codeRef.current && code) {
       const lines = codeRef.current.querySelectorAll(`code > span`)
       const firstSelectedLine = lines[Math.max(currentLine - 1, 0)]
       let tempLinesCount = 1
@@ -115,12 +113,20 @@ const SourceCode: FunctionComponent<SourceCodeProps> = ({
       codeRef.current.scrollTop =
         (firstSelectedLine as HTMLSpanElement).offsetTop - 30
     }
-  }, [currentLine])
+  }, [code, currentLine])
+
+  useEffect(() => {
+    ;(async () => {
+      const path = filePath.split("/src/")[1].replace(".stories.tsx", ".json")
+      const file = await import(`../../../../.storybook/tmp/${path}`)
+      setCode(file.code)
+    })()
+  }, [filePath])
 
   return (
     <Code currentLine={currentLine} linesCount={linesCount} ref={codeRef}>
       <SyntaxHighlighter language="jsx" style={prism} wrapLines>
-        {file.code}
+        {code}
       </SyntaxHighlighter>
     </Code>
   )
