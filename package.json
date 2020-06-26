@@ -34,7 +34,8 @@
     "TEST COMMANDS": "=========================================================",
     "test": "jest",
     "test:all": "npm t && npm run build",
-    "test:coverage": "npm t -- --coverage",
+    "test:units": "jest '(/__tests__/.*|(\\.|/)(test|spec))\\.([tj]sx?)$'",
+    "test:coverage": "npm run test:units -- --coverage",
     "test:e2e": "jest '(/__tests__/.*|(\\.|/)(e2e))\\.([tj]sx?)$'",
     "test:watch": "npm test -- --watch",
 
