@@ -10,6 +10,8 @@ jobs:
       matrix:
         node-version: [12.x]
 
+    timeout-minutes: 10
+
     steps:
       - uses: actions/checkout@v1
       - name: Use Node.js ${{ matrix.node-version }}
