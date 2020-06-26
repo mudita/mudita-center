@@ -151,9 +151,10 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
               const toggle = () => toggleRow(note)
 
               return (
-                <Row key={id}>
+                <Row key={id} data-testid={NotesTestIds.Note}>
                   <Col>
                     <Checkbox
+                      data-testid={NotesTestIds.Checkbox}
                       checked={selected}
                       indeterminate={indeterminate}
                       onChange={toggle}
@@ -179,7 +180,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
           </div>
         </Table>
       ) : (
-        <EmptyState>
+        <EmptyState data-testid={NotesTestIds.Empty}>
           <Text
             message={{ id: "view.name.notes.noNotes" }}
             displayStyle={TextDisplayStyle.LargeText}
