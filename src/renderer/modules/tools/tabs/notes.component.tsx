@@ -168,7 +168,9 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
                   </Col>
                   <Col onClick={noop}>
                     <Text displayStyle={TextDisplayStyle.LargeText}>
-                      {isToday(date) ? "Today" : moment(date).format("ll")}
+                      {isToday(date)
+                        ? intl.formatMessage({ id: "view.generic.today" })
+                        : moment(date).format("ll")}
                     </Text>
                   </Col>
                 </Row>

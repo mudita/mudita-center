@@ -1,6 +1,7 @@
 {
   "menu.header.desktopApp": "Desktop App",
   "menu.header.yourPure": "Your Pure",
+  "view.generic.today": "Today",
   "view.name.calendar": "Calendar",
   "view.name.filesManager": "Files manager",
   "view.name.filesManager.files.selectionsNumber": "{num, plural, =-1 {All Files} one {# File} other {# Files}} selected",

@@ -14,7 +14,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import styled, { keyframes } from "styled-components"
 
-const showTogglableWindow = keyframes`
+const showToggleableElement = keyframes`
   from {
     opacity: 0;
   }
@@ -25,7 +25,7 @@ const showTogglableWindow = keyframes`
 `
 
 export const SearchInput = styled(InputText)`
-  animation: ${showTogglableWindow} ${transitionTime("veryQuick")} forwards
+  animation: ${showToggleableElement} ${transitionTime("veryQuick")} forwards
     ${transitionTimingFunction("standard")};
   width: 38rem;
 `
@@ -66,7 +66,7 @@ export const Col = styled(BaseCol)`
 `
 
 export const SelectionManager = styled(BaseSelectionManager)`
-  animation: ${showTogglableWindow} 1s forwards linear;
+  animation: ${showToggleableElement} 1s forwards linear;
   margin-left: -2rem;
   width: 72rem;
 `
