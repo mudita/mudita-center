@@ -4,7 +4,7 @@ import { storiesOf } from "@storybook/react"
 
 import Notes from "Renderer/modules/tools/tabs/notes.component"
 
-const exampleData = Array.from(
+export const exampleData = Array.from(
   Array(Faker.random.number({ min: 10, max: 20 }))
 ).map(_ => ({
   id: Faker.random.uuid(),

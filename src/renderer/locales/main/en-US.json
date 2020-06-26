@@ -52,7 +52,7 @@
   "view.name.notes.newNote": "New note",
   "view.name.notes.note": "Note",
   "view.name.notes.edited": "Edited",
-  "view.name.notes.selected": "{num, plural, =-1 {All notes} one {# Note} other {# notes}} selected",
+  "view.name.notes.selected": "{num, plural, =-1 {All notes} one {# note} other {# notes}} selected",
   "view.name.notes.noNotes": "There are no notes",
   "view.name.overview": "Overview",
   "view.name.overview.network.name": "Network",
