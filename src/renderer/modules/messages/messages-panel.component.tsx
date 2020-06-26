@@ -12,12 +12,18 @@ import { searchIcon } from "Renderer/components/core/input-text/input-text.eleme
 import Button from "Renderer/components/core/button/button.component"
 import {
   DisplayStyle,
-  Size,
+  Size as ButtonSize,
 } from "Renderer/components/core/button/button.config"
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import InputText from "Renderer/components/core/input-text/input-text.component"
+import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
+import { Topic } from "Renderer/models/messages/messages.interface"
+import ButtonComponent from "Renderer/components/core/button/button.component"
+import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
+import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import SelectionManager from "App/renderer/components/core/selection-manager/selection-manager.component"
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -30,6 +36,25 @@ const MessagesButtonTogglerItem = styled(ButtonTogglerItem)`
 
 const SearchInput = styled(InputText)`
   width: 38rem;
+`
+
+const MessageSelectionManager = styled(SelectionManager)`
+  grid-template-columns: 3.2rem 1fr auto;
+
+  button {
+    padding: 0.5rem 0.8rem;
+  }
+`
+
+const MessageFiltersWrapper = styled(FiltersWrapper)<{
+  selectionMode: boolean
+}>`
+  ${({ selectionMode }) =>
+    selectionMode &&
+    css`
+      grid-template-areas: "Search New";
+      grid-template-columns: 1fr auto;
+    `}
 `
 
 const toggleState = [
@@ -46,6 +71,9 @@ interface Props {
   hideReadMessages: () => void
   searchValue: string
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
+  selectedItemsCount: number
+  allItemsSelected?: boolean
+  toggleAll: UseTableSelect<Topic>["toggleAll"]
 }
 
 const MessagesPanel: FunctionComponent<Props> = ({
@@ -53,42 +81,68 @@ const MessagesPanel: FunctionComponent<Props> = ({
   hideReadMessages,
   searchValue,
   changeSearchValue,
+  selectedItemsCount,
+  allItemsSelected,
+  toggleAll,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
+  const selectionMode = selectedItemsCount > 0
   return (
-    <FiltersWrapper checkMode>
-      <UnreadFilters>
-        <ButtonToggler>
-          {toggleState.map((label, i) => {
-            const onClick = () => {
-              i === 0 ? showAllMessages() : hideReadMessages()
-              setActiveLabel(label)
-            }
-            return (
-              <MessagesButtonTogglerItem
-                key={i}
-                label={label}
-                onClick={onClick}
-                active={activeLabel === label}
-              />
-            )
+    <MessageFiltersWrapper checkMode selectionMode={selectionMode}>
+      {!selectionMode && (
+        <UnreadFilters>
+          <ButtonToggler>
+            {toggleState.map((label, i) => {
+              const onClick = () => {
+                i === 0 ? showAllMessages() : hideReadMessages()
+                setActiveLabel(label)
+              }
+              return (
+                <MessagesButtonTogglerItem
+                  key={i}
+                  label={label}
+                  onClick={onClick}
+                  active={activeLabel === label}
+                />
+              )
+            })}
+          </ButtonToggler>
+        </UnreadFilters>
+      )}
+
+      {selectionMode ? (
+        <MessageSelectionManager
+          selectedItemsNumber={selectedItemsCount}
+          allItemsSelected={Boolean(allItemsSelected)}
+          message={messages.selectionsNumber}
+          checkboxSize={Size.Large}
+          onToggle={toggleAll}
+          buttons={[
+            <ButtonComponent
+              key="delete"
+              label={intl.formatMessage(messages.deleteButton)}
+              displayStyle={DisplayStyle.Link1}
+              Icon={Type.Delete}
+              onClick={noop}
+            />,
+          ]}
+        />
+      ) : (
+        <SearchInput
+          type={"search"}
+          label={intl.formatMessage({
+            id: "view.name.messages.search",
           })}
-        </ButtonToggler>
-      </UnreadFilters>
-      <SearchInput
-        type={"search"}
-        label={intl.formatMessage({
-          id: "view.name.messages.search",
-        })}
-        outlined
-        defaultValue={searchValue}
-        onChange={changeSearchValue}
-        leadingIcons={[searchIcon]}
-      />
+          outlined
+          defaultValue={searchValue}
+          onChange={changeSearchValue}
+          leadingIcons={[searchIcon]}
+        />
+      )}
       <ButtonWrapper>
         <Button
           displayStyle={DisplayStyle.Primary}
-          size={Size.FixedBig}
+          size={ButtonSize.FixedBig}
           label={intl.formatMessage({
             id: "view.name.messages.newMessage",
           })}
@@ -96,7 +150,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
           Icon={Type.PlusSign}
         />
       </ButtonWrapper>
-    </FiltersWrapper>
+    </MessageFiltersWrapper>
   )
 }
 

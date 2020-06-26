@@ -37,7 +37,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const _devClearMessages = () => setMessagesList([])
   const _devLoadDefaultMessages = () => setMessagesList(list)
-
   useEffect(() => setMessagesList(list), [list])
   return (
     <>
@@ -55,6 +54,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
         hideReadMessages={hideReadMessages}
         showAllMessages={showAllMessages}
         changeSearchValue={changeSearchValue}
+        selectedItemsCount={selectedRows.length}
+        toggleAll={toggleAll}
+        allItemsSelected={allRowsSelected}
       />
       <TableWithSidebarWrapper>
         <MessagesList
