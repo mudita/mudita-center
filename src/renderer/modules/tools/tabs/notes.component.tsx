@@ -74,6 +74,11 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
   const showSelectionManager = selectedRows.length > 0
   const hasNotes = notes.length > 0
 
+  /**
+   * Just an exemplary effect here, it will be removed
+   * after the logic implementation will take place.
+   */
+
   useEffect(() => {
     sortByDate()
     setNotes(sortedData)
