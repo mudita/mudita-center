@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css, FlattenInterpolation } from "styled-components"
 import {
@@ -82,7 +82,9 @@ const Story: FunctionComponent<StoryProps> = ({
   customStyle,
   noCode,
 }) => {
-  const { storySettings, setStorySettings } = useContext(StoryContext)
+  const { storySettings, setStorySettings, setCompatibleStory } = useContext(
+    StoryContext
+  )
   const { lineNumber } = getSource(children as StoryChildren)
 
   const showLine = () =>
@@ -90,6 +92,10 @@ const Story: FunctionComponent<StoryProps> = ({
       type: StorySettingsAction.CurrentLine,
       payload: lineNumber,
     })
+
+  useEffect(() => {
+    setCompatibleStory(true)
+  }, [])
 
   return (
     <Wrapper className={className}>
