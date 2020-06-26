@@ -67,33 +67,33 @@ const toggleState = [
 ] as const
 
 interface Props {
-  showAllMessages: () => void
-  hideReadMessages: () => void
+  showAllMessages?: () => void
+  hideReadMessages?: () => void
   searchValue: string
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
   selectedItemsCount: number
   allItemsSelected?: boolean
-  toggleAll: UseTableSelect<Topic>["toggleAll"]
+  toggleAll?: UseTableSelect<Topic>["toggleAll"]
 }
 
 const MessagesPanel: FunctionComponent<Props> = ({
-  showAllMessages,
-  hideReadMessages,
+  showAllMessages = noop,
+  hideReadMessages = noop,
   searchValue,
   changeSearchValue,
   selectedItemsCount,
   allItemsSelected,
-  toggleAll,
+  toggleAll = noop,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedItemsCount > 0
   return (
     <MessageFiltersWrapper checkMode selectionMode={selectionMode}>
       {!selectionMode && (
-        <UnreadFilters>
+        <UnreadFilters data-testid="filter-buttons">
           <ButtonToggler>
             {toggleState.map((label, i) => {
-              const onClick = () => {
+              const toggle = () => {
                 i === 0 ? showAllMessages() : hideReadMessages()
                 setActiveLabel(label)
               }
@@ -101,7 +101,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
                 <MessagesButtonTogglerItem
                   key={i}
                   label={label}
-                  onClick={onClick}
+                  onClick={toggle}
                   active={activeLabel === label}
                 />
               )
@@ -109,7 +109,6 @@ const MessagesPanel: FunctionComponent<Props> = ({
           </ButtonToggler>
         </UnreadFilters>
       )}
-
       {selectionMode ? (
         <MessageSelectionManager
           selectedItemsNumber={selectedItemsCount}
