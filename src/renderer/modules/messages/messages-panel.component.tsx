@@ -39,7 +39,8 @@ const SearchInput = styled(InputText)`
 `
 
 const MessageSelectionManager = styled(SelectionManager)`
-  grid-template-columns: 3.2rem 1fr auto;
+  grid-template-columns: 4.8rem 1fr;
+  padding-left: 1.4rem;
 
   button {
     padding: 0.5rem 0.8rem;
@@ -55,6 +56,7 @@ const MessageFiltersWrapper = styled(FiltersWrapper)<{
       grid-template-areas: "Search New";
       grid-template-columns: 1fr auto;
     `}
+  padding: 0 4rem;
 `
 
 const toggleState = [
