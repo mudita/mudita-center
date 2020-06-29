@@ -1,11 +1,11 @@
 import { ChangeEvent } from "react"
 import { connect } from "react-redux"
 import Templates from "Renderer/modules/messages/tabs/templates-ui.component"
-import { RootModel } from "Renderer/models/models"
+import { select } from "Renderer/store"
 
-const mapStateToProps = (state: RootModel) => {
-  return state.templates
-}
+const mapStateToProps = select(({ templates }) => ({
+  templates: templates.filteredList,
+}))
 
 const mapDispatchToProps = (dispatch: any) => ({
   onSearchTermChange: ({ target }: ChangeEvent<HTMLInputElement>) =>
