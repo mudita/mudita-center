@@ -40,7 +40,7 @@ const SearchInput = styled(InputText)`
 
 const MessageSelectionManager = styled(SelectionManager)`
   grid-template-columns: 4.8rem 1fr;
-  padding-left: 1.4rem;
+  padding: 0 1.6rem;
 
   button {
     padding: 0.5rem 0.8rem;
