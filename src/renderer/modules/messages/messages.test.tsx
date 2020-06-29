@@ -7,25 +7,26 @@ import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { fireEvent } from "@testing-library/dom"
 import { mockedList } from "Renderer/components/rest/messages/__mocks__/caller-data"
 import store from "Renderer/store"
+import { intl } from "Renderer/utils/intl"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
-test("sidebar is hidden by default", () => {
-  const { queryByTestId } = renderWithThemeAndIntl(
+const renderer = () => {
+  return renderWithThemeAndIntl(
     <Provider store={store}>
       <Messages searchValue={""} list={mockedList} />
     </Provider>
   )
+}
+
+test("sidebar is hidden by default", () => {
+  const { queryByTestId } = renderer()
   mockAllIsIntersecting(true)
   expect(queryByTestId("sidebar")).not.toBeInTheDocument()
 })
 
 test("clicked row display sidebar", () => {
-  const { getAllByTestId, getByTestId } = renderWithThemeAndIntl(
-    <Provider store={store}>
-      <Messages searchValue={""} list={mockedList} />
-    </Provider>
-  )
+  const { getAllByTestId, getByTestId } = renderer()
   mockAllIsIntersecting(true)
   const tableRow = getAllByTestId("message-row")[0]
   fireEvent.click(tableRow)
@@ -33,15 +34,95 @@ test("clicked row display sidebar", () => {
 })
 
 test("sidebar closes after clicking close button", () => {
-  const { getAllByTestId, getByTestId, queryByTestId } = renderWithThemeAndIntl(
-    <Provider store={store}>
-      <Messages searchValue={""} list={mockedList} />
-    </Provider>
-  )
+  const { getAllByTestId, getByTestId, queryByTestId } = renderer()
   mockAllIsIntersecting(true)
   const tableRow = getAllByTestId("message-row")[0]
   fireEvent.click(tableRow)
   const closeButton = getByTestId("sidebar-close")
   fireEvent.click(closeButton)
   expect(queryByTestId("sidebar")).not.toBeInTheDocument()
+})
+
+test("when at least one checkbox is checked, all checkboxes are visible", () => {
+  const { getAllByTestId } = renderer()
+  mockAllIsIntersecting(true)
+  const checkboxes = getAllByTestId("checkbox")
+  checkboxes.forEach(checkbox => expect(checkbox).not.toBeVisible())
+  fireEvent.click(checkboxes[0])
+  checkboxes.forEach(checkbox => expect(checkbox).toBeVisible())
+})
+
+test("dropdown call button has correct content", () => {
+  const { getAllByTestId } = renderer()
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-call")[0]).toHaveTextContent(
+    intl.formatMessage(
+      {
+        id: "view.name.messages.dropdownCall",
+      },
+      { name: mockedList[0].caller.firstName }
+    )
+  )
+})
+
+test("displays correct amount of dropdown call buttons", () => {
+  const { getAllByTestId } = renderer()
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-call")).toHaveLength(mockedList.length)
+})
+
+test("dropdown contact details button has correct content", () => {
+  const { getAllByTestId } = renderer()
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-contact-details")[0]).toHaveTextContent(
+    intl.formatMessage({
+      id: "view.name.messages.dropdownContactDetails",
+    })
+  )
+})
+
+test("displays correct amount of dropdown contact details buttons for contacts", () => {
+  const { getAllByTestId } = renderer()
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-contact-details")).toHaveLength(2)
+})
+
+test("displays correct amount of dropdown add to contacts buttons for person that is unknown", () => {
+  const { getAllByTestId } = renderer()
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-add-to-contacts")).toHaveLength(1)
+})
+
+test("dropdown mark as read button has correct content ", () => {
+  const { getAllByTestId } = renderer()
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
+    intl.formatMessage({
+      id: "view.name.messages.dropdownMarkAsRead",
+    })
+  )
+})
+
+test("displays correct amount of dropdown mark as read buttons", () => {
+  const { getAllByTestId } = renderer()
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(
+    mockedList.length
+  )
+})
+
+test("dropdown delete button has correct content", () => {
+  const { getAllByTestId } = renderer()
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
+    intl.formatMessage({
+      id: "view.name.messages.dropdownDelete",
+    })
+  )
+})
+
+test("displays correct amount of dropdown delete buttons", () => {
+  const { getAllByTestId } = renderer()
+  mockAllIsIntersecting(true)
+  expect(getAllByTestId("dropdown-delete")).toHaveLength(mockedList.length)
 })

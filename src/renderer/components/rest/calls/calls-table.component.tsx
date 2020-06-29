@@ -19,14 +19,12 @@ import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
-import {
-  Actions,
-  ActionsButton,
-} from "Renderer/components/rest/messages/messages-list.component"
 import moment from "moment"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import formatDuration from "Renderer/utils/format-duration"
 import { Call } from "Renderer/models/calls/calls.interface"
+import { ActionsButton } from "App/renderer/modules/messages/messages.styles"
+import { Actions } from "App/renderer/modules/messages/messages.styles"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
