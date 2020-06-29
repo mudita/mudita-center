@@ -19,11 +19,6 @@ export interface Message {
   author: Author
 }
 
-export interface ActiveRow {
-  caller: Author
-  messages: Message[]
-}
-
 export interface Topic {
   id: string
   caller: Author

@@ -6,6 +6,7 @@ import {
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
+import { ActiveRow } from "Renderer/components/rest/messages/messages-list.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -16,7 +17,6 @@ import MessageBubble from "Renderer/components/rest/messages/message-bubble.comp
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { ActiveRow } from "Renderer/models/messages/messages.interface"
 
 interface Props {
   details: ActiveRow
