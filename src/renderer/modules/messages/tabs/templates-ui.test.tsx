@@ -9,6 +9,7 @@ import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
+import { mockedTemplateData } from "Renderer/modules/messages/__mocks__/template-modal-data"
 
 mockAllIsIntersecting(true)
 
@@ -19,6 +20,7 @@ const renderTemplates = ({
 }: Partial<TemplatesProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <Templates
+      templates={mockedTemplateData}
       onDeleteButtonClick={onDeleteButtonClick}
       onNewButtonClick={onNewButtonClick}
       onSearchTermChange={onSearchTermChange}
