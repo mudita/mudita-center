@@ -17,12 +17,22 @@ export const getSource = (
   if (children._source) {
     return children._source
   }
-  if (children.props.children) {
-    if (Array.isArray(children.props.children)) {
-      return children.props.children[0]._source
+
+  const defaultSource = { lineNumber: 0, fileName: "" }
+  const grandchildren = children.props.children
+
+  if (grandchildren) {
+    if (Array.isArray(grandchildren)) {
+      if (grandchildren[0]._source) {
+        return grandchildren[0]._source
+      }
+      return defaultSource
+    }
+    if (grandchildren._source) {
+      return grandchildren._source
     } else {
-      return children.props.children._source
+      return defaultSource
     }
   }
-  return { lineNumber: 0, fileName: "" }
+  return defaultSource
 }

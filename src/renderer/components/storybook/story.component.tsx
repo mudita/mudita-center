@@ -68,7 +68,7 @@ const Container = styled.main<ContainerProps>`
   ${({ customStyle }) => customStyle};
 `
 
-interface StoryProps extends Omit<ContainerProps, "borderMode"> {
+export interface StoryProps extends ContainerProps {
   title?: string
   noCode?: boolean
 }
@@ -79,6 +79,7 @@ const Story: FunctionComponent<StoryProps> = ({
   title,
   darkMode,
   transparentMode,
+  borderMode,
   customStyle,
   noCode,
 }) => {
@@ -113,7 +114,7 @@ const Story: FunctionComponent<StoryProps> = ({
         </Button>
       </Header>
       <Container
-        borderMode={storySettings.borderMode}
+        borderMode={borderMode || storySettings.borderMode}
         darkMode={darkMode}
         transparentMode={transparentMode}
         customStyle={customStyle}

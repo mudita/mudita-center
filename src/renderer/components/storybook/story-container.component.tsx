@@ -2,7 +2,6 @@ import React, { createContext, ReactElement } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { FlattenInterpolation } from "styled-components"
 import { Heading, Wrapper } from "./storybook.elements"
-import flatten from "lodash/flatten"
 
 const ContainerHeading = styled(Heading)`
   font-weight: 600;
@@ -24,7 +23,7 @@ const Container = styled.div<{
   ${({ customStyle }) => customStyle};
 `
 
-interface StoryContainerProps {
+export interface StoryContainerProps {
   title?: string
   column?: boolean
   darkMode?: boolean
@@ -44,9 +43,13 @@ const StoryContainer: FunctionComponent<StoryContainerProps> = ({
   <DarkModeContext.Provider value={{ darkMode: Boolean(darkMode) }}>
     <Wrapper className={className}>
       {title && <ContainerHeading>{title}</ContainerHeading>}
-      <Container column={column} customStyle={customStyle}>
+      <Container
+        column={column}
+        customStyle={customStyle}
+        data-testid="container"
+      >
         {children &&
-          flatten([children]).map((child, index) =>
+          React.Children.map(children, (child, index) =>
             React.cloneElement(child as ReactElement, {
               key: index,
               ...(darkMode !== undefined && { darkMode }),

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useState } from "react"
+import React, { createContext, useEffect, useReducer, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import SourceCode from "Renderer/components/storybook/source-code.component"
@@ -87,6 +87,7 @@ const StorybookWrapper: FunctionComponent = ({ className, children }) => {
     defaultStorySettings
   )
   const [compatibleStory, setCompatibleStory] = useState(false)
+  const [code, setCode] = useState("")
 
   const toggleBorderMode = () =>
     setStorySettings({ type: StorySettingsAction.BorderMode })
@@ -94,6 +95,16 @@ const StorybookWrapper: FunctionComponent = ({ className, children }) => {
     setStorySettings({ type: StorySettingsAction.SourcePreview })
 
   const { fileName } = getSource(children as StoryChildren)
+
+  useEffect(() => {
+    if (fileName) {
+      ;(async () => {
+        const path = fileName.split("/src/")[1].replace(".stories.tsx", ".json")
+        const file = await import(`../../../../.storybook/tmp/${path}`)
+        setCode(file.code)
+      })()
+    }
+  }, [fileName])
 
   return (
     <StoryContext.Provider
@@ -107,15 +118,13 @@ const StorybookWrapper: FunctionComponent = ({ className, children }) => {
         <Wrapper className={className}>
           <Container>{children}</Container>
           {storySettings.sourcePreview && fileName && (
-            <SourceCode
-              filePath={fileName}
-              currentLine={storySettings.currentLine}
-            />
+            <SourceCode code={code} currentLine={storySettings.currentLine} />
           )}
           <Settings>
             <Button
               enabled={storySettings.borderMode}
               onClick={toggleBorderMode}
+              data-testid="toggleBorderMode"
             >
               <svg height="24" viewBox="0 0 24 24" width="24">
                 <g>
@@ -127,6 +136,7 @@ const StorybookWrapper: FunctionComponent = ({ className, children }) => {
             <Button
               enabled={storySettings.sourcePreview}
               onClick={toggleSourcePreview}
+              data-testid="toggleSourcePreview"
             >
               <svg height="24" viewBox="0 0 24 24" width="24">
                 <path d="M0 0h24v24H0V0z" fill="none" />

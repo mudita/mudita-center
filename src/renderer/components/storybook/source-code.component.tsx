@@ -75,17 +75,16 @@ const Code = styled.code<{ currentLine?: number; linesCount?: number }>`
 `
 
 export interface SourceCodeProps {
-  currentLine: number
-  filePath: string
+  currentLine?: number
+  code: string
 }
 
 const SourceCode: FunctionComponent<SourceCodeProps> = ({
-  currentLine,
-  filePath,
+  currentLine = 0,
+  code,
 }) => {
   const codeRef = useRef<HTMLDivElement>(null)
   const [linesCount, setLinesCount] = useState(1)
-  const [code, setCode] = useState("")
 
   useEffect(() => {
     if (codeRef.current && code) {
@@ -114,14 +113,6 @@ const SourceCode: FunctionComponent<SourceCodeProps> = ({
         (firstSelectedLine as HTMLSpanElement).offsetTop - 30
     }
   }, [code, currentLine])
-
-  useEffect(() => {
-    ;(async () => {
-      const path = filePath.split("/src/")[1].replace(".stories.tsx", ".json")
-      const file = await import(`../../../../.storybook/tmp/${path}`)
-      setCode(file.code)
-    })()
-  }, [filePath])
 
   return (
     <Code currentLine={currentLine} linesCount={linesCount} ref={codeRef}>
