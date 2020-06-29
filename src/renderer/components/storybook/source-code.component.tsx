@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter"
-import jsx from "react-syntax-highlighter/dist/esm/languages/prism/jsx"
-import prism from "react-syntax-highlighter/dist/esm/styles/prism/prism"
+import jsx from "react-syntax-highlighter/dist/cjs/languages/prism/jsx"
+import prism from "react-syntax-highlighter/dist/cjs/styles/prism/prism"
 import styled, { css } from "styled-components"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
