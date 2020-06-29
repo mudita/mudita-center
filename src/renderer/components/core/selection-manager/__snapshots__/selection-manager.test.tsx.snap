@@ -127,6 +127,7 @@ exports[`matches snapshot 1`] = `
 <div>
   <section
     class="c0"
+    data-testid="selection-manager"
   >
     <div
       class="c1"
