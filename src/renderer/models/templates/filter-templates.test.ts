@@ -11,6 +11,16 @@ test("finds correct template with new line", () => {
   expect(filterTemplates(mockedTemplateData, searchValue)).toHaveLength(1)
 })
 
+test("finds correct template for strings with ignored white spaces", () => {
+  const searchValueWithIgnoredWhiteSpaces = mockedTemplateData[0].text.replace(
+    /\s/g,
+    ""
+  )
+  expect(
+    filterTemplates(mockedTemplateData, searchValueWithIgnoredWhiteSpaces)
+  ).toHaveLength(1)
+})
+
 test("does not match any template", () => {
   const searchValue = "adasdaldkoa"
   expect(filterTemplates(mockedTemplateData, searchValue)).toHaveLength(0)
