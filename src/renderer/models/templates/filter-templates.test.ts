@@ -10,3 +10,8 @@ test("finds correct template with new line", () => {
   const searchValue = mockedTemplateData[0].text + "\n"
   expect(filterTemplates(mockedTemplateData, searchValue)).toHaveLength(1)
 })
+
+test("does not match any template", () => {
+  const searchValue = "adasdaldkoa"
+  expect(filterTemplates(mockedTemplateData, searchValue)).toHaveLength(0)
+})

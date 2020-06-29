@@ -32,6 +32,8 @@
   "view.name.messages.templates.deleteButton": "Delete",
   "view.name.messages.templates.cancelButton": "Cancel",
   "view.name.messages.templates.saveButton": "Save",
+  "view.name.messages.templates.emptyList.title": "No templates found",
+  "view.name.messages.templates.emptyList.description": "Search result does not match any template.",
   "view.name.music": "Music",
   "view.name.music.allSongs": "All Songs",
   "view.name.music.allSongs.selectionsNumber": "{num, plural, =-1 {All Songs} one {# Song} other {# Songs}} selected",
