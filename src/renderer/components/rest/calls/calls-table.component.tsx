@@ -27,6 +27,9 @@ import moment from "moment"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import formatDuration from "Renderer/utils/format-duration"
 import { Call } from "Renderer/models/calls/calls.interface"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import ButtonComponent from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -82,6 +85,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
       {calls.map(({ caller, id, date, duration, timesMissed }, index) => {
         const { selected, indeterminate } = getRowStatus(id)
         const toggle = () => toggleRow(id)
+        const nameAvailable = isNameAvailable(caller)
         return (
           <Row key={id} data-testid="calls-row">
             <Col>
@@ -94,7 +98,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
               />
             </Col>
             <Col data-testid="caller-name">
-              {caller?.firstName && caller?.lastName
+              {nameAvailable
                 ? createFullName(caller)
                 : caller.primaryPhoneNumber}
               {timesMissed > 1 && ` (${timesMissed})`}
@@ -115,7 +119,49 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
                   }
                   onOpen={noop}
                   onClose={noop}
-                />
+                >
+                  <ButtonComponent
+                    labelMessage={{
+                      id: "component.dropdown.call",
+                      values: nameAvailable
+                        ? { name: caller.firstName || caller.lastName }
+                        : {
+                            name: caller.primaryPhoneNumber,
+                          },
+                    }}
+                    Icon={Type.Calls}
+                    onClick={noop}
+                    displayStyle={DisplayStyle.Dropdown}
+                    data-testid="dropdown-call"
+                  />
+                  <ButtonComponent
+                    labelMessage={{
+                      id: "view.name.phone.calls.sendMessage",
+                    }}
+                    Icon={Type.BorderCheckIcon}
+                    onClick={noop}
+                    displayStyle={DisplayStyle.Dropdown}
+                    data-testid="send-message"
+                  />
+                  <ButtonComponent
+                    labelMessage={{
+                      id: "view.name.phone.calls.details",
+                    }}
+                    Icon={Type.Contacts}
+                    onClick={noop}
+                    displayStyle={DisplayStyle.Dropdown}
+                    data-testid="call-details"
+                  />
+                  <ButtonComponent
+                    labelMessage={{
+                      id: "view.name.phone.calls.deleteCall",
+                    }}
+                    Icon={Type.Delete}
+                    onClick={noop}
+                    displayStyle={DisplayStyle.Dropdown}
+                    data-testid="delete-call"
+                  />
+                </Dropdown>
               </Actions>
             </Col>
           </Row>

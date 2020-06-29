@@ -6,18 +6,30 @@ import { deburr } from "lodash"
 // TODO: remove before production
 export const speedDialNumbers = [2, 3, 4, 5, 6, 7, 8, 9]
 
-export const generateFakeContact = (speedDials: number[] = []): Contact => {
+const generatePhoneNumberOrEmptyString = (force?: boolean) => {
+  if (force) {
+    return Faker.phone.phoneNumber("+## ### ### ###")
+  }
+  return Faker.random.boolean()
+    ? Faker.phone.phoneNumber("+## ### ### ###")
+    : ""
+}
+
+export const generateFakeContact = (
+  speedDials: number[] = [],
+  options?: { forcePrimaryPhoneNumber?: boolean }
+): Contact => {
   const favourite = Math.random() < 0.15
   const firstName =
-    Math.random() < 0.6 || favourite ? Faker.name.firstName() : ""
-  const lastName = Math.random() < 0.6 ? Faker.name.lastName() : ""
-  const primaryPhoneNumber =
-    Math.random() < 0.5 ? Faker.phone.phoneNumber("+###########") : ""
-  const secondaryPhoneNumber =
-    Math.random() < 0.5 ? Faker.phone.phoneNumber("+###########") : ""
+    Faker.random.boolean() || favourite ? Faker.name.firstName() : ""
+  const lastName = Faker.random.boolean() ? Faker.name.lastName() : ""
+  const primaryPhoneNumber = generatePhoneNumberOrEmptyString(
+    options?.forcePrimaryPhoneNumber
+  )
+  const secondaryPhoneNumber = generatePhoneNumberOrEmptyString()
   const blocked =
     !favourite && (primaryPhoneNumber || secondaryPhoneNumber)
-      ? Math.random() < 0.5
+      ? Faker.random.boolean()
       : false
   const speedDial =
     !blocked &&
@@ -32,14 +44,18 @@ export const generateFakeContact = (speedDials: number[] = []): Contact => {
     lastName,
     primaryPhoneNumber,
     secondaryPhoneNumber,
-    email: Math.random() < 0.5 ? Faker.internet.email(firstName, lastName) : "",
+    email: Faker.random.boolean()
+      ? Faker.internet.email(firstName, lastName)
+      : "",
     note: Faker.lorem.words(Math.random() * 4),
-    ice: Math.random() < 0.2,
+    ice: Faker.random.boolean(),
     favourite,
     blocked,
     speedDial,
-    firstAddressLine: Math.random() < 0.5 ? Faker.address.streetAddress() : "",
-    secondAddressLine: Math.random() < 0.5 ? Faker.address.city() : "",
+    firstAddressLine: Faker.random.boolean()
+      ? Faker.address.streetAddress()
+      : "",
+    secondAddressLine: Faker.random.boolean() ? Faker.address.city() : "",
   }
 }
 

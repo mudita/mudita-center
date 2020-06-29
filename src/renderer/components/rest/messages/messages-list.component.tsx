@@ -39,6 +39,7 @@ import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
 import { isEqual, last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import { createFullName } from "Renderer/models/phone/phone.utils"
 
 const checkboxVisibleStyles = css`
   display: block;
@@ -207,7 +208,7 @@ const MessagesList: FunctionComponent<Props> = ({
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                   {nameAvailable
-                    ? `${item.caller.firstName} ${item.caller.lastName}`
+                    ? createFullName(item.caller)
                     : item.caller.primaryPhoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
@@ -238,7 +239,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 >
                   <ButtonComponent
                     labelMessage={{
-                      id: "view.name.messages.dropdownCall",
+                      id: "component.dropdown.call",
                       values: item.caller.firstName
                         ? { name: item.caller.firstName }
                         : {

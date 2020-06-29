@@ -2,6 +2,7 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import CallsTable from "Renderer/components/rest/calls/calls-table.component"
 import { mockData } from "App/__mocks__/calls-mock-data"
+import { intl } from "Renderer/utils/intl"
 
 const renderer = () => {
   return renderWithThemeAndIntl(<CallsTable calls={mockData} />)
@@ -34,4 +35,49 @@ test("past date is displayed correctly", () => {
   const { getAllByTestId } = renderer()
   const pastDataExampleCol = getAllByTestId("call-date")[0]
   expect(pastDataExampleCol).toHaveTextContent(`Jul 2, 2019`)
+})
+
+test("past date is displayed correctly", () => {
+  const { getAllByTestId } = renderer()
+  const pastDataExampleCol = getAllByTestId("call-date")[0]
+  expect(pastDataExampleCol).toHaveTextContent(`Jul 2, 2019`)
+})
+
+test("dropdown call button has correct content", () => {
+  const { getAllByTestId } = renderer()
+  expect(getAllByTestId("dropdown-call")[0]).toHaveTextContent(
+    intl.formatMessage(
+      {
+        id: "component.dropdown.call",
+      },
+      { name: mockData[0].caller.firstName }
+    )
+  )
+})
+
+test("send message button has correct content", () => {
+  const { getAllByTestId } = renderer()
+  expect(getAllByTestId("send-message")[0]).toHaveTextContent(
+    intl.formatMessage({
+      id: "view.name.phone.calls.sendMessage",
+    })
+  )
+})
+
+test("call details button has correct content", () => {
+  const { getAllByTestId } = renderer()
+  expect(getAllByTestId("call-details")[0]).toHaveTextContent(
+    intl.formatMessage({
+      id: "view.name.phone.calls.details",
+    })
+  )
+})
+
+test("delete call button has correct content", () => {
+  const { getAllByTestId } = renderer()
+  expect(getAllByTestId("delete-call")[0]).toHaveTextContent(
+    intl.formatMessage({
+      id: "view.name.phone.calls.deleteCall",
+    })
+  )
 })
