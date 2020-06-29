@@ -4,7 +4,7 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Templates, {
   TemplatesProps,
-} from "Renderer/modules/messages/tabs/templates.component"
+} from "Renderer/modules/messages/tabs/templates-ui.component"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
