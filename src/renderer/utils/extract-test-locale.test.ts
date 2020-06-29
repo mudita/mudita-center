@@ -7,8 +7,8 @@ const TEST_DATA = {
 
 test("values are the same as keys", () => {
   expect(extractLanguageKeys(TEST_DATA)).toMatchObject({
-    "menu.header.desktopApp": "menu.header.desktopApp",
-    "menu.header.yourPure": "menu.header.yourPure",
+    "menu.header.desktopApp": "[value] menu.header.desktopApp",
+    "menu.header.yourPure": "[value] menu.header.yourPure",
   })
 })
 

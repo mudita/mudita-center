@@ -169,7 +169,7 @@ exports[`matches snapshot 1`] = `
       <p
         class="c2 c3"
       >
-        view.name.settings.backup.description
+        [value] view.name.settings.backup.description
       </p>
     </div>
     <div
@@ -181,7 +181,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c6 c7"
         >
-          view.name.settings.backup.label
+          [value] view.name.settings.backup.label
         </p>
         <p
           class="c2 c8"
@@ -201,7 +201,7 @@ exports[`matches snapshot 1`] = `
           <p
             class="c11 c12"
           >
-            view.name.settings.backup.buttonLabel
+            [value] view.name.settings.backup.buttonLabel
           </p>
         </button>
       </div>

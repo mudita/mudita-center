@@ -7,7 +7,7 @@ export default (input: LanguageDictionary): LanguageDictionary => {
     return data.reduce((acc: LanguageDictionary, item: string) => {
       return {
         ...acc,
-        [item]: item,
+        [item]: `[value] ${item}`,
       }
     }, {})
   }

@@ -14,8 +14,10 @@ test("should render default case", () => {
   const { getByText } = renderWithThemeAndIntl(
     <Text displayStyle={TextDisplayStyle.Default} message={message} />
   )
-  expect(getByText(exampleMessageId).tagName.toLowerCase()).toBe(defaultTag)
-  expect(getByText(exampleMessageId)).toHaveTextContent(exampleMessageId)
+  expect(
+    getByText(exampleMessageId, { exact: false }).tagName.toLowerCase()
+  ).toBe(defaultTag)
+  expect(getByText(exampleMessageId, { exact: false })).toBeTranslationKey()
 })
 
 test("should render with children and as prop", () => {
@@ -41,7 +43,7 @@ test("should render with mapped element tagname", () => {
       message={{ id: exampleMessageId }}
     />
   )
-  expect(getByText(exampleMessageId).tagName.toLowerCase()).toBe(
-    expectedPrimaryHeadingTag
-  )
+  expect(
+    getByText(exampleMessageId, { exact: false }).tagName.toLowerCase()
+  ).toBe(expectedPrimaryHeadingTag)
 })

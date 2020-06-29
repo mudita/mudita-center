@@ -44,7 +44,8 @@ test("only close button is rendered by default", () => {
       <h1>lala</h1>
     </Modal>
   )
-  expect(getByText(closeButtonText)).toBeInTheDocument()
+  expect(getByText(closeButtonText, { exact: false })).toBeInTheDocument()
+  expect(getByText(closeButtonText, { exact: false })).toBeTranslationKey()
 })
 
 test("action button is rendered when label and onActionButtonClick are provided", () => {
