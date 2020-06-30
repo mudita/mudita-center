@@ -182,14 +182,15 @@ const MessagesList: FunctionComponent<Props> = ({
       hideColumns={Boolean(activeRow)}
     >
       {list.map(item => {
+        const { messages, caller, unread, id } = item
         const { selected, indeterminate } = getRowStatus(item)
-        const lastMessage = last(item.messages)
+        const lastMessage = last(messages)
         const toggle = () => toggleRow(item)
         const open = () => openSidebar(item)
-        const nameAvailable = isNameAvailable(item.caller)
+        const nameAvailable = isNameAvailable(caller)
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow
-            key={item.id}
+            key={id}
             ref={ref}
             selected={selected}
             active={isEqual(activeRow, item)}
@@ -202,22 +203,22 @@ const MessagesList: FunctionComponent<Props> = ({
                 indeterminate={indeterminate}
                 data-testid="checkbox"
               />
-              <InitialsAvatar user={item.caller} light={selected} />
+              <InitialsAvatar user={caller} light={selected} />
             </AvatarCol>
             <MessageCol onClick={open} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                   {nameAvailable
-                    ? createFullName(item.caller)
+                    ? createFullName(caller)
                     : item.caller.primaryPhoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage?.date).format("h:mm A")}
                 </Time>
                 <LastMessageText
-                  unread={item.unread}
+                  unread={unread}
                   displayStyle={
-                    item.unread
+                    unread
                       ? TextDisplayStyle.MediumText
                       : TextDisplayStyle.MediumFadedLightText
                   }
@@ -240,10 +241,10 @@ const MessagesList: FunctionComponent<Props> = ({
                   <ButtonComponent
                     labelMessage={{
                       id: "component.dropdown.call",
-                      values: item.caller.firstName
-                        ? { name: item.caller.firstName }
+                      values: caller.firstName
+                        ? { name: caller.firstName }
                         : {
-                            name: item.caller.primaryPhoneNumber,
+                            name: caller.primaryPhoneNumber,
                           },
                     }}
                     Icon={Type.Calls}
@@ -297,17 +298,17 @@ const MessagesList: FunctionComponent<Props> = ({
         )
 
         const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow key={item.id} ref={ref}>
+          <MessageRow key={id} ref={ref}>
             <Col />
             <Col>
               <AvatarPlaceholder />
-              <TextPlaceholder charsCount={item.caller.firstName.length} />
+              <TextPlaceholder charsCount={caller.firstName.length} />
             </Col>
           </MessageRow>
         )
 
         return (
-          <InView key={item.id}>
+          <InView key={id}>
             {({ inView, ref }) =>
               inView ? interactiveRow(ref) : placeholderRow(ref)
             }
