@@ -127,6 +127,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
               onClick={noop}
             />,
           ]}
+          data-testid="selection-manager"
         />
       ) : (
         <SearchInput
