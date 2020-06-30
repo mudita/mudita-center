@@ -241,11 +241,9 @@ const MessagesList: FunctionComponent<Props> = ({
                   <ButtonComponent
                     labelMessage={{
                       id: "component.dropdown.call",
-                      values: caller.firstName
-                        ? { name: caller.firstName }
-                        : {
-                            name: caller.primaryPhoneNumber,
-                          },
+                      values: {
+                        name: caller.firstName || caller.primaryPhoneNumber,
+                      },
                     }}
                     Icon={Type.Calls}
                     onClick={noop}
