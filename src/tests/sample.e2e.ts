@@ -1,21 +1,21 @@
-const hooks = require("./hooks")
+import { startApp, stopApp } from "App/tests/hooks"
 
 describe("Sample Test", () => {
-  let app
+  let app: any
 
   beforeEach(async () => {
-    app = await hooks.startApp()
+    app = await startApp()
   })
 
   afterEach(async () => {
-    await hooks.stopApp(app)
+    await stopApp(app)
   })
 
-  test("opens a window", async () => {
+  test("opens a window, checks its count", async () => {
     const count = await app.client.waitUntilWindowLoaded().getWindowCount()
     expect(count).toEqual(1)
   })
-  test("should ", async () => {
+  test("sample test for getting html element", async () => {
     const a = await app.client.getTagName(
       "*[data-testid='icon-MuditaLogoWithText']"
     )
