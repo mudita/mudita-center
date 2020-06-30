@@ -71,8 +71,8 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
     setNotes(mockFilter(sortedData, selectedRows as string[]))
   }
 
-  const showSelectionManager = selectedRows.length > 0
-  const displayNotes = notes.length > 0
+  const selectionManagerVisible = selectedRows.length > 0
+  const notesAvailable = notes.length > 0
 
   /**
    * Just an exemplary effect here, it will be removed
@@ -91,7 +91,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
   return (
     <>
       <FiltersWrapper checkMode>
-        {showSelectionManager ? (
+        {selectionManagerVisible ? (
           <SelectionManager
             data-testid={NotesTestIds.SelectionElement}
             selectedItemsNumber={selectedRows.length}
@@ -115,9 +115,9 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
           <SearchInput
             data-testid={NotesTestIds.SearchElement}
             type={"search"}
-            disabled={!displayNotes}
+            disabled={!notesAvailable}
             label={intl.formatMessage({
-              id: displayNotes
+              id: notesAvailable
                 ? "view.name.notes.searchNotes"
                 : "view.name.notes.noNotes",
             })}
@@ -135,7 +135,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
         />
       </FiltersWrapper>
 
-      {displayNotes ? (
+      {notesAvailable ? (
         <Table>
           <Labels>
             <Col />
