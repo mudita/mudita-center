@@ -31,7 +31,7 @@ import {
   SelectionManager,
   TextCut,
   EmptyState,
-} from "Renderer/modules/tools/tabs/notes.styles"
+} from "Renderer/modules/tools/tabs/notes.styled"
 
 import FunctionComponent from "Renderer/types/function-component.interface"
 import useSort from "Renderer/utils/hooks/use-sort/use-sort"
@@ -72,7 +72,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
   }
 
   const showSelectionManager = selectedRows.length > 0
-  const hasNotes = notes.length > 0
+  const displayNotes = notes.length > 0
 
   /**
    * Just an exemplary effect here, it will be removed
@@ -115,9 +115,9 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
           <SearchInput
             data-testid={NotesTestIds.SearchElement}
             type={"search"}
-            disabled={!hasNotes}
+            disabled={!displayNotes}
             label={intl.formatMessage({
-              id: hasNotes
+              id: displayNotes
                 ? "view.name.notes.searchNotes"
                 : "view.name.notes.noNotes",
             })}
@@ -135,7 +135,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
         />
       </FiltersWrapper>
 
-      {hasNotes ? (
+      {displayNotes ? (
         <Table>
           <Labels>
             <Col />
