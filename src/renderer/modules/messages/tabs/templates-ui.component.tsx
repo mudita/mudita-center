@@ -13,6 +13,7 @@ import { useTextEditor } from "Renderer/components/core/text-editor/text-editor.
 import TextEditor from "Renderer/components/core/text-editor/text-editor.component"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
+import { noop } from "Renderer/utils/noop"
 
 const messages = defineMessages({
   charactersNumber: { id: "view.name.messages.templates.charactersNumber" },
@@ -30,15 +31,15 @@ export interface Template {
 
 export interface TemplatesProps {
   templates: Template[]
-  onDeleteButtonClick: () => void
-  onNewButtonClick: () => void
-  onSearchTermChange: (event: ChangeEvent<HTMLInputElement>) => void
+  onDeleteButtonClick?: () => void
+  onNewButtonClick?: () => void
+  onSearchTermChange?: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 const Templates: FunctionComponent<TemplatesProps> = ({
-  onDeleteButtonClick,
-  onNewButtonClick,
-  onSearchTermChange,
+  onDeleteButtonClick = noop,
+  onNewButtonClick = noop,
+  onSearchTermChange = noop,
   templates = [],
 }) => {
   const { selectedRows, allRowsSelected, toggleAll, ...rest } = useTableSelect<

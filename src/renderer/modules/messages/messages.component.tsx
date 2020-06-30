@@ -10,7 +10,6 @@ import {
 import { Type } from "Renderer/components/core/icon/icon.config"
 import InputText from "Renderer/components/core/input-text/input-text.component"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
-
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import MessagesList, {
   ActiveRow,

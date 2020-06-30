@@ -286,8 +286,9 @@ export const EmptyState: FunctionComponent<EmptyState> = ({
   className,
   title,
   description,
+  ...rest
 }) => (
-  <EmptyStateWrapper className={className}>
+  <EmptyStateWrapper className={className} {...rest}>
     <Text displayStyle={TextDisplayStyle.TertiaryHeading} message={title} />
     {description && (
       <Text

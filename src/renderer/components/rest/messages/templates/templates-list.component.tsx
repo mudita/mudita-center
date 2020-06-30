@@ -23,6 +23,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import { UseTableSidebar } from "Renderer/utils/hooks/useTableSidebar"
 import { InView } from "react-intersection-observer"
+import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.interface"
 
 const animatedOpacityStyles = css`
   opacity: 0;
@@ -201,6 +202,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
           description={{
             id: "view.name.messages.templates.emptyList.description",
           }}
+          data-testid={TemplatesTestIds.EmptyState}
         />
       )}
     </TemplatesListTable>
