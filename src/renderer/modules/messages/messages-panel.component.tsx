@@ -1,12 +1,7 @@
 import React, { ChangeEvent, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import {
-  FiltersWrapper,
-  UnreadFilters,
-} from "Renderer/components/rest/messages/topics-table.component"
-import ButtonToggler, {
-  ButtonTogglerItem,
-} from "Renderer/components/core/button-toggler/button-toggler.component"
+import { UnreadFilters } from "Renderer/components/rest/messages/topics-table.component"
+import ButtonToggler from "Renderer/components/core/button-toggler/button-toggler.component"
 import { intl } from "Renderer/utils/intl"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import Button from "Renderer/components/core/button/button.component"
@@ -16,48 +11,18 @@ import {
 } from "Renderer/components/core/button/button.config"
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import styled, { css } from "styled-components"
-import InputText from "Renderer/components/core/input-text/input-text.component"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { Topic } from "Renderer/models/messages/messages.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import SelectionManager from "App/renderer/components/core/selection-manager/selection-manager.component"
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`
-
-const MessagesButtonTogglerItem = styled(ButtonTogglerItem)`
-  width: 13.8rem;
-`
-
-const SearchInput = styled(InputText)`
-  width: 38rem;
-`
-
-const MessageSelectionManager = styled(SelectionManager)`
-  grid-template-columns: 4.8rem 1fr;
-  padding: 0 1.6rem;
-
-  button {
-    padding: 0.5rem 0.8rem;
-  }
-`
-
-const MessageFiltersWrapper = styled(FiltersWrapper)<{
-  selectionMode: boolean
-}>`
-  ${({ selectionMode }) =>
-    selectionMode &&
-    css`
-      grid-template-areas: "Search New";
-      grid-template-columns: 1fr auto;
-    `}
-  padding: 0 4rem;
-`
+import {
+  ButtonWrapper,
+  MessageFiltersWrapper,
+  MessagesButtonTogglerItem,
+  MessageSelectionManager,
+  SearchInput,
+} from "Renderer/modules/messages/messages-panel.styled"
 
 const toggleState = [
   intl.formatMessage({
