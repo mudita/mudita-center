@@ -260,7 +260,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Mudita News
+          [value] view.name.news
         </p>
       </a>
     </div>
@@ -270,7 +270,7 @@ exports[`matches snapshot 1`] = `
       <p
         class="c11"
       >
-        Your Pure
+        [value] menu.header.yourPure
       </p>
       <div
         class="c12"
@@ -353,7 +353,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Overview
+          [value] view.name.overview
         </p>
       </a>
     </div>
@@ -377,7 +377,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Messages
+          [value] view.name.messages
         </p>
       </a>
     </div>
@@ -401,7 +401,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Phone
+          [value] view.name.phone
         </p>
       </a>
     </div>
@@ -425,7 +425,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Contacts
+          [value] view.name.contacts
         </p>
       </a>
     </div>
@@ -449,7 +449,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Music
+          [value] view.name.music
         </p>
       </a>
     </div>
@@ -473,7 +473,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Calendar
+          [value] view.name.calendar
         </p>
       </a>
     </div>
@@ -497,7 +497,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Tools
+          [value] view.name.tools
         </p>
       </a>
     </div>
@@ -521,7 +521,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Meditation
+          [value] view.name.meditation
         </p>
       </a>
     </div>
@@ -545,7 +545,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Files manager
+          [value] view.name.filesManager
         </p>
       </a>
     </div>
@@ -555,7 +555,7 @@ exports[`matches snapshot 1`] = `
       <p
         class="c11"
       >
-        Desktop App
+        [value] menu.header.desktopApp
       </p>
     </div>
     <div
@@ -578,7 +578,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Tethering
+          [value] view.name.tethering
         </p>
       </a>
     </div>
@@ -602,7 +602,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Settings
+          [value] view.name.settings
         </p>
       </a>
     </div>
@@ -626,7 +626,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          Help
+          [value] view.name.help
         </p>
       </a>
     </div>

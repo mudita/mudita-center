@@ -122,7 +122,7 @@ exports[`matches snapshot 1`] = `
   <p
     class="c3 c4"
   >
-    Phone
+    [value] view.name.phone
   </p>
 </a>
 `;

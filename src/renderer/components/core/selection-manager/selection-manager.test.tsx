@@ -55,17 +55,23 @@ test("render buttons properly", () => {
 
 test("renders text info for one item properly", () => {
   const { getInfo } = renderSelectionManager({ selectedItemsNumber: 1 })
-  expect(getInfo()).toHaveTextContent("1 Conversation selected")
+  expect(getInfo()).toHaveTextContent(
+    "view.name.messages.conversations.selectionsNumber"
+  )
 })
 
 test("renders text info for few items properly", () => {
   const { getInfo } = renderSelectionManager({ selectedItemsNumber: 4 })
-  expect(getInfo()).toHaveTextContent("4 Conversations selected")
+  expect(getInfo()).toHaveTextContent(
+    "view.name.messages.conversations.selectionsNumber"
+  )
 })
 
 test("renders text info for all items properly", () => {
   const { getInfo } = renderSelectionManager({ allItemsSelected: true })
-  expect(getInfo()).toHaveTextContent("All Conversations selected")
+  expect(getInfo()).toHaveTextContent(
+    "view.name.messages.conversations.selectionsNumber"
+  )
 })
 
 test("renders indeterminate status properly", () => {

@@ -25,5 +25,5 @@ test("has correct text content", () => {
     </MemoryRouter>
   )
   const tabNode = container.firstChild
-  expect(tabNode).toHaveTextContent("Phone")
+  expect(tabNode).toHaveTextContent("view.name.phone")
 })

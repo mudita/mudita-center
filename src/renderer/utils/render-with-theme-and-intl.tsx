@@ -10,6 +10,9 @@ import { LANGUAGE } from "Renderer/constants/languages"
 import localeEn from "Renderer/locales/main/en-US.json"
 import { ThemeProvider } from "styled-components"
 import theme from "../styles/theming/theme"
+import extractLanguageKeys from "Renderer/utils/extract-test-locale"
+
+const testLocale = extractLanguageKeys(localeEn)
 
 export function renderWithThemeAndIntl(
   ui: React.ReactElement,
@@ -28,7 +31,7 @@ export function renderWithThemeAndIntl<Q extends Queries>(
       <IntlProvider
         defaultLocale={LANGUAGE.default}
         locale={LANGUAGE.default}
-        messages={localeEn}
+        messages={process.env.NODE_ENV === "test" ? testLocale : localeEn}
       >
         {ui}
       </IntlProvider>
