@@ -49,10 +49,11 @@ const Menu: FunctionComponent<Props> = ({
   devModeEnabled,
 }) => {
   const links = menuElements
-    .filter(({ visibleWithPhone }) =>
-      deviceDisconnected ? visibleWithPhone : true
+    .filter(({ connectedPhoneOnly }) =>
+      deviceDisconnected ? !connectedPhoneOnly : true
     )
-    .map(({ visibleWithPhone, ...props }, indexMenu) => {
+    .filter(({ devModeOnly }) => (devModeEnabled ? true : !devModeOnly))
+    .map(({ connectedPhoneOnly, ...props }, indexMenu) => {
       return <MenuGroup {...props} key={indexMenu} />
     })
   return (
