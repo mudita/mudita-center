@@ -210,7 +210,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                   {nameAvailable
                     ? createFullName(caller)
-                    : item.caller.primaryPhoneNumber}
+                    : caller.primaryPhoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage?.date).format("h:mm A")}
