@@ -31,11 +31,11 @@ const installExtensions = async () => {
   ).catch(console.log)
 }
 
+const notProductionAndNotTestEnvironment =
+  process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "test"
+
 const createWindow = async () => {
-  if (
-    process.env.NODE_ENV !== "production" &&
-    process.env.NODE_ENV !== "test"
-  ) {
+  if (notProductionAndNotTestEnvironment) {
     await installExtensions()
   }
 
@@ -81,10 +81,7 @@ const createWindow = async () => {
     shell.openExternal(href)
   })
 
-  if (
-    process.env.NODE_ENV !== "production" &&
-    process.env.NODE_ENV !== "test"
-  ) {
+  if (notProductionAndNotTestEnvironment) {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once("dom-ready", () => {
       win!.webContents.openDevTools()
