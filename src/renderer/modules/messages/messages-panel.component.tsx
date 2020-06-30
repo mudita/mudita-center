@@ -23,7 +23,7 @@ import {
   MessageSelectionManager,
   SearchInput,
 } from "Renderer/modules/messages/messages-panel.styled"
-import { MessagesPanelIds } from "Renderer/modules/messages/messages-panel.interface"
+import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel.interface"
 
 const toggleState = [
   intl.formatMessage({
@@ -58,7 +58,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   return (
     <MessageFiltersWrapper checkMode selectionMode={selectionMode}>
       {!selectionMode && (
-        <UnreadFilters data-testid={MessagesPanelIds.FilterButtons}>
+        <UnreadFilters data-testid={MessagePanelTestIds.FilterButtons}>
           <ButtonToggler>
             {toggleState.map((label, i) => {
               const toggle = () => {
@@ -93,7 +93,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
               onClick={noop}
             />,
           ]}
-          data-testid={MessagesPanelIds.SelectionManager}
+          data-testid={MessagePanelTestIds.SelectionManager}
         />
       ) : (
         <SearchInput
