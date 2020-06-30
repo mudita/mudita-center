@@ -58,10 +58,7 @@ const createWindow = async () => {
   registerNewsListener()
   registerSettingsListeners(win)
 
-  if (
-    process.env.NODE_ENV !== "production" &&
-    process.env.NODE_ENV !== "test"
-  ) {
+  if (notProductionAndNotTestEnvironment) {
     process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
     win.loadURL(`http://localhost:2003`)
   } else {
