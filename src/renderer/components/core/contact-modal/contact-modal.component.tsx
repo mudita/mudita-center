@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import Modal, {
   ModalProps,
@@ -13,7 +13,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import {
-  borderColor,
+  backgroundColor,
   borderRadius,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
@@ -113,11 +113,11 @@ const Log = styled.pre<{ enabled?: boolean }>`
   overflow: hidden;
   max-height: 4rem;
   padding: 0.4rem 1.2rem;
-  border-radius: ${borderRadius("medium")};
-  border: 0.1rem solid ${borderColor("secondary")};
+  border: 0.1rem solid transparent;
   box-sizing: border-box;
   resize: none;
   margin-top: 0;
+  background-color: ${backgroundColor("main")};
 
   ${({ enabled }) =>
     enabled &&
@@ -177,6 +177,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
 }) => {
   const [detailsEnabled, setDetailsState] = useState(false)
   const [attachments, setAttachments] = useState<File[]>([])
+  const logRef = useRef<HTMLPreElement>(null)
 
   const { register, watch } = useForm({
     mode: "onChange",
@@ -192,6 +193,12 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
       attachments,
     })
   }
+
+  useEffect(() => {
+    if (!detailsEnabled && logRef.current) {
+      logRef.current.scrollTop = 0
+    }
+  }, [detailsEnabled])
 
   return (
     <ModalComponent
@@ -236,7 +243,9 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
             onClick={toggleDetails}
           />
         </DetailsLabel>
-        <Log enabled={detailsEnabled}>{log}</Log>
+        <Log enabled={detailsEnabled} ref={logRef}>
+          {log}
+        </Log>
       </Form>
     </ModalComponent>
   )
