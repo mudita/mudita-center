@@ -1,5 +1,6 @@
 import { filterTemplates } from "Renderer/models/templates/filter-templates"
 import { mockedTemplateData } from "Renderer/modules/messages/__mocks__/template-modal-data"
+import { removeNewLinesFromString } from "Renderer/utils/remove-new-lines-from-string"
 
 test("finds correct template", () => {
   const searchValue = mockedTemplateData[0].text
@@ -12,12 +13,11 @@ test("finds correct template with new line", () => {
 })
 
 test("finds correct template for strings with ignored white spaces", () => {
-  const searchValueWithIgnoredWhiteSpaces = mockedTemplateData[0].text.replace(
-    /\s/g,
-    ""
+  const searchValueWithoutWhiteSpaces = removeNewLinesFromString(
+    mockedTemplateData[0].text
   )
   expect(
-    filterTemplates(mockedTemplateData, searchValueWithIgnoredWhiteSpaces)
+    filterTemplates(mockedTemplateData, searchValueWithoutWhiteSpaces)
   ).toHaveLength(1)
 })
 
