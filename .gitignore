@@ -45,6 +45,8 @@ main.js.map
 tmp/extractedMessages
 .idea
 .vscode
+.storybook/tmp/**/*
+!.storybook/tmp/.gitkeep
 storybook-static
 
 *.env
