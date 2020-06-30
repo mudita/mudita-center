@@ -1,14 +1,12 @@
 import { Application } from "spectron"
 import path from "path"
-const electron = require("electron")
+import electron from "electron"
 
-export const startApp = async () => {
-  const app = await new Application({
-    path: electron,
+export const startApp = async () =>
+  await new Application({
+    path: (electron as unknown) as string,
     args: [path.join(__dirname, "../..")],
   }).start()
-  return app
-}
 
 export const stopApp = async (app: any) => {
   if (app && app.isRunning()) {
