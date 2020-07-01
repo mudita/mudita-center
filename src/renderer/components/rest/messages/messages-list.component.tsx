@@ -37,7 +37,7 @@ import {
 } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
-import { isEqual, last } from "lodash"
+import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import {
@@ -190,7 +190,7 @@ const MessagesList: FunctionComponent<Props> = ({
             key={id}
             ref={ref}
             selected={selected}
-            active={isEqual(activeRow, item)}
+            active={activeRow?.id === item.id}
           >
             <AvatarCol>
               <Checkbox
