@@ -21,6 +21,7 @@ export const URL_TABS = {
   dial: "/dial",
   playlist: "/playlist",
   voiceRecorder: "/voice-recorder",
+  notes: "/notes",
   connection: "/connection",
   notifications: "/notifications",
   audioConversion: "/audio-conversion",
