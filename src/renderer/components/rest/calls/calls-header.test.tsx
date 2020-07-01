@@ -14,7 +14,10 @@ describe("visibility filter changes", () => {
     test(`filter: ${filter}`, () => {
       const changeVisibilityFilter = jest.fn()
       const { getByTestId } = renderWithThemeAndIntl(
-        <CallsHeader changeVisibilityFilter={changeVisibilityFilter} />
+        <CallsHeader
+          changeVisibilityFilter={changeVisibilityFilter}
+          selectedItemsCount={0}
+        />
       )
       const button = getByTestId(filter)
       button.click()

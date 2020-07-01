@@ -11,6 +11,7 @@ import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
 import { VisibilityFilter } from "App/renderer/models/calls/calls.interface"
+import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
 
 const toggleState = [
   {
@@ -43,10 +44,12 @@ const CallsFiltersWrapper = styled(FiltersWrapper)`
 
 interface Props {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
+  selectedItemsCount: number
 }
 
 const CallsHeader: FunctionComponent<Props> = ({
   changeVisibilityFilter = noop,
+  selectedItemsCount,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0].label)
   const getFilterByLabel = ({
@@ -71,24 +74,32 @@ const CallsHeader: FunctionComponent<Props> = ({
         break
     }
   }
+  const selectionMode = selectedItemsCount > 0
   return (
     <CallsFiltersWrapper checkMode>
-      <UnreadFilters>
-        <ButtonToggler>
-          {toggleState.map(({ label, visibilityFilter }) => {
-            const filter = () => getFilterByLabel({ label, visibilityFilter })
-            return (
-              <CallsButtonTogglerItem
-                key={visibilityFilter}
-                label={label}
-                onClick={filter}
-                active={activeLabel === label}
-                data-testid={visibilityFilter}
-              />
-            )
-          })}
-        </ButtonToggler>
-      </UnreadFilters>
+      {selectionMode ? (
+        <SelectionManager
+          selectedItemsNumber={0}
+          message={{ id: "view.name.messages.conversations.selectionsNumber" }}
+        />
+      ) : (
+        <UnreadFilters>
+          <ButtonToggler>
+            {toggleState.map(({ label, visibilityFilter }) => {
+              const filter = () => getFilterByLabel({ label, visibilityFilter })
+              return (
+                <CallsButtonTogglerItem
+                  key={visibilityFilter}
+                  label={label}
+                  onClick={filter}
+                  active={activeLabel === label}
+                  data-testid={visibilityFilter}
+                />
+              )
+            })}
+          </ButtonToggler>
+        </UnreadFilters>
+      )}
     </CallsFiltersWrapper>
   )
 }

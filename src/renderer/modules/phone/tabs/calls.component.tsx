@@ -18,10 +18,18 @@ const Calls: FunctionComponent<Props> = ({
   calls,
   changeVisibilityFilter = noop,
 }) => {
-  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(calls)
+  const {
+    selectedRows,
+    getRowStatus,
+    toggleRow,
+    noneRowsSelected,
+  } = useTableSelect<Call>(calls)
   return (
     <>
-      <CallsHeader changeVisibilityFilter={changeVisibilityFilter} />
+      <CallsHeader
+        changeVisibilityFilter={changeVisibilityFilter}
+        selectedItemsCount={selectedRows.length}
+      />
       <CallsTable
         calls={calls}
         getRowStatus={getRowStatus}
