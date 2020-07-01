@@ -1,11 +1,11 @@
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import CallsTable from "Renderer/components/rest/calls/calls-table.component"
 import { mockData } from "App/__mocks__/calls-mock-data"
 import { intl } from "Renderer/utils/intl"
+import Calls from "Renderer/modules/phone/tabs/calls.component"
 
 const renderer = () => {
-  return renderWithThemeAndIntl(<CallsTable calls={mockData} />)
+  return renderWithThemeAndIntl(<Calls calls={mockData} />)
 }
 
 test("render correct amount of rows", () => {
