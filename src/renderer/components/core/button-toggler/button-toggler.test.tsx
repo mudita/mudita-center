@@ -5,13 +5,14 @@ import React from "react"
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
-import {
-  singleStateToggler,
-  threeStateToggler,
-  twoStateToggler,
-} from "Renderer/components/core/button-toggler/button-toggler.stories"
 import { noop } from "Renderer/utils/noop"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+
+export const singleStateToggler = ["Turn on"]
+
+export const twoStateToggler = ["On", "Off"]
+
+export const threeStateToggler = ["Weekly", "Monthly", "Yearly"]
 
 const renderButtonToggler = (
   options: typeof singleStateToggler,

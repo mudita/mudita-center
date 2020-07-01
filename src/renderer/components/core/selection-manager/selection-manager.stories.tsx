@@ -1,17 +1,14 @@
 import { action } from "@storybook/addon-actions"
-import { button, withKnobs } from "@storybook/addon-knobs"
 import { storiesOf } from "@storybook/react"
-import React, { useState } from "react"
+import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
-import { SelectionManagerProps } from "Renderer/components/core/selection-manager/selection-manager.interface"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import StoryContainer from "Renderer/components/storybook/story-container.component"
+import Story from "Renderer/components/storybook/story.component"
 
 export const deleteButton = (
   <ButtonComponent
@@ -35,97 +32,86 @@ export const exportButton = (
   />
 )
 
-const buttons = [exportButton, deleteButton]
-
-const useSelectionManager = () => {
-  const [itemsNumber, setItemsNumber] = useState<number>()
-  const allItems = itemsNumber === 10
-
-  const onToggle = () => {
-    alert("Toggled")
+const storyStyles = css`
+  main > * {
+    width: 45rem;
   }
+`
 
-  const selectAll = () => setItemsNumber(10)
-  const selectOne = () => setItemsNumber(1)
-  const selectFew = () => setItemsNumber(1 + Math.ceil(Math.random() * 8))
-
-  button("select all items", selectAll)
-  button("select 1 item", selectOne)
-  button("select few items", selectFew)
-  return { allItems, onToggle, itemsNumber }
-}
-
-export const PredefinedSelectionManager = ({
-  selectedItemsNumber = 1,
-  allItemsSelected = false,
-  ...props
-}: Partial<SelectionManagerProps>) => {
-  return (
-    <SelectionManager
-      message={{ id: "view.name.messages.conversations.selectionsNumber" }}
-      selectedItemsNumber={selectedItemsNumber}
-      allItemsSelected={allItemsSelected}
-      {...props}
-    />
-  )
-}
-
-export const CustomizedPredefinedSelectionManager = styled(
-  PredefinedSelectionManager
-)`
+const CustomSelectionManager = styled(SelectionManager)`
   grid-template-columns: 4.2rem 1fr auto;
 `
 
-storiesOf("Components", module)
-  .addDecorator(withKnobs)
-  .add("SelectionManager", () => {
-    const { allItems, itemsNumber, onToggle } = useSelectionManager()
-    return (
-      <div style={{ margin: "2rem" }}>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Basic</Text>
-        <br />
-        <PredefinedSelectionManager
-          selectedItemsNumber={itemsNumber}
-          allItemsSelected={allItems}
-          onToggle={onToggle}
-          checkboxSize={Size.Medium}
-        />
-        <br />
-        <br />
-        <Text displayStyle={TextDisplayStyle.SmallText}>
-          Basic with custom styles
-        </Text>
-        <br />
-        <CustomizedPredefinedSelectionManager
-          selectedItemsNumber={itemsNumber}
-          allItemsSelected={allItems}
-          onToggle={onToggle}
-          checkboxSize={Size.Medium}
-        />
-        <br />
-        <br />
-        <Text displayStyle={TextDisplayStyle.SmallText}>With buttons</Text>
-        <br />
-        <PredefinedSelectionManager
-          selectedItemsNumber={itemsNumber}
-          allItemsSelected={allItems}
-          onToggle={onToggle}
-          buttons={buttons}
-          checkboxSize={Size.Medium}
-        />
-        <br />
-        <br />
-        <Text displayStyle={TextDisplayStyle.SmallText}>
-          Enlarged with buttons
-        </Text>
-        <br />
-        <PredefinedSelectionManager
-          selectedItemsNumber={itemsNumber}
-          allItemsSelected={allItems}
-          onToggle={onToggle}
-          buttons={buttons}
-          enlarged
-        />
-      </div>
-    )
-  })
+storiesOf("Components|Core/Selection Manager", module).add("Default", () => {
+  return (
+    <>
+      <StoryContainer title="States" column customStyle={storyStyles}>
+        <Story title="Few items selected">
+          <SelectionManager
+            message={{
+              id: "view.name.messages.conversations.selectionsNumber",
+            }}
+            selectedItemsNumber={5}
+          />
+        </Story>
+        <Story title="All items selected">
+          <SelectionManager
+            message={{
+              id: "view.name.messages.conversations.selectionsNumber",
+            }}
+            selectedItemsNumber={5}
+            allItemsSelected
+          />
+        </Story>
+      </StoryContainer>
+      <StoryContainer title="Modifiers" column customStyle={storyStyles}>
+        <Story title="With button">
+          <SelectionManager
+            message={{
+              id: "view.name.messages.conversations.selectionsNumber",
+            }}
+            selectedItemsNumber={5}
+            buttons={[deleteButton]}
+          />
+        </Story>
+        <Story title="With two buttons">
+          <SelectionManager
+            message={{
+              id: "view.name.messages.conversations.selectionsNumber",
+            }}
+            selectedItemsNumber={5}
+            buttons={[exportButton, deleteButton]}
+          />
+        </Story>
+      </StoryContainer>
+      <StoryContainer title="Customizations" column customStyle={storyStyles}>
+        <Story title="Styling">
+          <CustomSelectionManager
+            message={{
+              id: "view.name.messages.conversations.selectionsNumber",
+            }}
+            selectedItemsNumber={5}
+          />
+        </Story>
+        <Story title="Checkbox size (small)">
+          <SelectionManager
+            message={{
+              id: "view.name.messages.conversations.selectionsNumber",
+            }}
+            selectedItemsNumber={5}
+            checkboxSize={Size.Small}
+          />
+        </Story>
+        <Story title="Checkbox size (medium)">
+          <SelectionManager
+            message={{
+              id: "view.name.messages.conversations.selectionsNumber",
+            }}
+            selectedItemsNumber={5}
+            checkboxSize={Size.Medium}
+          />
+        </Story>
+      </StoryContainer>
+    </>
+  )
+})

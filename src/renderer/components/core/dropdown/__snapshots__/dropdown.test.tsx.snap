@@ -110,8 +110,8 @@ exports[`renders dropdown 1`] = `
 }
 
 .c6 svg {
-  max-height: 100%;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .c5 {

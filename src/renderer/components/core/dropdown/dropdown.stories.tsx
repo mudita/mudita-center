@@ -5,68 +5,58 @@ import { DropdownButton } from "Renderer/components/core/dropdown/dropdown-butto
 import Dropdown, {
   DropdownPosition,
 } from "Renderer/components/core/dropdown/dropdown.component"
-import styled from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import StoryContainer from "Renderer/components/storybook/story-container.component"
+import Story from "../../storybook/story.component"
 
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-storiesOf("Components|Dropdown", module)
-  .add("Right", () => {
-    return (
-      <Wrapper>
-        <Dropdown toggler={<ButtonComponent label={"Click dropdown"} />}>
-          <DropdownButton
-            label="I open Google in new tab"
-            href="http://www.google.pl"
-            target="_blank"
-            Icon={Type.Upload}
-          />
-          <DropdownButton
-            label="I open Google in new tab"
-            href="http://www.google.pl"
-            target="_blank"
-            Icon={Type.Upload}
-          />
-          <DropdownButton
-            label="I open Google in new tab"
-            href="http://www.google.pl"
-            target="_blank"
-            Icon={Type.Upload}
-          />
-        </Dropdown>
-      </Wrapper>
-    )
-  })
-  .add("Left", () => {
-    return (
-      <Wrapper>
-        <Dropdown
-          dropdownPosition={DropdownPosition.Left}
-          toggler={<ButtonComponent label={"Click dropdown"} />}
-        >
-          <DropdownButton
-            label="I open Google in new tab"
-            href="http://www.google.pl"
-            target="_blank"
-            Icon={Type.Upload}
-          />
-          <DropdownButton
-            label="I open Google in new tab"
-            href="http://www.google.pl"
-            target="_blank"
-            Icon={Type.Upload}
-          />
-          <DropdownButton
-            label="I open Google in new tab"
-            href="http://www.google.pl"
-            target="_blank"
-            Icon={Type.Upload}
-          />
-        </Dropdown>
-      </Wrapper>
-    )
-  })
+storiesOf("Components|Core/Dropdown", module).add("Default", () => (
+  <StoryContainer>
+    <Story title="Aligned to the left">
+      <Dropdown
+        dropdownPosition={DropdownPosition.Left}
+        toggler={<ButtonComponent label={"Click dropdown"} />}
+      >
+        <DropdownButton
+          label="I open Google in new tab"
+          href="http://www.google.pl"
+          target="_blank"
+          Icon={Type.Upload}
+        />
+        <DropdownButton
+          label="I open Google in new tab"
+          href="http://www.google.pl"
+          target="_blank"
+          Icon={Type.Upload}
+        />
+        <DropdownButton
+          label="I open Google in new tab"
+          href="http://www.google.pl"
+          target="_blank"
+          Icon={Type.Upload}
+        />
+      </Dropdown>
+    </Story>
+    <Story title="Aligned to the right">
+      <Dropdown toggler={<ButtonComponent label={"Click dropdown"} />}>
+        <DropdownButton
+          label="I open Google in new tab"
+          href="http://www.google.pl"
+          target="_blank"
+          Icon={Type.Upload}
+        />
+        <DropdownButton
+          label="I open Google in new tab"
+          href="http://www.google.pl"
+          target="_blank"
+          Icon={Type.Upload}
+        />
+        <DropdownButton
+          label="I open Google in new tab"
+          href="http://www.google.pl"
+          target="_blank"
+          Icon={Type.Upload}
+        />
+      </Dropdown>
+    </Story>
+  </StoryContainer>
+))
