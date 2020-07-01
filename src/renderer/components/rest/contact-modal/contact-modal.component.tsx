@@ -68,10 +68,10 @@ const FileInput = styled(InputFile)`
   }
 `
 
-const Form = styled.form<{ detailsEnabled?: boolean }>`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
-  margin-bottom: ${({ detailsEnabled }) => (detailsEnabled ? -3.2 : 0.8)}rem;
+  margin-bottom: 0.8rem;
 `
 
 const DetailsLabel = styled.div`
@@ -127,6 +127,10 @@ const Log = styled.pre<{ enabled?: boolean }>`
     `}
 `
 
+const LogWrapper = styled.div`
+  height: 8rem;
+`
+
 interface FormInputLabelProps {
   label: Message
   optional?: boolean
@@ -175,6 +179,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
   log,
   ...rest
 }) => {
+  const [moreDetailsEnabled, enableMoreDetails] = useState(false)
   const [detailsEnabled, setDetailsState] = useState(false)
   const [attachments, setAttachments] = useState<File[]>([])
   const logRef = useRef<HTMLPreElement>(null)
@@ -195,6 +200,14 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
   }
 
   useEffect(() => {
+    if (logRef.current) {
+      if (logRef.current.scrollHeight > 38) {
+        enableMoreDetails(true)
+      }
+    }
+  }, [logRef])
+
+  useEffect(() => {
     if (!detailsEnabled && logRef.current) {
       logRef.current.scrollTop = 0
     }
@@ -211,7 +224,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
       subtitle={intl.formatMessage(messages.description)}
       {...rest}
     >
-      <Form detailsEnabled={detailsEnabled}>
+      <Form>
         <FormInputLabel label={messages.emailLabel} />
         <InputComponent
           type={"text"}
@@ -233,19 +246,23 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
         <FileInput name="attachments" multiple onUpdate={setAttachments} />
         <DetailsLabel>
           <FormInputLabel label={messages.detailsLabel} optional={false} />
-          <ButtonComponent
-            labelMessage={
-              detailsEnabled
-                ? messages.detailsHideButton
-                : messages.detailsShowButton
-            }
-            displayStyle={DisplayStyle.Link3}
-            onClick={toggleDetails}
-          />
+          {moreDetailsEnabled && (
+            <ButtonComponent
+              labelMessage={
+                detailsEnabled
+                  ? messages.detailsHideButton
+                  : messages.detailsShowButton
+              }
+              displayStyle={DisplayStyle.Link3}
+              onClick={toggleDetails}
+            />
+          )}
         </DetailsLabel>
-        <Log enabled={detailsEnabled} ref={logRef}>
-          {log}
-        </Log>
+        <LogWrapper>
+          <Log enabled={detailsEnabled} ref={logRef}>
+            {log}
+          </Log>
+        </LogWrapper>
       </Form>
     </ModalComponent>
   )
