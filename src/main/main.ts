@@ -31,15 +31,18 @@ const installExtensions = async () => {
   ).catch(console.log)
 }
 
+const developmentEnvironment = process.env.NODE_ENV === "development"
+const productionEnvironment = process.env.NODE_ENV === "production"
+
 const createWindow = async () => {
-  if (process.env.NODE_ENV !== "production") {
+  if (developmentEnvironment) {
     await installExtensions()
   }
 
   win = new BrowserWindow({
     width: WINDOW_SIZE.width,
     height: WINDOW_SIZE.height,
-    resizable: process.env.NODE_ENV === "development",
+    resizable: developmentEnvironment,
     fullscreen: false,
     useContentSize: true,
     webPreferences: {
@@ -55,10 +58,7 @@ const createWindow = async () => {
   registerNewsListener()
   registerSettingsListeners(win)
 
-  if (process.env.NODE_ENV !== "production") {
-    process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
-    win.loadURL(`http://localhost:2003`)
-  } else {
+  if (productionEnvironment) {
     win.loadURL(
       url.format({
         pathname: path.join(__dirname, "index.html"),
@@ -66,8 +66,10 @@ const createWindow = async () => {
         slashes: true,
       })
     )
-
     autoupdate(win)
+  } else {
+    process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = "1"
+    win.loadURL(`http://localhost:2003`)
   }
 
   win.webContents.on("new-window", (event, href) => {
@@ -75,7 +77,7 @@ const createWindow = async () => {
     shell.openExternal(href)
   })
 
-  if (process.env.NODE_ENV !== "production") {
+  if (developmentEnvironment) {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once("dom-ready", () => {
       win!.webContents.openDevTools()
