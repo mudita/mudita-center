@@ -18,7 +18,7 @@ const renderInputFile = ({ ...props }: Partial<InputFileProps> = {}) => {
   }
 }
 
-export const mockJpg = (name: string) => {
+export const mockJpg = (name: string): File => {
   return new File(["(⌐□_□)"], name + ".jpg", {
     type: "image/jpg",
   })

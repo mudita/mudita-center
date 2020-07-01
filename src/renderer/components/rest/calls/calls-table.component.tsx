@@ -36,7 +36,7 @@ const visibleCheckboxStyles = css`
   visibility: visible;
 `
 
-const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
+export const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
   opacity: 0;
   visibility: hidden;
   transition: opacity ${transitionTime("faster")}
@@ -68,7 +68,7 @@ interface Props {
   calls: Call[]
 }
 
-const isToday = (date: Date) => moment(date).isSame(Date.now(), "days")
+export const isToday = (date: Date) => moment(date).isSame(Date.now(), "days")
 
 const CallsTable: FunctionComponent<Props> = ({ calls }) => {
   const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
@@ -82,7 +82,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
         <Col>Duration</Col>
         <Col>Date</Col>
       </Labels>
-      {calls.map(({ caller, id, date, duration, timesMissed }, index) => {
+      {calls.map(({ caller, id, date, duration, timesMissed }) => {
         const { selected, indeterminate } = getRowStatus(id)
         const toggle = () => toggleRow(id)
         const nameAvailable = isNameAvailable(caller)

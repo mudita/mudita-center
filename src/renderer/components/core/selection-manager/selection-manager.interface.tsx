@@ -5,7 +5,7 @@ import { Message } from "Renderer/interfaces/message.interface"
 export interface SelectionManagerProps {
   checkboxSize?: Size
   selectedItemsNumber: number
-  allItemsSelected: boolean
+  allItemsSelected?: boolean
   message: Message
   buttons?: ReactElement[]
   enlarged?: boolean

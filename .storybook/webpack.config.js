@@ -1,3 +1,4 @@
+const path = require("path")
 const { resolve } = require("../webpack/common")
 
 module.exports = ({ config }) => {
@@ -27,6 +28,15 @@ module.exports = ({ config }) => {
       plugins: [require.resolve("@babel/plugin-proposal-class-properties")],
     },
   })
+
+  config.module.rules.push({
+    test: [/\.stories\.(jsx?$|tsx?$)/],
+    loader: path.resolve(__dirname, "./storiesToText.js"),
+    options: {
+      root: path.resolve(__dirname, "../src"),
+    },
+  })
+
   config.resolve = resolve(false)
   return config
 }

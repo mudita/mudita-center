@@ -4,9 +4,24 @@ import { SelectionManagerProps } from "Renderer/components/core/selection-manage
 import {
   deleteButton,
   exportButton,
-  PredefinedSelectionManager,
 } from "Renderer/components/core/selection-manager/selection-manager.stories"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
+
+const PredefinedSelectionManager = ({
+  selectedItemsNumber = 1,
+  allItemsSelected = false,
+  ...props
+}: Partial<SelectionManagerProps>) => {
+  return (
+    <SelectionManager
+      message={{ id: "view.name.messages.conversations.selectionsNumber" }}
+      selectedItemsNumber={selectedItemsNumber}
+      allItemsSelected={allItemsSelected}
+      {...props}
+    />
+  )
+}
 
 const renderSelectionManager = (props: Partial<SelectionManagerProps> = {}) => {
   const outcome = renderWithThemeAndIntl(

@@ -3,7 +3,7 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import ContactModal, {
   ContactModalProps,
-} from "Renderer/components/core/contact-modal/contact-modal.component"
+} from "Renderer/components/rest/contact-modal/contact-modal.component"
 import { fireEvent } from "@testing-library/dom"
 import { mockJpg } from "Renderer/components/core/input-file/input-file.test"
 import { intl } from "Renderer/utils/intl"
