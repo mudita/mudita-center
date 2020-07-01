@@ -1,8 +1,21 @@
-import styled, { css } from "styled-components"
+import styled, { css, keyframes } from "styled-components"
 import { ButtonTogglerItem } from "Renderer/components/core/button-toggler/button-toggler.component"
 import InputText from "Renderer/components/core/input-text/input-text.component"
 import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
 import { FiltersWrapper } from "Renderer/components/rest/messages/topics-table.component"
+import {
+  transitionTime,
+  transitionTimingFunction,
+} from "Renderer/styles/theming/theme-getters"
+
+const showToggleableElement = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`
 
 export const ButtonWrapper = styled.div`
   display: flex;
@@ -14,10 +27,13 @@ export const MessagesButtonTogglerItem = styled(ButtonTogglerItem)`
 `
 
 export const SearchInput = styled(InputText)`
+  animation: ${showToggleableElement} ${transitionTime("veryQuick")} forwards
+    ${transitionTimingFunction("standard")};
   width: 38rem;
 `
 
 export const MessageSelectionManager = styled(SelectionManager)`
+  animation: ${showToggleableElement} 0.5s forwards linear;
   grid-template-columns: 4.8rem 1fr;
   padding: 0 1.6rem;
 

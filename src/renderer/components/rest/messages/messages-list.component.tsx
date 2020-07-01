@@ -40,19 +40,21 @@ import Avatar from "Renderer/components/core/avatar/avatar.component"
 import { isEqual, last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "Renderer/models/phone/phone.utils"
-
-const checkboxVisibleStyles = css`
-  display: block;
-`
+import {
+  animatedOpacityActiveStyles,
+  animatedOpacityStyles,
+} from "Renderer/components/rest/messages/templates/templates-list.component"
 
 const MessageRow = styled(Row)`
   height: 9rem;
 `
 
-const Checkbox = styled(InputCheckbox)`
+const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
   position: absolute;
   left: 5.4rem;
-  display: none;
+  ${animatedOpacityStyles};
+
+  ${({ visible }) => visible && animatedOpacityActiveStyles}
 `
 
 const dotStyles = css`
@@ -82,6 +84,7 @@ const InitialsAvatar = styled(Avatar)`
   width: 4.8rem;
   position: absolute;
   right: 2.4rem;
+  ${animatedOpacityActiveStyles};
 `
 
 const LastMessageText = styled(Message)<{ unread?: boolean }>`
@@ -105,37 +108,31 @@ export const Actions = styled.div`
 `
 
 const Messages = styled(Table)<{
-  mouseLock?: boolean
   noneRowsSelected?: boolean
 }>`
-  flex: 1;
-  overflow: auto;
   --columnsTemplate: 11.2rem 60.5rem 1fr;
   --columnsTemplateWithOpenedSidebar: 11.2rem 1fr;
   --columnsGap: 0;
-  pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
 
   ${({ noneRowsSelected }) =>
     !noneRowsSelected &&
     css`
       ${InitialsAvatar} {
-        display: none;
+        ${animatedOpacityStyles};
       }
       ${Checkbox} {
-        ${checkboxVisibleStyles};
+        ${animatedOpacityActiveStyles};
       }
     `};
 
   ${Row} {
     :hover {
       ${Checkbox} {
-        display: block;
+        ${animatedOpacityActiveStyles};
       }
       ${InitialsAvatar} {
         ${lightAvatarStyles};
-      }
-      ${InitialsAvatar} {
-        display: none;
+        ${animatedOpacityStyles};
       }
     }
   }
@@ -201,6 +198,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 onChange={toggle}
                 size={Size.Large}
                 indeterminate={indeterminate}
+                visible={!noneRowsSelected}
                 data-testid="checkbox"
               />
               <InitialsAvatar user={caller} light={selected} />

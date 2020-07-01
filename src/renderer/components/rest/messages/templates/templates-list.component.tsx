@@ -23,7 +23,7 @@ import {
 import { UseTableSidebar } from "Renderer/utils/hooks/useTableSidebar"
 import { InView } from "react-intersection-observer"
 
-const animatedOpacityStyles = css`
+export const animatedOpacityStyles = css`
   opacity: 0;
   visibility: hidden;
   transition: opacity ${transitionTime("veryQuick")}
@@ -32,7 +32,7 @@ const animatedOpacityStyles = css`
       ${transitionTimingFunction("smooth")};
 `
 
-const animatedOpacityActiveStyles = css`
+export const animatedOpacityActiveStyles = css`
   opacity: 1;
   visibility: visible;
 `
