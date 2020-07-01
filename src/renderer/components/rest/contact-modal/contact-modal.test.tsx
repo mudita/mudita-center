@@ -1,4 +1,3 @@
-import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import ContactModal, {
@@ -33,37 +32,46 @@ test("contact modal form renders properly", () => {
   expect(getDetailsField()).toBeInTheDocument()
 })
 
-test("contact modal details toggles properly", () => {
-  const { getDetailsField, getByText } = renderContactModal()
+describe("contact modal details", () => {
+  beforeEach(() => {
+    Object.defineProperty(HTMLElement.prototype, "scrollHeight", {
+      configurable: true,
+      value: 80,
+    })
+  })
 
-  const testDetailsField = (expanded = false) => {
-    expect(getDetailsField()).toHaveStyleRule(
-      "max-height",
-      expanded ? "8rem" : "4rem"
-    )
-    expect(getDetailsField()).toHaveStyleRule(
-      "overflow",
-      expanded ? "auto" : "hidden"
-    )
-  }
+  test("toggles properly", () => {
+    const { getDetailsField, getByText } = renderContactModal()
 
-  const clickToggleButton = (toggled = false) => {
-    fireEvent.click(
-      getByText(
-        intl.formatMessage({
-          id: `component.modal.support.form.details.${
-            toggled ? "hideButton" : "showButton"
-          }`,
-        })
+    const testDetailsField = (expanded = false) => {
+      expect(getDetailsField()).toHaveStyleRule(
+        "max-height",
+        expanded ? "8rem" : "4rem"
       )
-    )
-  }
+      expect(getDetailsField()).toHaveStyleRule(
+        "overflow",
+        expanded ? "auto" : "hidden"
+      )
+    }
 
-  testDetailsField()
-  clickToggleButton()
-  testDetailsField(true)
-  clickToggleButton(true)
-  testDetailsField()
+    const clickToggleButton = (toggled = false) => {
+      fireEvent.click(
+        getByText(
+          intl.formatMessage({
+            id: `component.modal.support.form.details.${
+              toggled ? "hideButton" : "showButton"
+            }`,
+          })
+        )
+      )
+    }
+
+    testDetailsField()
+    clickToggleButton()
+    testDetailsField(true)
+    clickToggleButton(true)
+    testDetailsField()
+  })
 })
 
 test("contact modal form sending works properly", () => {
