@@ -283,12 +283,11 @@ interface EmptyState {
 }
 
 export const EmptyState: FunctionComponent<EmptyState> = ({
-  className,
   title,
   description,
   ...rest
 }) => (
-  <EmptyStateWrapper className={className} {...rest}>
+  <EmptyStateWrapper {...rest}>
     <Text displayStyle={TextDisplayStyle.TertiaryHeading} message={title} />
     {description && (
       <Text
