@@ -180,7 +180,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
   ...rest
 }) => {
   const [moreDetailsEnabled, enableMoreDetails] = useState(false)
-  const [detailsEnabled, setDetailsState] = useState(false)
+  const [showingDetails, showDetails] = useState(false)
   const [attachments, setAttachments] = useState<File[]>([])
   const logRef = useRef<HTMLPreElement>(null)
 
@@ -188,7 +188,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
     mode: "onChange",
   })
 
-  const toggleDetails = () => setDetailsState(!detailsEnabled)
+  const toggleDetails = () => showDetails(prevState => !prevState)
 
   const handleSend = () => {
     const fields = watch()
@@ -208,10 +208,10 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
   }, [logRef])
 
   useEffect(() => {
-    if (!detailsEnabled && logRef.current) {
+    if (!showingDetails && logRef.current) {
       logRef.current.scrollTop = 0
     }
-  }, [detailsEnabled])
+  }, [showingDetails])
 
   return (
     <ModalComponent
@@ -249,7 +249,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
           {moreDetailsEnabled && (
             <ButtonComponent
               labelMessage={
-                detailsEnabled
+                showingDetails
                   ? messages.detailsHideButton
                   : messages.detailsShowButton
               }
@@ -259,7 +259,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
           )}
         </DetailsLabel>
         <LogWrapper>
-          <Log enabled={detailsEnabled} ref={logRef}>
+          <Log enabled={showingDetails} ref={logRef}>
             {log}
           </Log>
         </LogWrapper>
