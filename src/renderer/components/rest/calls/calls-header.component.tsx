@@ -10,8 +10,20 @@ import ButtonToggler, {
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
-import { VisibilityFilter } from "App/renderer/models/calls/calls.interface"
+import {
+  Call,
+  VisibilityFilter,
+} from "App/renderer/models/calls/calls.interface"
 import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
+import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
+import { showToggleableElement } from "Renderer/modules/tools/tabs/notes.styled"
+import {
+  transitionTime,
+  transitionTimingFunction,
+} from "Renderer/styles/theming/theme-getters"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import ButtonComponent from "Renderer/components/core/button/button.component"
 
 const toggleState = [
   {
@@ -42,14 +54,26 @@ const CallsFiltersWrapper = styled(FiltersWrapper)`
   border-bottom: none;
 `
 
+const CallsSelectionManager = styled(SelectionManager)`
+  animation: ${showToggleableElement} ${transitionTime("quick")} forwards
+    ${transitionTimingFunction("easeInOut")};
+  grid-template-columns: 4.8rem 1fr;
+  padding: 0 1.6rem;
+  button {
+    padding: 0.5rem 0.8rem;
+  }
+`
+
 interface Props {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
   selectedItemsCount: number
+  toggleAll?: UseTableSelect<Call>["toggleAll"]
 }
 
 const CallsHeader: FunctionComponent<Props> = ({
   changeVisibilityFilter = noop,
   selectedItemsCount,
+  toggleAll,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0].label)
   const getFilterByLabel = ({
@@ -78,9 +102,21 @@ const CallsHeader: FunctionComponent<Props> = ({
   return (
     <CallsFiltersWrapper checkMode>
       {selectionMode ? (
-        <SelectionManager
-          selectedItemsNumber={0}
-          message={{ id: "view.name.messages.conversations.selectionsNumber" }}
+        <CallsSelectionManager
+          selectedItemsNumber={selectedItemsCount}
+          message={{ id: "view.name.phone.calls.selectionsNumber" }}
+          onToggle={toggleAll}
+          buttons={[
+            <ButtonComponent
+              key="delete"
+              label={intl.formatMessage({
+                id: "view.name.messages.templates.deleteButton",
+              })}
+              displayStyle={DisplayStyle.Link1}
+              Icon={Type.Delete}
+              onClick={noop}
+            />,
+          ]}
         />
       ) : (
         <UnreadFilters>

@@ -14,7 +14,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import styled, { keyframes } from "styled-components"
 
-const showToggleableElement = keyframes`
+export const showToggleableElement = keyframes`
   from {
     opacity: 0;
   }

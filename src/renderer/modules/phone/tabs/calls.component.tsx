@@ -23,12 +23,14 @@ const Calls: FunctionComponent<Props> = ({
     getRowStatus,
     toggleRow,
     noneRowsSelected,
+    toggleAll,
   } = useTableSelect<Call>(calls)
   return (
     <>
       <CallsHeader
         changeVisibilityFilter={changeVisibilityFilter}
         selectedItemsCount={selectedRows.length}
+        toggleAll={toggleAll}
       />
       <CallsTable
         calls={calls}
