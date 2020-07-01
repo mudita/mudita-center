@@ -2,7 +2,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import React from "react"
 import MessagesPanel from "Renderer/modules/messages/messages-panel.component"
 import { fireEvent } from "@testing-library/dom"
-import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel.interface"
+import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
 
 const defaultProps = {
   selectedItemsCount: 0,

@@ -23,7 +23,7 @@ import {
   MessageSelectionManager,
   SearchInput,
 } from "Renderer/modules/messages/messages-panel.styled"
-import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel.interface"
+import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
 
 const toggleState = [
   intl.formatMessage({
