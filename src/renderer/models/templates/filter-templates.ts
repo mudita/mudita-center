@@ -6,7 +6,7 @@ const prepareStringForSearch = (text: string) => {
 }
 
 export const filterTemplates = (templates: Template[], searchValue: string) => {
-  if (searchValue.length > 0) {
+  if (searchValue) {
     return templates.filter(template => {
       return prepareStringForSearch(template.text).includes(
         prepareStringForSearch(searchValue)
