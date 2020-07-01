@@ -9,7 +9,7 @@ import ButtonToggler, {
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import {
   Call,
   VisibilityFilter,
@@ -50,8 +50,17 @@ const CallsButtonTogglerItem = styled(ButtonTogglerItem)`
   width: 12.7rem;
 `
 
-const CallsFiltersWrapper = styled(FiltersWrapper)`
+const CallsFiltersWrapper = styled(FiltersWrapper)<{
+  selectionMode: boolean
+}>`
   border-bottom: none;
+  ${({ selectionMode }) =>
+    selectionMode &&
+    css`
+      grid-template-areas: "Search Search";
+      grid-template-columns: 1fr auto;
+      max-width: 80rem;
+    `}
 `
 
 const CallsSelectionManager = styled(SelectionManager)`
@@ -100,7 +109,7 @@ const CallsHeader: FunctionComponent<Props> = ({
   }
   const selectionMode = selectedItemsCount > 0
   return (
-    <CallsFiltersWrapper checkMode>
+    <CallsFiltersWrapper checkMode selectionMode={selectionMode}>
       {selectionMode ? (
         <CallsSelectionManager
           selectedItemsNumber={selectedItemsCount}
