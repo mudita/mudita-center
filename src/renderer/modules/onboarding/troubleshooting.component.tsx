@@ -3,7 +3,7 @@ import { useHistory } from "react-router"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
 import modalService from "Renderer/components/core/modal/modal.service"
-import ContactModal from "Renderer/components/core/contact-modal/contact-modal.component"
+import ContactModal from "Renderer/components/rest/contact-modal/contact-modal.component"
 import { getFullAppLogs } from "Renderer/requests/app-logs.request"
 
 const Troubleshooting = () => {
