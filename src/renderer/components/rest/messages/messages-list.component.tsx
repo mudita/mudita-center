@@ -79,13 +79,14 @@ const AvatarCol = styled(Col)`
   position: relative;
 `
 
-const InitialsAvatar = styled(Avatar)`
+const InitialsAvatar = styled(Avatar)<{ light?: boolean }>`
   height: 4.8rem;
   width: 4.8rem;
   position: absolute;
   right: 2.4rem;
   ${animatedOpacityStyles};
   ${animatedOpacityActiveStyles};
+  ${({ light }) => light && lightAvatarStyles};
 `
 
 const LastMessageText = styled(Message)<{ unread?: boolean }>`
@@ -132,7 +133,6 @@ const Messages = styled(Table)<{
         ${animatedOpacityActiveStyles};
       }
       ${InitialsAvatar} {
-        ${lightAvatarStyles};
         ${animatedOpacityStyles};
       }
     }
@@ -186,13 +186,9 @@ const MessagesList: FunctionComponent<Props> = ({
         const toggle = () => toggleRow(item)
         const open = () => openSidebar(item)
         const nameAvailable = isNameAvailable(caller)
+        const active = activeRow?.id === item.id
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow
-            key={id}
-            ref={ref}
-            selected={selected}
-            active={activeRow?.id === item.id}
-          >
+          <MessageRow key={id} ref={ref} selected={selected} active={active}>
             <AvatarCol>
               <Checkbox
                 checked={selected}
@@ -202,7 +198,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 visible={!noneRowsSelected}
                 data-testid="checkbox"
               />
-              <InitialsAvatar user={caller} light={selected} />
+              <InitialsAvatar user={caller} light={active} />
             </AvatarCol>
             <MessageCol onClick={open} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
