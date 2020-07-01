@@ -35,5 +35,5 @@ export const MessageFiltersWrapper = styled(FiltersWrapper)<{
       grid-template-areas: "Search New";
       grid-template-columns: 1fr auto;
     `}
-  padding: 0 4rem;
+  padding: 0 3rem 0 4rem;
 `
