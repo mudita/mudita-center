@@ -84,6 +84,7 @@ const InitialsAvatar = styled(Avatar)`
   width: 4.8rem;
   position: absolute;
   right: 2.4rem;
+  ${animatedOpacityStyles};
   ${animatedOpacityActiveStyles};
 `
 
