@@ -33,7 +33,8 @@ export const SearchInput = styled(InputText)`
 `
 
 export const MessageSelectionManager = styled(SelectionManager)`
-  animation: ${showToggleableElement} 0.5s forwards linear;
+  animation: ${showToggleableElement} ${transitionTime("quick")} forwards
+    ${transitionTimingFunction("easeInOut")};
   grid-template-columns: 4.8rem 1fr;
   padding: 0 1.6rem;
 
