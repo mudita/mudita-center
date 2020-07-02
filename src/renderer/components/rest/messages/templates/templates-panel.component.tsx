@@ -14,7 +14,7 @@ import SelectionManager from "Renderer/components/core/selection-manager/selecti
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { Template } from "App/renderer/modules/messages/tabs/templates.component"
+import { Template } from "App/renderer/modules/messages/tabs/templates-ui.component"
 import { defineMessages } from "react-intl"
 
 export const messages = defineMessages({
@@ -74,7 +74,7 @@ const TemplatesSelectionManager = styled(SelectionManager)`
 `
 
 export interface TemplatesTopPanelProps {
-  onSearchTermChange: (value: string) => void
+  onSearchTermChange: (event: ChangeEvent<HTMLInputElement>) => void
   onNewButtonClick: () => void
   onDeleteButtonClick: () => void
   selectedItemsCount: number
@@ -90,11 +90,7 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
   allItemsSelected,
   toggleAll,
 }) => {
-  const search = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    onSearchTermChange(target.value)
-  }
   const selectionMode = selectedItemsCount > 0
-
   return (
     <Panel selectionMode={selectionMode}>
       {selectionMode ? (
@@ -118,7 +114,7 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
         <InputComponent
           leadingIcons={[<Icon type={Type.Magnifier} key={1} />]}
           label={intl.formatMessage(messages.searchPlaceholder)}
-          onChange={search}
+          onChange={onSearchTermChange}
           type="search"
           outlined
         />
