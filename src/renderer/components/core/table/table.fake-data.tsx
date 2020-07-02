@@ -1,11 +1,16 @@
 import Faker from "faker"
-import { groupBy, random, times, sample } from "lodash"
+import { groupBy, random, sample, times } from "lodash"
 import { CallStatus } from "Renderer/models/calls/calls.interface"
-import { generateFakeContact } from "Renderer/models/phone/phone.utils"
 import { Author } from "Renderer/models/messages/messages.interface"
+import { generateFakeContact } from "Renderer/models/phone/phone.utils"
 
 const createCall = () => {
-  const status = sample([CallStatus.Missed, CallStatus.Received]) as CallStatus
+  const status = sample([
+    CallStatus.Missed,
+    CallStatus.Incoming,
+    CallStatus.Outgoing,
+    CallStatus.Conference,
+  ]) as CallStatus
   return {
     id: Faker.random.uuid(),
     caller: {
@@ -78,7 +83,7 @@ const createTopic = () => {
   }
 }
 
-export const rowsMessages = times(random(5, 15), createTopic)
+export const rowsMessages = times(random(15, 25), createTopic)
 
 export const basicRows = Array.from({
   length: Math.round(15 + Math.random() * 25),

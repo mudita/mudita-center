@@ -74,7 +74,7 @@ const Name = styled(Text).attrs(() => ({
   margin-bottom: 1.4rem;
 `
 
-const InfoItem = styled.div`
+export const InfoItem = styled.div`
   display: grid;
   grid-row-gap: 1.2rem;
   grid-template-rows: 1.8rem 1.2rem;
@@ -85,7 +85,7 @@ const InfoItem = styled.div`
   margin: 0 2.4rem;
 `
 
-const InfoItemName = styled(Text).attrs(() => ({
+export const InfoItemName = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.SmallFadedText,
 }))`
   text-transform: uppercase;
@@ -100,7 +100,7 @@ const InfoItemSpeedDialNumber = styled(Text).attrs(() => ({
   font-weight: ${fontWeight("default")};
 `
 
-const AdditionalInfo = styled.div`
+export const AdditionalInfo = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 7.6rem;
@@ -111,12 +111,12 @@ const AdditionalInfo = styled.div`
   }
 `
 
-const AdditionalInfoItem = styled.div`
+export const AdditionalInfoItem = styled.div`
   width: 100%;
   margin-bottom: 4.2rem;
 `
 
-const Input = styled(InputComponent).attrs(({ value, label }) => ({
+export const Input = styled(InputComponent).attrs(({ value, label }) => ({
   label: value ? undefined : label,
   readOnly: true,
 }))<InputComponentProps>`
@@ -127,7 +127,7 @@ const Input = styled(InputComponent).attrs(({ value, label }) => ({
   }
 `
 
-const ContactDetailsWrapper = styled(Sidebar)`
+export const ContactDetailsWrapper = styled(Sidebar)`
   margin-top: 6.3rem;
 `
 
