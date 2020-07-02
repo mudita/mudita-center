@@ -4,7 +4,6 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import CallsTable from "Renderer/components/rest/calls/calls-table.component"
 import { mockData } from "App/__mocks__/calls-mock-data"
 import { intl } from "Renderer/utils/intl"
-import { waitFor } from "@testing-library/react"
 
 const renderer = () => {
   return renderWithThemeAndIntl(<CallsTable calls={mockData} />)
@@ -93,7 +92,5 @@ test("details are shown on click", () => {
 
   expect(queryByTestId(CallsTableTestIds.CallDetails)).not.toBeInTheDocument()
   getAllByTestId(CallsTableTestIds.CallerName)[0].click()
-  waitFor(() => {
-    expect(queryByTestId(CallsTableTestIds.CallDetails)).toBeInTheDocument()
-  })
+  expect(queryByTestId(CallsTableTestIds.CallDetails)).toBeInTheDocument()
 })
