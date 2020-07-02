@@ -55,13 +55,13 @@ const CallsFiltersWrapper = styled(FiltersWrapper)<{
   selectionMode: boolean
 }>`
   border-bottom: none;
+  padding: 0 0 0 4rem;
   ${({ selectionMode }) =>
     selectionMode &&
     css`
       grid-template-areas: "Search Search";
       grid-template-columns: 1fr auto;
       max-width: 69.5rem;
-      padding: 0 0 0 4rem;
     `}
 `
 
