@@ -18,18 +18,18 @@ const BatteryWrapper = styled.div`
   position: relative;
 `
 
-const BatteryChargingText = styled(Text)<{ size: number }>`
+const BatteryChargingText = styled(Text)<{ size: number | string }>`
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: ${({ size }) => size / 3}rem;
+  font-size: ${({ size }) => Number(size) / 3}rem;
 `
 
 const getInteractiveBatteryIcon = (
   batteryLevel: number,
   charging: boolean,
-  size: number,
+  size: number | string,
   rest: Partial<IconProps>
 ) => {
   switch (true) {

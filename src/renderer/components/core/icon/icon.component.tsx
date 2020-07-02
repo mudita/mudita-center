@@ -32,8 +32,8 @@ const badgeStyles = css`
 
 const Wrapper = styled.div<{
   badge?: boolean
-  height?: number
-  width?: number
+  height?: number | string
+  width?: number | string
 }>`
   display: flex;
   justify-content: center;

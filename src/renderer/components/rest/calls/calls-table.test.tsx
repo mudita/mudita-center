@@ -1,4 +1,5 @@
 import React from "react"
+import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.enum"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import CallsTable from "Renderer/components/rest/calls/calls-table.component"
 import { mockData } from "App/__mocks__/calls-mock-data"
@@ -10,7 +11,9 @@ const renderer = () => {
 
 test("render correct amount of rows", () => {
   const { getAllByTestId } = renderer()
-  expect(getAllByTestId("calls-row")).toHaveLength(mockData.length)
+  expect(getAllByTestId(CallsTableTestIds.CallsRow)).toHaveLength(
+    mockData.length
+  )
 })
 
 test("caller name is displayed correctly", () => {

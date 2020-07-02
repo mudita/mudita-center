@@ -1,19 +1,15 @@
-import React from "react"
-
-import Icon from "Renderer/components/core/icon/icon.component"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
-import Text from "Renderer/components/core/text/text.component"
 import { CallStatus } from "Renderer/models/calls/calls.interface"
 
 export interface CallDetails {
-  icon: React.ReactNode
-  description: React.ReactNode
+  icon: IconType
+  description: string
 }
 
 const createCallType = (icon: IconType, description: string): CallDetails => {
   return {
-    icon: <Icon type={icon} width="auto" />,
-    description: <Text message={{ id: description }} element="span" />,
+    icon,
+    description,
   }
 }
 

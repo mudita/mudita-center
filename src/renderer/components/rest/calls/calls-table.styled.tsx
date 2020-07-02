@@ -67,16 +67,6 @@ export const CallDescription = styled(Text).attrs(() => ({
 }))`
   text-align: center;
 `
-export const ButtonWrapper = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  margin-top: 1rem;
-
-  button {
-    width: auto;
-  }
-`
 export const ClickableCol = styled(Col)<{ active?: boolean }>`
   height: 100%;
 

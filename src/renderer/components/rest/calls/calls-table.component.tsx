@@ -7,6 +7,7 @@ import {
 } from "Renderer/components/core/table/table.component"
 import { basicRows } from "Renderer/components/core/table/table.fake-data"
 import { CallRow } from "Renderer/components/rest/calls/call-row"
+import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.enum"
 import { SelectableCells } from "Renderer/components/rest/calls/calls-table.styled"
 import {
   ContactDetails,
@@ -61,6 +62,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
       </SelectableCells>
       {sidebarOpened && (
         <ContactDetails
+          data-testid={CallsTableTestIds.CallDetails}
           calls={[callDetails] as Details[]}
           onClose={closeSidebar}
         />

@@ -16,10 +16,8 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import {
-  Checkbox,
-  isToday,
-} from "Renderer/components/rest/calls/calls-table.component"
+import { isToday } from "Renderer/components/rest/calls/calls-table.component"
+import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 import {
   Col,

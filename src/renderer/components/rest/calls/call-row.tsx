@@ -8,6 +8,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { Col, Row } from "Renderer/components/core/table/table.component"
 import { isToday } from "Renderer/components/rest/calls/calls-table.component"
+import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.enum"
 import {
   Checkbox,
   ClickableCol,
@@ -62,7 +63,11 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
   }
 
   return (
-    <Row key={id} data-testid="calls-row" active={activeRow?.id === id}>
+    <Row
+      key={id}
+      data-testid={CallsTableTestIds.CallsRow}
+      active={activeRow?.id === id}
+    >
       <Col>
         <Checkbox
           checked={selected}
@@ -77,7 +82,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
         onClick={openSidebar}
         active={activeRow?.id === id}
       >
-        {details.icon}
+        <Icon type={details.icon} width="auto" />
         {nameAvailable ? createFullName(caller) : caller.primaryPhoneNumber}
         {timesMissed > 1 && ` (${timesMissed})`}
       </ClickableCol>
