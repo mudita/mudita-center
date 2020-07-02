@@ -27,9 +27,12 @@ export default {
     ) {
       return { ...state, visibilityFilter }
     },
-    deleteConversation(id: string[], state: any) {
-      console.log(id, state)
-      return id
+    deleteConversation(state: StateProps, ids: string[]) {
+      const toBeDeletedConversationsIds = ids
+      const topics = state.topics.filter(
+        ({ id }) => !toBeDeletedConversationsIds.includes(id)
+      )
+      return { ...state, topics }
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({

@@ -25,3 +25,28 @@ test("visibility filter changes correctly", () => {
     desiredVisibilityFilter
   )
 })
+
+test("deletes one of the conversations", () => {
+  const messagesIdsToDelete = store.getState().messages.topics[0].id
+  const initialConversationsAmount = store.getState().messages.topics.length
+  store.dispatch.messages.deleteConversation([messagesIdsToDelete])
+  const conversationAmountAfterDeleting = store.getState().messages.topics
+    .length
+  expect(conversationAmountAfterDeleting).toEqual(
+    initialConversationsAmount - 1
+  )
+})
+
+test("deletes multiple conversations", () => {
+  const messagesIdsToDelete = [
+    store.getState().messages.topics[0].id,
+    store.getState().messages.topics[1].id,
+  ]
+  const initialConversationsAmount = store.getState().messages.topics.length
+  store.dispatch.messages.deleteConversation(messagesIdsToDelete)
+  const conversationAmountAfterDeleting = store.getState().messages.topics
+    .length
+  expect(conversationAmountAfterDeleting).toEqual(
+    initialConversationsAmount - messagesIdsToDelete.length
+  )
+})
