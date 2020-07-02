@@ -19,14 +19,13 @@ import {
   ActionsButton,
 } from "Renderer/components/rest/messages/messages-list.component"
 import { callTypeResolver } from "Renderer/components/rest/calls/contact-details.helpers"
-import { Call } from "Renderer/models/calls/calls.interface"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import formatDuration from "Renderer/utils/format-duration"
 import { noop } from "Renderer/utils/noop"
 
 export interface CallRowProps {
-  open: (row: Call) => void
+  open: (row: Details) => void
   getRowStatus: (
     input: string
   ) => {
@@ -34,9 +33,9 @@ export interface CallRowProps {
     indeterminate: boolean
   }
   toggleRow: (input: string) => void
-  callData: Call
+  callData: Details
   setDetails: (input: Details) => void
-  activeRow?: Call
+  activeRow?: Details
   noneRowsSelected: boolean
   sidebarOpened: boolean
 }
@@ -59,7 +58,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
 
   const openSidebar = () => {
     open(callData)
-    setDetails({ ...details, ...caller })
+    setDetails({ ...details, ...caller, ...callData } as Details)
   }
 
   return (

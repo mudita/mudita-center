@@ -21,12 +21,13 @@ import {
   InfoItemName,
   Input,
 } from "Renderer/components/rest/phone/contact-details.component"
-import { Contact } from "Renderer/models/phone/phone.interface"
+import { Call, Caller } from "Renderer/models/calls/calls.interface"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
+import formatDuration from "Renderer/utils/format-duration"
 
 type MessageFromProps = Record<string, Record<string, MessageDescriptor>>
-export type Details = Contact & CallDetails
+export type Details = Caller & CallDetails & Call
 
 interface ContactDetailsProps {
   calls: Details[]
@@ -36,72 +37,79 @@ interface ContactDetailsProps {
 export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
   return (
     <ContactDetailsWrapper onClose={onClose} show>
-      {calls.map((details, index) => (
-        <CallWrapper key={index}>
-          <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-            {details.icon}
-            {details.firstName || details.lastName ? (
-              <>
-                {details.firstName} {details.lastName}
-              </>
-            ) : (
-              <>{details.primaryPhoneNumber}</>
-            )}
-          </ContactName>
-          <CallDescription displayStyle={TextDisplayStyle.SmallFadedText}>
-            {details.description}
-          </CallDescription>
-          <ButtonWrapper>
-            <Button
-              displayStyle={DisplayStyle.Dropdown}
-              label="Delete contact"
-              onClick={noop}
-              Icon={Type.Delete}
-            />
-            <Button
-              displayStyle={DisplayStyle.Dropdown}
-              label="Contact details"
-              onClick={noop}
-              Icon={Type.Contacts}
-            />
-          </ButtonWrapper>
-          <>
-            <AdditionalInfo>
-              <AdditionalInfoItem>
-                <InfoItemName
-                  message={{
-                    id: "view.name.phone.contacts.details.information",
-                  }}
-                />
-                <Input value={details.primaryPhoneNumber} />
-              </AdditionalInfoItem>
-              <AdditionalInfoItem>
-                <InfoItemName message={{ id: "view.name.generic.type" }} />
-                <TypeHolder>
-                  {details.icon}
-                  <Input
-                    value={intl.formatMessage(
-                      (details.description as MessageFromProps).props.message
-                    )}
+      {calls.map((details, index) => {
+        const timesMissed = details.timesMissed
+          ? ` (${details.timesMissed})`
+          : ""
+        return (
+          <CallWrapper key={index}>
+            <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
+              {details.icon}
+              {details.firstName || details.lastName ? (
+                <>
+                  {details.firstName} {details.lastName}
+                </>
+              ) : (
+                <>{details.primaryPhoneNumber}</>
+              )}
+            </ContactName>
+            <CallDescription displayStyle={TextDisplayStyle.SmallFadedText}>
+              {details.description}
+            </CallDescription>
+            <ButtonWrapper>
+              <Button
+                displayStyle={DisplayStyle.Dropdown}
+                label="Delete contact"
+                onClick={noop}
+                Icon={Type.Delete}
+              />
+              <Button
+                displayStyle={DisplayStyle.Dropdown}
+                label="Contact details"
+                onClick={noop}
+                Icon={Type.Contacts}
+              />
+            </ButtonWrapper>
+            <>
+              <AdditionalInfo>
+                <AdditionalInfoItem>
+                  <InfoItemName
+                    message={{
+                      id: "view.name.phone.contacts.details.information",
+                    }}
                   />
-                </TypeHolder>
-              </AdditionalInfoItem>
-            </AdditionalInfo>
-            <AdditionalInfo large heading>
-              <AdditionalInfoItem>
-                <InfoItemName message={{ id: "view.name.generic.duration" }} />
-              </AdditionalInfoItem>
-              <AdditionalInfoItem>
-                <InfoItemName message={{ id: "view.name.generic.date" }} />
-              </AdditionalInfoItem>
-            </AdditionalInfo>
-            <AdditionalInfo large>
-              <Input value={"0m 0s"} />
-              <Input value={"Today"} />
-            </AdditionalInfo>
-          </>
-        </CallWrapper>
-      ))}
+                  <Input value={details.primaryPhoneNumber} />
+                </AdditionalInfoItem>
+                <AdditionalInfoItem>
+                  <InfoItemName message={{ id: "view.name.generic.type" }} />
+                  <TypeHolder>
+                    {details.icon}
+                    <Input
+                      value={`${intl.formatMessage(
+                        (details.description as MessageFromProps).props.message
+                      )}${timesMissed}`}
+                    />
+                  </TypeHolder>
+                </AdditionalInfoItem>
+              </AdditionalInfo>
+              <AdditionalInfo large heading>
+                <AdditionalInfoItem>
+                  <InfoItemName
+                    message={{ id: "view.name.generic.duration" }}
+                  />
+                </AdditionalInfoItem>
+                <AdditionalInfoItem>
+                  <InfoItemName message={{ id: "view.name.generic.date" }} />
+                </AdditionalInfoItem>
+              </AdditionalInfo>
+              <AdditionalInfo large>
+                <Input value={formatDuration(details.duration)} />
+                <Input value={String(details.date)} />
+              </AdditionalInfo>
+            </>
+          </CallWrapper>
+        )
+      })}
     </ContactDetailsWrapper>
   )
 }

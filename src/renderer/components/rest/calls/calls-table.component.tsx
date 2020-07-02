@@ -12,14 +12,13 @@ import {
   ContactDetails,
   Details,
 } from "Renderer/components/rest/calls/contact-details.component"
-import { Call } from "Renderer/models/calls/calls.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 
 interface Props {
-  calls: Call[]
+  calls: Details[]
 }
 
 export const isToday = (date: Date) => moment(date).isSame(Date.now(), "days")
@@ -35,7 +34,7 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
     closeSidebar,
     sidebarOpened,
     activeRow,
-  } = useTableSidebar<Call>()
+  } = useTableSidebar<Details>()
 
   return (
     <TableWithSidebarWrapper>
@@ -61,7 +60,10 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
         ))}
       </SelectableCells>
       {sidebarOpened && (
-        <ContactDetails calls={[callDetails]} onClose={closeSidebar} />
+        <ContactDetails
+          calls={[callDetails] as Details[]}
+          onClose={closeSidebar}
+        />
       )}
     </TableWithSidebarWrapper>
   )
