@@ -251,7 +251,7 @@ exports[`matches snapshot 1`] = `
       >
         <div
           class="c2 c7"
-          data-testid="icon-undefined"
+          data-testid="icon-MenuNews"
         >
           <test-file-stub
             image="test-file-stub"
