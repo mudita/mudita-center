@@ -59,7 +59,8 @@ const CallsFiltersWrapper = styled(FiltersWrapper)<{
     css`
       grid-template-areas: "Search Search";
       grid-template-columns: 1fr auto;
-      max-width: 80rem;
+      max-width: 69.5rem;
+      padding: 0 0 0 4rem;
     `}
 `
 
