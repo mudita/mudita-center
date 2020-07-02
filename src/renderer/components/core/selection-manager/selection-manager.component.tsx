@@ -62,9 +62,14 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
   enlarged,
   checkboxSize,
   onToggle = noop,
+  ...rest
 }) => {
   return (
-    <SelectionManagerWrapper className={className} enlarged={enlarged}>
+    <SelectionManagerWrapper
+      className={className}
+      enlarged={enlarged}
+      {...rest}
+    >
       <CheckboxWrapper>
         <InputCheckbox
           checked

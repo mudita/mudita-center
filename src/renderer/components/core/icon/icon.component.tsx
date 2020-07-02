@@ -43,8 +43,8 @@ const Wrapper = styled.div<{
   position: relative;
 
   svg {
-    max-height: 100%;
-    max-width: 100%;
+    width: 100%;
+    height: 100%;
   }
 
   ${({ badge }) => badge && badgeStyles};
@@ -56,6 +56,7 @@ const Icon: FunctionComponent<Props> = ({
   height,
   width,
   type,
+  ...rest
 }) => {
   return (
     <Wrapper
@@ -64,6 +65,7 @@ const Icon: FunctionComponent<Props> = ({
       className={className}
       height={height || width}
       width={width || height}
+      {...rest}
     >
       <Svg Image={getIconType(type)} />
     </Wrapper>

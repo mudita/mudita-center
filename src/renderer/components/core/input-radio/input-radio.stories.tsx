@@ -1,28 +1,26 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import InputRadio from "Renderer/components/core/input-radio/input-radio.component"
+import StoryContainer from "Renderer/components/storybook/story-container.component"
+import Story from "Renderer/components/storybook/story.component"
 
-storiesOf("Components|InputRadio ", module)
-  .add("Checked", () => {
-    return (
-      <InputRadio
-        name={"Example1"}
-        value={"value1"}
-        id={"id1"}
-        defaultChecked
-      />
-    )
-  })
-  .add("Unchecked", () => {
-    return <InputRadio name={"Example1"} value={"value2"} id={"id2"} />
-  })
-  .add("With label", () => {
-    return (
-      <InputRadio
-        name={"Example1"}
-        value={"value2"}
-        id={"id2"}
-        label={"label"}
-      />
-    )
-  })
+storiesOf("Components|Core/InputRadio", module).add("Default", () => (
+  <>
+    <StoryContainer title="States">
+      <Story title="Unchecked (default)">
+        <InputRadio />
+      </Story>
+      <Story title="Checked">
+        <InputRadio defaultChecked />
+      </Story>
+    </StoryContainer>
+    <StoryContainer title="Types">
+      <Story title="Default">
+        <InputRadio />
+      </Story>
+      <Story title="With label">
+        <InputRadio label="Label" />
+      </Story>
+    </StoryContainer>
+  </>
+))

@@ -37,8 +37,8 @@ exports[`should match snapshot with link 1`] = `
 }
 
 .c1 svg {
-  max-height: 100%;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .c0 {
@@ -150,8 +150,8 @@ exports[`should match snapshot without link 1`] = `
 }
 
 .c1 svg {
-  max-height: 100%;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .c0 {

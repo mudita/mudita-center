@@ -5,7 +5,7 @@ import TextEditor, {
   Text,
   TextEditorProps,
 } from "Renderer/components/core/text-editor/text-editor.component"
-import { notes } from "Renderer/components/core/table/table.fake-data"
+import { templates } from "Renderer/components/core/table/table.fake-data"
 import styled from "styled-components"
 import { useTextEditor } from "Renderer/components/core/text-editor/text-editor.hook"
 import { noop } from "Renderer/utils/noop"
@@ -17,7 +17,7 @@ const StoryWrapper = styled.div`
   box-sizing: border-box;
 `
 
-const defaultText = notes[0]
+const defaultText = templates[0]
 
 const StaticStory = ({
   temporaryText = defaultText.text,
@@ -72,7 +72,7 @@ storiesOf("Components|TextEditor", module)
   ))
   .add("Interactive (no real saving)", () => {
     // External data (store like) imitation
-    const [note, setNote] = useState(notes[0])
+    const [note, setNote] = useState(templates[0])
 
     const fakeSave = (newNote: Text) => {
       return new Promise(resolve => {

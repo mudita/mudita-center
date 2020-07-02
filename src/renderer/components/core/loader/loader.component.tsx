@@ -15,7 +15,7 @@ const Loader: FunctionComponent<LoaderProps> = ({
   return (
     <>
       {type === LoaderType.Logo ? (
-        <LoaderLogo {...imageProps} />
+        <LoaderLogo size={size} {...imageProps} />
       ) : (
         <LoaderSpinner size={size} />
       )}

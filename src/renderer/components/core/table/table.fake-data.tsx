@@ -38,7 +38,7 @@ const createText = () => ({
   text: Faker.lorem.paragraphs(random(1, 3)),
 })
 
-export const notes = times(random(15, 25), createText)
+export const templates = times(random(15, 25), createText)
 
 const generateEmptyContact = (): Author => ({
   id: Faker.random.uuid(),

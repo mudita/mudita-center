@@ -13,11 +13,7 @@ import {
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-
-interface Template {
-  id: string
-  content: string
-}
+import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
 
 interface Props {
   templates: Template[]
@@ -67,7 +63,7 @@ const TemplateModal: FunctionComponent<Props> = ({
           <li key={template.id} onClick={chooseTemplate}>
             <TemplateRow size={RowSize.Tiny}>
               <TemplateText displayStyle={TextDisplayStyle.MediumText}>
-                {template.content}
+                {template.text}
               </TemplateText>
             </TemplateRow>
           </li>
