@@ -78,6 +78,7 @@ const CallsSelectionManager = styled(SelectionManager)`
 interface Props {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
   selectedItemsCount: number
+  allRowsSelected?: boolean
   toggleAll?: UseTableSelect<Call>["toggleAll"]
 }
 
@@ -85,6 +86,7 @@ const CallsHeader: FunctionComponent<Props> = ({
   changeVisibilityFilter = noop,
   selectedItemsCount,
   toggleAll,
+  allRowsSelected,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0].label)
   const getFilterByLabel = ({
@@ -117,6 +119,7 @@ const CallsHeader: FunctionComponent<Props> = ({
           selectedItemsNumber={selectedItemsCount}
           message={{ id: "view.name.phone.calls.selectionsNumber" }}
           onToggle={toggleAll}
+          allItemsSelected={Boolean(allRowsSelected)}
           buttons={[
             <ButtonComponent
               key="delete"
