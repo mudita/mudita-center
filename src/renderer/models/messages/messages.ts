@@ -27,6 +27,10 @@ export default {
     ) {
       return { ...state, visibilityFilter }
     },
+    deleteConversation(id: string[], state: any) {
+      console.log(id, state)
+      return id
+    },
   },
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {

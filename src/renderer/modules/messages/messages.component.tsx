@@ -19,6 +19,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
   changeSearchValue = noop,
   changeVisibilityFilter = noop,
+  deleteConversation = noop,
   list,
 }) => {
   const [messagesList, setMessagesList] = useState(list)
@@ -57,6 +58,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         selectedItemsCount={selectedRows.length}
         toggleAll={toggleAll}
         allItemsSelected={allRowsSelected}
+        deleteConversation={deleteConversation}
       />
       <TableWithSidebarWrapper>
         <MessagesList

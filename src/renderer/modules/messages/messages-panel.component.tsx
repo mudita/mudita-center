@@ -37,6 +37,8 @@ const toggleState = [
 interface Props {
   showAllMessages?: () => void
   hideReadMessages?: () => void
+  selectedConversations?: string[]
+  deleteConversation?: (ids: string[]) => void
   searchValue: string
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
   selectedItemsCount: number
@@ -52,6 +54,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   selectedItemsCount,
   allItemsSelected,
   toggleAll = noop,
+  deleteConversation,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedItemsCount > 0
