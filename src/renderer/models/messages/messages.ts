@@ -7,7 +7,7 @@ import {
   sortTopics,
 } from "Renderer/models/messages/utils/topics-utils"
 
-const initialState = {
+const initialState: StateProps = {
   topics: rowsMessages,
   searchValue: "",
 }
