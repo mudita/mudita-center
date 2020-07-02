@@ -6,7 +6,7 @@ import {
   TableWithSidebarWrapper,
 } from "Renderer/components/core/table/table.component"
 import { basicRows } from "Renderer/components/core/table/table.fake-data"
-import { CallRow } from "Renderer/components/rest/calls/call-row"
+import { CallRow } from "Renderer/components/rest/calls/call-row.component"
 import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.enum"
 import { SelectableCells } from "Renderer/components/rest/calls/calls-table.styled"
 import {

@@ -78,7 +78,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
         />
       </Col>
       <ClickableCol
-        data-testid="caller-name"
+        data-testid={CallsTableTestIds.CallerName}
         onClick={openSidebar}
         active={activeRow?.id === id}
       >

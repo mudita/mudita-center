@@ -4,6 +4,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import CallsTable from "Renderer/components/rest/calls/calls-table.component"
 import { mockData } from "App/__mocks__/calls-mock-data"
 import { intl } from "Renderer/utils/intl"
+import { waitFor } from "@testing-library/react"
 
 const renderer = () => {
   return renderWithThemeAndIntl(<CallsTable calls={mockData} />)
@@ -19,7 +20,7 @@ test("render correct amount of rows", () => {
 test("caller name is displayed correctly", () => {
   const { getAllByTestId } = renderer()
   const examplesIndex = 0
-  const exampleRow = getAllByTestId("caller-name")[examplesIndex]
+  const exampleRow = getAllByTestId(CallsTableTestIds.CallerName)[examplesIndex]
   expect(exampleRow).toHaveTextContent(
     `${mockData[examplesIndex].caller.firstName} ${mockData[examplesIndex].caller.lastName} (${mockData[examplesIndex].timesMissed})`
   )
@@ -28,7 +29,9 @@ test("caller name is displayed correctly", () => {
 test("when caller is unknown, displays only phone number + times missed", () => {
   const { getAllByTestId } = renderer()
   const examplesIndex = 2
-  const unknownsCallerCol = getAllByTestId("caller-name")[examplesIndex]
+  const unknownsCallerCol = getAllByTestId(CallsTableTestIds.CallerName)[
+    examplesIndex
+  ]
   expect(unknownsCallerCol).toHaveTextContent(
     `${mockData[examplesIndex].caller.primaryPhoneNumber} (${mockData[examplesIndex].timesMissed})`
   )
@@ -83,4 +86,14 @@ test("delete call button has correct content", () => {
       id: "view.name.phone.calls.deleteCall",
     })
   )
+})
+
+test("details are shown on click", () => {
+  const { queryByTestId, getAllByTestId } = renderer()
+
+  expect(queryByTestId(CallsTableTestIds.CallDetails)).not.toBeInTheDocument()
+  getAllByTestId(CallsTableTestIds.CallerName)[0].click()
+  waitFor(() => {
+    expect(queryByTestId(CallsTableTestIds.CallDetails)).toBeInTheDocument()
+  })
 })
