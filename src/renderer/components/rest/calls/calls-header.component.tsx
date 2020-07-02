@@ -24,6 +24,7 @@ import {
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
+import { CallsHeaderTestIds } from "Renderer/components/rest/calls/calls-header-test-ids.enum"
 
 const toggleState = [
   {
@@ -127,9 +128,10 @@ const CallsHeader: FunctionComponent<Props> = ({
               onClick={noop}
             />,
           ]}
+          data-testid={CallsHeaderTestIds.SelectionManager}
         />
       ) : (
-        <UnreadFilters>
+        <UnreadFilters data-testid={CallsHeaderTestIds.UnreadFilters}>
           <ButtonToggler>
             {toggleState.map(({ label, visibilityFilter }) => {
               const filter = () => getFilterByLabel({ label, visibilityFilter })
