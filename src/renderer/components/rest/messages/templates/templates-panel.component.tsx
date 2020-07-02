@@ -94,13 +94,12 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
     onSearchTermChange(target.value)
   }
   const selectionMode = selectedItemsCount > 0
-
   return (
     <Panel selectionMode={selectionMode}>
       {selectionMode ? (
         <TemplatesSelectionManager
           selectedItemsNumber={selectedItemsCount}
-          allItemsSelected={Boolean(allItemsSelected)}
+          allItemsSelected={allItemsSelected}
           message={messages.selectionsNumber}
           checkboxSize={Size.Small}
           onToggle={toggleAll}

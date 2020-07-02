@@ -121,7 +121,7 @@ const CallsHeader: FunctionComponent<Props> = ({
           selectedItemsNumber={selectedItemsCount}
           message={{ id: "view.name.phone.calls.selectionsNumber" }}
           onToggle={toggleAll}
-          allItemsSelected={Boolean(allRowsSelected)}
+          allItemsSelected={allRowsSelected}
           buttons={[
             <ButtonComponent
               key="delete"
