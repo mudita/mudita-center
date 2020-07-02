@@ -8,20 +8,20 @@ import { convertBytes } from "Renderer/utils/convert-bytes"
 import styled, { css } from "styled-components"
 
 export enum DisplayStyle {
-  Simple,
-  MultiColor,
+  Thin,
+  Thick,
 }
 
 export interface ChartItem {
   value: number
   color: string
-  filesType?: string
+  free?: boolean
 }
 
 interface Props {
   chartData: ChartItem[]
-  displayStyle: DisplayStyle
-  showStats?: boolean
+  displayStyle?: DisplayStyle
+  labels?: boolean
 }
 
 interface BarProps {
@@ -38,7 +38,7 @@ const ProgressWrapper = styled.div`
 
 const Progress = styled.div`
   display: flex;
-  width: 90%;
+  width: 100%;
 `
 
 const Bar = styled.div<BarProps>`
@@ -54,11 +54,11 @@ const Bar = styled.div<BarProps>`
 
   ${({ borderType }) => {
     switch (borderType) {
-      case DisplayStyle.Simple:
+      case DisplayStyle.Thin:
         return css`
           --radius: ${borderRadius("small")};
         `
-      case DisplayStyle.MultiColor:
+      case DisplayStyle.Thick:
         return css`
           --radius: ${borderRadius("medium")};
         `
@@ -69,11 +69,11 @@ const Bar = styled.div<BarProps>`
 
   ${({ barHeight }) => {
     switch (barHeight) {
-      case DisplayStyle.Simple:
+      case DisplayStyle.Thin:
         return css`
           height: ${height("small")}rem;
         `
-      case DisplayStyle.MultiColor:
+      case DisplayStyle.Thick:
         return css`
           height: ${height("medium")}rem;
         `
@@ -102,21 +102,22 @@ const PercentageLabel = styled(Text)`
 
 const MemoryLabel = styled(Text)`
   margin-left: 2.4rem;
+  white-space: nowrap;
 `
 
 const StackedBarChart: FunctionComponent<Props> = ({
   className,
   chartData,
-  displayStyle,
-  showStats = false,
+  displayStyle = DisplayStyle.Thick,
+  labels,
 }) => {
   const availableSpace = (data: ChartItem[]): number =>
     data.reduce((acc, { value }) => acc + value, 0)
   const usedMemoryInBytes = chartData
-    .filter(chartObject => chartObject.filesType !== "Free")
+    .filter(chartObject => !chartObject.free)
     .reduce((acc, { value }) => acc + value, 0)
   const usedMemoryConverted =
-    showStats && convertBytes(usedMemoryInBytes, { fixedFractionDigits: false })
+    labels && convertBytes(usedMemoryInBytes, { fixedFractionDigits: false })
   const percentageOfAvailableSpace = (value: number) =>
     (value / availableSpace(chartData)) * 100
   const barData = chartData.map(obj => ({
@@ -135,7 +136,7 @@ const StackedBarChart: FunctionComponent<Props> = ({
     <ProgressWrapper className={className}>
       <Progress>
         {barData.map(({ color, percentage }, index) => {
-          if (index === indexOfOneBeforeLast && showStats) {
+          if (index === indexOfOneBeforeLast && labels) {
             return (
               <BarWithLabel
                 barHeight={displayStyle}
@@ -173,7 +174,7 @@ const StackedBarChart: FunctionComponent<Props> = ({
           )
         })}
       </Progress>
-      {showStats && (
+      {labels && (
         <MemoryLabel
           displayStyle={TextDisplayStyle.TertiaryHeading}
           element={"p"}

@@ -88,10 +88,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
         <Text displayStyle={TextDisplayStyle.SmallFadedText}>
           <FormattedMessage id="view.name.overview.filesManager.usedSpace" />
         </Text>
-        <BarChart
-          chartData={stackedBarData}
-          displayStyle={DisplayStyle.Simple}
-        />
+        <BarChart chartData={stackedBarData} displayStyle={DisplayStyle.Thin} />
       </TextInfo>
       <CardAction filled>
         <Button

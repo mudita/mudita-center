@@ -33,6 +33,7 @@ const initialStateValue: FilesManagerState = {
       occupiedMemory: 4294967296,
       color: "#E9E9E9",
       icon: Type.MuditaLogo,
+      free: true,
     },
   ],
 }
