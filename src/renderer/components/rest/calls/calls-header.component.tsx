@@ -56,11 +56,13 @@ const CallsFiltersWrapper = styled(FiltersWrapper)<{
 }>`
   border-bottom: none;
   padding: 0 0 0 4rem;
+  grid-template-areas: "Filters";
+  grid-template-columns: auto;
+  grid-column-gap: unset;
   ${({ selectionMode }) =>
     selectionMode &&
     css`
-      grid-template-areas: "Search Search";
-      grid-template-columns: 1fr auto;
+      grid-template-areas: "Search";
       max-width: 69.5rem;
     `}
 `
