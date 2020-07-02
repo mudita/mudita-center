@@ -38,11 +38,12 @@ test("deletes one of the conversations", () => {
 })
 
 test("deletes multiple conversations", () => {
+  const initialConversations = store.getState().messages.topics
   const messagesIdsToDelete = [
-    store.getState().messages.topics[0].id,
-    store.getState().messages.topics[1].id,
+    initialConversations[0].id,
+    initialConversations[1].id,
   ]
-  const initialConversationsAmount = store.getState().messages.topics.length
+  const initialConversationsAmount = initialConversations.length
   store.dispatch.messages.deleteConversation(messagesIdsToDelete)
   const conversationAmountAfterDeleting = store.getState().messages.topics
     .length
