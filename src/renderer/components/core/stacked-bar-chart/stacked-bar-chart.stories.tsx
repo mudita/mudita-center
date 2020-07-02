@@ -7,22 +7,22 @@ import { css } from "styled-components"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 
-const customStoryStyles = css`
-  main > * {
-    width: 20rem;
+const biggerStackedBarChartStyles = css`
+  > * {
+    width: 40rem !important;
   }
 `
 
-const biggerStoryStyles = css`
-  > * {
-    width: 40rem !important;
+const stackedBarChartStyles = css`
+  main > * {
+    width: 20rem;
   }
 `
 
 storiesOf("Components|Core/StackedBarChart", module).add("Default", () => {
   return (
     <>
-      <StoryContainer title="Types" customStyle={customStoryStyles}>
+      <StoryContainer title="Types" customStyle={stackedBarChartStyles}>
         <Story title="Thick (default)">
           <StackedBarChart
             chartData={[
@@ -44,7 +44,7 @@ storiesOf("Components|Core/StackedBarChart", module).add("Default", () => {
       </StoryContainer>
       <StoryContainer
         title="Customizations"
-        customStyle={customStoryStyles}
+        customStyle={stackedBarChartStyles}
         column
       >
         <Story title="Multicolor">
@@ -60,7 +60,7 @@ storiesOf("Components|Core/StackedBarChart", module).add("Default", () => {
             displayStyle={DisplayStyle.Thick}
           />
         </Story>
-        <Story title="With labels" customStyle={biggerStoryStyles}>
+        <Story title="With labels" customStyle={biggerStackedBarChartStyles}>
           <StackedBarChart
             chartData={[
               { value: 1024 ** 3, color: "#f00" },
