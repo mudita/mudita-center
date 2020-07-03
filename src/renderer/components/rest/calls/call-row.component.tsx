@@ -86,14 +86,14 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
         {nameAvailable ? createFullName(caller) : caller.primaryPhoneNumber}
         {timesMissed > 1 && ` (${timesMissed})`}
       </ClickableCol>
-      <Col>{formatDuration(duration)}</Col>
+      {!sidebarOpened && <Col>{formatDuration(duration)}</Col>}
+      <Col data-testid="call-date">
+        {isToday(date)
+          ? moment(date).format("h:mm")
+          : moment(date).format("ll")}
+      </Col>
       {!sidebarOpened && (
         <>
-          <Col data-testid="call-date">
-            {isToday(date)
-              ? moment(date).format("h:mm")
-              : moment(date).format("ll")}
-          </Col>
           <Col>
             <Actions>
               <Dropdown

@@ -44,10 +44,12 @@ const CallsTable: FunctionComponent<Props> = ({
         <Labels>
           <Col />
           <Col>{intl.formatMessage({ id: "view.name.generic.name" })}</Col>
-          <Col>{intl.formatMessage({ id: "view.name.generic.duration" })}</Col>
           {!sidebarOpened && (
-            <Col>{intl.formatMessage({ id: "view.name.generic.date" })}</Col>
+            <Col>
+              {intl.formatMessage({ id: "view.name.generic.duration" })}
+            </Col>
           )}
+          <Col>{intl.formatMessage({ id: "view.name.generic.date" })}</Col>
         </Labels>
         {calls.map((row, i) => (
           <CallRow
