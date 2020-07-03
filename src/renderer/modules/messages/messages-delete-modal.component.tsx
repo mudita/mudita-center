@@ -21,70 +21,39 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
 }) => {
   const caller = uniqueSelectedRows.values().next().value
   const nameAvailable = isNameAvailable(caller)
+  const title = intl.formatMessage({
+    id: "view.name.messages.deleteModal.title",
+  })
+  const text =
+    uniqueSelectedRows.size > 1
+      ? intl.formatMessage(
+          {
+            id: "view.name.messages.deleteModal.text",
+          },
+          {
+            num: selectedConversationsIdsNumber,
+            ...textFormatters,
+          }
+        )
+      : intl.formatMessage(
+          {
+            id: "view.name.messages.deleteModal.uniqueText",
+          },
+          {
+            caller: nameAvailable
+              ? createFullName(uniqueSelectedRows.values().next().value)
+              : caller.primaryPhoneNumber,
+            num: selectedConversationsIdsNumber,
+            ...textFormatters,
+          }
+        )
+
   return (
     <>
       {deleting ? (
-        <DeleteModal
-          deleting
-          title={intl.formatMessage({
-            id: "view.name.contacts",
-          })}
-          text={
-            uniqueSelectedRows.size > 1
-              ? intl.formatMessage(
-                  {
-                    id: "view.name.messages.deleteModal.text",
-                  },
-                  {
-                    num: selectedConversationsIdsNumber,
-                    ...textFormatters,
-                  }
-                )
-              : intl.formatMessage(
-                  {
-                    id: "view.name.messages.deleteModal.uniqueText",
-                  },
-                  {
-                    caller: nameAvailable
-                      ? createFullName(uniqueSelectedRows.values().next().value)
-                      : caller.primaryPhoneNumber,
-                    num: selectedConversationsIdsNumber,
-                    ...textFormatters,
-                  }
-                )
-          }
-        />
+        <DeleteModal deleting title={title} text={text} />
       ) : (
-        <DeleteModal
-          onDelete={onDelete}
-          title={intl.formatMessage({
-            id: "view.name.contacts",
-          })}
-          text={
-            uniqueSelectedRows.size > 1
-              ? intl.formatMessage(
-                  {
-                    id: "view.name.messages.deleteModal.text",
-                  },
-                  {
-                    num: selectedConversationsIdsNumber,
-                    ...textFormatters,
-                  }
-                )
-              : intl.formatMessage(
-                  {
-                    id: "view.name.messages.deleteModal.uniqueText",
-                  },
-                  {
-                    caller: nameAvailable
-                      ? createFullName(uniqueSelectedRows.values().next().value)
-                      : caller.primaryPhoneNumber,
-                    num: selectedConversationsIdsNumber,
-                    ...textFormatters,
-                  }
-                )
-          }
-        />
+        <DeleteModal onDelete={onDelete} title={title} text={text} />
       )}
     </>
   )
