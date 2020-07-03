@@ -1,4 +1,3 @@
-import moment from "moment"
 import React, { useState } from "react"
 import {
   Col,
@@ -7,16 +6,12 @@ import {
 } from "Renderer/components/core/table/table.component"
 import { CallRow } from "Renderer/components/rest/calls/call-row.component"
 import { SelectableCells } from "Renderer/components/rest/calls/calls-table.styled"
-import {
-  ContactDetails,
-  Details,
-} from "Renderer/components/rest/calls/contact-details.component"
+import { ContactDetails } from "Renderer/components/rest/calls/contact-details.component"
+import { Details } from "Renderer/components/rest/calls/contact-details.types"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
-
-export const isToday = (date: Date) => moment(date).isSame(Date.now(), "days")
 
 type SelectHook = Pick<
   UseTableSelect<Details>,

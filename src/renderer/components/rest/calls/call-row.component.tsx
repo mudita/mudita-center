@@ -7,13 +7,12 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { Col, Row } from "Renderer/components/core/table/table.component"
-import { isToday } from "Renderer/components/rest/calls/calls-table.component"
 import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.enum"
 import {
   Checkbox,
   ClickableCol,
 } from "Renderer/components/rest/calls/calls-table.styled"
-import { Details } from "Renderer/components/rest/calls/contact-details.component"
+import { Details } from "Renderer/components/rest/calls/contact-details.types"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import {
   Actions,
@@ -23,6 +22,7 @@ import { callTypeResolver } from "Renderer/components/rest/calls/contact-details
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import formatDuration from "Renderer/utils/format-duration"
+import { isToday } from "Renderer/utils/is-today"
 import { noop } from "Renderer/utils/noop"
 
 export interface CallRowProps {

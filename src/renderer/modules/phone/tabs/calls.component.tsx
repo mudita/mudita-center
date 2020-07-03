@@ -1,5 +1,5 @@
 import React from "react"
-import { Details } from "Renderer/components/rest/calls/contact-details.component"
+import { Details } from "Renderer/components/rest/calls/contact-details.types"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import { VisibilityFilter } from "App/renderer/models/calls/calls.interface"
