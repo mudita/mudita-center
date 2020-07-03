@@ -11,8 +11,8 @@ import styled, { css } from "styled-components"
 
 export interface Props {
   badge?: boolean
-  height?: number | string
-  width?: number | string
+  height?: number | "auto"
+  width?: number | "auto"
   type?: Type
 }
 
