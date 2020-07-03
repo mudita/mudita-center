@@ -10,6 +10,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size as CheckboxSize } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
   Labels,
+  RowSize,
   TableSortButton,
 } from "Renderer/components/core/table/table.component"
 import Text, {
@@ -92,7 +93,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
 
   return (
     <>
-      <FiltersWrapper checkMode>
+      <FiltersWrapper>
         {selectionManagerVisible ? (
           <SelectionManager
             data-testid={NotesTestIds.SelectionElement}
