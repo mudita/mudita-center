@@ -12,6 +12,8 @@
   "view.name.messages.allMessages": "All messages",
   "view.name.messages.unreadOnly": "Unread only",
   "view.name.messages.search": "Search",
+  "view.name.messages.deleteModal.uniqueText": "Do you really want to delete <b>the {num, plural, =-1 {All Conversations} one {# Conversation} other {# Conversations}} with {caller}?</b>",
+  "view.name.messages.deleteModal.text": "Do you really want to delete <b>the {num, plural, =-1 {All Conversations} one {# Conversation} other {# Conversations}}?</b>",
   "view.name.messages.dropdownContactDetails": "Contact Details",
   "view.name.messages.dropdownAddToContacts": "Add to contacts",
   "view.name.messages.dropdownMarkAsRead": "Mark as read",

@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { UnreadFilters } from "Renderer/components/rest/messages/topics-table.component"
 import ButtonToggler from "Renderer/components/core/button-toggler/button-toggler.component"
-import { intl } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import Button from "Renderer/components/core/button/button.component"
 import {
@@ -24,9 +24,9 @@ import {
   SearchInput,
 } from "Renderer/modules/messages/messages-panel.styled"
 import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
-import { Contact } from "Renderer/models/phone/phone.interface"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
+import { createFullName } from "Renderer/models/phone/phone.utils"
 
 const toggleState = [
   intl.formatMessage({
@@ -63,22 +63,41 @@ const MessagesPanel: FunctionComponent<Props> = ({
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedItemsCount > 0
   const selectedConversationsIds = selectedConversations.map(({ id }) => id)
-
-  const openDeleteModal = (contact: Contact) => {
+  const uniqueSelectedRows = new Set(
+    selectedConversations.map(({ caller }) => caller)
+  )
+  const openDeleteModal = () => {
     const handleDelete = async () => {
       modalService.rerenderModal(
         <DeleteModal
-          contact={contact}
           deleting
           title={intl.formatMessage({
             id: "view.name.contacts",
           })}
-          text={intl.formatMessage(
-            {
-              id: "view.name.messages.conversations.selectionsNumber",
-            },
-            { num: 3 }
-          )}
+          text={
+            uniqueSelectedRows.size > 1
+              ? intl.formatMessage(
+                  {
+                    id: "view.name.messages.deleteModal.text",
+                  },
+                  {
+                    num: selectedConversationsIds.length,
+                    ...textFormatters,
+                  }
+                )
+              : intl.formatMessage(
+                  {
+                    id: "view.name.messages.deleteModal.uniqueText",
+                  },
+                  {
+                    caller: createFullName(
+                      uniqueSelectedRows.values().next().value
+                    ),
+                    num: selectedConversationsIds.length,
+                    ...textFormatters,
+                  }
+                )
+          }
         />
       )
       deleteConversation(selectedConversationsIds)
@@ -87,17 +106,34 @@ const MessagesPanel: FunctionComponent<Props> = ({
 
     modalService.openModal(
       <DeleteModal
-        contact={contact}
         onDelete={handleDelete}
         title={intl.formatMessage({
           id: "view.name.contacts",
         })}
-        text={intl.formatMessage(
-          {
-            id: "view.name.messages.conversations.selectionsNumber",
-          },
-          { num: 3 }
-        )}
+        text={
+          uniqueSelectedRows.size > 1
+            ? intl.formatMessage(
+                {
+                  id: "view.name.messages.deleteModal.text",
+                },
+                {
+                  num: selectedConversationsIds.length,
+                  ...textFormatters,
+                }
+              )
+            : intl.formatMessage(
+                {
+                  id: "view.name.messages.deleteModal.uniqueText",
+                },
+                {
+                  caller: createFullName(
+                    uniqueSelectedRows.values().next().value
+                  ),
+                  num: selectedConversationsIds.length,
+                  ...textFormatters,
+                }
+              )
+        }
       />
     )
   }

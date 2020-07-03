@@ -124,7 +124,6 @@ const Phone: FunctionComponent<PhoneProps> = ({
     const handleDelete = async () => {
       modalService.rerenderModal(
         <DeleteModal
-          contact={contact}
           deleting
           title={intl.formatMessage({
             id: "view.name.phone.contacts.modal.delete.title",
@@ -144,7 +143,6 @@ const Phone: FunctionComponent<PhoneProps> = ({
 
     modalService.openModal(
       <DeleteModal
-        contact={contact}
         onDelete={handleDelete}
         title={intl.formatMessage({
           id: "view.name.phone.contacts.modal.delete.title",

@@ -3,6 +3,7 @@ import { storiesOf } from "@storybook/react"
 import Phone, { PhoneProps } from "Renderer/modules/phone/phone.component"
 import { action } from "@storybook/addon-actions"
 import {
+  createFullName,
   generateFakeData,
   generateSortedStructure,
 } from "Renderer/models/phone/phone.utils"
@@ -19,6 +20,7 @@ import {
 } from "Renderer/components/core/modal/modal.styled.elements"
 import Faker from "faker"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
+import { intl, textFormatters } from "Renderer/utils/intl"
 
 const contacts: Contact[] = generateFakeData(40)
 
@@ -236,7 +238,15 @@ storiesOf("Views|Phone/Modals", module)
     <>
       <ModalWrapper>
         <DeleteModal
-          contact={contacts[0]}
+          title={intl.formatMessage({
+            id: "view.name.phone.contacts.modal.delete.title",
+          })}
+          text={intl.formatMessage(
+            {
+              id: "view.name.phone.contacts.modal.delete.text",
+            },
+            { name: createFullName(singleContact()), ...textFormatters }
+          )}
           onDelete={action("Delete")}
           onClose={action("Close")}
         />

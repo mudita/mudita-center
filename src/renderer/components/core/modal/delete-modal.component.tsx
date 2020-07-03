@@ -3,7 +3,6 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
-import { Contact } from "Renderer/models/phone/phone.interface"
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
@@ -34,7 +33,6 @@ const messages = defineMessages({
 })
 
 interface DeleteContactModalProps {
-  contact: Contact
   onDelete?: () => void
   onClose?: () => void
   deleting?: boolean
