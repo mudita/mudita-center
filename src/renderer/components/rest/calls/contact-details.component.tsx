@@ -63,7 +63,7 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
         return (
           <CallWrapper key={index}>
             <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-              <Icon type={details.icon} />
+              <Icon type={details.icon} width="auto" />
               {details.caller.firstName || details.caller.lastName ? (
                 <>
                   {details.caller.firstName} {details.caller.lastName}
