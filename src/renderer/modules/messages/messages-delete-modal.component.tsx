@@ -4,6 +4,7 @@ import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import { Author } from "Renderer/models/messages/messages.interface"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 
 interface Props {
   deleting: boolean
@@ -18,6 +19,8 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
   selectedConversationsIdsNumber,
   onDelete,
 }) => {
+  const caller = uniqueSelectedRows.values().next().value
+  const nameAvailable = isNameAvailable(caller)
   return (
     <>
       {deleting ? (
@@ -42,9 +45,9 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
                     id: "view.name.messages.deleteModal.uniqueText",
                   },
                   {
-                    caller: createFullName(
-                      uniqueSelectedRows.values().next().value
-                    ),
+                    caller: nameAvailable
+                      ? createFullName(uniqueSelectedRows.values().next().value)
+                      : caller.primaryPhoneNumber,
                     num: selectedConversationsIdsNumber,
                     ...textFormatters,
                   }
@@ -73,9 +76,9 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
                     id: "view.name.messages.deleteModal.uniqueText",
                   },
                   {
-                    caller: createFullName(
-                      uniqueSelectedRows.values().next().value
-                    ),
+                    caller: nameAvailable
+                      ? createFullName(uniqueSelectedRows.values().next().value)
+                      : caller.primaryPhoneNumber,
                     num: selectedConversationsIdsNumber,
                     ...textFormatters,
                   }
