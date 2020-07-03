@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { UnreadFilters } from "Renderer/components/rest/messages/topics-table.component"
 import ButtonToggler from "Renderer/components/core/button-toggler/button-toggler.component"
-import { intl, textFormatters } from "Renderer/utils/intl"
+import { intl } from "Renderer/utils/intl"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import Button from "Renderer/components/core/button/button.component"
 import {
@@ -25,8 +25,7 @@ import {
 } from "Renderer/modules/messages/messages-panel.styled"
 import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
 import modalService from "Renderer/components/core/modal/modal.service"
-import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
-import { createFullName } from "Renderer/models/phone/phone.utils"
+import MessagesDeleteModal from "Renderer/modules/messages/messages-delete-modal.component"
 
 const toggleState = [
   intl.formatMessage({
@@ -69,35 +68,11 @@ const MessagesPanel: FunctionComponent<Props> = ({
   const openDeleteModal = () => {
     const handleDelete = async () => {
       modalService.rerenderModal(
-        <DeleteModal
+        <MessagesDeleteModal
           deleting
-          title={intl.formatMessage({
-            id: "view.name.contacts",
-          })}
-          text={
-            uniqueSelectedRows.size > 1
-              ? intl.formatMessage(
-                  {
-                    id: "view.name.messages.deleteModal.text",
-                  },
-                  {
-                    num: selectedConversationsIds.length,
-                    ...textFormatters,
-                  }
-                )
-              : intl.formatMessage(
-                  {
-                    id: "view.name.messages.deleteModal.uniqueText",
-                  },
-                  {
-                    caller: createFullName(
-                      uniqueSelectedRows.values().next().value
-                    ),
-                    num: selectedConversationsIds.length,
-                    ...textFormatters,
-                  }
-                )
-          }
+          onDelete={handleDelete}
+          selectedConversationsIdsNumber={selectedConversationsIds.length}
+          uniqueSelectedRows={uniqueSelectedRows}
         />
       )
       deleteConversation(selectedConversationsIds)
@@ -105,35 +80,11 @@ const MessagesPanel: FunctionComponent<Props> = ({
     }
 
     modalService.openModal(
-      <DeleteModal
+      <MessagesDeleteModal
+        deleting={false}
         onDelete={handleDelete}
-        title={intl.formatMessage({
-          id: "view.name.contacts",
-        })}
-        text={
-          uniqueSelectedRows.size > 1
-            ? intl.formatMessage(
-                {
-                  id: "view.name.messages.deleteModal.text",
-                },
-                {
-                  num: selectedConversationsIds.length,
-                  ...textFormatters,
-                }
-              )
-            : intl.formatMessage(
-                {
-                  id: "view.name.messages.deleteModal.uniqueText",
-                },
-                {
-                  caller: createFullName(
-                    uniqueSelectedRows.values().next().value
-                  ),
-                  num: selectedConversationsIds.length,
-                  ...textFormatters,
-                }
-              )
-        }
+        selectedConversationsIdsNumber={selectedConversationsIds.length}
+        uniqueSelectedRows={uniqueSelectedRows}
       />
     )
   }
