@@ -140,7 +140,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
 
       {notesAvailable ? (
         <Table>
-          <Labels>
+          <Labels size={RowSize.Small}>
             <Col />
             <Col>
               <Text message={{ id: "view.name.notes.note" }} />
