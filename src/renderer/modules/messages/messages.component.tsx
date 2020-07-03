@@ -35,7 +35,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const hideReadMessages = () => {
     changeVisibilityFilter(VisibilityFilter.Unread)
   }
-
+  const selectedConversationsIds = selectedRows.map(({ id }) => id)
   const _devClearMessages = () => setMessagesList([])
   const _devLoadDefaultMessages = () => setMessagesList(list)
   useEffect(() => setMessagesList(list), [list])
@@ -59,6 +59,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         toggleAll={toggleAll}
         allItemsSelected={allRowsSelected}
         deleteConversation={deleteConversation}
+        selectedConversationsIds={selectedConversationsIds}
       />
       <TableWithSidebarWrapper>
         <MessagesList

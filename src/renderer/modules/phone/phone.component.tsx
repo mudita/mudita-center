@@ -24,11 +24,15 @@ import ContactEdit, {
 } from "Renderer/components/rest/phone/contact-edit.component"
 import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
-import DeleteContactModal from "Renderer/components/rest/phone/delete-contact-modal.component"
 import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.component"
 import BlockContactModal from "Renderer/components/rest/phone/block-contact-modal.component"
-import { speedDialNumbers } from "Renderer/models/phone/phone.utils"
+import {
+  createFullName,
+  speedDialNumbers,
+} from "Renderer/models/phone/phone.utils"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
+import { intl, textFormatters } from "Renderer/utils/intl"
+import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
 
 const ContactSection = styled.section`
   height: 100%;
@@ -119,7 +123,19 @@ const Phone: FunctionComponent<PhoneProps> = ({
   const openDeleteModal = (contact: Contact) => {
     const handleDelete = async () => {
       modalService.rerenderModal(
-        <DeleteContactModal contact={contact} deleting />
+        <DeleteModal
+          contact={contact}
+          deleting
+          title={intl.formatMessage({
+            id: "view.name.phone.contacts.modal.delete.title",
+          })}
+          text={intl.formatMessage(
+            {
+              id: "view.name.phone.contacts.modal.delete.text",
+            },
+            { name: createFullName(contact), ...textFormatters }
+          )}
+        />
       )
       await deleteContacts([contact])
       modalService.closeModal()
@@ -127,7 +143,19 @@ const Phone: FunctionComponent<PhoneProps> = ({
     }
 
     modalService.openModal(
-      <DeleteContactModal contact={contact} onDelete={handleDelete} />
+      <DeleteModal
+        contact={contact}
+        onDelete={handleDelete}
+        title={intl.formatMessage({
+          id: "view.name.phone.contacts.modal.delete.title",
+        })}
+        text={intl.formatMessage(
+          {
+            id: "view.name.phone.contacts.modal.delete.text",
+          },
+          { name: createFullName(contact), ...textFormatters }
+        )}
+      />
     )
   }
 

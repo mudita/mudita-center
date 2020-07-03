@@ -24,6 +24,9 @@ import {
   SearchInput,
 } from "Renderer/modules/messages/messages-panel.styled"
 import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
+import { Contact } from "Renderer/models/phone/phone.interface"
+import modalService from "Renderer/components/core/modal/modal.service"
+import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
 
 const toggleState = [
   intl.formatMessage({
@@ -37,8 +40,8 @@ const toggleState = [
 interface Props {
   showAllMessages?: () => void
   hideReadMessages?: () => void
-  selectedConversations?: string[]
-  deleteConversation?: (ids: string[]) => void
+  selectedConversationsIds: string[]
+  deleteConversation: (ids: string[]) => void
   searchValue: string
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
   selectedItemsCount: number
@@ -55,9 +58,47 @@ const MessagesPanel: FunctionComponent<Props> = ({
   allItemsSelected,
   toggleAll = noop,
   deleteConversation,
+  selectedConversationsIds,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedItemsCount > 0
+  const openDeleteModal = () => (contact: Contact) => {
+    const handleDelete = async () => {
+      modalService.rerenderModal(
+        <DeleteModal
+          contact={contact}
+          deleting
+          title={intl.formatMessage({
+            id: "view.name.contacts",
+          })}
+          text={intl.formatMessage(
+            {
+              id: "view.name.messages.conversations.selectionsNumber",
+            },
+            { num: 3 }
+          )}
+        />
+      )
+      deleteConversation(selectedConversationsIds)
+      await modalService.closeModal()
+    }
+
+    modalService.openModal(
+      <DeleteModal
+        contact={contact}
+        onDelete={handleDelete}
+        title={intl.formatMessage({
+          id: "view.name.contacts",
+        })}
+        text={intl.formatMessage(
+          {
+            id: "view.name.messages.conversations.selectionsNumber",
+          },
+          { num: 3 }
+        )}
+      />
+    )
+  }
   return (
     <MessageFiltersWrapper checkMode selectionMode={selectionMode}>
       {!selectionMode && (
@@ -93,7 +134,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
               label={intl.formatMessage(messages.deleteButton)}
               displayStyle={DisplayStyle.Link1}
               Icon={Type.Delete}
-              onClick={noop}
+              onClick={openDeleteModal}
             />,
           ]}
           data-testid={MessagePanelTestIds.SelectionManager}

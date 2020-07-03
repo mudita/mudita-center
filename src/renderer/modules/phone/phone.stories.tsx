@@ -17,8 +17,8 @@ import {
   ModalBackdrop,
   ModalWrapper,
 } from "Renderer/components/core/modal/modal.styled.elements"
-import DeleteContactModal from "Renderer/components/rest/phone/delete-contact-modal.component"
 import Faker from "faker"
+import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
 
 const contacts: Contact[] = generateFakeData(40)
 
@@ -235,7 +235,7 @@ storiesOf("Views|Phone/Modals", module)
   .add("Delete contact", () => (
     <>
       <ModalWrapper>
-        <DeleteContactModal
+        <DeleteModal
           contact={contacts[0]}
           onDelete={action("Delete")}
           onClose={action("Close")}
