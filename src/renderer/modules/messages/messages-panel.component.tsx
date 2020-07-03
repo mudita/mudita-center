@@ -40,7 +40,7 @@ const toggleState = [
 interface Props {
   showAllMessages?: () => void
   hideReadMessages?: () => void
-  selectedConversationsIds: string[]
+  selectedConversations: Topic[]
   deleteConversation: (ids: string[]) => void
   searchValue: string
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
@@ -58,11 +58,13 @@ const MessagesPanel: FunctionComponent<Props> = ({
   allItemsSelected,
   toggleAll = noop,
   deleteConversation,
-  selectedConversationsIds,
+  selectedConversations,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedItemsCount > 0
-  const openDeleteModal = () => (contact: Contact) => {
+  const selectedConversationsIds = selectedConversations.map(({ id }) => id)
+
+  const openDeleteModal = (contact: Contact) => {
     const handleDelete = async () => {
       modalService.rerenderModal(
         <DeleteModal
@@ -99,6 +101,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
       />
     )
   }
+  const openModal = () => openDeleteModal()
   return (
     <MessageFiltersWrapper checkMode selectionMode={selectionMode}>
       {!selectionMode && (
@@ -134,7 +137,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
               label={intl.formatMessage(messages.deleteButton)}
               displayStyle={DisplayStyle.Link1}
               Icon={Type.Delete}
-              onClick={openDeleteModal}
+              onClick={openModal}
             />,
           ]}
           data-testid={MessagePanelTestIds.SelectionManager}

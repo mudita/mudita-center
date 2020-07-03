@@ -8,7 +8,7 @@ const defaultProps = {
   selectedItemsCount: 0,
   searchValue: "",
   deleteConversation: jest.fn(),
-  selectedConversationsIds: [],
+  selectedConversations: [],
 }
 
 const renderer = (extraProps?: {}) => {
