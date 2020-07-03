@@ -12,6 +12,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import { intl } from "Renderer/utils/intl"
 
 type SelectHook = Pick<
   UseTableSelect<Details>,
@@ -42,9 +43,11 @@ const CallsTable: FunctionComponent<Props> = ({
       <SelectableCells active={sidebarOpened}>
         <Labels>
           <Col />
-          <Col>Name</Col>
-          <Col>Duration</Col>
-          <Col>Date</Col>
+          <Col>{intl.formatMessage({ id: "view.name.generic.name" })}</Col>
+          <Col>{intl.formatMessage({ id: "view.name.generic.duration" })}</Col>
+          {!sidebarOpened && (
+            <Col>{intl.formatMessage({ id: "view.name.generic.date" })}</Col>
+          )}
         </Labels>
         {calls.map((row, i) => (
           <CallRow
