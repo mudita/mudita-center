@@ -5,7 +5,6 @@ import {
   Labels,
   TableWithSidebarWrapper,
 } from "Renderer/components/core/table/table.component"
-import { basicRows } from "Renderer/components/core/table/table.fake-data"
 import { CallRow } from "Renderer/components/rest/calls/call-row.component"
 import { SelectableCells } from "Renderer/components/rest/calls/calls-table.styled"
 import {
@@ -13,21 +12,27 @@ import {
   Details,
 } from "Renderer/components/rest/calls/contact-details.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 
-interface Props {
+export const isToday = (date: Date) => moment(date).isSame(Date.now(), "days")
+
+type SelectHook = Pick<
+  UseTableSelect<Details>,
+  "getRowStatus" | "toggleRow" | "noneRowsSelected"
+>
+
+interface Props extends SelectHook {
   calls: Details[]
 }
 
-export const isToday = (date: Date) => moment(date).isSame(Date.now(), "days")
-
-const CallsTable: FunctionComponent<Props> = ({ calls }) => {
-  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
-    basicRows
-  )
-
+const CallsTable: FunctionComponent<Props> = ({
+  calls,
+  getRowStatus,
+  toggleRow,
+  noneRowsSelected,
+}) => {
   const {
     openSidebar,
     closeSidebar,

@@ -168,6 +168,7 @@
   "view.name.phone.calls.details": "Call details",
   "view.name.phone.calls.sendMessage": "Send message",
   "view.name.phone.calls.deleteCall": "Delete call",
+  "view.name.phone.calls.selectionsNumber": "{num, plural, =-1 {All Calls} one {# Call} other {# Calls}} selected",
   "view.name.phone.dial": "Dial",
   "view.name.settings": "Settings",
   "view.name.settings.onLabel": "On",

@@ -6,7 +6,7 @@ import Table, {
   Row,
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox, {
   Size,
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
@@ -37,22 +37,24 @@ import {
 } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
-import { isEqual, last } from "lodash"
+import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "Renderer/models/phone/phone.utils"
-
-const checkboxVisibleStyles = css`
-  display: block;
-`
+import {
+  animatedOpacityActiveStyles,
+  animatedOpacityStyles,
+} from "Renderer/components/rest/messages/templates/templates-list.component"
 
 const MessageRow = styled(Row)`
   height: 9rem;
 `
 
-const Checkbox = styled(InputCheckbox)`
+const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
   position: absolute;
   left: 5.4rem;
-  display: none;
+  ${animatedOpacityStyles};
+
+  ${({ visible }) => visible && animatedOpacityActiveStyles}
 `
 
 const dotStyles = css`
@@ -77,11 +79,14 @@ const AvatarCol = styled(Col)`
   position: relative;
 `
 
-const InitialsAvatar = styled(Avatar)`
+const InitialsAvatar = styled(Avatar)<{ light?: boolean }>`
   height: 4.8rem;
   width: 4.8rem;
   position: absolute;
   right: 2.4rem;
+  ${animatedOpacityStyles};
+  ${animatedOpacityActiveStyles};
+  ${({ light }) => light && lightAvatarStyles};
 `
 
 const LastMessageText = styled(Message)<{ unread?: boolean }>`
@@ -105,37 +110,30 @@ export const Actions = styled.div`
 `
 
 const Messages = styled(Table)<{
-  mouseLock?: boolean
   noneRowsSelected?: boolean
 }>`
-  flex: 1;
-  overflow: auto;
   --columnsTemplate: 11.2rem 60.5rem 1fr;
   --columnsTemplateWithOpenedSidebar: 11.2rem 1fr;
   --columnsGap: 0;
-  pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
 
   ${({ noneRowsSelected }) =>
     !noneRowsSelected &&
     css`
       ${InitialsAvatar} {
-        display: none;
+        ${animatedOpacityStyles};
       }
       ${Checkbox} {
-        ${checkboxVisibleStyles};
+        ${animatedOpacityActiveStyles};
       }
     `};
 
   ${Row} {
     :hover {
       ${Checkbox} {
-        display: block;
+        ${animatedOpacityActiveStyles};
       }
       ${InitialsAvatar} {
-        ${lightAvatarStyles};
-      }
-      ${InitialsAvatar} {
-        display: none;
+        ${animatedOpacityStyles};
       }
     }
   }
@@ -145,25 +143,30 @@ const MessageDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
   margin-right: ${({ sidebarOpened }) => (sidebarOpened ? "4rem" : "0")};
 `
 
+type SelectHook = Pick<
+  UseTableSelect<Topic>,
+  "getRowStatus" | "toggleRow" | "noneRowsSelected"
+>
+
 export interface ActiveRow {
   caller: Author
   messages: Msg[]
 }
 
-interface Props {
+interface Props extends SelectHook {
   list: Topic[]
-  openSidebar?: (row: ActiveRow) => void
-  activeRow?: ActiveRow
+  openSidebar?: (row: Topic) => void
+  activeRow?: Topic
 }
 
 const MessagesList: FunctionComponent<Props> = ({
   activeRow,
   list,
   openSidebar = noop,
+  getRowStatus,
+  toggleRow,
+  noneRowsSelected,
 }) => {
-  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect<
-    ActiveRow
-  >(list)
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
               and use it in <Messages />
@@ -176,28 +179,26 @@ const MessagesList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      {list.map(({ id, caller, messages, unread }) => {
-        const { selected, indeterminate } = getRowStatus({ caller, messages })
+      {list.map(item => {
+        const { messages, caller, unread, id } = item
+        const { selected, indeterminate } = getRowStatus(item)
         const lastMessage = last(messages)
-        const toggle = () => toggleRow({ caller, messages })
-        const open = () => openSidebar({ caller, messages })
+        const toggle = () => toggleRow(item)
+        const open = () => openSidebar(item)
         const nameAvailable = isNameAvailable(caller)
+        const active = activeRow?.id === item.id
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow
-            key={id}
-            ref={ref}
-            selected={selected}
-            active={isEqual(activeRow, { caller, messages })}
-          >
+          <MessageRow key={id} ref={ref} selected={selected} active={active}>
             <AvatarCol>
               <Checkbox
                 checked={selected}
                 onChange={toggle}
                 size={Size.Large}
                 indeterminate={indeterminate}
+                visible={!noneRowsSelected}
                 data-testid="checkbox"
               />
-              <InitialsAvatar user={caller} light={selected} />
+              <InitialsAvatar user={caller} light={active} />
             </AvatarCol>
             <MessageCol onClick={open} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
@@ -235,12 +236,9 @@ const MessagesList: FunctionComponent<Props> = ({
                   <ButtonComponent
                     labelMessage={{
                       id: "component.dropdown.call",
-                      values:
-                        caller.firstName || caller.lastName
-                          ? { name: caller.firstName || caller.lastName }
-                          : {
-                              name: caller.primaryPhoneNumber,
-                            },
+                      values: {
+                        name: caller.firstName || caller.primaryPhoneNumber,
+                      },
                     }}
                     Icon={Type.Calls}
                     onClick={noop}

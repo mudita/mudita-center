@@ -28,12 +28,12 @@ import { noop } from "Renderer/utils/noop"
 export interface CallRowProps {
   open: (row: Details) => void
   getRowStatus: (
-    input: string
+    input: Details
   ) => {
     selected: boolean
     indeterminate: boolean
   }
-  toggleRow: (input: string) => void
+  toggleRow: (input: Details) => void
   callData: Details
   setDetails: (input: Details) => void
   activeRow?: Details
@@ -52,8 +52,8 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
   sidebarOpened,
 }) => {
   const { caller, id, date, duration, timesMissed } = callData
-  const { selected, indeterminate } = getRowStatus(id)
-  const toggle = () => toggleRow(id)
+  const { selected, indeterminate } = getRowStatus(callData)
+  const toggle = () => toggleRow(callData)
   const nameAvailable = isNameAvailable(caller)
   const details = callTypeResolver(callData.status)
 
