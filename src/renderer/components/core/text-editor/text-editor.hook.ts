@@ -35,7 +35,7 @@ interface Options {
 }
 
 export const useTextEditor = (
-  defaultTextObject: Text = { id: "", text: "" },
+  defaultTextObject: Text = { id: "", content: "" },
   saveResults: (textObject: Text) => Promise<any> = asyncNoop,
   options: Options = {
     autosaveDebounceTime: 1000,
@@ -44,14 +44,14 @@ export const useTextEditor = (
 ) => {
   const sessionItemKey = `autosave_${defaultTextObject.id}`
   const autosavedText = window.sessionStorage.getItem(sessionItemKey)
-  const defaultText = autosavedText || defaultTextObject.text
+  const defaultText = autosavedText || defaultTextObject.content
 
   const { autosaveDebounceTime, statusChangeDelay } = options
   const [text, setText] = useState(defaultText)
   const init = useRef(true)
 
   const textChanged =
-    normalizeText(text) !== normalizeText(defaultTextObject.text)
+    normalizeText(text) !== normalizeText(defaultTextObject.content)
 
   const reduceStatus = (state: Status, action: ReducerAction) => {
     switch (action.type) {
@@ -104,12 +104,12 @@ export const useTextEditor = (
     clearAutoSave()
     resetSaveStatus()
     disableEditMode()
-    setText(defaultTextObject.text)
+    setText(defaultTextObject.content)
   }
 
   const saveChanges = async () => {
     setStatus({ type: Action.Save, payload: SaveStatus.Saving })
-    await saveResults({ ...defaultTextObject, text })
+    await saveResults({ ...defaultTextObject, content: text })
     clearAutoSave()
     resetSaveStatus()
     disableEditMode()

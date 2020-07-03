@@ -30,7 +30,7 @@ export const calls = times(random(5, 15), createCall)
 
 const createText = () => ({
   id: Faker.random.uuid(),
-  text: Faker.lorem.paragraphs(random(1, 3)),
+  content: Faker.lorem.paragraphs(random(1, 3)),
 })
 
 export const templates = times(random(15, 25), createText)

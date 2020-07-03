@@ -63,7 +63,7 @@ const TemplateModal: FunctionComponent<Props> = ({
           <li key={template.id} onClick={chooseTemplate}>
             <TemplateRow size={RowSize.Tiny}>
               <TemplateText displayStyle={TextDisplayStyle.MediumText}>
-                {template.text}
+                {template.content}
               </TemplateText>
             </TemplateRow>
           </li>

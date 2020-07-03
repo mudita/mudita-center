@@ -40,7 +40,7 @@ export interface Status {
 
 export interface Text {
   id: string
-  text: string
+  content: string
 }
 
 interface Props {
@@ -49,6 +49,7 @@ interface Props {
   rejectChanges: () => void
   saveChanges: () => void
   statsInfo?: string
+  statsInfoError?: boolean
   enableEditMode?: () => void
   disableEditMode?: () => void
   status: Status
@@ -63,6 +64,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
   rejectChanges,
   saveChanges,
   statsInfo,
+  statsInfoError,
   onFocus = noop,
   onChange = noop,
   status,
@@ -110,14 +112,22 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
 
   return (
     <TextEditorWrapper>
-      <Info data-testid="status" message={getAutosaveStatusMessage()} />
+      <Info
+        element="span"
+        data-testid="status"
+        message={getAutosaveStatusMessage()}
+      />
       <Textarea
         {...rest}
         value={temporaryText}
         onChange={change}
         onFocus={focus}
       />
-      {statsInfo && <StatsInfo data-testid="stats-info">{statsInfo}</StatsInfo>}
+      {statsInfo && (
+        <StatsInfo error={statsInfoError} data-testid="stats-info">
+          {statsInfo}
+        </StatsInfo>
+      )}
       {(status.editMode || status.save === SaveStatus.NotSaved) && (
         <Buttons>
           <ButtonComponent

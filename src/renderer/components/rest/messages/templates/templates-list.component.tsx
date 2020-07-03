@@ -1,6 +1,6 @@
 import React, { Ref } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import styled, { css, FlattenSimpleInterpolation } from "styled-components"
+import styled, { css } from "styled-components"
 import Table, {
   Col,
   EmptyState,
@@ -24,6 +24,7 @@ import {
 import { UseTableSidebar } from "Renderer/utils/hooks/useTableSidebar"
 import { InView } from "react-intersection-observer"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.interface"
+import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
 
 export const animatedOpacityStyles = css`
   opacity: 0;
@@ -39,9 +40,7 @@ export const animatedOpacityActiveStyles = css`
   visibility: visible;
 `
 
-const TemplatesListTable = styled(Table)<{
-  additionalStyles?: FlattenSimpleInterpolation
-}>`
+const TemplatesListTable = styled(Table)`
   --columnsGap: 0;
   --columnsTemplate: 4rem 69.5rem 1fr;
   --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
@@ -95,11 +94,6 @@ const ListRow = styled(Row)`
 const TemplatesEmptyState = styled(EmptyState)`
   border-top: none;
 `
-
-interface Template {
-  id: string
-  text: string
-}
 
 type SelectHook = Pick<
   UseTableSelect<Template>,
@@ -166,7 +160,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
               </Col>
               <TextPreview onClick={handleTextPreviewClick}>
                 <Text displayStyle={TextDisplayStyle.LargeText}>
-                  {item.text.substr(0, 250)}
+                  {item.content.substr(0, 250)}
                 </Text>
               </TextPreview>
               <Col>
@@ -182,7 +176,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
             <ListRow key={item.id} ref={ref} role="listitem">
               <Col />
               <Col>
-                <TextPlaceholder charsCount={item.text.length} />
+                <TextPlaceholder charsCount={item.content.length} />
               </Col>
               <Col />
             </ListRow>
