@@ -40,7 +40,7 @@ export const SearchButton = styled(Button)`
 `
 
 export const Table = styled(BaseTable)`
-  --columnsTemplate: 4rem 73.5rem auto;
+  --columnsTemplate: 4rem 73.5rem auto 5rem;
   --columnsGap: 0;
 `
 
@@ -52,11 +52,20 @@ export const TextCut = styled(Text)`
   cursor: pointer;
 `
 
+export const DeleteCol = styled(BaseCol)`
+  opacity: 0;
+  transition: opacity ${transitionTime("veryQuick")};
+`
+
 export const Row = styled(BaseRow)`
   &:hover {
     ${Checkbox} {
       opacity: 1;
       visibility: visible;
+    }
+
+    ${DeleteCol} {
+      opacity: 0.5;
     }
   }
 `

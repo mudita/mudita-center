@@ -1,12 +1,11 @@
 import moment from "moment"
 import React, { useEffect, useState } from "react"
-
-import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import {
   DisplayStyle,
   Size as ButtonSize,
 } from "Renderer/components/core/button/button.config"
+import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size as CheckboxSize } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
@@ -21,16 +20,19 @@ import {
   isToday,
 } from "Renderer/components/rest/calls/calls-table.component"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
+
+import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.interface"
 import {
   Col,
+  EmptyState,
   FiltersWrapper,
   Row,
   SearchButton,
   SearchInput,
-  Table,
   SelectionManager,
+  Table,
   TextCut,
-  EmptyState,
+  DeleteCol,
 } from "Renderer/modules/tools/tabs/notes.styled"
 
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -179,6 +181,9 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
                         : moment(date).format("ll")}
                     </Text>
                   </Col>
+                  <DeleteCol onClick={noop}>
+                    <Icon type={Type.Delete} width={1.5} />
+                  </DeleteCol>
                 </Row>
               )
             })}
