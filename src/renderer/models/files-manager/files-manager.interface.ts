@@ -7,6 +7,7 @@ export interface DiskSpaceCategory {
   color: string
   icon: Type
   url?: string
+  free?: boolean
 }
 
 export interface FilesManagerState {

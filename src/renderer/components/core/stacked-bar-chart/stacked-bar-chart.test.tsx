@@ -19,10 +19,7 @@ const occupiedSpaceId = "occupied-space"
 describe("Snapshot tests", () => {
   test("should match snapshot simple", () => {
     const { container } = renderWithThemeAndIntl(
-      <StackedBarChart
-        chartData={chartData}
-        displayStyle={DisplayStyle.Simple}
-      />
+      <StackedBarChart chartData={chartData} displayStyle={DisplayStyle.Thin} />
     )
     expect(container.firstChild).toMatchSnapshot()
   })
@@ -31,7 +28,7 @@ describe("Snapshot tests", () => {
     const { container } = renderWithThemeAndIntl(
       <StackedBarChart
         chartData={chartData}
-        displayStyle={DisplayStyle.MultiColor}
+        displayStyle={DisplayStyle.Thick}
       />
     )
     expect(container.firstChild).toMatchSnapshot()
@@ -41,10 +38,7 @@ describe("Snapshot tests", () => {
 describe("Correct rendering of chart elements and label", () => {
   test("without labels provided, bar with label should not be rendered", () => {
     const { queryByTestId } = renderWithThemeAndIntl(
-      <StackedBarChart
-        chartData={chartData}
-        displayStyle={DisplayStyle.Simple}
-      />
+      <StackedBarChart chartData={chartData} displayStyle={DisplayStyle.Thin} />
     )
     expect(queryByTestId(barWithLabelId)).toBeNull()
   })
@@ -53,8 +47,8 @@ describe("Correct rendering of chart elements and label", () => {
     const { getByTestId } = renderWithThemeAndIntl(
       <StackedBarChart
         chartData={chartData}
-        displayStyle={DisplayStyle.MultiColor}
-        showStats
+        displayStyle={DisplayStyle.Thick}
+        labels
       />
     )
     expect(getByTestId(occupiedSpaceId)).toBeInTheDocument()
@@ -65,8 +59,8 @@ describe("Correct rendering of chart elements and label", () => {
     const { getAllByTestId } = renderWithThemeAndIntl(
       <StackedBarChart
         chartData={chartData}
-        displayStyle={DisplayStyle.MultiColor}
-        showStats
+        displayStyle={DisplayStyle.Thick}
+        labels
       />
     )
     expect(getAllByTestId(barId).length).toEqual(chartData.length - 1)

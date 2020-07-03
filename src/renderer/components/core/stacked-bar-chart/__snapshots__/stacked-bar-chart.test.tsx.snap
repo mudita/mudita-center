@@ -17,7 +17,7 @@ exports[`Snapshot tests should match snapshot multicolor 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 90%;
+  width: 100%;
 }
 
 .c2 {
@@ -127,7 +127,7 @@ exports[`Snapshot tests should match snapshot simple 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  width: 90%;
+  width: 100%;
 }
 
 .c2 {
