@@ -10,12 +10,13 @@ interface Props {
   memoryChartData: DiskSpaceCategory[]
 }
 
-const memorytoStackedBarChartData = (data: DiskSpaceCategory[]) => {
+const memoryToStackedBarChartData = (data: DiskSpaceCategory[]) => {
   return data.map(el => {
-    const { icon, filesAmount, occupiedMemory, ...rest } = el
+    const { occupiedMemory, color, free } = el
     return {
       value: occupiedMemory,
-      ...rest,
+      color,
+      free,
     }
   })
 }
@@ -24,9 +25,9 @@ const MemoryChart: FunctionComponent<Props> = ({ memoryChartData }) => {
   return (
     <>
       <StackedBarChart
-        displayStyle={DisplayStyle.MultiColor}
-        chartData={memorytoStackedBarChartData(memoryChartData)}
-        showStats
+        displayStyle={DisplayStyle.Thick}
+        chartData={memoryToStackedBarChartData(memoryChartData)}
+        labels
       />
       <FilesSummary memoryChartData={memoryChartData} />
     </>

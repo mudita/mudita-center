@@ -7,6 +7,7 @@ import {
 } from "App/renderer/models/calls/calls.interface"
 import CallsHeader from "Renderer/components/rest/calls/calls-header.component"
 import CallsTable from "Renderer/components/rest/calls/calls-table.component"
+import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 interface Props {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
@@ -17,10 +18,28 @@ const Calls: FunctionComponent<Props> = ({
   calls,
   changeVisibilityFilter = noop,
 }) => {
+  const {
+    selectedRows,
+    getRowStatus,
+    toggleRow,
+    noneRowsSelected,
+    toggleAll,
+    allRowsSelected,
+  } = useTableSelect<Call>(calls)
   return (
     <>
-      <CallsHeader changeVisibilityFilter={changeVisibilityFilter} />
-      <CallsTable calls={calls} />
+      <CallsHeader
+        changeVisibilityFilter={changeVisibilityFilter}
+        selectedItemsCount={selectedRows.length}
+        toggleAll={toggleAll}
+        allRowsSelected={allRowsSelected}
+      />
+      <CallsTable
+        calls={calls}
+        getRowStatus={getRowStatus}
+        toggleRow={toggleRow}
+        noneRowsSelected={noneRowsSelected}
+      />
     </>
   )
 }

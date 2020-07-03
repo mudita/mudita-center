@@ -35,6 +35,14 @@ const sortReducer = <T = SortingDictionary>(
 }
 
 const useSort = <T = SimpleSortingDictionary>(input: T[]): UseSort<T> => {
+  if (input.length === 0) {
+    return {
+      data: input,
+      sortDirection: {},
+      sort: () => false,
+    }
+  }
+
   const [state, dispatch] = useReducer(sortReducer, {
     data: input,
     sortDirection: createSortDirection(input),

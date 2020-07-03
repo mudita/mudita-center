@@ -32,8 +32,8 @@ exports[`matches snapshot 1`] = `
 }
 
 .c4 svg {
-  max-height: 100%;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .c2 {
@@ -157,7 +157,7 @@ exports[`matches snapshot 1`] = `
       class="c6 c7"
       data-testid="info"
     >
-      1 Conversation selected
+      [value] view.name.messages.conversations.selectionsNumber
     </p>
   </section>
 </div>

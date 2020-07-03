@@ -2,6 +2,7 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import InputRadioGroup from "Renderer/components/core/input-radio-group/input-radio-group.component"
 import styled from "styled-components"
+import Story from "Renderer/components/storybook/story.component"
 
 const radioGroup = [
   {
@@ -34,14 +35,13 @@ const ColumnRadioGroup = styled(InputRadioGroup)`
   flex-direction: column;
 `
 
-storiesOf("Components|InputRadioGroup ", module)
-  .add("Row", () => {
-    return (
+storiesOf("Components|Core/InputRadioGroup ", module).add("Default", () => (
+  <>
+    <Story title="Horizontal">
       <InputRadioGroup data={radioGroup} radioGroupName={"radiogroupname"} />
-    )
-  })
-  .add("Column", () => {
-    return (
+    </Story>
+    <Story title="Vertical">
       <ColumnRadioGroup data={radioGroup} radioGroupName={"radiogroupname"} />
-    )
-  })
+    </Story>
+  </>
+))

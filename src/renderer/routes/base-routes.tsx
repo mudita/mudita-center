@@ -20,6 +20,7 @@ import Playlist from "Renderer/modules/music/tabs/playlist.component"
 import Calls from "Renderer/modules/phone/tabs/calls-container.component"
 import Dial from "Renderer/modules/phone/tabs/dial.component"
 import VoiceRecorder from "Renderer/modules/tools/tabs/voice-recorder.component"
+import Notes from "Renderer/modules/tools/tabs/notes.component"
 import Welcome from "Renderer/modules/onboarding/welcome.component"
 import Connecting from "Renderer/modules/onboarding/connecting.component"
 import Troubleshooting from "Renderer/modules/onboarding/troubleshooting.component"
@@ -85,6 +86,7 @@ export default () => (
           path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
           component={VoiceRecorder}
         />
+        <Route path={`${URL_MAIN.tools}${URL_TABS.notes}`} component={Notes} />
       </LayoutDesktopWrapper>
     </Route>
 

@@ -21,7 +21,7 @@ test("displays the singular comment when count equals 1", () => {
   const { container } = renderWithThemeAndIntl(
     <CommunityCommentsCount count={1} communityLink={communityLink} />
   )
-  expect(container).toHaveTextContent("1 Comment")
+  expect(container).toHaveTextContent("view.name.news.cardCommunityComments")
 })
 
 test("displays the plural comment when count is > 1", () => {

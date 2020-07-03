@@ -279,7 +279,7 @@ exports[`matches snapshot 1`] = `
       <p
         class="c2 c3"
       >
-        Select which notifications you want to receive while using Desktop App:
+        [value] view.name.settings.notifications.description
       </p>
     </div>
     <div
@@ -291,7 +291,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c6 sc-Axmtr c7"
         >
-          Incoming calls notifications
+          [value] view.name.settings.notifications.incomingCallsNotificationsLabel
         </p>
       </div>
       <div
@@ -309,7 +309,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              Off
+              [value] view.name.settings.offLabel
             </p>
           </button>
           <button
@@ -321,7 +321,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              On
+              [value] view.name.settings.onLabel
             </p>
           </button>
         </section>
@@ -336,7 +336,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c6 sc-Axmtr c7"
         >
-          Incoming messages notifications
+          [value] view.name.settings.notifications.incomingMessagesNotifications
         </p>
       </div>
       <div
@@ -354,7 +354,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              Off
+              [value] view.name.settings.offLabel
             </p>
           </button>
           <button
@@ -366,7 +366,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              On
+              [value] view.name.settings.onLabel
             </p>
           </button>
         </section>
@@ -381,7 +381,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c6 sc-Axmtr c7"
         >
-          Low battery level notifications
+          [value] view.name.settings.notifications.lowBatteryNotifications
         </p>
       </div>
       <div
@@ -399,7 +399,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              Off
+              [value] view.name.settings.offLabel
             </p>
           </button>
           <button
@@ -411,7 +411,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              On
+              [value] view.name.settings.onLabel
             </p>
           </button>
         </section>
@@ -426,7 +426,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c6 sc-Axmtr c7"
         >
-          PureOS updates notifications
+          [value] view.name.settings.notifications.pureOsUpdatesNotifications
         </p>
       </div>
       <div
@@ -444,7 +444,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              Off
+              [value] view.name.settings.offLabel
             </p>
           </button>
           <button
@@ -456,7 +456,7 @@ exports[`matches snapshot 1`] = `
             <p
               class="c13 c14"
             >
-              On
+              [value] view.name.settings.onLabel
             </p>
           </button>
         </section>

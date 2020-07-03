@@ -38,13 +38,14 @@ test("subtitle is rendered when provided", () => {
 })
 
 test("only close button is rendered by default", () => {
-  const closeButtonText = "Close"
+  const closeButtonText = "component.modal.closeButton"
   const { getByText } = renderWithThemeAndIntl(
     <Modal title={"Title"} size={ModalSize.Medium} subtitle={"Subtitle"}>
       <h1>lala</h1>
     </Modal>
   )
-  expect(getByText(closeButtonText)).toBeInTheDocument()
+  expect(getByText(closeButtonText, { exact: false })).toBeInTheDocument()
+  expect(getByText(closeButtonText, { exact: false })).toBeTranslationKey()
 })
 
 test("action button is rendered when label and onActionButtonClick are provided", () => {

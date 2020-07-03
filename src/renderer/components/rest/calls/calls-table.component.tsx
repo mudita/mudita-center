@@ -5,8 +5,7 @@ import Table, {
   Labels,
   Row,
 } from "Renderer/components/core/table/table.component"
-import { basicRows } from "Renderer/components/core/table/table.fake-data"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import styled, { css } from "styled-components"
 import InputCheckbox, {
   Size,
@@ -36,7 +35,7 @@ const visibleCheckboxStyles = css`
   visibility: visible;
 `
 
-const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
+export const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
   opacity: 0;
   visibility: hidden;
   transition: opacity ${transitionTime("faster")}
@@ -64,16 +63,23 @@ const SelectableCalls = styled(Table)<{ mouseLock?: boolean }>`
   }
 `
 
-interface Props {
+type SelectHook = Pick<
+  UseTableSelect<Call>,
+  "getRowStatus" | "toggleRow" | "noneRowsSelected"
+>
+
+interface Props extends SelectHook {
   calls: Call[]
 }
 
-const isToday = (date: Date) => moment(date).isSame(Date.now(), "days")
+export const isToday = (date: Date) => moment(date).isSame(Date.now(), "days")
 
-const CallsTable: FunctionComponent<Props> = ({ calls }) => {
-  const { getRowStatus, toggleRow, noneRowsSelected } = useTableSelect(
-    basicRows
-  )
+const CallsTable: FunctionComponent<Props> = ({
+  calls,
+  getRowStatus,
+  toggleRow,
+  noneRowsSelected,
+}) => {
   return (
     <SelectableCalls>
       <Labels>
@@ -82,9 +88,10 @@ const CallsTable: FunctionComponent<Props> = ({ calls }) => {
         <Col>Duration</Col>
         <Col>Date</Col>
       </Labels>
-      {calls.map(({ caller, id, date, duration, timesMissed }, index) => {
-        const { selected, indeterminate } = getRowStatus(id)
-        const toggle = () => toggleRow(id)
+      {calls.map(item => {
+        const { caller, id, date, duration, timesMissed } = item
+        const { selected, indeterminate } = getRowStatus(item)
+        const toggle = () => toggleRow(item)
         const nameAvailable = isNameAvailable(caller)
         return (
           <Row key={id} data-testid="calls-row">

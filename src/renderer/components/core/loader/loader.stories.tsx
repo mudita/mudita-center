@@ -6,42 +6,15 @@ import LoaderLogo from "Renderer/components/core/loader/loader-logo.component"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { select, withKnobs } from "@storybook/addon-knobs"
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50rem;
-  width: 100%;
-`
+import StoryContainer from "Renderer/components/storybook/story-container.component"
+import Story from "Renderer/components/storybook/story.component"
 
 const HotLoader = styled(LoaderSpinner)`
   color: hotpink;
 `
 
-storiesOf("Components|Loader ", module)
+storiesOf("Components|Core/Loader ", module)
   .add("Default", () => {
-    return (
-      <Container>
-        <LoaderSpinner />
-      </Container>
-    )
-  })
-  .add("Custom", () => {
-    return (
-      <Container>
-        <HotLoader />
-      </Container>
-    )
-  })
-  .add("Loader gif", () => {
-    return (
-      <Container>
-        <LoaderLogo />
-      </Container>
-    )
-  })
-  .add("Loader resolver", () => {
     const label = "Loaders type"
     const options = {
       Logo: LoaderType.Logo,
@@ -50,10 +23,34 @@ storiesOf("Components|Loader ", module)
     const defaultValue = LoaderType.Spinner
 
     const value = select(label, options, defaultValue)
+
     return (
-      <Container>
-        <Loader type={value} />
-      </Container>
+      <>
+        <StoryContainer title="Spinner">
+          <Story title="Default">
+            <LoaderSpinner />
+          </Story>
+          <Story title={"Custom color"}>
+            <HotLoader />
+          </Story>
+          <Story title={"Custom size"}>
+            <LoaderSpinner size={2} />
+          </Story>
+        </StoryContainer>
+        <StoryContainer title="Logo">
+          <Story title="Default">
+            <LoaderLogo />
+          </Story>
+          <Story title="Custom size">
+            <LoaderLogo size={5} />
+          </Story>
+        </StoryContainer>
+        <StoryContainer title="Resolver">
+          <Story>
+            <Loader type={value} size={4} />
+          </Story>
+        </StoryContainer>
+      </>
     )
   })
   .addDecorator(withKnobs)

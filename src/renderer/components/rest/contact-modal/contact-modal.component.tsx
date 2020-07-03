@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import Modal, {
   ModalProps,
@@ -13,7 +13,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import {
-  borderColor,
+  backgroundColor,
   borderRadius,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
@@ -68,10 +68,10 @@ const FileInput = styled(InputFile)`
   }
 `
 
-const Form = styled.form<{ detailsEnabled?: boolean }>`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
-  margin-bottom: ${({ detailsEnabled }) => (detailsEnabled ? -3.2 : 0.8)}rem;
+  margin-bottom: 0.8rem;
 `
 
 const DetailsLabel = styled.div`
@@ -113,11 +113,11 @@ const Log = styled.pre<{ enabled?: boolean }>`
   overflow: hidden;
   max-height: 4rem;
   padding: 0.4rem 1.2rem;
-  border-radius: ${borderRadius("medium")};
-  border: 0.1rem solid ${borderColor("secondary")};
+  border: 0.1rem solid transparent;
   box-sizing: border-box;
   resize: none;
   margin-top: 0;
+  background-color: ${backgroundColor("main")};
 
   ${({ enabled }) =>
     enabled &&
@@ -125,6 +125,10 @@ const Log = styled.pre<{ enabled?: boolean }>`
       overflow: auto;
       max-height: 8rem;
     `}
+`
+
+const LogWrapper = styled.div`
+  height: 8rem;
 `
 
 interface FormInputLabelProps {
@@ -175,14 +179,16 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
   log,
   ...rest
 }) => {
-  const [detailsEnabled, setDetailsState] = useState(false)
+  const [moreDetailsEnabled, enableMoreDetails] = useState(false)
+  const [showingDetails, showDetails] = useState(false)
   const [attachments, setAttachments] = useState<File[]>([])
+  const logRef = useRef<HTMLPreElement>(null)
 
   const { register, watch } = useForm({
     mode: "onChange",
   })
 
-  const toggleDetails = () => setDetailsState(!detailsEnabled)
+  const toggleDetails = () => showDetails(prevState => !prevState)
 
   const handleSend = () => {
     const fields = watch()
@@ -192,6 +198,20 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
       attachments,
     })
   }
+
+  useEffect(() => {
+    if (logRef.current) {
+      if (logRef.current.scrollHeight > 38) {
+        enableMoreDetails(true)
+      }
+    }
+  }, [logRef])
+
+  useEffect(() => {
+    if (!showingDetails && logRef.current) {
+      logRef.current.scrollTop = 0
+    }
+  }, [showingDetails])
 
   return (
     <ModalComponent
@@ -204,7 +224,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
       subtitle={intl.formatMessage(messages.description)}
       {...rest}
     >
-      <Form detailsEnabled={detailsEnabled}>
+      <Form>
         <FormInputLabel label={messages.emailLabel} />
         <InputComponent
           type={"text"}
@@ -226,17 +246,23 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
         <FileInput name="attachments" multiple onUpdate={setAttachments} />
         <DetailsLabel>
           <FormInputLabel label={messages.detailsLabel} optional={false} />
-          <ButtonComponent
-            labelMessage={
-              detailsEnabled
-                ? messages.detailsHideButton
-                : messages.detailsShowButton
-            }
-            displayStyle={DisplayStyle.Link3}
-            onClick={toggleDetails}
-          />
+          {moreDetailsEnabled && (
+            <ButtonComponent
+              labelMessage={
+                showingDetails
+                  ? messages.detailsHideButton
+                  : messages.detailsShowButton
+              }
+              displayStyle={DisplayStyle.Link3}
+              onClick={toggleDetails}
+            />
+          )}
         </DetailsLabel>
-        <Log enabled={detailsEnabled}>{log}</Log>
+        <LogWrapper>
+          <Log enabled={showingDetails} ref={logRef}>
+            {log}
+          </Log>
+        </LogWrapper>
       </Form>
     </ModalComponent>
   )

@@ -5,11 +5,11 @@ import InputSelect, {
 } from "Renderer/components/core/input-select/input-select.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/dom"
-import { data } from "Renderer/components/core/input-select/input-select.stories"
+import { basicOptions } from "Renderer/components/core/input-select/input-select.stories"
 
 const renderInputSelect = ({ ...props }: Partial<InputSelectProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <InputSelect options={data} {...props} />
+    <InputSelect options={basicOptions} {...props} />
   )
   return {
     ...outcome,
@@ -42,7 +42,7 @@ test("select input returns selected list item", () => {
   const onSelect = jest.fn()
   const { listItems } = renderInputSelect({ onSelect })
   fireEvent.click(listItems[2])
-  expect(onSelect).toBeCalledWith(data[2])
+  expect(onSelect).toBeCalledWith(basicOptions[2])
 })
 
 test("select input resets after selecting empty option", () => {

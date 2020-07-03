@@ -1,7 +1,6 @@
 import { defineMessages } from "react-intl"
 import { View, views } from "Renderer/constants/views"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import MenuNews from "Renderer/svg/menu_news.svg"
 
 const messages = defineMessages({
   yourPure: { id: "menu.header.yourPure" },
@@ -37,23 +36,26 @@ export interface MenuElement {
     id: string
   }
   icons?: Type[]
-  visibleWithPhone?: boolean
+  connectedPhoneOnly?: boolean
+  devModeOnly?: boolean
 }
 
 export const menuElements: MenuElement[] = [
   {
-    items: [{ button: views[View.News], icon: MenuNews }],
-    visibleWithPhone: true,
+    items: [{ button: views[View.Onboarding], icon: Type.Send }],
+    devModeOnly: true,
+  },
+  {
+    items: [{ button: views[View.News], icon: Type.MenuNews }],
   },
   {
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
     icons: [Type.MenuRange, Type.MenuBattery, Type.Sim, Type.MenuTethering],
-    visibleWithPhone: false,
+    connectedPhoneOnly: true,
   },
   {
     label: messages.desktopApp,
     items: DESKTOP_APP_BUTTONS,
-    visibleWithPhone: true,
   },
 ]

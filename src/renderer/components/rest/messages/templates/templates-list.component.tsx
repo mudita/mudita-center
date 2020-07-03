@@ -3,6 +3,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css, FlattenSimpleInterpolation } from "styled-components"
 import Table, {
   Col,
+  EmptyState,
   Row,
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
@@ -22,6 +23,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import { UseTableSidebar } from "Renderer/utils/hooks/useTableSidebar"
 import { InView } from "react-intersection-observer"
+import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.interface"
 
 export const animatedOpacityStyles = css`
   opacity: 0;
@@ -90,6 +92,10 @@ const ListRow = styled(Row)`
   }
 `
 
+const TemplatesEmptyState = styled(EmptyState)`
+  border-top: none;
+`
+
 interface Template {
   id: string
   text: string
@@ -123,72 +129,82 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
       hideColumns={sidebarOpened}
       hideableColumnsIndexes={[2]}
     >
-      {templates.map(item => {
-        const { selected } = getRowStatus(item)
+      {templates.length > 0 ? (
+        templates.map(item => {
+          const { selected } = getRowStatus(item)
 
-        const toggle = () => {
-          if (sidebarOpened) {
-            closeSidebar()
-          }
-          toggleRow(item)
-        }
-
-        const handleTextPreviewClick = () => {
-          if (noneRowsSelected) {
-            openSidebar(item)
-          } else {
-            toggle()
-          }
-        }
-
-        const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-          <ListRow
-            key={item.id}
-            selected={selected}
-            active={activeRow === item}
-            ref={ref}
-            role="listitem"
-          >
-            <Col>
-              <Checkbox
-                size={Size.Small}
-                checked={selected}
-                onChange={toggle}
-                visible={!noneRowsSelected}
-              />
-            </Col>
-            <TextPreview onClick={handleTextPreviewClick}>
-              <Text displayStyle={TextDisplayStyle.LargeText}>
-                {item.text.substr(0, 250)}
-              </Text>
-            </TextPreview>
-            <Col>
-              <ButtonComponent
-                displayStyle={DisplayStyle.IconOnly2}
-                Icon={Type.Delete}
-              />
-            </Col>
-          </ListRow>
-        )
-
-        const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-          <ListRow key={item.id} ref={ref} role="listitem">
-            <Col />
-            <Col>
-              <TextPlaceholder charsCount={item.text.length} />
-            </Col>
-            <Col />
-          </ListRow>
-        )
-
-        return (
-          <InView key={item.id}>
-            {({ inView, ref }) =>
-              inView ? interactiveRow(ref) : placeholderRow(ref)
+          const toggle = () => {
+            if (sidebarOpened) {
+              closeSidebar()
             }
-          </InView>
-        )
-      })}
+            toggleRow(item)
+          }
+
+          const handleTextPreviewClick = () => {
+            if (noneRowsSelected) {
+              openSidebar(item)
+            } else {
+              toggle()
+            }
+          }
+
+          const interactiveRow = (ref: Ref<HTMLDivElement>) => (
+            <ListRow
+              key={item.id}
+              selected={selected}
+              active={activeRow === item}
+              ref={ref}
+              role="listitem"
+            >
+              <Col>
+                <Checkbox
+                  size={Size.Small}
+                  checked={selected}
+                  onChange={toggle}
+                  visible={!noneRowsSelected}
+                />
+              </Col>
+              <TextPreview onClick={handleTextPreviewClick}>
+                <Text displayStyle={TextDisplayStyle.LargeText}>
+                  {item.text.substr(0, 250)}
+                </Text>
+              </TextPreview>
+              <Col>
+                <ButtonComponent
+                  displayStyle={DisplayStyle.IconOnly2}
+                  Icon={Type.Delete}
+                />
+              </Col>
+            </ListRow>
+          )
+
+          const placeholderRow = (ref: Ref<HTMLDivElement>) => (
+            <ListRow key={item.id} ref={ref} role="listitem">
+              <Col />
+              <Col>
+                <TextPlaceholder charsCount={item.text.length} />
+              </Col>
+              <Col />
+            </ListRow>
+          )
+
+          return (
+            <InView key={item.id}>
+              {({ inView, ref }) =>
+                inView ? interactiveRow(ref) : placeholderRow(ref)
+              }
+            </InView>
+          )
+        })
+      ) : (
+        <TemplatesEmptyState
+          title={{ id: "view.name.messages.templates.emptyList.title" }}
+          description={{
+            id: "view.name.messages.templates.emptyList.description",
+          }}
+          data-testid={TemplatesTestIds.EmptyState}
+        />
+      )}
     </TemplatesListTable>
   )
 }

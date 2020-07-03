@@ -3,7 +3,6 @@ import React from "react"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import localeEn from "Renderer/locales/main/en-US.json"
 import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
@@ -15,12 +14,10 @@ test("should render default case", () => {
   const { getByText } = renderWithThemeAndIntl(
     <Text displayStyle={TextDisplayStyle.Default} message={message} />
   )
-  expect(getByText(localeEn[exampleMessageId]).tagName.toLowerCase()).toBe(
-    defaultTag
-  )
-  expect(getByText(localeEn[exampleMessageId])).toHaveTextContent(
-    localeEn[exampleMessageId]
-  )
+  expect(
+    getByText(exampleMessageId, { exact: false }).tagName.toLowerCase()
+  ).toBe(defaultTag)
+  expect(getByText(exampleMessageId, { exact: false })).toBeTranslationKey()
 })
 
 test("should render with children and as prop", () => {
@@ -41,9 +38,12 @@ test("should render with children and as prop", () => {
 test("should render with mapped element tagname", () => {
   const expectedPrimaryHeadingTag = "h1"
   const { getByText } = renderWithThemeAndIntl(
-    <Text displayStyle={TextDisplayStyle.PrimaryHeading} message={message} />
+    <Text
+      displayStyle={TextDisplayStyle.PrimaryHeading}
+      message={{ id: exampleMessageId }}
+    />
   )
-  expect(getByText(localeEn[exampleMessageId]).tagName.toLowerCase()).toBe(
-    expectedPrimaryHeadingTag
-  )
+  expect(
+    getByText(exampleMessageId, { exact: false }).tagName.toLowerCase()
+  ).toBe(expectedPrimaryHeadingTag)
 })

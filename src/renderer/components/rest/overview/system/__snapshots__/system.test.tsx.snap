@@ -42,8 +42,8 @@ exports[`matches snapshot 1`] = `
 }
 
 .c9 svg {
-  max-height: 100%;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .c7 {
@@ -195,7 +195,7 @@ exports[`matches snapshot 1`] = `
         <span
           class="c4"
         >
-          OS version
+          [value] view.name.overview.system.version
         </span>
       </div>
     </div>
@@ -218,7 +218,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c4 c11"
         >
-          Check for updates
+          [value] view.name.overview.system.checkForUpdates
         </p>
       </button>
     </section>

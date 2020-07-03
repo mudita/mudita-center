@@ -4,9 +4,24 @@ import { SelectionManagerProps } from "Renderer/components/core/selection-manage
 import {
   deleteButton,
   exportButton,
-  PredefinedSelectionManager,
 } from "Renderer/components/core/selection-manager/selection-manager.stories"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
+
+const PredefinedSelectionManager = ({
+  selectedItemsNumber = 1,
+  allItemsSelected = false,
+  ...props
+}: Partial<SelectionManagerProps>) => {
+  return (
+    <SelectionManager
+      message={{ id: "view.name.messages.conversations.selectionsNumber" }}
+      selectedItemsNumber={selectedItemsNumber}
+      allItemsSelected={allItemsSelected}
+      {...props}
+    />
+  )
+}
 
 const renderSelectionManager = (props: Partial<SelectionManagerProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
@@ -55,17 +70,23 @@ test("render buttons properly", () => {
 
 test("renders text info for one item properly", () => {
   const { getInfo } = renderSelectionManager({ selectedItemsNumber: 1 })
-  expect(getInfo()).toHaveTextContent("1 Conversation selected")
+  expect(getInfo()).toHaveTextContent(
+    "view.name.messages.conversations.selectionsNumber"
+  )
 })
 
 test("renders text info for few items properly", () => {
   const { getInfo } = renderSelectionManager({ selectedItemsNumber: 4 })
-  expect(getInfo()).toHaveTextContent("4 Conversations selected")
+  expect(getInfo()).toHaveTextContent(
+    "view.name.messages.conversations.selectionsNumber"
+  )
 })
 
 test("renders text info for all items properly", () => {
   const { getInfo } = renderSelectionManager({ allItemsSelected: true })
-  expect(getInfo()).toHaveTextContent("All Conversations selected")
+  expect(getInfo()).toHaveTextContent(
+    "view.name.messages.conversations.selectionsNumber"
+  )
 })
 
 test("renders indeterminate status properly", () => {
