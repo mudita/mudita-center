@@ -81,7 +81,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
         onClick={openSidebar}
         active={activeRow?.id === id}
       >
-        <Icon type={details.icon} width="auto" />
+        <Icon type={details.icon} width={2} />
         {nameAvailable ? createFullName(caller) : caller.primaryPhoneNumber}
         {timesMissed > 1 && ` (${timesMissed})`}
       </ClickableCol>

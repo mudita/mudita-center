@@ -214,7 +214,7 @@ interface ElementsMapping {
   [key: number]: Element
 }
 
-export type Element = "div" | "h1" | "h2" | "h3" | "span" | "p" | "li"
+type Element = "div" | "h1" | "h2" | "h3" | "span" | "p" | "li"
 
 const mapping: ElementsMapping = {
   [TextDisplayStyle.Default]: "div",

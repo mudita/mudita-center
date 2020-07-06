@@ -38,10 +38,6 @@ export const AdditionalInfo = styled(BaseAdditionalInfo)<{
   & > p {
     margin-bottom: 0;
   }
-
-  & > label:first-of-type {
-    width: 70rem;
-  }
 `
 
 export const CallWrapper = styled.div`

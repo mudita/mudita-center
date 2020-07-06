@@ -39,10 +39,10 @@ export const BaseSelectableCalls = styled(Table)<{ mouseLock?: boolean }>`
     }
   }
 `
-export const SelectableCells = styled(BaseSelectableCalls)<{
+export const SelectableCalls = styled(BaseSelectableCalls)<{
   active?: boolean
 }>`
-  --columnsTemplateWithOpenedSidebar: 4rem 25rem 18rem;
+  --columnsTemplateWithOpenedSidebar: 4rem 22rem 9rem;
   ${({ active }) =>
     active &&
     css`

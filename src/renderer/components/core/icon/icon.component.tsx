@@ -11,8 +11,8 @@ import styled, { css } from "styled-components"
 
 export interface Props {
   badge?: boolean
-  height?: number | "auto"
-  width?: number | "auto"
+  height?: number
+  width?: number
   type?: Type
 }
 
@@ -32,8 +32,8 @@ const badgeStyles = css`
 
 const Wrapper = styled.div<{
   badge?: boolean
-  height?: number | string
-  width?: number | string
+  height?: number
+  width?: number
 }>`
   display: flex;
   justify-content: center;

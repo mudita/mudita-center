@@ -61,7 +61,7 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
         return (
           <CallWrapper key={index}>
             <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-              <Icon type={details.icon} width="auto" />
+              <Icon type={details.icon} width={2.5} height={2} />
               {details.caller.firstName || details.caller.lastName ? (
                 <>
                   {details.caller.firstName} {details.caller.lastName}
@@ -109,15 +109,19 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
                   </IconHolder>
                 </AdditionalInfoItem>
                 <AdditionalInfoItem>
-                  <InfoItemName message={{ id: "view.name.generic.type" }} />
-                  <IconHolder iconPosition={IconHolderPosition.Left}>
-                    <Icon type={details.icon} width="auto" />
-                    <Input
-                      value={`${intl.formatMessage(
-                        details.description
-                      )}${timesMissed}`}
-                    />
-                  </IconHolder>
+                  <InfoItemName message={messages.type} />
+                  <Input
+                    leadingIcons={[
+                      <Icon
+                        key={`icon-${details.icon}`}
+                        type={details.icon}
+                        width={1.5}
+                      />,
+                    ]}
+                    value={`${intl.formatMessage(
+                      details.description
+                    )}${timesMissed}`}
+                  />
                 </AdditionalInfoItem>
               </AdditionalInfo>
               <AdditionalInfo large heading>
@@ -129,8 +133,12 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
                 </AdditionalInfoItem>
               </AdditionalInfo>
               <AdditionalInfo large>
-                <Input value={formatDuration(details.duration)} />
-                <Input value={callDate} />
+                <AdditionalInfoItem>
+                  <Input value={formatDuration(details.duration)} />
+                </AdditionalInfoItem>
+                <AdditionalInfoItem>
+                  <Input value={callDate} />
+                </AdditionalInfoItem>
               </AdditionalInfo>
             </>
           </CallWrapper>

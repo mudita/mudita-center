@@ -5,7 +5,7 @@ import {
   TableWithSidebarWrapper,
 } from "Renderer/components/core/table/table.component"
 import { CallRow } from "Renderer/components/rest/calls/call-row.component"
-import { SelectableCells } from "Renderer/components/rest/calls/calls-table.styled"
+import { SelectableCalls } from "Renderer/components/rest/calls/calls-table.styled"
 import { ContactDetails } from "Renderer/components/rest/calls/contact-details.component"
 import { Details } from "Renderer/components/rest/calls/contact-details.types"
 import FunctionComponent from "Renderer/types/function-component.interface"
@@ -47,7 +47,7 @@ const CallsTable: FunctionComponent<Props> = ({
 
   return (
     <TableWithSidebarWrapper>
-      <SelectableCells
+      <SelectableCalls
         active={sidebarOpened}
         hideColumns={sidebarOpened}
         hideableColumnsIndexes={[3, 4]}
@@ -71,7 +71,7 @@ const CallsTable: FunctionComponent<Props> = ({
             activeRow={activeRow}
           />
         ))}
-      </SelectableCells>
+      </SelectableCalls>
       {sidebarOpened && (
         <ContactDetails
           calls={[callDetails] as Details[]}
