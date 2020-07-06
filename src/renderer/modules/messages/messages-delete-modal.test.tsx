@@ -27,3 +27,19 @@ test("modal can perform delete action", () => {
   deleteButton.click()
   expect(defaultProps.onDelete).toBeCalled()
 })
+
+test("correct text is displayed when there is more than 1 unique conversation", () => {
+  const { getByText } = renderer()
+  expect(
+    getByText("view.name.messages.deleteModal.text", { exact: false })
+  ).toBeInTheDocument()
+})
+
+test("correct text is displayed when there is 1 unique conversation", () => {
+  const { getByText } = renderer({
+    uniqueSelectedRows: new Set([mockedContacts[0]]),
+  })
+  expect(
+    getByText("view.name.messages.deleteModal.uniqueText", { exact: false })
+  ).toBeInTheDocument()
+})
