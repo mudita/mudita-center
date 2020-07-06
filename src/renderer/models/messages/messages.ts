@@ -6,9 +6,10 @@ import {
   searchTopics,
   sortTopics,
 } from "Renderer/models/messages/utils/topics-utils"
+import { mockedMessages } from "App/__mocks__/mocked-messages"
 
 const initialState: StateProps = {
-  topics: rowsMessages,
+  topics: [mockedMessages, ...rowsMessages],
   searchValue: "",
 }
 
