@@ -12,7 +12,7 @@ interface Props {
   uniqueSelectedRows: Set<Author>
   selectedConversationsIdsNumber: number
   onDelete: () => void
-  resetRows: UseTableSelect<Topic>["resetRows"]
+  resetRows?: UseTableSelect<Topic>["resetRows"]
 }
 
 const MessagesDeleteModal: FunctionComponent<Props> = ({
