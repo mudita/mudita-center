@@ -10,7 +10,7 @@ import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 interface Props {
   deleting: boolean
   uniqueSelectedRows: Set<Author>
-  selectedConversationsIdsNumber: number
+  selectedConversationsIdsCount: number
   onDelete: () => void
   resetRows?: UseTableSelect<Topic>["resetRows"]
 }
@@ -18,7 +18,7 @@ interface Props {
 const MessagesDeleteModal: FunctionComponent<Props> = ({
   deleting,
   uniqueSelectedRows,
-  selectedConversationsIdsNumber,
+  selectedConversationsIdsCount,
   onDelete,
   resetRows,
   ...rest
@@ -35,7 +35,7 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
             id: "view.name.messages.deleteModal.text",
           },
           {
-            num: selectedConversationsIdsNumber,
+            num: selectedConversationsIdsCount,
             ...textFormatters,
           }
         )
@@ -47,7 +47,7 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
             caller: nameAvailable
               ? createFullName(uniqueSelectedRows.values().next().value)
               : caller.primaryPhoneNumber,
-            num: selectedConversationsIdsNumber,
+            num: selectedConversationsIdsCount,
             ...textFormatters,
           }
         )

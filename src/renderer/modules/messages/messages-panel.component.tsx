@@ -73,7 +73,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
         <MessagesDeleteModal
           deleting
           onDelete={handleDelete}
-          selectedConversationsIdsNumber={
+          selectedConversationsIdsCount={
             allItemsSelected ? -1 : selectedConversationsIds.length
           }
           uniqueSelectedRows={uniqueSelectedRows}
@@ -89,7 +89,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
       <MessagesDeleteModal
         deleting={false}
         onDelete={handleDelete}
-        selectedConversationsIdsNumber={
+        selectedConversationsIdsCount={
           allItemsSelected ? -1 : selectedConversationsIds.length
         }
         uniqueSelectedRows={uniqueSelectedRows}

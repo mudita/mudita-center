@@ -7,7 +7,7 @@ const defaultProps = {
   deleting: false,
   onDelete: jest.fn(),
   uniqueSelectedRows: new Set(mockedContacts),
-  selectedConversationsIdsNumber: 1,
+  selectedConversationsIdsCount: 1,
 }
 
 const renderer = (extraProps?: {}) => {
