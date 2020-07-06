@@ -49,7 +49,6 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
   setDetails,
   activeRow,
   noneRowsSelected,
-  sidebarOpened,
 }) => {
   const { caller, id, date, duration, timesMissed } = callData
   const { selected, indeterminate } = getRowStatus(callData)
@@ -86,71 +85,67 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
         {nameAvailable ? createFullName(caller) : caller.primaryPhoneNumber}
         {timesMissed > 1 && ` (${timesMissed})`}
       </ClickableCol>
-      {!sidebarOpened && <Col>{formatDuration(duration)}</Col>}
+      <Col>{formatDuration(duration)}</Col>
       <Col data-testid="call-date">
         {isToday(date)
           ? moment(date).format("h:mm")
           : moment(date).format("ll")}
       </Col>
-      {!sidebarOpened && (
-        <>
-          <Col>
-            <Actions>
-              <Dropdown
-                toggler={
-                  <ActionsButton>
-                    <Icon type={Type.More} />
-                  </ActionsButton>
-                }
-                onOpen={noop}
-                onClose={noop}
-              >
-                <ButtonComponent
-                  labelMessage={{
-                    id: "component.dropdown.call",
-                    values: nameAvailable
-                      ? { name: caller.firstName || caller.lastName }
-                      : {
-                          name: caller.primaryPhoneNumber,
-                        },
-                  }}
-                  Icon={Type.Calls}
-                  onClick={noop}
-                  displayStyle={DisplayStyle.Dropdown}
-                  data-testid="dropdown-call"
-                />
-                <ButtonComponent
-                  labelMessage={{
-                    id: "view.name.phone.calls.sendMessage",
-                  }}
-                  Icon={Type.BorderCheckIcon}
-                  onClick={noop}
-                  displayStyle={DisplayStyle.Dropdown}
-                  data-testid="send-message"
-                />
-                <ButtonComponent
-                  labelMessage={{
-                    id: "view.name.phone.calls.details",
-                  }}
-                  Icon={Type.Contacts}
-                  onClick={noop}
-                  displayStyle={DisplayStyle.Dropdown}
-                  data-testid="call-details"
-                />
-                <ButtonComponent
-                  labelMessage={{
-                    id: "view.name.phone.calls.deleteCall",
-                  }}
-                  Icon={Type.Delete}
-                  onClick={noop}
-                  displayStyle={DisplayStyle.Dropdown}
-                  data-testid="delete-call"
-                />
-              </Dropdown>
-            </Actions>
-          </Col>
-        </>
-      )}
+      <Col>
+        <Actions>
+          <Dropdown
+            toggler={
+              <ActionsButton>
+                <Icon type={Type.More} />
+              </ActionsButton>
+            }
+            onOpen={noop}
+            onClose={noop}
+          >
+            <ButtonComponent
+              labelMessage={{
+                id: "component.dropdown.call",
+                values: nameAvailable
+                  ? { name: caller.firstName || caller.lastName }
+                  : {
+                      name: caller.primaryPhoneNumber,
+                    },
+              }}
+              Icon={Type.Calls}
+              onClick={noop}
+              displayStyle={DisplayStyle.Dropdown}
+              data-testid="dropdown-call"
+            />
+            <ButtonComponent
+              labelMessage={{
+                id: "view.name.phone.calls.sendMessage",
+              }}
+              Icon={Type.BorderCheckIcon}
+              onClick={noop}
+              displayStyle={DisplayStyle.Dropdown}
+              data-testid="send-message"
+            />
+            <ButtonComponent
+              labelMessage={{
+                id: "view.name.phone.calls.details",
+              }}
+              Icon={Type.Contacts}
+              onClick={noop}
+              displayStyle={DisplayStyle.Dropdown}
+              data-testid="call-details"
+            />
+            <ButtonComponent
+              labelMessage={{
+                id: "view.name.phone.calls.deleteCall",
+              }}
+              Icon={Type.Delete}
+              onClick={noop}
+              displayStyle={DisplayStyle.Dropdown}
+              data-testid="delete-call"
+            />
+          </Dropdown>
+        </Actions>
+      </Col>
     </Row>
   )
 }

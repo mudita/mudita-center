@@ -216,14 +216,13 @@ const SidebarContent = styled.div<{ padded: boolean }>`
 
 const SidebarWrapper = styled.div<{
   show?: boolean
-  small?: boolean
   appColorSidebarHeader: boolean
 }>`
   --header-height: 10.4rem;
   --header-background: ${({ appColorSidebarHeader = "transparent" }) =>
     appColorSidebarHeader && backgroundColor("main")};
 
-  width: ${({ small }) => (small ? "59rem" : "62rem")};
+  width: 62rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -320,7 +319,6 @@ export interface SidebarProps {
 export const Sidebar: FunctionComponent<SidebarProps> = ({
   show,
   className,
-  small,
   onClose,
   children,
   headerLeft,
@@ -332,7 +330,6 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
   <SidebarWrapper
     className={className}
     show={show}
-    small={small}
     appColorSidebarHeader={appColorSidebarHeader}
     data-testid="sidebar"
     {...rest}

@@ -39,7 +39,6 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
     <ContactDetailsWrapper
       onClose={onClose}
       show
-      small
       data-testid={CallsTableTestIds.CallDetails}
     >
       {calls.map((details, index) => {

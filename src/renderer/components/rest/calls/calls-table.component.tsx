@@ -40,7 +40,11 @@ const CallsTable: FunctionComponent<Props> = ({
 
   return (
     <TableWithSidebarWrapper>
-      <SelectableCells active={sidebarOpened}>
+      <SelectableCells
+        active={sidebarOpened}
+        hideColumns={sidebarOpened}
+        hideableColumnsIndexes={[3, 4]}
+      >
         <Labels>
           <Col />
           <Col>{intl.formatMessage({ id: "view.name.generic.name" })}</Col>
