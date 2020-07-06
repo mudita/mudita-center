@@ -1,4 +1,4 @@
-import React, { ReactNodeArray } from "react"
+import React, { ReactNode } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -36,8 +36,8 @@ interface DeleteContactModalProps {
   onDelete?: () => void
   onClose?: () => void
   deleting?: boolean
-  title?: string | ReactNodeArray
-  text?: string | ReactNodeArray
+  title?: string
+  text?: ReactNode
 }
 
 const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
@@ -50,7 +50,7 @@ const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
 }) => {
   return (
     <Modal
-      title={title as string}
+      title={title}
       size={ModalSize.Small}
       onActionButtonClick={onDelete}
       actionButtonLabel={
