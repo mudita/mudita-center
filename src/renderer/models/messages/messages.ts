@@ -28,10 +28,7 @@ export default {
       return { ...state, visibilityFilter }
     },
     deleteConversation(state: StateProps, ids: string[]) {
-      const toBeDeletedConversationsIds = ids
-      const topics = state.topics.filter(
-        ({ id }) => !toBeDeletedConversationsIds.includes(id)
-      )
+      const topics = state.topics.filter(({ id }) => !ids.includes(id))
       return { ...state, topics }
     },
   },
