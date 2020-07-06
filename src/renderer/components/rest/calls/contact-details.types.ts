@@ -1,4 +1,5 @@
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { Message } from "Renderer/interfaces/message.interface"
 import { Caller, CallStatus } from "Renderer/models/calls/calls.interface"
 
 export interface Details {
@@ -9,5 +10,5 @@ export interface Details {
   status: CallStatus
   timesMissed: number
   icon: Type
-  description: string
+  description: Message
 }

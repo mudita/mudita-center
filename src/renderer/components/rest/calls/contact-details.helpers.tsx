@@ -1,35 +1,44 @@
+import { defineMessages } from "react-intl"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
+import { Message } from "Renderer/interfaces/message.interface"
 import { CallStatus } from "Renderer/models/calls/calls.interface"
 
 export interface CallDetails {
   icon: IconType
-  description: string
+  description: Message
 }
 
-const createCallType = (icon: IconType, description: string): CallDetails => {
+const createCallType = (icon: IconType, description: Message): CallDetails => {
   return {
     icon,
     description,
   }
 }
 
+const messages = defineMessages({
+  conference: { id: "view.name.calls.conference" },
+  incoming: { id: "view.name.calls.incoming" },
+  missed: { id: "view.name.calls.missed" },
+  outgoing: { id: "view.name.calls.outgoing" },
+})
+
 export const callTypeResolver = (type: CallStatus): CallDetails => {
   switch (type) {
     case CallStatus.Conference: {
-      return createCallType(IconType.More, "view.name.calls.conference")
+      return createCallType(IconType.More, messages.conference)
     }
 
     case CallStatus.Incoming: {
-      return createCallType(IconType.Download, "view.name.calls.incoming")
+      return createCallType(IconType.Download, messages.incoming)
     }
 
     case CallStatus.Missed: {
-      return createCallType(IconType.Close, "view.name.calls.missed")
+      return createCallType(IconType.Close, messages.missed)
     }
 
     case CallStatus.Outgoing:
     default: {
-      return createCallType(IconType.Upload, "view.name.calls.outgoing")
+      return createCallType(IconType.Upload, messages.outgoing)
     }
   }
 }

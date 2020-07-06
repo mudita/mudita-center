@@ -13,6 +13,13 @@ import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { intl } from "Renderer/utils/intl"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  name: { id: "view.name.phone.calls.name" },
+  duration: { id: "view.name.phone.calls.duration" },
+  date: { id: "view.name.phone.calls.date" },
+})
 
 type SelectHook = Pick<
   UseTableSelect<Details>,
@@ -47,13 +54,9 @@ const CallsTable: FunctionComponent<Props> = ({
       >
         <Labels>
           <Col />
-          <Col>{intl.formatMessage({ id: "view.name.generic.name" })}</Col>
-          {!sidebarOpened && (
-            <Col>
-              {intl.formatMessage({ id: "view.name.generic.duration" })}
-            </Col>
-          )}
-          <Col>{intl.formatMessage({ id: "view.name.generic.date" })}</Col>
+          <Col>{intl.formatMessage(messages.name)}</Col>
+          <Col>{intl.formatMessage(messages.duration)}</Col>
+          <Col>{intl.formatMessage(messages.date)}</Col>
         </Labels>
         {calls.map((row, i) => (
           <CallRow

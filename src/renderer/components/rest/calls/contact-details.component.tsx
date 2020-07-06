@@ -26,8 +26,17 @@ import {
 } from "Renderer/components/rest/phone/contact-details.component"
 import formatDuration from "Renderer/utils/format-duration"
 import { intl } from "Renderer/utils/intl"
+import { defineMessages } from "react-intl"
 import { isToday } from "Renderer/utils/is-today"
 import { noop } from "Renderer/utils/noop"
+
+const messages = defineMessages({
+  today: { id: "view.name.phone.calls.today" },
+  duration: { id: "view.name.phone.calls.duration" },
+  date: { id: "view.name.phone.calls.date" },
+  type: { id: "view.name.phone.calls.type" },
+  information: { id: "view.name.phone.contacts.details.information" },
+})
 
 interface ContactDetailsProps {
   calls: Details[]
@@ -46,7 +55,7 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
           ? ` (${details.timesMissed})`
           : ""
         const callDate = isToday(details?.date)
-          ? intl.formatMessage({ id: "view.generic.today" })
+          ? intl.formatMessage(messages.today)
           : moment(details.date).format("ll")
 
         return (
@@ -63,7 +72,7 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
             </ContactName>
             <CallDescription
               displayStyle={TextDisplayStyle.SmallFadedText}
-              message={{ id: details.description }}
+              message={details.description}
             />
             <ButtonWrapper>
               <Button
@@ -82,11 +91,7 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
             <>
               <AdditionalInfo>
                 <AdditionalInfoItem>
-                  <InfoItemName
-                    message={{
-                      id: "view.name.phone.contacts.details.information",
-                    }}
-                  />
+                  <InfoItemName message={messages.information} />
                   <IconHolder iconPosition={IconHolderPosition.Right}>
                     <Input value={details.caller.primaryPhoneNumber} />
                     <ButtonWrapper small>
@@ -108,21 +113,19 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
                   <IconHolder iconPosition={IconHolderPosition.Left}>
                     <Icon type={details.icon} width="auto" />
                     <Input
-                      value={`${intl.formatMessage({
-                        id: details.description,
-                      })}${timesMissed}`}
+                      value={`${intl.formatMessage(
+                        details.description
+                      )}${timesMissed}`}
                     />
                   </IconHolder>
                 </AdditionalInfoItem>
               </AdditionalInfo>
               <AdditionalInfo large heading>
                 <AdditionalInfoItem>
-                  <InfoItemName
-                    message={{ id: "view.name.generic.duration" }}
-                  />
+                  <InfoItemName message={messages.duration} />
                 </AdditionalInfoItem>
                 <AdditionalInfoItem>
-                  <InfoItemName message={{ id: "view.name.generic.date" }} />
+                  <InfoItemName message={messages.date} />
                 </AdditionalInfoItem>
               </AdditionalInfo>
               <AdditionalInfo large>
