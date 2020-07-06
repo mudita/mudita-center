@@ -77,6 +77,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
             allItemsSelected ? -1 : selectedConversationsIds.length
           }
           uniqueSelectedRows={uniqueSelectedRows}
+          resetRows={resetRows}
         />
       )
       deleteConversation(selectedConversationsIds)
@@ -92,6 +93,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
           allItemsSelected ? -1 : selectedConversationsIds.length
         }
         uniqueSelectedRows={uniqueSelectedRows}
+        resetRows={resetRows}
       />
     )
   }

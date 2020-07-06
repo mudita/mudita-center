@@ -3,14 +3,16 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { createFullName } from "Renderer/models/phone/phone.utils"
-import { Author } from "Renderer/models/messages/messages.interface"
+import { Author, Topic } from "Renderer/models/messages/messages.interface"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
 interface Props {
   deleting: boolean
   uniqueSelectedRows: Set<Author>
   selectedConversationsIdsNumber: number
   onDelete: () => void
+  resetRows: UseTableSelect<Topic>["resetRows"]
 }
 
 const MessagesDeleteModal: FunctionComponent<Props> = ({
@@ -18,6 +20,7 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
   uniqueSelectedRows,
   selectedConversationsIdsNumber,
   onDelete,
+  resetRows,
 }) => {
   const caller = uniqueSelectedRows.values().next().value
   const nameAvailable = isNameAvailable(caller)
@@ -53,7 +56,12 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
       {deleting ? (
         <DeleteModal deleting title={title} text={text} />
       ) : (
-        <DeleteModal onDelete={onDelete} title={title} text={text} />
+        <DeleteModal
+          onDelete={onDelete}
+          title={title}
+          text={text}
+          onClose={resetRows}
+        />
       )}
     </>
   )
