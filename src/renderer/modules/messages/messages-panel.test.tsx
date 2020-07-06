@@ -9,6 +9,7 @@ const defaultProps = {
   searchValue: "",
   deleteConversation: jest.fn(),
   selectedConversations: [],
+  resetRows: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {

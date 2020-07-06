@@ -24,9 +24,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
 }) => {
   const [messagesList, setMessagesList] = useState(list)
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Topic>()
-  const { selectedRows, allRowsSelected, toggleAll, ...rest } = useTableSelect<
-    Topic
-  >(list)
+  const {
+    selectedRows,
+    allRowsSelected,
+    toggleAll,
+    resetRows,
+    ...rest
+  } = useTableSelect<Topic>(list)
 
   const showAllMessages = () => {
     changeVisibilityFilter(VisibilityFilter.All)
@@ -59,6 +63,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         allItemsSelected={allRowsSelected}
         deleteConversation={deleteConversation}
         selectedConversations={selectedRows}
+        resetRows={resetRows}
       />
       <TableWithSidebarWrapper>
         <MessagesList

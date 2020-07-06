@@ -46,6 +46,7 @@ interface Props {
   selectedItemsCount: number
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Topic>["toggleAll"]
+  resetRows: UseTableSelect<Topic>["resetRows"]
 }
 
 const MessagesPanel: FunctionComponent<Props> = ({
@@ -58,6 +59,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   toggleAll = noop,
   deleteConversation,
   selectedConversations,
+  resetRows,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedItemsCount > 0
@@ -78,6 +80,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
         />
       )
       deleteConversation(selectedConversationsIds)
+      resetRows()
       await modalService.closeModal()
     }
 
