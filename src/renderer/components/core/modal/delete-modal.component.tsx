@@ -46,6 +46,7 @@ const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
   deleting,
   title,
   text,
+  ...rest
 }) => {
   return (
     <Modal
@@ -61,6 +62,7 @@ const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
       }
       onClose={onClose}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
+      {...rest}
     >
       <ModalContent>
         <Icon type={Type.DeleteBig} width={12} height={12} />

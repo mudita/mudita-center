@@ -134,6 +134,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
               displayStyle={DisplayStyle.Link1}
               Icon={Type.Delete}
               onClick={openModal}
+              data-testid={MessagePanelTestIds.SelectionManagerDeleteButton}
             />,
           ]}
           data-testid={MessagePanelTestIds.SelectionManager}

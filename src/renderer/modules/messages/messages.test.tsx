@@ -8,6 +8,7 @@ import { fireEvent } from "@testing-library/dom"
 import { mockedList } from "Renderer/components/rest/messages/__mocks__/caller-data"
 import store from "Renderer/store"
 import { intl } from "Renderer/utils/intl"
+import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
@@ -125,4 +126,12 @@ test("displays correct amount of dropdown delete buttons", () => {
   const { getAllByTestId } = renderer()
   mockAllIsIntersecting(true)
   expect(getAllByTestId("dropdown-delete")).toHaveLength(mockedList.length)
+})
+
+test("when at least one checkbox is checked, selection manager is displayed", () => {
+  const { getAllByTestId, getByTestId } = renderer()
+  mockAllIsIntersecting(true)
+  const checkboxes = getAllByTestId("checkbox")
+  fireEvent.click(checkboxes[0])
+  expect(getByTestId(MessagePanelTestIds.SelectionManager)).toBeInTheDocument()
 })

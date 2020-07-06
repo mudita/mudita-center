@@ -43,3 +43,12 @@ test("correct text is displayed when there is 1 unique conversation", () => {
     getByText("view.name.messages.deleteModal.uniqueText", { exact: false })
   ).toBeInTheDocument()
 })
+
+test("correct text is displayed when there is 2 conversations with one user", () => {
+  const { getByText } = renderer({
+    uniqueSelectedRows: new Set([mockedContacts[0], mockedContacts[0]]),
+  })
+  expect(
+    getByText("view.name.messages.deleteModal.uniqueText", { exact: false })
+  ).toBeInTheDocument()
+})

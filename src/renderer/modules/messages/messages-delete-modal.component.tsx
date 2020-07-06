@@ -21,6 +21,7 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
   selectedConversationsIdsNumber,
   onDelete,
   resetRows,
+  ...rest
 }) => {
   const caller = uniqueSelectedRows.values().next().value
   const nameAvailable = isNameAvailable(caller)
@@ -54,13 +55,14 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
   return (
     <>
       {deleting ? (
-        <DeleteModal deleting title={title} text={text} />
+        <DeleteModal deleting title={title} text={text} {...rest} />
       ) : (
         <DeleteModal
           onDelete={onDelete}
           title={title}
           text={text}
           onClose={resetRows}
+          {...rest}
         />
       )}
     </>
