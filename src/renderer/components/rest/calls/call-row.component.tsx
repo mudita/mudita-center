@@ -18,7 +18,7 @@ import {
   Actions,
   ActionsButton,
 } from "Renderer/components/rest/messages/messages-list.component"
-import { callTypeResolver } from "Renderer/components/rest/calls/contact-details.helpers"
+import { resolveCallType } from "Renderer/components/rest/calls/contact-details.helpers"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import formatDuration from "Renderer/utils/format-duration"
@@ -54,7 +54,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
   const { selected, indeterminate } = getRowStatus(callData)
   const toggle = () => toggleRow(callData)
   const nameAvailable = isNameAvailable(caller)
-  const details = callTypeResolver(callData.status)
+  const details = resolveCallType(callData.status)
 
   const openSidebar = () => {
     open(callData)

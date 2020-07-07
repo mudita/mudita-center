@@ -308,7 +308,6 @@ export const LoadingState: FunctionComponent = ({ className }) => (
 /* Sidebar */
 export interface SidebarProps {
   show?: boolean
-  small?: boolean
   onClose?: () => void
   headerLeft?: ReactNode
   headerRight?: ReactNode

@@ -22,7 +22,7 @@ const messages = defineMessages({
   outgoing: { id: "view.name.calls.outgoing" },
 })
 
-export const callTypeResolver = (type: CallStatus): CallDetails => {
+export const resolveCallType = (type: CallStatus): CallDetails => {
   switch (type) {
     case CallStatus.Conference: {
       return createCallType(IconType.More, messages.conference)

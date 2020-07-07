@@ -3,7 +3,7 @@ import { groupBy, random, sample, times } from "lodash"
 import { CallStatus } from "Renderer/models/calls/calls.interface"
 import { Author } from "Renderer/models/messages/messages.interface"
 import { generateFakeContact } from "Renderer/models/phone/phone.utils"
-import { callTypeResolver } from "Renderer/components/rest/calls/contact-details.helpers"
+import { resolveCallType } from "Renderer/components/rest/calls/contact-details.helpers"
 
 const createCall = () => {
   const status = sample([
@@ -22,7 +22,7 @@ const createCall = () => {
     duration: status === CallStatus.Missed ? 0 : Faker.random.number(500),
     date: Math.random() < 0.6 ? Faker.date.past() : Faker.date.recent(),
     status,
-    ...callTypeResolver(status),
+    ...resolveCallType(status),
     timesMissed:
       status === CallStatus.Missed
         ? Faker.random.number({
