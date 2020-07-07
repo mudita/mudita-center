@@ -3,7 +3,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { createFullName } from "Renderer/models/phone/phone.utils"
-import { Author, Topic } from "Renderer/models/messages/messages.interface"
+import { Topic } from "Renderer/models/messages/messages.interface"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
@@ -14,7 +14,7 @@ const messages = defineMessages({
 
 interface Props {
   deleting: boolean
-  uniqueSelectedRows: Set<Author>
+  uniqueSelectedRows: Topic[]
   selectedConversationsIdsCount: number
   onDelete: () => void
   resetRows?: UseTableSelect<Topic>["resetRows"]
@@ -28,10 +28,10 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
   resetRows,
   ...rest
 }) => {
-  const caller = uniqueSelectedRows.values().next().value
+  const caller = uniqueSelectedRows[0].caller
   const nameAvailable = isNameAvailable(caller)
   const text =
-    uniqueSelectedRows.size > 1
+    uniqueSelectedRows.length > 1
       ? intl.formatMessage(
           {
             id: "view.name.messages.deleteModal.text",
@@ -47,7 +47,7 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
           },
           {
             caller: nameAvailable
-              ? createFullName(uniqueSelectedRows.values().next().value)
+              ? createFullName(caller)
               : caller.primaryPhoneNumber,
             num: selectedConversationsIdsCount,
             ...textFormatters,

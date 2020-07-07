@@ -26,6 +26,7 @@ import {
 import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
 import modalService from "Renderer/components/core/modal/modal.service"
 import MessagesDeleteModal from "Renderer/modules/messages/messages-delete-modal.component"
+import { uniqBy } from "lodash"
 
 const toggleState = [
   intl.formatMessage({
@@ -64,9 +65,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedItemsCount > 0
   const selectedConversationsIds = selectedConversations.map(({ id }) => id)
-  const uniqueSelectedRows = new Set(
-    selectedConversations.map(({ caller }) => caller)
-  )
+  const uniqueSelectedRows = uniqBy(selectedConversations, "id")
   const openDeleteModal = () => {
     const handleDelete = async () => {
       modalService.rerenderModal(
@@ -80,7 +79,9 @@ const MessagesPanel: FunctionComponent<Props> = ({
           resetRows={resetRows}
         />
       )
-      deleteConversation(selectedConversationsIds)
+      if (selectedConversationsIds.length > 0) {
+        deleteConversation(selectedConversationsIds)
+      }
       resetRows()
       await modalService.closeModal()
     }

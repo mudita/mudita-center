@@ -1,12 +1,14 @@
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import MessagesDeleteModal from "Renderer/modules/messages/messages-delete-modal.component"
-import { mockedContacts } from "App/__mocks__/mocked-contacts"
+import { mockedTopics } from "App/__mocks__/mocked-topics"
+import { Topic } from "Renderer/models/messages/messages.interface"
+import { uniqBy } from "lodash"
 
 const defaultProps = {
   deleting: false,
   onDelete: jest.fn(),
-  uniqueSelectedRows: new Set(mockedContacts),
+  uniqueSelectedRows: (mockedTopics as unknown) as Topic[],
   selectedConversationsIdsCount: 1,
 }
 
@@ -37,16 +39,7 @@ test("correct text is displayed when there is more than 1 unique conversation", 
 
 test("correct text is displayed when there is 1 unique conversation", () => {
   const { getByText } = renderer({
-    uniqueSelectedRows: new Set([mockedContacts[0]]),
-  })
-  expect(
-    getByText("view.name.messages.deleteModal.uniqueText", { exact: false })
-  ).toBeInTheDocument()
-})
-
-test("correct text is displayed when there are 2 conversations with one user", () => {
-  const { getByText } = renderer({
-    uniqueSelectedRows: new Set([mockedContacts[0], mockedContacts[0]]),
+    uniqueSelectedRows: uniqBy([mockedTopics[0], mockedTopics[0]], "id"),
   })
   expect(
     getByText("view.name.messages.deleteModal.uniqueText", { exact: false })
