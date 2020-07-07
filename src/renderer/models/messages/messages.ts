@@ -6,9 +6,10 @@ import {
   searchTopics,
   sortTopics,
 } from "Renderer/models/messages/utils/topics-utils"
+import { mockedMessages } from "App/__mocks__/mocked-messages"
 
-const initialState = {
-  topics: rowsMessages,
+const initialState: StateProps = {
+  topics: [mockedMessages, ...rowsMessages],
   searchValue: "",
 }
 
@@ -26,6 +27,10 @@ export default {
       visibilityFilter: StateProps["visibilityFilter"]
     ) {
       return { ...state, visibilityFilter }
+    },
+    deleteConversation(state: StateProps, ids: string[]) {
+      const topics = state.topics.filter(({ id }) => !ids.includes(id))
+      return { ...state, topics }
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({

@@ -13,6 +13,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch.messages.changeSearchValue(target.value),
   changeVisibilityFilter: (filter: VisibilityFilter) =>
     dispatch.messages.changeVisibilityFilter(filter),
+  deleteConversation: (ids: string[]) =>
+    dispatch.messages.deleteConversation(ids),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

@@ -24,6 +24,9 @@ import {
   SearchInput,
 } from "Renderer/modules/messages/messages-panel.styled"
 import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
+import modalService from "Renderer/components/core/modal/modal.service"
+import MessagesDeleteModal from "Renderer/modules/messages/messages-delete-modal.component"
+import { uniqBy } from "lodash"
 
 const toggleState = [
   intl.formatMessage({
@@ -37,11 +40,14 @@ const toggleState = [
 interface Props {
   showAllMessages?: () => void
   hideReadMessages?: () => void
+  selectedConversations: Topic[]
+  deleteConversation: (ids: string[]) => void
   searchValue: string
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
   selectedItemsCount: number
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Topic>["toggleAll"]
+  resetRows: UseTableSelect<Topic>["resetRows"]
 }
 
 const MessagesPanel: FunctionComponent<Props> = ({
@@ -52,9 +58,47 @@ const MessagesPanel: FunctionComponent<Props> = ({
   selectedItemsCount,
   allItemsSelected,
   toggleAll = noop,
+  deleteConversation,
+  selectedConversations,
+  resetRows,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedItemsCount > 0
+  const selectedConversationsIds = selectedConversations.map(({ id }) => id)
+  const uniqueSelectedRows = uniqBy(selectedConversations, "id")
+  const openDeleteModal = () => {
+    const handleDelete = async () => {
+      modalService.rerenderModal(
+        <MessagesDeleteModal
+          deleting
+          onDelete={handleDelete}
+          selectedConversationsIdsCount={
+            allItemsSelected ? -1 : selectedConversationsIds.length
+          }
+          uniqueSelectedRows={uniqueSelectedRows}
+          resetRows={resetRows}
+        />
+      )
+      if (selectedConversationsIds.length > 0) {
+        deleteConversation(selectedConversationsIds)
+      }
+      resetRows()
+      await modalService.closeModal()
+    }
+
+    modalService.openModal(
+      <MessagesDeleteModal
+        deleting={false}
+        onDelete={handleDelete}
+        selectedConversationsIdsCount={
+          allItemsSelected ? -1 : selectedConversationsIds.length
+        }
+        uniqueSelectedRows={uniqueSelectedRows}
+        resetRows={resetRows}
+      />
+    )
+  }
+  const openModal = () => openDeleteModal()
   return (
     <MessageFiltersWrapper checkMode selectionMode={selectionMode}>
       {!selectionMode && (
@@ -90,7 +134,8 @@ const MessagesPanel: FunctionComponent<Props> = ({
               label={intl.formatMessage(messages.deleteButton)}
               displayStyle={DisplayStyle.Link1}
               Icon={Type.Delete}
-              onClick={noop}
+              onClick={openModal}
+              data-testid={MessagePanelTestIds.SelectionManagerDeleteButton}
             />,
           ]}
           data-testid={MessagePanelTestIds.SelectionManager}

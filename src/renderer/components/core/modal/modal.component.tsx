@@ -88,7 +88,6 @@ export interface ModalProps {
 }
 
 const Modal: FunctionComponent<ModalProps> = ({
-  className,
   actionButtonLabel,
   actionButtonIcon,
   onActionButtonClick,
@@ -101,6 +100,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   subtitle,
   title,
   titleOrder = TitleOrder.TitleFirst,
+  ...rest
 }) => {
   const modalService = useModalServiceContext()
 
@@ -110,7 +110,7 @@ const Modal: FunctionComponent<ModalProps> = ({
     onClose()
   }
   return (
-    <ModalFrame size={size} className={className}>
+    <ModalFrame size={size} {...rest}>
       <Header titleOrder={titleOrder} subtitleGap={Boolean(subtitle)}>
         <ModalTitle
           displayStyle={getTitleStyle(size)}

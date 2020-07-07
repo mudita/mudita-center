@@ -7,6 +7,9 @@ import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-te
 const defaultProps = {
   selectedItemsCount: 0,
   searchValue: "",
+  deleteConversation: jest.fn(),
+  selectedConversations: [],
+  resetRows: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {

@@ -19,13 +19,18 @@ const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
   changeSearchValue = noop,
   changeVisibilityFilter = noop,
+  deleteConversation = noop,
   list,
 }) => {
   const [messagesList, setMessagesList] = useState(list)
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Topic>()
-  const { selectedRows, allRowsSelected, toggleAll, ...rest } = useTableSelect<
-    Topic
-  >(list)
+  const {
+    selectedRows,
+    allRowsSelected,
+    toggleAll,
+    resetRows,
+    ...rest
+  } = useTableSelect<Topic>(list)
 
   const showAllMessages = () => {
     changeVisibilityFilter(VisibilityFilter.All)
@@ -34,7 +39,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const hideReadMessages = () => {
     changeVisibilityFilter(VisibilityFilter.Unread)
   }
-
   const _devClearMessages = () => setMessagesList([])
   const _devLoadDefaultMessages = () => setMessagesList(list)
   useEffect(() => setMessagesList(list), [list])
@@ -57,6 +61,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
         selectedItemsCount={selectedRows.length}
         toggleAll={toggleAll}
         allItemsSelected={allRowsSelected}
+        deleteConversation={deleteConversation}
+        selectedConversations={selectedRows}
+        resetRows={resetRows}
       />
       <TableWithSidebarWrapper>
         <MessagesList
