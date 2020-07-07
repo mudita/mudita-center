@@ -10,6 +10,8 @@ import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
+  text: { id: "view.name.messages.deleteModal.text" },
+  uniqueText: { id: "view.name.messages.deleteModal.uniqueText" },
 })
 
 interface Props {
@@ -32,27 +34,17 @@ const MessagesDeleteModal: FunctionComponent<Props> = ({
   const nameAvailable = isNameAvailable(caller)
   const text =
     uniqueSelectedRows.length > 1
-      ? intl.formatMessage(
-          {
-            id: "view.name.messages.deleteModal.text",
-          },
-          {
-            num: selectedConversationsIdsCount,
-            ...textFormatters,
-          }
-        )
-      : intl.formatMessage(
-          {
-            id: "view.name.messages.deleteModal.uniqueText",
-          },
-          {
-            caller: nameAvailable
-              ? createFullName(caller)
-              : caller.primaryPhoneNumber,
-            num: selectedConversationsIdsCount,
-            ...textFormatters,
-          }
-        )
+      ? intl.formatMessage(messages.text, {
+          num: selectedConversationsIdsCount,
+          ...textFormatters,
+        })
+      : intl.formatMessage(messages.uniqueText, {
+          caller: nameAvailable
+            ? createFullName(caller)
+            : caller.primaryPhoneNumber,
+          num: selectedConversationsIdsCount,
+          ...textFormatters,
+        })
 
   return (
     <>
