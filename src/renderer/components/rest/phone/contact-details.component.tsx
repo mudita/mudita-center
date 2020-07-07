@@ -131,6 +131,30 @@ export const ContactDetailsWrapper = styled(Sidebar)`
   margin-top: 6.3rem;
 `
 
+export const phoneActions = (
+  phoneNumber: string,
+  onCall: (input: string) => void,
+  onMessage: (input: string) => void
+) => {
+  const callHandler = () => onCall(phoneNumber)
+  const messageHandler = () => onMessage(phoneNumber)
+
+  return [
+    <ButtonComponent
+      displayStyle={DisplayStyle.InputIcon}
+      Icon={Type.Calls}
+      key="Call"
+      onClick={callHandler}
+    />,
+    <ButtonComponent
+      displayStyle={DisplayStyle.InputIcon}
+      Icon={Type.Message}
+      key="Message"
+      onClick={messageHandler}
+    />,
+  ]
+}
+
 const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   contact,
   onEdit,
@@ -163,26 +187,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       <SidebarHeaderIcon Icon={Type.Delete} onClick={handleDelete} />
     </>
   )
-
-  const phoneActions = (phoneNumber: string) => {
-    const callHandler = () => onCall(phoneNumber)
-    const messageHandler = () => onMessage(phoneNumber)
-
-    return [
-      <ButtonComponent
-        displayStyle={DisplayStyle.InputIcon}
-        Icon={Type.Calls}
-        key="Call"
-        onClick={callHandler}
-      />,
-      <ButtonComponent
-        displayStyle={DisplayStyle.InputIcon}
-        Icon={Type.Message}
-        key="Message"
-        onClick={messageHandler}
-      />,
-    ]
-  }
 
   const fullAddress = []
 
@@ -225,13 +229,21 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             {contact.primaryPhoneNumber && (
               <Input
                 value={contact.primaryPhoneNumber}
-                trailingIcons={phoneActions(contact.primaryPhoneNumber)}
+                trailingIcons={phoneActions(
+                  contact.primaryPhoneNumber,
+                  onCall,
+                  onMessage
+                )}
               />
             )}
             {contact.secondaryPhoneNumber && (
               <Input
                 value={contact.secondaryPhoneNumber}
-                trailingIcons={phoneActions(contact.secondaryPhoneNumber)}
+                trailingIcons={phoneActions(
+                  contact.secondaryPhoneNumber,
+                  onCall,
+                  onMessage
+                )}
               />
             )}
             {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber && (

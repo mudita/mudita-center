@@ -14,8 +14,6 @@ import {
   AdditionalInfo,
   ButtonWrapper,
   CallWrapper,
-  IconHolder,
-  IconHolderPosition,
 } from "Renderer/components/rest/calls/contact-details.styled"
 import { Details } from "Renderer/components/rest/calls/contact-details.types"
 import {
@@ -23,6 +21,7 @@ import {
   ContactDetailsWrapper,
   InfoItemName,
   Input,
+  phoneActions,
 } from "Renderer/components/rest/phone/contact-details.component"
 import formatDuration from "Renderer/utils/format-duration"
 import { intl } from "Renderer/utils/intl"
@@ -92,21 +91,14 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
               <AdditionalInfo>
                 <AdditionalInfoItem>
                   <InfoItemName message={messages.information} />
-                  <IconHolder iconPosition={IconHolderPosition.Right}>
-                    <Input value={details.caller.primaryPhoneNumber} />
-                    <ButtonWrapper small>
-                      <Button
-                        displayStyle={DisplayStyle.IconOnly2}
-                        onClick={noop}
-                        Icon={Type.MenuPhone}
-                      />
-                      <Button
-                        displayStyle={DisplayStyle.IconOnly2}
-                        onClick={noop}
-                        Icon={Type.Message}
-                      />
-                    </ButtonWrapper>
-                  </IconHolder>
+                  <Input
+                    value={details.caller.primaryPhoneNumber}
+                    trailingIcons={phoneActions(
+                      details.caller.primaryPhoneNumber,
+                      noop,
+                      noop
+                    )}
+                  />
                 </AdditionalInfoItem>
                 <AdditionalInfoItem>
                   <InfoItemName message={messages.type} />
