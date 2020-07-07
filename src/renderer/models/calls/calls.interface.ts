@@ -21,6 +21,6 @@ export interface Call {
 }
 
 export interface StateProps {
-  calls?: Call[]
+  calls: Call[]
   visibilityFilter?: VisibilityFilter
 }

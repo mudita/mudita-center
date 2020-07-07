@@ -20,6 +20,10 @@ export default {
     ) {
       return { ...state, visibilityFilter }
     },
+    deleteCall(state: StateProps, ids: string[]) {
+      const updatedCalls = state.calls.filter(({ id }) => !ids.includes(id))
+      return { ...state, calls: updatedCalls }
+    },
   },
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {
