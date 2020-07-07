@@ -6,7 +6,7 @@ import Network from "Renderer/components/rest/overview/network/network.component
 import { intl } from "Renderer/utils/intl"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import { fireEvent } from "@testing-library/dom"
-import { wait } from "@testing-library/react"
+import { waitFor } from "@testing-library/react"
 
 const renderNetwork = ({
   simCards = [],
@@ -110,5 +110,5 @@ test("returns a SIM info after its activation", async () => {
 
   fireEvent.click(getButtons()[1])
 
-  await wait(() => expect(onSimChange).toHaveBeenCalledWith(fakeSimCards[1]))
+  await waitFor(() => expect(onSimChange).toHaveBeenCalledWith(fakeSimCards[1]))
 })

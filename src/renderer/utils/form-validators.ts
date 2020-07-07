@@ -1,7 +1,7 @@
-import { ValidationOptions } from "react-hook-form/dist/types"
+import { ValidationRules } from "react-hook-form/dist/types"
 import { intl } from "Renderer/utils/intl"
 
-export const phoneNumberValidator: ValidationOptions = {
+export const phoneNumberValidator: ValidationRules = {
   minLength: {
     value: 5,
     message: intl.formatMessage(
@@ -22,7 +22,7 @@ export const phoneNumberValidator: ValidationOptions = {
   },
 }
 
-export const emailValidator: ValidationOptions = {
+export const emailValidator: ValidationRules = {
   pattern: {
     value: /^\S+@\S+(\.\S+)+$/im,
     message: intl.formatMessage({ id: "form.error.invalidEmail" }),

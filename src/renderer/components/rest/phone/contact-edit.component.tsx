@@ -196,7 +196,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     onCancel(contact)
   }
 
-  const handleSave = handleSubmit(data => {
+  const handleSave = handleSubmit((data) => {
     const formData = {
       ...contact,
       ...data,

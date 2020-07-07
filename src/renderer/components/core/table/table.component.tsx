@@ -397,7 +397,7 @@ const TableComponent = styled.div<TableProps>`
 
       ${Col} {
         ${hideableColumnsIndexes.map(
-          column =>
+          (column) =>
             css`
               &:nth-of-type(${column + 1}) {
                 display: none;

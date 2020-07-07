@@ -6,7 +6,7 @@ import FilesManager from "Renderer/components/rest/overview/files-manager/files-
 import { FilesManagerProps } from "Renderer/components/rest/overview/files-manager/files-manager.interface"
 import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
-import { wait } from "@testing-library/react"
+import { waitFor } from "@testing-library/react"
 
 const renderFilesManager = ({
   onFilesOpen = noop,
@@ -36,7 +36,7 @@ test("triggers opening files manager after button click", async () => {
 
   fireEvent.click(getByRole("button"))
 
-  await wait(() => {
+  await waitFor(() => {
     expect(onFilesOpen).toHaveBeenCalled()
   })
 })

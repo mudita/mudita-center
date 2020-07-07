@@ -24,11 +24,11 @@ export default (win: BrowserWindow) => {
   autoUpdater.on("update-available", () => {
     ipcMain.callFocusedRenderer(AppUpdateStatus.Available)
   })
-  autoUpdater.on("error", error => {
+  autoUpdater.on("error", (error) => {
     ipcMain.callFocusedRenderer(AppUpdateStatus.Error, error)
     win.setProgressBar(-1)
   })
-  autoUpdater.on("download-progress", progressObj => {
+  autoUpdater.on("download-progress", (progressObj) => {
     win.setProgressBar(progressObj.percent / 100)
   })
   autoUpdater.on("update-downloaded", () => {

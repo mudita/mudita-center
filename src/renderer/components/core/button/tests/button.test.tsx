@@ -5,7 +5,7 @@ import Button from "../button.component"
 import { DisplayStyle, Size } from "../button.config"
 
 import { fireEvent } from "@testing-library/dom"
-import { wait } from "@testing-library/react"
+import { waitFor } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
@@ -70,7 +70,7 @@ test("link-button should have active class when clicked", async () => {
 
   fireEvent.click(firstButton)
 
-  await wait(() => {
+  await waitFor(() => {
     expect(firstLink).toHaveClass("active")
   })
 })

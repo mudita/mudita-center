@@ -6,7 +6,7 @@ import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"
-import { fireEvent, wait } from "@testing-library/react"
+import { fireEvent, waitFor } from "@testing-library/react"
 
 const renderBackup = ({
   onBackupCreate = noop,
@@ -61,7 +61,7 @@ test("backup creation button works properly", async () => {
 
   fireEvent.click(createButton())
 
-  await wait(() => {
+  await waitFor(() => {
     expect(onBackupCreate).toHaveBeenCalled()
   })
 })
@@ -76,7 +76,7 @@ test("backup restore button works properly", async () => {
 
   fireEvent.click(restoreButton())
 
-  await wait(() => {
+  await waitFor(() => {
     expect(onBackupRestore).toHaveBeenCalled()
   })
 })

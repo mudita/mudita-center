@@ -23,7 +23,7 @@ export default {
   },
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {
-      return slice(state => {
+      return slice((state) => {
         return filterCalls(state.calls, state.visibilityFilter)
       })
     },
