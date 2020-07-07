@@ -10,6 +10,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size as CheckboxSize } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
   Col,
+  EmptyState,
   Labels,
   RowSize,
   TableSortButton,
@@ -29,7 +30,6 @@ import {
   SearchButton,
   SearchInput,
   SelectionManager,
-  EmptyState,
   NotesSidebar,
   TextPreview,
   Table,
@@ -56,8 +56,14 @@ const messages = defineMessages({
   searchNotes: {
     id: "view.name.tools.notes.searchNotes",
   },
-  noNotes: {
-    id: "view.name.tools.notes.noNotes",
+  emptyListTitle: {
+    id: "view.name.tools.notes.emptyList.title",
+  },
+  emptyListNoNotes: {
+    id: "view.name.tools.notes.emptyList.noNotes",
+  },
+  emptyListNotFound: {
+    id: "view.name.tools.notes.emptyList.notFound",
   },
   newNote: {
     id: "view.name.tools.notes.newNote",
@@ -171,7 +177,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
             type={"search"}
             disabled={!notesAvailable}
             label={intl.formatMessage(
-              notesAvailable ? messages.searchNotes : messages.noNotes
+              notesAvailable ? messages.searchNotes : messages.emptyListNoNotes
             )}
             outlined
           />
@@ -257,12 +263,11 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
             </div>
           </Table>
         ) : (
-          <EmptyState data-testid={NotesTestIds.Empty}>
-            <Text
-              message={messages.noNotes}
-              displayStyle={TextDisplayStyle.LargeText}
-            />
-          </EmptyState>
+          <EmptyState
+            title={messages.emptyListTitle}
+            description={messages.emptyListNoNotes}
+            data-testid={NotesTestIds.Empty}
+          />
         )}
         <NotesSidebar show={Boolean(activeRow)} onClose={closeSidebar}>
           {activeRow && (

@@ -84,13 +84,6 @@ export const SelectionManager = styled(BaseSelectionManager)`
   width: 72rem;
 `
 
-export const EmptyState = styled.div`
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  min-height: 30rem;
-`
-
 export const NotesSidebar = styled(Sidebar)`
   --header-height: 5.6rem;
   margin-top: 4.7rem;
