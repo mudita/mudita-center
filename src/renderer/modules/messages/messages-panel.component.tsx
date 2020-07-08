@@ -92,16 +92,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
             num: allItemsSelected ? -1 : selectedConversationsIds.length,
             ...textFormatters,
           })
-    const handleDelete = async () => {
-      modalService.rerenderModal(
-        <DeleteModal
-          text={text}
-          title={title}
-          deleting
-          onDelete={handleDelete}
-          onClose={resetRows}
-        />
-      )
+    const onDelete = async () => {
       if (selectedConversationsIds.length > 0) {
         deleteConversation(selectedConversationsIds)
       }
@@ -111,8 +102,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
       <DeleteModal
         text={text}
         title={title}
-        deleting={false}
-        onDelete={handleDelete}
+        onDelete={onDelete}
         onClose={resetRows}
       />
     )

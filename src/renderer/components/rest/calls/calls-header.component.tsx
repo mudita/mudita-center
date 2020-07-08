@@ -7,7 +7,7 @@ import {
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
-import { intl } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
 import {
@@ -25,6 +25,12 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { CallsHeaderTestIds } from "Renderer/components/rest/calls/calls-header-test-ids.enum"
+import { defineMessages } from "react-intl"
+import { uniqBy } from "lodash"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import { createFullName } from "Renderer/models/phone/phone.utils"
+import modalService from "Renderer/components/core/modal/modal.service"
+import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 
 const toggleState = [
   {
@@ -77,20 +83,28 @@ const CallsSelectionManager = styled(SelectionManager)`
   }
 `
 
+const deleteModalMessages = defineMessages({
+  title: { id: "view.name.phone.calls.deleteModal.title" },
+  text: { id: "view.name.phone.calls.deleteModal.text" },
+  uniqueText: { id: "view.name.phone.calls.deleteModal.uniqueText" },
+})
+
 interface Props {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
-  selectedItemsCount: number
+  selectedCalls: Call[]
   allRowsSelected?: boolean
   toggleAll?: UseTableSelect<Call>["toggleAll"]
-  deleteCall?: (ids: string[]) => void
+  resetRows: UseTableSelect<Call>["resetRows"]
+  deleteCall: (ids: string[]) => void
 }
 
 const CallsHeader: FunctionComponent<Props> = ({
   changeVisibilityFilter = noop,
-  selectedItemsCount,
+  selectedCalls,
   toggleAll,
   allRowsSelected,
   deleteCall,
+  resetRows,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0].label)
   const getFilterByLabel = ({
@@ -115,12 +129,44 @@ const CallsHeader: FunctionComponent<Props> = ({
         break
     }
   }
-  const selectionMode = selectedItemsCount > 0
+  const selectionMode = selectedCalls.length > 0
+  const openDeleteModal = () => {
+    const selectedCallsIds = selectedCalls.map(({ id }) => id)
+    const uniqueSelectedRows = uniqBy(selectedCalls, "id")
+    const caller = uniqueSelectedRows[0].caller
+    const nameAvailable = isNameAvailable(caller)
+    const textIntlValues = {
+      num: allRowsSelected ? -1 : selectedCallsIds.length,
+      ...textFormatters,
+    }
+    const onDelete = async () => {
+      if (selectedCallsIds.length > 0) {
+        deleteCall(selectedCallsIds)
+        resetRows()
+      }
+      await modalService.closeModal()
+    }
+    const modalConfig = {
+      title: intl.formatMessage(deleteModalMessages.title),
+      text:
+        uniqueSelectedRows.length > 1
+          ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
+          : intl.formatMessage(deleteModalMessages.uniqueText, {
+              ...textIntlValues,
+              caller: nameAvailable
+                ? createFullName(caller)
+                : caller.primaryPhoneNumber,
+            }),
+      onDelete,
+      onClose: resetRows,
+    }
+    modalService.openModal(<DeleteModal {...modalConfig} />)
+  }
   return (
-    <CallsFiltersWrapper selectionMode={selectionMode}>
+    <CallsFiltersWrapper checkMode selectionMode={selectionMode}>
       {selectionMode ? (
         <CallsSelectionManager
-          selectedItemsNumber={selectedItemsCount}
+          selectedItemsNumber={selectedCalls.length}
           message={{ id: "view.name.phone.calls.selectionsNumber" }}
           onToggle={toggleAll}
           allItemsSelected={allRowsSelected}
@@ -132,7 +178,7 @@ const CallsHeader: FunctionComponent<Props> = ({
               })}
               displayStyle={DisplayStyle.Link1}
               Icon={Type.Delete}
-              onClick={noop}
+              onClick={openDeleteModal}
             />,
           ]}
           data-testid={CallsHeaderTestIds.SelectionManager}
