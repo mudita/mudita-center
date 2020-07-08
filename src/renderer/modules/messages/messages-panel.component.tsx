@@ -85,6 +85,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
     const onDelete = async () => {
       if (selectedConversationsIds.length > 0) {
         deleteConversation(selectedConversationsIds)
+        resetRows()
       }
       await modalService.closeModal()
     }

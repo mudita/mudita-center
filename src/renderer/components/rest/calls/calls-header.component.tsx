@@ -163,7 +163,7 @@ const CallsHeader: FunctionComponent<Props> = ({
     modalService.openModal(<DeleteModal {...modalConfig} />)
   }
   return (
-    <CallsFiltersWrapper checkMode selectionMode={selectionMode}>
+    <CallsFiltersWrapper selectionMode={selectionMode}>
       {selectionMode ? (
         <CallsSelectionManager
           selectedItemsNumber={selectedCalls.length}
