@@ -78,34 +78,31 @@ const MessagesPanel: FunctionComponent<Props> = ({
     const uniqueSelectedRows = uniqBy(selectedConversations, "id")
     const caller = uniqueSelectedRows[0].caller
     const nameAvailable = isNameAvailable(caller)
-    const title = intl.formatMessage(deleteModalMessages.title)
-    const text =
-      uniqueSelectedRows.length > 1
-        ? intl.formatMessage(deleteModalMessages.text, {
-            num: allItemsSelected ? -1 : selectedConversationsIds.length,
-            ...textFormatters,
-          })
-        : intl.formatMessage(deleteModalMessages.uniqueText, {
-            caller: nameAvailable
-              ? createFullName(caller)
-              : caller.primaryPhoneNumber,
-            num: allItemsSelected ? -1 : selectedConversationsIds.length,
-            ...textFormatters,
-          })
+    const textIntlValues = {
+      num: allItemsSelected ? -1 : selectedConversationsIds.length,
+      ...textFormatters,
+    }
     const onDelete = async () => {
       if (selectedConversationsIds.length > 0) {
         deleteConversation(selectedConversationsIds)
       }
       await modalService.closeModal()
     }
-    modalService.openModal(
-      <DeleteModal
-        text={text}
-        title={title}
-        onDelete={onDelete}
-        onClose={resetRows}
-      />
-    )
+    const modalConfig = {
+      title: intl.formatMessage(deleteModalMessages.title),
+      text:
+        uniqueSelectedRows.length > 1
+          ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
+          : intl.formatMessage(deleteModalMessages.uniqueText, {
+              ...textIntlValues,
+              caller: nameAvailable
+                ? createFullName(caller)
+                : caller.primaryPhoneNumber,
+            }),
+      onDelete,
+      onClose: resetRows,
+    }
+    modalService.openModal(<DeleteModal {...modalConfig} />)
   }
   const openModal = () => openDeleteModal()
   return (
