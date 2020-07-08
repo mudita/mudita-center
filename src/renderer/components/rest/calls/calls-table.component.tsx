@@ -6,8 +6,8 @@ import {
 } from "Renderer/components/core/table/table.component"
 import { CallRow } from "Renderer/components/rest/calls/call-row.component"
 import { SelectableCalls } from "Renderer/components/rest/calls/calls-table.styled"
-import { ContactDetails } from "Renderer/components/rest/calls/contact-details.component"
-import { Details } from "Renderer/components/rest/calls/contact-details.types"
+import { CallDetails } from "Renderer/components/rest/calls/call-details.component"
+import { Details } from "Renderer/components/rest/calls/call-details.types"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
@@ -73,7 +73,7 @@ const CallsTable: FunctionComponent<Props> = ({
         ))}
       </SelectableCalls>
       {sidebarOpened && (
-        <ContactDetails
+        <CallDetails
           calls={[callDetails] as Details[]}
           onClose={closeSidebar}
         />

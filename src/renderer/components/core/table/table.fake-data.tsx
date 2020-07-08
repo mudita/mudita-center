@@ -3,7 +3,7 @@ import { groupBy, random, sample, times } from "lodash"
 import { CallStatus } from "Renderer/models/calls/calls.interface"
 import { Author } from "Renderer/models/messages/messages.interface"
 import { generateFakeContact } from "Renderer/models/phone/phone.utils"
-import { resolveCallType } from "Renderer/components/rest/calls/contact-details.helpers"
+import { resolveCallType } from "Renderer/components/rest/calls/call-details.helpers"
 
 const createCall = () => {
   const status = sample([

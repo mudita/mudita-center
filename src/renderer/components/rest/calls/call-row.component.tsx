@@ -12,13 +12,13 @@ import {
   Checkbox,
   ClickableCol,
 } from "Renderer/components/rest/calls/calls-table.styled"
-import { Details } from "Renderer/components/rest/calls/contact-details.types"
+import { Details } from "Renderer/components/rest/calls/call-details.types"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import {
   Actions,
   ActionsButton,
 } from "Renderer/components/rest/messages/messages-list.component"
-import { resolveCallType } from "Renderer/components/rest/calls/contact-details.helpers"
+import { resolveCallType } from "Renderer/components/rest/calls/call-details.helpers"
 import { createFullName } from "Renderer/models/phone/phone.utils"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import formatDuration from "Renderer/utils/format-duration"

@@ -14,8 +14,8 @@ import {
   AdditionalInfo,
   ButtonWrapper,
   CallWrapper,
-} from "Renderer/components/rest/calls/contact-details.styled"
-import { Details } from "Renderer/components/rest/calls/contact-details.types"
+} from "Renderer/components/rest/calls/call-details.styled"
+import { Details } from "Renderer/components/rest/calls/call-details.types"
 import {
   AdditionalInfoItem,
   ContactDetailsWrapper,
@@ -35,6 +35,8 @@ const messages = defineMessages({
   date: { id: "view.name.phone.calls.date" },
   type: { id: "view.name.phone.calls.type" },
   information: { id: "view.name.phone.contacts.details.information" },
+  deleteCall: { id: "view.name.phone.contacts.details.deleteCall" },
+  contactDetails: { id: "view.name.phone.contacts.details.contactDetails" },
 })
 
 interface ContactDetailsProps {
@@ -42,7 +44,7 @@ interface ContactDetailsProps {
   onClose: () => void
 }
 
-export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
+export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
   return (
     <ContactDetailsWrapper
       onClose={onClose}
@@ -54,7 +56,9 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
           ? ` (${details.timesMissed})`
           : ""
         const callDate = isToday(details?.date)
-          ? intl.formatMessage(messages.today)
+          ? `${intl.formatMessage(messages.today)}, ${moment(
+              details.date
+            ).format("h:mm")}`
           : moment(details.date).format("ll")
 
         return (
@@ -76,7 +80,7 @@ export const ContactDetails = ({ calls, onClose }: ContactDetailsProps) => {
             <ButtonWrapper>
               <Button
                 displayStyle={DisplayStyle.Dropdown}
-                label="Delete contact"
+                label={intl.formatMessage(messages.deleteCall)}
                 onClick={noop}
                 Icon={Type.Delete}
               />
