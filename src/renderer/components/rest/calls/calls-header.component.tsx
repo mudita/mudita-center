@@ -82,6 +82,7 @@ interface Props {
   selectedItemsCount: number
   allRowsSelected?: boolean
   toggleAll?: UseTableSelect<Call>["toggleAll"]
+  deleteCall?: (ids: string[]) => void
 }
 
 const CallsHeader: FunctionComponent<Props> = ({
@@ -89,6 +90,7 @@ const CallsHeader: FunctionComponent<Props> = ({
   selectedItemsCount,
   toggleAll,
   allRowsSelected,
+  deleteCall,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0].label)
   const getFilterByLabel = ({

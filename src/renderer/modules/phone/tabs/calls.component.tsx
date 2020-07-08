@@ -11,12 +11,14 @@ import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 interface Props {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
+  deleteCall?: (ids: string[]) => void
   calls: Call[]
 }
 
 const Calls: FunctionComponent<Props> = ({
   calls,
   changeVisibilityFilter = noop,
+  deleteCall = noop,
 }) => {
   const {
     selectedRows,
@@ -33,6 +35,7 @@ const Calls: FunctionComponent<Props> = ({
         selectedItemsCount={selectedRows.length}
         toggleAll={toggleAll}
         allRowsSelected={allRowsSelected}
+        deleteCall={deleteCall}
       />
       <CallsTable
         calls={calls}

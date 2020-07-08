@@ -20,7 +20,7 @@ test("by default, visibility should be set to all calls", () => {
   expect(visibilityFilter).toBe(VisibilityFilter.All)
 })
 
-test("deletes of the calls", () => {
+test("deletes call", () => {
   const callToDelete = store.getState().calls.calls[0].id
   const initialCallsAmount = store.getState().calls.calls.length
   store.dispatch.calls.deleteCall([callToDelete])
