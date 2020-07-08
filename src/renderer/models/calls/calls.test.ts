@@ -1,17 +1,14 @@
 import { init } from "@rematch/core"
 import calls from "Renderer/models/calls/calls"
 import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
-import selectPlugin from "@rematch/select"
 
 let store = init({
   models: { calls },
-  plugins: [selectPlugin()],
 })
 
 beforeEach(() => {
   store = init({
     models: { calls },
-    plugins: [selectPlugin()],
   })
 })
 
