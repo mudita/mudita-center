@@ -324,12 +324,14 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
   headerRight,
   appColorSidebarHeader = false,
   padded = true,
+  ...rest
 }) => (
   <SidebarWrapper
     className={className}
     show={show}
     appColorSidebarHeader={appColorSidebarHeader}
     data-testid="sidebar"
+    {...rest}
   >
     <SidebarHeader>
       {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}

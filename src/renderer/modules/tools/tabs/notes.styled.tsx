@@ -6,7 +6,7 @@ import BaseTable, {
   Col as BaseCol,
 } from "Renderer/components/core/table/table.component"
 import Text from "Renderer/components/core/text/text.component"
-import { Checkbox } from "Renderer/components/rest/calls/calls-table.component"
+import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
 import { FiltersWrapper as FiltersWrapperBase } from "Renderer/components/rest/messages/topics-table.component"
 import {
   transitionTime,

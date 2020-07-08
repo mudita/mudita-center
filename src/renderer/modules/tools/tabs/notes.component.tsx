@@ -15,10 +15,7 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import {
-  Checkbox,
-  isToday,
-} from "Renderer/components/rest/calls/calls-table.component"
+import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.interface"
@@ -41,6 +38,7 @@ import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 import { intl } from "Renderer/utils/intl"
+import { isToday } from "Renderer/utils/is-today"
 import { noop } from "Renderer/utils/noop"
 
 interface Note {

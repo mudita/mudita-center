@@ -12,7 +12,7 @@ export const filterCalls = (
     case VisibilityFilter.Missed:
       return calls.filter(({ status }) => status === CallStatus.Missed)
     case VisibilityFilter.Received:
-      return calls.filter(({ status }) => status === CallStatus.Received)
+      return calls.filter(({ status }) => status === CallStatus.Incoming)
     default:
       return calls
   }
