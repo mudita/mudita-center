@@ -13,16 +13,16 @@ interface HelpProps extends DevModeProps {
 
 import { version } from "../../../../package.json"
 
-const Help: FunctionComponent<HelpProps> = props => {
+const Help: FunctionComponent<HelpProps> = (props) => {
   const [count, setCount] = useState<number>(0)
   const [cheat, setCheat] = useState<string>("")
 
   const increaseCount = () => {
-    setCount(state => state + 1)
+    setCount((state) => state + 1)
   }
 
   const getKeyboardInput = ({ key }: KeyboardEvent) => {
-    setCheat(current => `${current}${key}`)
+    setCheat((current) => `${current}${key}`)
   }
 
   useLayoutEffect(() => {

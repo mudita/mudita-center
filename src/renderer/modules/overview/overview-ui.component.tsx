@@ -46,9 +46,9 @@ interface OverviewUIProps {
   readonly onUpdateInstall: () => void
 }
 
-const OverviewUI: FunctionComponent<Omit<BasicInfoInitialState, "loadData"> &
-  PhoneUpdate &
-  OverviewUIProps> = ({
+const OverviewUI: FunctionComponent<
+  Omit<BasicInfoInitialState, "loadData"> & PhoneUpdate & OverviewUIProps
+> = ({
   batteryLevel,
   changeSim,
   disconnectDevice,

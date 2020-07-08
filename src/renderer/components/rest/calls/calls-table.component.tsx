@@ -88,7 +88,7 @@ const CallsTable: FunctionComponent<Props> = ({
         <Col>Duration</Col>
         <Col>Date</Col>
       </Labels>
-      {calls.map(item => {
+      {calls.map((item) => {
         const { caller, id, date, duration, timesMissed } = item
         const { selected, indeterminate } = getRowStatus(item)
         const toggle = () => toggleRow(item)

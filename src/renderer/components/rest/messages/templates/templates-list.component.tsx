@@ -124,7 +124,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
       hideableColumnsIndexes={[2]}
     >
       {templates.length > 0 ? (
-        templates.map(item => {
+        templates.map((item) => {
           const { selected } = getRowStatus(item)
 
           const toggle = () => {

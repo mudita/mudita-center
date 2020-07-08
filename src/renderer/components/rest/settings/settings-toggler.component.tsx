@@ -28,7 +28,7 @@ const SettingsToggler: FunctionComponent<Props> = ({
 }) => {
   return (
     <Toggler filled>
-      {twoStateToggler.map(value => {
+      {twoStateToggler.map((value) => {
         const changeStatus = () => {
           onToggle(value)
         }

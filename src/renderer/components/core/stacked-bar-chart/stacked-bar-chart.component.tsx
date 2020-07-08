@@ -114,13 +114,13 @@ const StackedBarChart: FunctionComponent<Props> = ({
   const availableSpace = (data: ChartItem[]): number =>
     data.reduce((acc, { value }) => acc + value, 0)
   const usedMemoryInBytes = chartData
-    .filter(chartObject => !chartObject.free)
+    .filter((chartObject) => !chartObject.free)
     .reduce((acc, { value }) => acc + value, 0)
   const usedMemoryConverted =
     labels && convertBytes(usedMemoryInBytes, { fixedFractionDigits: false })
   const percentageOfAvailableSpace = (value: number) =>
     (value / availableSpace(chartData)) * 100
-  const barData = chartData.map(obj => ({
+  const barData = chartData.map((obj) => ({
     ...obj,
     percentage: percentageOfAvailableSpace(obj.value),
   }))

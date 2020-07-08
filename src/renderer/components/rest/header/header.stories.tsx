@@ -18,7 +18,7 @@ const Container = styled.div`
 `
 
 storiesOf("Components|Header", module)
-  .addDecorator(story => (
+  .addDecorator((story) => (
     <MemoryRouter initialEntries={["/phone"]}>{story()}</MemoryRouter>
   ))
   .add("Without button", () => {
@@ -30,7 +30,7 @@ storiesOf("Components|Header", module)
   })
 
 storiesOf("Components|Header", module)
-  .addDecorator(story => (
+  .addDecorator((story) => (
     <MemoryRouter initialEntries={["/news"]}>{story()}</MemoryRouter>
   ))
   .add("With button", () => {

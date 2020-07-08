@@ -63,7 +63,7 @@ const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
 }) => {
   return (
     <ButtonTogglerWrapper className={className}>
-      {React.Children.map(children, child => {
+      {React.Children.map(children, (child) => {
         return React.cloneElement(child as ReactElement, {
           filled,
         })

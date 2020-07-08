@@ -39,10 +39,10 @@ const Header: FunctionComponent<HeaderProps> = ({
   useEffect(() => {
     const pathname = location.pathname
     const currentMenuElementName = Object.keys(views).find(
-      key => views[key as keyof typeof views].url === pathname
+      (key) => views[key as keyof typeof views].url === pathname
     )
     const menuElementNameWithHeaderButton = Object.keys(views).find(
-      key => views[key as keyof typeof views].renderHeaderButton
+      (key) => views[key as keyof typeof views].renderHeaderButton
     )
     if (currentMenuElementName) {
       const currentMenuElement =

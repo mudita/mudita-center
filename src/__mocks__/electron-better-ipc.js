@@ -35,14 +35,14 @@ const createMock = () => {
         if (!mock.__calls[name]) {
           throw new Error(`No "${name}" call registered.`)
         } else {
-          return mock.__calls[name].map(call => call(...values))
+          return mock.__calls[name].map((call) => call(...values))
         }
       },
     },
     ipcRenderer: {
       __rendererCalls: {},
       ...ebi.ipcRenderer,
-      callMain: jest.fn(name => {
+      callMain: jest.fn((name) => {
         if (mock.ipcRenderer.__rendererCalls[name]) {
           return mock.ipcRenderer.__rendererCalls[name]
         } else {

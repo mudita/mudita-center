@@ -3,7 +3,7 @@ import { select } from "Renderer/store"
 import Phone from "./phone.component"
 import { noop } from "Renderer/utils/noop"
 
-const selection = select(models => ({
+const selection = select((models) => ({
   contactList: models.phone.grouped,
   ...models.phone,
 }))

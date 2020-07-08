@@ -197,7 +197,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   }
 
   const availableSpeedDials = speedDialNumbers.filter(
-    dialNumber =>
+    (dialNumber) =>
       !speedDialContacts.find(({ speedDial }) => speedDial === dialNumber)
   )
 
