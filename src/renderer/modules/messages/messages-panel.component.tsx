@@ -83,10 +83,8 @@ const MessagesPanel: FunctionComponent<Props> = ({
       ...textFormatters,
     }
     const onDelete = async () => {
-      if (selectedConversationsIds.length > 0) {
-        deleteConversation(selectedConversationsIds)
-        resetRows()
-      }
+      deleteConversation(selectedConversationsIds)
+      resetRows()
       await modalService.closeModal()
     }
     const modalConfig = {

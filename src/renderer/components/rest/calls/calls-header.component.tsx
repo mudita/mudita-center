@@ -140,10 +140,8 @@ const CallsHeader: FunctionComponent<Props> = ({
       ...textFormatters,
     }
     const onDelete = async () => {
-      if (selectedCallsIds.length > 0) {
-        deleteCall(selectedCallsIds)
-        resetRows()
-      }
+      deleteCall(selectedCallsIds)
+      resetRows()
       await modalService.closeModal()
     }
     const modalConfig = {
