@@ -1,6 +1,7 @@
 import { startApp, stopApp } from "App/tests/hooks"
+import { PhoneTestIds } from "Renderer/components/rest/overview/phone/phone-test-ids.enum"
 
-describe("Sample Test", () => {
+describe("Overview", () => {
   let app: any
 
   beforeEach(async () => {
@@ -11,13 +12,18 @@ describe("Sample Test", () => {
     await stopApp(app)
   }, 10000)
 
-  test("", async () => {
+  test("after clicking disconnect button, part of menu is not displayed", async () => {
     const overviewText = await app.client.getText("*[data-testid='location']")
     expect(overviewText).toEqual("Overview")
-
     const pureMenu = await app.client.isExisting(
       "*[data-testid='menu.header.yourPure']"
     )
     expect(pureMenu).toBeTruthy()
+    await app.client
+      .$(`*[data-testid=${PhoneTestIds.DisconnectButton}]`)
+      .click()
+    expect(
+      await app.client.isExisting("*[data-testid='menu.header.yourPure']")
+    ).toBeFalsy()
   })
 })
