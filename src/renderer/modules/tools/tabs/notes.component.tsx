@@ -19,10 +19,7 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import {
-  Checkbox,
-  isToday,
-} from "Renderer/components/rest/calls/calls-table.component"
+import { Checkbox } from "Renderer/components/rest/calls/calls-table.component"
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.interface"
 import {
   FiltersWrapper,
