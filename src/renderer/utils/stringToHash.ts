@@ -21,11 +21,11 @@ const stringToHash = (str: string) => {
 
   for (let i = 0; i < strLength; i++) {
     const char = str.charCodeAt(i)
-    hash = ((hash << 5) - hash) + char;
-    hash &= hash; // convert to 32bit integer
+    hash = (hash << 5) - hash + char
+    hash &= hash // convert to 32bit integer
   }
 
-  return hash;
-};
+  return hash
+}
 
-export default stringToHash;
+export default stringToHash

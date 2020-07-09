@@ -40,8 +40,9 @@ interface UpdateButtonProps {
   label?: string
 }
 
-const UpdateButtonComponent: FunctionComponent<UpdateButtonProps &
-  ButtonProps> = ({
+const UpdateButtonComponent: FunctionComponent<
+  UpdateButtonProps & ButtonProps
+> = ({
   onClick = noop,
   updating = false,
   label = intl.formatMessage({ id: "view.name.news.updateButtonLabel" }),

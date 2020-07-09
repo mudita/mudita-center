@@ -255,11 +255,11 @@ export const DownloadingUpdateModal = ({
   onCancel = noop,
 }: Partial<DownloadProgress & { onCancel: () => void }>) => {
   const starting = (
-    <FormattedMessage id={messages.downloadingUpdateDescriptionStarting.id} />
+    <FormattedMessage {...messages.downloadingUpdateDescriptionStarting} />
   )
   const downloading = (
     <FormattedMessage
-      id={messages.downloadingUpdateDescriptionDownloading.id}
+      {...messages.downloadingUpdateDescriptionDownloading}
       values={{
         speed: convertBytes(speed) + "/s",
         timeLeft: formatDuration(timeLeft || 0),
@@ -267,7 +267,7 @@ export const DownloadingUpdateModal = ({
     />
   )
   const finishing = (
-    <FormattedMessage id={messages.downloadingUpdateDescriptionFinishing.id} />
+    <FormattedMessage {...messages.downloadingUpdateDescriptionFinishing} />
   )
   return (
     <OSUpdateModal

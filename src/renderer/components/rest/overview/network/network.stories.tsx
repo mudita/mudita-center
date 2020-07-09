@@ -27,9 +27,7 @@ storiesOf("Overview|Network", module).add("Network", () => {
           One SIM card (active)
         </Text>
         <Network
-          simCards={getFakeAdapters()
-            .pureNetwork.getSimCards()
-            .slice(0, 1)}
+          simCards={getFakeAdapters().pureNetwork.getSimCards().slice(0, 1)}
         />
       </Part>
       <Part>
@@ -37,9 +35,7 @@ storiesOf("Overview|Network", module).add("Network", () => {
           One SIM card (inactive)
         </Text>
         <Network
-          simCards={getFakeAdapters()
-            .pureNetwork.getSimCards()
-            .slice(1, 2)}
+          simCards={getFakeAdapters().pureNetwork.getSimCards().slice(1, 2)}
           onSimChange={action("SIM changed")}
         />
       </Part>

@@ -23,7 +23,7 @@ const DevModeWrapper: FunctionComponent<DevModeProps> = ({
   devModeEnabled,
 }) => {
   const [active, setActive] = useState(true)
-  const toggleState = () => setActive(prevState => !prevState)
+  const toggleState = () => setActive((prevState) => !prevState)
 
   if (devModeEnabled) {
     return (

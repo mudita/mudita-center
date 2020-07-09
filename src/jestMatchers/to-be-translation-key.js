@@ -1,6 +1,6 @@
 const defaultTranslations = require("../renderer/locales/main/en-US.json")
 
-module.exports = received => {
+module.exports = (received) => {
   if (received && typeof received.innerHTML === "string") {
     const properResult = received.innerHTML
 

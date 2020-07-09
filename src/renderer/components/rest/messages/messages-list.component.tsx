@@ -179,7 +179,7 @@ const MessagesList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      {list.map(item => {
+      {list.map((item) => {
         const { messages, caller, unread, id } = item
         const { selected, indeterminate } = getRowStatus(item)
         const lastMessage = last(messages)
