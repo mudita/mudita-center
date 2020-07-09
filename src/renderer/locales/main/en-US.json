@@ -227,6 +227,7 @@
   "view.name.onboarding.troubleshooting.button": "Try again",
   "view.name.onboarding.troubleshooting.support.message": "Still doesn't work?",
   "view.name.onboarding.troubleshooting.support.button": "Contact support",
+  "view.name.meditationStats.chart.mainLabel": "Duration",
   "view.name.phone.contacts.panel.searchPlaceholder": "Search contacts",
   "view.name.phone.contacts.panel.manageButton": "Manage",
   "view.name.phone.contacts.panel.newContactButton": "New contact",
