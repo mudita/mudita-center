@@ -266,6 +266,7 @@ exports[`matches snapshot 1`] = `
     </div>
     <div
       class="c10"
+      data-testid="menu.header.yourPure"
     >
       <p
         class="c11"
@@ -551,6 +552,7 @@ exports[`matches snapshot 1`] = `
     </div>
     <div
       class="c10"
+      data-testid="menu.header.desktopApp"
     >
       <p
         class="c11"
