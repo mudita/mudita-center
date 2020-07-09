@@ -48,6 +48,8 @@ import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { useTextEditor } from "Renderer/components/core/text-editor/text-editor.hook"
 import { defineMessages } from "react-intl"
 import TextEditor from "Renderer/components/core/text-editor/text-editor.component"
+import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
+import { isToday } from "Renderer/utils/is-today"
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -193,7 +195,10 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
 
       <TableWithSidebarWrapper>
         {notesAvailable ? (
-          <Table hideColumns={Boolean(activeRow)} hideableColumnsIndexes={[2]}>
+          <Table
+            hideColumns={Boolean(activeRow)}
+            hideableColumnsIndexes={[2, 3]}
+          >
             <Labels size={RowSize.Small}>
               <Col />
               <Col>
@@ -210,6 +215,10 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
               {notes.map(note => {
                 const { id, content, date } = note
                 const { selected, indeterminate } = getRowStatus(note)
+                const { get: getAutosavedNote } = useTemporaryStorage(
+                  id,
+                  content
+                )
 
                 const toggle = () => {
                   if (sidebarOpened) {
@@ -244,7 +253,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
                     </Col>
                     <TextPreview onClick={handleTextPreviewClick}>
                       <TextCut displayStyle={TextDisplayStyle.LargeText}>
-                        {content}
+                        {(getAutosavedNote() || "").substr(0, 250)}
                       </TextCut>
                     </TextPreview>
                     <Col onClick={noop}>

@@ -25,6 +25,7 @@ import { UseTableSidebar } from "Renderer/utils/hooks/useTableSidebar"
 import { InView } from "react-intersection-observer"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.interface"
 import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
+import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 
 export const animatedOpacityStyles = css`
   opacity: 0;
@@ -127,6 +128,11 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
         templates.map(item => {
           const { selected } = getRowStatus(item)
 
+          const { get: getAutosavedTemplate } = useTemporaryStorage(
+            item.id,
+            item.content
+          )
+
           const toggle = () => {
             if (sidebarOpened) {
               closeSidebar()
@@ -160,7 +166,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
               </Col>
               <TextPreview onClick={handleTextPreviewClick}>
                 <Text displayStyle={TextDisplayStyle.LargeText}>
-                  {item.content.substr(0, 250)}
+                  {(getAutosavedTemplate() || "").substr(0, 250)}
                 </Text>
               </TextPreview>
               <Col>
