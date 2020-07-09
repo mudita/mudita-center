@@ -26,7 +26,7 @@ const TemplatesSidebar = styled(Sidebar)`
 
 export interface Template {
   id: string
-  text: string
+  content: string
 }
 
 export interface TemplatesProps {

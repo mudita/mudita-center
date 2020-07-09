@@ -100,7 +100,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   }
   const openModal = () => openDeleteModal()
   return (
-    <MessageFiltersWrapper checkMode selectionMode={selectionMode}>
+    <MessageFiltersWrapper selectionMode={selectionMode}>
       {!selectionMode && (
         <UnreadFilters data-testid={MessagePanelTestIds.FilterButtons}>
           <ButtonToggler>

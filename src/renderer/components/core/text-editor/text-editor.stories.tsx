@@ -20,7 +20,7 @@ const StoryWrapper = styled.div`
 const defaultText = templates[0]
 
 const StaticStory = ({
-  temporaryText = defaultText.text,
+  temporaryText = defaultText.content,
   keepTemporaryText = noop,
   rejectChanges = noop,
   saveChanges = noop,

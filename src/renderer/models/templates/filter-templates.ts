@@ -8,7 +8,7 @@ const prepareStringForSearch = (text: string) => {
 export const filterTemplates = (templates: Template[], searchValue: string) => {
   if (searchValue) {
     return templates.filter(template => {
-      return prepareStringForSearch(template.text).includes(
+      return prepareStringForSearch(template.content).includes(
         prepareStringForSearch(searchValue)
       )
     })

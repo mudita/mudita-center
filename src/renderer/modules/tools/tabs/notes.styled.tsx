@@ -3,7 +3,8 @@ import { InputText } from "Renderer/components/core/input-text/input-text.elemen
 import BaseSelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
 import BaseTable, {
   Row as BaseRow,
-  Col as BaseCol,
+  Col,
+  Sidebar,
 } from "Renderer/components/core/table/table.component"
 import Text from "Renderer/components/core/text/text.component"
 import { Checkbox } from "Renderer/components/rest/calls/calls-table.component"
@@ -39,11 +40,6 @@ export const SearchButton = styled(Button)`
   justify-self: flex-end;
 `
 
-export const Table = styled(BaseTable)`
-  --columnsTemplate: 4rem 73.5rem auto 5rem;
-  --columnsGap: 0;
-`
-
 export const TextCut = styled(Text)`
   width: 59rem;
   white-space: nowrap;
@@ -52,9 +48,21 @@ export const TextCut = styled(Text)`
   cursor: pointer;
 `
 
-export const DeleteCol = styled(BaseCol)`
+export const DeleteCol = styled(Col)`
   opacity: 0;
   transition: opacity ${transitionTime("veryQuick")};
+`
+
+export const Table = styled(BaseTable)`
+  --columnsGap: 0;
+  --columnsTemplate: 4rem 59rem 1fr 5rem;
+  --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
+
+  ${Col} {
+    &:nth-of-type(3) {
+      margin-left: 14.5rem;
+    }
+  }
 `
 
 export const Row = styled(BaseRow)`
@@ -70,19 +78,19 @@ export const Row = styled(BaseRow)`
   }
 `
 
-export const Col = styled(BaseCol)`
-  align-self: stretch;
-`
-
 export const SelectionManager = styled(BaseSelectionManager)`
   animation: ${showToggleableElement} 1s forwards linear;
   margin-left: -2rem;
   width: 72rem;
 `
 
-export const EmptyState = styled.div`
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  min-height: 30rem;
+export const NotesSidebar = styled(Sidebar)`
+  --header-height: 5.6rem;
+  margin-top: 4.7rem;
+`
+
+export const TextPreview = styled(Col)`
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
 `

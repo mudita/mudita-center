@@ -115,7 +115,7 @@ const CallsHeader: FunctionComponent<Props> = ({
   }
   const selectionMode = selectedItemsCount > 0
   return (
-    <CallsFiltersWrapper checkMode selectionMode={selectionMode}>
+    <CallsFiltersWrapper selectionMode={selectionMode}>
       {selectionMode ? (
         <CallsSelectionManager
           selectedItemsNumber={selectedItemsCount}
