@@ -5,11 +5,11 @@ describe("Sample Test", () => {
 
   beforeEach(async () => {
     app = await startApp()
-  })
+  }, 10000)
 
   afterEach(async () => {
     await stopApp(app)
-  })
+  }, 10000)
 
   test("opens a window, checks its count", async () => {
     const count = await app.client.waitUntilWindowLoaded().getWindowCount()
