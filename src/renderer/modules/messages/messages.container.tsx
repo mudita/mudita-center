@@ -13,13 +13,46 @@ const selector = select(({ messages }) => ({
   list: messages.filteredList,
 }))
 
+type ContactsCollection = Record<string, Contact>
+
 const getContactsAsMap = (contacts: Contact[]) => {
-  return contacts.reduce((acc: Record<string, Contact>, item: Contact) => {
+  return contacts.reduce((acc: ContactsCollection, item: Contact) => {
     return {
       ...acc,
       [item.id]: item,
     }
   }, {})
+}
+
+const getContactDetails = (
+  id: string,
+  collection: ContactsCollection
+): Contact | false => {
+  if (id in collection) {
+    return collection[id]
+  }
+
+  return false
+}
+
+const expandTopic = (topic: Topic, collection: ContactsCollection) => {
+  const { messages } = topic
+
+  return {
+    ...topic,
+    messages: messages.map((msg) => {
+      const author = getContactDetails(msg.author.id, collection)
+
+      if (author) {
+        return {
+          ...msg,
+          author,
+        }
+      }
+
+      return msg
+    }),
+  }
 }
 
 const getMessagesWithAuthorsSelector = (state: any) => {
@@ -32,11 +65,12 @@ const getMessagesWithAuthorsSelector = (state: any) => {
 
   return topics.map((topic: Topic) => {
     const { id } = topic.caller
-    if (id in contacts) {
+    const caller = getContactDetails(id, contacts)
+
+    if (caller) {
       return {
-        ...topic,
-        fetched: true,
-        caller: contacts[id],
+        ...expandTopic(topic, contacts),
+        caller,
       }
     }
 

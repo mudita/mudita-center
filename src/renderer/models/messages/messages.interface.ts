@@ -3,7 +3,11 @@ import { Contact } from "Renderer/models/phone/phone.interface"
 
 export type Author = Pick<
   Contact,
-  "id" | "firstName" | "lastName" | "primaryPhoneNumber"
+  | "id"
+  | "firstName"
+  | "lastName"
+  | "primaryPhoneNumber"
+  | "secondaryPhoneNumber"
 >
 
 export interface Content {
