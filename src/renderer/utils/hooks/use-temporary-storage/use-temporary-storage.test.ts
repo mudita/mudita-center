@@ -19,7 +19,7 @@ beforeEach(() => {
 })
 
 test("temporary object is not created on init", () => {
-  expect(result.current.getTemporaryValue()).toBe(undefined)
+  expect(result.current.getTemporaryValue()).toBeUndefined()
 })
 
 test("temporary data is stored properly", () => {
@@ -40,7 +40,7 @@ test("temporary data is updated properly", () => {
 test("temporary data is removed properly", () => {
   result.current.setTemporaryValue(testObject.value)
   result.current.removeTemporaryValue()
-  expect(result.current.getTemporaryValue()).toBe(undefined)
+  expect(result.current.getTemporaryValue()).toBeUndefined()
 })
 
 test("default data is returned properly", () => {
