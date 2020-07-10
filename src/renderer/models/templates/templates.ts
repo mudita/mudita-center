@@ -1,15 +1,14 @@
-import { templates } from "Renderer/components/core/table/table.fake-data"
 import { StateProps } from "Renderer/models/templates/templates.interface"
 import { Slicer } from "@rematch/select"
 import { filterTemplates } from "Renderer/models/templates/filter-templates"
 
-const initalState: StateProps = {
-  templates,
+export const initialState: StateProps = {
+  templates: [],
   searchValue: "",
 }
 
 export default {
-  state: initalState,
+  state: initialState,
   reducers: {
     changeSearchValue(
       state: StateProps,

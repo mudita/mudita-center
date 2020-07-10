@@ -1,15 +1,13 @@
 import { Slicer } from "@rematch/select"
 import { StateProps } from "Renderer/models/messages/messages.interface"
-import { rowsMessages } from "Renderer/components/core/table/table.fake-data"
 import {
   filterTopics,
   searchTopics,
   sortTopics,
 } from "Renderer/models/messages/utils/topics-utils"
-import { mockedMessages } from "App/__mocks__/mocked-messages"
 
-const initialState: StateProps = {
-  topics: [mockedMessages, ...rowsMessages],
+export const initialState: StateProps = {
+  topics: [],
   searchValue: "",
 }
 

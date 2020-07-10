@@ -20,7 +20,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   changeSearchValue = noop,
   changeVisibilityFilter = noop,
   deleteConversation = noop,
-  list,
+  fullMessages: list,
 }) => {
   const [messagesList, setMessagesList] = useState(list)
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Topic>()
