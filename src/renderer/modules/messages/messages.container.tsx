@@ -14,6 +14,7 @@ const selector = select(({ messages }) => ({
 }))
 
 type ContactsCollection = Record<string, Contact>
+type Getter = (id: string, collection: ContactsCollection) => Contact | false
 
 const getContactsAsMap = (contacts: Contact[]) => {
   return contacts.reduce((acc: ContactsCollection, item: Contact) => {
@@ -35,13 +36,17 @@ const getContactDetails = (
   return false
 }
 
-const expandTopic = (topic: Topic, collection: ContactsCollection) => {
+const expandTopic = (
+  topic: Topic,
+  collection: ContactsCollection,
+  getter: Getter
+) => {
   const { messages } = topic
 
   return {
     ...topic,
     messages: messages.map((msg) => {
-      const author = getContactDetails(msg.author.id, collection)
+      const author = getter(msg.author.id, collection)
 
       if (author) {
         return {
@@ -55,7 +60,7 @@ const expandTopic = (topic: Topic, collection: ContactsCollection) => {
   }
 }
 
-const getMessagesWithAuthorsSelector = (state: any) => {
+const getMessagesWithAuthorsSelector = (state: any, getter: Getter) => {
   const {
     messages: { topics },
     phone: { contacts: baseContacts },
@@ -65,11 +70,11 @@ const getMessagesWithAuthorsSelector = (state: any) => {
 
   return topics.map((topic: Topic) => {
     const { id } = topic.caller
-    const caller = getContactDetails(id, contacts)
+    const caller = getter(id, contacts)
 
     if (caller) {
       return {
-        ...expandTopic(topic, contacts),
+        ...expandTopic(topic, contacts, getter),
         caller,
       }
     }
@@ -80,7 +85,7 @@ const getMessagesWithAuthorsSelector = (state: any) => {
 
 const mapStateToProps = (state: RootModel) => ({
   ...selector(state, {}),
-  fullMessages: getMessagesWithAuthorsSelector(state),
+  list: getMessagesWithAuthorsSelector(state, getContactDetails),
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
