@@ -49,7 +49,10 @@ export const useTextEditor = (
     removeTemporaryValue,
   } = useTemporaryStorage(defaultTextObject.id)
 
-  const defaultText = getTemporaryValue() || defaultTextObject.content
+  const temporaryValue = getTemporaryValue()
+
+  const defaultText =
+    temporaryValue === undefined ? defaultTextObject.content : temporaryValue
 
   const { autosaveDebounceTime, statusChangeDelay } = options
   const [text, setText] = useState(defaultText)
