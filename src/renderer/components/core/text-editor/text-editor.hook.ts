@@ -152,7 +152,7 @@ export const useTextEditor = (
   useEffect(() => {
     setText(defaultText)
     init.current = true
-  }, [defaultTextObject.content])
+  }, [defaultTextObject.id, defaultTextObject.content])
 
   return {
     temporaryText: text,
