@@ -161,6 +161,6 @@ export const sortedBasicRows = [...basicRows].sort((a, b) => {
   return a.firstName > b.firstName ? 1 : -1
 })
 
-export const labeledRows = groupBy(sortedBasicRows, row =>
+export const labeledRows = groupBy(sortedBasicRows, (row) =>
   row.firstName.charAt(0)
 )

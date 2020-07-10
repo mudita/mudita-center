@@ -210,7 +210,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
               </Col>
             </Labels>
             <div data-testid={NotesTestIds.ItemsWrapper}>
-              {notes.map(note => {
+              {notes.map((note) => {
                 const { id, content, date } = note
                 const { selected } = getRowStatus(note)
                 const { getTemporaryValue } = useTemporaryStorage<string>(

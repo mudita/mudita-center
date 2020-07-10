@@ -13,9 +13,9 @@ interface FakeUpdatedStatus {
   fakeUpdatedStatus?: () => void
 }
 
-const Overview: FunctionComponent<BasicInfoInitialState &
-  PhoneUpdateStore &
-  FakeUpdatedStatus> = ({
+const Overview: FunctionComponent<
+  BasicInfoInitialState & PhoneUpdateStore & FakeUpdatedStatus
+> = ({
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,

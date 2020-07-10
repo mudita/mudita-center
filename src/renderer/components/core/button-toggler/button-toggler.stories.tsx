@@ -56,7 +56,7 @@ storiesOf("Components|Core/Button Toggler", module)
   .add("Interactive - single button", () => {
     const [enabled, setEnabledState] = useState(false)
 
-    const toggleEnabledState = () => setEnabledState(prevState => !prevState)
+    const toggleEnabledState = () => setEnabledState((prevState) => !prevState)
     return (
       <>
         <Story title="Default theme">

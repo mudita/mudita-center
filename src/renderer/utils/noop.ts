@@ -3,5 +3,5 @@ export const noop = (...args: unknown[]): void => {
 }
 
 export const asyncNoop = (...args: unknown[]): Promise<any> => {
-  return new Promise<any>(resolve => resolve())
+  return new Promise<any>((resolve) => resolve())
 }

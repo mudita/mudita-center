@@ -21,11 +21,11 @@ export function renderWithThemeAndIntl(
 export function renderWithThemeAndIntl<Q extends Queries>(
   ui: React.ReactElement,
   options: RenderOptions<Q>
-): RenderResult<Q>
+): RenderResult
 export function renderWithThemeAndIntl<Q extends Queries>(
   ui: React.ReactElement,
-  options?: RenderOptions<Q> | Omit<RenderOptions, "queries">
-) {
+  options?: RenderOptions<Q>
+): RenderResult {
   return render<Q>(
     <ThemeProvider theme={theme}>
       <IntlProvider

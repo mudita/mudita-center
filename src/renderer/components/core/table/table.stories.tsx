@@ -535,7 +535,7 @@ storiesOf("Components|Table/Basic", module)
             />
           </Col>
         </Labels>
-        {data.map(row => {
+        {data.map((row) => {
           return (
             <Row key={`${row.firstName} ${row.lastName}`}>
               <Col>
@@ -738,7 +738,7 @@ storiesOf("Components|Table/Grouped", module)
   ))
   .add("With data", () => (
     <Contacts>
-      {Object.keys(labeledRows).map(group => (
+      {Object.keys(labeledRows).map((group) => (
         <Group key={group}>
           <Labels>
             <Col>{group}</Col>
@@ -757,7 +757,7 @@ storiesOf("Components|Table/Grouped", module)
   ))
   .add("With hidden columns", () => (
     <Contacts hideableColumnsIndexes={[1]} hideColumns>
-      {Object.keys(labeledRows).map(group => (
+      {Object.keys(labeledRows).map((group) => (
         <Group key={group}>
           <Labels>
             <Col>{group}</Col>
@@ -798,7 +798,7 @@ storiesOf("Components|Table/Grouped", module)
     return (
       <TableWithSidebarWrapper>
         <Contacts hideableColumnsIndexes={[1]} hideColumns={sidebarOpened}>
-          {Object.keys(labeledRows).map(group => (
+          {Object.keys(labeledRows).map((group) => (
             <Group key={group}>
               <Labels>
                 <Col>{group}</Col>
@@ -833,7 +833,7 @@ storiesOf("Components|Table/Grouped", module)
     const { toggleRow, getRowStatus } = useTableSelect(nestedRows)
     return (
       <SelectableContacts>
-        {Object.keys(labeledRows).map(group => (
+        {Object.keys(labeledRows).map((group) => (
           <Group key={group}>
             <Labels>
               <Col />

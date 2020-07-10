@@ -17,7 +17,7 @@ require("dotenv").config()
 let win: BrowserWindow | null
 
 // Fetch all errors and display in console along with alert box
-process.on("uncaughtException", error => {
+process.on("uncaughtException", (error) => {
   console.log(error)
   alert(error.message)
 })
@@ -28,7 +28,7 @@ const installExtensions = async () => {
   const extensions = ["REACT_DEVELOPER_TOOLS", "REDUX_DEVTOOLS"]
 
   return Promise.all(
-    extensions.map(name => installer.default(installer[name], forceDownload))
+    extensions.map((name) => installer.default(installer[name], forceDownload))
   ).catch(console.log)
 }
 

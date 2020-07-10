@@ -229,9 +229,9 @@ const InputFile: FunctionComponent<InputFileProps> = ({
 
     const acceptedTypes = accept
       .split(",")
-      .map(acceptedType => acceptedType.trim())
+      .map((acceptedType) => acceptedType.trim())
 
-    const fileTypeAllowed = acceptedTypes.some(acceptedType => {
+    const fileTypeAllowed = acceptedTypes.some((acceptedType) => {
       if (acceptedType.includes("/")) {
         // MIME type
         return file.type.startsWith(acceptedType.replace("/*", "/"))
@@ -243,7 +243,7 @@ const InputFile: FunctionComponent<InputFileProps> = ({
 
     if (!fileTypeAllowed && !errorMessage) {
       const extensions = acceptedTypes
-        .map(acceptedType => {
+        .map((acceptedType) => {
           return acceptedType.replace("/*", "")
         })
         .join(", ")

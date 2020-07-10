@@ -1,6 +1,6 @@
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom"
-import { wait } from "@testing-library/react"
+import { waitFor } from "@testing-library/react"
 import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -40,7 +40,7 @@ test("renders dropdown", async () => {
 
   fireEvent.click(getByText(buttonText))
 
-  await wait(() => {
+  await waitFor(() => {
     expect(getByTestId("dropdown")).toBeInTheDocument()
     expect(container).toMatchSnapshot()
   })
@@ -63,7 +63,7 @@ test("renders children", async () => {
 
   fireEvent.click(getByText(buttonText))
 
-  await wait(() => {
+  await waitFor(() => {
     expect(getByText(childText)).toBeInTheDocument()
   })
 })

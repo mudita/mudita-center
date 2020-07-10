@@ -196,12 +196,12 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     onCancel(contact)
   }
 
-  const handleSave = handleSubmit(data => {
+  const handleSave = handleSubmit((data) => {
     const formData = {
       ...contact,
       ...data,
       speedDial:
-        data.speedDial.toString() ===
+        data.speedDial?.toString() ===
         intl.formatMessage(messages.speedDialKeySelect)
           ? undefined
           : Number(data.speedDial),

@@ -7,7 +7,7 @@ export const getBase64 = async (url: string) => {
         responseType: "arraybuffer",
       })
       .then(
-        response =>
+        (response) =>
           "data:image;base64," +
           Buffer.from(response.data, "binary").toString("base64")
       )
