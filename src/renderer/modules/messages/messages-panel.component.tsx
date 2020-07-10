@@ -76,8 +76,11 @@ const MessagesPanel: FunctionComponent<Props> = ({
   const openDeleteModal = () => {
     const selectedConversationsIds = selectedConversations.map(({ id }) => id)
     const uniqueSelectedRows = uniqBy(selectedConversations, "caller.id")
-    const caller = uniqueSelectedRows[0].caller
-    const nameAvailable = isNameAvailable(caller)
+    const uniqueCaller = uniqueSelectedRows[0].caller
+    const nameAvailable = isNameAvailable(uniqueCaller)
+    const caller = nameAvailable
+      ? createFullName(uniqueCaller)
+      : uniqueCaller.primaryPhoneNumber
     const textIntlValues = {
       num: allItemsSelected ? -1 : selectedConversationsIds.length,
       ...textFormatters,
@@ -94,9 +97,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
           ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
           : intl.formatMessage(deleteModalMessages.uniqueText, {
               ...textIntlValues,
-              caller: nameAvailable
-                ? createFullName(caller)
-                : caller.primaryPhoneNumber,
+              caller,
             }),
       onDelete,
       onClose: resetRows,

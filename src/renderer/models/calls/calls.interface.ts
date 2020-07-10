@@ -13,7 +13,7 @@ export enum VisibilityFilter {
 
 export interface Call {
   id: string
-  caller: Pick<Contact, "firstName" | "lastName" | "primaryPhoneNumber">
+  caller: Pick<Contact, "id" | "firstName" | "lastName" | "primaryPhoneNumber">
   duration: number
   date: Date
   timesMissed: number

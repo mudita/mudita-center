@@ -9,6 +9,7 @@ const createCall = () => {
   return {
     id: Faker.random.uuid(),
     caller: {
+      id: Faker.random.uuid(),
       firstName: Math.random() < 0.6 ? Faker.name.firstName() : "",
       lastName: Math.random() < 0.6 ? Faker.name.lastName() : "",
       primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),

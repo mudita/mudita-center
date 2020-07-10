@@ -133,8 +133,11 @@ const CallsHeader: FunctionComponent<Props> = ({
   const openDeleteModal = () => {
     const selectedCallsIds = selectedCalls.map(({ id }) => id)
     const uniqueSelectedRows = uniqBy(selectedCalls, "caller.id")
-    const caller = uniqueSelectedRows[0].caller
-    const nameAvailable = isNameAvailable(caller)
+    const uniqueCaller = uniqueSelectedRows[0].caller
+    const nameAvailable = isNameAvailable(uniqueCaller)
+    const caller = nameAvailable
+      ? createFullName(uniqueCaller)
+      : uniqueCaller.primaryPhoneNumber
     const textIntlValues = {
       num: allRowsSelected ? -1 : selectedCallsIds.length,
       ...textFormatters,
@@ -151,9 +154,7 @@ const CallsHeader: FunctionComponent<Props> = ({
           ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
           : intl.formatMessage(deleteModalMessages.uniqueText, {
               ...textIntlValues,
-              caller: nameAvailable
-                ? createFullName(caller)
-                : caller.primaryPhoneNumber,
+              caller,
             }),
       onDelete,
       onClose: resetRows,
