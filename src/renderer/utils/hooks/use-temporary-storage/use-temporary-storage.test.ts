@@ -1,5 +1,8 @@
-import { renderHook } from "@testing-library/react-hooks"
-import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
+import { HookResult, renderHook } from "@testing-library/react-hooks"
+import {
+  useTemporaryStorage,
+  UseTemporaryStorageHook,
+} from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 
 const testObject = {
   id: "abc123",
@@ -9,34 +12,40 @@ const testObject = {
   },
 }
 
-test("data is stored and retrieved properly", () => {
-  const { result } = renderHook(() => useTemporaryStorage(testObject.id))
+let result: HookResult<UseTemporaryStorageHook<typeof testObject.value>>
 
-  result.current.set(testObject.value)
-  expect(result.current.get()).toStrictEqual(testObject.value)
+beforeEach(() => {
+  ;({ result } = renderHook(() => useTemporaryStorage(testObject.id)))
 })
 
-test("data is updated properly", () => {
-  const { result } = renderHook(() => useTemporaryStorage(testObject.id))
-
-  result.current.set(testObject.value)
-  expect(result.current.get()).toStrictEqual(testObject.value)
-  result.current.set("test")
-  expect(result.current.get()).toBe("test")
+test("temporary object is not created on init", () => {
+  expect(result.current.getTemporaryValue()).toBe(undefined)
 })
 
-test("data is removed properly", () => {
-  const { result } = renderHook(() => useTemporaryStorage(testObject.id))
-
-  result.current.remove()
-  expect(result.current.get()).toBe(undefined)
+test("temporary data is stored properly", () => {
+  result.current.setTemporaryValue(testObject.value)
+  expect(result.current.getTemporaryValue()).toStrictEqual(testObject.value)
 })
 
-test("default data is restored properly", () => {
-  const { result } = renderHook(() =>
+test("temporary data is updated properly", () => {
+  const newObject = { foo: "bar1", bar: "bar2" }
+
+  result.current.setTemporaryValue(testObject.value)
+  expect(result.current.getTemporaryValue()).toStrictEqual(testObject.value)
+
+  result.current.setTemporaryValue(newObject)
+  expect(result.current.getTemporaryValue()).toStrictEqual(newObject)
+})
+
+test("temporary data is removed properly", () => {
+  result.current.setTemporaryValue(testObject.value)
+  result.current.removeTemporaryValue()
+  expect(result.current.getTemporaryValue()).toBe(undefined)
+})
+
+test("default data is returned properly", () => {
+  ;({ result } = renderHook(() =>
     useTemporaryStorage(testObject.id, testObject.value)
-  )
-
-  result.current.remove()
-  expect(result.current.get()).toBe(testObject.value)
+  ))
+  expect(result.current.getTemporaryValue()).toStrictEqual(testObject.value)
 })

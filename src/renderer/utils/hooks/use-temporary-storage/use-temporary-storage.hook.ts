@@ -1,6 +1,6 @@
 import log from "electron-log"
 
-interface UseTemporaryStorageHook<T> {
+export interface UseTemporaryStorageHook<T> {
   setTemporaryValue: (value: T) => void
   getTemporaryValue: () => T
   removeTemporaryValue: () => void
