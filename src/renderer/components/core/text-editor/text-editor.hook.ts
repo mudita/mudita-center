@@ -147,7 +147,7 @@ export const useTextEditor = (
   useEffect(() => {
     setText(defaultText)
     init.current = true
-  }, [defaultTextObject.text])
+  }, [defaultTextObject.content])
 
   return {
     temporaryText: text,
