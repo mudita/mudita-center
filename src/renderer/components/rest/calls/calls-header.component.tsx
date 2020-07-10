@@ -139,6 +139,15 @@ const CallsHeader: FunctionComponent<Props> = ({
       num: allRowsSelected ? -1 : selectedCallsIds.length,
       ...textFormatters,
     }
+    const text =
+      uniqueSelectedRows.length > 1
+        ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
+        : intl.formatMessage(deleteModalMessages.uniqueText, {
+            ...textIntlValues,
+            caller: nameAvailable
+              ? createFullName(caller)
+              : caller.primaryPhoneNumber,
+          })
     const onDelete = async () => {
       deleteCall(selectedCallsIds)
       resetRows()
@@ -146,15 +155,7 @@ const CallsHeader: FunctionComponent<Props> = ({
     }
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),
-      text:
-        uniqueSelectedRows.length > 1
-          ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
-          : intl.formatMessage(deleteModalMessages.uniqueText, {
-              ...textIntlValues,
-              caller: nameAvailable
-                ? createFullName(caller)
-                : caller.primaryPhoneNumber,
-            }),
+      text,
       onDelete,
       onClose: resetRows,
     }
