@@ -12,11 +12,16 @@ import styled from "styled-components"
 import { useTextEditor } from "Renderer/components/core/text-editor/text-editor.hook"
 import TextEditor from "Renderer/components/core/text-editor/text-editor.component"
 import { defineMessages } from "react-intl"
-import { intl } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
+import modalService from "Renderer/components/core/modal/modal.service"
+import DeleteTemplateModal from "Renderer/modules/messages/tabs/delete-template-modal.component"
 
 const messages = defineMessages({
   charactersNumber: { id: "view.name.messages.templates.charactersNumber" },
+  title: { id: "view.name.messages.templatesDeleteModal.title" },
+  many: { id: "view.name.messages.templatesDeleteModal.many" },
+  single: { id: "view.name.messages.templatesDeleteModal.single" },
 })
 
 const TemplatesSidebar = styled(Sidebar)`
@@ -31,20 +36,24 @@ export interface Template {
 
 export interface TemplatesProps {
   templates: Template[]
-  onDeleteButtonClick?: () => void
   onNewButtonClick?: () => void
   onSearchTermChange?: (event: ChangeEvent<HTMLInputElement>) => void
+  onDeleteButtonClick: (ids: string[]) => void
 }
 
 const Templates: FunctionComponent<TemplatesProps> = ({
-  onDeleteButtonClick = noop,
   onNewButtonClick = noop,
   onSearchTermChange = noop,
   templates = [],
+  onDeleteButtonClick,
 }) => {
-  const { selectedRows, allRowsSelected, toggleAll, ...rest } = useTableSelect<
-    Template
-  >(templates)
+  const {
+    selectedRows,
+    allRowsSelected,
+    toggleAll,
+    resetRows,
+    ...rest
+  } = useTableSelect<Template>(templates)
 
   const sidebarHook = useTableSidebar<Template>()
   const { closeSidebar, activeRow } = sidebarHook
@@ -54,10 +63,50 @@ const Templates: FunctionComponent<TemplatesProps> = ({
     temporaryText: { length: textLength },
   } = textEditorHook
 
+  const onDelete = async (collection: string[]) => {
+    onDeleteButtonClick(collection)
+    resetRows()
+    await modalService.closeModal()
+  }
+
+  const onClose = () => {
+    resetRows()
+  }
+
+  const modalConfig = (
+    deleteFn: (ids?: string[]) => void | Promise<void>,
+    single: boolean = selectedRows.length === 1
+  ) => ({
+    onClose,
+    onDelete: deleteFn,
+    title: intl.formatMessage(messages.title),
+    messageCount: selectedRows.length,
+    text: intl.formatMessage(single ? messages.single : messages.many, {
+      num: selectedRows.length,
+      ...textFormatters,
+    }),
+  })
+
+  const openModalForMany = async () => {
+    const deleteMany = () => onDelete(selectedRows.map(({ id }) => id))
+
+    await modalService.openModal(
+      <DeleteTemplateModal {...modalConfig(deleteMany)} />
+    )
+  }
+
+  const openModalForSingle = async (id: string) => {
+    const deleteSingle = () => onDelete([id])
+
+    await modalService.openModal(
+      <DeleteTemplateModal {...modalConfig(deleteSingle, true)} />
+    )
+  }
+
   return (
     <>
       <TemplatesPanel
-        onDeleteButtonClick={onDeleteButtonClick}
+        onDeleteButtonClick={openModalForMany}
         onNewButtonClick={onNewButtonClick}
         onSearchTermChange={onSearchTermChange}
         selectedItemsCount={selectedRows.length}
@@ -65,7 +114,12 @@ const Templates: FunctionComponent<TemplatesProps> = ({
         toggleAll={toggleAll}
       />
       <TableWithSidebarWrapper>
-        <TemplatesList templates={templates} {...sidebarHook} {...rest} />
+        <TemplatesList
+          templates={templates}
+          deleteTemplate={openModalForSingle}
+          {...sidebarHook}
+          {...rest}
+        />
         <TemplatesSidebar show={Boolean(activeRow)} onClose={closeSidebar}>
           {activeRow && (
             <TextEditor
