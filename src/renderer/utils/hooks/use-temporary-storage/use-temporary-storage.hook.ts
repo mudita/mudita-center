@@ -1,7 +1,7 @@
 interface UseTemporaryStorageHook {
-  set: (value: any) => void
-  get: () => any
-  remove: () => void
+  setTemporaryValue: (value: any) => void
+  getTemporaryValue: () => any
+  removeTemporaryValue: () => void
 }
 
 export const useTemporaryStorage = (
@@ -21,8 +21,8 @@ export const useTemporaryStorage = (
   const remove = () => storage.removeItem(key)
 
   return {
-    set,
-    get,
-    remove,
+    setTemporaryValue: set,
+    getTemporaryValue: get,
+    removeTemporaryValue: remove,
   }
 }

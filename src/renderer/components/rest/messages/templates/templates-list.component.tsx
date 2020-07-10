@@ -128,7 +128,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
         templates.map(item => {
           const { selected } = getRowStatus(item)
 
-          const { get: getAutosavedTemplate } = useTemporaryStorage(
+          const { getTemporaryValue } = useTemporaryStorage(
             item.id,
             item.content
           )
@@ -166,7 +166,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
               </Col>
               <TextPreview onClick={handleTextPreviewClick}>
                 <Text displayStyle={TextDisplayStyle.LargeText}>
-                  {(getAutosavedTemplate() || "").substr(0, 250)}
+                  {(getTemporaryValue() || "").substr(0, 250)}
                 </Text>
               </TextPreview>
               <Col>

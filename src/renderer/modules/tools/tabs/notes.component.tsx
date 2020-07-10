@@ -212,10 +212,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
               {notes.map(note => {
                 const { id, content, date } = note
                 const { selected, indeterminate } = getRowStatus(note)
-                const { get: getAutosavedNote } = useTemporaryStorage(
-                  id,
-                  content
-                )
+                const { getTemporaryValue } = useTemporaryStorage(id, content)
 
                 const toggle = () => {
                   if (sidebarOpened) {
@@ -250,7 +247,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
                     </Col>
                     <TextPreview onClick={handleTextPreviewClick}>
                       <TextCut displayStyle={TextDisplayStyle.LargeText}>
-                        {(getAutosavedNote() || "").substr(0, 250)}
+                        {(getTemporaryValue() || "").substr(0, 250)}
                       </TextCut>
                     </TextPreview>
                     <Col onClick={noop}>

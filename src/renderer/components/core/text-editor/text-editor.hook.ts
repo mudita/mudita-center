@@ -44,12 +44,12 @@ export const useTextEditor = (
   }
 ) => {
   const {
-    set: setTemporaryText,
-    get: getTemporaryText,
-    remove: removeTemporaryText,
+    setTemporaryValue,
+    getTemporaryValue,
+    removeTemporaryValue,
   } = useTemporaryStorage(defaultTextObject.id)
 
-  const defaultText = getTemporaryText() || defaultTextObject.content
+  const defaultText = getTemporaryValue() || defaultTextObject.content
 
   const { autosaveDebounceTime, statusChangeDelay } = options
   const [text, setText] = useState(defaultText)
@@ -92,7 +92,7 @@ export const useTextEditor = (
 
   const autoSave = () => {
     setStatus({ type: Action.AutoSave, payload: SaveStatus.Saving })
-    setTemporaryText(text)
+    setTemporaryValue(text)
     debounceAutoSavedStatusSetter()
   }
   const debounceAutoSave = useCallback(
@@ -102,7 +102,7 @@ export const useTextEditor = (
 
   const clearAutoSave = () => {
     setStatus({ type: Action.AutoSave, payload: undefined })
-    removeTemporaryText()
+    removeTemporaryValue()
   }
 
   const rejectChanges = () => {
