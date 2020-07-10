@@ -1,6 +1,7 @@
 import { init } from "@rematch/core"
 import calls from "Renderer/models/calls/calls"
 import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
+import { mockData } from "App/__mocks__/calls-mock-data"
 
 let store = init({
   models: { calls },
@@ -18,11 +19,14 @@ test("by default, visibility should be set to all calls", () => {
 })
 
 test("deletes call", () => {
-  const callToDelete = store.getState().calls.calls[0].id
-  const initialCallsAmount = store.getState().calls.calls.length
-  store.dispatch.calls.deleteCall([callToDelete])
-  const callsAmountAfterDeleting = store.getState().calls.calls.length
-  expect(callsAmountAfterDeleting).toEqual(initialCallsAmount - 1)
+  const lookupId = mockData[0].id
+  expect(
+    store.getState().calls.calls.find(({ id }) => id === lookupId)
+  ).toBeDefined()
+  store.dispatch.calls.deleteCall([lookupId])
+  expect(
+    store.getState().calls.calls.find(({ id }) => id === lookupId)
+  ).toBeUndefined()
 })
 
 test.each([

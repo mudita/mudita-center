@@ -1,6 +1,6 @@
-import { CallStatus } from "Renderer/models/calls/calls.interface"
+import { Call, CallStatus } from "Renderer/models/calls/calls.interface"
 
-export const mockData = [
+export const mockData: Call[] = [
   {
     id: "05ed5479-1770-44e8-9e7c-09b2ddc87195",
     caller: {
