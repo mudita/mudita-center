@@ -15,6 +15,7 @@ const mapStateToProps = (state: RootModel) => ({
 const mapDispatchToProps = (dispatch: any) => ({
   changeVisibilityFilter: (filter: VisibilityFilter) =>
     dispatch.calls.changeVisibilityFilter(filter),
+  deleteCall: (ids: string[]) => dispatch.calls.deleteCall(ids),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calls)

@@ -5,9 +5,10 @@ import {
 import { calls } from "App/renderer/components/core/table/table.fake-data"
 import { Slicer } from "@rematch/select"
 import { filterCalls } from "Renderer/models/calls/filter-calls"
+import { mockData } from "App/__mocks__/calls-mock-data"
 
 const initalState: StateProps = {
-  calls,
+  calls: [...mockData, ...calls],
   visibilityFilter: VisibilityFilter.All,
 }
 
@@ -19,6 +20,10 @@ export default {
       visibilityFilter: StateProps["visibilityFilter"]
     ) {
       return { ...state, visibilityFilter }
+    },
+    deleteCall(state: StateProps, ids: string[]) {
+      const updatedCalls = state.calls.filter(({ id }) => !ids.includes(id))
+      return { ...state, calls: updatedCalls }
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({
