@@ -195,6 +195,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
           <Table
             hideColumns={Boolean(activeRow)}
             hideableColumnsIndexes={[2, 3]}
+            role="list"
           >
             <Labels size={RowSize.Small}>
               <Col />
@@ -211,8 +212,10 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
             <div data-testid={NotesTestIds.ItemsWrapper}>
               {notes.map(note => {
                 const { id, content, date } = note
-                const { selected, indeterminate } = getRowStatus(note)
+                const { selected } = getRowStatus(note)
                 const { getTemporaryValue } = useTemporaryStorage(id, content)
+
+                const text = getTemporaryValue().substr(0, 250)
 
                 const toggle = () => {
                   if (sidebarOpened) {
@@ -222,11 +225,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
                 }
 
                 const handleTextPreviewClick = () => {
-                  if (noRowsSelected) {
-                    openSidebar(note)
-                  } else {
-                    toggle()
-                  }
+                  noRowsSelected ? openSidebar(note) : toggle()
                 }
 
                 return (
@@ -234,12 +233,12 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
                     key={id}
                     data-testid={NotesTestIds.Note}
                     active={activeRow?.id === id}
+                    role="listitem"
                   >
                     <Col>
                       <Checkbox
                         data-testid={NotesTestIds.Checkbox}
                         checked={selected}
-                        indeterminate={indeterminate}
                         onChange={toggle}
                         size={CheckboxSize.Small}
                         visible={!noRowsSelected}
@@ -247,7 +246,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
                     </Col>
                     <TextPreview onClick={handleTextPreviewClick}>
                       <TextCut displayStyle={TextDisplayStyle.LargeText}>
-                        {(getTemporaryValue() || "").substr(0, 250)}
+                        {text}
                       </TextCut>
                     </TextPreview>
                     <Col onClick={noop}>

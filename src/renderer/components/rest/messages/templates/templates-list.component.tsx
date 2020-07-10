@@ -26,6 +26,14 @@ import { InView } from "react-intersection-observer"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.interface"
 import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
 import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  emptyStateTitle: { id: "view.name.messages.templates.emptyList.title" },
+  emptyStateDescription: {
+    id: "view.name.messages.templates.emptyList.decription",
+  },
+})
 
 export const animatedOpacityStyles = css`
   opacity: 0;
@@ -125,34 +133,30 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
       hideableColumnsIndexes={[2]}
     >
       {templates.length > 0 ? (
-        templates.map(item => {
-          const { selected } = getRowStatus(item)
+        templates.map(template => {
+          const { id, content } = template
+          const { selected } = getRowStatus(template)
 
-          const { getTemporaryValue } = useTemporaryStorage(
-            item.id,
-            item.content
-          )
+          const { getTemporaryValue } = useTemporaryStorage(id, content)
+
+          const text = getTemporaryValue().substr(0, 250)
 
           const toggle = () => {
             if (sidebarOpened) {
               closeSidebar()
             }
-            toggleRow(item)
+            toggleRow(template)
           }
 
           const handleTextPreviewClick = () => {
-            if (noneRowsSelected) {
-              openSidebar(item)
-            } else {
-              toggle()
-            }
+            noneRowsSelected ? openSidebar(template) : toggle()
           }
 
           const interactiveRow = (ref: Ref<HTMLDivElement>) => (
             <ListRow
-              key={item.id}
+              key={id}
               selected={selected}
-              active={activeRow === item}
+              active={activeRow?.id === id}
               ref={ref}
               role="listitem"
             >
@@ -165,9 +169,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                 />
               </Col>
               <TextPreview onClick={handleTextPreviewClick}>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
-                  {(getTemporaryValue() || "").substr(0, 250)}
-                </Text>
+                <Text displayStyle={TextDisplayStyle.LargeText}>{text}</Text>
               </TextPreview>
               <Col>
                 <ButtonComponent
@@ -179,17 +181,17 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
           )
 
           const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-            <ListRow key={item.id} ref={ref} role="listitem">
+            <ListRow key={id} ref={ref} role="listitem">
               <Col />
               <Col>
-                <TextPlaceholder charsCount={item.content.length} />
+                <TextPlaceholder charsCount={content.length} />
               </Col>
               <Col />
             </ListRow>
           )
 
           return (
-            <InView key={item.id}>
+            <InView key={id}>
               {({ inView, ref }) =>
                 inView ? interactiveRow(ref) : placeholderRow(ref)
               }
@@ -198,10 +200,8 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
         })
       ) : (
         <TemplatesEmptyState
-          title={{ id: "view.name.messages.templates.emptyList.title" }}
-          description={{
-            id: "view.name.messages.templates.emptyList.description",
-          }}
+          title={messages.emptyStateTitle}
+          description={messages.emptyStateDescription}
           data-testid={TemplatesTestIds.EmptyState}
         />
       )}
