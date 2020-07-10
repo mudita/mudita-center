@@ -213,7 +213,10 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
               {notes.map(note => {
                 const { id, content, date } = note
                 const { selected } = getRowStatus(note)
-                const { getTemporaryValue } = useTemporaryStorage(id, content)
+                const { getTemporaryValue } = useTemporaryStorage<string>(
+                  id,
+                  content
+                )
 
                 const text = getTemporaryValue().substr(0, 250)
 

@@ -1,19 +1,19 @@
 import log from "electron-log"
 
-interface UseTemporaryStorageHook {
-  setTemporaryValue: (value: any) => void
-  getTemporaryValue: () => any
+interface UseTemporaryStorageHook<T> {
+  setTemporaryValue: (value: T) => void
+  getTemporaryValue: () => T
   removeTemporaryValue: () => void
 }
 
-export const useTemporaryStorage = (
+export const useTemporaryStorage = <T = any>(
   id: string | number,
-  originalValue?: any
-): UseTemporaryStorageHook => {
+  originalValue?: T
+): UseTemporaryStorageHook<T> => {
   const storage = window.sessionStorage
   const key = `temporary_storage_${id}`
 
-  const set = (value: any) => {
+  const set = (value: T) => {
     try {
       storage.setItem(key, JSON.stringify(value))
     } catch (error) {

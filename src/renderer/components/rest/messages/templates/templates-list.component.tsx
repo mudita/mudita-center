@@ -137,7 +137,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
           const { id, content } = template
           const { selected } = getRowStatus(template)
 
-          const { getTemporaryValue } = useTemporaryStorage(id, content)
+          const { getTemporaryValue } = useTemporaryStorage<string>(id, content)
 
           const text = getTemporaryValue().substr(0, 250)
 
