@@ -13,6 +13,7 @@ import {
   Text,
 } from "Renderer/components/core/text-editor/text-editor.component"
 import { asyncNoop } from "Renderer/utils/noop"
+import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 
 const normalizeText = (text: string) => {
   return text.replace(new RegExp(/\r?\n|\r/g), " ")
@@ -42,9 +43,16 @@ export const useTextEditor = (
     statusChangeDelay: 500,
   }
 ) => {
-  const sessionItemKey = `autosave_${defaultTextObject.id}`
-  const autosavedText = window.sessionStorage.getItem(sessionItemKey)
-  const defaultText = autosavedText || defaultTextObject.content
+  const {
+    setTemporaryValue,
+    getTemporaryValue,
+    removeTemporaryValue,
+  } = useTemporaryStorage(defaultTextObject.id)
+
+  const temporaryValue = getTemporaryValue()
+
+  const defaultText =
+    temporaryValue === undefined ? defaultTextObject.content : temporaryValue
 
   const { autosaveDebounceTime, statusChangeDelay } = options
   const [text, setText] = useState(defaultText)
@@ -87,7 +95,7 @@ export const useTextEditor = (
 
   const autoSave = () => {
     setStatus({ type: Action.AutoSave, payload: SaveStatus.Saving })
-    window.sessionStorage.setItem(sessionItemKey, text)
+    setTemporaryValue(text)
     debounceAutoSavedStatusSetter()
   }
   const debounceAutoSave = useCallback(
@@ -97,7 +105,7 @@ export const useTextEditor = (
 
   const clearAutoSave = () => {
     setStatus({ type: Action.AutoSave, payload: undefined })
-    window.sessionStorage.removeItem(sessionItemKey)
+    removeTemporaryValue()
   }
 
   const rejectChanges = () => {
@@ -147,7 +155,7 @@ export const useTextEditor = (
   useEffect(() => {
     setText(defaultText)
     init.current = true
-  }, [defaultTextObject])
+  }, [defaultTextObject.id, defaultTextObject.content])
 
   return {
     temporaryText: text,
