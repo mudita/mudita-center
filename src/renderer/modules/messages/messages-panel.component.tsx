@@ -75,7 +75,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   const selectionMode = selectedItemsCount > 0
   const openDeleteModal = () => {
     const selectedConversationsIds = selectedConversations.map(({ id }) => id)
-    const uniqueSelectedRows = uniqBy(selectedConversations, "id")
+    const uniqueSelectedRows = uniqBy(selectedConversations, "caller.id")
     const caller = uniqueSelectedRows[0].caller
     const nameAvailable = isNameAvailable(caller)
     const textIntlValues = {

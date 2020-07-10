@@ -132,7 +132,7 @@ const CallsHeader: FunctionComponent<Props> = ({
   const selectionMode = selectedCalls.length > 0
   const openDeleteModal = () => {
     const selectedCallsIds = selectedCalls.map(({ id }) => id)
-    const uniqueSelectedRows = uniqBy(selectedCalls, "id")
+    const uniqueSelectedRows = uniqBy(selectedCalls, "caller.id")
     const caller = uniqueSelectedRows[0].caller
     const nameAvailable = isNameAvailable(caller)
     const textIntlValues = {
