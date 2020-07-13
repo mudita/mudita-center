@@ -1,10 +1,10 @@
-import { Slicer } from "@rematch/select"
 import { StateProps } from "Renderer/models/messages/messages.interface"
 import {
   filterTopics,
   searchTopics,
   sortTopics,
 } from "Renderer/models/messages/utils/topics-utils"
+import { createFullMessagesCollection } from "Renderer/models/messages/utils/messages.helpers"
 
 export const initialState: StateProps = {
   topics: [],
@@ -31,14 +31,14 @@ export default {
       return { ...state, topics }
     },
   },
-  selectors: (slice: Slicer<StateProps>) => ({
+  selectors: () => ({
     filteredList() {
-      return slice((state) => {
-        let list = state.topics
-        list = searchTopics(list, state.searchValue)
-        list = filterTopics(list, state.visibilityFilter)
+      return (state: any) => {
+        let list = createFullMessagesCollection(state)
+        list = searchTopics(list, state.messages.searchValue)
+        list = filterTopics(list, state.messages.visibilityFilter)
         return sortTopics(list)
-      })
+      }
     },
   }),
 }
