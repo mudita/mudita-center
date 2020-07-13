@@ -9,24 +9,27 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size as CheckboxSize } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
+  Col,
+  EmptyState,
   Labels,
+  RowSize,
   TableSortButton,
+  TableWithSidebarWrapper,
 } from "Renderer/components/core/table/table.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
-import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.interface"
 import {
-  Col,
-  EmptyState,
   FiltersWrapper,
   Row,
   SearchButton,
   SearchInput,
   SelectionManager,
+  NotesSidebar,
+  TextPreview,
   Table,
   TextCut,
   DeleteCol,
@@ -38,8 +41,53 @@ import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 import { intl } from "Renderer/utils/intl"
-import { isToday } from "Renderer/utils/is-today"
 import { noop } from "Renderer/utils/noop"
+import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import { useTextEditor } from "Renderer/components/core/text-editor/text-editor.hook"
+import { defineMessages } from "react-intl"
+import TextEditor from "Renderer/components/core/text-editor/text-editor.component"
+import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
+import { isToday } from "Renderer/utils/is-today"
+
+const messages = defineMessages({
+  searchPlaceholder: {
+    id: "view.name.tools.notes.searchPlaceholder",
+  },
+  searchNotes: {
+    id: "view.name.tools.notes.searchNotes",
+  },
+  emptyListTitle: {
+    id: "view.name.tools.notes.emptyList.title",
+  },
+  emptyListNoNotes: {
+    id: "view.name.tools.notes.emptyList.noNotes",
+  },
+  emptyListNotFound: {
+    id: "view.name.tools.notes.emptyList.notFound",
+  },
+  newNote: {
+    id: "view.name.tools.notes.newNote",
+  },
+  note: {
+    id: "view.name.tools.notes.note",
+  },
+  edited: {
+    id: "view.name.tools.notes.edited",
+  },
+  today: {
+    id: "view.generic.today",
+  },
+  selectionsNumber: {
+    id: "view.name.tools.notes.selectionsNumber",
+  },
+  newButton: {
+    id: "view.name.tools.notes.newButton",
+  },
+  deleteButton: {
+    id: "view.name.tools.notes.deleteButton",
+  },
+  charactersNumber: { id: "view.name.tools.notes.editor.charactersNumber" },
+})
 
 interface Note {
   date: Date
@@ -55,6 +103,7 @@ const mockFilter = (data: Note[], ids: string[]): Note[] =>
   data.filter(({ id }) => ids.indexOf(id) === -1)
 
 const Notes: FunctionComponent<NotesProps> = ({ data }) => {
+  const maxCharacters = 4000
   const [notes, setNotes] = useState<Note[]>([])
   const { data: sortedData, sort, sortDirection } = useSort(data)
   const {
@@ -64,7 +113,17 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
     selectedRows,
     toggleAll,
   } = useTableSelect(data)
+  const {
+    openSidebar,
+    closeSidebar,
+    activeRow,
+    sidebarOpened,
+  } = useTableSidebar<Note>()
 
+  const textEditorHook = useTextEditor(activeRow)
+  const {
+    temporaryText: { length: textLength },
+  } = textEditorHook
   const sortByDate = () => sort("date")
 
   const filterOutMessages = () => {
@@ -90,16 +149,14 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
 
   return (
     <>
-      <FiltersWrapper checkMode>
+      <FiltersWrapper>
         {selectionManagerVisible ? (
           <SelectionManager
             data-testid={NotesTestIds.SelectionElement}
             selectedItemsNumber={selectedRows.length}
             allItemsSelected={selectedRows.length === notes.length}
             onToggle={toggleAll}
-            message={{
-              id: "view.name.notes.selected",
-            }}
+            message={messages.selectionsNumber}
             checkboxSize={CheckboxSize.Small}
             buttons={[
               <ButtonComponent
@@ -116,85 +173,118 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
             data-testid={NotesTestIds.SearchElement}
             type={"search"}
             disabled={!notesAvailable}
-            label={intl.formatMessage({
-              id: notesAvailable
-                ? "view.name.notes.searchNotes"
-                : "view.name.notes.noNotes",
-            })}
+            label={intl.formatMessage(
+              notesAvailable ? messages.searchNotes : messages.emptyListNoNotes
+            )}
             outlined
           />
         )}
         <SearchButton
           displayStyle={DisplayStyle.Primary}
           size={ButtonSize.FixedBig}
-          label={intl.formatMessage({
-            id: "view.name.notes.newNote",
-          })}
+          label={intl.formatMessage(messages.newNote)}
           onClick={noop}
           Icon={Type.PlusSign}
         />
       </FiltersWrapper>
 
-      {notesAvailable ? (
-        <Table>
-          <Labels>
-            <Col />
-            <Col>
-              <Text message={{ id: "view.name.notes.note" }} />
-            </Col>
-            <Col onClick={sortByDate}>
-              <Text message={{ id: "view.name.notes.edited" }} />
-              <TableSortButton
-                sortDirection={sortDirection.date || SortDirection.Ascending}
-              />
-            </Col>
-          </Labels>
-          <div data-testid={NotesTestIds.ItemsWrapper}>
-            {notes.map(note => {
-              const { id, content, date } = note
-              const { selected, indeterminate } = getRowStatus(note)
-              const toggle = () => toggleRow(note)
+      <TableWithSidebarWrapper>
+        {notesAvailable ? (
+          <Table
+            hideColumns={Boolean(activeRow)}
+            hideableColumnsIndexes={[2, 3]}
+            role="list"
+          >
+            <Labels size={RowSize.Small}>
+              <Col />
+              <Col>
+                <Text message={messages.note} />
+              </Col>
+              <Col onClick={sortByDate}>
+                <Text message={messages.edited} />
+                <TableSortButton
+                  sortDirection={sortDirection.date || SortDirection.Ascending}
+                />
+              </Col>
+            </Labels>
+            <div data-testid={NotesTestIds.ItemsWrapper}>
+              {notes.map((note) => {
+                const { id, content, date } = note
+                const { selected } = getRowStatus(note)
+                const { getTemporaryValue } = useTemporaryStorage<string>(
+                  id,
+                  content
+                )
 
-              return (
-                <Row key={id} data-testid={NotesTestIds.Note}>
-                  <Col>
-                    <Checkbox
-                      data-testid={NotesTestIds.Checkbox}
-                      checked={selected}
-                      indeterminate={indeterminate}
-                      onChange={toggle}
-                      size={CheckboxSize.Small}
-                      visible={!noRowsSelected}
-                    />
-                  </Col>
-                  <Col onClick={noop}>
-                    <TextCut displayStyle={TextDisplayStyle.LargeText}>
-                      {content}
-                    </TextCut>
-                  </Col>
-                  <Col onClick={noop}>
-                    <Text displayStyle={TextDisplayStyle.LargeText}>
-                      {isToday(date)
-                        ? intl.formatMessage({ id: "view.generic.today" })
-                        : moment(date).format("ll")}
-                    </Text>
-                  </Col>
-                  <DeleteCol onClick={noop}>
-                    <Icon type={Type.Delete} width={1.5} />
-                  </DeleteCol>
-                </Row>
-              )
-            })}
-          </div>
-        </Table>
-      ) : (
-        <EmptyState data-testid={NotesTestIds.Empty}>
-          <Text
-            message={{ id: "view.name.notes.noNotes" }}
-            displayStyle={TextDisplayStyle.LargeText}
+                const text = getTemporaryValue().substr(0, 250)
+
+                const toggle = () => {
+                  if (sidebarOpened) {
+                    closeSidebar()
+                  }
+                  toggleRow(note)
+                }
+
+                const handleTextPreviewClick = () => {
+                  noRowsSelected ? openSidebar(note) : toggle()
+                }
+
+                return (
+                  <Row
+                    key={id}
+                    data-testid={NotesTestIds.Note}
+                    active={activeRow?.id === id}
+                    role="listitem"
+                  >
+                    <Col>
+                      <Checkbox
+                        data-testid={NotesTestIds.Checkbox}
+                        checked={selected}
+                        onChange={toggle}
+                        size={CheckboxSize.Small}
+                        visible={!noRowsSelected}
+                      />
+                    </Col>
+                    <TextPreview onClick={handleTextPreviewClick}>
+                      <TextCut displayStyle={TextDisplayStyle.LargeText}>
+                        {text}
+                      </TextCut>
+                    </TextPreview>
+                    <Col onClick={noop}>
+                      <Text displayStyle={TextDisplayStyle.LargeText}>
+                        {isToday(date)
+                          ? intl.formatMessage(messages.today)
+                          : moment(date).format("ll")}
+                      </Text>
+                    </Col>
+                    <DeleteCol onClick={noop}>
+                      <Icon type={Type.Delete} width={1.5} />
+                    </DeleteCol>
+                  </Row>
+                )
+              })}
+            </div>
+          </Table>
+        ) : (
+          <EmptyState
+            title={messages.emptyListTitle}
+            description={messages.emptyListNoNotes}
+            data-testid={NotesTestIds.Empty}
           />
-        </EmptyState>
-      )}
+        )}
+        <NotesSidebar show={Boolean(activeRow)} onClose={closeSidebar}>
+          {activeRow && (
+            <TextEditor
+              {...textEditorHook}
+              statsInfoError={textLength > maxCharacters}
+              statsInfo={intl.formatMessage(messages.charactersNumber, {
+                currentCharacters: textLength,
+                maxCharacters,
+              })}
+            />
+          )}
+        </NotesSidebar>
+      </TableWithSidebarWrapper>
     </>
   )
 }

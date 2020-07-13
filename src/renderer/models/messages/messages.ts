@@ -35,7 +35,7 @@ export default {
   },
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {
-      return slice(state => {
+      return slice((state) => {
         let list = state.topics
         list = searchTopics(list, state.searchValue)
         list = filterTopics(list, state.visibilityFilter)

@@ -42,7 +42,7 @@ export default {
   state: initialStateValue,
   selectors: (slice: Slicer<typeof initialStateValue>) => ({
     memoryChartData() {
-      return slice(state => {
+      return slice((state) => {
         return state.memoryData
       })
     },

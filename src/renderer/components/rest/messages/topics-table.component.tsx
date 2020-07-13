@@ -110,12 +110,12 @@ export const UnreadFilters = styled.div`
   justify-content: space-between;
 `
 
-export const FiltersWrapper = styled.div<{ checkMode: boolean }>`
+export const FiltersWrapper = styled.div`
   display: grid;
   grid-column-gap: 4rem;
   grid-template-areas: "Filters Search New";
   align-items: center;
-  height: 10.5rem;
+  height: 10rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
   padding: 0 3rem;
 `

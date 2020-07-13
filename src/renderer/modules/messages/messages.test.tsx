@@ -48,9 +48,9 @@ test("when at least one checkbox is checked, all checkboxes are visible", () => 
   const { getAllByTestId } = renderer()
   mockAllIsIntersecting(true)
   const checkboxes = getAllByTestId("checkbox")
-  checkboxes.forEach(checkbox => expect(checkbox).not.toBeVisible())
+  checkboxes.forEach((checkbox) => expect(checkbox).not.toBeVisible())
   fireEvent.click(checkboxes[0])
-  checkboxes.forEach(checkbox => expect(checkbox).toBeVisible())
+  checkboxes.forEach((checkbox) => expect(checkbox).toBeVisible())
 })
 
 test("dropdown call button has correct content", () => {

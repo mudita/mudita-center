@@ -88,7 +88,7 @@ export class ModalService {
     }
 
     const animationEndPromise = (element: HTMLElement) => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         const child = element.firstChild as HTMLElement
         child.style.animationName = "fadeOut"
 

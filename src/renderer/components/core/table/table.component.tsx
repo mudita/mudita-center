@@ -229,7 +229,7 @@ const SidebarWrapper = styled.div<{
   background-color: ${backgroundColor("row")};
   border-left: solid 0.1rem ${borderColor("list")};
   border-top: solid 0.1rem ${borderColor("list")};
-  margin-right: ${({ show }) => (show ? 0 : -62)}rem;
+  margin-right: ${({ show }) => (show ? 0 : -62.1)}rem;
 `
 
 export const SidebarHeaderIcon = styled(ButtonComponent).attrs(() => ({
@@ -399,7 +399,7 @@ const TableComponent = styled.div<TableProps>`
 
       ${Col} {
         ${hideableColumnsIndexes.map(
-          column =>
+          (column) =>
             css`
               &:nth-of-type(${column + 1}) {
                 display: none;

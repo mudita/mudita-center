@@ -23,7 +23,7 @@ const Cards: FunctionComponent<Props> = ({ newsItems, loadData = noop }) => {
   }, [])
   return (
     <CardContainer>
-      {newsItems.map(newsItem => {
+      {newsItems.map((newsItem) => {
         return (
           <Card
             {...newsItem}

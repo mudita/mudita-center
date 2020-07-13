@@ -43,7 +43,7 @@ interface DeleteContactModalProps {
 const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
   onDelete = noop,
   onClose = noop,
-  deleting,
+  deleting = false,
   title,
   text,
   ...rest

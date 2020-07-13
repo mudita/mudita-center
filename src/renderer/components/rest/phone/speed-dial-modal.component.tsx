@@ -76,7 +76,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
         {Array.from({ length: 8 }).map((_, index) => {
           const speedDialNumber = index + 2
           const speedDialContact = flatContactsList.find(
-            contact => contact.speedDial === speedDialNumber
+            (contact) => contact.speedDial === speedDialNumber
           )
 
           return (

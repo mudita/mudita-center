@@ -32,7 +32,7 @@ export default {
   }),
   selectors: (slice: Slicer<typeof initialState>) => ({
     newsSortedByCreationDateInDescendingOrder() {
-      return slice(state => {
+      return slice((state) => {
         return sortByCreationDateInDescendingOrder(state.newsItems)
       })
     },

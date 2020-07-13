@@ -88,7 +88,7 @@ export default {
     },
     async deleteContacts(contacts: Contact[], state: RootState) {
       const deletedContactsIds = await deleteContacts(
-        contacts.map(contact => contact.id)
+        contacts.map((contact) => contact.id)
       )
       const updatedContacts = state.phone.contacts.filter(
         ({ id }) => !deletedContactsIds.includes(id)
@@ -98,14 +98,14 @@ export default {
   }),
   selectors: (slice: Slicer<StoreData>) => ({
     grouped() {
-      return slice(state => {
+      return slice((state) => {
         return generateSortedStructure(
           filterContacts(state.contacts, state.inputValue)
         )
       })
     },
     speedDialContacts() {
-      return slice(state => {
+      return slice((state) => {
         return state.contacts.filter((contact: Contact) => contact.speedDial)
       })
     },

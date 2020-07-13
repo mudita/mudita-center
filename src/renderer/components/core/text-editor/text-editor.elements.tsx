@@ -3,7 +3,7 @@ import Text, {
   getTextStyles,
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { fontWeight } from "Renderer/styles/theming/theme-getters"
+import { fontWeight, textColor } from "Renderer/styles/theming/theme-getters"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { StyledIcon } from "Renderer/components/core/button/button.styled.elements"
 
@@ -64,10 +64,16 @@ export const Buttons = styled.div`
 
 export const StatsInfo = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.MediumFadedLightText,
-}))`
+}))<{ error?: boolean }>`
   align-self: flex-end;
   margin-top: 3.2rem;
   margin-bottom: 4rem;
+
+  ${({ error }) =>
+    error &&
+    css`
+      color: ${textColor("error")};
+    `};
 `
 
 export const TextEditorWrapper = styled.section`

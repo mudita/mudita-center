@@ -20,7 +20,7 @@ const StoryWrapper = styled.div`
 const defaultText = templates[0]
 
 const StaticStory = ({
-  temporaryText = defaultText.text,
+  temporaryText = defaultText.content,
   keepTemporaryText = noop,
   rejectChanges = noop,
   saveChanges = noop,
@@ -75,7 +75,7 @@ storiesOf("Components|TextEditor", module)
     const [note, setNote] = useState(templates[0])
 
     const fakeSave = (newNote: Text) => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(() => {
           setNote(newNote)
           resolve()

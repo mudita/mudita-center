@@ -15,6 +15,7 @@ const createCall = () => {
   return {
     id: Faker.random.uuid(),
     caller: {
+      id: Faker.random.uuid(),
       firstName: Math.random() < 0.6 ? Faker.name.firstName() : "",
       lastName: Math.random() < 0.6 ? Faker.name.lastName() : "",
       primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
@@ -37,7 +38,7 @@ export const calls = times(random(5, 15), createCall)
 
 const createText = () => ({
   id: Faker.random.uuid(),
-  text: Faker.lorem.paragraphs(random(1, 3)),
+  content: Faker.lorem.paragraphs(random(1, 3)),
 })
 
 export const templates = times(random(15, 25), createText)
@@ -168,6 +169,6 @@ export const sortedBasicRows = [...basicRows].sort((a, b) => {
   return a.firstName > b.firstName ? 1 : -1
 })
 
-export const labeledRows = groupBy(sortedBasicRows, row =>
+export const labeledRows = groupBy(sortedBasicRows, (row) =>
   row.firstName.charAt(0)
 )

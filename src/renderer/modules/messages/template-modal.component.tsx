@@ -55,7 +55,7 @@ const TemplateModal: FunctionComponent<Props> = ({
     })}
   >
     <TemplatesWrapper>
-      {templates.map(template => {
+      {templates.map((template) => {
         const chooseTemplate = () => {
           selectTemplate(template.id)
         }
@@ -63,7 +63,7 @@ const TemplateModal: FunctionComponent<Props> = ({
           <li key={template.id} onClick={chooseTemplate}>
             <TemplateRow size={RowSize.Tiny}>
               <TemplateText displayStyle={TextDisplayStyle.MediumText}>
-                {template.text}
+                {template.content}
               </TemplateText>
             </TemplateRow>
           </li>

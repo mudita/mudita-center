@@ -1,6 +1,6 @@
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
-import { wait } from "@testing-library/react"
+import { waitFor } from "@testing-library/react"
 import React from "react"
 import ButtonToggler, {
   ButtonTogglerItem,
@@ -67,7 +67,7 @@ test("switches active state properly", async () => {
 
   const clickOnButton = async (index: number) => {
     fireEvent.click(getButtons()[index])
-    await wait(() =>
+    await waitFor(() =>
       expect(onToggle).toHaveBeenCalledWith(threeStateToggler[index])
     )
   }
