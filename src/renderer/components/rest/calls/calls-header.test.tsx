@@ -3,10 +3,13 @@ import React from "react"
 import CallsHeader from "Renderer/components/rest/calls/calls-header.component"
 import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
 import { CallsHeaderTestIds } from "Renderer/components/rest/calls/calls-header-test-ids.enum"
+import { mockData } from "App/__mocks__/calls-mock-data"
 
 const defaultProps = {
   changeVisibilityFilter: jest.fn(),
-  selectedItemsCount: 0,
+  resetRows: jest.fn(),
+  deleteCall: jest.fn(),
+  selectedCalls: [],
 }
 
 const renderer = (extraProps?: {}) => {
@@ -36,6 +39,6 @@ test("unread filters are displayed by default", () => {
 })
 
 test("when at least 1 item is selected, selection manager is displayed", () => {
-  const { getByTestId } = renderer({ selectedItemsCount: 2 })
+  const { getByTestId } = renderer({ selectedCalls: mockData })
   expect(getByTestId(CallsHeaderTestIds.SelectionManager)).toBeInTheDocument()
 })

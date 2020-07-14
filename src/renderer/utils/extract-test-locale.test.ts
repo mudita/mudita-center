@@ -13,7 +13,8 @@ test("values are the same as keys", () => {
 })
 
 test("empty dictionaries should be handled properly", () => {
-  jest.spyOn(global.console, "warn")
+  const spy = jest.spyOn(global.console, "warn").mockImplementation()
   expect(extractLanguageKeys({})).toMatchObject({})
   expect(console.warn).toBeCalledWith("Translation dictionary is empty!")
+  spy.mockRestore()
 })

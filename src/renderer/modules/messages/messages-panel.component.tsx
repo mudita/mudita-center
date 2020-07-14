@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { UnreadFilters } from "Renderer/components/rest/messages/topics-table.component"
 import ButtonToggler from "Renderer/components/core/button-toggler/button-toggler.component"
-import { intl } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import Button from "Renderer/components/core/button/button.component"
 import {
@@ -25,8 +25,11 @@ import {
 } from "Renderer/modules/messages/messages-panel.styled"
 import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
 import modalService from "Renderer/components/core/modal/modal.service"
-import MessagesDeleteModal from "Renderer/modules/messages/messages-delete-modal.component"
 import { uniqBy } from "lodash"
+import { defineMessages } from "react-intl"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import { createFullName } from "Renderer/models/phone/phone.utils"
+import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 
 const toggleState = [
   intl.formatMessage({
@@ -36,6 +39,12 @@ const toggleState = [
     id: "view.name.messages.unreadOnly",
   }),
 ] as const
+
+const deleteModalMessages = defineMessages({
+  title: { id: "view.name.messages.deleteModal.title" },
+  text: { id: "view.name.messages.deleteModal.text" },
+  uniqueText: { id: "view.name.messages.deleteModal.uniqueText" },
+})
 
 interface Props {
   showAllMessages?: () => void
@@ -64,39 +73,36 @@ const MessagesPanel: FunctionComponent<Props> = ({
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedItemsCount > 0
-  const selectedConversationsIds = selectedConversations.map(({ id }) => id)
-  const uniqueSelectedRows = uniqBy(selectedConversations, "id")
   const openDeleteModal = () => {
-    const handleDelete = async () => {
-      modalService.rerenderModal(
-        <MessagesDeleteModal
-          deleting
-          onDelete={handleDelete}
-          selectedConversationsIdsCount={
-            allItemsSelected ? -1 : selectedConversationsIds.length
-          }
-          uniqueSelectedRows={uniqueSelectedRows}
-          resetRows={resetRows}
-        />
-      )
-      if (selectedConversationsIds.length > 0) {
-        deleteConversation(selectedConversationsIds)
-      }
+    const selectedConversationsIds = selectedConversations.map(({ id }) => id)
+    const uniqueSelectedRows = uniqBy(selectedConversations, "caller.id")
+    const uniqueCaller = uniqueSelectedRows[0].caller
+    const nameAvailable = isNameAvailable(uniqueCaller)
+    const caller = nameAvailable
+      ? createFullName(uniqueCaller)
+      : uniqueCaller.primaryPhoneNumber
+    const textIntlValues = {
+      num: allItemsSelected ? -1 : selectedConversationsIds.length,
+      ...textFormatters,
+    }
+    const onDelete = async () => {
+      deleteConversation(selectedConversationsIds)
       resetRows()
       await modalService.closeModal()
     }
-
-    modalService.openModal(
-      <MessagesDeleteModal
-        deleting={false}
-        onDelete={handleDelete}
-        selectedConversationsIdsCount={
-          allItemsSelected ? -1 : selectedConversationsIds.length
-        }
-        uniqueSelectedRows={uniqueSelectedRows}
-        resetRows={resetRows}
-      />
-    )
+    const modalConfig = {
+      title: intl.formatMessage(deleteModalMessages.title),
+      text:
+        uniqueSelectedRows.length > 1
+          ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
+          : intl.formatMessage(deleteModalMessages.uniqueText, {
+              ...textIntlValues,
+              caller,
+            }),
+      onDelete,
+      onClose: resetRows,
+    }
+    modalService.openModal(<DeleteModal {...modalConfig} />)
   }
   const openModal = () => openDeleteModal()
   return (

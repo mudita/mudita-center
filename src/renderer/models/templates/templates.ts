@@ -16,6 +16,12 @@ export default {
     ) {
       return { ...state, searchValue }
     },
+    removeItems(state: StateProps, itemsToRemove: string[]) {
+      return {
+        ...state,
+        templates: templates.filter(({ id }) => !itemsToRemove.includes(id)),
+      }
+    },
   },
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {

@@ -1,3 +1,4 @@
+import { noop } from "Renderer/utils/noop"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import Templates from "Renderer/modules/messages/tabs/templates-ui.component"
@@ -10,7 +11,10 @@ mockAllIsIntersecting(true)
 
 const renderer = (emptyState?: boolean) => {
   return renderWithThemeAndIntl(
-    <Templates templates={emptyState ? [] : mockedTemplateData} />
+    <Templates
+      templates={emptyState ? [] : mockedTemplateData}
+      onDeleteButtonClick={noop}
+    />
   )
 }
 

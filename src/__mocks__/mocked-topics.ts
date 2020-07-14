@@ -8,7 +8,7 @@ export const mockedTopics = [
       primaryPhoneNumber: "+21 538 135 131",
       secondaryPhoneNumber: "+26 382 179 659",
       email: "Cameron.Dibbert57@gmail.com",
-      note: "fuga minima error asperiores",
+      note: "fuga minima error asperiore",
       ice: false,
       favourite: false,
       blocked: true,
