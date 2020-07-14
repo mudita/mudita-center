@@ -40,7 +40,6 @@ const generateEmptyContact = (): Author => ({
   firstName: "",
   lastName: "",
   primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-  secondaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
 })
 
 const createAuthor = (inContacts: boolean): Author => {

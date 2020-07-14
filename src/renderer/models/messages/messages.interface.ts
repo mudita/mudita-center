@@ -3,11 +3,7 @@ import { Contact } from "Renderer/models/phone/phone.interface"
 
 export type Author = Pick<
   Contact,
-  | "id"
-  | "firstName"
-  | "lastName"
-  | "primaryPhoneNumber"
-  | "secondaryPhoneNumber"
+  "id" | "firstName" | "lastName" | "primaryPhoneNumber"
 >
 
 export interface Content {
@@ -17,7 +13,7 @@ export interface Content {
 
 export interface Message {
   id: string
-  date: Date
+  date: Date | string
   content: string
   interlocutor?: boolean
   author: Author
@@ -47,5 +43,4 @@ export type ComponentProps = Omit<StateProps, "topics"> &
     changeVisibilityFilter?: (filter: VisibilityFilter) => void
     deleteConversation?: (ids: string[]) => void
     list: Topic[]
-    fullMessages: Topic[]
   }>

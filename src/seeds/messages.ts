@@ -1,6 +1,6 @@
 import { initialState } from "Renderer/models/messages/messages"
 
-const data = [
+export const data = [
   {
     id: "4ad26ab9-2318-4f55-b3be-861498473211",
     caller: {

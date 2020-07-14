@@ -1,5 +1,3 @@
-import { random } from "lodash"
-
 import { messagesSeed } from "App/seeds/messages"
 import { phoneSeed } from "App/seeds/phone"
 
@@ -54,34 +52,36 @@ const contactsMock = {
   },
 }
 
-const testUser = phoneSeed.contacts[random(0, Object.keys(contactsMock).length)]
+const testUser = phoneSeed.contacts[1]
 
-describe("", () => {
-  test("properly creates object from array of contacts", () => {
-    const contactsMap = getContactsAsMap(phoneSeed.contacts)
+test("properly creates object from array of contacts", () => {
+  const contactsMap = getContactsAsMap(phoneSeed.contacts)
 
-    expect(typeof contactsMap === "object" && contactsMap !== null).toBeTruthy()
-    expect(contactsMap[testUser.id]).toMatchObject(testUser)
-  })
+  expect(typeof contactsMap === "object" && contactsMap !== null).toBeTruthy()
+  expect(contactsMap[testUser.id]).toMatchObject(testUser)
+})
 
-  test("properly returns contact data", () => {
+test("properly returns contact data", () => {
+  // @ts-ignore
+  const testUserData = contactsMock[testUser.id]
+  expect(getContactDetails(testUser.id, contactsMock)).toMatchObject(
+    testUserData
+  )
+})
+
+test("returns `false` when contact doesn't exist", () => {
+  expect(getContactDetails("non-existent-id", contactsMock)).toBeFalsy()
+})
+
+test("properly places caller data within conversation", () => {
+  const author = "TEST AUTHOR"
+  const result =
     // @ts-ignore
-    const testUserData = contactsMock[testUser.id]
-    expect(getContactDetails(testUser.id, contactsMock)).toMatchObject(
-      testUserData
+    expandTopic(messagesSeed.topics[0], contactsMock, () => author)
+
+  expect(
+    result.messages.every(
+      (item) => ((item.author as unknown) as string) === author
     )
-  })
-
-  test("properly places caller data within conversation", () => {
-    const author = "TEST AUTHOR"
-    const result =
-      // @ts-ignore
-      expandTopic(messagesSeed.topics[0], contactsMock, () => author)
-
-    expect(
-      result.messages.every(
-        (item) => ((item.author as unknown) as string) === author
-      )
-    ).toBeTruthy()
-  })
+  ).toBeTruthy()
 })
