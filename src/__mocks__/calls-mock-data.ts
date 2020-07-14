@@ -8,7 +8,7 @@ export const mockData = [
       id: "12321",
       firstName: "Judge",
       lastName: "Kris",
-      primaryPhoneNumber: "+48 755 853 217",
+      primaryPhoneNumber: "+48 755 853 216",
     },
     duration: 164,
     date: new Date("2019-07-02T13:24:08.717Z"),
