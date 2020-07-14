@@ -19,7 +19,7 @@ export const getContactsAsMap = (contacts: Contact[]) => {
 export const getContactDetails = (
   id: string,
   collection: ContactsCollection
-): Contact | false => {
+): Contact | undefined => {
   if (id in collection) {
     return collection[id]
   }
