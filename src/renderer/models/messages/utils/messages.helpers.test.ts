@@ -70,7 +70,7 @@ test("properly returns contact data", () => {
 })
 
 test("returns `false` when contact doesn't exist", () => {
-  expect(getContactDetails("non-existent-id", contactsMock)).toBeFalsy()
+  expect(getContactDetails("non-existent-id", contactsMock)).toBeUndefined()
 })
 
 test("properly places caller data within conversation", () => {

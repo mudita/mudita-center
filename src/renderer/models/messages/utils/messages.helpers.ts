@@ -5,7 +5,7 @@ export type ContactsCollection = Record<string, Contact>
 export type Getter = (
   id: string,
   collection: ContactsCollection
-) => Contact | false
+) => Contact | undefined
 
 export const getContactsAsMap = (contacts: Contact[]) => {
   return contacts.reduce((acc: ContactsCollection, item: Contact) => {
@@ -19,12 +19,12 @@ export const getContactsAsMap = (contacts: Contact[]) => {
 export const getContactDetails = (
   id: string,
   collection: ContactsCollection
-): Contact | false => {
+): Contact | undefined => {
   if (id in collection) {
     return collection[id]
   }
 
-  return false
+  return undefined
 }
 
 export const expandTopic = (
