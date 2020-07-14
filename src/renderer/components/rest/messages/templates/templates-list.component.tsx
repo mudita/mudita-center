@@ -134,7 +134,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
       hideColumns={sidebarOpened}
       hideableColumnsIndexes={[2]}
     >
-      {templates.length > 0 ? (
+      {templates && templates.length > 0 ? (
         templates.map((template) => {
           const { id, content } = template
           const { selected } = getRowStatus(template)
@@ -142,7 +142,9 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
 
           const { getTemporaryValue } = useTemporaryStorage<string>(id, content)
 
-          const text = getTemporaryValue().substr(0, 250)
+          const text = getTemporaryValue()
+            ? getTemporaryValue().substr(0, 250)
+            : ""
 
           const toggle = () => {
             if (sidebarOpened) {
@@ -188,7 +190,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
             <ListRow key={id} ref={ref} role="listitem">
               <Col />
               <Col>
-                <TextPlaceholder charsCount={content.length} />
+                <TextPlaceholder charsCount={content?.length} />
               </Col>
               <Col />
             </ListRow>

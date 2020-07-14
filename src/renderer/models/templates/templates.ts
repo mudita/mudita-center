@@ -19,7 +19,9 @@ export default {
     removeItems(state: StateProps, itemsToRemove: string[]) {
       return {
         ...state,
-        templates: templates.filter(({ id }) => !itemsToRemove.includes(id)),
+        templates: state.templates?.filter(
+          ({ id }) => !itemsToRemove.includes(id)
+        ),
       }
     },
   },

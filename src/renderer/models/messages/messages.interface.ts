@@ -13,7 +13,7 @@ export interface Content {
 
 export interface Message {
   id: string
-  date: Date | string
+  date: Date
   content: string
   interlocutor?: boolean
   author: Author
