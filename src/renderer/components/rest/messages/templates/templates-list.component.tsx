@@ -113,6 +113,7 @@ export interface TemplatesListProps
   extends SelectHook,
     UseTableSidebar<Template> {
   templates: Template[]
+  deleteTemplate: (id: string) => void | Promise<void>
 }
 
 const TemplatesList: FunctionComponent<TemplatesListProps> = ({
@@ -124,6 +125,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   closeSidebar,
   activeRow,
   sidebarOpened,
+  deleteTemplate,
 }) => {
   return (
     <TemplatesListTable
@@ -136,6 +138,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
         templates.map((template) => {
           const { id, content } = template
           const { selected } = getRowStatus(template)
+          const deleteItem = () => deleteTemplate(id)
 
           const { getTemporaryValue } = useTemporaryStorage<string>(id, content)
 
@@ -173,6 +176,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
               </TextPreview>
               <Col>
                 <ButtonComponent
+                  onClick={deleteItem}
                   displayStyle={DisplayStyle.IconOnly2}
                   Icon={Type.Delete}
                 />
