@@ -1,6 +1,8 @@
 import { ChangeEvent } from "react"
 import { connect } from "react-redux"
-import Templates from "Renderer/modules/messages/tabs/templates-ui.component"
+import Templates, {
+  Template,
+} from "Renderer/modules/messages/tabs/templates-ui.component"
 import { select } from "Renderer/store"
 import { TemplateCallback } from "Renderer/models/templates/templates"
 
@@ -13,6 +15,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch.templates.changeSearchValue(target.value),
   newTemplate: (template: TemplateCallback) =>
     dispatch.templates.createNewTemplate(template),
+  saveTemplate: (template: Template) =>
+    dispatch.templates.saveTemplate(template),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Templates)

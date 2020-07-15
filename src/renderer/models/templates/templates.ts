@@ -13,7 +13,7 @@ const initalState: StateProps = {
   searchValue: "",
 }
 
-const templateFactory = (
+export const templateFactory = (
   id: string = Faker.random.uuid(),
   content: string = ""
 ): Template => ({ id, content })
@@ -43,6 +43,26 @@ export default {
       }
 
       return newState
+    },
+    saveTemplate(state: StateProps, templateData: Template) {
+      const modifiedTemplates =
+        state.templates &&
+        state.templates.map((template: Template) => {
+          if (template.id === templateData.id) {
+            return templateData
+          }
+
+          return template
+        })
+
+      if (modifiedTemplates) {
+        return {
+          ...state,
+          templates: modifiedTemplates,
+        }
+      }
+
+      return state
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({

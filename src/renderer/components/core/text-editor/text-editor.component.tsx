@@ -1,4 +1,9 @@
-import React, { ChangeEvent, FocusEvent, TextareaHTMLAttributes } from "react"
+import React, {
+  ChangeEvent,
+  FocusEvent,
+  TextareaHTMLAttributes,
+  useState,
+} from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import {
   Buttons,
@@ -23,6 +28,7 @@ export const messages = defineMessages({
   saveButton: { id: "component.textEditor.button.save" },
   savingButton: { id: "component.textEditor.button.saving" },
   cancelButton: { id: "component.textEditor.button.cancel" },
+  savedToPhone: { id: "component.textEditor.status.saved" },
 })
 
 export enum SaveStatus {
@@ -53,6 +59,7 @@ interface Props {
   enableEditMode?: () => void
   disableEditMode?: () => void
   status: Status
+  autoFocus?: boolean
 }
 
 export type TextEditorProps = Props &
@@ -70,8 +77,10 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
   status,
   enableEditMode = noop,
   disableEditMode = noop,
+  autoFocus,
   ...rest
 }) => {
+  const [messageSaved, setMessageSaved] = useState(false)
   const reject = () => {
     rejectChanges()
     disableEditMode()
@@ -79,6 +88,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
 
   const save = async () => {
     await saveChanges()
+    setMessageSaved(true)
     disableEditMode()
   }
 
@@ -90,6 +100,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
   const change = (event: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(event)
     keepTemporaryText(event)
+    setMessageSaved(false)
   }
 
   const getAutosaveStatusMessage = () => {
@@ -115,10 +126,13 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
       <Info
         element="span"
         data-testid="status"
-        message={getAutosaveStatusMessage()}
+        message={
+          messageSaved ? messages.savedToPhone : getAutosaveStatusMessage()
+        }
       />
       <Textarea
         {...rest}
+        autoFocus={autoFocus}
         value={temporaryText}
         onChange={change}
         onFocus={focus}

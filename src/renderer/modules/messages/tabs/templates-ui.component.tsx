@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react"
+import React, { useState, ChangeEvent } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import TemplatesPanel from "Renderer/components/rest/messages/templates/templates-panel.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
@@ -15,6 +15,7 @@ import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { TemplateCallback } from "Renderer/models/templates/templates"
+import { templateFactory } from "Renderer/models/templates/templates"
 
 const messages = defineMessages({
   charactersNumber: { id: "view.name.messages.templates.charactersNumber" },
@@ -36,6 +37,7 @@ export interface TemplatesProps {
   onNewButtonClick?: () => void
   onSearchTermChange?: (event: ChangeEvent<HTMLInputElement>) => void
   newTemplate: (input: TemplateCallback) => void
+  saveTemplate?: (input: Template) => void
 }
 
 const Templates: FunctionComponent<TemplatesProps> = ({
@@ -43,13 +45,15 @@ const Templates: FunctionComponent<TemplatesProps> = ({
   onSearchTermChange = noop,
   templates = [],
   newTemplate,
+  saveTemplate,
 }) => {
+  const [newTemplateCreated, setNewTemplateCreated] = useState(false)
   const { selectedRows, allRowsSelected, toggleAll, ...rest } = useTableSelect<
     Template
   >(templates)
 
   const sidebarHook = useTableSidebar<Template>()
-  const { closeSidebar, activeRow, openSidebar } = sidebarHook
+  const { closeSidebar: baseCloseSidebar, activeRow, openSidebar } = sidebarHook
 
   const textEditorHook = useTextEditor(activeRow)
   const {
@@ -58,6 +62,21 @@ const Templates: FunctionComponent<TemplatesProps> = ({
 
   const onNewButtonClick = () => {
     newTemplate(openSidebar)
+    setNewTemplateCreated(true)
+  }
+
+  const closeSidebar = () => {
+    baseCloseSidebar()
+    setNewTemplateCreated(false)
+  }
+
+  const tryToSave = async () => {
+    if (saveTemplate && activeRow) {
+      const content = textEditorHook.temporaryText
+      const { id } = activeRow
+
+      saveTemplate(templateFactory(id, content))
+    }
   }
 
   return (
@@ -81,6 +100,8 @@ const Templates: FunctionComponent<TemplatesProps> = ({
           {activeRow && (
             <TextEditor
               {...textEditorHook}
+              saveChanges={tryToSave}
+              autoFocus={newTemplateCreated}
               statsInfo={intl.formatMessage(messages.charactersNumber, {
                 charactersCount: textLength,
                 smsCount: Math.ceil(textLength / 160),
