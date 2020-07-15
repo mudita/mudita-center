@@ -14,7 +14,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { UseTableSidebar } from "Renderer/utils/hooks/useTableSidebar"
 import { InView } from "react-intersection-observer"
-import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.interface"
+import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
 import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 import { defineMessages } from "react-intl"
@@ -31,7 +31,7 @@ const messages = defineMessages({
   emptyStateTitle: { id: "view.name.messages.templates.emptyList.title" },
   temporaryText: { id: "view.name.messages.templates.temporary" },
   emptyStateDescription: {
-    id: "view.name.messages.templates.emptyList.decription",
+    id: "view.name.messages.templates.emptyList.description",
   },
 })
 

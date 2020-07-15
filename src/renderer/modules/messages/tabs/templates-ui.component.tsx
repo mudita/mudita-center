@@ -18,6 +18,7 @@ import { TemplateCallback } from "Renderer/models/templates/templates"
 import { templateFactory } from "Renderer/models/templates/templates"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteTemplateModal from "Renderer/modules/messages/tabs/delete-template-modal.component"
+import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 
 const messages = defineMessages({
   charactersNumber: { id: "view.name.messages.templates.charactersNumber" },
@@ -41,7 +42,7 @@ export interface TemplatesProps {
   onNewButtonClick?: () => void
   onSearchTermChange?: (event: ChangeEvent<HTMLInputElement>) => void
   onDeleteButtonClick: (ids: string[]) => void
-  newTemplate: (input: TemplateCallback) => void
+  newTemplate?: (input: TemplateCallback) => void
   saveTemplate?: (input: Template) => void
 }
 
@@ -70,8 +71,10 @@ const Templates: FunctionComponent<TemplatesProps> = ({
   } = textEditorHook
 
   const onNewButtonClick = () => {
-    newTemplate(openSidebar)
-    setNewTemplateCreated(true)
+    if (newTemplate) {
+      newTemplate(openSidebar)
+      setNewTemplateCreated(true)
+    }
   }
 
   const closeSidebar = () => {
@@ -146,7 +149,11 @@ const Templates: FunctionComponent<TemplatesProps> = ({
           {...sidebarHook}
           {...rest}
         />
-        <TemplatesSidebar show={Boolean(activeRow)} onClose={closeSidebar}>
+        <TemplatesSidebar
+          show={Boolean(activeRow)}
+          onClose={closeSidebar}
+          data-testid={TemplatesTestIds.TextEditor}
+        >
           {activeRow && (
             <TextEditor
               {...textEditorHook}
