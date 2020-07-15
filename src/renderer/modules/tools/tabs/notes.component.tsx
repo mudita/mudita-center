@@ -19,7 +19,8 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { Checkbox } from "Renderer/components/rest/calls/calls-table.component"
+import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
+
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.interface"
 import {
   FiltersWrapper,
@@ -112,7 +113,6 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
     selectedRows,
     toggleAll,
   } = useTableSelect(data)
-
   const {
     openSidebar,
     closeSidebar,
@@ -121,11 +121,9 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
   } = useTableSidebar<Note>()
 
   const textEditorHook = useTextEditor(activeRow)
-
   const {
     temporaryText: { length: textLength },
   } = textEditorHook
-
   const sortByDate = () => sort("date")
 
   const filterOutMessages = () => {

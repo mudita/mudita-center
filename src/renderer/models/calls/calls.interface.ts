@@ -2,7 +2,9 @@ import { Contact } from "Renderer/models/phone/phone.interface"
 
 export enum CallStatus {
   Missed,
-  Received,
+  Incoming,
+  Conference,
+  Outgoing,
 }
 
 export enum VisibilityFilter {
@@ -11,9 +13,14 @@ export enum VisibilityFilter {
   Missed = "missed",
 }
 
+export type Caller = Pick<
+  Contact,
+  "firstName" | "lastName" | "primaryPhoneNumber"
+>
+
 export interface Call {
   id: string
-  caller: Pick<Contact, "id" | "firstName" | "lastName" | "primaryPhoneNumber">
+  caller: Caller
   duration: number
   date: Date
   timesMissed: number

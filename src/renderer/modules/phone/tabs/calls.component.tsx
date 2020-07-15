@@ -1,18 +1,16 @@
 import React from "react"
+import { Details } from "Renderer/components/rest/calls/call-details.types"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
-import {
-  Call,
-  VisibilityFilter,
-} from "App/renderer/models/calls/calls.interface"
+import { VisibilityFilter } from "App/renderer/models/calls/calls.interface"
 import CallsHeader from "Renderer/components/rest/calls/calls-header.component"
 import CallsTable from "Renderer/components/rest/calls/calls-table.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 interface Props {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
+  calls: Details[]
   deleteCall?: (ids: string[]) => void
-  calls: Call[]
 }
 
 const Calls: FunctionComponent<Props> = ({
@@ -28,7 +26,7 @@ const Calls: FunctionComponent<Props> = ({
     toggleAll,
     allRowsSelected,
     resetRows,
-  } = useTableSelect<Call>(calls)
+  } = useTableSelect<Details>(calls)
   return (
     <>
       <CallsHeader

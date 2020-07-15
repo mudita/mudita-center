@@ -3,12 +3,11 @@ import { templates } from "Renderer/components/core/table/table.fake-data"
 import { StateProps } from "Renderer/models/templates/templates.interface"
 import { Slicer } from "@rematch/select"
 import { filterTemplates } from "Renderer/models/templates/filter-templates"
-
 import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
 
 export type TemplateCallback = (param: Template) => void
 
-const initalState: StateProps = {
+const initialState: StateProps = {
   templates,
   searchValue: "",
 }
@@ -19,7 +18,7 @@ export const templateFactory = (
 ): Template => ({ id, content })
 
 export default {
-  state: initalState,
+  state: initialState,
   reducers: {
     changeSearchValue(
       state: StateProps,
@@ -63,6 +62,12 @@ export default {
       }
 
       return state
+    },
+    removeItems(state: StateProps, itemsToRemove: string[]) {
+      return {
+        ...state,
+        templates: templates.filter(({ id }) => !itemsToRemove.includes(id)),
+      }
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({
