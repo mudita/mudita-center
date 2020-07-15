@@ -33,6 +33,7 @@
   "view.name.messages.templates.savingChanges": "Saving changes",
   "view.name.messages.templates.changesSaved": "Changed saved",
   "view.name.messages.templates.newButton": "New template",
+  "view.name.messages.templates.temporary": "New template",
   "view.name.messages.templates.deleteButton": "Delete",
   "view.name.messages.templates.cancelButton": "Cancel",
   "view.name.messages.templates.saveButton": "Save",

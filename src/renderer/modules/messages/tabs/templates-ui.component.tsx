@@ -14,6 +14,7 @@ import TextEditor from "Renderer/components/core/text-editor/text-editor.compone
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
+import { TemplateCallback } from "Renderer/models/templates/templates"
 
 const messages = defineMessages({
   charactersNumber: { id: "view.name.messages.templates.charactersNumber" },
@@ -34,25 +35,30 @@ export interface TemplatesProps {
   onDeleteButtonClick?: () => void
   onNewButtonClick?: () => void
   onSearchTermChange?: (event: ChangeEvent<HTMLInputElement>) => void
+  newTemplate: (input: TemplateCallback) => void
 }
 
 const Templates: FunctionComponent<TemplatesProps> = ({
   onDeleteButtonClick = noop,
-  onNewButtonClick = noop,
   onSearchTermChange = noop,
   templates = [],
+  newTemplate,
 }) => {
   const { selectedRows, allRowsSelected, toggleAll, ...rest } = useTableSelect<
     Template
   >(templates)
 
   const sidebarHook = useTableSidebar<Template>()
-  const { closeSidebar, activeRow } = sidebarHook
+  const { closeSidebar, activeRow, openSidebar } = sidebarHook
 
   const textEditorHook = useTextEditor(activeRow)
   const {
     temporaryText: { length: textLength },
   } = textEditorHook
+
+  const onNewButtonClick = () => {
+    newTemplate(openSidebar)
+  }
 
   return (
     <>
@@ -65,7 +71,12 @@ const Templates: FunctionComponent<TemplatesProps> = ({
         toggleAll={toggleAll}
       />
       <TableWithSidebarWrapper>
-        <TemplatesList templates={templates} {...sidebarHook} {...rest} />
+        <TemplatesList
+          templates={templates}
+          openSidebar={openSidebar}
+          {...sidebarHook}
+          {...rest}
+        />
         <TemplatesSidebar show={Boolean(activeRow)} onClose={closeSidebar}>
           {activeRow && (
             <TextEditor

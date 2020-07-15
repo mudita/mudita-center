@@ -1,5 +1,3 @@
-import log from "electron-log"
-
 export interface UseTemporaryStorageHook<T> {
   setTemporaryValue: (value: T) => void
   getTemporaryValue: () => T
@@ -17,7 +15,7 @@ export const useTemporaryStorage = <T = any>(
     try {
       storage.setItem(key, JSON.stringify(value))
     } catch (error) {
-      log.error(error)
+      console.error(error)
     }
   }
 
@@ -26,7 +24,7 @@ export const useTemporaryStorage = <T = any>(
       const item = storage.getItem(key)
       return item ? JSON.parse(item) : originalValue
     } catch (error) {
-      log.error(error)
+      console.error(error)
     }
   }
 

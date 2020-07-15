@@ -43,7 +43,7 @@ import { createFullName } from "Renderer/models/phone/phone.utils"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
-} from "Renderer/components/rest/messages/templates/templates-list.component"
+} from "Renderer/components/rest/messages/templates/templates-list.styled"
 
 const MessageRow = styled(Row)`
   height: 9rem;
