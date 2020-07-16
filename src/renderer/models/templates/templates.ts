@@ -12,7 +12,7 @@ const initialState: StateProps = {
   searchValue: "",
 }
 
-export const templateFactory = (
+export const createTemplate = (
   id: string = Faker.random.uuid(),
   content: string = ""
 ): Template => ({ id, content })
@@ -30,7 +30,7 @@ export default {
       const oldTemplates = state.templates || []
       const newState = {
         ...state,
-        templates: [templateFactory(), ...oldTemplates],
+        templates: [createTemplate(), ...oldTemplates],
       }
 
       if (callback) {
@@ -44,15 +44,13 @@ export default {
       return newState
     },
     saveTemplate(state: StateProps, templateData: Template) {
-      const modifiedTemplates =
-        state.templates &&
-        state.templates.map((template: Template) => {
-          if (template.id === templateData.id) {
-            return templateData
-          }
+      const modifiedTemplates = state.templates?.map((template: Template) => {
+        if (template.id === templateData.id) {
+          return templateData
+        }
 
-          return template
-        })
+        return template
+      })
 
       if (modifiedTemplates) {
         return {

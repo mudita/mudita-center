@@ -77,7 +77,6 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
   status,
   enableEditMode = noop,
   disableEditMode = noop,
-  autoFocus,
   ...rest
 }) => {
   const [messageSaved, setMessageSaved] = useState(false)
@@ -132,7 +131,6 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
       />
       <Textarea
         {...rest}
-        autoFocus={autoFocus}
         value={temporaryText}
         onChange={change}
         onFocus={focus}
