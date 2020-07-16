@@ -134,7 +134,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
       hideColumns={sidebarOpened}
       hideableColumnsIndexes={[2]}
     >
-      {templates && templates.length > 0 ? (
+      {templates?.length > 0 ? (
         templates.map((template) => {
           const { id, content } = template
           const { selected } = getRowStatus(template)
