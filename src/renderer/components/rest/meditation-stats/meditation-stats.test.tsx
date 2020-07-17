@@ -4,11 +4,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import MeditationStats, {
   MeditationStatsProps,
 } from "Renderer/components/rest/meditation-stats/meditation-stats.component"
-import {
-  generateWeeklyMediationData,
-  generateMonthlyMeditationData,
-  generateYearlyMeditationData,
-} from "App/__mocks__/meditation-stats.mock"
+import { generateMeditationData } from "App/__mocks__/meditation-stats.mock"
 import {
   ChartType,
   MeditationStatsTestIds,
@@ -44,7 +40,7 @@ describe("general meditation stats", () => {
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
-      statsData: generateWeeklyMediationData(),
+      statsData: generateMeditationData(),
     })
   })
 
@@ -72,7 +68,7 @@ describe("weekly meditation stats", () => {
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
-      statsData: generateWeeklyMediationData(),
+      statsData: generateMeditationData(),
     })
   })
 
@@ -113,7 +109,7 @@ describe("monthly meditation stats", () => {
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Monthly,
-      statsData: generateMonthlyMeditationData(),
+      statsData: generateMeditationData(ChartType.Monthly),
     })
   })
 
@@ -155,7 +151,7 @@ describe("yearly meditation stats", () => {
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Yearly,
-      statsData: generateYearlyMeditationData(),
+      statsData: generateMeditationData(ChartType.Yearly),
     })
   })
 

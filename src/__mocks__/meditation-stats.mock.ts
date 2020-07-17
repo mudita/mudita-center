@@ -1,37 +1,41 @@
-import moment from "moment"
+import moment, { DurationInputArg2, Moment } from "moment"
 import { StatsData } from "Renderer/components/rest/meditation-stats/meditation-stats.component"
+import { ChartType } from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
 
-export const generateWeeklyMediationData = (): StatsData[] => {
+export const generateMeditationData = (
+  chartType: ChartType = ChartType.Weekly
+): StatsData[] => {
   const data = []
-  for (let i = 0; i < 7; i++) {
-    const date = moment().startOf("isoWeek").add(i, "days")
-    data.push({
-      date: date.format("YYYY-MM-DD"),
-      time: date <= moment() ? Math.round(Math.random() * 1000) : 0,
-    })
+
+  let periods: number
+  let date: Moment
+  let format: string = "YYYY-MM-DD"
+  let unit: DurationInputArg2 = "days"
+  let maxTime: number = 2000
+
+  switch (chartType) {
+    case ChartType.Yearly:
+      periods = 12
+      date = moment().startOf("year")
+      format = "YYYY-MM"
+      unit = "months"
+      maxTime = 60000
+      break
+    case ChartType.Weekly:
+      periods = 7
+      date = moment().startOf("isoWeek")
+      break
+    case ChartType.Monthly:
+      periods = moment().daysInMonth()
+      date = moment().startOf("month")
+      break
   }
-  return data
-}
 
-export const generateMonthlyMeditationData = (): StatsData[] => {
-  const data = []
-  for (let i = 0; i < moment().daysInMonth(); i++) {
-    const date = moment().startOf("month").add(i, "days")
+  for (let i = 0; i < periods; i++) {
+    const currentDate = i > 0 ? date.add(1, unit) : date
     data.push({
-      date: date.format("YYYY-MM-DD"),
-      time: date <= moment() ? Math.round(Math.random() * 2000) : 0,
-    })
-  }
-  return data
-}
-
-export const generateYearlyMeditationData = (): StatsData[] => {
-  const data = []
-  for (let i = 0; i < 12; i++) {
-    const date = moment().startOf("year").add(i, "months")
-    data.push({
-      date: date.format("YYYY-MM"),
-      time: date <= moment() ? Math.round(Math.random() * 60000) : 0,
+      date: currentDate.format(format),
+      time: currentDate <= moment() ? Math.round(Math.random() * maxTime) : 0,
     })
   }
   return data
