@@ -1,16 +1,15 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import MeditationStats, {
-  ChartType,
-} from "Renderer/components/rest/meditation-stats/meditation-stats.component"
+import MeditationStats from "Renderer/components/rest/meditation-stats/meditation-stats.component"
 import Story from "Renderer/components/storybook/story.component"
 import {
   generateMonthlyMeditationData,
   generateWeeklyMediationData,
   generateYearlyMeditationData,
 } from "App/__mocks__/meditation-stats.mock"
+import { ChartType } from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
 
-storiesOf("Components|Rest/MeditationStats", module)
+storiesOf("Components|Rest/Meditation Stats", module)
   .add("Weekly", () => (
     <Story>
       <MeditationStats

@@ -5,3 +5,9 @@ export enum MeditationStatsTestIds {
   YAxisLabel = "y-label",
   HorizontalLine = "horizontal-line",
 }
+
+export enum ChartType {
+  Weekly,
+  Monthly,
+  Yearly,
+}

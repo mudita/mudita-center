@@ -10,7 +10,7 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { ChartType } from "Renderer/components/rest/meditation-stats/meditation-stats.component"
+import { ChartType } from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
 
 const getBarWidth = (type: ChartType) => {
   switch (type) {

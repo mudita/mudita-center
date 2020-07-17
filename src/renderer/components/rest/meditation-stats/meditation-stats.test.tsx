@@ -2,7 +2,6 @@ import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import MeditationStats, {
-  ChartType,
   MeditationStatsProps,
 } from "Renderer/components/rest/meditation-stats/meditation-stats.component"
 import {
@@ -10,7 +9,10 @@ import {
   generateMonthlyMeditationData,
   generateYearlyMeditationData,
 } from "App/__mocks__/meditation-stats.mock"
-import { MeditationStatsTestIds } from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
+import {
+  ChartType,
+  MeditationStatsTestIds,
+} from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
 import moment from "moment"
 import theme from "Renderer/styles/theming/theme"
 

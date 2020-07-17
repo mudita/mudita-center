@@ -20,13 +20,14 @@ import {
   YAxis,
   YAxisTitle,
 } from "Renderer/components/rest/meditation-stats/meditation-stats.styled"
-import { MeditationStatsTestIds } from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
-
-export enum ChartType {
-  Weekly,
-  Monthly,
-  Yearly,
-}
+import {
+  ChartType,
+  MeditationStatsTestIds,
+} from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
+import {
+  formatDate,
+  getMaxChartValue,
+} from "Renderer/components/rest/meditation-stats/meditation-stats.helpers"
 
 export interface BarData {
   date: string
@@ -56,49 +57,9 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
   const times = data?.map(({ time }) => time)
   const maxTime = Math.max(...times)
 
-  const getYAxisGradation = () => {
-    const grades = [
-      345600,
-      86400,
-      28800,
-      14400,
-      3600,
-      1800,
-      900,
-      300,
-      60,
-      30,
-      15,
-      5,
-    ]
-    for (const grade of grades) {
-      if (maxTime >= grade * 5) {
-        return grade
-      }
-    }
-    return 1
-  }
-
-  const getMaxChartValue = () => {
-    const gradation = getYAxisGradation()
-    const max = (maxTime - (maxTime % gradation)) / gradation
-    return (max - (max % 4) + 4) * gradation
-  }
-
-  const maxChartValue = getMaxChartValue()
+  const maxChartValue = getMaxChartValue(maxTime)
 
   const horizontalGridLines = [0, 25, 50, 75, 100]
-
-  const formatDate = (date: string) => {
-    switch (chartType) {
-      case ChartType.Weekly:
-        return moment(date).format("ddd")
-      case ChartType.Monthly:
-        return moment(date).format("D")
-      case ChartType.Yearly:
-        return moment(date).format("MMM")
-    }
-  }
 
   const renderBarWrapper = (
     index: number,
@@ -122,7 +83,7 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
         </Bar>
         {withLabel && (
           <Label data-testid={MeditationStatsTestIds.XAxisLabel}>
-            {formatDate(date)}
+            {formatDate(date, chartType)}
           </Label>
         )}
       </BarWrapper>
