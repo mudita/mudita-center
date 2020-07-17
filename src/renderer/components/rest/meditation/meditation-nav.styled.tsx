@@ -8,7 +8,7 @@ export const DateRange = styled(Text).attrs(() => ({
 }))`
   margin-bottom: 0.4rem;
   text-align: center;
-  min-width: 17rem;
+  min-width: 19rem;
 `
 
 export const WeekIndicator = styled(Text).attrs(() => ({
@@ -43,4 +43,9 @@ export const GotoButton = styled(Text).attrs(() => ({
   padding: 0;
   align-self: flex-start;
   margin-right: 1.65rem;
+
+  &:focus,
+  &:active {
+    outline: 0;
+  }
 `

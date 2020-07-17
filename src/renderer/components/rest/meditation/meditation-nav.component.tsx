@@ -4,6 +4,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import ArrowLeft from "Renderer/svg/arrow-long-left.svg"
 import ArrowRight from "Renderer/svg/arrow-long-right.svg"
 import { noop } from "Renderer/utils/noop"
+import { defineMessages } from "react-intl"
 import {
   Button,
   DateRange,
@@ -11,43 +12,51 @@ import {
   WeekIndicator,
   Wrapper,
 } from "Renderer/components/rest/meditation/meditation-nav.styled"
+import { FormattedDate } from "react-intl"
+import {
+  dateWithinThisWeek,
+  formatDate,
+  MeditationNavProps,
+} from "Renderer/components/rest/meditation/meditation-nav.helpers"
 
-type MediationDate = string | Date
-
-interface MeditationNavProps {
-  startDate: MediationDate
-  endDate: MediationDate
+const dateFormatConfig = {
+  year: "numeric",
+  month: "short",
+  day: "2-digit",
 }
 
-const formatDate = (input: MediationDate): string => {
-  if (typeof input === "string") {
-    return input
-  }
-
-  return ""
-}
+const messages = defineMessages({
+  thisWeek: { id: "component.meditation.nav.thisWeek" },
+  goToToday: { id: "component.meditation.nav.goToToday" },
+})
 
 const MeditationNav: FunctionComponent<MeditationNavProps> = ({
-  startDate,
-  endDate,
+  startDate: baseStartDate,
+  endDate: baseEndDate,
 }) => {
+  const startDate = formatDate(baseStartDate)
+  const endDate = formatDate(baseEndDate)
+
   return (
     <>
       <Wrapper>
-        <GotoButton>Go to today</GotoButton>
+        <GotoButton message={messages.goToToday} />
         <div>
           <Wrapper as="nav">
             <Button onClick={noop}>
               <ArrowLeft />
             </Button>
             <DateRange>
-              {formatDate(startDate)} - {formatDate(endDate)}
+              <FormattedDate value={startDate} {...dateFormatConfig} /> -{" "}
+              <FormattedDate value={endDate} {...dateFormatConfig} />
             </DateRange>
             <Button onClick={noop}>
               <ArrowRight />
             </Button>
           </Wrapper>
-          <WeekIndicator>This week</WeekIndicator>
+          {dateWithinThisWeek({ startDate, endDate }) && (
+            <WeekIndicator message={messages.thisWeek} />
+          )}
         </div>
       </Wrapper>
     </>
