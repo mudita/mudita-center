@@ -16,6 +16,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { Template } from "App/renderer/modules/messages/tabs/templates-ui.component"
 import { defineMessages } from "react-intl"
+import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 
 export const messages = defineMessages({
   searchPlaceholder: {
@@ -124,6 +125,7 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
           Icon={Type.PlusSign}
           labelMessage={messages.newButton}
           onClick={onNewButtonClick}
+          data-testid={TemplatesTestIds.AddTemplateButton}
         />
       </Buttons>
     </Panel>

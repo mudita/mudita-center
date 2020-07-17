@@ -1,5 +1,4 @@
 import "@testing-library/jest-dom/extend-expect"
-import { fireEvent } from "@testing-library/dom"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Templates, {
@@ -10,6 +9,7 @@ import { intl } from "Renderer/utils/intl"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { mockedTemplateData } from "Renderer/modules/messages/__mocks__/template-modal-data"
+import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 
 mockAllIsIntersecting(true)
 
@@ -17,9 +17,11 @@ const renderTemplates = ({
   onDeleteButtonClick = noop,
   onNewButtonClick = noop,
   onSearchTermChange = noop,
+  newTemplate = noop,
 }: Partial<TemplatesProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <Templates
+      newTemplate={newTemplate}
       templates={mockedTemplateData}
       onDeleteButtonClick={onDeleteButtonClick}
       onNewButtonClick={onNewButtonClick}
@@ -48,9 +50,9 @@ test("renders search input properly", () => {
 
 test("calls proper action after new template button click", () => {
   const onClick = jest.fn()
-  const { getNewTemplateButton } = renderTemplates({
+  const { getByTestId } = renderTemplates({
     onNewButtonClick: onClick,
   })
-  fireEvent.click(getNewTemplateButton())
-  expect(onClick).toBeCalled()
+  getByTestId(TemplatesTestIds.AddTemplateButton).click()
+  expect(getByTestId(TemplatesTestIds.TextEditor)).toBeInTheDocument()
 })
