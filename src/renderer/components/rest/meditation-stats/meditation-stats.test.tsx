@@ -18,9 +18,12 @@ import theme from "Renderer/styles/theming/theme"
 
 const mainLabel = "view.name.meditationStats.chart.mainLabel"
 
-const renderMeditationStats = ({ chartType, data }: MeditationStatsProps) => {
+const renderMeditationStats = ({
+  chartType,
+  statsData,
+}: MeditationStatsProps) => {
   const outcome = renderWithThemeAndIntl(
-    <MeditationStats chartType={chartType} data={data} />
+    <MeditationStats chartType={chartType} statsData={statsData} />
   )
   return {
     ...outcome,
@@ -41,7 +44,7 @@ describe("general meditation stats", () => {
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
-      data: generateWeeklyMediationData(),
+      statsData: generateWeeklyMediationData(),
     })
   })
 
@@ -69,7 +72,7 @@ describe("weekly meditation stats", () => {
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
-      data: generateWeeklyMediationData(),
+      statsData: generateWeeklyMediationData(),
     })
   })
 
@@ -110,7 +113,7 @@ describe("monthly meditation stats", () => {
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Monthly,
-      data: generateMonthlyMeditationData(),
+      statsData: generateMonthlyMeditationData(),
     })
   })
 
@@ -152,7 +155,7 @@ describe("yearly meditation stats", () => {
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Yearly,
-      data: generateYearlyMeditationData(),
+      statsData: generateYearlyMeditationData(),
     })
   })
 

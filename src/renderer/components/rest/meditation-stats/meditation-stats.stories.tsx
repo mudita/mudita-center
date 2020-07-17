@@ -14,7 +14,7 @@ storiesOf("Components|Rest/Meditation Stats", module)
     <Story>
       <MeditationStats
         chartType={ChartType.Weekly}
-        data={generateWeeklyMediationData()}
+        statsData={generateWeeklyMediationData()}
       />
     </Story>
   ))
@@ -22,7 +22,7 @@ storiesOf("Components|Rest/Meditation Stats", module)
     <Story>
       <MeditationStats
         chartType={ChartType.Monthly}
-        data={generateMonthlyMeditationData()}
+        statsData={generateMonthlyMeditationData()}
       />
     </Story>
   ))
@@ -30,7 +30,7 @@ storiesOf("Components|Rest/Meditation Stats", module)
     <Story>
       <MeditationStats
         chartType={ChartType.Yearly}
-        data={generateYearlyMeditationData()}
+        statsData={generateYearlyMeditationData()}
       />
     </Story>
   ))

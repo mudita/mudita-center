@@ -29,13 +29,13 @@ import {
   getMaxChartValue,
 } from "Renderer/components/rest/meditation-stats/meditation-stats.helpers"
 
-export interface BarData {
+export interface StatsData {
   date: string
   time: number
 }
 
 export interface MeditationStatsProps {
-  data: BarData[]
+  statsData: StatsData[]
   chartType: ChartType
 }
 
@@ -48,13 +48,13 @@ const messages = defineMessages({
 const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
   className,
   chartType,
-  data,
+  statsData,
 }) => {
   const dateFormat = chartType === ChartType.Yearly ? "YYYY-MM" : "YYYY-MM-DD"
-  const activeBarIndex = data.findIndex(
+  const activeBarIndex = statsData.findIndex(
     ({ date }) => date === moment().format(dateFormat)
   )
-  const times = data?.map(({ time }) => time)
+  const times = statsData?.map(({ time }) => time)
   const maxTime = Math.max(...times)
 
   const maxChartValue = getMaxChartValue(maxTime)
@@ -63,7 +63,7 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
 
   const renderBarWrapper = (
     index: number,
-    barData: BarData,
+    barData: StatsData,
     withLabel?: boolean
   ) => {
     const { date, time } = barData
@@ -94,12 +94,12 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
     <Chart className={className} chartType={chartType}>
       <Bars>
         {chartType === ChartType.Monthly
-          ? chunk(data, 7).map((week, weekIndex) => {
-              const daysInMonth = moment(data[0].date).daysInMonth()
+          ? chunk(statsData, 7).map((week, weekIndex) => {
+              const daysInMonth = moment(statsData[0].date).daysInMonth()
               const lastDay = 7 + weekIndex * 7
               const firstWeekDay = 1 + weekIndex * 7
               const lastWeekDay = lastDay < daysInMonth ? lastDay : daysInMonth
-              const active = week.includes(data[activeBarIndex])
+              const active = week.includes(statsData[activeBarIndex])
               return (
                 <GroupWrapper
                   key={weekIndex}
@@ -119,7 +119,7 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
                 </GroupWrapper>
               )
             })
-          : data.map((barData, index) => {
+          : statsData.map((barData, index) => {
               return renderBarWrapper(index, barData, true)
             })}
       </Bars>
