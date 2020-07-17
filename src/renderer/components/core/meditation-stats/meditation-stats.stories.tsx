@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react"
 import React from "react"
 import MeditationStats, {
   ChartType,
-} from "Renderer/components/rest/meditation-stats/meditation-stats.component"
+} from "Renderer/components/core/meditation-stats/meditation-stats.component"
 import Story from "Renderer/components/storybook/story.component"
 import {
   generateMonthlyMeditationData,
@@ -10,7 +10,7 @@ import {
   generateYearlyMeditationData,
 } from "App/__mocks__/meditation-stats.mock"
 
-storiesOf("Components|Rest/MeditationStats", module)
+storiesOf("Components|Core/MeditationStats", module)
   .add("Weekly", () => (
     <Story>
       <MeditationStats

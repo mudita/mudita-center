@@ -1,7 +1,7 @@
 import moment from "moment"
-import { DayData } from "Renderer/components/rest/meditation-stats/meditation-stats.component"
+import { BarData } from "Renderer/components/core/meditation-stats/meditation-stats.component"
 
-export const generateWeeklyMediationData = (): DayData[] => {
+export const generateWeeklyMediationData = (): BarData[] => {
   const data = []
   for (let i = 0; i < 7; i++) {
     const date = moment().startOf("isoWeek").add(i, "days")
@@ -13,7 +13,7 @@ export const generateWeeklyMediationData = (): DayData[] => {
   return data
 }
 
-export const generateMonthlyMeditationData = (): DayData[] => {
+export const generateMonthlyMeditationData = (): BarData[] => {
   const data = []
   for (let i = 0; i < moment().daysInMonth(); i++) {
     const date = moment().startOf("month").add(i, "days")
@@ -25,7 +25,7 @@ export const generateMonthlyMeditationData = (): DayData[] => {
   return data
 }
 
-export const generateYearlyMeditationData = (): DayData[] => {
+export const generateYearlyMeditationData = (): BarData[] => {
   const data = []
   for (let i = 0; i < 12; i++) {
     const date = moment().startOf("year").add(i, "months")

@@ -19,7 +19,8 @@ import {
   Tooltip,
   YAxis,
   YAxisTitle,
-} from "Renderer/components/rest/meditation-stats/meditation-stats.styled"
+} from "Renderer/components/core/meditation-stats/meditation-stats.styled"
+import { MeditationStatsTestIds } from "Renderer/components/core/meditation-stats/meditation-stats.interface"
 
 export enum ChartType {
   Weekly,
@@ -32,7 +33,7 @@ export interface BarData {
   time: number
 }
 
-interface CustomStatsProps {
+export interface MeditationStatsProps {
   data: BarData[]
   chartType: ChartType
 }
@@ -43,7 +44,7 @@ const messages = defineMessages({
   },
 })
 
-const MeditationStats: FunctionComponent<CustomStatsProps> = ({
+const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
   className,
   chartType,
   data,
@@ -110,6 +111,7 @@ const MeditationStats: FunctionComponent<CustomStatsProps> = ({
         key={index}
         active={activeBarIndex === index}
         disabled={index > activeBarIndex && activeBarIndex > -1}
+        data-testid={MeditationStatsTestIds.BarWrapper}
       >
         <Bar height={(time / maxChartValue) * 100}>
           <Tooltip>
@@ -118,7 +120,11 @@ const MeditationStats: FunctionComponent<CustomStatsProps> = ({
             </Text>
           </Tooltip>
         </Bar>
-        {withLabel && <Label>{formatDate(date)}</Label>}
+        {withLabel && (
+          <Label data-testid={MeditationStatsTestIds.XAxisLabel}>
+            {formatDate(date)}
+          </Label>
+        )}
       </BarWrapper>
     )
   }
@@ -127,13 +133,20 @@ const MeditationStats: FunctionComponent<CustomStatsProps> = ({
     <Chart className={className} chartType={chartType}>
       <Grid>
         {horizontalGridLines.map((percent, index) => (
-          <HorizontalLine key={index} position={percent} />
+          <HorizontalLine
+            key={index}
+            position={percent}
+            data-testid={MeditationStatsTestIds.HorizontalLine}
+          />
         ))}
         <YAxis>
           {horizontalGridLines.map((percent, index) => (
             <Fragment key={index}>
               {Boolean(percent) && (
-                <Label position={percent}>
+                <Label
+                  position={percent}
+                  data-testid={MeditationStatsTestIds.YAxisLabel}
+                >
                   {formatDuration((maxChartValue / 4) * index)}
                 </Label>
               )}
@@ -155,12 +168,13 @@ const MeditationStats: FunctionComponent<CustomStatsProps> = ({
                   key={weekIndex}
                   bars={week.length}
                   active={active}
+                  data-testid={MeditationStatsTestIds.GroupWrapper}
                 >
                   {week.map((barData, dayIndex) => {
                     const barIndex = weekIndex * 7 + dayIndex
                     return renderBarWrapper(barIndex, barData)
                   })}
-                  <Label>
+                  <Label data-testid={MeditationStatsTestIds.XAxisLabel}>
                     {firstWeekDay === lastWeekDay
                       ? firstWeekDay
                       : `${firstWeekDay} - ${lastWeekDay}`}
