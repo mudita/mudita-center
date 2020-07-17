@@ -163,6 +163,7 @@ const barWrapperActiveStyles = css`
     ${referenceLineStyles};
   }
 
+  /* stylelint-disable no-descending-specificity */
   ${Bar} {
     ${activeBarStyles};
   }
