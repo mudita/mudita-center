@@ -7,7 +7,7 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
-const startDate = 1594591200000 // 2020-07-13
+const startDate = 1594677600000 // 2020-07-14
 const endDate = 1595109600000 // 2020-07-19
 const mockedDate = 1594977157202 // 2020-07-17
 
