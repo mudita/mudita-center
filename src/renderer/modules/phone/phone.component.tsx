@@ -48,7 +48,6 @@ export type PhoneProps = ContactActions &
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = ({
-  loadData = noop,
   addContact = noop,
   editContact = noop,
   deleteContacts = noop,
@@ -67,10 +66,6 @@ const Phone: FunctionComponent<PhoneProps> = ({
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
   const detailsEnabled = activeRow && !newContact && !editedContact
-
-  useEffect(() => {
-    loadData()
-  }, [])
 
   useEffect(() => {
     setContacts(contactList)

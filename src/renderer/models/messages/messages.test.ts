@@ -2,23 +2,22 @@ import { init } from "@rematch/core"
 import messages from "Renderer/models/messages/messages"
 import { VisibilityFilter } from "Renderer/models/messages/messages.interface"
 import selectPlugin from "@rematch/select"
+import { messagesSeed } from "App/seeds/messages"
 
-let store = init({
+const storeConfig = {
   models: { messages },
   plugins: [selectPlugin()],
-})
+  redux: {
+    initialState: {
+      messages: messagesSeed,
+    },
+  },
+}
+
+let store = init(storeConfig)
 
 beforeEach(() => {
-  store = init({
-    models: { messages },
-    plugins: [selectPlugin()],
-  })
-})
-
-test("search value changes correctly", () => {
-  const caller = store.getState().messages.topics[0].caller
-  store.dispatch.messages.changeSearchValue(caller.lastName)
-  expect(store.select.messages.filteredList(store.getState())).toHaveLength(1)
+  store = init(storeConfig)
 })
 
 test("visibility filter changes correctly", () => {

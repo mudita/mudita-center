@@ -1,16 +1,23 @@
 import { init } from "@rematch/core"
-import templates, { createTemplate } from "Renderer/models/templates/templates"
-import { templates as mockData } from "Renderer/components/core/table/table.fake-data"
+import { createTemplate } from "Renderer/models/templates/templates"
 import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
+import templates from "Renderer/models/templates/templates"
 
-let store = init({
+import { templatesSeed } from "App/seeds/templates"
+
+const storeConfig = {
   models: { templates },
-})
+  redux: {
+    initialState: {
+      templates: templatesSeed,
+    },
+  },
+}
+
+let store = init(storeConfig)
 
 beforeEach(() => {
-  store = init({
-    models: { templates },
-  })
+  store = init(storeConfig)
 })
 
 const testId = "test-id"
@@ -20,11 +27,13 @@ const testObject = { id: testId, content: testContent }
 test("has proper initial state", () => {
   expect(store.getState().templates.templates).toBeDefined()
   expect(store.getState().templates.searchValue).toBe("")
-  expect(store.getState().templates.templates?.length).toBe(mockData.length)
+  expect(store.getState().templates.templates?.length).toBe(
+    templatesSeed.templates.length
+  )
 })
 
 test("properly removes items", () => {
-  const lookupId = mockData[0].id
+  const lookupId = templatesSeed.templates[0].id
   expect(
     store.getState().templates.templates?.find(({ id }) => id === lookupId)
   ).toBeDefined()
@@ -35,9 +44,13 @@ test("properly removes items", () => {
 })
 
 test("returns untouched collection when wrong ids are passed", () => {
-  expect(store.getState().templates.templates?.length).toBe(mockData.length)
+  expect(store.getState().templates.templates?.length).toBe(
+    templatesSeed.templates.length
+  )
   store.dispatch.templates.removeItems(["non", "existent"])
-  expect(store.getState().templates.templates?.length).toBe(mockData.length)
+  expect(store.getState().templates.templates?.length).toBe(
+    templatesSeed.templates.length
+  )
 })
 
 test("properly creates templates without provided data", () => {

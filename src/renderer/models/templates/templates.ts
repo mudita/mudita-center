@@ -1,5 +1,4 @@
 import Faker from "faker"
-import { templates } from "Renderer/components/core/table/table.fake-data"
 import { StateProps } from "Renderer/models/templates/templates.interface"
 import { Slicer } from "@rematch/select"
 import { filterTemplates } from "Renderer/models/templates/filter-templates"
@@ -7,8 +6,8 @@ import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
 
 export type TemplateCallback = (param: Template) => void
 
-const initialState: StateProps = {
-  templates,
+export const initialState: StateProps = {
+  templates: [],
   searchValue: "",
 }
 
@@ -64,7 +63,9 @@ export default {
     removeItems(state: StateProps, itemsToRemove: string[]) {
       return {
         ...state,
-        templates: templates.filter(({ id }) => !itemsToRemove.includes(id)),
+        templates: state.templates?.filter(
+          ({ id }) => !itemsToRemove.includes(id)
+        ),
       }
     },
   },
