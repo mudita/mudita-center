@@ -114,6 +114,7 @@ export const YAxis = styled.div`
 export const Grid = styled.div`
   grid-area: Content;
   position: relative;
+  z-index: 0;
 `
 
 export const Tooltip = styled.div`
@@ -218,6 +219,8 @@ export const Bars = styled.div`
   flex-direction: row;
   justify-content: space-around;
   padding-left: 8rem;
+  position: relative;
+  z-index: 1;
 `
 
 export const Chart = styled.section<{ chartType: ChartType }>`

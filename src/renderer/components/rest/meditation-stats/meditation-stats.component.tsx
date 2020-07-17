@@ -131,30 +131,6 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
 
   return (
     <Chart className={className} chartType={chartType}>
-      <Grid>
-        {horizontalGridLines.map((percent, index) => (
-          <HorizontalLine
-            key={index}
-            position={percent}
-            data-testid={MeditationStatsTestIds.HorizontalLine}
-          />
-        ))}
-        <YAxis>
-          {horizontalGridLines.map((percent, index) => (
-            <Fragment key={index}>
-              {Boolean(percent) && (
-                <Label
-                  position={percent}
-                  data-testid={MeditationStatsTestIds.YAxisLabel}
-                >
-                  {formatDuration((maxChartValue / 4) * index)}
-                </Label>
-              )}
-            </Fragment>
-          ))}
-        </YAxis>
-        <YAxisTitle message={messages.mainLabel} />
-      </Grid>
       <Bars>
         {chartType === ChartType.Monthly
           ? chunk(data, 7).map((week, weekIndex) => {
@@ -186,6 +162,30 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
               return renderBarWrapper(index, barData, true)
             })}
       </Bars>
+      <Grid>
+        {horizontalGridLines.map((percent, index) => (
+          <HorizontalLine
+            key={index}
+            position={percent}
+            data-testid={MeditationStatsTestIds.HorizontalLine}
+          />
+        ))}
+        <YAxis>
+          {horizontalGridLines.map((percent, index) => (
+            <Fragment key={index}>
+              {Boolean(percent) && (
+                <Label
+                  position={percent}
+                  data-testid={MeditationStatsTestIds.YAxisLabel}
+                >
+                  {formatDuration((maxChartValue / 4) * index)}
+                </Label>
+              )}
+            </Fragment>
+          ))}
+        </YAxis>
+        <YAxisTitle message={messages.mainLabel} />
+      </Grid>
     </Chart>
   )
 }
