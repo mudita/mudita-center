@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import formatDuration from "Renderer/utils/format-duration"
 import Text, {
@@ -132,18 +132,17 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
           />
         ))}
         <YAxis>
-          {horizontalGridLines.map((percent, index) => (
-            <Fragment key={index}>
-              {Boolean(percent) && (
-                <Label
-                  position={percent}
-                  data-testid={MeditationStatsTestIds.YAxisLabel}
-                >
-                  {formatDuration((maxChartValue / 4) * index)}
-                </Label>
-              )}
-            </Fragment>
-          ))}
+          {horizontalGridLines.map((percent, index) =>
+            percent ? (
+              <Label
+                key={index}
+                position={percent}
+                data-testid={MeditationStatsTestIds.YAxisLabel}
+              >
+                {formatDuration((maxChartValue / 4) * index)}
+              </Label>
+            ) : null
+          )}
         </YAxis>
         <YAxisTitle message={messages.mainLabel} />
       </Grid>
