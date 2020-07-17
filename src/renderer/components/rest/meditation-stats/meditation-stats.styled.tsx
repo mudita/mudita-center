@@ -10,7 +10,7 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { ChartType } from "Renderer/components/core/meditation-stats/meditation-stats.component"
+import { ChartType } from "Renderer/components/rest/meditation-stats/meditation-stats.component"
 
 const getBarWidth = (type: ChartType) => {
   switch (type) {
@@ -23,6 +23,50 @@ const getBarWidth = (type: ChartType) => {
       return 6.5
   }
 }
+
+const activeBarStyles = css`
+  background-color: ${backgroundColor("activity")};
+`
+
+const disabledBarStyles = css`
+  background-color: ${backgroundColor("chartBarInactive")};
+  pointer-events: none;
+`
+
+const activeTooltipStyles = css`
+  opacity: 1;
+  visibility: visible;
+`
+
+const referenceLineStyles = css`
+  position: absolute;
+  width: 0.1rem;
+  height: 108%;
+  bottom: 0;
+  left: calc(50% - 0.1rem);
+  background-image: linear-gradient(
+    ${backgroundColor("activity")} 60%,
+    rgba(255, 255, 255, 0) 0%
+  );
+  background-position: right;
+  background-size: 0.1rem 4%;
+  background-repeat: repeat-y;
+`
+
+const barWrapperActiveStyles = css`
+  &:before {
+    content: "";
+    ${referenceLineStyles};
+  }
+`
+
+const xAxisLabelStyles = css<{ active?: boolean }>`
+  position: absolute;
+  bottom: -3rem;
+  width: 100%;
+  text-align: center;
+  font-weight: ${({ active }) => (active ? 600 : 400)};
+`
 
 export const HorizontalLine = styled.div<{ position: number }>`
   position: absolute;
@@ -72,11 +116,6 @@ export const Grid = styled.div`
   position: relative;
 `
 
-const activeTooltipStyles = css`
-  opacity: 1;
-  visibility: visible;
-`
-
 export const Tooltip = styled.div`
   position: absolute;
   z-index: 2;
@@ -106,15 +145,6 @@ export const Tooltip = styled.div`
   }
 `
 
-const activeBarStyles = css`
-  background-color: ${backgroundColor("activity")};
-`
-
-const disabledBarStyles = css`
-  background-color: ${backgroundColor("chartBarInactive")};
-  pointer-events: none;
-`
-
 export const Bar = styled.div<{
   height: number
 }>`
@@ -134,47 +164,6 @@ export const Bar = styled.div<{
   }
 `
 
-const referenceLineStyles = css`
-  position: absolute;
-  width: 0.1rem;
-  height: 108%;
-  bottom: 0;
-  left: calc(50% - 0.1rem);
-  background-image: linear-gradient(
-    ${backgroundColor("activity")} 60%,
-    rgba(255, 255, 255, 0) 0%
-  );
-  background-position: right;
-  background-size: 0.1rem 4%;
-  background-repeat: repeat-y;
-`
-
-const xAxisLabelStyles = css<{ active?: boolean }>`
-  position: absolute;
-  bottom: -3rem;
-  width: 100%;
-  text-align: center;
-  font-weight: ${({ active }) => (active ? 600 : 400)};
-`
-
-const barWrapperActiveStyles = css`
-  &:before {
-    content: "";
-    ${referenceLineStyles};
-  }
-
-  /* stylelint-disable no-descending-specificity */
-  ${Bar} {
-    ${activeBarStyles};
-  }
-`
-
-const barWrapperDisabledStyles = css`
-  ${Bar} {
-    ${disabledBarStyles};
-  }
-`
-
 export const BarWrapper = styled.div<{ active?: boolean; disabled?: boolean }>`
   position: relative;
   height: 100%;
@@ -187,8 +176,22 @@ export const BarWrapper = styled.div<{ active?: boolean; disabled?: boolean }>`
     ${xAxisLabelStyles};
   }
 
-  ${({ active }) => active && barWrapperActiveStyles};
-  ${({ disabled }) => disabled && barWrapperDisabledStyles};
+  ${({ active }) =>
+    active &&
+    css`
+      ${barWrapperActiveStyles};
+      ${Bar} {
+        ${activeBarStyles};
+      }
+    `};
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      ${Bar} {
+        ${disabledBarStyles};
+      }
+    `};
 `
 
 export const GroupWrapper = styled.div<{ active?: boolean; bars: number }>`

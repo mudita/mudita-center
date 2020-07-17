@@ -1,5 +1,5 @@
 import moment from "moment"
-import { BarData } from "Renderer/components/core/meditation-stats/meditation-stats.component"
+import { BarData } from "Renderer/components/rest/meditation-stats/meditation-stats.component"
 
 export const generateWeeklyMediationData = (): BarData[] => {
   const data = []

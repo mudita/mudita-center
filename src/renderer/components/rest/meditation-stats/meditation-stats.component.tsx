@@ -19,8 +19,8 @@ import {
   Tooltip,
   YAxis,
   YAxisTitle,
-} from "Renderer/components/core/meditation-stats/meditation-stats.styled"
-import { MeditationStatsTestIds } from "Renderer/components/core/meditation-stats/meditation-stats.interface"
+} from "Renderer/components/rest/meditation-stats/meditation-stats.styled"
+import { MeditationStatsTestIds } from "Renderer/components/rest/meditation-stats/meditation-stats.interface"
 
 export enum ChartType {
   Weekly,

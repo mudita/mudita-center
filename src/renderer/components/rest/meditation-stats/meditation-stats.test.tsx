@@ -4,13 +4,13 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import MeditationStats, {
   ChartType,
   MeditationStatsProps,
-} from "Renderer/components/core/meditation-stats/meditation-stats.component"
+} from "Renderer/components/rest/meditation-stats/meditation-stats.component"
 import {
   generateWeeklyMediationData,
   generateMonthlyMeditationData,
   generateYearlyMeditationData,
 } from "App/__mocks__/meditation-stats.mock"
-import { MeditationStatsTestIds } from "Renderer/components/core/meditation-stats/meditation-stats.interface"
+import { MeditationStatsTestIds } from "Renderer/components/rest/meditation-stats/meditation-stats.interface"
 import moment from "moment"
 import theme from "Renderer/styles/theming/theme"
 
