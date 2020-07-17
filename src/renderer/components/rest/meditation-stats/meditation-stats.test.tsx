@@ -10,7 +10,7 @@ import {
   generateMonthlyMeditationData,
   generateYearlyMeditationData,
 } from "App/__mocks__/meditation-stats.mock"
-import { MeditationStatsTestIds } from "Renderer/components/rest/meditation-stats/meditation-stats.interface"
+import { MeditationStatsTestIds } from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
 import moment from "moment"
 import theme from "Renderer/styles/theming/theme"
 

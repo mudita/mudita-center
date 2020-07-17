@@ -20,7 +20,7 @@ import {
   YAxis,
   YAxisTitle,
 } from "Renderer/components/rest/meditation-stats/meditation-stats.styled"
-import { MeditationStatsTestIds } from "Renderer/components/rest/meditation-stats/meditation-stats.interface"
+import { MeditationStatsTestIds } from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
 
 export enum ChartType {
   Weekly,
