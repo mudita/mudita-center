@@ -18,7 +18,7 @@ export const dateWithinThisWeek = ({
   startDate,
   endDate,
 }: MeditationNavProps): boolean => {
-  const currentDate = new Date()
+  const currentDate = Date.now()
 
   return (
     moment(startDate).isSame(currentDate, "isoWeek") &&
