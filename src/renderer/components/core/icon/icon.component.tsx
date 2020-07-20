@@ -56,6 +56,7 @@ const Icon: FunctionComponent<Props> = ({
   height,
   width,
   type,
+  children,
   ...rest
 }) => {
   return (
@@ -68,6 +69,7 @@ const Icon: FunctionComponent<Props> = ({
       {...rest}
     >
       <Svg Image={getIconType(type)} />
+      {children}
     </Wrapper>
   )
 }

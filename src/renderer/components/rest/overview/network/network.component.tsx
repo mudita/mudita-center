@@ -67,7 +67,7 @@ const Network: FunctionComponent<NetworkProps> = ({
           </Text>
         )}
       </TextInfo>
-      <CardAction>
+      <CardAction withTooltip>
         {Boolean(simCards.length) ? (
           simCards.map((simCard) => {
             const onClick = () => onSimChange(simCard)

@@ -5,4 +5,5 @@ export interface ButtonTogglerItemProps {
 
 export interface ButtonTogglerProps {
   filled?: boolean
+  withTooltip?: boolean
 }
