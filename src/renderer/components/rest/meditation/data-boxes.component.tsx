@@ -2,10 +2,23 @@ import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import DataBox from "Renderer/components/rest/meditation/data-box.component"
 import { TextWrapper } from "Renderer/components/rest/meditation/data-box.styled"
-import LargeDataText from "Renderer/components/rest/meditation/large-data-text.component"
-import SmallDataText from "Renderer/components/rest/meditation/small-data-text.component"
-import CaptionDataText from "Renderer/components/rest/meditation/caption-data-text.component"
 import styled from "styled-components"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  daysPracticed: {
+    id: "view.name.meditation.dataBox.daysPracticed",
+  },
+  totalPracticeTime: {
+    id: "view.name.meditation.dataBox.totalPracticeTime",
+  },
+  averageSessionLength: {
+    id: "view.name.meditation.dataBox.averageSessionLength",
+  },
+})
 
 const DataBoxesWrapper = styled.div`
   display: grid;
@@ -18,30 +31,66 @@ const DataBoxes: FunctionComponent<{}> = () => (
   <DataBoxesWrapper>
     <DataBox>
       <TextWrapper>
-        <LargeDataText>6</LargeDataText>
-        <SmallDataText>/7</SmallDataText>
+        <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
+          6
+        </Text>
+        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+          /7
+        </Text>
       </TextWrapper>
-      <CaptionDataText id="view.name.meditation.dataBox.daysPracticed" />
+      <Text
+        displayStyle={TextDisplayStyle.SmallFadedText}
+        element={"p"}
+        message={messages.daysPracticed}
+      />
     </DataBox>
     <DataBox>
       <TextWrapper>
-        <LargeDataText>1</LargeDataText>
-        <SmallDataText>h</SmallDataText>
-        <LargeDataText>11</LargeDataText>
-        <SmallDataText>m</SmallDataText>
-        <LargeDataText>14</LargeDataText>
-        <SmallDataText>s</SmallDataText>
+        <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
+          1
+        </Text>
+        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+          h
+        </Text>
+        <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
+          11
+        </Text>
+        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+          m
+        </Text>
+        <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
+          14
+        </Text>
+        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+          s
+        </Text>
       </TextWrapper>
-      <CaptionDataText id="view.name.meditation.dataBox.totalPracticeTime" />
+      <Text
+        displayStyle={TextDisplayStyle.SmallFadedText}
+        element={"p"}
+        message={messages.totalPracticeTime}
+      />
     </DataBox>
     <DataBox>
       <TextWrapper>
-        <LargeDataText>17</LargeDataText>
-        <SmallDataText>m</SmallDataText>
-        <LargeDataText>32</LargeDataText>
-        <SmallDataText>s</SmallDataText>
+        <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
+          17
+        </Text>
+        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+          m
+        </Text>
+        <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
+          32
+        </Text>
+        <Text displayStyle={TextDisplayStyle.MediumText} element={"span"}>
+          s
+        </Text>
       </TextWrapper>
-      <CaptionDataText id="view.name.meditation.dataBox.averageSessionLength" />
+      <Text
+        displayStyle={TextDisplayStyle.SmallFadedText}
+        element={"p"}
+        message={messages.averageSessionLength}
+      />
     </DataBox>
   </DataBoxesWrapper>
 )
