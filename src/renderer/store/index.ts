@@ -17,7 +17,7 @@ const config: InitConfig<RootModel> = {
   plugins: [selectPlugin()],
 }
 
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV !== "test") {
   config.redux = {
     initialState: {
       filesManager: filesManagerSeed,
