@@ -31,7 +31,9 @@ import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { noop } from "Renderer/utils/noop"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
+import Story from "Renderer/components/storybook/story.component"
+import StoryContainer from "Renderer/components/storybook/story-container.component"
 
 export const Checkbox = styled(InputCheckbox)``
 
@@ -69,34 +71,40 @@ export const SelectableFiles = styled(Files)`
   }
 `
 
-const Part = styled.div`
-  padding: 2rem;
-  p {
-    margin-bottom: 2rem;
-  }
-`
-
-const PartWrapper = styled.div`
-  display: flex;
-  height: 100vh;
-`
-
 const CustomSidebarTitle = styled(Text)`
   margin: 0 !important;
 `
 
-const CustomizedSidebar = styled(Sidebar)`
-  --header-height: 8rem;
-  --header-background: #eee;
-
-  max-height: 24rem;
+const partsStoryStyles = css`
+  min-height: 5rem;
+  > * {
+    min-width: 40rem;
+  }
 `
 
-storiesOf("Components|Table/Parts", module)
+const partsStoryContainerStyles = css`
+  main {
+    ${partsStoryStyles};
+  }
+`
+
+const sidebarStoryStyles = css`
+  > * {
+    margin-right: 0 !important;
+  }
+`
+
+const fullPageStoryStyles = css`
+  height: 90vh;
+  width: auto;
+  align-items: initial;
+  justify-content: initial;
+`
+
+storiesOf("Components|Core/Table/Parts", module)
   .add("Labels", () => (
     <>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Column labels</Text>
+      <Story title="Column labels" customStyle={partsStoryStyles}>
         <Files>
           <Labels>
             <Col>File type</Col>
@@ -104,9 +112,8 @@ storiesOf("Components|Table/Parts", module)
             <Col>Size</Col>
           </Labels>
         </Files>
-      </Part>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Group label</Text>
+      </Story>
+      <Story title="Group label" customStyle={partsStoryStyles}>
         <Files>
           <Group>
             <Labels>
@@ -114,135 +121,155 @@ storiesOf("Components|Table/Parts", module)
             </Labels>
           </Group>
         </Files>
-      </Part>
+      </Story>
     </>
   ))
-  .add("Rows / types", () => (
+  .add("Rows", () => (
     <>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Big row</Text>
-        <Files>
-          <Row size={RowSize.Big}>
-            <Col>Music</Col>
-            <Col>{new Date().toLocaleString()}</Col>
-            <Col>50 MB</Col>
-          </Row>
-        </Files>
-      </Part>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>
-          Medium (default) row
-        </Text>
-        <Files>
-          <Row>
-            <Col>Music</Col>
-            <Col>{new Date().toLocaleString()}</Col>
-            <Col>50 MB</Col>
-          </Row>
-        </Files>
-      </Part>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Small row</Text>
-        <Files>
-          <Row size={RowSize.Small}>
-            <Col>Music</Col>
-            <Col>{new Date().toLocaleString()}</Col>
-            <Col>50 MB</Col>
-          </Row>
-        </Files>
-      </Part>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Tiny row</Text>
-        <Files>
-          <Row size={RowSize.Tiny}>
-            <Col>Music</Col>
-            <Col>{new Date().toLocaleString()}</Col>
-            <Col>50 MB</Col>
-          </Row>
-        </Files>
-      </Part>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>
-          Nested rows (default and small)
-        </Text>
-        <Files>
-          <Row>
-            <Col>Music</Col>
-            <Col>{new Date().toLocaleString()}</Col>
-            <Col>50 MB</Col>
-          </Row>
-          <NestedGroup>
-            <Row size={RowSize.Small}>
-              <Col>Ringtones</Col>
+      <StoryContainer
+        title="Sizes"
+        column
+        customStyle={partsStoryContainerStyles}
+      >
+        <Story title="Big">
+          <Files>
+            <Row size={RowSize.Big}>
+              <Col>Music</Col>
               <Col>{new Date().toLocaleString()}</Col>
-              <Col>10 MB</Col>
+              <Col>50 MB</Col>
             </Row>
-            <Row size={RowSize.Small}>
-              <Col>Songs</Col>
+          </Files>
+        </Story>
+        <Story title="Medium (default)">
+          <Files>
+            <Row size={RowSize.Medium}>
+              <Col>Music</Col>
               <Col>{new Date().toLocaleString()}</Col>
-              <Col>40 MB</Col>
+              <Col>50 MB</Col>
             </Row>
-          </NestedGroup>
-        </Files>
-      </Part>
-    </>
-  ))
-  .add("Rows / states", () => (
-    <>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Default</Text>
-        <SelectableFiles>
-          <Row>
-            <Col>
-              <Checkbox checked={false} onChange={noop} />
-              <div>Music</div>
-            </Col>
-            <Col>{new Date().toLocaleString()}</Col>
-            <Col>50 MB</Col>
-          </Row>
-        </SelectableFiles>
-      </Part>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Hovered</Text>
-        <SelectableFiles>
-          <Row style={{ backgroundColor: theme.color.background.minor }}>
-            <Col>
-              <Checkbox checked={false} onChange={noop} />
-              <div>Music</div>
-            </Col>
-            <Col>{new Date().toLocaleString()}</Col>
-            <Col>50 MB</Col>
-          </Row>
-        </SelectableFiles>
-      </Part>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>
-          Active (clickable)
-        </Text>
-        <SelectableFiles>
-          <Row active onClick={noop}>
-            <Col>
-              <Checkbox checked={false} onChange={noop} />
-              <div>Music</div>
-            </Col>
-            <Col>{new Date().toLocaleString()}</Col>
-            <Col>50 MB</Col>
-          </Row>
-        </SelectableFiles>
-      </Part>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Selected</Text>
-        <SelectableFiles>
-          <Row selected>
-            <Col>
-              <Checkbox checked={true} onChange={noop} />
-              <div>Music</div>
-            </Col>
-            <Col>{new Date().toLocaleString()}</Col>
-            <Col>50 MB</Col>
-          </Row>
-        </SelectableFiles>
-      </Part>
+          </Files>
+        </Story>
+        <Story title="Small">
+          <Files>
+            <Row size={RowSize.Small}>
+              <Col>Music</Col>
+              <Col>{new Date().toLocaleString()}</Col>
+              <Col>50 MB</Col>
+            </Row>
+          </Files>
+        </Story>
+        <Story title="Tiny">
+          <Files>
+            <Row size={RowSize.Tiny}>
+              <Col>Music</Col>
+              <Col>{new Date().toLocaleString()}</Col>
+              <Col>50 MB</Col>
+            </Row>
+          </Files>
+        </Story>
+      </StoryContainer>
+      <StoryContainer
+        title="Types"
+        column
+        customStyle={partsStoryContainerStyles}
+      >
+        <Story title="Nested (big and default)">
+          <Files>
+            <Row size={RowSize.Big}>
+              <Col>Music</Col>
+              <Col>{new Date().toLocaleString()}</Col>
+              <Col>50 MB</Col>
+            </Row>
+            <NestedGroup>
+              <Row>
+                <Col>Ringtones</Col>
+                <Col>{new Date().toLocaleString()}</Col>
+                <Col>10 MB</Col>
+              </Row>
+              <Row>
+                <Col>Songs</Col>
+                <Col>{new Date().toLocaleString()}</Col>
+                <Col>40 MB</Col>
+              </Row>
+            </NestedGroup>
+          </Files>
+        </Story>
+        <Story title="Nested (default and small)">
+          <Files>
+            <Row>
+              <Col>Music</Col>
+              <Col>{new Date().toLocaleString()}</Col>
+              <Col>50 MB</Col>
+            </Row>
+            <NestedGroup>
+              <Row size={RowSize.Small}>
+                <Col>Ringtones</Col>
+                <Col>{new Date().toLocaleString()}</Col>
+                <Col>10 MB</Col>
+              </Row>
+              <Row size={RowSize.Small}>
+                <Col>Songs</Col>
+                <Col>{new Date().toLocaleString()}</Col>
+                <Col>40 MB</Col>
+              </Row>
+            </NestedGroup>
+          </Files>
+        </Story>
+      </StoryContainer>
+      <StoryContainer
+        title="States"
+        column
+        customStyle={partsStoryContainerStyles}
+      >
+        <Story title="Default">
+          <SelectableFiles>
+            <Row>
+              <Col>
+                <Checkbox checked={false} onChange={noop} />
+                <div>Music</div>
+              </Col>
+              <Col>{new Date().toLocaleString()}</Col>
+              <Col>50 MB</Col>
+            </Row>
+          </SelectableFiles>
+        </Story>
+        <Story title="Hovered">
+          <SelectableFiles>
+            <Row style={{ backgroundColor: theme.color.background.minor }}>
+              <Col>
+                <Checkbox checked={false} onChange={noop} />
+                <div>Music</div>
+              </Col>
+              <Col>{new Date().toLocaleString()}</Col>
+              <Col>50 MB</Col>
+            </Row>
+          </SelectableFiles>
+        </Story>
+        <Story title="Active">
+          <SelectableFiles>
+            <Row active onClick={noop}>
+              <Col>
+                <Checkbox checked={false} onChange={noop} />
+                <div>Music</div>
+              </Col>
+              <Col>{new Date().toLocaleString()}</Col>
+              <Col>50 MB</Col>
+            </Row>
+          </SelectableFiles>
+        </Story>
+        <Story title="Selected">
+          <SelectableFiles>
+            <Row selected>
+              <Col>
+                <Checkbox checked={true} onChange={noop} />
+                <div>Music</div>
+              </Col>
+              <Col>{new Date().toLocaleString()}</Col>
+              <Col>50 MB</Col>
+            </Row>
+          </SelectableFiles>
+        </Story>
+      </StoryContainer>
     </>
   ))
   .add("Sidebar", () => {
@@ -269,16 +296,18 @@ storiesOf("Components|Table/Parts", module)
     )
     return (
       <>
-        <Part>
-          <Text displayStyle={TextDisplayStyle.SmallText}>Default</Text>
+        <Story title="Default" customStyle={sidebarStoryStyles} transparentMode>
           <Sidebar onClose={action("Close sidebar")}>
             <p>Some content</p>
             <p>Some content</p>
             <p>Some content</p>
           </Sidebar>
-        </Part>
-        <Part>
-          <Text displayStyle={TextDisplayStyle.SmallText}>With title</Text>
+        </Story>
+        <Story
+          title="With title"
+          customStyle={sidebarStoryStyles}
+          transparentMode
+        >
           <Sidebar
             onClose={action("Close sidebar")}
             headerLeft={<HeaderLeft />}
@@ -287,9 +316,12 @@ storiesOf("Components|Table/Parts", module)
             <p>Some content</p>
             <p>Some content</p>
           </Sidebar>
-        </Part>
-        <Part>
-          <Text displayStyle={TextDisplayStyle.SmallText}>With icons</Text>
+        </Story>
+        <Story
+          title="With icons"
+          customStyle={sidebarStoryStyles}
+          transparentMode
+        >
           <Sidebar
             onClose={action("Close sidebar")}
             headerRight={<HeaderRight />}
@@ -298,11 +330,12 @@ storiesOf("Components|Table/Parts", module)
             <p>Some content</p>
             <p>Some content</p>
           </Sidebar>
-        </Part>
-        <Part>
-          <Text displayStyle={TextDisplayStyle.SmallText}>
-            With title and icons
-          </Text>
+        </Story>
+        <Story
+          title="With title and icons"
+          customStyle={sidebarStoryStyles}
+          transparentMode
+        >
           <Sidebar
             onClose={action("Close sidebar")}
             headerLeft={<HeaderLeft />}
@@ -312,124 +345,84 @@ storiesOf("Components|Table/Parts", module)
             <p>Some content</p>
             <p>Some content</p>
           </Sidebar>
-        </Part>
-        <Part>
-          <Text displayStyle={TextDisplayStyle.SmallText}>
-            With custom header styles
-          </Text>
-          <CustomizedSidebar
-            onClose={action("Close sidebar")}
-            headerLeft={<HeaderLeft />}
-            headerRight={<HeaderRight />}
-          >
-            <p>Some content</p>
-            <p>Some content</p>
-            <p>Some content</p>
-          </CustomizedSidebar>
-        </Part>
-        <Part>
-          <Text displayStyle={TextDisplayStyle.SmallText}>
-            With scrollable content
-          </Text>
-          <CustomizedSidebar
-            onClose={action("Close sidebar")}
-            headerLeft={<HeaderLeft />}
-            headerRight={<HeaderRight />}
-          >
-            <p>Some content</p>
-            <p>Some content</p>
-            <p>Some content</p>
-            <p>Some content</p>
-            <p>Some content</p>
-            <p>Some content</p>
-            <p>Some content</p>
-            <p>Some content</p>
-            <p>Some content</p>
-          </CustomizedSidebar>
-        </Part>
+        </Story>
       </>
     )
   })
-  .add("Loading state", () => (
-    <PartWrapper>
+
+storiesOf("Components|Core/Table/Empty states", module)
+  .add("Loading", () => (
+    <Story customStyle={fullPageStoryStyles} transparentMode>
       <LoadingState />
-    </PartWrapper>
+    </Story>
   ))
-  .add("Empty state", () => (
-    <PartWrapper>
+  .add("Empty", () => (
+    <Story customStyle={fullPageStoryStyles} transparentMode>
       <EmptyState
         title={{ id: "view.name.phone.contacts.emptyList.title" }}
         description={{
           id: "view.name.phone.contacts.emptyList.emptyPhonebook.description",
         }}
       />
-    </PartWrapper>
+    </Story>
   ))
 
-storiesOf("Components|Table/Basic", module)
-  .add("Empty", () => (
-    <Contacts>
-      <Labels>
-        <Col>Name</Col>
-        <Col>Phone</Col>
-      </Labels>
-      <EmptyState
-        title={{ id: "view.name.phone.contacts.emptyList.title" }}
-        description={{
-          id: "view.name.phone.contacts.emptyList.emptyPhonebook.description",
-        }}
-      />
-    </Contacts>
-  ))
-  .add("With data", () => (
-    <Contacts>
-      <Labels>
-        <Col>Name</Col>
-        <Col>Phone</Col>
-      </Labels>
-      {basicRows.map((row, index) => {
-        return (
-          <Row key={index}>
-            <Col>
-              {row.firstName} {row.lastName}
-            </Col>
-            <Col>{row.phoneNumber}</Col>
-          </Row>
-        )
-      })}
-    </Contacts>
+storiesOf("Components|Core/Table/Basic", module)
+  .add("Default", () => (
+    <Story customStyle={fullPageStoryStyles} transparentMode>
+      <Contacts>
+        <Labels>
+          <Col>Name</Col>
+          <Col>Phone</Col>
+        </Labels>
+        {basicRows.map((row, index) => {
+          return (
+            <Row key={index}>
+              <Col>
+                {row.firstName} {row.lastName}
+              </Col>
+              <Col>{row.phoneNumber}</Col>
+            </Row>
+          )
+        })}
+      </Contacts>
+    </Story>
   ))
   .add("Without labels", () => (
-    <Contacts>
-      {basicRows.map((row, index) => {
-        return (
-          <Row key={index}>
-            <Col>
-              {row.firstName} {row.lastName}
-            </Col>
-            <Col>{row.phoneNumber}</Col>
-          </Row>
-        )
-      })}
-    </Contacts>
+    <Story customStyle={fullPageStoryStyles} transparentMode>
+      <Contacts>
+        {basicRows.map((row, index) => {
+          return (
+            <Row key={index}>
+              <Col>
+                {row.firstName} {row.lastName}
+              </Col>
+              <Col>{row.phoneNumber}</Col>
+            </Row>
+          )
+        })}
+      </Contacts>
+    </Story>
   ))
   .add("With columns hidden", () => (
-    <Contacts hideableColumnsIndexes={[1]} hideColumns>
-      <Labels>
-        <Col>Name</Col>
-        <Col>Phone</Col>
-      </Labels>
-      {basicRows.map((row, index) => {
-        return (
-          <Row key={index}>
-            <Col>
-              {row.firstName} {row.lastName}
-            </Col>
-            <Col>{row.phoneNumber}</Col>
-          </Row>
-        )
-      })}
-    </Contacts>
+    <Story customStyle={fullPageStoryStyles} transparentMode>
+      <Contacts hideableColumnsIndexes={[1]} hideColumns>
+        <Labels>
+          <Col>Name</Col>
+          <Col>Phone</Col>
+        </Labels>
+        {basicRows.map((row, index) => {
+          return (
+            <Row key={index}>
+              <Col>
+                {row.firstName} {row.lastName}
+              </Col>
+              <Col>{row.phoneNumber}</Col>
+            </Row>
+          )
+        })}
+      </Contacts>
+    </Story>
   ))
   .add("With sidebar", () => {
     const {
@@ -446,16 +439,59 @@ storiesOf("Components|Table/Basic", module)
     )
 
     return (
-      <TableWithSidebarWrapper style={{ maxWidth: "97.5rem" }}>
-        <Contacts hideableColumnsIndexes={[1]} hideColumns={sidebarOpened}>
+      <Story customStyle={fullPageStoryStyles} transparentMode>
+        <TableWithSidebarWrapper style={{ maxWidth: "97.5rem" }}>
+          <Contacts hideableColumnsIndexes={[1]} hideColumns={sidebarOpened}>
+            <Labels>
+              <Col>Name</Col>
+              <Col>Phone</Col>
+            </Labels>
+            {basicRows.map((row, index) => {
+              const onClick = () => openSidebar(row)
+              return (
+                <Row key={index} onClick={onClick} active={activeRow === row}>
+                  <Col>
+                    {row.firstName} {row.lastName}
+                  </Col>
+                  <Col>{row.phoneNumber}</Col>
+                </Row>
+              )
+            })}
+          </Contacts>
+          <Sidebar
+            show={sidebarOpened}
+            onClose={closeSidebar}
+            headerLeft={<SidebarTitle />}
+          >
+            <p>Phone</p>
+            <p>{activeRow?.phoneNumber}</p>
+          </Sidebar>
+        </TableWithSidebarWrapper>
+      </Story>
+    )
+  })
+  .add("With selectable rows", () => {
+    const { getRowStatus, toggleRow } = useTableSelect(basicRows)
+    return (
+      <Story customStyle={fullPageStoryStyles} transparentMode>
+        <SelectableContacts>
           <Labels>
+            <Col />
             <Col>Name</Col>
             <Col>Phone</Col>
           </Labels>
           {basicRows.map((row, index) => {
-            const onClick = () => openSidebar(row)
+            const { selected, indeterminate } = getRowStatus(row)
+            const onChange = () => toggleRow(row)
             return (
-              <Row key={index} onClick={onClick} active={activeRow === row}>
+              <Row key={index}>
+                <Col>
+                  <Checkbox
+                    checked={selected}
+                    indeterminate={indeterminate}
+                    onChange={onChange}
+                  />
+                </Col>
                 <Col>
                   {row.firstName} {row.lastName}
                 </Col>
@@ -463,47 +499,8 @@ storiesOf("Components|Table/Basic", module)
               </Row>
             )
           })}
-        </Contacts>
-        <Sidebar
-          show={sidebarOpened}
-          onClose={closeSidebar}
-          headerLeft={<SidebarTitle />}
-        >
-          <p>Phone</p>
-          <p>{activeRow?.phoneNumber}</p>
-        </Sidebar>
-      </TableWithSidebarWrapper>
-    )
-  })
-  .add("With selectable rows", () => {
-    const { getRowStatus, toggleRow } = useTableSelect(basicRows)
-    return (
-      <SelectableContacts>
-        <Labels>
-          <Col />
-          <Col>Name</Col>
-          <Col>Phone</Col>
-        </Labels>
-        {basicRows.map((row, index) => {
-          const { selected, indeterminate } = getRowStatus(row)
-          const onChange = () => toggleRow(row)
-          return (
-            <Row key={index}>
-              <Col>
-                <Checkbox
-                  checked={selected}
-                  indeterminate={indeterminate}
-                  onChange={onChange}
-                />
-              </Col>
-              <Col>
-                {row.firstName} {row.lastName}
-              </Col>
-              <Col>{row.phoneNumber}</Col>
-            </Row>
-          )
-        })}
-      </SelectableContacts>
+        </SelectableContacts>
+      </Story>
     )
   })
   .add("Sortable", () => {
@@ -518,54 +515,43 @@ storiesOf("Components|Table/Basic", module)
     }
 
     return (
-      <Contacts>
-        <Labels>
-          <Col onClick={sortByName}>
-            Name{" "}
-            <TableSortButton
-              sortDirection={sortDirection.firstName || SortDirection.Ascending}
-            />
-          </Col>
-          <Col onClick={sortByPhoneNumber}>
-            Phone{" "}
-            <TableSortButton
-              sortDirection={
-                sortDirection.phoneNumber || SortDirection.Ascending
-              }
-            />
-          </Col>
-        </Labels>
-        {data.map((row) => {
-          return (
-            <Row key={`${row.firstName} ${row.lastName}`}>
-              <Col>
-                {row.firstName} {row.lastName}
-              </Col>
-              <Col>{row.phoneNumber}</Col>
-            </Row>
-          )
-        })}
-      </Contacts>
+      <Story customStyle={fullPageStoryStyles} transparentMode>
+        <Contacts>
+          <Labels>
+            <Col onClick={sortByName}>
+              Name{" "}
+              <TableSortButton
+                sortDirection={
+                  sortDirection.firstName || SortDirection.Ascending
+                }
+              />
+            </Col>
+            <Col onClick={sortByPhoneNumber}>
+              Phone{" "}
+              <TableSortButton
+                sortDirection={
+                  sortDirection.phoneNumber || SortDirection.Ascending
+                }
+              />
+            </Col>
+          </Labels>
+          {data.map((row) => {
+            return (
+              <Row key={`${row.firstName} ${row.lastName}`}>
+                <Col>
+                  {row.firstName} {row.lastName}
+                </Col>
+                <Col>{row.phoneNumber}</Col>
+              </Row>
+            )
+          })}
+        </Contacts>
+      </Story>
     )
   })
 
-storiesOf("Components|Table/Nested", module)
-  .add("Empty", () => (
-    <Files>
-      <Labels>
-        <Col>File type</Col>
-        <Col>Last backup</Col>
-        <Col>Size</Col>
-      </Labels>
-      <EmptyState
-        title={{ id: "view.name.phone.contacts.emptyList.title" }}
-        description={{
-          id: "view.name.phone.contacts.emptyList.emptyPhonebook.description",
-        }}
-      />
-    </Files>
-  ))
-  .add("With data", () => {
+storiesOf("Components|Core/Table/Nested", module)
+  .add("Default", () => {
     const SingleRow = ({ data, ...rest }: any) => (
       <Row {...rest}>
         <Col>{data.fileType}</Col>
@@ -574,29 +560,31 @@ storiesOf("Components|Table/Nested", module)
       </Row>
     )
     return (
-      <Files>
-        <Labels>
-          <Col>File type</Col>
-          <Col>Last backup</Col>
-          <Col>Size</Col>
-        </Labels>
-        {nestedRows.map((row, index) => (
-          <React.Fragment key={index}>
-            <SingleRow data={row} size={RowSize.Small} />
-            {row._children && (
-              <NestedGroup>
-                {row._children.map((childRow, childIndex) => (
-                  <SingleRow
-                    data={childRow}
-                    key={childIndex}
-                    size={RowSize.Tiny}
-                  />
-                ))}
-              </NestedGroup>
-            )}
-          </React.Fragment>
-        ))}
-      </Files>
+      <Story customStyle={fullPageStoryStyles} transparentMode>
+        <Files>
+          <Labels>
+            <Col>File type</Col>
+            <Col>Last backup</Col>
+            <Col>Size</Col>
+          </Labels>
+          {nestedRows.map((row, index) => (
+            <React.Fragment key={index}>
+              <SingleRow data={row} size={RowSize.Small} />
+              {row._children && (
+                <NestedGroup>
+                  {row._children.map((childRow, childIndex) => (
+                    <SingleRow
+                      data={childRow}
+                      key={childIndex}
+                      size={RowSize.Tiny}
+                    />
+                  ))}
+                </NestedGroup>
+              )}
+            </React.Fragment>
+          ))}
+        </Files>
+      </Story>
     )
   })
   .add("Without labels", () => {
@@ -608,24 +596,26 @@ storiesOf("Components|Table/Nested", module)
       </Row>
     )
     return (
-      <Files>
-        {nestedRows.map((row, index) => (
-          <React.Fragment key={index}>
-            <SingleRow data={row} size={RowSize.Small} />
-            {row._children && (
-              <NestedGroup>
-                {row._children.map((childRow, childIndex) => (
-                  <SingleRow
-                    data={childRow}
-                    key={childIndex}
-                    size={RowSize.Tiny}
-                  />
-                ))}
-              </NestedGroup>
-            )}
-          </React.Fragment>
-        ))}
-      </Files>
+      <Story customStyle={fullPageStoryStyles} transparentMode>
+        <Files>
+          {nestedRows.map((row, index) => (
+            <React.Fragment key={index}>
+              <SingleRow data={row} size={RowSize.Small} />
+              {row._children && (
+                <NestedGroup>
+                  {row._children.map((childRow, childIndex) => (
+                    <SingleRow
+                      data={childRow}
+                      key={childIndex}
+                      size={RowSize.Tiny}
+                    />
+                  ))}
+                </NestedGroup>
+              )}
+            </React.Fragment>
+          ))}
+        </Files>
+      </Story>
     )
   })
   .add("With columns hidden", () => {
@@ -637,29 +627,31 @@ storiesOf("Components|Table/Nested", module)
       </Row>
     )
     return (
-      <Files hideableColumnsIndexes={[1, 2]} hideColumns>
-        <Labels>
-          <Col>File type</Col>
-          <Col>Last backup</Col>
-          <Col>Size</Col>
-        </Labels>
-        {nestedRows.map((row, index) => (
-          <React.Fragment key={index}>
-            <SingleRow data={row} size={RowSize.Small} />
-            {row._children && (
-              <NestedGroup>
-                {row._children.map((childRow, childIndex) => (
-                  <SingleRow
-                    data={childRow}
-                    key={childIndex}
-                    size={RowSize.Tiny}
-                  />
-                ))}
-              </NestedGroup>
-            )}
-          </React.Fragment>
-        ))}
-      </Files>
+      <Story customStyle={fullPageStoryStyles} transparentMode>
+        <Files hideableColumnsIndexes={[1, 2]} hideColumns>
+          <Labels>
+            <Col>File type</Col>
+            <Col>Last backup</Col>
+            <Col>Size</Col>
+          </Labels>
+          {nestedRows.map((row, index) => (
+            <React.Fragment key={index}>
+              <SingleRow data={row} size={RowSize.Small} />
+              {row._children && (
+                <NestedGroup>
+                  {row._children.map((childRow, childIndex) => (
+                    <SingleRow
+                      data={childRow}
+                      key={childIndex}
+                      size={RowSize.Tiny}
+                    />
+                  ))}
+                </NestedGroup>
+              )}
+            </React.Fragment>
+          ))}
+        </Files>
+      </Story>
     )
   })
   .add("With selectable rows", () => {
@@ -692,87 +684,83 @@ storiesOf("Components|Table/Nested", module)
       )
     }
     return (
-      <SelectableFiles>
-        <Labels>
-          <Col>
-            <Checkbox
-              onChange={toggleAll}
-              checked={allRowsSelected}
-              indeterminate={!allRowsSelected && !noneRowsSelected}
-            />
-            <div>File type</div>
-          </Col>
-          <Col>Last backup</Col>
-          <Col>Size</Col>
-        </Labels>
-        {nestedRows.map((row, index) => (
-          <React.Fragment key={index}>
-            <SingleRow data={row} size={RowSize.Small} />
-            {row._children && (
-              <NestedGroup>
-                {row._children.map((childRow, childIndex) => (
-                  <SingleRow
-                    data={childRow}
-                    key={childIndex}
-                    size={RowSize.Tiny}
-                  />
-                ))}
-              </NestedGroup>
-            )}
-          </React.Fragment>
-        ))}
-      </SelectableFiles>
+      <Story customStyle={fullPageStoryStyles} transparentMode>
+        <SelectableFiles>
+          <Labels>
+            <Col>
+              <Checkbox
+                onChange={toggleAll}
+                checked={allRowsSelected}
+                indeterminate={!allRowsSelected && !noneRowsSelected}
+              />
+              <div>File type</div>
+            </Col>
+            <Col>Last backup</Col>
+            <Col>Size</Col>
+          </Labels>
+          {nestedRows.map((row, index) => (
+            <React.Fragment key={index}>
+              <SingleRow data={row} size={RowSize.Small} />
+              {row._children && (
+                <NestedGroup>
+                  {row._children.map((childRow, childIndex) => (
+                    <SingleRow
+                      data={childRow}
+                      key={childIndex}
+                      size={RowSize.Tiny}
+                    />
+                  ))}
+                </NestedGroup>
+              )}
+            </React.Fragment>
+          ))}
+        </SelectableFiles>
+      </Story>
     )
   })
 
-storiesOf("Components|Table/Grouped", module)
-  .add("Empty", () => (
-    <Contacts>
-      <EmptyState
-        title={{ id: "view.name.phone.contacts.emptyList.title" }}
-        description={{
-          id: "view.name.phone.contacts.emptyList.emptyPhonebook.description",
-        }}
-      />
-    </Contacts>
-  ))
-  .add("With data", () => (
-    <Contacts>
-      {Object.keys(labeledRows).map((group) => (
-        <Group key={group}>
-          <Labels>
-            <Col>{group}</Col>
-          </Labels>
-          {labeledRows[group].map((row: any, index: number) => (
-            <Row key={index}>
-              <Col>
-                {row.firstName} {row.lastName}
-              </Col>
-              <Col>{row.phoneNumber}</Col>
-            </Row>
-          ))}
-        </Group>
-      ))}
-    </Contacts>
+storiesOf("Components|Core/Table/Grouped", module)
+  .add("Default", () => (
+    <Story customStyle={fullPageStoryStyles} transparentMode>
+      <Contacts>
+        {Object.keys(labeledRows).map((group) => (
+          <Group key={group}>
+            <Labels>
+              <Col>{group}</Col>
+            </Labels>
+            {labeledRows[group].map((row: any, index: number) => (
+              <Row key={index}>
+                <Col>
+                  {row.firstName} {row.lastName}
+                </Col>
+                <Col>{row.phoneNumber}</Col>
+              </Row>
+            ))}
+          </Group>
+        ))}
+      </Contacts>
+    </Story>
   ))
   .add("With hidden columns", () => (
-    <Contacts hideableColumnsIndexes={[1]} hideColumns>
-      {Object.keys(labeledRows).map((group) => (
-        <Group key={group}>
-          <Labels>
-            <Col>{group}</Col>
-          </Labels>
-          {labeledRows[group].map((row: any, index: number) => (
-            <Row key={index}>
-              <Col>
-                {row.firstName} {row.lastName}
-              </Col>
-              <Col>{row.phoneNumber}</Col>
-            </Row>
-          ))}
-        </Group>
-      ))}
-    </Contacts>
+    <Story customStyle={fullPageStoryStyles} transparentMode>
+      <Contacts hideableColumnsIndexes={[1]} hideColumns>
+        {Object.keys(labeledRows).map((group) => (
+          <Group key={group}>
+            <Labels>
+              <Col>{group}</Col>
+            </Labels>
+            {labeledRows[group].map((row: any, index: number) => (
+              <Row key={index}>
+                <Col>
+                  {row.firstName} {row.lastName}
+                </Col>
+                <Col>{row.phoneNumber}</Col>
+              </Row>
+            ))}
+          </Group>
+        ))}
+      </Contacts>
+    </Story>
   ))
   .add("With sidebar", () => {
     const {
@@ -796,17 +784,64 @@ storiesOf("Components|Table/Grouped", module)
     )
 
     return (
-      <TableWithSidebarWrapper>
-        <Contacts hideableColumnsIndexes={[1]} hideColumns={sidebarOpened}>
+      <Story customStyle={fullPageStoryStyles} transparentMode>
+        <TableWithSidebarWrapper>
+          <Contacts hideableColumnsIndexes={[1]} hideColumns={sidebarOpened}>
+            {Object.keys(labeledRows).map((group) => (
+              <Group key={group}>
+                <Labels>
+                  <Col>{group}</Col>
+                </Labels>
+                {labeledRows[group].map((row: any, index: number) => {
+                  const onClick = () => openSidebar(row)
+                  return (
+                    <Row key={index} onClick={onClick}>
+                      <Col>
+                        {row.firstName} {row.lastName}
+                      </Col>
+                      <Col>{row.phoneNumber}</Col>
+                    </Row>
+                  )
+                })}
+              </Group>
+            ))}
+          </Contacts>
+          <Sidebar
+            show={sidebarOpened}
+            onClose={closeSidebar}
+            headerLeft={<SidebarTitle />}
+            headerRight={<SidebarActions />}
+          >
+            <p>Phone</p>
+            <p>{activeRow?.phoneNumber}</p>
+          </Sidebar>
+        </TableWithSidebarWrapper>
+      </Story>
+    )
+  })
+  .add("With selectable rows", () => {
+    const { toggleRow, getRowStatus } = useTableSelect(nestedRows)
+    return (
+      <Story customStyle={fullPageStoryStyles} transparentMode>
+        <SelectableContacts>
           {Object.keys(labeledRows).map((group) => (
             <Group key={group}>
               <Labels>
+                <Col />
                 <Col>{group}</Col>
               </Labels>
               {labeledRows[group].map((row: any, index: number) => {
-                const onClick = () => openSidebar(row)
+                const { selected, indeterminate } = getRowStatus(row)
+                const onChange = () => toggleRow(row)
                 return (
-                  <Row key={index} onClick={onClick}>
+                  <Row key={index}>
+                    <Col>
+                      <Checkbox
+                        checked={selected}
+                        indeterminate={indeterminate}
+                        onChange={onChange}
+                      />
+                    </Col>
                     <Col>
                       {row.firstName} {row.lastName}
                     </Col>
@@ -816,50 +851,7 @@ storiesOf("Components|Table/Grouped", module)
               })}
             </Group>
           ))}
-        </Contacts>
-        <Sidebar
-          show={sidebarOpened}
-          onClose={closeSidebar}
-          headerLeft={<SidebarTitle />}
-          headerRight={<SidebarActions />}
-        >
-          <p>Phone</p>
-          <p>{activeRow?.phoneNumber}</p>
-        </Sidebar>
-      </TableWithSidebarWrapper>
-    )
-  })
-  .add("With selectable rows", () => {
-    const { toggleRow, getRowStatus } = useTableSelect(nestedRows)
-    return (
-      <SelectableContacts>
-        {Object.keys(labeledRows).map((group) => (
-          <Group key={group}>
-            <Labels>
-              <Col />
-              <Col>{group}</Col>
-            </Labels>
-            {labeledRows[group].map((row: any, index: number) => {
-              const { selected, indeterminate } = getRowStatus(row)
-              const onChange = () => toggleRow(row)
-              return (
-                <Row key={index}>
-                  <Col>
-                    <Checkbox
-                      checked={selected}
-                      indeterminate={indeterminate}
-                      onChange={onChange}
-                    />
-                  </Col>
-                  <Col>
-                    {row.firstName} {row.lastName}
-                  </Col>
-                  <Col>{row.phoneNumber}</Col>
-                </Row>
-              )
-            })}
-          </Group>
-        ))}
-      </SelectableContacts>
+        </SelectableContacts>
+      </Story>
     )
   })
