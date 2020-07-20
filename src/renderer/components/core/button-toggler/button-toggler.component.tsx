@@ -6,11 +6,21 @@ import {
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { disabledSecondaryStyles } from "Renderer/components/core/button/button.styled.elements"
-import { borderRadius } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  borderRadius,
+  boxShadowColor,
+  zIndex,
+} from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import { intl } from "Renderer/utils/intl"
+import { MessageDescriptor } from "react-intl"
 
 const ButtonTogglerWrapper = styled.section`
   display: flex;
@@ -58,21 +68,18 @@ export const ButtonTogglerItem = styled(ButtonComponent).attrs<
   }
 `
 
-const TooltipText = styled.p`
+const TooltipText = styled.div`
   visibility: hidden;
-  width: 120px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
+  width: 27.5rem;
+  background-color: ${backgroundColor("row")};
+  padding: 1.6rem;
   position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
+  z-index: ${zIndex("modal")};
+  top: 1.8rem;
+  left: 0;
   opacity: 0;
   transition: opacity 0.3s;
+  box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("light")};
 `
 
 const TooltipIcon = styled(Icon)`
@@ -84,17 +91,36 @@ const TooltipIcon = styled(Icon)`
   }
 `
 
+const TooltipTitle = styled(Text)`
+  margin-bottom: 0.8rem;
+`
+
 const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
   className,
   filled,
   withTooltip = false,
+  tooltipTitle,
+  tooltipDescription,
   children,
 }) => {
   return (
     <ButtonTogglerWrapper className={className}>
       {withTooltip && (
         <TooltipIcon type={Type.Tooltip} height={1.6} width={1.6}>
-          <TooltipText>lala</TooltipText>
+          <TooltipText>
+            <TooltipTitle
+              displayStyle={TextDisplayStyle.MediumText}
+              element={"p"}
+            >
+              {intl.formatMessage(tooltipTitle as MessageDescriptor)}
+            </TooltipTitle>
+            <Text
+              displayStyle={TextDisplayStyle.SmallFadedLightText}
+              element={"p"}
+            >
+              {intl.formatMessage(tooltipDescription as MessageDescriptor)}
+            </Text>
+          </TooltipText>
         </TooltipIcon>
       )}
       {React.Children.map(children, (child) => {

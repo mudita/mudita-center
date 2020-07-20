@@ -1,3 +1,5 @@
+import { MessageDescriptor } from "react-intl"
+
 export interface ButtonTogglerItemProps {
   filled?: boolean
   active?: boolean
@@ -6,4 +8,6 @@ export interface ButtonTogglerItemProps {
 export interface ButtonTogglerProps {
   filled?: boolean
   withTooltip?: boolean
+  tooltipTitle?: MessageDescriptor
+  tooltipDescription?: MessageDescriptor
 }

@@ -63,6 +63,8 @@
   "view.name.overview.network.description": "Select SIM card to activate:",
   "view.name.overview.network.noSimInserted": "No SIM card inserted",
   "view.name.overview.network.simInfo": "SIM {slot} ({phone})",
+  "view.name.overview.network.tooltipTitle": "Activate card",
+  "view.name.overview.network.tooltipDescription": "You can activate this SIM card by going to network settings in your phone.",
   "view.name.overview.system.version": "OS version",
   "view.name.overview.system.lastUpdate": "Updated: {date}",
   "view.name.overview.system.checkForUpdates": "Check for updates",
