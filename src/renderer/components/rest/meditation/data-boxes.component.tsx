@@ -8,7 +8,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 
-const messages = defineMessages({
+export const messages = defineMessages({
   daysPracticed: {
     id: "view.name.meditation.dataBox.daysPracticed",
   },
