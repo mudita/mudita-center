@@ -25,6 +25,7 @@ import { MessageDescriptor } from "react-intl"
 const ButtonTogglerWrapper = styled.section`
   display: flex;
   flex-direction: row;
+  position: relative;
 `
 
 export const ButtonTogglerItem = styled(ButtonComponent).attrs<
@@ -70,11 +71,10 @@ export const ButtonTogglerItem = styled(ButtonComponent).attrs<
 
 const TooltipText = styled.div`
   visibility: hidden;
-  width: 27.5rem;
+  width: 24.3rem;
   background-color: ${backgroundColor("row")};
   padding: 1.6rem;
   position: absolute;
-  z-index: ${zIndex("modal")};
   top: 1.8rem;
   left: 0;
   opacity: 0;
@@ -83,6 +83,10 @@ const TooltipText = styled.div`
 `
 
 const TooltipIcon = styled(Icon)`
+  position: absolute;
+  top: -0.8rem;
+  left: -0.8rem;
+  z-index: ${zIndex("modal")};
   &:hover {
     ${TooltipText} {
       visibility: visible;
