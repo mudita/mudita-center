@@ -69,7 +69,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
 
   useEffect(() => {
     setContacts(contactList)
-  }, [contactList.length])
+  }, [contactList])
 
   const handleNameUpdate = ({
     firstName,
