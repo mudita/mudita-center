@@ -4,9 +4,6 @@ import Story from "Renderer/components/storybook/story.component"
 import React from "react"
 import DataBox from "Renderer/components/rest/meditation/data-box.component"
 import { TextWrapper } from "Renderer/components/rest/meditation/data-box.styled"
-import LargeDataText from "Renderer/components/rest/meditation/large-data-text.component"
-import SmallDataText from "Renderer/components/rest/meditation/small-data-text.component"
-import CaptionDataText from "Renderer/components/rest/meditation/caption-data-text.component"
 import DataBoxes, {
   messages,
 } from "Renderer/components/rest/meditation/data-boxes.component"
