@@ -36,7 +36,6 @@ const renderButtonToggler = (
   return {
     ...outcome,
     getButtons: () => outcome.queryAllByRole("button"),
-    getTooltip: () => outcome.getByTestId(ButtonTogglerTestIds.Tooltip),
   }
 }
 
@@ -84,13 +83,13 @@ test("switches active state properly", async () => {
 })
 
 test("renders tooltip", () => {
-  const { getTooltip } = renderButtonToggler(twoStateToggler)
-  expect(getTooltip()).toBeInTheDocument()
+  const { getByTestId } = renderButtonToggler(twoStateToggler)
+  expect(getByTestId("icon-Tooltip")).toBeInTheDocument()
 })
 
 test("tooltip has correct text", () => {
-  const { getTooltip } = renderButtonToggler(twoStateToggler)
-  expect(getTooltip()).toHaveTextContent(
+  const { getByTestId } = renderButtonToggler(twoStateToggler)
+  expect(getByTestId(ButtonTogglerTestIds.Tooltip)).toHaveTextContent(
     "[value] view.name.news[value] view.name.news"
   )
 })

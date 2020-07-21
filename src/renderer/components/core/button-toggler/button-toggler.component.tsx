@@ -71,12 +71,12 @@ export const ButtonTogglerItem = styled(ButtonComponent).attrs<
 `
 
 const TooltipText = styled.div`
-  visibility: hidden;
-  width: 24.3rem;
+  width: max-content;
+  max-width: 24.3rem;
   background-color: ${backgroundColor("row")};
   padding: 1.6rem;
   position: absolute;
-  top: 1.8rem;
+  top: 1rem;
   left: 0;
   opacity: 0;
   transition: opacity ${transitionTime("faster")}
@@ -89,9 +89,8 @@ const TooltipIcon = styled(Icon)`
   position: absolute;
   top: -0.8rem;
   left: -0.8rem;
-
   &:hover {
-    ${TooltipText} {
+    + ${TooltipText} {
       visibility: visible;
       opacity: 1;
     }
@@ -112,13 +111,9 @@ const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
   return (
     <ButtonTogglerWrapper className={className}>
       {Boolean(tooltipTitle) && Boolean(tooltipDescription) && (
-        <TooltipIcon
-          type={Type.Tooltip}
-          height={1.6}
-          width={1.6}
-          data-testid={ButtonTogglerTestIds.Tooltip}
-        >
-          <TooltipText>
+        <>
+          <TooltipIcon type={Type.Tooltip} height={1.6} width={1.6} />
+          <TooltipText data-testid={ButtonTogglerTestIds.Tooltip}>
             <TooltipTitle
               displayStyle={TextDisplayStyle.MediumText}
               element={"p"}
@@ -130,7 +125,7 @@ const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
               message={tooltipDescription}
             />
           </TooltipText>
-        </TooltipIcon>
+        </>
       )}
       {React.Children.map(children, (child) => {
         return React.cloneElement(child as ReactElement, {

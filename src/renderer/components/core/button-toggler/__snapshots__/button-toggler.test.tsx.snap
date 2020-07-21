@@ -144,12 +144,14 @@ exports[`matches snapshot 1`] = `
 }
 
 .c4 {
-  visibility: hidden;
-  width: 24.3rem;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 24.3rem;
   background-color: #ffffff;
   padding: 1.6rem;
   position: absolute;
-  top: 1.8rem;
+  top: 1rem;
   left: 0;
   opacity: 0;
   -webkit-transition: opacity 0.3s ease-in-out;
@@ -164,7 +166,7 @@ exports[`matches snapshot 1`] = `
   left: -0.8rem;
 }
 
-.c2:hover .c3 {
+.c2:hover + .c3 {
   visibility: visible;
   opacity: 1;
 }
@@ -179,27 +181,28 @@ exports[`matches snapshot 1`] = `
   >
     <div
       class="c1 c2"
-      data-testid="tooltip"
+      data-testid="icon-Tooltip"
       height="1.6"
       width="1.6"
     >
       <test-file-stub
         image="test-file-stub"
       />
-      <div
-        class="c3 c4"
+    </div>
+    <div
+      class="c3 c4"
+      data-testid="tooltip"
+    >
+      <p
+        class="c5 c6"
       >
-        <p
-          class="c5 c6"
-        >
-          [value] view.name.news
-        </p>
-        <p
-          class="c7"
-        >
-          [value] view.name.news
-        </p>
-      </div>
+        [value] view.name.news
+      </p>
+      <p
+        class="c7"
+      >
+        [value] view.name.news
+      </p>
     </div>
     <button
       class="c8 c9"
