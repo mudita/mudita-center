@@ -1,7 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.c3 {
+.c5 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.05;
+}
+
+.c7 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: #6a6a6a;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+  font-weight: 300;
+}
+
+.c10 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -13,6 +31,29 @@ exports[`matches snapshot 1`] = `
 }
 
 .c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 1.6rem;
+  width: 1.6rem;
+  position: relative;
+}
+
+.c1 svg {
+  width: 100%;
+  height: 100%;
+}
+
+.c8 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -40,15 +81,15 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c1 g {
+.c8 g {
   fill: #000000;
 }
 
-.c1:hover {
+.c8:hover {
   border-color: #000000;
 }
 
-.c4 {
+.c11 {
   white-space: nowrap;
 }
 
@@ -60,9 +101,10 @@ exports[`matches snapshot 1`] = `
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
+  position: relative;
 }
 
-.c2 {
+.c9 {
   --radius: 0.5rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -71,58 +113,112 @@ exports[`matches snapshot 1`] = `
   pointer-events: all;
 }
 
-.c2:disabled {
+.c9:disabled {
   pointer-events: none;
 }
 
-.c2:hover {
+.c9:hover {
   z-index: 2;
 }
 
-.c2:not(:hover) {
+.c9:not(:hover) {
   border: 0.1rem solid #cdcecf;
   color: #cdcecf;
 }
 
-.c2:not(:hover) g {
+.c9:not(:hover) g {
   fill: #cdcecf;
 }
 
-.c2:not(:first-of-type) {
+.c9:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c2:first-of-type:not(:last-of-type) {
+.c9:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c2:last-of-type:not(:first-of-type) {
+.c9:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c4 {
+  visibility: hidden;
+  width: 24.3rem;
+  background-color: #ffffff;
+  padding: 1.6rem;
+  position: absolute;
+  top: 1.8rem;
+  left: 0;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
+}
+
+.c2 {
+  position: absolute;
+  top: -0.8rem;
+  left: -0.8rem;
+  z-index: 5;
+}
+
+.c2:hover .c3 {
+  visibility: visible;
+  opacity: 1;
+}
+
+.c6 {
+  margin-bottom: 0.8rem;
 }
 
 <div>
   <section
     class="c0"
   >
-    <button
+    <div
       class="c1 c2"
+      data-testid="tooltip"
+      height="1.6"
+      width="1.6"
+    >
+      <test-file-stub
+        image="test-file-stub"
+      />
+      <div
+        class="c3 c4"
+      >
+        <p
+          class="c5 c6"
+        >
+          [value] view.name.news
+        </p>
+        <p
+          class="c7"
+        >
+          [value] view.name.news
+        </p>
+      </div>
+    </div>
+    <button
+      class="c8 c9"
       size="2"
       type="button"
     >
       <p
-        class="c3 c4"
+        class="c10 c11"
       >
         On
       </p>
     </button>
     <button
-      class="c1 c2"
+      class="c8 c9"
       size="2"
       type="button"
     >
       <p
-        class="c3 c4"
+        class="c10 c11"
       >
         Off
       </p>

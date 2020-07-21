@@ -73,7 +73,6 @@ const Network: FunctionComponent<NetworkProps> = ({
         )}
       </TextInfo>
       <CardAction
-        withTooltip
         tooltipTitle={messages.tooltipTitle}
         tooltipDescription={messages.tooltipDescription}
       >

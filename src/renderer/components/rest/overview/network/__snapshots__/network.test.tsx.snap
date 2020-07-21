@@ -119,21 +119,28 @@ exports[`matches snapshot 1`] = `
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
+  position: relative;
 }
 
 .c8 {
   visibility: hidden;
-  width: 27.5rem;
+  width: 24.3rem;
   background-color: #ffffff;
   padding: 1.6rem;
   position: absolute;
-  z-index: 5;
   top: 1.8rem;
   left: 0;
   opacity: 0;
   -webkit-transition: opacity 0.3s;
   transition: opacity 0.3s;
   box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
+}
+
+.c6 {
+  position: absolute;
+  top: -0.8rem;
+  left: -0.8rem;
+  z-index: 5;
 }
 
 .c6:hover .c7 {
@@ -238,7 +245,7 @@ exports[`matches snapshot 1`] = `
     >
       <div
         class="c5 c6"
-        data-testid="icon-Tooltip"
+        data-testid="tooltip"
         height="1.6"
         width="1.6"
       >
