@@ -5,7 +5,7 @@ import {
   TextBox,
 } from "Renderer/components/rest/meditation/data-box.styled"
 
-const DataBox: FunctionComponent<{}> = ({ children }) => (
+const DataBox: FunctionComponent = ({ children }) => (
   <DataWrapper>
     <TextBox>{children}</TextBox>
   </DataWrapper>
