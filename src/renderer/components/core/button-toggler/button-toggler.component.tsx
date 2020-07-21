@@ -10,7 +10,9 @@ import {
   backgroundColor,
   borderRadius,
   boxShadowColor,
+  transitionTime,
   zIndex,
+  transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
@@ -77,7 +79,8 @@ const TooltipText = styled.div`
   top: 1.8rem;
   left: 0;
   opacity: 0;
-  transition: opacity 0.3s;
+  transition: opacity ${transitionTime("faster")}
+    ${transitionTimingFunction("easeInOut")};
   box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("light")};
 `
 
