@@ -155,13 +155,13 @@ exports[`matches snapshot 1`] = `
   -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
   box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
+  z-index: 4;
 }
 
 .c2 {
   position: absolute;
   top: -0.8rem;
   left: -0.8rem;
-  z-index: 5;
 }
 
 .c2:hover .c3 {
