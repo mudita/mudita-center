@@ -87,6 +87,7 @@ const messages = defineMessages({
     id: "view.name.tools.notes.deleteButton",
   },
   charactersNumber: { id: "view.name.tools.notes.editor.charactersNumber" },
+  temporaryText: { id: "view.name.tools.notes.temporaryText" },
 })
 
 interface Note {
@@ -97,15 +98,17 @@ interface Note {
 
 interface NotesProps {
   notesList: Note[]
+  createNewNote?: (note: any) => void
 }
 
 const mockFilter = (data: Note[], ids: string[]): Note[] =>
   data.filter(({ id }) => ids.indexOf(id) === -1)
 
-const Notes: FunctionComponent<NotesProps> = ({ notesList }) => {
+const Notes: FunctionComponent<NotesProps> = ({ notesList, createNewNote }) => {
   const maxCharacters = 4000
-  const [notes, setNotes] = useState<Note[]>([])
-  const { data: sortedData, sort, sortDirection } = useSort(notesList)
+  const [notes, setNotes] = useState<Note[]>(notesList)
+  const [newNoteCreated, setNewNoteCreated] = useState(false)
+  const { data: sortedData, sort, sortDirection } = useSort(notes)
   const {
     getRowStatus,
     toggleRow,
@@ -132,6 +135,13 @@ const Notes: FunctionComponent<NotesProps> = ({ notesList }) => {
 
   const selectionManagerVisible = selectedRows.length > 0
   const notesAvailable = notes.length > 0
+
+  const onNewButtonClick = () => {
+    if (createNewNote) {
+      createNewNote(openSidebar)
+      setNewNoteCreated(true)
+    }
+  }
 
   /**
    * Just an exemplary effect here, it will be removed
@@ -183,7 +193,7 @@ const Notes: FunctionComponent<NotesProps> = ({ notesList }) => {
           displayStyle={DisplayStyle.Primary}
           size={ButtonSize.FixedBig}
           label={intl.formatMessage(messages.newNote)}
-          onClick={noop}
+          onClick={onNewButtonClick}
           Icon={Type.PlusSign}
         />
       </FiltersWrapper>
@@ -216,7 +226,10 @@ const Notes: FunctionComponent<NotesProps> = ({ notesList }) => {
                   content
                 )
 
-                const text = getTemporaryValue().substr(0, 250)
+                const text =
+                  getTemporaryValue().length === 0
+                    ? intl.formatMessage(messages.temporaryText)
+                    : getTemporaryValue().substr(0, 250)
 
                 const toggle = () => {
                   if (sidebarOpened) {
@@ -281,6 +294,7 @@ const Notes: FunctionComponent<NotesProps> = ({ notesList }) => {
                 currentCharacters: textLength,
                 maxCharacters,
               })}
+              autoFocus={newNoteCreated}
             />
           )}
         </NotesSidebar>
