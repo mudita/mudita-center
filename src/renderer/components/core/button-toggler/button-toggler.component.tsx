@@ -19,8 +19,6 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { intl } from "Renderer/utils/intl"
-import { MessageDescriptor } from "react-intl"
 
 const ButtonTogglerWrapper = styled.section`
   display: flex;
@@ -102,28 +100,25 @@ const TooltipTitle = styled(Text)`
 const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
   className,
   filled,
-  withTooltip = false,
   tooltipTitle,
   tooltipDescription,
   children,
 }) => {
   return (
     <ButtonTogglerWrapper className={className}>
-      {withTooltip && (
+      {Boolean(tooltipTitle) && Boolean(tooltipDescription) && (
         <TooltipIcon type={Type.Tooltip} height={1.6} width={1.6}>
           <TooltipText>
             <TooltipTitle
               displayStyle={TextDisplayStyle.MediumText}
               element={"p"}
-            >
-              {intl.formatMessage(tooltipTitle as MessageDescriptor)}
-            </TooltipTitle>
+              message={tooltipTitle}
+            />
             <Text
               displayStyle={TextDisplayStyle.SmallFadedLightText}
               element={"p"}
-            >
-              {intl.formatMessage(tooltipDescription as MessageDescriptor)}
-            </Text>
+              message={tooltipDescription}
+            />
           </TooltipText>
         </TooltipIcon>
       )}
