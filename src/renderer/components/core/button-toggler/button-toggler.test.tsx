@@ -7,6 +7,8 @@ import ButtonToggler, {
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { noop } from "Renderer/utils/noop"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
+import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
 
 export const singleStateToggler = ["Turn on"]
 
@@ -19,7 +21,10 @@ const renderButtonToggler = (
   onClick: (label: string) => void = noop
 ) => {
   const outcome = renderWithThemeAndIntl(
-    <ButtonToggler>
+    <ButtonToggler
+      tooltipTitle={mockDefineMessages()}
+      tooltipDescription={mockDefineMessages()}
+    >
       {options.map((label, i) => {
         const onClickHandler = () => onClick(label)
         return (
@@ -31,6 +36,7 @@ const renderButtonToggler = (
   return {
     ...outcome,
     getButtons: () => outcome.queryAllByRole("button"),
+    getTooltip: () => outcome.getByTestId(ButtonTogglerTestIds.Tooltip),
   }
 }
 
@@ -75,4 +81,16 @@ test("switches active state properly", async () => {
   await clickOnButton(1)
   await clickOnButton(0)
   await clickOnButton(2)
+})
+
+test("renders tooltip", () => {
+  const { getTooltip } = renderButtonToggler(twoStateToggler)
+  expect(getTooltip()).toBeInTheDocument()
+})
+
+test("tooltip has correct text", () => {
+  const { getTooltip } = renderButtonToggler(twoStateToggler)
+  expect(getTooltip()).toHaveTextContent(
+    "[value] view.name.news[value] view.name.news"
+  )
 })

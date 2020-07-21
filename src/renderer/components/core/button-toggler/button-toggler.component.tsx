@@ -19,6 +19,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
 
 const ButtonTogglerWrapper = styled.section`
   display: flex;
@@ -107,7 +108,12 @@ const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
   return (
     <ButtonTogglerWrapper className={className}>
       {Boolean(tooltipTitle) && Boolean(tooltipDescription) && (
-        <TooltipIcon type={Type.Tooltip} height={1.6} width={1.6}>
+        <TooltipIcon
+          type={Type.Tooltip}
+          height={1.6}
+          width={1.6}
+          data-testid={ButtonTogglerTestIds.Tooltip}
+        >
           <TooltipText>
             <TooltipTitle
               displayStyle={TextDisplayStyle.MediumText}
