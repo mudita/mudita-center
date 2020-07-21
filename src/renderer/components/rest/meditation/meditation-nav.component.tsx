@@ -20,7 +20,7 @@ import {
   MeditationNavProps,
 } from "Renderer/components/rest/meditation/meditation-nav.helpers"
 
-const formatDate = (show: DateFormatItems[]) => {
+const intlDateFormat = (show: DateFormatItems[]) => {
   const baseConfig = {
     day: "2-digit",
     month: "short",
@@ -73,11 +73,11 @@ const MeditationNav: FunctionComponent<MeditationNavProps> = ({
             <ArrowLeft />
           </Button>
           <DateRange long={Boolean(endDate)}>
-            <FormattedDate value={startDate} {...dateFormat(show)} />
+            <FormattedDate value={startDate} {...intlDateFormat(show)} />
             {endDate && (
               <>
                 <Separator />
-                <FormattedDate value={endDate} {...dateFormat(show)} />
+                <FormattedDate value={endDate} {...intlDateFormat(show)} />
               </>
             )}
           </DateRange>
