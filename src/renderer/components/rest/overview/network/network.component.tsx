@@ -47,7 +47,7 @@ const NoSimButton = () => {
   return <CardActionButton label={label} disabled />
 }
 
-const messages = defineMessages({
+export const messages = defineMessages({
   tooltipTitle: { id: "view.name.overview.network.tooltipTitle" },
   tooltipDescription: { id: "view.name.overview.network.tooltipDescription" },
 })

@@ -89,6 +89,7 @@ const TooltipIcon = styled(Icon)`
   position: absolute;
   top: -0.8rem;
   left: -0.8rem;
+  z-index: ${zIndex("tooltip")};
   &:hover {
     + ${TooltipText} {
       visibility: visible;
