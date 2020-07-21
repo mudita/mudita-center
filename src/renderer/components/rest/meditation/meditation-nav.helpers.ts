@@ -1,19 +1,22 @@
 import moment from "moment"
 
 export type MediationDate = string | number | Date
+export enum DateFormatItems {
+  Year = "Year",
+  Month = "Month",
+  Day = "Day",
+}
 
 export interface MeditationNavProps {
   startDate: MediationDate
-  endDate: MediationDate
+  endDate?: MediationDate
+  show?: DateFormatItems[]
 }
 
 export const formatDate = (input: MediationDate): string | Date => {
-  if (typeof input === "string") {
-    return input
-  }
-
   return new Date(input)
 }
+
 export const dateWithinThisWeek = ({
   startDate,
   endDate,

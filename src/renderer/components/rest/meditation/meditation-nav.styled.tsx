@@ -1,14 +1,18 @@
+import React from "react"
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import ButtonComponent from "Renderer/components/core/button/button.component"
 
 export const DateRange = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.LargeBoldText,
-}))`
+}))<{ long?: boolean }>`
   margin-bottom: 0.4rem;
   text-align: center;
-  min-width: 19rem;
+  min-width: ${({ long }) => (long ? "19rem" : "auto")};
+  padding: ${({ long }) => !long && "0 1rem"};
 `
 
 export const WeekIndicator = styled(Text).attrs(() => ({
@@ -32,20 +36,12 @@ export const Wrapper = styled.div`
   flex-flow: row wrap;
 `
 
-export const GotoButton = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallSupplementaryText,
-  element: "button",
+export const GotoButton = styled(ButtonComponent).attrs(() => ({
+  displayStyle: DisplayStyle.Link3,
 }))`
-  line-height: 1.7rem;
-  cursor: pointer;
-  background: none;
-  border: 0;
-  padding: 0;
-  align-self: flex-start;
-  margin-right: 1.65rem;
-
-  &:focus,
-  &:active {
-    outline: 0;
-  }
+  width: auto;
+  position: relative;
+  top: -1.2rem;
 `
+
+export const Separator = () => <span> - </span>

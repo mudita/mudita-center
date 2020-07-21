@@ -4,25 +4,46 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import ArrowLeft from "Renderer/svg/arrow-long-left.svg"
 import ArrowRight from "Renderer/svg/arrow-long-right.svg"
 import { noop } from "Renderer/utils/noop"
-import { defineMessages } from "react-intl"
+import { defineMessages, FormattedDate } from "react-intl"
 import {
   Button,
   DateRange,
   GotoButton,
+  Separator,
   WeekIndicator,
   Wrapper,
 } from "Renderer/components/rest/meditation/meditation-nav.styled"
-import { FormattedDate } from "react-intl"
 import {
+  DateFormatItems,
   dateWithinThisWeek,
   formatDate,
   MeditationNavProps,
 } from "Renderer/components/rest/meditation/meditation-nav.helpers"
 
-const dateFormatConfig = {
-  year: "numeric",
-  month: "short",
-  day: "2-digit",
+const dateFormat = (show: DateFormatItems[]) => {
+  const baseConfig = {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }
+
+  const config: { day?: string; month?: string; year?: string } = {}
+
+  show.forEach((item) => {
+    if (item === DateFormatItems.Day) {
+      config.day = baseConfig.day
+    }
+
+    if (item === DateFormatItems.Month) {
+      config.month = baseConfig.month
+    }
+
+    if (item === DateFormatItems.Year) {
+      config.year = baseConfig.year
+    }
+  })
+
+  return config
 }
 
 const messages = defineMessages({
@@ -33,33 +54,42 @@ const messages = defineMessages({
 const MeditationNav: FunctionComponent<MeditationNavProps> = ({
   startDate: baseStartDate,
   endDate: baseEndDate,
+  show: baseShow,
 }) => {
   const startDate = formatDate(baseStartDate)
-  const endDate = formatDate(baseEndDate)
+  const endDate = baseEndDate && baseEndDate && formatDate(baseEndDate)
+  const show = baseShow || [
+    DateFormatItems.Day,
+    DateFormatItems.Month,
+    DateFormatItems.Year,
+  ]
 
   return (
-    <>
-      <Wrapper>
-        <GotoButton message={messages.goToToday} />
-        <div>
-          <Wrapper as="nav">
-            <Button onClick={noop}>
-              <ArrowLeft />
-            </Button>
-            <DateRange>
-              <FormattedDate value={startDate} {...dateFormatConfig} /> -{" "}
-              <FormattedDate value={endDate} {...dateFormatConfig} />
-            </DateRange>
-            <Button onClick={noop}>
-              <ArrowRight />
-            </Button>
-          </Wrapper>
-          {dateWithinThisWeek({ startDate, endDate }) && (
-            <WeekIndicator message={messages.thisWeek} />
-          )}
-        </div>
-      </Wrapper>
-    </>
+    <Wrapper>
+      <GotoButton labelMessage={messages.goToToday} />
+      <div>
+        <Wrapper as="nav">
+          <Button onClick={noop}>
+            <ArrowLeft />
+          </Button>
+          <DateRange long={Boolean(endDate)}>
+            <FormattedDate value={startDate} {...dateFormat(show)} />
+            {endDate && (
+              <>
+                <Separator />
+                <FormattedDate value={endDate} {...dateFormat(show)} />
+              </>
+            )}
+          </DateRange>
+          <Button onClick={noop}>
+            <ArrowRight />
+          </Button>
+        </Wrapper>
+        {endDate && dateWithinThisWeek({ startDate, endDate }) && (
+          <WeekIndicator message={messages.thisWeek} />
+        )}
+      </div>
+    </Wrapper>
   )
 }
 
