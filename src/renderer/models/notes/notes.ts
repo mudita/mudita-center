@@ -1,7 +1,7 @@
-import { exampleData } from "App/__mocks__/notes"
+import { notesList } from "App/__mocks__/notes"
 
 const initalState = {
-  notesList: exampleData,
+  notesList,
 }
 
 export default {
