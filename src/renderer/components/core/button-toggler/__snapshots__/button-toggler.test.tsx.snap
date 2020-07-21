@@ -164,6 +164,7 @@ exports[`matches snapshot 1`] = `
   position: absolute;
   top: -0.8rem;
   left: -0.8rem;
+  z-index: 4;
 }
 
 .c2:hover + .c3 {
