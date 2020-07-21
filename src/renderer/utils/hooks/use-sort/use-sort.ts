@@ -1,5 +1,5 @@
 import { sortBy } from "lodash"
-import { useReducer } from "react"
+import { useEffect, useReducer } from "react"
 import {
   createSortDirection,
   getData,
@@ -20,17 +20,24 @@ const sortReducer = <T = SortingDictionary>(
   const { sortKey, data } = action
   const { sortDirection } = state
 
+  if (sortKey) {
+    return {
+      data: getData({
+        dataToSort: sortBy(data, sortKey),
+        sorted: sortKey in sortDirection,
+        sortDirection,
+        sortKey,
+      }),
+      sortDirection: {
+        ...sortDirection,
+        [sortKey]: getSortingDirection(sortDirection[sortKey]),
+      },
+    }
+  }
+
   return {
-    data: getData({
-      dataToSort: sortBy(data, sortKey),
-      sorted: sortKey in sortDirection,
-      sortDirection,
-      sortKey,
-    }),
-    sortDirection: {
-      ...sortDirection,
-      [sortKey]: getSortingDirection(sortDirection[sortKey]),
-    },
+    data,
+    sortDirection,
   }
 }
 
@@ -47,6 +54,11 @@ const useSort = <T = SimpleSortingDictionary>(input: T[]): UseSort<T> => {
     data: input,
     sortDirection: createSortDirection(input),
   })
+
+  useEffect(() => {
+    dispatch({ data: input })
+  }, [input.length])
+
   const { data, sortDirection } = state
 
   const sort = (term: string): void => {

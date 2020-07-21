@@ -149,6 +149,10 @@ const Notes: FunctionComponent<NotesProps> = ({ notesList, createNewNote }) => {
    */
 
   useEffect(() => {
+    setNotes(notesList)
+  }, [notesList.length])
+
+  useEffect(() => {
     sortByDate()
     setNotes(sortedData)
   }, [])

@@ -13,7 +13,7 @@ export interface SortState<T> {
 
 export interface SortAction<T> {
   data: T[]
-  sortKey: string
+  sortKey?: string
 }
 
 export interface UseSort<T> {
