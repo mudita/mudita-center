@@ -1,12 +1,20 @@
-import { templates } from "Renderer/components/core/table/table.fake-data"
+import Faker from "faker"
 import { StateProps } from "Renderer/models/templates/templates.interface"
 import { Slicer } from "@rematch/select"
 import { filterTemplates } from "Renderer/models/templates/filter-templates"
+import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
 
-const initialState: StateProps = {
-  templates,
+export type TemplateCallback = (param: Template) => void
+
+export const initialState: StateProps = {
+  templates: [],
   searchValue: "",
 }
+
+export const createTemplate = (
+  id: string = Faker.random.uuid(),
+  content: string = ""
+): Template => ({ id, content })
 
 export default {
   state: initialState,
@@ -17,10 +25,47 @@ export default {
     ) {
       return { ...state, searchValue }
     },
+    createNewTemplate(state: StateProps, callback?: TemplateCallback) {
+      const oldTemplates = state.templates || []
+      const newState = {
+        ...state,
+        templates: [createTemplate(), ...oldTemplates],
+      }
+
+      if (callback) {
+        /**
+         * Due to selector laziness we have to resort to callbacks in order
+         * to process newest state.
+         */
+        callback(newState.templates[0])
+      }
+
+      return newState
+    },
+    saveTemplate(state: StateProps, templateData: Template) {
+      const modifiedTemplates = state.templates?.map((template: Template) => {
+        if (template.id === templateData.id) {
+          return templateData
+        }
+
+        return template
+      })
+
+      if (modifiedTemplates) {
+        return {
+          ...state,
+          templates: modifiedTemplates,
+        }
+      }
+
+      return state
+    },
     removeItems(state: StateProps, itemsToRemove: string[]) {
       return {
         ...state,
-        templates: templates.filter(({ id }) => !itemsToRemove.includes(id)),
+        templates: state.templates?.filter(
+          ({ id }) => !itemsToRemove.includes(id)
+        ),
       }
     },
   },

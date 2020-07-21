@@ -16,7 +16,7 @@ import { defaultContact } from "Renderer/components/rest/phone/contact-edit.comp
 import deleteContacts from "Renderer/requests/delete-contacts.request"
 import editContact from "Renderer/requests/edit-contact.request"
 
-const initialState: StoreData = {
+export const initialState: StoreData = {
   inputValue: "",
   contacts: [],
   savingContact: false,

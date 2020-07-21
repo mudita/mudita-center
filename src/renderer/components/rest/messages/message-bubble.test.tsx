@@ -4,8 +4,8 @@ import MessageBubble from "Renderer/components/rest/messages/message-bubble.comp
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom"
 
-const user = { firstName: "user", lastName: "userowski" }
-const emptyUser = { firstName: "", lastName: "" }
+const user = { firstName: "user", lastName: "userowski", id: "0" }
+const emptyUser = { firstName: "", lastName: "", id: "" }
 const id = "123"
 const message =
   "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae"

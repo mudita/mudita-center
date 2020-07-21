@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react"
+import React, { useState, ChangeEvent } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import TemplatesPanel from "Renderer/components/rest/messages/templates/templates-panel.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
@@ -14,8 +14,11 @@ import TextEditor from "Renderer/components/core/text-editor/text-editor.compone
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
+import { TemplateCallback } from "Renderer/models/templates/templates"
+import { createTemplate } from "Renderer/models/templates/templates"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteTemplateModal from "Renderer/modules/messages/tabs/delete-template-modal.component"
+import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 
 const messages = defineMessages({
   charactersNumber: { id: "view.name.messages.templates.charactersNumber" },
@@ -39,14 +42,18 @@ export interface TemplatesProps {
   onNewButtonClick?: () => void
   onSearchTermChange?: (event: ChangeEvent<HTMLInputElement>) => void
   onDeleteButtonClick: (ids: string[]) => void
+  newTemplate?: (input: TemplateCallback) => void
+  saveTemplate?: (input: Template) => void
 }
 
 const Templates: FunctionComponent<TemplatesProps> = ({
-  onNewButtonClick = noop,
   onSearchTermChange = noop,
   templates = [],
   onDeleteButtonClick,
+  newTemplate,
+  saveTemplate,
 }) => {
+  const [newTemplateCreated, setNewTemplateCreated] = useState(false)
   const {
     selectedRows,
     allRowsSelected,
@@ -56,12 +63,33 @@ const Templates: FunctionComponent<TemplatesProps> = ({
   } = useTableSelect<Template>(templates)
 
   const sidebarHook = useTableSidebar<Template>()
-  const { closeSidebar, activeRow } = sidebarHook
+  const { closeSidebar: baseCloseSidebar, activeRow, openSidebar } = sidebarHook
 
   const textEditorHook = useTextEditor(activeRow)
   const {
     temporaryText: { length: textLength },
   } = textEditorHook
+
+  const onNewButtonClick = () => {
+    if (newTemplate) {
+      newTemplate(openSidebar)
+      setNewTemplateCreated(true)
+    }
+  }
+
+  const closeSidebar = () => {
+    baseCloseSidebar()
+    setNewTemplateCreated(false)
+  }
+
+  const tryToSave = async () => {
+    if (saveTemplate && activeRow) {
+      const content = textEditorHook.temporaryText
+      const { id } = activeRow
+
+      saveTemplate(createTemplate(id, content))
+    }
+  }
 
   const onDelete = async (collection: string[]) => {
     onDeleteButtonClick(collection)
@@ -116,14 +144,21 @@ const Templates: FunctionComponent<TemplatesProps> = ({
       <TableWithSidebarWrapper>
         <TemplatesList
           templates={templates}
+          openSidebar={openSidebar}
           deleteTemplate={openModalForSingle}
           {...sidebarHook}
           {...rest}
         />
-        <TemplatesSidebar show={Boolean(activeRow)} onClose={closeSidebar}>
+        <TemplatesSidebar
+          show={Boolean(activeRow)}
+          onClose={closeSidebar}
+          data-testid={TemplatesTestIds.TextEditor}
+        >
           {activeRow && (
             <TextEditor
               {...textEditorHook}
+              saveChanges={tryToSave}
+              autoFocus={newTemplateCreated}
               statsInfo={intl.formatMessage(messages.charactersNumber, {
                 charactersCount: textLength,
                 smsCount: Math.ceil(textLength / 160),
