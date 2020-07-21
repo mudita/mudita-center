@@ -82,7 +82,7 @@ const TooltipText = styled.div`
   transition: opacity ${transitionTime("faster")}
     ${transitionTimingFunction("easeInOut")};
   box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("light")};
-  z-index: ${zIndex("modalBackdrop")};
+  z-index: ${zIndex("tooltip")};
 `
 
 const TooltipIcon = styled(Icon)`

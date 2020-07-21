@@ -132,8 +132,9 @@ const theme = {
     content: 1,
     menu: 2,
     dropdown: 3,
-    modalBackdrop: 4,
-    modal: 5,
+    tooltip: 4,
+    modalBackdrop: 5,
+    modal: 6,
   },
 }
 
