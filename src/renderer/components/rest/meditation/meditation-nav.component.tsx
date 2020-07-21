@@ -57,7 +57,7 @@ const MeditationNav: FunctionComponent<MeditationNavProps> = ({
   show: baseShow,
 }) => {
   const startDate = formatDate(baseStartDate)
-  const endDate = baseEndDate && baseEndDate && formatDate(baseEndDate)
+  const endDate = baseEndDate && formatDate(baseEndDate)
   const show = baseShow || [
     DateFormatItems.Day,
     DateFormatItems.Month,
