@@ -20,7 +20,7 @@ import {
   MeditationNavProps,
 } from "Renderer/components/rest/meditation/meditation-nav.helpers"
 
-const dateFormat = (show: DateFormatItems[]) => {
+const formatDate = (show: DateFormatItems[]) => {
   const baseConfig = {
     day: "2-digit",
     month: "short",
