@@ -12,8 +12,7 @@ const endDate = 1595109600000 // 2020-07-19
 const mockedDate = 1594977157202 // 2020-07-17
 
 test("properly treats date passed as string", () => {
-  const testString = "10.10.10"
-  expect(formatDate(testString)).toBe(testString)
+  expect(formatDate("10.10.10") instanceof Date).toBeTruthy()
 })
 
 test("properly treats date passed as number", () => {
