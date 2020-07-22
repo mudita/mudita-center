@@ -43,7 +43,10 @@ test("mock calls update state", async () => {
       "basicInfo": Object {
         "batteryLevel": 9001,
         "disconnectedDevice": false,
-        "lastBackup": "20-01-30T07:35:01.562Z20",
+        "lastBackup": Object {
+          "createdAt": "20-11-15T07:35:01.562Z20",
+          "size": 99999,
+        },
         "memorySpace": Object {
           "free": 99999999999999,
           "full": 9001,
@@ -129,7 +132,10 @@ test("change sim switches active property on sim cards", async () => {
       "basicInfo": Object {
         "batteryLevel": 9001,
         "disconnectedDevice": false,
-        "lastBackup": "20-01-30T07:35:01.562Z20",
+        "lastBackup": Object {
+          "createdAt": "20-01-30T07:35:01.562Z20",
+          "size": 1234567,
+        },
         "memorySpace": Object {
           "free": 99999999999999,
           "full": 9001,

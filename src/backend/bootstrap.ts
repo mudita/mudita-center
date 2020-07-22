@@ -10,9 +10,10 @@ import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.
 import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
 import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.request"
 import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
+import registerBackupsInfoRequest from "Backend/requests/backups/get-backups-info.request"
+import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 
 const bootstrap = () => {
-  const appAdapter = createElectronAppAdapter()
   ;[
     registerDeviceInfoRequest,
     registerNetworkInfoRequest,
@@ -24,11 +25,13 @@ const bootstrap = () => {
     registerAddContactRequest,
     registerEditContactRequest,
     registerDeleteContactsRequest,
+    registerBackupsInfoRequest,
   ].forEach((register) =>
     register({
       // TODO: Replace with a proper adapters when phone becomes available.
       ...getFakeAdapters(),
-      app: appAdapter,
+      pureBackups: createPurePhoneBackupsAdapter(),
+      app: createElectronAppAdapter(),
     })
   )
 }
