@@ -54,6 +54,7 @@ const Container = styled.main<ContainerProps>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: fit-content;
 
   ${({ transparentMode }) => transparentMode && transparentModeStyles};
 

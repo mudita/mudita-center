@@ -82,6 +82,7 @@ export const Row = styled.div<TableRowProps>`
         return 4.8
       case RowSize.Tiny:
         return 4
+      case RowSize.Medium:
       default:
         return 6.4
     }
