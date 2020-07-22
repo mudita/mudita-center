@@ -49,6 +49,7 @@ import TextEditor from "Renderer/components/core/text-editor/text-editor.compone
 import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 import { isToday } from "Renderer/utils/is-today"
 import { createNewNote } from "App/__mocks__/notes"
+import { NoteCallback } from "Renderer/models/notes/notes"
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -91,7 +92,7 @@ const messages = defineMessages({
   temporaryText: { id: "view.name.tools.notes.temporaryText" },
 })
 
-interface Note {
+export interface Note {
   date: Date
   content: string
   id: string
@@ -99,8 +100,8 @@ interface Note {
 
 interface NotesProps {
   notesList: Note[]
-  newNote?: (note: any) => void
-  saveNote?: (note: any) => void
+  newNote?: (noteCallback: NoteCallback) => void
+  saveNote?: (note: Note) => void
 }
 
 const mockFilter = (data: Note[], ids: string[]): Note[] =>

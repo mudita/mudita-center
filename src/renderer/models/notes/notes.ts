@@ -1,13 +1,17 @@
 import { createNewNote, notesList } from "App/__mocks__/notes"
+import { StateProps } from "Renderer/models/notes/notes.interface"
+import { Note } from "Renderer/modules/tools/tabs/notes-ui.component"
 
-const initalState = {
+export type NoteCallback = (param: Note) => void
+
+const initalState: StateProps = {
   notesList,
 }
 
 export default {
   state: initalState,
   reducers: {
-    createNewNote(state: any, callback?: any) {
+    createNewNote(state: StateProps, callback?: NoteCallback) {
       const oldNotes = state.notesList || []
       const newState = {
         ...state,
@@ -18,8 +22,8 @@ export default {
       }
       return newState
     },
-    saveNote(state: any, noteData: any) {
-      const modifiedNotes = state.notesList.map((note: any) => {
+    saveNote(state: StateProps, noteData: Note) {
+      const modifiedNotes = state.notesList.map((note: Note) => {
         if (note.id === noteData.id) {
           return noteData
         }
