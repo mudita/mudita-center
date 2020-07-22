@@ -20,7 +20,6 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
-
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.interface"
 import {
   FiltersWrapper,
@@ -34,12 +33,10 @@ import {
   TextCut,
   DeleteCol,
 } from "Renderer/modules/tools/tabs/notes.styled"
-
 import FunctionComponent from "Renderer/types/function-component.interface"
 import useSort from "Renderer/utils/hooks/use-sort/use-sort"
 import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
