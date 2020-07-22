@@ -23,7 +23,10 @@ import history from "Renderer/routes/history"
 const fakeState = {
   batteryLevel: 0,
   disconnectDevice: false,
-  lastBackup: "10.11.2019",
+  lastBackup: {
+    createdAt: new Date("2020-01-01"),
+    size: 100000,
+  },
   osVersion: "3.0",
   osUpdateAvailable: false,
   osUpdateAlreadyDownloaded: false,
