@@ -19,8 +19,9 @@ const registerPureBackupListeners = () => {
     if (fs.existsSync(pureOsBackupLocation)) {
       fs.readdirSync(pureOsBackupLocation).forEach((fileName) => {
         if (/^pure_backup_\d{12}\.zip$/m.test(fileName)) {
-          const stats = fs.statSync(path.join(pureOsBackupLocation, fileName))
-          const { birthtime, size } = stats
+          const { birthtime, size } = fs.statSync(
+            path.join(pureOsBackupLocation, fileName)
+          )
 
           backups.push({
             createdAt: birthtime,
