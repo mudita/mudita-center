@@ -1,3 +1,5 @@
+import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
+
 export interface SimCard {
   readonly network?: string
   readonly number: number
@@ -16,7 +18,7 @@ export interface StoreValues {
   readonly osVersion: string
   readonly osUpdateDate: number
   readonly memorySpace: MemorySpace
-  readonly lastBackup: string
+  readonly lastBackup: BackupItemInfo
   readonly simCards: SimCard[]
 }
 

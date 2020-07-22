@@ -11,6 +11,7 @@ import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-
 import registerSettingsListeners from "App/main/functions/register-settings-listeners"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
+import registerPureBackupListeners from "App/main/functions/register-pure-backup-listeners"
 
 require("dotenv").config()
 
@@ -59,6 +60,7 @@ const createWindow = async () => {
   registerNewsListener()
   registerSettingsListeners(win)
   registerAppLogsListeners()
+  registerPureBackupListeners()
 
   if (productionEnvironment) {
     win.loadURL(

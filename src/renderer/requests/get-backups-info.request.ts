@@ -1,8 +1,8 @@
 import BackupInfo from "Common/interfaces/backup-info"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
+import { PureBackupEvents } from "App/main/functions/register-pure-backup-listeners"
 
 const getBackupsInfo = (): Promise<BackupInfo> =>
-  ipcRenderer.callMain(IpcRequest.GetBackupsInfo) as Promise<BackupInfo>
+  ipcRenderer.callMain(PureBackupEvents.Get) as Promise<BackupInfo>
 
 export default getBackupsInfo

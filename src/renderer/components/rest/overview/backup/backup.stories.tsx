@@ -5,9 +5,8 @@ import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import getFakeAdapters from "App/tests/get-fake-adapters"
 import { action } from "@storybook/addon-actions"
-const fakeBackupInfo = getFakeAdapters().pureBackups.getBackups()[0]
+import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
 
 const Part = styled.div`
   padding: 2rem;
@@ -16,9 +15,10 @@ const Part = styled.div`
   }
 `
 
-export const lastBackup = new Date(fakeBackupInfo.createdAt).toLocaleDateString(
-  "en-US"
-)
+export const lastBackup: BackupItemInfo = {
+  createdAt: new Date("2020-01-01"),
+  size: 102400,
+}
 
 storiesOf("Overview|Backup", module).add("Backup", () => (
   <div style={{ maxWidth: "63rem" }}>
