@@ -71,8 +71,9 @@ import Attachment from "Renderer/svg/attachment.svg"
 import Remove from "Renderer/svg/remove.svg"
 import SendButton from "Renderer/svg/send-button.svg"
 import MenuContacts from "Renderer/svg/menu-contacts.svg"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import Backup from "Renderer/svg/backup.svg"
 
+import FunctionComponent from "Renderer/types/function-component.interface"
 export enum Type {
   Arrow,
   AttachContact,
@@ -148,6 +149,7 @@ export enum Type {
   Attachment,
   Remove,
   SendButton,
+  Backup,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -296,6 +298,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Remove
     case Type.SendButton:
       return SendButton
+    case Type.Backup:
+      return Backup
     default:
       return Message
   }

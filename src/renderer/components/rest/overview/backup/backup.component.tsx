@@ -13,10 +13,10 @@ import { FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
 import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
-import BackupIcon from "Renderer/svg/backup.svg"
 import { noop } from "Renderer/utils/noop"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const LastBackup = styled(CardText)`
   span {
@@ -76,7 +76,7 @@ const Backup: FunctionComponent<BackupProps> = ({
         label={intl.formatMessage({
           id: "view.name.overview.backup.createAction",
         })}
-        Icon={BackupIcon}
+        Icon={Type.Backup}
         onClick={onBackupCreate}
       />
     </CardAction>
