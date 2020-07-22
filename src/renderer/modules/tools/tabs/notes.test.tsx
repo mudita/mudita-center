@@ -4,15 +4,15 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 
 import Notes from "Renderer/modules/tools/tabs/notes-ui.component"
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.interface"
-import { exampleData } from "App/__mocks__/notes"
+import { notesList } from "App/__mocks__/notes"
 
-const renderer = (data = exampleData) =>
+const renderer = (data = notesList) =>
   renderWithThemeAndIntl(<Notes notesList={data} />)
 
 test("displays notes properly", () => {
   const { queryAllByTestId } = renderer()
 
-  expect(queryAllByTestId(NotesTestIds.Note).length).toBe(exampleData.length)
+  expect(queryAllByTestId(NotesTestIds.Note).length).toBe(notesList.length)
 })
 
 test("displays empty state when no notes are present", () => {

@@ -8,7 +8,8 @@ const mapStateToProps = (state: RootModel) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  createNewNote: (note: any) => dispatch.notes.createNewNote(note),
+  newNote: (note: any) => dispatch.notes.createNewNote(note),
+  saveNote: (note: any) => dispatch.notes.saveNote(note),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps as Dispatch)(Notes)

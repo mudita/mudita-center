@@ -7,9 +7,12 @@ const createNote = () => ({
   date: Faker.random.boolean() ? Faker.date.past() : Faker.date.recent(),
 })
 
-export const createEmptyNote = () => ({
-  id: Faker.random.uuid(),
-  content: "",
+export const createNewNote = (
+  id: string = Faker.random.uuid(),
+  content: string = ""
+) => ({
+  id,
+  content,
   date: Faker.date.recent(),
 })
 

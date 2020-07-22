@@ -48,6 +48,7 @@ import { defineMessages } from "react-intl"
 import TextEditor from "Renderer/components/core/text-editor/text-editor.component"
 import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 import { isToday } from "Renderer/utils/is-today"
+import { createNewNote } from "App/__mocks__/notes"
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -98,13 +99,18 @@ interface Note {
 
 interface NotesProps {
   notesList: Note[]
-  createNewNote?: (note: any) => void
+  newNote?: (note: any) => void
+  saveNote?: (note: any) => void
 }
 
 const mockFilter = (data: Note[], ids: string[]): Note[] =>
   data.filter(({ id }) => ids.indexOf(id) === -1)
 
-const Notes: FunctionComponent<NotesProps> = ({ notesList, createNewNote }) => {
+const Notes: FunctionComponent<NotesProps> = ({
+  notesList,
+  newNote,
+  saveNote,
+}) => {
   const maxCharacters = 4000
   const [notes, setNotes] = useState<Note[]>(notesList)
   const [newNoteCreated, setNewNoteCreated] = useState(false)
@@ -137,9 +143,18 @@ const Notes: FunctionComponent<NotesProps> = ({ notesList, createNewNote }) => {
   const notesAvailable = notes.length > 0
 
   const onNewButtonClick = () => {
-    if (createNewNote) {
-      createNewNote(openSidebar)
+    if (newNote) {
+      newNote(openSidebar)
       setNewNoteCreated(true)
+    }
+  }
+
+  const tryToSave = () => {
+    if (saveNote && activeRow) {
+      const content = textEditorHook.temporaryText
+      const { id } = activeRow
+
+      saveNote(createNewNote(id, content))
     }
   }
 
@@ -299,6 +314,7 @@ const Notes: FunctionComponent<NotesProps> = ({ notesList, createNewNote }) => {
                 maxCharacters,
               })}
               autoFocus={newNoteCreated}
+              saveChanges={tryToSave}
             />
           )}
         </NotesSidebar>
