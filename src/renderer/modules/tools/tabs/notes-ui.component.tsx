@@ -45,8 +45,8 @@ import { defineMessages } from "react-intl"
 import TextEditor from "Renderer/components/core/text-editor/text-editor.component"
 import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 import { isToday } from "Renderer/utils/is-today"
-import { createNewNote } from "App/__mocks__/notes"
 import { NoteCallback } from "Renderer/models/notes/notes"
+import { createNewNote } from "Renderer/models/notes/create-new-note"
 
 const messages = defineMessages({
   searchPlaceholder: {
