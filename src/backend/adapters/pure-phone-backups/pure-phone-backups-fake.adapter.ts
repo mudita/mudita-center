@@ -2,11 +2,11 @@ import PurePhoneBackupAdapter from "Backend/adapters/pure-phone-backups/pure-pho
 import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
 
 class PurePhoneBackupsFake extends PurePhoneBackupAdapter {
-  public getBackups(): BackupItemInfo[] {
+  public async getBackups(): Promise<BackupItemInfo[]> {
     return [
       {
-        createdAt: new Date("2020-01-01"),
-        size: 100000,
+        createdAt: "2020-01-15T07:35:01.562Z",
+        size: 1234,
       },
     ]
   }
