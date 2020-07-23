@@ -27,28 +27,26 @@ export interface AppSettings {
   language: Language
 }
 
-const getDefaultAppSettings = (): AppSettings => {
-  const appPath = `${app.getPath("appData")}/${name}`
-
-  return {
-    appAutostart: false,
-    appTethering: false,
-    appIncomingCalls: false,
-    appIncomingMessages: false,
-    appLowBattery: false,
-    appOsUpdates: false,
-    appNonStandardAudioFilesConversion: false,
-    appConvert: Convert.ConvertAutomatically,
-    appConversionFormat: ConversionFormat.WAV,
-    appTray: true,
-    pureOsBackupLocation: `${appPath}/pure/phone/backups/`,
-    pureOsDownloadLocation: `${appPath}/pure/os/downloads/`,
-    language: {
-      name: "English",
-      tag: "en-US",
-      shortTag: "en",
-    },
-  }
-}
+const getDefaultAppSettings = (
+  appPath = `${app.getPath("appData")}/${name}`
+): AppSettings => ({
+  appAutostart: false,
+  appTethering: false,
+  appIncomingCalls: false,
+  appIncomingMessages: false,
+  appLowBattery: false,
+  appOsUpdates: false,
+  appNonStandardAudioFilesConversion: false,
+  appConvert: Convert.ConvertAutomatically,
+  appConversionFormat: ConversionFormat.WAV,
+  appTray: true,
+  pureOsBackupLocation: `${appPath}/pure/phone/backups/`,
+  pureOsDownloadLocation: `${appPath}/pure/os/downloads/`,
+  language: {
+    name: "English",
+    tag: "en-US",
+    shortTag: "en",
+  },
+})
 
 export default getDefaultAppSettings

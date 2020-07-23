@@ -119,8 +119,6 @@ export enum Type {
   Send,
   Sim,
   Template,
-  
-  ,
   Calls,
   Connection,
   Contacts,
@@ -153,6 +151,7 @@ export enum Type {
   Remove,
   SendButton,
   Backup,
+  Tooltip,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {

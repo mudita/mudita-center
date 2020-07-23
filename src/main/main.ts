@@ -8,7 +8,6 @@ import createDownloadListenerRegistrar from "App/main/functions/create-download-
 import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
-import registerSettingsListeners from "App/main/functions/register-settings-listeners"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
 
@@ -53,11 +52,11 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
+  startBackend(win)
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
-  registerSettingsListeners(win)
   registerAppLogsListeners()
 
   if (productionEnvironment) {
@@ -92,7 +91,6 @@ const createWindow = async () => {
 }
 
 app.on("ready", createWindow)
-app.on("ready", startBackend)
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {

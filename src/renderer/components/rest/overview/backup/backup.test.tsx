@@ -7,6 +7,10 @@ import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"
 import { fireEvent, waitFor } from "@testing-library/react"
+import registerAppSettingsRequest from "Backend/requests/app-settings/get-app-settings.request"
+import getFakeAdapters from "App/tests/get-fake-adapters"
+import { ipcMain } from "electron-better-ipc"
+import { IpcRequest } from "Common/requests/ipc-request.enum"
 
 const lastBackupDate = new Date(lastBackup.createdAt).toLocaleDateString(
   "en-US"
@@ -43,6 +47,9 @@ test("renders no backup info properly", () => {
 })
 
 test("renders available backup info properly", () => {
+  registerAppSettingsRequest(getFakeAdapters())
+  ;(ipcMain as any)._flush(IpcRequest.GetAppSettings)
+
   const { getByText, restoreButton, createButton } = renderBackup({
     lastBackup,
   })

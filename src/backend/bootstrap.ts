@@ -1,5 +1,4 @@
 import getFakeAdapters from "App/tests/get-fake-adapters"
-import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
 import registerChangeSimCardRequest from "Backend/requests/change-sim/change-sim.request"
 import registerDeviceInfoRequest from "Backend/requests/device-info/get-device-info.request"
@@ -11,9 +10,16 @@ import registerAddContactRequest from "Backend/requests/phonebook/add-contact.re
 import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.request"
 import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
 import registerBackupsInfoRequest from "Backend/requests/backups/get-backups-info.request"
+import registerAppSettingsRequest from "Backend/requests/app-settings/get-app-settings.request"
+import registerAppSettingsUpdateRequest from "Backend/requests/app-settings/update-app-settings.request"
+import registerAppSettingsResetRequest from "Backend/requests/app-settings/reset-app-settings.request"
+import registerAppSettingsUpdateLocationRequest from "Backend/requests/app-settings/update-app-settings-location.request"
+import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
+import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
+import { BrowserWindow } from "electron"
 
-const bootstrap = () => {
+const bootstrap = (win: BrowserWindow) => {
   ;[
     registerDeviceInfoRequest,
     registerNetworkInfoRequest,
@@ -26,10 +32,15 @@ const bootstrap = () => {
     registerEditContactRequest,
     registerDeleteContactsRequest,
     registerBackupsInfoRequest,
+    registerAppSettingsRequest,
+    registerAppSettingsUpdateRequest,
+    registerAppSettingsResetRequest,
+    registerAppSettingsUpdateLocationRequest,
   ].forEach((register) =>
     register({
       // TODO: Replace with a proper adapters when phone becomes available.
       ...getFakeAdapters(),
+      appSettings: createAppSettingsAdapter(win),
       pureBackups: createPurePhoneBackupsAdapter(),
       app: createElectronAppAdapter(),
     })
