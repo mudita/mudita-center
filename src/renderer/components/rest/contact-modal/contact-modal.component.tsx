@@ -188,7 +188,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
     mode: "onChange",
   })
 
-  const toggleDetails = () => showDetails(prevState => !prevState)
+  const toggleDetails = () => showDetails((prevState) => !prevState)
 
   const handleSend = () => {
     const fields = watch()

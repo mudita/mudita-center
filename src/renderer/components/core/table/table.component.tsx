@@ -82,6 +82,7 @@ export const Row = styled.div<TableRowProps>`
         return 4.8
       case RowSize.Tiny:
         return 4
+      case RowSize.Medium:
       default:
         return 6.4
     }
@@ -324,12 +325,14 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
   headerRight,
   appColorSidebarHeader = false,
   padded = true,
+  ...rest
 }) => (
   <SidebarWrapper
     className={className}
     show={show}
     appColorSidebarHeader={appColorSidebarHeader}
     data-testid="sidebar"
+    {...rest}
   >
     <SidebarHeader>
       {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
@@ -397,7 +400,7 @@ const TableComponent = styled.div<TableProps>`
 
       ${Col} {
         ${hideableColumnsIndexes.map(
-          column =>
+          (column) =>
             css`
               &:nth-of-type(${column + 1}) {
                 display: none;

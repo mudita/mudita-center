@@ -4,7 +4,7 @@ import { NetworkProps } from "Renderer/components/rest/overview/network/network.
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
+import { defineMessages, FormattedMessage } from "react-intl"
 import styled from "styled-components"
 import { intl } from "Renderer/utils/intl"
 import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
@@ -47,6 +47,11 @@ const NoSimButton = () => {
   return <CardActionButton label={label} disabled />
 }
 
+export const messages = defineMessages({
+  tooltipTitle: { id: "view.name.overview.network.tooltipTitle" },
+  tooltipDescription: { id: "view.name.overview.network.tooltipDescription" },
+})
+
 const Network: FunctionComponent<NetworkProps> = ({
   className,
   simCards = [],
@@ -67,9 +72,12 @@ const Network: FunctionComponent<NetworkProps> = ({
           </Text>
         )}
       </TextInfo>
-      <CardAction>
+      <CardAction
+        tooltipTitle={messages.tooltipTitle}
+        tooltipDescription={messages.tooltipDescription}
+      >
         {Boolean(simCards.length) ? (
-          simCards.map(simCard => {
+          simCards.map((simCard) => {
             const onClick = () => onSimChange(simCard)
             return (
               <SimButton key={simCard.number} {...simCard} onClick={onClick} />

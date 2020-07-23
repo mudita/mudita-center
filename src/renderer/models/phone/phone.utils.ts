@@ -101,7 +101,7 @@ export const generateSortedStructure = (contacts: Contact[]) => {
 
       if (/[A-Z]/.test(groupLetter)) {
         const groupIndex = labeledContacts.findIndex(
-          group => group.category === groupLetter
+          (group) => group.category === groupLetter
         )
 
         if (groupIndex === -1) {
@@ -150,7 +150,7 @@ export const filterContacts = (contacts: Contact[], substring: string) => {
     return contacts
   }
   return contacts.filter((contact: Contact) => {
-    return allowedFields.some(field => {
+    return allowedFields.some((field) => {
       return contact[field]
         ?.toString()
         .toLowerCase()

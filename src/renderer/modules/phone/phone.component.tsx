@@ -48,7 +48,6 @@ export type PhoneProps = ContactActions &
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = ({
-  loadData = noop,
   addContact = noop,
   editContact = noop,
   deleteContacts = noop,
@@ -69,12 +68,8 @@ const Phone: FunctionComponent<PhoneProps> = ({
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
-    loadData()
-  }, [])
-
-  useEffect(() => {
     setContacts(contactList)
-  }, [contactList.length])
+  }, [contactList])
 
   const handleNameUpdate = ({
     firstName,
@@ -197,7 +192,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   }
 
   const availableSpeedDials = speedDialNumbers.filter(
-    dialNumber =>
+    (dialNumber) =>
       !speedDialContacts.find(({ speedDial }) => speedDial === dialNumber)
   )
 

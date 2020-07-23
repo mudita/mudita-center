@@ -9,9 +9,11 @@ const LoaderImage = styled(Image)`
   object-fit: contain;
 `
 
-const LoaderLogo: FunctionComponent<ImgHTMLAttributes<HTMLImageElement> & {
-  size?: number
-}> = ({ size = 10, width, height, ...rest }) => (
+const LoaderLogo: FunctionComponent<
+  ImgHTMLAttributes<HTMLImageElement> & {
+    size?: number
+  }
+> = ({ size = 10, width, height, ...rest }) => (
   <LoaderImage
     data-testid="loader-logo"
     src={Gif}

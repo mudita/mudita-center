@@ -1,12 +1,14 @@
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
-import { wait } from "@testing-library/react"
+import { waitFor } from "@testing-library/react"
 import React from "react"
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { noop } from "Renderer/utils/noop"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
+import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
 
 export const singleStateToggler = ["Turn on"]
 
@@ -19,7 +21,10 @@ const renderButtonToggler = (
   onClick: (label: string) => void = noop
 ) => {
   const outcome = renderWithThemeAndIntl(
-    <ButtonToggler>
+    <ButtonToggler
+      tooltipTitle={mockDefineMessages()}
+      tooltipDescription={mockDefineMessages()}
+    >
       {options.map((label, i) => {
         const onClickHandler = () => onClick(label)
         return (
@@ -67,7 +72,7 @@ test("switches active state properly", async () => {
 
   const clickOnButton = async (index: number) => {
     fireEvent.click(getButtons()[index])
-    await wait(() =>
+    await waitFor(() =>
       expect(onToggle).toHaveBeenCalledWith(threeStateToggler[index])
     )
   }
@@ -75,4 +80,16 @@ test("switches active state properly", async () => {
   await clickOnButton(1)
   await clickOnButton(0)
   await clickOnButton(2)
+})
+
+test("renders tooltip", () => {
+  const { getByTestId } = renderButtonToggler(twoStateToggler)
+  expect(getByTestId("icon-Tooltip")).toBeInTheDocument()
+})
+
+test("tooltip has correct text", () => {
+  const { getByTestId } = renderButtonToggler(twoStateToggler)
+  expect(getByTestId(ButtonTogglerTestIds.Tooltip)).toHaveTextContent(
+    "[value] view.name.news[value] view.name.news"
+  )
 })

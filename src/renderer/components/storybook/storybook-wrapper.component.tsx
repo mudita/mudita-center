@@ -21,7 +21,7 @@ const Settings = styled.aside`
 const Container = styled.main`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   flex: 1;
 `
 

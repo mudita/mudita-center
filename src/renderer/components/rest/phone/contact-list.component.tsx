@@ -218,7 +218,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                 <Col />
                 <Col>{category}</Col>
               </Labels>
-              {contacts.map(contact => {
+              {contacts.map((contact) => {
                 const { selected } = getRowStatus(contact)
                 const onChange = () => toggleRow(contact)
                 const handleExport = () => onExport(contact)

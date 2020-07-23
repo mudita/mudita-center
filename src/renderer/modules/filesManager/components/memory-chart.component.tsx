@@ -11,7 +11,7 @@ interface Props {
 }
 
 const memoryToStackedBarChartData = (data: DiskSpaceCategory[]) => {
-  return data.map(el => {
+  return data.map((el) => {
     const { occupiedMemory, color, free } = el
     return {
       value: occupiedMemory,

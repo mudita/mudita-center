@@ -13,7 +13,7 @@ import {
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { nestedRows } from "Renderer/components/core/table/table.fake-data"
 import { fireEvent } from "@testing-library/dom"
-import { wait } from "@testing-library/react"
+import { waitFor } from "@testing-library/react"
 
 // Basic table
 const renderBasicTable = (
@@ -266,8 +266,8 @@ test("selecting all rows works properly", async () => {
 
   fireEvent.click(getByTestId("main-checkbox"))
 
-  await wait(() => {
-    getRowCheckboxes().forEach(checkbox => {
+  await waitFor(() => {
+    getRowCheckboxes().forEach((checkbox) => {
       expect(checkbox).toBeChecked()
     })
   })
@@ -278,7 +278,7 @@ test("selecting single (non-parent) row works properly", async () => {
 
   fireEvent.click(getRowCheckboxes()[0])
 
-  await wait(() => {
+  await waitFor(() => {
     expect(getRowCheckboxes()[0]).toBeChecked()
     expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(1)
   })
@@ -289,7 +289,7 @@ test("selecting single (parent) row works properly", async () => {
 
   fireEvent.click(getRowCheckboxes()[2])
 
-  await wait(() => {
+  await waitFor(() => {
     for (let i = 2; i < 5; i++) {
       expect(getRowCheckboxes()[i]).toBeChecked()
     }
@@ -302,7 +302,7 @@ test("selecting single (nested) row works properly", async () => {
 
   fireEvent.click(getRowCheckboxes()[4])
 
-  await wait(() => {
+  await waitFor(() => {
     expect(getRowCheckboxes()[4]).toBeChecked()
     expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(2)
   })
@@ -315,7 +315,7 @@ test("selecting all nested rows works properly", async () => {
     fireEvent.click(getRowCheckboxes()[i])
   }
 
-  await wait(() => {
+  await waitFor(() => {
     for (let i = 2; i < 5; i++) {
       expect(getRowCheckboxes()[i]).toBeChecked()
     }

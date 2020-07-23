@@ -6,7 +6,7 @@ import getFakeAdapters from "App/tests/get-fake-adapters"
 import { intl } from "Renderer/utils/intl"
 import System from "Renderer/components/rest/overview/system/system.component"
 import { fireEvent } from "@testing-library/dom"
-import { wait } from "@testing-library/react"
+import { waitFor } from "@testing-library/react"
 
 const fakeSystemInfo = getFakeAdapters().purePhone
 const lastUpdate = fakeSystemInfo.getOsUpdateDate()
@@ -76,7 +76,7 @@ test("checks for update after button click", async () => {
 
   fireEvent.click(getByRole("button"))
 
-  await wait(() => {
+  await waitFor(() => {
     expect(onUpdateCheck).toHaveBeenCalled()
   })
 })
@@ -91,7 +91,7 @@ test("triggers download after button click", async () => {
 
   fireEvent.click(getByRole("button"))
 
-  await wait(() => {
+  await waitFor(() => {
     expect(onDownload).toHaveBeenCalled()
   })
 })
@@ -107,7 +107,7 @@ test("triggers update after button click", async () => {
 
   fireEvent.click(getByRole("button"))
 
-  await wait(() => {
+  await waitFor(() => {
     expect(onUpdate).toHaveBeenCalled()
   })
 })

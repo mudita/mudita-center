@@ -4,10 +4,7 @@ const CircularDependencyPlugin = require("circular-dependency-plugin")
 const { DefinePlugin } = require("webpack")
 
 module.exports = {
-  tsChecker: renderer =>
-    new ForkTsCheckerWebpackPlugin({
-      reportFiles: [`src/${renderer ? "renderer" : "main"}/**/*`],
-    }),
+  tsChecker: () => new ForkTsCheckerWebpackPlugin(),
   define: new DefinePlugin({
     "process.env.NODE_ENV": JSON.stringify(
       process.env.NODE_ENV || "development"

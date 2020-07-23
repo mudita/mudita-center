@@ -55,14 +55,14 @@ const useTableSelect = <T, K = T>(
     // When row has nested rows
     if (children.length) {
       // check if all children are selected
-      if (children.every(child => selectedRowsTemp.has(child))) {
+      if (children.every((child) => selectedRowsTemp.has(child))) {
         // and deselect all of them
-        children.forEach(child => selectedRowsTemp.delete(child))
+        children.forEach((child) => selectedRowsTemp.delete(child))
       }
       // or if row has zero or not all children selected
       else {
         // select all its children
-        children.forEach(child => selectedRowsTemp.add(child))
+        children.forEach((child) => selectedRowsTemp.add(child))
       }
     }
     // When row doesn't have any nested rows
@@ -88,12 +88,12 @@ const useTableSelect = <T, K = T>(
     // When row has nested rows
     if (children.length) {
       // and all children are selected
-      if (children.every(child => selectedRows.includes(child))) {
+      if (children.every((child) => selectedRows.includes(child))) {
         // set parent's status as selected
         status.selected = true
       }
       // or if only some children are selected
-      else if (children.some(child => selectedRows.includes(child))) {
+      else if (children.some((child) => selectedRows.includes(child))) {
         // set parent's status as indeterminate
         status.indeterminate = true
       }

@@ -14,7 +14,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 
-const ModalContent = styled.div`
+export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,7 +43,7 @@ interface DeleteContactModalProps {
 const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
   onDelete = noop,
   onClose = noop,
-  deleting,
+  deleting = false,
   title,
   text,
   ...rest

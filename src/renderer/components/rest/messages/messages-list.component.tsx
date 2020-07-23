@@ -43,7 +43,7 @@ import { createFullName } from "Renderer/models/phone/phone.utils"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
-} from "Renderer/components/rest/messages/templates/templates-list.component"
+} from "Renderer/components/rest/messages/templates/templates-list.styled"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -179,7 +179,7 @@ const MessagesList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      {list.map(item => {
+      {list.map((item) => {
         const { messages, caller, unread, id } = item
         const { selected, indeterminate } = getRowStatus(item)
         const lastMessage = last(messages)

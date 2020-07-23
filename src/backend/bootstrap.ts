@@ -26,7 +26,7 @@ const bootstrap = () => {
     registerAddContactRequest,
     registerEditContactRequest,
     registerDeleteContactsRequest,
-  ].forEach(register =>
+  ].forEach((register) =>
     register({
       // TODO: Replace with a proper adapters when phone becomes available.
       ...getFakeAdapters(),

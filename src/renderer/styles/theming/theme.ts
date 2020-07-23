@@ -3,6 +3,7 @@ const gutterWidth = 4
 
 const blue1 = "#3e6988"
 const blue2 = "#6d9bbc"
+const blue4 = "#e3f3ff"
 const blue5 = "#f3f8fc"
 const messageBlue = "#f2f7fa"
 
@@ -20,6 +21,7 @@ const grey9 = "#e6e8eb"
 const grey10 = "rgba(0, 0, 0, 0.08)"
 const transparentGrey1 = "rgba(188,188,188,0.5)"
 const transparentGrey2 = "rgba(214, 214, 214, 0.5)"
+const transparentBlue1 = "rgba(148,162,174,0.2)"
 
 const red1 = "#e96a6a"
 
@@ -50,6 +52,10 @@ const theme = {
       row: white,
       scroll: grey3,
       super: black,
+      chartBar: blue4,
+      chartBarInactive: grey9,
+      chartAxisLine: transparentBlue1,
+      chartTooltip: white,
     },
     border: {
       error: red1,
@@ -132,8 +138,9 @@ const theme = {
     content: 1,
     menu: 2,
     dropdown: 3,
-    modalBackdrop: 4,
-    modal: 5,
+    tooltip: 4,
+    modalBackdrop: 5,
+    modal: 6,
   },
 }
 

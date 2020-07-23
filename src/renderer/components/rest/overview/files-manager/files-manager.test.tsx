@@ -6,7 +6,9 @@ import FilesManager from "Renderer/components/rest/overview/files-manager/files-
 import { FilesManagerProps } from "Renderer/components/rest/overview/files-manager/files-manager.interface"
 import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
-import { wait } from "@testing-library/react"
+import { waitFor } from "@testing-library/react"
+import history from "Renderer/routes/history"
+import { Router } from "react-router"
 
 const renderFilesManager = ({
   onFilesOpen = noop,
@@ -14,7 +16,13 @@ const renderFilesManager = ({
   ...props
 }: Partial<FilesManagerProps> = {}) => {
   return renderWithThemeAndIntl(
-    <FilesManager onFilesOpen={onFilesOpen} usedSpace={usedSpace} {...props} />
+    <Router history={history}>
+      <FilesManager
+        onFilesOpen={onFilesOpen}
+        usedSpace={usedSpace}
+        {...props}
+      />
+    </Router>
   )
 }
 
@@ -34,9 +42,9 @@ test("triggers opening files manager after button click", async () => {
     onFilesOpen,
   })
 
-  fireEvent.click(getByRole("button"))
+  fireEvent.click(getByRole("link"))
 
-  await wait(() => {
+  await waitFor(() => {
     expect(onFilesOpen).toHaveBeenCalled()
   })
 })

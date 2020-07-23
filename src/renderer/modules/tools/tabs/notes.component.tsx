@@ -19,10 +19,8 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import {
-  Checkbox,
-  isToday,
-} from "Renderer/components/rest/calls/calls-table.component"
+import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
+
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.interface"
 import {
   FiltersWrapper,
@@ -48,6 +46,8 @@ import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { useTextEditor } from "Renderer/components/core/text-editor/text-editor.hook"
 import { defineMessages } from "react-intl"
 import TextEditor from "Renderer/components/core/text-editor/text-editor.component"
+import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
+import { isToday } from "Renderer/utils/is-today"
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -113,7 +113,6 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
     selectedRows,
     toggleAll,
   } = useTableSelect(data)
-
   const {
     openSidebar,
     closeSidebar,
@@ -122,11 +121,9 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
   } = useTableSidebar<Note>()
 
   const textEditorHook = useTextEditor(activeRow)
-
   const {
     temporaryText: { length: textLength },
   } = textEditorHook
-
   const sortByDate = () => sort("date")
 
   const filterOutMessages = () => {
@@ -193,7 +190,11 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
 
       <TableWithSidebarWrapper>
         {notesAvailable ? (
-          <Table hideColumns={Boolean(activeRow)} hideableColumnsIndexes={[2]}>
+          <Table
+            hideColumns={Boolean(activeRow)}
+            hideableColumnsIndexes={[2, 3]}
+            role="list"
+          >
             <Labels size={RowSize.Small}>
               <Col />
               <Col>
@@ -207,9 +208,15 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
               </Col>
             </Labels>
             <div data-testid={NotesTestIds.ItemsWrapper}>
-              {notes.map(note => {
+              {notes.map((note) => {
                 const { id, content, date } = note
-                const { selected, indeterminate } = getRowStatus(note)
+                const { selected } = getRowStatus(note)
+                const { getTemporaryValue } = useTemporaryStorage<string>(
+                  id,
+                  content
+                )
+
+                const text = getTemporaryValue().substr(0, 250)
 
                 const toggle = () => {
                   if (sidebarOpened) {
@@ -219,11 +226,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
                 }
 
                 const handleTextPreviewClick = () => {
-                  if (noRowsSelected) {
-                    openSidebar(note)
-                  } else {
-                    toggle()
-                  }
+                  noRowsSelected ? openSidebar(note) : toggle()
                 }
 
                 return (
@@ -231,12 +234,12 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
                     key={id}
                     data-testid={NotesTestIds.Note}
                     active={activeRow?.id === id}
+                    role="listitem"
                   >
                     <Col>
                       <Checkbox
                         data-testid={NotesTestIds.Checkbox}
                         checked={selected}
-                        indeterminate={indeterminate}
                         onChange={toggle}
                         size={CheckboxSize.Small}
                         visible={!noRowsSelected}
@@ -244,7 +247,7 @@ const Notes: FunctionComponent<NotesProps> = ({ data }) => {
                     </Col>
                     <TextPreview onClick={handleTextPreviewClick}>
                       <TextCut displayStyle={TextDisplayStyle.LargeText}>
-                        {content}
+                        {text}
                       </TextCut>
                     </TextPreview>
                     <Col onClick={noop}>

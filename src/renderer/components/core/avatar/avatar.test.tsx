@@ -10,6 +10,7 @@ import Avatar, {
 const avatarUser = {
   firstName: "John",
   lastName: "Doe",
+  id: "0",
 }
 
 const renderAvatar = ({ ...props }: Partial<AvatarProps> = {}) => {

@@ -216,7 +216,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   }
 
   const filteredOptions = searchable
-    ? options.filter(option => filteringFunction(option, searchValue || ""))
+    ? options.filter((option) => filteringFunction(option, searchValue || ""))
     : options
 
   const resetSearchValue = () => setSearchValue(null)

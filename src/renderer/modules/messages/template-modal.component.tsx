@@ -55,7 +55,7 @@ const TemplateModal: FunctionComponent<Props> = ({
     })}
   >
     <TemplatesWrapper>
-      {templates.map(template => {
+      {templates.map((template) => {
         const chooseTemplate = () => {
           selectTemplate(template.id)
         }
