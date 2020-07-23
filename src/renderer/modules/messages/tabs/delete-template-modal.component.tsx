@@ -14,6 +14,7 @@ import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 
 const messages = defineMessages({
+  cancel: { id: "view.name.messages.templatesDeleteModal.cancel" },
   delete: { id: "view.name.messages.templatesDeleteModal.action" },
 })
 
@@ -36,6 +37,7 @@ const DeleteTemplateModal: FunctionComponent<DeleteTemplateModalProps> = ({
       title={title}
       onClose={onClose}
       actionButtonLabel={intl.formatMessage(messages.delete)}
+      closeButtonLabel={intl.formatMessage(messages.cancel)}
       onActionButtonClick={onDelete}
     >
       <ModalContent>
