@@ -139,7 +139,7 @@
     "@types/webpack-env": "^1.15.2",
     "asar": "^3.0.3",
     "babel-loader": "^8.1.0",
-    "babel-plugin-react-intl": "^7.5.28",
+    "babel-plugin-react-intl": "^7.8.3",
     "babel-plugin-styled-components": "^1.10.7",
     "babel-preset-react-app": "^9.1.2",
     "babel-runtime": "^6.26.0",
