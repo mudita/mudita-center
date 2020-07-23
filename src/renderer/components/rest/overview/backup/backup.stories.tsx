@@ -16,7 +16,7 @@ const Part = styled.div`
 `
 
 export const lastBackup: BackupItemInfo = {
-  createdAt: new Date("2020-01-01"),
+  createdAt: "2020-01-15T07:35:01.562Z",
   size: 102400,
 }
 
