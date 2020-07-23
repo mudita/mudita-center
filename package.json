@@ -212,7 +212,7 @@
     "@seznam/compose-react-refs": "^1.0.4",
     "awesome-typescript-loader": "^5.2.1",
     "axios": "^0.19.2",
-    "contentful": "^7.14.5",
+    "contentful": "^7.14.6",
     "dotenv": "^8.2.0",
     "electron-better-ipc": "^1.1.0",
     "electron-context-menu": "^2.1.0",
