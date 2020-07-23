@@ -6,13 +6,27 @@ import {
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { disabledSecondaryStyles } from "Renderer/components/core/button/button.styled.elements"
-import { borderRadius } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  borderRadius,
+  boxShadowColor,
+  transitionTime,
+  zIndex,
+  transitionTimingFunction,
+} from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
+import Icon from "Renderer/components/core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
 
 const ButtonTogglerWrapper = styled.section`
   display: flex;
   flex-direction: row;
+  position: relative;
 `
 
 export const ButtonTogglerItem = styled(({ filled, active, ...props }) => (
@@ -56,13 +70,64 @@ export const ButtonTogglerItem = styled(({ filled, active, ...props }) => (
   }
 `
 
+const TooltipText = styled.div`
+  width: max-content;
+  max-width: 24.3rem;
+  background-color: ${backgroundColor("row")};
+  padding: 1.6rem;
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  opacity: 0;
+  transition: opacity ${transitionTime("faster")}
+    ${transitionTimingFunction("easeInOut")};
+  box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("light")};
+  z-index: ${zIndex("tooltip")};
+`
+
+const TooltipIcon = styled(Icon)`
+  position: absolute;
+  top: -0.8rem;
+  left: -0.8rem;
+  z-index: ${zIndex("tooltip")};
+  &:hover {
+    + ${TooltipText} {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+`
+
+const TooltipTitle = styled(Text)`
+  margin-bottom: 0.8rem;
+`
+
 const ButtonToggler: FunctionComponent<ButtonTogglerProps> = ({
   className,
   filled,
+  tooltipTitle,
+  tooltipDescription,
   children,
 }) => {
   return (
     <ButtonTogglerWrapper className={className}>
+      {Boolean(tooltipTitle) && Boolean(tooltipDescription) && (
+        <>
+          <TooltipIcon type={Type.Tooltip} height={1.6} width={1.6} />
+          <TooltipText data-testid={ButtonTogglerTestIds.Tooltip}>
+            <TooltipTitle
+              displayStyle={TextDisplayStyle.MediumText}
+              element={"p"}
+              message={tooltipTitle}
+            />
+            <Text
+              displayStyle={TextDisplayStyle.SmallFadedLightText}
+              element={"p"}
+              message={tooltipDescription}
+            />
+          </TooltipText>
+        </>
+      )}
       {React.Children.map(children, (child) => {
         return React.cloneElement(child as ReactElement, {
           filled,

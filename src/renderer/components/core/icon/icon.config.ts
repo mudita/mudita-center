@@ -71,6 +71,7 @@ import Attachment from "Renderer/svg/attachment.svg"
 import Remove from "Renderer/svg/remove.svg"
 import SendButton from "Renderer/svg/send-button.svg"
 import MenuContacts from "Renderer/svg/menu-contacts.svg"
+import Tooltip from "Renderer/svg/tooltip.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -117,6 +118,7 @@ export enum Type {
   Send,
   Sim,
   Template,
+  Tooltip,
   Calls,
   Connection,
   Contacts,
@@ -234,6 +236,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Sim
     case Type.Template:
       return Template
+    case Type.Tooltip:
+      return Tooltip
     case Type.Calls:
       return Calls
     case Type.Connection:
