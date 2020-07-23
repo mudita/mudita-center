@@ -51,9 +51,9 @@ export default {
         getBackupsInfo(),
       ])
 
-      const lastBackup = backupsInfo.backups
-        .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1))
-        .pop()
+      const [lastBackup] = backupsInfo.backups.sort((a, b) =>
+        a.createdAt > b.createdAt ? -1 : 1
+      )
       dispatch.basicInfo.update({
         batteryLevel: batteryInfo.level,
         osVersion: info.osVersion,
