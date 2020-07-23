@@ -4,27 +4,33 @@ import { app } from "electron"
 import { name } from "../../../../package.json"
 import fs from "fs-extra"
 import path from "path"
+import moment from "moment"
 
 class PurePhoneBackups extends PurePhoneBackupAdapter {
-  public getBackups(): BackupItemInfo[] {
+  public async getBackups(): Promise<BackupItemInfo[]> {
     const settingsFilePath = `${app.getPath("appData")}/${name}/settings.json`
 
-    const { pureOsBackupLocation } = fs.readJsonSync(settingsFilePath)
+    const { pureOsBackupLocation } = await fs.readJson(settingsFilePath)
     const backups: BackupItemInfo[] = []
 
-    if (fs.existsSync(pureOsBackupLocation)) {
-      fs.readdirSync(pureOsBackupLocation).forEach((fileName) => {
-        if (/^pure_backup_\d{12}\.zip$/m.test(fileName)) {
-          const { birthtime, size } = fs.statSync(
+    const regex = /^pure_backup_(\d{12})\.zip$/m
+
+    if (await fs.pathExists(pureOsBackupLocation)) {
+      for (const fileName of await fs.readdir(pureOsBackupLocation)) {
+        if (regex.test(fileName)) {
+          const { size } = await fs.stat(
             path.join(pureOsBackupLocation, fileName)
           )
 
+          const datetime = fileName.match(regex)?.[1]
+          const createdAt = moment(datetime, "YYYYMMDDhhmm").format()
+
           backups.push({
-            createdAt: birthtime,
+            createdAt,
             size,
           })
         }
-      })
+      }
     }
 
     return backups
