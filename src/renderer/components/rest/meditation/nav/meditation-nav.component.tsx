@@ -12,13 +12,13 @@ import {
   Separator,
   WeekIndicator,
   Wrapper,
-} from "Renderer/components/rest/meditation/meditation-nav.styled"
+} from "Renderer/components/rest/meditation/nav/meditation-nav.styled"
 import {
   DateFormatItems,
   dateWithinThisWeek,
   formatDate,
   MeditationNavProps,
-} from "Renderer/components/rest/meditation/meditation-nav.helpers"
+} from "Renderer/components/rest/meditation/nav/meditation-nav.helpers"
 
 const intlDateFormat = (show: DateFormatItems[]) => {
   const baseConfig = {

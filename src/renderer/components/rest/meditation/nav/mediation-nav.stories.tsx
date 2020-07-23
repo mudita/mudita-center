@@ -5,10 +5,10 @@ import { storiesOf } from "@storybook/react"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 
-import Nav from "Renderer/components/rest/meditation/meditation-nav.component"
-import { DateFormatItems } from "Renderer/components/rest/meditation/meditation-nav.helpers"
+import Nav from "Renderer/components/rest/meditation/nav/meditation-nav.component"
+import { DateFormatItems } from "Renderer/components/rest/meditation/nav/meditation-nav.helpers"
 
-storiesOf("Components|Meditation", module).add("Navigation", () => (
+storiesOf("Components|Rest/Meditation", module).add("Navigation", () => (
   <>
     <StoryContainer>
       <Story title="With date passed as string">
