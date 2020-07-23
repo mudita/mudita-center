@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16" height="16" viewBox="0 0 16 16">
+    <defs>
+        <filter id="ykdqhsgeta" width="206.2%" height="206.2%" x="-53.1%" y="-40.6%" filterUnits="objectBoundingBox">
+            <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="2.5"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+        </filter>
+        <circle id="wzrrpn0h6b" cx="8" cy="8" r="8"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <use fill="#000" filter="url(#ykdqhsgeta)" xlink:href="#wzrrpn0h6b"/>
+        <use fill="#3B3F42" xlink:href="#wzrrpn0h6b"/>
+        <g fill="#FFF" fill-rule="nonzero">
+            <path d="M2.815 4.148c.108 0 .192-.084.192-.192V2.66c0-.096-.084-.192-.192-.192H1.519c-.108 0-.192.096-.192.192v1.296c0 .108.084.192.192.192h1.296zM2.755 11c.108 0 .192-.096.192-.192V5.192c0-.096-.084-.192-.192-.192H1.579c-.108 0-.192.096-.192.192v5.616c0 .096.084.192.192.192h1.176z" transform="translate(6 1)"/>
+        </g>
+    </g>
+</svg>

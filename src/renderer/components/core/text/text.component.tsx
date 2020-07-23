@@ -159,6 +159,13 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         color: ${textColor("secondary")};
         letter-spacing: ${letterSpacing("small")}rem;
       `
+    case TextDisplayStyle.SmallFadedLightText:
+      return css`
+        ${smallTextSharedStyles};
+        color: ${textColor("secondary")};
+        letter-spacing: ${letterSpacing("small")}rem;
+        font-weight: ${fontWeight("light")};
+      `
     case TextDisplayStyle.SmallFadedDimText:
       return css`
         ${smallTextSharedStyles};
@@ -207,6 +214,7 @@ export enum TextDisplayStyle {
   SmallSupplementaryText,
   SmallTextInverted,
   SmallFadedText,
+  SmallFadedLightText,
   SmallFadedDimText,
 }
 
@@ -239,6 +247,7 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.SmallSupplementaryText]: "p",
   [TextDisplayStyle.SmallTextInverted]: "p",
   [TextDisplayStyle.SmallFadedText]: "p",
+  [TextDisplayStyle.SmallFadedLightText]: "p",
   [TextDisplayStyle.SmallFadedDimText]: "p",
 }
 
