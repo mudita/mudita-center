@@ -5,6 +5,12 @@ import {
   Convert,
 } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 
+export interface Language {
+  name: string
+  tag: string
+  shortTag: string
+}
+
 export interface AppSettings {
   appAutostart: boolean
   appTethering: boolean
@@ -18,6 +24,7 @@ export interface AppSettings {
   appTray: boolean
   pureOsBackupLocation: string
   pureOsDownloadLocation: string
+  language: Language
 }
 
 const getDefaultAppSettings = (): AppSettings => {
@@ -36,6 +43,11 @@ const getDefaultAppSettings = (): AppSettings => {
     appTray: true,
     pureOsBackupLocation: `${appPath}/pure/phone/backups/`,
     pureOsDownloadLocation: `${appPath}/pure/os/downloads/`,
+    language: {
+      name: "English",
+      tag: "en-US",
+      shortTag: "en",
+    },
   }
 }
 
