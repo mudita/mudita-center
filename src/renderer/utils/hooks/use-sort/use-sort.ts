@@ -57,7 +57,7 @@ const useSort = <T = SimpleSortingDictionary>(input: T[]): UseSort<T> => {
 
   useEffect(() => {
     dispatch({ data: input })
-  }, [input.length])
+  }, [input])
 
   const { data, sortDirection } = state
 

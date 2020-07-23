@@ -163,7 +163,7 @@ const Notes: FunctionComponent<NotesProps> = ({
 
   useEffect(() => {
     setNotes(notesList)
-  }, [notesList.length])
+  }, [notesList])
 
   useEffect(() => {
     sortByDate()
