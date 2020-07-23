@@ -285,6 +285,8 @@
   "component.textEditor.button.save": "Save to phone",
   "component.textEditor.button.saving": "Saving",
   "component.textEditor.button.cancel": "Reject changes",
+  "component.meditation.nav.goToToday": "Go to Today",
+  "component.meditation.nav.thisWeek": "This week",
   "app.update.modal.title": "App update",
   "app.update.available.modal.message": "New update is available",
   "app.update.available.modal.button": "Download",

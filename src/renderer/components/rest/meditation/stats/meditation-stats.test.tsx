@@ -3,12 +3,12 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import MeditationStats, {
   MeditationStatsProps,
-} from "Renderer/components/rest/meditation-stats/meditation-stats.component"
+} from "Renderer/components/rest/meditation/stats/meditation-stats.component"
 import { generateMeditationData } from "App/__mocks__/meditation-stats.mock"
 import {
   ChartType,
   MeditationStatsTestIds,
-} from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
+} from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
 import moment from "moment"
 import theme from "Renderer/styles/theming/theme"
 
