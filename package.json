@@ -228,7 +228,7 @@
     "node-fetch": "^2.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-hook-form": "^6.0.2",
+    "react-hook-form": "^6.0.8",
     "react-intersection-observer": "^8.26.2",
     "react-redux": "^7.2.0",
     "react-router": "^5.2.0",
