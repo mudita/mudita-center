@@ -1,7 +1,7 @@
 import {
   formatDate,
   dateWithinThisWeek,
-} from "Renderer/components/rest/meditation/meditation-nav.helpers"
+} from "Renderer/components/rest/meditation/nav/meditation-nav.helpers"
 
 afterEach(() => {
   jest.clearAllMocks()
