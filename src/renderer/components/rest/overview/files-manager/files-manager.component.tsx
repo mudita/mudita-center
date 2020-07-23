@@ -23,6 +23,7 @@ import {
   textColor,
 } from "Renderer/styles/theming/theme-getters"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { URL_MAIN } from "Renderer/constants/urls"
 
 const TextInfo = styled(CardText)`
   > p {
@@ -96,6 +97,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           label={buttonLabel}
           Icon={Type.FilesManager}
           onClick={onFilesOpen}
+          to={URL_MAIN.filesManager}
         />
       </CardAction>
     </Card>

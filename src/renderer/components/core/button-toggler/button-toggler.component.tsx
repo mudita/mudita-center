@@ -15,9 +15,9 @@ const ButtonTogglerWrapper = styled.section`
   flex-direction: row;
 `
 
-export const ButtonTogglerItem = styled(ButtonComponent).attrs<
-  ButtonTogglerItemProps
->(({ filled, active }) => {
+export const ButtonTogglerItem = styled(({ filled, active, ...props }) => (
+  <ButtonComponent {...props} />
+)).attrs<ButtonTogglerItemProps>(({ filled, active }) => {
   const displayStyle =
     active && filled ? DisplayStyle.Primary : DisplayStyle.Secondary
   return {
