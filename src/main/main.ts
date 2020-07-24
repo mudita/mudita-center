@@ -11,6 +11,8 @@ import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-
 import registerSettingsListeners from "App/main/functions/register-settings-listeners"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
+import { ipcMain } from "electron-better-ipc"
+import { OpenNewWindow } from "Common/enums/open-new-window.enum"
 
 require("dotenv").config()
 
@@ -104,4 +106,15 @@ app.on("activate", () => {
   if (win === null) {
     createWindow()
   }
+})
+
+ipcMain.answerRenderer(OpenNewWindow.Help, (event, arg) => {
+  const newWindow = new BrowserWindow({
+    width: 400,
+    height: 200,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  })
+  newWindow.loadURL("http://localhost:2003/#/help")
 })

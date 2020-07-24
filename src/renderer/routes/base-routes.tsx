@@ -45,11 +45,10 @@ export default () => (
         />
       </LayoutOnboardingWrapper>
     </Route>
-
+    <Route path={URL_MAIN.help} component={Help} />
     <Route>
       <LayoutDesktopWrapper>
         <Route path={URL_MAIN.filesManager} component={FilesManager} />
-        <Route path={URL_MAIN.help} component={Help} />
         <Route path={URL_MAIN.meditation} component={Meditation} />
         <Route path={URL_MAIN.messages} component={MessagesContainer} exact />
         <Route

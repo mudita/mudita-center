@@ -12,6 +12,9 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
+import { views } from "Renderer/constants/views"
+import { ipcRenderer } from "electron-better-ipc"
+import { OpenNewWindow } from "Common/enums/open-new-window.enum"
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -73,17 +76,36 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
       )}
 
       {items &&
-        items.map(({ button, icon }, index) => (
-          <LinkWrapper key={index}>
-            <ButtonMenu
-              nav
-              displayStyle={DisplayStyle.Link4}
-              labelMessage={button.label}
-              Icon={icon}
-              to={button.url}
-            />
-          </LinkWrapper>
-        ))}
+        items.map(({ button, icon }, index) => {
+          console.log(window.location.href)
+          if (button === views.help) {
+            const openHelpInNewWindow = () => {
+              ipcRenderer.callMain(OpenNewWindow.Help, "true")
+            }
+            return (
+              <LinkWrapper key={index}>
+                <ButtonMenu
+                  nav
+                  displayStyle={DisplayStyle.Link4}
+                  labelMessage={button.label}
+                  Icon={icon}
+                  onClick={openHelpInNewWindow}
+                />
+              </LinkWrapper>
+            )
+          }
+          return (
+            <LinkWrapper key={index}>
+              <ButtonMenu
+                nav
+                displayStyle={DisplayStyle.Link4}
+                labelMessage={button.label}
+                Icon={icon}
+                to={button.url}
+              />
+            </LinkWrapper>
+          )
+        })}
     </>
   )
 }
