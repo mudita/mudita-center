@@ -13,5 +13,5 @@ export default abstract class AppSettingsAdapter {
   ): Promise<void>
   public abstract updateLocationSettings(
     location: LocationPath
-  ): Promise<null | boolean | string>
+  ): Promise<null | string>
 }

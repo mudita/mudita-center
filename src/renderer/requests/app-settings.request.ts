@@ -6,10 +6,11 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 export const getAppSettings = (): Promise<AppSettings> =>
   ipcRenderer.callMain(IpcRequest.GetAppSettings)
 
-export const updateAppSettings = (
+export const updateAppSettings = async (
   settings: Partial<AppSettings>
-): Promise<AppSettings> =>
-  ipcRenderer.callMain(IpcRequest.UpdateAppSettings, settings)
+): Promise<void> => {
+  return ipcRenderer.callMain(IpcRequest.UpdateAppSettings, settings)
+}
 
 export const resetAppSettings = (): Promise<AppSettings> => {
   return ipcRenderer.callMain(IpcRequest.ResetAppSettings)
@@ -17,6 +18,6 @@ export const resetAppSettings = (): Promise<AppSettings> => {
 
 export const updateLocationSettings = (
   location: LocationPath
-): Promise<AppSettings> => {
+): Promise<null | string> => {
   return ipcRenderer.callMain(IpcRequest.UpdateAppSettingsLocation, location)
 }

@@ -24,9 +24,7 @@ class AppSettingsFake extends AppSettingsAdapter {
     return Promise.resolve()
   }
 
-  updateLocationSettings(
-    location: LocationPath
-  ): Promise<boolean | string | null> {
+  updateLocationSettings(location: LocationPath): Promise<string | null> {
     if (location === LocationPath.PureOsBackup) {
       this.settings.pureOsBackupLocation = "fake/backup/path/"
       return Promise.resolve(this.settings.pureOsBackupLocation)

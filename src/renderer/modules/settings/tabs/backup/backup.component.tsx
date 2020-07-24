@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { getAppSettings } from "Renderer/requests/app-settings.request"
 import BackupUI from "Renderer/modules/settings/tabs/backup/backup-ui.component"
 import { AppSettings } from "App/main/default-app-settings"
+import { LocationPath } from "Renderer/modules/settings/tabs/backup/location-path.enum"
+import useLocationPicker from "Renderer/utils/hooks/use-location-picker"
 
 interface Props {
-  openDialog: () => void
+  setPureOsBackupLocation: (value: AppSettings["pureOsBackupLocation"]) => void
 }
 
-const Backup: FunctionComponent<Props> = ({ openDialog }) => {
-  const [settings, setSettings] = useState<AppSettings>()
-  useEffect(() => {
-    ;(async () => {
-      setSettings(await getAppSettings())
-    })()
-  }, [settings])
+const Backup: FunctionComponent<Props & AppSettings> = ({
+  setPureOsBackupLocation,
+  pureOsBackupLocation,
+}) => {
+  const openDialog = useLocationPicker(
+    LocationPath.PureOsBackup,
+    setPureOsBackupLocation
+  )
+
   return (
-    <BackupUI
-      backupLocation={settings?.pureOsBackupLocation}
-      openDialog={openDialog}
-    />
+    <BackupUI backupLocation={pureOsBackupLocation} openDialog={openDialog} />
   )
 }
 

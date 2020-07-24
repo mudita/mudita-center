@@ -1,29 +1,27 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { init } from "@rematch/core"
 import settings from "Renderer/models/settings/settings"
-import { SettingsEvents } from "App/main/functions/register-settings-listeners"
-import { Option } from "Renderer/components/rest/settings/option.enum"
 import {
   ConversionFormat,
   Convert,
 } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
+import { IpcRequest } from "Common/requests/ipc-request.enum"
+import getDefaultAppSettings from "App/main/default-app-settings"
+
+const mockIpc = () => {
+  ;(ipcRenderer as any).__rendererCalls = {
+    [IpcRequest.UpdateAppSettings]: Promise.resolve(),
+  }
+}
 
 test("loads settings", async () => {
   const store = init({
     models: { settings },
   })
   ;(ipcRenderer as any).__rendererCalls = {
-    [SettingsEvents.Get]: Promise.resolve({
-      [Option.Autostart]: false,
-      [Option.Tethering]: false,
-      [Option.IncomingCalls]: false,
-      [Option.IncomingMessages]: false,
-      [Option.LowBattery]: false,
-      [Option.OsUpdates]: false,
-      [Option.NonStandardAudioFilesConversion]: false,
-      [Option.Convert]: Convert.ConvertAutomatically,
-      [Option.ConversionFormat]: ConversionFormat.WAV,
-    }),
+    [IpcRequest.GetAppSettings]: Promise.resolve(
+      getDefaultAppSettings("fake/path")
+    ),
   }
   await store.dispatch.settings.loadSettings()
   const state = store.getState()
@@ -39,6 +37,14 @@ test("loads settings", async () => {
         "appNonStandardAudioFilesConversion": false,
         "appOsUpdates": false,
         "appTethering": false,
+        "appTray": true,
+        "language": Object {
+          "name": "English",
+          "shortTag": "en",
+          "tag": "en-US",
+        },
+        "pureOsBackupLocation": "fake/path/pure/phone/backups/",
+        "pureOsDownloadLocation": "fake/path/pure/os/downloads/",
       },
     }
   `)
@@ -48,10 +54,7 @@ test("updates autostart setting", async () => {
   const store = init({
     models: { settings },
   })
-  const updatedOption = { [Option.Autostart]: true }
-  ;(ipcRenderer as any).__rendererCalls = {
-    [SettingsEvents.Update]: Promise.resolve(updatedOption),
-  }
+  mockIpc()
   await store.dispatch.settings.setAutostart(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
@@ -67,10 +70,7 @@ test("updates tethering setting", async () => {
   const store = init({
     models: { settings },
   })
-  const updatedOption = { [Option.Tethering]: true }
-  ;(ipcRenderer as any).__rendererCalls = {
-    [SettingsEvents.Update]: Promise.resolve(updatedOption),
-  }
+  mockIpc()
   await store.dispatch.settings.setTethering(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
@@ -86,10 +86,7 @@ test("updates incoming calls setting", async () => {
   const store = init({
     models: { settings },
   })
-  const updatedOption = { [Option.IncomingCalls]: true }
-  ;(ipcRenderer as any).__rendererCalls = {
-    [SettingsEvents.Update]: Promise.resolve(updatedOption),
-  }
+  mockIpc()
   await store.dispatch.settings.setIncomingCalls(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
@@ -105,10 +102,7 @@ test("updates incoming messages setting", async () => {
   const store = init({
     models: { settings },
   })
-  const updatedOption = { [Option.IncomingMessages]: true }
-  ;(ipcRenderer as any).__rendererCalls = {
-    [SettingsEvents.Update]: Promise.resolve(updatedOption),
-  }
+  mockIpc()
   await store.dispatch.settings.setIncomingMessages(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
@@ -124,10 +118,7 @@ test("updates low battery setting", async () => {
   const store = init({
     models: { settings },
   })
-  const updatedOption = { [Option.LowBattery]: true }
-  ;(ipcRenderer as any).__rendererCalls = {
-    [SettingsEvents.Update]: Promise.resolve(updatedOption),
-  }
+  mockIpc()
   await store.dispatch.settings.setLowBattery(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
@@ -143,10 +134,7 @@ test("updates os updates setting", async () => {
   const store = init({
     models: { settings },
   })
-  const updatedOption = { [Option.OsUpdates]: true }
-  ;(ipcRenderer as any).__rendererCalls = {
-    [SettingsEvents.Update]: Promise.resolve(updatedOption),
-  }
+  mockIpc()
   await store.dispatch.settings.setOsUpdates(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
@@ -162,10 +150,7 @@ test("updates os audio files conversion setting", async () => {
   const store = init({
     models: { settings },
   })
-  const updatedOption = { [Option.NonStandardAudioFilesConversion]: true }
-  ;(ipcRenderer as any).__rendererCalls = {
-    [SettingsEvents.Update]: Promise.resolve(updatedOption),
-  }
+  mockIpc()
   await store.dispatch.settings.setNonStandardAudioFilesConversion(true)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
@@ -181,10 +166,7 @@ test("updates convert setting", async () => {
   const store = init({
     models: { settings },
   })
-  const updatedOption = { [Option.Convert]: Convert.ConvertAutomatically }
-  ;(ipcRenderer as any).__rendererCalls = {
-    [SettingsEvents.Update]: Promise.resolve(updatedOption),
-  }
+  mockIpc()
   await store.dispatch.settings.setConvert(Convert.ConvertAutomatically)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
@@ -200,16 +182,85 @@ test("updates conversion format setting", async () => {
   const store = init({
     models: { settings },
   })
-  const updatedOption = { [Option.ConversionFormat]: ConversionFormat.WAV }
-  ;(ipcRenderer as any).__rendererCalls = {
-    [SettingsEvents.Update]: Promise.resolve(updatedOption),
-  }
+  mockIpc()
   await store.dispatch.settings.setConversionFormat(ConversionFormat.WAV)
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
         "appConversionFormat": "WAV",
+      },
+    }
+  `)
+})
+
+test("updates tray setting", async () => {
+  const store = init({
+    models: { settings },
+  })
+  mockIpc()
+  await store.dispatch.settings.setAppTray(true)
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "appTray": true,
+      },
+    }
+  `)
+})
+
+test("updates PureOS backup location setting", async () => {
+  const store = init({
+    models: { settings },
+  })
+  mockIpc()
+  await store.dispatch.settings.setPureOsBackupLocation("some/fake/location")
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "pureOsBackupLocation": "some/fake/location",
+      },
+    }
+  `)
+})
+
+test("updates PureOS download location setting", async () => {
+  const store = init({
+    models: { settings },
+  })
+  mockIpc()
+  await store.dispatch.settings.setPureOsDownloadLocation("some/fake/location")
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "pureOsDownloadLocation": "some/fake/location",
+      },
+    }
+  `)
+})
+
+test("updates language setting", async () => {
+  const store = init({
+    models: { settings },
+  })
+  mockIpc()
+  await store.dispatch.settings.setLanguage({
+    name: "English",
+    tag: "en-US",
+    shortTag: "en",
+  })
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "language": Object {
+          "name": "English",
+          "shortTag": "en",
+          "tag": "en-US",
+        },
       },
     }
   `)

@@ -1,29 +1,14 @@
 import { Dispatch } from "Renderer/store"
-import { getAppSettings } from "Renderer/requests/app-settings.request"
-import updateSettingsRequest, {
-  UpdateValueType,
-} from "Renderer/requests/update-settings.request"
-import { Option } from "Renderer/components/rest/settings/option.enum"
-import { AppSettings as StoreValues } from "App/main/default-app-settings"
 import {
-  ConversionFormat,
-  Convert,
-} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
-
-const updateSettings = async (
-  property: Option,
-  value: UpdateValueType,
-  dispatch: Dispatch
-) => {
-  const propertyToUpdate = { [property]: value }
-  await updateSettingsRequest(propertyToUpdate)
-  dispatch.settings.update(propertyToUpdate)
-}
+  getAppSettings,
+  updateAppSettings,
+} from "Renderer/requests/app-settings.request"
+import { AppSettings } from "App/main/default-app-settings"
 
 export default {
   state: {},
   reducers: {
-    update(state: StoreValues, payload: { [key in Option]?: boolean }) {
+    update(state: AppSettings, payload: Partial<AppSettings>) {
       return { ...state, ...payload }
     },
   },
@@ -31,32 +16,52 @@ export default {
     async loadSettings() {
       dispatch.settings.update(await getAppSettings())
     },
-    setAutostart(option: boolean) {
-      updateSettings(Option.Autostart, option, dispatch)
+    async updateSettings(settings: Partial<AppSettings>) {
+      await updateAppSettings(settings)
+      dispatch.settings.update(settings)
     },
-    setTethering(option: boolean) {
-      updateSettings(Option.Tethering, option, dispatch)
+    async setAutostart(value: AppSettings["appAutostart"]) {
+      await this.updateSettings({ appAutostart: value })
     },
-    setIncomingCalls(option: boolean) {
-      updateSettings(Option.IncomingCalls, option, dispatch)
+    async setTethering(value: AppSettings["appTethering"]) {
+      await this.updateSettings({ appTethering: value })
     },
-    setIncomingMessages(option: boolean) {
-      updateSettings(Option.IncomingMessages, option, dispatch)
+    async setIncomingCalls(value: AppSettings["appIncomingCalls"]) {
+      await this.updateSettings({ appIncomingCalls: value })
     },
-    setLowBattery(option: boolean) {
-      updateSettings(Option.LowBattery, option, dispatch)
+    async setIncomingMessages(value: AppSettings["appIncomingMessages"]) {
+      await this.updateSettings({ appIncomingMessages: value })
     },
-    setOsUpdates(option: boolean) {
-      updateSettings(Option.OsUpdates, option, dispatch)
+    async setLowBattery(value: AppSettings["appLowBattery"]) {
+      await this.updateSettings({ appLowBattery: value })
     },
-    setNonStandardAudioFilesConversion(option: boolean) {
-      updateSettings(Option.NonStandardAudioFilesConversion, option, dispatch)
+    async setOsUpdates(value: AppSettings["appOsUpdates"]) {
+      await this.updateSettings({ appOsUpdates: value })
     },
-    setConvert(option: Convert) {
-      updateSettings(Option.Convert, option, dispatch)
+    async setNonStandardAudioFilesConversion(
+      value: AppSettings["appNonStandardAudioFilesConversion"]
+    ) {
+      await this.updateSettings({ appNonStandardAudioFilesConversion: value })
     },
-    setConversionFormat(option: ConversionFormat) {
-      updateSettings(Option.ConversionFormat, option, dispatch)
+    async setConvert(value: AppSettings["appConvert"]) {
+      await this.updateSettings({ appConvert: value })
+    },
+    async setConversionFormat(value: AppSettings["appConversionFormat"]) {
+      await this.updateSettings({ appConversionFormat: value })
+    },
+    async setAppTray(value: AppSettings["appTray"]) {
+      await this.updateSettings({ appTray: value })
+    },
+    async setPureOsBackupLocation(value: AppSettings["pureOsBackupLocation"]) {
+      await this.updateSettings({ pureOsBackupLocation: value })
+    },
+    async setPureOsDownloadLocation(
+      value: AppSettings["pureOsDownloadLocation"]
+    ) {
+      await this.updateSettings({ pureOsDownloadLocation: value })
+    },
+    async setLanguage(value: AppSettings["language"]) {
+      await this.updateSettings({ language: value })
     },
   }),
 }

@@ -45,31 +45,34 @@ class AppSettings extends AppSettingsAdapter {
     return fs.writeJson(this.settingsFilePath, updatedSettings)
   }
 
-  async updateLocationSettings(
-    location: LocationPath
-  ): Promise<null | boolean | string> {
-    const currentSettings = await fs.readJson(this.settingsFilePath)
+  async updateLocationSettings(location: LocationPath): Promise<null | string> {
     const {
       filePaths: [path],
       canceled,
     } = await dialog.showOpenDialog(this.win, {
       properties: ["openDirectory"],
     })
-    let updatedLocationPath = null
+
+    let updatedLocationPath:
+      | Pick<AppSettingsInterface, "pureOsBackupLocation">
+      | Pick<AppSettingsInterface, "pureOsDownloadLocation">
+      | null = null
+
     if (canceled) {
       return updatedLocationPath
     }
+
     if (location === LocationPath.PureOsBackup) {
       updatedLocationPath = { pureOsBackupLocation: path }
     } else if (location === LocationPath.PureOsDownload) {
       updatedLocationPath = { pureOsDownloadLocation: path }
     }
-    const updatedSettings = {
-      ...currentSettings,
-      ...updatedLocationPath,
+
+    if (updatedLocationPath) {
+      await this.updateAppSettings(updatedLocationPath)
     }
-    await fs.writeJson(this.settingsFilePath, updatedSettings)
-    return updatedLocationPath !== null
+
+    return path
   }
 }
 

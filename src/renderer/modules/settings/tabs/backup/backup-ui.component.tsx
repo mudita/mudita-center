@@ -15,6 +15,7 @@ import Text, {
 import { FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
+import { AppSettings } from "App/main/default-app-settings"
 
 const BackupTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -43,41 +44,39 @@ const BackupActionsWrapper = styled(ActionsWrapper)`
   width: fit-content;
 `
 interface Props {
-  backupLocation?: string
+  backupLocation?: AppSettings["pureOsBackupLocation"]
   openDialog?: () => void
 }
 
-const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => {
-  return (
-    <BackupWrapper>
-      <BackupDescriptionWrapper>
-        <BackupDescription displayStyle={TextDisplayStyle.MediumFadedLightText}>
-          <FormattedMessage id="view.name.settings.backup.description" />
-        </BackupDescription>
-      </BackupDescriptionWrapper>
-      <BackupTableRow checkMode={false}>
-        <BackupDataWrapper>
-          <Name displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.backup.label" />
-          </Name>
-          <Message
-            displayStyle={TextDisplayStyle.MediumFadedLightText}
-            data-testid="backup-location"
-          >
-            {backupLocation}
-          </Message>
-        </BackupDataWrapper>
-        <BackupActionsWrapper>
-          <ButtonComponent
-            onClick={openDialog}
-            label={intl.formatMessage({
-              id: "view.name.settings.backup.buttonLabel",
-            })}
-          />
-        </BackupActionsWrapper>
-      </BackupTableRow>
-    </BackupWrapper>
-  )
-}
+const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => (
+  <BackupWrapper>
+    <BackupDescriptionWrapper>
+      <BackupDescription displayStyle={TextDisplayStyle.MediumFadedLightText}>
+        <FormattedMessage id="view.name.settings.backup.description" />
+      </BackupDescription>
+    </BackupDescriptionWrapper>
+    <BackupTableRow checkMode={false}>
+      <BackupDataWrapper>
+        <Name displayStyle={TextDisplayStyle.LargeText}>
+          <FormattedMessage id="view.name.settings.backup.label" />
+        </Name>
+        <Message
+          displayStyle={TextDisplayStyle.MediumFadedLightText}
+          data-testid="backup-location"
+        >
+          {backupLocation}
+        </Message>
+      </BackupDataWrapper>
+      <BackupActionsWrapper>
+        <ButtonComponent
+          onClick={openDialog}
+          label={intl.formatMessage({
+            id: "view.name.settings.backup.buttonLabel",
+          })}
+        />
+      </BackupActionsWrapper>
+    </BackupTableRow>
+  </BackupWrapper>
+)
 
 export default BackupUI

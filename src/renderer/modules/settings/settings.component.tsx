@@ -1,25 +1,23 @@
-import React, { useEffect } from "react"
+import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
+import { AppSettings } from "App/main/default-app-settings"
+import { noop } from "Renderer/utils/noop"
 
-interface Props {
+export interface SettingsProps {
   appAutostart: boolean
   appTethering: boolean
-  loadSettings: () => void
-  setAutostart: (option: boolean) => void
-  setTethering: (option: boolean) => void
+  setAutostart?: (option: boolean) => void
+  setTethering?: (option: boolean) => void
+  updateSettings: (settings: Partial<AppSettings>) => void
 }
 
-const Settings: FunctionComponent<Props> = ({
+const Settings: FunctionComponent<SettingsProps> = ({
   appAutostart,
   appTethering,
-  setAutostart,
-  setTethering,
-  loadSettings,
+  setAutostart = noop,
+  setTethering = noop,
 }) => {
-  useEffect(() => {
-    loadSettings()
-  }, [])
   return (
     <SettingsUI
       appAutostart={appAutostart}
