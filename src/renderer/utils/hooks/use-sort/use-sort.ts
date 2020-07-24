@@ -1,43 +1,74 @@
-import { sortBy } from "lodash"
+import { orderBy } from "lodash"
 import { useEffect, useReducer } from "react"
 import {
   createSortDirection,
-  getData,
   getSortingDirection,
 } from "Renderer/utils/hooks/use-sort/use-sort.helpers"
 import {
-  SortingDictionary,
   SimpleSortingDictionary,
-  SortAction,
-  SortState,
+  SortDirection,
+  SortingDictionary,
   UseSort,
 } from "Renderer/utils/hooks/use-sort/use-sort.types"
 
-const sortReducer = <T = SortingDictionary>(
-  state: SortState<T>,
-  action: SortAction<T>
-): SortState<T> => {
-  const { sortKey, data } = action
-  const { sortDirection } = state
+enum SortModes {
+  Sort = "Sort",
+  Refresh = "Refresh",
+}
 
-  if (sortKey) {
-    return {
-      data: getData({
-        dataToSort: sortBy(data, sortKey),
-        sorted: sortKey in sortDirection,
-        sortDirection,
-        sortKey,
-      }),
-      sortDirection: {
-        ...sortDirection,
-        [sortKey]: getSortingDirection(sortDirection[sortKey]),
-      },
+type SortAction<T = any> = { type: SortModes; payload: T; sortKey?: string }
+
+const sortAction = <T = any>(payload: T, sortKey: string): SortAction<T> => ({
+  type: SortModes.Sort,
+  payload,
+  sortKey,
+})
+
+const refreshAction = <T = any>(payload: T): SortAction<T> => ({
+  type: SortModes.Refresh,
+  payload,
+})
+
+export interface SortState<T> {
+  data: T[]
+  sortDirection: SortingDictionary
+  currentSortKey?: string
+}
+
+const sortReducer = (state: SortState<any>, action: any) => {
+  const { sortDirection, currentSortKey } = state
+  const { type, payload, sortKey } = action
+
+  switch (type) {
+    case SortModes.Sort: {
+      const shouldReverse = sortDirection[sortKey] !== SortDirection.Descending
+      const data = orderBy(payload, [sortKey], [shouldReverse ? "desc" : "asc"])
+
+      return {
+        currentSortKey: sortKey,
+        data,
+        sortDirection: {
+          ...sortDirection,
+          [sortKey]: getSortingDirection(sortDirection[sortKey]),
+        },
+      }
     }
-  }
 
-  return {
-    data,
-    sortDirection,
+    case SortModes.Refresh: {
+      const emergencyKey = Object.keys(payload[0])[0]
+      const existingSortKey = currentSortKey || emergencyKey
+      const data = orderBy(payload, [existingSortKey], ["desc"])
+
+      return {
+        currentSortKey: existingSortKey,
+        data,
+        sortDirection,
+      }
+    }
+
+    default: {
+      return state
+    }
   }
 }
 
@@ -47,25 +78,34 @@ const useSort = <T = SimpleSortingDictionary>(input: T[]): UseSort<T> => {
       data: input,
       sortDirection: {},
       sort: () => false,
+      refresh: () => false,
     }
   }
 
   const [state, dispatch] = useReducer(sortReducer, {
+    currentSortKey: Object.keys(input[0])[0],
     data: input,
     sortDirection: createSortDirection(input),
   })
 
   useEffect(() => {
-    dispatch({ data: input })
+    refresh(input)
   }, [input])
 
-  const { data, sortDirection } = state
-
-  const sort = (term: string): void => {
-    return dispatch({ data, sortKey: term })
+  const sort = (term: string, payload?: T[]) => {
+    return dispatch(sortAction(payload || input, term))
   }
 
-  return { sort, data: data as T[], sortDirection }
+  const refresh = (payload?: T[]) => dispatch(refreshAction(payload || input))
+
+  const { data } = state
+
+  return {
+    sort,
+    refresh,
+    ...state,
+    data: data as T[],
+  }
 }
 
 export default useSort

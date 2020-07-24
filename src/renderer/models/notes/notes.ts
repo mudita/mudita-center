@@ -5,12 +5,12 @@ import { createNewNote } from "Renderer/models/notes/create-new-note"
 
 export type NoteCallback = (param: Note) => void
 
-const initalState: StateProps = {
+const initialState: StateProps = {
   notesList,
 }
 
 export default {
-  state: initalState,
+  state: initialState,
   reducers: {
     createNewNote(state: StateProps, callback?: NoteCallback) {
       const oldNotes = state.notesList || []
@@ -22,6 +22,16 @@ export default {
         callback(newState.notesList[0])
       }
       return newState
+    },
+    removeNotes(state: StateProps, itemsToRemove: string[]) {
+      const notes = state.notesList?.filter(
+        ({ id }: Note) => !itemsToRemove.includes(id)
+      )
+
+      return {
+        ...state,
+        notesList: notes,
+      }
     },
     saveNote(state: StateProps, noteData: Note) {
       const modifiedNotes = state.notesList.map((note: Note) => {

@@ -99,23 +99,22 @@ interface NotesProps {
   notesList: Note[]
   newNote?: (noteCallback: NoteCallback) => void
   saveNote?: (note: Note) => void
+  removeNotes?: (ids: string[]) => void
 }
-
-const mockFilter = (data: Note[], ids: string[]): Note[] =>
-  data.filter(({ id }) => ids.indexOf(id) === -1)
 
 const Notes: FunctionComponent<NotesProps> = ({
   notesList,
   newNote,
   saveNote,
+  removeNotes,
 }) => {
   const maxCharacters = 4000
-  const [notes, setNotes] = useState<Note[]>(notesList)
   const [newNoteCreated, setNewNoteCreated] = useState(false)
-  const { data: sortedData, sort, sortDirection } = useSort(notes)
+  const { data: sortedData, sort, sortDirection } = useSort(notesList)
   const {
     getRowStatus,
     toggleRow,
+    resetRows,
     noneRowsSelected: noRowsSelected,
     selectedRows,
     toggleAll,
@@ -131,14 +130,18 @@ const Notes: FunctionComponent<NotesProps> = ({
   const {
     temporaryText: { length: textLength },
   } = textEditorHook
-  const sortByDate = () => sort("date")
+  const sortByDate = () => sort("date", notesList)
 
   const filterOutMessages = () => {
-    setNotes(mockFilter(sortedData, selectedRows as string[]))
+    if (removeNotes) {
+      const ids = (selectedRows as Note[]).map(({ id }: Note) => id)
+      removeNotes(ids)
+      resetRows()
+    }
   }
 
   const selectionManagerVisible = selectedRows.length > 0
-  const notesAvailable = notes.length > 0
+  const notesAvailable = sortedData.length > 0
 
   const onNewButtonClick = () => {
     if (newNote) {
@@ -156,23 +159,9 @@ const Notes: FunctionComponent<NotesProps> = ({
     }
   }
 
-  /**
-   * Just an exemplary effect here, it will be removed
-   * after the logic implementation will take place.
-   */
-
-  useEffect(() => {
-    setNotes(notesList)
-  }, [notesList])
-
   useEffect(() => {
     sortByDate()
-    setNotes(sortedData)
   }, [])
-
-  useEffect(() => {
-    setNotes(sortedData)
-  }, [sortedData])
 
   return (
     <>
@@ -181,7 +170,7 @@ const Notes: FunctionComponent<NotesProps> = ({
           <SelectionManager
             data-testid={NotesTestIds.SelectionElement}
             selectedItemsNumber={selectedRows.length}
-            allItemsSelected={selectedRows.length === notes.length}
+            allItemsSelected={selectedRows.length === sortedData.length}
             onToggle={toggleAll}
             message={messages.selectionsNumber}
             checkboxSize={CheckboxSize.Small}
@@ -235,7 +224,7 @@ const Notes: FunctionComponent<NotesProps> = ({
               </Col>
             </Labels>
             <div data-testid={NotesTestIds.ItemsWrapper}>
-              {notes.map((note) => {
+              {sortedData.map((note) => {
                 const { id, content, date } = note
                 const { selected } = getRowStatus(note)
                 const { getTemporaryValue } = useTemporaryStorage<string>(

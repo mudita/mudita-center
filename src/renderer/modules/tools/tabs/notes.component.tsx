@@ -11,6 +11,7 @@ const mapStateToProps = (state: RootModel) => {
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   newNote: (note: NoteCallback) => dispatch.notes.createNewNote(note),
   saveNote: (note: Note) => dispatch.notes.saveNote(note),
+  removeNotes: (ids: string[]) => dispatch.notes.removeNotes(ids),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps as Dispatch)(Notes)
