@@ -1,5 +1,10 @@
 import startBackend from "Backend/bootstrap"
-import { app, BrowserWindow, shell } from "electron"
+import {
+  app,
+  BrowserWindow,
+  BrowserWindowConstructorOptions,
+  shell,
+} from "electron"
 import * as path from "path"
 import * as url from "url"
 import { HELP_WINDOW_SIZE, WINDOW_SIZE } from "./config"
@@ -45,7 +50,9 @@ const commonWindowOptions = {
     nodeIntegration: true,
   },
 }
-const getWindowOptions = (extendedWindowOptions: {}) => ({
+const getWindowOptions = (
+  extendedWindowOptions?: BrowserWindowConstructorOptions
+) => ({
   ...extendedWindowOptions,
   ...commonWindowOptions,
 })
@@ -119,6 +126,7 @@ ipcMain.answerRenderer(OpenNewWindow.Help, (event, arg) => {
     getWindowOptions({
       width: HELP_WINDOW_SIZE.width,
       height: HELP_WINDOW_SIZE.height,
+      titleBarStyle: "hidden",
     })
   )
   newWindow.loadURL(
