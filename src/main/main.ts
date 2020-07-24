@@ -2,7 +2,7 @@ import startBackend from "Backend/bootstrap"
 import { app, BrowserWindow, shell } from "electron"
 import * as path from "path"
 import * as url from "url"
-import { WINDOW_SIZE } from "./config"
+import { HELP_WINDOW_SIZE, WINDOW_SIZE } from "./config"
 import autoupdate from "./autoupdate"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
@@ -13,6 +13,7 @@ import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
 import { ipcMain } from "electron-better-ipc"
 import { OpenNewWindow } from "Common/enums/open-new-window.enum"
+import { URL_MAIN } from "Renderer/constants/urls"
 
 require("dotenv").config()
 
@@ -36,22 +37,27 @@ const installExtensions = async () => {
 
 const developmentEnvironment = process.env.NODE_ENV === "development"
 const productionEnvironment = process.env.NODE_ENV === "production"
+const commonWindowOptions = {
+  resizable: developmentEnvironment,
+  fullscreen: false,
+  useContentSize: true,
+  webPreferences: {
+    nodeIntegration: true,
+  },
+}
+const getWindowOptions = (extendedWindowOptions: {}) => ({
+  ...extendedWindowOptions,
+  ...commonWindowOptions,
+})
 
 const createWindow = async () => {
   if (developmentEnvironment) {
     await installExtensions()
   }
 
-  win = new BrowserWindow({
-    width: WINDOW_SIZE.width,
-    height: WINDOW_SIZE.height,
-    resizable: developmentEnvironment,
-    fullscreen: false,
-    useContentSize: true,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  })
+  win = new BrowserWindow(
+    getWindowOptions({ width: WINDOW_SIZE.width, height: WINDOW_SIZE.height })
+  )
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
@@ -109,12 +115,20 @@ app.on("activate", () => {
 })
 
 ipcMain.answerRenderer(OpenNewWindow.Help, (event, arg) => {
-  const newWindow = new BrowserWindow({
-    width: 400,
-    height: 200,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  })
-  newWindow.loadURL("http://localhost:2003/#/help")
+  const newWindow = new BrowserWindow(
+    getWindowOptions({
+      width: HELP_WINDOW_SIZE.width,
+      height: HELP_WINDOW_SIZE.height,
+    })
+  )
+  newWindow.loadURL(
+    developmentEnvironment
+      ? `http://localhost:2003/#${URL_MAIN.help}`
+      : url.format({
+          pathname: path.join(__dirname, "index.html"),
+          protocol: "file:",
+          slashes: true,
+          hash: URL_MAIN.help,
+        })
+  )
 })

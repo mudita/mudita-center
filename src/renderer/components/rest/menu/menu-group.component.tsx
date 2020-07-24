@@ -77,7 +77,6 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
 
       {items &&
         items.map(({ button, icon }, index) => {
-          console.log(window.location.href)
           if (button === views.help) {
             const openHelpInNewWindow = () => {
               ipcRenderer.callMain(OpenNewWindow.Help, "true")
