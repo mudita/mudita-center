@@ -43,6 +43,13 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
         line-height: 1.1;
         font-weight: ${fontWeight("light")};
       `
+    case TextDisplayStyle.SecondaryHeading:
+      return css`
+        font-size: 2.4rem;
+        line-height: 0.8;
+        font-weight: ${fontWeight("light")};
+        letter-spacing: ${letterSpacing("negative")}rem;
+      `
     case TextDisplayStyle.SecondaryBoldHeading:
       return css`
         font-size: 2.4rem;
@@ -194,6 +201,7 @@ interface Props {
 export enum TextDisplayStyle {
   Default,
   PrimaryHeading,
+  SecondaryHeading,
   SecondaryBoldHeading,
   TertiaryBoldHeading,
   TertiaryHeading,
@@ -227,6 +235,7 @@ type Element = "div" | "h1" | "h2" | "h3" | "span" | "p" | "li"
 const mapping: ElementsMapping = {
   [TextDisplayStyle.Default]: "div",
   [TextDisplayStyle.PrimaryHeading]: "h1",
+  [TextDisplayStyle.SecondaryHeading]: "h2",
   [TextDisplayStyle.SecondaryBoldHeading]: "h2",
   [TextDisplayStyle.TertiaryBoldHeading]: "h3",
   [TextDisplayStyle.TertiaryHeading]: "h3",

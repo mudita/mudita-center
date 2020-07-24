@@ -2,16 +2,27 @@ import React, { useEffect, useLayoutEffect, useState } from "react"
 import { random } from "lodash"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import DevMode from "Renderer/modules/help/devmode/devmode.component"
-
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { DevMode as DevModeProps } from "Renderer/models/dev-mode/dev-mode.interface"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import { version } from "../../../../package.json"
+import { defineMessages } from "react-intl"
+import styled from "styled-components"
 
 interface HelpProps extends DevModeProps {
   enable: () => void
   disable: () => void
 }
 
-import { version } from "../../../../package.json"
+const messages = defineMessages({
+  title: { id: "view.name.help.title" },
+})
+
+const HelpPanel = styled.div`
+  display: flex;
+`
 
 const Help: FunctionComponent<HelpProps> = (props) => {
   const [count, setCount] = useState<number>(0)
@@ -45,7 +56,17 @@ const Help: FunctionComponent<HelpProps> = (props) => {
 
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
-      Help
+      <HelpPanel>
+        <Text displayStyle={TextDisplayStyle.SecondaryHeading}>
+          Pure Desktop App&nbsp;
+          <Text
+            message={messages.title}
+            displayStyle={TextDisplayStyle.SecondaryBoldHeading}
+            element={"span"}
+          />
+        </Text>
+      </HelpPanel>
+
       <br />
       <p
         onClick={increaseCount}
