@@ -7,7 +7,7 @@ import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.enum"
 import { notesSeed } from "App/seeds/notes"
 import { NoteCallback } from "Renderer/models/notes/notes"
 
-const renderer = (data = notesSeed.notesList.slice(0, 2)) => {
+const renderer = (data = notesSeed.notesList) => {
   const mockNewNote = (cb: NoteCallback) => {
     cb(notesSeed.notesList[0])
   }
@@ -45,11 +45,15 @@ test("shows selection manager and search element when at least one element is ch
 })
 
 test("shows sidebar to add a new note", () => {
-  const { queryByTestId, getByTestId } = renderer()
+  const { getByTestId } = renderer()
 
-  expect(queryByTestId(NotesTestIds.NewNoteSidebar)).not.toBeInTheDocument()
+  expect(getByTestId(NotesTestIds.NewNoteSidebar)).toHaveStyle(
+    "margin-right: -62.1rem"
+  )
 
   getByTestId(NotesTestIds.NewNoteButton).click()
 
-  expect(getByTestId(NotesTestIds.NewNoteSidebar)).toBeInTheDocument()
+  expect(getByTestId(NotesTestIds.NewNoteSidebar)).toHaveStyle(
+    "margin-right: 0rem"
+  )
 })
