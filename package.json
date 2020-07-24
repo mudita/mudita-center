@@ -30,7 +30,7 @@
     "test": "jest '(/__tests__/.*|(\\.|/)(test|spec))\\.([tj]sx?)$'",
     "test:all": "npm t && npm run build",
     "test:coverage": "npm run test -- --coverage",
-    "test:e2e": "npm run test:e2e:only -- --runInBand",
+    "test:e2e": "jest '(/__tests__/.*|(\\.|/)(e2e))\\.([tj]sx?)$' -- --runInBand",
     "test:e2e:only": "jest '(/__tests__/.*|(\\.|/)(e2e))\\.([tj]sx?)$'",
     "test:watch": "npm test -- --watch",
     "TRANSLATIONS COMMANDS": "=================================================",
