@@ -11,6 +11,7 @@ import { filesManagerSeed } from "App/seeds/filesManager"
 import { messagesSeed } from "App/seeds/messages"
 import { templatesSeed } from "App/seeds/templates"
 import { phoneSeed } from "App/seeds/phone"
+import { notesSeed } from "App/seeds/notes"
 
 const config: InitConfig<RootModel> = {
   models,
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV !== "test") {
       messages: messagesSeed,
       templates: templatesSeed,
       phone: phoneSeed,
+      notes: notesSeed,
     },
   }
 }

@@ -1,12 +1,11 @@
-import { notesList } from "App/__mocks__/notes"
 import { StateProps } from "Renderer/models/notes/notes.interface"
 import { Note } from "Renderer/modules/tools/tabs/notes-ui.component"
 import { createNewNote } from "Renderer/models/notes/create-new-note"
 
 export type NoteCallback = (param: Note) => void
 
-const initialState: StateProps = {
-  notesList,
+export const initialState: StateProps = {
+  notesList: [],
 }
 
 export default {

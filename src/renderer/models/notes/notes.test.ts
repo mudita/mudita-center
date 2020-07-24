@@ -1,15 +1,23 @@
 import { init } from "@rematch/core"
+import selectPlugin from "@rematch/select"
 import notes from "Renderer/models/notes/notes"
 import { Note } from "Renderer/modules/tools/tabs/notes-ui.component"
+import { notesSeed } from "App/seeds/notes"
 
-let store = init({
+const storeConfig = {
   models: { notes },
-})
+  plugins: [selectPlugin()],
+  redux: {
+    initialState: {
+      notes: notesSeed,
+    },
+  },
+}
+
+let store = init(storeConfig)
 
 beforeEach(() => {
-  store = init({
-    models: { notes },
-  })
+  store = init(storeConfig)
 })
 
 const testContent = "test-content"
@@ -44,5 +52,35 @@ test("properly saves modified note", () => {
   })
   expect(store.getState().notes.notesList.find(findById)!.content).toBe(
     testContent
+  )
+})
+
+test("properly removes notes", () => {
+  const noteId = store.getState().notes.notesList[0].id
+  expect(
+    store.getState().notes.notesList.find(({ id }) => id === noteId)
+  ).toBeDefined()
+
+  store.dispatch.notes.removeNotes([noteId])
+
+  expect(
+    store.getState().notes.notesList.find(({ id }) => id === noteId)
+  ).toBeUndefined()
+})
+
+test("properly removed multiple notes", () => {
+  const ids = store
+    .getState()
+    .notes.notesList.slice(0, 3)
+    .map(({ id }) => id)
+
+  expect(store.getState().notes.notesList.length).toBe(
+    notesSeed.notesList.length
+  )
+
+  store.dispatch.notes.removeNotes(ids)
+
+  expect(store.getState().notes.notesList.length).toBe(
+    notesSeed.notesList.length - ids.length
   )
 })

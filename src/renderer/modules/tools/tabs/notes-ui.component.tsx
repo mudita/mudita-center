@@ -20,11 +20,11 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
-import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.interface"
+import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.enum"
 import {
   FiltersWrapper,
   Row,
-  SearchButton,
+  NewNoteButton,
   SearchInput,
   SelectionManager,
   NotesSidebar,
@@ -195,12 +195,13 @@ const Notes: FunctionComponent<NotesProps> = ({
             outlined
           />
         )}
-        <SearchButton
+        <NewNoteButton
           displayStyle={DisplayStyle.Primary}
           size={ButtonSize.FixedBig}
           label={intl.formatMessage(messages.newNote)}
           onClick={onNewButtonClick}
           Icon={Type.PlusSign}
+          data-testid={NotesTestIds.NewNoteButton}
         />
       </FiltersWrapper>
 
@@ -291,7 +292,11 @@ const Notes: FunctionComponent<NotesProps> = ({
             data-testid={NotesTestIds.Empty}
           />
         )}
-        <NotesSidebar show={Boolean(activeRow)} onClose={closeSidebar}>
+        <NotesSidebar
+          show={Boolean(activeRow)}
+          onClose={closeSidebar}
+          data-testid={NotesTestIds.NewNoteSidebar}
+        >
           {activeRow && (
             <TextEditor
               {...textEditorHook}

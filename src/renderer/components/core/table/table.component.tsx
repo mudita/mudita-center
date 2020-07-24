@@ -325,24 +325,32 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
   appColorSidebarHeader = false,
   padded = true,
   ...rest
-}) => (
-  <SidebarWrapper
-    className={className}
-    show={show}
-    appColorSidebarHeader={appColorSidebarHeader}
-    data-testid="sidebar"
-    {...rest}
-  >
-    <SidebarHeader>
-      {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
-      {headerRight && <SidebarHeaderRight>{headerRight}</SidebarHeaderRight>}
-      <SidebarClose onClick={onClose} data-testid="sidebar-close">
-        <SidebarHeaderIcon Icon={Type.Close} />
-      </SidebarClose>
-    </SidebarHeader>
-    <SidebarContent padded={padded}>{children}</SidebarContent>
-  </SidebarWrapper>
-)
+}) => {
+  if (show) {
+    return (
+      <SidebarWrapper
+        className={className}
+        show={show}
+        appColorSidebarHeader={appColorSidebarHeader}
+        data-testid="sidebar"
+        {...rest}
+      >
+        <SidebarHeader>
+          {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
+          {headerRight && (
+            <SidebarHeaderRight>{headerRight}</SidebarHeaderRight>
+          )}
+          <SidebarClose onClick={onClose} data-testid="sidebar-close">
+            <SidebarHeaderIcon Icon={Type.Close} />
+          </SidebarClose>
+        </SidebarHeader>
+        <SidebarContent padded={padded}>{children}</SidebarContent>
+      </SidebarWrapper>
+    )
+  }
+
+  return null
+}
 
 /* Table */
 interface TableProps {
