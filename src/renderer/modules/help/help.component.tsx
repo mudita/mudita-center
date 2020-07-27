@@ -29,8 +29,6 @@ interface HelpProps extends DevModeProps {
   disable: () => void
 }
 
-const Wrapper = styled.div``
-
 const HelpPanel = styled.div`
   display: flex;
   justify-content: space-between;
@@ -105,7 +103,7 @@ const Help: FunctionComponent<HelpProps> = (props) => {
   }, [count, cheat])
 
   return (
-    <Wrapper data-testid={HelpComponentTestIds.Wrapper}>
+    <div data-testid={HelpComponentTestIds.Wrapper}>
       <HelpPanel>
         <Text
           message={{
@@ -145,7 +143,7 @@ const Help: FunctionComponent<HelpProps> = (props) => {
         App Version: {version}
       </p>
       {props.devModeEnabled && <DevMode disable={props.disable} />}
-    </Wrapper>
+    </div>
   )
 }
 
