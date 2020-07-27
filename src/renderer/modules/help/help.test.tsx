@@ -3,6 +3,8 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import { DevModeTestIds } from "Renderer/modules/help/devmode/devmode.interface"
 import Help from "Renderer/modules/help/help.component"
+import { Router } from "react-router"
+import history from "Renderer/routes/history"
 
 const defaultProps = {
   disable: jest.fn(),
@@ -22,7 +24,11 @@ const renderer = (extraProps: RendererProps = {}) => {
     ...extraProps,
   }
 
-  return renderWithThemeAndIntl(<Help {...props} />)
+  return renderWithThemeAndIntl(
+    <Router history={history}>
+      <Help {...props} />
+    </Router>
+  )
 }
 
 test("Help component renders", () => {
