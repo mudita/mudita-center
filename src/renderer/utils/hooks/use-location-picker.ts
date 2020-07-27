@@ -1,20 +1,20 @@
-import { updateLocationSettings } from "Renderer/requests/app-settings.request"
-import { LocationPath } from "Renderer/modules/settings/tabs/backup/location-path.enum"
-import { AppSettings } from "App/main/default-app-settings"
+const { dialog } = require("electron").remote
 
-const useLocationPicker = (
-  locationToUpdate: LocationPath,
-  onSuccessCallback?: (
-    location:
-      | AppSettings["pureOsBackupLocation"]
-      | AppSettings["pureOsDownloadLocation"]
-  ) => void
-) => {
-  return async () => {
-    const location = await updateLocationSettings(locationToUpdate)
-    if (location && onSuccessCallback) {
-      await onSuccessCallback(location)
-    }
+const useLocationPicker = async (
+  defaultPath?: string
+): Promise<string | null> => {
+  const {
+    filePaths: [path],
+    canceled,
+  } = await dialog.showOpenDialog({
+    properties: ["openDirectory"],
+    defaultPath,
+  })
+
+  if (canceled) {
+    return null
+  } else {
+    return path
   }
 }
 
