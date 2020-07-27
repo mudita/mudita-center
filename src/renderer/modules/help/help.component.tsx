@@ -20,7 +20,6 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { Link } from "react-router-dom"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { HELP_WINDOW_SIZE } from "App/main/config"
 
 interface HelpProps extends DevModeProps {
   enable: () => void
@@ -53,13 +52,13 @@ const QuestionsContainer = styled.div`
   background-color: ${backgroundColor("main")};
 `
 
-const Question = styled.div`
+const Question = styled(Link)`
   padding: 1.6rem;
-`
-
-const QuestionLink = styled(Link)`
   display: flex;
   justify-content: space-between;
+  &:hover {
+    background-color: ${backgroundColor("minorHover")};
+  }
 `
 
 const ArrowIcon = styled(Icon)`
@@ -121,26 +120,22 @@ const Help: FunctionComponent<HelpProps> = (props) => {
       <QuestionsContainer>
         {helpQuestionsAndAnswers.map(({ id, question, answer }) => {
           return (
-            <Question key={id}>
-              <QuestionLink to={URL_MAIN.help + `/${id}`}>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
-                  {question}
-                </Text>
-                <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />
-              </QuestionLink>
+            <Question key={id} to={URL_MAIN.help + `/${id}`}>
+              <Text displayStyle={TextDisplayStyle.LargeText}>{question}</Text>
+              <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />
             </Question>
           )
         })}
       </QuestionsContainer>
 
-      {/*<br />*/}
-      {/*<p*/}
-      {/*  onClick={increaseCount}*/}
-      {/*  data-testid={HelpComponentTestIds.ToggleButton}*/}
-      {/*>*/}
-      {/*  App Version: {version}*/}
-      {/*</p>*/}
-      {/*{props.devModeEnabled && <DevMode disable={props.disable} />}*/}
+      <br />
+      <p
+        onClick={increaseCount}
+        data-testid={HelpComponentTestIds.ToggleButton}
+      >
+        App Version: {version}
+      </p>
+      {props.devModeEnabled && <DevMode disable={props.disable} />}
     </Wrapper>
   )
 }
