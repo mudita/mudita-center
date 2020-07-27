@@ -20,28 +20,26 @@ class PurePhoneBackups extends PurePhoneBackupAdapter {
         await fs.readdir(pureOsBackupLocation)
       ).filter((fileName) => fileName.startsWith("pure_backup_20"))
 
-      const promises = files.map((fileName) => {
-        return new Promise(async (resolve, reject) => {
-          try {
-            const { size } = await fs.stat(
-              path.join(pureOsBackupLocation, fileName)
-            )
-            const datetime = fileName.match(regex)?.[1]
+      const promises = files.map(async (fileName) => {
+        try {
+          const { size } = await fs.stat(
+            path.join(pureOsBackupLocation, fileName)
+          )
+          const datetime = fileName.match(regex)?.[1]
 
-            if (datetime) {
-              const createdAt = moment(datetime, "YYYYMMDDhhmm").format()
+          if (datetime) {
+            const createdAt = moment(datetime, "YYYYMMDDhhmm").format()
 
-              resolve({
-                createdAt,
-                size,
-              })
-            } else {
-              reject()
+            return {
+              createdAt,
+              size,
             }
-          } catch (error) {
-            reject(error)
+          } else {
+            return null
           }
-        })
+        } catch (error) {
+          return null
+        }
       })
 
       const fulfilledPromises = (await Promise.allSettled(promises)).filter(
