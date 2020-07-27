@@ -1,42 +1,61 @@
-import getDefaultAppSettings, {
-  AppSettings,
-} from "../../../main/default-app-settings"
 import AppSettingsAdapter from "./app-settings-adapter.class"
-import { LocationPath } from "Renderer/modules/settings/tabs/backup/location-path.enum"
+import {
+  ConversionFormat,
+  Convert,
+} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
+import {
+  AppSettings,
+  SettingsUpdateOption,
+} from "App/main/store/settings.interface"
+
+export const fakeAppSettings: AppSettings = {
+  appAutostart: false,
+  appTethering: false,
+  appIncomingCalls: false,
+  appIncomingMessages: false,
+  appLowBattery: false,
+  appOsUpdates: false,
+  appNonStandardAudioFilesConversion: false,
+  appConvert: Convert.ConvertAutomatically,
+  appConversionFormat: ConversionFormat.WAV,
+  appTray: true,
+  pureOsBackupLocation: `fake/path/pure/phone/backups/`,
+  pureOsDownloadLocation: `fake/path/pure/os/downloads/`,
+  language: {
+    name: "English",
+    tag: "en-US",
+    shortTag: "en",
+  },
+}
 
 class AppSettingsFake extends AppSettingsAdapter {
-  private settings: AppSettings = getDefaultAppSettings("fake/path")
+  private settings: AppSettings
+  private readonly updateOption: SettingsUpdateOption
 
-  public async getAppSettings(): Promise<AppSettings> {
+  constructor(updateOption: SettingsUpdateOption) {
+    super()
+    this.updateOption = updateOption
+    this.settings = fakeAppSettings
+  }
+
+  getAppSettings(): AppSettings {
     return this.settings
   }
 
-  resetAppSettings(): Promise<void> {
-    this.settings = getDefaultAppSettings("fake/path")
-    return Promise.resolve()
+  resetAppSettings(): AppSettings {
+    this.settings = fakeAppSettings
+    return this.settings
   }
 
-  updateAppSettings(settings: Partial<AppSettings>): Promise<void> {
-    this.settings = {
-      ...this.settings,
-      ...settings,
-    }
-    return Promise.resolve()
-  }
-
-  updateLocationSettings(location: LocationPath): Promise<string | null> {
-    if (location === LocationPath.PureOsBackup) {
-      this.settings.pureOsBackupLocation = "fake/backup/path/"
-      return Promise.resolve(this.settings.pureOsBackupLocation)
-    } else if (location === LocationPath.PureOsDownload) {
-      this.settings.pureOsDownloadLocation = "fake/download/path/"
-      return Promise.resolve(this.settings.pureOsDownloadLocation)
-    }
-    return Promise.resolve(null)
+  updateAppSettings(): Partial<AppSettings> {
+    const { key, value } = this.updateOption
+    this.settings[key] = value
+    return this.settings[key]
   }
 }
 
-const createFakeAppSettingsAdapter = (): AppSettingsAdapter =>
-  new AppSettingsFake()
+const createFakeAppSettingsAdapter = (
+  updateOption: SettingsUpdateOption
+): AppSettingsAdapter => new AppSettingsFake(updateOption)
 
 export default createFakeAppSettingsAdapter

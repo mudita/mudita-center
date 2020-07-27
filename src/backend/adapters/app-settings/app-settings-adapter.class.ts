@@ -1,17 +1,12 @@
-import { AppSettings } from "App/main/default-app-settings"
-import { LocationPath } from "Renderer/modules/settings/tabs/backup/location-path.enum"
-import { BrowserWindow } from "electron"
+import {
+  AppSettings,
+  SettingsUpdateOption,
+} from "App/main/store/settings.interface"
 
 export default abstract class AppSettingsAdapter {
-  constructor(win?: BrowserWindow) {
-    // no empty block
-  }
-  public abstract getAppSettings(): Promise<AppSettings>
-  public abstract resetAppSettings(): Promise<void>
+  public abstract getAppSettings(): AppSettings
+  public abstract resetAppSettings(): AppSettings
   public abstract updateAppSettings(
-    settings: Partial<AppSettings>
-  ): Promise<void>
-  public abstract updateLocationSettings(
-    location: LocationPath
-  ): Promise<null | string>
+    option: SettingsUpdateOption
+  ): Partial<AppSettings>
 }
