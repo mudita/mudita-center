@@ -52,6 +52,9 @@ const ButtonMenu = styled(Button)`
 `
 
 const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
+  const openHelpInNewWindow = () => {
+    ipcRenderer.callMain(OpenNewWindow.Help, "true")
+  }
   return (
     <>
       {label && (
@@ -74,20 +77,19 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
           )}
         </HeaderWrapper>
       )}
-
       {items &&
         items.map(({ button, icon }, index) => {
+          const buttonMenuConfig = {
+            nav: true,
+            displayStyle: DisplayStyle.Link4,
+            labelMessage: button.label,
+            Icon: icon,
+          }
           if (button === views.help) {
-            const openHelpInNewWindow = () => {
-              ipcRenderer.callMain(OpenNewWindow.Help, "true")
-            }
             return (
               <LinkWrapper key={index}>
                 <ButtonMenu
-                  nav
-                  displayStyle={DisplayStyle.Link4}
-                  labelMessage={button.label}
-                  Icon={icon}
+                  {...buttonMenuConfig}
                   onClick={openHelpInNewWindow}
                 />
               </LinkWrapper>
@@ -95,13 +97,7 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
           }
           return (
             <LinkWrapper key={index}>
-              <ButtonMenu
-                nav
-                displayStyle={DisplayStyle.Link4}
-                labelMessage={button.label}
-                Icon={icon}
-                to={button.url}
-              />
+              <ButtonMenu {...buttonMenuConfig} to={button.url} />
             </LinkWrapper>
           )
         })}
