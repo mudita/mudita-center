@@ -100,6 +100,7 @@ exports[`matches snapshot 1`] = `
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
+  position: relative;
 }
 
 .c0 {
@@ -182,7 +183,7 @@ exports[`matches snapshot 1`] = `
     class="c0"
   >
     <div
-      class="sc-fzpans c1"
+      class="sc-fznKkj c1"
     >
       <div
         class="c2"
