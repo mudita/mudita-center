@@ -19,52 +19,50 @@ export default {
     async loadSettings() {
       dispatch.settings.update(await getAppSettings())
     },
-    async updateSettings(settings: Partial<AppSettings>) {
-      await updateAppSettings(settings)
-      dispatch.settings.update(settings)
+    async updateSettings(option: SettingsUpdateOption) {
+      updateAppSettings(option)
+      dispatch.settings.update({ [option.key]: option.value })
     },
-    async setAutostart(value: AppSettings["appAutostart"]) {
-      await this.updateSettings({ appAutostart: value })
+    setAutostart(value: AppSettings["appAutostart"]) {
+      this.updateSettings({ key: "appAutostart", value })
     },
-    async setTethering(value: AppSettings["appTethering"]) {
-      await this.updateSettings({ appTethering: value })
+    setTethering(value: AppSettings["appTethering"]) {
+      this.updateSettings({ key: "appTethering", value })
     },
-    async setIncomingCalls(value: AppSettings["appIncomingCalls"]) {
-      await this.updateSettings({ appIncomingCalls: value })
+    setIncomingCalls(value: AppSettings["appIncomingCalls"]) {
+      this.updateSettings({ key: "appIncomingCalls", value })
     },
-    async setIncomingMessages(value: AppSettings["appIncomingMessages"]) {
-      await this.updateSettings({ appIncomingMessages: value })
+    setIncomingMessages(value: AppSettings["appIncomingMessages"]) {
+      this.updateSettings({ key: "appIncomingMessages", value })
     },
-    async setLowBattery(value: AppSettings["appLowBattery"]) {
-      await this.updateSettings({ appLowBattery: value })
+    setLowBattery(value: AppSettings["appLowBattery"]) {
+      this.updateSettings({ key: "appLowBattery", value })
     },
-    async setOsUpdates(value: AppSettings["appOsUpdates"]) {
-      await this.updateSettings({ appOsUpdates: value })
+    setOsUpdates(value: AppSettings["appOsUpdates"]) {
+      this.updateSettings({ key: "appOsUpdates", value })
     },
-    async setNonStandardAudioFilesConversion(
+    setNonStandardAudioFilesConversion(
       value: AppSettings["appNonStandardAudioFilesConversion"]
     ) {
-      await this.updateSettings({ appNonStandardAudioFilesConversion: value })
+      this.updateSettings({ key: "appNonStandardAudioFilesConversion", value })
     },
-    async setConvert(value: AppSettings["appConvert"]) {
-      await this.updateSettings({ appConvert: value })
+    setConvert(value: AppSettings["appConvert"]) {
+      this.updateSettings({ key: "appConvert", value })
     },
-    async setConversionFormat(value: AppSettings["appConversionFormat"]) {
-      await this.updateSettings({ appConversionFormat: value })
+    setConversionFormat(value: AppSettings["appConversionFormat"]) {
+      this.updateSettings({ key: "appConversionFormat", value })
     },
-    async setAppTray(value: AppSettings["appTray"]) {
-      await this.updateSettings({ appTray: value })
+    setAppTray(value: AppSettings["appTray"]) {
+      this.updateSettings({ key: "appTray", value })
     },
-    async setPureOsBackupLocation(value: AppSettings["pureOsBackupLocation"]) {
-      await this.updateSettings({ pureOsBackupLocation: value })
+    setPureOsBackupLocation(value: AppSettings["pureOsBackupLocation"]) {
+      this.updateSettings({ key: "pureOsBackupLocation", value })
     },
-    async setPureOsDownloadLocation(
-      value: AppSettings["pureOsDownloadLocation"]
-    ) {
-      await this.updateSettings({ pureOsDownloadLocation: value })
+    setPureOsDownloadLocation(value: AppSettings["pureOsDownloadLocation"]) {
+      this.updateSettings({ key: "pureOsDownloadLocation", value })
     },
-    async setLanguage(value: AppSettings["language"]) {
-      await this.updateSettings({ language: value })
+    setLanguage(value: AppSettings["language"]) {
+      this.updateSettings({ key: "language", value })
     },
   }),
 }

@@ -6,7 +6,7 @@ import {
   Convert,
 } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import getDefaultAppSettings from "App/main/default-app-settings"
+import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
 
 const mockIpc = () => {
   ;(ipcRenderer as any).__rendererCalls = {
@@ -19,9 +19,7 @@ test("loads settings", async () => {
     models: { settings },
   })
   ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.GetAppSettings]: Promise.resolve(
-      getDefaultAppSettings("fake/path")
-    ),
+    [IpcRequest.GetAppSettings]: Promise.resolve(fakeAppSettings),
   }
   await store.dispatch.settings.loadSettings()
   const state = store.getState()
