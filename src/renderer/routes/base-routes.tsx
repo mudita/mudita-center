@@ -46,7 +46,7 @@ export default () => (
         />
       </LayoutOnboardingWrapper>
     </Route>
-    <Route path={URL_MAIN.help + "/:questionId"} component={Answer} />
+    <Route path={`${URL_MAIN.help}/:questionId`} component={Answer} />
     <Route path={URL_MAIN.help} component={Help} />
     <Route>
       <LayoutDesktopWrapper>
