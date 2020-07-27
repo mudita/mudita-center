@@ -5,11 +5,13 @@ import { DevModeTestIds } from "Renderer/modules/help/devmode/devmode.interface"
 import Help from "Renderer/modules/help/help.component"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
+import { data } from "App/seeds/help"
 
 const defaultProps = {
   disable: jest.fn(),
   enable: jest.fn(),
   isDevModeEnabled: false,
+  helpQuestionsAndAnswers: data,
 }
 
 interface RendererProps {
