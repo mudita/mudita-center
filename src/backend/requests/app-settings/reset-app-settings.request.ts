@@ -1,10 +1,12 @@
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
+import { AppSettings } from "App/main/store/settings.interface"
 
 const handleAppSettingsResetRequest = async ({
   appSettings,
-}: Adapters): Promise<void> => await appSettings.resetAppSettings()
+}: Adapters): Promise<Partial<AppSettings>> =>
+  await appSettings.resetAppSettings()
 
 const registerAppSettingsResetRequest = createEndpoint({
   name: IpcRequest.ResetAppSettings,
