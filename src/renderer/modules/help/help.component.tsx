@@ -10,6 +10,10 @@ import Text, {
 import { version } from "../../../../package.json"
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
+import { intl } from "Renderer/utils/intl"
+import InputText from "Renderer/components/core/input-text/input-text.component"
+import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
+import { noop } from "Renderer/utils/noop"
 
 interface HelpProps extends DevModeProps {
   enable: () => void
@@ -22,6 +26,13 @@ const messages = defineMessages({
 
 const HelpPanel = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3.6rem 10.5rem 2rem 10.5rem;
+`
+
+const SearchInput = styled(InputText)`
+  width: 27.5rem;
 `
 
 const Help: FunctionComponent<HelpProps> = (props) => {
@@ -65,6 +76,16 @@ const Help: FunctionComponent<HelpProps> = (props) => {
             element={"span"}
           />
         </Text>
+        <SearchInput
+          type={"search"}
+          label={intl.formatMessage({
+            id: "view.name.messages.search",
+          })}
+          outlined
+          defaultValue={""}
+          onChange={noop}
+          leadingIcons={[searchIcon]}
+        />
       </HelpPanel>
 
       <br />
