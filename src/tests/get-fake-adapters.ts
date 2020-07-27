@@ -9,6 +9,7 @@ import createFakePhonebookAdapter, {
   PhonebookFakeAdapterProps,
 } from "Backend/adapters/phonebook/phonebook-fake.adapter"
 import createFakeAppSettingsAdapter from "Backend/adapters/app-settings/app-settings-fake.adapter"
+import { SettingsUpdateOption } from "App/main/store/settings.interface"
 
 type FakeAdaptersProps = PhonebookFakeAdapterProps
 

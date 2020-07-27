@@ -15,7 +15,7 @@ import Text, {
 import { FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
-import { AppSettings } from "App/main/default-app-settings"
+import { AppSettings } from "App/main/store/settings.interface"
 
 const BackupTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";

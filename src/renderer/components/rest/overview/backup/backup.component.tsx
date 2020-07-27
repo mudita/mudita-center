@@ -17,7 +17,7 @@ import { noop } from "Renderer/utils/noop"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { AppSettings } from "App/main/default-app-settings"
+import { AppSettings } from "App/main/store/settings.interface"
 
 const messages = defineMessages({
   lastBackup: { id: "view.name.overview.backup.lastBackup" },

@@ -3,7 +3,10 @@ import {
   getAppSettings,
   updateAppSettings,
 } from "Renderer/requests/app-settings.request"
-import { AppSettings } from "App/main/default-app-settings"
+import {
+  AppSettings,
+  SettingsUpdateOption,
+} from "App/main/store/settings.interface"
 
 export default {
   state: {},

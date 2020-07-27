@@ -9,7 +9,7 @@ import FilesManager from "Renderer/components/rest/overview/files-manager/files-
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
-import { AppSettings } from "App/main/default-app-settings"
+import { AppSettings } from "App/main/store/settings.interface"
 
 const PhoneInfo = styled(Phone)`
   grid-area: Phone;

@@ -7,7 +7,7 @@ import { noop } from "Renderer/utils/noop"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
-import { AppSettings } from "App/main/default-app-settings"
+import { AppSettings } from "App/main/store/settings.interface"
 
 // TODO: remove after implementing real phone update process
 interface FakeUpdatedStatus {

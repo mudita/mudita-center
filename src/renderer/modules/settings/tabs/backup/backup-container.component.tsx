@@ -1,7 +1,7 @@
 import { connect } from "react-redux"
 import Backup from "Renderer/modules/settings/tabs/backup/backup.component"
 import { RootModel } from "Renderer/models/models"
-import { AppSettings } from "App/main/default-app-settings"
+import { AppSettings } from "App/main/store/settings.interface"
 
 const mapStateToProps = (state: RootModel) => {
   return {
