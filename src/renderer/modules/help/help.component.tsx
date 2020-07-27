@@ -13,7 +13,6 @@ import { intl } from "Renderer/utils/intl"
 import InputText from "Renderer/components/core/input-text/input-text.component"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { noop } from "Renderer/utils/noop"
-import { helpQuestionsAndAnswers } from "App/__mocks__/help-data"
 import {
   backgroundColor,
   transitionTime,
@@ -23,10 +22,12 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { Link } from "react-router-dom"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
+import { QuestionAndAnswer } from "Renderer/models/help/help.interface"
 
 interface HelpProps extends DevModeProps {
   enable: () => void
   disable: () => void
+  helpQuestionsAndAnswers: QuestionAndAnswer[]
 }
 
 const HelpPanel = styled.div`
@@ -72,10 +73,14 @@ const textFormatters = {
   ),
 }
 
-const Help: FunctionComponent<HelpProps> = (props) => {
+const Help: FunctionComponent<HelpProps> = ({
+  disable,
+  enable,
+  helpQuestionsAndAnswers,
+  devModeEnabled,
+}) => {
   const [count, setCount] = useState<number>(0)
   const [cheat, setCheat] = useState<string>("")
-
   const increaseCount = () => {
     setCount((state) => state + 1)
   }
@@ -98,10 +103,9 @@ const Help: FunctionComponent<HelpProps> = (props) => {
       setCheat("")
       setCount(0)
 
-      props.enable()
+      enable()
     }
   }, [count, cheat])
-
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
       <HelpPanel>
@@ -125,7 +129,7 @@ const Help: FunctionComponent<HelpProps> = (props) => {
         />
       </HelpPanel>
       <QuestionsContainer>
-        {helpQuestionsAndAnswers.map(({ id, question, answer }) => {
+        {helpQuestionsAndAnswers.map(({ id, question }) => {
           return (
             <Question key={id} to={URL_MAIN.help + `/${id}`}>
               <Text displayStyle={TextDisplayStyle.LargeText}>{question}</Text>
@@ -142,7 +146,7 @@ const Help: FunctionComponent<HelpProps> = (props) => {
       >
         App Version: {version}
       </p>
-      {props.devModeEnabled && <DevMode disable={props.disable} />}
+      {devModeEnabled && <DevMode disable={disable} />}
     </div>
   )
 }

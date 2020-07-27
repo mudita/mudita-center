@@ -11,6 +11,7 @@ import backupSettings from "Renderer/models/backup-settings/backup-settings"
 import calls from "Renderer/models/calls/calls"
 import devMode from "Renderer/models/dev-mode/dev-mode"
 import templates from "Renderer/models/templates/templates"
+import help from "Renderer/models/help/help"
 
 export interface RootModel {
   basicInfo: typeof basicInfo
@@ -26,6 +27,7 @@ export interface RootModel {
   calls: typeof calls
   devMode: typeof devMode
   templates: typeof templates
+  help: typeof help
 }
 
 export const models: RootModel = {
@@ -42,4 +44,5 @@ export const models: RootModel = {
   calls,
   devMode,
   templates,
+  help,
 }

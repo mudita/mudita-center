@@ -1,16 +1,15 @@
 import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { helpQuestionsAndAnswers } from "App/__mocks__/help-data"
 import { RouteComponentProps } from "react-router"
+import { QuestionAndAnswer } from "Renderer/models/help/help.interface"
 
-interface QuestionAndAnswer {
-  questionId: string
-  question: string
-  answer: string
+interface Props extends RouteComponentProps<{ questionId: string }> {
+  helpQuestionsAndAnswers: QuestionAndAnswer[]
 }
 
-const Answer: FunctionComponent<RouteComponentProps<QuestionAndAnswer>> = ({
+const AnswerUI: FunctionComponent<Props> = ({
   match,
+  helpQuestionsAndAnswers,
 }) => {
   const questionAndAnswer = helpQuestionsAndAnswers.find(
     ({ id }) => id === match.params.questionId
@@ -19,4 +18,4 @@ const Answer: FunctionComponent<RouteComponentProps<QuestionAndAnswer>> = ({
   return <div>{questionAndAnswer?.answer}</div>
 }
 
-export default Answer
+export default AnswerUI
