@@ -55,3 +55,9 @@ test("Help component should enable Dev Mode when conditions are met", () => {
 
   expect(enable).toBeCalledTimes(1)
 })
+
+test("render title correctly", () => {
+  const titleText = "view.name.help.title"
+  const { getByTestId } = renderer()
+  expect(getByTestId(HelpComponentTestIds.Title)).toHaveTextContent(titleText)
+})

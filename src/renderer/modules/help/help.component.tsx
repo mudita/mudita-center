@@ -8,7 +8,6 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { version } from "../../../../package.json"
-import { defineMessages } from "react-intl"
 import styled from "styled-components"
 import { intl } from "Renderer/utils/intl"
 import InputText from "Renderer/components/core/input-text/input-text.component"
@@ -25,10 +24,6 @@ interface HelpProps extends DevModeProps {
   enable: () => void
   disable: () => void
 }
-
-const messages = defineMessages({
-  title: { id: "view.name.help.title" },
-})
 
 const Wrapper = styled.div``
 
@@ -65,6 +60,14 @@ const ArrowIcon = styled(Icon)`
   transform: rotate(270deg);
 `
 
+const textFormatters = {
+  b: (str: string) => (
+    <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading} element={"span"}>
+      {str}
+    </Text>
+  ),
+}
+
 const Help: FunctionComponent<HelpProps> = (props) => {
   const [count, setCount] = useState<number>(0)
   const [cheat, setCheat] = useState<string>("")
@@ -98,14 +101,14 @@ const Help: FunctionComponent<HelpProps> = (props) => {
   return (
     <Wrapper data-testid={HelpComponentTestIds.Wrapper}>
       <HelpPanel>
-        <Text displayStyle={TextDisplayStyle.SecondaryHeading}>
-          Pure Desktop App&nbsp;
-          <Text
-            message={messages.title}
-            displayStyle={TextDisplayStyle.SecondaryBoldHeading}
-            element={"span"}
-          />
-        </Text>
+        <Text
+          message={{
+            id: "view.name.help.title",
+            values: textFormatters,
+          }}
+          displayStyle={TextDisplayStyle.SecondaryHeading}
+          data-testid={HelpComponentTestIds.Title}
+        />
         <SearchInput
           type={"search"}
           label={intl.formatMessage({
