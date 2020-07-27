@@ -14,6 +14,10 @@ import { intl } from "Renderer/utils/intl"
 import InputText from "Renderer/components/core/input-text/input-text.component"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { noop } from "Renderer/utils/noop"
+import { helpQuestionsAndAnswers } from "App/__mocks__/help-data"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { URL_MAIN } from "Renderer/constants/urls"
+import { Link } from "react-router-dom"
 
 interface HelpProps extends DevModeProps {
   enable: () => void
@@ -33,6 +37,15 @@ const HelpPanel = styled.div`
 
 const SearchInput = styled(InputText)`
   width: 27.5rem;
+`
+
+const QuestionsContainer = styled.div`
+  padding: 0 8.9rem;
+  background-color: ${backgroundColor("row")};
+`
+
+const Question = styled.div`
+  padding: 1.6rem;
 `
 
 const Help: FunctionComponent<HelpProps> = (props) => {
@@ -87,15 +100,28 @@ const Help: FunctionComponent<HelpProps> = (props) => {
           leadingIcons={[searchIcon]}
         />
       </HelpPanel>
+      <QuestionsContainer>
+        {helpQuestionsAndAnswers.map(({ id, question, answer }) => {
+          return (
+            <Question key={id}>
+              <Link to={URL_MAIN.help + `/${id}`}>
+                <Text displayStyle={TextDisplayStyle.LargeText}>
+                  {question}
+                </Text>
+              </Link>
+            </Question>
+          )
+        })}
+      </QuestionsContainer>
 
-      <br />
-      <p
-        onClick={increaseCount}
-        data-testid={HelpComponentTestIds.ToggleButton}
-      >
-        App Version: {version}
-      </p>
-      {props.devModeEnabled && <DevMode disable={props.disable} />}
+      {/*<br />*/}
+      {/*<p*/}
+      {/*  onClick={increaseCount}*/}
+      {/*  data-testid={HelpComponentTestIds.ToggleButton}*/}
+      {/*>*/}
+      {/*  App Version: {version}*/}
+      {/*</p>*/}
+      {/*{props.devModeEnabled && <DevMode disable={props.disable} />}*/}
     </div>
   )
 }
