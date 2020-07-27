@@ -18,6 +18,9 @@ import { helpQuestionsAndAnswers } from "App/__mocks__/help-data"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Link } from "react-router-dom"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import Icon from "Renderer/components/core/icon/icon.component"
+import { HELP_WINDOW_SIZE } from "App/main/config"
 
 interface HelpProps extends DevModeProps {
   enable: () => void
@@ -28,12 +31,16 @@ const messages = defineMessages({
   title: { id: "view.name.help.title" },
 })
 
+const Wrapper = styled.div``
+
 const HelpPanel = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 3.6rem 10.5rem 2rem 10.5rem;
   background-color: ${backgroundColor("row")};
+  position: sticky;
+  top: 0;
 `
 
 const SearchInput = styled(InputText)`
@@ -48,6 +55,15 @@ const QuestionsContainer = styled.div`
 
 const Question = styled.div`
   padding: 1.6rem;
+`
+
+const QuestionLink = styled(Link)`
+  display: flex;
+  justify-content: space-between;
+`
+
+const ArrowIcon = styled(Icon)`
+  transform: rotate(270deg);
 `
 
 const Help: FunctionComponent<HelpProps> = (props) => {
@@ -81,7 +97,7 @@ const Help: FunctionComponent<HelpProps> = (props) => {
   }, [count, cheat])
 
   return (
-    <div data-testid={HelpComponentTestIds.Wrapper}>
+    <Wrapper data-testid={HelpComponentTestIds.Wrapper}>
       <HelpPanel>
         <Text displayStyle={TextDisplayStyle.SecondaryHeading}>
           Pure Desktop App&nbsp;
@@ -106,11 +122,12 @@ const Help: FunctionComponent<HelpProps> = (props) => {
         {helpQuestionsAndAnswers.map(({ id, question, answer }) => {
           return (
             <Question key={id}>
-              <Link to={URL_MAIN.help + `/${id}`}>
+              <QuestionLink to={URL_MAIN.help + `/${id}`}>
                 <Text displayStyle={TextDisplayStyle.LargeText}>
                   {question}
                 </Text>
-              </Link>
+                <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />
+              </QuestionLink>
             </Question>
           )
         })}
@@ -124,7 +141,7 @@ const Help: FunctionComponent<HelpProps> = (props) => {
       {/*  App Version: {version}*/}
       {/*</p>*/}
       {/*{props.devModeEnabled && <DevMode disable={props.disable} />}*/}
-    </div>
+    </Wrapper>
   )
 }
 
