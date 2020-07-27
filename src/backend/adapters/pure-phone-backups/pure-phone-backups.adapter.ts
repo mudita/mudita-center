@@ -11,26 +11,44 @@ class PurePhoneBackups extends PurePhoneBackupAdapter {
     const settingsFilePath = `${app.getPath("appData")}/${name}/settings.json`
 
     const { pureOsBackupLocation } = await fs.readJson(settingsFilePath)
-    const backups: BackupItemInfo[] = []
+    let backups: BackupItemInfo[] = []
 
     const regex = /^pure_backup_(\d{12})\.zip$/m
 
     if (await fs.pathExists(pureOsBackupLocation)) {
-      for (const fileName of await fs.readdir(pureOsBackupLocation)) {
-        if (regex.test(fileName)) {
-          const { size } = await fs.stat(
-            path.join(pureOsBackupLocation, fileName)
-          )
+      const files = (await fs.readdir(pureOsBackupLocation)).filter(
+        (fileName) => fileName.indexOf("pure_backup_20") > -1
+      )
 
-          const datetime = fileName.match(regex)?.[1]
-          const createdAt = moment(datetime, "YYYYMMDDhhmm").format()
+      const promises = files.map((fileName) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            const { size } = await fs.stat(
+              path.join(pureOsBackupLocation, fileName)
+            )
+            const datetime = fileName.match(regex)?.[1]
 
-          backups.push({
-            createdAt,
-            size,
-          })
-        }
-      }
+            if (datetime) {
+              const createdAt = moment(datetime, "YYYYMMDDhhmm").format()
+
+              resolve({
+                createdAt,
+                size,
+              })
+            } else {
+              reject()
+            }
+          } catch (error) {
+            reject(error)
+          }
+        })
+      })
+
+      const fulfilledPromises = (await Promise.allSettled(promises)).filter(
+        ({ status }) => status === "fulfilled"
+      ) as PromiseFulfilledResult<BackupItemInfo>[]
+
+      backups = fulfilledPromises.map(({ value }) => value)
     }
 
     return backups
