@@ -8,6 +8,6 @@ const createHelpQuestionAndAnswer = () => ({
 })
 
 export const helpQuestionsAndAnswers = times(
-  random(5, 10),
+  random(10, 20),
   createHelpQuestionAndAnswer
 )

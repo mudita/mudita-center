@@ -33,6 +33,7 @@ const HelpPanel = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 3.6rem 10.5rem 2rem 10.5rem;
+  background-color: ${backgroundColor("row")};
 `
 
 const SearchInput = styled(InputText)`
@@ -41,7 +42,8 @@ const SearchInput = styled(InputText)`
 
 const QuestionsContainer = styled.div`
   padding: 0 8.9rem;
-  background-color: ${backgroundColor("row")};
+  margin-top: 4.1rem;
+  background-color: ${backgroundColor("main")};
 `
 
 const Question = styled.div`
