@@ -14,7 +14,11 @@ import InputText from "Renderer/components/core/input-text/input-text.component"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { noop } from "Renderer/utils/noop"
 import { helpQuestionsAndAnswers } from "App/__mocks__/help-data"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  transitionTime,
+  transitionTimingFunction,
+} from "Renderer/styles/theming/theme-getters"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Link } from "react-router-dom"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -51,6 +55,8 @@ const Question = styled(Link)`
   padding: 1.6rem;
   display: flex;
   justify-content: space-between;
+  transition: background-color ${transitionTime("veryQuick")}
+    ${transitionTimingFunction("smooth")};
   &:hover {
     background-color: ${backgroundColor("minorHover")};
   }
