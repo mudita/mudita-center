@@ -19,15 +19,15 @@ import {
   Tooltip,
   YAxis,
   YAxisTitle,
-} from "Renderer/components/rest/meditation-stats/meditation-stats.styled"
+} from "Renderer/components/rest/meditation/stats/meditation-stats.styled"
 import {
   ChartType,
   MeditationStatsTestIds,
-} from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
+} from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
 import {
   formatDate,
   getMaxChartValue,
-} from "Renderer/components/rest/meditation-stats/meditation-stats.helpers"
+} from "Renderer/components/rest/meditation/stats/meditation-stats.helpers"
 
 export interface StatsData {
   date: string

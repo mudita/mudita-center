@@ -1,6 +1,6 @@
 import moment, { DurationInputArg2, Moment } from "moment"
-import { StatsData } from "Renderer/components/rest/meditation-stats/meditation-stats.component"
-import { ChartType } from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
+import { StatsData } from "Renderer/components/rest/meditation/stats/meditation-stats.component"
+import { ChartType } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
 
 export const generateMeditationData = (
   chartType: ChartType = ChartType.Weekly

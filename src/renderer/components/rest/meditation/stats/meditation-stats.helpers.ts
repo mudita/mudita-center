@@ -1,5 +1,5 @@
 import moment from "moment"
-import { ChartType } from "Renderer/components/rest/meditation-stats/meditation-stats.enum"
+import { ChartType } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
 
 /**
  * Calculates recommended time gradation for given amount of seconds.
