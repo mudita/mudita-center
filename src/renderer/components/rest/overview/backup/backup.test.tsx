@@ -8,10 +8,6 @@ import { intl } from "Renderer/utils/intl"
 import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"
 import { fireEvent, waitFor } from "@testing-library/react"
 
-const lastBackupDate = new Date(lastBackup.createdAt).toLocaleDateString(
-  "en-US"
-)
-
 const renderBackup = ({
   onBackupCreate = noop,
   ...props
