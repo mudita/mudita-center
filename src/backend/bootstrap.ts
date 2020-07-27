@@ -13,13 +13,11 @@ import registerBackupsInfoRequest from "Backend/requests/backups/get-backups-inf
 import registerAppSettingsRequest from "Backend/requests/app-settings/get-app-settings.request"
 import registerAppSettingsUpdateRequest from "Backend/requests/app-settings/update-app-settings.request"
 import registerAppSettingsResetRequest from "Backend/requests/app-settings/reset-app-settings.request"
-import registerAppSettingsUpdateLocationRequest from "Backend/requests/app-settings/update-app-settings-location.request"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
-import { BrowserWindow } from "electron"
 
-const bootstrap = (win: BrowserWindow) => {
+const bootstrap = () => {
   ;[
     registerDeviceInfoRequest,
     registerNetworkInfoRequest,
@@ -35,12 +33,11 @@ const bootstrap = (win: BrowserWindow) => {
     registerAppSettingsRequest,
     registerAppSettingsUpdateRequest,
     registerAppSettingsResetRequest,
-    registerAppSettingsUpdateLocationRequest,
   ].forEach((register) =>
     register({
       // TODO: Replace with a proper adapters when phone becomes available.
       ...getFakeAdapters(),
-      appSettings: createAppSettingsAdapter(win),
+      appSettings: createAppSettingsAdapter(),
       pureBackups: createPurePhoneBackupsAdapter(),
       app: createElectronAppAdapter(),
     })
