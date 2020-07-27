@@ -16,9 +16,9 @@ class PurePhoneBackups extends PurePhoneBackupAdapter {
     const regex = /^pure_backup_(\d{12})\.zip$/m
 
     if (await fs.pathExists(pureOsBackupLocation)) {
-      const files = (await fs.readdir(pureOsBackupLocation)).filter(
-        (fileName) => fileName.indexOf("pure_backup_20") > -1
-      )
+      const files = (
+        await fs.readdir(pureOsBackupLocation)
+      ).filter((fileName) => fileName.startsWith("pure_backup_20"))
 
       const promises = files.map((fileName) => {
         return new Promise(async (resolve, reject) => {
