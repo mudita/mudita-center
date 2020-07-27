@@ -12,10 +12,12 @@ const Backup: FunctionComponent<Props & AppSettings> = ({
   setPureOsBackupLocation,
   pureOsBackupLocation,
 }) => {
-  const openDialog = useLocationPicker(
-    LocationPath.PureOsBackup,
-    setPureOsBackupLocation
-  )
+  const openDialog = async () => {
+    const location = await useLocationPicker(pureOsBackupLocation)
+    if (location) {
+      await setPureOsBackupLocation(location)
+    }
+  }
 
   return (
     <BackupUI backupLocation={pureOsBackupLocation} openDialog={openDialog} />
