@@ -141,5 +141,7 @@ ipcMain.answerRenderer(OpenNewWindow.Help, (event, arg) => {
             hash: URL_MAIN.help,
           })
     )
+  } else {
+    helpWindow.show()
   }
 })
