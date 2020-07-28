@@ -23,6 +23,7 @@ import { URL_MAIN } from "Renderer/constants/urls"
 require("dotenv").config()
 
 let win: BrowserWindow | null
+let helpWindow: BrowserWindow | null = null
 
 // Fetch all errors and display in console along with alert box
 process.on("uncaughtException", (error) => {
@@ -122,21 +123,23 @@ app.on("activate", () => {
 })
 
 ipcMain.answerRenderer(OpenNewWindow.Help, (event, arg) => {
-  const newWindow = new BrowserWindow(
-    getWindowOptions({
-      width: HELP_WINDOW_SIZE.width,
-      height: HELP_WINDOW_SIZE.height,
-      titleBarStyle: "hidden",
-    })
-  )
-  newWindow.loadURL(
-    developmentEnvironment
-      ? `http://localhost:2003/#${URL_MAIN.help}`
-      : url.format({
-          pathname: path.join(__dirname, "index.html"),
-          protocol: "file:",
-          slashes: true,
-          hash: URL_MAIN.help,
-        })
-  )
+  if (helpWindow === null) {
+    helpWindow = new BrowserWindow(
+      getWindowOptions({
+        width: HELP_WINDOW_SIZE.width,
+        height: HELP_WINDOW_SIZE.height,
+        titleBarStyle: "hidden",
+      })
+    )
+    helpWindow.loadURL(
+      developmentEnvironment
+        ? `http://localhost:2003/#${URL_MAIN.help}`
+        : url.format({
+            pathname: path.join(__dirname, "index.html"),
+            protocol: "file:",
+            slashes: true,
+            hash: URL_MAIN.help,
+          })
+    )
+  }
 })
