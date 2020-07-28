@@ -25,8 +25,7 @@ process.on("uncaughtException", (error) => {
   // log.transports.remote.url = "http://localhost:3000/log"
   log.error(error)
 
-  // TODO: Replace with support modal
-  alert(error.message)
+  // TODO: Add contact support modal
 })
 
 const installExtensions = async () => {
