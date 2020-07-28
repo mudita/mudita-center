@@ -133,7 +133,7 @@ const Help: FunctionComponent<HelpProps> = ({
       <QuestionsContainer>
         {helpQuestionsAndAnswers.map(({ id, question }) => {
           return (
-            <Question key={id} to={URL_MAIN.help + `/${id}`}>
+            <Question key={id} to={`${URL_MAIN.help}/${id}`}>
               <Text displayStyle={TextDisplayStyle.LargeText}>{question}</Text>
               <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />
             </Question>
