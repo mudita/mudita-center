@@ -144,4 +144,8 @@ ipcMain.answerRenderer(OpenNewWindow.Help, (event, arg) => {
   } else {
     helpWindow.show()
   }
+
+  helpWindow.on("closed", () => {
+    helpWindow = null
+  })
 })
