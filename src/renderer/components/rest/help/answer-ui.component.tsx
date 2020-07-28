@@ -4,18 +4,13 @@ import { RouteComponentProps } from "react-router"
 import { QuestionAndAnswer } from "Renderer/models/help/help.interface"
 
 interface Props extends RouteComponentProps<{ questionId: string }> {
-  helpQuestionsAndAnswers: QuestionAndAnswer[]
+  list: QuestionAndAnswer[]
 }
 
-const AnswerUI: FunctionComponent<Props> = ({
-  match,
-  helpQuestionsAndAnswers,
-}) => {
-  const questionAndAnswer = helpQuestionsAndAnswers.find(
-    ({ id }) => id === match.params.questionId
-  )
+const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
+  const itemToRender = list.find(({ id }) => id === match.params.questionId)
 
-  return <div>{questionAndAnswer?.answer}</div>
+  return <div>{itemToRender?.answer}</div>
 }
 
 export default AnswerUI

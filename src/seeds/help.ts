@@ -78,5 +78,5 @@ export const data = [
 
 export const helpSeed = {
   ...initialState,
-  helpQuestionsAndAnswers: data,
+  list: data,
 }

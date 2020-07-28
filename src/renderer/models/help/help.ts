@@ -1,7 +1,7 @@
 import { HelpState } from "Renderer/models/help/help.interface"
 
 export const initialState: HelpState = {
-  helpQuestionsAndAnswers: [],
+  list: [],
 }
 
 export default {

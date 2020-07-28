@@ -5,5 +5,5 @@ export interface QuestionAndAnswer {
 }
 
 export interface HelpState {
-  helpQuestionsAndAnswers: QuestionAndAnswer[]
+  list: QuestionAndAnswer[]
 }

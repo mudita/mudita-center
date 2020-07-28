@@ -11,7 +11,7 @@ const defaultProps = {
   disable: jest.fn(),
   enable: jest.fn(),
   isDevModeEnabled: false,
-  helpQuestionsAndAnswers: data,
+  list: data,
 }
 
 interface RendererProps {

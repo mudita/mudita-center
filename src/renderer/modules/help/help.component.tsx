@@ -28,7 +28,7 @@ import { QuestionAndAnswer } from "Renderer/models/help/help.interface"
 interface HelpProps extends DevModeProps {
   enable: () => void
   disable: () => void
-  helpQuestionsAndAnswers: QuestionAndAnswer[]
+  list: QuestionAndAnswer[]
 }
 
 const HelpPanel = styled.div`
@@ -78,7 +78,7 @@ const textFormatters = {
 const Help: FunctionComponent<HelpProps> = ({
   disable,
   enable,
-  helpQuestionsAndAnswers,
+  list,
   devModeEnabled,
 }) => {
   const [count, setCount] = useState<number>(0)
@@ -131,7 +131,7 @@ const Help: FunctionComponent<HelpProps> = ({
         />
       </HelpPanel>
       <QuestionsContainer>
-        {helpQuestionsAndAnswers.map(({ id, question }) => {
+        {list.map(({ id, question }) => {
           return (
             <Question key={id} to={`${URL_MAIN.help}/${id}`}>
               <Text displayStyle={TextDisplayStyle.LargeText}>{question}</Text>
