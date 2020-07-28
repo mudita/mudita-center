@@ -1,5 +1,6 @@
 import startBackend from "Backend/bootstrap"
 import { app, BrowserWindow, shell } from "electron"
+import log from "electron-log"
 import * as path from "path"
 import * as url from "url"
 import { WINDOW_SIZE } from "./config"
@@ -16,9 +17,15 @@ require("dotenv").config()
 
 let win: BrowserWindow | null
 
-// Fetch all errors and display in console along with alert box
+// Fetch and log all errors along with alert box
 process.on("uncaughtException", (error) => {
-  console.log(error)
+  // TODO: add a remote url to send logs to the specified the server
+  // See also src/renderer/utils/log.ts
+  // log.transports.remote.level = "warn"
+  // log.transports.remote.url = "http://localhost:3000/log"
+  log.error(error)
+
+  // TODO: Replace with support modal
   alert(error.message)
 })
 
@@ -29,7 +36,7 @@ const installExtensions = async () => {
 
   return Promise.all(
     extensions.map((name) => installer.default(installer[name], forceDownload))
-  ).catch(console.log)
+  ).catch(log.log)
 }
 
 const developmentEnvironment = process.env.NODE_ENV === "development"
