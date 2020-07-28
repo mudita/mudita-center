@@ -19,7 +19,7 @@ let win: BrowserWindow | null
 
 // Fetch and log all errors along with alert box
 process.on("uncaughtException", (error) => {
-  // TODO: add a remote url to send logs to the specified the server
+  // TODO: add a remote url to send logs to the specified the server or use Rollbar
   // See also src/renderer/utils/log.ts
   // log.transports.remote.level = "warn"
   // log.transports.remote.url = "http://localhost:3000/log"
