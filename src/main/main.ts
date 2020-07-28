@@ -36,7 +36,7 @@ const installExtensions = async () => {
 
   return Promise.all(
     extensions.map((name) => installer.default(installer[name], forceDownload))
-  ).catch(log.log)
+  ).catch(log.error)
 }
 
 const developmentEnvironment = process.env.NODE_ENV === "development"
