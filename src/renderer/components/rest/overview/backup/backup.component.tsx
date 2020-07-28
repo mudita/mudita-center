@@ -60,7 +60,7 @@ const Backup: FunctionComponent<BackupProps & Partial<AppSettings>> = ({
   language,
 }) => (
   <Card className={className}>
-    {Boolean(lastBackup) ? (
+    {lastBackup ? (
       <LastBackup>
         <Text displayStyle={TextDisplayStyle.SmallFadedText} element={"span"}>
           <FormattedMessage {...messages.lastBackup} />
