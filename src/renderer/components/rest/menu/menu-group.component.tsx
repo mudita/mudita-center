@@ -53,7 +53,7 @@ const ButtonMenu = styled(Button)`
 
 const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
   const openHelpInNewWindow = () => {
-    ipcRenderer.callMain(OpenNewWindow.Help, "true")
+    ipcRenderer.callMain(OpenNewWindow.Help)
   }
   return (
     <>
