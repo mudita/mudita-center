@@ -13,8 +13,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import { views } from "Renderer/constants/views"
-import { ipcRenderer } from "electron-better-ipc"
-import { OpenNewWindow } from "Common/enums/open-new-window.enum"
+import { noop } from "Renderer/utils/noop"
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -51,9 +50,14 @@ const ButtonMenu = styled(Button)`
   margin: 0 0 0.4rem 0;
 `
 
-const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
+const MenuGroup: FunctionComponent<MenuElement> = ({
+  label,
+  items,
+  icons,
+  openHelpWindow = noop,
+}) => {
   const openHelpInNewWindow = () => {
-    ipcRenderer.callMain(OpenNewWindow.Help)
+    openHelpWindow()
   }
   return (
     <>

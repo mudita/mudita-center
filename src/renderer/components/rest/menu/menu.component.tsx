@@ -42,11 +42,13 @@ const DevSign = styled.span`
 
 interface Props extends DevMode {
   deviceDisconnected?: boolean
+  openHelpWindow?: () => void
 }
 
 const Menu: FunctionComponent<Props> = ({
   deviceDisconnected,
   devModeEnabled,
+  openHelpWindow,
 }) => {
   const links = menuElements
     .filter(({ connectedPhoneOnly }) =>
@@ -54,7 +56,9 @@ const Menu: FunctionComponent<Props> = ({
     )
     .filter(({ devModeOnly }) => (devModeEnabled ? true : !devModeOnly))
     .map(({ connectedPhoneOnly, ...props }, indexMenu) => {
-      return <MenuGroup {...props} key={indexMenu} />
+      return (
+        <MenuGroup {...props} key={indexMenu} openHelpWindow={openHelpWindow} />
+      )
     })
   return (
     <MenuWrapper>
