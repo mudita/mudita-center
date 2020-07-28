@@ -17,6 +17,7 @@ import {
   backgroundColor,
   transitionTime,
   transitionTimingFunction,
+  zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Link } from "react-router-dom"
@@ -38,6 +39,7 @@ const HelpPanel = styled.div`
   background-color: ${backgroundColor("row")};
   position: sticky;
   top: 0;
+  z-index: ${zIndex("content")};
 `
 
 const SearchInput = styled(InputText)`
