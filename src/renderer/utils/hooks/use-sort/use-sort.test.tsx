@@ -13,7 +13,7 @@ test("data is sorted properly", () => {
   const { result } = renderHook(() => useSort(fakeData))
 
   act(() => {
-    result.current.sort(SORT_KEY)
+    result.current.sort(SORT_KEY, fakeData)
   })
 
   expect(result.current.data.length).toBe(fakeData.length)
@@ -26,7 +26,7 @@ test("data is sorted properly", () => {
   expect(result.current.data[2]).toMatchObject(fakeData[0])
 
   act(() => {
-    result.current.sort(SORT_KEY)
+    result.current.sort(SORT_KEY, fakeData)
   })
 
   expect(result.current.sortDirection[SORT_KEY]).toBe(SortDirection.Ascending)
@@ -42,7 +42,7 @@ test("doesn't modify the original data", () => {
   const { result } = renderHook(() => useSort(newData))
 
   act(() => {
-    result.current.sort(SORT_KEY)
+    result.current.sort(SORT_KEY, fakeData)
   })
 
   expect(result.current.data[0]).not.toMatchObject(newData[0])

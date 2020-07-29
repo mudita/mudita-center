@@ -219,6 +219,7 @@
   "view.name.tools.notes": "Notes",
   "view.name.tools.notes.searchNotes": "Search notes",
   "view.name.tools.notes.newNote": "New note",
+  "view.name.tools.notes.temporaryText": "New Note",
   "view.name.tools.notes.note": "Note",
   "view.name.tools.notes.edited": "Edited",
   "view.name.tools.notes.searchPlaceholder": "Search",

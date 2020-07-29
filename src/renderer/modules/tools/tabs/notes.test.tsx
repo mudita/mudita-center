@@ -2,17 +2,27 @@ import React from "react"
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
-import Notes from "Renderer/modules/tools/tabs/notes.component"
-import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.interface"
-import { exampleData } from "App/__mocks__/notes"
+import Notes from "Renderer/modules/tools/tabs/notes-ui.component"
+import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.enum"
+import { notesSeed } from "App/seeds/notes"
+import { NoteCallback } from "Renderer/models/notes/notes"
 
-const renderer = (data = exampleData) =>
-  renderWithThemeAndIntl(<Notes data={data} />)
+const renderer = (data = notesSeed.notesList) => {
+  const mockNewNote = (cb: NoteCallback) => {
+    cb(notesSeed.notesList[0])
+  }
+
+  return renderWithThemeAndIntl(
+    <Notes notesList={data} newNote={mockNewNote} />
+  )
+}
 
 test("displays notes properly", () => {
   const { queryAllByTestId } = renderer()
 
-  expect(queryAllByTestId(NotesTestIds.Note).length).toBe(exampleData.length)
+  expect(queryAllByTestId(NotesTestIds.Note).length).toBe(
+    notesSeed.notesList.length
+  )
 })
 
 test("displays empty state when no notes are present", () => {
@@ -32,4 +42,18 @@ test("shows selection manager and search element when at least one element is ch
 
   expect(queryByTestId(NotesTestIds.SelectionElement)).toBeInTheDocument()
   expect(queryByTestId(NotesTestIds.SearchElement)).not.toBeInTheDocument()
+})
+
+test("shows sidebar to add a new note", () => {
+  const { getByTestId } = renderer()
+
+  expect(getByTestId(NotesTestIds.NewNoteSidebar)).toHaveStyle(
+    "margin-right: -62.1rem"
+  )
+
+  getByTestId(NotesTestIds.NewNoteButton).click()
+
+  expect(getByTestId(NotesTestIds.NewNoteSidebar)).toHaveStyle(
+    "margin-right: 0rem"
+  )
 })
