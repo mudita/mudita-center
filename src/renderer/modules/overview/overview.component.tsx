@@ -10,12 +10,10 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
-import {
-  BackupFailedModal,
-  BackupFinishedModal,
-  BackupLoadingModal,
-  BackupModal,
-} from "Renderer/modules/overview/overview.backupModals"
+import { BackupFailedModal } from "Renderer/modules/overview/backup-process/backup-failed-modal"
+import { BackupFinishedModal } from "Renderer/modules/overview/backup-process/backup-finished-modal"
+import { BackupLoadingModal } from "Renderer/modules/overview/backup-process/backup-loading-modal"
+import { BackupStartModal } from "Renderer/modules/overview/backup-process/backup-start-modal"
 
 // TODO: remove after implementing real phone update process
 interface FakeUpdatedStatus {
@@ -40,6 +38,9 @@ export const messages = defineMessages({
   backupFailedModalTitle: {
     id: "view.name.overview.backup.failedBackupModal.title",
   },
+  backupFailedModalBody: {
+    id: "view.name.overview.backup.failedBackupModal.body",
+  },
   backupFinishedModalTitle: {
     id: "view.name.overview.backup.finishedBackupModal.title",
   },
@@ -47,6 +48,14 @@ export const messages = defineMessages({
     id: "view.name.overview.backup.finishedBackupModal.body",
   },
 })
+
+const backupItems = [
+  { name: "Contacts", size: "1 GB" },
+  { name: "Messages", size: "15 KB" },
+  { name: "Music", size: "14 GB" },
+  { name: "Misc files", size: "625 MB" },
+  { name: "Notes", size: "11 KB" },
+]
 
 const Overview: FunctionComponent<
   BasicInfoInitialState & PhoneUpdateStore & FakeUpdatedStatus
@@ -77,13 +86,15 @@ const Overview: FunctionComponent<
   networkName,
   fakeUpdatedStatus = noop,
 }) => {
+  /**
+   * Temporary state to demo failure
+   */
+  const [backups, setBackups] = useState(1)
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     new Date(osUpdateDate).toISOString(),
     updatePhoneOsInfo,
     fakeUpdatedStatus
   )
-
-  const [backups, setBackups] = useState(1)
 
   useEffect(() => {
     ;(async () => {
@@ -94,35 +105,42 @@ const Overview: FunctionComponent<
 
   const onUpdateDownload = () => download(pureOsFileName)
 
+  const closeModal = async () => await modalService.closeModal()
+
   const openBackupFinishedModal = async () => {
-    await modalService.closeModal()
+    await closeModal()
     await modalService.openModal(
       <BackupFinishedModal
         title={intl.formatMessage(messages.backupFinishedModalTitle)}
+        closeAction={closeModal}
+        closeLabel={intl.formatMessage(messages.ok)}
         body={{
-          ...messages.backupFinishedModalBody,
+          id: messages.backupFinishedModalBody.id,
           values: {
             destination: "/var/null",
           },
         }}
+        items={backupItems}
       />
     )
   }
 
   const openBackupFailedModal = async () => {
-    await modalService.closeModal()
+    await closeModal()
     await modalService.openModal(
       <BackupFailedModal
         title={intl.formatMessage(messages.backupFailedModalTitle)}
+        body={messages.backupFailedModalBody}
       />
     )
   }
 
   const openBackupLoadingModal = async () => {
-    await modalService.closeModal()
+    await closeModal()
     await modalService.openModal(
       <BackupLoadingModal
         body={messages.backupLoadingModalBody}
+        subtitle={messages.backupLoadingModalTitle}
         onBackupSuccess={openBackupFinishedModal}
         onBackupFailure={openBackupFailedModal}
         failed={backups % 3 === 0}
@@ -136,7 +154,7 @@ const Overview: FunctionComponent<
     setBackups((value) => value + 1)
 
     await modalService.openModal(
-      <BackupModal
+      <BackupStartModal
         title={intl.formatMessage(messages.backupCreateModalTitle)}
         onActionButtonClick={openBackupLoadingModal}
         actionButtonLabel={intl.formatMessage(messages.backupCreateModalTitle)}
