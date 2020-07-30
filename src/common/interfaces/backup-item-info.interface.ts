@@ -1,5 +1,5 @@
 export default interface BackupItemInfo {
-  // Creation date. ISO date.
+  // Creation date (ISO 8601, no fractional seconds).
   readonly createdAt: string
 
   // Size of the backup in bytes.

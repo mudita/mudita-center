@@ -9,14 +9,25 @@ import Card, {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
+import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
 import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
-import BackupIcon from "Renderer/svg/backup.svg"
 import { noop } from "Renderer/utils/noop"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { Type } from "Renderer/components/core/icon/icon.config"
+
+const messages = defineMessages({
+  lastBackup: { id: "view.name.overview.backup.lastBackup" },
+  restoreAction: {
+    id: "view.name.overview.backup.restoreAction",
+  },
+  createFirst: { id: "view.name.overview.backup.createFirst" },
+  createAction: {
+    id: "view.name.overview.backup.createAction",
+  },
+})
 
 const LastBackup = styled(CardText)`
   span {
@@ -45,44 +56,39 @@ const Backup: FunctionComponent<BackupProps> = ({
   lastBackup,
   onBackupCreate,
   onBackupRestore = noop,
-}) => {
-  return (
-    <Card className={className}>
-      {Boolean(lastBackup) ? (
-        <LastBackup>
-          <Text displayStyle={TextDisplayStyle.SmallFadedText} element={"span"}>
-            <FormattedMessage id="view.name.overview.backup.lastBackup" />
-          </Text>
-          <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-            {lastBackup && new Date(lastBackup).toLocaleDateString("en-US")}
-          </Text>
-          <ButtonComponent
-            displayStyle={DisplayStyle.Link3}
-            onClick={onBackupRestore}
-            label={intl.formatMessage({
-              id: "view.name.overview.backup.restoreAction",
-            })}
-          />
-        </LastBackup>
-      ) : (
-        <FirstBackup>
-          <Text displayStyle={TextDisplayStyle.MediumFadedText}>
-            <FormattedMessage id="view.name.overview.backup.createFirst" />
-          </Text>
-        </FirstBackup>
-      )}
-      <CardAction filled>
-        <CardActionButton
-          active
-          label={intl.formatMessage({
-            id: "view.name.overview.backup.createAction",
-          })}
-          Icon={BackupIcon}
-          onClick={onBackupCreate}
+}) => (
+  <Card className={className}>
+    {Boolean(lastBackup) ? (
+      <LastBackup>
+        <Text displayStyle={TextDisplayStyle.SmallFadedText} element={"span"}>
+          <FormattedMessage {...messages.lastBackup} />
+        </Text>
+        <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
+          {lastBackup &&
+            new Date(lastBackup.createdAt).toLocaleDateString("en-US")}
+        </Text>
+        <ButtonComponent
+          displayStyle={DisplayStyle.Link3}
+          onClick={onBackupRestore}
+          label={intl.formatMessage(messages.restoreAction)}
         />
-      </CardAction>
-    </Card>
-  )
-}
+      </LastBackup>
+    ) : (
+      <FirstBackup>
+        <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
+          <FormattedMessage {...messages.createFirst} />
+        </Text>
+      </FirstBackup>
+    )}
+    <CardAction filled>
+      <CardActionButton
+        active
+        label={intl.formatMessage(messages.createAction)}
+        Icon={Type.Backup}
+        onClick={onBackupCreate}
+      />
+    </CardAction>
+  </Card>
+)
 
 export default Backup

@@ -50,6 +50,10 @@ export default {
         getBatteryInfo(),
         getBackupsInfo(),
       ])
+
+      const [lastBackup] = backupsInfo.backups.sort(
+        (a, b) => Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
+      )
       dispatch.basicInfo.update({
         batteryLevel: batteryInfo.level,
         osVersion: info.osVersion,
@@ -58,8 +62,7 @@ export default {
           full: storageInfo.capacity,
           free: storageInfo.available,
         },
-        lastBackup:
-          backupsInfo.backups[backupsInfo.backups.length - 1].createdAt,
+        lastBackup,
         osUpdateDate: info.osUpdateDate,
       })
     },

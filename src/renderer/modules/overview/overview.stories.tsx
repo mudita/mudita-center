@@ -19,11 +19,12 @@ import {
 } from "Renderer/modules/overview/overview.modals"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
+import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"
 
 const fakeState = {
   batteryLevel: 0,
   disconnectDevice: false,
-  lastBackup: "10.11.2019",
+  lastBackup,
   osVersion: "3.0",
   osUpdateAvailable: false,
   osUpdateAlreadyDownloaded: false,

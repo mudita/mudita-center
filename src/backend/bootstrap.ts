@@ -1,6 +1,5 @@
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
-import registerBackupsInfoRequest from "Backend/requests/backups/get-backups-info.request"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
 import registerChangeSimCardRequest from "Backend/requests/change-sim/change-sim.request"
 import registerDeviceInfoRequest from "Backend/requests/device-info/get-device-info.request"
@@ -11,12 +10,12 @@ import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.
 import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
 import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.request"
 import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
+import registerBackupsInfoRequest from "Backend/requests/backups/get-backups-info.request"
+import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 
 const bootstrap = () => {
-  const appAdapter = createElectronAppAdapter()
   ;[
     registerDeviceInfoRequest,
-    registerBackupsInfoRequest,
     registerNetworkInfoRequest,
     registerPurePhoneStorageRequest,
     registerBatteryInfoRequest,
@@ -26,11 +25,13 @@ const bootstrap = () => {
     registerAddContactRequest,
     registerEditContactRequest,
     registerDeleteContactsRequest,
+    registerBackupsInfoRequest,
   ].forEach((register) =>
     register({
       // TODO: Replace with a proper adapters when phone becomes available.
       ...getFakeAdapters(),
-      app: appAdapter,
+      pureBackups: createPurePhoneBackupsAdapter(),
+      app: createElectronAppAdapter(),
     })
   )
 }
