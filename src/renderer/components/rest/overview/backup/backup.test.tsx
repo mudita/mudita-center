@@ -8,10 +8,6 @@ import { intl } from "Renderer/utils/intl"
 import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"
 import { fireEvent, waitFor } from "@testing-library/react"
 
-const lastBackupDate = new Date(lastBackup.createdAt).toLocaleDateString(
-  "en-US"
-)
-
 const renderBackup = ({
   onBackupCreate = noop,
   ...props
@@ -47,11 +43,8 @@ test("renders available backup info properly", () => {
     lastBackup,
   })
   expect(
-    getByText(
-      intl.formatMessage({ id: "view.name.overview.backup.lastBackup" })
-    )
+    getByText("view.name.overview.backup.lastBackup", { exact: false })
   ).toBeInTheDocument()
-  expect(getByText(lastBackupDate)).toBeInTheDocument()
   expect(restoreButton()).toBeInTheDocument()
   expect(createButton()).toBeInTheDocument()
 })

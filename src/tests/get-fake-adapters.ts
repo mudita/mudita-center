@@ -8,13 +8,19 @@ import createFakePurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-f
 import createFakePhonebookAdapter, {
   PhonebookFakeAdapterProps,
 } from "Backend/adapters/phonebook/phonebook-fake.adapter"
+import createFakeAppSettingsAdapter from "Backend/adapters/app-settings/app-settings-fake.adapter"
+import { SettingsUpdateOption } from "App/main/store/settings.interface"
 
-type FakeAdaptersProps = PhonebookFakeAdapterProps
+type FakeAdaptersProps = PhonebookFakeAdapterProps & {
+  updateOption: SettingsUpdateOption
+}
 
 const getFakeAdapters = ({
   contactsCount = 100,
+  updateOption = { key: "appAutostart", value: true },
 }: Partial<FakeAdaptersProps> = {}): Adapters => ({
   app: createFakeElectronAppAdapter(),
+  appSettings: createFakeAppSettingsAdapter(updateOption),
   purePhone: createFakePurePhoneAdapter(),
   pureBatteryService: createFakePurePhoneBatteryAdapter(),
   pureStorage: createFakePurePhoneStorageAdapter(),

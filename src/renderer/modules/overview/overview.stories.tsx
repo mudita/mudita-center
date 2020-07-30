@@ -35,6 +35,11 @@ const fakeState = {
   simCards: [],
   networkName: "Orange",
   osUpdateDate: 1459832991883,
+  language: {
+    name: "English",
+    tag: "en-US",
+    shortTag: "en",
+  },
 }
 
 storiesOf("Views|Overview", module).add("Overview", () => (

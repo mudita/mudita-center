@@ -7,6 +7,7 @@ import { noop } from "Renderer/utils/noop"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
+import { AppSettings } from "App/main/store/settings.interface"
 
 // TODO: remove after implementing real phone update process
 interface FakeUpdatedStatus {
@@ -14,7 +15,7 @@ interface FakeUpdatedStatus {
 }
 
 const Overview: FunctionComponent<
-  BasicInfoInitialState & PhoneUpdateStore & FakeUpdatedStatus
+  BasicInfoInitialState & PhoneUpdateStore & FakeUpdatedStatus & AppSettings
 > = ({
   batteryLevel = 0,
   changeSim = noop,
@@ -41,6 +42,7 @@ const Overview: FunctionComponent<
   ],
   networkName,
   fakeUpdatedStatus = noop,
+  language,
 }) => {
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     new Date(osUpdateDate).toISOString(),
@@ -84,6 +86,7 @@ const Overview: FunctionComponent<
         onUpdateCheck={check}
         onUpdateInstall={install}
         onUpdateDownload={onUpdateDownload}
+        language={language}
       />
     </>
   )

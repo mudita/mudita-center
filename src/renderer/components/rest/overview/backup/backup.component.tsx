@@ -17,6 +17,7 @@ import { noop } from "Renderer/utils/noop"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { AppSettings } from "App/main/store/settings.interface"
 
 const messages = defineMessages({
   lastBackup: { id: "view.name.overview.backup.lastBackup" },
@@ -51,21 +52,23 @@ const FirstBackup = styled(CardText)`
   }
 `
 
-const Backup: FunctionComponent<BackupProps> = ({
+const Backup: FunctionComponent<BackupProps & Partial<AppSettings>> = ({
   className,
   lastBackup,
   onBackupCreate,
   onBackupRestore = noop,
+  language,
 }) => (
   <Card className={className}>
-    {Boolean(lastBackup) ? (
+    {lastBackup ? (
       <LastBackup>
         <Text displayStyle={TextDisplayStyle.SmallFadedText} element={"span"}>
           <FormattedMessage {...messages.lastBackup} />
         </Text>
         <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-          {lastBackup &&
-            new Date(lastBackup.createdAt).toLocaleDateString("en-US")}
+          {new Date(lastBackup.createdAt).toLocaleDateString(
+            language && language.tag
+          )}
         </Text>
         <ButtonComponent
           displayStyle={DisplayStyle.Link3}

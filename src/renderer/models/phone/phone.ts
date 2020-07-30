@@ -77,7 +77,7 @@ export default {
       dispatch.phone.updateSavingStatus(true)
       const editedContact: Contact = await editContact(contact)
       const editedContactIndex = state.phone.contacts.findIndex(
-        ({ id }) => id === editedContact.id
+        ({ id }: { id: string }) => id === editedContact.id
       )
       if (editedContactIndex >= 0) {
         const updatedContacts = [...state.phone.contacts]
