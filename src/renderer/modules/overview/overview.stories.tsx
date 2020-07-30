@@ -46,6 +46,7 @@ storiesOf("Views|Overview", module).add("Overview", () => (
         onUpdateCheck={noop}
         onUpdateDownload={noop}
         onUpdateInstall={noop}
+        onOpenBackupModal={noop}
       />
     </Router>
   </div>
@@ -61,6 +62,7 @@ const ModalStory: FunctionComponent = ({ children }) => (
         onUpdateCheck={noop}
         onUpdateDownload={noop}
         onUpdateInstall={noop}
+        onOpenBackupModal={noop}
       />
     </Router>
     <ModalWrapper>{children}</ModalWrapper>
