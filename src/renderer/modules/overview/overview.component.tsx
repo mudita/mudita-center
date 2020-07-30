@@ -8,7 +8,7 @@ import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.inte
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import modalService from "Renderer/components/core/modal/modal.service"
 import { defineMessages } from "react-intl"
-import { intl } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 import { BackupFailedModal } from "Renderer/modules/overview/backup-process/backup-failed-modal"
 import { BackupFinishedModal } from "Renderer/modules/overview/backup-process/backup-finished-modal"
@@ -118,6 +118,7 @@ const Overview: FunctionComponent<
           id: messages.backupFinishedModalBody.id,
           values: {
             destination: "/var/null",
+            ...textFormatters,
           },
         }}
         items={backupItems}
@@ -150,7 +151,7 @@ const Overview: FunctionComponent<
     )
   }
 
-  const openBackupModal = async () => {
+  const openBackupStartModal = async () => {
     setBackups((value) => value + 1)
 
     await modalService.openModal(
@@ -197,7 +198,7 @@ const Overview: FunctionComponent<
         onUpdateCheck={check}
         onUpdateInstall={install}
         onUpdateDownload={onUpdateDownload}
-        onOpenBackupModal={openBackupModal}
+        onOpenBackupModal={openBackupStartModal}
       />
     </>
   )
