@@ -6,6 +6,7 @@ import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
+import { AppSettings } from "App/main/store/settings.interface"
 import modalService from "Renderer/components/core/modal/modal.service"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
@@ -58,7 +59,7 @@ const backupItems = [
 ]
 
 const Overview: FunctionComponent<
-  BasicInfoInitialState & PhoneUpdateStore & FakeUpdatedStatus
+  BasicInfoInitialState & PhoneUpdateStore & FakeUpdatedStatus & AppSettings
 > = ({
   batteryLevel = 0,
   changeSim = noop,
@@ -85,6 +86,7 @@ const Overview: FunctionComponent<
   ],
   networkName,
   fakeUpdatedStatus = noop,
+  language,
 }) => {
   /**
    * Temporary state to demo failure
@@ -199,6 +201,7 @@ const Overview: FunctionComponent<
         onUpdateInstall={install}
         onUpdateDownload={onUpdateDownload}
         onOpenBackupModal={openBackupStartModal}
+        language={language}
       />
     </>
   )

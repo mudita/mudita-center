@@ -13,6 +13,7 @@ import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { noop } from "Renderer/utils/noop"
+import { SettingsProps } from "Renderer/modules/settings/settings.component"
 
 export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -42,14 +43,7 @@ export const SettingsWrapper = styled.section`
   padding-top: 3.2rem;
 `
 
-interface Props {
-  appAutostart?: boolean
-  setAutostart?: (option: boolean) => void
-  appTethering?: boolean
-  setTethering?: (option: boolean) => void
-}
-
-const SettingsUI: FunctionComponent<Props> = ({
+const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
   appAutostart,
   setAutostart = noop,
   appTethering,

@@ -43,11 +43,8 @@ test("renders available backup info properly", () => {
     lastBackup,
   })
   expect(
-    getByText(
-      intl.formatMessage({ id: "view.name.overview.backup.lastBackup" })
-    )
+    getByText("view.name.overview.backup.lastBackup", { exact: false })
   ).toBeInTheDocument()
-  expect(getByText(lastBackup)).toBeInTheDocument()
   expect(restoreButton()).toBeInTheDocument()
   expect(createButton()).toBeInTheDocument()
 })

@@ -14,6 +14,7 @@ const mapStateToProps = (state: RootModel) => {
     ...state.basicInfo,
     ...selection(state, null),
     ...state.phoneUpdate,
+    ...state.settings,
   }
 }
 

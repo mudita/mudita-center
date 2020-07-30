@@ -5,4 +5,6 @@ export enum NotesTestIds {
   Note = "notesTestId-note",
   SearchElement = "notesTestId-searchElement",
   SelectionElement = "notesTestId-selectionElement",
+  NewNoteSidebar = "notesTestId-newNoteSidebar",
+  NewNoteButton = "notesTestId-newNoteButton",
 }
