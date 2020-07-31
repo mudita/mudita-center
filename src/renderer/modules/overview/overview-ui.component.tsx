@@ -45,6 +45,7 @@ interface OverviewUIProps {
   readonly onUpdateCheck: () => void
   readonly onUpdateDownload: () => void
   readonly onUpdateInstall: () => void
+  readonly onOpenBackupModal: () => void
 }
 
 const OverviewUI: FunctionComponent<
@@ -67,6 +68,7 @@ const OverviewUI: FunctionComponent<
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
+  onOpenBackupModal,
   language,
 }) => (
   <OverviewWrapper>
@@ -92,9 +94,9 @@ const OverviewUI: FunctionComponent<
     />
     <BackupInfo
       lastBackup={lastBackup}
-      language={language}
-      onBackupCreate={noop}
+      onBackupCreate={onOpenBackupModal}
       onBackupRestore={noop}
+      language={language}
     />
   </OverviewWrapper>
 )
