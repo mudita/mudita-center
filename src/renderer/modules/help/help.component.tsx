@@ -1,13 +1,9 @@
-import React, { useEffect, useLayoutEffect, useState } from "react"
-import { random } from "lodash"
+import React from "react"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
-import DevMode from "Renderer/modules/help/devmode/devmode.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { DevMode as DevModeProps } from "Renderer/models/dev-mode/dev-mode.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { version } from "../../../../package.json"
 import styled from "styled-components"
 import { intl } from "Renderer/utils/intl"
 import InputText from "Renderer/components/core/input-text/input-text.component"
@@ -25,9 +21,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { QuestionAndAnswer } from "Renderer/models/help/help.interface"
 
-interface HelpProps extends DevModeProps {
-  enable: () => void
-  disable: () => void
+interface HelpProps {
   list: QuestionAndAnswer[]
 }
 
@@ -75,39 +69,7 @@ const textFormatters = {
   ),
 }
 
-const Help: FunctionComponent<HelpProps> = ({
-  disable,
-  enable,
-  list,
-  devModeEnabled,
-}) => {
-  const [count, setCount] = useState<number>(0)
-  const [cheat, setCheat] = useState<string>("")
-  const increaseCount = () => {
-    setCount((state) => state + 1)
-  }
-
-  const getKeyboardInput = ({ key }: KeyboardEvent) => {
-    setCheat((current) => `${current}${key}`)
-  }
-
-  useLayoutEffect(() => {
-    setCheat("") // Electron tends to write stuff here for some reason
-    window.addEventListener("keyup", getKeyboardInput)
-
-    return () => {
-      window.removeEventListener("keyup", getKeyboardInput)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (count >= random(7, 10) || cheat === "godmode") {
-      setCheat("")
-      setCount(0)
-
-      enable()
-    }
-  }, [count, cheat])
+const Help: FunctionComponent<HelpProps> = ({ list }) => {
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
       <HelpPanel>
@@ -140,15 +102,6 @@ const Help: FunctionComponent<HelpProps> = ({
           )
         })}
       </QuestionsContainer>
-
-      <br />
-      <p
-        onClick={increaseCount}
-        data-testid={HelpComponentTestIds.ToggleButton}
-      >
-        App Version: {version}
-      </p>
-      {devModeEnabled && <DevMode disable={disable} />}
     </div>
   )
 }
