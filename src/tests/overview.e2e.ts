@@ -7,11 +7,11 @@ describe("Overview", () => {
 
   beforeEach(async () => {
     app = await startApp()
-  }, 10000)
+  })
 
   afterEach(async () => {
     await stopApp(app)
-  }, 10000)
+  })
 
   test("after clicking disconnect button, part of menu is not displayed", async () => {
     const overviewText = await app.client.getText("*[data-testid='location']")
