@@ -138,7 +138,7 @@ ipcMain.answerRenderer(OpenNewWindow.Help, (event, arg) => {
     )
     helpWindow.loadURL(
       developmentEnvironment
-        ? `http://localhost:2003/${Mode.Help}#${URL_MAIN.help}`
+        ? `http://localhost:2003/?${Mode.Help}#${URL_MAIN.help}`
         : url.format({
             pathname: path.join(__dirname, "index.html"),
             protocol: "file:",

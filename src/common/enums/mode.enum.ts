@@ -1,3 +1,3 @@
 export enum Mode {
-  Help = "?help",
+  Help = "help",
 }

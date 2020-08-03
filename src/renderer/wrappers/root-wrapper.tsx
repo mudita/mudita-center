@@ -33,7 +33,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
           <>
             <Normalize />
             <GlobalStyle />
-            {mode === Mode.Help ? (
+            {mode === `?${Mode.Help}` ? (
               <HelpApp history={history} />
             ) : (
               <BaseApp store={store} history={history} />
