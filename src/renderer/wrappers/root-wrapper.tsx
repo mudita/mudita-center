@@ -21,7 +21,7 @@ interface Props {
 }
 
 const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
-  const mode = window.location.search
+  const params = new URLSearchParams(window.location.search)
   return (
     <ThemeProvider theme={theme}>
       <IntlProvider
@@ -33,7 +33,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
           <>
             <Normalize />
             <GlobalStyle />
-            {mode === `?${Mode.Help}` ? (
+            {params.get("mode") === Mode.Help ? (
               <HelpApp history={history} />
             ) : (
               <BaseApp store={store} history={history} />
