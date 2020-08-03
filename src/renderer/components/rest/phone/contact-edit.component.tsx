@@ -22,7 +22,6 @@ import InputCheckbox, {
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { useForm } from "react-hook-form"
-import { noop } from "Renderer/utils/noop"
 import {
   emailValidator,
   phoneNumberValidator,
@@ -34,6 +33,7 @@ import InputSelect, {
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { speedDialNumbers } from "Renderer/models/phone/phone.utils"
+import { noop } from "Renderer/utils/noop"
 
 const messages = defineMessages({
   editTitle: { id: "view.name.phone.contacts.edit.title" },
@@ -170,9 +170,9 @@ type NameUpdateProps = Pick<Contact, "firstName" | "lastName">
 interface ContactEditProps {
   availableSpeedDials?: number[]
   contact?: Contact
-  onCancel?: (contact?: Contact) => void
-  onSpeedDialSettingsOpen?: () => void
-  onSave?: (contact: Contact) => void
+  onCancel: (contact?: Contact) => void
+  onSpeedDialSettingsOpen: () => void
+  onSave: (contact: Contact) => void
   onNameUpdate?: ({ firstName, lastName }: NameUpdateProps) => void
   saving?: boolean
 }
@@ -180,9 +180,9 @@ interface ContactEditProps {
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
   availableSpeedDials = [],
   contact,
-  onCancel = noop,
-  onSave = noop,
-  onSpeedDialSettingsOpen = noop,
+  onCancel,
+  onSave,
+  onSpeedDialSettingsOpen,
   onNameUpdate = noop,
   saving,
   ...rest
