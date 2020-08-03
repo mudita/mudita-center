@@ -56,9 +56,6 @@ const MenuGroup: FunctionComponent<MenuElement> = ({
   icons,
   openHelpWindow = noop,
 }) => {
-  const openHelpInNewWindow = () => {
-    openHelpWindow()
-  }
   return (
     <>
       {label && (
@@ -92,10 +89,7 @@ const MenuGroup: FunctionComponent<MenuElement> = ({
           if (button === views.help) {
             return (
               <LinkWrapper key={index}>
-                <ButtonMenu
-                  {...buttonMenuConfig}
-                  onClick={openHelpInNewWindow}
-                />
+                <ButtonMenu {...buttonMenuConfig} onClick={openHelpWindow} />
               </LinkWrapper>
             )
           }
