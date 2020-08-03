@@ -21,13 +21,12 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 
 export interface QuestionAndAnswer {
-  id: string
-  question: string
-  answer: string
+  collection: string[]
+  items: Record<string, { question: string; answer: string }>
 }
 
 interface HelpProps {
-  list: QuestionAndAnswer[]
+  list: QuestionAndAnswer
 }
 
 const HelpPanel = styled.div`
@@ -75,6 +74,7 @@ const textFormatters = {
 }
 
 const Help: FunctionComponent<HelpProps> = ({ list }) => {
+  const { collection, items } = list
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
       <HelpPanel>
@@ -98,10 +98,12 @@ const Help: FunctionComponent<HelpProps> = ({ list }) => {
         />
       </HelpPanel>
       <QuestionsContainer>
-        {list.map(({ id, question }) => {
+        {collection.map((id: string) => {
           return (
             <Question key={id} to={`${URL_MAIN.help}/${id}`}>
-              <Text displayStyle={TextDisplayStyle.LargeText}>{question}</Text>
+              <Text displayStyle={TextDisplayStyle.LargeText}>
+                {items[id].question}
+              </Text>
               <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />
             </Question>
           )
