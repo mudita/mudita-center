@@ -39,7 +39,7 @@ const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
           to={URL_MAIN.help}
         />
       </AnswerHeader>
-      <p>{items[match.params.questionId].answer}</p>
+      <p>{list && items[match.params.questionId].answer}</p>
     </AnswerContainer>
   )
 }
