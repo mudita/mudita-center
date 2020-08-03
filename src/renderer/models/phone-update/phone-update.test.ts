@@ -11,11 +11,6 @@ beforeEach(() => {
   })
 })
 
-test("initial state should have 3 properties", () => {
-  const state = store.getState()
-  expect(Object.keys(state.phoneUpdate)).toHaveLength(3)
-})
-
 test("reducer should update the state", () => {
   const state = store.getState()
   expect(state.phoneUpdate.pureOsAvailable).toBeFalsy()
