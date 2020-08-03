@@ -170,9 +170,9 @@ type NameUpdateProps = Pick<Contact, "firstName" | "lastName">
 interface ContactEditProps {
   availableSpeedDials?: number[]
   contact?: Contact
-  onCancel: (contact?: Contact) => void
-  onSpeedDialSettingsOpen: () => void
-  onSave: (contact: Contact) => void
+  onCancel?: (contact?: Contact) => void
+  onSpeedDialSettingsOpen?: () => void
+  onSave?: (contact: Contact) => void
   onNameUpdate?: ({ firstName, lastName }: NameUpdateProps) => void
   saving?: boolean
 }
@@ -180,9 +180,9 @@ interface ContactEditProps {
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
   availableSpeedDials = [],
   contact,
-  onCancel,
-  onSave,
-  onSpeedDialSettingsOpen,
+  onCancel = noop,
+  onSave = noop,
+  onSpeedDialSettingsOpen = noop,
   onNameUpdate = noop,
   saving,
   ...rest

@@ -1,7 +1,7 @@
 import { initialState } from "Renderer/models/phone/phone"
 import { ResultsState } from "Renderer/models/phone/phone.interface"
 
-const data = [
+export const data = [
   {
     id: "0",
     firstName: "Sławomir",
