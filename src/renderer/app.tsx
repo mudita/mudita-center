@@ -27,5 +27,5 @@ modalService.bindStore(store)
 modalService.setDefaultLocale(LANGUAGE.default)
 
 appUpdate()
-
 contextMenu()
+store.dispatch.settings.loadSettings()

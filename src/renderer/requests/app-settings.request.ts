@@ -1,24 +1,17 @@
 import { ipcRenderer } from "electron-better-ipc"
-import { SettingsEvents } from "App/main/functions/register-settings-listeners"
-import { AppSettings } from "App/main/default-app-settings"
-import { LocationPath } from "App/renderer/modules/settings/tabs/backup/location-path.enum"
+import {
+  AppSettings,
+  SettingsUpdateOption,
+} from "App/main/store/settings.interface"
+import { IpcRequest } from "Common/requests/ipc-request.enum"
 
-export const getAppSettings = (): Promise<AppSettings> => {
-  return ipcRenderer.callMain(SettingsEvents.Get)
-}
+export const getAppSettings = (): Promise<AppSettings> =>
+  ipcRenderer.callMain(IpcRequest.GetAppSettings)
 
 export const updateAppSettings = (
-  settings: Partial<AppSettings>
-): Promise<AppSettings> => {
-  return ipcRenderer.callMain(SettingsEvents.Update, settings)
-}
+  option: SettingsUpdateOption
+): Promise<Partial<AppSettings>> =>
+  ipcRenderer.callMain(IpcRequest.UpdateAppSettings, option)
 
-export const resetAppSettings = (): Promise<AppSettings> => {
-  return ipcRenderer.callMain(SettingsEvents.Reset)
-}
-
-export const updateLocationSettings = (
-  location: LocationPath
-): Promise<AppSettings> => {
-  return ipcRenderer.callMain(SettingsEvents.UpdateLocation, location)
-}
+export const resetAppSettings = (): Promise<AppSettings> =>
+  ipcRenderer.callMain(IpcRequest.ResetAppSettings)

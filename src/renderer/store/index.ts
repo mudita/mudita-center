@@ -6,12 +6,12 @@ import {
 } from "@rematch/core"
 import selectPlugin from "@rematch/select"
 import { models, RootModel } from "Renderer/models/models"
-
 import { filesManagerSeed } from "App/seeds/filesManager"
 import { messagesSeed } from "App/seeds/messages"
 import { templatesSeed } from "App/seeds/templates"
 import { phoneSeed } from "App/seeds/phone"
 import { helpSeed } from "App/seeds/help"
+import { notesSeed } from "App/seeds/notes"
 
 const config: InitConfig<RootModel> = {
   models,
@@ -26,6 +26,7 @@ if (process.env.NODE_ENV !== "test") {
       templates: templatesSeed,
       phone: phoneSeed,
       help: helpSeed,
+      notes: notesSeed,
     },
   }
 }

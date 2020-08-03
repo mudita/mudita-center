@@ -1,4 +1,5 @@
 import startBackend from "Backend/bootstrap"
+import log from "electron-log"
 import {
   app,
   BrowserWindow,
@@ -13,7 +14,6 @@ import createDownloadListenerRegistrar from "App/main/functions/create-download-
 import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
-import registerSettingsListeners from "App/main/functions/register-settings-listeners"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
 import { ipcMain } from "electron-better-ipc"
@@ -26,10 +26,15 @@ require("dotenv").config()
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
 
-// Fetch all errors and display in console along with alert box
+// Fetch and log all errors along with alert box
 process.on("uncaughtException", (error) => {
-  console.log(error)
-  alert(error.message)
+  // TODO: add a remote url to send logs to the specified the server or use Rollbar
+  // See also src/renderer/utils/log.ts
+  // log.transports.remote.level = "warn"
+  // log.transports.remote.url = "http://localhost:3000/log"
+  log.error(error)
+
+  // TODO: Add contact support modal
 })
 
 const installExtensions = async () => {
@@ -39,7 +44,7 @@ const installExtensions = async () => {
 
   return Promise.all(
     extensions.map((name) => installer.default(installer[name], forceDownload))
-  ).catch(console.log)
+  ).catch(log.error)
 }
 
 const developmentEnvironment = process.env.NODE_ENV === "development"
@@ -70,11 +75,11 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
+  startBackend()
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
-  registerSettingsListeners(win)
   registerAppLogsListeners()
 
   if (productionEnvironment) {
@@ -109,7 +114,6 @@ const createWindow = async () => {
 }
 
 app.on("ready", createWindow)
-app.on("ready", startBackend)
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
