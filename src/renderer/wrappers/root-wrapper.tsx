@@ -13,6 +13,7 @@ import { ModalProvider } from "Renderer/components/core/modal/modal.service"
 import modalService from "Renderer/components/core/modal/modal.service"
 import HelpApp from "Renderer/wrappers/help-app.component"
 import BaseApp from "Renderer/wrappers/base-app.component"
+import { Mode } from "Common/enums/mode.enum"
 
 interface Props {
   store: Store
@@ -32,7 +33,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
           <>
             <Normalize />
             <GlobalStyle />
-            {mode === "?help" ? (
+            {mode === Mode.Help ? (
               <HelpApp history={history} />
             ) : (
               <BaseApp store={store} history={history} />

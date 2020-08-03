@@ -19,6 +19,7 @@ import registerAppLogsListeners from "App/main/functions/register-app-logs-liste
 import { ipcMain } from "electron-better-ipc"
 import { OpenNewWindow } from "Common/enums/open-new-window.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
+import { Mode } from "Common/enums/mode.enum"
 
 require("dotenv").config()
 
@@ -133,13 +134,13 @@ ipcMain.answerRenderer(OpenNewWindow.Help, (event, arg) => {
     )
     helpWindow.loadURL(
       developmentEnvironment
-        ? `http://localhost:2003/?help#${URL_MAIN.help}`
+        ? `http://localhost:2003/${Mode.Help}#${URL_MAIN.help}`
         : url.format({
             pathname: path.join(__dirname, "index.html"),
             protocol: "file:",
             slashes: true,
             hash: URL_MAIN.help,
-            search: "help",
+            search: Mode.Help,
           })
     )
   } else {
