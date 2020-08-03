@@ -1,7 +1,7 @@
 import React from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { RouteComponentProps } from "react-router"
-import { QuestionAndAnswer } from "Renderer/models/help/help.interface"
+import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 
 interface Props extends RouteComponentProps<{ questionId: string }> {
   list: QuestionAndAnswer[]

@@ -1,5 +1,3 @@
-import { initialState } from "Renderer/models/help/help"
-
 export const data = [
   {
     id: "e66895c6-3d65-4f96-8c81-e58c43ec6aee",
@@ -77,6 +75,5 @@ export const data = [
 ]
 
 export const helpSeed = {
-  ...initialState,
   list: data,
 }

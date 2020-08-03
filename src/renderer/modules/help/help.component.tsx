@@ -19,7 +19,12 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { Link } from "react-router-dom"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { QuestionAndAnswer } from "Renderer/models/help/help.interface"
+
+export interface QuestionAndAnswer {
+  id: string
+  question: string
+  answer: string
+}
 
 interface HelpProps {
   list: QuestionAndAnswer[]
