@@ -48,7 +48,6 @@ interface Props extends DevMode {
 const Menu: FunctionComponent<Props> = ({
   deviceDisconnected,
   devModeEnabled,
-  openHelpWindow,
 }) => {
   const links = menuElements
     .filter(({ connectedPhoneOnly }) =>
@@ -56,9 +55,7 @@ const Menu: FunctionComponent<Props> = ({
     )
     .filter(({ devModeOnly }) => (devModeEnabled ? true : !devModeOnly))
     .map(({ connectedPhoneOnly, ...props }, indexMenu) => {
-      return (
-        <MenuGroup {...props} key={indexMenu} openHelpWindow={openHelpWindow} />
-      )
+      return <MenuGroup {...props} key={indexMenu} />
     })
   return (
     <MenuWrapper>
