@@ -20,7 +20,6 @@ import { ipcMain } from "electron-better-ipc"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
 import helpStore from "App/main/store/help"
-import { Help } from "Common/enums/help.enum"
 import { HelpActions } from "Common/enums/help-actions.enum"
 
 require("dotenv").config()

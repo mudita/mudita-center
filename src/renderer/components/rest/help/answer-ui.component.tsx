@@ -9,14 +9,18 @@ import styled from "styled-components"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
-import { richTextReactComponentOptions } from "Renderer/utils/rich-text-renderer"
+import { richTextReactComponentOptions } from "Renderer/utils/rich-text/rich-text-renderer"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 const AnswerContainer = styled.div`
   padding: 0 10.5rem;
+  background-color: ${backgroundColor("row")};
+  height: 100vh;
 `
 
 const AnswerHeader = styled.div`
-  margin: 4.5rem 0 5.3rem 0;
+  padding: 4.5rem 0 5.3rem 0;
+  background-color: ${backgroundColor("row")};
 `
 
 const BackLink = styled(Button)`
