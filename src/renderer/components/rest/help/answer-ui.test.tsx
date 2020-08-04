@@ -28,21 +28,20 @@ const renderWithRouterMatch = ({
   }
 }
 
+const testRouteAndPath = {
+  route: `${URL_MAIN.help}/${data.collection[0]}`,
+  path: `${URL_MAIN.help}/:questionId`,
+}
+
 test("content is rendered", () => {
-  const { getByTestId } = renderWithRouterMatch({
-    route: `${URL_MAIN.help}/${data.collection[0]}`,
-    path: `${URL_MAIN.help}/:questionId`,
-  })
+  const { getByTestId } = renderWithRouterMatch(testRouteAndPath)
   expect(getByTestId(AnswerUiTestIds.Content)).toHaveTextContent(
     mockedHeadingText
   )
 })
 
 test("back link has correct text ", () => {
-  const { getByTestId } = renderWithRouterMatch({
-    route: `${URL_MAIN.help}/${data.collection[0]}`,
-    path: `${URL_MAIN.help}/:questionId`,
-  })
+  const { getByTestId } = renderWithRouterMatch(testRouteAndPath)
   const backLinkText = "view.name.help.backLinkText"
   expect(getByTestId(AnswerUiTestIds.BackLink)).toHaveTextContent(backLinkText)
 })
