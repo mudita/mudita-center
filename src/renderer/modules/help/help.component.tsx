@@ -75,7 +75,6 @@ const textFormatters = {
 
 const Help: FunctionComponent<HelpProps> = ({ list }) => {
   const { collection, items } = list
-  console.log(collection)
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
       <HelpPanel>

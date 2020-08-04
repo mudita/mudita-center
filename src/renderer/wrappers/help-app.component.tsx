@@ -1,10 +1,9 @@
-import React, { ComponentType, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { Route, RouteComponentProps, Router, Switch } from "react-router"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { History } from "history"
 import AnswerUI from "Renderer/components/rest/help/answer-ui.component"
-import { helpSeed } from "App/seeds/help"
 import Help, { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import axios from "axios"
 import { normalizeHelpData } from "Renderer/utils/normalize-help-data"
@@ -14,7 +13,10 @@ interface Props {
 }
 
 const HelpApp: FunctionComponent<Props> = ({ history }) => {
-  const [data, setData] = useState<QuestionAndAnswer>()
+  const [data, setData] = useState<QuestionAndAnswer>({
+    collection: [],
+    items: {},
+  })
   useEffect(() => {
     const fetchData = async () => {
       const { data: response } = await axios.get(
@@ -27,24 +29,19 @@ const HelpApp: FunctionComponent<Props> = ({ history }) => {
     fetchData()
   }, [])
 
-  console.log(data)
+  const renderHelp = () => <Help list={data} />
 
-  const renderRoute = (Component: ComponentType<any>) => (
-    props: RouteComponentProps
-  ) => {
-    return <Component {...props} list={helpSeed.list} />
-  }
-  return (
+  const renderAnswer = (props: RouteComponentProps<{ questionId: string }>) => (
+    <AnswerUI list={data} {...props} />
+  )
+  return Object.keys(data).length > 0 ? (
     <Router history={history}>
       <Switch>
-        <Route
-          path={`${URL_MAIN.help}/:questionId`}
-          render={renderRoute(AnswerUI)}
-        />
-        <Route path={URL_MAIN.help} render={renderRoute(Help)} />
+        <Route path={`${URL_MAIN.help}/:questionId`}>{renderAnswer}</Route>
+        <Route path={URL_MAIN.help}>{renderHelp}</Route>
       </Switch>
     </Router>
-  )
+  ) : null
 }
 
 export default HelpApp
