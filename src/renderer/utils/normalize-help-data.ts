@@ -1,4 +1,4 @@
-import { Entry } from "contentful"
+import { Entry, EntryCollection } from "contentful"
 import { Document } from "@contentful/rich-text-types"
 
 export interface HelpEntry {
@@ -7,17 +7,15 @@ export interface HelpEntry {
   slug: string
 }
 
-export const normalizeHelpData = (data: any) => {
+export const normalizeHelpData = (data: EntryCollection<HelpEntry>) => {
   const items = data.items.reduce(
-    (
-      acc: Record<string, Partial<HelpEntry>>,
-      currentValue: Entry<HelpEntry>
-    ) => {
+    (acc: Record<string, HelpEntry>, currentValue: Entry<HelpEntry>) => {
       return {
         ...acc,
         [currentValue.sys.id]: {
           question: currentValue.fields.question,
           answer: currentValue.fields.answer,
+          slug: currentValue.fields.slug,
         },
       }
     },
