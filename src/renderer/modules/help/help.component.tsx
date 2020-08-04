@@ -22,7 +22,7 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { HelpEntry } from "App/renderer/utils/normalize-help-data"
 
 export interface QuestionAndAnswer {
-  collection?: string[]
+  collection: string[]
   items: Record<string, HelpEntry>
 }
 

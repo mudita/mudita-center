@@ -1,6 +1,8 @@
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { BLOCKS, Document } from "@contentful/rich-text-types"
 
+export const mockedHeadingText = "lala 123"
+
 const answer: Document = {
   nodeType: BLOCKS.DOCUMENT,
   data: {},
@@ -10,30 +12,8 @@ const answer: Document = {
       content: [
         {
           nodeType: "text",
-          value: "Example answer lala",
+          value: mockedHeadingText,
           marks: [],
-          data: {},
-        },
-      ],
-      data: {},
-    },
-    {
-      nodeType: BLOCKS.PARAGRAPH,
-      content: [
-        {
-          nodeType: "text",
-          value: "jakis inny tekst tu ",
-          marks: [],
-          data: {},
-        },
-        {
-          nodeType: "text",
-          value: "pogrubiony",
-          marks: [
-            {
-              type: "bold",
-            },
-          ],
           data: {},
         },
       ],

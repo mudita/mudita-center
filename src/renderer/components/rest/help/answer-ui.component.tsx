@@ -11,6 +11,7 @@ import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { richTextReactComponentOptions } from "Renderer/utils/rich-text/rich-text-renderer"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { AnswerUiTestIds } from "Renderer/components/rest/help/answer-ui-test-ids.enum"
 
 const AnswerContainer = styled.div`
   padding: 0 10.5rem;
@@ -43,12 +44,15 @@ const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
             id: "view.name.help.backLinkText",
           })}
           to={URL_MAIN.help}
+          data-testid={AnswerUiTestIds.BackLink}
         />
       </AnswerHeader>
-      {documentToReactComponents(
-        items[match.params.questionId].answer,
-        richTextReactComponentOptions
-      )}
+      <div data-testid={AnswerUiTestIds.Content}>
+        {documentToReactComponents(
+          items[match.params.questionId].answer,
+          richTextReactComponentOptions
+        )}
+      </div>
     </AnswerContainer>
   )
 }
