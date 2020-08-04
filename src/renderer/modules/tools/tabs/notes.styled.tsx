@@ -36,7 +36,7 @@ export const FiltersWrapper = styled(FiltersWrapperBase)`
   border: 0;
 `
 
-export const SearchButton = styled(Button)`
+export const NewNoteButton = styled(Button)`
   justify-self: flex-end;
 `
 

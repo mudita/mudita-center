@@ -19,11 +19,12 @@ import {
 } from "Renderer/modules/overview/overview.modals"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
+import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"
 
 const fakeState = {
   batteryLevel: 0,
   disconnectDevice: false,
-  lastBackup: "10.11.2019",
+  lastBackup,
   osVersion: "3.0",
   osUpdateAvailable: false,
   osUpdateAlreadyDownloaded: false,
@@ -34,6 +35,11 @@ const fakeState = {
   simCards: [],
   networkName: "Orange",
   osUpdateDate: 1459832991883,
+  language: {
+    name: "English",
+    tag: "en-US",
+    shortTag: "en",
+  },
 }
 
 storiesOf("Views|Overview", module).add("Overview", () => (
@@ -46,6 +52,7 @@ storiesOf("Views|Overview", module).add("Overview", () => (
         onUpdateCheck={noop}
         onUpdateDownload={noop}
         onUpdateInstall={noop}
+        onOpenBackupModal={noop}
       />
     </Router>
   </div>
@@ -61,6 +68,7 @@ const ModalStory: FunctionComponent = ({ children }) => (
         onUpdateCheck={noop}
         onUpdateDownload={noop}
         onUpdateInstall={noop}
+        onOpenBackupModal={noop}
       />
     </Router>
     <ModalWrapper>{children}</ModalWrapper>

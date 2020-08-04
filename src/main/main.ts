@@ -1,25 +1,40 @@
 import startBackend from "Backend/bootstrap"
-import { app, BrowserWindow, shell } from "electron"
+import log from "electron-log"
+import {
+  app,
+  BrowserWindow,
+  BrowserWindowConstructorOptions,
+  shell,
+} from "electron"
 import * as path from "path"
 import * as url from "url"
-import { WINDOW_SIZE } from "./config"
+import { HELP_WINDOW_SIZE, WINDOW_SIZE } from "./config"
 import autoupdate from "./autoupdate"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
 import registerPureOsDownloadListener from "App/main/functions/register-pure-os-download-listener"
 import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-os-update-already-downloaded-checker"
-import registerSettingsListeners from "App/main/functions/register-settings-listeners"
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
+import { ipcMain } from "electron-better-ipc"
+import { OpenNewWindow } from "Common/enums/open-new-window.enum"
+import { URL_MAIN } from "Renderer/constants/urls"
+import { Mode } from "Common/enums/mode.enum"
 
 require("dotenv").config()
 
 let win: BrowserWindow | null
+let helpWindow: BrowserWindow | null = null
 
-// Fetch all errors and display in console along with alert box
+// Fetch and log all errors along with alert box
 process.on("uncaughtException", (error) => {
-  console.log(error)
-  alert(error.message)
+  // TODO: add a remote url to send logs to the specified the server or use Rollbar
+  // See also src/renderer/utils/log.ts
+  // log.transports.remote.level = "warn"
+  // log.transports.remote.url = "http://localhost:3000/log"
+  log.error(error)
+
+  // TODO: Add contact support modal
 })
 
 const installExtensions = async () => {
@@ -29,35 +44,42 @@ const installExtensions = async () => {
 
   return Promise.all(
     extensions.map((name) => installer.default(installer[name], forceDownload))
-  ).catch(console.log)
+  ).catch(log.error)
 }
 
 const developmentEnvironment = process.env.NODE_ENV === "development"
 const productionEnvironment = process.env.NODE_ENV === "production"
+const commonWindowOptions = {
+  resizable: developmentEnvironment,
+  fullscreen: false,
+  useContentSize: true,
+  webPreferences: {
+    nodeIntegration: true,
+  },
+}
+const getWindowOptions = (
+  extendedWindowOptions?: BrowserWindowConstructorOptions
+) => ({
+  ...extendedWindowOptions,
+  ...commonWindowOptions,
+})
 
 const createWindow = async () => {
   if (developmentEnvironment) {
     await installExtensions()
   }
 
-  win = new BrowserWindow({
-    width: WINDOW_SIZE.width,
-    height: WINDOW_SIZE.height,
-    resizable: developmentEnvironment,
-    fullscreen: false,
-    useContentSize: true,
-    webPreferences: {
-      nodeIntegration: true,
-    },
-  })
+  win = new BrowserWindow(
+    getWindowOptions({ width: WINDOW_SIZE.width, height: WINDOW_SIZE.height })
+  )
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
+  startBackend()
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
-  registerSettingsListeners(win)
   registerAppLogsListeners()
 
   if (productionEnvironment) {
@@ -92,7 +114,6 @@ const createWindow = async () => {
 }
 
 app.on("ready", createWindow)
-app.on("ready", startBackend)
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
@@ -104,4 +125,33 @@ app.on("activate", () => {
   if (win === null) {
     createWindow()
   }
+})
+
+ipcMain.answerRenderer(OpenNewWindow.Help, (event, arg) => {
+  if (helpWindow === null) {
+    helpWindow = new BrowserWindow(
+      getWindowOptions({
+        width: HELP_WINDOW_SIZE.width,
+        height: HELP_WINDOW_SIZE.height,
+        titleBarStyle: "hidden",
+      })
+    )
+    helpWindow.loadURL(
+      developmentEnvironment
+        ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
+        : url.format({
+            pathname: path.join(__dirname, "index.html"),
+            protocol: "file:",
+            slashes: true,
+            hash: URL_MAIN.help,
+            search: `?mode=${Mode.Help}`,
+          })
+    )
+  } else {
+    helpWindow.show()
+  }
+
+  helpWindow.on("closed", () => {
+    helpWindow = null
+  })
 })

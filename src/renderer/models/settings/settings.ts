@@ -1,29 +1,17 @@
 import { Dispatch } from "Renderer/store"
-import { getAppSettings } from "Renderer/requests/app-settings.request"
-import updateSettingsRequest, {
-  UpdateValueType,
-} from "Renderer/requests/update-settings.request"
-import { Option } from "Renderer/components/rest/settings/option.enum"
-import { AppSettings as StoreValues } from "App/main/default-app-settings"
 import {
-  ConversionFormat,
-  Convert,
-} from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
-
-const updateSettings = async (
-  property: Option,
-  value: UpdateValueType,
-  dispatch: Dispatch
-) => {
-  const propertyToUpdate = { [property]: value }
-  await updateSettingsRequest(propertyToUpdate)
-  dispatch.settings.update(propertyToUpdate)
-}
+  getAppSettings,
+  updateAppSettings,
+} from "Renderer/requests/app-settings.request"
+import {
+  AppSettings,
+  SettingsUpdateOption,
+} from "App/main/store/settings.interface"
 
 export default {
   state: {},
   reducers: {
-    update(state: StoreValues, payload: { [key in Option]?: boolean }) {
+    update(state: AppSettings, payload: Partial<AppSettings>) {
       return { ...state, ...payload }
     },
   },
@@ -31,32 +19,50 @@ export default {
     async loadSettings() {
       dispatch.settings.update(await getAppSettings())
     },
-    setAutostart(option: boolean) {
-      updateSettings(Option.Autostart, option, dispatch)
+    async updateSettings(option: SettingsUpdateOption) {
+      updateAppSettings(option)
+      dispatch.settings.update({ [option.key]: option.value })
     },
-    setTethering(option: boolean) {
-      updateSettings(Option.Tethering, option, dispatch)
+    setAutostart(value: AppSettings["appAutostart"]) {
+      this.updateSettings({ key: "appAutostart", value })
     },
-    setIncomingCalls(option: boolean) {
-      updateSettings(Option.IncomingCalls, option, dispatch)
+    setTethering(value: AppSettings["appTethering"]) {
+      this.updateSettings({ key: "appTethering", value })
     },
-    setIncomingMessages(option: boolean) {
-      updateSettings(Option.IncomingMessages, option, dispatch)
+    setIncomingCalls(value: AppSettings["appIncomingCalls"]) {
+      this.updateSettings({ key: "appIncomingCalls", value })
     },
-    setLowBattery(option: boolean) {
-      updateSettings(Option.LowBattery, option, dispatch)
+    setIncomingMessages(value: AppSettings["appIncomingMessages"]) {
+      this.updateSettings({ key: "appIncomingMessages", value })
     },
-    setOsUpdates(option: boolean) {
-      updateSettings(Option.OsUpdates, option, dispatch)
+    setLowBattery(value: AppSettings["appLowBattery"]) {
+      this.updateSettings({ key: "appLowBattery", value })
     },
-    setNonStandardAudioFilesConversion(option: boolean) {
-      updateSettings(Option.NonStandardAudioFilesConversion, option, dispatch)
+    setOsUpdates(value: AppSettings["appOsUpdates"]) {
+      this.updateSettings({ key: "appOsUpdates", value })
     },
-    setConvert(option: Convert) {
-      updateSettings(Option.Convert, option, dispatch)
+    setNonStandardAudioFilesConversion(
+      value: AppSettings["appNonStandardAudioFilesConversion"]
+    ) {
+      this.updateSettings({ key: "appNonStandardAudioFilesConversion", value })
     },
-    setConversionFormat(option: ConversionFormat) {
-      updateSettings(Option.ConversionFormat, option, dispatch)
+    setConvert(value: AppSettings["appConvert"]) {
+      this.updateSettings({ key: "appConvert", value })
+    },
+    setConversionFormat(value: AppSettings["appConversionFormat"]) {
+      this.updateSettings({ key: "appConversionFormat", value })
+    },
+    setAppTray(value: AppSettings["appTray"]) {
+      this.updateSettings({ key: "appTray", value })
+    },
+    setPureOsBackupLocation(value: AppSettings["pureOsBackupLocation"]) {
+      this.updateSettings({ key: "pureOsBackupLocation", value })
+    },
+    setPureOsDownloadLocation(value: AppSettings["pureOsDownloadLocation"]) {
+      this.updateSettings({ key: "pureOsDownloadLocation", value })
+    },
+    setLanguage(value: AppSettings["language"]) {
+      this.updateSettings({ key: "language", value })
     },
   }),
 }

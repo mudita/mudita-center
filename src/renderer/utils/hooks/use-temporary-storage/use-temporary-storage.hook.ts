@@ -1,3 +1,5 @@
+import log from "Renderer/utils/log"
+
 export interface UseTemporaryStorageHook<T> {
   setTemporaryValue: (value: T) => void
   getTemporaryValue: () => T
@@ -11,11 +13,13 @@ export const useTemporaryStorage = <T = any>(
   const storage = window.sessionStorage
   const key = `temporary_storage_${id}`
 
+  log.warn("Test:", key)
+
   const set = (value: T) => {
     try {
       storage.setItem(key, JSON.stringify(value))
     } catch (error) {
-      console.error(error)
+      log.error(error)
     }
   }
 
@@ -24,7 +28,7 @@ export const useTemporaryStorage = <T = any>(
       const item = storage.getItem(key)
       return item ? JSON.parse(item) : originalValue
     } catch (error) {
-      console.error(error)
+      log.error(error)
     }
   }
 

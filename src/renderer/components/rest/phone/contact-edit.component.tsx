@@ -22,7 +22,6 @@ import InputCheckbox, {
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { useForm } from "react-hook-form"
-import { noop } from "Renderer/utils/noop"
 import {
   emailValidator,
   phoneNumberValidator,
@@ -34,6 +33,7 @@ import InputSelect, {
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { speedDialNumbers } from "Renderer/models/phone/phone.utils"
+import { noop } from "Renderer/utils/noop"
 
 const messages = defineMessages({
   editTitle: { id: "view.name.phone.contacts.edit.title" },

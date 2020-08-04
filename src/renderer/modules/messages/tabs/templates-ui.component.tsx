@@ -144,7 +144,6 @@ const Templates: FunctionComponent<TemplatesProps> = ({
       <TableWithSidebarWrapper>
         <TemplatesList
           templates={templates}
-          openSidebar={openSidebar}
           deleteTemplate={openModalForSingle}
           {...sidebarHook}
           {...rest}

@@ -1,5 +1,7 @@
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
 import Arrow from "Renderer/svg/arrow.svg"
+import ArrowLongLeft from "Renderer/svg/arrow-long-left.svg"
+import ArrowLongRight from "Renderer/svg/arrow-long-right.svg"
 import AttachContact from "Renderer/svg/attach-contact.svg"
 import BackupFolder from "Renderer/svg/backup-folder.svg"
 import Battery from "Renderer/svg/battery.svg"
@@ -71,11 +73,14 @@ import Attachment from "Renderer/svg/attachment.svg"
 import Remove from "Renderer/svg/remove.svg"
 import SendButton from "Renderer/svg/send-button.svg"
 import MenuContacts from "Renderer/svg/menu-contacts.svg"
+import Backup from "Renderer/svg/backup.svg"
 import Tooltip from "Renderer/svg/tooltip.svg"
 import FunctionComponent from "Renderer/types/function-component.interface"
 
 export enum Type {
   Arrow,
+  ArrowLongLeft,
+  ArrowLongRight,
   AttachContact,
   BackupFolder,
   Battery,
@@ -118,7 +123,6 @@ export enum Type {
   Send,
   Sim,
   Template,
-  Tooltip,
   Calls,
   Connection,
   Contacts,
@@ -150,12 +154,18 @@ export enum Type {
   Attachment,
   Remove,
   SendButton,
+  Backup,
+  Tooltip,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
   switch (icon) {
     case Type.Arrow:
       return Arrow
+    case Type.ArrowLongLeft:
+      return ArrowLongLeft
+    case Type.ArrowLongRight:
+      return ArrowLongRight
     case Type.AttachContact:
       return AttachContact
     case Type.BackupFolder:
@@ -300,6 +310,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Remove
     case Type.SendButton:
       return SendButton
+    case Type.Backup:
+      return Backup
     default:
       return Message
   }

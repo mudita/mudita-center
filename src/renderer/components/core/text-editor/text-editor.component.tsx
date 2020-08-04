@@ -58,7 +58,7 @@ interface Props {
   statsInfoError?: boolean
   enableEditMode?: () => void
   disableEditMode?: () => void
-  status: Status
+  status?: Status
   autoFocus?: boolean
 }
 
@@ -74,7 +74,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
   statsInfoError,
   onFocus = noop,
   onChange = noop,
-  status,
+  status = {},
   enableEditMode = noop,
   disableEditMode = noop,
   ...rest

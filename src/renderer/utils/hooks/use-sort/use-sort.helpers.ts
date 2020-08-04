@@ -33,6 +33,7 @@ export const getSortingDirection = (term: SortDirection): SortDirection => {
       return SortDirection.Descending
   }
 }
+
 export const createSortDirection = (
   input: (SortingDictionary | SimpleSortingDictionary)[]
 ): SortingDictionary => {

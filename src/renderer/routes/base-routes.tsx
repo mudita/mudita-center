@@ -1,8 +1,6 @@
 import * as React from "react"
 import { Redirect, Route, Switch } from "react-router"
-
 import FilesManager from "Renderer/modules/filesManager/files-manager.component"
-import Help from "Renderer/modules/help/help.container"
 import Meditation from "Renderer/modules/meditation/meditation.component"
 import MessagesContainer from "Renderer/modules/messages/messages.container"
 import Music from "Renderer/modules/music/music.component"
@@ -11,8 +9,6 @@ import OverviewContainer from "Renderer/modules/overview/overview.container"
 import PhoneContainer from "Renderer/modules/phone/phone.container"
 import Settings from "Renderer/modules/settings/settings.container"
 import Tethering from "Renderer/modules/tethering/tethering.component"
-import Tools from "Renderer/modules/tools/tools.component"
-
 import { URL_MAIN, URL_ONBOARDING, URL_TABS } from "Renderer/constants/urls"
 import Calendar from "Renderer/modules/calendar/calendar.component"
 import Templates from "Renderer/modules/messages/tabs/templates.component"
@@ -49,7 +45,6 @@ export default () => (
     <Route>
       <LayoutDesktopWrapper>
         <Route path={URL_MAIN.filesManager} component={FilesManager} />
-        <Route path={URL_MAIN.help} component={Help} />
         <Route path={URL_MAIN.meditation} component={Meditation} />
         <Route path={URL_MAIN.messages} component={MessagesContainer} exact />
         <Route
@@ -81,12 +76,11 @@ export default () => (
           component={Backup}
         />
         <Route path={URL_MAIN.tethering} component={Tethering} />
-        <Route path={URL_MAIN.tools} component={Tools} exact />
+        <Route path={URL_MAIN.tools} component={Notes} exact />
         <Route
           path={`${URL_MAIN.tools}${URL_TABS.voiceRecorder}`}
           component={VoiceRecorder}
         />
-        <Route path={`${URL_MAIN.tools}${URL_TABS.notes}`} component={Notes} />
       </LayoutDesktopWrapper>
     </Route>
 
