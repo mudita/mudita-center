@@ -36,7 +36,7 @@ export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
     </ModalIcon>
     <LoadingModalText
       message={body}
-      displayStyle={TextDisplayStyle.LargeFadedText}
+      displayStyle={TextDisplayStyle.MediumFadedLightText}
     />
   </Modal>
 )
