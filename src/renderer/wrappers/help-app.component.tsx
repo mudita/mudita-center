@@ -37,14 +37,14 @@ const HelpApp: FunctionComponent<Props> = ({ history }) => {
   const renderAnswer = (props: RouteComponentProps<{ questionId: string }>) => (
     <AnswerUI list={data} {...props} />
   )
-  return data ? (
+  return (
     <Router history={history}>
       <Switch>
         <Route path={`${URL_MAIN.help}/:questionId`}>{renderAnswer}</Route>
         <Route path={URL_MAIN.help}>{renderHelp}</Route>
       </Switch>
     </Router>
-  ) : null
+  )
 }
 
 export default HelpApp
