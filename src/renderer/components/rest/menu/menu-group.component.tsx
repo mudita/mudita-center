@@ -12,6 +12,9 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
+import { views } from "Renderer/constants/views"
+import { OpenNewWindow } from "Common/enums/open-new-window.enum"
+import { ipcRenderer } from "electron-better-ipc"
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -71,19 +74,29 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
           )}
         </HeaderWrapper>
       )}
-
       {items &&
-        items.map(({ button, icon }, index) => (
-          <LinkWrapper key={index}>
-            <ButtonMenu
-              nav
-              displayStyle={DisplayStyle.Link4}
-              labelMessage={button.label}
-              Icon={icon}
-              to={button.url}
-            />
-          </LinkWrapper>
-        ))}
+        items.map(({ button, icon }, index) => {
+          const buttonMenuConfig = {
+            nav: true,
+            displayStyle: DisplayStyle.Link4,
+            labelMessage: button.label,
+            Icon: icon,
+          }
+          if (button === views.help) {
+            const openHelpWindow = () =>
+              ipcRenderer.callMain(OpenNewWindow.Help)
+            return (
+              <LinkWrapper key={index}>
+                <ButtonMenu {...buttonMenuConfig} onClick={openHelpWindow} />
+              </LinkWrapper>
+            )
+          }
+          return (
+            <LinkWrapper key={index}>
+              <ButtonMenu {...buttonMenuConfig} to={button.url} />
+            </LinkWrapper>
+          )
+        })}
     </>
   )
 }

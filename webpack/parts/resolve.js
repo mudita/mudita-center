@@ -1,6 +1,6 @@
 const { resolve } = require("path")
 
-module.exports = production => {
+module.exports = (production) => {
   const resolveConfig = {
     extensions: [".tsx", ".ts", ".js", ".json"],
     alias: {

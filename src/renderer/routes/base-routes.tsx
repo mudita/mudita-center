@@ -1,7 +1,6 @@
 import * as React from "react"
 import { Redirect, Route, Switch } from "react-router"
 import FilesManager from "Renderer/modules/filesManager/files-manager.component"
-import Help from "Renderer/modules/help/help.container"
 import Meditation from "Renderer/modules/meditation/meditation.component"
 import MessagesContainer from "Renderer/modules/messages/messages.container"
 import Music from "Renderer/modules/music/music.component"
@@ -46,7 +45,6 @@ export default () => (
     <Route>
       <LayoutDesktopWrapper>
         <Route path={URL_MAIN.filesManager} component={FilesManager} />
-        <Route path={URL_MAIN.help} component={Help} />
         <Route path={URL_MAIN.meditation} component={Meditation} />
         <Route path={URL_MAIN.messages} component={MessagesContainer} exact />
         <Route

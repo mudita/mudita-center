@@ -42,6 +42,7 @@ const DevSign = styled.span`
 
 interface Props extends DevMode {
   deviceDisconnected?: boolean
+  openHelpWindow?: () => void
 }
 
 const Menu: FunctionComponent<Props> = ({

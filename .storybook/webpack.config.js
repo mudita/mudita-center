@@ -37,7 +37,19 @@ module.exports = ({ config }) => {
     },
   })
 
-  config.resolve = resolve(false)
+  config.resolve = {
+    ...resolve(false),
+    alias: {
+      ...resolve(false).alias,
+      "electron-better-ipc": path.resolve(
+        __dirname,
+        "..",
+        "__mocks__",
+        "electron-better-ipc.js"
+      ),
+    },
+  }
+
   return config
 }
 
@@ -45,7 +57,7 @@ module.exports = ({ config }) => {
 // this fix: https://github.com/storybookjs/storybook/issues/6188#issuecomment-487705465
 function handleSVGs(config) {
   // Remove svg from existing rule.
-  config.module.rules = config.module.rules.map(rule => {
+  config.module.rules = config.module.rules.map((rule) => {
     if (
       String(rule.test) ===
       String(
