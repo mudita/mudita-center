@@ -8,6 +8,8 @@ import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
+import { richTextReactComponentOptions } from "Renderer/utils/rich-text-renderer"
 
 const AnswerContainer = styled.div`
   padding: 0 10.5rem;
@@ -39,7 +41,10 @@ const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
           to={URL_MAIN.help}
         />
       </AnswerHeader>
-      <p>{list && items[match.params.questionId].answer}</p>
+      {documentToReactComponents(
+        items[match.params.questionId].answer,
+        richTextReactComponentOptions
+      )}
     </AnswerContainer>
   )
 }

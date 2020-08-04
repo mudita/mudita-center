@@ -207,6 +207,8 @@
     "webpack-hot-middleware": "2.25.0"
   },
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "^14.1.1",
+    "@contentful/rich-text-types": "^14.1.1",
     "@rematch/core": "^1.4.0",
     "@rematch/select": "^2.0.5",
     "@seznam/compose-react-refs": "^1.0.4",

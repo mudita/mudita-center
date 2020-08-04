@@ -1,8 +1,9 @@
 import { Entry } from "contentful"
+import { Document } from "@contentful/rich-text-types"
 
-interface HelpEntry {
+export interface HelpEntry {
   question: string
-  answer: string
+  answer: Document
   slug: string
 }
 
@@ -12,11 +13,12 @@ export const normalizeHelpData = (data: any) => {
       acc: Record<string, Partial<HelpEntry>>,
       currentValue: Entry<HelpEntry>
     ) => {
+      console.log(currentValue)
       return {
         ...acc,
         [currentValue.sys.id]: {
           question: currentValue.fields.question,
-          answer: "lala",
+          answer: currentValue.fields.answer,
         },
       }
     },

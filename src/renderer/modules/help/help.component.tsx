@@ -19,10 +19,11 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { Link } from "react-router-dom"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
+import { HelpEntry } from "App/renderer/utils/normalize-help-data"
 
 export interface QuestionAndAnswer {
   collection?: string[]
-  items: Record<string, { question: string; answer: string }>
+  items: Record<string, HelpEntry>
 }
 
 interface HelpProps {
