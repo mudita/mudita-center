@@ -13,7 +13,6 @@ export const normalizeHelpData = (data: any) => {
       acc: Record<string, Partial<HelpEntry>>,
       currentValue: Entry<HelpEntry>
     ) => {
-      console.log(currentValue)
       return {
         ...acc,
         [currentValue.sys.id]: {

@@ -7,6 +7,8 @@ import AnswerUI from "Renderer/components/rest/help/answer-ui.component"
 import Help, { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import axios from "axios"
 import { normalizeHelpData } from "Renderer/utils/normalize-help-data"
+import { ipcRenderer } from "electron-better-ipc"
+import { HelpActions } from "Common/enums/help-actions.enum"
 
 interface Props {
   history: History
@@ -24,6 +26,7 @@ const HelpApp: FunctionComponent<Props> = ({ history }) => {
       )
       const normalizeData = normalizeHelpData(response)
       setData(normalizeData)
+      await ipcRenderer.invoke(HelpActions.SetStoreValue, normalizeData)
     }
 
     fetchData()
