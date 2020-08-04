@@ -152,11 +152,11 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
     helpWindow.show()
   }
 
-  ipcMain.handle(HelpActions.SetStoreValue, (ipcEventt, response) => {
-    return helpStore.set("data", response)
-  })
-
   helpWindow.on("closed", () => {
     helpWindow = null
   })
+})
+
+ipcMain.handle(HelpActions.SetStoreValue, (event, response) => {
+  return helpStore.set("data", response)
 })
