@@ -119,7 +119,7 @@ const Overview: FunctionComponent<
         body={{
           id: messages.backupFinishedModalBody.id,
           values: {
-            destination: "/var/null",
+            destination: "C:/Mudita OS",
             ...textFormatters,
           },
         }}
