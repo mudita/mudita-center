@@ -57,7 +57,10 @@ const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
             richTextReactComponentOptions
           )
         ) : (
-          <Text displayStyle={TextDisplayStyle.MediumText}>lala</Text>
+          <Text
+            displayStyle={TextDisplayStyle.MediumText}
+            message={{ id: "view.name.help.answer.error" }}
+          />
         )}
       </div>
     </AnswerContainer>
