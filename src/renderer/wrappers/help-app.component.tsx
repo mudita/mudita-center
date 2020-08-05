@@ -23,7 +23,7 @@ const HelpApp: FunctionComponent<Props> = ({ history }) => {
     const fetchData = async () => {
       const { data: response } = await axios.get(
         `https://preview.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/staging/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=pdaHelp`
-      )
+      ) // this link has to be replaced with correct one before release
       const normalizeData = normalizeHelpData(response)
       setData(normalizeData)
       await ipcRenderer.invoke(HelpActions.SetStoreValue, normalizeData)
