@@ -1,5 +1,6 @@
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { BLOCKS, Document } from "@contentful/rich-text-types"
+import { URL_MAIN } from "Renderer/constants/urls"
 
 export const mockedHeadingText = "lala 123"
 
@@ -73,6 +74,11 @@ export const data: QuestionAndAnswer = {
       answer,
     },
   },
+}
+
+export const mockedRouteAndPath = {
+  route: `${URL_MAIN.help}/${data.collection[0]}`,
+  path: `${URL_MAIN.help}/:questionId`,
 }
 
 export const helpSeed = {

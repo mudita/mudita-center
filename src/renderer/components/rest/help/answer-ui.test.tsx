@@ -1,15 +1,11 @@
-import { data, mockedHeadingText } from "App/seeds/help"
+import { data, mockedHeadingText, mockedRouteAndPath } from "App/seeds/help"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { Route, RouteComponentProps, Router } from "react-router"
 import React from "react"
-import AnswerUI from "Renderer/components/rest/help/answer-ui.component"
 import { createMemoryHistory, MemoryHistory } from "history"
-import { URL_MAIN } from "Renderer/constants/urls"
 import { AnswerUiTestIds } from "Renderer/components/rest/help/answer-ui-test-ids.enum"
+import { renderAnswer } from "App/renderer/modules/help/render-utils"
 
-const renderAnswer = (props: RouteComponentProps<{ questionId: string }>) => (
-  <AnswerUI list={data} {...props} />
-)
 const renderWithRouterMatch = ({
   path = "/",
   route = "/",
@@ -19,29 +15,27 @@ const renderWithRouterMatch = ({
   route: string
   history?: MemoryHistory
 }) => {
+  const AnswerComponent = (
+    props: RouteComponentProps<{ questionId: string }>
+  ) => renderAnswer(data, props)
   return {
     ...renderWithThemeAndIntl(
       <Router history={history}>
-        <Route path={path} component={renderAnswer} />
+        <Route path={path} component={AnswerComponent} />
       </Router>
     ),
   }
 }
 
-const testRouteAndPath = {
-  route: `${URL_MAIN.help}/${data.collection[0]}`,
-  path: `${URL_MAIN.help}/:questionId`,
-}
-
 test("content is rendered", () => {
-  const { getByTestId } = renderWithRouterMatch(testRouteAndPath)
+  const { getByTestId } = renderWithRouterMatch(mockedRouteAndPath)
   expect(getByTestId(AnswerUiTestIds.Content)).toHaveTextContent(
     mockedHeadingText
   )
 })
 
 test("back link has correct text ", () => {
-  const { getByTestId } = renderWithRouterMatch(testRouteAndPath)
+  const { getByTestId } = renderWithRouterMatch(mockedRouteAndPath)
   const backLinkText = "view.name.help.backLinkText"
   expect(getByTestId(AnswerUiTestIds.BackLink)).toHaveTextContent(backLinkText)
 })

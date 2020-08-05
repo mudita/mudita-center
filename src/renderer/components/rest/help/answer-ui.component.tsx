@@ -12,6 +12,9 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { richTextReactComponentOptions } from "Renderer/utils/rich-text/rich-text-renderer"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { AnswerUiTestIds } from "Renderer/components/rest/help/answer-ui-test-ids.enum"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 
 const AnswerContainer = styled.div`
   padding: 0 10.5rem;
@@ -48,9 +51,13 @@ const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
         />
       </AnswerHeader>
       <div data-testid={AnswerUiTestIds.Content}>
-        {documentToReactComponents(
-          items[match.params.questionId].answer,
-          richTextReactComponentOptions
+        {items[match.params.questionId].answer ? (
+          documentToReactComponents(
+            items[match.params.questionId].answer,
+            richTextReactComponentOptions
+          )
+        ) : (
+          <Text displayStyle={TextDisplayStyle.MediumText}>lala</Text>
         )}
       </div>
     </AnswerContainer>
