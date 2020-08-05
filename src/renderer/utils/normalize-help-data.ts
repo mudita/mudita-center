@@ -19,7 +19,7 @@ export const normalizeHelpData = (data: EntryCollection<HelpEntry>) => {
     },
     {}
   )
-  const collection = data.items.map(({ sys }: any) => sys.id)
+  const collection = data.items.map(({ sys }: Entry<HelpEntry>) => sys.id)
   return {
     collection,
     items,
