@@ -20,19 +20,12 @@ import { BackupRestorationFailedModal } from "Renderer/modules/overview/backup-p
 import { BackupRestorationLoadingModal } from "Renderer/modules/overview/backup-process/restoration-loading-modal"
 import { BackupRestorationStartModal } from "Renderer/modules/overview/backup-process/restoration-start-modal"
 import { BackupRestorationFinishedModal } from "Renderer/modules/overview/backup-process/restoration-finished-modal"
+import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
 
 // TODO: remove after implementing real phone update process
 interface FakeUpdatedStatus {
   fakeUpdatedStatus?: () => void
 }
-
-const backupItems = [
-  { name: "Contacts", size: "1 GB" },
-  { name: "Messages", size: "15 KB" },
-  { name: "Music", size: "14 GB" },
-  { name: "Misc files", size: "625 MB" },
-  { name: "Notes", size: "11 KB" },
-]
 
 /**
  * TODO: Remove after implementing the real backup system
@@ -132,7 +125,7 @@ const Overview: FunctionComponent<
     log.log("Backup creation finished.")
     modalService.openModal(
       <BackupFinishedModal
-        items={backupItems}
+        items={mockedBackupItems}
         destination={store.getState().settings.pureOsBackupLocation as string}
       />,
       true
@@ -199,7 +192,7 @@ const Overview: FunctionComponent<
   const openBackupRestorationStartModal = () => {
     modalService.openModal(
       <BackupRestorationStartModal
-        items={backupItems}
+        items={mockedBackupItems}
         restoreBackup={openBackupRestorationLoadingModal}
       />
     )
