@@ -11,6 +11,7 @@
   "view.name.filesManager": "Files manager",
   "view.name.filesManager.files.selectionsNumber": "{num, plural, =-1 {All Files} one {# File} other {# Files}} selected",
   "view.name.help": "Help",
+  "view.name.help.title": "Pure Desktop App <b>Help</b>",
   "view.name.meditation": "Meditation",
   "view.name.meditation.dataBox.daysPracticed": "days practiced",
   "view.name.meditation.dataBox.totalPracticeTime": "total practice time",

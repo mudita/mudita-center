@@ -133,6 +133,74 @@ exports[`matches snapshot 1`] = `
   opacity: 0.75;
 }
 
+.c16 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  height: 4rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.2rem;
+  color: #6a6a6a;
+  font-weight: 400;
+  width: 100%;
+}
+
+.c16.active {
+  background-color: #f4f5f6;
+}
+
+.c16.active * {
+  color: #000000;
+}
+
+.c16.active svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+.c16:hover {
+  background-color: #f4f5f6;
+}
+
+.c16:hover * {
+  color: #000000;
+}
+
+.c16:hover svg {
+  opacity: 1;
+  -webkit-transition: opacity 500ms ease;
+  transition: opacity 500ms ease;
+}
+
+.c16 svg {
+  opacity: 0.75;
+}
+
 .c7 {
   margin: 0 0.8rem 0 0;
 }
@@ -266,6 +334,7 @@ exports[`matches snapshot 1`] = `
     </div>
     <div
       class="c10"
+      data-testid="menu.header.yourPure"
     >
       <p
         class="c11"
@@ -551,6 +620,7 @@ exports[`matches snapshot 1`] = `
     </div>
     <div
       class="c10"
+      data-testid="menu.header.desktopApp"
     >
       <p
         class="c11"
@@ -609,11 +679,10 @@ exports[`matches snapshot 1`] = `
     <div
       class="c4"
     >
-      <a
-        class="c5 c6"
-        displaystyle="8"
-        href="#/help"
+      <button
+        class="c16 c6"
         size="2"
+        type="button"
       >
         <div
           class="c2 c7"
@@ -628,7 +697,7 @@ exports[`matches snapshot 1`] = `
         >
           [value] view.name.help
         </p>
-      </a>
+      </button>
     </div>
   </div>
 </div>

@@ -38,6 +38,7 @@ export interface MenuElement {
   icons?: Type[]
   connectedPhoneOnly?: boolean
   devModeOnly?: boolean
+  openHelpWindow?: () => void
 }
 
 export const menuElements: MenuElement[] = [

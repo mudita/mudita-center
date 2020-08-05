@@ -17,6 +17,7 @@ import { defineMessages } from "react-intl"
 import { useHistory } from "react-router"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
+import { PhoneTestIds } from "Renderer/components/rest/overview/phone/phone-test-ids.enum"
 
 const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
@@ -112,6 +113,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
             id: "view.name.overview.phone.disconnectAction",
           })}
           onClick={handleDisconnect}
+          data-testid={PhoneTestIds.DisconnectButton}
         />
       </CardAction>
     </PhoneCard>
