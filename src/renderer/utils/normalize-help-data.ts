@@ -4,7 +4,6 @@ import { Document } from "@contentful/rich-text-types"
 export interface HelpEntry {
   question: string
   answer: Document
-  slug: string
 }
 
 export const normalizeHelpData = (data: EntryCollection<HelpEntry>) => {
@@ -15,7 +14,6 @@ export const normalizeHelpData = (data: EntryCollection<HelpEntry>) => {
         [currentValue.sys.id]: {
           question: currentValue.fields.question,
           answer: currentValue.fields.answer,
-          slug: currentValue.fields.slug,
         },
       }
     },
