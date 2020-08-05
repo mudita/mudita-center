@@ -55,7 +55,7 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
   return (
     <>
       {label && (
-        <HeaderWrapper>
+        <HeaderWrapper data-testid={label.id}>
           <Text displayStyle={TextDisplayStyle.SmallText} message={label} />
           {icons && (
             <HeaderIconContainer>
