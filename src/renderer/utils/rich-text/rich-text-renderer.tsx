@@ -3,7 +3,7 @@ import { Options } from "@contentful/rich-text-react-renderer"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import * as React from "react"
+import React from "react"
 import {
   RichTextParagraph,
   RichTextSecondaryHeading,
