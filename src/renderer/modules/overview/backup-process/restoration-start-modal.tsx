@@ -1,21 +1,22 @@
 import FunctionComponent from "Renderer/types/function-component.interface"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import {
-  Col,
-  Labels,
-  Row,
-} from "Renderer/components/core/table/table.component"
-import { intl, textFormatters } from "Renderer/utils/intl"
 import React from "react"
 import {
   FileList,
   PureBackupModal,
 } from "Renderer/modules/overview/backup-process/modals.styled"
-import { BackupItem } from "Renderer/modules/overview/backup-process/modals.interface"
 import { defineMessages } from "react-intl"
+import { BackupItem } from "Renderer/modules/overview/backup-process/modals.interface"
+import { noop } from "Renderer/utils/noop"
+import { intl } from "Renderer/utils/intl"
+import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import {
+  Col,
+  Labels,
+  Row,
+} from "Renderer/components/core/table/table.component"
 
 const messages = defineMessages({
   filename: {
@@ -24,26 +25,31 @@ const messages = defineMessages({
   size: {
     id: "view.generic.size",
   },
-  ok: { id: "view.generic.button.ok" },
+  cancel: { id: "view.generic.button.cancel" },
   title: {
-    id: "view.name.overview.backup.finishedBackupModal.title",
+    id: "view.name.overview.backup.restoreBackupModal.title",
   },
   body: {
-    id: "view.name.overview.backup.finishedBackupModal.body",
+    id: "view.name.overview.backup.restoreBackupModal.body",
+  },
+  actionButton: {
+    id: "view.name.overview.backup.restoreBackupModal.restoreButton",
   },
 })
 
-interface BackupFinishedModalProps {
+interface BackupRestorationStartModalProps {
   items: BackupItem[]
-  destination: string
+  restoreBackup?: () => void
 }
 
-export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = ({
+export const BackupRestorationStartModal: FunctionComponent<BackupRestorationStartModalProps> = ({
   items,
-  destination,
+  restoreBackup = noop,
 }) => (
   <PureBackupModal
-    actionButtonLabel={intl.formatMessage(messages.ok)}
+    closeButtonLabel={intl.formatMessage(messages.cancel)}
+    actionButtonLabel={intl.formatMessage(messages.actionButton)}
+    onActionButtonClick={restoreBackup}
     size={ModalSize.Medium}
   >
     <Text
@@ -51,13 +57,7 @@ export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = 
       displayStyle={TextDisplayStyle.LargeBoldText}
     />
     <Text
-      message={{
-        ...messages.body,
-        values: {
-          destination,
-          ...textFormatters,
-        },
-      }}
+      message={messages.body}
       displayStyle={TextDisplayStyle.MediumFadedLightText}
     />
     <FileList>

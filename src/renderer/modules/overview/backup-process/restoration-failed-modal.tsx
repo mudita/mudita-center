@@ -8,14 +8,14 @@ import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.overview.backup.failedBackupModal.title",
+    id: "view.name.overview.backup.failedRestoringBackupModal.title",
   },
   body: {
-    id: "view.name.overview.backup.failedBackupModal.body",
+    id: "view.name.overview.backup.failedRestoringBackupModal.body",
   },
 })
 
-export const BackupFailedModal: FunctionComponent = () => (
+export const BackupRestorationFailedModal: FunctionComponent = () => (
   <PureBackupModal>
     <Text
       message={messages.title}

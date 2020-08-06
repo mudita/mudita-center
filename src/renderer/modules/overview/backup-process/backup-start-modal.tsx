@@ -1,42 +1,49 @@
-import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import Modal from "Renderer/components/core/modal/modal.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import Icon from "Renderer/components/core/icon/icon.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import React from "react"
-import { BaseModalProps } from "Renderer/modules/overview/backup-process/modals.interface"
-import {
-  LoadingModalText,
-  ModalIcon,
-} from "Renderer/modules/overview/backup-process/modals.styled"
+import { PureBackupModal } from "Renderer/modules/overview/backup-process/modals.styled"
+import { intl } from "Renderer/utils/intl"
+import { noop } from "Renderer/utils/noop"
+import { defineMessages } from "react-intl"
 
-interface BackupStartModalProps extends BaseModalProps {
-  onActionButtonClick: () => void
-  body: MessageInterface
+const messages = defineMessages({
+  cancel: { id: "view.generic.button.cancel" },
+  title: {
+    id: "view.name.overview.backup.createBackupModal.title",
+  },
+  body: {
+    id: "view.name.overview.backup.createBackupModal.body",
+  },
+})
+
+interface BackupStartModalProps {
+  startBackup?: () => void
+  fileSize?: string
+  date?: string
 }
 
 export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
-  title,
-  body,
-  onActionButtonClick,
-  actionButtonLabel,
-  closeButtonLabel,
+  startBackup = noop,
+  fileSize,
+  date,
 }) => (
-  <Modal
-    size={ModalSize.Small}
-    title={title}
-    onActionButtonClick={onActionButtonClick}
-    actionButtonLabel={actionButtonLabel}
-    closeButtonLabel={closeButtonLabel}
+  <PureBackupModal
+    title={intl.formatMessage(messages.title)}
+    onActionButtonClick={startBackup}
+    actionButtonLabel={intl.formatMessage(messages.title)}
+    closeButtonLabel={intl.formatMessage(messages.cancel)}
   >
-    <ModalIcon>
-      <Icon type={Type.FilesManager} width={5} />
-    </ModalIcon>
-    <LoadingModalText
-      message={body}
+    <Text
+      message={{
+        ...messages.body,
+        values: {
+          fileSize,
+          date,
+        },
+      }}
       displayStyle={TextDisplayStyle.MediumFadedLightText}
     />
-  </Modal>
+  </PureBackupModal>
 )
