@@ -1,7 +1,7 @@
 import Button from "Renderer/components/core/button/button.component"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
-import React, { ReactElement, useEffect, useState } from "react"
+import React, { ReactElement, useEffect } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
 import log from "Renderer/utils/log"
@@ -102,8 +102,8 @@ const Overview: FunctionComponent<
   /**
    * Temporary state to demo failure
    */
-  const [backups, setBackups] = useState(1)
-  const [restorations, setRestorations] = useState(1)
+  let backups = 0
+  let restorations = 0
 
   const store = useStore()
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
@@ -139,7 +139,7 @@ const Overview: FunctionComponent<
   }
 
   const openBackupLoadingModal = () => {
-    setBackups((value) => value + 1)
+    backups++
     log.log("Creating backup...")
 
     simulateProgress(
@@ -151,8 +151,6 @@ const Overview: FunctionComponent<
   }
 
   const openBackupStartModal = () => {
-    setBackups((value) => value + 1)
-
     modalService.openModal(
       <BackupStartModal
         startBackup={openBackupLoadingModal}
@@ -176,7 +174,7 @@ const Overview: FunctionComponent<
   }
 
   const openBackupRestorationLoadingModal = () => {
-    setRestorations((value) => value + 1)
+    restorations++
     log.log(
       `Restoring backup from ${lastBackup.createdAt} with a size of ${lastBackup.size} bytes.`
     )
