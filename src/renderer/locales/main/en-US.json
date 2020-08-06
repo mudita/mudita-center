@@ -289,7 +289,6 @@
   "component.modal.support.form.optional": "optional",
   "component.modal.support.details.appVersion": "App version",
   "component.modal.support.details.os": "OS",
-  "component.modal.support.details.logs": "Logs",
   "component.textEditor.status.clickToEdit": "Click to edit",
   "component.textEditor.status.editMode": "Edit mode",
   "component.textEditor.status.autosave.saving": "Saving changes temporary...",

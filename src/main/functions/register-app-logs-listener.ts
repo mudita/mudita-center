@@ -7,8 +7,8 @@ export enum AppLogsEvents {
 }
 
 const registerAppLogsListeners = () => {
-  ipcMain.answerRenderer(AppLogsEvents.Get, () => {
-    return `${fs.readFileSync(log.transports.file.getFile().path)}`
+  ipcMain.answerRenderer(AppLogsEvents.Get, (path?: string) => {
+    return `${fs.readFileSync(path || log.transports.file.getFile().path)}`
   })
 }
 

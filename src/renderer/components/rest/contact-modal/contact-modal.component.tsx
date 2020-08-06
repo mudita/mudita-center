@@ -163,14 +163,14 @@ const FormInputLabel = styled(FormInputLabelComponent)`
   }
 `
 
-interface FormData {
+export interface SupportFormData {
   email?: string
   message?: string
   attachments?: File[]
 }
 
 export interface ContactModalProps extends ModalProps {
-  onSend?: (data?: FormData) => void
+  onSend?: (data: SupportFormData) => void
   log?: string
 }
 
