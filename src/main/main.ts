@@ -26,6 +26,9 @@ require("dotenv").config()
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
 
+// Disables CORS in Electron 9
+app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
+
 // Fetch and log all errors along with alert box
 process.on("uncaughtException", (error) => {
   // TODO: add a remote url to send logs to the specified the server or use Rollbar
@@ -55,6 +58,7 @@ const commonWindowOptions = {
   useContentSize: true,
   webPreferences: {
     nodeIntegration: true,
+    webSecurity: false,
   },
 }
 const getWindowOptions = (
