@@ -19,7 +19,7 @@ import {
 } from "Renderer/components/rest/app-update/app-update.interface"
 import { noop } from "Renderer/utils/noop"
 
-const ModalContent = styled.div`
+export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,7 +35,7 @@ const ModalContent = styled.div`
   }
 `
 
-const RoundIconWrapper = styled.div`
+export const RoundIconWrapper = styled.div`
   width: 12rem;
   height: 12rem;
   border-radius: 50%;

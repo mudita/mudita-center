@@ -3,7 +3,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
-import styled, { css } from "styled-components"
+import styled, { css, keyframes } from "styled-components"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
@@ -25,10 +25,14 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { useForm } from "react-hook-form"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
+import { disabledPrimaryStyles } from "Renderer/components/core/button/button.styled.elements"
 
 const messages = defineMessages({
   actionButton: {
     id: "component.modal.support.actionButton",
+  },
+  actionButtonProgress: {
+    id: "component.modal.support.actionButtonProgress",
   },
   title: {
     id: "component.modal.support.title",
@@ -89,7 +93,16 @@ const DetailsLabel = styled.div`
   }
 `
 
-const ModalComponent = styled(Modal)`
+const iconAnimation = keyframes`
+  from {
+    transform: rotateZ(0deg)
+  }
+  to {
+    transform: rotateZ(360deg)
+  }
+`
+
+const ModalComponent = styled(Modal)<{ sending?: boolean }>`
   h2 {
     ~ p {
       ${mediumTextSharedStyles};
@@ -105,6 +118,19 @@ const ModalComponent = styled(Modal)`
     &:last-of-type {
       justify-content: flex-start;
     }
+  }
+
+  form + div button {
+    ${({ sending }) =>
+      sending &&
+      css`
+        pointer-events: none;
+        ${disabledPrimaryStyles};
+
+        svg {
+          animation: ${iconAnimation} 1s infinite linear;
+        }
+      `};
   }
 `
 
@@ -172,11 +198,13 @@ export interface SupportFormData {
 export interface ContactModalProps extends ModalProps {
   onSend?: (data: SupportFormData) => void
   log?: string
+  sending?: boolean
 }
 
 const ContactModal: FunctionComponent<ContactModalProps> = ({
   onSend = noop,
   log,
+  sending,
   ...rest
 }) => {
   const [moreDetailsEnabled, enableMoreDetails] = useState(false)
@@ -218,10 +246,13 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
       closeButton={false}
       size={ModalSize.Medium}
       onActionButtonClick={handleSend}
-      actionButtonLabel={intl.formatMessage(messages.actionButton)}
-      actionButtonIcon={Type.SendButton}
+      actionButtonLabel={intl.formatMessage(
+        sending ? messages.actionButtonProgress : messages.actionButton
+      )}
+      actionButtonIcon={sending ? Type.Reload : Type.SendButton}
       title={intl.formatMessage(messages.title)}
       subtitle={intl.formatMessage(messages.description)}
+      sending={sending}
       {...rest}
     >
       <Form>
