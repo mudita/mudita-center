@@ -74,8 +74,9 @@ const textFormatters = {
   ),
 }
 
-const Help: FunctionComponent<HelpProps> = ({ list }) => {
-  const { collection, items } = list
+const Help: FunctionComponent<HelpProps> = ({
+  list: { collection = [], items },
+}) => {
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
       <HelpPanel>
@@ -99,17 +100,16 @@ const Help: FunctionComponent<HelpProps> = ({ list }) => {
         />
       </HelpPanel>
       <QuestionsContainer>
-        {collection &&
-          collection.map((id: string) => {
-            return (
-              <Question key={id} to={`${URL_MAIN.help}/${id}`}>
-                <Text displayStyle={TextDisplayStyle.LargeText}>
-                  {items[id].question}
-                </Text>
-                <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />
-              </Question>
-            )
-          })}
+        {collection.map((id: string) => {
+          return (
+            <Question key={id} to={`${URL_MAIN.help}/${id}`}>
+              <Text displayStyle={TextDisplayStyle.LargeText}>
+                {items[id].question}
+              </Text>
+              <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />
+            </Question>
+          )
+        })}
       </QuestionsContainer>
     </div>
   )
