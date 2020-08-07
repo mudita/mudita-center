@@ -11,6 +11,8 @@ import axios from "axios"
 import logger from "Renderer/utils/log"
 import { ContactSupportSuccess } from "Renderer/components/rest/contact-modal/contact-modal-success.component"
 import { ContactSupportFailed } from "Renderer/components/rest/contact-modal/contact-modal-failed.component"
+import hmacSHA256 from "crypto-js/hmac-sha256"
+import Base64 from "crypto-js/enc-base64"
 
 const Troubleshooting = () => {
   const history = useHistory()
@@ -36,14 +38,26 @@ const Troubleshooting = () => {
         })
       }
 
+      const data = JSON.stringify({
+        ...formData,
+        attachments,
+        log: appLog,
+      })
+
+      const hmacDigest = Base64.stringify(
+        hmacSHA256(data, process.env.CONTACT_SUPPORT_AUTH_KEY)
+      )
+
       try {
         await axios.post(
           // TODO: Replace ENV with real address after merging https://github.com/Appnroll/mudita-website/pull/934
           process.env.CONTACT_SUPPORT_API_URL || "",
+          data,
           {
-            ...formData,
-            attachments,
-            log: appLog,
+            headers: {
+              "Content-Type": "application/json",
+              "Hmac-SHA256": hmacDigest,
+            },
           }
         )
         modalService.openModal(
