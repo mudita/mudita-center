@@ -4,10 +4,14 @@ import {
   contactFactory,
   phoneNumberFormatter,
   contactDatabaseFactory,
+  addContacts,
+  removeContacts,
+  editContact,
 } from "Renderer/models/phone/phone.helpers"
 import { Contact } from "Renderer/models/phone/phone.typings"
 
 const TEST_CONTACT = { ...phoneSeed.contacts[0] }
+const TEST_CONTACTS_BATCH = phoneSeed.contacts.slice(0, 10)
 const TEST_EMPTY_CONTACT = { note: "anything" }
 const TEST_CONTACT_TO_CLEAN = {
   id: "1ef4e97e-1bf9-43e2-856f-577bf27fab42",
@@ -25,6 +29,12 @@ const TEST_CONTACT_TO_CLEAN = {
 }
 const TEST_PHONE_NUMBER = "+82 707 439 683"
 const TEST_EXPECTED_PHONE_NUMBER = "+82707439683"
+const OLD_DB_SHAPE = {
+  db: {
+    [TEST_CONTACT_TO_CLEAN.id]: TEST_CONTACT_TO_CLEAN,
+  },
+  collection: [TEST_CONTACT_TO_CLEAN.id],
+}
 
 describe("typeGuard tests", () => {
   test("returns true when contact is valid", () => {
@@ -73,7 +83,7 @@ describe("contactFactory tests", () => {
   })
 })
 
-describe("contactDatabaseFactory tests", () => {
+describe("contactDatabaseFactory and mergeContacts tests", () => {
   test("creates proper shape of database", () => {
     const factoryMock = (input: any) => input
     const result = contactDatabaseFactory(
@@ -90,5 +100,52 @@ describe("contactDatabaseFactory tests", () => {
     expect(result.db[TEST_CONTACT_TO_CLEAN.id]).toMatchObject(
       TEST_CONTACT_TO_CLEAN
     )
+  })
+
+  test("properly merges new data into old one", () => {
+    const result = addContacts(OLD_DB_SHAPE, [TEST_CONTACT])
+
+    expect(result.collection).toHaveLength(2)
+    expect(
+      result.collection.indexOf(TEST_CONTACT_TO_CLEAN.id) >= 0
+    ).toBeTruthy()
+    expect(result.collection.indexOf(TEST_CONTACT.id) >= 0).toBeTruthy()
+
+    expect(TEST_CONTACT.id in result.db).toBeTruthy()
+    expect(TEST_CONTACT_TO_CLEAN.id in result.db).toBeTruthy()
+  })
+
+  test("doesn't modify the state if contact is not valid", () => {
+    // @ts-ignore –due to passing broken data on purpose
+    const result = addContacts(OLD_DB_SHAPE, [{}])
+
+    expect(result.db).toMatchObject(OLD_DB_SHAPE.db)
+    expect(result.collection).toHaveLength(OLD_DB_SHAPE.collection.length)
+  })
+
+  test("should add contacts in batch", () => {
+    const result = addContacts({ db: {}, collection: [] }, TEST_CONTACTS_BATCH)
+
+    expect(result.collection).toHaveLength(TEST_CONTACTS_BATCH.length)
+  })
+
+  test("properly removed items from the db", () => {
+    const ID_TO_REMOVE = TEST_CONTACT_TO_CLEAN.id
+    const result = removeContacts(OLD_DB_SHAPE, [ID_TO_REMOVE])
+    expect(result.collection).toHaveLength(OLD_DB_SHAPE.collection.length - 1)
+    expect(ID_TO_REMOVE in result.db).toBeFalsy()
+  })
+
+  test("properly edits contact data", () => {
+    const ID_TO_EDIT = TEST_CONTACT_TO_CLEAN.id
+    const NEW_NAME = "Zbigniew"
+
+    expect(OLD_DB_SHAPE.db[ID_TO_EDIT].firstName).not.toBe(NEW_NAME)
+
+    const result = editContact(OLD_DB_SHAPE, ID_TO_EDIT, {
+      firstName: NEW_NAME,
+    })
+
+    expect(result.db[ID_TO_EDIT].firstName).toBe(NEW_NAME)
   })
 })

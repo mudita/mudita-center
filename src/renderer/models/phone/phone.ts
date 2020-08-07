@@ -16,19 +16,6 @@ import { defaultContact } from "Renderer/components/rest/phone/contact-edit.comp
 import deleteContacts from "Renderer/requests/delete-contacts.request"
 import editContact from "Renderer/requests/edit-contact.request"
 
-/**
- * Phone refactor
- *
- * Model shape:
- * - collection: Uuid[]
- * - db: Record<Uuid, Contact>
- *
- * Contact shape:
- * - id: Uuid
- * - primaryPhoneNumber: number
- * - secondaryPhoneNumber: number
- */
-
 export const initialState: StoreData = {
   inputValue: "",
   contacts: [],

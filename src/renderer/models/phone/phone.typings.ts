@@ -1,9 +1,7 @@
 export type ContactID = string
 
-export type SpeedDial = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-
-interface BaseContactModel {
-  id: ContactID
+export interface BaseContactModel {
+  id?: ContactID
   firstName?: string
   lastName?: string
   primaryPhoneNumber?: string
@@ -18,19 +16,23 @@ interface BaseContactModel {
   secondAddressLine?: string
 }
 
-interface ContactWithPhoneNumber extends BaseContactModel {
+export interface ContactWithID extends BaseContactModel {
+  id: ContactID
+}
+
+interface ContactWithPhoneNumber extends ContactWithID {
   primaryPhoneNumber: string
 }
 
-interface ContactWithEmail extends BaseContactModel {
+interface ContactWithEmail extends ContactWithID {
   email: string
 }
 
-interface ContactWithFirstName extends BaseContactModel {
+interface ContactWithFirstName extends ContactWithID {
   firstName: string
 }
 
-interface ContactWithLastName extends BaseContactModel {
+interface ContactWithLastName extends ContactWithID {
   lastName: string
 }
 
@@ -44,3 +46,6 @@ export interface Phone {
   collection: ContactID[]
   db: Record<ContactID, Contact>
 }
+
+export type SimpleRecord<T = string | number | boolean> = Record<string, T>
+export type ContactFactorySignature<T = Contact | null> = (...args: any[]) => T
