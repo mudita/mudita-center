@@ -92,7 +92,7 @@ exports[`matches snapshot 1`] = `
   border-radius: 0.5rem;
   border: 0.1rem solid #3b3f42;
   border: 0.1rem solid #cdcecf;
-  color: #cdcecf;
+  color: #6a6a6a;
 }
 
 .c12 g {
@@ -197,7 +197,7 @@ exports[`matches snapshot 1`] = `
 
 .c13:not(:hover) {
   border: 0.1rem solid #cdcecf;
-  color: #cdcecf;
+  color: #6a6a6a;
 }
 
 .c13:not(:hover) g {
