@@ -33,7 +33,9 @@ const SearchIcon = styled(Icon)`
   }
 `
 
-export const searchIcon = <SearchIcon type={Type.Magnifier} />
+export const searchIcon = (
+  <SearchIcon type={Type.Magnifier} height={1.4} width={1.4} />
+)
 
 const focusedLabelStyles = css`
   top: -2rem;
