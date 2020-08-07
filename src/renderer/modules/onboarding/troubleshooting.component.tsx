@@ -38,8 +38,8 @@ const Troubleshooting = () => {
 
       try {
         await axios.post(
-          // TODO: Replace with real address after merging https://github.com/Appnroll/mudita-website/pull/934
-          "http://localhost:9010/.netlify/functions/contact-support",
+          // TODO: Replace ENV with real address after merging https://github.com/Appnroll/mudita-website/pull/934
+          process.env.CONTACT_SUPPORT_API_URL || "",
           {
             ...formData,
             attachments,
