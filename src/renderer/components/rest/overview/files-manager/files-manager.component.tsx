@@ -30,7 +30,7 @@ const TextInfo = styled(CardText)`
     margin-top: 1.2rem;
     margin-bottom: 0.8rem;
     letter-spacing: ${letterSpacing("small")}rem;
-    color: ${textColor("disabled")};
+    color: ${textColor("secondary")};
   }
 `
 

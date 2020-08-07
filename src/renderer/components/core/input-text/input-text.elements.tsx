@@ -46,7 +46,7 @@ const InputLabel = styled(Text)`
   position: absolute;
   left: 0;
   top: 0.3rem;
-  color: ${textColor("disabled")};
+  color: ${textColor("secondary")};
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
   line-height: 1.5rem;
   pointer-events: none;

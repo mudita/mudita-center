@@ -227,7 +227,7 @@ exports[`matches snapshot 1`] = `
   -moz-letter-spacing: 0.04rem;
   -ms-letter-spacing: 0.04rem;
   letter-spacing: 0.04rem;
-  color: #a5a5a5;
+  color: #6a6a6a;
 }
 
 <div>

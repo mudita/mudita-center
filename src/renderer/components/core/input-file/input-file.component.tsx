@@ -28,7 +28,7 @@ import { defineMessages } from "react-intl"
 const Message = styled(Text)<{ dragging?: boolean }>`
   position: relative;
   z-index: ${({ dragging }) => (dragging ? -1 : 1)};
-  color: ${textColor("disabled")};
+  color: ${textColor("secondary")};
   letter-spacing: normal;
 
   strong {
@@ -135,7 +135,7 @@ const File = styled.li`
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: ${textColor("disabled")};
+    color: ${textColor("secondary")};
     margin: 0 2rem 0 0.5rem;
     white-space: nowrap;
   }
