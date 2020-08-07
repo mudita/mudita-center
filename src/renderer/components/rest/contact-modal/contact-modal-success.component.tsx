@@ -24,7 +24,6 @@ interface ContactSupportSuccessProps {
 }
 
 export const ContactSupportSuccess: FunctionComponent<ContactSupportSuccessProps> = ({
-  children,
   withoutEmail,
   ...props
 }) => (
