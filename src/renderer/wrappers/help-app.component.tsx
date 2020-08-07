@@ -22,7 +22,7 @@ const HelpApp: FunctionComponent<Props> = ({ history }) => {
   useEffect(() => {
     const fetchData = async () => {
       const { data: response } = await axios.get(
-        `https://${process.env.CONTENTFUL_ENV}.contentful.com/spaces/${process.env.CONTENTFUL_SPACE_ID}/environments/${process.env.CONTENTFUL_SPACE}/entries/?access_token=${process.env.CONTENTFUL_ACCESS_TOKEN}&content_type=pdaHelp`
+        `https://${process.env.PDA_CONTENTFUL_HOST}/spaces/${process.env.PDA_CONTENTFUL_SPACE_ID}/environments/${process.env.PDA_CONTENTFUL_ENVIRONMENT}/entries/?access_token=${process.env.PDA_CONTENTFUL_ACCESS_TOKEN}&content_type=pdaHelp`
       ) // this link has to be replaced with correct one before release
       const normalizeData = normalizeHelpData(response)
       setData(normalizeData)
