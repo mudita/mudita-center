@@ -87,7 +87,11 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
               ipcRenderer.callMain(OpenNewWindow.Help)
             return (
               <LinkWrapper key={index}>
-                <ButtonMenu {...buttonMenuConfig} onClick={openHelpWindow} />
+                <ButtonMenu
+                  {...buttonMenuConfig}
+                  onClick={openHelpWindow}
+                  data-testid="help"
+                />
               </LinkWrapper>
             )
           }
