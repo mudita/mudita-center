@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.c9 {
+.c8 {
   margin: 0;
   font-size: 1.6rem;
   line-height: 1.05;
   color: #6a6a6a;
 }
 
-.c12 {
+.c11 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -42,7 +42,7 @@ exports[`matches snapshot 1`] = `
   height: 100%;
 }
 
-.c7 {
+.c6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -60,12 +60,12 @@ exports[`matches snapshot 1`] = `
   position: relative;
 }
 
-.c7 svg {
+.c6 svg {
   width: 100%;
   height: 100%;
 }
 
-.c15 {
+.c14 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -83,7 +83,7 @@ exports[`matches snapshot 1`] = `
   position: relative;
 }
 
-.c15 svg {
+.c14 svg {
   width: 100%;
   height: 100%;
 }
@@ -156,7 +156,7 @@ exports[`matches snapshot 1`] = `
   opacity: 0.75;
 }
 
-.c17 {
+.c16 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -192,47 +192,47 @@ exports[`matches snapshot 1`] = `
   width: 100%;
 }
 
-.c17.active {
+.c16.active {
   background-color: #f4f5f6;
 }
 
-.c17.active * {
+.c16.active * {
   color: #000000;
 }
 
-.c17.active svg {
+.c16.active svg {
   opacity: 1;
   -webkit-transition: opacity 500ms ease;
   transition: opacity 500ms ease;
 }
 
-.c17:hover {
+.c16:hover {
   background-color: #f4f5f6;
 }
 
-.c17:hover * {
+.c16:hover * {
   color: #000000;
 }
 
-.c17:hover svg {
+.c16:hover svg {
   opacity: 1;
   -webkit-transition: opacity 500ms ease;
   transition: opacity 500ms ease;
 }
 
-.c17 svg {
+.c16 svg {
   opacity: 0.75;
 }
 
-.c8 {
+.c7 {
   margin: 0 0.8rem 0 0;
 }
 
-.c10 {
+.c9 {
   white-space: nowrap;
 }
 
-.c11 {
+.c10 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -245,17 +245,17 @@ exports[`matches snapshot 1`] = `
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  margin: 1.6rem 0 1.6rem 0;
+  margin: 2.4rem 0 1.6rem 0;
 }
 
-.c13 {
+.c12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
-.c14 {
+.c13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -271,20 +271,16 @@ exports[`matches snapshot 1`] = `
   padding: 0.4rem;
 }
 
-.c14:hover {
+.c13:hover {
   background-color: #f4f5f6;
 }
 
-.c16:not(:last-of-type) {
+.c15:not(:last-of-type) {
   margin-right: 1rem;
 }
 
 .c4 {
-  margin: 0 1rem;
-}
-
-.c6 {
-  margin: 0 0 0.4rem 0;
+  margin: 0 1rem 0.4rem 1rem;
 }
 
 .c0 {
@@ -335,13 +331,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/news"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-MenuNews"
           height="1.4"
           width="1.4"
@@ -351,29 +347,29 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.news
         </p>
       </a>
     </div>
     <div
-      class="c11"
+      class="c10"
       data-testid="menu.header.yourPure"
     >
       <p
-        class="c12"
+        class="c11"
       >
         [value] menu.header.yourPure
       </p>
       <div
-        class="c13"
+        class="c12"
       >
         <div
-          class="c14"
+          class="c13"
         >
           <div
-            class="c15"
+            class="c14"
             data-testid="icon-HighRange"
             height="1.6"
             width="1.6"
@@ -384,10 +380,10 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c14"
+          class="c13"
         >
           <div
-            class="c15"
+            class="c14"
             data-testid="icon-VeryHighBattery"
             height="1.6"
             width="1.6"
@@ -398,10 +394,10 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c14"
+          class="c13"
         >
           <div
-            class="c15 c16"
+            class="c14 c15"
             data-testid="icon-Sim"
             height="1.6"
             width="1.6"
@@ -412,10 +408,10 @@ exports[`matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="c14"
+          class="c13"
         >
           <div
-            class="c15 c16"
+            class="c14 c15"
             data-testid="icon-MenuTethering"
             height="1.6"
             width="1.6"
@@ -431,13 +427,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/overview"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-MenuOverview"
           height="1.4"
           width="1.4"
@@ -447,7 +443,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.overview
         </p>
@@ -457,13 +453,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/messages"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-Message"
           height="1.4"
           width="1.4"
@@ -473,7 +469,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.messages
         </p>
@@ -483,13 +479,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/phone"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-MenuPhone"
           height="1.4"
           width="1.4"
@@ -499,7 +495,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.phone
         </p>
@@ -509,13 +505,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/contacts"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-MenuContacts"
           height="1.4"
           width="1.4"
@@ -525,7 +521,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.contacts
         </p>
@@ -535,13 +531,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/music"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-MenuMusic"
           height="1.4"
           width="1.4"
@@ -551,7 +547,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.music
         </p>
@@ -561,13 +557,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/calendar"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-Calendar"
           height="1.4"
           width="1.4"
@@ -577,7 +573,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.calendar
         </p>
@@ -587,13 +583,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/tools"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-MenuTools"
           height="1.4"
           width="1.4"
@@ -603,7 +599,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.tools
         </p>
@@ -613,13 +609,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/meditation"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-MenuMeditation"
           height="1.4"
           width="1.4"
@@ -629,7 +625,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.meditation
         </p>
@@ -639,13 +635,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/files-manager"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-MenuFilesManager"
           height="1.4"
           width="1.4"
@@ -655,18 +651,18 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.filesManager
         </p>
       </a>
     </div>
     <div
-      class="c11"
+      class="c10"
       data-testid="menu.header.desktopApp"
     >
       <p
-        class="c12"
+        class="c11"
       >
         [value] menu.header.desktopApp
       </p>
@@ -675,13 +671,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/tethering"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-MenuTethering"
           height="1.4"
           width="1.4"
@@ -691,7 +687,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.tethering
         </p>
@@ -701,13 +697,13 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <a
-        class="c5 c6"
+        class="c5"
         displaystyle="8"
         href="#/settings"
         size="2"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-MenuSettings"
           height="1.4"
           width="1.4"
@@ -717,7 +713,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.settings
         </p>
@@ -727,12 +723,12 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <button
-        class="c17 c6"
+        class="c16"
         size="2"
         type="button"
       >
         <div
-          class="c7 c8"
+          class="c6 c7"
           data-testid="icon-MenuHelp"
           height="1.4"
           width="1.4"
@@ -742,7 +738,7 @@ exports[`matches snapshot 1`] = `
           />
         </div>
         <p
-          class="c9 c10"
+          class="c8 c9"
         >
           [value] view.name.help
         </p>

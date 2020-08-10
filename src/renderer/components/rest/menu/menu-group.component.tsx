@@ -20,7 +20,7 @@ const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 1.6rem 0 1.6rem 0;
+  margin: 2.4rem 0 1.6rem 0;
 `
 
 const HeaderIconContainer = styled.div`
@@ -44,11 +44,7 @@ const HeaderIcon = styled(Icon)`
 `
 
 const LinkWrapper = styled.div`
-  margin: 0 1rem;
-`
-
-const ButtonMenu = styled(Button)`
-  margin: 0 0 0.4rem 0;
+  margin: 0 1rem 0.4rem 1rem;
 `
 
 const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
@@ -87,13 +83,13 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
               ipcRenderer.callMain(OpenNewWindow.Help)
             return (
               <LinkWrapper key={index}>
-                <ButtonMenu {...buttonMenuConfig} onClick={openHelpWindow} />
+                <Button {...buttonMenuConfig} onClick={openHelpWindow} />
               </LinkWrapper>
             )
           }
           return (
             <LinkWrapper key={index}>
-              <ButtonMenu {...buttonMenuConfig} to={button.url} />
+              <Button {...buttonMenuConfig} to={button.url} />
             </LinkWrapper>
           )
         })}
