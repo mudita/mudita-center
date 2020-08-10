@@ -49,7 +49,6 @@ export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = 
   return (
     <Modal
       size={ModalSize.Medium}
-      title={title}
       closeButton={false}
       onActionButtonClick={closeAction}
       actionButtonLabel={closeLabel}
@@ -58,8 +57,12 @@ export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = 
         <Icon type={Type.FilesManager} width={5} />
       </ModalIcon>
       <LoadingModalText
+        message={{ id: title }}
+        displayStyle={TextDisplayStyle.LargeBoldText}
+      />
+      <LoadingModalText
         message={body}
-        displayStyle={TextDisplayStyle.LargeFadedText}
+        displayStyle={TextDisplayStyle.MediumFadedLightText}
       />
       <FileList>
         <Labels>

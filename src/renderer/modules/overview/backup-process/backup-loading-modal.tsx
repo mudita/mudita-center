@@ -66,7 +66,7 @@ export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps> = ({
       />
       <LoadingModalText
         message={body}
-        displayStyle={TextDisplayStyle.LargeFadedText}
+        displayStyle={TextDisplayStyle.MediumFadedLightText}
       />
       <LoadingBar
         chartData={[
