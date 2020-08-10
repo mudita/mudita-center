@@ -18,7 +18,7 @@ const messages = defineMessages({
   body: { id: "component.modal.support.fail.body" },
 })
 
-export const ContactSupportFailed: FunctionComponent = ({ ...props }) => (
+export const ContactSupportFailed: FunctionComponent = (props) => (
   <Modal size={ModalSize.Small} {...props}>
     <SimpleModal>
       <RoundIconWrapper>
