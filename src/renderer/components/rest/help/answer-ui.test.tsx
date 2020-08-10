@@ -1,10 +1,17 @@
-import { data, mockedHeadingText, mockedRouteAndPath } from "App/seeds/help"
+import {
+  data,
+  mockedHeadingText,
+  mockedParagraphText,
+  mockedMinorHeadingText,
+  mockedRouteAndPath,
+} from "App/seeds/help"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { Route, RouteComponentProps, Router } from "react-router"
 import React from "react"
 import { createMemoryHistory, MemoryHistory } from "history"
 import { AnswerUiTestIds } from "Renderer/components/rest/help/answer-ui-test-ids.enum"
 import { renderAnswer } from "App/renderer/modules/help/render-utils"
+import { URL_MAIN } from "Renderer/constants/urls"
 
 const renderWithRouterMatch = ({
   path = "/",
@@ -30,8 +37,16 @@ const renderWithRouterMatch = ({
 test("content is rendered", () => {
   const { getByTestId } = renderWithRouterMatch(mockedRouteAndPath)
   expect(getByTestId(AnswerUiTestIds.Content)).toHaveTextContent(
-    mockedHeadingText
+    `${mockedHeadingText}${mockedParagraphText}${mockedMinorHeadingText}`
   )
+})
+
+test("error text is rendered", () => {
+  const { getByText } = renderWithRouterMatch({
+    route: `${URL_MAIN.help}/error-route`,
+    path: `${URL_MAIN.help}/:questionId`,
+  })
+  expect(getByText("[value] view.name.help.answer.error")).toBeInTheDocument()
 })
 
 test("back link has correct text ", () => {

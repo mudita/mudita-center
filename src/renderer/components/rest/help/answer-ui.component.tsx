@@ -51,7 +51,7 @@ const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
         />
       </AnswerHeader>
       <div data-testid={AnswerUiTestIds.Content}>
-        {items[match.params.questionId].answer ? (
+        {items[match.params.questionId]?.answer ? (
           documentToReactComponents(
             items[match.params.questionId].answer,
             richTextReactComponentOptions

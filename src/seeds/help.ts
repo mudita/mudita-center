@@ -3,6 +3,10 @@ import { BLOCKS, Document } from "@contentful/rich-text-types"
 import { URL_MAIN } from "Renderer/constants/urls"
 
 export const mockedHeadingText = "lala 123"
+export const mockedParagraphText =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus diam neque, varius ac fermentum sit amet, interdum in metus. Vivamus eleifend turpis nec accumsan mollis."
+export const mockedMinorHeadingText =
+  "Maecenas ultricies ex mi, quis consequat est cursus ut."
 
 const answer: Document = {
   nodeType: BLOCKS.DOCUMENT,
@@ -14,6 +18,30 @@ const answer: Document = {
         {
           nodeType: "text",
           value: mockedHeadingText,
+          marks: [],
+          data: {},
+        },
+      ],
+      data: {},
+    },
+    {
+      nodeType: BLOCKS.PARAGRAPH,
+      content: [
+        {
+          nodeType: "text",
+          value: mockedParagraphText,
+          marks: [],
+          data: {},
+        },
+      ],
+      data: {},
+    },
+    {
+      nodeType: BLOCKS.HEADING_3,
+      content: [
+        {
+          nodeType: "text",
+          value: mockedMinorHeadingText,
           marks: [],
           data: {},
         },
