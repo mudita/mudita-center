@@ -56,7 +56,7 @@ const Troubleshooting = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              "Hmac-SHA256": hmacDigest,
+              "x-signature": hmacDigest,
             },
           }
         )
