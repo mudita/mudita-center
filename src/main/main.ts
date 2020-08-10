@@ -19,9 +19,9 @@ import registerAppLogsListeners from "App/main/functions/register-app-logs-liste
 import { ipcMain } from "electron-better-ipc"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
-import helpStore from "App/main/store/help"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { createClient } from "contentful"
+import registerHelpDownloadListener from "App/main/functions/register-help-download-listener"
+import registerHelpSetStoreListener from "App/main/functions/register-help-set-store-listener"
 
 require("dotenv").config()
 
@@ -158,17 +158,5 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
   })
 })
 
-ipcMain.handle(HelpActions.GetContentfulData, async (event, response) => {
-  const client = createClient({
-    accessToken: process.env.PDA_CONTENTFUL_ACCESS_TOKEN as string,
-    space: process.env.PDA_CONTENTFUL_SPACE_ID as string,
-    environment: process.env.PDA_CONTENTFUL_ENVIRONMENT_ID,
-    host: process.env.PDA_CONTENTFUL_HOST,
-  })
-  const helpData = await client.getEntries({ content_type: "pdaHelp" })
-  return helpData
-})
-
-ipcMain.handle(HelpActions.SetStoreValue, (event, response) => {
-  return helpStore.set("data", response)
-})
+registerHelpDownloadListener()
+registerHelpSetStoreListener()
