@@ -1,4 +1,5 @@
 import { app } from "electron"
+import log from "electron-log"
 import { name } from "../../../package.json"
 import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
@@ -43,6 +44,7 @@ const registerNewsListener = () => {
       }
       return false
     } catch (e) {
+      log.error(e)
       return false
     }
   }
