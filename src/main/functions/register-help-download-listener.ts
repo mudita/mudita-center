@@ -12,7 +12,7 @@ const registerHelpDownloadListener = () => {
         environment: process.env.PDA_CONTENTFUL_ENVIRONMENT_ID,
         host: process.env.PDA_CONTENTFUL_HOST,
       })
-      return await client.getEntries({ content_type: "pdaHelp" })
+      return await client.getEntries({ content_type: "helpItem" })
     }
   )
 }
