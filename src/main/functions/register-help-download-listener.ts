@@ -3,7 +3,7 @@ import { HelpActions } from "Common/enums/help-actions.enum"
 import { createClient } from "contentful"
 
 const registerHelpDownloadListener = () => {
-  ipcMain.handle(
+  ipcMain.handleOnce(
     HelpActions.DownloadContentfulData,
     async (event, response) => {
       const client = createClient({
