@@ -149,8 +149,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
             search: `?mode=${Mode.Help}`,
           })
     )
-    registerHelpDownloadListener()
-    registerHelpSetStoreListener()
   } else {
     helpWindow.show()
   }
@@ -159,3 +157,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
     helpWindow = null
   })
 })
+
+registerHelpDownloadListener()
+registerHelpSetStoreListener()

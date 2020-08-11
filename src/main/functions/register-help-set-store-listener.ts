@@ -3,7 +3,7 @@ import { HelpActions } from "Common/enums/help-actions.enum"
 import helpStore from "App/main/store/help"
 
 const registerHelpSetStoreListener = () => {
-  ipcMain.handleOnce(HelpActions.SetStoreValue, (event, response) => {
+  ipcMain.handle(HelpActions.SetStoreValue, (event, response) => {
     return helpStore.set("data", response)
   })
 }
