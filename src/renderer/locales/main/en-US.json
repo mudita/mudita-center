@@ -22,6 +22,7 @@
   "view.name.messages.allMessages": "All messages",
   "view.name.messages.unreadOnly": "Unread only",
   "view.name.messages.search": "Search",
+  "view.name.messages.textAreaPlaceholder": "Type your message",
   "view.name.messages.deleteModal.title": "Delete Conversations",
   "view.name.messages.deleteModal.uniqueText": "Do you really want to delete <b>{num, plural, =-1 {all conversations} one {# conversation} other {# conversations}} with {caller}?</b>",
   "view.name.messages.deleteModal.text": "Do you really want to delete <b>{num, plural, =-1 {all conversations} one {# conversation} other {# conversations}}?</b>",
