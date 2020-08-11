@@ -14,7 +14,7 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
-import { createFullName } from "Renderer/models/phone/phone.utils"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 
 const ModalContent = styled.div`
   display: flex;

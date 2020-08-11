@@ -6,15 +6,17 @@ import {
 import { Dispatch, RootState } from "Renderer/store"
 import {
   Contact,
-  NewContact,
   ResultsState,
   StoreData,
 } from "Renderer/models/phone/phone.interface"
 import getContacts from "Renderer/requests/get-contacts.request"
-import addContact from "Renderer/requests/add-contact.request"
-import { defaultContact } from "Renderer/components/rest/phone/contact-edit.component"
-import deleteContacts from "Renderer/requests/delete-contacts.request"
-import editContact from "Renderer/requests/edit-contact.request"
+import {
+  BaseContactModel,
+  ContactID,
+  Phone,
+} from "Renderer/models/phone/phone.typings"
+
+import { addContacts, editContact } from "Renderer/models/phone/phone.helpers"
 
 export const initialState: StoreData = {
   inputValue: "",
@@ -50,6 +52,18 @@ export default {
         resultsState,
       }
     },
+
+    editContact(
+      state: Phone,
+      contactID: ContactID,
+      data: BaseContactModel
+    ): Phone {
+      return editContact(state, contactID, data)
+    },
+
+    addContact(state: Phone, contact: Contact): Phone {
+      return addContacts(state, contact)
+    },
   },
   effects: (dispatch: Dispatch): any => ({
     async loadData(payload: any, { phone: { contacts } }: RootState) {
@@ -64,36 +78,6 @@ export default {
           dispatch.phone.setResultsState(ResultsState.Empty)
         }
       }
-    },
-    async addContact(contact: NewContact, state: RootState) {
-      const newContact: Contact = await addContact(contact)
-      const updatedContacts = [
-        ...state.phone.contacts,
-        { ...defaultContact, ...newContact },
-      ]
-      dispatch.phone.updateContacts(updatedContacts)
-    },
-    async editContact(contact: Contact, state: RootState) {
-      dispatch.phone.updateSavingStatus(true)
-      const editedContact: Contact = await editContact(contact)
-      const editedContactIndex = state.phone.contacts.findIndex(
-        ({ id }: { id: string }) => id === editedContact.id
-      )
-      if (editedContactIndex >= 0) {
-        const updatedContacts = [...state.phone.contacts]
-        updatedContacts[editedContactIndex] = editedContact
-        await dispatch.phone.updateContacts(updatedContacts)
-        dispatch.phone.updateSavingStatus(false)
-      }
-    },
-    async deleteContacts(contacts: Contact[], state: RootState) {
-      const deletedContactsIds = await deleteContacts(
-        contacts.map((contact) => contact.id)
-      )
-      const updatedContacts = state.phone.contacts.filter(
-        ({ id }) => !deletedContactsIds.includes(id)
-      )
-      dispatch.phone.updateContacts(updatedContacts)
     },
   }),
   selectors: (slice: Slicer<StoreData>) => ({

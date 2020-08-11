@@ -1,3 +1,5 @@
+import { ContactID } from "Renderer/models/phone/phone.typings"
+
 export type ContactUid = string
 
 export interface Contact {
@@ -48,7 +50,7 @@ interface StoreSelectors extends Contacts {
 interface StoreEffects {
   readonly loadData?: () => void
   readonly addContact?: (contact: Contact) => void
-  readonly editContact?: (contact: Contact) => void
+  readonly editContact?: (id: ContactID, data: Contact) => void
   readonly deleteContacts?: (contacts: Contact[]) => void
 }
 

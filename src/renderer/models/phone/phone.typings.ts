@@ -47,5 +47,10 @@ export interface Phone {
   db: Record<ContactID, Contact>
 }
 
+export interface ContactCategory {
+  category: string
+  contacts: ContactID[]
+}
+
 export type SimpleRecord<T = string | number | boolean> = Record<string, T>
 export type ContactFactorySignature<T = Contact | null> = (...args: any[]) => T

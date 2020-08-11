@@ -1,7 +1,7 @@
-import { initialState } from "Renderer/models/phone/phone"
-import { ResultsState } from "Renderer/models/phone/phone.interface"
+import { contactDatabaseFactory } from "Renderer/models/phone/phone.helpers"
+import { Phone } from "Renderer/models/phone/phone.typings"
 
-export const data = [
+export const phoneSeed: Phone = contactDatabaseFactory([
   {
     id: "0",
     firstName: "Sławomir",
@@ -1424,10 +1424,4 @@ export const data = [
     firstAddressLine: "",
     secondAddressLine: "",
   },
-]
-
-export const phoneSeed = {
-  ...initialState,
-  resultsState: ResultsState.Loaded,
-  contacts: data,
-}
+])

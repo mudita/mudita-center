@@ -39,7 +39,7 @@ import { InView } from "react-intersection-observer"
 import Avatar from "Renderer/components/core/avatar/avatar.component"
 import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "Renderer/models/phone/phone.utils"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,

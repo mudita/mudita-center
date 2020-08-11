@@ -6,6 +6,8 @@ import {
   Phone,
   SimpleRecord,
 } from "Renderer/models/phone/phone.typings"
+import { deburr } from "lodash"
+import { intl } from "Renderer/utils/intl"
 
 const lengthy = (input: string) => input.length > 0
 const prepareData = <T = any>(input: T | T[]): T[] =>
@@ -36,7 +38,8 @@ export const contactTypeGuard = (
   const primaryPhoneNumberIsDeclared =
     "primaryPhoneNumber" in input && inputValidator(input.primaryPhoneNumber)
   const secondaryPhoneNumberIsDeclared =
-    "primaryPhoneNumber" in input && inputValidator(input.secondaryPhoneNumber)
+    "secondaryPhoneNumber" in input &&
+    inputValidator(input.secondaryPhoneNumber)
   const emailIsDeclared = "email" in input && inputValidator(input.email)
 
   return (
@@ -159,4 +162,83 @@ export const editContact = (
   }
 
   return state
+}
+
+export const createFullName = ({
+  firstName,
+  lastName,
+}: {
+  firstName?: string
+  lastName?: string
+}) => {
+  return `${firstName || ""} ${lastName || ""}`.trim()
+}
+
+export const generateSortedStructure = ({ collection, db }: Phone) => {
+  const anonymousContacts = []
+  const favouriteContacts = []
+  const uncategorizedContacts = []
+  const speedDialContacts = []
+  const labeledContacts = []
+
+  const contacts = collection.map((item) => db[item])
+
+  const sortedContacts = contacts.sort((a, b) => {
+    return createFullName(a).localeCompare(createFullName(b))
+  })
+
+  for (const contact of sortedContacts) {
+    const { firstName, lastName, favourite, speedDial } = contact
+
+    if (speedDial) {
+      speedDialContacts.push(contact)
+    }
+
+    if (favourite) {
+      favouriteContacts.push(contact)
+    }
+
+    if (firstName || lastName) {
+      const groupLetter = deburr(
+        firstName?.charAt(0) || lastName?.charAt(0)
+      ).toUpperCase()
+
+      if (/[A-Z]/.test(groupLetter)) {
+        const groupIndex = labeledContacts.findIndex(
+          (group) => group.category === groupLetter
+        )
+
+        if (groupIndex === -1) {
+          labeledContacts.push({
+            category: groupLetter,
+            contacts: [contact],
+          })
+        } else {
+          labeledContacts[groupIndex].contacts.push(contact)
+        }
+      } else {
+        uncategorizedContacts.push(contact)
+      }
+    } else {
+      anonymousContacts.push(contact)
+    }
+  }
+
+  if (favouriteContacts.length) {
+    labeledContacts.unshift({
+      category: intl.formatMessage({
+        id: "view.name.phone.contacts.list.favourites",
+      }),
+      contacts: favouriteContacts,
+    })
+  }
+
+  if (anonymousContacts.length) {
+    labeledContacts.push({
+      category: "#",
+      contacts: [...uncategorizedContacts, ...anonymousContacts],
+    })
+  }
+
+  return labeledContacts
 }

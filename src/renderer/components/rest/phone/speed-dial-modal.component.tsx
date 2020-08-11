@@ -13,7 +13,7 @@ import Table, {
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import { createFullName } from "Renderer/models/phone/phone.utils"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 
 const SpeedDialTable = styled(Table)`
   --labelBackground: none;

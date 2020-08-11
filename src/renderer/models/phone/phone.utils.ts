@@ -1,7 +1,8 @@
 import Faker from "faker"
 import { intl } from "Renderer/utils/intl"
-import { Contact, ContactCategory } from "Renderer/models/phone/phone.interface"
+import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
 import { deburr } from "lodash"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 
 // TODO: remove before production
 export const speedDialNumbers = [2, 3, 4, 5, 6, 7, 8, 9]
@@ -65,16 +66,6 @@ export const generateFakeData = (numberOfContacts: number) => {
   return Array(numberOfContacts)
     .fill(0)
     .map(() => generateFakeContact(speedDials))
-}
-
-export const createFullName = ({
-  firstName,
-  lastName,
-}: {
-  firstName: string
-  lastName: string
-}) => {
-  return `${firstName || ""} ${lastName || ""}`.trim()
 }
 
 export const generateSortedStructure = (contacts: Contact[]) => {

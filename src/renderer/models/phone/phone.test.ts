@@ -1,4 +1,8 @@
+import { init } from "@rematch/core"
+import selectPlugin from "@rematch/select"
+
 import { phoneSeed } from "App/seeds/phone"
+import { phone } from "Renderer/models/phone/phone"
 import {
   contactTypeGuard,
   contactFactory,
@@ -10,8 +14,10 @@ import {
 } from "Renderer/models/phone/phone.helpers"
 import { Contact } from "Renderer/models/phone/phone.typings"
 
-const TEST_CONTACT = { ...phoneSeed.contacts[0] }
-const TEST_CONTACTS_BATCH = phoneSeed.contacts.slice(0, 10)
+const TEST_CONTACT = { ...phoneSeed.db[phoneSeed.collection[0]] }
+const TEST_CONTACTS_BATCH = phoneSeed.collection
+  .slice(0, 10)
+  .map((item) => phoneSeed.db[item])
 const TEST_EMPTY_CONTACT = { note: "anything" }
 const TEST_CONTACT_TO_CLEAN = {
   id: "1ef4e97e-1bf9-43e2-856f-577bf27fab42",
@@ -147,5 +153,60 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
     })
 
     expect(result.db[ID_TO_EDIT].firstName).toBe(NEW_NAME)
+  })
+})
+
+describe("redux tests", () => {
+  const storeConfig = {
+    models: { phone },
+    plugins: [selectPlugin()],
+    redux: {
+      initialState: {
+        phone: phoneSeed,
+      },
+    },
+  }
+
+  let store = init(storeConfig)
+
+  beforeEach(() => {
+    store = init(storeConfig)
+  })
+
+  test("has proper initial state", () => {
+    expect("db" in store.getState().phone)
+    expect("db" in store.getState().phone)
+  })
+
+  test("creates proper flat list", () => {
+    expect(
+      Array.isArray(store.select.phone.getFlatList(store.getState()))
+    ).toBeTruthy()
+  })
+
+  test("returns proper phone owner", () => {
+    expect(store.select.phone.getPhoneOwner(store.getState())).toMatchObject(
+      store.getState().phone.db["0"]
+    )
+  })
+
+  test("return proper user data", () => {
+    const TEST_USER_ID = store.getState().phone.collection[5]
+
+    expect(
+      store.select.phone.getContactDetails(store.getState(), TEST_USER_ID)
+    ).toMatchObject(store.getState().phone.db[TEST_USER_ID])
+  })
+
+  test("creates proper grouped object", () => {
+    const TEST_ARR = store.select.phone.getGrouped(store.getState()).A
+
+    expect(TEST_ARR).toBeTruthy()
+  })
+
+  test("creates proper grouped list", () => {
+    expect(
+      Array.isArray(store.select.phone.getGroupedAsList(store.getState()))
+    ).toBeTruthy()
   })
 })

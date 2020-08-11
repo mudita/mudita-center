@@ -20,6 +20,7 @@ import { InputComponentProps } from "Renderer/components/core/input-text/input-t
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { noop } from "Renderer/utils/noop"
+import { ContactID } from "Renderer/models/phone/phone.typings"
 
 const messages = defineMessages({
   favourites: { id: "view.name.phone.contacts.details.favourites" },
@@ -53,6 +54,7 @@ interface ContactDetailsProps
     ContactActions,
     ContactDetailsActions {
   contact: Contact
+  getContact: (id: ContactID) => Contact
 }
 
 const BasicInfo = styled.div`
@@ -156,7 +158,7 @@ export const phoneActions = (
 }
 
 const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
-  contact,
+  contact: { id },
   onEdit,
   onExport,
   onForward,
@@ -165,8 +167,11 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onDelete,
   onCall,
   onMessage,
+  getContact,
   ...rest
 }) => {
+  const contact = getContact(id)
+
   const handleEdit = () => onEdit(contact)
   const handleExport = () => onExport(contact)
   const handleForward = () => onForward(contact)
