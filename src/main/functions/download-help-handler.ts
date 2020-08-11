@@ -2,7 +2,7 @@ import { ipcMain } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { createClient } from "contentful"
 
-const registerHelpDownloadListener = () => {
+export const registerDownloadHelpHandler = () =>
   ipcMain.handle(
     HelpActions.DownloadContentfulData,
     async (event, response) => {
@@ -15,6 +15,6 @@ const registerHelpDownloadListener = () => {
       return await client.getEntries({ content_type: "helpItem" })
     }
   )
-}
 
-export default registerHelpDownloadListener
+export const removeDownloadHelpHandler = () =>
+  ipcMain.removeHandler(HelpActions.DownloadContentfulData)
