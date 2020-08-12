@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { ChangeEvent, useEffect, useState } from "react"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import { Route, RouteComponentProps, Router, Switch } from "react-router"
 import { URL_MAIN } from "Renderer/constants/urls"
@@ -31,6 +31,19 @@ const HelpApp: FunctionComponent<Props> = ({ history }) => {
     fetchData()
   }, [])
 
+  const searchQuestion = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    const filteredIds = Object.keys(data.items)
+      .map((id) => data.items[id])
+      .filter(({ question }) =>
+        question.toLowerCase().includes(target.value.toLowerCase())
+      )
+      .map(({ id }) => id)
+    setData({
+      ...data,
+      collection: filteredIds,
+    })
+  }
+
   const AnswerComponent = (
     props: RouteComponentProps<{ questionId: string }>
   ) => renderAnswer(data, props)
@@ -39,7 +52,7 @@ const HelpApp: FunctionComponent<Props> = ({ history }) => {
       <Switch>
         <Route path={`${URL_MAIN.help}/:questionId`}>{AnswerComponent}</Route>
         <Route path={URL_MAIN.help}>
-          <Help list={data} />
+          <Help list={data} searchQuestion={searchQuestion} />
         </Route>
       </Switch>
     </Router>

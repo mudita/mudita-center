@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ChangeEvent } from "react"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import FunctionComponent from "Renderer/types/function-component.interface"
 import Text, {
@@ -8,7 +8,6 @@ import styled from "styled-components"
 import { intl } from "Renderer/utils/intl"
 import InputText from "Renderer/components/core/input-text/input-text.component"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
-import { noop } from "Renderer/utils/noop"
 import {
   backgroundColor,
   transitionTime,
@@ -28,6 +27,7 @@ export interface QuestionAndAnswer {
 
 interface HelpProps {
   list: QuestionAndAnswer
+  searchQuestion: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 const HelpPanel = styled.div`
@@ -76,6 +76,7 @@ const textFormatters = {
 
 const Help: FunctionComponent<HelpProps> = ({
   list: { collection = [], items },
+  searchQuestion,
 }) => {
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
@@ -95,7 +96,7 @@ const Help: FunctionComponent<HelpProps> = ({
           })}
           outlined
           defaultValue={""}
-          onChange={noop}
+          onChange={searchQuestion}
           leadingIcons={[searchIcon]}
         />
       </HelpPanel>
