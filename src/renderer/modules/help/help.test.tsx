@@ -8,6 +8,7 @@ import { data } from "App/seeds/help"
 
 const defaultProps = {
   list: data,
+  searchQuestion: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {
