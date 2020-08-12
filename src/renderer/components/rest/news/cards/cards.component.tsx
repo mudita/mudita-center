@@ -1,5 +1,5 @@
 import * as React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Card from "Renderer/components/rest/news/card/card.component"
 import styled from "styled-components"
 import { useEffect } from "react"

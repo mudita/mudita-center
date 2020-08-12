@@ -61,21 +61,21 @@ test("renders disabled standard input properly", () => {
   const { getByRole } = renderWithThemeAndIntl(
     <InputText type="text" disabled />
   )
-  expect(getByRole("textbox")).toHaveAttribute("disabled")
+  expect(getByRole("textbox")).toBeDisabled()
 })
 
 test("renders disabled outlined input properly", () => {
   const { getByRole } = renderWithThemeAndIntl(
     <InputText type="text" outlined disabled />
   )
-  expect(getByRole("textbox")).toHaveAttribute("disabled")
+  expect(getByRole("textbox")).toBeDisabled()
 })
 
 test("renders disabled textarea properly", () => {
   const { getByRole } = renderWithThemeAndIntl(
     <InputText type="textarea" disabled />
   )
-  expect(getByRole("textbox")).toHaveAttribute("disabled")
+  expect(getByRole("textbox")).toBeDisabled()
 })
 
 test("renders standard input with leading icon properly", () => {

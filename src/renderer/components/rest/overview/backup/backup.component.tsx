@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { BackupProps } from "Renderer/components/rest/overview/backup/backup.interface"
 import Card, {
   CardAction,

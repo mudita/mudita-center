@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import formatDuration from "Renderer/utils/format-duration"
 import Text, {
   TextDisplayStyle,

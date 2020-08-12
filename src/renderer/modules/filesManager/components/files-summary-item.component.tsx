@@ -9,7 +9,7 @@ import {
   borderColor,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { convertBytes } from "Renderer/utils/convert-bytes"
 import styled from "styled-components"
 import Icon from "Renderer/components/core/icon/icon.component"

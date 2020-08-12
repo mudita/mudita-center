@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
 import ButtonToggler, {
@@ -36,7 +36,7 @@ const SettingsToggler: FunctionComponent<Props> = ({
           <TogglerItem
             key={Number(value)}
             label={intl.formatMessage({
-              id: Boolean(value)
+              id: value
                 ? "view.name.settings.onLabel"
                 : "view.name.settings.offLabel",
             })}

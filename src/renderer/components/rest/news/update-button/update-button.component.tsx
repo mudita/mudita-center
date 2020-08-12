@@ -1,5 +1,5 @@
 import * as React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Button, {
   Props as ButtonProps,
 } from "Renderer/components/core/button/button.component"

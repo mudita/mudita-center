@@ -7,7 +7,7 @@ import {
   backgroundColor,
   borderColor,
 } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
 const Input = styled.input`

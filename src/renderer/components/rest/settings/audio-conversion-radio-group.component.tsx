@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import InputRadioGroup from "Renderer/components/core/input-radio-group/input-radio-group.component"
 import { InputProps } from "Renderer/interfaces/input.interface"
 

@@ -5,7 +5,7 @@ import ContactPanel, {
   ContactPanelProps,
 } from "Renderer/components/rest/phone/contact-panel.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import ContactDetails, {

@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
 import { AppSettings } from "App/main/store/settings.interface"
 import { noop } from "Renderer/utils/noop"

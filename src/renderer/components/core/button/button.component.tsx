@@ -4,7 +4,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import { DisplayStyle, Size, Type } from "./button.config"
 

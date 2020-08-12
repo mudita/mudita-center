@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UnreadFilters } from "Renderer/components/rest/messages/topics-table.component"
 import ButtonToggler from "Renderer/components/core/button-toggler/button-toggler.component"
 import { intl, textFormatters } from "Renderer/utils/intl"

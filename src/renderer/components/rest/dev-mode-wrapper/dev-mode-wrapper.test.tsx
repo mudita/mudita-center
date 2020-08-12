@@ -7,7 +7,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 
 const TEST_STRING = "Hello there"
 
-const renderer = (devModeEnabled: boolean = true) => {
+const renderer = (devModeEnabled = true) => {
   return renderWithThemeAndIntl(
     <DevModeWrapper devModeEnabled={devModeEnabled}>
       {TEST_STRING}

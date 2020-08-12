@@ -1,5 +1,5 @@
 import React, { Ref } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
   Col,

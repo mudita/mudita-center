@@ -6,7 +6,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { MenuElement } from "Renderer/constants/menu-elements"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"

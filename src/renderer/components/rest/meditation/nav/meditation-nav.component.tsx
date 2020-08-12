@@ -1,6 +1,6 @@
 import React from "react"
 
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ArrowLeft from "Renderer/svg/arrow-long-left.svg"
 import ArrowRight from "Renderer/svg/arrow-long-right.svg"
 import { noop } from "Renderer/utils/noop"

@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { OnboardingWelcomeProps } from "Renderer/components/rest/onboarding/onboarding.interface"
 import styled from "styled-components"
 import Text, {
