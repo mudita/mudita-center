@@ -168,7 +168,6 @@ export const defaultContact = {
 type NameUpdateProps = Pick<Contact, "firstName" | "lastName">
 
 interface ContactEditProps {
-  availableSpeedDials?: number[]
   contact?: Contact
   onCancel: (contact?: Contact) => void
   onSpeedDialSettingsOpen: () => void
@@ -178,7 +177,6 @@ interface ContactEditProps {
 }
 
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
-  availableSpeedDials = [],
   contact,
   onCancel,
   onSave,
@@ -242,12 +240,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     item,
     props,
   }: RenderListItemProps<typeof speedDialNumbers[number]>) => (
-    <SpeedDialListItem
-      {...props}
-      inactive={!availableSpeedDials.includes(item)}
-    >
-      {item}
-    </SpeedDialListItem>
+    <SpeedDialListItem {...props}>{item}</SpeedDialListItem>
   )
 
   const headerLeft = (

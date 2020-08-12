@@ -49,7 +49,7 @@ export interface Phone {
 
 export interface ContactCategory {
   category: string
-  contacts: ContactID[]
+  contacts: Contact[]
 }
 
 export type SimpleRecord<T = string | number | boolean> = Record<string, T>

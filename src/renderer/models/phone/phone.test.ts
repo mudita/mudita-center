@@ -2,7 +2,6 @@ import { init } from "@rematch/core"
 import selectPlugin from "@rematch/select"
 
 import { phoneSeed } from "App/seeds/phone"
-import { phone } from "Renderer/models/phone/phone"
 import {
   contactTypeGuard,
   contactFactory,
@@ -13,6 +12,7 @@ import {
   editContact,
 } from "Renderer/models/phone/phone.helpers"
 import { Contact } from "Renderer/models/phone/phone.typings"
+import phone from "Renderer/models/phone/phone"
 
 const TEST_CONTACT = { ...phoneSeed.db[phoneSeed.collection[0]] }
 const TEST_CONTACTS_BATCH = phoneSeed.collection

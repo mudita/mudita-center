@@ -44,18 +44,6 @@ export const phoneModel = {
     },
   },
   selectors: () => ({
-    /**
-     * For any kind of array-based operation (mostly legacy)
-     */
-    getFlatList() {
-      return ({ phone }: any) => {
-        const { collection, db } = phone
-
-        // @ts-ignore
-        return collection.map((item: string) => db[item])
-      }
-    },
-
     getContactDetails() {
       // @ts-ignore
       return ({ phone }: any, id: ContactID) => {

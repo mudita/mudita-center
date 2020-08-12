@@ -6,7 +6,7 @@ import {
   Phone,
   SimpleRecord,
 } from "Renderer/models/phone/phone.typings"
-import { deburr } from "lodash"
+import { deburr, find, filter, omit } from "lodash"
 import { intl } from "Renderer/utils/intl"
 
 const lengthy = (input: string) => input.length > 0
@@ -241,4 +241,56 @@ export const generateSortedStructure = ({ collection, db }: Phone) => {
   }
 
   return labeledContacts
+}
+
+export const getUserFlatList = ({ collection, db }: Phone): Contact[] => {
+  return collection.map((item) => db[item])
+}
+
+export const findContact = (
+  phone: Contact[] | Phone,
+  query: SimpleRecord,
+  idOnly: boolean = false,
+  formatter = getUserFlatList
+): ContactID | Contact | undefined => {
+  const db = Array.isArray(phone) ? phone : formatter(phone)
+  const result = find(db, query) as Contact
+
+  return idOnly ? result.id : result
+}
+
+export const findMultipleContacts = (
+  db: Contact[],
+  query: SimpleRecord
+): ContactID[] | undefined => {
+  const result = filter(db, query)
+
+  if (result.length > 0) {
+    return result.map(({ id }: any) => id)
+  }
+
+  return undefined
+}
+
+export const revokeField = (
+  state: Phone,
+  query: SimpleRecord,
+  finder = findContact
+): Phone => {
+  const userId = finder(state, query, true)
+
+  if (userId && typeof userId === "string") {
+    const queryKey = Object.keys(query)[0]
+    const userData = omit(state.db[userId], queryKey)
+
+    return {
+      ...state,
+      db: {
+        ...state.db,
+        [userId]: userData,
+      },
+    } as Phone
+  }
+
+  return state
 }

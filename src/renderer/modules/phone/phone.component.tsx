@@ -26,7 +26,6 @@ import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
 import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.component"
 import BlockContactModal from "Renderer/components/rest/phone/block-contact-modal.component"
-import { speedDialNumbers } from "Renderer/models/phone/phone.utils"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { intl, textFormatters } from "Renderer/utils/intl"
@@ -52,7 +51,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     addContact = noop,
     editContact = noop,
     deleteContacts = noop,
-    speedDialContacts = [],
     contactList = [],
     onSearchTermChange,
     onManageButtonClick,
@@ -175,7 +173,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         favourite: false,
       }
       await editContact(blockedContact.id, blockedContact)
-      modalService.closeModal()
+      await modalService.closeModal()
+
       if (detailsEnabled) {
         openSidebar(blockedContact)
       }
@@ -191,11 +190,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       <SpeedDialModal onSave={onSpeedDialSettingsSave} contacts={contactList} />
     )
   }
-
-  const availableSpeedDials = speedDialNumbers.filter(
-    (dialNumber) =>
-      !speedDialContacts.find(({ speedDial }) => speedDial === dialNumber)
-  )
 
   const _devClearContacts = () => setContacts([])
   const _devLoadDefaultContacts = () => setContacts(contactList)
@@ -239,7 +233,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
               onSave={saveNewContact}
               onNameUpdate={handleNameUpdate}
               saving={savingContact}
-              availableSpeedDials={availableSpeedDials}
             />
           )}
           {editedContact && (
@@ -249,7 +242,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
               onSpeedDialSettingsOpen={openSpeedDialModal}
               onSave={saveEditedContact}
               saving={savingContact}
-              availableSpeedDials={availableSpeedDials}
             />
           )}
           {detailsEnabled && (
