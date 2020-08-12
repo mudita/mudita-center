@@ -11,9 +11,11 @@ import { normalizeHelpData } from "Renderer/utils/contentful/normalize-help-data
 
 interface Props {
   history: History
+  saveToStore: (data: QuestionAndAnswer) => Promise<any>
 }
 
-const HelpApp: FunctionComponent<Props> = ({ history }) => {
+const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
+  // console.log((ipcRenderer as any).__rendererCalls)
   const [data, setData] = useState<QuestionAndAnswer>({
     collection: [],
     items: {},
@@ -25,7 +27,7 @@ const HelpApp: FunctionComponent<Props> = ({ history }) => {
       )
       const normalizeData = normalizeHelpData(response)
       setData(normalizeData)
-      await ipcRenderer.invoke(HelpActions.SetStoreValue, normalizeData)
+      await saveToStore(normalizeData)
     }
 
     fetchData()

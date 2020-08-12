@@ -103,7 +103,11 @@ const Help: FunctionComponent<HelpProps> = ({
       <QuestionsContainer>
         {collection.map((id: string) => {
           return (
-            <Question key={id} to={`${URL_MAIN.help}/${id}`}>
+            <Question
+              key={id}
+              to={`${URL_MAIN.help}/${id}`}
+              data-testid={"question"}
+            >
               <Text displayStyle={TextDisplayStyle.LargeText}>
                 {items[id].question}
               </Text>

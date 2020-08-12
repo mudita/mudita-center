@@ -51,6 +51,200 @@ const answer: Document = {
   ],
 }
 
+export const contentfulSeed = {
+  sys: {
+    type: "Array",
+  },
+  total: 2,
+  skip: 0,
+  limit: 100,
+  items: [
+    {
+      sys: {
+        space: {
+          sys: {
+            type: "Link",
+            linkType: "Space",
+            id: "isxmxtc67n72",
+          },
+        },
+        type: "Entry",
+        id: "24YEjwJx8jAuedvWDz8rvU",
+        contentType: {
+          sys: {
+            type: "Link",
+            linkType: "ContentType",
+            id: "helpItem",
+          },
+        },
+        revision: 1,
+        createdAt: "2020-08-11T05:37:37.069Z",
+        updatedAt: "2020-08-11T05:38:01.509Z",
+        environment: {
+          sys: {
+            id: "staging",
+            type: "Link",
+            linkType: "Environment",
+          },
+        },
+        locale: "en-US",
+      },
+      fields: {
+        question: "Example question 2",
+        answer: {
+          nodeType: "document",
+          data: {},
+          content: [
+            {
+              nodeType: "heading-1",
+              content: [
+                {
+                  nodeType: "text",
+                  value: "lala",
+                  marks: [],
+                  data: {},
+                },
+              ],
+              data: {},
+            },
+            {
+              nodeType: "paragraph",
+              content: [
+                {
+                  nodeType: "text",
+                  value: "",
+                  marks: [],
+                  data: {},
+                },
+              ],
+              data: {},
+            },
+          ],
+        },
+        slug: "example-question-2",
+      },
+    },
+    {
+      sys: {
+        space: {
+          sys: {
+            type: "Link",
+            linkType: "Space",
+            id: "isxmxtc67n72",
+          },
+        },
+        type: "Entry",
+        id: "1NESOKKWZCTjV8rlSE4JbH",
+        contentType: {
+          sys: {
+            type: "Link",
+            linkType: "ContentType",
+            id: "helpItem",
+          },
+        },
+        revision: 1,
+        createdAt: "2020-08-11T05:37:17.795Z",
+        updatedAt: "2020-08-11T05:37:30.834Z",
+        environment: {
+          sys: {
+            id: "staging",
+            type: "Link",
+            linkType: "Environment",
+          },
+        },
+        locale: "en-US",
+      },
+      fields: {
+        question: "Example question lala",
+        answer: {
+          nodeType: "document",
+          data: {},
+          content: [
+            {
+              nodeType: "heading-2",
+              content: [
+                {
+                  nodeType: "text",
+                  value:
+                    "Consectetur adipiscing elit. Fusce imperdiet nisi odio, et iaculis justo sagittis non.",
+                  marks: [],
+                  data: {},
+                },
+              ],
+              data: {},
+            },
+            {
+              nodeType: "paragraph",
+              content: [
+                {
+                  nodeType: "text",
+                  value:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus diam neque, varius ac fermentum sit amet, interdum in metus. Vivamus eleifend turpis nec accumsan mollis.",
+                  marks: [],
+                  data: {},
+                },
+              ],
+              data: {},
+            },
+            {
+              nodeType: "paragraph",
+              content: [
+                {
+                  nodeType: "text",
+                  value:
+                    "Sed nunc erat, tempor vel risus nec, consectetur lobortis lectus. Maecenas ultricies ex mi, quis consequat est cursus ut. Phasellus ut ante quis metus lacinia lacinia a non ante. Etiam ut libero sit amet sem rutrum mollis quis sed sapien. Donec vitae lacus vitae odio auctor rhoncus et sed ipsum. Pellentesque ac viverra turpis. Aliquam posuere lorem non orci placerat venenatis. Mauris posuere consectetur orci sed sodales.",
+                  marks: [],
+                  data: {},
+                },
+              ],
+              data: {},
+            },
+            {
+              nodeType: "heading-3",
+              content: [
+                {
+                  nodeType: "text",
+                  value:
+                    "Maecenas ultricies ex mi, quis consequat est cursus ut.",
+                  marks: [],
+                  data: {},
+                },
+              ],
+              data: {},
+            },
+            {
+              nodeType: "paragraph",
+              content: [
+                {
+                  nodeType: "text",
+                  value:
+                    "Sed nunc erat, tempor vel risus nec, consectetur lobortis lectus. Maecenas ultricies ex mi, quis consequat est cursus ut. Phasellus ut ante quis metus lacinia lacinia a non ante. Etiam ut libero sit amet sem rutrum mollis quis sed sapien. Donec vitae lacus vitae odio auctor rhoncus et sed ipsum.",
+                  marks: [],
+                  data: {},
+                },
+              ],
+              data: {},
+            },
+            {
+              nodeType: "paragraph",
+              content: [
+                {
+                  nodeType: "text",
+                  value: "",
+                  marks: [],
+                  data: {},
+                },
+              ],
+              data: {},
+            },
+          ],
+        },
+        slug: "example-question-lala",
+      },
+    },
+  ],
+}
+
 export const data: QuestionAndAnswer = {
   collection: [
     "e66895c6-3d65-4f96-8c81-e58c43ec6aee",
