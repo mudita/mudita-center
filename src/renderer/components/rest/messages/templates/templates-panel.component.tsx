@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from "react"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { intl } from "Renderer/utils/intl"

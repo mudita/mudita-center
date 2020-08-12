@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { RouteComponentProps } from "react-router"
 import Button from "Renderer/components/core/button/button.component"
 import { Type } from "Renderer/components/core/icon/icon.config"

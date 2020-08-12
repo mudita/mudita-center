@@ -5,7 +5,7 @@ import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import Icon from "Renderer/components/core/icon/icon.component"

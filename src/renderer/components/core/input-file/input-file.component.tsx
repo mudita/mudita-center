@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css, keyframes } from "styled-components"
 import {
   borderColor,
@@ -209,7 +209,7 @@ const InputFile: FunctionComponent<InputFileProps> = ({
 
   const removeTimeoutHandler = () => {
     if (errorMessageTimeout) {
-      clearTimeout(errorMessageTimeout as NodeJS.Timeout)
+      clearTimeout(errorMessageTimeout)
     }
   }
 
@@ -334,7 +334,7 @@ const InputFile: FunctionComponent<InputFileProps> = ({
           },
           intl.formatMessage(messages.countError, {
             limit: maxAllowedFiles,
-          }) as string
+          })
         )
 
         newFiles = newFiles.splice(0, maxAllowedFiles)

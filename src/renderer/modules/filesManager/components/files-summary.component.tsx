@@ -1,7 +1,7 @@
 import React from "react"
 import { DiskSpaceCategory } from "Renderer/models/files-manager/files-manager.interface"
 import FilesSummaryItem from "Renderer/modules/filesManager/components/files-summary-item.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
 const FilesSummaryWrapper = styled.div`

@@ -3,7 +3,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { borderRadius, height } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { convertBytes } from "Renderer/utils/convert-bytes"
 import styled, { css } from "styled-components"
 

@@ -8,7 +8,7 @@ import { CallRow } from "Renderer/components/rest/calls/call-row.component"
 import { SelectableCalls } from "Renderer/components/rest/calls/calls-table.styled"
 import { CallDetails } from "Renderer/components/rest/calls/call-details.component"
 import { Details } from "Renderer/components/rest/calls/call-details.types"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"

@@ -10,7 +10,7 @@ import {
   borderColor,
   borderRadius,
 } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
 

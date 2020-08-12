@@ -8,7 +8,7 @@ import {
   opacity,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
 export const tertiaryHeadingSharedStyles = css`

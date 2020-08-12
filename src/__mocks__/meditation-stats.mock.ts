@@ -9,9 +9,9 @@ export const generateMeditationData = (
 
   let periods: number
   let date: Moment
-  let format: string = "YYYY-MM-DD"
+  let format = "YYYY-MM-DD"
   let unit: DurationInputArg2 = "days"
-  let maxTime: number = 2000
+  let maxTime = 2000
 
   switch (chartType) {
     case ChartType.Yearly:

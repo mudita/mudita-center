@@ -69,8 +69,8 @@ test("renders edit mode with changed text properly", () => {
       textChanged: true,
     },
   })
-  expect(getByTestId("reject")).not.toBeDisabled()
-  expect(getByTestId("save")).not.toBeDisabled()
+  expect(getByTestId("reject")).toBeEnabled()
+  expect(getByTestId("save")).toBeEnabled()
 })
 
 test("renders edit mode with autosaving changes properly", () => {

@@ -6,7 +6,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { views } from "Renderer/constants/views"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import {
   backgroundColor,

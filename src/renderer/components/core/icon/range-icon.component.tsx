@@ -2,7 +2,7 @@ import * as React from "react"
 import Icon, {
   Props as IconProps,
 } from "Renderer/components/core/icon/icon.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
 interface InteractiveIconProps {

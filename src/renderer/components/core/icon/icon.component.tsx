@@ -6,7 +6,7 @@ import {
 } from "Renderer/components/core/icon/icon.config"
 import Svg from "Renderer/components/core/svg/svg.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
 export interface Props {
