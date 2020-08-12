@@ -1,10 +1,12 @@
 import { app } from "electron"
+import log from "electron-log"
 import { name } from "../../../package.json"
 import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
 import getDefaultNewsItems from "App/main/default-news-item"
-import axios from "axios"
 import { normalizeContentfulData } from "Renderer/models/mudita-news/normalize-contentful-data"
+import { createClient, EntryCollection } from "contentful"
+import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
 export enum NewsEvents {
   Get = "get-news-items",
@@ -18,22 +20,31 @@ const registerNewsListener = () => {
   const newsFilePath = `${app.getPath(
     "appData"
   )}/${name}/default-news-items.json`
-  const checkForUpdateAndGetNewData = async () => {
+  const checkForUpdateAndGetNewData = async (): Promise<
+    boolean | EntryCollection<NewsEntry>
+  > => {
     const { newsItems } = await fs.readJson(newsFilePath)
     const newestLocalItemDate = Math.max(
       ...newsItems.map((item: any) => new Date(item.updatedAt).getTime())
     )
     try {
-      const { data } = await axios.get(
-        `https://${process.env.MUDITA_WEB_CONTENTFUL_HOST}/spaces/${process.env.MUDITA_WEB_CONTENTFUL_SPACE_ID}/environments/${process.env.MUDITA_WEB_CONTENTFUL_ENVIRONMENT_ID}/entries/?access_token=${process.env.MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN}&content_type=newsItem&limit=3`
-      )
+      const client = createClient({
+        accessToken: process.env.MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN as string,
+        space: process.env.MUDITA_WEB_CONTENTFUL_SPACE_ID as string,
+      })
+      const data: EntryCollection<NewsEntry> = await client.getEntries({
+        content_type: "newsItem",
+        limit: 3,
+      })
       const newestOnlineItemDate = Math.max(
         ...data.items.map((item: any) => new Date(item.sys.updatedAt).getTime())
       )
       if (newestOnlineItemDate > newestLocalItemDate) {
         return data
       }
+      return false
     } catch (e) {
+      log.error(e)
       return false
     }
   }
@@ -41,7 +52,9 @@ const registerNewsListener = () => {
   const getUpdatedNews = async () => {
     const updatedNews = await checkForUpdateAndGetNewData()
     if (updatedNews) {
-      const newsData = await normalizeContentfulData(updatedNews)
+      const newsData = await normalizeContentfulData(
+        updatedNews as EntryCollection<NewsEntry>
+      )
       await fs.writeJson(newsFilePath, newsData)
       return newsData
     }

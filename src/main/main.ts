@@ -19,8 +19,15 @@ import registerAppLogsListeners from "App/main/functions/register-app-logs-liste
 import { ipcMain } from "electron-better-ipc"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
-import helpStore from "App/main/store/help"
 import { HelpActions } from "Common/enums/help-actions.enum"
+import {
+  registerDownloadHelpHandler,
+  removeDownloadHelpHandler,
+} from "App/main/functions/download-help-handler"
+import {
+  registerSetHelpStoreHandler,
+  removeSetHelpStoreHandler,
+} from "App/main/functions/set-help-store-handler"
 
 require("dotenv").config()
 
@@ -148,15 +155,15 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
             search: `?mode=${Mode.Help}`,
           })
     )
+    registerDownloadHelpHandler()
+    registerSetHelpStoreHandler()
   } else {
     helpWindow.show()
   }
 
   helpWindow.on("closed", () => {
+    removeDownloadHelpHandler()
+    removeSetHelpStoreHandler()
     helpWindow = null
   })
-})
-
-ipcMain.handle(HelpActions.SetStoreValue, (event, response) => {
-  return helpStore.set("data", response)
 })
