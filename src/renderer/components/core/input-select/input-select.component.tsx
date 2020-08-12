@@ -55,7 +55,7 @@ export const SelectInputItem = styled.li<{
   ${({ empty }) =>
     empty &&
     css`
-      color: ${textColor("disabled")};
+      color: ${textColor("secondary")};
     `}
 
   ${({ selected }) =>

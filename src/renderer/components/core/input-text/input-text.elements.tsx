@@ -33,7 +33,9 @@ const SearchIcon = styled(Icon)`
   }
 `
 
-export const searchIcon = <SearchIcon type={Type.Magnifier} />
+export const searchIcon = (
+  <SearchIcon type={Type.Magnifier} height={1.4} width={1.4} />
+)
 
 const focusedLabelStyles = css`
   top: -2rem;
@@ -44,7 +46,7 @@ const InputLabel = styled(Text)`
   position: absolute;
   left: 0;
   top: 0.3rem;
-  color: ${textColor("disabled")};
+  color: ${textColor("secondary")};
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
   line-height: 1.5rem;
   pointer-events: none;

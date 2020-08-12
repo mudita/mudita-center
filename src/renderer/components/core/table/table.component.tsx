@@ -126,7 +126,7 @@ const columnLabelStyles = css`
   z-index: 2;
   ${Col} {
     ${getTextStyles(TextDisplayStyle.SmallFadedText)};
-    color: ${textColor("disabled")};
+    color: ${textColor("secondary")};
     text-transform: uppercase;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;

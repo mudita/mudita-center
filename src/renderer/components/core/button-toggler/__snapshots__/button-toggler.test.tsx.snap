@@ -123,7 +123,7 @@ exports[`matches snapshot 1`] = `
 
 .c9:not(:hover) {
   border: 0.1rem solid #cdcecf;
-  color: #cdcecf;
+  color: #6a6a6a;
 }
 
 .c9:not(:hover) g {

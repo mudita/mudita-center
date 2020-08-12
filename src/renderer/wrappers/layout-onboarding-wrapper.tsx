@@ -34,7 +34,7 @@ const Header = styled.header`
     display: flex;
     flex-direction: row;
     align-items: center;
-    color: ${textColor("disabled")};
+    color: ${textColor("secondary")};
 
     &:before {
       margin: 0 0.8rem;

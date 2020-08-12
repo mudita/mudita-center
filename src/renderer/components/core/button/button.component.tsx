@@ -128,6 +128,8 @@ const ButtonComponent: FunctionComponent<Props> = ({
           displaystyle={displayStyle}
           withMargin={Boolean(label || labelMessage)}
           type={Icon}
+          height={1.4}
+          width={1.4}
         />
       )}
       {getLabel()}

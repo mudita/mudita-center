@@ -53,7 +53,7 @@ export const disabledPrimaryStyles = css`
 
 export const disabledSecondaryStyles = css`
   border: 0.1rem solid ${borderColor("secondary")};
-  color: ${textColor("accent")};
+  color: ${textColor("secondary")};
   g {
     fill: ${textColor("accent")};
   }
