@@ -8,7 +8,7 @@ import {
   phoneNumberFormatter,
   contactDatabaseFactory,
   addContacts,
-  removeContacts,
+  removeContact,
   editContact,
 } from "Renderer/models/phone/phone.helpers"
 import { Contact } from "Renderer/models/phone/phone.typings"
@@ -137,7 +137,7 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
 
   test("properly removed items from the db", () => {
     const ID_TO_REMOVE = TEST_CONTACT_TO_CLEAN.id
-    const result = removeContacts(OLD_DB_SHAPE, [ID_TO_REMOVE])
+    const result = removeContact(OLD_DB_SHAPE, [ID_TO_REMOVE])
     expect(result.collection).toHaveLength(OLD_DB_SHAPE.collection.length - 1)
     expect(ID_TO_REMOVE in result.db).toBeFalsy()
   })

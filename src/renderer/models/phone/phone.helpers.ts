@@ -124,7 +124,7 @@ export const addContacts = (
   return state
 }
 
-export const removeContacts = (
+export const removeContact = (
   state: Phone,
   input: ContactID | ContactID[],
   preFormatter = prepareData
@@ -243,7 +243,7 @@ export const generateSortedStructure = ({ collection, db }: Phone) => {
   return labeledContacts
 }
 
-export const getUserFlatList = ({ collection, db }: Phone): Contact[] => {
+export const usersFlatList = ({ collection, db }: Phone): Contact[] => {
   return collection.map((item) => db[item])
 }
 
@@ -251,7 +251,7 @@ export const findContact = (
   phone: Contact[] | Phone,
   query: SimpleRecord,
   idOnly: boolean = false,
-  formatter = getUserFlatList
+  formatter = usersFlatList
 ): ContactID | Contact | undefined => {
   const db = Array.isArray(phone) ? phone : formatter(phone)
   const result = find(db, query) as Contact

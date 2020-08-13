@@ -40,13 +40,14 @@ export type PhoneProps = ContactActions &
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
+    removeContact: (input: ContactID | ContactID[]) => void
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
   const {
     addContact = noop,
     editContact = noop,
-    deleteContacts = noop,
+    removeContact = noop,
     contactList = [],
     flatList,
     onSearchTermChange,
@@ -154,8 +155,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           )}
         />
       )
-      await deleteContacts([contact])
-      modalService.closeModal()
+
+      // await can be restored if we will process the result directly in here, not globally
+      removeContact(contact.id)
+      await modalService.closeModal()
       closeSidebar()
     }
 

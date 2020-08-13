@@ -52,7 +52,7 @@ interface SpeedDialModalProps {
 const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
   onSave = noop,
   onClose = noop,
-  // contacts = [],
+  // contacts = [], – will uncomment when implementing selection
   speedDialContacts,
 }) => {
   const emptyContactList: Contact[] = Array.from({ length: 9 })
