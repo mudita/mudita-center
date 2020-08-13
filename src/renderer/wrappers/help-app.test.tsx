@@ -9,10 +9,10 @@ import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import { useFetchHelp } from "../utils/hooks/use-fetch-help/use-fetch-help"
 
 const renderer = () => {
-  const saveToStore = jest.fn()
-  const history = createMemoryHistory({ initialEntries: [URL_MAIN.help] })
   return renderWithThemeAndIntl(
-    <HelpApp history={history} saveToStore={saveToStore} />
+    <HelpApp
+      history={createMemoryHistory({ initialEntries: [URL_MAIN.help] })}
+    />
   )
 }
 
