@@ -21,6 +21,21 @@ export const initialState: Phone = {
   collection: [],
 }
 
+let writeTrials = 0
+
+const simulateWriteToPhone = async (time = 2000) => {
+  writeTrials = writeTrials + 1
+
+  await new Promise((resolve) => setTimeout(resolve, time))
+
+  if (writeTrials % 3 === 0) {
+    console.error("Write failed, retrying")
+    await simulateWriteToPhone(time)
+  } else {
+    console.log("Write successful")
+  }
+}
+
 export default {
   state: initialState,
   reducers: {
@@ -44,6 +59,15 @@ export default {
       }
 
       return editContact(currentState, contactID, data)
+    },
+  },
+  effects: {
+    async addContact() {
+      await simulateWriteToPhone()
+    },
+
+    async editContact() {
+      await simulateWriteToPhone()
     },
   },
   selectors: (slice: Slicer<StoreData>) => ({
