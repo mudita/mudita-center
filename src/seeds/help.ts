@@ -51,6 +51,9 @@ const answer: Document = {
   ],
 }
 
+export const contentfulFirstQuestion = "asdsadia11"
+export const contentfulSecondQuestion = "433ala"
+
 export const contentfulSeed = {
   sys: {
     type: "Array",
@@ -90,7 +93,7 @@ export const contentfulSeed = {
         locale: "en-US",
       },
       fields: {
-        question: "Example question 2",
+        question: contentfulFirstQuestion,
         answer: {
           nodeType: "document",
           data: {},
@@ -155,7 +158,7 @@ export const contentfulSeed = {
         locale: "en-US",
       },
       fields: {
-        question: "Example question lala",
+        question: contentfulSecondQuestion,
         answer: {
           nodeType: "document",
           data: {},

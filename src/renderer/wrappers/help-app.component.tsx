@@ -15,11 +15,11 @@ interface Props {
 }
 
 const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
-  // console.log((ipcRenderer as any).__rendererCalls)
   const [data, setData] = useState<QuestionAndAnswer>({
     collection: [],
     items: {},
   })
+  const [searchValue, setSearchValue] = useState("")
   useEffect(() => {
     const fetchData = async () => {
       const response = await ipcRenderer.invoke(
@@ -34,6 +34,7 @@ const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
   }, [])
 
   const searchQuestion = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(target.value)
     const filteredIds = Object.keys(data.items)
       .map((id) => data.items[id])
       .filter(({ question }) =>
@@ -54,7 +55,11 @@ const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
       <Switch>
         <Route path={`${URL_MAIN.help}/:questionId`}>{AnswerComponent}</Route>
         <Route path={URL_MAIN.help}>
-          <Help list={data} searchQuestion={searchQuestion} />
+          <Help
+            list={data}
+            searchQuestion={searchQuestion}
+            searchValue={searchValue}
+          />
         </Route>
       </Switch>
     </Router>

@@ -28,6 +28,7 @@ export interface QuestionAndAnswer {
 interface HelpProps {
   list: QuestionAndAnswer
   searchQuestion: (event: ChangeEvent<HTMLInputElement>) => void
+  searchValue?: string
 }
 
 const HelpPanel = styled.div`
@@ -77,6 +78,7 @@ const textFormatters = {
 const Help: FunctionComponent<HelpProps> = ({
   list: { collection = [], items },
   searchQuestion,
+  searchValue,
 }) => {
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
@@ -95,9 +97,9 @@ const Help: FunctionComponent<HelpProps> = ({
             id: "view.name.messages.search",
           })}
           outlined
-          defaultValue={""}
           onChange={searchQuestion}
           leadingIcons={[searchIcon]}
+          value={searchValue}
         />
       </HelpPanel>
       <QuestionsContainer>
@@ -106,7 +108,7 @@ const Help: FunctionComponent<HelpProps> = ({
             <Question
               key={id}
               to={`${URL_MAIN.help}/${id}`}
-              data-testid={"question"}
+              data-testid={HelpComponentTestIds.Question}
             >
               <Text displayStyle={TextDisplayStyle.LargeText}>
                 {items[id].question}
