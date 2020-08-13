@@ -4,9 +4,7 @@ import ContactList from "Renderer/components/rest/phone/contact-list.component"
 import ContactPanel, {
   ContactPanelProps,
 } from "Renderer/components/rest/phone/contact-panel.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import FunctionComponent from "Renderer/types/function-component.interface"
-import styled from "styled-components"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import ContactDetails, {
   ContactActions,
@@ -26,19 +24,15 @@ import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
 import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.component"
 import BlockContactModal from "Renderer/components/rest/phone/block-contact-modal.component"
-import { createFullName } from "Renderer/models/phone/phone.helpers"
+import {
+  createFullName,
+  findMultipleContacts,
+} from "Renderer/models/phone/phone.helpers"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
 import { ContactID } from "Renderer/models/phone/phone.typings"
-import { findMultipleContacts } from "Renderer/models/phone/phone.helpers"
-
-const ContactSection = styled.section`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: ${backgroundColor("minor")};
-`
+import { ContactSection } from "Renderer/modules/phone/phone.styled"
 
 export type PhoneProps = ContactActions &
   ContactPanelProps &
@@ -84,6 +78,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
     return 0
   }
+
   const speedDialContactsBase = findMultipleContacts(
     flatList,
     speedDialFindQuery

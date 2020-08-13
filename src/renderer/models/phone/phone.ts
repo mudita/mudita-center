@@ -40,7 +40,17 @@ export default {
   state: initialState,
   reducers: {
     addContact(state: Phone, contact: Contact): Phone {
-      return addContacts(state, contact)
+      let currentState = state
+
+      /**
+       * This is an example situation when two entities share the same (unique)
+       * data, so one has to release it.
+       */
+      if ("speedDial" in contact) {
+        currentState = revokeField(state, { speedDial: contact.speedDial! })
+      }
+
+      return addContacts(currentState, contact)
     },
 
     editContact(
@@ -50,10 +60,6 @@ export default {
     ): Phone {
       let currentState = state
 
-      /**
-       * This is an example situation when two entities share the same (unique)
-       * data, so one has to release it.
-       */
       if ("speedDial" in data) {
         currentState = revokeField(state, { speedDial: data.speedDial! })
       }
