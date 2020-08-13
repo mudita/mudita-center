@@ -5,6 +5,7 @@ import Help from "Renderer/modules/help/help.component"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import { data } from "App/seeds/help"
+import { fireEvent } from "@testing-library/dom"
 
 const defaultProps = {
   list: data,
@@ -38,4 +39,13 @@ test("render title correctly", () => {
 test("renders correct amount of links", () => {
   const { getAllByRole } = renderer()
   expect(getAllByRole("link")).toHaveLength(defaultProps.list.collection.length)
+})
+
+test("search input works", () => {
+  const { getByRole } = renderer()
+  const searchInput = getByRole("searchbox")
+  fireEvent.change(searchInput, {
+    target: { value: "adsad" },
+  })
+  expect(defaultProps.searchQuestion).toBeCalled()
 })

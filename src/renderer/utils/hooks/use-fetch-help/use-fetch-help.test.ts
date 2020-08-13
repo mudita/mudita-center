@@ -16,3 +16,15 @@ test("return correct amount of data", async () => {
     contentfulSeed.items.length
   )
 })
+
+test("callback works", async () => {
+  ;(ipcRenderer as any).__rendererCalls = {
+    [HelpActions.DownloadContentfulData]: Promise.resolve({
+      ...contentfulSeed,
+    }),
+  }
+  const saveToStore = jest.fn()
+  const { waitForNextUpdate } = renderHook(() => useFetchHelp(saveToStore))
+  await waitForNextUpdate()
+  expect(saveToStore).toBeCalled()
+})
