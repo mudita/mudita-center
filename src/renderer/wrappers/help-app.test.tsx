@@ -44,8 +44,8 @@ test("render questions correctly", async () => {
 })
 
 test("renders correct amount of questions after search", async () => {
-  const { getByRole, findAllByTestId } = renderer()
-  const searchInput = getByRole("searchbox")
+  const { findByRole, findAllByTestId } = renderer()
+  const searchInput = await findByRole("searchbox")
   fireEvent.change(searchInput, {
     target: { value: contentfulSecondQuestion },
   })
