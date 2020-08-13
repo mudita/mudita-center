@@ -1,4 +1,4 @@
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import * as React from "react"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import styled, { css } from "styled-components"

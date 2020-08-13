@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Route, RouteComponentProps, Router, Switch } from "react-router"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { History } from "history"

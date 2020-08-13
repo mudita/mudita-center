@@ -9,7 +9,7 @@ import {
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import Image from "Renderer/components/core/image/image.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 

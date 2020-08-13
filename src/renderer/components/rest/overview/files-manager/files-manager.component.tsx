@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { FilesManagerProps } from "Renderer/components/rest/overview/files-manager/files-manager.interface"
 import Card, {
   CardAction,

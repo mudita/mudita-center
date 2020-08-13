@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css, FlattenInterpolation } from "styled-components"
 import {
   StoryContext,

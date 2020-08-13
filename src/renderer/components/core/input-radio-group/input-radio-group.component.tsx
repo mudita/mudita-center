@@ -1,6 +1,6 @@
 import * as React from "react"
 import { InputProps } from "Renderer/interfaces/input.interface"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import InputRadio from "../input-radio/input-radio.component"
 import { noop } from "Renderer/utils/noop"

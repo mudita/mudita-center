@@ -3,7 +3,7 @@ import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter"
 import jsx from "react-syntax-highlighter/dist/cjs/languages/prism/jsx"
 import prism from "react-syntax-highlighter/dist/cjs/styles/prism/prism"
 import styled, { css } from "styled-components"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 SyntaxHighlighter.registerLanguage("jsx", jsx)
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.component"
 
 interface Props {

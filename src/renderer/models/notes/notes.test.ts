@@ -33,7 +33,7 @@ test("properly saves new note", () => {
   const currentNewestNote = store.getState().notes.notesList[0]
   const currentNotesCount = store.getState().notes.notesList.length
   store.dispatch.notes.createNewNote()
-  expect(store.getState().notes.notesList![0]).not.toMatchObject(
+  expect(store.getState().notes.notesList[0]).not.toMatchObject(
     currentNewestNote
   )
   expect(store.getState().notes.notesList.length).toBe(currentNotesCount + 1)

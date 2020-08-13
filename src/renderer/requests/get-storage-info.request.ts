@@ -3,6 +3,6 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcRenderer } from "electron-better-ipc"
 
 const getStorageInfo = (): Promise<StorageInfo> =>
-  ipcRenderer.callMain(IpcRequest.GetStorageInfo) as Promise<StorageInfo>
+  ipcRenderer.callMain(IpcRequest.GetStorageInfo)
 
 export default getStorageInfo

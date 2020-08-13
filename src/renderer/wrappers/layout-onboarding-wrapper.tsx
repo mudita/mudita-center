@@ -1,6 +1,6 @@
 import * as React from "react"
 import styled from "styled-components"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { textColor, width } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"

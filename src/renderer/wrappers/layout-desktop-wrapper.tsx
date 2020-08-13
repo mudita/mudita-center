@@ -10,7 +10,7 @@ import {
   width,
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import ViewWrapper from "Renderer/wrappers/view-wrapper/view-wrapper.container"
 import styled from "styled-components"

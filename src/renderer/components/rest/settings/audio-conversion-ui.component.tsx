@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import { InputProps } from "Renderer/interfaces/input.interface"
 import Text, {
