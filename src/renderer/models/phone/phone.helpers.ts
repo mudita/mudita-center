@@ -261,7 +261,7 @@ export const findContact = (
 
 export const findMultipleContacts = (
   db: Contact[],
-  query: SimpleRecord
+  query: SimpleRecord | ((input: string | number | SimpleRecord) => boolean)
 ): ContactID[] | undefined => {
   const result = filter(db, query)
 

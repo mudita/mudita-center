@@ -16,18 +16,18 @@ import {
   CallWrapper,
 } from "Renderer/components/rest/calls/call-details.styled"
 import { Details } from "Renderer/components/rest/calls/call-details.types"
-import {
-  AdditionalInfoItem,
-  ContactDetailsWrapper,
-  InfoItemName,
-  Input,
-  phoneActions,
-} from "Renderer/components/rest/phone/contact-details.component"
+import { phoneActions } from "Renderer/components/rest/phone/contact-details.component"
 import formatDuration from "Renderer/utils/format-duration"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { isToday } from "Renderer/utils/is-today"
 import { noop } from "Renderer/utils/noop"
+import {
+  AdditionalInfoItem,
+  ContactDetailsWrapper,
+  InfoItemName,
+  Input,
+} from "Renderer/components/rest/phone/contact-details.styled"
 
 const messages = defineMessages({
   today: { id: "view.name.phone.calls.today" },

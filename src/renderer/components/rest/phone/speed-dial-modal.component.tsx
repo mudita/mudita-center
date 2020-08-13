@@ -3,7 +3,7 @@ import FunctionComponent from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
-import { Contact, ContactCategory } from "Renderer/models/phone/phone.interface"
+import { Contact } from "Renderer/models/phone/phone.interface"
 import Table, {
   Col,
   Labels,
@@ -43,7 +43,8 @@ const messages = defineMessages({
 })
 
 interface SpeedDialModalProps {
-  contacts: ContactCategory[]
+  speedDialContacts?: Contact[]
+  contacts: Contact[]
   onSave?: (contacts?: Contact[]) => void
   onClose?: () => void
 }
@@ -51,13 +52,15 @@ interface SpeedDialModalProps {
 const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
   onSave = noop,
   onClose = noop,
-  contacts = [],
+  // contacts = [],
+  speedDialContacts,
 }) => {
-  // TODO: Refactor during data integration
-  // DO NOT REVIEW LINES 60-62
-  const flatContactsList = contacts.reduce((acc: Contact[], group) => {
-    return [...acc, ...group.contacts]
-  }, [])
+  const emptyContactList: Contact[] = Array.from({ length: 9 })
+  speedDialContacts?.forEach((item) => {
+    if (item.speedDial) {
+      emptyContactList[item.speedDial - 1] = item
+    }
+  })
 
   return (
     <ModalComponent
@@ -73,16 +76,11 @@ const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
           <Col>{intl.formatMessage(messages.speedDialLabel)}</Col>
           <Col>{intl.formatMessage(messages.contactLabel)}</Col>
         </Labels>
-        {Array.from({ length: 8 }).map((_, index) => {
-          const speedDialNumber = index + 2
-          const speedDialContact = flatContactsList.find(
-            (contact) => contact.speedDial === speedDialNumber
-          )
-
+        {emptyContactList.map((item: Contact | undefined, i) => {
           return (
-            <Row size={RowSize.Small} key={index}>
-              <Col>{speedDialNumber}</Col>
-              <Col>{speedDialContact && createFullName(speedDialContact)}</Col>
+            <Row size={RowSize.Small} key={i}>
+              <Col>{item ? item.speedDial : i + 1}</Col>
+              <Col>{item ? createFullName(item) : "Empty"}</Col>
             </Row>
           )
         })}

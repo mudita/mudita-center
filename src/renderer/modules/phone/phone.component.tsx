@@ -31,6 +31,7 @@ import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-w
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
 import { ContactID } from "Renderer/models/phone/phone.typings"
+import { findMultipleContacts } from "Renderer/models/phone/phone.helpers"
 
 const ContactSection = styled.section`
   height: 100%;
@@ -44,6 +45,7 @@ export type PhoneProps = ContactActions &
   ContactDetailsActions & {
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
     getContact: (id: ContactID) => Contact
+    flatList: Contact[]
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -52,6 +54,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     editContact = noop,
     deleteContacts = noop,
     contactList = [],
+    flatList,
     onSearchTermChange,
     onManageButtonClick,
     onCall,
@@ -65,6 +68,30 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
   const detailsEnabled = activeRow && !newContact && !editedContact
+
+  const speedDialFindQuery = ({ speedDial }: any) => Boolean(speedDial)
+  const speedDialMapQuery = (item: ContactID) => getContact(item)
+  const speedDialSortQuery = (a: Contact, b: Contact) => {
+    if (a.speedDial && b.speedDial) {
+      if (a.speedDial > b.speedDial) {
+        return 1
+      } else if (a.speedDial < b.speedDial) {
+        return -1
+      }
+
+      return 0
+    }
+
+    return 0
+  }
+  const speedDialContactsBase = findMultipleContacts(
+    flatList,
+    speedDialFindQuery
+  )
+
+  const speedDialContacts = speedDialContactsBase
+    ?.map(speedDialMapQuery)
+    .sort(speedDialSortQuery)
 
   useEffect(() => {
     setContacts(contactList)
@@ -93,8 +120,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     setNewContact(undefined)
   }
 
-  const saveNewContact = async (contact: Contact) => {
-    await addContact(contact)
+  const saveNewContact = (contact: Contact) => {
+    addContact(contact)
     cancelAddingContact()
   }
 
@@ -109,9 +136,11 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     openSidebar(contact as Contact)
   }
 
-  const saveEditedContact = async (contact: Contact) => {
-    await editContact(contact.id, contact)
+  const saveEditedContact = (contact: Contact) => {
+    setEditedContact(contact)
+    editContact(contact.id, contact)
     cancelEditingContact(contact)
+    openSidebar(contact)
   }
 
   const openDeleteModal = (contact: Contact) => {
@@ -187,7 +216,11 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const openSpeedDialModal = () => {
     modalService.openModal(
-      <SpeedDialModal onSave={onSpeedDialSettingsSave} contacts={contactList} />
+      <SpeedDialModal
+        onSave={onSpeedDialSettingsSave}
+        contacts={flatList}
+        speedDialContacts={speedDialContacts}
+      />
     )
   }
 
