@@ -16,10 +16,10 @@ export const useFetchHelp = (
       const response = await ipcRenderer.invoke(
         HelpActions.DownloadContentfulData
       )
-      const normalizeData = normalizeHelpData(response)
-      setData(normalizeData)
+      const normalizedData = normalizeHelpData(response)
+      setData(normalizedData)
       if (saveToStore) {
-        await saveToStore(normalizeData)
+        await saveToStore(normalizedData)
       }
     }
 
