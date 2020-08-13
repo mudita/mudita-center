@@ -3,12 +3,10 @@ import React from "react"
 import HelpApp from "Renderer/wrappers/help-app.component"
 import { createMemoryHistory } from "history"
 import { URL_MAIN } from "Renderer/constants/urls"
-import { ipcRenderer } from "electron-better-ipc"
-import { HelpActions } from "Common/enums/help-actions.enum"
-import { contentfulSecondQuestion, contentfulSeed } from "App/seeds/help"
+import { data } from "App/seeds/help"
 import { waitFor } from "@testing-library/react"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
-import { fireEvent } from "@testing-library/dom"
+import { useFetchHelp } from "../utils/hooks/use-fetch-help/use-fetch-help"
 
 const renderer = () => {
   const saveToStore = jest.fn()
@@ -18,37 +16,15 @@ const renderer = () => {
   )
 }
 
-const mockIpc = () => {
-  ;(ipcRenderer as any).__rendererCalls = {
-    [HelpActions.DownloadContentfulData]: Promise.resolve({
-      ...contentfulSeed,
-    }),
-  }
-}
-
-beforeEach(() => {
-  mockIpc()
-})
-
-afterEach(() => {
-  ;(ipcRenderer as any).__rendererCalls = {}
-})
+jest.mock("../utils/hooks/use-fetch-help/use-fetch-help")
 
 test("render questions correctly", async () => {
+  ;(useFetchHelp as jest.Mock).mockReturnValue({ data })
   const { getAllByTestId } = renderer()
   await waitFor(() =>
     expect(getAllByTestId(HelpComponentTestIds.Question)).toHaveLength(
-      contentfulSeed.items.length
+      data.collection.length
     )
   )
-})
-
-test("renders correct amount of questions after search", async () => {
-  const { findByRole, findAllByTestId } = renderer()
-  const searchInput = await findByRole("searchbox")
-  fireEvent.change(searchInput, {
-    target: { value: contentfulSecondQuestion },
-  })
-  const questions = await findAllByTestId(HelpComponentTestIds.Question)
-  expect(questions).toHaveLength(1)
+  ;(useFetchHelp as jest.Mock).mockRestore()
 })

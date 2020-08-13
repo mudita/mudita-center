@@ -9,11 +9,11 @@ import { useFetchHelp } from "Renderer/utils/hooks/use-fetch-help/use-fetch-help
 
 interface Props {
   history: History
-  saveToStore: (data: QuestionAndAnswer) => Promise<any>
+  saveToStore?: (data: QuestionAndAnswer) => Promise<any>
 }
 
 const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
-  const { data, setData } = useFetchHelp()
+  const { data, setData } = useFetchHelp(saveToStore)
   const [searchValue, setSearchValue] = useState("")
 
   const searchQuestion = ({ target }: ChangeEvent<HTMLInputElement>) => {
