@@ -43,13 +43,12 @@ test("render questions correctly", async () => {
   )
 })
 
-test("should ", async () => {
-  const { getByRole, findAllByTestId, debug } = renderer()
+test("renders correct amount of questions after search", async () => {
+  const { getByRole, findAllByTestId } = renderer()
   const searchInput = getByRole("searchbox")
   fireEvent.change(searchInput, {
     target: { value: contentfulSecondQuestion },
   })
-  const elements = await findAllByTestId(HelpComponentTestIds.Question)
-  debug()
-  expect(elements).toHaveLength(1)
+  const questions = await findAllByTestId(HelpComponentTestIds.Question)
+  expect(questions).toHaveLength(1)
 })
