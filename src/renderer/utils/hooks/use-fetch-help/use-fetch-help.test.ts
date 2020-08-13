@@ -4,10 +4,6 @@ import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { contentfulSeed } from "App/seeds/help"
 
-afterEach(() => {
-  ;(ipcRenderer as any).__rendererCalls = {}
-})
-
 const mockIpc = () =>
   ((ipcRenderer as any).__rendererCalls = {
     [HelpActions.DownloadContentfulData]: Promise.resolve({
@@ -15,8 +11,13 @@ const mockIpc = () =>
     }),
   })
 
+beforeEach(() => mockIpc())
+
+afterEach(() => {
+  ;(ipcRenderer as any).__rendererCalls = {}
+})
+
 test("return correct amount of data", async () => {
-  mockIpc()
   const { result, waitForNextUpdate } = renderHook(() => useFetchHelp())
   await waitForNextUpdate()
   expect(result.current.data.collection).toHaveLength(
@@ -25,7 +26,6 @@ test("return correct amount of data", async () => {
 })
 
 test("callback works", async () => {
-  mockIpc()
   const saveToStore = jest.fn()
   const { waitForNextUpdate } = renderHook(() => useFetchHelp(saveToStore))
   await waitForNextUpdate()
