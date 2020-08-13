@@ -75,7 +75,7 @@ import SendButton from "Renderer/svg/send-button.svg"
 import MenuContacts from "Renderer/svg/menu-contacts.svg"
 import Backup from "Renderer/svg/backup.svg"
 import Tooltip from "Renderer/svg/tooltip.svg"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
   Arrow,

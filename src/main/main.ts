@@ -17,9 +17,17 @@ import registerOsUpdateAlreadyDownloadedCheck from "App/main/functions/register-
 import registerNewsListener from "App/main/functions/register-news-listener"
 import registerAppLogsListeners from "App/main/functions/register-app-logs-listener"
 import { ipcMain } from "electron-better-ipc"
-import { OpenNewWindow } from "Common/enums/open-new-window.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
+import { HelpActions } from "Common/enums/help-actions.enum"
+import {
+  registerDownloadHelpHandler,
+  removeDownloadHelpHandler,
+} from "App/main/functions/download-help-handler"
+import {
+  registerSetHelpStoreHandler,
+  removeSetHelpStoreHandler,
+} from "App/main/functions/set-help-store-handler"
 
 require("dotenv").config()
 
@@ -127,7 +135,7 @@ app.on("activate", () => {
   }
 })
 
-ipcMain.answerRenderer(OpenNewWindow.Help, (event, arg) => {
+ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
@@ -147,11 +155,15 @@ ipcMain.answerRenderer(OpenNewWindow.Help, (event, arg) => {
             search: `?mode=${Mode.Help}`,
           })
     )
+    registerDownloadHelpHandler()
+    registerSetHelpStoreHandler()
   } else {
     helpWindow.show()
   }
 
   helpWindow.on("closed", () => {
+    removeDownloadHelpHandler()
+    removeSetHelpStoreHandler()
     helpWindow = null
   })
 })

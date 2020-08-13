@@ -33,3 +33,8 @@ test("render title correctly", () => {
   const { getByTestId } = renderer()
   expect(getByTestId(HelpComponentTestIds.Title)).toHaveTextContent(titleText)
 })
+
+test("renders correct amount of links", () => {
+  const { getAllByRole } = renderer()
+  expect(getAllByRole("link")).toHaveLength(defaultProps.list.collection.length)
+})

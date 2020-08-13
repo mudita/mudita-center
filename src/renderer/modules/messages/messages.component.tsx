@@ -8,7 +8,7 @@ import {
   VisibilityFilter,
   Topic,
 } from "Renderer/models/messages/messages.interface"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import MessageDetails from "Renderer/components/rest/messages/message-details.component"

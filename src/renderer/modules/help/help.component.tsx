@@ -1,6 +1,6 @@
 import React from "react"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -19,10 +19,11 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { Link } from "react-router-dom"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
+import { HelpEntry } from "Renderer/utils/contentful/normalize-help-data"
 
 export interface QuestionAndAnswer {
   collection: string[]
-  items: Record<string, { question: string; answer: string }>
+  items: Record<string, HelpEntry>
 }
 
 interface HelpProps {
@@ -73,8 +74,9 @@ const textFormatters = {
   ),
 }
 
-const Help: FunctionComponent<HelpProps> = ({ list }) => {
-  const { collection, items } = list
+const Help: FunctionComponent<HelpProps> = ({
+  list: { collection = [], items },
+}) => {
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
       <HelpPanel>

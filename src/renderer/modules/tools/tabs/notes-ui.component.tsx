@@ -33,7 +33,7 @@ import {
   TextCut,
   DeleteCol,
 } from "Renderer/modules/tools/tabs/notes.styled"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import useSort from "Renderer/utils/hooks/use-sort/use-sort"
 import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"

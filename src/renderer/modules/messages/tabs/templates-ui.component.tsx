@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import TemplatesPanel from "Renderer/components/rest/messages/templates/templates-panel.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import TemplatesList from "Renderer/components/rest/messages/templates/templates-list.component"

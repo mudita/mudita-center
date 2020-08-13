@@ -4,7 +4,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import MemoryChartContainer from "Renderer/modules/filesManager/components/memory-chart.container"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 
 const FilesManagerWrapper = styled.div`

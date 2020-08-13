@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   Sidebar,
   SidebarHeaderIcon,
@@ -89,7 +89,7 @@ export const InfoItemName = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.SmallFadedText,
 }))`
   text-transform: uppercase;
-  color: ${textColor("disabled")};
+  color: ${textColor("secondary")};
 `
 
 const InfoItemSpeedDialNumber = styled(Text).attrs(() => ({

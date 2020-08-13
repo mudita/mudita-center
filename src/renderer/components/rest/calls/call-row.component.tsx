@@ -20,7 +20,7 @@ import {
 } from "Renderer/components/rest/messages/messages-list.component"
 import { resolveCallType } from "Renderer/components/rest/calls/call-details.helpers"
 import { createFullName } from "Renderer/models/phone/phone.utils"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import formatDuration from "Renderer/utils/format-duration"
 import { isToday } from "Renderer/utils/is-today"
 import { noop } from "Renderer/utils/noop"

@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css, keyframes } from "styled-components"
 import {
   borderColor,
@@ -28,7 +28,7 @@ import { defineMessages } from "react-intl"
 const Message = styled(Text)<{ dragging?: boolean }>`
   position: relative;
   z-index: ${({ dragging }) => (dragging ? -1 : 1)};
-  color: ${textColor("disabled")};
+  color: ${textColor("secondary")};
   letter-spacing: normal;
 
   strong {
@@ -135,7 +135,7 @@ const File = styled.li`
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: ${textColor("disabled")};
+    color: ${textColor("secondary")};
     margin: 0 2rem 0 0.5rem;
     white-space: nowrap;
   }
@@ -209,7 +209,7 @@ const InputFile: FunctionComponent<InputFileProps> = ({
 
   const removeTimeoutHandler = () => {
     if (errorMessageTimeout) {
-      clearTimeout(errorMessageTimeout as NodeJS.Timeout)
+      clearTimeout(errorMessageTimeout)
     }
   }
 
@@ -334,7 +334,7 @@ const InputFile: FunctionComponent<InputFileProps> = ({
           },
           intl.formatMessage(messages.countError, {
             limit: maxAllowedFiles,
-          }) as string
+          })
         )
 
         newFiles = newFiles.splice(0, maxAllowedFiles)

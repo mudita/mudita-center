@@ -11,7 +11,7 @@ import {
 } from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.styles"
 import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
 
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 
 interface DevModeProps extends DevMode {

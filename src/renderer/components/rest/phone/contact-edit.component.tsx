@@ -1,5 +1,5 @@
 import React, { FocusEvent } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import styled, { css } from "styled-components"
 import { Contact, NewContact } from "Renderer/models/phone/phone.interface"

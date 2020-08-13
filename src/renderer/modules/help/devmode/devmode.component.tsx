@@ -8,7 +8,7 @@ import {
 } from "Renderer/components/core/button/button.config"
 import { DevModeTestIds } from "Renderer/modules/help/devmode/devmode.interface"
 
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 interface Props {
   disable: () => void

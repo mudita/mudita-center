@@ -1,4 +1,5 @@
 import { startApp, stopApp } from "App/tests/hooks"
+import { MenuGropTestIds } from "Renderer/components/rest/menu/menu-grop-test-ids.enum"
 
 describe("Help", () => {
   let app: any
@@ -16,7 +17,7 @@ describe("Help", () => {
       .waitUntilWindowLoaded()
       .getWindowCount()
     expect(initialWindowCount).toEqual(1)
-    await app.client.$(`*[data-testid='help']`).click()
+    await app.client.$(`*[data-testid=${MenuGropTestIds.Help}]`).click()
     const windowCountAfterHelpClick = await app.client
       .waitUntilWindowLoaded()
       .getWindowCount()

@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { NetworkProps } from "Renderer/components/rest/overview/network/network.interface"
 import Text, {
   TextDisplayStyle,
@@ -20,7 +20,7 @@ const TextInfo = styled(CardText)`
   p {
     margin-top: 1.2rem;
     letter-spacing: ${letterSpacing("small")}rem;
-    color: ${textColor("disabled")};
+    color: ${textColor("secondary")};
   }
 `
 
@@ -76,7 +76,7 @@ const Network: FunctionComponent<NetworkProps> = ({
         tooltipTitle={messages.tooltipTitle}
         tooltipDescription={messages.tooltipDescription}
       >
-        {Boolean(simCards.length) ? (
+        {simCards.length ? (
           simCards.map((simCard) => {
             const onClick = () => onSimChange(simCard)
             return (

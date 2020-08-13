@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Dropdown, {
   DropdownPosition,
