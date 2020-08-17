@@ -16,6 +16,8 @@ const mockIpc = () =>
     }),
   })
 
+jest.mock("lodash/debounce", () => (fn: unknown) => fn)
+
 beforeEach(() => mockIpc())
 
 afterEach(() => {
@@ -42,7 +44,6 @@ test("search works", async () => {
   await waitForNextUpdate()
   act(() => {
     result.current.searchQuestion(seedQuestions[0])
-    result.current.searchValue = seedQuestions[0]
   })
   expect(result.current.data.collection).toHaveLength(1)
 })

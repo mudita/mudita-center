@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Route, RouteComponentProps, Router, Switch } from "react-router"
 import { URL_MAIN } from "Renderer/constants/urls"
@@ -13,9 +13,11 @@ interface Props {
 }
 
 const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
-  const { data, searchQuestion, searchValue, setSearchValue } = useHelpSearch(
-    saveToStore
-  )
+  const { data, searchQuestion } = useHelpSearch(saveToStore)
+  const [searchInputValue, setSearchInputValue] = useState("")
+  useEffect(() => {
+    searchQuestion(searchInputValue)
+  }, [searchInputValue])
   const AnswerComponent = (
     props: RouteComponentProps<{ questionId: string }>
   ) => renderAnswer(data, props)
@@ -26,9 +28,8 @@ const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
         <Route path={URL_MAIN.help}>
           <Help
             list={data}
-            searchQuestion={searchQuestion}
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
+            searchQuestion={setSearchInputValue}
+            searchValue={searchInputValue}
           />
         </Route>
       </Switch>

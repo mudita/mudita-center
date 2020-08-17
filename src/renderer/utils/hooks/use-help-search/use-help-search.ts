@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
@@ -29,29 +29,36 @@ export const useHelpSearch = (
   }, [])
 
   const searchQuestion = (value: string) => {
-    if (value.length >= 3) {
-      const filteredIds = Object.keys(data.items)
-        .map((id) => data.items[id])
-        .filter(({ question }) =>
-          question.toLowerCase().includes(value.toLowerCase())
-        )
-        .map(({ id }) => id)
-      setData({
-        ...data,
-        collection: filteredIds,
-      })
+    if (value) {
+      if (value.length >= 3) {
+        delaySearch(value)
+      }
+    } else {
+      delaySearch.cancel()
+      setSearchValue("")
     }
   }
 
-  const delayedSearchQuestion = useCallback(
-    debounce((value: string) => searchQuestion(value), 1000),
-    [data]
+  const delaySearch = useCallback(
+    debounce((value: string) => setSearchValue(value), 1000),
+    []
+  )
+
+  const filteredData = useMemo(
+    () => ({
+      ...data,
+      collection: Object.keys(data.items)
+        .map((id) => data.items[id])
+        .filter(({ question }) =>
+          question.toLowerCase().includes(searchValue.toLowerCase())
+        )
+        .map(({ id }) => id),
+    }),
+    [data, searchValue]
   )
 
   return {
-    data,
-    searchQuestion: delayedSearchQuestion,
-    searchValue,
-    setSearchValue,
+    data: filteredData,
+    searchQuestion,
   }
 }
