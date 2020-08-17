@@ -26,7 +26,6 @@ import InputSelect, {
 } from "Renderer/components/core/input-select/input-select.component"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import { speedDialNumbers } from "Renderer/models/phone/phone.utils"
 import { noop } from "Renderer/utils/noop"
 import {
   Buttons,
@@ -154,7 +153,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   const speedDialListItemRenderer = ({
     item,
     props,
-  }: RenderListItemProps<typeof speedDialNumbers[number]>) => (
+  }: RenderListItemProps<any>) => (
     <SpeedDialListItem {...props}>{item}</SpeedDialListItem>
   )
 
@@ -220,7 +219,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
                 name="speedDial"
                 ref={register}
                 disabled={!speedDialAssignPossible}
-                options={speedDialNumbers}
+                options={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
                 renderListItem={speedDialListItemRenderer}
                 label={intl.formatMessage(messages.speedDialKey)}
                 emptyOption={intl.formatMessage(

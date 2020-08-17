@@ -40,14 +40,14 @@ export type PhoneProps = ContactActions &
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
-    removeContact: (input: ContactID | ContactID[]) => void
+    removeContact?: (input: ContactID | ContactID[]) => void
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
   const {
-    addContact = noop,
-    editContact = noop,
-    removeContact = noop,
+    addContact,
+    editContact,
+    removeContact,
     contactList = [],
     flatList,
     onSearchTermChange,
@@ -117,7 +117,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const saveNewContact = (contact: Contact) => {
-    addContact(contact)
+    if (addContact) {
+      addContact(contact)
+    }
     cancelAddingContact()
   }
 
@@ -134,7 +136,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const saveEditedContact = (contact: Contact) => {
     setEditedContact(contact)
-    editContact(contact.id, contact)
+    if (editContact) {
+      editContact(contact.id, contact)
+    }
     cancelEditingContact(contact)
     openSidebar(contact)
   }
@@ -157,7 +161,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       )
 
       // await can be restored if we will process the result directly in here, not globally
-      removeContact(contact.id)
+      if (removeContact) {
+        removeContact(contact.id)
+      }
       await modalService.closeModal()
       closeSidebar()
     }
@@ -183,7 +189,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       ...contact,
       blocked: false,
     }
-    await editContact(unblockedContact.id, unblockedContact)
+    if (editContact) {
+      await editContact(unblockedContact.id, unblockedContact)
+    }
     if (detailsEnabled) {
       openSidebar(unblockedContact)
     }
@@ -199,7 +207,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         blocked: true,
         favourite: false,
       }
-      await editContact(blockedContact.id, blockedContact)
+      if (editContact) {
+        await editContact(blockedContact.id, blockedContact)
+      }
       await modalService.closeModal()
 
       if (detailsEnabled) {
@@ -277,7 +287,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           )}
           {detailsEnabled && (
             <ContactDetails
-              getContact={getContact}
               contact={activeRow as Contact}
               onClose={closeSidebar}
               onExport={noop}

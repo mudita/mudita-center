@@ -180,33 +180,7 @@ describe("redux tests", () => {
 
   test("creates proper flat list", () => {
     expect(
-      Array.isArray(store.select.phone.getFlatList(store.getState()))
-    ).toBeTruthy()
-  })
-
-  test("returns proper phone owner", () => {
-    expect(store.select.phone.getPhoneOwner(store.getState())).toMatchObject(
-      store.getState().phone.db["0"]
-    )
-  })
-
-  test("return proper user data", () => {
-    const TEST_USER_ID = store.getState().phone.collection[5]
-
-    expect(
-      store.select.phone.getContactDetails(store.getState(), TEST_USER_ID)
-    ).toMatchObject(store.getState().phone.db[TEST_USER_ID])
-  })
-
-  test("creates proper grouped object", () => {
-    const TEST_ARR = store.select.phone.getGrouped(store.getState()).A
-
-    expect(TEST_ARR).toBeTruthy()
-  })
-
-  test("creates proper grouped list", () => {
-    expect(
-      Array.isArray(store.select.phone.getGroupedAsList(store.getState()))
+      Array.isArray(store.select.phone.grouped(store.getState()))
     ).toBeTruthy()
   })
 })

@@ -1,8 +1,4 @@
 import { Slicer } from "@rematch/select"
-import {
-  filterContacts,
-  generateSortedStructure,
-} from "Renderer/models/phone/phone.utils"
 import { Contact, StoreData } from "Renderer/models/phone/phone.interface"
 import {
   BaseContactModel,
@@ -15,6 +11,7 @@ import {
   editContact,
   removeContact,
   revokeField,
+  generateSortedStructure,
 } from "Renderer/models/phone/phone.helpers"
 
 export const initialState: Phone = {
@@ -64,7 +61,7 @@ export default {
        * This is an example situation when two entities share the same (unique)
        * data, so one has to release it.
        */
-      if ("speedDial" in contact) {
+      if (Boolean(contact.speedDial)) {
         currentState = revokeField(state, { speedDial: contact.speedDial! })
       }
 
@@ -78,7 +75,7 @@ export default {
     ): Phone {
       let currentState = state
 
-      if ("speedDial" in data) {
+      if (Boolean(data.speedDial)) {
         currentState = revokeField(state, { speedDial: data.speedDial! })
       }
 
@@ -109,14 +106,7 @@ export default {
   selectors: (slice: Slicer<StoreData>) => ({
     grouped() {
       return slice((state) => {
-        return generateSortedStructure(
-          filterContacts(state.contacts, state.inputValue)
-        )
-      })
-    },
-    speedDialContacts() {
-      return slice((state) => {
-        return state.contacts.filter((contact: Contact) => contact.speedDial)
+        return generateSortedStructure(state)
       })
     },
   }),

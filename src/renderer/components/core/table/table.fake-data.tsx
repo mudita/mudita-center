@@ -2,7 +2,6 @@ import Faker from "faker"
 import { groupBy, random, sample, times } from "lodash"
 import { CallStatus } from "Renderer/models/calls/calls.interface"
 import { Author } from "Renderer/models/messages/messages.interface"
-import { generateFakeContact } from "Renderer/models/phone/phone.utils"
 import { resolveCallType } from "Renderer/components/rest/calls/call-details.helpers"
 
 const createCall = () => {
@@ -50,11 +49,7 @@ const generateEmptyContact = (): Author => ({
   primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
 })
 
-const createAuthor = (inContacts: boolean): Author => {
-  return inContacts
-    ? (generateFakeContact([], { forcePrimaryPhoneNumber: true }) as any)
-    : generateEmptyContact()
-}
+const createAuthor = (): Author => generateEmptyContact()
 
 const createMessages = (author: Author) => {
   const interlocutor = Faker.random.boolean()
@@ -75,8 +70,7 @@ const createMessages = (author: Author) => {
 }
 
 const createTopic = () => {
-  const inContacts = Faker.random.boolean()
-  const caller = createAuthor(inContacts)
+  const caller = createAuthor()
   const createMessagesWithAuthor = () => createMessages(caller)
   return {
     id: Faker.random.uuid(),

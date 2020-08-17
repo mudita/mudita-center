@@ -12,7 +12,6 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { noop } from "Renderer/utils/noop"
-import { ContactID } from "Renderer/models/phone/phone.typings"
 import {
   AdditionalInfo,
   AdditionalInfoItem,
@@ -57,7 +56,6 @@ interface ContactDetailsProps
     ContactActions,
     ContactDetailsActions {
   contact: Contact
-  getContact: (id: ContactID) => Contact
 }
 
 export const phoneActions = (
@@ -94,7 +92,6 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onDelete,
   onCall,
   onMessage,
-  getContact,
   ...rest
 }) => {
   const handleEdit = () => onEdit(contact)
