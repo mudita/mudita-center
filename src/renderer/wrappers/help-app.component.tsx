@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react"
+import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Route, RouteComponentProps, Router, Switch } from "react-router"
 import { URL_MAIN } from "Renderer/constants/urls"
@@ -13,23 +13,7 @@ interface Props {
 }
 
 const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
-  const { data, setData } = useFetchHelp(saveToStore)
-  const [searchValue, setSearchValue] = useState("")
-
-  const searchQuestion = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(target.value)
-    const filteredIds = Object.keys(data.items)
-      .map((id) => data.items[id])
-      .filter(({ question }) =>
-        question.toLowerCase().includes(target.value.toLowerCase())
-      )
-      .map(({ id }) => id)
-    setData({
-      ...data,
-      collection: filteredIds,
-    })
-  }
-
+  const { data, searchQuestion, searchValue } = useFetchHelp(saveToStore)
   const AnswerComponent = (
     props: RouteComponentProps<{ questionId: string }>
   ) => renderAnswer(data, props)

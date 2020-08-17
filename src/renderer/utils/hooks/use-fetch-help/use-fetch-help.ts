@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
@@ -11,6 +11,7 @@ export const useFetchHelp = (
     collection: [],
     items: {},
   })
+  const [searchValue, setSearchValue] = useState("")
   useEffect(() => {
     const fetchData = async () => {
       const response = await ipcRenderer.invoke(
@@ -26,8 +27,23 @@ export const useFetchHelp = (
     fetchData()
   }, [])
 
+  const searchQuestion = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(target.value)
+    const filteredIds = Object.keys(data.items)
+      .map((id) => data.items[id])
+      .filter(({ question }) =>
+        question.toLowerCase().includes(target.value.toLowerCase())
+      )
+      .map(({ id }) => id)
+    setData({
+      ...data,
+      collection: filteredIds,
+    })
+  }
+
   return {
     data,
-    setData,
+    searchQuestion,
+    searchValue,
   }
 }

@@ -51,6 +51,8 @@ const answer: Document = {
   ],
 }
 
+export const exampleQuestion = "aaaasdsadia11"
+
 export const contentfulSeed = {
   sys: {
     type: "Array",
@@ -90,7 +92,7 @@ export const contentfulSeed = {
         locale: "en-US",
       },
       fields: {
-        question: "asdsadia11",
+        question: exampleQuestion,
         answer: {
           nodeType: "document",
           data: {},
