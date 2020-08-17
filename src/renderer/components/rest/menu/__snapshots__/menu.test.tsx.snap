@@ -724,6 +724,7 @@ exports[`matches snapshot 1`] = `
     >
       <button
         class="c16"
+        data-testid="help-menu-button"
         size="2"
         type="button"
       >
