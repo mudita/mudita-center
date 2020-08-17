@@ -4,7 +4,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { normalizeHelpData } from "Renderer/utils/contentful/normalize-help-data"
 
-export const useFetchHelp = (
+export const useHelpSearch = (
   saveToStore?: (data: QuestionAndAnswer) => Promise<any>
 ) => {
   const [data, setData] = useState<QuestionAndAnswer>({

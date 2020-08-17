@@ -5,7 +5,7 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { History } from "history"
 import Help, { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { renderAnswer } from "Renderer/modules/help/render-utils"
-import { useFetchHelp } from "Renderer/utils/hooks/use-fetch-help/use-fetch-help"
+import { useHelpSearch } from "Renderer/utils/hooks/use-help-search/use-help-search"
 
 interface Props {
   history: History
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
-  const { data, searchQuestion, searchValue } = useFetchHelp(saveToStore)
+  const { data, searchQuestion, searchValue } = useHelpSearch(saveToStore)
   const AnswerComponent = (
     props: RouteComponentProps<{ questionId: string }>
   ) => renderAnswer(data, props)

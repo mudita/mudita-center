@@ -6,7 +6,7 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { data } from "App/seeds/help"
 import { waitFor } from "@testing-library/react"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
-import { useFetchHelp } from "../utils/hooks/use-fetch-help/use-fetch-help"
+import { useHelpSearch } from "../utils/hooks/use-help-search/use-help-search"
 
 const renderer = () => {
   return renderWithThemeAndIntl(
@@ -16,15 +16,15 @@ const renderer = () => {
   )
 }
 
-jest.mock("../utils/hooks/use-fetch-help/use-fetch-help")
+jest.mock("../utils/hooks/use-help-search/use-help-search")
 
 test("render questions correctly", async () => {
-  ;(useFetchHelp as jest.Mock).mockReturnValue({ data })
+  ;(useHelpSearch as jest.Mock).mockReturnValue({ data })
   const { getAllByTestId } = renderer()
   await waitFor(() =>
     expect(getAllByTestId(HelpComponentTestIds.Question)).toHaveLength(
       data.collection.length
     )
   )
-  ;(useFetchHelp as jest.Mock).mockRestore()
+  ;(useHelpSearch as jest.Mock).mockRestore()
 })

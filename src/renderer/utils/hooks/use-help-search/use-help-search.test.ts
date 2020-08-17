@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react-hooks"
-import { useFetchHelp } from "Renderer/utils/hooks/use-fetch-help/use-fetch-help"
+import { useHelpSearch } from "Renderer/utils/hooks/use-help-search/use-help-search"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { contentfulSeed, exampleQuestion } from "App/seeds/help"
@@ -19,7 +19,7 @@ afterEach(() => {
 })
 
 test("return correct amount of data", async () => {
-  const { result, waitForNextUpdate } = renderHook(() => useFetchHelp())
+  const { result, waitForNextUpdate } = renderHook(() => useHelpSearch())
   await waitForNextUpdate()
   expect(result.current.data.collection).toHaveLength(
     contentfulSeed.items.length
@@ -28,13 +28,13 @@ test("return correct amount of data", async () => {
 
 test("callback works", async () => {
   const saveToStore = jest.fn()
-  const { waitForNextUpdate } = renderHook(() => useFetchHelp(saveToStore))
+  const { waitForNextUpdate } = renderHook(() => useHelpSearch(saveToStore))
   await waitForNextUpdate()
   expect(saveToStore).toBeCalled()
 })
 
 test("search works", async () => {
-  const { result, waitForNextUpdate } = renderHook(() => useFetchHelp())
+  const { result, waitForNextUpdate } = renderHook(() => useHelpSearch())
   await waitForNextUpdate()
   const event = { target: { value: exampleQuestion } }
   act(() => {
