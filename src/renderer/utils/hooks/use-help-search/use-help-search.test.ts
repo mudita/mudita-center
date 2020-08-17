@@ -41,10 +41,10 @@ test("callback works", async () => {
 
 test("search works", async () => {
   const { result, waitForNextUpdate } = renderHook(() => useHelpSearch())
+  await waitForNextUpdate()
   act(() => {
     result.current.searchQuestion(seedQuestions[0])
   })
-  await waitForNextUpdate()
   expect(result.current.data.collection).toHaveLength(1)
 })
 
