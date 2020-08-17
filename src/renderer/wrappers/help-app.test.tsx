@@ -18,13 +18,14 @@ const renderer = () => {
 
 jest.mock("../utils/hooks/use-help-search/use-help-search")
 
+beforeEach(() => (useHelpSearch as jest.Mock).mockReturnValue({ data }))
+afterEach(() => (useHelpSearch as jest.Mock).mockRestore())
+
 test("render questions correctly", async () => {
-  ;(useHelpSearch as jest.Mock).mockReturnValue({ data })
   const { getAllByTestId } = renderer()
   await waitFor(() =>
     expect(getAllByTestId(HelpComponentTestIds.Question)).toHaveLength(
       data.collection.length
     )
   )
-  ;(useHelpSearch as jest.Mock).mockRestore()
 })
