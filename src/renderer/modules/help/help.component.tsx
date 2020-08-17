@@ -27,8 +27,9 @@ export interface QuestionAndAnswer {
 
 interface HelpProps {
   list: QuestionAndAnswer
-  searchQuestion: (event: ChangeEvent<HTMLInputElement>) => void
+  searchQuestion: (value: string) => void
   searchValue?: string
+  setSearchValue: (value: string) => void
 }
 
 const HelpPanel = styled.div`
@@ -79,7 +80,12 @@ const Help: FunctionComponent<HelpProps> = ({
   list: { collection = [], items },
   searchQuestion,
   searchValue,
+  setSearchValue,
 }) => {
+  const search = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value)
+    searchQuestion(event.target.value)
+  }
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
       <HelpPanel>
@@ -97,7 +103,7 @@ const Help: FunctionComponent<HelpProps> = ({
             id: "view.name.messages.search",
           })}
           outlined
-          onChange={searchQuestion}
+          onChange={search}
           leadingIcons={[searchIcon]}
           value={searchValue}
         />

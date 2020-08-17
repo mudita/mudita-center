@@ -13,7 +13,9 @@ interface Props {
 }
 
 const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
-  const { data, searchQuestion, searchValue } = useHelpSearch(saveToStore)
+  const { data, searchQuestion, searchValue, setSearchValue } = useHelpSearch(
+    saveToStore
+  )
   const AnswerComponent = (
     props: RouteComponentProps<{ questionId: string }>
   ) => renderAnswer(data, props)
@@ -26,6 +28,7 @@ const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
             list={data}
             searchQuestion={searchQuestion}
             searchValue={searchValue}
+            setSearchValue={setSearchValue}
           />
         </Route>
       </Switch>

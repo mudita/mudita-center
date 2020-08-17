@@ -8,7 +8,6 @@ import {
   seedCollectionIds,
   seedQuestions,
 } from "App/seeds/help"
-import { ChangeEvent } from "react"
 
 const mockIpc = () =>
   ((ipcRenderer as any).__rendererCalls = {
@@ -41,14 +40,10 @@ test("callback works", async () => {
 test("search works", async () => {
   const { result, waitForNextUpdate } = renderHook(() => useHelpSearch())
   await waitForNextUpdate()
-  const event = { target: { value: seedQuestions[0] } }
   act(() => {
-    result.current.searchQuestion(
-      (event as unknown) as ChangeEvent<HTMLInputElement>
-    )
+    result.current.searchQuestion(seedQuestions[0])
+    result.current.searchValue = seedQuestions[0]
   })
-
-  expect(result.current.searchValue).toEqual(seedQuestions[0])
   expect(result.current.data.collection).toHaveLength(1)
 })
 

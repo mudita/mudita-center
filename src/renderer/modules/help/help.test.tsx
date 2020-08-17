@@ -10,6 +10,7 @@ import { fireEvent } from "@testing-library/dom"
 const defaultProps = {
   list: data,
   searchQuestion: jest.fn(),
+  setSearchValue: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {
