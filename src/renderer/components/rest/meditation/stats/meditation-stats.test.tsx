@@ -4,7 +4,12 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import MeditationStats, {
   MeditationStatsProps,
 } from "Renderer/components/rest/meditation/stats/meditation-stats.component"
-import { generateMeditationData } from "App/__mocks__/meditation-stats.mock"
+import {
+  generateMeditationData,
+  statsMonthly,
+  statsWeekly,
+  statsYearly,
+} from "App/__mocks__/meditation-stats.mock"
 import {
   ChartType,
   MeditationStatsTestIds,
@@ -38,9 +43,13 @@ let chart: ReturnType<typeof renderMeditationStats>
 
 describe("general meditation stats", () => {
   beforeEach(() => {
+    jest.mock("moment", () => () => ({
+      format: () => "2020-08-21",
+      daysInMonth: () => 31,
+    }))
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
-      statsData: generateMeditationData(),
+      statsData: statsWeekly,
     })
   })
 
@@ -66,10 +75,18 @@ describe("general meditation stats", () => {
 
 describe("weekly meditation stats", () => {
   beforeEach(() => {
+    jest.mock("moment", () => () => ({
+      format: () => "2020-08-21",
+      daysInMonth: () => 31,
+    }))
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
       statsData: generateMeditationData(),
     })
+  })
+
+  afterEach(() => {
+    jest.clearAllMocks()
   })
 
   test("renders weekdays bars properly", () => {
@@ -106,12 +123,22 @@ describe("weekly meditation stats", () => {
 })
 
 describe("monthly meditation stats", () => {
+  jest.mock("moment", () => () => ({
+    format: () => "2020-08-21",
+    daysInMonth: () => 31,
+  }))
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Monthly,
-      statsData: generateMeditationData(ChartType.Monthly),
+      statsData: statsMonthly,
     })
   })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+  const dayIndex = 20
 
   test("renders days bars properly", () => {
     const { getBarWrappers, getGroupWrappers } = chart
@@ -128,7 +155,6 @@ describe("monthly meditation stats", () => {
 
   test("highlights current bar properly", () => {
     const { getBarWrappers } = chart
-    const dayIndex = Number(moment().format("D"))
     const currentBarWrapper = getBarWrappers()[dayIndex]
 
     expect(currentBarWrapper.querySelector("div")).toHaveStyleRule(
@@ -139,7 +165,6 @@ describe("monthly meditation stats", () => {
 
   test("highlights current label properly", () => {
     const { getXLabels } = chart
-    const dayIndex = Number(moment().format("D"))
 
     expect(getXLabels()[Math.ceil(dayIndex / 7) - 1]).toHaveStyle(
       "font-weight: 600;"
@@ -148,12 +173,22 @@ describe("monthly meditation stats", () => {
 })
 
 describe("yearly meditation stats", () => {
+  jest.mock("moment", () => () => ({
+    format: () => "Aug",
+    daysInMonth: () => 31,
+  }))
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Yearly,
-      statsData: generateMeditationData(ChartType.Yearly),
+      statsData: statsYearly,
     })
   })
+
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+  const monthIndex = 7
 
   test("renders months bars properly", () => {
     const { getBarWrappers } = chart
@@ -162,7 +197,6 @@ describe("yearly meditation stats", () => {
 
   test("highlights current bar properly", () => {
     const { getBarWrappers } = chart
-    const monthIndex = Number(moment().format("M")) - 1
     const currentBarWrapper = getBarWrappers()[monthIndex]
 
     expect(currentBarWrapper.querySelector("div")).toHaveStyleRule(
@@ -173,7 +207,8 @@ describe("yearly meditation stats", () => {
 
   test("highlights current label properly", () => {
     const { getXLabels } = chart
-    const monthIndex = Number(moment().format("M")) - 1
+    // const monthIndex = Number(moment().format("M")) - 1
+    // console.log(monthIndex)
 
     expect(getXLabels()[monthIndex]).toHaveStyle("font-weight: 600;")
   })
