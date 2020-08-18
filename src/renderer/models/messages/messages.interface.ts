@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react"
-import { Contact } from "Renderer/models/phone/phone.interface"
+import { Contact } from "Renderer/models/phone/phone.typings"
 
 export type Author = Pick<
   Contact,

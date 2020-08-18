@@ -4,7 +4,7 @@ import Phone, { PhoneProps } from "Renderer/modules/phone/phone.component"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
 import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
-import { Contact, ResultsState } from "Renderer/models/phone/phone.interface"
+import { Contact } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
   defaultContact,
 } from "Renderer/components/rest/phone/contact-edit.component"
@@ -21,7 +21,7 @@ import {
   generateFlatList,
   generateSortedStructure,
 } from "Renderer/models/phone/phone.helpers"
-import { ContactID } from "Renderer/models/phone/phone.typings"
+import { ContactID, ResultsState } from "Renderer/models/phone/phone.typings"
 
 const getContact = (id: ContactID) => phoneSeed.db[id]
 const labeledContactList: any = generateSortedStructure(phoneSeed)

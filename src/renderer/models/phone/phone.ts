@@ -1,9 +1,10 @@
 import { Slicer } from "@rematch/select"
-import { Contact, StoreData } from "Renderer/models/phone/phone.interface"
+import { Contact } from "Renderer/models/phone/phone.typings"
 import {
   BaseContactModel,
   ContactID,
   Phone,
+  StoreData,
 } from "Renderer/models/phone/phone.typings"
 
 import {
@@ -61,8 +62,8 @@ export default {
        * This is an example situation when two entities share the same (unique)
        * data, so one has to release it.
        */
-      if (Boolean(contact.speedDial)) {
-        currentState = revokeField(state, { speedDial: contact.speedDial! })
+      if (contact.speedDial) {
+        currentState = revokeField(state, { speedDial: contact.speedDial })
       }
 
       return addContacts(currentState, contact)
@@ -75,8 +76,8 @@ export default {
     ): Phone {
       let currentState = state
 
-      if (Boolean(data.speedDial)) {
-        currentState = revokeField(state, { speedDial: data.speedDial! })
+      if (data.speedDial) {
+        currentState = revokeField(state, { speedDial: data.speedDial })
       }
 
       return editContact(currentState, contactID, data)

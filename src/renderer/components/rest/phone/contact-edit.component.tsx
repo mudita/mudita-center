@@ -1,6 +1,6 @@
 import React, { FocusEvent } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Contact, NewContact } from "Renderer/models/phone/phone.interface"
+import { Contact } from "Renderer/models/phone/phone.typings"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -38,6 +38,7 @@ import {
   speedDialListStyles,
   SpeedDialSettings,
 } from "Renderer/components/rest/phone/contact-edit.styled"
+import { NewContact } from "Renderer/models/phone/phone.typings"
 
 const messages = defineMessages({
   editTitle: { id: "view.name.phone.contacts.edit.title" },

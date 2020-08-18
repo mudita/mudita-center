@@ -1,9 +1,9 @@
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook.class"
 import {
   Contact,
-  ContactUid,
+  ContactID,
   NewContact,
-} from "Renderer/models/phone/phone.interface"
+} from "Renderer/models/phone/phone.typings"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -25,7 +25,7 @@ class PhonebookFake extends PhonebookAdapter {
     }
   }
 
-  public addContact(contact: NewContact): DeviceResponse<Contact> {
+  public addContact(contact: NewContact): DeviceResponse<any> {
     return {
       status: DeviceResponseStatus.Ok,
       data: {
@@ -42,9 +42,7 @@ class PhonebookFake extends PhonebookAdapter {
     }
   }
 
-  public deleteContacts(
-    contactsIds: ContactUid[]
-  ): DeviceResponse<ContactUid[]> {
+  public deleteContacts(contactsIds: ContactID[]): DeviceResponse<ContactID[]> {
     return {
       status: DeviceResponseStatus.Ok,
       data: contactsIds,

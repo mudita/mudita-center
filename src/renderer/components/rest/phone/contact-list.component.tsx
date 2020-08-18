@@ -1,11 +1,5 @@
 import React, { createRef, Ref, useEffect } from "react"
-import {
-  Contact,
-  ContactCategory,
-  Contacts,
-  NewContact,
-  ResultsState,
-} from "Renderer/models/phone/phone.interface"
+import { Contact } from "Renderer/models/phone/phone.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -46,6 +40,12 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
+import {
+  ContactCategory,
+  Contacts,
+  NewContact,
+  ResultsState,
+} from "Renderer/models/phone/phone.typings"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
