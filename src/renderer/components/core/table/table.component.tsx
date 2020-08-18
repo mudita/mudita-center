@@ -13,7 +13,7 @@ import {
   width,
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import styled, { css } from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -126,7 +126,7 @@ const columnLabelStyles = css`
   z-index: 2;
   ${Col} {
     ${getTextStyles(TextDisplayStyle.SmallFadedText)};
-    color: ${textColor("disabled")};
+    color: ${textColor("secondary")};
     text-transform: uppercase;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;

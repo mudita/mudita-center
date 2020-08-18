@@ -1,5 +1,5 @@
 import Button from "Renderer/components/core/button/button.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
 import React, { useEffect, useState } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
@@ -119,7 +119,7 @@ const Overview: FunctionComponent<
         body={{
           id: messages.backupFinishedModalBody.id,
           values: {
-            destination: "/var/null",
+            destination: "C:/Mudita OS",
             ...textFormatters,
           },
         }}

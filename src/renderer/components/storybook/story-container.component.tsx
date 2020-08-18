@@ -1,5 +1,5 @@
 import React, { createContext, ReactElement } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { FlattenInterpolation } from "styled-components"
 import { Heading, Wrapper } from "./storybook.elements"
 

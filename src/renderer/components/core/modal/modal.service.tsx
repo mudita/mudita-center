@@ -24,7 +24,7 @@ import history from "Renderer/routes/history"
 import { Store } from "Renderer/store"
 import { ThemeProvider } from "styled-components"
 import theme from "Renderer/styles/theming/theme"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 enum ModalError {
   NoModalToClose = "Close modal action cannot be performed. There is no modal opened.",
@@ -49,10 +49,10 @@ export class ModalService {
   private defaultLocale?: string
   private modalElement: HTMLDivElement | null = null
   private backdropElement: HTMLDivElement | null = null
-  private modalOpened: boolean = false
-  private backdropOpened: boolean = false
-  private modalClosingAllowed: boolean = true
-  private backdropClosingAllowed: boolean = true
+  private modalOpened = false
+  private backdropOpened = false
+  private modalClosingAllowed = true
+  private backdropClosingAllowed = true
   private eventListeners: EventListeners[] = []
   private modalsQueue: ReactElement[] = []
 
@@ -72,7 +72,7 @@ export class ModalService {
     return this.modalOpened && this.backdropOpened
   }
 
-  public async closeModal(force: boolean = false) {
+  public async closeModal(force = false) {
     if (!this.isModalOpen()) {
       logError(ModalError.NoModalToClose)
       return
@@ -124,7 +124,7 @@ export class ModalService {
     this.backdropClosingAllowed = true
   }
 
-  public async openModal(modal: ReactElement, force: boolean = false) {
+  public async openModal(modal: ReactElement, force = false) {
     if (this.isModalOpen()) {
       if (force) {
         this.backdropClosingAllowed = false
@@ -160,7 +160,7 @@ export class ModalService {
     type: EventListeners["type"],
     element: EventListeners["element"],
     event: EventListeners["event"],
-    once: boolean = false
+    once = false
   ) {
     const eventWrapper = (e: Event) => {
       event(e)

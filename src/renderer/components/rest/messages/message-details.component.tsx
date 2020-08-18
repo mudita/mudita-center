@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   Sidebar,
   SidebarHeaderIcon,
@@ -17,6 +17,7 @@ import MessageBubble from "Renderer/components/rest/messages/message-bubble.comp
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import { intl } from "Renderer/utils/intl"
 
 interface Props {
   details: ActiveRow
@@ -151,6 +152,9 @@ const MessageDetails: FunctionComponent<Props> = ({
           leadingIcons={leadingIcons}
           trailingIcons={trailingIcon}
           disabled
+          label={intl.formatMessage({
+            id: "view.name.messages.textAreaPlaceholder",
+          })}
         />
       </TextareaWrapper>
     </MessagesSidebar>

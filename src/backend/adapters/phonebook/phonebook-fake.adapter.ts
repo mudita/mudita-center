@@ -52,7 +52,6 @@ class PhonebookFake extends PhonebookAdapter {
   }
 }
 
-const createFakePhonebookAdapter = ({}: PhonebookFakeAdapterProps): PhonebookAdapter =>
-  new PhonebookFake()
+const createFakePhonebookAdapter = (): PhonebookAdapter => new PhonebookFake()
 
 export default createFakePhonebookAdapter

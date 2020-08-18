@@ -4,7 +4,7 @@ import {
   TextArea,
 } from "Renderer/components/core/input-text/input-text.elements"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export const InputComponent: FunctionComponent<InputComponentProps> = ({
   type = "text",

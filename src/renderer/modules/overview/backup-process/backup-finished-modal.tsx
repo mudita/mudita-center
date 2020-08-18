@@ -1,5 +1,5 @@
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -49,7 +49,6 @@ export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = 
   return (
     <Modal
       size={ModalSize.Medium}
-      title={title}
       closeButton={false}
       onActionButtonClick={closeAction}
       actionButtonLabel={closeLabel}
@@ -58,8 +57,12 @@ export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = 
         <Icon type={Type.FilesManager} width={5} />
       </ModalIcon>
       <LoadingModalText
+        message={{ id: title }}
+        displayStyle={TextDisplayStyle.LargeBoldText}
+      />
+      <LoadingModalText
         message={body}
-        displayStyle={TextDisplayStyle.LargeFadedText}
+        displayStyle={TextDisplayStyle.MediumFadedLightText}
       />
       <FileList>
         <Labels>

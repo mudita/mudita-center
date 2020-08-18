@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { BackupProps } from "Renderer/components/rest/overview/backup/backup.interface"
 import Card, {
   CardAction,
@@ -33,7 +33,7 @@ const messages = defineMessages({
 const LastBackup = styled(CardText)`
   span {
     letter-spacing: ${letterSpacing("small")}rem;
-    color: ${textColor("disabled")};
+    color: ${textColor("secondary")};
     margin-bottom: 1.2rem;
     display: block;
   }
@@ -48,7 +48,7 @@ const LastBackup = styled(CardText)`
 const FirstBackup = styled(CardText)`
   p {
     letter-spacing: ${letterSpacing("small")}rem;
-    color: ${textColor("disabled")};
+    color: ${textColor("secondary")};
   }
 `
 

@@ -6,7 +6,7 @@ import {
   NewContact,
   ResultsState,
 } from "Renderer/models/phone/phone.interface"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
   Col,
@@ -166,7 +166,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   } = useTableSelect<Contact, ContactCategory>(contactList, "contacts")
 
   useEffect(() => {
-    onCheck(selectedRows as Contact[])
+    onCheck(selectedRows)
   }, [selectedRows])
 
   useEffect(() => {

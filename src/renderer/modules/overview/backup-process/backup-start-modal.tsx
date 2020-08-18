@@ -1,5 +1,5 @@
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -36,7 +36,7 @@ export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
     </ModalIcon>
     <LoadingModalText
       message={body}
-      displayStyle={TextDisplayStyle.LargeFadedText}
+      displayStyle={TextDisplayStyle.MediumFadedLightText}
     />
   </Modal>
 )
