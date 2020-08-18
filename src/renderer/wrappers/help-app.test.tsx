@@ -18,7 +18,12 @@ const renderer = () => {
 
 jest.mock("../utils/hooks/use-help-search/use-help-search")
 
-beforeEach(() => (useHelpSearch as jest.Mock).mockReturnValue({ data }))
+beforeEach(() =>
+  (useHelpSearch as jest.Mock).mockReturnValue({
+    data,
+    searchQuestion: jest.fn(),
+  })
+)
 afterEach(() => (useHelpSearch as jest.Mock).mockRestore())
 
 test("render questions correctly", async () => {
