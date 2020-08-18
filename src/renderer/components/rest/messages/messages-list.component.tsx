@@ -301,7 +301,7 @@ const MessagesList: FunctionComponent<Props> = ({
             <Col />
             <Col>
               <AvatarPlaceholder />
-              <TextPlaceholder charsCount={caller.firstName.length} />
+              <TextPlaceholder charsCount={caller.firstName?.length || 0} />
             </Col>
           </MessageRow>
         )

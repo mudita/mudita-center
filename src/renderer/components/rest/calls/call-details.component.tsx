@@ -93,17 +93,19 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
             </ButtonWrapper>
             <>
               <AdditionalInfo>
-                <AdditionalInfoItem>
-                  <InfoItemName message={messages.information} />
-                  <Input
-                    value={details.caller.primaryPhoneNumber}
-                    trailingIcons={phoneActions(
-                      details.caller.primaryPhoneNumber,
-                      noop,
-                      noop
-                    )}
-                  />
-                </AdditionalInfoItem>
+                {details.caller.primaryPhoneNumber && (
+                  <AdditionalInfoItem>
+                    <InfoItemName message={messages.information} />
+                    <Input
+                      value={details.caller.primaryPhoneNumber}
+                      trailingIcons={phoneActions(
+                        details.caller.primaryPhoneNumber,
+                        noop,
+                        noop
+                      )}
+                    />
+                  </AdditionalInfoItem>
+                )}
                 <AdditionalInfoItem>
                   <InfoItemName message={messages.type} />
                   <Input
