@@ -14,6 +14,9 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import HelpApp from "Renderer/wrappers/help-app.component"
 import BaseApp from "Renderer/wrappers/base-app.component"
 import { Mode } from "Common/enums/mode.enum"
+import { ipcRenderer } from "electron-better-ipc"
+import { HelpActions } from "Common/enums/help-actions.enum"
+import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 
 interface Props {
   store: Store
@@ -22,6 +25,8 @@ interface Props {
 
 const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   const params = new URLSearchParams(window.location.search)
+  const saveToStore = async (normalizeData: QuestionAndAnswer) =>
+    await ipcRenderer.invoke(HelpActions.SetStoreValue, normalizeData)
   return (
     <ThemeProvider theme={theme}>
       <IntlProvider
@@ -34,7 +39,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
             <Normalize />
             <GlobalStyle />
             {params.get("mode") === Mode.Help ? (
-              <HelpApp history={history} />
+              <HelpApp history={history} saveToStore={saveToStore} />
             ) : (
               <BaseApp store={store} history={history} />
             )}

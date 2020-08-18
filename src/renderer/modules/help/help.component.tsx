@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ChangeEvent } from "react"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
@@ -8,7 +8,6 @@ import styled from "styled-components"
 import { intl } from "Renderer/utils/intl"
 import InputText from "Renderer/components/core/input-text/input-text.component"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
-import { noop } from "Renderer/utils/noop"
 import {
   backgroundColor,
   transitionTime,
@@ -28,6 +27,8 @@ export interface QuestionAndAnswer {
 
 interface HelpProps {
   list: QuestionAndAnswer
+  searchQuestion: (value: string) => void
+  searchValue?: string
 }
 
 const HelpPanel = styled.div`
@@ -76,7 +77,13 @@ const textFormatters = {
 
 const Help: FunctionComponent<HelpProps> = ({
   list: { collection = [], items },
+  searchQuestion,
+  searchValue,
 }) => {
+  const search = (event: ChangeEvent<HTMLInputElement>) => {
+    searchQuestion(event.target.value)
+  }
+
   return (
     <div data-testid={HelpComponentTestIds.Wrapper}>
       <HelpPanel>
@@ -94,15 +101,19 @@ const Help: FunctionComponent<HelpProps> = ({
             id: "view.name.messages.search",
           })}
           outlined
-          defaultValue={""}
-          onChange={noop}
+          onChange={search}
           leadingIcons={[searchIcon]}
+          value={searchValue}
         />
       </HelpPanel>
       <QuestionsContainer>
         {collection.map((id: string) => {
           return (
-            <Question key={id} to={`${URL_MAIN.help}/${id}`}>
+            <Question
+              key={id}
+              to={`${URL_MAIN.help}/${id}`}
+              data-testid={HelpComponentTestIds.Question}
+            >
               <Text displayStyle={TextDisplayStyle.LargeText}>
                 {items[id].question}
               </Text>
