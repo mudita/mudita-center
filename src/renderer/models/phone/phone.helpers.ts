@@ -61,7 +61,7 @@ export const contactFactory = (
   if (guard(input)) {
     return (Object.keys(input).reduce((acc: SimpleRecord, key: string) => {
       const value = input[key]
-      const item = Boolean(value) ? numberFormatter({ [key]: value }) : {}
+      const item = value ? numberFormatter({ [key]: value }) : {}
 
       return {
         ...acc,
@@ -250,7 +250,7 @@ export const generateFlatList = ({ collection, db }: Phone): Contact[] => {
 export const findContact = (
   phone: Contact[] | Phone,
   query: SimpleRecord,
-  idOnly: boolean = false,
+  idOnly = false,
   formatter = generateFlatList
 ): ContactID | Contact | undefined => {
   const db = Array.isArray(phone) ? phone : formatter(phone)
