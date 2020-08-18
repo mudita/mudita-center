@@ -15,7 +15,6 @@ import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import { views } from "Renderer/constants/views"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { MenuGropTestIds } from "Renderer/components/rest/menu/menu-grop-test-ids.enum"
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -72,7 +71,7 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
         </HeaderWrapper>
       )}
       {items &&
-        items.map(({ button, icon }, index) => {
+        items.map(({ button, icon, testId }, index) => {
           const buttonMenuConfig = {
             nav: true,
             displayStyle: DisplayStyle.Link4,
@@ -87,14 +86,18 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
                 <Button
                   {...buttonMenuConfig}
                   onClick={openHelpWindow}
-                  data-testid={MenuGropTestIds.Help}
+                  data-testid={testId}
                 />
               </LinkWrapper>
             )
           }
           return (
             <LinkWrapper key={index}>
-              <Button {...buttonMenuConfig} to={button.url} />
+              <Button
+                {...buttonMenuConfig}
+                to={button.url}
+                data-testid={testId}
+              />
             </LinkWrapper>
           )
         })}
