@@ -74,7 +74,10 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
         disabled={index > activeBarIndex && activeBarIndex > -1}
         data-testid={MeditationStatsTestIds.BarWrapper}
       >
-        <Bar height={(time / maxChartValue) * 100}>
+        <Bar
+          height={(time / maxChartValue) * 100}
+          data-active={activeBarIndex === index}
+        >
           <Tooltip>
             <Text displayStyle={TextDisplayStyle.SmallFadedText}>
               {formatDuration(time)}
@@ -82,7 +85,10 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
           </Tooltip>
         </Bar>
         {withLabel && (
-          <Label data-testid={MeditationStatsTestIds.XAxisLabel}>
+          <Label
+            data-testid={MeditationStatsTestIds.XAxisLabel}
+            data-active={activeBarIndex === index}
+          >
             {formatDate(date, chartType)}
           </Label>
         )}
@@ -111,7 +117,10 @@ const MeditationStats: FunctionComponent<MeditationStatsProps> = ({
                     const barIndex = weekIndex * 7 + dayIndex
                     return renderBarWrapper(barIndex, barData)
                   })}
-                  <Label data-testid={MeditationStatsTestIds.XAxisLabel}>
+                  <Label
+                    data-testid={MeditationStatsTestIds.XAxisLabel}
+                    data-active={active}
+                  >
                     {firstWeekDay === lastWeekDay
                       ? firstWeekDay
                       : `${firstWeekDay} - ${lastWeekDay}`}

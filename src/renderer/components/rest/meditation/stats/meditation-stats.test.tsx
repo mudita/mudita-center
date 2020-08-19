@@ -13,7 +13,6 @@ import {
   ChartType,
   MeditationStatsTestIds,
 } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
-import theme from "Renderer/styles/theming/theme"
 
 const mainLabel = "view.name.meditationStats.chart.mainLabel"
 
@@ -103,15 +102,16 @@ describe("weekly meditation stats", () => {
     const { getBarWrappers } = chart
     const currentBarWrapper = getBarWrappers()[0]
 
-    expect(currentBarWrapper.querySelector("div")).toHaveStyle(
-      "background-color: rgb(109, 155, 188);"
+    expect(currentBarWrapper.querySelector("div")).toHaveAttribute(
+      "data-active",
+      "true"
     )
   })
 
   test("highlights current label properly", () => {
     const { getXLabels } = chart
 
-    expect(getXLabels()[0]).toHaveStyle("font-weight: 600;")
+    expect(getXLabels()[0]).toHaveAttribute("data-active", "true")
   })
 })
 
@@ -145,17 +145,18 @@ describe("monthly meditation stats", () => {
     const { getBarWrappers } = chart
     const currentBarWrapper = getBarWrappers()[dayIndex]
 
-    expect(currentBarWrapper.querySelector("div")).toHaveStyleRule(
-      "background-color",
-      theme.color.background.chartBar
+    expect(currentBarWrapper.querySelector("div")).toHaveAttribute(
+      "data-active",
+      "true"
     )
   })
 
   test("highlights current label properly", () => {
     const { getXLabels } = chart
 
-    expect(getXLabels()[Math.ceil(dayIndex / 7) - 1]).toHaveStyle(
-      "font-weight: 600;"
+    expect(getXLabels()[Math.ceil(dayIndex / 7) - 1]).toHaveAttribute(
+      "data-active",
+      "true"
     )
   })
 })
@@ -183,14 +184,14 @@ describe("yearly meditation stats", () => {
     const { getBarWrappers } = chart
     const currentBarWrapper = getBarWrappers()[monthIndex]
 
-    expect(currentBarWrapper.querySelector("div")).toHaveStyleRule(
-      "background-color",
-      theme.color.background.chartBar
+    expect(currentBarWrapper.querySelector("div")).toHaveAttribute(
+      "data-active",
+      "true"
     )
   })
 
   test("highlights current label properly", () => {
     const { getXLabels } = chart
-    expect(getXLabels()[monthIndex]).toHaveStyle("font-weight: 600;")
+    expect(getXLabels()[monthIndex]).toHaveAttribute("data-active", "true")
   })
 })
