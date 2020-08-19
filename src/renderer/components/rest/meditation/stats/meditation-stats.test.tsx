@@ -5,7 +5,6 @@ import MeditationStats, {
   MeditationStatsProps,
 } from "Renderer/components/rest/meditation/stats/meditation-stats.component"
 import {
-  generateMeditationData,
   statsMonthly,
   statsWeekly,
   statsYearly,
@@ -82,7 +81,7 @@ describe("weekly meditation stats", () => {
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
-      statsData: generateMeditationData(),
+      statsData: statsWeekly,
     })
   })
   afterAll(() => {
