@@ -40,17 +40,21 @@ const renderMeditationStats = ({
 }
 
 let chart: ReturnType<typeof renderMeditationStats>
+const commonMock = jest.mock("moment", () => () => ({
+  format: () => "2020-08-21",
+  daysInMonth: () => 31,
+}))
 
 describe("general meditation stats", () => {
+  beforeAll(() => commonMock)
   beforeEach(() => {
-    jest.mock("moment", () => () => ({
-      format: () => "2020-08-21",
-      daysInMonth: () => 31,
-    }))
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
       statsData: statsWeekly,
     })
+  })
+  afterAll(() => {
+    jest.clearAllMocks()
   })
 
   test("renders horizontal lines properly", () => {
@@ -74,18 +78,14 @@ describe("general meditation stats", () => {
 })
 
 describe("weekly meditation stats", () => {
+  beforeAll(() => commonMock)
   beforeEach(() => {
-    jest.mock("moment", () => () => ({
-      format: () => "2020-08-21",
-      daysInMonth: () => 31,
-    }))
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
       statsData: generateMeditationData(),
     })
   })
-
-  afterEach(() => {
+  afterAll(() => {
     jest.clearAllMocks()
   })
 
@@ -123,18 +123,14 @@ describe("weekly meditation stats", () => {
 })
 
 describe("monthly meditation stats", () => {
-  jest.mock("moment", () => () => ({
-    format: () => "2020-08-21",
-    daysInMonth: () => 31,
-  }))
+  beforeAll(() => commonMock)
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Monthly,
       statsData: statsMonthly,
     })
   })
-
-  afterEach(() => {
+  afterAll(() => {
     jest.clearAllMocks()
   })
 
@@ -173,18 +169,19 @@ describe("monthly meditation stats", () => {
 })
 
 describe("yearly meditation stats", () => {
-  jest.mock("moment", () => () => ({
-    format: () => "Aug",
-    daysInMonth: () => 31,
-  }))
+  beforeAll(() =>
+    jest.mock("moment", () => () => ({
+      format: () => "Aug",
+      daysInMonth: () => 31,
+    }))
+  )
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Yearly,
       statsData: statsYearly,
     })
   })
-
-  afterEach(() => {
+  afterAll(() => {
     jest.clearAllMocks()
   })
 
@@ -207,9 +204,6 @@ describe("yearly meditation stats", () => {
 
   test("highlights current label properly", () => {
     const { getXLabels } = chart
-    // const monthIndex = Number(moment().format("M")) - 1
-    // console.log(monthIndex)
-
     expect(getXLabels()[monthIndex]).toHaveStyle("font-weight: 600;")
   })
 })
