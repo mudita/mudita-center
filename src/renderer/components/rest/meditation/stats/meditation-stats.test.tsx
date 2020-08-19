@@ -87,32 +87,31 @@ describe("weekly meditation stats", () => {
 
   test("renders weekdays bars properly", () => {
     const { getBarWrappers } = chart
-    expect(getBarWrappers()).toHaveLength(3)
+    expect(getBarWrappers()).toHaveLength(7)
   })
 
   test("renders weekdays labels properly", () => {
     const { getXLabels } = chart
-    expect(getXLabels()).toHaveLength(3)
+    expect(getXLabels()).toHaveLength(7)
     getXLabels().forEach((label, index) => {
-      const dayLabels = ["Sat", "Sun", "Mon"]
+      const dayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
       expect(label).toHaveTextContent(dayLabels[index])
     })
   })
 
   test("highlights current bar properly", () => {
     const { getBarWrappers } = chart
-    const currentBarWrapper = getBarWrappers()[2]
+    const currentBarWrapper = getBarWrappers()[0]
 
-    expect(currentBarWrapper.querySelector("div")).toHaveStyleRule(
-      "background-color",
-      theme.color.background.chartBar
+    expect(currentBarWrapper.querySelector("div")).toHaveStyle(
+      "background-color: rgb(109, 155, 188);"
     )
   })
 
   test("highlights current label properly", () => {
     const { getXLabels } = chart
 
-    expect(getXLabels()[2]).toHaveStyle("font-weight: 600;")
+    expect(getXLabels()[0]).toHaveStyle("font-weight: 600;")
   })
 })
 
