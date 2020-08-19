@@ -281,7 +281,7 @@ const InputIcons: FunctionComponent<InputIconsProps> = ({
       {trailingIcons && (
         <TrailingIcons>
           {trailingIcons.map((icon, index) => (
-            <TextInputIcon key={index} data-testid={"trailing-icon-" + index}>
+            <TextInputIcon key={index} data-testid={`trailing-icon-${index}`}>
               {icon}
             </TextInputIcon>
           ))}
@@ -380,9 +380,11 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   const calculateHeight = () => {
     const element = textareaRef.current
     if (element) {
-      element.style.height = textareaLineHeight + "px"
-      element.style.height =
-        Math.min(element.scrollHeight, maxRows * textareaLineHeight) + "px"
+      element.style.height = `${textareaLineHeight}px`
+      element.style.height = `${Math.min(
+        element.scrollHeight,
+        maxRows * textareaLineHeight
+      )}px`
     }
   }
 

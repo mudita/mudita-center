@@ -61,10 +61,12 @@ export const AdditionalInfoItem = styled.div`
   width: 100%;
   margin-bottom: 4.2rem;
 `
-export const Input = styled(InputComponent).attrs(({ value, label }) => ({
-  label: value ? undefined : label,
-  readOnly: true,
-}))<InputComponentProps>`
+export const Input = styled(InputComponent).attrs(
+  ({ value, defaultValue, label }) => ({
+    label: value || defaultValue ? undefined : label,
+    readOnly: true,
+  })
+)<InputComponentProps>`
   padding: 2.4rem 0 1.6rem 0;
 
   div {

@@ -62,7 +62,7 @@ export const phoneActions = (
   phoneNumber: string,
   onCall: (input: string) => void,
   onMessage: (input: string) => void
-) => {
+): JSX.Element[] => {
   const callHandler = () => onCall(phoneNumber)
   const messageHandler = () => onMessage(phoneNumber)
 
