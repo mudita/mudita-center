@@ -43,31 +43,15 @@ export const generateMeditationData = (
 
 export const statsWeekly = [
   {
-    date: "2020-08-17",
-    time: 1580,
-  },
-  {
-    date: "2020-08-18",
-    time: 1973,
-  },
-  {
-    date: "2020-08-19",
+    date: "2020-08-29",
     time: 0,
   },
   {
-    date: "2020-08-20",
+    date: "2020-08-30",
     time: 0,
   },
   {
-    date: "2020-08-21",
-    time: 0,
-  },
-  {
-    date: "2020-08-22",
-    time: 0,
-  },
-  {
-    date: "2020-08-23",
+    date: "2020-08-31",
     time: 0,
   },
 ]

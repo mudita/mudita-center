@@ -13,7 +13,6 @@ import {
   ChartType,
   MeditationStatsTestIds,
 } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
-import moment from "moment"
 import theme from "Renderer/styles/theming/theme"
 
 const mainLabel = "view.name.meditationStats.chart.mainLabel"
@@ -39,7 +38,7 @@ const renderMeditationStats = ({
 }
 
 let chart: ReturnType<typeof renderMeditationStats>
-const mockedDate = 1597820999753 // 2020-08-19
+const mockedDate = 1598832000000 // 2020-08-31
 const dateMock = jest.spyOn(Date, "now").mockImplementation(() => mockedDate)
 
 describe("general meditation stats", () => {
@@ -88,15 +87,15 @@ describe("weekly meditation stats", () => {
 
   test("renders weekdays bars properly", () => {
     const { getBarWrappers } = chart
-    expect(getBarWrappers()).toHaveLength(7)
+    expect(getBarWrappers()).toHaveLength(3)
   })
 
   test("renders weekdays labels properly", () => {
     const { getXLabels } = chart
-    expect(getXLabels()).toHaveLength(7)
+    expect(getXLabels()).toHaveLength(3)
     getXLabels().forEach((label, index) => {
-      const date = moment().startOf("isoWeek").add(index, "days")
-      expect(label).toHaveTextContent(date.format("ddd"))
+      const dayLabels = ["Sat", "Sun", "Mon"]
+      expect(label).toHaveTextContent(dayLabels[index])
     })
   })
 
@@ -129,12 +128,12 @@ describe("monthly meditation stats", () => {
     jest.clearAllMocks()
   })
 
-  const dayIndex = 20
+  const dayIndex = 30
   const daysInMonth = 31
 
   test("renders days bars properly", () => {
     const { getBarWrappers, getGroupWrappers } = chart
-    expect(getBarWrappers()).toHaveLength(moment().daysInMonth())
+    expect(getBarWrappers()).toHaveLength(daysInMonth)
     expect(getGroupWrappers()).toHaveLength(Math.ceil(daysInMonth / 7))
   })
 
