@@ -39,13 +39,11 @@ const renderMeditationStats = ({
 }
 
 let chart: ReturnType<typeof renderMeditationStats>
-const commonMock = jest.mock("moment", () => () => ({
-  format: () => "2020-08-21",
-  daysInMonth: () => 31,
-}))
+const mockedDate = 1597820999753 // 2020-08-19
+const dateMock = jest.spyOn(Date, "now").mockImplementation(() => mockedDate)
 
 describe("general meditation stats", () => {
-  beforeAll(() => commonMock)
+  beforeAll(() => dateMock)
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
@@ -77,7 +75,7 @@ describe("general meditation stats", () => {
 })
 
 describe("weekly meditation stats", () => {
-  beforeAll(() => commonMock)
+  beforeAll(() => dateMock)
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
@@ -104,7 +102,7 @@ describe("weekly meditation stats", () => {
 
   test("highlights current bar properly", () => {
     const { getBarWrappers } = chart
-    const currentBarWrapper = getBarWrappers()[moment().isoWeekday() - 1]
+    const currentBarWrapper = getBarWrappers()[2]
 
     expect(currentBarWrapper.querySelector("div")).toHaveStyleRule(
       "background-color",
@@ -115,14 +113,12 @@ describe("weekly meditation stats", () => {
   test("highlights current label properly", () => {
     const { getXLabels } = chart
 
-    expect(getXLabels()[moment().isoWeekday() - 1]).toHaveStyle(
-      "font-weight: 600;"
-    )
+    expect(getXLabels()[2]).toHaveStyle("font-weight: 600;")
   })
 })
 
 describe("monthly meditation stats", () => {
-  beforeAll(() => commonMock)
+  beforeAll(() => dateMock)
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Monthly,
@@ -134,18 +130,17 @@ describe("monthly meditation stats", () => {
   })
 
   const dayIndex = 20
+  const daysInMonth = 31
 
   test("renders days bars properly", () => {
     const { getBarWrappers, getGroupWrappers } = chart
     expect(getBarWrappers()).toHaveLength(moment().daysInMonth())
-    expect(getGroupWrappers()).toHaveLength(
-      Math.ceil(moment().daysInMonth() / 7)
-    )
+    expect(getGroupWrappers()).toHaveLength(Math.ceil(daysInMonth / 7))
   })
 
   test("renders groups labels properly", () => {
     const { getXLabels } = chart
-    expect(getXLabels()).toHaveLength(Math.ceil(moment().daysInMonth() / 7))
+    expect(getXLabels()).toHaveLength(Math.ceil(daysInMonth / 7))
   })
 
   test("highlights current bar properly", () => {
@@ -168,12 +163,7 @@ describe("monthly meditation stats", () => {
 })
 
 describe("yearly meditation stats", () => {
-  beforeAll(() =>
-    jest.mock("moment", () => () => ({
-      format: () => "Aug",
-      daysInMonth: () => 31,
-    }))
-  )
+  beforeAll(() => dateMock)
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Yearly,
