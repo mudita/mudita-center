@@ -21,14 +21,10 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci
-      - name: Jest code coverage report
-        uses: ziishaned/jest-reporter-action@0.1.1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          test-command: "npm run test:coverage"
-      - name: Lint and typecheck
+      - name: Lint test and typecheck
         run: |
           npm run lint
           npm run lint:typecheck
+          npm run test:coverage
         env:
           CI: true
