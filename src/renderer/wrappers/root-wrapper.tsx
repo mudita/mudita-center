@@ -27,6 +27,8 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
     await ipcRenderer.invoke(HelpActions.SetStoreValue, normalizeData)
+  const getStoreData = async () =>
+    await ipcRenderer.invoke(HelpActions.GetStore)
   return (
     <ThemeProvider theme={theme}>
       <IntlProvider
@@ -39,7 +41,11 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
             <Normalize />
             <GlobalStyle />
             {params.get("mode") === Mode.Help ? (
-              <HelpApp history={history} saveToStore={saveToStore} />
+              <HelpApp
+                history={history}
+                saveToStore={saveToStore}
+                getStoreData={getStoreData}
+              />
             ) : (
               <BaseApp store={store} history={history} />
             )}

@@ -4,7 +4,7 @@ import helpStore from "App/main/store/help"
 
 export const registerGetHelpStoreHandler = () =>
   ipcMain.handle(HelpActions.GetStore, (event, response) => {
-    return helpStore.get("data", response)
+    return helpStore.get("data")
   })
 
 export const removeHetHelpStoreHandler = () =>
