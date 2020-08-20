@@ -41,7 +41,7 @@ import Avatar, {
 } from "Renderer/components/core/avatar/avatar.component"
 import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "Renderer/models/phone/phone.utils"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
@@ -301,7 +301,7 @@ const MessagesList: FunctionComponent<Props> = ({
             <Col />
             <Col>
               <AvatarPlaceholder />
-              <TextPlaceholder charsCount={caller.firstName.length} />
+              <TextPlaceholder charsCount={caller.firstName?.length || 0} />
             </Col>
           </MessageRow>
         )

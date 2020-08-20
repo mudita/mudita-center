@@ -26,7 +26,7 @@ const getFakeAdapters = ({
   pureStorage: createFakePurePhoneStorageAdapter(),
   pureNetwork: createFakePurePhoneNetworkAdapter(),
   pureBackups: createFakePurePhoneBackupsAdapter(),
-  phonebook: createFakePhonebookAdapter({ contactsCount }),
+  phonebook: createFakePhonebookAdapter(),
 })
 
 export default getFakeAdapters

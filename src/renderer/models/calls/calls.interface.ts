@@ -1,4 +1,4 @@
-import { Contact } from "Renderer/models/phone/phone.interface"
+import { Contact } from "Renderer/models/phone/phone.typings"
 
 export enum CallStatus {
   Missed,
