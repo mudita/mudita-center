@@ -9,7 +9,7 @@ import { useHelpSearch } from "Renderer/utils/hooks/use-help-search/use-help-sea
 
 interface Props {
   history: History
-  saveToStore: (data: QuestionAndAnswer) => Promise<any>
+  saveToStore?: (data: QuestionAndAnswer) => Promise<any>
 }
 
 const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {

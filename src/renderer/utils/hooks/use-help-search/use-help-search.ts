@@ -7,7 +7,7 @@ import debounce from "lodash/debounce"
 import { getDefaultHelpItems } from "App/main/store/default-help-items"
 
 export const useHelpSearch = (
-  saveToStore: (data: QuestionAndAnswer) => Promise<any>
+  saveToStore?: (data: QuestionAndAnswer) => Promise<any>
 ) => {
   const [networkStatus, setNetworkStatus] = useState(window.navigator.onLine)
   const [data, setData] = useState<QuestionAndAnswer>({
@@ -19,7 +19,9 @@ export const useHelpSearch = (
   const setDefaultHelpItemsAndSaveToStore = async () => {
     const defaultHelpItems = getDefaultHelpItems() as QuestionAndAnswer
     setData(defaultHelpItems)
-    await saveToStore(defaultHelpItems)
+    if (saveToStore) {
+      await saveToStore(defaultHelpItems)
+    }
   }
   const fetchDataAndSaveToStore = async () => {
     const response = await ipcRenderer.invoke(
@@ -27,7 +29,9 @@ export const useHelpSearch = (
     )
     const normalizedData = normalizeHelpData(response)
     setData(normalizedData)
-    await saveToStore(normalizedData)
+    if (saveToStore) {
+      await saveToStore(normalizedData)
+    }
   }
 
   useEffect(() => {
