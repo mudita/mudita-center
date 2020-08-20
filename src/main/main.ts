@@ -141,7 +141,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
       getWindowOptions({
         width: HELP_WINDOW_SIZE.width,
         height: HELP_WINDOW_SIZE.height,
-        titleBarStyle: "hidden",
       })
     )
     helpWindow.loadURL(
