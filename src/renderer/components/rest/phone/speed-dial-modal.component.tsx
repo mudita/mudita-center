@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
-import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
+import { Contact } from "Renderer/models/phone/phone.typings"
 import Table, {
   Col,
   Labels,
@@ -19,6 +19,7 @@ import InputSelect, {
   renderSearchableText,
   SelectInputItem,
 } from "Renderer/components/core/input-select/input-select.component"
+import { SpeedDialProps } from "Renderer/components/rest/phone/speed-dial-modal.container"
 
 const SpeedDialTable = styled(Table)`
   --labelBackground: none;
@@ -45,14 +46,10 @@ const messages = defineMessages({
     id: "view.name.phone.contacts.modal.speedDial.speedDialLabel",
   },
   contactLabel: { id: "view.name.phone.contacts.modal.speedDial.contactLabel" },
+  none: {
+    id: "view.name.phone.contacts.edit.speedDialKeyEmptyOption",
+  },
 })
-
-interface SpeedDialModalProps {
-  speedDialContacts?: Contact[]
-  contacts: Contact[]
-  onSave?: (contacts?: Contact[]) => void
-  onClose?: () => void
-}
 
 const valueRender = (item: Contact) => createFullName(item)
 const itemRender = ({
@@ -72,35 +69,40 @@ const itemRender = ({
 
   return <SelectInputItem {...props} />
 }
+const filterFn = (item: Contact, query: string) => {
+  const fullName = createFullName(item).toLowerCase()
+  return fullName.includes(query.toLowerCase())
+}
 
-const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
+const StyledInputSelect = styled(InputSelect)`
+  label {
+    border: 0;
+    padding-top: 1rem;
+  }
+`
+
+const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
+  editContact,
   onSave = noop,
   onClose = noop,
-  contacts = [],
-  speedDialContacts,
+  flatList = [],
 }) => {
-  const [speedDial, setSpeedDial] = useState<Record<ContactID, number>>({})
-  const emptyContactList: Contact[] = Array.from({ length: 9 })
-  speedDialContacts?.forEach((item) => {
-    if (item.speedDial) {
-      emptyContactList[item.speedDial - 1] = item
-    }
-  })
+  const speedDialList = Array.from({ length: 9 })
+    .fill(null)
+    .map((_, i) => {
+      const speedDial = i + 1
 
-  const change = ({ id, speedDial }: Contact) => {
-    console.log(id, speedDial)
-
-    setSpeedDial((curr) => {
-      if (speedDial) {
-        return {
-          ...curr,
-          [id]: speedDial,
-        }
+      return {
+        [speedDial]: flatList.find(
+          (contact) => contact.speedDial === speedDial
+        ),
       }
-
-      return curr
     })
-  }
+
+  const availableContacts = flatList.filter(
+    (item: Contact) =>
+      item.id !== "0" && (Boolean(item.firstName) || Boolean(item.lastName))
+  )
 
   return (
     <ModalComponent
@@ -116,21 +118,31 @@ const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
           <Col>{intl.formatMessage(messages.speedDialLabel)}</Col>
           <Col>{intl.formatMessage(messages.contactLabel)}</Col>
         </Labels>
-        {emptyContactList.map((item: Contact | undefined, i) => {
-          const itemInState = item && speedDial[item.id]
+        {speedDialList.map((item: Record<number, Contact | undefined>, i) => {
+          const speedDial = i + 1
+          const contact = item[speedDial]
 
-          console.log(itemInState)
+          const onChange = (contact: Contact) => {
+            editContact(contact.id, { ...contact, speedDial })
+          }
 
           return (
             <Row size={RowSize.Small} key={i}>
-              <Col>{itemInState || i + 1}</Col>
+              <Col>{speedDial}</Col>
               <Col>
-                <InputSelect
-                  // searchable
-                  onSelect={change}
-                  options={contacts}
+                <StyledInputSelect
+                  searchable
+                  options={availableContacts}
+                  value={
+                    contact
+                      ? contact
+                      : { firstName: intl.formatMessage(messages.none) }
+                  }
+                  emptyOption={intl.formatMessage(messages.none)}
                   renderValue={valueRender}
                   renderListItem={itemRender}
+                  onSelect={onChange}
+                  filteringFunction={filterFn}
                   listStyles={css`
                     max-height: 30rem;
                   `}
