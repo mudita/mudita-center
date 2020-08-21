@@ -1,21 +1,27 @@
-import { Entry, EntryCollection } from "contentful"
+import { Entry } from "contentful"
 import { Document } from "@contentful/rich-text-types"
 
 export interface HelpEntry {
   id: string
-  question: string
-  answer: Document
+  question: { [key: string]: string }
+  answer: { [key: string]: Document & { [key: string]: any } }
 }
 
-export const normalizeHelpData = (data: EntryCollection<HelpEntry>) => {
+export const normalizeHelpData = (data: any) => {
   const items = data.items.reduce(
     (acc: Record<string, HelpEntry>, currentValue: Entry<HelpEntry>) => {
       return {
         ...acc,
         [currentValue.sys.id]: {
           id: currentValue.sys.id,
-          question: currentValue.fields.question,
-          answer: currentValue.fields.answer,
+          question:
+            currentValue.fields.question[
+              Object.keys(currentValue.fields.question)[0]
+            ],
+          answer:
+            currentValue.fields.answer[
+              Object.keys(currentValue.fields.answer)[0]
+            ],
         },
       }
     },
@@ -25,5 +31,6 @@ export const normalizeHelpData = (data: EntryCollection<HelpEntry>) => {
   return {
     collection,
     items,
+    nextSyncToken: data.nextSyncToken,
   }
 }

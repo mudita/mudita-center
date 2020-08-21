@@ -7,5 +7,5 @@ export const registerGetHelpStoreHandler = () =>
     return helpStore.get("data")
   })
 
-export const removeHetHelpStoreHandler = () =>
+export const removeGetHelpStoreHandler = () =>
   ipcMain.removeHandler(HelpActions.GetStore)

@@ -30,7 +30,7 @@ import {
 } from "App/main/functions/set-help-store-handler"
 import {
   registerGetHelpStoreHandler,
-  removeHetHelpStoreHandler,
+  removeGetHelpStoreHandler,
 } from "App/main/functions/get-help-store-handler"
 
 require("dotenv").config()
@@ -169,7 +169,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
   helpWindow.on("closed", () => {
     removeDownloadHelpHandler()
     removeSetHelpStoreHandler()
-    removeHetHelpStoreHandler()
+    removeGetHelpStoreHandler()
     helpWindow = null
   })
 })
