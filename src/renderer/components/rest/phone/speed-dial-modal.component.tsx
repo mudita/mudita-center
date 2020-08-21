@@ -3,7 +3,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import Table, {
   Col,
   Labels,
@@ -87,15 +87,22 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
   onClose = noop,
   flatList = [],
 }) => {
+  const [localData, setLocalData] = React.useState<[ContactID, Contact][]>([])
   const speedDialList = Array.from({ length: 9 })
     .fill(null)
     .map((_, i) => {
       const speedDial = i + 1
 
+      const localStateItem = localData.find(
+        (contact) => contact[1].speedDial === speedDial
+      )
+
+      const globalStateItem = flatList.find(
+        (contact) => contact.speedDial === speedDial
+      )
+
       return {
-        [speedDial]: flatList.find(
-          (contact) => contact.speedDial === speedDial
-        ),
+        [speedDial]: (localStateItem && localStateItem[1]) || globalStateItem,
       }
     })
 
@@ -104,11 +111,16 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
       item.id !== "0" && (Boolean(item.firstName) || Boolean(item.lastName))
   )
 
+  const onSavePress = () => {
+    localData.forEach((item) => editContact(...item))
+    onSave()
+  }
+
   return (
     <ModalComponent
       title={intl.formatMessage(messages.title)}
       size={ModalSize.Medium}
-      onActionButtonClick={onSave}
+      onActionButtonClick={onSavePress}
       actionButtonLabel={intl.formatMessage(messages.saveButton)}
       onClose={onClose}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
@@ -123,7 +135,17 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
           const contact = item[speedDial]
 
           const onChange = (contact: Contact) => {
-            editContact(contact.id, { ...contact, speedDial })
+            const newItem = [contact.id, { ...contact, speedDial }] as [
+              ContactID,
+              Contact
+            ]
+
+            setLocalData((currentState) => {
+              const filteredCurrentState = currentState.filter(
+                (item) => item[1].speedDial !== speedDial
+              )
+              return [...filteredCurrentState, newItem]
+            })
           }
 
           return (
