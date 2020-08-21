@@ -3,7 +3,7 @@ import { Document } from "@contentful/rich-text-types"
 
 export interface HelpEntry {
   id: string
-  question: { [key: string]: string }
+  question: Record<string, string>
   answer: { [key: string]: Document & { [key: string]: any } }
 }
 
