@@ -35,7 +35,6 @@ export const useHelpSearch = (
     const response = await ipcRenderer.invoke(
       HelpActions.DownloadContentfulData
     )
-    console.log(response)
     const normalizedData = normalizeHelpData(response)
     if (saveToStore) {
       await saveToStore(normalizedData)
