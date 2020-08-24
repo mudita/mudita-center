@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -51,8 +51,8 @@ const messages = defineMessages({
   },
 })
 
-const valueRender = (item: Contact) => createFullName(item)
-const itemRender = ({
+const renderValue = (item: Contact) => createFullName(item)
+const renderItem = ({
   item,
   searchString,
   props,
@@ -87,7 +87,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
   onClose = noop,
   flatList = [],
 }) => {
-  const [localData, setLocalData] = React.useState<[ContactID, Contact][]>([])
+  const [localData, setLocalData] = useState<[ContactID, Contact][]>([])
   const speedDialList = Array.from({ length: 9 })
     .fill(null)
     .map((_, i) => {
@@ -111,7 +111,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
       item.id !== "0" && (Boolean(item.firstName) || Boolean(item.lastName))
   )
 
-  const onSavePress = () => {
+  const onSaveClick = () => {
     localData.forEach((item) => editContact(...item))
     onSave()
   }
@@ -120,7 +120,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
     <ModalComponent
       title={intl.formatMessage(messages.title)}
       size={ModalSize.Medium}
-      onActionButtonClick={onSavePress}
+      onActionButtonClick={onSaveClick}
       actionButtonLabel={intl.formatMessage(messages.saveButton)}
       onClose={onClose}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
@@ -161,8 +161,8 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                       : { firstName: intl.formatMessage(messages.none) }
                   }
                   emptyOption={intl.formatMessage(messages.none)}
-                  renderValue={valueRender}
-                  renderListItem={itemRender}
+                  renderValue={renderValue}
+                  renderListItem={renderItem}
                   onSelect={onChange}
                   filteringFunction={filterFn}
                   listStyles={css`
