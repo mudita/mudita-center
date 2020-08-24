@@ -2,16 +2,14 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { normalizeHelpData } from "Renderer/utils/contentful/normalize-help-data"
 import debounce from "lodash/debounce"
 import { getDefaultHelpItems } from "App/main/store/default-help-items"
-import { getAppSettings } from "Renderer/requests/app-settings.request"
 
 export const useHelpSearch = (
   saveToStore?: (data: QuestionAndAnswer) => Promise<any>,
   getStoreData?: (k?: string) => Promise<any>
 ) => {
-  const [networkStatus, setNetworkStatus] = useState(true)
+  const [networkStatus, setNetworkStatus] = useState(window.navigator.onLine)
   const [data, setData] = useState<QuestionAndAnswer>({
     collection: [],
     items: {},
@@ -33,17 +31,11 @@ export const useHelpSearch = (
     }
   }
   const fetchDataAndSaveToStore = async (): Promise<void> => {
-    const languageSettings = await getAppSettings()
     const response = await ipcRenderer.invoke(
-      HelpActions.DownloadContentfulData,
-      languageSettings.language.tag
-    )
-    const normalizedData = normalizeHelpData(
-      response,
-      languageSettings.language.tag
+      HelpActions.DownloadContentfulData
     )
     if (saveToStore) {
-      await saveToStore(normalizedData)
+      await saveToStore(response)
     }
     if (getStoreData) {
       setData(await getStoreData("data"))
@@ -51,10 +43,10 @@ export const useHelpSearch = (
   }
 
   useEffect(() => {
-    if (!networkStatus) {
-      setDefaultHelpItemsAndSaveToStore()
-    } else {
+    if (networkStatus) {
       fetchDataAndSaveToStore()
+    } else {
+      setDefaultHelpItemsAndSaveToStore()
     }
   }, [networkStatus])
 

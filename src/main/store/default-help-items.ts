@@ -85,20 +85,20 @@ const answer: Document = {
   ],
 }
 
-export const getDefaultHelpItems = (): QuestionAndAnswer => {
-  return {
-    collection: ["24YEjwJx8jAuedvWDz8rvU", "1NESOKKWZCTjV8rlSE4JbH"],
-    items: {
-      "24YEjwJx8jAuedvWDz8rvU": {
-        id: "24YEjwJx8jAuedvWDz8rvU",
-        question: "Saepe non quasi at ipsa autem molestias et consequuntur.",
-        answer,
-      },
-      "1NESOKKWZCTjV8rlSE4JbH": {
-        id: "1NESOKKWZCTjV8rlSE4JbH",
-        question: "Saepe non quasi at ipsa autem molestias et consequuntur.",
-        answer,
-      },
+export const defaultHelpItems = {
+  collection: ["24YEjwJx8jAuedvWDz8rvU", "1NESOKKWZCTjV8rlSE4JbH"],
+  items: {
+    "24YEjwJx8jAuedvWDz8rvU": {
+      id: "24YEjwJx8jAuedvWDz8rvU",
+      question: "Saepe non quasi at ipsa autem molestias et consequuntur.",
+      answer,
     },
-  }
+    "1NESOKKWZCTjV8rlSE4JbH": {
+      id: "1NESOKKWZCTjV8rlSE4JbH",
+      question: "Saepe non quasi at ipsa autem molestias et consequuntur.",
+      answer,
+    },
+  },
 }
+
+export const getDefaultHelpItems = (): QuestionAndAnswer => defaultHelpItems

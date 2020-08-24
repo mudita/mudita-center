@@ -1,4 +1,4 @@
-import { Entry } from "contentful"
+import { Entry, SyncCollection } from "contentful"
 import { Document } from "@contentful/rich-text-types"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 
@@ -6,12 +6,6 @@ export interface HelpEntry {
   id: string
   question: Record<string, string>
   answer: { [key: string]: Document & { [key: string]: any } }
-}
-
-interface ContentfulInput {
-  items: Array<Entry<HelpEntry>>
-  nextSyncToken: string
-  locale: string
 }
 
 export interface NormalizedHelpEntry {
@@ -25,10 +19,10 @@ export interface NormalizedOutput extends QuestionAndAnswer {
 }
 
 export const normalizeHelpData = (
-  data: ContentfulInput,
+  data: SyncCollection,
   locale: string
 ): NormalizedOutput => {
-  const { items: entries, nextSyncToken } = data
+  const { entries, nextSyncToken } = data
   const items = entries.reduce((acc, currentValue) => {
     return {
       ...acc,
@@ -39,7 +33,7 @@ export const normalizeHelpData = (
       },
     }
   }, {})
-  const collection = data.items.map(({ sys }: Entry<HelpEntry>) => sys.id)
+  const collection = entries.map(({ sys }: Entry<HelpEntry>) => sys.id)
   return {
     collection,
     items,
