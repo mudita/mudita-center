@@ -10,22 +10,18 @@ export interface HelpEntry {
 interface ContentfulInput {
   items: Array<Entry<HelpEntry>>
   nextSyncToken: string
+  locale: string
 }
 
-export const normalizeHelpData = (data: ContentfulInput) => {
-  const items = data.items.reduce((acc, currentValue) => {
+export const normalizeHelpData = (data: ContentfulInput, locale: string) => {
+  const { items: entries, nextSyncToken } = data
+  const items = entries.reduce((acc, currentValue) => {
     return {
       ...acc,
       [currentValue.sys.id]: {
         id: currentValue.sys.id,
-        question:
-          currentValue.fields.question[
-            Object.keys(currentValue.fields.question)[0]
-          ],
-        answer:
-          currentValue.fields.answer[
-            Object.keys(currentValue.fields.answer)[0]
-          ],
+        question: currentValue.fields.question[locale],
+        answer: currentValue.fields.answer[locale],
       },
     }
   }, {})
@@ -33,6 +29,6 @@ export const normalizeHelpData = (data: ContentfulInput) => {
   return {
     collection,
     items,
-    nextSyncToken: data.nextSyncToken,
+    nextSyncToken,
   }
 }

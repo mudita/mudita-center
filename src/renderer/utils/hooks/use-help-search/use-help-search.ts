@@ -5,6 +5,7 @@ import { HelpActions } from "Common/enums/help-actions.enum"
 import { normalizeHelpData } from "Renderer/utils/contentful/normalize-help-data"
 import debounce from "lodash/debounce"
 import { getDefaultHelpItems } from "App/main/store/default-help-items"
+import { getAppSettings } from "Renderer/requests/app-settings.request"
 
 export const useHelpSearch = (
   saveToStore?: (data: QuestionAndAnswer) => Promise<any>,
@@ -32,10 +33,15 @@ export const useHelpSearch = (
     }
   }
   const fetchDataAndSaveToStore = async () => {
+    const languageSettings = await getAppSettings()
     const response = await ipcRenderer.invoke(
-      HelpActions.DownloadContentfulData
+      HelpActions.DownloadContentfulData,
+      languageSettings.language.tag
     )
-    const normalizedData = normalizeHelpData(response)
+    const normalizedData = normalizeHelpData(
+      response,
+      languageSettings.language.tag
+    )
     if (saveToStore) {
       await saveToStore(normalizedData)
     }
