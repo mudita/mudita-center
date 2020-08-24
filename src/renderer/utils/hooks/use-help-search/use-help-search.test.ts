@@ -2,7 +2,7 @@ import { act, renderHook } from "@testing-library/react-hooks"
 import { useHelpSearch } from "Renderer/utils/hooks/use-help-search/use-help-search"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { seedCollectionIds, testSeed, testQuestion } from "App/seeds/help"
+import { testSeed, testQuestion, testSeedCollectionIds } from "App/seeds/help"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
 import { defaultHelpItems } from "App/main/store/default-help-items"
@@ -41,7 +41,6 @@ describe("Online scenario", () => {
   test("return correct amount of data", async () => {
     const { result, waitForNextUpdate } = renderer()
     await waitForNextUpdate()
-    console.log(result.current.data.collection)
     expect(result.current.data.collection).toHaveLength(
       testSeed.data.collection.length
     )
@@ -65,7 +64,7 @@ describe("Online scenario", () => {
   test("collection contains desired ids", async () => {
     const { result, waitForNextUpdate } = renderer()
     await waitForNextUpdate()
-    expect(result.current.data.collection).toEqual(seedCollectionIds)
+    expect(result.current.data.collection).toEqual(testSeedCollectionIds)
   })
 })
 
