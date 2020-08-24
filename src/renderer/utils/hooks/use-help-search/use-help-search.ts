@@ -18,13 +18,13 @@ export const useHelpSearch = (
   })
   const [searchValue, setSearchValue] = useState("")
 
-  const setDefaultHelpItemsAndSaveToStore = async () => {
+  const setDefaultHelpItemsAndSaveToStore = async (): Promise<void> => {
     if (getStoreData) {
       const storeData = await getStoreData("data")
       if (storeData) {
         setData(storeData)
       } else {
-        const defaultHelpItems = getDefaultHelpItems() as QuestionAndAnswer
+        const defaultHelpItems = getDefaultHelpItems()
         setData(defaultHelpItems)
         if (saveToStore) {
           await saveToStore(defaultHelpItems)
@@ -32,7 +32,7 @@ export const useHelpSearch = (
       }
     }
   }
-  const fetchDataAndSaveToStore = async () => {
+  const fetchDataAndSaveToStore = async (): Promise<void> => {
     const languageSettings = await getAppSettings()
     const response = await ipcRenderer.invoke(
       HelpActions.DownloadContentfulData,

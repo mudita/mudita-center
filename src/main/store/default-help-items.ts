@@ -1,9 +1,13 @@
-const answer = {
-  nodeType: "document",
+import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
+import { Document } from "@contentful/rich-text-types"
+import { BLOCKS } from "@contentful/rich-text-types"
+
+const answer: Document = {
+  nodeType: BLOCKS.DOCUMENT,
   data: {},
   content: [
     {
-      nodeType: "heading-2",
+      nodeType: BLOCKS.HEADING_2,
       content: [
         {
           nodeType: "text",
@@ -16,7 +20,7 @@ const answer = {
       data: {},
     },
     {
-      nodeType: "paragraph",
+      nodeType: BLOCKS.PARAGRAPH,
       content: [
         {
           nodeType: "text",
@@ -29,7 +33,7 @@ const answer = {
       data: {},
     },
     {
-      nodeType: "paragraph",
+      nodeType: BLOCKS.PARAGRAPH,
       content: [
         {
           nodeType: "text",
@@ -42,7 +46,7 @@ const answer = {
       data: {},
     },
     {
-      nodeType: "heading-3",
+      nodeType: BLOCKS.HEADING_3,
       content: [
         {
           nodeType: "text",
@@ -54,7 +58,7 @@ const answer = {
       data: {},
     },
     {
-      nodeType: "paragraph",
+      nodeType: BLOCKS.PARAGRAPH,
       content: [
         {
           nodeType: "text",
@@ -67,7 +71,7 @@ const answer = {
       data: {},
     },
     {
-      nodeType: "paragraph",
+      nodeType: BLOCKS.PARAGRAPH,
       content: [
         {
           nodeType: "text",
@@ -81,27 +85,19 @@ const answer = {
   ],
 }
 
-export const getDefaultHelpItems = () => {
+export const getDefaultHelpItems = (): QuestionAndAnswer => {
   return {
     collection: ["24YEjwJx8jAuedvWDz8rvU", "1NESOKKWZCTjV8rlSE4JbH"],
     items: {
       "24YEjwJx8jAuedvWDz8rvU": {
         id: "24YEjwJx8jAuedvWDz8rvU",
-        question: {
-          ["en-US"]: "Saepe non quasi at ipsa autem molestias et consequuntur.",
-        },
-        answer: {
-          ["en-US"]: answer,
-        },
+        question: "Saepe non quasi at ipsa autem molestias et consequuntur.",
+        answer,
       },
       "1NESOKKWZCTjV8rlSE4JbH": {
         id: "1NESOKKWZCTjV8rlSE4JbH",
-        question: {
-          ["en-US"]: "Saepe non quasi at ipsa autem molestias et consequuntur.",
-        },
-        answer: {
-          ["en-US"]: answer,
-        },
+        question: "Saepe non quasi at ipsa autem molestias et consequuntur.",
+        answer,
       },
     },
   }

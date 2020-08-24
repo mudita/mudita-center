@@ -1,5 +1,6 @@
 import { Entry } from "contentful"
 import { Document } from "@contentful/rich-text-types"
+import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 
 export interface HelpEntry {
   id: string
@@ -13,7 +14,20 @@ interface ContentfulInput {
   locale: string
 }
 
-export const normalizeHelpData = (data: ContentfulInput, locale: string) => {
+export interface NormalizedHelpEntry {
+  id: string
+  question: string
+  answer: Document
+}
+
+export interface NormalizedOutput extends QuestionAndAnswer {
+  nextSyncToken?: string
+}
+
+export const normalizeHelpData = (
+  data: ContentfulInput,
+  locale: string
+): NormalizedOutput => {
   const { items: entries, nextSyncToken } = data
   const items = entries.reduce((acc, currentValue) => {
     return {
