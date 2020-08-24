@@ -5,7 +5,7 @@ import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 export interface HelpEntry {
   id: string
   question: Record<string, string>
-  answer: { [key: string]: Document & { [key: string]: any } }
+  answer: { [key: string]: Document }
 }
 
 export interface NormalizedHelpEntry {
@@ -14,14 +14,14 @@ export interface NormalizedHelpEntry {
   answer: Document
 }
 
-export interface NormalizedOutput extends QuestionAndAnswer {
+export interface QuestionAndAnswerWithToken extends QuestionAndAnswer {
   nextSyncToken?: string
 }
 
 export const normalizeHelpData = (
   data: SyncCollection,
   locale: string
-): NormalizedOutput => {
+): QuestionAndAnswerWithToken => {
   const { entries, nextSyncToken } = data
   const items = entries.reduce((acc, currentValue) => {
     return {
