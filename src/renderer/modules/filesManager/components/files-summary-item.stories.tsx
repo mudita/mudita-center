@@ -8,7 +8,7 @@ import {
 import FilesSummaryItem from "Renderer/modules/filesManager/components/files-summary-item.component"
 import history from "Renderer/routes/history"
 
-storiesOf("Components|FilesSummaryItem", module)
+storiesOf("Components/FilesSummaryItem", module)
   .add("With url provided", () => {
     return (
       <Router history={history}>

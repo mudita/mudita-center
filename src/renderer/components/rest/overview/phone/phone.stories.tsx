@@ -11,7 +11,7 @@ const Part = styled.div`
   }
 `
 
-storiesOf("Overview|Phone", module).add("Phone", () => {
+storiesOf("Overview/Phone", module).add("Phone", () => {
   return (
     <div style={{ maxWidth: "31.5rem" }}>
       <Part>

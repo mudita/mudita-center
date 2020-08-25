@@ -30,7 +30,7 @@ const requireAll = (requireContext: any) => {
 
 const allSvgs = requireAll(require.context("..", true, /.svg$/))
 
-storiesOf("Assets|Svg", module).add("Svg", () => {
+storiesOf("Assets/Svg", module).add("Svg", () => {
   return (
     <div style={{ fontSize: "16px" }}>
       {allSvgs.map((svg, index) => {

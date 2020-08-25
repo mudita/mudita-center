@@ -10,7 +10,7 @@ const Container = styled.div`
   width: 98.5rem;
 `
 
-storiesOf("Components|Files Summary", module).add("FilesSummary", () => {
+storiesOf("Components/Files Summary", module).add("FilesSummary", () => {
   return (
     <Router history={history}>
       <Container>

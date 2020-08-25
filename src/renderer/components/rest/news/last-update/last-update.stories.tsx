@@ -11,7 +11,7 @@ const Container = styled.div`
   align-items: center;
 `
 
-storiesOf("News|Last Update", module)
+storiesOf("News/Last Update", module)
   .add("Offline", () => {
     return (
       <Container>
