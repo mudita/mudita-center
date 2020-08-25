@@ -235,7 +235,7 @@ exports[`matches snapshot 1`] = `
     class="c0"
   >
     <div
-      class="sc-fznKkj c1"
+      class="c1"
     >
       <h2
         class="c2"
@@ -272,7 +272,7 @@ exports[`matches snapshot 1`] = `
         </p>
       </div>
       <button
-        class="c12 sc-fzozJi c13"
+        class="c12 c13"
         disabled=""
         size="2"
         type="button"
