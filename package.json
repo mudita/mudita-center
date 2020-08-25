@@ -195,7 +195,7 @@
     "ts-node": "^8.10.2",
     "typescript": "^3.8.3",
     "url-loader": "4.1.0",
-    "webpack": "^4.43.0",
+    "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "3.7.2",
     "webpack-dev-server": "^3.11.0",
