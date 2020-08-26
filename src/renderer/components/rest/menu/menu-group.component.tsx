@@ -78,6 +78,7 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
             displayStyle: DisplayStyle.Link4,
             labelMessage: button.label,
             Icon: icon,
+            iconSize: { height: 3.2, width: 3.2 },
           }
           if (button === views.help) {
             const openHelpWindow = () =>

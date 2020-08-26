@@ -24,6 +24,7 @@ export interface Props {
   displayStyle?: DisplayStyle
   href?: string
   Icon?: IconType
+  iconSize?: { height: number; width: number }
   label?: string | JSX.Element
   labelMessage?: MessageInterface
   onClick?: MouseEventHandler
@@ -45,6 +46,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   exact,
   href,
   Icon,
+  iconSize = { height: 1.4, width: 1.4 },
   label,
   labelMessage,
   nav,
@@ -128,8 +130,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
           displaystyle={displayStyle}
           withMargin={Boolean(label || labelMessage)}
           type={Icon}
-          height={1.4}
-          width={1.4}
+          {...iconSize}
         />
       )}
       {getLabel()}
