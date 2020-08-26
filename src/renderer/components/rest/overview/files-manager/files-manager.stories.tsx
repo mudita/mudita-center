@@ -5,8 +5,8 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { action } from "@storybook/addon-actions"
-import { Story, Meta } from "@storybook/react/types-6-0"
 import { MemoryRouter } from "react-router"
+import { storiesOf } from "@storybook/react"
 
 const Part = styled.div`
   padding: 2rem;
@@ -15,44 +15,46 @@ const Part = styled.div`
   }
 `
 
-export const DifferentSpaceUsed = () => (
-  <>
-    <Part>
-      <Text displayStyle={TextDisplayStyle.SmallText}>No space used</Text>
-      <FilesManager usedSpace={0} onFilesOpen={action("open files manager")} />
-    </Part>
-    <Part>
-      <Text displayStyle={TextDisplayStyle.SmallText}>Custom parameters</Text>
-      <FilesManager
-        usedSpace={29}
-        maxSpace={512}
-        onFilesOpen={action("open files manager")}
-      />
-    </Part>
-    <Part>
-      <Text displayStyle={TextDisplayStyle.SmallText}>Half space used</Text>
-      <FilesManager
-        usedSpace={7.99}
-        onFilesOpen={action("open files manager")}
-      />
-    </Part>
-    <Part>
-      <Text displayStyle={TextDisplayStyle.SmallText}>Full space used</Text>
-      <FilesManager usedSpace={16} onFilesOpen={action("open files manager")} />
-    </Part>
-  </>
-)
-
-export default {
-  title: "Overview/FilesManager",
-  component: DifferentSpaceUsed,
-  decorators: [
-    (Story: Story) => (
+storiesOf("Overview/FilesManager", module)
+  .addDecorator((story) => (
+    <MemoryRouter initialEntries={["/phone"]}>
+      <div style={{ maxWidth: "97.5rem" }}>{story()}</div>
+    </MemoryRouter>
+  ))
+  .add("FilesManager", () => {
+    return (
       <div style={{ maxWidth: "63rem" }}>
-        <MemoryRouter initialEntries={["/phone"]}>
-          <Story />
-        </MemoryRouter>
+        <Part>
+          <Text displayStyle={TextDisplayStyle.SmallText}>No space used</Text>
+          <FilesManager
+            usedSpace={0}
+            onFilesOpen={action("open files manager")}
+          />
+        </Part>
+        <Part>
+          <Text displayStyle={TextDisplayStyle.SmallText}>
+            Custom parameters
+          </Text>
+          <FilesManager
+            usedSpace={29}
+            maxSpace={512}
+            onFilesOpen={action("open files manager")}
+          />
+        </Part>
+        <Part>
+          <Text displayStyle={TextDisplayStyle.SmallText}>Half space used</Text>
+          <FilesManager
+            usedSpace={7.99}
+            onFilesOpen={action("open files manager")}
+          />
+        </Part>
+        <Part>
+          <Text displayStyle={TextDisplayStyle.SmallText}>Full space used</Text>
+          <FilesManager
+            usedSpace={16}
+            onFilesOpen={action("open files manager")}
+          />
+        </Part>
       </div>
-    ),
-  ],
-} as Meta
+    )
+  })
