@@ -52,6 +52,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onCall,
     onMessage,
     savingContact,
+    flatList,
   } = props
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<NewContact>()
@@ -62,6 +63,28 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   useEffect(() => {
     setContacts(contactList)
   }, [contactList])
+
+  useEffect(() => {
+    if (editedContact) {
+      const newData = flatList.find(
+        (contact) => contact.id === editedContact.id
+      )
+
+      if (newData) {
+        setEditedContact((curr: any) => {
+          if (newData.speedDial) {
+            return {
+              ...curr,
+              speedDial: newData.speedDial,
+            }
+          }
+
+          delete curr.speedDial
+          return curr
+        })
+      }
+    }
+  }, [flatList])
 
   const contactFreshData = ({ id }: Contact) => {
     return getContact(id)
@@ -198,7 +221,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const closeSpeedDialModal = async () => {
     await modalService.closeModal()
-    cancelEditingContact(editedContact)
   }
 
   const openSpeedDialModal = () => {
