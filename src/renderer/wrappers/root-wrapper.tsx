@@ -26,9 +26,9 @@ interface Props {
 const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
   const params = new URLSearchParams(window.location.search)
   const saveToStore = async (normalizeData: QuestionAndAnswer) =>
-    await ipcRenderer.invoke(HelpActions.SetStoreValue, normalizeData)
+    await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
   const getStoreData = async (key?: string) =>
-    await ipcRenderer.invoke(HelpActions.GetStore, key)
+    await ipcRenderer.callMain(HelpActions.GetStore, key)
   return (
     <ThemeProvider theme={theme}>
       <IntlProvider

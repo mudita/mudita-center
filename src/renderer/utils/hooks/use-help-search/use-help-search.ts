@@ -7,7 +7,7 @@ import { getDefaultHelpItems } from "App/main/store/default-help-items"
 
 export const useHelpSearch = (
   saveToStore?: (data: QuestionAndAnswer) => Promise<any>,
-  getStoreData?: (k?: string) => Promise<any>
+  getStoreData?: (key?: string) => Promise<any>
 ) => {
   const [networkStatus, setNetworkStatus] = useState(window.navigator.onLine)
   const [data, setData] = useState<QuestionAndAnswer>({
@@ -31,7 +31,7 @@ export const useHelpSearch = (
     }
   }
   const fetchDataAndSaveToStore = async (): Promise<void> => {
-    const response = await ipcRenderer.invoke(
+    const response: QuestionAndAnswer = await ipcRenderer.callMain(
       HelpActions.DownloadContentfulData
     )
     if (saveToStore) {
