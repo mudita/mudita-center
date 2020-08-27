@@ -20,8 +20,8 @@ exports[`matches snapshot 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.4rem;
+  width: 2.4rem;
   position: relative;
 }
 
@@ -114,8 +114,8 @@ exports[`matches snapshot 1`] = `
   <div
     class="c1 c2"
     data-testid="icon-Check"
-    height="1.4"
-    width="1.4"
+    height="2.4"
+    width="2.4"
   >
     <test-file-stub
       image="test-file-stub"
