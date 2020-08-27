@@ -49,6 +49,10 @@ const LinkWrapper = styled.div`
 `
 
 const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
+  const iconConfig = {
+    height: 2.4,
+    width: 2.4,
+  }
   return (
     <>
       {label && (
@@ -59,11 +63,11 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
               {icons.map((icon: Type, index) => (
                 <HeaderIconBg key={index}>
                   {icon === Type.MenuRange ? (
-                    <RangeIcon strength={61} width={1.6} />
+                    <RangeIcon strength={61} {...iconConfig} />
                   ) : icon === Type.MenuBattery ? (
-                    <BatteryIcon level={0.7} height={2.4} width={2.4} />
+                    <BatteryIcon level={0.7} {...iconConfig} />
                   ) : (
-                    <HeaderIcon type={icon} height={2.4} width={2.4} />
+                    <HeaderIcon type={icon} {...iconConfig} />
                   )}
                 </HeaderIconBg>
               ))}

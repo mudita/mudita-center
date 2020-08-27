@@ -74,6 +74,7 @@ import SendButton from "Renderer/svg/send-button.svg"
 import MenuContacts from "Renderer/svg/menu-contacts.svg"
 import Backup from "Renderer/svg/backup.svg"
 import Tooltip from "Renderer/svg/tooltip.svg"
+import TetheringStatus from "Renderer/svg/tethering-status.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -155,6 +156,7 @@ export enum Type {
   SendButton,
   Backup,
   Tooltip,
+  TetheringStatus,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -247,6 +249,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Template
     case Type.Tooltip:
       return Tooltip
+    case Type.TetheringStatus:
+      return TetheringStatus
     case Type.Calls:
       return Calls
     case Type.Connection:

@@ -52,7 +52,7 @@ export const menuElements: MenuElement[] = [
   {
     label: messages.yourPure,
     items: YOUR_PURE_BUTTONS,
-    icons: [Type.MenuRange, Type.MenuBattery, Type.Sim, Type.MenuTethering],
+    icons: [Type.MenuRange, Type.MenuBattery, Type.Sim, Type.TetheringStatus],
     connectedPhoneOnly: true,
   },
   {
