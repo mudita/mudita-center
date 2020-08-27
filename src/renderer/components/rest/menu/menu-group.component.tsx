@@ -63,7 +63,7 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
                   ) : icon === Type.MenuBattery ? (
                     <BatteryIcon level={0.9} height={1.6} width={1.6} />
                   ) : (
-                    <HeaderIcon type={icon} width={1.6} />
+                    <HeaderIcon type={icon} height={2.4} width={2.4} />
                   )}
                 </HeaderIconBg>
               ))}
