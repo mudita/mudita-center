@@ -15,7 +15,7 @@ const Part = styled.div`
   }
 `
 
-storiesOf("Overview|Network", module).add("Network", () => {
+storiesOf("Overview/Network", module).add("Network", () => {
   return (
     <div style={{ maxWidth: "63rem" }}>
       <Part>

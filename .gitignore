@@ -39,8 +39,6 @@ src/bundle.js.map
 src/style.css
 src/style.css.map
 dist
-main.js
-main.js.map
 
 tmp/extractedMessages
 .idea

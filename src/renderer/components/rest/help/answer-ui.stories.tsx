@@ -4,7 +4,7 @@ import { MemoryRouter, Route, RouteComponentProps } from "react-router"
 import { data, mockedRouteAndPath } from "App/seeds/help"
 import { renderAnswer } from "Renderer/modules/help/render-utils"
 
-storiesOf("Views|Help", module)
+storiesOf("Views/Help", module)
   .addDecorator((story) => (
     <MemoryRouter initialEntries={[mockedRouteAndPath.route]}>
       <div style={{ maxWidth: "97.5rem" }}>{story()}</div>

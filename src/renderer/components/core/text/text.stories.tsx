@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import Text, { TextDisplayStyle } from "./text.component"
 
-storiesOf("Theme|Text", module).add("Text", () => {
+storiesOf("Theme/Text", module).add("Text", () => {
   return (
     <>
       <Text displayStyle={TextDisplayStyle.PrimaryHeading}>TYPOGRAPHY</Text>
