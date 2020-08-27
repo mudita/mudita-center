@@ -10,7 +10,7 @@ import {
   ModalWrapper,
 } from "Renderer/components/core/modal/modal.styled.elements"
 
-storiesOf("App|Update", module)
+storiesOf("App/Update", module)
   .add("Available update", () => {
     return (
       <div>

@@ -51,7 +51,7 @@ export const mockedCards = [
   },
 ]
 
-storiesOf("News|Product Cards", module).add("Product Cards", () => {
+storiesOf("News/Product Cards", module).add("Product Cards", () => {
   return (
     <Container>
       <ProductCards productCards={mockedCards} />

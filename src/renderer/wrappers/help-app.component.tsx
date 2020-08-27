@@ -10,10 +10,15 @@ import { useHelpSearch } from "Renderer/utils/hooks/use-help-search/use-help-sea
 interface Props {
   history: History
   saveToStore?: (data: QuestionAndAnswer) => Promise<any>
+  getStoreData?: (key?: string) => Promise<any>
 }
 
-const HelpApp: FunctionComponent<Props> = ({ history, saveToStore }) => {
-  const { data, searchQuestion } = useHelpSearch(saveToStore)
+const HelpApp: FunctionComponent<Props> = ({
+  history,
+  saveToStore,
+  getStoreData,
+}) => {
+  const { data, searchQuestion } = useHelpSearch(saveToStore, getStoreData)
   const [searchInputValue, setSearchInputValue] = useState("")
   useEffect(() => {
     searchQuestion(searchInputValue)

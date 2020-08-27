@@ -21,27 +21,17 @@ const ebi = require("electron-better-ipc")
  */
 
 const createMock = () => {
-  const mockedMainFunction = jest.fn((name, handler) => {
-    if (!mock.__calls[name]) {
-      mock.__calls[name] = []
-    }
-    mock.__calls[name].push(handler)
-  })
-
-  const mockedRendererFunction = jest.fn((name) => {
-    if (mock.ipcRenderer.__rendererCalls[name]) {
-      return mock.ipcRenderer.__rendererCalls[name]
-    } else {
-      throw new Error(`No call with name: ${name}`)
-    }
-  })
   const mock = {
     ...ebi,
     __calls: {},
     ipcMain: {
       ...ebi.ipcMain,
-      answerRenderer: mockedMainFunction,
-      handle: mockedMainFunction,
+      answerRenderer: jest.fn((name, handler) => {
+        if (!mock.__calls[name]) {
+          mock.__calls[name] = []
+        }
+        mock.__calls[name].push(handler)
+      }),
       _flush: (name, ...values) => {
         if (!mock.__calls[name]) {
           throw new Error(`No "${name}" call registered.`)
@@ -53,8 +43,13 @@ const createMock = () => {
     ipcRenderer: {
       __rendererCalls: {},
       ...ebi.ipcRenderer,
-      callMain: mockedRendererFunction,
-      invoke: mockedRendererFunction,
+      callMain: jest.fn((name) => {
+        if (mock.ipcRenderer.__rendererCalls[name]) {
+          return mock.ipcRenderer.__rendererCalls[name]
+        } else {
+          throw new Error(`No call with name: ${name}`)
+        }
+      }),
     },
   }
   return mock

@@ -18,11 +18,11 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import { Link } from "react-router-dom"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { HelpEntry } from "Renderer/utils/contentful/normalize-help-data"
+import { NormalizedHelpEntry } from "Renderer/utils/contentful/normalize-help-data"
 
 export interface QuestionAndAnswer {
   collection: string[]
-  items: Record<string, HelpEntry>
+  items: Record<string, NormalizedHelpEntry>
 }
 
 interface HelpProps {

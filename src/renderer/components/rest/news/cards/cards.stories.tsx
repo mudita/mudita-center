@@ -11,7 +11,7 @@ const Container = styled.div`
   align-items: center;
 `
 
-storiesOf("News|Cards", module).add("Cards", () => {
+storiesOf("News/Cards", module).add("Cards", () => {
   return (
     <Container>
       <Cards newsItems={newsItems} />
