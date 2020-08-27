@@ -59,7 +59,6 @@ import Pure from "Renderer/svg/pure.svg"
 import Fail from "Renderer/svg/fail.svg"
 import VeryHighRange from "Renderer/svg/very-high-range.svg"
 import VeryLowBattery from "Renderer/svg/very-low-battery.svg"
-import VeryLowRange from "Renderer/svg/very-low-range.svg"
 import Info from "Renderer/svg/info.svg"
 import More from "Renderer/svg/more.svg"
 import Blocked from "Renderer/svg/blocked.svg"
@@ -274,8 +273,6 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return VeryHighRange
     case Type.VeryLowBattery:
       return VeryLowBattery
-    case Type.VeryLowRange:
-      return VeryLowRange
     case Type.VoiceRecorder:
       return VoiceRecorder
     case Type.Info:
