@@ -55,8 +55,8 @@ exports[`matches snapshot 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 3.2rem;
+  width: 3.2rem;
   position: relative;
 }
 
@@ -84,6 +84,29 @@ exports[`matches snapshot 1`] = `
 }
 
 .c14 svg {
+  width: 100%;
+  height: 100%;
+}
+
+.c15 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2.4rem;
+  width: 2.4rem;
+  position: relative;
+}
+
+.c15 svg {
   width: 100%;
   height: 100%;
 }
@@ -156,7 +179,7 @@ exports[`matches snapshot 1`] = `
   opacity: 0.75;
 }
 
-.c16 {
+.c17 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -192,35 +215,35 @@ exports[`matches snapshot 1`] = `
   width: 100%;
 }
 
-.c16.active {
+.c17.active {
   background-color: #f4f5f6;
 }
 
-.c16.active * {
+.c17.active * {
   color: #000000;
 }
 
-.c16.active svg {
+.c17.active svg {
   opacity: 1;
   -webkit-transition: opacity 500ms ease;
   transition: opacity 500ms ease;
 }
 
-.c16:hover {
+.c17:hover {
   background-color: #f4f5f6;
 }
 
-.c16:hover * {
+.c17:hover * {
   color: #000000;
 }
 
-.c16:hover svg {
+.c17:hover svg {
   opacity: 1;
   -webkit-transition: opacity 500ms ease;
   transition: opacity 500ms ease;
 }
 
-.c16 svg {
+.c17 svg {
   opacity: 0.75;
 }
 
@@ -275,7 +298,7 @@ exports[`matches snapshot 1`] = `
   background-color: #f4f5f6;
 }
 
-.c15:not(:last-of-type) {
+.c16:not(:last-of-type) {
   margin-right: 1rem;
 }
 
@@ -339,8 +362,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-MenuNews"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -383,10 +406,10 @@ exports[`matches snapshot 1`] = `
           class="c13"
         >
           <div
-            class="c14"
-            data-testid="icon-VeryHighBattery"
-            height="1.6"
-            width="1.6"
+            class="c15"
+            data-testid="icon-HighBattery"
+            height="2.4"
+            width="2.4"
           >
             <test-file-stub
               image="test-file-stub"
@@ -397,10 +420,10 @@ exports[`matches snapshot 1`] = `
           class="c13"
         >
           <div
-            class="c14 c15"
+            class="c15 c16"
             data-testid="icon-Sim"
-            height="1.6"
-            width="1.6"
+            height="2.4"
+            width="2.4"
           >
             <test-file-stub
               image="test-file-stub"
@@ -411,10 +434,10 @@ exports[`matches snapshot 1`] = `
           class="c13"
         >
           <div
-            class="c14 c15"
+            class="c15 c16"
             data-testid="icon-MenuTethering"
-            height="1.6"
-            width="1.6"
+            height="2.4"
+            width="2.4"
           >
             <test-file-stub
               image="test-file-stub"
@@ -435,8 +458,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-MenuOverview"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -461,8 +484,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-Message"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -487,8 +510,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-MenuPhone"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -513,8 +536,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-MenuContacts"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -539,8 +562,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-MenuMusic"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -565,8 +588,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-Calendar"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -591,8 +614,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-MenuTools"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -617,8 +640,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-MenuMeditation"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -643,8 +666,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-MenuFilesManager"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -679,8 +702,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-MenuTethering"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -705,8 +728,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-MenuSettings"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
@@ -723,7 +746,7 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <button
-        class="c16"
+        class="c17"
         data-testid="help-menu-button"
         size="2"
         type="button"
@@ -731,8 +754,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c6 c7"
           data-testid="icon-MenuHelp"
-          height="1.4"
-          width="1.4"
+          height="3.2"
+          width="3.2"
         >
           <test-file-stub
             image="test-file-stub"
