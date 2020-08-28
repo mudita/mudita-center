@@ -8,7 +8,11 @@ import {
 } from "electron"
 import * as path from "path"
 import * as url from "url"
-import { HELP_WINDOW_SIZE, WINDOW_SIZE } from "./config"
+import {
+  GOOGLE_AUTH_WINDOW_SIZE,
+  HELP_WINDOW_SIZE,
+  WINDOW_SIZE,
+} from "./config"
 import autoupdate from "./autoupdate"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
@@ -32,11 +36,13 @@ import {
   registerGetHelpStoreHandler,
   removeGetHelpStoreHandler,
 } from "App/main/functions/get-help-store-handler"
+import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
 
 require("dotenv").config()
 
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
+let googleAuthWindow: BrowserWindow | null = null
 
 // Fetch and log all errors along with alert box
 process.on("uncaughtException", (error) => {
@@ -171,4 +177,31 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
     removeGetHelpStoreHandler()
     helpWindow = null
   })
+})
+
+ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, () => {
+  if (process.env.MUDITA_GOOGLE_AUTH_URL) {
+    if (googleAuthWindow === null) {
+      googleAuthWindow = new BrowserWindow(
+        getWindowOptions({
+          width: GOOGLE_AUTH_WINDOW_SIZE.width,
+          height: GOOGLE_AUTH_WINDOW_SIZE.height,
+          titleBarStyle: "hidden",
+          webPreferences: {
+            sandbox: true,
+            webSecurity: false,
+            allowRunningInsecureContent: true,
+          },
+        })
+      )
+
+      googleAuthWindow.loadURL(process.env.MUDITA_GOOGLE_AUTH_URL)
+    } else {
+      googleAuthWindow.show()
+    }
+
+    googleAuthWindow.on("close", () => {
+      googleAuthWindow = null
+    })
+  }
 })

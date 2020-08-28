@@ -1,12 +1,14 @@
 import { connect } from "react-redux"
 import Phone from "./phone.component"
 import { noop } from "Renderer/utils/noop"
+import { ipcRenderer } from "electron-better-ipc"
 
 import {
   generateSortedStructure,
   generateFlatList,
 } from "Renderer/models/phone/phone.helpers"
 import { ContactID } from "Renderer/models/phone/phone.typings"
+import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
 
 const mapStateToProps = ({ phone }: any) => {
   return {
@@ -22,7 +24,8 @@ const mapDispatch = ({ phone }: any) => {
     onSearchTermChange: (event: string) => phone.handleInput(event),
     ...phone,
     // TODO: Add proper actions
-    onManageButtonClick: noop,
+    onManageButtonClick: () =>
+      ipcRenderer.callMain(GoogleAuthActions.OpenWindow),
     onExport: noop,
     onForward: noop,
     onBlock: noop,
