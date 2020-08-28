@@ -77,3 +77,7 @@ export const ClickableCol = styled(Col)<{ active?: boolean }>`
 export const NameIcon = styled(Icon)`
   margin-right: 0.5rem;
 `
+
+export const StatusCallIcon = styled(Icon)`
+  margin-bottom: 0.3rem;
+`

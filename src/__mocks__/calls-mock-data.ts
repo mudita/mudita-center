@@ -14,7 +14,7 @@ export const mockData = [
     date: new Date("2019-07-02T13:24:08.717Z"),
     status: CallStatus.Missed,
     timesMissed: 3,
-    icon: IconType.Delete,
+    icon: IconType.MissedCall,
     description: { id: "view.name.generic.type" },
   },
   {
@@ -29,7 +29,7 @@ export const mockData = [
     date: new Date("2019-08-03T15:51:46.722Z"),
     status: CallStatus.Missed,
     timesMissed: 4,
-    icon: IconType.Delete,
+    icon: IconType.MissedCall,
     description: { id: "view.name.generic.type" },
   },
   {
@@ -44,7 +44,7 @@ export const mockData = [
     date: new Date("2020-04-17T04:17:53.229Z"),
     status: CallStatus.Missed,
     timesMissed: 2,
-    icon: IconType.Delete,
+    icon: IconType.MissedCall,
     description: { id: "view.name.generic.type" },
   },
   {
@@ -59,7 +59,7 @@ export const mockData = [
     date: new Date("2020-03-08T11:23:42.226Z"),
     status: CallStatus.Missed,
     timesMissed: 3,
-    icon: IconType.Delete,
+    icon: IconType.MissedCall,
     description: { id: "view.name.generic.type" },
   },
   {
@@ -74,7 +74,7 @@ export const mockData = [
     date: new Date("2020-06-16T20:10:34.812Z"),
     status: CallStatus.Incoming,
     timesMissed: 0,
-    icon: IconType.Delete,
+    icon: IconType.IncomingCall,
     description: { id: "view.name.generic.type" },
   },
 ]

@@ -76,6 +76,10 @@ import Backup from "Renderer/svg/backup.svg"
 import Tooltip from "Renderer/svg/tooltip.svg"
 import TetheringStatus from "Renderer/svg/tethering-status.svg"
 import Templates from "Renderer/svg/templates.svg"
+import MissedCall from "Renderer/svg/missed-call.svg"
+import ConferenceCall from "Renderer/svg/conference-call.svg"
+import IncomingCall from "Renderer/svg/incoming-call.svg"
+import OutgoingCall from "Renderer/svg/outgoing-call.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -159,6 +163,10 @@ export enum Type {
   Tooltip,
   TetheringStatus,
   Templates,
+  MissedCall,
+  ConferenceCall,
+  IncomingCall,
+  OutgoingCall,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -317,6 +325,14 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return SendButton
     case Type.Backup:
       return Backup
+    case Type.MissedCall:
+      return MissedCall
+    case Type.ConferenceCall:
+      return ConferenceCall
+    case Type.IncomingCall:
+      return IncomingCall
+    case Type.OutgoingCall:
+      return OutgoingCall
     default:
       return Message
   }
