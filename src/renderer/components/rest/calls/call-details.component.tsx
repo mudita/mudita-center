@@ -88,7 +88,6 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
                 label={intl.formatMessage(messages.deleteCall)}
                 onClick={noop}
                 Icon={Type.Delete}
-                iconSize={iconConfig}
               />
               <Button
                 displayStyle={DisplayStyle.Dropdown}
@@ -119,7 +118,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
                       <Icon
                         key={`icon-${details.icon}`}
                         type={details.icon}
-                        width={1.5}
+                        width={2.4}
                       />,
                     ]}
                     value={`${intl.formatMessage(

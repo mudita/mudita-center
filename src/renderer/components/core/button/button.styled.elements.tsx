@@ -283,8 +283,8 @@ const buttonStyles = css<{
       case DisplayStyle.InputIcon:
         return css`
           justify-content: flex-start;
-          height: 1.4rem;
-          width: 1.4rem;
+          height: 2.4rem;
+          width: 2.4rem;
           border: none;
           padding: 0;
         `
