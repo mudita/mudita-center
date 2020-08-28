@@ -70,10 +70,10 @@ const buttonStyles = css<{
   appearance: none;
   background: none;
   transition: ${transition(
-    "background",
-    theme.transitionTime.quick,
-    theme.transitionTimingFunction.easeInOut
-  )},
+      "background",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )},
     ${transition(
       "color",
       theme.transitionTime.quick,
@@ -340,12 +340,6 @@ export const StyledIcon = styled(Icon)<{
     }
     return css``
   }}
-
-  ${({ displaystyle }) =>
-    displaystyle === DisplayStyle.Dropdown &&
-    css`
-      height: 1.6rem;
-    `};
 
   ${({ displaystyle }) =>
     displaystyle === DisplayStyle.InputIcon &&

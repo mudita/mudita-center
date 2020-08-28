@@ -46,7 +46,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   exact,
   href,
   Icon,
-  iconSize = { height: 1.4, width: 1.4 },
+  iconSize = { height: 2.8, width: 2.8 },
   label,
   labelMessage,
   nav,
