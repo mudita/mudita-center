@@ -37,6 +37,11 @@ import {
   removeGetHelpStoreHandler,
 } from "App/main/functions/get-help-store-handler"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
+import {
+  createAuthServer,
+  killAuthServer,
+  authServerPort,
+} from "App/main/auth-server"
 
 require("dotenv").config()
 
@@ -186,7 +191,8 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, () => {
         getWindowOptions({
           width: GOOGLE_AUTH_WINDOW_SIZE.width,
           height: GOOGLE_AUTH_WINDOW_SIZE.height,
-          titleBarStyle: "hidden",
+          titleBarStyle:
+            process.env.NODE_ENV === "development" ? "default" : "hidden",
           webPreferences: {
             sandbox: true,
             webSecurity: false,
@@ -195,13 +201,31 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, () => {
         })
       )
 
-      googleAuthWindow.loadURL(process.env.MUDITA_GOOGLE_AUTH_URL)
+      googleAuthWindow.loadURL(
+        `${process.env.MUDITA_GOOGLE_AUTH_URL}?validation=${new Buffer(
+          `http://localhost:${authServerPort}`
+        ).toString("base64")}`
+      )
     } else {
       googleAuthWindow.show()
     }
 
+    const cb = (input: string) => {
+      ipcMain.answerRenderer("send-data", () => JSON.parse(input))
+    }
+
+    createAuthServer(cb)
+
     googleAuthWindow.on("close", () => {
       googleAuthWindow = null
+      killAuthServer()
     })
+  } else {
+    console.log("No Google Auth URL defined!")
   }
+})
+
+ipcMain.answerRenderer(GoogleAuthActions.CloseWindow, () => {
+  killAuthServer()
+  googleAuthWindow?.close()
 })

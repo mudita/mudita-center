@@ -33,6 +33,7 @@ import {
   Store,
 } from "Renderer/models/phone/phone.typings"
 import { ContactSection } from "Renderer/modules/phone/phone.styled"
+import { AuthProviders } from "Renderer/models/auth/auth.typings"
 
 export type PhoneProps = ContactActions &
   ContactPanelProps &
@@ -41,6 +42,8 @@ export type PhoneProps = ContactActions &
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
     removeContact?: (input: ContactID | ContactID[]) => void
+    setProviderData: (provider: AuthProviders, data: any) => void
+    onManageButtonClick: (cb?: any) => void
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -57,6 +60,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onSpeedDialSettingsSave,
     savingContact,
     getContact,
+    setProviderData,
   } = props
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<NewContact>()
@@ -232,6 +236,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
+  const handleGoogleAuth = () => {
+    onManageButtonClick(setProviderData)
+  }
+
   const _devClearContacts = () => setContacts([])
   const _devLoadDefaultContacts = () => setContacts(contactList)
 
@@ -249,7 +257,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       <ContactSection>
         <ContactPanel
           onSearchTermChange={onSearchTermChange}
-          onManageButtonClick={onManageButtonClick}
+          onManageButtonClick={handleGoogleAuth}
           onNewButtonClick={handleAddingContact}
         />
         <TableWithSidebarWrapper>
