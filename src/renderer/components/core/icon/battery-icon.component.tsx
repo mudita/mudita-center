@@ -19,6 +19,8 @@ const getInteractiveBatteryIcon = (
   switch (true) {
     case charging:
       return <Icon type={Type.ChargingBattery} {...rest} />
+    case batteryLevel === 1:
+      return <Icon type={Type.FullBattery} {...rest} />
     case batteryLevel > 0.8:
       return <Icon type={Type.VeryHighBattery} {...rest} />
     case batteryLevel > 0.6:

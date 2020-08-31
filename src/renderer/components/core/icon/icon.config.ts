@@ -79,6 +79,7 @@ import MissedCall from "Renderer/svg/missed-call.svg"
 import ConferenceCall from "Renderer/svg/conference-call.svg"
 import IncomingCall from "Renderer/svg/incoming-call.svg"
 import OutgoingCall from "Renderer/svg/outgoing-call.svg"
+import FullBattery from "Renderer/svg/full-battery.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -165,6 +166,7 @@ export enum Type {
   ConferenceCall,
   IncomingCall,
   OutgoingCall,
+  FullBattery,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -329,6 +331,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return IncomingCall
     case Type.OutgoingCall:
       return OutgoingCall
+    case Type.FullBattery:
+      return FullBattery
     default:
       return Message
   }

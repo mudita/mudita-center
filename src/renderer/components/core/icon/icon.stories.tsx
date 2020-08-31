@@ -57,6 +57,9 @@ storiesOf("Components|Core/Icon", module)
       <Story title="Very high">
         <BatteryIcon level={0.9} height={2.4} width={2.4} />
       </Story>
+      <Story title="Full Battery">
+        <BatteryIcon level={1} height={2.4} width={2.4} />
+      </Story>
       <Story title="Charging">
         <BatteryIcon charging level={0.5} height={2.4} width={2.4} />
       </Story>
