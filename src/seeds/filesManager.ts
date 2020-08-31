@@ -8,7 +8,7 @@ const data = [
     occupiedMemory: 4294967296,
     filesAmount: 15,
     color: "#6D9BBC",
-    icon: Type.MenuMusic,
+    icon: Type.MusicGrey,
     url: URL_MAIN.music,
   },
   {
@@ -16,7 +16,7 @@ const data = [
     occupiedMemory: 4294967296,
     filesAmount: 3,
     color: "#AEBEC9",
-    icon: Type.VoiceRecorder,
+    icon: Type.VoiceRecorderGrey,
     url: "/tools/voice-recorder",
   },
   {
