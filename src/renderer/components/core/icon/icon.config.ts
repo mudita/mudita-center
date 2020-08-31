@@ -34,7 +34,6 @@ import MenuTools from "Renderer/svg/menu-tools.svg"
 import ExternalLink from "Renderer/svg/external-link.svg"
 import MuditaLogo from "Renderer/svg/mudita.svg"
 import MuditaLogoWithText from "Renderer/svg/mudita_logo.svg"
-import Music from "Renderer/svg/music.svg"
 import NoBattery from "Renderer/svg/no-battery.svg"
 import NoRange from "Renderer/svg/no-range.svg"
 import Refresh from "Renderer/svg/refresh.svg"
@@ -119,7 +118,6 @@ export enum Type {
   ExternalLink,
   MuditaLogo,
   MuditaLogoWithText,
-  Music,
   MediumBattery,
   MediumRange,
   NoBattery,
@@ -243,8 +241,6 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return MuditaLogo
     case Type.MuditaLogoWithText:
       return MuditaLogoWithText
-    case Type.Music:
-      return Music
     case Type.NoBattery:
       return NoBattery
     case Type.NoRange:

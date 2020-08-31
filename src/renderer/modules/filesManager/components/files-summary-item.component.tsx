@@ -50,7 +50,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
 }) => {
   return (
     <Wrapper fileColor={color} data-testid="files-manager-item">
-      <SummaryIcon type={icon} />
+      <SummaryIcon type={icon} height={3.2} width={3.2} />
       <TextWrapper>
         <Text displayStyle={TextDisplayStyle.LargeText} element={"p"}>
           {filesType}
