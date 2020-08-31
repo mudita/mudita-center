@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
+    <defs>
+        <rect id="gzarp769aa" width="24" height="24" x="0" y="0" rx="3"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd" transform="translate(4 4)">
+        <mask id="q6hsiaypvb" fill="#fff">
+            <use xlink:href="#gzarp769aa"/>
+        </mask>
+        <g fill="#CDCECF" mask="url(#q6hsiaypvb)">
+            <g transform="translate(3.333 3.333)">
+                <rect width="2.917" height="4.167" y="12.5" rx=".469"/>
+                <rect width="2.917" height="8.333" x="4.583" y="8.333" rx=".469"/>
+                <rect width="2.917" height="12.5" x="9.167" y="4.167" rx=".469"/>
+                <rect width="2.917" height="16.667" x="13.75" rx=".469"/>
+            </g>
+        </g>
+    </g>
+</svg>

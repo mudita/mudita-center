@@ -70,6 +70,9 @@ storiesOf("Components|Core/Icon", module)
       <Story title="No signal">
         <RangeIcon strength={0} height={2.4} width={2.4} />
       </Story>
+      <Story title="Very Low">
+        <RangeIcon strength={6} height={2.4} width={2.4} />
+      </Story>
       <Story title="Low">
         <RangeIcon strength={21} height={2.4} width={2.4} />
       </Story>
@@ -81,6 +84,21 @@ storiesOf("Components|Core/Icon", module)
       </Story>
       <Story title="Very high">
         <RangeIcon strength={90} height={2.4} width={2.4} />
+      </Story>
+      <Story title="Very Low with roaming">
+        <RangeIcon strength={6} roaming height={2.4} width={2.4} />
+      </Story>
+      <Story title="Low with roaming">
+        <RangeIcon strength={21} roaming height={2.4} width={2.4} />
+      </Story>
+      <Story title="Medium with roaming">
+        <RangeIcon strength={41} roaming height={2.4} width={2.4} />
+      </Story>
+      <Story title="High with roaming">
+        <RangeIcon strength={61} roaming height={2.4} width={2.4} />
+      </Story>
+      <Story title="Very high with roaming">
+        <RangeIcon strength={90} roaming height={2.4} width={2.4} />
       </Story>
     </StoryContainer>
   ))
