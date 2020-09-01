@@ -4,95 +4,75 @@ import { noop } from "Renderer/utils/noop"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 
-test("close button is rendered because modal is closeable by default", () => {
-  const closeButtonTestId = "close-modal-button"
-  const { getByTestId } = renderWithThemeAndIntl(
-    <Modal title={"Title"} size={ModalSize.Medium}>
+const defaultProps = {
+  title: "Title",
+  size: ModalSize.Medium,
+}
+
+const renderer = (extraProps?: {}) => {
+  const props = {
+    ...defaultProps,
+    ...extraProps,
+  }
+  return renderWithThemeAndIntl(
+    <Modal {...props}>
       <h1>lala</h1>
     </Modal>
   )
+}
+
+test("close button is rendered because modal is closeable by default", () => {
+  const closeButtonTestId = "close-modal-button"
+  const { getByTestId } = renderer()
 
   expect(getByTestId(closeButtonTestId)).toBeInTheDocument()
 })
 
 test("close button is not rendered when modal is not closable", () => {
-  const { container } = renderWithThemeAndIntl(
-    <Modal title={"Title"} size={ModalSize.Medium} closeable={false}>
-      <h1>lala</h1>
-    </Modal>
-  )
+  const { container } = renderer({ closeable: false })
 
   const closeButton = container.querySelector("test-file-stub")
   expect(closeButton).not.toBeInTheDocument()
 })
 
 test("subtitle is rendered when provided", () => {
-  const subTitleText = "Subtitle"
-  const { getByText } = renderWithThemeAndIntl(
-    <Modal title={"Title"} size={ModalSize.Medium} subtitle={subTitleText}>
-      <h1>lala</h1>
-    </Modal>
-  )
-  expect(getByText(subTitleText)).toBeInTheDocument()
+  const subtitle = "Subtitle"
+  const { getByText } = renderer({ subtitle })
+  expect(getByText(subtitle)).toBeInTheDocument()
 })
 
 test("only close button is rendered by default", () => {
   const closeButtonText = "component.modal.closeButton"
-  const { getByText } = renderWithThemeAndIntl(
-    <Modal title={"Title"} size={ModalSize.Medium} subtitle={"Subtitle"}>
-      <h1>lala</h1>
-    </Modal>
-  )
+  const { getByText } = renderer()
   expect(getByText(closeButtonText, { exact: false })).toBeInTheDocument()
   expect(getByText(closeButtonText, { exact: false })).toBeTranslationKey()
 })
 
 test("action button is rendered when label and onActionButtonClick are provided", () => {
-  const modalActionButtonsId = "modal-action-button"
-  const { getAllByTestId } = renderWithThemeAndIntl(
-    <Modal
-      title={"Title"}
-      size={ModalSize.Medium}
-      subtitle={"Subtitle"}
-      actionButtonLabel={"Action"}
-      onActionButtonClick={noop}
-    >
-      <h1>lala</h1>
-    </Modal>
-  )
-
-  expect(getAllByTestId(modalActionButtonsId)).toHaveLength(2)
+  const { getAllByTestId } = renderer({
+    actionButtonLabel: "Action",
+    onActionButtonClick: noop,
+  })
+  expect(getAllByTestId(ModalTestIds.ModalActionButton)).toHaveLength(2)
 })
 
 test("action button is not rendered when only label is provided", () => {
-  const modalActionButtonsId = "modal-action-button"
-  const { getAllByTestId } = renderWithThemeAndIntl(
-    <Modal
-      title={"Title"}
-      size={ModalSize.Medium}
-      subtitle={"Subtitle"}
-      actionButtonLabel={"Action"}
-    >
-      <h1>lala</h1>
-    </Modal>
-  )
+  const { getAllByTestId } = renderer({ actionButtonLabel: "Action" })
 
-  expect(getAllByTestId(modalActionButtonsId)).toHaveLength(1)
+  expect(getAllByTestId(ModalTestIds.ModalActionButton)).toHaveLength(1)
 })
 
 test("action button is not rendered when only onActionButtonClick is provided", () => {
-  const modalActionButtonsId = "modal-action-button"
-  const { getAllByTestId } = renderWithThemeAndIntl(
-    <Modal
-      title={"Title"}
-      size={ModalSize.Medium}
-      subtitle={"Subtitle"}
-      onActionButtonClick={noop}
-    >
-      <h1>lala</h1>
-    </Modal>
-  )
+  const { getAllByTestId } = renderer({ onActionButtonClick: noop })
+  expect(getAllByTestId(ModalTestIds.ModalActionButton)).toHaveLength(1)
+})
 
-  expect(getAllByTestId(modalActionButtonsId)).toHaveLength(1)
+test("custom buttons are rendered", () => {
+  const customButtonText = "buttonasda"
+  const { getByText } = renderer({
+    customButtons: <button>{customButtonText}</button>,
+  })
+  expect(getByText(customButtonText)).toBeInTheDocument()
 })
