@@ -10,8 +10,9 @@ import {
   addContacts,
   removeContact,
   editContact,
+  findContact,
 } from "Renderer/models/phone/phone.helpers"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import phone from "Renderer/models/phone/phone"
 
 const TEST_CONTACT = { ...phoneSeed.db[phoneSeed.collection[0]] }
@@ -182,5 +183,123 @@ describe("redux tests", () => {
     expect(
       Array.isArray(store.select.phone.grouped(store.getState()))
     ).toBeTruthy()
+  })
+
+  test("properly adds contact", () => {
+    const testId = "some-random-id"
+    const testContact = {
+      ...TEST_CONTACT,
+      id: testId,
+    }
+
+    expect(
+      store.getState().phone.collection.indexOf(testId) === -1
+    ).toBeTruthy()
+
+    store.dispatch.phone.addContact(testContact)
+
+    expect(store.getState().phone.collection.indexOf(testId) === -1).toBeFalsy()
+  })
+
+  test("properly changes contact", () => {
+    const testName = "some random name"
+    const modifiedContact = {
+      ...TEST_CONTACT,
+      name: testName,
+    }
+
+    expect(store.getState().phone.db[TEST_CONTACT.id]).not.toMatchObject(
+      modifiedContact
+    )
+
+    store.dispatch.phone.editContact([TEST_CONTACT.id], modifiedContact)
+
+    expect(store.getState().phone.db[TEST_CONTACT.id]).toMatchObject(
+      modifiedContact
+    )
+  })
+
+  test("properly revokes fields on add", () => {
+    const speedDial = 5
+    const contactWithSpeedDial = findContact(
+      store.getState().phone,
+      { speedDial },
+      true
+    )
+
+    expect(
+      store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
+    ).toBe(speedDial)
+
+    store.dispatch.phone.addContact({
+      ...TEST_CONTACT,
+      speedDial,
+    })
+
+    expect(
+      store.getState().phone.db[TEST_CONTACT.id].speedDial
+    ).toBe(speedDial)
+    expect(
+      store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
+    ).toBeUndefined()
+  })
+
+  test("properly revokes fields on edit", () => {
+    const speedDial = 5
+    const contactWithSpeedDial = findContact(
+      store.getState().phone,
+      { speedDial },
+      true
+    )
+    const contactToEdit = store.getState().phone.db[0]
+
+    expect(
+      store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
+    ).toBe(speedDial)
+
+    store.dispatch.phone.editContact(contactToEdit.id, {
+      ...contactToEdit,
+      speedDial,
+    })
+
+    expect(
+      store.getState().phone.db[contactToEdit.id].speedDial
+    ).toBe(speedDial)
+    expect(
+      store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
+    ).toBeUndefined()
+  })
+
+  test("properly removes contact", () => {
+    expect(store.getState().phone.db[TEST_CONTACT.id]).toBeDefined()
+    expect(
+      store.getState().phone.collection.indexOf(TEST_CONTACT.id) === -1
+    ).toBeFalsy()
+
+    store.dispatch.phone.removeContact(TEST_CONTACT.id)
+
+    expect(store.getState().phone.db[TEST_CONTACT.id]).toBeUndefined()
+    expect(
+      store.getState().phone.collection.indexOf(TEST_CONTACT.id) === -1
+    ).toBeTruthy()
+  })
+
+  test("properly removes multiple contacts", () => {
+    const sliceToRemove = phoneSeed.collection.slice(0, 5)
+    const initialState = store.getState().phone
+
+    sliceToRemove.forEach((slice) => {
+      expect(initialState.db[slice]).toBeDefined()
+      expect(initialState.collection.indexOf(slice) === -1).toBeFalsy()
+    })
+
+    store.dispatch.phone.removeContact(sliceToRemove)
+
+    const newState = store.getState().phone
+
+    sliceToRemove.forEach((slice) => {
+      expect(newState.db[slice]).toBeUndefined()
+      expect(newState.collection.indexOf(slice) === -1).toBeTruthy()
+    })
   })
 })
