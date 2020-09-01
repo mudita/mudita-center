@@ -75,6 +75,8 @@ import SendButton from "Renderer/svg/send-button.svg"
 import MenuContacts from "Renderer/svg/menu-contacts.svg"
 import Backup from "Renderer/svg/backup.svg"
 import Tooltip from "Renderer/svg/tooltip.svg"
+import AppleLogo from "Renderer/svg/apple.svg"
+import GoogleLogo from "Renderer/svg/google.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -156,6 +158,8 @@ export enum Type {
   SendButton,
   Backup,
   Tooltip,
+  Apple,
+  Google,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -312,6 +316,10 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return SendButton
     case Type.Backup:
       return Backup
+    case Type.Apple:
+      return AppleLogo
+    case Type.Google:
+      return GoogleLogo
     default:
       return Message
   }

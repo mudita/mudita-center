@@ -56,7 +56,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
             label={intl.formatMessage({
               id: "view.name.overview.system.downloadAction",
             })}
-            Icon={Type.DownloadWhite}
+            Icon={Type.Apple}
           />
           <Button
             displayStyle={DisplayStyle.Primary}
@@ -64,7 +64,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
             label={intl.formatMessage({
               id: "view.name.overview.system.downloadAction",
             })}
-            Icon={Type.DownloadWhite}
+            Icon={Type.Google}
           />
         </ButtonWrapper>
       </ButtonsContainer>
