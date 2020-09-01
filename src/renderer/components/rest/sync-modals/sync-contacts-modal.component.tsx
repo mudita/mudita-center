@@ -37,8 +37,14 @@ const ButtonWrapper = styled.div`
   }
 `
 
+const SyncButton = styled(Button)`
+  width: 24.4rem;
+`
+
 const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
   onClose = noop,
+  onAppleButtonClick = noop,
+  onGoogleButtonClick = noop,
 }) => (
   <Modal
     size={ModalSize.Small}
@@ -50,21 +56,23 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
     customButtons={
       <ButtonsContainer>
         <ButtonWrapper>
-          <Button
+          <SyncButton
             displayStyle={DisplayStyle.Primary}
             data-testid={"modal-action-button"}
             label={intl.formatMessage({
-              id: "view.name.overview.system.downloadAction",
-            })}
-            Icon={Type.Apple}
-          />
-          <Button
-            displayStyle={DisplayStyle.Primary}
-            data-testid={"modal-action-button"}
-            label={intl.formatMessage({
-              id: "view.name.overview.system.downloadAction",
+              id: "view.name.phone.contacts.googleButtonText",
             })}
             Icon={Type.Google}
+            onClick={onGoogleButtonClick}
+          />
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            data-testid={"modal-action-button"}
+            label={intl.formatMessage({
+              id: "view.name.phone.contacts.appleButtonText",
+            })}
+            Icon={Type.Apple}
+            onClick={onAppleButtonClick}
           />
         </ButtonWrapper>
       </ButtonsContainer>

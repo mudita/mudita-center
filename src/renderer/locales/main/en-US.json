@@ -133,6 +133,8 @@
   "view.name.phone.contacts": "Contacts",
   "view.name.phone.contacts.syncModalTitle": "Synchronise contacts",
   "view.name.phone.contacts.syncModalText": "Log in to allow Desktop App to synchronise contacts between Pure and Google or iCloud accounts.",
+  "view.name.phone.contacts.googleButtonText": "Continue with Google",
+  "view.name.phone.contacts.appleButtonText": "Continue with Apple",
   "view.name.phone.contacts.selectionsNumber": "{num, plural, =-1 {All Contacts} one {# Contact} other {# Contacts}} selected",
   "view.name.phone.contacts.emptyList.title": "No contacts found",
   "view.name.phone.contacts.emptyList.emptyPhonebook.description": "Phonebook is empty",
