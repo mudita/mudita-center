@@ -98,7 +98,6 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           Icon={Type.FilesManager}
           onClick={onFilesOpen}
           to={URL_MAIN.filesManager}
-          iconSize={{ height: 2.8, width: 2.8 }}
         />
       </CardAction>
     </Card>

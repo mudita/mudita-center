@@ -210,10 +210,8 @@ exports[`matches snapshot 1`] = `
     >
       <button
         class="c7 c8"
-        height="2.8"
         size="2"
         type="button"
-        width="2.8"
       >
         <div
           class="c9 c10"
