@@ -9,11 +9,9 @@ import {
 } from "Renderer/models/phone/phone.helpers"
 import { ContactID } from "Renderer/models/phone/phone.typings"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
-import { AuthProviders } from "Renderer/models/auth/auth.typings"
+import { AuthPayload, AuthProviders } from "Renderer/models/auth/auth.typings"
 
-const handleGoogleAuth = async (
-  cb?: (provider: AuthProviders, data: any) => void
-) => {
+const handleGoogleAuth = async (cb?: (payload: AuthPayload) => void) => {
   await ipcRenderer.callMain(GoogleAuthActions.OpenWindow)
   let data: Record<string, string> | null = null
 
@@ -25,7 +23,7 @@ const handleGoogleAuth = async (
     if (token) {
       data = token
       clearInterval(checker)
-      cb && cb(AuthProviders.Google, data)
+      cb && cb({ provider: AuthProviders.Google, data })
       await ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
     }
   }, 500)

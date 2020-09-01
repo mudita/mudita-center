@@ -7,3 +7,8 @@ export enum AuthProviders {
 export interface Auth {
   [key: string]: SimpleRecord
 }
+
+export interface AuthPayload {
+  provider: AuthProviders
+  data: Record<string, string | number>
+}

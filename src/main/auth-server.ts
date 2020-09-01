@@ -27,4 +27,8 @@ export const createAuthServer = (
 
 export const killAuthServer = (): void => {
   server.close()
+
+  if (process.env.NODE_ENV === "development") {
+    console.log("Server killed")
+  }
 }

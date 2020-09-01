@@ -1,4 +1,4 @@
-import { Auth, AuthProviders } from "Renderer/models/auth/auth.typings"
+import { Auth, AuthPayload } from "Renderer/models/auth/auth.typings"
 import { authFactory } from "Renderer/models/auth/auth.helpers"
 
 export const initialState: Auth = {
@@ -8,11 +8,8 @@ export const initialState: Auth = {
 export default {
   state: initialState,
   reducers: {
-    setProviderData(
-      state: Auth,
-      provider: AuthProviders,
-      data: Record<string, string | number>
-    ): Auth {
+    setProviderData(state: Auth, payload: AuthPayload): Auth {
+      const { provider, data } = payload
       return {
         ...state,
         [provider]: authFactory(data),
