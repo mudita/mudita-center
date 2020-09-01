@@ -39,7 +39,6 @@ const ButtonWrapper = styled.div`
 
 const SyncButton = styled(Button)`
   width: 24.4rem;
-  justify-content: space-around;
 `
 
 const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
