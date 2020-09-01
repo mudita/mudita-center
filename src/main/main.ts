@@ -37,11 +37,7 @@ import {
   removeGetHelpStoreHandler,
 } from "App/main/functions/get-help-store-handler"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
-import {
-  createAuthServer,
-  killAuthServer,
-  authServerPort,
-} from "App/main/auth-server"
+import { createAuthServer, killAuthServer } from "App/main/auth-server"
 
 require("dotenv").config()
 
@@ -194,24 +190,25 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, () => {
           titleBarStyle:
             process.env.NODE_ENV === "development" ? "default" : "hidden",
           webPreferences: {
-            sandbox: true,
+            nodeIntegration: false,
             webSecurity: false,
-            allowRunningInsecureContent: true,
           },
         })
       )
 
-      googleAuthWindow.loadURL(
-        `${process.env.MUDITA_GOOGLE_AUTH_URL}?validation=${new Buffer(
-          `http://localhost:${authServerPort}`
-        ).toString("base64")}`
-      )
+      googleAuthWindow.loadURL(process.env.MUDITA_GOOGLE_AUTH_URL)
     } else {
       googleAuthWindow.show()
     }
 
-    const cb = (input: string) => {
-      ipcMain.answerRenderer("send-data", () => JSON.parse(input))
+    const cb = (input: string | Record<string, string>) => {
+      ipcMain.answerRenderer("send-data", () => {
+        if (typeof input === "string") {
+          return JSON.parse(input)
+        }
+
+        return input
+      })
     }
 
     createAuthServer(cb)

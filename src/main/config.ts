@@ -9,6 +9,6 @@ export const HELP_WINDOW_SIZE = {
 }
 
 export const GOOGLE_AUTH_WINDOW_SIZE = {
-  width: 320,
-  height: 480,
+  width: 520,
+  height: 680,
 }
