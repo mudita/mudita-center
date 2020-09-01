@@ -55,7 +55,7 @@ const System: FunctionComponent<SystemProps> = ({
   onUpdate = noop,
   onDownload = noop,
 }) => {
-  const iconConfig = { height: 1.4, width: 1.4 }
+  const iconConfig = { height: 2.8, width: 2.8 }
   return (
     <Card className={className}>
       <TextInfo>

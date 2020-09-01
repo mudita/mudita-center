@@ -167,7 +167,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
           })}
           onClick={noop}
           Icon={Type.PlusSign}
-          iconSize={{ height: 1.4, width: 1.4 }}
+          iconSize={{ height: 2.8, width: 2.8 }}
         />
       </ButtonWrapper>
     </MessageFiltersWrapper>
