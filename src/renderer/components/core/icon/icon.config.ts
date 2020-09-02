@@ -77,6 +77,7 @@ import Backup from "Renderer/svg/backup.svg"
 import Tooltip from "Renderer/svg/tooltip.svg"
 import AppleLogo from "Renderer/svg/apple.svg"
 import GoogleLogo from "Renderer/svg/google.svg"
+import SynchronizeContacts from "Renderer/svg/synchronize-contacts.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -160,6 +161,7 @@ export enum Type {
   Tooltip,
   Apple,
   Google,
+  SynchronizeContacts,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -320,6 +322,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return AppleLogo
     case Type.Google:
       return GoogleLogo
+    case Type.SynchronizeContacts:
+      return SynchronizeContacts
     default:
       return Message
   }

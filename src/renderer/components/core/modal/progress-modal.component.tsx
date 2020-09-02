@@ -24,27 +24,29 @@ const LoadingBar = styled(StackedBarChart)`
 `
 
 interface BackupLoadingModalProps extends BaseModalProps {
-  onBackupSuccess: () => void
-  onBackupFailure: () => void
+  onSuccess: () => void
+  onFailure: () => void
   body: MessageInterface
   subtitle: MessageInterface
   failed?: boolean
+  icon: Type
 }
 
-export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps> = ({
-  onBackupSuccess,
-  onBackupFailure,
+export const ProgressModal: FunctionComponent<BackupLoadingModalProps> = ({
+  onSuccess,
+  onFailure,
   failed,
   title,
   body,
   subtitle,
   closeButtonLabel,
+  icon,
 }) => {
   const countdown = setTimeout(() => {
     if (failed) {
-      onBackupFailure()
+      onFailure()
     } else {
-      onBackupSuccess()
+      onSuccess()
     }
   }, 1500)
 
@@ -58,7 +60,7 @@ export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps> = ({
       closeButtonLabel={closeButtonLabel}
     >
       <ModalIcon>
-        <Icon type={Type.FilesManager} width={5} />
+        <Icon type={icon} width={5} />
       </ModalIcon>
       <LoadingModalText
         message={subtitle}

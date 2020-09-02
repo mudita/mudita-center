@@ -1,5 +1,5 @@
 export interface BaseModalProps {
-  title: string
+  title?: string
   actionButtonLabel?: string
   closeButtonLabel?: string
 }

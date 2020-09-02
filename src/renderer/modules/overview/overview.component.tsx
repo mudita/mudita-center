@@ -13,8 +13,9 @@ import { intl, textFormatters } from "Renderer/utils/intl"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 import { BackupFailedModal } from "Renderer/modules/overview/backup-process/backup-failed-modal"
 import { BackupFinishedModal } from "Renderer/modules/overview/backup-process/backup-finished-modal"
-import { BackupLoadingModal } from "Renderer/modules/overview/backup-process/backup-loading-modal"
 import { BackupStartModal } from "Renderer/modules/overview/backup-process/backup-start-modal"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import { ProgressModal } from "Renderer/components/core/modal/progress-modal.component"
 
 // TODO: remove after implementing real phone update process
 interface FakeUpdatedStatus {
@@ -141,11 +142,12 @@ const Overview: FunctionComponent<
   const openBackupLoadingModal = async () => {
     await closeModal()
     await modalService.openModal(
-      <BackupLoadingModal
+      <ProgressModal
         body={messages.backupLoadingModalBody}
         subtitle={messages.backupLoadingModalTitle}
-        onBackupSuccess={openBackupFinishedModal}
-        onBackupFailure={openBackupFailedModal}
+        onSuccess={openBackupFinishedModal}
+        onFailure={openBackupFailedModal}
+        icon={Type.FilesManager}
         failed={backups % 3 === 0}
         title={intl.formatMessage(messages.backupLoadingModalTitle)}
         closeButtonLabel={intl.formatMessage(messages.cancel)}
