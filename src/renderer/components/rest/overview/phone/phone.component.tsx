@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { PhoneProps } from "Renderer/components/rest/overview/phone/phone.interface"
 import Card, {
   CardAction,

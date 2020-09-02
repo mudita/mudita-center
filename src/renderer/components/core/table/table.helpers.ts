@@ -5,7 +5,7 @@ interface Row {
 // Recursively get all sub-rows applied to given key
 export const getRowChildren = <T extends Row>(
   parent: T,
-  childrenKey: string = "_children",
+  childrenKey = "_children",
   children: T[] = [],
   child?: boolean
 ) => {

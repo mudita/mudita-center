@@ -6,21 +6,22 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { MenuElement } from "Renderer/constants/menu-elements"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import { views } from "Renderer/constants/views"
-import { OpenNewWindow } from "Common/enums/open-new-window.enum"
 import { ipcRenderer } from "electron-better-ipc"
+import { HelpActions } from "Common/enums/help-actions.enum"
+import { MenuGropTestIds } from "Renderer/components/rest/menu/menu-grop-test-ids.enum"
 
 const HeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 1.6rem 0 1.6rem 0;
+  margin: 2.4rem 0 1.6rem 0;
 `
 
 const HeaderIconContainer = styled.div`
@@ -44,11 +45,7 @@ const HeaderIcon = styled(Icon)`
 `
 
 const LinkWrapper = styled.div`
-  margin: 0 1rem;
-`
-
-const ButtonMenu = styled(Button)`
-  margin: 0 0 0.4rem 0;
+  margin: 0 1rem 0.4rem 1rem;
 `
 
 const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
@@ -84,16 +81,20 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
           }
           if (button === views.help) {
             const openHelpWindow = () =>
-              ipcRenderer.callMain(OpenNewWindow.Help)
+              ipcRenderer.callMain(HelpActions.OpenWindow)
             return (
               <LinkWrapper key={index}>
-                <ButtonMenu {...buttonMenuConfig} onClick={openHelpWindow} />
+                <Button
+                  {...buttonMenuConfig}
+                  onClick={openHelpWindow}
+                  data-testid={MenuGropTestIds.Help}
+                />
               </LinkWrapper>
             )
           }
           return (
             <LinkWrapper key={index}>
-              <ButtonMenu {...buttonMenuConfig} to={button.url} />
+              <Button {...buttonMenuConfig} to={button.url} />
             </LinkWrapper>
           )
         })}

@@ -4,13 +4,15 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import MeditationStats, {
   MeditationStatsProps,
 } from "Renderer/components/rest/meditation/stats/meditation-stats.component"
-import { generateMeditationData } from "App/__mocks__/meditation-stats.mock"
+import {
+  statsMonthly,
+  statsWeekly,
+  statsYearly,
+} from "App/__mocks__/meditation-stats.mock"
 import {
   ChartType,
   MeditationStatsTestIds,
 } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
-import moment from "moment"
-import theme from "Renderer/styles/theming/theme"
 
 const mainLabel = "view.name.meditationStats.chart.mainLabel"
 
@@ -35,13 +37,19 @@ const renderMeditationStats = ({
 }
 
 let chart: ReturnType<typeof renderMeditationStats>
+const mockedDate = 1598832000000 // 2020-08-31
+const dateMock = jest.spyOn(Date, "now").mockImplementation(() => mockedDate)
 
 describe("general meditation stats", () => {
+  beforeAll(() => dateMock)
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
-      statsData: generateMeditationData(),
+      statsData: statsWeekly,
     })
+  })
+  afterAll(() => {
+    jest.clearAllMocks()
   })
 
   test("renders horizontal lines properly", () => {
@@ -65,11 +73,15 @@ describe("general meditation stats", () => {
 })
 
 describe("weekly meditation stats", () => {
+  beforeAll(() => dateMock)
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Weekly,
-      statsData: generateMeditationData(),
+      statsData: statsWeekly,
     })
+  })
+  afterAll(() => {
+    jest.clearAllMocks()
   })
 
   test("renders weekdays bars properly", () => {
@@ -81,79 +93,87 @@ describe("weekly meditation stats", () => {
     const { getXLabels } = chart
     expect(getXLabels()).toHaveLength(7)
     getXLabels().forEach((label, index) => {
-      const date = moment().startOf("isoWeek").add(index, "days")
-      expect(label).toHaveTextContent(date.format("ddd"))
+      const dayLabels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+      expect(label).toHaveTextContent(dayLabels[index])
     })
   })
 
   test("highlights current bar properly", () => {
     const { getBarWrappers } = chart
-    const currentBarWrapper = getBarWrappers()[moment().isoWeekday() - 1]
+    const currentBarWrapper = getBarWrappers()[0]
 
-    expect(currentBarWrapper.querySelector("div")).toHaveStyleRule(
-      "background-color",
-      theme.color.background.chartBar
+    expect(currentBarWrapper.querySelector("div")).toHaveAttribute(
+      "data-active",
+      "true"
     )
   })
 
   test("highlights current label properly", () => {
     const { getXLabels } = chart
 
-    expect(getXLabels()[moment().isoWeekday() - 1]).toHaveStyle(
-      "font-weight: 600;"
-    )
+    expect(getXLabels()[0]).toHaveAttribute("data-active", "true")
   })
 })
 
 describe("monthly meditation stats", () => {
+  beforeAll(() => dateMock)
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Monthly,
-      statsData: generateMeditationData(ChartType.Monthly),
+      statsData: statsMonthly,
     })
   })
+  afterAll(() => {
+    jest.clearAllMocks()
+  })
+
+  const dayIndex = 30
+  const daysInMonth = 31
 
   test("renders days bars properly", () => {
     const { getBarWrappers, getGroupWrappers } = chart
-    expect(getBarWrappers()).toHaveLength(moment().daysInMonth())
-    expect(getGroupWrappers()).toHaveLength(
-      Math.ceil(moment().daysInMonth() / 7)
-    )
+    expect(getBarWrappers()).toHaveLength(daysInMonth)
+    expect(getGroupWrappers()).toHaveLength(Math.ceil(daysInMonth / 7))
   })
 
   test("renders groups labels properly", () => {
     const { getXLabels } = chart
-    expect(getXLabels()).toHaveLength(Math.ceil(moment().daysInMonth() / 7))
+    expect(getXLabels()).toHaveLength(Math.ceil(daysInMonth / 7))
   })
 
   test("highlights current bar properly", () => {
     const { getBarWrappers } = chart
-    const dayIndex = Number(moment().format("D"))
     const currentBarWrapper = getBarWrappers()[dayIndex]
 
-    expect(currentBarWrapper.querySelector("div")).toHaveStyleRule(
-      "background-color",
-      theme.color.background.chartBar
+    expect(currentBarWrapper.querySelector("div")).toHaveAttribute(
+      "data-active",
+      "true"
     )
   })
 
   test("highlights current label properly", () => {
     const { getXLabels } = chart
-    const dayIndex = Number(moment().format("D"))
 
-    expect(getXLabels()[Math.ceil(dayIndex / 7) - 1]).toHaveStyle(
-      "font-weight: 600;"
+    expect(getXLabels()[Math.ceil(dayIndex / 7) - 1]).toHaveAttribute(
+      "data-active",
+      "true"
     )
   })
 })
 
 describe("yearly meditation stats", () => {
+  beforeAll(() => dateMock)
   beforeEach(() => {
     chart = renderMeditationStats({
       chartType: ChartType.Yearly,
-      statsData: generateMeditationData(ChartType.Yearly),
+      statsData: statsYearly,
     })
   })
+  afterAll(() => {
+    jest.clearAllMocks()
+  })
+
+  const monthIndex = 7
 
   test("renders months bars properly", () => {
     const { getBarWrappers } = chart
@@ -162,19 +182,16 @@ describe("yearly meditation stats", () => {
 
   test("highlights current bar properly", () => {
     const { getBarWrappers } = chart
-    const monthIndex = Number(moment().format("M")) - 1
     const currentBarWrapper = getBarWrappers()[monthIndex]
 
-    expect(currentBarWrapper.querySelector("div")).toHaveStyleRule(
-      "background-color",
-      theme.color.background.chartBar
+    expect(currentBarWrapper.querySelector("div")).toHaveAttribute(
+      "data-active",
+      "true"
     )
   })
 
   test("highlights current label properly", () => {
     const { getXLabels } = chart
-    const monthIndex = Number(moment().format("M")) - 1
-
-    expect(getXLabels()[monthIndex]).toHaveStyle("font-weight: 600;")
+    expect(getXLabels()[monthIndex]).toHaveAttribute("data-active", "true")
   })
 })

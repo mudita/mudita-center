@@ -8,7 +8,7 @@
  */
 const delayResponse = async <T>(
   promise: Promise<T>,
-  delay: number = 500
+  delay = 500
 ): Promise<T> => {
   return new Promise(async (resolve, reject) => {
     const startTime = new Date().getTime()

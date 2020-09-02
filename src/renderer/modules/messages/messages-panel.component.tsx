@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UnreadFilters } from "Renderer/components/rest/messages/topics-table.component"
 import ButtonToggler from "Renderer/components/core/button-toggler/button-toggler.component"
 import { intl, textFormatters } from "Renderer/utils/intl"
@@ -28,7 +28,7 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import { uniqBy } from "lodash"
 import { defineMessages } from "react-intl"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "Renderer/models/phone/phone.utils"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 
 const toggleState = [

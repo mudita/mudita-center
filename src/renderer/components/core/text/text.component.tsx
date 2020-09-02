@@ -8,7 +8,7 @@ import {
   opacity,
   textColor,
 } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
 export const tertiaryHeadingSharedStyles = css`
@@ -29,6 +29,16 @@ export const mediumTextSharedStyles = css`
 export const smallTextSharedStyles = css`
   font-size: 1.2rem;
   line-height: 1.2;
+`
+
+const extraSmallTextSharedStyles = css`
+  font-size: 1rem;
+`
+
+const fadedDimStyles = css`
+  font-weight: ${fontWeight("bold")};
+  color: ${textColor("secondary")};
+  opacity: ${opacity("regular")};
 `
 
 const uppercaseStyles = css`
@@ -95,9 +105,7 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
       return css`
         ${largeTextSharedStyles};
         ${uppercaseStyles};
-        font-weight: ${fontWeight("bold")};
-        color: ${textColor("secondary")};
-        opacity: ${opacity("regular")};
+        ${fadedDimStyles};
         letter-spacing: ${letterSpacing("regular")}rem;
       `
     case TextDisplayStyle.MediumBoldText:
@@ -177,9 +185,14 @@ export const getTextStyles = (displayStyle: TextDisplayStyle) => {
       return css`
         ${smallTextSharedStyles};
         ${uppercaseStyles};
-        font-weight: ${fontWeight("bold")};
-        color: ${textColor("secondary")};
-        opacity: ${opacity("regular")};
+        ${fadedDimStyles};
+        letter-spacing: ${letterSpacing("medium")}rem;
+      `
+    case TextDisplayStyle.ExtraSmallFadedDimText:
+      return css`
+        ${extraSmallTextSharedStyles};
+        ${uppercaseStyles};
+        ${fadedDimStyles};
         letter-spacing: ${letterSpacing("medium")}rem;
       `
     default:
@@ -224,6 +237,7 @@ export enum TextDisplayStyle {
   SmallFadedText,
   SmallFadedLightText,
   SmallFadedDimText,
+  ExtraSmallFadedDimText,
 }
 
 interface ElementsMapping {
@@ -258,6 +272,7 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.SmallFadedText]: "p",
   [TextDisplayStyle.SmallFadedLightText]: "p",
   [TextDisplayStyle.SmallFadedDimText]: "p",
+  [TextDisplayStyle.ExtraSmallFadedDimText]: "p",
 }
 
 const Text: FunctionComponent<Props> = ({

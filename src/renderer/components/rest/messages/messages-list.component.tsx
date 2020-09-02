@@ -1,5 +1,5 @@
 import React, { Ref } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
   Col,
@@ -19,9 +19,9 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import {
-  Topic,
-  Message as Msg,
   Author,
+  Message as Msg,
+  Topic,
 } from "Renderer/models/messages/messages.interface"
 import { noop } from "Renderer/utils/noop"
 import {
@@ -32,14 +32,16 @@ import {
 } from "Renderer/components/rest/messages/topics-table.component"
 import moment from "moment"
 import {
-  lightAvatarStyles,
   AvatarPlaceholder,
+  lightAvatarStyles,
 } from "Renderer/components/rest/phone/contact-list.component"
 import { InView } from "react-intersection-observer"
-import Avatar from "Renderer/components/core/avatar/avatar.component"
+import Avatar, {
+  AvatarSize,
+} from "Renderer/components/core/avatar/avatar.component"
 import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "Renderer/models/phone/phone.utils"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
@@ -198,7 +200,11 @@ const MessagesList: FunctionComponent<Props> = ({
                 visible={!noneRowsSelected}
                 data-testid="checkbox"
               />
-              <InitialsAvatar user={caller} light={active} />
+              <InitialsAvatar
+                user={caller}
+                light={active}
+                size={AvatarSize.Big}
+              />
             </AvatarCol>
             <MessageCol onClick={open} data-testid="message-row">
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
@@ -295,7 +301,7 @@ const MessagesList: FunctionComponent<Props> = ({
             <Col />
             <Col>
               <AvatarPlaceholder />
-              <TextPlaceholder charsCount={caller.firstName.length} />
+              <TextPlaceholder charsCount={caller.firstName?.length || 0} />
             </Col>
           </MessageRow>
         )

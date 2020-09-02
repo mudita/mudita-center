@@ -59,7 +59,7 @@ const ColorName = styled.span`
   color: darkgrey;
 `
 
-storiesOf("Theme|Colors", module).add("default", () => {
+storiesOf("Theme/Colors", module).add("default", () => {
   return (
     <Container>
       {Object.entries(theme.color).map(([categoryName, colors]) => {

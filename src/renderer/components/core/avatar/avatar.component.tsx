@@ -9,7 +9,7 @@ import {
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import Image from "Renderer/components/core/image/image.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
@@ -19,21 +19,32 @@ export enum AvatarSize {
   Big,
 }
 
-export const getSize = (size: AvatarSize) => {
+export const getAvatarSize = (size: AvatarSize): number => {
   switch (size) {
     case AvatarSize.Small:
-      return 3.2
+      return 2.4
     case AvatarSize.Medium:
-      return 4
+      return 3.2
     case AvatarSize.Big:
       return 4.8
   }
 }
 
+const getAvatarTextStyle = (size: AvatarSize): TextDisplayStyle => {
+  switch (size) {
+    case AvatarSize.Small:
+      return TextDisplayStyle.SmallFadedDimText
+    case AvatarSize.Medium:
+      return TextDisplayStyle.SmallFadedDimText
+    case AvatarSize.Big:
+      return TextDisplayStyle.LargeFadedDimTextCapitalLetters
+  }
+}
+
 export const basicAvatarStyles = css<{ size?: AvatarSize }>`
   display: flex;
-  width: ${({ size = AvatarSize.Small }) => getSize(size)}rem;
-  height: ${({ size = AvatarSize.Small }) => getSize(size)}rem;
+  width: ${({ size = AvatarSize.Small }) => getAvatarSize(size)}rem;
+  height: ${({ size = AvatarSize.Small }) => getAvatarSize(size)}rem;
   border-radius: 50%;
   background-color: ${backgroundColor("minor")};
 `
@@ -81,18 +92,12 @@ const Avatar: FunctionComponent<AvatarProps> = ({
     {imageSrc ? (
       <AvatarImage data-testid="avatar-image" src={imageSrc} />
     ) : user?.firstName || user?.lastName ? (
-      <Text
-        displayStyle={
-          size === AvatarSize.Big
-            ? TextDisplayStyle.LargeFadedDimTextCapitalLetters
-            : TextDisplayStyle.SmallFadedDimText
-        }
-      >
+      <Text displayStyle={getAvatarTextStyle(size)}>
         {user.firstName?.charAt(0)}
         {user.lastName?.charAt(0)}
       </Text>
     ) : (
-      <Icon type={Type.Contacts} width={getSize(size) / 2.5} />
+      <Icon type={Type.Contacts} width={getAvatarSize(size) / 2.5} />
     )}
   </AvatarWrapper>
 )

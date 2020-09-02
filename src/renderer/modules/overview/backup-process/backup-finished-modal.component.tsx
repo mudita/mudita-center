@@ -1,4 +1,4 @@
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Text, {
   TextDisplayStyle,

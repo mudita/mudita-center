@@ -4,7 +4,7 @@ import StackedBarChart, {
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { DiskSpaceCategory } from "Renderer/models/files-manager/files-manager.interface"
 import FilesSummary from "Renderer/modules/filesManager/components/files-summary.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 interface Props {
   memoryChartData: DiskSpaceCategory[]

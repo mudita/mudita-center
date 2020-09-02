@@ -6,7 +6,7 @@ import InputCheckbox, {
 import Story from "Renderer/components/storybook/story.component"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 
-storiesOf("Components|Core/InputCheckbox", module).add("Default", () => (
+storiesOf("Components/Core/InputCheckbox", module).add("Default", () => (
   <>
     <StoryContainer title="Sizes">
       <Story title="Large (default)">

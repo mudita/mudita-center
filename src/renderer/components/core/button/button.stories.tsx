@@ -19,7 +19,7 @@ export const FullWidthButton = styled(Button)`
   width: 100%;
 `
 
-storiesOf("Components|Core/Button", module)
+storiesOf("Components/Core/Button", module)
   .add("Default", () => (
     <>
       <StoryContainer title="Themes">

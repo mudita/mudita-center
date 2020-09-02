@@ -12,13 +12,13 @@ import {
   extendedTemplateData,
 } from "Renderer/modules/messages/__mocks__/template-modal-data"
 
-storiesOf("Views|Messages", module).add("Messages", () => (
+storiesOf("Views/Messages", module).add("Messages", () => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Messages list={rowsMessages} searchValue={""} />
   </div>
 ))
 
-storiesOf("Views|Messages/Modals", module)
+storiesOf("Views/Messages/Modals", module)
   .add("Template modal", () => (
     <div style={{ maxWidth: "97.5rem" }}>
       <ModalWrapper>

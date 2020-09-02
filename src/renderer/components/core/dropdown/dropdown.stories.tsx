@@ -9,7 +9,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "../../storybook/story.component"
 
-storiesOf("Components|Core/Dropdown", module).add("Default", () => (
+storiesOf("Components/Core/Dropdown", module).add("Default", () => (
   <StoryContainer>
     <Story title="Aligned to the left">
       <Dropdown

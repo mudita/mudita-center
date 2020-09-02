@@ -101,7 +101,7 @@ const fullPageStoryStyles = css`
   justify-content: initial;
 `
 
-storiesOf("Components|Core/Table/Parts", module)
+storiesOf("Components/Core/Table/Parts", module)
   .add("Labels", () => (
     <>
       <Story title="Column labels" customStyle={partsStoryStyles}>
@@ -350,7 +350,7 @@ storiesOf("Components|Core/Table/Parts", module)
     )
   })
 
-storiesOf("Components|Core/Table/Empty states", module)
+storiesOf("Components/Core/Table/Empty states", module)
   .add("Loading", () => (
     <Story customStyle={fullPageStoryStyles} transparentMode>
       <LoadingState />
@@ -367,7 +367,7 @@ storiesOf("Components|Core/Table/Empty states", module)
     </Story>
   ))
 
-storiesOf("Components|Core/Table/Basic", module)
+storiesOf("Components/Core/Table/Basic", module)
   .add("Default", () => (
     <Story customStyle={fullPageStoryStyles} transparentMode>
       <Contacts>
@@ -550,7 +550,7 @@ storiesOf("Components|Core/Table/Basic", module)
     )
   })
 
-storiesOf("Components|Core/Table/Nested", module)
+storiesOf("Components/Core/Table/Nested", module)
   .add("Default", () => {
     const SingleRow = ({ data, ...rest }: any) => (
       <Row {...rest}>
@@ -719,7 +719,7 @@ storiesOf("Components|Core/Table/Nested", module)
     )
   })
 
-storiesOf("Components|Core/Table/Grouped", module)
+storiesOf("Components/Core/Table/Grouped", module)
   .add("Default", () => (
     <Story customStyle={fullPageStoryStyles} transparentMode>
       <Contacts>

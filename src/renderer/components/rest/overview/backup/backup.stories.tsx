@@ -27,7 +27,7 @@ const storyContainerStyle = css`
   }
 `
 
-storiesOf("Modules|Overview/Backup", module)
+storiesOf("Modules/Overview/Backup", module)
   .add("Default", () => (
     <StoryContainer column customStyle={storyContainerStyle}>
       <Story title="No backup available" transparentMode>

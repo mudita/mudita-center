@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer, useState } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import SourceCode from "Renderer/components/storybook/source-code.component"
 import { Button } from "Renderer/components/storybook/storybook.elements"

@@ -1,5 +1,5 @@
-import { AdditionalInfo as BaseAdditionalInfo } from "Renderer/components/rest/phone/contact-details.component"
 import styled from "styled-components"
+import { AdditionalInfo as BaseAdditionalInfo } from "Renderer/components/rest/phone/contact-details.styled"
 
 export const AdditionalInfo = styled(BaseAdditionalInfo)<{
   large?: boolean

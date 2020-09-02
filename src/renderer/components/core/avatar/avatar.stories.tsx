@@ -11,7 +11,7 @@ const avatarUser = {
   lastName: "Doe",
 }
 
-storiesOf("Components|Core/Avatar", module).add("Default", () => (
+storiesOf("Components/Core/Avatar", module).add("Default", () => (
   <>
     <StoryContainer title="Sizes">
       <Story title="Small">

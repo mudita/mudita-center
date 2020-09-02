@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import DataBoxes from "Renderer/components/rest/meditation/data-boxes.component"
 import styled from "styled-components"
 

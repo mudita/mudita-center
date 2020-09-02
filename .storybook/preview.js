@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react"
+import React from "react"
 import { ThemeProvider } from "styled-components"
 import { Normalize } from "styled-normalize"
 import { configure, addDecorator } from "@storybook/react"
@@ -14,15 +14,10 @@ import selectPlugin from "@rematch/select"
 import { Provider } from "react-redux"
 import StorybookWrapper from "../src/renderer/components/storybook/storybook-wrapper.component"
 
-const req = require.context("../src", true, /\.stories\.tsx$/)
-function loadStories() {
-  req.keys().forEach(filename => req(filename))
-}
-
 const store = init({ models: { devMode }, plugins: [selectPlugin()] })
 
-addDecorator(story => {
-  return (
+export const decorators = [
+  (Story) => (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <IntlProvider
@@ -33,12 +28,12 @@ addDecorator(story => {
           <>
             <GlobalStyle />
             <Normalize />
-            <StorybookWrapper>{story()}</StorybookWrapper>
+            <StorybookWrapper>
+              <Story />
+            </StorybookWrapper>
           </>
         </IntlProvider>
       </ThemeProvider>
     </Provider>
-  )
-})
-
-configure(loadStories, module)
+  ),
+]

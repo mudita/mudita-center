@@ -13,7 +13,7 @@ const Container = styled.div`
   background-color: aquamarine;
 `
 
-storiesOf("News|Product Card", module)
+storiesOf("News/Product Card", module)
   .add("Connected", () => {
     const listElements = [
       "Acoustic music",

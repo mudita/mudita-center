@@ -1,6 +1,7 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { Contact, NewContact } from "Renderer/models/phone/phone.interface"
+import { Contact } from "Renderer/models/phone/phone.typings"
+import { NewContact } from "Renderer/models/phone/phone.typings"
 
 const addContact = async (contact: NewContact): Promise<Contact> => {
   const { data } = await ipcRenderer.callMain(IpcRequest.AddContact, contact)

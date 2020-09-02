@@ -74,7 +74,7 @@ const filteringFunction = (item: AdvancedItem, search: string) => {
   return item.name.toLowerCase().includes(search.toLowerCase())
 }
 
-storiesOf("Components|Core/InputSelect", module)
+storiesOf("Components/Core/InputSelect", module)
   .add("Default", () => (
     <>
       <StoryContainer title="Themes" customStyle={storyContainerStyles}>

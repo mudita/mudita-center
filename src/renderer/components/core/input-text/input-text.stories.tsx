@@ -2,7 +2,7 @@ import { button, withKnobs } from "@storybook/addon-knobs"
 import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
@@ -28,7 +28,7 @@ const textAreaContainerStyles = css`
   align-items: flex-start;
 `
 
-storiesOf("Components|Core/Text input", module)
+storiesOf("Components/Core/Text input", module)
   .addDecorator(withKnobs)
   .add("Default", () => (
     <>
@@ -195,7 +195,7 @@ storiesOf("Components|Core/Text input", module)
     </>
   ))
 
-storiesOf("Components|Core/Text input/Text area", module)
+storiesOf("Components/Core/Text input/Text area", module)
   .add("Default", () => (
     <>
       <StoryContainer title="Themes" customStyle={textAreaContainerStyles}>
@@ -419,7 +419,7 @@ storiesOf("Components|Core/Text input/Text area", module)
     )
   })
 
-storiesOf("Components|Core/Text input/Search", module).add("Default", () => (
+storiesOf("Components/Core/Text input/Search", module).add("Default", () => (
   <StoryContainer customStyle={storyContainerStyles}>
     <Story>
       <InputComponent

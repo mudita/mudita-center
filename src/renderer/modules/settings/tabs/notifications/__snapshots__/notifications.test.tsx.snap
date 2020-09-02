@@ -194,7 +194,7 @@ exports[`matches snapshot 1`] = `
 
 .c16:not(:hover) {
   border: 0.1rem solid #cdcecf;
-  color: #cdcecf;
+  color: #6a6a6a;
 }
 
 .c16:not(:hover) g {
@@ -284,13 +284,13 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="sc-fznKkj c4"
+      class="c4"
     >
       <div
         class="c5"
       >
         <p
-          class="c6 sc-Axmtr c7"
+          class="c6 c7"
         >
           [value] view.name.settings.notifications.incomingCallsNotificationsLabel
         </p>
@@ -302,7 +302,7 @@ exports[`matches snapshot 1`] = `
           class="c9 c10"
         >
           <button
-            class="c11 sc-fzoiQi c12"
+            class="c11 c12"
             data-testid="toggler-active"
             size="2"
             type="button"
@@ -314,7 +314,7 @@ exports[`matches snapshot 1`] = `
             </p>
           </button>
           <button
-            class="c15 sc-fzoiQi c16"
+            class="c15 c16"
             data-testid="toggler-inactive"
             size="2"
             type="button"
@@ -329,13 +329,13 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj c4"
+      class="c4"
     >
       <div
         class="c5"
       >
         <p
-          class="c6 sc-Axmtr c7"
+          class="c6 c7"
         >
           [value] view.name.settings.notifications.incomingMessagesNotifications
         </p>
@@ -347,7 +347,7 @@ exports[`matches snapshot 1`] = `
           class="c9 c10"
         >
           <button
-            class="c11 sc-fzoiQi c12"
+            class="c11 c12"
             data-testid="toggler-active"
             size="2"
             type="button"
@@ -359,7 +359,7 @@ exports[`matches snapshot 1`] = `
             </p>
           </button>
           <button
-            class="c15 sc-fzoiQi c16"
+            class="c15 c16"
             data-testid="toggler-inactive"
             size="2"
             type="button"
@@ -374,13 +374,13 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj c4"
+      class="c4"
     >
       <div
         class="c5"
       >
         <p
-          class="c6 sc-Axmtr c7"
+          class="c6 c7"
         >
           [value] view.name.settings.notifications.lowBatteryNotifications
         </p>
@@ -392,7 +392,7 @@ exports[`matches snapshot 1`] = `
           class="c9 c10"
         >
           <button
-            class="c11 sc-fzoiQi c12"
+            class="c11 c12"
             data-testid="toggler-active"
             size="2"
             type="button"
@@ -404,7 +404,7 @@ exports[`matches snapshot 1`] = `
             </p>
           </button>
           <button
-            class="c15 sc-fzoiQi c16"
+            class="c15 c16"
             data-testid="toggler-inactive"
             size="2"
             type="button"
@@ -419,13 +419,13 @@ exports[`matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="sc-fznKkj c4"
+      class="c4"
     >
       <div
         class="c5"
       >
         <p
-          class="c6 sc-Axmtr c7"
+          class="c6 c7"
         >
           [value] view.name.settings.notifications.pureOsUpdatesNotifications
         </p>
@@ -437,7 +437,7 @@ exports[`matches snapshot 1`] = `
           class="c9 c10"
         >
           <button
-            class="c11 sc-fzoiQi c12"
+            class="c11 c12"
             data-testid="toggler-active"
             size="2"
             type="button"
@@ -449,7 +449,7 @@ exports[`matches snapshot 1`] = `
             </p>
           </button>
           <button
-            class="c15 sc-fzoiQi c16"
+            class="c15 c16"
             data-testid="toggler-inactive"
             size="2"
             type="button"

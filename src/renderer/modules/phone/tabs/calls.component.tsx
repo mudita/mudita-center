@@ -1,6 +1,6 @@
 import React from "react"
 import { Details } from "Renderer/components/rest/calls/call-details.types"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import { VisibilityFilter } from "App/renderer/models/calls/calls.interface"
 import CallsHeader from "Renderer/components/rest/calls/calls-header.component"

@@ -53,7 +53,7 @@ export const disabledPrimaryStyles = css`
 
 export const disabledSecondaryStyles = css`
   border: 0.1rem solid ${borderColor("secondary")};
-  color: ${textColor("accent")};
+  color: ${textColor("secondary")};
   g {
     fill: ${textColor("accent")};
   }
@@ -70,10 +70,10 @@ const buttonStyles = css<{
   appearance: none;
   background: none;
   transition: ${transition(
-    "background",
-    theme.transitionTime.quick,
-    theme.transitionTimingFunction.easeInOut
-  )},
+      "background",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )},
     ${transition(
       "color",
       theme.transitionTime.quick,

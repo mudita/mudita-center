@@ -12,7 +12,7 @@ const Container = styled.div`
   align-items: center;
 `
 
-storiesOf("News|Card", module)
+storiesOf("News/Card", module)
   .addDecorator(withKnobs)
   .add("Card", () => {
     const content = text("Content", "Lorem ipsum dolor sit amet.")

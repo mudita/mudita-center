@@ -22,7 +22,7 @@ Please double check that your authentication token is correct. Due to security r
 [2020-04-21 15:03:57.018] [info] Found version 0.1.0 (url: PureDesktopApp-0.1.0-mac.zip, PureDesktopApp-0.1.0.dmg)
 `
 
-storiesOf("Components|Rest/Contact Modal", module).add("Default", () => (
+storiesOf("Components/Rest/Contact Modal", module).add("Default", () => (
   <Story transparentMode>
     <StoryModalWrapper>
       <ContactModal

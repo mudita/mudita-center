@@ -1,4 +1,4 @@
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { useEffect } from "react"
 
 interface Props {

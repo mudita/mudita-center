@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react"
 import React from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   ModalBackdrop,
   ModalWrapper,
@@ -43,7 +43,7 @@ const fakeState = {
   },
 }
 
-storiesOf("Views|Overview", module).add("Overview", () => (
+storiesOf("Views/Overview", module).add("Overview", () => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Router history={history}>
       <OverviewUI
@@ -79,7 +79,7 @@ const ModalStory: FunctionComponent = ({ children }) => (
   </div>
 )
 
-storiesOf("Views|Overview/Modals", module)
+storiesOf("Views/Overview/Modals", module)
   .add("Checking for updates", () => (
     <ModalStory>
       <CheckingUpdatesModal />

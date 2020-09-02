@@ -4,7 +4,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import Avatar, {
   AvatarProps,
   AvatarSize,
-  getSize,
+  getAvatarSize,
 } from "Renderer/components/core/avatar/avatar.component"
 
 const avatarUser = {
@@ -19,8 +19,14 @@ const renderAvatar = ({ ...props }: Partial<AvatarProps> = {}) => {
 
 const testSize = (size: AvatarSize) => {
   const { container } = renderAvatar({ size })
-  expect(container.firstChild).toHaveStyleRule("width", getSize(size) + "rem")
-  expect(container.firstChild).toHaveStyleRule("height", getSize(size) + "rem")
+  expect(container.firstChild).toHaveStyleRule(
+    "width",
+    getAvatarSize(size) + "rem"
+  )
+  expect(container.firstChild).toHaveStyleRule(
+    "height",
+    getAvatarSize(size) + "rem"
+  )
 }
 
 test("avatar renders in small size properly", () => {

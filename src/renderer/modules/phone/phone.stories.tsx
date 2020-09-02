@@ -2,14 +2,9 @@ import React from "react"
 import { storiesOf } from "@storybook/react"
 import Phone, { PhoneProps } from "Renderer/modules/phone/phone.component"
 import { action } from "@storybook/addon-actions"
-import {
-  createFullName,
-  generateFakeData,
-  generateSortedStructure,
-} from "Renderer/models/phone/phone.utils"
 import styled from "styled-components"
 import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
-import { Contact, ResultsState } from "Renderer/models/phone/phone.interface"
+import { Contact } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
   defaultContact,
 } from "Renderer/components/rest/phone/contact-edit.component"
@@ -18,46 +13,20 @@ import {
   ModalBackdrop,
   ModalWrapper,
 } from "Renderer/components/core/modal/modal.styled.elements"
-import Faker from "faker"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
 import { intl, textFormatters } from "Renderer/utils/intl"
+import { phoneSeed } from "App/seeds/phone"
+import {
+  createFullName,
+  generateFlatList,
+  generateSortedStructure,
+} from "Renderer/models/phone/phone.helpers"
+import { ContactID, ResultsState } from "Renderer/models/phone/phone.typings"
+import { noop } from "Renderer/utils/noop"
 
-const contacts: Contact[] = generateFakeData(40)
-
-contacts.push(
-  {
-    id: "id1",
-    firstName: "Ędward",
-    lastName: "Ącki",
-    primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-    secondaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-    email: Faker.internet.email("Ędward", "Ącki"),
-    note: Faker.lorem.words(Math.random() * 4),
-    ice: Math.random() < 0.2,
-    favourite: true,
-    blocked: false,
-    speedDial: undefined,
-    firstAddressLine: Faker.address.streetAddress(),
-    secondAddressLine: Faker.address.city(),
-  },
-  {
-    id: "id2",
-    firstName: ".Info",
-    lastName: "",
-    primaryPhoneNumber: "*121#",
-    secondaryPhoneNumber: "",
-    email: "",
-    note: "Account billing",
-    ice: false,
-    favourite: false,
-    blocked: false,
-    speedDial: undefined,
-    firstAddressLine: "",
-    secondAddressLine: "",
-  }
-)
-
-const labeledContactList = generateSortedStructure(contacts)
+const getContact = (id: ContactID) => phoneSeed.db[id]
+const labeledContactList: any = generateSortedStructure(phoneSeed)
+const flatList: any = generateFlatList(phoneSeed)
 
 const PhoneWrapper = styled.div`
   max-width: 97.5rem;
@@ -70,6 +39,8 @@ const PhoneComponent = ({
   contactList = labeledContactList,
 }: Partial<Pick<PhoneProps, "resultsState" | "contactList">>) => (
   <Phone
+    getContact={getContact as any}
+    flatList={flatList}
     contactList={contactList}
     onSearchTermChange={action("Search")}
     onManageButtonClick={action("Manage contact")}
@@ -87,7 +58,7 @@ const PhoneComponent = ({
   />
 )
 
-storiesOf("Views|Phone", module)
+storiesOf("Views/Phone", module)
   .add("Loading", () => (
     <PhoneWrapper>
       <PhoneComponent resultsState={ResultsState.Loading} />
@@ -95,7 +66,7 @@ storiesOf("Views|Phone", module)
   ))
   .add("Empty", () => (
     <PhoneWrapper>
-      <PhoneComponent resultsState={ResultsState.Empty} />
+      <PhoneComponent contactList={[]} />
     </PhoneWrapper>
   ))
   .add("Loaded", () => (
@@ -130,7 +101,7 @@ const singleContact = ({
   ice: true,
 })
 
-storiesOf("Views|Phone/Contact details/Existing", module)
+storiesOf("Views/Phone/Contact details/Existing", module)
   .add("Default", () => (
     <ContactDetails
       contact={singleContact()}
@@ -202,9 +173,8 @@ storiesOf("Views|Phone/Contact details/Existing", module)
     />
   ))
 
-storiesOf("Views|Phone/Contact details/Edit", module).add("Default", () => (
+storiesOf("Views/Phone/Contact details/Edit", module).add("Default", () => (
   <ContactEdit
-    availableSpeedDials={[3, 4, 6, 7, 8]}
     contact={singleContact()}
     onCancel={action("Cancel")}
     onSave={action("Save")}
@@ -212,23 +182,23 @@ storiesOf("Views|Phone/Contact details/Edit", module).add("Default", () => (
   />
 ))
 
-storiesOf("Views|Phone/Contact details/New", module).add("Default", () => (
+storiesOf("Views/Phone/Contact details/New", module).add("Default", () => (
   <ContactEdit
-    availableSpeedDials={[3, 4, 6, 7, 8]}
     onCancel={action("Cancel")}
     onSave={action("Save")}
     onSpeedDialSettingsOpen={action("Open speed dial settings")}
   />
 ))
 
-storiesOf("Views|Phone/Modals", module)
+storiesOf("Views/Phone/Modals", module)
   .add("Speed dial settings", () => (
     <>
       <ModalWrapper>
         <SpeedDialModal
-          contacts={labeledContactList}
+          editContact={noop as any}
           onSave={action("Save")}
           onClose={action("Close")}
+          flatList={flatList}
         />
       </ModalWrapper>
       <ModalBackdrop />

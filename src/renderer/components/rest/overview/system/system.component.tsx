@@ -1,5 +1,5 @@
 import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { SystemProps } from "Renderer/components/rest/overview/system/system.interface"
 import Card, {
   CardAction,
@@ -36,7 +36,7 @@ const Version = styled.div`
 const LastUpdate = styled(Text)`
   margin-top: 1.2rem;
   letter-spacing: ${letterSpacing("small")}rem;
-  color: ${textColor("disabled")};
+  color: ${textColor("secondary")};
 `
 
 const AvailableUpdate = styled(Text)`

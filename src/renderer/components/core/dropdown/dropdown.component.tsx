@@ -6,7 +6,7 @@ import {
   boxShadowColor,
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import useOutsideClick from "Renderer/utils/hooks/useOutsideClick"
 import styled, { css } from "styled-components"
 
@@ -87,7 +87,7 @@ const Dropdown: FunctionComponent<Props> = ({
 
   const calculateVerticalPosition = () => {
     if (ref.current) {
-      const box = (ref.current as HTMLUListElement).getBoundingClientRect()
+      const box = ref.current.getBoundingClientRect()
       setReversedPosition(box.bottom > window.innerHeight)
     }
   }

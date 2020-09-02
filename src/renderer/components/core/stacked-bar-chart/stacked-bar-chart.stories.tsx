@@ -19,7 +19,7 @@ const stackedBarChartStyles = css`
   }
 `
 
-storiesOf("Components|Core/StackedBarChart", module).add("Default", () => {
+storiesOf("Components/Core/StackedBarChart", module).add("Default", () => {
   return (
     <>
       <StoryContainer title="Types" customStyle={stackedBarChartStyles}>

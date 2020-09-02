@@ -9,7 +9,7 @@ const Container = styled.div`
   width: 31.5rem;
 `
 
-storiesOf("Components|Menu", module).add("Menu", () => {
+storiesOf("Components/Menu", module).add("Menu", () => {
   return (
     <Router history={history}>
       <Container>

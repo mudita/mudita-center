@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
@@ -11,8 +11,6 @@ import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import Loader from "Renderer/components/core/loader/loader.component"
 
 export const ModalContent = styled.div`
   display: flex;
@@ -53,13 +51,7 @@ const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
       title={title}
       size={ModalSize.Small}
       onActionButtonClick={onDelete}
-      actionButtonLabel={
-        deleting ? (
-          <Loader size={2} type={LoaderType.Spinner} />
-        ) : (
-          intl.formatMessage(messages.deleteButton)
-        )
-      }
+      actionButtonLabel={intl.formatMessage(messages.deleteButton)}
       onClose={onClose}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
       {...rest}

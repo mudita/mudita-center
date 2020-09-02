@@ -1,5 +1,5 @@
 import Button from "Renderer/components/core/button/button.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
 import React, { ReactElement, useEffect } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
@@ -37,22 +37,11 @@ const simulateProgress = async (
   fail?: boolean
 ) => {
   let progress = 0
-  let progressSimulator: NodeJS.Timeout
-
-  const cancel = () => {
-    log.warn("Cancelling operation")
-    clearInterval(progressSimulator)
-  }
-
-  await modalService.openModal(
-    React.cloneElement(Component, { onClose: cancel }),
-    true
-  )
 
   /**
    * Temporary interval to simulate backup restoration process
    */
-  progressSimulator = setInterval(() => {
+  const progressSimulator = setInterval(() => {
     if (progress < 100) {
       progress += 2
       modalService.rerenderModal(
@@ -67,6 +56,16 @@ const simulateProgress = async (
       onSuccess()
     }
   }, 100)
+
+  const cancel = () => {
+    log.warn("Cancelling operation")
+    clearInterval(progressSimulator)
+  }
+
+  await modalService.openModal(
+    React.cloneElement(Component, { onClose: cancel }),
+    true
+  )
 }
 
 const Overview: FunctionComponent<

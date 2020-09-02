@@ -10,7 +10,7 @@ const Container = styled.div`
   align-items: center;
 `
 
-storiesOf("News|Update Button", module)
+storiesOf("News/Update Button", module)
   .add("Updating", () => {
     return (
       <Container>

@@ -6,7 +6,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import Table from "Renderer/components/core/table/table.component"
 import StackedBarChart from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Modal, {
   ModalProps,
