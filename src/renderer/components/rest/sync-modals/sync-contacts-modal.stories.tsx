@@ -7,7 +7,6 @@ import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ProgressModal } from "Renderer/components/core/modal/progress-modal.component"
 import { intl } from "Renderer/utils/intl"
-import { messages } from "Renderer/modules/overview/overview.component"
 
 storiesOf("Components|Rest/Sync Contacts Modal", module)
   .add("Choose sync option modal", () => (

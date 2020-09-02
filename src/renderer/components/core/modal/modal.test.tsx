@@ -25,10 +25,9 @@ const renderer = (extraProps?: any) => {
 }
 
 test("close button is rendered because modal is closeable by default", () => {
-  const closeButtonTestId = "close-modal-button"
   const { getByTestId } = renderer()
 
-  expect(getByTestId(closeButtonTestId)).toBeInTheDocument()
+  expect(getByTestId(ModalTestIds.CloseButton)).toBeInTheDocument()
 })
 
 test("close button is not rendered when modal is not closable", () => {
