@@ -4,42 +4,21 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
-import styled from "styled-components"
+import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import {
+  ButtonsContainer,
+  ButtonWrapper,
+  ModalText,
+  SyncButton,
+} from "Renderer/components/rest/sync-modals/sync-contacts.styled"
 
 interface SyncContactsModal {
   onClose?: () => void
   onGoogleButtonClick?: () => void
   onAppleButtonClick?: () => void
 }
-
-const ModalText = styled(Text)`
-  text-align: center;
-  margin-top: 1.2rem;
-`
-
-const ButtonsContainer = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  margin-top: 4.8rem;
-`
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  button:first-child {
-    margin-bottom: 1.6rem;
-  }
-`
-
-const SyncButton = styled(Button)`
-  width: 24.4rem;
-`
 
 const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
   onClose = noop,
