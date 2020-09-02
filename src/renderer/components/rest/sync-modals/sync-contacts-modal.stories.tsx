@@ -21,7 +21,7 @@ storiesOf("Components|Rest/Sync Contacts Modal", module)
       <StoryModalWrapper>
         <ProgressModal
           body={{
-            id: "view.name.phone.contacts.synchronizingModalTitle",
+            id: "view.name.phone.contacts.synchronizingModalBody",
           }}
           subtitle={{
             id: "view.name.phone.contacts.synchronizingModalTitle",
