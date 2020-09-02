@@ -11,7 +11,7 @@ const defaultProps = {
   size: ModalSize.Medium,
 }
 
-const renderer = (extraProps?: {}) => {
+const renderer = (extraProps?: any) => {
   const props = {
     ...defaultProps,
     ...extraProps,
@@ -19,6 +19,7 @@ const renderer = (extraProps?: {}) => {
   return renderWithThemeAndIntl(
     <Modal {...props}>
       <h1>lala</h1>
+      {extraProps?.children}
     </Modal>
   )
 }
@@ -72,7 +73,7 @@ test("action button is not rendered when only onActionButtonClick is provided", 
 test("custom buttons are rendered", () => {
   const customButtonText = "buttonasda"
   const { getByText } = renderer({
-    customButtons: <button>{customButtonText}</button>,
+    children: <button>{customButtonText}</button>,
   })
   expect(getByText(customButtonText)).toBeInTheDocument()
 })

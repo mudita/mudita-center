@@ -22,7 +22,6 @@ import {
 } from "Renderer/components/core/modal/modal.interface"
 import { intl } from "Renderer/utils/intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { ReactNode } from "react"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
@@ -87,7 +86,6 @@ export interface ModalProps {
   subtitle?: string
   title?: string
   titleOrder?: TitleOrder
-  customButtons?: ReactNode
 }
 
 const Modal: FunctionComponent<ModalProps> = ({
@@ -103,7 +101,6 @@ const Modal: FunctionComponent<ModalProps> = ({
   subtitle,
   title,
   titleOrder = TitleOrder.TitleFirst,
-  customButtons = false,
   ...rest
 }) => {
   const modalService = useModalServiceContext()
@@ -136,7 +133,7 @@ const Modal: FunctionComponent<ModalProps> = ({
         </ModalSubTitle>
       </Header>
       {children}
-      {!customButtons && (
+      {actionButtonLabel || closeButton ? (
         <ButtonContainer buttonsPosition={size}>
           <ButtonWrapper>
             {closeButton && (
@@ -161,8 +158,7 @@ const Modal: FunctionComponent<ModalProps> = ({
             )}
           </ButtonWrapper>
         </ButtonContainer>
-      )}
-      {customButtons}
+      ) : null}
     </ModalFrame>
   )
 }

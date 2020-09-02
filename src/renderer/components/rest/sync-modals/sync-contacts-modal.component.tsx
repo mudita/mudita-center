@@ -53,30 +53,6 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
     })}
     closeButton={false}
     onClose={onClose}
-    customButtons={
-      <ButtonsContainer>
-        <ButtonWrapper>
-          <SyncButton
-            displayStyle={DisplayStyle.Primary}
-            data-testid={"modal-action-button"}
-            label={intl.formatMessage({
-              id: "view.name.phone.contacts.googleButtonText",
-            })}
-            Icon={Type.Google}
-            onClick={onGoogleButtonClick}
-          />
-          <SyncButton
-            displayStyle={DisplayStyle.Primary}
-            data-testid={"modal-action-button"}
-            label={intl.formatMessage({
-              id: "view.name.phone.contacts.appleButtonText",
-            })}
-            Icon={Type.Apple}
-            onClick={onAppleButtonClick}
-          />
-        </ButtonWrapper>
-      </ButtonsContainer>
-    }
   >
     <ModalText
       displayStyle={TextDisplayStyle.MediumLightText}
@@ -84,6 +60,28 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
         id: "view.name.phone.contacts.syncModalText",
       }}
     />
+    <ButtonsContainer>
+      <ButtonWrapper>
+        <SyncButton
+          displayStyle={DisplayStyle.Primary}
+          data-testid={"modal-action-button"}
+          label={intl.formatMessage({
+            id: "view.name.phone.contacts.googleButtonText",
+          })}
+          Icon={Type.Google}
+          onClick={onGoogleButtonClick}
+        />
+        <SyncButton
+          displayStyle={DisplayStyle.Primary}
+          data-testid={"modal-action-button"}
+          label={intl.formatMessage({
+            id: "view.name.phone.contacts.appleButtonText",
+          })}
+          Icon={Type.Apple}
+          onClick={onAppleButtonClick}
+        />
+      </ButtonWrapper>
+    </ButtonsContainer>
   </Modal>
 )
 
