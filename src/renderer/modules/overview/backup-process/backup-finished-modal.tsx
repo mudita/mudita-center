@@ -57,7 +57,7 @@ export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = 
         <Icon type={Type.FilesManager} width={5} />
       </ModalIcon>
       <LoadingModalText
-        message={{ id: title }}
+        message={{ id: title as string }}
         displayStyle={TextDisplayStyle.LargeBoldText}
       />
       <LoadingModalText
