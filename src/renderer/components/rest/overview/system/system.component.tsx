@@ -55,6 +55,7 @@ const System: FunctionComponent<SystemProps> = ({
   onUpdate = noop,
   onDownload = noop,
 }) => {
+  const iconConfig = { height: 1.4, width: 1.4 }
   return (
     <Card className={className}>
       <TextInfo>
@@ -94,6 +95,7 @@ const System: FunctionComponent<SystemProps> = ({
               })}
               Icon={Type.Reload}
               onClick={onUpdate}
+              {...iconConfig}
             />
           ) : (
             <CardActionButton
@@ -103,6 +105,7 @@ const System: FunctionComponent<SystemProps> = ({
               })}
               Icon={Type.DownloadWhite}
               onClick={onDownload}
+              {...iconConfig}
             />
           )
         ) : (
@@ -113,6 +116,7 @@ const System: FunctionComponent<SystemProps> = ({
             })}
             Icon={Type.Reload}
             onClick={onUpdateCheck}
+            {...iconConfig}
           />
         )}
       </CardAction>

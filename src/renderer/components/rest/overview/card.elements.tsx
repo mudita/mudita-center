@@ -32,6 +32,10 @@ export const CardAction = styled(ButtonToggler)`
 export const CardActionButton = styled(ButtonTogglerItem)`
   padding: 0 1.6rem;
   width: 50%;
+  svg {
+    height: initial;
+    width: initial;
+  }
 `
 
 export default Card
