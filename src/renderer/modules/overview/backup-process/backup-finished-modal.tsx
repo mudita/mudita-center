@@ -37,6 +37,7 @@ interface BackupFinishedModalProps extends BaseModalProps {
   closeAction: () => void
   closeLabel: string
   items: BackupItem[]
+  title: string
 }
 
 export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = ({
@@ -57,7 +58,7 @@ export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = 
         <Icon type={Type.FilesManager} width={5} />
       </ModalIcon>
       <LoadingModalText
-        message={{ id: title as string }}
+        message={{ id: title }}
         displayStyle={TextDisplayStyle.LargeBoldText}
       />
       <LoadingModalText
