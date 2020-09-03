@@ -20,8 +20,21 @@ import { ipcMain } from "electron-better-ipc"
 import { OpenNewWindow } from "Common/enums/open-new-window.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
+import fs from "fs-extra"
 
 require("dotenv").config()
+
+const trimLogs = async () => {
+  const logFilePaths = [
+    log.transports.file.getFile().path,
+    log.transports.file.getFile().path.replace("main.log", "renderer.log"),
+  ]
+  for (const logFilePath of logFilePaths) {
+    const data = await fs.readFile(logFilePath, "utf-8")
+    const newLog = "[" + data.split("\n[").slice(-100).join("\n[")
+    await fs.writeFile(logFilePath, newLog, "utf-8")
+  }
+}
 
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
@@ -29,12 +42,9 @@ let helpWindow: BrowserWindow | null = null
 // Disables CORS in Electron 9
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
 
-// Fetch and log all errors along with alert box
+// Fetch and log all errors
 process.on("uncaughtException", (error) => {
-  // TODO: add a remote url to send logs to the specified the server or use Rollbar
-  // See also src/renderer/utils/log.ts
-  // log.transports.remote.level = "warn"
-  // log.transports.remote.url = "http://localhost:3000/log"
+  // TODO: add a Rollbar
   log.error(error)
 
   // TODO: Add contact support modal
@@ -117,6 +127,7 @@ const createWindow = async () => {
   })
 }
 
+app.on("ready", trimLogs)
 app.on("ready", createWindow)
 
 app.on("window-all-closed", () => {
