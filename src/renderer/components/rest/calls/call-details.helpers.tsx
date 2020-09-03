@@ -25,20 +25,20 @@ const messages = defineMessages({
 export const resolveCallType = (type: CallStatus): CallDetails => {
   switch (type) {
     case CallStatus.Conference: {
-      return createCallType(IconType.More, messages.conference)
+      return createCallType(IconType.ConferenceCall, messages.conference)
     }
 
     case CallStatus.Incoming: {
-      return createCallType(IconType.Download, messages.incoming)
+      return createCallType(IconType.IncomingCall, messages.incoming)
     }
 
     case CallStatus.Missed: {
-      return createCallType(IconType.Close, messages.missed)
+      return createCallType(IconType.MissedCall, messages.missed)
     }
 
     case CallStatus.Outgoing:
     default: {
-      return createCallType(IconType.Upload, messages.outgoing)
+      return createCallType(IconType.OutgoingCall, messages.outgoing)
     }
   }
 }

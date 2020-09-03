@@ -135,7 +135,7 @@ const Messages = styled(Table)<{
         ${animatedOpacityActiveStyles};
       }
       ${InitialsAvatar} {
-        ${animatedOpacityStyles};
+        display: none;
       }
     }
   }

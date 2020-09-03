@@ -57,12 +57,16 @@ const MessagesSidebar = styled(Sidebar)`
   border-top: none;
 `
 
+const iconsConfig = { height: 2.8, width: 2.8 }
+
 const leadingIcons = [
-  <Icon type={Type.AttachContact} key={Type.AttachContact} />,
-  <Icon type={Type.Template} key={Type.Template} />,
+  <Icon type={Type.AttachContact} key={Type.AttachContact} {...iconsConfig} />,
+  <Icon type={Type.Template} key={Type.Template} {...iconsConfig} />,
 ]
 
-const trailingIcon = [<Icon type={Type.Send} key={Type.Send} />]
+const trailingIcon = [
+  <Icon type={Type.Send} key={Type.Send} {...iconsConfig} />,
+]
 
 const MessageDetails: FunctionComponent<Props> = ({
   details,
@@ -74,12 +78,20 @@ const MessageDetails: FunctionComponent<Props> = ({
       ref.current.scrollIntoView()
     }
   }, [ref.current])
+  const iconConfig = {
+    height: 2.8,
+    width: 2.8,
+  }
   const icons = (
     <>
-      <SidebarHeaderIcon Icon={Type.Calls} onClick={noop} />
-      <SidebarHeaderIcon Icon={Type.Contacts} onClick={noop} />
-      <SidebarHeaderIcon Icon={Type.BorderCheckIcon} onClick={noop} />
-      <SidebarHeaderIcon Icon={Type.Delete} onClick={noop} />
+      <SidebarHeaderIcon Icon={Type.Calls} onClick={noop} {...iconConfig} />
+      <SidebarHeaderIcon Icon={Type.Contacts} onClick={noop} {...iconConfig} />
+      <SidebarHeaderIcon
+        Icon={Type.BorderCheckIcon}
+        onClick={noop}
+        {...iconConfig}
+      />
+      <SidebarHeaderIcon Icon={Type.Delete} onClick={noop} {...iconConfig} />
     </>
   )
   const nameAvailable = isNameAvailable(details.caller)

@@ -9,6 +9,7 @@ import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.en
 import {
   CallDescription,
   ContactName,
+  NameIcon,
 } from "Renderer/components/rest/calls/calls-table.styled"
 import {
   AdditionalInfo,
@@ -45,6 +46,10 @@ interface ContactDetailsProps {
 }
 
 export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
+  const iconConfig = {
+    height: 2.8,
+    width: 2.8,
+  }
   return (
     <ContactDetailsWrapper
       onClose={onClose}
@@ -64,7 +69,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
         return (
           <CallWrapper key={index}>
             <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-              <Icon type={details.icon} width={2.5} height={2} />
+              <NameIcon type={details.icon} {...iconConfig} />
               {details.caller.firstName || details.caller.lastName ? (
                 <>
                   {details.caller.firstName} {details.caller.lastName}
@@ -113,7 +118,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
                       <Icon
                         key={`icon-${details.icon}`}
                         type={details.icon}
-                        width={1.5}
+                        width={2.4}
                       />,
                     ]}
                     value={`${intl.formatMessage(

@@ -48,7 +48,7 @@ import Calls from "Renderer/svg/phone.svg"
 import Connection from "Renderer/svg/connection.svg"
 import Contacts from "Renderer/svg/contacts.svg"
 import Notes from "Renderer/svg/notes.svg"
-import Notification from "Renderer/svg/notifications.svg"
+import Notifications from "Renderer/svg/notifications.svg"
 import Dial from "Renderer/svg/dial.svg"
 import Playlist from "Renderer/svg/playlist.svg"
 import PlusSign from "Renderer/svg/plus-sign.svg"
@@ -75,6 +75,11 @@ import MenuContacts from "Renderer/svg/menu-contacts.svg"
 import Backup from "Renderer/svg/backup.svg"
 import Tooltip from "Renderer/svg/tooltip.svg"
 import TetheringStatus from "Renderer/svg/tethering-status.svg"
+import Templates from "Renderer/svg/templates.svg"
+import MissedCall from "Renderer/svg/missed-call.svg"
+import ConferenceCall from "Renderer/svg/conference-call.svg"
+import IncomingCall from "Renderer/svg/incoming-call.svg"
+import OutgoingCall from "Renderer/svg/outgoing-call.svg"
 import AppleLogo from "Renderer/svg/apple.svg"
 import GoogleLogo from "Renderer/svg/google.svg"
 import SynchronizeContacts from "Renderer/svg/synchronize-contacts.svg"
@@ -131,7 +136,7 @@ export enum Type {
   Contacts,
   Dial,
   Notes,
-  Notification,
+  Notifications,
   Playlist,
   PlusSign,
   Reload,
@@ -163,6 +168,11 @@ export enum Type {
   Apple,
   Google,
   SynchronizeContacts,
+  Templates,
+  MissedCall,
+  ConferenceCall,
+  IncomingCall,
+  OutgoingCall,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -257,6 +267,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Tooltip
     case Type.TetheringStatus:
       return TetheringStatus
+    case Type.Templates:
+      return Templates
     case Type.Calls:
       return Calls
     case Type.Connection:
@@ -267,8 +279,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Dial
     case Type.Notes:
       return Notes
-    case Type.Notification:
-      return Notification
+    case Type.Notifications:
+      return Notifications
     case Type.Playlist:
       return Playlist
     case Type.PlusSign:
@@ -325,6 +337,14 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return GoogleLogo
     case Type.SynchronizeContacts:
       return SynchronizeContacts
+    case Type.MissedCall:
+      return MissedCall
+    case Type.ConferenceCall:
+      return ConferenceCall
+    case Type.IncomingCall:
+      return IncomingCall
+    case Type.OutgoingCall:
+      return OutgoingCall
     default:
       return Message
   }
