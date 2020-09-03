@@ -13,7 +13,7 @@ const HotLoader = styled(LoaderSpinner)`
   color: hotpink;
 `
 
-storiesOf("Components/Core/Loader ", module)
+storiesOf("Components|Core/Loader ", module)
   .add("Default", () => {
     const label = "Loaders type"
     const options = {

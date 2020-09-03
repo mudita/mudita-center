@@ -4,7 +4,7 @@ import InputRadio from "Renderer/components/core/input-radio/input-radio.compone
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 
-storiesOf("Components/Core/InputRadio", module).add("Default", () => (
+storiesOf("Components|Core/InputRadio", module).add("Default", () => (
   <>
     <StoryContainer title="States">
       <Story title="Unchecked (default)">

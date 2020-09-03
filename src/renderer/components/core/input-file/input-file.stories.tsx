@@ -14,7 +14,7 @@ const storyStyles = css`
   }
 `
 
-storiesOf("Components/Core/InputFile", module).add("Default", () => (
+storiesOf("Components|Core/InputFile", module).add("Default", () => (
   <>
     <StoryContainer title="Types" customStyle={storyStyles}>
       <Story title="Single file">

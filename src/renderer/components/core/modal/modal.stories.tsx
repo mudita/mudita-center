@@ -18,7 +18,7 @@ const storyContainerStyle = css`
   align-items: flex-start;
 `
 
-storiesOf("Components/Core/Modal", module)
+storiesOf("Components|Core/Modal", module)
   .add("Default (large)", () => {
     return (
       <>

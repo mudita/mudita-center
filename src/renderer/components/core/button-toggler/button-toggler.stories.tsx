@@ -7,7 +7,7 @@ import StoryContainer from "Renderer/components/storybook/story-container.compon
 import Story from "Renderer/components/storybook/story.component"
 import { messages } from "Renderer/components/rest/overview/network/network.component"
 
-storiesOf("Components/Core/Button Toggler", module)
+storiesOf("Components|Core/Button Toggler", module)
   .add("Default", () => (
     <>
       <StoryContainer title="Types" column>

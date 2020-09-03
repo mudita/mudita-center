@@ -17,7 +17,7 @@ const Container = styled.div`
   width: 70.4rem;
 `
 
-storiesOf("Components/Core/Header", module)
+storiesOf("Components|Core/Header", module)
   .addDecorator((story) => (
     <MemoryRouter initialEntries={["/phone"]}>{story()}</MemoryRouter>
   ))
@@ -29,7 +29,7 @@ storiesOf("Components/Core/Header", module)
     )
   })
 
-storiesOf("Components/Core/Header/With button", module)
+storiesOf("Components|Core/Header/With button", module)
   .addDecorator((story) => (
     <MemoryRouter initialEntries={["/news"]}>{story()}</MemoryRouter>
   ))

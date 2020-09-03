@@ -35,7 +35,7 @@ const ColumnRadioGroup = styled(InputRadioGroup)`
   flex-direction: column;
 `
 
-storiesOf("Components/Core/InputRadioGroup ", module).add("Default", () => (
+storiesOf("Components|Core/InputRadioGroup ", module).add("Default", () => (
   <>
     <Story title="Horizontal">
       <InputRadioGroup data={radioGroup} radioGroupName={"radiogroupname"} />

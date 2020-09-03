@@ -13,7 +13,7 @@ const CustomIcon = styled(Icon)`
   width: 3rem;
 `
 
-storiesOf("Components/Core/Icon", module)
+storiesOf("Components|Core/Icon", module)
   .add("Default", () => (
     <>
       <StoryContainer title="Types">

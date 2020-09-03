@@ -22,7 +22,7 @@ const storyStyles = css`
 
 const defaultText = templates[0].content
 
-storiesOf("Components/Core/TextEditor", module)
+storiesOf("Components|Core/TextEditor", module)
   .add("Preview mode", () => (
     <Story customStyle={storyStyles}>
       <TextEditor

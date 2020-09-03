@@ -42,7 +42,7 @@ const CustomSelectionManager = styled(SelectionManager)`
   grid-template-columns: 4.2rem 1fr auto;
 `
 
-storiesOf("Components/Core/Selection Manager", module).add("Default", () => {
+storiesOf("Components|Core/Selection Manager", module).add("Default", () => {
   return (
     <>
       <StoryContainer title="States" column customStyle={storyStyles}>

@@ -58,7 +58,7 @@ const PhoneComponent = ({
   />
 )
 
-storiesOf("Views/Phone", module)
+storiesOf("Views|Phone", module)
   .add("Loading", () => (
     <PhoneWrapper>
       <PhoneComponent resultsState={ResultsState.Loading} />
@@ -101,7 +101,7 @@ const singleContact = ({
   ice: true,
 })
 
-storiesOf("Views/Phone/Contact details/Existing", module)
+storiesOf("Views|Phone/Contact details/Existing", module)
   .add("Default", () => (
     <ContactDetails
       contact={singleContact()}
@@ -173,7 +173,7 @@ storiesOf("Views/Phone/Contact details/Existing", module)
     />
   ))
 
-storiesOf("Views/Phone/Contact details/Edit", module).add("Default", () => (
+storiesOf("Views|Phone/Contact details/Edit", module).add("Default", () => (
   <ContactEdit
     contact={singleContact()}
     onCancel={action("Cancel")}
@@ -182,7 +182,7 @@ storiesOf("Views/Phone/Contact details/Edit", module).add("Default", () => (
   />
 ))
 
-storiesOf("Views/Phone/Contact details/New", module).add("Default", () => (
+storiesOf("Views|Phone/Contact details/New", module).add("Default", () => (
   <ContactEdit
     onCancel={action("Cancel")}
     onSave={action("Save")}
@@ -190,7 +190,7 @@ storiesOf("Views/Phone/Contact details/New", module).add("Default", () => (
   />
 ))
 
-storiesOf("Views/Phone/Modals", module)
+storiesOf("Views|Phone/Modals", module)
   .add("Speed dial settings", () => (
     <>
       <ModalWrapper>
