@@ -1,10 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="16" viewBox="0 0 24 16">
-    <g fill="none">
-        <rect width="21.6" height="15.36" fill="#6A6A6A" rx="1"/>
-        <path fill="#FFF" d="M1.2 1.28H20.4V14.08H1.2z"/>
-        <rect width="2.4" height="11.52" x="2.4" y="1.92" fill="#6A6A6A" rx=".4"/>
-        <rect width="2.4" height="11.52" x="6" y="1.92" fill="#6A6A6A" rx=".4"/>
-        <rect width="2.4" height="11.52" x="9.6" y="1.92" fill="#6A6A6A" rx=".4"/>
-        <path fill="#6A6A6A" d="M21.6 3.2H23c.552 0 1 .448 1 1v6.96c0 .552-.448 1-1 1h-1.4V3.2z"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
+    <defs>
+        <rect id="uxcyeon13a" width="24" height="24" x="0" y="0" rx="3"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd" transform="translate(4 4)">
+        <mask id="b3c6l4pknb" fill="#fff">
+            <use xlink:href="#uxcyeon13a"/>
+        </mask>
+        <g mask="url(#b3c6l4pknb)">
+            <g transform="translate(0 4.667)">
+                <rect width="20.025" height="14.025" x=".487" y=".487" stroke="#6A6A6A" stroke-width=".975" rx="1.688"/>
+                <path fill="#6A6A6A" fill-rule="nonzero" d="M4.088 3.667h1.329v8h-1.33c-.186 0-.337-.151-.337-.338V4.004c0-.186.151-.337.338-.337zM6.75 3.667H8.417V11.667H6.75zM9.75 3.667H11.417V11.667H9.75z"/>
+                <rect width="2.25" height="6" x="21.75" y="4.5" fill="#6A6A6A" rx="1.125"/>
+            </g>
+        </g>
     </g>
 </svg>

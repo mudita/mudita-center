@@ -21,6 +21,7 @@ const Tab: FunctionComponent<TabProps> = ({ icon, label, url, className }) => {
       Icon={icon}
       to={url}
       exact
+      iconSize={{ height: 2.4, width: 2.4 }}
     />
   )
 }

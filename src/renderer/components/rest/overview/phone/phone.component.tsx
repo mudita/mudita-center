@@ -80,12 +80,13 @@ const Phone: FunctionComponent<PhoneProps> = ({
     onDisconnect()
     history.push("/news")
   }
+
   return (
     <PhoneCard className={className}>
       <PhoneInfo>
         <Image src={PureImage} />
         <BatteryStats>
-          <BatteryIcon width={1.6} level={0.1} />
+          <BatteryIcon width={2.4} level={0.1} />
           <Text displayStyle={TextDisplayStyle.LargeBoldText} element={"h2"}>
             {batteryLevel * 100} %
           </Text>
@@ -95,7 +96,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           />
         </BatteryStats>
         <SignalStats>
-          <RangeIcon strength={40} height={1.6} width={1.6} />
+          <RangeIcon strength={40} height={2.4} width={2.4} />
           {network ? (
             <Text displayStyle={TextDisplayStyle.LargeBoldText}>{network}</Text>
           ) : (

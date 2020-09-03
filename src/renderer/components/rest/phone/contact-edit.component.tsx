@@ -1,4 +1,4 @@
-import React, { FocusEvent } from "react"
+import React, { useEffect, FocusEvent } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Contact } from "Renderer/models/phone/phone.typings"
 import Text, {
@@ -124,6 +124,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
 
   const fields = watch()
 
+  useEffect(() => {
+    handleSpeedDialSelect(contact?.speedDial)
+  }, [contact?.speedDial])
+
   const speedDialAssignPossible =
     (fields.primaryPhoneNumber && !errors.primaryPhoneNumber) ||
     (fields.secondaryPhoneNumber && !errors.secondaryPhoneNumber)
@@ -147,7 +151,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     onNameUpdate({ firstName: fields.firstName, lastName: fields.lastName })
   }
 
-  const handleSpeedDialSelect = (value: number) => {
+  const handleSpeedDialSelect = (value: number | undefined) => {
     setValue("speedDial", value)
   }
 

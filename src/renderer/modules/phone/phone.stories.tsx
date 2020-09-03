@@ -22,6 +22,7 @@ import {
   generateSortedStructure,
 } from "Renderer/models/phone/phone.helpers"
 import { ContactID, ResultsState } from "Renderer/models/phone/phone.typings"
+import { noop } from "Renderer/utils/noop"
 
 const getContact = (id: ContactID) => phoneSeed.db[id]
 const labeledContactList: any = generateSortedStructure(phoneSeed)
@@ -194,9 +195,10 @@ storiesOf("Views|Phone/Modals", module)
     <>
       <ModalWrapper>
         <SpeedDialModal
-          contacts={labeledContactList}
+          editContact={noop as any}
           onSave={action("Save")}
           onClose={action("Close")}
+          flatList={flatList}
         />
       </ModalWrapper>
       <ModalBackdrop />

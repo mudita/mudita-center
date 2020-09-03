@@ -67,9 +67,6 @@ storiesOf("Components|Core/Icon", module)
       <Story title="No signal">
         <RangeIcon strength={0} height={2.4} width={2.4} />
       </Story>
-      <Story title="Very low">
-        <RangeIcon strength={1} height={2.4} width={2.4} />
-      </Story>
       <Story title="Low">
         <RangeIcon strength={21} height={2.4} width={2.4} />
       </Story>
