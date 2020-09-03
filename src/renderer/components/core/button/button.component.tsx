@@ -16,6 +16,7 @@ import {
   StyledLink,
   StyledNavLink,
 } from "./button.styled.elements"
+import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 export interface Props {
   nav?: boolean
@@ -24,7 +25,7 @@ export interface Props {
   displayStyle?: DisplayStyle
   href?: string
   Icon?: IconType
-  iconSize?: { height: number; width: number }
+  iconSize?: IconSize
   label?: string | JSX.Element
   labelMessage?: MessageInterface
   onClick?: MouseEventHandler
@@ -46,7 +47,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   exact,
   href,
   Icon,
-  iconSize = { height: 2.8, width: 2.8 },
+  iconSize = IconSize.Big,
   label,
   labelMessage,
   nav,
@@ -130,7 +131,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
           displaystyle={displayStyle}
           withMargin={Boolean(label || labelMessage)}
           type={Icon}
-          {...iconSize}
+          size={iconSize}
         />
       )}
       {getLabel()}
