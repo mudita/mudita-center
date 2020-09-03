@@ -49,17 +49,12 @@ const Troubleshooting = () => {
       )
 
       try {
-        await axios.post(
-          // TODO: Replace ENV with real address after merging https://github.com/Appnroll/mudita-website/pull/934
-          process.env.CONTACT_SUPPORT_API_URL || "",
-          data,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "x-signature": hmacDigest,
-            },
-          }
-        )
+        await axios.post(process.env.CONTACT_SUPPORT_API_URL || "", data, {
+          headers: {
+            "Content-Type": "application/json",
+            "x-signature": hmacDigest,
+          },
+        })
         modalService.openModal(
           <ContactSupportSuccess withoutEmail={!formData.email} />,
           true
