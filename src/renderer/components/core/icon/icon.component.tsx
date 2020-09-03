@@ -9,17 +9,10 @@ import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 
-export enum IconSize {
-  Small = 1.4,
-  Medium = 2.4,
-  Big = 3.2,
-}
-
 export interface Props {
   badge?: boolean
   height?: number
   width?: number
-  size?: IconSize
   type?: Type
 }
 
@@ -41,13 +34,12 @@ const Wrapper = styled.div<{
   badge?: boolean
   height?: number
   width?: number
-  size?: IconSize
 }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: ${({ height = 2, size }) => (size ? `${size}rem` : `${height}rem`)};
-  width: ${({ width = 2, size }) => (size ? `${size}rem` : `${width}rem`)};
+  height: ${({ height = 2 }) => height + "rem"};
+  width: ${({ width = 2 }) => width + "rem"};
   position: relative;
 
   svg {
@@ -61,7 +53,6 @@ const Wrapper = styled.div<{
 const Icon: FunctionComponent<Props> = ({
   badge = false,
   className,
-  size,
   height,
   width,
   type,
@@ -72,8 +63,8 @@ const Icon: FunctionComponent<Props> = ({
       badge={badge}
       data-testid={`icon-${getEnumName(type)}`}
       className={className}
-      height={size || height || width}
-      width={size || width || height}
+      height={height || width}
+      width={width || height}
       {...rest}
     >
       <Svg Image={getIconType(type)} />
