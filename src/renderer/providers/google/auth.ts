@@ -21,7 +21,7 @@ export const handleGoogleAuth = async (
       cb && cb({ provider: AuthProviders.Google, data })
       await ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
 
-      await getPeople(data)
+      console.log(await getPeople()) // just for testing
     }
   }, 500)
 }
