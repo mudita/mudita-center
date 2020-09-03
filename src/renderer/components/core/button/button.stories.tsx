@@ -9,6 +9,7 @@ import {
 import Button from "Renderer/components/core/button/button.component"
 import styled, { css } from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const fullWidthButtonStory = css`
   width: 30rem;
@@ -18,8 +19,6 @@ const fullWidthButtonStory = css`
 export const FullWidthButton = styled(Button)`
   width: 100%;
 `
-
-const iconConfig = { height: 1.4, width: 1.4 }
 
 storiesOf("Components|Core/Button", module)
   .add("Default", () => (
@@ -58,14 +57,14 @@ storiesOf("Components|Core/Button", module)
       </StoryContainer>
       <StoryContainer title="Modifiers (icon)">
         <Story title="Primary (default)">
-          <Button Icon={Type.Upload} label="Button" iconSize={iconConfig} />
+          <Button Icon={Type.Upload} label="Button" iconSize={IconSize.Small} />
         </Story>
         <Story title="Primary disabled">
           <Button
             Icon={Type.Upload}
             disabled
             label="Button"
-            iconSize={iconConfig}
+            iconSize={IconSize.Small}
           />
         </Story>
         <Story title="Secondary">
@@ -73,7 +72,7 @@ storiesOf("Components|Core/Button", module)
             Icon={Type.Upload}
             displayStyle={DisplayStyle.Secondary}
             label="Button"
-            iconSize={iconConfig}
+            iconSize={IconSize.Small}
           />
         </Story>
         <Story title="Secondary disabled">
@@ -82,7 +81,7 @@ storiesOf("Components|Core/Button", module)
             displayStyle={DisplayStyle.Secondary}
             disabled
             label="Button"
-            iconSize={iconConfig}
+            iconSize={IconSize.Small}
           />
         </Story>
       </StoryContainer>
@@ -104,6 +103,7 @@ storiesOf("Components|Core/Button", module)
             displayStyle={DisplayStyle.Link1}
             label="I open Google in new tab"
             href="http://www.google.pl"
+            iconSize={IconSize.Small}
           />
         </Story>
       </StoryContainer>
@@ -121,6 +121,7 @@ storiesOf("Components|Core/Button", module)
             displayStyle={DisplayStyle.Link2}
             label="I open Google in new tab"
             href="http://www.google.pl"
+            iconSize={IconSize.Small}
           />
         </Story>
       </StoryContainer>
@@ -138,6 +139,7 @@ storiesOf("Components|Core/Button", module)
             displayStyle={DisplayStyle.Link3}
             label="I open Google in new tab"
             href="http://www.google.pl"
+            iconSize={IconSize.Small}
           />
         </Story>
       </StoryContainer>
@@ -155,7 +157,7 @@ storiesOf("Components|Core/Button", module)
             displayStyle={DisplayStyle.Link4}
             label="I open Google in new tab"
             href="http://www.google.pl"
-            iconSize={iconConfig}
+            iconSize={IconSize.Small}
           />
         </Story>
       </StoryContainer>
@@ -173,7 +175,7 @@ storiesOf("Components|Core/Button", module)
             displayStyle={DisplayStyle.Tab}
             label="I open Google in new tab"
             href="http://www.google.pl"
-            iconSize={iconConfig}
+            iconSize={IconSize.Small}
           />
         </Story>
       </StoryContainer>
@@ -191,6 +193,7 @@ storiesOf("Components|Core/Button", module)
             displayStyle={DisplayStyle.Dropdown}
             label="I open Google in new tab"
             href="http://www.google.pl"
+            iconSize={IconSize.Small}
           />
         </Story>
       </StoryContainer>
@@ -203,28 +206,28 @@ storiesOf("Components|Core/Button", module)
           <Button
             Icon={Type.Upload}
             displayStyle={DisplayStyle.IconOnly1}
-            iconSize={iconConfig}
+            iconSize={IconSize.Small}
           />
         </Story>
         <Story title="Style 2">
           <Button
             Icon={Type.Upload}
             displayStyle={DisplayStyle.IconOnly2}
-            iconSize={iconConfig}
+            iconSize={IconSize.Small}
           />
         </Story>
         <Story title="Style 3">
           <Button
             Icon={Type.Upload}
             displayStyle={DisplayStyle.IconOnly3}
-            iconSize={iconConfig}
+            iconSize={IconSize.Small}
           />
         </Story>
         <Story title="Style 4">
           <Button
             Icon={Type.Upload}
             displayStyle={DisplayStyle.InputIcon}
-            iconSize={iconConfig}
+            iconSize={IconSize.Small}
           />
         </Story>
       </StoryContainer>
