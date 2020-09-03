@@ -20,20 +20,16 @@ import {
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
 import composeRefs from "@seznam/compose-react-refs"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
-const SearchIcon = styled(Icon)`
-  g {
-    opacity: 58.43%;
-  }
-`
-
-export const searchIcon = <SearchIcon type={Type.Magnifier} />
+export const searchIcon = (
+  <Icon type={Type.Magnifier} height={2.8} width={2.8} />
+)
 
 const focusedLabelStyles = css`
   top: -2rem;
@@ -44,7 +40,7 @@ const InputLabel = styled(Text)`
   position: absolute;
   left: 0;
   top: 0.3rem;
-  color: ${textColor("disabled")};
+  color: ${textColor("secondary")};
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
   line-height: 1.5rem;
   pointer-events: none;
@@ -279,7 +275,7 @@ const InputIcons: FunctionComponent<InputIconsProps> = ({
       {trailingIcons && (
         <TrailingIcons>
           {trailingIcons.map((icon, index) => (
-            <TextInputIcon key={index} data-testid={"trailing-icon-" + index}>
+            <TextInputIcon key={index} data-testid={`trailing-icon-${index}`}>
               {icon}
             </TextInputIcon>
           ))}
@@ -378,9 +374,11 @@ export const TextArea: FunctionComponent<TextareaProps> = ({
   const calculateHeight = () => {
     const element = textareaRef.current
     if (element) {
-      element.style.height = textareaLineHeight + "px"
-      element.style.height =
-        Math.min(element.scrollHeight, maxRows * textareaLineHeight) + "px"
+      element.style.height = `${textareaLineHeight}px`
+      element.style.height = `${Math.min(
+        element.scrollHeight,
+        maxRows * textareaLineHeight
+      )}px`
     }
   }
 

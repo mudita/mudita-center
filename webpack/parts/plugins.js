@@ -1,7 +1,8 @@
+const dotenv = require("dotenv")
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin")
 const HTMLWebpackPlugin = require("html-webpack-plugin")
 const CircularDependencyPlugin = require("circular-dependency-plugin")
-const { DefinePlugin } = require("webpack")
+const { DefinePlugin, EnvironmentPlugin } = require("webpack")
 
 module.exports = {
   tsChecker: () => new ForkTsCheckerWebpackPlugin(),
@@ -36,5 +37,8 @@ module.exports = {
     minifyJS: false,
     minifyCSS: false,
     minifyURLs: true,
+  }),
+  env: new EnvironmentPlugin({
+    ...dotenv.config().parsed,
   }),
 }

@@ -19,7 +19,7 @@ export interface UseTableSelect<T> {
 
 const useTableSelect = <T, K = T>(
   rows: K[],
-  childrenKey: string = "_children"
+  childrenKey = "_children"
 ): UseTableSelect<T> => {
   const [selectedRows, setSelectedRows] = useState<T[]>([])
 

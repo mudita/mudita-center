@@ -17,20 +17,20 @@ import HighRange from "Renderer/svg/high-range.svg"
 import LowBattery from "Renderer/svg/low-battery.svg"
 import LowRange from "Renderer/svg/low-range.svg"
 import Magnifier from "Renderer/svg/magnifier.svg"
-import Calendar from "Renderer/svg/menu_calendar.svg"
+import Calendar from "Renderer/svg/menu-calendar.svg"
 import MediumBattery from "Renderer/svg/medium-battery.svg"
 import MediumRange from "Renderer/svg/medium-range.svg"
-import MenuFilesManager from "Renderer/svg/menu_filesManager.svg"
-import MenuHelp from "Renderer/svg/menu_help.svg"
-import MenuMeditation from "Renderer/svg/menu_meditation.svg"
-import Message from "Renderer/svg/menu_messages.svg"
-import MenuMusic from "Renderer/svg/menu_music.svg"
-import MenuNews from "Renderer/svg/menu_news.svg"
-import MenuOverview from "Renderer/svg/menu_overview.svg"
-import MenuPhone from "Renderer/svg/menu_phone.svg"
-import MenuSettings from "Renderer/svg/menu_settings.svg"
-import MenuTethering from "Renderer/svg/menu_tethering.svg"
-import MenuTools from "Renderer/svg/menu_tools.svg"
+import MenuFilesManager from "Renderer/svg/menu-files-manager.svg"
+import MenuHelp from "Renderer/svg/menu-help.svg"
+import MenuMeditation from "Renderer/svg/menu-meditation.svg"
+import Message from "Renderer/svg/menu-messages.svg"
+import MenuMusic from "Renderer/svg/menu-music.svg"
+import MenuNews from "Renderer/svg/menu-news.svg"
+import MenuOverview from "Renderer/svg/menu-overview.svg"
+import MenuPhone from "Renderer/svg/menu-phone.svg"
+import MenuSettings from "Renderer/svg/menu-settings.svg"
+import MenuTethering from "Renderer/svg/menu-tethering.svg"
+import MenuTools from "Renderer/svg/menu-tools.svg"
 import ExternalLink from "Renderer/svg/external-link.svg"
 import MuditaLogo from "Renderer/svg/mudita.svg"
 import MuditaLogoWithText from "Renderer/svg/mudita_logo.svg"
@@ -59,7 +59,6 @@ import Pure from "Renderer/svg/pure.svg"
 import Fail from "Renderer/svg/fail.svg"
 import VeryHighRange from "Renderer/svg/very-high-range.svg"
 import VeryLowBattery from "Renderer/svg/very-low-battery.svg"
-import VeryLowRange from "Renderer/svg/very-low-range.svg"
 import Info from "Renderer/svg/info.svg"
 import More from "Renderer/svg/more.svg"
 import Blocked from "Renderer/svg/blocked.svg"
@@ -75,7 +74,8 @@ import SendButton from "Renderer/svg/send-button.svg"
 import MenuContacts from "Renderer/svg/menu-contacts.svg"
 import Backup from "Renderer/svg/backup.svg"
 import Tooltip from "Renderer/svg/tooltip.svg"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import TetheringStatus from "Renderer/svg/tethering-status.svg"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
   Arrow,
@@ -156,6 +156,7 @@ export enum Type {
   SendButton,
   Backup,
   Tooltip,
+  TetheringStatus,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -248,6 +249,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Template
     case Type.Tooltip:
       return Tooltip
+    case Type.TetheringStatus:
+      return TetheringStatus
     case Type.Calls:
       return Calls
     case Type.Connection:
@@ -274,8 +277,6 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return VeryHighRange
     case Type.VeryLowBattery:
       return VeryLowBattery
-    case Type.VeryLowRange:
-      return VeryLowRange
     case Type.VoiceRecorder:
       return VoiceRecorder
     case Type.Info:

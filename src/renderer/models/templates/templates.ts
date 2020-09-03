@@ -13,7 +13,7 @@ export const initialState: StateProps = {
 
 export const createTemplate = (
   id: string = Faker.random.uuid(),
-  content: string = ""
+  content = ""
 ): Template => ({ id, content })
 
 export default {

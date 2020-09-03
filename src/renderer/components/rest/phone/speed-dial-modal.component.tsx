@@ -1,19 +1,25 @@
-import React from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import React, { useState } from "react"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
-import { Contact, ContactCategory } from "Renderer/models/phone/phone.interface"
+import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import Table, {
   Col,
   Labels,
   Row,
   RowSize,
 } from "Renderer/components/core/table/table.component"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import { createFullName } from "Renderer/models/phone/phone.utils"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
+import InputSelect, {
+  RenderListItemProps,
+  renderSearchableText,
+  SelectInputItem,
+} from "Renderer/components/core/input-select/input-select.component"
+import { SpeedDialProps } from "Renderer/components/rest/phone/speed-dial-modal.container"
 
 const SpeedDialTable = styled(Table)`
   --labelBackground: none;
@@ -40,30 +46,81 @@ const messages = defineMessages({
     id: "view.name.phone.contacts.modal.speedDial.speedDialLabel",
   },
   contactLabel: { id: "view.name.phone.contacts.modal.speedDial.contactLabel" },
+  none: {
+    id: "view.name.phone.contacts.edit.speedDialKeyEmptyOption",
+  },
 })
 
-interface SpeedDialModalProps {
-  contacts: ContactCategory[]
-  onSave?: (contacts?: Contact[]) => void
-  onClose?: () => void
+const renderValue = (item: Contact) => createFullName(item)
+const renderItem = ({
+  item,
+  searchString,
+  props,
+}: RenderListItemProps<Contact>) => {
+  const name = createFullName(item)
+
+  if (name) {
+    return (
+      <SelectInputItem {...props}>
+        {renderSearchableText(name, searchString)}
+      </SelectInputItem>
+    )
+  }
+
+  return <SelectInputItem {...props} />
+}
+const filterFn = (item: Contact, query: string) => {
+  const fullName = createFullName(item).toLowerCase()
+  return fullName.includes(query.toLowerCase())
 }
 
-const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
+const StyledInputSelect = styled(InputSelect)`
+  label {
+    border: 0;
+    padding-top: 1rem;
+  }
+`
+
+const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
+  editContact,
   onSave = noop,
   onClose = noop,
-  contacts = [],
+  flatList = [],
 }) => {
-  // TODO: Refactor during data integration
-  // DO NOT REVIEW LINES 60-62
-  const flatContactsList = contacts.reduce((acc: Contact[], group) => {
-    return [...acc, ...group.contacts]
-  }, [])
+  const [localData, setLocalData] = useState<[ContactID, Contact][]>([])
+  const speedDialList = Array.from({ length: 9 })
+    .fill(null)
+    .map((_, i) => {
+      const speedDial = i + 1
+
+      const localStateItem = localData.find(
+        (contact) => contact[1].speedDial === speedDial
+      )
+
+      const globalStateItem = flatList.find(
+        (contact) => contact.speedDial === speedDial
+      )
+
+      return {
+        [speedDial]: (localStateItem && localStateItem[1]) || globalStateItem,
+      }
+    })
+
+  const availableContacts = flatList.filter(
+    (item: Contact) =>
+      item.id !== "0" && (Boolean(item.firstName) || Boolean(item.lastName))
+  )
+
+  const onSaveClick = () => {
+    localData.forEach((item) => editContact(...item))
+    onSave()
+  }
 
   return (
     <ModalComponent
       title={intl.formatMessage(messages.title)}
       size={ModalSize.Medium}
-      onActionButtonClick={onSave}
+      onActionButtonClick={onSaveClick}
       actionButtonLabel={intl.formatMessage(messages.saveButton)}
       onClose={onClose}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
@@ -73,16 +130,46 @@ const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
           <Col>{intl.formatMessage(messages.speedDialLabel)}</Col>
           <Col>{intl.formatMessage(messages.contactLabel)}</Col>
         </Labels>
-        {Array.from({ length: 8 }).map((_, index) => {
-          const speedDialNumber = index + 2
-          const speedDialContact = flatContactsList.find(
-            (contact) => contact.speedDial === speedDialNumber
-          )
+        {speedDialList.map((item: Record<number, Contact | undefined>, i) => {
+          const speedDial = i + 1
+          const contact = item[speedDial]
+
+          const onChange = (contact: Contact) => {
+            const newItem = [contact.id, { ...contact, speedDial }] as [
+              ContactID,
+              Contact
+            ]
+
+            setLocalData((currentState) => {
+              const filteredCurrentState = currentState.filter(
+                (item) => item[1].speedDial !== speedDial
+              )
+              return [...filteredCurrentState, newItem]
+            })
+          }
 
           return (
-            <Row size={RowSize.Small} key={index}>
-              <Col>{speedDialNumber}</Col>
-              <Col>{speedDialContact && createFullName(speedDialContact)}</Col>
+            <Row size={RowSize.Small} key={i}>
+              <Col>{speedDial}</Col>
+              <Col>
+                <StyledInputSelect
+                  searchable
+                  options={availableContacts}
+                  value={
+                    contact
+                      ? contact
+                      : { firstName: intl.formatMessage(messages.none) }
+                  }
+                  emptyOption={intl.formatMessage(messages.none)}
+                  renderValue={renderValue}
+                  renderListItem={renderItem}
+                  onSelect={onChange}
+                  filteringFunction={filterFn}
+                  listStyles={css`
+                    max-height: 30rem;
+                  `}
+                />
+              </Col>
             </Row>
           )
         })}

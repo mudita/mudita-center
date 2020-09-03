@@ -36,8 +36,8 @@ exports[`matches snapshot 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 2rem;
-  width: 2rem;
+  height: 1.4rem;
+  width: 1.4rem;
   position: relative;
 }
 
@@ -183,7 +183,7 @@ exports[`matches snapshot 1`] = `
     class="c0"
   >
     <div
-      class="sc-fznKkj c1"
+      class="c1"
     >
       <div
         class="c2"
@@ -204,13 +204,15 @@ exports[`matches snapshot 1`] = `
       class="c5 c6"
     >
       <button
-        class="c7 sc-fzozJi c8"
+        class="c7 c8"
         size="2"
         type="button"
       >
         <div
           class="c9 c10"
           data-testid="icon-Reload"
+          height="1.4"
+          width="1.4"
         >
           <test-file-stub
             image="test-file-stub"

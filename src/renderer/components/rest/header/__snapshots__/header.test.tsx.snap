@@ -38,8 +38,8 @@ exports[`matches snapshot with tabs 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 2rem;
-  width: 2rem;
+  height: 2.4rem;
+  width: 2.4rem;
   position: relative;
 }
 
@@ -155,6 +155,8 @@ exports[`matches snapshot with tabs 1`] = `
       <div
         class="c6 c7"
         data-testid="icon-Calls"
+        height="2.4"
+        width="2.4"
       >
         <test-file-stub
           image="test-file-stub"
@@ -175,6 +177,8 @@ exports[`matches snapshot with tabs 1`] = `
       <div
         class="c6 c7"
         data-testid="icon-Dial"
+        height="2.4"
+        width="2.4"
       >
         <test-file-stub
           image="test-file-stub"

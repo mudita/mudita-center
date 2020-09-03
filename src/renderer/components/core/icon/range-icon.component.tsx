@@ -2,7 +2,7 @@ import * as React from "react"
 import Icon, {
   Props as IconProps,
 } from "Renderer/components/core/icon/icon.component"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
 interface InteractiveIconProps {
@@ -14,16 +14,14 @@ const getInteractiveRangeIcon = (
   rest: Partial<IconProps>
 ) => {
   switch (true) {
-    case strength > 80:
+    case strength > 75:
       return <Icon type={Type.VeryHighRange} {...rest} />
-    case strength > 60:
+    case strength > 50:
       return <Icon type={Type.HighRange} {...rest} />
-    case strength > 40:
+    case strength > 25:
       return <Icon type={Type.MediumRange} {...rest} />
-    case strength > 20:
-      return <Icon type={Type.LowRange} {...rest} />
     case strength > 0:
-      return <Icon type={Type.VeryLowRange} {...rest} />
+      return <Icon type={Type.LowRange} {...rest} />
     default:
       return <Icon type={Type.NoRange} {...rest} />
   }

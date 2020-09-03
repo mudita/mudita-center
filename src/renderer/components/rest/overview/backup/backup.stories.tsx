@@ -20,7 +20,7 @@ export const lastBackup: BackupItemInfo = {
   size: 102400,
 }
 
-storiesOf("Overview|Backup", module).add("Backup", () => (
+storiesOf("Overview/Backup", module).add("Backup", () => (
   <div style={{ maxWidth: "63rem" }}>
     <Part>
       <Text displayStyle={TextDisplayStyle.SmallText}>No backup available</Text>

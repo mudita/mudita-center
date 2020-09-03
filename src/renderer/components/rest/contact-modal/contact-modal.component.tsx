@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"

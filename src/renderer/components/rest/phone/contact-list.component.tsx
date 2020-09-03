@@ -1,12 +1,6 @@
 import React, { createRef, Ref, useEffect } from "react"
-import {
-  Contact,
-  ContactCategory,
-  Contacts,
-  NewContact,
-  ResultsState,
-} from "Renderer/models/phone/phone.interface"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { Contact } from "Renderer/models/phone/phone.typings"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
   Col,
@@ -40,12 +34,18 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "Renderer/components/rest/phone/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import { FormattedMessage } from "react-intl"
-import { createFullName } from "Renderer/models/phone/phone.utils"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 import { intl } from "Renderer/utils/intl"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
+import {
+  ContactCategory,
+  Contacts,
+  NewContact,
+  ResultsState,
+} from "Renderer/models/phone/phone.typings"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -166,7 +166,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   } = useTableSelect<Contact, ContactCategory>(contactList, "contacts")
 
   useEffect(() => {
-    onCheck(selectedRows as Contact[])
+    onCheck(selectedRows)
   }, [selectedRows])
 
   useEffect(() => {

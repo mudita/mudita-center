@@ -5,9 +5,12 @@ import Help from "Renderer/modules/help/help.component"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import { data } from "App/seeds/help"
+import { fireEvent } from "@testing-library/dom"
 
 const defaultProps = {
   list: data,
+  searchQuestion: jest.fn(),
+  setSearchValue: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {
@@ -32,4 +35,18 @@ test("render title correctly", () => {
   const titleText = "view.name.help.title"
   const { getByTestId } = renderer()
   expect(getByTestId(HelpComponentTestIds.Title)).toHaveTextContent(titleText)
+})
+
+test("renders correct amount of links", () => {
+  const { getAllByRole } = renderer()
+  expect(getAllByRole("link")).toHaveLength(defaultProps.list.collection.length)
+})
+
+test("search input works", () => {
+  const { getByRole } = renderer()
+  const searchInput = getByRole("searchbox")
+  fireEvent.change(searchInput, {
+    target: { value: "adsad" },
+  })
+  expect(defaultProps.searchQuestion).toBeCalled()
 })

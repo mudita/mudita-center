@@ -7,7 +7,7 @@ import React, {
   ChangeEvent,
   useEffect,
 } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css, FlattenSimpleInterpolation } from "styled-components"
 import { InputText } from "Renderer/components/core/input-text/input-text.elements"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -55,7 +55,7 @@ export const SelectInputItem = styled.li<{
   ${({ empty }) =>
     empty &&
     css`
-      color: ${textColor("disabled")};
+      color: ${textColor("secondary")};
     `}
 
   ${({ selected }) =>
@@ -124,7 +124,7 @@ export const renderSearchableText = (text: string, search: string) => {
 
   return (
     <React.Fragment key={text}>
-      {Boolean(search)
+      {search
         ? substrings.map((substring, index) =>
             substring.toLowerCase() === search.toLowerCase() ? (
               <strong key={index}>{substring}</strong>

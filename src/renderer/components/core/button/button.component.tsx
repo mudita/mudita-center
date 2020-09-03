@@ -4,7 +4,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import { DisplayStyle, Size, Type } from "./button.config"
 
@@ -24,6 +24,7 @@ export interface Props {
   displayStyle?: DisplayStyle
   href?: string
   Icon?: IconType
+  iconSize?: { height: number; width: number }
   label?: string | JSX.Element
   labelMessage?: MessageInterface
   onClick?: MouseEventHandler
@@ -45,6 +46,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
   exact,
   href,
   Icon,
+  iconSize = { height: 1.4, width: 1.4 },
   label,
   labelMessage,
   nav,
@@ -128,6 +130,7 @@ const ButtonComponent: FunctionComponent<Props> = ({
           displaystyle={displayStyle}
           withMargin={Boolean(label || labelMessage)}
           type={Icon}
+          {...iconSize}
         />
       )}
       {getLabel()}

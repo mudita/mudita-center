@@ -4,63 +4,56 @@ import ContactList from "Renderer/components/rest/phone/contact-list.component"
 import ContactPanel, {
   ContactPanelProps,
 } from "Renderer/components/rest/phone/contact-panel.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import FunctionComponent from "Renderer/types/function-component.interface"
-import styled from "styled-components"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import ContactDetails, {
   ContactActions,
   ContactDetailsActions,
 } from "Renderer/components/rest/phone/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
-import {
-  Contact,
-  NewContact,
-  ResultsState,
-  Store,
-} from "Renderer/models/phone/phone.interface"
+import { Contact } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
   defaultContact,
 } from "Renderer/components/rest/phone/contact-edit.component"
 import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
-import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.component"
+import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.container"
 import BlockContactModal from "Renderer/components/rest/phone/block-contact-modal.component"
-import {
-  createFullName,
-  speedDialNumbers,
-} from "Renderer/models/phone/phone.utils"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
-
-const ContactSection = styled.section`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: ${backgroundColor("minor")};
-`
+import {
+  ContactID,
+  NewContact,
+  ResultsState,
+  Store,
+} from "Renderer/models/phone/phone.typings"
+import { ContactSection } from "Renderer/modules/phone/phone.styled"
 
 export type PhoneProps = ContactActions &
   ContactPanelProps &
   ContactDetailsActions & {
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
+    getContact: (id: ContactID) => Contact
+    flatList: Contact[]
+    removeContact?: (input: ContactID | ContactID[]) => void
   } & Partial<Store>
 
-const Phone: FunctionComponent<PhoneProps> = ({
-  addContact = noop,
-  editContact = noop,
-  deleteContacts = noop,
-  speedDialContacts = [],
-  contactList = [],
-  onSearchTermChange,
-  onManageButtonClick,
-  onCall,
-  onMessage,
-  onSpeedDialSettingsSave,
-  savingContact,
-  resultsState,
-}) => {
+const Phone: FunctionComponent<PhoneProps> = (props) => {
+  const {
+    addContact,
+    editContact,
+    getContact,
+    removeContact,
+    contactList = [],
+    onSearchTermChange,
+    onManageButtonClick,
+    onCall,
+    onMessage,
+    savingContact,
+    flatList,
+  } = props
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
@@ -70,6 +63,32 @@ const Phone: FunctionComponent<PhoneProps> = ({
   useEffect(() => {
     setContacts(contactList)
   }, [contactList])
+
+  useEffect(() => {
+    if (editedContact) {
+      const newData = flatList.find(
+        (contact) => contact.id === editedContact.id
+      )
+
+      if (newData) {
+        setEditedContact((curr: any) => {
+          if (newData.speedDial) {
+            return {
+              ...curr,
+              speedDial: newData.speedDial,
+            }
+          }
+
+          delete curr.speedDial
+          return curr
+        })
+      }
+    }
+  }, [flatList])
+
+  const contactFreshData = ({ id }: Contact) => {
+    return getContact(id)
+  }
 
   const handleNameUpdate = ({
     firstName,
@@ -94,8 +113,10 @@ const Phone: FunctionComponent<PhoneProps> = ({
     setNewContact(undefined)
   }
 
-  const saveNewContact = async (contact: Contact) => {
-    await addContact(contact)
+  const saveNewContact = (contact: Contact) => {
+    if (addContact) {
+      addContact(contact)
+    }
     cancelAddingContact()
   }
 
@@ -110,9 +131,13 @@ const Phone: FunctionComponent<PhoneProps> = ({
     openSidebar(contact as Contact)
   }
 
-  const saveEditedContact = async (contact: Contact) => {
-    await editContact(contact)
+  const saveEditedContact = (contact: Contact) => {
+    setEditedContact(contact)
+    if (editContact) {
+      editContact(contact.id, contact)
+    }
     cancelEditingContact(contact)
+    openSidebar(contact)
   }
 
   const openDeleteModal = (contact: Contact) => {
@@ -131,8 +156,12 @@ const Phone: FunctionComponent<PhoneProps> = ({
           )}
         />
       )
-      await deleteContacts([contact])
-      modalService.closeModal()
+
+      // await can be restored if we will process the result directly in here, not globally
+      if (removeContact) {
+        removeContact(contact.id)
+      }
+      await modalService.closeModal()
       closeSidebar()
     }
 
@@ -157,7 +186,9 @@ const Phone: FunctionComponent<PhoneProps> = ({
       ...contact,
       blocked: false,
     }
-    await editContact(unblockedContact)
+    if (editContact) {
+      await editContact(unblockedContact.id, unblockedContact)
+    }
     if (detailsEnabled) {
       openSidebar(unblockedContact)
     }
@@ -173,8 +204,11 @@ const Phone: FunctionComponent<PhoneProps> = ({
         blocked: true,
         favourite: false,
       }
-      await editContact(blockedContact)
-      modalService.closeModal()
+      if (editContact) {
+        await editContact(blockedContact.id, blockedContact)
+      }
+      await modalService.closeModal()
+
       if (detailsEnabled) {
         openSidebar(blockedContact)
       }
@@ -185,16 +219,18 @@ const Phone: FunctionComponent<PhoneProps> = ({
     )
   }
 
-  const openSpeedDialModal = () => {
-    modalService.openModal(
-      <SpeedDialModal onSave={onSpeedDialSettingsSave} contacts={contactList} />
-    )
+  const closeSpeedDialModal = async () => {
+    await modalService.closeModal()
   }
 
-  const availableSpeedDials = speedDialNumbers.filter(
-    (dialNumber) =>
-      !speedDialContacts.find(({ speedDial }) => speedDial === dialNumber)
-  )
+  const openSpeedDialModal = () => {
+    modalService.openModal(
+      <SpeedDialModal
+        onClose={cancelEditingContact}
+        onSave={closeSpeedDialModal}
+      />
+    )
+  }
 
   const _devClearContacts = () => setContacts([])
   const _devLoadDefaultContacts = () => setContacts(contactList)
@@ -229,7 +265,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
             onCheck={noop}
             newContact={newContact}
             editedContact={editedContact}
-            resultsState={resultsState as ResultsState}
+            resultsState={ResultsState.Loaded}
           />
           {newContact && (
             <ContactEdit
@@ -238,7 +274,6 @@ const Phone: FunctionComponent<PhoneProps> = ({
               onSave={saveNewContact}
               onNameUpdate={handleNameUpdate}
               saving={savingContact}
-              availableSpeedDials={availableSpeedDials}
             />
           )}
           {editedContact && (
@@ -248,12 +283,11 @@ const Phone: FunctionComponent<PhoneProps> = ({
               onSpeedDialSettingsOpen={openSpeedDialModal}
               onSave={saveEditedContact}
               saving={savingContact}
-              availableSpeedDials={availableSpeedDials}
             />
           )}
           {detailsEnabled && (
             <ContactDetails
-              contact={activeRow as Contact}
+              contact={contactFreshData(activeRow as Contact)}
               onClose={closeSidebar}
               onExport={noop}
               onForward={noop}

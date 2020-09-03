@@ -17,7 +17,7 @@ const ColumnWrapper = styled(Wrapper)`
 const message =
   "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?"
 
-storiesOf("Components|Message Bubble", module)
+storiesOf("Components/Message Bubble", module)
   .add("Owner bubble", () => {
     return (
       <Wrapper>

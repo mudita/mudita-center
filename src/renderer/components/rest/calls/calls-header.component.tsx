@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import FunctionComponent from "Renderer/types/function-component.interface"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   FiltersWrapper,
   UnreadFilters,
@@ -28,7 +28,7 @@ import { CallsHeaderTestIds } from "Renderer/components/rest/calls/calls-header-
 import { defineMessages } from "react-intl"
 import { uniqBy } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "Renderer/models/phone/phone.utils"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 
