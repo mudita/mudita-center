@@ -94,7 +94,6 @@ const System: FunctionComponent<SystemProps> = ({
               })}
               Icon={Type.Reload}
               onClick={onUpdate}
-              // iconSize={IconSize.Small}
             />
           ) : (
             <CardActionButton
@@ -104,7 +103,6 @@ const System: FunctionComponent<SystemProps> = ({
               })}
               Icon={Type.DownloadWhite}
               onClick={onDownload}
-              // iconSize={IconSize.Small}
             />
           )
         ) : (
@@ -115,7 +113,6 @@ const System: FunctionComponent<SystemProps> = ({
             })}
             Icon={Type.Reload}
             onClick={onUpdateCheck}
-            // iconSize={IconSize.Small}
           />
         )}
       </CardAction>
