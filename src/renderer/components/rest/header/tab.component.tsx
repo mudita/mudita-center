@@ -4,6 +4,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 interface TabProps {
   icon: Type
@@ -21,7 +22,7 @@ const Tab: FunctionComponent<TabProps> = ({ icon, label, url, className }) => {
       Icon={icon}
       to={url}
       exact
-      iconSize={{ height: 2.4, width: 2.4 }}
+      iconSize={IconSize.Medium}
     />
   )
 }
