@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   justify-items: stretch;
 `
 
-storiesOf("ComponentsOnboarding", module)
+storiesOf("Components/Onboarding", module)
   .add("Welcome", () => {
     return (
       <Wrapper>
