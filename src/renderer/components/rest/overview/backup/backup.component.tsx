@@ -89,7 +89,6 @@ const Backup: FunctionComponent<BackupProps & Partial<AppSettings>> = ({
         label={intl.formatMessage(messages.createAction)}
         Icon={Type.Backup}
         onClick={onBackupCreate}
-        iconSize={{ height: 2.8, width: 2.8 }}
       />
     </CardAction>
   </Card>

@@ -12,7 +12,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import styled from "styled-components"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
@@ -78,20 +78,28 @@ const MessageDetails: FunctionComponent<Props> = ({
       ref.current.scrollIntoView()
     }
   }, [ref.current])
-  const iconConfig = {
-    height: 2.8,
-    width: 2.8,
-  }
   const icons = (
     <>
-      <SidebarHeaderIcon Icon={Type.Calls} onClick={noop} {...iconConfig} />
-      <SidebarHeaderIcon Icon={Type.Contacts} onClick={noop} {...iconConfig} />
+      <SidebarHeaderIcon
+        Icon={Type.Calls}
+        onClick={noop}
+        iconSize={IconSize.Big}
+      />
+      <SidebarHeaderIcon
+        Icon={Type.Contacts}
+        onClick={noop}
+        iconSize={IconSize.Big}
+      />
       <SidebarHeaderIcon
         Icon={Type.BorderCheckIcon}
         onClick={noop}
-        {...iconConfig}
+        iconSize={IconSize.Big}
       />
-      <SidebarHeaderIcon Icon={Type.Delete} onClick={noop} {...iconConfig} />
+      <SidebarHeaderIcon
+        Icon={Type.Delete}
+        onClick={noop}
+        iconSize={IconSize.Big}
+      />
     </>
   )
   const nameAvailable = isNameAvailable(details.caller)

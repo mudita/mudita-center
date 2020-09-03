@@ -115,7 +115,6 @@ const Phone: FunctionComponent<PhoneProps> = ({
           })}
           onClick={handleDisconnect}
           data-testid={PhoneTestIds.DisconnectButton}
-          iconSize={{ height: 1.4, width: 1.4 }}
         />
       </CardAction>
     </PhoneCard>
