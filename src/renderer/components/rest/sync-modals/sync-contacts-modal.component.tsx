@@ -43,7 +43,6 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
       <ButtonWrapper>
         <SyncButton
           displayStyle={DisplayStyle.Primary}
-          data-testid={"modal-action-button"}
           label={intl.formatMessage({
             id: "view.name.phone.contacts.googleButtonText",
           })}
@@ -52,7 +51,6 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
         />
         <SyncButton
           displayStyle={DisplayStyle.Primary}
-          data-testid={"modal-action-button"}
           label={intl.formatMessage({
             id: "view.name.phone.contacts.appleButtonText",
           })}
