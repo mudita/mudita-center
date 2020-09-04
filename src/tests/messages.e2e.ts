@@ -13,13 +13,11 @@ afterEach(async () => {
 
 test("cos", async () => {
   await app.client.$(`*[data-testid=${MenuGropTestIds.Messages}]`).click()
-
-  // console.log(input)
   const phoneNumber = await app.client
     .$(`*[data-testid='message-row']`)
     .$("p")
     .getText()
-  const input = await app.client.$(`input[type='search']`).setValue(phoneNumber)
-  const inputValue = input.getValue()
-  console.log(inputValue)
+  await app.client.$("input").setValue(phoneNumber)
+  const rows = await app.client.$$(`*[data-testid='message-row']`)
+  expect(rows).toHaveLength(1)
 })
