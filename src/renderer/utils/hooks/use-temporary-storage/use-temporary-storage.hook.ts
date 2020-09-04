@@ -1,4 +1,4 @@
-import log from "Renderer/utils/log"
+import logger from "App/main/utils/logger"
 
 export interface UseTemporaryStorageHook<T> {
   setTemporaryValue: (value: T) => void
@@ -19,7 +19,7 @@ export const useTemporaryStorage = <T = any>(
     try {
       storage.setItem(key, JSON.stringify(value))
     } catch (error) {
-      log.error(error)
+      logger.error(error)
     }
   }
 
@@ -28,7 +28,7 @@ export const useTemporaryStorage = <T = any>(
       const item = storage.getItem(key)
       return item ? JSON.parse(item) : originalValue
     } catch (error) {
-      log.error(error)
+      logger.error(error)
     }
   }
 

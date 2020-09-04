@@ -1,5 +1,4 @@
 import startBackend from "Backend/bootstrap"
-import log from "electron-log"
 import {
   app,
   BrowserWindow,
@@ -19,7 +18,6 @@ import registerAppLogsListeners from "App/main/functions/register-app-logs-liste
 import { ipcMain } from "electron-better-ipc"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { Mode } from "Common/enums/mode.enum"
-import fs from "fs-extra"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import {
   registerDownloadHelpHandler,
@@ -33,20 +31,11 @@ import {
   registerGetHelpStoreHandler,
   removeGetHelpStoreHandler,
 } from "App/main/functions/get-help-store-handler"
+import logger from "App/main/utils/logger"
 
 require("dotenv").config()
 
-const trimLogs = async () => {
-  const logFilePaths = [
-    log.transports.file.getFile().path,
-    log.transports.file.getFile().path.replace("main.log", "renderer.log"),
-  ]
-  for (const logFilePath of logFilePaths) {
-    const data = await fs.readFile(logFilePath, "utf-8")
-    const newLog = "[" + data.split("\n[").slice(-100).join("\n[")
-    await fs.writeFile(logFilePath, newLog, "utf-8")
-  }
-}
+logger.info("Starting the app")
 
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
@@ -57,7 +46,7 @@ app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
 // Fetch and log all errors
 process.on("uncaughtException", (error) => {
   // TODO: add a Rollbar
-  log.error(error)
+  logger.error(error)
 
   // TODO: Add contact support modal
 })
@@ -69,7 +58,7 @@ const installExtensions = async () => {
 
   return Promise.all(
     extensions.map((name) => installer.default(installer[name], forceDownload))
-  ).catch(log.error)
+  ).catch(logger.error)
 }
 
 const developmentEnvironment = process.env.NODE_ENV === "development"
@@ -139,7 +128,6 @@ const createWindow = async () => {
   })
 }
 
-app.on("ready", trimLogs)
 app.on("ready", createWindow)
 
 app.on("window-all-closed", () => {
@@ -154,7 +142,7 @@ app.on("activate", () => {
   }
 })
 
-ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
+ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({

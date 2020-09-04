@@ -8,11 +8,11 @@ import ContactModal, {
 } from "Renderer/components/rest/contact-modal/contact-modal.component"
 import { getFullAppLogs } from "Renderer/requests/app-logs.request"
 import axios from "axios"
-import logger from "Renderer/utils/log"
 import { ContactSupportSuccess } from "Renderer/components/rest/contact-modal/contact-modal-success.component"
 import { ContactSupportFailed } from "Renderer/components/rest/contact-modal/contact-modal-failed.component"
 import hmacSHA256 from "crypto-js/hmac-sha256"
 import Base64 from "crypto-js/enc-base64"
+import logger from "App/main/utils/logger"
 
 const Troubleshooting = () => {
   const history = useHistory()
@@ -67,7 +67,7 @@ const Troubleshooting = () => {
           log: "Log is omitted due to its size",
         }
 
-        logger.log(`Contact support error: ${JSON.stringify(simpleError)}`)
+        logger.error(`Contact support error: ${JSON.stringify(simpleError)}`)
 
         modalService.openModal(<ContactSupportFailed />, true)
       }

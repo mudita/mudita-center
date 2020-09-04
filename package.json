@@ -221,6 +221,7 @@
     "electron-updater": "4.3.4",
     "faker": "^5.0.0",
     "history": "^4.10.1",
+    "is-electron-renderer": "^2.0.1",
     "lodash": "^4.17.20",
     "minimist": "^1.2.5",
     "moment": "^2.27.0",
@@ -241,7 +242,9 @@
     "source-map-support": "^0.5.19",
     "styled-components": "^5.1.1",
     "styled-normalize": "^8.0.7",
-    "update-electron-app": "^1.5.0"
+    "update-electron-app": "^1.5.0",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.0"
   },
   "engines": {
     "node": "12.9.1",
