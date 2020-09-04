@@ -6,7 +6,7 @@ import {
   conversionRadioGroup,
 } from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.component"
 
-storiesOf("Settings|Audio Conversion", module).add("Audio Conversion", () => (
+storiesOf("Settings/Audio Conversion", module).add("Audio Conversion", () => (
   <div style={{ maxWidth: "63rem" }}>
     <AudioConversionUI
       appNonStandardAudioFilesConversion={false}

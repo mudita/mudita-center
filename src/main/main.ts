@@ -28,6 +28,10 @@ import {
   registerSetHelpStoreHandler,
   removeSetHelpStoreHandler,
 } from "App/main/functions/set-help-store-handler"
+import {
+  registerGetHelpStoreHandler,
+  removeGetHelpStoreHandler,
+} from "App/main/functions/get-help-store-handler"
 
 require("dotenv").config()
 
@@ -141,7 +145,6 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
       getWindowOptions({
         width: HELP_WINDOW_SIZE.width,
         height: HELP_WINDOW_SIZE.height,
-        titleBarStyle: "hidden",
       })
     )
     helpWindow.loadURL(
@@ -157,6 +160,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
     )
     registerDownloadHelpHandler()
     registerSetHelpStoreHandler()
+    registerGetHelpStoreHandler()
   } else {
     helpWindow.show()
   }
@@ -164,6 +168,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
   helpWindow.on("closed", () => {
     removeDownloadHelpHandler()
     removeSetHelpStoreHandler()
+    removeGetHelpStoreHandler()
     helpWindow = null
   })
 })

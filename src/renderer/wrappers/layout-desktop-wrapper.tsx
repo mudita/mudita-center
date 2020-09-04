@@ -14,6 +14,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import ViewWrapper from "Renderer/wrappers/view-wrapper/view-wrapper.container"
 import styled from "styled-components"
+import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const Layout = styled.div`
   display: grid;
@@ -69,6 +70,7 @@ const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {
               })}
               href={"https://www.mudita.com/#news"}
               target="_blank"
+              iconSize={IconSize.Medium}
             />
           }
         />

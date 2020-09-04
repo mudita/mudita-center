@@ -1,30 +1,36 @@
 import { connect } from "react-redux"
-import { select } from "Renderer/store"
 import Phone from "./phone.component"
+import { Phone as PhoneType } from "Renderer/models/phone/phone.typings"
 import { noop } from "Renderer/utils/noop"
 
-const selection = select((models) => ({
-  contactList: models.phone.grouped,
-  ...models.phone,
-}))
+import {
+  generateSortedStructure,
+  generateFlatList,
+} from "Renderer/models/phone/phone.helpers"
+import { ContactID } from "Renderer/models/phone/phone.typings"
 
-const mapStateToProps = (models: any) => ({
-  ...models.phone,
-  ...selection(models, {}),
-})
+const mapStateToProps = ({ phone }: { phone: PhoneType }) => {
+  return {
+    contactList: generateSortedStructure(phone),
+    flatList: generateFlatList(phone),
+    getContact: (id: ContactID) => phone.db[id],
+  }
+}
 
-const mapDispatch = ({ phone }: any) => ({
-  onSearchTermChange: (event: string) => phone.handleInput(event),
-  ...phone,
-  // TODO: Add proper actions
-  onManageButtonClick: noop,
-  onExport: noop,
-  onForward: noop,
-  onBlock: noop,
-  onSelect: noop,
-  onCall: noop,
-  onMessage: noop,
-  onSpeedDialSettingsSave: noop,
-})
+const mapDispatch = ({ phone }: any) => {
+  return {
+    onSearchTermChange: (event: string) => phone.handleInput(event),
+    ...phone,
+    // TODO: Add proper actions
+    onManageButtonClick: noop,
+    onExport: noop,
+    onForward: noop,
+    onBlock: noop,
+    onSelect: noop,
+    onCall: noop,
+    onMessage: noop,
+    onSpeedDialSettingsSave: noop,
+  }
+}
 
 export default connect(mapStateToProps, mapDispatch)(Phone)

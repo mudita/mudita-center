@@ -1,25 +1,28 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
-  Sidebar,
   SidebarHeaderIcon,
   SidebarProps,
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import styled from "styled-components"
-import { Contact } from "Renderer/models/phone/phone.interface"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import { Contact } from "Renderer/models/phone/phone.typings"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { fontWeight, textColor } from "Renderer/styles/theming/theme-getters"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { noop } from "Renderer/utils/noop"
+import {
+  AdditionalInfo,
+  AdditionalInfoItem,
+  BasicInfo,
+  ContactDetailsWrapper,
+  InfoItem,
+  InfoItemName,
+  InfoItemSpeedDialNumber,
+  Input,
+  Name,
+} from "Renderer/components/rest/phone/contact-details.styled"
 
 const messages = defineMessages({
   favourites: { id: "view.name.phone.contacts.details.favourites" },
@@ -55,87 +58,11 @@ interface ContactDetailsProps
   contact: Contact
 }
 
-const BasicInfo = styled.div`
-  margin: 2.8rem auto 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-`
-
-const Name = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SecondaryBoldHeading,
-}))`
-  grid-area: Name;
-  text-align: center;
-  line-height: 1.2;
-  height: 5.6rem;
-  width: 100%;
-  margin-bottom: 1.4rem;
-`
-
-export const InfoItem = styled.div`
-  display: grid;
-  grid-row-gap: 1.2rem;
-  grid-template-rows: 1.8rem 1.2rem;
-  grid-template-columns: 1fr;
-  grid-auto-rows: auto;
-  justify-items: center;
-  align-items: center;
-  margin: 0 2.4rem;
-`
-
-export const InfoItemName = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallFadedText,
-}))`
-  text-transform: uppercase;
-  color: ${textColor("secondary")};
-`
-
-const InfoItemSpeedDialNumber = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.TertiaryBoldHeading,
-}))`
-  font-size: 2.2rem;
-  line-height: 1;
-  font-weight: ${fontWeight("default")};
-`
-
-export const AdditionalInfo = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 7.6rem;
-  justify-content: space-between;
-
-  > div {
-    width: calc(50% - 3.2rem);
-  }
-`
-
-export const AdditionalInfoItem = styled.div`
-  width: 100%;
-  margin-bottom: 4.2rem;
-`
-
-export const Input = styled(InputComponent).attrs(({ value, label }) => ({
-  label: value ? undefined : label,
-  readOnly: true,
-}))<InputComponentProps>`
-  padding: 2.4rem 0 1.6rem 0;
-
-  div {
-    transition: all 0s;
-  }
-`
-
-export const ContactDetailsWrapper = styled(Sidebar)`
-  margin-top: 6.3rem;
-`
-
 export const phoneActions = (
   phoneNumber: string,
   onCall: (input: string) => void,
   onMessage: (input: string) => void
-) => {
+): JSX.Element[] => {
   const callHandler = () => onCall(phoneNumber)
   const messageHandler = () => onMessage(phoneNumber)
 
@@ -228,7 +155,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             <InfoItemName message={messages.information} />
             {contact.primaryPhoneNumber && (
               <Input
-                value={contact.primaryPhoneNumber}
+                defaultValue={contact.primaryPhoneNumber}
                 trailingIcons={phoneActions(
                   contact.primaryPhoneNumber,
                   onCall,
@@ -238,7 +165,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             )}
             {contact.secondaryPhoneNumber && (
               <Input
-                value={contact.secondaryPhoneNumber}
+                defaultValue={contact.secondaryPhoneNumber}
                 trailingIcons={phoneActions(
                   contact.secondaryPhoneNumber,
                   onCall,
@@ -250,7 +177,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               <Input label={intl.formatMessage(messages.noPhoneNumber)} />
             )}
             <Input
-              value={contact.email}
+              defaultValue={contact.email}
               label={intl.formatMessage(messages.noEmail)}
             />
           </AdditionalInfoItem>
@@ -261,7 +188,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             <Input
               type="textarea"
               outlined={false}
-              value={fullAddress.join("\n")}
+              defaultValue={fullAddress.join("\n")}
               label={intl.formatMessage(messages.noAddress)}
             />
           </AdditionalInfoItem>
@@ -270,7 +197,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             <Input
               type="textarea"
               outlined={false}
-              value={contact.note}
+              defaultValue={contact.note}
               label={intl.formatMessage(messages.noNotes)}
             />
           </AdditionalInfoItem>

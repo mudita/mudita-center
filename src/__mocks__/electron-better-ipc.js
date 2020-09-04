@@ -19,6 +19,7 @@ const ebi = require("electron-better-ipc")
  * expect(result).toMatchInlineSnapshot(`...`)
  *
  */
+
 const createMock = () => {
   const mock = {
     ...ebi,

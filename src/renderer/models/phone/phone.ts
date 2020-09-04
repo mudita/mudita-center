@@ -1,112 +1,113 @@
 import { Slicer } from "@rematch/select"
+import { Contact } from "Renderer/models/phone/phone.typings"
 import {
-  filterContacts,
-  generateSortedStructure,
-} from "Renderer/models/phone/phone.utils"
-import { Dispatch, RootState } from "Renderer/store"
-import {
-  Contact,
-  NewContact,
-  ResultsState,
+  BaseContactModel,
+  ContactID,
+  Phone,
   StoreData,
-} from "Renderer/models/phone/phone.interface"
-import getContacts from "Renderer/requests/get-contacts.request"
-import addContact from "Renderer/requests/add-contact.request"
-import { defaultContact } from "Renderer/components/rest/phone/contact-edit.component"
-import deleteContacts from "Renderer/requests/delete-contacts.request"
-import editContact from "Renderer/requests/edit-contact.request"
+} from "Renderer/models/phone/phone.typings"
 
-export const initialState: StoreData = {
-  inputValue: "",
-  contacts: [],
-  savingContact: false,
-  resultsState: ResultsState.Loading,
+import {
+  addContacts,
+  editContact,
+  removeContact,
+  revokeField,
+  generateSortedStructure,
+} from "Renderer/models/phone/phone.helpers"
+
+export const initialState: Phone = {
+  db: {},
+  collection: [],
+}
+
+let writeTrials = 0
+let failedTrials = 0
+
+/**
+ * Probably implement some kind of UI integration with this, to tell user
+ * that the data is only stored in the app at the moment.
+ *
+ * We should keep data in here, so the user won't lose the changes
+ * if something is wrong on the hardware side. First successful sync
+ * should remove the local data.
+ *
+ * TODO(Tomek Buszewski): Talk about this when this task is merged
+ */
+const simulateWriteToPhone = async (time = 2000) => {
+  if (failedTrials >= 3) {
+    console.error("Cannot write to phone")
+    return
+  }
+
+  writeTrials = writeTrials + 1
+
+  await new Promise((resolve) => setTimeout(resolve, time))
+
+  if (writeTrials % 3 === 0) {
+    console.error("Write failed, retrying")
+    failedTrials = failedTrials + 1
+    await simulateWriteToPhone(time)
+  } else {
+    console.log("Write successful")
+  }
 }
 
 export default {
   state: initialState,
   reducers: {
-    handleInput(state: StoreData, inputValue: string) {
-      return {
-        ...state,
-        inputValue,
+    addContact(state: Phone, contact: Contact): Phone {
+      let currentState = state
+
+      /**
+       * This is an example situation when two entities share the same (unique)
+       * data, so one has to release it.
+       */
+      if (contact.speedDial) {
+        currentState = revokeField(state, { speedDial: contact.speedDial })
       }
+
+      return addContacts(currentState, contact)
     },
-    updateContacts(state: StoreData, contacts: Contact[]) {
-      return {
-        ...state,
-        contacts,
+
+    editContact(
+      state: Phone,
+      contactID: ContactID,
+      data: BaseContactModel
+    ): Phone {
+      let currentState = state
+
+      if (data.speedDial) {
+        currentState = revokeField(state, { speedDial: data.speedDial })
       }
+
+      return editContact(currentState, contactID, data)
     },
-    updateSavingStatus(state: StoreData, savingContact: boolean) {
-      return {
-        ...state,
-        savingContact,
-      }
-    },
-    setResultsState(state: StoreData, resultsState: ResultsState) {
-      return {
-        ...state,
-        resultsState,
-      }
+
+    removeContact(state: Phone, input: ContactID | ContactID[]): Phone {
+      return removeContact(state, input)
     },
   },
-  effects: (dispatch: Dispatch): any => ({
-    async loadData(payload: any, { phone: { contacts } }: RootState) {
-      // TODO: Add 'downloaded' flag in case phonebook will be empty and there will
-      //  be no way to add a contact from phone when it's connected to the app.
-      if (contacts.length === 0) {
-        const phonebookContacts = await getContacts()
-        if (phonebookContacts.length) {
-          dispatch.phone.updateContacts(phonebookContacts)
-          dispatch.phone.setResultsState(ResultsState.Loaded)
-        } else {
-          dispatch.phone.setResultsState(ResultsState.Empty)
-        }
-      }
+  /**
+   * All these side effects are just for show, since we don't know anything
+   * about phone sync flow at the moment.
+   */
+  effects: {
+    async addContact() {
+      await simulateWriteToPhone()
     },
-    async addContact(contact: NewContact, state: RootState) {
-      const newContact: Contact = await addContact(contact)
-      const updatedContacts = [
-        ...state.phone.contacts,
-        { ...defaultContact, ...newContact },
-      ]
-      dispatch.phone.updateContacts(updatedContacts)
+
+    async editContact() {
+      await simulateWriteToPhone()
     },
-    async editContact(contact: Contact, state: RootState) {
-      dispatch.phone.updateSavingStatus(true)
-      const editedContact: Contact = await editContact(contact)
-      const editedContactIndex = state.phone.contacts.findIndex(
-        ({ id }: { id: string }) => id === editedContact.id
-      )
-      if (editedContactIndex >= 0) {
-        const updatedContacts = [...state.phone.contacts]
-        updatedContacts[editedContactIndex] = editedContact
-        await dispatch.phone.updateContacts(updatedContacts)
-        dispatch.phone.updateSavingStatus(false)
-      }
+
+    async removeContact() {
+      await simulateWriteToPhone()
     },
-    async deleteContacts(contacts: Contact[], state: RootState) {
-      const deletedContactsIds = await deleteContacts(
-        contacts.map((contact) => contact.id)
-      )
-      const updatedContacts = state.phone.contacts.filter(
-        ({ id }) => !deletedContactsIds.includes(id)
-      )
-      dispatch.phone.updateContacts(updatedContacts)
-    },
-  }),
+  },
   selectors: (slice: Slicer<StoreData>) => ({
     grouped() {
       return slice((state) => {
-        return generateSortedStructure(
-          filterContacts(state.contacts, state.inputValue)
-        )
-      })
-    },
-    speedDialContacts() {
-      return slice((state) => {
-        return state.contacts.filter((contact: Contact) => contact.speedDial)
+        return generateSortedStructure(state)
       })
     },
   }),

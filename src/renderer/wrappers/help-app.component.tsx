@@ -4,33 +4,25 @@ import { Route, RouteComponentProps, Router, Switch } from "react-router"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { History } from "history"
 import Help, { QuestionAndAnswer } from "Renderer/modules/help/help.component"
-import { ipcRenderer } from "electron-better-ipc"
-import { HelpActions } from "Common/enums/help-actions.enum"
 import { renderAnswer } from "Renderer/modules/help/render-utils"
-import { normalizeHelpData } from "Renderer/utils/contentful/normalize-help-data"
+import { useHelpSearch } from "Renderer/utils/hooks/use-help-search/use-help-search"
 
 interface Props {
   history: History
+  saveToStore?: (data: QuestionAndAnswer) => Promise<any>
+  getStoreData?: (key?: string) => Promise<any>
 }
 
-const HelpApp: FunctionComponent<Props> = ({ history }) => {
-  const [data, setData] = useState<QuestionAndAnswer>({
-    collection: [],
-    items: {},
-  })
+const HelpApp: FunctionComponent<Props> = ({
+  history,
+  saveToStore,
+  getStoreData,
+}) => {
+  const { data, searchQuestion } = useHelpSearch(saveToStore, getStoreData)
+  const [searchInputValue, setSearchInputValue] = useState("")
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await ipcRenderer.invoke(
-        HelpActions.DownloadContentfulData
-      )
-      const normalizeData = normalizeHelpData(response)
-      setData(normalizeData)
-      await ipcRenderer.invoke(HelpActions.SetStoreValue, normalizeData)
-    }
-
-    fetchData()
-  }, [])
-
+    searchQuestion(searchInputValue)
+  }, [searchInputValue])
   const AnswerComponent = (
     props: RouteComponentProps<{ questionId: string }>
   ) => renderAnswer(data, props)
@@ -39,7 +31,11 @@ const HelpApp: FunctionComponent<Props> = ({ history }) => {
       <Switch>
         <Route path={`${URL_MAIN.help}/:questionId`}>{AnswerComponent}</Route>
         <Route path={URL_MAIN.help}>
-          <Help list={data} />
+          <Help
+            list={data}
+            searchQuestion={setSearchInputValue}
+            searchValue={searchInputValue}
+          />
         </Route>
       </Switch>
     </Router>

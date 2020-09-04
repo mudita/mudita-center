@@ -1,22 +1,17 @@
-import React, { FocusEvent } from "react"
+import React, { useEffect, FocusEvent } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Sidebar } from "Renderer/components/core/table/table.component"
-import styled, { css } from "styled-components"
-import { Contact, NewContact } from "Renderer/models/phone/phone.interface"
+import { Contact } from "Renderer/models/phone/phone.typings"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import {
   DisplayStyle,
   Type,
 } from "Renderer/components/core/button/button.config"
-import { fontWeight } from "Renderer/styles/theming/theme-getters"
 import InputCheckbox, {
   Size,
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
@@ -28,12 +23,22 @@ import {
 } from "Renderer/utils/form-validators"
 import InputSelect, {
   RenderListItemProps,
-  SelectInputItem,
 } from "Renderer/components/core/input-select/input-select.component"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import { speedDialNumbers } from "Renderer/models/phone/phone.utils"
 import { noop } from "Renderer/utils/noop"
+import {
+  Buttons,
+  ContactDetailsWrapper,
+  Content,
+  CustomCheckbox,
+  Input,
+  SpeedDial,
+  SpeedDialListItem,
+  speedDialListStyles,
+  SpeedDialSettings,
+} from "Renderer/components/rest/phone/contact-edit.styled"
+import { NewContact } from "Renderer/models/phone/phone.typings"
 
 const messages = defineMessages({
   editTitle: { id: "view.name.phone.contacts.edit.title" },
@@ -60,96 +65,6 @@ const messages = defineMessages({
   save: { id: "view.name.phone.contacts.edit.save" },
 })
 
-const Content = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 1.8rem;
-
-  > div {
-    width: calc(50% - 3.2rem);
-  }
-
-  select {
-    height: 1.8rem;
-    margin-top: 3.8rem;
-    margin-bottom: 0.7rem;
-  }
-`
-
-const Buttons = styled.div`
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: repeat(2, minmax(13rem, 1fr));
-  grid-column-gap: 1.6rem;
-  width: fit-content;
-  margin: 4.8rem 0 1rem auto;
-
-  button {
-    width: auto;
-  }
-`
-
-const Input = styled(InputComponent)<InputComponentProps>`
-  margin-top: 1.8rem;
-
-  input {
-    font-weight: ${fontWeight("default")};
-  }
-`
-
-const SpeedDialListItem = styled(SelectInputItem)<{ inactive?: boolean }>`
-  ${({ inactive }) =>
-    inactive &&
-    css`
-      pointer-events: none;
-      opacity: 0.5;
-    `};
-`
-
-const SpeedDialSettings = styled(ButtonComponent)`
-  padding: 0.9rem;
-  height: auto;
-  width: auto;
-`
-
-const SpeedDial = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-top: 1.8rem;
-
-  label {
-    width: 8.5rem;
-  }
-`
-
-const speedDialListStyles = css`
-  li {
-    padding-left: 0.8rem;
-  }
-`
-
-const ContactDetailsWrapper = styled(Sidebar)`
-  margin-top: 6.3rem;
-`
-
-const CustomCheckbox = styled.label`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 3.3rem;
-  padding-bottom: 1.4rem;
-  cursor: pointer;
-
-  p {
-    margin: 0 0.8rem 0 1.2rem;
-    text-transform: initial;
-  }
-`
-
 export const defaultContact = {
   firstName: "",
   lastName: "",
@@ -168,7 +83,6 @@ export const defaultContact = {
 type NameUpdateProps = Pick<Contact, "firstName" | "lastName">
 
 interface ContactEditProps {
-  availableSpeedDials?: number[]
   contact?: Contact
   onCancel: (contact?: Contact) => void
   onSpeedDialSettingsOpen: () => void
@@ -178,7 +92,6 @@ interface ContactEditProps {
 }
 
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
-  availableSpeedDials = [],
   contact,
   onCancel,
   onSave,
@@ -211,6 +124,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
 
   const fields = watch()
 
+  useEffect(() => {
+    handleSpeedDialSelect(contact?.speedDial)
+  }, [contact?.speedDial])
+
   const speedDialAssignPossible =
     (fields.primaryPhoneNumber && !errors.primaryPhoneNumber) ||
     (fields.secondaryPhoneNumber && !errors.secondaryPhoneNumber)
@@ -234,20 +151,15 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     onNameUpdate({ firstName: fields.firstName, lastName: fields.lastName })
   }
 
-  const handleSpeedDialSelect = (value: number) => {
+  const handleSpeedDialSelect = (value: number | undefined) => {
     setValue("speedDial", value)
   }
 
   const speedDialListItemRenderer = ({
     item,
     props,
-  }: RenderListItemProps<typeof speedDialNumbers[number]>) => (
-    <SpeedDialListItem
-      {...props}
-      inactive={!availableSpeedDials.includes(item)}
-    >
-      {item}
-    </SpeedDialListItem>
+  }: RenderListItemProps<any>) => (
+    <SpeedDialListItem {...props}>{item}</SpeedDialListItem>
   )
 
   const headerLeft = (
@@ -312,7 +224,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
                 name="speedDial"
                 ref={register}
                 disabled={!speedDialAssignPossible}
-                options={speedDialNumbers}
+                options={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
                 renderListItem={speedDialListItemRenderer}
                 label={intl.formatMessage(messages.speedDialKey)}
                 emptyOption={intl.formatMessage(

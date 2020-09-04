@@ -4,7 +4,6 @@ import { phoneSeed } from "App/seeds/phone"
 import {
   expandTopic,
   getContactDetails,
-  getContactsAsMap,
 } from "Renderer/models/messages/utils/messages.helpers"
 
 const contactsMock = {
@@ -52,14 +51,7 @@ const contactsMock = {
   },
 }
 
-const testUser = phoneSeed.contacts[1]
-
-test("properly creates object from array of contacts", () => {
-  const contactsMap = getContactsAsMap(phoneSeed.contacts)
-
-  expect(typeof contactsMap === "object" && contactsMap !== null).toBeTruthy()
-  expect(contactsMap[testUser.id]).toMatchObject(testUser)
-})
+const testUser = phoneSeed.db[0]
 
 test("properly returns contact data", () => {
   // @ts-ignore

@@ -9,6 +9,7 @@ import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.en
 import {
   CallDescription,
   ContactName,
+  NameIcon,
 } from "Renderer/components/rest/calls/calls-table.styled"
 import {
   AdditionalInfo,
@@ -16,18 +17,18 @@ import {
   CallWrapper,
 } from "Renderer/components/rest/calls/call-details.styled"
 import { Details } from "Renderer/components/rest/calls/call-details.types"
-import {
-  AdditionalInfoItem,
-  ContactDetailsWrapper,
-  InfoItemName,
-  Input,
-  phoneActions,
-} from "Renderer/components/rest/phone/contact-details.component"
+import { phoneActions } from "Renderer/components/rest/phone/contact-details.component"
 import formatDuration from "Renderer/utils/format-duration"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { isToday } from "Renderer/utils/is-today"
 import { noop } from "Renderer/utils/noop"
+import {
+  AdditionalInfoItem,
+  ContactDetailsWrapper,
+  InfoItemName,
+  Input,
+} from "Renderer/components/rest/phone/contact-details.styled"
 
 const messages = defineMessages({
   today: { id: "view.name.phone.calls.today" },
@@ -45,6 +46,10 @@ interface ContactDetailsProps {
 }
 
 export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
+  const iconConfig = {
+    height: 2.8,
+    width: 2.8,
+  }
   return (
     <ContactDetailsWrapper
       onClose={onClose}
@@ -64,7 +69,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
         return (
           <CallWrapper key={index}>
             <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-              <Icon type={details.icon} width={2.5} height={2} />
+              <NameIcon type={details.icon} {...iconConfig} />
               {details.caller.firstName || details.caller.lastName ? (
                 <>
                   {details.caller.firstName} {details.caller.lastName}
@@ -93,17 +98,19 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
             </ButtonWrapper>
             <>
               <AdditionalInfo>
-                <AdditionalInfoItem>
-                  <InfoItemName message={messages.information} />
-                  <Input
-                    value={details.caller.primaryPhoneNumber}
-                    trailingIcons={phoneActions(
-                      details.caller.primaryPhoneNumber,
-                      noop,
-                      noop
-                    )}
-                  />
-                </AdditionalInfoItem>
+                {details.caller.primaryPhoneNumber && (
+                  <AdditionalInfoItem>
+                    <InfoItemName message={messages.information} />
+                    <Input
+                      value={details.caller.primaryPhoneNumber}
+                      trailingIcons={phoneActions(
+                        details.caller.primaryPhoneNumber,
+                        noop,
+                        noop
+                      )}
+                    />
+                  </AdditionalInfoItem>
+                )}
                 <AdditionalInfoItem>
                   <InfoItemName message={messages.type} />
                   <Input
@@ -111,7 +118,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
                       <Icon
                         key={`icon-${details.icon}`}
                         type={details.icon}
-                        width={1.5}
+                        width={2.4}
                       />,
                     ]}
                     value={`${intl.formatMessage(

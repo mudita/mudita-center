@@ -217,6 +217,11 @@ exports[`matches snapshot 1`] = `
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
+.c13 svg {
+  height: initial;
+  width: initial;
+}
+
 .c1 {
   grid-area: Text;
 }

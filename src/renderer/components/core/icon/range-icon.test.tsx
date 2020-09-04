@@ -10,10 +10,6 @@ describe("range icon returns correct component", () => {
       dataTestId: "icon-NoRange",
     },
     {
-      strength: 1,
-      dataTestId: "icon-VeryLowRange",
-    },
-    {
       strength: 21,
       dataTestId: "icon-LowRange",
     },

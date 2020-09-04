@@ -43,7 +43,7 @@ export const tabElements: TabElement[] = [
       {
         label: messages.templates,
         url: `${URL_MAIN.messages}${URL_TABS.templates}`,
-        icon: Type.MenuOverview,
+        icon: Type.Templates,
       },
     ],
   },
@@ -103,7 +103,7 @@ export const tabElements: TabElement[] = [
       {
         label: messages.notifications,
         url: `${URL_MAIN.settings}${URL_TABS.notifications}`,
-        icon: Type.Notification,
+        icon: Type.Notifications,
       },
       {
         label: messages.audioConversion,
