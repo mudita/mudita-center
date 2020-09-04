@@ -6,7 +6,7 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import ContactModal, {
   SupportFormData,
 } from "Renderer/components/rest/contact-modal/contact-modal.component"
-import { getFullAppLogs } from "Renderer/requests/app-logs.request"
+import { getAppLogs } from "Renderer/requests/app-logs.request"
 import axios from "axios"
 import { ContactSupportSuccess } from "Renderer/components/rest/contact-modal/contact-modal-success.component"
 import { ContactSupportFailed } from "Renderer/components/rest/contact-modal/contact-modal-failed.component"
@@ -23,25 +23,38 @@ const Troubleshooting = () => {
   }
 
   const contactSupport = async () => {
-    const appLog = await getFullAppLogs()
+    const appLogs = await getAppLogs()
 
     const sendForm = async (formData: SupportFormData) => {
       modalService.rerenderModal(
-        <ContactModal log={appLog} onSend={sendForm} sending />
+        <ContactModal log={appLogs} onSend={sendForm} sending />
       )
       const attachments = []
 
+      const bufferToBase64 = (buffer: ArrayBuffer) => {
+        let binary = ""
+        const bytes = (new Uint8Array(buffer) as unknown) as number[]
+        for (const byte of bytes) {
+          binary += String.fromCharCode(byte)
+        }
+        return window.btoa(binary)
+      }
+
       for (const attachment of formData.attachments || []) {
+        const content = bufferToBase64(await attachment.arrayBuffer())
+
         attachments.push({
           filename: attachment.name,
-          path: attachment.path,
+          content,
+          type: attachment.type,
+          encoding: "base64",
         })
       }
 
       const data = JSON.stringify({
         ...formData,
         attachments,
-        log: appLog,
+        log: appLogs,
       })
 
       const hmacDigest = Base64.stringify(
@@ -73,7 +86,7 @@ const Troubleshooting = () => {
       }
     }
 
-    modalService.openModal(<ContactModal log={appLog} onSend={sendForm} />)
+    modalService.openModal(<ContactModal log={appLogs} onSend={sendForm} />)
   }
   return (
     <OnboardingTroubleshooting onRetry={onRetry} onContact={contactSupport} />
