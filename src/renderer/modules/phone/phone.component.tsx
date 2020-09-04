@@ -31,10 +31,10 @@ import {
 } from "Renderer/models/phone/phone.typings"
 import { ContactSection } from "Renderer/modules/phone/phone.styled"
 import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
-import { ProgressModal } from "Renderer/components/core/modal/progress-modal.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 
 export type PhoneProps = ContactActions &
   ContactPanelProps &
@@ -256,7 +256,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const openProgressSyncModal = async () => {
     await modalService.closeModal()
     await modalService.openModal(
-      <ProgressModal
+      <SynchronizingContactsModal
         body={{
           id: "view.name.phone.contacts.synchronizingModalBody",
         }}

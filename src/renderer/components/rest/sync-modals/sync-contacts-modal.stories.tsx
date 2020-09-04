@@ -5,8 +5,8 @@ import React from "react"
 import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { ProgressModal } from "Renderer/components/core/modal/progress-modal.component"
 import { intl } from "Renderer/utils/intl"
+import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 
 storiesOf("Components|Rest/Sync Contacts Modal", module)
   .add("Choose sync option modal", () => (
@@ -19,7 +19,7 @@ storiesOf("Components|Rest/Sync Contacts Modal", module)
   .add("Synchronizing Contacts Modal", () => (
     <Story transparentMode>
       <StoryModalWrapper>
-        <ProgressModal
+        <SynchronizingContactsModal
           body={{
             id: "view.name.phone.contacts.synchronizingModalBody",
           }}

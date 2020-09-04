@@ -32,7 +32,7 @@ interface BackupLoadingModalProps {
   closeButtonLabel?: ButtonProps["label"]
 }
 
-export const ProgressModal: FunctionComponent<BackupLoadingModalProps> = ({
+export const SynchronizingContactsModal: FunctionComponent<BackupLoadingModalProps> = ({
   onSuccess,
   onFailure,
   failed,
