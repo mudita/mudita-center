@@ -22,11 +22,13 @@ import {
 } from "Renderer/components/core/modal/modal.interface"
 import { intl } from "Renderer/utils/intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
   padding: 4rem 3.2rem 4.8rem 3.2rem;
   box-sizing: border-box;
   ${({ size }) => getModalSize(size)};
+  background-color: ${backgroundColor("modal")};
 `
 
 const Header = styled.div<{ titleOrder: TitleOrder; subtitleGap: boolean }>`
