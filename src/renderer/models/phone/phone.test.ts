@@ -236,9 +236,7 @@ describe("redux tests", () => {
       speedDial,
     })
 
-    expect(
-      store.getState().phone.db[TEST_CONTACT.id].speedDial
-    ).toBe(speedDial)
+    expect(store.getState().phone.db[TEST_CONTACT.id].speedDial).toBe(speedDial)
     expect(
       store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
     ).toBeUndefined()
@@ -262,9 +260,9 @@ describe("redux tests", () => {
       speedDial,
     })
 
-    expect(
-      store.getState().phone.db[contactToEdit.id].speedDial
-    ).toBe(speedDial)
+    expect(store.getState().phone.db[contactToEdit.id].speedDial).toBe(
+      speedDial
+    )
     expect(
       store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
     ).toBeUndefined()

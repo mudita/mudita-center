@@ -13,8 +13,6 @@ export const useTemporaryStorage = <T = any>(
   const storage = window.sessionStorage
   const key = `temporary_storage_${id}`
 
-  log.warn("Test:", key)
-
   const set = (value: T) => {
     try {
       storage.setItem(key, JSON.stringify(value))
