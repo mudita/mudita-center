@@ -97,7 +97,7 @@ const Avatar: FunctionComponent<AvatarProps> = ({
         {user.lastName?.charAt(0)}
       </Text>
     ) : (
-      <Icon type={Type.Contacts} width={getAvatarSize(size) / 2.5} />
+      <Icon type={Type.Contacts} width={getAvatarSize(size) / 1.5} />
     )}
   </AvatarWrapper>
 )

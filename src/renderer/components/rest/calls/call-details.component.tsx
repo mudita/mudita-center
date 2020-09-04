@@ -2,7 +2,7 @@ import moment from "moment"
 import React from "react"
 import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.enum"
@@ -46,10 +46,6 @@ interface ContactDetailsProps {
 }
 
 export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
-  const iconConfig = {
-    height: 2.8,
-    width: 2.8,
-  }
   return (
     <ContactDetailsWrapper
       onClose={onClose}
@@ -69,7 +65,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
         return (
           <CallWrapper key={index}>
             <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-              <NameIcon type={details.icon} {...iconConfig} />
+              <NameIcon type={details.icon} size={IconSize.Big} />
               {details.caller.firstName || details.caller.lastName ? (
                 <>
                   {details.caller.firstName} {details.caller.lastName}

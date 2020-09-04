@@ -34,7 +34,6 @@ import MenuTools from "Renderer/svg/menu-tools.svg"
 import ExternalLink from "Renderer/svg/external-link.svg"
 import MuditaLogo from "Renderer/svg/mudita.svg"
 import MuditaLogoWithText from "Renderer/svg/mudita_logo.svg"
-import Music from "Renderer/svg/music.svg"
 import NoBattery from "Renderer/svg/no-battery.svg"
 import NoRange from "Renderer/svg/no-range.svg"
 import Refresh from "Renderer/svg/refresh.svg"
@@ -80,6 +79,8 @@ import MissedCall from "Renderer/svg/missed-call.svg"
 import ConferenceCall from "Renderer/svg/conference-call.svg"
 import IncomingCall from "Renderer/svg/incoming-call.svg"
 import OutgoingCall from "Renderer/svg/outgoing-call.svg"
+import MusicGrey from "Renderer/svg/music-grey.svg"
+import VoiceRecorderGrey from "Renderer/svg/voice-recorder-gray.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -119,7 +120,6 @@ export enum Type {
   ExternalLink,
   MuditaLogo,
   MuditaLogoWithText,
-  Music,
   MediumBattery,
   MediumRange,
   NoBattery,
@@ -167,6 +167,8 @@ export enum Type {
   ConferenceCall,
   IncomingCall,
   OutgoingCall,
+  MusicGrey,
+  VoiceRecorderGrey,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -243,8 +245,6 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return MuditaLogo
     case Type.MuditaLogoWithText:
       return MuditaLogoWithText
-    case Type.Music:
-      return Music
     case Type.NoBattery:
       return NoBattery
     case Type.NoRange:
@@ -333,6 +333,10 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return IncomingCall
     case Type.OutgoingCall:
       return OutgoingCall
+    case Type.MusicGrey:
+      return MusicGrey
+    case Type.VoiceRecorderGrey:
+      return VoiceRecorderGrey
     default:
       return Message
   }

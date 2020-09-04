@@ -31,12 +31,35 @@ exports[`should match snapshot with link 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  height: 3.2rem;
+  width: 3.2rem;
+  position: relative;
+}
+
+.c1 svg {
+  width: 100%;
+  height: 100%;
+}
+
+.c7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
   height: 2rem;
   width: 2rem;
   position: relative;
 }
 
-.c1 svg {
+.c7 svg {
   width: 100%;
   height: 100%;
 }
@@ -78,6 +101,8 @@ exports[`should match snapshot with link 1`] = `
   <div
     class="c1 c2"
     data-testid="icon-VoiceRecorder"
+    height="3.2"
+    width="3.2"
   >
     <test-file-stub
       image="test-file-stub"
@@ -102,7 +127,7 @@ exports[`should match snapshot with link 1`] = `
     href="#/tools/voice-recorder"
   >
     <div
-      class="c1"
+      class="c7"
       data-testid="icon-Arrow"
     >
       <test-file-stub
@@ -144,8 +169,8 @@ exports[`should match snapshot without link 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 2rem;
-  width: 2rem;
+  height: 3.2rem;
+  width: 3.2rem;
   position: relative;
 }
 
@@ -182,6 +207,8 @@ exports[`should match snapshot without link 1`] = `
   <div
     class="c1 c2"
     data-testid="icon-VoiceRecorder"
+    height="3.2"
+    width="3.2"
   >
     <test-file-stub
       image="test-file-stub"
