@@ -56,6 +56,7 @@ const theme = {
       chartBarInactive: grey9,
       chartAxisLine: transparentBlue1,
       chartTooltip: white,
+      modal: white,
     },
     border: {
       error: red1,
