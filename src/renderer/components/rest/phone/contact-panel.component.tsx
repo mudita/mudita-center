@@ -74,7 +74,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
         <SelectionManager
           selectedItemsNumber={selectedItemsCount}
           allItemsSelected={Boolean(allItemsSelected)}
-          message={{ id: "view.name.messages.conversations.selectionsNumber" }}
+          message={{ id: "view.name.phone.contacts.selectionsNumber" }}
           checkboxSize={Size.Large}
           onToggle={toggleAll}
           buttons={[
