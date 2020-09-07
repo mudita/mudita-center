@@ -33,7 +33,7 @@ test("properly fetches the data when credentials are in place", async () => {
 })
 
 test("throws when credentials are not present", async () => {
-  const TEST_RESPONSE = { response: "OK" }
+  const testResponse = { response: "OK" }
   const store = init({
     models: { auth },
     redux: {
@@ -43,7 +43,7 @@ test("throws when credentials are not present", async () => {
     },
   })
 
-  mockedAxios.mockResolvedValue(TEST_RESPONSE)
+  mockedAxios.mockResolvedValue(testResponse)
 
   await expect(
     async () => await wrapper("/any", "GET", {}, store as any)
