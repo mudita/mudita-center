@@ -196,9 +196,10 @@ storiesOf("Views|Phone/Modals", module)
     <>
       <ModalWrapper>
         <SpeedDialModal
-          contacts={labeledContactList}
+          editContact={noop as any}
           onSave={action("Save")}
           onClose={action("Close")}
+          flatList={flatList}
         />
       </ModalWrapper>
       <ModalBackdrop />

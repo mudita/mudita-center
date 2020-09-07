@@ -1,19 +1,25 @@
-import React from "react"
+import React, { useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import Table, {
   Col,
   Labels,
   Row,
   RowSize,
 } from "Renderer/components/core/table/table.component"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
+import InputSelect, {
+  RenderListItemProps,
+  renderSearchableText,
+  SelectInputItem,
+} from "Renderer/components/core/input-select/input-select.component"
+import { SpeedDialProps } from "Renderer/components/rest/phone/speed-dial-modal.container"
 
 const SpeedDialTable = styled(Table)`
   --labelBackground: none;
@@ -40,33 +46,81 @@ const messages = defineMessages({
     id: "view.name.phone.contacts.modal.speedDial.speedDialLabel",
   },
   contactLabel: { id: "view.name.phone.contacts.modal.speedDial.contactLabel" },
+  none: {
+    id: "view.name.phone.contacts.edit.speedDialKeyEmptyOption",
+  },
 })
 
-interface SpeedDialModalProps {
-  speedDialContacts?: Contact[]
-  contacts: Contact[]
-  onSave?: (contacts?: Contact[]) => void
-  onClose?: () => void
+const renderValue = (item: Contact) => createFullName(item)
+const renderItem = ({
+  item,
+  searchString,
+  props,
+}: RenderListItemProps<Contact>) => {
+  const name = createFullName(item)
+
+  if (name) {
+    return (
+      <SelectInputItem {...props}>
+        {renderSearchableText(name, searchString)}
+      </SelectInputItem>
+    )
+  }
+
+  return <SelectInputItem {...props} />
+}
+const filterFn = (item: Contact, query: string) => {
+  const fullName = createFullName(item).toLowerCase()
+  return fullName.includes(query.toLowerCase())
 }
 
-const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
+const StyledInputSelect = styled(InputSelect)`
+  label {
+    border: 0;
+    padding-top: 1rem;
+  }
+`
+
+const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
+  editContact,
   onSave = noop,
   onClose = noop,
-  // contacts = [], – will uncomment when implementing selection
-  speedDialContacts,
+  flatList = [],
 }) => {
-  const emptyContactList: Contact[] = Array.from({ length: 9 })
-  speedDialContacts?.forEach((item) => {
-    if (item.speedDial) {
-      emptyContactList[item.speedDial - 1] = item
-    }
-  })
+  const [localData, setLocalData] = useState<[ContactID, Contact][]>([])
+  const speedDialList = Array.from({ length: 9 })
+    .fill(null)
+    .map((_, i) => {
+      const speedDial = i + 1
+
+      const localStateItem = localData.find(
+        (contact) => contact[1].speedDial === speedDial
+      )
+
+      const globalStateItem = flatList.find(
+        (contact) => contact.speedDial === speedDial
+      )
+
+      return {
+        [speedDial]: (localStateItem && localStateItem[1]) || globalStateItem,
+      }
+    })
+
+  const availableContacts = flatList.filter(
+    (item: Contact) =>
+      item.id !== "0" && (Boolean(item.firstName) || Boolean(item.lastName))
+  )
+
+  const onSaveClick = () => {
+    localData.forEach((item) => editContact(...item))
+    onSave()
+  }
 
   return (
     <ModalComponent
       title={intl.formatMessage(messages.title)}
       size={ModalSize.Medium}
-      onActionButtonClick={onSave}
+      onActionButtonClick={onSaveClick}
       actionButtonLabel={intl.formatMessage(messages.saveButton)}
       onClose={onClose}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
@@ -76,11 +130,46 @@ const SpeedDialModal: FunctionComponent<SpeedDialModalProps> = ({
           <Col>{intl.formatMessage(messages.speedDialLabel)}</Col>
           <Col>{intl.formatMessage(messages.contactLabel)}</Col>
         </Labels>
-        {emptyContactList.map((item: Contact | undefined, i) => {
+        {speedDialList.map((item: Record<number, Contact | undefined>, i) => {
+          const speedDial = i + 1
+          const contact = item[speedDial]
+
+          const onChange = (contact: Contact) => {
+            const newItem = [contact.id, { ...contact, speedDial }] as [
+              ContactID,
+              Contact
+            ]
+
+            setLocalData((currentState) => {
+              const filteredCurrentState = currentState.filter(
+                (item) => item[1].speedDial !== speedDial
+              )
+              return [...filteredCurrentState, newItem]
+            })
+          }
+
           return (
             <Row size={RowSize.Small} key={i}>
-              <Col>{item ? item.speedDial : i + 1}</Col>
-              <Col>{item ? createFullName(item) : "Empty"}</Col>
+              <Col>{speedDial}</Col>
+              <Col>
+                <StyledInputSelect
+                  searchable
+                  options={availableContacts}
+                  value={
+                    contact
+                      ? contact
+                      : { firstName: intl.formatMessage(messages.none) }
+                  }
+                  emptyOption={intl.formatMessage(messages.none)}
+                  renderValue={renderValue}
+                  renderListItem={renderItem}
+                  onSelect={onChange}
+                  filteringFunction={filterFn}
+                  listStyles={css`
+                    max-height: 30rem;
+                  `}
+                />
+              </Col>
             </Row>
           )
         })}

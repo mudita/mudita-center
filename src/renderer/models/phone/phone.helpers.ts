@@ -256,7 +256,11 @@ export const findContact = (
   const db = Array.isArray(phone) ? phone : formatter(phone)
   const result = find(db, query) as Contact
 
-  return idOnly ? result.id : result
+  if (result) {
+    return idOnly ? result.id : result
+  }
+
+  return undefined
 }
 
 export const findMultipleContacts = (

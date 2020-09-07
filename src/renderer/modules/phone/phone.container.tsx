@@ -1,5 +1,7 @@
 import { connect } from "react-redux"
 import Phone from "./phone.component"
+import { Phone as PhoneType } from "Renderer/models/phone/phone.typings"
+import { Auth } from "Renderer/models/auth/auth.typings"
 import { noop } from "Renderer/utils/noop"
 
 import {
@@ -9,7 +11,7 @@ import {
 import { ContactID } from "Renderer/models/phone/phone.typings"
 import { handleGoogleAuth } from "Renderer/providers/google/auth"
 
-const mapStateToProps = ({ phone, auth }: any) => {
+const mapStateToProps = ({ phone, auth }: { phone: PhoneType; auth: Auth }) => {
   return {
     ...phone,
     ...auth,
