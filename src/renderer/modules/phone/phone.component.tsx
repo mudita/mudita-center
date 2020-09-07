@@ -11,7 +11,7 @@ import ContactDetails, {
   ContactDetailsActions,
 } from "Renderer/components/rest/phone/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
   defaultContact,
 } from "Renderer/components/rest/phone/contact-edit.component"
@@ -30,6 +30,7 @@ import {
   Store,
 } from "Renderer/models/phone/phone.typings"
 import { ContactSection } from "Renderer/modules/phone/phone.styled"
+import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 export type PhoneProps = ContactActions &
   ContactPanelProps &
@@ -58,6 +59,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
+  const {
+    selectedRows,
+    allRowsSelected,
+    toggleAll,
+    resetRows,
+    ...rest
+  } = useTableSelect<Contact, ContactCategory>(contacts, "contacts")
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
@@ -262,10 +270,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
             onUnblock={handleUnblock}
             onBlock={openBlockModal}
             onDelete={openDeleteModal}
-            onCheck={noop}
             newContact={newContact}
             editedContact={editedContact}
             resultsState={ResultsState.Loaded}
+            {...rest}
           />
           {newContact && (
             <ContactEdit
