@@ -8,7 +8,6 @@ import GlobalStyle from "Renderer/styles/global-style.component"
 import theme from "Renderer/styles/theming/theme"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { LANGUAGE } from "Renderer/constants/languages"
-import localeEn from "Renderer/locales/main/en-US.json"
 import { ModalProvider } from "Renderer/components/core/modal/modal.service"
 import modalService from "Renderer/components/core/modal/modal.service"
 import HelpApp from "Renderer/wrappers/help-app.component"
@@ -17,6 +16,8 @@ import { Mode } from "Common/enums/mode.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
+import { useEffect, useState } from "react"
+import { TranslationEvents } from "App/main/functions/register-translation-listener.enum"
 
 interface Props {
   store: Store
@@ -29,29 +30,43 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
     await ipcRenderer.callMain(HelpActions.SetStoreValue, normalizeData)
   const getStoreData = async (key?: string) =>
     await ipcRenderer.callMain(HelpActions.GetStore, key)
+
+  /**
+   * Get translations from store
+   */
+  const [messages, setMessages] = useState<Record<string, string>>()
+
+  useEffect(() => {
+    ;(async () => {
+      setMessages(await ipcRenderer.callMain(TranslationEvents.Get))
+    })()
+  }, [])
+
   return (
     <ThemeProvider theme={theme}>
-      <IntlProvider
-        defaultLocale={LANGUAGE.default}
-        locale={LANGUAGE.default}
-        messages={localeEn}
-      >
-        <ModalProvider service={modalService}>
-          <>
-            <Normalize />
-            <GlobalStyle />
-            {params.get("mode") === Mode.Help ? (
-              <HelpApp
-                history={history}
-                saveToStore={saveToStore}
-                getStoreData={getStoreData}
-              />
-            ) : (
-              <BaseApp store={store} history={history} />
-            )}
-          </>
-        </ModalProvider>
-      </IntlProvider>
+      {messages && (
+        <IntlProvider
+          defaultLocale={LANGUAGE.default}
+          locale={LANGUAGE.default}
+          messages={messages}
+        >
+          <ModalProvider service={modalService}>
+            <>
+              <Normalize />
+              <GlobalStyle />
+              {params.get("mode") === Mode.Help ? (
+                <HelpApp
+                  history={history}
+                  saveToStore={saveToStore}
+                  getStoreData={getStoreData}
+                />
+              ) : (
+                <BaseApp store={store} history={history} />
+              )}
+            </>
+          </ModalProvider>
+        </IntlProvider>
+      )}
     </ThemeProvider>
   )
 }
