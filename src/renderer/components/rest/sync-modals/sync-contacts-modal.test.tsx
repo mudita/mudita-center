@@ -9,7 +9,7 @@ const renderer = (extraProps?: {}) => {
   return renderWithThemeAndIntl(<SyncContactsModal {...props} />)
 }
 
-test("google button calls right function", () => {
+test("apple button calls right function", () => {
   const onAppleButtonClick = jest.fn()
   const { getByText } = renderer({ onAppleButtonClick })
   getByText("[value] view.name.phone.contacts.appleButtonText").click()
