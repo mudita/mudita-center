@@ -259,6 +259,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           onSearchTermChange={onSearchTermChange}
           onManageButtonClick={onManageButtonClick}
           onNewButtonClick={handleAddingContact}
+          selectedContacts={selectedRows}
+          allItemsSelected={allRowsSelected}
+          toggleAll={toggleAll}
         />
         <TableWithSidebarWrapper>
           <ContactList

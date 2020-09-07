@@ -55,6 +55,7 @@ const PhoneComponent = ({
     onCall={action("Call")}
     onSpeedDialSettingsSave={action("Save speed dial settings")}
     resultsState={resultsState}
+    selectedContacts={[]}
   />
 )
 
