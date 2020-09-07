@@ -1,9 +1,7 @@
 import { Auth, AuthPayload } from "Renderer/models/auth/auth.typings"
 import { authFactory } from "Renderer/models/auth/auth.helpers"
 
-export const initialState: Auth = {
-  google: {},
-}
+export const initialState: Auth = {}
 
 export default {
   state: initialState,

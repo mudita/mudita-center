@@ -2,33 +2,34 @@ import axios from "axios"
 import { init } from "@rematch/core"
 import wrapper from "./wrapper"
 import auth from "Renderer/models/auth/auth"
+import { AuthKeys } from "Renderer/models/auth/auth.helpers"
 
-const TEST_TOKEN = "token-12345"
-const TEST_TOKEN_TYPE = "Bearer"
+const testToken = "token-12345"
+const testTokenType = "Bearer"
 
 jest.mock("axios")
-const mockedAxios = axios as any
+const mockedAxios = axios as any // just an assign
 
 test("properly fetches the data when credentials are in place", async () => {
-  const TEST_RESPONSE = { response: "OK" }
+  const testResponse = { response: "OK" }
   const store = init({
     models: { auth },
     redux: {
       initialState: {
         auth: {
           google: {
-            access_token: TEST_TOKEN,
-            token_type: TEST_TOKEN_TYPE,
+            [AuthKeys.Token]: testToken,
+            [AuthKeys.TokenType]: testTokenType,
           },
         },
       },
     },
   })
 
-  mockedAxios.mockResolvedValue(TEST_RESPONSE)
+  mockedAxios.mockResolvedValue(testResponse)
 
   const call = await wrapper("/any", "GET", {}, store as any)
-  expect(call).toMatchObject(TEST_RESPONSE)
+  expect(call).toMatchObject(testResponse)
 })
 
 test("throws when credentials are not present", async () => {
