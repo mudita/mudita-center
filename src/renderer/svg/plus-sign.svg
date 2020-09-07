@@ -1,3 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14">
-    <path fill="#FFF" fill-rule="nonzero" d="M7 0c.483 0 .875.392.875.875l-.001 5.25h5.251a.875.875 0 1 1 0 1.75H7.874l.001 5.25a.875.875 0 1 1-1.75 0l-.001-5.25H.875a.875.875 0 1 1 0-1.75h5.249l.001-5.25C6.125.392 6.517 0 7 0z"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28" height="28" viewBox="0 0 28 28">
+    <defs>
+        <rect id="3j8oibsk8a" width="21" height="21" x="0" y="0" rx="2.333"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd" transform="translate(3.5 3.5)">
+        <mask id="h0zl2d9x6b" fill="#fff">
+            <use xlink:href="#3j8oibsk8a"/>
+        </mask>
+        <g fill="#fff" mask="url(#h0zl2d9x6b)">
+            <path d="M10.792 3.5c.322 0 .583.261.583.583l-.001 5.542h5.543c.322 0 .583.261.583.583v.584c0 .322-.261.583-.583.583h-5.543l.001 5.542c0 .322-.261.583-.583.583h-.584c-.322 0-.583-.261-.583-.583l-.001-5.542h-5.54c-.323 0-.584-.261-.584-.583v-.584c0-.322.261-.583.583-.583h5.541l.001-5.542c0-.322.261-.583.583-.583h.584z"/>
+        </g>
+    </g>
 </svg>

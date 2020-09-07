@@ -57,15 +57,17 @@ const MessagesSidebar = styled(Sidebar)`
   border-top: none;
 `
 
-const iconsConfig = { height: 2.8, width: 2.8 }
-
 const leadingIcons = [
-  <Icon type={Type.AttachContact} key={Type.AttachContact} {...iconsConfig} />,
-  <Icon type={Type.Template} key={Type.Template} {...iconsConfig} />,
+  <Icon
+    type={Type.AttachContact}
+    key={Type.AttachContact}
+    size={IconSize.Big}
+  />,
+  <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />,
 ]
 
 const trailingIcon = [
-  <Icon type={Type.Send} key={Type.Send} {...iconsConfig} />,
+  <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
 ]
 
 const MessageDetails: FunctionComponent<Props> = ({

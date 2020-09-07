@@ -81,6 +81,13 @@ import IncomingCall from "Renderer/svg/incoming-call.svg"
 import OutgoingCall from "Renderer/svg/outgoing-call.svg"
 import MusicGrey from "Renderer/svg/music-grey.svg"
 import VoiceRecorderGrey from "Renderer/svg/voice-recorder-gray.svg"
+import FullBattery from "Renderer/svg/full-battery.svg"
+import VeryLowRange from "Renderer/svg/very-low-range.svg"
+import VeryHighRangeWithRoaming from "Renderer/svg/very-high-range-roaming.svg"
+import HighRangeWithRoaming from "Renderer/svg/high-range-roaming.svg"
+import MediumRangeWithRoaming from "Renderer/svg/medium-range-roaming.svg"
+import LowRangeWithRoaming from "Renderer/svg/low-range-roaming.svg"
+import VeryLowRangeWithRoaming from "Renderer/svg/very-low-range-roaming.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -169,6 +176,12 @@ export enum Type {
   OutgoingCall,
   MusicGrey,
   VoiceRecorderGrey,
+  FullBattery,
+  VeryHighRangeWithRoaming,
+  HighRangeWithRoaming,
+  MediumRangeWithRoaming,
+  LowRangeWithRoaming,
+  VeryLowRangeWithRoaming,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -337,6 +350,20 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return MusicGrey
     case Type.VoiceRecorderGrey:
       return VoiceRecorderGrey
+    case Type.FullBattery:
+      return FullBattery
+    case Type.VeryLowRange:
+      return VeryLowRange
+    case Type.VeryHighRangeWithRoaming:
+      return VeryHighRangeWithRoaming
+    case Type.HighRangeWithRoaming:
+      return HighRangeWithRoaming
+    case Type.MediumRangeWithRoaming:
+      return MediumRangeWithRoaming
+    case Type.LowRangeWithRoaming:
+      return LowRangeWithRoaming
+    case Type.VeryLowRangeWithRoaming:
+      return VeryLowRangeWithRoaming
     default:
       return Message
   }

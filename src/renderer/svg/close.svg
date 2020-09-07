@@ -1,3 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
-    <path fill="none" fill-rule="evenodd" stroke="#6A6A6A" stroke-width="1.5" d="M3.567 3.05l9.533 9.9m0-9.9l-9.533 9.9"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
+    <defs>
+        <rect id="s9t6hloqha" width="24" height="24" x="0" y="0" rx="4"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd" transform="translate(4 4)">
+        <mask id="ovwgtec7hb" fill="#fff">
+            <use xlink:href="#s9t6hloqha"/>
+        </mask>
+        <g stroke="#6A6A6A" stroke-width="2" mask="url(#ovwgtec7hb)">
+            <path d="M4.564 4.929L19.23 19.07m0-14.142L4.564 19.07"/>
+        </g>
+    </g>
 </svg>
