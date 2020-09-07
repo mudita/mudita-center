@@ -10,12 +10,16 @@ export const createAuthServer = (
     if (req.method === "POST") {
       let body = ""
 
+      res.statusCode = 200
       req.on("data", (data) => (body += data))
       req.on("end", () => {
         cb && cb(body)
-        res.end()
       })
+    } else {
+      res.statusCode = 400
     }
+
+    res.end()
   })
 
   server.listen(authServerPort, () => {
@@ -26,9 +30,11 @@ export const createAuthServer = (
 }
 
 export const killAuthServer = (): void => {
-  server.close()
+  if (server) {
+    server.close()
 
-  if (process.env.NODE_ENV === "development") {
-    console.log("Server killed")
+    if (process.env.NODE_ENV === "development") {
+      console.log("Server killed")
+    }
   }
 }

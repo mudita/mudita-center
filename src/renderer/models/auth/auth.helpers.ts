@@ -7,10 +7,6 @@ export enum AuthKeys {
   TokenType = "tokenType",
 }
 
-export const VALID_KEY = "validUntil"
-export const TOKEN_KEY = "token"
-export const TOKEN_TYPE_KEY = "type"
-
 export const authFactory = (
   data: SimpleRecord,
   fallbackValidity = 3600 // one hour
@@ -35,7 +31,7 @@ export const authFactory = (
 
 export const tokenIsValid = (data: Auth, provider: AuthProviders): boolean => {
   if (provider in data) {
-    const validityValue = data[provider][VALID_KEY] || 0
+    const validityValue = data[provider][AuthKeys.Valid] || 0
     return validityValue > Date.now()
   }
 
