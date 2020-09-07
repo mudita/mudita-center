@@ -242,7 +242,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const _devClearContacts = () => setContacts([])
   const _devLoadDefaultContacts = () => setContacts(contactList)
-
   return (
     <>
       <DevModeWrapper>
@@ -262,6 +261,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           selectedContacts={selectedRows}
           allItemsSelected={allRowsSelected}
           toggleAll={toggleAll}
+          removeContact={removeContact}
+          resetRows={resetRows}
         />
         <TableWithSidebarWrapper>
           <ContactList

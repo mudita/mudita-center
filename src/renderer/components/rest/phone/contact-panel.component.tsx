@@ -4,16 +4,22 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { intl } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
+import { uniqBy } from "lodash"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
+import modalService from "Renderer/components/core/modal/modal.service"
+import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
+import { defineMessages } from "react-intl"
 
 const Panel = styled.div<{
   selectionMode: boolean
@@ -46,6 +52,12 @@ const Buttons = styled.div`
   }
 `
 
+const deleteModalMessages = defineMessages({
+  title: { id: "view.name.messages.deleteModal.title" },
+  text: { id: "view.name.messages.deleteModal.text" },
+  uniqueText: { id: "view.name.messages.deleteModal.uniqueText" },
+})
+
 export interface ContactPanelProps {
   onSearchTermChange: (value: string) => void
   onManageButtonClick: () => void
@@ -53,6 +65,8 @@ export interface ContactPanelProps {
   selectedContacts: Contact[]
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
+  removeContact: (id: ContactID[]) => void
+  resetRows: UseTableSelect<Contact>["resetRows"]
 }
 
 const ContactPanel: FunctionComponent<ContactPanelProps> = ({
@@ -62,12 +76,45 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   selectedContacts,
   allItemsSelected,
   toggleAll,
+  removeContact,
+  resetRows,
 }) => {
   const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     onSearchTermChange(target.value)
   }
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
+  const openModal = () => {
+    const selectedContactsIds = selectedContacts.map(({ id }) => id)
+    const uniqueSelectedRows = uniqBy(selectedContacts, "id")
+    const uniqueCaller = uniqueSelectedRows[0]
+    const nameAvailable = isNameAvailable(uniqueCaller)
+    const caller = nameAvailable
+      ? createFullName(uniqueCaller)
+      : uniqueCaller.primaryPhoneNumber
+    const textIntlValues = {
+      num: allItemsSelected ? -1 : selectedContactsIds.length,
+      ...textFormatters,
+    }
+    const onDelete = async () => {
+      removeContact(selectedContactsIds)
+      resetRows()
+      await modalService.closeModal()
+    }
+    const modalConfig = {
+      title: intl.formatMessage(deleteModalMessages.title),
+      text:
+        uniqueSelectedRows.length > 1
+          ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
+          : intl.formatMessage(deleteModalMessages.uniqueText, {
+              ...textIntlValues,
+              caller,
+            }),
+      onDelete,
+      onClose: resetRows,
+    }
+    modalService.openModal(<DeleteModal {...modalConfig} />)
+  }
   return (
     <Panel selectionMode={selectionMode}>
       {selectionMode ? (
@@ -83,6 +130,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
               label={intl.formatMessage(messages.deleteButton)}
               displayStyle={DisplayStyle.Link1}
               Icon={Type.Delete}
+              onClick={openModal}
               data-testid={MessagePanelTestIds.SelectionManagerDeleteButton}
             />,
           ]}
