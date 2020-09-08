@@ -1,7 +1,7 @@
 import Store from "electron-store"
 import { app } from "electron"
 import { name } from "../../../package.json"
-import { LANGUAGE } from "Renderer/constants/languages"
+import { availableLanguages } from "App/translations.config.json"
 
 const commonOptions = {
   cwd: `${app.getPath("appData")}/${name}/locales`,
@@ -10,16 +10,16 @@ const commonOptions = {
 
 const translationStores: Record<string, Store> = {}
 
-for (const lang of LANGUAGE.available) {
+for (const { code } of availableLanguages) {
   let defaults = {}
   try {
-    defaults = require(`../../renderer/locales/default/${lang}.json`)
+    defaults = require(`../../renderer/locales/default/${code}.json`)
   } catch (error) {
-    console.log(`No default translations file for language "${lang}"`)
+    console.log(`No default translations file for language "${code}"`)
   }
 
-  translationStores[lang] = new Store({
-    name: lang,
+  translationStores[code] = new Store({
+    name: code,
     defaults,
     ...commonOptions,
   })

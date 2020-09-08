@@ -1,6 +1,9 @@
 import { ipcRenderer } from "electron-better-ipc"
-import { TranslationEvents } from "App/main/functions/register-translation-listener.enum"
+import {
+  TranslationEventResponse,
+  TranslationEvents,
+} from "App/main/functions/register-translation-listener.types"
 
-export const getTranslation = (): Promise<Record<string, string>> => {
+export const getTranslation = (): Promise<TranslationEventResponse> => {
   return ipcRenderer.callMain(TranslationEvents.Get)
 }

@@ -7,7 +7,7 @@ import { Normalize } from "styled-normalize"
 import GlobalStyle from "Renderer/styles/global-style.component"
 import theme from "Renderer/styles/theming/theme"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { LANGUAGE } from "Renderer/constants/languages"
+import { defaultLanguage } from "App/translations.config.json"
 import { ModalProvider } from "Renderer/components/core/modal/modal.service"
 import modalService from "Renderer/components/core/modal/modal.service"
 import HelpApp from "Renderer/wrappers/help-app.component"
@@ -17,7 +17,10 @@ import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { useEffect, useState } from "react"
-import { TranslationEvents } from "App/main/functions/register-translation-listener.enum"
+import {
+  TranslationEventResponse,
+  TranslationEvents,
+} from "App/main/functions/register-translation-listener.types"
 
 interface Props {
   store: Store
@@ -35,10 +38,15 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
    * Get translations from store
    */
   const [messages, setMessages] = useState<Record<string, string>>()
+  const [locale, setLocale] = useState<string>(defaultLanguage)
 
   useEffect(() => {
     ;(async () => {
-      setMessages(await ipcRenderer.callMain(TranslationEvents.Get))
+      const { store, language } = (await ipcRenderer.callMain(
+        TranslationEvents.Get
+      ))
+      setMessages(store)
+      setLocale(language)
     })()
   }, [])
 
@@ -46,8 +54,8 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
     <ThemeProvider theme={theme}>
       {messages && (
         <IntlProvider
-          defaultLocale={LANGUAGE.default}
-          locale={LANGUAGE.default}
+          defaultLocale={defaultLanguage}
+          locale={locale}
           messages={messages}
         >
           <ModalProvider service={modalService}>

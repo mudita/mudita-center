@@ -1,13 +1,15 @@
 import settingsStore from "App/main/store/settings"
 import axios from "axios"
 import translationStores from "App/main/store/translations"
+import { availableLanguages } from "App/translations.config.json"
 
 const updateTranslations = async () => {
-  const language = settingsStore.get("language")?.tag || "en-US"
+  const language = settingsStore.get("language") as string
+  const id = availableLanguages.find(({ code }) => code === language)?.id
 
   try {
     const { data } = await axios.get(
-      `https://api.phrase.com/v2/projects/${process.env.PHRASE_PROJECT_ID}/locales/${language}/download`,
+      `${process.env.PHRASE_API_URL}/locales/${id || "en"}/download`,
       {
         headers: {
           Authorization: `token ${process.env.PHRASE_API_KEY}`,

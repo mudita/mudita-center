@@ -51,6 +51,8 @@
   "form.field.fileUpload.error.tooManyFiles": "You tried to attach more than {limit} files.",
   "form.field.fileUpload.error.typeNotAllowed": "File <i>{name}</i> has wrong type. Allowed types are: {extensions}.",
   "form.field.multipleFileUpload.description": "Drag & drop files to attach them, or <b>browse files</b>.",
+  "language.en-US": "English",
+  "language.pl-PL": "Polski",
   "menu.header.desktopApp": "Desktop App",
   "menu.header.yourPure": "Your Pure",
   "view.generic.button.cancel": "Cancel",

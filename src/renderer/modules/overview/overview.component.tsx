@@ -154,9 +154,7 @@ const Overview: FunctionComponent<
       <BackupStartModal
         startBackup={openBackupLoadingModal}
         fileSize={convertBytes(lastBackup.size)}
-        date={new Date(lastBackup.createdAt).toLocaleDateString(
-          language && language.tag
-        )}
+        date={new Date(lastBackup.createdAt).toLocaleDateString(language)}
       />
     )
   }

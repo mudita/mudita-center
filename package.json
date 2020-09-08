@@ -41,9 +41,13 @@
     "UTILITY/AUTO COMMANDS": "=================================================",
     "beforecommit": "lint-staged",
     "postinstall": "electron-builder install-app-deps && electron-rebuild -f",
-    "prerelease": "npm run build",
+    "prerelease": "npm run update:all && npm run build",
     "prestart": "npm run build",
-    "pretest:e2e": "npm run build"
+    "pretest:e2e": "npm run build",
+    "predevelop": "npm run update:all",
+    "DATA UPDATE COMMANDS": "=========================================",
+    "update:translations": "node ./scripts/updateDefaultTranslations.js",
+    "update:all": "npm run update:translations"
   },
   "pre-commit": "beforecommit",
   "build": {
