@@ -38,6 +38,13 @@ const Panel = styled.div<{
   label {
     width: auto;
   }
+  button {
+    padding: 0 0.8rem;
+  }
+`
+
+const ContactSelectionManager = styled(SelectionManager)`
+  grid-template-columns: 2.8rem 1fr;
 `
 
 const Buttons = styled.div`
@@ -110,7 +117,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   return (
     <Panel selectionMode={selectionMode}>
       {selectionMode ? (
-        <SelectionManager
+        <ContactSelectionManager
           selectedItemsNumber={selectedItemsCount}
           allItemsSelected={Boolean(allItemsSelected)}
           message={{ id: "view.name.phone.contacts.selectionsNumber" }}
