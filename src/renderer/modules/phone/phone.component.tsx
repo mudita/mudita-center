@@ -30,6 +30,11 @@ import {
   Store,
 } from "Renderer/models/phone/phone.typings"
 import { ContactSection } from "Renderer/modules/phone/phone.styled"
+import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import Modal from "Renderer/components/core/modal/modal.component"
+import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 export type PhoneProps = ContactActions &
@@ -49,7 +54,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     removeContact,
     contactList = [],
     onSearchTermChange,
-    onManageButtonClick,
     onCall,
     onMessage,
     savingContact,
@@ -59,6 +63,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
+  const [sync, setSync] = useState(1)
   const {
     selectedRows,
     allRowsSelected,
@@ -240,6 +245,53 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
+  const openSuccessSyncModal = async () => {
+    // TODO: Replace it with correct modal for success state when its done by design
+    await modalService.closeModal()
+    await modalService.openModal(
+      <Modal title={"Success"} size={ModalSize.Small} />
+    )
+  }
+
+  const openFailureSyncModal = async () => {
+    // TODO: Replace it with correct modal for failure state when its done by design
+    await modalService.closeModal()
+    await modalService.openModal(
+      <Modal title={"Failure"} size={ModalSize.Small} />
+    )
+  }
+
+  const openProgressSyncModal = async () => {
+    await modalService.closeModal()
+    await modalService.openModal(
+      <SynchronizingContactsModal
+        body={{
+          id: "view.name.phone.contacts.synchronizingModalBody",
+        }}
+        subtitle={{
+          id: "view.name.phone.contacts.synchronizingModalTitle",
+        }}
+        closeButtonLabel={intl.formatMessage({
+          id: "view.generic.button.cancel",
+        })}
+        onFailure={openFailureSyncModal}
+        onSuccess={openSuccessSyncModal}
+        failed={sync % 3 === 0}
+        icon={Type.SynchronizeContacts}
+      />
+    )
+  }
+
+  const openSyncModal = () => {
+    setSync((value) => value + 1)
+    modalService.openModal(
+      <SyncContactsModal
+        onAppleButtonClick={openProgressSyncModal}
+        onGoogleButtonClick={openProgressSyncModal}
+      />
+    )
+  }
+
   const _devClearContacts = () => setContacts([])
   const _devLoadDefaultContacts = () => setContacts(contactList)
   return (
@@ -256,7 +308,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       <ContactSection>
         <ContactPanel
           onSearchTermChange={onSearchTermChange}
-          onManageButtonClick={onManageButtonClick}
+          onManageButtonClick={openSyncModal}
           onNewButtonClick={handleAddingContact}
           selectedContacts={selectedRows}
           allItemsSelected={allRowsSelected}
