@@ -26,6 +26,7 @@ import {
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
   text: { id: "view.name.phone.contacts.modal.deleteMultipleContacts" },
+  export: { id: "view.name.phone.calls.selectionExport" },
 })
 
 export interface ContactPanelProps {
@@ -84,6 +85,13 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           checkboxSize={Size.Large}
           onToggle={toggleAll}
           buttons={[
+            <ButtonComponent
+              key="export"
+              label={intl.formatMessage(deleteModalMessages.export)}
+              displayStyle={DisplayStyle.Link1}
+              Icon={Type.Upload}
+              onClick={noop}
+            />,
             <ButtonComponent
               key="delete"
               label={intl.formatMessage(messages.deleteButton)}
