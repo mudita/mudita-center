@@ -79,6 +79,9 @@ import MissedCall from "Renderer/svg/missed-call.svg"
 import ConferenceCall from "Renderer/svg/conference-call.svg"
 import IncomingCall from "Renderer/svg/incoming-call.svg"
 import OutgoingCall from "Renderer/svg/outgoing-call.svg"
+import AppleLogo from "Renderer/svg/apple.svg"
+import GoogleLogo from "Renderer/svg/google.svg"
+import SynchronizeContacts from "Renderer/svg/synchronize-contacts.svg"
 import MusicGrey from "Renderer/svg/music-grey.svg"
 import VoiceRecorderGrey from "Renderer/svg/voice-recorder-gray.svg"
 import FullBattery from "Renderer/svg/full-battery.svg"
@@ -169,6 +172,9 @@ export enum Type {
   Backup,
   Tooltip,
   TetheringStatus,
+  Apple,
+  Google,
+  SynchronizeContacts,
   Templates,
   MissedCall,
   ConferenceCall,
@@ -338,6 +344,12 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return SendButton
     case Type.Backup:
       return Backup
+    case Type.Apple:
+      return AppleLogo
+    case Type.Google:
+      return GoogleLogo
+    case Type.SynchronizeContacts:
+      return SynchronizeContacts
     case Type.MissedCall:
       return MissedCall
     case Type.ConferenceCall:
