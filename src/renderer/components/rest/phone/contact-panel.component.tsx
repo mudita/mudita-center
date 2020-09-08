@@ -26,7 +26,7 @@ import {
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
   text: { id: "view.name.phone.contacts.modal.deleteMultipleContacts" },
-  export: { id: "view.name.phone.calls.selectionExport" },
+  export: { id: "view.name.phone.contacts.selectionExport" },
 })
 
 export interface ContactPanelProps {
