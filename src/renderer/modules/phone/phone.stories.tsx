@@ -213,12 +213,13 @@ storiesOf("Views|Phone/Modals", module)
           title={intl.formatMessage({
             id: "view.name.phone.contacts.modal.delete.title",
           })}
-          text={intl.formatMessage(
-            {
-              id: "view.name.phone.contacts.modal.delete.text",
+          message={{
+            id: "view.name.phone.contacts.modal.delete.text",
+            values: {
+              name: createFullName(singleContact()),
+              ...textFormatters,
             },
-            { name: createFullName(singleContact()), ...textFormatters }
-          )}
+          }}
           onDelete={action("Delete")}
           onClose={action("Close")}
         />

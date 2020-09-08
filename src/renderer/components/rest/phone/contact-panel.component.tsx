@@ -2,7 +2,7 @@ import React, { ChangeEvent } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { intl } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
@@ -25,7 +25,6 @@ import { ContactPanelTestIdsEnum } from "Renderer/components/rest/phone/contact-
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
-  text: { id: "view.name.phone.contacts.modal.deleteMultipleContacts" },
   export: { id: "view.name.phone.contacts.selectionExport" },
 })
 
@@ -66,10 +65,14 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     }
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),
-      text: intl.formatMessage(deleteModalMessages.text, {
-        num: allItemsSelected ? -1 : selectedContactsIds.length,
-        name: nameAvailable && createFullName(selectedContacts[0]),
-      }),
+      message: {
+        id: "view.name.phone.contacts.modal.deleteMultipleContacts",
+        values: {
+          num: allItemsSelected ? -1 : selectedContactsIds.length,
+          name: nameAvailable && createFullName(selectedContacts[0]),
+          ...textFormatters,
+        },
+      },
       onDelete,
       onClose: resetRows,
     }

@@ -85,8 +85,6 @@ const CallsSelectionManager = styled(SelectionManager)`
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.calls.deleteModal.title" },
-  text: { id: "view.name.phone.calls.deleteModal.text" },
-  uniqueText: { id: "view.name.phone.calls.deleteModal.uniqueText" },
 })
 
 interface Props {
@@ -149,13 +147,21 @@ const CallsHeader: FunctionComponent<Props> = ({
     }
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),
-      text:
+      message:
         uniqueSelectedRows.length > 1
-          ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
-          : intl.formatMessage(deleteModalMessages.uniqueText, {
-              ...textIntlValues,
-              caller,
-            }),
+          ? {
+              id: "view.name.phone.calls.deleteModal.text",
+              values: {
+                ...textIntlValues,
+              },
+            }
+          : {
+              id: "view.name.phone.calls.deleteModal.uniqueText",
+              values: {
+                ...textIntlValues,
+                caller,
+              },
+            },
       onDelete,
       onClose: resetRows,
     }

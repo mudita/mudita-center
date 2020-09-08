@@ -161,12 +161,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           title={intl.formatMessage({
             id: "view.name.phone.contacts.modal.delete.title",
           })}
-          text={intl.formatMessage(
-            {
-              id: "view.name.phone.contacts.modal.delete.text",
-            },
-            { name: createFullName(contact), ...textFormatters }
-          )}
+          message={{
+            id: "view.name.phone.contacts.modal.delete.text",
+            values: { name: createFullName(contact), ...textFormatters },
+          }}
         />
       )
 
@@ -184,12 +182,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         title={intl.formatMessage({
           id: "view.name.phone.contacts.modal.delete.title",
         })}
-        text={intl.formatMessage(
-          {
-            id: "view.name.phone.contacts.modal.delete.text",
-          },
-          { name: createFullName(contact), ...textFormatters }
-        )}
+        message={{
+          id: "view.name.phone.contacts.modal.delete.text",
+          values: { name: createFullName(contact), ...textFormatters },
+        }}
       />
     )
   }
