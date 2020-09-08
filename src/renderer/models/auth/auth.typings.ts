@@ -1,4 +1,4 @@
-import { SimpleRecord } from "Renderer/models/phone/phone.typings"
+import { SimpleRecord } from "Common/typings"
 
 export enum AuthProviders {
   Google = "google",

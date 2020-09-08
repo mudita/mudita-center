@@ -1,5 +1,6 @@
 import startBackend from "Backend/bootstrap"
 import log from "electron-log"
+import { check as checkPort } from "tcp-port-used"
 import {
   app,
   BrowserWindow,
@@ -37,7 +38,11 @@ import {
   removeGetHelpStoreHandler,
 } from "App/main/functions/get-help-store-handler"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
-import { createAuthServer, killAuthServer } from "App/main/auth-server"
+import {
+  authServerPort,
+  createAuthServer,
+  killAuthServer,
+} from "App/main/auth-server"
 
 require("dotenv").config()
 
@@ -180,8 +185,35 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
   })
 })
 
-ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, () => {
+const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
+  return await googleAuthWindow.loadURL(
+    developmentEnvironment
+      ? `http://localhost:2003/?mode=${Mode.ServerError}#${URL_MAIN.error}`
+      : url.format({
+          pathname: path.join(__dirname, "index.html"),
+          protocol: "file:",
+          slashes: true,
+          hash: URL_MAIN.error,
+          search: `?mode=${Mode.ServerError}`,
+        })
+  )
+}
+
+ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async () => {
   if (process.env.MUDITA_GOOGLE_AUTH_URL) {
+    const cb = (input: string | Record<string, string>) => {
+      const perform = () => {
+        if (typeof input === "string") {
+          return JSON.parse(input)
+        }
+
+        return input
+      }
+
+      ipcMain.answerRenderer(GoogleAuthActions.SendData, perform)
+      ipcMain.removeListener(GoogleAuthActions.SendData, perform)
+    }
+
     if (googleAuthWindow === null) {
       googleAuthWindow = new BrowserWindow(
         getWindowOptions({
@@ -196,22 +228,17 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, () => {
         })
       )
 
+      if (await checkPort(authServerPort)) {
+        await createErrorWindow(googleAuthWindow)
+        return
+      }
+
+      createAuthServer(cb)
+
       googleAuthWindow.loadURL(process.env.MUDITA_GOOGLE_AUTH_URL)
     } else {
       googleAuthWindow.show()
     }
-
-    const cb = (input: string | Record<string, string>) => {
-      ipcMain.answerRenderer("send-data", () => {
-        if (typeof input === "string") {
-          return JSON.parse(input)
-        }
-
-        return input
-      })
-    }
-
-    createAuthServer(cb)
 
     googleAuthWindow.on("close", () => {
       googleAuthWindow = null

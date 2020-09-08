@@ -1,5 +1,5 @@
-import { SimpleRecord } from "Renderer/models/phone/phone.typings"
 import { Auth, AuthProviders } from "Renderer/models/auth/auth.typings"
+import { SimpleRecord } from "Common/typings"
 
 export enum AuthKeys {
   Valid = "validUntil",
@@ -9,7 +9,7 @@ export enum AuthKeys {
 
 export const authFactory = (
   data: SimpleRecord,
-  fallbackValidity = 3600 // one hour
+  fallbackValidity = 3600000 // one hour in ms
 ): Record<AuthKeys, number | string> => {
   // add token and type to model
   const token = data["access_token"] || data["token"] || data["bearer_token"]

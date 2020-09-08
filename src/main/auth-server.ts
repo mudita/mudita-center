@@ -1,32 +1,34 @@
 import http from "http"
 export const authServerPort = 3456
 
-let server: http.Server
+let server: http.Server | null = null
 
 export const createAuthServer = (
   cb?: (body: string) => void | Promise<void>
 ): void => {
-  server = http.createServer((req, res) => {
-    if (req.method === "POST") {
-      let body = ""
+  if (server) {
+    server = http.createServer((req, res) => {
+      if (req.method === "POST") {
+        let body = ""
 
-      res.statusCode = 200
-      req.on("data", (data) => (body += data))
-      req.on("end", () => {
-        cb && cb(body)
-      })
-    } else {
-      res.statusCode = 400
-    }
+        res.statusCode = 200
+        req.on("data", (data) => (body += data))
+        req.on("end", () => {
+          cb && cb(body)
+        })
+      } else {
+        res.statusCode = 400
+      }
 
-    res.end()
-  })
+      res.end()
+    })
 
-  server.listen(authServerPort, () => {
-    if (process.env.NODE_ENV === "development") {
-      console.log("Server ready on 3456")
-    }
-  })
+    server.listen(authServerPort, () => {
+      if (process.env.NODE_ENV === "development") {
+        console.log(`Server ready on ${authServerPort}`)
+      }
+    })
+  }
 }
 
 export const killAuthServer = (): void => {

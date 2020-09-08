@@ -8,17 +8,15 @@ export const handleGoogleAuth = async (
   cb?: (payload: AuthPayload) => void
 ): Promise<void> => {
   await ipcRenderer.callMain(GoogleAuthActions.OpenWindow)
-  let data: Record<string, string> | null = null
 
   const checker = setInterval(async () => {
     const token: Record<string, string> = await ipcRenderer.callMain(
-      "send-data"
+      GoogleAuthActions.SendData
     )
 
     if (token) {
-      data = token
       clearInterval(checker)
-      cb && cb({ provider: AuthProviders.Google, data })
+      cb && cb({ provider: AuthProviders.Google, data: token })
       await ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
 
       console.log(await getPeople()) // just for testing

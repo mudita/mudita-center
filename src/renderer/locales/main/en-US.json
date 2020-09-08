@@ -11,6 +11,7 @@
   "view.name.filesManager": "Files manager",
   "view.name.filesManager.files.selectionsNumber": "{num, plural, =-1 {All Files} one {# File} other {# Files}} selected",
   "view.name.help": "Help",
+  "view.name.error": "Error",
   "view.name.help.title": "Pure Desktop App <b>Help</b>",
   "view.name.help.backLinkText": "Back",
   "view.name.help.answer.error": "Something went wrong",
