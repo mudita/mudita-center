@@ -3,7 +3,7 @@ import InputComponent from "Renderer/components/core/input-text/input-text.compo
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { intl, textFormatters } from "Renderer/utils/intl"
+import { intl } from "Renderer/utils/intl"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
@@ -58,10 +58,6 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     const selectedContactsIds = selectedContacts.map(({ id }) => id)
     const nameAvailable =
       selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
-    const textIntlValues = {
-      num: allItemsSelected ? -1 : selectedContactsIds.length,
-      ...textFormatters,
-    }
     const onDelete = async () => {
       removeContact(selectedContactsIds)
       resetRows()
@@ -70,7 +66,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),
       text: intl.formatMessage(deleteModalMessages.text, {
-        ...textIntlValues,
+        num: allItemsSelected ? -1 : selectedContactsIds.length,
         name: nameAvailable && createFullName(selectedContacts[0]),
       }),
       onDelete,

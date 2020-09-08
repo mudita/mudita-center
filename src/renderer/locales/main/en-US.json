@@ -181,7 +181,7 @@
   "view.name.phone.contacts.edit.error.wrongEmail": "The email you entered is wrong",
   "view.name.phone.contacts.modal.delete.title": "Delete contact",
   "view.name.phone.contacts.modal.delete.text": "Do you really want to delete\n<b>the {name} contact?</b>",
-  "view.name.phone.contacts.modal.deleteMultipleContacts": "Do you really want to delete <b>{num, plural, =-1 {all contacts} one {the {name} contact} other {# contacts}}?</b>",
+  "view.name.phone.contacts.modal.deleteMultipleContacts": "Do you really want to delete {num, plural, =-1 {all contacts} one {the {name} contact} other {# contacts}}?",
   "view.name.phone.contacts.modal.delete.cancelButton": "Cancel",
   "view.name.phone.contacts.modal.delete.deleteButton": "Delete",
   "view.name.phone.contacts.modal.block.title": "Block contact",
