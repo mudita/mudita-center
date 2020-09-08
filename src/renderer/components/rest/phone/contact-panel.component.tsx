@@ -14,12 +14,12 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
-import { uniqBy } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { defineMessages } from "react-intl"
+import { noop } from "Renderer/utils/noop"
 
 const Panel = styled.div<{
   selectionMode: boolean
@@ -53,9 +53,8 @@ const Buttons = styled.div`
 `
 
 const deleteModalMessages = defineMessages({
-  title: { id: "view.name.messages.deleteModal.title" },
-  text: { id: "view.name.messages.deleteModal.text" },
-  uniqueText: { id: "view.name.messages.deleteModal.uniqueText" },
+  title: { id: "view.name.phone.contacts.modal.delete.title" },
+  text: { id: "view.name.phone.contacts.modal.deleteMultipleContacts" },
 })
 
 export interface ContactPanelProps {
@@ -65,7 +64,7 @@ export interface ContactPanelProps {
   selectedContacts: Contact[]
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
-  removeContact: (id: ContactID[]) => void
+  removeContact?: (id: ContactID[]) => void
   resetRows: UseTableSelect<Contact>["resetRows"]
 }
 
@@ -75,8 +74,8 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   onNewButtonClick,
   selectedContacts,
   allItemsSelected,
-  toggleAll,
-  removeContact,
+  toggleAll = noop,
+  removeContact = noop,
   resetRows,
 }) => {
   const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -86,12 +85,8 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   const selectionMode = selectedItemsCount > 0
   const openModal = () => {
     const selectedContactsIds = selectedContacts.map(({ id }) => id)
-    const uniqueSelectedRows = uniqBy(selectedContacts, "id")
-    const uniqueCaller = uniqueSelectedRows[0]
-    const nameAvailable = isNameAvailable(uniqueCaller)
-    const caller = nameAvailable
-      ? createFullName(uniqueCaller)
-      : uniqueCaller.primaryPhoneNumber
+    const nameAvailable =
+      selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
     const textIntlValues = {
       num: allItemsSelected ? -1 : selectedContactsIds.length,
       ...textFormatters,
@@ -103,13 +98,10 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     }
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),
-      text:
-        uniqueSelectedRows.length > 1
-          ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
-          : intl.formatMessage(deleteModalMessages.uniqueText, {
-              ...textIntlValues,
-              caller,
-            }),
+      text: intl.formatMessage(deleteModalMessages.text, {
+        ...textIntlValues,
+        name: nameAvailable && createFullName(selectedContacts[0]),
+      }),
       onDelete,
       onClose: resetRows,
     }

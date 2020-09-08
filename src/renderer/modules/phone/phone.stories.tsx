@@ -56,6 +56,7 @@ const PhoneComponent = ({
     onSpeedDialSettingsSave={action("Save speed dial settings")}
     resultsState={resultsState}
     selectedContacts={[]}
+    resetRows={action("Reset rows")}
   />
 )
 
