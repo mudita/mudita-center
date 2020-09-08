@@ -8,7 +8,6 @@ import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
@@ -22,6 +21,7 @@ import {
   Panel,
   SearchInput,
 } from "Renderer/components/rest/phone/contact-panel.styled"
+import { ContactPanelTestIdsEnum } from "Renderer/components/rest/phone/contact-panel-test-ids.enum"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -98,10 +98,9 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
               displayStyle={DisplayStyle.Link1}
               Icon={Type.Delete}
               onClick={openModal}
-              data-testid={MessagePanelTestIds.SelectionManagerDeleteButton}
             />,
           ]}
-          data-testid={MessagePanelTestIds.SelectionManager}
+          data-testid={ContactPanelTestIdsEnum.SelectionManager}
         />
       ) : (
         <SearchInput
