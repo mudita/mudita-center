@@ -1,5 +1,5 @@
 import { startApp, stopApp } from "App/tests/hooks"
-import { MenuGropTestIds } from "Renderer/components/rest/menu/menu-grop-test-ids.enum"
+import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 
 let app: any
 
@@ -16,7 +16,7 @@ test("help link opens new window", async () => {
     .waitUntilWindowLoaded()
     .getWindowCount()
   expect(initialWindowCount).toEqual(1)
-  await app.client.$(`*[data-testid=${MenuGropTestIds.Help}]`).click()
+  await app.client.$(`*[data-testid=${MenuGroupTestIds.Help}]`).click()
   const windowCountAfterHelpClick = await app.client
     .waitUntilWindowLoaded()
     .getWindowCount()
