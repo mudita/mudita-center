@@ -17,10 +17,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { useEffect, useState } from "react"
-import {
-  TranslationEventResponse,
-  TranslationEvents,
-} from "App/main/functions/register-translation-listener.types"
+import { getTranslation } from "Renderer/requests/get-translation.request"
 
 interface Props {
   store: Store
@@ -42,9 +39,7 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
 
   useEffect(() => {
     ;(async () => {
-      const { store, language } = (await ipcRenderer.callMain(
-        TranslationEvents.Get
-      ))
+      const { store, language } = await getTranslation()
       setMessages(store)
       setLocale(language)
     })()
