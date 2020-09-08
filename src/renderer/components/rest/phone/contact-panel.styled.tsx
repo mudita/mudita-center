@@ -1,6 +1,12 @@
 import styled, { css } from "styled-components"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  transitionTime,
+  transitionTimingFunction,
+} from "Renderer/styles/theming/theme-getters"
 import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
+import { showToggleableElement } from "Renderer/modules/tools/tabs/notes.styled"
+import { InputComponent } from "Renderer/components/core/input-text/input-text.component"
 
 export const Panel = styled.div<{
   selectionMode: boolean
@@ -25,7 +31,14 @@ export const Panel = styled.div<{
 `
 
 export const ContactSelectionManager = styled(SelectionManager)`
+  animation: ${showToggleableElement} ${transitionTime("quick")} forwards
+    ${transitionTimingFunction("easeInOut")};
   grid-template-columns: 2.8rem 1fr;
+`
+
+export const SearchInput = styled(InputComponent)`
+  animation: ${showToggleableElement} ${transitionTime("quick")} forwards
+    ${transitionTimingFunction("easeInOut")};
 `
 
 export const Buttons = styled.div`

@@ -1,5 +1,4 @@
 import React, { ChangeEvent } from "react"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -21,6 +20,7 @@ import {
   Buttons,
   ContactSelectionManager,
   Panel,
+  SearchInput,
 } from "Renderer/components/rest/phone/contact-panel.styled"
 
 const deleteModalMessages = defineMessages({
@@ -104,7 +104,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           data-testid={MessagePanelTestIds.SelectionManager}
         />
       ) : (
-        <InputComponent
+        <SearchInput
           leadingIcons={[searchIcon]}
           label={intl.formatMessage({
             id: "view.name.phone.contacts.panel.searchPlaceholder",
