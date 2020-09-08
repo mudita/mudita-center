@@ -1,7 +1,7 @@
 import { defineMessages } from "react-intl"
 import { View, views } from "Renderer/constants/views"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { MenuGropTestIds } from "Renderer/components/rest/menu/menu-grop-test-ids.enum"
+import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 
 const messages = defineMessages({
   yourPure: { id: "menu.header.yourPure" },
@@ -13,7 +13,7 @@ const YOUR_PURE_BUTTONS = [
   {
     button: views.messages,
     icon: Type.Message,
-    testId: MenuGropTestIds.Messages,
+    testId: MenuGroupTestIds.Messages,
   },
   { button: views.phone, icon: Type.MenuPhone },
   { button: views.contacts, icon: Type.MenuContacts },
@@ -27,13 +27,13 @@ const YOUR_PURE_BUTTONS = [
 const DESKTOP_APP_BUTTONS = [
   { button: views.tethering, icon: Type.MenuTethering },
   { button: views.settings, icon: Type.MenuSettings },
-  { button: views.help, icon: Type.MenuHelp, testId: MenuGropTestIds.Help },
+  { button: views.help, icon: Type.MenuHelp, testId: MenuGroupTestIds.Help },
 ]
 
 interface Item {
   button: typeof views[View]
   icon: Type
-  testId?: MenuGropTestIds
+  testId?: MenuGroupTestIds
 }
 
 export interface MenuElement {

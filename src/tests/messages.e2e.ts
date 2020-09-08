@@ -1,5 +1,5 @@
 import { startApp, stopApp } from "App/tests/hooks"
-import { MenuGropTestIds } from "Renderer/components/rest/menu/menu-grop-test-ids.enum"
+import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 
 let app: any
 
@@ -12,7 +12,7 @@ afterEach(async () => {
 })
 
 test("searching by phone number renders one result", async () => {
-  await app.client.$(`*[data-testid=${MenuGropTestIds.Messages}]`).click()
+  await app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).click()
   const phoneNumber = await app.client
     .$(`*[data-testid='message-row']`)
     .$("p")
