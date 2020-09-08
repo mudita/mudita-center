@@ -1,11 +1,9 @@
 import React, { ChangeEvent } from "react"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import styled, { css } from "styled-components"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl, textFormatters } from "Renderer/utils/intl"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
@@ -13,51 +11,17 @@ import { messages } from "Renderer/components/rest/messages/templates/templates-
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { defineMessages } from "react-intl"
 import { noop } from "Renderer/utils/noop"
-
-const Panel = styled.div<{
-  selectionMode: boolean
-}>`
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: 38rem 1fr;
-  padding: 3.2rem 3rem 1rem 4rem;
-  background-color: ${backgroundColor("main")};
-  ${({ selectionMode }) =>
-    selectionMode &&
-    css`
-      grid-template-columns: 62.4rem auto;
-      padding-left: 0.6rem;
-    `};
-  label {
-    width: auto;
-  }
-  button {
-    padding: 0 0.8rem;
-  }
-`
-
-const ContactSelectionManager = styled(SelectionManager)`
-  grid-template-columns: 2.8rem 1fr;
-`
-
-const Buttons = styled.div`
-  display: grid;
-  grid-auto-flow: column;
-  grid-template-columns: repeat(2, minmax(13rem, 1fr));
-  grid-column-gap: 1.6rem;
-  justify-self: end;
-
-  button {
-    width: auto;
-  }
-`
+import {
+  Buttons,
+  ContactSelectionManager,
+  Panel,
+} from "Renderer/components/rest/phone/contact-panel.styled"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
