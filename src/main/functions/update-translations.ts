@@ -8,6 +8,13 @@ const updateTranslations = async () => {
   const id = availableLanguages.find(({ code }) => code === language)?.id
 
   try {
+    if (!id) {
+      Promise.reject(
+        new Error(
+          `There's no ID assigned to language (${language}) selected in settings.`
+        )
+      )
+    }
     const { data } = await axios.get(
       `${process.env.PHRASE_API_URL}/locales/${id || "en"}/download`,
       {
