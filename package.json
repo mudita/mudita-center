@@ -46,7 +46,7 @@
     "pretest:e2e": "npm run build",
     "predevelop": "npm run update:all",
     "DATA UPDATE COMMANDS": "=========================================",
-    "update:translations": "node ./scripts/updateDefaultTranslations.js",
+    "update:translations": "node ./scripts/updateDefaultTranslations.js && prettier --write src/**/*.json",
     "update:all": "npm run update:translations"
   },
   "pre-commit": "beforecommit",
