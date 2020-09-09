@@ -284,12 +284,11 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const openSyncModal = async () => {
-    handleGoogleAuth()
     setSync((value) => value + 1)
     modalService.openModal(
       <SyncContactsModal
         onAppleButtonClick={openProgressSyncModal}
-        onGoogleButtonClick={openProgressSyncModal}
+        onGoogleButtonClick={handleGoogleAuth}
       />
     )
   }
