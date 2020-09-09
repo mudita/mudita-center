@@ -6,7 +6,7 @@ let server: http.Server | null = null
 export const createAuthServer = (
   cb?: (body: string) => void | Promise<void>
 ): void => {
-  if (server) {
+  if (!server) {
     server = http.createServer((req, res) => {
       if (req.method === "POST") {
         let body = ""
