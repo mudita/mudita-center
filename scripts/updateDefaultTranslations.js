@@ -1,6 +1,7 @@
 const axios = require("axios")
 const fs = require("fs-extra")
 require("dotenv").config()
+const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
 
 /**
  * Function that updates default translations files. It fetches all translations
@@ -19,27 +20,15 @@ require("dotenv").config()
       defaultLanguage: "",
     }
 
-    const { data: locales } = await axios.get(
-      `${process.env.PHRASE_API_URL}/locales/`,
-      {
-        headers: {
-          Authorization: `token ${process.env.PHRASE_API_KEY}`,
-        },
-      }
-    )
+    const { data: locales } = await axios.get(localesUrl, axiosConfig)
 
     await fs.ensureDir("./src/renderer/locales/default/")
 
     for (const { id, code, default: defaultLanguage } of locales) {
-      const { data } = await axios.get(
-        `${process.env.PHRASE_API_URL}/locales/${id}/download`,
-        {
-          headers: {
-            Authorization: `token ${process.env.PHRASE_API_KEY}`,
-          },
-          params: { file_format: "react_simple_json" },
-        }
-      )
+      const { data } = await axios.get(`${localesUrl}/${id}/download`, {
+        ...axiosConfig,
+        params: { file_format: "react_simple_json" },
+      })
 
       if (defaultLanguage) {
         config.defaultLanguage = code
