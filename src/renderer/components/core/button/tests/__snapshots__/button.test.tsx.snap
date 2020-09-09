@@ -222,8 +222,8 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -288,8 +288,8 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -396,8 +396,8 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -462,8 +462,8 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -575,8 +575,8 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -646,8 +646,8 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -775,8 +775,8 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -870,8 +870,8 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -995,8 +995,8 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -1088,8 +1088,8 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -1952,8 +1952,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -2015,8 +2015,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -2055,8 +2055,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -2122,8 +2122,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -2162,8 +2162,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -2226,8 +2226,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -2266,8 +2266,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -2334,8 +2334,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -2374,8 +2374,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -2438,8 +2438,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -2478,8 +2478,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -2546,8 +2546,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -2586,8 +2586,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -2647,8 +2647,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -2687,8 +2687,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -2756,8 +2756,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -2796,8 +2796,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -2858,8 +2858,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -2898,8 +2898,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -2968,8 +2968,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -3008,8 +3008,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -3070,8 +3070,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"
@@ -3110,8 +3110,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -3180,8 +3180,8 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   <div
     class="c1 c2"
     data-testid="icon-Upload"
-    height="1.4"
-    width="1.4"
+    height="2.8"
+    width="2.8"
   >
     <test-file-stub
       image="test-file-stub"

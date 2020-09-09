@@ -27,14 +27,8 @@ import composeRefs from "@seznam/compose-react-refs"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
-const SearchIcon = styled(Icon)`
-  g {
-    opacity: 58.43%;
-  }
-`
-
 export const searchIcon = (
-  <SearchIcon type={Type.Magnifier} height={1.4} width={1.4} />
+  <Icon type={Type.Magnifier} height={2.8} width={2.8} />
 )
 
 const focusedLabelStyles = css`

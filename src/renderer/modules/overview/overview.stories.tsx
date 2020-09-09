@@ -20,6 +20,7 @@ import {
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"
+import { action } from "@storybook/addon-actions"
 
 const fakeState = {
   batteryLevel: 0,
@@ -47,12 +48,13 @@ storiesOf("Views|Overview", module).add("Overview", () => (
     <Router history={history}>
       <OverviewUI
         {...fakeState}
-        disconnectDevice={noop}
-        changeSim={noop}
-        onUpdateCheck={noop}
+        disconnectDevice={action("Disconnect device")}
+        changeSim={action("Changing sim")}
+        onUpdateCheck={action("Checking update")}
         onUpdateDownload={noop}
         onUpdateInstall={noop}
-        onOpenBackupModal={noop}
+        onOpenBackupModal={action("Starting backup creation")}
+        onOpenBackupRestorationModal={action("Starting backup restoration")}
       />
     </Router>
   </div>
@@ -63,12 +65,13 @@ const ModalStory: FunctionComponent = ({ children }) => (
     <Router history={history}>
       <OverviewUI
         {...fakeState}
-        disconnectDevice={noop}
-        changeSim={noop}
-        onUpdateCheck={noop}
+        disconnectDevice={action("Disconnect device")}
+        changeSim={action("Changing sim")}
+        onUpdateCheck={action("Checking update")}
         onUpdateDownload={noop}
         onUpdateInstall={noop}
-        onOpenBackupModal={noop}
+        onOpenBackupModal={action("Starting backup creation")}
+        onOpenBackupRestorationModal={action("Starting backup restoration")}
       />
     </Router>
     <ModalWrapper>{children}</ModalWrapper>

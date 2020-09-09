@@ -70,10 +70,10 @@ const buttonStyles = css<{
   appearance: none;
   background: none;
   transition: ${transition(
-    "background",
-    theme.transitionTime.quick,
-    theme.transitionTimingFunction.easeInOut
-  )},
+      "background",
+      theme.transitionTime.quick,
+      theme.transitionTimingFunction.easeInOut
+    )},
     ${transition(
       "color",
       theme.transitionTime.quick,
@@ -283,8 +283,8 @@ const buttonStyles = css<{
       case DisplayStyle.InputIcon:
         return css`
           justify-content: flex-start;
-          height: 1.4rem;
-          width: 1.4rem;
+          height: 2.4rem;
+          width: 2.4rem;
           border: none;
           padding: 0;
         `
@@ -340,12 +340,6 @@ export const StyledIcon = styled(Icon)<{
     }
     return css``
   }}
-
-  ${({ displaystyle }) =>
-    displaystyle === DisplayStyle.Dropdown &&
-    css`
-      height: 1.6rem;
-    `};
 
   ${({ displaystyle }) =>
     displaystyle === DisplayStyle.InputIcon &&

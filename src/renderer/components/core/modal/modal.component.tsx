@@ -22,11 +22,14 @@ import {
 } from "Renderer/components/core/modal/modal.interface"
 import { intl } from "Renderer/utils/intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
   padding: 4rem 3.2rem 4.8rem 3.2rem;
   box-sizing: border-box;
   ${({ size }) => getModalSize(size)};
+  background-color: ${backgroundColor("modal")};
 `
 
 const Header = styled.div<{ titleOrder: TitleOrder; subtitleGap: boolean }>`
@@ -124,7 +127,7 @@ const Modal: FunctionComponent<ModalProps> = ({
             displayStyle={DisplayStyle.IconOnly2}
             onClick={closeModal}
             Icon={Type.Close}
-            data-testid={"close-modal-button"}
+            data-testid={ModalTestIds.CloseButton}
           />
         )}
         <ModalSubTitle displayStyle={getSubtitleStyle(size)} element={"p"}>
@@ -132,30 +135,32 @@ const Modal: FunctionComponent<ModalProps> = ({
         </ModalSubTitle>
       </Header>
       {children}
-      <ButtonContainer buttonsPosition={size}>
-        <ButtonWrapper>
-          {closeButton && (
-            <CloseButton
-              actionButton={Boolean(actionButtonLabel)}
-              displayStyle={DisplayStyle.Secondary}
-              size={getModalButtonsSize(size)}
-              label={closeButtonLabel}
-              onClick={closeModal}
-              data-testid={"modal-action-button"}
-            />
-          )}
-          {actionButtonLabel && onActionButtonClick && (
-            <Button
-              displayStyle={DisplayStyle.Primary}
-              size={getModalButtonsSize(size)}
-              label={actionButtonLabel}
-              onClick={onActionButtonClick}
-              data-testid={"modal-action-button"}
-              Icon={actionButtonIcon}
-            />
-          )}
-        </ButtonWrapper>
-      </ButtonContainer>
+      {actionButtonLabel || closeButton ? (
+        <ButtonContainer buttonsPosition={size}>
+          <ButtonWrapper>
+            {closeButton && (
+              <CloseButton
+                actionButton={Boolean(actionButtonLabel)}
+                displayStyle={DisplayStyle.Secondary}
+                size={getModalButtonsSize(size)}
+                label={closeButtonLabel}
+                onClick={closeModal}
+                data-testid={ModalTestIds.ModalActionButton}
+              />
+            )}
+            {actionButtonLabel && onActionButtonClick && (
+              <Button
+                displayStyle={DisplayStyle.Primary}
+                size={getModalButtonsSize(size)}
+                label={actionButtonLabel}
+                onClick={onActionButtonClick}
+                data-testid={ModalTestIds.ModalActionButton}
+                Icon={actionButtonIcon}
+              />
+            )}
+          </ButtonWrapper>
+        </ButtonContainer>
+      ) : null}
     </ModalFrame>
   )
 }

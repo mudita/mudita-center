@@ -36,8 +36,8 @@ exports[`matches snapshot 1`] = `
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  height: 1.4rem;
-  width: 1.4rem;
+  height: 2.8rem;
+  width: 2.8rem;
   position: relative;
 }
 
@@ -157,6 +157,11 @@ exports[`matches snapshot 1`] = `
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
+.c8 svg {
+  height: initial;
+  width: initial;
+}
+
 .c1 {
   grid-area: Text;
 }
@@ -211,8 +216,8 @@ exports[`matches snapshot 1`] = `
         <div
           class="c9 c10"
           data-testid="icon-Reload"
-          height="1.4"
-          width="1.4"
+          height="2.8"
+          width="2.8"
         >
           <test-file-stub
             image="test-file-stub"

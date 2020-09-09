@@ -17,24 +17,23 @@ import HighRange from "Renderer/svg/high-range.svg"
 import LowBattery from "Renderer/svg/low-battery.svg"
 import LowRange from "Renderer/svg/low-range.svg"
 import Magnifier from "Renderer/svg/magnifier.svg"
-import Calendar from "Renderer/svg/menu_calendar.svg"
+import Calendar from "Renderer/svg/menu-calendar.svg"
 import MediumBattery from "Renderer/svg/medium-battery.svg"
 import MediumRange from "Renderer/svg/medium-range.svg"
-import MenuFilesManager from "Renderer/svg/menu_filesManager.svg"
-import MenuHelp from "Renderer/svg/menu_help.svg"
-import MenuMeditation from "Renderer/svg/menu_meditation.svg"
-import Message from "Renderer/svg/menu_messages.svg"
-import MenuMusic from "Renderer/svg/menu_music.svg"
-import MenuNews from "Renderer/svg/menu_news.svg"
-import MenuOverview from "Renderer/svg/menu_overview.svg"
-import MenuPhone from "Renderer/svg/menu_phone.svg"
-import MenuSettings from "Renderer/svg/menu_settings.svg"
-import MenuTethering from "Renderer/svg/menu_tethering.svg"
-import MenuTools from "Renderer/svg/menu_tools.svg"
+import MenuFilesManager from "Renderer/svg/menu-files-manager.svg"
+import MenuHelp from "Renderer/svg/menu-help.svg"
+import MenuMeditation from "Renderer/svg/menu-meditation.svg"
+import Message from "Renderer/svg/menu-messages.svg"
+import MenuMusic from "Renderer/svg/menu-music.svg"
+import MenuNews from "Renderer/svg/menu-news.svg"
+import MenuOverview from "Renderer/svg/menu-overview.svg"
+import MenuPhone from "Renderer/svg/menu-phone.svg"
+import MenuSettings from "Renderer/svg/menu-settings.svg"
+import MenuTethering from "Renderer/svg/menu-tethering.svg"
+import MenuTools from "Renderer/svg/menu-tools.svg"
 import ExternalLink from "Renderer/svg/external-link.svg"
 import MuditaLogo from "Renderer/svg/mudita.svg"
 import MuditaLogoWithText from "Renderer/svg/mudita_logo.svg"
-import Music from "Renderer/svg/music.svg"
 import NoBattery from "Renderer/svg/no-battery.svg"
 import NoRange from "Renderer/svg/no-range.svg"
 import Refresh from "Renderer/svg/refresh.svg"
@@ -48,7 +47,7 @@ import Calls from "Renderer/svg/phone.svg"
 import Connection from "Renderer/svg/connection.svg"
 import Contacts from "Renderer/svg/contacts.svg"
 import Notes from "Renderer/svg/notes.svg"
-import Notification from "Renderer/svg/notifications.svg"
+import Notifications from "Renderer/svg/notifications.svg"
 import Dial from "Renderer/svg/dial.svg"
 import Playlist from "Renderer/svg/playlist.svg"
 import PlusSign from "Renderer/svg/plus-sign.svg"
@@ -59,7 +58,6 @@ import Pure from "Renderer/svg/pure.svg"
 import Fail from "Renderer/svg/fail.svg"
 import VeryHighRange from "Renderer/svg/very-high-range.svg"
 import VeryLowBattery from "Renderer/svg/very-low-battery.svg"
-import VeryLowRange from "Renderer/svg/very-low-range.svg"
 import Info from "Renderer/svg/info.svg"
 import More from "Renderer/svg/more.svg"
 import Blocked from "Renderer/svg/blocked.svg"
@@ -75,6 +73,24 @@ import SendButton from "Renderer/svg/send-button.svg"
 import MenuContacts from "Renderer/svg/menu-contacts.svg"
 import Backup from "Renderer/svg/backup.svg"
 import Tooltip from "Renderer/svg/tooltip.svg"
+import TetheringStatus from "Renderer/svg/tethering-status.svg"
+import Templates from "Renderer/svg/templates.svg"
+import MissedCall from "Renderer/svg/missed-call.svg"
+import ConferenceCall from "Renderer/svg/conference-call.svg"
+import IncomingCall from "Renderer/svg/incoming-call.svg"
+import OutgoingCall from "Renderer/svg/outgoing-call.svg"
+import AppleLogo from "Renderer/svg/apple.svg"
+import GoogleLogo from "Renderer/svg/google.svg"
+import SynchronizeContacts from "Renderer/svg/synchronize-contacts.svg"
+import MusicGrey from "Renderer/svg/music-grey.svg"
+import VoiceRecorderGrey from "Renderer/svg/voice-recorder-gray.svg"
+import FullBattery from "Renderer/svg/full-battery.svg"
+import VeryLowRange from "Renderer/svg/very-low-range.svg"
+import VeryHighRangeWithRoaming from "Renderer/svg/very-high-range-roaming.svg"
+import HighRangeWithRoaming from "Renderer/svg/high-range-roaming.svg"
+import MediumRangeWithRoaming from "Renderer/svg/medium-range-roaming.svg"
+import LowRangeWithRoaming from "Renderer/svg/low-range-roaming.svg"
+import VeryLowRangeWithRoaming from "Renderer/svg/very-low-range-roaming.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -114,7 +130,6 @@ export enum Type {
   ExternalLink,
   MuditaLogo,
   MuditaLogoWithText,
-  Music,
   MediumBattery,
   MediumRange,
   NoBattery,
@@ -128,7 +143,7 @@ export enum Type {
   Contacts,
   Dial,
   Notes,
-  Notification,
+  Notifications,
   Playlist,
   PlusSign,
   Reload,
@@ -156,6 +171,23 @@ export enum Type {
   SendButton,
   Backup,
   Tooltip,
+  TetheringStatus,
+  Apple,
+  Google,
+  SynchronizeContacts,
+  Templates,
+  MissedCall,
+  ConferenceCall,
+  IncomingCall,
+  OutgoingCall,
+  MusicGrey,
+  VoiceRecorderGrey,
+  FullBattery,
+  VeryHighRangeWithRoaming,
+  HighRangeWithRoaming,
+  MediumRangeWithRoaming,
+  LowRangeWithRoaming,
+  VeryLowRangeWithRoaming,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -232,8 +264,6 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return MuditaLogo
     case Type.MuditaLogoWithText:
       return MuditaLogoWithText
-    case Type.Music:
-      return Music
     case Type.NoBattery:
       return NoBattery
     case Type.NoRange:
@@ -248,6 +278,10 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Template
     case Type.Tooltip:
       return Tooltip
+    case Type.TetheringStatus:
+      return TetheringStatus
+    case Type.Templates:
+      return Templates
     case Type.Calls:
       return Calls
     case Type.Connection:
@@ -258,8 +292,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Dial
     case Type.Notes:
       return Notes
-    case Type.Notification:
-      return Notification
+    case Type.Notifications:
+      return Notifications
     case Type.Playlist:
       return Playlist
     case Type.PlusSign:
@@ -274,8 +308,6 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return VeryHighRange
     case Type.VeryLowBattery:
       return VeryLowBattery
-    case Type.VeryLowRange:
-      return VeryLowRange
     case Type.VoiceRecorder:
       return VoiceRecorder
     case Type.Info:
@@ -312,6 +344,38 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return SendButton
     case Type.Backup:
       return Backup
+    case Type.Apple:
+      return AppleLogo
+    case Type.Google:
+      return GoogleLogo
+    case Type.SynchronizeContacts:
+      return SynchronizeContacts
+    case Type.MissedCall:
+      return MissedCall
+    case Type.ConferenceCall:
+      return ConferenceCall
+    case Type.IncomingCall:
+      return IncomingCall
+    case Type.OutgoingCall:
+      return OutgoingCall
+    case Type.MusicGrey:
+      return MusicGrey
+    case Type.VoiceRecorderGrey:
+      return VoiceRecorderGrey
+    case Type.FullBattery:
+      return FullBattery
+    case Type.VeryLowRange:
+      return VeryLowRange
+    case Type.VeryHighRangeWithRoaming:
+      return VeryHighRangeWithRoaming
+    case Type.HighRangeWithRoaming:
+      return HighRangeWithRoaming
+    case Type.MediumRangeWithRoaming:
+      return MediumRangeWithRoaming
+    case Type.LowRangeWithRoaming:
+      return LowRangeWithRoaming
+    case Type.VeryLowRangeWithRoaming:
+      return VeryLowRangeWithRoaming
     default:
       return Message
   }

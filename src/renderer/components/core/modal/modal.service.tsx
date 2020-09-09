@@ -183,10 +183,6 @@ export class ModalService {
     if (!this.backdropOpened) {
       this.backdropElement = document.createElement("div")
       document.body.appendChild(this.backdropElement)
-
-      this.registerEventListener("click", this.backdropElement, () => {
-        this.closeModal()
-      })
     }
   }
 
