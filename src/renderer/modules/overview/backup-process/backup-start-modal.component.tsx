@@ -94,7 +94,7 @@ export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
       <Col>
         <TotalText
           message={messages.total}
-          displayStyle={TextDisplayStyle.MediumText}
+          displayStyle={TextDisplayStyle.SmallText}
         />
       </Col>
       <Col />
