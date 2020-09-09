@@ -153,10 +153,13 @@ const Overview: FunctionComponent<
     modalService.openModal(
       <BackupStartModal
         startBackup={openBackupLoadingModal}
-        fileSize={convertBytes(lastBackup.size)}
-        date={new Date(lastBackup.createdAt).toLocaleDateString(
-          language && language.tag
-        )}
+        fileSize={lastBackup && convertBytes(lastBackup.size)}
+        date={
+          lastBackup &&
+          new Date(lastBackup.createdAt).toLocaleDateString(
+            language && language.tag
+          )
+        }
       />
     )
   }
