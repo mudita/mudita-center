@@ -48,6 +48,7 @@ storiesOf("Modules/Overview/Backup", module)
         <BackupStartModal
           date="2020-07-20T19:25:00+02:00"
           items={mockedBackupItems}
+          total={"18.1 Gb"}
         />
       </Story>
       <Story title="In progress" transparentMode>

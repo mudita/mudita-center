@@ -154,6 +154,7 @@ const Overview: FunctionComponent<
         items={mockedBackupItems}
         startBackup={openBackupLoadingModal}
         date={lastBackup.createdAt}
+        total={"18.1 Gb"}
       />
     )
   }

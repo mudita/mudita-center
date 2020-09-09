@@ -16,6 +16,7 @@ import {
 import { BackupItem } from "Renderer/modules/overview/backup-process/modals.interface"
 import moment from "moment"
 import styled from "styled-components"
+import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 
 const messages = defineMessages({
   filename: {
@@ -38,8 +39,9 @@ const messages = defineMessages({
 
 const TotalTextWrapper = styled.div`
   display: grid;
-  grid-template-columns: 4fr 2fr 1fr;
+  grid-template-columns: 4fr 2fr 0.95fr;
   margin-top: 1.6rem;
+  margin-bottom: 9.6rem;
 `
 
 const SizeColumn = styled(Col)`
@@ -50,15 +52,21 @@ const BackupFileList = styled(FileList)`
   --columnsTemplate: 4fr 2fr 1fr;
 `
 
+const TotalText = styled(Text)`
+  margin-left: 0.8rem;
+`
+
 interface BackupStartModalProps {
   startBackup?: () => void
   date?: string
+  total?: string
   items: BackupItem[]
 }
 
 export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
   startBackup = noop,
   date,
+  total,
   items,
 }) => (
   <Modal
@@ -66,6 +74,7 @@ export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
     onActionButtonClick={startBackup}
     actionButtonLabel={intl.formatMessage(messages.title)}
     closeButtonLabel={intl.formatMessage(messages.cancel)}
+    size={ModalSize.Medium}
   >
     <BackupFileList>
       <Labels>
@@ -83,17 +92,14 @@ export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
     </BackupFileList>
     <TotalTextWrapper>
       <Col>
-        <Text
+        <TotalText
           message={messages.total}
           displayStyle={TextDisplayStyle.MediumText}
         />
       </Col>
-      <Col></Col>
+      <Col />
       <SizeColumn>
-        <Text
-          message={messages.title}
-          displayStyle={TextDisplayStyle.MediumText}
-        />
+        <Text displayStyle={TextDisplayStyle.MediumText}>{total}</Text>
       </SizeColumn>
     </TotalTextWrapper>
   </Modal>
