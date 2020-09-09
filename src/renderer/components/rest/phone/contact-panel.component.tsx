@@ -58,10 +58,10 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     const selectedContactsIds = selectedContacts.map(({ id }) => id)
     const nameAvailable =
       selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
-    const onDelete = async () => {
+    const onDelete = () => {
       removeContact(selectedContactsIds)
       resetRows()
-      await modalService.closeModal()
+      modalService.closeModal()
     }
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),
