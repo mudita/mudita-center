@@ -9,7 +9,7 @@ export enum AuthKeys {
 
 export const authFactory = (
   data: SimpleRecord,
-  fallbackValidity = 3600000 // one hour in ms
+  fallbackValidity = 3600 // one hour
 ): Record<AuthKeys, number | string> => {
   // add token and type to model
   const token = data["access_token"] || data["token"] || data["bearer_token"]
@@ -22,7 +22,7 @@ export const authFactory = (
       ...data,
       [AuthKeys.Token]: token,
       [AuthKeys.TokenType]: tokenType,
-      [AuthKeys.Valid]: Date.now() + validityPeriod,
+      [AuthKeys.Valid]: Date.now() + validityPeriod * 1000, // seconds to milliseconds
     }
   }
 
