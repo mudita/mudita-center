@@ -109,7 +109,6 @@
   "view.name.overview.system.modal.downloadingFailed.button": "Try again",
   "view.name.overview.system.modal.downloadingCancelled.message": "Download cancelled",
   "view.name.overview.backup.createBackupModal.title": "Create backup",
-  "view.name.overview.backup.createBackupModal.subtitle": "Select file types to backup",
   "view.name.overview.backup.createBackupModal.body": "Your backup is {fileSize}.\nLast backup was made on {date}.",
   "view.name.overview.backup.createBackupModal.total": "Total:",
   "view.name.overview.backup.loadingBackupModal.title": "Creating backup...",

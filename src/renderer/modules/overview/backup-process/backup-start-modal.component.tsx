@@ -31,9 +31,6 @@ const messages = defineMessages({
   title: {
     id: "view.name.overview.backup.createBackupModal.title",
   },
-  subtitle: {
-    id: "view.name.overview.backup.createBackupModal.subtitle",
-  },
   total: {
     id: "view.name.overview.backup.createBackupModal.total",
   },
@@ -66,7 +63,6 @@ export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
 }) => (
   <Modal
     title={intl.formatMessage(messages.title)}
-    subtitle={intl.formatMessage(messages.subtitle)}
     onActionButtonClick={startBackup}
     actionButtonLabel={intl.formatMessage(messages.title)}
     closeButtonLabel={intl.formatMessage(messages.cancel)}
