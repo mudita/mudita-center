@@ -26,7 +26,7 @@ const messages = defineMessages({
     id: "view.generic.size",
   },
   lastBackup: {
-    id: "view.name.overview.backup.lastBackup",
+    id: "view.generic.lastBackup",
   },
   cancel: { id: "view.generic.button.cancel" },
   title: {

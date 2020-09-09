@@ -7,6 +7,7 @@
   "view.generic.button.ok": "OK",
   "view.generic.filename": "Filename",
   "view.generic.size": "Size",
+  "view.generic.lastBackup": "Last Backup",
   "view.name.calendar": "Calendar",
   "view.name.filesManager": "Files manager",
   "view.name.filesManager.files.selectionsNumber": "{num, plural, =-1 {All Files} one {# File} other {# Files}} selected",
