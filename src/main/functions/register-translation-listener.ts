@@ -1,6 +1,6 @@
 import { ipcMain } from "electron-better-ipc"
 import translationStores from "App/main/store/translations"
-import { TranslationEvents } from "App/main/functions/register-translation-listener.types"
+import { TranslationEvents } from "Common/enums/translations.enum"
 import settingsStore from "App/main/store/settings"
 import { defaultLanguage } from "App/translations.config.json"
 
