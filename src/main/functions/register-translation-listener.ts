@@ -8,7 +8,7 @@ const registerTranslationListener = () => {
   ipcMain.answerRenderer(TranslationEvents.Get, () => {
     const language = settingsStore.get("language") || defaultLanguage
     return {
-      store: translationStores[defaultLanguage].store,
+      store: translationStores[language].store,
       language,
     }
   })
