@@ -39,8 +39,8 @@ import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
 
 export const deleteModalMessages = defineMessages({
-  title: { id: "view.name.phone.calls.deleteModal.title" },
-  text: { id: "view.name.phone.calls.deleteModal.text" },
+  title: { id: "view.name.phone.contacts.modal.delete.title" },
+  text: { id: "view.name.phone.contacts.modal.delete.text" },
 })
 
 export type PhoneProps = ContactActions &
