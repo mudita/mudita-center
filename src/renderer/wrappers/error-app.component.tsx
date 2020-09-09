@@ -1,12 +1,17 @@
 import React from "react"
 import { History } from "history"
 import { Route, Router } from "react-router"
+import { defineMessages } from "react-intl"
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { URL_MAIN } from "Renderer/constants/urls"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+
+const messages = defineMessages({
+  errorBody: { id: "view.name.errorBody" },
+})
 
 interface Props {
   history: History
@@ -15,7 +20,10 @@ interface Props {
 const ErrorApp: FunctionComponent<Props> = ({ history }) => (
   <Router history={history}>
     <Route path={URL_MAIN.error}>
-      <Text displayStyle={TextDisplayStyle.SecondaryHeading}>Sorry</Text>
+      <Text
+        displayStyle={TextDisplayStyle.SecondaryHeading}
+        message={messages.errorBody}
+      />
     </Route>
   </Router>
 )
