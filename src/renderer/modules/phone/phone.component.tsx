@@ -36,6 +36,12 @@ import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import { defineMessages } from "react-intl"
+
+export const deleteModalMessages = defineMessages({
+  title: { id: "view.name.phone.calls.deleteModal.title" },
+  text: { id: "view.name.phone.calls.deleteModal.text" },
+})
 
 export type PhoneProps = ContactActions &
   ContactPanelProps &
@@ -159,10 +165,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         <DeleteModal
           deleting
           title={intl.formatMessage({
-            id: "view.name.phone.contacts.modal.delete.title",
+            ...deleteModalMessages.title,
           })}
           message={{
-            id: "view.name.phone.contacts.modal.delete.text",
+            ...deleteModalMessages.text,
             values: { name: createFullName(contact), ...textFormatters },
           }}
         />
@@ -180,10 +186,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       <DeleteModal
         onDelete={handleDelete}
         title={intl.formatMessage({
-          id: "view.name.phone.contacts.modal.delete.title",
+          ...deleteModalMessages.title,
         })}
         message={{
-          id: "view.name.phone.contacts.modal.delete.text",
+          ...deleteModalMessages.text,
           values: { name: createFullName(contact), ...textFormatters },
         }}
       />

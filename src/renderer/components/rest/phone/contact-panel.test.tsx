@@ -23,7 +23,7 @@ test("search works", () => {
   const { getByRole } = renderer()
   const searchInput = getByRole("searchbox")
   fireEvent.change(searchInput, { target: { value: "G" } })
-  expect(defaultProps.onSearchTermChange).toBeCalled()
+  expect(defaultProps.onSearchTermChange).toBeCalledWith("G")
 })
 
 test("selection manager is displayed when there is at least one contact selected", () => {

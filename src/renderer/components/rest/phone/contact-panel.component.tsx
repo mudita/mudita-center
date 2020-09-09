@@ -26,6 +26,7 @@ import { ContactPanelTestIdsEnum } from "Renderer/components/rest/phone/contact-
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
   export: { id: "view.name.phone.contacts.selectionExport" },
+  body: { id: "view.name.phone.contacts.modal.deleteMultipleContacts" },
 })
 
 export interface ContactPanelProps {
@@ -66,7 +67,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),
       message: {
-        id: "view.name.phone.contacts.modal.deleteMultipleContacts",
+        ...deleteModalMessages.body,
         values: {
           num: allItemsSelected ? -1 : selectedContactsIds.length,
           name: nameAvailable && createFullName(selectedContacts[0]),

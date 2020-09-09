@@ -42,6 +42,8 @@ const toggleState = [
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
+  text: { id: "view.name.messages.deleteModal.text" },
+  uniqueText: { id: "view.name.messages.deleteModal.uniqueText" },
 })
 
 interface Props {
@@ -83,23 +85,23 @@ const MessagesPanel: FunctionComponent<Props> = ({
       num: allItemsSelected ? -1 : selectedConversationsIds.length,
       ...textFormatters,
     }
-    const onDelete = async () => {
+    const onDelete = () => {
       deleteConversation(selectedConversationsIds)
       resetRows()
-      await modalService.closeModal()
+      modalService.closeModal()
     }
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),
       message:
         uniqueSelectedRows.length > 1
           ? {
-              id: "view.name.phone.calls.deleteModal.text",
+              ...deleteModalMessages.text,
               values: {
                 ...textIntlValues,
               },
             }
           : {
-              id: "view.name.phone.calls.deleteModal.uniqueText",
+              ...deleteModalMessages.uniqueText,
               values: {
                 ...textIntlValues,
                 caller,

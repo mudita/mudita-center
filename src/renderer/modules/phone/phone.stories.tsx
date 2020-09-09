@@ -1,6 +1,9 @@
 import React from "react"
 import { storiesOf } from "@storybook/react"
-import Phone, { PhoneProps } from "Renderer/modules/phone/phone.component"
+import Phone, {
+  deleteModalMessages,
+  PhoneProps,
+} from "Renderer/modules/phone/phone.component"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
 import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
@@ -211,10 +214,10 @@ storiesOf("Views|Phone/Modals", module)
       <ModalWrapper>
         <DeleteModal
           title={intl.formatMessage({
-            id: "view.name.phone.contacts.modal.delete.title",
+            ...deleteModalMessages.title,
           })}
           message={{
-            id: "view.name.phone.contacts.modal.delete.text",
+            ...deleteModalMessages.text,
             values: {
               name: createFullName(singleContact()),
               ...textFormatters,
