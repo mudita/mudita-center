@@ -83,7 +83,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   }
 
   return (
-    <PhoneCard className={className} onClick={onClick && onClick}>
+    <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
         <Image src={PureImage} />
         <BatteryStats>
