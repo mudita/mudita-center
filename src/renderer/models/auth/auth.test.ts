@@ -47,13 +47,13 @@ describe("Auth helpers tests", () => {
 
   test("provides proper token validity value with default prolongation period", () => {
     const model = authFactory(examplePayloadWithExpiration)
-    expect(model[AuthKeys.Valid]).toBe(testExpiration + 3600)
+    expect(model[AuthKeys.Valid]).toBe(testExpiration + 3600000)
   })
 
   test("provides proper token validity value with provided prolongation period", () => {
     const prolongation = 100
     const model = authFactory(examplePayload, prolongation)
-    expect(model[AuthKeys.Valid]).toBe(testExpiration + prolongation)
+    expect(model[AuthKeys.Valid]).toBe(testExpiration + prolongation * 1000)
   })
 })
 
