@@ -17,6 +17,7 @@ exports[`matches snapshot 1`] = `
   height: 2rem;
   width: 2rem;
   position: relative;
+  font-style: normal;
 }
 
 .c0 svg {
@@ -24,14 +25,14 @@ exports[`matches snapshot 1`] = `
   height: 100%;
 }
 
-<div
+<i
   class="c0"
   data-testid="icon-Battery"
 >
   <test-file-stub
     image="test-file-stub"
   />
-</div>
+</i>
 `;
 
 exports[`matches snapshot with badge 1`] = `
@@ -51,6 +52,7 @@ exports[`matches snapshot with badge 1`] = `
   height: 2rem;
   width: 2rem;
   position: relative;
+  font-style: normal;
 }
 
 .c0 svg {
@@ -70,12 +72,12 @@ exports[`matches snapshot with badge 1`] = `
   background-color: #6d9bbc;
 }
 
-<div
+<i
   class="c0"
   data-testid="icon-Battery"
 >
   <test-file-stub
     image="test-file-stub"
   />
-</div>
+</i>
 `;

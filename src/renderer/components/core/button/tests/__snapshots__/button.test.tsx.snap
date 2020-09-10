@@ -225,6 +225,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -285,7 +286,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
   size="2"
   target="_blank"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -294,7 +295,7 @@ exports[`Button matches snapshots Links displayStyle: 5 size: undefined disabled
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -399,6 +400,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -459,7 +461,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
   size="2"
   target="_blank"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -468,7 +470,7 @@ exports[`Button matches snapshots Links displayStyle: 6 size: undefined disabled
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -578,6 +580,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -643,7 +646,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
   size="2"
   target="_blank"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -652,7 +655,7 @@ exports[`Button matches snapshots Links displayStyle: 7 size: undefined disabled
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -778,6 +781,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -867,7 +871,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
   size="2"
   target="_blank"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -876,7 +880,7 @@ exports[`Button matches snapshots Links displayStyle: 8 size: undefined disabled
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -998,6 +1002,7 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -1085,7 +1090,7 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
   size="2"
   target="_blank"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -1094,7 +1099,7 @@ exports[`Button matches snapshots Links displayStyle: 9 size: undefined disabled
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -1955,6 +1960,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -2012,7 +2018,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   class="c0"
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -2021,7 +2027,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -2058,6 +2064,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -2119,7 +2126,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   disabled=""
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -2128,7 +2135,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -2165,6 +2172,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -2223,7 +2231,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   size="1"
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -2232,7 +2240,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -2269,6 +2277,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -2331,7 +2340,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   size="1"
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -2340,7 +2349,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -2377,6 +2386,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -2435,7 +2445,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   size="2"
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -2444,7 +2454,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -2481,6 +2491,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -2543,7 +2554,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
   size="2"
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -2552,7 +2563,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 0
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -2589,6 +2600,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -2644,7 +2656,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   class="c0"
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -2653,7 +2665,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -2690,6 +2702,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -2753,7 +2766,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   disabled=""
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -2762,7 +2775,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -2799,6 +2812,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -2855,7 +2869,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   size="1"
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -2864,7 +2878,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -2901,6 +2915,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -2965,7 +2980,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   size="1"
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -2974,7 +2989,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -3011,6 +3026,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -3067,7 +3083,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   size="2"
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -3076,7 +3092,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
@@ -3113,6 +3129,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -3177,7 +3194,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
   size="2"
   type="button"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Upload"
     height="2.8"
@@ -3186,7 +3203,7 @@ exports[`Button matches snapshots Standard/fixed width with icon displayStyle: 1
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >

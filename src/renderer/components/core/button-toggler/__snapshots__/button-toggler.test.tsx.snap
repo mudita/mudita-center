@@ -46,6 +46,7 @@ exports[`matches snapshot 1`] = `
   height: 1.6rem;
   width: 1.6rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -180,7 +181,7 @@ exports[`matches snapshot 1`] = `
   <section
     class="c0"
   >
-    <div
+    <i
       class="c1 c2"
       data-testid="icon-Tooltip"
       height="1.6"
@@ -189,7 +190,7 @@ exports[`matches snapshot 1`] = `
       <test-file-stub
         image="test-file-stub"
       />
-    </div>
+    </i>
     <div
       class="c3 c4"
       data-testid="tooltip"
