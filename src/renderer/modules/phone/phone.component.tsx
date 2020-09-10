@@ -113,7 +113,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     setNewContact(defaultContact)
   }
 
-  const cancelAddingContact = () => {
+  const cancelOrCloseContactHandler = () => {
     closeSidebar()
     setNewContact(undefined)
   }
@@ -122,7 +122,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     if (addContact) {
       addContact(contact)
     }
-    cancelAddingContact()
+    cancelOrCloseContactHandler()
   }
 
   const handleEditingContact = (contact: Contact) => {
@@ -167,7 +167,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         removeContact(contact.id)
       }
       await modalService.closeModal()
-      closeSidebar()
+      cancelOrCloseContactHandler()
     }
 
     modalService.openModal(
@@ -321,7 +321,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           />
           {newContact && (
             <ContactEdit
-              onCancel={cancelAddingContact}
+              onCancel={cancelOrCloseContactHandler}
               onSpeedDialSettingsOpen={openSpeedDialModal}
               onSave={saveNewContact}
               onNameUpdate={handleNameUpdate}
