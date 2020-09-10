@@ -8,7 +8,7 @@ import { intl } from "Renderer/utils/intl"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 
-const Panel = styled.div`
+export const Panel = styled.div`
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: 38rem 1fr;
@@ -20,7 +20,7 @@ const Panel = styled.div`
   }
 `
 
-const Buttons = styled.div`
+export const Buttons = styled.div`
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: repeat(2, minmax(13rem, 1fr));
