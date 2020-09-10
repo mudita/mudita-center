@@ -333,7 +333,7 @@
   "form.field.fileUpload.error.tooBig": "File <i>{name}</i> is too big. Maximum allowed file size is {size}.",
   "form.field.fileUpload.error.typeNotAllowed": "File <i>{name}</i> has wrong type. Allowed types are: {extensions}.",
   "form.field.fileUpload.error.tooManyFiles": "You tried to attach more than {limit} files.",
-  "form.error.phoneNumber.numbersOnly": "May contain only numbers and + sign",
+  "form.error.phoneNumber.numbersAndSpacesOnly": "May contain only numbers, spaces and + sign",
   "form.error.tooShort": "Must be longer than {minLength} characters",
   "form.error.tooLong": "Must be shorter than {maxLength} characters",
   "form.error.invalidEmail": "Email is invalid",
