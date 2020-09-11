@@ -45,12 +45,7 @@ const TetheringDisabled: FunctionComponent = () => (
         {intl.formatMessage(messages.enablingInfo, textFormatters)}
       </Text>
       <StyledButton
-        label={
-          intl.formatMessage(
-            messages.openConnectionSettings,
-            textFormatters
-          ) as string
-        }
+        label={intl.formatMessage(messages.openConnectionSettings)}
       />
     </ButtonWrapper>
     <Text displayStyle={TextDisplayStyle.SmallFadedText}>
