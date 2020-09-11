@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -11,6 +11,7 @@ import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { Message } from "Renderer/interfaces/message.interface"
 
 export const ModalContent = styled.div`
   display: flex;
@@ -35,7 +36,7 @@ interface DeleteContactModalProps {
   onClose?: () => void
   deleting?: boolean
   title?: string
-  text?: ReactNode
+  message?: Message
 }
 
 const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
@@ -43,7 +44,7 @@ const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
   onClose = noop,
   deleting = false,
   title,
-  text,
+  message,
   ...rest
 }) => {
   return (
@@ -58,7 +59,7 @@ const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
     >
       <ModalContent>
         <Icon type={Type.DeleteBig} width={12} height={12} />
-        <Text displayStyle={TextDisplayStyle.MediumText}>{text}</Text>
+        <Text displayStyle={TextDisplayStyle.MediumText} message={message} />
       </ModalContent>
     </Modal>
   )
