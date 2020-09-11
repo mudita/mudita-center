@@ -33,7 +33,7 @@ const ModalContent = styled.div`
   }
 `
 
-const RoundIconWrapper = styled.div`
+export const RoundIconWrapper = styled.div`
   width: 12rem;
   height: 12rem;
   border-radius: 50%;
@@ -139,7 +139,7 @@ const messages = defineMessages({
   },
 })
 
-const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
+export const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
   children,
   size = ModalSize.Small,
   ...props
