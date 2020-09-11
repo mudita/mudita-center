@@ -79,7 +79,7 @@ const CallsSelectionManager = styled(SelectionManager)`
   grid-template-columns: 4.8rem 1fr;
   padding: 0 1.6rem;
   button {
-    padding: 0.5rem 0.8rem;
+    padding: 0 0.8rem;
   }
 `
 
@@ -149,13 +149,21 @@ const CallsHeader: FunctionComponent<Props> = ({
     }
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),
-      text:
+      message:
         uniqueSelectedRows.length > 1
-          ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
-          : intl.formatMessage(deleteModalMessages.uniqueText, {
-              ...textIntlValues,
-              caller,
-            }),
+          ? {
+              ...deleteModalMessages.text,
+              values: {
+                ...textIntlValues,
+              },
+            }
+          : {
+              ...deleteModalMessages.uniqueText,
+              values: {
+                ...textIntlValues,
+                caller,
+              },
+            },
       onDelete,
       onClose: resetRows,
     }
