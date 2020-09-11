@@ -11,7 +11,7 @@ import ContactDetails, {
   ContactDetailsActions,
 } from "Renderer/components/rest/phone/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
   defaultContact,
 } from "Renderer/components/rest/phone/contact-edit.component"
@@ -35,6 +35,13 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
+import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import { defineMessages } from "react-intl"
+
+export const deleteModalMessages = defineMessages({
+  title: { id: "view.name.phone.contacts.modal.delete.title" },
+  text: { id: "view.name.phone.contacts.modal.delete.text" },
+})
 
 export type PhoneProps = ContactActions &
   ContactPanelProps &
@@ -63,6 +70,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
   const [sync, setSync] = useState(1)
+  const {
+    selectedRows,
+    allRowsSelected,
+    toggleAll,
+    resetRows,
+    ...rest
+  } = useTableSelect<Contact, ContactCategory>(contacts, "contacts")
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
@@ -151,14 +165,12 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         <DeleteModal
           deleting
           title={intl.formatMessage({
-            id: "view.name.phone.contacts.modal.delete.title",
+            ...deleteModalMessages.title,
           })}
-          text={intl.formatMessage(
-            {
-              id: "view.name.phone.contacts.modal.delete.text",
-            },
-            { name: createFullName(contact), ...textFormatters }
-          )}
+          message={{
+            ...deleteModalMessages.text,
+            values: { name: createFullName(contact), ...textFormatters },
+          }}
         />
       )
 
@@ -174,14 +186,12 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       <DeleteModal
         onDelete={handleDelete}
         title={intl.formatMessage({
-          id: "view.name.phone.contacts.modal.delete.title",
+          ...deleteModalMessages.title,
         })}
-        text={intl.formatMessage(
-          {
-            id: "view.name.phone.contacts.modal.delete.text",
-          },
-          { name: createFullName(contact), ...textFormatters }
-        )}
+        message={{
+          ...deleteModalMessages.text,
+          values: { name: createFullName(contact), ...textFormatters },
+        }}
       />
     )
   }
@@ -286,7 +296,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const _devClearContacts = () => setContacts([])
   const _devLoadDefaultContacts = () => setContacts(contactList)
-
   return (
     <>
       <DevModeWrapper>
@@ -303,6 +312,11 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           onSearchTermChange={onSearchTermChange}
           onManageButtonClick={openSyncModal}
           onNewButtonClick={handleAddingContact}
+          selectedContacts={selectedRows}
+          allItemsSelected={allRowsSelected}
+          toggleAll={toggleAll}
+          removeContact={removeContact}
+          resetRows={resetRows}
         />
         <TableWithSidebarWrapper>
           <ContactList
@@ -314,10 +328,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
             onUnblock={handleUnblock}
             onBlock={openBlockModal}
             onDelete={openDeleteModal}
-            onCheck={noop}
             newContact={newContact}
             editedContact={editedContact}
             resultsState={ResultsState.Loaded}
+            {...rest}
           />
           {newContact && (
             <ContactEdit

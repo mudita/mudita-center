@@ -70,7 +70,7 @@ const TemplatesSelectionManager = styled(SelectionManager)`
   grid-template-columns: 3.2rem 1fr auto;
 
   button {
-    padding: 0.5rem 0.8rem;
+    padding: 0 0.8rem;
   }
 `
 
