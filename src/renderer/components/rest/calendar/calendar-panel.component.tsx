@@ -8,7 +8,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import {
   Buttons,
   Panel,
-} from "Renderer/components/rest/phone/contact-panel.component"
+} from "Renderer/components/rest/phone/contact-panel.styled"
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
