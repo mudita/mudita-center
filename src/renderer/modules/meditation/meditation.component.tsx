@@ -33,11 +33,7 @@ const messages = defineMessages({
 const Meditation: FunctionComponent = () => {
   const [chartType, setChartType] = useState<ChartType>(ChartType.Weekly)
 
-  const selectChartType = (type: ChartType) => {
-    return () => {
-      setChartType(type)
-    }
-  }
+  const selectChartType = (type: ChartType) => () => setChartType(type)
 
   return (
     <MeditationWrapper>
