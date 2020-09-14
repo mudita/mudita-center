@@ -6,7 +6,6 @@ import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
 import log from "Renderer/utils/log"
 import { useStore } from "react-redux"
-import { convertBytes } from "Renderer/utils/convert-bytes"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { AppSettings } from "App/main/store/settings.interface"
@@ -152,8 +151,9 @@ const Overview: FunctionComponent<
   const openBackupStartModal = () => {
     modalService.openModal(
       <BackupStartModal
+        items={mockedBackupItems}
         startBackup={openBackupLoadingModal}
-        fileSize={lastBackup && convertBytes(lastBackup.size)}
+        total={"18.1 Gb"}
         date={
           lastBackup &&
           new Date(lastBackup.createdAt).toLocaleDateString(
