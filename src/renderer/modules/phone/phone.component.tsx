@@ -77,14 +77,17 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
       if (newData) {
         setEditedContact((curr: any) => {
-          if (newData.speedDial) {
+          if ("speedDial" in newData) {
             return {
               ...curr,
               speedDial: newData.speedDial,
             }
           }
 
-          delete curr.speedDial
+          if (curr && "speedDial" in curr) {
+            delete curr.speedDial
+          }
+
           return curr
         })
       }
@@ -138,11 +141,11 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const saveEditedContact = (contact: Contact) => {
     setEditedContact(contact)
+    cancelEditingContact(contact)
+    openSidebar(contact)
     if (editContact) {
       editContact(contact.id, contact)
     }
-    cancelEditingContact(contact)
-    openSidebar(contact)
   }
 
   const openDeleteModal = (contact: Contact) => {
