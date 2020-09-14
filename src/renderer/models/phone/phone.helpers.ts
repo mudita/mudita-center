@@ -129,10 +129,13 @@ export const removeContact = (
   input: ContactID | ContactID[],
   preFormatter = prepareData
 ) => {
+  const inputArray = Array.isArray(input) ? input : [input]
   const { collection: oldCollection, db: oldDb } = state
   const data = preFormatter(input)
 
-  const collection = oldCollection.filter((item) => input.indexOf(item) === -1)
+  const collection = oldCollection.filter(
+    (item) => inputArray.indexOf(item) === -1
+  )
   const db = { ...oldDb }
 
   data.forEach((item) => {

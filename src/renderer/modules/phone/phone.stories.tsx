@@ -1,6 +1,9 @@
 import React from "react"
 import { storiesOf } from "@storybook/react"
-import Phone, { PhoneProps } from "Renderer/modules/phone/phone.component"
+import Phone, {
+  deleteModalMessages,
+  PhoneProps,
+} from "Renderer/modules/phone/phone.component"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
 import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
@@ -55,6 +58,8 @@ const PhoneComponent = ({
     onCall={action("Call")}
     onSpeedDialSettingsSave={action("Save speed dial settings")}
     resultsState={resultsState}
+    selectedContacts={[]}
+    resetRows={action("Reset rows")}
     setProviderData={noop}
   />
 )
@@ -210,14 +215,15 @@ storiesOf("Views|Phone/Modals", module)
       <ModalWrapper>
         <DeleteModal
           title={intl.formatMessage({
-            id: "view.name.phone.contacts.modal.delete.title",
+            ...deleteModalMessages.title,
           })}
-          text={intl.formatMessage(
-            {
-              id: "view.name.phone.contacts.modal.delete.text",
+          message={{
+            ...deleteModalMessages.text,
+            values: {
+              name: createFullName(singleContact()),
+              ...textFormatters,
             },
-            { name: createFullName(singleContact()), ...textFormatters }
-          )}
+          }}
           onDelete={action("Delete")}
           onClose={action("Close")}
         />
