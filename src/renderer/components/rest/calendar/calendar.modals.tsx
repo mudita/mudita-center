@@ -21,7 +21,8 @@ import Loader from "Renderer/components/core/loader/loader.component"
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
-import { ModalContent } from "App/renderer/modules/overview/backup-process/modals.styled"
+import UpdateButtonComponent from "Renderer/components/rest/news/update-button/update-button.component"
+import { ModalContent, ModalSubText } from "./calendar.modals.styled"
 
 interface SyncCalendarModalProps {
   onClose?: () => void
@@ -80,9 +81,7 @@ export const SyncCalendarModal: FunctionComponent<SyncCalendarModalProps> = ({
   </SyncModal>
 )
 
-export const SynchronizingModal: FunctionComponent<SyncCalendarModalProps> = ({
-  onClose = noop,
-}) => (
+export const SynchronizingModal = ({ onClose = noop }) => (
   <SyncModal size={ModalSize.Small} onClose={onClose}>
     <RoundIconWrapper>
       <Loader type={LoaderType.Spinner} />
@@ -98,6 +97,76 @@ export const SynchronizingModal: FunctionComponent<SyncCalendarModalProps> = ({
       message={{
         id: "view.name.calendar.synchronizingModal.body",
       }}
+    />
+  </SyncModal>
+)
+
+export const SynchronizingFinishedModal = ({ onClose = noop }) => (
+  <SyncModal
+    size={ModalSize.Small}
+    onClose={onClose}
+    title={intl.formatMessage({
+      id: "view.name.calendar.syncModal.title",
+    })}
+  >
+    <RoundIconWrapper>
+      <Icon type={Type.Check} width={4} />
+    </RoundIconWrapper>
+    <Text
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={{
+        id: "view.name.calendar.synchronizingFinishedModal.bodyHeader",
+      }}
+    />
+    <ModalText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={{
+        id: "view.name.calendar.synchronizingModal.body",
+      }}
+    />
+  </SyncModal>
+)
+
+export const SynchronizingFailedModal = ({
+  onClose = noop,
+  onRefresh = noop,
+}) => (
+  <SyncModal
+    size={ModalSize.Small}
+    onClose={onClose}
+    closeButton={false}
+    title={intl.formatMessage({
+      id: "view.name.calendar.syncModal.title",
+    })}
+  >
+    <RoundIconWrapper>
+      <Icon type={Type.CalendarIcon} width={4} />
+    </RoundIconWrapper>
+    <Text
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={{
+        id: "view.name.calendar.synchronizingFailedModal.bodyHeader",
+      }}
+    />
+    <ModalText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={{
+        id: "view.name.calendar.synchronizingFailedModal.body",
+      }}
+    />
+    <ModalSubText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={{
+        id: "view.name.calendar.synchronizingFailedModal.subText",
+      }}
+    />
+    <UpdateButtonComponent
+      displayStyle={DisplayStyle.Secondary}
+      label={intl.formatMessage({
+        id: "view.name.calendar.synchronizingFailedModal.refreshButton",
+      })}
+      Icon={Type.Refresh}
+      onClick={onRefresh}
     />
   </SyncModal>
 )

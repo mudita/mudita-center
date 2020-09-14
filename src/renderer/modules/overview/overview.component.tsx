@@ -29,7 +29,7 @@ interface FakeUpdatedStatus {
 /**
  * TODO: Remove after implementing the real backup system
  */
-const simulateProgress = async (
+export const simulateProgress = async (
   Component: ReactElement,
   onFail: () => void,
   onSuccess: () => void,
