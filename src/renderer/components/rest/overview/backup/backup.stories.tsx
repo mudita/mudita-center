@@ -45,7 +45,11 @@ storiesOf("Modules/Overview/Backup", module)
   .add("Modals - creating backup", () => (
     <StoryContainer column>
       <Story title="Start" transparentMode>
-        <BackupStartModal fileSize="100 MB" date="22/07/2020" />
+        <BackupStartModal
+          date="2020-07-20T19:25:00+02:00"
+          items={mockedBackupItems}
+          total={"18.1 Gb"}
+        />
       </Story>
       <Story title="In progress" transparentMode>
         <BackupLoadingModal progress={49} />

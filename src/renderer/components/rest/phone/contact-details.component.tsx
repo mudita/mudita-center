@@ -55,7 +55,7 @@ interface ContactDetailsProps
   extends SidebarProps,
     ContactActions,
     ContactDetailsActions {
-  contact: Contact
+  contact?: Contact
 }
 
 export const phoneActions = (
@@ -94,117 +94,123 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onMessage,
   ...rest
 }) => {
-  const handleEdit = () => onEdit(contact)
-  const handleExport = () => onExport(contact)
-  const handleForward = () => onForward(contact)
-  const handleBlock = () => onBlock(contact)
-  const handleUnblock = () => onUnblock(contact)
-  const handleDelete = () => onDelete(contact)
+  if (contact) {
+    const handleEdit = () => onEdit(contact)
+    const handleExport = () => onExport(contact)
+    const handleForward = () => onForward(contact)
+    const handleBlock = () => onBlock(contact)
+    const handleUnblock = () => onUnblock(contact)
+    const handleDelete = () => onDelete(contact)
 
-  const icons = (
-    <>
-      <SidebarHeaderIcon Icon={Type.Edit} onClick={handleEdit} />
-      <SidebarHeaderIcon Icon={Type.Upload} onClick={handleExport} />
-      <SidebarHeaderIcon Icon={Type.Forward} onClick={handleForward} />
-      {contact.blocked ? (
-        <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleUnblock} />
-      ) : (
-        <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleBlock} />
-      )}
-      <SidebarHeaderIcon Icon={Type.Delete} onClick={handleDelete} />
-    </>
-  )
-
-  const fullAddress = []
-
-  contact.firstAddressLine ? fullAddress.push(contact.firstAddressLine) : noop()
-  contact.secondAddressLine
-    ? fullAddress.push(contact.secondAddressLine)
-    : noop()
-
-  return (
-    <ContactDetailsWrapper {...rest} show headerRight={icons}>
-      <BasicInfo>
-        <Name>
-          {contact.firstName} {contact.lastName}
-        </Name>
-        {contact.favourite && (
-          <InfoItem>
-            <Icon type={Type.Favourites} />
-            <InfoItemName message={messages.favourites} />
-          </InfoItem>
+    const icons = (
+      <>
+        <SidebarHeaderIcon Icon={Type.Edit} onClick={handleEdit} />
+        <SidebarHeaderIcon Icon={Type.Upload} onClick={handleExport} />
+        <SidebarHeaderIcon Icon={Type.Forward} onClick={handleForward} />
+        {contact.blocked ? (
+          <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleUnblock} />
+        ) : (
+          <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleBlock} />
         )}
-        {Boolean(contact.speedDial) && (
-          <InfoItem>
-            <InfoItemSpeedDialNumber>
-              {contact.speedDial}
-            </InfoItemSpeedDialNumber>
-            <InfoItemName message={messages.speedDial} />
-          </InfoItem>
-        )}
-        {contact.blocked && (
-          <InfoItem>
-            <Icon type={Type.Blocked} />
-            <InfoItemName message={messages.blocked} />
-          </InfoItem>
-        )}
-      </BasicInfo>
-      <AdditionalInfo>
-        <div>
-          <AdditionalInfoItem>
-            <InfoItemName message={messages.information} />
-            {contact.primaryPhoneNumber && (
+        <SidebarHeaderIcon Icon={Type.Delete} onClick={handleDelete} />
+      </>
+    )
+
+    const fullAddress = []
+
+    contact.firstAddressLine
+      ? fullAddress.push(contact.firstAddressLine)
+      : noop()
+    contact.secondAddressLine
+      ? fullAddress.push(contact.secondAddressLine)
+      : noop()
+
+    return (
+      <ContactDetailsWrapper {...rest} show headerRight={icons}>
+        <BasicInfo>
+          <Name>
+            {contact.firstName} {contact.lastName}
+          </Name>
+          {contact.favourite && (
+            <InfoItem>
+              <Icon type={Type.Favourites} />
+              <InfoItemName message={messages.favourites} />
+            </InfoItem>
+          )}
+          {Boolean(contact.speedDial) && (
+            <InfoItem>
+              <InfoItemSpeedDialNumber>
+                {contact.speedDial}
+              </InfoItemSpeedDialNumber>
+              <InfoItemName message={messages.speedDial} />
+            </InfoItem>
+          )}
+          {contact.blocked && (
+            <InfoItem>
+              <Icon type={Type.Blocked} />
+              <InfoItemName message={messages.blocked} />
+            </InfoItem>
+          )}
+        </BasicInfo>
+        <AdditionalInfo>
+          <div>
+            <AdditionalInfoItem>
+              <InfoItemName message={messages.information} />
+              {contact.primaryPhoneNumber && (
+                <Input
+                  defaultValue={contact.primaryPhoneNumber}
+                  trailingIcons={phoneActions(
+                    contact.primaryPhoneNumber,
+                    onCall,
+                    onMessage
+                  )}
+                />
+              )}
+              {contact.secondaryPhoneNumber && (
+                <Input
+                  defaultValue={contact.secondaryPhoneNumber}
+                  trailingIcons={phoneActions(
+                    contact.secondaryPhoneNumber,
+                    onCall,
+                    onMessage
+                  )}
+                />
+              )}
+              {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber && (
+                <Input label={intl.formatMessage(messages.noPhoneNumber)} />
+              )}
               <Input
-                defaultValue={contact.primaryPhoneNumber}
-                trailingIcons={phoneActions(
-                  contact.primaryPhoneNumber,
-                  onCall,
-                  onMessage
-                )}
+                defaultValue={contact.email}
+                label={intl.formatMessage(messages.noEmail)}
               />
-            )}
-            {contact.secondaryPhoneNumber && (
+            </AdditionalInfoItem>
+          </div>
+          <div>
+            <AdditionalInfoItem>
+              <InfoItemName message={messages.address} />
               <Input
-                defaultValue={contact.secondaryPhoneNumber}
-                trailingIcons={phoneActions(
-                  contact.secondaryPhoneNumber,
-                  onCall,
-                  onMessage
-                )}
+                type="textarea"
+                outlined={false}
+                defaultValue={fullAddress.join("\n")}
+                label={intl.formatMessage(messages.noAddress)}
               />
-            )}
-            {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber && (
-              <Input label={intl.formatMessage(messages.noPhoneNumber)} />
-            )}
-            <Input
-              defaultValue={contact.email}
-              label={intl.formatMessage(messages.noEmail)}
-            />
-          </AdditionalInfoItem>
-        </div>
-        <div>
-          <AdditionalInfoItem>
-            <InfoItemName message={messages.address} />
-            <Input
-              type="textarea"
-              outlined={false}
-              defaultValue={fullAddress.join("\n")}
-              label={intl.formatMessage(messages.noAddress)}
-            />
-          </AdditionalInfoItem>
-          <AdditionalInfoItem>
-            <InfoItemName message={messages.notes} />
-            <Input
-              type="textarea"
-              outlined={false}
-              defaultValue={contact.note}
-              label={intl.formatMessage(messages.noNotes)}
-            />
-          </AdditionalInfoItem>
-        </div>
-      </AdditionalInfo>
-    </ContactDetailsWrapper>
-  )
+            </AdditionalInfoItem>
+            <AdditionalInfoItem>
+              <InfoItemName message={messages.notes} />
+              <Input
+                type="textarea"
+                outlined={false}
+                defaultValue={contact.note}
+                label={intl.formatMessage(messages.noNotes)}
+              />
+            </AdditionalInfoItem>
+          </div>
+        </AdditionalInfo>
+      </ContactDetailsWrapper>
+    )
+  }
+
+  return null
 }
 
 export default ContactDetails
