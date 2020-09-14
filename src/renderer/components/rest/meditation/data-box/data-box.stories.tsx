@@ -11,7 +11,7 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 
-storiesOf("Components|Rest/Meditation", module)
+storiesOf("Components/Rest/Meditation", module)
   .add("Data box – single", () => (
     <>
       <StoryContainer>
