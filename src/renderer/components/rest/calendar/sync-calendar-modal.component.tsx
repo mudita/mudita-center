@@ -51,7 +51,7 @@ export const SyncCalendarModal: FunctionComponent<SyncCalendarModalProps> = ({
     onClose={onClose}
   >
     <RoundIconWrapper>
-      <Icon type={Type.Download} width={4} />
+      <Icon type={Type.CalendarIcon} width={4} />
     </RoundIconWrapper>
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
