@@ -14,22 +14,35 @@ import Text, {
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
-import {
-  OSUpdateModal,
-  RoundIconWrapper,
-} from "Renderer/modules/overview/overview.modals"
+import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
 import Icon from "Renderer/components/core/icon/icon.component"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import Loader from "Renderer/components/core/loader/loader.component"
+import Modal, {
+  ModalProps,
+} from "Renderer/components/core/modal/modal.component"
+import { ModalContent } from "App/renderer/modules/overview/backup-process/modals.styled"
 
 interface SyncCalendarModalProps {
   onClose?: () => void
   onGoogleButtonClick?: () => void
 }
 
-const SyncCalendarModal: FunctionComponent<SyncCalendarModalProps> = ({
+const SyncModal: FunctionComponent<Partial<ModalProps>> = ({
+  children,
+  size = ModalSize.Small,
+  ...props
+}) => (
+  <Modal size={size} {...props}>
+    <ModalContent>{children}</ModalContent>
+  </Modal>
+)
+
+export const SyncCalendarModal: FunctionComponent<SyncCalendarModalProps> = ({
   onClose = noop,
   onGoogleButtonClick = noop,
 }) => (
-  <OSUpdateModal
+  <SyncModal
     size={ModalSize.Small}
     title={intl.formatMessage({
       id: "view.name.calendar.syncModal.title",
@@ -64,7 +77,27 @@ const SyncCalendarModal: FunctionComponent<SyncCalendarModalProps> = ({
         />
       </ButtonWrapper>
     </ButtonsContainer>
-  </OSUpdateModal>
+  </SyncModal>
 )
 
-export default SyncCalendarModal
+export const SynchronizingModal: FunctionComponent<SyncCalendarModalProps> = ({
+  onClose = noop,
+}) => (
+  <SyncModal size={ModalSize.Small} onClose={onClose}>
+    <RoundIconWrapper>
+      <Loader type={LoaderType.Spinner} />
+    </RoundIconWrapper>
+    <Text
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={{
+        id: "view.name.calendar.synchronizingModal.bodyHeader",
+      }}
+    />
+    <ModalText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={{
+        id: "view.name.calendar.synchronizingModal.body",
+      }}
+    />
+  </SyncModal>
+)

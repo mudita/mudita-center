@@ -12,6 +12,8 @@
   "view.name.calendar.syncModal.title": "Google Calendar Sync",
   "view.name.calendar.syncModal.subtitle": "Synchronise calendars",
   "view.name.calendar.syncModal.body": "Log in to allow DesktopApp to synchronise your calendar events between Pure and Google account.",
+  "view.name.calendar.synchronizingModal.bodyHeader": "Synchronising contacts…",
+  "view.name.calendar.synchronizingModal.body": "This might take few minutes, please wait.",
   "view.name.calendar.panel.searchPlaceholder": "Search events",
   "view.name.calendar.panel.synchroniseButton": "Synchronise",
   "view.name.calendar.panel.addEventButton": "Add event",
