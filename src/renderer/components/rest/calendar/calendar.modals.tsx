@@ -22,6 +22,7 @@ import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
 import {
+  EventsText,
   ModalContent,
   ModalSubText,
   RefreshButton,
@@ -142,13 +143,14 @@ export const SynchronizingFinishedModal = ({ onClose = noop }) => (
       displayStyle={TextDisplayStyle.LargeBoldText}
       message={modalMessages.syncFinishedBodyHeader}
     />
-    <ModalText
+    <EventsText
       displayStyle={TextDisplayStyle.MediumFadedText}
       message={{
         ...modalMessages.syncFinishedBody,
         values: {
-          slot: 1,
-          phone: 3,
+          eventsImported: 12,
+          eventsExported: 7,
+          eventsUpdated: 3,
           ...textFormatters,
         },
       }}
