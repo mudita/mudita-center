@@ -1,7 +1,7 @@
 import { contactDatabaseFactory } from "Renderer/models/phone/phone.helpers"
 import { Phone } from "Renderer/models/phone/phone.typings"
 
-export const phoneSeed: Phone = contactDatabaseFactory([
+export const phoneSeedInput = [
   {
     id: "0",
     firstName: "Sławomir",
@@ -1424,4 +1424,6 @@ export const phoneSeed: Phone = contactDatabaseFactory([
     firstAddressLine: "",
     secondAddressLine: "",
   },
-])
+]
+
+export const phoneSeed: Phone = contactDatabaseFactory(phoneSeedInput)

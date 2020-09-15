@@ -15,10 +15,13 @@ const mapStateToProps = (state: RootModel) => {
     ...selection(state, null),
     ...state.phoneUpdate,
     ...state.settings,
+    ...state.devMode,
   }
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
+  enableDevMode: dispatch.devMode.enable,
+  disableDevMode: dispatch.devMode.disable,
   loadData: () => dispatch.basicInfo.loadData(),
   disconnectDevice: () => dispatch.basicInfo.disconnect(),
   changeSim: (card: SimCard) => dispatch.basicInfo.changeSim(card),

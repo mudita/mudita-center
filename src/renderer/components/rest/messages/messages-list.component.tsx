@@ -46,6 +46,7 @@ import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
 } from "Renderer/components/rest/messages/templates/templates-list.styled"
+import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -206,7 +207,7 @@ const MessagesList: FunctionComponent<Props> = ({
                 size={AvatarSize.Big}
               />
             </AvatarCol>
-            <MessageCol onClick={open} data-testid="message-row">
+            <MessageCol onClick={open} data-testid={MessagesListTestIds.Row}>
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                   {nameAvailable

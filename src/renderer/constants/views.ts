@@ -17,6 +17,7 @@ const messages = defineMessages({
   tethering: { id: "view.name.tethering" },
   settings: { id: "view.name.settings" },
   help: { id: "view.name.help" },
+  error: { id: "view.name.error" },
 })
 
 export enum View {
@@ -34,6 +35,7 @@ export enum View {
   Tethering = "tethering",
   Settings = "settings",
   Help = "help",
+  Error = "error",
 }
 
 export type Views = {
@@ -103,5 +105,9 @@ export const views: Views = {
   [View.Help]: {
     label: messages.help,
     url: URL_MAIN.help,
+  },
+  [View.Error]: {
+    label: messages.error,
+    url: URL_MAIN.error,
   },
 }

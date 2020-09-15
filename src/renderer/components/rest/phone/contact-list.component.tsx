@@ -11,7 +11,7 @@ import Table, {
   Row,
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox, {
   Size,
 } from "Renderer/components/core/input-checkbox/input-checkbox.component"
@@ -41,7 +41,6 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
 import {
-  ContactCategory,
   Contacts,
   NewContact,
   ResultsState,
@@ -132,9 +131,13 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   }
 `
 
-export interface ContactListProps extends Contacts, ContactActions {
+type SelectHook = Pick<
+  UseTableSelect<Contact>,
+  "getRowStatus" | "toggleRow" | "noneRowsSelected"
+>
+
+export interface ContactListProps extends Contacts, ContactActions, SelectHook {
   activeRow?: Contact
-  onCheck: (contacts: Contact[]) => void
   onSelect: (contact: Contact) => void
   newContact?: NewContact
   editedContact?: Contact
@@ -144,7 +147,6 @@ export interface ContactListProps extends Contacts, ContactActions {
 const ContactList: FunctionComponent<ContactListProps> = ({
   contactList,
   activeRow,
-  onCheck,
   onSelect,
   onExport,
   onForward,
@@ -154,20 +156,12 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   newContact,
   resultsState,
   editedContact,
+  getRowStatus,
+  toggleRow,
+  noneRowsSelected,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
-
-  const {
-    toggleRow,
-    getRowStatus,
-    noneRowsSelected,
-    selectedRows,
-  } = useTableSelect<Contact, ContactCategory>(contactList, "contacts")
-
-  useEffect(() => {
-    onCheck(selectedRows)
-  }, [selectedRows])
 
   useEffect(() => {
     const table = tableRef.current

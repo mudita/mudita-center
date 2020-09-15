@@ -1,5 +1,6 @@
 import startBackend from "Backend/bootstrap"
 import log from "electron-log"
+import { check as checkPort } from "tcp-port-used"
 import {
   app,
   BrowserWindow,
@@ -8,7 +9,11 @@ import {
 } from "electron"
 import * as path from "path"
 import * as url from "url"
-import { HELP_WINDOW_SIZE, WINDOW_SIZE } from "./config"
+import {
+  GOOGLE_AUTH_WINDOW_SIZE,
+  HELP_WINDOW_SIZE,
+  WINDOW_SIZE,
+} from "./config"
 import autoupdate from "./autoupdate"
 import createDownloadListenerRegistrar from "App/main/functions/create-download-listener-registrar"
 import registerPureOsUpdateListener from "App/main/functions/register-pure-os-update-listener"
@@ -34,11 +39,18 @@ import {
 } from "App/main/functions/get-help-store-handler"
 import registerTranslationListener from "App/main/functions/register-translation-listener"
 import updateTranslations from "App/main/functions/update-translations"
+import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
+import {
+  authServerPort,
+  createAuthServer,
+  killAuthServer,
+} from "App/main/auth-server"
 
 require("dotenv").config()
 
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
+let googleAuthWindow: BrowserWindow | null = null
 
 // Fetch and log all errors along with alert box
 process.on("uncaughtException", (error) => {
@@ -176,4 +188,73 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
     removeGetHelpStoreHandler()
     helpWindow = null
   })
+})
+
+const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
+  return await googleAuthWindow.loadURL(
+    developmentEnvironment
+      ? `http://localhost:2003/?mode=${Mode.ServerError}#${URL_MAIN.error}`
+      : url.format({
+          pathname: path.join(__dirname, "index.html"),
+          protocol: "file:",
+          slashes: true,
+          hash: URL_MAIN.error,
+          search: `?mode=${Mode.ServerError}`,
+        })
+  )
+}
+
+ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async () => {
+  if (process.env.MUDITA_GOOGLE_AUTH_URL) {
+    const cb = (input: string | Record<string, string>) => {
+      const perform = () => {
+        if (typeof input === "string") {
+          return JSON.parse(input)
+        }
+
+        return input
+      }
+
+      ipcMain.answerRenderer(GoogleAuthActions.SendData, perform)
+      ipcMain.removeListener(GoogleAuthActions.SendData, perform)
+    }
+
+    if (googleAuthWindow === null) {
+      googleAuthWindow = new BrowserWindow(
+        getWindowOptions({
+          width: GOOGLE_AUTH_WINDOW_SIZE.width,
+          height: GOOGLE_AUTH_WINDOW_SIZE.height,
+          titleBarStyle:
+            process.env.NODE_ENV === "development" ? "default" : "hidden",
+          webPreferences: {
+            nodeIntegration: false,
+            webSecurity: false,
+          },
+        })
+      )
+
+      if (await checkPort(authServerPort)) {
+        await createErrorWindow(googleAuthWindow)
+        return
+      }
+
+      createAuthServer(cb)
+
+      googleAuthWindow.loadURL(process.env.MUDITA_GOOGLE_AUTH_URL)
+    } else {
+      googleAuthWindow.show()
+    }
+
+    googleAuthWindow.on("close", () => {
+      googleAuthWindow = null
+      killAuthServer()
+    })
+  } else {
+    console.log("No Google Auth URL defined!")
+  }
+})
+
+ipcMain.answerRenderer(GoogleAuthActions.CloseWindow, () => {
+  killAuthServer()
+  googleAuthWindow?.close()
 })
