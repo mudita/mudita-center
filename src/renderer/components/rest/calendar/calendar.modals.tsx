@@ -81,25 +81,34 @@ export const SyncCalendarModal: FunctionComponent<SyncCalendarModalProps> = ({
   </SyncModal>
 )
 
-export const SynchronizingModal = ({ onClose = noop }) => (
-  <SyncModal size={ModalSize.Small} onClose={onClose}>
-    <RoundIconWrapper>
-      <Loader type={LoaderType.Spinner} />
-    </RoundIconWrapper>
-    <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
-      message={{
-        id: "view.name.calendar.synchronizingModal.bodyHeader",
-      }}
-    />
-    <ModalText
-      displayStyle={TextDisplayStyle.MediumFadedText}
-      message={{
-        id: "view.name.calendar.synchronizingModal.body",
-      }}
-    />
-  </SyncModal>
-)
+export const SynchronizingModal = ({ onClose = noop, mockProgress = noop }) => {
+  // React.useEffect(() => {
+  //   const countdown = setTimeout(() => {
+  //     mockProgress()
+  //   }, 1500)
+  //
+  //   return () => clearTimeout(countdown)
+  // }, [])
+  return (
+    <SyncModal size={ModalSize.Small} onClose={onClose}>
+      <RoundIconWrapper>
+        <Loader type={LoaderType.Spinner} />
+      </RoundIconWrapper>
+      <Text
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={{
+          id: "view.name.calendar.synchronizingModal.bodyHeader",
+        }}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={{
+          id: "view.name.calendar.synchronizingModal.body",
+        }}
+      />
+    </SyncModal>
+  )
+}
 
 export const SynchronizingFinishedModal = ({ onClose = noop }) => (
   <SyncModal

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import { noop } from "Renderer/utils/noop"
@@ -9,10 +9,17 @@ import {
   SynchronizingFinishedModal,
   SynchronizingFailedModal,
 } from "Renderer/components/rest/calendar/calendar.modals"
-import { simulateProgress } from "Renderer/modules/overview/overview.component"
 
 const Calendar: FunctionComponent = () => {
-  const [sync, setSync] = useState(0)
+  const [, setSync] = useState(1)
+  const [timeout, setModalTimeout] = useState<NodeJS.Timeout>()
+
+  const removeTimeoutHandler = () => {
+    if (timeout) {
+      clearTimeout(timeout)
+    }
+  }
+
   const openSynchronizingFinishedModal = async () => {
     await modalService.closeModal()
     await modalService.openModal(<SynchronizingFinishedModal />)
@@ -20,23 +27,36 @@ const Calendar: FunctionComponent = () => {
 
   const openSynchronizingFailedModal = async () => {
     await modalService.closeModal()
-    await modalService.openModal(<SynchronizingFailedModal />)
+    await modalService.openModal(
+      <SynchronizingFailedModal onRefresh={openSynchronizingModal} />
+    )
   }
 
   const openSynchronizingModal = async () => {
-    setSync((syncValue) => syncValue + 1)
-    simulateProgress(
-      <SynchronizingModal />,
-      openSynchronizingFailedModal,
-      openSynchronizingFinishedModal,
-      sync % 3 === 0
-    )
+    await modalService.closeModal()
+    await modalService.openModal(<SynchronizingModal />)
+    setSync((prevSync) => {
+      setModalTimeout(
+        setTimeout(() => {
+          if (prevSync % 3 === 0) {
+            openSynchronizingFailedModal()
+          } else {
+            openSynchronizingFinishedModal()
+          }
+          removeTimeoutHandler()
+        }, 1500)
+      )
+      return prevSync + 1
+    })
   }
-  const openSyncCalendarModal = () => {
-    modalService.openModal(
+  const openSyncCalendarModal = async () => {
+    await modalService.openModal(
       <SyncCalendarModal onGoogleButtonClick={openSynchronizingModal} />
     )
   }
+
+  useEffect(() => () => removeTimeoutHandler(), [])
+
   return (
     <div>
       <CalendarPanel
