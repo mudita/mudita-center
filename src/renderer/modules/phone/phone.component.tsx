@@ -30,6 +30,7 @@ import {
   Store,
 } from "Renderer/models/phone/phone.typings"
 import { ContactSection } from "Renderer/modules/phone/phone.styled"
+import { AuthProviders } from "Renderer/models/auth/auth.typings"
 import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Modal from "Renderer/components/core/modal/modal.component"
@@ -50,6 +51,8 @@ export type PhoneProps = ContactActions &
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
     removeContact?: (input: ContactID | ContactID[]) => void
+    setProviderData: (provider: AuthProviders, data: any) => void
+    onManageButtonClick: (cb?: any) => void
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -59,11 +62,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     getContact,
     removeContact,
     contactList = [],
+    flatList,
     onSearchTermChange,
+    onManageButtonClick,
     onCall,
     onMessage,
     savingContact,
-    flatList,
+    setProviderData,
   } = props
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<NewContact>()
@@ -284,12 +289,16 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
-  const openSyncModal = () => {
+  const handleGoogleAuth = () => {
+    onManageButtonClick(setProviderData)
+  }
+
+  const openSyncModal = async () => {
     setSync((value) => value + 1)
     modalService.openModal(
       <SyncContactsModal
         onAppleButtonClick={openProgressSyncModal}
-        onGoogleButtonClick={openProgressSyncModal}
+        onGoogleButtonClick={handleGoogleAuth}
       />
     )
   }
