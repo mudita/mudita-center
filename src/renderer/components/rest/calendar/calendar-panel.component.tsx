@@ -11,6 +11,13 @@ import {
 } from "Renderer/components/rest/phone/contact-panel.styled"
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  searchPlaceholder: { id: "view.name.calendar.panel.searchPlaceholder" },
+  synchroniseButton: { id: "view.name.calendar.panel.synchroniseButton" },
+  addEventButton: { id: "view.name.calendar.panel.addEventButton" },
+})
 
 interface CalendarPanelProps {
   onAddEventClick?: () => void
@@ -30,9 +37,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
     <Panel>
       <InputComponent
         leadingIcons={[searchIcon]}
-        label={intl.formatMessage({
-          id: "view.name.calendar.panel.searchPlaceholder",
-        })}
+        label={intl.formatMessage(messages.searchPlaceholder)}
         onChange={onChange}
         type="search"
         outlined
@@ -40,13 +45,11 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
       <Buttons>
         <ButtonComponent
           displayStyle={DisplayStyle.Secondary}
-          labelMessage={{ id: "view.name.calendar.panel.synchroniseButton" }}
+          labelMessage={messages.synchroniseButton}
           onClick={onSynchroniseClick}
         />
         <ButtonComponent
-          labelMessage={{
-            id: "view.name.calendar.panel.addEventButton",
-          }}
+          labelMessage={messages.addEventButton}
           onClick={onAddEventClick}
           Icon={Type.PlusSign}
         />
