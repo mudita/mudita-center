@@ -139,7 +139,7 @@ const messages = defineMessages({
   },
 })
 
-export const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
+const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
   children,
   size = ModalSize.Small,
   ...props
