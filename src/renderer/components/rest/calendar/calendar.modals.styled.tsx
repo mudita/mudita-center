@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import Text from "Renderer/components/core/text/text.component"
 import { textColor } from "Renderer/styles/theming/theme-getters"
+import UpdateButtonComponent from "Renderer/components/rest/news/update-button/update-button.component"
 
 export const ModalContent = styled.div`
   display: flex;
@@ -21,4 +22,8 @@ export const ModalContent = styled.div`
 export const ModalSubText = styled(Text)`
   margin-top: 4.8rem;
   margin-bottom: 1.6rem;
+`
+
+export const RefreshButton = styled(UpdateButtonComponent)`
+  width: 17rem;
 `

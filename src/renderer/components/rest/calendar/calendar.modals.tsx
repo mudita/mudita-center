@@ -21,8 +21,11 @@ import Loader from "Renderer/components/core/loader/loader.component"
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
-import UpdateButtonComponent from "Renderer/components/rest/news/update-button/update-button.component"
-import { ModalContent, ModalSubText } from "./calendar.modals.styled"
+import {
+  ModalContent,
+  ModalSubText,
+  RefreshButton,
+} from "./calendar.modals.styled"
 
 interface SyncCalendarModalProps {
   onClose?: () => void
@@ -162,7 +165,7 @@ export const SynchronizingFailedModal = ({
         id: "view.name.calendar.synchronizingFailedModal.subText",
       }}
     />
-    <UpdateButtonComponent
+    <RefreshButton
       displayStyle={DisplayStyle.Secondary}
       label={intl.formatMessage({
         id: "view.name.calendar.synchronizingFailedModal.refreshButton",
