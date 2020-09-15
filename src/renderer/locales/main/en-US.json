@@ -15,6 +15,7 @@
   "view.name.calendar.synchronizingModal.bodyHeader": "Synchronising contacts…",
   "view.name.calendar.synchronizingModal.body": "This might take few minutes, please wait.",
   "view.name.calendar.synchronizingFinishedModal.bodyHeader": "Synchronising complete!",
+  "view.name.calendar.synchronizingFinishedModal.body": "SIM <b>{slot}</b> ({phone})",
   "view.name.calendar.synchronizingFailedModal.body": "Log in to allow DesktopApp to synchronise your calendar events between Pure and Google account.",
   "view.name.calendar.synchronizingFailedModal.bodyHeader": "Synchronise calendars",
   "view.name.calendar.synchronizingFailedModal.subText": "You’re offline. Lorem ipsum dolor sit amet",
