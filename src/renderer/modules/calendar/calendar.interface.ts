@@ -8,3 +8,7 @@ export interface CalendarEvent {
 export interface CalendarProps {
   events: CalendarEvent[]
 }
+
+export interface CalendarEventProps {
+  event: CalendarEvent
+}
