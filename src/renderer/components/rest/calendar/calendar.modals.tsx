@@ -112,7 +112,7 @@ export const SynchronizingFinishedModal = ({ onClose = noop }) => (
     })}
   >
     <RoundIconWrapper>
-      <Icon type={Type.Check} width={4} />
+      <Icon type={Type.ThinCheck} width={8} />
     </RoundIconWrapper>
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
