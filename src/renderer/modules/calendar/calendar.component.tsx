@@ -16,7 +16,9 @@ const messages = defineMessages({
   },
 })
 
-const Calendar: FunctionComponent<CalendarProps> = ({ events }) => (
+const Calendar: FunctionComponent<CalendarProps> = ({
+  events = calendarSeed,
+}) => (
   <>
     <Header message={messages.allEvents} />
     <EventsList>
@@ -26,9 +28,5 @@ const Calendar: FunctionComponent<CalendarProps> = ({ events }) => (
     </EventsList>
   </>
 )
-
-Calendar.defaultProps = {
-  events: calendarSeed,
-}
 
 export default Calendar
