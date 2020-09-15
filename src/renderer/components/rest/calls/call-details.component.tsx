@@ -2,13 +2,14 @@ import moment from "moment"
 import React from "react"
 import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.enum"
 import {
   CallDescription,
   ContactName,
+  NameIcon,
 } from "Renderer/components/rest/calls/calls-table.styled"
 import {
   AdditionalInfo,
@@ -64,7 +65,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
         return (
           <CallWrapper key={index}>
             <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-              <Icon type={details.icon} width={2.5} height={2} />
+              <NameIcon type={details.icon} size={IconSize.Big} />
               {details.caller.firstName || details.caller.lastName ? (
                 <>
                   {details.caller.firstName} {details.caller.lastName}
@@ -113,7 +114,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
                       <Icon
                         key={`icon-${details.icon}`}
                         type={details.icon}
-                        width={1.5}
+                        width={2.4}
                       />,
                     ]}
                     value={`${intl.formatMessage(

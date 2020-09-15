@@ -8,6 +8,7 @@ import {
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
+import Icon from "Renderer/components/core/icon/icon.component"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -57,11 +58,8 @@ export const ContactName = styled(Text).attrs(() => ({
   flex-flow: row wrap;
   text-align: center;
   justify-content: center;
+  align-items: center;
   margin-bottom: 1rem;
-
-  svg {
-    margin-right: 1rem;
-  }
 `
 export const CallDescription = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.SmallFadedText,
@@ -74,4 +72,12 @@ export const ClickableCol = styled(Col)<{ active?: boolean }>`
   svg {
     margin-right: 1rem;
   }
+`
+
+export const NameIcon = styled(Icon)`
+  margin-right: 0.5rem;
+`
+
+export const StatusCallIcon = styled(Icon)`
+  margin-bottom: 0.3rem;
 `

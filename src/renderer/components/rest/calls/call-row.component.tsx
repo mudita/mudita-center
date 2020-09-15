@@ -11,6 +11,7 @@ import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.en
 import {
   Checkbox,
   ClickableCol,
+  StatusCallIcon,
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { Details } from "Renderer/components/rest/calls/call-details.types"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
@@ -81,7 +82,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
         onClick={openSidebar}
         active={activeRow?.id === id}
       >
-        <Icon type={details.icon} width={2} />
+        <StatusCallIcon type={details.icon} height={2.8} width={2.8} />
         {nameAvailable ? createFullName(caller) : caller.primaryPhoneNumber}
         {timesMissed > 1 && ` (${timesMissed})`}
       </ClickableCol>

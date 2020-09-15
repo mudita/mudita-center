@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import styled from "styled-components"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
@@ -40,44 +40,65 @@ storiesOf("Components|Core/Icon", module)
   .add("Battery", () => (
     <StoryContainer title="States">
       <Story title="Empty">
-        <BatteryIcon level={0} height={2.4} width={2.4} />
+        <BatteryIcon level={0} size={IconSize.Medium} />
       </Story>
       <Story title="Very low">
-        <BatteryIcon level={0.1} height={2.4} width={2.4} />
+        <BatteryIcon level={0.1} size={IconSize.Medium} />
       </Story>
       <Story title="Low">
-        <BatteryIcon level={0.3} height={2.4} width={2.4} />
+        <BatteryIcon level={0.3} size={IconSize.Medium} />
       </Story>
       <Story title="Medium">
-        <BatteryIcon level={0.5} height={2.4} width={2.4} />
+        <BatteryIcon level={0.5} size={IconSize.Medium} />
       </Story>
       <Story title="High">
-        <BatteryIcon level={0.7} height={2.4} width={2.4} />
+        <BatteryIcon level={0.7} size={IconSize.Medium} />
       </Story>
       <Story title="Very high">
-        <BatteryIcon level={0.9} height={2.4} width={2.4} />
+        <BatteryIcon level={0.9} size={IconSize.Medium} />
+      </Story>
+      <Story title="Full Battery">
+        <BatteryIcon level={1} size={IconSize.Medium} />
       </Story>
       <Story title="Charging">
-        <BatteryIcon charging level={0.5} height={2.4} width={2.4} />
+        <BatteryIcon charging level={0.5} size={IconSize.Medium} />
       </Story>
     </StoryContainer>
   ))
   .add("Signal", () => (
     <StoryContainer title="States">
       <Story title="No signal">
-        <RangeIcon strength={0} height={2.4} width={2.4} />
+        <RangeIcon strength={0} size={IconSize.Medium} />
+      </Story>
+      <Story title="Very Low">
+        <RangeIcon strength={6} size={IconSize.Medium} />
       </Story>
       <Story title="Low">
-        <RangeIcon strength={21} height={2.4} width={2.4} />
+        <RangeIcon strength={21} size={IconSize.Medium} />
       </Story>
       <Story title="Medium">
-        <RangeIcon strength={41} height={2.4} width={2.4} />
+        <RangeIcon strength={41} size={IconSize.Medium} />
       </Story>
       <Story title="High">
-        <RangeIcon strength={61} height={2.4} width={2.4} />
+        <RangeIcon strength={61} size={IconSize.Medium} />
       </Story>
       <Story title="Very high">
-        <RangeIcon strength={90} height={2.4} width={2.4} />
+        <RangeIcon strength={90} size={IconSize.Medium} />
+      </Story>
+      <Story title="Very Low with roaming">
+        <RangeIcon strength={6} roaming size={IconSize.Medium} />
+      </Story>
+      <Story title="Low with roaming">
+        <RangeIcon strength={21} roaming size={IconSize.Medium} />
+      </Story>
+      <Story title="Medium with roaming">
+        <RangeIcon strength={41} roaming size={IconSize.Medium} />
+      </Story>
+      <Story title="High with roaming">
+        <RangeIcon strength={61} roaming size={IconSize.Medium} />
+      </Story>
+      <Story title="Very high with roaming">
+        <RangeIcon strength={90} roaming size={IconSize.Medium} />
       </Story>
     </StoryContainer>
   ))

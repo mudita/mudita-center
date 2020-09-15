@@ -4,27 +4,11 @@ import Icon, {
   Props as IconProps,
 } from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import styled from "styled-components"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
 
 interface Props {
   level: number
   charging?: boolean
 }
-
-const BatteryWrapper = styled.div`
-  position: relative;
-`
-
-const BatteryChargingText = styled(Text)<{ size: number }>`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: ${({ size }) => size / 3}rem;
-`
 
 const getInteractiveBatteryIcon = (
   batteryLevel: number,
@@ -34,17 +18,9 @@ const getInteractiveBatteryIcon = (
 ) => {
   switch (true) {
     case charging:
-      return (
-        <BatteryWrapper>
-          <Icon type={Type.ChargingBattery} {...rest} />
-          <BatteryChargingText
-            size={size}
-            displayStyle={TextDisplayStyle.SmallFadedText}
-          >
-            {batteryLevel * 100}%
-          </BatteryChargingText>
-        </BatteryWrapper>
-      )
+      return <Icon type={Type.ChargingBattery} {...rest} />
+    case batteryLevel === 1:
+      return <Icon type={Type.FullBattery} {...rest} />
     case batteryLevel > 0.8:
       return <Icon type={Type.VeryHighBattery} {...rest} />
     case batteryLevel > 0.6:

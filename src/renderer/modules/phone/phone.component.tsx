@@ -11,7 +11,7 @@ import ContactDetails, {
   ContactDetailsActions,
 } from "Renderer/components/rest/phone/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
   defaultContact,
 } from "Renderer/components/rest/phone/contact-edit.component"
@@ -30,6 +30,19 @@ import {
   Store,
 } from "Renderer/models/phone/phone.typings"
 import { ContactSection } from "Renderer/modules/phone/phone.styled"
+import { AuthProviders } from "Renderer/models/auth/auth.typings"
+import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
+import Modal from "Renderer/components/core/modal/modal.component"
+import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
+import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import { defineMessages } from "react-intl"
+
+export const deleteModalMessages = defineMessages({
+  title: { id: "view.name.phone.contacts.modal.delete.title" },
+  text: { id: "view.name.phone.contacts.modal.delete.text" },
+})
 
 export type PhoneProps = ContactActions &
   ContactPanelProps &
@@ -38,6 +51,8 @@ export type PhoneProps = ContactActions &
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
     removeContact?: (input: ContactID | ContactID[]) => void
+    setProviderData: (provider: AuthProviders, data: any) => void
+    onManageButtonClick: (cb?: any) => void
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -47,17 +62,26 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     getContact,
     removeContact,
     contactList = [],
+    flatList,
     onSearchTermChange,
     onManageButtonClick,
     onCall,
     onMessage,
     savingContact,
-    flatList,
+    setProviderData,
   } = props
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
+  const [sync, setSync] = useState(1)
+  const {
+    selectedRows,
+    allRowsSelected,
+    toggleAll,
+    resetRows,
+    ...rest
+  } = useTableSelect<Contact, ContactCategory>(contacts, "contacts")
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
@@ -108,7 +132,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     setNewContact(defaultContact)
   }
 
-  const cancelAddingContact = () => {
+  const cancelOrCloseContactHandler = () => {
     closeSidebar()
     setNewContact(undefined)
   }
@@ -117,7 +141,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     if (addContact) {
       addContact(contact)
     }
-    cancelAddingContact()
+    cancelOrCloseContactHandler()
   }
 
   const handleEditingContact = (contact: Contact) => {
@@ -146,14 +170,12 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         <DeleteModal
           deleting
           title={intl.formatMessage({
-            id: "view.name.phone.contacts.modal.delete.title",
+            ...deleteModalMessages.title,
           })}
-          text={intl.formatMessage(
-            {
-              id: "view.name.phone.contacts.modal.delete.text",
-            },
-            { name: createFullName(contact), ...textFormatters }
-          )}
+          message={{
+            ...deleteModalMessages.text,
+            values: { name: createFullName(contact), ...textFormatters },
+          }}
         />
       )
 
@@ -162,21 +184,19 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         removeContact(contact.id)
       }
       await modalService.closeModal()
-      closeSidebar()
+      cancelOrCloseContactHandler()
     }
 
     modalService.openModal(
       <DeleteModal
         onDelete={handleDelete}
         title={intl.formatMessage({
-          id: "view.name.phone.contacts.modal.delete.title",
+          ...deleteModalMessages.title,
         })}
-        text={intl.formatMessage(
-          {
-            id: "view.name.phone.contacts.modal.delete.text",
-          },
-          { name: createFullName(contact), ...textFormatters }
-        )}
+        message={{
+          ...deleteModalMessages.text,
+          values: { name: createFullName(contact), ...textFormatters },
+        }}
       />
     )
   }
@@ -232,9 +252,59 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
+  const openSuccessSyncModal = async () => {
+    // TODO: Replace it with correct modal for success state when its done by design
+    await modalService.closeModal()
+    await modalService.openModal(
+      <Modal title={"Success"} size={ModalSize.Small} />
+    )
+  }
+
+  const openFailureSyncModal = async () => {
+    // TODO: Replace it with correct modal for failure state when its done by design
+    await modalService.closeModal()
+    await modalService.openModal(
+      <Modal title={"Failure"} size={ModalSize.Small} />
+    )
+  }
+
+  const openProgressSyncModal = async () => {
+    await modalService.closeModal()
+    await modalService.openModal(
+      <SynchronizingContactsModal
+        body={{
+          id: "view.name.phone.contacts.synchronizingModalBody",
+        }}
+        subtitle={{
+          id: "view.name.phone.contacts.synchronizingModalTitle",
+        }}
+        closeButtonLabel={intl.formatMessage({
+          id: "view.generic.button.cancel",
+        })}
+        onFailure={openFailureSyncModal}
+        onSuccess={openSuccessSyncModal}
+        failed={sync % 3 === 0}
+        icon={Type.SynchronizeContacts}
+      />
+    )
+  }
+
+  const handleGoogleAuth = () => {
+    onManageButtonClick(setProviderData)
+  }
+
+  const openSyncModal = async () => {
+    setSync((value) => value + 1)
+    modalService.openModal(
+      <SyncContactsModal
+        onAppleButtonClick={openProgressSyncModal}
+        onGoogleButtonClick={handleGoogleAuth}
+      />
+    )
+  }
+
   const _devClearContacts = () => setContacts([])
   const _devLoadDefaultContacts = () => setContacts(contactList)
-
   return (
     <>
       <DevModeWrapper>
@@ -249,8 +319,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       <ContactSection>
         <ContactPanel
           onSearchTermChange={onSearchTermChange}
-          onManageButtonClick={onManageButtonClick}
+          onManageButtonClick={openSyncModal}
           onNewButtonClick={handleAddingContact}
+          selectedContacts={selectedRows}
+          allItemsSelected={allRowsSelected}
+          toggleAll={toggleAll}
+          removeContact={removeContact}
+          resetRows={resetRows}
         />
         <TableWithSidebarWrapper>
           <ContactList
@@ -262,14 +337,14 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
             onUnblock={handleUnblock}
             onBlock={openBlockModal}
             onDelete={openDeleteModal}
-            onCheck={noop}
             newContact={newContact}
             editedContact={editedContact}
             resultsState={ResultsState.Loaded}
+            {...rest}
           />
           {newContact && (
             <ContactEdit
-              onCancel={cancelAddingContact}
+              onCancel={cancelOrCloseContactHandler}
               onSpeedDialSettingsOpen={openSpeedDialModal}
               onSave={saveNewContact}
               onNameUpdate={handleNameUpdate}

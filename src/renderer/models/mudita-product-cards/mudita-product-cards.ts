@@ -36,7 +36,7 @@ const productCards: ProductCard[] = [
     connected: false,
   },
   {
-    url: "https://www.mudita.com/",
+    url: "https://www.mudita.com/products/pure/#preorder",
     imageSource: MuditaPure,
     title: "Mudita Pure",
     subtitle: "A modern feature phone",
@@ -48,7 +48,7 @@ const productCards: ProductCard[] = [
       "Ultralow radiation (SAR)",
       "Meditation timer",
     ],
-    buttonLabel: "Learn more",
+    buttonLabel: "Pre-order",
     connected: true,
   },
 ]

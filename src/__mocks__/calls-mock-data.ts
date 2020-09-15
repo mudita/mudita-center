@@ -14,8 +14,8 @@ export const mockData = [
     date: new Date("2019-07-02T13:24:08.717Z"),
     status: CallStatus.Missed,
     timesMissed: 3,
-    icon: IconType.Delete,
-    description: { id: "view.name.generic.type" },
+    icon: IconType.MissedCall,
+    description: { id: "view.name.calls.missed" },
   },
   {
     id: "cee9d540-8e92-4ce0-b322-cc58bc4411dc",
@@ -29,8 +29,8 @@ export const mockData = [
     date: new Date("2019-08-03T15:51:46.722Z"),
     status: CallStatus.Missed,
     timesMissed: 4,
-    icon: IconType.Delete,
-    description: { id: "view.name.generic.type" },
+    icon: IconType.MissedCall,
+    description: { id: "view.name.calls.missed" },
   },
   {
     id: "fa2bbc67-50f9-48ea-9bb1-a53ae578ed2b",
@@ -44,8 +44,8 @@ export const mockData = [
     date: new Date("2020-04-17T04:17:53.229Z"),
     status: CallStatus.Missed,
     timesMissed: 2,
-    icon: IconType.Delete,
-    description: { id: "view.name.generic.type" },
+    icon: IconType.MissedCall,
+    description: { id: "view.name.calls.missed" },
   },
   {
     id: "03dc3086-7610-4de9-8967-f1c25dab674f",
@@ -59,8 +59,8 @@ export const mockData = [
     date: new Date("2020-03-08T11:23:42.226Z"),
     status: CallStatus.Missed,
     timesMissed: 3,
-    icon: IconType.Delete,
-    description: { id: "view.name.generic.type" },
+    icon: IconType.MissedCall,
+    description: { id: "view.name.calls.missed" },
   },
   {
     id: "3a94a064-de00-4d8f-8cf9-56edecee0ce6",
@@ -74,7 +74,7 @@ export const mockData = [
     date: new Date("2020-06-16T20:10:34.812Z"),
     status: CallStatus.Incoming,
     timesMissed: 0,
-    icon: IconType.Delete,
-    description: { id: "view.name.generic.type" },
+    icon: IconType.IncomingCall,
+    description: { id: "view.name.calls.incoming" },
   },
 ]

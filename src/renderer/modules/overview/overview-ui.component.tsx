@@ -46,6 +46,8 @@ interface OverviewUIProps {
   readonly onUpdateDownload: () => void
   readonly onUpdateInstall: () => void
   readonly onOpenBackupModal: () => void
+  readonly onOpenBackupRestorationModal: () => void
+  toggleDevMode?: () => void
 }
 
 const OverviewUI: FunctionComponent<
@@ -57,22 +59,25 @@ const OverviewUI: FunctionComponent<
   batteryLevel,
   changeSim,
   disconnectDevice,
-  networkName,
+  language,
   lastBackup,
-  osVersion,
-  osUpdateDate,
   memorySpace,
-  simCards,
-  pureOsAvailable,
-  pureOsDownloaded,
+  networkName,
+  onOpenBackupModal,
+  onOpenBackupRestorationModal,
   onUpdateCheck,
   onUpdateDownload,
   onUpdateInstall,
-  onOpenBackupModal,
-  language,
+  osUpdateDate,
+  osVersion,
+  pureOsAvailable,
+  pureOsDownloaded,
+  simCards,
+  toggleDevMode,
 }) => (
   <OverviewWrapper>
     <PhoneInfo
+      onClick={toggleDevMode}
       batteryLevel={batteryLevel}
       network={networkName}
       onDisconnect={disconnectDevice}
@@ -95,7 +100,7 @@ const OverviewUI: FunctionComponent<
     <BackupInfo
       lastBackup={lastBackup}
       onBackupCreate={onOpenBackupModal}
-      onBackupRestore={noop}
+      onBackupRestore={onOpenBackupRestorationModal}
       language={language}
     />
   </OverviewWrapper>

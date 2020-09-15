@@ -17,8 +17,10 @@ export const phoneNumberValidator: ValidationRules = {
     ),
   },
   pattern: {
-    value: /^\+?\d+$/im,
-    message: intl.formatMessage({ id: "form.error.phoneNumber.numbersOnly" }),
+    value: /^(\+?)(\d(\s?\d)+)$/im,
+    message: intl.formatMessage({
+      id: "form.error.phoneNumber.numbersAndSpacesOnly",
+    }),
   },
 }
 

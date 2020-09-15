@@ -18,7 +18,7 @@ export const fakeMemoryChartData = [
     occupiedMemory: 4294967296,
     filesAmount: 15,
     color: "#6D9BBC",
-    icon: Type.Music,
+    icon: Type.MenuMusic,
     url: URL_MAIN.music,
   },
   {

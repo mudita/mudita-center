@@ -1,18 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
     <defs>
-        <rect id="2ihqo1bqia" width="24" height="24" x="0" y="0" rx="3"/>
+        <rect id="btakq5ybsa" width="24" height="24" x="0" y="0" rx="3"/>
     </defs>
-    <g fill="none" fill-rule="evenodd" transform="translate(4 4)">
-        <mask id="f8uqhsi0gb" fill="#fff">
-            <use xlink:href="#2ihqo1bqia"/>
-        </mask>
-        <g fill="#CDCECF" mask="url(#f8uqhsi0gb)">
-            <g transform="translate(3.333 3.333)">
-                <rect width="2.917" height="4.167" y="12.5" rx=".469"/>
-                <rect width="2.917" height="8.333" x="4.583" y="8.333" rx=".469"/>
-                <rect width="2.917" height="12.5" x="9.167" y="4.167" rx=".469"/>
-                <rect width="2.917" height="16.667" x="13.75" rx=".469"/>
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(4 4)">
+            <mask id="e06fr7b8db" fill="#fff">
+                <use xlink:href="#btakq5ybsa"/>
+            </mask>
+            <g fill="#6A6A6A" mask="url(#e06fr7b8db)">
+                <g transform="translate(3.333 18.667)">
+                    <rect width="2.917" height="1.333" rx=".469"/>
+                    <rect width="2.917" height="1.333" x="4.583" rx=".469"/>
+                    <rect width="2.917" height="1.333" x="9.167" rx=".469"/>
+                    <rect width="2.917" height="1.333" x="13.75" rx=".469"/>
+                </g>
             </g>
         </g>
+        <path fill="#6A6A6A" fill-rule="nonzero" d="M11.701 7.452c.237-.176.574-.156.788.059.237.236.237.62 0 .855L10.856 10l1.633 1.634c.237.236.237.62 0 .855-.214.215-.55.235-.788.059l-.067-.059L10 10.856 8.366 12.49l-.067.059c-.237.176-.574.156-.788-.059-.237-.236-.237-.62 0-.855L9.144 10 7.511 8.366c-.237-.236-.237-.62 0-.855.214-.215.55-.235.788-.059l.067.059L10 9.144l1.634-1.633z"/>
     </g>
 </svg>

@@ -135,6 +135,7 @@
     "@types/serialport": "^8.0.1",
     "@types/sinon": "^9.0.5",
     "@types/styled-components": "^5.1.2",
+    "@types/tcp-port-used": "^1.0.0",
     "@types/webdriverio": "^5.0.0",
     "@types/webpack-env": "^1.15.2",
     "asar": "^3.0.3",
@@ -242,9 +243,10 @@
     "source-map-support": "^0.5.19",
     "styled-components": "^5.1.1",
     "styled-normalize": "^8.0.7",
-    "update-electron-app": "^1.5.0",
     "winston": "^3.3.3",
-    "winston-daily-rotate-file": "^4.5.0"
+    "winston-daily-rotate-file": "^4.5.0",
+    "tcp-port-used": "^1.0.1",
+    "update-electron-app": "^1.5.0"
   },
   "engines": {
     "node": "12.9.1",

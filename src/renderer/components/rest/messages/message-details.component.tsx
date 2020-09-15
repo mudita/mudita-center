@@ -12,7 +12,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import styled from "styled-components"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
@@ -58,11 +58,17 @@ const MessagesSidebar = styled(Sidebar)`
 `
 
 const leadingIcons = [
-  <Icon type={Type.AttachContact} key={Type.AttachContact} />,
-  <Icon type={Type.Template} key={Type.Template} />,
+  <Icon
+    type={Type.AttachContact}
+    key={Type.AttachContact}
+    size={IconSize.Big}
+  />,
+  <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />,
 ]
 
-const trailingIcon = [<Icon type={Type.Send} key={Type.Send} />]
+const trailingIcon = [
+  <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
+]
 
 const MessageDetails: FunctionComponent<Props> = ({
   details,
@@ -76,10 +82,26 @@ const MessageDetails: FunctionComponent<Props> = ({
   }, [ref.current])
   const icons = (
     <>
-      <SidebarHeaderIcon Icon={Type.Calls} onClick={noop} />
-      <SidebarHeaderIcon Icon={Type.Contacts} onClick={noop} />
-      <SidebarHeaderIcon Icon={Type.BorderCheckIcon} onClick={noop} />
-      <SidebarHeaderIcon Icon={Type.Delete} onClick={noop} />
+      <SidebarHeaderIcon
+        Icon={Type.Calls}
+        onClick={noop}
+        iconSize={IconSize.Big}
+      />
+      <SidebarHeaderIcon
+        Icon={Type.Contacts}
+        onClick={noop}
+        iconSize={IconSize.Big}
+      />
+      <SidebarHeaderIcon
+        Icon={Type.BorderCheckIcon}
+        onClick={noop}
+        iconSize={IconSize.Big}
+      />
+      <SidebarHeaderIcon
+        Icon={Type.Delete}
+        onClick={noop}
+        iconSize={IconSize.Big}
+      />
     </>
   )
   const nameAvailable = isNameAvailable(details.caller)

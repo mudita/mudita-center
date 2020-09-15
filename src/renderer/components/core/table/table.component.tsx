@@ -161,8 +161,8 @@ export const NestedGroup = styled.div<{ level?: number }>`
   position: relative;
   ${Row} > ${Col} {
     :nth-child(1) {
-      border-left: solid transparent calc(${({ level }) =>
-        level || 1} * var(--nestSize));
+      border-left: solid transparent
+        calc(${({ level }) => level || 1} * var(--nestSize));
     }
   }
 `
@@ -247,9 +247,9 @@ export const SidebarHeaderIcon = styled(ButtonComponent).attrs(() => ({
     opacity: 1;
   }
 
-  > div {
-    width: 1.6rem;
-    height: 1.6rem;
+  svg {
+    height: initial;
+    width: initial;
   }
 `
 

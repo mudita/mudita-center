@@ -12,7 +12,7 @@ import {
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { convertBytes } from "Renderer/utils/convert-bytes"
 import styled from "styled-components"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
 const Wrapper = styled.div<{ fileColor: string }>`
@@ -50,7 +50,7 @@ const FilesSummaryItem: FunctionComponent<DiskSpaceCategory> = ({
 }) => {
   return (
     <Wrapper fileColor={color} data-testid="files-manager-item">
-      <SummaryIcon type={icon} />
+      <SummaryIcon type={icon} size={IconSize.Bigger} />
       <TextWrapper>
         <Text displayStyle={TextDisplayStyle.LargeText} element={"p"}>
           {filesType}

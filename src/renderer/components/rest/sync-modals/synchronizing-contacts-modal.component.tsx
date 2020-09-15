@@ -12,39 +12,41 @@ import StackedBarChart, {
 import React from "react"
 import styled from "styled-components"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
-import { BaseModalProps } from "Renderer/modules/overview/backup-process/modals.interface"
-import {
-  LoadingModalText,
-  ModalIcon,
-} from "Renderer/modules/overview/backup-process/modals.styled"
+import { ModalIcon } from "Renderer/modules/overview/backup-process/modals.styled"
+import { Props as ButtonProps } from "Renderer/components/core/button/button.component"
+import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
 
 const LoadingBar = styled(StackedBarChart)`
   margin: 3.2rem auto auto;
   max-width: 22rem;
 `
 
-interface BackupLoadingModalProps extends BaseModalProps {
-  onBackupSuccess: () => void
-  onBackupFailure: () => void
+interface BackupLoadingModalProps {
+  onSuccess: () => void
+  onFailure: () => void
   body: MessageInterface
   subtitle: MessageInterface
   failed?: boolean
+  icon: Type
+  title?: string
+  closeButtonLabel?: ButtonProps["label"]
 }
 
-export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps> = ({
-  onBackupSuccess,
-  onBackupFailure,
+export const SynchronizingContactsModal: FunctionComponent<BackupLoadingModalProps> = ({
+  onSuccess,
+  onFailure,
   failed,
   title,
   body,
   subtitle,
   closeButtonLabel,
+  icon,
 }) => {
   const countdown = setTimeout(() => {
     if (failed) {
-      onBackupFailure()
+      onFailure()
     } else {
-      onBackupSuccess()
+      onSuccess()
     }
   }, 1500)
 
@@ -58,13 +60,13 @@ export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps> = ({
       closeButtonLabel={closeButtonLabel}
     >
       <ModalIcon>
-        <Icon type={Type.FilesManager} width={5} />
+        <Icon type={icon} width={5} />
       </ModalIcon>
-      <LoadingModalText
+      <ModalText
         message={subtitle}
         displayStyle={TextDisplayStyle.LargeBoldText}
       />
-      <LoadingModalText
+      <ModalText
         message={body}
         displayStyle={TextDisplayStyle.MediumFadedLightText}
       />

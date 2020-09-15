@@ -8,14 +8,13 @@ import { MenuElement } from "Renderer/constants/menu-elements"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import { views } from "Renderer/constants/views"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { MenuGropTestIds } from "Renderer/components/rest/menu/menu-grop-test-ids.enum"
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -49,10 +48,6 @@ const LinkWrapper = styled.div`
 `
 
 const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
-  const iconConfig = {
-    height: 2.4,
-    width: 2.4,
-  }
   return (
     <>
       {label && (
@@ -63,11 +58,11 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
               {icons.map((icon: Type, index) => (
                 <HeaderIconBg key={index}>
                   {icon === Type.MenuRange ? (
-                    <RangeIcon strength={61} {...iconConfig} />
+                    <RangeIcon strength={61} size={IconSize.Medium} />
                   ) : icon === Type.MenuBattery ? (
-                    <BatteryIcon level={0.7} {...iconConfig} />
+                    <BatteryIcon level={0.7} size={IconSize.Medium} />
                   ) : (
-                    <HeaderIcon type={icon} {...iconConfig} />
+                    <HeaderIcon type={icon} size={IconSize.Medium} />
                   )}
                 </HeaderIconBg>
               ))}
@@ -76,13 +71,13 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
         </HeaderWrapper>
       )}
       {items &&
-        items.map(({ button, icon }, index) => {
+        items.map(({ button, icon, testId }, index) => {
           const buttonMenuConfig = {
             nav: true,
             displayStyle: DisplayStyle.Link4,
             labelMessage: button.label,
             Icon: icon,
-            iconSize: { height: 3.2, width: 3.2 },
+            iconSize: IconSize.Bigger,
           }
           if (button === views.help) {
             const openHelpWindow = () =>
@@ -92,14 +87,18 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
                 <Button
                   {...buttonMenuConfig}
                   onClick={openHelpWindow}
-                  data-testid={MenuGropTestIds.Help}
+                  data-testid={testId}
                 />
               </LinkWrapper>
             )
           }
           return (
             <LinkWrapper key={index}>
-              <Button {...buttonMenuConfig} to={button.url} />
+              <Button
+                {...buttonMenuConfig}
+                to={button.url}
+                data-testid={testId}
+              />
             </LinkWrapper>
           )
         })}
