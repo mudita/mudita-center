@@ -20,9 +20,13 @@ const Calendar: FunctionComponent = () => {
     }
   }
 
+  const closeModal = async () => await modalService.closeModal()
+
   const openSynchronizingFinishedModal = async () => {
     await modalService.closeModal()
-    await modalService.openModal(<SynchronizingFinishedModal />)
+    await modalService.openModal(
+      <SynchronizingFinishedModal onDone={closeModal} />
+    )
   }
 
   const openSynchronizingFailedModal = async () => {

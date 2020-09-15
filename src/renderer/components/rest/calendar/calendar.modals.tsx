@@ -49,6 +49,9 @@ const modalMessages = defineMessages({
   syncFinishedBody: {
     id: "view.name.calendar.synchronizingFinishedModal.body",
   },
+  syncFinishedButton: {
+    id: "view.generic.button.done",
+  },
   syncFailedBodyHeader: {
     id: "view.name.calendar.synchronizingFailedModal.bodyHeader",
   },
@@ -130,10 +133,12 @@ export const SynchronizingModal = ({ onClose = noop }) => {
   )
 }
 
-export const SynchronizingFinishedModal = ({ onClose = noop }) => (
+export const SynchronizingFinishedModal = ({ onDone = noop }) => (
   <SyncModal
     size={ModalSize.Small}
-    onClose={onClose}
+    closeButton={false}
+    onActionButtonClick={onDone}
+    actionButtonLabel={intl.formatMessage(modalMessages.syncFinishedButton)}
     title={intl.formatMessage(modalMessages.syncFinishedTitle)}
   >
     <RoundIconWrapper>
