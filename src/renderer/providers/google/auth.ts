@@ -2,8 +2,6 @@ import { AuthPayload, AuthProviders } from "Renderer/models/auth/auth.typings"
 import { ipcRenderer } from "electron-better-ipc"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
 
-import { getPeople } from "Renderer/providers/google/people"
-
 export const handleGoogleAuth = async (
   cb?: (payload: AuthPayload) => void
 ): Promise<void> => {
@@ -18,8 +16,6 @@ export const handleGoogleAuth = async (
       clearInterval(checker)
       cb && cb({ provider: AuthProviders.Google, data: token })
       await ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
-
-      console.log(await getPeople()) // just for testing
     }
   }, 500)
 }

@@ -38,6 +38,8 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
+import { getPeople } from "Renderer/providers/google/people"
+import { contactFactory } from "Renderer/providers/google/helpers"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -289,8 +291,24 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
-  const handleGoogleAuth = () => {
+  const handleGoogleAuth = async () => {
     onManageButtonClick(setProviderData)
+    try {
+      const { data } = await getPeople()
+      await openSuccessSyncModal()
+      const { connections } = data
+
+      if (connections.length > 0) {
+        connections.forEach((contact) => {
+          const newContact = contactFactory(contact)
+          if (newContact) {
+            console.log(newContact)
+          }
+        })
+      }
+    } catch {
+      await openFailureSyncModal()
+    }
   }
 
   const openSyncModal = async () => {

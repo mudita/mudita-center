@@ -1,8 +1,17 @@
+import { AxiosResponse } from "axios"
 import googleAuthWrapper from "Renderer/providers/google/wrapper"
+import { Base, Details } from "Renderer/providers/google/endpoints"
+import { queryBuilder } from "Renderer/providers/google/helpers"
+import { GoogleContactsSuccess } from "Renderer/providers/google/typings"
 
-// Test function to see whether auth worked, not production code
-export const getPeople = async (): Promise<any> => {
+const query = ["names", "emailAddresses", "phoneNumbers"]
+
+export const getPeople = async (): Promise<
+  AxiosResponse<GoogleContactsSuccess>
+> => {
   return googleAuthWrapper(
-    "https://people.googleapis.com/v1/people/me/connections?personFields=names,emailAddresses"
+    `${Base.People}/${Details.PeopleConnect}?personFields=${queryBuilder(
+      query
+    )}`
   )
 }
