@@ -71,6 +71,10 @@ interface SyncCalendarModalProps {
   onGoogleButtonClick?: () => void
 }
 
+interface SyncFailedModalProps extends Pick<SyncCalendarModalProps, "onClose"> {
+  onRefresh?: () => void
+}
+
 const SyncModal: FunctionComponent<Partial<ModalProps>> = ({
   children,
   size = ModalSize.Small,
@@ -115,25 +119,27 @@ export const SyncCalendarModal: FunctionComponent<SyncCalendarModalProps> = ({
   </SyncModal>
 )
 
-export const SynchronizingModal = ({ onClose = noop }) => {
-  return (
-    <SyncModal size={ModalSize.Small} onClose={onClose}>
-      <RoundIconWrapper>
-        <Loader type={LoaderType.Spinner} />
-      </RoundIconWrapper>
-      <Text
-        displayStyle={TextDisplayStyle.LargeBoldText}
-        message={modalMessages.synchronizingBodyHeader}
-      />
-      <ModalText
-        displayStyle={TextDisplayStyle.MediumFadedText}
-        message={modalMessages.synchronizingBody}
-      />
-    </SyncModal>
-  )
-}
+export const SynchronizingModal: FunctionComponent<SyncCalendarModalProps> = ({
+  onClose = noop,
+}) => (
+  <SyncModal size={ModalSize.Small} onClose={onClose}>
+    <RoundIconWrapper>
+      <Loader type={LoaderType.Spinner} />
+    </RoundIconWrapper>
+    <Text
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={modalMessages.synchronizingBodyHeader}
+    />
+    <ModalText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={modalMessages.synchronizingBody}
+    />
+  </SyncModal>
+)
 
-export const SynchronizingFinishedModal = ({ onDone = noop }) => (
+export const SynchronizingFinishedModal: FunctionComponent<{
+  onDone?: () => void
+}> = ({ onDone = noop }) => (
   <SyncModal
     size={ModalSize.Small}
     closeButton={false}
@@ -163,7 +169,7 @@ export const SynchronizingFinishedModal = ({ onDone = noop }) => (
   </SyncModal>
 )
 
-export const SynchronizingFailedModal = ({
+export const SynchronizingFailedModal: FunctionComponent<SyncFailedModalProps> = ({
   onClose = noop,
   onRefresh = noop,
 }) => (
