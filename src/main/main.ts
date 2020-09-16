@@ -37,6 +37,8 @@ import {
   registerGetHelpStoreHandler,
   removeGetHelpStoreHandler,
 } from "App/main/functions/get-help-store-handler"
+import registerTranslationListener from "App/main/functions/register-translation-listener"
+import updateTranslations from "App/main/functions/update-translations"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
 import {
   authServerPort,
@@ -89,6 +91,8 @@ const getWindowOptions = (
 })
 
 const createWindow = async () => {
+  await updateTranslations()
+
   if (developmentEnvironment) {
     await installExtensions()
   }
@@ -105,6 +109,7 @@ const createWindow = async () => {
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
+  registerTranslationListener()
 
   if (productionEnvironment) {
     win.loadURL(
