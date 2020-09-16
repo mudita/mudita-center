@@ -66,9 +66,7 @@ const Backup: FunctionComponent<BackupProps & Partial<AppSettings>> = ({
           <FormattedMessage {...messages.lastBackup} />
         </Text>
         <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-          {new Date(lastBackup.createdAt).toLocaleDateString(
-            language && language.tag
-          )}
+          {new Date(lastBackup.createdAt).toLocaleDateString(language)}
         </Text>
         <ButtonComponent
           displayStyle={DisplayStyle.Link3}
