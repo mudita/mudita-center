@@ -9,7 +9,7 @@ import {
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 
-storiesOf("Views|Calendar/Modals", module).add("All", () => {
+storiesOf("Views/Calendar/Modals", module).add("All", () => {
   return (
     <StoryContainer title="Sync modals">
       <Story title="Sync finished">
