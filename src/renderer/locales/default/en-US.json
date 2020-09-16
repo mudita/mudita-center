@@ -117,6 +117,7 @@
   "view.name.overview.backup.createBackupModal.title": "Create backup",
   "view.name.overview.backup.createBackupModal.body": "Your backup is {fileSize}.\nLast backup was made on {date}.",
   "view.name.overview.backup.createBackupModal.total": "Total:",
+  "view.name.overview.backup.createNewBackupModal.body": "This is your first backup.",
   "view.name.overview.backup.loadingBackupModal.title": "Creating backup...",
   "view.name.overview.backup.loadingBackupModal.body": "Please wait, this might take a few minutes",
   "view.name.overview.backup.finishedBackupModal.title": "Backup complete!",
