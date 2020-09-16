@@ -7,8 +7,7 @@ import { Normalize } from "styled-normalize"
 import GlobalStyle from "Renderer/styles/global-style.component"
 import theme from "Renderer/styles/theming/theme"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { LANGUAGE } from "Renderer/constants/languages"
-import localeEn from "Renderer/locales/main/en-US.json"
+import { defaultLanguage } from "App/translations.config.json"
 import { ModalProvider } from "Renderer/components/core/modal/modal.service"
 import modalService from "Renderer/components/core/modal/modal.service"
 import HelpApp from "Renderer/wrappers/help-app.component"
@@ -18,6 +17,8 @@ import { Mode } from "Common/enums/mode.enum"
 import { ipcRenderer } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
+import { useEffect, useState } from "react"
+import { getTranslation } from "Renderer/requests/get-translation.request"
 
 interface Props {
   store: Store
@@ -49,21 +50,37 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
     return <BaseApp store={store} history={history} />
   }
 
+  /**
+   * Get translations from store
+   */
+  const [messages, setMessages] = useState<Record<string, string>>()
+  const [locale, setLocale] = useState<string>(defaultLanguage)
+
+  useEffect(() => {
+    ;(async () => {
+      const { store, language } = await getTranslation()
+      setMessages(store)
+      setLocale(language)
+    })()
+  }, [])
+
   return (
     <ThemeProvider theme={theme}>
-      <IntlProvider
-        defaultLocale={LANGUAGE.default}
-        locale={LANGUAGE.default}
-        messages={localeEn}
-      >
-        <ModalProvider service={modalService}>
-          <>
-            <Normalize />
-            <GlobalStyle />
-            <RenderRoutes />
-          </>
-        </ModalProvider>
-      </IntlProvider>
+      {messages && (
+        <IntlProvider
+          defaultLocale={defaultLanguage}
+          locale={locale}
+          messages={messages}
+        >
+          <ModalProvider service={modalService}>
+            <>
+              <Normalize />
+              <GlobalStyle />
+              <RenderRoutes />
+            </>
+          </ModalProvider>
+        </IntlProvider>
+      )}
     </ThemeProvider>
   )
 }

@@ -21,11 +21,7 @@ export const fakeAppSettings: AppSettings = {
   appTray: true,
   pureOsBackupLocation: `fake/path/pure/phone/backups/`,
   pureOsDownloadLocation: `fake/path/pure/os/downloads/`,
-  language: {
-    name: "English",
-    tag: "en-US",
-    shortTag: "en",
-  },
+  language: "en-US",
 }
 
 class AppSettingsFake extends AppSettingsAdapter {

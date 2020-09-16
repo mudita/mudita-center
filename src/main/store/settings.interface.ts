@@ -8,12 +8,6 @@ export interface SettingsUpdateOption {
   value: unknown
 }
 
-export interface LanguageSettings {
-  name: string
-  tag: string
-  shortTag: string
-}
-
 export interface AppSettings extends Record<string, any> {
   appAutostart: boolean
   appTethering: boolean
@@ -27,5 +21,5 @@ export interface AppSettings extends Record<string, any> {
   appTray: boolean
   pureOsBackupLocation: string
   pureOsDownloadLocation: string
-  language: LanguageSettings
+  language: string
 }

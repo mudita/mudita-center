@@ -6,6 +6,7 @@ import {
 import { app } from "electron"
 import { name } from "../../../package.json"
 import { AppSettings } from "App/main/store/settings.interface"
+import { defaultLanguage } from "App/translations.config.json"
 
 const settingsSchema: Schema<AppSettings> = {
   appAutostart: {
@@ -57,8 +58,8 @@ const settingsSchema: Schema<AppSettings> = {
     default: `${app.getPath("appData")}/${name}/pure/os/downloads/`,
   },
   language: {
-    type: "object",
-    default: { name: "English", tag: "en-US", shortTag: "en" },
+    type: "string",
+    default: defaultLanguage,
   },
 }
 
