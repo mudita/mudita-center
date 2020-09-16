@@ -188,9 +188,7 @@ const Overview: FunctionComponent<
         total={"18.1 Gb"}
         date={
           lastBackup &&
-          new Date(lastBackup.createdAt).toLocaleDateString(
-            language && language.tag
-          )
+          new Date(lastBackup.createdAt).toLocaleDateString(language)
         }
       />
     )
