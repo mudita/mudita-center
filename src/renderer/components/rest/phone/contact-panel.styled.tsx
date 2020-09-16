@@ -9,7 +9,7 @@ import { showToggleableElement } from "Renderer/modules/tools/tabs/notes.styled"
 import { InputComponent } from "Renderer/components/core/input-text/input-text.component"
 
 export const Panel = styled.div<{
-  selectionMode: boolean
+  selectionMode?: boolean
 }>`
   display: grid;
   grid-auto-flow: column;
