@@ -40,6 +40,7 @@ import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
 import { getPeople } from "Renderer/providers/google/people"
 import { contactFactory } from "Renderer/providers/google/helpers"
+import { GooglePerson } from "Renderer/providers/google/typings"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -49,6 +50,7 @@ export const deleteModalMessages = defineMessages({
 export type PhoneProps = ContactActions &
   ContactPanelProps &
   ContactDetailsActions & {
+    google?: Record<string, string>
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
@@ -296,23 +298,26 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const handleGoogleAuth = async () => {
     onManageButtonClick(setProviderData)
-    try {
-      const { data } = await getPeople()
-      await openSuccessSyncModal()
-      const { connections } = data
-
-      if (connections.length > 0) {
-        connections.forEach((contact) => {
-          const newContact = contactFactory(contact)
-          if (newContact) {
-            console.log(newContact)
-          }
-        })
-      }
-    } catch {
-      await openFailureSyncModal()
-    }
   }
+
+  useEffect(() => {
+    if (props.google) {
+      ;(async () => {
+        const { data } = await getPeople()
+        const { connections } = data
+
+        if (connections.length > 0) {
+          connections.forEach((contact: GooglePerson) => {
+            const newContact = contactFactory(contact)
+            if (addContact && newContact) {
+              addContact(newContact)
+            }
+          })
+        }
+        await openProgressSyncModal()
+      })()
+    }
+  }, [typeof props.google !== "undefined"])
 
   const openSyncModal = async () => {
     setSync((value) => value + 1)
