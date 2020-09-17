@@ -8,7 +8,7 @@ import Story from "Renderer/components/storybook/story.component"
 import Nav from "Renderer/components/rest/meditation/nav/meditation-nav.component"
 import { DateFormatItems } from "Renderer/components/rest/meditation/nav/meditation-nav.helpers"
 
-storiesOf("Components|Rest/Meditation", module).add("Navigation", () => (
+storiesOf("Components/Rest/Meditation", module).add("Navigation", () => (
   <>
     <StoryContainer>
       <Story title="With date passed as string">
