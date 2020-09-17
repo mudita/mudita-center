@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import { noop } from "Renderer/utils/noop"
@@ -12,11 +12,11 @@ import {
 
 const Calendar: FunctionComponent = () => {
   const [, setSync] = useState(1)
-  const [timeout, setModalTimeout] = useState<NodeJS.Timeout>()
+  const timeout = useRef<NodeJS.Timeout>()
 
   const removeTimeoutHandler = () => {
-    if (timeout) {
-      clearTimeout(timeout)
+    if (timeout.current) {
+      clearTimeout(timeout.current)
     }
   }
 
@@ -39,19 +39,16 @@ const Calendar: FunctionComponent = () => {
   const openSynchronizingModal = async () => {
     await modalService.closeModal()
     await modalService.openModal(<SynchronizingModal />)
-    setSync((prevSync) => {
-      setModalTimeout(
-        setTimeout(() => {
-          if (prevSync % 3 === 0) {
-            openSynchronizingFailedModal()
-          } else {
-            openSynchronizingFinishedModal()
-          }
-          removeTimeoutHandler()
-        }, 1500)
-      )
-      return prevSync + 1
-    })
+    timeout.current = setTimeout(() => {
+      setSync((prevSync) => {
+        if (prevSync % 3 === 0) {
+          openSynchronizingFailedModal()
+        } else {
+          openSynchronizingFinishedModal()
+        }
+        return prevSync + 1
+      })
+    }, 1500)
   }
   const openSyncCalendarModal = async () => {
     await modalService.openModal(
