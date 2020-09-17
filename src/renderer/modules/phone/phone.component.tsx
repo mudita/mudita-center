@@ -308,6 +308,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         connections.forEach((contact: GooglePerson) => {
           const newContact = contactFactory(contact)
           if (addContact && newContact) {
+            /**
+             * looking for duplicates will require more elaborate strategy,
+             * this is just for show
+             */
             const unique = typeof getContact(newContact.id) === "undefined"
             if (unique) {
               addContact(newContact)
