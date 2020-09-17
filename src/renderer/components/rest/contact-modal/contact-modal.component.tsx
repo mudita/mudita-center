@@ -225,17 +225,20 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
 }) => {
   const [moreDetailsEnabled, enableMoreDetails] = useState(false)
   const [showingDetails, showDetails] = useState(false)
-  const [attachments, setAttachments] = useState<File[]>([])
   const logRef = useRef<HTMLPreElement>(null)
 
-  const { register, errors, handleSubmit } = useForm({
+  const { register, errors, handleSubmit, setValue } = useForm({
     mode: "onChange",
   })
 
   const toggleDetails = () => showDetails((prevState) => !prevState)
 
+  const updateAttachments = (attachments: File[]) => {
+    setValue("attachments", attachments)
+  }
+
   const sendEmail = handleSubmit((data) => {
-    onSend({ ...data, attachments })
+    onSend(data)
   })
 
   useEffect(() => {
@@ -287,7 +290,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
           maxRows={3}
         />
         <FormInputLabel label={messages.filesLabel} optional />
-        <FileInput name="attachments" multiple onUpdate={setAttachments} />
+        <FileInput name="attachments" multiple onUpdate={updateAttachments} />
         <DetailsLabel>
           <FormInputLabel label={messages.detailsLabel} optional={false} />
           {moreDetailsEnabled && (
