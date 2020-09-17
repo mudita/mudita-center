@@ -21,11 +21,19 @@ import { InputComponent } from "Renderer/components/core/input-text/input-text.c
 import { Message } from "Renderer/interfaces/message.interface"
 import InputFile from "Renderer/components/core/input-file/input-file.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { Type } from "Renderer/components/core/icon/icon.config"
+import Button from "Renderer/components/core/button/button.component"
+import {
+  DisplayStyle,
+  Type,
+} from "Renderer/components/core/button/button.config"
+import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import { useForm } from "react-hook-form"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
 import { disabledPrimaryStyles } from "Renderer/components/core/button/button.styled.elements"
+import { emailValidator } from "Renderer/utils/form-validators"
+import { getModalButtonsSize } from "Renderer/components/core/modal/modal.helpers"
+import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
+import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
   actionButton: {
@@ -51,6 +59,7 @@ const messages = defineMessages({
   detailsShowButton: { id: "component.modal.support.form.details.showButton" },
   detailsHideButton: { id: "component.modal.support.form.details.hideButton" },
   optional: { id: "component.modal.support.form.optional" },
+  emailRequiredError: { id: "form.error.requiredEmail" },
 })
 
 const MessageInput = styled(InputComponent)<InputComponentProps>`
@@ -102,6 +111,10 @@ const iconAnimation = keyframes`
   }
 `
 
+const ButtonWrapper = styled.div`
+  margin-top: 4rem;
+`
+
 const ModalComponent = styled(Modal)<{ sending?: boolean }>`
   h2 {
     ~ p {
@@ -120,7 +133,10 @@ const ModalComponent = styled(Modal)<{ sending?: boolean }>`
     }
   }
 
-  form + div button {
+  button[type="submit"] {
+    svg {
+      fill: ${backgroundColor("lightIcon")};
+    }
     ${({ sending }) =>
       sending &&
       css`
@@ -165,7 +181,7 @@ interface FormInputLabelProps {
 const FormInputLabelComponent: FunctionComponent<FormInputLabelProps> = ({
   className,
   label,
-  optional = true,
+  optional,
 }) => (
   <Text className={className} displayStyle={TextDisplayStyle.MediumText}>
     <FormattedMessage {...label} />
@@ -212,20 +228,15 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
   const [attachments, setAttachments] = useState<File[]>([])
   const logRef = useRef<HTMLPreElement>(null)
 
-  const { register, watch } = useForm({
+  const { register, errors, handleSubmit } = useForm({
     mode: "onChange",
   })
 
   const toggleDetails = () => showDetails((prevState) => !prevState)
 
-  const handleSend = () => {
-    const fields = watch()
-
-    onSend({
-      ...fields,
-      attachments,
-    })
-  }
+  const sendEmail = handleSubmit((data) => {
+    onSend({ ...data, attachments })
+  })
 
   useEffect(() => {
     if (logRef.current) {
@@ -245,17 +256,12 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
     <ModalComponent
       closeButton={false}
       size={ModalSize.Medium}
-      onActionButtonClick={handleSend}
-      actionButtonLabel={intl.formatMessage(
-        sending ? messages.actionButtonProgress : messages.actionButton
-      )}
-      actionButtonIcon={sending ? Type.Reload : Type.SendButton}
       title={intl.formatMessage(messages.title)}
       subtitle={intl.formatMessage(messages.description)}
-      sending={sending}
       {...rest}
+      sending={sending}
     >
-      <Form>
+      <Form onSubmit={sendEmail}>
         <FormInputLabel label={messages.emailLabel} />
         <InputComponent
           type={"text"}
@@ -263,9 +269,16 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
           outlined
           condensed
           name="email"
-          inputRef={register}
+          inputRef={register({
+            ...emailValidator,
+            required: {
+              value: true,
+              message: intl.formatMessage(messages.emailRequiredError),
+            },
+          })}
+          errorMessage={errors.email?.message}
         />
-        <FormInputLabel label={messages.messageLabel} />
+        <FormInputLabel label={messages.messageLabel} optional />
         <MessageInput
           type="textarea"
           label={intl.formatMessage(messages.messagePlaceholder)}
@@ -273,7 +286,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
           inputRef={register}
           maxRows={3}
         />
-        <FormInputLabel label={messages.filesLabel} />
+        <FormInputLabel label={messages.filesLabel} optional />
         <FileInput name="attachments" multiple onUpdate={setAttachments} />
         <DetailsLabel>
           <FormInputLabel label={messages.detailsLabel} optional={false} />
@@ -294,6 +307,19 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
             {log}
           </Log>
         </LogWrapper>
+        <ButtonWrapper>
+          <Button
+            displayStyle={DisplayStyle.Primary}
+            size={getModalButtonsSize(ModalSize.Medium)}
+            label={intl.formatMessage(
+              sending ? messages.actionButtonProgress : messages.actionButton
+            )}
+            data-testid={ModalTestIds.ModalActionButton}
+            iconSize={IconSize.Small}
+            Icon={sending ? IconType.Refresh : IconType.SendButton}
+            type={Type.Submit}
+          />
+        </ButtonWrapper>
       </Form>
     </ModalComponent>
   )
