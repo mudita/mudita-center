@@ -52,7 +52,6 @@ export interface ContactCategory {
   contacts: Contact[]
 }
 
-export type SimpleRecord<T = string | number | boolean> = Record<string, T>
 export type ContactFactorySignature<T = Contact | null> = (...args: any[]) => T
 export type NewContact = Omit<Contact, "id">
 

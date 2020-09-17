@@ -38,6 +38,7 @@ const Calls: FunctionComponent<Props> = ({
         resetRows={resetRows}
       />
       <CallsTable
+        deleteCall={deleteCall}
         calls={calls}
         getRowStatus={getRowStatus}
         toggleRow={toggleRow}

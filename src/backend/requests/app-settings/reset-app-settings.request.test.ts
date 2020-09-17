@@ -18,11 +18,7 @@ test("resets app settings properly", async () => {
       "appOsUpdates": false,
       "appTethering": false,
       "appTray": true,
-      "language": Object {
-        "name": "English",
-        "shortTag": "en",
-        "tag": "en-US",
-      },
+      "language": "en-US",
       "pureOsBackupLocation": "fake/path/pure/phone/backups/",
       "pureOsDownloadLocation": "fake/path/pure/os/downloads/",
     }

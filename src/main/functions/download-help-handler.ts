@@ -10,8 +10,7 @@ export const registerDownloadHelpHandler = () => {
     helpStore.get("data") &&
     (helpStore.get("data") as Record<string, any>).nextSyncToken
   const locale = settingsStore.get("language")
-    ? settingsStore.get("language")?.tag
-    : "en-US"
+
   ipcMain.answerRenderer(HelpActions.DownloadContentfulData, async () => {
     const client = createClient({
       accessToken: process.env.PDA_CONTENTFUL_ACCESS_TOKEN as string,
