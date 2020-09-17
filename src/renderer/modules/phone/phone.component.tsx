@@ -41,7 +41,6 @@ import { defineMessages } from "react-intl"
 import { getPeople } from "Renderer/providers/google/people"
 import { contactFactory } from "Renderer/providers/google/helpers"
 import { GooglePerson } from "Renderer/providers/google/typings"
-import { SimpleRecord } from "Common/typings"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -51,7 +50,6 @@ export const deleteModalMessages = defineMessages({
 export type PhoneProps = ContactActions &
   ContactPanelProps &
   ContactDetailsActions & {
-    auth?: SimpleRecord
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
     getContact: (id: ContactID) => Contact
     flatList: Contact[]

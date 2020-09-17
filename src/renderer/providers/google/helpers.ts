@@ -22,16 +22,16 @@ export const contactFactory = (input: GooglePerson): Contact | null => {
   }
 
   if (input.phoneNumbers && input.phoneNumbers.length > 0) {
-    input.phoneNumbers.forEach((item, n) => {
-      if (n === 0) {
+    input.phoneNumbers.forEach((item, i) => {
+      if (i === 0) {
         base.primaryPhoneNumber = item.value
       }
 
-      if (n === 1) {
+      if (i === 1) {
         base.secondaryPhoneNumber = item.value
       }
 
-      if (n > 1) {
+      if (i > 1) {
         base.note += `${item.value}\n`
       }
     })

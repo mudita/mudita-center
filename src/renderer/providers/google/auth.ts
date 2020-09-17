@@ -10,7 +10,7 @@ export const handleGoogleAuth = async (
     await ipcRenderer.callMain(GoogleAuthActions.OpenWindow)
 
     const checker = setInterval(async () => {
-      const token: Record<string, string> = await ipcRenderer.callMain(
+      const token: SimpleRecord<string> = await ipcRenderer.callMain(
         GoogleAuthActions.SendData
       )
 
