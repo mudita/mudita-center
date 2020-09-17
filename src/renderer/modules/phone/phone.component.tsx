@@ -290,7 +290,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           id: "view.generic.button.cancel",
         })}
         onFailure={openFailureSyncModal}
-        onSuccess={openSuccessSyncModal}
+        onSuccess={syncGoogleContacts}
         failed={sync % 3 === 0}
         icon={Type.SynchronizeContacts}
       />
@@ -298,23 +298,47 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const syncGoogleContacts = async () => {
-    const { data } = await getPeople()
-    const { connections } = data
+    try {
+      const {
+        data: { connections },
+      } = await getPeople()
 
-    if (connections.length > 0) {
-      connections.forEach((contact: GooglePerson) => {
-        const newContact = contactFactory(contact)
-        if (addContact && newContact) {
-          addContact(newContact)
-        }
-      })
+      if (connections.length > 0) {
+        let added = 0
+        let duplicates = 0
+
+        connections.forEach((contact: GooglePerson) => {
+          const newContact = contactFactory(contact)
+          if (addContact && newContact) {
+            const unique = typeof getContact(newContact.id) === "undefined"
+            if (unique) {
+              addContact(newContact)
+              added++
+            } else {
+              // apply merge
+              duplicates++
+            }
+          }
+        })
+
+        console.log("Added contacts: ", added)
+        console.log("Duplicated contacts: ", duplicates)
+
+        openSuccessSyncModal()
+      }
+    } catch {
+      openFailureSyncModal()
     }
-    await openProgressSyncModal()
   }
 
   const handleGoogleAuth = async () => {
     await onManageButtonClick(setProviderData)
-    syncGoogleContacts()
+
+    try {
+      await openProgressSyncModal()
+    } catch {
+      await openFailureSyncModal()
+    }
   }
 
   const openSyncModal = async () => {
