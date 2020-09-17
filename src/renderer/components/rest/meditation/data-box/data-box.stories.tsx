@@ -2,17 +2,17 @@ import { storiesOf } from "@storybook/react"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 import React from "react"
-import DataBox from "Renderer/components/rest/meditation/data-box.component"
-import { TextWrapper } from "Renderer/components/rest/meditation/data-box.styled"
+import DataBox from "Renderer/components/rest/meditation/data-box/data-box.component"
+import { TextWrapper } from "Renderer/components/rest/meditation/data-box/data-box.styled"
 import DataBoxes, {
   messages,
-} from "Renderer/components/rest/meditation/data-boxes.component"
+} from "Renderer/components/rest/meditation/data-box/data-boxes.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 
-storiesOf("Meditation/Data box", module)
-  .add("Default", () => (
+storiesOf("Components/Rest/Meditation", module)
+  .add("Data box – single", () => (
     <>
       <StoryContainer>
         <Story title="First box" darkMode>
@@ -105,7 +105,7 @@ storiesOf("Meditation/Data box", module)
       </StoryContainer>
     </>
   ))
-  .add("Multiple", () => (
+  .add("Data box – multiple", () => (
     <>
       <StoryContainer>
         <Story title="Multiple boxes" darkMode>
