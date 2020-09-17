@@ -5,7 +5,7 @@ import Story from "Renderer/components/storybook/story.component"
 import { generateMeditationData } from "App/__mocks__/meditation-stats.mock"
 import { ChartType } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
 
-storiesOf("Components|Rest/Meditation", module).add("Stats", () => {
+storiesOf("Components/Rest/Meditation", module).add("Stats", () => {
   return (
     <>
       <Story title="Weekly">
