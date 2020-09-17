@@ -14,7 +14,7 @@ import { handleGoogleAuth } from "Renderer/providers/google/auth"
 const mapStateToProps = ({ phone, auth }: { phone: PhoneType; auth: Auth }) => {
   return {
     ...phone,
-    ...auth,
+    auth,
     contactList: generateSortedStructure(phone),
     flatList: generateFlatList(phone),
     getContact: (id: ContactID) => phone.db[id],

@@ -41,6 +41,7 @@ import { defineMessages } from "react-intl"
 import { getPeople } from "Renderer/providers/google/people"
 import { contactFactory } from "Renderer/providers/google/helpers"
 import { GooglePerson } from "Renderer/providers/google/typings"
+import { SimpleRecord } from "Common/typings"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -50,13 +51,13 @@ export const deleteModalMessages = defineMessages({
 export type PhoneProps = ContactActions &
   ContactPanelProps &
   ContactDetailsActions & {
-    google?: Record<string, string>
+    auth?: SimpleRecord
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
     removeContact?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
-    onManageButtonClick: (cb?: any) => void
+    onManageButtonClick: (cb?: any) => Promise<void>
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -296,28 +297,25 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
-  const handleGoogleAuth = async () => {
-    onManageButtonClick(setProviderData)
+  const syncGoogleContacts = async () => {
+    const { data } = await getPeople()
+    const { connections } = data
+
+    if (connections.length > 0) {
+      connections.forEach((contact: GooglePerson) => {
+        const newContact = contactFactory(contact)
+        if (addContact && newContact) {
+          addContact(newContact)
+        }
+      })
+    }
+    await openProgressSyncModal()
   }
 
-  useEffect(() => {
-    if (props.google) {
-      ;(async () => {
-        const { data } = await getPeople()
-        const { connections } = data
-
-        if (connections.length > 0) {
-          connections.forEach((contact: GooglePerson) => {
-            const newContact = contactFactory(contact)
-            if (addContact && newContact) {
-              addContact(newContact)
-            }
-          })
-        }
-        await openProgressSyncModal()
-      })()
-    }
-  }, [typeof props.google !== "undefined"])
+  const handleGoogleAuth = async () => {
+    await onManageButtonClick(setProviderData)
+    syncGoogleContacts()
+  }
 
   const openSyncModal = async () => {
     setSync((value) => value + 1)

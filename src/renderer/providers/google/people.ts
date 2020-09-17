@@ -9,7 +9,7 @@ const query = ["names", "emailAddresses", "phoneNumbers"]
 export const getPeople = async (): Promise<
   AxiosResponse<GoogleContactsSuccess>
 > => {
-  return googleAuthWrapper(
+  return await googleAuthWrapper(
     `${Base.People}/${Details.PeopleConnect}?personFields=${queryBuilder(
       query
     )}`
