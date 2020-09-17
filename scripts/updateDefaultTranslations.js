@@ -8,10 +8,15 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
  * registered for given project on phrase.com (that are not empty) and creates
  * according JSON files in src/renderer/locales/default/ directory.
  *
- * It also updates src/translations.config.json file that contains all available
- * languages and the default one set on phrase.com app.
+ * By default local translations are merged with the new ones. This can be made
+ * with
+ *    "npm run translations:update"
+ * command, while
+ *    "npm run translations:overwrite"
+ * will overwrite local translations file.
  *
- * Can be run with node by running "npm run update:translations" command.
+ * It also updates src/translations.config.json file that contains info about
+ * all available languages and the default one set on phrase.com app.
  */
 ;(async () => {
   try {
@@ -35,7 +40,26 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
       }
 
       if (Object.keys(data).length) {
-        await fs.writeJson(`./src/renderer/locales/default/${code}.json`, data)
+        let translations = {}
+
+        if (!process.env.OVERWRITE) {
+          if (fs.pathExists(`./src/renderer/locales/default/${code}.json`)) {
+            const oldTranslations = await fs.readJson(
+              `./src/renderer/locales/default/${code}.json`
+            )
+            translations = {
+              ...oldTranslations,
+              ...data,
+            }
+          }
+        } else {
+          translations = data
+        }
+
+        await fs.writeJson(
+          `./src/renderer/locales/default/${code}.json`,
+          translations
+        )
         config.availableLanguages.push({
           id,
           code,
