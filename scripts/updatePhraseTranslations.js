@@ -17,7 +17,9 @@ const FormData = require("form-data")
  */
 ;(async () => {
   try {
+    console.log(`Sending translations to phrase.com`)
     const localesDir = "./src/renderer/locales/default/"
+    let iterator = 0
 
     for (const { code, id } of availableLanguages) {
       const filePath = `${localesDir}${code}.json`
@@ -33,6 +35,10 @@ const FormData = require("form-data")
             ...formData.getHeaders(),
           },
         })
+        iterator++
+        console.log(
+          `Translation ${iterator}/${availableLanguages.length} for ${code} sent`
+        )
       }
     }
   } catch (error) {

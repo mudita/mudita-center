@@ -20,6 +20,7 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
  */
 ;(async () => {
   try {
+    let iterator = 0
     const config = {
       availableLanguages: [],
       defaultLanguage: "",
@@ -64,7 +65,8 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
           id,
           code,
         })
-        console.log(`${code} translations updated successfully`)
+        iterator++
+        console.log(`Translation for ${code} updated`)
       }
     }
 
