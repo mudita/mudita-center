@@ -10,6 +10,7 @@ const selector = select(({ messages }) => ({
 }))
 
 const mapStateToProps = (state: RootModel) => ({
+  ...state.messages,
   ...selector(state, {}),
 })
 

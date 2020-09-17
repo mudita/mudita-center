@@ -5,6 +5,7 @@ import ButtonToggler from "Renderer/components/core/button-toggler/button-toggle
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import Button from "Renderer/components/core/button/button.component"
+import ButtonComponent from "Renderer/components/core/button/button.component"
 import {
   DisplayStyle,
   Size as ButtonSize,
@@ -12,8 +13,10 @@ import {
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { Topic } from "Renderer/models/messages/messages.interface"
-import ButtonComponent from "Renderer/components/core/button/button.component"
+import {
+  Topic,
+  VisibilityFilter,
+} from "Renderer/models/messages/messages.interface"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
@@ -57,6 +60,7 @@ interface Props {
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Topic>["toggleAll"]
   resetRows: UseTableSelect<Topic>["resetRows"]
+  visibilityFilter?: VisibilityFilter
 }
 
 const MessagesPanel: FunctionComponent<Props> = ({
@@ -70,6 +74,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   deleteConversation,
   selectedConversations,
   resetRows,
+  visibilityFilter,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedItemsCount > 0
@@ -143,6 +148,15 @@ const MessagesPanel: FunctionComponent<Props> = ({
           checkboxSize={Size.Large}
           onToggle={toggleAll}
           buttons={[
+            visibilityFilter === VisibilityFilter.Unread && (
+              <ButtonComponent
+                key="read"
+                label={intl.formatMessage(messages.deleteButton)}
+                displayStyle={DisplayStyle.Link1}
+                Icon={Type.Check}
+                onClick={noop}
+              />
+            ),
             <ButtonComponent
               key="delete"
               label={intl.formatMessage(messages.deleteButton)}

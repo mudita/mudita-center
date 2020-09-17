@@ -7,7 +7,7 @@ export interface SelectionManagerProps {
   selectedItemsNumber: number
   allItemsSelected?: boolean
   message: Message
-  buttons?: ReactElement[]
+  buttons?: Array<false | ReactElement>
   enlarged?: boolean
   onToggle?: (e?: ChangeEvent) => void
 }
