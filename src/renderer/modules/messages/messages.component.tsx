@@ -22,6 +22,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   deleteConversation = noop,
   list,
   visibilityFilter,
+  markAsRead = noop,
 }) => {
   const [messagesList, setMessagesList] = useState(list)
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Topic>()
@@ -66,6 +67,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         selectedConversations={selectedRows}
         resetRows={resetRows}
         visibilityFilter={visibilityFilter}
+        markAsRead={markAsRead}
       />
       <TableWithSidebarWrapper>
         <MessagesList

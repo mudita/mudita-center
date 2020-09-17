@@ -21,6 +21,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch.messages.changeVisibilityFilter(filter),
   deleteConversation: (ids: string[]) =>
     dispatch.messages.deleteConversation(ids),
+  markAsRead: (ids: string[]) => dispatch.messages.markAsRead(ids),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)
