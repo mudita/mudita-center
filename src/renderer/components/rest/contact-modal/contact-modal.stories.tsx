@@ -4,6 +4,9 @@ import ContactModal from "Renderer/components/rest/contact-modal/contact-modal.c
 import { StoryModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 import { action } from "@storybook/addon-actions"
 import Story from "Renderer/components/storybook/story.component"
+import StoryContainer from "Renderer/components/storybook/story-container.component"
+import { ContactSupportSuccess } from "Renderer/components/rest/contact-modal/contact-modal-success.component"
+import { ContactSupportFailed } from "Renderer/components/rest/contact-modal/contact-modal-failed.component"
 
 const log = `[2020-04-15 13:23:05.385] [info] Checking for update
 [2020-04-15 13:23:06.244] [error] Error: HttpError: 404 Not Found
@@ -22,14 +25,38 @@ Please double check that your authentication token is correct. Due to security r
 [2020-04-21 15:03:57.018] [info] Found version 0.1.0 (url: PureDesktopApp-0.1.0-mac.zip, PureDesktopApp-0.1.0.dmg)
 `
 
-storiesOf("Components|Rest/Contact Modal", module).add("Default", () => (
-  <Story transparentMode>
-    <StoryModalWrapper>
-      <ContactModal
-        onClose={action("Close")}
-        onSend={action("Send")}
-        log={log}
-      />
-    </StoryModalWrapper>
-  </Story>
-))
+storiesOf("Components|Rest/Contact Modal", module)
+  .add("Default", () => (
+    <Story transparentMode>
+      <StoryModalWrapper>
+        <ContactModal
+          onClose={action("Close")}
+          onSend={action("Send")}
+          log={log}
+        />
+      </StoryModalWrapper>
+    </Story>
+  ))
+  .add("Success", () => (
+    <StoryContainer column>
+      <Story transparentMode title="Default">
+        <StoryModalWrapper>
+          <ContactSupportSuccess />
+        </StoryModalWrapper>
+      </Story>
+      <Story transparentMode title="Without email given">
+        <StoryModalWrapper>
+          <ContactSupportSuccess withoutEmail />
+        </StoryModalWrapper>
+      </Story>
+    </StoryContainer>
+  ))
+  .add("Fail", () => (
+    <StoryContainer>
+      <Story transparentMode title="Default">
+        <StoryModalWrapper>
+          <ContactSupportFailed />
+        </StoryModalWrapper>
+      </Story>
+    </StoryContainer>
+  ))

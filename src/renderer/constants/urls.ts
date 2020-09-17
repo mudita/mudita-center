@@ -13,6 +13,7 @@ export const URL_MAIN = {
   tethering: "/tethering",
   settings: "/settings",
   help: "/help",
+  error: "/error",
 }
 
 export const URL_TABS = {

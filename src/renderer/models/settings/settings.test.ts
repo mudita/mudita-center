@@ -36,11 +36,7 @@ test("loads settings", async () => {
         "appOsUpdates": false,
         "appTethering": false,
         "appTray": true,
-        "language": Object {
-          "name": "English",
-          "shortTag": "en",
-          "tag": "en-US",
-        },
+        "language": "en-US",
         "pureOsBackupLocation": "fake/path/pure/phone/backups/",
         "pureOsDownloadLocation": "fake/path/pure/os/downloads/",
       },
@@ -245,20 +241,12 @@ test("updates language setting", async () => {
     models: { settings },
   })
   mockIpc()
-  await store.dispatch.settings.setLanguage({
-    name: "English",
-    tag: "en-US",
-    shortTag: "en",
-  })
+  await store.dispatch.settings.setLanguage("de-DE")
   const state = store.getState()
   expect(state).toMatchInlineSnapshot(`
     Object {
       "settings": Object {
-        "language": Object {
-          "name": "English",
-          "shortTag": "en",
-          "tag": "en-US",
-        },
+        "language": "de-DE",
       },
     }
   `)

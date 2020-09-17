@@ -1,35 +1,29 @@
-import { ipcRenderer } from "electron-better-ipc"
-import { AppLogsEvents } from "App/main/functions/register-app-logs-listener"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { version } from "../../../package.json"
 import os from "os"
+import { ipcRenderer } from "electron-better-ipc"
+import { AppLogsEvents } from "App/main/functions/register-app-logs-listener"
 
-export const getAppLogs = (): Promise<string> => {
-  return ipcRenderer.callMain(AppLogsEvents.Get)
-}
+const messages = defineMessages({
+  appVersion: {
+    id: "component.modal.support.details.appVersion",
+  },
+  os: {
+    id: "component.modal.support.details.os",
+  },
+})
 
-export const getFullAppLogs = async (): Promise<string> => {
-  const messages = defineMessages({
-    appVersion: {
-      id: "component.modal.support.details.appVersion",
-    },
-    os: {
-      id: "component.modal.support.details.os",
-    },
-    logs: {
-      id: "component.modal.support.details.logs",
-    },
-  })
+export const getAppLogs = async (): Promise<string> => {
+  const appLogs = await ipcRenderer.callMain(AppLogsEvents.Get)
 
-  const appLogs = await getAppLogs()
-  const log = [
+  const logParts = [
     `${intl.formatMessage(messages.appVersion)}: ${version}`,
     `${intl.formatMessage(
       messages.os
     )}: ${os.platform()} ${os.arch()}, ${os.release()}`,
-    `${intl.formatMessage(messages.logs)}: \n${appLogs}`,
+    appLogs,
   ]
 
-  return log.join("\n")
+  return logParts.join("\n")
 }
