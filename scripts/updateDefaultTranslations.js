@@ -40,7 +40,7 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
       }
 
       if (Object.keys(data).length) {
-        let translations = {}
+        let translations = data
 
         if (!process.env.OVERWRITE) {
           if (fs.pathExists(`./src/renderer/locales/default/${code}.json`)) {
@@ -52,8 +52,6 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
               ...data,
             }
           }
-        } else {
-          translations = data
         }
 
         await fs.writeJson(
