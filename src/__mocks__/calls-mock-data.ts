@@ -15,7 +15,7 @@ export const mockData = [
     status: CallStatus.Missed,
     timesMissed: 3,
     icon: IconType.MissedCall,
-    description: { id: "view.name.generic.type" },
+    description: { id: "view.name.calls.missed" },
   },
   {
     id: "cee9d540-8e92-4ce0-b322-cc58bc4411dc",
@@ -30,7 +30,7 @@ export const mockData = [
     status: CallStatus.Missed,
     timesMissed: 4,
     icon: IconType.MissedCall,
-    description: { id: "view.name.generic.type" },
+    description: { id: "view.name.calls.missed" },
   },
   {
     id: "fa2bbc67-50f9-48ea-9bb1-a53ae578ed2b",
@@ -45,7 +45,7 @@ export const mockData = [
     status: CallStatus.Missed,
     timesMissed: 2,
     icon: IconType.MissedCall,
-    description: { id: "view.name.generic.type" },
+    description: { id: "view.name.calls.missed" },
   },
   {
     id: "03dc3086-7610-4de9-8967-f1c25dab674f",
@@ -60,7 +60,7 @@ export const mockData = [
     status: CallStatus.Missed,
     timesMissed: 3,
     icon: IconType.MissedCall,
-    description: { id: "view.name.generic.type" },
+    description: { id: "view.name.calls.missed" },
   },
   {
     id: "3a94a064-de00-4d8f-8cf9-56edecee0ce6",
@@ -75,6 +75,6 @@ export const mockData = [
     status: CallStatus.Incoming,
     timesMissed: 0,
     icon: IconType.IncomingCall,
-    description: { id: "view.name.generic.type" },
+    description: { id: "view.name.calls.incoming" },
   },
 ]

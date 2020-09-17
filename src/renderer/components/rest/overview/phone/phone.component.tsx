@@ -74,6 +74,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   className,
   network,
   onDisconnect,
+  onClick,
 }) => {
   const history = useHistory()
   const handleDisconnect = () => {
@@ -82,7 +83,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   }
 
   return (
-    <PhoneCard className={className}>
+    <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
         <Image src={PureImage} />
         <BatteryStats>

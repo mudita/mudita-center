@@ -6,6 +6,8 @@ import ContactModal, {
 import { fireEvent } from "@testing-library/dom"
 import { mockJpg } from "Renderer/components/core/input-file/input-file.test"
 import { intl } from "Renderer/utils/intl"
+import { ContactSupportFailed } from "Renderer/components/rest/contact-modal/contact-modal-failed.component"
+import { ContactSupportSuccess } from "Renderer/components/rest/contact-modal/contact-modal-success.component"
 
 const renderContactModal = ({ ...props }: Partial<ContactModalProps> = {}) => {
   const outcome = renderWithThemeAndIntl(<ContactModal {...props} />)
@@ -106,4 +108,41 @@ test("contact modal form sending works properly", () => {
     message: "Example message",
     attachments: [file],
   })
+})
+
+test("failed modal renders properly", () => {
+  const { getByText } = renderWithThemeAndIntl(<ContactSupportFailed />)
+
+  expect(
+    getByText("component.modal.support.fail.title", { exact: false })
+  ).toBeInTheDocument()
+  expect(
+    getByText("component.modal.support.fail.body", { exact: false })
+  ).toBeInTheDocument()
+})
+
+test("success modal renders properly", () => {
+  const { getByText } = renderWithThemeAndIntl(<ContactSupportSuccess />)
+
+  expect(
+    getByText("component.modal.support.success.title", { exact: false })
+  ).toBeInTheDocument()
+  expect(
+    getByText("component.modal.support.success.body", { exact: false })
+  ).toBeInTheDocument()
+})
+
+test("success modal without email info renders properly", () => {
+  const { getByText } = renderWithThemeAndIntl(
+    <ContactSupportSuccess withoutEmail />
+  )
+
+  expect(
+    getByText("component.modal.support.success.title", { exact: false })
+  ).toBeInTheDocument()
+  expect(
+    getByText("component.modal.support.success.bodyWithoutEmail", {
+      exact: false,
+    })
+  ).toBeInTheDocument()
 })

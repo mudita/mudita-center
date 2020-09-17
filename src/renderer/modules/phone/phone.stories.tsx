@@ -60,6 +60,7 @@ const PhoneComponent = ({
     resultsState={resultsState}
     selectedContacts={[]}
     resetRows={action("Reset rows")}
+    setProviderData={noop}
   />
 )
 
