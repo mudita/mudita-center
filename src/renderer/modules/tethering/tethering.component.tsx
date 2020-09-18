@@ -10,17 +10,20 @@ import Button from "Renderer/components/core/button/button.component"
 
 interface TetheringProps {
   enabled?: boolean
+  test?: boolean // in order to test this without applying redux
 }
 
-const Tethering: FunctionComponent<TetheringProps> = ({ enabled }) => {
+const Tethering: FunctionComponent<TetheringProps> = ({ enabled, test }) => {
   const [tetheringEnabled, toggleTetheringEnabled] = useState(enabled || false)
   const _devToggleTethering = () => toggleTetheringEnabled((state) => !state)
 
   return (
     <>
-      <DevModeWrapper>
-        <Button onClick={_devToggleTethering} label="Toggle tethering" />
-      </DevModeWrapper>
+      {!test && (
+        <DevModeWrapper>
+          <Button onClick={_devToggleTethering} label="Toggle tethering" />
+        </DevModeWrapper>
+      )}
       <TetheringWrapper>
         {tetheringEnabled ? <TetheringEnabled /> : <TetheringDisabled />}
       </TetheringWrapper>
