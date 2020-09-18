@@ -164,7 +164,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
                 key="read"
                 label={intl.formatMessage(panelMessages.markAsReadButton)}
                 displayStyle={DisplayStyle.Link1}
-                Icon={Type.Check}
+                Icon={Type.MarkAsRead}
                 onClick={onMarkAsRead}
                 data-testid={
                   MessagePanelTestIds.SelectionManagerMarkAsReadButton

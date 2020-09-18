@@ -91,6 +91,7 @@ import HighRangeWithRoaming from "Renderer/svg/high-range-roaming.svg"
 import MediumRangeWithRoaming from "Renderer/svg/medium-range-roaming.svg"
 import LowRangeWithRoaming from "Renderer/svg/low-range-roaming.svg"
 import VeryLowRangeWithRoaming from "Renderer/svg/very-low-range-roaming.svg"
+import MarkAsRead from "Renderer/svg/mark-as-read.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -188,6 +189,7 @@ export enum Type {
   MediumRangeWithRoaming,
   LowRangeWithRoaming,
   VeryLowRangeWithRoaming,
+  MarkAsRead,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -376,6 +378,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return LowRangeWithRoaming
     case Type.VeryLowRangeWithRoaming:
       return VeryLowRangeWithRoaming
+    case Type.MarkAsRead:
+      return MarkAsRead
     default:
       return Message
   }
