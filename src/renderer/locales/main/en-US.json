@@ -141,6 +141,8 @@
   "view.name.calls.incoming": "Incoming",
   "view.name.calls.missed": "Missed",
   "view.name.calls.outgoing": "Outgoing",
+  "view.name.calls.deleteTitle": "Delete conversations",
+  "view.name.calls.deleteBody": "Do you really want to delete <b>{num, plural, =-1 {all calls with {name}} one {the {name} call} other {# calls with {name}}}</b>?",
   "view.name.phone": "Phone",
   "view.name.phone.contacts": "Contacts",
   "view.name.phone.contacts.syncModalTitle": "Synchronise contacts",
