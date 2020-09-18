@@ -34,6 +34,9 @@ export const Button = styled.button`
 export const Wrapper = styled.div`
   display: flex;
   flex-flow: row wrap;
+  justify-content: flex-end;
+  height: 4rem;
+  align-items: center;
 `
 
 export const GotoButton = styled(ButtonComponent).attrs(() => ({
@@ -41,7 +44,7 @@ export const GotoButton = styled(ButtonComponent).attrs(() => ({
 }))`
   width: auto;
   position: relative;
-  top: -1.2rem;
+  top: -0.2rem;
 `
 
 export const Separator = () => <span> - </span>
