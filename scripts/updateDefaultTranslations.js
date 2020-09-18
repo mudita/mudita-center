@@ -1,6 +1,5 @@
 const axios = require("axios")
 const fs = require("fs-extra")
-require("dotenv").config()
 const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
 
 /**
