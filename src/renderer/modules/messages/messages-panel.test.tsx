@@ -29,14 +29,18 @@ test("filter buttons are rendered when there are no selected checkboxes", () => 
 })
 
 test("filter buttons are not rendered when there are selected checkboxes", () => {
-  const { queryByTestId } = renderer({ selectedItemsCount: 1 })
+  const { queryByTestId } = renderer({
+    selectedConversations: mockedUnreadMessages,
+  })
   expect(
     queryByTestId(MessagePanelTestIds.FilterButtons)
   ).not.toBeInTheDocument()
 })
 
 test("when there are selected checkboxes, selection manager is rendered", () => {
-  const { getByTestId } = renderer({ selectedItemsCount: 1 })
+  const { getByTestId } = renderer({
+    selectedConversations: mockedUnreadMessages,
+  })
   expect(getByTestId(MessagePanelTestIds.SelectionManager)).toBeInTheDocument()
 })
 
@@ -51,7 +55,7 @@ test("search works", () => {
 test("mark as read button is rendered when filter is set to unread and there is at least one item selected", () => {
   const { getByTestId } = renderer({
     visibilityFilter: VisibilityFilter.Unread,
-    selectedItemsCount: 2,
+    selectedConversations: mockedUnreadMessages,
   })
   expect(
     getByTestId(MessagePanelTestIds.SelectionManagerMarkAsReadButton)
@@ -61,7 +65,6 @@ test("mark as read button is rendered when filter is set to unread and there is 
 test("click on mark as read button performs correct action", () => {
   const { getByTestId } = renderer({
     visibilityFilter: VisibilityFilter.Unread,
-    selectedItemsCount: 2,
     selectedConversations: mockedUnreadMessages,
   })
   getByTestId(MessagePanelTestIds.SelectionManagerMarkAsReadButton).click()

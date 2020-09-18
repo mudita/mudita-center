@@ -60,7 +60,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
         hideReadMessages={hideReadMessages}
         showAllMessages={showAllMessages}
         changeSearchValue={changeSearchValue}
-        selectedItemsCount={selectedRows.length}
         toggleAll={toggleAll}
         allItemsSelected={allRowsSelected}
         deleteConversation={deleteConversation}

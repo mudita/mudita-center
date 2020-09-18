@@ -60,7 +60,6 @@ interface Props {
   deleteConversation: (ids: string[]) => void
   searchValue: string
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
-  selectedItemsCount: number
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Topic>["toggleAll"]
   resetRows: UseTableSelect<Topic>["resetRows"]
@@ -73,7 +72,6 @@ const MessagesPanel: FunctionComponent<Props> = ({
   hideReadMessages = noop,
   searchValue,
   changeSearchValue,
-  selectedItemsCount,
   allItemsSelected,
   toggleAll = noop,
   deleteConversation,
@@ -83,7 +81,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   markAsRead,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
-  const selectionMode = selectedItemsCount > 0
+  const selectionMode = selectedConversations.length > 0
   const openDeleteModal = () => {
     const selectedConversationsIds = selectedConversations.map(({ id }) => id)
     const uniqueSelectedRows = uniqBy(selectedConversations, "caller.id")
@@ -153,7 +151,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
       )}
       {selectionMode ? (
         <MessageSelectionManager
-          selectedItemsNumber={selectedItemsCount}
+          selectedItemsNumber={selectedConversations.length}
           allItemsSelected={Boolean(allItemsSelected)}
           message={{ id: "view.name.messages.conversations.selectionsNumber" }}
           checkboxSize={Size.Large}
