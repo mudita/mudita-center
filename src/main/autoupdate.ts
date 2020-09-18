@@ -1,7 +1,7 @@
 import { autoUpdater } from "electron-updater"
 import { ipcMain } from "electron-better-ipc"
-import log from "electron-log"
 import { BrowserWindow } from "electron"
+import logger from "App/main/utils/logger"
 
 export enum AppUpdateStatus {
   Available = "app-update-available",
@@ -15,9 +15,7 @@ export enum AppUpdateActions {
 }
 
 export default (win: BrowserWindow) => {
-  autoUpdater.logger = log
-  // @ts-ignore
-  autoUpdater.logger.transports.file.level = "info"
+  autoUpdater.logger = logger
   autoUpdater.autoDownload = false
   autoUpdater.autoInstallOnAppQuit = true
 

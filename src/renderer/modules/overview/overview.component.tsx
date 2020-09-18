@@ -6,7 +6,6 @@ import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
 import React, { ReactElement, useEffect, useState } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
-import log from "Renderer/utils/log"
 import { useStore } from "react-redux"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
@@ -22,6 +21,7 @@ import { BackupRestorationLoadingModal } from "Renderer/modules/overview/backup-
 import { BackupRestorationStartModal } from "Renderer/modules/overview/backup-process/restoration-start-modal.component"
 import { BackupRestorationFinishedModal } from "Renderer/modules/overview/backup-process/restoration-finished-modal.component"
 import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
+import logger from "App/main/utils/logger"
 
 // TODO: remove after implementing real phone update process
 interface FakeUpdatedStatus {
@@ -59,7 +59,7 @@ const simulateProgress = async (
   }, 100)
 
   const cancel = () => {
-    log.warn("Cancelling operation")
+    logger.warn("Cancelling operation")
     clearInterval(progressSimulator)
   }
 
@@ -152,7 +152,7 @@ const Overview: FunctionComponent<
   const onUpdateDownload = () => download(pureOsFileName)
 
   const openBackupFinishedModal = () => {
-    log.log("Backup creation finished.")
+    logger.info("Backup creation finished.")
     modalService.openModal(
       <BackupFinishedModal
         items={mockedBackupItems}
@@ -164,13 +164,13 @@ const Overview: FunctionComponent<
 
   const openBackupFailedModal = () => {
     // TODO: Add an error to the message after implementing phone backup
-    log.error("Backup creation failed.")
+    logger.error("Backup creation failed.")
     modalService.openModal(<BackupFailedModal />, true)
   }
 
   const openBackupLoadingModal = () => {
     backups++
-    log.log("Creating backup...")
+    logger.info("Creating backup...")
 
     simulateProgress(
       <BackupLoadingModal />,
@@ -195,19 +195,19 @@ const Overview: FunctionComponent<
   }
 
   const openBackupRestorationFinishedModal = () => {
-    log.log("Backup restoration finished.")
+    logger.info("Backup restoration finished.")
     modalService.openModal(<BackupRestorationFinishedModal />, true)
   }
 
   const openBackupRestorationFailedModal = () => {
     // TODO: Add an error to the message after implementing phone backup
-    log.log("Backup restoration failed.")
+    logger.error("Backup restoration failed.")
     modalService.openModal(<BackupRestorationFailedModal />, true)
   }
 
   const openBackupRestorationLoadingModal = () => {
     restorations++
-    log.log(
+    logger.info(
       `Restoring backup from ${lastBackup.createdAt} with a size of ${lastBackup.size} bytes.`
     )
 

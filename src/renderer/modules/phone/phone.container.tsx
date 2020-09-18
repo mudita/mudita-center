@@ -23,7 +23,7 @@ const mapDispatch = ({ phone, auth }: any) => {
   return {
     ...phone,
     ...auth,
-    onSearchTermChange: (event: string) => phone.handleInput(event),
+    onSearchTermChange: noop,
     // TODO: Add proper actions
     onManageButtonClick: handleGoogleAuth,
     onExport: noop,
