@@ -1,5 +1,4 @@
 import startBackend from "Backend/bootstrap"
-import log from "electron-log"
 import { check as checkPort } from "tcp-port-used"
 import {
   app,
@@ -37,26 +36,31 @@ import {
   registerGetHelpStoreHandler,
   removeGetHelpStoreHandler,
 } from "App/main/functions/get-help-store-handler"
+import registerTranslationListener from "App/main/functions/register-translation-listener"
+import updateTranslations from "App/main/functions/update-translations"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
 import {
   authServerPort,
   createAuthServer,
   killAuthServer,
 } from "App/main/auth-server"
+import logger from "App/main/utils/logger"
 
 require("dotenv").config()
+
+logger.info("Starting the app")
 
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
 let googleAuthWindow: BrowserWindow | null = null
 
-// Fetch and log all errors along with alert box
+// Disables CORS in Electron 9
+app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
+
+// Fetch and log all errors
 process.on("uncaughtException", (error) => {
-  // TODO: add a remote url to send logs to the specified the server or use Rollbar
-  // See also src/renderer/utils/log.ts
-  // log.transports.remote.level = "warn"
-  // log.transports.remote.url = "http://localhost:3000/log"
-  log.error(error)
+  // TODO: add a Rollbar
+  logger.error(error)
 
   // TODO: Add contact support modal
 })
@@ -68,7 +72,7 @@ const installExtensions = async () => {
 
   return Promise.all(
     extensions.map((name) => installer.default(installer[name], forceDownload))
-  ).catch(log.error)
+  ).catch(logger.error)
 }
 
 const developmentEnvironment = process.env.NODE_ENV === "development"
@@ -79,6 +83,7 @@ const commonWindowOptions = {
   useContentSize: true,
   webPreferences: {
     nodeIntegration: true,
+    webSecurity: false,
   },
 }
 const getWindowOptions = (
@@ -89,6 +94,8 @@ const getWindowOptions = (
 })
 
 const createWindow = async () => {
+  await updateTranslations()
+
   if (developmentEnvironment) {
     await installExtensions()
   }
@@ -105,6 +112,7 @@ const createWindow = async () => {
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
+  registerTranslationListener()
 
   if (productionEnvironment) {
     win.loadURL(
@@ -151,7 +159,7 @@ app.on("activate", () => {
   }
 })
 
-ipcMain.answerRenderer(HelpActions.OpenWindow, (event, arg) => {
+ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({

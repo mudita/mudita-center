@@ -137,7 +137,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               <InfoItemName message={messages.favourites} />
             </InfoItem>
           )}
-          {contact.speedDial !== undefined && (
+          {Boolean(contact.speedDial) && (
             <InfoItem>
               <InfoItemSpeedDialNumber>
                 {contact.speedDial}
