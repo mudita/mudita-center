@@ -122,8 +122,8 @@ const MessagesPanel: FunctionComponent<Props> = ({
   const openModal = () => openDeleteModal()
   const onMarkAsRead = () => {
     const selectedConversationsIds = selectedConversations.map(({ id }) => id)
-    console.log(selectedConversationsIds)
     markAsRead(selectedConversationsIds)
+    resetRows()
   }
   return (
     <MessageFiltersWrapper selectionMode={selectionMode}>

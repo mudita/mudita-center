@@ -31,17 +31,16 @@ export default {
       return { ...state, topics }
     },
     markAsRead(state: StateProps, ids: string[]) {
-      const selectedTopics = state.topics.filter(({ id }) => ids.includes(id))
-      const markAsReadTopics = selectedTopics.map((topic) => ({
-        ...topic,
-        unread: false,
-      }))
-      console.log({ state })
-      console.log({
-        ...state,
-        topics: { ...state.topics, ...markAsReadTopics },
+      const withMarkAsReadTopics = state.topics.map((topic) => {
+        if (ids.includes(topic.id)) {
+          return {
+            ...topic,
+            unread: false,
+          }
+        }
+        return topic
       })
-      return { ...state, topics: [...state.topics, ...markAsReadTopics] }
+      return { ...state, topics: withMarkAsReadTopics }
     },
   },
   selectors: () => ({
