@@ -1,7 +1,7 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import DataBox from "Renderer/components/rest/meditation/data-box.component"
-import { TextWrapper } from "Renderer/components/rest/meditation/data-box.styled"
+import DataBox from "Renderer/components/rest/meditation/data-box/data-box.component"
+import { TextWrapper } from "Renderer/components/rest/meditation/data-box/data-box.styled"
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,

@@ -1,28 +1,33 @@
 import { connect } from "react-redux"
 import Phone from "./phone.component"
 import { Phone as PhoneType } from "Renderer/models/phone/phone.typings"
+import { Auth } from "Renderer/models/auth/auth.typings"
 import { noop } from "Renderer/utils/noop"
 
 import {
-  generateSortedStructure,
   generateFlatList,
+  generateSortedStructure,
 } from "Renderer/models/phone/phone.helpers"
 import { ContactID } from "Renderer/models/phone/phone.typings"
+import { handleGoogleAuth } from "Renderer/providers/google/auth"
 
-const mapStateToProps = ({ phone }: { phone: PhoneType }) => {
+const mapStateToProps = ({ phone, auth }: { phone: PhoneType; auth: Auth }) => {
   return {
+    ...phone,
+    ...auth,
     contactList: generateSortedStructure(phone),
     flatList: generateFlatList(phone),
     getContact: (id: ContactID) => phone.db[id],
   }
 }
 
-const mapDispatch = ({ phone }: any) => {
+const mapDispatch = ({ phone, auth }: any) => {
   return {
-    onSearchTermChange: (event: string) => phone.handleInput(event),
     ...phone,
+    ...auth,
+    onSearchTermChange: noop,
     // TODO: Add proper actions
-    onManageButtonClick: noop,
+    onManageButtonClick: handleGoogleAuth,
     onExport: noop,
     onForward: noop,
     onBlock: noop,

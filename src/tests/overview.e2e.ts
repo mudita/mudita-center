@@ -1,6 +1,6 @@
 import { startApp, stopApp } from "App/tests/hooks"
 import { PhoneTestIds } from "Renderer/components/rest/overview/phone/phone-test-ids.enum"
-import localeEn from "Renderer/locales/main/en-US.json"
+import localeEn from "Renderer/locales/default/en-US.json"
 
 let app: any
 

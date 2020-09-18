@@ -1,12 +1,12 @@
+import { random } from "lodash"
 import Button from "Renderer/components/core/button/button.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
-import React, { ReactElement, useEffect } from "react"
+import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
+import React, { ReactElement, useEffect, useState } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
-import log from "Renderer/utils/log"
 import { useStore } from "react-redux"
-import { convertBytes } from "Renderer/utils/convert-bytes"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { AppSettings } from "App/main/store/settings.interface"
@@ -21,6 +21,7 @@ import { BackupRestorationLoadingModal } from "Renderer/modules/overview/backup-
 import { BackupRestorationStartModal } from "Renderer/modules/overview/backup-process/restoration-start-modal.component"
 import { BackupRestorationFinishedModal } from "Renderer/modules/overview/backup-process/restoration-finished-modal.component"
 import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
+import logger from "App/main/utils/logger"
 
 // TODO: remove after implementing real phone update process
 interface FakeUpdatedStatus {
@@ -58,7 +59,7 @@ const simulateProgress = async (
   }, 100)
 
   const cancel = () => {
-    log.warn("Cancelling operation")
+    logger.warn("Cancelling operation")
     clearInterval(progressSimulator)
   }
 
@@ -68,9 +69,22 @@ const simulateProgress = async (
   )
 }
 
+interface OverviewDevModeProps {
+  enableDevMode: () => void
+  disableDevMode: () => void
+}
+
 const Overview: FunctionComponent<
-  BasicInfoInitialState & PhoneUpdateStore & FakeUpdatedStatus & AppSettings
+  BasicInfoInitialState &
+    PhoneUpdateStore &
+    FakeUpdatedStatus &
+    AppSettings &
+    OverviewDevModeProps &
+    DevMode
 > = ({
+  enableDevMode,
+  disableDevMode,
+  devModeEnabled,
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
@@ -98,6 +112,23 @@ const Overview: FunctionComponent<
   fakeUpdatedStatus = noop,
   language,
 }) => {
+  const [count, setCount] = useState<number>(0)
+  const increaseCount = () => {
+    setCount((state) => state + 1)
+  }
+
+  useEffect(() => {
+    if (count >= random(7, 10)) {
+      setCount(0)
+
+      if (devModeEnabled) {
+        disableDevMode()
+      } else {
+        enableDevMode()
+      }
+    }
+  }, [count])
+
   /**
    * Temporary state to demo failure
    */
@@ -121,7 +152,7 @@ const Overview: FunctionComponent<
   const onUpdateDownload = () => download(pureOsFileName)
 
   const openBackupFinishedModal = () => {
-    log.log("Backup creation finished.")
+    logger.info("Backup creation finished.")
     modalService.openModal(
       <BackupFinishedModal
         items={mockedBackupItems}
@@ -133,13 +164,13 @@ const Overview: FunctionComponent<
 
   const openBackupFailedModal = () => {
     // TODO: Add an error to the message after implementing phone backup
-    log.error("Backup creation failed.")
+    logger.error("Backup creation failed.")
     modalService.openModal(<BackupFailedModal />, true)
   }
 
   const openBackupLoadingModal = () => {
     backups++
-    log.log("Creating backup...")
+    logger.info("Creating backup...")
 
     simulateProgress(
       <BackupLoadingModal />,
@@ -152,29 +183,31 @@ const Overview: FunctionComponent<
   const openBackupStartModal = () => {
     modalService.openModal(
       <BackupStartModal
+        items={mockedBackupItems}
         startBackup={openBackupLoadingModal}
-        fileSize={convertBytes(lastBackup.size)}
-        date={new Date(lastBackup.createdAt).toLocaleDateString(
-          language && language.tag
-        )}
+        total={"18.1 Gb"}
+        date={
+          lastBackup &&
+          new Date(lastBackup.createdAt).toLocaleDateString(language)
+        }
       />
     )
   }
 
   const openBackupRestorationFinishedModal = () => {
-    log.log("Backup restoration finished.")
+    logger.info("Backup restoration finished.")
     modalService.openModal(<BackupRestorationFinishedModal />, true)
   }
 
   const openBackupRestorationFailedModal = () => {
     // TODO: Add an error to the message after implementing phone backup
-    log.log("Backup restoration failed.")
+    logger.error("Backup restoration failed.")
     modalService.openModal(<BackupRestorationFailedModal />, true)
   }
 
   const openBackupRestorationLoadingModal = () => {
     restorations++
-    log.log(
+    logger.info(
       `Restoring backup from ${lastBackup.createdAt} with a size of ${lastBackup.size} bytes.`
     )
 
@@ -208,6 +241,7 @@ const Overview: FunctionComponent<
         <Button onClick={noop} label="Flush phone data" />
       </DevModeWrapper>
       <OverviewUI
+        toggleDevMode={increaseCount}
         batteryLevel={batteryLevel}
         changeSim={changeSim}
         disconnectDevice={disconnectDevice}

@@ -1,5 +1,4 @@
 import { app } from "electron"
-import log from "electron-log"
 import { name } from "../../../package.json"
 import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
@@ -7,6 +6,7 @@ import getDefaultNewsItems from "App/main/default-news-item"
 import { normalizeContentfulData } from "Renderer/models/mudita-news/normalize-contentful-data"
 import { createClient, EntryCollection } from "contentful"
 import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
+import logger from "App/main/utils/logger"
 
 export enum NewsEvents {
   Get = "get-news-items",
@@ -44,7 +44,7 @@ const registerNewsListener = () => {
       }
       return false
     } catch (e) {
-      log.error(e)
+      logger.error(e)
       return false
     }
   }

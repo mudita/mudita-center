@@ -11,7 +11,6 @@ import {
   UpdateNotAvailable,
   UpdateServerError,
 } from "Renderer/modules/overview/overview.modals"
-import delayResponse from "Renderer/utils/delay-response"
 import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
 import downloadOsUpdateRequest, {
   cancelOsDownload,
@@ -25,6 +24,7 @@ import {
 } from "Renderer/interfaces/file-download.interface"
 import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-downloaded.request"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
+import delayResponse from "@appnroll/delay-response"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
