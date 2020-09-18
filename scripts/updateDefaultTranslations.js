@@ -29,7 +29,11 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
 
     await fs.ensureDir("./src/renderer/locales/default/")
 
-    for (const { id, code, default: defaultLanguage } of locales) {
+    const nonEmptyLocales = locales.filter(
+      (locale) => Object.keys(locale).length > 0
+    )
+
+    for (const { id, code, default: defaultLanguage } of nonEmptyLocales) {
       const { data } = await axios.get(`${localesUrl}/${id}/download`, {
         ...axiosConfig,
         params: { file_format: "react_simple_json" },
@@ -62,7 +66,7 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
           id,
           code,
         })
-        console.log(`Translation for ${code} updated`)
+        console.log(`Translation for ${code} sent`)
       }
     }
 
