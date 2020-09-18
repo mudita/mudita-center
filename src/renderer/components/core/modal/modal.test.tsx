@@ -76,3 +76,15 @@ test("custom buttons are rendered", () => {
   })
   expect(getByText(customButtonText)).toBeInTheDocument()
 })
+
+test("header is rendered", () => {
+  const { queryByTestId } = renderer()
+
+  expect(queryByTestId(ModalTestIds.Header)).toBeInTheDocument()
+})
+
+test("title is rendered", () => {
+  const { queryByTestId } = renderer()
+
+  expect(queryByTestId(ModalTestIds.Title)).toBeInTheDocument()
+})

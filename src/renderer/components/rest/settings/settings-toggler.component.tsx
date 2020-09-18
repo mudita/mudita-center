@@ -7,6 +7,7 @@ import ButtonToggler, {
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
 import { noop } from "Renderer/utils/noop"
+import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
 
 const Toggler = styled(ButtonToggler)`
   margin-right: 4rem;
@@ -43,7 +44,9 @@ const SettingsToggler: FunctionComponent<Props> = ({
             onClick={changeStatus}
             active={toggleValue === value}
             data-testid={
-              toggleValue === value ? "toggler-active" : "toggler-inactive"
+              toggleValue === value
+                ? SettingsTestIds.TogglerActive
+                : SettingsTestIds.TogglerInactive
             }
           />
         )
