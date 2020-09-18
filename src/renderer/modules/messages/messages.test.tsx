@@ -99,7 +99,7 @@ test("dropdown mark as read button has correct content ", () => {
   mockAllIsIntersecting(true)
   expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
     intl.formatMessage({
-      id: "view.name.messages.dropdownMarkAsRead",
+      id: "view.name.messages.markAsRead",
     })
   )
 })

@@ -49,6 +49,10 @@ const deleteModalMessages = defineMessages({
   uniqueText: { id: "view.name.messages.deleteModal.uniqueText" },
 })
 
+const panelMessages = defineMessages({
+  markAsReadButton: { id: "view.name.messages.markAsRead" },
+})
+
 interface Props {
   showAllMessages?: () => void
   hideReadMessages?: () => void
@@ -158,7 +162,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
             visibilityFilter === VisibilityFilter.Unread && (
               <ButtonComponent
                 key="read"
-                label={intl.formatMessage(messages.deleteButton)}
+                label={intl.formatMessage(panelMessages.markAsReadButton)}
                 displayStyle={DisplayStyle.Link1}
                 Icon={Type.Check}
                 onClick={onMarkAsRead}
