@@ -40,7 +40,8 @@ const Calls: FunctionComponent<Props> = ({
   } = useTableSelect<Details>(calls)
 
   const openDeleteModal = (details: Details) => {
-    const callerName = createFullName(details.caller)
+    const callerName =
+      createFullName(details.caller) || details.caller.primaryPhoneNumber
     const callsCount = details.timesMissed || 1
     const modalConfig = {
       title: intl.formatMessage({ ...messages.title }),
