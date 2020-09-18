@@ -16,6 +16,7 @@ import React from "react"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { URL_MAIN } from "Renderer/constants/urls"
 
 const messages = defineMessages({
   notConnected: {
@@ -46,6 +47,7 @@ const TetheringDisabled: FunctionComponent = () => (
       </Text>
       <StyledButton
         label={intl.formatMessage(messages.openConnectionSettings)}
+        to={URL_MAIN.settings}
       />
     </ButtonWrapper>
     <Text displayStyle={TextDisplayStyle.SmallFadedText}>
@@ -55,7 +57,11 @@ const TetheringDisabled: FunctionComponent = () => (
       {intl.formatMessage(messages.explanation, textFormatters)}
     </Text>
     <TetheringImageWrapper>
-      <Image src={NoTethering} />
+      <Image
+        src={NoTethering}
+        alt={intl.formatMessage(messages.notConnected)}
+        title={intl.formatMessage(messages.notConnected)}
+      />
     </TetheringImageWrapper>
   </>
 )
