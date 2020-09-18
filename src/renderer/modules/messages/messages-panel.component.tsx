@@ -162,6 +162,9 @@ const MessagesPanel: FunctionComponent<Props> = ({
                 displayStyle={DisplayStyle.Link1}
                 Icon={Type.Check}
                 onClick={onMarkAsRead}
+                data-testid={
+                  MessagePanelTestIds.SelectionManagerMarkAsReadButton
+                }
               />
             ),
             <ButtonComponent
