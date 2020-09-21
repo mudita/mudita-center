@@ -57,6 +57,6 @@ This project comes with both Precommit and Prettier setup to ensure a consistent
   ```
   ##### Solution:
   ```bash
-  npm run rebuild
+  electron-rebuild -f -w serialport
   ```
   > :warning: To omit possible issues, you should execute the above command after every dependencies update.
