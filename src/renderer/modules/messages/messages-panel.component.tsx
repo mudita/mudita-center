@@ -127,6 +127,25 @@ const MessagesPanel: FunctionComponent<Props> = ({
     markAsRead(selectedConversationsIds)
     resetRows()
   }
+
+  const selectionManagerButtons = [
+    <ButtonComponent
+      key="read"
+      label={intl.formatMessage(panelMessages.markAsReadButton)}
+      displayStyle={DisplayStyle.Link1}
+      Icon={Type.MarkAsRead}
+      onClick={onMarkAsRead}
+      data-testid={MessagePanelTestIds.SelectionManagerMarkAsReadButton}
+    />,
+    <ButtonComponent
+      key="delete"
+      label={intl.formatMessage(messages.deleteButton)}
+      displayStyle={DisplayStyle.Link1}
+      Icon={Type.Delete}
+      onClick={openModal}
+      data-testid={MessagePanelTestIds.SelectionManagerDeleteButton}
+    />,
+  ]
   return (
     <MessageFiltersWrapper selectionMode={selectionMode}>
       {!selectionMode && (
@@ -156,28 +175,11 @@ const MessagesPanel: FunctionComponent<Props> = ({
           message={{ id: "view.name.messages.conversations.selectionsNumber" }}
           checkboxSize={Size.Large}
           onToggle={toggleAll}
-          buttons={[
-            visibilityFilter === VisibilityFilter.Unread && (
-              <ButtonComponent
-                key="read"
-                label={intl.formatMessage(panelMessages.markAsReadButton)}
-                displayStyle={DisplayStyle.Link1}
-                Icon={Type.MarkAsRead}
-                onClick={onMarkAsRead}
-                data-testid={
-                  MessagePanelTestIds.SelectionManagerMarkAsReadButton
-                }
-              />
-            ),
-            <ButtonComponent
-              key="delete"
-              label={intl.formatMessage(messages.deleteButton)}
-              displayStyle={DisplayStyle.Link1}
-              Icon={Type.Delete}
-              onClick={openModal}
-              data-testid={MessagePanelTestIds.SelectionManagerDeleteButton}
-            />,
-          ]}
+          buttons={
+            visibilityFilter === VisibilityFilter.Unread
+              ? selectionManagerButtons
+              : [selectionManagerButtons[1]]
+          }
           data-testid={MessagePanelTestIds.SelectionManager}
         />
       ) : (
