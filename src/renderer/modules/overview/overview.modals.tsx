@@ -33,7 +33,7 @@ const ModalContent = styled.div`
   }
 `
 
-const RoundIconWrapper = styled.div`
+export const RoundIconWrapper = styled.div`
   width: 12rem;
   height: 12rem;
   border-radius: 50%;
