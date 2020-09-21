@@ -37,7 +37,7 @@
     "storybook:build": "build-storybook",
     "DATA UPDATE/OVERWRITE COMMANDS": "=========================================",
     "translations:update": "node ./scripts/updateDefaultTranslations.js",
-    "translations:overwrite": "OVERWRITE=true npm run translations:update",
+    "translations:overwrite": "cross-env OVERWRITE=true npm run translations:update",
     "translations:send": "node ./scripts/updatePhraseTranslations.js",
     "translations:sort": "node ./scripts/sortTranslations.js",
     "UTILITY/AUTO COMMANDS": "=================================================",
