@@ -86,7 +86,8 @@ const messages = defineMessages({
     id: "view.name.tools.notes.deleteButton",
   },
   charactersNumber: { id: "view.name.tools.notes.editor.charactersNumber" },
-  temporaryText: { id: "view.name.tools.notes.temporaryText" },
+  newNoteText: { id: "view.name.tools.notes.newNote" },
+  emptyNoteText: { id: "view.name.tools.notes.emptyNote" },
 })
 
 export interface Note {
@@ -109,6 +110,7 @@ const Notes: FunctionComponent<NotesProps> = ({
   removeNotes,
 }) => {
   const maxCharacters = 4000
+  const [newNoteId, setNewNoteId] = useState<string | undefined>()
   const [newNoteCreated, setNewNoteCreated] = useState(false)
   const { data: sortedData, sort, sortDirection } = useSort(notesList)
   const {
@@ -126,7 +128,7 @@ const Notes: FunctionComponent<NotesProps> = ({
     sidebarOpened,
   } = useTableSidebar<Note>()
 
-  const textEditorHook = useTextEditor(activeRow)
+  const { rejectChanges, ...textEditorHook } = useTextEditor(activeRow)
   const {
     temporaryText: { length: textLength },
   } = textEditorHook
@@ -146,7 +148,7 @@ const Notes: FunctionComponent<NotesProps> = ({
   const onNewButtonClick = () => {
     if (newNote) {
       newNote(openSidebar)
-      setNewNoteCreated(true)
+      setNewNoteId("")
     }
   }
 
@@ -156,13 +158,32 @@ const Notes: FunctionComponent<NotesProps> = ({
       const { id } = activeRow
 
       saveNote(createNewNote(id, content))
+      setNewNoteCreated(false)
     }
   }
+
+  // useEffect(() => {
+  //   if (newNoteCreated) {
+  //     setNewNoteId(activeRow?.id)
+  //     setNewNoteCreated(false)
+  //   }
+  // }, [activeRow, newNoteCreated])
 
   useEffect(() => {
     sortByDate()
   }, [])
 
+  const onSidebarClose = () => {
+    closeSidebar()
+  }
+
+  const onChangesReject = () => {
+    rejectChanges()
+    console.log("reject")
+  }
+
+  console.log(newNoteId)
+  console.log(newNoteCreated)
   return (
     <>
       <FiltersWrapper>
@@ -202,6 +223,7 @@ const Notes: FunctionComponent<NotesProps> = ({
           onClick={onNewButtonClick}
           Icon={Type.PlusSign}
           data-testid={NotesTestIds.NewNoteButton}
+          disabled={newNoteCreated}
         />
       </FiltersWrapper>
 
@@ -235,7 +257,7 @@ const Notes: FunctionComponent<NotesProps> = ({
 
                 const text =
                   getTemporaryValue().length === 0
-                    ? intl.formatMessage(messages.temporaryText)
+                    ? intl.formatMessage(messages.newNoteText)
                     : getTemporaryValue().substr(0, 250)
 
                 const toggle = () => {
@@ -294,12 +316,13 @@ const Notes: FunctionComponent<NotesProps> = ({
         )}
         <NotesSidebar
           show={Boolean(activeRow)}
-          onClose={closeSidebar}
+          onClose={onSidebarClose}
           data-testid={NotesTestIds.NewNoteSidebar}
         >
           {activeRow && (
             <TextEditor
               {...textEditorHook}
+              rejectChanges={onChangesReject}
               statsInfoError={textLength > maxCharacters}
               statsInfo={intl.formatMessage(messages.charactersNumber, {
                 currentCharacters: textLength,
