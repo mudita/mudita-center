@@ -37,7 +37,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import useSort from "Renderer/utils/hooks/use-sort/use-sort"
 import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import { intl } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import { useTextEditor } from "Renderer/components/core/text-editor/text-editor.hook"
@@ -175,13 +175,9 @@ const Notes: FunctionComponent<NotesProps> = ({
     sortByDate()
   }, [])
 
-  const onSidebarClose = () => {
-    closeSidebar()
-  }
-
   const onChangesReject = () => {
     rejectChanges()
-    if (removeNotes && newNoteId) {
+    if (removeNotes && newNoteId && activeRow?.id === newNoteId) {
       removeNotes([newNoteId])
       setNewNoteId(undefined)
       closeSidebar()
@@ -223,7 +219,7 @@ const Notes: FunctionComponent<NotesProps> = ({
         <NewNoteButton
           displayStyle={DisplayStyle.Primary}
           size={ButtonSize.FixedBig}
-          label={intl.formatMessage(messages.newNote)}
+          label={intl.formatMessage(messages.newButton)}
           onClick={onNewButtonClick}
           Icon={Type.PlusSign}
           data-testid={NotesTestIds.NewNoteButton}
@@ -259,10 +255,14 @@ const Notes: FunctionComponent<NotesProps> = ({
                   content
                 )
 
-                const text =
-                  getTemporaryValue().length === 0
-                    ? intl.formatMessage(messages.newNoteText)
-                    : getTemporaryValue().substr(0, 250)
+                const newNote =
+                  getTemporaryValue().length === 0 && id === newNoteId
+                const emptyNote = getTemporaryValue().length === 0
+                const text = newNote
+                  ? intl.formatMessage(messages.newNoteText, textFormatters)
+                  : emptyNote
+                  ? intl.formatMessage(messages.emptyNoteText, textFormatters)
+                  : getTemporaryValue().substr(0, 250)
 
                 const toggle = () => {
                   if (sidebarOpened) {
@@ -320,7 +320,7 @@ const Notes: FunctionComponent<NotesProps> = ({
         )}
         <NotesSidebar
           show={Boolean(activeRow)}
-          onClose={onSidebarClose}
+          onClose={closeSidebar}
           data-testid={NotesTestIds.NewNoteSidebar}
         >
           {activeRow && (

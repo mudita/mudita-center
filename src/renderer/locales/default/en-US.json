@@ -369,6 +369,7 @@
   "view.name.tools.notes.emptyList.noNotes": "Notes list is empty",
   "view.name.tools.notes.emptyList.notFound": "Search results do not match any note.",
   "view.name.tools.notes.emptyList.title": "No notes found",
+  "view.name.tools.notes.emptyNote": "<i>Empty note</i>",
   "view.name.tools.notes.newButton": "New note",
   "view.name.tools.notes.newNote": "New note",
   "view.name.tools.notes.note": "Note",
