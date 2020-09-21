@@ -8,6 +8,12 @@
 npm install
 ```
 
+### Environmental Variables
+
+Create an `.env` file and copy the contents of the `.env.example` file into it.
+Provide all values marked as required to start working with the project. Add optional values
+when you'll need them.
+
 ## Usage
 
 Both processes have to be started **simultaneously** in different console tabs:
