@@ -85,20 +85,28 @@ const MessagesPanel: FunctionComponent<Props> = ({
       num: allItemsSelected ? -1 : selectedConversationsIds.length,
       ...textFormatters,
     }
-    const onDelete = async () => {
+    const onDelete = () => {
       deleteConversation(selectedConversationsIds)
       resetRows()
-      await modalService.closeModal()
+      modalService.closeModal()
     }
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),
-      text:
+      message:
         uniqueSelectedRows.length > 1
-          ? intl.formatMessage(deleteModalMessages.text, textIntlValues)
-          : intl.formatMessage(deleteModalMessages.uniqueText, {
-              ...textIntlValues,
-              caller,
-            }),
+          ? {
+              ...deleteModalMessages.text,
+              values: {
+                ...textIntlValues,
+              },
+            }
+          : {
+              ...deleteModalMessages.uniqueText,
+              values: {
+                ...textIntlValues,
+                caller,
+              },
+            },
       onDelete,
       onClose: resetRows,
     }

@@ -2,7 +2,7 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { AppContainer } from "react-hot-loader"
 import modalService from "Renderer/components/core/modal/modal.service"
-import { LANGUAGE } from "Renderer/constants/languages"
+import { defaultLanguage } from "App/translations.config.json"
 import history from "Renderer/routes/history"
 import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
@@ -24,7 +24,7 @@ ReactDOM.render(
 )
 
 modalService.bindStore(store)
-modalService.setDefaultLocale(LANGUAGE.default)
+modalService.setDefaultLocale(defaultLanguage)
 
 appUpdate()
 contextMenu()

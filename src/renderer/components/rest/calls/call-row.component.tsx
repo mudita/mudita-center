@@ -40,6 +40,7 @@ export interface CallRowProps {
   activeRow?: Details
   noneRowsSelected: boolean
   sidebarOpened: boolean
+  deleteCall?: (ids: string[]) => void
 }
 
 export const CallRow: FunctionComponent<CallRowProps> = ({
@@ -50,6 +51,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
   setDetails,
   activeRow,
   noneRowsSelected,
+  deleteCall,
 }) => {
   const { caller, id, date, duration, timesMissed } = callData
   const { selected, indeterminate } = getRowStatus(callData)
@@ -60,6 +62,12 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
   const openSidebar = () => {
     open(callData)
     setDetails({ ...details, ...caller, ...callData } as Details)
+  }
+
+  const removeCall = () => {
+    if (deleteCall) {
+      deleteCall([id])
+    }
   }
 
   return (
@@ -131,7 +139,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
                 id: "view.name.phone.calls.details",
               }}
               Icon={Type.Contacts}
-              onClick={noop}
+              onClick={openSidebar}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="call-details"
             />
@@ -140,7 +148,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
                 id: "view.name.phone.calls.deleteCall",
               }}
               Icon={Type.Delete}
-              onClick={noop}
+              onClick={removeCall}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="delete-call"
             />

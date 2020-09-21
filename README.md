@@ -47,6 +47,10 @@ You can make builds for specific platforms (or multiple platforms) by using the 
 npm run dist -- -mwl
 ```
 
+## Dev mode
+
+To run dev mode, click 7-10 times on the phone box on "Overview" page.
+
 ## Precommit and Prettier
 
 This project comes with both Precommit and Prettier setup to ensure a consistent code style.

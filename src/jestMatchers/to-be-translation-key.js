@@ -1,4 +1,4 @@
-const defaultTranslations = require("../renderer/locales/main/en-US.json")
+const defaultTranslations = require("../renderer/locales/default/en-US.json")
 
 module.exports = (received) => {
   if (received && typeof received.innerHTML === "string") {
