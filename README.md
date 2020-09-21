@@ -28,7 +28,7 @@ This will start the application with hot-reload so you can instantly start devel
 You can also run do the following to start both in a single process:
 
 ```bash
-npm run dev:start
+npm run develop
 ```
 
 ## Packaging
