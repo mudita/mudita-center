@@ -59,7 +59,8 @@ export const useTextEditor = (
   const init = useRef(true)
 
   const textChanged =
-    normalizeText(text) !== normalizeText(defaultTextObject.content)
+    normalizeText(text) !== normalizeText(defaultTextObject.content) ||
+    defaultTextObject.content.length === 0
 
   const reduceStatus = (state: Status, action: ReducerAction) => {
     switch (action.type) {

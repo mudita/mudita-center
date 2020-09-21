@@ -111,7 +111,6 @@ const Notes: FunctionComponent<NotesProps> = ({
 }) => {
   const maxCharacters = 4000
   const [newNoteId, setNewNoteId] = useState<string | undefined>()
-  const [newNoteCreated, setNewNoteCreated] = useState(false)
   const { data: sortedData, sort, sortDirection } = useSort(notesList)
   const {
     getRowStatus,
@@ -144,6 +143,7 @@ const Notes: FunctionComponent<NotesProps> = ({
 
   const selectionManagerVisible = selectedRows.length > 0
   const notesAvailable = sortedData.length > 0
+  const newNoteAvailable = newNoteId === undefined
 
   const onNewButtonClick = () => {
     if (createNewNote) {
@@ -157,17 +157,19 @@ const Notes: FunctionComponent<NotesProps> = ({
       const content = textEditorHook.temporaryText
       const { id } = activeRow
 
-      saveNote(createNewNote(id, content))
-      setNewNoteCreated(false)
+      saveNote(makeNewNote(id, content))
+
+      if (!newNoteAvailable) {
+        setNewNoteId(undefined)
+      }
     }
   }
 
-  // useEffect(() => {
-  //   if (newNoteCreated) {
-  //     setNewNoteId(activeRow?.id)
-  //     setNewNoteCreated(false)
-  //   }
-  // }, [activeRow, newNoteCreated])
+  useEffect(() => {
+    if (activeRow && newNoteId === "") {
+      setNewNoteId(activeRow.id)
+    }
+  }, [activeRow, newNoteId])
 
   useEffect(() => {
     sortByDate()
@@ -179,11 +181,13 @@ const Notes: FunctionComponent<NotesProps> = ({
 
   const onChangesReject = () => {
     rejectChanges()
-    console.log("reject")
+    if (removeNotes && newNoteId) {
+      removeNotes([newNoteId])
+      setNewNoteId(undefined)
+      closeSidebar()
+    }
   }
 
-  console.log(newNoteId)
-  console.log(newNoteCreated)
   return (
     <>
       <FiltersWrapper>
@@ -223,7 +227,7 @@ const Notes: FunctionComponent<NotesProps> = ({
           onClick={onNewButtonClick}
           Icon={Type.PlusSign}
           data-testid={NotesTestIds.NewNoteButton}
-          disabled={newNoteCreated}
+          disabled={!newNoteAvailable}
         />
       </FiltersWrapper>
 
@@ -328,7 +332,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                 currentCharacters: textLength,
                 maxCharacters,
               })}
-              autoFocus={newNoteCreated}
+              autoFocus={!newNoteAvailable}
               saveChanges={tryToSave}
             />
           )}
