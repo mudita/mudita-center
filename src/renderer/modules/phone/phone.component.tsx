@@ -231,7 +231,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const openSpeedDialModal = () => {
     modalService.openModal(
       <SpeedDialModal
-        onClose={cancelEditingContact}
+        onClose={closeSpeedDialModal}
         onSave={closeSpeedDialModal}
       />
     )
