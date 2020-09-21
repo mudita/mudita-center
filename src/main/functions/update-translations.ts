@@ -3,12 +3,12 @@ import axios from "axios"
 import translationStores from "App/main/store/translations"
 import { availableLanguages } from "App/translations.config.json"
 import { axiosConfig, localesUrl } from "App/common/configs/phrase"
+import logger from "App/main/utils/logger"
 
 const updateTranslations = async () => {
   const language = settingsStore.get("language") as string
   const id = availableLanguages.find(({ code }) => code === language)?.id
-  // TODO: Replace with the new logger
-  console.log(`Preparing translation update for language "${language}"`)
+  logger.info(`Preparing translation update for language "${language}"`)
 
   try {
     if (!id) {
@@ -24,11 +24,9 @@ const updateTranslations = async () => {
     })
 
     translationStores[language].store = data
-    // TODO: Replace with the new logger
-    console.log(`Translation for language "${language}" applied successfully`)
+    logger.info(`Translation for language "${language}" applied successfully`)
   } catch (error) {
-    // TODO: Replace with the new logger
-    console.log(error)
+    logger.error(error)
   }
 }
 
