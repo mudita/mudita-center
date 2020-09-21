@@ -46,7 +46,7 @@ import TextEditor from "Renderer/components/core/text-editor/text-editor.compone
 import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 import { isToday } from "Renderer/utils/is-today"
 import { NoteCallback } from "Renderer/models/notes/notes"
-import { createNewNote } from "Renderer/models/notes/create-new-note"
+import { makeNewNote } from "Renderer/models/notes/make-new-note"
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -98,14 +98,14 @@ export interface Note {
 
 interface NotesProps {
   notesList: Note[]
-  newNote?: (noteCallback: NoteCallback) => void
+  createNewNote?: (noteCallback: NoteCallback) => void
   saveNote?: (note: Note) => void
   removeNotes?: (ids: string[]) => void
 }
 
 const Notes: FunctionComponent<NotesProps> = ({
   notesList,
-  newNote,
+  createNewNote,
   saveNote,
   removeNotes,
 }) => {
@@ -146,8 +146,8 @@ const Notes: FunctionComponent<NotesProps> = ({
   const notesAvailable = sortedData.length > 0
 
   const onNewButtonClick = () => {
-    if (newNote) {
-      newNote(openSidebar)
+    if (createNewNote) {
+      createNewNote(openSidebar)
       setNewNoteId("")
     }
   }

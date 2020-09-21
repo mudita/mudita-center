@@ -13,7 +13,7 @@ const renderer = (data = notesSeed.notesList) => {
   }
 
   return renderWithThemeAndIntl(
-    <Notes notesList={data} newNote={mockNewNote} />
+    <Notes notesList={data} createNewNote={mockNewNote} />
   )
 }
 
