@@ -91,6 +91,8 @@ import HighRangeWithRoaming from "Renderer/svg/high-range-roaming.svg"
 import MediumRangeWithRoaming from "Renderer/svg/medium-range-roaming.svg"
 import LowRangeWithRoaming from "Renderer/svg/low-range-roaming.svg"
 import VeryLowRangeWithRoaming from "Renderer/svg/very-low-range-roaming.svg"
+import CalendarIcon from "Renderer/svg/calendar.svg"
+import ThinCheck from "Renderer/svg/thin-check.svg"
 import MarkAsRead from "Renderer/svg/mark-as-read.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
@@ -103,6 +105,7 @@ export enum Type {
   Battery,
   BorderCheckIcon,
   Calendar,
+  CalendarIcon,
   ChargingBattery,
   Check,
   CheckIndeterminate,
@@ -189,6 +192,7 @@ export enum Type {
   MediumRangeWithRoaming,
   LowRangeWithRoaming,
   VeryLowRangeWithRoaming,
+  ThinCheck,
   MarkAsRead,
 }
 
@@ -210,6 +214,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return BorderCheck
     case Type.Calendar:
       return Calendar
+    case Type.CalendarIcon:
+      return CalendarIcon
     case Type.ChargingBattery:
       return ChargingBattery
     case Type.Check:
@@ -380,6 +386,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return VeryLowRangeWithRoaming
     case Type.MarkAsRead:
       return MarkAsRead
+    case Type.ThinCheck:
+      return ThinCheck
     default:
       return Message
   }
