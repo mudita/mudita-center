@@ -30,7 +30,7 @@ npm run dev:start
 We use [Electron builder](https://www.electron.build/) to build and package the application. By default, you can run the following to package for your current platform:
 
 ```bash
-npm run dist
+npm run dist:all
 ```
 
 This will create an installer for your platform in the `releases` folder.
