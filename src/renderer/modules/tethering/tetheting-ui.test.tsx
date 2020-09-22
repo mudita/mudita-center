@@ -3,13 +3,13 @@ import React from "react"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import Tethering from "Renderer/modules/tethering/tethering.component"
+import TetheringUI from "Renderer/modules/tethering/tethering-ui.component"
 import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.enum"
 
 const renderer = (enabled = false) =>
   renderWithThemeAndIntl(
     <Router history={history}>
-      <Tethering test enabled={enabled} />
+      <TetheringUI test enabled={enabled} />
     </Router>
   )
 
