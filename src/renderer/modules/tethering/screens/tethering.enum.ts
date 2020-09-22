@@ -1,6 +1,5 @@
 export enum TetheringTestIds {
   EnabledWrapper = "tethering-enabled-wrapper",
-
   DisabledWrapper = "tethering-disabled-wrapper",
   DisabledImage = "tethering-disabled-image",
   DisabledNotificationTitle = "tethering-disabled-notification-title",
