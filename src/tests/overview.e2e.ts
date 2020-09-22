@@ -34,8 +34,8 @@ test("button toggler changes sim correctly", async () => {
   await app.client
     .$(`*[data-state=${ButtonTogglerTestIds.InactiveState}]`)
     .click()
-  const activeSimNow = await app.client
+  const currentlyActiveSim = await app.client
     .$(`*[data-state=${ButtonTogglerTestIds.ActiveState}]`)
     .getText()
-  expect(activeSimNow).toEqual(previouslyInactiveSim)
+  expect(currentlyActiveSim).toEqual(previouslyInactiveSim)
 })
