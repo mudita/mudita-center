@@ -55,3 +55,11 @@ test("select input resets after selecting empty option", () => {
   fireEvent.click(listItems[0])
   expect(onSelect).toBeCalledWith("")
 })
+
+test("Item marked as disabled in `disabledOptions` list should have a `disabled` attribute", () => {
+  const { listItems } = renderInputSelect({
+    disabledOptions: [basicOptions[0]],
+  })
+  expect(listItems[0]).toHaveStyleRule("cursor", "not-allowed")
+  expect(listItems[1]).toBeEnabled()
+})
