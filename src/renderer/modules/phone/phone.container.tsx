@@ -17,6 +17,7 @@ const mapStateToProps = ({ phone, auth }: { phone: PhoneType; auth: Auth }) => {
     ...auth,
     contactList: generateSortedStructure(phone),
     flatList: generateFlatList(phone),
+    speedDialChosenList: [],
     getContact: (id: ContactID) => phone.db[id],
   }
 }
