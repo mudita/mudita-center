@@ -237,6 +237,36 @@ storiesOf("Components|Core/InputSelect", module)
             />
           </Story>
         </StoryContainer>
+        <StoryContainer title="Disabled" customStyle={storyContainerStyles}>
+          <Story title="Simple data">
+            <InputSelect
+              options={basicOptions}
+              disabledOptions={[basicOptions[1], basicOptions[2]]}
+              label="Fruit type"
+              emptyOption="No fruit"
+              onSelect={handleSelect}
+              value={selectedFruit}
+              searchable
+            />
+          </Story>
+          <Story title="Customized data">
+            <InputSelect
+              searchable
+              label="Fruit type"
+              emptyOption="No fruit"
+              options={advancedOptions}
+              disabledOptions={[advancedOptions[1], advancedOptions[2]]}
+              renderValue={renderCustomValue}
+              renderListItem={renderSearchableCustomListItem}
+              filteringFunction={filteringFunction}
+              onSelect={handleAdvancedSelect}
+              value={selectedAdvancedFruit}
+              listStyles={css`
+                max-height: 19rem;
+              `}
+            />
+          </Story>
+        </StoryContainer>
       </>
     )
   })
