@@ -202,14 +202,12 @@ const InputFile: FunctionComponent<InputFileProps> = ({
   const [draggingState, setDraggingState] = useState(false)
   const [files, setFiles] = useState<File[]>([])
   const [errorMessage, setErrorMessage] = useState<string>("")
-  const [errorMessageTimeout, setErrorMessageTimeout] = useState<
-    NodeJS.Timeout
-  >()
+  const errorMessageTimeout = useRef<NodeJS.Timeout>()
   const inputRef = useRef<HTMLInputElement>(null)
 
   const removeTimeoutHandler = () => {
-    if (errorMessageTimeout) {
-      clearTimeout(errorMessageTimeout)
+    if (errorMessageTimeout.current) {
+      clearTimeout(errorMessageTimeout.current)
     }
   }
 
@@ -299,13 +297,10 @@ const InputFile: FunctionComponent<InputFileProps> = ({
 
   const setError = (error: FileInputError, message: string) => {
     removeTimeoutHandler()
-
-    setErrorMessageTimeout(
-      setTimeout(() => {
-        resetError()
-        removeTimeoutHandler()
-      }, errorTimeout)
-    )
+    errorMessageTimeout.current = setTimeout(() => {
+      resetError()
+      removeTimeoutHandler()
+    }, errorTimeout)
 
     setErrorMessage(message)
     handleError(error)
