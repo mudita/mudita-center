@@ -23,6 +23,7 @@ import {
   createFullName,
   generateFlatList,
   generateSortedStructure,
+  generateSpeedDialChosenList,
 } from "Renderer/models/phone/phone.helpers"
 import { ContactID, ResultsState } from "Renderer/models/phone/phone.typings"
 import { noop } from "Renderer/utils/noop"
@@ -30,6 +31,7 @@ import { noop } from "Renderer/utils/noop"
 const getContact = (id: ContactID) => phoneSeed.db[id]
 const labeledContactList: any = generateSortedStructure(phoneSeed)
 const flatList: any = generateFlatList(phoneSeed)
+const speedDialChosenList: number[] = generateSpeedDialChosenList(phoneSeed)
 
 const PhoneWrapper = styled.div`
   max-width: 97.5rem;
@@ -45,6 +47,7 @@ const PhoneComponent = ({
     getContact={getContact as any}
     flatList={flatList}
     contactList={contactList}
+    speedDialChosenList={speedDialChosenList}
     onSearchTermChange={action("Search")}
     onManageButtonClick={action("Manage contact")}
     onNewButtonClick={action("New contact")}
@@ -181,6 +184,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
 
 storiesOf("Views|Phone/Contact details/Edit", module).add("Default", () => (
   <ContactEdit
+    speedDialChosenList={speedDialChosenList}
     contact={singleContact()}
     onCancel={action("Cancel")}
     onSave={action("Save")}
@@ -190,6 +194,7 @@ storiesOf("Views|Phone/Contact details/Edit", module).add("Default", () => (
 
 storiesOf("Views|Phone/Contact details/New", module).add("Default", () => (
   <ContactEdit
+    speedDialChosenList={speedDialChosenList}
     onCancel={action("Cancel")}
     onSave={action("Save")}
     onSpeedDialSettingsOpen={action("Open speed dial settings")}

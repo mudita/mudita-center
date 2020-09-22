@@ -250,6 +250,16 @@ export const generateFlatList = ({ collection, db }: Phone): Contact[] => {
   return collection.map((item) => db[item])
 }
 
+export const generateSpeedDialChosenList = ({
+  collection,
+  db,
+}: Phone): number[] => {
+  return collection
+    .map((item) => db[item])
+    .map(({ speedDial }) => speedDial)
+    .filter((speedDial): speedDial is number => speedDial !== undefined)
+}
+
 export const findContact = (
   phone: Contact[] | Phone,
   query: SimpleRecord,

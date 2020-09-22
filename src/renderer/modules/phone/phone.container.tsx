@@ -7,6 +7,7 @@ import { noop } from "Renderer/utils/noop"
 import {
   generateFlatList,
   generateSortedStructure,
+  generateSpeedDialChosenList,
 } from "Renderer/models/phone/phone.helpers"
 import { ContactID } from "Renderer/models/phone/phone.typings"
 import { handleGoogleAuth } from "Renderer/providers/google/auth"
@@ -17,7 +18,7 @@ const mapStateToProps = ({ phone, auth }: { phone: PhoneType; auth: Auth }) => {
     ...auth,
     contactList: generateSortedStructure(phone),
     flatList: generateFlatList(phone),
-    speedDialChosenList: [],
+    speedDialChosenList: generateSpeedDialChosenList(phone),
     getContact: (id: ContactID) => phone.db[id],
   }
 }
