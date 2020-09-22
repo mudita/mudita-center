@@ -12,7 +12,7 @@ const defaultProps = {
   deleteConversation: jest.fn(),
   selectedConversations: [],
   resetRows: jest.fn(),
-  markAsRead: jest.fn(),
+  onMarkAsRead: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {
@@ -68,7 +68,7 @@ test("click on mark as read button performs correct action", () => {
     selectedConversations: mockedUnreadMessages,
   })
   getByTestId(MessagePanelTestIds.SelectionManagerMarkAsReadButton).click()
-  expect(defaultProps.markAsRead).toBeCalledWith([
+  expect(defaultProps.onMarkAsRead).toBeCalledWith([
     mockedUnreadMessages[0].id,
     mockedUnreadMessages[1].id,
   ])

@@ -64,7 +64,7 @@ interface Props {
   toggleAll?: UseTableSelect<Topic>["toggleAll"]
   resetRows: UseTableSelect<Topic>["resetRows"]
   visibilityFilter?: VisibilityFilter
-  markAsRead: (ids: string[]) => void
+  onMarkAsRead: (ids: string[]) => void
 }
 
 const MessagesPanel: FunctionComponent<Props> = ({
@@ -78,7 +78,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   selectedConversations,
   resetRows,
   visibilityFilter,
-  markAsRead,
+  onMarkAsRead,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedConversations.length > 0
@@ -122,9 +122,9 @@ const MessagesPanel: FunctionComponent<Props> = ({
     modalService.openModal(<DeleteModal {...modalConfig} />)
   }
   const openModal = () => openDeleteModal()
-  const onMarkAsRead = () => {
+  const markAsRead = () => {
     const selectedConversationsIds = selectedConversations.map(({ id }) => id)
-    markAsRead(selectedConversationsIds)
+    onMarkAsRead(selectedConversationsIds)
     resetRows()
   }
 
@@ -134,7 +134,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
       label={intl.formatMessage(panelMessages.markAsReadButton)}
       displayStyle={DisplayStyle.Link1}
       Icon={Type.MarkAsRead}
-      onClick={onMarkAsRead}
+      onClick={markAsRead}
       data-testid={MessagePanelTestIds.SelectionManagerMarkAsReadButton}
     />,
     <ButtonComponent

@@ -66,7 +66,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         selectedConversations={selectedRows}
         resetRows={resetRows}
         visibilityFilter={visibilityFilter}
-        markAsRead={markAsRead}
+        onMarkAsRead={markAsRead}
       />
       <TableWithSidebarWrapper>
         <MessagesList
