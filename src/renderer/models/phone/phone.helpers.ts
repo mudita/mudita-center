@@ -177,7 +177,7 @@ export const createFullName = ({
   return `${firstName || ""} ${lastName || ""}`.trim()
 }
 
-export const generateSortedStructure = ({ collection, db }: Phone) => {
+export const getSortedContactList = ({ collection, db }: Phone) => {
   const anonymousContacts = []
   const favouriteContacts = []
   const uncategorizedContacts = []
@@ -246,14 +246,11 @@ export const generateSortedStructure = ({ collection, db }: Phone) => {
   return labeledContacts
 }
 
-export const generateFlatList = ({ collection, db }: Phone): Contact[] => {
+export const getFlatList = ({ collection, db }: Phone): Contact[] => {
   return collection.map((item) => db[item])
 }
 
-export const generateSpeedDialChosenList = ({
-  collection,
-  db,
-}: Phone): number[] => {
+export const getSpeedDialChosenList = ({ collection, db }: Phone): number[] => {
   return collection
     .map((item) => db[item].speedDial)
     .filter((speedDial): speedDial is number => speedDial !== undefined)
@@ -263,7 +260,7 @@ export const findContact = (
   phone: Contact[] | Phone,
   query: SimpleRecord,
   idOnly = false,
-  formatter = generateFlatList
+  formatter = getFlatList
 ): ContactID | Contact | undefined => {
   const db = Array.isArray(phone) ? phone : formatter(phone)
   const result = find(db, query) as Contact

@@ -21,17 +21,17 @@ import { intl, textFormatters } from "Renderer/utils/intl"
 import { phoneSeed } from "App/seeds/phone"
 import {
   createFullName,
-  generateFlatList,
-  generateSortedStructure,
-  generateSpeedDialChosenList,
+  getFlatList,
+  getSortedContactList,
+  getSpeedDialChosenList,
 } from "Renderer/models/phone/phone.helpers"
 import { ContactID, ResultsState } from "Renderer/models/phone/phone.typings"
 import { noop } from "Renderer/utils/noop"
 
 const getContact = (id: ContactID) => phoneSeed.db[id]
-const labeledContactList: any = generateSortedStructure(phoneSeed)
-const flatList: any = generateFlatList(phoneSeed)
-const speedDialChosenList: number[] = generateSpeedDialChosenList(phoneSeed)
+const labeledContactList: any = getSortedContactList(phoneSeed)
+const flatList: any = getFlatList(phoneSeed)
+const speedDialChosenList: number[] = getSpeedDialChosenList(phoneSeed)
 
 const PhoneWrapper = styled.div`
   max-width: 97.5rem;

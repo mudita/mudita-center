@@ -1,6 +1,6 @@
 import { connect } from "react-redux"
 
-import { generateFlatList } from "Renderer/models/phone/phone.helpers"
+import { getFlatList } from "Renderer/models/phone/phone.helpers"
 import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 
 import View from "./speed-dial-modal.component"
@@ -13,7 +13,7 @@ export interface SpeedDialProps {
 }
 
 const mapState = ({ phone }: any, ownProps: any) => ({
-  flatList: generateFlatList(phone),
+  flatList: getFlatList(phone),
   ...ownProps,
 })
 
