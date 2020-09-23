@@ -133,10 +133,13 @@ const Notes: FunctionComponent<NotesProps> = ({
   } = textEditorHook
   const sortByDate = () => sort("date", notesList)
 
-  const filterOutMessages = () => {
+  const deleteNotes = () => {
     if (removeNotes) {
       const ids = (selectedRows as Note[]).map(({ id }: Note) => id)
       removeNotes(ids)
+      if (newNoteId && ids.includes(newNoteId)) {
+        setNewNoteId(undefined)
+      }
       resetRows()
     }
   }
@@ -201,7 +204,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                 label={intl.formatMessage(messages.deleteButton)}
                 displayStyle={DisplayStyle.Link1}
                 Icon={Type.Delete}
-                onClick={filterOutMessages}
+                onClick={deleteNotes}
               />,
             ]}
           />
