@@ -301,6 +301,8 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         {filteredOptions.map((option, index) => {
           const onClick = () => onSelect(option)
           const selected = option === value
+          const disabled = disabledOptions.includes(option)
+
           return (
             <React.Fragment key={index}>
               {renderListItem({
@@ -308,10 +310,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
                 props: {
                   onClick,
                   selected,
-                  disabled:
-                    disabledOptions.findIndex(
-                      (disabledOption: any) => disabledOption === option
-                    ) !== -1,
+                  disabled,
                 },
                 searchString: searchValue || "",
               })}
