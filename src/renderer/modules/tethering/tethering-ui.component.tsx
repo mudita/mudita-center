@@ -6,13 +6,13 @@ import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-w
 import Button from "Renderer/components/core/button/button.component"
 import PureDisconnected from "Renderer/modules/tethering/screens/pure-disconnected.component"
 import TetheringDisabled from "Renderer/modules/tethering/screens/tethering-disabled.component"
-import { noop } from "Renderer/utils/noop"
 
 interface TetheringProps {
   disconnectedDevice?: boolean
   test?: boolean // in order to test this without applying redux
   tetheringEnabled?: boolean
   onToggleTethering?: Dispatch<SetStateAction<boolean>>
+  disconnectDevice?: () => void
 }
 
 const TetheringUI: FunctionComponent<TetheringProps> = ({
@@ -20,12 +20,13 @@ const TetheringUI: FunctionComponent<TetheringProps> = ({
   test,
   tetheringEnabled,
   onToggleTethering,
+  disconnectDevice,
 }) => {
   return (
     <>
       {!test && (
         <DevModeWrapper>
-          <Button onClick={noop} label="Toggle tethering" />
+          <Button onClick={disconnectDevice} label="Disconnect device" />
         </DevModeWrapper>
       )}
       <TetheringWrapper>
