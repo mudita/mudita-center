@@ -296,7 +296,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                     </Col>
                     <TextPreview onClick={handleTextPreviewClick}>
                       <TextCut displayStyle={TextDisplayStyle.LargeText}>
-                        {text}
+                        {newNote || emptyNote ? <em>{text}</em> : text}
                       </TextCut>
                     </TextPreview>
                     <Col onClick={noop}>
