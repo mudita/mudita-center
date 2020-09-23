@@ -5,6 +5,7 @@ import history from "Renderer/routes/history"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import TetheringUI from "Renderer/modules/tethering/tethering-ui.component"
 import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.enum"
+import { SettingsTogglerTestIds } from "Renderer/components/rest/settings/settings-toggler-test-ids.enum"
 
 const renderer = (props = {}) =>
   renderWithThemeAndIntl(
@@ -103,5 +104,12 @@ describe("Disabled tethering tests", () => {
   test("image is visible", () => {
     const { queryByTestId } = renderer(props)
     expect(queryByTestId(TetheringTestIds.DisabledImage)).toBeInTheDocument()
+  })
+
+  test("toggler works correctly", () => {
+    const onToggleTethering = jest.fn()
+    const { getByTestId } = renderer({ onToggleTethering, ...props })
+    getByTestId(SettingsTogglerTestIds.Inactive).click()
+    expect(onToggleTethering).toBeCalledWith(true)
   })
 })
