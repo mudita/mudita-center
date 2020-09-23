@@ -22,7 +22,7 @@ const TetheringUI: FunctionComponent<TetheringProps> = ({
   onToggleTethering,
   disconnectDevice,
 }) => {
-  const getCorrectTetheringScreen = () => {
+  const getTetheringScreen = () => {
     switch (true) {
       case tetheringEnabled && !disconnectedDevice:
         return <TetheringEnabled />
@@ -44,7 +44,7 @@ const TetheringUI: FunctionComponent<TetheringProps> = ({
           <Button onClick={disconnectDevice} label="Disconnect device" />
         </DevModeWrapper>
       )}
-      <TetheringWrapper>{getCorrectTetheringScreen()}</TetheringWrapper>
+      <TetheringWrapper>{getTetheringScreen()}</TetheringWrapper>
     </>
   )
 }
