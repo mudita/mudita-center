@@ -7,7 +7,7 @@ import {
   IconHolder,
   StyledButton,
   TetheringImageWrapper,
-} from "Renderer/modules/tethering/screens/disabled.styled"
+} from "Renderer/modules/tethering/screens/pure-disconnected.styled"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Image from "Renderer/components/core/image/image.component"
@@ -34,7 +34,7 @@ const messages = defineMessages({
   },
 })
 
-const TetheringDisabled: FunctionComponent = () => (
+const PureDisconnected: FunctionComponent = () => (
   <div data-testid={TetheringTestIds.DisabledWrapper}>
     <Text
       displayStyle={TextDisplayStyle.LargeText}
@@ -77,4 +77,4 @@ const TetheringDisabled: FunctionComponent = () => (
   </div>
 )
 
-export default TetheringDisabled
+export default PureDisconnected
