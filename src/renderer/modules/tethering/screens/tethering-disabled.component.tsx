@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import {
@@ -16,7 +16,6 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { URL_MAIN } from "Renderer/constants/urls"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
-import { noop } from "Renderer/utils/noop"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { tetheringMessages } from "Renderer/modules/tethering/tethering-messages"
@@ -31,7 +30,15 @@ const TetheringToggler = styled(SettingsToggler)`
   margin-right: 0;
 `
 
-const TetheringDisabled: FunctionComponent<{}> = () => (
+interface TetheringDisabledProps {
+  tetheringEnabled?: boolean
+  onToggleTethering?: Dispatch<SetStateAction<boolean>>
+}
+
+const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
+  onToggleTethering,
+  tetheringEnabled,
+}) => (
   <div>
     <TextWrapper>
       <Text
@@ -40,7 +47,10 @@ const TetheringDisabled: FunctionComponent<{}> = () => (
       >
         {intl.formatMessage(tetheringMessages.usbTethering, textFormatters)}
       </Text>
-      <TetheringToggler toggleValue={true} onToggle={noop} />
+      <TetheringToggler
+        toggleValue={tetheringEnabled}
+        onToggle={onToggleTethering}
+      />
     </TextWrapper>
     <ButtonWrapper>
       <Text
