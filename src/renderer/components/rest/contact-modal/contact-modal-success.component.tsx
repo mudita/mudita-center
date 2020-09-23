@@ -16,17 +16,9 @@ import Text, {
 const messages = defineMessages({
   title: { id: "component.modal.support.success.title" },
   body: { id: "component.modal.support.success.body" },
-  bodyWithoutEmail: { id: "component.modal.support.success.bodyWithoutEmail" },
 })
 
-interface ContactSupportSuccessProps {
-  withoutEmail?: boolean
-}
-
-export const ContactSupportSuccess: FunctionComponent<ContactSupportSuccessProps> = ({
-  withoutEmail,
-  ...props
-}) => (
+export const ContactSupportSuccess: FunctionComponent = ({ ...props }) => (
   <Modal size={ModalSize.Small} {...props}>
     <SimpleModal>
       <RoundIconWrapper>
@@ -37,7 +29,7 @@ export const ContactSupportSuccess: FunctionComponent<ContactSupportSuccessProps
         displayStyle={TextDisplayStyle.LargeBoldText}
       />
       <Text
-        message={withoutEmail ? messages.bodyWithoutEmail : messages.body}
+        message={messages.body}
         displayStyle={TextDisplayStyle.MediumFadedLightText}
       />
     </SimpleModal>

@@ -44,11 +44,6 @@ storiesOf("Components|Rest/Contact Modal", module)
           <ContactSupportSuccess />
         </StoryModalWrapper>
       </Story>
-      <Story transparentMode title="Without email given">
-        <StoryModalWrapper>
-          <ContactSupportSuccess withoutEmail />
-        </StoryModalWrapper>
-      </Story>
     </StoryContainer>
   ))
   .add("Fail", () => (

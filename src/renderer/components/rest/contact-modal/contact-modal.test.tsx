@@ -3,16 +3,20 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import ContactModal, {
   ContactModalProps,
 } from "Renderer/components/rest/contact-modal/contact-modal.component"
-import { fireEvent } from "@testing-library/dom"
-import { mockJpg } from "Renderer/components/core/input-file/input-file.test"
+import {
+  mockEvent,
+  mockJpg,
+} from "Renderer/components/core/input-file/input-file.test"
 import { intl } from "Renderer/utils/intl"
 import { ContactSupportFailed } from "Renderer/components/rest/contact-modal/contact-modal-failed.component"
 import { ContactSupportSuccess } from "Renderer/components/rest/contact-modal/contact-modal-success.component"
+import { fireEvent, act } from "@testing-library/react"
 
 const renderContactModal = ({ ...props }: Partial<ContactModalProps> = {}) => {
   const outcome = renderWithThemeAndIntl(<ContactModal {...props} />)
   return {
     ...outcome,
+    form: () => outcome.container.querySelector("form"),
     getEmailInput: () => outcome.container.querySelector("input[type='text']"),
     getMessageInput: () => outcome.container.querySelector("textarea"),
     getFileInput: () => outcome.container.querySelector("input[type='file']"),
@@ -76,7 +80,7 @@ describe("contact modal details", () => {
   })
 })
 
-test("contact modal form sending works properly", () => {
+test("contact modal form sending works properly", async () => {
   const onSend = jest.fn()
   const {
     getEmailInput,
@@ -89,25 +93,55 @@ test("contact modal form sending works properly", () => {
 
   const file = mockJpg("screenshot1")
 
-  fireEvent.change(getEmailInput() as Element, {
-    target: { value: "email@example.com" },
-  })
-  fireEvent.change(getMessageInput() as Element, {
-    target: { value: "Example message" },
-  })
-  fireEvent.change(getFileInput() as Element, {
-    target: {
-      files: [file],
-    },
+  await act(async () => {
+    fireEvent.change(getEmailInput() as Element, {
+      target: { value: "email@example.com" },
+    })
+    fireEvent.change(getMessageInput() as Element, {
+      target: { value: "Example message" },
+    })
+    fireEvent.change(getFileInput() as Element, mockEvent(file))
   })
 
-  fireEvent.click(getByTestId("modal-action-button"))
+  await act(async () => {
+    fireEvent.click(getByTestId("modal-action-button"))
+  })
 
   expect(onSend).toBeCalledWith({
     email: "email@example.com",
     message: "Example message",
     attachments: [file],
   })
+})
+
+test("contact modal email validation works properly", async () => {
+  const onSend = jest.fn()
+  const { getEmailInput, getByTestId } = renderContactModal({
+    onSend,
+  })
+
+  await act(async () => {
+    fireEvent.change(getEmailInput() as Element, {
+      target: { value: "wrongEmail" },
+    })
+
+    fireEvent.click(getByTestId("modal-action-button"))
+  })
+
+  expect(onSend).not.toBeCalled()
+})
+
+test("contact modal form validation works properly", async () => {
+  const onSend = jest.fn()
+  const { getByTestId } = renderContactModal({
+    onSend,
+  })
+
+  await act(async () => {
+    fireEvent.click(getByTestId("modal-action-button"))
+  })
+
+  expect(onSend).not.toBeCalled()
 })
 
 test("failed modal renders properly", () => {
@@ -129,20 +163,5 @@ test("success modal renders properly", () => {
   ).toBeInTheDocument()
   expect(
     getByText("component.modal.support.success.body", { exact: false })
-  ).toBeInTheDocument()
-})
-
-test("success modal without email info renders properly", () => {
-  const { getByText } = renderWithThemeAndIntl(
-    <ContactSupportSuccess withoutEmail />
-  )
-
-  expect(
-    getByText("component.modal.support.success.title", { exact: false })
-  ).toBeInTheDocument()
-  expect(
-    getByText("component.modal.support.success.bodyWithoutEmail", {
-      exact: false,
-    })
   ).toBeInTheDocument()
 })
