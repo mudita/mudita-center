@@ -15,7 +15,7 @@ import {
 import { asyncNoop } from "Renderer/utils/noop"
 import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 
-const normalizeText = (text: string) => {
+export const normalizeText = (text: string) => {
   return text.replace(new RegExp(/\r?\n|\r/g), " ")
 }
 
@@ -60,6 +60,7 @@ export const useTextEditor = (
 
   const textChanged =
     normalizeText(text) !== normalizeText(defaultTextObject.content)
+  const tempTextChanged = normalizeText(text) !== normalizeText(defaultText)
 
   const newText = defaultTextObject.content.length === 0
 
@@ -132,10 +133,10 @@ export const useTextEditor = (
   useEffect(() => {
     setStatus({ type: Action.AutoSave, payload: undefined })
     if (init.current) {
-      if (textChanged) {
-        setStatus({ type: Action.Save, payload: SaveStatus.NotSaved })
+      resetSaveStatus()
+      if (tempTextChanged) {
+        debounceAutoSave()
       } else {
-        setStatus({ type: Action.Save, payload: undefined })
         setStatus({ type: Action.EditMode, payload: false })
       }
       init.current = false

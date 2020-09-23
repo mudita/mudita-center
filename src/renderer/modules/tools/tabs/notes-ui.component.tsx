@@ -1,11 +1,11 @@
 import moment from "moment"
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import {
   DisplayStyle,
   Size as ButtonSize,
 } from "Renderer/components/core/button/button.config"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size as CheckboxSize } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
@@ -32,15 +32,19 @@ import {
   Table,
   TextCut,
   DeleteCol,
+  TextInfo,
 } from "Renderer/modules/tools/tabs/notes.styled"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import useSort from "Renderer/utils/hooks/use-sort/use-sort"
 import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import { intl, textFormatters } from "Renderer/utils/intl"
+import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
-import { useTextEditor } from "Renderer/components/core/text-editor/text-editor.hook"
+import {
+  normalizeText,
+  useTextEditor,
+} from "Renderer/components/core/text-editor/text-editor.hook"
 import { defineMessages } from "react-intl"
 import TextEditor from "Renderer/components/core/text-editor/text-editor.component"
 import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
@@ -67,6 +71,9 @@ const messages = defineMessages({
   newNote: {
     id: "view.name.tools.notes.newNote",
   },
+  unsavedNote: {
+    id: "view.name.tools.notes.unsavedNote",
+  },
   note: {
     id: "view.name.tools.notes.note",
   },
@@ -86,7 +93,6 @@ const messages = defineMessages({
     id: "view.name.tools.notes.deleteButton",
   },
   charactersNumber: { id: "view.name.tools.notes.editor.charactersNumber" },
-  newNoteText: { id: "view.name.tools.notes.newNote" },
   emptyNoteText: { id: "view.name.tools.notes.emptyNote" },
 })
 
@@ -98,6 +104,7 @@ export interface Note {
 
 interface NotesProps {
   notesList: Note[]
+  newNoteId?: string
   createNewNote?: (noteCallback: NoteCallback) => void
   saveNote?: (note: Note) => void
   removeNotes?: (ids: string[]) => void
@@ -105,13 +112,12 @@ interface NotesProps {
 
 const Notes: FunctionComponent<NotesProps> = ({
   notesList,
+  newNoteId,
   createNewNote,
   saveNote,
   removeNotes,
 }) => {
   const maxCharacters = 4000
-  const [newNoteId, setNewNoteId] = useState<string>()
-  const [newNoteMode, setNewNoteMode] = useState(false)
   const { data: sortedData, sort, sortDirection } = useSort(notesList)
   const {
     getRowStatus,
@@ -138,10 +144,6 @@ const Notes: FunctionComponent<NotesProps> = ({
     if (removeNotes) {
       const ids = (selectedRows as Note[]).map(({ id }: Note) => id)
       removeNotes(ids)
-      if (newNoteId && ids.includes(newNoteId)) {
-        setNewNoteId(undefined)
-        setNewNoteMode(false)
-      }
       resetRows()
     }
   }
@@ -152,7 +154,6 @@ const Notes: FunctionComponent<NotesProps> = ({
   const onNewButtonClick = () => {
     if (createNewNote) {
       createNewNote(openSidebar)
-      setNewNoteMode(true)
     }
   }
 
@@ -162,19 +163,8 @@ const Notes: FunctionComponent<NotesProps> = ({
       const { id } = activeRow
 
       saveNote(makeNewNote(id, content))
-
-      if (id === newNoteId) {
-        setNewNoteId(undefined)
-        setNewNoteMode(false)
-      }
     }
   }
-
-  useEffect(() => {
-    if (activeRow && newNoteMode) {
-      setNewNoteId(activeRow.id)
-    }
-  }, [activeRow, newNoteId])
 
   useEffect(() => {
     sortByDate()
@@ -184,8 +174,6 @@ const Notes: FunctionComponent<NotesProps> = ({
     rejectChanges()
     if (removeNotes && newNoteId && activeRow?.id === newNoteId) {
       removeNotes([newNoteId])
-      setNewNoteId(undefined)
-      setNewNoteMode(false)
       closeSidebar()
     }
   }
@@ -229,7 +217,7 @@ const Notes: FunctionComponent<NotesProps> = ({
           onClick={onNewButtonClick}
           Icon={Type.PlusSign}
           data-testid={NotesTestIds.NewNoteButton}
-          disabled={newNoteMode}
+          disabled={Boolean(newNoteId)}
         />
       </FiltersWrapper>
 
@@ -237,7 +225,7 @@ const Notes: FunctionComponent<NotesProps> = ({
         {notesAvailable ? (
           <Table
             hideColumns={Boolean(activeRow)}
-            hideableColumnsIndexes={[2, 3]}
+            hideableColumnsIndexes={[2, 3, 4]}
             role="list"
           >
             <Labels size={RowSize.Small}>
@@ -245,12 +233,14 @@ const Notes: FunctionComponent<NotesProps> = ({
               <Col>
                 <Text message={messages.note} />
               </Col>
+              <Col />
               <Col onClick={sortByDate}>
                 <Text message={messages.edited} />
                 <TableSortButton
                   sortDirection={sortDirection.date || SortDirection.Ascending}
                 />
               </Col>
+              <Col />
             </Labels>
             <div data-testid={NotesTestIds.ItemsWrapper}>
               {sortedData.map((note) => {
@@ -261,14 +251,18 @@ const Notes: FunctionComponent<NotesProps> = ({
                   content
                 )
 
-                const newNote =
-                  getTemporaryValue().length === 0 && id === newNoteId
+                const editedNote =
+                  normalizeText(getTemporaryValue()) !== normalizeText(content)
+
+                const newNote = id === newNoteId
+
                 const emptyNote = getTemporaryValue().length === 0
-                const text = newNote
-                  ? intl.formatMessage(messages.newNoteText, textFormatters)
-                  : emptyNote
-                  ? intl.formatMessage(messages.emptyNoteText, textFormatters)
-                  : getTemporaryValue().substr(0, 250)
+                const text = emptyNote
+                  ? intl.formatMessage(messages.emptyNoteText)
+                  : (editedNote
+                      ? getTemporaryValue()
+                      : normalizeText(content)
+                    ).substr(0, 250)
 
                 const toggle = () => {
                   if (sidebarOpened) {
@@ -279,6 +273,12 @@ const Notes: FunctionComponent<NotesProps> = ({
 
                 const handleTextPreviewClick = () => {
                   noRowsSelected ? openSidebar(note) : toggle()
+                }
+
+                const deleteNote = () => {
+                  if (removeNotes) {
+                    removeNotes([id])
+                  }
                 }
 
                 return (
@@ -299,9 +299,22 @@ const Notes: FunctionComponent<NotesProps> = ({
                     </Col>
                     <TextPreview onClick={handleTextPreviewClick}>
                       <TextCut displayStyle={TextDisplayStyle.LargeText}>
-                        {newNote || emptyNote ? <em>{text}</em> : text}
+                        {emptyNote ? <em>{text}</em> : text}
                       </TextCut>
                     </TextPreview>
+                    <Col>
+                      {(editedNote || newNote) && (
+                        <TextInfo>
+                          {newNote && (
+                            <>
+                              <em>{intl.formatMessage(messages.newNote)}</em>
+                              <br />
+                            </>
+                          )}
+                          <em>{intl.formatMessage(messages.unsavedNote)}</em>
+                        </TextInfo>
+                      )}
+                    </Col>
                     <Col onClick={noop}>
                       <Text displayStyle={TextDisplayStyle.LargeText}>
                         {isToday(date)
@@ -309,8 +322,8 @@ const Notes: FunctionComponent<NotesProps> = ({
                           : moment(date).format("ll")}
                       </Text>
                     </Col>
-                    <DeleteCol onClick={noop}>
-                      <Icon type={Type.Delete} width={1.5} />
+                    <DeleteCol onClick={deleteNote}>
+                      <Icon type={Type.Delete} width={IconSize.Medium} />
                     </DeleteCol>
                   </Row>
                 )
@@ -338,7 +351,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                 currentCharacters: textLength,
                 maxCharacters,
               })}
-              autoFocus={newNoteMode}
+              autoFocus={newNoteId === activeRow?.id}
               saveChanges={tryToSave}
             />
           )}

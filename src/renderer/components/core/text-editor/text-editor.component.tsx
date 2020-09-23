@@ -153,7 +153,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
           <SaveButton
             data-testid="save"
             saving={saving}
-            disabled={!status.textChanged}
+            disabled={!status.textChanged || temporaryText.length === 0}
             labelMessage={saving ? messages.savingButton : messages.saveButton}
             onClick={save}
             Icon={saving ? Type.Reload : undefined}

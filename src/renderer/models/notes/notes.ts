@@ -13,12 +13,14 @@ export default {
   reducers: {
     createNewNote(state: StateProps, callback?: NoteCallback) {
       const oldNotes = state.notesList || []
+      const newNote = makeNewNote()
       const newState = {
         ...state,
-        notesList: [makeNewNote(), ...oldNotes],
+        newNoteId: newNote.id,
+        notesList: [newNote, ...oldNotes],
       }
       if (callback) {
-        callback(newState.notesList[0])
+        callback(newNote)
       }
       return newState
     },
@@ -29,6 +31,9 @@ export default {
 
       return {
         ...state,
+        ...(state.newNoteId && itemsToRemove.includes(state.newNoteId)
+          ? { newNoteId: undefined }
+          : {}),
         notesList: notes,
       }
     },
@@ -43,6 +48,7 @@ export default {
       if (modifiedNotes) {
         return {
           ...state,
+          ...(state.newNoteId === noteData.id ? { newNoteId: undefined } : {}),
           notesList: modifiedNotes,
         }
       }
