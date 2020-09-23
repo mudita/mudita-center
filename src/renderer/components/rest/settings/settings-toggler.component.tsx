@@ -25,9 +25,10 @@ interface Props {
 const SettingsToggler: FunctionComponent<Props> = ({
   toggleValue,
   onToggle = noop,
+  ...props
 }) => {
   return (
-    <Toggler filled>
+    <Toggler filled {...props}>
       {twoStateToggler.map((value) => {
         const changeStatus = () => {
           onToggle(value)
