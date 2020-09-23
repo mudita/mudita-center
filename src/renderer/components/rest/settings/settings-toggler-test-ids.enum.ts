@@ -1,4 +1,4 @@
 export enum SettingsTogglerTestIds {
-  Active = "active",
-  Inactive = "inactive",
+  Active = "toggler-active",
+  Inactive = "toggler-inactive",
 }
