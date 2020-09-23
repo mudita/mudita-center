@@ -2,7 +2,7 @@ import Faker from "faker"
 import { StateProps } from "Renderer/models/templates/templates.interface"
 import { Slicer } from "@rematch/select"
 import { filterTemplates } from "Renderer/models/templates/filter-templates"
-import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
+import { Template } from "Renderer/modules/messages/tabs/templates.component"
 
 export type TemplateCallback = (param: Template) => void
 

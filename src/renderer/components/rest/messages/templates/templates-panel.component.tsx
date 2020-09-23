@@ -14,7 +14,7 @@ import SelectionManager from "Renderer/components/core/selection-manager/selecti
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { Template } from "App/renderer/modules/messages/tabs/templates-ui.component"
+import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import { defineMessages } from "react-intl"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 

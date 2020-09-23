@@ -1,6 +1,6 @@
 import { init } from "@rematch/core"
 import { createTemplate } from "Renderer/models/templates/templates"
-import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
+import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import templates from "Renderer/models/templates/templates"
 
 import { templatesSeed } from "App/seeds/templates"
