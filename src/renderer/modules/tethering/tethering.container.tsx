@@ -1,9 +1,9 @@
 import { connect } from "react-redux"
 import Tethering from "Renderer/modules/tethering/tethering.component"
-import { Store as basicInfoStore } from "Renderer/models/basic-info/interfaces"
+import { RootState } from "Renderer/store"
 
-const mapStateToProps = ({ basicInfo }: { basicInfo: basicInfoStore }) => {
-  return basicInfo
-}
+const mapStateToProps = (state: RootState) => ({
+  disconnectedDevice: state.basicInfo.disconnectedDevice,
+})
 
 export default connect(mapStateToProps, null)(Tethering)
