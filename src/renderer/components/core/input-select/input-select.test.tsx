@@ -61,5 +61,5 @@ test("Item marked as disabled in `disabledOptions` list should have a `disabled`
     disabledOptions: [basicOptions[0]],
   })
   expect(listItems[0]).toHaveStyleRule("cursor", "not-allowed")
-  expect(listItems[1]).toBeEnabled()
+  expect(listItems[1]).not.toHaveStyleRule("cursor", "not-allowed")
 })
