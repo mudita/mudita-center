@@ -110,7 +110,8 @@ const Notes: FunctionComponent<NotesProps> = ({
   removeNotes,
 }) => {
   const maxCharacters = 4000
-  const [newNoteId, setNewNoteId] = useState<string | undefined>()
+  const [newNoteId, setNewNoteId] = useState<string>()
+  const [newNoteMode, setNewNoteMode] = useState(false)
   const { data: sortedData, sort, sortDirection } = useSort(notesList)
   const {
     getRowStatus,
@@ -139,6 +140,7 @@ const Notes: FunctionComponent<NotesProps> = ({
       removeNotes(ids)
       if (newNoteId && ids.includes(newNoteId)) {
         setNewNoteId(undefined)
+        setNewNoteMode(false)
       }
       resetRows()
     }
@@ -146,12 +148,11 @@ const Notes: FunctionComponent<NotesProps> = ({
 
   const selectionManagerVisible = selectedRows.length > 0
   const notesAvailable = sortedData.length > 0
-  const newNoteAvailable = newNoteId === undefined
 
   const onNewButtonClick = () => {
     if (createNewNote) {
       createNewNote(openSidebar)
-      setNewNoteId("")
+      setNewNoteMode(true)
     }
   }
 
@@ -162,14 +163,15 @@ const Notes: FunctionComponent<NotesProps> = ({
 
       saveNote(makeNewNote(id, content))
 
-      if (!newNoteAvailable) {
+      if (id === newNoteId) {
         setNewNoteId(undefined)
+        setNewNoteMode(false)
       }
     }
   }
 
   useEffect(() => {
-    if (activeRow && newNoteId === "") {
+    if (activeRow && newNoteMode) {
       setNewNoteId(activeRow.id)
     }
   }, [activeRow, newNoteId])
@@ -183,6 +185,7 @@ const Notes: FunctionComponent<NotesProps> = ({
     if (removeNotes && newNoteId && activeRow?.id === newNoteId) {
       removeNotes([newNoteId])
       setNewNoteId(undefined)
+      setNewNoteMode(false)
       closeSidebar()
     }
   }
@@ -226,7 +229,7 @@ const Notes: FunctionComponent<NotesProps> = ({
           onClick={onNewButtonClick}
           Icon={Type.PlusSign}
           data-testid={NotesTestIds.NewNoteButton}
-          disabled={!newNoteAvailable}
+          disabled={newNoteMode}
         />
       </FiltersWrapper>
 
@@ -335,7 +338,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                 currentCharacters: textLength,
                 maxCharacters,
               })}
-              autoFocus={!newNoteAvailable}
+              autoFocus={newNoteMode}
               saveChanges={tryToSave}
             />
           )}
