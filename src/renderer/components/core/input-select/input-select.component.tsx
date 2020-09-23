@@ -154,7 +154,7 @@ type InputValue = string | number
 type RenderableListItem = InputValue | JSX.Element
 
 export type ListItemProps = {
-  onClick: (option: any) => void
+  onClick: (option: unknown) => void
   selected: boolean
   disabled: boolean
 }
@@ -167,8 +167,8 @@ export interface RenderListItemProps<T> {
 
 export interface InputSelectProps extends Partial<InputProps> {
   value?: any
-  options: any[]
-  disabledOptions?: any
+  options: unknown[]
+  disabledOptions?: unknown[]
   emptyOption?: any
   renderEmptyOption?: (item: any) => InputValue
   renderValue?: (item: any) => InputValue
