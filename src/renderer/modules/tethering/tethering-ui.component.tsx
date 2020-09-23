@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { Dispatch, SetStateAction } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TetheringWrapper } from "Renderer/modules/tethering/screens/pure-disconnected.styled"
 import TetheringEnabled from "Renderer/modules/tethering/screens/tethering-enabled.component"
@@ -11,13 +11,16 @@ import { noop } from "Renderer/utils/noop"
 interface TetheringProps {
   disconnectedDevice?: boolean
   test?: boolean // in order to test this without applying redux
+  tetheringEnabled?: boolean
+  onToggleTethering?: Dispatch<SetStateAction<boolean>>
 }
 
 const TetheringUI: FunctionComponent<TetheringProps> = ({
   disconnectedDevice,
   test,
+  tetheringEnabled,
+  onToggleTethering,
 }) => {
-  const [tetheringEnabled, setTetheringEnabled] = useState(false)
   return (
     <>
       {!test && (
@@ -30,7 +33,7 @@ const TetheringUI: FunctionComponent<TetheringProps> = ({
         {!tetheringEnabled && !disconnectedDevice && (
           <TetheringDisabled
             tetheringEnabled={tetheringEnabled}
-            onToggleTethering={setTetheringEnabled}
+            onToggleTethering={onToggleTethering}
           />
         )}
         {disconnectedDevice && <PureDisconnected />}

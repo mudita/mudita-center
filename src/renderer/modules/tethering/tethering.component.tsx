@@ -1,9 +1,15 @@
-import { connect } from "react-redux"
+import React, { useState } from "react"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import TetheringUI from "Renderer/modules/tethering/tethering-ui.component"
-import { Store as basicInfoStore } from "Renderer/models/basic-info/interfaces"
 
-const mapStateToProps = ({ basicInfo }: { basicInfo: basicInfoStore }) => {
-  return basicInfo
+const Tethering: FunctionComponent = () => {
+  const [tetheringEnabled, setTetheringEnabled] = useState(false)
+  return (
+    <TetheringUI
+      tetheringEnabled={tetheringEnabled}
+      onToggleTethering={setTetheringEnabled}
+    />
+  )
 }
 
-export default connect(mapStateToProps, null)(TetheringUI)
+export default Tethering
