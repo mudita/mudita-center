@@ -42,6 +42,7 @@ export interface Status {
   save?: SaveStatus
   editMode?: boolean
   textChanged?: boolean
+  newText?: boolean
 }
 
 export interface Text {
@@ -147,7 +148,7 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
             displayStyle={DisplayStyle.Secondary}
             labelMessage={messages.cancelButton}
             onClick={reject}
-            disabled={saving || !status.textChanged}
+            disabled={saving || !(status.textChanged || status.newText)}
           />
           <SaveButton
             data-testid="save"
