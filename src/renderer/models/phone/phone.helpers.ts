@@ -255,8 +255,7 @@ export const generateSpeedDialChosenList = ({
   db,
 }: Phone): number[] => {
   return collection
-    .map((item) => db[item])
-    .map(({ speedDial }) => speedDial)
+    .map((item) => db[item].speedDial)
     .filter((speedDial): speedDial is number => speedDial !== undefined)
 }
 
