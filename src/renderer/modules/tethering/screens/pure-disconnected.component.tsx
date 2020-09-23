@@ -7,7 +7,7 @@ import {
   IconHolder,
   StyledButton,
   TetheringImageWrapper,
-} from "Renderer/modules/tethering/screens/pure-disconnected.styled"
+} from "Renderer/modules/tethering/screens/tethering.styled"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Image from "Renderer/components/core/image/image.component"
@@ -20,10 +20,10 @@ import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.e
 import { tetheringMessages } from "Renderer/modules/tethering/tethering-messages"
 
 const PureDisconnected: FunctionComponent = () => (
-  <div data-testid={TetheringTestIds.DisabledWrapper}>
+  <div data-testid={TetheringTestIds.DisconnectedWrapper}>
     <Text
       displayStyle={TextDisplayStyle.LargeText}
-      data-testid={TetheringTestIds.DisabledNotificationTitle}
+      data-testid={TetheringTestIds.DisconnectedNotificationTitle}
     >
       <IconHolder>
         <ErrorIcon />
@@ -33,26 +33,26 @@ const PureDisconnected: FunctionComponent = () => (
     <ButtonWrapper>
       <Text
         displayStyle={TextDisplayStyle.MediumFadedLightText}
-        data-testid={TetheringTestIds.DisabledSecondNotification}
+        data-testid={TetheringTestIds.SecondNotification}
       >
         {intl.formatMessage(tetheringMessages.enablingInfo, textFormatters)}
       </Text>
       <StyledButton
-        data-testid={TetheringTestIds.DisabledGotoButton}
+        data-testid={TetheringTestIds.GoToButton}
         label={intl.formatMessage(tetheringMessages.openConnectionSettings)}
         to={URL_MAIN.settings}
       />
     </ButtonWrapper>
     <Text
       displayStyle={TextDisplayStyle.SmallFadedText}
-      data-testid={TetheringTestIds.DisabledThirdNotification}
+      data-testid={TetheringTestIds.ThirdNotification}
     >
       <IconHolder>
         <Icon type={Type.Info} width={1.6} />
       </IconHolder>
       {intl.formatMessage(tetheringMessages.explanation, textFormatters)}
     </Text>
-    <TetheringImageWrapper data-testid={TetheringTestIds.DisabledImage}>
+    <TetheringImageWrapper data-testid={TetheringTestIds.DisconnectedImage}>
       <Image
         src={NoTethering}
         alt={intl.formatMessage(tetheringMessages.notConnected)}

@@ -5,6 +5,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 
 export const TetheringWrapper = styled.div`
   padding: 3.6rem 3rem 0 4rem;
@@ -54,4 +55,14 @@ export const IconHolder = styled.span`
   display: inline-block;
   margin-right: 1.6rem;
   vertical-align: bottom;
+`
+
+export const TextWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+export const TetheringToggler = styled(SettingsToggler)`
+  margin-right: 0;
 `

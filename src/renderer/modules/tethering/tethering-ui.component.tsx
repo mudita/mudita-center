@@ -1,11 +1,11 @@
 import React, { Dispatch, SetStateAction } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { TetheringWrapper } from "Renderer/modules/tethering/screens/pure-disconnected.styled"
 import TetheringEnabled from "Renderer/modules/tethering/screens/tethering-enabled.component"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import Button from "Renderer/components/core/button/button.component"
 import PureDisconnected from "Renderer/modules/tethering/screens/pure-disconnected.component"
 import TetheringDisabled from "Renderer/modules/tethering/screens/tethering-disabled.component"
+import { TetheringWrapper } from "Renderer/modules/tethering/screens/tethering.styled"
 
 interface TetheringProps {
   disconnectedDevice?: boolean
@@ -22,6 +22,21 @@ const TetheringUI: FunctionComponent<TetheringProps> = ({
   onToggleTethering,
   disconnectDevice,
 }) => {
+  const getCorrectTetheringScreen = () => {
+    switch (true) {
+      case tetheringEnabled && !disconnectedDevice:
+        return <TetheringEnabled />
+      case !tetheringEnabled && !disconnectedDevice:
+        return (
+          <TetheringDisabled
+            tetheringEnabled={tetheringEnabled}
+            onToggleTethering={onToggleTethering}
+          />
+        )
+      default:
+        return <PureDisconnected />
+    }
+  }
   return (
     <>
       {!test && (
@@ -29,16 +44,7 @@ const TetheringUI: FunctionComponent<TetheringProps> = ({
           <Button onClick={disconnectDevice} label="Disconnect device" />
         </DevModeWrapper>
       )}
-      <TetheringWrapper>
-        {tetheringEnabled && !disconnectedDevice && <TetheringEnabled />}
-        {!tetheringEnabled && !disconnectedDevice && (
-          <TetheringDisabled
-            tetheringEnabled={tetheringEnabled}
-            onToggleTethering={onToggleTethering}
-          />
-        )}
-        {disconnectedDevice && <PureDisconnected />}
-      </TetheringWrapper>
+      <TetheringWrapper>{getCorrectTetheringScreen()}</TetheringWrapper>
     </>
   )
 }

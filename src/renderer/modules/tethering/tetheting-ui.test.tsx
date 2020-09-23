@@ -6,62 +6,102 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import TetheringUI from "Renderer/modules/tethering/tethering-ui.component"
 import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.enum"
 
-const renderer = (enabled = false) =>
+const renderer = (props = {}) =>
   renderWithThemeAndIntl(
     <Router history={history}>
-      <TetheringUI test enabled={enabled} />
+      <TetheringUI test {...props} />
     </Router>
   )
 
-describe("Disabled tethering tests", () => {
+describe("Pure disconnected screen tests", () => {
   test("disabled screen is shown", () => {
-    const { queryByTestId } = renderer()
-    expect(queryByTestId(TetheringTestIds.DisabledWrapper)).toBeInTheDocument()
+    const { queryByTestId } = renderer({ disconnectedDevice: true })
+    expect(
+      queryByTestId(TetheringTestIds.DisconnectedWrapper)
+    ).toBeInTheDocument()
     expect(
       queryByTestId(TetheringTestIds.EnabledWrapper)
     ).not.toBeInTheDocument()
   })
 
   test("header is visible", () => {
-    const { queryByTestId } = renderer()
+    const { queryByTestId } = renderer({ disconnectedDevice: true })
     expect(
-      queryByTestId(TetheringTestIds.DisabledNotificationTitle)
+      queryByTestId(TetheringTestIds.DisconnectedNotificationTitle)
     ).toBeInTheDocument()
   })
 
   test("second notification is visible", () => {
-    const { queryByTestId } = renderer()
+    const { queryByTestId } = renderer({ disconnectedDevice: true })
     expect(
-      queryByTestId(TetheringTestIds.DisabledSecondNotification)
+      queryByTestId(TetheringTestIds.SecondNotification)
     ).toBeInTheDocument()
   })
 
   test("third notification is visible", () => {
-    const { queryByTestId } = renderer()
+    const { queryByTestId } = renderer({ disconnectedDevice: true })
     expect(
-      queryByTestId(TetheringTestIds.DisabledThirdNotification)
+      queryByTestId(TetheringTestIds.ThirdNotification)
     ).toBeInTheDocument()
   })
 
   test("button redirecting to settings is visible", () => {
-    const { queryByTestId } = renderer()
-    expect(
-      queryByTestId(TetheringTestIds.DisabledGotoButton)
-    ).toBeInTheDocument()
+    const { queryByTestId } = renderer({ disconnectedDevice: true })
+    expect(queryByTestId(TetheringTestIds.GoToButton)).toBeInTheDocument()
   })
 
   test("image is visible", () => {
-    const { queryByTestId } = renderer()
-    expect(queryByTestId(TetheringTestIds.DisabledImage)).toBeInTheDocument()
+    const { queryByTestId } = renderer({ disconnectedDevice: true })
+    expect(
+      queryByTestId(TetheringTestIds.DisconnectedImage)
+    ).toBeInTheDocument()
   })
 })
 
 describe("Enabled tethering tests", () => {
   test("enabled screen is shown", () => {
-    const { queryByTestId } = renderer(true)
+    const { queryByTestId } = renderer({
+      tetheringEnabled: true,
+      disconnectedDevice: false,
+    })
     expect(queryByTestId(TetheringTestIds.EnabledWrapper)).toBeInTheDocument()
     expect(
-      queryByTestId(TetheringTestIds.DisabledWrapper)
+      queryByTestId(TetheringTestIds.DisconnectedWrapper)
     ).not.toBeInTheDocument()
+  })
+})
+
+describe("Disabled tethering tests", () => {
+  const props = { tetheringEnabled: false, disconnectedDevice: false }
+  test("disabled screen is shown", () => {
+    const { queryByTestId } = renderer(props)
+    expect(queryByTestId(TetheringTestIds.DisabledWrapper)).toBeInTheDocument()
+    expect(
+      queryByTestId(TetheringTestIds.DisconnectedWrapper)
+    ).not.toBeInTheDocument()
+  })
+
+  test("second notification is visible", () => {
+    const { queryByTestId } = renderer(props)
+    expect(
+      queryByTestId(TetheringTestIds.SecondNotification)
+    ).toBeInTheDocument()
+  })
+
+  test("third notification is visible", () => {
+    const { queryByTestId } = renderer(props)
+    expect(
+      queryByTestId(TetheringTestIds.ThirdNotification)
+    ).toBeInTheDocument()
+  })
+
+  test("button redirecting to settings is visible", () => {
+    const { queryByTestId } = renderer(props)
+    expect(queryByTestId(TetheringTestIds.GoToButton)).toBeInTheDocument()
+  })
+
+  test("image is visible", () => {
+    const { queryByTestId } = renderer(props)
+    expect(queryByTestId(TetheringTestIds.DisabledImage)).toBeInTheDocument()
   })
 })
