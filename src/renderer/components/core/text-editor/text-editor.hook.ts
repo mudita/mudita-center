@@ -132,8 +132,9 @@ export const useTextEditor = (
 
   useEffect(() => {
     setStatus({ type: Action.AutoSave, payload: undefined })
+    resetSaveStatus()
+
     if (init.current) {
-      resetSaveStatus()
       if (tempTextChanged) {
         debounceAutoSave()
       } else {
@@ -141,7 +142,6 @@ export const useTextEditor = (
       }
       init.current = false
     } else {
-      resetSaveStatus()
       if (textChanged) {
         debounceAutoSave()
       } else {
