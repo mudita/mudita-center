@@ -17,7 +17,7 @@ export const contactFactory = (input: GooglePerson): Contact | null => {
     throw new Error("Unable to save model, missing name")
   }
 
-  if (input.emailAddresses && input.emailAddresses.length > 0) {
+  if (input.emailAddresses?.length > 0) {
     base.email = input.emailAddresses[0].value
   }
 
