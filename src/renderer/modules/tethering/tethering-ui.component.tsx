@@ -25,7 +25,12 @@ const TetheringUI: FunctionComponent<TetheringProps> = ({
   const getTetheringScreen = () => {
     switch (true) {
       case tetheringEnabled && !disconnectedDevice:
-        return <TetheringEnabled />
+        return (
+          <TetheringEnabled
+            tetheringEnabled={tetheringEnabled}
+            onToggleTethering={onToggleTethering}
+          />
+        )
       case !tetheringEnabled && !disconnectedDevice:
         return (
           <TetheringDisabled

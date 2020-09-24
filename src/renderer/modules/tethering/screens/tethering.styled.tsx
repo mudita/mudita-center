@@ -8,6 +8,7 @@ import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { fadeAnimation } from "Renderer/components/core/modal/modal.styled.elements"
+import Text from "Renderer/components/core/text/text.component"
 
 export const TetheringWrapper = styled.div`
   padding: 3.6rem 3rem 0 4rem;
@@ -69,4 +70,9 @@ export const TextWrapper = styled.div`
 
 export const TetheringToggler = styled(SettingsToggler)`
   margin-right: 0;
+`
+
+export const InfoText = styled(Text)`
+  ${fadeAnimation};
+  animation-duration: ${transitionTime("slow")};
 `

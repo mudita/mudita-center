@@ -3,6 +3,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   ButtonWrapper,
   IconHolder,
+  InfoText,
   StyledButton,
   TetheringImageWrapper,
 } from "Renderer/modules/tethering/screens/tethering.styled"
@@ -54,7 +55,7 @@ const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
         to={URL_MAIN.settings}
       />
     </ButtonWrapper>
-    <Text
+    <InfoText
       displayStyle={TextDisplayStyle.SmallFadedText}
       data-testid={TetheringTestIds.ThirdNotification}
     >
@@ -62,7 +63,7 @@ const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
         <Icon type={Type.Info} width={1.6} />
       </IconHolder>
       {intl.formatMessage(tetheringMessages.explanation, textFormatters)}
-    </Text>
+    </InfoText>
     <TetheringImageWrapper data-testid={TetheringTestIds.DisabledImage}>
       <Image
         src={TetheringOff}
