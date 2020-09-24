@@ -79,7 +79,7 @@ This project comes with both Precommit and Prettier setup to ensure a consistent
 
   ##### Solution:
 
-  Same error will apply to any change that was done to settings without updating settings json. It can be manually updated by removing old settings.json and creating a new one in its place. To do that run remove settings.json.
+  Same error will apply to any change that was done to settings without updating settings json. It can be manually updated by removing old settings.json and creating a new one in its place. To do that remove settings.json.
   Settings.json is located in:
 
   - `C:\Users\<username>\AppData\Roaming\pure-desktop-app` on Windows
