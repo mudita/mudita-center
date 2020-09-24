@@ -28,8 +28,8 @@ storiesOf("Components|Core/TextEditor", module)
       <TextEditor
         temporaryText={defaultText}
         keepTemporaryText={noop}
-        rejectChanges={noop}
-        saveChanges={noop}
+        onChangesReject={noop}
+        onChangesSave={noop}
         statsInfo={`${defaultText.length} characters`}
       />
     </Story>
@@ -39,8 +39,8 @@ storiesOf("Components|Core/TextEditor", module)
       <TextEditor
         temporaryText={defaultText}
         keepTemporaryText={noop}
-        rejectChanges={noop}
-        saveChanges={noop}
+        onChangesReject={noop}
+        onChangesSave={noop}
         statsInfo={`${defaultText.length} characters`}
         status={{ editMode: true }}
       />
@@ -51,8 +51,8 @@ storiesOf("Components|Core/TextEditor", module)
       <TextEditor
         temporaryText={defaultText}
         keepTemporaryText={noop}
-        rejectChanges={noop}
-        saveChanges={noop}
+        onChangesReject={noop}
+        onChangesSave={noop}
         statsInfo={`${defaultText.length} characters`}
         status={{ editMode: true, textChanged: true }}
       />
@@ -63,8 +63,8 @@ storiesOf("Components|Core/TextEditor", module)
       <TextEditor
         temporaryText={defaultText}
         keepTemporaryText={noop}
-        rejectChanges={noop}
-        saveChanges={noop}
+        onChangesReject={noop}
+        onChangesSave={noop}
         statsInfo={`${defaultText.length} characters`}
         status={{
           editMode: true,
@@ -79,8 +79,8 @@ storiesOf("Components|Core/TextEditor", module)
       <TextEditor
         temporaryText={defaultText}
         keepTemporaryText={noop}
-        rejectChanges={noop}
-        saveChanges={noop}
+        onChangesReject={noop}
+        onChangesSave={noop}
         statsInfo={`${defaultText.length} characters`}
         status={{
           editMode: true,
@@ -95,8 +95,8 @@ storiesOf("Components|Core/TextEditor", module)
       <TextEditor
         temporaryText={defaultText}
         keepTemporaryText={noop}
-        rejectChanges={noop}
-        saveChanges={noop}
+        onChangesReject={noop}
+        onChangesSave={noop}
         statsInfo={`${defaultText.length} characters`}
         status={{
           editMode: true,
@@ -135,8 +135,8 @@ storiesOf("Components|Core/TextEditor", module)
         <TextEditor
           temporaryText={temporaryText}
           keepTemporaryText={keepTemporaryText}
-          rejectChanges={rejectChanges}
-          saveChanges={saveChanges}
+          onChangesReject={rejectChanges}
+          onChangesSave={saveChanges}
           statsInfo={`${temporaryText.length} characters`}
           status={status}
           enableEditMode={enableEditMode}

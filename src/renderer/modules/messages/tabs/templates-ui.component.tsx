@@ -156,7 +156,8 @@ const Templates: FunctionComponent<TemplatesProps> = ({
           {activeRow && (
             <TextEditor
               {...textEditorHook}
-              saveChanges={tryToSave}
+              onChangesReject={noop}
+              onChangesSave={tryToSave}
               autoFocus={newTemplateCreated}
               statsInfo={intl.formatMessage(messages.charactersNumber, {
                 charactersCount: textLength,

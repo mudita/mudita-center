@@ -14,8 +14,8 @@ const text = `Lorem ipsum.\nDolor sit amet`
 const renderTextEditor = ({
   temporaryText = text,
   keepTemporaryText = noop,
-  rejectChanges = noop,
-  saveChanges = noop,
+  onChangesReject = noop,
+  onChangesSave = noop,
   status = {
     autosave: undefined,
     save: undefined,
@@ -27,8 +27,8 @@ const renderTextEditor = ({
     <TextEditor
       temporaryText={temporaryText}
       keepTemporaryText={keepTemporaryText}
-      rejectChanges={rejectChanges}
-      saveChanges={saveChanges}
+      onChangesReject={onChangesReject}
+      onChangesSave={onChangesSave}
       status={status}
       {...props}
       statsInfo={`${temporaryText.length} characters`}
@@ -123,8 +123,8 @@ test("save and reject buttons calls given functions properly", () => {
       editMode: true,
       textChanged: true,
     },
-    saveChanges: save,
-    rejectChanges: reject,
+    onChangesSave: save,
+    onChangesReject: reject,
   })
 
   fireEvent.click(getByTestId("save"))

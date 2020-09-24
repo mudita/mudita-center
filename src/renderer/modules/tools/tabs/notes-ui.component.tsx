@@ -170,7 +170,7 @@ const Notes: FunctionComponent<NotesProps> = ({
     sortByDate()
   }, [])
 
-  const onChangesReject = () => {
+  const handleChangesReject = () => {
     rejectChanges()
     if (removeNotes && newNoteId && activeRow?.id === newNoteId) {
       removeNotes([newNoteId])
@@ -345,14 +345,14 @@ const Notes: FunctionComponent<NotesProps> = ({
           {activeRow && (
             <TextEditor
               {...textEditorHook}
-              rejectChanges={onChangesReject}
+              onChangesReject={handleChangesReject}
               statsInfoError={textLength > maxCharacters}
               statsInfo={intl.formatMessage(messages.charactersNumber, {
                 currentCharacters: textLength,
                 maxCharacters,
               })}
               autoFocus={newNoteId === activeRow?.id}
-              saveChanges={tryToSave}
+              onChangesSave={tryToSave}
             />
           )}
         </NotesSidebar>
