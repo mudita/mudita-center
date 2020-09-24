@@ -10,18 +10,18 @@ export const contactFactory = (input: GooglePerson): Contact | null => {
     note: "",
   }
 
-  if (input.names?.length > 0) {
+  if (input.names?.length) {
     base.firstName = input.names[0].givenName || ""
     base.lastName = input.names[0].familyName || ""
   } else {
     throw new Error("Unable to save model, missing name")
   }
 
-  if (input.emailAddresses?.length > 0) {
+  if (input.emailAddresses?.length) {
     base.email = input.emailAddresses[0].value
   }
 
-  if (input.phoneNumbers?.length > 0) {
+  if (input.phoneNumbers?.length) {
     input.phoneNumbers.forEach((item, i) => {
       if (i === 0) {
         base.primaryPhoneNumber = item.value
