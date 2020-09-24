@@ -1,36 +1,76 @@
-import { noop } from "Renderer/utils/noop"
-import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import "@testing-library/jest-dom/extend-expect"
 import React from "react"
-import Templates from "Renderer/modules/messages/tabs/templates-ui.component"
-import { mockedTemplateData } from "Renderer/modules/messages/__mocks__/template-modal-data"
+import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
+import Templates, {
+  TemplatesProps,
+} from "Renderer/modules/messages/tabs/templates.component"
+import { noop } from "Renderer/utils/noop"
+import { intl } from "Renderer/utils/intl"
+import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
+import { mockedTemplateData } from "Renderer/modules/messages/__mocks__/template-modal-data"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 import { fireEvent } from "@testing-library/dom"
 
 mockAllIsIntersecting(true)
 
-const renderer = (emptyState?: boolean) => {
-  return renderWithThemeAndIntl(
+const renderTemplates = ({
+  onDeleteButtonClick = noop,
+  onNewButtonClick = noop,
+  onSearchTermChange = noop,
+  newTemplate = noop,
+  templates = mockedTemplateData,
+}: Partial<TemplatesProps> = {}) => {
+  const outcome = renderWithThemeAndIntl(
     <Templates
-      newTemplate={noop}
-      templates={emptyState ? [] : mockedTemplateData}
-      onDeleteButtonClick={noop}
+      newTemplate={newTemplate}
+      templates={templates}
+      onDeleteButtonClick={onDeleteButtonClick}
+      onNewButtonClick={onNewButtonClick}
+      onSearchTermChange={onSearchTermChange}
     />
   )
+  return {
+    ...outcome,
+    getButtons: () => outcome.getAllByRole("button") as HTMLButtonElement[],
+    getNewTemplateButton: () =>
+      outcome.getByText(intl.formatMessage(messages.newButton)),
+  }
 }
 
+test("renders new template button properly", () => {
+  const { getNewTemplateButton } = renderTemplates()
+  expect(getNewTemplateButton()).toBeInTheDocument()
+})
+
+test("renders search input properly", () => {
+  const { getByPlaceholderText } = renderTemplates()
+  expect(
+    getByPlaceholderText(intl.formatMessage(messages.searchPlaceholder))
+  ).toBeInTheDocument()
+})
+
+test("calls proper action after new template button click", () => {
+  const onClick = jest.fn()
+  const { getByTestId } = renderTemplates({
+    onNewButtonClick: onClick,
+  })
+  getByTestId(TemplatesTestIds.AddTemplateButton).click()
+  expect(getByTestId(TemplatesTestIds.TextEditor)).toBeInTheDocument()
+})
+
 test("correct number of rows is rendered", () => {
-  const { getAllByRole } = renderer()
+  const { getAllByRole } = renderTemplates()
   expect(getAllByRole("listitem")).toHaveLength(mockedTemplateData.length)
 })
 
 test("when templates are empty, empty state information is rendered", () => {
-  const { getByTestId } = renderer(true)
+  const { getByTestId } = renderTemplates({ templates: [] })
   expect(getByTestId(TemplatesTestIds.EmptyState)).toBeInTheDocument()
 })
 
 test("when row is clicked sidebar is displayed", () => {
-  const { getAllByRole, getByTestId } = renderer()
+  const { getAllByRole, getByTestId } = renderTemplates()
   const exampleRow = getAllByRole("listitem")[0]
   fireEvent.click(exampleRow)
   expect(getByTestId(TemplatesTestIds.TextEditor)).toBeInTheDocument()
