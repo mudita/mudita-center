@@ -43,4 +43,6 @@ export type ComponentProps = Omit<StateProps, "topics"> &
     changeVisibilityFilter?: (filter: VisibilityFilter) => void
     deleteConversation?: (ids: string[]) => void
     list: Topic[]
+    visibilityFilter?: VisibilityFilter
+    markAsRead?: (ids: string[]) => void
   }>

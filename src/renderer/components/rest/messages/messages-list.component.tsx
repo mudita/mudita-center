@@ -275,7 +275,7 @@ const MessagesList: FunctionComponent<Props> = ({
                   )}
                   <ButtonComponent
                     labelMessage={{
-                      id: "view.name.messages.dropdownMarkAsRead",
+                      id: "view.name.messages.markAsRead",
                     }}
                     Icon={Type.BorderCheckIcon}
                     onClick={noop}

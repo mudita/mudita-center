@@ -2,14 +2,17 @@ import { init } from "@rematch/core"
 import messages from "Renderer/models/messages/messages"
 import { VisibilityFilter } from "Renderer/models/messages/messages.interface"
 import selectPlugin from "@rematch/select"
-import { messagesSeed } from "App/seeds/messages"
+import { data } from "App/seeds/messages"
+import { mockedUnreadMessages } from "App/__mocks__/mocked-unread-messages"
 
 const storeConfig = {
   models: { messages },
   plugins: [selectPlugin()],
   redux: {
     initialState: {
-      messages: messagesSeed,
+      messages: {
+        topics: [...mockedUnreadMessages, data],
+      },
     },
   },
 }
@@ -52,4 +55,14 @@ test("deletes multiple conversations", () => {
   expect(conversationAmountAfterDeleting).toEqual(
     initialConversationsAmount - messagesIdsToDelete.length
   )
+})
+
+test("marks messages as read", () => {
+  const messagesIdsToMakeRead = [
+    mockedUnreadMessages[0].id,
+    mockedUnreadMessages[1].id,
+  ]
+  store.dispatch.messages.markAsRead(messagesIdsToMakeRead)
+  expect(store.getState().messages.topics[0].unread).toBeFalsy()
+  expect(store.getState().messages.topics[1].unread).toBeFalsy()
 })
