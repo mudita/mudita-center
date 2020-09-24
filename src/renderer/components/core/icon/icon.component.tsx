@@ -38,7 +38,7 @@ const badgeStyles = css`
   }
 `
 
-const Wrapper = styled.div<{
+const Wrapper = styled.i<{
   badge?: boolean
   height?: number
   width?: number
@@ -50,6 +50,7 @@ const Wrapper = styled.div<{
   height: ${({ height = 2, size }) => (size ? `${size}rem` : `${height}rem`)};
   width: ${({ width = 2, size }) => (size ? `${size}rem` : `${width}rem`)};
   position: relative;
+  font-style: normal;
 
   svg {
     width: 100%;

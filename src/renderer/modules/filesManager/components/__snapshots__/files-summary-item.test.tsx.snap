@@ -34,6 +34,7 @@ exports[`should match snapshot with link 1`] = `
   height: 3.2rem;
   width: 3.2rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -57,6 +58,7 @@ exports[`should match snapshot with link 1`] = `
   height: 2rem;
   width: 2rem;
   position: relative;
+  font-style: normal;
 }
 
 .c7 svg {
@@ -98,7 +100,7 @@ exports[`should match snapshot with link 1`] = `
   class="c0"
   data-testid="files-manager-item"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-VoiceRecorder"
     height="3.2"
@@ -107,7 +109,7 @@ exports[`should match snapshot with link 1`] = `
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <div
     class="c3"
   >
@@ -126,14 +128,14 @@ exports[`should match snapshot with link 1`] = `
     class="c6"
     href="#/tools/voice-recorder"
   >
-    <div
+    <i
       class="c7"
       data-testid="icon-Arrow"
     >
       <test-file-stub
         image="test-file-stub"
       />
-    </div>
+    </i>
   </a>
 </div>
 `;
@@ -172,6 +174,7 @@ exports[`should match snapshot without link 1`] = `
   height: 3.2rem;
   width: 3.2rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -204,7 +207,7 @@ exports[`should match snapshot without link 1`] = `
   class="c0"
   data-testid="files-manager-item"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-VoiceRecorder"
     height="3.2"
@@ -213,7 +216,7 @@ exports[`should match snapshot without link 1`] = `
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <div
     class="c3"
   >

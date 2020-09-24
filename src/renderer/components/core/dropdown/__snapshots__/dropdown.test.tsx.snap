@@ -107,6 +107,7 @@ exports[`renders dropdown 1`] = `
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c6 svg {
@@ -247,7 +248,7 @@ exports[`renders dropdown 1`] = `
         size="2"
         target="_blank"
       >
-        <div
+        <i
           class="c6 c7"
           data-testid="icon-Upload"
           height="2.8"
@@ -256,7 +257,7 @@ exports[`renders dropdown 1`] = `
           <test-file-stub
             image="test-file-stub"
           />
-        </div>
+        </i>
         <p
           class="c2 c3"
         >

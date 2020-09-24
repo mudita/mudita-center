@@ -23,6 +23,7 @@ exports[`matches snapshot 1`] = `
   height: 1.5rem;
   width: 0.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c3 svg {
@@ -116,7 +117,7 @@ exports[`matches snapshot 1`] = `
         type="checkbox"
         value="value2"
       />
-      <div
+      <i
         class="c3 c4"
         data-testid="icon-Check"
         height="1.5"
@@ -125,7 +126,7 @@ exports[`matches snapshot 1`] = `
         <test-file-stub
           image="test-file-stub"
         />
-      </div>
+      </i>
     </div>
     <span
       class="c5 c6"
