@@ -21,8 +21,8 @@ import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 import { defineMessages } from "react-intl"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import {
-  Checkbox,
   DeleteCol,
   Row,
   Table,
@@ -139,7 +139,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
               role="listitem"
             >
               <Col>
-                <Checkbox
+                <VisibleCheckbox
                   size={Size.Small}
                   checked={selected}
                   onChange={toggle}

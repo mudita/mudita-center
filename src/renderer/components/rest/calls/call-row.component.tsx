@@ -8,8 +8,8 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { Col, Row } from "Renderer/components/core/table/table.component"
 import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.enum"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import {
-  Checkbox,
   ClickableCol,
   StatusCallIcon,
 } from "Renderer/components/rest/calls/calls-table.styled"
@@ -79,7 +79,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
       active={activeRow?.id === id}
     >
       <Col>
-        <Checkbox
+        <VisibleCheckbox
           checked={selected}
           indeterminate={indeterminate}
           onChange={toggle}

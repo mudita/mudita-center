@@ -1,29 +1,14 @@
-import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Table, { Col, Row } from "Renderer/components/core/table/table.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import {
-  transitionTime,
-  transitionTimingFunction,
-} from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 import Icon from "Renderer/components/core/icon/icon.component"
+import {
+  VisibleCheckbox,
+  animatedOpacityActiveStyles,
+} from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 
-const visibleCheckboxStyles = css`
-  opacity: 1;
-  visibility: visible;
-`
-export const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity ${transitionTime("faster")}
-      ${transitionTimingFunction("smooth")},
-    visibility ${transitionTime("faster")} ${transitionTimingFunction("smooth")};
-  margin: 0 auto;
-
-  ${({ visible }) => visible && visibleCheckboxStyles};
-`
 export const BaseSelectableCalls = styled(Table)<{ mouseLock?: boolean }>`
   flex: 1;
   overflow: auto;
@@ -34,8 +19,8 @@ export const BaseSelectableCalls = styled(Table)<{ mouseLock?: boolean }>`
 
   ${Row} {
     :hover {
-      ${Checkbox} {
-        ${visibleCheckboxStyles};
+      ${VisibleCheckbox} {
+        ${animatedOpacityActiveStyles};
       }
     }
   }

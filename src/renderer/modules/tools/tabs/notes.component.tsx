@@ -19,7 +19,7 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.enum"
 import {
   FiltersWrapper,
@@ -295,7 +295,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                     role="listitem"
                   >
                     <Col>
-                      <Checkbox
+                      <VisibleCheckbox
                         data-testid={NotesTestIds.Checkbox}
                         checked={selected}
                         onChange={toggle}

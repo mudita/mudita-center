@@ -7,7 +7,7 @@ import BaseTable, {
   Sidebar,
 } from "Renderer/components/core/table/table.component"
 import Text from "Renderer/components/core/text/text.component"
-import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import { FiltersWrapper as FiltersWrapperBase } from "Renderer/components/rest/messages/topics-table.component"
 import {
   textColor,
@@ -74,7 +74,7 @@ export const Table = styled(BaseTable)`
 
 export const Row = styled(BaseRow)`
   &:hover {
-    ${Checkbox} {
+    ${VisibleCheckbox} {
       opacity: 1;
       visibility: visible;
     }
