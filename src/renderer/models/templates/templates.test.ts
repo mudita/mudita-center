@@ -23,6 +23,7 @@ beforeEach(() => {
 const testId = "test-id"
 const testContent = "test-content"
 const testObject = { id: testId, content: testContent }
+const testDate = new Date("2020-07-21T13:08:02.733Z")
 
 test("has proper initial state", () => {
   expect(store.getState().templates.templates).toBeDefined()
@@ -98,6 +99,7 @@ test("properly saves modified template", () => {
   store.dispatch.templates.saveTemplate({
     id: templateId,
     content: testContent,
+    date: testDate,
   })
 
   expect(store.getState().templates.templates!.find(findById)!.content).toBe(

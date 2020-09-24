@@ -33,8 +33,9 @@ const TemplatesSidebar = styled(Sidebar)`
 `
 
 export interface Template {
-  id: string
+  date: Date
   content: string
+  id: string
 }
 
 export interface TemplatesProps {
