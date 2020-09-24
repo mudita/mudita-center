@@ -21,7 +21,7 @@ export const contactFactory = (input: GooglePerson): Contact | null => {
     base.email = input.emailAddresses[0].value
   }
 
-  if (input.phoneNumbers && input.phoneNumbers.length > 0) {
+  if (input.phoneNumbers?.length > 0) {
     input.phoneNumbers.forEach((item, i) => {
       if (i === 0) {
         base.primaryPhoneNumber = item.value
