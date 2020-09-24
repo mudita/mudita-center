@@ -71,14 +71,19 @@ This project comes with both Precommit and Prettier setup to ensure a consistent
   ```
   > :warning: To omit possible issues, you should execute the above command after every dependencies update.
 - ##### Error:
+
   ```
   Uncaught Expection:
   Error: Config schema violation: `language` should be a string
   ```
+
   ##### Solution:
-  Same error will apply to any change that was done to settings without updating settings json. It can be manually updated by removing old settings.json and creating a new one in its place. To do that run following commands in terminal:
-  ```bash
-  cd Library/Application\ Support/pure-desktop-app
-  rm -f settings.json
-  ```
-  After running those commands, reopen app by running `npm run develop` so app can create a new settings.json locally.
+
+  Same error will apply to any change that was done to settings without updating settings json. It can be manually updated by removing old settings.json and creating a new one in its place. To do that run remove settings.json.
+  Settings.json is located in:
+
+  - `C:\Users\<username>\AppData\Roaming\pure-desktop-app` on Windows
+  - `~/.config/pure-desktop-app` on Linux
+  - `~/Library/Application Support/pure-desktop-app` on macOS
+
+  Next step is to reopen app by running `npm run develop` so app can create a new settings.json locally.
