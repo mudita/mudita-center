@@ -39,6 +39,7 @@ exports[`matches snapshot 1`] = `
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c9 svg {
@@ -213,7 +214,7 @@ exports[`matches snapshot 1`] = `
         size="2"
         type="button"
       >
-        <div
+        <i
           class="c9 c10"
           data-testid="icon-Reload"
           height="2.8"
@@ -222,7 +223,7 @@ exports[`matches snapshot 1`] = `
           <test-file-stub
             image="test-file-stub"
           />
-        </div>
+        </i>
         <p
           class="c4 c11"
         >

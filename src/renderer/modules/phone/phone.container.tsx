@@ -2,13 +2,16 @@ import { connect } from "react-redux"
 import Phone from "./phone.component"
 import { Phone as PhoneType } from "Renderer/models/phone/phone.typings"
 import { noop } from "Renderer/utils/noop"
-
-import {
-  generateFlatList,
-  generateSortedStructure,
-} from "Renderer/models/phone/phone.helpers"
-import { ContactID } from "Renderer/models/phone/phone.typings"
 import { handleGoogleAuth } from "Renderer/providers/google/auth"
+import { select } from "Renderer/store"
+import { RootModel } from "Renderer/models/models"
+
+const selector = select(({ phone }) => ({
+  contactList: phone.contactList,
+  flatList: phone.flatList,
+  speedDialChosenList: phone.speedDialChosenList,
+  getContact: phone.getContact,
+}))
 
 const mapStateToProps = ({ phone }: { phone: PhoneType }) => {
   return {

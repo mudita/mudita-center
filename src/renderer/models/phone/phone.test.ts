@@ -181,7 +181,7 @@ describe("redux tests", () => {
 
   test("creates proper flat list", () => {
     expect(
-      Array.isArray(store.select.phone.grouped(store.getState()))
+      Array.isArray(store.select.phone.contactList(store.getState()))
     ).toBeTruthy()
   })
 

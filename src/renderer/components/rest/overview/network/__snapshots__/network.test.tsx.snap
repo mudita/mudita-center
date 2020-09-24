@@ -57,6 +57,7 @@ exports[`matches snapshot 1`] = `
   height: 1.6rem;
   width: 1.6rem;
   position: relative;
+  font-style: normal;
 }
 
 .c5 svg {
@@ -136,7 +137,6 @@ exports[`matches snapshot 1`] = `
   -webkit-transition: opacity 0.3s ease-in-out;
   transition: opacity 0.3s ease-in-out;
   box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
-  z-index: 4;
 }
 
 .c6 {
@@ -149,6 +149,7 @@ exports[`matches snapshot 1`] = `
 .c6:hover + .c7 {
   visibility: visible;
   opacity: 1;
+  z-index: 4;
 }
 
 .c10 {
@@ -251,7 +252,7 @@ exports[`matches snapshot 1`] = `
     <section
       class="c3 c4"
     >
-      <div
+      <i
         class="c5 c6"
         data-testid="icon-Tooltip"
         height="1.6"
@@ -260,7 +261,7 @@ exports[`matches snapshot 1`] = `
         <test-file-stub
           image="test-file-stub"
         />
-      </div>
+      </i>
       <div
         class="c7 c8"
         data-testid="tooltip"

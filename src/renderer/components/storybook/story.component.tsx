@@ -72,6 +72,7 @@ const Container = styled.main<ContainerProps>`
 export interface StoryProps extends ContainerProps {
   title?: string
   noCode?: boolean
+  noUppercase?: boolean
 }
 
 const Story: FunctionComponent<StoryProps> = ({
@@ -83,6 +84,7 @@ const Story: FunctionComponent<StoryProps> = ({
   borderMode,
   customStyle,
   noCode,
+  noUppercase,
 }) => {
   const { storySettings, setStorySettings, setCompatibleStory } = useContext(
     StoryContext
@@ -102,7 +104,7 @@ const Story: FunctionComponent<StoryProps> = ({
   return (
     <Wrapper className={className}>
       <Header>
-        <Heading>{title}</Heading>
+        <Heading noUppercase={noUppercase}>{title}</Heading>
         <Button
           onClick={showLine}
           enabled={lineNumber === storySettings.currentLine}

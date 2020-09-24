@@ -5,6 +5,7 @@ import ButtonToggler from "Renderer/components/core/button-toggler/button-toggle
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import Button from "Renderer/components/core/button/button.component"
+import ButtonComponent from "Renderer/components/core/button/button.component"
 import {
   DisplayStyle,
   Size as ButtonSize,
@@ -12,8 +13,10 @@ import {
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { Topic } from "Renderer/models/messages/messages.interface"
-import ButtonComponent from "Renderer/components/core/button/button.component"
+import {
+  Topic,
+  VisibilityFilter,
+} from "Renderer/models/messages/messages.interface"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
@@ -46,6 +49,10 @@ const deleteModalMessages = defineMessages({
   uniqueText: { id: "view.name.messages.deleteModal.uniqueText" },
 })
 
+const panelMessages = defineMessages({
+  markAsReadButton: { id: "view.name.messages.markAsRead" },
+})
+
 interface Props {
   showAllMessages?: () => void
   hideReadMessages?: () => void
@@ -53,10 +60,11 @@ interface Props {
   deleteConversation: (ids: string[]) => void
   searchValue: string
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
-  selectedItemsCount: number
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Topic>["toggleAll"]
   resetRows: UseTableSelect<Topic>["resetRows"]
+  visibilityFilter?: VisibilityFilter
+  onMarkAsRead: (ids: string[]) => void
 }
 
 const MessagesPanel: FunctionComponent<Props> = ({
@@ -64,15 +72,16 @@ const MessagesPanel: FunctionComponent<Props> = ({
   hideReadMessages = noop,
   searchValue,
   changeSearchValue,
-  selectedItemsCount,
   allItemsSelected,
   toggleAll = noop,
   deleteConversation,
   selectedConversations,
   resetRows,
+  visibilityFilter,
+  onMarkAsRead,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
-  const selectionMode = selectedItemsCount > 0
+  const selectionMode = selectedConversations.length > 0
   const openDeleteModal = () => {
     const selectedConversationsIds = selectedConversations.map(({ id }) => id)
     const uniqueSelectedRows = uniqBy(selectedConversations, "caller.id")
@@ -113,6 +122,30 @@ const MessagesPanel: FunctionComponent<Props> = ({
     modalService.openModal(<DeleteModal {...modalConfig} />)
   }
   const openModal = () => openDeleteModal()
+  const markAsRead = () => {
+    const selectedConversationsIds = selectedConversations.map(({ id }) => id)
+    onMarkAsRead(selectedConversationsIds)
+    resetRows()
+  }
+
+  const selectionManagerButtons = [
+    <ButtonComponent
+      key="read"
+      label={intl.formatMessage(panelMessages.markAsReadButton)}
+      displayStyle={DisplayStyle.Link1}
+      Icon={Type.MarkAsRead}
+      onClick={markAsRead}
+      data-testid={MessagePanelTestIds.SelectionManagerMarkAsReadButton}
+    />,
+    <ButtonComponent
+      key="delete"
+      label={intl.formatMessage(messages.deleteButton)}
+      displayStyle={DisplayStyle.Link1}
+      Icon={Type.Delete}
+      onClick={openModal}
+      data-testid={MessagePanelTestIds.SelectionManagerDeleteButton}
+    />,
+  ]
   return (
     <MessageFiltersWrapper selectionMode={selectionMode}>
       {!selectionMode && (
@@ -137,21 +170,16 @@ const MessagesPanel: FunctionComponent<Props> = ({
       )}
       {selectionMode ? (
         <MessageSelectionManager
-          selectedItemsNumber={selectedItemsCount}
+          selectedItemsNumber={selectedConversations.length}
           allItemsSelected={Boolean(allItemsSelected)}
           message={{ id: "view.name.messages.conversations.selectionsNumber" }}
           checkboxSize={Size.Large}
           onToggle={toggleAll}
-          buttons={[
-            <ButtonComponent
-              key="delete"
-              label={intl.formatMessage(messages.deleteButton)}
-              displayStyle={DisplayStyle.Link1}
-              Icon={Type.Delete}
-              onClick={openModal}
-              data-testid={MessagePanelTestIds.SelectionManagerDeleteButton}
-            />,
-          ]}
+          buttons={
+            visibilityFilter === VisibilityFilter.Unread
+              ? selectionManagerButtons
+              : [selectionManagerButtons[1]]
+          }
           data-testid={MessagePanelTestIds.SelectionManager}
         />
       ) : (

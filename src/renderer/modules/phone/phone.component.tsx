@@ -53,6 +53,7 @@ export type PhoneProps = ContactActions &
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
+    speedDialChosenList: number[]
     removeContact?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => Promise<void>
@@ -66,6 +67,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     removeContact,
     contactList = [],
     flatList,
+    speedDialChosenList,
     onSearchTermChange,
     onManageButtonClick,
     onCall,
@@ -250,12 +252,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const openSpeedDialModal = () => {
-    modalService.openModal(
-      <SpeedDialModal
-        onClose={cancelEditingContact}
-        onSave={closeSpeedDialModal}
-      />
-    )
+    modalService.openModal(<SpeedDialModal onSave={closeSpeedDialModal} />)
   }
 
   const openSuccessSyncModal = async () => {
@@ -394,6 +391,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           />
           {newContact && (
             <ContactEdit
+              speedDialChosenList={speedDialChosenList}
               onCancel={cancelOrCloseContactHandler}
               onSpeedDialSettingsOpen={openSpeedDialModal}
               onSave={saveNewContact}
@@ -404,6 +402,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           {editedContact && (
             <ContactEdit
               contact={editedContact}
+              speedDialChosenList={speedDialChosenList}
               onCancel={cancelEditingContact}
               onSpeedDialSettingsOpen={openSpeedDialModal}
               onSave={saveEditedContact}

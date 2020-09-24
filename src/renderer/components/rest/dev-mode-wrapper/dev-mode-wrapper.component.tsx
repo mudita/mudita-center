@@ -42,6 +42,7 @@ const DevModeWrapper: FunctionComponent<DevModeProps> = ({
             displayStyle={TextDisplayStyle.LargeFadedText}
             message={{ id: "dev.view.wrapperName" }}
           />
+          <br />
           {children}
         </DevModeInside>
       </DevModeContainer>

@@ -1,4 +1,4 @@
-import { Template } from "Renderer/modules/messages/tabs/templates-ui.component"
+import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import { removeNewLinesFromString } from "Renderer/utils/remove-new-lines-from-string"
 
 const prepareStringForSearch = (text: string) => {

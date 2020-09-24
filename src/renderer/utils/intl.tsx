@@ -11,9 +11,11 @@ export const intl = createIntl({
   messages: process.env.NODE_ENV === "test" ? testLocale : localeEn,
 })
 
+// https://github.com/formatjs/formatjs/issues/1467#issuecomment-543872950
+let index = 0
 export const textFormatters = {
-  b: (str: string) => <strong>{str}</strong>,
-  u: (str: string) => <u>{str}</u>,
-  i: (str: string) => <em>{str}</em>,
-  s: (str: string) => <s>{str}</s>,
+  b: (str: string) => <strong key={`bold-${++index}`}>{str}</strong>,
+  u: (str: string) => <u key={`underline-${++index}`}>{str}</u>,
+  i: (str: string) => <em key={`italics-${++index}`}>{str}</em>,
+  s: (str: string) => <s key={`strike-${++index}`}>{str}</s>,
 }

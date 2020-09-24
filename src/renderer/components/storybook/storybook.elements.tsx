@@ -25,8 +25,8 @@ export const Button = styled.span<{ enabled?: boolean; visible?: boolean }>`
   }
 `
 
-export const Heading = styled.h1`
-  text-transform: uppercase;
+export const Heading = styled.h1<{ noUppercase?: boolean }>`
+  text-transform: ${(props) => (props.noUppercase ? "none" : "uppercase")};
   font-weight: 500;
   font-size: 1.1rem;
   letter-spacing: 0.1rem;

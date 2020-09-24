@@ -24,7 +24,7 @@ export const mockJpg = (name: string): File => {
   })
 }
 
-const mockEvent = (...files: File[]) => ({
+export const mockEvent = (...files: File[]) => ({
   target: {
     files: [...files],
   },
