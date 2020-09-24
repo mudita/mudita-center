@@ -2,10 +2,12 @@ import styled from "styled-components"
 import {
   backgroundColor,
   textColor,
+  transitionTime,
 } from "Renderer/styles/theming/theme-getters"
 import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
+import { fadeAnimation } from "Renderer/components/core/modal/modal.styled.elements"
 
 export const TetheringWrapper = styled.div`
   padding: 3.6rem 3rem 0 4rem;
@@ -18,6 +20,8 @@ export const TetheringImageWrapper = styled.div`
     max-height: 35.6rem;
     display: block;
     margin: auto;
+    ${fadeAnimation};
+    animation-duration: ${transitionTime("slow")};
   }
 `
 export const ButtonWrapper = styled.div`
