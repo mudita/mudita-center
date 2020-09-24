@@ -1,5 +1,5 @@
 import { StateProps } from "Renderer/models/notes/notes.interface"
-import { Note } from "Renderer/modules/tools/tabs/notes-ui.component"
+import { Note } from "Renderer/modules/tools/tabs/notes.component"
 import { makeNewNote } from "Renderer/models/notes/make-new-note"
 
 export type NoteCallback = (param: Note) => void
