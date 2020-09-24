@@ -38,6 +38,7 @@ const ToggleIcon = styled.span<{ rotated?: boolean }>`
 export const SelectInputItem = styled.li<{
   empty?: boolean
   selected?: boolean
+  disabled?: boolean
 }>`
   cursor: pointer;
   padding: 1.2rem 2.4rem;
@@ -62,6 +63,17 @@ export const SelectInputItem = styled.li<{
     selected &&
     css`
       background-color: ${backgroundColor("minor")};
+    `};
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      background-color: ${backgroundColor("minor")};
+      cursor: not-allowed;
+
+      &:active {
+        pointer-events: none;
+      }
     `};
 `
 
@@ -142,8 +154,9 @@ type InputValue = string | number
 type RenderableListItem = InputValue | JSX.Element
 
 export type ListItemProps = {
-  onClick: (option: any) => void
+  onClick: (option: unknown) => void
   selected: boolean
+  disabled: boolean
 }
 
 export interface RenderListItemProps<T> {
@@ -154,7 +167,8 @@ export interface RenderListItemProps<T> {
 
 export interface InputSelectProps extends Partial<InputProps> {
   value?: any
-  options: any[]
+  options: unknown[]
+  disabledOptions?: unknown[]
   emptyOption?: any
   renderEmptyOption?: (item: any) => InputValue
   renderValue?: (item: any) => InputValue
@@ -173,6 +187,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   className,
   value = "",
   options,
+  disabledOptions = [],
   emptyOption = "",
   renderEmptyOption = (item: string) => item,
   renderValue = (item: string) => item,
@@ -286,6 +301,8 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         {filteredOptions.map((option, index) => {
           const onClick = () => onSelect(option)
           const selected = option === value
+          const disabled = disabledOptions.includes(option)
+
           return (
             <React.Fragment key={index}>
               {renderListItem({
@@ -293,6 +310,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
                 props: {
                   onClick,
                   selected,
+                  disabled,
                 },
                 searchString: searchValue || "",
               })}
