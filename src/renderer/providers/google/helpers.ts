@@ -10,7 +10,7 @@ export const contactFactory = (input: GooglePerson): Contact | null => {
     note: "",
   }
 
-  if (input.names && input.names.length > 0) {
+  if (input.names?.length > 0) {
     base.firstName = input.names[0].givenName || ""
     base.lastName = input.names[0].familyName || ""
   } else {
