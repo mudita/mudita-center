@@ -15,6 +15,7 @@ import Card, {
 } from "Renderer/components/rest/overview/card.elements"
 import { noop } from "Renderer/utils/noop"
 import { SimCard } from "Renderer/models/basic-info/interfaces"
+import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
 
 const TextInfo = styled(CardText)`
   p {
@@ -36,7 +37,18 @@ const SimButton: FunctionComponent<SimCard & { onClick: () => void }> = ({
     },
     { slot, phone }
   )
-  return <CardActionButton label={label} active={active} onClick={onClick} />
+  return (
+    <CardActionButton
+      label={label}
+      active={active}
+      onClick={onClick}
+      data-state={
+        active
+          ? ButtonTogglerTestIds.ActiveState
+          : ButtonTogglerTestIds.InactiveState
+      }
+    />
+  )
 }
 
 const NoSimButton = () => {

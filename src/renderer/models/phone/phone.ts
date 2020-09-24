@@ -12,7 +12,9 @@ import {
   editContact,
   removeContact,
   revokeField,
-  generateSortedStructure,
+  getSortedContactList,
+  getSpeedDialChosenList,
+  getFlatList,
 } from "Renderer/models/phone/phone.helpers"
 
 export const initialState: Phone = {
@@ -105,9 +107,18 @@ export default {
     },
   },
   selectors: (slice: Slicer<StoreData>) => ({
-    grouped() {
+    contactList() {
+      return slice((state) => getSortedContactList(state))
+    },
+    flatList() {
+      return slice((state) => getFlatList(state))
+    },
+    speedDialChosenList() {
+      return slice((state) => getSpeedDialChosenList(state))
+    },
+    getContact() {
       return slice((state) => {
-        return generateSortedStructure(state)
+        return (id: ContactID) => state.db[id]
       })
     },
   }),

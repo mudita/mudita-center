@@ -84,6 +84,7 @@ type NameUpdateProps = Pick<Contact, "firstName" | "lastName">
 
 interface ContactEditProps {
   contact?: Contact
+  speedDialChosenList: number[]
   onCancel: (contact?: Contact) => void
   onSpeedDialSettingsOpen: () => void
   onSave: (contact: Contact) => void
@@ -93,6 +94,7 @@ interface ContactEditProps {
 
 const ContactEdit: FunctionComponent<ContactEditProps> = ({
   contact,
+  speedDialChosenList,
   onCancel,
   onSave,
   onSpeedDialSettingsOpen,
@@ -225,6 +227,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
                 ref={register}
                 disabled={!speedDialAssignPossible}
                 options={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
+                disabledOptions={speedDialChosenList}
                 renderListItem={speedDialListItemRenderer}
                 label={intl.formatMessage(messages.speedDialKey)}
                 emptyOption={intl.formatMessage(

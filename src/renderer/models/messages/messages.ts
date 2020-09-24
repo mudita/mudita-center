@@ -30,6 +30,18 @@ export default {
       const topics = state.topics.filter(({ id }) => !ids.includes(id))
       return { ...state, topics }
     },
+    markAsRead(state: StateProps, ids: string[]) {
+      const withMarkAsReadTopics = state.topics.map((topic) => {
+        if (ids.includes(topic.id)) {
+          return {
+            ...topic,
+            unread: false,
+          }
+        }
+        return topic
+      })
+      return { ...state, topics: withMarkAsReadTopics }
+    },
   },
   selectors: () => ({
     filteredList() {

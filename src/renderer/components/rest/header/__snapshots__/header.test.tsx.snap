@@ -41,6 +41,7 @@ exports[`matches snapshot with tabs 1`] = `
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c6 svg {
@@ -152,7 +153,7 @@ exports[`matches snapshot with tabs 1`] = `
       href="/phone"
       size="2"
     >
-      <div
+      <i
         class="c6 c7"
         data-testid="icon-Calls"
         height="2.8"
@@ -161,7 +162,7 @@ exports[`matches snapshot with tabs 1`] = `
         <test-file-stub
           image="test-file-stub"
         />
-      </div>
+      </i>
       <p
         class="c8 c9"
       >
@@ -174,7 +175,7 @@ exports[`matches snapshot with tabs 1`] = `
       href="/phone/dial"
       size="2"
     >
-      <div
+      <i
         class="c6 c7"
         data-testid="icon-Dial"
         height="2.8"
@@ -183,7 +184,7 @@ exports[`matches snapshot with tabs 1`] = `
         <test-file-stub
           image="test-file-stub"
         />
-      </div>
+      </i>
       <p
         class="c8 c9"
       >

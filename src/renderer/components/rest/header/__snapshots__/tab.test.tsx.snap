@@ -23,6 +23,7 @@ exports[`matches snapshot 1`] = `
   height: 2.8rem;
   width: 2.8rem;
   position: relative;
+  font-style: normal;
 }
 
 .c1 svg {
@@ -111,7 +112,7 @@ exports[`matches snapshot 1`] = `
   href="/phone"
   size="2"
 >
-  <div
+  <i
     class="c1 c2"
     data-testid="icon-Check"
     height="2.8"
@@ -120,7 +121,7 @@ exports[`matches snapshot 1`] = `
     <test-file-stub
       image="test-file-stub"
     />
-  </div>
+  </i>
   <p
     class="c3 c4"
   >
