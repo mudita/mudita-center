@@ -110,6 +110,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
       />
     )
   }
+
+  const selectedRemove = () => remove(selectedRows.map(({ id }) => id))
+
   return (
     <>
       <DevModeWrapper>
@@ -133,6 +136,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         resetRows={resetRows}
         visibilityFilter={visibilityFilter}
         onMarkAsRead={markAsRead}
+        onDeleteButtonClick={selectedRemove}
       />
       <TableWithSidebarWrapper>
         <MessagesList
