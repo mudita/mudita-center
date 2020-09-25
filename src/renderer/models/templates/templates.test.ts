@@ -1,5 +1,5 @@
 import { init } from "@rematch/core"
-import { createTemplate } from "Renderer/models/templates/templates"
+import { makeTemplate } from "Renderer/models/templates/templates"
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import templates from "Renderer/models/templates/templates"
 
@@ -55,13 +55,13 @@ test("returns untouched collection when wrong ids are passed", () => {
 })
 
 test("properly creates templates without provided data", () => {
-  const newTemplate = createTemplate()
+  const newTemplate = makeTemplate()
   expect(typeof newTemplate.id).toBe("string")
   expect(newTemplate.content).toBe("")
 })
 
 test("properly creates templates with provided data", () => {
-  const newTemplate = createTemplate(testId, testContent)
+  const newTemplate = makeTemplate(testId, testContent)
 
   expect(newTemplate).toMatchObject(testObject)
 })

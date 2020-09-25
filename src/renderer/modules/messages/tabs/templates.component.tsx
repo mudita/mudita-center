@@ -15,7 +15,7 @@ import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { TemplateCallback } from "Renderer/models/templates/templates"
-import { createTemplate } from "Renderer/models/templates/templates"
+import { makeTemplate } from "Renderer/models/templates/templates"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteTemplateModal from "Renderer/modules/messages/tabs/delete-template-modal.component"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
@@ -88,7 +88,7 @@ const Templates: FunctionComponent<TemplatesProps> = ({
       const content = textEditorHook.temporaryText
       const { id } = activeRow
 
-      saveTemplate(createTemplate(id, content))
+      saveTemplate(makeTemplate(id, content))
     }
   }
 
