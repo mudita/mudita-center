@@ -13,7 +13,7 @@ afterEach(async () => {
   await stopApp(app)
 })
 
-test("menu button takes user to correct page", async () => {
+test("menu takes user to correct page", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).click()
   const headerIndicatingPage = await app.client.getText(
     "*[data-testid='location']"
