@@ -111,7 +111,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     )
   }
 
-  const selectedRemove = () => remove(selectedRows.map(({ id }) => id))
+  const removeSelectedRows = () => remove(selectedRows.map(({ id }) => id))
 
   return (
     <>
@@ -136,7 +136,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         resetRows={resetRows}
         visibilityFilter={visibilityFilter}
         onMarkAsRead={markAsRead}
-        onDeleteButtonClick={selectedRemove}
+        onDeleteButtonClick={removeSelectedRows}
       />
       <TableWithSidebarWrapper>
         <MessagesList
