@@ -1,6 +1,7 @@
 import { startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
+import localeEn from "Renderer/locales/default/en-US.json"
 
 let app: any
 
@@ -10,6 +11,14 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await stopApp(app)
+})
+
+test("menu button takes user to correct page", async () => {
+  await app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).click()
+  const headerIndicatingPage = await app.client.getText(
+    "*[data-testid='location']"
+  )
+  expect(headerIndicatingPage).toEqual(localeEn["view.name.messages"])
 })
 
 test("searching by phone number renders one result", async () => {

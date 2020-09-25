@@ -15,7 +15,7 @@ const YOUR_PURE_BUTTONS = [
     icon: Type.Message,
     testId: MenuGroupTestIds.Messages,
   },
-  { button: views.phone, icon: Type.MenuPhone },
+  { button: views.phone, icon: Type.MenuPhone, testId: MenuGroupTestIds.Phone },
   { button: views.contacts, icon: Type.MenuContacts },
   { button: views.music, icon: Type.MenuMusic },
   { button: views.calendar, icon: Type.Calendar },
