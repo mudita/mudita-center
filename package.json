@@ -153,6 +153,7 @@
     "chalk": "^4.1.0",
     "circular-dependency-plugin": "^5.2.0",
     "concurrently": "^5.3.0",
+    "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
     "css-loader": "^4.2.2",
     "devtron": "^1.4.0",
