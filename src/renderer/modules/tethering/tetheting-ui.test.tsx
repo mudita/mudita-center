@@ -37,7 +37,7 @@ describe("Pure disconnected screen tests", () => {
     ).toBeInTheDocument()
   })
 
-  test("second notification is visible", () => {
+  test("Start tethering notification is visible", () => {
     const { queryByTestId } = renderer(props)
     expect(
       queryByTestId(TetheringTestIds.StartTetheringNotification)
@@ -87,14 +87,14 @@ describe("Disabled tethering tests", () => {
     ).not.toBeInTheDocument()
   })
 
-  test("second notification is visible", () => {
+  test("Start tethering notification is visible", () => {
     const { queryByTestId } = renderer(props)
     expect(
       queryByTestId(TetheringTestIds.StartTetheringNotification)
     ).toBeInTheDocument()
   })
 
-  test("third notification is visible", () => {
+  test("Modem notification is visible", () => {
     const { queryByTestId } = renderer(props)
     expect(
       queryByTestId(TetheringTestIds.ModemNotification)
