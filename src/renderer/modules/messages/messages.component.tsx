@@ -67,7 +67,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       : (caller.primaryPhoneNumber as string)
   }
 
-  const getForSingleItemMessage = (id: string): Message => {
+  const getSingleThreadDeleteMessage = (id: string): Message => {
     return {
       ...deleteModalMessages.uniqueText,
       values: {
@@ -78,7 +78,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     }
   }
 
-  const getForMultipleItemsMessage = (ids: string[]): Message => {
+  const getMultipleThreadDeleteMessage = (ids: string[]): Message => {
     return {
       ...deleteModalMessages.text,
       values: {
@@ -92,8 +92,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
     const title = intl.formatMessage(deleteModalMessages.title)
     const message =
       ids.length === 1
-        ? getForSingleItemMessage(ids[0])
-        : getForMultipleItemsMessage(ids)
+        ? getSingleThreadDeleteMessage(ids[0])
+        : getMultipleThreadDeleteMessage(ids)
     const onClose = resetRows
     const onDelete = () => {
       deleteConversation(ids)
