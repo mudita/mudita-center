@@ -120,6 +120,7 @@
   "view.name.messages.dropdownContactDetails": "Contact Details",
   "view.name.messages.dropdownDelete": "Delete Conversation",
   "view.name.messages.markAsRead": "Mark as read",
+  "view.name.messages.markAsUnread": "Mark as unread",
   "view.name.messages.messageDropdownDelete": "Delete message",
   "view.name.messages.messageDropdownForward": "Forward message",
   "view.name.messages.newMessage": "New message",

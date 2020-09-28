@@ -161,6 +161,8 @@ interface Props extends SelectHook {
   openSidebar?: (row: Topic) => void
   activeRow?: Topic
   onRemove: (ids: string[]) => void
+  onMarksAsRead: (ids: string[]) => void
+  onMarksAsUnread: (ids: string[]) => void
 }
 
 const MessagesList: FunctionComponent<Props> = ({
@@ -168,6 +170,8 @@ const MessagesList: FunctionComponent<Props> = ({
   list,
   openSidebar = noop,
   onRemove,
+  onMarksAsRead,
+  onMarksAsUnread,
   getRowStatus,
   toggleRow,
   noneRowsSelected,
@@ -194,6 +198,8 @@ const MessagesList: FunctionComponent<Props> = ({
         const nameAvailable = isNameAvailable(caller)
         const active = activeRow?.id === item.id
         const remove = () => onRemove([id])
+        const marksAsRead = () => onMarksAsRead([id])
+        const marksAsUnread = () => onMarksAsUnread([id])
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow key={id} ref={ref} selected={selected} active={active}>
             <AvatarCol>
@@ -279,10 +285,12 @@ const MessagesList: FunctionComponent<Props> = ({
                   )}
                   <ButtonComponent
                     labelMessage={{
-                      id: "view.name.messages.markAsRead",
+                      id: unread
+                        ? "view.name.messages.markAsRead"
+                        : "view.name.messages.markAsUnread",
                     }}
                     Icon={Type.BorderCheckIcon}
-                    onClick={noop}
+                    onClick={unread ? marksAsRead : marksAsUnread}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-mark-as-read"
                   />

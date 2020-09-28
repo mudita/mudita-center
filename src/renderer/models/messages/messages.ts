@@ -42,6 +42,18 @@ export default {
       })
       return { ...state, topics: withMarkAsReadTopics }
     },
+    marksAsUnread(state: StateProps, ids: string[]) {
+      const withMarkAsUnreadTopics = state.topics.map((topic) => {
+        if (ids.includes(topic.id)) {
+          return {
+            ...topic,
+            unread: true,
+          }
+        }
+        return topic
+      })
+      return { ...state, topics: withMarkAsUnreadTopics }
+    },
   },
   selectors: () => ({
     filteredList() {
