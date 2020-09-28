@@ -34,6 +34,7 @@ const SettingsToggler: FunctionComponent<Props> = ({
         const changeStatus = () => {
           onToggle(value)
         }
+        const active = toggleValue === value
         return (
           <TogglerItem
             key={Number(value)}
@@ -43,9 +44,9 @@ const SettingsToggler: FunctionComponent<Props> = ({
                 : "view.name.settings.offLabel",
             })}
             onClick={changeStatus}
-            active={toggleValue === value}
+            active={active}
             data-testid={
-              toggleValue === value
+              active
                 ? SettingsTogglerTestIds.Active
                 : SettingsTogglerTestIds.Inactive
             }

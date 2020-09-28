@@ -5,7 +5,7 @@ export enum TetheringTestIds {
   DisconnectedWrapper = "phone-disconnected-wrapper",
   DisconnectedImage = "phone-disconnected-image",
   DisconnectedNotificationTitle = "phone-disconnected-title",
-  SecondNotification = "tethering-second-notification",
-  ThirdNotification = "tethering-third-notification",
+  StartTetheringNotification = "tethering-start-notification",
+  ModemNotification = "tethering-modem-notification",
   GoToButton = "goto-button",
 }

@@ -45,7 +45,7 @@ const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
     <ButtonWrapper>
       <Text
         displayStyle={TextDisplayStyle.MediumFadedLightText}
-        data-testid={TetheringTestIds.SecondNotification}
+        data-testid={TetheringTestIds.StartTetheringNotification}
       >
         {intl.formatMessage(tetheringMessages.enablingInfo, textFormatters)}
       </Text>
@@ -57,7 +57,7 @@ const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
     </ButtonWrapper>
     <InfoText
       displayStyle={TextDisplayStyle.SmallFadedText}
-      data-testid={TetheringTestIds.ThirdNotification}
+      data-testid={TetheringTestIds.ModemNotification}
     >
       <IconHolder>
         <Icon type={Type.Info} width={1.6} />

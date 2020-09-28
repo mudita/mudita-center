@@ -9,7 +9,6 @@ import { TetheringWrapper } from "Renderer/modules/tethering/screens/tethering.s
 
 interface TetheringProps {
   disconnectedDevice?: boolean
-  test?: boolean // in order to test this without applying redux
   tetheringEnabled?: boolean
   onToggleTethering?: Dispatch<SetStateAction<boolean>>
   disconnectDevice?: () => void
@@ -17,38 +16,34 @@ interface TetheringProps {
 
 const TetheringUI: FunctionComponent<TetheringProps> = ({
   disconnectedDevice,
-  test,
   tetheringEnabled,
   onToggleTethering,
   disconnectDevice,
 }) => {
   const getTetheringScreen = () => {
-    switch (true) {
-      case tetheringEnabled && !disconnectedDevice:
-        return (
-          <TetheringEnabled
-            tetheringEnabled={tetheringEnabled}
-            onToggleTethering={onToggleTethering}
-          />
-        )
-      case !tetheringEnabled && !disconnectedDevice:
-        return (
-          <TetheringDisabled
-            tetheringEnabled={tetheringEnabled}
-            onToggleTethering={onToggleTethering}
-          />
-        )
-      default:
-        return <PureDisconnected />
+    if (disconnectedDevice) {
+      return <PureDisconnected />
     }
+    if (tetheringEnabled) {
+      return (
+        <TetheringEnabled
+          tetheringEnabled={tetheringEnabled}
+          onToggleTethering={onToggleTethering}
+        />
+      )
+    }
+    return (
+      <TetheringDisabled
+        tetheringEnabled={tetheringEnabled}
+        onToggleTethering={onToggleTethering}
+      />
+    )
   }
   return (
     <>
-      {!test && (
-        <DevModeWrapper>
-          <Button onClick={disconnectDevice} label="Disconnect device" />
-        </DevModeWrapper>
-      )}
+      <DevModeWrapper>
+        <Button onClick={disconnectDevice} label="Disconnect device" />
+      </DevModeWrapper>
       <TetheringWrapper>{getTetheringScreen()}</TetheringWrapper>
     </>
   )
