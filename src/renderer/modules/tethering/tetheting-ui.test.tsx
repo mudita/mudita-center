@@ -10,7 +10,7 @@ import { SettingsTogglerTestIds } from "Renderer/components/rest/settings/settin
 const renderer = (props = {}) =>
   renderWithThemeAndIntl(
     <Router history={history}>
-      <TetheringUI test {...props} />
+      <TetheringUI {...props} />
     </Router>
   )
 
