@@ -20,11 +20,30 @@ test("menu button takes user to correct page", async () => {
   )
 })
 
-test("should ", async () => {
+test("receiving calls filter works correctly", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Phone}]`).click()
   await app.client.$(`*[data-testid=${VisibilityFilter.Received}]`).click()
   expect(
     await app.client.isExisting("*[data-testid='icon-IncomingCall']")
   ).toBeTruthy()
-  // TODO: Add expect regarding rest of the icons
+  expect(
+    await app.client.isExisting("*[data-testid='icon-MissedCall']")
+  ).toBeFalsy()
+  expect(
+    await app.client.isExisting("*[data-testid='icon-ConferenceCall']")
+  ).toBeFalsy()
+})
+
+test("missed calls filter works correctly", async () => {
+  await app.client.$(`*[data-testid=${MenuGroupTestIds.Phone}]`).click()
+  await app.client.$(`*[data-testid=${VisibilityFilter.Missed}]`).click()
+  expect(
+    await app.client.isExisting("*[data-testid='icon-MissedCall']")
+  ).toBeTruthy()
+  expect(
+    await app.client.isExisting("*[data-testid='icon-IncomingCall']")
+  ).toBeFalsy()
+  expect(
+    await app.client.isExisting("*[data-testid='icon-ConferenceCall']")
+  ).toBeFalsy()
 })
