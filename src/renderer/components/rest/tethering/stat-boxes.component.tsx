@@ -5,9 +5,21 @@ import { TextWrapper } from "Renderer/components/rest/meditation/data-box/data-b
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { messages } from "Renderer/components/rest/meditation/data-box/data-boxes.component"
 import { convertBytes } from "Renderer/utils/convert-bytes"
 import { StatBoxesWrapper } from "Renderer/components/rest/tethering/stat-boxes.styled"
+import { defineMessages } from "react-intl"
+
+const messages = defineMessages({
+  timeActive: {
+    id: "view.name.tethering.timeActive",
+  },
+  dataSent: {
+    id: "view.name.tethering.dataSent",
+  },
+  dataReceived: {
+    id: "view.name.tethering.dataReceived",
+  },
+})
 
 interface Props {
   timeActive?: any
@@ -35,7 +47,7 @@ const StatBoxes: FunctionComponent<Props> = ({
         <Text
           displayStyle={TextDisplayStyle.SmallFadedText}
           element={"p"}
-          message={messages.daysPracticed}
+          message={messages.timeActive}
         />
       </DataBox>
       <DataBox>
@@ -53,7 +65,7 @@ const StatBoxes: FunctionComponent<Props> = ({
         <Text
           displayStyle={TextDisplayStyle.SmallFadedText}
           element={"p"}
-          message={messages.totalPracticeTime}
+          message={messages.dataSent}
         />
       </DataBox>
       <DataBox>
@@ -71,7 +83,7 @@ const StatBoxes: FunctionComponent<Props> = ({
         <Text
           displayStyle={TextDisplayStyle.SmallFadedText}
           element={"p"}
-          message={messages.averageSessionLength}
+          message={messages.dataReceived}
         />
       </DataBox>
     </StatBoxesWrapper>
