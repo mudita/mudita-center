@@ -9,7 +9,6 @@ import { TetheringWrapper } from "Renderer/modules/tethering/screens/tethering.s
 
 interface TetheringProps {
   disconnectedDevice?: boolean
-  test?: boolean // in order to test this without applying redux
   tetheringEnabled?: boolean
   onToggleTethering?: Dispatch<SetStateAction<boolean>>
   disconnectDevice?: () => void
@@ -17,7 +16,6 @@ interface TetheringProps {
 
 const TetheringUI: FunctionComponent<TetheringProps> = ({
   disconnectedDevice,
-  test,
   tetheringEnabled,
   onToggleTethering,
   disconnectDevice,
@@ -39,11 +37,9 @@ const TetheringUI: FunctionComponent<TetheringProps> = ({
   }
   return (
     <>
-      {!test && (
-        <DevModeWrapper>
-          <Button onClick={disconnectDevice} label="Disconnect device" />
-        </DevModeWrapper>
-      )}
+      <DevModeWrapper>
+        <Button onClick={disconnectDevice} label="Disconnect device" />
+      </DevModeWrapper>
       <TetheringWrapper>{getTetheringScreen()}</TetheringWrapper>
     </>
   )
