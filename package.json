@@ -48,7 +48,8 @@
     "predevelop": "npm run translations:update",
     "posttranslations:send": "npm run translations:sort",
     "posttranslations:update": "npm run translations:sort",
-    "posttranslations:sort": "prettier --write src/**/*.json"
+    "posttranslations:sort": "prettier --write src/**/*.json",
+    "posttest:coverage": "prettier --write ./jest.coverage.json"
   },
   "pre-commit": "beforecommit",
   "build": {

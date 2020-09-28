@@ -42,6 +42,7 @@ export interface Status {
   save?: SaveStatus
   editMode?: boolean
   textChanged?: boolean
+  newText?: boolean
 }
 
 export interface Text {
@@ -52,8 +53,8 @@ export interface Text {
 interface Props {
   temporaryText: string
   keepTemporaryText: (event: ChangeEvent<HTMLTextAreaElement>) => void
-  rejectChanges: () => void
-  saveChanges: () => void
+  onChangesReject: () => void
+  onChangesSave: () => void
   statsInfo?: string
   statsInfoError?: boolean
   enableEditMode?: () => void
@@ -68,8 +69,8 @@ export type TextEditorProps = Props &
 const TextEditor: FunctionComponent<TextEditorProps> = ({
   temporaryText,
   keepTemporaryText,
-  rejectChanges,
-  saveChanges,
+  onChangesReject,
+  onChangesSave,
   statsInfo,
   statsInfoError,
   onFocus = noop,
@@ -81,12 +82,12 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
 }) => {
   const [messageSaved, setMessageSaved] = useState(false)
   const reject = () => {
-    rejectChanges()
+    onChangesReject()
     disableEditMode()
   }
 
   const save = async () => {
-    await saveChanges()
+    await onChangesSave()
     setMessageSaved(true)
     disableEditMode()
   }
@@ -147,12 +148,12 @@ const TextEditor: FunctionComponent<TextEditorProps> = ({
             displayStyle={DisplayStyle.Secondary}
             labelMessage={messages.cancelButton}
             onClick={reject}
-            disabled={saving || !status.textChanged}
+            disabled={saving || !(status.textChanged || status.newText)}
           />
           <SaveButton
             data-testid="save"
             saving={saving}
-            disabled={!status.textChanged}
+            disabled={!status.textChanged || temporaryText.length === 0}
             labelMessage={saving ? messages.savingButton : messages.saveButton}
             onClick={save}
             Icon={saving ? Type.Reload : undefined}

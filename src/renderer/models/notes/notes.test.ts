@@ -1,7 +1,7 @@
 import { init } from "@rematch/core"
 import selectPlugin from "@rematch/select"
 import notes from "Renderer/models/notes/notes"
-import { Note } from "Renderer/modules/tools/tabs/notes-ui.component"
+import { Note } from "Renderer/modules/tools/tabs/notes.component"
 import { notesSeed } from "App/seeds/notes"
 
 const storeConfig = {

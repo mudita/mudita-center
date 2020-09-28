@@ -10,6 +10,7 @@ import Text from "Renderer/components/core/text/text.component"
 import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
 import { FiltersWrapper as FiltersWrapperBase } from "Renderer/components/rest/messages/topics-table.component"
 import {
+  textColor,
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
@@ -48,6 +49,12 @@ export const TextCut = styled(Text)`
   cursor: pointer;
 `
 
+export const TextInfo = styled(Text)`
+  width: auto;
+  padding: 0 1rem;
+  color: ${textColor("accent")};
+`
+
 export const DeleteCol = styled(Col)`
   opacity: 0;
   transition: opacity ${transitionTime("veryQuick")};
@@ -55,12 +62,12 @@ export const DeleteCol = styled(Col)`
 
 export const Table = styled(BaseTable)`
   --columnsGap: 0;
-  --columnsTemplate: 4rem 59rem 1fr 5rem;
+  --columnsTemplate: 4rem 59rem 7rem 1fr 5rem;
   --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
 
   ${Col} {
-    &:nth-of-type(3) {
-      margin-left: 14.5rem;
+    &:nth-of-type(4) {
+      margin-left: 9.5rem;
     }
   }
 `
