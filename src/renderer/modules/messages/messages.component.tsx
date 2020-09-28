@@ -24,8 +24,10 @@ import { Message } from "Renderer/interfaces/message.interface"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
-  text: { id: "view.name.messages.deleteModal.text" },
-  uniqueText: { id: "view.name.messages.deleteModal.uniqueText" },
+  multipleThreadText: {
+    id: "view.name.messages.deleteModal.multipleThreadText",
+  },
+  singleThreadText: { id: "view.name.messages.deleteModal.singleThreadText" },
 })
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -69,9 +71,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const getSingleThreadDeleteMessage = (id: string): Message => {
     return {
-      ...deleteModalMessages.uniqueText,
+      ...deleteModalMessages.singleThreadText,
       values: {
-        num: 1,
         caller: getPrettyCaller(id),
         ...textFormatters,
       },
@@ -80,7 +81,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const getMultipleThreadDeleteMessage = (ids: string[]): Message => {
     return {
-      ...deleteModalMessages.text,
+      ...deleteModalMessages.multipleThreadText,
       values: {
         num: allRowsSelected ? -1 : ids.length,
         ...textFormatters,
