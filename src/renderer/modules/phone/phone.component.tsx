@@ -298,7 +298,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         data: { connections },
       } = await getPeople()
 
-      if (connections.length > 0) {
+      if (connections && connections.length > 0) {
         let added = 0
         let duplicates = 0
 
@@ -322,9 +322,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
         console.log("Added contacts: ", added)
         console.log("Duplicated contacts: ", duplicates)
-
-        openSuccessSyncModal()
+      } else {
+        console.log("No new contacts to add.")
       }
+      openSuccessSyncModal()
     } catch {
       openFailureSyncModal()
     }
