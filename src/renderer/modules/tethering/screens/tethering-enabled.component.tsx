@@ -13,7 +13,7 @@ import Text, {
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { tetheringMessages } from "Renderer/modules/tethering/tethering-messages"
 import { URL_MAIN } from "Renderer/constants/urls"
-import DataBoxes from "Renderer/components/rest/meditation/data-box/data-boxes.component"
+import StatBoxes from "Renderer/components/rest/tethering/stat-boxes.component"
 
 interface TetheringEnabledProps {
   tetheringEnabled?: boolean
@@ -37,7 +37,7 @@ const TetheringEnabled: FunctionComponent<TetheringEnabledProps> = ({
     <ButtonWrapper>
       <Text
         displayStyle={TextDisplayStyle.MediumFadedLightText}
-        data-testid={TetheringTestIds.SecondNotification}
+        data-testid={TetheringTestIds.StartTetheringNotification}
       >
         {intl.formatMessage(tetheringMessages.enablingInfo, textFormatters)}
       </Text>
@@ -47,7 +47,11 @@ const TetheringEnabled: FunctionComponent<TetheringEnabledProps> = ({
         to={URL_MAIN.settings}
       />
     </ButtonWrapper>
-    <DataBoxes />
+    <StatBoxes
+      timeActive={"15:03"}
+      dataReceived={23943294}
+      dataSent={92349324}
+    />
   </div>
 )
 
