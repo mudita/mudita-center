@@ -179,8 +179,6 @@ const MessagesList: FunctionComponent<Props> = ({
    */
   const { enableScroll, disableScroll } = useTableScrolling()
 
-  const removeHandler = (id: string) => () => onRemove([id])
-
   return (
     <Messages
       noneRowsSelected={noneRowsSelected}
@@ -195,6 +193,7 @@ const MessagesList: FunctionComponent<Props> = ({
         const open = () => openSidebar(item)
         const nameAvailable = isNameAvailable(caller)
         const active = activeRow?.id === item.id
+        const remove = () => onRemove([id])
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow key={id} ref={ref} selected={selected} active={active}>
             <AvatarCol>
@@ -292,7 +291,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       id: "view.name.messages.dropdownDelete",
                     }}
                     Icon={Type.Delete}
-                    onClick={removeHandler(id)}
+                    onClick={remove}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-delete"
                   />
