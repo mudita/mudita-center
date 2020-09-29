@@ -44,7 +44,7 @@ describe("Pure disconnected screen tests", () => {
     ).toBeInTheDocument()
   })
 
-  test("third notification is visible", () => {
+  test("modem notification is visible", () => {
     const { queryByTestId } = renderer(props)
     expect(
       queryByTestId(TetheringTestIds.ModemNotification)
@@ -56,7 +56,7 @@ describe("Pure disconnected screen tests", () => {
     expect(queryByTestId(TetheringTestIds.GoToButton)).toBeInTheDocument()
   })
 
-  test("image is visible", () => {
+  test("disconnected image is visible", () => {
     const { queryByTestId } = renderer(props)
     expect(
       queryByTestId(TetheringTestIds.DisconnectedImage)
