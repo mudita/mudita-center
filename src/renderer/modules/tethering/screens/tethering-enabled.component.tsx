@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.enum"
 import {
-  ButtonWrapper,
+  EnabledButtonWrapper,
   StyledButton,
   TetheringToggler,
   TextWrapper,
@@ -34,7 +34,7 @@ const TetheringEnabled: FunctionComponent<TetheringEnabledProps> = ({
         onToggle={onToggleTethering}
       />
     </TextWrapper>
-    <ButtonWrapper>
+    <EnabledButtonWrapper>
       <Text
         displayStyle={TextDisplayStyle.MediumFadedLightText}
         data-testid={TetheringTestIds.StartTetheringNotification}
@@ -46,7 +46,7 @@ const TetheringEnabled: FunctionComponent<TetheringEnabledProps> = ({
         label={intl.formatMessage(tetheringMessages.openConnectionSettings)}
         to={URL_MAIN.settings}
       />
-    </ButtonWrapper>
+    </EnabledButtonWrapper>
     <StatBoxes
       timeActive={"15:03"}
       dataReceived={23943294}

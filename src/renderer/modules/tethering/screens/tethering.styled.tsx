@@ -1,6 +1,7 @@
 import styled from "styled-components"
 import {
   backgroundColor,
+  borderColor,
   textColor,
   transitionTime,
 } from "Renderer/styles/theming/theme-getters"
@@ -10,12 +11,9 @@ import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.
 import { fadeAnimation } from "Renderer/components/core/modal/modal.styled.elements"
 import Text from "Renderer/components/core/text/text.component"
 
-export const TetheringWrapper = styled.div`
-  padding: 3.6rem 3rem 0 4rem;
-`
 export const TetheringImageWrapper = styled.div`
-  background-color: ${backgroundColor("bannerBackground")};
   margin-top: 4rem;
+  padding: 0 3rem 0 4rem;
 
   img {
     max-height: 35.6rem;
@@ -27,18 +25,25 @@ export const TetheringImageWrapper = styled.div`
 `
 export const ButtonWrapper = styled.div`
   display: flex;
-  margin: 2.8rem 0 1.8rem;
+  margin-top: 2.4rem;
+  padding: 0 3rem 2.4rem 4rem;
 
   > p {
     line-height: 4rem;
   }
 `
+
+export const EnabledButtonWrapper = styled(ButtonWrapper)`
+  border-bottom: 0.1rem solid ${borderColor("tetheringSeparator")};
+`
+
 export const StyledButton = styled(Button).attrs({
   displayStyle: DisplayStyle.Link3,
 })`
   margin-left: auto;
   width: auto;
 `
+
 export const ErrorIcon = styled.i`
   border-radius: 100%;
   width: 1.6rem;
@@ -66,6 +71,7 @@ export const TextWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 3.6rem 3rem 0 4rem;
 `
 
 export const TetheringToggler = styled(SettingsToggler)`
@@ -75,4 +81,13 @@ export const TetheringToggler = styled(SettingsToggler)`
 export const InfoText = styled(Text)`
   ${fadeAnimation};
   animation-duration: ${transitionTime("slow")};
+  padding: 0 3rem 0 4rem;
+`
+
+export const NotificationText = styled(Text)`
+  padding: 3.6rem 3rem 0 4rem;
+`
+
+export const ModemText = styled(NotificationText)`
+  padding-top: 0;
 `

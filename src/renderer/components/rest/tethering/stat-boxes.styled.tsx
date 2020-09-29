@@ -8,6 +8,8 @@ import Icon from "Renderer/components/core/icon/icon.component"
 export const StatBoxesWrapper = styled(DataBoxesWrapper)`
   ${fadeAnimation};
   animation-duration: ${transitionTime("slow")};
+  margin-top: 4rem;
+  padding: 0 3rem 0 4rem;
 `
 
 export const StatTextWrapper = styled(TextWrapper)`
