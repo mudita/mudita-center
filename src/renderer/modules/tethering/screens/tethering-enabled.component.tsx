@@ -13,7 +13,6 @@ import Text, {
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { tetheringMessages } from "Renderer/modules/tethering/tethering-messages"
 import { URL_MAIN } from "Renderer/constants/urls"
-import StatBoxes from "Renderer/components/rest/tethering/stat-boxes.component"
 
 interface TetheringEnabledProps {
   tetheringEnabled?: boolean
@@ -47,11 +46,6 @@ const TetheringEnabled: FunctionComponent<TetheringEnabledProps> = ({
         to={URL_MAIN.settings}
       />
     </ButtonWrapper>
-    <StatBoxes
-      timeActive={"15:03"}
-      dataReceived={23943294}
-      dataSent={92349324}
-    />
   </div>
 )
 

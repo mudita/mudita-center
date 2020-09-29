@@ -71,6 +71,7 @@ const theme = {
       separator: grey9,
       smallSeparator: grey4,
       verticalSeparator: grey3,
+      tetheringSeparator: grey8,
     },
     boxShadow: {
       full: grey10,
