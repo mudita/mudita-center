@@ -14,6 +14,21 @@ import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
 import MessageDetails from "Renderer/components/rest/messages/message-details.component"
 import MessagesPanel from "Renderer/modules/messages/messages-panel.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import { intl, textFormatters } from "Renderer/utils/intl"
+import modalService from "Renderer/components/core/modal/modal.service"
+import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
+import { defineMessages } from "react-intl"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
+import { Message } from "Renderer/interfaces/message.interface"
+
+const deleteModalMessages = defineMessages({
+  title: { id: "view.name.messages.deleteModal.title" },
+  multipleThreadText: {
+    id: "view.name.messages.deleteModal.multipleThreadText",
+  },
+  singleThreadText: { id: "view.name.messages.deleteModal.singleThreadText" },
+})
 
 const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
@@ -44,6 +59,61 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const _devClearMessages = () => setMessagesList([])
   const _devLoadDefaultMessages = () => setMessagesList(list)
   useEffect(() => setMessagesList(list), [list])
+
+  const getPrettyCaller = (id: string): string => {
+    const findById = (topic: Topic) => topic.id === id
+    const topic = list.find(findById) as Topic
+    const caller = topic.caller
+    return isNameAvailable(caller)
+      ? createFullName(caller)
+      : (caller.primaryPhoneNumber as string)
+  }
+
+  const getSingleThreadDeleteMessage = (id: string): Message => {
+    return {
+      ...deleteModalMessages.singleThreadText,
+      values: {
+        caller: getPrettyCaller(id),
+        ...textFormatters,
+      },
+    }
+  }
+
+  const getMultipleThreadDeleteMessage = (ids: string[]): Message => {
+    return {
+      ...deleteModalMessages.multipleThreadText,
+      values: {
+        num: allRowsSelected ? -1 : ids.length,
+        ...textFormatters,
+      },
+    }
+  }
+
+  const remove = (ids: string[]) => {
+    const title = intl.formatMessage(deleteModalMessages.title)
+    const message =
+      ids.length === 1
+        ? getSingleThreadDeleteMessage(ids[0])
+        : getMultipleThreadDeleteMessage(ids)
+    const onClose = resetRows
+    const onDelete = () => {
+      deleteConversation(ids)
+      resetRows()
+      modalService.closeModal()
+    }
+
+    modalService.openModal(
+      <DeleteModal
+        title={title}
+        message={message}
+        onClose={onClose}
+        onDelete={onDelete}
+      />
+    )
+  }
+
+  const removeSelectedRows = () => remove(selectedRows.map(({ id }) => id))
+
   return (
     <>
       <DevModeWrapper>
@@ -67,12 +137,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
         resetRows={resetRows}
         visibilityFilter={visibilityFilter}
         onMarkAsRead={markAsRead}
+        onDeleteButtonClick={removeSelectedRows}
       />
       <TableWithSidebarWrapper>
         <MessagesList
           list={messagesList}
           openSidebar={openSidebar}
           activeRow={activeRow}
+          onRemove={remove}
           {...rest}
         />
         {activeRow && (

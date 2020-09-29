@@ -160,12 +160,14 @@ interface Props extends SelectHook {
   list: Topic[]
   openSidebar?: (row: Topic) => void
   activeRow?: Topic
+  onRemove: (ids: string[]) => void
 }
 
 const MessagesList: FunctionComponent<Props> = ({
   activeRow,
   list,
   openSidebar = noop,
+  onRemove,
   getRowStatus,
   toggleRow,
   noneRowsSelected,
@@ -176,6 +178,7 @@ const MessagesList: FunctionComponent<Props> = ({
           2. Add mouseLock prop to <Messages />
    */
   const { enableScroll, disableScroll } = useTableScrolling()
+
   return (
     <Messages
       noneRowsSelected={noneRowsSelected}
@@ -190,6 +193,7 @@ const MessagesList: FunctionComponent<Props> = ({
         const open = () => openSidebar(item)
         const nameAvailable = isNameAvailable(caller)
         const active = activeRow?.id === item.id
+        const remove = () => onRemove([id])
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow key={id} ref={ref} selected={selected} active={active}>
             <AvatarCol>
@@ -287,7 +291,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       id: "view.name.messages.dropdownDelete",
                     }}
                     Icon={Type.Delete}
-                    onClick={noop}
+                    onClick={remove}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-delete"
                   />
