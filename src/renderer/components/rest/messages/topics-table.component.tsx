@@ -5,7 +5,8 @@
   created in https://appnroll.atlassian.net/browse/PDA-55
 */
 
-import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import Text from "Renderer/components/core/text/text.component"
 import {
   backgroundColor,
@@ -35,11 +36,8 @@ export const Message = styled(Text)`
   margin-top: 0.4rem;
 `
 
-export const Checkbox = styled(InputCheckbox)`
+export const Checkbox = styled(VisibleCheckbox)`
   grid-area: Checkbox;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.15s ease-in-out;
 `
 
 export const CheckboxWrapper = styled.div`
@@ -64,11 +62,6 @@ export const DataWrapper = styled.div`
   grid-template-areas: "Name Time" "Message Message";
 `
 
-const checkboxActiveStyle = css`
-  opacity: 1;
-  visibility: visible;
-`
-
 export const TableRow = styled.div<{
   checkMode: boolean
 }>`
@@ -86,12 +79,12 @@ export const TableRow = styled.div<{
     background-color: ${backgroundColor("minor")};
 
     ${Checkbox} {
-      ${checkboxActiveStyle};
+      ${animatedOpacityActiveStyles};
     }
   }
 
   ${Checkbox} {
-    ${({ checkMode }) => checkMode && checkboxActiveStyle};
+    ${({ checkMode }) => checkMode && animatedOpacityActiveStyles};
   }
 `
 
