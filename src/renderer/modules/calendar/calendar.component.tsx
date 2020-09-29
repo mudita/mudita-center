@@ -77,7 +77,9 @@ const Calendar: FunctionComponent<CalendarProps> = ({
   return (
     <div>
       <CalendarPanel
-        onSearchTermChange={noop}
+        events={events}
+        eventSelected={undefined}
+        onEventSelect={noop}
         onSynchroniseClick={openSyncCalendarModal}
       />
       <Header message={messages.allEvents} />

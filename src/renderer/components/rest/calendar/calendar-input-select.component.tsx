@@ -66,13 +66,13 @@ const filteringFunction = (item: CalendarEvent, search: string) => {
   return item.name.toLowerCase().includes(search.toLowerCase())
 }
 
-interface Props {
+export interface CalendarInputSelectProps {
   events: CalendarEvent[]
   eventSelected?: CalendarEvent
   onEventSelect: (option: CalendarEvent) => void
 }
 
-const CalendarInputSelect: FunctionComponent<Props> = ({
+const CalendarInputSelect: FunctionComponent<CalendarInputSelectProps> = ({
   events,
   eventSelected,
   onEventSelect,
