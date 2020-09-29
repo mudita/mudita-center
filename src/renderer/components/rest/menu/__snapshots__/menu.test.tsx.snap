@@ -484,6 +484,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="phone-menu-link"
         displaystyle="8"
         href="#/phone"
         size="2"
