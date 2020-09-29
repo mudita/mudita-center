@@ -65,15 +65,28 @@ describe("Pure disconnected screen tests", () => {
 })
 
 describe("Enabled tethering tests", () => {
+  const props = {
+    tetheringEnabled: true,
+    disconnectedDevice: false,
+  }
   test("enabled screen is shown", () => {
-    const { queryByTestId } = renderer({
-      tetheringEnabled: true,
-      disconnectedDevice: false,
-    })
+    const { queryByTestId } = renderer(props)
     expect(queryByTestId(TetheringTestIds.EnabledWrapper)).toBeInTheDocument()
     expect(
       queryByTestId(TetheringTestIds.DisconnectedWrapper)
     ).not.toBeInTheDocument()
+  })
+
+  test("Start tethering notification is visible", () => {
+    const { queryByTestId } = renderer(props)
+    expect(
+      queryByTestId(TetheringTestIds.StartTetheringNotification)
+    ).toBeInTheDocument()
+  })
+
+  test("button redirecting to settings is visible", () => {
+    const { queryByTestId } = renderer(props)
+    expect(queryByTestId(TetheringTestIds.GoToButton)).toBeInTheDocument()
   })
 })
 

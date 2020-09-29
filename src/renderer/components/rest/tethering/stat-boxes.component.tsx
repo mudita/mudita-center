@@ -14,6 +14,7 @@ import {
 import { defineMessages } from "react-intl"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { StatBoxesTestIds } from "Renderer/components/rest/tethering/stat-boxes-test-ids.enum"
 
 const messages = defineMessages({
   timeActive: {
@@ -46,7 +47,11 @@ const StatBoxes: FunctionComponent<Props> = ({
     <StatBoxesWrapper>
       <DataBox>
         <TextWrapper>
-          <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
+          <Text
+            displayStyle={TextDisplayStyle.PrimaryHeading}
+            element={"span"}
+            data-testid={StatBoxesTestIds.TimeActiveText}
+          >
             {timeActive}
           </Text>
         </TextWrapper>
@@ -59,7 +64,7 @@ const StatBoxes: FunctionComponent<Props> = ({
       <DataBox>
         <StatTextWrapper>
           <RotatedArrowIcon type={Type.LongArrow} size={IconSize.Bigger} />
-          <div>
+          <div data-testid={StatBoxesTestIds.DataSentText}>
             <Text
               displayStyle={TextDisplayStyle.PrimaryHeading}
               element={"span"}
@@ -83,7 +88,7 @@ const StatBoxes: FunctionComponent<Props> = ({
       <DataBox>
         <StatTextWrapper>
           <Icon type={Type.LongArrow} size={IconSize.Bigger} />
-          <div>
+          <div data-testid={StatBoxesTestIds.DataReceivedText}>
             <Text
               displayStyle={TextDisplayStyle.PrimaryHeading}
               element={"span"}
