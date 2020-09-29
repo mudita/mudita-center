@@ -5,9 +5,8 @@ import {
   ButtonWrapper,
   ErrorIcon,
   IconHolder,
-  ModemText,
-  NotificationText,
   StyledButton,
+  TetheringContainer,
   TetheringImageWrapper,
 } from "Renderer/modules/tethering/screens/tethering.styled"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -22,8 +21,8 @@ import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.e
 import { tetheringMessages } from "Renderer/modules/tethering/tethering-messages"
 
 const PureDisconnected: FunctionComponent = () => (
-  <div data-testid={TetheringTestIds.DisconnectedWrapper}>
-    <NotificationText
+  <TetheringContainer data-testid={TetheringTestIds.DisconnectedWrapper}>
+    <Text
       displayStyle={TextDisplayStyle.LargeText}
       data-testid={TetheringTestIds.DisconnectedNotificationTitle}
     >
@@ -31,7 +30,7 @@ const PureDisconnected: FunctionComponent = () => (
         <ErrorIcon />
       </IconHolder>
       {intl.formatMessage(tetheringMessages.notConnected, textFormatters)}
-    </NotificationText>
+    </Text>
     <ButtonWrapper>
       <Text
         displayStyle={TextDisplayStyle.MediumFadedLightText}
@@ -45,7 +44,7 @@ const PureDisconnected: FunctionComponent = () => (
         to={URL_MAIN.settings}
       />
     </ButtonWrapper>
-    <ModemText
+    <Text
       displayStyle={TextDisplayStyle.SmallFadedText}
       data-testid={TetheringTestIds.ModemNotification}
     >
@@ -53,7 +52,7 @@ const PureDisconnected: FunctionComponent = () => (
         <Icon type={Type.Info} width={1.6} />
       </IconHolder>
       {intl.formatMessage(tetheringMessages.explanation, textFormatters)}
-    </ModemText>
+    </Text>
     <TetheringImageWrapper data-testid={TetheringTestIds.DisconnectedImage}>
       <Image
         src={NoTethering}
@@ -61,7 +60,7 @@ const PureDisconnected: FunctionComponent = () => (
         title={intl.formatMessage(tetheringMessages.notConnected)}
       />
     </TetheringImageWrapper>
-  </div>
+  </TetheringContainer>
 )
 
 export default PureDisconnected

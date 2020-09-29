@@ -21,6 +21,7 @@ import { tetheringMessages } from "Renderer/modules/tethering/tethering-messages
 import {
   TetheringToggler,
   TextWrapper,
+  TetheringContainer,
 } from "Renderer/modules/tethering/screens/tethering.styled"
 
 interface TetheringDisabledProps {
@@ -32,7 +33,7 @@ const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
   onToggleTethering,
   tetheringEnabled,
 }) => (
-  <div data-testid={TetheringTestIds.DisabledWrapper}>
+  <TetheringContainer data-testid={TetheringTestIds.DisabledWrapper}>
     <TextWrapper>
       <Text displayStyle={TextDisplayStyle.MediumText}>
         {intl.formatMessage(tetheringMessages.usbTethering, textFormatters)}
@@ -71,7 +72,7 @@ const TetheringDisabled: FunctionComponent<TetheringDisabledProps> = ({
         title={intl.formatMessage(tetheringMessages.notConnected)}
       />
     </TetheringImageWrapper>
-  </div>
+  </TetheringContainer>
 )
 
 export default TetheringDisabled
