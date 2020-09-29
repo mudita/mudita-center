@@ -36,7 +36,9 @@ test("search in input select works", () => {
   const { container, getByRole } = renderer({ onEventSelect })
 
   const searchInput = getByRole("textbox")
-  fireEvent.change(searchInput, { target: { value: "Fel" } })
+  fireEvent.change(searchInput, {
+    target: { value: defaultProps.events[1].name.substr(0, 3) },
+  })
 
   const listItems = container.querySelectorAll("ul li")
   fireEvent.click(listItems[0])
