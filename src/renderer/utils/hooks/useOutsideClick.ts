@@ -10,7 +10,7 @@ const useOutsideClick = (
     }
   }
 
-  // The useCapture is set to true to avoid clicking event is fire after a commit phase.
+  // The useCapture is set as true in order to avoid click event being fired after a commit phase.
   useEffect(() => {
     document.addEventListener("click", handleClick, true)
 
