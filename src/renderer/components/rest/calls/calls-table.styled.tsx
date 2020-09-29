@@ -4,10 +4,8 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import styled, { css } from "styled-components"
 import Icon from "Renderer/components/core/icon/icon.component"
-import {
-  VisibleCheckbox,
-  animatedOpacityActiveStyles,
-} from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
 
 export const BaseSelectableCalls = styled(Table)<{ mouseLock?: boolean }>`
   flex: 1;

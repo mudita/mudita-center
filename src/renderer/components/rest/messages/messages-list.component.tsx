@@ -7,11 +7,7 @@ import Table, {
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import {
-  animatedOpacityActiveStyles,
-  animatedOpacityStyles,
-  VisibleCheckbox,
-} from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
@@ -47,6 +43,10 @@ import { isNameAvailable } from "Renderer/components/rest/messages/is-name-avail
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
 import MessageRowContainer from "Renderer/components/rest/messages/message-row-container.component"
+import {
+  animatedOpacityActiveStyles,
+  animatedOpacityStyles,
+} from "Renderer/components/rest/animated-opacity/animated-opacity"
 
 const MessageRow = styled(Row)`
   height: 9rem;
