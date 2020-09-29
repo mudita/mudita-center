@@ -15,6 +15,11 @@ import {
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import styled, { keyframes } from "styled-components"
+import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
+
+export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
+  margin: 0 auto;
+`
 
 export const showToggleableElement = keyframes`
   from {
@@ -74,9 +79,8 @@ export const Table = styled(BaseTable)`
 
 export const Row = styled(BaseRow)`
   &:hover {
-    ${VisibleCheckbox} {
-      opacity: 1;
-      visibility: visible;
+    ${Checkbox} {
+      ${animatedOpacityActiveStyles};
     }
 
     ${DeleteCol} {

@@ -19,7 +19,6 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.enum"
 import {
   FiltersWrapper,
@@ -33,6 +32,7 @@ import {
   TextCut,
   DeleteCol,
   TextInfo,
+  Checkbox,
 } from "Renderer/modules/tools/tabs/notes.styled"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
@@ -295,7 +295,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                     role="listitem"
                   >
                     <Col>
-                      <VisibleCheckbox
+                      <Checkbox
                         data-testid={NotesTestIds.Checkbox}
                         checked={selected}
                         onChange={toggle}

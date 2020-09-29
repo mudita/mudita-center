@@ -4,8 +4,13 @@ import BaseTable, {
   EmptyState,
   Row as BaseRow,
 } from "Renderer/components/core/table/table.component"
-import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import { transitionTime } from "Renderer/styles/theming/theme-getters"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
+
+export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
+  margin: 0 auto;
+`
 
 export const DeleteCol = styled(Col)`
   opacity: 0;
@@ -38,9 +43,8 @@ export const TextPreview = styled(Col)`
 
 export const Row = styled(BaseRow)`
   &:hover {
-    ${VisibleCheckbox} {
-      opacity: 1;
-      visibility: visible;
+    ${Checkbox} {
+      ${animatedOpacityActiveStyles};
     }
 
     ${DeleteCol} {

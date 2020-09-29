@@ -44,6 +44,10 @@ import {
   ResultsState,
 } from "Renderer/models/phone/phone.typings"
 
+export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
+  margin: 0 auto;
+`
+
 export const lightAvatarStyles = css`
   background-color: ${backgroundColor("row")};
 `
@@ -103,7 +107,7 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
 
   ${Row} {
     :hover {
-      ${VisibleCheckbox} {
+      ${Checkbox} {
         ${animatedOpacityActiveStyles};
       }
       ${InitialsAvatar} {
@@ -215,7 +219,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                     ref={ref}
                   >
                     <Col>
-                      <VisibleCheckbox
+                      <Checkbox
                         checked={selected}
                         onChange={onChange}
                         size={Size.Small}

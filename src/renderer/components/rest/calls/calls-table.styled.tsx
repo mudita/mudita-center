@@ -7,6 +7,10 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
 
+export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
+  margin: 0 auto;
+`
+
 export const BaseSelectableCalls = styled(Table)<{ mouseLock?: boolean }>`
   flex: 1;
   overflow: auto;
@@ -17,7 +21,7 @@ export const BaseSelectableCalls = styled(Table)<{ mouseLock?: boolean }>`
 
   ${Row} {
     :hover {
-      ${VisibleCheckbox} {
+      ${Checkbox} {
         ${animatedOpacityActiveStyles};
       }
     }
