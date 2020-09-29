@@ -6,8 +6,14 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { convertBytes } from "Renderer/utils/convert-bytes"
-import { StatBoxesWrapper } from "Renderer/components/rest/tethering/stat-boxes.styled"
+import {
+  RotatedArrowIcon,
+  StatBoxesWrapper,
+  StatTextWrapper,
+} from "Renderer/components/rest/tethering/stat-boxes.styled"
 import { defineMessages } from "react-intl"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
+import { Type } from "Renderer/components/core/icon/icon.config"
 
 const messages = defineMessages({
   timeActive: {
@@ -51,17 +57,23 @@ const StatBoxes: FunctionComponent<Props> = ({
         />
       </DataBox>
       <DataBox>
-        <TextWrapper>
-          <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
-            {dataSentValue}
-          </Text>
-          <Text
-            displayStyle={TextDisplayStyle.MediumLightText}
-            element={"span"}
-          >
-            {dataSentUnit.toLowerCase()}
-          </Text>
-        </TextWrapper>
+        <StatTextWrapper>
+          <RotatedArrowIcon type={Type.LongArrow} size={IconSize.Bigger} />
+          <div>
+            <Text
+              displayStyle={TextDisplayStyle.PrimaryHeading}
+              element={"span"}
+            >
+              {dataSentValue}
+            </Text>
+            <Text
+              displayStyle={TextDisplayStyle.MediumLightText}
+              element={"span"}
+            >
+              {dataSentUnit.toLowerCase()}
+            </Text>
+          </div>
+        </StatTextWrapper>
         <Text
           displayStyle={TextDisplayStyle.SmallFadedText}
           element={"p"}
@@ -69,17 +81,23 @@ const StatBoxes: FunctionComponent<Props> = ({
         />
       </DataBox>
       <DataBox>
-        <TextWrapper>
-          <Text displayStyle={TextDisplayStyle.PrimaryHeading} element={"span"}>
-            {dataReceivedValue}
-          </Text>
-          <Text
-            displayStyle={TextDisplayStyle.MediumLightText}
-            element={"span"}
-          >
-            {dataReceivedUnit.toLowerCase()}
-          </Text>
-        </TextWrapper>
+        <StatTextWrapper>
+          <Icon type={Type.LongArrow} size={IconSize.Bigger} />
+          <div>
+            <Text
+              displayStyle={TextDisplayStyle.PrimaryHeading}
+              element={"span"}
+            >
+              {dataReceivedValue}
+            </Text>
+            <Text
+              displayStyle={TextDisplayStyle.MediumLightText}
+              element={"span"}
+            >
+              {dataReceivedUnit.toLowerCase()}
+            </Text>
+          </div>
+        </StatTextWrapper>
         <Text
           displayStyle={TextDisplayStyle.SmallFadedText}
           element={"p"}
