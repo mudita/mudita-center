@@ -1,8 +1,8 @@
 import { startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
-import localeEn from "Renderer/locales/default/en-US.json"
 import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
 import { Type, getEnumName } from "Renderer/components/core/icon/icon.config"
+import { URL_MAIN } from "Renderer/constants/urls"
 
 let app: any
 
@@ -16,9 +16,8 @@ afterEach(async () => {
 
 test("menu button takes user to correct page", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Phone}]`).click()
-  expect(await app.client.getText("*[data-testid='location']")).toEqual(
-    localeEn["view.name.phone"]
-  )
+  const hash = await app.client.execute(() => window.location.hash)
+  expect(hash.value).toEqual(`#${URL_MAIN.phone}`)
 })
 
 test("receiving calls filter works correctly", async () => {
