@@ -78,7 +78,6 @@ const Calendar: FunctionComponent<CalendarProps> = ({
     <div>
       <CalendarPanel
         events={events}
-        eventSelected={undefined}
         onEventSelect={noop}
         onSynchroniseClick={openSyncCalendarModal}
       />
