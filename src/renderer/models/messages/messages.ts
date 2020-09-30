@@ -42,12 +42,12 @@ export default {
       })
       return { ...state, topics: withMarkAsReadTopics }
     },
-    marksAsUnread(state: StateProps, ids: string[]) {
+    toggleReadStatus(state: StateProps, ids: string[]) {
       const withMarkAsUnreadTopics = state.topics.map((topic) => {
         if (ids.includes(topic.id)) {
           return {
             ...topic,
-            unread: true,
+            unread: !topic.unread,
           }
         }
         return topic
