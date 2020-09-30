@@ -60,7 +60,7 @@ const renderListItem = ({
   )
 }
 
-const renderCustomValue = (item: CalendarEvent) => item.name
+const renderName = (item: CalendarEvent) => item.name
 
 const isOptionMatching = (item: CalendarEvent, search: string) => {
   return item.name.toLowerCase().includes(search.toLowerCase())
@@ -86,7 +86,7 @@ const CalendarInputSelect: FunctionComponent<CalendarInputSelectProps> = ({
       value={eventSelected}
       onSelect={onEventSelect}
       label={intl.formatMessage(messages.searchPlaceholder)}
-      renderValue={renderCustomValue}
+      renderValue={renderName}
       isOptionMatching={isOptionMatching}
       renderListItem={renderListItem}
       listStyles={css`
