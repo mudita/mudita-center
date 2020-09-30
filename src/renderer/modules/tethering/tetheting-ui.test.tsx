@@ -21,46 +21,40 @@ const renderer = (props = {}) =>
 describe("Pure disconnected screen tests", () => {
   const props = { disconnectedDevice: true }
   test("disabled screen is shown", () => {
-    const { queryByTestId } = renderer(props)
-    expect(
-      queryByTestId(TetheringTestIds.DisconnectedWrapper)
-    ).toBeInTheDocument()
+    const { getByTestId, queryByTestId } = renderer(props)
+    expect(getByTestId(TetheringTestIds.DisconnectedWrapper)).toBeVisible()
     expect(
       queryByTestId(TetheringTestIds.EnabledWrapper)
     ).not.toBeInTheDocument()
   })
 
   test("header is visible", () => {
-    const { queryByTestId } = renderer(props)
+    const { getByTestId } = renderer(props)
     expect(
-      queryByTestId(TetheringTestIds.DisconnectedNotificationTitle)
-    ).toBeInTheDocument()
+      getByTestId(TetheringTestIds.DisconnectedNotificationTitle)
+    ).toBeVisible()
   })
 
   test("Start tethering notification is visible", () => {
-    const { queryByTestId } = renderer(props)
+    const { getByTestId } = renderer(props)
     expect(
-      queryByTestId(TetheringTestIds.StartTetheringNotification)
-    ).toBeInTheDocument()
+      getByTestId(TetheringTestIds.StartTetheringNotification)
+    ).toBeVisible()
   })
 
   test("modem notification is visible", () => {
-    const { queryByTestId } = renderer(props)
-    expect(
-      queryByTestId(TetheringTestIds.ModemNotification)
-    ).toBeInTheDocument()
+    const { getByTestId } = renderer(props)
+    expect(getByTestId(TetheringTestIds.ModemNotification)).toBeVisible()
   })
 
   test("button redirecting to settings is visible", () => {
-    const { queryByTestId } = renderer(props)
-    expect(queryByTestId(TetheringTestIds.GoToButton)).toBeInTheDocument()
+    const { getByTestId } = renderer(props)
+    expect(getByTestId(TetheringTestIds.GoToButton)).toBeVisible()
   })
 
   test("disconnected image is visible", () => {
-    const { queryByTestId } = renderer(props)
-    expect(
-      queryByTestId(TetheringTestIds.DisconnectedImage)
-    ).toBeInTheDocument()
+    const { getByTestId } = renderer(props)
+    expect(getByTestId(TetheringTestIds.DisconnectedImage)).toBeVisible()
   })
 })
 
@@ -70,58 +64,56 @@ describe("Enabled tethering tests", () => {
     disconnectedDevice: false,
   }
   test("enabled screen is shown", () => {
-    const { queryByTestId } = renderer(props)
-    expect(queryByTestId(TetheringTestIds.EnabledWrapper)).toBeInTheDocument()
+    const { getByTestId, queryByTestId } = renderer(props)
+    expect(getByTestId(TetheringTestIds.EnabledWrapper)).toBeVisible()
     expect(
       queryByTestId(TetheringTestIds.DisconnectedWrapper)
     ).not.toBeInTheDocument()
   })
 
   test("Start tethering notification is visible", () => {
-    const { queryByTestId } = renderer(props)
+    const { getByTestId } = renderer(props)
     expect(
-      queryByTestId(TetheringTestIds.StartTetheringNotification)
-    ).toBeInTheDocument()
+      getByTestId(TetheringTestIds.StartTetheringNotification)
+    ).toBeVisible()
   })
 
   test("button redirecting to settings is visible", () => {
-    const { queryByTestId } = renderer(props)
-    expect(queryByTestId(TetheringTestIds.GoToButton)).toBeInTheDocument()
+    const { getByTestId } = renderer(props)
+    expect(getByTestId(TetheringTestIds.GoToButton)).toBeVisible()
   })
 })
 
 describe("Disabled tethering tests", () => {
   const props = { tetheringEnabled: false, disconnectedDevice: false }
   test("disabled screen is shown", () => {
-    const { queryByTestId } = renderer(props)
-    expect(queryByTestId(TetheringTestIds.DisabledWrapper)).toBeInTheDocument()
+    const { getByTestId, queryByTestId } = renderer(props)
+    expect(getByTestId(TetheringTestIds.DisabledWrapper)).toBeVisible()
     expect(
       queryByTestId(TetheringTestIds.DisconnectedWrapper)
     ).not.toBeInTheDocument()
   })
 
   test("Start tethering notification is visible", () => {
-    const { queryByTestId } = renderer(props)
+    const { getByTestId } = renderer(props)
     expect(
-      queryByTestId(TetheringTestIds.StartTetheringNotification)
-    ).toBeInTheDocument()
+      getByTestId(TetheringTestIds.StartTetheringNotification)
+    ).toBeVisible()
   })
 
   test("Modem notification is visible", () => {
-    const { queryByTestId } = renderer(props)
-    expect(
-      queryByTestId(TetheringTestIds.ModemNotification)
-    ).toBeInTheDocument()
+    const { getByTestId } = renderer(props)
+    expect(getByTestId(TetheringTestIds.ModemNotification)).toBeVisible()
   })
 
   test("button redirecting to settings is visible", () => {
-    const { queryByTestId } = renderer(props)
-    expect(queryByTestId(TetheringTestIds.GoToButton)).toBeInTheDocument()
+    const { getByTestId } = renderer(props)
+    expect(getByTestId(TetheringTestIds.GoToButton)).toBeVisible()
   })
 
   test("image is visible", () => {
-    const { queryByTestId } = renderer(props)
-    expect(queryByTestId(TetheringTestIds.DisabledImage)).toBeInTheDocument()
+    const { getByTestId } = renderer(props)
+    expect(getByTestId(TetheringTestIds.DisabledImage)).toBeVisible()
   })
 
   test("toggler works correctly", () => {
