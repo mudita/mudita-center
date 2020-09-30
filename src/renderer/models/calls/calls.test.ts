@@ -1,21 +1,28 @@
 import { init } from "@rematch/core"
 import calls from "Renderer/models/calls/calls"
 import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
-import { mockData } from "App/__mocks__/calls-mock-data"
+import { mockData, todaysCall } from "App/__mocks__/calls-mock-data"
+import selectPlugin from "@rematch/select"
 
-let store = init({
+const storeConfig = {
   models: { calls },
-})
+  plugins: [selectPlugin()],
+}
+
+let store = init(storeConfig)
 
 beforeEach(() => {
-  store = init({
-    models: { calls },
-  })
+  store = init(storeConfig)
 })
 
 test("by default, visibility should be set to all calls", () => {
   const { visibilityFilter } = store.getState().calls
   expect(visibilityFilter).toBe(VisibilityFilter.All)
+})
+
+test("todays call be on at the beginning of the list by default", () => {
+  const filteredList = store.select.calls.filteredList(store.getState())
+  expect(todaysCall).toMatchObject(filteredList[0])
 })
 
 test("deletes call", () => {

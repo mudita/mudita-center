@@ -1,6 +1,22 @@
 import { CallStatus } from "Renderer/models/calls/calls.interface"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 
+export const todaysCall = {
+  id: "05ed5479-1770-44e8-9e7c-09333ddc87195",
+  caller: {
+    id: "1233213121",
+    firstName: "Adam",
+    lastName: "Malysz",
+    primaryPhoneNumber: "+48 733 853 216",
+  },
+  duration: 164,
+  date: new Date(),
+  status: CallStatus.Missed,
+  timesMissed: 3,
+  icon: IconType.MissedCall,
+  description: { id: "view.name.calls.missed" },
+}
+
 export const mockData = [
   {
     id: "05ed5479-1770-44e8-9e7c-09b2ddc87195",
@@ -77,4 +93,5 @@ export const mockData = [
     icon: IconType.IncomingCall,
     description: { id: "view.name.calls.incoming" },
   },
+  todaysCall,
 ]
