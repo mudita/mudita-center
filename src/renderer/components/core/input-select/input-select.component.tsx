@@ -177,7 +177,7 @@ export interface InputSelectProps extends Partial<InputProps> {
     props,
     searchString,
   }: RenderListItemProps<any>) => RenderableListItem
-  filteringFunction?: (option: any, searchString: string) => boolean
+  isOptionMatching?: (option: any, searchString: string) => boolean
   onSelect?: (option: any) => void
   listStyles?: FlattenSimpleInterpolation
   searchable?: boolean
@@ -196,7 +196,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
       {renderSearchableText(item, searchString)}
     </SelectInputItem>
   ),
-  filteringFunction = (option, search) =>
+  isOptionMatching = (option, search) =>
     option.toLowerCase().includes(search.toLowerCase()),
   onSelect = noop,
   listStyles,
@@ -231,7 +231,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   }
 
   const filteredOptions = searchable
-    ? options.filter((option) => filteringFunction(option, searchValue || ""))
+    ? options.filter((option) => isOptionMatching(option, searchValue || ""))
     : options
 
   const resetSearchValue = () => setSearchValue(null)

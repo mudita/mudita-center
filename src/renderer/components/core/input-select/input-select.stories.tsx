@@ -70,7 +70,7 @@ const renderSearchableCustomListItem = ({
   </SelectInputItem>
 )
 
-const filteringFunction = (item: AdvancedItem, search: string) => {
+const isOptionMatching = (item: AdvancedItem, search: string) => {
   return item.name.toLowerCase().includes(search.toLowerCase())
 }
 
@@ -157,7 +157,7 @@ storiesOf("Components|Core/InputSelect", module)
             options={advancedOptions}
             renderValue={renderCustomValue}
             renderListItem={renderSearchableCustomListItem}
-            filteringFunction={filteringFunction}
+            isOptionMatching={isOptionMatching}
             listStyles={css`
               max-height: 19rem;
             `}
@@ -228,7 +228,7 @@ storiesOf("Components|Core/InputSelect", module)
               options={advancedOptions}
               renderValue={renderCustomValue}
               renderListItem={renderSearchableCustomListItem}
-              filteringFunction={filteringFunction}
+              isOptionMatching={isOptionMatching}
               onSelect={handleAdvancedSelect}
               value={selectedAdvancedFruit}
               listStyles={css`
@@ -258,7 +258,7 @@ storiesOf("Components|Core/InputSelect", module)
               disabledOptions={[advancedOptions[1], advancedOptions[2]]}
               renderValue={renderCustomValue}
               renderListItem={renderSearchableCustomListItem}
-              filteringFunction={filteringFunction}
+              isOptionMatching={isOptionMatching}
               onSelect={handleAdvancedSelect}
               value={selectedAdvancedFruit}
               listStyles={css`

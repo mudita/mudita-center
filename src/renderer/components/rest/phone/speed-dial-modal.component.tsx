@@ -69,7 +69,7 @@ const renderItem = ({
 
   return <SelectInputItem {...props} />
 }
-const filterFn = (item: Contact, query: string) => {
+const isOptionMatching = (item: Contact, query: string) => {
   const fullName = createFullName(item).toLowerCase()
   return fullName.includes(query.toLowerCase())
 }
@@ -164,7 +164,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                   renderValue={renderValue}
                   renderListItem={renderItem}
                   onSelect={onChange}
-                  filteringFunction={filterFn}
+                  isOptionMatching={isOptionMatching}
                   listStyles={css`
                     max-height: 30rem;
                   `}
