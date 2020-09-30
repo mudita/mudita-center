@@ -7,7 +7,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
 
-const fadeAnimation = css`
+export const fadeAnimation = css`
   @keyframes fadeIn {
     from {
       opacity: 0;

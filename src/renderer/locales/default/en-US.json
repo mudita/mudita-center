@@ -373,6 +373,7 @@
   "view.name.tethering.explanation": "Use Pure as a modem to get internet connection on this computer. This requires your computer to have installed the appropriate USB drivers.",
   "view.name.tethering.openConnectionSettings": "Open connection settings",
   "view.name.tethering.tetheringDisabled": "Not connected (connect Pure to this computer with USB cable to enable tethering)",
+  "view.name.tethering.usbTethering": "USB Tethering",
   "view.name.tools": "Tools",
   "view.name.tools.notes": "Notes",
   "view.name.tools.notes.deleteButton": "Delete",
