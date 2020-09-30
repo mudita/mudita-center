@@ -5,7 +5,7 @@
   "main": "./dist/main.js",
   "scripts": {
     "MAIN COMMANDS": "=========================================================",
-    "develop": "npm run dev:start",
+    "develop": "cross-env START_HOT=1 npm run dev:start:renderer",
     "pack": "npm run build && electron-builder --dir --publish never",
     "release": "electron-builder --publish always --mac --win --linux",
     "sign-dev-electron-app": "codesign --deep --force --verbose --sign - node_modules/electron/dist/electron.app",
@@ -15,7 +15,6 @@
     "build:main": "cross-env NODE_ENV=production webpack --config webpack.config.main.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config webpack.config.renderer.js",
     "DEV COMMANDS": "==========================================================",
-    "dev:start": "cross-env START_HOT=1 npm run dev:start:renderer",
     "dev:start:main": "webpack --config webpack.config.main.js && electron ./dist/main.js",
     "dev:start:renderer": "webpack-dev-server --config webpack.config.renderer.js --noBabelLoaderCache",
     "LINT COMMANDS": "=========================================================",
@@ -37,11 +36,11 @@
     "storybook:build": "build-storybook",
     "DATA UPDATE/OVERWRITE COMMANDS": "=========================================",
     "translations:update": "node ./scripts/updateDefaultTranslations.js",
-    "translations:overwrite": "OVERWRITE=true npm run translations:update",
+    "translations:overwrite": "cross-env OVERWRITE=true npm run translations:update",
     "translations:send": "node ./scripts/updatePhraseTranslations.js",
     "translations:sort": "node ./scripts/sortTranslations.js",
     "UTILITY/AUTO COMMANDS": "=================================================",
-    "beforecommit": "lint-staged",
+    "beforecommit": "npm run translations:sort && lint-staged",
     "postinstall": "electron-builder install-app-deps && electron-rebuild -f",
     "prerelease": "npm run translations:overwrite && npm run build",
     "prestart": "npm run build",
@@ -49,7 +48,8 @@
     "predevelop": "npm run translations:update",
     "posttranslations:send": "npm run translations:sort",
     "posttranslations:update": "npm run translations:sort",
-    "posttranslations:sort": "prettier --write src/**/*.json"
+    "posttranslations:sort": "prettier --write src/**/*.json",
+    "posttest:coverage": "prettier --write ./jest.coverage.json"
   },
   "pre-commit": "beforecommit",
   "build": {
@@ -257,7 +257,7 @@
     "update-electron-app": "^1.5.0"
   },
   "engines": {
-    "node": "12.9.1",
-    "npm": "6.10.2"
+    "node": "12.18.4",
+    "npm": "6.14.6"
   }
 }

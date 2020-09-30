@@ -1,6 +1,6 @@
 import Faker from "faker"
 
-export const createNewNote = (
+export const makeNewNote = (
   id: string = Faker.random.uuid(),
   content = ""
 ) => ({

@@ -61,6 +61,7 @@ const theme = {
       modal: white,
       bannerBackground: blue6,
       error: red1,
+      lightIcon: white,
     },
     border: {
       error: red1,

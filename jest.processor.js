@@ -22,7 +22,7 @@ const coverageAutoBump = (coverageTolerance = 2) => {
     const currentValue = currentCoverage.total[key].pct
 
     if (currentValue > requiredValue + coverageTolerance) {
-      const newTolerance = currentCoverage.total[key].pct - coverageTolerance
+      const newTolerance = currentValue - coverageTolerance
       desiredCoverage.coverageThreshold.global[key] = Math.max(newTolerance, 0)
     }
   }
@@ -31,15 +31,15 @@ const coverageAutoBump = (coverageTolerance = 2) => {
     path.resolve(__dirname, "./jest.coverage.json"),
     JSON.stringify(desiredCoverage, null, 2),
     "utf8",
-    error => {
+    (error) => {
       if (error) console.log(error)
     }
   )
 }
 
-module.exports = results => {
+module.exports = (results) => {
   if (results.hasOwnProperty("coverageMap")) {
-    coverageAutoBump()
+    coverageAutoBump(3)
   }
   return results
 }

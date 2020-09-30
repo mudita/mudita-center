@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components"
-import Table, {
+import BaseTable, {
+  Row as BaseRow,
   Col,
   EmptyState,
-  Row,
 } from "Renderer/components/core/table/table.component"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
@@ -24,10 +24,21 @@ export const animatedOpacityActiveStyles = css`
   visibility: visible;
 `
 
-export const TemplatesListTable = styled(Table)`
+export const DeleteCol = styled(Col)`
+  opacity: 0;
+  transition: opacity ${transitionTime("veryQuick")};
+`
+
+export const Table = styled(BaseTable)`
   --columnsGap: 0;
-  --columnsTemplate: 4rem 69.5rem 1fr;
+  --columnsTemplate: 4rem 59rem 1fr 5rem;
   --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
+
+  ${Col} {
+    &:nth-of-type(3) {
+      margin-left: 14.5rem;
+    }
+  }
 `
 
 export const TextPreview = styled(Col)`
@@ -48,29 +59,15 @@ export const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
   ${({ visible }) => visible && animatedOpacityActiveStyles}
 `
 
-export const ListRow = styled(Row)`
-  ${Col} {
-    button {
-      ${animatedOpacityStyles};
+export const Row = styled(BaseRow)`
+  &:hover {
+    ${Checkbox} {
+      opacity: 1;
+      visibility: visible;
     }
-  }
-  :hover {
-    ${Col} {
-      button {
-        ${animatedOpacityActiveStyles};
-      }
-      ${Checkbox} {
-        ${animatedOpacityActiveStyles};
-      }
-    }
-  }
-  ${Col} {
-    :first-of-type {
-      justify-content: center;
-    }
-    :last-of-type {
-      justify-content: flex-end;
-      padding-right: 2.4rem;
+
+    ${DeleteCol} {
+      opacity: 0.5;
     }
   }
 `

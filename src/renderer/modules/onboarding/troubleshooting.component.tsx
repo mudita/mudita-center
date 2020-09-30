@@ -68,10 +68,7 @@ const Troubleshooting = () => {
             "x-signature": hmacDigest,
           },
         })
-        modalService.openModal(
-          <ContactSupportSuccess withoutEmail={!formData.email} />,
-          true
-        )
+        modalService.openModal(<ContactSupportSuccess />, true)
       } catch (error) {
         const { log, ...errorBody } = JSON.parse(error.config.data)
         const simpleError = { ...error }

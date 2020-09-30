@@ -28,7 +28,7 @@ type SelectHook = Pick<
 
 interface Props extends SelectHook {
   calls: Details[]
-  deleteCall?: (ids: string[]) => void
+  deleteCall?: (ids: Details) => void
 }
 
 const CallsTable: FunctionComponent<Props> = ({

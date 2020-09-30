@@ -2,7 +2,7 @@ import React from "react"
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 
-import Notes from "Renderer/modules/tools/tabs/notes-ui.component"
+import Notes from "Renderer/modules/tools/tabs/notes.component"
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.enum"
 import { notesSeed } from "App/seeds/notes"
 import { NoteCallback } from "Renderer/models/notes/notes"
@@ -13,7 +13,7 @@ const renderer = (data = notesSeed.notesList) => {
   }
 
   return renderWithThemeAndIntl(
-    <Notes notesList={data} newNote={mockNewNote} />
+    <Notes notesList={data} createNewNote={mockNewNote} />
   )
 }
 

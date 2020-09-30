@@ -4,17 +4,14 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { intl } from "Renderer/utils/intl"
-import {
-  backgroundColor,
-  borderColor,
-} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { Template } from "App/renderer/modules/messages/tabs/templates-ui.component"
+import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import { defineMessages } from "react-intl"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 
@@ -39,7 +36,6 @@ const Panel = styled.div<{ selectionMode?: boolean }>`
   grid-template-columns: 38rem 1fr;
   padding: 3.2rem 3rem 3.2rem 4rem;
   background-color: ${backgroundColor("main")};
-  border-bottom: solid 0.1rem ${borderColor("list")};
 
   label {
     width: auto;
