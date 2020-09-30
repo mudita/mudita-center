@@ -1,5 +1,5 @@
 import { init } from "@rematch/core"
-import { createTemplate } from "Renderer/models/templates/templates"
+import { makeTemplate } from "Renderer/models/templates/templates"
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import templates from "Renderer/models/templates/templates"
 
@@ -23,6 +23,7 @@ beforeEach(() => {
 const testId = "test-id"
 const testContent = "test-content"
 const testObject = { id: testId, content: testContent }
+const testDate = new Date("2020-07-21T13:08:02.733Z")
 
 test("has proper initial state", () => {
   expect(store.getState().templates.templates).toBeDefined()
@@ -54,13 +55,13 @@ test("returns untouched collection when wrong ids are passed", () => {
 })
 
 test("properly creates templates without provided data", () => {
-  const newTemplate = createTemplate()
+  const newTemplate = makeTemplate()
   expect(typeof newTemplate.id).toBe("string")
   expect(newTemplate.content).toBe("")
 })
 
 test("properly creates templates with provided data", () => {
-  const newTemplate = createTemplate(testId, testContent)
+  const newTemplate = makeTemplate(testId, testContent)
 
   expect(newTemplate).toMatchObject(testObject)
 })
@@ -98,6 +99,7 @@ test("properly saves modified template", () => {
   store.dispatch.templates.saveTemplate({
     id: templateId,
     content: testContent,
+    date: testDate,
   })
 
   expect(store.getState().templates.templates!.find(findById)!.content).toBe(

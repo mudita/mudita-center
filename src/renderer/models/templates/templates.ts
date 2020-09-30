@@ -11,10 +11,11 @@ export const initialState: StateProps = {
   searchValue: "",
 }
 
-export const createTemplate = (
+export const makeTemplate = (
   id: string = Faker.random.uuid(),
-  content = ""
-): Template => ({ id, content })
+  content = "",
+  date = new Date()
+): Template => ({ id, content, date })
 
 export default {
   state: initialState,
@@ -29,7 +30,7 @@ export default {
       const oldTemplates = state.templates || []
       const newState = {
         ...state,
-        templates: [createTemplate(), ...oldTemplates],
+        templates: [makeTemplate(), ...oldTemplates],
       }
 
       if (callback) {
