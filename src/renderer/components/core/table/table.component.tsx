@@ -429,12 +429,10 @@ const Table = React.forwardRef<
  * Extra rotation added to avoid jagged edges on older displays.
  * @see http://apps.eky.hk/css-triangle-generator/
  */
-export const TableSortButton = styled.button<{ sortDirection?: SortDirection }>`
+export const TableSortButton = styled.button<{ sortDescending?: boolean }>`
   background: none;
   color: currentColor;
-
   cursor: pointer;
-
   width: 0;
   height: 0;
   padding: 0;
@@ -442,11 +440,8 @@ export const TableSortButton = styled.button<{ sortDirection?: SortDirection }>`
   border-style: solid;
   border-width: 0.5rem 0.3rem 0 0.3rem;
   border-color: currentColor transparent transparent transparent;
-
-  transform: ${({ sortDirection }) =>
-    sortDirection === SortDirection.Ascending
-      ? "rotate(540deg)"
-      : "rotate(360deg)"};
+  transform: ${({ sortDescending }) =>
+    sortDescending ? "rotate(360deg)" : "rotate(540deg)"};
 
   &:active,
   &:focus {

@@ -1,4 +1,4 @@
-import React, { Ref, useEffect } from "react"
+import React, { Ref } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   Col,
@@ -32,8 +32,6 @@ import {
 import { intl } from "Renderer/utils/intl"
 import { isToday } from "Renderer/utils/is-today"
 import moment from "moment"
-import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
-import useSort from "Renderer/utils/hooks/use-sort/use-sort"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "view.name.messages.templates.emptyList.title" },
@@ -62,6 +60,8 @@ export interface TemplatesListProps
     UseTableSidebar<Template> {
   templates: Template[]
   deleteTemplate: (id: string) => void | Promise<void>
+  toggleSortOrder: () => void
+  sortDescending: boolean
 }
 
 const TemplatesList: FunctionComponent<TemplatesListProps> = ({
@@ -74,15 +74,10 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   activeRow,
   sidebarOpened,
   deleteTemplate,
+  toggleSortOrder,
+  sortDescending,
 }) => {
-  const { data: sortedData, sort, sortDirection } = useSort(templates)
-  const templatesAvailable = sortedData.length > 0
-  const sortByDate = () => sort("date", templates)
-
-  useEffect(() => {
-    sortByDate()
-  }, [])
-
+  const templatesAvailable = templates.length > 0
   return (
     <Table
       role="list"
@@ -95,15 +90,13 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
         <Col>
           <Text message={messages.note} />
         </Col>
-        <Col onClick={sortByDate}>
+        <Col onClick={toggleSortOrder}>
           <Text message={messages.edited} />
-          <TableSortButton
-            sortDirection={sortDirection.date || SortDirection.Ascending}
-          />
+          <TableSortButton sortDescending={sortDescending} />
         </Col>
       </Labels>
       {templatesAvailable ? (
-        sortedData.map((template) => {
+        templates.map((template) => {
           const { id, content, date } = template
           const { selected } = getRowStatus(template)
           const deleteItem = () => deleteTemplate(id)

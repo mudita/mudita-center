@@ -3,12 +3,14 @@ import { StateProps } from "Renderer/models/templates/templates.interface"
 import { Slicer } from "@rematch/select"
 import { filterTemplates } from "Renderer/models/templates/filter-templates"
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
+import { orderBy } from "lodash"
 
 export type TemplateCallback = (param: Template) => void
 
 export const initialState: StateProps = {
   templates: [],
   searchValue: "",
+  sortDescending: true,
 }
 
 export const makeTemplate = (
@@ -20,6 +22,9 @@ export const makeTemplate = (
 export default {
   state: initialState,
   reducers: {
+    toggleSortOrder(state: StateProps) {
+      return { ...state, sortDescending: !state.sortDescending }
+    },
     changeSearchValue(
       state: StateProps,
       searchValue: StateProps["searchValue"]
@@ -72,9 +77,13 @@ export default {
   },
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {
-      return slice(({ templates: listOfTemplates, searchValue }) => {
-        return filterTemplates(listOfTemplates, searchValue)
-      })
+      return slice(
+        ({ templates: listOfTemplates, searchValue, sortDescending }) => {
+          const templates = filterTemplates(listOfTemplates, searchValue)
+          const order = sortDescending ? "desc" : "asc"
+          return orderBy(templates, ["date"], [order])
+        }
+      )
     },
   }),
 }

@@ -5,12 +5,19 @@ import Templates, {
   Template,
 } from "Renderer/modules/messages/tabs/templates.component"
 import { TemplateCallback } from "Renderer/models/templates/templates"
+import { RootModel } from "Renderer/models/models"
 
-const mapStateToProps = select(({ templates }) => ({
+const selector = select(({ templates }) => ({
   templates: templates.filteredList,
 }))
 
+const mapStateToProps = (state: RootModel) => ({
+  ...state.templates,
+  ...selector(state, {}),
+})
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  toggleSortOrder: () => dispatch.templates.toggleSortOrder(),
   onSearchTermChange: ({ target }: ChangeEvent<HTMLInputElement>) =>
     dispatch.templates.changeSearchValue(target.value),
   newTemplate: (template: TemplateCallback) =>

@@ -45,6 +45,8 @@ export interface TemplatesProps {
   onDeleteButtonClick: (ids: string[]) => void
   newTemplate?: (input: TemplateCallback) => void
   saveTemplate?: (input: Template) => void
+  sortDescending: boolean
+  toggleSortOrder: () => void
 }
 
 const Templates: FunctionComponent<TemplatesProps> = ({
@@ -53,6 +55,8 @@ const Templates: FunctionComponent<TemplatesProps> = ({
   onDeleteButtonClick,
   newTemplate,
   saveTemplate,
+  toggleSortOrder,
+  sortDescending,
 }) => {
   const [newTemplateCreated, setNewTemplateCreated] = useState(false)
   const {
@@ -146,6 +150,8 @@ const Templates: FunctionComponent<TemplatesProps> = ({
         <TemplatesList
           templates={templates}
           deleteTemplate={openModalForSingle}
+          toggleSortOrder={toggleSortOrder}
+          sortDescending={sortDescending}
           {...sidebarHook}
           {...rest}
         />
