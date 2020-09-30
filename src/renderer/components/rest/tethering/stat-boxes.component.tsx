@@ -29,7 +29,7 @@ const messages = defineMessages({
 })
 
 interface Props {
-  timeActive?: any
+  timeActive?: string
   dataSent: number
   dataReceived: number
 }
