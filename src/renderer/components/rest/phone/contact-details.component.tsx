@@ -1,6 +1,4 @@
 import React from "react"
-import { useHistory } from "react-router-dom"
-import { URL_MAIN } from "Renderer/constants/urls"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   SidebarHeaderIcon,
@@ -50,7 +48,7 @@ export interface ContactActions {
 export interface ContactDetailsActions {
   onEdit: (contact: Contact) => void
   onCall: (phoneNumber: string) => void
-  onMessage: (phoneNumber: string) => void
+  onMessage: (phoneNumber: string, callerId: string) => void
 }
 
 interface ContactDetailsProps
@@ -97,19 +95,14 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   ...rest
 }) => {
   if (contact) {
-    const history = useHistory()
     const handleEdit = () => onEdit(contact)
     const handleExport = () => onExport(contact)
     const handleForward = () => onForward(contact)
     const handleBlock = () => onBlock(contact)
     const handleUnblock = () => onUnblock(contact)
     const handleDelete = () => onDelete(contact)
-    const handleMessage = (phoneNumber: string) => {
-      history.push(
-        `${URL_MAIN.messages}?callerId=${contact.id}&phoneNumber=${phoneNumber}`
-      )
-      onMessage(phoneNumber)
-    }
+    const handleMessage = (phoneNumber: string) =>
+      onMessage(phoneNumber, contact.id)
 
     const icons = (
       <>
