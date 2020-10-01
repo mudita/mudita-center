@@ -41,7 +41,7 @@ test("topic isn't found without phoneNumber in search value", () => {
   expect(topic).toBeUndefined()
 })
 
-test("topic isn't founded without search value", () => {
+test("topic isn't found without search value", () => {
   const topic = findTopicBySearchParams(new URLSearchParams(``), topics)
   expect(topic).toBeUndefined()
 })
