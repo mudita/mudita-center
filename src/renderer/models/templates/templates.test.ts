@@ -4,6 +4,7 @@ import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import templates from "Renderer/models/templates/templates"
 import { templatesSeed, todaysTemplate } from "App/seeds/templates"
 import selectPlugin from "@rematch/select"
+import { SortOrder } from "Renderer/models/templates/templates.interface"
 
 const storeConfig = {
   models: { templates },
@@ -111,16 +112,16 @@ test("properly saves modified template", () => {
 test("today's template is at the beginning of the list by default, after toggle is placed at the last place in the list", () => {
   const state = store.getState()
   const templatesList = store.select.templates.filteredList(state)
-  expect(state.templates.sortDescending).toBeTruthy()
+  expect(state.templates.sortOrder).toEqual(SortOrder.Descending)
   expect(todaysTemplate).toMatchObject(templatesList[0])
 
-  store.dispatch.templates.toggleSortOrder()
+  store.dispatch.templates.changeSortOrder(SortOrder.Ascending)
 
   const stateAfterToggle = store.getState()
   const templatesListAfterToggle = store.select.templates.filteredList(
     stateAfterToggle
   )
-  expect(stateAfterToggle.templates.sortDescending).toBeFalsy()
+  expect(stateAfterToggle.templates.sortOrder).toEqual(SortOrder.Ascending)
   expect(todaysTemplate).toMatchObject(
     templatesListAfterToggle[templatesListAfterToggle.length - 1]
   )

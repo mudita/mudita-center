@@ -23,15 +23,16 @@ import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/
 import { defineMessages } from "react-intl"
 import {
   Checkbox,
-  Row,
-  TemplatesEmptyState,
-  Table,
-  TextPreview,
   DeleteCol,
+  Row,
+  Table,
+  TemplatesEmptyState,
+  TextPreview,
 } from "Renderer/components/rest/messages/templates/templates-list.styled"
 import { intl } from "Renderer/utils/intl"
 import { isToday } from "Renderer/utils/is-today"
 import moment from "moment"
+import { SortOrder } from "Renderer/models/templates/templates.interface"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "view.name.messages.templates.emptyList.title" },
@@ -60,8 +61,8 @@ export interface TemplatesListProps
     UseTableSidebar<Template> {
   templates: Template[]
   deleteTemplate: (id: string) => void | Promise<void>
-  toggleSortOrder: () => void
-  sortDescending: boolean
+  changeSortOrder: (sortOrder: SortOrder) => void
+  sortOrder: SortOrder
 }
 
 const TemplatesList: FunctionComponent<TemplatesListProps> = ({
@@ -74,10 +75,17 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   activeRow,
   sidebarOpened,
   deleteTemplate,
-  toggleSortOrder,
-  sortDescending,
+  changeSortOrder,
+  sortOrder,
 }) => {
   const templatesAvailable = templates.length > 0
+  const toggleSortOrder = () => {
+    if (sortOrder === SortOrder.Descending) {
+      changeSortOrder(SortOrder.Ascending)
+    } else {
+      changeSortOrder(SortOrder.Descending)
+    }
+  }
   return (
     <Table
       role="list"
@@ -92,7 +100,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
         </Col>
         <Col onClick={toggleSortOrder}>
           <Text message={messages.edited} />
-          <TableSortButton sortDescending={sortDescending} />
+          <TableSortButton sortOrder={sortOrder} />
         </Col>
       </Labels>
       {templatesAvailable ? (

@@ -21,6 +21,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import { SortOrder } from "Renderer/models/templates/templates.interface"
 
 /* Row */
 export enum RowSize {
@@ -428,7 +429,7 @@ const Table = React.forwardRef<
  * Extra rotation added to avoid jagged edges on older displays.
  * @see http://apps.eky.hk/css-triangle-generator/
  */
-export const TableSortButton = styled.button<{ sortDescending?: boolean }>`
+export const TableSortButton = styled.button<{ sortOrder?: SortOrder }>`
   background: none;
   color: currentColor;
   cursor: pointer;
@@ -439,8 +440,8 @@ export const TableSortButton = styled.button<{ sortDescending?: boolean }>`
   border-style: solid;
   border-width: 0.5rem 0.3rem 0 0.3rem;
   border-color: currentColor transparent transparent transparent;
-  transform: ${({ sortDescending }) =>
-    sortDescending ? "rotate(360deg)" : "rotate(540deg)"};
+  transform: ${({ sortOrder }) =>
+    sortOrder === SortOrder.Descending ? "rotate(360deg)" : "rotate(540deg)"};
 
   &:active,
   &:focus {

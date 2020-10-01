@@ -11,6 +11,7 @@ import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { mockedTemplateData } from "Renderer/modules/messages/__mocks__/template-modal-data"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 import { fireEvent } from "@testing-library/dom"
+import { SortOrder } from "Renderer/models/templates/templates.interface"
 
 mockAllIsIntersecting(true)
 
@@ -20,8 +21,8 @@ const renderTemplates = ({
   onSearchTermChange = noop,
   newTemplate = noop,
   templates = mockedTemplateData,
-  toggleSortOrder = noop,
-  sortDescending = true,
+  changeSortOrder = noop,
+  sortOrder = SortOrder.Descending,
 }: Partial<TemplatesProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <Templates
@@ -30,8 +31,8 @@ const renderTemplates = ({
       onDeleteButtonClick={onDeleteButtonClick}
       onNewButtonClick={onNewButtonClick}
       onSearchTermChange={onSearchTermChange}
-      sortDescending={sortDescending}
-      toggleSortOrder={toggleSortOrder}
+      sortOrder={sortOrder}
+      changeSortOrder={changeSortOrder}
     />
   )
   return {

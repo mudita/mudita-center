@@ -19,6 +19,7 @@ import { makeTemplate } from "Renderer/models/templates/templates"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteTemplateModal from "Renderer/modules/messages/tabs/delete-template-modal.component"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
+import { SortOrder } from "Renderer/models/templates/templates.interface"
 
 const messages = defineMessages({
   charactersNumber: { id: "view.name.messages.templates.charactersNumber" },
@@ -45,8 +46,8 @@ export interface TemplatesProps {
   onDeleteButtonClick: (ids: string[]) => void
   newTemplate?: (input: TemplateCallback) => void
   saveTemplate?: (input: Template) => void
-  sortDescending: boolean
-  toggleSortOrder: () => void
+  sortOrder: SortOrder
+  changeSortOrder: (sortOrder: SortOrder) => void
 }
 
 const Templates: FunctionComponent<TemplatesProps> = ({
@@ -55,8 +56,8 @@ const Templates: FunctionComponent<TemplatesProps> = ({
   onDeleteButtonClick,
   newTemplate,
   saveTemplate,
-  toggleSortOrder,
-  sortDescending,
+  changeSortOrder,
+  sortOrder,
 }) => {
   const [newTemplateCreated, setNewTemplateCreated] = useState(false)
   const {
@@ -150,8 +151,8 @@ const Templates: FunctionComponent<TemplatesProps> = ({
         <TemplatesList
           templates={templates}
           deleteTemplate={openModalForSingle}
-          toggleSortOrder={toggleSortOrder}
-          sortDescending={sortDescending}
+          changeSortOrder={changeSortOrder}
+          sortOrder={sortOrder}
           {...sidebarHook}
           {...rest}
         />

@@ -1,5 +1,8 @@
 import Faker from "faker"
-import { StateProps } from "Renderer/models/templates/templates.interface"
+import {
+  SortOrder,
+  StateProps,
+} from "Renderer/models/templates/templates.interface"
 import { Slicer } from "@rematch/select"
 import { filterTemplates } from "Renderer/models/templates/filter-templates"
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
@@ -10,7 +13,7 @@ export type TemplateCallback = (param: Template) => void
 export const initialState: StateProps = {
   templates: [],
   searchValue: "",
-  sortDescending: true,
+  sortOrder: SortOrder.Descending,
 }
 
 export const makeTemplate = (
@@ -22,8 +25,8 @@ export const makeTemplate = (
 export default {
   state: initialState,
   reducers: {
-    toggleSortOrder(state: StateProps) {
-      return { ...state, sortDescending: !state.sortDescending }
+    changeSortOrder(state: StateProps, sortOrder: SortOrder) {
+      return { ...state, sortOrder }
     },
     changeSearchValue(
       state: StateProps,
@@ -77,13 +80,10 @@ export default {
   },
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {
-      return slice(
-        ({ templates: listOfTemplates, searchValue, sortDescending }) => {
-          const templates = filterTemplates(listOfTemplates, searchValue)
-          const order = sortDescending ? "desc" : "asc"
-          return orderBy(templates, ["date"], [order])
-        }
-      )
+      return slice(({ templates: listOfTemplates, searchValue, sortOrder }) => {
+        const filteredTemplates = filterTemplates(listOfTemplates, searchValue)
+        return orderBy(filteredTemplates, ["date"], [sortOrder])
+      })
     },
   }),
 }
