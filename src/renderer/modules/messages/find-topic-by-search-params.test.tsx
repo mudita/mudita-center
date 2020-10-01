@@ -25,6 +25,13 @@ test("topic is found even if phoneNumber has another format", () => {
   expect(topic?.caller.id).toEqual(caller.id)
 })
 
+test("topic isn't found when phoneNumber is started with double zero", () => {
+  const topic = findTopicBySearchParams(new URLSearchParams(searchValue), [
+    { caller: { ...caller, primaryPhoneNumber: "0033 999 999 999" } } as Topic,
+  ])
+  expect(topic).toBeUndefined()
+})
+
 test("topic isn't found without callerId in search value", () => {
   const topic = findTopicBySearchParams(
     new URLSearchParams(`?phoneNumber=${caller.primaryPhoneNumber}`),

@@ -1,7 +1,7 @@
 import { Topic } from "Renderer/models/messages/messages.interface"
 
-const transformPhoneNumberToNumber = (string: string): number => {
-  return Number(string.split(" ").join("").replace("+", ""))
+const removeDecoratorsFromPhoneNumber = (string: string): string => {
+  return string.split(" ").join("").replace("+", "")
 }
 
 const findTopicBySearchParams = (
@@ -11,10 +11,16 @@ const findTopicBySearchParams = (
   return topics.find(({ caller: { id, primaryPhoneNumber = "" } }) => {
     const paramsPhoneNumber = searchParams.get("phoneNumber") || ""
     const paramsCallerId = searchParams.get("callerId") || ""
+    console.log("primaryPhoneNumber: ", primaryPhoneNumber)
+    console.log(
+      "removeDecoratorsFromPhoneNumber(primaryPhoneNumber): ",
+      removeDecoratorsFromPhoneNumber(primaryPhoneNumber)
+    )
+    console.log("paramsPhoneNumber: ", paramsPhoneNumber)
     return (
       id === paramsCallerId &&
-      transformPhoneNumberToNumber(primaryPhoneNumber) ===
-        transformPhoneNumberToNumber(paramsPhoneNumber)
+      removeDecoratorsFromPhoneNumber(primaryPhoneNumber) ===
+        removeDecoratorsFromPhoneNumber(paramsPhoneNumber)
     )
   })
 }
