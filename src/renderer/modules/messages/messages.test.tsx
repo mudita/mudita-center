@@ -12,6 +12,10 @@ import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-te
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
+jest.mock("react-router", () => ({
+  useLocation: jest.fn().mockReturnValue(""),
+}))
+
 const renderer = () => {
   return renderWithThemeAndIntl(
     <Provider store={store}>
