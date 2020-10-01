@@ -18,7 +18,7 @@ test("topic is found by search params", () => {
   expect(topic?.caller.id).toEqual(caller.id)
 })
 
-test("topic is found even phoneNumber has another format", () => {
+test("topic is found even if phoneNumber has another format", () => {
   const topic = findTopicBySearchParams(new URLSearchParams(searchValue), [
     { caller: { ...caller, primaryPhoneNumber: "+33 999 999 999" } } as Topic,
   ])
