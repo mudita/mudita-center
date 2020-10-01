@@ -10,6 +10,7 @@ import {
   RotatedArrowIcon,
   StatBoxesWrapper,
   StatTextWrapper,
+  UnitText,
 } from "Renderer/components/rest/tethering/stat-boxes.styled"
 import { defineMessages } from "react-intl"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
@@ -71,12 +72,12 @@ const StatBoxes: FunctionComponent<Props> = ({
             >
               {dataSentValue}
             </Text>
-            <Text
+            <UnitText
               displayStyle={TextDisplayStyle.MediumLightText}
               element={"span"}
             >
-              {dataSentUnit.toLowerCase()}
-            </Text>
+              {dataSentUnit}
+            </UnitText>
           </div>
         </StatTextWrapper>
         <Text
@@ -95,12 +96,12 @@ const StatBoxes: FunctionComponent<Props> = ({
             >
               {dataReceivedValue}
             </Text>
-            <Text
+            <UnitText
               displayStyle={TextDisplayStyle.MediumLightText}
               element={"span"}
             >
-              {dataReceivedUnit.toLowerCase()}
-            </Text>
+              {dataReceivedUnit}
+            </UnitText>
           </div>
         </StatTextWrapper>
         <Text
