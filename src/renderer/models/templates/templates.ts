@@ -7,11 +7,11 @@ import { Template } from "Renderer/modules/messages/tabs/templates.component"
 export type TemplateCallback = (param: Template) => void
 
 export const initialState: StateProps = {
-  templates: [],
+  templatesList: [],
   searchValue: "",
 }
 
-export const makeTemplate = (
+export const makeNewTemplate = (
   id: string = Faker.random.uuid(),
   content = "",
   date = new Date()
@@ -27,10 +27,12 @@ export default {
       return { ...state, searchValue }
     },
     createNewTemplate(state: StateProps, callback?: TemplateCallback) {
-      const oldTemplates = state.templates || []
+      const oldTemplates = state.templatesList || []
+      const newTemplate = makeNewTemplate()
       const newState = {
         ...state,
-        templates: [makeTemplate(), ...oldTemplates],
+        newTemplateId: newTemplate.id,
+        templatesList: [newTemplate, ...oldTemplates],
       }
 
       if (callback) {
@@ -38,41 +40,50 @@ export default {
          * Due to selector laziness we have to resort to callbacks in order
          * to process newest state.
          */
-        callback(newState.templates[0])
+        callback(newTemplate)
       }
 
       return newState
     },
     saveTemplate(state: StateProps, templateData: Template) {
-      const modifiedTemplates = state.templates?.map((template: Template) => {
-        if (template.id === templateData.id) {
-          return templateData
-        }
+      const modifiedTemplates = state.templatesList?.map(
+        (template: Template) => {
+          if (template.id === templateData.id) {
+            return templateData
+          }
 
-        return template
-      })
+          return template
+        }
+      )
 
       if (modifiedTemplates) {
         return {
           ...state,
-          templates: modifiedTemplates,
+          ...(state.newTemplateId === templateData.id
+            ? { newTemplateId: undefined }
+            : {}),
+          templatesList: modifiedTemplates,
         }
       }
 
       return state
     },
-    removeItems(state: StateProps, itemsToRemove: string[]) {
+    removeTemplates(state: StateProps, itemsToRemove: string[]) {
+      const templates = state.templatesList?.filter(
+        ({ id }: Template) => !itemsToRemove.includes(id)
+      )
       return {
         ...state,
-        templates: state.templates?.filter(
-          ({ id }) => !itemsToRemove.includes(id)
-        ),
+        ...(state.newTemplateId && itemsToRemove.includes(state.newTemplateId)
+          ? { newTemplateId: undefined }
+          : {}),
+        templatesList: templates,
       }
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {
-      return slice(({ templates: listOfTemplates, searchValue }) => {
+      return slice(({ templatesList: listOfTemplates, searchValue }) => {
         return filterTemplates(listOfTemplates, searchValue)
       })
     },

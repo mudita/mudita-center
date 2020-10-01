@@ -8,10 +8,8 @@ import {
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import ButtonComponent from "Renderer/components/core/button/button.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -22,7 +20,6 @@ import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 import { defineMessages } from "react-intl"
 import {
-  Checkbox,
   Row,
   TemplatesEmptyState,
   Table,
@@ -34,6 +31,10 @@ import { isToday } from "Renderer/utils/is-today"
 import moment from "moment"
 import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import useSort from "Renderer/utils/hooks/use-sort/use-sort"
+import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
+import { TextInfo } from "Renderer/modules/tools/tabs/notes.styled"
+import { normalizeText } from "Renderer/components/core/text-editor/text-editor.hook"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "view.name.messages.templates.emptyList.title" },
@@ -50,6 +51,15 @@ const messages = defineMessages({
   today: {
     id: "view.generic.today",
   },
+  newTemplate: {
+    id: "view.name.messages.templates.newTemplate",
+  },
+  emptyTemplate: {
+    id: "view.name.messages.templates.emptyTemplate",
+  },
+  unsavedTemplate: {
+    id: "view.name.messages.templates.unsavedTemplate",
+  },
 })
 
 type SelectHook = Pick<
@@ -62,6 +72,7 @@ export interface TemplatesListProps
     UseTableSidebar<Template> {
   templates: Template[]
   deleteTemplate: (id: string) => void | Promise<void>
+  newTemplateId?: string
 }
 
 const TemplatesList: FunctionComponent<TemplatesListProps> = ({
@@ -74,6 +85,7 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   activeRow,
   sidebarOpened,
   deleteTemplate,
+  newTemplateId,
 }) => {
   const { data: sortedData, sort, sortDirection } = useSort(templates)
   const templatesAvailable = sortedData.length > 0
@@ -88,13 +100,14 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
       role="list"
       hide
       hideColumns={sidebarOpened}
-      hideableColumnsIndexes={[2]}
+      hideableColumnsIndexes={[2, 3, 4]}
     >
       <Labels size={RowSize.Small}>
         <Col />
         <Col>
           <Text message={messages.note} />
         </Col>
+        <Col />
         <Col onClick={sortByDate}>
           <Text message={messages.edited} />
           <TableSortButton
@@ -110,10 +123,17 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
 
           const { getTemporaryValue } = useTemporaryStorage<string>(id, content)
 
-          const text =
-            getTemporaryValue().length === 0
-              ? intl.formatMessage(messages.temporaryText)
-              : getTemporaryValue().substr(0, 250)
+          const editedTemplate =
+            normalizeText(getTemporaryValue()) !== normalizeText(content)
+          const newTemplate = id === newTemplateId
+          const emptyTemplate = getTemporaryValue().length === 0
+
+          const text = emptyTemplate
+            ? intl.formatMessage(messages.emptyTemplate)
+            : (editedTemplate
+                ? getTemporaryValue()
+                : normalizeText(content)
+              ).substr(0, 250)
 
           const toggle = () => {
             if (sidebarOpened) {
@@ -143,8 +163,23 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                 />
               </Col>
               <TextPreview onClick={handleTextPreviewClick}>
-                <Text displayStyle={TextDisplayStyle.LargeText}>{text}</Text>
+                <Text displayStyle={TextDisplayStyle.LargeText}>
+                  {emptyTemplate ? <em>{text}</em> : text}
+                </Text>
               </TextPreview>
+              <Col>
+                {(editedTemplate || newTemplate) && (
+                  <TextInfo>
+                    {newTemplate && (
+                      <>
+                        <em>{intl.formatMessage(messages.newTemplate)}</em>
+                        <br />
+                      </>
+                    )}
+                    <em>{intl.formatMessage(messages.unsavedTemplate)}</em>
+                  </TextInfo>
+                )}
+              </Col>
               <Col>
                 <Text displayStyle={TextDisplayStyle.LargeText}>
                   {isToday(date)
@@ -152,12 +187,8 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
                     : moment(date).format("ll")}
                 </Text>
               </Col>
-              <DeleteCol>
-                <ButtonComponent
-                  onClick={deleteItem}
-                  displayStyle={DisplayStyle.IconOnly2}
-                  Icon={Type.Delete}
-                />
+              <DeleteCol onClick={deleteItem}>
+                <Icon type={Type.Delete} width={IconSize.Medium} />
               </DeleteCol>
             </Row>
           )

@@ -4,11 +4,11 @@ import BaseTable, {
   Col,
   EmptyState,
 } from "Renderer/components/core/table/table.component"
-import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
+import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
 
 export const animatedOpacityStyles = css`
   opacity: 0;
@@ -31,7 +31,7 @@ export const DeleteCol = styled(Col)`
 
 export const Table = styled(BaseTable)`
   --columnsGap: 0;
-  --columnsTemplate: 4rem 59rem 1fr 5rem;
+  --columnsTemplate: 4rem 59rem 7rem 1fr 5rem;
   --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
 
   ${Col} {
@@ -51,12 +51,6 @@ export const TextPreview = styled(Col)`
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-`
-
-export const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
-  ${animatedOpacityStyles};
-
-  ${({ visible }) => visible && animatedOpacityActiveStyles}
 `
 
 export const Row = styled(BaseRow)`

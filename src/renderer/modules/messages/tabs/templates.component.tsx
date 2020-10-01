@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react"
+import React, { ChangeEvent } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import TemplatesPanel from "Renderer/components/rest/messages/templates/templates-panel.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
@@ -15,7 +15,7 @@ import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { TemplateCallback } from "Renderer/models/templates/templates"
-import { makeTemplate } from "Renderer/models/templates/templates"
+import { makeNewTemplate } from "Renderer/models/templates/templates"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteTemplateModal from "Renderer/modules/messages/tabs/delete-template-modal.component"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
@@ -29,7 +29,7 @@ const messages = defineMessages({
 
 const TemplatesSidebar = styled(Sidebar)`
   --header-height: 5.6rem;
-  border-top: none;
+  margin-top: 4.7rem;
 `
 
 export interface Template {
@@ -39,48 +39,42 @@ export interface Template {
 }
 
 export interface TemplatesProps {
-  templates: Template[]
-  onNewButtonClick?: () => void
+  templatesList: Template[]
   onSearchTermChange?: (event: ChangeEvent<HTMLInputElement>) => void
-  onDeleteButtonClick: (ids: string[]) => void
-  newTemplate?: (input: TemplateCallback) => void
+  removeTemplates?: (ids: string[]) => void
+  createNewTemplate?: (input: TemplateCallback) => void
   saveTemplate?: (input: Template) => void
+  newTemplateId?: string
 }
 
 const Templates: FunctionComponent<TemplatesProps> = ({
   onSearchTermChange = noop,
-  templates = [],
-  onDeleteButtonClick,
-  newTemplate,
+  templatesList = [],
+  removeTemplates,
+  createNewTemplate,
   saveTemplate,
+  newTemplateId,
 }) => {
-  const [newTemplateCreated, setNewTemplateCreated] = useState(false)
   const {
     selectedRows,
     allRowsSelected,
     toggleAll,
     resetRows,
     ...rest
-  } = useTableSelect<Template>(templates)
+  } = useTableSelect<Template>(templatesList)
 
   const sidebarHook = useTableSidebar<Template>()
-  const { closeSidebar: baseCloseSidebar, activeRow, openSidebar } = sidebarHook
+  const { closeSidebar, activeRow, openSidebar } = sidebarHook
 
-  const textEditorHook = useTextEditor(activeRow)
+  const { rejectChanges, ...textEditorHook } = useTextEditor(activeRow)
   const {
     temporaryText: { length: textLength },
   } = textEditorHook
 
   const onNewButtonClick = () => {
-    if (newTemplate) {
-      newTemplate(openSidebar)
-      setNewTemplateCreated(true)
+    if (createNewTemplate) {
+      createNewTemplate(openSidebar)
     }
-  }
-
-  const closeSidebar = () => {
-    baseCloseSidebar()
-    setNewTemplateCreated(false)
   }
 
   const tryToSave = async () => {
@@ -88,14 +82,24 @@ const Templates: FunctionComponent<TemplatesProps> = ({
       const content = textEditorHook.temporaryText
       const { id } = activeRow
 
-      saveTemplate(makeTemplate(id, content))
+      saveTemplate(makeNewTemplate(id, content))
     }
   }
 
-  const onDelete = async (collection: string[]) => {
-    onDeleteButtonClick(collection)
-    resetRows()
-    await modalService.closeModal()
+  const handleChangesReject = () => {
+    rejectChanges()
+    if (removeTemplates && newTemplateId && activeRow?.id === newTemplateId) {
+      removeTemplates([newTemplateId])
+      closeSidebar()
+    }
+  }
+
+  const deleteTemplates = async (collection: string[]) => {
+    if (removeTemplates) {
+      removeTemplates(collection)
+      resetRows()
+      await modalService.closeModal()
+    }
   }
 
   const onClose = () => {
@@ -117,7 +121,7 @@ const Templates: FunctionComponent<TemplatesProps> = ({
   })
 
   const openModalForMany = async () => {
-    const deleteMany = () => onDelete(selectedRows.map(({ id }) => id))
+    const deleteMany = () => deleteTemplates(selectedRows.map(({ id }) => id))
 
     await modalService.openModal(
       <DeleteTemplateModal {...modalConfig(deleteMany)} />
@@ -125,7 +129,7 @@ const Templates: FunctionComponent<TemplatesProps> = ({
   }
 
   const openModalForSingle = async (id: string) => {
-    const deleteSingle = () => onDelete([id])
+    const deleteSingle = () => deleteTemplates([id])
 
     await modalService.openModal(
       <DeleteTemplateModal {...modalConfig(deleteSingle, true)} />
@@ -141,11 +145,13 @@ const Templates: FunctionComponent<TemplatesProps> = ({
         selectedItemsCount={selectedRows.length}
         allItemsSelected={allRowsSelected}
         toggleAll={toggleAll}
+        newButtonDisabled={Boolean(newTemplateId)}
       />
       <TableWithSidebarWrapper>
         <TemplatesList
-          templates={templates}
+          templates={templatesList}
           deleteTemplate={openModalForSingle}
+          newTemplateId={newTemplateId}
           {...sidebarHook}
           {...rest}
         />
@@ -157,9 +163,9 @@ const Templates: FunctionComponent<TemplatesProps> = ({
           {activeRow && (
             <TextEditor
               {...textEditorHook}
-              onChangesReject={noop}
+              onChangesReject={handleChangesReject}
               onChangesSave={tryToSave}
-              autoFocus={newTemplateCreated}
+              autoFocus={newTemplateId === activeRow?.id}
               statsInfo={intl.formatMessage(messages.charactersNumber, {
                 charactersCount: textLength,
                 smsCount: Math.ceil(textLength / 160),

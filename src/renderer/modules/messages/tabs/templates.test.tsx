@@ -15,17 +15,17 @@ import { fireEvent } from "@testing-library/dom"
 mockAllIsIntersecting(true)
 
 const renderTemplates = ({
-  onDeleteButtonClick = noop,
+  removeTemplates = noop,
   onNewButtonClick = noop,
   onSearchTermChange = noop,
-  newTemplate = noop,
-  templates = mockedTemplateData,
+  createNewTemplate = noop,
+  templatesList = mockedTemplateData,
 }: Partial<TemplatesProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <Templates
-      newTemplate={newTemplate}
-      templates={templates}
-      onDeleteButtonClick={onDeleteButtonClick}
+      createNewTemplate={createNewTemplate}
+      templatesList={templatesList}
+      removeTemplates={removeTemplates}
       onNewButtonClick={onNewButtonClick}
       onSearchTermChange={onSearchTermChange}
     />
@@ -65,7 +65,7 @@ test("correct number of rows is rendered", () => {
 })
 
 test("when templates are empty, empty state information is rendered", () => {
-  const { getByTestId } = renderTemplates({ templates: [] })
+  const { getByTestId } = renderTemplates({ templatesList: [] })
   expect(getByTestId(TemplatesTestIds.EmptyState)).toBeInTheDocument()
 })
 

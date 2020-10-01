@@ -131,5 +131,5 @@ const data = [
 
 export const templatesSeed = {
   ...initialState,
-  templates: data,
+  templatesList: data,
 }
