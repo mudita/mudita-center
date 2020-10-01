@@ -10,7 +10,7 @@ import {
 } from "Renderer/models/messages/messages.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
-import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import MessageDetails from "Renderer/components/rest/messages/message-details.component"
 import MessagesPanel from "Renderer/modules/messages/messages-panel.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"

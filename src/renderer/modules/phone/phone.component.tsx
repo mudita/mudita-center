@@ -10,7 +10,7 @@ import ContactDetails, {
   ContactActions,
   ContactDetailsActions,
 } from "Renderer/components/rest/phone/contact-details.component"
-import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
   defaultContact,

@@ -15,7 +15,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { UseTableSidebar } from "Renderer/utils/hooks/useTableSidebar"
+import { UseTableSidebar } from "Renderer/utils/hooks/use-table-sidebar"
 import { InView } from "react-intersection-observer"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 import { Template } from "Renderer/modules/messages/tabs/templates.component"

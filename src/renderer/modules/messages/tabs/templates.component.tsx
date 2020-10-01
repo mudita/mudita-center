@@ -7,7 +7,7 @@ import {
   Sidebar,
   TableWithSidebarWrapper,
 } from "Renderer/components/core/table/table.component"
-import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import styled from "styled-components"
 import { useTextEditor } from "Renderer/components/core/text-editor/text-editor.hook"
 import TextEditor from "Renderer/components/core/text-editor/text-editor.component"

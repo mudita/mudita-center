@@ -40,7 +40,7 @@ import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
-import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import {
   normalizeText,
   useTextEditor,
