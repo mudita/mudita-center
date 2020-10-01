@@ -14,7 +14,6 @@ import {
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import styled, { css } from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
