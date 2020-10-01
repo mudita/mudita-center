@@ -20,6 +20,8 @@ const renderTemplates = ({
   onSearchTermChange = noop,
   newTemplate = noop,
   templates = mockedTemplateData,
+  toggleSortOrder = noop,
+  sortDescending = true,
 }: Partial<TemplatesProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <Templates
@@ -28,6 +30,8 @@ const renderTemplates = ({
       onDeleteButtonClick={onDeleteButtonClick}
       onNewButtonClick={onNewButtonClick}
       onSearchTermChange={onSearchTermChange}
+      sortDescending={sortDescending}
+      toggleSortOrder={toggleSortOrder}
     />
   )
   return {

@@ -6,14 +6,25 @@ import Notes from "Renderer/modules/tools/tabs/notes.component"
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.enum"
 import { notesSeed } from "App/seeds/notes"
 import { NoteCallback } from "Renderer/models/notes/notes"
+import { noop } from "Renderer/utils/noop"
 
-const renderer = (data = notesSeed.notesList) => {
+const renderer = (data = notesSeed.notesList, props = {}) => {
   const mockNewNote = (cb: NoteCallback) => {
     cb(notesSeed.notesList[0])
   }
 
+  const defaultProps = {
+    toggleSortOrder: noop,
+    sortDescending: true,
+  }
+
   return renderWithThemeAndIntl(
-    <Notes notesList={data} createNewNote={mockNewNote} />
+    <Notes
+      notesList={data}
+      createNewNote={mockNewNote}
+      {...defaultProps}
+      {...props}
+    />
   )
 }
 
