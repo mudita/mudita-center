@@ -77,4 +77,19 @@ export const mockData = [
     icon: IconType.IncomingCall,
     description: { id: "view.name.calls.incoming" },
   },
+  {
+    id: "3a94a064-de00-4d8f-8cf9-56edecee0ce6",
+    caller: {
+      id: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
+      firstName: "Johnny",
+      lastName: "Ovarb",
+      primaryPhoneNumber: "+33 999 999 999",
+    },
+    duration: 85,
+    date: new Date("2020-06-16T20:10:34.812Z"),
+    status: CallStatus.Incoming,
+    timesMissed: 0,
+    icon: IconType.IncomingCall,
+    description: { id: "view.name.calls.incoming" },
+  },
 ]
