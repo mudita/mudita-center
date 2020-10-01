@@ -16,7 +16,6 @@ mockAllIsIntersecting(true)
 
 const renderTemplates = ({
   removeTemplates = noop,
-  onNewButtonClick = noop,
   onSearchTermChange = noop,
   createNewTemplate = noop,
   templatesList = mockedTemplateData,
@@ -26,7 +25,6 @@ const renderTemplates = ({
       createNewTemplate={createNewTemplate}
       templatesList={templatesList}
       removeTemplates={removeTemplates}
-      onNewButtonClick={onNewButtonClick}
       onSearchTermChange={onSearchTermChange}
     />
   )
@@ -53,7 +51,7 @@ test("renders search input properly", () => {
 test("calls proper action after new template button click", () => {
   const onClick = jest.fn()
   const { getByTestId } = renderTemplates({
-    onNewButtonClick: onClick,
+    createNewTemplate: onClick,
   })
   getByTestId(TemplatesTestIds.AddTemplateButton).click()
   expect(getByTestId(TemplatesTestIds.TextEditor)).toBeInTheDocument()
