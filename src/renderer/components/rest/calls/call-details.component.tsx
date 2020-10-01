@@ -1,5 +1,7 @@
 import moment from "moment"
 import React from "react"
+import { useHistory } from "react-router-dom"
+import { URL_MAIN } from "Renderer/constants/urls"
 import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
@@ -46,6 +48,7 @@ interface ContactDetailsProps {
 }
 
 export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
+  const history = useHistory()
   return (
     <ContactDetailsWrapper
       onClose={onClose}
@@ -61,6 +64,11 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
               details.date
             ).format("h:mm")}`
           : moment(details.date).format("ll")
+        const redirectToMessagesPage = (phoneNumber: string) => {
+          history.push(
+            `${URL_MAIN.messages}?callerId=${details.caller.id}&phoneNumber=${phoneNumber}`
+          )
+        }
 
         return (
           <CallWrapper key={index}>
@@ -102,7 +110,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
                       trailingIcons={phoneActions(
                         details.caller.primaryPhoneNumber,
                         noop,
-                        noop
+                        redirectToMessagesPage
                       )}
                     />
                   </AdditionalInfoItem>

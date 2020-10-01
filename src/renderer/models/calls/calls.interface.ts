@@ -15,7 +15,7 @@ export enum VisibilityFilter {
 
 export type Caller = Pick<
   Contact,
-  "firstName" | "lastName" | "primaryPhoneNumber"
+  "id" | "firstName" | "lastName" | "primaryPhoneNumber"
 >
 
 export interface Call {
