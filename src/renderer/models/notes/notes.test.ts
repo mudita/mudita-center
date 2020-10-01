@@ -2,7 +2,7 @@ import { init } from "@rematch/core"
 import selectPlugin from "@rematch/select"
 import notes from "Renderer/models/notes/notes"
 import { Note } from "Renderer/modules/tools/tabs/notes.component"
-import { notesSeed } from "App/seeds/notes"
+import { notesSeed, todaysNote } from "App/seeds/notes"
 
 const storeConfig = {
   models: { notes },
@@ -82,5 +82,21 @@ test("properly removed multiple notes", () => {
 
   expect(store.getState().notes.notesList.length).toBe(
     notesSeed.notesList.length - ids.length
+  )
+})
+
+test("today's note is at the beginning of the list by default, after toggle is placed at the last place in the list", () => {
+  const state = store.getState()
+  const notesList = store.select.notes.sortedList(state)
+  expect(state.notes.sortDescending).toBeTruthy()
+  expect(todaysNote).toMatchObject(notesList[0])
+
+  store.dispatch.notes.toggleSortOrder()
+
+  const stateAfterToggle = store.getState()
+  const notesListAfterToggle = store.select.notes.sortedList(stateAfterToggle)
+  expect(stateAfterToggle.notes.sortDescending).toBeFalsy()
+  expect(todaysNote).toMatchObject(
+    notesListAfterToggle[notesListAfterToggle.length - 1]
   )
 })

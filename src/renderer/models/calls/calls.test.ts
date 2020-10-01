@@ -20,9 +20,9 @@ test("by default, visibility should be set to all calls", () => {
   expect(visibilityFilter).toBe(VisibilityFilter.All)
 })
 
-test("todays call be on at the beginning of the list by default", () => {
-  const filteredList = store.select.calls.filteredList(store.getState())
-  expect(todaysCall).toMatchObject(filteredList[0])
+test("todays call is at the beginning of the list by default", () => {
+  const callsList = store.select.calls.filteredList(store.getState())
+  expect(todaysCall).toMatchObject(callsList[0])
 })
 
 test("deletes call", () => {
