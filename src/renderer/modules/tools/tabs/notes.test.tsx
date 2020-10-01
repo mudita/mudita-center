@@ -8,37 +8,31 @@ import { notesSeed } from "App/seeds/notes"
 import { NoteCallback } from "Renderer/models/notes/notes"
 import { noop } from "Renderer/utils/noop"
 
-const renderer = (data = notesSeed.notesList, props = {}) => {
+const renderer = (props = {}) => {
   const mockNewNote = (cb: NoteCallback) => {
     cb(notesSeed.notesList[0])
   }
 
   const defaultProps = {
+    notesList: notesSeed.notesList,
     toggleSortOrder: noop,
     sortDescending: true,
   }
 
   return renderWithThemeAndIntl(
-    <Notes
-      notesList={data}
-      createNewNote={mockNewNote}
-      {...defaultProps}
-      {...props}
-    />
+    <Notes createNewNote={mockNewNote} {...defaultProps} {...props} />
   )
 }
 
 test("displays notes properly", () => {
   const { queryAllByTestId } = renderer()
-
   expect(queryAllByTestId(NotesTestIds.Note).length).toBe(
     notesSeed.notesList.length
   )
 })
 
 test("displays empty state when no notes are present", () => {
-  const { getByTestId } = renderer([])
-
+  const { getByTestId } = renderer({ notesList: [] })
   expect(getByTestId(NotesTestIds.Empty)).toBeInTheDocument()
 })
 
@@ -67,4 +61,11 @@ test("shows sidebar to add a new note", () => {
   expect(getByTestId(NotesTestIds.NewNoteSidebar)).toHaveStyle(
     "margin-right: 0rem"
   )
+})
+
+test("toggle sort order action can be performed", () => {
+  const toggleSortOrder = jest.fn()
+  const { getByTestId } = renderer({ toggleSortOrder })
+  getByTestId(NotesTestIds.SortColumn).click()
+  expect(toggleSortOrder).toBeCalled()
 })

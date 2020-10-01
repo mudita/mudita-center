@@ -230,7 +230,10 @@ const Notes: FunctionComponent<NotesProps> = ({
                 <Text message={messages.note} />
               </Col>
               <Col />
-              <Col onClick={toggleSortOrder}>
+              <Col
+                onClick={toggleSortOrder}
+                data-testid={NotesTestIds.SortColumn}
+              >
                 <Text message={messages.edited} />
                 <TableSortButton sortDescending={sortDescending} />
               </Col>
