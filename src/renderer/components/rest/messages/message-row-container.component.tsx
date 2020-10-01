@@ -2,18 +2,18 @@ import React, { useLayoutEffect, useRef } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 interface Props {
-  scroll: boolean
+  active: boolean
 }
 
 const MessageRowContainer: FunctionComponent<Props> = ({
   children,
-  scroll,
+  active,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
-    if (scroll) ref?.current?.scrollIntoView()
-  })
+    if (active) ref?.current?.scrollIntoView()
+  }, [])
 
   return <div ref={ref}>{children}</div>
 }

@@ -1,4 +1,4 @@
-import React, { Ref, useEffect, useRef } from "react"
+import React, { Ref } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -179,10 +179,7 @@ const MessagesList: FunctionComponent<Props> = ({
           2. Add mouseLock prop to <Messages />
    */
   const { enableScroll, disableScroll } = useTableScrolling()
-  const firstRender = useRef(true)
-  useEffect(() => {
-    firstRender.current = false
-  })
+
   return (
     <Messages
       noneRowsSelected={noneRowsSelected}
@@ -316,7 +313,7 @@ const MessagesList: FunctionComponent<Props> = ({
         )
 
         return (
-          <MessageRowContainer key={id} scroll={firstRender.current && active}>
+          <MessageRowContainer key={id} active={active}>
             <InView>
               {({ inView, ref }) =>
                 inView ? interactiveRow(ref) : placeholderRow(ref)
