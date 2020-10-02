@@ -1,5 +1,7 @@
 import moment from "moment"
 import React from "react"
+import { useHistory } from "react-router-dom"
+import { URL_MAIN } from "Renderer/constants/urls"
 import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
@@ -29,9 +31,6 @@ import {
   InfoItemName,
   Input,
 } from "Renderer/components/rest/phone/contact-details.styled"
-import { useHistory } from "react-router-dom"
-import navigateTo from "Renderer/utils/navigate-to"
-import { URL_MAIN } from "Renderer/constants/urls"
 
 const messages = defineMessages({
   today: { id: "view.name.phone.calls.today" },
@@ -65,11 +64,11 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
               details.date
             ).format("h:mm")}`
           : moment(details.date).format("ll")
-        const redirectToMessagesPage = (phoneNumber: string) =>
-          navigateTo(history, URL_MAIN.messages, {
-            phoneNumber,
-            callerId: details.caller.id,
-          })
+        const redirectToMessagesPage = (phoneNumber: string) => {
+          history.push(
+            `${URL_MAIN.messages}?callerId=${details.caller.id}&phoneNumber=${phoneNumber}`
+          )
+        }
 
         return (
           <CallWrapper key={index}>
