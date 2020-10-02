@@ -49,6 +49,7 @@ interface ContactDetailsProps {
 }
 
 export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
+  const history = useHistory()
   return (
     <ContactDetailsWrapper
       onClose={onClose}
@@ -65,7 +66,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
             ).format("h:mm")}`
           : moment(details.date).format("ll")
         const redirectToMessagesPage = (phoneNumber: string) =>
-          navigateTo(useHistory(), URL_MAIN.messages, {
+          navigateTo(history, URL_MAIN.messages, {
             phoneNumber,
             callerId: details.caller.id,
           })

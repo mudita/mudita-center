@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import { useHistory } from "react-router-dom"
+import { History, LocationState } from "history"
 import Phone from "./phone.component"
 import { noop } from "Renderer/utils/noop"
 import { handleGoogleAuth } from "Renderer/providers/google/auth"
@@ -36,8 +36,12 @@ const mapDispatch = ({ phone, auth }: any) => {
     onBlock: noop,
     onSelect: noop,
     onCall: noop,
-    onMessage: (phoneNumber: string, callerId: string) =>
-      navigateTo(useHistory(), URL_MAIN.messages, {
+    onMessage: (
+      history: History<LocationState>,
+      phoneNumber: string,
+      callerId: string
+    ) =>
+      navigateTo(history, URL_MAIN.messages, {
         phoneNumber,
         callerId,
       }),

@@ -38,6 +38,8 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
+import { useHistory } from "react-router-dom"
+import { History, LocationState } from "history"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -54,6 +56,11 @@ export type PhoneProps = ContactActions &
     removeContact?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => void
+    onMessage: (
+      history: History<LocationState>,
+      phoneNumber: string,
+      callerId: string
+    ) => void
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -72,6 +79,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     savingContact,
     setProviderData,
   } = props
+  const history = useHistory()
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
@@ -153,6 +161,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     closeSidebar()
     setEditedContact(contact)
   }
+
+  const handleMessage = (phoneNumber: string, callerId: string) =>
+    onMessage(history, phoneNumber, callerId)
 
   const cancelEditingContact = (contact?: Contact) => {
     closeSidebar()
@@ -373,7 +384,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
               onDelete={openDeleteModal}
               onEdit={handleEditingContact}
               onCall={onCall}
-              onMessage={onMessage}
+              onMessage={handleMessage}
             />
           )}
         </TableWithSidebarWrapper>

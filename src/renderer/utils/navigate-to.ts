@@ -1,9 +1,8 @@
 import { URL_MAIN, URL_TABS } from "../constants/urls"
-import { LocationState } from "history"
-import * as H from "history"
+import { History, LocationState } from "history"
 
 const navigateTo = (
-  history: H.History<LocationState>,
+  history: History<LocationState>,
   link:
     | typeof URL_MAIN[keyof typeof URL_MAIN]
     | typeof URL_TABS[keyof typeof URL_TABS],
