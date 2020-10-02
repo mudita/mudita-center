@@ -6,7 +6,7 @@ import Templates, {
 } from "Renderer/modules/messages/tabs/templates.component"
 import { TemplateCallback } from "Renderer/models/templates/templates"
 import { RootModel } from "Renderer/models/models"
-import { SortOrder } from "Renderer/models/templates/templates.interface"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const selector = select(({ templates }) => ({
   templates: templates.filteredList,

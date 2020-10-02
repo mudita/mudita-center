@@ -3,6 +3,7 @@ import { RootModel } from "Renderer/models/models"
 import Notes, { Note } from "Renderer/modules/tools/tabs/notes.component"
 import { Dispatch, select } from "Renderer/store"
 import { NoteCallback } from "Renderer/models/notes/notes"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const selector = select(({ notes }) => ({
   notesList: notes.sortedList,
@@ -14,7 +15,8 @@ const mapStateToProps = (state: RootModel) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  toggleSortOrder: () => dispatch.notes.toggleSortOrder(),
+  changeSortOrder: (sortOrder: SortOrder) =>
+    dispatch.notes.changeSortOrder(sortOrder),
   createNewNote: (note: NoteCallback) => dispatch.notes.createNewNote(note),
   saveNote: (note: Note) => dispatch.notes.saveNote(note),
   removeNotes: (ids: string[]) => dispatch.notes.removeNotes(ids),

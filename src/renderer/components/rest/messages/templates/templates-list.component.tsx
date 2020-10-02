@@ -32,7 +32,7 @@ import {
 import { intl } from "Renderer/utils/intl"
 import { isToday } from "Renderer/utils/is-today"
 import moment from "moment"
-import { SortOrder } from "Renderer/models/templates/templates.interface"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "view.name.messages.templates.emptyList.title" },
@@ -98,7 +98,10 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
         <Col>
           <Text message={messages.note} />
         </Col>
-        <Col onClick={toggleSortOrder}>
+        <Col
+          onClick={toggleSortOrder}
+          data-testid={TemplatesTestIds.SortColumn}
+        >
           <Text message={messages.edited} />
           <TableSortButton sortOrder={sortOrder} />
         </Col>

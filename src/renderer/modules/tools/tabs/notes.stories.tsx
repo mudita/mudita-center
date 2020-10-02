@@ -6,7 +6,7 @@ import AppViewStory from "Renderer/components/rest/storybook/app-view.component"
 import { action } from "@storybook/addon-actions"
 
 const commonProps = {
-  sortDescending: true,
+  sortOrder: true,
   toggleSortOrder: action("toggle sort order"),
 }
 

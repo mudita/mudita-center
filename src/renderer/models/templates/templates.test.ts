@@ -4,7 +4,7 @@ import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import templates from "Renderer/models/templates/templates"
 import { templatesSeed, todaysTemplate } from "App/seeds/templates"
 import selectPlugin from "@rematch/select"
-import { SortOrder } from "Renderer/models/templates/templates.interface"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const storeConfig = {
   models: { templates },

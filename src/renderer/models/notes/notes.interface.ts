@@ -1,7 +1,8 @@
 import { Note } from "Renderer/modules/tools/tabs/notes.component"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 export interface StateProps {
   notesList: Note[]
   newNoteId?: string
-  sortDescending: boolean
+  sortOrder: SortOrder
 }

@@ -3,19 +3,20 @@ import { Note } from "Renderer/modules/tools/tabs/notes.component"
 import { makeNewNote } from "Renderer/models/notes/make-new-note"
 import { Slicer } from "@rematch/select"
 import { orderBy } from "lodash"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 export type NoteCallback = (param: Note) => void
 
 export const initialState: StateProps = {
   notesList: [],
-  sortDescending: true,
+  sortOrder: SortOrder.Descending,
 }
 
 export default {
   state: initialState,
   reducers: {
-    toggleSortOrder(state: StateProps) {
-      return { ...state, sortDescending: !state.sortDescending }
+    changeSortOrder(state: StateProps, sortOrder: SortOrder) {
+      return { ...state, sortOrder }
     },
     createNewNote(state: StateProps, callback?: NoteCallback) {
       const oldNotes = state.notesList || []
@@ -63,9 +64,8 @@ export default {
   },
   selectors: (slice: Slicer<StateProps>) => ({
     sortedList() {
-      return slice(({ notesList, sortDescending }) => {
-        const order = sortDescending ? "desc" : "asc"
-        return orderBy(notesList, ["date"], [order])
+      return slice(({ notesList, sortOrder }) => {
+        return orderBy(notesList, ["date"], [sortOrder])
       })
     },
   }),

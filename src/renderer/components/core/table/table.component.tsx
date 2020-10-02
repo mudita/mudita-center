@@ -21,7 +21,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import { SortOrder } from "Renderer/models/templates/templates.interface"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 /* Row */
 export enum RowSize {

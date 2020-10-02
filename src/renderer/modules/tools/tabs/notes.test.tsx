@@ -1,12 +1,11 @@
 import React from "react"
-
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-
 import Notes from "Renderer/modules/tools/tabs/notes.component"
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.enum"
 import { notesSeed } from "App/seeds/notes"
 import { NoteCallback } from "Renderer/models/notes/notes"
 import { noop } from "Renderer/utils/noop"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const renderer = (props = {}) => {
   const mockNewNote = (cb: NoteCallback) => {
@@ -15,8 +14,8 @@ const renderer = (props = {}) => {
 
   const defaultProps = {
     notesList: notesSeed.notesList,
-    toggleSortOrder: noop,
-    sortDescending: true,
+    changeSortOrder: noop,
+    sortOrder: SortOrder.Descending,
   }
 
   return renderWithThemeAndIntl(
@@ -63,9 +62,19 @@ test("shows sidebar to add a new note", () => {
   )
 })
 
-test("toggle sort order action can be performed", () => {
-  const toggleSortOrder = jest.fn()
-  const { getByTestId } = renderer({ toggleSortOrder })
+test("sort order changes from descending to ascending", () => {
+  const changeSortOrder = jest.fn()
+  const { getByTestId } = renderer({ changeSortOrder })
   getByTestId(NotesTestIds.SortColumn).click()
-  expect(toggleSortOrder).toBeCalled()
+  expect(changeSortOrder).toBeCalledWith(SortOrder.Ascending)
+})
+
+test("sort order changes from ascending to descending", () => {
+  const changeSortOrder = jest.fn()
+  const { getByTestId } = renderer({
+    changeSortOrder,
+    sortOrder: SortOrder.Ascending,
+  })
+  getByTestId(NotesTestIds.SortColumn).click()
+  expect(changeSortOrder).toBeCalledWith(SortOrder.Descending)
 })

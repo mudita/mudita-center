@@ -1,12 +1,10 @@
 import Faker from "faker"
-import {
-  SortOrder,
-  StateProps,
-} from "Renderer/models/templates/templates.interface"
+import { StateProps } from "Renderer/models/templates/templates.interface"
 import { Slicer } from "@rematch/select"
 import { filterTemplates } from "Renderer/models/templates/filter-templates"
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import { orderBy } from "lodash"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 export type TemplateCallback = (param: Template) => void
 

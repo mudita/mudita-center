@@ -3,6 +3,7 @@ import selectPlugin from "@rematch/select"
 import notes from "Renderer/models/notes/notes"
 import { Note } from "Renderer/modules/tools/tabs/notes.component"
 import { notesSeed, todaysNote } from "App/seeds/notes"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const storeConfig = {
   models: { notes },
@@ -88,14 +89,14 @@ test("properly removed multiple notes", () => {
 test("today's note is at the beginning of the list by default, after toggle is placed at the last place in the list", () => {
   const state = store.getState()
   const notesList = store.select.notes.sortedList(state)
-  expect(state.notes.sortDescending).toBeTruthy()
+  expect(state.notes.sortOrder).toEqual(SortOrder.Descending)
   expect(todaysNote).toMatchObject(notesList[0])
 
-  store.dispatch.notes.toggleSortOrder()
+  store.dispatch.notes.changeSortOrder(SortOrder.Ascending)
 
   const stateAfterToggle = store.getState()
   const notesListAfterToggle = store.select.notes.sortedList(stateAfterToggle)
-  expect(stateAfterToggle.notes.sortDescending).toBeFalsy()
+  expect(stateAfterToggle.notes.sortOrder).toEqual(SortOrder.Ascending)
   expect(todaysNote).toMatchObject(
     notesListAfterToggle[notesListAfterToggle.length - 1]
   )

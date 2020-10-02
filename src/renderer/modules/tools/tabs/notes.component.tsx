@@ -49,6 +49,7 @@ import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/
 import { isToday } from "Renderer/utils/is-today"
 import { NoteCallback } from "Renderer/models/notes/notes"
 import { makeNewNote } from "Renderer/models/notes/make-new-note"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -106,8 +107,8 @@ interface NotesProps {
   createNewNote?: (noteCallback: NoteCallback) => void
   saveNote?: (note: Note) => void
   removeNotes?: (ids: string[]) => void
-  sortDescending: boolean
-  toggleSortOrder: () => void
+  sortOrder: SortOrder
+  changeSortOrder: (sortOrder: SortOrder) => void
 }
 
 const Notes: FunctionComponent<NotesProps> = ({
@@ -116,8 +117,8 @@ const Notes: FunctionComponent<NotesProps> = ({
   createNewNote,
   saveNote,
   removeNotes,
-  sortDescending,
-  toggleSortOrder,
+  sortOrder,
+  changeSortOrder,
 }) => {
   const maxCharacters = 4000
   const {
@@ -171,6 +172,14 @@ const Notes: FunctionComponent<NotesProps> = ({
     if (removeNotes && newNoteId && activeRow?.id === newNoteId) {
       removeNotes([newNoteId])
       closeSidebar()
+    }
+  }
+
+  const toggleSortOrder = () => {
+    if (sortOrder === SortOrder.Descending) {
+      changeSortOrder(SortOrder.Ascending)
+    } else {
+      changeSortOrder(SortOrder.Descending)
     }
   }
 
@@ -235,7 +244,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                 data-testid={NotesTestIds.SortColumn}
               >
                 <Text message={messages.edited} />
-                <TableSortButton sortDescending={sortDescending} />
+                <TableSortButton sortOrder={sortOrder} />
               </Col>
               <Col />
             </Labels>

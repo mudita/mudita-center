@@ -1,9 +1,5 @@
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
-
-export enum SortOrder {
-  Ascending = "asc",
-  Descending = "desc",
-}
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 export interface StateProps {
   templates?: Template[]
