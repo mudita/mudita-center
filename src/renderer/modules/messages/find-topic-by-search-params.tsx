@@ -11,12 +11,6 @@ const findTopicBySearchParams = (
   return topics.find(({ caller: { id, primaryPhoneNumber = "" } }) => {
     const paramsPhoneNumber = searchParams.get("phoneNumber") || ""
     const paramsCallerId = searchParams.get("callerId") || ""
-    console.log("primaryPhoneNumber: ", primaryPhoneNumber)
-    console.log(
-      "removeDecoratorsFromPhoneNumber(primaryPhoneNumber): ",
-      removeDecoratorsFromPhoneNumber(primaryPhoneNumber)
-    )
-    console.log("paramsPhoneNumber: ", paramsPhoneNumber)
     return (
       id === paramsCallerId &&
       removeDecoratorsFromPhoneNumber(primaryPhoneNumber) ===
