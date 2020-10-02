@@ -1,7 +1,7 @@
-import { CallStatus } from "Renderer/models/calls/calls.interface"
+import { Call, CallStatus } from "Renderer/models/calls/calls.interface"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 
-export const todaysCall = {
+export const todaysCall: Call = {
   id: "05ed5479-1770-44e8-9e7c-09333ddc87195",
   caller: {
     id: "1233213121",
@@ -17,7 +17,7 @@ export const todaysCall = {
   description: { id: "view.name.calls.missed" },
 }
 
-export const mockData = [
+export const mockData: Call[] = [
   {
     id: "05ed5479-1770-44e8-9e7c-09b2ddc87195",
     caller: {
