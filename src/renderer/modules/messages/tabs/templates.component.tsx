@@ -39,7 +39,7 @@ export interface Template {
 }
 
 export interface TemplatesProps {
-  templatesList: Template[]
+  templates: Template[]
   onSearchTermChange?: (event: ChangeEvent<HTMLInputElement>) => void
   removeTemplates?: (ids: string[]) => void
   createNewTemplate?: (input: TemplateCallback) => void
@@ -49,7 +49,7 @@ export interface TemplatesProps {
 
 const Templates: FunctionComponent<TemplatesProps> = ({
   onSearchTermChange = noop,
-  templatesList = [],
+  templates = [],
   removeTemplates,
   createNewTemplate,
   saveTemplate,
@@ -61,7 +61,7 @@ const Templates: FunctionComponent<TemplatesProps> = ({
     toggleAll,
     resetRows,
     ...rest
-  } = useTableSelect<Template>(templatesList)
+  } = useTableSelect<Template>(templates)
 
   const sidebarHook = useTableSidebar<Template>()
   const { closeSidebar, activeRow, openSidebar } = sidebarHook
@@ -149,7 +149,7 @@ const Templates: FunctionComponent<TemplatesProps> = ({
       />
       <TableWithSidebarWrapper>
         <TemplatesList
-          templates={templatesList}
+          templates={templates}
           deleteTemplate={openModalForSingle}
           newTemplateId={newTemplateId}
           {...sidebarHook}

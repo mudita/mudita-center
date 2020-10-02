@@ -18,12 +18,12 @@ const renderTemplates = ({
   removeTemplates = noop,
   onSearchTermChange = noop,
   createNewTemplate = noop,
-  templatesList = mockedTemplateData,
+  templates = mockedTemplateData,
 }: Partial<TemplatesProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <Templates
       createNewTemplate={createNewTemplate}
-      templatesList={templatesList}
+      templates={templates}
       removeTemplates={removeTemplates}
       onSearchTermChange={onSearchTermChange}
     />
@@ -63,7 +63,7 @@ test("correct number of rows is rendered", () => {
 })
 
 test("when templates are empty, empty state information is rendered", () => {
-  const { getByTestId } = renderTemplates({ templatesList: [] })
+  const { getByTestId } = renderTemplates({ templates: [] })
   expect(getByTestId(TemplatesTestIds.EmptyState)).toBeInTheDocument()
 })
 

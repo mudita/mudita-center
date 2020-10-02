@@ -1,7 +1,7 @@
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
 
 export interface StateProps {
-  templatesList?: Template[]
+  templates?: Template[]
   searchValue: string
   newTemplateId?: string
 }

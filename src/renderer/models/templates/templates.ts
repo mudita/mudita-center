@@ -7,7 +7,7 @@ import { Template } from "Renderer/modules/messages/tabs/templates.component"
 export type TemplateCallback = (param: Template) => void
 
 export const initialState: StateProps = {
-  templatesList: [],
+  templates: [],
   searchValue: "",
 }
 
@@ -27,12 +27,12 @@ export default {
       return { ...state, searchValue }
     },
     createNewTemplate(state: StateProps, callback?: TemplateCallback) {
-      const oldTemplates = state.templatesList || []
+      const oldTemplates = state.templates || []
       const newTemplate = makeNewTemplate()
       const newState = {
         ...state,
         newTemplateId: newTemplate.id,
-        templatesList: [newTemplate, ...oldTemplates],
+        templates: [newTemplate, ...oldTemplates],
       }
 
       if (callback) {
@@ -46,30 +46,28 @@ export default {
       return newState
     },
     saveTemplate(state: StateProps, templateData: Template) {
-      const modifiedTemplates = state.templatesList?.map(
-        (template: Template) => {
-          if (template.id === templateData.id) {
-            return templateData
-          }
-
-          return template
+      const templates = state.templates?.map((template: Template) => {
+        if (template.id === templateData.id) {
+          return templateData
         }
-      )
 
-      if (modifiedTemplates) {
+        return template
+      })
+
+      if (templates) {
         return {
           ...state,
           ...(state.newTemplateId === templateData.id
             ? { newTemplateId: undefined }
             : {}),
-          templatesList: modifiedTemplates,
+          templates,
         }
       }
 
       return state
     },
     removeTemplates(state: StateProps, itemsToRemove: string[]) {
-      const templates = state.templatesList?.filter(
+      const templates = state.templates?.filter(
         ({ id }: Template) => !itemsToRemove.includes(id)
       )
       return {
@@ -77,14 +75,14 @@ export default {
         ...(state.newTemplateId && itemsToRemove.includes(state.newTemplateId)
           ? { newTemplateId: undefined }
           : {}),
-        templatesList: templates,
+        templates,
       }
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {
-      return slice(({ templatesList: listOfTemplates, searchValue }) => {
-        return filterTemplates(listOfTemplates, searchValue)
+      return slice(({ templates, searchValue }) => {
+        return filterTemplates(templates, searchValue)
       })
     },
   }),
