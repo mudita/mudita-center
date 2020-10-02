@@ -1,10 +1,12 @@
 import { connect } from "react-redux"
+import { useHistory } from "react-router-dom"
 import Phone from "./phone.component"
 import { noop } from "Renderer/utils/noop"
 import { handleGoogleAuth } from "Renderer/providers/google/auth"
 import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
-import navigateToThreadInMessages from "Renderer/utils/navigate-to-thread-in-messages"
+import { URL_MAIN } from "Renderer/constants/urls"
+import navigateTo from "Renderer/utils/navigate-to"
 
 const selector = select(({ phone }) => ({
   contactList: phone.contactList,
@@ -34,7 +36,11 @@ const mapDispatch = ({ phone, auth }: any) => {
     onBlock: noop,
     onSelect: noop,
     onCall: noop,
-    onMessage: navigateToThreadInMessages,
+    onMessage: (phoneNumber: string, callerId: string) =>
+      navigateTo(useHistory(), URL_MAIN.messages, {
+        phoneNumber,
+        callerId,
+      }),
     onSpeedDialSettingsSave: noop,
   }
 }

@@ -29,7 +29,9 @@ import {
   InfoItemName,
   Input,
 } from "Renderer/components/rest/phone/contact-details.styled"
-import navigateToThreadInMessages from "Renderer/utils/navigate-to-thread-in-messages"
+import { useHistory } from "react-router-dom"
+import navigateTo from "Renderer/utils/navigate-to"
+import { URL_MAIN } from "Renderer/constants/urls"
 
 const messages = defineMessages({
   today: { id: "view.name.phone.calls.today" },
@@ -63,7 +65,10 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
             ).format("h:mm")}`
           : moment(details.date).format("ll")
         const redirectToMessagesPage = (phoneNumber: string) =>
-          navigateToThreadInMessages(phoneNumber, details.caller.id)
+          navigateTo(useHistory(), URL_MAIN.messages, {
+            phoneNumber,
+            callerId: details.caller.id,
+          })
 
         return (
           <CallWrapper key={index}>
