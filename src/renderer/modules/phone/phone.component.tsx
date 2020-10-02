@@ -39,6 +39,7 @@ import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
 import { History, LocationState } from "history"
+import { useHistory } from "react-router-dom"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -78,6 +79,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     savingContact,
     setProviderData,
   } = props
+  const history = useHistory()
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
