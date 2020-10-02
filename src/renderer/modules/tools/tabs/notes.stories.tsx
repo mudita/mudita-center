@@ -14,11 +14,11 @@ const commonProps = {
 storiesOf("Views|Tools/Notes", module)
   .add("Default", () => (
     <AppViewStory>
-      <Notes notesList={notesSeed.notesList} {...commonProps} />
+      <Notes notes={notesSeed.notes} {...commonProps} />
     </AppViewStory>
   ))
   .add("Empty", () => (
     <AppViewStory>
-      <Notes notesList={[]} {...commonProps} />
+      <Notes notes={[]} {...commonProps} />
     </AppViewStory>
   ))

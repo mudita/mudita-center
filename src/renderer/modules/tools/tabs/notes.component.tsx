@@ -102,7 +102,7 @@ export interface Note {
 }
 
 interface NotesProps {
-  notesList: Note[]
+  notes: Note[]
   newNoteId?: string
   createNewNote?: (noteCallback: NoteCallback) => void
   saveNote?: (note: Note) => void
@@ -112,7 +112,7 @@ interface NotesProps {
 }
 
 const Notes: FunctionComponent<NotesProps> = ({
-  notesList,
+  notes,
   newNoteId,
   createNewNote,
   saveNote,
@@ -128,7 +128,7 @@ const Notes: FunctionComponent<NotesProps> = ({
     noneRowsSelected: noRowsSelected,
     selectedRows,
     toggleAll,
-  } = useTableSelect(notesList)
+  } = useTableSelect(notes)
   const {
     openSidebar,
     closeSidebar,
@@ -150,7 +150,7 @@ const Notes: FunctionComponent<NotesProps> = ({
   }
 
   const selectionManagerVisible = selectedRows.length > 0
-  const notesAvailable = notesList.length > 0
+  const notesAvailable = notes.length > 0
 
   const onNewButtonClick = () => {
     if (createNewNote) {
@@ -190,7 +190,7 @@ const Notes: FunctionComponent<NotesProps> = ({
           <SelectionManager
             data-testid={NotesTestIds.SelectionElement}
             selectedItemsNumber={selectedRows.length}
-            allItemsSelected={selectedRows.length === notesList.length}
+            allItemsSelected={selectedRows.length === notes.length}
             onToggle={toggleAll}
             message={messages.selectionsNumber}
             checkboxSize={CheckboxSize.Small}
@@ -249,7 +249,7 @@ const Notes: FunctionComponent<NotesProps> = ({
               <Col />
             </Labels>
             <div data-testid={NotesTestIds.ItemsWrapper}>
-              {notesList.map((note) => {
+              {notes.map((note) => {
                 const { id, content, date } = note
                 const { selected } = getRowStatus(note)
                 const { getTemporaryValue } = useTemporaryStorage<string>(

@@ -96,5 +96,5 @@ export const data = [
 
 export const notesSeed = {
   ...initialState,
-  notesList: data,
+  notes: data,
 }

@@ -6,7 +6,7 @@ import { NoteCallback } from "Renderer/models/notes/notes"
 import { SortOrder } from "Common/enums/sort-order.enum"
 
 const selector = select(({ notes }) => ({
-  notesList: notes.sortedList,
+  notes: notes.sortedList,
 }))
 
 const mapStateToProps = (state: RootModel) => ({

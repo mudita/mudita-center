@@ -8,7 +8,7 @@ import { SortOrder } from "Common/enums/sort-order.enum"
 export type NoteCallback = (param: Note) => void
 
 export const initialState: StateProps = {
-  notesList: [],
+  notes: [],
   sortOrder: SortOrder.Descending,
 }
 
@@ -19,12 +19,12 @@ export default {
       return { ...state, sortOrder }
     },
     createNewNote(state: StateProps, callback?: NoteCallback) {
-      const oldNotes = state.notesList || []
+      const oldNotes = state.notes || []
       const newNote = makeNewNote()
       const newState = {
         ...state,
         newNoteId: newNote.id,
-        notesList: [newNote, ...oldNotes],
+        notes: [newNote, ...oldNotes],
       }
       if (callback) {
         callback(newNote)
@@ -32,7 +32,7 @@ export default {
       return newState
     },
     removeNotes(state: StateProps, itemsToRemove: string[]) {
-      const notes = state.notesList?.filter(
+      const notes = state.notes?.filter(
         ({ id }: Note) => !itemsToRemove.includes(id)
       )
 
@@ -41,11 +41,11 @@ export default {
         ...(state.newNoteId && itemsToRemove.includes(state.newNoteId)
           ? { newNoteId: undefined }
           : {}),
-        notesList: notes,
+        notes,
       }
     },
     saveNote(state: StateProps, noteData: Note) {
-      const modifiedNotes = state.notesList.map((note: Note) => {
+      const modifiedNotes = state.notes.map((note: Note) => {
         if (note.id === noteData.id) {
           return noteData
         }
@@ -56,7 +56,7 @@ export default {
         return {
           ...state,
           ...(state.newNoteId === noteData.id ? { newNoteId: undefined } : {}),
-          notesList: modifiedNotes,
+          notes: modifiedNotes,
         }
       }
       return state
@@ -64,8 +64,8 @@ export default {
   },
   selectors: (slice: Slicer<StateProps>) => ({
     sortedList() {
-      return slice(({ notesList, sortOrder }) => {
-        return orderBy(notesList, ["date"], [sortOrder])
+      return slice(({ notes, sortOrder }) => {
+        return orderBy(notes, ["date"], [sortOrder])
       })
     },
   }),

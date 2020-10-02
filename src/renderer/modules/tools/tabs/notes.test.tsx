@@ -9,11 +9,11 @@ import { SortOrder } from "Common/enums/sort-order.enum"
 
 const renderer = (props = {}) => {
   const mockNewNote = (cb: NoteCallback) => {
-    cb(notesSeed.notesList[0])
+    cb(notesSeed.notes[0])
   }
 
   const defaultProps = {
-    notesList: notesSeed.notesList,
+    notes: notesSeed.notes,
     changeSortOrder: noop,
     sortOrder: SortOrder.Descending,
   }
@@ -26,12 +26,12 @@ const renderer = (props = {}) => {
 test("displays notes properly", () => {
   const { queryAllByTestId } = renderer()
   expect(queryAllByTestId(NotesTestIds.Note).length).toBe(
-    notesSeed.notesList.length
+    notesSeed.notes.length
   )
 })
 
 test("displays empty state when no notes are present", () => {
-  const { getByTestId } = renderer({ notesList: [] })
+  const { getByTestId } = renderer({ notes: [] })
   expect(getByTestId(NotesTestIds.Empty)).toBeInTheDocument()
 })
 
