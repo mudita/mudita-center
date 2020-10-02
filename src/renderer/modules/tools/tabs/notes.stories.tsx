@@ -4,10 +4,11 @@ import { notesSeed } from "App/seeds/notes"
 import Notes from "Renderer/modules/tools/tabs/notes.component"
 import AppViewStory from "Renderer/components/rest/storybook/app-view.component"
 import { action } from "@storybook/addon-actions"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const commonProps = {
-  sortOrder: true,
-  toggleSortOrder: action("toggle sort order"),
+  sortOrder: SortOrder.Descending,
+  changeSortOrder: action("toggle sort order"),
 }
 
 storiesOf("Views|Tools/Notes", module)
