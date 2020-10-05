@@ -18,7 +18,7 @@ test("menu takes user to correct page", async () => {
   expect(hash.value).toEqual(`#${URL_MAIN.contacts}`)
 })
 
-test("searching by phone number renders one result", async () => {
+test("contact details are evoked when a user clicks on any contact", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Contacts}]`).click()
   await app.client.$(`*[data-testid='contact-row']`).click()
   expect(await app.client.isExisting(`*[data-testid='sidebar']`)).toBe(true)
