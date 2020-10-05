@@ -240,7 +240,10 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         visible={!noneRowsSelected}
                       />
                     </Col>
-                    <ClickableCol onClick={handleSelect}>
+                    <ClickableCol
+                      onClick={handleSelect}
+                      data-testid="contact-row"
+                    >
                       <InitialsAvatar
                         user={contact}
                         light={selected || activeRow === contact}
