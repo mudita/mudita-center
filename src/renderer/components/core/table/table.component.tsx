@@ -441,7 +441,7 @@ export const TableSortButton = styled.button<{ sortOrder?: SortOrder }>`
   border-width: 0.5rem 0.3rem 0 0.3rem;
   border-color: currentColor transparent transparent transparent;
   transform: ${({ sortOrder }) =>
-    sortOrder === SortOrder.Descending ? "rotate(360deg)" : "rotate(540deg)"};
+    sortOrder === SortOrder.Descending ? "rotate(0deg)" : "rotate(180deg)"};
 
   &:active,
   &:focus {
