@@ -4,8 +4,6 @@ import { URL_MAIN } from "Renderer/constants/urls"
 
 let app: any
 
-jest.setTimeout(20000)
-
 beforeEach(async () => {
   app = await startApp()
 })
