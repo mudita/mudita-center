@@ -6,7 +6,7 @@ import { handleGoogleAuth } from "Renderer/providers/google/auth"
 import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { URL_MAIN } from "Renderer/constants/urls"
-import createPath from "Renderer/utils/create-path"
+import createRouterPath from "Renderer/utils/create-router-path"
 
 const selector = select(({ phone }) => ({
   contactList: phone.contactList,
@@ -42,7 +42,7 @@ const mapDispatch = ({ phone, auth }: any) => {
       callerId: string
     ) =>
       history.push(
-        createPath(URL_MAIN.messages, {
+        createRouterPath(URL_MAIN.messages, {
           phoneNumber,
           callerId,
         })

@@ -1,12 +1,12 @@
 import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
 
-const createPath = (
+const createRouterPath = (
   link:
     | typeof URL_MAIN[keyof typeof URL_MAIN]
     | typeof URL_TABS[keyof typeof URL_TABS],
-  searchValue: Record<string, string>
+  params: Record<string, string>
 ): string => {
-  return `${link}?${new URLSearchParams(searchValue).toString()}`
+  return `${link}?${new URLSearchParams(params).toString()}`
 }
 
-export default createPath
+export default createRouterPath

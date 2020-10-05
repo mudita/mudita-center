@@ -31,7 +31,7 @@ import {
   InfoItemName,
   Input,
 } from "Renderer/components/rest/phone/contact-details.styled"
-import createPath from "Renderer/utils/create-path"
+import createRouterPath from "Renderer/utils/create-router-path"
 
 const messages = defineMessages({
   today: { id: "view.name.phone.calls.today" },
@@ -67,7 +67,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
           : moment(details.date).format("ll")
         const redirectToMessagesPage = (phoneNumber: string) => {
           history.push(
-            createPath(URL_MAIN.messages, {
+            createRouterPath(URL_MAIN.messages, {
               phoneNumber,
               callerId: details.caller.id,
             })
