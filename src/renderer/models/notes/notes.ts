@@ -63,7 +63,7 @@ export default {
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({
-    sortedList() {
+    sortedNotes() {
       return slice(({ notes, sortOrder }) => {
         return orderBy(notes, ["date"], [sortOrder])
       })

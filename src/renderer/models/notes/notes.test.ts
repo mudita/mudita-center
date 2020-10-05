@@ -82,14 +82,14 @@ test("properly removed multiple notes", () => {
 
 test("today's note is at the beginning of the list by default, after toggle is placed at the last place in the list", () => {
   const state = store.getState()
-  const notes = store.select.notes.sortedList(state)
+  const notes = store.select.notes.sortedNotes(state)
   expect(state.notes.sortOrder).toEqual(SortOrder.Descending)
   expect(todaysNote).toMatchObject(notes[0])
 
   store.dispatch.notes.changeSortOrder(SortOrder.Ascending)
 
   const stateAfterToggle = store.getState()
-  const notesAfterToggle = store.select.notes.sortedList(stateAfterToggle)
+  const notesAfterToggle = store.select.notes.sortedNotes(stateAfterToggle)
   expect(stateAfterToggle.notes.sortOrder).toEqual(SortOrder.Ascending)
   expect(todaysNote).toMatchObject(
     notesAfterToggle[notesAfterToggle.length - 1]
