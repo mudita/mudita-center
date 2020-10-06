@@ -35,3 +35,7 @@ export const URL_ONBOARDING = {
   connecting: "/onboarding/connecting",
   troubleshooting: "/onboarding/troubleshooting",
 } as const
+
+export const URL_RECOVERY_MODE = {
+  root: "/recovery-mode",
+}

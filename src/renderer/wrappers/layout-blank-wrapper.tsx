@@ -48,7 +48,7 @@ const Header = styled.header`
   }
 `
 
-const LayoutOnboardingWrapper: FunctionComponent = ({ children }) => {
+const LayoutBlankWrapper: FunctionComponent = ({ children }) => {
   return (
     <Layout>
       <Header>
@@ -66,4 +66,4 @@ const LayoutOnboardingWrapper: FunctionComponent = ({ children }) => {
   )
 }
 
-export default LayoutOnboardingWrapper
+export default LayoutBlankWrapper
