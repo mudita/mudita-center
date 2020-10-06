@@ -20,7 +20,7 @@ const MeditationNoStats: FunctionComponent = () => (
   <NoStatsWrapper>
     <Icon type={Type.MuditaFlower} height={5.6} />
     <NoStatsLargeText
-      displayStyle={TextDisplayStyle.TertiaryBoldHeading}
+      displayStyle={TextDisplayStyle.TertiaryHeading}
       message={messages.title}
       data-testid={MeditationNoStatsTestIdsEnum.NoStatsTitle}
     />
