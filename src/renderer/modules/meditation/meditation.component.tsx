@@ -4,12 +4,19 @@ import { intl } from "Renderer/utils/intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import DataBoxes from "Renderer/components/rest/meditation/data-box/data-boxes.component"
 import MeditationNav from "Renderer/components/rest/meditation/nav/meditation-nav.component"
-import MeditationStats from "Renderer/components/rest/meditation/stats/meditation-stats.component"
+import MeditationStats, {
+  StatsData,
+} from "Renderer/components/rest/meditation/stats/meditation-stats.component"
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { ChartType } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
-import { generateMeditationData } from "App/__mocks__/meditation-stats.mock"
+import {
+  generateMeditationData,
+  noStatsMonthly,
+  noStatsYearly,
+  statsWeekly as noStatsWeekly,
+} from "App/__mocks__/meditation-stats.mock"
 import {
   MeditationStatsWrapper,
   MeditationWrapper,
@@ -36,10 +43,19 @@ const Meditation: FunctionComponent = () => {
   const [stats, setStats] = useState(true)
   const selectChartType = (type: ChartType) => () => setChartType(type)
   const _devSetStats = () => setStats((stat) => !stat)
+  const getEmptyStats = (type: ChartType): StatsData[] => {
+    if (type === ChartType.Weekly) {
+      return noStatsWeekly
+    } else if (type === ChartType.Monthly) {
+      return noStatsMonthly
+    } else {
+      return noStatsYearly
+    }
+  }
   return (
     <MeditationWrapper>
       <DevModeWrapper>
-        <Button onClick={_devSetStats} label="Show no stats component" />
+        <Button onClick={_devSetStats} label="Trigger no stats view" />
       </DevModeWrapper>
       <NavigationWrapper>
         <ButtonToggler>
@@ -64,7 +80,9 @@ const Meditation: FunctionComponent = () => {
       <MeditationStatsWrapper>
         <MeditationStats
           chartType={chartType}
-          statsData={generateMeditationData(chartType)}
+          statsData={
+            stats ? generateMeditationData(chartType) : getEmptyStats(chartType)
+          }
         />
       </MeditationStatsWrapper>
       {stats ? <DataBoxes /> : <MeditationNoStats />}
