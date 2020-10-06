@@ -13,6 +13,7 @@ export interface MemorySpace {
 }
 
 export interface StoreValues {
+  readonly disconnectedDevice?: boolean
   readonly batteryLevel: number
   readonly networkName: string
   readonly osVersion: string

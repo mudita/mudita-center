@@ -1,5 +1,12 @@
 import { initialState } from "Renderer/models/notes/notes"
 
+export const todaysNote = {
+  id: "eda094cf-6010-459c-b45c-81b231230a732e2",
+  content:
+    "arum ut. Illum maxime distinctio. Necessitatibus excepturi voluptatem. Quae reprehenderit quod et consequatur sed dolorum.",
+  date: new Date(),
+}
+
 export const data = [
   {
     id: "eda094cf-6010-459c-b45c-81b080a732e2",
@@ -84,9 +91,10 @@ export const data = [
       "Ipsam officiis voluptatem vel animi aut fugit consectetur qui est. Iusto consequatur et ut at odio et est totam laboriosam. Delectus vero quisquam ab consequatur vel expedita sunt qui. Aut ut doloribus aut aperiam.",
     date: new Date("2019-12-12T01:14:47.631Z"),
   },
+  todaysNote,
 ]
 
 export const notesSeed = {
   ...initialState,
-  notesList: data,
+  notes: data,
 }

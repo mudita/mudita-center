@@ -11,6 +11,7 @@ import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { mockedTemplateData } from "Renderer/modules/messages/__mocks__/template-modal-data"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 import { fireEvent } from "@testing-library/dom"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 mockAllIsIntersecting(true)
 
@@ -20,6 +21,8 @@ const renderTemplates = ({
   onSearchTermChange = noop,
   newTemplate = noop,
   templates = mockedTemplateData,
+  changeSortOrder = noop,
+  sortOrder = SortOrder.Descending,
 }: Partial<TemplatesProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <Templates
@@ -28,6 +31,8 @@ const renderTemplates = ({
       onDeleteButtonClick={onDeleteButtonClick}
       onNewButtonClick={onNewButtonClick}
       onSearchTermChange={onSearchTermChange}
+      sortOrder={sortOrder}
+      changeSortOrder={changeSortOrder}
     />
   )
   return {
@@ -74,4 +79,21 @@ test("when row is clicked sidebar is displayed", () => {
   const exampleRow = getAllByRole("listitem")[0]
   fireEvent.click(exampleRow)
   expect(getByTestId(TemplatesTestIds.TextEditor)).toBeInTheDocument()
+})
+
+test("sort order changes from descending to ascending", () => {
+  const changeSortOrder = jest.fn()
+  const { getByTestId } = renderTemplates({ changeSortOrder })
+  getByTestId(TemplatesTestIds.SortColumn).click()
+  expect(changeSortOrder).toBeCalledWith(SortOrder.Ascending)
+})
+
+test("sort order changes from ascending to descending", () => {
+  const changeSortOrder = jest.fn()
+  const { getByTestId } = renderTemplates({
+    changeSortOrder,
+    sortOrder: SortOrder.Ascending,
+  })
+  getByTestId(TemplatesTestIds.SortColumn).click()
+  expect(changeSortOrder).toBeCalledWith(SortOrder.Descending)
 })

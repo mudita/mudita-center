@@ -7,7 +7,7 @@ import ButtonToggler, {
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { twoStateToggler } from "Renderer/modules/settings/settings-toggler-state"
 import { noop } from "Renderer/utils/noop"
-import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
+import { SettingsTogglerTestIds } from "Renderer/components/rest/settings/settings-toggler-test-ids.enum"
 
 const Toggler = styled(ButtonToggler)`
   margin-right: 4rem;
@@ -26,13 +26,15 @@ interface Props {
 const SettingsToggler: FunctionComponent<Props> = ({
   toggleValue,
   onToggle = noop,
+  ...props
 }) => {
   return (
-    <Toggler filled>
+    <Toggler filled {...props}>
       {twoStateToggler.map((value) => {
         const changeStatus = () => {
           onToggle(value)
         }
+        const active = toggleValue === value
         return (
           <TogglerItem
             key={Number(value)}
@@ -42,11 +44,11 @@ const SettingsToggler: FunctionComponent<Props> = ({
                 : "view.name.settings.offLabel",
             })}
             onClick={changeStatus}
-            active={toggleValue === value}
+            active={active}
             data-testid={
-              toggleValue === value
-                ? SettingsTestIds.TogglerActive
-                : SettingsTestIds.TogglerInactive
+              active
+                ? SettingsTogglerTestIds.Active
+                : SettingsTogglerTestIds.Inactive
             }
           />
         )

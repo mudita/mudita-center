@@ -3,7 +3,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import "@testing-library/jest-dom/extend-expect"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { fireEvent } from "@testing-library/dom"
-import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
+import { SettingsTogglerTestIds } from "Renderer/components/rest/settings/settings-toggler-test-ids.enum"
 
 test("off button is active by default", async () => {
   const onToggle = jest.fn()
@@ -15,7 +15,7 @@ test("off button is active by default", async () => {
 
   expect(offButton).toHaveAttribute(
     "data-testid",
-    SettingsTestIds.TogglerActive
+    SettingsTogglerTestIds.Active
   )
 })
 

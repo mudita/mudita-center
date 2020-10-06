@@ -12,6 +12,7 @@ import { intl } from "Renderer/utils/intl"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { Message } from "Renderer/interfaces/message.interface"
+import { DeleteModalTestIds } from "Renderer/components/core/modal/delete-modal.enum"
 
 export const ModalContent = styled.div`
   display: flex;
@@ -42,7 +43,6 @@ interface DeleteContactModalProps {
 const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
   onDelete = noop,
   onClose = noop,
-  deleting = false,
   title,
   message,
   ...rest
@@ -55,9 +55,10 @@ const DeleteModal: FunctionComponent<DeleteContactModalProps> = ({
       actionButtonLabel={intl.formatMessage(messages.deleteButton)}
       onClose={onClose}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
+      data-testid={DeleteModalTestIds.Wrapper}
       {...rest}
     >
-      <ModalContent>
+      <ModalContent data-testid={DeleteModalTestIds.Content}>
         <Icon type={Type.DeleteBig} width={12} height={12} />
         <Text displayStyle={TextDisplayStyle.MediumText} message={message} />
       </ModalContent>

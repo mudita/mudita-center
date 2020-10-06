@@ -1,33 +1,25 @@
 import React, { useState } from "react"
-
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { TetheringWrapper } from "Renderer/modules/tethering/screens/disabled.styled"
-
-import TetheringEnabled from "Renderer/modules/tethering/screens/enabled.component"
-import TetheringDisabled from "Renderer/modules/tethering/screens/disabled.component"
-import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
-import Button from "Renderer/components/core/button/button.component"
+import TetheringUI from "Renderer/modules/tethering/tethering-ui.component"
+import { noop } from "Renderer/utils/noop"
 
 interface TetheringProps {
-  enabled?: boolean
-  test?: boolean // in order to test this without applying redux
+  disconnectedDevice: boolean
+  disconnectDevice?: () => void
 }
 
-const Tethering: FunctionComponent<TetheringProps> = ({ enabled, test }) => {
-  const [tetheringEnabled, toggleTetheringEnabled] = useState(enabled || false)
-  const _devToggleTethering = () => toggleTetheringEnabled((state) => !state)
-
+const Tethering: FunctionComponent<TetheringProps> = ({
+  disconnectedDevice,
+  disconnectDevice = noop,
+}) => {
+  const [tetheringEnabled, setTetheringEnabled] = useState(false)
   return (
-    <>
-      {!test && (
-        <DevModeWrapper>
-          <Button onClick={_devToggleTethering} label="Toggle tethering" />
-        </DevModeWrapper>
-      )}
-      <TetheringWrapper>
-        {tetheringEnabled ? <TetheringEnabled /> : <TetheringDisabled />}
-      </TetheringWrapper>
-    </>
+    <TetheringUI
+      tetheringEnabled={tetheringEnabled}
+      onToggleTethering={setTetheringEnabled}
+      disconnectedDevice={disconnectedDevice}
+      disconnectDevice={disconnectDevice}
+    />
   )
 }
 

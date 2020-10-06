@@ -13,6 +13,7 @@ const defaultProps = {
   selectedConversations: [],
   resetRows: jest.fn(),
   onMarkAsRead: jest.fn(),
+  onDeleteButtonClick: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {

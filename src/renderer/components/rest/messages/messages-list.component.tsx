@@ -47,6 +47,7 @@ import {
   animatedOpacityStyles,
 } from "Renderer/components/rest/messages/templates/templates-list.styled"
 import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
+import MessageRowContainer from "Renderer/components/rest/messages/message-row-container.component"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -160,12 +161,16 @@ interface Props extends SelectHook {
   list: Topic[]
   openSidebar?: (row: Topic) => void
   activeRow?: Topic
+  onRemove: (ids: string[]) => void
+  onToggleReadStatus: (ids: string[]) => void
 }
 
 const MessagesList: FunctionComponent<Props> = ({
   activeRow,
   list,
   openSidebar = noop,
+  onRemove,
+  onToggleReadStatus,
   getRowStatus,
   toggleRow,
   noneRowsSelected,
@@ -176,6 +181,7 @@ const MessagesList: FunctionComponent<Props> = ({
           2. Add mouseLock prop to <Messages />
    */
   const { enableScroll, disableScroll } = useTableScrolling()
+
   return (
     <Messages
       noneRowsSelected={noneRowsSelected}
@@ -190,6 +196,8 @@ const MessagesList: FunctionComponent<Props> = ({
         const open = () => openSidebar(item)
         const nameAvailable = isNameAvailable(caller)
         const active = activeRow?.id === item.id
+        const remove = () => onRemove([id])
+        const toggleReadStatus = () => onToggleReadStatus([id])
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow key={id} ref={ref} selected={selected} active={active}>
             <AvatarCol>
@@ -275,10 +283,12 @@ const MessagesList: FunctionComponent<Props> = ({
                   )}
                   <ButtonComponent
                     labelMessage={{
-                      id: "view.name.messages.markAsRead",
+                      id: unread
+                        ? "view.name.messages.markAsRead"
+                        : "view.name.messages.markAsUnread",
                     }}
                     Icon={Type.BorderCheckIcon}
-                    onClick={noop}
+                    onClick={toggleReadStatus}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-mark-as-read"
                   />
@@ -287,7 +297,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       id: "view.name.messages.dropdownDelete",
                     }}
                     Icon={Type.Delete}
-                    onClick={noop}
+                    onClick={remove}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-delete"
                   />
@@ -308,11 +318,13 @@ const MessagesList: FunctionComponent<Props> = ({
         )
 
         return (
-          <InView key={id}>
-            {({ inView, ref }) =>
-              inView ? interactiveRow(ref) : placeholderRow(ref)
-            }
-          </InView>
+          <MessageRowContainer key={id} active={active}>
+            <InView>
+              {({ inView, ref }) =>
+                inView ? interactiveRow(ref) : placeholderRow(ref)
+              }
+            </InView>
+          </MessageRowContainer>
         )
       })}
     </Messages>
