@@ -1,5 +1,5 @@
 import moment from "moment"
-import React, { useEffect } from "react"
+import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import {
   DisplayStyle,
@@ -35,8 +35,6 @@ import {
   TextInfo,
 } from "Renderer/modules/tools/tabs/notes.styled"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import useSort from "Renderer/utils/hooks/use-sort/use-sort"
-import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
@@ -51,6 +49,7 @@ import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/
 import { isToday } from "Renderer/utils/is-today"
 import { NoteCallback } from "Renderer/models/notes/notes"
 import { makeNewNote } from "Renderer/models/notes/make-new-note"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -103,22 +102,25 @@ export interface Note {
 }
 
 interface NotesProps {
-  notesList: Note[]
+  notes: Note[]
   newNoteId?: string
   createNewNote?: (noteCallback: NoteCallback) => void
   saveNote?: (note: Note) => void
   removeNotes?: (ids: string[]) => void
+  sortOrder: SortOrder
+  changeSortOrder: (sortOrder: SortOrder) => void
 }
 
 const Notes: FunctionComponent<NotesProps> = ({
-  notesList,
+  notes,
   newNoteId,
   createNewNote,
   saveNote,
   removeNotes,
+  sortOrder,
+  changeSortOrder,
 }) => {
   const maxCharacters = 4000
-  const { data: sortedData, sort, sortDirection } = useSort(notesList)
   const {
     getRowStatus,
     toggleRow,
@@ -126,7 +128,7 @@ const Notes: FunctionComponent<NotesProps> = ({
     noneRowsSelected: noRowsSelected,
     selectedRows,
     toggleAll,
-  } = useTableSelect(notesList)
+  } = useTableSelect(notes)
   const {
     openSidebar,
     closeSidebar,
@@ -138,7 +140,6 @@ const Notes: FunctionComponent<NotesProps> = ({
   const {
     temporaryText: { length: textLength },
   } = textEditorHook
-  const sortByDate = () => sort("date", notesList)
 
   const deleteNotes = () => {
     if (removeNotes) {
@@ -149,7 +150,7 @@ const Notes: FunctionComponent<NotesProps> = ({
   }
 
   const selectionManagerVisible = selectedRows.length > 0
-  const notesAvailable = sortedData.length > 0
+  const notesAvailable = notes.length > 0
 
   const onNewButtonClick = () => {
     if (createNewNote) {
@@ -166,15 +167,19 @@ const Notes: FunctionComponent<NotesProps> = ({
     }
   }
 
-  useEffect(() => {
-    sortByDate()
-  }, [])
-
   const handleChangesReject = () => {
     rejectChanges()
     if (removeNotes && newNoteId && activeRow?.id === newNoteId) {
       removeNotes([newNoteId])
       closeSidebar()
+    }
+  }
+
+  const toggleSortOrder = () => {
+    if (sortOrder === SortOrder.Descending) {
+      changeSortOrder(SortOrder.Ascending)
+    } else {
+      changeSortOrder(SortOrder.Descending)
     }
   }
 
@@ -185,7 +190,7 @@ const Notes: FunctionComponent<NotesProps> = ({
           <SelectionManager
             data-testid={NotesTestIds.SelectionElement}
             selectedItemsNumber={selectedRows.length}
-            allItemsSelected={selectedRows.length === sortedData.length}
+            allItemsSelected={selectedRows.length === notes.length}
             onToggle={toggleAll}
             message={messages.selectionsNumber}
             checkboxSize={CheckboxSize.Small}
@@ -234,16 +239,17 @@ const Notes: FunctionComponent<NotesProps> = ({
                 <Text message={messages.note} />
               </Col>
               <Col />
-              <Col onClick={sortByDate}>
+              <Col
+                onClick={toggleSortOrder}
+                data-testid={NotesTestIds.SortColumn}
+              >
                 <Text message={messages.edited} />
-                <TableSortButton
-                  sortDirection={sortDirection.date || SortDirection.Ascending}
-                />
+                <TableSortButton sortOrder={sortOrder} />
               </Col>
               <Col />
             </Labels>
             <div data-testid={NotesTestIds.ItemsWrapper}>
-              {sortedData.map((note) => {
+              {notes.map((note) => {
                 const { id, content, date } = note
                 const { selected } = getRowStatus(note)
                 const { getTemporaryValue } = useTemporaryStorage<string>(

@@ -14,7 +14,6 @@ import {
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import styled, { css } from "styled-components"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
@@ -22,6 +21,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 /* Row */
 export enum RowSize {
@@ -429,12 +429,10 @@ const Table = React.forwardRef<
  * Extra rotation added to avoid jagged edges on older displays.
  * @see http://apps.eky.hk/css-triangle-generator/
  */
-export const TableSortButton = styled.button<{ sortDirection?: SortDirection }>`
+export const TableSortButton = styled.button<{ sortOrder?: SortOrder }>`
   background: none;
   color: currentColor;
-
   cursor: pointer;
-
   width: 0;
   height: 0;
   padding: 0;
@@ -442,11 +440,8 @@ export const TableSortButton = styled.button<{ sortDirection?: SortDirection }>`
   border-style: solid;
   border-width: 0.5rem 0.3rem 0 0.3rem;
   border-color: currentColor transparent transparent transparent;
-
-  transform: ${({ sortDirection }) =>
-    sortDirection === SortDirection.Ascending
-      ? "rotate(540deg)"
-      : "rotate(360deg)"};
+  transform: ${({ sortOrder }) =>
+    sortOrder === SortOrder.Descending ? "rotate(0deg)" : "rotate(180deg)"};
 
   &:active,
   &:focus {

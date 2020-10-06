@@ -1,5 +1,12 @@
 import { initialState } from "Renderer/models/templates/templates"
 
+export const todaysTemplate = {
+  id: "bd100c08-bc73-4e31-b8ae-42345asda",
+  content:
+    "Voluptas ab suscipit accusamus omnis. Qui voluptas veritatis aperiam enim quasi. Totam et at facere. Nam qui iure quibusdam dolorum non velit. Deleniti non sed rerum reprehenderit omnis deserunt et omnis sapiente.",
+  date: new Date(),
+}
+
 const data = [
   {
     id: "bd100c08-bc73-4e31-b8ae-9a4462a93200",
@@ -127,6 +134,7 @@ const data = [
       "Aut ut ipsam nihil facilis beatae atque voluptas sed. Dolorum odio at. Architecto voluptatum debitis qui aut.\n \rPorro laborum perspiciatis voluptatem expedita esse nam aut. In debitis unde qui odio unde repellendus est dicta. Et molestias officia ut.",
     date: new Date("2020-03-03T10:03:15.384Z"),
   },
+  todaysTemplate,
 ]
 
 export const templatesSeed = {
