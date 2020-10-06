@@ -13,4 +13,5 @@ export const NoStatsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 7.3rem;
 `
