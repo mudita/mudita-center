@@ -9,6 +9,7 @@ import {
   NoStatsWrapper,
 } from "Renderer/components/rest/meditation/stats/meditation-no-stats.styled"
 import { defineMessages } from "react-intl"
+import { MeditationNoStatsTestIdsEnum } from "Renderer/components/rest/meditation/stats/meditation-no-stats-test-ids.enum"
 
 const messages = defineMessages({
   title: { id: "view.name.meditation.noStatsTitle" },
@@ -21,10 +22,12 @@ const MeditationNoStats: FunctionComponent = () => (
     <NoStatsLargeText
       displayStyle={TextDisplayStyle.TertiaryBoldHeading}
       message={messages.title}
+      data-testid={MeditationNoStatsTestIdsEnum.NoStatsTitle}
     />
     <NoStatsLightText
       displayStyle={TextDisplayStyle.MediumFadedLightText}
       message={messages.subtitle}
+      data-testid={MeditationNoStatsTestIdsEnum.NoStatsSubtitle}
     />
   </NoStatsWrapper>
 )
