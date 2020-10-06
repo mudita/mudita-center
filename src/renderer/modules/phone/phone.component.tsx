@@ -10,7 +10,7 @@ import ContactDetails, {
   ContactActions,
   ContactDetailsActions,
 } from "Renderer/components/rest/phone/contact-details.component"
-import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
   defaultContact,
@@ -38,6 +38,8 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
+import { History, LocationState } from "history"
+import { useHistory } from "react-router-dom"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -54,6 +56,11 @@ export type PhoneProps = ContactActions &
     removeContact?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => void
+    onMessage: (
+      history: History<LocationState>,
+      phoneNumber: string,
+      callerId: string
+    ) => void
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -72,6 +79,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     savingContact,
     setProviderData,
   } = props
+  const history = useHistory()
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
@@ -168,6 +176,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       editContact(contact.id, contact)
     }
   }
+
+  const handleMessage = (phoneNumber: string, callerId: string) =>
+    onMessage(history, phoneNumber, callerId)
 
   const openDeleteModal = (contact: Contact) => {
     const handleDelete = async () => {
@@ -373,7 +384,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
               onDelete={openDeleteModal}
               onEdit={handleEditingContact}
               onCall={onCall}
-              onMessage={onMessage}
+              onMessage={handleMessage}
             />
           )}
         </TableWithSidebarWrapper>

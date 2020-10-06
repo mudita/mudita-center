@@ -26,7 +26,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import theme from "Renderer/styles/theming/theme"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import { noop } from "Renderer/utils/noop"
 import styled, { css } from "styled-components"
 import Story from "Renderer/components/storybook/story.component"

@@ -47,6 +47,7 @@ import {
   animatedOpacityStyles,
 } from "Renderer/components/rest/messages/templates/templates-list.styled"
 import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
+import MessageRowContainer from "Renderer/components/rest/messages/message-row-container.component"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -317,11 +318,13 @@ const MessagesList: FunctionComponent<Props> = ({
         )
 
         return (
-          <InView key={id}>
-            {({ inView, ref }) =>
-              inView ? interactiveRow(ref) : placeholderRow(ref)
-            }
-          </InView>
+          <MessageRowContainer key={id} active={active}>
+            <InView>
+              {({ inView, ref }) =>
+                inView ? interactiveRow(ref) : placeholderRow(ref)
+              }
+            </InView>
+          </MessageRowContainer>
         )
       })}
     </Messages>
