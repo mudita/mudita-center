@@ -537,6 +537,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="music-link"
         displaystyle="8"
         href="#/music"
         size="2"
@@ -641,6 +642,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="files-manager-link"
         displaystyle="8"
         href="#/files-manager"
         size="2"

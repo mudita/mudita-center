@@ -14,7 +14,6 @@ import Table, {
   RowSize,
   Sidebar,
   SidebarHeaderIcon,
-  TableSortButton,
   TableWithSidebarWrapper,
 } from "Renderer/components/core/table/table.component"
 import {
@@ -26,8 +25,6 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import theme from "Renderer/styles/theming/theme"
-import useSort from "Renderer/utils/hooks/use-sort/use-sort"
-import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import { noop } from "Renderer/utils/noop"
@@ -500,52 +497,6 @@ storiesOf("Components|Core/Table/Basic", module)
             )
           })}
         </SelectableContacts>
-      </Story>
-    )
-  })
-  .add("Sortable", () => {
-    const { data, sort, sortDirection } = useSort(basicRows)
-
-    const sortByName = () => {
-      sort("firstName")
-    }
-
-    const sortByPhoneNumber = () => {
-      sort("phoneNumber")
-    }
-
-    return (
-      <Story customStyle={fullPageStoryStyles} transparentMode>
-        <Contacts>
-          <Labels>
-            <Col onClick={sortByName}>
-              Name{" "}
-              <TableSortButton
-                sortDirection={
-                  sortDirection.firstName || SortDirection.Ascending
-                }
-              />
-            </Col>
-            <Col onClick={sortByPhoneNumber}>
-              Phone{" "}
-              <TableSortButton
-                sortDirection={
-                  sortDirection.phoneNumber || SortDirection.Ascending
-                }
-              />
-            </Col>
-          </Labels>
-          {data.map((row) => {
-            return (
-              <Row key={`${row.firstName} ${row.lastName}`}>
-                <Col>
-                  {row.firstName} {row.lastName}
-                </Col>
-                <Col>{row.phoneNumber}</Col>
-              </Row>
-            )
-          })}
-        </Contacts>
       </Story>
     )
   })

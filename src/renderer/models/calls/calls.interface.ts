@@ -1,4 +1,6 @@
 import { Contact } from "Renderer/models/phone/phone.typings"
+import { Type as IconType } from "Renderer/components/core/icon/icon.config"
+import { Message } from "Renderer/interfaces/message.interface"
 
 export enum CallStatus {
   Missed,
@@ -23,8 +25,10 @@ export interface Call {
   caller: Caller
   duration: number
   date: Date
+  icon: IconType
   timesMissed: number
   status: CallStatus
+  description: Message
 }
 
 export interface StateProps {

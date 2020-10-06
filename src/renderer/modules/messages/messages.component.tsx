@@ -40,6 +40,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   list,
   visibilityFilter,
   markAsRead = noop,
+  toggleReadStatus = noop,
 }) => {
   const [messagesList, setMessagesList] = useState(list)
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Topic>(
@@ -150,6 +151,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
           openSidebar={openSidebar}
           activeRow={activeRow}
           onRemove={remove}
+          onToggleReadStatus={toggleReadStatus}
           {...rest}
         />
         {activeRow && (

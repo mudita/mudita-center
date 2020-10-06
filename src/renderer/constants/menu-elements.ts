@@ -17,11 +17,15 @@ const YOUR_PURE_BUTTONS = [
   },
   { button: views.phone, icon: Type.MenuPhone, testId: MenuGroupTestIds.Phone },
   { button: views.contacts, icon: Type.MenuContacts },
-  { button: views.music, icon: Type.MenuMusic },
+  { button: views.music, icon: Type.MenuMusic, testId: MenuGroupTestIds.Music },
   { button: views.calendar, icon: Type.Calendar },
   { button: views.tools, icon: Type.MenuTools },
   { button: views.meditation, icon: Type.MenuMeditation },
-  { button: views.filesManager, icon: Type.MenuFilesManager },
+  {
+    button: views.filesManager,
+    icon: Type.MenuFilesManager,
+    testId: MenuGroupTestIds.FilesManager,
+  },
 ]
 
 const DESKTOP_APP_BUTTONS = [
