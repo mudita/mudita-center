@@ -94,6 +94,7 @@ import VeryLowRangeWithRoaming from "Renderer/svg/very-low-range-roaming.svg"
 import CalendarIcon from "Renderer/svg/calendar.svg"
 import ThinCheck from "Renderer/svg/thin-check.svg"
 import MarkAsRead from "Renderer/svg/mark-as-read.svg"
+import MuditaFlower from "Renderer/svg/mudita-flower.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -194,6 +195,7 @@ export enum Type {
   VeryLowRangeWithRoaming,
   ThinCheck,
   MarkAsRead,
+  MuditaFlower,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -388,6 +390,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return MarkAsRead
     case Type.ThinCheck:
       return ThinCheck
+    case Type.MuditaFlower:
+      return MuditaFlower
     default:
       return Message
   }

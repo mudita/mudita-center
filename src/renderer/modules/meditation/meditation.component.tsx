@@ -1,8 +1,6 @@
 import React, { useState } from "react"
-
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import DataBoxes from "Renderer/components/rest/meditation/data-box/data-boxes.component"
 import MeditationNav from "Renderer/components/rest/meditation/nav/meditation-nav.component"
@@ -17,6 +15,9 @@ import {
   MeditationWrapper,
   NavigationWrapper,
 } from "Renderer/modules/meditation/meditation.styled"
+import MeditationNoStats from "App/renderer/components/rest/meditation/stats/meditation-no-stats.component"
+import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
+import Button from "Renderer/components/core/button/button.component"
 
 const messages = defineMessages({
   weekly: {
@@ -32,11 +33,14 @@ const messages = defineMessages({
 
 const Meditation: FunctionComponent = () => {
   const [chartType, setChartType] = useState<ChartType>(ChartType.Weekly)
-
+  const [stats, setStats] = useState(true)
   const selectChartType = (type: ChartType) => () => setChartType(type)
-
+  const _devSetStats = () => setStats((stat) => !stat)
   return (
     <MeditationWrapper>
+      <DevModeWrapper>
+        <Button onClick={_devSetStats} label="Show no stats component" />
+      </DevModeWrapper>
       <NavigationWrapper>
         <ButtonToggler>
           <ButtonTogglerItem
@@ -63,7 +67,7 @@ const Meditation: FunctionComponent = () => {
           statsData={generateMeditationData(chartType)}
         />
       </MeditationStatsWrapper>
-      <DataBoxes />
+      {stats ? <DataBoxes /> : <MeditationNoStats />}
     </MeditationWrapper>
   )
 }
