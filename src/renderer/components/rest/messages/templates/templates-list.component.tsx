@@ -1,4 +1,4 @@
-import React, { Ref, useEffect } from "react"
+import React, { Ref } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   Col,
@@ -15,7 +15,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { UseTableSidebar } from "Renderer/utils/hooks/useTableSidebar"
+import { UseTableSidebar } from "Renderer/utils/hooks/use-table-sidebar"
 import { InView } from "react-intersection-observer"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
@@ -23,17 +23,16 @@ import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/
 import { defineMessages } from "react-intl"
 import {
   Checkbox,
-  Row,
-  TemplatesEmptyState,
-  Table,
-  TextPreview,
   DeleteCol,
+  Row,
+  Table,
+  TemplatesEmptyState,
+  TextPreview,
 } from "Renderer/components/rest/messages/templates/templates-list.styled"
 import { intl } from "Renderer/utils/intl"
 import { isToday } from "Renderer/utils/is-today"
 import moment from "moment"
-import { SortDirection } from "Renderer/utils/hooks/use-sort/use-sort.types"
-import useSort from "Renderer/utils/hooks/use-sort/use-sort"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "view.name.messages.templates.emptyList.title" },
@@ -62,6 +61,8 @@ export interface TemplatesListProps
     UseTableSidebar<Template> {
   templates: Template[]
   deleteTemplate: (id: string) => void | Promise<void>
+  changeSortOrder: (sortOrder: SortOrder) => void
+  sortOrder: SortOrder
 }
 
 const TemplatesList: FunctionComponent<TemplatesListProps> = ({
@@ -74,15 +75,17 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
   activeRow,
   sidebarOpened,
   deleteTemplate,
+  changeSortOrder,
+  sortOrder,
 }) => {
-  const { data: sortedData, sort, sortDirection } = useSort(templates)
-  const templatesAvailable = sortedData.length > 0
-  const sortByDate = () => sort("date", templates)
-
-  useEffect(() => {
-    sortByDate()
-  }, [])
-
+  const templatesAvailable = templates.length > 0
+  const toggleSortOrder = () => {
+    if (sortOrder === SortOrder.Descending) {
+      changeSortOrder(SortOrder.Ascending)
+    } else {
+      changeSortOrder(SortOrder.Descending)
+    }
+  }
   return (
     <Table
       role="list"
@@ -95,15 +98,16 @@ const TemplatesList: FunctionComponent<TemplatesListProps> = ({
         <Col>
           <Text message={messages.note} />
         </Col>
-        <Col onClick={sortByDate}>
+        <Col
+          onClick={toggleSortOrder}
+          data-testid={TemplatesTestIds.SortColumn}
+        >
           <Text message={messages.edited} />
-          <TableSortButton
-            sortDirection={sortDirection.date || SortDirection.Ascending}
-          />
+          <TableSortButton sortOrder={sortOrder} />
         </Col>
       </Labels>
       {templatesAvailable ? (
-        sortedData.map((template) => {
+        templates.map((template) => {
           const { id, content, date } = template
           const { selected } = getRowStatus(template)
           const deleteItem = () => deleteTemplate(id)

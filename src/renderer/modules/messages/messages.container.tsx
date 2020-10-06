@@ -22,6 +22,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   deleteConversation: (ids: string[]) =>
     dispatch.messages.deleteConversation(ids),
   markAsRead: (ids: string[]) => dispatch.messages.markAsRead(ids),
+  toggleReadStatus: (ids: string[]) => dispatch.messages.toggleReadStatus(ids),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)
