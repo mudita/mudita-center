@@ -38,6 +38,9 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
+import { getPeople } from "Renderer/providers/google/people"
+import { contactFactory } from "Renderer/providers/google/helpers"
+import { GooglePerson } from "Renderer/providers/google/typings"
 import { History, LocationState } from "history"
 import { useHistory } from "react-router-dom"
 
@@ -55,7 +58,7 @@ export type PhoneProps = ContactActions &
     speedDialChosenList: number[]
     removeContact?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
-    onManageButtonClick: (cb?: any) => void
+    onManageButtonClick: (cb?: any) => Promise<void>
     onMessage: (
       history: History<LocationState>,
       phoneNumber: string,
@@ -293,15 +296,60 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           id: "view.generic.button.cancel",
         })}
         onFailure={openFailureSyncModal}
-        onSuccess={openSuccessSyncModal}
+        onSuccess={syncGoogleContacts}
         failed={sync % 3 === 0}
         icon={Type.SynchronizeContacts}
       />
     )
   }
 
-  const handleGoogleAuth = () => {
-    onManageButtonClick(setProviderData)
+  const syncGoogleContacts = async () => {
+    try {
+      const {
+        data: { connections },
+      } = await getPeople()
+
+      if (connections && connections.length > 0) {
+        let added = 0
+        let duplicates = 0
+
+        connections.forEach((contact: GooglePerson) => {
+          const newContact = contactFactory(contact)
+          if (addContact && newContact) {
+            /**
+             * looking for duplicates will require more elaborate strategy,
+             * this is just for show
+             */
+            const unique = typeof getContact(newContact.id) === "undefined"
+            if (unique) {
+              addContact(newContact)
+              added++
+            } else {
+              // apply merge
+              duplicates++
+            }
+          }
+        })
+
+        console.log("Added contacts: ", added)
+        console.log("Duplicated contacts: ", duplicates)
+      } else {
+        console.log("No new contacts to add.")
+      }
+      openSuccessSyncModal()
+    } catch {
+      openFailureSyncModal()
+    }
+  }
+
+  const handleGoogleAuth = async () => {
+    await onManageButtonClick(setProviderData)
+
+    try {
+      await openProgressSyncModal()
+    } catch {
+      await openFailureSyncModal()
+    }
   }
 
   const openSyncModal = async () => {
