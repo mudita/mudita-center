@@ -20,7 +20,7 @@ export const messages = defineMessages({
   },
 })
 
-const DataBoxesWrapper = styled.div`
+export const DataBoxesWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 4rem;

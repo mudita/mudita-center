@@ -5,7 +5,6 @@ import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-w
 import Button from "Renderer/components/core/button/button.component"
 import PureDisconnected from "Renderer/modules/tethering/screens/pure-disconnected.component"
 import TetheringDisabled from "Renderer/modules/tethering/screens/tethering-disabled.component"
-import { TetheringWrapper } from "Renderer/modules/tethering/screens/tethering.styled"
 
 interface TetheringProps {
   disconnectedDevice?: boolean
@@ -25,7 +24,12 @@ const TetheringUI: FunctionComponent<TetheringProps> = ({
       return <PureDisconnected />
     }
     if (tetheringEnabled) {
-      return <TetheringEnabled />
+      return (
+        <TetheringEnabled
+          tetheringEnabled={tetheringEnabled}
+          onToggleTethering={onToggleTethering}
+        />
+      )
     }
     return (
       <TetheringDisabled
@@ -39,7 +43,7 @@ const TetheringUI: FunctionComponent<TetheringProps> = ({
       <DevModeWrapper>
         <Button onClick={disconnectDevice} label="Disconnect device" />
       </DevModeWrapper>
-      <TetheringWrapper>{getTetheringScreen()}</TetheringWrapper>
+      {getTetheringScreen()}
     </>
   )
 }
