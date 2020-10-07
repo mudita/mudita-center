@@ -3,11 +3,21 @@ import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import Text from "Renderer/components/core/text/text.component"
 
+export const OptionsWrapper = styled.div`
+  display: grid;
+  grid-column-gap: 4rem;
+  grid-row-gap: 4rem;
+  grid-template-columns: repeat(2, 38rem);
+  grid-template-rows: repeat(2, 12.6rem);
+`
+
+export const OptionButton = styled.button`
+  all: unset;
+`
+
 export const OptionBox = styled.div`
   display: flex;
   box-sizing: border-box;
-  height: 12.6rem;
-  width: 38rem;
   padding: 1.6rem 1.6rem 2.4rem 1.6rem;
   background-color: ${backgroundColor("minor")};
   &:hover {

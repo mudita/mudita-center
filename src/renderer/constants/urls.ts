@@ -38,8 +38,4 @@ export const URL_ONBOARDING = {
 
 export const URL_RECOVERY_MODE = {
   root: "/recovery-mode",
-  backup: "/recovery-mode/backup",
-  rebootOs: "/recovery-mode/restore-os",
-  restore: "/recovery-mode/restore",
-  factoryReset: "/recovery-mode/factory-reset",
 } as const
