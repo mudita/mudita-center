@@ -31,6 +31,10 @@ import Backup from "Renderer/modules/settings/tabs/backup/backup-container.compo
 import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.container"
 import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.container"
 import RecoveryMode from "Renderer/modules/recovery-mode/recovery-mode.component"
+import RecoveryBackup from "Renderer/modules/recovery-mode/backup.component"
+import RebootOs from "Renderer/modules/recovery-mode/reboot-os.component"
+import Restore from "Renderer/modules/recovery-mode/restore.component"
+import FactoryReset from "Renderer/modules/recovery-mode/factory-reset.component"
 
 export default () => (
   <Switch>
@@ -49,6 +53,10 @@ export default () => (
           component={Troubleshooting}
         />
         <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
+        <Route path={URL_RECOVERY_MODE.backup} component={RecoveryBackup} />
+        <Route path={URL_RECOVERY_MODE.rebootOs} component={RebootOs} />
+        <Route path={URL_RECOVERY_MODE.restore} component={Restore} />
+        <Route path={URL_RECOVERY_MODE.factoryReset} component={FactoryReset} />
       </LayoutBlankWrapper>
     </Route>
 

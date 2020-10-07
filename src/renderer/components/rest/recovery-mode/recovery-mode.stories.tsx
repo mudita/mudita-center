@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   align-items: stretch;
   justify-items: stretch;
 `
-storiesOf("Views/Recovery Mode", module).add("Welcome", () => {
+storiesOf("Views/Recovery Mode", module).add("Main view", () => {
   return (
     <Wrapper>
       <Router history={history}>
