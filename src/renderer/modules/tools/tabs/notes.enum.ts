@@ -7,4 +7,5 @@ export enum NotesTestIds {
   SelectionElement = "notesTestId-selectionElement",
   NewNoteSidebar = "notesTestId-newNoteSidebar",
   NewNoteButton = "notesTestId-newNoteButton",
+  SortColumn = "notesTestId-sortColumn",
 }

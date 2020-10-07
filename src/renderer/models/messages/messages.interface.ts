@@ -45,4 +45,5 @@ export type ComponentProps = Omit<StateProps, "topics"> &
     list: Topic[]
     visibilityFilter?: VisibilityFilter
     markAsRead?: (ids: string[]) => void
+    toggleReadStatus?: (ids: string[]) => void
   }>

@@ -6,6 +6,7 @@ import Templates, {
 } from "Renderer/modules/messages/tabs/templates.component"
 import { TemplateCallback } from "Renderer/models/templates/templates"
 import { RootModel } from "Renderer/models/models"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const selector = select(({ templates }) => ({
   templates: templates.filteredList,
@@ -17,6 +18,8 @@ const mapStateToProps = (state: RootModel) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  changeSortOrder: (sortOrder: SortOrder) =>
+    dispatch.templates.changeSortOrder(sortOrder),
   onSearchTermChange: ({ target }: ChangeEvent<HTMLInputElement>) =>
     dispatch.templates.changeSearchValue(target.value),
   createNewTemplate: (template: TemplateCallback) =>
