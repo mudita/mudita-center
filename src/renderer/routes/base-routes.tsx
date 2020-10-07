@@ -37,7 +37,10 @@ export default () => (
     <Redirect exact from={URL_MAIN.root} to={URL_MAIN.overview} />
     <Redirect from={URL_ONBOARDING.root} to={URL_ONBOARDING.welcome} exact />
 
-    <Route exact path={[...Object.values(URL_ONBOARDING)]}>
+    <Route
+      exact
+      path={[...Object.values({ ...URL_ONBOARDING, ...URL_RECOVERY_MODE })]}
+    >
       <LayoutBlankWrapper>
         <Route path={URL_ONBOARDING.welcome} component={Welcome} />
         <Route path={URL_ONBOARDING.connecting} component={Connecting} />
@@ -45,11 +48,6 @@ export default () => (
           path={URL_ONBOARDING.troubleshooting}
           component={Troubleshooting}
         />
-      </LayoutBlankWrapper>
-    </Route>
-
-    <Route exact path={[...Object.values(URL_RECOVERY_MODE)]}>
-      <LayoutBlankWrapper>
         <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
       </LayoutBlankWrapper>
     </Route>
