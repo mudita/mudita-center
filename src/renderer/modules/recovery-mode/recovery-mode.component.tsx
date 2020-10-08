@@ -25,12 +25,14 @@ import { Title } from "Renderer/components/rest/onboarding/onboarding.elements"
 import { textFormatters } from "Renderer/utils/intl"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { noop } from "Renderer/utils/noop"
+import { RecoveryModeTestIds } from "Renderer/modules/recovery-mode/recovery-mode-test-ids.enum"
 
-enum SafeModeAction {
-  Backup,
-  RebootOs,
-  Restore,
-  FactoryReset,
+export enum SafeModeAction {
+  Backup = "backup",
+  RebootOs = "reboot-os",
+  Restore = "restore",
+  FactoryReset = "factory-reset",
 }
 
 interface SafeModeOption {
@@ -106,7 +108,21 @@ const safeModeOptions: SafeModeOption[] = [
   },
 ]
 
-const RecoveryMode: FunctionComponent<{}> = () => (
+interface Props {
+  onSupportButtonClick: () => void
+  onBackupClick: () => void
+  onRebootOsClick: () => void
+  onRestoreClick: () => void
+  onFactoryResetClick: () => void
+}
+
+const RecoveryMode: FunctionComponent<Props> = ({
+  onSupportButtonClick = noop,
+  onBackupClick = noop,
+  onRebootOsClick = noop,
+  onRestoreClick = noop,
+  onFactoryResetClick = noop,
+}) => (
   <RecoveryModeWrapper>
     <RecoveryModeHeader>
       <Title
@@ -119,24 +135,46 @@ const RecoveryMode: FunctionComponent<{}> = () => (
       />
     </RecoveryModeHeader>
     <OptionsWrapper>
-      {safeModeOptions.map(({ action, iconType, title, description }) => (
-        <OptionButton key={action}>
-          <OptionBox>
-            <OptionBoxIcon type={iconType} size={IconSize.Bigger} />
-            <TextWrapper>
-              <BoldOptionText
-                displayStyle={TextDisplayStyle.TertiaryHeading}
-                message={title}
-                element={"p"}
-              />
-              <OptionText
-                displayStyle={TextDisplayStyle.MediumFadedLightText}
-                message={description}
-              />
-            </TextWrapper>
-          </OptionBox>
-        </OptionButton>
-      ))}
+      {safeModeOptions.map(({ action, iconType, title, description }) => {
+        const resolveSafeModeAction = () => {
+          switch (true) {
+            case action === SafeModeAction.Backup:
+              onBackupClick()
+              break
+            case action === SafeModeAction.RebootOs:
+              onRebootOsClick()
+              break
+            case action === SafeModeAction.Restore:
+              onRestoreClick()
+              break
+            case action === SafeModeAction.FactoryReset:
+              onFactoryResetClick()
+              break
+          }
+        }
+        return (
+          <OptionButton
+            key={action}
+            onClick={resolveSafeModeAction}
+            data-testid={action}
+          >
+            <OptionBox>
+              <OptionBoxIcon type={iconType} size={IconSize.Bigger} />
+              <TextWrapper>
+                <BoldOptionText
+                  displayStyle={TextDisplayStyle.TertiaryHeading}
+                  message={title}
+                  element={"p"}
+                />
+                <OptionText
+                  displayStyle={TextDisplayStyle.MediumFadedLightText}
+                  message={description}
+                />
+              </TextWrapper>
+            </OptionBox>
+          </OptionButton>
+        )
+      })}
     </OptionsWrapper>
     <RecoveryModeFooter>
       <Support>
@@ -147,7 +185,8 @@ const RecoveryMode: FunctionComponent<{}> = () => (
         <ButtonComponent
           displayStyle={DisplayStyle.Link3}
           labelMessage={messages.supportButtonText}
-          data-testid="contact-support"
+          data-testid={RecoveryModeTestIds.SupportButton}
+          onClick={onSupportButtonClick}
         />
       </Support>
     </RecoveryModeFooter>
