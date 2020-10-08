@@ -41,7 +41,7 @@ export const generateMeditationData = (
   return data
 }
 
-export const statsWeekly = [
+export const statsWeekly: StatsData[] = [
   {
     date: "2020-08-31",
     time: 0,
@@ -72,7 +72,7 @@ export const statsWeekly = [
   },
 ]
 
-export const statsMonthly = [
+export const statsMonthly: StatsData[] = [
   {
     date: "2020-08-01",
     time: 614,
@@ -199,7 +199,7 @@ export const statsMonthly = [
   },
 ]
 
-export const statsYearly = [
+export const statsYearly: StatsData[] = [
   {
     date: "2020-01",
     time: 26493,
@@ -250,7 +250,7 @@ export const statsYearly = [
   },
 ]
 
-export const noStatsMonthly = [
+export const noStatsMonthly: StatsData[] = [
   {
     date: "2020-08-01",
     time: 0,
@@ -377,7 +377,7 @@ export const noStatsMonthly = [
   },
 ]
 
-export const noStatsYearly = [
+export const noStatsYearly: StatsData[] = [
   {
     date: "2020-01",
     time: 0,
