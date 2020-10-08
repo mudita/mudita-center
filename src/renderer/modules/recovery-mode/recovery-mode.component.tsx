@@ -7,13 +7,24 @@ import {
   OptionButton,
   OptionsWrapper,
   OptionText,
+  RecoveryModeFooter,
+  RecoveryModeHeader,
+  RecoveryModeWrapper,
+  Support,
+  SupportText,
   TextWrapper,
 } from "Renderer/components/rest/recovery-mode/recovery-mode.styled"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import { defineMessages } from "react-intl"
 import { Message } from "Renderer/interfaces/message.interface"
+import { Title } from "Renderer/components/rest/onboarding/onboarding.elements"
+import { textFormatters } from "Renderer/utils/intl"
+import ButtonComponent from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 
 enum SafeModeAction {
   Backup,
@@ -30,6 +41,12 @@ interface SafeModeOption {
 }
 
 const messages = defineMessages({
+  title: {
+    id: "view.name.recoveryMode.title",
+  },
+  description: {
+    id: "view.name.recoveryMode.description",
+  },
   backupTitle: {
     id: "view.name.recoveryMode.backupTitle",
   },
@@ -53,6 +70,12 @@ const messages = defineMessages({
   },
   factoryResetDescription: {
     id: "view.name.recoveryMode.factoryResetDescription",
+  },
+  supportMessage: {
+    id: "view.name.recoveryMode.supportMessage",
+  },
+  supportButtonText: {
+    id: "view.name.onboarding.troubleshooting.support.button",
   },
 })
 
@@ -84,26 +107,51 @@ const safeModeOptions: SafeModeOption[] = [
 ]
 
 const RecoveryMode: FunctionComponent<{}> = () => (
-  <OptionsWrapper>
-    {safeModeOptions.map(({ action, iconType, title, description }) => (
-      <OptionButton key={action}>
-        <OptionBox>
-          <OptionBoxIcon type={iconType} size={IconSize.Bigger} />
-          <TextWrapper>
-            <BoldOptionText
-              displayStyle={TextDisplayStyle.TertiaryHeading}
-              message={title}
-              element={"p"}
-            />
-            <OptionText
-              displayStyle={TextDisplayStyle.MediumFadedLightText}
-              message={description}
-            />
-          </TextWrapper>
-        </OptionBox>
-      </OptionButton>
-    ))}
-  </OptionsWrapper>
+  <RecoveryModeWrapper>
+    <RecoveryModeHeader>
+      <Title
+        displayStyle={TextDisplayStyle.PrimaryHeading}
+        message={{ ...messages.title, values: textFormatters }}
+      />
+      <Text
+        displayStyle={TextDisplayStyle.LargeFadedText}
+        message={messages.description}
+      />
+    </RecoveryModeHeader>
+    <OptionsWrapper>
+      {safeModeOptions.map(({ action, iconType, title, description }) => (
+        <OptionButton key={action}>
+          <OptionBox>
+            <OptionBoxIcon type={iconType} size={IconSize.Bigger} />
+            <TextWrapper>
+              <BoldOptionText
+                displayStyle={TextDisplayStyle.TertiaryHeading}
+                message={title}
+                element={"p"}
+              />
+              <OptionText
+                displayStyle={TextDisplayStyle.MediumFadedLightText}
+                message={description}
+              />
+            </TextWrapper>
+          </OptionBox>
+        </OptionButton>
+      ))}
+    </OptionsWrapper>
+    <RecoveryModeFooter>
+      <Support>
+        <SupportText
+          displayStyle={TextDisplayStyle.SmallFadedText}
+          message={messages.supportMessage}
+        />
+        <ButtonComponent
+          displayStyle={DisplayStyle.Link3}
+          labelMessage={messages.supportButtonText}
+          data-testid="contact-support"
+        />
+      </Support>
+    </RecoveryModeFooter>
+  </RecoveryModeWrapper>
 )
 
 export default RecoveryMode

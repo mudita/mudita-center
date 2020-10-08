@@ -3,7 +3,15 @@ import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import Text from "Renderer/components/core/text/text.component"
 
-export const OptionsWrapper = styled.div`
+export const RecoveryModeWrapper = styled.section`
+  display: grid;
+  grid-template-areas: "Header" "Main" "Footer";
+  grid-row-gap: 2.4rem;
+  grid-template-rows: 10rem 1fr 11rem;
+`
+
+export const OptionsWrapper = styled.main`
+  grid-area: Main;
   display: grid;
   grid-column-gap: 4rem;
   grid-row-gap: 4rem;
@@ -11,8 +19,32 @@ export const OptionsWrapper = styled.div`
   grid-template-rows: repeat(2, 12.6rem);
 `
 
+export const RecoveryModeHeader = styled.header`
+  grid-area: Header;
+  text-align: center;
+`
+
+export const RecoveryModeFooter = styled.footer`
+  grid-area: Footer;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+`
+
+export const Support = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+`
+
+export const SupportText = styled(Text)`
+  white-space: nowrap;
+`
+
 export const OptionButton = styled.button`
-  all: unset;
+  border: none;
+  text-align: initial;
 `
 
 export const OptionBox = styled.div`
