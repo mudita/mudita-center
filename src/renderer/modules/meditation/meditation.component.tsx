@@ -40,9 +40,9 @@ const messages = defineMessages({
 
 const Meditation: FunctionComponent = () => {
   const [chartType, setChartType] = useState<ChartType>(ChartType.Weekly)
-  const [stats, setStats] = useState(true)
+  const [statsAvailable, setStatsAvailable] = useState(true)
   const selectChartType = (type: ChartType) => () => setChartType(type)
-  const _devSetStats = () => setStats((stat) => !stat)
+  const _devSetStats = () => setStatsAvailable((stat) => !stat)
   const getEmptyStats = (type: ChartType): StatsData[] => {
     if (type === ChartType.Weekly) {
       return noStatsWeekly
@@ -81,11 +81,13 @@ const Meditation: FunctionComponent = () => {
         <MeditationStats
           chartType={chartType}
           statsData={
-            stats ? generateMeditationData(chartType) : getEmptyStats(chartType)
+            statsAvailable
+              ? generateMeditationData(chartType)
+              : getEmptyStats(chartType)
           }
         />
       </MeditationStatsWrapper>
-      {stats ? <DataBoxes /> : <MeditationNoStats />}
+      {statsAvailable ? <DataBoxes /> : <MeditationNoStats />}
     </MeditationWrapper>
   )
 }
