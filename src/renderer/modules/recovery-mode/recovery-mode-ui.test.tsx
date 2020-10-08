@@ -1,9 +1,9 @@
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import RecoveryMode, {
-  SafeModeAction,
-} from "Renderer/modules/recovery-mode/recovery-mode.component"
 import { RecoveryModeTestIds } from "Renderer/modules/recovery-mode/recovery-mode-test-ids.enum"
+import RecoveryModeUI, {
+  SafeModeAction,
+} from "Renderer/modules/recovery-mode/recovery-mode-ui.component"
 
 const defaultProps = {
   onSupportButtonClick: jest.fn(),
@@ -14,7 +14,7 @@ const defaultProps = {
 }
 
 const renderer = () => {
-  return renderWithThemeAndIntl(<RecoveryMode {...defaultProps} />)
+  return renderWithThemeAndIntl(<RecoveryModeUI {...defaultProps} />)
 }
 
 test("backup action is performed", () => {

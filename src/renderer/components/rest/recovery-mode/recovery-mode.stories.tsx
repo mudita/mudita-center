@@ -1,22 +1,19 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
-import RecoveryMode from "Renderer/modules/recovery-mode/recovery-mode.component"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
+import RecoveryModeUI from "Renderer/modules/recovery-mode/recovery-mode-ui.component"
 
 const Wrapper = styled.div`
-  height: 100vh;
-  display: grid;
-  align-items: stretch;
-  justify-items: stretch;
+  max-width: 97.5rem;
 `
 storiesOf("Views/Recovery Mode", module).add("Main view", () => {
   return (
     <Wrapper>
       <Router history={history}>
-        <RecoveryMode
+        <RecoveryModeUI
           onSupportButtonClick={noop}
           onBackupClick={noop}
           onRebootOsClick={noop}

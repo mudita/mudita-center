@@ -45,6 +45,8 @@ export const SupportText = styled(Text)`
 export const OptionButton = styled.button`
   border: none;
   text-align: initial;
+  cursor: pointer;
+  outline: none;
 `
 
 export const OptionBox = styled.div`
