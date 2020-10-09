@@ -90,7 +90,7 @@ const InputSearch: FunctionComponent<InputSearchProps> = ({
   selectedItem,
   items,
   emptyItemValue = "",
-  renderItemValue = (item: any) => item,
+  renderItemValue = (itemValue: string) => itemValue,
   isItemMatching = (item, search) =>
     item.toLowerCase().includes(search.toLowerCase()),
   onChange = noop,
@@ -118,7 +118,7 @@ const InputSearch: FunctionComponent<InputSearchProps> = ({
     event.preventDefault()
     const itemValue = renderItemValue(item)
     setSearchValue(itemValue)
-    onChange(itemValue)
+    onChange(String(itemValue))
     onSelect(item)
     setFocused(false)
   }

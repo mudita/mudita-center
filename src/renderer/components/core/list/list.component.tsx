@@ -1,3 +1,4 @@
+import React from "react"
 import styled, { css, FlattenSimpleInterpolation } from "styled-components"
 import {
   backgroundColor,
@@ -10,8 +11,7 @@ import {
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import { mediumTextSharedStyles } from "Renderer/components/core/text/text.component"
-import SearchableText from "Renderer/components/core/searchable-text/searchable-text"
-import React from "react"
+import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
 
 export const ListItem = styled.li<{
   empty?: boolean

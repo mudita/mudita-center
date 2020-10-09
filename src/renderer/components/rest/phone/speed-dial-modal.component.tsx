@@ -19,7 +19,7 @@ import InputSelect, {
 } from "Renderer/components/core/input-select/input-select.component"
 import { SpeedDialProps } from "Renderer/components/rest/phone/speed-dial-modal.container"
 import { ListItem } from "Renderer/components/core/list/list.component"
-import SearchableText from "Renderer/components/core/searchable-text/searchable-text"
+import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
 
 const SpeedDialTable = styled(Table)`
   --labelBackground: none;

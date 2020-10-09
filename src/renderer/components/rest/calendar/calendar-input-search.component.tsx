@@ -9,7 +9,7 @@ import { textColor } from "Renderer/styles/theming/theme-getters"
 import InputSearch, {
   RenderInputSearchListItem,
 } from "Renderer/components/core/input-search/input-search.component"
-import SearchableText from "Renderer/components/core/searchable-text/searchable-text"
+import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
 import { ListItem } from "Renderer/components/core/list/list.component"
 
 const messages = defineMessages({

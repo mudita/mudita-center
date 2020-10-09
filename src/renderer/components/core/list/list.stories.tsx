@@ -9,7 +9,7 @@ import {
   RenderListItem,
   renderListItemSearchable,
 } from "Renderer/components/core/list/list.component"
-import SearchableText from "Renderer/components/core/searchable-text/searchable-text"
+import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
 
 const storyContainerStyles = css`
   main > * {
