@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components"
-import { SelectInputItem } from "Renderer/components/core/input-select/input-select.component"
+import { ListItem } from "Renderer/components/core/list/list.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
@@ -42,7 +42,7 @@ export const Input = styled(InputComponent)<InputComponentProps>`
     font-weight: ${fontWeight("default")};
   }
 `
-export const SpeedDialListItem = styled(SelectInputItem)<{
+export const SpeedDialListItem = styled(ListItem)<{
   inactive?: boolean
 }>`
   ${({ inactive }) =>

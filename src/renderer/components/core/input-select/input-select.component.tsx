@@ -1,31 +1,30 @@
 import React, {
-  useState,
-  MouseEvent,
-  FocusEvent,
-  useRef,
-  ComponentProps,
   ChangeEvent,
-  useEffect,
+  ComponentProps,
+  FocusEvent,
+  MouseEvent,
+  useRef,
+  useState,
 } from "react"
+import styled, { FlattenSimpleInterpolation } from "styled-components"
+import { noop } from "Renderer/utils/noop"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import styled, { css, FlattenSimpleInterpolation } from "styled-components"
 import { InputText } from "Renderer/components/core/input-text/input-text.elements"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import {
-  backgroundColor,
-  borderColor,
-  borderRadius,
-  boxShadowColor,
-  textColor,
   transitionTime,
   transitionTimingFunction,
-  zIndex,
 } from "Renderer/styles/theming/theme-getters"
-import { noop } from "Renderer/utils/noop"
-import { mediumTextSharedStyles } from "Renderer/components/core/text/text.component"
 import { InputProps } from "Renderer/components/core/input-text/input-text.interface"
 import composeRefs from "@seznam/compose-react-refs/composeRefs"
+import {
+  ItemValue,
+  List,
+  ListItem,
+  RenderListItem,
+  renderListItemSearchable,
+} from "Renderer/components/core/list/list.component"
 
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
@@ -33,86 +32,6 @@ const ToggleIcon = styled.span<{ rotated?: boolean }>`
     ${transitionTimingFunction("smooth")};
 
   transform: rotateZ(${({ rotated }) => (rotated ? 180 : 0)}deg);
-`
-
-export const SelectInputItem = styled.li<{
-  empty?: boolean
-  selected?: boolean
-  disabled?: boolean
-}>`
-  cursor: pointer;
-  padding: 1.2rem 2.4rem;
-  ${mediumTextSharedStyles};
-  font-weight: 300;
-
-  :not(:last-of-type) {
-    border-bottom: solid ${borderColor("list")} 0.1rem;
-  }
-
-  &:hover {
-    background-color: ${backgroundColor("minor")};
-  }
-
-  ${({ empty }) =>
-    empty &&
-    css`
-      color: ${textColor("secondary")};
-    `}
-
-  ${({ selected }) =>
-    selected &&
-    css`
-      background-color: ${backgroundColor("minor")};
-    `};
-
-  ${({ disabled }) =>
-    disabled &&
-    css`
-      background-color: ${backgroundColor("minor")};
-      cursor: not-allowed;
-
-      &:active {
-        pointer-events: none;
-      }
-    `};
-`
-
-const SelectInputList = styled.ul<{
-  expanded?: boolean
-  listStyles?: FlattenSimpleInterpolation
-}>`
-  z-index: ${zIndex("dropdown")};
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  box-sizing: border-box;
-  list-style: none;
-  background-color: ${backgroundColor("row")};
-  box-shadow: 0 0.5rem 1.5rem 0 ${boxShadowColor("light")};
-  border-radius: ${borderRadius("medium")};
-  margin: 0;
-  padding: 0;
-  margin-top: 0.8rem;
-  transform: translateY(-0.8rem);
-  opacity: 0;
-  visibility: hidden;
-  transition: all ${transitionTime("veryQuick")}
-    ${transitionTimingFunction("smooth")};
-  overflow: auto;
-
-  ${({ listStyles }) =>
-    css`
-      ${listStyles}
-    `};
-
-  ${({ expanded }) =>
-    expanded &&
-    css`
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    `};
 `
 
 const SelectInputWrapper = styled.div`
@@ -123,81 +42,97 @@ const SelectInputWrapper = styled.div`
     cursor: pointer;
     user-select: none;
   }
+
+  ${List} {
+    position: absolute;
+  }
 `
-
-const LightPhrase = styled.span`
-  opacity: 0.5;
-`
-
-export const renderSearchableText = (text: string, search: string) => {
-  const substrings = text
-    .replace(new RegExp(`(${search})`, "gi"), `/$1/`)
-    .split("/")
-
-  return (
-    <React.Fragment key={text}>
-      {search
-        ? substrings.map((substring, index) =>
-            substring.toLowerCase() === search.toLowerCase() ? (
-              <strong key={index}>{substring}</strong>
-            ) : (
-              <LightPhrase key={index}>{substring}</LightPhrase>
-            )
-          )
-        : text}
-    </React.Fragment>
-  )
-}
-
-type InputValue = string | number
-
-type RenderableListItem = InputValue | JSX.Element
 
 export type ListItemProps = {
-  onClick: (option: unknown) => void
+  onClick: (item: unknown) => void
   selected: boolean
   disabled: boolean
 }
 
-export interface RenderListItemProps<T> {
-  item: T
-  props: ListItemProps
-  searchString: string
-}
+export type RenderInputSelectListItem<T> = RenderListItem<T, ListItemProps>
 
 export interface InputSelectProps extends Partial<InputProps> {
-  value?: any
-  options: unknown[]
-  disabledOptions?: unknown[]
-  emptyOption?: any
-  renderEmptyOption?: (item: any) => InputValue
-  renderValue?: (item: any) => InputValue
-  renderListItem?: ({
-    item,
-    props,
-    searchString,
-  }: RenderListItemProps<any>) => RenderableListItem
-  isOptionMatching?: (option: any, searchString: string) => boolean
-  onSelect?: (option: any) => void
+  selectedItem?: any
+  items: unknown[]
+  disabledItems?: unknown[]
+  emptyItemValue?: ItemValue
+  renderItemValue?: (item: any) => ItemValue
+  renderListItem?: RenderInputSelectListItem<any>
+  isItemMatching?: (item: any, searchString: string) => boolean
+  onSelect?: (item: any) => void
   listStyles?: FlattenSimpleInterpolation
   searchable?: boolean
 }
 
+interface ItemListProps {
+  expanded: boolean
+  onTransitionEnd: any
+  selectedItems?: any
+  disabledItems?: unknown[]
+  searchString: string
+  items: unknown[]
+  emptyItemValue?: ItemValue
+  onEmptyItemValueClick: (event: MouseEvent) => void
+  onItemClick: (item: any) => void
+  renderListItem?: RenderInputSelectListItem<any>
+}
+
+const ItemList: FunctionComponent<ItemListProps> = ({
+  selectedItems,
+  disabledItems = [],
+  searchString,
+  items = [],
+  emptyItemValue,
+  onEmptyItemValueClick,
+  onItemClick,
+  renderListItem = renderListItemSearchable,
+  ...props
+}) => {
+  return (
+    <List {...props}>
+      {emptyItemValue && (
+        <ListItem onClick={onEmptyItemValueClick} empty>
+          {emptyItemValue}
+        </ListItem>
+      )}
+      {items.map((item, index) => {
+        const onClick = () => onItemClick(item)
+        const selected = item === selectedItems
+        const disabled = disabledItems.includes(item)
+
+        return (
+          <React.Fragment key={index}>
+            {renderListItem({
+              searchString,
+              item,
+              props: {
+                onClick,
+                selected,
+                disabled,
+              },
+            })}
+          </React.Fragment>
+        )
+      })}
+    </List>
+  )
+}
+
 const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   className,
-  value = "",
-  options,
-  disabledOptions = [],
-  emptyOption = "",
-  renderEmptyOption = (item: string) => item,
-  renderValue = (item: string) => item,
-  renderListItem = ({ item, props, searchString }) => (
-    <SelectInputItem {...props}>
-      {renderSearchableText(item, searchString)}
-    </SelectInputItem>
-  ),
-  isOptionMatching = (option, search) =>
-    option.toLowerCase().includes(search.toLowerCase()),
+  selectedItem,
+  items,
+  disabledItems,
+  emptyItemValue = "",
+  renderItemValue = (itemValue: string) => itemValue,
+  renderListItem,
+  isItemMatching = (item, search) =>
+    item.toLowerCase().includes(search.toLowerCase()),
   onSelect = noop,
   listStyles,
   inputRef,
@@ -206,16 +141,15 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   onFocus = noop,
   ...rest
 }) => {
-  const [expanded, setExpansion] = useState(false)
+  const [focused, setFocused] = useState(false)
   const [searchValue, setSearchValue] = useState<string | null>(null)
   const selectRef = useRef<HTMLInputElement>(null)
-  const listRef = useRef<HTMLUListElement>(null)
 
   const resetSelection = () => onSelect("")
 
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     onBlur(event)
-    setExpansion(false)
+    setFocused(false)
     if (searchValue !== null) {
       onSelect("")
     }
@@ -223,16 +157,16 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
 
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
     onFocus(event)
-    setExpansion(true)
+    setFocused(true)
   }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.target.value)
   }
 
-  const filteredOptions = searchable
-    ? options.filter((option) => isOptionMatching(option, searchValue || ""))
-    : options
+  const filteredItems = searchable
+    ? items.filter((item) => isItemMatching(item, searchValue || ""))
+    : items
 
   const resetSearchValue = () => setSearchValue(null)
 
@@ -241,31 +175,26 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
     event.preventDefault()
 
     if (selectRef.current) {
-      expanded ? selectRef.current.blur() : selectRef.current.focus()
+      focused ? selectRef.current.blur() : selectRef.current.focus()
     }
   }
 
   const preventExpanding = (event: MouseEvent) => {
-    if (expanded) {
+    if (focused) {
       event.stopPropagation()
       event.preventDefault()
     }
   }
 
-  useEffect(() => {
-    if (listRef.current) {
-      listRef.current.addEventListener("transitionend", resetSearchValue)
-    }
-    return () => {
-      if (listRef.current) {
-        listRef.current.removeEventListener("transitionend", resetSearchValue)
-      }
-    }
-  }, [])
+  const getInputValue = (): ItemValue => {
+    if (searchValue !== null) return searchValue
+    if (selectedItem) return renderItemValue(selectedItem)
+    return ""
+  }
 
   const toggleIcon = (
     <ToggleIcon
-      rotated={expanded}
+      rotated={focused}
       onClick={toggleList}
       onMouseDown={preventExpanding}
       data-testid="actionIcon"
@@ -279,7 +208,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
       <InputText
         {...rest}
         type="text"
-        value={searchValue !== null ? searchValue : renderValue(value) || ""}
+        value={getInputValue()}
         trailingIcons={[toggleIcon]}
         onChange={handleChange}
         onFocus={handleFocus}
@@ -288,36 +217,18 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         readOnly={!searchable}
         focusable
       />
-      <SelectInputList
-        expanded={expanded}
-        listStyles={listStyles}
-        ref={listRef}
-      >
-        {emptyOption && (
-          <SelectInputItem onClick={resetSelection} empty>
-            {renderEmptyOption(emptyOption)}
-          </SelectInputItem>
-        )}
-        {filteredOptions.map((option, index) => {
-          const onClick = () => onSelect(option)
-          const selected = option === value
-          const disabled = disabledOptions.includes(option)
-
-          return (
-            <React.Fragment key={index}>
-              {renderListItem({
-                item: option,
-                props: {
-                  onClick,
-                  selected,
-                  disabled,
-                },
-                searchString: searchValue || "",
-              })}
-            </React.Fragment>
-          )
-        })}
-      </SelectInputList>
+      <ItemList
+        selectedItems={selectedItem}
+        disabledItems={disabledItems}
+        emptyItemValue={emptyItemValue}
+        items={filteredItems}
+        renderListItem={renderListItem}
+        searchString={searchValue || ""}
+        expanded={focused}
+        onTransitionEnd={resetSearchValue}
+        onEmptyItemValueClick={resetSelection}
+        onItemClick={onSelect}
+      />
     </SelectInputWrapper>
   )
 }
