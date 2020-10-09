@@ -1,6 +1,7 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
+  DescriptionText,
   OptionBox,
   OptionBoxIcon,
   OptionButton,
@@ -127,7 +128,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
           displayStyle={TextDisplayStyle.PrimaryHeading}
           message={{ ...messages.title, values: textFormatters }}
         />
-        <Text
+        <DescriptionText
           displayStyle={TextDisplayStyle.LargeFadedText}
           message={messages.description}
         />

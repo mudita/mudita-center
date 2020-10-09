@@ -1,13 +1,16 @@
 import styled from "styled-components"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  fontWeight,
+} from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import Text from "Renderer/components/core/text/text.component"
 
 export const RecoveryModeWrapper = styled.section`
   display: grid;
   grid-template-areas: "Header" "Main" "Footer";
-  grid-row-gap: 2.4rem;
-  grid-template-rows: 10rem 1fr 11rem;
+  grid-row-gap: 6.4rem;
+  grid-template-rows: auto 1fr 11rem;
 `
 
 export const OptionsWrapper = styled.main`
@@ -73,4 +76,8 @@ export const TextWrapper = styled.div`
 export const OptionText = styled(Text)`
   margin-top: 0.8rem;
   line-height: 2.2rem;
+`
+
+export const DescriptionText = styled(Text)`
+  font-weight: ${fontWeight("light")};
 `
