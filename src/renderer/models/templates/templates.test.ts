@@ -1,12 +1,14 @@
 import { init } from "@rematch/core"
-import { createTemplate } from "Renderer/models/templates/templates"
+import { makeTemplate } from "Renderer/models/templates/templates"
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import templates from "Renderer/models/templates/templates"
-
-import { templatesSeed } from "App/seeds/templates"
+import { templatesSeed, todaysTemplate } from "App/seeds/templates"
+import selectPlugin from "@rematch/select"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const storeConfig = {
   models: { templates },
+  plugins: [selectPlugin()],
   redux: {
     initialState: {
       templates: templatesSeed,
@@ -23,6 +25,7 @@ beforeEach(() => {
 const testId = "test-id"
 const testContent = "test-content"
 const testObject = { id: testId, content: testContent }
+const testDate = new Date("2020-07-21T13:08:02.733Z")
 
 test("has proper initial state", () => {
   expect(store.getState().templates.templates).toBeDefined()
@@ -54,13 +57,13 @@ test("returns untouched collection when wrong ids are passed", () => {
 })
 
 test("properly creates templates without provided data", () => {
-  const newTemplate = createTemplate()
+  const newTemplate = makeTemplate()
   expect(typeof newTemplate.id).toBe("string")
   expect(newTemplate.content).toBe("")
 })
 
 test("properly creates templates with provided data", () => {
-  const newTemplate = createTemplate(testId, testContent)
+  const newTemplate = makeTemplate(testId, testContent)
 
   expect(newTemplate).toMatchObject(testObject)
 })
@@ -98,9 +101,28 @@ test("properly saves modified template", () => {
   store.dispatch.templates.saveTemplate({
     id: templateId,
     content: testContent,
+    date: testDate,
   })
 
   expect(store.getState().templates.templates!.find(findById)!.content).toBe(
     testContent
+  )
+})
+
+test("today's template is at the beginning of the list by default, after toggle is placed at the last place in the list", () => {
+  const state = store.getState()
+  const templatesList = store.select.templates.filteredList(state)
+  expect(state.templates.sortOrder).toEqual(SortOrder.Descending)
+  expect(todaysTemplate).toMatchObject(templatesList[0])
+
+  store.dispatch.templates.changeSortOrder(SortOrder.Ascending)
+
+  const stateAfterToggle = store.getState()
+  const templatesListAfterToggle = store.select.templates.filteredList(
+    stateAfterToggle
+  )
+  expect(stateAfterToggle.templates.sortOrder).toEqual(SortOrder.Ascending)
+  expect(todaysTemplate).toMatchObject(
+    templatesListAfterToggle[templatesListAfterToggle.length - 1]
   )
 })

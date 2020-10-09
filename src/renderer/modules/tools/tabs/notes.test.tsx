@@ -1,33 +1,37 @@
 import React from "react"
-
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-
 import Notes from "Renderer/modules/tools/tabs/notes.component"
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.enum"
 import { notesSeed } from "App/seeds/notes"
 import { NoteCallback } from "Renderer/models/notes/notes"
+import { noop } from "Renderer/utils/noop"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
-const renderer = (data = notesSeed.notesList) => {
+const renderer = (props = {}) => {
   const mockNewNote = (cb: NoteCallback) => {
-    cb(notesSeed.notesList[0])
+    cb(notesSeed.notes[0])
+  }
+
+  const defaultProps = {
+    notes: notesSeed.notes,
+    changeSortOrder: noop,
+    sortOrder: SortOrder.Descending,
   }
 
   return renderWithThemeAndIntl(
-    <Notes notesList={data} createNewNote={mockNewNote} />
+    <Notes createNewNote={mockNewNote} {...defaultProps} {...props} />
   )
 }
 
 test("displays notes properly", () => {
   const { queryAllByTestId } = renderer()
-
   expect(queryAllByTestId(NotesTestIds.Note).length).toBe(
-    notesSeed.notesList.length
+    notesSeed.notes.length
   )
 })
 
 test("displays empty state when no notes are present", () => {
-  const { getByTestId } = renderer([])
-
+  const { getByTestId } = renderer({ notes: [] })
   expect(getByTestId(NotesTestIds.Empty)).toBeInTheDocument()
 })
 
@@ -56,4 +60,21 @@ test("shows sidebar to add a new note", () => {
   expect(getByTestId(NotesTestIds.NewNoteSidebar)).toHaveStyle(
     "margin-right: 0rem"
   )
+})
+
+test("sort order changes from descending to ascending", () => {
+  const changeSortOrder = jest.fn()
+  const { getByTestId } = renderer({ changeSortOrder })
+  getByTestId(NotesTestIds.SortColumn).click()
+  expect(changeSortOrder).toBeCalledWith(SortOrder.Ascending)
+})
+
+test("sort order changes from ascending to descending", () => {
+  const changeSortOrder = jest.fn()
+  const { getByTestId } = renderer({
+    changeSortOrder,
+    sortOrder: SortOrder.Ascending,
+  })
+  getByTestId(NotesTestIds.SortColumn).click()
+  expect(changeSortOrder).toBeCalledWith(SortOrder.Descending)
 })

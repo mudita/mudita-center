@@ -7,7 +7,7 @@ import {
   Sidebar,
   TableWithSidebarWrapper,
 } from "Renderer/components/core/table/table.component"
-import useTableSidebar from "Renderer/utils/hooks/useTableSidebar"
+import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import styled from "styled-components"
 import { useTextEditor } from "Renderer/components/core/text-editor/text-editor.hook"
 import TextEditor from "Renderer/components/core/text-editor/text-editor.component"
@@ -15,10 +15,11 @@ import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { TemplateCallback } from "Renderer/models/templates/templates"
-import { createTemplate } from "Renderer/models/templates/templates"
+import { makeTemplate } from "Renderer/models/templates/templates"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteTemplateModal from "Renderer/modules/messages/tabs/delete-template-modal.component"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
+import { SortOrder } from "Common/enums/sort-order.enum"
 
 const messages = defineMessages({
   charactersNumber: { id: "view.name.messages.templates.charactersNumber" },
@@ -33,8 +34,9 @@ const TemplatesSidebar = styled(Sidebar)`
 `
 
 export interface Template {
-  id: string
+  date: Date
   content: string
+  id: string
 }
 
 export interface TemplatesProps {
@@ -44,6 +46,8 @@ export interface TemplatesProps {
   onDeleteButtonClick: (ids: string[]) => void
   newTemplate?: (input: TemplateCallback) => void
   saveTemplate?: (input: Template) => void
+  sortOrder: SortOrder
+  changeSortOrder: (sortOrder: SortOrder) => void
 }
 
 const Templates: FunctionComponent<TemplatesProps> = ({
@@ -52,6 +56,8 @@ const Templates: FunctionComponent<TemplatesProps> = ({
   onDeleteButtonClick,
   newTemplate,
   saveTemplate,
+  changeSortOrder,
+  sortOrder,
 }) => {
   const [newTemplateCreated, setNewTemplateCreated] = useState(false)
   const {
@@ -87,7 +93,7 @@ const Templates: FunctionComponent<TemplatesProps> = ({
       const content = textEditorHook.temporaryText
       const { id } = activeRow
 
-      saveTemplate(createTemplate(id, content))
+      saveTemplate(makeTemplate(id, content))
     }
   }
 
@@ -145,6 +151,8 @@ const Templates: FunctionComponent<TemplatesProps> = ({
         <TemplatesList
           templates={templates}
           deleteTemplate={openModalForSingle}
+          changeSortOrder={changeSortOrder}
+          sortOrder={sortOrder}
           {...sidebarHook}
           {...rest}
         />

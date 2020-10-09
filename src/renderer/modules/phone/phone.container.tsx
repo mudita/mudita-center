@@ -1,9 +1,12 @@
 import { connect } from "react-redux"
+import { History, LocationState } from "history"
 import Phone from "./phone.component"
 import { noop } from "Renderer/utils/noop"
 import { handleGoogleAuth } from "Renderer/providers/google/auth"
 import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
+import { URL_MAIN } from "Renderer/constants/urls"
+import createRouterPath from "Renderer/utils/create-router-path"
 
 const selector = select(({ phone }) => ({
   contactList: phone.contactList,
@@ -33,7 +36,17 @@ const mapDispatch = ({ phone, auth }: any) => {
     onBlock: noop,
     onSelect: noop,
     onCall: noop,
-    onMessage: noop,
+    onMessage: (
+      history: History<LocationState>,
+      phoneNumber: string,
+      callerId: string
+    ) =>
+      history.push(
+        createRouterPath(URL_MAIN.messages, {
+          phoneNumber,
+          callerId,
+        })
+      ),
     onSpeedDialSettingsSave: noop,
   }
 }
