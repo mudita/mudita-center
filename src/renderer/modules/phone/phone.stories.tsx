@@ -28,6 +28,7 @@ import {
 import { ContactID, ResultsState } from "Renderer/models/phone/phone.typings"
 import { noop } from "Renderer/utils/noop"
 
+const dummyPromise = (result: any) => () => result
 const getContact = (id: ContactID) => phoneSeed.db[id]
 const labeledContactList: any = getSortedContactList(phoneSeed)
 const flatList: any = getFlatList(phoneSeed)
@@ -49,7 +50,7 @@ const PhoneComponent = ({
     contactList={contactList}
     speedDialChosenList={speedDialChosenList}
     onSearchTermChange={action("Search")}
-    onManageButtonClick={action("Manage contact")}
+    onManageButtonClick={dummyPromise(action("Manage contact"))}
     onNewButtonClick={action("New contact")}
     onEdit={action("Edit contact")}
     onExport={action("Export contact")}

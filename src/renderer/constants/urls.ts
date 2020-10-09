@@ -14,7 +14,7 @@ export const URL_MAIN = {
   settings: "/settings",
   help: "/help",
   error: "/error",
-}
+} as const
 
 export const URL_TABS = {
   templates: "/templates",
@@ -27,11 +27,11 @@ export const URL_TABS = {
   notifications: "/notifications",
   audioConversion: "/audio-conversion",
   backup: "/backup",
-}
+} as const
 
 export const URL_ONBOARDING = {
   root: "/onboarding",
   welcome: "/onboarding/welcome",
   connecting: "/onboarding/connecting",
   troubleshooting: "/onboarding/troubleshooting",
-}
+} as const

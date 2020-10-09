@@ -1424,6 +1424,21 @@ export const phoneSeedInput = [
     firstAddressLine: "",
     secondAddressLine: "",
   },
+
+  {
+    id: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
+    firstName: "Johnny",
+    lastName: "Ovarb",
+    primaryPhoneNumber: "+33 999 999 999",
+    secondaryPhoneNumber: "+47 999 999 999",
+    email: "Jovan_Tremblay@hotmail.com",
+    note: "consequatur",
+    ice: true,
+    favourite: true,
+    blocked: false,
+    firstAddressLine: "043 Braulio Cape",
+    secondAddressLine: "Lake Georgette",
+  },
 ]
 
 export const phoneSeed: Phone = contactDatabaseFactory(phoneSeedInput)

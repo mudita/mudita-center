@@ -114,11 +114,16 @@ const Modal: FunctionComponent<ModalProps> = ({
   }
   return (
     <ModalFrame size={size} {...rest}>
-      <Header titleOrder={titleOrder} subtitleGap={Boolean(subtitle)}>
+      <Header
+        titleOrder={titleOrder}
+        subtitleGap={Boolean(subtitle)}
+        data-testid={ModalTestIds.Header}
+      >
         <ModalTitle
           displayStyle={getTitleStyle(size)}
           subTitle={subtitle}
           element={"h2"}
+          data-testid={ModalTestIds.Title}
         >
           {title}
         </ModalTitle>

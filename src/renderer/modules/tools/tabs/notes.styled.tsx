@@ -89,6 +89,10 @@ export const SelectionManager = styled(BaseSelectionManager)`
   animation: ${showToggleableElement} 1s forwards linear;
   margin-left: -2rem;
   width: 72rem;
+
+  button {
+    padding: 0 0.8rem;
+  }
 `
 
 export const NotesSidebar = styled(Sidebar)`
