@@ -10,8 +10,9 @@ import {
 } from "Renderer/components/rest/calendar/calendar.modals"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
-import CalendarInputSelect from "Renderer/components/rest/calendar/calendar-input-select.component"
+import CalendarInputSearch from "Renderer/components/rest/calendar/calendar-input-search.component"
 import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
+import { noop } from "Renderer/utils/noop"
 
 storiesOf("Views/Calendar/Modals", module).add("All", () => {
   return (
@@ -32,18 +33,19 @@ storiesOf("Views/Calendar/Modals", module).add("All", () => {
   )
 })
 
-const InputSelect = styled(CalendarInputSelect)`
+const InputSearch = styled(CalendarInputSearch)`
   min-width: 38rem;
 `
 
 storiesOf("Views/Calendar", module).add("Input", () => {
-  const [eventSelected, setEventSelected] = useState<CalendarEvent>()
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent>()
   return (
-    <Story title="Input Select">
-      <InputSelect
+    <Story title="Input Search">
+      <InputSearch
         events={calendarSeed}
-        eventSelected={eventSelected}
-        onEventSelect={setEventSelected}
+        selectedEvent={selectedEvent}
+        onEventSelect={setSelectedEvent}
+        onEventValueChange={noop}
       />
     </Story>
   )

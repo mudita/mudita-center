@@ -3,12 +3,14 @@ import { fireEvent } from "@testing-library/dom"
 import React from "react"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
+import { InputSearchTestIds } from "Renderer/components/core/input-search/input-search-test-ids.enum"
 
 const defaultProps = {
   onAddEventClick: jest.fn(),
   onSynchroniseClick: jest.fn(),
   onSearchTermChange: jest.fn(),
   onEventSelect: jest.fn(),
+  onEventValueChange: jest.fn(),
   events: [
     {
       id: "test-event-1",
@@ -31,19 +33,47 @@ const renderer = (extraProps?: {}) => {
   return renderWithThemeAndIntl(<CalendarPanel {...props} />)
 }
 
-test("search in input select works", () => {
+test("search by selection in input search works", () => {
   const onEventSelect = jest.fn()
-  const { container, getByRole } = renderer({ onEventSelect })
+  const { getByTestId, getAllByTestId } = renderer({ onEventSelect })
 
-  const searchInput = getByRole("textbox")
-  fireEvent.change(searchInput, {
+  const input = getByTestId(InputSearchTestIds.InputText)
+  fireEvent.change(input, {
     target: { value: defaultProps.events[1].name.substr(0, 3) },
   })
 
-  const listItems = container.querySelectorAll("ul li")
-  fireEvent.click(listItems[0])
+  const listItems = getAllByTestId(InputSearchTestIds.ListItem)
+  fireEvent.mouseDown(listItems[0])
   expect(onEventSelect).toBeCalledWith(defaultProps.events[1])
   expect(listItems).toHaveLength(1)
+})
+
+test("search by value in input search works", () => {
+  const onEventValueChange = jest.fn()
+  const { getByTestId } = renderer({ onEventValueChange })
+
+  const input = getByTestId(InputSearchTestIds.InputText)
+  const value = defaultProps.events[1].name.substr(0, 3)
+  fireEvent.change(input, {
+    target: { value },
+  })
+
+  expect(onEventValueChange).toBeCalledWith(value)
+})
+
+test("state in search input is keeping after blur event", () => {
+  const onEventSelect = jest.fn()
+  const { getByTestId } = renderer({ onEventSelect })
+
+  const input = getByTestId(InputSearchTestIds.InputText)
+  const value = defaultProps.events[0].name.substr(0, 3)
+  fireEvent.change(input, {
+    target: { value },
+  })
+
+  fireEvent.blur(input)
+
+  expect(input).toHaveValue(value)
 })
 
 test("synchronising is performed after clicking button", () => {

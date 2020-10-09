@@ -167,6 +167,21 @@ const TextInput = styled.input<{ type: string }>`
         }
       `};
   }
+
+  ${({ type }) =>
+    type === "search" &&
+    css`
+      &::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+        cursor: pointer;
+        height: 14px;
+        width: 14px;
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAn0lEQVR42u3UMQrDMBBEUZ9WfQqDmm22EaTyjRMHAlM5K+Y7lb0wnUZPIKHlnutOa+25Z4D++MRBX98MD1V/trSppLKHqj9TTBWKcoUqffbUcbBBEhTjBOV4ja4l4OIAZThEOV6jHO8ARXD+gPPvKMABinGOrnu6gTNUawrcQKNCAQ7QeTxORzle3+sDfjJpPCqhJh7GixZq4rHcc9l5A9qZ+WeBhgEuAAAAAElFTkSuQmCC);
+        background-repeat: no-repeat;
+        background-size: 14px;
+        display: block;
+      }
+    `};
 `
 
 type InputWrapperProps = Partial<InputProps & TextareaProps> & {
