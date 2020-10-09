@@ -45,6 +45,7 @@ import {
   NewContact,
   ResultsState,
 } from "Renderer/models/phone/phone.typings"
+import { ContactPanelTestIdsEnum } from "Renderer/components/rest/phone/contact-panel-test-ids.enum"
 
 const visibleCheckboxStyles = css`
   opacity: 1;
@@ -242,7 +243,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                     </Col>
                     <ClickableCol
                       onClick={handleSelect}
-                      data-testid="contact-row"
+                      data-testid={ContactPanelTestIdsEnum.ContactRow}
                     >
                       <InitialsAvatar
                         user={contact}
