@@ -57,7 +57,7 @@ export const menuElements: MenuElement[] = [
     devModeOnly: true,
   },
   {
-    items: [{ button: views[View.RecoveryMode], icon: Type.Send }],
+    items: [{ button: views[View.RecoveryMode], icon: Type.MuditaLogo }],
     devModeOnly: true,
   },
   {
