@@ -1,7 +1,6 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
-  BoldOptionText,
   OptionBox,
   OptionBoxIcon,
   OptionButton,
@@ -83,25 +82,25 @@ const messages = defineMessages({
 const safeModeOptions: SafeModeOption[] = [
   {
     action: SafeModeAction.Backup,
-    iconType: Type.BackupFolder,
+    iconType: Type.RecoveryBackup,
     title: messages.backupTitle,
     description: messages.backupDescription,
   },
   {
     action: SafeModeAction.RebootOs,
-    iconType: Type.Delete,
+    iconType: Type.RebootOs,
     title: messages.rebootOsTitle,
     description: messages.rebootOsDescription,
   },
   {
     action: SafeModeAction.Restore,
-    iconType: Type.Delete,
+    iconType: Type.RebootOs,
     title: messages.restoreTitle,
     description: messages.restoreDescription,
   },
   {
     action: SafeModeAction.FactoryReset,
-    iconType: Type.Delete,
+    iconType: Type.FactoryReset,
     title: messages.factoryResetTitle,
     description: messages.factoryResetDescription,
   },
@@ -158,9 +157,9 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
               data-testid={action}
             >
               <OptionBox>
-                <OptionBoxIcon type={iconType} size={IconSize.Bigger} />
+                <OptionBoxIcon type={iconType} size={IconSize.Big} />
                 <TextWrapper>
-                  <BoldOptionText
+                  <Text
                     displayStyle={TextDisplayStyle.TertiaryHeading}
                     message={title}
                     element={"p"}

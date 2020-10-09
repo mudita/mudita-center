@@ -47,30 +47,30 @@ export const OptionButton = styled.button`
   text-align: initial;
   cursor: pointer;
   outline: none;
+  padding: 0;
 `
 
 export const OptionBox = styled.div`
   display: flex;
   box-sizing: border-box;
-  padding: 1.6rem 1.6rem 2.4rem 1.6rem;
+  padding: 2.4rem;
   background-color: ${backgroundColor("minor")};
+  min-height: 12.6rem;
   &:hover {
     background-color: ${backgroundColor("icon")};
   }
 `
 
 export const OptionBoxIcon = styled(Icon)`
-  min-width: 3.2rem;
+  min-width: 2.8rem;
+  margin-top: -0.4rem;
 `
 
 export const TextWrapper = styled.div`
-  margin-left: 1.6rem;
-`
-
-export const BoldOptionText = styled(Text)`
-  margin-top: 0.6rem;
+  margin-left: 2.4rem;
 `
 
 export const OptionText = styled(Text)`
   margin-top: 0.8rem;
+  line-height: 2.2rem;
 `

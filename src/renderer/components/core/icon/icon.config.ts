@@ -95,6 +95,9 @@ import CalendarIcon from "Renderer/svg/calendar.svg"
 import ThinCheck from "Renderer/svg/thin-check.svg"
 import LongArrow from "Renderer/svg/long-arrow.svg"
 import MarkAsRead from "Renderer/svg/mark-as-read.svg"
+import RecoveryBackup from "Renderer/svg/recovery-backup.svg"
+import RebootOs from "Renderer/svg/reboot-os.svg"
+import FactoryReset from "Renderer/svg/factory-reset.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -196,6 +199,9 @@ export enum Type {
   ThinCheck,
   LongArrow,
   MarkAsRead,
+  RecoveryBackup,
+  RebootOs,
+  FactoryReset,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -392,6 +398,12 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return ThinCheck
     case Type.LongArrow:
       return LongArrow
+    case Type.RecoveryBackup:
+      return RecoveryBackup
+    case Type.RebootOs:
+      return RebootOs
+    case Type.FactoryReset:
+      return FactoryReset
     default:
       return Message
   }
