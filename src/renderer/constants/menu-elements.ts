@@ -9,7 +9,11 @@ const messages = defineMessages({
 })
 
 const YOUR_PURE_BUTTONS = [
-  { button: views.overview, icon: Type.MenuOverview },
+  {
+    button: views.overview,
+    icon: Type.MenuOverview,
+    testId: MenuGroupTestIds.Overview,
+  },
   {
     button: views.messages,
     icon: Type.Message,
@@ -29,7 +33,11 @@ const YOUR_PURE_BUTTONS = [
 ]
 
 const DESKTOP_APP_BUTTONS = [
-  { button: views.tethering, icon: Type.MenuTethering },
+  {
+    button: views.tethering,
+    icon: Type.MenuTethering,
+    testId: MenuGroupTestIds.Tethering,
+  },
   { button: views.settings, icon: Type.MenuSettings },
   { button: views.help, icon: Type.MenuHelp, testId: MenuGroupTestIds.Help },
 ]
