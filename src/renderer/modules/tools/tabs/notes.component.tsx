@@ -36,7 +36,7 @@ import {
 } from "Renderer/modules/tools/tabs/notes.styled"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import { intl } from "Renderer/utils/intl"
+import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import {
@@ -50,6 +50,9 @@ import { isToday } from "Renderer/utils/is-today"
 import { NoteCallback } from "Renderer/models/notes/notes"
 import { makeNewNote } from "Renderer/models/notes/make-new-note"
 import { SortOrder } from "Common/enums/sort-order.enum"
+import modalService from "Renderer/components/core/modal/modal.service"
+import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
+import { Message } from "Renderer/interfaces/message.interface"
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -93,6 +96,13 @@ const messages = defineMessages({
   },
   charactersNumber: { id: "view.name.tools.notes.editor.charactersNumber" },
   emptyNoteText: { id: "view.name.tools.notes.emptyNote" },
+  deleteModalTitle: { id: "view.name.tools.deleteModal.title" },
+  deleteModalSingleThreadText: {
+    id: "view.name.tools.deleteModal.singleThreadText",
+  },
+  deleteModalMultipleThreadText: {
+    id: "view.name.tools.deleteModal.multipleThreadText",
+  },
 })
 
 export interface Note {
@@ -106,7 +116,7 @@ interface NotesProps {
   newNoteId?: string
   createNewNote?: (noteCallback: NoteCallback) => void
   saveNote?: (note: Note) => void
-  removeNotes?: (ids: string[]) => void
+  onRemoveNotes?: (ids: string[]) => void
   sortOrder: SortOrder
   changeSortOrder: (sortOrder: SortOrder) => void
 }
@@ -116,7 +126,7 @@ const Notes: FunctionComponent<NotesProps> = ({
   newNoteId,
   createNewNote,
   saveNote,
-  removeNotes,
+  onRemoveNotes = noop,
   sortOrder,
   changeSortOrder,
 }) => {
@@ -126,9 +136,10 @@ const Notes: FunctionComponent<NotesProps> = ({
     toggleRow,
     resetRows,
     noneRowsSelected: noRowsSelected,
+    allRowsSelected,
     selectedRows,
     toggleAll,
-  } = useTableSelect(notes)
+  } = useTableSelect<Note>(notes)
   const {
     openSidebar,
     closeSidebar,
@@ -141,14 +152,48 @@ const Notes: FunctionComponent<NotesProps> = ({
     temporaryText: { length: textLength },
   } = textEditorHook
 
-  const deleteNotes = () => {
-    if (removeNotes) {
-      const ids = (selectedRows as Note[]).map(({ id }: Note) => id)
-      removeNotes(ids)
-      resetRows()
+  const getSingleThreadDeleteMessage = (): Message => {
+    return {
+      ...messages.deleteModalSingleThreadText,
+      values: {
+        ...textFormatters,
+      },
     }
   }
 
+  const getMultipleThreadDeleteMessage = (ids: string[]): Message => {
+    return {
+      ...messages.deleteModalMultipleThreadText,
+      values: {
+        num: allRowsSelected ? -1 : ids.length,
+        ...textFormatters,
+      },
+    }
+  }
+
+  const remove = (ids: string[]) => {
+    const title = intl.formatMessage(messages.deleteModalTitle)
+    const message =
+      ids.length === 1
+        ? getSingleThreadDeleteMessage()
+        : getMultipleThreadDeleteMessage(ids)
+    const onClose = resetRows
+    const onDelete = () => {
+      onRemoveNotes(ids)
+      resetRows()
+      modalService.closeModal()
+    }
+    modalService.openModal(
+      <DeleteModal
+        title={title}
+        message={message}
+        onClose={onClose}
+        onDelete={onDelete}
+      />
+    )
+  }
+
+  const removeSelectedRows = () => remove(selectedRows.map(({ id }) => id))
   const selectionManagerVisible = selectedRows.length > 0
   const notesAvailable = notes.length > 0
 
@@ -169,8 +214,8 @@ const Notes: FunctionComponent<NotesProps> = ({
 
   const handleChangesReject = () => {
     rejectChanges()
-    if (removeNotes && newNoteId && activeRow?.id === newNoteId) {
-      removeNotes([newNoteId])
+    if (newNoteId && activeRow?.id === newNoteId) {
+      onRemoveNotes([newNoteId])
       closeSidebar()
     }
   }
@@ -200,7 +245,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                 label={intl.formatMessage(messages.deleteButton)}
                 displayStyle={DisplayStyle.Link1}
                 Icon={Type.Delete}
-                onClick={deleteNotes}
+                onClick={removeSelectedRows}
               />,
             ]}
           />
@@ -281,11 +326,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                   noRowsSelected ? openSidebar(note) : toggle()
                 }
 
-                const deleteNote = () => {
-                  if (removeNotes) {
-                    removeNotes([id])
-                  }
-                }
+                const removeNote = () => remove([id])
 
                 return (
                   <Row
@@ -328,7 +369,7 @@ const Notes: FunctionComponent<NotesProps> = ({
                           : moment(date).format("ll")}
                       </Text>
                     </Col>
-                    <DeleteCol onClick={deleteNote}>
+                    <DeleteCol onClick={removeNote}>
                       <Icon type={Type.Delete} width={IconSize.Medium} />
                     </DeleteCol>
                   </Row>
