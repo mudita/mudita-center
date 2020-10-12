@@ -1,10 +1,16 @@
-import { StateProps } from "Renderer/models/messages/messages.interface"
+import {
+  Author,
+  StateProps,
+  Topic,
+} from "Renderer/models/messages/messages.interface"
 import {
   filterTopics,
   searchTopics,
   sortTopics,
 } from "Renderer/models/messages/utils/topics-utils"
 import { createFullMessagesCollection } from "Renderer/models/messages/utils/messages.helpers"
+import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
+import { madeIsCallerMatching } from "Renderer/models/messages/utils/caller-utils.ts"
 
 export const initialState: StateProps = {
   topics: [],
@@ -55,7 +61,7 @@ export default {
       return { ...state, topics: withMarkAsUnreadTopics }
     },
   },
-  selectors: () => ({
+  selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {
       return (state: any) => {
         let list = createFullMessagesCollection(state)
@@ -63,6 +69,25 @@ export default {
         list = filterTopics(list, state.messages.visibilityFilter)
         return sortTopics(list)
       }
+    },
+    getTopics() {
+      return slice((state) => state.topics)
+    },
+    getAllCallers(models: any) {
+      return createSelector(models.messages.getTopics, (topics: Topic[]) => {
+        return topics.map(({ caller }) => caller)
+      })
+    },
+    isTopicThreadOpening(models: StoreSelectors<StateProps>) {
+      return createSelector(
+        models.messages.getAllCallers,
+        (callers: Author[]) => {
+          return (phoneNumber: string, callerId: string) => {
+            const isCallerMatching = madeIsCallerMatching(phoneNumber, callerId)
+            return !callers.some(isCallerMatching)
+          }
+        }
+      )
     },
   }),
 }
