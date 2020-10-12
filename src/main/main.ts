@@ -45,6 +45,8 @@ import {
   killAuthServer,
 } from "App/main/auth-server"
 import logger from "App/main/utils/logger"
+import AutoLaunch from "auto-launch"
+import { SettingsActions } from "Common/enums/settings-actions.enum"
 
 require("dotenv").config()
 
@@ -260,4 +262,20 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async () => {
 ipcMain.answerRenderer(GoogleAuthActions.CloseWindow, () => {
   killAuthServer()
   googleAuthWindow?.close()
+})
+
+ipcMain.answerRenderer(SettingsActions.SetAutostart, async (response) => {
+  if (productionEnvironment) {
+    const autoLaunch = new AutoLaunch({
+      name: "PureDesktopApp",
+      path: app.getPath("exe"),
+      isHidden: true,
+    })
+    const enabled = await autoLaunch.isEnabled()
+    if (response && !enabled) {
+      await autoLaunch.enable()
+    } else {
+      await autoLaunch.disable()
+    }
+  }
 })
