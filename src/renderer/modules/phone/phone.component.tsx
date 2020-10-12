@@ -59,6 +59,7 @@ export type PhoneProps = ContactActions &
     removeContact?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => Promise<void>
+    isTopicThreadOpening: (phoneNumber: string, callerId: string) => boolean
     onMessage: (
       history: History<LocationState>,
       phoneNumber: string,
@@ -81,6 +82,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     savingContact,
     setProviderData,
+    isTopicThreadOpening,
   } = props
   const history = useHistory()
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
@@ -433,6 +435,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
               onEdit={handleEditingContact}
               onCall={onCall}
               onMessage={handleMessage}
+              isTopicThreadOpening={isTopicThreadOpening}
             />
           )}
         </TableWithSidebarWrapper>

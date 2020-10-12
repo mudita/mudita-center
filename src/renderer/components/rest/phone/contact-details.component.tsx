@@ -56,10 +56,12 @@ interface ContactDetailsProps
     ContactActions,
     ContactDetailsActions {
   contact?: Contact
+  isTopicThreadOpening: (phoneNumber: string, callerId: string) => boolean
 }
 
 export const phoneActions = (
   phoneNumber: string,
+  messageDisabled: boolean,
   onCall: (input: string) => void,
   onMessage: (input: string) => void
 ): JSX.Element[] => {
@@ -74,6 +76,7 @@ export const phoneActions = (
       onClick={callHandler}
     />,
     <ButtonComponent
+      disabled={messageDisabled}
       displayStyle={DisplayStyle.InputIcon}
       Icon={Type.Message}
       key="Message"
@@ -92,6 +95,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onDelete,
   onCall,
   onMessage,
+  isTopicThreadOpening,
   ...rest
 }) => {
   if (contact) {
@@ -163,6 +167,10 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   defaultValue={contact.primaryPhoneNumber}
                   trailingIcons={phoneActions(
                     contact.primaryPhoneNumber,
+                    isTopicThreadOpening(
+                      contact.primaryPhoneNumber,
+                      contact.id
+                    ),
                     onCall,
                     handleMessage
                   )}
@@ -173,6 +181,10 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   defaultValue={contact.secondaryPhoneNumber}
                   trailingIcons={phoneActions(
                     contact.secondaryPhoneNumber,
+                    isTopicThreadOpening(
+                      contact.secondaryPhoneNumber,
+                      contact.id
+                    ),
                     onCall,
                     handleMessage
                   )}

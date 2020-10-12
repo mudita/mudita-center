@@ -8,11 +8,12 @@ import { RootModel } from "Renderer/models/models"
 import { URL_MAIN } from "Renderer/constants/urls"
 import createRouterPath from "Renderer/utils/create-router-path"
 
-const selector = select(({ phone }) => ({
+const selector = select(({ phone, messages }) => ({
   contactList: phone.contactList,
   flatList: phone.flatList,
   speedDialChosenList: phone.speedDialChosenList,
   getContact: phone.getContact,
+  isTopicThreadOpening: messages.isTopicThreadOpening,
 }))
 
 const mapStateToProps = (state: RootModel) => {
