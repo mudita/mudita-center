@@ -96,12 +96,12 @@ const messages = defineMessages({
   },
   charactersNumber: { id: "view.name.tools.notes.editor.charactersNumber" },
   emptyNoteText: { id: "view.name.tools.notes.emptyNote" },
-  deleteModalTitle: { id: "view.name.tools.deleteModal.title" },
+  deleteModalTitle: { id: "view.name.tools.notes.deleteModal.title" },
   deleteModalSingleThreadText: {
-    id: "view.name.tools.deleteModal.singleThreadText",
+    id: "view.name.tools.notes.deleteModal.singleThreadText",
   },
   deleteModalMultipleThreadText: {
-    id: "view.name.tools.deleteModal.multipleThreadText",
+    id: "view.name.tools.notes.deleteModal.multipleThreadText",
   },
 })
 
