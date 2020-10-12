@@ -35,6 +35,7 @@ const Wrapper = styled.section`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  margin: -1rem;
 `
 
 const defaultStorySettings = {

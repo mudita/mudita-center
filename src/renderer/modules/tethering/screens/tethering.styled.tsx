@@ -8,12 +8,13 @@ import Button from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { fadeAnimation } from "Renderer/components/core/modal/modal.styled.elements"
+import Text from "Renderer/components/core/text/text.component"
 
-export const TetheringWrapper = styled.div`
+export const TetheringContainer = styled.div`
   padding: 3.6rem 3rem 0 4rem;
 `
+
 export const TetheringImageWrapper = styled.div`
-  background-color: ${backgroundColor("bannerBackground")};
   margin-top: 4rem;
 
   img {
@@ -32,12 +33,14 @@ export const ButtonWrapper = styled.div`
     line-height: 4rem;
   }
 `
+
 export const StyledButton = styled(Button).attrs({
   displayStyle: DisplayStyle.Link3,
 })`
   margin-left: auto;
   width: auto;
 `
+
 export const ErrorIcon = styled.i`
   border-radius: 100%;
   width: 1.6rem;
@@ -69,4 +72,9 @@ export const TextWrapper = styled.div`
 
 export const TetheringToggler = styled(SettingsToggler)`
   margin-right: 0;
+`
+
+export const InfoText = styled(Text)`
+  ${fadeAnimation};
+  animation-duration: ${transitionTime("slow")};
 `

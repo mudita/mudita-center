@@ -48,7 +48,7 @@ export interface ContactActions {
 export interface ContactDetailsActions {
   onEdit: (contact: Contact) => void
   onCall: (phoneNumber: string) => void
-  onMessage: (phoneNumber: string) => void
+  onMessage: (phoneNumber: string, callerId: string) => void
 }
 
 interface ContactDetailsProps
@@ -101,6 +101,8 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const handleBlock = () => onBlock(contact)
     const handleUnblock = () => onUnblock(contact)
     const handleDelete = () => onDelete(contact)
+    const handleMessage = (phoneNumber: string) =>
+      onMessage(phoneNumber, contact.id)
 
     const icons = (
       <>
@@ -162,7 +164,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   trailingIcons={phoneActions(
                     contact.primaryPhoneNumber,
                     onCall,
-                    onMessage
+                    handleMessage
                   )}
                 />
               )}
@@ -172,7 +174,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   trailingIcons={phoneActions(
                     contact.secondaryPhoneNumber,
                     onCall,
-                    onMessage
+                    handleMessage
                   )}
                 />
               )}
