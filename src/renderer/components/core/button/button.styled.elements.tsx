@@ -287,6 +287,9 @@ const buttonStyles = css<{
           width: 2.4rem;
           border: none;
           padding: 0;
+          ${disabled && {
+            opacity: 0.4,
+          }};
         `
       default:
         return
