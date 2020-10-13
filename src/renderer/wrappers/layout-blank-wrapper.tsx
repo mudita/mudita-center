@@ -54,7 +54,7 @@ interface Props {
 
 const LayoutBlankWrapper: FunctionComponent<Props> = ({
   children,
-  recoveryMode = false,
+  recoveryMode,
 }) => {
   return (
     <Layout>
