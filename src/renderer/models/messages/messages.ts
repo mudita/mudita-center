@@ -73,7 +73,7 @@ export default {
     getTopics() {
       return slice((state) => state.topics)
     },
-    getAllCallers(models: any) {
+    getAllCallers(models: StoreSelectors<StateProps>) {
       return createSelector(models.messages.getTopics, (topics: Topic[]) => {
         return topics.map(({ caller }) => caller)
       })
