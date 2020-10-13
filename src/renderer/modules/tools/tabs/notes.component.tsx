@@ -49,6 +49,7 @@ import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/
 import { isToday } from "Renderer/utils/is-today"
 import { NoteCallback } from "Renderer/models/notes/notes"
 import { makeNewNote } from "Renderer/models/notes/make-new-note"
+import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { SortOrder } from "Common/enums/sort-order.enum"
 
 const messages = defineMessages({
@@ -212,6 +213,7 @@ const Notes: FunctionComponent<NotesProps> = ({
             label={intl.formatMessage(
               notesAvailable ? messages.searchNotes : messages.emptyListNoNotes
             )}
+            leadingIcons={[searchIcon]}
             outlined
           />
         )}
