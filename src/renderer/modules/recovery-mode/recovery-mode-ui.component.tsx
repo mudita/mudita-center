@@ -121,6 +121,12 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
   onRestoreClick,
   onFactoryResetClick,
 }) => {
+  const safeModeActionMap = {
+    [SafeModeAction.Backup]: onBackupClick,
+    [SafeModeAction.RebootOs]: onRebootOsClick,
+    [SafeModeAction.Restore]: onRestoreClick,
+    [SafeModeAction.FactoryReset]: onFactoryResetClick,
+  }
   return (
     <RecoveryModeWrapper>
       <RecoveryModeHeader>
@@ -136,20 +142,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
       <OptionsWrapper>
         {safeModeOptions.map(({ action, iconType, title, description }) => {
           const resolveSafeModeAction = () => {
-            switch (true) {
-              case action === SafeModeAction.Backup:
-                onBackupClick()
-                break
-              case action === SafeModeAction.RebootOs:
-                onRebootOsClick()
-                break
-              case action === SafeModeAction.Restore:
-                onRestoreClick()
-                break
-              case action === SafeModeAction.FactoryReset:
-                onFactoryResetClick()
-                break
-            }
+            safeModeActionMap[action]()
           }
           return (
             <OptionButton
