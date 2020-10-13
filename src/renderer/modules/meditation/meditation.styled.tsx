@@ -9,5 +9,5 @@ export const NavigationWrapper = styled.div`
   grid-template-columns: 1fr 1fr;
 `
 export const MeditationStatsWrapper = styled.div`
-  margin: 6.4rem auto;
+  margin: 4.8rem auto 6.4rem 0;
 `
