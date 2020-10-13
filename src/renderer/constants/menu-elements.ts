@@ -24,7 +24,11 @@ const YOUR_PURE_BUTTONS = [
     testId: MenuGroupTestIds.Calendar,
   },
   { button: views.tools, icon: Type.MenuTools },
-  { button: views.meditation, icon: Type.MenuMeditation },
+  {
+    button: views.meditation,
+    icon: Type.MenuMeditation,
+    testId: MenuGroupTestIds.Meditation,
+  },
   {
     button: views.filesManager,
     icon: Type.MenuFilesManager,

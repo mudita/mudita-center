@@ -5,4 +5,5 @@ export enum MenuGroupTestIds {
   FilesManager = "files-manager-link",
   Music = "music-link",
   Calendar = "calendar-link",
+  Meditation = "meditation-link",
 }
