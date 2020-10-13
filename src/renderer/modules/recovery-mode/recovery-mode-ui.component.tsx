@@ -121,7 +121,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
   onRestoreClick,
   onFactoryResetClick,
 }) => {
-  const safeModeActionMap = {
+  const safeModeActionMap: Record<SafeModeAction, () => void> = {
     [SafeModeAction.Backup]: onBackupClick,
     [SafeModeAction.RebootOs]: onRebootOsClick,
     [SafeModeAction.Restore]: onRestoreClick,
