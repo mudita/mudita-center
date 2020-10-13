@@ -1,4 +1,4 @@
-import React from "react"
+import React, { MouseEventHandler } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   DescriptionText,
@@ -107,7 +107,7 @@ const safeModeOptions: SafeModeOption[] = [
   },
 ]
 interface Props {
-  onSupportButtonClick: () => void
+  onSupportButtonClick: MouseEventHandler
   onBackupClick: () => void
   onRebootOsClick: () => void
   onRestoreClick: () => void
