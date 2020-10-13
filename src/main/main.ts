@@ -264,18 +264,26 @@ ipcMain.answerRenderer(GoogleAuthActions.CloseWindow, () => {
   googleAuthWindow?.close()
 })
 
-ipcMain.answerRenderer(SettingsActions.SetAutostart, async (response) => {
-  if (productionEnvironment) {
+const setupAutoLaunch = async () => {
+  if (process.env.NODE_ENV === "production") {
     const autoLaunch = new AutoLaunch({
       name: "PureDesktopApp",
       path: app.getPath("exe"),
       isHidden: true,
     })
     const enabled = await autoLaunch.isEnabled()
-    if (response && !enabled) {
-      await autoLaunch.enable()
-    } else {
-      await autoLaunch.disable()
-    }
+    ipcMain.answerRenderer(SettingsActions.GetAutostartValue, () => {
+      return enabled
+    })
+    ipcMain.answerRenderer(SettingsActions.SetAutostart, async (response) => {
+      if (response && !enabled) {
+        await autoLaunch.enable()
+      } else {
+        await autoLaunch.disable()
+      }
+      return !enabled
+    })
   }
-})
+}
+
+app.on("ready", setupAutoLaunch)
