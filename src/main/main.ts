@@ -45,8 +45,6 @@ import {
   killAuthServer,
 } from "App/main/auth-server"
 import logger from "App/main/utils/logger"
-import AutoLaunch from "auto-launch"
-import { SettingsActions } from "Common/enums/settings-actions.enum"
 import registerAutoLaunchListener from "App/main/functions/register-auto-launch-listener"
 
 require("dotenv").config()
