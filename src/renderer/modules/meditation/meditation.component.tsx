@@ -1,22 +1,30 @@
 import React, { useState } from "react"
-
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import DataBoxes from "Renderer/components/rest/meditation/data-box/data-boxes.component"
 import MeditationNav from "Renderer/components/rest/meditation/nav/meditation-nav.component"
-import MeditationStats from "Renderer/components/rest/meditation/stats/meditation-stats.component"
+import MeditationStats, {
+  StatsData,
+} from "Renderer/components/rest/meditation/stats/meditation-stats.component"
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"
 import { ChartType } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
-import { generateMeditationData } from "App/__mocks__/meditation-stats.mock"
+import {
+  generateMeditationData,
+  noStatsMonthly,
+  noStatsYearly,
+  statsWeekly as noStatsWeekly,
+} from "App/__mocks__/meditation-stats.mock"
 import {
   MeditationStatsWrapper,
   MeditationWrapper,
   NavigationWrapper,
 } from "Renderer/modules/meditation/meditation.styled"
+import MeditationNoStats from "App/renderer/components/rest/meditation/stats/meditation-no-stats.component"
+import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
+import Button from "Renderer/components/core/button/button.component"
 
 const messages = defineMessages({
   weekly: {
@@ -32,11 +40,23 @@ const messages = defineMessages({
 
 const Meditation: FunctionComponent = () => {
   const [chartType, setChartType] = useState<ChartType>(ChartType.Weekly)
-
+  const [statsAvailable, setStatsAvailable] = useState(true)
   const selectChartType = (type: ChartType) => () => setChartType(type)
-
+  const _devSetStats = () => setStatsAvailable((stat) => !stat)
+  const getEmptyStats = (type: ChartType): StatsData[] => {
+    if (type === ChartType.Weekly) {
+      return noStatsWeekly
+    } else if (type === ChartType.Monthly) {
+      return noStatsMonthly
+    } else {
+      return noStatsYearly
+    }
+  }
   return (
     <MeditationWrapper>
+      <DevModeWrapper>
+        <Button onClick={_devSetStats} label="Trigger no stats view" />
+      </DevModeWrapper>
       <NavigationWrapper>
         <ButtonToggler>
           <ButtonTogglerItem
@@ -60,10 +80,14 @@ const Meditation: FunctionComponent = () => {
       <MeditationStatsWrapper>
         <MeditationStats
           chartType={chartType}
-          statsData={generateMeditationData(chartType)}
+          statsData={
+            statsAvailable
+              ? generateMeditationData(chartType)
+              : getEmptyStats(chartType)
+          }
         />
       </MeditationStatsWrapper>
-      <DataBoxes />
+      {statsAvailable ? <DataBoxes /> : <MeditationNoStats />}
     </MeditationWrapper>
   )
 }

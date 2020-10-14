@@ -7,9 +7,8 @@ import Table, {
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import InputCheckbox, {
-  Size,
-} from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -42,23 +41,20 @@ import Avatar, {
 import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
+import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
+import MessageRowContainer from "Renderer/components/rest/messages/message-row-container.component"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
-} from "Renderer/components/rest/messages/templates/templates-list.styled"
-import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
-import MessageRowContainer from "Renderer/components/rest/messages/message-row-container.component"
+} from "Renderer/components/rest/animated-opacity/animated-opacity"
 
 const MessageRow = styled(Row)`
   height: 9rem;
 `
 
-const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
+const Checkbox = styled(VisibleCheckbox)`
   position: absolute;
   left: 5.4rem;
-  ${animatedOpacityStyles};
-
-  ${({ visible }) => visible && animatedOpacityActiveStyles}
 `
 
 const dotStyles = css`

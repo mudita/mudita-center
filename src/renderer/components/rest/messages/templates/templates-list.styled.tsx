@@ -1,27 +1,19 @@
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import BaseTable, {
-  Row as BaseRow,
   Col,
   EmptyState,
+  Row as BaseRow,
 } from "Renderer/components/core/table/table.component"
 import {
   transitionTime,
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
-import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
+import { transitionTime } from "Renderer/styles/theming/theme-getters"
+import { VisibleCheckbox as Checkbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
 
-export const animatedOpacityStyles = css`
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity ${transitionTime("veryQuick")}
-      ${transitionTimingFunction("smooth")},
-    visibility ${transitionTime("veryQuick")}
-      ${transitionTimingFunction("smooth")};
-`
-
-export const animatedOpacityActiveStyles = css`
-  opacity: 1;
-  visibility: visible;
+export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
+  margin: 0 auto;
 `
 
 export const DeleteCol = styled(Col)`
@@ -56,8 +48,7 @@ export const TextPreview = styled(Col)`
 export const Row = styled(BaseRow)`
   &:hover {
     ${Checkbox} {
-      opacity: 1;
-      visibility: visible;
+      ${animatedOpacityActiveStyles};
     }
 
     ${DeleteCol} {

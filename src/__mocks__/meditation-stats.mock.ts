@@ -41,7 +41,7 @@ export const generateMeditationData = (
   return data
 }
 
-export const statsWeekly = [
+export const statsWeekly: StatsData[] = [
   {
     date: "2020-08-31",
     time: 0,
@@ -72,7 +72,7 @@ export const statsWeekly = [
   },
 ]
 
-export const statsMonthly = [
+export const statsMonthly: StatsData[] = [
   {
     date: "2020-08-01",
     time: 614,
@@ -199,7 +199,7 @@ export const statsMonthly = [
   },
 ]
 
-export const statsYearly = [
+export const statsYearly: StatsData[] = [
   {
     date: "2020-01",
     time: 26493,
@@ -231,6 +231,184 @@ export const statsYearly = [
   {
     date: "2020-08",
     time: 36009,
+  },
+  {
+    date: "2020-09",
+    time: 0,
+  },
+  {
+    date: "2020-10",
+    time: 0,
+  },
+  {
+    date: "2020-11",
+    time: 0,
+  },
+  {
+    date: "2020-12",
+    time: 0,
+  },
+]
+
+export const noStatsMonthly: StatsData[] = [
+  {
+    date: "2020-08-01",
+    time: 0,
+  },
+  {
+    date: "2020-08-02",
+    time: 0,
+  },
+  {
+    date: "2020-08-03",
+    time: 0,
+  },
+  {
+    date: "2020-08-04",
+    time: 0,
+  },
+  {
+    date: "2020-08-05",
+    time: 0,
+  },
+  {
+    date: "2020-08-06",
+    time: 0,
+  },
+  {
+    date: "2020-08-07",
+    time: 0,
+  },
+  {
+    date: "2020-08-08",
+    time: 0,
+  },
+  {
+    date: "2020-08-09",
+    time: 0,
+  },
+  {
+    date: "2020-08-10",
+    time: 0,
+  },
+  {
+    date: "2020-08-11",
+    time: 0,
+  },
+  {
+    date: "2020-08-12",
+    time: 0,
+  },
+  {
+    date: "2020-08-13",
+    time: 0,
+  },
+  {
+    date: "2020-08-14",
+    time: 0,
+  },
+  {
+    date: "2020-08-15",
+    time: 0,
+  },
+  {
+    date: "2020-08-16",
+    time: 0,
+  },
+  {
+    date: "2020-08-17",
+    time: 0,
+  },
+  {
+    date: "2020-08-18",
+    time: 0,
+  },
+  {
+    date: "2020-08-19",
+    time: 0,
+  },
+  {
+    date: "2020-08-20",
+    time: 0,
+  },
+  {
+    date: "2020-08-21",
+    time: 0,
+  },
+  {
+    date: "2020-08-22",
+    time: 0,
+  },
+  {
+    date: "2020-08-23",
+    time: 0,
+  },
+  {
+    date: "2020-08-24",
+    time: 0,
+  },
+  {
+    date: "2020-08-25",
+    time: 0,
+  },
+  {
+    date: "2020-08-26",
+    time: 0,
+  },
+  {
+    date: "2020-08-27",
+    time: 0,
+  },
+  {
+    date: "2020-08-28",
+    time: 0,
+  },
+  {
+    date: "2020-08-29",
+    time: 0,
+  },
+  {
+    date: "2020-08-30",
+    time: 0,
+  },
+  {
+    date: "2020-08-31",
+    time: 0,
+  },
+]
+
+export const noStatsYearly: StatsData[] = [
+  {
+    date: "2020-01",
+    time: 0,
+  },
+  {
+    date: "2020-02",
+    time: 0,
+  },
+  {
+    date: "2020-03",
+    time: 0,
+  },
+  {
+    date: "2020-04",
+    time: 0,
+  },
+  {
+    date: "2020-05",
+    time: 0,
+  },
+  {
+    date: "2020-06",
+    time: 0,
+  },
+  {
+    date: "2020-07",
+    time: 0,
+  },
+  {
+    date: "2020-08",
+    time: 0,
   },
   {
     date: "2020-09",
