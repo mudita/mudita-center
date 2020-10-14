@@ -47,6 +47,7 @@ import {
 import logger from "App/main/utils/logger"
 import AutoLaunch from "auto-launch"
 import { SettingsActions } from "Common/enums/settings-actions.enum"
+import registerAutoLaunchListener from "App/main/functions/register-auto-launch-listener"
 
 require("dotenv").config()
 
@@ -115,6 +116,7 @@ const createWindow = async () => {
   registerNewsListener()
   registerAppLogsListeners()
   registerTranslationListener()
+  registerAutoLaunchListener()
 
   if (productionEnvironment) {
     win.loadURL(
@@ -263,27 +265,3 @@ ipcMain.answerRenderer(GoogleAuthActions.CloseWindow, () => {
   killAuthServer()
   googleAuthWindow?.close()
 })
-
-const setupAutoLaunch = async () => {
-  if (process.env.NODE_ENV === "production") {
-    const autoLaunch = new AutoLaunch({
-      name: "PureDesktopApp",
-      path: app.getPath("exe"),
-      isHidden: true,
-    })
-    let enabled: boolean
-    ipcMain.answerRenderer(SettingsActions.GetAutostartValue, async () => {
-      enabled = await autoLaunch.isEnabled()
-      return enabled
-    })
-    ipcMain.answerRenderer(SettingsActions.SetAutostart, async (response) => {
-      if (response && !enabled) {
-        await autoLaunch.enable()
-      } else {
-        await autoLaunch.disable()
-      }
-    })
-  }
-}
-
-app.on("ready", setupAutoLaunch)
