@@ -22,12 +22,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch.templates.changeSortOrder(sortOrder),
   onSearchTermChange: ({ target }: ChangeEvent<HTMLInputElement>) =>
     dispatch.templates.changeSearchValue(target.value),
-  newTemplate: (template: TemplateCallback) =>
+  createNewTemplate: (template: TemplateCallback) =>
     dispatch.templates.createNewTemplate(template),
   saveTemplate: (template: Template) =>
     dispatch.templates.saveTemplate(template),
-  onDeleteButtonClick: (payload: string[]) =>
-    dispatch.templates.removeItems(payload),
+  removeTemplates: (payload: string[]) =>
+    dispatch.templates.removeTemplates(payload),
 })
 
 export default connect(
