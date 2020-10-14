@@ -177,7 +177,6 @@ const Notes: FunctionComponent<NotesProps> = ({
       ids.length === 1
         ? getSingleThreadDeleteMessage()
         : getMultipleThreadDeleteMessage(ids)
-    const onClose = resetRows
     const onDelete = () => {
       onRemoveNotes(ids)
       resetRows()
@@ -187,7 +186,7 @@ const Notes: FunctionComponent<NotesProps> = ({
       <DeleteModal
         title={title}
         message={message}
-        onClose={onClose}
+        onClose={resetRows}
         onDelete={onDelete}
       />
     )
