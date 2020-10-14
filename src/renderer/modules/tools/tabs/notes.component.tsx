@@ -19,7 +19,6 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.enum"
 import {
   FiltersWrapper,
@@ -33,6 +32,7 @@ import {
   TextCut,
   DeleteCol,
   TextInfo,
+  Checkbox,
 } from "Renderer/modules/tools/tabs/notes.styled"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
