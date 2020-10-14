@@ -282,7 +282,6 @@ const setupAutoLaunch = async () => {
       } else {
         await autoLaunch.disable()
       }
-      return enabled
     })
   }
 }
