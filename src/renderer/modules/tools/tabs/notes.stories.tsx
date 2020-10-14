@@ -9,6 +9,9 @@ import { SortOrder } from "Common/enums/sort-order.enum"
 const commonProps = {
   sortOrder: SortOrder.Descending,
   changeSortOrder: action("toggle sort order"),
+  saveNote: action("save note"),
+  onRemoveNotes: action("remove notes"),
+  createNewNote: action("create new note"),
 }
 
 storiesOf("Views|Tools/Notes", module)

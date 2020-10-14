@@ -114,9 +114,9 @@ export interface Note {
 interface NotesProps {
   notes: Note[]
   newNoteId?: string
-  createNewNote?: (noteCallback: NoteCallback) => void
-  saveNote?: (note: Note) => void
-  onRemoveNotes?: (ids: string[]) => void
+  createNewNote: (noteCallback: NoteCallback) => void
+  saveNote: (note: Note) => void
+  onRemoveNotes: (ids: string[]) => void
   sortOrder: SortOrder
   changeSortOrder: (sortOrder: SortOrder) => void
 }
@@ -126,7 +126,7 @@ const Notes: FunctionComponent<NotesProps> = ({
   newNoteId,
   createNewNote,
   saveNote,
-  onRemoveNotes = noop,
+  onRemoveNotes,
   sortOrder,
   changeSortOrder,
 }) => {
@@ -198,13 +198,11 @@ const Notes: FunctionComponent<NotesProps> = ({
   const notesAvailable = notes.length > 0
 
   const onNewButtonClick = () => {
-    if (createNewNote) {
-      createNewNote(openSidebar)
-    }
+    createNewNote(openSidebar)
   }
 
   const tryToSave = () => {
-    if (saveNote && activeRow) {
+    if (activeRow) {
       const content = textEditorHook.temporaryText
       const { id } = activeRow
 
