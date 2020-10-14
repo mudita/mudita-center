@@ -4,12 +4,8 @@ import BaseTable, {
   EmptyState,
   Row as BaseRow,
 } from "Renderer/components/core/table/table.component"
-import {
-  transitionTime,
-  transitionTimingFunction,
-} from "Renderer/styles/theming/theme-getters"
 import { transitionTime } from "Renderer/styles/theming/theme-getters"
-import { VisibleCheckbox as Checkbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`

@@ -78,8 +78,10 @@ export default {
       )
       return {
         ...state,
-        newTemplateId: state.newTemplateId && itemsToRemove.includes(state.newTemplateId)
-          ? undefined : state.newTemplateId
+        newTemplateId:
+          state.newTemplateId && itemsToRemove.includes(state.newTemplateId)
+            ? undefined
+            : state.newTemplateId,
         templates,
       }
     },
