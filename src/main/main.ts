@@ -271,8 +271,9 @@ const setupAutoLaunch = async () => {
       path: app.getPath("exe"),
       isHidden: true,
     })
-    const enabled = await autoLaunch.isEnabled()
-    ipcMain.answerRenderer(SettingsActions.GetAutostartValue, () => {
+    let enabled: boolean
+    ipcMain.answerRenderer(SettingsActions.GetAutostartValue, async () => {
+      enabled = await autoLaunch.isEnabled()
       return enabled
     })
     ipcMain.answerRenderer(SettingsActions.SetAutostart, async (response) => {
@@ -281,7 +282,7 @@ const setupAutoLaunch = async () => {
       } else {
         await autoLaunch.disable()
       }
-      return !enabled
+      return enabled
     })
   }
 }

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
 import { AppSettings } from "App/main/store/settings.interface"
@@ -9,6 +9,7 @@ export interface SettingsProps {
   appTethering: boolean
   setAutostart?: (option: AppSettings["appAutostart"]) => void
   setTethering?: (option: AppSettings["appTethering"]) => void
+  checkAutostartValue?: any
 }
 
 const Settings: FunctionComponent<SettingsProps> = ({
@@ -16,13 +17,22 @@ const Settings: FunctionComponent<SettingsProps> = ({
   appTethering,
   setAutostart = noop,
   setTethering = noop,
-}) => (
-  <SettingsUI
-    appAutostart={appAutostart}
-    appTethering={appTethering}
-    setAutostart={setAutostart}
-    setTethering={setTethering}
-  />
-)
+  checkAutostartValue = noop,
+}) => {
+  useEffect(() => {
+    const getUpdatedAutostartValue = async () => {
+      await checkAutostartValue()
+    }
+    getUpdatedAutostartValue()
+  }, [])
+  return (
+    <SettingsUI
+      appAutostart={appAutostart}
+      appTethering={appTethering}
+      setAutostart={setAutostart}
+      setTethering={setTethering}
+    />
+  )
+}
 
 export default Settings

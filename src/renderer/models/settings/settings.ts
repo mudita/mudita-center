@@ -20,14 +20,16 @@ export default {
   effects: (dispatch: Dispatch) => ({
     async loadSettings() {
       dispatch.settings.update(await getAppSettings())
-      const appAutostart = await ipcRenderer.callMain(
-        SettingsActions.GetAutostartValue
-      )
-      dispatch.settings.update({ appAutostart })
     },
     async updateSettings(option: SettingsUpdateOption) {
       updateAppSettings(option)
       dispatch.settings.update({ [option.key]: option.value })
+    },
+    async checkAutostartValue() {
+      const value = await ipcRenderer.callMain(
+        SettingsActions.GetAutostartValue
+      )
+      this.updateSettings({ key: "appAutostart", value })
     },
     setAutostart(value: AppSettings["appAutostart"]) {
       ipcRenderer.callMain(SettingsActions.SetAutostart, value)
