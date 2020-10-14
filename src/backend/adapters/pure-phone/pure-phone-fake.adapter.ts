@@ -3,7 +3,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 
-class PurePhoneFakeAdapter extends PurePhoneAdapter {
+export class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
     return "Ziemniaczek Puree"
   }
@@ -32,6 +32,14 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     return {
       status: DeviceResponseStatus.Ok,
     }
+  }
+
+  public connectDevice(): Promise<DeviceResponse> {
+    return new Promise((resolve) =>
+      resolve({
+        status: DeviceResponseStatus.Ok,
+      })
+    )
   }
 }
 

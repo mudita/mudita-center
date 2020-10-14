@@ -45,6 +45,7 @@ import {
   killAuthServer,
 } from "App/main/auth-server"
 import logger from "App/main/utils/logger"
+import { PureNode } from "pure"
 
 require("dotenv").config()
 
@@ -100,13 +101,15 @@ const createWindow = async () => {
     await installExtensions()
   }
 
+  const pureNode: any = new PureNode()
+
   win = new BrowserWindow(
     getWindowOptions({ width: WINDOW_SIZE.width, height: WINDOW_SIZE.height })
   )
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  startBackend()
+  startBackend(pureNode)
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()
