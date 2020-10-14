@@ -1,15 +1,16 @@
 import { Topic } from "Renderer/models/messages/messages.interface"
-import { makeIsCallerMatching } from "Renderer/models/messages/utils/caller-utils.ts"
+import { isCallerMatchingToSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
 
 const findTopicBySearchParams = (
   searchParams: URLSearchParams,
   topics: Topic[]
 ): Topic | undefined => {
   const phoneNumber = searchParams.get("phoneNumber") || ""
-  const callerId = searchParams.get("callerId") || ""
-  const isCallerMatching = makeIsCallerMatching(phoneNumber, callerId)
+  const id = searchParams.get("id") || ""
 
-  return topics.find(({ caller }) => isCallerMatching(caller))
+  return topics.find(({ caller }) =>
+    isCallerMatchingToSearchParams(caller, { phoneNumber, id })
+  )
 }
 
 export default findTopicBySearchParams

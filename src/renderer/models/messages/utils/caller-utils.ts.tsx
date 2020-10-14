@@ -1,15 +1,21 @@
 import { Author } from "Renderer/models/messages/messages.interface"
 
-export const removeDecoratorsFromPhoneNumber = (string: string): string => {
+const removeDecoratorsFromPhoneNumber = (string = ""): string => {
   return string.split(" ").join("").replace("+", "")
 }
 
-export const makeIsCallerMatching = (
-  phoneNumber: string,
-  callerId: string
-): ((caller: Author) => boolean) => {
-  return ({ id, primaryPhoneNumber = "" }) =>
-    callerId === id &&
-    removeDecoratorsFromPhoneNumber(primaryPhoneNumber) ===
-      removeDecoratorsFromPhoneNumber(phoneNumber)
+export interface CallerSearchParams extends Record<string, string> {
+  id: string
+  phoneNumber: string
+}
+
+export const isCallerMatchingToSearchParams = (
+  caller: Author,
+  params: CallerSearchParams
+): boolean => {
+  return (
+    params.id === caller.id &&
+    removeDecoratorsFromPhoneNumber(caller.primaryPhoneNumber) ===
+      removeDecoratorsFromPhoneNumber(params.phoneNumber)
+  )
 }

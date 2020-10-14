@@ -10,10 +10,10 @@ import { CallDetails } from "Renderer/components/rest/calls/call-details.compone
 import { Details } from "Renderer/components/rest/calls/call-details.types"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
+import { CallerSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
 
 const messages = defineMessages({
   name: { id: "view.name.phone.calls.name" },
@@ -29,7 +29,7 @@ type SelectHook = Pick<
 interface Props extends SelectHook {
   calls: Details[]
   deleteCall?: (ids: Details) => void
-  isTopicThreadOpening: (phoneNumber: string, callerId: string) => boolean
+  isTopicThreadOpening: (params: CallerSearchParams) => boolean
 }
 
 const CallsTable: FunctionComponent<Props> = ({

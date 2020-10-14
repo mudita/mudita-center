@@ -10,7 +10,10 @@ import {
 } from "Renderer/models/messages/utils/topics-utils"
 import { createFullMessagesCollection } from "Renderer/models/messages/utils/messages.helpers"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
-import { makeIsCallerMatching } from "Renderer/models/messages/utils/caller-utils.ts"
+import {
+  CallerSearchParams,
+  isCallerMatchingToSearchParams,
+} from "Renderer/models/messages/utils/caller-utils.ts"
 
 export const initialState: StateProps = {
   topics: [],
@@ -82,9 +85,10 @@ export default {
       return createSelector(
         models.messages.getAllCallers,
         (callers: Author[]) => {
-          return (phoneNumber: string, callerId: string) => {
-            const isCallerMatching = makeIsCallerMatching(phoneNumber, callerId)
-            return !callers.some(isCallerMatching)
+          return ({ phoneNumber, id }: CallerSearchParams) => {
+            return !callers.some((caller) =>
+              isCallerMatchingToSearchParams(caller, { phoneNumber, id })
+            )
           }
         }
       )
