@@ -4,7 +4,7 @@ export const removeDecoratorsFromPhoneNumber = (string: string): string => {
   return string.split(" ").join("").replace("+", "")
 }
 
-export const madeIsCallerMatching = (
+export const makeIsCallerMatching = (
   phoneNumber: string,
   callerId: string
 ): ((caller: Author) => boolean) => {

@@ -10,7 +10,7 @@ import {
 } from "Renderer/models/messages/utils/topics-utils"
 import { createFullMessagesCollection } from "Renderer/models/messages/utils/messages.helpers"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
-import { madeIsCallerMatching } from "Renderer/models/messages/utils/caller-utils.ts"
+import { makeIsCallerMatching } from "Renderer/models/messages/utils/caller-utils.ts"
 
 export const initialState: StateProps = {
   topics: [],
@@ -83,7 +83,7 @@ export default {
         models.messages.getAllCallers,
         (callers: Author[]) => {
           return (phoneNumber: string, callerId: string) => {
-            const isCallerMatching = madeIsCallerMatching(phoneNumber, callerId)
+            const isCallerMatching = makeIsCallerMatching(phoneNumber, callerId)
             return !callers.some(isCallerMatching)
           }
         }
