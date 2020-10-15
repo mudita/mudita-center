@@ -1,9 +1,6 @@
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import { RecoveryModeTestIds } from "Renderer/modules/recovery-mode/recovery-mode-test-ids.enum"
-import RecoveryModeUI, {
-  SafeModeAction,
-} from "Renderer/modules/recovery-mode/recovery-mode-ui.component"
+import RecoveryModeUI from "Renderer/modules/recovery-mode/recovery-mode-ui.component"
 
 const defaultProps = {
   onSupportButtonClick: jest.fn(),
@@ -18,31 +15,33 @@ const renderer = () => {
 }
 
 test("backup action is performed", () => {
-  const { getByTestId } = renderer()
-  getByTestId(SafeModeAction.Backup).click()
+  const { getByText } = renderer()
+  getByText("[value] view.name.recoveryMode.backupTitle").click()
   expect(defaultProps.onBackupClick).toBeCalled()
 })
 
 test("reboot os action is performed", () => {
-  const { getByTestId } = renderer()
-  getByTestId(SafeModeAction.RebootOs).click()
+  const { getByText } = renderer()
+  getByText("[value] view.name.recoveryMode.rebootOsTitle").click()
   expect(defaultProps.onRebootOsClick).toBeCalled()
 })
 
 test("restore action is performed", () => {
-  const { getByTestId } = renderer()
-  getByTestId(SafeModeAction.Restore).click()
+  const { getByText } = renderer()
+  getByText("[value] view.name.recoveryMode.restoreTitle").click()
   expect(defaultProps.onRestoreClick).toBeCalled()
 })
 
 test("factory reset action is performed", () => {
-  const { getByTestId } = renderer()
-  getByTestId(SafeModeAction.FactoryReset).click()
+  const { getByText } = renderer()
+  getByText("[value] view.name.recoveryMode.factoryResetTitle").click()
   expect(defaultProps.onFactoryResetClick).toBeCalled()
 })
 
 test("support button works correctly", () => {
-  const { getByTestId } = renderer()
-  getByTestId(RecoveryModeTestIds.SupportButton).click()
+  const { getByText } = renderer()
+  getByText(
+    "[value] view.name.onboarding.troubleshooting.support.button"
+  ).click()
   expect(defaultProps.onSupportButtonClick).toBeCalled()
 })

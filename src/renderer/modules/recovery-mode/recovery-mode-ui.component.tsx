@@ -22,7 +22,6 @@ import { textFormatters } from "Renderer/utils/intl"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { RecoveryModeTestIds } from "Renderer/modules/recovery-mode/recovery-mode-test-ids.enum"
 import { defineMessages } from "react-intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { Message } from "Renderer/interfaces/message.interface"
@@ -142,11 +141,7 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
       <OptionsWrapper>
         {safeModeOptions.map(({ action, iconType, title, description }) => {
           return (
-            <OptionButton
-              key={action}
-              onClick={safeModeActionMap[action]}
-              data-testid={action}
-            >
+            <OptionButton key={action} onClick={safeModeActionMap[action]}>
               <OptionBox>
                 <OptionBoxIcon type={iconType} size={IconSize.Big} />
                 <TextWrapper>
@@ -174,7 +169,6 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
           <ButtonComponent
             displayStyle={DisplayStyle.Link3}
             labelMessage={messages.supportButtonText}
-            data-testid={RecoveryModeTestIds.SupportButton}
             onClick={onSupportButtonClick}
           />
         </Support>
