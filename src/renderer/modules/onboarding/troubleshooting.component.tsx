@@ -58,7 +58,7 @@ const Troubleshooting = () => {
       })
 
       const hmacDigest = Base64.stringify(
-        hmacSHA256(data, process.env.CONTACT_SUPPORT_AUTH_KEY)
+        hmacSHA256(data, process.env.CONTACT_SUPPORT_AUTH_KEY as string)
       )
 
       try {
