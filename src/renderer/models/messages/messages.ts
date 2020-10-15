@@ -82,16 +82,14 @@ export default {
       })
     },
     isTopicThreadOpened(models: StoreSelectors<StateProps>) {
-      return createSelector(
-        models.messages.getAllCallers,
-        (callers: Author[]) => {
-          return ({ phoneNumber, id }: CallerSearchParams) => {
-            return !callers.some((caller) =>
-              isCallerMatchingSearchParams(caller, { phoneNumber, id })
-            )
-          }
+      return (state: StateProps) => {
+        const callers: Author[] = models.messages.getAllCallers(state)
+        return ({ phoneNumber, id }: CallerSearchParams) => {
+          return !callers.some((caller) =>
+            isCallerMatchingSearchParams(caller, { phoneNumber, id })
+          )
         }
-      )
+      }
     },
   }),
 }
