@@ -12,7 +12,7 @@ import { createFullMessagesCollection } from "Renderer/models/messages/utils/mes
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import {
   CallerSearchParams,
-  isCallerMatchingToSearchParams,
+  isCallerMatchingSearchParams,
 } from "Renderer/models/messages/utils/caller-utils.ts"
 
 export const initialState: StateProps = {
@@ -87,7 +87,7 @@ export default {
         (callers: Author[]) => {
           return ({ phoneNumber, id }: CallerSearchParams) => {
             return !callers.some((caller) =>
-              isCallerMatchingToSearchParams(caller, { phoneNumber, id })
+              isCallerMatchingSearchParams(caller, { phoneNumber, id })
             )
           }
         }

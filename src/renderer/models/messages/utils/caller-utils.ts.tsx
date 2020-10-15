@@ -9,7 +9,7 @@ export interface CallerSearchParams extends Record<string, string> {
   phoneNumber: string
 }
 
-export const isCallerMatchingToSearchParams = (
+export const isCallerMatchingSearchParams = (
   caller: Author,
   params: CallerSearchParams
 ): boolean => {
