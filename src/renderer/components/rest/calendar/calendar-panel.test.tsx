@@ -61,21 +61,6 @@ test("search by value in input search works", () => {
   expect(onEventValueChange).toBeCalledWith(value)
 })
 
-test("state in the search input is kept after the blur event", () => {
-  const onEventSelect = jest.fn()
-  const { getByTestId } = renderer({ onEventSelect })
-
-  const input = getByTestId(InputSearchTestIds.InputText)
-  const value = defaultProps.events[0].name.substr(0, 3)
-  fireEvent.change(input, {
-    target: { value },
-  })
-
-  fireEvent.blur(input)
-
-  expect(input).toHaveValue(value)
-})
-
 test("synchronising is performed after clicking button", () => {
   const { getByText } = renderer()
   const synchroniseButton = getByText(
@@ -85,7 +70,7 @@ test("synchronising is performed after clicking button", () => {
   expect(defaultProps.onSynchroniseClick).toBeCalled()
 })
 
-test("add event is performed after clicking button ", () => {
+test("add event is performed after clicking button", () => {
   const { getByText } = renderer()
   const addEventButton = getByText(
     "[value] view.name.calendar.panel.addEventButton"
