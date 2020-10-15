@@ -10,7 +10,7 @@ const pureDefs = {
   packetType: {
     invalid: '"',
     endpoint: "#".charCodeAt(),
-    rawData: 36, // $
+    rawData: "$".charCodeAt(),
   },
   method: {
     get: 1,
