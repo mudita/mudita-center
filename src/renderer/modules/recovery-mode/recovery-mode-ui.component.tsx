@@ -34,7 +34,7 @@ export enum SafeModeAction {
   FactoryReset = "factory-reset",
 }
 
-export interface SafeModeOption {
+interface SafeModeOption {
   readonly action: SafeModeAction
   readonly iconType: Type
   readonly title: Message
