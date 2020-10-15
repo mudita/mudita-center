@@ -14,6 +14,7 @@ import { borderColor } from "Renderer/styles/theming/theme-getters"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { noop } from "Renderer/utils/noop"
 import { SettingsProps } from "Renderer/modules/settings/settings.component"
+import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
 
 export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
@@ -50,15 +51,18 @@ const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
   setTethering = noop,
 }) => {
   return (
-    <SettingsWrapper>
-      <SettingsDescriptionWrapper>
+    <SettingsWrapper data-testid={SettingsTestIds.Wrapper}>
+      <SettingsDescriptionWrapper data-testid={SettingsTestIds.Description}>
         <SettingsDescription
           displayStyle={TextDisplayStyle.MediumFadedLightText}
         >
           <FormattedMessage id="view.name.settings.description" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>
-      <SettingsTableRow checkMode={false}>
+      <SettingsTableRow
+        checkMode={false}
+        data-testid={SettingsTestIds.TableRow}
+      >
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="view.name.settings.autostartLabel" />
@@ -68,7 +72,10 @@ const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
           <SettingsToggler toggleValue={appAutostart} onToggle={setAutostart} />
         </ActionsWrapper>
       </SettingsTableRow>
-      <SettingsTableRow checkMode={false}>
+      <SettingsTableRow
+        checkMode={false}
+        data-testid={SettingsTestIds.TableRow}
+      >
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
             <FormattedMessage id="view.name.settings.tetheringLabel" />

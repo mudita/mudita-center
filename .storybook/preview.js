@@ -16,7 +16,7 @@ import StorybookWrapper from "../src/renderer/components/storybook/storybook-wra
 const store = init({ models: { devMode }, plugins: [selectPlugin()] })
 
 export const decorators = [
-  (Story) => (
+  (story) => (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
         <IntlProvider
@@ -27,9 +27,7 @@ export const decorators = [
           <>
             <GlobalStyle />
             <Normalize />
-            <StorybookWrapper>
-              <Story />
-            </StorybookWrapper>
+            <StorybookWrapper>{story()}</StorybookWrapper>
           </>
         </IntlProvider>
       </ThemeProvider>
