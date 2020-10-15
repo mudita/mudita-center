@@ -141,13 +141,10 @@ const RecoveryModeUI: FunctionComponent<Props> = ({
       </RecoveryModeHeader>
       <OptionsWrapper>
         {safeModeOptions.map(({ action, iconType, title, description }) => {
-          const callSafeModeAction = () => {
-            safeModeActionMap[action]()
-          }
           return (
             <OptionButton
               key={action}
-              onClick={callSafeModeAction}
+              onClick={safeModeActionMap[action]}
               data-testid={action}
             >
               <OptionBox>
