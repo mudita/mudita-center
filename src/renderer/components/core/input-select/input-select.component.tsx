@@ -49,7 +49,7 @@ const SelectInputWrapper = styled.div`
 `
 
 export type ListItemProps = {
-  onClick: (item: unknown) => void
+  onClick: (item: any) => void
   selected: boolean
   disabled: boolean
 }
@@ -58,8 +58,8 @@ export type RenderInputSelectListItem<T> = RenderListItem<T, ListItemProps>
 
 export interface InputSelectProps extends Partial<InputProps> {
   selectedItem?: any
-  items: unknown[]
-  disabledItems?: unknown[]
+  items: any[]
+  disabledItems?: any[]
   emptyItemValue?: ItemValue
   renderItemValue?: (item: any) => ItemValue
   renderListItem?: RenderInputSelectListItem<any>
@@ -72,10 +72,10 @@ export interface InputSelectProps extends Partial<InputProps> {
 interface ItemListProps {
   expanded: boolean
   onTransitionEnd: any
-  selectedItems?: any
-  disabledItems?: unknown[]
+  selectedItem?: any
+  disabledItems?: any[]
   searchString: string
-  items: unknown[]
+  items: any[]
   emptyItemValue?: ItemValue
   onEmptyItemValueClick: (event: MouseEvent) => void
   onItemClick: (item: any) => void
@@ -83,7 +83,7 @@ interface ItemListProps {
 }
 
 const ItemList: FunctionComponent<ItemListProps> = ({
-  selectedItems,
+  selectedItem,
   disabledItems = [],
   searchString,
   items = [],
@@ -102,7 +102,7 @@ const ItemList: FunctionComponent<ItemListProps> = ({
       )}
       {items.map((item, index) => {
         const onClick = () => onItemClick(item)
-        const selected = item === selectedItems
+        const selected = item === selectedItem
         const disabled = disabledItems.includes(item)
 
         return (
@@ -129,10 +129,10 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   items,
   disabledItems,
   emptyItemValue = "",
-  renderItemValue = (itemValue: string) => itemValue,
+  renderItemValue = (item: any) => String(item),
   renderListItem,
   isItemMatching = (item, search) =>
-    item.toLowerCase().includes(search.toLowerCase()),
+    String(item).toLowerCase().includes(search.toLowerCase()),
   onSelect = noop,
   listStyles,
   inputRef,
@@ -218,7 +218,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         focusable
       />
       <ItemList
-        selectedItems={selectedItem}
+        selectedItem={selectedItem}
         disabledItems={disabledItems}
         emptyItemValue={emptyItemValue}
         items={filteredItems}

@@ -24,9 +24,9 @@ export type RenderInputSearchListItem<T> = RenderListItem<T, ListItemProps>
 
 interface ItemListProps {
   expanded: boolean
-  items: unknown[]
+  items: any[]
   searchString: string
-  onItemMouseDown: any
+  onItemMouseDown: (event: MouseEvent, item: any) => void
   renderListItem?: RenderInputSearchListItem<any>
 }
 
@@ -73,7 +73,7 @@ export interface InputSearchProps
   max?: number
   searchItemValue?: ItemValue | null
   selectedItem?: any
-  items: unknown[]
+  items: any[]
   emptyItemValue?: ItemValue
   renderItemValue?: (item: any) => ItemValue
   renderListItem?: RenderInputSearchListItem<any>
@@ -90,9 +90,9 @@ const InputSearch: FunctionComponent<InputSearchProps> = ({
   selectedItem,
   items,
   emptyItemValue = "",
-  renderItemValue = (itemValue: string) => itemValue,
+  renderItemValue = (item: any) => String(item),
   isItemMatching = (item, search) =>
-    item.toLowerCase().includes(search.toLowerCase()),
+    String(item).toLowerCase().includes(search.toLowerCase()),
   onChange = noop,
   onSelect = noop,
   ...rest
