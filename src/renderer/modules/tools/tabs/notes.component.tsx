@@ -52,7 +52,6 @@ import { makeNewNote } from "Renderer/models/notes/make-new-note"
 import { SortOrder } from "Common/enums/sort-order.enum"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
-import { Message } from "Renderer/interfaces/message.interface"
 
 const messages = defineMessages({
   searchPlaceholder: {
@@ -97,12 +96,7 @@ const messages = defineMessages({
   charactersNumber: { id: "view.name.tools.notes.editor.charactersNumber" },
   emptyNoteText: { id: "view.name.tools.notes.emptyNote" },
   deleteModalTitle: { id: "view.name.tools.notes.deleteModal.title" },
-  deleteModalSingleThreadText: {
-    id: "view.name.tools.notes.deleteModal.singleThreadText",
-  },
-  deleteModalMultipleThreadText: {
-    id: "view.name.tools.notes.deleteModal.multipleThreadText",
-  },
+  deleteModalThreadText: { id: "view.name.tools.notes.deleteModal.threadText" },
 })
 
 export interface Note {
@@ -152,31 +146,16 @@ const Notes: FunctionComponent<NotesProps> = ({
     temporaryText: { length: textLength },
   } = textEditorHook
 
-  const getSingleThreadDeleteMessage = (): Message => {
-    return {
-      ...messages.deleteModalSingleThreadText,
-      values: {
-        ...textFormatters,
-      },
-    }
-  }
-
-  const getMultipleThreadDeleteMessage = (ids: string[]): Message => {
-    return {
-      ...messages.deleteModalMultipleThreadText,
+  const remove = (ids: string[]) => {
+    const title = intl.formatMessage(messages.deleteModalTitle)
+    const message = {
+      ...messages.deleteModalThreadText,
       values: {
         num: allRowsSelected ? -1 : ids.length,
         ...textFormatters,
       },
     }
-  }
 
-  const remove = (ids: string[]) => {
-    const title = intl.formatMessage(messages.deleteModalTitle)
-    const message =
-      ids.length === 1
-        ? getSingleThreadDeleteMessage()
-        : getMultipleThreadDeleteMessage(ids)
     const onDelete = () => {
       onRemoveNotes(ids)
       resetRows()
