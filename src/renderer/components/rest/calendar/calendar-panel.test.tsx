@@ -61,7 +61,7 @@ test("search by value in input search works", () => {
   expect(onEventValueChange).toBeCalledWith(value)
 })
 
-test("state in search input is keeping after blur event", () => {
+test("state in the search input is kept after the blur event", () => {
   const onEventSelect = jest.fn()
   const { getByTestId } = renderer({ onEventSelect })
 
