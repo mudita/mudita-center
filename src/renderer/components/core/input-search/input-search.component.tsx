@@ -107,7 +107,7 @@ const InputSearch: FunctionComponent<InputSearchProps> = ({
   const handleBlur = () => setFocused(false)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!focused) setFocused(true)
+    setFocused(true)
     const value = event.target.value
     setSearchValue(value)
     onChange(value)
