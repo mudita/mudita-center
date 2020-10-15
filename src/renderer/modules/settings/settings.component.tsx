@@ -20,10 +20,7 @@ const Settings: FunctionComponent<SettingsProps> = ({
   checkAutostartValue = noop,
 }) => {
   useEffect(() => {
-    const getUpdatedAutostartValue = async () => {
-      await checkAutostartValue()
-    }
-    getUpdatedAutostartValue()
+    checkAutostartValue()
   }, [])
   return (
     <SettingsUI
