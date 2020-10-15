@@ -22,14 +22,14 @@ interface Props {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
   calls: Details[]
   deleteCall?: (ids: string[]) => void
-  isTopicThreadOpening: (params: CallerSearchParams) => boolean
+  isTopicThreadOpened: (params: CallerSearchParams) => boolean
 }
 
 const Calls: FunctionComponent<Props> = ({
   calls,
   changeVisibilityFilter = noop,
   deleteCall = noop,
-  isTopicThreadOpening,
+  isTopicThreadOpened,
 }) => {
   const {
     selectedRows,
@@ -82,7 +82,7 @@ const Calls: FunctionComponent<Props> = ({
         getRowStatus={getRowStatus}
         toggleRow={toggleRow}
         noneRowsSelected={noneRowsSelected}
-        isTopicThreadOpening={isTopicThreadOpening}
+        isTopicThreadOpened={isTopicThreadOpened}
       />
     </>
   )

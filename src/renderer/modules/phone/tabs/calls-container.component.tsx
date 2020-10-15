@@ -6,7 +6,7 @@ import { select } from "Renderer/store"
 
 const selection = select(({ calls, messages }) => ({
   calls: calls.filteredList,
-  isTopicThreadOpening: messages.isTopicThreadOpening,
+  isTopicThreadOpened: messages.isTopicThreadOpened,
 }))
 
 const mapStateToProps = (state: RootModel) => ({

@@ -14,7 +14,7 @@ const selector = select(({ phone, messages }) => ({
   flatList: phone.flatList,
   speedDialChosenList: phone.speedDialChosenList,
   getContact: phone.getContact,
-  isTopicThreadOpening: messages.isTopicThreadOpening,
+  isTopicThreadOpened: messages.isTopicThreadOpened,
 }))
 
 const mapStateToProps = (state: RootModel) => {

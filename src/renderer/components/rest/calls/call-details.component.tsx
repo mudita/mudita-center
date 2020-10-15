@@ -47,13 +47,13 @@ const messages = defineMessages({
 interface ContactDetailsProps {
   calls: Details[]
   onClose: () => void
-  isTopicThreadOpening: (params: CallerSearchParams) => boolean
+  isTopicThreadOpened: (params: CallerSearchParams) => boolean
 }
 
 export const CallDetails = ({
   calls,
   onClose,
-  isTopicThreadOpening,
+  isTopicThreadOpened,
 }: ContactDetailsProps) => {
   const history = useHistory()
   return (
@@ -119,7 +119,7 @@ export const CallDetails = ({
                       value={details.caller.primaryPhoneNumber}
                       trailingIcons={phoneActions(
                         details.caller.primaryPhoneNumber,
-                        isTopicThreadOpening({
+                        isTopicThreadOpened({
                           id: details.caller.id,
                           phoneNumber: details.caller.primaryPhoneNumber,
                         }),

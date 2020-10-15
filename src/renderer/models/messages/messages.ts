@@ -81,7 +81,7 @@ export default {
         return topics.map(({ caller }) => caller)
       })
     },
-    isTopicThreadOpening(models: StoreSelectors<StateProps>) {
+    isTopicThreadOpened(models: StoreSelectors<StateProps>) {
       return createSelector(
         models.messages.getAllCallers,
         (callers: Author[]) => {

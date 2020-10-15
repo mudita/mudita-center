@@ -57,7 +57,7 @@ interface ContactDetailsProps
     ContactActions,
     ContactDetailsActions {
   contact?: Contact
-  isTopicThreadOpening: (params: CallerSearchParams) => boolean
+  isTopicThreadOpened: (params: CallerSearchParams) => boolean
 }
 
 export const phoneActions = (
@@ -96,7 +96,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onDelete,
   onCall,
   onMessage,
-  isTopicThreadOpening,
+  isTopicThreadOpened,
   ...rest
 }) => {
   if (contact) {
@@ -168,7 +168,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   defaultValue={contact.primaryPhoneNumber}
                   trailingIcons={phoneActions(
                     contact.primaryPhoneNumber,
-                    isTopicThreadOpening({
+                    isTopicThreadOpened({
                       id: contact.id,
                       phoneNumber: contact.primaryPhoneNumber,
                     }),
@@ -182,7 +182,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   defaultValue={contact.secondaryPhoneNumber}
                   trailingIcons={phoneActions(
                     contact.secondaryPhoneNumber,
-                    isTopicThreadOpening({
+                    isTopicThreadOpened({
                       id: contact.id,
                       phoneNumber: contact.secondaryPhoneNumber,
                     }),
