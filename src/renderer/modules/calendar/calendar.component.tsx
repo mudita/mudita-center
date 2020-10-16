@@ -79,6 +79,7 @@ const Calendar: FunctionComponent<CalendarProps> = ({
       <CalendarPanel
         events={events}
         onEventSelect={noop}
+        onEventValueChange={noop}
         onSynchroniseClick={openSyncCalendarModal}
       />
       <Header message={messages.allEvents} />

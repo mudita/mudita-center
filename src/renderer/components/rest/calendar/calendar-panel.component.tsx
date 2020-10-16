@@ -1,8 +1,8 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import CalendarInputSelect, {
+import CalendarInputSearch, {
   CalendarInputSelectProps,
-} from "Renderer/components/rest/calendar/calendar-input-select.component"
+} from "Renderer/components/rest/calendar/calendar-input-search.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import {
@@ -25,17 +25,19 @@ interface CalendarPanelProps extends CalendarInputSelectProps {
 
 const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
   events,
-  eventSelected,
+  selectedEvent,
   onAddEventClick = noop,
   onSynchroniseClick = noop,
   onEventSelect,
+  onEventValueChange,
 }) => {
   return (
     <Panel>
-      <CalendarInputSelect
+      <CalendarInputSearch
         events={events}
-        eventSelected={eventSelected}
+        selectedEvent={selectedEvent}
         onEventSelect={onEventSelect}
+        onEventValueChange={onEventValueChange}
       />
       <Buttons>
         <ButtonComponent

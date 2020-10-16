@@ -1,22 +1,22 @@
 import React from "react"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import { defineMessages, FormattedDate } from "react-intl"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
-import InputSelect, {
-  RenderListItemProps,
-  renderSearchableText,
-  SelectInputItem,
-} from "Renderer/components/core/input-select/input-select.component"
 import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { textColor } from "Renderer/styles/theming/theme-getters"
+import InputSearch, {
+  RenderInputSearchListItem,
+} from "Renderer/components/core/input-search/input-search.component"
+import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
+import { ListItem } from "Renderer/components/core/list/list.component"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "view.name.calendar.panel.searchPlaceholder" },
 })
 
-const ListItem = styled(SelectInputItem)`
+const CalendarListItem = styled(ListItem)`
   display: flex;
   justify-content: space-between;
 `
@@ -33,15 +33,17 @@ const ListItemDate = styled.div`
   }
 `
 
-const renderListItem = ({
+const renderListItem: RenderInputSearchListItem<CalendarEvent> = ({
   item: { name, date },
   searchString,
   props,
-}: RenderListItemProps<CalendarEvent>) => {
+}) => {
   const [startDate] = date
   return (
-    <ListItem {...props}>
-      <span>{renderSearchableText(name, searchString)}</span>
+    <CalendarListItem {...props}>
+      <span>
+        <SearchableText text={name} search={searchString} />
+      </span>
       <ListItemDate>
         <span>
           <FormattedDate
@@ -56,45 +58,44 @@ const renderListItem = ({
           <TimeWindow date={date} />
         </span>
       </ListItemDate>
-    </ListItem>
+    </CalendarListItem>
   )
 }
 
 const renderName = (item: CalendarEvent) => item.name
 
-const isOptionMatching = (item: CalendarEvent, search: string) => {
+const isItemMatching = (item: CalendarEvent, search: string) => {
   return item.name.toLowerCase().includes(search.toLowerCase())
 }
 
 export interface CalendarInputSelectProps {
   events: CalendarEvent[]
-  eventSelected?: CalendarEvent
-  onEventSelect: (option: CalendarEvent) => void
+  selectedEvent?: CalendarEvent
+  onEventSelect: (item: CalendarEvent) => void
+  onEventValueChange: (itemValue: string) => void
 }
 
-const CalendarInputSelect: FunctionComponent<CalendarInputSelectProps> = ({
+const CalendarInputSearch: FunctionComponent<CalendarInputSelectProps> = ({
   events,
-  eventSelected,
+  selectedEvent,
   onEventSelect,
+  onEventValueChange,
   ...props
 }) => {
   return (
-    <InputSelect
-      searchable
+    <InputSearch
       outlined
-      options={events}
-      value={eventSelected}
+      items={events}
+      selectedItem={selectedEvent}
       onSelect={onEventSelect}
+      onChange={onEventValueChange}
       label={intl.formatMessage(messages.searchPlaceholder)}
-      renderValue={renderName}
-      isOptionMatching={isOptionMatching}
+      renderItemValue={renderName}
+      isItemMatching={isItemMatching}
       renderListItem={renderListItem}
-      listStyles={css`
-        max-height: 19rem;
-      `}
       {...props}
     />
   )
 }
 
-export default CalendarInputSelect
+export default CalendarInputSearch

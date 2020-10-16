@@ -15,11 +15,11 @@ import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import InputSelect, {
-  RenderListItemProps,
-  renderSearchableText,
-  SelectInputItem,
+  RenderInputSelectListItem,
 } from "Renderer/components/core/input-select/input-select.component"
 import { SpeedDialProps } from "Renderer/components/rest/phone/speed-dial-modal.container"
+import { ListItem } from "Renderer/components/core/list/list.component"
+import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
 
 const SpeedDialTable = styled(Table)`
   --labelBackground: none;
@@ -51,23 +51,23 @@ const messages = defineMessages({
   },
 })
 
-const renderValue = (item: Contact) => createFullName(item)
-const renderItem = ({
+const renderItemValue = (item: Contact) => createFullName(item)
+const renderListItem: RenderInputSelectListItem<Contact> = ({
   item,
   searchString,
   props,
-}: RenderListItemProps<Contact>) => {
+}) => {
   const name = createFullName(item)
 
   if (name) {
     return (
-      <SelectInputItem {...props}>
-        {renderSearchableText(name, searchString)}
-      </SelectInputItem>
+      <ListItem {...props}>
+        <SearchableText text={name} search={searchString} />
+      </ListItem>
     )
   }
 
-  return <SelectInputItem {...props} />
+  return <ListItem {...props} />
 }
 const isOptionMatching = (item: Contact, query: string) => {
   const fullName = createFullName(item).toLowerCase()
@@ -154,17 +154,17 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
               <Col>
                 <StyledInputSelect
                   searchable
-                  options={availableContacts}
-                  value={
+                  items={availableContacts}
+                  selectedItem={
                     contact
                       ? contact
                       : { firstName: intl.formatMessage(messages.none) }
                   }
-                  emptyOption={intl.formatMessage(messages.none)}
-                  renderValue={renderValue}
-                  renderListItem={renderItem}
+                  emptyItemValue={intl.formatMessage(messages.none)}
+                  renderItemValue={renderItemValue}
+                  renderListItem={renderListItem}
                   onSelect={onChange}
-                  isOptionMatching={isOptionMatching}
+                  isItemMatching={isOptionMatching}
                   listStyles={css`
                     max-height: 30rem;
                   `}
