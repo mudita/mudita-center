@@ -6,4 +6,6 @@ export enum MenuGroupTestIds {
   Music = "music-link",
   Tethering = "tethering-link",
   Overview = "overview-link",
+  Calendar = "calendar-link",
+  Meditation = "meditation-link",
 }

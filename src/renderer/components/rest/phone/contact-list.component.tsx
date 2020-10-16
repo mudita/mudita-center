@@ -12,9 +12,9 @@ import Table, {
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import InputCheckbox, {
-  Size,
-} from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
+import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import Avatar, {
   AvatarSize,
   basicAvatarStyles,
@@ -23,8 +23,6 @@ import {
   backgroundColor,
   borderRadius,
   textColor,
-  transitionTime,
-  transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
@@ -46,20 +44,8 @@ import {
   ResultsState,
 } from "Renderer/models/phone/phone.typings"
 
-const visibleCheckboxStyles = css`
-  opacity: 1;
-  visibility: visible;
-`
-
-const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity ${transitionTime("faster")}
-      ${transitionTimingFunction("smooth")},
-    visibility ${transitionTime("faster")} ${transitionTimingFunction("smooth")};
+export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
-
-  ${({ visible }) => visible && visibleCheckboxStyles};
 `
 
 export const lightAvatarStyles = css`
@@ -122,7 +108,7 @@ const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   ${Row} {
     :hover {
       ${Checkbox} {
-        ${visibleCheckboxStyles};
+        ${animatedOpacityActiveStyles};
       }
       ${InitialsAvatar} {
         ${lightAvatarStyles};

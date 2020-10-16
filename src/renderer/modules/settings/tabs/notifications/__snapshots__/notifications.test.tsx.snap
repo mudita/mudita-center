@@ -236,7 +236,7 @@ exports[`matches snapshot 1`] = `
   background-color: #f4f5f6;
 }
 
-.c4:hover .sc-fzoLsD {
+.c4:hover .sc-fzpans {
   opacity: 1;
   visibility: visible;
 }

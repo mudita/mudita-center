@@ -22,9 +22,17 @@ const YOUR_PURE_BUTTONS = [
   { button: views.phone, icon: Type.MenuPhone, testId: MenuGroupTestIds.Phone },
   { button: views.contacts, icon: Type.MenuContacts },
   { button: views.music, icon: Type.MenuMusic, testId: MenuGroupTestIds.Music },
-  { button: views.calendar, icon: Type.Calendar },
+  {
+    button: views.calendar,
+    icon: Type.Calendar,
+    testId: MenuGroupTestIds.Calendar,
+  },
   { button: views.tools, icon: Type.MenuTools },
-  { button: views.meditation, icon: Type.MenuMeditation },
+  {
+    button: views.meditation,
+    icon: Type.MenuMeditation,
+    testId: MenuGroupTestIds.Meditation,
+  },
   {
     button: views.filesManager,
     icon: Type.MenuFilesManager,
