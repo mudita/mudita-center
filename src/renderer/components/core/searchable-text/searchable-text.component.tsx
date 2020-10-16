@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { SearchableTextTestIds } from "Renderer/components/core/searchable-text/searchable-text-test-ids.enum"
 
 const LightPhrase = styled.span`
   opacity: 0.5;
@@ -8,12 +9,10 @@ const LightPhrase = styled.span`
 
 interface Props {
   text: string
-  search: string
+  search?: string
 }
 
-//TODO: create test
-//TODO: create storybook
-const SearchableText: FunctionComponent<Props> = ({ text, search }) => {
+const SearchableText: FunctionComponent<Props> = ({ text, search = "" }) => {
   const substrings = text
     .replace(new RegExp(`(${search})`, "gi"), `/$1/`)
     .split("/")
@@ -23,7 +22,9 @@ const SearchableText: FunctionComponent<Props> = ({ text, search }) => {
       {search
         ? substrings.map((substring, index) =>
             substring.toLowerCase() === search.toLowerCase() ? (
-              <strong key={index}>{substring}</strong>
+              <strong data-testid={SearchableTextTestIds.Strong} key={index}>
+                {substring}
+              </strong>
             ) : (
               <LightPhrase key={index}>{substring}</LightPhrase>
             )
