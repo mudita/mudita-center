@@ -22,7 +22,7 @@ type ListItemProps = {
 
 export type RenderInputSearchListItem<T> = RenderListItem<T, ListItemProps>
 
-interface ItemListProps {
+interface InputSearchListProps {
   expanded: boolean
   items: any[]
   searchString: string
@@ -30,7 +30,7 @@ interface ItemListProps {
   renderListItem?: RenderInputSearchListItem<any>
 }
 
-const ItemList: FunctionComponent<ItemListProps> = ({
+const InputSearchList: FunctionComponent<InputSearchListProps> = ({
   searchString,
   items = [],
   onItemMouseDown,
@@ -146,7 +146,7 @@ const InputSearch: FunctionComponent<InputSearchProps> = ({
         focusable
         data-testid={InputSearchTestIds.InputText}
       />
-      <ItemList
+      <InputSearchList
         items={filteredItems}
         renderListItem={renderListItem}
         searchString={String(searchValue) || ""}

@@ -69,7 +69,7 @@ export interface InputSelectProps extends Partial<InputProps> {
   searchable?: boolean
 }
 
-interface ItemListProps {
+interface InputSelectListProps {
   expanded: boolean
   onTransitionEnd: any
   selectedItem?: any
@@ -82,7 +82,7 @@ interface ItemListProps {
   renderListItem?: RenderInputSelectListItem<any>
 }
 
-const ItemList: FunctionComponent<ItemListProps> = ({
+const InputSelectList: FunctionComponent<InputSelectListProps> = ({
   selectedItem,
   disabledItems = [],
   searchString,
@@ -217,7 +217,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         readOnly={!searchable}
         focusable
       />
-      <ItemList
+      <InputSelectList
         selectedItem={selectedItem}
         disabledItems={disabledItems}
         emptyItemValue={emptyItemValue}
