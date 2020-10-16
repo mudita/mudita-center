@@ -14,6 +14,7 @@ import {
 } from "Renderer/components/core/list/list.component"
 import { InputProps } from "Renderer/components/core/input-text/input-text.interface"
 import { InputSearchTestIds } from "Renderer/components/core/input-search/input-search-test-ids.enum"
+import { IsItemMatching } from "Renderer/components/core/utils/is-item-matching"
 
 type ListItemProps = {
   onMouseDown: (event: MouseEvent) => void
@@ -77,7 +78,7 @@ export interface InputSearchProps
   emptyItemValue?: ItemValue
   renderItemValue?: (item: any) => ItemValue
   renderListItem?: RenderInputSearchListItem<any>
-  isItemMatching?: (item: any, searchString: string) => boolean
+  isItemMatching?: IsItemMatching
   onChange?: (itemValue: string) => void
   onSelect?: (item: any) => void
 }
@@ -91,8 +92,7 @@ const InputSearch: FunctionComponent<InputSearchProps> = ({
   items,
   emptyItemValue = "",
   renderItemValue = (item: any) => String(item),
-  isItemMatching = (item, search) =>
-    String(item).toLowerCase().includes(search.toLowerCase()),
+  isItemMatching = noop,
   onChange = noop,
   onSelect = noop,
   ...rest

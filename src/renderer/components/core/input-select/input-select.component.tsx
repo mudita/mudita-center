@@ -2,10 +2,10 @@ import React, {
   ChangeEvent,
   ComponentProps,
   FocusEvent,
+  Fragment,
   MouseEvent,
   useRef,
   useState,
-  Fragment,
 } from "react"
 import styled, { FlattenSimpleInterpolation } from "styled-components"
 import { noop } from "Renderer/utils/noop"
@@ -26,6 +26,7 @@ import {
   RenderListItem,
   renderListItemSearchable,
 } from "Renderer/components/core/list/list.component"
+import { IsItemMatching } from "Renderer/components/core/utils/is-item-matching"
 
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
@@ -64,7 +65,7 @@ export interface InputSelectProps extends Partial<InputProps> {
   emptyItemValue?: ItemValue
   renderItemValue?: (item: any) => ItemValue
   renderListItem?: RenderInputSelectListItem<any>
-  isItemMatching?: (item: any, searchString: string) => boolean
+  isItemMatching?: IsItemMatching
   onSelect?: (item: any) => void
   listStyles?: FlattenSimpleInterpolation
   searchable?: boolean
@@ -132,8 +133,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   emptyItemValue = "",
   renderItemValue = (item: any) => String(item),
   renderListItem,
-  isItemMatching = (item, search) =>
-    String(item).toLowerCase().includes(search.toLowerCase()),
+  isItemMatching = noop,
   onSelect = noop,
   listStyles,
   inputRef,

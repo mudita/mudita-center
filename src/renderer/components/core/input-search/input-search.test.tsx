@@ -7,10 +7,15 @@ import InputSearch, {
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { InputSearchTestIds } from "Renderer/components/core/input-search/input-search-test-ids.enum"
 import { basicItems } from "Renderer/components/core/list/list.stories"
+import { isItemValueMatching } from "Renderer/components/core/utils/is-item-matching"
 
 const renderInputSelect = ({ ...props }: Partial<InputSearchProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <InputSearch items={basicItems} {...props} />
+    <InputSearch
+      isItemMatching={isItemValueMatching}
+      items={basicItems}
+      {...props}
+    />
   )
   return {
     ...outcome,

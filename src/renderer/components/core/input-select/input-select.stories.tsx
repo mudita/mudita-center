@@ -13,6 +13,7 @@ import {
   renderCustomListItem,
   getItemName,
 } from "Renderer/components/core/list/list.stories"
+import { isItemValueMatching } from "Renderer/components/core/utils/is-item-matching"
 
 const storyContainerStyles = css`
   main > * {
@@ -89,6 +90,7 @@ storiesOf("Components|Core/InputSelect", module)
         <Story title="Basic list">
           <InputSelect
             searchable
+            isItemMatching={isItemValueMatching}
             items={basicItems}
             label="Fruit type"
             emptyItemValue="No fruit"
@@ -162,6 +164,7 @@ storiesOf("Components|Core/InputSelect", module)
               emptyItemValue="No fruit"
               onSelect={handleSelect}
               selectedItem={selectedFruit}
+              isItemMatching={isItemValueMatching}
               searchable
             />
           </Story>
@@ -191,6 +194,7 @@ storiesOf("Components|Core/InputSelect", module)
               emptyItemValue="No fruit"
               onSelect={handleSelect}
               selectedItem={selectedFruit}
+              isItemMatching={isItemValueMatching}
               searchable
             />
           </Story>

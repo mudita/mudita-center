@@ -11,6 +11,7 @@ import {
   renderCustomListItem,
   getItemName,
 } from "Renderer/components/core/list/list.stories"
+import { isItemValueMatching } from "Renderer/components/core/utils/is-item-matching"
 
 const storyContainerStyles = css`
   main > * {
@@ -18,42 +19,38 @@ const storyContainerStyles = css`
   }
 `
 
+const defaultProps = {
+  items: basicItems,
+  label: "Fruit type",
+  isItemMatching: isItemValueMatching,
+}
+
 storiesOf("Components|Core/InputSearch", module).add("Default", () => (
   <>
     <StoryContainer title="Themes" customStyle={storyContainerStyles}>
       <Story title="Default">
-        <InputSearch items={basicItems} label="Fruit type" />
+        <InputSearch {...defaultProps} />
       </Story>
       <Story title="Outlined">
-        <InputSearch items={basicItems} outlined label="Fruit type" />
+        <InputSearch {...defaultProps} outlined />
       </Story>
       <Story title="Condensed (default)">
-        <InputSearch items={basicItems} condensed label="Fruit type" />
+        <InputSearch {...defaultProps} condensed />
       </Story>
       <Story title="Condensed (outlined)">
-        <InputSearch items={basicItems} condensed outlined label="Fruit type" />
+        <InputSearch {...defaultProps} condensed outlined />
       </Story>
     </StoryContainer>
     <StoryContainer title="Modifiers" customStyle={storyContainerStyles}>
       <Story title="Value (default)">
-        <InputSearch
-          items={basicItems}
-          label="Fruit type"
-          selectedItem={basicItems[1]}
-        />
+        <InputSearch {...defaultProps} selectedItem={basicItems[1]} />
       </Story>
       <Story title="Value (outlined)">
-        <InputSearch
-          items={basicItems}
-          label="Fruit type"
-          selectedItem={basicItems[1]}
-          outlined
-        />
+        <InputSearch {...defaultProps} selectedItem={basicItems[1]} outlined />
       </Story>
       <Story title="Part of Value (outlined)">
         <InputSearch
-          items={basicItems}
-          label="Fruit type"
+          {...defaultProps}
           selectedItem={basicItems[1]}
           searchItemValue={basicItems[1].substr(0, 3)}
           outlined
