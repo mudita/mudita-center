@@ -19,14 +19,14 @@ const renderInputSelect = ({ ...props }: Partial<InputSearchProps> = {}) => {
   }
 }
 
-test("input search focus/blur doesn't toggle the list", () => {
+test("focus/blur doesn't toggle the list", () => {
   const { list, input } = renderInputSelect()
   expect(list).not.toBeVisible()
   fireEvent.focus(input)
   expect(list).not.toBeVisible()
 })
 
-test("input search emits an event with correct value", () => {
+test("emits an event with correct value", () => {
   const onChange = jest.fn()
   const { input } = renderInputSelect({ onChange })
   const value = basicItems[0].substr(0, 3)
@@ -36,16 +36,40 @@ test("input search emits an event with correct value", () => {
   expect(onChange).toBeCalledWith(value)
 })
 
-test("input search returns selected option in onChange event", () => {
+test("emits onChange event after change value in input", () => {
   const onChange = jest.fn()
-  const { input, getAllByTestId } = renderInputSelect({ onChange })
+  const { input } = renderInputSelect({ onChange })
   const value = basicItems[0]
   fireEvent.change(input, {
     target: { value },
   })
+  expect(onChange).toBeCalledTimes(1)
+})
+
+test("emits onChange event after select the item from hint list", () => {
+  const onChange = jest.fn()
+  const searchItemValue = basicItems[0]
+  const { input, getAllByTestId } = renderInputSelect({
+    onChange,
+    searchItemValue,
+  })
   const listItems = getAllByTestId(InputSearchTestIds.ListItem)
 
+  fireEvent.focus(input)
   fireEvent.mouseDown(listItems[1])
-  expect(onChange).toBeCalledTimes(2)
-  expect(onChange).toBeCalledWith(basicItems[3])
+  expect(onChange).toBeCalledTimes(1)
+})
+
+test("emits onSelect event after select the item from hint list", () => {
+  const onSelect = jest.fn()
+  const searchItemValue = basicItems[0]
+  const { input, getAllByTestId } = renderInputSelect({
+    onSelect,
+    searchItemValue,
+  })
+  const listItems = getAllByTestId(InputSearchTestIds.ListItem)
+
+  fireEvent.focus(input)
+  fireEvent.mouseDown(listItems[1])
+  expect(onSelect).toBeCalledTimes(1)
 })
