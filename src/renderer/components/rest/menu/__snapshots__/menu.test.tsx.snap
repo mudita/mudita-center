@@ -431,6 +431,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="overview-link"
         displaystyle="8"
         href="#/overview"
         size="2"
@@ -734,6 +735,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="tethering-link"
         displaystyle="8"
         href="#/tethering"
         size="2"
