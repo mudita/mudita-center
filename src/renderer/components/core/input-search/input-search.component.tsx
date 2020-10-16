@@ -97,17 +97,17 @@ const InputSearch: FunctionComponent<InputSearchProps> = ({
   onSelect = noop,
   ...rest
 }) => {
-  const [focused, setFocused] = useState(false)
+  const [focus, setFocus] = useState(false)
   const [searchValue, setSearchValue] = useState<ItemValue | null>(
     searchItemValue
   )
 
-  const handleFocus = () => setFocused(true)
+  const handleFocus = () => setFocus(true)
 
-  const handleBlur = () => setFocused(false)
+  const handleBlur = () => setFocus(false)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFocused(true)
+    setFocus(true)
     const value = event.target.value
     setSearchValue(value)
     onChange(value)
@@ -120,7 +120,7 @@ const InputSearch: FunctionComponent<InputSearchProps> = ({
     setSearchValue(itemValue)
     onChange(String(itemValue))
     onSelect(item)
-    setFocused(false)
+    setFocus(false)
   }
 
   const filteredItems = items
@@ -150,7 +150,7 @@ const InputSearch: FunctionComponent<InputSearchProps> = ({
         items={filteredItems}
         renderListItem={renderListItem}
         searchString={String(searchValue) || ""}
-        expanded={focused && Boolean(searchValue)}
+        expanded={focus && Boolean(searchValue)}
         onItemMouseDown={updateSearchValueBySelection}
       />
     </InputSearchContainer>

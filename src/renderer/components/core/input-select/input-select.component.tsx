@@ -142,7 +142,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   onFocus = noop,
   ...rest
 }) => {
-  const [focused, setFocused] = useState(false)
+  const [focus, setFocus] = useState(false)
   const [searchValue, setSearchValue] = useState<string | null>(null)
   const selectRef = useRef<HTMLInputElement>(null)
 
@@ -150,7 +150,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
 
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     onBlur(event)
-    setFocused(false)
+    setFocus(false)
     if (searchValue !== null) {
       onSelect("")
     }
@@ -158,7 +158,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
 
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
     onFocus(event)
-    setFocused(true)
+    setFocus(true)
   }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -176,12 +176,12 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
     event.preventDefault()
 
     if (selectRef.current) {
-      focused ? selectRef.current.blur() : selectRef.current.focus()
+      focus ? selectRef.current.blur() : selectRef.current.focus()
     }
   }
 
   const preventExpanding = (event: MouseEvent) => {
-    if (focused) {
+    if (focus) {
       event.stopPropagation()
       event.preventDefault()
     }
@@ -195,7 +195,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
 
   const toggleIcon = (
     <ToggleIcon
-      rotated={focused}
+      rotated={focus}
       onClick={toggleList}
       onMouseDown={preventExpanding}
       data-testid="actionIcon"
@@ -225,7 +225,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         items={filteredItems}
         renderListItem={renderListItem}
         searchString={searchValue || ""}
-        expanded={focused}
+        expanded={focus}
         onTransitionEnd={resetSearchValue}
         onEmptyItemValueClick={resetSelection}
         onItemClick={onSelect}
