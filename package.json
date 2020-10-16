@@ -250,7 +250,7 @@
     "redux-thunk": "^2.3.0",
     "serialport": "^9.0.1",
     "source-map-support": "^0.5.19",
-    "styled-components": "^5.2.0",
+    "styled-components": "^5.1.1",
     "styled-normalize": "^8.0.7",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.0",
