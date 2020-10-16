@@ -5,6 +5,7 @@ import React, {
   MouseEvent,
   useRef,
   useState,
+  Fragment,
 } from "react"
 import styled, { FlattenSimpleInterpolation } from "styled-components"
 import { noop } from "Renderer/utils/noop"
@@ -106,7 +107,7 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
         const disabled = disabledItems.includes(item)
 
         return (
-          <React.Fragment key={index}>
+          <Fragment key={index}>
             {renderListItem({
               searchString,
               item,
@@ -116,7 +117,7 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
                 disabled,
               },
             })}
-          </React.Fragment>
+          </Fragment>
         )
       })}
     </List>
