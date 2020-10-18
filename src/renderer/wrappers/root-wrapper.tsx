@@ -22,9 +22,9 @@ import { getTranslation } from "Renderer/requests/get-translation.request"
 import registerDisconnectDeviceListener, {
   removeDisconnectDeviceListener,
 } from "Renderer/listeners/register-disconnect-device.listener"
-import registerDataListener, {
-  removeDataListener,
-} from "Renderer/listeners/register-data.listener"
+import registerConnectDeviceListener, {
+  removeConnectDeviceListener,
+} from "Renderer/listeners/register-connect-device.listener"
 
 interface Props {
   store: Store
@@ -82,8 +82,8 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
     const connect = () => {
       store.dispatch.basicInfo.update({ disconnectedDevice: false })
     }
-    registerDataListener(connect)
-    return () => removeDataListener(connect)
+    registerConnectDeviceListener(connect)
+    return () => removeConnectDeviceListener(connect)
   })
 
   return (
