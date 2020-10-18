@@ -18,12 +18,12 @@ import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
-import onDisconnectDeviceEmitter from "Backend/emiiters/on-disconnect-device.emitter"
-import onDataEmitter from "Backend/emiiters/on-data.emitter"
+import registerDisconnectDeviceEmitter from "Backend/emiiters/register-disconnect-device.emitter"
+import registerDataEmitter from "Backend/emiiters/register-data.emitter"
 
 const bootstrap = (pureNode: any) => {
-  pureNode.on("close", onDisconnectDeviceEmitter)
-  pureNode.on("data", onDataEmitter)
+  pureNode.on("close", registerDisconnectDeviceEmitter)
+  pureNode.on("data", registerDataEmitter)
   ;[
     registerDeviceInfoRequest,
     registerNetworkInfoRequest,
