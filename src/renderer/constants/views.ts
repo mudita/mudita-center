@@ -1,9 +1,10 @@
 import { defineMessages } from "react-intl"
 
-import { URL_MAIN, URL_ONBOARDING } from "./urls"
+import { URL_MAIN, URL_ONBOARDING, URL_RECOVERY_MODE } from "./urls"
 
 const messages = defineMessages({
   onboarding: { id: "view.name.onboarding" },
+  recoveryMode: { id: "view.name.recoveryMode" },
   contacts: { id: "view.name.contacts" },
   news: { id: "view.name.news" },
   overview: { id: "view.name.overview" },
@@ -22,6 +23,7 @@ const messages = defineMessages({
 
 export enum View {
   Onboarding = "onboarding",
+  RecoveryMode = "recovery-mode",
   News = "news",
   Overview = "overview",
   Messages = "messages",
@@ -52,6 +54,10 @@ export const views: Views = {
   [View.Onboarding]: {
     label: messages.onboarding,
     url: URL_ONBOARDING.root,
+  },
+  [View.RecoveryMode]: {
+    label: messages.recoveryMode,
+    url: URL_RECOVERY_MODE.root,
   },
   [View.News]: {
     label: messages.news,

@@ -9,13 +9,23 @@ const messages = defineMessages({
 })
 
 const YOUR_PURE_BUTTONS = [
-  { button: views.overview, icon: Type.MenuOverview },
+  {
+    button: views.overview,
+    icon: Type.MenuOverview,
+    testId: MenuGroupTestIds.Overview,
+  },
   {
     button: views.messages,
     icon: Type.Message,
     testId: MenuGroupTestIds.Messages,
   },
   { button: views.phone, icon: Type.MenuPhone, testId: MenuGroupTestIds.Phone },
+  {
+    button: views.contacts,
+    icon: Type.MenuContacts,
+    testId: MenuGroupTestIds.Contacts,
+  },
+  { button: views.music, icon: Type.MenuMusic },
   { button: views.contacts, icon: Type.MenuContacts },
   { button: views.music, icon: Type.MenuMusic, testId: MenuGroupTestIds.Music },
   {
@@ -37,7 +47,11 @@ const YOUR_PURE_BUTTONS = [
 ]
 
 const DESKTOP_APP_BUTTONS = [
-  { button: views.tethering, icon: Type.MenuTethering },
+  {
+    button: views.tethering,
+    icon: Type.MenuTethering,
+    testId: MenuGroupTestIds.Tethering,
+  },
   { button: views.settings, icon: Type.MenuSettings },
   { button: views.help, icon: Type.MenuHelp, testId: MenuGroupTestIds.Help },
 ]
@@ -62,6 +76,10 @@ export interface MenuElement {
 export const menuElements: MenuElement[] = [
   {
     items: [{ button: views[View.Onboarding], icon: Type.Send }],
+    devModeOnly: true,
+  },
+  {
+    items: [{ button: views[View.RecoveryMode], icon: Type.MuditaLogo }],
     devModeOnly: true,
   },
   {

@@ -238,6 +238,7 @@
     "node-fetch": "^2.6.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "pure": "file:pure",
     "react-hook-form": "^6.5.2",
     "react-intersection-observer": "^8.29.0",
     "react-redux": "^7.2.1",

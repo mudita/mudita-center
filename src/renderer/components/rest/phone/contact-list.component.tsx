@@ -43,6 +43,7 @@ import {
   NewContact,
   ResultsState,
 } from "Renderer/models/phone/phone.typings"
+import { ContactListTestIdsEnum } from "Renderer/components/rest/phone/contact-list-test-ids.enum"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -226,7 +227,10 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         visible={!noneRowsSelected}
                       />
                     </Col>
-                    <ClickableCol onClick={handleSelect}>
+                    <ClickableCol
+                      onClick={handleSelect}
+                      data-testid={ContactListTestIdsEnum.ContactRow}
+                    >
                       <InitialsAvatar
                         user={contact}
                         light={selected || activeRow === contact}

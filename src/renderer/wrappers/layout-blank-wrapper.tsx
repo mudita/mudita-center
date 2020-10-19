@@ -48,7 +48,14 @@ const Header = styled.header`
   }
 `
 
-const LayoutOnboardingWrapper: FunctionComponent = ({ children }) => {
+interface Props {
+  recoveryMode?: boolean
+}
+
+const LayoutBlankWrapper: FunctionComponent<Props> = ({
+  children,
+  recoveryMode,
+}) => {
   return (
     <Layout>
       <Header>
@@ -57,13 +64,15 @@ const LayoutOnboardingWrapper: FunctionComponent = ({ children }) => {
           displayStyle={TextDisplayStyle.LargeFadedText}
           message={{ id: "view.name.onboarding.mainTitle" }}
         />
-        <Link to={URL_MAIN.news}>
-          <Icon type={Type.Close} />
-        </Link>
+        {!recoveryMode && (
+          <Link to={URL_MAIN.news}>
+            <Icon type={Type.Close} />
+          </Link>
+        )}
       </Header>
       {children}
     </Layout>
   )
 }
 
-export default LayoutOnboardingWrapper
+export default LayoutBlankWrapper
