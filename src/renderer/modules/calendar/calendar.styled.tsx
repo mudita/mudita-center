@@ -6,8 +6,9 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { CalendarEventProps } from "Renderer/modules/calendar/calendar.interface"
-import { FormattedDate, FormattedTime } from "react-intl"
+import { FormattedDate } from "react-intl"
 import React from "react"
+import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 
 export const EventsList = styled(Table)`
   --columnsTemplate: 5fr 3fr 3fr;
@@ -22,13 +23,13 @@ export const Header = styled(Text).attrs({
 `
 export const Event: FunctionComponent<CalendarEventProps> = ({ event }) => {
   const { name, date } = event
-  const [startDate, endDate] = date
+  const [startDate] = date
 
   return (
     <Row>
       <Col>{name}</Col>
       <Col>
-        <FormattedTime value={startDate} /> - <FormattedTime value={endDate} />
+        <TimeWindow date={date} />
       </Col>
       <Col>
         <FormattedDate
