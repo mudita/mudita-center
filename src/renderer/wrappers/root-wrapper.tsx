@@ -19,12 +19,6 @@ import { HelpActions } from "Common/enums/help-actions.enum"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { useEffect, useState } from "react"
 import { getTranslation } from "Renderer/requests/get-translation.request"
-import registerDisconnectedDeviceListener, {
-  removeDisconnectedDeviceListener,
-} from "Renderer/listeners/register-disconnected-device.listener"
-import registerConnectedDeviceListener, {
-  removeConnectedDeviceListener,
-} from "Renderer/listeners/register-connected-device.listener"
 
 interface Props {
   store: Store
@@ -69,22 +63,6 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
       setLocale(language)
     })()
   }, [])
-
-  useEffect(() => {
-    const disconnect = () => {
-      store.dispatch.basicInfo.update({ disconnectedDevice: true })
-    }
-    registerDisconnectedDeviceListener(disconnect)
-    return () => removeDisconnectedDeviceListener(disconnect)
-  })
-
-  useEffect(() => {
-    const connect = () => {
-      store.dispatch.basicInfo.update({ disconnectedDevice: false })
-    }
-    registerConnectedDeviceListener(connect)
-    return () => removeConnectedDeviceListener(connect)
-  })
 
   return (
     <ThemeProvider theme={theme}>
