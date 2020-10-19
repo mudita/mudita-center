@@ -19,7 +19,7 @@ const YOUR_PURE_BUTTONS = [
   { button: views.contacts, icon: Type.MenuContacts },
   { button: views.music, icon: Type.MenuMusic, testId: MenuGroupTestIds.Music },
   { button: views.calendar, icon: Type.Calendar },
-  { button: views.tools, icon: Type.MenuTools },
+  { button: views.tools, icon: Type.MenuTools, testId: MenuGroupTestIds.Tools },
   { button: views.meditation, icon: Type.MenuMeditation },
   {
     button: views.filesManager,
