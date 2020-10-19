@@ -9,21 +9,20 @@ import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 class PurePhone extends PurePhoneFakeAdapter {
   constructor(private pureNode: any) {
     super()
-    pureNode.on("close", this.registerDisconnectedDeviceEmitter)
-    pureNode.on("data", this.registerConnectedDeviceEmitter)
+    pureNode.on("close", this.emitDisconnectedDeviceSignal)
+    pureNode.on("data", this.emitConnectedDeviceSignal)
   }
 
-  private registerDisconnectedDeviceEmitter(event: any): void {
+  private emitDisconnectedDeviceSignal(event: any): void {
     ipcMain.sendToRenderers(IpcEmitter.disconnectedDevice, event)
   }
 
-  private registerConnectedDeviceEmitter(): void {
+  private emitConnectedDeviceSignal(): void {
     ipcMain.sendToRenderers(IpcEmitter.connectedDevice)
   }
 
   public connectDevice(): Promise<DeviceResponse> {
     return new Promise((resolve) => {
-      this.pureNode.connect
       this.pureNode.portInit((phones: any[]) => {
         this.pureNode.init(phones[0].path)
         resolve({ status: DeviceResponseStatus.Ok })
