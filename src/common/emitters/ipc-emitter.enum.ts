@@ -1,4 +1,4 @@
 export enum IpcEmitter {
-  disconnectDevice = "disconnect-device",
-  connectDevice = "connect-device",
+  disconnectedDevice = "disconnected-device",
+  connectedDevice = "connected-device",
 }

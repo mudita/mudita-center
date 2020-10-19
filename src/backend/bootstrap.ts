@@ -18,12 +18,17 @@ import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
-import registerPureNodeCloseListener from "Backend/listeners/register-pure-node-close.listener"
-import registerPureNodeDataListener from "Backend/listeners/register-data-close.listener"
 
 const bootstrap = (pureNode: any) => {
-  registerPureNodeCloseListener(pureNode)
-  registerPureNodeDataListener(pureNode)
+  const adapters = {
+    // TODO: Replace with a proper adapters when phone becomes available.
+    ...getFakeAdapters(),
+    purePhone: createPurePhoneAdapter(pureNode),
+    appSettings: createAppSettingsAdapter(),
+    pureBackups: createPurePhoneBackupsAdapter(),
+    app: createElectronAppAdapter(),
+  }
+
   ;[
     registerDeviceInfoRequest,
     registerNetworkInfoRequest,
@@ -40,16 +45,7 @@ const bootstrap = (pureNode: any) => {
     registerAppSettingsRequest,
     registerAppSettingsUpdateRequest,
     registerAppSettingsResetRequest,
-  ].forEach((register) =>
-    register({
-      // TODO: Replace with a proper adapters when phone becomes available.
-      ...getFakeAdapters(),
-      purePhone: createPurePhoneAdapter(pureNode),
-      appSettings: createAppSettingsAdapter(),
-      pureBackups: createPurePhoneBackupsAdapter(),
-      app: createElectronAppAdapter(),
-    })
-  )
+  ].forEach((register) => register(adapters))
 }
 
 export default bootstrap
