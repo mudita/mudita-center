@@ -167,7 +167,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   const headerLeft = (
     <Text
       displayStyle={TextDisplayStyle.LargeBoldText}
-      message={contact ? messages.editTitle : messages.newTitle}
+      message={contact?.id ? messages.editTitle : messages.newTitle}
     />
   )
 

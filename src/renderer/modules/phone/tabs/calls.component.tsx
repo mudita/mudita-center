@@ -22,12 +22,14 @@ interface Props {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
   calls: Details[]
   deleteCall?: (ids: string[]) => void
+  isContactCreated: (phoneNumber: string) => boolean
 }
 
 const Calls: FunctionComponent<Props> = ({
   calls,
   changeVisibilityFilter = noop,
   deleteCall = noop,
+  isContactCreated,
 }) => {
   const {
     selectedRows,
@@ -80,6 +82,7 @@ const Calls: FunctionComponent<Props> = ({
         getRowStatus={getRowStatus}
         toggleRow={toggleRow}
         noneRowsSelected={noneRowsSelected}
+        isContactCreated={isContactCreated}
       />
     </>
   )

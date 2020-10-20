@@ -4,8 +4,9 @@ import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
 import { RootModel } from "Renderer/models/models"
 import { select } from "Renderer/store"
 
-const selection = select((models) => ({
-  calls: models.calls.filteredList,
+const selection = select(({ calls, phone }) => ({
+  calls: calls.filteredList,
+  isContactCreated: phone.isContactCreated,
 }))
 
 const mapStateToProps = (state: RootModel) => ({

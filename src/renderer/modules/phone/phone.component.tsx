@@ -44,7 +44,7 @@ import { GooglePerson } from "Renderer/providers/google/typings"
 import { History, LocationState } from "history"
 import { useHistory } from "react-router-dom"
 import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
-import findContactBySearchParams from "Renderer/modules/phone/find-contact-by-search-params"
+import findContactByPhoneNumber from "Renderer/modules/phone/find-contact-by-phone-number"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -85,10 +85,20 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     setProviderData,
   } = props
   const history = useHistory()
+  const searchParams = useURLSearchParams()
+  const phoneNumber = searchParams.get("phoneNumber") || ""
+  const activeContact = findContactByPhoneNumber(flatList, phoneNumber)
+  const initNewContact: NewContact | undefined =
+    phoneNumber !== "" && activeContact === undefined
+      ? { ...defaultContact, primaryPhoneNumber: phoneNumber }
+      : undefined
+
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>(
-    findContactBySearchParams(useURLSearchParams(), flatList)
+    activeContact
   )
-  const [newContact, setNewContact] = useState<NewContact>()
+  const [newContact, setNewContact] = useState<NewContact | undefined>(
+    initNewContact
+  )
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
   const [sync, setSync] = useState(1)
@@ -407,6 +417,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           />
           {newContact && (
             <ContactEdit
+              contact={newContact as Contact}
               speedDialChosenList={speedDialChosenList}
               onCancel={cancelOrCloseContactHandler}
               onSpeedDialSettingsOpen={openSpeedDialModal}

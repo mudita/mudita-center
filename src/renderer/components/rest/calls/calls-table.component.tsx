@@ -29,6 +29,7 @@ type SelectHook = Pick<
 interface Props extends SelectHook {
   calls: Details[]
   deleteCall?: (ids: Details) => void
+  isContactCreated: (phoneNumber: string) => boolean
 }
 
 const CallsTable: FunctionComponent<Props> = ({
@@ -37,6 +38,7 @@ const CallsTable: FunctionComponent<Props> = ({
   toggleRow,
   noneRowsSelected,
   deleteCall,
+  isContactCreated,
 }) => {
   const {
     openSidebar,
@@ -79,6 +81,7 @@ const CallsTable: FunctionComponent<Props> = ({
         <CallDetails
           calls={[callDetails] as Details[]}
           onClose={closeSidebar}
+          isContactCreated={isContactCreated}
         />
       )}
     </TableWithSidebarWrapper>

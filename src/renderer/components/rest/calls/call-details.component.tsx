@@ -46,9 +46,14 @@ const messages = defineMessages({
 interface ContactDetailsProps {
   calls: Details[]
   onClose: () => void
+  isContactCreated: (phoneNumber: string) => boolean
 }
 
-export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
+export const CallDetails = ({
+  calls,
+  onClose,
+  isContactCreated,
+}: ContactDetailsProps) => {
   const history = useHistory()
   return (
     <ContactDetailsWrapper
@@ -80,6 +85,8 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
           )
         }
 
+        const contactCreated = isContactCreated(details.caller.phoneNumber)
+
         return (
           <CallWrapper key={index}>
             <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
@@ -103,12 +110,21 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
                 onClick={noop}
                 Icon={Type.Delete}
               />
-              <Button
-                displayStyle={DisplayStyle.Dropdown}
-                label="Contact details"
-                onClick={redirectToContactsPage}
-                Icon={Type.Contacts}
-              />
+              {contactCreated ? (
+                <Button
+                  displayStyle={DisplayStyle.Dropdown}
+                  label="Contact details"
+                  onClick={redirectToContactsPage}
+                  Icon={Type.Contacts}
+                />
+              ) : (
+                <Button
+                  displayStyle={DisplayStyle.Dropdown}
+                  label="Create contact"
+                  onClick={redirectToContactsPage}
+                  Icon={Type.Contacts}
+                />
+              )}
             </ButtonWrapper>
             <>
               <AdditionalInfo>
