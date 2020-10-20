@@ -5,11 +5,11 @@ import InputSelect, {
 } from "Renderer/components/core/input-select/input-select.component"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/dom"
-import { basicOptions } from "Renderer/components/core/input-select/input-select.stories"
+import { basicItems } from "Renderer/components/core/list/list.stories"
 
 const renderInputSelect = ({ ...props }: Partial<InputSelectProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <InputSelect options={basicOptions} {...props} />
+    <InputSelect items={basicItems} {...props} />
   )
   return {
     ...outcome,
@@ -42,14 +42,14 @@ test("select input returns selected list item", () => {
   const onSelect = jest.fn()
   const { listItems } = renderInputSelect({ onSelect })
   fireEvent.click(listItems[2])
-  expect(onSelect).toBeCalledWith(basicOptions[2])
+  expect(onSelect).toBeCalledWith(basicItems[2])
 })
 
 test("select input resets after selecting empty option", () => {
   const onSelect = jest.fn()
   const { listItems } = renderInputSelect({
     onSelect,
-    emptyOption: "empty",
+    emptyItemValue: "empty",
   })
   expect(listItems[0]).toHaveTextContent("empty")
   fireEvent.click(listItems[0])
@@ -58,7 +58,7 @@ test("select input resets after selecting empty option", () => {
 
 test("Item marked as disabled in `disabledOptions` list should have a `disabled` attribute", () => {
   const { listItems } = renderInputSelect({
-    disabledOptions: [basicOptions[0]],
+    disabledItems: [basicItems[0]],
   })
   expect(listItems[0]).toHaveStyleRule("cursor", "not-allowed")
   expect(listItems[1]).not.toHaveStyleRule("cursor", "not-allowed")

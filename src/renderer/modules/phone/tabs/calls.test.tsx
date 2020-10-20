@@ -3,10 +3,16 @@ import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.en
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { mockData } from "App/__mocks__/calls-mock-data"
 import { intl } from "Renderer/utils/intl"
-import Calls from "Renderer/modules/phone/tabs/calls.component"
+import Calls, { CallsProps } from "Renderer/modules/phone/tabs/calls.component"
+
+const defaultProps: CallsProps = {
+  calls: mockData,
+  isTopicThreadOpened: jest.fn(),
+  isContactCreated: jest.fn(),
+}
 
 const renderer = () => {
-  return renderWithThemeAndIntl(<Calls calls={mockData} />)
+  return renderWithThemeAndIntl(<Calls {...defaultProps} />)
 }
 
 test("render correct amount of rows", () => {

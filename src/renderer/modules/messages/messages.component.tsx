@@ -70,9 +70,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     const findById = (topic: Topic) => topic.id === id
     const topic = list.find(findById) as Topic
     const caller = topic.caller
-    return isNameAvailable(caller)
-      ? createFullName(caller)
-      : (caller.phoneNumber)
+    return isNameAvailable(caller) ? createFullName(caller) : caller.phoneNumber
   }
 
   const getSingleThreadDeleteMessage = (id: string): Message => {
@@ -101,7 +99,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
       ids.length === 1
         ? getSingleThreadDeleteMessage(ids[0])
         : getMultipleThreadDeleteMessage(ids)
-    const onClose = resetRows
     const onDelete = () => {
       deleteConversation(ids)
       resetRows()
@@ -112,7 +109,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       <DeleteModal
         title={title}
         message={message}
-        onClose={onClose}
+        onClose={resetRows}
         onDelete={onDelete}
       />
     )

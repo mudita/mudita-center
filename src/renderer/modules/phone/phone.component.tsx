@@ -61,11 +61,8 @@ export type PhoneProps = ContactActions &
     removeContact?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => Promise<void>
-    onMessage: (
-      history: History<LocationState>,
-      phoneNumber: string,
-      callerId: string
-    ) => void
+    isTopicThreadOpened: (phoneNumber: string) => boolean
+    onMessage: (history: History<LocationState>, phoneNumber: string) => void
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -83,6 +80,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     savingContact,
     setProviderData,
+    isTopicThreadOpened,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -194,8 +192,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     }
   }
 
-  const handleMessage = (phoneNumber: string, callerId: string) =>
-    onMessage(history, phoneNumber, callerId)
+  const handleMessage = (phoneNumber: string) => onMessage(history, phoneNumber)
 
   const openDeleteModal = (contact: Contact) => {
     const handleDelete = async () => {
@@ -448,6 +445,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
               onEdit={handleEditingContact}
               onCall={onCall}
               onMessage={handleMessage}
+              isTopicThreadOpened={isTopicThreadOpened}
             />
           )}
         </TableWithSidebarWrapper>

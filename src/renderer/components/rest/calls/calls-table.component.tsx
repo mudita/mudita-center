@@ -10,7 +10,6 @@ import { CallDetails } from "Renderer/components/rest/calls/call-details.compone
 import { Details } from "Renderer/components/rest/calls/call-details.types"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
@@ -29,6 +28,7 @@ type SelectHook = Pick<
 interface Props extends SelectHook {
   calls: Details[]
   deleteCall?: (ids: Details) => void
+  isTopicThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
 }
 
@@ -38,6 +38,7 @@ const CallsTable: FunctionComponent<Props> = ({
   toggleRow,
   noneRowsSelected,
   deleteCall,
+  isTopicThreadOpened,
   isContactCreated,
 }) => {
   const {
@@ -81,6 +82,7 @@ const CallsTable: FunctionComponent<Props> = ({
         <CallDetails
           calls={[callDetails] as Details[]}
           onClose={closeSidebar}
+          isTopicThreadOpened={isTopicThreadOpened}
           isContactCreated={isContactCreated}
         />
       )}

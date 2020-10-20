@@ -22,7 +22,7 @@ import {
   phoneNumberValidator,
 } from "Renderer/utils/form-validators"
 import InputSelect, {
-  RenderListItemProps,
+  RenderInputSelectListItem,
 } from "Renderer/components/core/input-select/input-select.component"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
@@ -157,12 +157,10 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
     setValue("speedDial", value)
   }
 
-  const speedDialListItemRenderer = ({
+  const speedDialListItemRenderer: RenderInputSelectListItem<number> = ({
     item,
     props,
-  }: RenderListItemProps<any>) => (
-    <SpeedDialListItem {...props}>{item}</SpeedDialListItem>
-  )
+  }) => <SpeedDialListItem {...props}>{item}</SpeedDialListItem>
 
   const headerLeft = (
     <Text
@@ -226,19 +224,19 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
                 name="speedDial"
                 ref={register}
                 disabled={!speedDialAssignPossible}
-                options={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
-                disabledOptions={speedDialChosenList}
-                renderListItem={speedDialListItemRenderer}
+                items={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
+                disabledItems={speedDialChosenList}
                 label={intl.formatMessage(messages.speedDialKey)}
-                emptyOption={intl.formatMessage(
+                emptyItemValue={intl.formatMessage(
                   messages.speedDialKeyEmptyOption
                 )}
                 onSelect={handleSpeedDialSelect}
-                value={
+                selectedItem={
                   fields.speedDial ||
                   intl.formatMessage(messages.speedDialKeySelect)
                 }
                 listStyles={speedDialListStyles}
+                renderListItem={speedDialListItemRenderer}
               />
               <SpeedDialSettings
                 displayStyle={DisplayStyle.Link3}

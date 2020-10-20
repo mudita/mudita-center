@@ -9,7 +9,7 @@ const caller: Caller = {
 
 const topics = [{ caller } as Topic]
 
-const searchValue = `?callerId=${caller.id}&phoneNumber=${caller.phoneNumber}`
+const searchValue = `?phoneNumber=${caller.phoneNumber}`
 
 test("topic is found by search params", () => {
   const topic = findTopicBySearchParams(
@@ -33,7 +33,7 @@ test("topic isn't found when phoneNumber is started with double zero", () => {
   expect(topic).toBeUndefined()
 })
 
-test("topic isn't found without phoneNumber in search value", () => {
+test("topic isn't found without search value", () => {
   const topic = findTopicBySearchParams(new URLSearchParams(``), topics)
   expect(topic).toBeUndefined()
 })

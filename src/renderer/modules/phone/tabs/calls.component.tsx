@@ -9,7 +9,6 @@ import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import modalService from "Renderer/components/core/modal/modal.service"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
-
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 
@@ -18,17 +17,19 @@ const messages = defineMessages({
   body: { id: "view.name.calls.deleteBody" },
 })
 
-interface Props {
+export interface CallsProps {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
   calls: Details[]
   deleteCall?: (ids: string[]) => void
+  isTopicThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
 }
 
-const Calls: FunctionComponent<Props> = ({
+const Calls: FunctionComponent<CallsProps> = ({
   calls,
   changeVisibilityFilter = noop,
   deleteCall = noop,
+  isTopicThreadOpened,
   isContactCreated,
 }) => {
   const {
@@ -82,6 +83,7 @@ const Calls: FunctionComponent<Props> = ({
         getRowStatus={getRowStatus}
         toggleRow={toggleRow}
         noneRowsSelected={noneRowsSelected}
+        isTopicThreadOpened={isTopicThreadOpened}
         isContactCreated={isContactCreated}
       />
     </>

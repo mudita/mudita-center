@@ -1,5 +1,5 @@
 import { Contact } from "Renderer/models/phone/phone.typings"
-import { removeDecoratorsFromPhoneNumber } from "Renderer/modules/messages/find-topic-by-search-params"
+import { removeDecoratorsFromPhoneNumber } from "Renderer/models/utils/remove-decorators-from-phone-number"
 
 export const isContactMatchingPhoneNumber = (
   { primaryPhoneNumber = "", secondaryPhoneNumber = "" }: Contact,
