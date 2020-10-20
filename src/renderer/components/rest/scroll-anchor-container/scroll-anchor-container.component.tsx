@@ -12,9 +12,7 @@ const ScrollAnchorContainer: FunctionComponent<Props> = ({
   const ref = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
-    if (active) {
-      ref?.current?.scrollIntoView()
-    }
+    if (active) ref?.current?.scrollIntoView()
   }, [])
 
   return <div ref={ref}>{children}</div>
