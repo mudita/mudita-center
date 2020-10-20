@@ -32,7 +32,7 @@ test("when caller is unknown, displays only phone number + times missed", () => 
     examplesIndex
   ]
   expect(unknownsCallerCol).toHaveTextContent(
-    `${mockData[examplesIndex].caller.primaryPhoneNumber} (${mockData[examplesIndex].timesMissed})`
+    `${mockData[examplesIndex].caller.phoneNumber} (${mockData[examplesIndex].timesMissed})`
   )
 })
 

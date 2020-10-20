@@ -72,7 +72,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     const caller = topic.caller
     return isNameAvailable(caller)
       ? createFullName(caller)
-      : (caller.primaryPhoneNumber as string)
+      : (caller.phoneNumber)
   }
 
   const getSingleThreadDeleteMessage = (id: string): Message => {

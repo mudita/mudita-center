@@ -13,7 +13,7 @@ export const searchTopics = (
       const search = searchValue.toLowerCase()
       const matchesForename = caller.firstName?.toLowerCase().includes(search)
       const matchesSurname = caller.lastName?.toLowerCase().includes(search)
-      const matchesPhone = caller.primaryPhoneNumber?.includes(search)
+      const matchesPhone = caller.phoneNumber?.includes(search)
       const matchesMessages = messages.some(({ content }) =>
         content.toLowerCase().includes(search)
       )

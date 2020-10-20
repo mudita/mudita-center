@@ -93,7 +93,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
         active={activeRow?.id === id}
       >
         <StatusCallIcon type={details.icon} height={2.8} width={2.8} />
-        {nameAvailable ? createFullName(caller) : caller.primaryPhoneNumber}
+        {nameAvailable ? createFullName(caller) : caller.phoneNumber}
         {timesMissed > 1 && ` (${timesMissed})`}
       </ClickableCol>
       <Col>{formatDuration(duration)}</Col>
@@ -119,7 +119,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
                 values: nameAvailable
                   ? { name: caller.firstName || caller.lastName }
                   : {
-                      name: caller.primaryPhoneNumber,
+                      name: caller.phoneNumber,
                     },
               }}
               Icon={Type.Calls}

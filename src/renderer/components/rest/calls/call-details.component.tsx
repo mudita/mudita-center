@@ -69,14 +69,13 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
           history.push(
             createRouterPath(URL_MAIN.messages, {
               phoneNumber,
-              callerId: details.caller.id,
             })
           )
         }
         const redirectToContactsPage = () => {
           history.push(
             createRouterPath(URL_MAIN.contacts, {
-              callerId: details.caller.id,
+              phoneNumber: details.caller.phoneNumber,
             })
           )
         }
@@ -90,7 +89,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
                   {details.caller.firstName} {details.caller.lastName}
                 </>
               ) : (
-                <>{details.caller.primaryPhoneNumber}</>
+                <>{details.caller.phoneNumber}</>
               )}
             </ContactName>
             <CallDescription
@@ -113,13 +112,13 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
             </ButtonWrapper>
             <>
               <AdditionalInfo>
-                {details.caller.primaryPhoneNumber && (
+                {details.caller.phoneNumber && (
                   <AdditionalInfoItem>
                     <InfoItemName message={messages.information} />
                     <Input
-                      value={details.caller.primaryPhoneNumber}
+                      value={details.caller.phoneNumber}
                       trailingIcons={phoneActions(
-                        details.caller.primaryPhoneNumber,
+                        details.caller.phoneNumber,
                         noop,
                         redirectToMessagesPage
                       )}

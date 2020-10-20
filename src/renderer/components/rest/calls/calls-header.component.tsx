@@ -137,7 +137,7 @@ const CallsHeader: FunctionComponent<Props> = ({
     const nameAvailable = isNameAvailable(uniqueCaller)
     const caller = nameAvailable
       ? createFullName(uniqueCaller)
-      : uniqueCaller.primaryPhoneNumber
+      : uniqueCaller.phoneNumber
     const textIntlValues = {
       num: allRowsSelected ? -1 : selectedCallsIds.length,
       ...textFormatters,

@@ -18,7 +18,6 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import {
-  Author,
   Message as Msg,
   Topic,
 } from "Renderer/models/messages/messages.interface"
@@ -47,6 +46,7 @@ import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
 } from "Renderer/components/rest/animated-opacity/animated-opacity"
+import { Caller } from "Renderer/models/calls/calls.interface"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -149,7 +149,7 @@ type SelectHook = Pick<
 >
 
 export interface ActiveRow {
-  caller: Author
+  caller: Caller
   messages: Msg[]
 }
 
@@ -214,9 +214,7 @@ const MessagesList: FunctionComponent<Props> = ({
             <MessageCol onClick={open} data-testid={MessagesListTestIds.Row}>
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {nameAvailable
-                    ? createFullName(caller)
-                    : caller.primaryPhoneNumber}
+                  {nameAvailable ? createFullName(caller) : caller.phoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage?.date).format("h:mm A")}
@@ -248,7 +246,7 @@ const MessagesList: FunctionComponent<Props> = ({
                     labelMessage={{
                       id: "component.dropdown.call",
                       values: {
-                        name: caller.firstName || caller.primaryPhoneNumber,
+                        name: caller.firstName || caller.phoneNumber,
                       },
                     }}
                     Icon={Type.Calls}

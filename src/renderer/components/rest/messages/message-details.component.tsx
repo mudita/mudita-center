@@ -116,14 +116,14 @@ const MessageDetails: FunctionComponent<Props> = ({
           >
             {nameAvailable
               ? createFullName(details.caller)
-              : details.caller.primaryPhoneNumber}
+              : details.caller.phoneNumber}
           </Text>
           {nameAvailable && (
             <PhoneNumberText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"
             >
-              {details.caller.primaryPhoneNumber}
+              {details.caller.phoneNumber}
             </PhoneNumberText>
           )}
         </>

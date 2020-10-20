@@ -41,7 +41,7 @@ const Calls: FunctionComponent<Props> = ({
 
   const openDeleteModal = (details: Details) => {
     const callerName =
-      createFullName(details.caller) || details.caller.primaryPhoneNumber
+      createFullName(details.caller) || details.caller.phoneNumber
     const callsCount = details.timesMissed || 1
     const modalConfig = {
       title: intl.formatMessage({ ...messages.title }),
