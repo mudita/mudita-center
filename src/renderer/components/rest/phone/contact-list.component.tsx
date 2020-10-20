@@ -44,6 +44,7 @@ import {
   ResultsState,
 } from "Renderer/models/phone/phone.typings"
 import { ContactListTestIdsEnum } from "Renderer/components/rest/phone/contact-list-test-ids.enum"
+import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -199,7 +200,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                 <Col />
                 <Col>{category}</Col>
               </Labels>
-              {contacts.map((contact) => {
+              {contacts.map((contact, index) => {
                 const { selected } = getRowStatus(contact)
                 const onChange = () => toggleRow(contact)
                 const handleExport = () => onExport(contact)
@@ -212,6 +213,8 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                 const fullName = createFullName(contact)
                 const phoneNumber =
                   contact.primaryPhoneNumber || contact.secondaryPhoneNumber
+                const scrollActive =
+                  (contacts[index + 1] || contacts[index]).id === activeRow?.id
 
                 const interactiveRow = (ref: Ref<HTMLDivElement>) => (
                   <Row
@@ -331,11 +334,16 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                 }
 
                 return (
-                  <InView key={contact.id + category}>
-                    {({ inView, ref }) =>
-                      inView ? interactiveRow(ref) : placeholderRow(ref)
-                    }
-                  </InView>
+                  <ScrollAnchorContainer
+                    key={contact.id + category}
+                    active={scrollActive}
+                  >
+                    <InView>
+                      {({ inView, ref }) =>
+                        inView ? interactiveRow(ref) : placeholderRow(ref)
+                      }
+                    </InView>
+                  </ScrollAnchorContainer>
                 )
               })}
             </Group>

@@ -42,7 +42,7 @@ import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
-import MessageRowContainer from "Renderer/components/rest/messages/message-row-container.component"
+import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
@@ -314,13 +314,13 @@ const MessagesList: FunctionComponent<Props> = ({
         )
 
         return (
-          <MessageRowContainer key={id} active={active}>
+          <ScrollAnchorContainer key={id} active={active}>
             <InView>
               {({ inView, ref }) =>
                 inView ? interactiveRow(ref) : placeholderRow(ref)
               }
             </InView>
-          </MessageRowContainer>
+          </ScrollAnchorContainer>
         )
       })}
     </Messages>

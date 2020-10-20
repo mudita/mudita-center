@@ -73,6 +73,13 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
             })
           )
         }
+        const redirectToContactsPage = () => {
+          history.push(
+            createRouterPath(URL_MAIN.contacts, {
+              callerId: details.caller.id,
+            })
+          )
+        }
 
         return (
           <CallWrapper key={index}>
@@ -100,7 +107,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
               <Button
                 displayStyle={DisplayStyle.Dropdown}
                 label="Contact details"
-                onClick={noop}
+                onClick={redirectToContactsPage}
                 Icon={Type.Contacts}
               />
             </ButtonWrapper>

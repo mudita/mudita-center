@@ -43,6 +43,8 @@ import { contactFactory } from "Renderer/providers/google/helpers"
 import { GooglePerson } from "Renderer/providers/google/typings"
 import { History, LocationState } from "history"
 import { useHistory } from "react-router-dom"
+import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
+import findContactBySearchParams from "Renderer/modules/phone/find-contact-by-search-params"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -83,7 +85,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     setProviderData,
   } = props
   const history = useHistory()
-  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
+  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>(
+    findContactBySearchParams(useURLSearchParams(), flatList)
+  )
   const [newContact, setNewContact] = useState<NewContact>()
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)

@@ -5,17 +5,19 @@ interface Props {
   active: boolean
 }
 
-const MessageRowContainer: FunctionComponent<Props> = ({
+const ScrollAnchorContainer: FunctionComponent<Props> = ({
   children,
   active,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
-    if (active) ref?.current?.scrollIntoView()
+    if (active) {
+      ref?.current?.scrollIntoView()
+    }
   }, [])
 
   return <div ref={ref}>{children}</div>
 }
 
-export default MessageRowContainer
+export default ScrollAnchorContainer
