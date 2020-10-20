@@ -431,6 +431,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="overview-link"
         displaystyle="8"
         href="#/overview"
         size="2"
@@ -511,6 +512,59 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="contacts-menu-link"
+        displaystyle="8"
+        href="#/contacts"
+        size="2"
+      >
+        <i
+          class="c6 c7"
+          data-testid="icon-MenuContacts"
+          height="3.2"
+          width="3.2"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </i>
+        <p
+          class="c8 c9"
+        >
+          [value] view.name.contacts
+        </p>
+      </a>
+    </div>
+    <div
+      class="c4"
+    >
+      <a
+        class="c5"
+        displaystyle="8"
+        href="#/music"
+        size="2"
+      >
+        <i
+          class="c6 c7"
+          data-testid="icon-MenuMusic"
+          height="3.2"
+          width="3.2"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </i>
+        <p
+          class="c8 c9"
+        >
+          [value] view.name.music
+        </p>
+      </a>
+    </div>
+    <div
+      class="c4"
+    >
+      <a
+        class="c5"
         displaystyle="8"
         href="#/contacts"
         size="2"
@@ -564,6 +618,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="calendar-link"
         displaystyle="8"
         href="#/calendar"
         size="2"
@@ -616,6 +671,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="meditation-link"
         displaystyle="8"
         href="#/meditation"
         size="2"
@@ -679,6 +735,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="tethering-link"
         displaystyle="8"
         href="#/tethering"
         size="2"

@@ -1,27 +1,15 @@
-import styled, { css } from "styled-components"
+import styled from "styled-components"
 import BaseTable, {
-  Row as BaseRow,
   Col,
   EmptyState,
+  Row as BaseRow,
 } from "Renderer/components/core/table/table.component"
-import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import {
-  transitionTime,
-  transitionTimingFunction,
-} from "Renderer/styles/theming/theme-getters"
+import { transitionTime } from "Renderer/styles/theming/theme-getters"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
+import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
 
-export const animatedOpacityStyles = css`
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity ${transitionTime("veryQuick")}
-      ${transitionTimingFunction("smooth")},
-    visibility ${transitionTime("veryQuick")}
-      ${transitionTimingFunction("smooth")};
-`
-
-export const animatedOpacityActiveStyles = css`
-  opacity: 1;
-  visibility: visible;
+export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
+  margin: 0 auto;
 `
 
 export const DeleteCol = styled(Col)`
@@ -31,7 +19,7 @@ export const DeleteCol = styled(Col)`
 
 export const Table = styled(BaseTable)`
   --columnsGap: 0;
-  --columnsTemplate: 4rem 59rem 1fr 5rem;
+  --columnsTemplate: 4rem 59rem 7rem 1fr 5rem;
   --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
 
   ${Col} {
@@ -53,17 +41,10 @@ export const TextPreview = styled(Col)`
   }
 `
 
-export const Checkbox = styled(InputCheckbox)<{ visible?: boolean }>`
-  ${animatedOpacityStyles};
-
-  ${({ visible }) => visible && animatedOpacityActiveStyles}
-`
-
 export const Row = styled(BaseRow)`
   &:hover {
     ${Checkbox} {
-      opacity: 1;
-      visibility: visible;
+      ${animatedOpacityActiveStyles};
     }
 
     ${DeleteCol} {

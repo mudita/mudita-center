@@ -14,7 +14,7 @@ export const initialState: StateProps = {
   sortOrder: SortOrder.Descending,
 }
 
-export const makeTemplate = (
+export const makeNewTemplate = (
   id: string = Faker.random.uuid(),
   content = "",
   date = new Date()
@@ -34,9 +34,11 @@ export default {
     },
     createNewTemplate(state: StateProps, callback?: TemplateCallback) {
       const oldTemplates = state.templates || []
+      const newTemplate = makeNewTemplate()
       const newState = {
         ...state,
-        templates: [makeTemplate(), ...oldTemplates],
+        newTemplateId: newTemplate.id,
+        templates: [newTemplate, ...oldTemplates],
       }
 
       if (callback) {
@@ -44,13 +46,13 @@ export default {
          * Due to selector laziness we have to resort to callbacks in order
          * to process newest state.
          */
-        callback(newState.templates[0])
+        callback(newTemplate)
       }
 
       return newState
     },
     saveTemplate(state: StateProps, templateData: Template) {
-      const modifiedTemplates = state.templates?.map((template: Template) => {
+      const templates = state.templates?.map((template: Template) => {
         if (template.id === templateData.id) {
           return templateData
         }
@@ -58,28 +60,36 @@ export default {
         return template
       })
 
-      if (modifiedTemplates) {
+      if (templates) {
         return {
           ...state,
-          templates: modifiedTemplates,
+          ...(state.newTemplateId === templateData.id
+            ? { newTemplateId: undefined }
+            : {}),
+          templates,
         }
       }
 
       return state
     },
-    removeItems(state: StateProps, itemsToRemove: string[]) {
+    removeTemplates(state: StateProps, itemsToRemove: string[]) {
+      const templates = state.templates?.filter(
+        ({ id }: Template) => !itemsToRemove.includes(id)
+      )
       return {
         ...state,
-        templates: state.templates?.filter(
-          ({ id }) => !itemsToRemove.includes(id)
-        ),
+        newTemplateId:
+          state.newTemplateId && itemsToRemove.includes(state.newTemplateId)
+            ? undefined
+            : state.newTemplateId,
+        templates,
       }
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({
     filteredList() {
-      return slice(({ templates: listOfTemplates, searchValue, sortOrder }) => {
-        const filteredTemplates = filterTemplates(listOfTemplates, searchValue)
+      return slice(({ templates, searchValue, sortOrder }) => {
+        const filteredTemplates = filterTemplates(templates, searchValue)
         return orderBy(filteredTemplates, ["date"], [sortOrder])
       })
     },

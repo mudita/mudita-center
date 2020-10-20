@@ -26,6 +26,7 @@ import styled, { css } from "styled-components"
 import composeRefs from "@seznam/compose-react-refs"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import CloseImage from "Renderer/images/close.png"
 
 export const searchIcon = (
   <Icon type={Type.Magnifier} height={2.8} width={2.8} />
@@ -167,6 +168,21 @@ const TextInput = styled.input<{ type: string }>`
         }
       `};
   }
+
+  ${({ type }) =>
+    type === "search" &&
+    css`
+      &::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+        cursor: pointer;
+        height: 14px;
+        width: 14px;
+        background-image: url(${CloseImage});
+        background-repeat: no-repeat;
+        background-size: 14px;
+        display: block;
+      }
+    `};
 `
 
 type InputWrapperProps = Partial<InputProps & TextareaProps> & {

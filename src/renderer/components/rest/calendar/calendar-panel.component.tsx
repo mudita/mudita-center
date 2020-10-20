@@ -1,8 +1,8 @@
-import React, { ChangeEvent } from "react"
+import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
-import { intl } from "Renderer/utils/intl"
+import CalendarInputSearch, {
+  CalendarInputSelectProps,
+} from "Renderer/components/rest/calendar/calendar-input-search.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import {
@@ -14,33 +14,30 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
-  searchPlaceholder: { id: "view.name.calendar.panel.searchPlaceholder" },
   synchroniseButton: { id: "view.name.calendar.panel.synchroniseButton" },
   addEventButton: { id: "view.name.calendar.panel.addEventButton" },
 })
 
-interface CalendarPanelProps {
+interface CalendarPanelProps extends CalendarInputSelectProps {
   onAddEventClick?: () => void
   onSynchroniseClick?: () => void
-  onSearchTermChange: (value: string) => void
 }
 
 const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
+  events,
+  selectedEvent,
   onAddEventClick = noop,
   onSynchroniseClick = noop,
-  onSearchTermChange,
+  onEventSelect,
+  onEventValueChange,
 }) => {
-  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    onSearchTermChange(target.value)
-  }
   return (
     <Panel>
-      <InputComponent
-        leadingIcons={[searchIcon]}
-        label={intl.formatMessage(messages.searchPlaceholder)}
-        onChange={onChange}
-        type="search"
-        outlined
+      <CalendarInputSearch
+        events={events}
+        selectedEvent={selectedEvent}
+        onEventSelect={onEventSelect}
+        onEventValueChange={onEventValueChange}
       />
       <Buttons>
         <ButtonComponent

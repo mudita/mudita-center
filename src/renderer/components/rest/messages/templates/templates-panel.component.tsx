@@ -77,6 +77,7 @@ export interface TemplatesTopPanelProps {
   selectedItemsCount: number
   allItemsSelected?: boolean
   toggleAll: UseTableSelect<Template>["toggleAll"]
+  newButtonDisabled?: boolean
 }
 
 const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
@@ -86,6 +87,7 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
   selectedItemsCount,
   allItemsSelected,
   toggleAll,
+  newButtonDisabled,
 }) => {
   const selectionMode = selectedItemsCount > 0
   return (
@@ -122,6 +124,7 @@ const TemplatesPanel: FunctionComponent<TemplatesTopPanelProps> = ({
           labelMessage={messages.newButton}
           onClick={onNewButtonClick}
           data-testid={TemplatesTestIds.AddTemplateButton}
+          disabled={newButtonDisabled}
         />
       </Buttons>
     </Panel>
