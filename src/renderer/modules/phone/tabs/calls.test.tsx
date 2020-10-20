@@ -5,8 +5,12 @@ import { mockData } from "App/__mocks__/calls-mock-data"
 import { intl } from "Renderer/utils/intl"
 import Calls from "Renderer/modules/phone/tabs/calls.component"
 
+const isTopicThreadOpened = jest.fn()
+
 const renderer = () => {
-  return renderWithThemeAndIntl(<Calls calls={mockData} />)
+  return renderWithThemeAndIntl(
+    <Calls isTopicThreadOpened={isTopicThreadOpened} calls={mockData} />
+  )
 }
 
 test("render correct amount of rows", () => {
