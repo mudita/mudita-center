@@ -4,13 +4,13 @@ import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 const registerConnectedDeviceListener = (
   listener: (event: any, props: any) => void
 ): void => {
-  ipcRenderer.on(IpcEmitter.connectedDevice, listener)
+  ipcRenderer.on(IpcEmitter.ConnectedDevice, listener)
 }
 
 export const removeConnectedDeviceListener = (
   listener: (event: any, props: any) => void
 ): void => {
-  ipcRenderer.removeListener(IpcEmitter.connectedDevice, listener)
+  ipcRenderer.removeListener(IpcEmitter.ConnectedDevice, listener)
 }
 
 export default registerConnectedDeviceListener

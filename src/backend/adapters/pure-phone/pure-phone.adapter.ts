@@ -14,11 +14,11 @@ class PurePhone extends PurePhoneFakeAdapter {
   }
 
   private emitDisconnectedDeviceSignal(event: any): void {
-    ipcMain.sendToRenderers(IpcEmitter.disconnectedDevice, event)
+    ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice, event)
   }
 
   private emitConnectedDeviceSignal(): void {
-    ipcMain.sendToRenderers(IpcEmitter.connectedDevice)
+    ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
   }
 
   public connectDevice(): Promise<DeviceResponse> {
