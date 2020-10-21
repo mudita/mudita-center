@@ -54,8 +54,14 @@ class PurePhone extends PurePhoneAdapter {
   public connectDevice(): Promise<DeviceResponse> {
     return new Promise((resolve) => {
       this.pureNode.portInit((phones: any[]) => {
-        this.pureNode.init(phones[0].path)
-        resolve({ status: DeviceResponseStatus.Ok })
+        const phone = phones[0]
+
+        if (Boolean(phone) && Boolean(phone.path)) {
+          this.pureNode.init(phones[0].path)
+          resolve({ status: DeviceResponseStatus.Ok })
+        }
+
+        resolve({ status: DeviceResponseStatus.Error })
       })
     })
   }
