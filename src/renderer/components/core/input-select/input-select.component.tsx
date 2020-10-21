@@ -97,12 +97,12 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
   ...props
 }) => {
   const ref = useRef<HTMLUListElement>(null)
-  useOutside(ref, (event) => {
-    console.log("useOutside")
-    //if the element is disabled blur call the bellow methods
-    event.stopPropagation()
-    event.preventDefault()
-  })
+  // useOutside(ref, (event) => {
+  //   console.log("useOutside")
+  //   //if the element is disabled blur call the bellow methods
+  //   event.stopPropagation()
+  //   event.preventDefault()
+  // })
 
   return (
     <List ref={ref} {...props}>
@@ -112,19 +112,27 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
         </ListItem>
       )}
       {items.map((item, index) => {
-        const onClick = (event) => onItemClick(event, item)
+        const onClick = () => onItemClick(item)
         const selected = item === selectedItem
         const disabled = disabledItems.includes(item)
-
+        const mouseDown = (event: any) => {
+          if (disabled) {
+            event.stopPropagation()
+            event.preventDefault()
+          } else {
+            noop()
+          }
+        }
         return (
           <Fragment key={index}>
             {renderListItem({
               searchString,
               item,
               props: {
+                onClick,
                 selected,
                 disabled,
-                onMouseDown: onClick,
+                onMouseDown: mouseDown,
               },
             })}
           </Fragment>
@@ -160,7 +168,6 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     onBlur(event)
     setFocus(false)
-    console.log("handleBlur")
     if (searchValue !== null) {
       onSelect("")
     }
@@ -203,8 +210,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
     return ""
   }
 
-  const changeValue = (event: MouseEvent, item) => {
-    console.log("changeValue")
+  const changeValue = (item: any) => {
     onSelect(item)
   }
 
