@@ -27,7 +27,6 @@ import {
   renderListItemSearchable,
 } from "Renderer/components/core/list/list.component"
 import { IsItemMatching } from "Renderer/components/core/utils/is-item-matching"
-import useOutside from "Renderer/utils/hooks/use"
 
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
@@ -53,6 +52,7 @@ const SelectInputWrapper = styled.div`
 
 export type ListItemProps = {
   onClick: (item: any) => void
+  onMouseDown: (event: MouseEvent) => void
   selected: boolean
   disabled: boolean
 }
@@ -96,16 +96,8 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
   renderListItem = renderListItemSearchable,
   ...props
 }) => {
-  const ref = useRef<HTMLUListElement>(null)
-  // useOutside(ref, (event) => {
-  //   console.log("useOutside")
-  //   //if the element is disabled blur call the bellow methods
-  //   event.stopPropagation()
-  //   event.preventDefault()
-  // })
-
   return (
-    <List ref={ref} {...props}>
+    <List {...props}>
       {emptyItemValue && (
         <ListItem onClick={onEmptyItemValueClick} empty>
           {emptyItemValue}
@@ -115,7 +107,7 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
         const onClick = () => onItemClick(item)
         const selected = item === selectedItem
         const disabled = disabledItems.includes(item)
-        const mouseDown = (event: any) => {
+        const onMouseDown = (event: MouseEvent) => {
           if (disabled) {
             event.stopPropagation()
             event.preventDefault()
@@ -132,7 +124,7 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
                 onClick,
                 selected,
                 disabled,
-                onMouseDown: mouseDown,
+                onMouseDown,
               },
             })}
           </Fragment>
