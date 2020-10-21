@@ -3,7 +3,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 
-export class PurePhoneFakeAdapter extends PurePhoneAdapter {
+class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
     return "Ziemniaczek Puree"
   }
