@@ -430,14 +430,16 @@ class PureNode {
     )
   }
 
-  on(chanel, fn) {
-    this.channels[chanel].push(fn)
+  on(channelName, fn) {
+    const channel = this.channels[channelName]
+    if (channel) channel.push(fn)
   }
 
-  off(chanel, unregisterFn) {
-    this.channels[chanel] = this.channels[chanel].filter(
-      (fn) => fn === unregisterFn
-    )
+  off(channelName, unregisterFn) {
+    const channel = this.channels[channelName]
+    if (channel) {
+      this.channels[channelName] = channel.filter((fn) => fn === unregisterFn)
+    }
   }
 }
 
