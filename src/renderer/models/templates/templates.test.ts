@@ -1,5 +1,5 @@
 import { init } from "@rematch/core"
-import { makeTemplate } from "Renderer/models/templates/templates"
+import { makeNewTemplate } from "Renderer/models/templates/templates"
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import templates from "Renderer/models/templates/templates"
 import { templatesSeed, todaysTemplate } from "App/seeds/templates"
@@ -40,7 +40,7 @@ test("properly removes items", () => {
   expect(
     store.getState().templates.templates?.find(({ id }) => id === lookupId)
   ).toBeDefined()
-  store.dispatch.templates.removeItems([lookupId])
+  store.dispatch.templates.removeTemplates([lookupId])
   expect(
     store.getState().templates.templates?.find(({ id }) => id === lookupId)
   ).toBeUndefined()
@@ -50,20 +50,20 @@ test("returns untouched collection when wrong ids are passed", () => {
   expect(store.getState().templates.templates?.length).toBe(
     templatesSeed.templates.length
   )
-  store.dispatch.templates.removeItems(["non", "existent"])
+  store.dispatch.templates.removeTemplates(["non", "existent"])
   expect(store.getState().templates.templates?.length).toBe(
     templatesSeed.templates.length
   )
 })
 
 test("properly creates templates without provided data", () => {
-  const newTemplate = makeTemplate()
+  const newTemplate = makeNewTemplate()
   expect(typeof newTemplate.id).toBe("string")
   expect(newTemplate.content).toBe("")
 })
 
 test("properly creates templates with provided data", () => {
-  const newTemplate = makeTemplate(testId, testContent)
+  const newTemplate = makeNewTemplate(testId, testContent)
 
   expect(newTemplate).toMatchObject(testObject)
 })

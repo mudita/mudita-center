@@ -55,7 +55,8 @@ export default {
       if (modifiedNotes) {
         return {
           ...state,
-          ...(state.newNoteId === noteData.id ? { newNoteId: undefined } : {}),
+          newNoteId:
+            state.newNoteId === noteData.id ? undefined : state.newNoteId,
           notes: modifiedNotes,
         }
       }

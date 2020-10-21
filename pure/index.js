@@ -9,8 +9,8 @@ var path = require("path")
 const pureDefs = {
   packetType: {
     invalid: '"',
-    endpoint: 35, // #
-    rawData: 36, // $
+    endpoint: "#".charCodeAt(),
+    rawData: "$".charCodeAt(),
   },
   method: {
     get: 1,

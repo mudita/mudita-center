@@ -32,6 +32,7 @@ import {
   Input,
 } from "Renderer/components/rest/phone/contact-details.styled"
 import createRouterPath from "Renderer/utils/create-router-path"
+import { CallerSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
 
 const messages = defineMessages({
   today: { id: "view.name.phone.calls.today" },
@@ -46,9 +47,14 @@ const messages = defineMessages({
 interface ContactDetailsProps {
   calls: Details[]
   onClose: () => void
+  isTopicThreadOpened: (params: CallerSearchParams) => boolean
 }
 
-export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
+export const CallDetails = ({
+  calls,
+  onClose,
+  isTopicThreadOpened,
+}: ContactDetailsProps) => {
   const history = useHistory()
   return (
     <ContactDetailsWrapper
@@ -69,7 +75,7 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
           history.push(
             createRouterPath(URL_MAIN.messages, {
               phoneNumber,
-              callerId: details.caller.id,
+              id: details.caller.id,
             })
           )
         }
@@ -113,6 +119,10 @@ export const CallDetails = ({ calls, onClose }: ContactDetailsProps) => {
                       value={details.caller.primaryPhoneNumber}
                       trailingIcons={phoneActions(
                         details.caller.primaryPhoneNumber,
+                        isTopicThreadOpened({
+                          id: details.caller.id,
+                          phoneNumber: details.caller.primaryPhoneNumber,
+                        }),
                         noop,
                         redirectToMessagesPage
                       )}

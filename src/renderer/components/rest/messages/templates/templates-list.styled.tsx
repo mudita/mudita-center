@@ -19,7 +19,7 @@ export const DeleteCol = styled(Col)`
 
 export const Table = styled(BaseTable)`
   --columnsGap: 0;
-  --columnsTemplate: 4rem 59rem 1fr 5rem;
+  --columnsTemplate: 4rem 59rem 7rem 1fr 5rem;
   --columnsTemplateWithOpenedSidebar: 4rem 27.5rem;
 
   ${Col} {

@@ -1,3 +1,4 @@
+import { PureNode } from "pure"
 import startBackend from "Backend/bootstrap"
 import { check as checkPort } from "tcp-port-used"
 import {
@@ -45,7 +46,7 @@ import {
   killAuthServer,
 } from "App/main/auth-server"
 import logger from "App/main/utils/logger"
-import { PureNode } from "pure"
+import registerAutoLaunchListener from "App/main/functions/register-auto-launch-listener"
 
 require("dotenv").config()
 
@@ -116,6 +117,7 @@ const createWindow = async () => {
   registerNewsListener()
   registerAppLogsListeners()
   registerTranslationListener()
+  registerAutoLaunchListener()
 
   if (productionEnvironment) {
     win.loadURL(

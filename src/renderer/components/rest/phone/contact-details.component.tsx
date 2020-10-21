@@ -23,6 +23,7 @@ import {
   Input,
   Name,
 } from "Renderer/components/rest/phone/contact-details.styled"
+import { CallerSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
 
 const messages = defineMessages({
   favourites: { id: "view.name.phone.contacts.details.favourites" },
@@ -48,7 +49,7 @@ export interface ContactActions {
 export interface ContactDetailsActions {
   onEdit: (contact: Contact) => void
   onCall: (phoneNumber: string) => void
-  onMessage: (phoneNumber: string, callerId: string) => void
+  onMessage: (params: CallerSearchParams) => void
 }
 
 interface ContactDetailsProps
@@ -56,10 +57,12 @@ interface ContactDetailsProps
     ContactActions,
     ContactDetailsActions {
   contact?: Contact
+  isTopicThreadOpened: (params: CallerSearchParams) => boolean
 }
 
 export const phoneActions = (
   phoneNumber: string,
+  messageDisabled: boolean,
   onCall: (input: string) => void,
   onMessage: (input: string) => void
 ): JSX.Element[] => {
@@ -74,6 +77,7 @@ export const phoneActions = (
       onClick={callHandler}
     />,
     <ButtonComponent
+      disabled={messageDisabled}
       displayStyle={DisplayStyle.InputIcon}
       Icon={Type.Message}
       key="Message"
@@ -92,6 +96,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onDelete,
   onCall,
   onMessage,
+  isTopicThreadOpened,
   ...rest
 }) => {
   if (contact) {
@@ -102,7 +107,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const handleUnblock = () => onUnblock(contact)
     const handleDelete = () => onDelete(contact)
     const handleMessage = (phoneNumber: string) =>
-      onMessage(phoneNumber, contact.id)
+      onMessage({ id: contact.id, phoneNumber })
 
     const icons = (
       <>
@@ -163,6 +168,10 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   defaultValue={contact.primaryPhoneNumber}
                   trailingIcons={phoneActions(
                     contact.primaryPhoneNumber,
+                    isTopicThreadOpened({
+                      id: contact.id,
+                      phoneNumber: contact.primaryPhoneNumber,
+                    }),
                     onCall,
                     handleMessage
                   )}
@@ -173,6 +182,10 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   defaultValue={contact.secondaryPhoneNumber}
                   trailingIcons={phoneActions(
                     contact.secondaryPhoneNumber,
+                    isTopicThreadOpened({
+                      id: contact.id,
+                      phoneNumber: contact.secondaryPhoneNumber,
+                    }),
                     onCall,
                     handleMessage
                   )}

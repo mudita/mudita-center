@@ -9,7 +9,12 @@ import OverviewContainer from "Renderer/modules/overview/overview.container"
 import PhoneContainer from "Renderer/modules/phone/phone.container"
 import Settings from "Renderer/modules/settings/settings.container"
 import Tethering from "Renderer/modules/tethering/tethering.container"
-import { URL_MAIN, URL_ONBOARDING, URL_TABS } from "Renderer/constants/urls"
+import {
+  URL_MAIN,
+  URL_ONBOARDING,
+  URL_RECOVERY_MODE,
+  URL_TABS,
+} from "Renderer/constants/urls"
 import Calendar from "Renderer/modules/calendar/calendar.component"
 import Templates from "Renderer/modules/messages/tabs/templates.container"
 import Playlist from "Renderer/modules/music/tabs/playlist.component"
@@ -21,10 +26,11 @@ import Welcome from "Renderer/modules/onboarding/welcome.component"
 import Connecting from "Renderer/modules/onboarding/connecting.component"
 import Troubleshooting from "Renderer/modules/onboarding/troubleshooting.component"
 import LayoutDesktopWrapper from "Renderer/wrappers/layout-desktop-wrapper"
-import LayoutOnboardingWrapper from "Renderer/wrappers/layout-onboarding-wrapper"
+import LayoutBlankWrapper from "Renderer/wrappers/layout-blank-wrapper"
 import Backup from "Renderer/modules/settings/tabs/backup/backup-container.component"
 import Notifications from "Renderer/modules/settings/tabs/notifications/notifications.container"
 import AudioConversion from "Renderer/modules/settings/tabs/audio-conversion/audio-conversion.container"
+import RecoveryMode from "Renderer/modules/recovery-mode/recovery-mode.component"
 
 export default () => (
   <Switch>
@@ -32,14 +38,21 @@ export default () => (
     <Redirect from={URL_ONBOARDING.root} to={URL_ONBOARDING.welcome} exact />
 
     <Route exact path={[...Object.values(URL_ONBOARDING)]}>
-      <LayoutOnboardingWrapper>
+      <LayoutBlankWrapper>
         <Route path={URL_ONBOARDING.welcome} component={Welcome} />
         <Route path={URL_ONBOARDING.connecting} component={Connecting} />
         <Route
           path={URL_ONBOARDING.troubleshooting}
           component={Troubleshooting}
         />
-      </LayoutOnboardingWrapper>
+        <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
+      </LayoutBlankWrapper>
+    </Route>
+
+    <Route exact path={[...Object.values(URL_RECOVERY_MODE)]}>
+      <LayoutBlankWrapper recoveryMode>
+        <Route path={URL_RECOVERY_MODE.root} component={RecoveryMode} />
+      </LayoutBlankWrapper>
     </Route>
 
     <Route>
