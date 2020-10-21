@@ -7,6 +7,8 @@ import {
   AppSettings,
   SettingsUpdateOption,
 } from "App/main/store/settings.interface"
+import { ipcRenderer } from "electron-better-ipc"
+import { SettingsActions } from "Common/enums/settings-actions.enum"
 
 export default {
   state: {},
@@ -23,7 +25,14 @@ export default {
       updateAppSettings(option)
       dispatch.settings.update({ [option.key]: option.value })
     },
+    async checkAutostartValue() {
+      const value = await ipcRenderer.callMain(
+        SettingsActions.GetAutostartValue
+      )
+      this.updateSettings({ key: "appAutostart", value })
+    },
     setAutostart(value: AppSettings["appAutostart"]) {
+      ipcRenderer.callMain(SettingsActions.SetAutostart, value)
       this.updateSettings({ key: "appAutostart", value })
     },
     setTethering(value: AppSettings["appTethering"]) {
