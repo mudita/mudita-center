@@ -5,8 +5,9 @@ const useOutside = (
   callback: () => void
 ) => {
   const handleClick = (event: MouseEvent) => {
+    // console.log("handleClick: ", ref.current, event.target)
     if (ref.current && ref.current.contains(event.target as Node)) {
-      callback()
+      callback(event)
     }
   }
 

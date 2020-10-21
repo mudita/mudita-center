@@ -96,8 +96,16 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
   renderListItem = renderListItemSearchable,
   ...props
 }) => {
+  const ref = useRef<HTMLUListElement>(null)
+  useOutside(ref, (event) => {
+    console.log("useOutside")
+    //if the element is disabled blur call the bellow methods
+    event.stopPropagation()
+    event.preventDefault()
+  })
+
   return (
-    <List {...props}>
+    <List ref={ref} {...props}>
       {emptyItemValue && (
         <ListItem onClick={onEmptyItemValueClick} empty>
           {emptyItemValue}
@@ -146,13 +154,6 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   const [focus, setFocus] = useState(false)
   const [searchValue, setSearchValue] = useState<string | null>(null)
   const selectRef = useRef<HTMLInputElement>(null)
-  const ref = useRef<HTMLUListElement>(null)
-
-  useOutside(ref, (event) => {
-    console.log("useOutside")
-    event.stopPropagation()
-    event.preventDefault()
-  })
 
   const resetSelection = () => onSelect("")
 
@@ -243,7 +244,6 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         onTransitionEnd={resetSearchValue}
         onEmptyItemValueClick={resetSelection}
         onItemClick={changeValue}
-        ref={ref}
       />
     </SelectInputWrapper>
   )
