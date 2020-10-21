@@ -39,8 +39,11 @@ const messages = defineMessages({
   date: { id: "view.name.phone.calls.date" },
   type: { id: "view.name.phone.calls.type" },
   information: { id: "view.name.phone.contacts.details.information" },
-  deleteCall: { id: "view.name.phone.contacts.details.deleteCall" },
-  contactDetails: { id: "view.name.phone.contacts.details.contactDetails" },
+  deleteCallLabel: { id: "view.name.phone.contacts.details.deleteCallLabel" },
+  contactCallLabel: { id: "view.name.phone.contacts.details.contactCall" },
+  newContactCallLabel: {
+    id: "view.name.phone.contacts.details.newContactCall",
+  },
 })
 
 interface ContactDetailsProps {
@@ -108,23 +111,23 @@ export const CallDetails = ({
             <ButtonWrapper>
               <Button
                 displayStyle={DisplayStyle.Dropdown}
-                label={intl.formatMessage(messages.deleteCall)}
+                label={intl.formatMessage(messages.deleteCallLabel)}
                 onClick={noop}
                 Icon={Type.Delete}
               />
               {contactCreated ? (
                 <Button
                   displayStyle={DisplayStyle.Dropdown}
-                  label="Contact details"
+                  label={intl.formatMessage(messages.contactCallLabel)}
                   onClick={redirectToContactsPage}
                   Icon={Type.Contact}
                 />
               ) : (
                 <Button
                   displayStyle={DisplayStyle.Dropdown}
-                  label="New contact"
+                  label={intl.formatMessage(messages.newContactCallLabel)}
                   onClick={redirectToContactsPage}
-                  Icon={Type.Contact}
+                  Icon={Type.NewContact}
                 />
               )}
             </ButtonWrapper>
