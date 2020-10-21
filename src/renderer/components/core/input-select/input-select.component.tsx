@@ -27,6 +27,7 @@ import {
   renderListItemSearchable,
 } from "Renderer/components/core/list/list.component"
 import { IsItemMatching } from "Renderer/components/core/utils/is-item-matching"
+import useOutside from "Renderer/utils/hooks/use"
 
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
@@ -103,7 +104,7 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
         </ListItem>
       )}
       {items.map((item, index) => {
-        const onClick = () => onItemClick(item)
+        const onClick = (event) => onItemClick(event, item)
         const selected = item === selectedItem
         const disabled = disabledItems.includes(item)
 
@@ -113,9 +114,9 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
               searchString,
               item,
               props: {
-                onClick,
                 selected,
                 disabled,
+                onMouseDown: onClick,
               },
             })}
           </Fragment>
@@ -145,12 +146,20 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   const [focus, setFocus] = useState(false)
   const [searchValue, setSearchValue] = useState<string | null>(null)
   const selectRef = useRef<HTMLInputElement>(null)
+  const ref = useRef<HTMLUListElement>(null)
+
+  useOutside(ref, (event) => {
+    console.log("useOutside")
+    event.stopPropagation()
+    event.preventDefault()
+  })
 
   const resetSelection = () => onSelect("")
 
   const handleBlur = (event: FocusEvent<HTMLInputElement>) => {
     onBlur(event)
     setFocus(false)
+    console.log("handleBlur")
     if (searchValue !== null) {
       onSelect("")
     }
@@ -193,6 +202,11 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
     return ""
   }
 
+  const changeValue = (event: MouseEvent, item) => {
+    console.log("changeValue")
+    onSelect(item)
+  }
+
   const toggleIcon = (
     <ToggleIcon
       rotated={focus}
@@ -228,7 +242,8 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         expanded={focus}
         onTransitionEnd={resetSearchValue}
         onEmptyItemValueClick={resetSelection}
-        onItemClick={onSelect}
+        onItemClick={changeValue}
+        ref={ref}
       />
     </SelectInputWrapper>
   )

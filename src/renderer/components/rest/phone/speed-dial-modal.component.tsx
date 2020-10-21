@@ -164,6 +164,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                   listStyles={css`
                     max-height: 30rem;
                   `}
+                  disabledItems={[contact]}
                 />
               </Col>
             </Row>
