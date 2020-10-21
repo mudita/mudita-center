@@ -13,8 +13,8 @@ class PurePhone extends PurePhoneAdapter {
     pureNode.on("data", this.emitConnectedDeviceSignal)
   }
 
-  private emitDisconnectedDeviceSignal = (event: any): void => {
-    this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice, event)
+  private emitDisconnectedDeviceSignal = (): void => {
+    this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)
   }
 
   private emitConnectedDeviceSignal = (): void => {

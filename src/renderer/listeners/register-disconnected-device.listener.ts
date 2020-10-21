@@ -1,14 +1,12 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 
-const registerDisconnectedDeviceListener = (
-  listener: (event: any, props: any) => void
-): void => {
+const registerDisconnectedDeviceListener = (listener: () => void): void => {
   ipcRenderer.on(IpcEmitter.DisconnectedDevice, listener)
 }
 
 export const removeDisconnectedDeviceListener = (
-  listener: (event: any, props: any) => void
+  listener: () => void
 ): void => {
   ipcRenderer.removeListener(IpcEmitter.DisconnectedDevice, listener)
 }
