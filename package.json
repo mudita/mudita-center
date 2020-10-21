@@ -26,7 +26,7 @@
     "dist": "npm run build && electron-builder --publish never",
     "dist:all": "npm run dist -- -mwl",
     "TEST COMMANDS": "=========================================================",
-    "test": "jest '(/__tests__/.*|(\\.|/)(test|spec))\\.([tj]sx?)$'",
+    "test": "jest --config=jest-unit.config.js",
     "test:all": "jest --config=jest.config.js",
     "test:coverage": "npm run test -- --coverage",
     "test:e2e": "jest --config=jest-e2e.config.js --runInBand",
