@@ -202,10 +202,6 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
     return ""
   }
 
-  const changeValue = (item: any) => {
-    onSelect(item)
-  }
-
   const toggleIcon = (
     <ToggleIcon
       rotated={focus}
@@ -241,7 +237,7 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         expanded={focus}
         onTransitionEnd={resetSearchValue}
         onEmptyItemValueClick={resetSelection}
-        onItemClick={changeValue}
+        onItemClick={onSelect}
       />
     </SelectInputWrapper>
   )
