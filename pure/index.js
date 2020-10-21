@@ -229,7 +229,7 @@ class PureNode {
       }
 
       debug("payload is a JSON object pass it to our application")
-      this.channels["data"].map((fn) => fn(JSON.parse(slicedPayload)))
+      this.channels["data"].forEach((fn) => fn(JSON.parse(slicedPayload)))
     } else if (slicedPayload.length < this.currentPacket.dataSizeToRead) {
       debug("readPayload need to read more data from stream")
       this.currentPacket.dataRaw += slicedPayload
@@ -276,7 +276,7 @@ class PureNode {
 
   portClose(err) {
     debug("portClose %o", err)
-    this.channels["close"].map((fn) => fn(err))
+    this.channels["close"].forEach((fn) => fn(err))
     this.isPolling = false
   }
 
