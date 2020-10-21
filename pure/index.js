@@ -93,6 +93,10 @@ class PureNode {
     this.purePhones = Array()
     this.portList = Array()
     this._version = "0.1"
+    this.channels = {
+      close: [],
+      data: [],
+    }
   }
 
   async portInit(asyncInitCallback) {
@@ -158,7 +162,7 @@ class PureNode {
     debug("portOpen %o", this.serialPortHandle)
     this.isPolling = true
 
-    this.owner.onOpen()
+    // this.owner.onOpen()
 
     // set timeout initially to 0 after that we poll at a lowe rate
     this.timerObject = setTimeout(this.sendDeviceStatusRequest.bind(this), 0)
@@ -167,7 +171,7 @@ class PureNode {
   portError(err) {
     debug("ERROR: %o", err)
     this.isPolling = false
-    this.owner.onError()
+    // this.owner.onError()
   }
 
   readType(arg) {
@@ -225,7 +229,7 @@ class PureNode {
       }
 
       debug("payload is a JSON object pass it to our application")
-      this.owner.onValidResponse(JSON.parse(slicedPayload))
+      this.channels["data"].forEach((fn) => fn(JSON.parse(slicedPayload)))
     } else if (slicedPayload.length < this.currentPacket.dataSizeToRead) {
       debug("readPayload need to read more data from stream")
       this.currentPacket.dataRaw += slicedPayload
@@ -272,7 +276,7 @@ class PureNode {
 
   portClose(err) {
     debug("portClose %o", err)
-    this.owner.onClose(err)
+    this.channels["close"].forEach((fn) => fn(err))
     this.isPolling = false
   }
 
@@ -415,7 +419,7 @@ class PureNode {
     this.uploadFile.lastWrite = Date.now()
     this.uploadFile.dataSent += data.length
 
-    if (this.owner.onFileReadAsync) this.owner.onFileReadAsync(this.uploadFile)
+    // if (this.owner.onFileReadAsync) this.owner.onFileReadAsync(this.uploadFile)
   }
 
   readFileFinished() {
@@ -424,6 +428,18 @@ class PureNode {
       this.sendDeviceStatusRequest.bind(this),
       this.pingInterval
     )
+  }
+
+  on(channelName, fn) {
+    const channel = this.channels[channelName]
+    if (channel) channel.push(fn)
+  }
+
+  off(channelName, unregisterFn) {
+    const channel = this.channels[channelName]
+    if (channel) {
+      this.channels[channelName] = channel.filter((fn) => fn === unregisterFn)
+    }
   }
 }
 
