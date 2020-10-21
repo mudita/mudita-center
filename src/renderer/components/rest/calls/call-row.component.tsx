@@ -140,7 +140,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
               labelMessage={{
                 id: "view.name.phone.calls.details",
               }}
-              Icon={Type.Contacts}
+              Icon={Type.Contact}
               onClick={openSidebar}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="call-details"

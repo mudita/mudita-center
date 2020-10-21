@@ -117,14 +117,14 @@ export const CallDetails = ({
                   displayStyle={DisplayStyle.Dropdown}
                   label="Contact details"
                   onClick={redirectToContactsPage}
-                  Icon={Type.Contacts}
+                  Icon={Type.Contact}
                 />
               ) : (
                 <Button
                   displayStyle={DisplayStyle.Dropdown}
-                  label="Create contact"
+                  label="New contact"
                   onClick={redirectToContactsPage}
-                  Icon={Type.Contacts}
+                  Icon={Type.Contact}
                 />
               )}
             </ButtonWrapper>

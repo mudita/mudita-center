@@ -259,7 +259,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       labelMessage={{
                         id: "view.name.messages.dropdownContactDetails",
                       }}
-                      Icon={Type.Contacts}
+                      Icon={Type.Contact}
                       onClick={noop}
                       displayStyle={DisplayStyle.Dropdown}
                       data-testid="dropdown-contact-details"
@@ -269,7 +269,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       labelMessage={{
                         id: "view.name.messages.dropdownAddToContacts",
                       }}
-                      Icon={Type.Contacts}
+                      Icon={Type.Contact}
                       onClick={noop}
                       displayStyle={DisplayStyle.Dropdown}
                       data-testid="dropdown-add-to-contacts"

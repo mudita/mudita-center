@@ -88,7 +88,7 @@ const MessageDetails: FunctionComponent<Props> = ({
         iconSize={IconSize.Big}
       />
       <SidebarHeaderIcon
-        Icon={Type.Contacts}
+        Icon={Type.Contact}
         onClick={noop}
         iconSize={IconSize.Big}
       />
