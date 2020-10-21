@@ -42,7 +42,7 @@ const messages = defineMessages({
   deleteCallLabel: { id: "view.name.phone.contacts.details.deleteCallLabel" },
   contactCallLabel: { id: "view.name.phone.contacts.details.contactCall" },
   newContactCallLabel: {
-    id: "view.name.phone.contacts.details.newContactCall",
+    id: "view.name.phone.contacts.details.newContactCallLabel",
   },
 })
 
