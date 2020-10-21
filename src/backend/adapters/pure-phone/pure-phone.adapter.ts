@@ -3,22 +3,22 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 
-import { ipcMain } from "electron-better-ipc"
+import { MainProcessIpc } from "electron-better-ipc"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 
 class PurePhone extends PurePhoneAdapter {
-  constructor(private pureNode: any) {
+  constructor(private pureNode: any, private ipcMain: MainProcessIpc) {
     super()
     pureNode.on("close", this.emitDisconnectedDeviceSignal)
     pureNode.on("data", this.emitConnectedDeviceSignal)
   }
 
   private emitDisconnectedDeviceSignal = (event: any): void => {
-    ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice, event)
+    this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice, event)
   }
 
   private emitConnectedDeviceSignal = (): void => {
-    ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
+    this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
   }
 
   public getModelName(): string {
@@ -61,7 +61,9 @@ class PurePhone extends PurePhoneAdapter {
   }
 }
 
-const createPurePhoneAdapter = (pureNode: any): PurePhoneAdapter =>
-  new PurePhone(pureNode)
+const createPurePhoneAdapter = (
+  pureNode: any,
+  ipcMain: MainProcessIpc
+): PurePhoneAdapter => new PurePhone(pureNode, ipcMain)
 
 export default createPurePhoneAdapter

@@ -109,7 +109,7 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  startBackend(pureNode)
+  startBackend(pureNode, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()
