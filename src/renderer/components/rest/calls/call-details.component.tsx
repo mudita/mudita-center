@@ -51,11 +51,13 @@ interface ContactDetailsProps {
   onClose: () => void
   isTopicThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
+  onDeleteClick: (id: string) => void
 }
 
 export const CallDetails = ({
   calls,
   onClose,
+  onDeleteClick,
   isTopicThreadOpened,
   isContactCreated,
 }: ContactDetailsProps) => {
@@ -92,6 +94,8 @@ export const CallDetails = ({
 
         const contactCreated = isContactCreated(details.caller.phoneNumber)
 
+        const emitDeleteClick = () => onDeleteClick(details.id)
+
         return (
           <CallWrapper key={index}>
             <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
@@ -112,7 +116,7 @@ export const CallDetails = ({
               <Button
                 displayStyle={DisplayStyle.Dropdown}
                 label={intl.formatMessage(messages.deleteCallLabel)}
-                onClick={noop}
+                onClick={emitDeleteClick}
                 Icon={Type.Delete}
               />
               {contactCreated ? (

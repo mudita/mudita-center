@@ -10,11 +10,16 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
-import { createFullName } from "Renderer/models/phone/phone.helpers"
+import { Message } from "Renderer/interfaces/message.interface"
+import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
+import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
 
-const messages = defineMessages({
-  title: { id: "view.name.calls.deleteTitle" },
-  body: { id: "view.name.calls.deleteBody" },
+const deleteModalMessages = defineMessages({
+  title: { id: "view.name.calls.deleteModal.title" },
+  multipleThreadText: {
+    id: "view.name.calls.deleteModal.multipleThreadText",
+  },
+  singleThreadText: { id: "view.name.calls.deleteModal.singleThreadText" },
 })
 
 export interface CallsProps {
@@ -41,31 +46,61 @@ const Calls: FunctionComponent<CallsProps> = ({
     allRowsSelected,
     resetRows,
   } = useTableSelect<Details>(calls)
+  const {
+    openSidebar,
+    closeSidebar,
+    sidebarOpened,
+    activeRow,
+  } = useTableSidebar<Details>(undefined)
 
-  const openDeleteModal = (details: Details) => {
-    const callerName =
-      createFullName(details.caller) || details.caller.phoneNumber
-    const callsCount = details.timesMissed || 1
-    const modalConfig = {
-      title: intl.formatMessage({ ...messages.title }),
-      message: {
-        ...messages.body,
-        values: { ...textFormatters, num: callsCount, name: callerName },
+  const getSingleThreadDeleteMessage = (id: string): Message => {
+    const findById = (details: Details) => details.id === id
+    const details = calls.find(findById) as Details
+    return {
+      ...deleteModalMessages.singleThreadText,
+      values: {
+        caller: getPrettyCaller(details.caller),
+        ...textFormatters,
       },
     }
+  }
 
-    const handleDelete = async () => {
-      modalService.rerenderModal(<DeleteModal {...modalConfig} deleting />)
+  const getMultipleThreadDeleteMessage = (ids: string[]): Message => {
+    return {
+      ...deleteModalMessages.multipleThreadText,
+      values: {
+        num: allRowsSelected ? -1 : ids.length,
+        ...textFormatters,
+      },
+    }
+  }
 
-      deleteCall([details.id])
-
-      await modalService.closeModal()
+  const remove = (ids: string[]) => {
+    const title = intl.formatMessage(deleteModalMessages.title)
+    const message =
+      ids.length === 1
+        ? getSingleThreadDeleteMessage(ids[0])
+        : getMultipleThreadDeleteMessage(ids)
+    const onDelete = () => {
+      deleteCall(ids)
+      resetRows()
+      closeSidebar()
+      modalService.closeModal()
     }
 
     modalService.openModal(
-      <DeleteModal {...modalConfig} onDelete={handleDelete} />
+      <DeleteModal
+        title={title}
+        message={message}
+        onClose={resetRows}
+        onDelete={onDelete}
+      />
     )
   }
+
+  const removeSingleCall = (id: string) => remove([id])
+
+  const removeSelectedRows = () => remove(selectedRows.map(({ id }) => id))
 
   return (
     <>
@@ -73,18 +108,21 @@ const Calls: FunctionComponent<CallsProps> = ({
         changeVisibilityFilter={changeVisibilityFilter}
         toggleAll={toggleAll}
         allRowsSelected={allRowsSelected}
-        deleteCall={deleteCall}
         selectedCalls={selectedRows}
-        resetRows={resetRows}
+        onDeleteClick={removeSelectedRows}
       />
       <CallsTable
-        deleteCall={openDeleteModal}
+        sidebarOpened={sidebarOpened}
+        activeRow={activeRow}
         calls={calls}
         getRowStatus={getRowStatus}
         toggleRow={toggleRow}
         noneRowsSelected={noneRowsSelected}
         isTopicThreadOpened={isTopicThreadOpened}
         isContactCreated={isContactCreated}
+        onDeleteClick={removeSingleCall}
+        onRowClick={openSidebar}
+        onDetailsCloseClick={closeSidebar}
       />
     </>
   )

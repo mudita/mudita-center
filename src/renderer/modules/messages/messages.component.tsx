@@ -20,9 +20,8 @@ import findTopicBySearchParams from "Renderer/modules/messages/find-topic-by-sea
 import { intl, textFormatters } from "Renderer/utils/intl"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
-import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "Renderer/models/phone/phone.helpers"
 import { Message } from "Renderer/interfaces/message.interface"
+import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
@@ -66,18 +65,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const _devLoadDefaultMessages = () => setMessagesList(list)
   useEffect(() => setMessagesList(list), [list])
 
-  const getPrettyCaller = (id: string): string => {
+  const getSingleThreadDeleteMessage = (id: string): Message => {
     const findById = (topic: Topic) => topic.id === id
     const topic = list.find(findById) as Topic
-    const caller = topic.caller
-    return isNameAvailable(caller) ? createFullName(caller) : caller.phoneNumber
-  }
-
-  const getSingleThreadDeleteMessage = (id: string): Message => {
     return {
       ...deleteModalMessages.singleThreadText,
       values: {
-        caller: getPrettyCaller(id),
+        caller: getPrettyCaller(topic.caller),
         ...textFormatters,
       },
     }
@@ -115,6 +109,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
     )
   }
 
+  const removeSingleConversation = (id: string) => remove([id])
+
   const removeSelectedRows = () => remove(selectedRows.map(({ id }) => id))
 
   return (
@@ -140,14 +136,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
         resetRows={resetRows}
         visibilityFilter={visibilityFilter}
         onMarkAsRead={markAsRead}
-        onDeleteButtonClick={removeSelectedRows}
+        onDeleteClick={removeSelectedRows}
       />
       <TableWithSidebarWrapper>
         <MessagesList
           list={messagesList}
           openSidebar={openSidebar}
           activeRow={activeRow}
-          onRemove={remove}
+          onDeleteClick={removeSingleConversation}
           onToggleReadStatus={toggleReadStatus}
           {...rest}
         />
