@@ -88,6 +88,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
   flatList = [],
 }) => {
   const [localData, setLocalData] = useState<[ContactID, Contact][]>([])
+  const [disabled, setDisabled] = useState<Contact>()
   const speedDialList = Array.from({ length: 9 })
     .fill(null)
     .map((_, i) => {
@@ -146,6 +147,8 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
               )
               return [...filteredCurrentState, newItem]
             })
+
+            setDisabled(contact)
           }
 
           return (
@@ -164,7 +167,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                   listStyles={css`
                     max-height: 30rem;
                   `}
-                  disabledItems={[contact]}
+                  disabledItems={[disabled]}
                 />
               </Col>
             </Row>
