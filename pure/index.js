@@ -433,6 +433,12 @@ class PureNode {
   on(chanel, fn) {
     this.channels[chanel].push(fn)
   }
+
+  off(chanel, unregisterFn) {
+    this.channels[chanel] = this.channels[chanel].filter(
+      (fn) => fn === unregisterFn
+    )
+  }
 }
 
 module.exports.PureNode = PureNode
