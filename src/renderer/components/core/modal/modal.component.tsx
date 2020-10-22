@@ -56,7 +56,7 @@ const Close = styled(Button)`
   justify-self: end;
 `
 
-const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
+export const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
   ${({ buttonsPosition }) => getButtonsPosition(buttonsPosition)};
 
   display: flex;
@@ -64,7 +64,7 @@ const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
   padding-top: 3.2rem;
 `
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   display: flex;
 `
 
@@ -79,6 +79,7 @@ const CloseButton = styled(Button)<{ actionButton?: boolean }>`
 export interface ModalProps {
   actionButtonLabel?: ButtonProps["label"]
   actionButtonIcon?: ButtonProps["Icon"]
+  actionButtonDisabled?: boolean
   onActionButtonClick?: () => void
   closeable?: boolean
   closeButton?: boolean
@@ -93,6 +94,7 @@ export interface ModalProps {
 const Modal: FunctionComponent<ModalProps> = ({
   actionButtonLabel,
   actionButtonIcon,
+  actionButtonDisabled,
   onActionButtonClick,
   children,
   closeable = true,
@@ -161,6 +163,7 @@ const Modal: FunctionComponent<ModalProps> = ({
                 onClick={onActionButtonClick}
                 data-testid={ModalTestIds.ModalActionButton}
                 Icon={actionButtonIcon}
+                disabled={actionButtonDisabled}
               />
             )}
           </ButtonWrapper>

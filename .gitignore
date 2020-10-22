@@ -41,6 +41,7 @@ src/style.css.map
 dist
 
 tmp/extractedMessages
+tmp/storiesSourceCodes
 .idea
 .vscode
 .storybook/tmp/**/*

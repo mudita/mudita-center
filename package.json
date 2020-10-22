@@ -214,6 +214,7 @@
     "@contentful/rich-text-react-renderer": "^14.1.1",
     "@contentful/rich-text-types": "^14.1.1",
     "@rematch/core": "^1.4.0",
+    "@rematch/immer": "^2.0.0-next.6",
     "@rematch/select": "^2.0.5",
     "@seznam/compose-react-refs": "^1.0.4",
     "@types/crypto-js": "^4.0.1",
@@ -236,9 +237,9 @@
     "minimist": "^1.2.5",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
+    "pure": "file:pure",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "pure": "file:pure",
     "react-hook-form": "^6.5.2",
     "react-intersection-observer": "^8.29.0",
     "react-redux": "^7.2.1",
@@ -253,10 +254,10 @@
     "source-map-support": "^0.5.19",
     "styled-components": "^5.1.1",
     "styled-normalize": "^8.0.7",
-    "winston": "^3.3.3",
-    "winston-daily-rotate-file": "^4.5.0",
     "tcp-port-used": "^1.0.1",
-    "update-electron-app": "^1.5.0"
+    "update-electron-app": "^1.5.0",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.0"
   },
   "engines": {
     "node": "12.18.4",

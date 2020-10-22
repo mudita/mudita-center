@@ -3,7 +3,6 @@ import styled from "styled-components"
 import { defineMessages, FormattedDate } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
-import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import InputSearch, {
@@ -11,6 +10,7 @@ import InputSearch, {
 } from "Renderer/components/core/input-search/input-search.component"
 import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
 import { ListItem } from "Renderer/components/core/list/list.component"
+import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "view.name.calendar.panel.searchPlaceholder" },
@@ -81,21 +81,19 @@ const CalendarInputSearch: FunctionComponent<CalendarInputSelectProps> = ({
   onEventSelect,
   onEventValueChange,
   ...props
-}) => {
-  return (
-    <InputSearch
-      outlined
-      items={events}
-      selectedItem={selectedEvent}
-      onSelect={onEventSelect}
-      onChange={onEventValueChange}
-      label={intl.formatMessage(messages.searchPlaceholder)}
-      renderItemValue={renderName}
-      isItemMatching={isItemMatching}
-      renderListItem={renderListItem}
-      {...props}
-    />
-  )
-}
+}) => (
+  <InputSearch
+    outlined
+    items={events}
+    selectedItem={selectedEvent}
+    onSelect={onEventSelect}
+    onChange={onEventValueChange}
+    label={intl.formatMessage(messages.searchPlaceholder)}
+    renderItemValue={renderName}
+    isItemMatching={isItemMatching}
+    renderListItem={renderListItem}
+    {...props}
+  />
+)
 
 export default CalendarInputSearch

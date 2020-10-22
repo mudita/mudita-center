@@ -4,7 +4,7 @@ export const authServerPort = 3456
 let server: http.Server | null = null
 
 export const createAuthServer = (
-  cb?: (body: string) => void | Promise<void>
+  callback: (body: string) => void | Promise<void>
 ): void => {
   if (server) {
     killAuthServer()
@@ -17,7 +17,7 @@ export const createAuthServer = (
       res.statusCode = 200
       req.on("data", (data) => (body += data))
       req.on("end", () => {
-        cb && cb(body)
+        callback(body)
       })
     } else {
       res.statusCode = 400

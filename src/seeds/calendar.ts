@@ -1,6 +1,7 @@
-import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
+import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { initialState } from "Renderer/models/calendar/calendar"
 
-export const calendarSeed: CalendarEvent[] = [
+export const calendarData: CalendarEvent[] = [
   {
     id: "test-event-1",
     name: "Felix's Birthday",
@@ -62,3 +63,8 @@ export const calendarSeed: CalendarEvent[] = [
     date: [new Date("2020-02-12 11:00"), new Date("2020-02-12 14:00")],
   },
 ]
+
+export const calendarSeed = {
+  ...initialState,
+  events: calendarData,
+}

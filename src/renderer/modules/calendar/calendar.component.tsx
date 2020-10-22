@@ -1,95 +1,127 @@
-import { defineMessages } from "react-intl"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import { noop } from "Renderer/utils/noop"
 import { CalendarProps } from "Renderer/modules/calendar/calendar.interface"
-import { calendarSeed } from "App/seeds/calendar"
-import {
-  Event,
-  EventsList,
-  Header,
-} from "Renderer/modules/calendar/calendar.styled"
+import { calendarData } from "App/seeds/calendar"
 import modalService from "Renderer/components/core/modal/modal.service"
+import EventsList from "Renderer/components/rest/calendar/events-list.component"
+import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import {
-  SyncCalendarModal,
-  SynchronizingModal,
-  SynchronizingFinishedModal,
-  SynchronizingFailedModal,
-} from "Renderer/components/rest/calendar/calendar.modals"
+  Calendar,
+  CalendarEvent,
+} from "Renderer/models/calendar/calendar.interfaces"
+import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
+import SelectCalendarsModal from "Renderer/components/rest/calendar/select-calendars-modal.component"
+import SynchronizingEventsModal from "Renderer/components/rest/calendar/synchronizing-events-modal.component"
+import delayResponse from "@appnroll/delay-response"
+import logger from "App/main/utils/logger"
+import EventsSynchronizationFinishedModal from "Renderer/components/rest/calendar/synchronization-finished-modal.component"
+import EventsSynchronizationFailedModal from "Renderer/components/rest/calendar/synchronization-failed.component"
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import GoogleAuthorizationFailedModal from "Renderer/components/rest/calendar/google-auth-failed.component"
 
-const messages = defineMessages({
-  allEvents: {
-    id: "view.name.calendar.allEvents",
-  },
-})
-
-const Calendar: FunctionComponent<CalendarProps> = ({
-  events = calendarSeed,
+const CalendarComponent: FunctionComponent<CalendarProps> = ({
+  calendars,
+  events = calendarData,
+  loadCalendars,
+  loadEvents,
 }) => {
-  const [, setSync] = useState(1)
-  const timeout = useRef<NodeJS.Timeout>()
+  const tableSelectHook = useTableSelect<CalendarEvent>(events)
 
-  const removeTimeoutHandler = () => {
-    if (timeout.current) {
-      clearTimeout(timeout.current)
+  const loadGoogleCalendars = async () => {
+    try {
+      return await loadCalendars(Provider.Google)
+    } catch (error) {
+      logger.error(error)
+      openGoogleAuthFailedModal()
     }
   }
 
-  const closeModal = () => modalService.closeModal()
-
-  const openSynchronizingFinishedModal = async () => {
+  const openGoogleAuthFailedModal = async () => {
     await modalService.closeModal()
-    await modalService.openModal(
-      <SynchronizingFinishedModal onDone={closeModal} />
+    modalService.openModal(
+      <GoogleAuthorizationFailedModal
+        onActionButtonClick={loadGoogleCalendars}
+      />
     )
   }
 
-  const openSynchronizingFailedModal = async () => {
+  const openSynchronizingLoaderModal = async () => {
     await modalService.closeModal()
-    await modalService.openModal(
-      <SynchronizingFailedModal onRefresh={openSynchronizingModal} />
+    modalService.openModal(<SynchronizingEventsModal />)
+  }
+
+  const openSynchronizationFailedModal = async () => {
+    await modalService.closeModal()
+    modalService.openModal(<EventsSynchronizationFailedModal />)
+  }
+
+  const openSynchronizationFinishedModal = async (
+    importedEventsCount: number
+  ) => {
+    const closeModal = () => modalService.closeModal()
+    await closeModal()
+    modalService.openModal(
+      <EventsSynchronizationFinishedModal
+        importedEventsCount={importedEventsCount}
+        onActionButtonClick={closeModal}
+      />,
+      true
     )
   }
 
-  const openSynchronizingModal = async () => {
-    await modalService.closeModal()
-    await modalService.openModal(<SynchronizingModal />)
-    timeout.current = setTimeout(() => {
-      setSync((prevSync) => {
-        if (prevSync % 3 === 0) {
-          openSynchronizingFailedModal()
-        } else {
-          openSynchronizingFinishedModal()
-        }
-        return prevSync + 1
-      })
-    }, 1500)
+  const openSelectVendorModal = () => {
+    try {
+      modalService.openModal(
+        <SelectVendorModal onGoogleButtonClick={loadGoogleCalendars} />
+      )
+    } catch (error) {
+      openSynchronizationFailedModal()
+      logger.error(error)
+      return error
+    }
   }
-  const openSyncCalendarModal = async () => {
-    await modalService.openModal(
-      <SyncCalendarModal onGoogleButtonClick={openSynchronizingModal} />
+
+  const openSelectCalendarsModal = async () => {
+    await modalService.closeModal()
+    modalService.openModal(
+      <SelectCalendarsModal
+        calendars={calendars}
+        onSynchronize={synchronizeEvents}
+      />
     )
   }
 
-  useEffect(() => () => removeTimeoutHandler(), [])
+  const synchronizeEvents = async (calendar: Calendar) => {
+    try {
+      openSynchronizingLoaderModal()
+      const events = await delayResponse(loadEvents(calendar))
+      openSynchronizationFinishedModal(events.length)
+    } catch (error) {
+      openSynchronizationFailedModal()
+      logger.error(error)
+      return error
+    }
+  }
+
+  useEffect(() => {
+    if (calendars.length) {
+      openSelectCalendarsModal()
+    }
+  }, [calendars])
 
   return (
-    <div>
+    <>
       <CalendarPanel
         events={events}
         onEventSelect={noop}
         onEventValueChange={noop}
-        onSynchroniseClick={openSyncCalendarModal}
+        onSynchroniseClick={openSelectVendorModal}
       />
-      <Header message={messages.allEvents} />
-      <EventsList>
-        {events.map((item) => (
-          <Event key={item.id} event={item} />
-        ))}
-      </EventsList>
-    </div>
+      <EventsList events={events} {...tableSelectHook} />
+    </>
   )
 }
 
-export default Calendar
+export default CalendarComponent
