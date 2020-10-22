@@ -88,7 +88,6 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
   flatList = [],
 }) => {
   const [localData, setLocalData] = useState<[ContactID, Contact][]>([])
-  const [disabled, setDisabled] = useState<Contact>()
   const speedDialList = Array.from({ length: 9 })
     .fill(null)
     .map((_, i) => {
@@ -133,7 +132,9 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
         </Labels>
         {speedDialList.map((item: Record<number, Contact | undefined>, i) => {
           const speedDial = i + 1
-          const contact = item[speedDial]
+          const [selectedItem, setSelectedItem] = useState<Contact | undefined>(
+            item[speedDial]
+          )
 
           const onChange = (contact: Contact) => {
             const newItem = [contact.id, { ...contact, speedDial }] as [
@@ -148,7 +149,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
               return [...filteredCurrentState, newItem]
             })
 
-            setDisabled(contact)
+            setSelectedItem(contact)
           }
 
           return (
@@ -158,7 +159,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                 <StyledInputSelect
                   searchable
                   items={availableContacts}
-                  selectedItem={contact ? contact : ""}
+                  selectedItem={selectedItem ? selectedItem : ""}
                   emptyItemValue={intl.formatMessage(messages.none)}
                   renderItemValue={renderItemValue}
                   renderListItem={renderListItem}
@@ -167,7 +168,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                   listStyles={css`
                     max-height: 30rem;
                   `}
-                  disabledItems={[disabled]}
+                  disabledItems={[selectedItem]}
                 />
               </Col>
             </Row>
