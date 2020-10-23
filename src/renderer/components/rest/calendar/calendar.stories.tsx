@@ -12,13 +12,13 @@ import GoogleAuthorizationFailedModal from "Renderer/components/rest/calendar/go
 import Story from "Renderer/components/storybook/story.component"
 import CalendarInputSearch from "Renderer/components/rest/calendar/calendar-input-search.component"
 import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
-import { noop } from "Renderer/utils/noop"
+import { asyncNoop, noop } from "Renderer/utils/noop"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 
 storiesOf("Views/Calendar/Modals", module).add("All", () => (
   <StoryContainer title="Sync modals" column>
     <Story title="Synchronization finished" transparentMode>
-      <SelectVendorModal onGoogleButtonClick={noop} />
+      <SelectVendorModal onGoogleButtonClick={asyncNoop} />
     </Story>
     <Story title="Synchronization failed" transparentMode>
       <SelectCalendarsModal
@@ -50,7 +50,7 @@ storiesOf("Views/Calendar", module).add("Input", () => {
   return (
     <Story title="Input Search">
       <InputSearch
-        events={calendarSeed}
+        events={calendarSeed.events}
         selectedEvent={selectedEvent}
         onEventSelect={setSelectedEvent}
         onEventValueChange={noop}

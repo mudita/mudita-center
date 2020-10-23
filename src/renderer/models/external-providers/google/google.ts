@@ -9,7 +9,6 @@ import {
 import { Dispatch } from "Renderer/store/external-providers"
 import { ipcRenderer } from "electron-better-ipc"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
-import { requestWrapper } from "Renderer/models/external-providers/google/google.helpers"
 import logger from "App/main/utils/logger"
 import { ExternalProvidersState } from "Renderer/models/external-providers/external-providers.interface"
 import moment from "moment"
@@ -17,6 +16,7 @@ import {
   mapGoogleCalendars,
   mapGoogleEvents,
 } from "Renderer/models/calendar/calendar.helpers"
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 
 const endpoints = {
   people: "https://people.googleapis.com/v1/people",
@@ -55,6 +55,73 @@ export default {
     },
   },
   effects: (dispatch: Dispatch) => ({
+    async requestWrapper<ReturnType>(
+      axiosProps: AxiosRequestConfig,
+      rootState: ExternalProvidersState
+    ): Promise<AxiosResponse<ReturnType>> {
+      const { url, method = "GET", headers, ...rest } = axiosProps
+
+      if (!url) {
+        throw new Error("No url specified")
+      }
+
+      const currentToken = rootState.google.auth.access_token
+
+      if (!currentToken) {
+        try {
+          await dispatch.google.authorize()
+          return this.requestWrapper(axiosProps, rootState)
+        } catch (error) {
+          throw new Error(error)
+        }
+      }
+
+      const request = (token = currentToken) => {
+        return axios(url, {
+          ...rest,
+          method: method,
+          headers: {
+            ...headers,
+            Authorization: `${rootState.google.auth.token_type} ${token}`,
+          },
+        })
+      }
+
+      try {
+        const response = await request()
+        dispatch.google.resetInvalidRequests()
+        return response
+      } catch (error) {
+        if (error.response.status === 401) {
+          if (rootState.google.invalidRequests < 2) {
+            await dispatch.google.incrementInvalidRequests()
+
+            const refreshToken = rootState.google.auth.refresh_token
+
+            if (!refreshToken) {
+              throw new Error("No google refresh token found")
+            }
+
+            const { data } = await axios.post(
+              `${process.env.MUDITA_GOOGLE_REFRESH_TOKEN_URL}?refreshToken=${refreshToken}`
+            )
+
+            await dispatch.google.setAuthData(data)
+
+            return this.requestWrapper(axiosProps, rootState)
+          } else {
+            try {
+              dispatch.google.resetInvalidRequests()
+              await dispatch.google.authorize()
+            } catch (error) {
+              throw new Error(error)
+            }
+          }
+        }
+
+        throw new Error(error)
+      }
+    },
     authorize(...[, rootState]: [undefined, ExternalProvidersState]) {
       return new Promise(async (resolve, reject) => {
         const token = rootState.google.auth.access_token
@@ -85,12 +152,11 @@ export default {
     },
     async getCalendars(...[, rootState]: [undefined, ExternalProvidersState]) {
       try {
-        const { data } = await requestWrapper<GoogleCalendarsSuccess>(
+        const { data } = await this.requestWrapper<GoogleCalendarsSuccess>(
           {
             url: `${endpoints.calendars}/users/me/calendarList`,
           },
-          rootState.google,
-          dispatch
+          rootState
         )
         return mapGoogleCalendars(data.items)
       } catch (error) {
@@ -107,14 +173,13 @@ export default {
           maxResults: "1000",
           ...(nextPageToken ? { pageToken: nextPageToken } : {}),
         })
-        return requestWrapper<GoogleEventsSuccess>(
+        return this.requestWrapper<GoogleEventsSuccess>(
           {
             url: `${
               endpoints.calendars
             }/calendars/${calendarId}/events?${params.toString()}`,
           },
-          rootState.google,
-          dispatch
+          rootState
         )
       }
 

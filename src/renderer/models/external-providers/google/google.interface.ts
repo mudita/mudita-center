@@ -79,6 +79,4 @@ export interface GoogleProviderState {
   invalidRequests: number
   auth: Partial<GoogleAuthSuccessResponse>
   activeCalendarId?: string
-  // calendars: GoogleCalendar[]
-  // events: GoogleEvent[]
 }

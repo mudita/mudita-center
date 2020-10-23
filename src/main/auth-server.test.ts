@@ -1,6 +1,6 @@
 /**
- * @jest-environment node
  * App should be disabled during tests
+ * @jest-environment node
  */
 
 import axios from "axios"
@@ -34,4 +34,12 @@ test("server should return an error when method is not POST", async () => {
   await expect(
     async () => await axios.get(`http://localhost:${authServerPort}`)
   ).rejects.toStrictEqual(Error("Request failed with status code 400"))
+})
+
+test("server should run the callback function", async () => {
+  const callback = jest.fn()
+  createAuthServer(callback)
+
+  await axios.post(`http://localhost:${authServerPort}`)
+  await expect(callback).toBeCalled()
 })

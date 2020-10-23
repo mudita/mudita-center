@@ -1,36 +1,31 @@
-import { GoogleCalendar } from "Renderer/models/external-providers/google/google.interface"
+import { Calendar } from "Renderer/models/calendar/calendar.interfaces"
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 
-export const mockedGoogleCalendars: GoogleCalendar[] = [
+export const mockedGoogleCalendars: Calendar[] = [
   {
     id: "jane.doe@example.com",
-    summary: "jane.doe@example.com",
-    timeZone: "Europe/Warsaw",
-    accessRole: "reader",
+    name: "jane.doe@example.com",
+    provider: Provider.Google,
   },
   {
     id: "john.doe@example.com",
-    summary: "john.doe@example.com",
-    timeZone: "Europe/Warsaw",
-    accessRole: "owner",
+    name: "john.doe@example.com",
+    provider: Provider.Google,
     primary: true,
   },
   {
     id: "example.com_jub4tl9r12ain8850vgdfksu6k@group.calendar.google.com",
-    summary: "John Doe - other calendar",
-    timeZone: "Europe/Warsaw",
-    accessRole: "owner",
+    name: "John Doe - other calendar",
+    provider: Provider.Google,
   },
   {
     id: "appnroll.com_3133393133313330343936@resource.calendar.google.com",
-    summary: "Somebody's calendar",
-    timeZone: "Europe/Warsaw",
-    accessRole: "freeBusyReader",
+    name: "Somebody's calendar",
+    provider: Provider.Google,
   },
   {
     id: "pl.polish#holiday@group.v.calendar.google.com",
-    summary: "Holidays in Poland",
-    summaryOverride: "Holidays in Poland",
-    timeZone: "Europe/Warsaw",
-    accessRole: "reader",
+    name: "Holidays in Poland",
+    provider: Provider.Google,
   },
 ]

@@ -1,3 +1,4 @@
+import auth from "Renderer/models/auth/auth"
 import basicInfo from "Renderer/models/basic-info/basic-info"
 import calls from "Renderer/models/calls/calls"
 import devMode from "Renderer/models/dev-mode/dev-mode"
@@ -14,6 +15,7 @@ import templates from "Renderer/models/templates/templates"
 import calendar from "Renderer/models/calendar/calendar"
 
 export interface RootModel {
+  auth: typeof auth
   basicInfo: typeof basicInfo
   calls: typeof calls
   devMode: typeof devMode
@@ -31,6 +33,7 @@ export interface RootModel {
 }
 
 export const models: RootModel = {
+  auth,
   basicInfo,
   calls,
   devMode,
