@@ -18,7 +18,7 @@ import {
 } from "Renderer/models/calendar/calendar.helpers"
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 
-const endpoints = {
+export const googleEndpoints = {
   people: "https://people.googleapis.com/v1/people",
   calendars: "https://www.googleapis.com/calendar/v3",
 }
@@ -49,7 +49,7 @@ export default {
       }
       return state
     },
-    setActiveCalendar(state: GoogleProviderState, calendarId: string) {
+    setActiveCalendarId(state: GoogleProviderState, calendarId: string) {
       state.activeCalendarId = calendarId
       return state
     },
@@ -114,12 +114,12 @@ export default {
               dispatch.google.resetInvalidRequests()
               await dispatch.google.authorize()
             } catch (error) {
-              throw new Error(error)
+              return error
             }
           }
         }
 
-        throw new Error(error)
+        return error
       }
     },
     authorize(...[, rootState]: [undefined, ExternalProvidersState]) {
@@ -154,13 +154,16 @@ export default {
       try {
         const { data } = await this.requestWrapper<GoogleCalendarsSuccess>(
           {
-            url: `${endpoints.calendars}/users/me/calendarList`,
+            url: `${googleEndpoints.calendars}/users/me/calendarList`,
           },
           rootState
         )
+        if (!data || !data.items) {
+          return new Error("No calendars found")
+        }
         return mapGoogleCalendars(data.items)
       } catch (error) {
-        throw new Error(error)
+        return error
       }
     },
     async getEvents(...[, rootState]: [undefined, ExternalProvidersState]) {
@@ -176,7 +179,7 @@ export default {
         return this.requestWrapper<GoogleEventsSuccess>(
           {
             url: `${
-              endpoints.calendars
+              googleEndpoints.calendars
             }/calendars/${calendarId}/events?${params.toString()}`,
           },
           rootState
@@ -184,7 +187,7 @@ export default {
       }
 
       if (!rootState.google.activeCalendarId) {
-        throw new Error("No calendar is selected")
+        return new Error("No calendar is selected")
       }
 
       try {

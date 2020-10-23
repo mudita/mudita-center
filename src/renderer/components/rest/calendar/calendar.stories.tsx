@@ -2,7 +2,7 @@ import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
 import styled from "styled-components"
 import { calendarSeed } from "App/seeds/calendar"
-import { mockedGoogleCalendars } from "App/__mocks__/google-calendars-list"
+import { mockedCalendars } from "App/__mocks__/calendars-list"
 import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
 import SelectCalendarsModal from "Renderer/components/rest/calendar/select-calendars-modal.component"
 import SynchronizingEventsModal from "Renderer/components/rest/calendar/synchronizing-events-modal.component"
@@ -21,10 +21,7 @@ storiesOf("Views/Calendar/Modals", module).add("All", () => (
       <SelectVendorModal onGoogleButtonClick={asyncNoop} />
     </Story>
     <Story title="Synchronization failed" transparentMode>
-      <SelectCalendarsModal
-        calendars={mockedGoogleCalendars}
-        onSynchronize={noop}
-      />
+      <SelectCalendarsModal calendars={mockedCalendars} onSynchronize={noop} />
     </Story>
     <Story title="Synchronization progress" transparentMode>
       <SynchronizingEventsModal />

@@ -48,7 +48,9 @@ export default {
       let events: CalendarEvent[] = []
       switch (calendar.provider) {
         case Provider.Google:
-          externalProvidersStore.dispatch.google.setActiveCalendar(calendar.id)
+          externalProvidersStore.dispatch.google.setActiveCalendarId(
+            calendar.id
+          )
           events = await externalProvidersStore.dispatch.google.getEvents()
       }
       await dispatch.calendar.setEvents(events)

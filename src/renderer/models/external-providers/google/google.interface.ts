@@ -1,48 +1,19 @@
-interface GoogleEventUser {
-  email: string
-  displayName: string
-}
-
-interface GoogleEventAttendees extends GoogleEventUser {
-  responseStatus: string
-  self?: boolean
-  organizer?: boolean
-}
-
 export interface GoogleCalendar {
   id: string
   summary: string
   summaryOverride?: string
-  timeZone: string
   primary?: boolean
-  accessRole: string
 }
 
 export interface GoogleEvent {
-  kind: string
-  etag: string
   id: string
-  status: string
-  htmlLink: string
-  created: string
-  updated: string
   summary?: string
   description?: string
-  location: string
-  creator: GoogleEventUser
-  organizer: GoogleEventUser
   start: {
     dateTime: string
   }
   end: {
     dateTime: string
-  }
-  transparency?: string
-  iCalUID: string
-  sequence: number
-  attendees: GoogleEventAttendees[]
-  reminders: {
-    useDefault: boolean
   }
 }
 

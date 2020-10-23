@@ -11,8 +11,6 @@ export interface CalendarEvent {
   }
 }
 
-export type NewCalendarEvent = Omit<CalendarEvent, "id">
-
 export interface Calendar {
   id: string
   name: string
@@ -24,5 +22,3 @@ export interface StateProps {
   calendars: Calendar[]
   events: CalendarEvent[]
 }
-
-export interface CalendarStore {}

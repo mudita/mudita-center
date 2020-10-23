@@ -1,8 +1,6 @@
-import Faker from "faker"
 import {
   Calendar,
   CalendarEvent,
-  NewCalendarEvent,
 } from "Renderer/models/calendar/calendar.interfaces"
 import {
   GoogleCalendar,
@@ -18,11 +16,6 @@ const messages = defineMessages({
   },
 })
 
-export const makeNewEvent = (props: NewCalendarEvent) => ({
-  id: Faker.random.uuid(),
-  ...props,
-})
-
 export const getSortedEvents = (events: CalendarEvent[]) => {
   return events.sort((a, b) => {
     return a.date[0].getTime() - b.date[0].getTime()
@@ -34,7 +27,7 @@ export const mapGoogleEvents = (events: GoogleEvent[]): CalendarEvent[] => {
     .filter((event) => event.start.dateTime && event.end.dateTime)
     .map(
       (event): CalendarEvent => ({
-        id: Faker.random.uuid(),
+        id: `${Provider.Google}_${event.id}`,
         name: event.summary || intl.formatMessage(messages.unnamedEvent),
         description: event.description,
         date: [new Date(event.start.dateTime), new Date(event.end.dateTime)],
