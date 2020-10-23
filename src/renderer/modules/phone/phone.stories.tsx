@@ -33,6 +33,7 @@ const getContact = (id: ContactID) => phoneSeed.db[id]
 const labeledContactList: any = getSortedContactList(phoneSeed)
 const flatList: any = getFlatList(phoneSeed)
 const speedDialChosenList: number[] = getSpeedDialChosenList(phoneSeed)
+const isTopicThreadOpened = () => true
 
 const PhoneWrapper = styled.div`
   max-width: 97.5rem;
@@ -65,6 +66,7 @@ const PhoneComponent = ({
     selectedContacts={[]}
     resetRows={action("Reset rows")}
     setProviderData={noop}
+    isTopicThreadOpened={isTopicThreadOpened}
   />
 )
 
@@ -124,6 +126,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onMessage={action("Send message")}
       onCall={action("Call")}
       onClose={action("Close sidebar")}
+      isTopicThreadOpened={isTopicThreadOpened}
     />
   ))
   .add("Favourite, speed dial", () => (
@@ -138,6 +141,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onMessage={action("Send message")}
       onCall={action("Call")}
       onClose={action("Close sidebar")}
+      isTopicThreadOpened={isTopicThreadOpened}
     />
   ))
   .add("Favourite only", () => (
@@ -152,6 +156,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onMessage={action("Send message")}
       onCall={action("Call")}
       onClose={action("Close sidebar")}
+      isTopicThreadOpened={isTopicThreadOpened}
     />
   ))
   .add("Speed dial only", () => (
@@ -166,6 +171,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onMessage={action("Send message")}
       onCall={action("Call")}
       onClose={action("Close sidebar")}
+      isTopicThreadOpened={isTopicThreadOpened}
     />
   ))
   .add("Blocked", () => (
@@ -180,6 +186,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onMessage={action("Send message")}
       onCall={action("Call")}
       onClose={action("Close sidebar")}
+      isTopicThreadOpened={isTopicThreadOpened}
     />
   ))
 

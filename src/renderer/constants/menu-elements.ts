@@ -25,8 +25,6 @@ const YOUR_PURE_BUTTONS = [
     icon: Type.MenuContacts,
     testId: MenuGroupTestIds.Contacts,
   },
-  { button: views.music, icon: Type.MenuMusic },
-  { button: views.contacts, icon: Type.MenuContacts },
   { button: views.music, icon: Type.MenuMusic, testId: MenuGroupTestIds.Music },
   {
     button: views.calendar,

@@ -173,7 +173,6 @@
   "view.name.messages.templates.unsavedTemplate": "unsaved",
   "view.name.messages.templatesDeleteModal.action": "Delete",
   "view.name.messages.templatesDeleteModal.cancel": "Cancel",
-  "view.name.messages.templatesDeleteModal.many": "Do you really want to delete <b>{num, plural, =-1 {all templates} one {# template} other {# templates}}?</b>",
   "view.name.messages.templatesDeleteModal.single": "Do you really want to delete this template?",
   "view.name.messages.templatesDeleteModal.title": "Delete templates",
   "view.name.messages.templatesModalTitle": "Use Template",

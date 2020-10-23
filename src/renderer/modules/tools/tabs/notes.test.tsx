@@ -6,6 +6,7 @@ import { notesSeed } from "App/seeds/notes"
 import { NoteCallback } from "Renderer/models/notes/notes"
 import { noop } from "Renderer/utils/noop"
 import { SortOrder } from "Common/enums/sort-order.enum"
+import fn = jest.fn
 
 const renderer = (props = {}) => {
   const mockNewNote = (cb: NoteCallback) => {
@@ -19,7 +20,13 @@ const renderer = (props = {}) => {
   }
 
   return renderWithThemeAndIntl(
-    <Notes createNewNote={mockNewNote} {...defaultProps} {...props} />
+    <Notes
+      saveNote={fn}
+      onRemoveNotes={fn}
+      createNewNote={mockNewNote}
+      {...defaultProps}
+      {...props}
+    />
   )
 }
 

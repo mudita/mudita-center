@@ -101,7 +101,6 @@ const Messages: FunctionComponent<MessagesProps> = ({
       ids.length === 1
         ? getSingleThreadDeleteMessage(ids[0])
         : getMultipleThreadDeleteMessage(ids)
-    const onClose = resetRows
     const onDelete = () => {
       deleteConversation(ids)
       resetRows()
@@ -112,7 +111,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
       <DeleteModal
         title={title}
         message={message}
-        onClose={onClose}
+        onClose={resetRows}
         onDelete={onDelete}
       />
     )

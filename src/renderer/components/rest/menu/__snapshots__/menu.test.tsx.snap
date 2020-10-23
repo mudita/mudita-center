@@ -235,6 +235,10 @@ exports[`matches snapshot 1`] = `
   white-space: nowrap;
 }
 
+.c17 {
+  padding: 0.4rem 0.8rem;
+}
+
 .c10 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -539,58 +543,6 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
-        displaystyle="8"
-        href="#/music"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-MenuMusic"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.music
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        displaystyle="8"
-        href="#/contacts"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-MenuContacts"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.contacts
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
         data-testid="music-link"
         displaystyle="8"
         href="#/music"
@@ -787,7 +739,7 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <button
-        class="c16"
+        class="c16 c17"
         data-testid="help-menu-button"
         size="2"
         type="button"

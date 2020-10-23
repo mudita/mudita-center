@@ -1,3 +1,4 @@
+import { PureNode } from "pure"
 import startBackend from "Backend/bootstrap"
 import { check as checkPort } from "tcp-port-used"
 import {
@@ -45,6 +46,7 @@ import {
   killAuthServer,
 } from "App/main/auth-server"
 import logger from "App/main/utils/logger"
+import registerAutoLaunchListener from "App/main/functions/register-auto-launch-listener"
 
 require("dotenv").config()
 
@@ -100,19 +102,22 @@ const createWindow = async () => {
     await installExtensions()
   }
 
+  const pureNode: any = new PureNode()
+
   win = new BrowserWindow(
     getWindowOptions({ width: WINDOW_SIZE.width, height: WINDOW_SIZE.height })
   )
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  startBackend()
+  startBackend(pureNode, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()
   registerNewsListener()
   registerAppLogsListeners()
   registerTranslationListener()
+  registerAutoLaunchListener()
 
   if (productionEnvironment) {
     win.loadURL(

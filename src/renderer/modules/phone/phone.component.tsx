@@ -43,6 +43,7 @@ import { contactFactory } from "Renderer/providers/google/helpers"
 import { GooglePerson } from "Renderer/providers/google/typings"
 import { History, LocationState } from "history"
 import { useHistory } from "react-router-dom"
+import { CallerSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -59,10 +60,10 @@ export type PhoneProps = ContactActions &
     removeContact?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => Promise<void>
+    isTopicThreadOpened: (params: CallerSearchParams) => boolean
     onMessage: (
       history: History<LocationState>,
-      phoneNumber: string,
-      callerId: string
+      params: CallerSearchParams
     ) => void
   } & Partial<Store>
 
@@ -81,6 +82,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     savingContact,
     setProviderData,
+    isTopicThreadOpened,
   } = props
   const history = useHistory()
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
@@ -180,8 +182,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     }
   }
 
-  const handleMessage = (phoneNumber: string, callerId: string) =>
-    onMessage(history, phoneNumber, callerId)
+  const handleMessage = (params: CallerSearchParams) =>
+    onMessage(history, params)
 
   const openDeleteModal = (contact: Contact) => {
     const handleDelete = async () => {
@@ -433,6 +435,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
               onEdit={handleEditingContact}
               onCall={onCall}
               onMessage={handleMessage}
+              isTopicThreadOpened={isTopicThreadOpened}
             />
           )}
         </TableWithSidebarWrapper>
