@@ -7,10 +7,12 @@ import {
 } from "Renderer/components/rest/settings/audio-conversion-radio-group.enum"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { fakeAppSettings } from "Backend/adapters/app-settings/app-settings-fake.adapter"
+import { SettingsActions } from "Common/enums/settings-actions.enum"
 
 const mockIpc = () => {
   ;(ipcRenderer as any).__rendererCalls = {
     [IpcRequest.UpdateAppSettings]: Promise.resolve(),
+    [SettingsActions.SetAutostart]: Promise.resolve(),
   }
 }
 

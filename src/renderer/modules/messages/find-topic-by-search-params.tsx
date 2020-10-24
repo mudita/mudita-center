@@ -1,22 +1,16 @@
 import { Topic } from "Renderer/models/messages/messages.interface"
-
-const removeDecoratorsFromPhoneNumber = (string: string): string => {
-  return string.split(" ").join("").replace("+", "")
-}
+import { isCallerMatchingSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
 
 const findTopicBySearchParams = (
   searchParams: URLSearchParams,
   topics: Topic[]
 ): Topic | undefined => {
-  return topics.find(({ caller: { id, primaryPhoneNumber = "" } }) => {
-    const paramsPhoneNumber = searchParams.get("phoneNumber") || ""
-    const paramsCallerId = searchParams.get("callerId") || ""
-    return (
-      id === paramsCallerId &&
-      removeDecoratorsFromPhoneNumber(primaryPhoneNumber) ===
-        removeDecoratorsFromPhoneNumber(paramsPhoneNumber)
-    )
-  })
+  const phoneNumber = searchParams.get("phoneNumber") || ""
+  const id = searchParams.get("id") || ""
+
+  return topics.find(({ caller }) =>
+    isCallerMatchingSearchParams(caller, { phoneNumber, id })
+  )
 }
 
 export default findTopicBySearchParams

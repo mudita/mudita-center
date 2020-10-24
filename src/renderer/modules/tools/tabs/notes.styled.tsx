@@ -7,7 +7,7 @@ import BaseTable, {
   Sidebar,
 } from "Renderer/components/core/table/table.component"
 import Text from "Renderer/components/core/text/text.component"
-import { Checkbox } from "Renderer/components/rest/calls/calls-table.styled"
+import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import { FiltersWrapper as FiltersWrapperBase } from "Renderer/components/rest/messages/topics-table.component"
 import {
   textColor,
@@ -15,6 +15,11 @@ import {
   transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import styled, { keyframes } from "styled-components"
+import { animatedOpacityActiveStyles } from "Renderer/components/rest/animated-opacity/animated-opacity"
+
+export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
+  margin: 0 auto;
+`
 
 export const showToggleableElement = keyframes`
   from {
@@ -75,8 +80,7 @@ export const Table = styled(BaseTable)`
 export const Row = styled(BaseRow)`
   &:hover {
     ${Checkbox} {
-      opacity: 1;
-      visibility: visible;
+      ${animatedOpacityActiveStyles};
     }
 
     ${DeleteCol} {

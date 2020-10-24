@@ -1,5 +1,7 @@
 import { storiesOf } from "@storybook/react"
-import React from "react"
+import React, { useState } from "react"
+import styled from "styled-components"
+import { calendarSeed } from "App/seeds/calendar"
 import {
   SyncCalendarModal,
   SynchronizingFailedModal,
@@ -8,6 +10,9 @@ import {
 } from "Renderer/components/rest/calendar/calendar.modals"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
+import CalendarInputSearch from "Renderer/components/rest/calendar/calendar-input-search.component"
+import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
+import { noop } from "Renderer/utils/noop"
 
 storiesOf("Views/Calendar/Modals", module).add("All", () => {
   return (
@@ -25,5 +30,23 @@ storiesOf("Views/Calendar/Modals", module).add("All", () => {
         <SyncCalendarModal />
       </Story>
     </StoryContainer>
+  )
+})
+
+const InputSearch = styled(CalendarInputSearch)`
+  min-width: 38rem;
+`
+
+storiesOf("Views/Calendar", module).add("Input", () => {
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent>()
+  return (
+    <Story title="Input Search">
+      <InputSearch
+        events={calendarSeed}
+        selectedEvent={selectedEvent}
+        onEventSelect={setSelectedEvent}
+        onEventValueChange={noop}
+      />
+    </Story>
   )
 })

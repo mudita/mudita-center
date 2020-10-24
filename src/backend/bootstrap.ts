@@ -1,7 +1,9 @@
+import { MainProcessIpc } from "electron-better-ipc"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
 import registerChangeSimCardRequest from "Backend/requests/change-sim/change-sim.request"
 import registerDeviceInfoRequest from "Backend/requests/device-info/get-device-info.request"
+import registerConnectDeviceRequest from "Backend/requests/connect-device/connect-device.request"
 import registerDisconnectDeviceRequest from "Backend/requests/disconnect-device/disconnect-device.request"
 import registerNetworkInfoRequest from "Backend/requests/network/get-network-info.request"
 import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
@@ -16,13 +18,24 @@ import registerAppSettingsResetRequest from "Backend/requests/app-settings/reset
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
+import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 
-const bootstrap = () => {
+const bootstrap = (pureNode: any, ipcMain: MainProcessIpc) => {
+  const adapters = {
+    // TODO: Replace with a proper adapters when phone becomes available.
+    ...getFakeAdapters(),
+    purePhone: createPurePhoneAdapter(pureNode, ipcMain),
+    appSettings: createAppSettingsAdapter(),
+    pureBackups: createPurePhoneBackupsAdapter(),
+    app: createElectronAppAdapter(),
+  }
+
   ;[
     registerDeviceInfoRequest,
     registerNetworkInfoRequest,
     registerPurePhoneStorageRequest,
     registerBatteryInfoRequest,
+    registerConnectDeviceRequest,
     registerDisconnectDeviceRequest,
     registerChangeSimCardRequest,
     registerGetContactsRequest,
@@ -33,15 +46,7 @@ const bootstrap = () => {
     registerAppSettingsRequest,
     registerAppSettingsUpdateRequest,
     registerAppSettingsResetRequest,
-  ].forEach((register) =>
-    register({
-      // TODO: Replace with a proper adapters when phone becomes available.
-      ...getFakeAdapters(),
-      appSettings: createAppSettingsAdapter(),
-      pureBackups: createPurePhoneBackupsAdapter(),
-      app: createElectronAppAdapter(),
-    })
-  )
+  ].forEach((register) => register(adapters))
 }
 
 export default bootstrap

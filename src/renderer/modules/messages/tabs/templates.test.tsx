@@ -16,20 +16,18 @@ import { SortOrder } from "Common/enums/sort-order.enum"
 mockAllIsIntersecting(true)
 
 const renderTemplates = ({
-  onDeleteButtonClick = noop,
-  onNewButtonClick = noop,
+  removeTemplates = noop,
   onSearchTermChange = noop,
-  newTemplate = noop,
+  createNewTemplate = noop,
   templates = mockedTemplateData,
   changeSortOrder = noop,
   sortOrder = SortOrder.Descending,
 }: Partial<TemplatesProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <Templates
-      newTemplate={newTemplate}
+      createNewTemplate={createNewTemplate}
       templates={templates}
-      onDeleteButtonClick={onDeleteButtonClick}
-      onNewButtonClick={onNewButtonClick}
+      removeTemplates={removeTemplates}
       onSearchTermChange={onSearchTermChange}
       sortOrder={sortOrder}
       changeSortOrder={changeSortOrder}
@@ -58,7 +56,7 @@ test("renders search input properly", () => {
 test("calls proper action after new template button click", () => {
   const onClick = jest.fn()
   const { getByTestId } = renderTemplates({
-    onNewButtonClick: onClick,
+    createNewTemplate: onClick,
   })
   getByTestId(TemplatesTestIds.AddTemplateButton).click()
   expect(getByTestId(TemplatesTestIds.TextEditor)).toBeInTheDocument()

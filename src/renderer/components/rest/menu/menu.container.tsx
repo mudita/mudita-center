@@ -7,4 +7,8 @@ const mapStateToProps = (state: RootState) => ({
   devModeEnabled: state.devMode.devModeEnabled,
 })
 
-export default connect(mapStateToProps)(Menu)
+const mapDispatchToProps = (dispatch: any) => ({
+  connectDevice: () => dispatch.basicInfo.connect(),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Menu)

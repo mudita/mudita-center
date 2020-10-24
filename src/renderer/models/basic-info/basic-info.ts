@@ -4,6 +4,7 @@ import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
 import getNetworkInfo from "Renderer/requests/get-network-info.request"
 import getStorageInfo from "Renderer/requests/get-storage-info.request"
+import connectDevice from "Renderer/requests/connect-device.request"
 import disconnectDevice from "Renderer/requests/disconnect-device.request"
 import changeSimRequest from "Renderer/requests/change-sim.request"
 import { Dispatch } from "Renderer/store"
@@ -65,6 +66,9 @@ export default {
         lastBackup,
         osUpdateDate: info.osUpdateDate,
       })
+    },
+    async connect() {
+      await connectDevice()
     },
     async disconnect() {
       const disconnectInfo = await disconnectDevice()

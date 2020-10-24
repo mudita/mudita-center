@@ -235,6 +235,10 @@ exports[`matches snapshot 1`] = `
   white-space: nowrap;
 }
 
+.c17 {
+  padding: 0.4rem 0.8rem;
+}
+
 .c10 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -431,6 +435,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="overview-link"
         displaystyle="8"
         href="#/overview"
         size="2"
@@ -511,6 +516,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="contacts-menu-link"
         displaystyle="8"
         href="#/contacts"
         size="2"
@@ -564,6 +570,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="calendar-link"
         displaystyle="8"
         href="#/calendar"
         size="2"
@@ -617,6 +624,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="meditation-link"
         displaystyle="8"
         href="#/meditation"
         size="2"
@@ -680,6 +688,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="tethering-link"
         displaystyle="8"
         href="#/tethering"
         size="2"
@@ -731,7 +740,7 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <button
-        class="c16"
+        class="c16 c17"
         data-testid="help-menu-button"
         size="2"
         type="button"
