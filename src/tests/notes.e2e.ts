@@ -22,9 +22,12 @@ test("menu takes user to correct page", async () => {
 
 test("clicking a new note button evokes new note sidebar", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Tools}]`).click()
+  expect(
+    await app.client.isVisible(`*[data-testid=${NotesTestIds.NewNoteSidebar}]`)
+  ).toBe(false)
   await app.client.$(`*[data-testid=${NotesTestIds.NewNoteButton}]`).click()
   expect(
-    await app.client.isExisting(`*[data-testid=${NotesTestIds.NewNoteSidebar}]`)
+    await app.client.isVisible(`*[data-testid=${NotesTestIds.NewNoteSidebar}]`)
   ).toBe(true)
 })
 
@@ -46,7 +49,7 @@ test("user can save the notes", async () => {
   await app.client.$(`textarea`).setValue(testText)
   await app.client.$(`*[data-testid="save"`).click()
   expect(
-    await app.client.$(`*[data-testid=${NotesTestIds.Note}]`).$("p").getText()
+    await app.client.$(`*[data-testid=${NotesTestIds.Note}]`).getText()
   ).toBe(testText)
   const notesCountAfter = await app.client.elements(
     `*[data-testid=${NotesTestIds.Note}]`

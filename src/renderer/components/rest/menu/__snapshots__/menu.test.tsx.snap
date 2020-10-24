@@ -590,6 +590,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="tools-link"
         displaystyle="8"
         href="#/tools"
         size="2"
