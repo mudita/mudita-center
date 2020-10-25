@@ -25,6 +25,7 @@ import {
 import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-downloaded.request"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import delayResponse from "@appnroll/delay-response"
+import updateOs from "Renderer/requests/update-os.request"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -62,7 +63,8 @@ const useSystemUpdateFlow = (
   const updatePure = async () => {
     // TODO: Continue update process when Pure updates through USB become available
     console.log("Updating Pure OS...")
-
+    const a = await updateOs("/os-update/lala.zip")
+    console.log(a)
     // TODO: remove after implementing real phone update process
     await onUpdate({
       pureOsFileName: "",

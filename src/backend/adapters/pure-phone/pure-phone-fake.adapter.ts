@@ -41,6 +41,10 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
       })
     )
   }
+
+  public updateOs(): any {
+    return "lala"
+  }
 }
 
 const createFakePurePhoneAdapter = (): PurePhoneAdapter =>

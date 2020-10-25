@@ -65,6 +65,10 @@ class PurePhone extends PurePhoneAdapter {
       })
     })
   }
+
+  public updateOs(updateFilePath: string): any {
+    return updateFilePath + " ELO"
+  }
 }
 
 const createPurePhoneAdapter = (
