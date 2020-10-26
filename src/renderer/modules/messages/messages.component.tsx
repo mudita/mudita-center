@@ -28,7 +28,6 @@ const deleteModalMessages = defineMessages({
   multipleThreadText: {
     id: "view.name.messages.deleteModal.multipleThreadText",
   },
-  singleThreadText: { id: "view.name.messages.deleteModal.singleThreadText" },
 })
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -65,22 +64,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const _devLoadDefaultMessages = () => setMessagesList(list)
   useEffect(() => setMessagesList(list), [list])
 
-  const getSingleThreadDeleteMessage = (id: string): Message => {
-    const findById = (topic: Topic) => topic.id === id
-    const topic = list.find(findById) as Topic
-    return {
-      ...deleteModalMessages.singleThreadText,
-      values: {
-        caller: getPrettyCaller(topic.caller),
-        ...textFormatters,
-      },
-    }
-  }
-
   const getMultipleThreadDeleteMessage = (ids: string[]): Message => {
+    const findById = (topic: Topic) => topic.id === ids[0]
+    const topic = list.find(findById) as Topic
+
     return {
       ...deleteModalMessages.multipleThreadText,
       values: {
+        caller: getPrettyCaller(topic.caller),
         num: allRowsSelected ? -1 : ids.length,
         ...textFormatters,
       },
@@ -89,10 +80,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const remove = (ids: string[]) => {
     const title = intl.formatMessage(deleteModalMessages.title)
-    const message =
-      ids.length === 1
-        ? getSingleThreadDeleteMessage(ids[0])
-        : getMultipleThreadDeleteMessage(ids)
+    const message = getMultipleThreadDeleteMessage(ids)
     const onDelete = () => {
       deleteConversation(ids)
       resetRows()

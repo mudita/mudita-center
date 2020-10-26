@@ -19,7 +19,6 @@ const deleteModalMessages = defineMessages({
   multipleThreadText: {
     id: "view.name.calls.deleteModal.multipleThreadText",
   },
-  singleThreadText: { id: "view.name.calls.deleteModal.singleThreadText" },
 })
 
 export interface CallsProps {
@@ -53,22 +52,13 @@ const Calls: FunctionComponent<CallsProps> = ({
     activeRow,
   } = useTableSidebar<Details>(undefined)
 
-  const getSingleThreadDeleteMessage = (id: string): Message => {
-    const findById = (details: Details) => details.id === id
-    const details = calls.find(findById) as Details
-    return {
-      ...deleteModalMessages.singleThreadText,
-      values: {
-        caller: getPrettyCaller(details.caller),
-        ...textFormatters,
-      },
-    }
-  }
-
   const getMultipleThreadDeleteMessage = (ids: string[]): Message => {
+    const findById = (details: Details) => details.id === ids[0]
+    const details = calls.find(findById) as Details
     return {
       ...deleteModalMessages.multipleThreadText,
       values: {
+        caller: getPrettyCaller(details.caller),
         num: allRowsSelected ? -1 : ids.length,
         ...textFormatters,
       },
@@ -77,10 +67,7 @@ const Calls: FunctionComponent<CallsProps> = ({
 
   const remove = (ids: string[]) => {
     const title = intl.formatMessage(deleteModalMessages.title)
-    const message =
-      ids.length === 1
-        ? getSingleThreadDeleteMessage(ids[0])
-        : getMultipleThreadDeleteMessage(ids)
+    const message = getMultipleThreadDeleteMessage(ids)
     const onDelete = () => {
       deleteCall(ids)
       resetRows()
