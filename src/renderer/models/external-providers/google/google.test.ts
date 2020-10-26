@@ -1,5 +1,5 @@
-import { init } from "@rematch/core"
-import google, {
+import {
+  createStore,
   googleEndpoints,
 } from "Renderer/models/external-providers/google/google"
 import { GoogleAuthSuccessResponse } from "Renderer/models/external-providers/google/google.interface"
@@ -9,6 +9,7 @@ import { mockedGoogleCalendars } from "App/__mocks__/google-calendars-list"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
 import { mockedGoogleEvents } from "App/__mocks__/google-events-list"
 import moment from "moment"
+import { init } from "@rematch/core"
 
 const authData: GoogleAuthSuccessResponse = {
   access_token: "some-token",
@@ -49,21 +50,20 @@ jest.mock(
   { virtual: true }
 )
 
-const initStore = () =>
-  init({
-    models: { google },
+const initStore = () => {
+  return init({
+    models: { google: createStore() },
   })
+}
 
 let store = initStore()
 
-describe("google servide tests", () => {
-  beforeEach(() => {
-    store = initStore()
-    console.log(store.getState())
-  })
+beforeEach(() => {
+  store = initStore()
+})
 
-  test("store returns initial state", () => {
-    expect(store.getState()).toMatchInlineSnapshot(`
+test("store returns initial state", () => {
+  expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "google": Object {
         "auth": Object {},
@@ -71,23 +71,23 @@ describe("google servide tests", () => {
       },
     }
   `)
-  })
+})
 
-  test("invalid request counter increments properly", () => {
-    expect(store.getState().google.invalidRequests).toEqual(0)
-    store.dispatch.google.incrementInvalidRequests()
-    expect(store.getState().google.invalidRequests).toEqual(1)
-  })
+test("invalid request counter increments properly", () => {
+  expect(store.getState().google.invalidRequests).toEqual(0)
+  store.dispatch.google.incrementInvalidRequests()
+  expect(store.getState().google.invalidRequests).toEqual(1)
+})
 
-  test("invalid request counter resets properly", () => {
-    store.dispatch.google.incrementInvalidRequests()
-    store.dispatch.google.resetInvalidRequests()
-    expect(store.getState().google.invalidRequests).toEqual(0)
-  })
+test("invalid request counter resets properly", () => {
+  store.dispatch.google.incrementInvalidRequests()
+  store.dispatch.google.resetInvalidRequests()
+  expect(store.getState().google.invalidRequests).toEqual(0)
+})
 
-  test("auth data is set properly", () => {
-    store.dispatch.google.setAuthData(authData)
-    expect(store.getState().google.auth).toMatchInlineSnapshot(`
+test("auth data is set properly", () => {
+  store.dispatch.google.setAuthData(authData)
+  expect(store.getState().google.auth).toMatchInlineSnapshot(`
     Object {
       "access_token": "some-token",
       "expires_in": 3599,
@@ -95,16 +95,16 @@ describe("google servide tests", () => {
       "token_type": "Bearer",
     }
   `)
-  })
+})
 
-  test("active calendar is set properly", () => {
-    store.dispatch.google.setActiveCalendarId("calendar-id-123")
-    expect(store.getState().google.activeCalendarId).toBe("calendar-id-123")
-  })
+test("active calendar is set properly", () => {
+  store.dispatch.google.setActiveCalendarId("calendar-id-123")
+  expect(store.getState().google.activeCalendarId).toBe("calendar-id-123")
+})
 
-  test("authorization works properly", async () => {
-    await store.dispatch.google.authorize()
-    expect(store.getState().google.auth).toMatchInlineSnapshot(`
+test("authorization works properly", async () => {
+  await store.dispatch.google.authorize()
+  expect(store.getState().google.auth).toMatchInlineSnapshot(`
     Object {
       "access_token": "some-token",
       "expires_in": 3599,
@@ -112,16 +112,16 @@ describe("google servide tests", () => {
       "token_type": "Bearer",
     }
   `)
-  })
+})
 
-  test("calendars from google are received properly", async () => {
-    axiosMock
-      .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
-      .reply(200, {
-        items: mockedGoogleCalendars,
-      })
+test("calendars from google are received properly", async () => {
+  axiosMock
+    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
+    .reply(200, {
+      items: mockedGoogleCalendars,
+    })
 
-    expect(await store.dispatch.google.getCalendars()).toMatchInlineSnapshot(`
+  expect(await store.dispatch.google.getCalendars()).toMatchInlineSnapshot(`
     Array [
       Object {
         "id": "calendar-123",
@@ -143,38 +143,38 @@ describe("google servide tests", () => {
       },
     ]
   `)
+})
+
+test("calendars api error from google is caught properly", async () => {
+  axiosMock
+    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
+    .reply(404)
+
+  expect(await store.dispatch.google.getCalendars()).toMatchInlineSnapshot(
+    `[Error: No calendars found]`
+  )
+})
+
+test("events from google are received properly", async () => {
+  const params = new URLSearchParams({
+    singleEvents: "true",
+    orderBy: "startTime",
+    timeMin: moment().startOf("day").toISOString(),
+    timeMax: moment().add(1, "year").endOf("year").toISOString(),
+    maxResults: "1000",
   })
-
-  test("calendars api error from google is caught properly", async () => {
-    axiosMock
-      .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
-      .reply(404)
-
-    expect(await store.dispatch.google.getCalendars()).toMatchInlineSnapshot(
-      `[Error: No calendars found]`
+  axiosMock
+    .onGet(
+      `${
+        googleEndpoints.calendars
+      }/calendars/calendar-id-123/events?${params.toString()}`
     )
-  })
-
-  test("events from google are received properly", async () => {
-    const params = new URLSearchParams({
-      singleEvents: "true",
-      orderBy: "startTime",
-      timeMin: moment().startOf("day").toISOString(),
-      timeMax: moment().add(1, "year").endOf("year").toISOString(),
-      maxResults: "1000",
+    .reply(200, {
+      items: mockedGoogleEvents,
     })
-    axiosMock
-      .onGet(
-        `${
-          googleEndpoints.calendars
-        }/calendars/calendar-id-123/events?${params.toString()}`
-      )
-      .reply(200, {
-        items: mockedGoogleEvents,
-      })
 
-    store.dispatch.google.setActiveCalendarId("calendar-id-123")
-    expect(await store.dispatch.google.getEvents()).toMatchInlineSnapshot(`
+  store.dispatch.google.setActiveCalendarId("calendar-id-123")
+  expect(await store.dispatch.google.getEvents()).toMatchInlineSnapshot(`
     Array [
       Object {
         "date": Array [
@@ -230,50 +230,49 @@ describe("google servide tests", () => {
       },
     ]
   `)
+})
+
+test("events from google are not received if no calendar is chosen", async () => {
+  const params = new URLSearchParams({
+    singleEvents: "true",
+    orderBy: "startTime",
+    timeMin: moment().startOf("day").toISOString(),
+    timeMax: moment().add(1, "year").endOf("year").toISOString(),
+    maxResults: "1000",
   })
-
-  test("events from google are not received if no calendar is chosen", async () => {
-    const params = new URLSearchParams({
-      singleEvents: "true",
-      orderBy: "startTime",
-      timeMin: moment().startOf("day").toISOString(),
-      timeMax: moment().add(1, "year").endOf("year").toISOString(),
-      maxResults: "1000",
-    })
-    axiosMock
-      .onGet(
-        `${
-          googleEndpoints.calendars
-        }/calendars/calendar-id-123/events?${params.toString()}`
-      )
-      .reply(200, {
-        items: mockedGoogleEvents,
-      })
-
-    expect(await store.dispatch.google.getEvents()).toMatchInlineSnapshot(
-      `[Error: No calendar is selected]`
+  axiosMock
+    .onGet(
+      `${
+        googleEndpoints.calendars
+      }/calendars/calendar-id-123/events?${params.toString()}`
     )
-  })
-
-  test("events api error from google is caught properly", async () => {
-    const params = new URLSearchParams({
-      singleEvents: "true",
-      orderBy: "startTime",
-      timeMin: moment().startOf("day").toISOString(),
-      timeMax: moment().add(1, "year").endOf("year").toISOString(),
-      maxResults: "1000",
+    .reply(200, {
+      items: mockedGoogleEvents,
     })
-    axiosMock
-      .onGet(
-        `${
-          googleEndpoints.calendars
-        }/calendars/calendar-id-123/events?${params.toString()}`
-      )
-      .reply(404)
 
-    store.dispatch.google.setActiveCalendarId("calendar-id-123")
-    expect(await store.dispatch.google.getEvents()).toMatchInlineSnapshot(
-      `[TypeError: Cannot read property 'nextPageToken' of undefined]`
-    )
+  expect(await store.dispatch.google.getEvents()).toMatchInlineSnapshot(
+    `[Error: No calendar is selected]`
+  )
+})
+
+test("events api error from google is caught properly", async () => {
+  const params = new URLSearchParams({
+    singleEvents: "true",
+    orderBy: "startTime",
+    timeMin: moment().startOf("day").toISOString(),
+    timeMax: moment().add(1, "year").endOf("year").toISOString(),
+    maxResults: "1000",
   })
+  axiosMock
+    .onGet(
+      `${
+        googleEndpoints.calendars
+      }/calendars/calendar-id-123/events?${params.toString()}`
+    )
+    .reply(404)
+
+  store.dispatch.google.setActiveCalendarId("calendar-id-123")
+  expect(await store.dispatch.google.getEvents()).toMatchInlineSnapshot(
+    `[TypeError: Cannot read property 'nextPageToken' of undefined]`
+  )
 })

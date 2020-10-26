@@ -23,21 +23,19 @@ export const googleEndpoints = {
   calendars: "https://www.googleapis.com/calendar/v3",
 }
 
-export const initialState: GoogleProviderState = {
+export const createInitialState = (): GoogleProviderState => ({
   invalidRequests: 0,
   auth: {},
-}
+})
 
-export default {
-  state: initialState,
+export const createStore = () => ({
+  state: createInitialState(),
   reducers: {
     incrementInvalidRequests(state: GoogleProviderState) {
-      state.invalidRequests++
-      return state
+      return { ...state, invalidRequests: state.invalidRequests + 1 }
     },
     resetInvalidRequests(state: GoogleProviderState) {
-      state.invalidRequests = 0
-      return state
+      return { ...state, invalidRequests: 0 }
     },
     setAuthData(
       state: GoogleProviderState,
@@ -213,4 +211,6 @@ export default {
       }
     },
   }),
-}
+})
+
+export default createStore()
