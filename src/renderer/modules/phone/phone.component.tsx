@@ -86,7 +86,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const searchParams = useURLSearchParams()
   const phoneNumber = searchParams.get("phoneNumber") || ""
   const activeContact = findContactByPhoneNumber(flatList, phoneNumber)
-  const initNewContact: NewContact | undefined =
+  const initNewContact =
     phoneNumber !== "" && activeContact === undefined
       ? { ...defaultContact, primaryPhoneNumber: phoneNumber }
       : undefined
