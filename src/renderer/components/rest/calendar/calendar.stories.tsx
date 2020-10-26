@@ -1,6 +1,6 @@
 import { storiesOf } from "@storybook/react"
 import React, { useState } from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { calendarSeed } from "App/seeds/calendar"
 import { mockedCalendars } from "App/__mocks__/calendars-list"
 import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
@@ -16,11 +16,16 @@ import { asyncNoop, noop } from "Renderer/utils/noop"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 
 storiesOf("Views/Calendar/Modals", module).add("All", () => (
-  <StoryContainer title="Sync modals" column>
-    <Story title="Synchronization finished" transparentMode>
+  <StoryContainer
+    title="Sync modals"
+    customStyle={css`
+      align-items: flex-start;
+    `}
+  >
+    <Story title="Select provider" transparentMode>
       <SelectVendorModal onGoogleButtonClick={asyncNoop} />
     </Story>
-    <Story title="Synchronization failed" transparentMode>
+    <Story title="Select calendars" transparentMode>
       <SelectCalendarsModal calendars={mockedCalendars} onSynchronize={noop} />
     </Story>
     <Story title="Synchronization progress" transparentMode>
