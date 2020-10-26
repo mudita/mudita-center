@@ -194,7 +194,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
       )}
       {resultsState === ResultsState.Loaded &&
         (contactList.length ? (
-          contactList.map(({ category, contacts }) => (
+          contactList.map(({ category, contacts }, categoryIndex) => (
             <Group key={category}>
               <Labels>
                 <Col />
@@ -213,8 +213,11 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                 const fullName = createFullName(contact)
                 const phoneNumber =
                   contact.primaryPhoneNumber || contact.secondaryPhoneNumber
+                const nextContact = contacts[index + 1]
+                  ? contacts[index + 1]
+                  : contactList[categoryIndex + 1]?.contacts[0]
                 const scrollActive =
-                  (contacts[index + 1] || contacts[index]).id === activeRow?.id
+                  (nextContact || contacts[index]).id === activeRow?.id
 
                 const interactiveRow = (ref: Ref<HTMLDivElement>) => (
                   <Row
