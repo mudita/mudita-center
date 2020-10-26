@@ -34,8 +34,5 @@ test("modal opens new window", async () => {
   await app.client
     .$(`*[data-testid=${SyncContactsModalTestIds.GoogleButton}]`)
     .click()
-  const windowCountAfterHelpClick = await app.client
-    .waitUntilWindowLoaded()
-    .getWindowCount()
-  expect(windowCountAfterHelpClick).toEqual(2)
+  expect(await app.client.waitUntilWindowLoaded().getWindowCount()).toEqual(2)
 })
