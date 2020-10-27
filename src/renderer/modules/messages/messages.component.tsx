@@ -25,8 +25,8 @@ import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
-  multipleThreadText: {
-    id: "view.name.messages.deleteModal.multipleThreadText",
+  body: {
+    id: "view.name.messages.deleteModal.body",
   },
 })
 
@@ -64,12 +64,12 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const _devLoadDefaultMessages = () => setMessagesList(list)
   useEffect(() => setMessagesList(list), [list])
 
-  const getMultipleThreadDeleteMessage = (ids: string[]): Message => {
+  const getDeletingMessage = (ids: string[]): Message => {
     const findById = (topic: Topic) => topic.id === ids[0]
     const topic = list.find(findById) as Topic
 
     return {
-      ...deleteModalMessages.multipleThreadText,
+      ...deleteModalMessages.body,
       values: {
         caller: getPrettyCaller(topic.caller),
         num: allRowsSelected ? -1 : ids.length,
@@ -80,7 +80,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const remove = (ids: string[]) => {
     const title = intl.formatMessage(deleteModalMessages.title)
-    const message = getMultipleThreadDeleteMessage(ids)
+    const message = getDeletingMessage(ids)
     const onDelete = () => {
       deleteConversation(ids)
       resetRows()
