@@ -17,10 +17,16 @@ import {
   SynchronizingFinishedModal,
   SynchronizingFailedModal,
 } from "Renderer/components/rest/calendar/calendar.modals"
+import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
+import { EmptyState } from "Renderer/components/core/table/table.component"
 
 const messages = defineMessages({
   allEvents: {
     id: "view.name.calendar.allEvents",
+  },
+  emptyStateTitle: { id: "view.name.calendar.noEvents" },
+  emptyStateDescription: {
+    id: "view.name.calendar.noEventsDescription",
   },
 })
 
@@ -75,7 +81,7 @@ const Calendar: FunctionComponent<CalendarProps> = ({
   useEffect(() => () => removeTimeoutHandler(), [])
 
   return (
-    <div>
+    <>
       <CalendarPanel
         events={events}
         onEventSelect={noop}
@@ -83,12 +89,20 @@ const Calendar: FunctionComponent<CalendarProps> = ({
         onSynchroniseClick={openSyncCalendarModal}
       />
       <Header message={messages.allEvents} />
-      <EventsList>
-        {events.map((item) => (
-          <Event key={item.id} event={item} />
-        ))}
-      </EventsList>
-    </div>
+      {events.length > 0 ? (
+        <EventsList>
+          {events.map((item) => (
+            <Event key={item.id} event={item} />
+          ))}
+        </EventsList>
+      ) : (
+        <EmptyState
+          title={messages.emptyStateTitle}
+          description={messages.emptyStateDescription}
+          data-testid={TemplatesTestIds.EmptyState}
+        />
+      )}
+    </>
   )
 }
 

@@ -13,6 +13,26 @@ import Story from "Renderer/components/storybook/story.component"
 import CalendarInputSearch from "Renderer/components/rest/calendar/calendar-input-search.component"
 import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
 import { noop } from "Renderer/utils/noop"
+import Calendar from "Renderer/modules/calendar/calendar.component"
+
+const Wrapper = styled.div`
+  max-width: 97.5rem;
+  min-height: 50rem;
+  display: flex;
+  flex-direction: column;
+`
+
+storiesOf("Views/Calendar/Main view", module)
+  .add("With events", () => (
+    <Wrapper>
+      <Calendar events={calendarSeed} />
+    </Wrapper>
+  ))
+  .add("No events", () => (
+    <Wrapper>
+      <Calendar events={[]} />
+    </Wrapper>
+  ))
 
 storiesOf("Views/Calendar/Modals", module).add("All", () => {
   return (
