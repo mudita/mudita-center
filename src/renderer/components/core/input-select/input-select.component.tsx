@@ -111,8 +111,6 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
           if (disabled) {
             event.stopPropagation()
             event.preventDefault()
-          } else {
-            noop()
           }
         }
         return (
