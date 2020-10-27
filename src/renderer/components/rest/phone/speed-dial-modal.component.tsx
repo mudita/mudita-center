@@ -159,7 +159,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                 <StyledInputSelect
                   searchable
                   items={availableContacts}
-                  selectedItem={selectedItem ? selectedItem : ""}
+                  selectedItem={selectedItem}
                   emptyItemValue={intl.formatMessage(messages.none)}
                   renderItemValue={renderItemValue}
                   renderListItem={renderListItem}
