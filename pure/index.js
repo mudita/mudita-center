@@ -169,7 +169,7 @@ class PureNode {
   }
 
   portError(err) {
-    debug("ERROR: %o", err)
+    console.log("ERROR: %o", err)
     this.isPolling = false
     // this.owner.onError()
   }
@@ -337,6 +337,7 @@ class PureNode {
   }
 
   startUpdate(updateFileFromUser) {
+    console.log("start Update", updateFileFromUser)
     this.updateFile = updateFileFromUser
     this.isPolling = false
     debug("updateFile: %s", this.updateFile)
@@ -351,16 +352,18 @@ class PureNode {
     }
 
     var req = createValidRequest(jsonUpdateRequest)
+    console.log({ req })
     debug("requesting update: %s updateFileSize: %d", req, this.updateFileSize)
     this.serialPortHandle.write(req, function (err) {
       if (err) {
-        debug("errror writing update request start message %o", err)
+        console.log("errror writing update request start message %o", err)
         this.isPolling = false
       }
     })
   }
 
   uploadUpdateFile(file) {
+    console.log("upload", { file })
     this.uploadFile = {}
     this.uploadFile.path = file
     this.uploadFile.size = fs.lstatSync(file).size
@@ -386,6 +389,7 @@ class PureNode {
   }
 
   fileUploadConfirmed() {
+    console.log("fileUploadConfirmed", this.uploadFile.path)
     debug("fileUploadConfirmed")
     clearTimeout(this.timerObject)
     this.isPolling = false
@@ -406,6 +410,7 @@ class PureNode {
   }
 
   readFileHandler(data) {
+    console.log("Readfilehandler", data)
     debug("readFileHandler data length:%d", data.length)
     this.serialPortHandle.write(data, function (err) {
       if (err) {

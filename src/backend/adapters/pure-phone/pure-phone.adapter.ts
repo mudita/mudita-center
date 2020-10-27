@@ -17,7 +17,16 @@ class PurePhone extends PurePhoneAdapter {
     this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)
   }
 
-  private emitConnectedDeviceSignal = (): void => {
+  private emitConnectedDeviceSignal = (event: any): void => {
+    console.log({ event })
+    if (event.endpoint === 3) {
+      if (Number(event.body.status) === 0) {
+        this.pureNode.fileUploadConfirmed()
+      }
+    }
+    if (Number(event.endpoint) === 2) {
+      console.log("UPLOAD", { event })
+    }
     this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
   }
 
@@ -52,6 +61,7 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public connectDevice(): Promise<DeviceResponse> {
+    console.log("connect")
     return new Promise((resolve) => {
       this.pureNode.portInit((phones: any[]) => {
         const phone = phones[0]
@@ -67,7 +77,8 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public updateOs(updateFilePath: string): any {
-    return updateFilePath + " ELO"
+    console.log("update click")
+    this.pureNode.uploadUpdateFile("/Users/kamilstaszewski/Desktop/update.tar")
   }
 }
 
