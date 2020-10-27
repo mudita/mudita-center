@@ -13,7 +13,6 @@ import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { CallerSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
 
 const messages = defineMessages({
   name: { id: "view.name.phone.calls.name" },
@@ -29,7 +28,8 @@ type SelectHook = Pick<
 interface Props extends SelectHook {
   calls: Details[]
   deleteCall?: (ids: Details) => void
-  isTopicThreadOpened: (params: CallerSearchParams) => boolean
+  isTopicThreadOpened: (phoneNumber: string) => boolean
+  isContactCreated: (phoneNumber: string) => boolean
 }
 
 const CallsTable: FunctionComponent<Props> = ({
@@ -39,6 +39,7 @@ const CallsTable: FunctionComponent<Props> = ({
   noneRowsSelected,
   deleteCall,
   isTopicThreadOpened,
+  isContactCreated,
 }) => {
   const {
     openSidebar,
@@ -82,6 +83,7 @@ const CallsTable: FunctionComponent<Props> = ({
           calls={[callDetails] as Details[]}
           onClose={closeSidebar}
           isTopicThreadOpened={isTopicThreadOpened}
+          isContactCreated={isContactCreated}
         />
       )}
     </TableWithSidebarWrapper>

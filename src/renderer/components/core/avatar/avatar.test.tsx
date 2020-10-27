@@ -53,7 +53,7 @@ test("avatar renders image properly", () => {
 
 test("avatar renders default image properly", () => {
   const { getByTestId } = renderAvatar()
-  expect(getByTestId("icon-Contacts")).toBeInTheDocument()
+  expect(getByTestId("icon-Contact")).toBeInTheDocument()
 })
 
 test("avatar renders image first", () => {

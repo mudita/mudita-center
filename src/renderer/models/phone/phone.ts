@@ -1,4 +1,4 @@
-import { Slicer } from "@rematch/select"
+import { Slicer, StoreSelectors } from "@rematch/select"
 import { Contact } from "Renderer/models/phone/phone.typings"
 import {
   BaseContactModel,
@@ -16,6 +16,7 @@ import {
   getSpeedDialChosenList,
   getFlatList,
 } from "Renderer/models/phone/phone.helpers"
+import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
 
 export const initialState: Phone = {
   db: {},
@@ -120,6 +121,16 @@ export default {
       return slice((state) => {
         return (id: ContactID) => state.db[id]
       })
+    },
+    isContactCreated(models: StoreSelectors<Phone>) {
+      return (state: Phone) => {
+        const contacts: Contact[] = models.phone.flatList(state)
+        return (phoneNumber: string) => {
+          return contacts.some((contact) =>
+            isContactMatchingPhoneNumber(contact, phoneNumber)
+          )
+        }
+      }
     },
   }),
 }
