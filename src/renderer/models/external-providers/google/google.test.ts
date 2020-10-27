@@ -177,56 +177,48 @@ test("events from google are received properly", async () => {
   expect(await store.dispatch.google.getEvents()).toMatchInlineSnapshot(`
     Array [
       Object {
-        "date": Array [
-          2020-01-01T10:00:00.000Z,
-          2020-01-01T13:00:00.000Z,
-        ],
         "description": "Felix's Birthday",
+        "endDate": "2020-01-01T13:00:00.000Z",
         "id": "google_google-event-1",
         "name": "Felix's Birthday",
         "provider": Object {
           "id": "google-event-1",
           "type": "google",
         },
+        "startDate": "2020-01-01T10:00:00.000Z",
       },
       Object {
-        "date": Array [
-          2020-02-01T10:00:00.000Z,
-          2020-02-01T13:00:00.000Z,
-        ],
         "description": "Kate's Birthday",
+        "endDate": "2020-02-01T13:00:00.000Z",
         "id": "google_google-event-2",
         "name": "Kate's Birthday",
         "provider": Object {
           "id": "google-event-2",
           "type": "google",
         },
+        "startDate": "2020-02-01T10:00:00.000Z",
       },
       Object {
-        "date": Array [
-          2020-03-05T09:00:00.000Z,
-          2020-03-05T11:00:00.000Z,
-        ],
         "description": "Matthew's Birthday",
+        "endDate": "2020-03-05T11:00:00.000Z",
         "id": "google_google-event-3",
         "name": "Matthew's Birthday",
         "provider": Object {
           "id": "google-event-3",
           "type": "google",
         },
+        "startDate": "2020-03-05T09:00:00.000Z",
       },
       Object {
-        "date": Array [
-          2020-08-08T07:00:00.000Z,
-          2020-08-08T08:00:00.000Z,
-        ],
         "description": "John's Birthday",
+        "endDate": "2020-08-08T08:00:00.000Z",
         "id": "google_google-event-4",
         "name": "John's Birthday",
         "provider": Object {
           "id": "google-event-4",
           "type": "google",
         },
+        "startDate": "2020-08-08T07:00:00.000Z",
       },
     ]
   `)

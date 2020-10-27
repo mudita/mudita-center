@@ -65,36 +65,28 @@ test("events are sorted by date properly", () => {
   expect(getSortedEvents(events)).toMatchInlineSnapshot(`
     Array [
       Object {
-        "date": Array [
-          2020-01-10T10:00:00.000Z,
-          2020-01-10T13:00:00.000Z,
-        ],
+        "endDate": "2020-01-10T13:00:00.000Z",
         "id": "test-event-10",
         "name": "Felix's Birthday 10",
+        "startDate": "2020-01-10T10:00:00.000Z",
       },
       Object {
-        "date": Array [
-          2020-01-11T10:00:00.000Z,
-          2020-01-11T13:00:00.000Z,
-        ],
+        "endDate": "2020-01-11T13:00:00.000Z",
         "id": "test-event-11",
         "name": "Felix's Birthday 11",
+        "startDate": "2020-01-11T10:00:00.000Z",
       },
       Object {
-        "date": Array [
-          2020-02-09T10:00:00.000Z,
-          2020-02-09T13:00:00.000Z,
-        ],
+        "endDate": "2020-02-09T13:00:00.000Z",
         "id": "test-event-9",
         "name": "Felix's Birthday 9",
+        "startDate": "2020-02-09T10:00:00.000Z",
       },
       Object {
-        "date": Array [
-          2020-02-12T10:00:00.000Z,
-          2020-02-12T13:00:00.000Z,
-        ],
+        "endDate": "2020-02-12T13:00:00.000Z",
         "id": "test-event-12",
         "name": "Felix's Birthday 12",
+        "startDate": "2020-02-12T10:00:00.000Z",
       },
     ]
   `)
@@ -104,56 +96,48 @@ test("google events are mapped properly", () => {
   expect(mapGoogleEvents(mockedGoogleEvents)).toMatchInlineSnapshot(`
     Array [
       Object {
-        "date": Array [
-          2020-01-01T10:00:00.000Z,
-          2020-01-01T13:00:00.000Z,
-        ],
         "description": "Felix's Birthday",
+        "endDate": "2020-01-01T13:00:00.000Z",
         "id": "google_google-event-1",
         "name": "Felix's Birthday",
         "provider": Object {
           "id": "google-event-1",
           "type": "google",
         },
+        "startDate": "2020-01-01T10:00:00.000Z",
       },
       Object {
-        "date": Array [
-          2020-02-01T10:00:00.000Z,
-          2020-02-01T13:00:00.000Z,
-        ],
         "description": "Kate's Birthday",
+        "endDate": "2020-02-01T13:00:00.000Z",
         "id": "google_google-event-2",
         "name": "Kate's Birthday",
         "provider": Object {
           "id": "google-event-2",
           "type": "google",
         },
+        "startDate": "2020-02-01T10:00:00.000Z",
       },
       Object {
-        "date": Array [
-          2020-03-05T09:00:00.000Z,
-          2020-03-05T11:00:00.000Z,
-        ],
         "description": "Matthew's Birthday",
+        "endDate": "2020-03-05T11:00:00.000Z",
         "id": "google_google-event-3",
         "name": "Matthew's Birthday",
         "provider": Object {
           "id": "google-event-3",
           "type": "google",
         },
+        "startDate": "2020-03-05T09:00:00.000Z",
       },
       Object {
-        "date": Array [
-          2020-08-08T07:00:00.000Z,
-          2020-08-08T08:00:00.000Z,
-        ],
         "description": "John's Birthday",
+        "endDate": "2020-08-08T08:00:00.000Z",
         "id": "google_google-event-4",
         "name": "John's Birthday",
         "provider": Object {
           "id": "google-event-4",
           "type": "google",
         },
+        "startDate": "2020-08-08T07:00:00.000Z",
       },
     ]
   `)
