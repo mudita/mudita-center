@@ -1,13 +1,14 @@
 import { initialState } from "Renderer/models/messages/messages"
+import { Topic } from "Renderer/models/messages/messages.interface"
 
-export const data = [
+export const data: Topic[] = [
   {
     id: "4ad26ab9-2318-4f55-b3be-861498473211",
     caller: {
       id: "274970a2-13b7-4f42-962d-8fa0b2b48377",
       firstName: "",
       lastName: "",
-      primaryPhoneNumber: "+28 755 168 255",
+      phoneNumber: "+28 755 168 255",
     },
     unread: false,
     messages: [
@@ -146,6 +147,9 @@ export const data = [
     id: "2cedbc91-cc74-4d18-9151-763bafc434d6",
     caller: {
       id: "7173eddd-a533-4f1d-a09d-f1fec74d29f9",
+      firstName: "",
+      lastName: "",
+      phoneNumber: "+85 102 096 521",
     },
     unread: false,
     messages: [
@@ -255,6 +259,9 @@ export const data = [
     id: "8803d3cc-2963-4440-98e0-43ccf3e83733",
     caller: {
       id: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
+      firstName: "Carmelo",
+      lastName: "",
+      phoneNumber: "+98 007 298 780",
     },
     unread: false,
     messages: [
@@ -403,7 +410,7 @@ export const data = [
       id: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
       firstName: "",
       lastName: "",
-      primaryPhoneNumber: "+03 026 752 736",
+      phoneNumber: "+03 026 752 736",
     },
     unread: true,
     messages: [
@@ -524,7 +531,7 @@ export const data = [
       id: "6b69864b-76e4-4a40-bc9f-457b13e98830",
       firstName: "",
       lastName: "",
-      primaryPhoneNumber: "+48 799 230 788",
+      phoneNumber: "+48 799 230 788",
     },
     unread: true,
     messages: [
@@ -630,6 +637,9 @@ export const data = [
     id: "e62cc79f-e458-4654-a173-34039630d746",
     caller: {
       id: "81c60775-cb4d-409f-98a1-79c785bb083a",
+      firstName: "Dylan",
+      lastName: "Kuvalis",
+      phoneNumber: "+36 724 240 162",
     },
     unread: true,
     messages: [
@@ -729,7 +739,7 @@ export const data = [
       id: "38d0bf34-c258-4a6c-a402-5986cdc33380",
       firstName: "",
       lastName: "",
-      primaryPhoneNumber: "+53 137 792 360",
+      phoneNumber: "+53 137 792 360",
     },
     unread: false,
     messages: [
@@ -877,6 +887,9 @@ export const data = [
     id: "328191bb-a517-46f4-bfe3-948675602b17",
     caller: {
       id: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
+      firstName: "Edmund",
+      lastName: "",
+      phoneNumber: "+46 333 060 911",
     },
     unread: false,
     messages: [
@@ -1002,89 +1015,18 @@ export const data = [
     ],
   },
   {
-    id: "19d13854-75d4-4a94-90f9-3ddf210d613d",
-    caller: {
-      id: "d37736af-1dab-45f0-9d72-9760e3e320a8",
-    },
-    unread: true,
-    messages: [
-      {
-        author: {
-          id: "0",
-        },
-        id: "67fc7f63-d2b6-4fcc-a97b-62f01f797334",
-        date: new Date("2019-11-29T14:24:14.560Z"),
-        content:
-          "Praesentium sunt vero consequatur doloremque porro sit fugit. Omnis occaecati pariatur odio libero est doloremque porro quidem qui.",
-        interlocutor: false,
-      },
-      {
-        author: {
-          id: "0",
-        },
-        id: "63e83993-5d97-4a93-b291-2063b15ec481",
-        date: new Date("2019-11-20T21:53:57.602Z"),
-        content:
-          "Deserunt ipsa nesciunt eum dicta dolorem et ut fugit. Consequuntur ad tempore placeat nam expedita neque repellat accusamus necessitatibus.",
-        interlocutor: false,
-      },
-      {
-        author: {
-          id: "0",
-        },
-        id: "de1b04e7-1edf-4e2a-ada8-374dfa8a2ac6",
-        date: new Date("2020-03-16T15:59:39.900Z"),
-        content:
-          "Voluptates asperiores laborum ratione ullam fugiat iure enim dolores impedit. Qui natus cupiditate quia dicta id voluptatem ea.",
-        interlocutor: false,
-      },
-      {
-        author: {
-          id: "0",
-        },
-        id: "a9b04645-3520-41c7-86d9-c29d81786a3c",
-        date: new Date("2019-07-17T20:50:46.238Z"),
-        content:
-          "Suscipit libero dicta. Voluptas et debitis vel quia enim rerum amet.",
-        interlocutor: false,
-      },
-      {
-        author: {
-          id: "0",
-        },
-        id: "fbbbb443-3b99-4514-ab1a-0622ef67132e",
-        date: new Date("2020-01-29T19:55:56.066Z"),
-        content:
-          "Voluptate exercitationem et sunt facere eaque atque consectetur error sequi. Nesciunt et consequatur sapiente sed ex inventore odit repellendus quae.",
-        interlocutor: false,
-      },
-      {
-        author: {
-          id: "d37736af-1dab-45f0-9d72-9760e3e320a8",
-        },
-        id: "d61c9e7b-4c59-470d-8f08-ec5ade01cd8b",
-        date: new Date("2019-08-18T19:06:05.029Z"),
-        content: "Maxime qui ut dolor qui optio in. Magnam nemo ea sit.",
-        interlocutor: true,
-      },
-    ],
-  },
-  {
     id: "2a190f37-1ff7-42bc-a6d6-c9b538e0f68c",
     caller: {
       id: "ec8b553c-bb57-4459-9e88-61812a679e38",
       firstName: "",
       lastName: "",
-      primaryPhoneNumber: "+32 964 648 391",
+      phoneNumber: "+32 964 648 391",
     },
     unread: true,
     messages: [
       {
         author: {
           id: "ec8b553c-bb57-4459-9e88-61812a679e38",
-          firstName: "",
-          lastName: "",
-          primaryPhoneNumber: "+32 964 648 391",
         },
         id: "034d9fff-87b8-4d73-9c85-d00d07e99535",
         date: new Date("2019-08-29T15:13:54.156Z"),
@@ -1095,9 +1037,6 @@ export const data = [
       {
         author: {
           id: "ec8b553c-bb57-4459-9e88-61812a679e38",
-          firstName: "",
-          lastName: "",
-          primaryPhoneNumber: "+32 964 648 391",
         },
         id: "393db8c9-465a-4480-9a7f-de905080962a",
         date: new Date("2019-09-07T11:24:07.764Z"),
@@ -1141,6 +1080,9 @@ export const data = [
     id: "956961ea-ed11-4779-a69a-4a9fa449831f",
     caller: {
       id: "d1c2d520-62c3-4949-ab47-cf6b3b680242",
+      firstName: "",
+      lastName: "Erdman",
+      phoneNumber: "",
     },
     unread: false,
     messages: [
@@ -1219,6 +1161,9 @@ export const data = [
     id: "7087495c-123c-4ca7-88a0-c5f71112914d",
     caller: {
       id: "06740d8d-b3c6-4e91-bd00-0720ca451346",
+      firstName: "",
+      lastName: "Erdman",
+      phoneNumber: "+35 160 648 062",
     },
     unread: false,
     messages: [
@@ -1357,6 +1302,9 @@ export const data = [
     id: "e464e127-3358-4f5f-b4d9-445f5f342795",
     caller: {
       id: "f3cc3898-af0f-49be-8b75-0d3bdf3423f2",
+      firstName: "Eugene",
+      lastName: "",
+      phoneNumber: "+31 137 043 005",
     },
     unread: false,
     messages: [
@@ -1486,6 +1434,9 @@ export const data = [
     id: "7f06d615-9c6f-41d7-af81-148ef1724f29",
     caller: {
       id: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
+      firstName: "Fannie",
+      lastName: "",
+      phoneNumber: "",
     },
     unread: true,
     messages: [
@@ -1644,7 +1595,7 @@ export const data = [
       id: "75cb5be9-d89a-4707-a5fa-e1b1d61a0c43",
       firstName: "",
       lastName: "",
-      primaryPhoneNumber: "+83 563 598 841",
+      phoneNumber: "+83 563 598 841",
     },
     unread: true,
     messages: [
@@ -1751,6 +1702,9 @@ export const data = [
     id: "ead1a111-a371-4cf8-b89f-659dfbf4deef",
     caller: {
       id: "fe4fb1b3-ddc0-43bc-89c5-ac3b3c1652b0",
+      firstName: "",
+      lastName: "Fay",
+      phoneNumber: "",
     },
     unread: false,
     messages: [
@@ -1900,7 +1854,7 @@ export const data = [
       id: "3a8a3575-b9b6-4ec3-b60c-d7ce125968be",
       firstName: "",
       lastName: "",
-      primaryPhoneNumber: "+00 287 614 353",
+      phoneNumber: "+00 287 614 353",
     },
     unread: true,
     messages: [
@@ -2040,7 +1994,7 @@ export const data = [
       id: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
       firstName: "",
       lastName: "",
-      primaryPhoneNumber: "+87 859 344 351",
+      phoneNumber: "+87 859 344 351",
     },
     unread: true,
     messages: [
@@ -2151,7 +2105,7 @@ export const data = [
       id: "f4d3d0f0-33db-4498-80e3-0870046bbeb4",
       firstName: "",
       lastName: "",
-      primaryPhoneNumber: "+90 669 222 797",
+      phoneNumber: "+90 669 222 797",
     },
     unread: false,
     messages: [
@@ -2301,7 +2255,7 @@ export const data = [
       id: "a6b64f67-3329-4cd5-b29b-c0c22fac5333",
       firstName: "",
       lastName: "",
-      primaryPhoneNumber: "+50 051 893 223",
+      phoneNumber: "+50 051 893 223",
     },
     unread: true,
     messages: [
@@ -2457,6 +2411,9 @@ export const data = [
     id: "90459cdd-ee5e-452f-aadd-43cfd619dd64",
     caller: {
       id: "29812fa1-5eaa-4a05-a3cf-fe1e2ea9915a",
+      firstName: "Jolie",
+      lastName: "",
+      phoneNumber: "+13 066 262 752",
     },
     unread: true,
     messages: [
@@ -2543,9 +2500,6 @@ export const data = [
       {
         author: {
           id: "a2089c3c-39e7-45c7-a905-93236a6563c1",
-          firstName: "",
-          lastName: "",
-          primaryPhoneNumber: "+46 299 324 155",
         },
         id: "5bf1360d-d1be-4d19-9e98-b63110985337",
         date: new Date("2020-01-08T00:29:35.722Z"),
@@ -2569,6 +2523,9 @@ export const data = [
     id: "544acdcb-331f-4586-bca5-dc92b3f64ee6",
     caller: {
       id: "6e25e79d-b478-4c94-a569-e17fdc51e681",
+      firstName: "Jordi",
+      lastName: "",
+      phoneNumber: "",
     },
     unread: true,
     messages: [
@@ -2627,6 +2584,9 @@ export const data = [
     id: "b4d5bd31-f244-4eda-8b13-3c93db7e8ece",
     caller: {
       id: "90eb6201-4252-4fa3-add3-b60e2b27c8dd",
+      firstName: "Myrna",
+      lastName: "",
+      phoneNumber: "+72 383 361 402",
     },
     unread: false,
     messages: [
@@ -2730,12 +2690,13 @@ export const data = [
       },
     ],
   },
-
   {
     id: "Z956961ea-ed11-4779-a69a-4a9fa449831f",
     caller: {
       id: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
-      primaryPhoneNumber: "+33 999 999 999",
+      firstName: "Johnny",
+      lastName: "Ovarb",
+      phoneNumber: "+33 999 999 999",
     },
     unread: false,
     messages: [

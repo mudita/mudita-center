@@ -70,9 +70,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     const findById = (topic: Topic) => topic.id === id
     const topic = list.find(findById) as Topic
     const caller = topic.caller
-    return isNameAvailable(caller)
-      ? createFullName(caller)
-      : (caller.primaryPhoneNumber as string)
+    return isNameAvailable(caller) ? createFullName(caller) : caller.phoneNumber
   }
 
   const getSingleThreadDeleteMessage = (id: string): Message => {
