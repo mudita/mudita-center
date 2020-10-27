@@ -47,4 +47,6 @@ tmp/extractedMessages
 !.storybook/tmp/.gitkeep
 storybook-static
 
-*.env
+.env.development
+.env.production
+electron-builder.env

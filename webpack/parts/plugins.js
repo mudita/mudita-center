@@ -3,6 +3,7 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin")
 const HTMLWebpackPlugin = require("html-webpack-plugin")
 const CircularDependencyPlugin = require("circular-dependency-plugin")
 const { DefinePlugin, EnvironmentPlugin } = require("webpack")
+const path = require("path")
 
 module.exports = {
   tsChecker: () => new ForkTsCheckerWebpackPlugin(),
@@ -39,6 +40,11 @@ module.exports = {
     minifyURLs: true,
   }),
   env: new EnvironmentPlugin({
-    ...dotenv.config().parsed,
+    ...dotenv.config({
+      path:
+        process.env.NODE_ENV === "development"
+          ? path.join(__dirname, "../../.env.development")
+          : path.join(__dirname, "../../.env.production"),
+    }).parsed,
   }),
 }
