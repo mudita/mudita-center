@@ -1,12 +1,8 @@
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import { Calendar } from "Renderer/models/calendar/calendar.interfaces"
-
-export interface CalendarEvent {
-  id: string
-  name: string
-  date: [Date, Date]
-  description?: string
-}
+import {
+  Calendar,
+  CalendarEvent,
+} from "Renderer/models/calendar/calendar.interfaces"
 
 export interface CalendarProps {
   calendars: Calendar[]

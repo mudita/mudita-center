@@ -53,8 +53,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
         </Col>
       </Labels>
       {events.map((event) => {
-        const { id, name, date } = event
-        const [startDate, endDate] = date
+        const { id, name, startDate, endDate } = event
         const { selected } = getRowStatus(event)
 
         const onCheckboxToggle = () => toggleRow(event)

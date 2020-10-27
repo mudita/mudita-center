@@ -18,7 +18,7 @@ const messages = defineMessages({
 
 export const getSortedEvents = (events: CalendarEvent[]) => {
   return events.sort((a, b) => {
-    return a.date[0].getTime() - b.date[0].getTime()
+    return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
   })
 }
 
@@ -30,7 +30,8 @@ export const mapGoogleEvents = (events: GoogleEvent[]): CalendarEvent[] => {
         id: `${Provider.Google}_${event.id}`,
         name: event.summary || intl.formatMessage(messages.unnamedEvent),
         description: event.description,
-        date: [new Date(event.start.dateTime), new Date(event.end.dateTime)],
+        startDate: new Date(event.start.dateTime).toISOString(),
+        endDate: new Date(event.end.dateTime).toISOString(),
         provider: {
           type: Provider.Google,
           id: event.id,

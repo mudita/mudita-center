@@ -3,7 +3,8 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 export interface CalendarEvent {
   id: string
   name: string
-  date: [Date, Date]
+  startDate: string
+  endDate: string
   description?: string
   provider?: {
     type: Provider

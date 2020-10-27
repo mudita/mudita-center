@@ -1,12 +1,13 @@
 import React from "react"
 import { FormattedTime } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
+import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 
-type Props = Pick<CalendarEvent, "date">
+type Props = Pick<CalendarEvent, "startDate" | "endDate">
 
 export const TimeWindow: FunctionComponent<Props> = ({
-  date: [startDate, endDate],
+  startDate,
+  endDate,
 }) => {
   return (
     <>

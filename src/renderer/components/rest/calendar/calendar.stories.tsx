@@ -11,7 +11,7 @@ import EventsSynchronizationFailedModal from "Renderer/components/rest/calendar/
 import GoogleAuthorizationFailedModal from "Renderer/components/rest/calendar/google-auth-failed.component"
 import Story from "Renderer/components/storybook/story.component"
 import CalendarInputSearch from "Renderer/components/rest/calendar/calendar-input-search.component"
-import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
+import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { asyncNoop, noop } from "Renderer/utils/noop"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 
