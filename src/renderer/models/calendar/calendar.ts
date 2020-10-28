@@ -13,10 +13,10 @@ export const initialState: StateProps = {
 export default {
   state: initialState,
   reducers: {
-    setCalendars(state: StateProps, calendars: Calendar[]) {
+    setCalendars(state: StateProps, newCalendars: Calendar[]) {
       return {
         ...state,
-        calendars,
+        calendars: [...state.calendars, ...newCalendars],
       }
     },
     clearCalendars(state: StateProps) {

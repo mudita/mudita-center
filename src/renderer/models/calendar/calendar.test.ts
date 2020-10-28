@@ -1,7 +1,6 @@
 import { init } from "@rematch/core"
 import calendar from "Renderer/models/calendar/calendar"
 import { mockedCalendars } from "App/__mocks__/calendars-list"
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import { calendarData } from "App/seeds/calendar"
 import { getSortedEvents } from "Renderer/models/calendar/calendar.helpers"
 
@@ -34,29 +33,12 @@ test("calendars are set properly", () => {
   )
 })
 
-test("calendars are overwritten properly", () => {
-  store.dispatch.calendar.setCalendars(mockedCalendars)
-  store.dispatch.calendar.setCalendars([
-    {
-      id: "jane.doe@example.com",
-      name: "jane.doe@example.com",
-      provider: Provider.Apple,
-    },
-  ])
-  expect(store.getState().calendar.calendars).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "id": "jane.doe@example.com",
-        "name": "jane.doe@example.com",
-        "provider": "apple",
-      },
-    ]
-  `)
-})
-
 test("calendars are cleared properly", () => {
   store.dispatch.calendar.setCalendars(mockedCalendars)
-  store.dispatch.calendar.setCalendars()
+  expect(store.getState().calendar.calendars).toHaveLength(
+    mockedCalendars.length
+  )
+  store.dispatch.calendar.clearCalendars()
   expect(store.getState().calendar.calendars).toHaveLength(0)
 })
 
