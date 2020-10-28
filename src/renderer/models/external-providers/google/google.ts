@@ -97,7 +97,7 @@ export const createStore = () => ({
         }
       }
     },
-    authorize(...[, rootState]: [undefined, ExternalProvidersState]) {
+    authorize(_: undefined, rootState: ExternalProvidersState) {
       return new Promise(async (resolve, reject) => {
         logger.info("Authorizing in Google")
 
@@ -130,7 +130,7 @@ export const createStore = () => ({
         )
       })
     },
-    async getCalendars(...[, rootState]: [undefined, ExternalProvidersState]) {
+    async getCalendars(_: undefined, rootState: ExternalProvidersState) {
       logger.info("Getting Google calendars")
 
       const { data } = await this.requestWrapper<GoogleCalendarsSuccess>(
@@ -146,7 +146,7 @@ export const createStore = () => ({
 
       return mapGoogleCalendars(data.items)
     },
-    async getEvents(...[, rootState]: [undefined, ExternalProvidersState]) {
+    async getEvents(_: undefined, rootState: ExternalProvidersState) {
       logger.info("Getting Google events")
 
       const request = (calendarId: string, nextPageToken?: string) => {
