@@ -4,7 +4,6 @@ import { Slicer } from "@rematch/select"
 import { Dispatch } from "Renderer/store"
 import externalProvidersStore from "Renderer/store/external-providers"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import uniqBy from "lodash/uniqBy"
 
 export const initialState: StateProps = {
   calendars: [],
@@ -14,13 +13,10 @@ export const initialState: StateProps = {
 export default {
   state: initialState,
   reducers: {
-    setCalendars(state: StateProps, newCalendars: Calendar[]) {
+    setCalendars(state: StateProps, calendars: Calendar[] = []) {
       return {
         ...state,
-        calendars: uniqBy(
-          [...state.calendars, ...newCalendars],
-          (calendar: Calendar) => calendar.id + calendar.provider
-        ),
+        calendars,
       }
     },
     setEvents(state: StateProps, newEvents: CalendarEvent[]) {
@@ -38,11 +34,14 @@ export default {
   effects: (dispatch: Dispatch) => ({
     async loadCalendars(provider: Provider) {
       let calendars: Calendar[] = []
+
+      dispatch.calendar.setCalendars()
+
       switch (provider) {
         case Provider.Google:
           calendars = await externalProvidersStore.dispatch.google.getCalendars()
       }
-      await dispatch.calendar.setCalendars(calendars)
+      dispatch.calendar.setCalendars(calendars)
     },
     async loadEvents(calendar: Calendar) {
       let events: CalendarEvent[] = []
@@ -53,7 +52,7 @@ export default {
           )
           events = await externalProvidersStore.dispatch.google.getEvents()
       }
-      await dispatch.calendar.setEvents(events)
+      dispatch.calendar.setEvents(events)
       return events
     },
   }),

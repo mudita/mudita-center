@@ -40,19 +40,30 @@ test("calendars are set properly", () => {
   )
 })
 
-test("calendars duplicates are omitted properly", () => {
+test("calendars are overwritten properly", () => {
   store.dispatch.calendar.setCalendars(mockedCalendars)
   store.dispatch.calendar.setCalendars([
-    ...mockedCalendars,
     {
       id: "jane.doe@example.com",
       name: "jane.doe@example.com",
       provider: Provider.Apple,
     },
   ])
-  expect(store.getState().calendar.calendars).toHaveLength(
-    mockedCalendars.length + 1
-  )
+  expect(store.getState().calendar.calendars).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "id": "jane.doe@example.com",
+        "name": "jane.doe@example.com",
+        "provider": "apple",
+      },
+    ]
+  `)
+})
+
+test("calendars are cleared properly", () => {
+  store.dispatch.calendar.setCalendars(mockedCalendars)
+  store.dispatch.calendar.setCalendars()
+  expect(store.getState().calendar.calendars).toHaveLength(0)
 })
 
 test("events are set properly", () => {
