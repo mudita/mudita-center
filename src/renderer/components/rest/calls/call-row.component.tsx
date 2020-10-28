@@ -27,7 +27,7 @@ import { isToday } from "Renderer/utils/is-today"
 import { noop } from "Renderer/utils/noop"
 
 export interface CallRowProps {
-  open: (row: Details) => void
+  onRowClick: (detail: Details) => void
   getRowStatus: (
     input: Details
   ) => {
@@ -36,22 +36,20 @@ export interface CallRowProps {
   }
   toggleRow: (input: Details) => void
   callData: Details
-  setDetails: (input: Details) => void
   activeRow?: Details
   noneRowsSelected: boolean
   sidebarOpened: boolean
-  deleteCall?: (ids: Details) => void
+  onDeleteClick: (id: string) => void
 }
 
 export const CallRow: FunctionComponent<CallRowProps> = ({
-  open,
+  onRowClick,
   getRowStatus,
   toggleRow,
   callData,
-  setDetails,
   activeRow,
   noneRowsSelected,
-  deleteCall,
+  onDeleteClick,
 }) => {
   const { caller, id, date, duration, timesMissed } = callData
   const { selected, indeterminate } = getRowStatus(callData)
@@ -61,16 +59,9 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
 
   const callDetails = { ...details, ...caller, ...callData }
 
-  const openSidebar = () => {
-    open(callData)
-    setDetails(callDetails as Details)
-  }
+  const emitClickRow = () => onRowClick(callData)
 
-  const removeCall = () => {
-    if (deleteCall) {
-      deleteCall(callDetails)
-    }
-  }
+  const emitDeleteClick = () => onDeleteClick(callDetails.id)
 
   return (
     <Row
@@ -89,7 +80,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
       </Col>
       <ClickableCol
         data-testid={CallsTableTestIds.CallerName}
-        onClick={openSidebar}
+        onClick={emitClickRow}
         active={activeRow?.id === id}
       >
         <StatusCallIcon type={details.icon} height={2.8} width={2.8} />
@@ -141,7 +132,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
                 id: "view.name.phone.calls.details",
               }}
               Icon={Type.Contact}
-              onClick={openSidebar}
+              onClick={emitClickRow}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="call-details"
             />
@@ -150,7 +141,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
                 id: "view.name.phone.calls.deleteCall",
               }}
               Icon={Type.Delete}
-              onClick={removeCall}
+              onClick={emitDeleteClick}
               displayStyle={DisplayStyle.Dropdown}
               data-testid="delete-call"
             />

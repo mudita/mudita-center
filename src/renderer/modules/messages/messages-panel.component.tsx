@@ -54,7 +54,7 @@ interface Props {
   resetRows: UseTableSelect<Topic>["resetRows"]
   visibilityFilter?: VisibilityFilter
   onMarkAsRead: (ids: string[]) => void
-  onDeleteButtonClick: () => void
+  onDeleteClick: () => void
 }
 
 const MessagesPanel: FunctionComponent<Props> = ({
@@ -68,7 +68,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
   resetRows,
   visibilityFilter,
   onMarkAsRead,
-  onDeleteButtonClick,
+  onDeleteClick,
 }) => {
   const [activeLabel, setActiveLabel] = useState(toggleState[0])
   const selectionMode = selectedConversations.length > 0
@@ -93,7 +93,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
       label={intl.formatMessage(messages.deleteButton)}
       displayStyle={DisplayStyle.Link1}
       Icon={Type.Delete}
-      onClick={onDeleteButtonClick}
+      onClick={onDeleteClick}
       data-testid={MessagePanelTestIds.SelectionManagerDeleteButton}
     />,
   ]
