@@ -149,14 +149,14 @@ export const createStore = () => ({
     async getEvents(_: undefined, rootState: ExternalProvidersState) {
       logger.info("Getting Google events")
 
-      const request = (calendarId: string, nextPageToken?: string) => {
+      const request = (calendarId: string, pageToken?: string) => {
         const params = new URLSearchParams({
           singleEvents: "true",
           orderBy: "startTime",
           timeMin: moment().startOf("day").toISOString(),
           timeMax: moment().add(1, "year").endOf("year").toISOString(),
           maxResults: "1000",
-          ...(nextPageToken ? { pageToken: nextPageToken } : {}),
+          ...(pageToken ? { pageToken } : {}),
         })
         return this.requestWrapper<GoogleEventsSuccess>(
           {
