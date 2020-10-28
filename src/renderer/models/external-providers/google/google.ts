@@ -48,8 +48,10 @@ export const createStore = () => ({
       return state
     },
     setActiveCalendarId(state: GoogleProviderState, calendarId: string) {
-      state.activeCalendarId = calendarId
-      return state
+      return {
+        ...state,
+        activeCalendarId: calendarId,
+      }
     },
   },
   effects: (dispatch: Dispatch) => ({
