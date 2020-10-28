@@ -8,12 +8,7 @@ import {
   Row,
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
-import {
-  defineMessages,
-  FormattedDate,
-  FormattedMessage,
-  FormattedTime,
-} from "react-intl"
+import { defineMessages, FormattedDate, FormattedMessage } from "react-intl"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
@@ -23,6 +18,7 @@ import {
   BaseSelectableCalls,
   Checkbox,
 } from "Renderer/components/rest/calls/calls-table.styled"
+import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 
 const messages = defineMessages({
   allEvents: {
@@ -70,8 +66,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
             </Col>
             <Col>{name}</Col>
             <Col>
-              <FormattedTime value={startDate} /> -{" "}
-              <FormattedTime value={endDate} />
+              <TimeWindow startDate={startDate} endDate={endDate} />
             </Col>
             <Col>
               <FormattedDate

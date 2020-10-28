@@ -8,10 +8,8 @@ type Props = Pick<CalendarEvent, "startDate" | "endDate">
 export const TimeWindow: FunctionComponent<Props> = ({
   startDate,
   endDate,
-}) => {
-  return (
-    <>
-      <FormattedTime value={startDate} /> - <FormattedTime value={endDate} />
-    </>
-  )
-}
+}) => (
+  <>
+    <FormattedTime value={startDate} /> - <FormattedTime value={endDate} />
+  </>
+)
