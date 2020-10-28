@@ -14,12 +14,12 @@ export const mockedCalendars: Calendar[] = [
     primary: true,
   },
   {
-    id: "example.com_jub4tl9r12ain8850vgdfksu6k@group.calendar.google.com",
+    id: "example.com_abcdefgij1234567@group.calendar.google.com",
     name: "John Doe - other calendar",
     provider: Provider.Google,
   },
   {
-    id: "appnroll.com_3133393133313330343936@resource.calendar.google.com",
+    id: "appnroll.com_klmnopqrstu98765432@resource.calendar.google.com",
     name: "Somebody's calendar",
     provider: Provider.Google,
   },
