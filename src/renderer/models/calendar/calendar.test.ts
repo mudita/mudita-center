@@ -48,7 +48,7 @@ test("events are set properly", () => {
 })
 
 test("events are sorted by date properly", () => {
-  const events = calendarData.reverse().slice(0, 4)
+  const events = [...calendarData].reverse().slice(0, 4)
   expect(getSortedEvents(events)).toMatchInlineSnapshot(`
     Array [
       Object {
