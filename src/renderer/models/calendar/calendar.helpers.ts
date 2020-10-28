@@ -16,7 +16,7 @@ const messages = defineMessages({
   },
 })
 
-export const getSortedEvents = (events: CalendarEvent[]) => {
+export const getSortedEvents = (events: CalendarEvent[]): CalendarEvent[] => {
   return events.sort((a, b) => {
     return new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
   })
