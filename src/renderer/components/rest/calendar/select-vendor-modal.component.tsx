@@ -35,7 +35,7 @@ const messages = defineMessages({
   },
 })
 
-interface SelectVendorModalProps extends ModalProps {
+export interface SelectVendorModalProps extends ModalProps {
   onGoogleButtonClick: () => Promise<void>
 }
 
@@ -68,6 +68,7 @@ const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
           labelMessage={messages.button}
           onClick={onGoogleButtonClick}
           Icon={Type.Google}
+          data-testid={"google-button"}
         />
       </ButtonWrapper>
     </ButtonContainer>
