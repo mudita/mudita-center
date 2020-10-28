@@ -4,13 +4,13 @@ import { fireEvent } from "@testing-library/react"
 import SelectVendorModal, {
   SelectVendorModalProps,
 } from "Renderer/components/rest/calendar/select-vendor-modal.component"
-import { asyncNoop } from "Renderer/utils/noop"
+import { noop } from "Renderer/utils/noop"
 
 const renderModal = ({
   onGoogleButtonClick,
 }: Partial<SelectVendorModalProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <SelectVendorModal onGoogleButtonClick={onGoogleButtonClick || asyncNoop} />
+    <SelectVendorModal onGoogleButtonClick={onGoogleButtonClick || noop} />
   )
   return {
     ...outcome,

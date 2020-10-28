@@ -36,7 +36,7 @@ const messages = defineMessages({
 })
 
 export interface SelectVendorModalProps extends ModalProps {
-  onGoogleButtonClick: () => Promise<void>
+  onGoogleButtonClick: () => void
 }
 
 const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
