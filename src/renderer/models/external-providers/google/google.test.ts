@@ -16,9 +16,8 @@ const authData: GoogleAuthSuccessResponse = {
   token_type: "Bearer",
   expires_in: 3599,
   scope: "Calendars Contacts",
+  refresh_token: "refresh-token-123",
 }
-
-const axiosMock = new MockAdapter(axios)
 
 jest.mock(
   "electron-better-ipc",
@@ -39,6 +38,7 @@ jest.mock(
         switch (channel) {
           case GoogleAuthActions.GotCredentials:
             callback(JSON.stringify(authData))
+            // callback(JSON.stringify({ error: "some error" }))
             return true
           default:
             return false
@@ -57,9 +57,11 @@ const initStore = () => {
 }
 
 let store = initStore()
+let axiosMock = new MockAdapter(axios)
 
 beforeEach(() => {
   store = initStore()
+  axiosMock = new MockAdapter(axios)
 })
 
 test("store returns initial state", () => {
@@ -67,22 +69,9 @@ test("store returns initial state", () => {
     Object {
       "google": Object {
         "auth": Object {},
-        "invalidRequests": 0,
       },
     }
   `)
-})
-
-test("invalid request counter increments properly", () => {
-  expect(store.getState().google.invalidRequests).toEqual(0)
-  store.dispatch.google.incrementInvalidRequests()
-  expect(store.getState().google.invalidRequests).toEqual(1)
-})
-
-test("invalid request counter resets properly", () => {
-  store.dispatch.google.incrementInvalidRequests()
-  store.dispatch.google.resetInvalidRequests()
-  expect(store.getState().google.invalidRequests).toEqual(0)
 })
 
 test("auth data is set properly", () => {
@@ -91,6 +80,7 @@ test("auth data is set properly", () => {
     Object {
       "access_token": "some-token",
       "expires_in": 3599,
+      "refresh_token": "refresh-token-123",
       "scope": "Calendars Contacts",
       "token_type": "Bearer",
     }
@@ -102,12 +92,44 @@ test("active calendar is set properly", () => {
   expect(store.getState().google.activeCalendarId).toBe("calendar-id-123")
 })
 
-test("authorization works properly", async () => {
+test("authorization handles error properly", async () => {
+  jest.mock(
+    "electron-better-ipc",
+    () => {
+      const mockIpcRenderer = {
+        callMain: (channel: GoogleAuthActions) => {
+          switch (channel) {
+            case GoogleAuthActions.OpenWindow:
+              return jest.fn()
+            default:
+              return false
+          }
+        },
+        answerMain: (
+          channel: GoogleAuthActions,
+          callback: (data: any) => PromiseLike<any>
+        ) => {
+          switch (channel) {
+            case GoogleAuthActions.GotCredentials:
+              // callback(JSON.stringify(authData))
+              callback(JSON.stringify({ error: "some error" }))
+              return true
+            default:
+              return false
+          }
+        },
+      }
+      return { ipcRenderer: mockIpcRenderer }
+    },
+    { virtual: true }
+  )
+
   await store.dispatch.google.authorize()
   expect(store.getState().google.auth).toMatchInlineSnapshot(`
     Object {
       "access_token": "some-token",
       "expires_in": 3599,
+      "refresh_token": "refresh-token-123",
       "scope": "Calendars Contacts",
       "token_type": "Bearer",
     }
@@ -150,9 +172,27 @@ test("calendars api error from google is caught properly", async () => {
     .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
     .reply(404)
 
-  expect(await store.dispatch.google.getCalendars()).toMatchInlineSnapshot(
-    `[Error: No calendars found]`
-  )
+  try {
+    await store.dispatch.google.getCalendars()
+  } catch (error) {
+    expect(error).toBeInstanceOf(Error)
+    expect(error).toStrictEqual(
+      new Error("Request failed with status code 404")
+    )
+  }
+})
+
+test("empty calendars list from api is caught properly", async () => {
+  axiosMock
+    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
+    .reply(200)
+
+  try {
+    await store.dispatch.google.getCalendars()
+  } catch (error) {
+    expect(error).toBeInstanceOf(Error)
+    expect(error).toStrictEqual(new Error("No calendars found"))
+  }
 })
 
 test("events from google are received properly", async () => {
@@ -242,9 +282,12 @@ test("events from google are not received if no calendar is chosen", async () =>
       items: mockedGoogleEvents,
     })
 
-  expect(await store.dispatch.google.getEvents()).toMatchInlineSnapshot(
-    `[Error: No calendar is selected]`
-  )
+  try {
+    await store.dispatch.google.getEvents()
+  } catch (error) {
+    expect(error).toBeInstanceOf(Error)
+    expect(error).toStrictEqual(new Error("No calendar is selected"))
+  }
 })
 
 test("events api error from google is caught properly", async () => {
@@ -264,7 +307,74 @@ test("events api error from google is caught properly", async () => {
     .reply(404)
 
   store.dispatch.google.setActiveCalendarId("calendar-id-123")
-  expect(await store.dispatch.google.getEvents()).toMatchInlineSnapshot(
-    `[TypeError: Cannot read property 'nextPageToken' of undefined]`
-  )
+  try {
+    await store.dispatch.google.getEvents()
+  } catch (error) {
+    expect(error).toBeInstanceOf(Error)
+    expect(error).toStrictEqual(
+      new Error("Request failed with status code 404")
+    )
+  }
+})
+
+test("requestWrapper handles 401 error properly", async () => {
+  axiosMock
+    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
+    .replyOnce(401)
+    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
+    .reply(200, {
+      items: mockedGoogleCalendars,
+    })
+    .onPost(
+      `${process.env.MUDITA_GOOGLE_REFRESH_TOKEN_URL}?refreshToken=refresh-token-123`
+    )
+    .reply(200, authData)
+
+  expect(
+    (
+      await store.dispatch.google.requestWrapper({
+        url: `${googleEndpoints.calendars}/users/me/calendarList`,
+      })
+    ).data.items
+  ).toHaveLength(mockedGoogleCalendars.length)
+})
+
+test("requestWrapper handles other errors properly", async () => {
+  axiosMock
+    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
+    .replyOnce(404)
+    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
+    .reply(200, {
+      items: mockedGoogleCalendars,
+    })
+
+  expect(
+    (
+      await store.dispatch.google.requestWrapper({
+        url: `${googleEndpoints.calendars}/users/me/calendarList`,
+      })
+    ).data.items
+  ).toHaveLength(mockedGoogleCalendars.length)
+})
+
+test("requestWrapper handles no access token error properly", async () => {
+  axiosMock
+    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
+    .replyOnce(404)
+    .onGet(`${googleEndpoints.calendars}/users/me/calendarList`)
+    .reply(200, {
+      items: mockedGoogleCalendars,
+    })
+
+  let requestError: Error = new Error()
+
+  try {
+    await store.dispatch.google.requestWrapper({
+      url: `${googleEndpoints.calendars}/users/me/calendarList`,
+    })
+  } catch (error) {
+    requestError = error
+  }
+
+  expect(requestError).toStrictEqual(new Error())
 })
