@@ -13,9 +13,9 @@ import logger from "App/main/utils/logger"
 import { ExternalProvidersState } from "Renderer/models/external-providers/external-providers.interface"
 import moment from "moment"
 import {
-  mapGoogleCalendars,
-  mapGoogleEvents,
-} from "Renderer/models/calendar/calendar.helpers"
+  mapCalendars,
+  mapEvents,
+} from "Renderer/models/external-providers/google/google.helpers"
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 
 export const googleEndpoints = {
@@ -144,7 +144,7 @@ export const createStore = () => ({
         throw new Error("No calendars found")
       }
 
-      return mapGoogleCalendars(data.items)
+      return mapCalendars(data.items)
     },
     async getEvents(_: undefined, rootState: ExternalProvidersState) {
       logger.info("Getting Google events")
@@ -188,7 +188,7 @@ export const createStore = () => ({
           nextPageToken = data.nextPageToken
         }
 
-        return mapGoogleEvents(events)
+        return mapEvents(events)
       } catch (error) {
         logger.error(error)
         throw error

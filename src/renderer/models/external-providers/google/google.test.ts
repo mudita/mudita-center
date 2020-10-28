@@ -9,6 +9,10 @@ import { mockedGoogleCalendars } from "App/__mocks__/google-calendars-list"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
 import { mockedGoogleEvents } from "App/__mocks__/google-events-list"
 import moment from "moment"
+import {
+  mapCalendars,
+  mapEvents,
+} from "Renderer/models/external-providers/google/google.helpers"
 import { init } from "@rematch/core"
 
 const authData: GoogleAuthSuccessResponse = {
@@ -377,4 +381,80 @@ test("requestWrapper handles no access token error properly", async () => {
   }
 
   expect(requestError).toStrictEqual(new Error())
+})
+
+test("google events are mapped properly", () => {
+  expect(mapEvents(mockedGoogleEvents)).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "description": "Felix's Birthday",
+        "endDate": "2020-01-01T13:00:00.000Z",
+        "id": "google_google-event-1",
+        "name": "Felix's Birthday",
+        "provider": Object {
+          "id": "google-event-1",
+          "type": "google",
+        },
+        "startDate": "2020-01-01T10:00:00.000Z",
+      },
+      Object {
+        "description": "Kate's Birthday",
+        "endDate": "2020-02-01T13:00:00.000Z",
+        "id": "google_google-event-2",
+        "name": "Kate's Birthday",
+        "provider": Object {
+          "id": "google-event-2",
+          "type": "google",
+        },
+        "startDate": "2020-02-01T10:00:00.000Z",
+      },
+      Object {
+        "description": "Matthew's Birthday",
+        "endDate": "2020-03-05T11:00:00.000Z",
+        "id": "google_google-event-3",
+        "name": "Matthew's Birthday",
+        "provider": Object {
+          "id": "google-event-3",
+          "type": "google",
+        },
+        "startDate": "2020-03-05T09:00:00.000Z",
+      },
+      Object {
+        "description": "John's Birthday",
+        "endDate": "2020-08-08T08:00:00.000Z",
+        "id": "google_google-event-4",
+        "name": "John's Birthday",
+        "provider": Object {
+          "id": "google-event-4",
+          "type": "google",
+        },
+        "startDate": "2020-08-08T07:00:00.000Z",
+      },
+    ]
+  `)
+})
+
+test("google events are mapped properly", () => {
+  expect(mapCalendars(mockedGoogleCalendars)).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "id": "calendar-123",
+        "name": "My calendar",
+        "primary": true,
+        "provider": "google",
+      },
+      Object {
+        "id": "calendar-456",
+        "name": "Work calendar",
+        "primary": undefined,
+        "provider": "google",
+      },
+      Object {
+        "id": "calendar-789",
+        "name": "John's calendar",
+        "primary": undefined,
+        "provider": "google",
+      },
+    ]
+  `)
 })
