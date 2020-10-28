@@ -12,12 +12,12 @@ export const createAuthServer = (
 
   server = http.createServer((req, res) => {
     if (req.method === "POST") {
-      let body = ""
+      let rawData = ""
 
       res.statusCode = 200
-      req.on("data", (data) => (body += data))
+      req.on("data", (chunk) => (rawData += chunk))
       req.on("end", () => {
-        callback(body)
+        callback(rawData)
       })
     } else {
       res.statusCode = 400

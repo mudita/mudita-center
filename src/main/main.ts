@@ -214,11 +214,11 @@ const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
 
 ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async () => {
   if (process.env.MUDITA_GOOGLE_AUTH_URL) {
-    const cb = (data: string | Record<string, string>) => {
+    const cb = (data: string) => {
       ipcMain.callRenderer(
         win as BrowserWindow,
         GoogleAuthActions.GotCredentials,
-        `${data}`
+        data
       )
     }
 
