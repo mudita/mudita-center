@@ -13,10 +13,16 @@ export const initialState: StateProps = {
 export default {
   state: initialState,
   reducers: {
-    setCalendars(state: StateProps, calendars: Calendar[] = []) {
+    setCalendars(state: StateProps, calendars: Calendar[]) {
       return {
         ...state,
         calendars,
+      }
+    },
+    clearCalendars(state: StateProps) {
+      return {
+        ...state,
+        calendars: [],
       }
     },
     setEvents(state: StateProps, newEvents: CalendarEvent[]) {
@@ -35,7 +41,7 @@ export default {
     async loadCalendars(provider: Provider) {
       let calendars: Calendar[] = []
 
-      dispatch.calendar.setCalendars()
+      dispatch.calendar.clearCalendars()
 
       switch (provider) {
         case Provider.Google:
