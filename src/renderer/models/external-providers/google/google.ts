@@ -44,7 +44,8 @@ export const createStore = () => ({
   effects: (dispatch: Dispatch) => ({
     async requestWrapper<ReturnType>(
       axiosProps: AxiosRequestConfig,
-      rootState: ExternalProvidersState
+      rootState: ExternalProvidersState,
+      tries = 0
     ): Promise<AxiosResponse<ReturnType>> {
       const { url, method = "GET", headers, ...rest } = axiosProps
 
@@ -69,14 +70,14 @@ export const createStore = () => ({
       try {
         return await request()
       } catch (error) {
-        if (error.response.status === 401) {
+        if (error.response.status === 401 && tries < 2) {
           const refreshToken = rootState.google.auth.refresh_token
 
           const { data } = await axios.post(
             `${process.env.MUDITA_GOOGLE_REFRESH_TOKEN_URL}?refreshToken=${refreshToken}`
           )
           await dispatch.google.setAuthData(data)
-          return this.requestWrapper(axiosProps, rootState)
+          return this.requestWrapper(axiosProps, rootState, tries + 1)
         } else {
           logger.error(error)
 
