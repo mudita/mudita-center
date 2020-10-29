@@ -134,7 +134,7 @@ export const createStore = () => ({
         rootState
       )
 
-      if (!data || !data.items) {
+      if (!data?.items) {
         throw new Error("No calendars found")
       }
 
