@@ -91,11 +91,6 @@ test("auth data is set properly", () => {
   `)
 })
 
-test("active calendar is set properly", () => {
-  store.dispatch.google.setActiveCalendarId("calendar-id-123")
-  expect(store.getState().google.activeCalendarId).toBe("calendar-id-123")
-})
-
 test("authorization handles error properly", async () => {
   jest.mock(
     "electron-better-ipc",
@@ -217,8 +212,8 @@ test("events from google are received properly", async () => {
       items: mockedGoogleEvents,
     })
 
-  store.dispatch.google.setActiveCalendarId("calendar-id-123")
-  expect(await store.dispatch.google.getEvents()).toMatchInlineSnapshot(`
+  expect(await store.dispatch.google.getEvents("calendar-id-123"))
+    .toMatchInlineSnapshot(`
     Array [
       Object {
         "description": "Felix's Birthday",
@@ -310,9 +305,8 @@ test("events api error from google is caught properly", async () => {
     )
     .reply(404)
 
-  store.dispatch.google.setActiveCalendarId("calendar-id-123")
   try {
-    await store.dispatch.google.getEvents()
+    await store.dispatch.google.getEvents("calendar-id-123")
   } catch (error) {
     expect(error).toBeInstanceOf(Error)
     expect(error).toStrictEqual(

@@ -40,12 +40,6 @@ export const createStore = () => ({
       }
       return state
     },
-    setActiveCalendarId(state: GoogleProviderState, calendarId: string) {
-      return {
-        ...state,
-        activeCalendarId: calendarId,
-      }
-    },
   },
   effects: (dispatch: Dispatch) => ({
     async requestWrapper<ReturnType>(
@@ -146,10 +140,10 @@ export const createStore = () => ({
 
       return mapCalendars(data.items)
     },
-    async getEvents(_: undefined, rootState: ExternalProvidersState) {
+    async getEvents(calendarId: string, rootState: ExternalProvidersState) {
       logger.info("Getting Google events")
 
-      const request = (calendarId: string, pageToken?: string) => {
+      const request = (pageToken?: string) => {
         const params = new URLSearchParams({
           singleEvents: "true",
           orderBy: "startTime",
@@ -168,21 +162,18 @@ export const createStore = () => ({
         )
       }
 
-      if (!rootState.google.activeCalendarId) {
+      if (!calendarId) {
         throw new Error("No calendar is selected")
       }
 
       try {
-        const { data } = await request(rootState.google.activeCalendarId)
+        const { data } = await request()
 
         let nextPageToken = data.nextPageToken
         let events: GoogleEvent[] = data.items
 
         while (nextPageToken) {
-          const { data } = await request(
-            rootState.google.activeCalendarId,
-            nextPageToken
-          )
+          const { data } = await request(nextPageToken)
 
           events = [...events, ...data.items]
           nextPageToken = data.nextPageToken

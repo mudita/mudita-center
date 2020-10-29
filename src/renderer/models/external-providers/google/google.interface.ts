@@ -48,5 +48,4 @@ export interface GoogleEventsSuccess {
 
 export interface GoogleProviderState {
   auth: Partial<GoogleAuthSuccessResponse>
-  activeCalendarId?: string
 }
