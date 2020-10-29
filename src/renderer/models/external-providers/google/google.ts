@@ -59,7 +59,7 @@ export const createStore = () => ({
       const request = (token = currentToken) => {
         return axios(url as string, {
           ...rest,
-          method: method,
+          method,
           headers: {
             ...headers,
             Authorization: `${rootState.google.auth.token_type} ${token}`,
