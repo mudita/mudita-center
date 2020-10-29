@@ -28,9 +28,7 @@ test("store returns initial state", () => {
 
 test("calendars are set properly", () => {
   store.dispatch.calendar.setCalendars(mockedCalendars)
-  expect(store.getState().calendar.calendars).toHaveLength(
-    mockedCalendars.length
-  )
+  expect(store.getState().calendar.calendars).toStrictEqual(mockedCalendars)
 })
 
 test("calendars are cleared properly", () => {
@@ -47,34 +45,35 @@ test("events are set properly", () => {
   expect(store.getState().calendar.events).toHaveLength(calendarData.length)
 })
 
-test("events are sorted by date properly", () => {
-  const events = [...calendarData].reverse().slice(0, 4)
-  expect(getSortedEvents(events)).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "endDate": "2020-01-10T13:00:00.000Z",
-        "id": "test-event-10",
-        "name": "Felix's Birthday 10",
-        "startDate": "2020-01-10T10:00:00.000Z",
-      },
-      Object {
-        "endDate": "2020-01-11T13:00:00.000Z",
-        "id": "test-event-11",
-        "name": "Felix's Birthday 11",
-        "startDate": "2020-01-11T10:00:00.000Z",
-      },
-      Object {
-        "endDate": "2020-02-09T13:00:00.000Z",
-        "id": "test-event-9",
-        "name": "Felix's Birthday 9",
-        "startDate": "2020-02-09T10:00:00.000Z",
-      },
-      Object {
-        "endDate": "2020-02-12T13:00:00.000Z",
-        "id": "test-event-12",
-        "name": "Felix's Birthday 12",
-        "startDate": "2020-02-12T10:00:00.000Z",
-      },
-    ]
-  `)
+test("events are sorted by startDate properly", () => {
+  const unsortedEvents = [
+    {
+      id: "test-event-1",
+      name: "Felix's Birthday",
+      startDate: "2020-01-01T10:00:00.000Z",
+      endDate: "2020-01-01T13:00:00.000Z",
+    },
+    {
+      id: "test-event-3",
+      name: "Felix's Birthday 3",
+      startDate: "2222-02-03T10:00:00.000Z",
+      endDate: "2222-02-03T13:00:00.000Z",
+    },
+    {
+      id: "test-event-2",
+      name: "Felix's Birthday 2",
+      startDate: "2020-01-02T15:00:00.000Z",
+      endDate: "2020-01-02T13:00:00.000Z",
+    },
+  ]
+
+  const sortedEvents = getSortedEvents(unsortedEvents)
+
+  expect(sortedEvents).toHaveLength(unsortedEvents.length)
+
+  for (let i = 0; i < sortedEvents.length - 1; i++) {
+    expect(new Date(sortedEvents[i].startDate).getTime()).toBeLessThanOrEqual(
+      new Date(sortedEvents[i + 1].startDate).getTime()
+    )
+  }
 })
