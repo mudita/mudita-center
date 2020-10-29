@@ -93,7 +93,7 @@ export const createStore = () => ({
       }
     },
     authorize(_: undefined, rootState: ExternalProvidersState) {
-      return new Promise(async (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         logger.info("Authorizing in Google")
 
         const token = rootState.google.auth.access_token
@@ -103,9 +103,9 @@ export const createStore = () => ({
           return
         }
 
-        await ipcRenderer.callMain(GoogleAuthActions.OpenWindow)
+        ipcRenderer.callMain(GoogleAuthActions.OpenWindow)
 
-        const processResponse = async (response: string) => {
+        const processResponse = (response: string) => {
           const responseData = JSON.parse(response)
 
           if (responseData.error) {
@@ -116,10 +116,10 @@ export const createStore = () => ({
             )
             resolve()
           }
-          await ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
+          ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
         }
 
-        await ipcRenderer.answerMain(
+        ipcRenderer.answerMain(
           GoogleAuthActions.GotCredentials,
           processResponse
         )
