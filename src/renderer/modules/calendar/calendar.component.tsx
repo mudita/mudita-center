@@ -3,7 +3,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import { noop } from "Renderer/utils/noop"
 import { CalendarProps } from "Renderer/modules/calendar/calendar.interface"
-import { calendarData } from "App/seeds/calendar"
+import { eventsData } from "App/seeds/calendar"
 import modalService from "Renderer/components/core/modal/modal.service"
 import EventsList from "Renderer/components/rest/calendar/events-list.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
@@ -23,7 +23,7 @@ import AuthorizationFailedModal from "Renderer/components/rest/calendar/authoriz
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
-  events = calendarData,
+  events = eventsData,
   loadCalendars,
   loadEvents,
 }) => {

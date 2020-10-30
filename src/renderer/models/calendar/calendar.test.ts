@@ -1,7 +1,7 @@
 import { init } from "@rematch/core"
 import calendar from "Renderer/models/calendar/calendar"
 import { mockedCalendars } from "App/__mocks__/calendars-list"
-import { calendarData } from "App/seeds/calendar"
+import { eventsData } from "App/seeds/calendar"
 import { getSortedEvents } from "Renderer/models/calendar/calendar.helpers"
 
 const initStore = () =>
@@ -41,8 +41,8 @@ test("calendars are cleared properly", () => {
 })
 
 test("events are set properly", () => {
-  store.dispatch.calendar.setEvents(calendarData)
-  expect(store.getState().calendar.events).toHaveLength(calendarData.length)
+  store.dispatch.calendar.setEvents(eventsData)
+  expect(store.getState().calendar.events).toHaveLength(eventsData.length)
 })
 
 test("events are sorted by startDate properly", () => {
