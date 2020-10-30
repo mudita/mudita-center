@@ -17,6 +17,7 @@ import {
   mapEvents,
 } from "Renderer/models/external-providers/google/google.helpers"
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
+import { noop } from "Renderer/utils/noop"
 
 export const googleEndpoints = {
   people: "https://people.googleapis.com/v1/people",
@@ -103,11 +104,12 @@ export const createStore = () => ({
           return
         }
 
+        let unregisterMainListener = noop
+
         ipcRenderer.callMain(GoogleAuthActions.OpenWindow)
 
         const processResponse = (response: string) => {
           const responseData = JSON.parse(response)
-
           if (responseData.error) {
             reject((responseData as GoogleAuthFailedResponse).error)
           } else {
@@ -117,9 +119,10 @@ export const createStore = () => ({
             resolve()
           }
           ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
+          unregisterMainListener()
         }
 
-        ipcRenderer.answerMain(
+        unregisterMainListener = ipcRenderer.answerMain(
           GoogleAuthActions.GotCredentials,
           processResponse
         )
