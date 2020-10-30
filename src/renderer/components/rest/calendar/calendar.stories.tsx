@@ -8,12 +8,13 @@ import SelectCalendarsModal from "Renderer/components/rest/calendar/select-calen
 import SynchronizingEventsModal from "Renderer/components/rest/calendar/synchronizing-events-modal.component"
 import EventsSynchronizationFinishedModal from "Renderer/components/rest/calendar/synchronization-finished-modal.component"
 import EventsSynchronizationFailedModal from "Renderer/components/rest/calendar/synchronization-failed.component"
-import GoogleAuthorizationFailedModal from "Renderer/components/rest/calendar/google-auth-failed.component"
+import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
 import Story from "Renderer/components/storybook/story.component"
 import CalendarInputSearch from "Renderer/components/rest/calendar/calendar-input-search.component"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { asyncNoop, noop } from "Renderer/utils/noop"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 
 storiesOf("Views/Calendar/Modals", module).add("All", () => (
   <StoryContainer
@@ -38,7 +39,7 @@ storiesOf("Views/Calendar/Modals", module).add("All", () => (
       <EventsSynchronizationFailedModal onActionButtonClick={noop} />
     </Story>
     <Story title="Google authorization failed" transparentMode>
-      <GoogleAuthorizationFailedModal />
+      <AuthorizationFailedModal provider={Provider.Google} />
     </Story>
   </StoryContainer>
 ))

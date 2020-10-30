@@ -24,6 +24,7 @@ import { intl } from "Renderer/utils/intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { ReactNode } from "react"
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
   padding: 4rem 3.2rem 4.8rem 3.2rem;
@@ -87,7 +88,7 @@ export interface ModalProps {
   onClose?: () => void
   size?: ModalSize
   subtitle?: string
-  title?: string
+  title?: string | ReactNode
   titleOrder?: TitleOrder
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import { noop } from "Renderer/utils/noop"
@@ -19,7 +19,7 @@ import logger from "App/main/utils/logger"
 import EventsSynchronizationFinishedModal from "Renderer/components/rest/calendar/synchronization-finished-modal.component"
 import EventsSynchronizationFailedModal from "Renderer/components/rest/calendar/synchronization-failed.component"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import GoogleAuthorizationFailedModal from "Renderer/components/rest/calendar/google-auth-failed.component"
+import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
@@ -28,21 +28,29 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   loadEvents,
 }) => {
   const tableSelectHook = useTableSelect<CalendarEvent>(events)
+  const [provider, setProvider] = useState<Provider | undefined>()
 
-  const loadGoogleCalendars = async () => {
+  const setGoogleProvider = () => setProvider(Provider.Google)
+
+  const authorizeAndLoadCalendars = async () => {
+    if (!provider) {
+      throw new Error("No provider selected")
+    }
+
     try {
-      return await loadCalendars(Provider.Google)
+      return await loadCalendars(provider)
     } catch (error) {
       logger.error(error)
-      openGoogleAuthFailedModal()
+      openAuthorizationFailedModal()
     }
   }
 
-  const openGoogleAuthFailedModal = async () => {
+  const openAuthorizationFailedModal = async () => {
     await modalService.closeModal()
     modalService.openModal(
-      <GoogleAuthorizationFailedModal
-        onActionButtonClick={loadGoogleCalendars}
+      <AuthorizationFailedModal
+        provider={provider as Provider}
+        onActionButtonClick={authorizeAndLoadCalendars}
       />
     )
   }
@@ -74,7 +82,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   const openSelectVendorModal = () => {
     try {
       modalService.openModal(
-        <SelectVendorModal onGoogleButtonClick={loadGoogleCalendars} />
+        <SelectVendorModal onGoogleButtonClick={setGoogleProvider} />
       )
     } catch (error) {
       openSynchronizationFailedModal()
@@ -106,10 +114,16 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   }
 
   useEffect(() => {
-    if (calendars.length) {
+    if (calendars.length && provider) {
       openSelectCalendarsModal()
     }
-  }, [calendars])
+  }, [calendars, provider])
+
+  useEffect(() => {
+    if (provider) {
+      authorizeAndLoadCalendars()
+    }
+  }, [provider])
 
   return (
     <>
