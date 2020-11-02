@@ -4,7 +4,7 @@ import { URL_ONBOARDING } from "Renderer/constants/urls"
 import OnboardingConnecting from "Renderer/components/rest/onboarding/onboarding-connecting.component"
 import { updateAppSettings } from "Renderer/requests/app-settings.request"
 
-export const finishOnboarding = async () => {
+export const registerFirstPhoneConnection = async () => {
   updateAppSettings({ key: "pureNeverConnected", value: false })
 }
 
