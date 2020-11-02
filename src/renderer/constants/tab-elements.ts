@@ -2,6 +2,8 @@ import { defineMessages } from "react-intl"
 import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
+const productionEnvironment = process.env.NODE_ENV === "production"
+
 const messages = defineMessages({
   conversations: { id: "view.name.messages.conversations" },
   templates: { id: "view.name.messages.templates" },
@@ -24,6 +26,7 @@ interface Tab {
   }
   url: string
   icon: Type
+  hideOnProd?: boolean
 }
 
 export interface TabElement {
@@ -59,6 +62,7 @@ export const tabElements: TabElement[] = [
         label: messages.dial,
         url: `${URL_MAIN.phone}${URL_TABS.dial}`,
         icon: Type.Dial,
+        hideOnProd: productionEnvironment,
       },
     ],
   },
@@ -104,11 +108,13 @@ export const tabElements: TabElement[] = [
         label: messages.notifications,
         url: `${URL_MAIN.settings}${URL_TABS.notifications}`,
         icon: Type.Notifications,
+        hideOnProd: productionEnvironment,
       },
       {
         label: messages.audioConversion,
         url: `${URL_MAIN.settings}${URL_TABS.audioConversion}`,
         icon: Type.MenuMusic,
+        hideOnProd: productionEnvironment,
       },
       {
         label: messages.backup,
