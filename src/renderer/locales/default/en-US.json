@@ -342,7 +342,7 @@
   "view.name.phone.contacts.syncModalText": "Log in to allow Desktop App to synchronise contacts between Pure and Google or iCloud accounts.",
   "view.name.phone.contacts.syncModalTitle": "Synchronise contacts",
   "view.name.phone.dial": "Dial",
-  "view.name.recoveryMode": "Recovery Mode",
+  "view.name.recoveryMode": "Backup & Recovery",
   "view.name.recoveryMode.backupDescription": "Lorem ipsum dolor sit amet elit lorem ipsum dolor elit ipsum lorem ipsum dolor sit amet",
   "view.name.recoveryMode.backupTitle": "Backup",
   "view.name.recoveryMode.description": "Lorem ipsum dolor sit amet elit lorem ipsum dolor elit ipsum",
