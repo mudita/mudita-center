@@ -19,7 +19,7 @@ test("onboarding: welcome continue button works properly", async () => {
 test("onboarding: welcome autostart checkbox works properly", async () => {
   const setAutostartOption = jest.fn()
   const { getByRole } = renderWithThemeAndIntl(
-    <OnboardingWelcome setAutostartOption={setAutostartOption} />
+    <OnboardingWelcome onAutostartChange={setAutostartOption} />
   )
 
   fireEvent.click(getByRole("checkbox"))
