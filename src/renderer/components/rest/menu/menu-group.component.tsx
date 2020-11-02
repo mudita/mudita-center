@@ -46,37 +46,39 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
         </HeaderWrapper>
       )}
       {items &&
-        items.map(({ button, icon, testId }, index) => {
-          const buttonMenuConfig = {
-            nav: true,
-            displayStyle: DisplayStyle.Link4,
-            labelMessage: button.label,
-            Icon: icon,
-            iconSize: IconSize.Bigger,
-          }
-          if (button === views.help) {
-            const openHelpWindow = () =>
-              ipcRenderer.callMain(HelpActions.OpenWindow)
+        items
+          .filter(({ hideOnProd }) => !hideOnProd)
+          .map(({ button, icon, testId }, index) => {
+            const buttonMenuConfig = {
+              nav: true,
+              displayStyle: DisplayStyle.Link4,
+              labelMessage: button.label,
+              Icon: icon,
+              iconSize: IconSize.Bigger,
+            }
+            if (button === views.help) {
+              const openHelpWindow = () =>
+                ipcRenderer.callMain(HelpActions.OpenWindow)
+              return (
+                <LinkWrapper key={index}>
+                  <HelpButton
+                    {...buttonMenuConfig}
+                    onClick={openHelpWindow}
+                    data-testid={testId}
+                  />
+                </LinkWrapper>
+              )
+            }
             return (
               <LinkWrapper key={index}>
-                <HelpButton
+                <Button
                   {...buttonMenuConfig}
-                  onClick={openHelpWindow}
+                  to={button.url}
                   data-testid={testId}
                 />
               </LinkWrapper>
             )
-          }
-          return (
-            <LinkWrapper key={index}>
-              <Button
-                {...buttonMenuConfig}
-                to={button.url}
-                data-testid={testId}
-              />
-            </LinkWrapper>
-          )
-        })}
+          })}
     </>
   )
 }
