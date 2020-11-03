@@ -6,7 +6,7 @@ export interface CalendarEvent {
 }
 
 export interface CalendarProps {
-  events?: CalendarEvent[]
+  events: CalendarEvent[]
 }
 
 export interface CalendarEventProps {
