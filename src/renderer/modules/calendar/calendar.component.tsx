@@ -2,8 +2,10 @@ import { defineMessages } from "react-intl"
 import React, { useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
-import { noop } from "Renderer/utils/noop"
-import { CalendarProps } from "Renderer/modules/calendar/calendar.interface"
+import {
+  CalendarEvent,
+  CalendarProps,
+} from "Renderer/modules/calendar/calendar.interface"
 import { calendarSeed } from "App/seeds/calendar"
 import {
   Event,
@@ -27,8 +29,11 @@ const messages = defineMessages({
 const Calendar: FunctionComponent<CalendarProps> = ({
   events = calendarSeed,
 }) => {
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
   const [, setSync] = useState(1)
   const timeout = useRef<NodeJS.Timeout>()
+  const eventsListRef = useRef<HTMLElement>()
+  const highlightActiveEventTimeout = useRef<NodeJS.Timeout>()
 
   const removeTimeoutHandler = () => {
     if (timeout.current) {
@@ -72,23 +77,44 @@ const Calendar: FunctionComponent<CalendarProps> = ({
     )
   }
 
+  useEffect(() => {
+    if (selectedEvent) {
+      const selectedEventIndex = events.indexOf(selectedEvent)
+
+      if (selectedEventIndex >= 0) {
+        eventsListRef.current?.children[selectedEventIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        })
+
+        highlightActiveEventTimeout.current = setTimeout(() => {
+          setSelectedEvent(null)
+        }, 2500)
+      }
+    }
+    return () => {
+      if (highlightActiveEventTimeout.current) {
+        clearTimeout(highlightActiveEventTimeout.current)
+      }
+    }
+  }, [selectedEvent])
+
   useEffect(() => () => removeTimeoutHandler(), [])
 
   return (
-    <div>
+    <>
       <CalendarPanel
         events={events}
-        onEventSelect={noop}
-        onEventValueChange={noop}
+        onEventSelect={setSelectedEvent}
         onSynchroniseClick={openSyncCalendarModal}
       />
       <Header message={messages.allEvents} />
-      <EventsList>
+      <EventsList ref={eventsListRef}>
         {events.map((item) => (
-          <Event key={item.id} event={item} />
+          <Event key={item.id} event={item} active={item === selectedEvent} />
         ))}
       </EventsList>
-    </div>
+    </>
   )
 }
 

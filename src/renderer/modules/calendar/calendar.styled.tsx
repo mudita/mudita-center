@@ -21,12 +21,14 @@ export const Header = styled(Text).attrs({
 })`
   padding: 4rem 4rem 1.7rem 4rem;
 `
-export const Event: FunctionComponent<CalendarEventProps> = ({ event }) => {
+export const Event: FunctionComponent<
+  CalendarEventProps & { active?: boolean }
+> = ({ event, active }) => {
   const { name, date } = event
   const [startDate] = date
 
   return (
-    <Row>
+    <Row active={active}>
       <Col>{name}</Col>
       <Col>
         <TimeWindow date={date} />
