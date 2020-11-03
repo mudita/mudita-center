@@ -3,23 +3,21 @@ import { fireEvent } from "@testing-library/dom"
 import React from "react"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
-import { InputSearchTestIds } from "Renderer/components/core/input-search/input-search-test-ids.enum"
+import { InputSelectTestIds } from "Renderer/components/core/input-select/input-select.component"
 
 const defaultProps = {
   onAddEventClick: jest.fn(),
   onSynchroniseClick: jest.fn(),
-  onSearchTermChange: jest.fn(),
   onEventSelect: jest.fn(),
-  onEventValueChange: jest.fn(),
   events: [
     {
       id: "test-event-1",
-      name: "Birthday",
+      name: "Meeting",
       date: [new Date("2020-01-01 11:00"), new Date("2020-01-01 14:00")],
     },
     {
       id: "test-event-2",
-      name: "Felix's Birthday 2",
+      name: "Felix's Birthday",
       date: [new Date("2020-01-02 11:00"), new Date("2020-01-02 14:00")],
     },
   ] as CalendarEvent[],
@@ -30,35 +28,45 @@ const renderer = (extraProps?: {}) => {
     ...defaultProps,
     ...extraProps,
   }
-  return renderWithThemeAndIntl(<CalendarPanel {...props} />)
+  const outcome = renderWithThemeAndIntl(<CalendarPanel {...props} />)
+  return {
+    ...outcome,
+    selectInput: () => outcome.getByRole("searchbox"),
+    selectList: () => outcome.queryByTestId(InputSelectTestIds.List),
+    selectListItems: () =>
+      outcome.queryAllByTestId(InputSelectTestIds.ListItem),
+  }
 }
 
-test("search by selection in input search works", () => {
-  const onEventSelect = jest.fn()
-  const { getByTestId, getAllByTestId } = renderer({ onEventSelect })
+test("search input dropdown shows after writing at least 3 chars", () => {
+  const { selectInput, selectList } = renderer()
 
-  const input = getByTestId(InputSearchTestIds.InputText)
-  fireEvent.change(input, {
-    target: { value: defaultProps.events[1].name.substr(0, 3) },
-  })
+  fireEvent.focus(selectInput())
 
-  const listItems = getAllByTestId(InputSearchTestIds.ListItem)
-  fireEvent.mouseDown(listItems[0])
-  expect(onEventSelect).toBeCalledWith(defaultProps.events[1])
-  expect(listItems).toHaveLength(1)
+  for (let i = 0; i < 4; i++) {
+    const value = defaultProps.events[0].name.substr(0, i)
+    fireEvent.change(selectInput(), {
+      target: { value },
+    })
+    if (i < 3) {
+      expect(selectList()).not.toBeInTheDocument()
+    } else {
+      expect(selectList()).toBeInTheDocument()
+      expect(selectList()).toBeVisible()
+    }
+  }
 })
 
-test("search by value in input search works", () => {
-  const onEventValueChange = jest.fn()
-  const { getByTestId } = renderer({ onEventValueChange })
+test("clicking on searched option returns given item properly", () => {
+  const onEventSelect = jest.fn()
+  const { selectInput, selectListItems } = renderer({ onEventSelect })
 
-  const input = getByTestId(InputSearchTestIds.InputText)
-  const value = defaultProps.events[1].name.substr(0, 3)
-  fireEvent.change(input, {
-    target: { value },
+  fireEvent.focus(selectInput())
+  fireEvent.change(selectInput(), {
+    target: { value: defaultProps.events[1].name.substr(0, 3) },
   })
-
-  expect(onEventValueChange).toBeCalledWith(value)
+  fireEvent.click(selectListItems()[0])
+  expect(onEventSelect).toBeCalledWith(defaultProps.events[1])
 })
 
 test("synchronising is performed after clicking button", () => {

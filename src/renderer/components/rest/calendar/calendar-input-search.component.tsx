@@ -1,16 +1,18 @@
 import React from "react"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import { defineMessages, FormattedDate } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { textColor } from "Renderer/styles/theming/theme-getters"
-import InputSearch, {
-  RenderInputSearchListItem,
-} from "Renderer/components/core/input-search/input-search.component"
 import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
-import { ListItem } from "Renderer/components/core/list/list.component"
+import {
+  ListItem,
+  RenderListItem,
+} from "Renderer/components/core/list/list.component"
+import InputSelect from "Renderer/components/core/input-select/input-select.component"
+import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "view.name.calendar.panel.searchPlaceholder" },
@@ -33,7 +35,7 @@ const ListItemDate = styled.div`
   }
 `
 
-const renderListItem: RenderInputSearchListItem<CalendarEvent> = ({
+const renderListItem: RenderListItem<CalendarEvent> = ({
   item: { name, date },
   searchString,
   props,
@@ -70,32 +72,29 @@ const isItemMatching = (item: CalendarEvent, search: string) => {
 
 export interface CalendarInputSelectProps {
   events: CalendarEvent[]
-  selectedEvent?: CalendarEvent
   onEventSelect: (item: CalendarEvent) => void
-  onEventValueChange: (itemValue: string) => void
 }
 
 const CalendarInputSearch: FunctionComponent<CalendarInputSelectProps> = ({
   events,
-  selectedEvent,
   onEventSelect,
-  onEventValueChange,
-  ...props
-}) => {
-  return (
-    <InputSearch
-      outlined
-      items={events}
-      selectedItem={selectedEvent}
-      onSelect={onEventSelect}
-      onChange={onEventValueChange}
-      label={intl.formatMessage(messages.searchPlaceholder)}
-      renderItemValue={renderName}
-      isItemMatching={isItemMatching}
-      renderListItem={renderListItem}
-      {...props}
-    />
-  )
-}
+}) => (
+  <InputSelect
+    onSelect={onEventSelect}
+    items={events}
+    leadingIcons={[searchIcon]}
+    label={intl.formatMessage(messages.searchPlaceholder)}
+    renderItemValue={renderName}
+    renderListItem={renderListItem}
+    isItemMatching={isItemMatching}
+    type="search"
+    outlined
+    searchable
+    minCharsToShowResults={3}
+    listStyles={css`
+      max-height: 30.5rem;
+    `}
+  />
+)
 
 export default CalendarInputSearch

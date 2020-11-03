@@ -25,20 +25,13 @@ interface CalendarPanelProps extends CalendarInputSelectProps {
 
 const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
   events,
-  selectedEvent,
+  onEventSelect,
   onAddEventClick = noop,
   onSynchroniseClick = noop,
-  onEventSelect,
-  onEventValueChange,
 }) => {
   return (
     <Panel>
-      <CalendarInputSearch
-        events={events}
-        selectedEvent={selectedEvent}
-        onEventSelect={onEventSelect}
-        onEventValueChange={onEventValueChange}
-      />
+      <CalendarInputSearch events={events} onEventSelect={onEventSelect} />
       <Buttons>
         <ButtonComponent
           displayStyle={DisplayStyle.Secondary}
