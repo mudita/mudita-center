@@ -20,16 +20,14 @@ import findTopicBySearchParams from "Renderer/modules/messages/find-topic-by-sea
 import { intl, textFormatters } from "Renderer/utils/intl"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
-import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "Renderer/models/phone/phone.helpers"
 import { Message } from "Renderer/interfaces/message.interface"
+import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
-  multipleThreadText: {
-    id: "view.name.messages.deleteModal.multipleThreadText",
+  body: {
+    id: "view.name.messages.deleteModal.body",
   },
-  singleThreadText: { id: "view.name.messages.deleteModal.singleThreadText" },
 })
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -66,27 +64,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
   const _devLoadDefaultMessages = () => setMessagesList(list)
   useEffect(() => setMessagesList(list), [list])
 
-  const getPrettyCaller = (id: string): string => {
-    const findById = (topic: Topic) => topic.id === id
+  const getDeletingMessage = (ids: string[]): Message => {
+    const findById = (topic: Topic) => topic.id === ids[0]
     const topic = list.find(findById) as Topic
-    const caller = topic.caller
-    return isNameAvailable(caller) ? createFullName(caller) : caller.phoneNumber
-  }
 
-  const getSingleThreadDeleteMessage = (id: string): Message => {
     return {
-      ...deleteModalMessages.singleThreadText,
+      ...deleteModalMessages.body,
       values: {
-        caller: getPrettyCaller(id),
-        ...textFormatters,
-      },
-    }
-  }
-
-  const getMultipleThreadDeleteMessage = (ids: string[]): Message => {
-    return {
-      ...deleteModalMessages.multipleThreadText,
-      values: {
+        caller: getPrettyCaller(topic.caller),
         num: allRowsSelected ? -1 : ids.length,
         ...textFormatters,
       },
@@ -95,10 +80,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
 
   const remove = (ids: string[]) => {
     const title = intl.formatMessage(deleteModalMessages.title)
-    const message =
-      ids.length === 1
-        ? getSingleThreadDeleteMessage(ids[0])
-        : getMultipleThreadDeleteMessage(ids)
+    const message = getDeletingMessage(ids)
     const onDelete = () => {
       deleteConversation(ids)
       resetRows()
@@ -114,6 +96,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
       />
     )
   }
+
+  const removeSingleConversation = (id: string) => remove([id])
 
   const removeSelectedRows = () => remove(selectedRows.map(({ id }) => id))
 
@@ -140,14 +124,14 @@ const Messages: FunctionComponent<MessagesProps> = ({
         resetRows={resetRows}
         visibilityFilter={visibilityFilter}
         onMarkAsRead={markAsRead}
-        onDeleteButtonClick={removeSelectedRows}
+        onDeleteClick={removeSelectedRows}
       />
       <TableWithSidebarWrapper>
         <MessagesList
           list={messagesList}
           openSidebar={openSidebar}
           activeRow={activeRow}
-          onRemove={remove}
+          onDeleteClick={removeSingleConversation}
           onToggleReadStatus={toggleReadStatus}
           {...rest}
         />

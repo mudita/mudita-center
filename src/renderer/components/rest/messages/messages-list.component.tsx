@@ -157,7 +157,7 @@ interface Props extends SelectHook {
   list: Topic[]
   openSidebar?: (row: Topic) => void
   activeRow?: Topic
-  onRemove: (ids: string[]) => void
+  onDeleteClick: (id: string) => void
   onToggleReadStatus: (ids: string[]) => void
 }
 
@@ -165,7 +165,7 @@ const MessagesList: FunctionComponent<Props> = ({
   activeRow,
   list,
   openSidebar = noop,
-  onRemove,
+  onDeleteClick,
   onToggleReadStatus,
   getRowStatus,
   toggleRow,
@@ -192,7 +192,7 @@ const MessagesList: FunctionComponent<Props> = ({
         const open = () => openSidebar(item)
         const nameAvailable = isNameAvailable(caller)
         const active = activeRow?.id === item.id
-        const remove = () => onRemove([id])
+        const emitDeleteClick = () => onDeleteClick(id)
         const toggleReadStatus = () => onToggleReadStatus([id])
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow key={id} ref={ref} selected={selected} active={active}>
@@ -291,7 +291,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       id: "view.name.messages.dropdownDelete",
                     }}
                     Icon={Type.Delete}
-                    onClick={remove}
+                    onClick={emitDeleteClick}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-delete"
                   />

@@ -7,8 +7,7 @@ import { mockData } from "App/__mocks__/calls-mock-data"
 
 const defaultProps = {
   changeVisibilityFilter: jest.fn(),
-  resetRows: jest.fn(),
-  deleteCall: jest.fn(),
+  onDeleteClick: jest.fn(),
   selectedCalls: [],
 }
 
