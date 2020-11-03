@@ -33,6 +33,12 @@ const createCall = (): Call => {
 }
 
 export const calls = times(random(5, 15), createCall)
+export const unknownCalls = calls.map(
+  ({ caller: { id, phoneNumber }, ...rest }) => ({
+    caller: { id, phoneNumber },
+    ...rest,
+  })
+)
 
 const createText = () => ({
   id: Faker.random.uuid(),
