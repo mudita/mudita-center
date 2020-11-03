@@ -168,7 +168,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                     max-height: 30rem;
                   `}
                   disabledItems={[selectedItem]}
-                  removeInitialBorder
+                  initialTransparentBorder
                 />
               </Col>
             </Row>
