@@ -27,6 +27,7 @@ export interface InputProps
   condensed?: boolean
   inputRef?: Ref<HTMLInputElement>
   type: "text" | "email" | "password" | "search" | "tel" | "url"
+  removeInitialBorder?: boolean
 }
 
 export interface TextareaProps

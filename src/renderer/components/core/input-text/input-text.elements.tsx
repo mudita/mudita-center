@@ -212,6 +212,12 @@ const InputWrapper = styled.label<InputWrapperProps>`
       margin-left: 1.2rem;
     }
   }
+
+  ${({ removeInitialBorder }) =>
+    removeInitialBorder &&
+    css`
+      border-color: transparent;
+    `}
   ${({ outlined }) => outlined && outlinedStyles};
   ${({ condensed }) => condensed && condensedStyles};
   ${({ disabled }) => disabled && disabledStyles};
@@ -314,6 +320,7 @@ export const InputText: FunctionComponent<InputProps> = ({
   inputRef,
   errorMessage,
   focusable,
+  removeInitialBorder = false,
   ...rest
 }) => {
   const standardInput = (
@@ -350,6 +357,7 @@ export const InputText: FunctionComponent<InputProps> = ({
       error={Boolean(errorMessage)}
       focusable={focusable}
       inputType={rest.type}
+      removeInitialBorder={removeInitialBorder}
     >
       {outlined ? outlinedInput : standardInput}
       <InputIcons leadingIcons={leadingIcons} trailingIcons={trailingIcons} />
