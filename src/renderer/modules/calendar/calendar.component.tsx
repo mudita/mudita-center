@@ -17,8 +17,10 @@ import {
   SynchronizingFinishedModal,
   SynchronizingFailedModal,
 } from "Renderer/components/rest/calendar/calendar.modals"
-import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 import { EmptyState } from "Renderer/components/core/table/table.component"
+import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
+import Button from "Renderer/components/core/button/button.component"
+import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
 
 const messages = defineMessages({
   allEvents: {
@@ -33,8 +35,11 @@ const messages = defineMessages({
 const Calendar: FunctionComponent<CalendarProps> = ({
   events = calendarSeed,
 }) => {
+  const [calendarEvents, setEvents] = useState(events)
   const [, setSync] = useState(1)
   const timeout = useRef<NodeJS.Timeout>()
+
+  const _devClearEvents = () => setEvents([])
 
   const removeTimeoutHandler = () => {
     if (timeout.current) {
@@ -82,6 +87,9 @@ const Calendar: FunctionComponent<CalendarProps> = ({
 
   return (
     <>
+      <DevModeWrapper>
+        <Button onClick={_devClearEvents} label="Clear events" />
+      </DevModeWrapper>
       <CalendarPanel
         events={events}
         onEventSelect={noop}
@@ -89,9 +97,9 @@ const Calendar: FunctionComponent<CalendarProps> = ({
         onSynchroniseClick={openSyncCalendarModal}
       />
       <Header message={messages.allEvents} />
-      {events.length > 0 ? (
+      {calendarEvents.length > 0 ? (
         <EventsList>
-          {events.map((item) => (
+          {calendarEvents.map((item) => (
             <Event key={item.id} event={item} />
           ))}
         </EventsList>
@@ -99,7 +107,7 @@ const Calendar: FunctionComponent<CalendarProps> = ({
         <EmptyState
           title={messages.emptyStateTitle}
           description={messages.emptyStateDescription}
-          data-testid={TemplatesTestIds.EmptyState}
+          data-testid={CalendarTestIds.NoEvents}
         />
       )}
     </>
