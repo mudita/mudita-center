@@ -31,7 +31,7 @@ const YOUR_PURE_BUTTONS = [
     button: views.music,
     icon: Type.MenuMusic,
     testId: MenuGroupTestIds.Music,
-    hideOnProd: productionEnvironment,
+    hidden: productionEnvironment,
   },
   {
     button: views.calendar,
@@ -57,7 +57,7 @@ const DESKTOP_APP_BUTTONS: Item[] = [
     button: views.tethering,
     icon: Type.MenuTethering,
     testId: MenuGroupTestIds.Tethering,
-    hideOnProd: productionEnvironment,
+    hidden: productionEnvironment,
   },
   { button: views.settings, icon: Type.MenuSettings },
   { button: views.help, icon: Type.MenuHelp, testId: MenuGroupTestIds.Help },
@@ -67,7 +67,7 @@ interface Item {
   button: typeof views[View]
   icon: Type
   testId?: MenuGroupTestIds
-  hideOnProd?: boolean
+  hidden?: boolean
 }
 
 export interface MenuElement {

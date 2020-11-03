@@ -26,7 +26,7 @@ interface Tab {
   }
   url: string
   icon: Type
-  hideOnProd?: boolean
+  hidden?: boolean
 }
 
 export interface TabElement {
@@ -62,7 +62,7 @@ export const tabElements: TabElement[] = [
         label: messages.dial,
         url: `${URL_MAIN.phone}${URL_TABS.dial}`,
         icon: Type.Dial,
-        hideOnProd: productionEnvironment,
+        hidden: productionEnvironment,
       },
     ],
   },
@@ -108,13 +108,13 @@ export const tabElements: TabElement[] = [
         label: messages.notifications,
         url: `${URL_MAIN.settings}${URL_TABS.notifications}`,
         icon: Type.Notifications,
-        hideOnProd: productionEnvironment,
+        hidden: productionEnvironment,
       },
       {
         label: messages.audioConversion,
         url: `${URL_MAIN.settings}${URL_TABS.audioConversion}`,
         icon: Type.MenuMusic,
-        hideOnProd: productionEnvironment,
+        hidden: productionEnvironment,
       },
       {
         label: messages.backup,

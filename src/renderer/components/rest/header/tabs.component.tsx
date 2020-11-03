@@ -24,7 +24,7 @@ const Tabs: FunctionComponent<Props> = ({ className, currentLocation }) => {
   )?.tabs
 
   const tabsList = currentLocationTabs
-    ?.filter(({ hideOnProd }) => !hideOnProd)
+    ?.filter(({ hidden }) => !hidden)
     .map(({ label, icon, url }) => (
       <NavTab label={label} icon={icon} key={label.id} url={url} />
     ))

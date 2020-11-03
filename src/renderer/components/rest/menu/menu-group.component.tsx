@@ -47,7 +47,7 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
       )}
       {items &&
         items
-          .filter(({ hideOnProd }) => !hideOnProd)
+          .filter(({ hidden }) => !hidden)
           .map(({ button, icon, testId }, index) => {
             const buttonMenuConfig = {
               nav: true,
