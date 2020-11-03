@@ -120,6 +120,7 @@ const createWindow = async () => {
   registerAutoLaunchListener()
 
   if (productionEnvironment) {
+    win.setMenuBarVisibility(false)
     win.loadURL(
       url.format({
         pathname: path.join(__dirname, "index.html"),
