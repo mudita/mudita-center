@@ -78,23 +78,30 @@ export interface CalendarInputSelectProps {
 const CalendarInputSearch: FunctionComponent<CalendarInputSelectProps> = ({
   events,
   onEventSelect,
-}) => (
-  <InputSelect
-    onSelect={onEventSelect}
-    items={events}
-    leadingIcons={[searchIcon]}
-    label={intl.formatMessage(messages.searchPlaceholder)}
-    renderItemValue={renderName}
-    renderListItem={renderListItem}
-    isItemMatching={isItemMatching}
-    type="search"
-    outlined
-    searchable
-    minCharsToShowResults={3}
-    listStyles={css`
-      max-height: 30.5rem;
-    `}
-  />
-)
+}) => {
+  const minEventNameLength = Math.min(
+    ...events.map((event) => event.name.length)
+  )
+  const minCharsToShowResults = Math.min(3, minEventNameLength)
+
+  return (
+    <InputSelect
+      onSelect={onEventSelect}
+      items={events}
+      leadingIcons={[searchIcon]}
+      label={intl.formatMessage(messages.searchPlaceholder)}
+      renderItemValue={renderName}
+      renderListItem={renderListItem}
+      isItemMatching={isItemMatching}
+      type="search"
+      outlined
+      searchable
+      minCharsToShowResults={minCharsToShowResults}
+      listStyles={css`
+        max-height: 30.5rem;
+      `}
+    />
+  )
+}
 
 export default CalendarInputSearch
