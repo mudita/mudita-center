@@ -1,17 +1,9 @@
-import { defineMessages } from "react-intl"
 import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
-import { noop } from "Renderer/utils/noop"
 import { CalendarProps } from "Renderer/modules/calendar/calendar.interface"
 import { eventsData } from "App/seeds/calendar"
 import modalService from "Renderer/components/core/modal/modal.service"
-import EventsList from "Renderer/components/rest/calendar/events-list.component"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import {
-  Calendar,
-  CalendarEvent,
-} from "Renderer/models/calendar/calendar.interfaces"
+import { Calendar } from "Renderer/models/calendar/calendar.interfaces"
 import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
 import SelectCalendarsModal from "Renderer/components/rest/calendar/select-calendars-modal.component"
 import SynchronizingEventsModal from "Renderer/components/rest/calendar/synchronizing-events-modal.component"
@@ -21,20 +13,7 @@ import EventsSynchronizationFinishedModal from "Renderer/components/rest/calenda
 import EventsSynchronizationFailedModal from "Renderer/components/rest/calendar/synchronization-failed.component"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
-import { EmptyState } from "Renderer/components/core/table/table.component"
-import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
-import Button from "Renderer/components/core/button/button.component"
-import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
-
-const messages = defineMessages({
-  allEvents: {
-    id: "view.name.calendar.allEvents",
-  },
-  emptyStateTitle: { id: "view.name.calendar.noEvents" },
-  emptyStateDescription: {
-    id: "view.name.calendar.noEventsDescription",
-  },
-})
+import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
@@ -43,7 +22,6 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   loadEvents,
 }) => {
   const [calendarEvents, setEvents] = useState(events)
-  const tableSelectHook = useTableSelect<CalendarEvent>(events)
   const [provider, setProvider] = useState<Provider | undefined>()
   const _devClearEvents = () => setEvents([])
 
@@ -145,26 +123,11 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   useEffect(() => setEvents(events), [events])
 
   return (
-    <>
-      <DevModeWrapper>
-        <Button onClick={_devClearEvents} label="Clear events" />
-      </DevModeWrapper>
-      <CalendarPanel
-        events={events}
-        onEventSelect={noop}
-        onEventValueChange={noop}
-        onSynchroniseClick={openSelectVendorModal}
-      />
-      {calendarEvents.length > 0 ? (
-        <EventsList events={calendarEvents} {...tableSelectHook} />
-      ) : (
-        <EmptyState
-          title={messages.emptyStateTitle}
-          description={messages.emptyStateDescription}
-          data-testid={CalendarTestIds.NoEvents}
-        />
-      )}
-    </>
+    <CalendarUI
+      events={calendarEvents}
+      openSelectVendorModal={openSelectVendorModal}
+      _devClearEvents={_devClearEvents}
+    />
   )
 }
 

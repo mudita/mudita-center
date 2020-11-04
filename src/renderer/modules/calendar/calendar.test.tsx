@@ -3,15 +3,17 @@ import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import React from "react"
 import { calendarSeed } from "App/seeds/calendar"
-import Calendar from "Renderer/modules/calendar/calendar.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { Provider } from "react-redux"
 import store from "Renderer/store"
+import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
+import { mockedCalendars } from "App/__mocks__/calendars-list"
 
 const defaultProps = {
-  events: calendarSeed,
-  calendars: [],
+  events: calendarSeed.events,
+  calendars: mockedCalendars,
+  openSelectVendorModal: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {
@@ -23,7 +25,7 @@ const renderer = (extraProps?: {}) => {
   return renderWithThemeAndIntl(
     <Router history={history}>
       <Provider store={store}>
-        <Calendar {...props} />
+        <CalendarUI {...props} />
       </Provider>
     </Router>
   )
@@ -33,7 +35,7 @@ test("renders correct amount of events", () => {
   const { getAllByTestId } = renderer()
   mockAllIsIntersecting(true)
   expect(getAllByTestId(CalendarTestIds.Event)).toHaveLength(
-    calendarSeed.length
+    calendarSeed.events.length
   )
 })
 

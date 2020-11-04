@@ -19,6 +19,7 @@ import {
   Checkbox,
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
+import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
 
 const messages = defineMessages({
   allEvents: {
@@ -55,7 +56,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
         const onCheckboxToggle = () => toggleRow(event)
 
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-          <Row ref={ref}>
+          <Row ref={ref} data-testid={CalendarTestIds.Event}>
             <Col>
               <Checkbox
                 checked={selected}
