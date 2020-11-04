@@ -12,6 +12,7 @@ import { templatesSeed } from "App/seeds/templates"
 import { phoneSeed } from "App/seeds/phone"
 import { helpSeed } from "App/seeds/help"
 import { notesSeed } from "App/seeds/notes"
+import { calendarSeed } from "App/seeds/calendar"
 
 const config: InitConfig<RootModel> = {
   models,
@@ -27,6 +28,7 @@ if (process.env.NODE_ENV !== "test") {
       phone: phoneSeed,
       help: helpSeed,
       notes: notesSeed,
+      calendar: calendarSeed,
     },
   }
 }
