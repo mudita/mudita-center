@@ -162,7 +162,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
       <EventsList
         listRef={eventsListRef as MutableRefObject<HTMLDivElement>}
         events={events}
-        selectedEventIndex={events.indexOf(selectedEvent)}
+        selectedEventIndex={selectedEvent ? events.indexOf(selectedEvent) : -1}
         {...tableSelectHook}
       />
     </>
