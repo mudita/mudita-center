@@ -2,6 +2,7 @@ import { startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { ChartType } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
+import localeEn from "Renderer/locales/default/en-US.json"
 
 let app: any
 
@@ -30,4 +31,10 @@ test("initial filter is set to weekly", async () => {
   expect(
     await app.client.isExisting(`*[data-testid=${ChartType.Yearly}]`)
   ).toBeFalsy()
+})
+
+test("should ", async () => {
+  await app.client.$(`*[data-testid=${MenuGroupTestIds.Meditation}]`).click()
+  await app.client.isVisible(`//*[text()=${localeEn["view.generic.yearly"]}]`)
+  await app.client.$(`//*[text()=${localeEn["view.generic.yearly"]}]`).click()
 })
