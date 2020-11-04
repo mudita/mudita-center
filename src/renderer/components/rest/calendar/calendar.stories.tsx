@@ -15,7 +15,7 @@ import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { asyncNoop, noop } from "Renderer/utils/noop"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import Calendar from "Renderer/modules/calendar/calendar.component"
+import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
 
 const Wrapper = styled.div`
   max-width: 97.5rem;
@@ -27,12 +27,12 @@ const Wrapper = styled.div`
 storiesOf("Views/Calendar/Main view", module)
   .add("With events", () => (
     <Wrapper>
-      <Calendar events={calendarSeed.events} />
+      <CalendarUI events={calendarSeed.events} openSelectVendorModal={noop} />
     </Wrapper>
   ))
   .add("No events", () => (
     <Wrapper>
-      <Calendar events={[]} />
+      <CalendarUI events={[]} openSelectVendorModal={noop} />
     </Wrapper>
   ))
 storiesOf("Views/Calendar/Modals", module).add("All", () => (

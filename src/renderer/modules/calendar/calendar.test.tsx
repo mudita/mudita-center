@@ -8,11 +8,9 @@ import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { Provider } from "react-redux"
 import store from "Renderer/store"
 import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
-import { mockedCalendars } from "App/__mocks__/calendars-list"
 
 const defaultProps = {
   events: calendarSeed.events,
-  calendars: mockedCalendars,
   openSelectVendorModal: jest.fn(),
 }
 
