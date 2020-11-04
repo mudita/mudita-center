@@ -1,7 +1,6 @@
 {
   "availableLanguages": [
-    { "id": "b603ec0e1a102bf50be0d821ae6dd7e9", "code": "en-US" },
-    { "id": "ff665e7299c739fa8519f79b0b0c22dd", "code": "pl-PL" }
+    { "id": "2d76bde42da948924eea4ff360ab93ec", "code": "en-US" }
   ],
   "defaultLanguage": "en-US"
 }
