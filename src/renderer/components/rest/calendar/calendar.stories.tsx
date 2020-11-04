@@ -16,6 +16,7 @@ import { asyncNoop, noop } from "Renderer/utils/noop"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
+import { action } from "@storybook/addon-actions"
 
 const Wrapper = styled.div`
   max-width: 97.5rem;
@@ -27,12 +28,18 @@ const Wrapper = styled.div`
 storiesOf("Views/Calendar/Main view", module)
   .add("With events", () => (
     <Wrapper>
-      <CalendarUI events={calendarSeed.events} openSelectVendorModal={noop} />
+      <CalendarUI
+        events={calendarSeed.events}
+        openSelectVendorModal={action("open vendor modal")}
+      />
     </Wrapper>
   ))
   .add("No events", () => (
     <Wrapper>
-      <CalendarUI events={[]} openSelectVendorModal={noop} />
+      <CalendarUI
+        events={[]}
+        openSelectVendorModal={action("open vendor modal")}
+      />
     </Wrapper>
   ))
 storiesOf("Views/Calendar/Modals", module).add("All", () => (
