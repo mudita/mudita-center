@@ -24,14 +24,13 @@ export const Header = styled(Text).attrs({
 export const Event: FunctionComponent<
   CalendarEventProps & { active?: boolean }
 > = ({ event, active }) => {
-  const { name, date } = event
-  const [startDate] = date
+  const { name, startDate, endDate } = event
 
   return (
     <Row active={active}>
       <Col>{name}</Col>
       <Col>
-        <TimeWindow date={date} />
+        <TimeWindow startDate={startDate} endDate={endDate} />
       </Col>
       <Col>
         <FormattedDate

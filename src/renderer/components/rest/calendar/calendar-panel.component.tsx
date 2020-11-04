@@ -28,24 +28,22 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
   onEventSelect,
   onAddEventClick = noop,
   onSynchroniseClick = noop,
-}) => {
-  return (
-    <Panel>
-      <CalendarInputSearch events={events} onEventSelect={onEventSelect} />
-      <Buttons>
-        <ButtonComponent
-          displayStyle={DisplayStyle.Secondary}
-          labelMessage={messages.synchroniseButton}
-          onClick={onSynchroniseClick}
-        />
-        <ButtonComponent
-          labelMessage={messages.addEventButton}
-          onClick={onAddEventClick}
-          Icon={Type.PlusSign}
-        />
-      </Buttons>
-    </Panel>
-  )
-}
+}) => (
+  <Panel>
+    <CalendarInputSearch events={events} onEventSelect={onEventSelect} />
+    <Buttons>
+      <ButtonComponent
+        displayStyle={DisplayStyle.Secondary}
+        labelMessage={messages.synchroniseButton}
+        onClick={onSynchroniseClick}
+      />
+      <ButtonComponent
+        labelMessage={messages.addEventButton}
+        onClick={onAddEventClick}
+        Icon={Type.PlusSign}
+      />
+    </Buttons>
+  </Panel>
+)
 
 export default CalendarPanel

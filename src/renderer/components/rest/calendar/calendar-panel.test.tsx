@@ -2,7 +2,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { fireEvent } from "@testing-library/dom"
 import React from "react"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
-import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
+import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { InputSelectTestIds } from "Renderer/components/core/input-select/input-select.component"
 
 const defaultProps = {
@@ -13,12 +13,14 @@ const defaultProps = {
     {
       id: "test-event-1",
       name: "Meeting",
-      date: [new Date("2020-01-01 11:00"), new Date("2020-01-01 14:00")],
+      startDate: new Date("2020-01-01 11:00").toISOString(),
+      endDate: new Date("2020-01-01 14:00").toISOString(),
     },
     {
       id: "test-event-2",
       name: "Felix's Birthday",
-      date: [new Date("2020-01-02 11:00"), new Date("2020-01-02 14:00")],
+      startDate: new Date("2020-01-02 11:00").toISOString(),
+      endDate: new Date("2020-01-02 14:00").toISOString(),
     },
   ] as CalendarEvent[],
 }
