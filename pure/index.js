@@ -343,6 +343,7 @@ class PureNode {
   }
 
   updateConfirmed() {
+    console.log("Update confirmed")
     debug("updateConfirmed")
   }
 

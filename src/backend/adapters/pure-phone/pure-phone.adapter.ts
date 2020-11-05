@@ -19,14 +19,7 @@ class PurePhone extends PurePhoneAdapter {
 
   private emitConnectedDeviceSignal = (event: any): void => {
     console.log({ event })
-    if (event.endpoint === 3) {
-      if (Number(event.body.status) === 0) {
-        this.pureNode.fileUploadConfirmed()
-      }
-    }
-    if (Number(event.endpoint) === 2) {
-      console.log("UPLOAD", { event })
-    }
+
     this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
   }
 
@@ -78,7 +71,26 @@ class PurePhone extends PurePhoneAdapter {
 
   public updateOs(updateFilePath: string): any {
     console.log("update click")
-    this.pureNode.uploadUpdateFile("/Users/kamilstaszewski/Desktop/update.tar")
+    this.pureNode.uploadUpdateFile("/Users/kamilstaszewski/Desktop/update1.tar")
+    this.pureNode.on("data", (event: any) => {
+      if (event.endpoint === 3) {
+        if (Number(event.body.status) === 0) {
+          this.pureNode.fileUploadConfirmed()
+        }
+        if (Number(event.status) === 202) {
+          this.pureNode.startUpdate("update1.tar")
+        }
+      }
+      if (Number(event.endpoint) === 2) {
+        console.log("Update action")
+
+        if (Number(event.status) === 202) {
+          console.log("Update running")
+        } else if (event.body && event.body.updateReady === true) {
+          this.pureNode.updateConfirmed()
+        }
+      }
+    })
   }
 }
 
