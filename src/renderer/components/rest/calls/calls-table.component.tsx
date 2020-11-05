@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import {
   Col,
   Labels,
@@ -10,10 +10,8 @@ import { CallDetails } from "Renderer/components/rest/calls/call-details.compone
 import { Details } from "Renderer/components/rest/calls/call-details.types"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { CallerSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
 
 const messages = defineMessages({
   name: { id: "view.name.phone.calls.name" },
@@ -27,28 +25,29 @@ type SelectHook = Pick<
 >
 
 interface Props extends SelectHook {
+  onRowClick: (detail: Details) => void
+  sidebarOpened: boolean
+  activeRow?: Details
+  onDetailsCloseClick: () => void
   calls: Details[]
-  deleteCall?: (ids: Details) => void
-  isTopicThreadOpened: (params: CallerSearchParams) => boolean
+  onDeleteClick: (id: string) => void
+  isTopicThreadOpened: (phoneNumber: string) => boolean
+  isContactCreated: (phoneNumber: string) => boolean
 }
 
 const CallsTable: FunctionComponent<Props> = ({
+  onRowClick,
+  sidebarOpened,
+  activeRow,
+  onDetailsCloseClick,
   calls,
   getRowStatus,
   toggleRow,
   noneRowsSelected,
-  deleteCall,
   isTopicThreadOpened,
+  isContactCreated,
+  onDeleteClick,
 }) => {
-  const {
-    openSidebar,
-    closeSidebar,
-    sidebarOpened,
-    activeRow,
-  } = useTableSidebar<Details>()
-
-  const [callDetails, setCallDetails] = useState<Details>()
-
   return (
     <TableWithSidebarWrapper>
       <SelectableCalls
@@ -65,23 +64,24 @@ const CallsTable: FunctionComponent<Props> = ({
         {calls.map((row, i) => (
           <CallRow
             key={i}
-            open={openSidebar}
+            onRowClick={onRowClick}
             getRowStatus={getRowStatus}
             toggleRow={toggleRow}
             callData={row}
-            setDetails={setCallDetails}
             noneRowsSelected={noneRowsSelected}
-            sidebarOpened={Boolean(sidebarOpened)}
+            sidebarOpened={sidebarOpened}
             activeRow={activeRow}
-            deleteCall={deleteCall}
+            onDeleteClick={onDeleteClick}
           />
         ))}
       </SelectableCalls>
       {sidebarOpened && (
         <CallDetails
-          calls={[callDetails] as Details[]}
-          onClose={closeSidebar}
+          calls={activeRow ? [activeRow] : []}
+          onClose={onDetailsCloseClick}
+          onDeleteClick={onDeleteClick}
           isTopicThreadOpened={isTopicThreadOpened}
+          isContactCreated={isContactCreated}
         />
       )}
     </TableWithSidebarWrapper>

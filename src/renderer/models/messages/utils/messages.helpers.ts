@@ -62,13 +62,14 @@ export const createFullMessagesCollection = (state: {
 
   return topics.map(
     (topic: Topic): Topic => {
-      const { id } = topic.caller
-      const caller: Contact = baseContacts[id]
+      const { id, phoneNumber } = topic.caller
+      const contact: Contact = baseContacts[id]
 
-      if (caller) {
+      if (contact) {
+        const { firstName, lastName } = contact
         return {
           ...expandTopic(topic, baseContacts, getContactDetails),
-          caller,
+          caller: { id, phoneNumber, firstName, lastName },
         }
       }
 

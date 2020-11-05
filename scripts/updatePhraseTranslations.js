@@ -1,6 +1,13 @@
 const axios = require("axios")
 const fs = require("fs-extra")
-require("dotenv").config()
+const path = require("path")
+require("dotenv").config({
+  path:
+    process.env.NODE_ENV === "production"
+      ? path.join(__dirname, "../.env.production")
+      : path.join(__dirname, "../.env.development"),
+})
+
 const { availableLanguages } = require("../src/translations.config.json")
 const FormData = require("form-data")
 

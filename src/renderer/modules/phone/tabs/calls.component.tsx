@@ -10,26 +10,31 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
-import { createFullName } from "Renderer/models/phone/phone.helpers"
-import { CallerSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
+import { Message } from "Renderer/interfaces/message.interface"
+import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
+import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
 
-const messages = defineMessages({
-  title: { id: "view.name.calls.deleteTitle" },
-  body: { id: "view.name.calls.deleteBody" },
+const deleteModalMessages = defineMessages({
+  title: { id: "view.name.calls.deleteModal.title" },
+  body: {
+    id: "view.name.calls.deleteModal.body",
+  },
 })
 
-interface Props {
+export interface CallsProps {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
   calls: Details[]
   deleteCall?: (ids: string[]) => void
-  isTopicThreadOpened: (params: CallerSearchParams) => boolean
+  isTopicThreadOpened: (phoneNumber: string) => boolean
+  isContactCreated: (phoneNumber: string) => boolean
 }
 
-const Calls: FunctionComponent<Props> = ({
+const Calls: FunctionComponent<CallsProps> = ({
   calls,
   changeVisibilityFilter = noop,
   deleteCall = noop,
   isTopicThreadOpened,
+  isContactCreated,
 }) => {
   const {
     selectedRows,
@@ -40,31 +45,49 @@ const Calls: FunctionComponent<Props> = ({
     allRowsSelected,
     resetRows,
   } = useTableSelect<Details>(calls)
+  const {
+    openSidebar,
+    closeSidebar,
+    sidebarOpened,
+    activeRow,
+  } = useTableSidebar<Details>(undefined)
 
-  const openDeleteModal = (details: Details) => {
-    const callerName =
-      createFullName(details.caller) || details.caller.primaryPhoneNumber
-    const callsCount = details.timesMissed || 1
-    const modalConfig = {
-      title: intl.formatMessage({ ...messages.title }),
-      message: {
-        ...messages.body,
-        values: { ...textFormatters, num: callsCount, name: callerName },
+  const getDeletingMessage = (ids: string[]): Message => {
+    const findById = (details: Details) => details.id === ids[0]
+    const details = calls.find(findById) as Details
+    return {
+      ...deleteModalMessages.body,
+      values: {
+        caller: getPrettyCaller(details.caller),
+        num: allRowsSelected ? -1 : ids.length,
+        ...textFormatters,
       },
     }
+  }
 
-    const handleDelete = async () => {
-      modalService.rerenderModal(<DeleteModal {...modalConfig} deleting />)
-
-      deleteCall([details.id])
-
-      await modalService.closeModal()
+  const remove = (ids: string[]) => {
+    const title = intl.formatMessage(deleteModalMessages.title)
+    const message = getDeletingMessage(ids)
+    const onDelete = () => {
+      deleteCall(ids)
+      resetRows()
+      closeSidebar()
+      modalService.closeModal()
     }
 
     modalService.openModal(
-      <DeleteModal {...modalConfig} onDelete={handleDelete} />
+      <DeleteModal
+        title={title}
+        message={message}
+        onClose={resetRows}
+        onDelete={onDelete}
+      />
     )
   }
+
+  const removeSingleCall = (id: string) => remove([id])
+
+  const removeSelectedRows = () => remove(selectedRows.map(({ id }) => id))
 
   return (
     <>
@@ -72,17 +95,21 @@ const Calls: FunctionComponent<Props> = ({
         changeVisibilityFilter={changeVisibilityFilter}
         toggleAll={toggleAll}
         allRowsSelected={allRowsSelected}
-        deleteCall={deleteCall}
         selectedCalls={selectedRows}
-        resetRows={resetRows}
+        onDeleteClick={removeSelectedRows}
       />
       <CallsTable
-        deleteCall={openDeleteModal}
+        sidebarOpened={sidebarOpened}
+        activeRow={activeRow}
         calls={calls}
         getRowStatus={getRowStatus}
         toggleRow={toggleRow}
         noneRowsSelected={noneRowsSelected}
         isTopicThreadOpened={isTopicThreadOpened}
+        isContactCreated={isContactCreated}
+        onDeleteClick={removeSingleCall}
+        onRowClick={openSidebar}
+        onDetailsCloseClick={closeSidebar}
       />
     </>
   )

@@ -3,12 +3,12 @@ import { useState } from "react"
 export interface UseTableSidebar<T> {
   openSidebar: (row: T) => void
   closeSidebar: () => void
-  sidebarOpened?: boolean
+  sidebarOpened: boolean
   activeRow?: T
 }
 
 const useTableSidebar = <T>(initActiveRow?: T): UseTableSidebar<T> => {
-  const [sidebarOpened, setSidebarVisibility] = useState<boolean>()
+  const [sidebarOpened, setSidebarVisibility] = useState(false)
   const [activeRow, setActiveRow] = useState<T | undefined>(initActiveRow)
 
   const openSidebar = (row: T) => {

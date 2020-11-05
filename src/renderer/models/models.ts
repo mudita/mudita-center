@@ -12,6 +12,7 @@ import phone from "Renderer/models/phone/phone"
 import phoneUpdate from "Renderer/models/phone-update/phone-update"
 import settings from "Renderer/models/settings/settings"
 import templates from "Renderer/models/templates/templates"
+import calendar from "Renderer/models/calendar/calendar"
 
 export interface RootModel {
   auth: typeof auth
@@ -28,6 +29,7 @@ export interface RootModel {
   phoneUpdate: typeof phoneUpdate
   settings: typeof settings
   templates: typeof templates
+  calendar: typeof calendar
 }
 
 export const models: RootModel = {
@@ -45,4 +47,5 @@ export const models: RootModel = {
   phoneUpdate,
   settings,
   templates,
+  calendar,
 }

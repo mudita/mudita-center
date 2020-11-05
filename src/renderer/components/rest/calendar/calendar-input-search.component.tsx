@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { defineMessages, FormattedDate } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
-import { CalendarEvent } from "Renderer/modules/calendar/calendar.interface"
+import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 import InputSearch, {
@@ -34,33 +34,30 @@ const ListItemDate = styled.div`
 `
 
 const renderListItem: RenderInputSearchListItem<CalendarEvent> = ({
-  item: { name, date },
+  item: { name, startDate, endDate },
   searchString,
   props,
-}) => {
-  const [startDate] = date
-  return (
-    <CalendarListItem {...props}>
+}) => (
+  <CalendarListItem {...props}>
+    <span>
+      <SearchableText text={name} search={searchString} />
+    </span>
+    <ListItemDate>
       <span>
-        <SearchableText text={name} search={searchString} />
+        <FormattedDate
+          value={startDate}
+          year="numeric"
+          month="short"
+          day="2-digit"
+          weekday="short"
+        />
       </span>
-      <ListItemDate>
-        <span>
-          <FormattedDate
-            value={startDate}
-            year="numeric"
-            month="short"
-            day="2-digit"
-            weekday="short"
-          />
-        </span>
-        <span>
-          <TimeWindow date={date} />
-        </span>
-      </ListItemDate>
-    </CalendarListItem>
-  )
-}
+      <span>
+        <TimeWindow startDate={startDate} endDate={endDate} />
+      </span>
+    </ListItemDate>
+  </CalendarListItem>
+)
 
 const renderName = (item: CalendarEvent) => item.name
 
@@ -81,21 +78,19 @@ const CalendarInputSearch: FunctionComponent<CalendarInputSelectProps> = ({
   onEventSelect,
   onEventValueChange,
   ...props
-}) => {
-  return (
-    <InputSearch
-      outlined
-      items={events}
-      selectedItem={selectedEvent}
-      onSelect={onEventSelect}
-      onChange={onEventValueChange}
-      label={intl.formatMessage(messages.searchPlaceholder)}
-      renderItemValue={renderName}
-      isItemMatching={isItemMatching}
-      renderListItem={renderListItem}
-      {...props}
-    />
-  )
-}
+}) => (
+  <InputSearch
+    outlined
+    items={events}
+    selectedItem={selectedEvent}
+    onSelect={onEventSelect}
+    onChange={onEventValueChange}
+    label={intl.formatMessage(messages.searchPlaceholder)}
+    renderItemValue={renderName}
+    isItemMatching={isItemMatching}
+    renderListItem={renderListItem}
+    {...props}
+  />
+)
 
 export default CalendarInputSearch

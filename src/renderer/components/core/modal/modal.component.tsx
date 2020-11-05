@@ -24,6 +24,7 @@ import { intl } from "Renderer/utils/intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import { ReactNode } from "react"
 
 const ModalFrame = styled.div<{ size: ModalSize }>`
   padding: 4rem 3.2rem 4.8rem 3.2rem;
@@ -56,7 +57,7 @@ const Close = styled(Button)`
   justify-self: end;
 `
 
-const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
+export const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
   ${({ buttonsPosition }) => getButtonsPosition(buttonsPosition)};
 
   display: flex;
@@ -64,7 +65,7 @@ const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
   padding-top: 3.2rem;
 `
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   display: flex;
 `
 
@@ -79,6 +80,7 @@ const CloseButton = styled(Button)<{ actionButton?: boolean }>`
 export interface ModalProps {
   actionButtonLabel?: ButtonProps["label"]
   actionButtonIcon?: ButtonProps["Icon"]
+  actionButtonDisabled?: boolean
   onActionButtonClick?: () => void
   closeable?: boolean
   closeButton?: boolean
@@ -86,13 +88,14 @@ export interface ModalProps {
   onClose?: () => void
   size?: ModalSize
   subtitle?: string
-  title?: string
+  title?: string | ReactNode
   titleOrder?: TitleOrder
 }
 
 const Modal: FunctionComponent<ModalProps> = ({
   actionButtonLabel,
   actionButtonIcon,
+  actionButtonDisabled,
   onActionButtonClick,
   children,
   closeable = true,
@@ -161,6 +164,7 @@ const Modal: FunctionComponent<ModalProps> = ({
                 onClick={onActionButtonClick}
                 data-testid={ModalTestIds.ModalActionButton}
                 Icon={actionButtonIcon}
+                disabled={actionButtonDisabled}
               />
             )}
           </ButtonWrapper>

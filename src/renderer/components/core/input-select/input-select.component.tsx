@@ -52,6 +52,7 @@ const SelectInputWrapper = styled.div`
 
 export type ListItemProps = {
   onClick: (item: any) => void
+  onMouseDown: (event: MouseEvent) => void
   selected: boolean
   disabled: boolean
 }
@@ -106,7 +107,12 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
         const onClick = () => onItemClick(item)
         const selected = item === selectedItem
         const disabled = disabledItems.includes(item)
-
+        const onMouseDown = (event: MouseEvent) => {
+          if (disabled) {
+            event.stopPropagation()
+            event.preventDefault()
+          }
+        }
         return (
           <Fragment key={index}>
             {renderListItem({
@@ -116,6 +122,7 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
                 onClick,
                 selected,
                 disabled,
+                onMouseDown,
               },
             })}
           </Fragment>
