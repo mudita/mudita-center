@@ -27,6 +27,7 @@ const config = {
     plugins.tsChecker(true),
     plugins.minify,
     plugins.define,
+    plugins.env,
   ],
   module: {
     rules: [

@@ -120,6 +120,7 @@ const createWindow = async () => {
   registerAutoLaunchListener()
 
   if (productionEnvironment) {
+    win.setMenuBarVisibility(false)
     win.loadURL(
       url.format({
         pathname: path.join(__dirname, "index.html"),
@@ -214,17 +215,12 @@ const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
 
 ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async () => {
   if (process.env.MUDITA_GOOGLE_AUTH_URL) {
-    const cb = (input: string | Record<string, string>) => {
-      const perform = () => {
-        if (typeof input === "string") {
-          return JSON.parse(input)
-        }
-
-        return input
-      }
-
-      ipcMain.answerRenderer(GoogleAuthActions.SendData, perform)
-      ipcMain.removeListener(GoogleAuthActions.SendData, perform)
+    const cb = (data: string) => {
+      ipcMain.callRenderer(
+        win as BrowserWindow,
+        GoogleAuthActions.GotCredentials,
+        data
+      )
     }
 
     if (googleAuthWindow === null) {

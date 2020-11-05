@@ -15,7 +15,7 @@ import {
   URL_RECOVERY_MODE,
   URL_TABS,
 } from "Renderer/constants/urls"
-import Calendar from "Renderer/modules/calendar/calendar.component"
+import Calendar from "Renderer/modules/calendar/calendar.container"
 import Templates from "Renderer/modules/messages/tabs/templates.container"
 import Playlist from "Renderer/modules/music/tabs/playlist.component"
 import Calls from "Renderer/modules/phone/tabs/calls-container.component"
