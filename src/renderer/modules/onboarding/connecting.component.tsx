@@ -15,7 +15,7 @@ const Connecting = () => {
     // TODO: do some logic to connect to the phone, add cancelling logic
     // This redirect is only for testing purposes
 
-    // TODO: on success call finishOnboarding function
+    // TODO: on success call registerFirstPhoneConnection function
     history.push(URL_ONBOARDING.troubleshooting)
   }
   return <OnboardingConnecting onCancel={onCancel} />
