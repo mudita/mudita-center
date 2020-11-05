@@ -8,7 +8,7 @@ import {
   Row,
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
-import { defineMessages, FormattedDate, FormattedMessage } from "react-intl"
+import { FormattedDate } from "react-intl"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
@@ -20,12 +20,6 @@ import {
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
-
-const messages = defineMessages({
-  allEvents: {
-    id: "view.name.calendar.allEvents",
-  },
-})
 
 const Table = styled(BaseSelectableCalls)`
   --columnsTemplate: 4rem 5fr 3fr 3fr;
@@ -45,9 +39,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
     <Group>
       <Labels>
         <Col />
-        <Col>
-          <FormattedMessage {...messages.allEvents} />
-        </Col>
+        <Col />
       </Labels>
       {events.map((event) => {
         const { id, name, startDate, endDate } = event

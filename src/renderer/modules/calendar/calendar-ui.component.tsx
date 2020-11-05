@@ -12,9 +12,6 @@ import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
 const messages = defineMessages({
-  allEvents: {
-    id: "view.name.calendar.allEvents",
-  },
   emptyStateTitle: { id: "view.name.calendar.noEvents" },
   emptyStateDescription: {
     id: "view.name.calendar.noEventsDescription",
