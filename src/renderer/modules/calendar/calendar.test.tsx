@@ -15,6 +15,7 @@ const defaultProps = {
   calendars: mockedCalendars,
   loadCalendars: jest.fn(),
   loadEvents: jest.fn(),
+  clearEvents: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {
