@@ -76,7 +76,6 @@ const isOptionMatching = (item: Contact, query: string) => {
 
 const StyledInputSelect = styled(InputSelect)`
   label {
-    border: 0;
     padding-top: 1rem;
   }
 `
@@ -169,6 +168,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                     max-height: 30rem;
                   `}
                   disabledItems={[selectedItem]}
+                  initialTransparentBorder
                 />
               </Col>
             </Row>

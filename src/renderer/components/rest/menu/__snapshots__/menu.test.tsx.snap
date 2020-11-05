@@ -673,6 +673,32 @@ exports[`matches snapshot 1`] = `
       </a>
     </div>
     <div
+      class="c4"
+    >
+      <a
+        class="c5"
+        displaystyle="8"
+        href="#/recovery-mode"
+        size="2"
+      >
+        <i
+          class="c6 c7"
+          data-testid="icon-MuditaLogo"
+          height="3.2"
+          width="3.2"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </i>
+        <p
+          class="c8 c9"
+        >
+          [value] view.name.recoveryMode
+        </p>
+      </a>
+    </div>
+    <div
       class="c10"
       data-testid="menu.header.desktopApp"
     >
