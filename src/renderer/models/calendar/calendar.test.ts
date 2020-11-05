@@ -77,3 +77,10 @@ test("events are sorted by startDate properly", () => {
     )
   }
 })
+
+test("events are cleared properly", () => {
+  store.dispatch.calendar.setEvents(eventsData)
+  expect(store.getState().calendar.events).toHaveLength(eventsData.length)
+  store.dispatch.calendar.clearEvents()
+  expect(store.getState().calendar.events).toHaveLength(0)
+})

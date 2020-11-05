@@ -24,11 +24,10 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   events = eventsData,
   loadCalendars,
   loadEvents,
+  clearEvents,
 }) => {
   const tableSelectHook = useTableSelect<CalendarEvent>(events)
-  const [calendarEvents, setEvents] = useState(events)
   const [provider, setProvider] = useState<Provider | undefined>()
-  const _devClearEvents = () => setEvents([])
 
   const setGoogleProvider = () => setProvider(Provider.Google)
 
@@ -125,13 +124,11 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
     }
   }, [provider])
 
-  useEffect(() => setEvents(events), [events])
-
   return (
     <CalendarUI
-      events={calendarEvents}
+      events={events}
       openSelectVendorModal={openSelectVendorModal}
-      _devClearEvents={_devClearEvents}
+      _devClearEvents={clearEvents}
       tableSelectHook={tableSelectHook}
     />
   )
