@@ -35,6 +35,7 @@ const messages = defineMessages({
   noEmail: { id: "view.name.phone.contacts.details.noEmail" },
   noAddress: { id: "view.name.phone.contacts.details.noAddress" },
   noNotes: { id: "view.name.phone.contacts.details.noNotes" },
+  ice: { id: "view.name.phone.contacts.details.ice" },
 })
 
 export interface ContactActions {
@@ -154,6 +155,12 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             <InfoItem>
               <Icon type={Type.Blocked} />
               <InfoItemName message={messages.blocked} />
+            </InfoItem>
+          )}
+          {contact.ice && (
+            <InfoItem>
+              <Icon type={Type.Ice} />
+              <InfoItemName message={messages.ice} />
             </InfoItem>
           )}
         </BasicInfo>
