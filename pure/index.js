@@ -29,11 +29,14 @@ const pureDefs = {
     contacts: 7,
     messages: 8,
     callog: 9,
+    developer: 10,
   },
   errorCode: {
     internalServerError: 500,
     notFound: 400,
+    notAcceptable: 406,
     ok: 200,
+    accepted: 202,
   },
   parserState: {
     none: -1,
@@ -43,7 +46,7 @@ const pureDefs = {
   },
 
   usbManufacturer: "Mudita",
-  usbProductId: "0622",
+  usbProductId: "0100",
   updateFileChunkSize: 128,
 }
 
@@ -290,6 +293,9 @@ class PureNode {
     this.serialPortHandle.on("close", this.portClose.bind(this))
   }
 
+  /*
+   * deprecated do not use
+   */
   getUpdateFileInfo(updateFile) {
     debug("getUpdateFileInfo %o", updateFile)
     var jsonRequest = {
@@ -311,6 +317,10 @@ class PureNode {
     })
   }
 
+  /*
+   * get a list of update files stored on the phone,
+   * at one time there can by multiple .tar files
+   */
   getUpdateFiles() {
     debug("getUpdateFiles")
     var jsonRequest = {
@@ -433,6 +443,44 @@ class PureNode {
       this.sendDeviceStatusRequest.bind(this),
       this.pingInterval
     )
+  }
+
+  systemReboot() {
+    const uuid = getNewUUID()
+
+    var request = createValidRequest({
+      endpoint: pureDefs.enpoint.developer,
+      method: pureDefs.method.get,
+      uuid: uuid,
+      body: { command: "reboot" },
+    })
+
+    debug('systemReset write "%s"', request)
+    this.serialPortHandle.write(request, function (err) {
+      if (err) {
+        debug("errror writing systemReset message %o", err)
+        this.isPolling = false
+      }
+    })
+  }
+
+  dumpLogs() {
+    const uuid = getNewUUID()
+
+    var request = createValidRequest({
+      endpoint: pureDefs.enpoint.developer,
+      method: pureDefs.method.get,
+      uuid: uuid,
+      body: { command: "logs" },
+    })
+
+    debug('dumpLogs write "%s"', request)
+    this.serialPortHandle.write(request, function (err) {
+      if (err) {
+        debug("errror writing systemReset message %o", err)
+        this.isPolling = false
+      }
+    })
   }
 
   on(channelName, fn) {
