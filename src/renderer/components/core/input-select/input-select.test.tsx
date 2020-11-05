@@ -16,6 +16,7 @@ const renderInputSelect = ({ ...props }: Partial<InputSelectProps> = {}) => {
     input: outcome.getByRole("textbox"),
     icon: outcome.getByTestId("actionIcon"),
     list: outcome.container.querySelector("ul"),
+    label: outcome.container.querySelector("label"),
     listItems: outcome.container.querySelectorAll("ul li"),
   }
 }
@@ -62,4 +63,9 @@ test("Item marked as disabled in `disabledOptions` list should have a `disabled`
   })
   expect(listItems[0]).toHaveStyleRule("cursor", "not-allowed")
   expect(listItems[1]).not.toHaveStyleRule("cursor", "not-allowed")
+})
+
+test("labels color is transparent with initiallTransparentBorder prop", () => {
+  const { label } = renderInputSelect({ initialTransparentBorder: true })
+  expect(label).toHaveStyleRule("border-color", "transparent")
 })
