@@ -23,7 +23,7 @@ const messages = defineMessages({
 
 export enum View {
   Onboarding = "onboarding",
-  RecoveryMode = "recovery-mode",
+  RecoveryMode = "recoveryMode",
   News = "news",
   Overview = "overview",
   Messages = "messages",

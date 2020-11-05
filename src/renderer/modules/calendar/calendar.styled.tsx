@@ -22,14 +22,13 @@ export const Header = styled(Text).attrs({
   padding: 4rem 4rem 1.7rem 4rem;
 `
 export const Event: FunctionComponent<CalendarEventProps> = ({ event }) => {
-  const { name, date } = event
-  const [startDate] = date
+  const { name, startDate, endDate } = event
 
   return (
     <Row>
       <Col>{name}</Col>
       <Col>
-        <TimeWindow date={date} />
+        <TimeWindow startDate={startDate} endDate={endDate} />
       </Col>
       <Col>
         <FormattedDate

@@ -14,7 +14,8 @@ afterEach(async () => {
   await stopApp(app)
 })
 
-test("menu takes user to correct page", async () => {
+// TODO: Unskipp all tests when view will be available in prod app
+test.skip("menu takes user to correct page", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Tethering}]`).click()
   const hash = await app.client.execute(() => window.location.hash)
   expect(hash.value).toEqual(`#${URL_MAIN.tethering}`)
@@ -25,14 +26,14 @@ test("menu takes user to correct page", async () => {
   ).toBe(true)
 })
 
-test("goto button takes a user to correct page", async () => {
+test.skip("goto button takes a user to correct page", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Tethering}]`).click()
   await app.client.$(`*[data-testid=${TetheringTestIds.GoToButton}]`).click()
   const hash = await app.client.execute(() => window.location.hash)
   expect(hash.value).toEqual(`#${URL_MAIN.settings}`)
 })
 
-test("user can toggle on tethering", async () => {
+test.skip("user can toggle on tethering", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Tethering}]`).click()
   await app.client
     .$(`*[data-testid=${SettingsTestIds.TogglerInactive}]`)
@@ -44,7 +45,7 @@ test("user can toggle on tethering", async () => {
   ).toBe(true)
 })
 
-test("user can see the phone disconnected screen after disconnecting the phone", async () => {
+test.skip("user can see the phone disconnected screen after disconnecting the phone", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Overview}]`).click()
   await app.client.$(`*[data-testid=${PhoneTestIds.DisconnectButton}]`).click()
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Tethering}]`).click()
