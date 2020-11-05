@@ -23,9 +23,11 @@ const Tabs: FunctionComponent<Props> = ({ className, currentLocation }) => {
     currentLocation?.includes(parentUrl)
   )?.tabs
 
-  const tabsList = currentLocationTabs?.map(({ label, icon, url }) => (
-    <NavTab label={label} icon={icon} key={label.id} url={url} />
-  ))
+  const tabsList = currentLocationTabs
+    ?.filter(({ hidden }) => !hidden)
+    .map(({ label, icon, url }) => (
+      <NavTab label={label} icon={icon} key={label.id} url={url} />
+    ))
 
   return <TabsWrapper className={className}>{tabsList}</TabsWrapper>
 }
