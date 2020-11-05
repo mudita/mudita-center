@@ -3,7 +3,10 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { CalendarProps } from "Renderer/modules/calendar/calendar.interface"
 import { eventsData } from "App/seeds/calendar"
 import modalService from "Renderer/components/core/modal/modal.service"
-import { Calendar } from "Renderer/models/calendar/calendar.interfaces"
+import {
+  Calendar,
+  CalendarEvent,
+} from "Renderer/models/calendar/calendar.interfaces"
 import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
 import SelectCalendarsModal from "Renderer/components/rest/calendar/select-calendars-modal.component"
 import SynchronizingEventsModal from "Renderer/components/rest/calendar/synchronizing-events-modal.component"
@@ -14,6 +17,7 @@ import EventsSynchronizationFailedModal from "Renderer/components/rest/calendar/
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
 import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
+import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
@@ -21,6 +25,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   loadCalendars,
   loadEvents,
 }) => {
+  const tableSelectHook = useTableSelect<CalendarEvent>(events)
   const [calendarEvents, setEvents] = useState(events)
   const [provider, setProvider] = useState<Provider | undefined>()
   const _devClearEvents = () => setEvents([])
@@ -127,6 +132,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
       events={calendarEvents}
       openSelectVendorModal={openSelectVendorModal}
       _devClearEvents={_devClearEvents}
+      tableSelectHook={tableSelectHook}
     />
   )
 }

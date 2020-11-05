@@ -7,11 +7,14 @@ import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enu
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { Provider } from "react-redux"
 import store from "Renderer/store"
-import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
+import Calendar from "Renderer/modules/calendar/calendar.component"
+import { mockedCalendars } from "App/__mocks__/calendars-list"
 
 const defaultProps = {
   events: calendarSeed.events,
-  openSelectVendorModal: jest.fn(),
+  calendars: mockedCalendars,
+  loadCalendars: jest.fn(),
+  loadEvents: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {
@@ -23,7 +26,7 @@ const renderer = (extraProps?: {}) => {
   return renderWithThemeAndIntl(
     <Router history={history}>
       <Provider store={store}>
-        <CalendarUI {...props} />
+        <Calendar {...props} />
       </Provider>
     </Router>
   )

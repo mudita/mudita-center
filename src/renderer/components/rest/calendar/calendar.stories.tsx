@@ -17,6 +17,7 @@ import StoryContainer from "Renderer/components/storybook/story-container.compon
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
 import { action } from "@storybook/addon-actions"
+import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 const Wrapper = styled.div`
   max-width: 97.5rem;
@@ -26,22 +27,30 @@ const Wrapper = styled.div`
 `
 
 storiesOf("Views/Calendar/Main view", module)
-  .add("With events", () => (
-    <Wrapper>
-      <CalendarUI
-        events={calendarSeed.events}
-        openSelectVendorModal={action("open vendor modal")}
-      />
-    </Wrapper>
-  ))
-  .add("No events", () => (
-    <Wrapper>
-      <CalendarUI
-        events={[]}
-        openSelectVendorModal={action("open vendor modal")}
-      />
-    </Wrapper>
-  ))
+  .add("With events", () => {
+    const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
+    return (
+      <Wrapper>
+        <CalendarUI
+          events={calendarSeed.events}
+          openSelectVendorModal={action("open vendor modal")}
+          tableSelectHook={tableSelectHook}
+        />
+      </Wrapper>
+    )
+  })
+  .add("No events", () => {
+    const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
+    return (
+      <Wrapper>
+        <CalendarUI
+          events={[]}
+          openSelectVendorModal={action("open vendor modal")}
+          tableSelectHook={tableSelectHook}
+        />
+      </Wrapper>
+    )
+  })
 storiesOf("Views/Calendar/Modals", module).add("All", () => (
   <StoryContainer
     title="Sync modals"

@@ -8,8 +8,8 @@ import EventsList from "Renderer/components/rest/calendar/events-list.component"
 import { EmptyState } from "Renderer/components/core/table/table.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
 import { defineMessages } from "react-intl"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
 const messages = defineMessages({
   allEvents: {
@@ -25,14 +25,15 @@ interface Props {
   events: CalendarEvent[]
   _devClearEvents?: () => void
   openSelectVendorModal: () => void
+  tableSelectHook: UseTableSelect<CalendarEvent>
 }
 
 const CalendarUI: FunctionComponent<Props> = ({
   events,
   openSelectVendorModal,
   _devClearEvents,
+  tableSelectHook,
 }) => {
-  const tableSelectHook = useTableSelect<CalendarEvent>(events)
   return (
     <>
       <DevModeWrapper>
