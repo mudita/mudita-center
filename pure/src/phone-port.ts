@@ -1,5 +1,5 @@
 import SerialPort from "serialport"
-import { Response, ResponseStatus } from "./types"
+import { EventName, Response, ResponseStatus } from "./types"
 
 class PhonePort {
   port: SerialPort | undefined
@@ -14,18 +14,20 @@ class PhonePort {
   }
 
   disconnect(): Promise<Response> {
-    return new Promise(resolve => {
-      if(this.port === undefined){
+    return new Promise((resolve) => {
+      if (this.port === undefined) {
         resolve({ status: ResponseStatus.Ok })
 
       } else {
-        this.port.close();
+        this.port.close()
         this.port.on("close", () => {
           resolve({ status: ResponseStatus.Ok })
         })
       }
     })
   }
+
+  on(eventName: EventName, listener: () => void): void {}
 }
 
 export type CreatePhonePort = () => PhonePort

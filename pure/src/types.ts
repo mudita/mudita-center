@@ -6,3 +6,7 @@ export enum ResponseStatus {
 export interface Response {
   status: ResponseStatus
 }
+
+export enum EventName {
+  Disconnected = "disconnected",
+}
