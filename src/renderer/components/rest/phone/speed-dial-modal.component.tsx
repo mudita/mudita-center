@@ -24,6 +24,7 @@ import SearchableText from "Renderer/components/core/searchable-text/searchable-
 const SpeedDialTable = styled(Table)`
   --labelBackground: none;
   margin: 1.6rem 0 4rem 0;
+  overflow: initial !important;
 `
 
 const ModalComponent = styled(Modal)`
@@ -169,7 +170,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                   onSelect={onChange}
                   isItemMatching={isOptionMatching}
                   listStyles={css`
-                    max-height: 30rem;
+                    max-height: 10rem;
                   `}
                   disabledItems={[selectedItem]}
                   initialTransparentBorder
