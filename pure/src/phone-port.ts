@@ -8,8 +8,8 @@ class PhonePort {
 
   connect(path: string): Promise<Response> {
     return new Promise((resolve) => {
-      this.port = new SerialPort(path)
-      this.port.on("open", () => {
+      this.port = new SerialPort(path, (error) => {
+        if (error) resolve({ status: ResponseStatus.Error })
         resolve({ status: ResponseStatus.Ok })
       })
 
@@ -23,10 +23,9 @@ class PhonePort {
     return new Promise((resolve) => {
       if (this.port === undefined) {
         resolve({ status: ResponseStatus.Ok })
-
       } else {
-        this.port.close()
-        this.port.on("close", () => {
+        this.port.close((error) => {
+          if (error) resolve({ status: ResponseStatus.Error })
           resolve({ status: ResponseStatus.Ok })
         })
       }

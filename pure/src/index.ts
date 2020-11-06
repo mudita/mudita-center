@@ -66,10 +66,6 @@ class PureNode {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) phonePort.on(chanelName, listener)
   }
-
-  portInit(cb: (phones: any[]) => void): void {}
-
-  init(path: string): void {}
 }
 
 export default class extends PureNode {
