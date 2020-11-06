@@ -1,6 +1,6 @@
 import SerialPort = require("serialport")
 import { ConnectResponse, ConnectResponseStatus } from "./types"
-import PhonePort, { CreatePhonePort } from "./phone-port"
+import PhonePort, { createPhonePort, CreatePhonePort } from "./phone-port"
 
 interface Phones {
   id: string
@@ -55,4 +55,10 @@ class PureNode {
   init(path: string): void {}
 }
 
-export default PureNode
+
+
+export default class extends PureNode {
+  constructor() {
+    super(createPhonePort);
+  }
+}

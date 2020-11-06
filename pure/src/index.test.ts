@@ -1,7 +1,6 @@
 import SerialPort = require("serialport")
 const MockBinding = require("@serialport/binding-mock")
 import PureNode, { productId, manufacturer } from "./index"
-import { createPhonePort } from "./phone-port"
 import { ConnectResponseStatus } from "./types"
 
 SerialPort.Binding = MockBinding
@@ -16,7 +15,7 @@ MockBinding.createPort("/dev/ROBOT", {
 let pureNode: PureNode
 
 beforeEach(async () => {
-  pureNode = new PureNode(createPhonePort)
+  pureNode = new PureNode()
 })
 
 test("allow a listing of all visible Pure phones", async () => {
