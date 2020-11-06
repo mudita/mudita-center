@@ -23,9 +23,7 @@ import Dial from "Renderer/modules/phone/tabs/dial.component"
 import VoiceRecorder from "Renderer/modules/tools/tabs/voice-recorder.component"
 import Notes from "Renderer/modules/tools/tabs/notes.container"
 import Welcome from "Renderer/modules/onboarding/welcome.component"
-import Connecting, {
-  registerFirstPhoneConnection,
-} from "Renderer/modules/onboarding/connecting.component"
+import Connecting from "Renderer/modules/onboarding/connecting.component"
 import Troubleshooting from "Renderer/modules/onboarding/troubleshooting.component"
 import LayoutDesktopWrapper from "Renderer/wrappers/layout-desktop-wrapper"
 import LayoutBlankWrapper from "Renderer/wrappers/layout-blank-wrapper"
@@ -40,7 +38,7 @@ export default () => (
     <Redirect from={URL_ONBOARDING.root} to={URL_ONBOARDING.welcome} exact />
 
     <Route exact path={[...Object.values(URL_ONBOARDING)]}>
-      <LayoutBlankWrapper onClose={registerFirstPhoneConnection}>
+      <LayoutBlankWrapper>
         <Route path={URL_ONBOARDING.welcome} component={Welcome} />
         <Route path={URL_ONBOARDING.connecting} component={Connecting} />
         <Route
