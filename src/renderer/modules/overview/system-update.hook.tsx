@@ -10,6 +10,9 @@ import {
   UpdateAvailable,
   UpdateNotAvailable,
   UpdateServerError,
+  UpdatingFailureModal,
+  UpdatingProgressModal,
+  UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
 import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
 import downloadOsUpdateRequest, {
@@ -26,6 +29,8 @@ import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import delayResponse from "@appnroll/delay-response"
 import updateOs from "Renderer/requests/update-os.request"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { isEqual } from "lodash"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -63,8 +68,7 @@ const useSystemUpdateFlow = (
   const updatePure = async () => {
     // TODO: Continue update process when Pure updates through USB become available
     console.log("Updating Pure OS...")
-    const a = await updateOs("/os-update/lala.zip")
-    console.log(a)
+    const response = await updateOs("/os-update/lala.zip")
     // TODO: remove after implementing real phone update process
     await onUpdate({
       pureOsFileName: "",
@@ -72,6 +76,7 @@ const useSystemUpdateFlow = (
       pureOsAvailable: false,
     })
     await fakeUpdatedStatus()
+    return response
   }
 
   const checkForUpdates = (retry?: boolean, silent?: boolean) => {
@@ -133,7 +138,13 @@ const useSystemUpdateFlow = (
   }
 
   const install = async () => {
-    updatePure()
+    modalService.openModal(<UpdatingProgressModal />, true)
+    const pureUpdateResponse = await updatePure()
+    if (isEqual(pureUpdateResponse, { status: DeviceResponseStatus.Ok })) {
+      modalService.openModal(<UpdatingSuccessModal />, true)
+    } else {
+      modalService.openModal(<UpdatingFailureModal />, true)
+    }
   }
 
   const download = async (file: Filename) => {

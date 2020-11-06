@@ -71,10 +71,19 @@ class PurePhone extends PurePhoneAdapter {
 
   public updateOs(updateFilePath: string): any {
     console.log("update click")
-    this.pureNode.uploadUpdateFile("/Users/kamilstaszewski/Desktop/update1.tar")
+    try {
+      this.pureNode.uploadUpdateFile(
+        "/Users/kamilstaszewski/Desktop/update1.tar"
+      )
+    } catch (e) {
+      return { status: DeviceResponseStatus.Error }
+    }
     return new Promise((resolve) => {
       this.pureNode.on("data", (event: any) => {
         if (event.endpoint === 3) {
+          if (Number(event.body.status) === 500) {
+            resolve({ status: DeviceResponseStatus.Error })
+          }
           if (Number(event.body.status) === 0) {
             this.pureNode.fileUploadConfirmed()
           }
@@ -83,13 +92,11 @@ class PurePhone extends PurePhoneAdapter {
           }
         }
         if (Number(event.endpoint) === 2) {
-          console.log("Update action")
-
-          if (Number(event.status) === 202) {
-            console.log("Update running")
-          } else if (event.body && event.body.updateReady === true) {
+          if (event.body.status === "Ready for reset") {
             resolve({ status: DeviceResponseStatus.Ok })
-            this.pureNode.updateConfirmed()
+          }
+          if (Number(event.body.status) === 500) {
+            resolve({ status: DeviceResponseStatus.Error })
           }
         }
       })
