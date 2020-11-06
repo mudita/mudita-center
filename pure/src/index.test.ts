@@ -28,3 +28,10 @@ test("allow to an established connection with a given telephone using the unique
   const response = await pureNode.connect(id)
   expect(response.status).toEqual(ConnectResponseStatus.Ok)
 })
+
+test("second try for connection process return ok status", async () => {
+  const [{ id }] = await PureNode.getPhones()
+  await pureNode.connect(id)
+  const response = await pureNode.connect(id)
+  expect(response.status).toEqual(ConnectResponseStatus.Ok)
+})
