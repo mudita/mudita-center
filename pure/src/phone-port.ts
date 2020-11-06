@@ -1,14 +1,14 @@
 import SerialPort from "serialport"
-import { ConnectResponse, ConnectResponseStatus } from "./types"
+import { Response, ResponseStatus } from "./types"
 
 class PhonePort {
   port: SerialPort | undefined
 
-  connect(path: string): Promise<ConnectResponse> {
+  connect(path: string): Promise<Response> {
     return new Promise((resolve) => {
       this.port = new SerialPort(path)
       this.port.on("open", () => {
-        resolve({ status: ConnectResponseStatus.Ok })
+        resolve({ status: ResponseStatus.Ok })
       })
     })
   }

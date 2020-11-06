@@ -1,7 +1,7 @@
 import SerialPort = require("serialport")
 const MockBinding = require("@serialport/binding-mock")
 import PureNode, { productId, manufacturer } from "./index"
-import { ConnectResponseStatus } from "./types"
+import { ResponseStatus } from "./types"
 
 SerialPort.Binding = MockBinding
 MockBinding.createPort("/dev/ROBOT", {
@@ -26,12 +26,25 @@ test("allow a listing of all visible Pure phones", async () => {
 test("allow to an established connection with a given telephone using the unique device identifier", async () => {
   const [{ id }] = await PureNode.getPhones()
   const response = await pureNode.connect(id)
-  expect(response.status).toEqual(ConnectResponseStatus.Ok)
+  expect(response.status).toEqual(ResponseStatus.Ok)
 })
 
 test("second try for connection process return ok status", async () => {
   const [{ id }] = await PureNode.getPhones()
   await pureNode.connect(id)
   const response = await pureNode.connect(id)
-  expect(response.status).toEqual(ConnectResponseStatus.Ok)
+  expect(response.status).toEqual(ResponseStatus.Ok)
+})
+
+test("allow to the manual disconnection of the phone from the device", async () => {
+  const [{ id }] = await PureNode.getPhones()
+  await pureNode.connect(id)
+  const response = await pureNode.disconnect(id)
+  expect(response.status).toEqual(ResponseStatus.Ok)
+})
+
+test("disconnection when phone isn't connect return ok status", async () => {
+  const [{ id }] = await PureNode.getPhones()
+  const response = await pureNode.disconnect(id)
+  expect(response.status).toEqual(ResponseStatus.Ok)
 })
