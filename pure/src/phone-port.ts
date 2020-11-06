@@ -12,6 +12,10 @@ class PhonePort {
       })
     })
   }
+
+  disconnect(): Promise<Response> {
+    return Promise.resolve({ status: ResponseStatus.Error })
+  }
 }
 
 export type CreatePhonePort = () => PhonePort

@@ -26,7 +26,7 @@ class PureNode {
     return await SerialPort.list()
   }
 
-  phonePorts: { [key: string]: PhonePort } = {}
+  phonePortMap: Map<string, PhonePort> = new Map()
 
   constructor(private createPhonePort: CreatePhonePort) {}
 
@@ -34,14 +34,14 @@ class PureNode {
     const portList = await PureNode.getSerialPortList()
     const port = portList.find(({ serialNumber }) => serialNumber === id)
 
-    if (port && this.phonePorts[id]) {
+    if (port && this.phonePortMap.has(id)) {
       return {status: ResponseStatus.Ok}
     } else if (port) {
       const phonePort =  this.createPhonePort();
       const response = await phonePort.connect(port.path)
 
       if(response.status === ResponseStatus.Ok){
-        this.phonePorts[id] = phonePort
+        this.phonePortMap.set(id, phonePort)
       }
 
       return response
@@ -51,7 +51,15 @@ class PureNode {
   }
 
   async disconnect(id: string): Promise<Response>{
-    return  {status: ResponseStatus.Error}
+    const phonePort = this.phonePortMap.get(id);
+    if(phonePort){
+      const response = await phonePort.disconnect()
+      this.phonePortMap.delete(id);
+
+      return response
+    } else{
+      return  {status: ResponseStatus.Ok}
+    }
   }
 
   portInit(cb: (phones: any[]) => void): void {}
