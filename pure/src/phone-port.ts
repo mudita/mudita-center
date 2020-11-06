@@ -14,7 +14,17 @@ class PhonePort {
   }
 
   disconnect(): Promise<Response> {
-    return Promise.resolve({ status: ResponseStatus.Error })
+    return new Promise(resolve => {
+      if(this.port === undefined){
+        resolve({ status: ResponseStatus.Ok })
+
+      } else {
+        this.port.close();
+        this.port.on("close", () => {
+          resolve({ status: ResponseStatus.Ok })
+        })
+      }
+    })
   }
 }
 
