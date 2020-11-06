@@ -13,6 +13,9 @@ class PhonePort {
         resolve({ status: ResponseStatus.Ok })
       })
 
+      // data listener have to be register to allow works well for close event 🙈
+      this.port.on("data", () => {})
+
       this.port.on("close", () => {
         this.eventEmitter.emit(EventName.Disconnected)
       })

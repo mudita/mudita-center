@@ -68,7 +68,12 @@ export default {
       })
     },
     async connect() {
-      await connectDevice()
+      const { status } = await connectDevice()
+
+      if (status === DeviceResponseStatus.Ok)
+        dispatch.basicInfo.update({
+          disconnectedDevice: false,
+        })
     },
     async disconnect() {
       const disconnectInfo = await disconnectDevice()

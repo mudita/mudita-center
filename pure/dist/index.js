@@ -1,4 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -38,10 +51,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.manufacturer = exports.productId = void 0;
 var SerialPort = require("serialport");
-exports.productId = "0100";
+var types_1 = require("./types");
+var phone_port_1 = require("./phone-port");
+exports.productId = "0622";
 exports.manufacturer = "Mudita";
 var PureNode = /** @class */ (function () {
-    function PureNode() {
+    function PureNode(createPhonePort) {
+        this.createPhonePort = createPhonePort;
+        this.phonePortMap = new Map();
     }
     PureNode.getPhones = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -75,9 +92,65 @@ var PureNode = /** @class */ (function () {
             });
         });
     };
-    PureNode.prototype.portInit = function (cb) { };
-    PureNode.prototype.on = function (chanelName, listener) { };
-    PureNode.prototype.init = function (path) { };
+    PureNode.prototype.connect = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var portList, port, phonePort, response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, PureNode.getSerialPortList()];
+                    case 1:
+                        portList = _a.sent();
+                        port = portList.find(function (_a) {
+                            var serialNumber = _a.serialNumber;
+                            return serialNumber === id;
+                        });
+                        if (!(port && this.phonePortMap.has(id))) return [3 /*break*/, 2];
+                        return [2 /*return*/, { status: types_1.ResponseStatus.Ok }];
+                    case 2:
+                        if (!port) return [3 /*break*/, 4];
+                        phonePort = this.createPhonePort();
+                        return [4 /*yield*/, phonePort.connect(port.path)];
+                    case 3:
+                        response = _a.sent();
+                        if (response.status === types_1.ResponseStatus.Ok) {
+                            this.phonePortMap.set(id, phonePort);
+                        }
+                        return [2 /*return*/, response];
+                    case 4: return [2 /*return*/, { status: types_1.ResponseStatus.Error }];
+                }
+            });
+        });
+    };
+    PureNode.prototype.disconnect = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var phonePort, response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        phonePort = this.phonePortMap.get(id);
+                        if (!phonePort) return [3 /*break*/, 2];
+                        return [4 /*yield*/, phonePort.disconnect()];
+                    case 1:
+                        response = _a.sent();
+                        this.phonePortMap.delete(id);
+                        return [2 /*return*/, response];
+                    case 2: return [2 /*return*/, { status: types_1.ResponseStatus.Ok }];
+                }
+            });
+        });
+    };
+    PureNode.prototype.on = function (id, chanelName, listener) {
+        var phonePort = this.phonePortMap.get(id);
+        if (phonePort)
+            phonePort.on(chanelName, listener);
+    };
     return PureNode;
 }());
-exports.default = PureNode;
+var default_1 = /** @class */ (function (_super) {
+    __extends(default_1, _super);
+    function default_1() {
+        return _super.call(this, phone_port_1.createPhonePort) || this;
+    }
+    return default_1;
+}(PureNode));
+exports.default = default_1;

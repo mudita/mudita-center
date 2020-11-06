@@ -9,9 +9,6 @@ import { History } from "history"
 import registerDisconnectedDeviceListener, {
   removeDisconnectedDeviceListener,
 } from "Renderer/listeners/register-disconnected-device.listener"
-import registerConnectedDeviceListener, {
-  removeConnectedDeviceListener,
-} from "Renderer/listeners/register-connected-device.listener"
 
 interface Props {
   store: Store
@@ -25,14 +22,6 @@ const BaseApp: FunctionComponent<Props> = ({ store, history }) => {
     }
     registerDisconnectedDeviceListener(disconnect)
     return () => removeDisconnectedDeviceListener(disconnect)
-  })
-
-  useEffect(() => {
-    const connect = () => {
-      store.dispatch.basicInfo.update({ disconnectedDevice: false })
-    }
-    registerConnectedDeviceListener(connect)
-    return () => removeConnectedDeviceListener(connect)
   })
 
   return (

@@ -4,22 +4,15 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 
 import { MainProcessIpc } from "electron-better-ipc"
-import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import PureNode from "pure"
+import { EventName, ResponseStatus } from "pure/dist/types"
+import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 
 class PurePhone extends PurePhoneAdapter {
+  purePhoneId: string | undefined
+
   constructor(private pureNode: PureNode, private ipcMain: MainProcessIpc) {
     super()
-    pureNode.on("close", this.emitDisconnectedDeviceSignal)
-    pureNode.on("data", this.emitConnectedDeviceSignal)
-  }
-
-  private emitDisconnectedDeviceSignal = (): void => {
-    this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)
-  }
-
-  private emitConnectedDeviceSignal = (): void => {
-    this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
   }
 
   public getModelName(): string {
@@ -52,18 +45,43 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-  public connectDevice(): Promise<DeviceResponse> {
-    return new Promise((resolve) => {
-      this.pureNode.portInit((phones: any[]) => {
-        const phone = phones[0]
-
-        if (Boolean(phone) && Boolean(phone.path)) {
-          this.pureNode.init(phones[0].path)
-          resolve({ status: DeviceResponseStatus.Ok })
-        }
-
-        resolve({ status: DeviceResponseStatus.Error })
+  public async connectDevice(): Promise<DeviceResponse> {
+    if (this.purePhoneId !== undefined) {
+      return Promise.resolve({
+        status: DeviceResponseStatus.Ok,
       })
+    }
+
+    const list = await PureNode.getPhones()
+    const [purePhone] = list
+    const id = purePhone?.id
+
+    if (id) {
+      const { status } = await this.pureNode.connect(id)
+      if (status === ResponseStatus.Ok) {
+        this.purePhoneId = id
+        this.registerDisconnectedDeviceListener(id)
+
+        return {
+          status: DeviceResponseStatus.Ok,
+        }
+      } else {
+
+        return {
+          status: DeviceResponseStatus.Error,
+        }
+      }
+    } else {
+
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+  }
+
+  private registerDisconnectedDeviceListener(id: string) {
+    this.pureNode.on(id, EventName.Disconnected, () => {
+      this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)
     })
   }
 }

@@ -6,12 +6,13 @@ interface Phones {
   id: string
 }
 
-export const productId = "0100"
+export const productId = "0622"
 export const manufacturer = "Mudita"
 
 class PureNode {
   static async getPhones(): Promise<Phones[]> {
     const portList = await PureNode.getSerialPortList()
+
     return portList
       .filter(
         (portInfo) =>
