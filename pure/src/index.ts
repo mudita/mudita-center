@@ -1,15 +1,32 @@
+import SerialPort = require("serialport")
+
 interface Phones {
   id: string
 }
 
+export const productId = "0100"
+export const manufacturer = "Mudita"
+
 class PureNode {
-  public static getPhones(): Promise<Phones[]>{
-    return Promise.resolve([])
+  static async getPhones(): Promise<Phones[]> {
+    const portList = await PureNode.getSerialPortList()
+    return portList
+      .filter(
+        (portInfo) =>
+          portInfo.manufacturer === manufacturer &&
+          portInfo.productId === productId
+      )
+      .map(({ serialNumber = "" }) => serialNumber)
+      .map((serialNumber) => ({ id: serialNumber }))
   }
 
-  public portInit(cb: (phones: any[]) => void): void {}
-  public on(chanelName: string, listener: (event: any) => void): void {}
-  public init(path: string): void {}
+  private static async getSerialPortList(): Promise<SerialPort.PortInfo[]> {
+    return await SerialPort.list()
+  }
+
+  portInit(cb: (phones: any[]) => void): void {}
+  on(chanelName: string, listener: (event: any) => void): void {}
+  init(path: string): void {}
 }
 
 export default PureNode
