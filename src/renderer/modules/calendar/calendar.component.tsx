@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from "react"
+import React, { MutableRefObject, useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { CalendarProps } from "Renderer/modules/calendar/calendar.interface"
 import { eventsData } from "App/seeds/calendar"
 import modalService from "Renderer/components/core/modal/modal.service"
-import {
-  Calendar,
-  CalendarEvent,
-} from "Renderer/models/calendar/calendar.interfaces"
 import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
 import SelectCalendarsModal from "Renderer/components/rest/calendar/select-calendars-modal.component"
 import SynchronizingEventsModal from "Renderer/components/rest/calendar/synchronizing-events-modal.component"
@@ -16,6 +12,10 @@ import EventsSynchronizationFinishedModal from "Renderer/components/rest/calenda
 import EventsSynchronizationFailedModal from "Renderer/components/rest/calendar/synchronization-failed.component"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
+import {
+  Calendar,
+  CalendarEvent,
+} from "Renderer/models/calendar/calendar.interfaces"
 import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
@@ -28,8 +28,12 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
 }) => {
   const tableSelectHook = useTableSelect<CalendarEvent>(events)
   const [provider, setProvider] = useState<Provider | undefined>()
+  const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
+  const eventsListRef = useRef<HTMLDivElement>()
+  const highlightActiveEventTimeout = useRef<NodeJS.Timeout>()
 
   const setGoogleProvider = () => setProvider(Provider.Google)
+  const resetProvider = () => setProvider(undefined)
 
   const authorizeAndLoadCalendars = async () => {
     if (!provider) {
@@ -79,6 +83,8 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   }
 
   const openSelectVendorModal = () => {
+    resetProvider()
+
     try {
       modalService.openModal(
         <SelectVendorModal onGoogleButtonClick={setGoogleProvider} />
@@ -124,12 +130,36 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
     }
   }, [provider])
 
+  useEffect(() => {
+    if (selectedEvent) {
+      const selectedEventIndex = events.indexOf(selectedEvent)
+
+      if (selectedEventIndex >= 0) {
+        eventsListRef.current?.children[selectedEventIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        })
+
+        highlightActiveEventTimeout.current = setTimeout(() => {
+          setSelectedEvent(null)
+        }, 3500)
+      }
+    }
+    return () => {
+      if (highlightActiveEventTimeout.current) {
+        clearTimeout(highlightActiveEventTimeout.current)
+      }
+    }
+  }, [selectedEvent])
   return (
     <CalendarUI
       events={events}
       openSelectVendorModal={openSelectVendorModal}
       _devClearEvents={clearEvents}
       tableSelectHook={tableSelectHook}
+      selectedEventIndex={selectedEvent ? events.indexOf(selectedEvent) : -1}
+      listRef={eventsListRef as MutableRefObject<HTMLDivElement>}
+      onEventSelect={setSelectedEvent}
     />
   )
 }

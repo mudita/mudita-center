@@ -1,9 +1,8 @@
-import React from "react"
+import React, { MutableRefObject } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import Button from "Renderer/components/core/button/button.component"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
-import { noop } from "Renderer/utils/noop"
 import EventsList from "Renderer/components/rest/calendar/events-list.component"
 import { EmptyState } from "Renderer/components/core/table/table.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
@@ -23,6 +22,9 @@ interface Props {
   _devClearEvents?: () => void
   openSelectVendorModal: () => void
   tableSelectHook: UseTableSelect<CalendarEvent>
+  selectedEventIndex?: number
+  listRef: MutableRefObject<HTMLDivElement>
+  onEventSelect: (item: CalendarEvent) => void
 }
 
 const CalendarUI: FunctionComponent<Props> = ({
@@ -30,6 +32,9 @@ const CalendarUI: FunctionComponent<Props> = ({
   openSelectVendorModal,
   _devClearEvents,
   tableSelectHook,
+  selectedEventIndex,
+  listRef,
+  onEventSelect,
 }) => {
   return (
     <>
@@ -38,12 +43,16 @@ const CalendarUI: FunctionComponent<Props> = ({
       </DevModeWrapper>
       <CalendarPanel
         events={events}
-        onEventSelect={noop}
-        onEventValueChange={noop}
+        onEventSelect={onEventSelect}
         onSynchroniseClick={openSelectVendorModal}
       />
       {events.length > 0 ? (
-        <EventsList events={events} {...tableSelectHook} />
+        <EventsList
+          events={events}
+          selectedEventIndex={selectedEventIndex}
+          listRef={listRef}
+          {...tableSelectHook}
+        />
       ) : (
         <EmptyState
           title={messages.emptyStateTitle}
