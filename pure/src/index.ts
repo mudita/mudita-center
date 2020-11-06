@@ -4,6 +4,15 @@ interface Phones {
   id: string
 }
 
+export enum ConnectResponseStatus {
+  Ok = "ok",
+  Error = "error",
+}
+
+export interface ConnectResponse {
+  status: ConnectResponseStatus
+}
+
 export const productId = "0100"
 export const manufacturer = "Mudita"
 
@@ -22,6 +31,10 @@ class PureNode {
 
   private static async getSerialPortList(): Promise<SerialPort.PortInfo[]> {
     return await SerialPort.list()
+  }
+
+  connect(id: string): Promise<ConnectResponse>{
+    return Promise.resolve({status: ConnectResponseStatus.Error})
   }
 
   portInit(cb: (phones: any[]) => void): void {}
