@@ -38,6 +38,7 @@ storiesOf("Views/Calendar/Main view", module)
           openSelectVendorModal={action("open vendor modal")}
           tableSelectHook={tableSelectHook}
           listRef={eventsListRef}
+          onEventSelect={action("event select")}
         />
       </Wrapper>
     )
@@ -54,6 +55,7 @@ storiesOf("Views/Calendar/Main view", module)
           openSelectVendorModal={action("open vendor modal")}
           tableSelectHook={tableSelectHook}
           listRef={eventsListRef}
+          onEventSelect={action("event select")}
         />
       </Wrapper>
     )
