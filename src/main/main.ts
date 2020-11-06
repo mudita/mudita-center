@@ -1,4 +1,4 @@
-import { PureNode } from "pure"
+import PureNode from "pure"
 import startBackend from "Backend/bootstrap"
 import { check as checkPort } from "tcp-port-used"
 import {

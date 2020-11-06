@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": ["es6"],
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "alwaysStrict": true,
+    "downlevelIteration": true,
+    "skipLibCheck": true,
+    "rootDir": "src",
+    "outDir": "./dist"
+  },
+  "exclude": ["node_modules"],
+  "include": ["./src"]
+}

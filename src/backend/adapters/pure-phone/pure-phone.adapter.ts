@@ -5,9 +5,10 @@ import DeviceResponse, {
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
+import PureNode from "pure"
 
 class PurePhone extends PurePhoneAdapter {
-  constructor(private pureNode: any, private ipcMain: MainProcessIpc) {
+  constructor(private pureNode: PureNode, private ipcMain: MainProcessIpc) {
     super()
     pureNode.on("close", this.emitDisconnectedDeviceSignal)
     pureNode.on("data", this.emitConnectedDeviceSignal)
@@ -68,7 +69,7 @@ class PurePhone extends PurePhoneAdapter {
 }
 
 const createPurePhoneAdapter = (
-  pureNode: any,
+  pureNode: PureNode,
   ipcMain: MainProcessIpc
 ): PurePhoneAdapter => new PurePhone(pureNode, ipcMain)
 
