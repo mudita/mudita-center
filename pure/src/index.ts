@@ -62,7 +62,10 @@ class PureNode {
     }
   }
 
-  on(id: string, chanelName: EventName, listener: () => void): void {}
+  on(id: string, chanelName: EventName, listener: () => void): void {
+    const phonePort = this.phonePortMap.get(id)
+    if (phonePort) phonePort.on(chanelName, listener)
+  }
 
   portInit(cb: (phones: any[]) => void): void {}
 

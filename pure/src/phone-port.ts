@@ -1,14 +1,20 @@
 import SerialPort from "serialport"
 import { EventName, Response, ResponseStatus } from "./types"
+import { EventEmitter } from "events"
 
 class PhonePort {
   port: SerialPort | undefined
+  eventEmitter = new EventEmitter()
 
   connect(path: string): Promise<Response> {
     return new Promise((resolve) => {
       this.port = new SerialPort(path)
       this.port.on("open", () => {
         resolve({ status: ResponseStatus.Ok })
+      })
+
+      this.port.on("close", () => {
+        this.eventEmitter.emit(EventName.Disconnected)
       })
     })
   }
@@ -27,7 +33,9 @@ class PhonePort {
     })
   }
 
-  on(eventName: EventName, listener: () => void): void {}
+  on(eventName: EventName, listener: () => void): void {
+    this.eventEmitter.on(eventName, listener)
+  }
 }
 
 export type CreatePhonePort = () => PhonePort
