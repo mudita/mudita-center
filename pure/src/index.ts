@@ -1,16 +1,9 @@
 import SerialPort = require("serialport")
+import { ConnectResponse, ConnectResponseStatus } from "./types"
+import PhonePort, { CreatePhonePort } from "./phone-port"
 
 interface Phones {
   id: string
-}
-
-export enum ConnectResponseStatus {
-  Ok = "ok",
-  Error = "error",
-}
-
-export interface ConnectResponse {
-  status: ConnectResponseStatus
 }
 
 export const productId = "0100"
@@ -33,8 +26,28 @@ class PureNode {
     return await SerialPort.list()
   }
 
-  connect(id: string): Promise<ConnectResponse>{
-    return Promise.resolve({status: ConnectResponseStatus.Error})
+  phonePorts: { [key: string]: PhonePort } = {}
+
+  constructor(private createPhonePort: CreatePhonePort) {}
+
+  async connect(id: string): Promise<ConnectResponse>{
+    const portList = await PureNode.getSerialPortList()
+    const port = portList.find(({ serialNumber }) => serialNumber === id)
+
+    if (port && this.phonePorts[id]) {
+      return {status: ConnectResponseStatus.Ok}
+    } else if (port) {
+      const phonePort =  this.createPhonePort();
+      const response = await phonePort.connect(port.path)
+
+      if(response.status === ConnectResponseStatus.Ok){
+        this.phonePorts[id] = phonePort
+      }
+
+      return response
+    } else {
+      return  {status: ConnectResponseStatus.Error}
+    }
   }
 
   portInit(cb: (phones: any[]) => void): void {}
