@@ -3,14 +3,16 @@ import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.en
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { mockData } from "App/__mocks__/calls-mock-data"
 import { intl } from "Renderer/utils/intl"
-import Calls from "Renderer/modules/phone/tabs/calls.component"
+import Calls, { CallsProps } from "Renderer/modules/phone/tabs/calls.component"
 
-const isTopicThreadOpened = jest.fn()
+const defaultProps: CallsProps = {
+  calls: mockData,
+  isTopicThreadOpened: jest.fn(),
+  isContactCreated: jest.fn(),
+}
 
 const renderer = () => {
-  return renderWithThemeAndIntl(
-    <Calls isTopicThreadOpened={isTopicThreadOpened} calls={mockData} />
-  )
+  return renderWithThemeAndIntl(<Calls {...defaultProps} />)
 }
 
 test("render correct amount of rows", () => {
@@ -36,7 +38,7 @@ test("when caller is unknown, displays only phone number + times missed", () => 
     examplesIndex
   ]
   expect(unknownsCallerCol).toHaveTextContent(
-    `${mockData[examplesIndex].caller.primaryPhoneNumber} (${mockData[examplesIndex].timesMissed})`
+    `${mockData[examplesIndex].caller.phoneNumber} (${mockData[examplesIndex].timesMissed})`
   )
 })
 

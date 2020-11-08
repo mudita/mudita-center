@@ -45,7 +45,8 @@ import Download from "Renderer/svg/download.svg"
 import DownloadWhite from "Renderer/svg/download-white.svg"
 import Calls from "Renderer/svg/phone.svg"
 import Connection from "Renderer/svg/connection.svg"
-import Contacts from "Renderer/svg/contacts.svg"
+import Contact from "Renderer/svg/contact.svg"
+import NewContact from "Renderer/svg/new-contact.svg"
 import Notes from "Renderer/svg/notes.svg"
 import Notifications from "Renderer/svg/notifications.svg"
 import Dial from "Renderer/svg/dial.svg"
@@ -149,7 +150,8 @@ export enum Type {
   Template,
   Calls,
   Connection,
-  Contacts,
+  Contact,
+  NewContact,
   Dial,
   Notes,
   Notifications,
@@ -304,8 +306,10 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Calls
     case Type.Connection:
       return Connection
-    case Type.Contacts:
-      return Contacts
+    case Type.Contact:
+      return Contact
+    case Type.NewContact:
+      return NewContact
     case Type.Dial:
       return Dial
     case Type.Notes:

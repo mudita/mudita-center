@@ -43,7 +43,8 @@ import { contactFactory } from "Renderer/providers/google/helpers"
 import { GooglePerson } from "Renderer/providers/google/typings"
 import { History, LocationState } from "history"
 import { useHistory } from "react-router-dom"
-import { CallerSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
+import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
+import findContactByPhoneNumber from "Renderer/modules/phone/find-contact-by-phone-number"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -60,11 +61,8 @@ export type PhoneProps = ContactActions &
     removeContact?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => Promise<void>
-    isTopicThreadOpened: (params: CallerSearchParams) => boolean
-    onMessage: (
-      history: History<LocationState>,
-      params: CallerSearchParams
-    ) => void
+    isTopicThreadOpened: (phoneNumber: string) => boolean
+    onMessage: (history: History<LocationState>, phoneNumber: string) => void
   } & Partial<Store>
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -85,8 +83,20 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     isTopicThreadOpened,
   } = props
   const history = useHistory()
-  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>()
-  const [newContact, setNewContact] = useState<NewContact>()
+  const searchParams = useURLSearchParams()
+  const phoneNumber = searchParams.get("phoneNumber") || ""
+  const activeContact = findContactByPhoneNumber(flatList, phoneNumber)
+  const initNewContact =
+    phoneNumber !== "" && activeContact === undefined
+      ? { ...defaultContact, primaryPhoneNumber: phoneNumber }
+      : undefined
+
+  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>(
+    activeContact
+  )
+  const [newContact, setNewContact] = useState<NewContact | undefined>(
+    initNewContact
+  )
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
   const [sync, setSync] = useState(1)
@@ -182,8 +192,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     }
   }
 
-  const handleMessage = (params: CallerSearchParams) =>
-    onMessage(history, params)
+  const handleMessage = (phoneNumber: string) => onMessage(history, phoneNumber)
 
   const openDeleteModal = (contact: Contact) => {
     const handleDelete = async () => {
@@ -405,6 +414,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           />
           {newContact && (
             <ContactEdit
+              contact={newContact as Contact}
               speedDialChosenList={speedDialChosenList}
               onCancel={cancelOrCloseContactHandler}
               onSpeedDialSettingsOpen={openSpeedDialModal}

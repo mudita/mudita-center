@@ -4,9 +4,14 @@ import React from "react"
 import Calls from "Renderer/modules/phone/tabs/calls.component"
 
 const isTopicThreadOpened = () => true
+const isContactCreated = () => true
 
 storiesOf("Views/Calls", module).add("Calls", () => (
   <div style={{ maxWidth: "97.5rem" }}>
-    <Calls isTopicThreadOpened={isTopicThreadOpened} calls={calls} />
+    <Calls
+      isContactCreated={isContactCreated}
+      isTopicThreadOpened={isTopicThreadOpened}
+      calls={calls}
+    />
   </div>
 ))

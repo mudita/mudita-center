@@ -1,10 +1,9 @@
 import Faker from "faker"
 import { groupBy, random, sample, times } from "lodash"
-import { CallStatus } from "Renderer/models/calls/calls.interface"
-import { Author } from "Renderer/models/messages/messages.interface"
+import { Call, Caller, CallStatus } from "Renderer/models/calls/calls.interface"
 import { resolveCallType } from "Renderer/components/rest/calls/call-details.helpers"
 
-const createCall = () => {
+const createCall = (): Call => {
   const status = sample([
     CallStatus.Missed,
     CallStatus.Incoming,
@@ -17,7 +16,7 @@ const createCall = () => {
       id: Faker.random.uuid(),
       firstName: Math.random() < 0.6 ? Faker.name.firstName() : "",
       lastName: Math.random() < 0.6 ? Faker.name.lastName() : "",
-      primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+      phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
     },
     duration: status === CallStatus.Missed ? 0 : Faker.random.number(500),
     date: Math.random() < 0.6 ? Faker.date.past() : Faker.date.recent(),
@@ -34,6 +33,12 @@ const createCall = () => {
 }
 
 export const calls = times(random(5, 15), createCall)
+export const unknownCalls = calls.map(
+  ({ caller: { id, phoneNumber }, ...rest }) => ({
+    caller: { id, phoneNumber },
+    ...rest,
+  })
+)
 
 const createText = () => ({
   id: Faker.random.uuid(),
@@ -42,25 +47,22 @@ const createText = () => ({
 
 export const templates = times(random(15, 25), createText)
 
-const generateEmptyContact = (): Author => ({
+const generateEmptyCaller = (): Caller => ({
   id: Faker.random.uuid(),
   firstName: "",
   lastName: "",
-  primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+  phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
 })
 
-const createAuthor = (): Author => generateEmptyContact()
+const createCaller = (): Caller => generateEmptyCaller()
 
-const createMessages = (author: Author) => {
+const createMessages = ({ id }: Caller) => {
   const interlocutor = Faker.random.boolean()
   return {
     author: interlocutor
-      ? author
+      ? { id }
       : {
           id: "123",
-          firstName: "John",
-          lastName: "Doe",
-          primaryPhoneNumber: "123 123 123",
         },
     id: Faker.random.uuid(),
     date: Faker.date.past(),
@@ -70,7 +72,7 @@ const createMessages = (author: Author) => {
 }
 
 const createTopic = () => {
-  const caller = createAuthor()
+  const caller = createCaller()
   const createMessagesWithAuthor = () => createMessages(caller)
   return {
     id: Faker.random.uuid(),

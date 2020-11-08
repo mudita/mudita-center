@@ -23,7 +23,6 @@ import {
   Input,
   Name,
 } from "Renderer/components/rest/phone/contact-details.styled"
-import { CallerSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
 
 const messages = defineMessages({
   favourites: { id: "view.name.phone.contacts.details.favourites" },
@@ -49,7 +48,7 @@ export interface ContactActions {
 export interface ContactDetailsActions {
   onEdit: (contact: Contact) => void
   onCall: (phoneNumber: string) => void
-  onMessage: (params: CallerSearchParams) => void
+  onMessage: (phoneNumber: string) => void
 }
 
 interface ContactDetailsProps
@@ -57,7 +56,7 @@ interface ContactDetailsProps
     ContactActions,
     ContactDetailsActions {
   contact?: Contact
-  isTopicThreadOpened: (params: CallerSearchParams) => boolean
+  isTopicThreadOpened: (phoneNumber: string) => boolean
 }
 
 export const phoneActions = (
@@ -106,8 +105,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const handleBlock = () => onBlock(contact)
     const handleUnblock = () => onUnblock(contact)
     const handleDelete = () => onDelete(contact)
-    const handleMessage = (phoneNumber: string) =>
-      onMessage({ id: contact.id, phoneNumber })
+    const handleMessage = (phoneNumber: string) => onMessage(phoneNumber)
 
     const icons = (
       <>
@@ -168,10 +166,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   defaultValue={contact.primaryPhoneNumber}
                   trailingIcons={phoneActions(
                     contact.primaryPhoneNumber,
-                    isTopicThreadOpened({
-                      id: contact.id,
-                      phoneNumber: contact.primaryPhoneNumber,
-                    }),
+                    isTopicThreadOpened(contact.primaryPhoneNumber),
                     onCall,
                     handleMessage
                   )}
@@ -182,10 +177,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                   defaultValue={contact.secondaryPhoneNumber}
                   trailingIcons={phoneActions(
                     contact.secondaryPhoneNumber,
-                    isTopicThreadOpened({
-                      id: contact.id,
-                      phoneNumber: contact.secondaryPhoneNumber,
-                    }),
+                    isTopicThreadOpened(contact.secondaryPhoneNumber),
                     onCall,
                     handleMessage
                   )}
