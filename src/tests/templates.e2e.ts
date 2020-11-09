@@ -21,7 +21,7 @@ test("menu takes user to correct page", async () => {
   expect(hash.value).toEqual(`#${URL_MAIN.messages}${URL_TABS.templates}`)
 })
 
-test("menu takes user to correct page", async () => {
+test("user can open the text editor", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).click()
   await app.client.$(`*[data-testid="icon-Templates"]`).click()
   expect(
@@ -35,7 +35,7 @@ test("menu takes user to correct page", async () => {
   ).toBe(true)
 })
 
-test("menu takes user to correct page", async () => {
+test("user can add value to the text area", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).click()
   await app.client.$(`*[data-testid="icon-Templates"]`).click()
   expect(
@@ -47,18 +47,4 @@ test("menu takes user to correct page", async () => {
   await app.client.$(`textarea`).click()
   await app.client.$(`textarea`).setValue(testText)
   expect(await app.client.$("textarea").getValue()).toBe(testText)
-})
-
-test("user can save the notes", async () => {
-  await app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).click()
-  await app.client.$(`*[data-testid="icon-Templates"]`).click()
-  await app.client
-    .$(`*[data-testid=${TemplatesTestIds.AddTemplateButton}]`)
-    .click()
-  await app.client.$(`textarea`).click()
-  await app.client.$(`textarea`).setValue(testText)
-  await app.client.$(`*[data-testid="save"`).click()
-  expect(await app.client.$(`textarea`).getText()).toBe(testText)
-  await app.client.$(`*[data-testid="icon-Close"`).click()
-  expect(await app.client.$(`role="listitem"`).getText()).toBe(testText)
 })
