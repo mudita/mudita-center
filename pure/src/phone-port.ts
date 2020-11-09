@@ -38,6 +38,10 @@ class PhonePort {
   on(eventName: EventName, listener: () => void): void {
     this.eventEmitter.on(eventName, listener)
   }
+
+  off(eventName: EventName, listener: () => void): void {
+    this.eventEmitter.off(eventName, listener)
+  }
 }
 
 export type CreatePhonePort = () => PhonePort

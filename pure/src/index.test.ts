@@ -52,8 +52,22 @@ test("disconnection when phone isn't connect return ok status", async () => {
 test("emits signals when the phone disconnects automatically", async (done) => {
   const [{ id }] = await PureNode.getPhones()
   await pureNode.connect(id)
-  await pureNode.on(id, EventName.Disconnected, done)
+  pureNode.on(id, EventName.Disconnected, done)
 
+  // emits fake disconnected event
+  await pureNode.disconnect(id)
+})
+
+test("unregister listener isn't trigger after emits event", async (done) => {
+  const [{ id }] = await PureNode.getPhones()
+  await pureNode.connect(id)
+  const listener = () => {
+    throw new Error()
+  }
+  pureNode.on(id, EventName.Disconnected, listener)
+  pureNode.off(id, EventName.Disconnected, listener)
+
+  pureNode.on(id, EventName.Disconnected, done)
   // emits fake disconnected event
   await pureNode.disconnect(id)
 })

@@ -43,6 +43,7 @@ class PureNode {
 
       if (response.status === ResponseStatus.Ok) {
         this.phonePortMap.set(id, phonePort)
+        phonePort.on(EventName.Disconnected, () => this.phonePortMap.delete(id))
       }
 
       return response
@@ -66,6 +67,13 @@ class PureNode {
   on(id: string, chanelName: EventName, listener: () => void): void {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) phonePort.on(chanelName, listener)
+  }
+
+  off(id: string, chanelName: EventName, listener: () => void) {
+    const phonePort = this.phonePortMap.get(id)
+    if (phonePort) {
+      phonePort.off(chanelName, listener)
+    }
   }
 }
 
