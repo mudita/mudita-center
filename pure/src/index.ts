@@ -1,7 +1,6 @@
 import SerialPort = require("serialport")
-import { EventName, Response, ResponseStatus, UnregisterListener } from "./types"
+import { EventName, Response, ResponseStatus } from "./types"
 import PhonePort, { createPhonePort, CreatePhonePort } from "./phone-port"
-import { noop } from "./utils"
 
 interface Phones {
   id: string
@@ -44,7 +43,7 @@ class PureNode {
 
       if (response.status === ResponseStatus.Ok) {
         this.phonePortMap.set(id, phonePort)
-        phonePort.on(EventName.Disconnected, () => this.phonePortMap.delete(id))
+        this.removePhonePortOnDisconnectionEvent(id)
       }
 
       return response
@@ -65,16 +64,10 @@ class PureNode {
     }
   }
 
-  on(id: string, chanelName: EventName, listener: () => void): UnregisterListener {
+  on(id: string, chanelName: EventName, listener: () => void) {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
       phonePort.on(chanelName, listener)
-
-      return () => {
-        phonePort.off(chanelName, listener)
-      }
-    } else{
-      return noop
     }
   }
 
@@ -82,6 +75,15 @@ class PureNode {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
       phonePort.off(chanelName, listener)
+    }
+  }
+
+  private removePhonePortOnDisconnectionEvent(id: string): void {
+    const phonePort = this.phonePortMap.get(id)
+    if (phonePort) {
+      const listener = () => this.phonePortMap.delete(id)
+      phonePort.on(EventName.Disconnected, listener)
+      phonePort.off(EventName.Disconnected, listener)
     }
   }
 }

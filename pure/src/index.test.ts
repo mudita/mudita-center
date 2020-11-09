@@ -2,7 +2,6 @@ import SerialPort = require("serialport")
 const MockBinding = require("@serialport/binding-mock")
 import PureNode, { productId, manufacturer } from "./index"
 import { EventName, ResponseStatus } from "./types"
-import { noop } from "./utils"
 
 SerialPort.Binding = MockBinding
 MockBinding.createPort("/dev/ROBOT", {
@@ -77,12 +76,13 @@ test("instance of phone port is removed after disconnected event", async (done) 
   const [{ id }] = await PureNode.getPhones()
   await pureNode.connect(id)
 
-  let unregister = noop;
-  unregister = pureNode.on(id, EventName.Disconnected, () => {
+  const listener = () => {
     expect((pureNode as any).phonePortMap.has(id)).toBeFalsy()
-    unregister()
+    pureNode.off(id, EventName.Disconnected, listener)
     done()
-  })
+  }
+
+  pureNode.on(id, EventName.Disconnected, listener)
 
   // emits fake disconnected event
   await pureNode.disconnect(id)
