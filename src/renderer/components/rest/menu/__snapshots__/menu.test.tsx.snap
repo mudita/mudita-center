@@ -543,33 +543,6 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
-        data-testid="music-link"
-        displaystyle="8"
-        href="#/music"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-MenuMusic"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.music
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
         data-testid="tools-link"
         displaystyle="8"
         href="#/tools"
@@ -589,6 +562,33 @@ exports[`matches snapshot 1`] = `
           class="c8 c9"
         >
           [value] view.name.tools
+        </p>
+      </a>
+    </div>
+    <div
+      class="c4"
+    >
+      <a
+        class="c5"
+        data-testid="music-link"
+        displaystyle="8"
+        href="#/music"
+        size="2"
+      >
+        <i
+          class="c6 c7"
+          data-testid="icon-MenuMusic"
+          height="3.2"
+          width="3.2"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </i>
+        <p
+          class="c8 c9"
+        >
+          [value] view.name.music
         </p>
       </a>
     </div>
