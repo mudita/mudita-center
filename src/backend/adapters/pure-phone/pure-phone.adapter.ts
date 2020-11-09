@@ -5,6 +5,7 @@ import DeviceResponse, {
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
+import { Filename } from "Renderer/interfaces/file-download.interface"
 
 class PurePhone extends PurePhoneAdapter {
   constructor(private pureNode: any, private ipcMain: MainProcessIpc) {
@@ -70,11 +71,8 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public updateOs(updateFilePath: string): any {
-    console.log("update click")
     try {
-      this.pureNode.uploadUpdateFile(
-        "/Users/kamilstaszewski/Desktop/update1.tar"
-      )
+      this.pureNode.uploadUpdateFile(updateFilePath)
     } catch (e) {
       return { status: DeviceResponseStatus.Error }
     }
@@ -88,7 +86,9 @@ class PurePhone extends PurePhoneAdapter {
             this.pureNode.fileUploadConfirmed()
           }
           if (Number(event.status) === 202) {
-            this.pureNode.startUpdate("update1.tar")
+            this.pureNode.startUpdate(
+              updateFilePath.split("/").pop() as Filename
+            )
           }
         }
         if (Number(event.endpoint) === 2) {

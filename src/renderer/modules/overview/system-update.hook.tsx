@@ -65,10 +65,10 @@ const useSystemUpdateFlow = (
     }
   }, [])
 
-  const updatePure = async () => {
+  const updatePure = async (filename: string) => {
     // TODO: Continue update process when Pure updates through USB become available
     console.log("Updating Pure OS...")
-    const response = await updateOs("/os-update/lala.zip")
+    const response = await updateOs(filename)
     // TODO: remove after implementing real phone update process
     await onUpdate({
       pureOsFileName: "",
@@ -98,7 +98,9 @@ const useSystemUpdateFlow = (
       true
     )
     modalService.preventClosingModal()
-    return delayResponse(downloadOsUpdateRequest(file))
+    return delayResponse(
+      downloadOsUpdateRequest(file.split("/").pop() as Filename)
+    )
   }
 
   const downloadSucceeded = (onOsUpdate: () => void) => {
@@ -138,8 +140,9 @@ const useSystemUpdateFlow = (
   }
 
   const install = async () => {
+    const { file } = await checkForUpdates(false, true)
     modalService.openModal(<UpdatingProgressModal />, true)
-    const pureUpdateResponse = await updatePure()
+    const pureUpdateResponse = await updatePure(file)
     if (isEqual(pureUpdateResponse, { status: DeviceResponseStatus.Ok })) {
       modalService.openModal(<UpdatingSuccessModal />, true)
     } else {
@@ -164,7 +167,7 @@ const useSystemUpdateFlow = (
   const initialCheck = async () => {
     try {
       const { available, file, size } = await checkForUpdates(false, true)
-
+      console.log(file)
       if (available) {
         if (await alreadyDownloadedCheck(file, size)) {
           onUpdate({ pureOsAvailable: true, pureOsDownloaded: true })
