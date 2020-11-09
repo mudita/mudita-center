@@ -13,6 +13,7 @@ import {
   ModalText,
   SyncButton,
 } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
+import { SyncContactsModalTestIds } from "Renderer/components/rest/sync-modals/sync-contacts-modal-test-ids.enum"
 
 interface SyncContactsModal {
   onClose?: () => void
@@ -48,6 +49,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
           })}
           Icon={Type.Google}
           onClick={onGoogleButtonClick}
+          data-testid={SyncContactsModalTestIds.GoogleButton}
         />
         <SyncButton
           displayStyle={DisplayStyle.Primary}

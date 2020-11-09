@@ -6,7 +6,7 @@ import { axiosConfig, localesUrl } from "App/common/configs/phrase"
 import logger from "App/main/utils/logger"
 
 const updateTranslations = async () => {
-  const language = settingsStore.get("language") as string
+  const language = settingsStore.get("language")
   const id = availableLanguages.find(({ code }) => code === language)?.id
   logger.info(`Preparing translation update for language "${language}"`)
 

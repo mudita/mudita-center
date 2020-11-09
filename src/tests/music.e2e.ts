@@ -11,8 +11,8 @@ beforeEach(async () => {
 afterEach(async () => {
   await stopApp(app)
 })
-
-test("menu button takes user to correct page", async () => {
+// TODO: Unskipp when view will be available in prod app
+test.skip("menu button takes user to correct page", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Music}]`).click()
   const hash = await app.client.execute(() => window.location.hash)
   expect(hash.value).toEqual(`#${URL_MAIN.music}`)

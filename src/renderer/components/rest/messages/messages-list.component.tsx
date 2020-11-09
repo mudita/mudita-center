@@ -18,7 +18,6 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import {
-  Author,
   Message as Msg,
   Topic,
 } from "Renderer/models/messages/messages.interface"
@@ -42,11 +41,12 @@ import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
-import MessageRowContainer from "Renderer/components/rest/messages/message-row-container.component"
+import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
 } from "Renderer/components/rest/animated-opacity/animated-opacity"
+import { Caller } from "Renderer/models/calls/calls.interface"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -149,7 +149,7 @@ type SelectHook = Pick<
 >
 
 export interface ActiveRow {
-  caller: Author
+  caller: Caller
   messages: Msg[]
 }
 
@@ -157,7 +157,7 @@ interface Props extends SelectHook {
   list: Topic[]
   openSidebar?: (row: Topic) => void
   activeRow?: Topic
-  onRemove: (ids: string[]) => void
+  onDeleteClick: (id: string) => void
   onToggleReadStatus: (ids: string[]) => void
 }
 
@@ -165,7 +165,7 @@ const MessagesList: FunctionComponent<Props> = ({
   activeRow,
   list,
   openSidebar = noop,
-  onRemove,
+  onDeleteClick,
   onToggleReadStatus,
   getRowStatus,
   toggleRow,
@@ -192,7 +192,7 @@ const MessagesList: FunctionComponent<Props> = ({
         const open = () => openSidebar(item)
         const nameAvailable = isNameAvailable(caller)
         const active = activeRow?.id === item.id
-        const remove = () => onRemove([id])
+        const emitDeleteClick = () => onDeleteClick(id)
         const toggleReadStatus = () => onToggleReadStatus([id])
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow key={id} ref={ref} selected={selected} active={active}>
@@ -214,9 +214,7 @@ const MessagesList: FunctionComponent<Props> = ({
             <MessageCol onClick={open} data-testid={MessagesListTestIds.Row}>
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {nameAvailable
-                    ? createFullName(caller)
-                    : caller.primaryPhoneNumber}
+                  {nameAvailable ? createFullName(caller) : caller.phoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {moment(lastMessage?.date).format("h:mm A")}
@@ -248,7 +246,7 @@ const MessagesList: FunctionComponent<Props> = ({
                     labelMessage={{
                       id: "component.dropdown.call",
                       values: {
-                        name: caller.firstName || caller.primaryPhoneNumber,
+                        name: caller.firstName || caller.phoneNumber,
                       },
                     }}
                     Icon={Type.Calls}
@@ -261,7 +259,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       labelMessage={{
                         id: "view.name.messages.dropdownContactDetails",
                       }}
-                      Icon={Type.Contacts}
+                      Icon={Type.Contact}
                       onClick={noop}
                       displayStyle={DisplayStyle.Dropdown}
                       data-testid="dropdown-contact-details"
@@ -271,7 +269,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       labelMessage={{
                         id: "view.name.messages.dropdownAddToContacts",
                       }}
-                      Icon={Type.Contacts}
+                      Icon={Type.Contact}
                       onClick={noop}
                       displayStyle={DisplayStyle.Dropdown}
                       data-testid="dropdown-add-to-contacts"
@@ -293,7 +291,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       id: "view.name.messages.dropdownDelete",
                     }}
                     Icon={Type.Delete}
-                    onClick={remove}
+                    onClick={emitDeleteClick}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-delete"
                   />
@@ -314,13 +312,13 @@ const MessagesList: FunctionComponent<Props> = ({
         )
 
         return (
-          <MessageRowContainer key={id} active={active}>
+          <ScrollAnchorContainer key={id} active={active}>
             <InView>
               {({ inView, ref }) =>
                 inView ? interactiveRow(ref) : placeholderRow(ref)
               }
             </InView>
-          </MessageRowContainer>
+          </ScrollAnchorContainer>
         )
       })}
     </Messages>

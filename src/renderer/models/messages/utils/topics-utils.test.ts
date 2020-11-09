@@ -2,7 +2,7 @@ import { searchTopics } from "Renderer/models/messages/utils/topics-utils"
 import { randomMockedList } from "Renderer/components/rest/messages/__mocks__/caller-data"
 
 test("searches value - first name", () => {
-  const searchValue = randomMockedList[0].caller.firstName
+  const searchValue = randomMockedList[0].caller.firstName as string
   expect(searchTopics(randomMockedList, searchValue)).toHaveLength(1)
 })
 
@@ -11,7 +11,7 @@ test("fails search - first name", () => {
 })
 
 test("searches value - last name", () => {
-  const searchValue = randomMockedList[0].caller.lastName
+  const searchValue = randomMockedList[0].caller.lastName as string
   expect(searchTopics(randomMockedList, searchValue)).toHaveLength(1)
 })
 
@@ -20,7 +20,7 @@ test("fails search - last name", () => {
 })
 
 test("searches value - phone number", () => {
-  const searchValue = randomMockedList[0].caller.primaryPhoneNumber
+  const searchValue = randomMockedList[0].caller.phoneNumber
   expect(searchTopics(randomMockedList, searchValue)).toHaveLength(1)
 })
 

@@ -76,7 +76,6 @@ const isOptionMatching = (item: Contact, query: string) => {
 
 const StyledInputSelect = styled(InputSelect)`
   label {
-    border: 0;
     padding-top: 1rem;
   }
 `
@@ -132,7 +131,9 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
         </Labels>
         {speedDialList.map((item: Record<number, Contact | undefined>, i) => {
           const speedDial = i + 1
-          const contact = item[speedDial]
+          const [selectedItem, setSelectedItem] = useState<Contact | undefined>(
+            item[speedDial]
+          )
 
           const onChange = (contact: Contact) => {
             const newItem = [contact.id, { ...contact, speedDial }] as [
@@ -146,6 +147,8 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
               )
               return [...filteredCurrentState, newItem]
             })
+
+            setSelectedItem(contact)
           }
 
           return (
@@ -155,11 +158,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                 <StyledInputSelect
                   searchable
                   items={availableContacts}
-                  selectedItem={
-                    contact
-                      ? contact
-                      : { firstName: intl.formatMessage(messages.none) }
-                  }
+                  selectedItem={selectedItem}
                   emptyItemValue={intl.formatMessage(messages.none)}
                   renderItemValue={renderItemValue}
                   renderListItem={renderListItem}
@@ -168,6 +167,8 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                   listStyles={css`
                     max-height: 30rem;
                   `}
+                  disabledItems={[selectedItem]}
+                  initialTransparentBorder
                 />
               </Col>
             </Row>

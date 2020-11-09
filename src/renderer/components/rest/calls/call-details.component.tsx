@@ -32,7 +32,6 @@ import {
   Input,
 } from "Renderer/components/rest/phone/contact-details.styled"
 import createRouterPath from "Renderer/utils/create-router-path"
-import { CallerSearchParams } from "Renderer/models/messages/utils/caller-utils.ts"
 
 const messages = defineMessages({
   today: { id: "view.name.phone.calls.today" },
@@ -40,20 +39,27 @@ const messages = defineMessages({
   date: { id: "view.name.phone.calls.date" },
   type: { id: "view.name.phone.calls.type" },
   information: { id: "view.name.phone.contacts.details.information" },
-  deleteCall: { id: "view.name.phone.contacts.details.deleteCall" },
-  contactDetails: { id: "view.name.phone.contacts.details.contactDetails" },
+  deleteCallLabel: { id: "view.name.phone.contacts.details.deleteCallLabel" },
+  contactCallLabel: { id: "view.name.phone.contacts.details.contactCallLabel" },
+  newContactCallLabel: {
+    id: "view.name.phone.contacts.details.newContactCallLabel",
+  },
 })
 
 interface ContactDetailsProps {
   calls: Details[]
   onClose: () => void
-  isTopicThreadOpened: (params: CallerSearchParams) => boolean
+  isTopicThreadOpened: (phoneNumber: string) => boolean
+  isContactCreated: (phoneNumber: string) => boolean
+  onDeleteClick: (id: string) => void
 }
 
 export const CallDetails = ({
   calls,
   onClose,
+  onDeleteClick,
   isTopicThreadOpened,
+  isContactCreated,
 }: ContactDetailsProps) => {
   const history = useHistory()
   return (
@@ -75,10 +81,20 @@ export const CallDetails = ({
           history.push(
             createRouterPath(URL_MAIN.messages, {
               phoneNumber,
-              id: details.caller.id,
             })
           )
         }
+        const redirectToContactsPage = () => {
+          history.push(
+            createRouterPath(URL_MAIN.contacts, {
+              phoneNumber: details.caller.phoneNumber,
+            })
+          )
+        }
+
+        const contactCreated = isContactCreated(details.caller.phoneNumber)
+
+        const emitDeleteClick = () => onDeleteClick(details.id)
 
         return (
           <CallWrapper key={index}>
@@ -89,7 +105,7 @@ export const CallDetails = ({
                   {details.caller.firstName} {details.caller.lastName}
                 </>
               ) : (
-                <>{details.caller.primaryPhoneNumber}</>
+                <>{details.caller.phoneNumber}</>
               )}
             </ContactName>
             <CallDescription
@@ -99,30 +115,36 @@ export const CallDetails = ({
             <ButtonWrapper>
               <Button
                 displayStyle={DisplayStyle.Dropdown}
-                label={intl.formatMessage(messages.deleteCall)}
-                onClick={noop}
+                label={intl.formatMessage(messages.deleteCallLabel)}
+                onClick={emitDeleteClick}
                 Icon={Type.Delete}
               />
-              <Button
-                displayStyle={DisplayStyle.Dropdown}
-                label="Contact details"
-                onClick={noop}
-                Icon={Type.Contacts}
-              />
+              {contactCreated ? (
+                <Button
+                  displayStyle={DisplayStyle.Dropdown}
+                  label={intl.formatMessage(messages.contactCallLabel)}
+                  onClick={redirectToContactsPage}
+                  Icon={Type.Contact}
+                />
+              ) : (
+                <Button
+                  displayStyle={DisplayStyle.Dropdown}
+                  label={intl.formatMessage(messages.newContactCallLabel)}
+                  onClick={redirectToContactsPage}
+                  Icon={Type.NewContact}
+                />
+              )}
             </ButtonWrapper>
             <>
               <AdditionalInfo>
-                {details.caller.primaryPhoneNumber && (
+                {details.caller.phoneNumber && (
                   <AdditionalInfoItem>
                     <InfoItemName message={messages.information} />
                     <Input
-                      value={details.caller.primaryPhoneNumber}
+                      value={details.caller.phoneNumber}
                       trailingIcons={phoneActions(
-                        details.caller.primaryPhoneNumber,
-                        isTopicThreadOpened({
-                          id: details.caller.id,
-                          phoneNumber: details.caller.primaryPhoneNumber,
-                        }),
+                        details.caller.phoneNumber,
+                        isTopicThreadOpened(details.caller.phoneNumber),
                         noop,
                         redirectToMessagesPage
                       )}

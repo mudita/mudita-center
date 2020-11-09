@@ -1,11 +1,13 @@
-export const mockedUnreadMessages = [
+import { Topic } from "Renderer/models/messages/messages.interface"
+
+export const mockedUnreadMessages: Topic[] = [
   {
     id: "8c7be257-fd82-4e2e-9b91-5dd8256f952c2222",
     caller: {
       id: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
       firstName: "Mukumbu",
       lastName: "Lulu",
-      primaryPhoneNumber: "+03 026 752 736",
+      phoneNumber: "+03 026 752 736",
     },
     unread: true,
     messages: [
@@ -126,7 +128,7 @@ export const mockedUnreadMessages = [
       id: "11a62a36da-7203-4ba4-a14a-51e4a3d617be",
       firstName: "Labumbo",
       lastName: "Buc",
-      primaryPhoneNumber: "+03 026 752 716",
+      phoneNumber: "+03 026 752 716",
     },
     unread: true,
     messages: [

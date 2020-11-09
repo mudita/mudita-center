@@ -2,14 +2,14 @@ import {
   StateProps,
   VisibilityFilter,
 } from "Renderer/models/calls/calls.interface"
-import { calls } from "App/renderer/components/core/table/table.fake-data"
+import { unknownCalls } from "App/renderer/components/core/table/table.fake-data"
 import { Slicer } from "@rematch/select"
 import { filterCalls } from "Renderer/models/calls/filter-calls"
 import { mockData } from "App/__mocks__/calls-mock-data"
 import { orderBy } from "lodash"
 
 const initalState: StateProps = {
-  calls: [...mockData, ...calls],
+  calls: [...mockData, ...unknownCalls],
   visibilityFilter: VisibilityFilter.All,
 }
 

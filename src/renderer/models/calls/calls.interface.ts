@@ -15,10 +15,9 @@ export enum VisibilityFilter {
   Missed = "missed",
 }
 
-export type Caller = Pick<
-  Contact,
-  "id" | "firstName" | "lastName" | "primaryPhoneNumber"
->
+export interface Caller extends Pick<Contact, "id" | "firstName" | "lastName"> {
+  phoneNumber: string
+}
 
 export interface Call {
   id: string

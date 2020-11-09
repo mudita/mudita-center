@@ -28,7 +28,7 @@ export const registerDownloadHelpHandler = () => {
     } else {
       syncConfig.initial = true
     }
-    return normalizeHelpData(await client.sync(syncConfig), locale as string)
+    return normalizeHelpData(await client.sync(syncConfig), locale)
   })
 }
 

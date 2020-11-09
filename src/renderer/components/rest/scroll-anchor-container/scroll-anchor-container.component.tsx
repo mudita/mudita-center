@@ -5,7 +5,7 @@ interface Props {
   active: boolean
 }
 
-const MessageRowContainer: FunctionComponent<Props> = ({
+const ScrollAnchorContainer: FunctionComponent<Props> = ({
   children,
   active,
 }) => {
@@ -18,4 +18,4 @@ const MessageRowContainer: FunctionComponent<Props> = ({
   return <div ref={ref}>{children}</div>
 }
 
-export default MessageRowContainer
+export default ScrollAnchorContainer

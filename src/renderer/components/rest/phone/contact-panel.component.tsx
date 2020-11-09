@@ -122,6 +122,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           displayStyle={DisplayStyle.Secondary}
           labelMessage={{ id: "view.name.phone.contacts.panel.manageButton" }}
           onClick={onManageButtonClick}
+          data-testid={ContactPanelTestIdsEnum.ManageButton}
         />
         <ButtonComponent
           labelMessage={{

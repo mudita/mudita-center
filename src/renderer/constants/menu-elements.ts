@@ -3,6 +3,8 @@ import { View, views } from "Renderer/constants/views"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 
+const productionEnvironment = process.env.NODE_ENV === "production"
+
 const messages = defineMessages({
   yourPure: { id: "menu.header.yourPure" },
   desktopApp: { id: "menu.header.desktopApp" },
@@ -25,8 +27,13 @@ const YOUR_PURE_BUTTONS = [
     icon: Type.MenuContacts,
     testId: MenuGroupTestIds.Contacts,
   },
-  { button: views.music, icon: Type.MenuMusic, testId: MenuGroupTestIds.Music },
   { button: views.tools, icon: Type.MenuTools, testId: MenuGroupTestIds.Tools },
+  {
+    button: views.music,
+    icon: Type.MenuMusic,
+    testId: MenuGroupTestIds.Music,
+    hidden: productionEnvironment,
+  },
   {
     button: views.calendar,
     icon: Type.Calendar,
@@ -42,13 +49,15 @@ const YOUR_PURE_BUTTONS = [
     icon: Type.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,
   },
+  { button: views.recoveryMode, icon: Type.MuditaLogo },
 ]
 
-const DESKTOP_APP_BUTTONS = [
+const DESKTOP_APP_BUTTONS: Item[] = [
   {
     button: views.tethering,
     icon: Type.MenuTethering,
     testId: MenuGroupTestIds.Tethering,
+    hidden: productionEnvironment,
   },
   { button: views.settings, icon: Type.MenuSettings },
   { button: views.help, icon: Type.MenuHelp, testId: MenuGroupTestIds.Help },
@@ -58,6 +67,7 @@ interface Item {
   button: typeof views[View]
   icon: Type
   testId?: MenuGroupTestIds
+  hidden?: boolean
 }
 
 export interface MenuElement {
@@ -74,10 +84,6 @@ export interface MenuElement {
 export const menuElements: MenuElement[] = [
   {
     items: [{ button: views[View.Onboarding], icon: Type.Send }],
-    devModeOnly: true,
-  },
-  {
-    items: [{ button: views[View.RecoveryMode], icon: Type.MuditaLogo }],
     devModeOnly: true,
   },
   {
