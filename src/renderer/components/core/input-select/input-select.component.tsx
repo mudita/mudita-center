@@ -28,6 +28,12 @@ import {
 } from "Renderer/components/core/list/list.component"
 import { IsItemMatching } from "Renderer/components/core/utils/is-item-matching"
 
+export enum InputSelectTestIds {
+  Icon = "input-select-icon",
+  List = "input-select-list",
+  ListItem = "input-select-list-item",
+}
+
 const ToggleIcon = styled.span<{ rotated?: boolean }>`
   cursor: pointer;
   transition: transform ${transitionTime("faster")}
@@ -36,7 +42,9 @@ const ToggleIcon = styled.span<{ rotated?: boolean }>`
   transform: rotateZ(${({ rotated }) => (rotated ? 180 : 0)}deg);
 `
 
-const SelectInputWrapper = styled.div`
+const SelectInputWrapper = styled.div<{
+  listStyles?: FlattenSimpleInterpolation
+}>`
   position: relative;
 
   label,
@@ -47,6 +55,7 @@ const SelectInputWrapper = styled.div`
 
   ${List} {
     position: absolute;
+    ${({ listStyles }) => listStyles};
   }
 `
 
@@ -55,22 +64,10 @@ export type ListItemProps = {
   onMouseDown: (event: MouseEvent) => void
   selected: boolean
   disabled: boolean
+  "data-testid"?: string
 }
 
 export type RenderInputSelectListItem<T> = RenderListItem<T, ListItemProps>
-
-export interface InputSelectProps extends Partial<InputProps> {
-  selectedItem?: any
-  items: any[]
-  disabledItems?: any[]
-  emptyItemValue?: ItemValue
-  renderItemValue?: (item: any) => ItemValue
-  renderListItem?: RenderInputSelectListItem<any>
-  isItemMatching?: IsItemMatching
-  onSelect?: (item: any) => void
-  listStyles?: FlattenSimpleInterpolation
-  searchable?: boolean
-}
 
 interface InputSelectListProps {
   expanded: boolean
@@ -97,9 +94,13 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
   ...props
 }) => {
   return (
-    <List {...props}>
+    <List {...props} data-testid={InputSelectTestIds.List}>
       {emptyItemValue && (
-        <ListItem onClick={onEmptyItemValueClick} empty>
+        <ListItem
+          onClick={onEmptyItemValueClick}
+          empty
+          data-testid={InputSelectTestIds.ListItem}
+        >
           {emptyItemValue}
         </ListItem>
       )}
@@ -123,6 +124,7 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
                 selected,
                 disabled,
                 onMouseDown,
+                "data-testid": InputSelectTestIds.ListItem,
               },
             })}
           </Fragment>
@@ -130,6 +132,21 @@ const InputSelectList: FunctionComponent<InputSelectListProps> = ({
       })}
     </List>
   )
+}
+
+export interface InputSelectProps extends Partial<InputProps> {
+  selectedItem?: any
+  items: any[]
+  disabledItems?: any[]
+  emptyItemValue?: ItemValue
+  renderItemValue?: (item: any) => ItemValue
+  renderListItem?: RenderInputSelectListItem<any>
+  isItemMatching?: IsItemMatching
+  onSelect?: (item: any) => void
+  listStyles?: FlattenSimpleInterpolation
+  searchable?: boolean
+  minCharsToShowResults?: number
+  clearOnBlur?: boolean
 }
 
 const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
@@ -145,8 +162,11 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   listStyles,
   inputRef,
   searchable,
+  minCharsToShowResults = 0,
+  clearOnBlur = false,
   onBlur = noop,
   onFocus = noop,
+  type = "text",
   ...rest
 }) => {
   const [focus, setFocus] = useState(false)
@@ -163,6 +183,13 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
     }
   }
 
+  const resetSearchValue = () => setSearchValue(null)
+
+  const handleSelect = (item: typeof items[number]) => {
+    onSelect(item)
+    resetSearchValue()
+  }
+
   const handleFocus = (event: FocusEvent<HTMLInputElement>) => {
     onFocus(event)
     setFocus(true)
@@ -175,8 +202,6 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   const filteredItems = searchable
     ? items.filter((item) => isItemMatching(item, searchValue || ""))
     : items
-
-  const resetSearchValue = () => setSearchValue(null)
 
   const toggleList = (event: MouseEvent) => {
     event.stopPropagation()
@@ -205,19 +230,19 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
       rotated={focus}
       onClick={toggleList}
       onMouseDown={preventExpanding}
-      data-testid="actionIcon"
+      data-testid={InputSelectTestIds.Icon}
     >
       <Icon width={1} type={Type.ArrowDown} />
     </ToggleIcon>
   )
 
   return (
-    <SelectInputWrapper className={className}>
+    <SelectInputWrapper className={className} listStyles={listStyles}>
       <InputText
         {...rest}
-        type="text"
+        type={type}
         value={getInputValue()}
-        trailingIcons={[toggleIcon]}
+        trailingIcons={type === "text" ? [toggleIcon] : []}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -225,18 +250,20 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
         readOnly={!searchable}
         focusable
       />
-      <InputSelectList
-        selectedItem={selectedItem}
-        disabledItems={disabledItems}
-        emptyItemValue={emptyItemValue}
-        items={filteredItems}
-        renderListItem={renderListItem}
-        searchString={searchValue || ""}
-        expanded={focus}
-        onTransitionEnd={resetSearchValue}
-        onEmptyItemValueClick={resetSelection}
-        onItemClick={onSelect}
-      />
+      {(searchValue?.length || 0) >= minCharsToShowResults && (
+        <InputSelectList
+          selectedItem={selectedItem}
+          disabledItems={disabledItems}
+          emptyItemValue={emptyItemValue}
+          items={filteredItems}
+          renderListItem={renderListItem}
+          searchString={searchValue || ""}
+          expanded={focus}
+          onTransitionEnd={clearOnBlur ? resetSearchValue : noop}
+          onEmptyItemValueClick={resetSelection}
+          onItemClick={handleSelect}
+        />
+      )}
     </SelectInputWrapper>
   )
 }

@@ -1,4 +1,4 @@
-import React, { Ref } from "react"
+import React, { MutableRefObject, Ref } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import {
@@ -32,6 +32,8 @@ const Table = styled(BaseSelectableCalls)`
 
 export interface EventsListProps extends UseTableSelect<CalendarEvent> {
   events: CalendarEvent[]
+  listRef: MutableRefObject<HTMLDivElement>
+  selectedEventIndex?: number
 }
 
 const EventsList: FunctionComponent<EventsListProps> = ({
@@ -39,6 +41,8 @@ const EventsList: FunctionComponent<EventsListProps> = ({
   getRowStatus,
   toggleRow,
   noneRowsSelected,
+  listRef,
+  selectedEventIndex,
 }) => (
   <Table>
     <Group>
@@ -48,66 +52,68 @@ const EventsList: FunctionComponent<EventsListProps> = ({
           <FormattedMessage {...messages.allEvents} />
         </Col>
       </Labels>
-      {events.map((event) => {
-        const { id, name, startDate, endDate } = event
-        const { selected } = getRowStatus(event)
+      <div ref={listRef}>
+        {events.map((event, index) => {
+          const { id, name, startDate, endDate } = event
+          const { selected } = getRowStatus(event)
 
-        const onCheckboxToggle = () => toggleRow(event)
+          const onCheckboxToggle = () => toggleRow(event)
 
-        const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-          <Row ref={ref}>
-            <Col>
-              <Checkbox
-                checked={selected}
-                onChange={onCheckboxToggle}
-                size={Size.Small}
-                visible={!noneRowsSelected}
-              />
-            </Col>
-            <Col>{name}</Col>
-            <Col>
-              <TimeWindow startDate={startDate} endDate={endDate} />
-            </Col>
-            <Col>
-              <FormattedDate
-                value={startDate}
-                year="numeric"
-                month="long"
-                day="2-digit"
-                weekday="long"
-              />
-            </Col>
-          </Row>
-        )
+          const interactiveRow = (ref: Ref<HTMLDivElement>) => (
+            <Row ref={ref} active={selectedEventIndex === index}>
+              <Col>
+                <Checkbox
+                  checked={selected}
+                  onChange={onCheckboxToggle}
+                  size={Size.Small}
+                  visible={!noneRowsSelected}
+                />
+              </Col>
+              <Col>{name}</Col>
+              <Col>
+                <TimeWindow startDate={startDate} endDate={endDate} />
+              </Col>
+              <Col>
+                <FormattedDate
+                  value={startDate}
+                  year="numeric"
+                  month="long"
+                  day="2-digit"
+                  weekday="long"
+                />
+              </Col>
+            </Row>
+          )
 
-        const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-          <Row ref={ref}>
-            <Col />
-            <Col>
-              <TextPlaceholder
-                charsCount={Faker.random.number({ min: 10, max: 30 })}
-              />
-            </Col>
-            <Col>
-              <TextPlaceholder charsCount={8} /> -{" "}
-              <TextPlaceholder charsCount={8} />
-            </Col>
-            <Col>
-              <TextPlaceholder
-                charsCount={Faker.random.number({ min: 20, max: 30 })}
-              />
-            </Col>
-          </Row>
-        )
+          const placeholderRow = (ref: Ref<HTMLDivElement>) => (
+            <Row ref={ref} active={selectedEventIndex === index}>
+              <Col />
+              <Col>
+                <TextPlaceholder
+                  charsCount={Faker.random.number({ min: 10, max: 30 })}
+                />
+              </Col>
+              <Col>
+                <TextPlaceholder charsCount={8} /> -{" "}
+                <TextPlaceholder charsCount={8} />
+              </Col>
+              <Col>
+                <TextPlaceholder
+                  charsCount={Faker.random.number({ min: 20, max: 30 })}
+                />
+              </Col>
+            </Row>
+          )
 
-        return (
-          <InView key={id}>
-            {({ inView, ref }) =>
-              inView ? interactiveRow(ref) : placeholderRow(ref)
-            }
-          </InView>
-        )
-      })}
+          return (
+            <InView key={id}>
+              {({ inView, ref }) =>
+                inView ? interactiveRow(ref) : placeholderRow(ref)
+              }
+            </InView>
+          )
+        })}
+      </div>
     </Group>
   </Table>
 )
