@@ -72,19 +72,25 @@ const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
           <SettingsToggler toggleValue={appAutostart} onToggle={setAutostart} />
         </ActionsWrapper>
       </SettingsTableRow>
-      <SettingsTableRow
-        checkMode={false}
-        data-testid={SettingsTestIds.TableRow}
-      >
-        <Data>
-          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.tetheringLabel" />
-          </SettingsLabel>
-        </Data>
-        <ActionsWrapper>
-          <SettingsToggler toggleValue={appTethering} onToggle={setTethering} />
-        </ActionsWrapper>
-      </SettingsTableRow>
+      {/*TODO: Remove condition below when tethering will be available on phone*/}
+      {process.env.NODE_ENV === "development" && (
+        <SettingsTableRow
+          checkMode={false}
+          data-testid={SettingsTestIds.TableRow}
+        >
+          <Data>
+            <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+              <FormattedMessage id="view.name.settings.tetheringLabel" />
+            </SettingsLabel>
+          </Data>
+          <ActionsWrapper>
+            <SettingsToggler
+              toggleValue={appTethering}
+              onToggle={setTethering}
+            />
+          </ActionsWrapper>
+        </SettingsTableRow>
+      )}
     </SettingsWrapper>
   )
 }

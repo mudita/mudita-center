@@ -27,7 +27,7 @@ const myFormat = combine(
 
 const logger = createLogger({
   level: "info",
-  format: format.json(),
+  format: format.combine(format.metadata(), format.json()),
   exitOnError: false,
   transports: [
     ...(app
