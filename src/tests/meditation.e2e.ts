@@ -23,18 +23,72 @@ test("menu button takes user to correct page", async () => {
 test("initial filter is set to weekly", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Meditation}]`).click()
   expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Monthly}]`)
+  ).toBeFalsy()
+  expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Yearly}]`)
+  ).toBeFalsy()
+  expect(
     await app.client.isExisting(`*[data-testid=${ChartType.Weekly}]`)
   ).toBeTruthy()
+})
+
+test("filter can be changed back to weekly", async () => {
+  await app.client.$(`*[data-testid=${MenuGroupTestIds.Meditation}]`).click()
   expect(
     await app.client.isExisting(`*[data-testid=${ChartType.Monthly}]`)
   ).toBeFalsy()
   expect(
     await app.client.isExisting(`*[data-testid=${ChartType.Yearly}]`)
   ).toBeFalsy()
+  expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Weekly}]`)
+  ).toBeTruthy()
+  await app.client
+    .$(`//button[p[text()='${localeEn["view.generic.monthly"]}']]`)
+    .click()
+  await app.client
+    .$(`//button[p[text()='${localeEn["view.generic.weekly"]}']]`)
+    .click()
+  expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Monthly}]`)
+  ).toBeFalsy()
+  expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Yearly}]`)
+  ).toBeFalsy()
+  expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Weekly}]`)
+  ).toBeTruthy()
 })
 
-test("should ", async () => {
+test("filter can be changed to monthly", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Meditation}]`).click()
-  await app.client.isVisible(`//*[text()=${localeEn["view.generic.yearly"]}]`)
-  await app.client.$(`//*[text()=${localeEn["view.generic.yearly"]}]`).click()
+  await app.client
+    .$(`//button[p[text()='${localeEn["view.generic.monthly"]}']]`)
+    .click()
+  expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Weekly}]`)
+  ).toBeFalsy()
+  expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Yearly}]`)
+  ).toBeFalsy()
+  expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Monthly}]`)
+  ).toBeTruthy()
+})
+
+test("filter can be changed to yearly", async () => {
+  await app.client.$(`*[data-testid=${MenuGroupTestIds.Meditation}]`).click()
+  await app.client
+    .$(`//button[p[text()='${localeEn["view.generic.yearly"]}']]`)
+    .click()
+  expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Weekly}]`)
+  ).toBeFalsy()
+  expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Monthly}]`)
+  ).toBeFalsy()
+  expect(
+    await app.client.isExisting(`*[data-testid=${ChartType.Yearly}]`)
+  ).toBeTruthy()
 })
