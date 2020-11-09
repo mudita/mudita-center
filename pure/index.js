@@ -346,7 +346,6 @@ class PureNode {
   }
 
   startUpdate(updateFileFromUser) {
-    console.log("start Update", updateFileFromUser)
     this.updateFile = updateFileFromUser
     this.isPolling = false
     debug("updateFile: %s", this.updateFile)

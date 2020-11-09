@@ -167,7 +167,6 @@ const useSystemUpdateFlow = (
   const initialCheck = async () => {
     try {
       const { available, file, size } = await checkForUpdates(false, true)
-      console.log(file)
       if (available) {
         if (await alreadyDownloadedCheck(file, size)) {
           onUpdate({ pureOsAvailable: true, pureOsDownloaded: true })
