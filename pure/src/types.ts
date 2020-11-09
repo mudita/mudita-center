@@ -9,6 +9,7 @@ export interface Response {
 
 export enum EventName {
   Disconnected = "disconnected",
+  DataReceived = "dataReceived",
 }
 
 export enum Endpoint {

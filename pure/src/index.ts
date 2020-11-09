@@ -64,6 +64,16 @@ class PureNode {
     }
   }
 
+  async request(id: string, config: RequestConfig): Promise<Response> {
+    const phonePort = this.phonePortMap.get(id)
+    if (phonePort) {
+      return phonePort.request(config)
+
+    } else {
+      return Promise.resolve({ status: ResponseStatus.Error })
+    }
+  }
+
   on(id: string, chanelName: EventName, listener: () => void) {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
@@ -76,10 +86,6 @@ class PureNode {
     if (phonePort) {
       phonePort.off(chanelName, listener)
     }
-  }
-
-  request(id: string, config: RequestConfig): Promise<Response> {
-    return Promise.resolve({ status: ResponseStatus.Error })
   }
 
   private removePhonePortOnDisconnectionEvent(id: string): void {

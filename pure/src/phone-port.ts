@@ -1,20 +1,26 @@
 import SerialPort from "serialport"
-import { EventName, Response, ResponseStatus } from "./types"
 import { EventEmitter } from "events"
+import { EventName, RequestConfig, Response, ResponseStatus } from "./types"
+import { createValidRequest, portData } from "./parser"
+
+// uuid not working with pure contract
+// timestamp not working with pure contract
+let requestId = 10
 
 class PhonePort {
   port: SerialPort | undefined
   eventEmitter = new EventEmitter()
 
-  connect(path: string): Promise<Response> {
+  async connect(path: string): Promise<Response> {
     return new Promise((resolve) => {
       this.port = new SerialPort(path, (error) => {
         if (error) resolve({ status: ResponseStatus.Error })
         resolve({ status: ResponseStatus.Ok })
       })
 
-      // data listener have to be register to allow works well for close event 🙈
-      this.port.on("data", () => {})
+      this.port.on("data", (event) => {
+        this.eventEmitter.emit(EventName.DataReceived, event)
+      })
 
       this.port.on("close", () => {
         this.eventEmitter.emit(EventName.Disconnected)
@@ -22,7 +28,7 @@ class PhonePort {
     })
   }
 
-  disconnect(): Promise<Response> {
+  async disconnect(): Promise<Response> {
     return new Promise((resolve) => {
       if (this.port === undefined) {
         resolve({ status: ResponseStatus.Ok })
@@ -31,6 +37,29 @@ class PhonePort {
           if (error) resolve({ status: ResponseStatus.Error })
           resolve({ status: ResponseStatus.Ok })
         })
+      }
+    })
+  }
+
+  async request(config: RequestConfig): Promise<Response> {
+    return new Promise((resolve) => {
+      if (this.port === undefined) {
+      } else {
+        const uuid = requestId++
+
+        const listener = async (event: any) => {
+          const response = await portData(event)
+
+          if(response.uuid === String(uuid)){
+            this.eventEmitter.off(EventName.DataReceived, listener)
+            resolve(response)
+          }
+        }
+
+        this.eventEmitter.on(EventName.DataReceived, listener)
+
+        const request = createValidRequest({ ...config, uuid })
+        this.port.write(request)
       }
     })
   }
