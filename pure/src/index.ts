@@ -9,7 +9,7 @@ interface Phones {
 export const productId = "0622"
 export const manufacturer = "Mudita"
 
-class BasePureNode {
+class PureNode {
   static async getPhones(): Promise<Phones[]> {
     const portList = await PureNode.getSerialPortList()
 
@@ -19,8 +19,7 @@ class BasePureNode {
           portInfo.manufacturer === manufacturer &&
           portInfo.productId === productId
       )
-      .map(({ serialNumber = "" }) => serialNumber)
-      .map((serialNumber) => ({ id: String(serialNumber) }))
+      .map(({ serialNumber = "" }) => ({ id: String(serialNumber) }))
   }
 
   private static async getSerialPortList(): Promise<SerialPort.PortInfo[]> {
@@ -97,7 +96,7 @@ class BasePureNode {
   }
 }
 
-export default class PureNode extends BasePureNode {
+export default class extends PureNode {
   constructor() {
     super(createPhonePort)
   }
