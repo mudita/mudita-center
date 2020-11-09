@@ -10,3 +10,5 @@ export interface Response {
 export enum EventName {
   Disconnected = "disconnected",
 }
+
+export type UnregisterListener = () => void

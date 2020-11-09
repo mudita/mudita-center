@@ -1,6 +1,7 @@
 import SerialPort = require("serialport")
-import { EventName, Response, ResponseStatus } from "./types"
+import { EventName, Response, ResponseStatus, UnregisterListener } from "./types"
 import PhonePort, { createPhonePort, CreatePhonePort } from "./phone-port"
+import { noop } from "./utils"
 
 interface Phones {
   id: string
@@ -27,7 +28,7 @@ class PureNode {
     return await SerialPort.list()
   }
 
-  phonePortMap: Map<string, PhonePort> = new Map()
+  private phonePortMap: Map<string, PhonePort> = new Map()
 
   constructor(private createPhonePort: CreatePhonePort) {}
 
@@ -64,9 +65,17 @@ class PureNode {
     }
   }
 
-  on(id: string, chanelName: EventName, listener: () => void): void {
+  on(id: string, chanelName: EventName, listener: () => void): UnregisterListener {
     const phonePort = this.phonePortMap.get(id)
-    if (phonePort) phonePort.on(chanelName, listener)
+    if (phonePort) {
+      phonePort.on(chanelName, listener)
+
+      return () => {
+        phonePort.off(chanelName, listener)
+      }
+    } else{
+      return noop
+    }
   }
 
   off(id: string, chanelName: EventName, listener: () => void) {
