@@ -1,5 +1,5 @@
 import SerialPort = require("serialport")
-import { EventName, Response, ResponseStatus } from "./types"
+import { EventName, RequestConfig, Response, ResponseStatus } from "./types"
 import PhonePort, { createPhonePort, CreatePhonePort } from "./phone-port"
 
 interface Phones {
@@ -76,6 +76,10 @@ class PureNode {
     if (phonePort) {
       phonePort.off(chanelName, listener)
     }
+  }
+
+  request(id: string, config: RequestConfig): Promise<Response> {
+    return Promise.resolve({ status: ResponseStatus.Error })
   }
 
   private removePhonePortOnDisconnectionEvent(id: string): void {
