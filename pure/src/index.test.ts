@@ -18,9 +18,15 @@ beforeEach(async () => {
   pureNode = new PureNode()
 })
 
+afterEach(async (done) => {
+  // unlocking a close port
+  await pureNode.disconnect("1")
+  done()
+})
+
 test("allow a listing of all visible Pure phones", async () => {
   const [phones] = await PureNode.getPhones()
-  expect(phones?.id).toEqual(1)
+  expect(phones?.id).toEqual("1")
 })
 
 test("allow to an established connection with a given telephone using the unique device identifier", async () => {

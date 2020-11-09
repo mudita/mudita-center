@@ -20,7 +20,7 @@ class PureNode {
           portInfo.productId === productId
       )
       .map(({ serialNumber = "" }) => serialNumber)
-      .map((serialNumber) => ({ id: serialNumber }))
+      .map((serialNumber) => ({ id: String(serialNumber) }))
   }
 
   private static async getSerialPortList(): Promise<SerialPort.PortInfo[]> {
@@ -33,7 +33,7 @@ class PureNode {
 
   async connect(id: string): Promise<Response> {
     const portList = await PureNode.getSerialPortList()
-    const port = portList.find(({ serialNumber }) => serialNumber === id)
+    const port = portList.find(({ serialNumber }) => String(serialNumber) === id)
 
     if (port && this.phonePortMap.has(id)) {
       return { status: ResponseStatus.Ok }
@@ -55,10 +55,9 @@ class PureNode {
   async disconnect(id: string): Promise<Response> {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
-      const response = await phonePort.disconnect()
       this.phonePortMap.delete(id)
 
-      return response
+      return await phonePort.disconnect()
     } else {
       return { status: ResponseStatus.Ok }
     }

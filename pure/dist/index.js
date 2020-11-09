@@ -77,7 +77,7 @@ var PureNode = /** @class */ (function () {
                                 var _b = _a.serialNumber, serialNumber = _b === void 0 ? "" : _b;
                                 return serialNumber;
                             })
-                                .map(function (serialNumber) { return ({ id: serialNumber }); })];
+                                .map(function (serialNumber) { return ({ id: String(serialNumber) }); })];
                 }
             });
         });
@@ -102,7 +102,7 @@ var PureNode = /** @class */ (function () {
                         portList = _a.sent();
                         port = portList.find(function (_a) {
                             var serialNumber = _a.serialNumber;
-                            return serialNumber === id;
+                            return String(serialNumber) === id;
                         });
                         if (!(port && this.phonePortMap.has(id))) return [3 /*break*/, 2];
                         return [2 /*return*/, { status: types_1.ResponseStatus.Ok }];
@@ -114,6 +114,7 @@ var PureNode = /** @class */ (function () {
                         response = _a.sent();
                         if (response.status === types_1.ResponseStatus.Ok) {
                             this.phonePortMap.set(id, phonePort);
+                            this.removePhonePortOnDisconnectionEvent(id);
                         }
                         return [2 /*return*/, response];
                     case 4: return [2 /*return*/, { status: types_1.ResponseStatus.Error }];
@@ -123,26 +124,58 @@ var PureNode = /** @class */ (function () {
     };
     PureNode.prototype.disconnect = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var phonePort, response;
+            var phonePort;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         phonePort = this.phonePortMap.get(id);
                         if (!phonePort) return [3 /*break*/, 2];
-                        return [4 /*yield*/, phonePort.disconnect()];
-                    case 1:
-                        response = _a.sent();
                         this.phonePortMap.delete(id);
-                        return [2 /*return*/, response];
+                        return [4 /*yield*/, phonePort.disconnect()];
+                    case 1: return [2 /*return*/, _a.sent()];
                     case 2: return [2 /*return*/, { status: types_1.ResponseStatus.Ok }];
                 }
             });
         });
     };
+    PureNode.prototype.request = function (id, config) {
+        return __awaiter(this, void 0, void 0, function () {
+            var phonePort;
+            return __generator(this, function (_a) {
+                phonePort = this.phonePortMap.get(id);
+                if (phonePort) {
+                    return [2 /*return*/, phonePort.request(config)];
+                }
+                else {
+                    return [2 /*return*/, Promise.resolve({ status: types_1.ResponseStatus.Error })];
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
     PureNode.prototype.on = function (id, chanelName, listener) {
         var phonePort = this.phonePortMap.get(id);
-        if (phonePort)
+        if (phonePort) {
             phonePort.on(chanelName, listener);
+        }
+    };
+    PureNode.prototype.off = function (id, chanelName, listener) {
+        var phonePort = this.phonePortMap.get(id);
+        if (phonePort) {
+            phonePort.off(chanelName, listener);
+        }
+    };
+    PureNode.prototype.removePhonePortOnDisconnectionEvent = function (id) {
+        var _this = this;
+        var phonePort = this.phonePortMap.get(id);
+        if (phonePort) {
+            var listener = function () {
+                console.log("listener: ", id);
+                _this.phonePortMap.delete(id);
+            };
+            phonePort.on(types_1.EventName.Disconnected, listener);
+            phonePort.off(types_1.EventName.Disconnected, listener);
+        }
     };
     return PureNode;
 }());
