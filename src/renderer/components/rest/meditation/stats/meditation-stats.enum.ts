@@ -7,7 +7,7 @@ export enum MeditationStatsTestIds {
 }
 
 export enum ChartType {
-  Weekly,
-  Monthly,
-  Yearly,
+  Weekly = "weekly",
+  Monthly = "monthly",
+  Yearly = "yearly",
 }
