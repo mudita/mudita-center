@@ -1,2 +1,6 @@
 node_modules
 
+dist/*
+!dist/index.d.ts
+!dist/types.d.ts
+!dist/index.jd

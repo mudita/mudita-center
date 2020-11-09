@@ -1,0 +1,3 @@
+{
+    "*.{ts,tsx}": ["npm run build", "prettier --write", "npm run lint", git add],
+}

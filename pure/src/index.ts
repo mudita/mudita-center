@@ -32,7 +32,9 @@ class PureNode {
 
   async connect(id: string): Promise<Response> {
     const portList = await PureNode.getSerialPortList()
-    const port = portList.find(({ serialNumber }) => String(serialNumber) === id)
+    const port = portList.find(
+      ({ serialNumber }) => String(serialNumber) === id
+    )
 
     if (port && this.phonePortMap.has(id)) {
       return { status: ResponseStatus.Ok }
@@ -66,7 +68,6 @@ class PureNode {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
       return phonePort.request(config)
-
     } else {
       return Promise.resolve({ status: ResponseStatus.Error })
     }
