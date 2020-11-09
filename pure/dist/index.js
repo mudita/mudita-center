@@ -169,10 +169,7 @@ var PureNode = /** @class */ (function () {
         var _this = this;
         var phonePort = this.phonePortMap.get(id);
         if (phonePort) {
-            var listener = function () {
-                console.log("listener: ", id);
-                _this.phonePortMap.delete(id);
-            };
+            var listener = function () { return _this.phonePortMap.delete(id); };
             phonePort.on(types_1.EventName.Disconnected, listener);
             phonePort.off(types_1.EventName.Disconnected, listener);
         }

@@ -125,3 +125,7 @@ export async function portData(data: any): Promise<any> {
     // debug("read end")
   })
 }
+
+export function getNewUUID() {
+  return Math.floor(Math.random() * 10000)
+}

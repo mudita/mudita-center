@@ -9,7 +9,7 @@ interface Phones {
 export const productId = "0622"
 export const manufacturer = "Mudita"
 
-class PureNode {
+class BasePureNode {
   static async getPhones(): Promise<Phones[]> {
     const portList = await PureNode.getSerialPortList()
 
@@ -97,7 +97,7 @@ class PureNode {
   }
 }
 
-export default class extends PureNode {
+export default class PureNode extends BasePureNode {
   constructor() {
     super(createPhonePort)
   }

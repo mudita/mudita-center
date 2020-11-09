@@ -1,11 +1,7 @@
 import SerialPort from "serialport"
 import { EventEmitter } from "events"
 import { EventName, RequestConfig, Response, ResponseStatus } from "./types"
-import { createValidRequest, portData } from "./parser"
-
-// uuid not working with pure contract
-// timestamp not working with pure contract
-let requestId = 10
+import { createValidRequest, getNewUUID, portData } from "./parser"
 
 class PhonePort {
   port: SerialPort | undefined
@@ -45,7 +41,10 @@ class PhonePort {
     return new Promise((resolve) => {
       if (this.port === undefined) {
       } else {
-        const uuid = requestId++
+        // TODO: check that UUID has any requirements in the contract
+        // uuid not working with pure contract
+        // timestamp not working with pure contract
+        const uuid = getNewUUID()
 
         const listener = async (event: any) => {
           const response = await portData(event)
