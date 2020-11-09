@@ -55,12 +55,12 @@ var types_1 = require("./types");
 var phone_port_1 = require("./phone-port");
 exports.productId = "0622";
 exports.manufacturer = "Mudita";
-var PureNode = /** @class */ (function () {
-    function PureNode(createPhonePort) {
+var BasePureNode = /** @class */ (function () {
+    function BasePureNode(createPhonePort) {
         this.createPhonePort = createPhonePort;
         this.phonePortMap = new Map();
     }
-    PureNode.getPhones = function () {
+    BasePureNode.getPhones = function () {
         return __awaiter(this, void 0, void 0, function () {
             var portList;
             return __generator(this, function (_a) {
@@ -82,7 +82,7 @@ var PureNode = /** @class */ (function () {
             });
         });
     };
-    PureNode.getSerialPortList = function () {
+    BasePureNode.getSerialPortList = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -92,7 +92,7 @@ var PureNode = /** @class */ (function () {
             });
         });
     };
-    PureNode.prototype.connect = function (id) {
+    BasePureNode.prototype.connect = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var portList, port, phonePort, response;
             return __generator(this, function (_a) {
@@ -122,7 +122,7 @@ var PureNode = /** @class */ (function () {
             });
         });
     };
-    PureNode.prototype.disconnect = function (id) {
+    BasePureNode.prototype.disconnect = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var phonePort;
             return __generator(this, function (_a) {
@@ -138,7 +138,7 @@ var PureNode = /** @class */ (function () {
             });
         });
     };
-    PureNode.prototype.request = function (id, config) {
+    BasePureNode.prototype.request = function (id, config) {
         return __awaiter(this, void 0, void 0, function () {
             var phonePort;
             return __generator(this, function (_a) {
@@ -153,19 +153,19 @@ var PureNode = /** @class */ (function () {
             });
         });
     };
-    PureNode.prototype.on = function (id, chanelName, listener) {
+    BasePureNode.prototype.on = function (id, channelName, listener) {
         var phonePort = this.phonePortMap.get(id);
         if (phonePort) {
-            phonePort.on(chanelName, listener);
+            phonePort.on(channelName, listener);
         }
     };
-    PureNode.prototype.off = function (id, chanelName, listener) {
+    BasePureNode.prototype.off = function (id, channelName, listener) {
         var phonePort = this.phonePortMap.get(id);
         if (phonePort) {
-            phonePort.off(chanelName, listener);
+            phonePort.off(channelName, listener);
         }
     };
-    PureNode.prototype.removePhonePortOnDisconnectionEvent = function (id) {
+    BasePureNode.prototype.removePhonePortOnDisconnectionEvent = function (id) {
         var _this = this;
         var phonePort = this.phonePortMap.get(id);
         if (phonePort) {
@@ -174,13 +174,13 @@ var PureNode = /** @class */ (function () {
             phonePort.off(types_1.EventName.Disconnected, listener);
         }
     };
-    return PureNode;
+    return BasePureNode;
 }());
-var default_1 = /** @class */ (function (_super) {
-    __extends(default_1, _super);
-    function default_1() {
+var PureNode = /** @class */ (function (_super) {
+    __extends(PureNode, _super);
+    function PureNode() {
         return _super.call(this, phone_port_1.createPhonePort) || this;
     }
-    return default_1;
-}(PureNode));
-exports.default = default_1;
+    return PureNode;
+}(BasePureNode));
+exports.default = PureNode;

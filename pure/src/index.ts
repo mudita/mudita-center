@@ -73,17 +73,17 @@ class BasePureNode {
     }
   }
 
-  on(id: string, chanelName: EventName, listener: () => void) {
+  on(id: string, channelName: EventName, listener: () => void) {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
-      phonePort.on(chanelName, listener)
+      phonePort.on(channelName, listener)
     }
   }
 
-  off(id: string, chanelName: EventName, listener: () => void) {
+  off(id: string, channelName: EventName, listener: () => void) {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
-      phonePort.off(chanelName, listener)
+      phonePort.off(channelName, listener)
     }
   }
 
