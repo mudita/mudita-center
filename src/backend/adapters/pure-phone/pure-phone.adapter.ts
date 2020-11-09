@@ -6,6 +6,7 @@ import DeviceResponse, {
 import { MainProcessIpc } from "electron-better-ipc"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Filename } from "Renderer/interfaces/file-download.interface"
+import { Constants } from "pure"
 
 class PurePhone extends PurePhoneAdapter {
   constructor(private pureNode: any, private ipcMain: MainProcessIpc) {
@@ -18,9 +19,7 @@ class PurePhone extends PurePhoneAdapter {
     this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)
   }
 
-  private emitConnectedDeviceSignal = (event: any): void => {
-    console.log({ event })
-
+  private emitConnectedDeviceSignal = (): void => {
     this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
   }
 
@@ -55,7 +54,6 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public connectDevice(): Promise<DeviceResponse> {
-    console.log("connect")
     return new Promise((resolve) => {
       this.pureNode.portInit((phones: any[]) => {
         const phone = phones[0]
@@ -78,7 +76,7 @@ class PurePhone extends PurePhoneAdapter {
     }
     return new Promise((resolve) => {
       this.pureNode.on("data", (event: any) => {
-        if (event.endpoint === 3) {
+        if (event.endpoint === Constants.enpoint.filesystemUpload) {
           if (Number(event.body.status) === 500) {
             resolve({ status: DeviceResponseStatus.Error })
           }
@@ -91,11 +89,14 @@ class PurePhone extends PurePhoneAdapter {
             )
           }
         }
-        if (Number(event.endpoint) === 2) {
+        if (Number(event.endpoint) === Constants.enpoint.update) {
           if (event.body.status === "Ready for reset") {
             resolve({ status: DeviceResponseStatus.Ok })
           }
-          if (Number(event.body.status) === 500) {
+          if (
+            Number(event.body.status) ===
+            Constants.errorCode.internalServerError
+          ) {
             resolve({ status: DeviceResponseStatus.Error })
           }
         }
