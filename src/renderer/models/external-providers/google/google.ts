@@ -20,7 +20,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 import { noop } from "Renderer/utils/noop"
 
 export const googleEndpoints = {
-  people: "https://people.googleapis.com/v1/people",
+  people: "https://people.googleapis.com/v1",
   calendars: "https://www.googleapis.com/calendar/v3",
 }
 
@@ -143,6 +143,18 @@ export const createStore = () => ({
       }
 
       return mapCalendars(data.items)
+    },
+    async getContacts(_: undefined, rootState: any) {
+      logger.info("Getting Google contacts")
+
+      const { data } = await this.requestWrapper<GoogleCalendarsSuccess>(
+        {
+          url: `${googleEndpoints.people}/people/me/connections?personFields=names`,
+        },
+        rootState
+      )
+
+      console.log(data)
     },
     async getEvents(calendarId: string, rootState: ExternalProvidersState) {
       logger.info("Getting Google events")

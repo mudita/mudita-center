@@ -17,6 +17,7 @@ import {
   getFlatList,
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
+import externalProvidersStore from "Renderer/store/external-providers"
 
 export const initialState: Phone = {
   db: {},
@@ -95,6 +96,9 @@ export default {
    * about phone sync flow at the moment.
    */
   effects: {
+    async loadContacts() {
+      await externalProvidersStore.dispatch.google.getContacts()
+    },
     async addContact() {
       await simulateWriteToPhone()
     },

@@ -81,6 +81,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     savingContact,
     setProviderData,
     isTopicThreadOpened,
+    loadContacts,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
