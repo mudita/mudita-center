@@ -27,7 +27,9 @@ export declare enum Endpoint {
     Factory = 6,
     Contacts = 7,
     Messages = 8,
-    Callog = 9
+    Callog = 9,
+    File = 100,
+    PureUpdate = 101
 }
 export declare enum Method {
     Get = 1,
@@ -35,8 +37,15 @@ export declare enum Method {
     Put = 3,
     Delete = 4
 }
+export declare enum BodyCommand {
+    Download = "download"
+}
 export interface RequestConfig {
     endpoint: Endpoint;
     method: Method;
     body?: any;
+    file?: string;
+}
+export declare enum FileResponseStatus {
+    Ok = "0"
 }

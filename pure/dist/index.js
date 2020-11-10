@@ -53,7 +53,7 @@ exports.manufacturer = exports.productId = void 0;
 var SerialPort = require("serialport");
 var types_1 = require("./types");
 var phone_port_1 = require("./phone-port");
-exports.productId = "0622";
+exports.productId = "0100";
 exports.manufacturer = "Mudita";
 var PureNode = /** @class */ (function () {
     function PureNode(createPhonePort) {

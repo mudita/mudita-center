@@ -5,7 +5,7 @@ import { DeviceInfo } from "./endpoints/device-info.types";
 interface Phones {
     id: string;
 }
-export declare const productId = "0622";
+export declare const productId = "0100";
 export declare const manufacturer = "Mudita";
 declare class PureNode {
     private createPhonePort;
@@ -44,6 +44,16 @@ declare class PureNode {
         method: Method.Delete;
         body: Pick<Contact, "id">;
     }): Promise<Response<string>>;
+    request(id: string, config: {
+        endpoint: Endpoint.PureUpdate;
+        method: Method.Post;
+        file: string;
+    }): Promise<Response>;
+    request(id: string, config: {
+        endpoint: Endpoint.File;
+        method: Method.Post;
+        file: string;
+    }): Promise<Response>;
     request(id: string, config: RequestConfig): Promise<Response<any>>;
     on(id: string, channelName: EventName, listener: () => void): void;
     off(id: string, channelName: EventName, listener: () => void): void;

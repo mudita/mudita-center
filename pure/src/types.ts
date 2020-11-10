@@ -33,6 +33,10 @@ export enum Endpoint {
   Contacts = 7,
   Messages = 8,
   Callog = 9,
+
+  // lib endpoint
+  File = 100,
+  PureUpdate = 101
 }
 
 export enum Method {
@@ -42,8 +46,17 @@ export enum Method {
   Delete = 4,
 }
 
+export enum BodyCommand {
+  Download= "download"
+}
+
 export interface RequestConfig {
   endpoint: Endpoint
   method: Method
   body?: any
+  file?: string
+}
+
+export enum FileResponseStatus {
+  Ok = '0',
 }

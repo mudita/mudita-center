@@ -15,7 +15,7 @@ interface Phones {
   id: string
 }
 
-export const productId = "0622"
+export const productId = "0100"
 export const manufacturer = "Mudita"
 
 class PureNode {
@@ -102,6 +102,16 @@ class PureNode {
     method: Method.Delete
     body: Pick<Contact, "id">
   }): Promise<Response<string>>
+  async request(id:string, config: {
+    endpoint: Endpoint.PureUpdate
+    method: Method.Post
+    file: string
+  }): Promise<Response>
+  async request(id:string, config: {
+    endpoint: Endpoint.File
+    method: Method.Post
+    file: string
+  }): Promise<Response>
   async request(id:string, config: RequestConfig): Promise<Response<any>>
   async request(id: string, config: RequestConfig): Promise<Response<any>>{
     const phonePort = this.phonePortMap.get(id)
