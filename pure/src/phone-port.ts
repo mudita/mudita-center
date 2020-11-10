@@ -10,7 +10,7 @@ class PhonePort {
   async connect(path: string): Promise<Response> {
     return new Promise((resolve) => {
       this.port = new SerialPort(path, (error) => {
-        if (error) resolve({ status: ResponseStatus.Error })
+        if (error) resolve({ status: ResponseStatus.ConnectionError })
         resolve({ status: ResponseStatus.Ok })
       })
 
@@ -30,14 +30,14 @@ class PhonePort {
         resolve({ status: ResponseStatus.Ok })
       } else {
         this.port.close((error) => {
-          if (error) resolve({ status: ResponseStatus.Error })
+          if (error) resolve({ status: ResponseStatus.ConnectionError })
           resolve({ status: ResponseStatus.Ok })
         })
       }
     })
   }
 
-  async request(config: RequestConfig): Promise<Response> {
+  async request(config: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
       if (this.port === undefined) {
       } else {
@@ -49,7 +49,7 @@ class PhonePort {
         const listener = async (event: any) => {
           const response = await portData(event)
 
-          if(response.uuid === String(uuid)){
+          if (response.uuid === String(uuid)) {
             this.eventEmitter.off(EventName.DataReceived, listener)
             resolve(response)
           }

@@ -120,5 +120,5 @@ test("request method return throw error if phone isn't  connected", async () => 
     endpoint: Endpoint.DeviceInfo,
     method: Method.Get,
   })
-  expect(response.status).toEqual(ResponseStatus.Error)
+  expect(response.status).toEqual(ResponseStatus.ConnectionIsClosed)
 })

@@ -116,7 +116,7 @@ var PureNode = /** @class */ (function () {
                             this.removePhonePortOnDisconnectionEvent(id);
                         }
                         return [2 /*return*/, response];
-                    case 4: return [2 /*return*/, { status: types_1.ResponseStatus.Error }];
+                    case 4: return [2 /*return*/, { status: types_1.ResponseStatus.ConnectionIsClosed }];
                 }
             });
         });
@@ -146,7 +146,7 @@ var PureNode = /** @class */ (function () {
                     return [2 /*return*/, phonePort.request(config)];
                 }
                 else {
-                    return [2 /*return*/, Promise.resolve({ status: types_1.ResponseStatus.Error })];
+                    return [2 /*return*/, Promise.resolve({ status: types_1.ResponseStatus.ConnectionIsClosed })];
                 }
                 return [2 /*return*/];
             });

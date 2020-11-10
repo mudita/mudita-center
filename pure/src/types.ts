@@ -1,10 +1,20 @@
 export enum ResponseStatus {
-  Ok = "ok",
-  Error = "error",
+  Ok = 200,
+  Accepted = 202,
+  BadRequest = 400,
+  NotAcceptable = 406,
+  InternalServerError = 500,
+
+  // lib status
+  ConnectionIsClosed = 501,
+  ConnectionError = 502,
 }
 
-export interface Response {
+export interface Response<BODY = undefined> {
   status: ResponseStatus
+  body?: BODY
+  endpoint?: string
+  uuid?: string
 }
 
 export enum EventName {

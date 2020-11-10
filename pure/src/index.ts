@@ -1,5 +1,13 @@
 import SerialPort = require("serialport")
-import { EventName, RequestConfig, Response, ResponseStatus } from "./types"
+import {
+  Endpoint,
+  EventName,
+  Method,
+  RequestConfig,
+  Response,
+  ResponseStatus,
+} from "./types"
+import { DeviceInfo } from "./device-info-endpoint.types"
 import PhonePort, { createPhonePort, CreatePhonePort } from "./phone-port"
 
 interface Phones {
@@ -49,7 +57,7 @@ class PureNode {
 
       return response
     } else {
-      return { status: ResponseStatus.Error }
+      return { status: ResponseStatus.ConnectionIsClosed }
     }
   }
 
@@ -64,12 +72,17 @@ class PureNode {
     }
   }
 
-  async request(id: string, config: RequestConfig): Promise<Response> {
+  async request(id:string, config: {
+    endpoint: Endpoint.DeviceInfo
+    method: Method.Get
+  }): Promise<Response<DeviceInfo>>
+  async request(id:string, config: RequestConfig): Promise<Response<any>>
+  async request(id: string, config: RequestConfig): Promise<Response<any>>{
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
       return phonePort.request(config)
     } else {
-      return Promise.resolve({ status: ResponseStatus.Error })
+      return Promise.resolve({ status: ResponseStatus.ConnectionIsClosed })
     }
   }
 
