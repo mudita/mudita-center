@@ -35,7 +35,7 @@ const fakeState = {
   },
   simCards: [],
   networkName: "Orange",
-  osUpdateDate: 1459832991883,
+  osUpdateDate: "2020-01-14T11:31:08.244Z",
   language: "en-US",
 }
 
