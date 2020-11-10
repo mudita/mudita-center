@@ -1,7 +1,10 @@
 import { random } from "lodash"
 import Button from "Renderer/components/core/button/button.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
+import {
+  Store as BasicInfoInitialState,
+  StoreValues as BasicInfoValues,
+} from "Renderer/models/basic-info/interfaces"
 import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
 import React, { ReactElement, useEffect, useState } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
@@ -24,8 +27,8 @@ import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
 import logger from "App/main/utils/logger"
 
 // TODO: remove after implementing real phone update process
-interface FakeUpdatedStatus {
-  fakeUpdatedStatus?: () => void
+interface UpdateBasicInfo {
+  updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
 }
 
 /**
@@ -77,7 +80,7 @@ interface OverviewDevModeProps {
 const Overview: FunctionComponent<
   BasicInfoInitialState &
     PhoneUpdateStore &
-    FakeUpdatedStatus &
+    UpdateBasicInfo &
     AppSettings &
     OverviewDevModeProps &
     DevMode
@@ -90,7 +93,7 @@ const Overview: FunctionComponent<
   disconnectDevice = noop,
   lastBackup,
   osVersion,
-  osUpdateDate = 0,
+  osUpdateDate = "2020-01-14T11:31:08.244Z",
   pureOsFileName = "",
   pureOsAvailable,
   pureOsDownloaded,
@@ -109,7 +112,7 @@ const Overview: FunctionComponent<
     },
   ],
   networkName,
-  fakeUpdatedStatus = noop,
+  updateBasicInfo = noop,
   language,
 }) => {
   const [count, setCount] = useState<number>(0)
@@ -139,7 +142,7 @@ const Overview: FunctionComponent<
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     new Date(osUpdateDate).toISOString(),
     updatePhoneOsInfo,
-    fakeUpdatedStatus
+    updateBasicInfo
   )
 
   useEffect(() => {
