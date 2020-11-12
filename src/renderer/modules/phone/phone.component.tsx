@@ -38,13 +38,12 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
-import { getPeople } from "Renderer/providers/google/people"
-import { contactFactory } from "Renderer/providers/google/helpers"
-import { GooglePerson } from "Renderer/providers/google/typings"
 import { History, LocationState } from "history"
 import { useHistory } from "react-router-dom"
 import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "Renderer/modules/phone/find-contact-by-phone-number"
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import delayResponse from "@appnroll/delay-response"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -75,11 +74,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     flatList,
     speedDialChosenList,
     onSearchTermChange,
-    onManageButtonClick,
     onCall,
     onMessage,
     savingContact,
-    setProviderData,
     isTopicThreadOpened,
     loadContacts,
   } = props
@@ -100,7 +97,18 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   )
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
-  const [sync, setSync] = useState(1)
+  const [provider, setProvider] = useState<Provider | undefined>()
+  const setGoogleProvider = async () => {
+    setProvider(Provider.Google)
+    try {
+      if (loadContacts) {
+        await delayResponse(loadContacts())
+      }
+      await openProgressSyncModal()
+    } catch {
+      await openFailureSyncModal()
+    }
+  }
   const {
     selectedRows,
     allRowsSelected,
@@ -113,12 +121,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   useEffect(() => {
     setContacts(contactList)
   }, [contactList])
-
-  useEffect(() => {
-    if (loadContacts) {
-      loadContacts()
-    }
-  }, [])
 
   useEffect(() => {
     if (editedContact) {
@@ -314,68 +316,17 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           id: "view.generic.button.cancel",
         })}
         onFailure={openFailureSyncModal}
-        onSuccess={syncGoogleContacts}
-        failed={sync % 3 === 0}
+        onSuccess={openSuccessSyncModal}
         icon={Type.SynchronizeContacts}
       />
     )
   }
 
-  const syncGoogleContacts = async () => {
-    try {
-      const {
-        data: { connections },
-      } = await getPeople()
-
-      if (connections && connections.length > 0) {
-        let added = 0
-        let duplicates = 0
-
-        connections.forEach((contact: GooglePerson) => {
-          const newContact = contactFactory(contact)
-          if (addContact && newContact) {
-            /**
-             * looking for duplicates will require more elaborate strategy,
-             * this is just for show
-             */
-            const unique = typeof getContact(newContact.id) === "undefined"
-            if (unique) {
-              addContact(newContact)
-              added++
-            } else {
-              // apply merge
-              duplicates++
-            }
-          }
-        })
-
-        console.log("Added contacts: ", added)
-        console.log("Duplicated contacts: ", duplicates)
-      } else {
-        console.log("No new contacts to add.")
-      }
-      openSuccessSyncModal()
-    } catch {
-      openFailureSyncModal()
-    }
-  }
-
-  const handleGoogleAuth = async () => {
-    await onManageButtonClick(setProviderData)
-
-    try {
-      await openProgressSyncModal()
-    } catch {
-      await openFailureSyncModal()
-    }
-  }
-
   const openSyncModal = async () => {
-    setSync((value) => value + 1)
     modalService.openModal(
       <SyncContactsModal
         onAppleButtonClick={openProgressSyncModal}
-        onGoogleButtonClick={handleGoogleAuth}
+        onGoogleButtonClick={setGoogleProvider}
       />
     )
   }

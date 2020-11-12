@@ -105,6 +105,7 @@ export default {
     async loadContacts() {
       const contacts = await externalProvidersStore.dispatch.google.getContacts()
       dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
+      return contacts
     },
     async addContact() {
       await simulateWriteToPhone()

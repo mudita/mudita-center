@@ -87,7 +87,7 @@ interface StoreEffects {
   readonly addContact?: (contact: Contact) => void
   readonly editContact?: (id: ContactID, data: Contact) => void
   readonly deleteContacts?: (contacts: Contact[]) => void
-  readonly loadContacts?: () => void
+  readonly loadContacts: () => Promise<Phone>
 }
 
 export type Store = StoreEffects & StoreData & StoreSelectors
