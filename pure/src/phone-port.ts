@@ -15,9 +15,8 @@ import {
 import { createValidRequest, getNewUUID, portData } from "./parser"
 
 class PhonePort {
-  port: SerialPort | undefined
-  eventEmitter = new EventEmitter()
-
+  private port: SerialPort | undefined
+  private eventEmitter = new EventEmitter()
   private isPolling = true
 
   async connect(path: string): Promise<Response> {

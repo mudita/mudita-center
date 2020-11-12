@@ -1,7 +1,7 @@
-import { Endpoint, EventName, Method, RequestConfig, Response } from "./types";
 import { CreatePhonePort } from "./phone-port";
 import { Contact, CountBodyResponse } from "./endpoints/contact.types";
 import { DeviceInfo } from "./endpoints/device-info.types";
+import { Endpoint, EventName, Method, RequestConfig, Response } from "./types";
 interface Phones {
     id: string;
 }
@@ -10,6 +10,7 @@ export declare const manufacturer = "Mudita";
 declare class PureNode {
     private createPhonePort;
     static getPhones(): Promise<Phones[]>;
+    private static isMuditaPurePhone;
     private static getSerialPortList;
     private phonePortMap;
     constructor(createPhonePort: CreatePhonePort);

@@ -48,11 +48,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.manufacturer = exports.productId = void 0;
-var SerialPort = require("serialport");
-var types_1 = require("./types");
+var serialport_1 = __importDefault(require("serialport"));
 var phone_port_1 = require("./phone-port");
+var types_1 = require("./types");
 exports.productId = "0100";
 exports.manufacturer = "Mudita";
 var PureNode = /** @class */ (function () {
@@ -69,10 +72,7 @@ var PureNode = /** @class */ (function () {
                     case 1:
                         portList = _a.sent();
                         return [2 /*return*/, portList
-                                .filter(function (portInfo) {
-                                return portInfo.manufacturer === exports.manufacturer &&
-                                    portInfo.productId === exports.productId;
-                            })
+                                .filter(PureNode.isMuditaPurePhone)
                                 .map(function (_a) {
                                 var _b = _a.serialNumber, serialNumber = _b === void 0 ? "" : _b;
                                 return ({ id: String(serialNumber) });
@@ -81,11 +81,14 @@ var PureNode = /** @class */ (function () {
             });
         });
     };
+    PureNode.isMuditaPurePhone = function (portInfo) {
+        return (portInfo.manufacturer === exports.manufacturer && portInfo.productId === exports.productId);
+    };
     PureNode.getSerialPortList = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, SerialPort.list()];
+                    case 0: return [4 /*yield*/, serialport_1.default.list()];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -168,9 +171,11 @@ var PureNode = /** @class */ (function () {
         var _this = this;
         var phonePort = this.phonePortMap.get(id);
         if (phonePort) {
-            var listener = function () { return _this.phonePortMap.delete(id); };
-            phonePort.on(types_1.EventName.Disconnected, listener);
-            phonePort.off(types_1.EventName.Disconnected, listener);
+            var listener_1 = function () {
+                _this.phonePortMap.delete(id);
+                phonePort.off(types_1.EventName.Disconnected, listener_1);
+            };
+            phonePort.on(types_1.EventName.Disconnected, listener_1);
         }
     };
     return PureNode;

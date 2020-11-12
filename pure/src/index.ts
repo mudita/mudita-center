@@ -1,4 +1,7 @@
-import SerialPort = require("serialport")
+import SerialPort, { PortInfo } from "serialport"
+import PhonePort, { createPhonePort, CreatePhonePort } from "./phone-port"
+import { Contact, CountBodyResponse } from "./endpoints/contact.types"
+import { DeviceInfo } from "./endpoints/device-info.types"
 import {
   Endpoint,
   EventName,
@@ -7,9 +10,6 @@ import {
   Response,
   ResponseStatus,
 } from "./types"
-import PhonePort, { createPhonePort, CreatePhonePort } from "./phone-port"
-import { Contact, CountBodyResponse } from "./endpoints/contact.types"
-import { DeviceInfo } from "./endpoints/device-info.types"
 
 interface Phones {
   id: string
@@ -23,15 +23,17 @@ class PureNode {
     const portList = await PureNode.getSerialPortList()
 
     return portList
-      .filter(
-        (portInfo) =>
-          portInfo.manufacturer === manufacturer &&
-          portInfo.productId === productId
-      )
+      .filter(PureNode.isMuditaPurePhone)
       .map(({ serialNumber = "" }) => ({ id: String(serialNumber) }))
   }
 
-  private static async getSerialPortList(): Promise<SerialPort.PortInfo[]> {
+  private static isMuditaPurePhone(portInfo: PortInfo): boolean {
+    return (
+      portInfo.manufacturer === manufacturer && portInfo.productId === productId
+    )
+  }
+
+  private static async getSerialPortList(): Promise<PortInfo[]> {
     return await SerialPort.list()
   }
 
@@ -73,47 +75,71 @@ class PureNode {
     }
   }
 
-  async request(id:string, config: {
-    endpoint: Endpoint.DeviceInfo
-    method: Method.Get
-  }): Promise<Response<DeviceInfo>>
-  async request(id:string, config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-    body: true
-  }): Promise<Response<CountBodyResponse>>
-  async request(id:string, config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-    body: number
-  }): Promise<Response<Contact[]>>
-  async request(id:string, config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Post
-    body: Contact
-  }): Promise<Response<Contact>>
-  async request(id:string, config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Put
-    body: Contact
-  }): Promise<Response<Contact>>
-  async request(id:string, config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Delete
-    body: Pick<Contact, "id">
-  }): Promise<Response<string>>
-  async request(id:string, config: {
-    endpoint: Endpoint.PureUpdate
-    method: Method.Post
-    file: string
-  }): Promise<Response>
-  async request(id:string, config: {
-    endpoint: Endpoint.File
-    method: Method.Post
-    file: string
-  }): Promise<Response>
-  async request(id:string, config: RequestConfig): Promise<Response<any>>
-  async request(id: string, config: RequestConfig): Promise<Response<any>>{
+  async request(
+    id: string,
+    config: {
+      endpoint: Endpoint.DeviceInfo
+      method: Method.Get
+    }
+  ): Promise<Response<DeviceInfo>>
+  async request(
+    id: string,
+    config: {
+      endpoint: Endpoint.Contacts
+      method: Method.Get
+      body: true
+    }
+  ): Promise<Response<CountBodyResponse>>
+  async request(
+    id: string,
+    config: {
+      endpoint: Endpoint.Contacts
+      method: Method.Get
+      body: number
+    }
+  ): Promise<Response<Contact[]>>
+  async request(
+    id: string,
+    config: {
+      endpoint: Endpoint.Contacts
+      method: Method.Post
+      body: Contact
+    }
+  ): Promise<Response<Contact>>
+  async request(
+    id: string,
+    config: {
+      endpoint: Endpoint.Contacts
+      method: Method.Put
+      body: Contact
+    }
+  ): Promise<Response<Contact>>
+  async request(
+    id: string,
+    config: {
+      endpoint: Endpoint.Contacts
+      method: Method.Delete
+      body: Pick<Contact, "id">
+    }
+  ): Promise<Response<string>>
+  async request(
+    id: string,
+    config: {
+      endpoint: Endpoint.PureUpdate
+      method: Method.Post
+      file: string
+    }
+  ): Promise<Response>
+  async request(
+    id: string,
+    config: {
+      endpoint: Endpoint.File
+      method: Method.Post
+      file: string
+    }
+  ): Promise<Response>
+  async request(id: string, config: RequestConfig): Promise<Response<any>>
+  async request(id: string, config: RequestConfig): Promise<Response<any>> {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
       return phonePort.request(config)
@@ -122,14 +148,14 @@ class PureNode {
     }
   }
 
-  on(id: string, channelName: EventName, listener: () => void) {
+  on(id: string, channelName: EventName, listener: () => void): void {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
       phonePort.on(channelName, listener)
     }
   }
 
-  off(id: string, channelName: EventName, listener: () => void) {
+  off(id: string, channelName: EventName, listener: () => void): void {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
       phonePort.off(channelName, listener)
@@ -139,9 +165,11 @@ class PureNode {
   private removePhonePortOnDisconnectionEvent(id: string): void {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
-      const listener = () => this.phonePortMap.delete(id)
+      const listener = () => {
+        this.phonePortMap.delete(id)
+        phonePort.off(EventName.Disconnected, listener)
+      }
       phonePort.on(EventName.Disconnected, listener)
-      phonePort.off(EventName.Disconnected, listener)
     }
   }
 }
