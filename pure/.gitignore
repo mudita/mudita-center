@@ -2,5 +2,5 @@ node_modules
 
 dist/*
 !dist/index.d.ts
-!dist/types.d.ts
+!dist/phone-port.types.d.ts
 !dist/index.jd

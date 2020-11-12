@@ -1,5 +1,5 @@
 import { MainProcessIpc } from "electron-better-ipc"
-import PureNode from "pure"
+import { PureNode } from "pure"
 import PureNodeService from "Backend/pure-node-service"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"

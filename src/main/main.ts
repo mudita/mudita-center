@@ -102,15 +102,13 @@ const createWindow = async () => {
     await installExtensions()
   }
 
-  const pureNode: any = new PureNode()
-
   win = new BrowserWindow(
     getWindowOptions({ width: WINDOW_SIZE.width, height: WINDOW_SIZE.height })
   )
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  startBackend(pureNode, ipcMain)
+  startBackend(PureNode, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()

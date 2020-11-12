@@ -4,8 +4,7 @@ export declare enum ResponseStatus {
     BadRequest = 400,
     NotAcceptable = 406,
     InternalServerError = 500,
-    ConnectionIsClosed = 501,
-    ConnectionError = 502
+    ConnectionError = 501
 }
 export interface Response<BODY = undefined> {
     status: ResponseStatus;
@@ -13,7 +12,7 @@ export interface Response<BODY = undefined> {
     endpoint?: string;
     uuid?: string;
 }
-export declare enum EventName {
+export declare enum PortEventName {
     Disconnected = "disconnected",
     DataReceived = "dataReceived"
 }

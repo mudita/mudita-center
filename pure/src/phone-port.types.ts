@@ -6,8 +6,7 @@ export enum ResponseStatus {
   InternalServerError = 500,
 
   // lib status
-  ConnectionIsClosed = 501,
-  ConnectionError = 502,
+  ConnectionError = 501,
 }
 
 export interface Response<BODY = undefined> {
@@ -17,7 +16,7 @@ export interface Response<BODY = undefined> {
   uuid?: string
 }
 
-export enum EventName {
+export enum PortEventName {
   Disconnected = "disconnected",
   DataReceived = "dataReceived",
 }

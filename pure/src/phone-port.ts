@@ -5,13 +5,13 @@ import * as fs from "fs"
 import {
   BodyCommand,
   Endpoint,
-  EventName,
+  PortEventName,
   FileResponseStatus,
   Method,
   RequestConfig,
   Response,
   ResponseStatus,
-} from "./types"
+} from "./phone-port.types"
 import { createValidRequest, getNewUUID, portData } from "./parser"
 import { Contact, CountBodyResponse } from "./endpoints/contact.types"
 import { DeviceInfo } from "./endpoints/device-info.types"
@@ -21,19 +21,21 @@ class PhonePort {
   private eventEmitter = new EventEmitter()
   private isPolling = true
 
-  async connect(path: string): Promise<Response> {
+  constructor(private path: string) {}
+
+  async connect(): Promise<Response> {
     return new Promise((resolve) => {
-      this.port = new SerialPort(path, (error) => {
+      this.port = new SerialPort(this.path, (error) => {
         if (error) resolve({ status: ResponseStatus.ConnectionError })
         resolve({ status: ResponseStatus.Ok })
       })
 
-      this.port.on("data", (event) => {
-        this.eventEmitter.emit(EventName.DataReceived, event)
+      this.port.on("data", async(event) => {
+        this.eventEmitter.emit(PortEventName.DataReceived, event)
       })
 
       this.port.on("close", () => {
-        this.eventEmitter.emit(EventName.Disconnected)
+        this.eventEmitter.emit(PortEventName.Disconnected)
       })
     })
   }
@@ -126,12 +128,12 @@ class PhonePort {
             const response = await portData(event)
 
             if (response.uuid === String(uuid)) {
-              this.eventEmitter.off(EventName.DataReceived, listener)
+              this.eventEmitter.off(PortEventName.DataReceived, listener)
               resolve(response)
             }
           }
 
-          this.eventEmitter.on(EventName.DataReceived, listener)
+          this.eventEmitter.on(PortEventName.DataReceived, listener)
 
           const request = createValidRequest({ ...config, uuid })
           this.port.write(request)
@@ -140,11 +142,11 @@ class PhonePort {
     }
   }
 
-  on(eventName: EventName, listener: () => void): void {
+  on(eventName: PortEventName, listener: () => void): void {
     this.eventEmitter.on(eventName, listener)
   }
 
-  off(eventName: EventName, listener: () => void): void {
+  off(eventName: PortEventName, listener: () => void): void {
     this.eventEmitter.off(eventName, listener)
   }
 
@@ -161,7 +163,7 @@ class PhonePort {
 
           if (response.uuid === String(uuid)) {
             if (response.body.status === ResponseStatus.InternalServerError) {
-              this.eventEmitter.off(EventName.DataReceived, listener)
+              this.eventEmitter.off(PortEventName.DataReceived, listener)
               this.isPolling = true
               resolve(response)
             } else if (response.body.status === FileResponseStatus.Ok) {
@@ -188,12 +190,12 @@ class PhonePort {
             response.endpoint === Endpoint.FilesystemUpload &&
             response.status === ResponseStatus.Accepted
           ) {
-            this.eventEmitter.off(EventName.DataReceived, listener)
+            this.eventEmitter.off(PortEventName.DataReceived, listener)
             resolve(response)
           }
         }
 
-        this.eventEmitter.on(EventName.DataReceived, listener)
+        this.eventEmitter.on(PortEventName.DataReceived, listener)
 
         const fileName = path.basename(file)
         const fileSize = fs.lstatSync(file).size
@@ -229,13 +231,13 @@ class PhonePort {
           // uuid implementation is missing?
           if (response.endpoint === Endpoint.Update) {
             if (response.body.status === "Ready for reset") {
-              this.eventEmitter.off(EventName.DataReceived, listener)
+              this.eventEmitter.off(PortEventName.DataReceived, listener)
               resolve({ status: ResponseStatus.Ok })
             }
           }
         }
 
-        this.eventEmitter.on(EventName.DataReceived, listener)
+        this.eventEmitter.on(PortEventName.DataReceived, listener)
 
         const fileName = path.basename(config.file)
         const newConfig = {
@@ -254,8 +256,8 @@ class PhonePort {
   }
 }
 
-export type CreatePhonePort = () => PhonePort
+export type CreatePhonePort = (path: string) => PhonePort
 
-export const createPhonePort: CreatePhonePort = () => new PhonePort()
+export const createPhonePort: CreatePhonePort = (path: string) => new PhonePort(path)
 
 export default PhonePort

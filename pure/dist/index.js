@@ -1,17 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -52,12 +39,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.manufacturer = exports.productId = void 0;
+exports.PureNode = exports.manufacturer = exports.productId = void 0;
 var events_1 = require("events");
 var serialport_1 = __importDefault(require("serialport"));
 var usb_detector_1 = __importDefault(require("./usb-detector"));
 var phone_port_1 = require("./phone-port");
-var types_1 = require("./types");
 exports.productId = "0100";
 exports.manufacturer = "Mudita";
 var PureNodeEvent;
@@ -66,38 +52,11 @@ var PureNodeEvent;
 })(PureNodeEvent || (PureNodeEvent = {}));
 var PureNode = /** @class */ (function () {
     function PureNode(createPhonePort, usbDetector) {
-        var _this = this;
         this.createPhonePort = createPhonePort;
         this.usbDetector = usbDetector;
-        this.phonePortMap = new Map();
         this.eventEmitter = new events_1.EventEmitter();
-        usbDetector.onAttachDevice(function (portInfo) { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                if (portInfo.manufacturer === exports.manufacturer) {
-                    this.eventEmitter.emit(PureNodeEvent.AttachedPhone, portInfo.serialNumber);
-                }
-                return [2 /*return*/];
-            });
-        }); });
+        this.registerAttachDeviceListener();
     }
-    PureNode.getPhones = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var portList;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, PureNode.getSerialPortList()];
-                    case 1:
-                        portList = _a.sent();
-                        return [2 /*return*/, portList
-                                .filter(PureNode.isMuditaPurePhone)
-                                .map(function (_a) {
-                                var _b = _a.serialNumber, serialNumber = _b === void 0 ? "" : _b;
-                                return ({ id: String(serialNumber) });
-                            })];
-                }
-            });
-        });
-    };
     PureNode.isMuditaPurePhone = function (portInfo) {
         return (portInfo.manufacturer === exports.manufacturer && portInfo.productId === exports.productId);
     };
@@ -111,78 +70,23 @@ var PureNode = /** @class */ (function () {
             });
         });
     };
-    PureNode.prototype.connect = function (id) {
+    PureNode.prototype.getPhonePorts = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var portList, port, phonePort, response;
+            var portList;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, PureNode.getSerialPortList()];
                     case 1:
                         portList = _a.sent();
-                        port = portList.find(function (_a) {
-                            var serialNumber = _a.serialNumber;
-                            return String(serialNumber) === id;
-                        });
-                        if (!(port && this.phonePortMap.has(id))) return [3 /*break*/, 2];
-                        return [2 /*return*/, { status: types_1.ResponseStatus.Ok }];
-                    case 2:
-                        if (!port) return [3 /*break*/, 4];
-                        phonePort = this.createPhonePort();
-                        return [4 /*yield*/, phonePort.connect(port.path)];
-                    case 3:
-                        response = _a.sent();
-                        if (response.status === types_1.ResponseStatus.Ok) {
-                            this.phonePortMap.set(id, phonePort);
-                            this.removePhonePortOnDisconnectionEvent(id);
-                        }
-                        return [2 /*return*/, response];
-                    case 4: return [2 /*return*/, { status: types_1.ResponseStatus.ConnectionIsClosed }];
+                        return [2 /*return*/, portList
+                                .filter(PureNode.isMuditaPurePhone)
+                                .map(function (_a) {
+                                var path = _a.path;
+                                return phone_port_1.createPhonePort(path);
+                            })];
                 }
             });
         });
-    };
-    PureNode.prototype.disconnect = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var phonePort;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        phonePort = this.phonePortMap.get(id);
-                        if (!phonePort) return [3 /*break*/, 2];
-                        this.phonePortMap.delete(id);
-                        return [4 /*yield*/, phonePort.disconnect()];
-                    case 1: return [2 /*return*/, _a.sent()];
-                    case 2: return [2 /*return*/, { status: types_1.ResponseStatus.Ok }];
-                }
-            });
-        });
-    };
-    PureNode.prototype.request = function (id, config) {
-        return __awaiter(this, void 0, void 0, function () {
-            var phonePort;
-            return __generator(this, function (_a) {
-                phonePort = this.phonePortMap.get(id);
-                if (phonePort) {
-                    return [2 /*return*/, phonePort.request(config)];
-                }
-                else {
-                    return [2 /*return*/, Promise.resolve({ status: types_1.ResponseStatus.ConnectionIsClosed })];
-                }
-                return [2 /*return*/];
-            });
-        });
-    };
-    PureNode.prototype.on = function (id, channelName, listener) {
-        var phonePort = this.phonePortMap.get(id);
-        if (phonePort) {
-            phonePort.on(channelName, listener);
-        }
-    };
-    PureNode.prototype.off = function (id, channelName, listener) {
-        var phonePort = this.phonePortMap.get(id);
-        if (phonePort) {
-            phonePort.off(channelName, listener);
-        }
     };
     PureNode.prototype.onAttachPhone = function (listener) {
         this.eventEmitter.on(PureNodeEvent.AttachedPhone, listener);
@@ -190,24 +94,32 @@ var PureNode = /** @class */ (function () {
     PureNode.prototype.offAttachPhone = function (listener) {
         this.eventEmitter.off(PureNodeEvent.AttachedPhone, listener);
     };
-    PureNode.prototype.removePhonePortOnDisconnectionEvent = function (id) {
+    PureNode.prototype.registerAttachDeviceListener = function () {
         var _this = this;
-        var phonePort = this.phonePortMap.get(id);
-        if (phonePort) {
-            var listener_1 = function () {
-                _this.phonePortMap.delete(id);
-                phonePort.off(types_1.EventName.Disconnected, listener_1);
-            };
-            phonePort.on(types_1.EventName.Disconnected, listener_1);
-        }
+        this.usbDetector.onAttachDevice(function (portInfo) { return __awaiter(_this, void 0, void 0, function () {
+            var portList, port, phonePort;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(portInfo.manufacturer === exports.manufacturer)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, PureNode.getSerialPortList()];
+                    case 1:
+                        portList = _a.sent();
+                        port = portList.find(function (_a) {
+                            var serialNumber = _a.serialNumber;
+                            return String(serialNumber) === portInfo.serialNumber;
+                        });
+                        if (port) {
+                            phonePort = phone_port_1.createPhonePort(port.path);
+                            this.eventEmitter.emit(PureNodeEvent.AttachedPhone, phonePort);
+                        }
+                        _a.label = 2;
+                    case 2: return [2 /*return*/];
+                }
+            });
+        }); });
     };
     return PureNode;
 }());
-var default_1 = /** @class */ (function (_super) {
-    __extends(default_1, _super);
-    function default_1() {
-        return _super.call(this, phone_port_1.createPhonePort, new usb_detector_1.default()) || this;
-    }
-    return default_1;
-}(PureNode));
-exports.default = default_1;
+exports.PureNode = PureNode;
+exports.default = new PureNode(phone_port_1.createPhonePort, new usb_detector_1.default());
