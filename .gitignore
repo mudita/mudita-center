@@ -38,7 +38,7 @@ src/bundle.js
 src/bundle.js.map
 src/style.css
 src/style.css.map
-dist
+/dist
 
 tmp/extractedMessages
 .idea
@@ -49,3 +49,14 @@ storybook-static
 
 .env.*
 electron-builder.env
+
+# to remove after made the pure dependency as standalone lib
+pure/dist/*
+!pure/dist/index.js
+!pure/dist/index.d.ts
+!pure/dist/phone-port.d.ts
+!pure/dist/phone-port.types.d.ts
+!pure/dist/endpoints
+pure/dist/endpoints/*
+!pure/dist/endpoints/contact.types.d.ts
+!pure/dist/endpoints/device-info.types.d.ts

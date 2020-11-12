@@ -1,6 +1,2 @@
 node_modules
-
-dist/*
-!dist/index.d.ts
-!dist/phone-port.types.d.ts
-!dist/index.jd
+dist
