@@ -17,6 +17,42 @@ export interface GoogleEvent {
   }
 }
 
+export interface GoogleContactMetadata {
+  primary: boolean
+  source: {
+    type: string
+    id: string
+  }
+}
+
+export interface GoogleContactResourceItem {
+  resourceName: string
+  etag: string
+  names: {
+    metadata: GoogleContactMetadata
+    unstructuredName: string
+  }[]
+  addresses: {
+    metadata: GoogleContactMetadata
+    streetAddress: string
+    postalCode: string
+  }[]
+  emailAddresses: {
+    metadata: GoogleContactMetadata
+    value: string
+  }[]
+  phoneNumbers: {
+    metadata: GoogleContactMetadata
+    value: string
+  }[]
+}
+
+export interface GoogleContacts {
+  connections: GoogleContactResourceItem[]
+  totalPeople: number
+  totalItems: number
+}
+
 export interface GoogleAuthFailedResponse {
   error: string
 }

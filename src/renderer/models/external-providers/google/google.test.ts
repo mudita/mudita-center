@@ -14,6 +14,7 @@ import {
   mapEvents,
 } from "Renderer/models/external-providers/google/google.helpers"
 import { init } from "@rematch/core"
+import { mockedGoogleContacts } from "App/__mocks__/google-contacts"
 
 const authData: GoogleAuthSuccessResponse = {
   access_token: "some-token",
@@ -448,6 +449,43 @@ test("google events are mapped properly", () => {
         "name": "John's calendar",
         "primary": undefined,
         "provider": "google",
+      },
+    ]
+  `)
+})
+
+test("contacts are received properly", async () => {
+  axiosMock
+    .onGet(
+      `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses`
+    )
+    .reply(200, mockedGoogleContacts)
+
+  expect(await store.dispatch.google.getContacts()).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "blocked": false,
+        "email": "bombol@bombol.com",
+        "favourite": false,
+        "firstAddressLine": "bomboladzka 1",
+        "firstName": "Bombolo Bombolada",
+        "ice": false,
+        "id": "people/c5420759609842671821",
+        "note": "",
+        "primaryPhoneNumber": "11111111111111",
+        "secondAddressLine": "00-123",
+      },
+      Object {
+        "blocked": false,
+        "email": "alolo@bombol.pl",
+        "favourite": false,
+        "firstAddressLine": "lolo 123",
+        "firstName": "Kolejny bombolek Bombolada",
+        "ice": false,
+        "id": "people/c6026900974127078735",
+        "note": "",
+        "primaryPhoneNumber": "12341234234",
+        "secondAddressLine": "123-123",
       },
     ]
   `)

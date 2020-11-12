@@ -15,9 +15,11 @@ import {
   getSortedContactList,
   getSpeedDialChosenList,
   getFlatList,
+  contactDatabaseFactory,
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
 import externalProvidersStore from "Renderer/store/external-providers"
+import { Dispatch } from "Renderer/store"
 
 export const initialState: Phone = {
   db: {},
@@ -72,7 +74,6 @@ export default {
 
       return addContacts(currentState, contact)
     },
-
     editContact(
       state: Phone,
       contactID: ContactID,
@@ -86,18 +87,24 @@ export default {
 
       return editContact(currentState, contactID, data)
     },
-
     removeContact(state: Phone, input: ContactID | ContactID[]): Phone {
       return removeContact(state, input)
+    },
+    updateContacts(state: Phone, contacts: Phone) {
+      return {
+        db: { ...state.db, ...contacts.db },
+        collection: [...state.collection, ...contacts.collection],
+      }
     },
   },
   /**
    * All these side effects are just for show, since we don't know anything
    * about phone sync flow at the moment.
    */
-  effects: {
+  effects: (dispatch: Dispatch) => ({
     async loadContacts() {
-      await externalProvidersStore.dispatch.google.getContacts()
+      const contacts = await externalProvidersStore.dispatch.google.getContacts()
+      dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
     },
     async addContact() {
       await simulateWriteToPhone()
@@ -110,7 +117,7 @@ export default {
     async removeContact() {
       await simulateWriteToPhone()
     },
-  },
+  }),
   selectors: (slice: Slicer<StoreData>) => ({
     contactList() {
       return slice((state) => getSortedContactList(state))

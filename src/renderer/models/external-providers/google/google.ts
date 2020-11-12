@@ -2,6 +2,7 @@ import {
   GoogleAuthFailedResponse,
   GoogleAuthSuccessResponse,
   GoogleCalendarsSuccess,
+  GoogleContacts,
   GoogleEvent,
   GoogleEventsSuccess,
   GoogleProviderState,
@@ -14,6 +15,7 @@ import { ExternalProvidersState } from "Renderer/models/external-providers/exter
 import moment from "moment"
 import {
   mapCalendars,
+  mapContacts,
   mapEvents,
 } from "Renderer/models/external-providers/google/google.helpers"
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
@@ -147,14 +149,18 @@ export const createStore = () => ({
     async getContacts(_: undefined, rootState: any) {
       logger.info("Getting Google contacts")
 
-      const { data } = await this.requestWrapper<GoogleCalendarsSuccess>(
+      const { data } = await this.requestWrapper<GoogleContacts>(
         {
-          url: `${googleEndpoints.people}/people/me/connections?personFields=names`,
+          url: `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses`,
         },
         rootState
       )
 
-      console.log(data)
+      if (data.totalItems === 0) {
+        throw new Error("No contacts found")
+      }
+
+      return mapContacts(data.connections)
     },
     async getEvents(calendarId: string, rootState: ExternalProvidersState) {
       logger.info("Getting Google events")

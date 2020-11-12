@@ -115,6 +115,12 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   }, [contactList])
 
   useEffect(() => {
+    if (loadContacts) {
+      loadContacts()
+    }
+  }, [])
+
+  useEffect(() => {
     if (editedContact) {
       const newData = flatList.find(
         (contact) => contact.id === editedContact.id
@@ -373,7 +379,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       />
     )
   }
-
   const _devClearContacts = () => setContacts([])
   const _devLoadDefaultContacts = () => setContacts(contactList)
   return (
