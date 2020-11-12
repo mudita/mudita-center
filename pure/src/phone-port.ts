@@ -119,9 +119,6 @@ class PhonePort {
         if (!this.port || !this.isPolling) {
           resolve({ status: ResponseStatus.ConnectionError })
         } else {
-          // TODO: check that UUID has any requirements in the contract
-          // uuid not working with pure contract
-          // timestamp not working with pure contract
           const uuid = getNewUUID()
 
           const listener = async (event: any) => {
@@ -178,14 +175,11 @@ class PhonePort {
                 }
               })
 
-              // readStream.on("error", (err) => {})
-
               readStream.on("end", () => {
                 this.isPolling = true
               })
             }
 
-            // uuid implementation is missing?
           } else if (
             response.endpoint === Endpoint.FilesystemUpload &&
             response.status === ResponseStatus.Accepted
@@ -228,7 +222,6 @@ class PhonePort {
         const listener = async (event: any) => {
           const response = await portData(event)
 
-          // uuid implementation is missing?
           if (response.endpoint === Endpoint.Update) {
             if (response.body.status === "Ready for reset") {
               this.eventEmitter.off(PortEventName.DataReceived, listener)
