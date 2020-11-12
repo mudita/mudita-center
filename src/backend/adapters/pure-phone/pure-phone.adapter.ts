@@ -13,6 +13,7 @@ class PurePhone extends PurePhoneAdapter {
 
   constructor(private pureNode: PureNode, private ipcMain: MainProcessIpc) {
     super()
+    this.registerAttachPhoneListener()
   }
 
   public getModelName(): string {
@@ -57,22 +58,25 @@ class PurePhone extends PurePhoneAdapter {
     const id = purePhone?.id
 
     if (id) {
-      const { status } = await this.pureNode.connect(id)
-      if (status === ResponseStatus.Ok) {
-        this.purePhoneId = id
-        this.registerDisconnectedDeviceListener(id)
+      return this.pureNodeConnect(id)
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
+  }
 
-        return {
-          status: DeviceResponseStatus.Ok,
-        }
-      } else {
+  private async pureNodeConnect(id: string): Promise<DeviceResponse> {
+    const { status } = await this.pureNode.connect(id)
+    if (status === ResponseStatus.Ok) {
+      this.purePhoneId = id
 
-        return {
-          status: DeviceResponseStatus.Error,
-        }
+      this.registerDisconnectedDeviceListener(id)
+
+      return {
+        status: DeviceResponseStatus.Ok,
       }
     } else {
-
       return {
         status: DeviceResponseStatus.Error,
       }
@@ -81,7 +85,20 @@ class PurePhone extends PurePhoneAdapter {
 
   private registerDisconnectedDeviceListener(id: string) {
     this.pureNode.on(id, EventName.Disconnected, () => {
+      this.purePhoneId = undefined
       this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)
+    })
+  }
+
+  private async registerAttachPhoneListener(): Promise<void> {
+    this.pureNode.onAttachPhone(async (id) => {
+      if (!this.purePhoneId) {
+        const { status } = await this.pureNodeConnect(id)
+
+        if (status === DeviceResponseStatus.Ok) {
+          this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
+        }
+      }
     })
   }
 }

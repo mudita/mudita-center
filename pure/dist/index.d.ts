@@ -1,3 +1,4 @@
+import UsbDetector from "./usb-detector";
 import { CreatePhonePort } from "./phone-port";
 import { Contact, CountBodyResponse } from "./endpoints/contact.types";
 import { DeviceInfo } from "./endpoints/device-info.types";
@@ -9,11 +10,13 @@ export declare const productId = "0100";
 export declare const manufacturer = "Mudita";
 declare class PureNode {
     private createPhonePort;
+    private usbDetector;
     static getPhones(): Promise<Phones[]>;
     private static isMuditaPurePhone;
     private static getSerialPortList;
     private phonePortMap;
-    constructor(createPhonePort: CreatePhonePort);
+    private eventEmitter;
+    constructor(createPhonePort: CreatePhonePort, usbDetector: UsbDetector);
     connect(id: string): Promise<Response>;
     disconnect(id: string): Promise<Response>;
     request(id: string, config: {
@@ -58,6 +61,8 @@ declare class PureNode {
     request(id: string, config: RequestConfig): Promise<Response<any>>;
     on(id: string, channelName: EventName, listener: () => void): void;
     off(id: string, channelName: EventName, listener: () => void): void;
+    onAttachPhone(listener: (event: string) => void): void;
+    offAttachPhone(listener: (event: string) => void): void;
     private removePhonePortOnDisconnectionEvent;
 }
 export default class extends PureNode {

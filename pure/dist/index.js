@@ -53,15 +53,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.manufacturer = exports.productId = void 0;
+var events_1 = require("events");
 var serialport_1 = __importDefault(require("serialport"));
+var usb_detector_1 = __importDefault(require("./usb-detector"));
 var phone_port_1 = require("./phone-port");
 var types_1 = require("./types");
 exports.productId = "0100";
 exports.manufacturer = "Mudita";
+var PureNodeEvent;
+(function (PureNodeEvent) {
+    PureNodeEvent["AttachedPhone"] = "AttachedPhone";
+})(PureNodeEvent || (PureNodeEvent = {}));
 var PureNode = /** @class */ (function () {
-    function PureNode(createPhonePort) {
+    function PureNode(createPhonePort, usbDetector) {
+        var _this = this;
         this.createPhonePort = createPhonePort;
+        this.usbDetector = usbDetector;
         this.phonePortMap = new Map();
+        this.eventEmitter = new events_1.EventEmitter();
+        usbDetector.onAttachDevice(function (portInfo) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                console.log("portInfo: ", portInfo);
+                if (portInfo.manufacturer === exports.manufacturer) {
+                    this.eventEmitter.emit(PureNodeEvent.AttachedPhone, portInfo.serialNumber);
+                }
+                return [2 /*return*/];
+            });
+        }); });
     }
     PureNode.getPhones = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -167,6 +185,12 @@ var PureNode = /** @class */ (function () {
             phonePort.off(channelName, listener);
         }
     };
+    PureNode.prototype.onAttachPhone = function (listener) {
+        this.eventEmitter.on(PureNodeEvent.AttachedPhone, listener);
+    };
+    PureNode.prototype.offAttachPhone = function (listener) {
+        this.eventEmitter.off(PureNodeEvent.AttachedPhone, listener);
+    };
     PureNode.prototype.removePhonePortOnDisconnectionEvent = function (id) {
         var _this = this;
         var phonePort = this.phonePortMap.get(id);
@@ -183,7 +207,7 @@ var PureNode = /** @class */ (function () {
 var default_1 = /** @class */ (function (_super) {
     __extends(default_1, _super);
     function default_1() {
-        return _super.call(this, phone_port_1.createPhonePort) || this;
+        return _super.call(this, phone_port_1.createPhonePort, new usb_detector_1.default()) || this;
     }
     return default_1;
 }(PureNode));

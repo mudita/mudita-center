@@ -1,4 +1,6 @@
+import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
+import UsbDetector from "./usb-detector"
 import PhonePort, { createPhonePort, CreatePhonePort } from "./phone-port"
 import { Contact, CountBodyResponse } from "./endpoints/contact.types"
 import { DeviceInfo } from "./endpoints/device-info.types"
@@ -17,6 +19,10 @@ interface Phones {
 
 export const productId = "0100"
 export const manufacturer = "Mudita"
+
+enum PureNodeEvent {
+  AttachedPhone = "AttachedPhone",
+}
 
 class PureNode {
   static async getPhones(): Promise<Phones[]> {
@@ -38,8 +44,21 @@ class PureNode {
   }
 
   private phonePortMap: Map<string, PhonePort> = new Map()
+  private eventEmitter = new EventEmitter()
 
-  constructor(private createPhonePort: CreatePhonePort) {}
+  constructor(
+    private createPhonePort: CreatePhonePort,
+    private usbDetector: UsbDetector
+  ) {
+    usbDetector.onAttachDevice(async (portInfo) => {
+      if (portInfo.manufacturer === manufacturer) {
+        this.eventEmitter.emit(
+          PureNodeEvent.AttachedPhone,
+          portInfo.serialNumber
+        )
+      }
+    })
+  }
 
   async connect(id: string): Promise<Response> {
     const portList = await PureNode.getSerialPortList()
@@ -162,6 +181,14 @@ class PureNode {
     }
   }
 
+  onAttachPhone(listener: (event: string) => void): void {
+    this.eventEmitter.on(PureNodeEvent.AttachedPhone, listener)
+  }
+
+  offAttachPhone(listener: (event: string) => void): void {
+    this.eventEmitter.off(PureNodeEvent.AttachedPhone, listener)
+  }
+
   private removePhonePortOnDisconnectionEvent(id: string): void {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {
@@ -176,6 +203,6 @@ class PureNode {
 
 export default class extends PureNode {
   constructor() {
-    super(createPhonePort)
+    super(createPhonePort, new UsbDetector())
   }
 }
