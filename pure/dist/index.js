@@ -73,7 +73,6 @@ var PureNode = /** @class */ (function () {
         this.eventEmitter = new events_1.EventEmitter();
         usbDetector.onAttachDevice(function (portInfo) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                console.log("portInfo: ", portInfo);
                 if (portInfo.manufacturer === exports.manufacturer) {
                     this.eventEmitter.emit(PureNodeEvent.AttachedPhone, portInfo.serialNumber);
                 }

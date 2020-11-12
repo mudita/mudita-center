@@ -2,12 +2,8 @@ import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
 import PhonePort, { createPhonePort, CreatePhonePort } from "./phone-port"
-import { Contact, CountBodyResponse } from "./endpoints/contact.types"
-import { DeviceInfo } from "./endpoints/device-info.types"
 import {
-  Endpoint,
   EventName,
-  Method,
   RequestConfig,
   Response,
   ResponseStatus,
@@ -94,70 +90,6 @@ class PureNode {
     }
   }
 
-  async request(
-    id: string,
-    config: {
-      endpoint: Endpoint.DeviceInfo
-      method: Method.Get
-    }
-  ): Promise<Response<DeviceInfo>>
-  async request(
-    id: string,
-    config: {
-      endpoint: Endpoint.Contacts
-      method: Method.Get
-      body: true
-    }
-  ): Promise<Response<CountBodyResponse>>
-  async request(
-    id: string,
-    config: {
-      endpoint: Endpoint.Contacts
-      method: Method.Get
-      body: number
-    }
-  ): Promise<Response<Contact[]>>
-  async request(
-    id: string,
-    config: {
-      endpoint: Endpoint.Contacts
-      method: Method.Post
-      body: Contact
-    }
-  ): Promise<Response<Contact>>
-  async request(
-    id: string,
-    config: {
-      endpoint: Endpoint.Contacts
-      method: Method.Put
-      body: Contact
-    }
-  ): Promise<Response<Contact>>
-  async request(
-    id: string,
-    config: {
-      endpoint: Endpoint.Contacts
-      method: Method.Delete
-      body: Pick<Contact, "id">
-    }
-  ): Promise<Response<string>>
-  async request(
-    id: string,
-    config: {
-      endpoint: Endpoint.PureUpdate
-      method: Method.Post
-      file: string
-    }
-  ): Promise<Response>
-  async request(
-    id: string,
-    config: {
-      endpoint: Endpoint.File
-      method: Method.Post
-      file: string
-    }
-  ): Promise<Response>
-  async request(id: string, config: RequestConfig): Promise<Response<any>>
   async request(id: string, config: RequestConfig): Promise<Response<any>> {
     const phonePort = this.phonePortMap.get(id)
     if (phonePort) {

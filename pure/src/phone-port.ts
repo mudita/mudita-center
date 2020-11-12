@@ -13,6 +13,8 @@ import {
   ResponseStatus,
 } from "./types"
 import { createValidRequest, getNewUUID, portData } from "./parser"
+import { Contact, CountBodyResponse } from "./endpoints/contact.types"
+import { DeviceInfo } from "./endpoints/device-info.types"
 
 class PhonePort {
   private port: SerialPort | undefined
@@ -49,6 +51,62 @@ class PhonePort {
     })
   }
 
+  async request(
+    config: {
+      endpoint: Endpoint.DeviceInfo
+      method: Method.Get
+    }
+  ): Promise<Response<DeviceInfo>>
+  async request(
+    config: {
+      endpoint: Endpoint.Contacts
+      method: Method.Get
+      body: true
+    }
+  ): Promise<Response<CountBodyResponse>>
+  async request(
+    config: {
+      endpoint: Endpoint.Contacts
+      method: Method.Get
+      body: number
+    }
+  ): Promise<Response<Contact[]>>
+  async request(
+    config: {
+      endpoint: Endpoint.Contacts
+      method: Method.Post
+      body: Contact
+    }
+  ): Promise<Response<Contact>>
+  async request(
+    config: {
+      endpoint: Endpoint.Contacts
+      method: Method.Put
+      body: Contact
+    }
+  ): Promise<Response<Contact>>
+  async request(
+    config: {
+      endpoint: Endpoint.Contacts
+      method: Method.Delete
+      body: Contact["id"]
+    }
+  ): Promise<Response<string>>
+  async request(
+    config: {
+      endpoint: Endpoint.PureUpdate
+      method: Method.Post
+      file: string
+    }
+  ): Promise<Response>
+  async request(
+    config: {
+      endpoint: Endpoint.File
+      method: Method.Post
+      file: string
+    }
+  ): Promise<Response>
+  async request(config: RequestConfig): Promise<Response<any>>
   async request(config: RequestConfig): Promise<Response<any>> {
     if (config.endpoint === Endpoint.File) {
       return this.fileRequest(config)

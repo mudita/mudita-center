@@ -2,18 +2,12 @@ import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.cla
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-
-import { MainProcessIpc } from "electron-better-ipc"
-import PureNode from "pure"
-import { EventName, ResponseStatus } from "pure/dist/types"
-import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
+import PureNodeService from "Backend/pure-node-service"
 
 class PurePhone extends PurePhoneAdapter {
-  purePhoneId: string | undefined
 
-  constructor(private pureNode: PureNode, private ipcMain: MainProcessIpc) {
+  constructor(private pureNodeService: PureNodeService) {
     super()
-    this.registerAttachPhoneListener()
   }
 
   public getModelName(): string {
@@ -47,65 +41,12 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public async connectDevice(): Promise<DeviceResponse> {
-    if (this.purePhoneId !== undefined) {
-      return Promise.resolve({
-        status: DeviceResponseStatus.Ok,
-      })
-    }
-
-    const list = await PureNode.getPhones()
-    const [purePhone] = list
-    const id = purePhone?.id
-
-    if (id) {
-      return this.pureNodeConnect(id)
-    } else {
-      return {
-        status: DeviceResponseStatus.Error,
-      }
-    }
-  }
-
-  private async pureNodeConnect(id: string): Promise<DeviceResponse> {
-    const { status } = await this.pureNode.connect(id)
-    if (status === ResponseStatus.Ok) {
-      this.purePhoneId = id
-
-      this.registerDisconnectedDeviceListener(id)
-
-      return {
-        status: DeviceResponseStatus.Ok,
-      }
-    } else {
-      return {
-        status: DeviceResponseStatus.Error,
-      }
-    }
-  }
-
-  private registerDisconnectedDeviceListener(id: string) {
-    this.pureNode.on(id, EventName.Disconnected, () => {
-      this.purePhoneId = undefined
-      this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)
-    })
-  }
-
-  private async registerAttachPhoneListener(): Promise<void> {
-    this.pureNode.onAttachPhone(async (id) => {
-      if (!this.purePhoneId) {
-        const { status } = await this.pureNodeConnect(id)
-
-        if (status === DeviceResponseStatus.Ok) {
-          this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
-        }
-      }
-    })
+    return this.pureNodeService.connect()
   }
 }
 
 const createPurePhoneAdapter = (
-  pureNode: PureNode,
-  ipcMain: MainProcessIpc
-): PurePhoneAdapter => new PurePhone(pureNode, ipcMain)
+  pureNodeService: PureNodeService,
+): PurePhoneAdapter => new PurePhone(pureNodeService)
 
 export default createPurePhoneAdapter
