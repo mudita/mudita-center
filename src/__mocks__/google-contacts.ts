@@ -12,7 +12,7 @@ export const mockedGoogleContacts = {
               id: "4b3a68250d7520cd",
             },
           },
-          unstructuredName: "Bombolo Bombolada",
+          displayNameLastFirst: "Bombolada, Bombolo",
         },
       ],
       addresses: [
@@ -65,7 +65,7 @@ export const mockedGoogleContacts = {
               id: "53a3da810b4cdd4f",
             },
           },
-          unstructuredName: "Kolejny bombolek Bombolada",
+          displayNameLastFirst: "Bombolada, Kolejny bombolek",
         },
       ],
       addresses: [

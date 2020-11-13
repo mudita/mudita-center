@@ -46,17 +46,52 @@ export const mapCalendars = (calendars: GoogleCalendar[]): Calendar[] => {
 export const mapContacts = (
   contacts: GoogleContactResourceItem[]
 ): Contact[] => {
-  return contacts.map((contact) => ({
+  return contacts.map((contact) => mapContact(contact))
+}
+
+export const mapContact = (contact: GoogleContactResourceItem): Contact => {
+  let firstName = ""
+  let lastName = ""
+  let primaryPhoneNumber = ""
+  let secondaryPhoneNumber
+  let firstAddressLine
+  let secondAddressLine
+  let email = ""
+  if (contact.names) {
+    const fullName = contact.names[0].displayNameLastFirst.split(",")
+    if (fullName[0]) {
+      firstName = fullName[0]
+    }
+    if (fullName[1]) {
+      lastName = fullName[1]
+    }
+  }
+  if (contact.phoneNumbers) {
+    primaryPhoneNumber = contact.phoneNumbers[0].value
+    if (contact.phoneNumbers.length > 1) {
+      secondaryPhoneNumber = contact.phoneNumbers[1].value
+    }
+  }
+  if (contact.addresses) {
+    firstAddressLine = contact.addresses[0].streetAddress
+    secondAddressLine = contact.addresses[0].postalCode
+  }
+
+  if (contact.emailAddresses) {
+    email = contact.emailAddresses[0].value
+  }
+  return {
     id: contact.resourceName,
-    firstName: contact.names[0].unstructuredName,
-    primaryPhoneNumber: contact.phoneNumbers[0].value,
-    // secondaryPhoneNumber: contact.phoneNumbers[1].value,
-    firstAddressLine: contact.addresses[0].streetAddress,
-    secondAddressLine: contact.addresses[0].postalCode,
-    email: contact.emailAddresses[0].value,
+    firstName,
+    lastName,
+    primaryPhoneNumber,
+    secondaryPhoneNumber,
+    firstAddressLine,
+    secondAddressLine,
+    email,
     ice: false,
     favourite: false,
     blocked: false,
     note: "", // TODO: fill
-  }))
+  }
 }

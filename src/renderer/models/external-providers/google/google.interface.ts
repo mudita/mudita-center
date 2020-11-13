@@ -28,20 +28,20 @@ export interface GoogleContactMetadata {
 export interface GoogleContactResourceItem {
   resourceName: string
   etag: string
-  names: {
+  names?: {
     metadata: GoogleContactMetadata
-    unstructuredName: string
+    displayNameLastFirst: string
   }[]
-  addresses: {
+  addresses?: {
     metadata: GoogleContactMetadata
     streetAddress: string
     postalCode: string
   }[]
-  emailAddresses: {
+  emailAddresses?: {
     metadata: GoogleContactMetadata
     value: string
   }[]
-  phoneNumbers: {
+  phoneNumbers?: {
     metadata: GoogleContactMetadata
     value: string
   }[]
