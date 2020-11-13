@@ -18,11 +18,11 @@ class PhonebookFake extends PhonebookAdapter {
     super()
   }
 
-  public getContacts(): DeviceResponse<Contact[]> {
-    return {
+  public getContacts(): Promise<DeviceResponse<Contact[]>> {
+    return Promise.resolve({
       status: DeviceResponseStatus.Ok,
       data: [],
-    }
+    })
   }
 
   public addContact(contact: NewContact): DeviceResponse<any> {
