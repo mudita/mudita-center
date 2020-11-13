@@ -100,15 +100,19 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const [provider, setProvider] = useState<Provider | undefined>()
   const setGoogleProvider = async () => {
     setProvider(Provider.Google)
+  }
+
+  const authorizeAndLoadContacts = async () => {
     try {
-      if (loadContacts) {
-        await delayResponse(loadContacts())
+      if (loadContacts && provider) {
+        await delayResponse(loadContacts(provider))
       }
       await openProgressSyncModal()
     } catch {
       await openFailureSyncModal()
     }
   }
+
   const {
     selectedRows,
     allRowsSelected,
@@ -121,6 +125,12 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   useEffect(() => {
     setContacts(contactList)
   }, [contactList])
+
+  useEffect(() => {
+    if (provider) {
+      authorizeAndLoadContacts()
+    }
+  }, [provider])
 
   useEffect(() => {
     if (editedContact) {

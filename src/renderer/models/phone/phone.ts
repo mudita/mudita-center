@@ -1,7 +1,7 @@
 import { Slicer, StoreSelectors } from "@rematch/select"
-import { Contact } from "Renderer/models/phone/phone.typings"
 import {
   BaseContactModel,
+  Contact,
   ContactID,
   Phone,
   StoreData,
@@ -9,17 +9,18 @@ import {
 
 import {
   addContacts,
+  contactDatabaseFactory,
   editContact,
-  removeContact,
-  revokeField,
+  getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
-  getFlatList,
-  contactDatabaseFactory,
+  removeContact,
+  revokeField,
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
 import externalProvidersStore from "Renderer/store/external-providers"
 import { Dispatch } from "Renderer/store"
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 
 export const initialState: Phone = {
   db: {},
@@ -102,10 +103,14 @@ export default {
    * about phone sync flow at the moment.
    */
   effects: (dispatch: Dispatch) => ({
-    async loadContacts() {
-      const contacts = await externalProvidersStore.dispatch.google.getContacts()
-      dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
-      return contacts
+    async loadContacts(provider: Provider) {
+      let contacts: Contact[]
+
+      switch (provider) {
+        case Provider.Google:
+          contacts = await externalProvidersStore.dispatch.google.getContacts()
+          dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
+      }
     },
     async addContact() {
       await simulateWriteToPhone()
