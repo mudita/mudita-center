@@ -12,52 +12,20 @@ import Faker from "faker"
 import PureNodeService from "Backend/pure-node-service"
 import { Endpoint, Method } from "pure/dist/phone-port.types"
 
+interface ContactCount {
+  count: number
+}
+
 class Phonebook extends PhonebookAdapter {
   constructor(private pureNodeService: PureNodeService) {
     super()
   }
 
   public async getContacts(): Promise<DeviceResponse<Contact[]>> {
-    const { status, data = [] } = await this.pureNodeService.request({
-      endpoint: Endpoint.Contacts,
-      method: Method.Get,
-      body: { count: 5 },
-    })
+    const { status, data = { count: 0 } } = await this.getContactCount()
 
     if (status === DeviceResponseStatus.Ok) {
-      const mapToContact = (data: PureContact[]): Contact[] => {
-        return data.map((pureContact) => {
-          const {
-            address,
-            altName,
-            blocked,
-            favourite,
-            id,
-            numbers,
-            priName,
-          } = pureContact
-
-          return {
-            id: String(id),
-            firstName: altName,
-            lastName: priName,
-            primaryPhoneNumber: numbers[0],
-            secondaryPhoneNumber: numbers[1],
-            favourite: favourite,
-            blocked: blocked,
-            ice: false,
-            note: "",
-            email: "",
-            firstAddressLine: address,
-            secondAddressLine: "",
-          }
-        })
-      }
-
-      return {
-        status,
-        data: mapToContact(data),
-      }
+      return this.getContactsByCount(data)
     } else {
       return { status, data: [] }
     }
@@ -86,10 +54,69 @@ class Phonebook extends PhonebookAdapter {
       data: contactsIds,
     }
   }
+
+  private async getContactsByCount({
+    count,
+  }: ContactCount): Promise<DeviceResponse<Contact[]>> {
+    const { status, data = [] } = await this.pureNodeService.request({
+      endpoint: Endpoint.Contacts,
+      method: Method.Get,
+      // TODO: replace this mock count to parameter after fix https://appnroll.atlassian.net/browse/EGD-4368
+      body: { count: 5 },
+    })
+
+    if (status === DeviceResponseStatus.Ok) {
+      const mapToContact = (data: PureContact[]): Contact[] => {
+        return data.map((pureContact) => {
+          const {
+            id,
+            blocked,
+            favourite,
+            address = "",
+            altName,
+            priName,
+            numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
+          } = pureContact
+
+          const firstAddressLine = address.substr(0, address.indexOf("\n"))
+          const secondAddressLine = address.substr(address.indexOf("\n") + 1)
+
+          return {
+            blocked,
+            favourite,
+            primaryPhoneNumber,
+            secondaryPhoneNumber,
+            firstAddressLine,
+            secondAddressLine,
+            id: String(id),
+            firstName: altName,
+            lastName: priName,
+            ice: false,
+            note: "",
+            email: "",
+          }
+        })
+      }
+
+      return {
+        status,
+        data: mapToContact(data),
+      }
+    } else {
+      return { status, data: [] }
+    }
+  }
+
+  private async getContactCount(): Promise<DeviceResponse<ContactCount>> {
+    return this.pureNodeService.request({
+      endpoint: Endpoint.Contacts,
+      method: Method.Get,
+      body: { count: true },
+    })
+  }
 }
 
-const createPhonebook = (
-  pureNodeService: PureNodeService,
-): Phonebook => new Phonebook(pureNodeService)
+const createPhonebook = (pureNodeService: PureNodeService): Phonebook =>
+  new Phonebook(pureNodeService)
 
 export default createPhonebook
