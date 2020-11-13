@@ -49,8 +49,11 @@ class PhonePort {
         resolve({ status: ResponseStatus.Ok })
       } else {
         this.port.close((error) => {
-          if (error) resolve({ status: ResponseStatus.ConnectionError })
-          resolve({ status: ResponseStatus.Ok })
+          if (error) {
+            resolve({ status: ResponseStatus.ConnectionError })
+          } else {
+            resolve({ status: ResponseStatus.Ok })
+          }
         })
       }
     })
