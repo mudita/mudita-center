@@ -4,9 +4,9 @@ import Adapters from "Backend/adapters/adapters.interface"
 import { Contact } from "Renderer/models/phone/phone.typings"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const handleGetContactsRequest = ({
+const handleGetContactsRequest = async ({
   phonebook,
-}: Adapters): DeviceResponse<Contact[]> => phonebook.getContacts()
+}: Adapters): Promise<DeviceResponse<Contact[]>> => await phonebook.getContacts()
 
 const registerGetContactsRequest = createEndpoint({
   name: IpcRequest.GetContacts,
