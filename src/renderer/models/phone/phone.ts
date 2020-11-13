@@ -15,8 +15,11 @@ import {
   getSortedContactList,
   getSpeedDialChosenList,
   getFlatList,
+  contactDatabaseFactory,
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
+import getContacts from "Renderer/requests/get-contacts.request"
+import { Dispatch } from "Renderer/store"
 
 export const initialState: Phone = {
   db: {},
@@ -58,6 +61,9 @@ const simulateWriteToPhone = async (time = 2000) => {
 export default {
   state: initialState,
   reducers: {
+    setContacts(state: Phone, contacts: Contact[]): Phone {
+      return contactDatabaseFactory(contacts)
+    },
     addContact(state: Phone, contact: Contact): Phone {
       let currentState = state
 
@@ -94,7 +100,11 @@ export default {
    * All these side effects are just for show, since we don't know anything
    * about phone sync flow at the moment.
    */
-  effects: {
+  effects: (dispatch: Dispatch) => ({
+    async loadContacts() {
+      const contacts = await getContacts()
+      dispatch.phone.setContacts(contacts)
+    },
     async addContact() {
       await simulateWriteToPhone()
     },
@@ -106,7 +116,7 @@ export default {
     async removeContact() {
       await simulateWriteToPhone()
     },
-  },
+  }),
   selectors: (slice: Slicer<StoreData>) => ({
     contactList() {
       return slice((state) => getSortedContactList(state))

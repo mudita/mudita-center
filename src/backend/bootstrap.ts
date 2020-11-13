@@ -21,6 +21,7 @@ import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
+import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 
 const bootstrap = (pureNode: PureNode, ipcMain: MainProcessIpc) => {
   const pureNodeService = new PureNodeService(pureNode, ipcMain)
@@ -28,6 +29,7 @@ const bootstrap = (pureNode: PureNode, ipcMain: MainProcessIpc) => {
     // TODO: Replace with a proper adapters when phone becomes available.
     ...getFakeAdapters(),
     purePhone: createPurePhoneAdapter(pureNodeService),
+    phonebook: createPhonebook(pureNodeService),
     appSettings: createAppSettingsAdapter(),
     pureBackups: createPurePhoneBackupsAdapter(),
     app: createElectronAppAdapter(),

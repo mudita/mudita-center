@@ -63,13 +63,16 @@ export type PhoneProps = ContactActions &
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
-  } & Partial<Store>
+  } & Partial<Store> & {
+    loadContacts: () => void
+  }
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
   const {
     addContact,
     editContact,
     getContact,
+    loadContacts,
     removeContact,
     contactList = [],
     flatList,
@@ -108,6 +111,17 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     ...rest
   } = useTableSelect<Contact, ContactCategory>(contacts, "contacts")
   const detailsEnabled = activeRow && !newContact && !editedContact
+  const [resultsState, setResultsState] = useState<ResultsState>(
+    contactList.length === 0 ? ResultsState.Empty : ResultsState.Loaded
+  )
+  useEffect(() => {
+    const loadData = async () => {
+      setResultsState(ResultsState.Loading)
+      await loadContacts()
+      setResultsState(ResultsState.Loaded)
+    }
+    loadData()
+  }, [])
 
   useEffect(() => {
     setContacts(contactList)
@@ -409,7 +423,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
             onDelete={openDeleteModal}
             newContact={newContact}
             editedContact={editedContact}
-            resultsState={ResultsState.Loaded}
+            resultsState={resultsState}
             {...rest}
           />
           {newContact && (

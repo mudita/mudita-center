@@ -1,4 +1,4 @@
-import PhonebookAdapter from "Backend/adapters/phonebook/phonebook.class"
+import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import {
   Contact,
   ContactID,

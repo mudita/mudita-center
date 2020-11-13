@@ -9,7 +9,7 @@ import { deburr, find, filter, omit } from "lodash"
 import { intl } from "Renderer/utils/intl"
 import { SimpleRecord } from "Common/typings"
 
-const lengthy = (input: string) => input.length > 0
+const lengthy = (input = "") => input.length > 0
 const prepareData = <T = any>(input: T | T[]): T[] =>
   Array.isArray(input) ? input : [input]
 
