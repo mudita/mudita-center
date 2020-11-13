@@ -27,7 +27,7 @@ class Phonebook extends PhonebookAdapter {
     if (status === DeviceResponseStatus.Ok) {
       return this.getContactsByCount(data)
     } else {
-      return { status, data: [] }
+      return { status, error: { message: "something goes wrong" } }
     }
   }
 

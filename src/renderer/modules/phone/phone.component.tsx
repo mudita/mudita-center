@@ -45,6 +45,8 @@ import { History, LocationState } from "history"
 import { useHistory } from "react-router-dom"
 import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "Renderer/modules/phone/find-contact-by-phone-number"
+import getContacts from "Renderer/requests/get-contacts.request"
+import { ContactError, ContactErrorWithRetry } from "Renderer/models/phone/phone.modals"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -64,7 +66,7 @@ export type PhoneProps = ContactActions &
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
   } & Partial<Store> & {
-    loadContacts: () => void
+    saveContacts: (contacts: Contact[]) => void
   }
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -72,7 +74,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     addContact,
     editContact,
     getContact,
-    loadContacts,
+    saveContacts,
     removeContact,
     contactList = [],
     flatList,
@@ -115,12 +117,25 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     contactList.length === 0 ? ResultsState.Empty : ResultsState.Loaded
   )
   useEffect(() => {
-    const loadData = async () => {
+    const fetchData = async (retried?: boolean) => {
       setResultsState(ResultsState.Loading)
-      await loadContacts()
+      const { data = [], error } = await getContacts()
       setResultsState(ResultsState.Loaded)
+
+      if (error && !retried) {
+        modalService.openModal(
+          <ContactErrorWithRetry
+            onRetry={() => fetchData(true)}
+          />,
+          true
+        )
+      } else if (error) {
+        modalService.openModal(<ContactError />, true)
+      } else {
+        saveContacts(data)
+      }
     }
-    loadData()
+    fetchData()
   }, [])
 
   useEffect(() => {
