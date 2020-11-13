@@ -16,12 +16,16 @@ declare class PhonePort {
     request(config: {
         endpoint: Endpoint.Contacts;
         method: Method.Get;
-        body: true;
+        body: {
+            count: true;
+        };
     }): Promise<Response<CountBodyResponse>>;
     request(config: {
         endpoint: Endpoint.Contacts;
         method: Method.Get;
-        body: number;
+        body: {
+            count: number;
+        };
     }): Promise<Response<Contact[]>>;
     request(config: {
         endpoint: Endpoint.Contacts;
