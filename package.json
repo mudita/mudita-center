@@ -41,15 +41,18 @@
     "translations:sort": "node ./scripts/sortTranslations.js",
     "UTILITY/AUTO COMMANDS": "=================================================",
     "beforecommit": "npm run translations:sort && lint-staged",
-    "postinstall": "electron-builder install-app-deps && electron-rebuild -f",
+    "postinstall": "electron-builder install-app-deps && electron-rebuild -f && npm run pure:install",
     "prerelease": "npm run translations:overwrite && npm run build",
     "prestart": "npm run build",
     "pretest:e2e": "npm run build",
-    "predevelop": "npm run translations:update",
+    "predevelop": "npm run translations:update && npm run pure:build",
     "posttranslations:send": "npm run translations:sort",
     "posttranslations:update": "npm run translations:sort",
     "posttranslations:sort": "prettier --write src/**/*.json",
-    "posttest:coverage": "prettier --write ./jest.coverage.json"
+    "posttest:coverage": "prettier --write ./jest.coverage.json",
+    "PURE LIB COMMANDS": "=================================================",
+    "pure:install": "npm --prefix pure install",
+    "pure:build": "npm --prefix pure run build"
   },
   "pre-commit": "beforecommit",
   "build": {
