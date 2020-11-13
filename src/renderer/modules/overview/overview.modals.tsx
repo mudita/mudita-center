@@ -22,7 +22,7 @@ import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import LoaderSpinner from "Renderer/components/core/loader/loader-spinner.component"
+import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component";
 
 const ModalContent = styled.div`
   display: flex;
@@ -350,9 +350,20 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
 )
 
 export const UpdatingProgressModal = () => (
-  <OSUpdateModal closeable={false}>
-    <LoaderSpinner />
-  </OSUpdateModal>
+  <SynchronizingContactsModal
+    body={{
+      id: "view.name.phone.contacts.synchronizingModalBody",
+    }}
+    subtitle={{
+      id: "view.name.phone.contacts.synchronizingModalTitle",
+    }}
+    closeButtonLabel={intl.formatMessage({
+      id: "view.generic.button.cancel",
+    })}
+    onFailure={noop}
+    onSuccess={noop}
+    icon={Type.SynchronizeContacts}
+  />
 )
 
 export const UpdatingSuccessModal = () => (
