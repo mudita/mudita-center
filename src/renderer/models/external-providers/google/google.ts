@@ -151,7 +151,7 @@ export const createStore = () => ({
 
       const { data } = await this.requestWrapper<GoogleContacts>(
         {
-          url: `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses`,
+          url: `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`,
         },
         rootState
       )

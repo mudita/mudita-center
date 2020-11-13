@@ -52,6 +52,19 @@ export const mockedGoogleContacts = {
           value: "11111111111111",
         },
       ],
+      biographies: [
+        {
+          metadata: {
+            primary: true,
+            source: {
+              type: "CONTACT",
+              id: "53a3da810b4cdd4f",
+            },
+          },
+          value: "notatka",
+          contentType: "TEXT_PLAIN",
+        },
+      ],
     },
     {
       resourceName: "people/c6026900974127078735",

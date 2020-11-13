@@ -457,7 +457,7 @@ test("google events are mapped properly", () => {
 test("contacts are received properly", async () => {
   axiosMock
     .onGet(
-      `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses`
+      `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`
     )
     .reply(200, mockedGoogleContacts)
 
@@ -472,7 +472,7 @@ test("contacts are received properly", async () => {
         "ice": false,
         "id": "people/c5420759609842671821",
         "lastName": " Bombolo",
-        "note": "",
+        "note": "notatka",
         "primaryPhoneNumber": "11111111111111",
         "secondAddressLine": "00-123",
         "secondaryPhoneNumber": undefined,

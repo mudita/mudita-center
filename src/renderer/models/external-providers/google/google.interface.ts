@@ -45,6 +45,11 @@ export interface GoogleContactResourceItem {
     metadata: GoogleContactMetadata
     value: string
   }[]
+  biographies?: {
+    metadata: GoogleContactMetadata
+    value: string
+    contentType: string
+  }[]
 }
 
 export interface GoogleContacts {
