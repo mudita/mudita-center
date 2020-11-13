@@ -26,11 +26,14 @@ class PhonePort {
   async connect(): Promise<Response> {
     return new Promise((resolve) => {
       this.port = new SerialPort(this.path, (error) => {
-        if (error) resolve({ status: ResponseStatus.ConnectionError })
-        resolve({ status: ResponseStatus.Ok })
+        if (error) {
+          resolve({ status: ResponseStatus.ConnectionError })
+        } else {
+          resolve({ status: ResponseStatus.Ok })
+        }
       })
 
-      this.port.on("data", async(event) => {
+      this.port.on("data", async (event) => {
         this.eventEmitter.emit(PortEventName.DataReceived, event)
       })
 
@@ -53,61 +56,45 @@ class PhonePort {
     })
   }
 
-  async request(
-    config: {
-      endpoint: Endpoint.DeviceInfo
-      method: Method.Get
-    }
-  ): Promise<Response<DeviceInfo>>
-  async request(
-    config: {
-      endpoint: Endpoint.Contacts
-      method: Method.Get
-      body: true
-    }
-  ): Promise<Response<CountBodyResponse>>
-  async request(
-    config: {
-      endpoint: Endpoint.Contacts
-      method: Method.Get
-      body: number
-    }
-  ): Promise<Response<Contact[]>>
-  async request(
-    config: {
-      endpoint: Endpoint.Contacts
-      method: Method.Post
-      body: Contact
-    }
-  ): Promise<Response<Contact>>
-  async request(
-    config: {
-      endpoint: Endpoint.Contacts
-      method: Method.Put
-      body: Contact
-    }
-  ): Promise<Response<Contact>>
-  async request(
-    config: {
-      endpoint: Endpoint.Contacts
-      method: Method.Delete
-      body: Contact["id"]
-    }
-  ): Promise<Response<string>>
-  async request(
-    config: {
-      endpoint: Endpoint.PureUpdate
-      method: Method.Post
-      file: string
-    }
-  ): Promise<Response>
-  async request(
-    config: {
-      endpoint: Endpoint.File
-      method: Method.Post
-      file: string
-    }
-  ): Promise<Response>
+  async request(config: {
+    endpoint: Endpoint.DeviceInfo
+    method: Method.Get
+  }): Promise<Response<DeviceInfo>>
+  async request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Get
+    body: true
+  }): Promise<Response<CountBodyResponse>>
+  async request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Get
+    body: number
+  }): Promise<Response<Contact[]>>
+  async request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Post
+    body: Contact
+  }): Promise<Response<Contact>>
+  async request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Put
+    body: Contact
+  }): Promise<Response<Contact>>
+  async request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Delete
+    body: Contact["id"]
+  }): Promise<Response<string>>
+  async request(config: {
+    endpoint: Endpoint.PureUpdate
+    method: Method.Post
+    file: string
+  }): Promise<Response>
+  async request(config: {
+    endpoint: Endpoint.File
+    method: Method.Post
+    file: string
+  }): Promise<Response>
   async request(config: RequestConfig): Promise<Response<any>>
   async request(config: RequestConfig): Promise<Response<any>> {
     if (config.endpoint === Endpoint.File) {
@@ -179,7 +166,6 @@ class PhonePort {
                 this.isPolling = true
               })
             }
-
           } else if (
             response.endpoint === Endpoint.FilesystemUpload &&
             response.status === ResponseStatus.Accepted
@@ -251,6 +237,7 @@ class PhonePort {
 
 export type CreatePhonePort = (path: string) => PhonePort
 
-export const createPhonePort: CreatePhonePort = (path: string) => new PhonePort(path)
+export const createPhonePort: CreatePhonePort = (path: string) =>
+  new PhonePort(path)
 
 export default PhonePort
