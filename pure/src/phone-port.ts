@@ -66,12 +66,12 @@ class PhonePort {
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-    body: true
+    body: { count: true }
   }): Promise<Response<CountBodyResponse>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-    body: number
+    body: { count: number }
   }): Promise<Response<Contact[]>>
   async request(config: {
     endpoint: Endpoint.Contacts

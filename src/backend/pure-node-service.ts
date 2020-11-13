@@ -29,12 +29,12 @@ class PureNodeService {
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-    body: true
+    body: { count: true }
   }): Promise<DeviceResponse<CountBodyResponse>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-    body: number
+    body: { count: number }
   }): Promise<DeviceResponse<Contact[]>>
   async request(config: {
     endpoint: Endpoint.Contacts
