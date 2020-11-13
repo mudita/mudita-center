@@ -107,7 +107,11 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
 
   const availableContacts = flatList.filter(
     (item: Contact) =>
-      item.id !== "0" && (Boolean(item.firstName) || Boolean(item.lastName))
+      item.id !== "0" &&
+      (Boolean(item.firstName) || Boolean(item.lastName)) &&
+      speedDialList.every(
+        (contact, index) => contact[index + 1]?.id !== item.id
+      )
   )
 
   const onSaveClick = () => {

@@ -5,17 +5,14 @@ interface Props {
   active: boolean
 }
 
-const ScrollAnchorContainer: FunctionComponent<Props> = ({
-  children,
-  active,
-}) => {
+const ScrollAnchorContainer: FunctionComponent<Props> = ({ active }) => {
   const ref = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
     if (active) ref?.current?.scrollIntoView()
   }, [])
 
-  return <div ref={ref}>{children}</div>
+  return <span ref={ref} />
 }
 
 export default ScrollAnchorContainer
