@@ -67,6 +67,7 @@ const PhoneComponent = ({
     resetRows={action("Reset rows")}
     setProviderData={noop}
     isTopicThreadOpened={isTopicThreadOpened}
+    loadContacts={noop}
   />
 )
 
