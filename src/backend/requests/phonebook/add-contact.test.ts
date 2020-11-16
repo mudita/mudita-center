@@ -8,11 +8,11 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 test("adds contact properly", async () => {
   registerAddContactRequest(getFakeAdapters())
 
-  const [result] = await (ipcMain as any)._flush(
+   const [pendingResponse] = await (ipcMain as any)._flush(
     IpcRequest.AddContact,
     defaultContact
   )
-
+  const result = await pendingResponse
   const { id } = result.data
 
   expect(result.data).toStrictEqual({ ...defaultContact, id })
