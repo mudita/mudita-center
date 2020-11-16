@@ -50,7 +50,7 @@ class Phonebook extends PhonebookAdapter {
       return {
         status,
         data: {
-          // id should be return from pure phone
+          // TODO: return contact from API response after fix https://appnroll.atlassian.net/browse/EGD-4400
           id: Faker.random.uuid(),
           ...contact,
           primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
@@ -158,7 +158,8 @@ const mapToPureContact = (contact: NewContact): PureContact => {
   return {
     blocked,
     favourite,
-    numbers,
+    // TODO: remove this conditional after fix https://appnroll.atlassian.net/browse/EGD-4399
+    numbers: numbers.length === 0 ? ["999999999"] : numbers,
     id: Math.round(Math.random() * 1000),
     priName: firstName,
     altName: lastName,
