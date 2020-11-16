@@ -15,7 +15,7 @@ import {
   DownloadingUpdateModal,
   UpdateAvailable,
   UpdateNotAvailable,
-  UpdateServerError, UpdatingProgressModal
+  UpdateServerError, UpdatingFailureModal, UpdatingProgressModal
 } from "Renderer/modules/overview/overview.modals";
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
@@ -144,6 +144,6 @@ storiesOf("Views/Overview/Modals", module)
   ))
   .add("Updating failure", () => (
     <ModalStory>
-      <DownloadingUpdateInterruptedModal />
+      <UpdatingFailureModal />
     </ModalStory>
   ))

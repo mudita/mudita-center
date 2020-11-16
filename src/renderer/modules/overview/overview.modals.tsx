@@ -22,10 +22,10 @@ import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import theme from "Renderer/styles/theming/theme";
-import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component";
-import { LoadingBar } from "Renderer/modules/overview/backup-process/modals.styled";
-import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled";
+import theme from "Renderer/styles/theming/theme"
+import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
+import { LoadingBar } from "Renderer/modules/overview/backup-process/modals.styled"
+import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
 
 const ModalContent = styled.div`
   display: flex;
@@ -142,10 +142,16 @@ const messages = defineMessages({
     id: "view.name.overview.system.modal.downloadingCancelled.message",
   },
   updatingProgressTitle: {
-    id: "view.name.overview.system.modal.updating.progress.title"
+    id: "view.name.overview.system.modal.updating.progress.title",
   },
   updatingProgressDescription: {
-    id: "view.name.overview.system.modal.updating.progress.description"
+    id: "view.name.overview.system.modal.updating.progress.description",
+  },
+  updatingFailedTitle: {
+    id: "view.name.overview.system.modal.updating.fail.title"
+  },
+  updatingFailedDescription: {
+    id: "view.name.overview.system.modal.updating.fail.description"
   }
 })
 
@@ -359,10 +365,7 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
 )
 
 export const UpdatingProgressModal = () => (
-  <OSUpdateModal
-    closeButton={false}
-    closeable={false}
-  >
+  <OSUpdateModal closeButton={false} closeable={false}>
     <RoundIconWrapper>
       <Icon type={Type.MuditaLogo} width={12} />
     </RoundIconWrapper>
@@ -393,8 +396,21 @@ export const UpdatingSuccessModal = () => (
   </OSUpdateModal>
 )
 
-export const UpdatingFailureModal = () => (
-  <OSUpdateModal>
-    <h1>Failure</h1>
+export const UpdatingFailureModal = ({ onRetry = noop }) => (
+  <OSUpdateModal
+    actionButtonLabel={intl.formatMessage(messages.downloadingFailedButton)}
+    onActionButtonClick={onRetry}
+  >
+    <RoundIconWrapper>
+      <Icon type={Type.Fail} width={4} />
+    </RoundIconWrapper>
+    <Text
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={messages.updatingFailedTitle}
+    />
+    <ModalText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={messages.updatingFailedDescription}
+    />
   </OSUpdateModal>
 )
