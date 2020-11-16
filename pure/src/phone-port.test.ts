@@ -1,6 +1,5 @@
-import SerialPort = require("serialport")
-const MockBinding = require("@serialport/binding-mock")
-import PureNode, { manufacturer, productId } from "./index"
+import mockSerialPort from "./mock-serial-port"
+import PureNode from "./index"
 import PhonePort from "./phone-port"
 import {
   Endpoint,
@@ -9,26 +8,13 @@ import {
   ResponseStatus,
 } from "./phone-port.types"
 
-SerialPort.Binding = MockBinding
-MockBinding.createPort("/dev/ROBOT", {
-  productId,
-  manufacturer,
-  echo: true,
-  record: true,
-  // serialNumber: 1 <- is default implementation by MockBinding as serialNumber incrementing
-})
-
 let phonePort: PhonePort
 
 beforeEach(async (done) => {
+  mockSerialPort()
+
   const phonePorts = await PureNode.getPhonePorts()
   phonePort = phonePorts[0]
-  done()
-})
-
-afterEach(async (done) => {
-  // unlocking a close port
-  await phonePort.disconnect()
   done()
 })
 
@@ -54,7 +40,8 @@ test("disconnection when phone isn't connect return ok status", async () => {
 })
 
 test("emits signals when the phone disconnects automatically", async (done) => {
-  await phonePort.connect()
+  const {status} = await phonePort.connect()
+  console.log("1. status: ", status)
   phonePort.on(PortEventName.Disconnected, done)
 
   // emits fake disconnected event
@@ -62,7 +49,8 @@ test("emits signals when the phone disconnects automatically", async (done) => {
 })
 
 test("unregister listener isn't triggering after emits event", async (done) => {
-  await phonePort.connect()
+  const {status} = await phonePort.connect()
+  console.log("2. status: ", status)
   const listener = () => {
     throw new Error()
   }

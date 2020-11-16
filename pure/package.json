@@ -13,6 +13,7 @@
     "lint": "eslint --ext .ts src"
   },
   "devDependencies": {
+    "@appnroll/eslint-config": "^1.0.11",
     "@serialport/binding-mock": "^9.0.2",
     "@types/jest": "^26.0.15",
     "husky": "^4.3.0",

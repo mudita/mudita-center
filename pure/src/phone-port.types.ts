@@ -59,3 +59,7 @@ export interface RequestConfig {
 export enum FileResponseStatus {
   Ok = '0',
 }
+
+export enum UpdateResponseStatus {
+  Ok = 'Ready for reset',
+}

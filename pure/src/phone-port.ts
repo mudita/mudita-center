@@ -10,7 +10,7 @@ import {
   Method,
   RequestConfig,
   Response,
-  ResponseStatus,
+  ResponseStatus, UpdateResponseStatus,
 } from "./phone-port.types"
 import { createValidRequest, getNewUUID, portData } from "./parser"
 import { Contact, CountBodyResponse } from "./endpoints/contact.types"
@@ -183,7 +183,7 @@ class PhonePort {
         const fileName = path.basename(file)
         const fileSize = fs.lstatSync(file).size
 
-        const newConfig = {
+        const config = {
           uuid,
           endpoint: Endpoint.FilesystemUpload,
           method: Method.Post,
@@ -194,15 +194,15 @@ class PhonePort {
           },
         }
 
-        const request = createValidRequest(newConfig)
+        const request = createValidRequest(config)
         this.port.write(request)
       }
     })
   }
 
-  private pureUpdateRequest(config: RequestConfig): Promise<Response<any>> {
+  private pureUpdateRequest({ file }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
-      if (!this.port || !this.isPolling || !config.file) {
+      if (!this.port || !this.isPolling || !file) {
         resolve({ status: ResponseStatus.ConnectionError })
       } else {
         this.isPolling = false
@@ -212,7 +212,7 @@ class PhonePort {
           const response = await portData(event)
 
           if (response.endpoint === Endpoint.Update) {
-            if (response.body.status === "Ready for reset") {
+            if (response.body.status === UpdateResponseStatus.Ok) {
               this.eventEmitter.off(PortEventName.DataReceived, listener)
               resolve({ status: ResponseStatus.Ok })
             }
@@ -221,8 +221,8 @@ class PhonePort {
 
         this.eventEmitter.on(PortEventName.DataReceived, listener)
 
-        const fileName = path.basename(config.file)
-        const newConfig = {
+        const fileName = path.basename(file)
+        const config = {
           uuid,
           endpoint: Endpoint.Update,
           method: Method.Post,
@@ -231,7 +231,7 @@ class PhonePort {
           },
         }
 
-        const request = createValidRequest(newConfig)
+        const request = createValidRequest(config)
         this.port.write(request)
       }
     })
