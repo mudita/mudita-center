@@ -9,7 +9,7 @@ const mockPureData = [
     blocked: false,
     favourite: true,
     id: 19,
-    numbers: [Array],
+    numbers: ["500400300"],
     priName: "Alek",
   }
 ]
@@ -19,7 +19,7 @@ jest.mock("Backend/pure-node-service", () => {
     return {
       request: ({ body }: RequestConfig) => {
         if (body.count === true) {
-          return { data: { count: 10 }, status: "ok" }
+          return { data: { count: 1 }, status: "ok" }
         } else {
           return {
             data: mockPureData,
@@ -40,6 +40,7 @@ test("return mapped contacts from pure to Contact model", async () => {
   expect(data[0]).toMatchObject({
     blocked: false,
     favourite: true,
+    primaryPhoneNumber: "500400300",
     secondaryPhoneNumber: "",
     firstAddressLine: "6 Czeczota St.",
     secondAddressLine: "02600 Warsaw",

@@ -22,10 +22,11 @@ class Phonebook extends PhonebookAdapter {
   }
 
   public async getContacts(): Promise<DeviceResponse<Contact[]>> {
-    const { status, data = { count: 0 } } = await this.getContactCount()
+    const { status, data } = await this.getContactCount()
 
-    if (status === DeviceResponseStatus.Ok) {
-      return this.getContactsByCount(data)
+    if (status === DeviceResponseStatus.Ok && Boolean(data)) {
+      // TODO: replace this mock count to value from data after fix https://appnroll.atlassian.net/browse/EGD-4368
+      return this.getContactsByCount({ count: 5 })
     } else {
       return { status, error: { message: "something goes wrong" } }
     }
@@ -61,8 +62,7 @@ class Phonebook extends PhonebookAdapter {
     const { status, data = [] } = await this.pureNodeService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Get,
-      // TODO: replace this mock count to parameter after fix https://appnroll.atlassian.net/browse/EGD-4368
-      body: { count: 5 },
+      body: { count },
     })
 
     if (status === DeviceResponseStatus.Ok) {
