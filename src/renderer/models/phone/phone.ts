@@ -1,4 +1,5 @@
 import { Slicer, StoreSelectors } from "@rematch/select"
+import { Dispatch } from "Renderer/store"
 import { Contact } from "Renderer/models/phone/phone.typings"
 import {
   BaseContactModel,
@@ -18,6 +19,7 @@ import {
   contactDatabaseFactory,
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
+import getContacts from "Renderer/requests/get-contacts.request"
 
 export const initialState: Phone = {
   db: {},
@@ -98,7 +100,14 @@ export default {
    * All these side effects are just for show, since we don't know anything
    * about phone sync flow at the moment.
    */
-  effects: {
+  effects: (dispatch: Dispatch) => ({
+    loadData: async (): Promise<string | void> => {
+      const { data = [], error } = await getContacts()
+      if (error) return error.message
+      else {
+        dispatch.phone.setContacts(data)
+      }
+    },
     async addContact() {
       await simulateWriteToPhone()
     },
@@ -110,7 +119,7 @@ export default {
     async removeContact() {
       await simulateWriteToPhone()
     },
-  },
+  }),
   selectors: (slice: Slicer<StoreData>) => ({
     contactList() {
       return slice((state) => getSortedContactList(state))

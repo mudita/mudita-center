@@ -67,7 +67,7 @@ const PhoneComponent = ({
     resetRows={action("Reset rows")}
     setProviderData={noop}
     isTopicThreadOpened={isTopicThreadOpened}
-    saveContacts={noop}
+    loadData={dummyPromise(action("load data"))}
   />
 )
 

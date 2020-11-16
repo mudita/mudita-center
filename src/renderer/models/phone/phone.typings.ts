@@ -83,7 +83,7 @@ interface StoreSelectors extends Contacts {
 }
 
 interface StoreEffects {
-  readonly loadData?: () => void
+  readonly loadData: () => Promise<string | void>
   readonly addContact?: (contact: Contact) => void
   readonly editContact?: (id: ContactID, data: Contact) => void
   readonly deleteContacts?: (contacts: Contact[]) => void

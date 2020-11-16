@@ -45,11 +45,10 @@ import { History, LocationState } from "history"
 import { useHistory } from "react-router-dom"
 import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "Renderer/modules/phone/find-contact-by-phone-number"
-import getContacts from "Renderer/requests/get-contacts.request"
 import {
-  ContactError,
-  ContactErrorWithRetry,
-} from "Renderer/models/phone/phone.modals"
+  ErrorDataModal,
+  ErrorWithRetryDataModal,
+} from "Renderer/components/rest/data-modal/data.modals"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -68,16 +67,15 @@ export type PhoneProps = ContactActions &
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
-  } & Partial<Store> & {
-    saveContacts: (contacts: Contact[]) => void
-  }
+  } & Partial<Store> &
+  Pick<Store, "loadData">
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
   const {
     addContact,
     editContact,
     getContact,
-    saveContacts,
+    loadData,
     removeContact,
     contactList = [],
     flatList,
@@ -125,19 +123,18 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
     const fetchData = async (retried?: boolean) => {
       setResultsState(ResultsState.Loading)
-      const { data = [], error } = await getContacts()
+      const error = await loadData()
+
       if (cancelled) return
       setResultsState(ResultsState.Loaded)
 
       if (error && !retried) {
         modalService.openModal(
-          <ContactErrorWithRetry onRetry={() => fetchData(true)} />,
+          <ErrorWithRetryDataModal onRetry={() => fetchData(true)} />,
           true
         )
       } else if (error) {
-        modalService.openModal(<ContactError />, true)
-      } else {
-        saveContacts(data)
+        modalService.openModal(<ErrorDataModal />, true)
       }
     }
     fetchData()
