@@ -43,12 +43,6 @@ export const mapCalendars = (calendars: GoogleCalendar[]): Calendar[] => {
   }))
 }
 
-export const mapContacts = (
-  contacts: GoogleContactResourceItem[]
-): Contact[] => {
-  return contacts.map((contact) => mapContact(contact))
-}
-
 export const mapContact = (contact: GoogleContactResourceItem): Contact => {
   let firstName = ""
   let lastName = ""
