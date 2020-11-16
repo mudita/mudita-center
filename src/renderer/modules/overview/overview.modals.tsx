@@ -22,7 +22,10 @@ import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component";
+import theme from "Renderer/styles/theming/theme";
+import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component";
+import { LoadingBar } from "Renderer/modules/overview/backup-process/modals.styled";
+import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled";
 
 const ModalContent = styled.div`
   display: flex;
@@ -138,6 +141,12 @@ const messages = defineMessages({
   downloadingCancelledMessage: {
     id: "view.name.overview.system.modal.downloadingCancelled.message",
   },
+  updatingProgressTitle: {
+    id: "view.name.overview.system.modal.updating.progress.title"
+  },
+  updatingProgressDescription: {
+    id: "view.name.overview.system.modal.updating.progress.description"
+  }
 })
 
 const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
@@ -350,20 +359,32 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
 )
 
 export const UpdatingProgressModal = () => (
-  <SynchronizingContactsModal
-    body={{
-      id: "view.name.phone.contacts.synchronizingModalBody",
-    }}
-    subtitle={{
-      id: "view.name.phone.contacts.synchronizingModalTitle",
-    }}
-    closeButtonLabel={intl.formatMessage({
-      id: "view.generic.button.cancel",
-    })}
-    onFailure={noop}
-    onSuccess={noop}
-    icon={Type.SynchronizeContacts}
-  />
+  <OSUpdateModal
+    closeButton={false}
+    closeable={false}
+  >
+    <RoundIconWrapper>
+      <Icon type={Type.MuditaLogo} width={12} />
+    </RoundIconWrapper>
+    <ModalText
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={messages.updatingProgressTitle}
+    />
+    <ModalText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={messages.updatingProgressDescription}
+    />
+    <LoadingBar
+      chartData={[
+        { value: 8, color: backgroundColor("chartBar")({ theme }) },
+        {
+          value: 2,
+          color: backgroundColor("minor")({ theme }),
+        },
+      ]}
+      displayStyle={DisplayStyle.Thin}
+    />
+  </OSUpdateModal>
 )
 
 export const UpdatingSuccessModal = () => (
