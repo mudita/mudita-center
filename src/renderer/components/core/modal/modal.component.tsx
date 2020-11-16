@@ -59,10 +59,9 @@ const Close = styled(Button)`
 
 export const ButtonContainer = styled.div<{ buttonsPosition: ModalSize }>`
   ${({ buttonsPosition }) => getButtonsPosition(buttonsPosition)};
-
   display: flex;
   box-sizing: border-box;
-  padding-top: 3.2rem;
+  padding-top: 4.8rem;
 `
 
 export const ButtonWrapper = styled.div`
