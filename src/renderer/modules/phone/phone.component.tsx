@@ -48,11 +48,13 @@ import findContactByPhoneNumber from "Renderer/modules/phone/find-contact-by-pho
 import {
   ErrorDataModal,
   ErrorWithRetryDataModal,
+  SpinnerDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 
-export const deleteModalMessages = defineMessages({
-  title: { id: "view.name.phone.contacts.modal.delete.title" },
-  text: { id: "view.name.phone.contacts.modal.delete.text" },
+export const messages = defineMessages({
+  deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
+  deleteText: { id: "view.name.phone.contacts.modal.delete.text" },
+  addingText: { id: "view.name.phone.contacts.modal.adding.text" },
 })
 
 export type PhoneProps = ContactActions &
@@ -68,11 +70,11 @@ export type PhoneProps = ContactActions &
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
   } & Partial<Store> &
-  Pick<Store, "loadData">
+  Pick<Store, "loadData" | "addNewContact">
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
   const {
-    addContact,
+    addNewContact,
     editContact,
     getContact,
     loadData,
@@ -200,11 +202,29 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     setNewContact(undefined)
   }
 
-  const saveNewContact = (contact: Contact) => {
-    if (addContact) {
-      addContact(contact)
+  const saveNewContact = async (contact: NewContact) => {
+    const addingNewContact = async (retried?: boolean) => {
+      modalService.openModal(
+        <SpinnerDataModal textMessage={messages.addingText} />,
+        true
+      )
+
+      const error = await addNewContact(contact)
+
+      if (error && !retried) {
+        modalService.openModal(
+          <ErrorWithRetryDataModal onRetry={() => addingNewContact(true)} />,
+          true
+        )
+      } else if (error) {
+        modalService.openModal(<ErrorDataModal />, true)
+      } else {
+        cancelOrCloseContactHandler()
+        await modalService.closeModal()
+      }
     }
-    cancelOrCloseContactHandler()
+
+    await addingNewContact()
   }
 
   const handleEditingContact = (contact: Contact) => {
@@ -235,10 +255,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         <DeleteModal
           deleting
           title={intl.formatMessage({
-            ...deleteModalMessages.title,
+            ...messages.deleteTitle,
           })}
           message={{
-            ...deleteModalMessages.text,
+            ...messages.deleteText,
             values: { name: createFullName(contact), ...textFormatters },
           }}
         />
@@ -256,10 +276,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       <DeleteModal
         onDelete={handleDelete}
         title={intl.formatMessage({
-          ...deleteModalMessages.title,
+          ...messages.deleteTitle,
         })}
         message={{
-          ...deleteModalMessages.text,
+          ...messages.deleteText,
           values: { name: createFullName(contact), ...textFormatters },
         }}
       />
@@ -361,14 +381,15 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
         connections.forEach((contact: GooglePerson) => {
           const newContact = contactFactory(contact)
-          if (addContact && newContact) {
+          if (newContact) {
             /**
              * looking for duplicates will require more elaborate strategy,
              * this is just for show
              */
             const unique = typeof getContact(newContact.id) === "undefined"
             if (unique) {
-              addContact(newContact)
+              // TODO: https://appnroll.atlassian.net/browse/PDA-484
+              // addNewContact(newContact)
               added++
             } else {
               // apply merge

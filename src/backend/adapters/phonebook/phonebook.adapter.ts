@@ -32,13 +32,32 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  public addContact(contact: NewContact): DeviceResponse<any> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: {
-        ...contact,
-        id: Faker.random.uuid(),
-      },
+  public async addContact(
+    contact: NewContact
+  ): Promise<DeviceResponse<Contact>> {
+
+    const {
+      status,
+      // @ts-ignore in data should be return id
+      data,
+    } = await this.pureNodeService.request({
+      endpoint: Endpoint.Contacts,
+      method: Method.Put,
+      body: mapToPureContact(contact),
+    })
+
+    if (status === DeviceResponseStatus.Ok) {
+      return {
+        status,
+        data: {
+          // id should be return from pure phone
+          id: Faker.random.uuid(),
+          ...contact,
+          primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
+        },
+      }
+    } else {
+      return { status, error: { message: "something goes wrong" } }
     }
   }
 
@@ -119,4 +138,30 @@ const mapToContact = (pureContact: PureContact): Contact => {
       note: "",
       email: "",
     }
+}
+
+const mapToPureContact = (contact: NewContact): PureContact => {
+  const {
+    blocked = false,
+    favourite = false,
+    firstName = "",
+    lastName = "",
+    primaryPhoneNumber,
+    secondaryPhoneNumber,
+    firstAddressLine,
+    secondAddressLine,
+  } = contact
+  const numbers = []
+  if (primaryPhoneNumber) numbers.push(primaryPhoneNumber)
+  if (secondaryPhoneNumber) numbers.push(secondaryPhoneNumber)
+
+  return {
+    blocked,
+    favourite,
+    numbers,
+    id: Math.round(Math.random() * 1000),
+    priName: firstName,
+    altName: lastName,
+    address: `${firstAddressLine}\n${secondAddressLine}`,
+  }
 }

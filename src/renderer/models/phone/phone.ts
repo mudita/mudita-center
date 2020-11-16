@@ -1,6 +1,6 @@
 import { Slicer, StoreSelectors } from "@rematch/select"
 import { Dispatch } from "Renderer/store"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Contact, NewContact } from "Renderer/models/phone/phone.typings"
 import {
   BaseContactModel,
   ContactID,
@@ -20,6 +20,7 @@ import {
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
 import getContacts from "Renderer/requests/get-contacts.request"
+import addContact from "Renderer/requests/add-contact.request"
 
 export const initialState: Phone = {
   db: {},
@@ -108,10 +109,13 @@ export default {
         dispatch.phone.setContacts(data)
       }
     },
-    async addContact() {
-      await simulateWriteToPhone()
+    addNewContact: async (contact: NewContact): Promise<string | void> => {
+      const { data, error } = await addContact(contact)
+      if (error || !data) return error?.message ?? "something goes wrong"
+      else {
+        dispatch.phone.addContact(data)
+      }
     },
-
     async editContact() {
       await simulateWriteToPhone()
     },
