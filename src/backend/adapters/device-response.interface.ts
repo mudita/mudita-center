@@ -4,7 +4,6 @@ export enum DeviceResponseStatus {
 }
 
 export interface ErrorResponse{
-  code?: number
   message: string
 }
 
