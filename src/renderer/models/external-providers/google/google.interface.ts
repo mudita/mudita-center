@@ -36,6 +36,7 @@ export interface GoogleContactResourceItem {
     metadata: GoogleContactMetadata
     streetAddress: string
     postalCode: string
+    city: string
   }[]
   emailAddresses?: {
     metadata: GoogleContactMetadata

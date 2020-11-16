@@ -78,7 +78,7 @@ export const mapContact = (contact: GoogleContactResourceItem): Contact => {
 
   if (contact.addresses) {
     firstAddressLine = contact.addresses[0].streetAddress
-    secondAddressLine = contact.addresses[0].postalCode
+    secondAddressLine = `${contact.addresses[0].postalCode} ${contact.addresses[0].city}`
   }
 
   if (contact.emailAddresses) {
