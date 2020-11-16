@@ -678,6 +678,7 @@ exports[`matches snapshot 1`] = `
     >
       <a
         class="c5"
+        data-testid="backup-and-recovery-link"
         displaystyle="8"
         href="#/recovery-mode"
         size="2"
