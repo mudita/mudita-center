@@ -39,6 +39,7 @@ test("loads settings", async () => {
         "appTethering": false,
         "appTray": true,
         "language": "en-US",
+        "pureNeverConnected": true,
         "pureOsBackupLocation": "fake/path/pure/phone/backups/",
         "pureOsDownloadLocation": "fake/path/pure/os/downloads/",
       },
