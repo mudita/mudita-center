@@ -66,41 +66,10 @@ class Phonebook extends PhonebookAdapter {
     })
 
     if (status === DeviceResponseStatus.Ok) {
-      const mapToContact = (data: PureContact[]): Contact[] => {
-        return data.map((pureContact) => {
-          const {
-            id,
-            blocked,
-            favourite,
-            address = "",
-            altName,
-            priName,
-            numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
-          } = pureContact
-
-          const firstAddressLine = address.substr(0, address.indexOf("\n"))
-          const secondAddressLine = address.substr(address.indexOf("\n") + 1)
-
-          return {
-            blocked,
-            favourite,
-            primaryPhoneNumber,
-            secondaryPhoneNumber,
-            firstAddressLine,
-            secondAddressLine,
-            id: String(id),
-            firstName: altName,
-            lastName: priName,
-            ice: false,
-            note: "",
-            email: "",
-          }
-        })
-      }
 
       return {
         status,
-        data: mapToContact(data),
+        data: data.map(mapToContact),
       }
     } else {
       return { status, data: [] }
@@ -120,3 +89,34 @@ const createPhonebook = (pureNodeService: PureNodeService): Phonebook =>
   new Phonebook(pureNodeService)
 
 export default createPhonebook
+
+
+const mapToContact = (pureContact: PureContact): Contact => {
+    const {
+      id,
+      blocked,
+      favourite,
+      address = "",
+      altName,
+      priName,
+      numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
+    } = pureContact
+
+    const firstAddressLine = address.substr(0, address.indexOf("\n"))
+    const secondAddressLine = address.substr(address.indexOf("\n") + 1)
+
+    return {
+      blocked,
+      favourite,
+      primaryPhoneNumber,
+      secondaryPhoneNumber,
+      firstAddressLine,
+      secondAddressLine,
+      id: String(id),
+      firstName: priName,
+      lastName: altName,
+      ice: false,
+      note: "",
+      email: "",
+    }
+}
