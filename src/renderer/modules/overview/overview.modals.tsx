@@ -147,12 +147,18 @@ const messages = defineMessages({
   updatingProgressDescription: {
     id: "view.name.overview.system.modal.updating.progress.description",
   },
+  updatingSuccessTitle: {
+    id: "view.name.overview.system.modal.updating.success.title"
+  },
+  updatingSuccessDescription: {
+    id: "view.name.overview.system.modal.updating.success.description"
+  },
   updatingFailedTitle: {
     id: "view.name.overview.system.modal.updating.fail.title"
   },
   updatingFailedDescription: {
     id: "view.name.overview.system.modal.updating.fail.description"
-  }
+  },
 })
 
 const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
@@ -392,7 +398,17 @@ export const UpdatingProgressModal = () => (
 
 export const UpdatingSuccessModal = () => (
   <OSUpdateModal>
-    <h1>Success</h1>
+    <RoundIconWrapper>
+      <Icon type={Type.Pure} width={4} />
+    </RoundIconWrapper>
+    <Text
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={messages.updatingSuccessTitle}
+    />
+    <ModalText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={messages.updatingSuccessDescription}
+    />
   </OSUpdateModal>
 )
 
