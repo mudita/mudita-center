@@ -46,7 +46,10 @@ import { useHistory } from "react-router-dom"
 import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "Renderer/modules/phone/find-contact-by-phone-number"
 import getContacts from "Renderer/requests/get-contacts.request"
-import { ContactError, ContactErrorWithRetry } from "Renderer/models/phone/phone.modals"
+import {
+  ContactError,
+  ContactErrorWithRetry,
+} from "Renderer/models/phone/phone.modals"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -116,17 +119,19 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const [resultsState, setResultsState] = useState<ResultsState>(
     contactList.length === 0 ? ResultsState.Empty : ResultsState.Loaded
   )
+
   useEffect(() => {
+    let cancelled = false
+
     const fetchData = async (retried?: boolean) => {
       setResultsState(ResultsState.Loading)
       const { data = [], error } = await getContacts()
+      if (cancelled) return
       setResultsState(ResultsState.Loaded)
 
       if (error && !retried) {
         modalService.openModal(
-          <ContactErrorWithRetry
-            onRetry={() => fetchData(true)}
-          />,
+          <ContactErrorWithRetry onRetry={() => fetchData(true)} />,
           true
         )
       } else if (error) {
@@ -136,6 +141,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       }
     }
     fetchData()
+
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   useEffect(() => {
