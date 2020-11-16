@@ -65,6 +65,10 @@ const DownloadBar = styled.div`
   }
 `
 
+const ProgressBar = styled(LoadingBar)`
+  margin-bottom: 4.8rem;
+`
+
 const messages = defineMessages({
   muditaOsUpdateTitle: {
     id: "view.name.overview.system.modal.muditaOsUpdate.title",
@@ -383,7 +387,7 @@ export const UpdatingProgressModal = () => (
       displayStyle={TextDisplayStyle.MediumFadedText}
       message={messages.updatingProgressDescription}
     />
-    <LoadingBar
+    <ProgressBar
       chartData={[
         { value: 8, color: backgroundColor("chartBar")({ theme }) },
         {
