@@ -62,7 +62,7 @@ export type PhoneProps = ContactActions &
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
-  } & Partial<Store>
+  } & Store
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
   const {
@@ -104,7 +104,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const authorizeAndLoadContacts = async () => {
     try {
-      if (loadContacts && provider) {
+      if (provider) {
         await delayResponse(loadContacts(provider))
       }
       await openProgressSyncModal()
