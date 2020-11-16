@@ -17,37 +17,24 @@ export interface GoogleEvent {
   }
 }
 
-export interface GoogleContactMetadata {
-  primary: boolean
-  source: {
-    type: string
-    id: string
-  }
-}
-
 export interface GoogleContactResourceItem {
   resourceName: string
   etag: string
   names?: {
-    metadata: GoogleContactMetadata
     displayNameLastFirst: string
   }[]
   addresses?: {
-    metadata: GoogleContactMetadata
     streetAddress: string
     postalCode: string
     city: string
   }[]
   emailAddresses?: {
-    metadata: GoogleContactMetadata
     value: string
   }[]
   phoneNumbers?: {
-    metadata: GoogleContactMetadata
     value: string
   }[]
   biographies?: {
-    metadata: GoogleContactMetadata
     value: string
     contentType: string
   }[]

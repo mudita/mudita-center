@@ -474,7 +474,7 @@ test("contacts are received properly", async () => {
         "lastName": " Bombolo",
         "note": "notatka",
         "primaryPhoneNumber": "11111111111111",
-        "secondAddressLine": "00-123",
+        "secondAddressLine": "00-123 Warsaw",
         "secondaryPhoneNumber": undefined,
       },
       Object {
@@ -488,7 +488,7 @@ test("contacts are received properly", async () => {
         "lastName": " Kolejny bombolek",
         "note": "",
         "primaryPhoneNumber": "12341234234",
-        "secondAddressLine": "123-123",
+        "secondAddressLine": "123-123 Warsaw",
         "secondaryPhoneNumber": undefined,
       },
     ]
