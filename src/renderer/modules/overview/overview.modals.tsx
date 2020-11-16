@@ -377,7 +377,7 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
 export const UpdatingProgressModal = () => (
   <OSUpdateModal closeButton={false} closeable={false}>
     <RoundIconWrapper>
-      <Icon type={Type.MuditaLogo} width={12} />
+      <Icon type={Type.MuditaDarkLogo} width={8} />
     </RoundIconWrapper>
     <ModalText
       displayStyle={TextDisplayStyle.LargeBoldText}
