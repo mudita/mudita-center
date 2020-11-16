@@ -11,7 +11,14 @@ import ContactDetails, {
   ContactDetailsActions,
 } from "Renderer/components/rest/phone/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
-import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
+import {
+  Contact,
+  ContactCategory,
+  ContactID,
+  NewContact,
+  ResultsState,
+  Store,
+} from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
   defaultContact,
 } from "Renderer/components/rest/phone/contact-edit.component"
@@ -23,12 +30,6 @@ import { createFullName } from "Renderer/models/phone/phone.helpers"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
-import {
-  ContactID,
-  NewContact,
-  ResultsState,
-  Store,
-} from "Renderer/models/phone/phone.typings"
 import { ContactSection } from "Renderer/modules/phone/phone.styled"
 import { AuthProviders } from "Renderer/models/auth/auth.typings"
 import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
@@ -97,12 +98,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   )
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
-  const [provider, setProvider] = useState<Provider | undefined>()
-  const setGoogleProvider = async () => {
-    setProvider(Provider.Google)
-  }
 
-  const authorizeAndLoadContacts = async () => {
+  const authorizeAndLoadContacts = async (provider: Provider) => {
     try {
       if (provider) {
         await delayResponse(loadContacts(provider))
@@ -112,6 +109,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       await openFailureSyncModal()
     }
   }
+
+  const loadGoogleContacts = () => authorizeAndLoadContacts(Provider.Google)
 
   const {
     selectedRows,
@@ -125,12 +124,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   useEffect(() => {
     setContacts(contactList)
   }, [contactList])
-
-  useEffect(() => {
-    if (provider) {
-      authorizeAndLoadContacts()
-    }
-  }, [provider])
 
   useEffect(() => {
     if (editedContact) {
@@ -336,7 +329,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     modalService.openModal(
       <SyncContactsModal
         onAppleButtonClick={openProgressSyncModal}
-        onGoogleButtonClick={setGoogleProvider}
+        onGoogleButtonClick={loadGoogleContacts}
       />
     )
   }
