@@ -11,7 +11,7 @@ enum SIM {
   NONE,
 }
 
-enum RssiBar {
+enum SignalStrength {
   zero = 0,
   one = 1,
   two = 2,
@@ -56,7 +56,7 @@ export interface DeviceInfo {
   gitRevision: string
   gitTag: string
   selectedSim: SIM
-  signalStrength: RssiBar
+  signalStrength: SignalStrength
   trayState: Tray
   accessTechnology: AccessTechnology
   networkStatus: NetworkStatus
