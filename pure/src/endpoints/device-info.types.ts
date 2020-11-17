@@ -4,10 +4,10 @@ enum BatteryState {
 }
 
 enum SIM {
-  SIM1,
-  SIM2,
-  SIM_Fail,
-  SIM_Unknown,
+  One,
+  Two,
+  Fail,
+  Unknown,
   None,
 }
 
