@@ -11,7 +11,7 @@ enum PureNodeEvent {
 }
 
 export class PureNode {
-  private eventEmitter = new EventEmitter()
+  #eventEmitter = new EventEmitter()
 
   constructor(
     private createPhonePort: CreatePhonePort,
@@ -33,11 +33,11 @@ export class PureNode {
   }
 
   public onAttachPhone(listener: (event: PhonePort) => void): void {
-    this.eventEmitter.on(PureNodeEvent.AttachedPhone, listener)
+    this.#eventEmitter.on(PureNodeEvent.AttachedPhone, listener)
   }
 
   public offAttachPhone(listener: (event: PhonePort) => void): void {
-    this.eventEmitter.off(PureNodeEvent.AttachedPhone, listener)
+    this.#eventEmitter.off(PureNodeEvent.AttachedPhone, listener)
   }
 
   private registerAttachPhoneEmitter(): void {
@@ -50,7 +50,7 @@ export class PureNode {
         )
         if (port) {
           const phonePort = createPhonePort(port.path)
-          this.eventEmitter.emit(PureNodeEvent.AttachedPhone, phonePort)
+          this.#eventEmitter.emit(PureNodeEvent.AttachedPhone, phonePort)
         }
       }
     })

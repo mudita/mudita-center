@@ -17,15 +17,15 @@ import { Contact, CountBodyResponse } from "./endpoints/contact.types"
 import { DeviceInfo } from "./endpoints/device-info.types"
 
 class PhonePort {
-  private port: SerialPort | undefined
-  private eventEmitter = new EventEmitter()
-  private isPolling = true
+  #port: SerialPort | undefined
+  #eventEmitter = new EventEmitter()
+  #isPolling = true
 
   constructor(private path: string) {}
 
   public async connect(): Promise<Response> {
     return new Promise((resolve) => {
-      this.port = new SerialPort(this.path, (error) => {
+      this.#port = new SerialPort(this.path, (error) => {
         if (error) {
           resolve({ status: ResponseStatus.ConnectionError })
         } else {
@@ -33,22 +33,22 @@ class PhonePort {
         }
       })
 
-      this.port.on("data", async (event) => {
-        this.eventEmitter.emit(PortEventName.DataReceived, event)
+      this.#port.on("data", async (event) => {
+        this.#eventEmitter.emit(PortEventName.DataReceived, event)
       })
 
-      this.port.on("close", () => {
-        this.eventEmitter.emit(PortEventName.Disconnected)
+      this.#port.on("close", () => {
+        this.#eventEmitter.emit(PortEventName.Disconnected)
       })
     })
   }
 
   public async disconnect(): Promise<Response> {
     return new Promise((resolve) => {
-      if (this.port === undefined) {
+      if (this.#port === undefined) {
         resolve({ status: ResponseStatus.Ok })
       } else {
-        this.port.close((error) => {
+        this.#port.close((error) => {
           if (error) {
             resolve({ status: ResponseStatus.ConnectionError })
           } else {
@@ -106,7 +106,7 @@ class PhonePort {
       return this.pureUpdateRequest(config)
     } else {
       return new Promise((resolve) => {
-        if (!this.port || !this.isPolling) {
+        if (!this.#port || !this.#isPolling) {
           resolve({ status: ResponseStatus.ConnectionError })
         } else {
           const uuid = getNewUUID()
@@ -115,34 +115,34 @@ class PhonePort {
             const response = await parseData(event)
 
             if (response.uuid === String(uuid)) {
-              this.eventEmitter.off(PortEventName.DataReceived, listener)
+              this.#eventEmitter.off(PortEventName.DataReceived, listener)
               resolve(response)
             }
           }
 
-          this.eventEmitter.on(PortEventName.DataReceived, listener)
+          this.#eventEmitter.on(PortEventName.DataReceived, listener)
 
           const request = createValidRequest({ ...config, uuid })
-          this.port.write(request)
+          this.#port.write(request)
         }
       })
     }
   }
 
   public on(eventName: PortEventName, listener: () => void): void {
-    this.eventEmitter.on(eventName, listener)
+    this.#eventEmitter.on(eventName, listener)
   }
 
   public off(eventName: PortEventName, listener: () => void): void {
-    this.eventEmitter.off(eventName, listener)
+    this.#eventEmitter.off(eventName, listener)
   }
 
   private async fileRequest({ file }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
-      if (!this.port || !this.isPolling || !file) {
+      if (!this.#port || !this.#isPolling || !file) {
         resolve({ status: ResponseStatus.ConnectionError })
       } else {
-        this.isPolling = false
+        this.#isPolling = false
         const uuid = getNewUUID()
 
         const listener = async (event: any) => {
@@ -150,8 +150,8 @@ class PhonePort {
 
           if (response.uuid === String(uuid)) {
             if (response.body.status === ResponseStatus.InternalServerError) {
-              this.eventEmitter.off(PortEventName.DataReceived, listener)
-              this.isPolling = true
+              this.#eventEmitter.off(PortEventName.DataReceived, listener)
+              this.#isPolling = true
               resolve(response)
             } else if (response.body.status === FileResponseStatus.Ok) {
               const readStream = fs.createReadStream(file, {
@@ -159,26 +159,26 @@ class PhonePort {
               })
 
               readStream.on("data", (data) => {
-                if (this.port) {
-                  this.port.write(data)
-                  this.port.drain()
+                if (this.#port) {
+                  this.#port.write(data)
+                  this.#port.drain()
                 }
               })
 
               readStream.on("end", () => {
-                this.isPolling = true
+                this.#isPolling = true
               })
             }
           } else if (
             response.endpoint === Endpoint.FilesystemUpload &&
             response.status === ResponseStatus.Accepted
           ) {
-            this.eventEmitter.off(PortEventName.DataReceived, listener)
+            this.#eventEmitter.off(PortEventName.DataReceived, listener)
             resolve(response)
           }
         }
 
-        this.eventEmitter.on(PortEventName.DataReceived, listener)
+        this.#eventEmitter.on(PortEventName.DataReceived, listener)
 
         const fileName = path.basename(file)
         const fileSize = fs.lstatSync(file).size
@@ -195,17 +195,17 @@ class PhonePort {
         }
 
         const request = createValidRequest(config)
-        this.port.write(request)
+        this.#port.write(request)
       }
     })
   }
 
   private pureUpdateRequest({ file }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
-      if (!this.port || !this.isPolling || !file) {
+      if (!this.#port || !this.#isPolling || !file) {
         resolve({ status: ResponseStatus.ConnectionError })
       } else {
-        this.isPolling = false
+        this.#isPolling = false
         const uuid = getNewUUID()
 
         const listener = async (event: any) => {
@@ -213,13 +213,13 @@ class PhonePort {
 
           if (response.endpoint === Endpoint.Update) {
             if (response.body.status === UpdateResponseStatus.Ok) {
-              this.eventEmitter.off(PortEventName.DataReceived, listener)
+              this.#eventEmitter.off(PortEventName.DataReceived, listener)
               resolve({ status: ResponseStatus.Ok })
             }
           }
         }
 
-        this.eventEmitter.on(PortEventName.DataReceived, listener)
+        this.#eventEmitter.on(PortEventName.DataReceived, listener)
 
         const fileName = path.basename(file)
         const config = {
@@ -232,7 +232,7 @@ class PhonePort {
         }
 
         const request = createValidRequest(config)
-        this.port.write(request)
+        this.#port.write(request)
       }
     })
   }

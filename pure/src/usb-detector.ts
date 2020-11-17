@@ -9,21 +9,21 @@ enum UsbDetectorEvent {
 }
 
 class UsbDetector {
-  private eventEmitter = new EventEmitter()
+  #eventEmitter = new EventEmitter()
 
   constructor() {
     usb.on("attach", async (device: any) => {
       const portInfo = await this.getPortInfo(device)
-      this.eventEmitter.emit(UsbDetectorEvent.Attach, portInfo)
+      this.#eventEmitter.emit(UsbDetectorEvent.Attach, portInfo)
     })
   }
 
   public onAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
-    this.eventEmitter.on(UsbDetectorEvent.Attach, listener)
+    this.#eventEmitter.on(UsbDetectorEvent.Attach, listener)
   }
 
   public offAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
-    this.eventEmitter.off(UsbDetectorEvent.Attach, listener)
+    this.#eventEmitter.off(UsbDetectorEvent.Attach, listener)
   }
 
   private async getDescriptor(

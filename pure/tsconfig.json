@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "ES2018",
     "module": "commonjs",
-    "lib": ["es6"],
+    "lib": ["ES2018"],
     "declaration": true,
     "strict": true,
     "esModuleInterop": true,
