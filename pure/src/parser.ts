@@ -1,17 +1,17 @@
 enum PacketType {
-  invalid = '"',
-  endpoint = 35,
-  rawData = 36,
+  Invalid = "\"",
+  Endpoint = 35,
+  RawData = 36,
 }
 
 enum ParserState {
-  none = -1,
-  readingType = 0,
-  readingSize = 1,
-  readingPayload = 2,
+  None = -1,
+  ReadingType = 0,
+  ReadingSize = 1,
+  ReadingPayload = 2,
 }
 
-export function createValidRequest(payload: any) {
+export const createValidRequest = (payload: any): string => {
   let requestStr = "#"
   const payloadAsString = JSON.stringify(payload)
   const sizeAsString = String(payloadAsString.length).padStart(9, "0")
@@ -21,12 +21,11 @@ export function createValidRequest(payload: any) {
   return requestStr
 }
 
-export async function portData(data: any): Promise<any> {
-  return new Promise(resolve => {
-
-    let parserState = ParserState.none
+export const parseData = async (data: any): Promise<any> => {
+  return new Promise((resolve) => {
+    let parserState = ParserState.None
     let currentPacket = {
-      type: PacketType.invalid,
+      type: PacketType.Invalid,
       dataRaw: null,
       dataSizeToRead: Number(-1),
       dataSizeRead: Number(-1),
@@ -34,16 +33,16 @@ export async function portData(data: any): Promise<any> {
     }
     // debug('got data on serial state: %d data: "%s"', parserState, data)
 
-    function readType(arg: any) {
+    const readType = (arg: any): void => {
       // debug("readType() arg[0] = %s", arg[0])
-      if (arg[0] == PacketType.endpoint || arg[0] == PacketType.rawData) {
+      if (arg[0] == PacketType.Endpoint || arg[0] == PacketType.RawData) {
       } else {
         throw new Error("Invalid or unknown data type")
       }
-      parserState = ParserState.readingSize
+      parserState = ParserState.ReadingSize
     }
 
-    function readSize(arg: any) {
+    const readSize = (arg: any): void => {
       // debug('readSize sizeNumber = "%s"', arg.slice(1, 10))
 
       if (Number.isInteger(Number(arg.slice(1, 10)))) {
@@ -52,12 +51,12 @@ export async function portData(data: any): Promise<any> {
         currentPacket.dataSizeToRead = Number(-1)
       }
       if (currentPacket.dataSizeToRead < 0) {
-        throw new Error('Can\'t parse data size as number "%s"')
+        throw new Error(`Can't parse data size as number "%s"`)
       }
-      parserState = ParserState.readingPayload
+      parserState = ParserState.ReadingPayload
     }
 
-    function readPayload(arg: any) {
+    const readPayload = (arg: any): void => {
       // debug("readPayload arg:%s", arg)
 
       // slice all data until the end of stream
@@ -71,7 +70,7 @@ export async function portData(data: any): Promise<any> {
 
       if (slicedPayload.length == currentPacket.dataSizeToRead) {
         // ideal situation all data is in
-        parserState = ParserState.none
+        parserState = ParserState.None
         // debug("readPayload got all data in one read")
         try {
           currentPacket.dataObject = JSON.parse(slicedPayload)
@@ -84,10 +83,10 @@ export async function portData(data: any): Promise<any> {
       } else if (slicedPayload.length < currentPacket.dataSizeToRead) {
         // debug("readPayload need to read more data from stream")
         currentPacket.dataRaw += slicedPayload
-        parserState = ParserState.none
+        parserState = ParserState.None
       } else if (slicedPayload.length > currentPacket.dataSizeToRead) {
         // multiple messages in this stream, read the first one and continue
-        parserState = ParserState.none
+        parserState = ParserState.None
         // debug("readPayload got all data in one read, but more data in stream")
         try {
           currentPacket.dataObject = JSON.parse(slicedPayload)
@@ -101,26 +100,26 @@ export async function portData(data: any): Promise<any> {
 
     do {
       switch (parserState) {
-        case ParserState.none:
+        case ParserState.None:
         // @ts-ignore
-        case ParserState.readingType:
+        case ParserState.ReadingType:
           readType(data)
           break
 
         // @ts-ignore
-        case ParserState.readingSize:
+        case ParserState.ReadingSize:
           readSize(data)
           break
 
         // @ts-ignore
-        case ParserState.readingPayload:
+        case ParserState.ReadingPayload:
           readPayload(data)
           break
 
         default:
           break
       }
-    } while (parserState != ParserState.none)
+    } while (parserState != ParserState.None)
 
     // debug("read end")
   })

@@ -12,7 +12,7 @@ import {
   Response,
   ResponseStatus, UpdateResponseStatus,
 } from "./phone-port.types"
-import { createValidRequest, getNewUUID, portData } from "./parser"
+import { createValidRequest, getNewUUID, parseData } from "./parser"
 import { Contact, CountBodyResponse } from "./endpoints/contact.types"
 import { DeviceInfo } from "./endpoints/device-info.types"
 
@@ -112,7 +112,7 @@ class PhonePort {
           const uuid = getNewUUID()
 
           const listener = async (event: any) => {
-            const response = await portData(event)
+            const response = await parseData(event)
 
             if (response.uuid === String(uuid)) {
               this.eventEmitter.off(PortEventName.DataReceived, listener)
@@ -146,7 +146,7 @@ class PhonePort {
         const uuid = getNewUUID()
 
         const listener = async (event: any) => {
-          const response = await portData(event)
+          const response = await parseData(event)
 
           if (response.uuid === String(uuid)) {
             if (response.body.status === ResponseStatus.InternalServerError) {
@@ -209,7 +209,7 @@ class PhonePort {
         const uuid = getNewUUID()
 
         const listener = async (event: any) => {
-          const response = await portData(event)
+          const response = await parseData(event)
 
           if (response.endpoint === Endpoint.Update) {
             if (response.body.status === UpdateResponseStatus.Ok) {
