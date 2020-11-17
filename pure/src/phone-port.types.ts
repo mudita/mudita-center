@@ -35,7 +35,7 @@ export enum Endpoint {
 
   // lib endpoint
   File = 100,
-  PureUpdate = 101
+  PureUpdate = 101,
 }
 
 export enum Method {
@@ -46,7 +46,7 @@ export enum Method {
 }
 
 export enum BodyCommand {
-  Download= "download"
+  Download = "download",
 }
 
 export interface RequestConfig {
@@ -57,9 +57,9 @@ export interface RequestConfig {
 }
 
 export enum FileResponseStatus {
-  Ok = '0',
+  Ok = "0",
 }
 
 export enum UpdateResponseStatus {
-  Ok = 'Ready for reset',
+  Ok = "Ready for reset",
 }
