@@ -21,8 +21,8 @@ enum SignalStrength {
 }
 
 enum Tray {
-  Out ,
-  In ,
+  Out,
+  In,
 }
 
 enum AccessTechnology {
