@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": {
     "name": "Mudita",
-    "email": "contact@mudita.com"
+    "email": "hello@mudita.com"
   },
   "license": "ISC",
   "main": "dist/index.js",
