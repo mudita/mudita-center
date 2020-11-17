@@ -11,10 +11,15 @@ Mudita Center is written in Node.js and distributed as an Electron app.
 ## Key features
 
 - updating MuditaOS
+- creating backups
+- recovery mode
 - synchronizing calendar and contacts with Google and Apple
+- managing contacts, messages, notes, events from your desktop
 - uploading audio files
 - enabling using Mudita Pure as a mobile hotspot
-- 
+- managing files
+- viewing meditation stats
+- Windows, macOS, Linux support
 
 ## Table of contents
 
@@ -27,7 +32,7 @@ Mudita Center is written in Node.js and distributed as an Electron app.
 
 ## Quickstart
 
-You can quickstart the project by going through the ["Quickstart" article]().
+You can quickstart the project by going through the ["Quickstart" article](./quickstart.md).
 
 ## Contributing
 
@@ -43,7 +48,7 @@ You can report bugs and feature requests on [GitHub](https://github.com/#/issues
 
 ### Development workflow
 
-When contributing code or documentation changes please follow the guidleines inside the ["Development workflow"](./development_workflow.md) article.
+When contributing code or documentation changes please follow the guidelines inside the ["Development workflow"](./development_workflow.md) article.
 
 ## Changelog
 
