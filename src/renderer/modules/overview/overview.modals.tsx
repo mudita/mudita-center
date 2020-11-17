@@ -22,8 +22,6 @@ import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import theme from "Renderer/styles/theming/theme"
-import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { LoadingBar } from "Renderer/modules/overview/backup-process/modals.styled"
 import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
 
@@ -65,8 +63,8 @@ const DownloadBar = styled.div`
   }
 `
 
-const ProgressBar = styled(LoadingBar)`
-  margin-bottom: 4.8rem;
+const ProgressText = styled(ModalText)`
+  margin-bottom: 8.3rem;
 `
 
 const messages = defineMessages({
@@ -152,16 +150,16 @@ const messages = defineMessages({
     id: "view.name.overview.system.modal.updating.progress.description",
   },
   updatingSuccessTitle: {
-    id: "view.name.overview.system.modal.updating.success.title"
+    id: "view.name.overview.system.modal.updating.success.title",
   },
   updatingSuccessDescription: {
-    id: "view.name.overview.system.modal.updating.success.description"
+    id: "view.name.overview.system.modal.updating.success.description",
   },
   updatingFailedTitle: {
-    id: "view.name.overview.system.modal.updating.fail.title"
+    id: "view.name.overview.system.modal.updating.fail.title",
   },
   updatingFailedDescription: {
-    id: "view.name.overview.system.modal.updating.fail.description"
+    id: "view.name.overview.system.modal.updating.fail.description",
   },
 })
 
@@ -383,19 +381,9 @@ export const UpdatingProgressModal = () => (
       displayStyle={TextDisplayStyle.LargeBoldText}
       message={messages.updatingProgressTitle}
     />
-    <ModalText
+    <ProgressText
       displayStyle={TextDisplayStyle.MediumFadedText}
       message={messages.updatingProgressDescription}
-    />
-    <ProgressBar
-      chartData={[
-        { value: 8, color: backgroundColor("chartBar")({ theme }) },
-        {
-          value: 2,
-          color: backgroundColor("minor")({ theme }),
-        },
-      ]}
-      displayStyle={DisplayStyle.Thin}
     />
   </OSUpdateModal>
 )
