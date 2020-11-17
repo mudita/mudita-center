@@ -18,7 +18,7 @@ export class PureNode {
     private createPhonePort: CreatePhonePort,
     private usbDetector: UsbDetector
   ) {
-    this.registerAttachDeviceListener()
+    this.registerAttachPhoneEmitter()
   }
 
   public async getPhonePorts(): Promise<PhonePort[]> {
@@ -37,7 +37,7 @@ export class PureNode {
     this.eventEmitter.off(PureNodeEvent.AttachedPhone, listener)
   }
 
-  private registerAttachDeviceListener(): void {
+  private registerAttachPhoneEmitter(): void {
     this.usbDetector.onAttachDevice(async (portInfo) => {
       if (portInfo.manufacturer === manufacturer) {
         const portList = await PureNode.getSerialPortList()
