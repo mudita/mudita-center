@@ -82,8 +82,3 @@ test("labels color is transparent with initiallTransparentBorder prop", () => {
   const { label } = renderInputSelect({ initialTransparentBorder: true })
   expect(label()).toHaveStyleRule("border-color", "transparent")
 })
-
-test("labels color is transparent with initiallTransparentBorder prop", () => {
-  const { label } = renderInputSelect({ initialTransparentBorder: true })
-  expect(label).toHaveStyleRule("border-color", "transparent")
-})
