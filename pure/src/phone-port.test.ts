@@ -18,7 +18,7 @@ beforeEach(async (done) => {
   done()
 })
 
-test("allow to an established connection with a given phonePort", async () => {
+test("allow to establish a connection with a given port", async () => {
   const { status } = await phonePort.connect()
   expect(status).toEqual(ResponseStatus.Ok)
 })
@@ -29,19 +29,18 @@ test("second try for connection process return error", async () => {
   expect(response.status).toEqual(ResponseStatus.ConnectionError)
 })
 
-test("allows the manual disconnection of the phone from the device", async () => {
+test("allows to programmatically disconnect the device", async () => {
   const response = await phonePort.disconnect()
   expect(response.status).toEqual(ResponseStatus.Ok)
 })
 
-test("disconnection when phone isn't connect return ok status", async () => {
+test("disconnecting not connected device returns OK status", async () => {
   const response = await phonePort.disconnect()
   expect(response.status).toEqual(ResponseStatus.Ok)
 })
 
-test("emits signals when the phone disconnects automatically", async (done) => {
-  const {status} = await phonePort.connect()
-  console.log("1. status: ", status)
+test("emits a signal when the phone disconnects automatically", async (done) => {
+  await phonePort.connect()
   phonePort.on(PortEventName.Disconnected, done)
 
   // emits fake disconnected event
@@ -49,8 +48,7 @@ test("emits signals when the phone disconnects automatically", async (done) => {
 })
 
 test("unregister listener isn't triggering after emits event", async (done) => {
-  const {status} = await phonePort.connect()
-  console.log("2. status: ", status)
+  await phonePort.connect()
   const listener = () => {
     throw new Error()
   }
