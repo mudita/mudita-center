@@ -34,3 +34,5 @@ If you have an idea for a feature that could possibly land in Mudita Center plea
 If you would like to contribute a new feature or a bug fix to Mudita Center, please discuss your idea first in Github issues. If there is no GitHub issue for your idea, please open one. It may be that somebody from Mudita core team is already working on it, or that there are particular complexities that you should know about before starting the implementation.
 
 Please refer to the [Development workflow article](development_workflow.md) to learn how to submit code and documentation changes to the Mudita Center repository.
+
+**Note:** Mudita Center comes with both [pre-commit](https://pre-commit.com/) and [Prettier](https://prettier.io/) setup to ensure a consistent code style.
