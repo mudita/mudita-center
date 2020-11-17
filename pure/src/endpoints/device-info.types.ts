@@ -8,7 +8,7 @@ enum SIM {
   SIM2,
   SIM_Fail,
   SIM_Unknown,
-  none,
+  None,
 }
 
 enum SignalStrength {
