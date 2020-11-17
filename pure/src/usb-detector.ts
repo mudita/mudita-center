@@ -18,11 +18,11 @@ class UsbDetector {
     })
   }
 
-  onAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
+  public onAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
     this.eventEmitter.on(UsbDetectorEvent.Attach, listener)
   }
 
-  offAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
+  public offAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
     this.eventEmitter.off(UsbDetectorEvent.Attach, listener)
   }
 

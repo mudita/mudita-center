@@ -23,7 +23,7 @@ class PhonePort {
 
   constructor(private path: string) {}
 
-  async connect(): Promise<Response> {
+  public async connect(): Promise<Response> {
     return new Promise((resolve) => {
       this.port = new SerialPort(this.path, (error) => {
         if (error) {
@@ -43,7 +43,7 @@ class PhonePort {
     })
   }
 
-  async disconnect(): Promise<Response> {
+  public async disconnect(): Promise<Response> {
     return new Promise((resolve) => {
       if (this.port === undefined) {
         resolve({ status: ResponseStatus.Ok })
@@ -59,47 +59,47 @@ class PhonePort {
     })
   }
 
-  async request(config: {
+  public async request(config: {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
   }): Promise<Response<DeviceInfo>>
-  async request(config: {
+  public async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
     body: { count: true }
   }): Promise<Response<CountBodyResponse>>
-  async request(config: {
+  public async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
     body: { count: number }
   }): Promise<Response<Contact[]>>
-  async request(config: {
+  public async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
     body: Contact
   }): Promise<Response<Contact>>
-  async request(config: {
+  public async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Put
     body: Contact
   }): Promise<Response<Contact>>
-  async request(config: {
+  public async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Delete
     body: Contact["id"]
   }): Promise<Response<string>>
-  async request(config: {
+  public async request(config: {
     endpoint: Endpoint.PureUpdate
     method: Method.Post
     file: string
   }): Promise<Response>
-  async request(config: {
+  public async request(config: {
     endpoint: Endpoint.File
     method: Method.Post
     file: string
   }): Promise<Response>
-  async request(config: RequestConfig): Promise<Response<any>>
-  async request(config: RequestConfig): Promise<Response<any>> {
+  public async request(config: RequestConfig): Promise<Response<any>>
+  public async request(config: RequestConfig): Promise<Response<any>> {
     if (config.endpoint === Endpoint.File) {
       return this.fileRequest(config)
     } else if (config.endpoint === Endpoint.PureUpdate) {
@@ -129,11 +129,11 @@ class PhonePort {
     }
   }
 
-  on(eventName: PortEventName, listener: () => void): void {
+  public on(eventName: PortEventName, listener: () => void): void {
     this.eventEmitter.on(eventName, listener)
   }
 
-  off(eventName: PortEventName, listener: () => void): void {
+  public off(eventName: PortEventName, listener: () => void): void {
     this.eventEmitter.off(eventName, listener)
   }
 

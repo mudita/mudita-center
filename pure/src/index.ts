@@ -11,15 +11,6 @@ enum PureNodeEvent {
 }
 
 export class PureNode {
-  private static isMuditaPurePhone(portInfo: PortInfo): boolean {
-    return (
-      portInfo.manufacturer === manufacturer && portInfo.productId === productId
-    )
-  }
-
-  private static async getSerialPortList(): Promise<PortInfo[]> {
-    return await SerialPort.list()
-  }
 
   private eventEmitter = new EventEmitter()
 
@@ -30,7 +21,7 @@ export class PureNode {
     this.registerAttachDeviceListener()
   }
 
-  async getPhonePorts(): Promise<PhonePort[]> {
+  public async getPhonePorts(): Promise<PhonePort[]> {
     const portList = await PureNode.getSerialPortList()
 
     return portList
@@ -38,11 +29,11 @@ export class PureNode {
       .map(({ path }) => createPhonePort(path))
   }
 
-  onAttachPhone(listener: (event: PhonePort) => void): void {
+  public onAttachPhone(listener: (event: PhonePort) => void): void {
     this.eventEmitter.on(PureNodeEvent.AttachedPhone, listener)
   }
 
-  offAttachPhone(listener: (event: PhonePort) => void): void {
+  public offAttachPhone(listener: (event: PhonePort) => void): void {
     this.eventEmitter.off(PureNodeEvent.AttachedPhone, listener)
   }
 
@@ -60,6 +51,16 @@ export class PureNode {
         }
       }
     })
+  }
+
+  private static isMuditaPurePhone(portInfo: PortInfo): boolean {
+    return (
+      portInfo.manufacturer === manufacturer && portInfo.productId === productId
+    )
+  }
+
+  private static async getSerialPortList(): Promise<PortInfo[]> {
+    return await SerialPort.list()
   }
 }
 
