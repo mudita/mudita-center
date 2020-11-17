@@ -54,12 +54,9 @@ export const mapContact = (contact: GoogleContactResourceItem): Contact => {
   let note = ""
 
   if (contact.names) {
-    const [
-      firstPartOfName = "",
-      lastPartOfName = "",
-    ] = contact.names[0].displayNameLastFirst.split(",")
-    firstName = firstPartOfName
-    lastName = lastPartOfName
+    ;[firstName, lastName = ""] = contact.names[0].displayNameLastFirst.split(
+      ","
+    )
   }
 
   if (contact.phoneNumbers) {
