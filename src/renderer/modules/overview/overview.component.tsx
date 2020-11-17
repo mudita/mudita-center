@@ -26,7 +26,6 @@ import { BackupRestorationFinishedModal } from "Renderer/modules/overview/backup
 import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
 import logger from "App/main/utils/logger"
 
-// TODO: remove after implementing real phone update process
 interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
 }
