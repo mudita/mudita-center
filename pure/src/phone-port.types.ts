@@ -6,7 +6,7 @@ export enum ResponseStatus {
   InternalServerError = 500,
 
   // lib status
-  ConnectionError = 501,
+  ConnectionError = 503,
 }
 
 export interface Response<BODY = undefined> {
