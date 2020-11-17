@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, RefObject, useRef, useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -18,7 +18,10 @@ import InputSelect, {
   RenderInputSelectListItem,
 } from "Renderer/components/core/input-select/input-select.component"
 import { SpeedDialProps } from "Renderer/components/rest/phone/speed-dial-modal.container"
-import { ListItem } from "Renderer/components/core/list/list.component"
+import {
+  ListItem,
+  upperDropdownListStyles,
+} from "Renderer/components/core/list/list.component"
 import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
 
 const SpeedDialTable = styled(Table)`
@@ -120,6 +123,19 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
     onSave()
   }
 
+  const calculateDropdownPosition = ({
+    current,
+  }: RefObject<HTMLInputElement>) => {
+    const top = current?.offsetTop || 0
+    const parent = current?.parentElement
+    const upperDropdown = top > 4 * 48
+
+    return {
+      height: upperDropdown ? top : (parent?.offsetHeight || 0) - top,
+      upperDropdown,
+    }
+  }
+
   return (
     <ModalComponent
       title={intl.formatMessage(messages.title)}
@@ -139,6 +155,10 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
           const [selectedItem, setSelectedItem] = useState<Contact | undefined>(
             item[speedDial]
           )
+          const [, updateState] = useState(0)
+          const forceUpdate = () => updateState((prevState) => prevState + 1)
+
+          const rowRef = useRef(null)
 
           const onChange = (contact: Contact) => {
             const newItem = [contact.id, { ...contact, speedDial }] as [
@@ -156,8 +176,14 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
             setSelectedItem(contact)
           }
 
+          const { height, upperDropdown } = calculateDropdownPosition(rowRef)
+
+          useEffect(() => {
+            forceUpdate()
+          }, [])
+
           return (
-            <Row size={RowSize.Small} key={i}>
+            <Row size={RowSize.Small} key={i} ref={rowRef}>
               <Col>{speedDial}</Col>
               <Col>
                 <StyledInputSelect
@@ -170,7 +196,8 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                   onSelect={onChange}
                   isItemMatching={isOptionMatching}
                   listStyles={css`
-                    max-height: 10rem;
+                    max-height: ${height}px;
+                    ${upperDropdown && upperDropdownListStyles}
                   `}
                   disabledItems={[selectedItem]}
                   initialTransparentBorder
