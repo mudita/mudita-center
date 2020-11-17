@@ -68,7 +68,7 @@ class PurePhone extends PurePhoneAdapter {
     })
   }
 
-  public updateOs(updateFilePath: string): any {
+  public updateOs(updateFilePath: string): Promise<DeviceResponse> | DeviceResponse {
     try {
       this.pureNode.uploadUpdateFile(updateFilePath)
     } catch (e) {
