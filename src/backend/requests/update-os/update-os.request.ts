@@ -6,7 +6,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 const handleUpdateOs = (
   { purePhone }: Adapters,
   updateFilePath: string
-): Promise<DeviceResponse> => {
+): Promise<DeviceResponse> | DeviceResponse => {
   return purePhone.updateOs(updateFilePath)
 }
 

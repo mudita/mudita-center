@@ -23,7 +23,18 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.1rem;
 }
 
-.c9 {
+.c5 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: #6a6a6a;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+}
+
+.c11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -42,12 +53,12 @@ exports[`matches snapshot 1`] = `
   font-style: normal;
 }
 
-.c9 svg {
+.c11 svg {
   width: 100%;
   height: 100%;
 }
 
-.c7 {
+.c9 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -77,23 +88,23 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c7:hover {
+.c9:hover {
   background: #232426;
 }
 
-.c7 g {
+.c9 g {
   fill: #ffffff;
 }
 
-.c10 {
+.c12 {
   margin: 0 0.8rem 0 0;
 }
 
-.c11 {
+.c13 {
   white-space: nowrap;
 }
 
-.c5 {
+.c7 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -119,13 +130,13 @@ exports[`matches snapshot 1`] = `
   background-color: #ffffff;
 }
 
-.c6 {
+.c8 {
   grid-area: Buttons;
   justify-self: end;
   min-width: 18rem;
 }
 
-.c8 {
+.c10 {
   --radius: 0.5rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -137,28 +148,28 @@ exports[`matches snapshot 1`] = `
   width: 50%;
 }
 
-.c8:disabled {
+.c10:disabled {
   pointer-events: none;
 }
 
-.c8:hover {
+.c10:hover {
   z-index: 2;
 }
 
-.c8:not(:first-of-type) {
+.c10:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c8:first-of-type:not(:last-of-type) {
+.c10:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c8:last-of-type:not(:first-of-type) {
+.c10:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c8 svg {
+.c10 svg {
   height: initial;
   width: initial;
 }
@@ -184,6 +195,15 @@ exports[`matches snapshot 1`] = `
   text-transform: none;
 }
 
+.c6 {
+  margin-top: 1.2rem;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+  color: #6a6a6a;
+}
+
 <div>
   <section
     class="c0"
@@ -205,17 +225,22 @@ exports[`matches snapshot 1`] = `
           [value] view.name.overview.system.version
         </span>
       </div>
+      <p
+        class="c5 c6"
+      >
+        [value] view.name.overview.system.lastUpdate
+      </p>
     </div>
     <section
-      class="c5 c6"
+      class="c7 c8"
     >
       <button
-        class="c7 c8"
+        class="c9 c10"
         size="2"
         type="button"
       >
         <i
-          class="c9 c10"
+          class="c11 c12"
           data-testid="icon-Reload"
           height="2.8"
           width="2.8"
@@ -225,7 +250,7 @@ exports[`matches snapshot 1`] = `
           />
         </i>
         <p
-          class="c4 c11"
+          class="c4 c13"
         >
           [value] view.name.overview.system.checkForUpdates
         </p>

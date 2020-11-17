@@ -26,7 +26,6 @@ import { BackupRestorationFinishedModal } from "Renderer/modules/overview/backup
 import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
 import logger from "App/main/utils/logger"
 
-// TODO: remove after implementing real phone update process
 interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
 }
@@ -93,7 +92,7 @@ const Overview: FunctionComponent<
   disconnectDevice = noop,
   lastBackup,
   osVersion,
-  osUpdateDate = "2020-01-14T11:31:08.244Z",
+  osUpdateDate,
   pureOsFileName = "",
   pureOsAvailable,
   pureOsDownloaded,
@@ -140,7 +139,7 @@ const Overview: FunctionComponent<
 
   const store = useStore()
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
-    new Date(osUpdateDate).toISOString(),
+    osUpdateDate,
     updatePhoneOsInfo,
     updateBasicInfo
   )
@@ -150,7 +149,7 @@ const Overview: FunctionComponent<
       await loadData()
       initialCheck()
     })()
-  }, [])
+  }, [osUpdateDate])
 
   const onUpdateDownload = () => download(pureOsFileName)
 
