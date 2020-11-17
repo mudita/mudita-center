@@ -1,89 +1,53 @@
-# PDA: Mudita's Pure Desktop App
+# Mudita Center
 
-### A Boilerplate for an Easy Start with TypeScript, React, and Electron.
+[![Follow Twitter](https://img.shields.io/twitter/follow/wearemudita?label=Follow%20on%20Twitter&style=social)](https://twitter.com/wearemudita)
 
-## Install
+Mudita Center allows you to expand and update the features of Mudita Pure, while using your computer. Update [MuditaOS](https://github.com/mudita/MuditaOS/), synchronise calendar and contacts, upload audio, use Pure as a mobile hotspot. One application for every platform, open-sourced for transparency.
 
-```bash
-npm install
-```
+![Mudita Center interface screenshot](./MuditaOS-screens.png)
 
-### Environmental Variables
+Mudita Center is written in Node.js and distributed as an Electron app.
 
-Create an `.env` file and copy the contents of the `.env.example` file into it.
-Provide all values marked as required to start working with the project. Add optional values
-when you'll need them.
+## Key features
 
-## Usage
+- updating MuditaOS
+- synchronizing calendar and contacts with Google and Apple
+- uploading audio files
+- enabling using Mudita Pure as a mobile hotspot
+- 
 
-Both processes have to be started **simultaneously** in different console tabs:
+## Table of contents
 
-```bash
-npm run dev:start:renderer
-npm run dev:start:main
-```
+* [Quickstart](#Quickstart)
+* [Contributing](#Contributing)
+   * [Discussions](#Discussions)
+   * [Reporting issues and feature requests](#Reporting-bugs-and-feature-requests)
+   * [Development workflow](#Development-workflow)  
+* [License](#license)
 
-This will start the application with hot-reload so you can instantly start developing your application.
+## Quickstart
 
-You can also run do the following to start both in a single process:
+You can quickstart the project by going through the ["Quickstart" article]().
 
-```bash
-npm run develop
-```
+## Contributing
 
-## Packaging
+Pull requests are welcome. Please follow the guidelines in the ["Contributing to Mudita Center"](./CONTRIBUTING.md) article. Before contributing or starting a discussion, please make sure that you read our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
-We use [Electron builder](https://www.electron.build/) to build and package the application. By default, you can run the following to package for your current platform:
+### Discussions
 
-```bash
-npm run dist:all
-```
+For general questions and ideas regarding Mudita Center please post in the [“???” section on Mudita Forum](???). Please explore all existing posts to make sure you’re not posting about an issue that has already been discussed.
 
-This will create an installer for your platform in the `releases` folder.
+### Reporting bugs and feature requests
 
-You can make builds for specific platforms (or multiple platforms) by using the options found [here](https://www.electron.build/cli). E.g. building for all platforms (Windows, Mac, Linux):
+You can report bugs and feature requests on [GitHub](https://github.com/#/issues). This is also a good place to discuss architecture decisions and things that aren’t yet covered by the documentation. Please refer to the ["Contributing to Mudita Center"](./CONTRIBUTING.md) article for more details.
 
-```bash
-npm run dist -- -mwl
-```
+### Development workflow
 
-## Dev mode
+When contributing code or documentation changes please follow the guidleines inside the ["Development workflow"](./development_workflow.md) article.
 
-To run dev mode, click 7-10 times on the phone box on "Overview" page.
+## Changelog
 
-## Precommit and Prettier
+The [Mudita Center changelog](./changelog.md) is regularly updated by the core development team.
 
-This project comes with both Precommit and Prettier setup to ensure a consistent code style.
-
-## Troubleshooting
-
-- ##### Error:
-  ```
-  Uncaught Error: The module '../node_modules/@serialport/bindings/build/Release/bindings.node'
-  was compiled against a different Node.js version using
-  NODE_MODULE_VERSION 72. This version of Node.js requires
-  NODE_MODULE_VERSION 75. Please try re-compiling or re-installing
-  the module (for instance, using `npm rebuild` or `npm install`).
-  ```
-  ##### Solution:
-  ```bash
-  electron-rebuild -f -w serialport
-  ```
-  > :warning: To omit possible issues, you should execute the above command after every dependencies update.
-- ##### Error:
-
-  ```
-  Uncaught Expection:
-  Error: Config schema violation: `language` should be a string
-  ```
-
-  ##### Solution:
-
-  Same error will apply to any change that was done to settings without updating settings json. It can be manually updated by removing old settings.json and creating a new one in its place. To do that remove settings.json.
-  Settings.json is located in:
-
-  - `C:\Users\<username>\AppData\Roaming\pure-desktop-app` on Windows
-  - `~/.config/pure-desktop-app` on Linux
-  - `~/Library/Application Support/pure-desktop-app` on macOS
-
-  Next step is to reopen app by running `npm run develop` so app can create a new settings.json locally.
+## License
+Mudita Center is licensed on [???](https://choosealicense.com/licenses/???/)
