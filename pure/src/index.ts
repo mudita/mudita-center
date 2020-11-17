@@ -11,7 +11,6 @@ enum PureNodeEvent {
 }
 
 export class PureNode {
-
   private eventEmitter = new EventEmitter()
 
   constructor(
@@ -25,7 +24,11 @@ export class PureNode {
     const portList = await PureNode.getSerialPortList()
 
     return portList
-      .filter(PureNode.isMuditaPurePhone)
+      .filter(
+        (portInfo) =>
+          portInfo.manufacturer === manufacturer &&
+          portInfo.productId === productId
+      )
       .map(({ path }) => createPhonePort(path))
   }
 
@@ -45,18 +48,12 @@ export class PureNode {
         const port = portList.find(
           ({ serialNumber }) => String(serialNumber) === portInfo.serialNumber
         )
-        if(port) {
+        if (port) {
           const phonePort = createPhonePort(port.path)
           this.eventEmitter.emit(PureNodeEvent.AttachedPhone, phonePort)
         }
       }
     })
-  }
-
-  private static isMuditaPurePhone(portInfo: PortInfo): boolean {
-    return (
-      portInfo.manufacturer === manufacturer && portInfo.productId === productId
-    )
   }
 
   private static async getSerialPortList(): Promise<PortInfo[]> {
