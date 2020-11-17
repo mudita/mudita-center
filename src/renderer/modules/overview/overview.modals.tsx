@@ -22,7 +22,6 @@ import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import { LoadingBar } from "Renderer/modules/overview/backup-process/modals.styled"
 import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
 
 const ModalContent = styled.div`
