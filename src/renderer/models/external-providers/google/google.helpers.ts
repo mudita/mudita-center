@@ -64,9 +64,17 @@ export const mapContact = (contact: GoogleContactResourceItem): Contact => {
   }
 
   if (contact.phoneNumbers) {
-    primaryPhoneNumber = contact.phoneNumbers[0].value
-    if (contact.phoneNumbers.length > 1) {
-      secondaryPhoneNumber = contact.phoneNumbers[1].value
+    if (contact.phoneNumbers.length === 1) {
+      primaryPhoneNumber = contact.phoneNumbers[0].value
+    } else {
+      for (let index = 0; index < contact.phoneNumbers.length; index++) {
+        if (contact.phoneNumbers[index].metadata.primary) {
+          primaryPhoneNumber = contact.phoneNumbers[index].value
+        } else {
+          secondaryPhoneNumber = contact.phoneNumbers[index].value
+          break
+        }
+      }
     }
   }
 

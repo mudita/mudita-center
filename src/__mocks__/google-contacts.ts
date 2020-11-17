@@ -26,6 +26,7 @@ export const mockedGoogleContacts = {
           },
           streetAddress: "bomboladzka 1",
           postalCode: "00-123",
+          city: "Warsaw",
         },
       ],
       emailAddresses: [
@@ -92,6 +93,7 @@ export const mockedGoogleContacts = {
           },
           streetAddress: "lolo 123",
           postalCode: "123-123",
+          city: "Warsaw",
         },
       ],
       emailAddresses: [
@@ -116,6 +118,24 @@ export const mockedGoogleContacts = {
             },
           },
           value: "12341234234",
+        },
+        {
+          metadata: {
+            source: {
+              type: "CONTACT",
+              id: "53a3d4cdd4f",
+            },
+          },
+          value: "1234211211234",
+        },
+        {
+          metadata: {
+            source: {
+              type: "CONTACT",
+              id: "53acdd4f",
+            },
+          },
+          value: "999999",
         },
       ],
     },
