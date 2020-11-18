@@ -60,7 +60,7 @@ test("unregister listener isn't triggering after emits event", async (done) => {
   await phonePort.disconnect()
 })
 
-test("request method return throw error if phone isn't connected", async () => {
+test("request method return error if phone isn't connected", async () => {
   const response = await phonePort.request({
     endpoint: Endpoint.DeviceInfo,
     method: Method.Get,
