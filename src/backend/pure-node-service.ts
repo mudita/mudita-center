@@ -1,4 +1,4 @@
-import { PureNode } from "pure"
+import { IPureNode } from "pure"
 import PhonePort from "pure/dist/phone-port"
 import DeviceResponse, {
   DeviceResponseStatus,
@@ -18,7 +18,7 @@ import { Contact, CountBodyResponse } from "pure/dist/endpoints/contact.types"
 class PureNodeService {
   phonePort: PhonePort | undefined
 
-  constructor(private pureNode: PureNode, private ipcMain: MainProcessIpc) {
+  constructor(private pureNode: IPureNode, private ipcMain: MainProcessIpc) {
     this.registerAttachPhoneListener()
   }
 

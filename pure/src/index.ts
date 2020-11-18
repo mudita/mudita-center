@@ -10,7 +10,14 @@ enum PureNodeEvent {
   AttachedPhone = "AttachedPhone",
 }
 
-export class PureNode {
+export interface IPureNode {
+  getPhonePorts: () => Promise<PhonePort[]>
+  onAttachPhone: (listener: (event: PhonePort) => void) => void
+  offAttachPhone: (listener: (event: PhonePort) => void) => void
+}
+
+
+class PureNode implements IPureNode{
   #eventEmitter = new EventEmitter()
 
   constructor(
