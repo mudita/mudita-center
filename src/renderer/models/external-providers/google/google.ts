@@ -158,6 +158,7 @@ export const createStore = () => ({
       if (data.totalItems === 0) {
         throw new Error("No contacts found")
       }
+      console.log(data.connections)
 
       return data.connections.map((contact: GoogleContactResourceItem) => mapContact(contact))
     },

@@ -47,14 +47,14 @@ export const mapContact = (contact: GoogleContactResourceItem): Contact => {
   let firstName = ""
   let lastName = ""
   let primaryPhoneNumber = ""
-  let secondaryPhoneNumber
+  let secondaryPhoneNumber = ""
   let firstAddressLine
   let secondAddressLine
   let email = ""
   let note = ""
 
   if (contact.names) {
-    ;[firstName, lastName = ""] = contact.names[0].displayNameLastFirst.split(
+    ;[lastName, firstName = ""] = contact.names[0].displayNameLastFirst.split(
       ","
     )
   }
@@ -62,6 +62,7 @@ export const mapContact = (contact: GoogleContactResourceItem): Contact => {
   if (contact.phoneNumbers) {
     if (contact.phoneNumbers.length === 1) {
       primaryPhoneNumber = contact.phoneNumbers[0].value
+      secondaryPhoneNumber = ""
     } else {
       primaryPhoneNumber = contact.phoneNumbers.find(({metadata}) => metadata.primary)?.value || contact.phoneNumbers[0].value
       secondaryPhoneNumber = contact.phoneNumbers.find(({value}) => value !== primaryPhoneNumber)?.value || ""
@@ -82,7 +83,7 @@ export const mapContact = (contact: GoogleContactResourceItem): Contact => {
   }
   return {
     id: contact.resourceName,
-    firstName,
+    firstName: firstName.trim(),
     lastName,
     primaryPhoneNumber,
     secondaryPhoneNumber,

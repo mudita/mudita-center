@@ -2,7 +2,10 @@ import {
   createStore,
   googleEndpoints,
 } from "Renderer/models/external-providers/google/google"
-import { GoogleAuthSuccessResponse } from "Renderer/models/external-providers/google/google.interface"
+import {
+  GoogleAuthSuccessResponse,
+  GoogleContactResourceItem,
+} from "Renderer/models/external-providers/google/google.interface"
 import axios from "axios"
 import MockAdapter from "axios-mock-adapter"
 import { mockedGoogleCalendars } from "App/__mocks__/google-calendars-list"
@@ -11,6 +14,7 @@ import { mockedGoogleEvents } from "App/__mocks__/google-events-list"
 import moment from "moment"
 import {
   mapCalendars,
+  mapContact,
   mapEvents,
 } from "Renderer/models/external-providers/google/google.helpers"
 import { init } from "@rematch/core"
@@ -468,24 +472,24 @@ test("contacts are received properly", async () => {
         "email": "bombol@bombol.com",
         "favourite": false,
         "firstAddressLine": "bomboladzka 1",
-        "firstName": "Bombolada",
+        "firstName": " Bombolo",
         "ice": false,
         "id": "people/c5420759609842671821",
-        "lastName": " Bombolo",
+        "lastName": "Bombolada",
         "note": "notatka",
         "primaryPhoneNumber": "11111111111111",
         "secondAddressLine": "00-123 Warsaw Extended address info123",
-        "secondaryPhoneNumber": undefined,
+        "secondaryPhoneNumber": "",
       },
       Object {
         "blocked": false,
         "email": "alolo@bombol.pl",
         "favourite": false,
         "firstAddressLine": "lolo 123",
-        "firstName": "Bombolada",
+        "firstName": " Kolejny bombolek",
         "ice": false,
         "id": "people/c6026900974127078735",
-        "lastName": " Kolejny bombolek",
+        "lastName": "Bombolada",
         "note": "",
         "primaryPhoneNumber": "12341234234",
         "secondAddressLine": "123-123 Warsaw Extended address info",
@@ -493,4 +497,154 @@ test("contacts are received properly", async () => {
       },
     ]
   `)
+})
+
+test("phone numbers map correctly", () => {
+  const primaryPhoneNumber = "123 456 999"
+  const secondaryPhoneNumber = "999 888 777"
+  const input: GoogleContactResourceItem = {
+    resourceName: "people/c5420759609842671821",
+    etag: "%EgwBAj0FCT4LPxBANy4aBAECBQciDEE1VzVERlU4NjljPQ==",
+    // names: [
+    //   {
+    //     metadata: {
+    //       primary: true,
+    //       source: {
+    //         type: "CONTACT",
+    //         id: "4b3a68250d7520cd",
+    //       },
+    //     },
+    //     displayNameLastFirst: "Staszewski, Kamil",
+    //   },
+    // ],
+    // addresses: [
+    //   {
+    //     metadata: {
+    //       primary: true,
+    //       source: {
+    //         type: "CONTACT",
+    //         id: "4b3a68250d7520cd",
+    //       },
+    //     },
+    //
+    //     streetAddress: "Marszałka Józefa Piłsudskiego 30",
+    //     extendedAddress: "line 2",
+    //     city: "Czersk",
+    //     postalCode: "89-650",
+    //   },
+    // ],
+    // emailAddresses: [
+    //   {
+    //     metadata: {
+    //       primary: true,
+    //       source: {
+    //         type: "CONTACT",
+    //         id: "4b3a68250d7520cd",
+    //       },
+    //     },
+    //     value: "kamilstaszewski95@gmail.com",
+    //   },
+    // ],
+    phoneNumbers: [
+      {
+        metadata: {
+          primary: true,
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        value: primaryPhoneNumber
+      },
+      {
+        metadata: {
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        value: secondaryPhoneNumber
+      },
+      {
+        metadata: {
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        value: "111 222 333",
+      },
+    ],
+    // biographies: [
+    //   {
+    //     metadata: {
+    //       primary: true,
+    //       source: {
+    //         type: "CONTACT",
+    //         id: "4b3a68250d7520cd",
+    //       },
+    //     },
+    //     value: "notatka\n",
+    //     contentType: "TEXT_PLAIN",
+    //   },
+    // ],
+  }
+    const result = mapContact(input)
+  expect(result.primaryPhoneNumber).toEqual(primaryPhoneNumber)
+  expect(result.secondaryPhoneNumber).toEqual(secondaryPhoneNumber)
+})
+
+test("secondary phone number is empty when there is only one phone number", () => {
+  const primaryPhoneNumber = "123 456 999"
+  const input: GoogleContactResourceItem = {
+    resourceName: "people/c5420759609842671821",
+    etag: "%EgwBAj0FCT4LPxBANy4aBAECBQciDEE1VzVERlU4NjljPQ==",
+    phoneNumbers: [
+      {
+        metadata: {
+          primary: true,
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        value: primaryPhoneNumber
+      },
+    ],
+  }
+  const result = mapContact(input)
+  expect(result.primaryPhoneNumber).toEqual(primaryPhoneNumber)
+  expect(result.secondaryPhoneNumber).toEqual("")
+})
+
+test("no names in input return empty strings", () => {
+  const input: GoogleContactResourceItem = {
+    resourceName: "people/c5420759609842671821",
+    etag: "%EgwBAj0FCT4LPxBANy4aBAECBQciDEE1VzVERlU4NjljPQ==",
+  }
+  const result = mapContact(input)
+  expect(result.primaryPhoneNumber).toEqual("")
+  expect(result.secondaryPhoneNumber).toEqual("")
+})
+
+test("name maps correctly", () => {
+  const input: GoogleContactResourceItem = {
+    resourceName: "people/c5420759609842671821",
+    etag: "%EgwBAj0FCT4LPxBANy4aBAECBQciDEE1VzVERlU4NjljPQ==",
+    names: [
+      {
+        metadata: {
+          primary: true,
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        displayNameLastFirst: "Doe, Jane",
+      },
+    ],
+  }
+  const result = mapContact(input)
+  expect(result.firstName).toEqual("Jane")
+  expect(result.lastName).toEqual("Doe")
 })

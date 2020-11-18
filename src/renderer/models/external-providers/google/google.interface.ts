@@ -18,7 +18,7 @@ export interface GoogleEvent {
 }
 
 export interface GoogleContactMetadata {
-  primary: boolean
+  primary?: boolean
   source: {
     type: string
     id: string
