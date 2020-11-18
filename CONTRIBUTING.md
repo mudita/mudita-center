@@ -35,4 +35,4 @@ If you would like to contribute a new feature or a bug fix to Mudita Center, ple
 
 Please refer to the [Development workflow article](development_workflow.md) to learn how to submit code and documentation changes to the Mudita Center repository.
 
-**Note:** Mudita Center comes with both [pre-commit](https://pre-commit.com/) and [Prettier](https://prettier.io/) setup to ensure a consistent code style.
+**Note:** Mudita Center comes with both [lint-staged](https://github.com/okonet/lint-staged) and [Prettier](https://prettier.io/) setup to ensure a consistent code style.
