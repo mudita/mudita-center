@@ -9,9 +9,9 @@ export enum ResponseStatus {
   ConnectionError = 503,
 }
 
-export interface Response<BODY = undefined> {
+export interface Response<Body = undefined> {
   status: ResponseStatus
-  body?: BODY
+  body?: Body
   endpoint?: string
   uuid?: string
 }
