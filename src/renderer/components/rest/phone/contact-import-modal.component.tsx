@@ -19,6 +19,7 @@ import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 
 const Checkbox = styled(InputCheckbox)`
   margin-right: 2rem;
@@ -54,22 +55,20 @@ const ContactImportModal: FunctionComponent<Props> = ({
     noneRowsSelected,
   } = useTableSelect(contacts)
 
-  const SingleRow = ({ data, size }: { data: Contact; size: RowSize }) => {
+  const SingleRow = ({ data }: { data: Contact }) => {
     const onChange = () => {
       toggleRow(data)
     }
     const { selected, indeterminate } = getRowStatus(data)
     return (
-      <Row size={size}>
+      <Row size={RowSize.Small}>
         <Col>
           <Checkbox
             checked={selected}
             indeterminate={indeterminate}
             onChange={onChange}
           />
-          <div>
-            {data.firstName} {data.lastName}
-          </div>
+          <p>{createFullName(data)}</p>
         </Col>
         <Col>{data.primaryPhoneNumber}</Col>
       </Row>
@@ -117,7 +116,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
         <TableContent>
           {contacts.map((row, index) => (
             <React.Fragment key={index}>
-              <SingleRow data={row} size={RowSize.Small} />
+              <SingleRow data={row} />
             </React.Fragment>
           ))}
         </TableContent>
