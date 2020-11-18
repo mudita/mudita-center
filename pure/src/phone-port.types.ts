@@ -12,7 +12,7 @@ export enum ResponseStatus {
 export interface Response<Body = undefined> {
   status: ResponseStatus
   body?: Body
-  endpoint?: string
+  endpoint?: Endpoint
   uuid?: string
 }
 
