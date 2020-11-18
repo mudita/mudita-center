@@ -12,12 +12,16 @@ enum PureNodeEvent {
 
 export class PureNode {
   #eventEmitter = new EventEmitter()
-  #attachPhoneEmitterRegistered = false
 
   constructor(
     private createPhonePort: CreatePhonePort,
     private usbDetector: UsbDetector
   ) {}
+
+  public init(): PureNode {
+    this.registerAttachPhoneEmitter()
+    return this
+  }
 
   public async getPhonePorts(): Promise<PhonePort[]> {
     const portList = await PureNode.getSerialPortList()
@@ -32,7 +36,6 @@ export class PureNode {
   }
 
   public onAttachPhone(listener: (event: PhonePort) => void): void {
-    if (!this.#attachPhoneEmitterRegistered) this.registerAttachPhoneEmitter()
     this.#eventEmitter.on(PureNodeEvent.AttachedPhone, listener)
   }
 
@@ -41,7 +44,6 @@ export class PureNode {
   }
 
   private registerAttachPhoneEmitter(): void {
-    this.#attachPhoneEmitterRegistered = true
     this.usbDetector.onAttachDevice(async (portInfo) => {
       if (portInfo.manufacturer === manufacturer) {
         const portList = await PureNode.getSerialPortList()
@@ -62,4 +64,11 @@ export class PureNode {
   }
 }
 
-export default new PureNode(createPhonePort, new UsbDetector())
+const createPureNode = (
+  createPhonePort: CreatePhonePort,
+  usbDetector: UsbDetector
+) => {
+  return new PureNode(createPhonePort, usbDetector).init()
+}
+
+export default createPureNode(createPhonePort, new UsbDetector())
