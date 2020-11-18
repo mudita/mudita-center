@@ -1,7 +1,7 @@
 import mockSerialPort from "./mock-serial-port"
 import PureNode from "./index"
 
-beforeEach(async (done) => {
+beforeEach(() => {
   mockSerialPort()
 })
 
