@@ -61,6 +61,20 @@ interface TableRowProps {
   selected?: boolean
 }
 
+export const getRowHeight = (size?: RowSize) => {
+  switch (size) {
+    case RowSize.Big:
+      return 9
+    case RowSize.Small:
+      return 4.8
+    case RowSize.Tiny:
+      return 4
+    case RowSize.Medium:
+    default:
+      return 6.4
+  }
+}
+
 export const Row = styled.div<TableRowProps>`
   display: grid;
   grid-auto-flow: column;
@@ -74,19 +88,7 @@ export const Row = styled.div<TableRowProps>`
   transition: background-color ${transitionTime("veryQuick")}
     ${transitionTimingFunction("smooth")};
 
-  height: ${({ size }) => {
-    switch (size) {
-      case RowSize.Big:
-        return 9
-      case RowSize.Small:
-        return 4.8
-      case RowSize.Tiny:
-        return 4
-      case RowSize.Medium:
-      default:
-        return 6.4
-    }
-  }}rem;
+  height: ${({ size }) => getRowHeight(size)}rem;
 
   &:hover {
     background-color: ${backgroundColor("minor")};

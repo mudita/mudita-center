@@ -1,4 +1,4 @@
-import React, { useState, RefObject, useRef, useEffect } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -6,6 +6,7 @@ import { noop } from "Renderer/utils/noop"
 import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import Table, {
   Col,
+  getRowHeight,
   Labels,
   Row,
   RowSize,
@@ -90,6 +91,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
   onClose = noop,
   flatList = [],
 }) => {
+  const rowSize = RowSize.Small
   const [localData, setLocalData] = useState<[ContactID, Contact][]>([])
   const speedDialList = Array.from({ length: 9 })
     .fill(null)
@@ -123,12 +125,10 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
     onSave()
   }
 
-  const calculateDropdownPosition = ({
-    current,
-  }: RefObject<HTMLInputElement>) => {
-    const top = current?.offsetTop || 0
-    const parent = current?.parentElement
-    const upperDropdown = top > 4 * 48
+  const calculateDropdownPosition = (row: HTMLInputElement | null) => {
+    const top = row?.offsetTop || 0
+    const parent = row?.parentElement
+    const upperDropdown = top > 4 * getRowHeight(rowSize) * 10
 
     return {
       height: upperDropdown ? top : (parent?.offsetHeight || 0) - top,
@@ -176,14 +176,16 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
             setSelectedItem(contact)
           }
 
-          const { height, upperDropdown } = calculateDropdownPosition(rowRef)
+          const { height, upperDropdown } = calculateDropdownPosition(
+            rowRef.current
+          )
 
           useEffect(() => {
             forceUpdate()
           }, [])
 
           return (
-            <Row size={RowSize.Small} key={i} ref={rowRef}>
+            <Row size={rowSize} key={i} ref={rowRef}>
               <Col>{speedDial}</Col>
               <Col>
                 <StyledInputSelect
