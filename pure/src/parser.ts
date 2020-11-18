@@ -11,7 +11,7 @@ enum ParserState {
   ReadingPayload = 2,
 }
 
-export const createValidRequest = (payload: any): string => {
+export const createValidRequest = (payload: unknown): string => {
   let requestStr = "#"
   const payloadAsString = JSON.stringify(payload)
   const sizeAsString = String(payloadAsString.length).padStart(9, "0")
