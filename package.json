@@ -3,6 +3,7 @@
   "version": "0.9.5",
   "description": "Mudita Center Desktop App",
   "main": "./dist/main.js",
+  "productName": "Mudita Center",
   "scripts": {
     "MAIN COMMANDS": "=========================================================",
     "develop": "cross-env START_HOT=1 npm run dev:start:renderer",
@@ -60,7 +61,7 @@
     },
     "nsis": {
       "include": "installer.nsh",
-      "artifactName": "PureDesktopApp-Setup-${version}.${ext}",
+      "artifactName": "MuditaCenter-Setup-${version}.${ext}",
       "oneClick": true,
       "perMachine": false,
       "allowToChangeInstallationDirectory": false,
