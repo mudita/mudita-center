@@ -60,24 +60,6 @@ test("unregister listener isn't triggering after emits event", async (done) => {
   await phonePort.disconnect()
 })
 
-test("request method return expected response", async () => {
-  await phonePort.connect()
-
-  jest
-    .spyOn<any, any>(phonePort, "request")
-    .mockImplementation(
-      async () =>
-        new Promise((resolve) => resolve({ status: ResponseStatus.Ok }))
-    )
-
-  const { status } = await phonePort.request({
-    endpoint: Endpoint.DeviceInfo,
-    method: Method.Get,
-  })
-
-  expect(status).toEqual(ResponseStatus.Ok)
-})
-
 test("request method return throw error if phone isn't connected", async () => {
   const response = await phonePort.request({
     endpoint: Endpoint.DeviceInfo,
