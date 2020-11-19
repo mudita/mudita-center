@@ -12,9 +12,9 @@ enum DeviceManagerEventName {
 }
 
 export interface PureDeviceManager {
-  getDevices: () => Promise<PureDevice[]>
-  onAttachDevice: (listener: (event: PureDevice) => void) => void
-  offAttachDevice: (listener: (event: PureDevice) => void) => void
+  getDevices(): Promise<PureDevice[]>
+  onAttachDevice(listener: (event: PureDevice) => void):void
+  offAttachDevice(listener: (event: PureDevice) => void): void
 }
 
 class DeviceManager implements PureDeviceManager {

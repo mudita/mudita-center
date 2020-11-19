@@ -2,6 +2,13 @@ const usb = require("usb")
 import { EventEmitter } from "events"
 import { PortInfo } from "serialport"
 
+interface Device {
+  deviceDescriptor: { [key: string]: any }
+  open(): void
+  close(): void
+  getStringDescriptor(descriptorIndex: string, callback: (error: any, data: string) => void): void
+}
+
 type UsbDetectorPortInfo = Omit<PortInfo, "path">
 
 enum UsbDetectorEventName {
@@ -12,7 +19,7 @@ class UsbDetector {
   #eventEmitter = new EventEmitter()
 
   constructor() {
-    usb.on("attach", async (device: any) => {
+    usb.on("attach", async (device: Device) => {
       const portInfo = await this.getPortInfo(device)
       this.#eventEmitter.emit(UsbDetectorEventName.Attach, portInfo)
     })
@@ -27,20 +34,20 @@ class UsbDetector {
   }
 
   private async getDescriptor(
-    device: any,
+    device: Device,
     deviceDescriptor: string
   ): Promise<any> {
     return new Promise((resolve) => {
       device.getStringDescriptor(
         device.deviceDescriptor[deviceDescriptor],
-        (err: any, data: any) => {
+        (error: any, data: string) => {
           resolve(data)
         }
       )
     })
   }
 
-  private async getPortInfo(device: any): Promise<UsbDetectorPortInfo> {
+  private async getPortInfo(device: Device): Promise<UsbDetectorPortInfo> {
     return new Promise(async (resolve) => {
       device.open()
       const manufacturer = await this.getDescriptor(device, "iManufacturer")

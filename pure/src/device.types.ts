@@ -1,9 +1,9 @@
 export interface PureDevice {
-  connect: () => Promise<Response>
-  disconnect: () => Promise<Response>
-  request: (config: RequestConfig) => Promise<Response<any>>
-  on: (eventName: DeviceEventName, listener: () => void) => void
-  off: (eventName: DeviceEventName, listener: () => void) => void
+  connect(): Promise<Response>
+  disconnect(): Promise<Response>
+  request(config: RequestConfig): Promise<Response<any>>
+  on(eventName: DeviceEventName, listener: () => void): void
+  off(eventName: DeviceEventName, listener: () => void): void
 }
 
 export type CreateDevice = (path: string) => PureDevice
