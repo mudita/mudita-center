@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { RefObject, useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -90,6 +90,8 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
   onClose = noop,
   flatList = [],
 }) => {
+  const rowsRefs = useRef<RefObject<HTMLDivElement>[]>([])
+  const [, updateState] = useState(0)
   const [localData, setLocalData] = useState<[ContactID, Contact][]>([])
   const speedDialList = Array.from({ length: 9 })
     .fill(null)
@@ -135,6 +137,11 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
     }
   }
 
+  useEffect(() => {
+    // Force state update
+    updateState((prevState) => prevState + 1)
+  }, [])
+
   return (
     <ModalComponent
       title={intl.formatMessage(messages.title)}
@@ -154,9 +161,6 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
           const [selectedItem, setSelectedItem] = useState<Contact | undefined>(
             item[speedDial]
           )
-          const [, updateState] = useState(0)
-          const forceUpdate = () => updateState((prevState) => prevState + 1)
-          const rowRef = useRef(null)
 
           const onChange = (contact: Contact) => {
             const newItem = [contact.id, { ...contact, speedDial }] as [
@@ -175,15 +179,11 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
           }
 
           const { height, upperDropdown } = calculateDropdownPosition(
-            rowRef.current
+            rowsRefs.current[i]?.current
           )
 
-          useEffect(() => {
-            forceUpdate()
-          }, [])
-
           return (
-            <Row size={RowSize.Small} key={i} ref={rowRef}>
+            <Row size={RowSize.Small} key={i} ref={rowsRefs.current[i]}>
               <Col>{speedDial}</Col>
               <Col>
                 <StyledInputSelect
