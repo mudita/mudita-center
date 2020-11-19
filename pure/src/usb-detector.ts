@@ -11,11 +11,11 @@ enum UsbDetectorEventName {
 class UsbDetector {
   #eventEmitter = new EventEmitter()
 
-  constructor() {
-    usb.on("attach", async (device: Device) => {
-      const portInfo = await this.getPortInfo(device)
-      this.#eventEmitter.emit(UsbDetectorEventName.Attach, portInfo)
-    })
+  constructor() {}
+
+  public init(): UsbDetector {
+    this.registerAttachDeviceEmitter()
+    return this
   }
 
   public onAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
@@ -50,6 +50,13 @@ class UsbDetector {
         manufacturer,
         serialNumber,
       })
+    })
+  }
+
+  private registerAttachDeviceEmitter(){
+    usb.on("attach", async (device: Device) => {
+      const portInfo = await this.getPortInfo(device)
+      this.#eventEmitter.emit(UsbDetectorEventName.Attach, portInfo)
     })
   }
 }

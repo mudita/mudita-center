@@ -17,8 +17,11 @@ import { Contact, CountBodyResponse } from "pure/dist/endpoints/contact.types"
 class DeviceService {
   device: PureDevice | undefined
 
-  constructor(private deviceManager: PureDeviceManager, private ipcMain: MainProcessIpc) {
+  constructor(private deviceManager: PureDeviceManager, private ipcMain: MainProcessIpc) {}
+
+  public init(){
     this.registerAttachDeviceListener()
+    return this
   }
 
   async request(config: {
@@ -95,7 +98,7 @@ class DeviceService {
     const [device] = await this.deviceManager.getDevices()
 
     if (device) {
-      return this.pureNodeConnect(device)
+      return this.deviceConnect(device)
     } else {
       return {
         status: DeviceResponseStatus.Error,
@@ -103,10 +106,10 @@ class DeviceService {
     }
   }
 
-  private async registerAttachDeviceListener(): Promise<void> {
+  private registerAttachDeviceListener(): void {
     this.deviceManager.onAttachDevice(async (device) => {
       if (!this.device) {
-        const { status } = await this.pureNodeConnect(device)
+        const { status } = await this.deviceConnect(device)
 
         if (status === DeviceResponseStatus.Ok) {
           this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
@@ -115,7 +118,7 @@ class DeviceService {
     })
   }
 
-  private async pureNodeConnect(device: PureDevice): Promise<DeviceResponse> {
+  private async deviceConnect(device: PureDevice): Promise<DeviceResponse> {
     const { status } = await device.connect()
     if (status === ResponseStatus.Ok) {
       this.device = device

@@ -78,4 +78,4 @@ const createDeviceManager = (
   return new DeviceManager(createDevice, usbDetector).init()
 }
 
-export default createDeviceManager(createDevice, new UsbDetector())
+export default createDeviceManager(createDevice, new UsbDetector().init())
