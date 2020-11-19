@@ -1,7 +1,7 @@
 {
   "name": "mudita-center",
   "version": "0.9.5",
-  "description": "Mudita Center Desktop App",
+  "description": "Mudita Center",
   "main": "./dist/main.js",
   "productName": "Mudita Center",
   "scripts": {
@@ -69,7 +69,7 @@
       "deleteAppDataOnUninstall": true
     },
     "productName": "Mudita Center",
-    "appId": "mudita.pure.desktopApp",
+    "appId": "com.mudita.center",
     "mac": {
       "category": "your.app.category.type",
       "icon": "./icons/mac/icon.icns"
@@ -92,7 +92,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Appnroll/mudita-center"
+    "url": "https://github.com/Mudita/mudita-center"
   },
   "author": {
     "name": "Mudita",
@@ -100,9 +100,9 @@
   },
   "license": "SEE LICENSE",
   "bugs": {
-    "url": "https://github.com/Appnroll/mudita-center/issues"
+    "url": "https://github.com/Mudita/mudita-center/issues"
   },
-  "homepage": "https://github.com/Appnroll/mudita-center",
+  "homepage": "https://github.com/Mudita/mudita-center",
   "devDependencies": {
     "@appnroll/eslint-config": "^1.0.10",
     "@babel/core": "^7.12.3",

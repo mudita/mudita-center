@@ -140,6 +140,7 @@ const createWindow = async () => {
   })
 
   win.on("page-title-updated", (event) => {
+    // prevent window name change to "Webpack App"
     event.preventDefault()
   })
 
