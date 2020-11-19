@@ -4,7 +4,7 @@ import { PortInfo } from "serialport"
 
 type UsbDetectorPortInfo = Omit<PortInfo, "path">
 
-enum UsbDetectorEvent {
+enum UsbDetectorEventName {
   Attach = "Attach",
 }
 
@@ -14,16 +14,16 @@ class UsbDetector {
   constructor() {
     usb.on("attach", async (device: any) => {
       const portInfo = await this.getPortInfo(device)
-      this.#eventEmitter.emit(UsbDetectorEvent.Attach, portInfo)
+      this.#eventEmitter.emit(UsbDetectorEventName.Attach, portInfo)
     })
   }
 
   public onAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
-    this.#eventEmitter.on(UsbDetectorEvent.Attach, listener)
+    this.#eventEmitter.on(UsbDetectorEventName.Attach, listener)
   }
 
   public offAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
-    this.#eventEmitter.off(UsbDetectorEvent.Attach, listener)
+    this.#eventEmitter.off(UsbDetectorEventName.Attach, listener)
   }
 
   private async getDescriptor(

@@ -5,18 +5,19 @@ import * as fs from "fs"
 import {
   BodyCommand,
   Endpoint,
-  PortEventName,
+  DeviceEventName,
   FileResponseStatus,
   Method,
   RequestConfig,
   Response,
-  ResponseStatus, UpdateResponseStatus,
-} from "./phone-port.types"
+  ResponseStatus,
+  UpdateResponseStatus,
+} from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "./parser"
 import { Contact, CountBodyResponse } from "./endpoints/contact.types"
 import { DeviceInfo } from "./endpoints/device-info.types"
 
-class PhonePort {
+class Device {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
   #isPolling = true
@@ -34,11 +35,11 @@ class PhonePort {
       })
 
       this.#port.on("data", async (event) => {
-        this.#eventEmitter.emit(PortEventName.DataReceived, event)
+        this.#eventEmitter.emit(DeviceEventName.DataReceived, event)
       })
 
       this.#port.on("close", () => {
-        this.#eventEmitter.emit(PortEventName.Disconnected)
+        this.#eventEmitter.emit(DeviceEventName.Disconnected)
       })
     })
   }
@@ -115,12 +116,12 @@ class PhonePort {
             const response = await parseData(event)
 
             if (response.uuid === String(uuid)) {
-              this.#eventEmitter.off(PortEventName.DataReceived, listener)
+              this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
               resolve(response)
             }
           }
 
-          this.#eventEmitter.on(PortEventName.DataReceived, listener)
+          this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
 
           const request = createValidRequest({ ...config, uuid })
           this.#port.write(request)
@@ -129,11 +130,11 @@ class PhonePort {
     }
   }
 
-  public on(eventName: PortEventName, listener: () => void): void {
+  public on(eventName: DeviceEventName, listener: () => void): void {
     this.#eventEmitter.on(eventName, listener)
   }
 
-  public off(eventName: PortEventName, listener: () => void): void {
+  public off(eventName: DeviceEventName, listener: () => void): void {
     this.#eventEmitter.off(eventName, listener)
   }
 
@@ -150,7 +151,7 @@ class PhonePort {
 
           if (response.uuid === String(uuid)) {
             if (response.body.status === ResponseStatus.InternalServerError) {
-              this.#eventEmitter.off(PortEventName.DataReceived, listener)
+              this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
               this.#isPolling = true
               resolve(response)
             } else if (response.body.status === FileResponseStatus.Ok) {
@@ -173,12 +174,12 @@ class PhonePort {
             response.endpoint === Endpoint.FilesystemUpload &&
             response.status === ResponseStatus.Accepted
           ) {
-            this.#eventEmitter.off(PortEventName.DataReceived, listener)
+            this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
             resolve(response)
           }
         }
 
-        this.#eventEmitter.on(PortEventName.DataReceived, listener)
+        this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
 
         const fileName = path.basename(file)
         const fileSize = fs.lstatSync(file).size
@@ -213,13 +214,13 @@ class PhonePort {
 
           if (response.endpoint === Endpoint.Update) {
             if (response.body.status === UpdateResponseStatus.Ok) {
-              this.#eventEmitter.off(PortEventName.DataReceived, listener)
+              this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
               resolve({ status: ResponseStatus.Ok })
             }
           }
         }
 
-        this.#eventEmitter.on(PortEventName.DataReceived, listener)
+        this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
 
         const fileName = path.basename(file)
         const config = {
@@ -238,9 +239,8 @@ class PhonePort {
   }
 }
 
-export type CreatePhonePort = (path: string) => PhonePort
+export type CreateDevice = (path: string) => Device
 
-export const createPhonePort: CreatePhonePort = (path: string) =>
-  new PhonePort(path)
+export const createDevice: CreateDevice = (path: string) => new Device(path)
 
-export default PhonePort
+export default Device

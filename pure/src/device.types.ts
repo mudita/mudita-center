@@ -16,7 +16,7 @@ export interface Response<Body = undefined> {
   uuid?: string
 }
 
-export enum PortEventName {
+export enum DeviceEventName {
   Disconnected = "disconnected",
   DataReceived = "dataReceived",
 }

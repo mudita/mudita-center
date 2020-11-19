@@ -5,7 +5,7 @@ beforeEach(() => {
   mockSerialPort()
 })
 
-test("allow a listing of attached phones", async () => {
-  const [phonePort] = await PureNode.getPhonePorts()
-  expect(phonePort).not.toBeUndefined()
+test("allow a listing of attached devices", async () => {
+  const [device] = await PureNode.getDevices()
+  expect(device).not.toBeUndefined()
 })

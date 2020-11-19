@@ -1,19 +1,19 @@
 import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
-import PhonePort, { createPhonePort, CreatePhonePort } from "./phone-port"
+import Device, { createDevice, CreateDevice } from "./device"
 
 export const productId = "0100"
 export const manufacturer = "Mudita"
 
-enum PureNodeEvent {
-  AttachedPhone = "AttachedPhone",
+enum PureNodeEventName {
+  AttachedDevice = "AttachedDevice",
 }
 
 export interface IPureNode {
-  getPhonePorts: () => Promise<PhonePort[]>
-  onAttachPhone: (listener: (event: PhonePort) => void) => void
-  offAttachPhone: (listener: (event: PhonePort) => void) => void
+  getDevices: () => Promise<Device[]>
+  onAttachDevice: (listener: (event: Device) => void) => void
+  offAttachDevice: (listener: (event: Device) => void) => void
 }
 
 
@@ -21,16 +21,16 @@ class PureNode implements IPureNode{
   #eventEmitter = new EventEmitter()
 
   constructor(
-    private createPhonePort: CreatePhonePort,
+    private createDevice: CreateDevice,
     private usbDetector: UsbDetector
   ) {}
 
   public init(): PureNode {
-    this.registerAttachPhoneEmitter()
+    this.registerAttachDeviceEmitter()
     return this
   }
 
-  public async getPhonePorts(): Promise<PhonePort[]> {
+  public async getDevices(): Promise<Device[]> {
     const portList = await PureNode.getSerialPortList()
 
     return portList
@@ -39,18 +39,18 @@ class PureNode implements IPureNode{
           portInfo.manufacturer === manufacturer &&
           portInfo.productId === productId
       )
-      .map(({ path }) => createPhonePort(path))
+      .map(({ path }) => createDevice(path))
   }
 
-  public onAttachPhone(listener: (event: PhonePort) => void): void {
-    this.#eventEmitter.on(PureNodeEvent.AttachedPhone, listener)
+  public onAttachDevice(listener: (event: Device) => void): void {
+    this.#eventEmitter.on(PureNodeEventName.AttachedDevice, listener)
   }
 
-  public offAttachPhone(listener: (event: PhonePort) => void): void {
-    this.#eventEmitter.off(PureNodeEvent.AttachedPhone, listener)
+  public offAttachDevice(listener: (event: Device) => void): void {
+    this.#eventEmitter.off(PureNodeEventName.AttachedDevice, listener)
   }
 
-  private registerAttachPhoneEmitter(): void {
+  private registerAttachDeviceEmitter(): void {
     this.usbDetector.onAttachDevice(async (portInfo) => {
       if (portInfo.manufacturer === manufacturer) {
         const portList = await PureNode.getSerialPortList()
@@ -59,8 +59,8 @@ class PureNode implements IPureNode{
           ({ serialNumber }) => String(serialNumber) === portInfo.serialNumber
         )
         if (port) {
-          const phonePort = createPhonePort(port.path)
-          this.#eventEmitter.emit(PureNodeEvent.AttachedPhone, phonePort)
+          const device = createDevice(port.path)
+          this.#eventEmitter.emit(PureNodeEventName.AttachedDevice, device)
         }
       }
     })
@@ -72,10 +72,10 @@ class PureNode implements IPureNode{
 }
 
 const createPureNode = (
-  createPhonePort: CreatePhonePort,
+  createDevice: CreateDevice,
   usbDetector: UsbDetector
 ) => {
-  return new PureNode(createPhonePort, usbDetector).init()
+  return new PureNode(createDevice, usbDetector).init()
 }
 
-export default createPureNode(createPhonePort, new UsbDetector())
+export default createPureNode(createDevice, new UsbDetector())

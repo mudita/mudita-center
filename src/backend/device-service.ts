@@ -1,25 +1,25 @@
 import { IPureNode } from "pure"
-import PhonePort from "pure/dist/phone-port"
+import Device from "pure/dist/device"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import {
   Endpoint,
-  PortEventName,
+  DeviceEventName,
   Method,
   RequestConfig,
   ResponseStatus,
-} from "pure/dist/phone-port.types"
+} from "pure/dist/device.types"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { MainProcessIpc } from "electron-better-ipc"
 import { DeviceInfo } from "pure/dist/endpoints/device-info.types"
 import { Contact, CountBodyResponse } from "pure/dist/endpoints/contact.types"
 
-class PureNodeService {
-  phonePort: PhonePort | undefined
+class DeviceService {
+  device: Device | undefined
 
   constructor(private pureNode: IPureNode, private ipcMain: MainProcessIpc) {
-    this.registerAttachPhoneListener()
+    this.registerAttachDeviceListener()
   }
 
   async request(config: {
@@ -63,13 +63,13 @@ class PureNodeService {
   }): Promise<DeviceResponse>
   async request(config: RequestConfig): Promise<DeviceResponse<any>>
   async request(config: RequestConfig) {
-    if (!this.phonePort) {
+    if (!this.device) {
       return Promise.resolve({
         status: DeviceResponseStatus.Error,
       })
     }
 
-    return await this.phonePort
+    return await this.device
       .request(config)
       .then(({ status, body: data }) => {
         if (status === ResponseStatus.Ok) {
@@ -87,16 +87,16 @@ class PureNodeService {
   }
 
   public async connect(): Promise<DeviceResponse> {
-    if (this.phonePort) {
+    if (this.device) {
       return Promise.resolve({
         status: DeviceResponseStatus.Ok,
       })
     }
 
-    const [phonePort] = await this.pureNode.getPhonePorts()
+    const [device] = await this.pureNode.getDevices()
 
-    if (phonePort) {
-      return this.pureNodeConnect(phonePort)
+    if (device) {
+      return this.pureNodeConnect(device)
     } else {
       return {
         status: DeviceResponseStatus.Error,
@@ -104,10 +104,10 @@ class PureNodeService {
     }
   }
 
-  private async registerAttachPhoneListener(): Promise<void> {
-    this.pureNode.onAttachPhone(async (phonePort) => {
-      if (!this.phonePort) {
-        const { status } = await this.pureNodeConnect(phonePort)
+  private async registerAttachDeviceListener(): Promise<void> {
+    this.pureNode.onAttachDevice(async (device) => {
+      if (!this.device) {
+        const { status } = await this.pureNodeConnect(device)
 
         if (status === DeviceResponseStatus.Ok) {
           this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
@@ -116,10 +116,10 @@ class PureNodeService {
     })
   }
 
-  private async pureNodeConnect(phonePort: PhonePort): Promise<DeviceResponse> {
-    const { status } = await phonePort.connect()
+  private async pureNodeConnect(device: Device): Promise<DeviceResponse> {
+    const { status } = await device.connect()
     if (status === ResponseStatus.Ok) {
-      this.phonePort = phonePort
+      this.device = device
 
       this.registerDisconnectedDeviceListener()
 
@@ -134,13 +134,13 @@ class PureNodeService {
   }
 
   private registerDisconnectedDeviceListener() {
-    if(this.phonePort){
-      this.phonePort.on(PortEventName.Disconnected, () => {
-        this.phonePort = undefined
+    if(this.device){
+      this.device.on(DeviceEventName.Disconnected, () => {
+        this.device = undefined
         this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)
       })
     }
   }
 }
 
-export default PureNodeService
+export default DeviceService

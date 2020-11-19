@@ -2,11 +2,11 @@ import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.cla
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import PureNodeService from "Backend/pure-node-service"
+import DeviceService from "Backend/device-service"
 
 class PurePhone extends PurePhoneAdapter {
 
-  constructor(private pureNodeService: PureNodeService) {
+  constructor(private deviceService: DeviceService) {
     super()
   }
 
@@ -41,12 +41,12 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public async connectDevice(): Promise<DeviceResponse> {
-    return this.pureNodeService.connect()
+    return this.deviceService.connect()
   }
 }
 
 const createPurePhoneAdapter = (
-  pureNodeService: PureNodeService,
-): PurePhoneAdapter => new PurePhone(pureNodeService)
+  deviceService: DeviceService,
+): PurePhoneAdapter => new PurePhone(deviceService)
 
 export default createPurePhoneAdapter
