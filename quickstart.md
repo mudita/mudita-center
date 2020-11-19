@@ -52,7 +52,9 @@ npm run dist
 
 This will create an installer for your platform in the `releases` folder.
 
-You can make builds for specific platforms (or multiple platforms) by using [the CLI options](https://www.electron.build/cli). 
+You can also build the app for all platforms (Windows, macOS, Linux) by using the `npm run dist:all` command.
+
+You can also make builds for specific platforms (or multiple platforms) by using [the CLI options](https://www.electron.build/cli). 
 
 For example, building for all platforms (Windows, macOS, Linux):
 
