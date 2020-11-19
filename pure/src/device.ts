@@ -21,7 +21,7 @@ import { Contact, CountBodyResponse, DeviceInfo } from "./endpoints"
 class Device implements PureDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
-  #isPolling = true
+  #portBlocked = true
 
   constructor(private path: string) {}
 
@@ -108,7 +108,7 @@ class Device implements PureDevice {
       return this.pureUpdateRequest(config)
     } else {
       return new Promise((resolve) => {
-        if (!this.#port || !this.#isPolling) {
+        if (!this.#port || !this.#portBlocked) {
           resolve({ status: ResponseStatus.ConnectionError })
         } else {
           const uuid = getNewUUID()
@@ -141,10 +141,10 @@ class Device implements PureDevice {
 
   private async fileRequest({ file }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
-      if (!this.#port || !this.#isPolling || !file) {
+      if (!this.#port || !this.#portBlocked || !file) {
         resolve({ status: ResponseStatus.ConnectionError })
       } else {
-        this.#isPolling = false
+        this.#portBlocked = false
         const uuid = getNewUUID()
 
         const listener = async (event: any) => {
@@ -153,7 +153,7 @@ class Device implements PureDevice {
           if (response.uuid === String(uuid)) {
             if (response.body.status === ResponseStatus.InternalServerError) {
               this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-              this.#isPolling = true
+              this.#portBlocked = true
               resolve(response)
             } else if (response.body.status === FileResponseStatus.Ok) {
               const readStream = fs.createReadStream(file, {
@@ -168,7 +168,7 @@ class Device implements PureDevice {
               })
 
               readStream.on("end", () => {
-                this.#isPolling = true
+                this.#portBlocked = true
               })
             }
           } else if (
@@ -204,10 +204,10 @@ class Device implements PureDevice {
 
   private pureUpdateRequest({ file }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
-      if (!this.#port || !this.#isPolling || !file) {
+      if (!this.#port || !this.#portBlocked || !file) {
         resolve({ status: ResponseStatus.ConnectionError })
       } else {
-        this.#isPolling = false
+        this.#portBlocked = false
         const uuid = getNewUUID()
 
         const listener = async (event: any) => {
