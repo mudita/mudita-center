@@ -41,19 +41,17 @@ class UsbDetector {
   }
 
   private async getPortInfo(device: Device): Promise<UsbDetectorPortInfo> {
-    return new Promise(async (resolve) => {
-      device.open()
-      const manufacturer = await this.getDescriptor(device, "iManufacturer")
-      const serialNumber = await this.getDescriptor(device, "iSerialNumber")
-      device.close()
-      resolve({
-        manufacturer,
-        serialNumber,
-      })
-    })
+    device.open()
+    const manufacturer = await this.getDescriptor(device, "iManufacturer")
+    const serialNumber = await this.getDescriptor(device, "iSerialNumber")
+    device.close()
+    return {
+      manufacturer,
+      serialNumber,
+    }
   }
 
-  private registerAttachDeviceEmitter(){
+  private registerAttachDeviceEmitter() {
     usb.on("attach", async (device: Device) => {
       const portInfo = await this.getPortInfo(device)
       this.#eventEmitter.emit(UsbDetectorEventName.Attach, portInfo)
