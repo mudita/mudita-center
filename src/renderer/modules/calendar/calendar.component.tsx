@@ -1,11 +1,8 @@
 import React, { MutableRefObject, useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import { CalendarProps } from "Renderer/modules/calendar/calendar.interface"
 import { eventsData } from "App/seeds/calendar"
 import modalService from "Renderer/components/core/modal/modal.service"
-import EventsList from "Renderer/components/rest/calendar/events-list.component"
-import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
 import SelectCalendarsModal from "Renderer/components/rest/calendar/select-calendars-modal.component"
 import SynchronizingEventsModal from "Renderer/components/rest/calendar/synchronizing-events-modal.component"
@@ -19,12 +16,15 @@ import {
   Calendar,
   CalendarEvent,
 } from "Renderer/models/calendar/calendar.interfaces"
+import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
+import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
   events = eventsData,
   loadCalendars,
   loadEvents,
+  clearEvents,
 }) => {
   const tableSelectHook = useTableSelect<CalendarEvent>(events)
   const [provider, setProvider] = useState<Provider | undefined>()
@@ -151,21 +151,16 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
       }
     }
   }, [selectedEvent])
-
   return (
-    <>
-      <CalendarPanel
-        events={events}
-        onEventSelect={setSelectedEvent}
-        onSynchroniseClick={openSelectVendorModal}
-      />
-      <EventsList
-        listRef={eventsListRef as MutableRefObject<HTMLDivElement>}
-        events={events}
-        selectedEventIndex={selectedEvent ? events.indexOf(selectedEvent) : -1}
-        {...tableSelectHook}
-      />
-    </>
+    <CalendarUI
+      events={events}
+      openSelectVendorModal={openSelectVendorModal}
+      _devClearEvents={clearEvents}
+      tableSelectHook={tableSelectHook}
+      selectedEventIndex={selectedEvent ? events.indexOf(selectedEvent) : -1}
+      listRef={eventsListRef as MutableRefObject<HTMLDivElement>}
+      onEventSelect={setSelectedEvent}
+    />
   )
 }
 

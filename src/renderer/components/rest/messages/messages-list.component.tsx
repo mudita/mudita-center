@@ -195,7 +195,7 @@ const MessagesList: FunctionComponent<Props> = ({
         const emitDeleteClick = () => onDeleteClick(id)
         const toggleReadStatus = () => onToggleReadStatus([id])
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow key={id} ref={ref} selected={selected} active={active}>
+          <MessageRow ref={ref} selected={selected} active={active}>
             <AvatarCol>
               <Checkbox
                 checked={selected}
@@ -298,27 +298,27 @@ const MessagesList: FunctionComponent<Props> = ({
                 </Dropdown>
               </Actions>
             </Col>
+            <ScrollAnchorContainer key={id} active={active} />
           </MessageRow>
         )
 
         const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow key={id} ref={ref}>
+          <MessageRow ref={ref}>
             <Col />
             <Col>
               <AvatarPlaceholder />
               <TextPlaceholder charsCount={caller.firstName?.length || 0} />
             </Col>
+            <ScrollAnchorContainer key={id} active={active} />
           </MessageRow>
         )
 
         return (
-          <ScrollAnchorContainer key={id} active={active}>
-            <InView>
-              {({ inView, ref }) =>
-                inView ? interactiveRow(ref) : placeholderRow(ref)
-              }
-            </InView>
-          </ScrollAnchorContainer>
+          <InView key={id}>
+            {({ inView, ref }) =>
+              inView ? interactiveRow(ref) : placeholderRow(ref)
+            }
+          </InView>
         )
       })}
     </Messages>

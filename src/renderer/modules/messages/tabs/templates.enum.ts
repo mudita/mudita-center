@@ -3,4 +3,5 @@ export enum TemplatesTestIds {
   AddTemplateButton = "add-button",
   TextEditor = "text-editor",
   SortColumn = "sort-column",
+  Template = "templates-list",
 }

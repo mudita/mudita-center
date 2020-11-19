@@ -12,6 +12,8 @@ import registerDisconnectedDeviceListener, {
 import registerConnectedDeviceListener, {
   removeConnectedDeviceListener,
 } from "Renderer/listeners/register-connected-device.listener"
+import { getAppSettings } from "Renderer/requests/app-settings.request"
+import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { RootState } from "Renderer/store"
 
@@ -46,6 +48,14 @@ const BaseApp: FunctionComponent<Props> = ({ disconnectedDevice, toggleDisconnec
       history.push(URL_MAIN.overview)
     }
   }, [disconnectedDevice])
+
+  useEffect(() => {
+    ;(async () => {
+      if ((await getAppSettings()).pureNeverConnected) {
+        history.push(URL_ONBOARDING.root)
+      }
+    })()
+  }, [])
 
   return (
     <Provider store={store}>
