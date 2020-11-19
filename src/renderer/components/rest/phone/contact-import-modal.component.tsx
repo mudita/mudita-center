@@ -21,6 +21,13 @@ import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 
+const messages = defineMessages({
+  title: { id: "view.name.contacts.syncModal.title" },
+  button: { id: "view.name.contacts.syncModal.button" },
+  subtitle: { id: "view.name.contacts.syncModal.subtitle" },
+  body: { id: "view.name.contacts.syncModal.body" },
+})
+
 const Checkbox = styled(InputCheckbox)`
   margin-right: 2rem;
 `
@@ -74,13 +81,6 @@ const ContactImportModal: FunctionComponent<Props> = ({
       </Row>
     )
   }
-
-  const messages = defineMessages({
-    title: { id: "view.name.contacts.syncModal.title" },
-    button: { id: "view.name.contacts.syncModal.button" },
-    subtitle: { id: "view.name.contacts.syncModal.subtitle" },
-    body: { id: "view.name.contacts.syncModal.body" },
-  })
 
   return (
     <Modal
