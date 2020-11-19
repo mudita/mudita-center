@@ -155,10 +155,6 @@ export const createStore = () => ({
         rootState
       )
 
-      if (data.totalItems === 0) {
-        throw new Error("No contacts found")
-      }
-
       return data.connections.map((contact: GoogleContactResourceItem) => mapContact(contact))
     },
     async getEvents(calendarId: string, rootState: ExternalProvidersState) {
