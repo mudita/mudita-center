@@ -11,8 +11,6 @@ enum UsbDetectorEventName {
 class UsbDetector {
   #eventEmitter = new EventEmitter()
 
-  constructor() {}
-
   public init(): UsbDetector {
     this.registerAttachDeviceEmitter()
     return this

@@ -1,5 +1,5 @@
 enum PacketType {
-  Invalid = "\"",
+  Invalid = '"',
   Endpoint = 35,
   RawData = 36,
 }
@@ -10,6 +10,8 @@ enum ParserState {
   ReadingSize = 1,
   ReadingPayload = 2,
 }
+
+/* eslint-disable */
 
 export const createValidRequest = (payload: unknown): string => {
   let requestStr = "#"
@@ -24,7 +26,7 @@ export const createValidRequest = (payload: unknown): string => {
 export const parseData = async (data: any): Promise<any> => {
   return new Promise((resolve) => {
     let parserState = ParserState.None
-    let currentPacket = {
+    const currentPacket = {
       type: PacketType.Invalid,
       dataRaw: null,
       dataSizeToRead: Number(-1),
@@ -128,3 +130,4 @@ export const parseData = async (data: any): Promise<any> => {
 export function getNewUUID() {
   return Math.floor(Math.random() * 10000)
 }
+/* eslint-enable */

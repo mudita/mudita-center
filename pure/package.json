@@ -10,9 +10,11 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint --ext .ts src"
+    "lint": "eslint 'src/**/*.ts'",
+    "lint-staged": "lint-staged"
   },
   "devDependencies": {
+    "@appnroll/eslint-config": "^1.0.11",
     "@serialport/binding-mock": "^9.0.2",
     "@types/jest": "^26.0.15",
     "husky": "^4.3.0",
