@@ -1,4 +1,10 @@
-import React, { RefObject, useEffect, useRef, useState } from "react"
+import React, {
+  createRef,
+  RefObject,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -90,8 +96,9 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
   onClose = noop,
   flatList = [],
 }) => {
-  const rowsRefs = useRef<RefObject<HTMLDivElement>[]>([])
-  const [, updateState] = useState(0)
+  const rowsRefs = useRef<RefObject<HTMLDivElement>[]>(
+    Array.from({ length: 9 }).map(() => createRef())
+  )
   const [localData, setLocalData] = useState<[ContactID, Contact][]>([])
   const speedDialList = Array.from({ length: 9 })
     .fill(null)
@@ -137,11 +144,6 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
     }
   }
 
-  useEffect(() => {
-    // Force state update
-    updateState((prevState) => prevState + 1)
-  }, [])
-
   return (
     <ModalComponent
       title={intl.formatMessage(messages.title)}
@@ -161,6 +163,10 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
           const [selectedItem, setSelectedItem] = useState<Contact | undefined>(
             item[speedDial]
           )
+          const [{ height, upperDropdown }, setDropdownPosition] = useState({
+            height: 100,
+            upperDropdown: false,
+          })
 
           const onChange = (contact: Contact) => {
             const newItem = [contact.id, { ...contact, speedDial }] as [
@@ -178,9 +184,11 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
             setSelectedItem(contact)
           }
 
-          const { height, upperDropdown } = calculateDropdownPosition(
-            rowsRefs.current[i]?.current
-          )
+          useLayoutEffect(() => {
+            setDropdownPosition(
+              calculateDropdownPosition(rowsRefs.current[i]?.current)
+            )
+          }, [])
 
           return (
             <Row size={RowSize.Small} key={i} ref={rowsRefs.current[i]}>
