@@ -1,5 +1,4 @@
-import { IPureNode } from "pure"
-import Device from "pure/dist/device"
+import { PureDevice, PureDeviceManager } from "pure"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -16,9 +15,9 @@ import { DeviceInfo } from "pure/dist/endpoints/device-info.types"
 import { Contact, CountBodyResponse } from "pure/dist/endpoints/contact.types"
 
 class DeviceService {
-  device: Device | undefined
+  device: PureDevice | undefined
 
-  constructor(private pureNode: IPureNode, private ipcMain: MainProcessIpc) {
+  constructor(private deviceManager: PureDeviceManager, private ipcMain: MainProcessIpc) {
     this.registerAttachDeviceListener()
   }
 
@@ -93,7 +92,7 @@ class DeviceService {
       })
     }
 
-    const [device] = await this.pureNode.getDevices()
+    const [device] = await this.deviceManager.getDevices()
 
     if (device) {
       return this.pureNodeConnect(device)
@@ -105,7 +104,7 @@ class DeviceService {
   }
 
   private async registerAttachDeviceListener(): Promise<void> {
-    this.pureNode.onAttachDevice(async (device) => {
+    this.deviceManager.onAttachDevice(async (device) => {
       if (!this.device) {
         const { status } = await this.pureNodeConnect(device)
 
@@ -116,7 +115,7 @@ class DeviceService {
     })
   }
 
-  private async pureNodeConnect(device: Device): Promise<DeviceResponse> {
+  private async pureNodeConnect(device: PureDevice): Promise<DeviceResponse> {
     const { status } = await device.connect()
     if (status === ResponseStatus.Ok) {
       this.device = device

@@ -4,20 +4,21 @@ import path from "path"
 import * as fs from "fs"
 import {
   BodyCommand,
-  Endpoint,
+  CreateDevice,
   DeviceEventName,
+  Endpoint,
   FileResponseStatus,
   Method,
+  PureDevice,
   RequestConfig,
   Response,
   ResponseStatus,
   UpdateResponseStatus,
 } from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "./parser"
-import { Contact, CountBodyResponse } from "./endpoints/contact.types"
-import { DeviceInfo } from "./endpoints/device-info.types"
+import { Contact, CountBodyResponse, DeviceInfo } from "./endpoints"
 
-class Device {
+class Device implements PureDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
   #isPolling = true
@@ -239,8 +240,4 @@ class Device {
   }
 }
 
-export type CreateDevice = (path: string) => Device
-
 export const createDevice: CreateDevice = (path: string) => new Device(path)
-
-export default Device

@@ -1,5 +1,5 @@
 import { MainProcessIpc } from "electron-better-ipc"
-import { IPureNode } from "pure"
+import { PureDeviceManager } from "pure"
 import DeviceService from "Backend/device-service"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
@@ -22,8 +22,8 @@ import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 
-const bootstrap = (pureNode: IPureNode, ipcMain: MainProcessIpc) => {
-  const deviceService = new DeviceService(pureNode, ipcMain)
+const bootstrap = (deviceManager: PureDeviceManager, ipcMain: MainProcessIpc) => {
+  const deviceService = new DeviceService(deviceManager, ipcMain)
   const adapters = {
     // TODO: Replace with a proper adapters when phone becomes available.
     ...getFakeAdapters(),
