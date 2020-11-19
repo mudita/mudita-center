@@ -6,7 +6,6 @@ import { noop } from "Renderer/utils/noop"
 import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import Table, {
   Col,
-  getRowHeight,
   Labels,
   Row,
   RowSize,
@@ -91,7 +90,6 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
   onClose = noop,
   flatList = [],
 }) => {
-  const rowSize = RowSize.Small
   const [localData, setLocalData] = useState<[ContactID, Contact][]>([])
   const speedDialList = Array.from({ length: 9 })
     .fill(null)
@@ -125,13 +123,14 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
     onSave()
   }
 
-  const calculateDropdownPosition = (row: HTMLInputElement | null) => {
-    const top = row?.offsetTop || 0
+  const calculateDropdownPosition = (row: HTMLDivElement | null) => {
     const parent = row?.parentElement
-    const upperDropdown = top > 4 * getRowHeight(rowSize) * 10
+    const topSpace = row?.offsetTop ?? 0
+    const bottomSpace = (parent?.offsetHeight || 0) - topSpace
+    const upperDropdown = topSpace > bottomSpace
 
     return {
-      height: upperDropdown ? top : (parent?.offsetHeight || 0) - top,
+      height: Math.max(topSpace, bottomSpace),
       upperDropdown,
     }
   }
@@ -157,7 +156,6 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
           )
           const [, updateState] = useState(0)
           const forceUpdate = () => updateState((prevState) => prevState + 1)
-
           const rowRef = useRef(null)
 
           const onChange = (contact: Contact) => {
@@ -185,7 +183,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
           }, [])
 
           return (
-            <Row size={rowSize} key={i} ref={rowRef}>
+            <Row size={RowSize.Small} key={i} ref={rowRef}>
               <Col>{speedDial}</Col>
               <Col>
                 <StyledInputSelect
