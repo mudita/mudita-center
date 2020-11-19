@@ -1,13 +1,6 @@
-const usb = require("usb")
+import usb, { Device, DeviceDescriptor } from "usb"
 import { EventEmitter } from "events"
 import { PortInfo } from "serialport"
-
-interface Device {
-  deviceDescriptor: { [key: string]: any }
-  open(): void
-  close(): void
-  getStringDescriptor(descriptorIndex: string, callback: (error: any, data: string) => void): void
-}
 
 type UsbDetectorPortInfo = Omit<PortInfo, "path">
 
@@ -35,12 +28,12 @@ class UsbDetector {
 
   private async getDescriptor(
     device: Device,
-    deviceDescriptor: string
-  ): Promise<any> {
+    deviceDescriptor: keyof DeviceDescriptor
+  ): Promise<string> {
     return new Promise((resolve) => {
       device.getStringDescriptor(
         device.deviceDescriptor[deviceDescriptor],
-        (error: any, data: string) => {
+        (error, data = "") => {
           resolve(data)
         }
       )
