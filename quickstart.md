@@ -59,8 +59,10 @@ You can also make builds for specific platforms (or multiple platforms) by using
 For example, building for all platforms (Windows, macOS, Linux):
 
 ```bash
-npm run dist -- -mwl
+npm run dist -- -wl
 ```
+
+**Note:** You might not be able to build the app for all platforms one one platform. Read more about it the ["Multi Platform Build" article](https://www.electron.build/multi-platform-build).
 
 ## Troubleshooting common errors
 
@@ -79,7 +81,6 @@ Solution:
 ```bash
 electron-rebuild -f -w serialport
 ```
-**Note:** to omit possible issues, you should execute the above command after every dependency update.
 
 ### Config schema violation: `language` should be a string
 
@@ -90,12 +91,12 @@ Error: Config schema violation: `language` should be a string
 
 Solution:
 
-The same error will apply to any change that was done to settings without updating `settings json`. It can be manually updated by removing the old `settings.json` and creating a new one in its place. To do that please remove `settings.json`.
+The same error may appear after any change in code that was done to settings without updating `settings.json`.
+
+To fix that, `settings.json` file should be updated manually according to changes in code or automatically - by removing the `settings.json` and running the app again (this will create a new settings file with default values).
 
 `settings.json` is located in:
 
 - Windows: `C:\Users\<username>\AppData\Roaming\pure-desktop-app`
 - Linux: `~/.config/pure-desktop-app`
 - macOS: `~/Library/Application Support/pure-desktop-app`
-
-The next step is to reopen the app by running `npm run develop` so the app can create a new `settings.json` locally.
