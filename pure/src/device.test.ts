@@ -30,6 +30,7 @@ test("second try for connection process return error", async () => {
 })
 
 test("allows to programmatically disconnect the device", async () => {
+  await device.connect()
   const response = await device.disconnect()
   expect(response.status).toEqual(ResponseStatus.Ok)
 })
