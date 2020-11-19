@@ -47,7 +47,7 @@ To run additional Developer Options in Mudita Center, click 7-10 times on the ph
 We use [Electron builder](https://www.electron.build/) to build and package the application. By default, you can run the following to package it for your current platform:
 
 ```bash
-npm run dist:all
+npm run dist
 ```
 
 This will create an installer for your platform in the `releases` folder.
