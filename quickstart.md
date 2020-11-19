@@ -56,7 +56,7 @@ You can also build the app for all platforms (Windows, macOS, Linux) by using th
 
 You can also make builds for specific platforms (or multiple platforms) by using [the CLI options](https://www.electron.build/cli). 
 
-For example, building for all platforms (Windows, macOS, Linux):
+For example, building for Windows and Linux:
 
 ```bash
 npm run dist -- -wl
