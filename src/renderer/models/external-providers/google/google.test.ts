@@ -469,10 +469,10 @@ test("contacts are received properly", async () => {
     Array [
       Object {
         "blocked": false,
-        "email": "bombol@bombol.com",
+        "email": "bombol@examplemail.com",
         "favourite": false,
         "firstAddressLine": "bomboladzka 1",
-        "firstName": " Bombolo",
+        "firstName": "Bombolo",
         "ice": false,
         "id": "people/c5420759609842671821",
         "lastName": "Bombolada",
@@ -483,10 +483,10 @@ test("contacts are received properly", async () => {
       },
       Object {
         "blocked": false,
-        "email": "alolo@bombol.pl",
+        "email": "alolo@examplemail.pl",
         "favourite": false,
         "firstAddressLine": "lolo 123",
-        "firstName": " Kolejny bombolek",
+        "firstName": "Kolejny bombolek",
         "ice": false,
         "id": "people/c6026900974127078735",
         "lastName": "Bombolada",
@@ -499,52 +499,86 @@ test("contacts are received properly", async () => {
   `)
 })
 
-test("phone numbers map correctly", () => {
-  const primaryPhoneNumber = "123 456 999"
-  const secondaryPhoneNumber = "999 888 777"
-  const input: GoogleContactResourceItem = {
-    resourceName: "people/c5420759609842671821",
-    etag: "%EgwBAj0FCT4LPxBANy4aBAECBQciDEE1VzVERlU4NjljPQ==",
-    // names: [
-    //   {
-    //     metadata: {
-    //       primary: true,
-    //       source: {
-    //         type: "CONTACT",
-    //         id: "4b3a68250d7520cd",
-    //       },
-    //     },
-    //     displayNameLastFirst: "Staszewski, Kamil",
-    //   },
-    // ],
-    // addresses: [
-    //   {
-    //     metadata: {
-    //       primary: true,
-    //       source: {
-    //         type: "CONTACT",
-    //         id: "4b3a68250d7520cd",
-    //       },
-    //     },
-    //
-    //     streetAddress: "Marszałka Józefa Piłsudskiego 30",
-    //     extendedAddress: "line 2",
-    //     city: "Czersk",
-    //     postalCode: "89-650",
-    //   },
-    // ],
-    // emailAddresses: [
-    //   {
-    //     metadata: {
-    //       primary: true,
-    //       source: {
-    //         type: "CONTACT",
-    //         id: "4b3a68250d7520cd",
-    //       },
-    //     },
-    //     value: "kamilstaszewski95@gmail.com",
-    //   },
-    // ],
+const commonInput = {
+  resourceName: "people/c5420759609842671821",
+  etag: "%EgwBAj0FCT4LPxBANy4aBAECBQciDEE1VzVERlU4NjljPQ==",
+}
+
+const examplePrimaryPhoneNumber = "123 456 999"
+const exampleSecondaryPhoneNumber = "999 888 777"
+const inputAddress = {
+  streetAddress: "Marszałka Józefa Piłsudskiego 30",
+  extendedAddress: "line 2",
+  city: "Czerskiekienicice",
+  postalCode: "89-650",
+}
+const displayNameLastFirst = "Doe, John"
+const exampleMail = "example@mail.com"
+const exampleNote =
+  "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?"
+
+test("input with no fields returns each fields from google containing empty string beside id", () => {
+  const {
+    id,
+    firstName,
+    lastName,
+    primaryPhoneNumber,
+    secondaryPhoneNumber,
+    email,
+    firstAddressLine,
+    secondAddressLine,
+    note,
+  } = mapContact(commonInput)
+  expect(id).toEqual(commonInput.resourceName)
+  expect(firstName).toEqual("")
+  expect(lastName).toEqual("")
+  expect(primaryPhoneNumber).toEqual("")
+  expect(secondaryPhoneNumber).toEqual("")
+  expect(email).toEqual("")
+  expect(firstAddressLine).toEqual("")
+  expect(secondAddressLine).toEqual("")
+  expect(note).toEqual("")
+})
+
+test("input with all fields maps correctly", () => {
+  const input = {
+    ...commonInput,
+    names: [
+      {
+        metadata: {
+          primary: true,
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        displayNameLastFirst,
+      },
+    ],
+    addresses: [
+      {
+        metadata: {
+          primary: true,
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        ...inputAddress,
+      },
+    ],
+    emailAddresses: [
+      {
+        metadata: {
+          primary: true,
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        value: exampleMail,
+      },
+    ],
     phoneNumbers: [
       {
         metadata: {
@@ -554,7 +588,7 @@ test("phone numbers map correctly", () => {
             id: "4b3a68250d7520cd",
           },
         },
-        value: primaryPhoneNumber
+        value: examplePrimaryPhoneNumber,
       },
       {
         metadata: {
@@ -563,35 +597,87 @@ test("phone numbers map correctly", () => {
             id: "4b3a68250d7520cd",
           },
         },
-        value: secondaryPhoneNumber
-      },
-      {
-        metadata: {
-          source: {
-            type: "CONTACT",
-            id: "4b3a68250d7520cd",
-          },
-        },
-        value: "111 222 333",
+        value: exampleSecondaryPhoneNumber,
       },
     ],
-    // biographies: [
-    //   {
-    //     metadata: {
-    //       primary: true,
-    //       source: {
-    //         type: "CONTACT",
-    //         id: "4b3a68250d7520cd",
-    //       },
-    //     },
-    //     value: "notatka\n",
-    //     contentType: "TEXT_PLAIN",
-    //   },
-    // ],
+    biographies: [
+      {
+        metadata: {
+          primary: true,
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        value: exampleNote,
+        contentType: "TEXT_PLAIN",
+      },
+    ],
   }
-    const result = mapContact(input)
-  expect(result.primaryPhoneNumber).toEqual(primaryPhoneNumber)
-  expect(result.secondaryPhoneNumber).toEqual(secondaryPhoneNumber)
+  const {
+    id,
+    firstName,
+    lastName,
+    firstAddressLine,
+    secondAddressLine,
+    email,
+    note,
+    primaryPhoneNumber,
+    secondaryPhoneNumber,
+  } = mapContact(input)
+  expect(id).toEqual(commonInput.resourceName)
+  expect(firstName).toEqual("John")
+  expect(lastName).toEqual("Doe")
+  expect(firstAddressLine).toEqual(inputAddress.streetAddress)
+  expect(secondAddressLine).toEqual(
+    `${inputAddress.postalCode} ${inputAddress.city} ${inputAddress.extendedAddress}`
+  )
+  expect(email).toEqual(exampleMail)
+  expect(note).toEqual(exampleNote)
+  expect(primaryPhoneNumber).toEqual(primaryPhoneNumber)
+  expect(secondaryPhoneNumber).toEqual(secondaryPhoneNumber)
+})
+
+test("third number from gogole is omitted", () => {
+  const thirdPhoneNumberFromGoogle = "111 222 333"
+  const input: GoogleContactResourceItem = {
+    ...commonInput,
+    phoneNumbers: [
+      {
+        metadata: {
+          primary: true,
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        value: examplePrimaryPhoneNumber,
+      },
+      {
+        metadata: {
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        value: exampleSecondaryPhoneNumber,
+      },
+      {
+        metadata: {
+          source: {
+            type: "CONTACT",
+            id: "4b3a68250d7520cd",
+          },
+        },
+        value: thirdPhoneNumberFromGoogle,
+      },
+    ],
+  }
+  const { primaryPhoneNumber, secondaryPhoneNumber } = mapContact(input)
+  expect(primaryPhoneNumber).toEqual(primaryPhoneNumber)
+  expect(secondaryPhoneNumber).toEqual(secondaryPhoneNumber)
+  expect(primaryPhoneNumber).not.toEqual(thirdPhoneNumberFromGoogle)
+  expect(secondaryPhoneNumber).not.toEqual(thirdPhoneNumberFromGoogle)
 })
 
 test("secondary phone number is empty when there is only one phone number", () => {
@@ -608,43 +694,11 @@ test("secondary phone number is empty when there is only one phone number", () =
             id: "4b3a68250d7520cd",
           },
         },
-        value: primaryPhoneNumber
+        value: primaryPhoneNumber,
       },
     ],
   }
   const result = mapContact(input)
   expect(result.primaryPhoneNumber).toEqual(primaryPhoneNumber)
   expect(result.secondaryPhoneNumber).toEqual("")
-})
-
-test("no names in input return empty strings", () => {
-  const input: GoogleContactResourceItem = {
-    resourceName: "people/c5420759609842671821",
-    etag: "%EgwBAj0FCT4LPxBANy4aBAECBQciDEE1VzVERlU4NjljPQ==",
-  }
-  const result = mapContact(input)
-  expect(result.primaryPhoneNumber).toEqual("")
-  expect(result.secondaryPhoneNumber).toEqual("")
-})
-
-test("name maps correctly", () => {
-  const input: GoogleContactResourceItem = {
-    resourceName: "people/c5420759609842671821",
-    etag: "%EgwBAj0FCT4LPxBANy4aBAECBQciDEE1VzVERlU4NjljPQ==",
-    names: [
-      {
-        metadata: {
-          primary: true,
-          source: {
-            type: "CONTACT",
-            id: "4b3a68250d7520cd",
-          },
-        },
-        displayNameLastFirst: "Doe, Jane",
-      },
-    ],
-  }
-  const result = mapContact(input)
-  expect(result.firstName).toEqual("Jane")
-  expect(result.lastName).toEqual("Doe")
 })

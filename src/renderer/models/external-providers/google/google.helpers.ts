@@ -48,8 +48,8 @@ export const mapContact = (contact: GoogleContactResourceItem): Contact => {
   let lastName = ""
   let primaryPhoneNumber = ""
   let secondaryPhoneNumber = ""
-  let firstAddressLine
-  let secondAddressLine
+  let firstAddressLine = ""
+  let secondAddressLine = ""
   let email = ""
   let note = ""
 

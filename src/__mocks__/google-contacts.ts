@@ -39,7 +39,7 @@ export const mockedGoogleContacts = {
               id: "4b3a68250d7520cd",
             },
           },
-          value: "bombol@bombol.com",
+          value: "bombol@examplemail.com",
         },
       ],
       phoneNumbers: [
@@ -107,7 +107,7 @@ export const mockedGoogleContacts = {
               id: "53a3da810b4cdd4f",
             },
           },
-          value: "alolo@bombol.pl",
+          value: "alolo@examplemail.pl",
         },
       ],
       phoneNumbers: [
