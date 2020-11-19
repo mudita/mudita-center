@@ -94,19 +94,19 @@ export type ItemValue = string | number
 
 type RenderableListItem = ItemValue | JSX.Element
 
-interface RenderListItemProps<T, K> {
-  item: T
-  props: K
+interface RenderListItemProps<Item, Props> {
+  item: Item
+  props: Props
   searchString: string
 }
 
-export type RenderListItem<T, K> = ({
+export type RenderListItem<Item, Props = any> = ({
   item,
   props,
   searchString,
-}: RenderListItemProps<T, K>) => RenderableListItem
+}: RenderListItemProps<Item, Props>) => RenderableListItem
 
-export const renderListItemSearchable: RenderListItem<any, any> = ({
+export const renderListItemSearchable: RenderListItem<unknown> = ({
   item,
   props,
   searchString,

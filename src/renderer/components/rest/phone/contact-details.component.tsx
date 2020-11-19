@@ -6,7 +6,7 @@ import {
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { Contact } from "Renderer/models/phone/phone.typings"
-import Icon from "Renderer/components/core/icon/icon.component"
+import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl } from "Renderer/utils/intl"
@@ -153,7 +153,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
           )}
           {contact.blocked && (
             <InfoItem>
-              <Icon type={Type.Blocked} />
+              <Icon type={Type.Blocked} size={IconSize.Bigger} />
               <InfoItemName message={messages.blocked} />
             </InfoItem>
           )}

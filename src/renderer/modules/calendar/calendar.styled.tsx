@@ -9,6 +9,7 @@ import { CalendarEventProps } from "Renderer/modules/calendar/calendar.interface
 import { FormattedDate } from "react-intl"
 import React from "react"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
+import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
 
 export const EventsList = styled(Table)`
   --columnsTemplate: 5fr 3fr 3fr;
@@ -21,11 +22,13 @@ export const Header = styled(Text).attrs({
 })`
   padding: 4rem 4rem 1.7rem 4rem;
 `
-export const Event: FunctionComponent<CalendarEventProps> = ({ event }) => {
+export const Event: FunctionComponent<
+  CalendarEventProps & { active?: boolean }
+> = ({ event, active }) => {
   const { name, startDate, endDate } = event
 
   return (
-    <Row>
+    <Row active={active} data-testid={CalendarTestIds.Event}>
       <Col>{name}</Col>
       <Col>
         <TimeWindow startDate={startDate} endDate={endDate} />

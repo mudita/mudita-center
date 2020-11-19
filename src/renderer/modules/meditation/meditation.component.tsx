@@ -53,7 +53,7 @@ const Meditation: FunctionComponent = () => {
     }
   }
   return (
-    <MeditationWrapper>
+    <MeditationWrapper data-testid={chartType}>
       <DevModeWrapper>
         <Button onClick={_devSetStats} label="Trigger no stats view" />
       </DevModeWrapper>
