@@ -66,8 +66,8 @@ class DeviceManager implements PureDeviceManager {
     })
   }
 
-  private static async getSerialPortList(): Promise<PortInfo[]> {
-    return await SerialPort.list()
+  private static getSerialPortList(): Promise<PortInfo[]> {
+    return SerialPort.list()
   }
 }
 

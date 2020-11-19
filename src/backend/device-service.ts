@@ -17,9 +17,12 @@ import { Contact, CountBodyResponse } from "pure/dist/endpoints/contact.types"
 class DeviceService {
   device: PureDevice | undefined
 
-  constructor(private deviceManager: PureDeviceManager, private ipcMain: MainProcessIpc) {}
+  constructor(
+    private deviceManager: PureDeviceManager,
+    private ipcMain: MainProcessIpc
+  ) {}
 
-  public init(){
+  public init() {
     this.registerAttachDeviceListener()
     return this
   }
@@ -66,33 +69,31 @@ class DeviceService {
   async request(config: RequestConfig): Promise<DeviceResponse<any>>
   async request(config: RequestConfig) {
     if (!this.device) {
-      return Promise.resolve({
+      return {
         status: DeviceResponseStatus.Error,
-      })
+      }
     }
 
-    return await this.device
-      .request(config)
-      .then(({ status, body: data }) => {
-        if (status === ResponseStatus.Ok) {
-          return {
-            data,
-            status: DeviceResponseStatus.Ok,
-          }
-        } else {
-          return {
-            data,
-            status: DeviceResponseStatus.Error,
-          }
-        }
-      })
+    const { status, body: data } = await this.device.request(config)
+
+    if (status === ResponseStatus.Ok) {
+      return {
+        data,
+        status: DeviceResponseStatus.Ok,
+      }
+    } else {
+      return {
+        data,
+        status: DeviceResponseStatus.Error,
+      }
+    }
   }
 
   public async connect(): Promise<DeviceResponse> {
     if (this.device) {
-      return Promise.resolve({
+      return {
         status: DeviceResponseStatus.Ok,
-      })
+      }
     }
 
     const [device] = await this.deviceManager.getDevices()
@@ -136,7 +137,7 @@ class DeviceService {
   }
 
   private registerDisconnectedDeviceListener() {
-    if(this.device){
+    if (this.device) {
       this.device.on(DeviceEventName.Disconnected, () => {
         this.device = undefined
         this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)

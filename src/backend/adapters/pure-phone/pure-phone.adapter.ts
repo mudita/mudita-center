@@ -40,7 +40,7 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-  public async connectDevice(): Promise<DeviceResponse> {
+  public connectDevice(): Promise<DeviceResponse> {
     return this.deviceService.connect()
   }
 }

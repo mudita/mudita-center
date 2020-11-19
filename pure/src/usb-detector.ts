@@ -26,7 +26,7 @@ class UsbDetector {
     this.#eventEmitter.off(UsbDetectorEventName.Attach, listener)
   }
 
-  private async getDescriptor(
+  private getDescriptor(
     device: Device,
     deviceDescriptor: keyof DeviceDescriptor
   ): Promise<string> {

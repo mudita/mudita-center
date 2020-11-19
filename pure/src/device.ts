@@ -25,7 +25,7 @@ class Device implements PureDevice {
 
   constructor(private path: string) {}
 
-  public async connect(): Promise<Response> {
+  public connect(): Promise<Response> {
     return new Promise((resolve) => {
       this.#port = new SerialPort(this.path, (error) => {
         if (error) {
@@ -35,7 +35,7 @@ class Device implements PureDevice {
         }
       })
 
-      this.#port.on("data", async (event) => {
+      this.#port.on("data", (event) => {
         this.#eventEmitter.emit(DeviceEventName.DataReceived, event)
       })
 
@@ -45,7 +45,7 @@ class Device implements PureDevice {
     })
   }
 
-  public async disconnect(): Promise<Response> {
+  public disconnect(): Promise<Response> {
     return new Promise((resolve) => {
       if (this.#port === undefined) {
         resolve({ status: ResponseStatus.Ok })
@@ -61,47 +61,47 @@ class Device implements PureDevice {
     })
   }
 
-  public async request(config: {
+  public request(config: {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
   }): Promise<Response<DeviceInfo>>
-  public async request(config: {
+  public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
     body: { count: true }
   }): Promise<Response<CountBodyResponse>>
-  public async request(config: {
+  public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
     body: { count: number }
   }): Promise<Response<Contact[]>>
-  public async request(config: {
+  public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
     body: Contact
   }): Promise<Response<Contact>>
-  public async request(config: {
+  public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Put
     body: Contact
   }): Promise<Response<Contact>>
-  public async request(config: {
+  public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Delete
     body: Contact["id"]
   }): Promise<Response<string>>
-  public async request(config: {
+  public request(config: {
     endpoint: Endpoint.PureUpdate
     method: Method.Post
     file: string
   }): Promise<Response>
-  public async request(config: {
+  public request(config: {
     endpoint: Endpoint.File
     method: Method.Post
     file: string
   }): Promise<Response>
-  public async request(config: RequestConfig): Promise<Response<any>>
-  public async request(config: RequestConfig): Promise<Response<any>> {
+  public request(config: RequestConfig): Promise<Response<any>>
+  public request(config: RequestConfig): Promise<Response<any>> {
     if (config.endpoint === Endpoint.File) {
       return this.fileRequest(config)
     } else if (config.endpoint === Endpoint.PureUpdate) {
@@ -139,7 +139,7 @@ class Device implements PureDevice {
     this.#eventEmitter.off(eventName, listener)
   }
 
-  private async fileRequest({ file }: RequestConfig): Promise<Response<any>> {
+  private fileRequest({ file }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
       if (!this.#port || !this.#portBlocked || !file) {
         resolve({ status: ResponseStatus.ConnectionError })
