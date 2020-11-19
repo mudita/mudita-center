@@ -22,7 +22,7 @@ import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 
-const bootstrap = (deviceManager: PureDeviceManager, ipcMain: MainProcessIpc) => {
+const bootstrap = (deviceManager: PureDeviceManager, ipcMain: MainProcessIpc): void => {
   const deviceService = new DeviceService(deviceManager, ipcMain)
   const adapters = {
     // TODO: Replace with a proper adapters when phone becomes available.
