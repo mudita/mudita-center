@@ -1,6 +1,6 @@
 import mockSerialPort from "./mock-serial-port"
-import PureNode from "./index"
-import Device from "./device"
+import PureNode, { PureDevice } from "./index"
+
 import {
   Endpoint,
   DeviceEventName,
@@ -8,7 +8,7 @@ import {
   ResponseStatus,
 } from "./device.types"
 
-let device: Device
+let device: PureDevice
 
 beforeEach(async (done) => {
   mockSerialPort()
