@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-commit": "npm run translations:sort && lint-staged && npm run pure:lint-staged"
+    "pre-commit": "npm run beforecommit"
   }
 }
