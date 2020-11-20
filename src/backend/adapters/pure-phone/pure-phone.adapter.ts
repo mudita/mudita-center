@@ -52,8 +52,6 @@ class PurePhone extends PurePhoneAdapter {
       file,
     })
 
-    console.log("fileResponse: ", fileResponse)
-
     if (fileResponse.status === DeviceResponseStatus.Ok) {
       const PureUpdateResponse = await this.deviceService.request({
         endpoint: Endpoint.PureUpdate,
@@ -62,18 +60,15 @@ class PurePhone extends PurePhoneAdapter {
       })
 
       if (PureUpdateResponse.status === DeviceResponseStatus.Ok) {
-        console.log("DeviceResponseStatus.Ok: ", DeviceResponseStatus.Ok, 1)
         return {
           status: DeviceResponseStatus.Ok,
         }
       } else {
-        console.log("DeviceResponseStatus.Error: ", DeviceResponseStatus.Error, 1)
         return {
           status: DeviceResponseStatus.Error,
         }
       }
     } else {
-      console.log("DeviceResponseStatus.Error: ", DeviceResponseStatus.Error,2)
       return {
         status: DeviceResponseStatus.Error,
       }
