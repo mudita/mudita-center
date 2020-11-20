@@ -3,15 +3,15 @@ import { osUpdateAlreadyDownloadedChannel } from "App/main/functions/register-os
 import { Filename, Filesize } from "Renderer/interfaces/file-download.interface"
 
 const osUpdateAlreadyDownloadedCheck = (
-  fileName: Filename,
+  filePath: Filename,
   fileSize: Filesize
 ): Promise<boolean> => {
   return new Promise(async (resolve, reject) => {
     try {
       const data = await ipcRenderer.callMain<
-        { fileName: Filename; fileSize: Filesize },
+        { filePath: Filename; fileSize: Filesize },
         boolean
-      >(osUpdateAlreadyDownloadedChannel, { fileName, fileSize })
+      >(osUpdateAlreadyDownloadedChannel, { filePath, fileSize })
       resolve(data)
     } catch (error) {
       reject(error)

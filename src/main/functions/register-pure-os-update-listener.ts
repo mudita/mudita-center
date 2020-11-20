@@ -1,5 +1,7 @@
 import { ipcMain } from "electron-better-ipc"
 import fetch from "node-fetch"
+import { app } from "electron"
+import { name } from "../../../package.json"
 
 export enum OsUpdateChannel {
   Request = "os-update-request",
@@ -11,7 +13,11 @@ const osUpdateServerUrl =
 const registerPureOsUpdateListener = () => {
   ipcMain.answerRenderer(OsUpdateChannel.Request, async () => {
     const response = await fetch(osUpdateServerUrl)
-    return await response.json()
+    const { file, ...rest } = await response.json()
+    return {
+      file: `${app.getPath("appData")}/${name}/pure/os/downloads/${file}`,
+      ...rest,
+    }
   })
 }
 

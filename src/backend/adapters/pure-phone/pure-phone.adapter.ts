@@ -5,6 +5,8 @@ import DeviceResponse, {
 
 import { MainProcessIpc } from "electron-better-ipc"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
+import { Filename } from "Renderer/interfaces/file-download.interface"
+import { Constants } from "pure"
 
 class PurePhone extends PurePhoneAdapter {
   constructor(private pureNode: any, private ipcMain: MainProcessIpc) {
@@ -62,6 +64,42 @@ class PurePhone extends PurePhoneAdapter {
         }
 
         resolve({ status: DeviceResponseStatus.Error })
+      })
+    })
+  }
+
+  public updateOs(updateFilePath: string): Promise<DeviceResponse> | DeviceResponse {
+    try {
+      this.pureNode.uploadUpdateFile(updateFilePath)
+    } catch (e) {
+      return { status: DeviceResponseStatus.Error }
+    }
+    return new Promise((resolve) => {
+      this.pureNode.on("data", (event: any) => {
+        if (event.endpoint === Constants.enpoint.filesystemUpload) {
+          if (Number(event.body.status) === 500) {
+            resolve({ status: DeviceResponseStatus.Error })
+          }
+          if (Number(event.body.status) === 0) {
+            this.pureNode.fileUploadConfirmed()
+          }
+          if (Number(event.status) === 202) {
+            this.pureNode.startUpdate(
+              updateFilePath.split("/").pop() as Filename
+            )
+          }
+        }
+        if (Number(event.endpoint) === Constants.enpoint.update) {
+          if (event.body.status === "Ready for reset") {
+            resolve({ status: DeviceResponseStatus.Ok })
+          }
+          if (
+            Number(event.body.status) ===
+            Constants.errorCode.internalServerError
+          ) {
+            resolve({ status: DeviceResponseStatus.Error })
+          }
+        }
       })
     })
   }
