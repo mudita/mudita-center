@@ -13,10 +13,10 @@ export const registerDownloadHelpHandler = () => {
 
   ipcMain.answerRenderer(HelpActions.DownloadContentfulData, async () => {
     const client = createClient({
-      accessToken: process.env.PDA_CONTENTFUL_ACCESS_TOKEN as string,
-      space: process.env.PDA_CONTENTFUL_SPACE_ID as string,
-      environment: process.env.PDA_CONTENTFUL_ENVIRONMENT_ID,
-      host: process.env.PDA_CONTENTFUL_HOST,
+      accessToken: process.env.MC_CONTENTFUL_ACCESS_TOKEN as string,
+      space: process.env.MC_CONTENTFUL_SPACE_ID as string,
+      environment: process.env.MC_CONTENTFUL_ENVIRONMENT_ID,
+      host: process.env.MC_CONTENTFUL_HOST,
     })
     const syncConfig: Record<string, any> = {
       type: "Entry",
