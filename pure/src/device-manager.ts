@@ -36,8 +36,9 @@ class DeviceManager implements PureDeviceManager {
     return portList
       .filter(
         (portInfo) =>
-          portInfo.manufacturer === manufacturer &&
-          portInfo.productId === productId
+          portInfo.manufacturer === manufacturer
+          // commented until the embedded  development with the productId will stabilize
+          // && portInfo.productId === productId
       )
       .map(({ path }) => createDevice(path))
   }

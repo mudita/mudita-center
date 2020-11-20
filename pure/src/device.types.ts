@@ -67,7 +67,7 @@ export interface RequestConfig {
 }
 
 export enum FileResponseStatus {
-  Ok = "0",
+  Ok = "1",
 }
 
 export enum UpdateResponseStatus {

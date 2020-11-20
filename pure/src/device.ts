@@ -151,11 +151,7 @@ class Device implements PureDevice {
           const response = await parseData(event)
 
           if (response.uuid === String(uuid)) {
-            if (response.body.status === ResponseStatus.InternalServerError) {
-              this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-              this.#portBlocked = true
-              resolve(response)
-            } else if (response.body.status === FileResponseStatus.Ok) {
+            if (response.body.status === FileResponseStatus.Ok) {
               const readStream = fs.createReadStream(file, {
                 highWaterMark: 16384,
               })
@@ -170,6 +166,10 @@ class Device implements PureDevice {
               readStream.on("end", () => {
                 this.#portBlocked = true
               })
+            } else {
+              this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
+              this.#portBlocked = true
+              resolve(response)
             }
           } else if (
             response.endpoint === Endpoint.FilesystemUpload &&
