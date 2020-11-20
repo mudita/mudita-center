@@ -14,9 +14,13 @@ npm install
 
 ### Set up environmental variables
 
-Create an `.env` file and copy the contents of the [`.env.example` file](.env.example) into it.
+Create both `.env.development` and `.env.production` files and copy the content of the [`.env.example` file](.env.example) into them.
 
-Please provide all values marked as required to start working with the project. Add optional values when you need them.
+Please provide all values marked as required to start working with the project. Add optional values when you need them. Some values are already defined.
+
+There are migrations scripts that will allow you to mirror our setup from Phrase.com and Contentful:
+
+- _to be added_
 
 ## Run Mudita Center development environment
 
@@ -40,7 +44,7 @@ npm run dev:start:main
 To run additional Developer Options in Mudita Center, click 7-10 times on the phone box on the "Overview" page. This enables Developer Options which include:
 
 - a simulation of a connected Mudita Pure phone
-- additional placeholder data which you can modify inside the app 
+- additional placeholder data which you can modify inside the app
 
 ## Packaging
 
@@ -54,7 +58,7 @@ This will create an installer for your platform in the `releases` folder.
 
 You can also build the app for all platforms (Windows, macOS, Linux) by using the `npm run dist:all` command.
 
-You can also make builds for specific platforms (or multiple platforms) by using [the CLI options](https://www.electron.build/cli). 
+You can also make builds for specific platforms (or multiple platforms) by using [the CLI options](https://www.electron.build/cli).
 
 For example, building for Windows and Linux:
 
