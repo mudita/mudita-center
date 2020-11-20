@@ -29,6 +29,7 @@ storiesOf("Overview/System", module).add("System", () => {
         <System
           osVersion={osVersion}
           onUpdateCheck={action("checked for update")}
+          lastUpdate={"2020-01-14T11:31:08.244Z"}
         />
       </Part>
       <Part>
@@ -60,6 +61,7 @@ storiesOf("Overview/System", module).add("System", () => {
           osVersion={osVersion}
           onUpdate={action("update requested")}
           updateAvailable
+          lastUpdate={"2020-01-14T11:31:08.244Z"}
         />
       </Part>
       <Part>

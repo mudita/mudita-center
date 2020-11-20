@@ -75,8 +75,8 @@ class DeviceService {
     }
 
     const { status, body: data } = await this.device.request(config)
-
-    if (status === ResponseStatus.Ok) {
+    console.log("status: ", data)
+    if (status === ResponseStatus.Ok || status === ResponseStatus.Accepted) {
       return {
         data,
         status: DeviceResponseStatus.Ok,
