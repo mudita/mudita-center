@@ -71,7 +71,6 @@ const useSystemUpdateFlow = (
   const updatePure = async (updateInfo: UpdateStatusResponse) => {
     const { file, version } = updateInfo
     const response = await updateOs(file)
-    console.log("response: ", response)
     await onUpdate({
       pureOsFileName: "",
       pureOsDownloaded: false,
@@ -147,7 +146,6 @@ const useSystemUpdateFlow = (
   const install = async () => {
     const updatesInfo = await checkForUpdates(false, true)
     modalService.openModal(<UpdatingProgressModal />, true)
-    console.log("updatesInfo: ", updatesInfo)
     const pureUpdateResponse = await updatePure(updatesInfo)
     if (isEqual(pureUpdateResponse, { status: DeviceResponseStatus.Ok })) {
       modalService.openModal(<UpdatingSuccessModal />, true)

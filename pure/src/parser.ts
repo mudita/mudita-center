@@ -9,9 +9,8 @@ enum ParserState {
   ReadingType = 0,
   ReadingSize = 1,
   ReadingPayload = 2,
-  NeedMoreData = 3
 }
-const updateFileChunkSize = 128
+
 /* eslint-disable */
 
 export const createValidRequest = (payload: unknown): string => {
@@ -29,12 +28,10 @@ export const parseData = async (data: any): Promise<any> => {
     let parserState = ParserState.None
     const currentPacket = {
       type: PacketType.Invalid,
-      dataRaw: Buffer.alloc(0),
+      dataRaw: null,
       dataSizeToRead: Number(-1),
-      dataSizeAlreadyRead: Number(-1),
       dataSizeRead: Number(-1),
       dataObject: null,
-      needMoreData: Boolean(false)
     }
     // debug('got data on serial state: %d data: "%s"', parserState, data)
 
