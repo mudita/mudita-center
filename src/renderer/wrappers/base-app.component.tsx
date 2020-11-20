@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { connect, Provider } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
@@ -25,6 +25,7 @@ interface Props {
 }
 
 const BaseApp: FunctionComponent<Props> = ({ disconnectedDevice, toggleDisconnectedDevice, store, history }) => {
+  const [pureNeverConnected, setPureNeverConnected] = useState(false)
   useEffect(() => {
     const listener = () => {
       toggleDisconnectedDevice(true)
@@ -51,11 +52,17 @@ const BaseApp: FunctionComponent<Props> = ({ disconnectedDevice, toggleDisconnec
 
   useEffect(() => {
     ;(async () => {
-      if ((await getAppSettings()).pureNeverConnected) {
-        history.push(URL_ONBOARDING.root)
-      }
+      const response = await getAppSettings()
+      setPureNeverConnected(response.pureNeverConnected)
     })()
   }, [])
+
+  useEffect(() => {
+    if(disconnectedDevice && pureNeverConnected){
+      history.push(URL_ONBOARDING.root)
+    }
+  }, [pureNeverConnected])
+
 
   return (
     <Provider store={store}>
