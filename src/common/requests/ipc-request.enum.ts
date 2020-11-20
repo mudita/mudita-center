@@ -14,4 +14,5 @@ export enum IpcRequest {
   UpdateAppSettings = "update-app-settings",
   GetAppSettings = "get-app-settings",
   ResetAppSettings = "reset-app-settings",
+  UpdateOs = "update-os",
 }

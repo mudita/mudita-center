@@ -9,14 +9,17 @@ import { fireEvent } from "@testing-library/dom"
 import { waitFor } from "@testing-library/react"
 
 const fakeSystemInfo = getFakeAdapters().purePhone
-const lastUpdate = fakeSystemInfo.getOsUpdateDate()
+const fakeLastUpdate = "2020-01-14T11:31:08.244Z"
 const fakeOsVersion = fakeSystemInfo.getOsVersion()
 
 const renderSystem = ({
   osVersion = fakeOsVersion,
+  lastUpdate = fakeLastUpdate,
   ...props
 }: Partial<SystemProps> = {}) => {
-  return renderWithThemeAndIntl(<System osVersion={osVersion} {...props} />)
+  return renderWithThemeAndIntl(
+    <System osVersion={osVersion} lastUpdate={lastUpdate} {...props} />
+  )
 }
 
 test("matches snapshot", () => {
@@ -33,12 +36,12 @@ test("renders os version properly", () => {
 })
 
 test("renders last update info properly", () => {
-  const { getByText } = renderSystem({ lastUpdate })
+  const { getByText } = renderSystem()
   expect(
     getByText(
       intl.formatMessage(
         { id: "view.name.overview.system.lastUpdate" },
-        { date: lastUpdate }
+        { date: fakeLastUpdate }
       )
     )
   ).toBeInTheDocument()
