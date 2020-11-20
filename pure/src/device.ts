@@ -150,6 +150,7 @@ class Device implements PureDevice {
         const listener = async (event: any) => {
           const response = await parseData(event)
 
+          console.log("fileRequest -> response: ", response)
           if (response.uuid === String(uuid)) {
             if (response.body.status === ResponseStatus.InternalServerError) {
               this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
@@ -212,6 +213,7 @@ class Device implements PureDevice {
 
         const listener = async (event: any) => {
           const response = await parseData(event)
+          console.log("pureUpdateRequest -> response: ", response)
 
           if (response.endpoint === Endpoint.Update) {
             if (response.body.status === UpdateResponseStatus.Ok) {

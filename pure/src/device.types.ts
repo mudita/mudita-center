@@ -42,7 +42,7 @@ export enum Endpoint {
   Contacts = 7,
   Messages = 8,
   Callog = 9,
-
+  Developer = 10,
   // lib endpoint
   File = 100,
   PureUpdate = 101,
