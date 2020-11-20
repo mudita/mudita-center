@@ -18,7 +18,7 @@ Create both `.env.development` and `.env.production` files and copy the content 
 
 Please provide all values marked as required to start working with the project. Add optional values when you need them. Some values are already defined.
 
-There are migrations scripts that will allow you to mirror our setup from Phrase.com and Contentful:
+There are migrations scripts that will allow you to mirror our setup from Phrase (which we use for translating the UI) and Contentful (which we use for managing the "News" section content and help articles):
 
 - _to be added_
 
@@ -58,7 +58,7 @@ This will create an installer for your platform in the `releases` folder.
 
 You can also build the app for all platforms (Windows, macOS, Linux) by using the `npm run dist:all` command.
 
-You can also make builds for specific platforms (or multiple platforms) by using [the CLI options](https://www.electron.build/cli).
+You can also make builds for a specific platform (or multiple platforms) by using [the CLI options](https://www.electron.build/cli).
 
 For example, building for Windows and Linux:
 
