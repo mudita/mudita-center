@@ -8,7 +8,7 @@ import {
   Row,
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
-import { defineMessages, FormattedDate, FormattedMessage } from "react-intl"
+import { FormattedDate } from "react-intl"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
@@ -19,12 +19,7 @@ import {
   Checkbox,
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
-
-const messages = defineMessages({
-  allEvents: {
-    id: "view.name.calendar.allEvents",
-  },
-})
+import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
 
 const Table = styled(BaseSelectableCalls)`
   --columnsTemplate: 4rem 5fr 3fr 3fr;
@@ -48,9 +43,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
     <Group>
       <Labels>
         <Col />
-        <Col>
-          <FormattedMessage {...messages.allEvents} />
-        </Col>
+        <Col />
       </Labels>
       <div ref={listRef}>
         {events.map((event, index) => {
@@ -60,7 +53,11 @@ const EventsList: FunctionComponent<EventsListProps> = ({
           const onCheckboxToggle = () => toggleRow(event)
 
           const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-            <Row ref={ref} active={selectedEventIndex === index}>
+            <Row
+              ref={ref}
+              active={selectedEventIndex === index}
+              data-testid={CalendarTestIds.Event}
+            >
               <Col>
                 <Checkbox
                   checked={selected}

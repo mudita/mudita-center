@@ -61,6 +61,10 @@ const settingsSchema: Schema<AppSettings> = {
     type: "string",
     default: defaultLanguage,
   },
+  pureNeverConnected: {
+    type: "boolean",
+    default: true,
+  },
 }
 
 export default settingsSchema

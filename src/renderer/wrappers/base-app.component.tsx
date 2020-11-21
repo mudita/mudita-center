@@ -12,6 +12,8 @@ import registerDisconnectedDeviceListener, {
 import registerConnectedDeviceListener, {
   removeConnectedDeviceListener,
 } from "Renderer/listeners/register-connected-device.listener"
+import { getAppSettings } from "Renderer/requests/app-settings.request"
+import { URL_ONBOARDING } from "Renderer/constants/urls"
 
 interface Props {
   store: Store
@@ -34,6 +36,14 @@ const BaseApp: FunctionComponent<Props> = ({ store, history }) => {
     registerConnectedDeviceListener(connect)
     return () => removeConnectedDeviceListener(connect)
   })
+
+  useEffect(() => {
+    ;(async () => {
+      if ((await getAppSettings()).pureNeverConnected) {
+        history.push(URL_ONBOARDING.root)
+      }
+    })()
+  }, [])
 
   return (
     <Provider store={store}>

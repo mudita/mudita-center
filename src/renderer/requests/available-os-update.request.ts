@@ -1,7 +1,7 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { OsUpdateChannel } from "App/main/functions/register-pure-os-update-listener"
 
-interface UpdateStatusResponse {
+export interface UpdateStatusResponse {
   available: boolean
   version: string
   file: string

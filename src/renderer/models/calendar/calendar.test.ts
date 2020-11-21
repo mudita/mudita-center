@@ -77,3 +77,30 @@ test("events are sorted by startDate properly", () => {
     )
   }
 })
+
+test("events are cleared properly", () => {
+  const events = [
+    {
+      id: "test-event-1",
+      name: "Felix's Birthday",
+      startDate: "2020-01-01T10:00:00.000Z",
+      endDate: "2020-01-01T13:00:00.000Z",
+    },
+    {
+      id: "test-event-3",
+      name: "Felix's Birthday 3",
+      startDate: "2222-02-03T10:00:00.000Z",
+      endDate: "2222-02-03T13:00:00.000Z",
+    },
+    {
+      id: "test-event-2",
+      name: "Felix's Birthday 2",
+      startDate: "2020-01-02T15:00:00.000Z",
+      endDate: "2020-01-02T13:00:00.000Z",
+    },
+  ]
+  store.dispatch.calendar.setEvents(events)
+  expect(store.getState().calendar.events).toHaveLength(events.length)
+  store.dispatch.calendar.clearEvents()
+  expect(store.getState().calendar.events).toHaveLength(0)
+})

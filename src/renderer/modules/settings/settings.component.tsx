@@ -9,7 +9,7 @@ export interface SettingsProps {
   appTethering: boolean
   setAutostart?: (option: AppSettings["appAutostart"]) => void
   setTethering?: (option: AppSettings["appTethering"]) => void
-  checkAutostartValue?: any
+  checkAutostartValue?: () => Promise<boolean>
 }
 
 const Settings: FunctionComponent<SettingsProps> = ({
