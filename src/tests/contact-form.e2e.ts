@@ -4,8 +4,8 @@ import { URL_RECOVERY_MODE } from "Renderer/constants/urls"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 
 let app: any
-const incorrectEmail = "essa"
-const email = "essa@gmail.com"
+const incorrectEmail = "e2e"
+const email = "e2e@test.com"
 
 beforeEach(async () => {
   app = await startApp()
@@ -19,8 +19,7 @@ afterEach(async () => {
   await stopApp(app)
 })
 
-test("menu takes user to correct page", async () => {
-
+test("user can navigate to the contact form through Backup screen", async () => {
   expect(ModalTestIds.Header).toBeVisible
 })
 
