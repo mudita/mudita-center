@@ -3,7 +3,7 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ContactID } from "Renderer/models/phone/phone.typings"
 
 const deleteContacts = async (
-  contactsIds: ContactID[]
+  contactsIds: ContactID | ContactID[]
 ): Promise<ContactID[]> => {
   const { data } = await ipcRenderer.callMain(
     IpcRequest.DeleteContacts,

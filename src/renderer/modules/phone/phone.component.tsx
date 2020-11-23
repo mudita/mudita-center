@@ -62,7 +62,7 @@ export type PhoneProps = ContactActions &
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
     speedDialChosenList: number[]
-    removeContact?: (input: ContactID | ContactID[]) => void
+    deleteContacts?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
@@ -76,7 +76,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     editContact,
     getContact,
     loadData,
-    removeContact,
+    deleteContacts,
     contactList = [],
     flatList,
     speedDialChosenList,
@@ -245,8 +245,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       )
 
       // await can be restored if we will process the result directly in here, not globally
-      if (removeContact) {
-        removeContact(contact.id)
+      if (deleteContacts) {
+        deleteContacts(contact.id)
       }
       await modalService.closeModal()
       cancelOrCloseContactHandler()
@@ -429,7 +429,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           selectedContacts={selectedRows}
           allItemsSelected={allRowsSelected}
           toggleAll={toggleAll}
-          removeContact={removeContact}
+          deleteContacts={deleteContacts}
           resetRows={resetRows}
         />
         <TableWithSidebarWrapper>

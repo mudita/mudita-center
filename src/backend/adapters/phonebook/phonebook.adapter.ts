@@ -49,11 +49,13 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  public deleteContacts(contactsIds: ContactID[]): DeviceResponse<ContactID[]> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: contactsIds,
-    }
+  public async deleteContacts(contactsIds: ContactID[]): any {
+    const { status, data = [] } = await this.pureNodeService.request({
+      endpoint: Endpoint.Contacts,
+      method: Method.Delete,
+      body: { id: Number(contactsIds) },
+    })
+    console.log({ status, data })
   }
 
   private async getContactsByCount({
@@ -64,9 +66,8 @@ class Phonebook extends PhonebookAdapter {
       method: Method.Get,
       body: { count },
     })
-
+    console.log("getContactsByCount", { status, data })
     if (status === DeviceResponseStatus.Ok) {
-
       return {
         status,
         data: data.map(mapToContact),
@@ -90,33 +91,32 @@ const createPhonebook = (pureNodeService: PureNodeService): Phonebook =>
 
 export default createPhonebook
 
-
 const mapToContact = (pureContact: PureContact): Contact => {
-    const {
-      id,
-      blocked,
-      favourite,
-      address = "",
-      altName,
-      priName,
-      numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
-    } = pureContact
+  const {
+    id,
+    blocked,
+    favourite,
+    address = "",
+    altName,
+    priName,
+    numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
+  } = pureContact
 
-    const firstAddressLine = address.substr(0, address.indexOf("\n"))
-    const secondAddressLine = address.substr(address.indexOf("\n") + 1)
+  const firstAddressLine = address.substr(0, address.indexOf("\n"))
+  const secondAddressLine = address.substr(address.indexOf("\n") + 1)
 
-    return {
-      blocked,
-      favourite,
-      primaryPhoneNumber,
-      secondaryPhoneNumber,
-      firstAddressLine,
-      secondAddressLine,
-      id: String(id),
-      firstName: priName,
-      lastName: altName,
-      ice: false,
-      note: "",
-      email: "",
-    }
+  return {
+    blocked,
+    favourite,
+    primaryPhoneNumber,
+    secondaryPhoneNumber,
+    firstAddressLine,
+    secondAddressLine,
+    id: String(id),
+    firstName: priName,
+    lastName: altName,
+    ice: false,
+    note: "",
+    email: "",
+  }
 }
