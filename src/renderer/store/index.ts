@@ -25,7 +25,6 @@ if (process.env.NODE_ENV !== "test") {
       filesManager: filesManagerSeed,
       messages: messagesSeed,
       templates: templatesSeed,
-      phone: initialState,
       help: helpSeed,
       notes: notesSeed,
       calendar: calendarSeed,
