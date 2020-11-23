@@ -36,7 +36,7 @@ export interface ContactPanelProps {
   selectedContacts: Contact[]
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
-  removeContact?: (id: ContactID[]) => void
+  deleteContact?: (id: ContactID) => void
   resetRows: UseTableSelect<Contact>["resetRows"]
 }
 
@@ -47,7 +47,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   selectedContacts,
   allItemsSelected,
   toggleAll = noop,
-  removeContact = noop,
+  deleteContact = noop,
   resetRows,
 }) => {
   const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +60,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     const nameAvailable =
       selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
     const onDelete = () => {
-      removeContact(selectedContactsIds)
+      selectedContactsIds.forEach((id) => deleteContact(id))
       resetRows()
       modalService.closeModal()
     }

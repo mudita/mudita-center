@@ -283,21 +283,11 @@ describe("redux tests", () => {
   })
 
   test("properly removes multiple contacts", () => {
-    const sliceToRemove = phoneSeed.collection.slice(0, 5)
+    const contactToDelete = phoneSeed.collection[0]
     const initialState = store.getState().phone
-
-    sliceToRemove.forEach((slice) => {
-      expect(initialState.db[slice]).toBeDefined()
-      expect(initialState.collection.indexOf(slice) === -1).toBeFalsy()
-    })
-
-    store.dispatch.phone.removeContact(sliceToRemove)
-
+    expect(initialState.collection.indexOf(contactToDelete) === -1).toBeFalsy()
+    store.dispatch.phone.removeContact(contactToDelete)
     const newState = store.getState().phone
-
-    sliceToRemove.forEach((slice) => {
-      expect(newState.db[slice]).toBeUndefined()
-      expect(newState.collection.indexOf(slice) === -1).toBeTruthy()
-    })
+    expect(newState.collection.indexOf(contactToDelete) === -1).toBeTruthy()
   })
 })

@@ -118,7 +118,7 @@ export default {
       await simulateWriteToPhone()
     },
 
-    async deleteContacts(input: ContactID) {
+    async deleteContact(input: ContactID) {
       const { data = "", error } = await deleteContact(input)
       if (error) {
         logger.error(error)
