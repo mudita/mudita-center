@@ -21,6 +21,7 @@ import {
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
 import getContacts from "Renderer/requests/get-contacts.request"
 import deleteContact from "Renderer/requests/delete-contact.request"
+import logger from "App/main/utils/logger"
 
 export const initialState: Phone = {
   db: {},
@@ -93,7 +94,7 @@ export default {
       return editContact(currentState, contactID, data)
     },
 
-    removeContact(state: Phone, input: ContactID | ContactID[]): Phone {
+    removeContact(state: Phone, input: ContactID): Phone {
       return removeContact(state, input)
     },
   },
@@ -118,8 +119,12 @@ export default {
     },
 
     async deleteContacts(input: ContactID) {
-      const { data = "" } = await deleteContact(input)
-      dispatch.phone.removeContact(data)
+      const { data = "", error } = await deleteContact(input)
+      if (error) {
+        logger.error(error)
+      } else {
+        dispatch.phone.removeContact(data)
+      }
     },
   }),
   selectors: (slice: Slicer<StoreData>) => ({

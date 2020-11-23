@@ -63,9 +63,7 @@ class Phonebook extends PhonebookAdapter {
         data: contactId,
       }
     } else {
-      return {
-        status: DeviceResponseStatus.Error,
-      }
+      return { status, error: { message: "something goes wrong" } }
     }
   }
 
@@ -77,8 +75,6 @@ class Phonebook extends PhonebookAdapter {
       method: Method.Get,
       body: { count },
     })
-    console.log({ count })
-    console.log("getContactsByCount", { status, data })
     if (status === DeviceResponseStatus.Ok) {
       return {
         status,

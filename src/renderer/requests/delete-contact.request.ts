@@ -6,11 +6,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 const deleteContact = async (
   contactId: ContactID
 ): Promise<DeviceResponse<ContactID>> => {
-  const { data } = await ipcRenderer.callMain(
-    IpcRequest.DeleteContact,
-    contactId
-  )
-  return data
+  return await ipcRenderer.callMain(IpcRequest.DeleteContact, contactId)
 }
 
 export default deleteContact

@@ -45,10 +45,10 @@ class PhonebookFake extends PhonebookAdapter {
   public deleteContact(
     contactId: ContactID
   ): Promise<DeviceResponse<ContactID>> {
-    return {
+    return Promise.resolve({
       status: DeviceResponseStatus.Ok,
       data: contactId,
-    }
+    })
   }
 }
 
