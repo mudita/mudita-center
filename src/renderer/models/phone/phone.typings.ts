@@ -74,7 +74,7 @@ export interface StoreData {
   inputValue: string
   contacts: Contact[]
   savingContact: boolean
-  resultsState: ResultsState
+  resultsState?: ResultsState
 }
 
 interface StoreSelectors extends Contacts {

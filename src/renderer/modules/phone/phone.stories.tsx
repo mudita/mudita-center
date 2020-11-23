@@ -68,6 +68,10 @@ const PhoneComponent = ({
     setProviderData={noop}
     isTopicThreadOpened={isTopicThreadOpened}
     loadData={asyncNoop}
+    contacts={[]}
+    inputValue={""}
+    savingContact
+    speedDialContacts={[]}
   />
 )
 
