@@ -1,32 +1,19 @@
-# pure
+## Setup
 
-[![npm][npm-image]][npm-url]
-[![travis][travis-image]][travis-url]
-[![standard][standard-image]][standard-url]
+### Install
 
-[npm-image]: https://img.shields.io/npm/v/pure.svg?style=flat-square
-[npm-url]: https://www.npmjs.com/package/pure
-[travis-image]: https://img.shields.io/travis/RomanKubiak/pure.svg?style=flat-square
-[travis-url]: https://travis-ci.org/RomanKubiak/pure
-[standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square
-[standard-url]: http://npm.im/standard
-
-## Install
-
-```
-npm install pure
+```bash
+npm install
 ```
 
-## Usage
+## Build
 
-```js
-var pure = require("pure")
+```bash
+npm run build
 ```
 
-## Contributing
 
-Contributions welcome! Please read the [contributing guidelines](CONTRIBUTING.md) first.
+## How to test it?
 
-## License
-
-[ISC](LICENSE.md)
+1. First of all, write a test
+2. If you would like to test in the *MC*, please build this package before run develop

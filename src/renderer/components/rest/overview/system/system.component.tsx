@@ -70,7 +70,9 @@ const System: FunctionComponent<SystemProps> = ({
           <LastUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
             <FormattedMessage
               id="view.name.overview.system.lastUpdate"
-              values={{ date: lastUpdate }}
+              values={{
+                date: new Date(lastUpdate).toLocaleDateString("en-US"),
+              }}
             />
           </LastUpdate>
         )}

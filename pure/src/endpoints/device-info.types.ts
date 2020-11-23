@@ -4,25 +4,25 @@ enum BatteryState {
 }
 
 enum SIM {
-  SIM1,
-  SIM2,
-  SIM_FAIL,
-  SIM_UNKNOWN,
-  NONE,
+  One,
+  Two,
+  Fail,
+  Unknown,
+  None,
 }
 
-enum RssiBar {
-  zero = 0,
-  one = 1,
-  two = 2,
-  three = 3,
-  four = 4,
-  five = 5,
+enum SignalStrength {
+  Zero,
+  One,
+  Two,
+  Three,
+  Four,
+  Five,
 }
 
 enum Tray {
-  OUT = 0,
-  IN = 1,
+  Out,
+  In,
 }
 
 enum AccessTechnology {
@@ -56,7 +56,7 @@ export interface DeviceInfo {
   gitRevision: string
   gitTag: string
   selectedSim: SIM
-  signalStrength: RssiBar
+  signalStrength: SignalStrength
   trayState: Tray
   accessTechnology: AccessTechnology
   networkStatus: NetworkStatus

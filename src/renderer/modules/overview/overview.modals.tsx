@@ -22,6 +22,7 @@ import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import LoaderSpinner from "Renderer/components/core/loader/loader-spinner.component"
 
 const ModalContent = styled.div`
   display: flex;
@@ -345,5 +346,23 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
       displayStyle={TextDisplayStyle.MediumFadedText}
       message={messages.downloadingFailedDescription}
     />
+  </OSUpdateModal>
+)
+
+export const UpdatingProgressModal = () => (
+  <OSUpdateModal closeable={false}>
+    <LoaderSpinner />
+  </OSUpdateModal>
+)
+
+export const UpdatingSuccessModal = () => (
+  <OSUpdateModal>
+    <h1>Success</h1>
+  </OSUpdateModal>
+)
+
+export const UpdatingFailureModal = () => (
+  <OSUpdateModal>
+    <h1>Failure</h1>
   </OSUpdateModal>
 )

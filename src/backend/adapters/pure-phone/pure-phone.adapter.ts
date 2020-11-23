@@ -2,11 +2,11 @@ import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.cla
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import PureNodeService from "Backend/pure-node-service"
+import DeviceService from "Backend/device-service"
+import { Endpoint, Method } from "pure"
 
 class PurePhone extends PurePhoneAdapter {
-
-  constructor(private pureNodeService: PureNodeService) {
+  constructor(private deviceService: DeviceService) {
     super()
   }
 
@@ -40,13 +40,43 @@ class PurePhone extends PurePhoneAdapter {
     }
   }
 
-  public async connectDevice(): Promise<DeviceResponse> {
-    return this.pureNodeService.connect()
+  public connectDevice(): Promise<DeviceResponse> {
+    return this.deviceService.connect()
+  }
+
+  public async updateOs(file: string): Promise<DeviceResponse> {
+    const fileResponse = await this.deviceService.request({
+      endpoint: Endpoint.File,
+      method: Method.Post,
+      file,
+    })
+
+    if (fileResponse.status === DeviceResponseStatus.Ok) {
+      const PureUpdateResponse = await this.deviceService.request({
+        endpoint: Endpoint.PureUpdate,
+        method: Method.Post,
+        file,
+      })
+
+      if (PureUpdateResponse.status === DeviceResponseStatus.Ok) {
+        return {
+          status: DeviceResponseStatus.Ok,
+        }
+      } else {
+        return {
+          status: DeviceResponseStatus.Error,
+        }
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
   }
 }
 
 const createPurePhoneAdapter = (
-  pureNodeService: PureNodeService,
-): PurePhoneAdapter => new PurePhone(pureNodeService)
+  deviceService: DeviceService
+): PurePhoneAdapter => new PurePhone(deviceService)
 
 export default createPurePhoneAdapter

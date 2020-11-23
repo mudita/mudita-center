@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { connect, Provider } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
@@ -12,6 +12,8 @@ import registerDisconnectedDeviceListener, {
 import registerConnectedDeviceListener, {
   removeConnectedDeviceListener,
 } from "Renderer/listeners/register-connected-device.listener"
+import { getAppSettings } from "Renderer/requests/app-settings.request"
+import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { RootState } from "Renderer/store"
 
@@ -22,7 +24,13 @@ interface Props {
   disconnectedDevice: boolean
 }
 
-const BaseApp: FunctionComponent<Props> = ({ disconnectedDevice, toggleDisconnectedDevice, store, history }) => {
+const BaseApp: FunctionComponent<Props> = ({
+  disconnectedDevice,
+  toggleDisconnectedDevice,
+  store,
+  history,
+}) => {
+  const [pureNeverConnected, setPureNeverConnected] = useState(false)
   useEffect(() => {
     const listener = () => {
       toggleDisconnectedDevice(true)
@@ -46,6 +54,19 @@ const BaseApp: FunctionComponent<Props> = ({ disconnectedDevice, toggleDisconnec
       history.push(URL_MAIN.overview)
     }
   }, [disconnectedDevice])
+
+  useEffect(() => {
+    ;(async () => {
+      const response = await getAppSettings()
+      setPureNeverConnected(response.pureNeverConnected)
+    })()
+  }, [])
+
+  useEffect(() => {
+    if (disconnectedDevice && pureNeverConnected) {
+      history.push(URL_ONBOARDING.root)
+    }
+  }, [pureNeverConnected])
 
   return (
     <Provider store={store}>

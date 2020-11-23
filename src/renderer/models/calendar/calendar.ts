@@ -25,6 +25,12 @@ export default {
         calendars: [],
       }
     },
+    clearEvents(state: StateProps) {
+      return {
+        ...state,
+        events: [],
+      }
+    },
     setEvents(state: StateProps, newEvents: CalendarEvent[]) {
       return {
         ...state,

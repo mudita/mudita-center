@@ -5,6 +5,7 @@ export enum MenuGroupTestIds {
   Contacts = "contacts-menu-link",
   FilesManager = "files-manager-link",
   Music = "music-link",
+  Tools = "tools-link",
   Tethering = "tethering-link",
   Overview = "overview-link",
   Calendar = "calendar-link",
