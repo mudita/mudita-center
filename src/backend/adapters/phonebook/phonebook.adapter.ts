@@ -24,9 +24,8 @@ class Phonebook extends PhonebookAdapter {
   public async getContacts(): Promise<DeviceResponse<Contact[]>> {
     const { status, data } = await this.getContactCount()
 
-    if (status === DeviceResponseStatus.Ok && Boolean(data)) {
-      // TODO: replace this mock count to value from data after fix https://appnroll.atlassian.net/browse/EGD-4368
-      return this.getContactsByCount({ count: 5 })
+    if (status === DeviceResponseStatus.Ok && data?.count !== undefined) {
+      return this.getContactsByCount({ count: data.count })
     } else {
       return { status, error: { message: "something goes wrong" } }
     }
