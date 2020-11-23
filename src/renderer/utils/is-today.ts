@@ -1,3 +1,4 @@
 import moment from "moment"
 
-export const isToday = (date: Date) => moment(date).isSame(Date.now(), "days")
+export const isToday = (date: Date | undefined) =>
+  moment(date).isSame(Date.now(), "days")

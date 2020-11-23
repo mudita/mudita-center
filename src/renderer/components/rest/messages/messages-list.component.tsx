@@ -47,6 +47,8 @@ import {
   animatedOpacityStyles,
 } from "Renderer/components/rest/animated-opacity/animated-opacity"
 import { Caller } from "Renderer/models/calls/calls.interface"
+import { isToday } from "Renderer/utils/is-today"
+import { AppSettings } from "App/main/store/settings.interface"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -161,7 +163,7 @@ interface Props extends SelectHook {
   onToggleReadStatus: (ids: string[]) => void
 }
 
-const MessagesList: FunctionComponent<Props> = ({
+const MessagesList: FunctionComponent<Props & Partial<AppSettings>> = ({
   activeRow,
   list,
   openSidebar = noop,
@@ -170,6 +172,7 @@ const MessagesList: FunctionComponent<Props> = ({
   getRowStatus,
   toggleRow,
   noneRowsSelected,
+  language,
 }) => {
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
@@ -217,7 +220,11 @@ const MessagesList: FunctionComponent<Props> = ({
                   {nameAvailable ? createFullName(caller) : caller.phoneNumber}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
-                  {moment(lastMessage?.date).format("h:mm A")}
+                  {isToday(lastMessage?.date)
+                    ? moment(lastMessage?.date).format("h:mm A")
+                    : moment(lastMessage?.date)
+                        .locale(language ?? "en")
+                        .format("ll")}
                 </Time>
                 <LastMessageText
                   unread={unread}
