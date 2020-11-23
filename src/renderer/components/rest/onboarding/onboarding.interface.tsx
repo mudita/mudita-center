@@ -1,6 +1,7 @@
 export interface OnboardingWelcomeProps {
   onContinue?: () => void
-  setAutostartOption?: (autostartEnabled?: boolean) => void
+  onAutostartChange?: (autostartEnabled?: boolean) => void
+  autostartEnabled?: boolean
 }
 
 export interface OnboardingConnectingProps {

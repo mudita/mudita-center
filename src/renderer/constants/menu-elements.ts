@@ -27,6 +27,7 @@ const YOUR_PURE_BUTTONS = [
     icon: Type.MenuContacts,
     testId: MenuGroupTestIds.Contacts,
   },
+  { button: views.tools, icon: Type.MenuTools, testId: MenuGroupTestIds.Tools },
   {
     button: views.music,
     icon: Type.MenuMusic,
@@ -38,7 +39,6 @@ const YOUR_PURE_BUTTONS = [
     icon: Type.Calendar,
     testId: MenuGroupTestIds.Calendar,
   },
-  { button: views.tools, icon: Type.MenuTools },
   {
     button: views.meditation,
     icon: Type.MenuMeditation,

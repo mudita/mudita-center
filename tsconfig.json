@@ -112,6 +112,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["./src", "./test", "./mocks"],
+  "include": ["./src", "./test", "./mocks", "./pure"],
   "exclude": ["dist", "node_modules"]
 }

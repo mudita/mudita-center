@@ -101,6 +101,7 @@ import RebootOs from "Renderer/svg/reboot-os.svg"
 import FactoryReset from "Renderer/svg/factory-reset.svg"
 import MuditaFlower from "Renderer/svg/mudita-flower.svg"
 import MuditaDarkLogo from "Renderer/svg/mudita-dark-logo.svg"
+import ContactGoogle from "Renderer/svg/contact-google.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -208,6 +209,7 @@ export enum Type {
   FactoryReset,
   MuditaFlower,
   MuditaDarkLogo,
+  ContactGoogle,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -416,6 +418,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return FactoryReset
     case Type.MuditaDarkLogo:
       return MuditaDarkLogo
+    case Type.ContactGoogle:
+      return ContactGoogle
     default:
       return Message
   }
