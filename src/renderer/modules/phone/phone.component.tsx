@@ -67,8 +67,7 @@ export type PhoneProps = ContactActions &
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
-  } & Partial<Store> &
-  Pick<Store, "loadData">
+  } & Store
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
   const {

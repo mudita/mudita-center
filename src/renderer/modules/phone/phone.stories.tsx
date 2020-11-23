@@ -26,7 +26,7 @@ import {
   getSpeedDialChosenList,
 } from "Renderer/models/phone/phone.helpers"
 import { ContactID, ResultsState } from "Renderer/models/phone/phone.typings"
-import { noop } from "Renderer/utils/noop"
+import { asyncNoop, noop } from "Renderer/utils/noop"
 
 const dummyPromise = (result: any) => () => result
 const getContact = (id: ContactID) => phoneSeed.db[id]
@@ -67,7 +67,11 @@ const PhoneComponent = ({
     resetRows={action("Reset rows")}
     setProviderData={noop}
     isTopicThreadOpened={isTopicThreadOpened}
-    loadData={dummyPromise(action("load data"))}
+    loadData={asyncNoop}
+    contacts={[]}
+    inputValue={""}
+    savingContact
+    speedDialContacts={[]}
   />
 )
 

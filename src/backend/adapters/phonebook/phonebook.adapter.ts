@@ -1,3 +1,5 @@
+import { Endpoint, Method } from "pure"
+import Faker from "faker"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import { Contact as PureContact } from "pure/dist/endpoints/contact.types"
 import {
@@ -8,25 +10,22 @@ import {
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import Faker from "faker"
-import PureNodeService from "Backend/pure-node-service"
-import { Endpoint, Method } from "pure/dist/phone-port.types"
+import DeviceService from "Backend/device-service"
 
 interface ContactCount {
   count: number
 }
 
 class Phonebook extends PhonebookAdapter {
-  constructor(private pureNodeService: PureNodeService) {
+  constructor(private deviceService: DeviceService) {
     super()
   }
 
   public async getContacts(): Promise<DeviceResponse<Contact[]>> {
     const { status, data } = await this.getContactCount()
 
-    if (status === DeviceResponseStatus.Ok && Boolean(data)) {
-      // TODO: replace this mock count to value from data after fix https://appnroll.atlassian.net/browse/EGD-4368
-      return this.getContactsByCount({ count: 5 })
+    if (status === DeviceResponseStatus.Ok && data?.count !== undefined) {
+      return this.getContactsByCount({ count: data.count })
     } else {
       return { status, error: { message: "something goes wrong" } }
     }
@@ -61,7 +60,7 @@ class Phonebook extends PhonebookAdapter {
   private async getContactsByCount({
     count,
   }: ContactCount): Promise<DeviceResponse<Contact[]>> {
-    const { status, data = [] } = await this.pureNodeService.request({
+    const { status, data = [] } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Get,
       body: { count },
@@ -77,8 +76,8 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  private async getContactCount(): Promise<DeviceResponse<ContactCount>> {
-    return this.pureNodeService.request({
+  private getContactCount(): Promise<DeviceResponse<ContactCount>> {
+    return this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Get,
       body: { count: true },
@@ -86,8 +85,8 @@ class Phonebook extends PhonebookAdapter {
   }
 }
 
-const createPhonebook = (pureNodeService: PureNodeService): Phonebook =>
-  new Phonebook(pureNodeService)
+const createPhonebook = (deviceService: DeviceService): Phonebook =>
+  new Phonebook(deviceService)
 
 export default createPhonebook
 

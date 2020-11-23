@@ -1,16 +1,15 @@
-import mockPureNodeService from "Backend/mock-pure-node-service"
+import PureDeviceManager from "pure"
 import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.request"
 import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 import Adapters from "Backend/adapters/adapters.interface"
-import PureNodeService from "Backend/pure-node-service"
+import MockPureNodeService from "Backend/mock-device-service"
 
-jest.mock("Backend/pure-node-service", () => mockPureNodeService())
+jest.mock("pure")
 
 const adapters = {
-// @ts-ignore
-  phonebook: createPhonebook(new PureNodeService())
+  phonebook: createPhonebook(new MockPureNodeService(PureDeviceManager, ipcMain))
 }  as unknown as Adapters
 
 test("return mapped contacts from pure to Contact model", async () => {
