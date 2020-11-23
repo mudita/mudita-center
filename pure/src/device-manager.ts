@@ -1,7 +1,7 @@
 import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
-import { createDevice} from "./device"
+import { createDevice } from "./device"
 import { CreateDevice, PureDevice } from "./device.types"
 
 export const productId = "0100"
@@ -13,7 +13,7 @@ enum DeviceManagerEventName {
 
 export interface PureDeviceManager {
   getDevices(): Promise<PureDevice[]>
-  onAttachDevice(listener: (event: PureDevice) => void):void
+  onAttachDevice(listener: (event: PureDevice) => void): void
   offAttachDevice(listener: (event: PureDevice) => void): void
 }
 
@@ -35,10 +35,9 @@ class DeviceManager implements PureDeviceManager {
 
     return portList
       .filter(
-        (portInfo) =>
-          portInfo.manufacturer === manufacturer
-          // commented until the embedded  development with the productId will stabilize
-          // && portInfo.productId === productId
+        (portInfo) => portInfo.manufacturer === manufacturer
+        // commented until the embedded  development with the productId will stabilize
+        // && portInfo.productId === productId
       )
       .map(({ path }) => createDevice(path))
   }

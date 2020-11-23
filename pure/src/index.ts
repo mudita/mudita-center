@@ -4,4 +4,4 @@ export * from "./device.types"
 export * from "./endpoints"
 
 import PureNode from "./device-manager"
-export default  PureNode
+export default PureNode

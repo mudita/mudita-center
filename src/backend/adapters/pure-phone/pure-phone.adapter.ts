@@ -6,7 +6,6 @@ import DeviceService from "Backend/device-service"
 import { Endpoint, Method } from "pure"
 
 class PurePhone extends PurePhoneAdapter {
-
   constructor(private deviceService: DeviceService) {
     super()
   }
@@ -77,7 +76,7 @@ class PurePhone extends PurePhoneAdapter {
 }
 
 const createPurePhoneAdapter = (
-  deviceService: DeviceService,
+  deviceService: DeviceService
 ): PurePhoneAdapter => new PurePhone(deviceService)
 
 export default createPurePhoneAdapter
