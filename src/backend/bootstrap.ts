@@ -19,6 +19,7 @@ import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
+import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
 
 const bootstrap = (pureNode: any, ipcMain: MainProcessIpc) => {
   const adapters = {
@@ -46,6 +47,7 @@ const bootstrap = (pureNode: any, ipcMain: MainProcessIpc) => {
     registerAppSettingsRequest,
     registerAppSettingsUpdateRequest,
     registerAppSettingsResetRequest,
+    registerUpdateOsRequest,
   ].forEach((register) => register(adapters))
 }
 

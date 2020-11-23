@@ -19,7 +19,7 @@ const registerPureOsDownloadListener = (
     ({ url }: { url: string }) => {
       return registerDownloadListener({
         url,
-        path: `${app.getPath("appData")}/${name}/pure-os/`,
+        path: `${app.getPath("appData")}/${name}/pure/os/downloads/`,
         channels: PureOsDownloadChannels,
       })
     }

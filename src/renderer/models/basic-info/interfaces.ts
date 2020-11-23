@@ -17,7 +17,7 @@ export interface StoreValues {
   readonly batteryLevel: number
   readonly networkName: string
   readonly osVersion: string
-  readonly osUpdateDate: number
+  readonly osUpdateDate: string
   readonly memorySpace: MemorySpace
   readonly lastBackup: BackupItemInfo
   readonly simCards: SimCard[]
