@@ -1,4 +1,4 @@
-import { PureNode } from "pure"
+import PureDeviceManager from "pure"
 import startBackend from "Backend/bootstrap"
 import { check as checkPort } from "tcp-port-used"
 import {
@@ -102,15 +102,13 @@ const createWindow = async () => {
     await installExtensions()
   }
 
-  const pureNode: any = new PureNode()
-
   win = new BrowserWindow(
     getWindowOptions({ width: WINDOW_SIZE.width, height: WINDOW_SIZE.height })
   )
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  startBackend(pureNode, ipcMain)
+  startBackend(PureDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()

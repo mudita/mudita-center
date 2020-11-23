@@ -1,6 +1,6 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Provider } from "react-redux"
+import { connect, Provider } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
 import { Router } from "react-router"
 import BaseRoutes from "Renderer/routes/base-routes"
@@ -14,36 +14,55 @@ import registerConnectedDeviceListener, {
 } from "Renderer/listeners/register-connected-device.listener"
 import { getAppSettings } from "Renderer/requests/app-settings.request"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
+import { URL_MAIN } from "Renderer/constants/urls"
+import { RootState } from "Renderer/store"
 
 interface Props {
   store: Store
   history: History
+  toggleDisconnectedDevice: (disconnectedDevice: boolean) => void
+  disconnectedDevice: boolean
 }
 
-const BaseApp: FunctionComponent<Props> = ({ store, history }) => {
+const BaseApp: FunctionComponent<Props> = ({ disconnectedDevice, toggleDisconnectedDevice, store, history }) => {
+  const [pureNeverConnected, setPureNeverConnected] = useState(false)
   useEffect(() => {
-    const disconnect = () => {
-      store.dispatch.basicInfo.update({ disconnectedDevice: true })
+    const listener = () => {
+      toggleDisconnectedDevice(true)
     }
-    registerDisconnectedDeviceListener(disconnect)
-    return () => removeDisconnectedDeviceListener(disconnect)
+    registerDisconnectedDeviceListener(listener)
+    return () => removeDisconnectedDeviceListener(listener)
   })
 
   useEffect(() => {
-    const connect = () => {
-      store.dispatch.basicInfo.update({ disconnectedDevice: false })
+    const listener = () => {
+      toggleDisconnectedDevice(false)
     }
-    registerConnectedDeviceListener(connect)
-    return () => removeConnectedDeviceListener(connect)
+    registerConnectedDeviceListener(listener)
+    return () => removeConnectedDeviceListener(listener)
   })
+
+  useEffect(() => {
+    if (disconnectedDevice) {
+      history.push(URL_MAIN.news)
+    } else {
+      history.push(URL_MAIN.overview)
+    }
+  }, [disconnectedDevice])
 
   useEffect(() => {
     ;(async () => {
-      if ((await getAppSettings()).pureNeverConnected) {
-        history.push(URL_ONBOARDING.root)
-      }
+      const response = await getAppSettings()
+      setPureNeverConnected(response.pureNeverConnected)
     })()
   }, [])
+
+  useEffect(() => {
+    if(disconnectedDevice && pureNeverConnected){
+      history.push(URL_ONBOARDING.root)
+    }
+  }, [pureNeverConnected])
+
 
   return (
     <Provider store={store}>
@@ -55,4 +74,15 @@ const BaseApp: FunctionComponent<Props> = ({ store, history }) => {
   )
 }
 
-export default BaseApp
+const mapStateToProps = (state: RootState) => {
+  return {
+    disconnectedDevice: state.basicInfo.disconnectedDevice,
+  }
+}
+
+const mapDispatchToProps = (dispatch: any) => ({
+  toggleDisconnectedDevice: (disconnectedDevice: boolean) =>
+    dispatch.basicInfo.update({ disconnectedDevice }),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)
