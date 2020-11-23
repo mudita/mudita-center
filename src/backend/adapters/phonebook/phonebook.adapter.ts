@@ -51,12 +51,11 @@ class Phonebook extends PhonebookAdapter {
   public async deleteContact(
     contactId: ContactID
   ): Promise<DeviceResponse<ContactID>> {
-    const { status, data = [] } = await this.deviceService.request({
+    const { status } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Delete,
       body: { id: Number(contactId) },
     })
-    console.log({ status, data })
     if (status === DeviceResponseStatus.Ok) {
       return {
         status,
