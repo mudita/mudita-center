@@ -1,6 +1,6 @@
 import { MainProcessIpc } from "electron-better-ipc"
 import { PureDeviceManager } from "pure"
-import DeviceService from "Backend/device-service"
+import { createDeviceService } from "Backend/device-service"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
 import registerChangeSimCardRequest from "Backend/requests/change-sim/change-sim.request"
@@ -28,7 +28,7 @@ const bootstrap = (
   deviceManager: PureDeviceManager,
   ipcMain: MainProcessIpc
 ): void => {
-  const deviceService = new DeviceService(deviceManager, ipcMain).init()
+  const deviceService = createDeviceService(deviceManager, ipcMain)
   const adapters = {
     // TODO: Replace with a proper adapters when phone becomes available.
     ...getFakeAdapters(),
