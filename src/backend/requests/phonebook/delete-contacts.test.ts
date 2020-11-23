@@ -10,7 +10,7 @@ test("delete contacts properly", () => {
   registerDeleteContactsRequest(getFakeAdapters())
 
   const [result] = (ipcMain as any)._flush(
-    IpcRequest.DeleteContacts,
+    IpcRequest.DeleteContact,
     contactsIdsToDelete
   )
 

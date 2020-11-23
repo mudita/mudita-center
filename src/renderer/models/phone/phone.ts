@@ -20,7 +20,7 @@ import {
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
 import getContacts from "Renderer/requests/get-contacts.request"
-import deleteContacts from "Renderer/requests/delete-contacts.request"
+import deleteContact from "Renderer/requests/delete-contact.request"
 
 export const initialState: Phone = {
   db: {},
@@ -117,10 +117,9 @@ export default {
       await simulateWriteToPhone()
     },
 
-    async deleteContacts(input: ContactID | ContactID[]) {
-      console.log("delete", input)
-      await deleteContacts(input)
-      dispatch.phone.removeContact(input)
+    async deleteContacts(input: ContactID) {
+      const { data = "" } = await deleteContact(input)
+      dispatch.phone.removeContact(data)
     },
   }),
   selectors: (slice: Slicer<StoreData>) => ({

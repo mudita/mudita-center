@@ -6,13 +6,13 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const handleDeleteContactsRequest = (
   { phonebook }: Adapters,
-  contactsIds: ContactID[]
-): DeviceResponse<ContactID[]> => {
-  return phonebook.deleteContacts(contactsIds)
+  contactId: ContactID
+): Promise<DeviceResponse<ContactID>> => {
+  return phonebook.deleteContact(contactId)
 }
 
 const registerDeleteContactsRequest = createEndpoint({
-  name: IpcRequest.DeleteContacts,
+  name: IpcRequest.DeleteContact,
   handler: handleDeleteContactsRequest,
 })
 

@@ -48,13 +48,25 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  public async deleteContacts(contactsIds: ContactID[]): any {
-    const { status, data = [] } = await this.pureNodeService.request({
+  public async deleteContact(
+    contactId: ContactID
+  ): Promise<DeviceResponse<ContactID>> {
+    const { status, data = [] } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Delete,
-      body: { id: Number(contactsIds) },
+      body: { id: Number(contactId) },
     })
     console.log({ status, data })
+    if (status === DeviceResponseStatus.Ok) {
+      return {
+        status,
+        data: contactId,
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
   }
 
   private async getContactsByCount({
@@ -65,6 +77,7 @@ class Phonebook extends PhonebookAdapter {
       method: Method.Get,
       body: { count },
     })
+    console.log({ count })
     console.log("getContactsByCount", { status, data })
     if (status === DeviceResponseStatus.Ok) {
       return {
