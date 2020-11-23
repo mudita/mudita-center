@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Button from "Renderer/components/core/button/button.component"
 import ContactList from "Renderer/components/rest/phone/contact-list.component"
-import ContactPanel, {
-  ContactPanelProps,
-} from "Renderer/components/rest/phone/contact-panel.component"
+import ContactPanel, { ContactPanelProps } from "Renderer/components/rest/phone/contact-panel.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import ContactDetails, {
@@ -11,10 +9,15 @@ import ContactDetails, {
   ContactDetailsActions,
 } from "Renderer/components/rest/phone/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
-import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
-import ContactEdit, {
-  defaultContact,
-} from "Renderer/components/rest/phone/contact-edit.component"
+import {
+  Contact,
+  ContactCategory,
+  ContactID,
+  NewContact,
+  ResultsState,
+  Store,
+} from "Renderer/models/phone/phone.typings"
+import ContactEdit, { defaultContact } from "Renderer/components/rest/phone/contact-edit.component"
 import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
 import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.container"
@@ -23,12 +26,6 @@ import { createFullName } from "Renderer/models/phone/phone.helpers"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
-import {
-  ContactID,
-  NewContact,
-  ResultsState,
-  Store,
-} from "Renderer/models/phone/phone.typings"
 import { ContactSection } from "Renderer/modules/phone/phone.styled"
 import { AuthProviders } from "Renderer/models/auth/auth.typings"
 import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
@@ -45,10 +42,7 @@ import { History, LocationState } from "history"
 import { useHistory } from "react-router-dom"
 import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "Renderer/modules/phone/find-contact-by-phone-number"
-import {
-  ErrorDataModal,
-  ErrorWithRetryDataModal,
-} from "Renderer/components/rest/data-modal/data.modals"
+import { ErrorDataModal, ErrorWithRetryDataModal } from "Renderer/components/rest/data-modal/data.modals"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -430,6 +424,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           toggleAll={toggleAll}
           removeContact={removeContact}
           resetRows={resetRows}
+          manageButtonDisabled={resultsState === ResultsState.Loading}
         />
         <TableWithSidebarWrapper>
           <ContactList
