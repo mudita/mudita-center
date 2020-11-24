@@ -1,4 +1,5 @@
 import { Slicer, StoreSelectors } from "@rematch/select"
+import { Dispatch } from "Renderer/store"
 import {
   BaseContactModel,
   Contact,
@@ -19,8 +20,8 @@ import {
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
 import externalProvidersStore from "Renderer/store/external-providers"
-import { Dispatch } from "Renderer/store"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import getContacts from "Renderer/requests/get-contacts.request"
 
 export const initialState: Phone = {
   db: {},
@@ -62,6 +63,9 @@ const simulateWriteToPhone = async (time = 2000) => {
 export default {
   state: initialState,
   reducers: {
+    setContacts(state: Phone, contacts: Contact[]): Phone {
+      return contactDatabaseFactory(contacts)
+    },
     addContact(state: Phone, contact: Contact): Phone {
       let currentState = state
 
@@ -103,6 +107,14 @@ export default {
    * about phone sync flow at the moment.
    */
   effects: (dispatch: Dispatch) => ({
+    loadData: async (): Promise<string | void> => {
+      const { data = [], error } = await getContacts()
+      if (error) {
+        return error.message
+      } else {
+        dispatch.phone.setContacts(data)
+      }
+    },
     async loadContacts(provider: Provider) {
       let contacts: Contact[]
 

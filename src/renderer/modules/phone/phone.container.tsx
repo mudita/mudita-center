@@ -38,6 +38,7 @@ const mapDispatch = ({ phone, auth }: any) => {
     onMessage: (history: History<LocationState>, phoneNumber: string) =>
       history.push(createRouterPath(URL_MAIN.messages, { phoneNumber })),
     onSpeedDialSettingsSave: noop,
+    loadData: phone.loadData,
   }
 }
 

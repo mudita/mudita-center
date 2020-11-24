@@ -45,6 +45,10 @@ import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "Renderer/modules/phone/find-contact-by-phone-number"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import delayResponse from "@appnroll/delay-response"
+import {
+  ErrorDataModal,
+  ErrorWithRetryDataModal,
+} from "Renderer/components/rest/data-modal/data.modals"
 
 export const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -70,6 +74,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     addContact,
     editContact,
     getContact,
+    loadData,
+    loadContacts,
     removeContact,
     contactList = [],
     flatList,
@@ -79,7 +85,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     savingContact,
     isTopicThreadOpened,
-    loadContacts,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -120,6 +125,35 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     ...rest
   } = useTableSelect<Contact, ContactCategory>(contacts, "contacts")
   const detailsEnabled = activeRow && !newContact && !editedContact
+  const [resultsState, setResultsState] = useState<ResultsState>(
+    contactList.length === 0 ? ResultsState.Empty : ResultsState.Loaded
+  )
+
+  useEffect(() => {
+    let cancelled = false
+
+    const fetchData = async (retried?: boolean) => {
+      setResultsState(ResultsState.Loading)
+      const error = await loadData()
+
+      if (cancelled) return
+      setResultsState(ResultsState.Loaded)
+
+      if (error && !retried) {
+        modalService.openModal(
+          <ErrorWithRetryDataModal onRetry={() => fetchData(true)} />,
+          true
+        )
+      } else if (error) {
+        modalService.openModal(<ErrorDataModal />, true)
+      }
+    }
+    fetchData()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     setContacts(contactList)
@@ -356,6 +390,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           toggleAll={toggleAll}
           removeContact={removeContact}
           resetRows={resetRows}
+          manageButtonDisabled={resultsState === ResultsState.Loading}
         />
         <TableWithSidebarWrapper>
           <ContactList
@@ -369,7 +404,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
             onDelete={openDeleteModal}
             newContact={newContact}
             editedContact={editedContact}
-            resultsState={ResultsState.Loaded}
+            resultsState={resultsState}
             {...rest}
           />
           {newContact && (

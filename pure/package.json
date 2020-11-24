@@ -10,6 +10,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "postinstall": "npm rebuild",
     "lint": "eslint 'src/**/*.ts'",
     "lint-staged": "lint-staged"
   },
