@@ -31,7 +31,9 @@ const deleteModalMessages = defineMessages({
   },
 })
 
-const Messages: FunctionComponent<MessagesProps & Partial<AppSettings>> = ({
+interface Props extends MessagesProps, Pick<AppSettings, "language"> {}
+
+const Messages: FunctionComponent<Props> = ({
   searchValue,
   changeSearchValue = noop,
   changeVisibilityFilter = noop,

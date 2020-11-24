@@ -155,7 +155,7 @@ export interface ActiveRow {
   messages: Msg[]
 }
 
-interface Props extends SelectHook {
+interface Props extends SelectHook, Pick<AppSettings, "language"> {
   list: Topic[]
   openSidebar?: (row: Topic) => void
   activeRow?: Topic
@@ -163,7 +163,7 @@ interface Props extends SelectHook {
   onToggleReadStatus: (ids: string[]) => void
 }
 
-const MessagesList: FunctionComponent<Props & Partial<AppSettings>> = ({
+const MessagesList: FunctionComponent<Props> = ({
   activeRow,
   list,
   openSidebar = noop,
