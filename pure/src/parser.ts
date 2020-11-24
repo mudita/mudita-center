@@ -86,9 +86,13 @@ export const parseData = async (data: any): Promise<any> => {
          and pass it further. Otherwise collect more data from serial port until we have it all.
        */
       if (
+        (!currentPacket.needMoreData &&
         // @ts-ignore
-        (!currentPacket.needMoreData && slicedPayload.length == currentPacket.dataSizeToRead) || (currentPacket.needMoreData && slicedPayload.length + currentPacket.dataSizeAlreadyRead ==
-        currentPacket.dataSizeToRead)
+          slicedPayload.length == currentPacket.dataSizeToRead) ||
+        (currentPacket.needMoreData &&
+        // @ts-ignore
+          slicedPayload.length + currentPacket.dataSizeAlreadyRead ==
+            currentPacket.dataSizeToRead)
       ) {
         // ideal situation all data is in
         parserState = ParserState.None
