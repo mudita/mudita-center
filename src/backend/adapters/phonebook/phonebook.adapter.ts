@@ -27,7 +27,7 @@ class Phonebook extends PhonebookAdapter {
     if (status === DeviceResponseStatus.Ok && data?.count !== undefined) {
       return this.getContactsByCount({ count: data.count })
     } else {
-      return { status, error: { message: "something went wrong" } }
+      return { status, error: { message: "Something went wrong" } }
     }
   }
 
@@ -55,7 +55,7 @@ class Phonebook extends PhonebookAdapter {
         },
       }
     } else {
-      return { status, error: { message: "something goes wrong" } }
+      return { status, error: { message: "Something went wrong" } }
     }
   }
 
