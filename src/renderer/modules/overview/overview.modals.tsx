@@ -22,7 +22,11 @@ import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import LoaderSpinner from "Renderer/components/core/loader/loader-spinner.component"
+import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
+import {
+  ErrorDataModal,
+  ErrorWithRetryDataModal,
+} from "Renderer/components/rest/data-modal/data.modals"
 
 const ModalContent = styled.div`
   display: flex;
@@ -60,6 +64,10 @@ const DownloadBar = styled.div`
     background-color: ${backgroundColor("activity")};
     transition: width ${transitionTime("faster")} ease-in-out;
   }
+`
+
+const ProgressText = styled(ModalText)`
+  margin-bottom: 8.3rem;
 `
 
 const messages = defineMessages({
@@ -137,6 +145,24 @@ const messages = defineMessages({
   },
   downloadingCancelledMessage: {
     id: "view.name.overview.system.modal.downloadingCancelled.message",
+  },
+  updatingProgressTitle: {
+    id: "view.name.overview.system.modal.updating.progress.title",
+  },
+  updatingProgressDescription: {
+    id: "view.name.overview.system.modal.updating.progress.description",
+  },
+  updatingSuccessTitle: {
+    id: "view.name.overview.system.modal.updating.success.title",
+  },
+  updatingSuccessDescription: {
+    id: "view.name.overview.system.modal.updating.success.description",
+  },
+  updatingFailedTitle: {
+    id: "view.name.overview.system.modal.updating.fail.title",
+  },
+  updatingFailedDescription: {
+    id: "view.name.overview.system.modal.updating.fail.description",
   },
 })
 
@@ -231,22 +257,12 @@ export const UpdateNotAvailable = ({ version = "", date = "" }) => (
 )
 
 export const UpdateServerError = ({ onRetry = noop }) => (
-  <OSUpdateModal
-    actionButtonLabel={intl.formatMessage(messages.checkingUpdateFailedButton)}
-    onActionButtonClick={onRetry}
-  >
-    <RoundIconWrapper>
-      <Icon type={Type.Fail} width={4} />
-    </RoundIconWrapper>
-    <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
-      message={messages.checkingUpdateFailedMessage}
-    />
-    <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
-      message={messages.checkingUpdateFailedDescription}
-    />
-  </OSUpdateModal>
+  <ErrorWithRetryDataModal
+    onRetry={onRetry}
+    title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+    textMessage={messages.checkingUpdateFailedMessage}
+    descriptionMessage={messages.checkingUpdateFailedDescription}
+  />
 )
 
 export const DownloadingUpdateModal = ({
@@ -319,50 +335,58 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
 )
 
 export const DownloadingUpdateCancelledModal = () => (
-  <OSUpdateModal>
-    <RoundIconWrapper>
-      <Icon type={Type.Fail} width={4} />
-    </RoundIconWrapper>
-    <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
-      message={messages.downloadingCancelledMessage}
-    />
-  </OSUpdateModal>
+  <ErrorDataModal
+    title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+    textMessage={messages.downloadingCancelledMessage}
+  />
 )
 
 export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
-  <OSUpdateModal
-    actionButtonLabel={intl.formatMessage(messages.downloadingFailedButton)}
-    onActionButtonClick={onRetry}
-  >
-    <RoundIconWrapper>
-      <Icon type={Type.Fail} width={4} />
-    </RoundIconWrapper>
-    <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
-      message={messages.downloadingFailedMessage}
-    />
-    <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
-      message={messages.downloadingFailedDescription}
-    />
-  </OSUpdateModal>
+  <ErrorWithRetryDataModal
+    onRetry={onRetry}
+    title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+    textMessage={messages.downloadingFailedMessage}
+    descriptionMessage={messages.downloadingFailedDescription}
+  />
 )
 
 export const UpdatingProgressModal = () => (
-  <OSUpdateModal closeable={false}>
-    <LoaderSpinner />
+  <OSUpdateModal closeButton={false} closeable={false}>
+    <RoundIconWrapper>
+      <Icon type={Type.MuditaDarkLogo} width={8} />
+    </RoundIconWrapper>
+    <ModalText
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={messages.updatingProgressTitle}
+    />
+    <ProgressText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={messages.updatingProgressDescription}
+    />
   </OSUpdateModal>
 )
 
 export const UpdatingSuccessModal = () => (
   <OSUpdateModal>
-    <h1>Success</h1>
+    <RoundIconWrapper>
+      <Icon type={Type.Pure} width={4} />
+    </RoundIconWrapper>
+    <Text
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={messages.updatingSuccessTitle}
+    />
+    <ModalText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={messages.updatingSuccessDescription}
+    />
   </OSUpdateModal>
 )
 
-export const UpdatingFailureModal = () => (
-  <OSUpdateModal>
-    <h1>Failure</h1>
-  </OSUpdateModal>
+export const UpdatingFailureModal = ({ onRetry = noop }) => (
+  <ErrorWithRetryDataModal
+    onRetry={onRetry}
+    title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+    textMessage={messages.updatingFailedTitle}
+    descriptionMessage={messages.updatingFailedDescription}
+  />
 )

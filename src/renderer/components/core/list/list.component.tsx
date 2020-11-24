@@ -54,6 +54,14 @@ export const ListItem = styled.li<{
       }
     `};
 `
+
+export const upperDropdownListStyles = css`
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+`
+
 export const List = styled.ul<{
   expanded?: boolean
   listStyles?: FlattenSimpleInterpolation

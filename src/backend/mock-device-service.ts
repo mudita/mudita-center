@@ -1,6 +1,8 @@
-import { RequestConfig } from "pure"
+import { Endpoint, Method, RequestConfig } from "pure"
 import DeviceService from "./device-service"
-import DeviceResponse, { DeviceResponseStatus } from "./adapters/device-response.interface"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "./adapters/device-response.interface"
 
 const mockPureData = [
   {
@@ -15,15 +17,31 @@ const mockPureData = [
 ]
 
 class MockPureNodeService extends DeviceService {
-  request({ body }: RequestConfig): Promise<DeviceResponse<any>> {
-    return new Promise(resolve => {
-      if (body.count === true) {
-        resolve({ data: { count: 1 }, status: DeviceResponseStatus.Ok })
-      } else {
+  request({
+    body,
+    endpoint,
+    method,
+  }: RequestConfig): Promise<DeviceResponse<any>> {
+    return new Promise((resolve) => {
+      if (
+        endpoint === Endpoint.Contacts &&
+        method === Method.Get &&
+        body.count === true
+      ) {
+        return resolve({ data: { count: 1 }, status: DeviceResponseStatus.Ok })
+      } else if (
+        endpoint === Endpoint.Contacts &&
+        method === Method.Get &&
+        typeof body.count === "number"
+      ) {
         return resolve({
           data: mockPureData,
           status: DeviceResponseStatus.Ok,
         })
+      } else {
+        return {
+          status: "error",
+        }
       }
     })
   }

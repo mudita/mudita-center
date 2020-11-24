@@ -1,8 +1,8 @@
 import { Slicer, StoreSelectors } from "@rematch/select"
 import { Dispatch } from "Renderer/store"
-import { Contact } from "Renderer/models/phone/phone.typings"
 import {
   BaseContactModel,
+  Contact,
   ContactID,
   Phone,
   StoreData,
@@ -10,15 +10,17 @@ import {
 
 import {
   addContacts,
+  contactDatabaseFactory,
   editContact,
-  removeContact,
-  revokeField,
+  getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
-  getFlatList,
-  contactDatabaseFactory,
+  removeContact,
+  revokeField,
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
+import externalProvidersStore from "Renderer/store/external-providers"
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import getContacts from "Renderer/requests/get-contacts.request"
 import deleteContact from "Renderer/requests/delete-contact.request"
 import logger from "App/main/utils/logger"
@@ -79,7 +81,6 @@ export default {
 
       return addContacts(currentState, contact)
     },
-
     editContact(
       state: Phone,
       contactID: ContactID,
@@ -93,9 +94,14 @@ export default {
 
       return editContact(currentState, contactID, data)
     },
-
-    removeContact(state: Phone, input: ContactID): Phone {
+    removeContact(state: Phone, input: ContactID | ContactID[]): Phone {
       return removeContact(state, input)
+    },
+    updateContacts(state: Phone, contacts: Phone) {
+      return {
+        db: { ...state.db, ...contacts.db },
+        collection: [...state.collection, ...contacts.collection],
+      }
     },
   },
   /**
@@ -105,9 +111,19 @@ export default {
   effects: (dispatch: Dispatch) => ({
     loadData: async (): Promise<string | void> => {
       const { data = [], error } = await getContacts()
-      if (error) return error.message
-      else {
+      if (error) {
+        return error.message
+      } else {
         dispatch.phone.setContacts(data)
+      }
+    },
+    async loadContacts(provider: Provider) {
+      let contacts: Contact[]
+
+      switch (provider) {
+        case Provider.Google:
+          contacts = await externalProvidersStore.dispatch.google.getContacts()
+          dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
       }
     },
     async addContact() {
@@ -117,7 +133,6 @@ export default {
     async editContact() {
       await simulateWriteToPhone()
     },
-
     async deleteContact(input: ContactID) {
       const { data = "", error } = await deleteContact(input)
       if (error) {

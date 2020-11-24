@@ -87,10 +87,12 @@ export const parseData = async (data: any): Promise<any> => {
        */
       if (
         // @ts-ignore
-        (!currentPacket.needMoreData && slicedPayload.length == currentPacket.dataSizeToRead) || (currentPacket.needMoreData && slicedPayload.length + currentPacket.dataSizeAlreadyRead ==
-        currentPacket.dataSizeToRead)
+        (!currentPacket.needMoreData &&
+          slicedPayload.length == currentPacket.dataSizeToRead) ||
+        (currentPacket.needMoreData &&
+          slicedPayload.length + currentPacket.dataSizeAlreadyRead ==
+            currentPacket.dataSizeToRead)
       ) {
-        console.log("// ideal situation all data is : ", )
         // ideal situation all data is in
         parserState = ParserState.None
         try {

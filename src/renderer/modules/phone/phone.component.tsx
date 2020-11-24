@@ -11,7 +11,14 @@ import ContactDetails, {
   ContactDetailsActions,
 } from "Renderer/components/rest/phone/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
-import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
+import {
+  Contact,
+  ContactCategory,
+  ContactID,
+  NewContact,
+  ResultsState,
+  Store,
+} from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
   defaultContact,
 } from "Renderer/components/rest/phone/contact-edit.component"
@@ -23,12 +30,6 @@ import { createFullName } from "Renderer/models/phone/phone.helpers"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
-import {
-  ContactID,
-  NewContact,
-  ResultsState,
-  Store,
-} from "Renderer/models/phone/phone.typings"
 import { ContactSection } from "Renderer/modules/phone/phone.styled"
 import { AuthProviders } from "Renderer/models/auth/auth.typings"
 import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
@@ -38,13 +39,12 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
-import { getPeople } from "Renderer/providers/google/people"
-import { contactFactory } from "Renderer/providers/google/helpers"
-import { GooglePerson } from "Renderer/providers/google/typings"
 import { History, LocationState } from "history"
 import { useHistory } from "react-router-dom"
 import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "Renderer/modules/phone/find-contact-by-phone-number"
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import delayResponse from "@appnroll/delay-response"
 import {
   ErrorDataModal,
   ErrorWithRetryDataModal,
@@ -76,15 +76,14 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     getContact,
     loadData,
     deleteContact,
+    loadContacts,
     contactList = [],
     flatList,
     speedDialChosenList,
     onSearchTermChange,
-    onManageButtonClick,
     onCall,
     onMessage,
     savingContact,
-    setProviderData,
     isTopicThreadOpened,
   } = props
   const history = useHistory()
@@ -104,7 +103,20 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   )
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
-  const [sync, setSync] = useState(1)
+
+  const authorizeAndLoadContacts = async (provider: Provider) => {
+    try {
+      if (provider) {
+        await delayResponse(loadContacts(provider))
+      }
+      await openProgressSyncModal()
+    } catch {
+      await openFailureSyncModal()
+    }
+  }
+
+  const loadGoogleContacts = () => authorizeAndLoadContacts(Provider.Google)
+
   const {
     selectedRows,
     allRowsSelected,
@@ -341,72 +353,20 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           id: "view.generic.button.cancel",
         })}
         onFailure={openFailureSyncModal}
-        onSuccess={syncGoogleContacts}
-        failed={sync % 3 === 0}
+        onSuccess={openSuccessSyncModal}
         icon={Type.SynchronizeContacts}
       />
     )
   }
 
-  const syncGoogleContacts = async () => {
-    try {
-      const {
-        data: { connections },
-      } = await getPeople()
-
-      if (connections && connections.length > 0) {
-        let added = 0
-        let duplicates = 0
-
-        connections.forEach((contact: GooglePerson) => {
-          const newContact = contactFactory(contact)
-          if (addContact && newContact) {
-            /**
-             * looking for duplicates will require more elaborate strategy,
-             * this is just for show
-             */
-            const unique = typeof getContact(newContact.id) === "undefined"
-            if (unique) {
-              addContact(newContact)
-              added++
-            } else {
-              // apply merge
-              duplicates++
-            }
-          }
-        })
-
-        console.log("Added contacts: ", added)
-        console.log("Duplicated contacts: ", duplicates)
-      } else {
-        console.log("No new contacts to add.")
-      }
-      openSuccessSyncModal()
-    } catch {
-      openFailureSyncModal()
-    }
-  }
-
-  const handleGoogleAuth = async () => {
-    await onManageButtonClick(setProviderData)
-
-    try {
-      await openProgressSyncModal()
-    } catch {
-      await openFailureSyncModal()
-    }
-  }
-
   const openSyncModal = async () => {
-    setSync((value) => value + 1)
     modalService.openModal(
       <SyncContactsModal
         onAppleButtonClick={openProgressSyncModal}
-        onGoogleButtonClick={handleGoogleAuth}
+        onGoogleButtonClick={loadGoogleContacts}
       />
     )
   }
-
   const _devClearContacts = () => setContacts([])
   const _devLoadDefaultContacts = () => setContacts(contactList)
   return (
@@ -430,6 +390,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           toggleAll={toggleAll}
           deleteContact={deleteContact}
           resetRows={resetRows}
+          manageButtonDisabled={resultsState === ResultsState.Loading}
         />
         <TableWithSidebarWrapper>
           <ContactList
