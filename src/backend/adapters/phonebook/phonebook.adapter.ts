@@ -34,11 +34,7 @@ class Phonebook extends PhonebookAdapter {
   public async addContact(
     contact: NewContact
   ): Promise<DeviceResponse<Contact>> {
-    const {
-      status,
-      // @ts-ignore in data should be return id
-      data,
-    } = await this.deviceService.request({
+    const { status } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
       body: mapToPureContact(contact),
