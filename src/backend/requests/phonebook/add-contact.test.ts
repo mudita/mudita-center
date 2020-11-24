@@ -1,20 +1,23 @@
-import getFakeAdapters from "App/tests/get-fake-adapters"
 import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
-import { defaultContact } from "Renderer/components/rest/phone/contact-edit.component"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { contact, newContact, pureContactId } from "Backend/mock-device-service"
+import { Contact } from "Renderer/models/phone/phone.typings"
+import { adapters } from "Backend/requests/phonebook/phonebook-adapters"
+
+jest.mock("pure")
 
 test("adds contact properly", async () => {
-  registerAddContactRequest(getFakeAdapters())
+  registerAddContactRequest(adapters)
 
-   const [pendingResponse] = await (ipcMain as any)._flush(
+  const [pendingResponse] = await (ipcMain as any)._flush(
     IpcRequest.AddContact,
-    defaultContact
+    newContact
   )
-  const result = await pendingResponse
-  const { id } = result.data
+  const { data } = await pendingResponse
 
-  expect(result.data).toStrictEqual({ ...defaultContact, id })
-  expect(result.status).toBe(DeviceResponseStatus.Ok)
+  // TODO: remove mock id after fix https://appnroll.atlassian.net/browse/EGD-4400
+  expect({ ...data, id: String(pureContactId) } as Contact).toMatchObject(
+    contact
+  )
 })

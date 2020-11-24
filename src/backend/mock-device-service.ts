@@ -1,16 +1,38 @@
-import { Endpoint, Method, RequestConfig } from "pure"
+import { Contact as PureContact, Endpoint, Method, RequestConfig } from "pure"
 import DeviceService from "./device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "./adapters/device-response.interface"
+import { Contact, NewContact } from "Renderer/models/phone/phone.typings"
 
-const mockPureData = [
+export const pureContactId = 19
+
+export const newContact: NewContact = {
+  firstName: "Alek",
+  lastName: "Boligłowa",
+  primaryPhoneNumber: "500400300",
+  secondaryPhoneNumber: "",
+  email: "",
+  note: "",
+  firstAddressLine: "6 Czeczota St.",
+  secondAddressLine: "02600 Warsaw",
+  favourite: true,
+  blocked: false,
+  ice: false,
+}
+
+export const contact: Contact = {
+  ...newContact,
+  id: String(pureContactId)
+} as Contact
+
+const mockPureData: PureContact[] = [
   {
     address: "6 Czeczota St.\n02600 Warsaw",
     altName: "Boligłowa",
     blocked: false,
     favourite: true,
-    id: 19,
+    id: pureContactId,
     numbers: ["500400300"],
     priName: "Alek",
   },
@@ -34,6 +56,11 @@ class MockPureNodeService extends DeviceService {
         method === Method.Get &&
         typeof body.count === "number"
       ) {
+        return resolve({
+          data: mockPureData,
+          status: DeviceResponseStatus.Ok,
+        })
+      } else if (endpoint === Endpoint.Contacts && method === Method.Put) {
         return resolve({
           data: mockPureData,
           status: DeviceResponseStatus.Ok,
