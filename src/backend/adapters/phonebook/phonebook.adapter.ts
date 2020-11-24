@@ -27,18 +27,14 @@ class Phonebook extends PhonebookAdapter {
     if (status === DeviceResponseStatus.Ok && data?.count !== undefined) {
       return this.getContactsByCount({ count: data.count })
     } else {
-      return { status, error: { message: "something went wrong" } }
+      return { status, error: { message: "Something went wrong" } }
     }
   }
 
   public async addContact(
     contact: NewContact
   ): Promise<DeviceResponse<Contact>> {
-    const {
-      status,
-      // @ts-ignore in data should be return id
-      data,
-    } = await this.deviceService.request({
+    const { status } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
       body: mapToPureContact(contact),
@@ -55,7 +51,7 @@ class Phonebook extends PhonebookAdapter {
         },
       }
     } else {
-      return { status, error: { message: "something goes wrong" } }
+      return { status, error: { message: "Something went wrong" } }
     }
   }
 

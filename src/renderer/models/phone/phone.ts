@@ -129,7 +129,7 @@ export default {
     },
     addNewContact: async (contact: NewContact): Promise<string | void> => {
       const { data, error } = await addContact(contact)
-      if (error || !data) return error?.message ?? "something goes wrong"
+      if (error || !data) return error?.message ?? "Something went wrong"
       else {
         dispatch.phone.addContact(data)
       }

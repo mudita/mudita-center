@@ -24,7 +24,7 @@ import {
 import { ContactPanelTestIdsEnum } from "Renderer/components/rest/phone/contact-panel-test-ids.enum"
 import {
   ErrorDataModal,
-  SpinnerDataModal,
+  LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 import delayResponse from "@appnroll/delay-response"
 
@@ -69,7 +69,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
       selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
     const onDelete = async () => {
       modalService.openModal(
-        <SpinnerDataModal textMessage={deleteModalMessages.deletingText} />,
+        <LoadingStateDataModal textMessage={deleteModalMessages.deletingText} />,
         true
       )
       const results = selectedContactsIds.map(async (id) => {

@@ -95,7 +95,7 @@ export const ErrorWithRetryDataModal = ({
   </ErrorModal>
 )
 
-export const SpinnerDataModal = ({
+export const LoadingStateDataModal = ({
   title = intl.formatMessage(messages.loadingTitle),
   textMessage,
 }: {
