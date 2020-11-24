@@ -49,7 +49,7 @@ class Phonebook extends PhonebookAdapter {
       return {
         status,
         data: {
-          // TODO: return contact from API response after fix https://appnroll.atlassian.net/browse/EGD-4400
+          // TODO: return contact from API response after EGD fix, task https://appnroll.atlassian.net/browse/PDA-572
           id: Faker.random.uuid(),
           ...contact,
           primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
@@ -156,7 +156,7 @@ const mapToPureContact = (contact: NewContact): PureContact => {
   return {
     blocked,
     favourite,
-    // TODO: remove this conditional after fix https://appnroll.atlassian.net/browse/EGD-4399
+    // TODO: remove this conditional after EGD fix, task https://appnroll.atlassian.net/browse/PDA-572
     numbers: numbers.length === 0 ? ["999999999"] : numbers,
     id: Math.round(Math.random() * 1000),
     priName: firstName,
