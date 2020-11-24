@@ -3,11 +3,11 @@ import { Dispatch } from "Renderer/store"
 import {
   BaseContactModel,
   Contact,
+  NewContact,
   ContactID,
   Phone,
   StoreData,
 } from "Renderer/models/phone/phone.typings"
-
 import {
   addContacts,
   contactDatabaseFactory,
@@ -24,6 +24,7 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 import getContacts from "Renderer/requests/get-contacts.request"
 import deleteContact from "Renderer/requests/delete-contact.request"
 import logger from "App/main/utils/logger"
+import addContact from "Renderer/requests/add-contact.request"
 
 export const initialState: Phone = {
   db: {},
@@ -126,10 +127,13 @@ export default {
           dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
       }
     },
-    async addContact() {
-      await simulateWriteToPhone()
+    addNewContact: async (contact: NewContact): Promise<string | void> => {
+      const { data, error } = await addContact(contact)
+      if (error || !data) return error?.message ?? "something goes wrong"
+      else {
+        dispatch.phone.addContact(data)
+      }
     },
-
     async editContact() {
       await simulateWriteToPhone()
     },

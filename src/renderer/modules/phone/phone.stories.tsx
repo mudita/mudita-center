@@ -1,7 +1,7 @@
 import React from "react"
 import { storiesOf } from "@storybook/react"
 import Phone, {
-  deleteModalMessages,
+  messages,
   PhoneProps,
 } from "Renderer/modules/phone/phone.component"
 import { action } from "@storybook/addon-actions"
@@ -71,6 +71,7 @@ const PhoneComponent = ({
     setProviderData={noop}
     isTopicThreadOpened={isTopicThreadOpened}
     loadData={asyncNoop}
+    addNewContact={asyncNoop}
     contacts={phoneSeedInput}
     loadContacts={asyncNoop}
     inputValue={""}
@@ -237,10 +238,10 @@ storiesOf("Views|Phone/Modals", module)
       <ModalWrapper>
         <DeleteModal
           title={intl.formatMessage({
-            ...deleteModalMessages.title,
+            ...messages.deleteTitle,
           })}
           message={{
-            ...deleteModalMessages.text,
+            ...messages.deleteText,
             values: {
               name: createFullName(singleContact()),
               ...textFormatters,

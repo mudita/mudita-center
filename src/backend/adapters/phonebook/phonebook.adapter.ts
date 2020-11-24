@@ -31,13 +31,31 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  public addContact(contact: NewContact): DeviceResponse<any> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: {
-        ...contact,
-        id: Faker.random.uuid(),
-      },
+  public async addContact(
+    contact: NewContact
+  ): Promise<DeviceResponse<Contact>> {
+    const {
+      status,
+      // @ts-ignore in data should be return id
+      data,
+    } = await this.deviceService.request({
+      endpoint: Endpoint.Contacts,
+      method: Method.Put,
+      body: mapToPureContact(contact),
+    })
+
+    if (status === DeviceResponseStatus.Ok) {
+      return {
+        status,
+        data: {
+          // TODO: return contact from API response after EGD fix, task https://appnroll.atlassian.net/browse/PDA-572
+          id: Faker.random.uuid(),
+          ...contact,
+          primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
+        },
+      }
+    } else {
+      return { status, error: { message: "something goes wrong" } }
     }
   }
 
@@ -122,8 +140,37 @@ const mapToContact = (pureContact: PureContact): Contact => {
     id: String(id),
     firstName: priName,
     lastName: altName,
+    // TODO: map missing fields in separate issue https://appnroll.atlassian.net/browse/PDA-571 (after EGD implementation)
+    // speedDial: undefined,
     ice: false,
     note: "",
     email: "",
+  }
+}
+
+const mapToPureContact = (contact: NewContact): PureContact => {
+  const {
+    blocked = false,
+    favourite = false,
+    firstName = "",
+    lastName = "",
+    primaryPhoneNumber,
+    secondaryPhoneNumber,
+    firstAddressLine,
+    secondAddressLine,
+  } = contact
+  const numbers = []
+  if (primaryPhoneNumber) numbers.push(primaryPhoneNumber)
+  if (secondaryPhoneNumber) numbers.push(secondaryPhoneNumber)
+
+  return {
+    blocked,
+    favourite,
+    // TODO: remove this conditional after EGD fix, task https://appnroll.atlassian.net/browse/PDA-572
+    numbers: numbers.length === 0 ? ["999999999"] : numbers,
+    id: Math.round(Math.random() * 1000),
+    priName: firstName,
+    altName: lastName,
+    address: `${firstAddressLine}\n${secondAddressLine}`,
   }
 }
