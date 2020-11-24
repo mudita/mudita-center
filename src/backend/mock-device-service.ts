@@ -39,9 +39,9 @@ class MockPureNodeService extends DeviceService {
           status: DeviceResponseStatus.Ok,
         })
       } else {
-        return {
-          status: "error",
-        }
+        return resolve({
+          status: DeviceResponseStatus.Error,
+        })
       }
     })
   }
