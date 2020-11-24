@@ -200,6 +200,11 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
     removeGetHelpStoreHandler()
     helpWindow = null
   })
+
+  helpWindow.on("page-title-updated", (event) => {
+    // prevent window name change to "Webpack App"
+    event.preventDefault()
+  })
 })
 
 const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
