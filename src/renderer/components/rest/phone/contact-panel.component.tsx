@@ -22,11 +22,17 @@ import {
   SearchInput,
 } from "Renderer/components/rest/phone/contact-panel.styled"
 import { ContactPanelTestIdsEnum } from "Renderer/components/rest/phone/contact-panel-test-ids.enum"
+import {
+  ErrorDataModal,
+  SpinnerDataModal,
+} from "Renderer/components/rest/data-modal/data.modals"
+import delayResponse from "@appnroll/delay-response"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
   export: { id: "view.name.phone.contacts.selectionExport" },
   body: { id: "view.name.phone.contacts.modal.deleteMultipleContacts" },
+  deletingText: { id: "view.name.phone.contacts.modal.deleting.text" },
 })
 
 export interface ContactPanelProps {
@@ -36,7 +42,7 @@ export interface ContactPanelProps {
   selectedContacts: Contact[]
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
-  deleteContact?: (id: ContactID) => void
+  deleteContact: (id: ContactID) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
   manageButtonDisabled?: boolean
 }
@@ -48,7 +54,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   selectedContacts,
   allItemsSelected,
   toggleAll = noop,
-  deleteContact = noop,
+  deleteContact,
   resetRows,
   manageButtonDisabled,
 }) => {
@@ -61,10 +67,21 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     const selectedContactsIds = selectedContacts.map(({ id }) => id)
     const nameAvailable =
       selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
-    const onDelete = () => {
-      selectedContactsIds.forEach((id) => deleteContact(id))
+    const onDelete = async () => {
+      modalService.openModal(
+        <SpinnerDataModal textMessage={deleteModalMessages.deletingText} />,
+        true
+      )
+      const results = selectedContactsIds.map(async (id) => {
+        const error = await delayResponse(deleteContact(id))
+        return Boolean(error)
+      })
+      if ((await Promise.all(results)).some(Boolean)) {
+        modalService.openModal(<ErrorDataModal />, true)
+      } else {
+        modalService.closeModal()
+      }
       resetRows()
-      modalService.closeModal()
     }
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),

@@ -55,6 +55,7 @@ export const messages = defineMessages({
   deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
   deleteText: { id: "view.name.phone.contacts.modal.delete.text" },
   addingText: { id: "view.name.phone.contacts.modal.adding.text" },
+  deletingText: { id: "view.name.phone.contacts.modal.deleting.text" },
 })
 
 export type PhoneProps = ContactActions &
@@ -64,7 +65,6 @@ export type PhoneProps = ContactActions &
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
     speedDialChosenList: number[]
-    // deleteContact?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
@@ -262,25 +262,19 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const openDeleteModal = (contact: Contact) => {
     const handleDelete = async () => {
-      modalService.rerenderModal(
-        <DeleteModal
-          deleting
-          title={intl.formatMessage({
-            ...messages.deleteTitle,
-          })}
-          message={{
-            ...messages.deleteText,
-            values: { name: createFullName(contact), ...textFormatters },
-          }}
-        />
+      modalService.openModal(
+        <SpinnerDataModal textMessage={messages.deletingText} />,
+        true
       )
 
       // await can be restored if we will process the result directly in here, not globally
-      if (deleteContact) {
-        deleteContact(contact.id)
-      }
-      await modalService.closeModal()
-      cancelOrCloseContactHandler()
+        const error = await delayResponse(deleteContact(contact.id))
+        if (error) {
+          modalService.openModal(<ErrorDataModal />, true)
+        } else {
+          cancelOrCloseContactHandler()
+          await modalService.closeModal()
+        }
     }
 
     modalService.openModal(
