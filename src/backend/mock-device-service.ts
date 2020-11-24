@@ -4,7 +4,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "./adapters/device-response.interface"
 
-const mockPureData = [
+export const mockPureData = [
   {
     address: "6 Czeczota St.\n02600 Warsaw",
     altName: "Boligłowa",
@@ -37,6 +37,11 @@ class MockPureNodeService extends DeviceService {
         return resolve({
           data: mockPureData,
           status: DeviceResponseStatus.Ok,
+        })
+      } else if (endpoint === Endpoint.Contacts && method === Method.Delete) {
+        return resolve({
+          status: DeviceResponseStatus.Ok,
+          data: mockPureData[0].id
         })
       } else {
         return {
