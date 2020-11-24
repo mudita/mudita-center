@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions"
 import Story from "Renderer/components/storybook/story.component"
 import {
   ErrorDataModal,
-  ErrorWithRetryDataModal, SpinnerDataModal,
+  ErrorWithRetryDataModal, LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 
 storiesOf("Components|Rest/Data Modal", module)
@@ -23,10 +23,10 @@ storiesOf("Components|Rest/Data Modal", module)
       </StoryModalWrapper>
     </Story>
   ))
-  .add("Spinner Data Modal", () => (
+  .add("Loading State Data Modal", () => (
     <Story transparentMode>
       <StoryModalWrapper>
-        <SpinnerDataModal />
+        <LoadingStateDataModal />
       </StoryModalWrapper>
     </Story>
   ))

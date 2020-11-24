@@ -48,7 +48,7 @@ import delayResponse from "@appnroll/delay-response"
 import {
   ErrorDataModal,
   ErrorWithRetryDataModal,
-  SpinnerDataModal,
+  LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 
 export const messages = defineMessages({
@@ -216,7 +216,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const saveNewContact = async (contact: NewContact) => {
     const add = async (retried?: boolean) => {
       modalService.openModal(
-        <SpinnerDataModal textMessage={messages.addingText} />,
+        <LoadingStateDataModal textMessage={messages.addingText} />,
         true
       )
 

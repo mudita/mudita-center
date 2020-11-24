@@ -24,7 +24,7 @@ import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.st
 import {
   ErrorDataModal,
   ErrorWithRetryDataModal,
-  SpinnerDataModal,
+  LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 
 const ModalContent = styled.div`
@@ -180,7 +180,7 @@ const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
 )
 
 export const CheckingUpdatesModal = () => (
-  <SpinnerDataModal
+  <LoadingStateDataModal
     title={intl.formatMessage(messages.muditaOsUpdateTitle)}
     textMessage={messages.checkingForUpdatesMessage}
   />
