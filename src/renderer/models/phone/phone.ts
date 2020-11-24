@@ -109,8 +109,9 @@ export default {
   effects: (dispatch: Dispatch) => ({
     loadData: async (): Promise<string | void> => {
       const { data = [], error } = await getContacts()
-      if (error) return error.message
-      else {
+      if (error) {
+        return error.message
+      } else {
         dispatch.phone.setContacts(data)
       }
     },
