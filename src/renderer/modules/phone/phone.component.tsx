@@ -214,7 +214,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const saveNewContact = async (contact: NewContact) => {
-    const addingNewContact = async (retried?: boolean) => {
+    const add = async (retried?: boolean) => {
       modalService.openModal(
         <SpinnerDataModal textMessage={messages.addingText} />,
         true
@@ -224,7 +224,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
       if (error && !retried) {
         modalService.openModal(
-          <ErrorWithRetryDataModal onRetry={() => addingNewContact(true)} />,
+          <ErrorWithRetryDataModal onRetry={() => add(true)} />,
           true
         )
       } else if (error) {
@@ -235,7 +235,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       }
     }
 
-    await addingNewContact()
+    await add()
   }
 
   const handleEditingContact = (contact: Contact) => {
