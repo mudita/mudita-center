@@ -23,7 +23,7 @@ export const newContact: NewContact = {
 
 export const contact: Contact = {
   ...newContact,
-  id: String(pureContactId)
+  id: String(pureContactId),
 } as Contact
 
 const mockPureData: PureContact[] = [
@@ -39,38 +39,36 @@ const mockPureData: PureContact[] = [
 ]
 
 class MockPureNodeService extends DeviceService {
-  request({
+  async request({
     body,
     endpoint,
     method,
   }: RequestConfig): Promise<DeviceResponse<any>> {
-    return new Promise((resolve) => {
-      if (
-        endpoint === Endpoint.Contacts &&
-        method === Method.Get &&
-        body.count === true
-      ) {
-        return resolve({ data: { count: 1 }, status: DeviceResponseStatus.Ok })
-      } else if (
-        endpoint === Endpoint.Contacts &&
-        method === Method.Get &&
-        typeof body.count === "number"
-      ) {
-        return resolve({
-          data: mockPureData,
-          status: DeviceResponseStatus.Ok,
-        })
-      } else if (endpoint === Endpoint.Contacts && method === Method.Put) {
-        return resolve({
-          data: mockPureData,
-          status: DeviceResponseStatus.Ok,
-        })
-      } else {
-        return resolve({
-          status: DeviceResponseStatus.Error,
-        })
+    if (
+      endpoint === Endpoint.Contacts &&
+      method === Method.Get &&
+      body.count === true
+    ) {
+      return { data: { count: 1 }, status: DeviceResponseStatus.Ok }
+    } else if (
+      endpoint === Endpoint.Contacts &&
+      method === Method.Get &&
+      typeof body.count === "number"
+    ) {
+      return {
+        data: mockPureData,
+        status: DeviceResponseStatus.Ok,
       }
-    })
+    } else if (endpoint === Endpoint.Contacts && method === Method.Put) {
+      return {
+        data: mockPureData,
+        status: DeviceResponseStatus.Ok,
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
   }
 }
 
