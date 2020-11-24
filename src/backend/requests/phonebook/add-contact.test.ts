@@ -16,7 +16,7 @@ test("adds contact properly", async () => {
   )
   const { data } = await pendingResponse
 
-  // TODO: remove this conditional after EGD fix, task https://appnroll.atlassian.net/browse/PDA-572
+  // TODO: remove mock id after fix EGD fix, task https://appnroll.atlassian.net/browse/PDA-572
   expect({ ...data, id: String(pureContactId) } as Contact).toMatchObject(
     contact
   )
