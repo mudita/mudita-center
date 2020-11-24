@@ -41,11 +41,13 @@ const Autostart = styled.div`
 
 const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
   onContinue = noop,
-  setAutostartOption = noop,
+  onAutostartChange = noop,
+  autostartEnabled,
 }) => {
   const onCheckboxToggle = (event: ChangeEvent<HTMLInputElement>) => {
-    setAutostartOption(event.target.checked)
+    onAutostartChange(event.target.checked)
   }
+
   return (
     <OnboardingWrapper>
       <header>
@@ -71,12 +73,15 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
         </Info>
         <Image src={Infographic} width={1010} />
         <Autostart>
-          <InputCheckbox
-            label={intl.formatMessage({
-              id: "view.name.onboarding.welcome.autostartMessage",
-            })}
-            onChange={onCheckboxToggle}
-          />
+          {autostartEnabled !== undefined && (
+            <InputCheckbox
+              defaultChecked={autostartEnabled}
+              label={intl.formatMessage({
+                id: "view.name.onboarding.welcome.autostartMessage",
+              })}
+              onChange={onCheckboxToggle}
+            />
+          )}
           <Text
             displayStyle={TextDisplayStyle.SmallFadedText}
             message={{ id: "view.name.onboarding.welcome.autostartInfo" }}

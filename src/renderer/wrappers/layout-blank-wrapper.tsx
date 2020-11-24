@@ -50,11 +50,13 @@ const Header = styled.header`
 
 interface Props {
   recoveryMode?: boolean
+  onClose?: () => void
 }
 
 const LayoutBlankWrapper: FunctionComponent<Props> = ({
   children,
   recoveryMode,
+  onClose,
 }) => {
   return (
     <Layout>
@@ -65,7 +67,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
           message={{ id: "view.name.onboarding.mainTitle" }}
         />
         {!recoveryMode && (
-          <Link to={URL_MAIN.news}>
+          <Link to={URL_MAIN.news} onClick={onClose}>
             <Icon type={Type.Close} />
           </Link>
         )}

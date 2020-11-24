@@ -64,6 +64,10 @@ const RootWrapper: FunctionComponent<Props> = ({ store, history }) => {
     })()
   }, [])
 
+  useEffect(() => {
+    store.dispatch.basicInfo.connect()
+  })
+
   return (
     <ThemeProvider theme={theme}>
       {messages && (

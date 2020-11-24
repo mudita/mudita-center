@@ -316,6 +316,10 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         </Dropdown>
                       </Actions>
                     </Col>
+                    <ScrollAnchorContainer
+                      key={contact.id + category}
+                      active={scrollActive}
+                    />
                   </Row>
                 )
 
@@ -332,21 +336,20 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                           <TextPlaceholder charsCount={phoneNumber.length} />
                         )}
                       </Col>
+                      <ScrollAnchorContainer
+                        key={contact.id + category}
+                        active={scrollActive}
+                      />
                     </Row>
                   )
                 }
 
                 return (
-                  <ScrollAnchorContainer
-                    key={contact.id + category}
-                    active={scrollActive}
-                  >
-                    <InView>
-                      {({ inView, ref }) =>
-                        inView ? interactiveRow(ref) : placeholderRow(ref)
-                      }
-                    </InView>
-                  </ScrollAnchorContainer>
+                  <InView key={category + contact.id}>
+                    {({ inView, ref }) =>
+                      inView ? interactiveRow(ref) : placeholderRow(ref)
+                    }
+                  </InView>
                 )
               })}
             </Group>

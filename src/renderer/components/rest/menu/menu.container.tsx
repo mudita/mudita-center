@@ -8,7 +8,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: any) => ({
-  connectDevice: () => dispatch.basicInfo.connect(),
+  connectDevice: () => dispatch.basicInfo.fakeConnect(),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Menu)

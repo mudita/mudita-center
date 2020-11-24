@@ -1,4 +1,10 @@
-import React, { useState } from "react"
+import React, {
+  createRef,
+  RefObject,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -18,12 +24,16 @@ import InputSelect, {
   RenderInputSelectListItem,
 } from "Renderer/components/core/input-select/input-select.component"
 import { SpeedDialProps } from "Renderer/components/rest/phone/speed-dial-modal.container"
-import { ListItem } from "Renderer/components/core/list/list.component"
+import {
+  ListItem,
+  upperDropdownListStyles,
+} from "Renderer/components/core/list/list.component"
 import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"
 
 const SpeedDialTable = styled(Table)`
   --labelBackground: none;
   margin: 1.6rem 0 4rem 0;
+  overflow: initial !important;
 `
 
 const ModalComponent = styled(Modal)`
@@ -80,6 +90,25 @@ const StyledInputSelect = styled(InputSelect)`
   }
 `
 
+interface DropdownPosition {
+  height: number
+  upperDropdown: boolean
+}
+
+const calculateDropdownPosition = (
+  row: HTMLDivElement | null
+): DropdownPosition => {
+  const parent = row?.parentElement
+  const topSpace = row?.offsetTop ?? 0
+  const bottomSpace = (parent?.offsetHeight || 0) - topSpace
+  const upperDropdown = topSpace > bottomSpace
+
+  return {
+    height: Math.max(topSpace, bottomSpace),
+    upperDropdown,
+  }
+}
+
 const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
   editContact,
   onSave = noop,
@@ -105,15 +134,34 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
       }
     })
 
+  const rowsRefs = useRef<RefObject<HTMLDivElement>[]>(
+    speedDialList.map(() => createRef())
+  )
+  const [dropdownsPosition, setDropdownsPosition] = useState<
+    DropdownPosition[]
+  >([])
+
   const availableContacts = flatList.filter(
     (item: Contact) =>
-      item.id !== "0" && (Boolean(item.firstName) || Boolean(item.lastName))
+      item.id !== "0" &&
+      (Boolean(item.firstName) || Boolean(item.lastName)) &&
+      speedDialList.every(
+        (contact, index) => contact[index + 1]?.id !== item.id
+      )
   )
 
   const onSaveClick = () => {
     localData.forEach((item) => editContact(...item))
     onSave()
   }
+
+  useLayoutEffect(() => {
+    const calculatedPositions = rowsRefs.current.map((rowRef) =>
+      calculateDropdownPosition(rowRef.current)
+    )
+
+    setDropdownsPosition(calculatedPositions)
+  }, [])
 
   return (
     <ModalComponent
@@ -131,6 +179,9 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
         </Labels>
         {speedDialList.map((item: Record<number, Contact | undefined>, i) => {
           const speedDial = i + 1
+          const { height, upperDropdown } = dropdownsPosition.length
+            ? dropdownsPosition[i]
+            : { height: 0, upperDropdown: false }
           const [selectedItem, setSelectedItem] = useState<Contact | undefined>(
             item[speedDial]
           )
@@ -152,7 +203,7 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
           }
 
           return (
-            <Row size={RowSize.Small} key={i}>
+            <Row size={RowSize.Small} key={i} ref={rowsRefs.current[i]}>
               <Col>{speedDial}</Col>
               <Col>
                 <StyledInputSelect
@@ -165,7 +216,8 @@ const SpeedDialModal: FunctionComponent<SpeedDialProps> = ({
                   onSelect={onChange}
                   isItemMatching={isOptionMatching}
                   listStyles={css`
-                    max-height: 30rem;
+                    max-height: ${height}px;
+                    ${upperDropdown && upperDropdownListStyles}
                   `}
                   disabledItems={[selectedItem]}
                   initialTransparentBorder

@@ -87,7 +87,7 @@ const OverviewUI: FunctionComponent<
       updateDownloaded={pureOsDownloaded}
       updateAvailable={pureOsAvailable}
       osVersion={osVersion}
-      lastUpdate={new Date(osUpdateDate).toLocaleDateString("en-US")}
+      lastUpdate={osUpdateDate}
       onUpdateCheck={onUpdateCheck}
       onDownload={onUpdateDownload}
       onUpdate={onUpdateInstall}

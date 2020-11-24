@@ -41,6 +41,14 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
       })
     )
   }
+
+  public updateOs(): Promise<DeviceResponse> {
+    return new Promise((resolve) =>
+      resolve({
+        status: DeviceResponseStatus.Ok,
+      })
+    )
+  }
 }
 
 const createFakePurePhoneAdapter = (): PurePhoneAdapter =>

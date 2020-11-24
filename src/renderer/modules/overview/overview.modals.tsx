@@ -22,6 +22,7 @@ import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
 
 const ModalContent = styled.div`
   display: flex;
@@ -59,6 +60,10 @@ const DownloadBar = styled.div`
     background-color: ${backgroundColor("activity")};
     transition: width ${transitionTime("faster")} ease-in-out;
   }
+`
+
+const ProgressText = styled(ModalText)`
+  margin-bottom: 8.3rem;
 `
 
 const messages = defineMessages({
@@ -136,6 +141,24 @@ const messages = defineMessages({
   },
   downloadingCancelledMessage: {
     id: "view.name.overview.system.modal.downloadingCancelled.message",
+  },
+  updatingProgressTitle: {
+    id: "view.name.overview.system.modal.updating.progress.title",
+  },
+  updatingProgressDescription: {
+    id: "view.name.overview.system.modal.updating.progress.description",
+  },
+  updatingSuccessTitle: {
+    id: "view.name.overview.system.modal.updating.success.title",
+  },
+  updatingSuccessDescription: {
+    id: "view.name.overview.system.modal.updating.success.description",
+  },
+  updatingFailedTitle: {
+    id: "view.name.overview.system.modal.updating.fail.title",
+  },
+  updatingFailedDescription: {
+    id: "view.name.overview.system.modal.updating.fail.description",
   },
 })
 
@@ -344,6 +367,57 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
     <Text
       displayStyle={TextDisplayStyle.MediumFadedText}
       message={messages.downloadingFailedDescription}
+    />
+  </OSUpdateModal>
+)
+
+export const UpdatingProgressModal = () => (
+  <OSUpdateModal closeButton={false} closeable={false}>
+    <RoundIconWrapper>
+      <Icon type={Type.MuditaDarkLogo} width={8} />
+    </RoundIconWrapper>
+    <ModalText
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={messages.updatingProgressTitle}
+    />
+    <ProgressText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={messages.updatingProgressDescription}
+    />
+  </OSUpdateModal>
+)
+
+export const UpdatingSuccessModal = () => (
+  <OSUpdateModal>
+    <RoundIconWrapper>
+      <Icon type={Type.Pure} width={4} />
+    </RoundIconWrapper>
+    <Text
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={messages.updatingSuccessTitle}
+    />
+    <ModalText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={messages.updatingSuccessDescription}
+    />
+  </OSUpdateModal>
+)
+
+export const UpdatingFailureModal = ({ onRetry = noop }) => (
+  <OSUpdateModal
+    actionButtonLabel={intl.formatMessage(messages.downloadingFailedButton)}
+    onActionButtonClick={onRetry}
+  >
+    <RoundIconWrapper>
+      <Icon type={Type.Fail} width={4} />
+    </RoundIconWrapper>
+    <Text
+      displayStyle={TextDisplayStyle.LargeBoldText}
+      message={messages.updatingFailedTitle}
+    />
+    <ModalText
+      displayStyle={TextDisplayStyle.MediumFadedText}
+      message={messages.updatingFailedDescription}
     />
   </OSUpdateModal>
 )

@@ -2,23 +2,12 @@ import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.cla
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-
-import { MainProcessIpc } from "electron-better-ipc"
-import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
+import DeviceService from "Backend/device-service"
+import { Endpoint, Method } from "pure"
 
 class PurePhone extends PurePhoneAdapter {
-  constructor(private pureNode: any, private ipcMain: MainProcessIpc) {
+  constructor(private deviceService: DeviceService) {
     super()
-    pureNode.on("close", this.emitDisconnectedDeviceSignal)
-    pureNode.on("data", this.emitConnectedDeviceSignal)
-  }
-
-  private emitDisconnectedDeviceSignal = (): void => {
-    this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)
-  }
-
-  private emitConnectedDeviceSignal = (): void => {
-    this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
   }
 
   public getModelName(): string {
@@ -52,24 +41,42 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public connectDevice(): Promise<DeviceResponse> {
-    return new Promise((resolve) => {
-      this.pureNode.portInit((phones: any[]) => {
-        const phone = phones[0]
+    return this.deviceService.connect()
+  }
 
-        if (Boolean(phone) && Boolean(phone.path)) {
-          this.pureNode.init(phones[0].path)
-          resolve({ status: DeviceResponseStatus.Ok })
-        }
-
-        resolve({ status: DeviceResponseStatus.Error })
-      })
+  public async updateOs(file: string): Promise<DeviceResponse> {
+    const fileResponse = await this.deviceService.request({
+      endpoint: Endpoint.File,
+      method: Method.Post,
+      file,
     })
+
+    if (fileResponse.status === DeviceResponseStatus.Ok) {
+      const PureUpdateResponse = await this.deviceService.request({
+        endpoint: Endpoint.PureUpdate,
+        method: Method.Post,
+        file,
+      })
+
+      if (PureUpdateResponse.status === DeviceResponseStatus.Ok) {
+        return {
+          status: DeviceResponseStatus.Ok,
+        }
+      } else {
+        return {
+          status: DeviceResponseStatus.Error,
+        }
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+      }
+    }
   }
 }
 
 const createPurePhoneAdapter = (
-  pureNode: any,
-  ipcMain: MainProcessIpc
-): PurePhoneAdapter => new PurePhone(pureNode, ipcMain)
+  deviceService: DeviceService
+): PurePhoneAdapter => new PurePhone(deviceService)
 
 export default createPurePhoneAdapter
