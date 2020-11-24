@@ -9,8 +9,8 @@ jest.mock("pure")
 test("return mapped contacts from pure to Contact model", async () => {
   registerGetContactsRequest(adapters)
 
-  const [result] = await (ipcMain as any)._flush(IpcRequest.GetContacts)
+  const [pendingResponse] = await (ipcMain as any)._flush(IpcRequest.GetContacts)
 
-  const { data = [] } =  await result;
+  const { data = [] } =  await pendingResponse;
   expect(data[0]).toMatchObject(contact)
 })
