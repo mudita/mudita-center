@@ -8,16 +8,18 @@ import MockPureNodeService from "Backend/mock-device-service"
 
 jest.mock("pure")
 
-const adapters = {
-  phonebook: createPhonebook(new MockPureNodeService(PureDeviceManager, ipcMain))
-}  as unknown as Adapters
+const adapters = ({
+  phonebook: createPhonebook(
+    new MockPureNodeService(PureDeviceManager, ipcMain)
+  ),
+} as unknown) as Adapters
 
 test("return mapped contacts from pure to Contact model", async () => {
   registerGetContactsRequest(adapters)
 
-  const [result] = await (ipcMain as any)._flush(IpcRequest.GetContacts)
+  const [pendingResponse] = await (ipcMain as any)._flush(IpcRequest.GetContacts)
 
-  const { data = [] } =  await result;
+  const { data = [] } = await pendingResponse
   expect(data[0]).toMatchObject({
     blocked: false,
     favourite: true,
