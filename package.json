@@ -46,7 +46,6 @@
     "prestart": "npm run build",
     "pretest:e2e": "npm run build",
     "predevelop": "npm run translations:update",
-    "prelint": "npm rebuild",
     "posttranslations:send": "npm run translations:sort",
     "posttranslations:update": "npm run translations:sort",
     "posttranslations:sort": "prettier --write src/**/*.json",
