@@ -34,7 +34,7 @@ import RecoveryMode from "Renderer/modules/recovery-mode/recovery-mode.component
 
 export default () => (
   <Switch>
-    <Redirect exact from={URL_MAIN.root} to={URL_MAIN.overview} />
+    <Redirect exact from={URL_MAIN.root} to={URL_MAIN.news} />
     <Redirect from={URL_ONBOARDING.root} to={URL_ONBOARDING.welcome} exact />
 
     <Route exact path={[...Object.values(URL_ONBOARDING)]}>

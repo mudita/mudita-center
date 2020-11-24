@@ -9,5 +9,7 @@ export default abstract class PurePhoneAdapter {
   public abstract getOsUpdateDate(): string
   public abstract disconnectDevice(): DeviceResponse
   public abstract connectDevice(): Promise<DeviceResponse>
-  public abstract updateOs(updateFilePath: string): Promise<DeviceResponse> | DeviceResponse
+  public abstract updateOs(
+    updateFilePath: string
+  ): Promise<DeviceResponse> | DeviceResponse
 }

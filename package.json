@@ -41,8 +41,8 @@
     "translations:send": "node ./scripts/updatePhraseTranslations.js",
     "translations:sort": "node ./scripts/sortTranslations.js",
     "UTILITY/AUTO COMMANDS": "=================================================",
-    "beforecommit": "npm run translations:sort && lint-staged",
-    "postinstall": "electron-builder install-app-deps && electron-rebuild -f",
+    "beforecommit": "npm run translations:sort && lint-staged && npm run pure:lint-staged",
+    "postinstall": "electron-builder install-app-deps && electron-rebuild -f && npm run pure:install && npm run pure:build",
     "prerelease": "npm run translations:overwrite && npm run build",
     "prestart": "npm run build",
     "pretest:e2e": "npm run build",
@@ -50,9 +50,12 @@
     "posttranslations:send": "npm run translations:sort",
     "posttranslations:update": "npm run translations:sort",
     "posttranslations:sort": "prettier --write src/**/*.json",
-    "posttest:coverage": "prettier --write ./jest.coverage.json"
+    "posttest:coverage": "prettier --write ./jest.coverage.json",
+    "PURE LIB COMMANDS": "=================================================",
+    "pure:install": "npm --prefix pure install",
+    "pure:build": "npm --prefix pure run build",
+    "pure:lint-staged": "npm --prefix pure run lint-staged"
   },
-  "pre-commit": "beforecommit",
   "build": {
     "publish": {
       "provider": "s3",
@@ -184,7 +187,6 @@
     "lint-staged": "^10.4.2",
     "mini-css-extract-plugin": "0.10.0",
     "moxios": "^0.4.0",
-    "pre-commit": "^1.2.2",
     "prettier": "^2.1.2",
     "react-hot-loader": "^4.13.0",
     "react-intl": "^5.0.2",
@@ -208,6 +210,7 @@
     "ts-node": "^9.0.0",
     "typescript": "^3.8.3",
     "url-loader": "4.1.1",
+    "husky": "^4.3.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-middleware": "3.7.2",
@@ -261,6 +264,7 @@
     "styled-normalize": "^8.0.7",
     "tcp-port-used": "^1.0.1",
     "update-electron-app": "^1.5.0",
+    "usb": "^1.6.3",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.0"
   },

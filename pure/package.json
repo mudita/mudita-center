@@ -1,21 +1,32 @@
 {
   "name": "pure",
   "version": "1.0.0",
-  "author": "RomanKubiak <roman.kubiak@mudita.com>",
-  "bugs": {
-    "url": "https://github.com/RomanKubiak/pure/issues"
+  "author": {
+    "name": "Mudita",
+    "email": "hello@mudita.com"
   },
-  "homepage": "https://github.com/RomanKubiak/pure",
-  "keywords": [],
   "license": "ISC",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/RomanKubiak/pure.git"
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint 'src/**/*.ts'",
+    "lint-staged": "lint-staged"
+  },
+  "devDependencies": {
+    "@serialport/binding-mock": "^9.0.2",
+    "@types/jest": "^26.0.15",
+    "husky": "^4.3.0",
+    "jest": "^26.6.3",
+    "lint-staged": "^10.5.1",
+    "prettier": "^2.1.2",
+    "ts-jest": "^26.4.3",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5"
   },
   "dependencies": {
-    "serialport": "^9.0.0",
-    "debug": "^4.0",
-    "crc-32": "^1.0"
+    "@types/usb": "^1.5.2",
+    "serialport": "^9.0.2",
+    "usb": "^1.6.3"
   }
 }
