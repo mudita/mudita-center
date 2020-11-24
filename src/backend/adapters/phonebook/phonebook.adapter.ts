@@ -34,7 +34,6 @@ class Phonebook extends PhonebookAdapter {
   public async addContact(
     contact: NewContact
   ): Promise<DeviceResponse<Contact>> {
-
     const {
       status,
       // @ts-ignore in data should be return id
@@ -84,7 +83,6 @@ class Phonebook extends PhonebookAdapter {
     })
 
     if (status === DeviceResponseStatus.Ok) {
-
       return {
         status,
         data: data.map(mapToContact),
@@ -109,33 +107,35 @@ const createPhonebook = (deviceService: DeviceService): Phonebook =>
 export default createPhonebook
 
 const mapToContact = (pureContact: PureContact): Contact => {
-    const {
-      id,
-      blocked,
-      favourite,
-      address = "",
-      altName,
-      priName,
-      numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
-    } = pureContact
+  const {
+    id,
+    blocked,
+    favourite,
+    address = "",
+    altName,
+    priName,
+    numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
+  } = pureContact
 
-    const firstAddressLine = address.substr(0, address.indexOf("\n"))
-    const secondAddressLine = address.substr(address.indexOf("\n") + 1)
+  const firstAddressLine = address.substr(0, address.indexOf("\n"))
+  const secondAddressLine = address.substr(address.indexOf("\n") + 1)
 
-    return {
-      blocked,
-      favourite,
-      primaryPhoneNumber,
-      secondaryPhoneNumber,
-      firstAddressLine,
-      secondAddressLine,
-      id: String(id),
-      firstName: priName,
-      lastName: altName,
-      ice: false,
-      note: "",
-      email: "",
-    }
+  return {
+    blocked,
+    favourite,
+    primaryPhoneNumber,
+    secondaryPhoneNumber,
+    firstAddressLine,
+    secondAddressLine,
+    id: String(id),
+    firstName: priName,
+    lastName: altName,
+    // TODO: map missing fields in separate issue https://appnroll.atlassian.net/browse/PDA-571 (after EGD implementation)
+    // speedDial: undefined,
+    ice: false,
+    note: "",
+    email: "",
+  }
 }
 
 const mapToPureContact = (contact: NewContact): PureContact => {
