@@ -3,7 +3,7 @@ export enum DeviceResponseStatus {
   Error = "error",
 }
 
-export interface ErrorResponse{
+export interface ErrorResponse {
   message: string
 }
 
