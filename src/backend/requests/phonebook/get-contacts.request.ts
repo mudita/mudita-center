@@ -6,7 +6,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const handleGetContactsRequest = ({
   phonebook,
-}: Adapters): DeviceResponse<Contact[]> => phonebook.getContacts()
+}: Adapters): Promise<DeviceResponse<Contact[]>> => phonebook.getContacts()
 
 const registerGetContactsRequest = createEndpoint({
   name: IpcRequest.GetContacts,

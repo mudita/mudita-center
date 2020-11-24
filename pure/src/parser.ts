@@ -10,7 +10,6 @@ enum ParserState {
   ReadingSize = 1,
   ReadingPayload = 2,
 }
-
 /* eslint-disable */
 
 export const createValidRequest = (payload: unknown): string => {
@@ -23,25 +22,34 @@ export const createValidRequest = (payload: unknown): string => {
   return requestStr
 }
 
+const currentPacket = {
+  type: PacketType.Invalid,
+  dataRaw: Buffer.alloc(0),
+  dataSizeToRead: Number(-1),
+  dataSizeAlreadyRead: Number(-1),
+  dataSizeRead: Number(-1),
+  dataObject: null,
+  needMoreData: Boolean(false),
+}
+
 export const parseData = async (data: any): Promise<any> => {
   return new Promise((resolve) => {
     let parserState = ParserState.None
-    const currentPacket = {
-      type: PacketType.Invalid,
-      dataRaw: null,
-      dataSizeToRead: Number(-1),
-      dataSizeRead: Number(-1),
-      dataObject: null,
-    }
     // debug('got data on serial state: %d data: "%s"', parserState, data)
-
     const readType = (arg: any): void => {
-      // debug("readType() arg[0] = %s", arg[0])
+      // debug("readType() arg[0] = %s", arg[0]);
+
       if (arg[0] == PacketType.Endpoint || arg[0] == PacketType.RawData) {
+        parserState = ParserState.ReadingSize
+        currentPacket.dataSizeAlreadyRead = 0
+        currentPacket.dataSizeToRead = 0
+        currentPacket.dataRaw = Buffer.alloc(0)
+      } else if (currentPacket.needMoreData == true) {
+        // debug ("readType: this is buffered raw data from serialport, read it")
+        parserState = ParserState.ReadingPayload
       } else {
         throw new Error("Invalid or unknown data type")
       }
-      parserState = ParserState.ReadingSize
     }
 
     const readSize = (arg: any): void => {
@@ -60,37 +68,81 @@ export const parseData = async (data: any): Promise<any> => {
 
     const readPayload = (arg: any): void => {
       // debug("readPayload arg:%s", arg)
+      let slicedPayload = 0
 
       // slice all data until the end of stream
-      const slicedPayload = arg.slice(10, 10 + currentPacket.dataSizeToRead)
+      if (currentPacket.needMoreData != true)
+        slicedPayload = arg.slice(10, 10 + currentPacket.dataSizeToRead)
+      else slicedPayload = arg
 
-      // debug(
-      //   'readPayload payload: "%s" payloadLength',
-      //   slicedPayload,
-      //   slicedPayload.length
-      // )
+      // debug("readPayload payloadLength %d parserState: %d dataSizeToRead: %d dataSizeAlreadyRead: %d",
+      //   slicedPayload.length,
+      //   parserState,
+      //   currentPacket.dataSizeToRead,
+      //   currentPacket.dataSizeAlreadyRead);
 
-      if (slicedPayload.length == currentPacket.dataSizeToRead) {
+      /* if the parser state was needMoreData it means we git split data on serial port
+         in case all the data is there (the data passed as arg + data already stored) parse it
+         and pass it further. Otherwise collect more data from serial port until we have it all.
+       */
+      if (
+        (!currentPacket.needMoreData &&
+          // @ts-ignore
+          slicedPayload.length == currentPacket.dataSizeToRead) ||
+        (currentPacket.needMoreData &&
+          // @ts-ignore
+          slicedPayload.length + currentPacket.dataSizeAlreadyRead ==
+            currentPacket.dataSizeToRead)
+      ) {
         // ideal situation all data is in
         parserState = ParserState.None
-        // debug("readPayload got all data in one read")
         try {
-          currentPacket.dataObject = JSON.parse(slicedPayload)
+          if (currentPacket.needMoreData == true) {
+            currentPacket.dataRaw = Buffer.concat([
+              currentPacket.dataRaw,
+              // @ts-ignore
+              slicedPayload,
+            ])
+            // @ts-ignore
+            currentPacket.dataObject = JSON.parse(currentPacket.dataRaw)
+          } else {
+            // @ts-ignore
+            currentPacket.dataObject = JSON.parse(slicedPayload)
+          }
         } catch (syntaxError) {
           // debug("can't parse payload data as JSON, %s", syntaxError)
         }
 
         // debug("payload is a JSON object pass it to our application")
-        resolve(JSON.parse(slicedPayload))
-      } else if (slicedPayload.length < currentPacket.dataSizeToRead) {
-        // debug("readPayload need to read more data from stream")
-        currentPacket.dataRaw += slicedPayload
+        currentPacket.needMoreData = false
+        resolve(currentPacket.dataObject)
+      } else if (
+        // @ts-ignore
+        slicedPayload.length + currentPacket.dataSizeAlreadyRead <
+        currentPacket.dataSizeToRead
+      ) {
+        // debug("readPayload need to read more data from stream got %d need %d more",
+        //   slicedPayload.length,
+        //   currentPacket.dataSizeToRead - slicedPayload.length);
+
+        currentPacket.needMoreData = true
+        currentPacket.dataRaw = Buffer.concat([
+          currentPacket.dataRaw,
+          // @ts-ignore
+          slicedPayload,
+        ])
+
+        // @ts-ignore
+        currentPacket.dataSizeAlreadyRead += slicedPayload.length
+
         parserState = ParserState.None
+        // @ts-ignore
       } else if (slicedPayload.length > currentPacket.dataSizeToRead) {
         // multiple messages in this stream, read the first one and continue
         parserState = ParserState.None
         // debug("readPayload got all data in one read, but more data in stream")
         try {
+          // @ts-ignore
           currentPacket.dataObject = JSON.parse(slicedPayload)
         } catch (syntaxError) {
           // debug("can't parse payload data as JSON, %s", syntaxError)

@@ -15,8 +15,11 @@ import {
   DownloadingUpdateModal,
   UpdateAvailable,
   UpdateNotAvailable,
-  UpdateServerError, UpdatingFailureModal, UpdatingProgressModal, UpdatingSuccessModal
-} from "Renderer/modules/overview/overview.modals";
+  UpdateServerError,
+  UpdatingFailureModal,
+  UpdatingProgressModal,
+  UpdatingSuccessModal,
+} from "Renderer/modules/overview/overview.modals"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
 import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"

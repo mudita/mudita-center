@@ -38,6 +38,7 @@ export interface ContactPanelProps {
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
   removeContact?: (id: ContactID[]) => void
   resetRows: UseTableSelect<Contact>["resetRows"]
+  manageButtonDisabled?: boolean
 }
 
 const ContactPanel: FunctionComponent<ContactPanelProps> = ({
@@ -49,6 +50,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   toggleAll = noop,
   removeContact = noop,
   resetRows,
+  manageButtonDisabled,
 }) => {
   const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     onSearchTermChange(target.value)
@@ -123,6 +125,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           labelMessage={{ id: "view.name.phone.contacts.panel.manageButton" }}
           onClick={onManageButtonClick}
           data-testid={ContactPanelTestIdsEnum.ManageButton}
+          disabled={manageButtonDisabled}
         />
         <ButtonComponent
           labelMessage={{

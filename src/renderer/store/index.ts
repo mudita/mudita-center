@@ -9,7 +9,6 @@ import { models, RootModel } from "Renderer/models/models"
 import { filesManagerSeed } from "App/seeds/filesManager"
 import { messagesSeed } from "App/seeds/messages"
 import { templatesSeed } from "App/seeds/templates"
-import { phoneSeed } from "App/seeds/phone"
 import { helpSeed } from "App/seeds/help"
 import { notesSeed } from "App/seeds/notes"
 import { calendarSeed } from "App/seeds/calendar"
@@ -25,7 +24,6 @@ if (process.env.NODE_ENV !== "test") {
       filesManager: filesManagerSeed,
       messages: messagesSeed,
       templates: templatesSeed,
-      phone: phoneSeed,
       help: helpSeed,
       notes: notesSeed,
       calendar: calendarSeed,

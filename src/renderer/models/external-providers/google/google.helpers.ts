@@ -60,8 +60,12 @@ export const mapContact = (contact: GoogleContactResourceItem): Contact => {
   }
 
   if (contact.phoneNumbers) {
-    primaryPhoneNumber = contact.phoneNumbers.find(({metadata}) => metadata.primary)?.value || contact.phoneNumbers[0].value
-    secondaryPhoneNumber = contact.phoneNumbers.find(({value}) => value !== primaryPhoneNumber)?.value || ""
+    primaryPhoneNumber =
+      contact.phoneNumbers.find(({ metadata }) => metadata.primary)?.value ||
+      contact.phoneNumbers[0].value
+    secondaryPhoneNumber =
+      contact.phoneNumbers.find(({ value }) => value !== primaryPhoneNumber)
+        ?.value || ""
   }
 
   if (contact.addresses) {

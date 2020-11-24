@@ -1,12 +1,13 @@
 import {
   GoogleAuthFailedResponse,
   GoogleAuthSuccessResponse,
-  GoogleCalendarsSuccess, GoogleContactResourceItem,
+  GoogleCalendarsSuccess,
+  GoogleContactResourceItem,
   GoogleContacts,
   GoogleEvent,
   GoogleEventsSuccess,
-  GoogleProviderState
-} from "Renderer/models/external-providers/google/google.interface";
+  GoogleProviderState,
+} from "Renderer/models/external-providers/google/google.interface"
 import { Dispatch } from "Renderer/store/external-providers"
 import { ipcRenderer } from "electron-better-ipc"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
@@ -14,9 +15,10 @@ import logger from "App/main/utils/logger"
 import { ExternalProvidersState } from "Renderer/models/external-providers/external-providers.interface"
 import moment from "moment"
 import {
-  mapCalendars, mapContact,
-  mapEvents
-} from "Renderer/models/external-providers/google/google.helpers";
+  mapCalendars,
+  mapContact,
+  mapEvents,
+} from "Renderer/models/external-providers/google/google.helpers"
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 import { noop } from "Renderer/utils/noop"
 
@@ -155,7 +157,9 @@ export const createStore = () => ({
         rootState
       )
 
-      return data.connections.map((contact: GoogleContactResourceItem) => mapContact(contact))
+      return data.connections.map((contact: GoogleContactResourceItem) =>
+        mapContact(contact)
+      )
     },
     async getEvents(calendarId: string, rootState: ExternalProvidersState) {
       logger.info("Getting Google events")

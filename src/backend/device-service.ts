@@ -146,4 +146,11 @@ class DeviceService {
   }
 }
 
+export const createDeviceService = (
+  deviceManager: PureDeviceManager,
+  ipcMain: MainProcessIpc
+) => {
+  return new DeviceService(deviceManager, ipcMain).init()
+}
+
 export default DeviceService
