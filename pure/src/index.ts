@@ -1,66 +1,7 @@
-import { EventEmitter } from "events"
-import SerialPort, { PortInfo } from "serialport"
-import UsbDetector from "./usb-detector"
-import PhonePort, { createPhonePort, CreatePhonePort } from "./phone-port"
+export * from "./device-manager"
+export * from "./device"
+export * from "./device.types"
+export * from "./endpoints"
 
-export const productId = "0100"
-export const manufacturer = "Mudita"
-
-enum PureNodeEvent {
-  AttachedPhone = "AttachedPhone",
-}
-
-export class PureNode {
-  private static isMuditaPurePhone(portInfo: PortInfo): boolean {
-    return (
-      portInfo.manufacturer === manufacturer && portInfo.productId === productId
-    )
-  }
-
-  private static async getSerialPortList(): Promise<PortInfo[]> {
-    return await SerialPort.list()
-  }
-
-  private eventEmitter = new EventEmitter()
-
-  constructor(
-    private createPhonePort: CreatePhonePort,
-    private usbDetector: UsbDetector
-  ) {
-    this.registerAttachDeviceListener()
-  }
-
-  async getPhonePorts(): Promise<PhonePort[]> {
-    const portList = await PureNode.getSerialPortList()
-
-    return portList
-      .filter(PureNode.isMuditaPurePhone)
-      .map(({ path }) => createPhonePort(path))
-  }
-
-  onAttachPhone(listener: (event: PhonePort) => void): void {
-    this.eventEmitter.on(PureNodeEvent.AttachedPhone, listener)
-  }
-
-  offAttachPhone(listener: (event: PhonePort) => void): void {
-    this.eventEmitter.off(PureNodeEvent.AttachedPhone, listener)
-  }
-
-  private registerAttachDeviceListener(): void {
-    this.usbDetector.onAttachDevice(async (portInfo) => {
-      if (portInfo.manufacturer === manufacturer) {
-        const portList = await PureNode.getSerialPortList()
-
-        const port = portList.find(
-          ({ serialNumber }) => String(serialNumber) === portInfo.serialNumber
-        )
-        if(port) {
-          const phonePort = createPhonePort(port.path)
-          this.eventEmitter.emit(PureNodeEvent.AttachedPhone, phonePort)
-        }
-      }
-    })
-  }
-}
-
-export default new PureNode(createPhonePort, new UsbDetector())
+import PureNode from "./device-manager"
+export default PureNode

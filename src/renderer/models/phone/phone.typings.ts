@@ -1,3 +1,5 @@
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+
 export type ContactID = string
 
 export interface BaseContactModel {
@@ -74,7 +76,7 @@ export interface StoreData {
   inputValue: string
   contacts: Contact[]
   savingContact: boolean
-  resultsState: ResultsState
+  resultsState?: ResultsState
 }
 
 interface StoreSelectors extends Contacts {
@@ -87,6 +89,7 @@ interface StoreEffects {
   readonly addNewContact: (contact: NewContact) => Promise<string | void>
   readonly editContact?: (id: ContactID, data: Contact) => void
   readonly deleteContacts?: (contacts: Contact[]) => void
+  readonly loadContacts: (provider: Provider) => Promise<Phone>
 }
 
 export type Store = StoreEffects & StoreData & StoreSelectors

@@ -10,8 +10,13 @@ import {
   UpdateAvailable,
   UpdateNotAvailable,
   UpdateServerError,
+  UpdatingFailureModal,
+  UpdatingProgressModal,
+  UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
-import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
+import availableOsUpdateRequest, {
+  UpdateStatusResponse,
+} from "Renderer/requests/available-os-update.request"
 import downloadOsUpdateRequest, {
   cancelOsDownload,
 } from "Renderer/requests/download-os-update.request"
@@ -25,6 +30,10 @@ import {
 import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-downloaded.request"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import delayResponse from "@appnroll/delay-response"
+import updateOs from "Renderer/requests/update-os.request"
+import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import { isEqual } from "lodash"
+import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/interfaces"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -33,7 +42,7 @@ const onOsDownloadCancel = () => {
 const useSystemUpdateFlow = (
   lastUpdate: string,
   onUpdate: (updateInfo: PhoneUpdate) => void,
-  fakeUpdatedStatus: () => void
+  updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void
 ) => {
   useEffect(() => {
     const downloadListener = (event: Event, progress: DownloadProgress) => {
@@ -59,17 +68,19 @@ const useSystemUpdateFlow = (
     }
   }, [])
 
-  const updatePure = async () => {
-    // TODO: Continue update process when Pure updates through USB become available
-    console.log("Updating Pure OS...")
-
-    // TODO: remove after implementing real phone update process
+  const updatePure = async (updateInfo: UpdateStatusResponse) => {
+    const { file, version } = updateInfo
+    const response = await updateOs(file)
     await onUpdate({
       pureOsFileName: "",
       pureOsDownloaded: false,
       pureOsAvailable: false,
     })
-    await fakeUpdatedStatus()
+    await updateBasicInfo({
+      osVersion: version,
+      osUpdateDate: new Date().toISOString(),
+    })
+    return response
   }
 
   const checkForUpdates = (retry?: boolean, silent?: boolean) => {
@@ -91,7 +102,9 @@ const useSystemUpdateFlow = (
       true
     )
     modalService.preventClosingModal()
-    return delayResponse(downloadOsUpdateRequest(file))
+    return delayResponse(
+      downloadOsUpdateRequest(file.split("/").pop() as Filename)
+    )
   }
 
   const downloadSucceeded = (onOsUpdate: () => void) => {
@@ -131,7 +144,14 @@ const useSystemUpdateFlow = (
   }
 
   const install = async () => {
-    updatePure()
+    const updatesInfo = await checkForUpdates(false, true)
+    modalService.openModal(<UpdatingProgressModal />, true)
+    const pureUpdateResponse = await updatePure(updatesInfo)
+    if (isEqual(pureUpdateResponse, { status: DeviceResponseStatus.Ok })) {
+      modalService.openModal(<UpdatingSuccessModal />, true)
+    } else {
+      modalService.openModal(<UpdatingFailureModal />, true)
+    }
   }
 
   const download = async (file: Filename) => {
@@ -151,7 +171,6 @@ const useSystemUpdateFlow = (
   const initialCheck = async () => {
     try {
       const { available, file, size } = await checkForUpdates(false, true)
-
       if (available) {
         if (await alreadyDownloadedCheck(file, size)) {
           onUpdate({ pureOsAvailable: true, pureOsDownloaded: true })

@@ -9,6 +9,7 @@ export interface CalendarProps {
   events: CalendarEvent[]
   loadCalendars: (provider: Provider) => Promise<void>
   loadEvents: (calendar: Calendar) => Promise<CalendarEvent[]>
+  clearEvents: () => void
 }
 
 export interface CalendarEventProps {

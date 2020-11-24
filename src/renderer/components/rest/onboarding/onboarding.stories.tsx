@@ -19,7 +19,7 @@ storiesOf("Components/Onboarding", module)
       <Wrapper>
         <OnboardingWelcome
           onContinue={action("Continue")}
-          setAutostartOption={action("Autostart")}
+          onAutostartChange={action("Autostart")}
         />
       </Wrapper>
     )

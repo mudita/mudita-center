@@ -30,6 +30,7 @@ export default {
         SettingsActions.GetAutostartValue
       )
       this.updateSettings({ key: "appAutostart", value })
+      return value
     },
     setAutostart(value: AppSettings["appAutostart"]) {
       ipcRenderer.callMain(SettingsActions.SetAutostart, value)

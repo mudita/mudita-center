@@ -4,10 +4,10 @@ import Adapters from "Backend/adapters/adapters.interface"
 import { Contact, NewContact } from "Renderer/models/phone/phone.typings"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const handleAddContactRequest = async (
+const handleAddContactRequest = (
   { phonebook }: Adapters,
   contact: NewContact
-): Promise<DeviceResponse<Contact>> => await phonebook.addContact(contact)
+): Promise<DeviceResponse<Contact>> => phonebook.addContact(contact)
 
 const registerAddContactRequest = createEndpoint({
   name: IpcRequest.AddContact,

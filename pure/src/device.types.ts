@@ -1,3 +1,13 @@
+export interface PureDevice {
+  connect(): Promise<Response>
+  disconnect(): Promise<Response>
+  request(config: RequestConfig): Promise<Response<any>>
+  on(eventName: DeviceEventName, listener: () => void): void
+  off(eventName: DeviceEventName, listener: () => void): void
+}
+
+export type CreateDevice = (path: string) => PureDevice
+
 export enum ResponseStatus {
   Ok = 200,
   Accepted = 202,
@@ -6,17 +16,17 @@ export enum ResponseStatus {
   InternalServerError = 500,
 
   // lib status
-  ConnectionError = 501,
+  ConnectionError = 503,
 }
 
-export interface Response<BODY = undefined> {
+export interface Response<Body = undefined> {
   status: ResponseStatus
-  body?: BODY
-  endpoint?: string
+  body?: Body
+  endpoint?: Endpoint
   uuid?: string
 }
 
-export enum PortEventName {
+export enum DeviceEventName {
   Disconnected = "disconnected",
   DataReceived = "dataReceived",
 }
@@ -35,7 +45,7 @@ export enum Endpoint {
 
   // lib endpoint
   File = 100,
-  PureUpdate = 101
+  PureUpdate = 101,
 }
 
 export enum Method {
@@ -46,7 +56,7 @@ export enum Method {
 }
 
 export enum BodyCommand {
-  Download= "download"
+  Download = "download",
 }
 
 export interface RequestConfig {
@@ -57,5 +67,9 @@ export interface RequestConfig {
 }
 
 export enum FileResponseStatus {
-  Ok = '0',
+  Ok = "1",
+}
+
+export enum UpdateResponseStatus {
+  Ok = "Ready for reset",
 }

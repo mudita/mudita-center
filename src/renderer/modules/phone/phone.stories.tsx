@@ -7,7 +7,11 @@ import Phone, {
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
 import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import {
+  Contact,
+  ContactID,
+  ResultsState,
+} from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
   defaultContact,
 } from "Renderer/components/rest/phone/contact-edit.component"
@@ -18,15 +22,14 @@ import {
 } from "Renderer/components/core/modal/modal.styled.elements"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
 import { intl, textFormatters } from "Renderer/utils/intl"
-import { phoneSeed } from "App/seeds/phone"
+import { phoneSeed, phoneSeedInput } from "App/seeds/phone"
 import {
   createFullName,
   getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
 } from "Renderer/models/phone/phone.helpers"
-import { ContactID, ResultsState } from "Renderer/models/phone/phone.typings"
-import { noop } from "Renderer/utils/noop"
+import { asyncNoop, noop } from "Renderer/utils/noop"
 
 const dummyPromise = (result: any) => () => result
 const getContact = (id: ContactID) => phoneSeed.db[id]
@@ -42,7 +45,7 @@ const PhoneWrapper = styled.div`
 `
 
 const PhoneComponent = ({
-  resultsState,
+  resultsState = ResultsState.Empty,
   contactList = labeledContactList,
 }: Partial<Pick<PhoneProps, "resultsState" | "contactList">>) => (
   <Phone
@@ -67,8 +70,13 @@ const PhoneComponent = ({
     resetRows={action("Reset rows")}
     setProviderData={noop}
     isTopicThreadOpened={isTopicThreadOpened}
-    loadData={dummyPromise(action("load data"))}
-    addNewContact={dummyPromise(action("add new contact"))}
+    loadData={asyncNoop}
+    addNewContact={asyncNoop}
+    contacts={phoneSeedInput}
+    loadContacts={asyncNoop}
+    inputValue={""}
+    savingContact={false}
+    speedDialContacts={[]}
   />
 )
 

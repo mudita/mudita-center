@@ -16,6 +16,9 @@ import {
   UpdateAvailable,
   UpdateNotAvailable,
   UpdateServerError,
+  UpdatingFailureModal,
+  UpdatingProgressModal,
+  UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
@@ -35,11 +38,11 @@ const fakeState = {
   },
   simCards: [],
   networkName: "Orange",
-  osUpdateDate: 1459832991883,
+  osUpdateDate: "2020-01-14T11:31:08.244Z",
   language: "en-US",
 }
 
-storiesOf("Views|Overview", module).add("Overview", () => (
+storiesOf("Views/Overview", module).add("Overview", () => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Router history={history}>
       <OverviewUI
@@ -75,7 +78,7 @@ const ModalStory: FunctionComponent = ({ children }) => (
   </div>
 )
 
-storiesOf("Views|Overview/Modals", module)
+storiesOf("Views/Overview/Modals", module)
   .add("Checking for updates", () => (
     <ModalStory>
       <CheckingUpdatesModal />
@@ -130,5 +133,20 @@ storiesOf("Views|Overview/Modals", module)
   .add("Downloading interrupted", () => (
     <ModalStory>
       <DownloadingUpdateInterruptedModal />
+    </ModalStory>
+  ))
+  .add("Updating progress", () => (
+    <ModalStory>
+      <UpdatingProgressModal />
+    </ModalStory>
+  ))
+  .add("Updating success", () => (
+    <ModalStory>
+      <UpdatingSuccessModal />
+    </ModalStory>
+  ))
+  .add("Updating failure", () => (
+    <ModalStory>
+      <UpdatingFailureModal />
     </ModalStory>
   ))

@@ -4,6 +4,7 @@ import Overview from "Renderer/modules/overview/overview.component"
 import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
+import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/interfaces"
 
 const selection = select((models: any) => ({
   networkName: models.basicInfo.activeSimNetworkName,
@@ -28,11 +29,8 @@ const mapDispatchToProps = (dispatch: any) => ({
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
     dispatch.phoneUpdate.update(updateInfo),
   // TODO: remove after implementing real phone update process
-  fakeUpdatedStatus: () => {
-    dispatch.basicInfo.update({
-      osUpdateDate: new Date().toISOString(),
-      osVersion: "3.1.1",
-    })
+  updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => {
+    dispatch.basicInfo.update(updateInfo)
   },
 })
 
