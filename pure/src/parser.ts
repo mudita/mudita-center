@@ -87,10 +87,10 @@ export const parseData = async (data: any): Promise<any> => {
        */
       if (
         (!currentPacket.needMoreData &&
-        // @ts-ignore
+          // @ts-ignore
           slicedPayload.length == currentPacket.dataSizeToRead) ||
         (currentPacket.needMoreData &&
-        // @ts-ignore
+          // @ts-ignore
           slicedPayload.length + currentPacket.dataSizeAlreadyRead ==
             currentPacket.dataSizeToRead)
       ) {
