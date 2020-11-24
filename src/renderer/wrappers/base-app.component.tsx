@@ -24,7 +24,12 @@ interface Props {
   disconnectedDevice: boolean
 }
 
-const BaseApp: FunctionComponent<Props> = ({ disconnectedDevice, toggleDisconnectedDevice, store, history }) => {
+const BaseApp: FunctionComponent<Props> = ({
+  disconnectedDevice,
+  toggleDisconnectedDevice,
+  store,
+  history,
+}) => {
   const [pureNeverConnected, setPureNeverConnected] = useState(false)
   useEffect(() => {
     const listener = () => {
@@ -58,11 +63,10 @@ const BaseApp: FunctionComponent<Props> = ({ disconnectedDevice, toggleDisconnec
   }, [])
 
   useEffect(() => {
-    if(disconnectedDevice && pureNeverConnected){
+    if (disconnectedDevice && pureNeverConnected) {
       history.push(URL_ONBOARDING.root)
     }
   }, [pureNeverConnected])
-
 
   return (
     <Provider store={store}>
