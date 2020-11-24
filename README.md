@@ -40,7 +40,7 @@ Pull requests are welcome. Please follow the guidelines in the ["Contributing to
 
 ### Discussions
 
-For general questions and ideas regarding Mudita Center please post in the [“???” section on Mudita Forum](???). Please explore all existing posts to make sure you’re not posting about an issue that has already been discussed.
+For general questions and ideas regarding Mudita Center please post in the [“Mudita Products” section on Mudita Forum](https://forum.mudita.com/c/mudita-products/). Please explore all existing posts to make sure you’re not posting about an issue that has already been discussed.
 
 ### Reporting bugs and feature requests
 
@@ -55,4 +55,4 @@ When contributing code or documentation changes please follow the guidelines ins
 The [Mudita Center changelog](./changelog.md) is regularly updated by the core development team.
 
 ## License
-Mudita Center is licensed on [???](https://choosealicense.com/licenses/???/)
+Mudita Center is licensed on [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/).
