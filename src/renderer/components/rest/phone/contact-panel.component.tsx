@@ -50,7 +50,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   toggleAll = noop,
   deleteContact = noop,
   resetRows,
-  manageButtonDisabled = false,
+  manageButtonDisabled,
 }) => {
   const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     onSearchTermChange(target.value)

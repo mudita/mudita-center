@@ -3,12 +3,12 @@ export enum DeviceResponseStatus {
   Error = "error",
 }
 
-export interface ErrorResponse {
+interface DeviceResponseError {
   message: string
 }
 
-export default interface DeviceResponse<T = Record<string, string>> {
+export default interface DeviceResponse<DataType = Record<string, string>> {
   status: DeviceResponseStatus
-  data?: T
-  error?: ErrorResponse
+  data?: DataType
+  error?: DeviceResponseError
 }
