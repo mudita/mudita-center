@@ -6,7 +6,8 @@ import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { URL_MAIN } from "Renderer/constants/urls"
 import createRouterPath from "Renderer/utils/create-router-path"
-import { ErrorsState } from "Renderer/models/phone/phone.typings"
+import { ErrorsState, NewContact } from "Renderer/models/phone/phone.typings"
+import addContact from "Renderer/requests/add-contact.request"
 
 const selector = select(({ phone, messages }) => ({
   contactList: phone.contactList,
@@ -40,7 +41,13 @@ const mapDispatch = ({ phone, auth }: any) => {
       history.push(createRouterPath(URL_MAIN.messages, { phoneNumber })),
     onSpeedDialSettingsSave: noop,
     loadData: phone.loadData,
-    addNewContact: phone.addNewContact,
+    addNewContact: async (contact: NewContact): Promise<string | void> => {
+      const { data, error } = await addContact(contact)
+      if (error || !data) return error?.message ?? "Something went wrong"
+      else {
+        phone.addContact(data)
+      }
+    },
     errorRead: () => {
       phone.setErrorsState(ErrorsState.None)
     },

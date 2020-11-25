@@ -70,7 +70,9 @@ export type PhoneProps = ContactActions &
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
-  } & Store & { errorRead: () => void }
+    errorRead: () => void
+    addNewContact: (contact: NewContact) => Promise<string | void>
+  } & Store
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
   const {
@@ -142,7 +144,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   useEffect(() => {
     if (errorsState === ErrorsState.Error) {
       modalService.openModal(
-        <ErrorWithRetryDataModal onClose={errorRead} onRetry={async () => await loadData()} />,
+        <ErrorWithRetryDataModal
+          onClose={errorRead}
+          onRetry={async () => await loadData()}
+        />,
         true
       )
     } else if (errorsState === ErrorsState.RetryError) {

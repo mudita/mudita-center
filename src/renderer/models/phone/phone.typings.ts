@@ -95,7 +95,6 @@ interface StoreSelectors extends Contacts {
 
 interface StoreEffects {
   readonly loadData: () => Promise<void>
-  readonly addNewContact: (contact: NewContact) => Promise<string | void>
   readonly editContact?: (id: ContactID, data: Contact) => void
   readonly deleteContacts?: (contacts: Contact[]) => void
   readonly loadContacts: (provider: Provider) => Promise<Phone>

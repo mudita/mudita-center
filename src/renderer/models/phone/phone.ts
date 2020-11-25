@@ -5,7 +5,6 @@ import {
   Contact,
   ContactID,
   ErrorsState,
-  NewContact,
   Phone,
   PhoneState,
   ResultsState,
@@ -26,7 +25,6 @@ import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-m
 import externalProvidersStore from "Renderer/store/external-providers"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import getContacts from "Renderer/requests/get-contacts.request"
-import addContact from "Renderer/requests/add-contact.request"
 
 export const initialState: PhoneState = {
   db: {},
@@ -151,13 +149,6 @@ export default {
         case Provider.Google:
           contacts = await externalProvidersStore.dispatch.google.getContacts()
           dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
-      }
-    },
-    addNewContact: async (contact: NewContact): Promise<string | void> => {
-      const { data, error } = await addContact(contact)
-      if (error || !data) return error?.message ?? "Something went wrong"
-      else {
-        dispatch.phone.addContact(data)
       }
     },
     async editContact() {
