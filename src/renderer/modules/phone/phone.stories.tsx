@@ -77,7 +77,7 @@ const PhoneComponent = ({
     inputValue={""}
     savingContact={false}
     speedDialContacts={[]}
-    deleteContact={asyncNoop}
+    deleteContacts={asyncNoop}
   />
 )
 

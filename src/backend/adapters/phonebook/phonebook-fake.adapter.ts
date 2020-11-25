@@ -43,12 +43,12 @@ class PhonebookFake extends PhonebookAdapter {
     }
   }
 
-  public deleteContact(
-    contactId: ContactID
-  ): Promise<DeviceResponse<ContactID>> {
+  public deleteContacts(
+    contactIds: ContactID[]
+  ): Promise<DeviceResponse<ContactID[]>> {
     return Promise.resolve({
       status: DeviceResponseStatus.Ok,
-      data: contactId,
+      data: contactIds,
     })
   }
 }

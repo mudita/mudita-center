@@ -10,7 +10,7 @@ export enum IpcRequest {
   GetContacts = "get-contacts",
   AddContact = "add-contact",
   EditContact = "edit-contact",
-  DeleteContact = "delete-contact",
+  DeleteContacts = "delete-contacts",
   UpdateAppSettings = "update-app-settings",
   GetAppSettings = "get-app-settings",
   ResetAppSettings = "reset-app-settings",

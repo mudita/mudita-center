@@ -10,7 +10,7 @@ const defaultProps = {
   onManageButtonClick: jest.fn(),
   onNewButtonClick: jest.fn(),
   resetRows: jest.fn(),
-  deleteContact: jest.fn(),
+  deleteContacts: jest.fn(),
   selectedContacts: [],
 }
 

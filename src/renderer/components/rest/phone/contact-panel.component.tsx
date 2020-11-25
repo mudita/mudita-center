@@ -42,7 +42,7 @@ export interface ContactPanelProps {
   selectedContacts: Contact[]
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
-  deleteContact: (id: ContactID) => Promise<string | void>
+  deleteContacts: (id: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
   manageButtonDisabled?: boolean
 }
@@ -54,7 +54,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   selectedContacts,
   allItemsSelected,
   toggleAll = noop,
-  deleteContact,
+  deleteContacts,
   resetRows,
   manageButtonDisabled,
 }) => {
@@ -69,14 +69,13 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
       selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
     const onDelete = async () => {
       modalService.openModal(
-        <LoadingStateDataModal textMessage={deleteModalMessages.deletingText} />,
+        <LoadingStateDataModal
+          textMessage={deleteModalMessages.deletingText}
+        />,
         true
       )
-      const results = selectedContactsIds.map(async (id) => {
-        const error = await delayResponse(deleteContact(id))
-        return Boolean(error)
-      })
-      if ((await Promise.all(results)).some(Boolean)) {
+      const error = await delayResponse(deleteContacts(selectedContactsIds))
+      if (error) {
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         modalService.closeModal()

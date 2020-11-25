@@ -62,21 +62,31 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  public async deleteContact(
-    contactId: ContactID
-  ): Promise<DeviceResponse<ContactID>> {
-    const { status } = await this.deviceService.request({
-      endpoint: Endpoint.Contacts,
-      method: Method.Delete,
-      body: { id: Number(contactId) },
+  public async deleteContacts(
+    contactIds: ContactID[]
+  ): Promise<DeviceResponse<ContactID[]>> {
+    const results = contactIds.map(async (id) => {
+      const { status } = await this.deviceService.request({
+        endpoint: Endpoint.Contacts,
+        method: Method.Delete,
+        body: { id: Number(id) },
+      })
+      return status
     })
-    if (status === DeviceResponseStatus.Ok) {
+    if (
+      (await Promise.all(results)).some(
+        (status) => status === DeviceResponseStatus.Error
+      )
+    ) {
       return {
-        status,
-        data: contactId,
+        status: DeviceResponseStatus.Error,
+        error: { message: "something goes wrong" },
       }
     } else {
-      return { status, error: { message: "something goes wrong" } }
+      return {
+        status: DeviceResponseStatus.Ok,
+        data: contactIds,
+      }
     }
   }
 

@@ -77,7 +77,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     editContact,
     getContact,
     loadData,
-    deleteContact,
+    deleteContacts,
     loadContacts,
     contactList = [],
     flatList,
@@ -268,7 +268,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       )
 
       // await can be restored if we will process the result directly in here, not globally
-        const error = await delayResponse(deleteContact(contact.id))
+        const error = await delayResponse(deleteContacts([contact.id]))
         if (error) {
           modalService.openModal(<ErrorDataModal />, true)
         } else {
@@ -402,7 +402,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           selectedContacts={selectedRows}
           allItemsSelected={allRowsSelected}
           toggleAll={toggleAll}
-          deleteContact={deleteContact}
+          deleteContacts={deleteContacts}
           resetRows={resetRows}
           manageButtonDisabled={resultsState === ResultsState.Loading}
         />

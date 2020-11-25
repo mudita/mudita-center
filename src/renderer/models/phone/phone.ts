@@ -22,7 +22,7 @@ import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-m
 import externalProvidersStore from "Renderer/store/external-providers"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import getContacts from "Renderer/requests/get-contacts.request"
-import deleteContact from "Renderer/requests/delete-contact.request"
+import deleteContacts from "Renderer/requests/delete-contacts.request"
 import logger from "App/main/utils/logger"
 import addContact from "Renderer/requests/add-contact.request"
 
@@ -137,8 +137,8 @@ export default {
     async editContact() {
       await simulateWriteToPhone()
     },
-    async deleteContact(input: ContactID): Promise<string | void> {
-      const { data = "", error } = await deleteContact(input)
+    async deleteContacts(input: ContactID[]): Promise<string | void> {
+      const { data = "", error } = await deleteContacts(input)
       if (error) {
         logger.error(error)
       } else {

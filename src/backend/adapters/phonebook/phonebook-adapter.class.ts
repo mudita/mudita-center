@@ -9,7 +9,7 @@ export default abstract class PhonebookAdapter {
   public abstract getContacts(): Promise<DeviceResponse<Contact[]>>
   public abstract addContact(contact: NewContact): Promise<DeviceResponse<Contact>>
   public abstract editContact(contact: Contact): DeviceResponse<Contact>
-  public abstract deleteContact(
-    contactId: ContactID
-  ): Promise<DeviceResponse<ContactID>>
+  public abstract deleteContacts(
+    contactIds: ContactID[]
+  ): Promise<DeviceResponse<ContactID[]>>
 }

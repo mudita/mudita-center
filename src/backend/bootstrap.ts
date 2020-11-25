@@ -12,7 +12,7 @@ import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storag
 import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.request"
 import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"
 import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.request"
-import registerDeleteContactRequest from "Backend/requests/phonebook/delete-contact.request"
+import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
 import registerBackupsInfoRequest from "Backend/requests/backups/get-backups-info.request"
 import registerAppSettingsRequest from "Backend/requests/app-settings/get-app-settings.request"
 import registerAppSettingsUpdateRequest from "Backend/requests/app-settings/update-app-settings.request"
@@ -50,7 +50,7 @@ const bootstrap = (
     registerGetContactsRequest,
     registerAddContactRequest,
     registerEditContactRequest,
-    registerDeleteContactRequest,
+    registerDeleteContactsRequest,
     registerBackupsInfoRequest,
     registerAppSettingsRequest,
     registerAppSettingsUpdateRequest,

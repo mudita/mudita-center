@@ -1,8 +1,8 @@
 import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import registerDeleteContactRequest from "Backend/requests/phonebook/delete-contact.request"
+import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
 import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
-import MockPureNodeService, { pureContactId } from "Backend/mock-device-service";
+import MockPureNodeService from "Backend/mock-device-service";
 import PureDeviceManager from "pure"
 import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface";
@@ -16,9 +16,10 @@ const adapters = ({
 } as unknown) as Adapters
 
 test("return response from correctly deleted contact", async () => {
-  registerDeleteContactRequest(adapters)
-  const [result] = await (ipcMain as any)._flush(IpcRequest.DeleteContact, pureContactId)
+  registerDeleteContactsRequest(adapters)
+  const contactIds = ["1", "2", "4"]
+  const [result] = await (ipcMain as any)._flush(IpcRequest.DeleteContacts, contactIds)
   const response = await result
-  expect(response.data).toEqual(pureContactId)
+  expect(response.data).toEqual(contactIds)
   expect(response.status).toEqual(DeviceResponseStatus.Ok)
 })
