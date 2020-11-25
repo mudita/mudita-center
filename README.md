@@ -2,7 +2,7 @@
 
 [![Follow Twitter](https://img.shields.io/twitter/follow/wearemudita?label=Follow%20on%20Twitter&style=social)](https://twitter.com/wearemudita)
 
-Mudita Center is written in Node.js and distributed as an Electron app. 
+Mudita Center is written in JavaScript and distributed as an Electron app. 
 
 Mudita Center allows you to expand and update the features of Mudita Pure, while using your computer. Update [MuditaOS](https://github.com/mudita/MuditaOS/), synchronise calendar and contacts, upload audio, use Pure as a mobile hotspot. One application for every platform, open-sourced for transparency.
 
