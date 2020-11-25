@@ -12,7 +12,13 @@ import {
   editContact,
   findContact,
 } from "Renderer/models/phone/phone.helpers"
-import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
+import {
+  Contact,
+  ContactID,
+  ErrorsState,
+  PhoneState,
+  ResultsState,
+} from "Renderer/models/phone/phone.typings"
 import phone from "Renderer/models/phone/phone"
 
 const TEST_CONTACT = { ...phoneSeed.db[phoneSeed.collection[0]] }
@@ -36,11 +42,13 @@ const TEST_CONTACT_TO_CLEAN = {
 }
 const TEST_PHONE_NUMBER = "+82 707 439 683"
 const TEST_EXPECTED_PHONE_NUMBER = "+82707439683"
-const OLD_DB_SHAPE = {
+const OLD_DB_SHAPE: PhoneState = {
   db: {
     [TEST_CONTACT_TO_CLEAN.id]: TEST_CONTACT_TO_CLEAN,
   },
   collection: [TEST_CONTACT_TO_CLEAN.id],
+  resultsState: ResultsState.Empty,
+  errorsState: ErrorsState.None,
 }
 
 describe("typeGuard tests", () => {
@@ -131,7 +139,15 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
   })
 
   test("should add contacts in batch", () => {
-    const result = addContacts({ db: {}, collection: [] }, TEST_CONTACTS_BATCH)
+    const result = addContacts(
+      {
+        db: {},
+        collection: [],
+        resultsState: ResultsState.Empty,
+        errorsState: ErrorsState.None,
+      },
+      TEST_CONTACTS_BATCH
+    )
 
     expect(result.collection).toHaveLength(TEST_CONTACTS_BATCH.length)
   })
