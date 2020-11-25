@@ -14,7 +14,7 @@ import {
 
 storiesOf("Views|Messages", module).add("Messages", () => (
   <div style={{ maxWidth: "97.5rem" }}>
-    <Messages list={rowsMessages} searchValue={""} />
+    <Messages language={"en"} list={rowsMessages} searchValue={""} />
   </div>
 ))
 
