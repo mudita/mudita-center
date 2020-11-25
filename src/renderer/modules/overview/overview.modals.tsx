@@ -8,7 +8,6 @@ import Text, {
 import React from "react"
 import styled from "styled-components"
 import { noop } from "Renderer/utils/noop"
-import Loader from "Renderer/components/core/loader/loader.component"
 import {
   backgroundColor,
   transitionTime,
@@ -21,11 +20,11 @@ import { convertBytes } from "Renderer/utils/convert-bytes"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
 import {
   ErrorDataModal,
   ErrorWithRetryDataModal,
+  LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 
 const ModalContent = styled.div`
@@ -181,19 +180,10 @@ const OSUpdateModal: FunctionComponent<Partial<ModalProps>> = ({
 )
 
 export const CheckingUpdatesModal = () => (
-  <OSUpdateModal
-    closeButtonLabel={intl.formatMessage(
-      messages.checkingForUpdatesCloseButton
-    )}
-  >
-    <RoundIconWrapper>
-      <Loader type={LoaderType.Spinner} />
-    </RoundIconWrapper>
-    <Text
-      displayStyle={TextDisplayStyle.LargeBoldText}
-      message={messages.checkingForUpdatesMessage}
-    />
-  </OSUpdateModal>
+  <LoadingStateDataModal
+    title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+    textMessage={messages.checkingForUpdatesMessage}
+  />
 )
 
 export const UpdateAvailable = ({

@@ -15,6 +15,8 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { noop } from "Renderer/utils/noop"
+import Loader from "Renderer/components/core/loader/loader.component"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 
 const ModalContent = styled.div`
   display: flex;
@@ -90,5 +92,25 @@ export const ErrorWithRetryDataModal = ({
       displayStyle={TextDisplayStyle.MediumFadedText}
       message={descriptionMessage}
     />
+  </ErrorModal>
+)
+
+export const LoadingStateDataModal = ({
+  title = intl.formatMessage(messages.loadingTitle),
+  textMessage,
+}: {
+  title?: string
+  textMessage?: Message
+}) => (
+  <ErrorModal closeButton={false} title={title}>
+    <RoundIconWrapper>
+      <Loader type={LoaderType.Spinner} />
+    </RoundIconWrapper>
+    {textMessage && (
+      <Text
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={textMessage}
+      />
+    )}
   </ErrorModal>
 )

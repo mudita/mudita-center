@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions"
 import Story from "Renderer/components/storybook/story.component"
 import {
   ErrorDataModal,
-  ErrorWithRetryDataModal,
+  ErrorWithRetryDataModal, LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 
 storiesOf("Components|Rest/Data Modal", module)
@@ -20,6 +20,13 @@ storiesOf("Components|Rest/Data Modal", module)
     <Story transparentMode>
       <StoryModalWrapper>
         <ErrorWithRetryDataModal onRetry={action("Retry")} />
+      </StoryModalWrapper>
+    </Story>
+  ))
+  .add("Loading State Data Modal", () => (
+    <Story transparentMode>
+      <StoryModalWrapper>
+        <LoadingStateDataModal />
       </StoryModalWrapper>
     </Story>
   ))

@@ -48,11 +48,13 @@ import delayResponse from "@appnroll/delay-response"
 import {
   ErrorDataModal,
   ErrorWithRetryDataModal,
+  LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 
-export const deleteModalMessages = defineMessages({
-  title: { id: "view.name.phone.contacts.modal.delete.title" },
-  text: { id: "view.name.phone.contacts.modal.delete.text" },
+export const messages = defineMessages({
+  deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
+  deleteText: { id: "view.name.phone.contacts.modal.delete.text" },
+  addingText: { id: "view.name.phone.contacts.modal.adding.text" },
 })
 
 export type PhoneProps = ContactActions &
@@ -71,7 +73,7 @@ export type PhoneProps = ContactActions &
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
   const {
-    addContact,
+    addNewContact,
     editContact,
     getContact,
     loadData,
@@ -211,11 +213,29 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     setNewContact(undefined)
   }
 
-  const saveNewContact = (contact: Contact) => {
-    if (addContact) {
-      addContact(contact)
+  const saveNewContact = async (contact: NewContact) => {
+    const add = async (retried?: boolean) => {
+      modalService.openModal(
+        <LoadingStateDataModal textMessage={messages.addingText} />,
+        true
+      )
+
+      const error = await addNewContact(contact)
+
+      if (error && !retried) {
+        modalService.openModal(
+          <ErrorWithRetryDataModal onRetry={() => add(true)} />,
+          true
+        )
+      } else if (error) {
+        modalService.openModal(<ErrorDataModal />, true)
+      } else {
+        cancelOrCloseContactHandler()
+        await modalService.closeModal()
+      }
     }
-    cancelOrCloseContactHandler()
+
+    await add()
   }
 
   const handleEditingContact = (contact: Contact) => {
@@ -246,10 +266,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         <DeleteModal
           deleting
           title={intl.formatMessage({
-            ...deleteModalMessages.title,
+            ...messages.deleteTitle,
           })}
           message={{
-            ...deleteModalMessages.text,
+            ...messages.deleteText,
             values: { name: createFullName(contact), ...textFormatters },
           }}
         />
@@ -267,10 +287,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       <DeleteModal
         onDelete={handleDelete}
         title={intl.formatMessage({
-          ...deleteModalMessages.title,
+          ...messages.deleteTitle,
         })}
         message={{
-          ...deleteModalMessages.text,
+          ...messages.deleteText,
           values: { name: createFullName(contact), ...textFormatters },
         }}
       />
