@@ -44,7 +44,7 @@ For general questions and ideas regarding Mudita Center please post in the [“M
 
 ### Reporting bugs and feature requests
 
-You can report bugs and feature requests on [GitHub](https://github.com/#/issues). This is also a good place to discuss architecture decisions and things that aren’t yet covered by the documentation. Please refer to the ["Contributing to Mudita Center"](./CONTRIBUTING.md) article for more details.
+You can report bugs and feature requests on [GitHub](https://github.com/Mudita/mudita-center/issues). This is also a good place to discuss architecture decisions and things that aren’t yet covered by the documentation. Please refer to the ["Contributing to Mudita Center"](./CONTRIBUTING.md) article for more details.
 
 ### Development workflow
 
