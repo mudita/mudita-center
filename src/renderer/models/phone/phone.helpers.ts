@@ -289,7 +289,7 @@ export const revokeField = (
   state: PhoneState,
   query: SimpleRecord,
   finder = findContact
-): Phone => {
+): PhoneState => {
   const userId = finder(state, query, true)
 
   if (userId && typeof userId === "string") {
@@ -301,8 +301,8 @@ export const revokeField = (
       db: {
         ...state.db,
         [userId]: userData,
-      },
-    } as Phone
+      } as Record<ContactID, Contact>,
+    }
   }
 
   return state

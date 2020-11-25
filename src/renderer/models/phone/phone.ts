@@ -3,12 +3,13 @@ import { Dispatch } from "Renderer/store"
 import {
   BaseContactModel,
   Contact,
-  NewContact,
   ContactID,
+  ErrorsState,
+  NewContact,
   Phone,
-  StoreData,
-  ResultsState,
   PhoneState,
+  ResultsState,
+  StoreData,
 } from "Renderer/models/phone/phone.typings"
 
 import {
@@ -31,6 +32,7 @@ export const initialState: PhoneState = {
   db: {},
   collection: [],
   resultsState: ResultsState.Empty,
+  errorsState: ErrorsState.None,
 }
 
 let writeTrials = 0
@@ -68,8 +70,21 @@ const simulateWriteToPhone = async (time = 2000) => {
 export default {
   state: initialState,
   reducers: {
-    setContacts(state: PhoneState, contacts: Contact[]): PhoneState {
-      return {...state, ...contactDatabaseFactory(contacts)}
+    setErrorsState(state: PhoneState, errorsState: ErrorsState): PhoneState {
+      if (
+        state.errorsState === ErrorsState.Error &&
+        errorsState === ErrorsState.Error
+      ) {
+        return { ...state, errorsState: ErrorsState.RetryError }
+      } else {
+        return { ...state, errorsState }
+      }
+    },
+    setResultsState(state: PhoneState, resultsState: ResultsState): PhoneState {
+      return { ...state, resultsState }
+    },
+    setContacts(state: PhoneState, phone: Phone): PhoneState {
+      return { ...state, ...phone }
     },
     addContact(state: PhoneState, contact: Contact): PhoneState {
       let currentState = state
@@ -82,7 +97,7 @@ export default {
         currentState = revokeField(state, { speedDial: contact.speedDial })
       }
 
-      return {...state, ...addContacts(currentState, contact)}
+      return { ...state, ...addContacts(currentState, contact) }
     },
     editContact(
       state: PhoneState,
@@ -95,10 +110,13 @@ export default {
         currentState = revokeField(state, { speedDial: data.speedDial })
       }
 
-      return {...state, ...editContact(currentState, contactID, data)}
+      return { ...state, ...editContact(currentState, contactID, data) }
     },
-    removeContact(state: PhoneState, input: ContactID | ContactID[]): PhoneState {
-      return {...state, ...removeContact(state, input)}
+    removeContact(
+      state: PhoneState,
+      input: ContactID | ContactID[]
+    ): PhoneState {
+      return { ...state, ...removeContact(state, input) }
     },
     updateContacts(state: PhoneState, contacts: Phone) {
       return {
@@ -113,12 +131,17 @@ export default {
    * about phone sync flow at the moment.
    */
   effects: (dispatch: Dispatch) => ({
-    loadData: async (): Promise<string | void> => {
+    async loadData() {
+      dispatch.phone.setResultsState(ResultsState.Loading)
+
       const { data = [], error } = await getContacts()
+
       if (error) {
-        return error.message
+        dispatch.phone.setResultsState(ResultsState.Loaded)
+        dispatch.phone.setErrorsState(ErrorsState.Error)
       } else {
-        dispatch.phone.setContacts(data)
+        dispatch.phone.setResultsState(ResultsState.Loaded)
+        dispatch.phone.setContacts(contactDatabaseFactory(data))
       }
     },
     async loadContacts(provider: Provider) {

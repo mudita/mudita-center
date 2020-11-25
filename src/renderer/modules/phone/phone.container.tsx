@@ -6,6 +6,7 @@ import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { URL_MAIN } from "Renderer/constants/urls"
 import createRouterPath from "Renderer/utils/create-router-path"
+import { ErrorsState } from "Renderer/models/phone/phone.typings"
 
 const selector = select(({ phone, messages }) => ({
   contactList: phone.contactList,
@@ -40,6 +41,9 @@ const mapDispatch = ({ phone, auth }: any) => {
     onSpeedDialSettingsSave: noop,
     loadData: phone.loadData,
     addNewContact: phone.addNewContact,
+    errorRead: () => {
+      phone.setErrorsState(ErrorsState.None)
+    },
   }
 }
 

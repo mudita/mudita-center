@@ -70,6 +70,10 @@ export enum ResultsState {
   Loading,
   Loaded,
   Empty,
+}
+
+export enum ErrorsState {
+  None,
   Error,
   RetryError
 }
@@ -78,10 +82,11 @@ export interface StoreData {
   inputValue: string
   contacts: Contact[]
   savingContact: boolean
-  resultsState?: ResultsState
+  resultsState: ResultsState
+  errorsState: ErrorsState
 }
 
-export type PhoneState = Phone & Pick<StoreData, "resultsState">
+export type PhoneState = Phone & Pick<StoreData, "resultsState" | "errorsState">
 
 interface StoreSelectors extends Contacts {
   speedDialContacts: Contact[]
@@ -89,7 +94,7 @@ interface StoreSelectors extends Contacts {
 }
 
 interface StoreEffects {
-  readonly loadData: () => Promise<string | void>
+  readonly loadData: () => Promise<void>
   readonly addNewContact: (contact: NewContact) => Promise<string | void>
   readonly editContact?: (id: ContactID, data: Contact) => void
   readonly deleteContacts?: (contacts: Contact[]) => void
