@@ -7,6 +7,8 @@ import {
   ContactID,
   Phone,
   StoreData,
+  ResultsState,
+  PhoneState,
 } from "Renderer/models/phone/phone.typings"
 
 import {
@@ -25,9 +27,10 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 import getContacts from "Renderer/requests/get-contacts.request"
 import addContact from "Renderer/requests/add-contact.request"
 
-export const initialState: Phone = {
+export const initialState: PhoneState = {
   db: {},
   collection: [],
+  resultsState: ResultsState.Empty,
 }
 
 let writeTrials = 0
@@ -65,10 +68,10 @@ const simulateWriteToPhone = async (time = 2000) => {
 export default {
   state: initialState,
   reducers: {
-    setContacts(state: Phone, contacts: Contact[]): Phone {
-      return contactDatabaseFactory(contacts)
+    setContacts(state: PhoneState, contacts: Contact[]): PhoneState {
+      return {...state, ...contactDatabaseFactory(contacts)}
     },
-    addContact(state: Phone, contact: Contact): Phone {
+    addContact(state: PhoneState, contact: Contact): PhoneState {
       let currentState = state
 
       /**
@@ -79,26 +82,27 @@ export default {
         currentState = revokeField(state, { speedDial: contact.speedDial })
       }
 
-      return addContacts(currentState, contact)
+      return {...state, ...addContacts(currentState, contact)}
     },
     editContact(
-      state: Phone,
+      state: PhoneState,
       contactID: ContactID,
       data: BaseContactModel
-    ): Phone {
+    ): PhoneState {
       let currentState = state
 
       if (data.speedDial) {
         currentState = revokeField(state, { speedDial: data.speedDial })
       }
 
-      return editContact(currentState, contactID, data)
+      return {...state, ...editContact(currentState, contactID, data)}
     },
-    removeContact(state: Phone, input: ContactID | ContactID[]): Phone {
-      return removeContact(state, input)
+    removeContact(state: PhoneState, input: ContactID | ContactID[]): PhoneState {
+      return {...state, ...removeContact(state, input)}
     },
-    updateContacts(state: Phone, contacts: Phone) {
+    updateContacts(state: PhoneState, contacts: Phone) {
       return {
+        ...state,
         db: { ...state.db, ...contacts.db },
         collection: [...state.collection, ...contacts.collection],
       }
