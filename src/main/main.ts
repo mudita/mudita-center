@@ -137,6 +137,11 @@ const createWindow = async () => {
     shell.openExternal(href)
   })
 
+  win.on("page-title-updated", (event) => {
+    // prevent window name change to "Webpack App"
+    event.preventDefault()
+  })
+
   if (developmentEnvironment) {
     // Open DevTools, see https://github.com/electron/electron/issues/12438 for why we wait for dom-ready
     win.webContents.once("dom-ready", () => {
@@ -194,6 +199,11 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
     removeSetHelpStoreHandler()
     removeGetHelpStoreHandler()
     helpWindow = null
+  })
+
+  helpWindow.on("page-title-updated", (event) => {
+    // prevent window name change to "Webpack App"
+    event.preventDefault()
   })
 })
 

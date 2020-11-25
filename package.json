@@ -1,8 +1,9 @@
 {
-  "name": "pure-desktop-app",
+  "name": "mudita-center",
   "version": "0.9.7",
-  "description": "Pure Desktop App",
+  "description": "Mudita Center",
   "main": "./dist/main.js",
+  "productName": "Mudita Center",
   "scripts": {
     "MAIN COMMANDS": "=========================================================",
     "develop": "cross-env START_HOT=1 npm run dev:start:renderer",
@@ -63,17 +64,18 @@
     },
     "nsis": {
       "include": "installer.nsh",
-      "artifactName": "PureDesktopApp-Setup-${version}.${ext}",
+      "artifactName": "MuditaCenter-Setup-${version}.${ext}",
       "oneClick": true,
       "perMachine": false,
       "allowToChangeInstallationDirectory": false,
       "runAfterFinish": true,
       "deleteAppDataOnUninstall": true
     },
-    "productName": "PureDesktopApp",
-    "appId": "mudita.pure.desktopApp",
+    "productName": "Mudita Center",
+    "appId": "com.mudita.center",
     "mac": {
-      "category": "your.app.category.type"
+      "category": "your.app.category.type",
+      "icon": "./icons/mac/icon.icns"
     },
     "directories": {
       "output": "release"
@@ -87,12 +89,13 @@
       "target": "AppImage"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "./icons/win/icon.ico"
     }
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Appnroll/pure-desktop-app"
+    "url": "https://github.com/Mudita/mudita-center"
   },
   "author": {
     "name": "Mudita",
@@ -100,9 +103,9 @@
   },
   "license": "SEE LICENSE",
   "bugs": {
-    "url": "https://github.com/Appnroll/pure-desktop-app/issues"
+    "url": "https://github.com/Mudita/mudita-center/issues"
   },
-  "homepage": "https://github.com/Appnroll/pure-desktop-app",
+  "homepage": "https://github.com/Mudita/mudita-center",
   "devDependencies": {
     "@appnroll/eslint-config": "^1.0.10",
     "@babel/core": "^7.12.3",
