@@ -9,7 +9,7 @@ import styled from "styled-components"
 import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
 import {
   Contact,
-  ContactID,
+  ContactID, ErrorsState,
   ResultsState,
 } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
@@ -66,6 +66,7 @@ const PhoneComponent = ({
     onCall={action("Call")}
     onSpeedDialSettingsSave={action("Save speed dial settings")}
     resultsState={resultsState}
+    errorsState={ErrorsState.None}
     selectedContacts={[]}
     resetRows={action("Reset rows")}
     setProviderData={noop}
@@ -74,6 +75,7 @@ const PhoneComponent = ({
     addNewContact={asyncNoop}
     contacts={phoneSeedInput}
     loadContacts={asyncNoop}
+    errorRead={noop}
     inputValue={""}
     savingContact={false}
     speedDialContacts={[]}
