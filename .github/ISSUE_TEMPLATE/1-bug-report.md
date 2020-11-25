@@ -1,5 +1,5 @@
 ---
-name: "\uE525 Bug report"
+name: "🐛 Bug report"
 about: Report a bug in Mudita Center
 ---
 # 🐛 Bug report
