@@ -1,47 +1,18 @@
 ---
 name: "\U0001F680 Feature request"
-about: Suggest a feature for Angular CLI
+about: Suggest a feature for Mudita Center
 
 ---
-<!--🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅
-
-Oh hi there! 😄
-
-To expedite issue processing please search open and closed issues before submitting a new one.
-Existing issues often contain information about workarounds, resolution, or progress updates.
-
-🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅🔅-->
-
-
 # 🚀 Feature request
 
+## 📝 Description
 
-### Command (mark with an `x`)
-<!-- Can you pin-point the command or commands that are relevant for this feature request? -->
-<!-- ✍️edit: -->
-- [ ] new
-- [ ] build
-- [ ] serve
-- [ ] test
-- [ ] e2e
-- [ ] generate
-- [ ] add
-- [ ] update
-- [ ] lint
-- [ ] extract-i18n
-- [ ] run
-- [ ] config
-- [ ] help
-- [ ] version
-- [ ] doc
+A clear and concise description of the problem or missing capability...
 
-### Description
-<!-- ✍️--> A clear and concise description of the problem or missing capability...
+## 📝 Describe the solution you'd like
 
+If you have a solution in mind, please describe it.
 
-### Describe the solution you'd like
-<!-- ✍️--> If you have a solution in mind, please describe it.
+## 📝 Describe alternatives you've considered
 
-
-### Describe alternatives you've considered
-<!-- ✍️--> Have you considered any alternative solutions or workarounds?
+Have you considered any alternative solutions or workarounds?
