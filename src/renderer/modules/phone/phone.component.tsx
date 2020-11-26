@@ -55,6 +55,7 @@ export const messages = defineMessages({
   deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
   deleteText: { id: "view.name.phone.contacts.modal.delete.text" },
   addingText: { id: "view.name.phone.contacts.modal.adding.text" },
+  editingText: { id: "view.name.phone.contacts.modal.editing.text" },
 })
 
 export type PhoneProps = ContactActions &
@@ -249,13 +250,31 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     openSidebar(contact as Contact)
   }
 
-  const saveEditedContact = (contact: Contact) => {
-    setEditedContact(contact)
-    cancelEditingContact(contact)
-    openSidebar(contact)
-    if (editContact) {
-      editContact(contact.id, contact)
+  const saveEditedContact = async (contact: Contact) => {
+    const edit = async (retried?: boolean) => {
+      modalService.openModal(
+        <LoadingStateDataModal textMessage={messages.addingText} />,
+        true
+      )
+
+      const error = await editContact(contact)
+
+      if (error && !retried) {
+        modalService.openModal(
+          <ErrorWithRetryDataModal onRetry={() => edit(true)} />,
+          true
+        )
+      } else if (error) {
+        modalService.openModal(<ErrorDataModal />, true)
+      } else {
+        setEditedContact(contact)
+        cancelEditingContact(contact)
+        openSidebar(contact)
+        await modalService.closeModal()
+      }
     }
+
+    await edit()
   }
 
   const handleMessage = (phoneNumber: string) => onMessage(history, phoneNumber)
@@ -303,7 +322,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       blocked: false,
     }
     if (editContact) {
-      await editContact(unblockedContact.id, unblockedContact)
+      await editContact(unblockedContact)
     }
     if (detailsEnabled) {
       openSidebar(unblockedContact)
@@ -321,7 +340,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         favourite: false,
       }
       if (editContact) {
-        await editContact(blockedContact.id, blockedContact)
+        await editContact(blockedContact)
       }
       await modalService.closeModal()
 

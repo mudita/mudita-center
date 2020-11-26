@@ -12,7 +12,7 @@ import {
 import {
   addContacts,
   contactDatabaseFactory,
-  editContact,
+  updateContact,
   getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
@@ -22,8 +22,9 @@ import {
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
 import externalProvidersStore from "Renderer/store/external-providers"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import getContacts from "Renderer/requests/get-contacts.request"
-import addContact from "Renderer/requests/add-contact.request"
+import getContactsRequest from "Renderer/requests/get-contacts.request"
+import addContactRequest from "Renderer/requests/add-contact.request"
+import editContactRequest from "Renderer/requests/edit-contact.request"
 
 export const initialState: Phone = {
   db: {},
@@ -81,9 +82,8 @@ export default {
 
       return addContacts(currentState, contact)
     },
-    editContact(
+    updateContact(
       state: Phone,
-      contactID: ContactID,
       data: BaseContactModel
     ): Phone {
       let currentState = state
@@ -92,7 +92,7 @@ export default {
         currentState = revokeField(state, { speedDial: data.speedDial })
       }
 
-      return editContact(currentState, contactID, data)
+      return updateContact(currentState, data)
     },
     removeContact(state: Phone, input: ContactID | ContactID[]): Phone {
       return removeContact(state, input)
@@ -110,7 +110,7 @@ export default {
    */
   effects: (dispatch: Dispatch) => ({
     loadData: async (): Promise<string | void> => {
-      const { data = [], error } = await getContacts()
+      const { data = [], error } = await getContactsRequest()
       if (error) {
         return error.message
       } else {
@@ -127,16 +127,19 @@ export default {
       }
     },
     addNewContact: async (contact: NewContact): Promise<string | void> => {
-      const { data, error } = await addContact(contact)
+      const { data, error } = await addContactRequest(contact)
       if (error || !data) return error?.message ?? "Something went wrong"
       else {
         dispatch.phone.addContact(data)
       }
     },
-    async editContact() {
-      await simulateWriteToPhone()
+    editContact: async (contact: Contact): Promise<string | void> => {
+      const { data, error } = await editContactRequest(contact)
+      if (error || !data) return error?.message ?? "Something went wrong"
+      else {
+        dispatch.phone.updateContact(data)
+      }
     },
-
     async removeContact() {
       await simulateWriteToPhone()
     },

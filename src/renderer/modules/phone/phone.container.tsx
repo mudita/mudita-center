@@ -40,6 +40,7 @@ const mapDispatch = ({ phone, auth }: any) => {
     onSpeedDialSettingsSave: noop,
     loadData: phone.loadData,
     addNewContact: phone.addNewContact,
+    editContact: phone.editContact,
   }
 }
 

@@ -368,6 +368,7 @@
   "view.name.phone.contacts.modal.delete.text": "Do you really want to delete\n<b>the {name} contact?</b>",
   "view.name.phone.contacts.modal.delete.title": "Delete contact",
   "view.name.phone.contacts.modal.deleteMultipleContacts": "Do you really want to delete <b>{num, plural, =-1 {all contacts} one {the {name} contact} other {# contacts}}</b>?",
+  "view.name.phone.contacts.modal.editing.text": "Editing contact",
   "view.name.phone.contacts.modal.speedDial.cancelButton": "Cancel",
   "view.name.phone.contacts.modal.speedDial.contactLabel": "Contact",
   "view.name.phone.contacts.modal.speedDial.saveButton": "Save",
