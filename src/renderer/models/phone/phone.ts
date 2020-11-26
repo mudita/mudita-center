@@ -141,6 +141,7 @@ export default {
       const { data = "", error } = await deleteContacts(input)
       if (error) {
         logger.error(error)
+        return error.message
       } else {
         dispatch.phone.removeContact(data)
       }
