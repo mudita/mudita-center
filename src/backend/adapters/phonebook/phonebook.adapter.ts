@@ -76,15 +76,15 @@ class Phonebook extends PhonebookAdapter {
         id,
       }
     })
-    const errorRequests = (await Promise.all(results)).filter(
+    const errorResponses = (await Promise.all(results)).filter(
       ({ status }) => status === DeviceResponseStatus.Error
     )
-    if (errorRequests.length > 0) {
+    if (errorResponses.length > 0) {
       return {
         status: DeviceResponseStatus.Error,
         error: {
           message: "Something went wrong",
-          data: errorRequests.map(({ id }) => id),
+          data: errorResponses.map(({ id }) => id),
         },
       }
     } else {
