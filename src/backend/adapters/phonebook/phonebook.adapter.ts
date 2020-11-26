@@ -71,16 +71,21 @@ class Phonebook extends PhonebookAdapter {
         method: Method.Delete,
         body: { id: Number(id) },
       })
-      return status
+      return {
+        status,
+        id,
+      }
     })
-    if (
-      (await Promise.all(results)).some(
-        (status) => status === DeviceResponseStatus.Error
-      )
-    ) {
+    const errorRequests = (await Promise.all(results)).filter(
+      ({ status }) => status === DeviceResponseStatus.Error
+    )
+    if (errorRequests.length > 0) {
       return {
         status: DeviceResponseStatus.Error,
-        error: { message: "something goes wrong" },
+        error: {
+          message: "Something went wrong",
+          data: errorRequests.map(({ id }) => id),
+        },
       }
     } else {
       return {
