@@ -151,6 +151,7 @@ type SelectHook = Pick<
 >
 
 export interface ActiveRow {
+  id: string
   caller: Caller
   messages: Msg[]
 }

@@ -22,6 +22,9 @@ import { intl } from "Renderer/utils/intl"
 interface Props {
   details: ActiveRow
   onClose?: () => void
+  onDeleteClick: (id: string) => void
+  onUnreadStatus: (ids: string[]) => void
+  onContactClick: (phoneNumber: string) => void
 }
 
 const PhoneNumberText = styled(Text)`
@@ -73,6 +76,9 @@ const trailingIcon = [
 const MessageDetails: FunctionComponent<Props> = ({
   details,
   onClose = noop,
+  onUnreadStatus,
+  onDeleteClick,
+  onContactClick,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -80,6 +86,15 @@ const MessageDetails: FunctionComponent<Props> = ({
       ref.current.scrollIntoView()
     }
   }, [ref.current])
+
+  const unreadStatus = () => {
+    onUnreadStatus([details.id])
+    onClose()
+  }
+
+  const emitDeleteClick = () => onDeleteClick(details.id)
+  const handleContactClick = () => onContactClick(details.caller.phoneNumber)
+
   const icons = (
     <>
       <SidebarHeaderIcon
@@ -89,17 +104,17 @@ const MessageDetails: FunctionComponent<Props> = ({
       />
       <SidebarHeaderIcon
         Icon={Type.Contact}
-        onClick={noop}
+        onClick={handleContactClick}
         iconSize={IconSize.Big}
       />
       <SidebarHeaderIcon
         Icon={Type.BorderCheckIcon}
-        onClick={noop}
+        onClick={unreadStatus}
         iconSize={IconSize.Big}
       />
       <SidebarHeaderIcon
         Icon={Type.Delete}
-        onClick={noop}
+        onClick={emitDeleteClick}
         iconSize={IconSize.Big}
       />
     </>
