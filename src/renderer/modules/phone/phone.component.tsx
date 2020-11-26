@@ -50,6 +50,7 @@ import {
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
+import logger from "App/main/utils/logger"
 
 export const messages = defineMessages({
   deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -284,7 +285,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       setEditedContact(contact)
       cancelEditingContact(contact)
       openSidebar(contact)
-    } catch (e) {}
+    } catch (error) {
+      logger.error(error)
+    }
   }
 
   const handleMessage = (phoneNumber: string) => onMessage(history, phoneNumber)
@@ -333,7 +336,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     }
     try {
       await editContactWithRetry(unblockedContact)
-    } catch (e) {}
+    } catch (error) {
+      logger.error(error)
+    }
 
     if (detailsEnabled) {
       openSidebar(unblockedContact)
@@ -353,7 +358,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
       try {
         await editContactWithRetry(blockedContact)
-      } catch (e) {}
+      } catch (error) {
+        logger.error(error)
+      }
 
       if (detailsEnabled) {
         openSidebar(blockedContact)

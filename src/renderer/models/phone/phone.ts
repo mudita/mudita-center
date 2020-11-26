@@ -25,6 +25,7 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 import getContactsRequest from "Renderer/requests/get-contacts.request"
 import addContactRequest from "Renderer/requests/add-contact.request"
 import editContactRequest from "Renderer/requests/edit-contact.request"
+import logger from "App/main/utils/logger"
 
 export const initialState: Phone = {
   db: {},
@@ -112,6 +113,7 @@ export default {
     loadData: async (): Promise<string | void> => {
       const { data = [], error } = await getContactsRequest()
       if (error) {
+        logger.error(error)
         return error.message
       } else {
         dispatch.phone.setContacts(data)
@@ -128,14 +130,20 @@ export default {
     },
     addNewContact: async (contact: NewContact): Promise<string | void> => {
       const { data, error } = await addContactRequest(contact)
-      if (error || !data) return error?.message ?? "Something went wrong"
+      if (error || !data) {
+        logger.error(error)
+        return error?.message ?? "Something went wrong"
+      }
       else {
         dispatch.phone.addContact(data)
       }
     },
     editContact: async (contact: Contact): Promise<string | void> => {
       const { data, error } = await editContactRequest(contact)
-      if (error || !data) return error?.message ?? "Something went wrong"
+      if (error || !data) {
+        logger.error(error)
+        return error?.message ?? "Something went wrong"
+      }
       else {
         dispatch.phone.updateContact(data)
       }
