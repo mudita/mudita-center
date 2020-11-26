@@ -202,7 +202,7 @@ describe("redux tests", () => {
     expect(store.getState().phone.collection.indexOf(testId) === -1).toBeFalsy()
   })
 
-  test("properly changes contact", () => {
+  test("properly changes contact",() => {
     const testName = "some random name"
     const modifiedContact = {
       ...TEST_CONTACT,
@@ -213,7 +213,7 @@ describe("redux tests", () => {
       modifiedContact
     )
 
-    store.dispatch.phone.editContact(modifiedContact)
+    store.dispatch.phone.updateContact(modifiedContact)
 
     expect(store.getState().phone.db[TEST_CONTACT.id]).toMatchObject(
       modifiedContact
@@ -256,7 +256,7 @@ describe("redux tests", () => {
       store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
     ).toBe(speedDial)
 
-    store.dispatch.phone.editContact({
+    store.dispatch.phone.updateContact({
       ...contactToEdit,
       speedDial,
     })
