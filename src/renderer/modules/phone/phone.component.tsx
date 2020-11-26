@@ -222,7 +222,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         true
       )
 
-      const error = await addNewContact(contact)
+      const error = await delayResponse(addNewContact(contact))
 
       if (error && !retried) {
         modalService.openModal(
@@ -259,7 +259,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           true
         )
 
-        const error = await editContact(contact)
+        const error = await delayResponse(editContact(contact))
 
         if (error && !retried) {
           modalService.openModal(
