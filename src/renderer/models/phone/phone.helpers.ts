@@ -3,7 +3,8 @@ import {
   Contact,
   ContactFactorySignature,
   ContactID,
-  Phone, PhoneState,
+  Phone,
+  PhoneState,
 } from "Renderer/models/phone/phone.typings"
 import { deburr, find, filter, omit } from "lodash"
 import { intl } from "Renderer/utils/intl"

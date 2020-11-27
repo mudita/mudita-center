@@ -9,7 +9,8 @@ import styled from "styled-components"
 import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
 import {
   Contact,
-  ContactID, ErrorsState,
+  ContactID,
+  ErrorsState,
   ResultsState,
 } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
