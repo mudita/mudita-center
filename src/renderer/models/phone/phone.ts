@@ -141,7 +141,7 @@ export default {
       const { data = "", error } = await deleteContacts(input)
       if (error) {
         logger.error(error)
-        const successIds = input.filter(id => !data.includes(id))
+        const successIds = input.filter(id => !error?.data?.includes(id))
         dispatch.phone.removeContact(successIds)
         return error.message
       } else {
