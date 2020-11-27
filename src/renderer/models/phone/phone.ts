@@ -117,13 +117,16 @@ export default {
         dispatch.phone.setContacts(data)
       }
     },
-    async loadContacts(provider: Provider) {
+    async loadContacts(provider: Provider): Promise<Contact[]> {
       let contacts: Contact[]
 
       switch (provider) {
         case Provider.Google:
           contacts = await externalProvidersStore.dispatch.google.getContacts()
           dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
+          return contacts
+        default:
+          return []
       }
     },
     addNewContact: async (contact: NewContact): Promise<string | void> => {
