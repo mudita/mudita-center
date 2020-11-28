@@ -1,4 +1,4 @@
-import PhonebookAdapter from "Backend/adapters/phonebook/phonebook.class"
+import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import {
   Contact,
   ContactID,
@@ -18,20 +18,21 @@ class PhonebookFake extends PhonebookAdapter {
     super()
   }
 
-  public getContacts(): DeviceResponse<Contact[]> {
+  public async getContacts(): Promise<DeviceResponse<Contact[]>> {
     return {
       status: DeviceResponseStatus.Ok,
       data: [],
     }
   }
 
-  public addContact(contact: NewContact): DeviceResponse<any> {
+  public async addContact(contact: NewContact): Promise<DeviceResponse<Contact>> {
     return {
       status: DeviceResponseStatus.Ok,
       data: {
         ...contact,
+        primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
         id: Faker.random.uuid(),
-      },
+      }
     }
   }
 

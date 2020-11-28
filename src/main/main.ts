@@ -1,4 +1,4 @@
-import { PureNode } from "pure"
+import PureDeviceManager from "pure"
 import startBackend from "Backend/bootstrap"
 import { check as checkPort } from "tcp-port-used"
 import {
@@ -102,15 +102,13 @@ const createWindow = async () => {
     await installExtensions()
   }
 
-  const pureNode: any = new PureNode()
-
   win = new BrowserWindow(
     getWindowOptions({ width: WINDOW_SIZE.width, height: WINDOW_SIZE.height })
   )
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  startBackend(pureNode, ipcMain)
+  startBackend(PureDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
   registerOsUpdateAlreadyDownloadedCheck()
@@ -137,6 +135,11 @@ const createWindow = async () => {
   win.webContents.on("new-window", (event, href) => {
     event.preventDefault()
     shell.openExternal(href)
+  })
+
+  win.on("page-title-updated", (event) => {
+    // prevent window name change to "Webpack App"
+    event.preventDefault()
   })
 
   if (developmentEnvironment) {
@@ -196,6 +199,11 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
     removeSetHelpStoreHandler()
     removeGetHelpStoreHandler()
     helpWindow = null
+  })
+
+  helpWindow.on("page-title-updated", (event) => {
+    // prevent window name change to "Webpack App"
+    event.preventDefault()
   })
 })
 

@@ -22,6 +22,7 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { Message } from "Renderer/interfaces/message.interface"
 import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
+import { AppSettings } from "App/main/store/settings.interface"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
@@ -30,7 +31,9 @@ const deleteModalMessages = defineMessages({
   },
 })
 
-const Messages: FunctionComponent<MessagesProps> = ({
+interface Props extends MessagesProps, Pick<AppSettings, "language"> {}
+
+const Messages: FunctionComponent<Props> = ({
   searchValue,
   changeSearchValue = noop,
   changeVisibilityFilter = noop,
@@ -39,6 +42,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   visibilityFilter,
   markAsRead = noop,
   toggleReadStatus = noop,
+  language,
 }) => {
   const [messagesList, setMessagesList] = useState(list)
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Topic>(
@@ -133,6 +137,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
           activeRow={activeRow}
           onDeleteClick={removeSingleConversation}
           onToggleReadStatus={toggleReadStatus}
+          language={language}
           {...rest}
         />
         {activeRow && (

@@ -2,7 +2,6 @@ import { connect } from "react-redux"
 import { History, LocationState } from "history"
 import Phone from "./phone.component"
 import { noop } from "Renderer/utils/noop"
-import { handleGoogleAuth } from "Renderer/providers/google/auth"
 import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { URL_MAIN } from "Renderer/constants/urls"
@@ -31,7 +30,6 @@ const mapDispatch = ({ phone, auth }: any) => {
     ...auth,
     onSearchTermChange: noop,
     // TODO: Add proper actions
-    onManageButtonClick: handleGoogleAuth,
     onExport: noop,
     onForward: noop,
     onBlock: noop,
@@ -40,6 +38,8 @@ const mapDispatch = ({ phone, auth }: any) => {
     onMessage: (history: History<LocationState>, phoneNumber: string) =>
       history.push(createRouterPath(URL_MAIN.messages, { phoneNumber })),
     onSpeedDialSettingsSave: noop,
+    loadData: phone.loadData,
+    addNewContact: phone.addNewContact,
   }
 }
 

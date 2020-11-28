@@ -1,4 +1,6 @@
 import { MainProcessIpc } from "electron-better-ipc"
+import { PureDeviceManager } from "pure"
+import { createDeviceService } from "Backend/device-service"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
 import registerChangeSimCardRequest from "Backend/requests/change-sim/change-sim.request"
@@ -15,17 +17,23 @@ import registerBackupsInfoRequest from "Backend/requests/backups/get-backups-inf
 import registerAppSettingsRequest from "Backend/requests/app-settings/get-app-settings.request"
 import registerAppSettingsUpdateRequest from "Backend/requests/app-settings/update-app-settings.request"
 import registerAppSettingsResetRequest from "Backend/requests/app-settings/reset-app-settings.request"
+import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
-import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
+import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 
-const bootstrap = (pureNode: any, ipcMain: MainProcessIpc) => {
+const bootstrap = (
+  deviceManager: PureDeviceManager,
+  ipcMain: MainProcessIpc
+): void => {
+  const deviceService = createDeviceService(deviceManager, ipcMain)
   const adapters = {
     // TODO: Replace with a proper adapters when phone becomes available.
     ...getFakeAdapters(),
-    purePhone: createPurePhoneAdapter(pureNode, ipcMain),
+    purePhone: createPurePhoneAdapter(deviceService),
+    phonebook: createPhonebook(deviceService),
     appSettings: createAppSettingsAdapter(),
     pureBackups: createPurePhoneBackupsAdapter(),
     app: createElectronAppAdapter(),

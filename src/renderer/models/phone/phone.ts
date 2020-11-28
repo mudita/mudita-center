@@ -1,7 +1,9 @@
 import { Slicer, StoreSelectors } from "@rematch/select"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Dispatch } from "Renderer/store"
 import {
   BaseContactModel,
+  Contact,
+  NewContact,
   ContactID,
   Phone,
   StoreData,
@@ -9,14 +11,19 @@ import {
 
 import {
   addContacts,
+  contactDatabaseFactory,
   editContact,
-  removeContact,
-  revokeField,
+  getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
-  getFlatList,
+  removeContact,
+  revokeField,
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
+import externalProvidersStore from "Renderer/store/external-providers"
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import getContacts from "Renderer/requests/get-contacts.request"
+import addContact from "Renderer/requests/add-contact.request"
 
 export const initialState: Phone = {
   db: {},
@@ -58,6 +65,9 @@ const simulateWriteToPhone = async (time = 2000) => {
 export default {
   state: initialState,
   reducers: {
+    setContacts(state: Phone, contacts: Contact[]): Phone {
+      return contactDatabaseFactory(contacts)
+    },
     addContact(state: Phone, contact: Contact): Phone {
       let currentState = state
 
@@ -71,7 +81,6 @@ export default {
 
       return addContacts(currentState, contact)
     },
-
     editContact(
       state: Phone,
       contactID: ContactID,
@@ -85,20 +94,45 @@ export default {
 
       return editContact(currentState, contactID, data)
     },
-
     removeContact(state: Phone, input: ContactID | ContactID[]): Phone {
       return removeContact(state, input)
+    },
+    updateContacts(state: Phone, contacts: Phone) {
+      return {
+        db: { ...state.db, ...contacts.db },
+        collection: [...state.collection, ...contacts.collection],
+      }
     },
   },
   /**
    * All these side effects are just for show, since we don't know anything
    * about phone sync flow at the moment.
    */
-  effects: {
-    async addContact() {
-      await simulateWriteToPhone()
+  effects: (dispatch: Dispatch) => ({
+    loadData: async (): Promise<string | void> => {
+      const { data = [], error } = await getContacts()
+      if (error) {
+        return error.message
+      } else {
+        dispatch.phone.setContacts(data)
+      }
     },
+    async loadContacts(provider: Provider) {
+      let contacts: Contact[]
 
+      switch (provider) {
+        case Provider.Google:
+          contacts = await externalProvidersStore.dispatch.google.getContacts()
+          dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
+      }
+    },
+    addNewContact: async (contact: NewContact): Promise<string | void> => {
+      const { data, error } = await addContact(contact)
+      if (error || !data) return error?.message ?? "Something went wrong"
+      else {
+        dispatch.phone.addContact(data)
+      }
+    },
     async editContact() {
       await simulateWriteToPhone()
     },
@@ -106,7 +140,7 @@ export default {
     async removeContact() {
       await simulateWriteToPhone()
     },
-  },
+  }),
   selectors: (slice: Slicer<StoreData>) => ({
     contactList() {
       return slice((state) => getSortedContactList(state))

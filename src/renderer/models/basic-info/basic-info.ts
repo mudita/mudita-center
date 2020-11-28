@@ -13,7 +13,7 @@ import { Slicer } from "@rematch/select"
 import { SimCard, Store } from "Renderer/models/basic-info/interfaces"
 
 const initialState = {
-  disconnectedDevice: false,
+  disconnectedDevice: true,
 }
 
 export default {
@@ -68,7 +68,17 @@ export default {
       })
     },
     async connect() {
-      await connectDevice()
+      const { status } = await connectDevice()
+
+      if (status === DeviceResponseStatus.Ok)
+        dispatch.basicInfo.update({
+          disconnectedDevice: false,
+        })
+    },
+    async fakeConnect() {
+      dispatch.basicInfo.update({
+        disconnectedDevice: false,
+      })
     },
     async disconnect() {
       const disconnectInfo = await disconnectDevice()
