@@ -90,7 +90,6 @@ class Phonebook extends PhonebookAdapter {
     } else {
       return {
         status: DeviceResponseStatus.Ok,
-        data: contactIds,
       }
     }
   }
