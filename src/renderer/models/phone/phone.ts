@@ -138,10 +138,11 @@ export default {
       await simulateWriteToPhone()
     },
     async deleteContacts(input: ContactID[]): Promise<string | void> {
-      const { data = "", error } = await deleteContacts(input)
+      const { error } = await deleteContacts(input)
       if (error) {
         logger.error(error)
-        dispatch.phone.removeContact(data)
+        const successIds = input.filter(id => !error.data?.includes(id))
+        dispatch.phone.removeContact(successIds)
         return error.message
       } else {
         dispatch.phone.removeContact(input)
