@@ -146,12 +146,14 @@ const useSystemUpdateFlow = (
   const install = async () => {
     const updatesInfo = await checkForUpdates(false, true)
     modalService.openModal(<UpdatingProgressModal />, true)
-    const pureUpdateResponse = await updatePure(updatesInfo)
-    if (isEqual(pureUpdateResponse, { status: DeviceResponseStatus.Ok })) {
-      modalService.openModal(<UpdatingSuccessModal />, true)
-    } else {
-      modalService.openModal(<UpdatingFailureModal />, true)
+    const update = async () => {
+      if (isEqual(await updatePure(updatesInfo), { status: DeviceResponseStatus.Ok })) {
+        modalService.openModal(<UpdatingSuccessModal />, true)
+      } else {
+        modalService.openModal(<UpdatingFailureModal onRetry={update} />, true)
+      }
     }
+    await update()
   }
 
   const download = async (file: Filename) => {
