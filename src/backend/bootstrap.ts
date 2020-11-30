@@ -23,6 +23,8 @@ import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
+import createPurePhoneBatteryAdapter
+  from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
 
 const bootstrap = (
   deviceManager: PureDeviceManager,
@@ -34,6 +36,7 @@ const bootstrap = (
     ...getFakeAdapters(),
     purePhone: createPurePhoneAdapter(deviceService),
     phonebook: createPhonebook(deviceService),
+    pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
     appSettings: createAppSettingsAdapter(),
     pureBackups: createPurePhoneBackupsAdapter(),
     app: createElectronAppAdapter(),

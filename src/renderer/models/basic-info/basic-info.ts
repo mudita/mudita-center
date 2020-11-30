@@ -56,7 +56,7 @@ export default {
         (a, b) => Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
       )
       dispatch.basicInfo.update({
-        batteryLevel: batteryInfo.level,
+        batteryLevel: batteryInfo.data ? batteryInfo.data.level : 0,
         osVersion: info.osVersion,
         simCards: networkInfo.simCards,
         memorySpace: {
