@@ -92,6 +92,7 @@ const Messages: FunctionComponent<Props> = ({
     const onDelete = () => {
       deleteConversation(ids)
       resetRows()
+      closeSidebar()
       modalService.closeModal()
     }
 
