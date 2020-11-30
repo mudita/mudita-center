@@ -17,9 +17,7 @@ const adapters = ({
 
 test("return response from correctly deleted contact", async () => {
   registerDeleteContactsRequest(adapters)
-  const contactIds = ["1", "2", "4"]
-  const [result] = await (ipcMain as any)._flush(IpcRequest.DeleteContacts, contactIds)
+  const [result] = await (ipcMain as any)._flush(IpcRequest.DeleteContacts, ["1", "2", "4"])
   const response = await result
-  expect(response.data).toEqual(contactIds)
   expect(response.status).toEqual(DeviceResponseStatus.Ok)
 })
