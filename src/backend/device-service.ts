@@ -1,4 +1,5 @@
-import { PureDevice, PureDeviceManager } from "pure"
+import { PureDevice, PureDeviceManager, Response } from "pure"
+import { EventEmitter } from "events"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -16,6 +17,7 @@ import { Contact, CountBodyResponse } from "pure/dist/endpoints/contact.types"
 
 class DeviceService {
   device: PureDevice | undefined
+  private eventEmitter = new EventEmitter()
 
   constructor(
     private deviceManager: PureDeviceManager,
@@ -68,25 +70,39 @@ class DeviceService {
   }): Promise<DeviceResponse>
   async request(config: RequestConfig): Promise<DeviceResponse<any>>
   async request(config: RequestConfig) {
-    if (!this.device) {
-      return {
-        status: DeviceResponseStatus.Error,
+    return new Promise(async resolve => {
+      if (!this.device) {
+        return resolve({
+          status: DeviceResponseStatus.Error,
+        })
       }
-    }
 
-    const { status, body: data } = await this.device.request(config)
+      const eventName = JSON.stringify(config);
 
-    if (status === ResponseStatus.Ok || status === ResponseStatus.Accepted) {
-      return {
-        data,
-        status: DeviceResponseStatus.Ok,
+      const listener = (response: Response<any>) =>{
+        this.eventEmitter.off(eventName, listener)
+        const { status, body: data } = response
+        if (status === ResponseStatus.Ok || status === ResponseStatus.Accepted) {
+          resolve({
+            data,
+            status: DeviceResponseStatus.Ok,
+          })
+        } else {
+          resolve({
+            data,
+            status: DeviceResponseStatus.Error,
+          })
+        }
       }
-    } else {
-      return {
-        data,
-        status: DeviceResponseStatus.Error,
+
+      if(this.eventEmitter.eventNames().includes(eventName)){
+        this.eventEmitter.on(eventName, listener)
+      }else {
+        this.eventEmitter.on(eventName, listener)
+        const response = await this.device.request(config)
+        this.eventEmitter.emit(eventName, response)
       }
-    }
+    })
   }
 
   public async connect(): Promise<DeviceResponse> {
