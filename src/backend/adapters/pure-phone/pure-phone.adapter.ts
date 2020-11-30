@@ -26,8 +26,20 @@ class PurePhone extends PurePhoneAdapter {
     return "2020-01-14T11:31:08.244Z"
   }
 
-  public getOsVersion(): string {
-    return "3.1.0"
+  public async getOsVersion(): Promise<DeviceResponse<string>> {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.DeviceInfo,
+      method: Method.Get,
+    })
+
+    if (status === DeviceResponseStatus.Ok && data) {
+      return {
+        status,
+        data: data.gitTag,
+      }
+    } else {
+      return { status, error: { message: "Something went wrong" } }
+    }
   }
 
   public getSerialNumber(): string {

@@ -57,14 +57,14 @@ export default {
       )
       dispatch.basicInfo.update({
         batteryLevel: batteryInfo.data ? batteryInfo.data.level : 0,
-        osVersion: info.osVersion,
+        osVersion: info.data ? info.data.osVersion : "",
         simCards: networkInfo.simCards,
         memorySpace: {
           full: storageInfo.capacity,
           free: storageInfo.available,
         },
         lastBackup,
-        osUpdateDate: info.osUpdateDate,
+        osUpdateDate: info.data ? info.data.osUpdateDate : "",
       })
     },
     async connect() {
