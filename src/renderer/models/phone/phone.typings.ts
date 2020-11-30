@@ -3,7 +3,7 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 export type ContactID = string
 
 export interface BaseContactModel {
-  id?: ContactID
+  id: ContactID
   firstName?: string
   lastName?: string
   primaryPhoneNumber?: string
@@ -87,7 +87,7 @@ interface StoreSelectors extends Contacts {
 interface StoreEffects {
   readonly loadData: () => Promise<string | void>
   readonly addNewContact: (contact: NewContact) => Promise<string | void>
-  readonly editContact?: (id: ContactID, data: Contact) => void
+  readonly editContact: (data: Contact) => Promise<string | void>
   readonly deleteContacts?: (contacts: Contact[]) => void
   readonly loadContacts: (provider: Provider) => Promise<Phone>
 }
