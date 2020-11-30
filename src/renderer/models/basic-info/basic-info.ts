@@ -60,8 +60,8 @@ export default {
         osVersion: info.data ? info.data.osVersion : "",
         simCards: networkInfo.data ? networkInfo.data.simCards : [],
         memorySpace: {
-          full: storageInfo.capacity,
-          free: storageInfo.available,
+          full: storageInfo.data ? storageInfo.data.capacity : 0,
+          free: storageInfo.data ? storageInfo.data.available : 0,
         },
         lastBackup,
         osUpdateDate: info.data ? info.data.osUpdateDate : "",
