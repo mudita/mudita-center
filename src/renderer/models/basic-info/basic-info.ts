@@ -58,7 +58,7 @@ export default {
       dispatch.basicInfo.update({
         batteryLevel: batteryInfo.data ? batteryInfo.data.level : 0,
         osVersion: info.data ? info.data.osVersion : "",
-        simCards: networkInfo.simCards,
+        simCards: networkInfo.data ? networkInfo.data.simCards : [],
         memorySpace: {
           full: storageInfo.capacity,
           free: storageInfo.available,
