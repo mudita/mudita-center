@@ -246,7 +246,6 @@
     "minimist": "^1.2.5",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
-    "papaparse": "^5.3.0",
     "pure": "file:pure",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
