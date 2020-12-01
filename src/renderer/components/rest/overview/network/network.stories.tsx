@@ -15,37 +15,40 @@ const Part = styled.div`
   }
 `
 
-storiesOf("Overview/Network", module).add("Network", () => {
-  return (
-    <div style={{ maxWidth: "63rem" }}>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>No SIM card</Text>
-        <Network />
-      </Part>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>
-          One SIM card (active)
-        </Text>
-        <Network
-          simCards={getFakeAdapters().pureNetwork.getSimCards().slice(0, 1)}
-        />
-      </Part>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>
-          One SIM card (inactive)
-        </Text>
-        <Network
-          simCards={getFakeAdapters().pureNetwork.getSimCards().slice(1, 2)}
-          onSimChange={action("SIM changed")}
-        />
-      </Part>
-      <Part>
-        <Text displayStyle={TextDisplayStyle.SmallText}>Two SIM cards</Text>
-        <Network
-          simCards={getFakeAdapters().pureNetwork.getSimCards()}
-          onSimChange={action("SIM changed")}
-        />
-      </Part>
-    </div>
-  )
-})
+getFakeAdapters()
+  .pureNetwork.getSimCards()
+  .then(({ data }) => {
+    storiesOf("Overview/Network", module).add("Network", () => {
+      const fakeSimCards = data ?? []
+      return (
+        <div style={{ maxWidth: "63rem" }}>
+          <Part>
+            <Text displayStyle={TextDisplayStyle.SmallText}>No SIM card</Text>
+            <Network />
+          </Part>
+          <Part>
+            <Text displayStyle={TextDisplayStyle.SmallText}>
+              One SIM card (active)
+            </Text>
+            <Network simCards={fakeSimCards.slice(0, 1)} />
+          </Part>
+          <Part>
+            <Text displayStyle={TextDisplayStyle.SmallText}>
+              One SIM card (inactive)
+            </Text>
+            <Network
+              simCards={fakeSimCards.slice(1, 2)}
+              onSimChange={action("SIM changed")}
+            />
+          </Part>
+          <Part>
+            <Text displayStyle={TextDisplayStyle.SmallText}>Two SIM cards</Text>
+            <Network
+              simCards={fakeSimCards}
+              onSimChange={action("SIM changed")}
+            />
+          </Part>
+        </div>
+      )
+    })
+  })
