@@ -13,6 +13,7 @@ const selector = select(({ phone, messages }) => ({
   speedDialChosenList: phone.speedDialChosenList,
   getContact: phone.getContact,
   isTopicThreadOpened: messages.isTopicThreadOpened,
+  contactsToImport: phone.contactsToImport,
 }))
 
 const mapStateToProps = (state: RootModel) => {

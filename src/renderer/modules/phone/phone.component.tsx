@@ -66,6 +66,7 @@ export type PhoneProps = ContactActions &
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
+    contactsToImport: Contact[]
     speedDialChosenList: number[]
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => Promise<void>
@@ -89,6 +90,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     savingContact,
     isTopicThreadOpened,
+    contactsToImport
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()

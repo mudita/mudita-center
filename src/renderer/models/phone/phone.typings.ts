@@ -47,6 +47,10 @@ export type Contact =
 export interface Phone {
   collection: ContactID[]
   db: Record<ContactID, Contact>
+  contactsToImport?: {
+    collection: ContactID[]
+    db: Record<ContactID, Contact>
+  }
 }
 
 export interface ContactCategory {

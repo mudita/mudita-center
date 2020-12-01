@@ -54,6 +54,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
   onActionButtonClick,
   contacts,
 }) => {
+  console.log({contacts})
   const {
     toggleRow,
     toggleAll,
