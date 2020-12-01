@@ -16,16 +16,17 @@ export const readFile = (file: File): Promise<string> => {
 }
 
 const parseContact = (contact: vCardContact): BaseContactModel => {
-  let [lastName, firstName] = (contact.n?.valueOf() as string).split(";")
+  const [
+    lastName = "",
+    firstName = "",
+  ] = (contact.n?.valueOf() as string).split(";")
+  const fullName = contact.fv?.valueOf() as string
+
   let primaryPhoneNumber = ""
   let secondaryPhoneNumber = ""
   let firstAddressLine = ""
   let secondAddressLine = ""
   let note = ""
-
-  if (!firstName && !lastName) {
-    firstName = contact.fv?.valueOf() as string
-  }
 
   if (contact.tel) {
     if (Array.isArray(contact.tel)) {
@@ -67,7 +68,7 @@ const parseContact = (contact: vCardContact): BaseContactModel => {
   }
 
   return {
-    firstName,
+    firstName: !firstName && !lastName ? fullName : firstName,
     lastName,
     email: contact.email?.valueOf() as string,
     primaryPhoneNumber,
