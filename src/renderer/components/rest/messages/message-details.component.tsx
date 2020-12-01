@@ -87,7 +87,7 @@ const MessageDetails: FunctionComponent<Props> = ({
     }
   }, [ref.current])
 
-  const unreadStatus = () => {
+  const markAsUnread = () => {
     onUnreadStatus([details.id])
     onClose()
   }
@@ -109,7 +109,7 @@ const MessageDetails: FunctionComponent<Props> = ({
       />
       <SidebarHeaderIcon
         Icon={Type.BorderCheckIcon}
-        onClick={unreadStatus}
+        onClick={markAsUnread}
         iconSize={IconSize.Big}
       />
       <SidebarHeaderIcon

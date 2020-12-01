@@ -45,20 +45,8 @@ export default {
       })
       return { ...state, topics: withMarkAsReadTopics }
     },
-    markAsUnread(state: StateProps, ids: string[]) {
-      const withMarkAsUnreadTopics = state.topics.map((topic) => {
-        if (ids.includes(topic.id)) {
-          return {
-            ...topic,
-            unread: true,
-          }
-        }
-        return topic
-      })
-      return { ...state, topics: withMarkAsUnreadTopics }
-    },
     toggleReadStatus(state: StateProps, ids: string[]) {
-      const withToggleTopics = state.topics.map((topic) => {
+      const withMarkAsUnreadTopics = state.topics.map((topic) => {
         if (ids.includes(topic.id)) {
           return {
             ...topic,
@@ -67,7 +55,7 @@ export default {
         }
         return topic
       })
-      return { ...state, topics: withToggleTopics }
+      return { ...state, topics: withMarkAsUnreadTopics }
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({

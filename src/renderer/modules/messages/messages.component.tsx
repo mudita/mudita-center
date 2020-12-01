@@ -158,7 +158,7 @@ const Messages: FunctionComponent<Props> = ({
         {activeRow && (
           <MessageDetails
             onDeleteClick={removeSingleConversation}
-            onUnreadStatus={markAsUnread}
+            onUnreadStatus={toggleReadStatus}
             details={activeRow}
             onClose={closeSidebar}
             onContactClick={contactClick}
