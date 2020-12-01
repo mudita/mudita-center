@@ -44,7 +44,6 @@ const Messages: FunctionComponent<Props> = ({
   list,
   visibilityFilter,
   markAsRead = noop,
-  markAsUnread = noop,
   toggleReadStatus = noop,
   language,
 }) => {
