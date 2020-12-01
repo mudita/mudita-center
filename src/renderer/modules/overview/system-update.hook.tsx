@@ -34,6 +34,7 @@ import updateOs from "Renderer/requests/update-os.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { isEqual } from "lodash"
 import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/interfaces"
+import logger from "App/main/utils/logger"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -147,9 +148,11 @@ const useSystemUpdateFlow = (
     const updatesInfo = await checkForUpdates(false, true)
     modalService.openModal(<UpdatingProgressModal />, true)
     const update = async () => {
-      if (isEqual(await updatePure(updatesInfo), { status: DeviceResponseStatus.Ok })) {
+      const updateResponse = await updatePure(updatesInfo)
+      if (isEqual(updateResponse, { status: DeviceResponseStatus.Ok })) {
         modalService.openModal(<UpdatingSuccessModal />, true)
       } else {
+        logger.error(updateResponse)
         modalService.openModal(<UpdatingFailureModal onRetry={update} />, true)
       }
     }
