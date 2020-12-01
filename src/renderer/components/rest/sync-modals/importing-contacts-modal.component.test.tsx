@@ -12,7 +12,7 @@ test("loader is displayed when no contacts is processed", () => {
   const { queryByTestId } = renderer({ count: 0, total: 10 })
 
   expect(queryByTestId("loader-spinner")).toBeVisible()
-  expect(queryByTestId("icon-10")).not.toBeInTheDocument()
+  expect(queryByTestId("icon-Check")).not.toBeInTheDocument()
 })
 
 test("loader is displayed until all contacts are processed", () => {
