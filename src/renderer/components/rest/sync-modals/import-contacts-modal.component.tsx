@@ -18,6 +18,7 @@ import Table, {
 } from "Renderer/components/core/table/table.component"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import styled from "styled-components"
+import { ImportContactsModalTestIds } from "Renderer/components/rest/sync-modals/import-contacts-modal.types"
 
 const messages = defineMessages({
   title: {
@@ -40,7 +41,7 @@ const ContactsList = styled(Table)`
   max-height: 40rem;
 `
 
-interface ImportContactsModalProps extends ModalProps {
+export interface ImportContactsModalProps extends ModalProps {
   contacts?: BaseContactModel[]
 }
 
@@ -67,7 +68,11 @@ const ImportContactsModal: FunctionComponent<ImportContactsModalProps> = ({
         <Col>Phone</Col>
       </Labels>
       {contacts.map((contact, index) => (
-        <Row size={RowSize.Tiny} key={index}>
+        <Row
+          size={RowSize.Tiny}
+          key={index}
+          data-testid={ImportContactsModalTestIds.Row}
+        >
           <Col>{createFullName(contact)}</Col>
           <Col>
             {contact.primaryPhoneNumber || contact.secondaryPhoneNumber}

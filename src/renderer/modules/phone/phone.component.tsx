@@ -426,14 +426,27 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
+  const manualImport = async (inputElement: HTMLInputElement) => {
+    const onFileSelect = () => {
+      if (inputElement.files) {
+        importContactsFromFile(Array.from(inputElement.files))
+        inputElement.removeEventListener("change", onFileSelect)
+      }
+    }
+
+    inputElement.click()
+    inputElement.addEventListener("change", onFileSelect)
+  }
+
   const openSyncModal = async () => {
     modalService.openModal(
       <SyncContactsModal
         onGoogleButtonClick={loadGoogleContacts}
-        onManualImportClick={importContactsFromFile}
+        onManualImportClick={manualImport}
       />
     )
   }
+
   const _devClearContacts = () => setContacts([])
   const _devLoadDefaultContacts = () => setContacts(contactList)
   return (

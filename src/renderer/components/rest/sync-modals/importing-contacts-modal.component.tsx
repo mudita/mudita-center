@@ -50,12 +50,12 @@ const Content = styled.div`
   padding: 2rem 2rem 0;
 `
 
-interface ImportContactsModalProps extends ModalProps {
+export interface ImportingContactsModalProps extends ModalProps {
   count: number
   total: number
 }
 
-const ImportingContactsModal: FunctionComponent<ImportContactsModalProps> = ({
+const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> = ({
   count,
   total,
   onClose = noop,

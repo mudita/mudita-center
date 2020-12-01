@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import React, { useRef } from "react"
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
@@ -29,7 +29,7 @@ const messages = defineMessages({
     id: "view.name.phone.contacts.googleButtonText",
   },
   appleButtonText: {
-    id: "view.name.phone.contacts.googleButtonText",
+    id: "view.name.phone.contacts.appleButtonText",
   },
   manualImportText: {
     id: "view.name.phone.contacts.manualImportText",
@@ -39,7 +39,7 @@ const messages = defineMessages({
 interface SyncContactsModal extends ModalProps {
   onGoogleButtonClick?: () => void
   onAppleButtonClick?: () => void
-  onManualImportClick?: (files: File[]) => void
+  onManualImportClick?: (inputElement: HTMLInputElement) => void
 }
 
 const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
@@ -50,19 +50,11 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const openFileSelector = () => fileInputRef.current?.click()
-
-  useEffect(() => {
-    const onFileSelect = () => {
-      fileInputRef?.current?.files &&
-        onManualImportClick?.(Array.from(fileInputRef.current.files))
+  const handleManualImportClick = () => {
+    if (onManualImportClick && fileInputRef.current) {
+      onManualImportClick(fileInputRef.current)
     }
-
-    fileInputRef.current?.addEventListener("change", onFileSelect)
-    return () => {
-      fileInputRef.current?.removeEventListener("change", onFileSelect)
-    }
-  }, [fileInputRef.current])
+  }
 
   return (
     <Modal
@@ -83,7 +75,6 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
               label={intl.formatMessage(messages.googleButtonText)}
               Icon={Type.Google}
               onClick={onGoogleButtonClick}
-              data-testid={SyncContactsModalTestIds.GoogleButton}
             />
           )}
           {onAppleButtonClick && (
@@ -100,7 +91,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
                 displayStyle={DisplayStyle.Primary}
                 label={intl.formatMessage(messages.manualImportText)}
                 Icon={Type.Upload}
-                onClick={openFileSelector}
+                onClick={handleManualImportClick}
               />
               <input
                 ref={fileInputRef}
@@ -108,6 +99,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
                 accept=".vcf"
                 hidden
                 multiple
+                data-testid={SyncContactsModalTestIds.FileInput}
               />
             </>
           )}
