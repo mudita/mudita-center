@@ -74,6 +74,21 @@ export default {
             Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
         )
 
+        console.log(
+          ": ",
+          JSON.stringify({
+            batteryLevel: batteryInfo.data!.level,
+            osVersion: info.data!.osVersion,
+            simCards: networkInfo.data!.simCards,
+            memorySpace: {
+              full: storageInfo.data!.capacity,
+              free: storageInfo.data!.available,
+            },
+            lastBackup,
+            osUpdateDate: info.data!.osUpdateDate,
+          })
+        )
+
         dispatch.basicInfo.update({
           batteryLevel: batteryInfo.data!.level,
           osVersion: info.data!.osVersion,
@@ -93,7 +108,7 @@ export default {
     async connect() {
       const { status } = await connectDevice()
 
-      if (status === DeviceResponseStatus.Ok){
+      if (status === DeviceResponseStatus.Ok) {
         dispatch.basicInfo.update({
           disconnectedDevice: false,
         })
@@ -105,6 +120,27 @@ export default {
       dispatch.basicInfo.update({
         disconnectedDevice: false,
       })
+      dispatch.basicInfo.update({
+        batteryLevel: 0.43,
+        osVersion: "release-0.46.1-33-g4973babd",
+        simCards: [
+          {
+            slot: 1,
+            active: true,
+            number: 12345678,
+            network: "Y-Mobile",
+            carrier: "Yo mama 36.0",
+            networkLevel: 0.2,
+            iccid: 1234,
+            imei: 5678,
+            meid: 8765,
+            seid: "1234",
+          },
+        ],
+        memorySpace: { full: 13913, free: 13727 },
+        osUpdateDate: "2020-01-14T11:31:08.244Z",
+      })
+      dispatch.basicInfo.setResultsState(ResultsState.Loaded)
     },
     async disconnect() {
       const disconnectInfo = await disconnectDevice()
@@ -117,7 +153,7 @@ export default {
     async toggleDisconnectedDevice(disconnectedDevice: boolean) {
       dispatch.basicInfo.update({ disconnectedDevice })
 
-      if(!disconnectedDevice){
+      if (!disconnectedDevice) {
         dispatch.basicInfo.loadData()
       }
     },
