@@ -89,7 +89,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
         <BatteryStats>
           <BatteryIcon width={2.4} level={0.1} />
           <Text displayStyle={TextDisplayStyle.LargeBoldText} element={"h2"}>
-            {batteryLevel * 100} %
+            {Math.round(batteryLevel * 100)} %
           </Text>
           <Text
             displayStyle={TextDisplayStyle.SmallFadedText}
