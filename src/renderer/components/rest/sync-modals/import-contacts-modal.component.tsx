@@ -9,7 +9,7 @@ import { intl } from "Renderer/utils/intl"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
 import { defineMessages } from "react-intl"
-import { BaseContactModel } from "Renderer/models/phone/phone.typings"
+import { NewContact } from "Renderer/models/phone/phone.typings"
 import Table, {
   Col,
   Labels,
@@ -42,7 +42,7 @@ const ContactsList = styled(Table)`
 `
 
 export interface ImportContactsModalProps extends ModalProps {
-  contacts?: BaseContactModel[]
+  contacts?: NewContact[]
 }
 
 const ImportContactsModal: FunctionComponent<ImportContactsModalProps> = ({

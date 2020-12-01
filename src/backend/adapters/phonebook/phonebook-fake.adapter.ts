@@ -36,17 +36,19 @@ class PhonebookFake extends PhonebookAdapter {
     }
   }
 
-  public editContact(contact: Contact): DeviceResponse<Contact> {
+  public async editContact(contact: Contact): Promise<DeviceResponse<Contact>> {
     return {
       status: DeviceResponseStatus.Ok,
       data: contact,
     }
   }
 
-  public deleteContacts(contactsIds: ContactID[]): DeviceResponse<ContactID[]> {
+  public async deleteContacts(
+    contactIds: ContactID[]
+  ): Promise<DeviceResponse<ContactID[]>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: contactsIds,
+      data: contactIds,
     }
   }
 }

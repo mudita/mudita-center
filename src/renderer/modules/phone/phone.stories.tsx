@@ -72,11 +72,13 @@ const PhoneComponent = ({
     isTopicThreadOpened={isTopicThreadOpened}
     loadData={asyncNoop}
     addNewContact={asyncNoop}
+    editContact={asyncNoop}
     contacts={phoneSeedInput}
     loadContacts={asyncNoop}
     inputValue={""}
     savingContact={false}
     speedDialContacts={[]}
+    deleteContacts={asyncNoop}
   />
 )
 

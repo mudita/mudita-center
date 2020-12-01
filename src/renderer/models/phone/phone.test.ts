@@ -9,7 +9,7 @@ import {
   contactDatabaseFactory,
   addContacts,
   removeContact,
-  editContact,
+  updateContact,
   findContact,
 } from "Renderer/models/phone/phone.helpers"
 import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
@@ -149,7 +149,8 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
 
     expect(OLD_DB_SHAPE.db[ID_TO_EDIT].firstName).not.toBe(NEW_NAME)
 
-    const result = editContact(OLD_DB_SHAPE, ID_TO_EDIT, {
+    const result = updateContact(OLD_DB_SHAPE, {
+      id: ID_TO_EDIT,
       firstName: NEW_NAME,
     })
 
@@ -201,7 +202,7 @@ describe("redux tests", () => {
     expect(store.getState().phone.collection.indexOf(testId) === -1).toBeFalsy()
   })
 
-  test("properly changes contact", () => {
+  test("properly changes contact",() => {
     const testName = "some random name"
     const modifiedContact = {
       ...TEST_CONTACT,
@@ -212,7 +213,7 @@ describe("redux tests", () => {
       modifiedContact
     )
 
-    store.dispatch.phone.editContact([TEST_CONTACT.id], modifiedContact)
+    store.dispatch.phone.updateContact(modifiedContact)
 
     expect(store.getState().phone.db[TEST_CONTACT.id]).toMatchObject(
       modifiedContact
@@ -255,7 +256,7 @@ describe("redux tests", () => {
       store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
     ).toBe(speedDial)
 
-    store.dispatch.phone.editContact(contactToEdit.id, {
+    store.dispatch.phone.updateContact({
       ...contactToEdit,
       speedDial,
     })
@@ -283,22 +284,12 @@ describe("redux tests", () => {
   })
 
   test("properly removes multiple contacts", () => {
-    const sliceToRemove = phoneSeed.collection.slice(0, 5)
+    const contactToDelete = phoneSeed.collection[0]
     const initialState = store.getState().phone
-
-    sliceToRemove.forEach((slice) => {
-      expect(initialState.db[slice]).toBeDefined()
-      expect(initialState.collection.indexOf(slice) === -1).toBeFalsy()
-    })
-
-    store.dispatch.phone.removeContact(sliceToRemove)
-
+    expect(initialState.collection.indexOf(contactToDelete) === -1).toBeFalsy()
+    store.dispatch.phone.removeContact(contactToDelete)
     const newState = store.getState().phone
-
-    sliceToRemove.forEach((slice) => {
-      expect(newState.db[slice]).toBeUndefined()
-      expect(newState.collection.indexOf(slice) === -1).toBeTruthy()
-    })
+    expect(newState.collection.indexOf(contactToDelete) === -1).toBeTruthy()
   })
 
   test("properly updates contacts", () => {

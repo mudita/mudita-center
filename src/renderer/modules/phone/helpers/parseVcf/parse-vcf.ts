@@ -1,5 +1,5 @@
 import vCard from "vcf"
-import { BaseContactModel } from "Renderer/models/phone/phone.typings"
+import { NewContact } from "Renderer/models/phone/phone.typings"
 
 interface vCardContact {
   [key: string]: vCard.Property | vCard.Property[]
@@ -15,7 +15,7 @@ export const readFile = (file: File): Promise<string> => {
   })
 }
 
-const parseContact = (contact: vCardContact): BaseContactModel => {
+const parseContact = (contact: vCardContact): NewContact => {
   const [
     lastName = "",
     firstName = "",
@@ -79,8 +79,8 @@ const parseContact = (contact: vCardContact): BaseContactModel => {
   }
 }
 
-const parseVcf = async (files: File[]): Promise<BaseContactModel[]> => {
-  const parsedContacts: BaseContactModel[] = []
+const parseVcf = async (files: File[]): Promise<NewContact[]> => {
+  const parsedContacts: NewContact[] = []
 
   for (const file of files) {
     const contacts = vCard.parse(await readFile(file))
