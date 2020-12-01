@@ -19,7 +19,7 @@ jest.mock("react-router", () => ({
 const renderer = () => {
   return renderWithThemeAndIntl(
     <Provider store={store}>
-      <Messages searchValue={""} list={mockedList} />
+      <Messages language={"en"} searchValue={""} list={mockedList} />
     </Provider>
   )
 }

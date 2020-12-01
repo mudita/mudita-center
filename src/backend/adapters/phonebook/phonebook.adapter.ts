@@ -55,10 +55,18 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  public editContact(contact: Contact): DeviceResponse<Contact> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: contact,
+  public async editContact(contact: Contact): Promise<DeviceResponse<Contact>> {
+    const { status } = await this.deviceService.request({
+      endpoint: Endpoint.Contacts,
+      method: Method.Post,
+      body: mapToPureContact(contact),
+    })
+
+    if (status === DeviceResponseStatus.Ok) {
+      // TODO: return contact from API response after EGD fix, task https://appnroll.atlassian.net/browse/PDA-577
+      return {status, data: contact}
+    } else {
+      return { status, error: { message: "Something went wrong" } }
     }
   }
 

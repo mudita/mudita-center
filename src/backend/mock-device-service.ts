@@ -64,6 +64,11 @@ class MockPureNodeService extends DeviceService {
         data: mockPureData,
         status: DeviceResponseStatus.Ok,
       }
+    } else if (endpoint === Endpoint.Contacts && method === Method.Post) {
+      return {
+        data: mockPureData,
+        status: DeviceResponseStatus.Ok,
+      }
     } else if (endpoint === Endpoint.Contacts && method === Method.Delete) {
       return {
         status: DeviceResponseStatus.Ok,
