@@ -14,7 +14,7 @@ let fakeOsVersion: string
 
 beforeEach(async () => {
   const {data} = await fakeSystemInfo.getOsVersion()
-  fakeOsVersion = data!!
+  fakeOsVersion = data ?? ''
 })
 
 const renderSystem = ({

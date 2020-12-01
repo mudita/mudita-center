@@ -26,11 +26,11 @@ const renderNetwork = ({
   }
 }
 
-let fakeSimCards: SimInfo[]
+let fakeSimCards: SimInfo[] = []
 
 beforeEach(async () => {
   const { data } = await getFakeAdapters().pureNetwork.getSimCards()
-  fakeSimCards = data!!
+  fakeSimCards = data ?? []
 })
 
 test("matches snapshot", () => {
