@@ -92,7 +92,7 @@ const MessageDetails: FunctionComponent<Props> = ({
     onClose()
   }
 
-  const emitDeleteClick = () => onDeleteClick(details.id)
+  const handleDeleteClick = () => onDeleteClick(details.id)
   const handleContactClick = () => onContactClick(details.caller.phoneNumber)
 
   const icons = (
@@ -114,7 +114,7 @@ const MessageDetails: FunctionComponent<Props> = ({
       />
       <SidebarHeaderIcon
         Icon={Type.Delete}
-        onClick={emitDeleteClick}
+        onClick={handleDeleteClick}
         iconSize={IconSize.Big}
       />
     </>
