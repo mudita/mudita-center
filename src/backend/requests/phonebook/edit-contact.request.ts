@@ -7,7 +7,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 const handleEditContactRequest = (
   { phonebook }: Adapters,
   contact: Contact
-): DeviceResponse<Contact> => {
+): Promise<DeviceResponse<Contact>> => {
   return phonebook.editContact(contact)
 }
 

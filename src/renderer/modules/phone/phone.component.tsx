@@ -50,11 +50,13 @@ import {
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
+import logger from "App/main/utils/logger"
 
 export const messages = defineMessages({
   deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
   deleteText: { id: "view.name.phone.contacts.modal.delete.text" },
   addingText: { id: "view.name.phone.contacts.modal.adding.text" },
+  editingText: { id: "view.name.phone.contacts.modal.editing.text" },
 })
 
 export type PhoneProps = ContactActions &
@@ -220,7 +222,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         true
       )
 
-      const error = await addNewContact(contact)
+      const error = await delayResponse(addNewContact(contact))
 
       if (error && !retried) {
         modalService.openModal(
@@ -249,12 +251,42 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     openSidebar(contact as Contact)
   }
 
-  const saveEditedContact = (contact: Contact) => {
-    setEditedContact(contact)
-    cancelEditingContact(contact)
-    openSidebar(contact)
-    if (editContact) {
-      editContact(contact.id, contact)
+  const editContactWithRetry = async (contact: Contact) => {
+    return new Promise((resolve, reject) => {
+      const edit = async (retried?: boolean) => {
+        modalService.openModal(
+          <LoadingStateDataModal textMessage={messages.editingText} />,
+          true
+        )
+
+        const error = await delayResponse(editContact(contact))
+
+        if (error && !retried) {
+          modalService.openModal(
+            <ErrorWithRetryDataModal onRetry={() => edit(true)} />,
+            true
+          )
+        } else if (error) {
+          modalService.openModal(<ErrorDataModal />, true)
+          reject()
+        } else {
+          await modalService.closeModal()
+          resolve()
+        }
+      }
+
+      edit()
+    })
+  }
+
+  const saveEditedContact = async (contact: Contact) => {
+    try {
+      await editContactWithRetry(contact)
+      setEditedContact(contact)
+      cancelEditingContact(contact)
+      openSidebar(contact)
+    } catch (error) {
+      logger.error(error)
     }
   }
 
@@ -302,9 +334,12 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       ...contact,
       blocked: false,
     }
-    if (editContact) {
-      await editContact(unblockedContact.id, unblockedContact)
+    try {
+      await editContactWithRetry(unblockedContact)
+    } catch (error) {
+      logger.error(error)
     }
+
     if (detailsEnabled) {
       openSidebar(unblockedContact)
     }
@@ -320,10 +355,12 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         blocked: true,
         favourite: false,
       }
-      if (editContact) {
-        await editContact(blockedContact.id, blockedContact)
+
+      try {
+        await editContactWithRetry(blockedContact)
+      } catch (error) {
+        logger.error(error)
       }
-      await modalService.closeModal()
 
       if (detailsEnabled) {
         openSidebar(blockedContact)
