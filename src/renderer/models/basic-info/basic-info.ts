@@ -10,19 +10,27 @@ import changeSimRequest from "Renderer/requests/change-sim.request"
 import { Dispatch } from "Renderer/store"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Slicer } from "@rematch/select"
-import { SimCard, Store } from "Renderer/models/basic-info/interfaces"
+import {
+  ResultsState,
+  SimCard,
+  StoreData,
+} from "Renderer/models/basic-info/interfaces"
 
 const initialState = {
   disconnectedDevice: true,
+  resultsState: ResultsState.Empty,
 }
 
 export default {
   state: initialState,
   reducers: {
-    update(state: Store, payload: any) {
+    setResultsState(state: StoreData, resultsState: ResultsState): StoreData {
+      return { ...state, resultsState }
+    },
+    update(state: StoreData, payload: any): StoreData {
       return { ...state, ...payload }
     },
-    updateSim(state: Store, payload: number) {
+    updateSim(state: StoreData, payload: number): StoreData {
       const newSim = [
         {
           ...state.simCards[0],
@@ -38,6 +46,7 @@ export default {
   },
   effects: (dispatch: Dispatch) => ({
     async loadData() {
+      dispatch.basicInfo.setResultsState(ResultsState.Loading)
       const responses = await Promise.all([
         getDeviceInfo(),
         getNetworkInfo(),
@@ -76,15 +85,21 @@ export default {
           lastBackup,
           osUpdateDate: info.data!.osUpdateDate,
         })
+        dispatch.basicInfo.setResultsState(ResultsState.Loaded)
+      } else {
+        dispatch.basicInfo.setResultsState(ResultsState.Error)
       }
     },
     async connect() {
       const { status } = await connectDevice()
 
-      if (status === DeviceResponseStatus.Ok)
+      if (status === DeviceResponseStatus.Ok){
         dispatch.basicInfo.update({
           disconnectedDevice: false,
         })
+
+        dispatch.basicInfo.loadData()
+      }
     },
     async fakeConnect() {
       dispatch.basicInfo.update({
@@ -99,6 +114,13 @@ export default {
         })
       }
     },
+    async toggleDisconnectedDevice(disconnectedDevice: boolean) {
+      dispatch.basicInfo.update({ disconnectedDevice })
+
+      if(!disconnectedDevice){
+        dispatch.basicInfo.loadData()
+      }
+    },
     async changeSim(simCard: SimCard) {
       const changeSimInfo = await changeSimRequest()
       if (changeSimInfo.status === DeviceResponseStatus.Ok) {
@@ -110,6 +132,14 @@ export default {
     activeSimNetworkName() {
       return slice((state: { simCards?: SimCard[] }) => {
         return getActiveNetworkFromSim(state.simCards)
+      })
+    },
+    isConnected() {
+      return slice((state: StoreData) => {
+        return (
+          state.resultsState === ResultsState.Loaded &&
+          !state.disconnectedDevice
+        )
       })
     },
   }),

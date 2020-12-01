@@ -97,7 +97,6 @@ const Overview: FunctionComponent<
   pureOsAvailable,
   pureOsDownloaded,
   updatePhoneOsInfo = noop,
-  loadData = noop,
   memorySpace = {
     free: 0,
     full: 16000000000,
@@ -146,7 +145,6 @@ const Overview: FunctionComponent<
 
   useEffect(() => {
     ;(async () => {
-      await loadData()
       initialCheck()
     })()
   }, [osUpdateDate])

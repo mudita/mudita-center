@@ -4,7 +4,7 @@ import { connect, Provider } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
 import { Router } from "react-router"
 import BaseRoutes from "Renderer/routes/base-routes"
-import { Store } from "Renderer/store"
+import { select, Store } from "Renderer/store"
 import { History } from "history"
 import registerDisconnectedDeviceListener, {
   removeDisconnectedDeviceListener,
@@ -21,11 +21,13 @@ interface Props {
   store: Store
   history: History
   toggleDisconnectedDevice: (disconnectedDevice: boolean) => void
-  disconnectedDevice: boolean
+  connected: boolean
+  loadData: () => void
 }
 
 const BaseApp: FunctionComponent<Props> = ({
-  disconnectedDevice,
+  connected,
+  loadData,
   toggleDisconnectedDevice,
   store,
   history,
@@ -48,12 +50,12 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    if (disconnectedDevice) {
+    if (!connected) {
       history.push(URL_MAIN.news)
     } else {
       history.push(URL_MAIN.overview)
     }
-  }, [disconnectedDevice])
+  }, [connected])
 
   useEffect(() => {
     ;(async () => {
@@ -63,7 +65,7 @@ const BaseApp: FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
-    if (disconnectedDevice && pureNeverConnected) {
+    if (!connected && pureNeverConnected) {
       history.push(URL_ONBOARDING.root)
     }
   }, [pureNeverConnected])
@@ -78,15 +80,19 @@ const BaseApp: FunctionComponent<Props> = ({
   )
 }
 
+const selection = select((models: any) => ({
+  connected: models.basicInfo.isConnected,
+}))
+
 const mapStateToProps = (state: RootState) => {
   return {
-    disconnectedDevice: state.basicInfo.disconnectedDevice,
+    ...(selection(state, null) as { connected: boolean }),
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
-  toggleDisconnectedDevice: (disconnectedDevice: boolean) =>
-    dispatch.basicInfo.update({ disconnectedDevice }),
+const mapDispatchToProps = ({ basicInfo }: any) => ({
+  toggleDisconnectedDevice: basicInfo.toggleDisconnectedDevice,
+  loadData: basicInfo.loadData,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)

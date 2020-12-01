@@ -23,6 +23,17 @@ export interface StoreValues {
   readonly simCards: SimCard[]
 }
 
+export enum ResultsState {
+  Loading,
+  Loaded,
+  Empty,
+  Error,
+}
+
+export interface StoreData extends StoreValues {
+  resultsState: ResultsState
+}
+
 interface StoreEffects {
   readonly changeSim: (card: SimCard) => void
   readonly loadData: () => void
