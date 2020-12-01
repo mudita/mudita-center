@@ -38,13 +38,7 @@ export default {
   },
   effects: (dispatch: Dispatch) => ({
     async loadData() {
-      const [
-        info,
-        networkInfo,
-        storageInfo,
-        batteryInfo,
-        backupsInfo,
-      ] = await Promise.all([
+      const responses = await Promise.all([
         getDeviceInfo(),
         getNetworkInfo(),
         getStorageInfo(),
@@ -52,20 +46,37 @@ export default {
         getBackupsInfo(),
       ])
 
-      const [lastBackup] = backupsInfo.backups.sort(
-        (a, b) => Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
-      )
-      dispatch.basicInfo.update({
-        batteryLevel: batteryInfo.data ? batteryInfo.data.level : 0,
-        osVersion: info.data ? info.data.osVersion : "",
-        simCards: networkInfo.data ? networkInfo.data.simCards : [],
-        memorySpace: {
-          full: storageInfo.data ? storageInfo.data.capacity : 0,
-          free: storageInfo.data ? storageInfo.data.available : 0,
-        },
-        lastBackup,
-        osUpdateDate: info.data ? info.data.osUpdateDate : "",
-      })
+      if (
+        responses.every(
+          ({ status, data }) =>
+            status === DeviceResponseStatus.Ok && data !== undefined
+        )
+      ) {
+        const [
+          info,
+          networkInfo,
+          storageInfo,
+          batteryInfo,
+          backupsInfo,
+        ] = responses
+
+        const [lastBackup] = backupsInfo.data!.backups.sort(
+          (a, b) =>
+            Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
+        )
+
+        dispatch.basicInfo.update({
+          batteryLevel: batteryInfo.data!.level,
+          osVersion: info.data!.osVersion,
+          simCards: networkInfo.data!.simCards,
+          memorySpace: {
+            full: storageInfo.data!.capacity,
+            free: storageInfo.data!.available,
+          },
+          lastBackup,
+          osUpdateDate: info.data!.osUpdateDate,
+        })
+      }
     },
     async connect() {
       const { status } = await connectDevice()
