@@ -73,3 +73,32 @@ test("message from unknown person displays only phone number", () => {
     unknownCallerMockedDetails.caller.phoneNumber
   )
 })
+
+test("mark massage as unread", () => {
+  const onClose = jest.fn()
+  const { getByTestId } = renderWithThemeAndIntl(
+    <MessageDetails
+      onDeleteClick={onDeleteClick}
+      onUnreadStatus={onUnreadStatus}
+      onContactClick={onContactClick}
+      details={mockedDetails}
+      onClose={onClose}
+    />
+  )
+  fireEvent.click(getByTestId("icon-BorderCheckIcon"))
+  expect(onUnreadStatus).toBeCalled()
+  expect(onClose).toBeCalled()
+})
+
+test("open contacts", () => {
+  const { getByTestId } = renderWithThemeAndIntl(
+    <MessageDetails
+      onDeleteClick={onDeleteClick}
+      onUnreadStatus={onUnreadStatus}
+      onContactClick={onContactClick}
+      details={mockedDetails}
+    />
+  )
+  fireEvent.click(getByTestId("icon-Contact"))
+  expect(onContactClick).toBeCalled()
+})
