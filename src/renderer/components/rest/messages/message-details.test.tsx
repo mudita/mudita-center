@@ -86,7 +86,7 @@ test("mark massage as unread", () => {
     />
   )
   fireEvent.click(getByTestId("icon-BorderCheckIcon"))
-  expect(onUnreadStatus).toBeCalled()
+  expect(onUnreadStatus).toBeCalledWith([mockedDetails.id])
   expect(onClose).toBeCalled()
 })
 
@@ -101,4 +101,17 @@ test("open contacts", () => {
   )
   fireEvent.click(getByTestId("icon-Contact"))
   expect(onContactClick).toBeCalled()
+})
+
+test("delete messages", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessageDetails
+      onDeleteClick={onDeleteClick}
+      onUnreadStatus={onUnreadStatus}
+      onContactClick={onContactClick}
+      details={mockedDetails}
+    />
+  )
+  fireEvent.click(getAllByTestId("icon-Delete")[0])
+  expect(onDeleteClick).toBeCalledWith(mockedDetails.id)
 })
