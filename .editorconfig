@@ -14,3 +14,5 @@ trim_trailing_whitespace = false
 
 [*.{json,yml,js,ts,tsx,css,scss,graphql,gql,html}]
 indent_size = 2
+
+asdasd
