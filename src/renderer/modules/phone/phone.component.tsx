@@ -50,11 +50,17 @@ import {
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
+import parseVcf from "Renderer/modules/phone/helpers/parseVcf/parse-vcf"
+import ImportContactsModal from "Renderer/components/rest/sync-modals/import-contacts-modal.component"
+import ImportingContactsModal from "Renderer/components/rest/sync-modals/importing-contacts-modal.component"
 
 export const messages = defineMessages({
   deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
   deleteText: { id: "view.name.phone.contacts.modal.delete.text" },
   addingText: { id: "view.name.phone.contacts.modal.adding.text" },
+  importingFailed: {
+    id: "view.name.phone.contacts.modal.importingFailed.message",
+  },
 })
 
 export type PhoneProps = ContactActions &
@@ -186,6 +192,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     }
   }, [flatList])
 
+  const closeModal = () => modalService.closeModal()
+
   const contactFreshData = ({ id }: Contact) => {
     return getContact(id)
   }
@@ -231,7 +239,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
-        await modalService.closeModal()
+        await closeModal()
       }
     }
 
@@ -279,7 +287,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       if (removeContact) {
         removeContact(contact.id)
       }
-      await modalService.closeModal()
+      await closeModal()
       cancelOrCloseContactHandler()
     }
 
@@ -323,7 +331,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       if (editContact) {
         await editContact(blockedContact.id, blockedContact)
       }
-      await modalService.closeModal()
+      await closeModal()
 
       if (detailsEnabled) {
         openSidebar(blockedContact)
@@ -335,17 +343,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
-  const closeSpeedDialModal = async () => {
-    await modalService.closeModal()
-  }
-
   const openSpeedDialModal = () => {
-    modalService.openModal(<SpeedDialModal onSave={closeSpeedDialModal} />)
+    modalService.openModal(<SpeedDialModal onSave={closeModal} />)
   }
 
   const openSuccessSyncModal = async () => {
     // TODO: Replace it with correct modal for success state when its done by design
-    await modalService.closeModal()
+    await closeModal()
     await modalService.openModal(
       <Modal title={"Success"} size={ModalSize.Small} />
     )
@@ -353,14 +357,14 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const openFailureSyncModal = async () => {
     // TODO: Replace it with correct modal for failure state when its done by design
-    await modalService.closeModal()
+    await closeModal()
     await modalService.openModal(
       <Modal title={"Failure"} size={ModalSize.Small} />
     )
   }
 
   const openProgressSyncModal = async () => {
-    await modalService.closeModal()
+    await closeModal()
     await modalService.openModal(
       <SynchronizingContactsModal
         body={{
@@ -379,11 +383,54 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
+  const importContactsFromFile = async (files: File[]) => {
+    const parsedContacts = await parseVcf(files)
+    let failed = false
+
+    const addImportedContacts = async () => {
+      await closeModal()
+      modalService.openModal(
+        <ImportingContactsModal count={0} total={parsedContacts.length} />
+      )
+
+      for (const contact of parsedContacts) {
+        if (failed) {
+          await closeModal()
+          modalService.openModal(
+            <ErrorDataModal textMessage={messages.importingFailed} />
+          )
+          return
+        }
+        const error = await addNewContact(contact)
+        if (error) {
+          failed = true
+        }
+
+        const currentContact = parsedContacts.indexOf(contact) + 1
+        modalService.rerenderModal(
+          <ImportingContactsModal
+            count={currentContact}
+            total={parsedContacts.length}
+            onClose={closeModal}
+          />
+        )
+      }
+    }
+
+    await closeModal()
+    modalService.openModal(
+      <ImportContactsModal
+        contacts={parsedContacts}
+        onActionButtonClick={addImportedContacts}
+      />
+    )
+  }
+
   const openSyncModal = async () => {
     modalService.openModal(
       <SyncContactsModal
-        onAppleButtonClick={openProgressSyncModal}
         onGoogleButtonClick={loadGoogleContacts}
+        onManualImportClick={importContactsFromFile}
       />
     )
   }
