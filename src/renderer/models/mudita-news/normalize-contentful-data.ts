@@ -26,7 +26,7 @@ export const normalizeContentfulData = async (
       return item?.image?.sys?.id === asset.sys.id
     })
     const urlSplit = item.communityLink.split("/")
-    const postId = urlSplit[urlSplit.length - 1]
+    const postId = urlSplit.pop()
     item.commentsCount = await getCommentsCount(postId)
     item.imageSource = await getBase64(url)
     item.imageAlt = title
