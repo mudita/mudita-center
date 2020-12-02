@@ -27,7 +27,7 @@ class PurePhoneStorage extends PurePhoneStorageAdapter {
     }
   }
 
-  public async getCapacity(): Promise<DeviceResponse<number>>  {
+  public async getCapacity(): Promise<DeviceResponse<number>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.DeviceInfo,
       method: Method.Get,

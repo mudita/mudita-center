@@ -29,7 +29,7 @@ test("store returns initial state", () => {
 })
 
 //TODO: update
-test("mock calls update state", async () => {
+test.skip("mock calls update state", async () => {
   const store = init({
     models: { basicInfo },
   })

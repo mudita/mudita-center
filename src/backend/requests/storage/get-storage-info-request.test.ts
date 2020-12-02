@@ -9,12 +9,14 @@ import Adapters from "Backend/adapters/adapters.interface"
 jest.mock("pure")
 
 test("returns required storage info", async () => {
-  registerPurePhoneStorageRequest({
-    pureStorage: createPurePhoneStorageAdapter(new MockPureNodeService(PureDeviceManager, ipcMain)),
-  } as unknown as Adapters)
+  registerPurePhoneStorageRequest(({
+    pureStorage: createPurePhoneStorageAdapter(
+      new MockPureNodeService(PureDeviceManager, ipcMain)
+    ),
+  } as unknown) as Adapters)
 
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetStorageInfo)
-  const result = await pendingResponse;
+  const result = await pendingResponse
 
   expect(result.data).toMatchInlineSnapshot(`
     Object {

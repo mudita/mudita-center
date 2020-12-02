@@ -33,7 +33,7 @@ class PurePhoneNetwork extends PurePhoneNetworkAdapter {
             meid: 8765,
             seid: "1234",
           },
-        ]
+        ],
       }
     } else {
       return { status, error: { message: "Something went wrong" } }

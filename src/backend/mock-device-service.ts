@@ -1,4 +1,10 @@
-import { Contact as PureContact, DeviceInfo, Endpoint, Method, RequestConfig } from "pure"
+import {
+  Contact as PureContact,
+  DeviceInfo,
+  Endpoint,
+  Method,
+  RequestConfig,
+} from "pure"
 import DeviceService from "./device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
@@ -38,7 +44,7 @@ const mockPureData: PureContact[] = [
   },
 ]
 
-const mockDeviceInfo: DeviceInfo = {
+const mockDeviceInfo: DeviceInfo = ({
   accessTechnology: "255",
   batteryLevel: "35",
   batteryState: "1",
@@ -53,7 +59,7 @@ const mockDeviceInfo: DeviceInfo = {
   selectedSim: "0",
   signalStrength: "1",
   trayState: "1",
-} as unknown as DeviceInfo
+} as unknown) as DeviceInfo
 
 class MockPureNodeService extends DeviceService {
   async request({

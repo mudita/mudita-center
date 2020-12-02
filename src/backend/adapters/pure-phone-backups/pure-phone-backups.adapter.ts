@@ -5,7 +5,9 @@ import { name } from "../../../../package.json"
 import fs from "fs-extra"
 import path from "path"
 import moment from "moment"
-import DeviceResponse, { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 
 class PurePhoneBackups extends PurePhoneBackupAdapter {
   public async getBackups(): Promise<DeviceResponse<BackupItemInfo[]>> {
@@ -52,7 +54,7 @@ class PurePhoneBackups extends PurePhoneBackupAdapter {
 
     return {
       status: DeviceResponseStatus.Ok,
-      data: backups
+      data: backups,
     }
   }
 }

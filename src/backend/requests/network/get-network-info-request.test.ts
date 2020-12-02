@@ -9,12 +9,14 @@ import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-pho
 jest.mock("pure")
 
 test("returns required network info", async () => {
-  registerNetworkInfoRequest({
-    pureNetwork: createPurePhoneNetwork(new MockPureNodeService(PureDeviceManager, ipcMain)),
-  } as unknown as Adapters)
+  registerNetworkInfoRequest(({
+    pureNetwork: createPurePhoneNetwork(
+      new MockPureNodeService(PureDeviceManager, ipcMain)
+    ),
+  } as unknown) as Adapters)
 
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetNetworkInfo)
-  const result = await pendingResponse;
+  const result = await pendingResponse
 
   expect(result.data).toMatchInlineSnapshot(`
     Object {

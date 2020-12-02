@@ -33,7 +33,7 @@ class PurePhoneNetworkFake extends PurePhoneNetworkAdapter {
           meid: 1410,
           seid: "x123",
         },
-      ]
+      ],
     }
   }
 

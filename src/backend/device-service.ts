@@ -70,19 +70,22 @@ class DeviceService {
   }): Promise<DeviceResponse>
   async request(config: RequestConfig): Promise<DeviceResponse<any>>
   async request(config: RequestConfig) {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       if (!this.device) {
         return resolve({
           status: DeviceResponseStatus.Error,
         })
       }
 
-      const eventName = JSON.stringify(config);
+      const eventName = JSON.stringify(config)
 
-      const listener = (response: Response<any>) =>{
+      const listener = (response: Response<any>) => {
         this.eventEmitter.off(eventName, listener)
         const { status, body: data } = response
-        if (status === ResponseStatus.Ok || status === ResponseStatus.Accepted) {
+        if (
+          status === ResponseStatus.Ok ||
+          status === ResponseStatus.Accepted
+        ) {
           resolve({
             data,
             status: DeviceResponseStatus.Ok,
@@ -95,9 +98,9 @@ class DeviceService {
         }
       }
 
-      if(this.eventEmitter.eventNames().includes(eventName)){
+      if (this.eventEmitter.eventNames().includes(eventName)) {
         this.eventEmitter.on(eventName, listener)
-      }else {
+      } else {
         this.eventEmitter.on(eventName, listener)
         const response = await this.device.request(config)
         this.eventEmitter.emit(eventName, response)

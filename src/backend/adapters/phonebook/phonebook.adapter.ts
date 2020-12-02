@@ -64,7 +64,7 @@ class Phonebook extends PhonebookAdapter {
 
     if (status === DeviceResponseStatus.Ok) {
       // TODO: return contact from API response after EGD fix, task https://appnroll.atlassian.net/browse/PDA-577
-      return {status, data: contact}
+      return { status, data: contact }
     } else {
       return { status, error: { message: "Something went wrong" } }
     }

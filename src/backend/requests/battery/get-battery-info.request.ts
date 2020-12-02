@@ -11,7 +11,10 @@ const handleBatteryInfoRequest = async ({
 }: Adapters): Promise<DeviceResponse<BatteryInfo>> => {
   const getBatteryLevelResponse = await pureBatteryService.getBatteryLevel()
 
-  if (getBatteryLevelResponse.status === DeviceResponseStatus.Ok && getBatteryLevelResponse.data) {
+  if (
+    getBatteryLevelResponse.status === DeviceResponseStatus.Ok &&
+    getBatteryLevelResponse.data
+  ) {
     return {
       status: DeviceResponseStatus.Ok,
       data: {
