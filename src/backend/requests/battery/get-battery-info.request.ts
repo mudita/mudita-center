@@ -13,7 +13,7 @@ const handleBatteryInfoRequest = async ({
 
   if (
     getBatteryLevelResponse.status === DeviceResponseStatus.Ok &&
-    getBatteryLevelResponse.data
+    getBatteryLevelResponse.data !== undefined
   ) {
     return {
       status: DeviceResponseStatus.Ok,

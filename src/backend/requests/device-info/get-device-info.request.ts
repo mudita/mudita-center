@@ -13,7 +13,7 @@ const handleDeviceInfoRequest = async ({
 
   if (
     getOsVersionResponse.status === DeviceResponseStatus.Ok &&
-    getOsVersionResponse.data
+    getOsVersionResponse.data !== undefined
   ) {
     return {
       status: DeviceResponseStatus.Ok,

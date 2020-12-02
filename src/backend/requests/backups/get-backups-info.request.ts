@@ -10,7 +10,10 @@ const handleBackupsInfoRequest = async ({
   pureBackups,
 }: Adapters): Promise<DeviceResponse<BackupInfo>> => {
   const response = await pureBackups.getBackups()
-  if (response.status === DeviceResponseStatus.Ok && response.data) {
+  if (
+    response.status === DeviceResponseStatus.Ok &&
+    response.data !== undefined
+  ) {
     return {
       status: DeviceResponseStatus.Ok,
       data: {

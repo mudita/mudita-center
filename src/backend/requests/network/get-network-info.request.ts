@@ -13,7 +13,7 @@ const handleNetworkRequestInfo = async ({
 
   if (
     getSimCardsResponse.status === DeviceResponseStatus.Ok &&
-    getSimCardsResponse.data
+    getSimCardsResponse.data !== undefined
   ) {
     return {
       status: DeviceResponseStatus.Ok,
