@@ -14,6 +14,6 @@ export default abstract class PhonebookAdapter {
     contact: Contact
   ): Promise<DeviceResponse<Contact>>
   public abstract deleteContacts(
-    contactsIds: ContactID[]
-  ): DeviceResponse<ContactID[]>
+    contactIds: ContactID[]
+  ): Promise<DeviceResponse<ContactID[]>>
 }

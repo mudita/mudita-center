@@ -8,7 +8,6 @@ import {
   Phone,
   StoreData,
 } from "Renderer/models/phone/phone.typings"
-
 import {
   addContacts,
   contactDatabaseFactory,
@@ -25,6 +24,7 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 import getContactsRequest from "Renderer/requests/get-contacts.request"
 import addContactRequest from "Renderer/requests/add-contact.request"
 import editContactRequest from "Renderer/requests/edit-contact.request"
+import deleteContactsRequest from "Renderer/requests/delete-contacts.request"
 import logger from "App/main/utils/logger"
 
 export const initialState: Phone = {
@@ -148,8 +148,16 @@ export default {
         dispatch.phone.updateContact(data)
       }
     },
-    async removeContact() {
-      await simulateWriteToPhone()
+    async deleteContacts(input: ContactID[]): Promise<string | void> {
+      const { error } = await deleteContactsRequest(input)
+      if (error) {
+        logger.error(error)
+        const successIds = input.filter(id => !error.data?.includes(id))
+        dispatch.phone.removeContact(successIds)
+        return error.message
+      } else {
+        dispatch.phone.removeContact(input)
+      }
     },
   }),
   selectors: (slice: Slicer<StoreData>) => ({
