@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ReactNode, useRef, useState } from "react"
+import { Dispatch, ReactNode, SetStateAction, useRef, useState } from "react"
 import transition from "Renderer/styles/functions/transition"
 import {
   backgroundColor,
@@ -20,6 +20,8 @@ interface Props {
   dropdownPosition?: DropdownPosition
   onOpen?: () => void
   onClose?: () => void
+  visible: boolean
+  setVisible: Dispatch<SetStateAction<boolean>>
 }
 
 const DropdownWrapper = styled.div<{ visible: boolean }>`
@@ -70,8 +72,9 @@ const Dropdown: FunctionComponent<Props> = ({
   dropdownPosition = DropdownPosition.Right,
   onOpen,
   onClose,
+  visible,
+  setVisible,
 }) => {
-  const [visible, setVisible] = useState(false)
   const [reversedPosition, setReversedPosition] = useState(false)
   const ref = useRef<HTMLUListElement>(null)
 

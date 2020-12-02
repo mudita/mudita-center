@@ -1,4 +1,4 @@
-import React, { createRef, Ref, useEffect } from "react"
+import React, { createRef, Ref, useEffect, useState } from "react"
 import { Contact } from "Renderer/models/phone/phone.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
@@ -149,6 +149,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   noneRowsSelected,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
+  const [dropdownVisible, setDropdownVisible] = useState(false)
   const tableRef = createRef<HTMLDivElement>()
 
   useEffect(() => {
@@ -260,6 +261,8 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                     <Col>
                       <Actions>
                         <Dropdown
+                          visible={dropdownVisible}
+                          setVisible={setDropdownVisible}
                           toggler={
                             <ActionsButton>
                               <Icon type={Type.More} />

@@ -9,9 +9,15 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import Button from "../button/button.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
+const setVisible = jest.fn()
+
 test("matches snapshot", () => {
   const { container } = renderWithThemeAndIntl(
-    <Dropdown toggler={<ButtonComponent />} />
+    <Dropdown
+      setVisible={setVisible}
+      visible={false}
+      toggler={<ButtonComponent />}
+    />
   )
   expect(container).toMatchSnapshot()
 })
@@ -19,7 +25,11 @@ test("matches snapshot", () => {
 test("renders toggler passed to component", () => {
   const buttonText = "Example"
   const { getByText } = renderWithThemeAndIntl(
-    <Dropdown toggler={<ButtonComponent label={buttonText} />} />
+    <Dropdown
+      setVisible={setVisible}
+      visible={true}
+      toggler={<ButtonComponent label={buttonText} />}
+    />
   )
   expect(getByText(buttonText)).toBeInTheDocument()
 })
@@ -27,7 +37,11 @@ test("renders toggler passed to component", () => {
 test("renders dropdown", async () => {
   const buttonText = "Example"
   const { getByTestId, getByText, container } = renderWithThemeAndIntl(
-    <Dropdown toggler={<ButtonComponent label={buttonText} />}>
+    <Dropdown
+      setVisible={setVisible}
+      visible={true}
+      toggler={<ButtonComponent label={buttonText} />}
+    >
       <Button
         displayStyle={DisplayStyle.Link1}
         label="I open Google in new tab"
@@ -50,7 +64,11 @@ test("renders children", async () => {
   const buttonText = "Example"
   const childText = "childText"
   const { getByText } = renderWithThemeAndIntl(
-    <Dropdown toggler={<ButtonComponent label={buttonText} />}>
+    <Dropdown
+      setVisible={setVisible}
+      visible={false}
+      toggler={<ButtonComponent label={buttonText} />}
+    >
       <Button
         displayStyle={DisplayStyle.Link1}
         label={childText}

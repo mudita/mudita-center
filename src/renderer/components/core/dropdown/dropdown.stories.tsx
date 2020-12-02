@@ -9,10 +9,16 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "../../storybook/story.component"
 
+const visible = true
+const setVisible = () => {
+  return
+}
 storiesOf("Components|Core/Dropdown", module).add("Default", () => (
   <StoryContainer>
     <Story title="Aligned to the left">
       <Dropdown
+        setVisible={setVisible}
+        visible={visible}
         dropdownPosition={DropdownPosition.Left}
         toggler={<ButtonComponent label={"Click dropdown"} />}
       >
@@ -37,7 +43,11 @@ storiesOf("Components|Core/Dropdown", module).add("Default", () => (
       </Dropdown>
     </Story>
     <Story title="Aligned to the right">
-      <Dropdown toggler={<ButtonComponent label={"Click dropdown"} />}>
+      <Dropdown
+        setVisible={setVisible}
+        visible={visible}
+        toggler={<ButtonComponent label={"Click dropdown"} />}
+      >
         <DropdownButton
           label="I open Google in new tab"
           href="http://www.google.pl"
