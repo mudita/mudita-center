@@ -13,8 +13,9 @@ import { Slicer } from "@rematch/select"
 import {
   ResultsState,
   SimCard,
-  StoreData,
+  StoreValues,
 } from "Renderer/models/basic-info/interfaces"
+import { basicInfoSeed } from "App/seeds/basic-info"
 
 const initialState = {
   disconnectedDevice: true,
@@ -24,13 +25,16 @@ const initialState = {
 export default {
   state: initialState,
   reducers: {
-    setResultsState(state: StoreData, resultsState: ResultsState): StoreData {
+    setResultsState(
+      state: StoreValues,
+      resultsState: ResultsState
+    ): StoreValues {
       return { ...state, resultsState }
     },
-    update(state: StoreData, payload: any): StoreData {
+    update(state: StoreValues, payload: any): StoreValues {
       return { ...state, ...payload }
     },
-    updateSim(state: StoreData, payload: number): StoreData {
+    updateSim(state: StoreValues, payload: number): StoreValues {
       const newSim = [
         {
           ...state.simCards[0],
@@ -105,26 +109,7 @@ export default {
       dispatch.basicInfo.update({
         disconnectedDevice: false,
       })
-      dispatch.basicInfo.update({
-        batteryLevel: 0.43,
-        osVersion: "release-0.46.1-33-g4973babd",
-        simCards: [
-          {
-            slot: 1,
-            active: true,
-            number: 12345678,
-            network: "Y-Mobile",
-            carrier: "Yo mama 36.0",
-            networkLevel: 0.2,
-            iccid: 1234,
-            imei: 5678,
-            meid: 8765,
-            seid: "1234",
-          },
-        ],
-        memorySpace: { full: 13913, free: 13727 },
-        osUpdateDate: "2020-01-14T11:31:08.244Z",
-      })
+      dispatch.basicInfo.update(basicInfoSeed)
       dispatch.basicInfo.setResultsState(ResultsState.Loaded)
     },
     async disconnect() {
@@ -156,7 +141,7 @@ export default {
       })
     },
     isConnected() {
-      return slice((state: StoreData) => {
+      return slice((state: StoreValues) => {
         return (
           state.resultsState === ResultsState.Loaded &&
           !state.disconnectedDevice

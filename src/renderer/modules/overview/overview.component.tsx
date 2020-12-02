@@ -208,7 +208,7 @@ const Overview: FunctionComponent<
   const openBackupRestorationLoadingModal = () => {
     restorations++
     logger.info(
-      `Restoring backup from ${lastBackup.createdAt} with a size of ${lastBackup.size} bytes.`
+      `Restoring backup from ${lastBackup?.createdAt} with a size of ${lastBackup?.size} bytes.`
     )
 
     simulateProgress(
