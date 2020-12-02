@@ -1,7 +1,8 @@
 import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
 
 export interface SimCard {
-  readonly network?: string
+  readonly network: string
+  readonly networkLevel: number
   readonly number: number
   readonly slot: 1 | 2
   readonly active: boolean

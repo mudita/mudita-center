@@ -33,7 +33,7 @@ import delayResponse from "@appnroll/delay-response"
 import updateOs from "Renderer/requests/update-os.request"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { isEqual } from "lodash"
-import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/interfaces"
+import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()

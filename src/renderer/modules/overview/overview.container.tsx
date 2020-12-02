@@ -1,10 +1,10 @@
 import { connect } from "react-redux"
-import { SimCard } from "Renderer/models/basic-info/interfaces"
+import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 import Overview from "Renderer/modules/overview/overview.component"
 import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
-import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/interfaces"
+import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 
 const selection = select((models: any) => ({
   networkName: models.basicInfo.activeSimNetworkName,

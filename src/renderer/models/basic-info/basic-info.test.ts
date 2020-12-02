@@ -2,7 +2,7 @@ import { init } from "@rematch/core"
 import basicInfo from "./basic-info"
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { SimCard } from "Renderer/models/basic-info/interfaces"
+import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { commonCalls } from "Renderer/models/basic-info/utils/test-helpers"
 
@@ -59,26 +59,16 @@ test.skip("mock calls update state", async () => {
         "simCards": Array [
           Object {
             "active": true,
-            "carrier": "AAAAAAAAAAAA",
-            "iccid": 1234,
-            "imei": 5678,
-            "meid": 8765,
             "network": "Y-Mobile",
             "networkLevel": 0.5,
             "number": 12345678,
-            "seid": "1234",
             "slot": 1,
           },
           Object {
             "active": false,
-            "carrier": "BBBBBBBBBBBB",
-            "iccid": 412,
-            "imei": 42,
-            "meid": 1410,
             "network": "X-Mobile",
             "networkLevel": 0.69,
             "number": 7001234523,
-            "seid": "x123",
             "slot": 2,
           },
         ],
@@ -124,6 +114,7 @@ test.skip("change sim switches active property on sim cards", async () => {
   }
   const simCard: SimCard = {
     network: "X-Mobile",
+    networkLevel: 0.5,
     number: 7001234523,
     slot: 2,
     active: false,
@@ -150,26 +141,16 @@ test.skip("change sim switches active property on sim cards", async () => {
         "simCards": Array [
           Object {
             "active": false,
-            "carrier": "AAAAAAAAAAAA",
-            "iccid": 1234,
-            "imei": 5678,
-            "meid": 8765,
             "network": "Y-Mobile",
             "networkLevel": 0.5,
             "number": 12345678,
-            "seid": "1234",
             "slot": 1,
           },
           Object {
             "active": true,
-            "carrier": "BBBBBBBBBBBB",
-            "iccid": 412,
-            "imei": 42,
-            "meid": 1410,
             "network": "X-Mobile",
             "networkLevel": 0.69,
             "number": 7001234523,
-            "seid": "x123",
             "slot": 2,
           },
         ],

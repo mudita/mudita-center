@@ -1,4 +1,4 @@
-import { StoreValues } from "Renderer/models/basic-info/interfaces"
+import { StoreValues } from "Renderer/models/basic-info/basic-info.typings"
 
 //TODO: Move mocked basicInfo to backend layer -> https://appnroll.atlassian.net/browse/PDA-588
 export const basicInfoSeed: Omit<
@@ -15,6 +15,7 @@ export const basicInfoSeed: Omit<
       active: true,
       number: 12345678,
       network: "Y-Mobile",
+      networkLevel: 0.5
     },
   ],
   memorySpace: { full: 13913, free: 13727 },

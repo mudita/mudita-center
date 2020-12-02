@@ -14,7 +14,7 @@ import {
   ResultsState,
   SimCard,
   StoreValues,
-} from "Renderer/models/basic-info/interfaces"
+} from "Renderer/models/basic-info/basic-info.typings"
 import { basicInfoSeed } from "App/seeds/basic-info"
 
 const initialState = {

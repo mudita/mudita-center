@@ -1,5 +1,5 @@
 import React from "react"
-import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
+import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/basic-info.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Phone from "Renderer/components/rest/overview/phone/phone.component"
