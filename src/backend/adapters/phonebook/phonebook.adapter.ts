@@ -70,10 +70,35 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  public deleteContacts(contactsIds: ContactID[]): DeviceResponse<ContactID[]> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: contactsIds,
+  public async deleteContacts(
+    contactIds: ContactID[]
+  ): Promise<DeviceResponse<ContactID[]>> {
+    const results = contactIds.map(async (id) => {
+      const { status } = await this.deviceService.request({
+        endpoint: Endpoint.Contacts,
+        method: Method.Delete,
+        body: { id: Number(id) },
+      })
+      return {
+        status,
+        id,
+      }
+    })
+    const errorResponses = (await Promise.all(results)).filter(
+      ({ status }) => status === DeviceResponseStatus.Error
+    )
+    if (errorResponses.length > 0) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message: "Something went wrong",
+          data: errorResponses.map(({ id }) => id),
+        },
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Ok,
+      }
     }
   }
 
@@ -85,7 +110,6 @@ class Phonebook extends PhonebookAdapter {
       method: Method.Get,
       body: { count },
     })
-
     if (status === DeviceResponseStatus.Ok) {
       return {
         status,
