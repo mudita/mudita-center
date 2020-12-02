@@ -23,7 +23,6 @@ const mapDispatchToProps = (dispatch: any) => ({
   deleteConversation: (ids: string[]) =>
     dispatch.messages.deleteConversation(ids),
   markAsRead: (ids: string[]) => dispatch.messages.markAsRead(ids),
-  markAsUnread: (ids: string[]) => dispatch.messages.markAsUnread(ids),
   toggleReadStatus: (ids: string[]) => dispatch.messages.toggleReadStatus(ids),
 })
 
