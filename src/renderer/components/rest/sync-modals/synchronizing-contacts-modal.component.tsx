@@ -9,7 +9,7 @@ import theme from "Renderer/styles/theming/theme"
 import StackedBarChart, {
   DisplayStyle,
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import { ModalIcon } from "Renderer/modules/overview/backup-process/modals.styled"
@@ -42,21 +42,29 @@ export const SynchronizingContactsModal: FunctionComponent<BackupLoadingModalPro
   closeButtonLabel,
   icon,
 }) => {
-  const countdown = setTimeout(() => {
+  // const countdown = setTimeout(() => {
+  //   if (failed) {
+  //     onFailure()
+  //   } else {
+  //     onSuccess()
+  //   }
+  // }, 1500)
+  //
+  // const cancelCountdown = () => clearTimeout(countdown)
+
+  useEffect(() => {
     if (failed) {
       onFailure()
     } else {
       onSuccess()
     }
-  }, 1500)
-
-  const cancelCountdown = () => clearTimeout(countdown)
+  }, [failed])
 
   return (
     <Modal
       size={ModalSize.Small}
       title={title}
-      onClose={cancelCountdown}
+      // onClose={cancelCountdown}
       closeButtonLabel={closeButtonLabel}
     >
       <ModalIcon>

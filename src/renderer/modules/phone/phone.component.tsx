@@ -90,7 +90,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     savingContact,
     isTopicThreadOpened,
-    contactsToImport
+    contactsToImport,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -100,7 +100,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     phoneNumber !== "" && activeContact === undefined
       ? { ...defaultContact, primaryPhoneNumber: phoneNumber }
       : undefined
-  console.log({contactsToImport})
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>(
     activeContact
   )
@@ -109,13 +108,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   )
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
-
+  console.log("phone", { contactsToImport })
   const authorizeAndLoadContacts = async (provider: Provider) => {
     try {
       if (provider) {
-        await delayResponse(loadContacts(provider))
+        await loadContacts(provider)
       }
-      await openProgressSyncModal()
+      await openSuccessSyncModal()
     } catch {
       await openFailureSyncModal()
     }
@@ -302,13 +301,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       )
 
       // await can be restored if we will process the result directly in here, not globally
-        const error = await delayResponse(deleteContacts([contact.id]))
-        if (error) {
-          modalService.openModal(<ErrorDataModal />, true)
-        } else {
-          cancelOrCloseContactHandler()
-          await modalService.closeModal()
-        }
+      const error = await delayResponse(deleteContacts([contact.id]))
+      if (error) {
+        modalService.openModal(<ErrorDataModal />, true)
+      } else {
+        cancelOrCloseContactHandler()
+        await modalService.closeModal()
+      }
     }
 
     modalService.openModal(
@@ -377,8 +376,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const openSuccessSyncModal = async () => {
-    setTimeout(() => console.log("success", {contactsToImport}))
     // TODO: Replace it with correct modal for success state when its done by design
+    console.log("success", { contactsToImport })
     await modalService.closeModal()
     await modalService.openModal(
       <Modal title={"Success"} size={ModalSize.Small} />
@@ -413,7 +412,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
-  const openSyncModal = async () => {
+  const openSyncModal = () => {
     modalService.openModal(
       <SyncContactsModal
         onAppleButtonClick={openProgressSyncModal}
