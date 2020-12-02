@@ -48,14 +48,6 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    if (!connected) {
-      history.push(URL_MAIN.news)
-    } else {
-      history.push(URL_MAIN.overview)
-    }
-  }, [connected])
-
-  useEffect(() => {
     ;(async () => {
       const response = await getAppSettings()
       setPureNeverConnected(response.pureNeverConnected)
@@ -63,10 +55,14 @@ const BaseApp: FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
-    if (!connected && pureNeverConnected) {
+    if (!connected) {
+      history.push(URL_MAIN.news)
+    } else if (connected && pureNeverConnected) {
       history.push(URL_ONBOARDING.root)
+    } else if (connected && !pureNeverConnected) {
+      history.push(URL_MAIN.overview)
     }
-  }, [pureNeverConnected])
+  }, [connected, pureNeverConnected])
 
   return (
     <Provider store={store}>
