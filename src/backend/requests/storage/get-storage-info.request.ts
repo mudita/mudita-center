@@ -10,6 +10,7 @@ const handleDeviceStorageRequest = async ({
   const responses = await Promise.all([pureStorage.getAvailableSpace(), pureStorage.getCapacity()])
 
   if(!responses.some(({status}) => status !== DeviceResponseStatus.Ok )){
+    //TODO: zmienić ??
     const getAvailableSpaceResponse = responses[0].data ?? 0
     const getCapacityResponse = responses[1].data ?? 0
 

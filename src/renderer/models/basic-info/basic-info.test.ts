@@ -29,7 +29,7 @@ test("store returns initial state", () => {
 })
 
 //TODO: update
-test.skip("mock calls update state", async () => {
+test("mock calls update state", async () => {
   const store = init({
     models: { basicInfo },
   })
@@ -39,6 +39,7 @@ test.skip("mock calls update state", async () => {
 
   await store.dispatch.basicInfo.loadData()
 
+  console.log("store.getState(): ", store.getState())
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {

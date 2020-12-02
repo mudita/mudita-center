@@ -74,21 +74,6 @@ export default {
             Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
         )
 
-        console.log(
-          ": ",
-          JSON.stringify({
-            batteryLevel: batteryInfo.data!.level,
-            osVersion: info.data!.osVersion,
-            simCards: networkInfo.data!.simCards,
-            memorySpace: {
-              full: storageInfo.data!.capacity,
-              free: storageInfo.data!.available,
-            },
-            lastBackup,
-            osUpdateDate: info.data!.osUpdateDate,
-          })
-        )
-
         dispatch.basicInfo.update({
           batteryLevel: batteryInfo.data!.level,
           osVersion: info.data!.osVersion,
