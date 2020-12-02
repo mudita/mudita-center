@@ -22,12 +22,10 @@ interface Props {
   history: History
   toggleDisconnectedDevice: (disconnectedDevice: boolean) => void
   connected: boolean
-  loadData: () => void
 }
 
 const BaseApp: FunctionComponent<Props> = ({
   connected,
-  loadData,
   toggleDisconnectedDevice,
   store,
   history,
@@ -92,7 +90,6 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = ({ basicInfo }: any) => ({
   toggleDisconnectedDevice: basicInfo.toggleDisconnectedDevice,
-  loadData: basicInfo.loadData,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)
