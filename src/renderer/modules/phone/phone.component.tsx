@@ -56,6 +56,7 @@ export const messages = defineMessages({
   deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
   deleteText: { id: "view.name.phone.contacts.modal.delete.text" },
   addingText: { id: "view.name.phone.contacts.modal.adding.text" },
+  deletingText: { id: "view.name.phone.contacts.modal.deleting.text" },
   editingText: { id: "view.name.phone.contacts.modal.editing.text" },
 })
 
@@ -66,7 +67,6 @@ export type PhoneProps = ContactActions &
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
     speedDialChosenList: number[]
-    removeContact?: (input: ContactID | ContactID[]) => void
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
@@ -79,8 +79,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     editContact,
     getContact,
     loadData,
+    deleteContacts,
     loadContacts,
-    removeContact,
     contactList = [],
     flatList,
     speedDialChosenList,
@@ -294,25 +294,19 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const openDeleteModal = (contact: Contact) => {
     const handleDelete = async () => {
-      modalService.rerenderModal(
-        <DeleteModal
-          deleting
-          title={intl.formatMessage({
-            ...messages.deleteTitle,
-          })}
-          message={{
-            ...messages.deleteText,
-            values: { name: createFullName(contact), ...textFormatters },
-          }}
-        />
+      modalService.openModal(
+        <LoadingStateDataModal textMessage={messages.deletingText} />,
+        true
       )
 
       // await can be restored if we will process the result directly in here, not globally
-      if (removeContact) {
-        removeContact(contact.id)
-      }
-      await modalService.closeModal()
-      cancelOrCloseContactHandler()
+        const error = await delayResponse(deleteContacts([contact.id]))
+        if (error) {
+          modalService.openModal(<ErrorDataModal />, true)
+        } else {
+          cancelOrCloseContactHandler()
+          await modalService.closeModal()
+        }
     }
 
     modalService.openModal(
@@ -445,7 +439,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           selectedContacts={selectedRows}
           allItemsSelected={allRowsSelected}
           toggleAll={toggleAll}
-          removeContact={removeContact}
+          deleteContacts={deleteContacts}
           resetRows={resetRows}
           manageButtonDisabled={resultsState === ResultsState.Loading}
         />
