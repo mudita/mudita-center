@@ -22,6 +22,7 @@ class PurePhone extends PurePhoneAdapter {
     return "Mudita Pure"
   }
 
+  //TODO: handle it after add missed fields in API -> https://appnroll.atlassian.net/browse/PDA-590
   public getOsUpdateDate(): string {
     return "2020-01-14T11:31:08.244Z"
   }

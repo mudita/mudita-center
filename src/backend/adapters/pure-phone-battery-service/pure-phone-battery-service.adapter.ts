@@ -26,10 +26,12 @@ class PurePhoneBatteryService extends PurePhoneBatteryServiceAdapter {
     }
   }
 
+  // TODO: handle this mock in this task -> https://appnroll.atlassian.net/browse/PDA-589
   public getChargingStatus(): boolean {
     return true
   }
 
+  //TODO: handle it after add missed fields in API -> https://appnroll.atlassian.net/browse/PDA-590
   public getMaximumCapacity(): number {
     return 0.95
   }

@@ -28,7 +28,7 @@ test("store returns initial state", () => {
   `)
 })
 
-//TODO: update
+//TODO: handle this test case after implement mock in adapter https://appnroll.atlassian.net/browse/PDA-588
 test.skip("mock calls update state", async () => {
   const store = init({
     models: { basicInfo },
@@ -101,7 +101,7 @@ test("disconnect returns true and updates state", async () => {
   `)
 })
 
-//TODO: update
+//TODO: handle this test case after implement mock in adapter https://appnroll.atlassian.net/browse/PDA-588
 test.skip("change sim switches active property on sim cards", async () => {
   const store = init({
     models: { basicInfo },
