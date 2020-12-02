@@ -73,6 +73,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   batteryLevel,
   className,
   network,
+  networkLevel = 0,
   onDisconnect,
   onClick,
 }) => {
@@ -81,6 +82,8 @@ const Phone: FunctionComponent<PhoneProps> = ({
     onDisconnect()
     history.push("/news")
   }
+
+  const strength = Math.round(networkLevel * 100);
 
   return (
     <PhoneCard className={className} onClick={onClick}>
@@ -97,7 +100,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           />
         </BatteryStats>
         <SignalStats>
-          <RangeIcon strength={40} height={2.4} width={2.4} />
+          <RangeIcon strength={strength} height={2.4} width={2.4} />
           {network ? (
             <Text displayStyle={TextDisplayStyle.LargeBoldText}>{network}</Text>
           ) : (

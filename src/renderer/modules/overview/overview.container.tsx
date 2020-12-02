@@ -8,6 +8,7 @@ import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic
 
 const selection = select((models: any) => ({
   networkName: models.basicInfo.activeSimNetworkName,
+  networkLevel: models.basicInfo.activeNetworkLevelFromSim,
 }))
 
 const mapStateToProps = (state: RootModel) => {

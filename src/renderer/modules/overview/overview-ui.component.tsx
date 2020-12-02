@@ -63,6 +63,7 @@ const OverviewUI: FunctionComponent<
   lastBackup,
   memorySpace,
   networkName,
+  networkLevel,
   onOpenBackupModal,
   onOpenBackupRestorationModal,
   onUpdateCheck,
@@ -80,6 +81,7 @@ const OverviewUI: FunctionComponent<
       onClick={toggleDevMode}
       batteryLevel={batteryLevel}
       network={networkName}
+      networkLevel={networkLevel}
       onDisconnect={disconnectDevice}
     />
     <NetworkInfo simCards={simCards} onSimChange={changeSim} />

@@ -103,6 +103,7 @@ const Overview: FunctionComponent<
   },
   simCards = [
     {
+      networkLevel: 0,
       network: undefined,
       active: false,
       number: 0,
@@ -110,6 +111,7 @@ const Overview: FunctionComponent<
     },
   ],
   networkName,
+  networkLevel,
   updateBasicInfo = noop,
   language,
 }) => {
@@ -251,6 +253,7 @@ const Overview: FunctionComponent<
         memorySpace={memorySpace}
         simCards={simCards}
         networkName={networkName}
+        networkLevel={networkLevel}
         pureOsAvailable={pureOsAvailable}
         pureOsDownloaded={pureOsDownloaded}
         onUpdateCheck={check}

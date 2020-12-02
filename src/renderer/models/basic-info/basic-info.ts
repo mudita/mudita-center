@@ -1,4 +1,4 @@
-import { getActiveNetworkFromSim } from "Renderer/models/basic-info/utils/helpers"
+import { getActiveNetworkFromSim, getActiveNetworkLevelFromSim } from "Renderer/models/basic-info/utils/helpers"
 import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
@@ -138,6 +138,11 @@ export default {
     activeSimNetworkName() {
       return slice((state: { simCards?: SimCard[] }) => {
         return getActiveNetworkFromSim(state.simCards)
+      })
+    },
+    activeNetworkLevelFromSim() {
+      return slice((state: { simCards?: SimCard[] }) => {
+        return getActiveNetworkLevelFromSim(state.simCards)
       })
     },
     isConnected() {
