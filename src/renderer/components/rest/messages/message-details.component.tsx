@@ -60,15 +60,6 @@ const MessagesSidebar = styled(Sidebar)`
   border-top: none;
 `
 
-const leadingIcons = [
-  <Icon
-    type={Type.AttachContact}
-    key={Type.AttachContact}
-    size={IconSize.Big}
-  />,
-  <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />,
-]
-
 const trailingIcon = [
   <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
 ]
@@ -119,6 +110,14 @@ const MessageDetails: FunctionComponent<Props> = ({
       />
     </>
   )
+
+  const leadingIcons = [
+    <button key={Type.AttachContact} onClick={() => console.log("japa")}>
+      <Icon type={Type.AttachContact} size={IconSize.Big} />
+    </button>,
+    <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />,
+  ]
+
   const nameAvailable = isNameAvailable(details.caller)
   return (
     <MessagesSidebar
@@ -188,7 +187,7 @@ const MessageDetails: FunctionComponent<Props> = ({
           onChange={noop}
           leadingIcons={leadingIcons}
           trailingIcons={trailingIcon}
-          disabled
+          // disabled
           label={intl.formatMessage({
             id: "view.name.messages.textAreaPlaceholder",
           })}

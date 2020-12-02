@@ -11,6 +11,9 @@ import {
   mockedTemplateData,
   extendedTemplateData,
 } from "Renderer/modules/messages/__mocks__/template-modal-data"
+import AttachContactModal from "Renderer/components/rest/messages/attach-contact-modal.component"
+import { phoneSeed } from "App/seeds/phone"
+import { getSortedContactList } from "Renderer/models/phone/phone.helpers"
 
 storiesOf("Views|Messages", module).add("Messages", () => (
   <div style={{ maxWidth: "97.5rem" }}>
@@ -35,3 +38,15 @@ storiesOf("Views|Messages/Modals", module)
       <ModalBackdrop />
     </div>
   ))
+  .add("Attach contact", () => {
+    const contacts = getSortedContactList(phoneSeed)
+    return (
+      <div style={{ maxWidth: "97.5rem" }}>
+        <AttachContactModal
+          list={contacts}
+          searchValue={""}
+          changeSearchValue={() => console.log("aa")}
+        />
+      </div>
+    )
+  })
