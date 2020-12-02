@@ -100,7 +100,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     phoneNumber !== "" && activeContact === undefined
       ? { ...defaultContact, primaryPhoneNumber: phoneNumber }
       : undefined
-
+  console.log({contactsToImport})
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>(
     activeContact
   )
@@ -377,6 +377,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const openSuccessSyncModal = async () => {
+    setTimeout(() => console.log("success", {contactsToImport}))
     // TODO: Replace it with correct modal for success state when its done by design
     await modalService.closeModal()
     await modalService.openModal(

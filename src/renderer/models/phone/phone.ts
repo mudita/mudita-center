@@ -175,7 +175,7 @@ export default {
       })
     },
     contactsToImport() {
-      return slice((state) => getFlatList(state.contactsToImport))
+      return slice((state) => state.contactsToImport && getFlatList(state.contactsToImport))
     },
     isContactCreated(models: StoreSelectors<Phone>) {
       return (state: Phone) => {
