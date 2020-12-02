@@ -7,7 +7,7 @@ import { intl } from "Renderer/utils/intl"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import { fireEvent } from "@testing-library/dom"
 import { waitFor } from "@testing-library/react"
-import SimInfo from "Common/interfaces/sim-info.interface"
+import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 
 const renderNetwork = ({
   simCards = [],
@@ -26,7 +26,7 @@ const renderNetwork = ({
   }
 }
 
-let fakeSimCards: SimInfo[] = []
+let fakeSimCards: SimCard[] = []
 
 beforeEach(async () => {
   const { data } = await getFakeAdapters().pureNetwork.getSimCards()

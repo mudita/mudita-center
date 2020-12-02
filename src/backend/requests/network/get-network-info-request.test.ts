@@ -23,14 +23,9 @@ test("returns required network info", async () => {
       "simCards": Array [
         Object {
           "active": true,
-          "carrier": "Yo mama 36.0",
-          "iccid": 1234,
-          "imei": 5678,
-          "meid": 8765,
           "network": "Y-Mobile",
           "networkLevel": 0.2,
           "number": 12345678,
-          "seid": "1234",
           "slot": 1,
         },
       ],

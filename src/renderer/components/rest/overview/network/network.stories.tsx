@@ -6,7 +6,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { action } from "@storybook/addon-actions"
 import styled, { css } from "styled-components"
-import SimInfo from "Common/interfaces/sim-info.interface"
+import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 
@@ -22,7 +22,7 @@ const storyContainerStyle = css`
 `
 
 storiesOf("Views|Overview/Network ", module).add("Network", () => {
-  const [fakeSimCards, setFakeSimCards] = useState<SimInfo[]>([])
+  const [fakeSimCards, setFakeSimCards] = useState<SimCard[]>([])
   useEffect(() => {
     const fetch = async () => {
       const { data = [] } = await getFakeAdapters().pureNetwork.getSimCards()
