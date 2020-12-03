@@ -14,10 +14,9 @@ const handleDeviceStorageRequest = async ({
     pureStorage.getCapacity(),
   ])
 
-  if (!responses.some(({ status }) => status !== DeviceResponseStatus.Ok)) {
-    //TODO: zmienić ??
-    const getAvailableSpaceResponse = responses[0].data ?? 0
-    const getCapacityResponse = responses[1].data ?? 0
+  if (responses.every(({ status, data }) => status === DeviceResponseStatus.Ok && data !== undefined )) {
+    const getAvailableSpaceResponse = responses[0].data!!
+    const getCapacityResponse = responses[1].data!!
 
     return {
       status: DeviceResponseStatus.Ok,
