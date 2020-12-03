@@ -362,7 +362,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             }}
           />
         ))}
-      {resultsState === ResultsState.Empty && (
+      {resultsState === ResultsState.Empty || resultsState === ResultsState.Error && (
         <EmptyState
           title={{ id: "view.name.phone.contacts.emptyList.title" }}
           description={{
