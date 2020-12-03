@@ -10,7 +10,6 @@ import ContactDetails from "Renderer/components/rest/phone/contact-details.compo
 import {
   Contact,
   ContactID,
-  ErrorsState,
   ResultsState,
 } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
