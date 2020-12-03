@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -52,7 +52,7 @@ interface Props {
 
 const ContactImportModal: FunctionComponent<Props> = ({
   onActionButtonClick,
-  contacts= [],
+  contacts = [],
 }) => {
   const {
     toggleRow,
@@ -62,6 +62,8 @@ const ContactImportModal: FunctionComponent<Props> = ({
     noneRowsSelected,
     selectedRows,
   } = useTableSelect<NewContact>(contacts)
+
+  useEffect(() => toggleAll(), [])
 
   const SingleRow = ({ data }: { data: Contact }) => {
     const onChange = () => {
