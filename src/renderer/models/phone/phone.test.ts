@@ -319,7 +319,7 @@ describe("redux tests", () => {
 
   test("imported contacts are set properly", () => {
     const id = "12121"
-    const contactToUpdate = [
+    const importedContacts = [
       {
         id,
         firstName: "John",
@@ -336,9 +336,33 @@ describe("redux tests", () => {
       },
     ]
     expect(store.getState().phone.contactsToImport).toBeUndefined()
-    store.dispatch.phone.setContactsToImport(contactToUpdate)
+    store.dispatch.phone.setContactsToImport(importedContacts)
     const storeAfterSetting =  store.getState()
     expect(storeAfterSetting.phone.contactsToImport).toBeDefined()
-    expect(storeAfterSetting.phone.contactsToImport?.collection).toHaveLength(contactToUpdate.length)
+    expect(storeAfterSetting.phone.contactsToImport?.collection).toHaveLength(importedContacts.length)
+  })
+
+  test("imported contacts can be cleared", () => {
+    const id = "12121"
+    const contactToUpdate = [
+      {
+        id,
+        firstName: "John",
+        lastName: "Malysz",
+        primaryPhoneNumber: "+123 123 123 123",
+        secondaryPhoneNumber: "",
+        email: "",
+        note: "",
+        ice: false,
+        favourite: false,
+        blocked: false,
+        firstAddressLine: "",
+        secondAddressLine: "",
+      },
+    ]
+    store.dispatch.phone.setContactsToImport(contactToUpdate)
+    expect(store.getState().phone.contactsToImport).toBeDefined()
+    store.dispatch.phone.clearContactsToImport()
+    expect(store.getState().phone.contactsToImport).toBeUndefined()
   })
 })
