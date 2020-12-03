@@ -15,9 +15,14 @@ const Connecting: FunctionComponent<{ connected: boolean }> = ({
   connected,
 }) => {
   useEffect(() => {
-    if (connected) {
-      history.push(URL_MAIN.overview)
-    }
+    const timeout = setTimeout(() => {
+      if (connected) {
+        history.push(URL_MAIN.overview)
+      }
+    }, 500)
+
+    return () => clearTimeout(timeout)
+
   }, [connected])
 
   const history = useHistory()

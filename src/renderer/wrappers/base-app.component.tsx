@@ -57,8 +57,10 @@ const BaseApp: FunctionComponent<Props> = ({
   useEffect(() => {
     if (!connected) {
       history.push(URL_MAIN.news)
-    } else if (connected && pureNeverConnected) {
+    } else if (!connected && pureNeverConnected) {
       history.push(URL_ONBOARDING.root)
+    } else if (connected && pureNeverConnected) {
+      history.push(URL_ONBOARDING.connecting)
     } else if (connected && !pureNeverConnected) {
       history.push(URL_MAIN.overview)
     }
