@@ -43,8 +43,9 @@ const mapDispatch = ({ phone, auth }: any) => {
     loadData: phone.loadData,
     addNewContact: async (contact: NewContact): Promise<string | void> => {
       const { data, error } = await addContact(contact)
-      if (error || !data) return error?.message ?? "Something went wrong"
-      else {
+      if (error || !data) {
+        return error?.message ?? "Something went wrong"
+      } else {
         phone.addContact(data)
       }
     }
