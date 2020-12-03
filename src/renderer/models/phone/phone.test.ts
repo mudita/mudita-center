@@ -9,7 +9,7 @@ import {
   contactDatabaseFactory,
   addContacts,
   removeContact,
-  updateContact,
+  editContact,
   findContact,
 } from "Renderer/models/phone/phone.helpers"
 import {
@@ -162,7 +162,7 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
 
     expect(OLD_DB_SHAPE.db[ID_TO_EDIT].firstName).not.toBe(NEW_NAME)
 
-    const result = updateContact(OLD_DB_SHAPE, {
+    const result = editContact(OLD_DB_SHAPE, {
       id: ID_TO_EDIT,
       firstName: NEW_NAME,
     })
@@ -226,7 +226,7 @@ describe("redux tests", () => {
       modifiedContact
     )
 
-    store.dispatch.phone.updateContact(modifiedContact)
+    store.dispatch.phone.editContact(modifiedContact)
 
     expect(store.getState().phone.db[TEST_CONTACT.id]).toMatchObject(
       modifiedContact
@@ -269,7 +269,7 @@ describe("redux tests", () => {
       store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
     ).toBe(speedDial)
 
-    store.dispatch.phone.updateContact({
+    store.dispatch.phone.editContact({
       ...contactToEdit,
       speedDial,
     })
