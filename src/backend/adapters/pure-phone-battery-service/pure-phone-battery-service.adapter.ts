@@ -30,11 +30,6 @@ class PurePhoneBatteryService extends PurePhoneBatteryServiceAdapter {
   public getChargingStatus(): boolean {
     return true
   }
-
-  //TODO: handle it after add missed fields in API -> https://appnroll.atlassian.net/browse/PDA-590
-  public getMaximumCapacity(): number {
-    return 0.95
-  }
 }
 
 const createPurePhoneBatteryAdapter = (

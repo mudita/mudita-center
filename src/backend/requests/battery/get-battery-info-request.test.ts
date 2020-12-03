@@ -21,7 +21,6 @@ test("returns required battery info", async () => {
     Object {
       "charging": true,
       "level": 0.35,
-      "maximumCapacity": 0.95,
     }
   `)
 })

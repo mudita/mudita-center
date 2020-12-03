@@ -19,8 +19,7 @@ const handleBatteryInfoRequest = async ({
       status: DeviceResponseStatus.Ok,
       data: {
         charging: pureBatteryService.getChargingStatus(),
-        level: getBatteryLevelResponse.data,
-        maximumCapacity: pureBatteryService.getMaximumCapacity(),
+        level: getBatteryLevelResponse.data
       },
     }
   } else {

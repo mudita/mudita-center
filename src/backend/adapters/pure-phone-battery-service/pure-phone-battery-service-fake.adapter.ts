@@ -14,10 +14,6 @@ class PurePhoneBatteryServiceFakeAdapter extends PurePhoneBatteryServiceAdapter 
   public getChargingStatus(): boolean {
     return false
   }
-
-  public getMaximumCapacity(): number {
-    return 0.95
-  }
 }
 
 const createFakePurePhoneBatteryAdapter = (): PurePhoneBatteryServiceAdapter =>
