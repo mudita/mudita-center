@@ -3,7 +3,6 @@ import Story from "Renderer/components/storybook/story.component"
 import { StoryModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 import React from "react"
 import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
-import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { intl } from "Renderer/utils/intl"
 import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
@@ -29,8 +28,6 @@ storiesOf("Components|Rest/Sync Contacts Modal", module)
           closeButtonLabel={intl.formatMessage({
             id: "view.generic.button.cancel",
           })}
-          onFailure={noop}
-          onSuccess={noop}
           icon={Type.SynchronizeContacts}
         />
       </StoryModalWrapper>
