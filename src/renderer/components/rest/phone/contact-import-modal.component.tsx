@@ -11,7 +11,7 @@ import Table, {
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import styled from "styled-components"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Contact, NewContact } from "Renderer/models/phone/phone.typings"
 import { ModalIcon } from "Renderer/modules/overview/backup-process/modals.styled"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
@@ -46,7 +46,7 @@ const Image = styled(ModalIcon)`
 `
 
 interface Props {
-  onActionButtonClick: (ids: string[]) => void
+  onActionButtonClick: (contacts: NewContact[]) => void
   contacts: Contact[]
 }
 
@@ -60,7 +60,8 @@ const ContactImportModal: FunctionComponent<Props> = ({
     getRowStatus,
     allRowsSelected,
     noneRowsSelected,
-  } = useTableSelect(contacts)
+    selectedRows,
+  } = useTableSelect<NewContact>(contacts)
 
   const SingleRow = ({ data }: { data: Contact }) => {
     const onChange = () => {
@@ -81,7 +82,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
       </Row>
     )
   }
-  const handleButtonClick = () => onActionButtonClick(contacts.map(contact => contact.id))
+  const handleButtonClick = () => onActionButtonClick(selectedRows)
   return (
     <Modal
       title={intl.formatMessage(messages.title)}

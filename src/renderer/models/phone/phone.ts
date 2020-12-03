@@ -73,6 +73,9 @@ export default {
     setContactsToImport(state: Phone, contacts: Contact[]): Phone {
       return { ...state, contactsToImport: contactDatabaseFactory(contacts) }
     },
+    clearContactsToImport(state: Phone): Phone {
+      return { ...state, contactsToImport: undefined }
+    },
     addContact(state: Phone, contact: Contact): Phone {
       let currentState = state
 
