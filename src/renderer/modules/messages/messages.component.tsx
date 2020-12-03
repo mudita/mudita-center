@@ -23,6 +23,9 @@ import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { Message } from "Renderer/interfaces/message.interface"
 import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
 import { AppSettings } from "App/main/store/settings.interface"
+import { useHistory } from "react-router-dom"
+import createRouterPath from "Renderer/utils/create-router-path"
+import { URL_MAIN } from "Renderer/constants/urls"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
@@ -88,6 +91,7 @@ const Messages: FunctionComponent<Props> = ({
     const onDelete = () => {
       deleteConversation(ids)
       resetRows()
+      closeSidebar()
       modalService.closeModal()
     }
 
@@ -104,6 +108,16 @@ const Messages: FunctionComponent<Props> = ({
   const removeSingleConversation = (id: string) => remove([id])
 
   const removeSelectedRows = () => remove(selectedRows.map(({ id }) => id))
+
+  const history = useHistory()
+
+  const contactClick = (phoneNumber: string) => {
+    history.push(
+      createRouterPath(URL_MAIN.contacts, {
+        phoneNumber,
+      })
+    )
+  }
 
   return (
     <>
@@ -141,7 +155,13 @@ const Messages: FunctionComponent<Props> = ({
           {...rest}
         />
         {activeRow && (
-          <MessageDetails details={activeRow} onClose={closeSidebar} />
+          <MessageDetails
+            onDeleteClick={removeSingleConversation}
+            onUnreadStatus={toggleReadStatus}
+            details={activeRow}
+            onClose={closeSidebar}
+            onContactClick={contactClick}
+          />
         )}
       </TableWithSidebarWrapper>
     </>
