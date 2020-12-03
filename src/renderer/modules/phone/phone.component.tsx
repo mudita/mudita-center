@@ -131,10 +131,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
-    const fetchData = async () => {
-      await loadData()
-    }
-    fetchData()
+    loadData()
   }, [])
 
   const firstRendered = useRef(false)
@@ -146,9 +143,9 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         modalService.openModal(
           <ErrorWithRetryDataModal
             onClose={()=> setRetried(true)}
-            onRetry={async () => {
+            onRetry={() => {
               setRetried(true)
-              await loadData()
+              loadData()
             }}
           />,
           true
