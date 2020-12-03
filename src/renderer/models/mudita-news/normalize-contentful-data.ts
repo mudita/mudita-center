@@ -25,7 +25,9 @@ export const normalizeContentfulData = async (
     } = includes.Asset.find((asset: Asset) => {
       return item?.image?.sys?.id === asset.sys.id
     })
-    item.commentsCount = await getCommentsCount(item.discussionId)
+    const urlSplit = item.communityLink.split("/")
+    const postId = urlSplit[urlSplit.length - 1]
+    item.commentsCount = await getCommentsCount(postId)
     item.imageSource = await getBase64(url)
     item.imageAlt = title
   }
