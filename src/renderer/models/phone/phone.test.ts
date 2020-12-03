@@ -298,8 +298,8 @@ describe("redux tests", () => {
       {
         id,
         firstName: "John",
-        lastName: "Malysz",
-        primaryPhoneNumber: "+123 123 123 123",
+        lastName: "Doe",
+        primaryPhoneNumber: "+4843 1233182 238",
         secondaryPhoneNumber: "",
         email: "",
         note: "",
@@ -315,5 +315,30 @@ describe("redux tests", () => {
     const state = store.getState()
     expect(state.phone.collection).toHaveLength(phoneSeed.collection.length + 1)
     expect(state.phone.db[id]).toBeDefined()
+  })
+
+  test("imported contacts are set properly", () => {
+    const id = "12121"
+    const contactToUpdate = [
+      {
+        id,
+        firstName: "John",
+        lastName: "Malysz",
+        primaryPhoneNumber: "+123 123 123 123",
+        secondaryPhoneNumber: "",
+        email: "",
+        note: "",
+        ice: false,
+        favourite: false,
+        blocked: false,
+        firstAddressLine: "",
+        secondAddressLine: "",
+      },
+    ]
+    expect(store.getState().phone.contactsToImport).toBeUndefined()
+    store.dispatch.phone.setContactsToImport(contactToUpdate)
+    const storeAfterSetting =  store.getState()
+    expect(storeAfterSetting.phone.contactsToImport).toBeDefined()
+    expect(storeAfterSetting.phone.contactsToImport?.collection).toHaveLength(contactToUpdate.length)
   })
 })
