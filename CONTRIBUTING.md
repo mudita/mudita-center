@@ -35,4 +35,6 @@ If you would like to contribute a new feature or a bug fix to Mudita Center, ple
 
 Please refer to the [Development workflow article](development_workflow.md) to learn how to submit code and documentation changes to the Mudita Center repository.
 
+If you want to start localizing Mudita Center interface please start from [the "Internationalization" article](./i18n.md).
+
 **Note:** Mudita Center comes with both [lint-staged](https://github.com/okonet/lint-staged) and [Prettier](https://prettier.io/) setup to ensure a consistent code style.

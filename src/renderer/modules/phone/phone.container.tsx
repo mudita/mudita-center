@@ -6,8 +6,15 @@ import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { URL_MAIN } from "Renderer/constants/urls"
 import createRouterPath from "Renderer/utils/create-router-path"
-import { NewContact } from "Renderer/models/phone/phone.typings"
+import {
+  Contact,
+  ContactID,
+  NewContact,
+} from "Renderer/models/phone/phone.typings"
 import addContact from "Renderer/requests/add-contact.request"
+import logger from "App/main/utils/logger"
+import editContact from "Renderer/requests/edit-contact.request"
+import deleteContactsRequest from "Renderer/requests/delete-contacts.request"
 
 const selector = select(({ phone, messages }) => ({
   contactList: phone.contactList,
@@ -44,11 +51,32 @@ const mapDispatch = ({ phone, auth }: any) => {
     addNewContact: async (contact: NewContact): Promise<string | void> => {
       const { data, error } = await addContact(contact)
       if (error || !data) {
+        logger.error(error)
         return error?.message ?? "Something went wrong"
       } else {
         phone.addContact(data)
       }
-    }
+    },
+    editContact: async (contact: Contact): Promise<string | void> => {
+      const { data, error } = await editContact(contact)
+      if (error || !data) {
+        logger.error(error)
+        return error?.message ?? "Something went wrong"
+      } else {
+        phone.updateContact(data)
+      }
+    },
+    deleteContacts: async (ids: ContactID[]): Promise<string | void> => {
+      const { error } = await deleteContactsRequest(ids)
+      if (error) {
+        logger.error(error)
+        const successIds = ids.filter((id) => !error.data?.includes(id))
+        phone.removeContact(successIds)
+        return error?.message ?? "Something went wrong"
+      } else {
+        phone.removeContact(ids)
+      }
+    },
   }
 }
 

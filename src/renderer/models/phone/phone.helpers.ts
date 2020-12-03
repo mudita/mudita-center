@@ -148,7 +148,6 @@ export const removeContact = (
 
 export const editContact = (
   state: PhoneState,
-  id: ContactID,
   data: BaseContactModel,
   guard: (input: any) => boolean = contactTypeGuard
 ): Phone => {
@@ -157,8 +156,8 @@ export const editContact = (
       ...state,
       db: {
         ...state.db,
-        [id]: {
-          ...state.db[id],
+        [data.id]: {
+          ...state.db[data.id],
           ...data,
         },
       },

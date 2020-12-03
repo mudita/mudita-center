@@ -4,7 +4,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const updateOs = (
   updateFilePath: string
-): Promise<DeviceResponse> | DeviceResponse => {
+): Promise<DeviceResponse> => {
   return ipcRenderer.callMain(IpcRequest.UpdateOs, updateFilePath)
 }
 

@@ -9,18 +9,19 @@ import { mockedList } from "Renderer/components/rest/messages/__mocks__/caller-d
 import store from "Renderer/store"
 import { intl } from "Renderer/utils/intl"
 import { MessagePanelTestIds } from "Renderer/modules/messages/messages-panel-test-ids.enum"
+import { Router } from "react-router"
+import { createMemoryHistory } from "history"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
-jest.mock("react-router", () => ({
-  useLocation: jest.fn().mockReturnValue(""),
-}))
-
 const renderer = () => {
+  const history = createMemoryHistory()
   return renderWithThemeAndIntl(
-    <Provider store={store}>
-      <Messages language={"en"} searchValue={""} list={mockedList} />
-    </Provider>
+    <Router history={history}>
+      <Provider store={store}>
+        <Messages language={"en"} searchValue={""} list={mockedList} />
+      </Provider>
+    </Router>
   )
 }
 

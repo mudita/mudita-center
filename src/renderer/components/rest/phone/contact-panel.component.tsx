@@ -22,11 +22,17 @@ import {
   SearchInput,
 } from "Renderer/components/rest/phone/contact-panel.styled"
 import { ContactPanelTestIdsEnum } from "Renderer/components/rest/phone/contact-panel-test-ids.enum"
+import {
+  ErrorDataModal,
+  LoadingStateDataModal,
+} from "Renderer/components/rest/data-modal/data.modals"
+import delayResponse from "@appnroll/delay-response"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
   export: { id: "view.name.phone.contacts.selectionExport" },
   body: { id: "view.name.phone.contacts.modal.deleteMultipleContacts" },
+  deletingText: { id: "view.name.phone.contacts.modal.deleting.text" },
 })
 
 export interface ContactPanelProps {
@@ -36,7 +42,7 @@ export interface ContactPanelProps {
   selectedContacts: Contact[]
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
-  removeContact?: (id: ContactID[]) => void
+  deleteContacts: (ids: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
   manageButtonDisabled?: boolean
 }
@@ -48,7 +54,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   selectedContacts,
   allItemsSelected,
   toggleAll = noop,
-  removeContact = noop,
+  deleteContacts,
   resetRows,
   manageButtonDisabled,
 }) => {
@@ -61,10 +67,20 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
     const selectedContactsIds = selectedContacts.map(({ id }) => id)
     const nameAvailable =
       selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
-    const onDelete = () => {
-      removeContact(selectedContactsIds)
+    const onDelete = async () => {
+      modalService.openModal(
+        <LoadingStateDataModal
+          textMessage={deleteModalMessages.deletingText}
+        />,
+        true
+      )
+      const error = await delayResponse(deleteContacts(selectedContactsIds))
+      if (error) {
+        modalService.openModal(<ErrorDataModal />, true)
+      } else {
+        modalService.closeModal()
+      }
       resetRows()
-      modalService.closeModal()
     }
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),

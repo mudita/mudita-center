@@ -9,7 +9,6 @@ import {
   ResultsState,
   StoreData,
 } from "Renderer/models/phone/phone.typings"
-
 import {
   addContacts,
   contactDatabaseFactory,
@@ -21,9 +20,8 @@ import {
   revokeField,
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
-import externalProvidersStore from "Renderer/store/external-providers"
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import getContacts from "Renderer/requests/get-contacts.request"
+import logger from "App/main/utils/logger"
 
 export const initialState: PhoneState = {
   db: {},
@@ -87,7 +85,6 @@ export default {
     },
     editContact(
       state: PhoneState,
-      contactID: ContactID,
       data: BaseContactModel
     ): PhoneState {
       let currentState = state
@@ -96,7 +93,7 @@ export default {
         currentState = revokeField(state, { speedDial: data.speedDial })
       }
 
-      return { ...state, ...editContact(currentState, contactID, data) }
+      return { ...state, ...editContact(currentState, data) }
     },
     removeContact(
       state: PhoneState,
@@ -126,27 +123,12 @@ export default {
 
       const { data = [], error } = await getContacts()
       if (error) {
+        logger.error(error)
         dispatch.phone.setResultsState(ResultsState.Error)
       } else {
         dispatch.phone.setContacts(contactDatabaseFactory(data))
         dispatch.phone.setResultsState(ResultsState.Loaded)
       }
-    },
-    async loadContacts(provider: Provider) {
-      let contacts: Contact[]
-
-      switch (provider) {
-        case Provider.Google:
-          contacts = await externalProvidersStore.dispatch.google.getContacts()
-          dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
-      }
-    },
-    async editContact() {
-      await simulateWriteToPhone()
-    },
-
-    async removeContact() {
-      await simulateWriteToPhone()
     },
   }),
   selectors: (slice: Slicer<StoreData>) => ({
