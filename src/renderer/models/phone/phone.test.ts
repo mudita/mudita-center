@@ -15,7 +15,6 @@ import {
 import {
   Contact,
   ContactID,
-  ErrorsState,
   PhoneState,
   ResultsState,
 } from "Renderer/models/phone/phone.typings"
@@ -48,7 +47,6 @@ const OLD_DB_SHAPE: PhoneState = {
   },
   collection: [TEST_CONTACT_TO_CLEAN.id],
   resultsState: ResultsState.Empty,
-  errorsState: ErrorsState.None,
 }
 
 describe("typeGuard tests", () => {
@@ -144,7 +142,6 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
         db: {},
         collection: [],
         resultsState: ResultsState.Empty,
-        errorsState: ErrorsState.None,
       },
       TEST_CONTACTS_BATCH
     )
