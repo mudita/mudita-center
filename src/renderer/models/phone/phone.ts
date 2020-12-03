@@ -117,7 +117,11 @@ export default {
    * about phone sync flow at the moment.
    */
   effects: (dispatch: Dispatch) => ({
-    async loadData() {
+    async loadData(_: any, rootState: {phone: { resultsState: ResultsState }}) {
+      if(rootState.phone.resultsState === ResultsState.Loading){
+        return
+      }
+
       dispatch.phone.setResultsState(ResultsState.Loading)
 
       const { data = [], error } = await getContacts()
