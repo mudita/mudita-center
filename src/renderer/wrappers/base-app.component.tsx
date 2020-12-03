@@ -55,7 +55,7 @@ const BaseApp: FunctionComponent<Props> = ({
   }, [])
 
   useEffect(() => {
-    if (!connected) {
+    if (!connected && !pureNeverConnected) {
       history.push(URL_MAIN.news)
     } else if (!connected && pureNeverConnected) {
       history.push(URL_ONBOARDING.root)
