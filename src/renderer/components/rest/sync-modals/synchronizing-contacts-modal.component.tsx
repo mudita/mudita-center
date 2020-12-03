@@ -9,7 +9,7 @@ import theme from "Renderer/styles/theming/theme"
 import StackedBarChart, {
   DisplayStyle,
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import React, { useEffect } from "react"
+import React from "react"
 import styled from "styled-components"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import { ModalIcon } from "Renderer/modules/overview/backup-process/modals.styled"
@@ -22,49 +22,24 @@ const LoadingBar = styled(StackedBarChart)`
 `
 
 interface BackupLoadingModalProps {
-  onSuccess: () => void
-  onFailure: () => void
   body: MessageInterface
   subtitle: MessageInterface
-  failed?: boolean
   icon: Type
   title?: string
   closeButtonLabel?: ButtonProps["label"]
 }
 
 export const SynchronizingContactsModal: FunctionComponent<BackupLoadingModalProps> = ({
-  onSuccess,
-  onFailure,
-  failed,
   title,
   body,
   subtitle,
   closeButtonLabel,
   icon,
 }) => {
-  // const countdown = setTimeout(() => {
-  //   if (failed) {
-  //     onFailure()
-  //   } else {
-  //     onSuccess()
-  //   }
-  // }, 1500)
-  //
-  // const cancelCountdown = () => clearTimeout(countdown)
-
-  useEffect(() => {
-    if (failed) {
-      onFailure()
-    } else {
-      onSuccess()
-    }
-  }, [failed])
-
   return (
     <Modal
       size={ModalSize.Small}
       title={title}
-      // onClose={cancelCountdown}
       closeButtonLabel={closeButtonLabel}
     >
       <ModalIcon>

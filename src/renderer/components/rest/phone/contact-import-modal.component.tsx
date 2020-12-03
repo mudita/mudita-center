@@ -46,15 +46,14 @@ const Image = styled(ModalIcon)`
 `
 
 interface Props {
-  onActionButtonClick: () => void
+  onActionButtonClick: (ids: string[]) => void
   contacts: Contact[]
 }
 
 const ContactImportModal: FunctionComponent<Props> = ({
   onActionButtonClick,
-  contacts,
+  contacts= [],
 }) => {
-  console.log({contacts})
   const {
     toggleRow,
     toggleAll,
@@ -82,13 +81,13 @@ const ContactImportModal: FunctionComponent<Props> = ({
       </Row>
     )
   }
-
+  const handleButtonClick = () => onActionButtonClick(contacts.map(contact => contact.id))
   return (
     <Modal
       title={intl.formatMessage(messages.title)}
       closeButton={false}
       actionButtonLabel={intl.formatMessage(messages.button)}
-      onActionButtonClick={onActionButtonClick}
+      onActionButtonClick={handleButtonClick}
       size={ModalSize.Medium}
     >
       <Image>

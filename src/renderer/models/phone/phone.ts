@@ -3,20 +3,20 @@ import { Dispatch } from "Renderer/store"
 import {
   BaseContactModel,
   Contact,
-  NewContact,
   ContactID,
+  NewContact,
   Phone,
   StoreData,
 } from "Renderer/models/phone/phone.typings"
 import {
   addContacts,
   contactDatabaseFactory,
-  updateContact,
   getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
   removeContact,
   revokeField,
+  updateContact,
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
 import externalProvidersStore from "Renderer/store/external-providers"
@@ -125,8 +125,18 @@ export default {
       switch (provider) {
         case Provider.Google:
           contacts = await externalProvidersStore.dispatch.google.getContacts()
-          // dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
           dispatch.phone.setContactsToImport(contacts)
+      }
+    },
+    authorize(provider: Provider) {
+      switch (provider) {
+        case Provider.Google:
+          return externalProvidersStore.dispatch.google.authorize()
+        // TODO: update when adding new providers
+        case Provider.Apple:
+          return
+        case Provider.Microsoft:
+          return
       }
     },
     addNewContact: async (contact: NewContact): Promise<string | void> => {
@@ -175,7 +185,9 @@ export default {
       })
     },
     contactsToImport() {
-      return slice((state) => state.contactsToImport && getFlatList(state.contactsToImport))
+      return slice(
+        (state) => state.contactsToImport && getFlatList(state.contactsToImport)
+      )
     },
     isContactCreated(models: StoreSelectors<Phone>) {
       return (state: Phone) => {

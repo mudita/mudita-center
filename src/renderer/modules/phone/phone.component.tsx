@@ -51,6 +51,7 @@ import {
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 import logger from "App/main/utils/logger"
+import ContactImportModal from "App/renderer/components/rest/phone/contact-import-modal.component"
 
 export const messages = defineMessages({
   deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -72,6 +73,7 @@ export type PhoneProps = ContactActions &
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
+    authorize: (provider: Provider) => Promise<string | undefined>
   } & Store
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -90,7 +92,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     savingContact,
     isTopicThreadOpened,
-    contactsToImport,
+    contactsToImport = [],
+    authorize,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -108,13 +111,11 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   )
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
-  console.log("phone", { contactsToImport })
   const authorizeAndLoadContacts = async (provider: Provider) => {
     try {
-      if (provider) {
-        await loadContacts(provider)
-      }
-      await openSuccessSyncModal()
+      await authorize(provider)
+      await delayResponse(openProgressSyncModal(), 1000)
+      await loadContacts(provider)
     } catch {
       await openFailureSyncModal()
     }
@@ -163,6 +164,14 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   useEffect(() => {
     setContacts(contactList)
   }, [contactList])
+
+  useEffect(() => {
+    if (contactsToImport.length > 0) {
+      ;(async () => {
+        await openSuccessSyncModal(contactsToImport)
+      })()
+    }
+  }, [contactsToImport])
 
   useEffect(() => {
     if (editedContact) {
@@ -375,12 +384,11 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     modalService.openModal(<SpeedDialModal onSave={closeSpeedDialModal} />)
   }
 
-  const openSuccessSyncModal = async () => {
-    // TODO: Replace it with correct modal for success state when its done by design
-    console.log("success", { contactsToImport })
+  const openSuccessSyncModal = async (contacts: Contact[]) => {
+    const handleOnActionButtonClick = (ids) => console.log(ids)
     await modalService.closeModal()
     await modalService.openModal(
-      <Modal title={"Success"} size={ModalSize.Small} />
+      <ContactImportModal contacts={contacts} onActionButtonClick={handleOnActionButtonClick} />
     )
   }
 
@@ -405,8 +413,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         closeButtonLabel={intl.formatMessage({
           id: "view.generic.button.cancel",
         })}
-        onFailure={openFailureSyncModal}
-        onSuccess={openSuccessSyncModal}
         icon={Type.SynchronizeContacts}
       />
     )
