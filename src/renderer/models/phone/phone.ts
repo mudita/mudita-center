@@ -22,6 +22,8 @@ import {
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
 import getContacts from "Renderer/requests/get-contacts.request"
 import logger from "App/main/utils/logger"
+import externalProvidersStore from "Renderer/store/external-providers"
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 
 export const initialState: PhoneState = {
   db: {},
@@ -128,6 +130,15 @@ export default {
       } else {
         dispatch.phone.setContacts(contactDatabaseFactory(data))
         dispatch.phone.setResultsState(ResultsState.Loaded)
+      }
+    },
+    async loadContacts(provider: Provider) {
+      let contacts: Contact[]
+
+      switch (provider) {
+        case Provider.Google:
+          contacts = await externalProvidersStore.dispatch.google.getContacts()
+          dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
       }
     },
   }),
