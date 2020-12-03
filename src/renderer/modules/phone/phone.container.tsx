@@ -6,7 +6,7 @@ import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { URL_MAIN } from "Renderer/constants/urls"
 import createRouterPath from "Renderer/utils/create-router-path"
-import { ErrorsState, NewContact } from "Renderer/models/phone/phone.typings"
+import { NewContact } from "Renderer/models/phone/phone.typings"
 import addContact from "Renderer/requests/add-contact.request"
 
 const selector = select(({ phone, messages }) => ({
@@ -47,10 +47,7 @@ const mapDispatch = ({ phone, auth }: any) => {
       else {
         phone.addContact(data)
       }
-    },
-    errorRead: () => {
-      phone.setErrorsState(ErrorsState.None)
-    },
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import Button from "Renderer/components/core/button/button.component"
 import ContactList from "Renderer/components/rest/phone/contact-list.component"
 import ContactPanel, {
@@ -15,7 +15,6 @@ import {
   Contact,
   ContactCategory,
   ContactID,
-  ErrorsState,
   NewContact,
   ResultsState,
   Store,
@@ -70,7 +69,6 @@ export type PhoneProps = ContactActions &
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
-    errorRead: () => void
     addNewContact: (contact: NewContact) => Promise<string | void>
   } & Store
 
@@ -91,8 +89,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     savingContact,
     isTopicThreadOpened,
     resultsState,
-    errorsState,
-    errorRead,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -141,19 +137,31 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     fetchData()
   }, [])
 
+  const firstRendered = useRef(false)
+  const [retried, setRetried] = useState(false)
+
   useEffect(() => {
-    if (errorsState === ErrorsState.Error) {
-      modalService.openModal(
-        <ErrorWithRetryDataModal
-          onClose={errorRead}
-          onRetry={async () => await loadData()}
-        />,
-        true
-      )
-    } else if (errorsState === ErrorsState.RetryError) {
-      modalService.openModal(<ErrorDataModal onClose={errorRead} />, true)
+    if(firstRendered.current){
+      if (resultsState === ResultsState.Error && !retried) {
+        modalService.openModal(
+          <ErrorWithRetryDataModal
+            onClose={()=> setRetried(true)}
+            onRetry={async () => {
+              setRetried(true)
+              await loadData()
+            }}
+          />,
+          true
+        )
+      } else if (resultsState === ResultsState.Error) {
+        modalService.openModal(<ErrorDataModal onClose={() => setRetried(true)} />, true)
+      }
     }
-  }, [errorsState])
+
+    if(!firstRendered.current){
+      firstRendered.current = true
+    }
+  }, [resultsState])
 
   useEffect(() => {
     setContacts(contactList)

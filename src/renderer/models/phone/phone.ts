@@ -4,7 +4,6 @@ import {
   BaseContactModel,
   Contact,
   ContactID,
-  ErrorsState,
   Phone,
   PhoneState,
   ResultsState,
@@ -30,7 +29,6 @@ export const initialState: PhoneState = {
   db: {},
   collection: [],
   resultsState: ResultsState.Empty,
-  errorsState: ErrorsState.None,
 }
 
 let writeTrials = 0
@@ -68,16 +66,6 @@ const simulateWriteToPhone = async (time = 2000) => {
 export default {
   state: initialState,
   reducers: {
-    setErrorsState(state: PhoneState, errorsState: ErrorsState): PhoneState {
-      if (
-        state.errorsState === ErrorsState.Error &&
-        errorsState === ErrorsState.Error
-      ) {
-        return { ...state, errorsState: ErrorsState.RetryError }
-      } else {
-        return { ...state, errorsState }
-      }
-    },
     setResultsState(state: PhoneState, resultsState: ResultsState): PhoneState {
       return { ...state, resultsState }
     },
@@ -133,13 +121,11 @@ export default {
       dispatch.phone.setResultsState(ResultsState.Loading)
 
       const { data = [], error } = await getContacts()
-
       if (error) {
-        dispatch.phone.setResultsState(ResultsState.Loaded)
-        dispatch.phone.setErrorsState(ErrorsState.Error)
+        dispatch.phone.setResultsState(ResultsState.Error)
       } else {
-        dispatch.phone.setResultsState(ResultsState.Loaded)
         dispatch.phone.setContacts(contactDatabaseFactory(data))
+        dispatch.phone.setResultsState(ResultsState.Loaded)
       }
     },
     async loadContacts(provider: Provider) {

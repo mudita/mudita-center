@@ -70,12 +70,7 @@ export enum ResultsState {
   Loading,
   Loaded,
   Empty,
-}
-
-export enum ErrorsState {
-  None,
   Error,
-  RetryError
 }
 
 export interface StoreData {
@@ -83,10 +78,9 @@ export interface StoreData {
   contacts: Contact[]
   savingContact: boolean
   resultsState: ResultsState
-  errorsState: ErrorsState
 }
 
-export type PhoneState = Phone & Pick<StoreData, "resultsState" | "errorsState">
+export type PhoneState = Phone & Pick<StoreData, "resultsState">
 
 interface StoreSelectors extends Contacts {
   speedDialContacts: Contact[]
