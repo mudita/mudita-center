@@ -161,7 +161,7 @@ const mapToContact = (pureContact: PureContact): Contact => {
     // TODO: map missing fields in separate issue https://appnroll.atlassian.net/browse/PDA-571 (after EGD implementation)
     // speedDial: undefined,
     ice: false,
-    note: '',
+    note: "",
     email: "",
   }
 }
