@@ -388,6 +388,10 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const openSuccessSyncModal = async (contacts: Contact[]) => {
     const onActionButtonClick = async (chosenContacts: NewContact[]) => {
+      await modalService.openModal(
+        <LoadingStateDataModal textMessage={messages.addingText} />,
+        true
+      )
       for (const chosenContact of chosenContacts) {
         const error = await addNewContact(chosenContact)
         if (error) {
