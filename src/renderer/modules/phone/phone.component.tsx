@@ -34,8 +34,6 @@ import { ContactSection } from "Renderer/modules/phone/phone.styled"
 import { AuthProviders } from "Renderer/models/auth/auth.typings"
 import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import Modal from "Renderer/components/core/modal/modal.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
@@ -52,6 +50,7 @@ import {
 } from "Renderer/components/rest/data-modal/data.modals"
 import logger from "App/main/utils/logger"
 import ContactImportModal from "App/renderer/components/rest/phone/contact-import-modal.component"
+import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
 
 export const messages = defineMessages({
   deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -113,17 +112,20 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   )
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
-  const authorizeAndLoadContacts = async (provider: Provider) => {
+  const [provider, setProvider] = useState<Provider | undefined>()
+  const authorizeAndLoadContacts = async () => {
     try {
-      await authorize(provider)
-      await delayResponse(openProgressSyncModal(), 1000)
-      await loadContacts(provider)
+      if (provider) {
+        await authorize(provider)
+        await delayResponse(openProgressSyncModal(), 1000)
+        await loadContacts(provider)
+      }
     } catch {
-      await openFailureSyncModal()
+      await openAuthorizationFailedModal()
     }
   }
 
-  const loadGoogleContacts = () => authorizeAndLoadContacts(Provider.Google)
+  const loadGoogleContacts = () => setProvider(Provider.Google)
 
   const {
     selectedRows,
@@ -174,6 +176,12 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       })()
     }
   }, [contactsToImport])
+
+  useEffect(() => {
+    if (provider) {
+      authorizeAndLoadContacts()
+    }
+  }, [provider])
 
   useEffect(() => {
     if (editedContact) {
@@ -410,11 +418,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
-  const openFailureSyncModal = async () => {
-    // TODO: Replace it with correct modal for failure state when its done by design
+  const openAuthorizationFailedModal = async () => {
     await modalService.closeModal()
-    await modalService.openModal(
-      <Modal title={"Failure"} size={ModalSize.Small} />
+    modalService.openModal(
+      <AuthorizationFailedModal
+        provider={provider as Provider}
+        onActionButtonClick={authorizeAndLoadContacts}
+      />
     )
   }
 
