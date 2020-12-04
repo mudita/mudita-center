@@ -202,7 +202,7 @@ describe("redux tests", () => {
     expect(store.getState().phone.collection.indexOf(testId) === -1).toBeFalsy()
   })
 
-  test("properly changes contact",() => {
+  test("properly changes contact", () => {
     const testName = "some random name"
     const modifiedContact = {
       ...TEST_CONTACT,
@@ -318,12 +318,12 @@ describe("redux tests", () => {
   })
 
   test("imported contacts are set properly", () => {
-    const id = "12121"
+    const id = "1287881"
     const importedContacts = [
       {
         id,
         firstName: "John",
-        lastName: "Malysz",
+        lastName: "Doe",
         primaryPhoneNumber: "+123 123 123 123",
         secondaryPhoneNumber: "",
         email: "",
@@ -337,18 +337,20 @@ describe("redux tests", () => {
     ]
     expect(store.getState().phone.contactsToImport).toBeUndefined()
     store.dispatch.phone.setContactsToImport(importedContacts)
-    const storeAfterSetting =  store.getState()
+    const storeAfterSetting = store.getState()
     expect(storeAfterSetting.phone.contactsToImport).toBeDefined()
-    expect(storeAfterSetting.phone.contactsToImport?.collection).toHaveLength(importedContacts.length)
+    expect(storeAfterSetting.phone.contactsToImport?.collection).toHaveLength(
+      importedContacts.length
+    )
   })
 
   test("imported contacts can be cleared", () => {
-    const id = "12121"
-    const contactToUpdate = [
+    const id = "128881"
+    const contact = [
       {
         id,
         firstName: "John",
-        lastName: "Malysz",
+        lastName: "Doe",
         primaryPhoneNumber: "+123 123 123 123",
         secondaryPhoneNumber: "",
         email: "",
@@ -360,7 +362,7 @@ describe("redux tests", () => {
         secondAddressLine: "",
       },
     ]
-    store.dispatch.phone.setContactsToImport(contactToUpdate)
+    store.dispatch.phone.setContactsToImport(contact)
     expect(store.getState().phone.contactsToImport).toBeDefined()
     store.dispatch.phone.clearContactsToImport()
     expect(store.getState().phone.contactsToImport).toBeUndefined()

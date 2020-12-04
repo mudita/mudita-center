@@ -20,6 +20,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
+import { ContactImportModalTestIds } from "Renderer/components/rest/phone/contact-import-modal-test-ids.enum"
 
 const messages = defineMessages({
   title: { id: "view.name.contacts.syncModal.title" },
@@ -65,13 +66,13 @@ const ContactImportModal: FunctionComponent<Props> = ({
 
   useEffect(() => toggleAll(), [])
 
-  const SingleRow = ({ data }: { data: Contact }) => {
+  const SingleRow = ({ data, ...rest }: { data: Contact }) => {
     const onChange = () => {
       toggleRow(data)
     }
     const { selected, indeterminate } = getRowStatus(data)
     return (
-      <Row size={RowSize.Small}>
+      <Row size={RowSize.Small} {...rest}>
         <Col>
           <Checkbox
             checked={selected}
@@ -92,6 +93,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
       actionButtonLabel={intl.formatMessage(messages.button)}
       onActionButtonClick={handleButtonClick}
       size={ModalSize.Medium}
+      actionButtonDisabled={noneRowsSelected}
     >
       <Image>
         <Icon type={Type.ContactGoogle} width={5} />
@@ -111,6 +113,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
               onChange={toggleAll}
               checked={allRowsSelected}
               indeterminate={!allRowsSelected && !noneRowsSelected}
+              data-testid={ContactImportModalTestIds.ToggleAllCheckbox}
             />
             <div>Contacts</div>
           </Col>
@@ -119,7 +122,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
         <TableContent>
           {contacts.map((row, index) => (
             <React.Fragment key={index}>
-              <SingleRow data={row} />
+              <SingleRow data={row} data-testid={ContactImportModalTestIds.ContactRow} />
             </React.Fragment>
           ))}
         </TableContent>
