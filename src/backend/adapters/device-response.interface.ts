@@ -1,4 +1,3 @@
-
 export enum DeviceResponseStatus {
   Ok = "ok",
   Error = "error",

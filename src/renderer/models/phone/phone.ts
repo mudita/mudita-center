@@ -83,10 +83,7 @@ export default {
 
       return addContacts(currentState, contact)
     },
-    updateContact(
-      state: Phone,
-      data: BaseContactModel
-    ): Phone {
+    updateContact(state: Phone, data: BaseContactModel): Phone {
       let currentState = state
 
       if (data.speedDial) {
@@ -133,8 +130,7 @@ export default {
       if (error || !data) {
         logger.error(error)
         return error?.message ?? "Something went wrong"
-      }
-      else {
+      } else {
         dispatch.phone.addContact(data)
       }
     },
@@ -143,8 +139,7 @@ export default {
       if (error || !data) {
         logger.error(error)
         return error?.message ?? "Something went wrong"
-      }
-      else {
+      } else {
         dispatch.phone.updateContact(data)
       }
     },
@@ -152,7 +147,7 @@ export default {
       const { error } = await deleteContactsRequest(input)
       if (error) {
         logger.error(error)
-        const successIds = input.filter(id => !error.data?.includes(id))
+        const successIds = input.filter((id) => !error.data?.includes(id))
         dispatch.phone.removeContact(successIds)
         return error.message
       } else {

@@ -300,13 +300,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       )
 
       // await can be restored if we will process the result directly in here, not globally
-        const error = await delayResponse(deleteContacts([contact.id]))
-        if (error) {
-          modalService.openModal(<ErrorDataModal />, true)
-        } else {
-          cancelOrCloseContactHandler()
-          await modalService.closeModal()
-        }
+      const error = await delayResponse(deleteContacts([contact.id]))
+      if (error) {
+        modalService.openModal(<ErrorDataModal />, true)
+      } else {
+        cancelOrCloseContactHandler()
+        await modalService.closeModal()
+      }
     }
 
     modalService.openModal(
