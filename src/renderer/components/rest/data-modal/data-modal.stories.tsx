@@ -5,7 +5,8 @@ import { action } from "@storybook/addon-actions"
 import Story from "Renderer/components/storybook/story.component"
 import {
   ErrorDataModal,
-  ErrorWithRetryDataModal, LoadingStateDataModal,
+  ErrorWithRetryDataModal,
+  LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 
 storiesOf("Components|Rest/Data Modal", module)

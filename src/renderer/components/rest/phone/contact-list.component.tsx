@@ -362,14 +362,16 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             }}
           />
         ))}
-      {resultsState === ResultsState.Empty || resultsState === ResultsState.Error && (
-        <EmptyState
-          title={{ id: "view.name.phone.contacts.emptyList.title" }}
-          description={{
-            id: "view.name.phone.contacts.emptyList.emptyPhonebook.description",
-          }}
-        />
-      )}
+      {resultsState === ResultsState.Empty ||
+        (resultsState === ResultsState.Error && (
+          <EmptyState
+            title={{ id: "view.name.phone.contacts.emptyList.title" }}
+            description={{
+              id:
+                "view.name.phone.contacts.emptyList.emptyPhonebook.description",
+            }}
+          />
+        ))}
       {resultsState === ResultsState.Loading && <LoadingState />}
     </SelectableContacts>
   )

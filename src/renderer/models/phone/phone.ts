@@ -85,10 +85,7 @@ export default {
 
       return { ...state, ...addContacts(currentState, contact) }
     },
-    editContact(
-      state: PhoneState,
-      data: BaseContactModel
-    ): PhoneState {
+    editContact(state: PhoneState, data: BaseContactModel): PhoneState {
       let currentState = state
 
       if (data.speedDial) {
@@ -116,8 +113,11 @@ export default {
    * about phone sync flow at the moment.
    */
   effects: (dispatch: Dispatch) => ({
-    async loadData(_: any, rootState: {phone: { resultsState: ResultsState }}) {
-      if(rootState.phone.resultsState === ResultsState.Loading){
+    async loadData(
+      _: any,
+      rootState: { phone: { resultsState: ResultsState } }
+    ) {
+      if (rootState.phone.resultsState === ResultsState.Loading) {
         return
       }
 

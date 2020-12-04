@@ -142,11 +142,11 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const [retried, setRetried] = useState(false)
 
   useEffect(() => {
-    if(firstRendered.current){
+    if (firstRendered.current) {
       if (resultsState === ResultsState.Error && !retried) {
         modalService.openModal(
           <ErrorWithRetryDataModal
-            onClose={()=> setRetried(true)}
+            onClose={() => setRetried(true)}
             onRetry={() => {
               setRetried(true)
               loadData()
@@ -155,11 +155,14 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           true
         )
       } else if (resultsState === ResultsState.Error) {
-        modalService.openModal(<ErrorDataModal onClose={() => setRetried(true)} />, true)
+        modalService.openModal(
+          <ErrorDataModal onClose={() => setRetried(true)} />,
+          true
+        )
       }
     }
 
-    if(!firstRendered.current){
+    if (!firstRendered.current) {
       firstRendered.current = true
     }
   }, [resultsState])
@@ -305,13 +308,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       )
 
       // await can be restored if we will process the result directly in here, not globally
-        const error = await delayResponse(deleteContacts([contact.id]))
-        if (error) {
-          modalService.openModal(<ErrorDataModal />, true)
-        } else {
-          cancelOrCloseContactHandler()
-          await modalService.closeModal()
-        }
+      const error = await delayResponse(deleteContacts([contact.id]))
+      if (error) {
+        modalService.openModal(<ErrorDataModal />, true)
+      } else {
+        cancelOrCloseContactHandler()
+        await modalService.closeModal()
+      }
     }
 
     modalService.openModal(

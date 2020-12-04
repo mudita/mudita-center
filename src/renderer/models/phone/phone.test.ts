@@ -215,7 +215,7 @@ describe("redux tests", () => {
     expect(store.getState().phone.collection.indexOf(testId) === -1).toBeFalsy()
   })
 
-  test("properly changes contact",() => {
+  test("properly changes contact", () => {
     const testName = "some random name"
     const modifiedContact = {
       ...TEST_CONTACT,
