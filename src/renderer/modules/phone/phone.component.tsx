@@ -392,8 +392,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         const error = await addNewContact(chosenContact)
         if (error) {
           await modalService.openModal(<ErrorDataModal />, true)
-        } else {
-          await modalService.closeModal()
         }
       }
       clearContactsToImport()
