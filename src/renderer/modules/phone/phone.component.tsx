@@ -95,7 +95,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     isTopicThreadOpened,
     contactsToImport = [],
     authorize,
-    clearContactsToImport
+    clearContactsToImport,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -389,7 +389,12 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const openSuccessSyncModal = async (contacts: Contact[]) => {
     const onActionButtonClick = async (chosenContacts: NewContact[]) => {
       for (const chosenContact of chosenContacts) {
-        await addNewContact(chosenContact)
+        const error = await addNewContact(chosenContact)
+        if (error) {
+          await modalService.openModal(<ErrorDataModal />, true)
+        } else {
+          await modalService.closeModal()
+        }
       }
       clearContactsToImport()
       await modalService.closeModal()
