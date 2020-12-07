@@ -3,21 +3,21 @@ enum BatteryState {
   Charging,
 }
 
-enum SIM {
-  One,
-  Two,
-  Fail,
-  Unknown,
-  None,
+export enum SIM {
+  One = "0",
+  Two = "1",
+  Fail = "2",
+  Unknown = "3",
+  None = "4",
 }
 
-enum SignalStrength {
-  Zero,
-  One,
-  Two,
-  Three,
-  Four,
-  Five,
+export enum SignalStrength {
+  Zero = "0",
+  One = "1",
+  Two = "2",
+  Three = "3",
+  Four = "4",
+  Five = "5",
 }
 
 enum Tray {

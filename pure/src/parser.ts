@@ -1,3 +1,5 @@
+import { TextEncoder } from "util"
+
 enum PacketType {
   Invalid = '"',
   Endpoint = 35,
@@ -13,9 +15,14 @@ enum ParserState {
 /* eslint-disable */
 
 export const createValidRequest = (payload: unknown): string => {
+  const encoder = new TextEncoder()
+
   let requestStr = "#"
   const payloadAsString = JSON.stringify(payload)
-  const sizeAsString = String(payloadAsString.length).padStart(9, "0")
+  const sizeAsString = String(encoder.encode(payloadAsString).length).padStart(
+    9,
+    "0"
+  )
   requestStr += sizeAsString
   requestStr += payloadAsString
 

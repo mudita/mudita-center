@@ -97,13 +97,13 @@ const Overview: FunctionComponent<
   pureOsAvailable,
   pureOsDownloaded,
   updatePhoneOsInfo = noop,
-  loadData = noop,
   memorySpace = {
     free: 0,
     full: 16000000000,
   },
   simCards = [
     {
+      networkLevel: 0,
       network: undefined,
       active: false,
       number: 0,
@@ -111,6 +111,7 @@ const Overview: FunctionComponent<
     },
   ],
   networkName,
+  networkLevel,
   updateBasicInfo = noop,
   language,
 }) => {
@@ -146,7 +147,6 @@ const Overview: FunctionComponent<
 
   useEffect(() => {
     ;(async () => {
-      await loadData()
       initialCheck()
     })()
   }, [osUpdateDate])
@@ -210,7 +210,7 @@ const Overview: FunctionComponent<
   const openBackupRestorationLoadingModal = () => {
     restorations++
     logger.info(
-      `Restoring backup from ${lastBackup.createdAt} with a size of ${lastBackup.size} bytes.`
+      `Restoring backup from ${lastBackup?.createdAt} with a size of ${lastBackup?.size} bytes.`
     )
 
     simulateProgress(
@@ -253,6 +253,7 @@ const Overview: FunctionComponent<
         memorySpace={memorySpace}
         simCards={simCards}
         networkName={networkName}
+        networkLevel={networkLevel}
         pureOsAvailable={pureOsAvailable}
         pureOsDownloaded={pureOsDownloaded}
         onUpdateCheck={check}

@@ -1,32 +1,28 @@
-import getFakeAdapters from "App/tests/get-fake-adapters"
+import PureDeviceManager from "pure"
 import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
+import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
+import MockPureNodeService from "Backend/mock-device-service"
+import Adapters from "Backend/adapters/adapters.interface"
 
-test("returns required storage info", () => {
-  registerPurePhoneStorageRequest(getFakeAdapters())
-  const [result] = (ipcMain as any)._flush(IpcRequest.GetStorageInfo)
-  expect(result).toMatchInlineSnapshot(`
+jest.mock("pure")
+
+test("returns required storage info", async () => {
+  registerPurePhoneStorageRequest(({
+    pureStorage: createPurePhoneStorageAdapter(
+      new MockPureNodeService(PureDeviceManager, ipcMain)
+    ),
+  } as unknown) as Adapters)
+
+  const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetStorageInfo)
+  const result = await pendingResponse
+
+  expect(result.data).toMatchInlineSnapshot(`
     Object {
-      "available": 1717986918,
-      "capacity": 17179869184,
-      "categories": Array [
-        Object {
-          "filesCount": 42,
-          "label": "music",
-          "size": 1000,
-        },
-        Object {
-          "filesCount": 6,
-          "label": "storage",
-          "size": 2000,
-        },
-        Object {
-          "filesCount": 9,
-          "label": "voice recorder",
-          "size": 3000,
-        },
-      ],
+      "available": 13727,
+      "capacity": 13913,
+      "categories": Array [],
     }
   `)
 })
