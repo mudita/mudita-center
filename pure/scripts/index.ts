@@ -5,7 +5,7 @@ import requests from "./requests"
 require("yargs")
   .command(
     "request <request-config-string>",
-    "The command allow you send a single request to the pure device",
+    "This command allows you to send a single request to the Pure phone",
     (yargs: Argv) => {
       yargs.option("requestConfigString", {
         describe: "it's a stringify RequestConfig, where definition is in pure/scripts/single-request.ts",
