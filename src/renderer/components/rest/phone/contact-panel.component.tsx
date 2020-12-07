@@ -42,7 +42,7 @@ export interface ContactPanelProps {
   selectedContacts: Contact[]
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
-  deleteContacts: (id: ContactID[]) => Promise<string | void>
+  deleteContacts: (ids: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
   manageButtonDisabled?: boolean
 }
