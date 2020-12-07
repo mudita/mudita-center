@@ -16,7 +16,7 @@ require("yargs")
   )
   .command(
     "requests <request-configs-string>",
-    "The command allow you make a sending a sequence of requests to the pure device",
+    "This command allows you to send a sequence of requests to the Pure phone",
     (yargs: Argv) => {
       yargs.option("requestConfigsString", {
         describe: "it's a stringify list of RequestConfig, where definition is in pure/scripts/single-request.ts",
