@@ -70,12 +70,6 @@ export default {
     setContacts(state: Phone, contacts: Contact[]): Phone {
       return contactDatabaseFactory(contacts)
     },
-    setContactsToImport(state: Phone, contacts: Contact[]): Phone {
-      return { ...state, contactsToImport: contactDatabaseFactory(contacts) }
-    },
-    clearContactsToImport(state: Phone): Phone {
-      return { ...state, contactsToImport: undefined }
-    },
     addContact(state: Phone, contact: Contact): Phone {
       let currentState = state
 
@@ -101,12 +95,6 @@ export default {
     removeContact(state: Phone, input: ContactID | ContactID[]): Phone {
       return removeContact(state, input)
     },
-    updateContacts(state: Phone, contacts: Phone) {
-      return {
-        db: { ...state.db, ...contacts.db },
-        collection: [...state.collection, ...contacts.collection],
-      }
-    },
   },
   /**
    * All these side effects are just for show, since we don't know anything
@@ -128,7 +116,11 @@ export default {
       switch (provider) {
         case Provider.Google:
           contacts = await externalProvidersStore.dispatch.google.getContacts()
-          dispatch.phone.setContactsToImport(contacts)
+          return contactDatabaseFactory(contacts)
+        case Provider.Apple:
+          return
+        case Provider.Microsoft:
+          return
       }
     },
     authorize(provider: Provider) {

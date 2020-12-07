@@ -80,8 +80,6 @@ const PhoneComponent = ({
     speedDialContacts={[]}
     deleteContacts={asyncNoop}
     authorize={asyncNoop}
-    clearContactsToImport={noop}
-    contactsToImport={[]}
   />
 )
 

@@ -26,7 +26,7 @@ import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
 import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.container"
 import BlockContactModal from "Renderer/components/rest/phone/block-contact-modal.component"
-import { createFullName } from "Renderer/models/phone/phone.helpers"
+import { createFullName, getFlatList } from "Renderer/models/phone/phone.helpers"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
@@ -66,14 +66,12 @@ export type PhoneProps = ContactActions &
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
     getContact: (id: ContactID) => Contact
     flatList: Contact[]
-    contactsToImport: Contact[]
     speedDialChosenList: number[]
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
     authorize: (provider: Provider) => Promise<string | undefined>
-    clearContactsToImport: () => void
   } & Store
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -92,9 +90,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     savingContact,
     isTopicThreadOpened,
-    contactsToImport = [],
     authorize,
-    clearContactsToImport,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -113,12 +109,14 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
   const [provider, setProvider] = useState<Provider | undefined>()
+  const [contactsToImport, setContactsToImport] = useState<Contact[]>()
   const authorizeAndLoadContacts = async () => {
     try {
       if (provider) {
         await authorize(provider)
         await delayResponse(openProgressSyncModal(), 1000)
-        await loadContacts(provider)
+        const contactsToImport = await loadContacts(provider)
+        setContactsToImport(getFlatList(contactsToImport))
       }
     } catch {
       await openAuthorizationFailedModal()
@@ -170,7 +168,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   }, [contactList])
 
   useEffect(() => {
-    if (contactsToImport.length > 0) {
+    if (contactsToImport && contactsToImport.length > 0) {
       ;(async () => {
         await openSuccessSyncModal(contactsToImport)
       })()
@@ -406,7 +404,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           await modalService.openModal(<ErrorDataModal />, true)
         }
       }
-      clearContactsToImport()
       await modalService.closeModal()
     }
     await modalService.closeModal()
