@@ -1,5 +1,6 @@
 import { Argv } from "yargs"
 import request from "./request"
+import requests from "./requests"
 
 require("yargs")
   .command(
@@ -12,5 +13,16 @@ require("yargs")
       })
     },
     request
+  )
+  .command(
+    "requests <request-configs-string>",
+    "",
+    (yargs: Argv) => {
+      yargs.option("requestConfigsString", {
+        describe: "",
+        type: "string",
+      })
+    },
+    requests
   )
   .help().argv
