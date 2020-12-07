@@ -5,10 +5,10 @@ import requests from "./requests"
 require("yargs")
   .command(
     "request <request-config-string>",
-    "",
+    "The command allow you send a single request to the pure device",
     (yargs: Argv) => {
       yargs.option("requestConfigString", {
-        describe: "",
+        describe: "it's a stringify RequestConfig, where definition is in pure/scripts/single-request.ts",
         type: "string",
       })
     },
@@ -16,10 +16,10 @@ require("yargs")
   )
   .command(
     "requests <request-configs-string>",
-    "",
+    "The command allow you make a sending a sequence of requests to the pure device",
     (yargs: Argv) => {
       yargs.option("requestConfigsString", {
-        describe: "",
+        describe: "it's a stringify list of RequestConfig, where definition is in pure/scripts/single-request.ts",
         type: "string",
       })
     },
