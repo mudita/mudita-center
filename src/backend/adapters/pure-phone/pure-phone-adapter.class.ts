@@ -5,7 +5,7 @@ export default abstract class PurePhoneAdapter {
   public abstract getModelName(): string
   public abstract getModelNumber(): string
   public abstract getSerialNumber(): string
-  public abstract getOsVersion(): string
+  public abstract getOsVersion(): Promise<DeviceResponse<string>>
   public abstract getOsUpdateDate(): string
   public abstract disconnectDevice(): DeviceResponse
   public abstract connectDevice(): Promise<DeviceResponse>

@@ -1,4 +1,4 @@
-import { SimCard } from "Renderer/models/basic-info/interfaces"
+import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 
 export interface NetworkProps {
   simCards?: SimCard[]

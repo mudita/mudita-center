@@ -15,7 +15,7 @@ const Part = styled.div`
   }
 `
 
-storiesOf("Overview/FilesManager", module)
+storiesOf("Views|Overview/FilesManager", module)
   .addDecorator((story) => (
     <MemoryRouter initialEntries={["/phone"]}>
       <div style={{ maxWidth: "97.5rem" }}>{story()}</div>

@@ -1,4 +1,10 @@
-import { Contact as PureContact, Endpoint, Method, RequestConfig } from "pure"
+import {
+  Contact as PureContact,
+  DeviceInfo,
+  Endpoint,
+  Method,
+  RequestConfig,
+} from "pure"
 import DeviceService from "./device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
@@ -38,6 +44,23 @@ const mockPureData: PureContact[] = [
   },
 ]
 
+const mockDeviceInfo: DeviceInfo = ({
+  accessTechnology: "255",
+  batteryLevel: "35",
+  batteryState: "1",
+  currentRTCTime: "3000",
+  fsFree: "13727",
+  fsFreePercent: "99",
+  fsTotal: "13913",
+  gitBranch: "EGD-4318_enable_service_desktop",
+  gitRevision: "4973bab",
+  gitTag: "release-0.46.1-33-g4973babd",
+  networkStatus: "2",
+  selectedSim: "0",
+  signalStrength: "1",
+  trayState: "1",
+} as unknown) as DeviceInfo
+
 class MockPureNodeService extends DeviceService {
   async request({
     body,
@@ -62,6 +85,11 @@ class MockPureNodeService extends DeviceService {
     } else if (endpoint === Endpoint.Contacts && method === Method.Put) {
       return {
         data: mockPureData,
+        status: DeviceResponseStatus.Ok,
+      }
+    } else if (endpoint === Endpoint.DeviceInfo && method === Method.Get) {
+      return {
+        data: mockDeviceInfo,
         status: DeviceResponseStatus.Ok,
       }
     } else if (endpoint === Endpoint.Contacts && method === Method.Post) {
