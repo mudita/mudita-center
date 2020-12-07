@@ -22,7 +22,7 @@ storiesOf("Views|Overview/Network ", module).add("Network", () => {
       setFakeSimCards(data)
     }
     fetch()
-  },[])
+  }, [])
 
   return (
     <StoryContainer column>

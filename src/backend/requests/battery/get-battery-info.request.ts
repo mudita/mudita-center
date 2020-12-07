@@ -19,7 +19,7 @@ const handleBatteryInfoRequest = async ({
       status: DeviceResponseStatus.Ok,
       data: {
         charging: pureBatteryService.getChargingStatus(),
-        level: getBatteryLevelResponse.data
+        level: getBatteryLevelResponse.data,
       },
     }
   } else {
