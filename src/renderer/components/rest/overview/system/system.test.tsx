@@ -10,7 +10,12 @@ import { waitFor } from "@testing-library/react"
 
 const fakeSystemInfo = getFakeAdapters().purePhone
 const fakeLastUpdate = "2020-01-14T11:31:08.244Z"
-const fakeOsVersion = fakeSystemInfo.getOsVersion()
+let fakeOsVersion: string
+
+beforeEach(async () => {
+  const {data} = await fakeSystemInfo.getOsVersion()
+  fakeOsVersion = data ?? ''
+})
 
 const renderSystem = ({
   osVersion = fakeOsVersion,

@@ -42,7 +42,7 @@ const fakeState = {
   language: "en-US",
 }
 
-storiesOf("Views/Overview", module).add("Overview", () => (
+storiesOf("Views|Overview", module).add("Overview", () => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Router history={history}>
       <OverviewUI
@@ -78,7 +78,7 @@ const ModalStory: FunctionComponent = ({ children }) => (
   </div>
 )
 
-storiesOf("Views/Overview/Modals", module)
+storiesOf("Views|Overview/Modals", module)
   .add("Checking for updates", () => (
     <ModalStory>
       <CheckingUpdatesModal />
