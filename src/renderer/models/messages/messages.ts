@@ -8,6 +8,7 @@ import { createFullMessagesCollection } from "Renderer/models/messages/utils/mes
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import { isCallerMatchingPhoneNumber } from "Renderer/models/messages/utils/caller-utils.ts"
 import { Caller } from "Renderer/models/calls/calls.interface"
+import { mockedTopics } from "App/__mocks__/mocked-topics"
 
 export const initialState: StateProps = {
   topics: [],
@@ -56,6 +57,18 @@ export default {
         return topic
       })
       return { ...state, topics: withMarkAsUnreadTopics }
+    },
+    _devClearAllTopics(state: StateProps) {
+      return {
+        ...state,
+        topics: [],
+      }
+    },
+    _devLoadDefaultTopics(state: StateProps) {
+      return {
+        ...state,
+        topics: mockedTopics,
+      }
     },
   },
   selectors: (slice: Slicer<StateProps>) => ({

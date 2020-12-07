@@ -1,7 +1,7 @@
 import React from "react"
 import MenuGroup from "Renderer/components/rest/menu/menu-group.component"
 import { menuElements } from "Renderer/constants/menu-elements"
-import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
+import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 import styled from "styled-components"
 import {
   backgroundColor,

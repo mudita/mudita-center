@@ -1,5 +1,5 @@
 import { init } from "@rematch/core"
-import devMode from "Renderer/models/dev-mode/dev-mode"
+import devMode from "App/dev-mode/store/dev-mode"
 
 let store = init({
   models: { devMode },

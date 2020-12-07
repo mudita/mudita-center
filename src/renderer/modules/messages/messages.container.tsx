@@ -3,7 +3,8 @@ import { connect } from "react-redux"
 import { VisibilityFilter } from "Renderer/models/messages/messages.interface"
 import { RootModel } from "Renderer/models/models"
 import Messages from "./messages.component"
-import { select } from "Renderer/store"
+import store, { select } from "Renderer/store"
+import contextMenu from "App/context-menu/context-menu"
 
 const selector = select(({ messages }) => ({
   list: messages.filteredList,
@@ -25,5 +26,16 @@ const mapDispatchToProps = (dispatch: any) => ({
   markAsRead: (ids: string[]) => dispatch.messages.markAsRead(ids),
   toggleReadStatus: (ids: string[]) => dispatch.messages.toggleReadStatus(ids),
 })
+
+contextMenu.registerItems("Messages", [
+  {
+    label: "Load default topics",
+    click: () => store.dispatch.messages._devLoadDefaultTopics(),
+  },
+  {
+    label: "Clear all topics",
+    click: () => store.dispatch.messages._devClearAllTopics(),
+  },
+])
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)

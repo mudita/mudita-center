@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
+import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 
 export const ViewWrapper = styled.div<DevMode>`
   grid-area: View;

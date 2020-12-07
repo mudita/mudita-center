@@ -7,7 +7,6 @@ import history from "Renderer/routes/history"
 import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
 import "./fonts/fonts.css"
-import contextMenu from "Renderer/electron/contextMenu"
 import appUpdate from "./components/rest/app-update/app-update.service"
 
 // Create main element
@@ -25,7 +24,5 @@ ReactDOM.render(
 
 modalService.bindStore(store)
 modalService.setDefaultLocale(defaultLanguage)
-
 appUpdate()
-contextMenu()
 store.dispatch.settings.loadSettings()

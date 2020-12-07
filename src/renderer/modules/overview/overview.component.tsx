@@ -5,7 +5,7 @@ import {
   Store as BasicInfoInitialState,
   StoreValues as BasicInfoValues,
 } from "Renderer/models/basic-info/interfaces"
-import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
+import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 import React, { ReactElement, useEffect, useState } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
