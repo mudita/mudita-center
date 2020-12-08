@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import Button from "Renderer/components/core/button/button.component"
 import ContactList from "Renderer/components/rest/phone/contact-list.component"
 import ContactPanel, {
@@ -77,6 +77,9 @@ export type PhoneProps = ContactActions &
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
+    addNewContact: (contact: NewContact) => Promise<string | void>
+    editContact: (contact: Contact) => Promise<string | void>
+    deleteContacts: (ids: ContactID[]) => Promise<string | void>
   } & Store
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -95,6 +98,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     savingContact,
     isTopicThreadOpened,
+    resultsState,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -135,35 +139,39 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     ...rest
   } = useTableSelect<Contact, ContactCategory>(contacts, "contacts")
   const detailsEnabled = activeRow && !newContact && !editedContact
-  const [resultsState, setResultsState] = useState<ResultsState>(
-    contactList.length === 0 ? ResultsState.Empty : ResultsState.Loaded
-  )
 
   useEffect(() => {
-    let cancelled = false
+    loadData()
+  }, [])
 
-    const fetchData = async (retried?: boolean) => {
-      setResultsState(ResultsState.Loading)
-      const error = await loadData()
+  const firstRendered = useRef(false)
+  const [retried, setRetried] = useState(false)
 
-      if (cancelled) return
-      setResultsState(ResultsState.Loaded)
-
-      if (error && !retried) {
+  useEffect(() => {
+    if (firstRendered.current) {
+      if (resultsState === ResultsState.Error && !retried) {
         modalService.openModal(
-          <ErrorWithRetryDataModal onRetry={() => fetchData(true)} />,
+          <ErrorWithRetryDataModal
+            onClose={() => setRetried(true)}
+            onRetry={() => {
+              setRetried(true)
+              loadData()
+            }}
+          />,
           true
         )
-      } else if (error) {
-        modalService.openModal(<ErrorDataModal />, true)
+      } else if (resultsState === ResultsState.Error) {
+        modalService.openModal(
+          <ErrorDataModal onClose={() => setRetried(true)} />,
+          true
+        )
       }
     }
-    fetchData()
 
-    return () => {
-      cancelled = true
+    if (!firstRendered.current) {
+      firstRendered.current = true
     }
-  }, [])
+  }, [resultsState])
 
   useEffect(() => {
     setContacts(contactList)
