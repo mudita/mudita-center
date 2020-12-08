@@ -4,7 +4,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   Store as BasicInfoInitialState,
   StoreValues as BasicInfoValues,
-} from "Renderer/models/basic-info/interfaces"
+} from "Renderer/models/basic-info/basic-info.typings"
 import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 import React, { ReactElement, useEffect, useState } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
