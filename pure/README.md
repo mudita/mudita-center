@@ -38,3 +38,15 @@ npm run command request '{"endpoint":1,"method":1}'
 ```bash
 npm run command requests '[{"endpoint":1,"method":1},{"endpoint":1,"method":1}]'
 ```
+
+#### The example to upload file by request command (from file system)
+
+```bash
+npm run command request '{"endpoint":100,"method":1,"file":"Absolute/path/to/the/file"}'
+```
+
+#### The example to update OS by request command (from file system)
+
+```bash
+npm run command request '{"endpoint":101,"method":1,"file":"Absolute/path/to/the/file"}'
+```
