@@ -17,7 +17,7 @@ import editContact from "Renderer/requests/edit-contact.request"
 import deleteContactsRequest from "Renderer/requests/delete-contacts.request"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import externalProvidersStore from "Renderer/store/external-providers"
-import { contactDatabaseFactory } from "Renderer/models/phone/phone.helpers"
+import { contactDatabaseFactory, getFlatList } from "Renderer/models/phone/phone.helpers"
 
 const selector = select(({ phone, messages }) => ({
   contactList: phone.contactList,
@@ -56,7 +56,7 @@ const mapDispatch = ({ phone, auth }: any) => {
       switch (provider) {
         case Provider.Google:
           contacts = await externalProvidersStore.dispatch.google.getContacts()
-          return contactDatabaseFactory(contacts)
+          return getFlatList(contactDatabaseFactory(contacts))
         case Provider.Apple:
           return
         case Provider.Microsoft:

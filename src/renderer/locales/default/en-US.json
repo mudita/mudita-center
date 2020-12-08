@@ -391,7 +391,7 @@
   "view.name.phone.contacts.selectionsNumber": "{num, plural, =-1 {All Contacts} one {# Contact} other {# Contacts}} selected",
   "view.name.phone.contacts.synchronizingModalBody": "This might take a few minutes, please wait.",
   "view.name.phone.contacts.synchronizingModalTitle": "Synchronising contacts…",
-  "view.name.phone.contacts.syncModalText": "Log in to allow Mudita Center to synchronize contacts between your device and Google or iCloud accounts.",
+  "view.name.phone.contacts.syncModalText": "Log in to allow Mudita Center to synchronize contacts between your device and Google or iCloud accounts",
   "view.name.phone.contacts.syncModalTitle": "Synchronize contacts",
   "view.name.phone.dial": "Dial",
   "view.name.recoveryMode": "Backup & Recovery",

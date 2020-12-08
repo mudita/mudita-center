@@ -26,7 +26,7 @@ import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
 import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.container"
 import BlockContactModal from "Renderer/components/rest/phone/block-contact-modal.component"
-import { createFullName, getFlatList } from "Renderer/models/phone/phone.helpers"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
@@ -119,14 +119,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
   const [provider, setProvider] = useState<Provider | undefined>()
-  const [contactsToImport, setContactsToImport] = useState<Contact[]>()
   const authorizeAndLoadContacts = async () => {
     try {
       if (provider) {
         await authorize(provider)
         await delayResponse(openProgressSyncModal(), 1000)
         const contactsToImport = await loadContacts(provider)
-        setContactsToImport(getFlatList(contactsToImport))
+        await openSuccessSyncModal(contactsToImport)
       }
     } catch {
       await openAuthorizationFailedModal()
@@ -181,13 +180,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     setContacts(contactList)
   }, [contactList])
 
-  useEffect(() => {
-    if (contactsToImport && contactsToImport.length > 0) {
-      ;(async () => {
-        await openSuccessSyncModal(contactsToImport)
-      })()
-    }
-  }, [contactsToImport])
+  // useEffect(() => {
+  //   if (importedContacts && importedContacts.length > 0) {
+  //     ;(async () => {
+  //       await openSuccessSyncModal(importedContacts)
+  //     })()
+  //   }
+  // }, [importedContacts])
 
   useEffect(() => {
     if (provider) {

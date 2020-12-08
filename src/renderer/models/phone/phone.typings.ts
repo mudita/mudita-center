@@ -93,7 +93,7 @@ interface StoreSelectors extends Contacts {
 
 interface StoreEffects {
   readonly loadData: () => Promise<void>
-  readonly loadContacts: (provider: Provider) => Promise<Phone>
+  readonly loadContacts: (provider: Provider) => Promise<Contact[]>
 }
 
 export type Store = StoreEffects & StoreData & StoreSelectors
