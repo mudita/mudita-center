@@ -135,12 +135,13 @@ export default {
     authorize(provider: Provider) {
       switch (provider) {
         case Provider.Google:
-          return externalProvidersStore.dispatch.google.authorize()
+          externalProvidersStore.dispatch.google.authorize()
+          break
         // TODO: update when adding new providers
         case Provider.Apple:
-          return
+          break
         case Provider.Microsoft:
-          return
+          break
       }
     },
   }),
