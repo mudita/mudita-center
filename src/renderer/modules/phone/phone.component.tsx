@@ -180,14 +180,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     setContacts(contactList)
   }, [contactList])
 
-  // useEffect(() => {
-  //   if (importedContacts && importedContacts.length > 0) {
-  //     ;(async () => {
-  //       await openSuccessSyncModal(importedContacts)
-  //     })()
-  //   }
-  // }, [importedContacts])
-
   useEffect(() => {
     if (provider) {
       authorizeAndLoadContacts()
