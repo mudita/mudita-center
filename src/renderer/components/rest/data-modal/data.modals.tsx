@@ -69,11 +69,13 @@ export const ErrorDataModal = ({
 )
 
 export const ErrorWithRetryDataModal = ({
+  onClose = noop,
   onRetry,
   title = intl.formatMessage(messages.errorTitle),
   textMessage = messages.errorText,
   descriptionMessage = messages.errorDescription,
 }: {
+  onClose?: () => void
   onRetry: () => void
   title?: string
   textMessage?: Message
@@ -83,6 +85,7 @@ export const ErrorWithRetryDataModal = ({
     title={title}
     onActionButtonClick={onRetry}
     actionButtonLabel={intl.formatMessage(messages.errorWithRetryButton)}
+    onClose={onClose}
   >
     <RoundIconWrapper>
       <Icon type={Type.Fail} width={4} />

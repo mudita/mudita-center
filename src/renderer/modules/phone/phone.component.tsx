@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import Button from "Renderer/components/core/button/button.component"
 import ContactList from "Renderer/components/rest/phone/contact-list.component"
 import ContactPanel, {
@@ -50,6 +50,9 @@ import {
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
+import parseVcf from "Renderer/modules/phone/helpers/parseVcf/parse-vcf"
+import ImportContactsModal from "Renderer/components/rest/sync-modals/import-contacts-modal.component"
+import ImportingContactsModal from "Renderer/components/rest/sync-modals/importing-contacts-modal.component"
 import logger from "App/main/utils/logger"
 
 export const messages = defineMessages({
@@ -58,6 +61,9 @@ export const messages = defineMessages({
   addingText: { id: "view.name.phone.contacts.modal.adding.text" },
   deletingText: { id: "view.name.phone.contacts.modal.deleting.text" },
   editingText: { id: "view.name.phone.contacts.modal.editing.text" },
+  importingFailed: {
+    id: "view.name.phone.contacts.modal.importingFailed.message",
+  },
 })
 
 export type PhoneProps = ContactActions &
@@ -71,6 +77,9 @@ export type PhoneProps = ContactActions &
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
+    addNewContact: (contact: NewContact) => Promise<string | void>
+    editContact: (contact: Contact) => Promise<string | void>
+    deleteContacts: (ids: ContactID[]) => Promise<string | void>
   } & Store
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -89,6 +98,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     onMessage,
     savingContact,
     isTopicThreadOpened,
+    resultsState,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -129,35 +139,39 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     ...rest
   } = useTableSelect<Contact, ContactCategory>(contacts, "contacts")
   const detailsEnabled = activeRow && !newContact && !editedContact
-  const [resultsState, setResultsState] = useState<ResultsState>(
-    contactList.length === 0 ? ResultsState.Empty : ResultsState.Loaded
-  )
 
   useEffect(() => {
-    let cancelled = false
+    loadData()
+  }, [])
 
-    const fetchData = async (retried?: boolean) => {
-      setResultsState(ResultsState.Loading)
-      const error = await loadData()
+  const firstRendered = useRef(false)
+  const [retried, setRetried] = useState(false)
 
-      if (cancelled) return
-      setResultsState(ResultsState.Loaded)
-
-      if (error && !retried) {
+  useEffect(() => {
+    if (firstRendered.current) {
+      if (resultsState === ResultsState.Error && !retried) {
         modalService.openModal(
-          <ErrorWithRetryDataModal onRetry={() => fetchData(true)} />,
+          <ErrorWithRetryDataModal
+            onClose={() => setRetried(true)}
+            onRetry={() => {
+              setRetried(true)
+              loadData()
+            }}
+          />,
           true
         )
-      } else if (error) {
-        modalService.openModal(<ErrorDataModal />, true)
+      } else if (resultsState === ResultsState.Error) {
+        modalService.openModal(
+          <ErrorDataModal onClose={() => setRetried(true)} />,
+          true
+        )
       }
     }
-    fetchData()
 
-    return () => {
-      cancelled = true
+    if (!firstRendered.current) {
+      firstRendered.current = true
     }
-  }, [])
+  }, [resultsState])
 
   useEffect(() => {
     setContacts(contactList)
@@ -187,6 +201,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       }
     }
   }, [flatList])
+
+  const closeModal = () => modalService.closeModal()
 
   const contactFreshData = ({ id }: Contact) => {
     return getContact(id)
@@ -233,7 +249,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         modalService.openModal(<ErrorDataModal />, true)
       } else {
         cancelOrCloseContactHandler()
-        await modalService.closeModal()
+        await closeModal()
       }
     }
 
@@ -300,13 +316,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       )
 
       // await can be restored if we will process the result directly in here, not globally
-        const error = await delayResponse(deleteContacts([contact.id]))
-        if (error) {
-          modalService.openModal(<ErrorDataModal />, true)
-        } else {
-          cancelOrCloseContactHandler()
-          await modalService.closeModal()
-        }
+      const error = await delayResponse(deleteContacts([contact.id]))
+      if (error) {
+        modalService.openModal(<ErrorDataModal />, true)
+      } else {
+        cancelOrCloseContactHandler()
+        await modalService.closeModal()
+      }
     }
 
     modalService.openModal(
@@ -366,17 +382,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
-  const closeSpeedDialModal = async () => {
-    await modalService.closeModal()
-  }
-
   const openSpeedDialModal = () => {
-    modalService.openModal(<SpeedDialModal onSave={closeSpeedDialModal} />)
+    modalService.openModal(<SpeedDialModal onSave={closeModal} />)
   }
 
   const openSuccessSyncModal = async () => {
     // TODO: Replace it with correct modal for success state when its done by design
-    await modalService.closeModal()
+    await closeModal()
     await modalService.openModal(
       <Modal title={"Success"} size={ModalSize.Small} />
     )
@@ -384,14 +396,14 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
 
   const openFailureSyncModal = async () => {
     // TODO: Replace it with correct modal for failure state when its done by design
-    await modalService.closeModal()
+    await closeModal()
     await modalService.openModal(
       <Modal title={"Failure"} size={ModalSize.Small} />
     )
   }
 
   const openProgressSyncModal = async () => {
-    await modalService.closeModal()
+    await closeModal()
     await modalService.openModal(
       <SynchronizingContactsModal
         body={{
@@ -410,14 +422,70 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
-  const openSyncModal = async () => {
+  const importContactsFromFile = async (files: File[]) => {
+    const parsedContacts = await parseVcf(files)
+    let failed = false
+
+    const addImportedContacts = async () => {
+      await closeModal()
+      modalService.openModal(
+        <ImportingContactsModal count={0} total={parsedContacts.length} />
+      )
+
+      for (const contact of parsedContacts) {
+        if (failed) {
+          await closeModal()
+          modalService.openModal(
+            <ErrorDataModal textMessage={messages.importingFailed} />
+          )
+          return
+        }
+        const error = await addNewContact(contact)
+        if (error) {
+          failed = true
+        }
+
+        const currentContact = parsedContacts.indexOf(contact) + 1
+        modalService.rerenderModal(
+          <ImportingContactsModal
+            count={currentContact}
+            total={parsedContacts.length}
+            onClose={closeModal}
+          />
+        )
+      }
+    }
+
+    await closeModal()
     modalService.openModal(
-      <SyncContactsModal
-        onAppleButtonClick={openProgressSyncModal}
-        onGoogleButtonClick={loadGoogleContacts}
+      <ImportContactsModal
+        contacts={parsedContacts}
+        onActionButtonClick={addImportedContacts}
       />
     )
   }
+
+  const manualImport = async (inputElement: HTMLInputElement) => {
+    const onFileSelect = () => {
+      if (inputElement.files) {
+        importContactsFromFile(Array.from(inputElement.files))
+        inputElement.removeEventListener("change", onFileSelect)
+      }
+    }
+
+    inputElement.click()
+    inputElement.addEventListener("change", onFileSelect)
+  }
+
+  const openSyncModal = async () => {
+    modalService.openModal(
+      <SyncContactsModal
+        onGoogleButtonClick={loadGoogleContacts}
+        onManualImportClick={manualImport}
+      />
+    )
+  }
+
   const _devClearContacts = () => setContacts([])
   const _devLoadDefaultContacts = () => setContacts(contactList)
   return (

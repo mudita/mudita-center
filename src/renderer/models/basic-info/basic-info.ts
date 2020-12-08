@@ -1,4 +1,7 @@
-import { getActiveNetworkFromSim } from "Renderer/models/basic-info/utils/helpers"
+import {
+  getActiveNetworkFromSim,
+  getActiveNetworkLevelFromSim,
+} from "Renderer/models/basic-info/utils/helpers"
 import getBackupsInfo from "Renderer/requests/get-backups-info.request"
 import getBatteryInfo from "Renderer/requests/get-battery-info.request"
 import getDeviceInfo from "Renderer/requests/get-device-info.request"
@@ -10,19 +13,31 @@ import changeSimRequest from "Renderer/requests/change-sim.request"
 import { Dispatch } from "Renderer/store"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { Slicer } from "@rematch/select"
-import { SimCard, Store } from "Renderer/models/basic-info/interfaces"
+import {
+  ResultsState,
+  SimCard,
+  StoreValues,
+} from "Renderer/models/basic-info/basic-info.typings"
+import { basicInfoSeed } from "App/seeds/basic-info"
 
 const initialState = {
   disconnectedDevice: true,
+  resultsState: ResultsState.Empty,
 }
 
 export default {
   state: initialState,
   reducers: {
-    update(state: Store, payload: any) {
+    setResultsState(
+      state: StoreValues,
+      resultsState: ResultsState
+    ): StoreValues {
+      return { ...state, resultsState }
+    },
+    update(state: StoreValues, payload: any): StoreValues {
       return { ...state, ...payload }
     },
-    updateSim(state: Store, payload: number) {
+    updateSim(state: StoreValues, payload: number): StoreValues {
       const newSim = [
         {
           ...state.simCards[0],
@@ -38,13 +53,8 @@ export default {
   },
   effects: (dispatch: Dispatch) => ({
     async loadData() {
-      const [
-        info,
-        networkInfo,
-        storageInfo,
-        batteryInfo,
-        backupsInfo,
-      ] = await Promise.all([
+      dispatch.basicInfo.setResultsState(ResultsState.Loading)
+      const responses = await Promise.all([
         getDeviceInfo(),
         getNetworkInfo(),
         getStorageInfo(),
@@ -52,33 +62,58 @@ export default {
         getBackupsInfo(),
       ])
 
-      const [lastBackup] = backupsInfo.backups.sort(
-        (a, b) => Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
-      )
-      dispatch.basicInfo.update({
-        batteryLevel: batteryInfo.level,
-        osVersion: info.osVersion,
-        simCards: networkInfo.simCards,
-        memorySpace: {
-          full: storageInfo.capacity,
-          free: storageInfo.available,
-        },
-        lastBackup,
-        osUpdateDate: info.osUpdateDate,
-      })
+      if (
+        responses.every(
+          ({ status, data }) =>
+            status === DeviceResponseStatus.Ok && data !== undefined
+        )
+      ) {
+        const [
+          info,
+          networkInfo,
+          storageInfo,
+          batteryInfo,
+          backupsInfo,
+        ] = responses
+
+        const [lastBackup] = backupsInfo.data!.backups.sort(
+          (a, b) =>
+            Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
+        )
+
+        dispatch.basicInfo.update({
+          batteryLevel: batteryInfo.data!.level,
+          osVersion: info.data!.osVersion,
+          simCards: networkInfo.data!.simCards,
+          memorySpace: {
+            full: storageInfo.data!.capacity,
+            free: storageInfo.data!.available,
+          },
+          lastBackup,
+          osUpdateDate: info.data!.osUpdateDate,
+        })
+        dispatch.basicInfo.setResultsState(ResultsState.Loaded)
+      } else {
+        dispatch.basicInfo.setResultsState(ResultsState.Error)
+      }
     },
     async connect() {
       const { status } = await connectDevice()
 
-      if (status === DeviceResponseStatus.Ok)
+      if (status === DeviceResponseStatus.Ok) {
         dispatch.basicInfo.update({
           disconnectedDevice: false,
         })
+
+        dispatch.basicInfo.loadData()
+      }
     },
     async fakeConnect() {
       dispatch.basicInfo.update({
         disconnectedDevice: false,
       })
+      dispatch.basicInfo.update(basicInfoSeed)
+      dispatch.basicInfo.setResultsState(ResultsState.Loaded)
     },
     async disconnect() {
       const disconnectInfo = await disconnectDevice()
@@ -86,6 +121,13 @@ export default {
         dispatch.basicInfo.update({
           disconnectedDevice: true,
         })
+      }
+    },
+    async toggleDisconnectedDevice(disconnectedDevice: boolean) {
+      dispatch.basicInfo.update({ disconnectedDevice })
+
+      if (!disconnectedDevice) {
+        dispatch.basicInfo.loadData()
       }
     },
     async changeSim(simCard: SimCard) {
@@ -99,6 +141,19 @@ export default {
     activeSimNetworkName() {
       return slice((state: { simCards?: SimCard[] }) => {
         return getActiveNetworkFromSim(state.simCards)
+      })
+    },
+    activeNetworkLevelFromSim() {
+      return slice((state: { simCards?: SimCard[] }) => {
+        return getActiveNetworkLevelFromSim(state.simCards)
+      })
+    },
+    isConnected() {
+      return slice((state: StoreValues) => {
+        return (
+          state.resultsState === ResultsState.Loaded &&
+          !state.disconnectedDevice
+        )
       })
     },
   }),

@@ -1,37 +1,32 @@
-import getFakeAdapters from "App/tests/get-fake-adapters"
+import PureDeviceManager from "pure"
 import registerNetworkInfoRequest from "Backend/requests/network/get-network-info.request"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
+import Adapters from "Backend/adapters/adapters.interface"
+import MockPureNodeService from "Backend/mock-device-service"
+import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
 
-test("returns required network info", () => {
-  registerNetworkInfoRequest(getFakeAdapters())
-  const [result] = (ipcMain as any)._flush(IpcRequest.GetNetworkInfo)
-  expect(result).toMatchInlineSnapshot(`
+jest.mock("pure")
+
+test("returns required network info", async () => {
+  registerNetworkInfoRequest(({
+    pureNetwork: createPurePhoneNetwork(
+      new MockPureNodeService(PureDeviceManager, ipcMain)
+    ),
+  } as unknown) as Adapters)
+
+  const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetNetworkInfo)
+  const result = await pendingResponse
+
+  expect(result.data).toMatchInlineSnapshot(`
     Object {
       "simCards": Array [
         Object {
           "active": true,
-          "carrier": "Yo mama 36.0",
-          "iccid": 1234,
-          "imei": 5678,
-          "meid": 8765,
           "network": "Y-Mobile",
-          "networkLevel": 0.5,
+          "networkLevel": 0.2,
           "number": 12345678,
-          "seid": "1234",
           "slot": 1,
-        },
-        Object {
-          "active": false,
-          "carrier": "X-Mobile 69",
-          "iccid": 412,
-          "imei": 42,
-          "meid": 1410,
-          "network": "X-Mobile",
-          "networkLevel": 0.69,
-          "number": 7001234523,
-          "seid": "x123",
-          "slot": 2,
         },
       ],
     }
