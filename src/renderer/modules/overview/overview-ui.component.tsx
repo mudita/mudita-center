@@ -1,5 +1,5 @@
 import React from "react"
-import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/interfaces"
+import { Store as BasicInfoInitialState } from "Renderer/models/basic-info/basic-info.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Phone from "Renderer/components/rest/overview/phone/phone.component"
@@ -51,7 +51,7 @@ interface OverviewUIProps {
 }
 
 const OverviewUI: FunctionComponent<
-  Omit<BasicInfoInitialState, "loadData"> &
+  Omit<BasicInfoInitialState, "loadData" | "resultsState"> &
     PhoneUpdate &
     OverviewUIProps &
     Partial<AppSettings>
@@ -63,6 +63,7 @@ const OverviewUI: FunctionComponent<
   lastBackup,
   memorySpace,
   networkName,
+  networkLevel,
   onOpenBackupModal,
   onOpenBackupRestorationModal,
   onUpdateCheck,
@@ -80,6 +81,7 @@ const OverviewUI: FunctionComponent<
       onClick={toggleDevMode}
       batteryLevel={batteryLevel}
       network={networkName}
+      networkLevel={networkLevel}
       onDisconnect={disconnectDevice}
     />
     <NetworkInfo simCards={simCards} onSimChange={changeSim} />

@@ -73,6 +73,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   batteryLevel,
   className,
   network,
+  networkLevel = 0,
   onDisconnect,
   onClick,
 }) => {
@@ -82,14 +83,16 @@ const Phone: FunctionComponent<PhoneProps> = ({
     history.push("/news")
   }
 
+  const strength = Math.round(networkLevel * 100);
+
   return (
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
         <Image src={PureImage} />
         <BatteryStats>
-          <BatteryIcon width={2.4} level={0.1} />
+          <BatteryIcon width={2.4} level={batteryLevel} />
           <Text displayStyle={TextDisplayStyle.LargeBoldText} element={"h2"}>
-            {batteryLevel * 100} %
+            {Math.round(batteryLevel * 100)} %
           </Text>
           <Text
             displayStyle={TextDisplayStyle.SmallFadedText}
@@ -97,7 +100,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
           />
         </BatteryStats>
         <SignalStats>
-          <RangeIcon strength={40} height={2.4} width={2.4} />
+          <RangeIcon strength={strength} height={2.4} width={2.4} />
           {network ? (
             <Text displayStyle={TextDisplayStyle.LargeBoldText}>{network}</Text>
           ) : (
