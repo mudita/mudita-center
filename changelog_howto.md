@@ -4,7 +4,7 @@ This article is based on [keep a changelog](https://keepachangelog.com/en/1.0.0/
 
 **Note:** Mudita Center changelog should be **edited by the Mudita Center core development team only**.
 
-[View Mudita Center changelog](https://github.com/Mudita/mudita-center/issues).
+[View Mudita Center changelog](https://github.com/Mudita/mudita-center/releases).
 
 ## 1. The purpose of a changelog
 To let the end user (not necessarily technically-skilled) know what your Pull Request changes. In practice, this means that if some spectacular crash has been fixed, changelog entry should say e.g. `Fix system crash on syncing contacts with Google`.
