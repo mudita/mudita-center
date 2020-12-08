@@ -19,7 +19,7 @@ npm run build
 2. If you would like to test in the *MC*, please build this package before run develop
 3. Use command yargs terminal client
 
-### Comand yargs  terminal client
+### Command yargs terminal client
 
 #### Run help to see available commands
 
