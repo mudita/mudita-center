@@ -15,6 +15,9 @@ import addContact from "Renderer/requests/add-contact.request"
 import logger from "App/main/utils/logger"
 import editContact from "Renderer/requests/edit-contact.request"
 import deleteContactsRequest from "Renderer/requests/delete-contacts.request"
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import externalProvidersStore from "Renderer/store/external-providers"
+import { contactDatabaseFactory } from "Renderer/models/phone/phone.helpers"
 
 const selector = select(({ phone, messages }) => ({
   contactList: phone.contactList,
@@ -47,6 +50,19 @@ const mapDispatch = ({ phone, auth }: any) => {
     onMessage: (history: History<LocationState>, phoneNumber: string) =>
       history.push(createRouterPath(URL_MAIN.messages, { phoneNumber })),
     onSpeedDialSettingsSave: noop,
+    loadContacts: async (provider: Provider) => {
+      let contacts: Contact[]
+
+      switch (provider) {
+        case Provider.Google:
+          contacts = await externalProvidersStore.dispatch.google.getContacts()
+          return contactDatabaseFactory(contacts)
+        case Provider.Apple:
+          return
+        case Provider.Microsoft:
+          return
+      }
+    },
     addNewContact: async (contact: NewContact): Promise<string | void> => {
       const { data, error } = await addContact(contact)
       if (error || !data) {
