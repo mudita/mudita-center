@@ -83,7 +83,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
     history.push("/news")
   }
 
-  const strength = Math.round(networkLevel * 100);
+  const strength = Math.round(networkLevel * 100)
 
   return (
     <PhoneCard className={className} onClick={onClick}>

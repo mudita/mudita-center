@@ -1,4 +1,4 @@
 {
-    "!(pure)/**/*.{js,json,css,md,ts,tsx}": ["prettier --write"],
-    "!(pure)/**/*.{ts,tsx}": ["npm run lint:js -- --fix", "npm run lint:css"],
+    "*.{js,json,css,md,ts,tsx}": ["prettier --write", "git add"],
+    "*.{ts,tsx}": ["npm run lint --fix", "git add"],
 }
