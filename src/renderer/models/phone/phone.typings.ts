@@ -1,5 +1,3 @@
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-
 export type ContactID = string
 
 export interface BaseContactModel {
@@ -47,10 +45,6 @@ export type Contact =
 export interface Phone {
   collection: ContactID[]
   db: Record<ContactID, Contact>
-  contactsToImport?: {
-    collection: ContactID[]
-    db: Record<ContactID, Contact>
-  }
 }
 
 export interface ContactCategory {
@@ -93,7 +87,6 @@ interface StoreSelectors extends Contacts {
 
 interface StoreEffects {
   readonly loadData: () => Promise<void>
-  readonly loadContacts: (provider: Provider) => Promise<Contact[]>
 }
 
 export type Store = StoreEffects & StoreData & StoreSelectors

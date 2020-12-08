@@ -81,6 +81,7 @@ export type PhoneProps = ContactActions &
     addNewContact: (contact: NewContact) => Promise<string | void>
     editContact: (contact: Contact) => Promise<string | void>
     deleteContacts: (ids: ContactID[]) => Promise<string | void>
+    loadContacts: (provider: Provider) => Promise<Contact[]>
   } & Store
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
