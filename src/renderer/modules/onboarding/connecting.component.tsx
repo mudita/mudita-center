@@ -22,7 +22,6 @@ const Connecting: FunctionComponent<{ connected: boolean }> = ({
     }, 500)
 
     return () => clearTimeout(timeout)
-
   }, [connected])
 
   const history = useHistory()

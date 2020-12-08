@@ -15,7 +15,7 @@ export const basicInfoSeed: Omit<
       active: true,
       number: 12345678,
       network: "Y-Mobile",
-      networkLevel: 0.5
+      networkLevel: 0.5,
     },
   ],
   memorySpace: { full: 13913, free: 13727 },
