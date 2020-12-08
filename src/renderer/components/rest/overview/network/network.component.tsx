@@ -14,7 +14,7 @@ import Card, {
   CardText,
 } from "Renderer/components/rest/overview/card.elements"
 import { noop } from "Renderer/utils/noop"
-import { SimCard } from "Renderer/models/basic-info/interfaces"
+import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
 
 const TextInfo = styled(CardText)`

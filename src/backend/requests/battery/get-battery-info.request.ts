@@ -2,14 +2,30 @@ import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import BatteryInfo from "Common/interfaces/battery-info.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 
-const handleBatteryInfoRequest = ({
+const handleBatteryInfoRequest = async ({
   pureBatteryService,
-}: Adapters): BatteryInfo => {
-  return {
-    charging: pureBatteryService.getChargingStatus(),
-    level: pureBatteryService.getBatteryLevel(),
-    maximumCapacity: pureBatteryService.getMaximumCapacity(),
+}: Adapters): Promise<DeviceResponse<BatteryInfo>> => {
+  const getBatteryLevelResponse = await pureBatteryService.getBatteryLevel()
+
+  if (
+    getBatteryLevelResponse.status === DeviceResponseStatus.Ok &&
+    getBatteryLevelResponse.data !== undefined
+  ) {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        charging: pureBatteryService.getChargingStatus(),
+        level: getBatteryLevelResponse.data,
+      },
+    }
+  } else {
+    return {
+      status: DeviceResponseStatus.Error,
+    }
   }
 }
 
