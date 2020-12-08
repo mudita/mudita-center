@@ -119,8 +119,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   )
   const [editedContact, setEditedContact] = useState<Contact>()
   const [contacts, setContacts] = useState(contactList)
-  const [provider, setProvider] = useState<Provider | undefined>()
-  const authorizeAndLoadContacts = async () => {
+  const authorizeAndLoadContacts = async (provider: Provider) => {
     try {
       if (provider) {
         await authorize(provider)
@@ -129,11 +128,11 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         await openSuccessSyncModal(contactsToImport)
       }
     } catch {
-      await openAuthorizationFailedModal()
+      await openAuthorizationFailedModal(provider)
     }
   }
 
-  const loadGoogleContacts = () => setProvider(Provider.Google)
+  const loadGoogleContacts = () => authorizeAndLoadContacts(Provider.Google)
 
   const {
     selectedRows,
@@ -180,12 +179,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   useEffect(() => {
     setContacts(contactList)
   }, [contactList])
-
-  useEffect(() => {
-    if (provider) {
-      authorizeAndLoadContacts()
-    }
-  }, [provider])
 
   useEffect(() => {
     if (editedContact) {
@@ -419,12 +412,12 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
-  const openAuthorizationFailedModal = async () => {
+  const openAuthorizationFailedModal = async (provider: Provider) => {
     await modalService.closeModal()
     modalService.openModal(
       <AuthorizationFailedModal
         provider={provider as Provider}
-        onActionButtonClick={authorizeAndLoadContacts}
+        onActionButtonClick={loadGoogleContacts}
       />
     )
   }
