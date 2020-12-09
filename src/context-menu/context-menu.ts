@@ -1,14 +1,17 @@
-import store from "Renderer/store"
 import * as electron from "electron"
-import { MenuItem } from "App/context-menu/context-menu.typings"
-import { isDevModeEnabled } from "App/context-menu/context-menu.helpers"
+import { MenuItem } from "App/context-menu/context-menu.types"
+import { AppHotkeys } from "App/hotkeys/hotkeys.types"
+import {
+  isDevModeEnabled,
+  toggleDevMode,
+} from "App/dev-mode/store/dev-mode.helpers"
 
 /**
  * Creates a new ContextMenu that allows to extend app's context menu
  * @class
  *
  * It has two basic options always available:
- * - Toggle developer mode
+ * - Toggle developer mode (Command/Control + D)
  * - Toggle Developer Tools
  *
  * It can be extended by custom menu items. Each main menu item has its own
@@ -35,6 +38,15 @@ import { isDevModeEnabled } from "App/context-menu/context-menu.helpers"
  *
  * This ensures that main menu items and their sub-menus will only be visible
  * when needed.
+ *
+ * Sub-item's label is a static string by default but there's an additional prop
+ * that allows to pass a function that can create a dynamic label:
+ *    contextMenu.registerItems("Main menu 2", [
+ *      {
+ *        labelCreator: () => isSomethingTrue() ? "Sub-item true" : "Sub-item false",
+ *        click: () => {},
+ *      },
+ *    ])
  */
 class ContextMenu {
   private contextMenu = new electron.remote.Menu()
@@ -56,7 +68,7 @@ class ContextMenu {
       const visibleMenuItems = menuItems.filter(
         ({ visible, devModeOnly }) =>
           (visible ?? true) &&
-          ((devModeOnly && isDevModeEnabled()) || !devModeOnly),
+          ((devModeOnly && isDevModeEnabled()) || !devModeOnly)
       )
 
       if (visibleMenuItems.length > 0) {
@@ -69,9 +81,12 @@ class ContextMenu {
           new electron.remote.MenuItem({
             label: mainMenuLabel,
             submenu: visibleMenuItems.map(
-              ({ devModeOnly, ...options }) => options,
+              ({ devModeOnly, labelCreator, ...options }) => ({
+                label: labelCreator ? labelCreator() : options.label,
+                ...options,
+              }),
             ),
-          }),
+          })
         )
       }
     }
@@ -83,9 +98,8 @@ class ContextMenu {
     this.contextMenu.append(
       new electron.remote.MenuItem({
         label: `${isDevModeEnabled() ? "Disable" : "Enable"} developer mode`,
-        click: () => {
-          store.dispatch.devMode.toggle()
-        },
+        click: toggleDevMode,
+        accelerator: AppHotkeys.DevMode,
       })
     )
 
@@ -127,8 +141,8 @@ class ContextMenu {
     }
   }
 
-  public registerItems(mainLabel: string, items: MenuItem[]) {
-    items.forEach((item) => this.registerItem(mainLabel, item))
+  public registerItems(mainLabel: string, menuItems: MenuItem[]) {
+    menuItems.forEach((item) => this.registerItem(mainLabel, item))
   }
 }
 

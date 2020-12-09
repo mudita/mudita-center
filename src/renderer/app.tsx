@@ -8,7 +8,9 @@ import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
 import "./fonts/fonts.css"
 import appUpdate from "./components/rest/app-update/app-update.service"
-import contextMenu from "App/context-menu/context-menu"
+import registerHotkeys from "Renderer/register-hotkeys"
+import registerContextMenu from "Renderer/register-context-menu"
+
 require("dotenv").config()
 
 // Create main element
@@ -32,14 +34,8 @@ appUpdate()
 // Load settings
 store.dispatch.settings.loadSettings()
 
-// Register context menus
-contextMenu.registerItems("Messages", [
-  {
-    label: "Load default topics",
-    click: () => store.dispatch.messages._devLoadDefaultTopics(),
-  },
-  {
-    label: "Clear all topics",
-    click: () => store.dispatch.messages._devClearAllTopics(),
-  },
-])
+// Register hotkeys
+registerHotkeys()
+
+// Register context menu
+registerContextMenu()

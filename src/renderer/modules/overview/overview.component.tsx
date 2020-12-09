@@ -1,4 +1,3 @@
-import { random } from "lodash"
 import Button from "Renderer/components/core/button/button.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
@@ -6,7 +5,7 @@ import {
   StoreValues as BasicInfoValues,
 } from "Renderer/models/basic-info/basic-info.typings"
 import { DevMode } from "App/dev-mode/store/dev-mode.interface"
-import React, { ReactElement, useEffect, useState } from "react"
+import React, { ReactElement, useEffect } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
 import { useStore } from "react-redux"
@@ -71,22 +70,13 @@ const simulateProgress = async (
   )
 }
 
-interface OverviewDevModeProps {
-  enableDevMode: () => void
-  disableDevMode: () => void
-}
-
 const Overview: FunctionComponent<
   BasicInfoInitialState &
     PhoneUpdateStore &
     UpdateBasicInfo &
     AppSettings &
-    OverviewDevModeProps &
     DevMode
 > = ({
-  enableDevMode,
-  disableDevMode,
-  devModeEnabled,
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
@@ -115,23 +105,6 @@ const Overview: FunctionComponent<
   updateBasicInfo = noop,
   language,
 }) => {
-  const [count, setCount] = useState<number>(0)
-  const increaseCount = () => {
-    setCount((state) => state + 1)
-  }
-
-  useEffect(() => {
-    if (count >= random(7, 10)) {
-      setCount(0)
-
-      if (devModeEnabled) {
-        disableDevMode()
-      } else {
-        enableDevMode()
-      }
-    }
-  }, [count])
-
   /**
    * Temporary state to demo failure
    */
@@ -243,7 +216,6 @@ const Overview: FunctionComponent<
         <Button onClick={noop} label="Flush phone data" />
       </DevModeWrapper>
       <OverviewUI
-        toggleDevMode={increaseCount}
         batteryLevel={batteryLevel}
         changeSim={changeSim}
         disconnectDevice={disconnectDevice}

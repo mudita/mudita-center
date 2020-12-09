@@ -22,8 +22,6 @@ const mapStateToProps = (state: RootModel) => {
 }
 
 const mapDispatchToProps = (dispatch: any) => ({
-  enableDevMode: dispatch.devMode.enable,
-  disableDevMode: dispatch.devMode.disable,
   disconnectDevice: () => dispatch.basicInfo.disconnect(),
   changeSim: (card: SimCard) => dispatch.basicInfo.changeSim(card),
   updatePhoneOsInfo: (updateInfo: PhoneUpdate) =>
