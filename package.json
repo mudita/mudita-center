@@ -247,7 +247,7 @@
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
     "pure": "file:pure",
-    "react": "^16.14.0",
+    "react": "^17.0.1",
     "react-dom": "^16.14.0",
     "react-hook-form": "^6.5.2",
     "react-intersection-observer": "^8.29.0",
