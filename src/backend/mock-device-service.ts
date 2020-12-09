@@ -84,7 +84,7 @@ class MockPureNodeService extends DeviceService {
       }
     } else if (endpoint === Endpoint.Contacts && method === Method.Put) {
       return {
-        data: mockPureData,
+        data: { id: pureContactId },
         status: DeviceResponseStatus.Ok,
       }
     } else if (endpoint === Endpoint.DeviceInfo && method === Method.Get) {
@@ -94,7 +94,6 @@ class MockPureNodeService extends DeviceService {
       }
     } else if (endpoint === Endpoint.Contacts && method === Method.Post) {
       return {
-        data: mockPureData,
         status: DeviceResponseStatus.Ok,
       }
     } else if (endpoint === Endpoint.Contacts && method === Method.Delete) {
