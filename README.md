@@ -52,7 +52,7 @@ When contributing code or documentation changes please follow the guidelines ins
 
 ## Changelog
 
-The [Mudita Center changelog](./changelog.md) is regularly updated by the core development team.
+The [Mudita Center changelog](https://github.com/Mudita/mudita-center/releases) is regularly updated by the core development team.
 
 ## License
 Mudita Center is licensed under [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/).
