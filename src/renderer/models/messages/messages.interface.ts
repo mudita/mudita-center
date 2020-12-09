@@ -28,13 +28,13 @@ export enum VisibilityFilter {
   Unread = "unread",
 }
 
-export type StateProps = Readonly<{
+export type MessagesState = Readonly<{
   topics: Topic[]
   searchValue: string
   visibilityFilter?: VisibilityFilter
 }>
 
-export type ComponentProps = Omit<StateProps, "topics"> &
+export type ComponentProps = Omit<MessagesState, "topics"> &
   Readonly<{
     changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
     changeVisibilityFilter?: (filter: VisibilityFilter) => void

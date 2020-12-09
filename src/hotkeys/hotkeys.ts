@@ -14,8 +14,12 @@ class Hotkeys {
     this.window = electron.remote.getCurrentWindow()
   }
 
-  register(hotkey: AppHotkeys, callback: () => void) {
+  public register(hotkey: AppHotkeys, callback: () => void) {
     localShortcut.register(this.window, hotkey, callback)
+  }
+
+  public unregister(hotkey: AppHotkeys) {
+    localShortcut.unregister(this.window, hotkey)
   }
 }
 

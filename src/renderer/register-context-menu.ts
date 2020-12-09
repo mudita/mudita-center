@@ -26,6 +26,28 @@ const registerContextMenu = () => {
       click: () => store.dispatch.messages._devClearAllTopics(),
     },
   ])
+
+  contextMenu.registerItems("Contacts", [
+    {
+      label: "Load default contacts",
+      click: () => store.dispatch.phone._devLoadDefaultContacts(),
+    },
+    {
+      label: "Clear all contacts",
+      click: () => store.dispatch.phone._devClearAllContacts(),
+    },
+  ])
+
+  contextMenu.registerItems("Calendar", [
+    {
+      label: "Load default events",
+      click: () => store.dispatch.calendar._devLoadDefaultEvents(),
+    },
+    {
+      label: "Clear all events",
+      click: () => store.dispatch.calendar._devClearAllEvents(),
+    },
+  ])
 }
 
 export default registerContextMenu

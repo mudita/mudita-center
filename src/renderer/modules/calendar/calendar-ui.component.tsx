@@ -1,7 +1,5 @@
 import React, { MutableRefObject } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
-import Button from "Renderer/components/core/button/button.component"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import EventsList from "Renderer/components/rest/calendar/events-list.component"
 import { EmptyState } from "Renderer/components/core/table/table.component"
@@ -19,7 +17,6 @@ const messages = defineMessages({
 
 interface Props {
   events: CalendarEvent[]
-  _devClearEvents?: () => void
   openSelectVendorModal: () => void
   tableSelectHook: UseTableSelect<CalendarEvent>
   selectedEventIndex?: number
@@ -30,7 +27,6 @@ interface Props {
 const CalendarUI: FunctionComponent<Props> = ({
   events,
   openSelectVendorModal,
-  _devClearEvents,
   tableSelectHook,
   selectedEventIndex,
   listRef,
@@ -38,9 +34,6 @@ const CalendarUI: FunctionComponent<Props> = ({
 }) => {
   return (
     <>
-      <DevModeWrapper>
-        <Button onClick={_devClearEvents} label="Clear events" />
-      </DevModeWrapper>
       <CalendarPanel
         events={events}
         onEventSelect={onEventSelect}

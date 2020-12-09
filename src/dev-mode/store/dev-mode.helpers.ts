@@ -15,13 +15,11 @@ export const toggleDevMode = () => {
 }
 
 export const togglePhoneSimulation = () => {
-  if (store.getState().devMode.devModeEnabled) {
-    if (store.getState().devMode.phoneSimulation) {
-      store.dispatch.devMode.disablePhoneSimulation()
-      store.dispatch.basicInfo.disconnect()
-    } else {
-      store.dispatch.devMode.enablePhoneSimulation()
-      store.dispatch.basicInfo.fakeConnect()
-    }
+  if (store.getState().devMode.phoneSimulation) {
+    store.dispatch.devMode.disablePhoneSimulation()
+    store.dispatch.basicInfo.disconnect()
+  } else {
+    store.dispatch.devMode.enablePhoneSimulation()
+    store.dispatch.basicInfo.fakeConnect()
   }
 }

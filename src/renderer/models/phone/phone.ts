@@ -24,6 +24,7 @@ import getContacts from "Renderer/requests/get-contacts.request"
 import logger from "App/main/utils/logger"
 import externalProvidersStore from "Renderer/store/external-providers"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import { phoneSeed } from "App/seeds/phone"
 
 export const initialState: PhoneState = {
   db: {},
@@ -105,6 +106,21 @@ export default {
         ...state,
         db: { ...state.db, ...contacts.db },
         collection: [...state.collection, ...contacts.collection],
+      }
+    },
+    _devLoadDefaultContacts(state: PhoneState) {
+      return {
+        ...state,
+        ...phoneSeed,
+        resultsState: ResultsState.Loaded,
+      }
+    },
+    _devClearAllContacts(state: PhoneState) {
+      return {
+        ...state,
+        db: {},
+        collection: [],
+        resultsState: ResultsState.Empty,
       }
     },
   },
