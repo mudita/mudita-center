@@ -187,17 +187,10 @@ export const getSortedContactList = ({ collection, db }: Phone) => {
   const contacts = collection.map((item) => db[item])
 
   const sortedContacts = contacts.sort((a, b) => {
-    if (a.lastName && b.lastName) {
-      if (a.lastName < b.lastName) {
-        return -1
-      } else if (a.lastName > b.lastName) {
-        return 1
-      }
-    }
-    return 0
+    const sortTextA = a.lastName || a.firstName || ""
+    const sortTextB = b.lastName || b.firstName || ""
+    return sortTextA.localeCompare(sortTextB)
   })
-
-  console.log({ sortedContacts })
 
   for (const contact of sortedContacts) {
     const { firstName, lastName, favourite, speedDial } = contact
