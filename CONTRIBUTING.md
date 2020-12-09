@@ -8,7 +8,7 @@ Before contributing please read and accept our [Code of Conduct](./CODE_OF_CODUC
 
 If you think you found a bug or a security issue in Mudita Center, we'd love to hear from you. Before you create a relevant GitHub issue please:
 
-- make sure you're using the latest Mudita Center release when spotting the bug by heading to the `Mudita Center` -> `About Mudita Center` menu inside Mudita Center. Here you can see the all the details about the version of Mudita Center you're currently using. Please compare it with the latest stable release of Mudita Center which is always available at the top of our [changelog](changelog.md).
+- make sure you're using the latest Mudita Center release when spotting the bug by heading to the `Mudita Center` -> `About Mudita Center` menu inside Mudita Center. Here you can see the all the details about the version of Mudita Center you're currently using. Please compare it with the latest stable release of Mudita Center which is always available at the top of our [changelog](https://github.com/Mudita/mudita-center/releases).
 
 - make sure that the issue hasn't been already reported on GitHub issues (if it has, please add a 👍 reaction to it).
 
