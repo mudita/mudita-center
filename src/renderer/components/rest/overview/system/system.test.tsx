@@ -13,8 +13,8 @@ const fakeLastUpdate = "2020-01-14T11:31:08.244Z"
 let fakeOsVersion: string
 
 beforeEach(async () => {
-  const {data} = await fakeSystemInfo.getOsVersion()
-  fakeOsVersion = data ?? ''
+  const { data } = await fakeSystemInfo.getOsVersion()
+  fakeOsVersion = data ?? ""
 })
 
 const renderSystem = ({
