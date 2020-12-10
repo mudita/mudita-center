@@ -189,7 +189,6 @@ const mapToPureNewContact = (contact: NewContact): PureNewContact => {
     altName: lastName,
     address:
       [firstAddressLine, secondAddressLine].join("\n").trim()
-        : "",
   }
 }
 
