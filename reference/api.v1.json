@@ -1,0 +1,150 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Pure Node API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/contacts": {
+      "get": {
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Get contact list",
+        "operationId": "get-contacts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "body": {
+                    "type": "object",
+                    "properties": {
+                      "offset": {
+                        "type": "number"
+                      },
+                      "limit": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method"
+                ]
+              },
+              "example": {
+                "endpoint": 7,
+                "method": 1,
+                "body": {
+                  "offset": 0,
+                  "limit": 20
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total_count": {
+                      "type": "number"
+                    },
+                    "entries": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Contact"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "body": {
+                    "entries": [
+                      {
+                        "id": 1,
+                        "primaryName": "Jacek",
+                        "altName": "Ziemniak",
+                        "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+                        "primaryNumber": "797393115",
+                        "secondaryNumber": null,
+                        "blocked": false,
+                        "favourite": false,
+                        "ice": false,
+                        "notes": "",
+                        "speedDial": null
+                      }
+                    ],
+                    "total_count": 1
+                  },
+                  "endpoint": 7,
+                  "status": 200,
+                  "uuid": "1"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Contact": {
+        "title": "Contact",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "primaryName": {
+            "type": "string"
+          },
+          "secondaryName": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "primaryNumber": {
+            "type": "string"
+          },
+          "secondaryNumber": {
+            "type": "string"
+          },
+          "blocked": {
+            "type": "boolean"
+          },
+          "favourite": {
+            "type": "boolean"
+          },
+          "ice": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "speedDial": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "primaryNumber"
+        ]
+      }
+    }
+  }
+}
