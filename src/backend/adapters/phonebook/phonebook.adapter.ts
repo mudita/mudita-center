@@ -189,6 +189,9 @@ const mapToPureContact = (contact: NewContact): PureContact => {
     id: Math.round(Math.random() * 1000),
     priName: firstName,
     altName: lastName,
-    address: `${firstAddressLine}\n${secondAddressLine}`,
+    address:
+      firstAddressLine || secondAddressLine
+        ? ` ${firstAddressLine}\n${secondAddressLine}`
+        : "",
   }
 }
