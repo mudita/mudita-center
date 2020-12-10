@@ -48,6 +48,18 @@
                   "offset": 0,
                   "limit": 20
                 }
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 7,
+                    "method": 1,
+                    "body": {
+                      "offset": 0,
+                      "limit": 20
+                    }
+                  }
+                }
               }
             }
           }
@@ -71,28 +83,33 @@
                     }
                   }
                 },
-                "example": {
-                  "body": {
-                    "entries": [
-                      {
-                        "id": 1,
-                        "primaryName": "Jacek",
-                        "altName": "Ziemniak",
-                        "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-                        "primaryNumber": "797393115",
-                        "secondaryNumber": null,
-                        "blocked": false,
-                        "favourite": false,
-                        "ice": false,
-                        "notes": "",
-                        "speedDial": null
-                      }
-                    ],
-                    "total_count": 1
-                  },
-                  "endpoint": 7,
-                  "status": 200,
-                  "uuid": "1"
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "body": {
+                        "entries": [
+                          {
+                            "id": 1,
+                            "primaryName": "Jacek",
+                            "altName": "Ziemniak",
+                            "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+                            "primaryNumber": "797393115",
+                            "secondaryNumber": null,
+                            "blocked": false,
+                            "favourite": false,
+                            "ice": false,
+                            "notes": "",
+                            "speedDial": null,
+                            "email": ""
+                          }
+                        ],
+                        "total_count": 1
+                      },
+                      "endpoint": 7,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  }
                 }
               }
             }
@@ -146,7 +163,23 @@
         },
         "required": [
           "primaryNumber"
-        ]
+        ],
+        "x-examples": {
+          "example-1": {
+            "id": 1,
+            "primaryName": "Jacek",
+            "altName": "Ziemniak",
+            "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+            "primaryNumber": "797393115",
+            "secondaryNumber": null,
+            "blocked": false,
+            "favourite": false,
+            "ice": false,
+            "notes": "",
+            "speedDial": null,
+            "email": ""
+          }
+        }
       }
     }
   }
