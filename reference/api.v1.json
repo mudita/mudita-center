@@ -139,6 +139,9 @@
           },
           "speedDial": {
             "type": "number"
+          },
+          "email": {
+            "type": "string"
           }
         },
         "required": [
