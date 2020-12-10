@@ -1,4 +1,3 @@
-import Button from "Renderer/components/core/button/button.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   Store as BasicInfoInitialState,
@@ -10,7 +9,6 @@ import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
 import { useStore } from "react-redux"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
-import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { AppSettings } from "App/main/store/settings.interface"
 import modalService from "Renderer/components/core/modal/modal.service"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
@@ -204,38 +202,26 @@ const Overview: FunctionComponent<
   }
 
   return (
-    <>
-      <DevModeWrapper>
-        {/** Totally random data */}
-        <p>Phone signal: 1800Mhz</p>
-        <p>Battery cycles: 99/100</p>
-        <Button onClick={noop} label="Restart phone" />
-        <br />
-        <Button onClick={noop} label="Hard restart phone" />
-        <br />
-        <Button onClick={noop} label="Flush phone data" />
-      </DevModeWrapper>
-      <OverviewUI
-        batteryLevel={batteryLevel}
-        changeSim={changeSim}
-        disconnectDevice={disconnectDevice}
-        lastBackup={lastBackup}
-        osVersion={osVersion}
-        osUpdateDate={osUpdateDate}
-        memorySpace={memorySpace}
-        simCards={simCards}
-        networkName={networkName}
-        networkLevel={networkLevel}
-        pureOsAvailable={pureOsAvailable}
-        pureOsDownloaded={pureOsDownloaded}
-        onUpdateCheck={check}
-        onUpdateInstall={install}
-        onUpdateDownload={onUpdateDownload}
-        onOpenBackupModal={openBackupStartModal}
-        onOpenBackupRestorationModal={openBackupRestorationStartModal}
-        language={language}
-      />
-    </>
+    <OverviewUI
+      batteryLevel={batteryLevel}
+      changeSim={changeSim}
+      disconnectDevice={disconnectDevice}
+      lastBackup={lastBackup}
+      osVersion={osVersion}
+      osUpdateDate={osUpdateDate}
+      memorySpace={memorySpace}
+      simCards={simCards}
+      networkName={networkName}
+      networkLevel={networkLevel}
+      pureOsAvailable={pureOsAvailable}
+      pureOsDownloaded={pureOsDownloaded}
+      onUpdateCheck={check}
+      onUpdateInstall={install}
+      onUpdateDownload={onUpdateDownload}
+      onOpenBackupModal={openBackupStartModal}
+      onOpenBackupRestorationModal={openBackupRestorationStartModal}
+      language={language}
+    />
   )
 }
 

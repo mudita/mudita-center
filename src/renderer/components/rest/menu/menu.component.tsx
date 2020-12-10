@@ -43,13 +43,11 @@ const DevSign = styled.span`
 interface Props extends DevMode {
   deviceDisconnected?: boolean
   openHelpWindow?: () => void
-  connectDevice?: () => void
 }
 
 const Menu: FunctionComponent<Props> = ({
   deviceDisconnected,
   devModeEnabled,
-  connectDevice,
 }) => {
   const links = menuElements
     .filter(({ connectedPhoneOnly }) =>
@@ -61,7 +59,7 @@ const Menu: FunctionComponent<Props> = ({
     })
   return (
     <MenuWrapper>
-      <LogoWrapper onClick={connectDevice}>
+      <LogoWrapper>
         <SvgMuditaLogo type={Type.MuditaLogoWithText} />
         {devModeEnabled && (
           <DevSign>{intl.formatMessage({ id: "dev.view.header" })}</DevSign>
