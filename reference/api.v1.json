@@ -128,7 +128,7 @@
                             "email": "",
                             "numbers": [
                               {
-                                "primary": false,
+                                "primary": true,
                                 "value": "797393115"
                               },
                               {
@@ -242,7 +242,7 @@
                       "email": "",
                       "numbers": [
                         {
-                          "primary": false,
+                          "primary": true,
                           "value": "797393115"
                         },
                         {
@@ -345,7 +345,7 @@
                       "email": "",
                       "numbers": [
                         {
-                          "primary": false,
+                          "primary": true,
                           "value": "797393115"
                         },
                         {
@@ -464,7 +464,7 @@
             "email": "",
             "numbers": [
               {
-                "primary": false,
+                "primary": true,
                 "value": "797393115"
               },
               {
@@ -540,7 +540,7 @@
             "email": "",
             "numbers": [
               {
-                "primary": false,
+                "primary": true,
                 "value": "797393115"
               },
               {
