@@ -227,17 +227,117 @@
                     "method": 3,
                     "uuid": "1",
                     "body": {
-                      "firstName": "string",
-                      "lastName": "string",
-                      "address": "string",
-                      "primaryNumber": "string",
-                      "secondaryNumber": "string",
-                      "blocked": true,
-                      "favourite": true,
-                      "ice": true,
-                      "notes": "string",
-                      "speedDial": 0,
-                      "email": "string"
+                      "firstName": "Jacek",
+                      "lastName": "Ziemniak",
+                      "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+                      "primaryNumber": "797393115",
+                      "secondaryNumber": null,
+                      "blocked": false,
+                      "favourite": false,
+                      "ice": false,
+                      "notes": "",
+                      "speedDial": null,
+                      "email": ""
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-contacts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "endpoint": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid",
+                    "body"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
+                      "uuid": "1",
+                      "body": {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "uuid": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "$ref": "#/components/schemas/Contact"
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid",
+                  "body"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 7,
+                    "method": 2,
+                    "uuid": "string",
+                    "body": {
+                      "id": 1,
+                      "firstName": "Jacek",
+                      "lastName": "Ziemniak",
+                      "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+                      "primaryNumber": "797393115",
+                      "secondaryNumber": null,
+                      "blocked": false,
+                      "favourite": false,
+                      "ice": false,
+                      "notes": "",
+                      "speedDial": null,
+                      "email": ""
                     }
                   }
                 }
