@@ -1,15 +1,17 @@
 import store from "Renderer/store"
 
-export const isDevModeEnabled = () => store.getState().devMode.devModeEnabled
+export const isDevModeEnabled = () => {
+  return Boolean(store.getState().devMode.enabled)
+}
 
 export const toggleDevMode = () => {
   if (
     store.getState().devMode.phoneSimulation &&
-    store.getState().devMode.devModeEnabled
+    store.getState().devMode.enabled
   ) {
     togglePhoneSimulation()
   }
-  store.getState().devMode.devModeEnabled
+  store.getState().devMode.enabled
     ? store.dispatch.devMode.disableDevMode()
     : store.dispatch.devMode.enableDevMode()
 }

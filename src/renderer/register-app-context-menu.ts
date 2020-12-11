@@ -1,12 +1,10 @@
 import store from "Renderer/store"
-import contextMenu from "App/context-menu/context-menu"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
+import ContextMenu from "App/context-menu/context-menu"
 
-const registerContextMenu = () => {
-  contextMenu.run()
-
-  contextMenu.registerItems("Device", [
+const registerAppContextMenu = (menu: ContextMenu) => {
+  menu.registerItems("Device", [
     {
       labelCreator: () => {
         return store.getState().devMode.phoneSimulation
@@ -18,7 +16,7 @@ const registerContextMenu = () => {
     },
   ])
 
-  contextMenu.registerItems("Messages", [
+  menu.registerItems("Messages", [
     {
       label: "Load default topics",
       click: () => store.dispatch.messages._devLoadDefaultTopics(),
@@ -29,7 +27,7 @@ const registerContextMenu = () => {
     },
   ])
 
-  contextMenu.registerItems("Contacts", [
+  menu.registerItems("Contacts", [
     {
       label: "Load default contacts",
       click: () => store.dispatch.phone._devLoadDefaultContacts(),
@@ -40,7 +38,7 @@ const registerContextMenu = () => {
     },
   ])
 
-  contextMenu.registerItems("Calendar", [
+  menu.registerItems("Calendar", [
     {
       label: "Load default events",
       click: () => store.dispatch.calendar._devLoadDefaultEvents(),
@@ -52,4 +50,4 @@ const registerContextMenu = () => {
   ])
 }
 
-export default registerContextMenu
+export default registerAppContextMenu

@@ -18,7 +18,7 @@ const registerHotkeys = () => {
   // Dev mode only hotkeys
   hotkeys.register(AppHotkeys.DevMode, () => {
     for (const [hotkey, callback] of Object.entries(devModeOnlyHotkeys)) {
-      if (store.getState().devMode.devModeEnabled) {
+      if (store.getState().devMode.enabled) {
         hotkeys.unregister(hotkey as AppHotkeys)
       } else {
         hotkeys.register(hotkey as AppHotkeys, callback as () => void)

@@ -8,8 +8,6 @@ import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
 import "./fonts/fonts.css"
 import appUpdate from "./components/rest/app-update/app-update.service"
-import registerHotkeys from "Renderer/register-hotkeys"
-import registerContextMenu from "Renderer/register-context-menu"
 
 require("dotenv").config()
 
@@ -33,9 +31,3 @@ appUpdate()
 
 // Load settings
 store.dispatch.settings.loadSettings()
-
-// Register hotkeys
-registerHotkeys()
-
-// Register context menu
-registerContextMenu()
