@@ -34,11 +34,15 @@
                         "type": "number"
                       }
                     }
+                  },
+                  "uuid": {
+                    "type": "string"
                   }
                 },
                 "required": [
                   "endpoint",
-                  "method"
+                  "method",
+                  "uuid"
                 ]
               },
               "example": {
@@ -54,6 +58,7 @@
                   "value": {
                     "endpoint": 7,
                     "method": 1,
+                    "uuid": "1",
                     "body": {
                       "offset": 0,
                       "limit": 20
@@ -70,18 +75,39 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "description": "",
                   "type": "object",
                   "properties": {
-                    "total_count": {
+                    "endpoint": {
                       "type": "number"
                     },
-                    "entries": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/Contact"
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "object",
+                      "properties": {
+                        "entries": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Contact"
+                          }
+                        },
+                        "total_count": {
+                          "type": "number"
+                        }
                       }
                     }
-                  }
+                  },
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid",
+                    "body"
+                  ]
                 },
                 "examples": {
                   "example-1": {
@@ -90,8 +116,8 @@
                         "entries": [
                           {
                             "id": 1,
-                            "primaryName": "Jacek",
-                            "altName": "Ziemniak",
+                            "firstName": "Jacek",
+                            "lastName": "Ziemniak",
                             "address": "Jana Czeczota 9 \n 02-607 Warszawa",
                             "primaryNumber": "797393115",
                             "secondaryNumber": null,
@@ -111,6 +137,110 @@
                     }
                   }
                 }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "",
+        "operationId": "put-contacts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "endpoint": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid",
+                    "body"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
+                      "uuid": "1",
+                      "body": {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "body": {
+                    "$ref": "#/components/schemas/NewContact"
+                  },
+                  "uuid": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "body"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 7,
+                    "method": 3,
+                    "uuid": "1",
+                    "body": {
+                      "firstName": "string",
+                      "lastName": "string",
+                      "address": "string",
+                      "primaryNumber": "string",
+                      "secondaryNumber": "string",
+                      "blocked": true,
+                      "favourite": true,
+                      "ice": true,
+                      "notes": "string",
+                      "speedDial": 0,
+                      "email": "string"
+                    }
+                  }
+                }
               }
             }
           }
@@ -123,14 +253,30 @@
       "Contact": {
         "title": "Contact",
         "type": "object",
+        "x-examples": {
+          "example-1": {
+            "id": 1,
+            "primaryName": "Jacek",
+            "altName": "Ziemniak",
+            "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+            "primaryNumber": "797393115",
+            "secondaryNumber": null,
+            "blocked": false,
+            "favourite": false,
+            "ice": false,
+            "notes": "",
+            "speedDial": null,
+            "email": ""
+          }
+        },
         "properties": {
           "id": {
             "type": "number"
           },
-          "primaryName": {
+          "firstName": {
             "type": "string"
           },
-          "secondaryName": {
+          "lastName": {
             "type": "string"
           },
           "address": {
@@ -162,11 +308,14 @@
           }
         },
         "required": [
-          "primaryNumber"
-        ],
+          "id"
+        ]
+      },
+      "NewContact": {
+        "description": "",
+        "type": "object",
         "x-examples": {
           "example-1": {
-            "id": 1,
             "primaryName": "Jacek",
             "altName": "Ziemniak",
             "address": "Jana Czeczota 9 \n 02-607 Warszawa",
@@ -178,6 +327,74 @@
             "notes": "",
             "speedDial": null,
             "email": ""
+          }
+        },
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "primaryNumber": {
+            "type": "string"
+          },
+          "secondaryNumber": {
+            "type": "string"
+          },
+          "blocked": {
+            "type": "boolean"
+          },
+          "favourite": {
+            "type": "boolean"
+          },
+          "ice": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "speedDial": {
+            "type": "number"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "response": {
+        "description": "Example response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object"
+                },
+                "endpoint": {
+                  "type": "number"
+                },
+                "status": {
+                  "type": "number"
+                },
+                "uuid": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "body",
+                "endpoint",
+                "status",
+                "uuid"
+              ]
+            }
           }
         }
       }
