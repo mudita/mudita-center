@@ -8,7 +8,7 @@ require("yargs")
     "This command allows you to send a single request to the Pure phone",
     (yargs: Argv) => {
       yargs.option("requestConfigString", {
-        describe: "it's a stringify RequestConfig, where definition is in pure/src/device.types.ts",
+        describe: "it's a stringified RequestConfig, where definition is in pure/src/device.types.ts",
         type: "string",
       })
     },
