@@ -324,7 +324,7 @@
                   "value": {
                     "endpoint": 7,
                     "method": 2,
-                    "uuid": "string",
+                    "uuid": "1",
                     "body": {
                       "id": "1",
                       "firstName": "Jacek",
@@ -377,6 +377,16 @@
                     "uuid",
                     "body"
                   ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
+                      "uuid": "1",
+                      "body": {}
+                    }
+                  }
                 }
               }
             }
@@ -414,7 +424,7 @@
                   "value": {
                     "endpoint": 7,
                     "method": 4,
-                    "uuid": "string",
+                    "uuid": "1",
                     "body": "1"
                   }
                 }
