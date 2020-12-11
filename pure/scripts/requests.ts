@@ -1,15 +1,15 @@
-import { RequestConfig } from "../src"
 import { establishConnection } from "./establish-connection"
 import singleRequest from "./single-request"
+import parseRequestConfigs from "./parse-request-configs"
 
 interface Arguments {
   requestConfigsString: string
 }
 
 const requests = async ({ requestConfigsString }: Arguments) => {
-  establishConnection(async (device) => {
-    const requestConfigs = JSON.parse(requestConfigsString) as RequestConfig[]
+  const requestConfigs = parseRequestConfigs(requestConfigsString)
 
+  establishConnection(async (device) => {
     for (const requestConfig of requestConfigs) {
       await singleRequest(device, requestConfig)
     }
