@@ -40,9 +40,10 @@ const DevSign = styled.span`
   color: ${textColor("secondary")};
 `
 
-interface Props extends DevMode {
+interface Props {
   deviceDisconnected?: boolean
   openHelpWindow?: () => void
+  devModeEnabled?: DevMode["enabled"]
 }
 
 const Menu: FunctionComponent<Props> = ({
