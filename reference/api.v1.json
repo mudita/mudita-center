@@ -115,7 +115,7 @@
                       "body": {
                         "entries": [
                           {
-                            "id": 1,
+                            "id": "1",
                             "firstName": "Jacek",
                             "lastName": "Ziemniak",
                             "address": "Jana Czeczota 9 \n 02-607 Warszawa",
@@ -326,7 +326,7 @@
                     "method": 2,
                     "uuid": "string",
                     "body": {
-                      "id": 1,
+                      "id": "1",
                       "firstName": "Jacek",
                       "lastName": "Ziemniak",
                       "address": "Jana Czeczota 9 \n 02-607 Warszawa",
@@ -339,6 +339,83 @@
                       "speedDial": null,
                       "email": ""
                     }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "",
+        "operationId": "delete-contacts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "endpoint": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid",
+                    "body"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "uuid": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid",
+                  "body"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 7,
+                    "method": 4,
+                    "uuid": "string",
+                    "body": "1"
                   }
                 }
               }
@@ -371,7 +448,7 @@
         },
         "properties": {
           "id": {
-            "type": "number"
+            "type": "string"
           },
           "firstName": {
             "type": "string"
