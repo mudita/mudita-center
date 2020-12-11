@@ -442,7 +442,7 @@
         "type": "object",
         "x-examples": {
           "example-1": {
-            "id": 1,
+            "id": "1",
             "firstName": "Jacek",
             "lastName": "Ziemniak",
             "address": "Jana Czeczota 9 \n 02-607 Warszawa",
