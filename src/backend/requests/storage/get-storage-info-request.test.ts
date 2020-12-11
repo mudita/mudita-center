@@ -6,7 +6,7 @@ import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/p
 import MockPureNodeService from "Backend/mock-device-service"
 import Adapters from "Backend/adapters/adapters.interface"
 
-jest.mock("pure")
+
 
 test("returns required storage info", async () => {
   registerPurePhoneStorageRequest(({

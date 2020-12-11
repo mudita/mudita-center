@@ -6,8 +6,6 @@ import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapt
 import MockPureNodeService from "Backend/mock-device-service"
 import Adapters from "Backend/adapters/adapters.interface"
 
-jest.mock("pure")
-
 test("returns required device info", async () => {
   registerDeviceInfoRequest(({
     purePhone: createPurePhoneAdapter(
