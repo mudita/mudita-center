@@ -168,16 +168,12 @@
                     },
                     "uuid": {
                       "type": "string"
-                    },
-                    "body": {
-                      "type": "object"
                     }
                   },
                   "required": [
                     "endpoint",
                     "status",
-                    "uuid",
-                    "body"
+                    "uuid"
                   ]
                 },
                 "examples": {
@@ -185,8 +181,7 @@
                     "value": {
                       "endpoint": 7,
                       "status": 200,
-                      "uuid": "1",
-                      "body": {}
+                      "uuid": "1"
                     }
                   }
                 }
@@ -266,16 +261,12 @@
                     },
                     "uuid": {
                       "type": "string"
-                    },
-                    "body": {
-                      "type": "object"
                     }
                   },
                   "required": [
                     "endpoint",
                     "status",
-                    "uuid",
-                    "body"
+                    "uuid"
                   ]
                 },
                 "examples": {
@@ -283,8 +274,7 @@
                     "value": {
                       "endpoint": 7,
                       "status": 200,
-                      "uuid": "1",
-                      "body": {}
+                      "uuid": "1"
                     }
                   }
                 }
@@ -366,16 +356,12 @@
                     },
                     "uuid": {
                       "type": "string"
-                    },
-                    "body": {
-                      "type": "object"
                     }
                   },
                   "required": [
                     "endpoint",
                     "status",
-                    "uuid",
-                    "body"
+                    "uuid"
                   ]
                 },
                 "examples": {
@@ -383,8 +369,7 @@
                     "value": {
                       "endpoint": 7,
                       "status": 200,
-                      "uuid": "1",
-                      "body": {}
+                      "uuid": "1"
                     }
                   }
                 }
