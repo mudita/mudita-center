@@ -438,16 +438,258 @@
       "get": {
         "summary": "Your GET endpoint",
         "tags": [],
-        "responses": {},
-        "operationId": "get-threads"
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "body": {
+                      "type": "object",
+                      "required": [
+                        "entries",
+                        "total_count"
+                      ],
+                      "properties": {
+                        "entries": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Thread"
+                          }
+                        },
+                        "total_count": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "endpoint": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "body",
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "body": {
+                        "entries": [
+                          {
+                            "id": "1",
+                            "callerId": "1",
+                            "messageIds": [
+                              "1",
+                              "2",
+                              "3",
+                              "4"
+                            ],
+                            "unread": true
+                          }
+                        ],
+                        "total_count": 1
+                      },
+                      "endpoint": 8,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-threads",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "uuid": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "object",
+                    "properties": {
+                      "offset": {
+                        "type": "number"
+                      },
+                      "limit": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 9,
+                    "method": 1,
+                    "uuid": "1",
+                    "body": {
+                      "offset": 0,
+                      "limit": 20
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/messages": {
       "get": {
         "summary": "Your GET endpoint",
         "tags": [],
-        "responses": {},
-        "operationId": "get-messages"
+        "operationId": "get-messages",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "uuid": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "object",
+                    "required": [
+                      "limit"
+                    ],
+                    "properties": {
+                      "offset": {
+                        "type": "number"
+                      },
+                      "limit": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 8,
+                    "method": 1,
+                    "uuid": "1",
+                    "body": {
+                      "offset": 0,
+                      "limit": 20
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "body": {
+                      "type": "object",
+                      "required": [
+                        "entries",
+                        "total_count"
+                      ],
+                      "properties": {
+                        "entries": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Message"
+                          }
+                        },
+                        "total_count": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "endpoint": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "body",
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "body": {
+                        "entries": [
+                          {
+                            "id": "1",
+                            "date": "2020-01-25T05:18:36.599Z",
+                            "content": "Vero necessitatibus asperiores ut deserunt voluptas vitae est sed. Ex cum beatae aut accusantium libero.",
+                            "interlocutor": true
+                          }
+                        ],
+                        "total_count": 1
+                      },
+                      "endpoint": 8,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
