@@ -177,12 +177,27 @@
                     },
                     "uuid": {
                       "type": "string"
+                    },
+                    "body": {
+                      "type": "object",
+                      "required": [
+                        "success"
+                      ],
+                      "properties": {
+                        "success": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     }
                   },
                   "required": [
                     "endpoint",
                     "status",
-                    "uuid"
+                    "uuid",
+                    "body"
                   ]
                 },
                 "examples": {
@@ -190,7 +205,12 @@
                     "value": {
                       "endpoint": 7,
                       "status": 200,
-                      "uuid": "1"
+                      "uuid": "1",
+                      "body": {
+                        "success": [
+                          "1"
+                        ]
+                      }
                     }
                   }
                 }
@@ -212,7 +232,10 @@
                     "type": "number"
                   },
                   "body": {
-                    "$ref": "#/components/schemas/NewContact"
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/NewContact"
+                    }
                   },
                   "uuid": {
                     "type": "string"
@@ -230,33 +253,36 @@
                     "endpoint": 7,
                     "method": 3,
                     "uuid": "1",
-                    "body": {
-                      "firstName": "Jacek",
-                      "lastName": "Ziemniak",
-                      "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-                      "blocked": false,
-                      "favourite": false,
-                      "ice": false,
-                      "notes": "",
-                      "speedDial": null,
-                      "email": "",
-                      "numbers": [
-                        {
-                          "primary": true,
-                          "value": "797393115"
-                        },
-                        {
-                          "primary": false,
-                          "value": "797393116"
-                        }
-                      ]
-                    }
+                    "body": [
+                      {
+                        "firstName": "Jacek",
+                        "lastName": "Ziemniak",
+                        "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+                        "blocked": false,
+                        "favourite": false,
+                        "ice": false,
+                        "notes": "",
+                        "speedDial": null,
+                        "email": "",
+                        "numbers": [
+                          {
+                            "primary": true,
+                            "value": "797393115"
+                          },
+                          {
+                            "primary": false,
+                            "value": "797393116"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
               }
             }
           }
-        }
+        },
+        "description": ""
       },
       "post": {
         "summary": "",
@@ -278,12 +304,27 @@
                     },
                     "uuid": {
                       "type": "string"
+                    },
+                    "body": {
+                      "type": "object",
+                      "required": [
+                        "success"
+                      ],
+                      "properties": {
+                        "success": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     }
                   },
                   "required": [
                     "endpoint",
                     "status",
-                    "uuid"
+                    "uuid",
+                    "body"
                   ]
                 },
                 "examples": {
@@ -291,7 +332,12 @@
                     "value": {
                       "endpoint": 7,
                       "status": 200,
-                      "uuid": "1"
+                      "uuid": "1",
+                      "body": {
+                        "success": [
+                          "1"
+                        ]
+                      }
                     }
                   }
                 }
@@ -316,7 +362,10 @@
                     "type": "string"
                   },
                   "body": {
-                    "$ref": "#/components/schemas/Contact"
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Contact"
+                    }
                   }
                 },
                 "required": [
@@ -332,28 +381,30 @@
                     "endpoint": 7,
                     "method": 2,
                     "uuid": "1",
-                    "body": {
-                      "id": "1",
-                      "firstName": "Jacek",
-                      "lastName": "Ziemniak",
-                      "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-                      "blocked": false,
-                      "favourite": false,
-                      "ice": false,
-                      "notes": "",
-                      "speedDial": null,
-                      "email": "",
-                      "numbers": [
-                        {
-                          "primary": true,
-                          "value": "797393115"
-                        },
-                        {
-                          "primary": false,
-                          "value": "797393116"
-                        }
-                      ]
-                    }
+                    "body": [
+                      {
+                        "id": "1",
+                        "firstName": "Jacek",
+                        "lastName": "Ziemniak",
+                        "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+                        "blocked": false,
+                        "favourite": false,
+                        "ice": false,
+                        "notes": "",
+                        "speedDial": null,
+                        "email": "",
+                        "numbers": [
+                          {
+                            "primary": true,
+                            "value": "797393115"
+                          },
+                          {
+                            "primary": false,
+                            "value": "797393116"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
               }
@@ -381,12 +432,27 @@
                     },
                     "uuid": {
                       "type": "string"
+                    },
+                    "body": {
+                      "type": "object",
+                      "required": [
+                        "success"
+                      ],
+                      "properties": {
+                        "success": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     }
                   },
                   "required": [
                     "endpoint",
                     "status",
-                    "uuid"
+                    "uuid",
+                    "body"
                   ]
                 },
                 "examples": {
@@ -394,7 +460,12 @@
                     "value": {
                       "endpoint": 7,
                       "status": 200,
-                      "uuid": "1"
+                      "uuid": "1",
+                      "body": {
+                        "success": [
+                          "1"
+                        ]
+                      }
                     }
                   }
                 }
@@ -419,7 +490,10 @@
                     "type": "string"
                   },
                   "body": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   }
                 },
                 "required": [
@@ -434,6 +508,104 @@
                   "value": {
                     "endpoint": 7,
                     "method": 4,
+                    "uuid": "1",
+                    "body": [
+                      "1"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contact": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "body": {
+                      "$ref": "#/components/schemas/Contact"
+                    }
+                  },
+                  "required": [
+                    "body"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "body": {
+                        "id": "string",
+                        "firstName": "string",
+                        "lastName": "string",
+                        "address": "string",
+                        "blocked": true,
+                        "favourite": true,
+                        "ice": true,
+                        "notes": "string",
+                        "speedDial": 0,
+                        "email": "string",
+                        "numbers": [
+                          {
+                            "primary": true,
+                            "value": "string"
+                          }
+                        ]
+                      },
+                      "endpoint": 70,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-contact",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "uuid": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "body": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid",
+                  "body"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 70,
+                    "method": 1,
                     "uuid": "1",
                     "body": "1"
                   }
