@@ -4,6 +4,8 @@ import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
 
 const registerContextMenu = () => {
+  contextMenu.run()
+
   contextMenu.registerItems("Device", [
     {
       labelCreator: () => {

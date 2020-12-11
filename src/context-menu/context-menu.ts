@@ -52,10 +52,6 @@ class ContextMenu {
   private contextMenu = new electron.remote.Menu()
   private customMenu: Record<string, MenuItem[]> = {}
 
-  constructor() {
-    window.addEventListener("contextmenu", () => this.showMenu(), false)
-  }
-
   private addSeparator() {
     this.contextMenu.append(new electron.remote.MenuItem({ type: "separator" }))
   }
@@ -84,7 +80,7 @@ class ContextMenu {
               ({ devModeOnly, labelCreator, ...options }) => ({
                 label: labelCreator ? labelCreator() : options.label,
                 ...options,
-              }),
+              })
             ),
           })
         )
@@ -120,6 +116,10 @@ class ContextMenu {
     this.contextMenu.popup()
   }
 
+  public run() {
+    window.addEventListener("contextmenu", () => this.showMenu(), false)
+  }
+
   public registerItem(mainLabel: string, menuItem: MenuItem) {
     const newItem: MenuItem = {
       devModeOnly: true,
@@ -131,7 +131,7 @@ class ContextMenu {
 
       if (menuItems.some((item) => item.label === newItem.label)) {
         console.warn(
-          `Duplicate found during registering custom context menu items. "${mainLabel}" > "${newItem.label}" already exists.`,
+          `Duplicate found during registering custom context menu items. "${mainLabel}" > "${newItem.label}" already exists.`
         )
       }
 
