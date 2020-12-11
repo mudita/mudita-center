@@ -443,8 +443,8 @@
         "x-examples": {
           "example-1": {
             "id": 1,
-            "primaryName": "Jacek",
-            "altName": "Ziemniak",
+            "firstName": "Jacek",
+            "lastName": "Ziemniak",
             "address": "Jana Czeczota 9 \n 02-607 Warszawa",
             "primaryNumber": "797393115",
             "secondaryNumber": null,
