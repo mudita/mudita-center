@@ -48,6 +48,7 @@
               "example": {
                 "endpoint": 7,
                 "method": 1,
+                "uuid": "1",
                 "body": {
                   "offset": 0,
                   "limit": 20
@@ -119,14 +120,22 @@
                             "firstName": "Jacek",
                             "lastName": "Ziemniak",
                             "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-                            "primaryNumber": "797393115",
-                            "secondaryNumber": null,
                             "blocked": false,
                             "favourite": false,
                             "ice": false,
                             "notes": "",
                             "speedDial": null,
-                            "email": ""
+                            "email": "",
+                            "numbers": [
+                              {
+                                "primary": false,
+                                "value": "797393115"
+                              },
+                              {
+                                "primary": false,
+                                "value": "797393116"
+                              }
+                            ]
                           }
                         ],
                         "total_count": 1
@@ -225,14 +234,22 @@
                       "firstName": "Jacek",
                       "lastName": "Ziemniak",
                       "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-                      "primaryNumber": "797393115",
-                      "secondaryNumber": null,
                       "blocked": false,
                       "favourite": false,
                       "ice": false,
                       "notes": "",
                       "speedDial": null,
-                      "email": ""
+                      "email": "",
+                      "numbers": [
+                        {
+                          "primary": false,
+                          "value": "797393115"
+                        },
+                        {
+                          "primary": false,
+                          "value": "797393116"
+                        }
+                      ]
                     }
                   }
                 }
@@ -320,14 +337,22 @@
                       "firstName": "Jacek",
                       "lastName": "Ziemniak",
                       "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-                      "primaryNumber": "797393115",
-                      "secondaryNumber": null,
                       "blocked": false,
                       "favourite": false,
                       "ice": false,
                       "notes": "",
                       "speedDial": null,
-                      "email": ""
+                      "email": "",
+                      "numbers": [
+                        {
+                          "primary": false,
+                          "value": "797393115"
+                        },
+                        {
+                          "primary": false,
+                          "value": "797393116"
+                        }
+                      ]
                     }
                   }
                 }
@@ -431,14 +456,22 @@
             "firstName": "Jacek",
             "lastName": "Ziemniak",
             "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-            "primaryNumber": "797393115",
-            "secondaryNumber": null,
             "blocked": false,
             "favourite": false,
             "ice": false,
             "notes": "",
             "speedDial": null,
-            "email": ""
+            "email": "",
+            "numbers": [
+              {
+                "primary": false,
+                "value": "797393115"
+              },
+              {
+                "primary": false,
+                "value": "797393116"
+              }
+            ]
           }
         },
         "properties": {
@@ -454,12 +487,6 @@
           "address": {
             "type": "string"
           },
-          "primaryNumber": {
-            "type": "string"
-          },
-          "secondaryNumber": {
-            "type": "string"
-          },
           "blocked": {
             "type": "boolean"
           },
@@ -477,6 +504,20 @@
           },
           "email": {
             "type": "string"
+          },
+          "numbers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "primary": {
+                  "type": "boolean"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
           }
         },
         "required": [
@@ -488,17 +529,25 @@
         "type": "object",
         "x-examples": {
           "example-1": {
-            "primaryName": "Jacek",
-            "altName": "Ziemniak",
+            "firstName": "Jacek",
+            "lastName": "Ziemniak",
             "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-            "primaryNumber": "797393115",
-            "secondaryNumber": null,
             "blocked": false,
             "favourite": false,
             "ice": false,
             "notes": "",
             "speedDial": null,
-            "email": ""
+            "email": "",
+            "numbers": [
+              {
+                "primary": false,
+                "value": "797393115"
+              },
+              {
+                "primary": false,
+                "value": "797393116"
+              }
+            ]
           }
         },
         "properties": {
@@ -534,6 +583,20 @@
           },
           "email": {
             "type": "string"
+          },
+          "numbers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "primary": {
+                  "type": "boolean"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
