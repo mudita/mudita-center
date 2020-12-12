@@ -7,9 +7,7 @@
   "paths": {
     "/contacts": {
       "get": {
-        "tags": [
-          "contacts"
-        ],
+        "tags": ["contacts"],
         "summary": "Get contact list",
         "operationId": "get-contacts",
         "requestBody": {
@@ -32,6 +30,19 @@
                       },
                       "limit": {
                         "type": "number"
+                      },
+                      "where": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "object",
+                            "properties": {
+                              "_eq": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
                       }
                     }
                   },
@@ -39,22 +50,10 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "endpoint",
-                  "method",
-                  "uuid"
-                ]
-              },
-              "example": {
-                "endpoint": 7,
-                "method": 1,
-                "body": {
-                  "offset": 0,
-                  "limit": 20
-                }
+                "required": ["endpoint", "method", "uuid"]
               },
               "examples": {
-                "example-1": {
+                "First twenty": {
                   "value": {
                     "endpoint": 7,
                     "method": 1,
@@ -62,6 +61,20 @@
                     "body": {
                       "offset": 0,
                       "limit": 20
+                    }
+                  }
+                },
+                "With filter": {
+                  "value": {
+                    "endpoint": 7,
+                    "method": 1,
+                    "uuid": "1",
+                    "body": {
+                      "where": {
+                        "id": {
+                          "_eq": "1"
+                        }
+                      }
                     }
                   }
                 }
@@ -89,6 +102,7 @@
                     },
                     "body": {
                       "type": "object",
+                      "required": ["entries", "total_count"],
                       "properties": {
                         "entries": {
                           "type": "array",
@@ -102,12 +116,7 @@
                       }
                     }
                   },
-                  "required": [
-                    "endpoint",
-                    "status",
-                    "uuid",
-                    "body"
-                  ]
+                  "required": ["endpoint", "status", "uuid", "body"]
                 },
                 "examples": {
                   "example-1": {
@@ -119,14 +128,22 @@
                             "firstName": "Jacek",
                             "lastName": "Ziemniak",
                             "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-                            "primaryNumber": "797393115",
-                            "secondaryNumber": null,
                             "blocked": false,
                             "favourite": false,
                             "ice": false,
                             "notes": "",
                             "speedDial": null,
-                            "email": ""
+                            "email": "",
+                            "numbers": [
+                              {
+                                "primary": true,
+                                "value": "797393115"
+                              },
+                              {
+                                "primary": false,
+                                "value": "797393116"
+                              }
+                            ]
                           }
                         ],
                         "total_count": 1
@@ -170,23 +187,35 @@
                       "type": "string"
                     },
                     "body": {
-                      "type": "object"
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     }
                   },
-                  "required": [
-                    "endpoint",
-                    "status",
-                    "uuid",
-                    "body"
-                  ]
+                  "required": ["endpoint", "status", "uuid"]
                 },
                 "examples": {
                   "example-1": {
                     "value": {
                       "endpoint": 7,
                       "status": 200,
+                      "uuid": "1"
+                    }
+                  },
+                  "With error": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
                       "uuid": "1",
-                      "body": {}
+                      "body": {
+                        "errors": ["1"]
+                      }
                     }
                   }
                 }
@@ -208,17 +237,16 @@
                     "type": "number"
                   },
                   "body": {
-                    "$ref": "#/components/schemas/NewContact"
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Contact"
+                    }
                   },
                   "uuid": {
                     "type": "string"
                   }
                 },
-                "required": [
-                  "endpoint",
-                  "method",
-                  "body"
-                ]
+                "required": ["endpoint", "method", "body", "uuid"]
               },
               "examples": {
                 "example-1": {
@@ -226,25 +254,37 @@
                     "endpoint": 7,
                     "method": 3,
                     "uuid": "1",
-                    "body": {
-                      "firstName": "Jacek",
-                      "lastName": "Ziemniak",
-                      "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-                      "primaryNumber": "797393115",
-                      "secondaryNumber": null,
-                      "blocked": false,
-                      "favourite": false,
-                      "ice": false,
-                      "notes": "",
-                      "speedDial": null,
-                      "email": ""
-                    }
+                    "body": [
+                      {
+                        "id": "1",
+                        "firstName": "Jacek",
+                        "lastName": "Ziemniak",
+                        "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+                        "blocked": false,
+                        "favourite": false,
+                        "ice": false,
+                        "notes": "",
+                        "speedDial": null,
+                        "email": "",
+                        "numbers": [
+                          {
+                            "primary": true,
+                            "value": "797393115"
+                          },
+                          {
+                            "primary": false,
+                            "value": "797393116"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
               }
             }
           }
-        }
+        },
+        "description": ""
       },
       "post": {
         "summary": "",
@@ -268,23 +308,35 @@
                       "type": "string"
                     },
                     "body": {
-                      "type": "object"
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     }
                   },
-                  "required": [
-                    "endpoint",
-                    "status",
-                    "uuid",
-                    "body"
-                  ]
+                  "required": ["endpoint", "status", "uuid"]
                 },
                 "examples": {
                   "example-1": {
                     "value": {
                       "endpoint": 7,
                       "status": 200,
+                      "uuid": "1"
+                    }
+                  },
+                  "With error": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
                       "uuid": "1",
-                      "body": {}
+                      "body": {
+                        "errors": ["1"]
+                      }
                     }
                   }
                 }
@@ -309,15 +361,13 @@
                     "type": "string"
                   },
                   "body": {
-                    "$ref": "#/components/schemas/Contact"
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Contact"
+                    }
                   }
                 },
-                "required": [
-                  "endpoint",
-                  "method",
-                  "uuid",
-                  "body"
-                ]
+                "required": ["endpoint", "method", "uuid", "body"]
               },
               "examples": {
                 "example-1": {
@@ -325,20 +375,30 @@
                     "endpoint": 7,
                     "method": 2,
                     "uuid": "1",
-                    "body": {
-                      "id": "1",
-                      "firstName": "Jacek",
-                      "lastName": "Ziemniak",
-                      "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-                      "primaryNumber": "797393115",
-                      "secondaryNumber": null,
-                      "blocked": false,
-                      "favourite": false,
-                      "ice": false,
-                      "notes": "",
-                      "speedDial": null,
-                      "email": ""
-                    }
+                    "body": [
+                      {
+                        "id": "1",
+                        "firstName": "Jacek",
+                        "lastName": "Ziemniak",
+                        "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+                        "blocked": false,
+                        "favourite": false,
+                        "ice": false,
+                        "notes": "",
+                        "speedDial": null,
+                        "email": "",
+                        "numbers": [
+                          {
+                            "primary": true,
+                            "value": "797393115"
+                          },
+                          {
+                            "primary": false,
+                            "value": "797393116"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 }
               }
@@ -368,23 +428,35 @@
                       "type": "string"
                     },
                     "body": {
-                      "type": "object"
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
                     }
                   },
-                  "required": [
-                    "endpoint",
-                    "status",
-                    "uuid",
-                    "body"
-                  ]
+                  "required": ["endpoint", "status", "uuid"]
                 },
                 "examples": {
                   "example-1": {
                     "value": {
                       "endpoint": 7,
                       "status": 200,
+                      "uuid": "1"
+                    }
+                  },
+                  "With error": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
                       "uuid": "1",
-                      "body": {}
+                      "body": {
+                        "errors": ["1"]
+                      }
                     }
                   }
                 }
@@ -409,15 +481,13 @@
                     "type": "string"
                   },
                   "body": {
-                    "type": "string"
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
                   }
                 },
-                "required": [
-                  "endpoint",
-                  "method",
-                  "uuid",
-                  "body"
-                ]
+                "required": ["endpoint", "method", "uuid", "body"]
               },
               "examples": {
                 "example-1": {
@@ -425,7 +495,7 @@
                     "endpoint": 7,
                     "method": 4,
                     "uuid": "1",
-                    "body": "1"
+                    "body": ["1"]
                   }
                 }
               }
@@ -449,10 +519,7 @@
                   "properties": {
                     "body": {
                       "type": "object",
-                      "required": [
-                        "entries",
-                        "total_count"
-                      ],
+                      "required": ["entries", "total_count"],
                       "properties": {
                         "entries": {
                           "type": "array",
@@ -475,12 +542,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "body",
-                    "endpoint",
-                    "status",
-                    "uuid"
-                  ]
+                  "required": ["body", "endpoint", "status", "uuid"]
                 },
                 "examples": {
                   "example-1": {
@@ -490,12 +552,7 @@
                           {
                             "id": "1",
                             "callerId": "1",
-                            "messageIds": [
-                              "1",
-                              "2",
-                              "3",
-                              "4"
-                            ],
+                            "messageIds": ["1", "2", "3", "4"],
                             "unread": true
                           }
                         ],
@@ -540,11 +597,7 @@
                     }
                   }
                 },
-                "required": [
-                  "endpoint",
-                  "method",
-                  "uuid"
-                ]
+                "required": ["endpoint", "method", "uuid"]
               },
               "examples": {
                 "example-1": {
@@ -587,9 +640,7 @@
                   },
                   "body": {
                     "type": "object",
-                    "required": [
-                      "limit"
-                    ],
+                    "required": ["limit"],
                     "properties": {
                       "offset": {
                         "type": "number"
@@ -600,11 +651,7 @@
                     }
                   }
                 },
-                "required": [
-                  "endpoint",
-                  "method",
-                  "uuid"
-                ]
+                "required": ["endpoint", "method", "uuid"]
               },
               "examples": {
                 "example-1": {
@@ -633,10 +680,7 @@
                   "properties": {
                     "body": {
                       "type": "object",
-                      "required": [
-                        "entries",
-                        "total_count"
-                      ],
+                      "required": ["entries", "total_count"],
                       "properties": {
                         "entries": {
                           "type": "array",
@@ -659,12 +703,7 @@
                       "type": "string"
                     }
                   },
-                  "required": [
-                    "body",
-                    "endpoint",
-                    "status",
-                    "uuid"
-                  ]
+                  "required": ["body", "endpoint", "status", "uuid"]
                 },
                 "examples": {
                   "example-1": {
@@ -704,14 +743,22 @@
             "firstName": "Jacek",
             "lastName": "Ziemniak",
             "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-            "primaryNumber": "797393115",
-            "secondaryNumber": null,
             "blocked": false,
             "favourite": false,
             "ice": false,
             "notes": "",
             "speedDial": null,
-            "email": ""
+            "email": "",
+            "numbers": [
+              {
+                "primary": true,
+                "value": "797393115"
+              },
+              {
+                "primary": false,
+                "value": "797393116"
+              }
+            ]
           }
         },
         "properties": {
@@ -727,12 +774,6 @@
           "address": {
             "type": "string"
           },
-          "primaryNumber": {
-            "type": "string"
-          },
-          "secondaryNumber": {
-            "type": "string"
-          },
           "blocked": {
             "type": "boolean"
           },
@@ -746,141 +787,27 @@
             "type": "string"
           },
           "speedDial": {
-            "type": "number"
+            "type": ["number", "null"]
           },
           "email": {
             "type": "string"
-          }
-        },
-        "required": [
-          "id"
-        ]
-      },
-      "NewContact": {
-        "description": "",
-        "type": "object",
-        "x-examples": {
-          "example-1": {
-            "primaryName": "Jacek",
-            "altName": "Ziemniak",
-            "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-            "primaryNumber": "797393115",
-            "secondaryNumber": null,
-            "blocked": false,
-            "favourite": false,
-            "ice": false,
-            "notes": "",
-            "speedDial": null,
-            "email": ""
-          }
-        },
-        "properties": {
-          "firstName": {
-            "type": "string"
           },
-          "lastName": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          },
-          "primaryNumber": {
-            "type": "string"
-          },
-          "secondaryNumber": {
-            "type": "string"
-          },
-          "blocked": {
-            "type": "boolean"
-          },
-          "favourite": {
-            "type": "boolean"
-          },
-          "ice": {
-            "type": "boolean"
-          },
-          "notes": {
-            "type": "string"
-          },
-          "speedDial": {
-            "type": "number"
-          },
-          "email": {
-            "type": "string"
-          }
-        }
-      },
-      "Thread": {
-        "description": "",
-        "type": "object",
-        "x-examples": {
-          "example-1": {
-            "id": "1",
-            "callerId": "1",
-            "messageIds": [
-              "1",
-              "2",
-              "3",
-              "4"
-            ],
-            "unread": true
-          }
-        },
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "callerId": {
-            "type": "string"
-          },
-          "messageIds": {
+          "numbers": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "primary": {
+                  "type": "boolean"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
             }
-          },
-          "unread": {
-            "type": "boolean"
           }
         },
-        "required": [
-          "id",
-          "callerId",
-          "messageIds",
-          "unread"
-        ]
-      },
-      "Message": {
-        "title": "Message",
-        "type": "object",
-        "x-examples": {
-          "example-1": {
-            "id": "1",
-            "date": "2020-01-25T05:18:36.599Z",
-            "content": "Vero necessitatibus asperiores ut deserunt voluptas vitae est sed. Ex cum beatae aut accusantium libero.",
-            "interlocutor": true
-          }
-        },
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "date": {
-            "type": "string"
-          },
-          "content": {
-            "type": "string"
-          },
-          "interlocutor": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "id",
-          "date",
-          "content",
-          "interlocutor"
-        ]
+        "required": ["id"]
       }
     },
     "responses": {
@@ -905,12 +832,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "body",
-                "endpoint",
-                "status",
-                "uuid"
-              ]
+              "required": ["body", "endpoint", "status", "uuid"]
             }
           }
         }
