@@ -32,6 +32,19 @@
                       },
                       "limit": {
                         "type": "number"
+                      },
+                      "where": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "object",
+                            "properties": {
+                              "_eq": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
                       }
                     }
                   },
@@ -45,17 +58,8 @@
                   "uuid"
                 ]
               },
-              "example": {
-                "endpoint": 7,
-                "method": 1,
-                "uuid": "1",
-                "body": {
-                  "offset": 0,
-                  "limit": 20
-                }
-              },
               "examples": {
-                "example-1": {
+                "First twenty": {
                   "value": {
                     "endpoint": 7,
                     "method": 1,
@@ -63,6 +67,20 @@
                     "body": {
                       "offset": 0,
                       "limit": 20
+                    }
+                  }
+                },
+                "With filter": {
+                  "value": {
+                    "endpoint": 7,
+                    "method": 1,
+                    "uuid": "1",
+                    "body": {
+                      "where": {
+                        "id": {
+                          "_eq": "1"
+                        }
+                      }
                     }
                   }
                 }
@@ -90,6 +108,10 @@
                     },
                     "body": {
                       "type": "object",
+                      "required": [
+                        "entries",
+                        "total_count"
+                      ],
                       "properties": {
                         "entries": {
                           "type": "array",
@@ -180,11 +202,8 @@
                     },
                     "body": {
                       "type": "object",
-                      "required": [
-                        "success"
-                      ],
                       "properties": {
-                        "success": {
+                        "errors": {
                           "type": "array",
                           "items": {
                             "type": "string"
@@ -196,8 +215,7 @@
                   "required": [
                     "endpoint",
                     "status",
-                    "uuid",
-                    "body"
+                    "uuid"
                   ]
                 },
                 "examples": {
@@ -205,9 +223,16 @@
                     "value": {
                       "endpoint": 7,
                       "status": 200,
+                      "uuid": "1"
+                    }
+                  },
+                  "With error": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
                       "uuid": "1",
                       "body": {
-                        "success": [
+                        "errors": [
                           "1"
                         ]
                       }
@@ -234,7 +259,7 @@
                   "body": {
                     "type": "array",
                     "items": {
-                      "$ref": "#/components/schemas/NewContact"
+                      "$ref": "#/components/schemas/Contact"
                     }
                   },
                   "uuid": {
@@ -244,7 +269,8 @@
                 "required": [
                   "endpoint",
                   "method",
-                  "body"
+                  "body",
+                  "uuid"
                 ]
               },
               "examples": {
@@ -255,6 +281,7 @@
                     "uuid": "1",
                     "body": [
                       {
+                        "id": "1",
                         "firstName": "Jacek",
                         "lastName": "Ziemniak",
                         "address": "Jana Czeczota 9 \n 02-607 Warszawa",
@@ -307,11 +334,8 @@
                     },
                     "body": {
                       "type": "object",
-                      "required": [
-                        "success"
-                      ],
                       "properties": {
-                        "success": {
+                        "errors": {
                           "type": "array",
                           "items": {
                             "type": "string"
@@ -323,8 +347,7 @@
                   "required": [
                     "endpoint",
                     "status",
-                    "uuid",
-                    "body"
+                    "uuid"
                   ]
                 },
                 "examples": {
@@ -332,9 +355,16 @@
                     "value": {
                       "endpoint": 7,
                       "status": 200,
+                      "uuid": "1"
+                    }
+                  },
+                  "With error": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
                       "uuid": "1",
                       "body": {
-                        "success": [
+                        "errors": [
                           "1"
                         ]
                       }
@@ -435,11 +465,8 @@
                     },
                     "body": {
                       "type": "object",
-                      "required": [
-                        "success"
-                      ],
                       "properties": {
-                        "success": {
+                        "errors": {
                           "type": "array",
                           "items": {
                             "type": "string"
@@ -451,8 +478,7 @@
                   "required": [
                     "endpoint",
                     "status",
-                    "uuid",
-                    "body"
+                    "uuid"
                   ]
                 },
                 "examples": {
@@ -460,9 +486,16 @@
                     "value": {
                       "endpoint": 7,
                       "status": 200,
+                      "uuid": "1"
+                    }
+                  },
+                  "With error": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
                       "uuid": "1",
                       "body": {
-                        "success": [
+                        "errors": [
                           "1"
                         ]
                       }
@@ -512,102 +545,6 @@
                     "body": [
                       "1"
                     ]
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/contact": {
-      "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "body": {
-                      "$ref": "#/components/schemas/Contact"
-                    }
-                  },
-                  "required": [
-                    "body"
-                  ]
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "body": {
-                        "id": "string",
-                        "firstName": "string",
-                        "lastName": "string",
-                        "address": "string",
-                        "blocked": true,
-                        "favourite": true,
-                        "ice": true,
-                        "notes": "string",
-                        "speedDial": 0,
-                        "email": "string",
-                        "numbers": [
-                          {
-                            "primary": true,
-                            "value": "string"
-                          }
-                        ]
-                      },
-                      "endpoint": 70,
-                      "status": 200,
-                      "uuid": "1"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "get-contact",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "description": "",
-                "type": "object",
-                "properties": {
-                  "endpoint": {
-                    "type": "number"
-                  },
-                  "method": {
-                    "type": "number"
-                  },
-                  "uuid": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "body": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "endpoint",
-                  "method",
-                  "uuid",
-                  "body"
-                ]
-              },
-              "examples": {
-                "example-1": {
-                  "value": {
-                    "endpoint": 70,
-                    "method": 1,
-                    "uuid": "1",
-                    "body": "1"
                   }
                 }
               }
@@ -672,7 +609,10 @@
             "type": "string"
           },
           "speedDial": {
-            "type": "number"
+            "type": [
+              "number",
+              "null"
+            ]
           },
           "email": {
             "type": "string"
@@ -695,82 +635,6 @@
         "required": [
           "id"
         ]
-      },
-      "NewContact": {
-        "description": "",
-        "type": "object",
-        "x-examples": {
-          "example-1": {
-            "firstName": "Jacek",
-            "lastName": "Ziemniak",
-            "address": "Jana Czeczota 9 \n 02-607 Warszawa",
-            "blocked": false,
-            "favourite": false,
-            "ice": false,
-            "notes": "",
-            "speedDial": null,
-            "email": "",
-            "numbers": [
-              {
-                "primary": true,
-                "value": "797393115"
-              },
-              {
-                "primary": false,
-                "value": "797393116"
-              }
-            ]
-          }
-        },
-        "properties": {
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "address": {
-            "type": "string"
-          },
-          "primaryNumber": {
-            "type": "string"
-          },
-          "secondaryNumber": {
-            "type": "string"
-          },
-          "blocked": {
-            "type": "boolean"
-          },
-          "favourite": {
-            "type": "boolean"
-          },
-          "ice": {
-            "type": "boolean"
-          },
-          "notes": {
-            "type": "string"
-          },
-          "speedDial": {
-            "type": "number"
-          },
-          "email": {
-            "type": "string"
-          },
-          "numbers": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "primary": {
-                  "type": "boolean"
-                },
-                "value": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "responses": {
