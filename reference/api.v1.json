@@ -7,7 +7,9 @@
   "paths": {
     "/contacts": {
       "get": {
-        "tags": ["contacts"],
+        "tags": [
+          "contacts"
+        ],
         "summary": "Get contact list",
         "operationId": "get-contacts",
         "requestBody": {
@@ -50,7 +52,11 @@
                     "type": "string"
                   }
                 },
-                "required": ["endpoint", "method", "uuid"]
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid"
+                ]
               },
               "examples": {
                 "First twenty": {
@@ -102,7 +108,10 @@
                     },
                     "body": {
                       "type": "object",
-                      "required": ["entries", "total_count"],
+                      "required": [
+                        "entries",
+                        "total_count"
+                      ],
                       "properties": {
                         "entries": {
                           "type": "array",
@@ -116,7 +125,12 @@
                       }
                     }
                   },
-                  "required": ["endpoint", "status", "uuid", "body"]
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid",
+                    "body"
+                  ]
                 },
                 "examples": {
                   "example-1": {
@@ -198,7 +212,11 @@
                       }
                     }
                   },
-                  "required": ["endpoint", "status", "uuid"]
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
                 },
                 "examples": {
                   "example-1": {
@@ -214,7 +232,9 @@
                       "status": 200,
                       "uuid": "1",
                       "body": {
-                        "errors": ["1"]
+                        "errors": [
+                          "1"
+                        ]
                       }
                     }
                   }
@@ -246,7 +266,12 @@
                     "type": "string"
                   }
                 },
-                "required": ["endpoint", "method", "body", "uuid"]
+                "required": [
+                  "endpoint",
+                  "method",
+                  "body",
+                  "uuid"
+                ]
               },
               "examples": {
                 "example-1": {
@@ -319,7 +344,11 @@
                       }
                     }
                   },
-                  "required": ["endpoint", "status", "uuid"]
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
                 },
                 "examples": {
                   "example-1": {
@@ -335,7 +364,9 @@
                       "status": 200,
                       "uuid": "1",
                       "body": {
-                        "errors": ["1"]
+                        "errors": [
+                          "1"
+                        ]
                       }
                     }
                   }
@@ -367,7 +398,12 @@
                     }
                   }
                 },
-                "required": ["endpoint", "method", "uuid", "body"]
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid",
+                  "body"
+                ]
               },
               "examples": {
                 "example-1": {
@@ -439,7 +475,11 @@
                       }
                     }
                   },
-                  "required": ["endpoint", "status", "uuid"]
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
                 },
                 "examples": {
                   "example-1": {
@@ -455,7 +495,9 @@
                       "status": 200,
                       "uuid": "1",
                       "body": {
-                        "errors": ["1"]
+                        "errors": [
+                          "1"
+                        ]
                       }
                     }
                   }
@@ -487,7 +529,12 @@
                     }
                   }
                 },
-                "required": ["endpoint", "method", "uuid", "body"]
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid",
+                  "body"
+                ]
               },
               "examples": {
                 "example-1": {
@@ -495,7 +542,9 @@
                     "endpoint": 7,
                     "method": 4,
                     "uuid": "1",
-                    "body": ["1"]
+                    "body": [
+                      "1"
+                    ]
                   }
                 }
               }
@@ -519,7 +568,10 @@
                   "properties": {
                     "body": {
                       "type": "object",
-                      "required": ["entries", "total_count"],
+                      "required": [
+                        "entries",
+                        "total_count"
+                      ],
                       "properties": {
                         "entries": {
                           "type": "array",
@@ -542,18 +594,53 @@
                       "type": "string"
                     }
                   },
-                  "required": ["body", "endpoint", "status", "uuid"]
+                  "required": [
+                    "body",
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
                 },
                 "examples": {
-                  "example-1": {
+                  "Thread with Contact": {
                     "value": {
                       "body": {
                         "entries": [
                           {
                             "id": "1",
-                            "callerId": "1",
-                            "messageIds": ["1", "2", "3", "4"],
-                            "unread": true
+                            "contactId": "1",
+                            "messageIds": [
+                              "1",
+                              "2",
+                              "3",
+                              "4"
+                            ],
+                            "unread": true,
+                            "phone": "797393115"
+                          }
+                        ],
+                        "total_count": 1
+                      },
+                      "endpoint": 8,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  },
+                  "Thread without Contact": {
+                    "value": {
+                      "body": {
+                        "entries": [
+                          {
+                            "id": "1",
+                            "contactId": null,
+                            "messageIds": [
+                              "1",
+                              "2",
+                              "3",
+                              "4"
+                            ],
+                            "unread": true,
+                            "phone": "797393115"
                           }
                         ],
                         "total_count": 1
@@ -597,7 +684,11 @@
                     }
                   }
                 },
-                "required": ["endpoint", "method", "uuid"]
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid"
+                ]
               },
               "examples": {
                 "example-1": {
@@ -640,7 +731,6 @@
                   },
                   "body": {
                     "type": "object",
-                    "required": ["limit"],
                     "properties": {
                       "offset": {
                         "type": "number"
@@ -651,7 +741,11 @@
                     }
                   }
                 },
-                "required": ["endpoint", "method", "uuid"]
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid"
+                ]
               },
               "examples": {
                 "example-1": {
@@ -680,7 +774,10 @@
                   "properties": {
                     "body": {
                       "type": "object",
-                      "required": ["entries", "total_count"],
+                      "required": [
+                        "entries",
+                        "total_count"
+                      ],
                       "properties": {
                         "entries": {
                           "type": "array",
@@ -703,7 +800,12 @@
                       "type": "string"
                     }
                   },
-                  "required": ["body", "endpoint", "status", "uuid"]
+                  "required": [
+                    "body",
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
                 },
                 "examples": {
                   "example-1": {
@@ -787,7 +889,10 @@
             "type": "string"
           },
           "speedDial": {
-            "type": ["number", "null"]
+            "type": [
+              "number",
+              "null"
+            ]
           },
           "email": {
             "type": "string"
@@ -807,30 +912,36 @@
             }
           }
         },
-        "required": ["id"]
+        "required": [
+          "id"
+        ]
       },
-            "Thread": {
+      "Thread": {
         "description": "",
         "type": "object",
         "x-examples": {
           "example-1": {
             "id": "1",
-            "callerId": "1",
+            "contactId": "1",
             "messageIds": [
               "1",
               "2",
               "3",
               "4"
             ],
-            "unread": true
+            "unread": true,
+            "phone": "797393115"
           }
         },
         "properties": {
           "id": {
             "type": "string"
           },
-          "callerId": {
-            "type": "string"
+          "contactId": {
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "messageIds": {
             "type": "array",
@@ -840,13 +951,17 @@
           },
           "unread": {
             "type": "boolean"
+          },
+          "phone": {
+            "type": "string"
           }
         },
         "required": [
           "id",
-          "callerId",
+          "contactId",
           "messageIds",
-          "unread"
+          "unread",
+          "phone"
         ]
       },
       "Message": {
@@ -904,7 +1019,12 @@
                   "type": "string"
                 }
               },
-              "required": ["body", "endpoint", "status", "uuid"]
+              "required": [
+                "body",
+                "endpoint",
+                "status",
+                "uuid"
+              ]
             }
           }
         }
