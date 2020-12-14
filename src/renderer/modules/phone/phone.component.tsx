@@ -125,13 +125,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         await authorize(provider)
         await delayResponse(openProgressSyncModal(), 1000)
         const contactsToImport = await loadContacts(provider)
-        await openSuccessSyncModal(
-          // FIXME: Filtering out contacts without phone numbers as Pure throws an error then
-          contactsToImport.filter(
-            (contact) =>
-              contact.primaryPhoneNumber || contact.secondaryPhoneNumber
-          )
-        )
+        await openSuccessSyncModal(contactsToImport)
       }
     } catch {
       await openAuthorizationFailedModal(provider)
