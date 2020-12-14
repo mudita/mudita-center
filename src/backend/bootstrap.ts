@@ -64,7 +64,7 @@ const bootstrap = (
     registerUpdateOsRequest,
   ]
 
-  new Backend(adapters, getFakeAdapters(), requests)
+  new Backend(adapters, getFakeAdapters(), requests).init()
 }
 
 export default bootstrap

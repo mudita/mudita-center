@@ -1,7 +1,6 @@
 import Adapters from "Backend/adapters/adapters.interface"
 import { ipcMain } from "electron-better-ipc"
-
-type EndpointRemover = () => void
+import { backendAdaptersChannel, EndpointRemover } from "Backend/backend.types"
 
 class Backend {
   private usingFakeAdapters = false
@@ -10,18 +9,13 @@ class Backend {
   constructor(
     private adapters: Adapters,
     private fakeAdapters: Adapters,
-    private requests: Array<(adapters: Adapters) => EndpointRemover>,
-  ) {
-    ipcMain.answerRenderer<boolean>("switch-adapters", () => {
-      this.toggleAdapters()
-    })
-    this.registerEndpoints()
-  }
+    private requests: Array<(adapters: Adapters) => EndpointRemover>
+  ) {}
 
   private registerEndpoints() {
     this.requests.forEach((register) => {
       const unregister = register(
-        this.usingFakeAdapters ? this.fakeAdapters : this.adapters,
+        this.usingFakeAdapters ? this.fakeAdapters : this.adapters
       )
       this.endpointsRemovers.push(unregister)
     })
@@ -35,6 +29,13 @@ class Backend {
   private toggleAdapters() {
     this.usingFakeAdapters = !this.usingFakeAdapters
     this.unregisterEndpoints()
+    this.registerEndpoints()
+  }
+
+  public init() {
+    ipcMain.answerRenderer<boolean>(backendAdaptersChannel, () => {
+      this.toggleAdapters()
+    })
     this.registerEndpoints()
   }
 }
