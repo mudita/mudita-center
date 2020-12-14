@@ -180,7 +180,7 @@
         }
       },
       "put": {
-        "summary": "",
+        "summary": "Put contact list",
         "operationId": "put-contacts",
         "responses": {
           "200": {
@@ -315,7 +315,7 @@
         ]
       },
       "post": {
-        "summary": "",
+        "summary": "Post contact list",
         "operationId": "post-contacts",
         "responses": {
           "200": {
@@ -449,7 +449,7 @@
         ]
       },
       "delete": {
-        "summary": "",
+        "summary": "Delete contact list",
         "operationId": "delete-contacts",
         "responses": {
           "200": {
