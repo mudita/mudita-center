@@ -309,7 +309,10 @@
             }
           }
         },
-        "description": ""
+        "description": "",
+        "tags": [
+          "contacts"
+        ]
       },
       "post": {
         "summary": "",
@@ -440,7 +443,10 @@
               }
             }
           }
-        }
+        },
+        "tags": [
+          "contacts"
+        ]
       },
       "delete": {
         "summary": "",
@@ -550,7 +556,10 @@
               }
             }
           }
-        }
+        },
+        "tags": [
+          "contacts"
+        ]
       }
     },
     "/threads": {
@@ -1018,6 +1027,9 @@
     },
     {
       "name": "messages"
+    },
+    {
+      "name": "contacts"
     }
   ]
 }
