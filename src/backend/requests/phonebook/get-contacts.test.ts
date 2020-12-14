@@ -4,8 +4,6 @@ import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.
 import { contact } from "Backend/mock-device-service"
 import { adapters } from "Backend/requests/phonebook/phonebook-adapters"
 
-jest.mock("pure")
-
 test("return mapped contacts from pure to Contact model", async () => {
   registerGetContactsRequest(adapters)
 

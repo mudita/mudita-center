@@ -6,8 +6,6 @@ import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-s
 import MockPureNodeService from "Backend/mock-device-service"
 import Adapters from "Backend/adapters/adapters.interface"
 
-jest.mock("pure")
-
 test("returns required battery info", async () => {
   registerBatteryInfoRequest(({
     pureBatteryService: createPurePhoneBatteryAdapter(

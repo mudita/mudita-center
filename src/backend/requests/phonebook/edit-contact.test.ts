@@ -4,8 +4,6 @@ import registerEditContactRequest from "Backend/requests/phonebook/edit-contact.
 import { adapters } from "Backend/requests/phonebook/phonebook-adapters"
 import { contact } from "Backend/mock-device-service"
 
-jest.mock("pure")
-
 test("edit contact properly", async () => {
   registerEditContactRequest(adapters)
 
