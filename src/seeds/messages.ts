@@ -1,7 +1,9 @@
-import { initialState } from "Renderer/models/messages/messages"
-import { Topic } from "Renderer/models/messages/messages.interface"
+import {
+  MessagesState,
+  Topic,
+} from "Renderer/models/messages/messages.interface"
 
-export const data: Topic[] = [
+export const messagesData: Topic[] = [
   {
     id: "4ad26ab9-2318-4f55-b3be-861498473211",
     caller: {
@@ -2773,7 +2775,7 @@ export const data: Topic[] = [
   },
 ]
 
-export const messagesSeed = {
-  ...initialState,
-  topics: data,
+export const messagesSeed: MessagesState = {
+  topics: messagesData,
+  searchValue: "",
 }

@@ -19,7 +19,7 @@ export interface Calendar {
   primary?: boolean
 }
 
-export interface StateProps {
+export interface CalendarState {
   calendars: Calendar[]
   events: CalendarEvent[]
 }

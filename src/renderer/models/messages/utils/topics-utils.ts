@@ -1,5 +1,5 @@
 import {
-  StateProps as MessagesProps,
+  MessagesState as MessagesProps,
   Topic,
   VisibilityFilter,
 } from "Renderer/models/messages/messages.interface"
