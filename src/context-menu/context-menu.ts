@@ -1,10 +1,11 @@
 import * as electron from "electron"
 import { MenuItem } from "App/context-menu/context-menu.types"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
-import {
-  isDevModeEnabled,
-  toggleDevMode,
-} from "App/dev-mode/store/dev-mode.helpers"
+
+interface DevModeProps {
+  isEnabled: () => boolean
+  toggler: () => void
+}
 
 /**
  * Creates a new ContextMenu that allows to extend app's context menu
@@ -49,11 +50,14 @@ import {
  *    ])
  */
 class ContextMenu {
+  private readonly isDevModeEnabled?: () => boolean
+  private readonly devModeToggler?: () => void
   private contextMenu = new electron.remote.Menu()
   private customMenu: Record<string, MenuItem[]> = {}
 
-  constructor() {
-    window.addEventListener("contextmenu", () => this.showMenu(), false)
+  constructor(devMode?: DevModeProps) {
+    this.isDevModeEnabled = devMode?.isEnabled
+    this.devModeToggler = devMode?.toggler
   }
 
   private addSeparator() {
@@ -65,11 +69,15 @@ class ContextMenu {
     let firstItemAdded = false
 
     for (const [mainMenuLabel, menuItems] of customMenuItems) {
-      const visibleMenuItems = menuItems.filter(
-        ({ visible, devModeOnly }) =>
-          (visible ?? true) &&
-          ((devModeOnly && isDevModeEnabled()) || !devModeOnly)
-      )
+      const visibleMenuItems = menuItems
+        .filter(({ visible }) => visible ?? true)
+        .filter(({ devModeOnly }) => {
+          if (this.isDevModeEnabled) {
+            return (devModeOnly && this.isDevModeEnabled()) || !devModeOnly
+          } else {
+            return true
+          }
+        })
 
       if (visibleMenuItems.length > 0) {
         if (!firstItemAdded) {
@@ -84,7 +92,7 @@ class ContextMenu {
               ({ devModeOnly, labelCreator, ...options }) => ({
                 label: labelCreator ? labelCreator() : options.label,
                 ...options,
-              }),
+              })
             ),
           })
         )
@@ -95,13 +103,17 @@ class ContextMenu {
   private rebuildMenu() {
     this.contextMenu = new electron.remote.Menu()
 
-    this.contextMenu.append(
-      new electron.remote.MenuItem({
-        label: `${isDevModeEnabled() ? "Disable" : "Enable"} developer mode`,
-        click: toggleDevMode,
-        accelerator: AppHotkeys.DevMode,
-      })
-    )
+    if (this.isDevModeEnabled && this.devModeToggler) {
+      this.contextMenu.append(
+        new electron.remote.MenuItem({
+          label: `${
+            this.isDevModeEnabled() ? "Disable" : "Enable"
+          } developer mode`,
+          click: this.devModeToggler,
+          accelerator: AppHotkeys.DevMode,
+        })
+      )
+    }
 
     this.mapCustomItems()
 
@@ -120,6 +132,10 @@ class ContextMenu {
     this.contextMenu.popup()
   }
 
+  public init() {
+    window.addEventListener("contextmenu", () => this.showMenu(), false)
+  }
+
   public registerItem(mainLabel: string, menuItem: MenuItem) {
     const newItem: MenuItem = {
       devModeOnly: true,
@@ -131,7 +147,7 @@ class ContextMenu {
 
       if (menuItems.some((item) => item.label === newItem.label)) {
         console.warn(
-          `Duplicate found during registering custom context menu items. "${mainLabel}" > "${newItem.label}" already exists.`,
+          `Duplicate found during registering custom context menu items. "${mainLabel}" > "${newItem.label}" already exists.`
         )
       }
 
@@ -146,6 +162,4 @@ class ContextMenu {
   }
 }
 
-const contextMenu = new ContextMenu()
-
-export default contextMenu
+export default ContextMenu

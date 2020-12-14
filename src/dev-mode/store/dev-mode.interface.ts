@@ -1,5 +1,5 @@
 export interface DevMode {
-  devModeEnabled?: boolean
+  enabled?: boolean
   phoneSimulation?: boolean
 }
 

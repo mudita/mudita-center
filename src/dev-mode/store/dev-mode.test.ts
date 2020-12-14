@@ -15,24 +15,27 @@ beforeEach(() => {
 test("have default state properly defined", () => {
   const { getState } = store
 
-  expect(getState().devMode).toMatchObject({ devModeEnabled: false })
+  expect(getState().devMode).toMatchObject({
+    enabled: false,
+    phoneSimulation: false,
+  })
 })
 
 test("properly enables dev mode", () => {
   const { dispatch, getState } = store
 
-  expect(getState().devMode).toMatchObject({ devModeEnabled: false })
+  expect(getState().devMode).toMatchObject({ enabled: false })
   dispatch.devMode.enableDevMode()
-  expect(getState().devMode).toMatchObject({ devModeEnabled: true })
+  expect(getState().devMode).toMatchObject({ enabled: true })
 })
 
 test("properly disables dev mode", () => {
   const { dispatch, getState } = store
 
   dispatch.devMode.enableDevMode()
-  expect(getState().devMode).toMatchObject({ devModeEnabled: true })
+  expect(getState().devMode).toMatchObject({ enabled: true })
   dispatch.devMode.disableDevMode()
-  expect(getState().devMode).toMatchObject({ devModeEnabled: false })
+  expect(getState().devMode).toMatchObject({ enabled: false })
 })
 
 test("properly enables phone simulation mode", () => {
