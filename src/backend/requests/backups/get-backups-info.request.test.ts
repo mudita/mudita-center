@@ -3,8 +3,6 @@ import registerBackupsInfoRequest from "Backend/requests/backups/get-backups-inf
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
 
-jest.mock("pure")
-
 test("returns required backups info", async () => {
   registerBackupsInfoRequest(getFakeAdapters())
   const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetBackupsInfo)
