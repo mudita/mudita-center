@@ -106,7 +106,6 @@ const MessageBubble: FunctionComponent<Props> = ({
   removeMessage = noop,
 }) => {
   const [clicked, setClicked] = useState<string>("")
-  const [dropdownVisible, setDropdownVisible] = useState(false)
   const open = () => setClicked(id)
   const close = () => setClicked("")
   const forward = () => forwardMessage(id)
@@ -120,8 +119,6 @@ const MessageBubble: FunctionComponent<Props> = ({
       <div>
         <MessageBubbleContainer interlocutor={interlocutor}>
           <MessageBubbleDropdown
-            visible={dropdownVisible}
-            setVisible={setDropdownVisible}
             toggler={
               <ActionsButton data-testid="dropdown-action-button">
                 <Icon type={Type.More} />

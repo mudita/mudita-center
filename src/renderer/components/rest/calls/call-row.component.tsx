@@ -1,5 +1,5 @@
 import moment from "moment"
-import React, { useState } from "react"
+import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
@@ -56,7 +56,6 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
   const toggle = () => toggleRow(callData)
   const nameAvailable = isNameAvailable(caller)
   const details = resolveCallType(callData.status)
-  const [dropdownVisible, setDropdownVisible] = useState(false)
 
   const callDetails = { ...details, ...caller, ...callData }
 
@@ -97,8 +96,6 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
       <Col>
         <Actions>
           <Dropdown
-            visible={dropdownVisible}
-            setVisible={setDropdownVisible}
             toggler={
               <ActionsButton>
                 <Icon type={Type.More} />

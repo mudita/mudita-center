@@ -1,4 +1,4 @@
-import React, { Ref, useState } from "react"
+import React, { Ref } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -190,21 +190,14 @@ const MessagesList: FunctionComponent<Props> = ({
     >
       {list.map((item) => {
         const { messages, caller, unread, id } = item
-        const [dropdownVisible, setDropdownVisible] = useState(false)
         const { selected, indeterminate } = getRowStatus(item)
         const lastMessage = last(messages)
         const toggle = () => toggleRow(item)
         const open = () => openSidebar(item)
         const nameAvailable = isNameAvailable(caller)
         const active = activeRow?.id === item.id
-        const emitDeleteClick = () => {
-          onDeleteClick(id)
-          setDropdownVisible(!dropdownVisible)
-        }
-        const toggleReadStatus = () => {
-          onToggleReadStatus([id])
-          setDropdownVisible(!dropdownVisible)
-        }
+        const emitDeleteClick = () => onDeleteClick(id)
+        const toggleReadStatus = () => onToggleReadStatus([id])
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
           <MessageRow ref={ref} selected={selected} active={active}>
             <AvatarCol>
@@ -256,8 +249,6 @@ const MessagesList: FunctionComponent<Props> = ({
                   }
                   onOpen={disableScroll}
                   onClose={enableScroll}
-                  visible={dropdownVisible}
-                  setVisible={setDropdownVisible}
                 >
                   <ButtonComponent
                     labelMessage={{
