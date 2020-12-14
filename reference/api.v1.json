@@ -1,0 +1,1034 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Pure Node API",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/contacts": {
+      "get": {
+        "tags": [
+          "contacts"
+        ],
+        "summary": "Get contact list",
+        "operationId": "get-contacts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "body": {
+                    "type": "object",
+                    "properties": {
+                      "offset": {
+                        "type": "number"
+                      },
+                      "limit": {
+                        "type": "number"
+                      },
+                      "where": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "object",
+                            "properties": {
+                              "_eq": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "uuid": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid"
+                ]
+              },
+              "examples": {
+                "First twenty": {
+                  "value": {
+                    "endpoint": 7,
+                    "method": 1,
+                    "uuid": "1",
+                    "body": {
+                      "offset": 0,
+                      "limit": 20
+                    }
+                  }
+                },
+                "With filter": {
+                  "value": {
+                    "endpoint": 7,
+                    "method": 1,
+                    "uuid": "1",
+                    "body": {
+                      "where": {
+                        "id": {
+                          "_eq": "1"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "endpoint": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "object",
+                      "required": [
+                        "entries",
+                        "total_count"
+                      ],
+                      "properties": {
+                        "entries": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Contact"
+                          }
+                        },
+                        "total_count": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid",
+                    "body"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "body": {
+                        "entries": [
+                          {
+                            "id": "1",
+                            "firstName": "Jacek",
+                            "lastName": "Ziemniak",
+                            "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+                            "blocked": false,
+                            "favourite": false,
+                            "ice": false,
+                            "notes": "",
+                            "speedDial": null,
+                            "email": "",
+                            "numbers": [
+                              {
+                                "primary": true,
+                                "value": "797393115"
+                              },
+                              {
+                                "primary": false,
+                                "value": "797393116"
+                              }
+                            ]
+                          }
+                        ],
+                        "total_count": 1
+                      },
+                      "endpoint": 7,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "",
+        "operationId": "put-contacts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "endpoint": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  },
+                  "With error": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
+                      "uuid": "1",
+                      "body": {
+                        "errors": [
+                          "1"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "body": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Contact"
+                    }
+                  },
+                  "uuid": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "body",
+                  "uuid"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 7,
+                    "method": 3,
+                    "uuid": "1",
+                    "body": [
+                      {
+                        "id": "1",
+                        "firstName": "Jacek",
+                        "lastName": "Ziemniak",
+                        "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+                        "blocked": false,
+                        "favourite": false,
+                        "ice": false,
+                        "notes": "",
+                        "speedDial": null,
+                        "email": "",
+                        "numbers": [
+                          {
+                            "primary": true,
+                            "value": "797393115"
+                          },
+                          {
+                            "primary": false,
+                            "value": "797393116"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": ""
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-contacts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "endpoint": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  },
+                  "With error": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
+                      "uuid": "1",
+                      "body": {
+                        "errors": [
+                          "1"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "uuid": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Contact"
+                    }
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid",
+                  "body"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 7,
+                    "method": 2,
+                    "uuid": "1",
+                    "body": [
+                      {
+                        "id": "1",
+                        "firstName": "Jacek",
+                        "lastName": "Ziemniak",
+                        "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+                        "blocked": false,
+                        "favourite": false,
+                        "ice": false,
+                        "notes": "",
+                        "speedDial": null,
+                        "email": "",
+                        "numbers": [
+                          {
+                            "primary": true,
+                            "value": "797393115"
+                          },
+                          {
+                            "primary": false,
+                            "value": "797393116"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "",
+        "operationId": "delete-contacts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "endpoint": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    },
+                    "body": {
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  },
+                  "With error": {
+                    "value": {
+                      "endpoint": 7,
+                      "status": 200,
+                      "uuid": "1",
+                      "body": {
+                        "errors": [
+                          "1"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "uuid": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid",
+                  "body"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 7,
+                    "method": 4,
+                    "uuid": "1",
+                    "body": [
+                      "1"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/threads": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "body": {
+                      "type": "object",
+                      "required": [
+                        "entries",
+                        "total_count"
+                      ],
+                      "properties": {
+                        "entries": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Thread"
+                          }
+                        },
+                        "total_count": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "endpoint": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "body",
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
+                },
+                "examples": {
+                  "Thread with Contact": {
+                    "value": {
+                      "body": {
+                        "entries": [
+                          {
+                            "id": "1",
+                            "contactId": "1",
+                            "messageIds": [
+                              "1",
+                              "2",
+                              "3",
+                              "4"
+                            ],
+                            "unread": true,
+                            "phone": "797393115"
+                          }
+                        ],
+                        "total_count": 1
+                      },
+                      "endpoint": 8,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  },
+                  "Thread without Contact": {
+                    "value": {
+                      "body": {
+                        "entries": [
+                          {
+                            "id": "1",
+                            "contactId": null,
+                            "messageIds": [
+                              "1",
+                              "2",
+                              "3",
+                              "4"
+                            ],
+                            "unread": true,
+                            "phone": "797393115"
+                          }
+                        ],
+                        "total_count": 1
+                      },
+                      "endpoint": 8,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-threads",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "uuid": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "object",
+                    "properties": {
+                      "offset": {
+                        "type": "number"
+                      },
+                      "limit": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 9,
+                    "method": 1,
+                    "uuid": "1",
+                    "body": {
+                      "offset": 0,
+                      "limit": 20
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/messages": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "operationId": "get-messages",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "endpoint": {
+                    "type": "number"
+                  },
+                  "method": {
+                    "type": "number"
+                  },
+                  "uuid": {
+                    "type": "string"
+                  },
+                  "body": {
+                    "type": "object",
+                    "properties": {
+                      "offset": {
+                        "type": "number"
+                      },
+                      "limit": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "endpoint",
+                  "method",
+                  "uuid"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "endpoint": 8,
+                    "method": 1,
+                    "uuid": "1",
+                    "body": {
+                      "offset": 0,
+                      "limit": 20
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "body": {
+                      "type": "object",
+                      "required": [
+                        "entries",
+                        "total_count"
+                      ],
+                      "properties": {
+                        "entries": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/Message"
+                          }
+                        },
+                        "total_count": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "endpoint": {
+                      "type": "number"
+                    },
+                    "status": {
+                      "type": "number"
+                    },
+                    "uuid": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "body",
+                    "endpoint",
+                    "status",
+                    "uuid"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "body": {
+                        "entries": [
+                          {
+                            "id": "1",
+                            "date": "2020-01-25T05:18:36.599Z",
+                            "content": "Vero necessitatibus asperiores ut deserunt voluptas vitae est sed. Ex cum beatae aut accusantium libero.",
+                            "interlocutor": true
+                          }
+                        ],
+                        "total_count": 1
+                      },
+                      "endpoint": 8,
+                      "status": 200,
+                      "uuid": "1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Contact": {
+        "title": "Contact",
+        "type": "object",
+        "x-examples": {
+          "example-1": {
+            "id": "1",
+            "firstName": "Jacek",
+            "lastName": "Ziemniak",
+            "address": "Jana Czeczota 9 \n 02-607 Warszawa",
+            "blocked": false,
+            "favourite": false,
+            "ice": false,
+            "notes": "",
+            "speedDial": null,
+            "email": "",
+            "numbers": [
+              {
+                "primary": true,
+                "value": "797393115"
+              },
+              {
+                "primary": false,
+                "value": "797393116"
+              }
+            ]
+          }
+        },
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          },
+          "blocked": {
+            "type": "boolean"
+          },
+          "favourite": {
+            "type": "boolean"
+          },
+          "ice": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "speedDial": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "email": {
+            "type": "string"
+          },
+          "numbers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "primary": {
+                  "type": "boolean"
+                },
+                "value": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "Thread": {
+        "description": "",
+        "type": "object",
+        "x-examples": {
+          "example-1": {
+            "id": "1",
+            "contactId": "1",
+            "messageIds": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "unread": true,
+            "phone": "797393115"
+          }
+        },
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "contactId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "messageIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "unread": {
+            "type": "boolean"
+          },
+          "phone": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "contactId",
+          "messageIds",
+          "unread",
+          "phone"
+        ]
+      },
+      "Message": {
+        "title": "Message",
+        "type": "object",
+        "x-examples": {
+          "example-1": {
+            "id": "1",
+            "date": "2020-01-25T05:18:36.599Z",
+            "content": "Vero necessitatibus asperiores ut deserunt voluptas vitae est sed. Ex cum beatae aut accusantium libero.",
+            "interlocutor": true
+          }
+        },
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "interlocutor": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "date",
+          "content",
+          "interlocutor"
+        ]
+      }
+    },
+    "responses": {
+      "response": {
+        "description": "Example response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "body": {
+                  "type": "object"
+                },
+                "endpoint": {
+                  "type": "number"
+                },
+                "status": {
+                  "type": "number"
+                },
+                "uuid": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "body",
+                "endpoint",
+                "status",
+                "uuid"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
