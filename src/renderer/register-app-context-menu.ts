@@ -30,7 +30,7 @@ const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Contacts", [
     {
       label: "Load default contacts",
-      click: () => store.dispatch.phone._devLoadDefaultContacts(),
+      click: () => store.dispatch.phone.loadData(),
     },
     {
       label: "Clear all contacts",

@@ -16,7 +16,6 @@ type FakeAdaptersProps = PhonebookFakeAdapterProps & {
 }
 
 const getFakeAdapters = ({
-  contactsCount = 100,
   updateOption = { key: "appAutostart", value: true },
 }: Partial<FakeAdaptersProps> = {}): Adapters => ({
   app: createFakeElectronAppAdapter(),
