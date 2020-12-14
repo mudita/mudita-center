@@ -918,6 +918,9 @@
         },
         "required": [
           "id"
+        ],
+        "x-tags": [
+          "contacts"
         ]
       },
       "Thread": {
@@ -966,6 +969,9 @@
           "messageIds",
           "unread",
           "phone"
+        ],
+        "x-tags": [
+          "threads"
         ]
       },
       "Message": {
@@ -998,42 +1004,13 @@
           "date",
           "content",
           "interlocutor"
+        ],
+        "x-tags": [
+          "messages"
         ]
       }
     },
-    "responses": {
-      "response": {
-        "description": "Example response",
-        "content": {
-          "application/json": {
-            "schema": {
-              "description": "",
-              "type": "object",
-              "properties": {
-                "body": {
-                  "type": "object"
-                },
-                "endpoint": {
-                  "type": "number"
-                },
-                "status": {
-                  "type": "number"
-                },
-                "uuid": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "body",
-                "endpoint",
-                "status",
-                "uuid"
-              ]
-            }
-          }
-        }
-      }
-    }
+    "responses": {}
   },
   "tags": [
     {
