@@ -556,7 +556,9 @@
     "/threads": {
       "get": {
         "summary": "Your GET endpoint",
-        "tags": [],
+        "tags": [
+          "threads"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1030,5 +1032,10 @@
         }
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "threads"
+    }
+  ]
 }
