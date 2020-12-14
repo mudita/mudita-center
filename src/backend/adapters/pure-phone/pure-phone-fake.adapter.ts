@@ -20,8 +20,11 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     return "2020-01-14T11:31:08.244Z"
   }
 
-  public getOsVersion(): string {
-    return "3.1.0"
+  public async getOsVersion(): Promise<DeviceResponse<string>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: "3.1.0",
+    }
   }
 
   public getSerialNumber(): string {
@@ -34,20 +37,16 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
     }
   }
 
-  public connectDevice(): Promise<DeviceResponse> {
-    return new Promise((resolve) =>
-      resolve({
-        status: DeviceResponseStatus.Ok,
-      })
-    )
+  public async connectDevice(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
   }
 
-  public updateOs(): Promise<DeviceResponse> {
-    return new Promise((resolve) =>
-      resolve({
-        status: DeviceResponseStatus.Ok,
-      })
-    )
+  public async updateOs(): Promise<DeviceResponse> {
+    return {
+      status: DeviceResponseStatus.Ok,
+    }
   }
 }
 

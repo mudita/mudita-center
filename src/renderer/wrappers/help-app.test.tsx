@@ -12,17 +12,27 @@ const renderer = () => {
   return renderWithThemeAndIntl(
     <HelpApp
       history={createMemoryHistory({ initialEntries: [URL_MAIN.help] })}
-    />
+    />,
   )
 }
 
 jest.mock("../utils/hooks/use-help-search/use-help-search")
 
+jest.mock("electron", () => ({
+  remote: {
+    Menu: () => ({
+      popup: jest.fn,
+      append: jest.fn,
+    }),
+    MenuItem: () => jest.fn(),
+  },
+}))
+
 beforeEach(() =>
   (useHelpSearch as jest.Mock).mockReturnValue({
     data,
     searchQuestion: jest.fn(),
-  })
+  }),
 )
 afterEach(() => (useHelpSearch as jest.Mock).mockRestore())
 

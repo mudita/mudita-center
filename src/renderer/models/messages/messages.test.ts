@@ -2,7 +2,7 @@ import { init } from "@rematch/core"
 import messages from "Renderer/models/messages/messages"
 import { VisibilityFilter } from "Renderer/models/messages/messages.interface"
 import selectPlugin from "@rematch/select"
-import { data } from "App/seeds/messages"
+import { messagesData } from "App/seeds/messages"
 import { mockedUnreadMessages } from "App/__mocks__/mocked-unread-messages"
 
 const storeConfig = {
@@ -11,7 +11,7 @@ const storeConfig = {
   redux: {
     initialState: {
       messages: {
-        topics: [...mockedUnreadMessages, data],
+        topics: [...mockedUnreadMessages, messagesData],
       },
     },
   },

@@ -4,7 +4,7 @@ import { connect, Provider } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
 import { Router } from "react-router"
 import BaseRoutes from "Renderer/routes/base-routes"
-import { Store } from "Renderer/store"
+import { select, Store } from "Renderer/store"
 import { History } from "history"
 import registerDisconnectedDeviceListener, {
   removeDisconnectedDeviceListener,
@@ -16,16 +16,23 @@ import { getAppSettings } from "Renderer/requests/app-settings.request"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { RootState } from "Renderer/store"
+import registerHotkeys from "Renderer/register-hotkeys"
+import ContextMenu from "App/context-menu/context-menu"
+import registerAppContextMenu from "Renderer/register-app-context-menu"
+import {
+  isDevModeEnabled,
+  toggleDevMode,
+} from "App/dev-mode/store/dev-mode.helpers"
 
 interface Props {
   store: Store
   history: History
   toggleDisconnectedDevice: (disconnectedDevice: boolean) => void
-  disconnectedDevice: boolean
+  connected: boolean
 }
 
 const BaseApp: FunctionComponent<Props> = ({
-  disconnectedDevice,
+                                             connected,
   toggleDisconnectedDevice,
   store,
   history,
@@ -48,25 +55,34 @@ const BaseApp: FunctionComponent<Props> = ({
   })
 
   useEffect(() => {
-    if (disconnectedDevice) {
-      history.push(URL_MAIN.news)
-    } else {
-      history.push(URL_MAIN.overview)
-    }
-  }, [disconnectedDevice])
-
-  useEffect(() => {
     ;(async () => {
       const response = await getAppSettings()
       setPureNeverConnected(response.pureNeverConnected)
     })()
+
+    // Register hotkeys
+    registerHotkeys()
+
+    // Register context menu
+    const appContextMenu = new ContextMenu({
+      isEnabled: isDevModeEnabled,
+      toggler: toggleDevMode,
+    })
+    registerAppContextMenu(appContextMenu)
+    appContextMenu.init()
   }, [])
 
   useEffect(() => {
-    if (disconnectedDevice && pureNeverConnected) {
+    if (!connected && !pureNeverConnected) {
+      history.push(URL_MAIN.news)
+    } else if (!connected && pureNeverConnected) {
       history.push(URL_ONBOARDING.root)
+    } else if (connected && pureNeverConnected) {
+      history.push(URL_ONBOARDING.connecting)
+    } else if (connected && !pureNeverConnected) {
+      history.push(URL_MAIN.overview)
     }
-  }, [pureNeverConnected])
+  }, [connected, pureNeverConnected])
 
   return (
     <Provider store={store}>
@@ -78,15 +94,18 @@ const BaseApp: FunctionComponent<Props> = ({
   )
 }
 
+const selection = select((models: any) => ({
+  connected: models.basicInfo.isConnected,
+}))
+
 const mapStateToProps = (state: RootState) => {
   return {
-    disconnectedDevice: state.basicInfo.disconnectedDevice,
+    ...(selection(state, null) as { connected: boolean }),
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
-  toggleDisconnectedDevice: (disconnectedDevice: boolean) =>
-    dispatch.basicInfo.update({ disconnectedDevice }),
+const mapDispatchToProps = ({ basicInfo }: any) => ({
+  toggleDisconnectedDevice: basicInfo.toggleDisconnectedDevice,
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BaseApp)

@@ -3,15 +3,16 @@ import { Dispatch } from "Renderer/store"
 import {
   BaseContactModel,
   Contact,
-  NewContact,
   ContactID,
   Phone,
+  PhoneState,
+  ResultsState,
   StoreData,
 } from "Renderer/models/phone/phone.typings"
 import {
   addContacts,
   contactDatabaseFactory,
-  updateContact,
+  editContact,
   getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
@@ -19,17 +20,15 @@ import {
   revokeField,
 } from "Renderer/models/phone/phone.helpers"
 import { isContactMatchingPhoneNumber } from "Renderer/models/phone/is-contact-matching-phone-number"
+import getContacts from "Renderer/requests/get-contacts.request"
+import logger from "App/main/utils/logger"
 import externalProvidersStore from "Renderer/store/external-providers"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import getContactsRequest from "Renderer/requests/get-contacts.request"
-import addContactRequest from "Renderer/requests/add-contact.request"
-import editContactRequest from "Renderer/requests/edit-contact.request"
-import deleteContactsRequest from "Renderer/requests/delete-contacts.request"
-import logger from "App/main/utils/logger"
 
-export const initialState: Phone = {
+export const initialState: PhoneState = {
   db: {},
   collection: [],
+  resultsState: ResultsState.Empty,
 }
 
 let writeTrials = 0
@@ -67,10 +66,13 @@ const simulateWriteToPhone = async (time = 2000) => {
 export default {
   state: initialState,
   reducers: {
-    setContacts(state: Phone, contacts: Contact[]): Phone {
-      return contactDatabaseFactory(contacts)
+    setResultsState(state: PhoneState, resultsState: ResultsState): PhoneState {
+      return { ...state, resultsState }
     },
-    addContact(state: Phone, contact: Contact): Phone {
+    setContacts(state: PhoneState, phone: Phone): PhoneState {
+      return { ...state, ...phone }
+    },
+    addContact(state: PhoneState, contact: Contact): PhoneState {
       let currentState = state
 
       /**
@@ -81,27 +83,36 @@ export default {
         currentState = revokeField(state, { speedDial: contact.speedDial })
       }
 
-      return addContacts(currentState, contact)
+      return { ...state, ...addContacts(currentState, contact) }
     },
-    updateContact(
-      state: Phone,
-      data: BaseContactModel
-    ): Phone {
+    editContact(state: PhoneState, data: BaseContactModel): PhoneState {
       let currentState = state
 
       if (data.speedDial) {
         currentState = revokeField(state, { speedDial: data.speedDial })
       }
 
-      return updateContact(currentState, data)
+      return { ...state, ...editContact(currentState, data) }
     },
-    removeContact(state: Phone, input: ContactID | ContactID[]): Phone {
-      return removeContact(state, input)
+    removeContact(
+      state: PhoneState,
+      input: ContactID | ContactID[]
+    ): PhoneState {
+      return { ...state, ...removeContact(state, input) }
     },
-    updateContacts(state: Phone, contacts: Phone) {
+    updateContacts(state: PhoneState, contacts: Phone) {
       return {
+        ...state,
         db: { ...state.db, ...contacts.db },
         collection: [...state.collection, ...contacts.collection],
+      }
+    },
+    _devClearAllContacts(state: PhoneState) {
+      return {
+        ...state,
+        db: {},
+        collection: [],
+        resultsState: ResultsState.Empty,
       }
     },
   },
@@ -110,53 +121,35 @@ export default {
    * about phone sync flow at the moment.
    */
   effects: (dispatch: Dispatch) => ({
-    loadData: async (): Promise<string | void> => {
-      const { data = [], error } = await getContactsRequest()
+    async loadData(
+      _: any,
+      rootState: { phone: { resultsState: ResultsState } }
+    ) {
+      if (rootState.phone.resultsState === ResultsState.Loading) {
+        return
+      }
+
+      dispatch.phone.setResultsState(ResultsState.Loading)
+
+      const { data = [], error } = await getContacts()
       if (error) {
         logger.error(error)
-        return error.message
+        dispatch.phone.setResultsState(ResultsState.Error)
       } else {
-        dispatch.phone.setContacts(data)
+        dispatch.phone.setContacts(contactDatabaseFactory(data))
+        dispatch.phone.setResultsState(ResultsState.Loaded)
       }
     },
-    async loadContacts(provider: Provider) {
-      let contacts: Contact[]
-
+    authorize(provider: Provider) {
       switch (provider) {
         case Provider.Google:
-          contacts = await externalProvidersStore.dispatch.google.getContacts()
-          dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
-      }
-    },
-    addNewContact: async (contact: NewContact): Promise<string | void> => {
-      const { data, error } = await addContactRequest(contact)
-      if (error || !data) {
-        logger.error(error)
-        return error?.message ?? "Something went wrong"
-      }
-      else {
-        dispatch.phone.addContact(data)
-      }
-    },
-    editContact: async (contact: Contact): Promise<string | void> => {
-      const { data, error } = await editContactRequest(contact)
-      if (error || !data) {
-        logger.error(error)
-        return error?.message ?? "Something went wrong"
-      }
-      else {
-        dispatch.phone.updateContact(data)
-      }
-    },
-    async deleteContacts(input: ContactID[]): Promise<string | void> {
-      const { error } = await deleteContactsRequest(input)
-      if (error) {
-        logger.error(error)
-        const successIds = input.filter(id => !error.data?.includes(id))
-        dispatch.phone.removeContact(successIds)
-        return error.message
-      } else {
-        dispatch.phone.removeContact(input)
+          externalProvidersStore.dispatch.google.authorize()
+          break
+        // TODO: update when adding new providers
+        case Provider.Apple:
+          break
+        case Provider.Microsoft:
+          break
       }
     },
   }),

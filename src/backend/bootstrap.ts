@@ -23,23 +23,29 @@ import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
 import createPurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone.adapter"
 import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
+import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
+import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
+import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
+import Backend from "Backend/backend"
 
 const bootstrap = (
   deviceManager: PureDeviceManager,
   ipcMain: MainProcessIpc
 ): void => {
   const deviceService = createDeviceService(deviceManager, ipcMain)
+
   const adapters = {
-    // TODO: Replace with a proper adapters when phone becomes available.
-    ...getFakeAdapters(),
     purePhone: createPurePhoneAdapter(deviceService),
     phonebook: createPhonebook(deviceService),
+    pureBatteryService: createPurePhoneBatteryAdapter(deviceService),
+    pureNetwork: createPurePhoneNetwork(deviceService),
+    pureStorage: createPurePhoneStorageAdapter(deviceService),
     appSettings: createAppSettingsAdapter(),
     pureBackups: createPurePhoneBackupsAdapter(),
     app: createElectronAppAdapter(),
   }
 
-  ;[
+  const requests = [
     registerDeviceInfoRequest,
     registerNetworkInfoRequest,
     registerPurePhoneStorageRequest,
@@ -56,7 +62,9 @@ const bootstrap = (
     registerAppSettingsUpdateRequest,
     registerAppSettingsResetRequest,
     registerUpdateOsRequest,
-  ].forEach((register) => register(adapters))
+  ]
+
+  new Backend(adapters, getFakeAdapters(), requests).init()
 }
 
 export default bootstrap

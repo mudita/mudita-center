@@ -4,7 +4,4 @@ export default interface BatteryInfo {
 
   // Is the phone currently charging?
   readonly charging: boolean
-
-  // Maximum battery's capacity compared to its initial state. Float in 0-1 range.
-  readonly maximumCapacity: number
 }

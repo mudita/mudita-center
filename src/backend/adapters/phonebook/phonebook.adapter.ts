@@ -1,7 +1,9 @@
 import { Endpoint, Method } from "pure"
-import Faker from "faker"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
-import { Contact as PureContact } from "pure/dist/endpoints/contact.types"
+import {
+  Contact as PureContact,
+  NewContact as PureNewContact,
+} from "pure/dist/endpoints/contact.types"
 import {
   Contact,
   ContactID,
@@ -34,18 +36,17 @@ class Phonebook extends PhonebookAdapter {
   public async addContact(
     contact: NewContact
   ): Promise<DeviceResponse<Contact>> {
-    const { status } = await this.deviceService.request({
+    const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
-      body: mapToPureContact(contact),
+      body: mapToPureNewContact(contact),
     })
 
-    if (status === DeviceResponseStatus.Ok) {
+    if (status === DeviceResponseStatus.Ok && data !== undefined) {
       return {
         status,
         data: {
-          // TODO: return contact from API response after EGD fix, task https://appnroll.atlassian.net/browse/PDA-572
-          id: Faker.random.uuid(),
+          id: String(data.id),
           ...contact,
           primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
         },
@@ -63,8 +64,7 @@ class Phonebook extends PhonebookAdapter {
     })
 
     if (status === DeviceResponseStatus.Ok) {
-      // TODO: return contact from API response after EGD fix, task https://appnroll.atlassian.net/browse/PDA-577
-      return {status, data: contact}
+      return { status, data: contact }
     } else {
       return { status, error: { message: "Something went wrong" } }
     }
@@ -166,7 +166,7 @@ const mapToContact = (pureContact: PureContact): Contact => {
   }
 }
 
-const mapToPureContact = (contact: NewContact): PureContact => {
+const mapToPureNewContact = (contact: NewContact): PureNewContact => {
   const {
     blocked = false,
     favourite = false,
@@ -184,11 +184,13 @@ const mapToPureContact = (contact: NewContact): PureContact => {
   return {
     blocked,
     favourite,
-    // TODO: remove this conditional after EGD fix, task https://appnroll.atlassian.net/browse/PDA-572
-    numbers: numbers.length === 0 ? ["999999999"] : numbers,
-    id: Math.round(Math.random() * 1000),
+    numbers: numbers,
     priName: firstName,
     altName: lastName,
-    address: `${firstAddressLine}\n${secondAddressLine}`,
+    address: [firstAddressLine, secondAddressLine].join("\n").trim()
   }
+}
+
+const mapToPureContact = (contact: Contact): PureContact => {
+  return { ...mapToPureNewContact(contact), id: Number(contact.id) }
 }

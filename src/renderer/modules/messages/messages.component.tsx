@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { defineMessages } from "react-intl"
-import Button from "Renderer/components/core/button/button.component"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
-import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import MessagesList from "Renderer/components/rest/messages/messages-list.component"
 import {
   ComponentProps as MessagesProps,
@@ -67,8 +65,7 @@ const Messages: FunctionComponent<Props> = ({
   const hideReadMessages = () => {
     changeVisibilityFilter(VisibilityFilter.Unread)
   }
-  const _devClearMessages = () => setMessagesList([])
-  const _devLoadDefaultMessages = () => setMessagesList(list)
+
   useEffect(() => setMessagesList(list), [list])
 
   const getDeletingMessage = (ids: string[]): Message => {
@@ -121,15 +118,6 @@ const Messages: FunctionComponent<Props> = ({
 
   return (
     <>
-      <DevModeWrapper>
-        <p>Messages on list: {messagesList.length}</p>
-        <Button onClick={_devClearMessages} label="Remove all messages" />
-        <br />
-        <Button
-          onClick={_devLoadDefaultMessages}
-          label="Load default messages"
-        />
-      </DevModeWrapper>
       <MessagesPanel
         searchValue={searchValue}
         hideReadMessages={hideReadMessages}

@@ -1,5 +1,3 @@
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-
 export type ContactID = string
 
 export interface BaseContactModel {
@@ -70,14 +68,17 @@ export enum ResultsState {
   Loading,
   Loaded,
   Empty,
+  Error,
 }
 
 export interface StoreData {
   inputValue: string
   contacts: Contact[]
   savingContact: boolean
-  resultsState?: ResultsState
+  resultsState: ResultsState
 }
+
+export type PhoneState = Phone & Pick<StoreData, "resultsState">
 
 interface StoreSelectors extends Contacts {
   speedDialContacts: Contact[]
@@ -85,11 +86,7 @@ interface StoreSelectors extends Contacts {
 }
 
 interface StoreEffects {
-  readonly loadData: () => Promise<string | void>
-  readonly addNewContact: (contact: NewContact) => Promise<string | void>
-  readonly editContact: (data: Contact) => Promise<string | void>
-  readonly deleteContacts?: (contacts: Contact[]) => void
-  readonly loadContacts: (provider: Provider) => Promise<Phone>
+  readonly loadData: () => Promise<void>
 }
 
 export type Store = StoreEffects & StoreData & StoreSelectors

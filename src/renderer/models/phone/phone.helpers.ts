@@ -4,6 +4,7 @@ import {
   ContactFactorySignature,
   ContactID,
   Phone,
+  PhoneState,
 } from "Renderer/models/phone/phone.typings"
 import { deburr, find, filter, omit } from "lodash"
 import { intl } from "Renderer/utils/intl"
@@ -102,11 +103,11 @@ export const contactDatabaseFactory = (
 }
 
 export const addContacts = (
-  state: Phone,
+  state: PhoneState,
   input: Contact | Contact[],
   factory: (input: Contact[]) => Phone = contactDatabaseFactory,
   preFormatter = prepareData
-) => {
+): PhoneState => {
   const result = factory(preFormatter(input))
 
   if (result) {
@@ -125,10 +126,10 @@ export const addContacts = (
 }
 
 export const removeContact = (
-  state: Phone,
+  state: PhoneState,
   input: ContactID | ContactID[],
   preFormatter = prepareData
-) => {
+): Phone => {
   const inputArray = Array.isArray(input) ? input : [input]
   const { collection: oldCollection, db: oldDb } = state
   const data = preFormatter(input)
@@ -145,8 +146,8 @@ export const removeContact = (
   return { db, collection }
 }
 
-export const updateContact = (
-  state: Phone,
+export const editContact = (
+  state: PhoneState,
   data: BaseContactModel,
   guard: (input: any) => boolean = contactTypeGuard
 ): Phone => {
@@ -186,7 +187,9 @@ export const getSortedContactList = ({ collection, db }: Phone) => {
   const contacts = collection.map((item) => db[item])
 
   const sortedContacts = contacts.sort((a, b) => {
-    return createFullName(a).localeCompare(createFullName(b))
+    const sortTextA = a.lastName || a.firstName || ""
+    const sortTextB = b.lastName || b.firstName || ""
+    return sortTextA.localeCompare(sortTextB)
   })
 
   for (const contact of sortedContacts) {
@@ -202,7 +205,7 @@ export const getSortedContactList = ({ collection, db }: Phone) => {
 
     if (firstName || lastName) {
       const groupLetter = deburr(
-        firstName?.charAt(0) || lastName?.charAt(0)
+        lastName?.charAt(0) || firstName?.charAt(0)
       ).toUpperCase()
 
       if (/[A-Z]/.test(groupLetter)) {
@@ -285,10 +288,10 @@ export const findMultipleContacts = (
 }
 
 export const revokeField = (
-  state: Phone,
+  state: PhoneState,
   query: SimpleRecord,
   finder = findContact
-): Phone => {
+): PhoneState => {
   const userId = finder(state, query, true)
 
   if (userId && typeof userId === "string") {
@@ -300,8 +303,8 @@ export const revokeField = (
       db: {
         ...state.db,
         [userId]: userData,
-      },
-    } as Phone
+      } as Record<ContactID, Contact>,
+    }
   }
 
   return state

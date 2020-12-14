@@ -6,6 +6,7 @@ import { History } from "history"
 import Help, { QuestionAndAnswer } from "Renderer/modules/help/help.component"
 import { renderAnswer } from "Renderer/modules/help/render-utils"
 import { useHelpSearch } from "Renderer/utils/hooks/use-help-search/use-help-search"
+import ContextMenu from "App/context-menu/context-menu"
 
 interface Props {
   history: History
@@ -24,8 +25,17 @@ const HelpApp: FunctionComponent<Props> = ({
     searchQuestion(searchInputValue)
   }, [searchInputValue])
   const AnswerComponent = (
-    props: RouteComponentProps<{ questionId: string }>
+    props: RouteComponentProps<{ questionId: string }>,
   ) => renderAnswer(data, props)
+
+  useEffect(() => {
+    const helpContextMenu = new ContextMenu()
+
+    // TODO: Add options for context menu
+
+    helpContextMenu.init()
+  }, [])
+
   return (
     <Router history={history}>
       <Switch>

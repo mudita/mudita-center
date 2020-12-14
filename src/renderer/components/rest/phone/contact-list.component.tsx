@@ -211,6 +211,24 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                 const handleSelect = () => onSelect(contact)
 
                 const fullName = createFullName(contact)
+                const createStyledFullName = () => {
+                  const { firstName, lastName } = contact
+                  if (!firstName && !lastName) {
+                    return null
+                  }
+                  if (firstName && lastName) {
+                    return (
+                      <span>
+                        {firstName} <strong>{lastName}</strong>
+                      </span>
+                    )
+                  }
+                  return (
+                    <span>
+                      <strong>{firstName || lastName}</strong>
+                    </span>
+                  )
+                }
                 const phoneNumber =
                   contact.primaryPhoneNumber || contact.secondaryPhoneNumber
                 const nextContact = contacts[index + 1]
@@ -242,7 +260,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         light={selected || activeRow === contact}
                         size={AvatarSize.Small}
                       />
-                      {fullName ||
+                      {createStyledFullName() ||
                         intl.formatMessage({
                           id: "view.name.phone.contacts.list.unnamedContact",
                         })}
@@ -362,14 +380,16 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             }}
           />
         ))}
-      {resultsState === ResultsState.Empty && (
-        <EmptyState
-          title={{ id: "view.name.phone.contacts.emptyList.title" }}
-          description={{
-            id: "view.name.phone.contacts.emptyList.emptyPhonebook.description",
-          }}
-        />
-      )}
+      {resultsState === ResultsState.Empty ||
+        (resultsState === ResultsState.Error && (
+          <EmptyState
+            title={{ id: "view.name.phone.contacts.emptyList.title" }}
+            description={{
+              id:
+                "view.name.phone.contacts.emptyList.emptyPhonebook.description",
+            }}
+          />
+        ))}
       {resultsState === ResultsState.Loading && <LoadingState />}
     </SelectableContacts>
   )
