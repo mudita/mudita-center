@@ -933,7 +933,7 @@
         ]
       },
       "Thread": {
-        "description": "",
+        "title": "Thread",
         "type": "object",
         "x-examples": {
           "example-1": {
