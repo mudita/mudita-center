@@ -555,7 +555,7 @@
     },
     "/threads": {
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "Get threads list",
         "tags": [
           "threads"
         ],
@@ -712,7 +712,7 @@
     },
     "/messages": {
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "Get messages list",
         "tags": [
           "messages"
         ],
