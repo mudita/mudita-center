@@ -30,8 +30,8 @@ const createEndpoint = <CallerProps, Response>({
   handler,
 }: EndpointRegistrationProperties<CallerProps, Response>) => (
   adapters: Adapters
-) => {
-  ipcMain.answerRenderer<Response>(
+): (() => void) => {
+  return ipcMain.answerRenderer<Response>(
     name,
     handler.bind(null, adapters) as (data: unknown) => any
   )

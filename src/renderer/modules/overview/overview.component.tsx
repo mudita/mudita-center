@@ -1,17 +1,14 @@
-import { random } from "lodash"
-import Button from "Renderer/components/core/button/button.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   Store as BasicInfoInitialState,
   StoreValues as BasicInfoValues,
 } from "Renderer/models/basic-info/basic-info.typings"
-import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
-import React, { ReactElement, useEffect, useState } from "react"
+import { DevMode } from "App/dev-mode/store/dev-mode.interface"
+import React, { ReactElement, useEffect } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
 import { useStore } from "react-redux"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
-import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { AppSettings } from "App/main/store/settings.interface"
 import modalService from "Renderer/components/core/modal/modal.service"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
@@ -71,22 +68,13 @@ const simulateProgress = async (
   )
 }
 
-interface OverviewDevModeProps {
-  enableDevMode: () => void
-  disableDevMode: () => void
-}
-
 const Overview: FunctionComponent<
   BasicInfoInitialState &
     PhoneUpdateStore &
     UpdateBasicInfo &
     AppSettings &
-    OverviewDevModeProps &
     DevMode
 > = ({
-  enableDevMode,
-  disableDevMode,
-  devModeEnabled,
   batteryLevel = 0,
   changeSim = noop,
   disconnectDevice = noop,
@@ -115,23 +103,6 @@ const Overview: FunctionComponent<
   updateBasicInfo = noop,
   language,
 }) => {
-  const [count, setCount] = useState<number>(0)
-  const increaseCount = () => {
-    setCount((state) => state + 1)
-  }
-
-  useEffect(() => {
-    if (count >= random(7, 10)) {
-      setCount(0)
-
-      if (devModeEnabled) {
-        disableDevMode()
-      } else {
-        enableDevMode()
-      }
-    }
-  }, [count])
-
   /**
    * Temporary state to demo failure
    */
@@ -231,39 +202,26 @@ const Overview: FunctionComponent<
   }
 
   return (
-    <>
-      <DevModeWrapper>
-        {/** Totally random data */}
-        <p>Phone signal: 1800Mhz</p>
-        <p>Battery cycles: 99/100</p>
-        <Button onClick={noop} label="Restart phone" />
-        <br />
-        <Button onClick={noop} label="Hard restart phone" />
-        <br />
-        <Button onClick={noop} label="Flush phone data" />
-      </DevModeWrapper>
-      <OverviewUI
-        toggleDevMode={increaseCount}
-        batteryLevel={batteryLevel}
-        changeSim={changeSim}
-        disconnectDevice={disconnectDevice}
-        lastBackup={lastBackup}
-        osVersion={osVersion}
-        osUpdateDate={osUpdateDate}
-        memorySpace={memorySpace}
-        simCards={simCards}
-        networkName={networkName}
-        networkLevel={networkLevel}
-        pureOsAvailable={pureOsAvailable}
-        pureOsDownloaded={pureOsDownloaded}
-        onUpdateCheck={check}
-        onUpdateInstall={install}
-        onUpdateDownload={onUpdateDownload}
-        onOpenBackupModal={openBackupStartModal}
-        onOpenBackupRestorationModal={openBackupRestorationStartModal}
-        language={language}
-      />
-    </>
+    <OverviewUI
+      batteryLevel={batteryLevel}
+      changeSim={changeSim}
+      disconnectDevice={disconnectDevice}
+      lastBackup={lastBackup}
+      osVersion={osVersion}
+      osUpdateDate={osUpdateDate}
+      memorySpace={memorySpace}
+      simCards={simCards}
+      networkName={networkName}
+      networkLevel={networkLevel}
+      pureOsAvailable={pureOsAvailable}
+      pureOsDownloaded={pureOsDownloaded}
+      onUpdateCheck={check}
+      onUpdateInstall={install}
+      onUpdateDownload={onUpdateDownload}
+      onOpenBackupModal={openBackupStartModal}
+      onOpenBackupRestorationModal={openBackupRestorationStartModal}
+      language={language}
+    />
   )
 }
 

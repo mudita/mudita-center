@@ -1,6 +1,6 @@
-jest.mock('pure', () => ({
-  ...jest.requireActual('pure'),
-  default: {}
+jest.mock("pure", () => ({
+  ...jest.requireActual("pure"),
+  default: {},
 }))
 
 const pure = require("pure")

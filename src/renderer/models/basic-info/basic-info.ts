@@ -18,7 +18,6 @@ import {
   SimCard,
   StoreValues,
 } from "Renderer/models/basic-info/basic-info.typings"
-import { basicInfoSeed } from "App/seeds/basic-info"
 
 const initialState = {
   disconnectedDevice: true,
@@ -107,13 +106,6 @@ export default {
 
         dispatch.basicInfo.loadData()
       }
-    },
-    async fakeConnect() {
-      dispatch.basicInfo.update({
-        disconnectedDevice: false,
-      })
-      dispatch.basicInfo.update(basicInfoSeed)
-      dispatch.basicInfo.setResultsState(ResultsState.Loaded)
     },
     async disconnect() {
       const disconnectInfo = await disconnectDevice()

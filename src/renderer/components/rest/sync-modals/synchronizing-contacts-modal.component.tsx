@@ -22,41 +22,24 @@ const LoadingBar = styled(StackedBarChart)`
 `
 
 interface BackupLoadingModalProps {
-  onSuccess: () => void
-  onFailure: () => void
   body: MessageInterface
   subtitle: MessageInterface
-  failed?: boolean
   icon: Type
   title?: string
   closeButtonLabel?: ButtonProps["label"]
 }
 
 export const SynchronizingContactsModal: FunctionComponent<BackupLoadingModalProps> = ({
-  onSuccess,
-  onFailure,
-  failed,
   title,
   body,
   subtitle,
   closeButtonLabel,
   icon,
 }) => {
-  const countdown = setTimeout(() => {
-    if (failed) {
-      onFailure()
-    } else {
-      onSuccess()
-    }
-  }, 1500)
-
-  const cancelCountdown = () => clearTimeout(countdown)
-
   return (
     <Modal
       size={ModalSize.Small}
       title={title}
-      onClose={cancelCountdown}
       closeButtonLabel={closeButtonLabel}
     >
       <ModalIcon>

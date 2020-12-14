@@ -304,29 +304,4 @@ describe("redux tests", () => {
     const newState = store.getState().phone
     expect(newState.collection.indexOf(contactToDelete) === -1).toBeTruthy()
   })
-
-  test("properly updates contacts", () => {
-    const id = "12121"
-    const contactToUpdate = [
-      {
-        id,
-        firstName: "John",
-        lastName: "Malysz",
-        primaryPhoneNumber: "+123 123 123 123",
-        secondaryPhoneNumber: "",
-        email: "",
-        note: "",
-        ice: false,
-        favourite: false,
-        blocked: false,
-        firstAddressLine: "",
-        secondAddressLine: "",
-      },
-    ]
-    const contactReadyToUpdate = contactDatabaseFactory(contactToUpdate)
-    store.dispatch.phone.updateContacts(contactReadyToUpdate)
-    const state = store.getState()
-    expect(state.phone.collection).toHaveLength(phoneSeed.collection.length + 1)
-    expect(state.phone.db[id]).toBeDefined()
-  })
 })
