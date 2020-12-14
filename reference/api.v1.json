@@ -713,7 +713,9 @@
     "/messages": {
       "get": {
         "summary": "Your GET endpoint",
-        "tags": [],
+        "tags": [
+          "messages"
+        ],
         "operationId": "get-messages",
         "requestBody": {
           "content": {
@@ -1036,6 +1038,9 @@
   "tags": [
     {
       "name": "threads"
+    },
+    {
+      "name": "messages"
     }
   ]
 }
