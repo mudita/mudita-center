@@ -107,6 +107,14 @@ export default {
         collection: [...state.collection, ...contacts.collection],
       }
     },
+    _devClearAllContacts(state: PhoneState) {
+      return {
+        ...state,
+        db: {},
+        collection: [],
+        resultsState: ResultsState.Empty,
+      }
+    },
   },
   /**
    * All these side effects are just for show, since we don't know anything

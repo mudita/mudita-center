@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react"
-import Button from "Renderer/components/core/button/button.component"
 import ContactList from "Renderer/components/rest/phone/contact-list.component"
 import ContactPanel, {
   ContactPanelProps,
@@ -27,7 +26,6 @@ import modalService from "Renderer/components/core/modal/modal.service"
 import SpeedDialModal from "Renderer/components/rest/phone/speed-dial-modal.container"
 import BlockContactModal from "Renderer/components/rest/phone/block-contact-modal.component"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
-import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "App/renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "Renderer/modules/phone/phone.styled"
@@ -111,6 +109,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     phoneNumber !== "" && activeContact === undefined
       ? { ...defaultContact, primaryPhoneNumber: phoneNumber }
       : undefined
+
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Contact>(
     activeContact
   )
@@ -118,7 +117,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     initNewContact
   )
   const [editedContact, setEditedContact] = useState<Contact>()
-  const [contacts, setContacts] = useState(contactList)
+
   const authorizeAndLoadContacts = async (provider: Provider) => {
     try {
       if (provider) {
@@ -140,7 +139,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     toggleAll,
     resetRows,
     ...rest
-  } = useTableSelect<Contact, ContactCategory>(contacts, "contacts")
+  } = useTableSelect<Contact, ContactCategory>(contactList, "contacts")
   const detailsEnabled = activeRow && !newContact && !editedContact
 
   useEffect(() => {
@@ -175,10 +174,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       firstRendered.current = true
     }
   }, [resultsState])
-
-  useEffect(() => {
-    setContacts(contactList)
-  }, [contactList])
 
   useEffect(() => {
     if (editedContact) {
@@ -505,19 +500,8 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     )
   }
 
-  const _devClearContacts = () => setContacts([])
-  const _devLoadDefaultContacts = () => setContacts(contactList)
   return (
     <>
-      <DevModeWrapper>
-        <p>Messages on list: {contacts.length}</p>
-        <Button onClick={_devClearContacts} label="Remove all contacts" />
-        <br />
-        <Button
-          onClick={_devLoadDefaultContacts}
-          label="Load default contact list"
-        />
-      </DevModeWrapper>
       <ContactSection>
         <ContactPanel
           onSearchTermChange={onSearchTermChange}
@@ -533,7 +517,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         <TableWithSidebarWrapper>
           <ContactList
             activeRow={activeRow}
-            contactList={contacts}
+            contactList={contactList}
             onSelect={openSidebar}
             onExport={noop}
             onForward={noop}

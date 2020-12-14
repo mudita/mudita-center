@@ -78,7 +78,7 @@ const mapDispatch = ({ phone, auth }: any) => {
         logger.error(error)
         return error?.message ?? "Something went wrong"
       } else {
-        phone.updateContact(data)
+        phone.editContact(data)
       }
     },
     deleteContacts: async (ids: ContactID[]): Promise<string | void> => {

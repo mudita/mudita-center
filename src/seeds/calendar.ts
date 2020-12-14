@@ -1,5 +1,7 @@
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
-import { initialState } from "Renderer/models/calendar/calendar"
+import {
+  CalendarEvent,
+  CalendarState,
+} from "Renderer/models/calendar/calendar.interfaces"
 
 export const eventsData: CalendarEvent[] = [
   {
@@ -76,7 +78,7 @@ export const eventsData: CalendarEvent[] = [
   },
 ]
 
-export const calendarSeed = {
-  ...initialState,
+export const calendarSeed: CalendarState = {
   events: eventsData,
+  calendars: [],
 }
