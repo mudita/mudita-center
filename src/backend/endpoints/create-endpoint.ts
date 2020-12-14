@@ -29,11 +29,11 @@ const createEndpoint = <CallerProps, Response>({
   name,
   handler,
 }: EndpointRegistrationProperties<CallerProps, Response>) => (
-  adapters: Adapters,
+  adapters: Adapters
 ): (() => void) => {
   return ipcMain.answerRenderer<Response>(
     name,
-    handler.bind(null, adapters) as (data: unknown) => any,
+    handler.bind(null, adapters) as (data: unknown) => any
   )
 }
 

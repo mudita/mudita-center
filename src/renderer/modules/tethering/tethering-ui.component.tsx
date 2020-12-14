@@ -11,10 +11,10 @@ interface TetheringProps {
 }
 
 const TetheringUI: FunctionComponent<TetheringProps> = ({
-                                                          disconnectedDevice,
-                                                          tetheringEnabled,
-                                                          onToggleTethering,
-                                                        }) => (
+  disconnectedDevice,
+  tetheringEnabled,
+  onToggleTethering,
+}) => (
   <>
     {disconnectedDevice ? (
       <PureDisconnected />

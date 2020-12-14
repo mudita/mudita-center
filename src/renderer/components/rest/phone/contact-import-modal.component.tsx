@@ -122,7 +122,10 @@ const ContactImportModal: FunctionComponent<Props> = ({
         <TableContent>
           {contacts.map((row, index) => (
             <React.Fragment key={index}>
-              <SingleRow data={row} data-testid={ContactImportModalTestIds.ContactRow} />
+              <SingleRow
+                data={row}
+                data-testid={ContactImportModalTestIds.ContactRow}
+              />
             </React.Fragment>
           ))}
         </TableContent>
