@@ -75,7 +75,7 @@ const Dropdown: FunctionComponent<Props> = ({
   const [reversedPosition, setReversedPosition] = useState(false)
   const ref = useRef<HTMLUListElement>(null)
 
-  useOutsideClick(ref, () => {
+  const closeDropdown = () => {
     if (visible) {
       setVisible(false)
       setReversedPosition(false)
@@ -83,7 +83,9 @@ const Dropdown: FunctionComponent<Props> = ({
         onClose()
       }
     }
-  })
+  }
+
+  useOutsideClick(ref, closeDropdown)
 
   const calculateVerticalPosition = () => {
     if (ref.current) {
@@ -94,15 +96,16 @@ const Dropdown: FunctionComponent<Props> = ({
 
   return (
     <DropdownWrapper visible={visible} className={className}>
-      {React.cloneElement(toggler as React.ReactElement, {
-        onClick: () => {
-          calculateVerticalPosition()
-          setVisible(!visible)
-          if (onOpen) {
-            onOpen()
-          }
-        },
-      })}
+      {React.isValidElement(toggler) &&
+        React.cloneElement(toggler, {
+          onClick: () => {
+            calculateVerticalPosition()
+            setVisible(!visible)
+            if (onOpen) {
+              onOpen()
+            }
+          },
+        })}
       <DropdownList
         reversedPosition={reversedPosition}
         dropdownPosition={dropdownPosition}
@@ -110,7 +113,18 @@ const Dropdown: FunctionComponent<Props> = ({
         visible={visible}
         data-testid="dropdown"
       >
-        {children}
+        {React.Children.map(children, (child) => {
+          if (!React.isValidElement(child)) {
+            return child
+          } else {
+            return React.cloneElement(child, {
+              onClick: () => {
+                child.props.onClick()
+                closeDropdown()
+              },
+            })
+          }
+        })}
       </DropdownList>
     </DropdownWrapper>
   )
