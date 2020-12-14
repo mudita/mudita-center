@@ -7,8 +7,6 @@ import PureDeviceManager from "pure"
 import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 
-jest.mock("pure")
-
 const adapters = ({
   phonebook: createPhonebook(
     new MockPureNodeService(PureDeviceManager, ipcMain)

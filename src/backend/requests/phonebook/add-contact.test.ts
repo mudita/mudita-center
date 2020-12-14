@@ -4,8 +4,6 @@ import registerAddContactRequest from "Backend/requests/phonebook/add-contact.re
 import { newContact, pureContactId } from "Backend/mock-device-service"
 import { adapters } from "Backend/requests/phonebook/phonebook-adapters"
 
-jest.mock("pure")
-
 test("adds contact properly", async () => {
   registerAddContactRequest(adapters)
 

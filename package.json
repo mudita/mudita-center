@@ -54,7 +54,8 @@
     "PURE LIB COMMANDS": "=================================================",
     "pure:install": "npm --prefix pure install",
     "pure:build": "npm --prefix pure run build",
-    "pure:lint-staged": "npm --prefix pure run lint-staged"
+    "pure:lint-staged": "npm --prefix pure run lint-staged",
+    "pure:command": "npm --prefix pure run command --"
   },
   "build": {
     "publish": {

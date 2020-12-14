@@ -187,7 +187,9 @@ export const getSortedContactList = ({ collection, db }: Phone) => {
   const contacts = collection.map((item) => db[item])
 
   const sortedContacts = contacts.sort((a, b) => {
-    return createFullName(a).localeCompare(createFullName(b))
+    const sortTextA = a.lastName || a.firstName || ""
+    const sortTextB = b.lastName || b.firstName || ""
+    return sortTextA.localeCompare(sortTextB)
   })
 
   for (const contact of sortedContacts) {
@@ -203,7 +205,7 @@ export const getSortedContactList = ({ collection, db }: Phone) => {
 
     if (firstName || lastName) {
       const groupLetter = deburr(
-        firstName?.charAt(0) || lastName?.charAt(0)
+        lastName?.charAt(0) || firstName?.charAt(0)
       ).toUpperCase()
 
       if (/[A-Z]/.test(groupLetter)) {
