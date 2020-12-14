@@ -92,9 +92,9 @@ class ContextMenu {
               ({ devModeOnly, labelCreator, ...options }) => ({
                 label: labelCreator ? labelCreator() : options.label,
                 ...options,
-              }),
+              })
             ),
-          }),
+          })
         )
       }
     }
@@ -111,7 +111,7 @@ class ContextMenu {
           } developer mode`,
           click: this.devModeToggler,
           accelerator: AppHotkeys.DevMode,
-        }),
+        })
       )
     }
 
@@ -123,7 +123,7 @@ class ContextMenu {
       new electron.remote.MenuItem({
         label: "Toggle Developer Tools",
         role: "toggleDevTools",
-      }),
+      })
     )
   }
 
@@ -147,7 +147,7 @@ class ContextMenu {
 
       if (menuItems.some((item) => item.label === newItem.label)) {
         console.warn(
-          `Duplicate found during registering custom context menu items. "${mainLabel}" > "${newItem.label}" already exists.`,
+          `Duplicate found during registering custom context menu items. "${mainLabel}" > "${newItem.label}" already exists.`
         )
       }
 

@@ -9,14 +9,13 @@ class Backend {
   constructor(
     private adapters: Adapters,
     private fakeAdapters: Adapters,
-    private requests: Array<(adapters: Adapters) => EndpointRemover>,
-  ) {
-  }
+    private requests: Array<(adapters: Adapters) => EndpointRemover>
+  ) {}
 
   private registerEndpoints() {
     this.requests.forEach((register) => {
       const unregister = register(
-        this.usingFakeAdapters ? this.fakeAdapters : this.adapters,
+        this.usingFakeAdapters ? this.fakeAdapters : this.adapters
       )
       this.endpointsRemovers.push(unregister)
     })
