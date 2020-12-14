@@ -555,8 +555,10 @@
     },
     "/threads": {
       "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
+        "summary": "Get threads list",
+        "tags": [
+          "threads"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -710,8 +712,10 @@
     },
     "/messages": {
       "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
+        "summary": "Get messages list",
+        "tags": [
+          "messages"
+        ],
         "operationId": "get-messages",
         "requestBody": {
           "content": {
@@ -914,6 +918,9 @@
         },
         "required": [
           "id"
+        ],
+        "x-tags": [
+          "contacts"
         ]
       },
       "Thread": {
@@ -962,6 +969,9 @@
           "messageIds",
           "unread",
           "phone"
+        ],
+        "x-tags": [
+          "threads"
         ]
       },
       "Message": {
@@ -994,41 +1004,20 @@
           "date",
           "content",
           "interlocutor"
+        ],
+        "x-tags": [
+          "messages"
         ]
       }
     },
-    "responses": {
-      "response": {
-        "description": "Example response",
-        "content": {
-          "application/json": {
-            "schema": {
-              "description": "",
-              "type": "object",
-              "properties": {
-                "body": {
-                  "type": "object"
-                },
-                "endpoint": {
-                  "type": "number"
-                },
-                "status": {
-                  "type": "number"
-                },
-                "uuid": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "body",
-                "endpoint",
-                "status",
-                "uuid"
-              ]
-            }
-          }
-        }
-      }
+    "responses": {}
+  },
+  "tags": [
+    {
+      "name": "threads"
+    },
+    {
+      "name": "messages"
     }
-  }
+  ]
 }
