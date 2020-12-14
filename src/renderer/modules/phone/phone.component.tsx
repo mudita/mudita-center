@@ -32,8 +32,6 @@ import { ContactSection } from "Renderer/modules/phone/phone.styled"
 import { AuthProviders } from "Renderer/models/auth/auth.typings"
 import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import Modal from "Renderer/components/core/modal/modal.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
@@ -52,6 +50,8 @@ import parseVcf from "Renderer/modules/phone/helpers/parseVcf/parse-vcf"
 import ImportContactsModal from "Renderer/components/rest/sync-modals/import-contacts-modal.component"
 import ImportingContactsModal from "Renderer/components/rest/sync-modals/importing-contacts-modal.component"
 import logger from "App/main/utils/logger"
+import ContactImportModal from "App/renderer/components/rest/phone/contact-import-modal.component"
+import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
 
 export const messages = defineMessages({
   deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -75,9 +75,11 @@ export type PhoneProps = ContactActions &
     onManageButtonClick: (cb?: any) => Promise<void>
     isTopicThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
+    authorize: (provider: Provider) => Promise<string | undefined>
     addNewContact: (contact: NewContact) => Promise<string | void>
     editContact: (contact: Contact) => Promise<string | void>
     deleteContacts: (ids: ContactID[]) => Promise<string | void>
+    loadContacts: (provider: Provider) => Promise<Contact[]>
   } & Store
 
 const Phone: FunctionComponent<PhoneProps> = (props) => {
@@ -97,6 +99,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     savingContact,
     isTopicThreadOpened,
     resultsState,
+    authorize,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -118,11 +121,13 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const authorizeAndLoadContacts = async (provider: Provider) => {
     try {
       if (provider) {
-        await delayResponse(loadContacts(provider))
+        await authorize(provider)
+        await delayResponse(openProgressSyncModal(), 1000)
+        const contactsToImport = await loadContacts(provider)
+        await openSuccessSyncModal(contactsToImport)
       }
-      await openProgressSyncModal()
     } catch {
-      await openFailureSyncModal()
+      await openAuthorizationFailedModal(provider)
     }
   }
 
@@ -379,19 +384,37 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     modalService.openModal(<SpeedDialModal onSave={closeModal} />)
   }
 
-  const openSuccessSyncModal = async () => {
-    // TODO: Replace it with correct modal for success state when its done by design
-    await closeModal()
+  const openSuccessSyncModal = async (contacts: Contact[]) => {
+    const onActionButtonClick = async (chosenContacts: NewContact[]) => {
+      await modalService.openModal(
+        <LoadingStateDataModal textMessage={messages.addingText} />,
+        true
+      )
+      for (const chosenContact of chosenContacts) {
+        const error = await addNewContact(chosenContact)
+        if (error) {
+          await modalService.openModal(<ErrorDataModal />, true)
+          break
+        }
+      }
+      await modalService.closeModal()
+    }
+    await modalService.closeModal()
     await modalService.openModal(
-      <Modal title={"Success"} size={ModalSize.Small} />
+      <ContactImportModal
+        contacts={contacts}
+        onActionButtonClick={onActionButtonClick}
+      />
     )
   }
 
-  const openFailureSyncModal = async () => {
-    // TODO: Replace it with correct modal for failure state when its done by design
-    await closeModal()
-    await modalService.openModal(
-      <Modal title={"Failure"} size={ModalSize.Small} />
+  const openAuthorizationFailedModal = async (provider: Provider) => {
+    await modalService.closeModal()
+    modalService.openModal(
+      <AuthorizationFailedModal
+        provider={provider as Provider}
+        onActionButtonClick={loadGoogleContacts}
+      />
     )
   }
 
@@ -408,8 +431,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
         closeButtonLabel={intl.formatMessage({
           id: "view.generic.button.cancel",
         })}
-        onFailure={openFailureSyncModal}
-        onSuccess={openSuccessSyncModal}
         icon={Type.SynchronizeContacts}
       />
     )

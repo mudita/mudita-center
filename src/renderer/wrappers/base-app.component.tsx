@@ -32,7 +32,7 @@ interface Props {
 }
 
 const BaseApp: FunctionComponent<Props> = ({
-  connected,
+                                             connected,
   toggleDisconnectedDevice,
   store,
   history,

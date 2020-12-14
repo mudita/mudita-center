@@ -140,13 +140,16 @@ export default {
         dispatch.phone.setResultsState(ResultsState.Loaded)
       }
     },
-    async loadContacts(provider: Provider) {
-      let contacts: Contact[]
-
+    authorize(provider: Provider) {
       switch (provider) {
         case Provider.Google:
-          contacts = await externalProvidersStore.dispatch.google.getContacts()
-          dispatch.phone.updateContacts(contactDatabaseFactory(contacts))
+          externalProvidersStore.dispatch.google.authorize()
+          break
+        // TODO: update when adding new providers
+        case Provider.Apple:
+          break
+        case Provider.Microsoft:
+          break
       }
     },
   }),

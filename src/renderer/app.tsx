@@ -19,7 +19,7 @@ ReactDOM.render(
   <AppContainer>
     <RootWrapper store={store} history={history} />
   </AppContainer>,
-  mainElement
+  mainElement,
 )
 
 // Setup modal service

@@ -23,13 +23,13 @@ export default {
   reducers: {
     changeSearchValue(
       state: MessagesState,
-      searchValue: MessagesState["searchValue"]
+      searchValue: MessagesState["searchValue"],
     ) {
       return { ...state, searchValue }
     },
     changeVisibilityFilter(
       state: MessagesState,
-      visibilityFilter: MessagesState["visibilityFilter"]
+      visibilityFilter: MessagesState["visibilityFilter"],
     ) {
       return { ...state, visibilityFilter }
     },
@@ -96,7 +96,7 @@ export default {
         const callers: Caller[] = models.messages.getAllCallers(state)
         return (phoneNumber: string) => {
           return !callers.some((caller) =>
-            isCallerMatchingPhoneNumber(caller, phoneNumber)
+            isCallerMatchingPhoneNumber(caller, phoneNumber),
           )
         }
       }

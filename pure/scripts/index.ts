@@ -12,7 +12,7 @@ require("yargs")
         type: "string",
       })
     },
-    request
+    request,
   )
   .command(
     "requests <request-configs-string>",
@@ -23,6 +23,6 @@ require("yargs")
         type: "string",
       })
     },
-    requests
+    requests,
   )
   .help().argv

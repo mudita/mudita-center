@@ -12,7 +12,7 @@ const renderer = () => {
   return renderWithThemeAndIntl(
     <HelpApp
       history={createMemoryHistory({ initialEntries: [URL_MAIN.help] })}
-    />
+    />,
   )
 }
 
@@ -32,7 +32,7 @@ beforeEach(() =>
   (useHelpSearch as jest.Mock).mockReturnValue({
     data,
     searchQuestion: jest.fn(),
-  })
+  }),
 )
 afterEach(() => (useHelpSearch as jest.Mock).mockRestore())
 

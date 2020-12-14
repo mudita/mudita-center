@@ -1,8 +1,8 @@
-jest.mock('usb', () => ({
+jest.mock("usb", () => ({
   __esModule: true,
   default: {
-    on: jest.fn
-  }
+    on: jest.fn,
+  },
 }))
 
 const usb = require("usb")

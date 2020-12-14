@@ -25,7 +25,7 @@ const HelpApp: FunctionComponent<Props> = ({
     searchQuestion(searchInputValue)
   }, [searchInputValue])
   const AnswerComponent = (
-    props: RouteComponentProps<{ questionId: string }>
+    props: RouteComponentProps<{ questionId: string }>,
   ) => renderAnswer(data, props)
 
   useEffect(() => {
