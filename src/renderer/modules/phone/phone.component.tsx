@@ -65,7 +65,7 @@ export const messages = defineMessages({
 })
 
 export type PhoneProps = ContactActions &
-  ContactPanelProps &
+  Omit<ContactPanelProps, "onContactSelect"> &
   ContactDetailsActions & {
     onSpeedDialSettingsSave: (contacts?: Contact[]) => void
     getContact: (id: ContactID) => Contact
