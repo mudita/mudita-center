@@ -180,7 +180,7 @@
         }
       },
       "put": {
-        "summary": "",
+        "summary": "Put contact list",
         "operationId": "put-contacts",
         "responses": {
           "200": {
@@ -309,10 +309,13 @@
             }
           }
         },
-        "description": ""
+        "description": "",
+        "tags": [
+          "contacts"
+        ]
       },
       "post": {
-        "summary": "",
+        "summary": "Post contact list",
         "operationId": "post-contacts",
         "responses": {
           "200": {
@@ -440,10 +443,13 @@
               }
             }
           }
-        }
+        },
+        "tags": [
+          "contacts"
+        ]
       },
       "delete": {
-        "summary": "",
+        "summary": "Delete contact list",
         "operationId": "delete-contacts",
         "responses": {
           "200": {
@@ -550,7 +556,10 @@
               }
             }
           }
-        }
+        },
+        "tags": [
+          "contacts"
+        ]
       }
     },
     "/threads": {
@@ -924,7 +933,7 @@
         ]
       },
       "Thread": {
-        "description": "",
+        "title": "Thread",
         "type": "object",
         "x-examples": {
           "example-1": {
@@ -1018,6 +1027,9 @@
     },
     {
       "name": "messages"
+    },
+    {
+      "name": "contacts"
     }
   ]
 }
