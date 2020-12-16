@@ -17,8 +17,6 @@ import MessageBubble from "Renderer/components/rest/messages/message-bubble.comp
 import { createFullName } from "Renderer/models/phone/phone.helpers"
 import {
   backgroundColor,
-  transitionTime,
-  transitionTimingFunction,
 } from "Renderer/styles/theming/theme-getters"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { intl } from "Renderer/utils/intl"

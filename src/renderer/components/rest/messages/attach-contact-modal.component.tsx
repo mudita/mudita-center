@@ -1,4 +1,4 @@
-import React, { Ref, useEffect, useRef, useState } from "react"
+import React, { Ref } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { intl } from "Renderer/utils/intl"
@@ -28,7 +28,11 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import ContactInputSearch from "Renderer/components/rest/phone/contact-input-search.component"
+import ContactInputSearch, {
+  ContactInputSearchProvider,
+  ContactListContainer,
+} from "Renderer/components/rest/phone/contact-input-search.component"
+import { noop } from "Renderer/utils/noop"
 
 interface Props {
   list: ContactCategory[]
@@ -71,114 +75,87 @@ const InitialsAvatar = styled(Avatar)`
   margin-right: 1.2rem;
 `
 
-const ListWrapper = styled.div`
+const ListWrapper = styled(ContactListContainer)`
   height: 50rem;
   overflow: scroll;
 `
 
 const AttachContactModal: FunctionComponent<Props> = ({ list, flatList }) => {
-  const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
-  const listRef = useRef<HTMLDivElement>()
-  const highlightActiveEventTimeout = useRef<NodeJS.Timeout>()
-  useEffect(() => {
-    if (selectedContact) {
-      let contactIndex = -1
-      const categoryIndex = list.findIndex(({ contacts }) => {
-        contactIndex = contacts.indexOf(selectedContact)
-        return contactIndex !== -1
-      })
-
-      if (categoryIndex >= 0) {
-        listRef.current?.children[categoryIndex].children[
-          contactIndex
-          ].scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        })
-
-        highlightActiveEventTimeout.current = setTimeout(() => {
-          setSelectedContact(null)
-        }, 3500)
-      }
-    }
-    return () => {
-      if (highlightActiveEventTimeout.current) {
-        clearTimeout(highlightActiveEventTimeout.current)
-      }
-    }
-  }, [selectedContact])
-
   return (
     <Modal title={"Attach Contact"} closeButton={false}>
-      <ContactInputSearch
-        contacts={flatList}
-        onContactSelect={setSelectedContact}
-      />
-      <ListWrapper ref={listRef}>
-        {list.map(({ category, contacts }) => {
-          return (
-            <ContactGroup key={category}>
-              <GroupLabel>
-                <Col>{category}</Col>
-              </GroupLabel>
-              {contacts.map((contact) => {
-                const fullName = createFullName(contact)
-                const phoneNumber =
-                  contact.primaryPhoneNumber || contact.secondaryPhoneNumber
+      <ContactInputSearchProvider contactList={list}>
+        <ContactInputSearch contacts={flatList} onContactSelect={noop} />
+        <ListWrapper>
+          {list.map(({ category, contacts }) => {
+            return (
+              <ContactGroup key={category}>
+                <GroupLabel>
+                  <Col>{category}</Col>
+                </GroupLabel>
+                {contacts.map((contact) => {
+                  const fullName = createFullName(contact)
+                  const phoneNumber =
+                    contact.primaryPhoneNumber || contact.secondaryPhoneNumber
 
-                const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-                  <Row ref={ref}>
-                    <ClickableCol
-                      data-testid={ContactListTestIdsEnum.ContactRow}
-                    >
-                      <InitialsAvatar user={contact} size={AvatarSize.Small} />
-                      {fullName ||
-                        intl.formatMessage({
-                          id: "view.name.phone.contacts.list.unnamedContact",
-                        })}
-                      {contact.blocked && <BlockedIcon width={2} height={2} />}
-                    </ClickableCol>
-                    <Col>{contact.firstAddressLine}</Col>
-                    <Col>{contact.email}</Col>
-                    <Col>{contact.primaryPhoneNumber}</Col>
-                    <Col>
-                      {contact.primaryPhoneNumber &&
-                        contact.secondaryPhoneNumber && (
-                          <MoreNumbers>+1</MoreNumbers>
-                        )}
-                    </Col>
-                  </Row>
-                )
-
-                const placeholderRow = (ref: Ref<HTMLDivElement>) => {
-                  return (
+                  const interactiveRow = (ref: Ref<HTMLDivElement>) => (
                     <Row ref={ref}>
-                      <Col />
-                      <Col>
-                        <AvatarPlaceholder />
-                        <TextPlaceholder charsCount={fullName.length} />
-                      </Col>
-                      <Col>
-                        {phoneNumber && (
-                          <TextPlaceholder charsCount={phoneNumber.length} />
+                      <ClickableCol
+                        data-testid={ContactListTestIdsEnum.ContactRow}
+                      >
+                        <InitialsAvatar
+                          user={contact}
+                          size={AvatarSize.Small}
+                        />
+                        {fullName ||
+                          intl.formatMessage({
+                            id: "view.name.phone.contacts.list.unnamedContact",
+                          })}
+                        {contact.blocked && (
+                          <BlockedIcon width={2} height={2} />
                         )}
+                      </ClickableCol>
+                      <Col>{contact.firstAddressLine}</Col>
+                      <Col>{contact.email}</Col>
+                      <Col>{contact.primaryPhoneNumber}</Col>
+                      <Col>
+                        {contact.primaryPhoneNumber &&
+                          contact.secondaryPhoneNumber && (
+                            <MoreNumbers>+1</MoreNumbers>
+                          )}
                       </Col>
                     </Row>
                   )
-                }
 
-                return (
-                  <InView key={category + contact.id}>
-                    {({ inView, ref }) =>
-                      inView ? interactiveRow(ref) : placeholderRow(ref)
-                    }
-                  </InView>
-                )
-              })}
-            </ContactGroup>
-          )
-        })}
-      </ListWrapper>
+                  const placeholderRow = (ref: Ref<HTMLDivElement>) => {
+                    return (
+                      <Row ref={ref}>
+                        <Col />
+                        <Col>
+                          <AvatarPlaceholder />
+                          <TextPlaceholder charsCount={fullName.length} />
+                        </Col>
+                        <Col>
+                          {phoneNumber && (
+                            <TextPlaceholder charsCount={phoneNumber.length} />
+                          )}
+                        </Col>
+                      </Row>
+                    )
+                  }
+
+                  return (
+                    <InView key={category + contact.id}>
+                      {({ inView, ref }) =>
+                        inView ? interactiveRow(ref) : placeholderRow(ref)
+                      }
+                    </InView>
+                  )
+                })}
+              </ContactGroup>
+            )
+          })}
+        </ListWrapper>
+      </ContactInputSearchProvider>
     </Modal>
   )
 }
