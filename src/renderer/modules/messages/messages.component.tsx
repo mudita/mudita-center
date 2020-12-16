@@ -25,7 +25,7 @@ import { useHistory } from "react-router-dom"
 import createRouterPath from "Renderer/utils/create-router-path"
 import { URL_MAIN } from "Renderer/constants/urls"
 import AttachContactModal from "Renderer/components/rest/messages/attach-contact-modal.component"
-import { ContactCategory } from "Renderer/models/phone/phone.typings"
+import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
@@ -36,6 +36,7 @@ const deleteModalMessages = defineMessages({
 
 interface Props extends MessagesProps, Pick<AppSettings, "language"> {
   attachContactList: ContactCategory[]
+  attachContactFlatList: Contact[]
 }
 
 const Messages: FunctionComponent<Props> = ({
@@ -49,6 +50,7 @@ const Messages: FunctionComponent<Props> = ({
   toggleReadStatus = noop,
   language,
   attachContactList,
+  attachContactFlatList,
 }) => {
   const [messagesList, setMessagesList] = useState(list)
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Topic>(
@@ -123,7 +125,7 @@ const Messages: FunctionComponent<Props> = ({
 
   const openAttachContactModal = () => {
     modalService.openModal(
-      <AttachContactModal list={attachContactList} />,
+      <AttachContactModal flatList={attachContactFlatList} list={attachContactList} />,
       true
     )
   }

@@ -1,12 +1,8 @@
-import React, { Ref } from "react"
+import React, { Ref, useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
-import {
-  InputText,
-  searchIcon,
-} from "Renderer/components/core/input-text/input-text.elements"
 import { intl } from "Renderer/utils/intl"
-import { ContactCategory } from "Renderer/models/phone/phone.typings"
+import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
 import {
   Col,
   Group,
@@ -32,9 +28,11 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import ContactInputSearch from "Renderer/components/rest/phone/contact-input-search.component"
 
 interface Props {
   list: ContactCategory[]
+  flatList: Contact[]
 }
 
 const GroupLabel = styled(Labels)`
@@ -73,29 +71,50 @@ const InitialsAvatar = styled(Avatar)`
   margin-right: 1.2rem;
 `
 
-const SearchInput = styled(InputText)`
-  width: 38rem;
-  margin-bottom: 3rem;
-`
-
 const ListWrapper = styled.div`
   height: 50rem;
   overflow: scroll;
 `
 
-const AttachContactModal: FunctionComponent<Props> = ({ list }) => {
-  console.log("list: ", JSON.stringify(list))
+const AttachContactModal: FunctionComponent<Props> = ({ list, flatList }) => {
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
+  const listRef = useRef<HTMLDivElement>()
+  const highlightActiveEventTimeout = useRef<NodeJS.Timeout>()
+  useEffect(() => {
+    if (selectedContact) {
+      let contactIndex = -1
+      const categoryIndex = list.findIndex(({ contacts }) => {
+        contactIndex = contacts.indexOf(selectedContact)
+        return contactIndex !== -1
+      })
+
+      if (categoryIndex >= 0) {
+        listRef.current?.children[categoryIndex].children[
+          contactIndex
+          ].scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        })
+
+        highlightActiveEventTimeout.current = setTimeout(() => {
+          setSelectedContact(null)
+        }, 3500)
+      }
+    }
+    return () => {
+      if (highlightActiveEventTimeout.current) {
+        clearTimeout(highlightActiveEventTimeout.current)
+      }
+    }
+  }, [selectedContact])
+
   return (
     <Modal title={"Attach Contact"} closeButton={false}>
-      <SearchInput
-        type={"search"}
-        label={intl.formatMessage({
-          id: "view.name.messages.search",
-        })}
-        outlined
-        leadingIcons={[searchIcon]}
+      <ContactInputSearch
+        contacts={flatList}
+        onContactSelect={setSelectedContact}
       />
-      <ListWrapper>
+      <ListWrapper ref={listRef}>
         {list.map(({ category, contacts }) => {
           return (
             <ContactGroup key={category}>

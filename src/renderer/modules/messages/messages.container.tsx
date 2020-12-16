@@ -8,6 +8,7 @@ import { select } from "Renderer/store"
 const selector = select(({ messages, phone }) => ({
   list: messages.filteredList,
   attachContactList: phone.contactList,
+  attachContactFlatList: phone.flatList,
 }))
 
 const mapStateToProps = (state: RootModel) => ({
