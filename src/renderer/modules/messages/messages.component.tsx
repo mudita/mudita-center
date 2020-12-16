@@ -125,7 +125,10 @@ const Messages: FunctionComponent<Props> = ({
 
   const openAttachContactModal = () => {
     modalService.openModal(
-      <AttachContactModal flatList={attachContactFlatList} list={attachContactList} />,
+      <AttachContactModal
+        contactFlatList={attachContactFlatList}
+        contactList={attachContactList}
+      />,
       true
     )
   }

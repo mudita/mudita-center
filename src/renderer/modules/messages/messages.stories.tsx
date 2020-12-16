@@ -12,7 +12,10 @@ import {
   mockedTemplateData,
   extendedTemplateData,
 } from "Renderer/modules/messages/__mocks__/template-modal-data"
-import { attachContactListData } from "Renderer/modules/messages/__mocks__/attach-contact-list-data"
+import {
+  attachContactFlatListData,
+  attachContactListData,
+} from "Renderer/modules/messages/__mocks__/attach-contact-list-data"
 
 storiesOf("Views|Messages", module).add("Messages", () => (
   <div style={{ maxWidth: "97.5rem" }}>
@@ -21,6 +24,7 @@ storiesOf("Views|Messages", module).add("Messages", () => (
       list={rowsMessages}
       searchValue={""}
       attachContactList={attachContactListData}
+      attachContactFlatList={attachContactFlatListData}
     />
   </div>
 ))
@@ -45,7 +49,23 @@ storiesOf("Views|Messages/Modals", module)
   .add("Attach contact", () => {
     return (
       <div style={{ maxWidth: "97.5rem" }}>
-        <AttachContactModal list={attachContactListData} />
+        <ModalWrapper>
+          <AttachContactModal
+            contactList={attachContactListData}
+            contactFlatList={attachContactFlatListData}
+          />
+        </ModalWrapper>
+        <ModalBackdrop />
+      </div>
+    )
+  })
+  .add("Attach contact - empty list", () => {
+    return (
+      <div style={{ maxWidth: "97.5rem" }}>
+        <ModalWrapper>
+          <AttachContactModal contactList={[]} contactFlatList={[]} />
+        </ModalWrapper>
+        <ModalBackdrop />
       </div>
     )
   })

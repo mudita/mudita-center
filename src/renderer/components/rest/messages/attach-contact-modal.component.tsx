@@ -39,8 +39,8 @@ export const messages = defineMessages({
 })
 
 interface Props {
-  list: ContactCategory[]
-  flatList: Contact[]
+  contactList: ContactCategory[]
+  contactFlatList: Contact[]
 }
 
 const GroupLabel = styled(Labels)`
@@ -84,22 +84,26 @@ const ListWrapper = styled(HighlightContactList)`
   overflow: scroll;
 `
 
-const AttachContactModal: FunctionComponent<Props> = ({ list, flatList }) => {
+const EmptyStateContainer = styled(EmptyState)`
+  padding-top: 3rem;
+`
+
+const AttachContactModal: FunctionComponent<Props> = ({ contactList, contactFlatList }) => {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
 
   return (
-    <Modal title={messages.title} closeButton={false}>
+    <Modal title={intl.formatMessage(messages.title)} closeButton={false}>
       <ContactInputSearch
-        contacts={flatList}
+        contacts={contactFlatList}
         onContactSelect={setSelectedContact}
       />
       <ListWrapper
-        contactList={list}
+        contactList={contactList}
         selectedContact={selectedContact}
         clearSelectedContact={setSelectedContact}
       >
-        {list.length !== 0 &&
-          list.map(({ category, contacts }) => {
+        {contactList.length !== 0 &&
+          contactList.map(({ category, contacts }) => {
             return (
               <ContactGroup key={category}>
                 <GroupLabel>
@@ -165,8 +169,8 @@ const AttachContactModal: FunctionComponent<Props> = ({ list, flatList }) => {
               </ContactGroup>
             )
           })}
-        {list.length === 0 && (
-          <EmptyState
+        {contactList.length === 0 && (
+          <EmptyStateContainer
             title={{ id: "view.name.messages.attachModal.emptyList.title" }}
             description={{
               id: "view.name.messages.attachModal.emptyList.description",
