@@ -168,13 +168,13 @@ export const editContact = (
 }
 
 export const createFullName = ({
-  firstName,
-  lastName,
+  firstName = "",
+  lastName = "",
 }: {
   firstName?: string
   lastName?: string
 }): string => {
-  return `${firstName || ""} ${lastName || ""}`.trim()
+  return `${firstName} ${lastName}`.trim()
 }
 
 export const getSortedContactList = ({ collection, db }: Phone) => {

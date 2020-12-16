@@ -43,7 +43,6 @@ const mapDispatch = ({ phone, auth }: any) => {
   return {
     ...phone,
     ...auth,
-    onSearchTermChange: noop,
     // TODO: Add proper actions
     onExport: noop,
     onForward: noop,
