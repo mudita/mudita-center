@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import ContactList from "Renderer/components/rest/phone/contact-list.component"
 import ContactPanel, {
   ContactPanelProps,
@@ -116,36 +116,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   const [editedContact, setEditedContact] = useState<Contact>()
 
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
-  const contactsListRef = useRef<HTMLDivElement>()
-  const highlightActiveEventTimeout = useRef<NodeJS.Timeout>()
-
-  useEffect(() => {
-    if (selectedContact) {
-      let contactIndex = -1
-      const categoryIndex = contactList.findIndex(({ contacts }) => {
-        contactIndex = contacts.indexOf(selectedContact)
-        return contactIndex !== -1
-      })
-
-      if (categoryIndex >= 0) {
-        contactsListRef.current?.children[categoryIndex].children[
-          contactIndex
-        ].scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        })
-
-        highlightActiveEventTimeout.current = setTimeout(() => {
-          setSelectedContact(null)
-        }, 3500)
-      }
-    }
-    return () => {
-      if (highlightActiveEventTimeout.current) {
-        clearTimeout(highlightActiveEventTimeout.current)
-      }
-    }
-  }, [selectedContact])
 
   const authorizeAndLoadContacts = async (provider: Provider) => {
     try {
@@ -528,7 +498,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
             newContact={newContact}
             editedContact={editedContact}
             resultsState={resultsState}
-            listRef={contactsListRef as MutableRefObject<HTMLDivElement>}
+            selectedContact={selectedContact}
             {...rest}
           />
           {newContact && (

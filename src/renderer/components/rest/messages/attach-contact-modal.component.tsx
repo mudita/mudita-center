@@ -1,10 +1,11 @@
-import React, { Ref } from "react"
+import React, { Ref, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { intl } from "Renderer/utils/intl"
 import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
 import {
   Col,
+  EmptyState,
   Group,
   Labels,
   Row,
@@ -28,11 +29,14 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import ContactInputSearch, {
-  ContactInputSearchProvider,
-  ContactListContainer,
-} from "Renderer/components/rest/phone/contact-input-search.component"
-import { noop } from "Renderer/utils/noop"
+import ContactInputSearch from "Renderer/components/rest/phone/contact-input-search.component"
+import { defineMessages } from "react-intl"
+import { HighlightContactList } from "Renderer/components/rest/phone/highlight-contact-list.component"
+
+export const messages = defineMessages({
+  title: { id: "view.name.messages.attachModal.title" },
+  unnamedContact: { id: "view.name.phone.contacts.list.unnamedContact" },
+})
 
 interface Props {
   list: ContactCategory[]
@@ -75,18 +79,27 @@ const InitialsAvatar = styled(Avatar)`
   margin-right: 1.2rem;
 `
 
-const ListWrapper = styled(ContactListContainer)`
+const ListWrapper = styled(HighlightContactList)`
   height: 50rem;
   overflow: scroll;
 `
 
 const AttachContactModal: FunctionComponent<Props> = ({ list, flatList }) => {
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
+
   return (
-    <Modal title={"Attach Contact"} closeButton={false}>
-      <ContactInputSearchProvider contactList={list}>
-        <ContactInputSearch contacts={flatList} onContactSelect={noop} />
-        <ListWrapper>
-          {list.map(({ category, contacts }) => {
+    <Modal title={messages.title} closeButton={false}>
+      <ContactInputSearch
+        contacts={flatList}
+        onContactSelect={setSelectedContact}
+      />
+      <ListWrapper
+        contactList={list}
+        selectedContact={selectedContact}
+        clearSelectedContact={setSelectedContact}
+      >
+        {list.length !== 0 &&
+          list.map(({ category, contacts }) => {
             return (
               <ContactGroup key={category}>
                 <GroupLabel>
@@ -98,7 +111,7 @@ const AttachContactModal: FunctionComponent<Props> = ({ list, flatList }) => {
                     contact.primaryPhoneNumber || contact.secondaryPhoneNumber
 
                   const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-                    <Row ref={ref}>
+                    <Row active={contact === selectedContact} ref={ref}>
                       <ClickableCol
                         data-testid={ContactListTestIdsEnum.ContactRow}
                       >
@@ -107,9 +120,7 @@ const AttachContactModal: FunctionComponent<Props> = ({ list, flatList }) => {
                           size={AvatarSize.Small}
                         />
                         {fullName ||
-                          intl.formatMessage({
-                            id: "view.name.phone.contacts.list.unnamedContact",
-                          })}
+                          intl.formatMessage(messages.unnamedContact)}
                         {contact.blocked && (
                           <BlockedIcon width={2} height={2} />
                         )}
@@ -154,8 +165,15 @@ const AttachContactModal: FunctionComponent<Props> = ({ list, flatList }) => {
               </ContactGroup>
             )
           })}
-        </ListWrapper>
-      </ContactInputSearchProvider>
+        {list.length === 0 && (
+          <EmptyState
+            title={{ id: "view.name.messages.attachModal.emptyList.title" }}
+            description={{
+              id: "view.name.messages.attachModal.emptyList.description",
+            }}
+          />
+        )}
+      </ListWrapper>
     </Modal>
   )
 }
