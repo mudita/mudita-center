@@ -156,6 +156,9 @@ export default {
     },
   }),
   selectors: (slice: Slicer<StoreData>) => ({
+    resultsState() {
+      return slice(({ resultsState }) => resultsState)
+    },
     contactList() {
       return slice((state) => getSortedContactList(state))
     },

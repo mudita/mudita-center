@@ -15,7 +15,6 @@ import {
   ContactCategory,
   ContactID,
   NewContact,
-  ResultsState,
   Store,
 } from "Renderer/models/phone/phone.typings"
 import ContactEdit, {
@@ -87,7 +86,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     addNewContact,
     editContact,
     getContact,
-    loadData,
     deleteContacts,
     loadContacts,
     contactList = [],
@@ -172,39 +170,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     ...rest
   } = useTableSelect<Contact, ContactCategory>(contactList, "contacts")
   const detailsEnabled = activeRow && !newContact && !editedContact
-
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  const firstRendered = useRef(false)
-  const [retried, setRetried] = useState(false)
-
-  useEffect(() => {
-    if (firstRendered.current) {
-      if (resultsState === ResultsState.Error && !retried) {
-        modalService.openModal(
-          <ErrorWithRetryDataModal
-            onClose={() => setRetried(true)}
-            onRetry={() => {
-              setRetried(true)
-              loadData()
-            }}
-          />,
-          true
-        )
-      } else if (resultsState === ResultsState.Error) {
-        modalService.openModal(
-          <ErrorDataModal onClose={() => setRetried(true)} />,
-          true
-        )
-      }
-    }
-
-    if (!firstRendered.current) {
-      firstRendered.current = true
-    }
-  }, [resultsState])
 
   useEffect(() => {
     if (editedContact) {
@@ -548,7 +513,6 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           toggleAll={toggleAll}
           deleteContacts={deleteContacts}
           resetRows={resetRows}
-          manageButtonDisabled={resultsState === ResultsState.Loading}
           contacts={flatList}
         />
         <TableWithSidebarWrapper>
