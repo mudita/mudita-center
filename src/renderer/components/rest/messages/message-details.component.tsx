@@ -15,9 +15,16 @@ import InputComponent from "Renderer/components/core/input-text/input-text.compo
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  transitionTime,
+  transitionTimingFunction,
+} from "Renderer/styles/theming/theme-getters"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { intl } from "Renderer/utils/intl"
+import ButtonComponent from "Renderer/components/core/button/button.component"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
 
 interface Props {
   details: ActiveRow
@@ -25,6 +32,7 @@ interface Props {
   onDeleteClick: (id: string) => void
   onUnreadStatus: (ids: string[]) => void
   onContactClick: (phoneNumber: string) => void
+  onAttachContactClick: () => void
 }
 
 const PhoneNumberText = styled(Text)`
@@ -60,6 +68,12 @@ const MessagesSidebar = styled(Sidebar)`
   border-top: none;
 `
 
+const LeadingButton = styled(ButtonComponent).attrs(() => ({
+  displayStyle: DisplayStyle.IconOnly2,
+}))`
+  ${buttonComponentAnimationStyles};
+`
+
 const trailingIcon = [
   <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
 ]
@@ -70,6 +84,7 @@ const MessageDetails: FunctionComponent<Props> = ({
   onUnreadStatus,
   onDeleteClick,
   onContactClick,
+  onAttachContactClick,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -112,9 +127,11 @@ const MessageDetails: FunctionComponent<Props> = ({
   )
 
   const leadingIcons = [
-    <button key={Type.AttachContact} onClick={() => console.log("japa")}>
-      <Icon type={Type.AttachContact} size={IconSize.Big} />
-    </button>,
+    <LeadingButton
+      key={Type.AttachContact}
+      Icon={Type.AttachContact}
+      onClick={onAttachContactClick}
+    />,
     <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />,
   ]
 
@@ -187,7 +204,6 @@ const MessageDetails: FunctionComponent<Props> = ({
           onChange={noop}
           leadingIcons={leadingIcons}
           trailingIcons={trailingIcon}
-          // disabled
           label={intl.formatMessage({
             id: "view.name.messages.textAreaPlaceholder",
           })}

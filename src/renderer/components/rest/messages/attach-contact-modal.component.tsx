@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Ref, useEffect, useState } from "react"
+import React, { Ref } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import {
@@ -14,26 +14,13 @@ import {
   Row,
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
-import {
-  createFullName,
-  // searchContact,
-} from "Renderer/models/phone/phone.helpers"
-// import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
+import { createFullName } from "Renderer/models/phone/phone.helpers"
 import { ContactListTestIdsEnum } from "Renderer/components/rest/phone/contact-list-test-ids.enum"
 import Avatar, {
   AvatarSize,
 } from "Renderer/components/core/avatar/avatar.component"
-// import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
-// import Icon from "Renderer/components/core/icon/icon.component"
-// import { Type } from "Renderer/components/core/icon/icon.config"
-// import ButtonComponent from "Renderer/components/core/button/button.component"
-// import { DisplayStyle } from "Renderer/components/core/button/button.config"
-// import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import { InView } from "react-intersection-observer"
-import {
-  AvatarPlaceholder,
-  // Checkbox,
-} from "Renderer/components/rest/phone/contact-list.component"
+import { AvatarPlaceholder } from "Renderer/components/rest/phone/contact-list.component"
 import styled from "styled-components"
 import {
   backgroundColor,
@@ -48,8 +35,6 @@ import Text, {
 
 interface Props {
   list: ContactCategory[]
-  searchValue: string
-  changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 const GroupLabel = styled(Labels)`
@@ -88,7 +73,8 @@ const InitialsAvatar = styled(Avatar)`
   margin-right: 1.2rem;
 `
 
-const Search = styled(InputText)`
+const SearchInput = styled(InputText)`
+  width: 38rem;
   margin-bottom: 3rem;
 `
 
@@ -97,77 +83,36 @@ const ListWrapper = styled.div`
   overflow: scroll;
 `
 
-const AttachContactModal: FunctionComponent<Props> = ({
-  list,
-  searchValue,
-  changeSearchValue,
-}) => {
-  const [contactList, setContactList] = useState(list)
-  // const [searchValue, setSearchValue] = useState("")
-  // let filteredList = searchContact(list, searchValue)
-  useEffect(() => setContactList(list), [list])
+const AttachContactModal: FunctionComponent<Props> = ({ list }) => {
+  console.log("list: ", JSON.stringify(list))
   return (
     <Modal title={"Attach Contact"} closeButton={false}>
-      <Search
+      <SearchInput
         type={"search"}
         label={intl.formatMessage({
           id: "view.name.messages.search",
         })}
         outlined
-        defaultValue={searchValue}
-        onChange={changeSearchValue}
         leadingIcons={[searchIcon]}
       />
       <ListWrapper>
-        {contactList.map(({ category, contacts }) => {
+        {list.map(({ category, contacts }) => {
           return (
             <ContactGroup key={category}>
               <GroupLabel>
-                {/*<Col />*/}
                 <Col>{category}</Col>
               </GroupLabel>
               {contacts.map((contact) => {
-                // const { selected } = getRowStatus(contact)
-                // const onChange = () => toggleRow(contact)
-                // const handleExport = () => onExport(contact)
-                // const handleForward = () => onForward(contact)
-                // const handleBlock = () => onBlock(contact)
-                // const handleUnblock = () => onUnblock(contact)
-                // const handleDelete = () => onDelete(contact)
-                // const handleSelect = () => onSelect(contact)
-
                 const fullName = createFullName(contact)
                 const phoneNumber =
                   contact.primaryPhoneNumber || contact.secondaryPhoneNumber
-                // const nextContact = contacts[index + 1]
-                //   ? contacts[index + 1]
-                //   : contactList[categoryIndex + 1]?.contacts[0]
-                // const scrollActive =
-                //   (nextContact || contacts[index]).id === activeRow?.id
 
                 const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-                  <Row
-                    // selected={selected}
-                    // active={(activeRow || editedContact)?.id === contact.id}
-                    ref={ref}
-                  >
-                    {/*<Col>*/}
-                    {/*  <Checkbox*/}
-                    {/*    // checked={selected}*/}
-                    {/*    // onChange={onChange}*/}
-                    {/*    size={Size.Small}*/}
-                    {/*    // visible={!noneRowsSelected}*/}
-                    {/*  />*/}
-                    {/*</Col>*/}
+                  <Row ref={ref}>
                     <ClickableCol
-                      // onClick={handleSelect}
                       data-testid={ContactListTestIdsEnum.ContactRow}
                     >
-                      <InitialsAvatar
-                        user={contact}
-                        // light={selected || activeRow === contact}
-                        size={AvatarSize.Small}
-                      />
+                      <InitialsAvatar user={contact} size={AvatarSize.Small} />
                       {fullName ||
                         intl.formatMessage({
                           id: "view.name.phone.contacts.list.unnamedContact",
@@ -183,10 +128,6 @@ const AttachContactModal: FunctionComponent<Props> = ({
                           <MoreNumbers>+1</MoreNumbers>
                         )}
                     </Col>
-                    {/*<ScrollAnchorContainer*/}
-                    {/*  key={contact.id + category}*/}
-                    {/*  active={scrollActive}*/}
-                    {/*/>*/}
                   </Row>
                 )
 
@@ -203,10 +144,6 @@ const AttachContactModal: FunctionComponent<Props> = ({
                           <TextPlaceholder charsCount={phoneNumber.length} />
                         )}
                       </Col>
-                      {/*<ScrollAnchorContainer*/}
-                      {/*  key={contact.id + category}*/}
-                      {/*  active={scrollActive}*/}
-                      {/*/>*/}
                     </Row>
                   )
                 }
