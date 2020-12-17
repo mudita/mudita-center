@@ -15,16 +15,13 @@ const defaultProps = {
   onUnreadStatus: jest.fn(),
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
-  details: mockedDetails
+  details: mockedDetails,
 }
 
 test("sidebar close button informs parent about closing", () => {
   const onClose = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails
-      {...defaultProps}
-      onClose={onClose}
-    />
+    <MessageDetails {...defaultProps} onClose={onClose} />
   )
   fireEvent.click(getByTestId("sidebar-close"))
   expect(onClose).toBeCalled()
@@ -32,9 +29,7 @@ test("sidebar close button informs parent about closing", () => {
 
 test("left part of sidebar displays details correctly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails
-      {...defaultProps}
-    />
+    <MessageDetails {...defaultProps} />
   )
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
     `${mockedDetails.caller.firstName} ${mockedDetails.caller.lastName}`
@@ -46,9 +41,7 @@ test("left part of sidebar displays details correctly", () => {
 
 test("correct amount of message bubbles is displayed", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
-    <MessageDetails
-      {...defaultProps}
-    />
+    <MessageDetails {...defaultProps} />
   )
   expect(getAllByTestId("message-content")).toHaveLength(
     mockedDetails.messages.length
@@ -57,10 +50,7 @@ test("correct amount of message bubbles is displayed", () => {
 
 test("message from unknown person displays only phone number", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails
-      {...defaultProps}
-      details={unknownCallerMockedDetails}
-    />
+    <MessageDetails {...defaultProps} details={unknownCallerMockedDetails} />
   )
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
     unknownCallerMockedDetails.caller.phoneNumber
@@ -70,10 +60,7 @@ test("message from unknown person displays only phone number", () => {
 test("mark massage as unread", () => {
   const onClose = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails
-      {...defaultProps}
-      onClose={onClose}
-    />
+    <MessageDetails {...defaultProps} onClose={onClose} />
   )
   fireEvent.click(getByTestId("icon-BorderCheckIcon"))
   expect(defaultProps.onUnreadStatus).toBeCalledWith([mockedDetails.id])
@@ -82,9 +69,7 @@ test("mark massage as unread", () => {
 
 test("open contacts", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails
-      {...defaultProps}
-    />
+    <MessageDetails {...defaultProps} />
   )
   fireEvent.click(getByTestId("icon-Contact"))
   expect(defaultProps.onContactClick).toBeCalled()
@@ -92,9 +77,7 @@ test("open contacts", () => {
 
 test("delete messages", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
-    <MessageDetails
-      {...defaultProps}
-    />
+    <MessageDetails {...defaultProps} />
   )
   fireEvent.click(getAllByTestId("icon-Delete")[0])
   expect(defaultProps.onDeleteClick).toBeCalledWith(mockedDetails.id)

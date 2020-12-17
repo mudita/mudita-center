@@ -15,9 +15,7 @@ import InputComponent from "Renderer/components/core/input-text/input-text.compo
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
-import {
-  backgroundColor,
-} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { intl } from "Renderer/utils/intl"
 import ButtonComponent from "Renderer/components/core/button/button.component"

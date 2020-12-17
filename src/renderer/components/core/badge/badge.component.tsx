@@ -1,6 +1,12 @@
 import styled from "styled-components"
-import Text, { TextDisplayStyle } from "Renderer/components/core/text/text.component"
-import { backgroundColor, borderRadius, textColor } from "Renderer/styles/theming/theme-getters"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
+import {
+  backgroundColor,
+  borderRadius,
+  textColor,
+} from "Renderer/styles/theming/theme-getters"
 
 const Badge = styled(Text).attrs(() => ({
   displayStyle: TextDisplayStyle.SmallText,

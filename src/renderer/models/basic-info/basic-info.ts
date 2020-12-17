@@ -55,7 +55,6 @@ export default {
       _: any,
       rootState: { basicInfo: { resultsState: ResultsState } }
     ) {
-
       if (rootState.basicInfo.resultsState === ResultsState.Loading) {
         return
       }
