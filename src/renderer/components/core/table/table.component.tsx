@@ -104,6 +104,7 @@ export const Col = styled.div`
   display: flex;
   align-items: center;
   ${({ onClick }) => onClick && clickableRowStyles};
+  word-break: break-word;
 
   :first-of-type {
     padding-left: var(--columnsGap);

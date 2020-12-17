@@ -19,19 +19,13 @@ import Avatar, {
 import { InView } from "react-intersection-observer"
 import { AvatarPlaceholder } from "Renderer/components/rest/phone/contact-list.component"
 import styled from "styled-components"
-import {
-  backgroundColor,
-  borderRadius,
-  textColor,
-} from "Renderer/styles/theming/theme-getters"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
 import ContactInputSearch from "Renderer/components/rest/phone/contact-input-search.component"
 import { defineMessages } from "react-intl"
 import { HighlightContactList } from "Renderer/components/rest/phone/highlight-contact-list.component"
+import Badge from "Renderer/components/core/badge/badge.component"
 
 export const messages = defineMessages({
   title: { id: "view.name.messages.attachModal.title" },
@@ -57,22 +51,9 @@ const ClickableCol = styled(Col)`
   margin-left: 2rem;
 `
 const ContactGroup = styled(Group)`
-  --columnsTemplate: 22.5% 22.5% 22.5% 22.5% 10%;
+  --columnsTemplate: 1fr 1fr 1fr 1fr 0.5fr;
   --columnsGap: auto;
   --labelBackground: ${backgroundColor("row")};
-`
-
-const MoreNumbers = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallText,
-}))`
-  width: 3.2rem;
-  padding: 0 1rem;
-  box-sizing: border-box;
-  margin-left: 1.6rem;
-  text-align: center;
-  color: ${textColor("primary")};
-  background-color: ${backgroundColor("disabled")};
-  border-radius: ${borderRadius("medium")};
 `
 
 const InitialsAvatar = styled(Avatar)`
@@ -88,7 +69,10 @@ const EmptyStateContainer = styled(EmptyState)`
   padding-top: 3rem;
 `
 
-const AttachContactModal: FunctionComponent<Props> = ({ contactList, contactFlatList }) => {
+const AttachContactModal: FunctionComponent<Props> = ({
+  contactList,
+  contactFlatList,
+}) => {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
 
   return (
@@ -134,9 +118,7 @@ const AttachContactModal: FunctionComponent<Props> = ({ contactList, contactFlat
                       <Col>{contact.primaryPhoneNumber}</Col>
                       <Col>
                         {contact.primaryPhoneNumber &&
-                          contact.secondaryPhoneNumber && (
-                            <MoreNumbers>+1</MoreNumbers>
-                          )}
+                          contact.secondaryPhoneNumber && <Badge>+1</Badge>}
                       </Col>
                     </Row>
                   )
