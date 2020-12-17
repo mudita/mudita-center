@@ -7,14 +7,17 @@ This article is based on [keep a changelog](https://keepachangelog.com/en/1.0.0/
 [View Mudita Center changelog](https://github.com/Mudita/mudita-center/releases).
 
 ## 1. The purpose of a changelog
+
 To let the end user (not necessarily technically-skilled) know what your Pull Request changes. In practice, this means that if some spectacular crash has been fixed, changelog entry should say e.g. `Fix system crash on syncing contacts with Google`.
 
 On the other hand, if several minor fixes or refactors have been made, simple information is sufficient eg. `Minor fixes in UI - syncing contacts view`. Nothing deeply-technical - just information understandable to the reader.
 
 ## 2. What not to put in the changelog
+
 Try to be informative when drafting an entry. `Change GUI items according to last UI change` doesn't really say anything to the end user. Your entry should be short but informative and understandable to anyone.
 
 ## 3. When to fill the changelog
+
 After every release.
 
 ## 4. How to add an entry to the changelog

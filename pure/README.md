@@ -12,11 +12,10 @@ npm install
 npm run build
 ```
 
-
 ## How to test it?
 
 1. First of all, write a test
-2. If you would like to test in the *MC*, please build this package before run develop
+2. If you would like to test in the _MC_, please build this package before run develop
 3. Use command yargs terminal client
 
 ## Command yargs terminal client

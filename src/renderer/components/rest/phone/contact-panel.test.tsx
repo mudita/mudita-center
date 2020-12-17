@@ -42,11 +42,11 @@ const defaultProps = {
       firstAddressLine: "016 McClure Curve",
       secondAddressLine: "",
     },
-  ] as Contact[]
+  ] as Contact[],
 }
 
 const renderer = (extraProps?: {}) => {
-  const outcome =  renderWithThemeAndIntl(
+  const outcome = renderWithThemeAndIntl(
     <ContactPanel {...defaultProps} {...extraProps} />
   )
   return {

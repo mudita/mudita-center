@@ -1,5 +1,10 @@
-import React, { createRef, MutableRefObject, Ref, useEffect } from "react"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import React, { createRef, Ref, useEffect } from "react"
+import {
+  Contact,
+  Contacts,
+  NewContact,
+  ResultsState,
+} from "Renderer/models/phone/phone.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -19,14 +24,7 @@ import Avatar, {
   AvatarSize,
   basicAvatarStyles,
 } from "Renderer/components/core/avatar/avatar.component"
-import {
-  backgroundColor,
-  borderRadius,
-  textColor,
-} from "Renderer/styles/theming/theme-getters"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "Renderer/components/rest/phone/contact-details.component"
@@ -38,13 +36,10 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import { InView } from "react-intersection-observer"
-import {
-  Contacts,
-  NewContact,
-  ResultsState,
-} from "Renderer/models/phone/phone.typings"
 import { ContactListTestIdsEnum } from "Renderer/components/rest/phone/contact-list-test-ids.enum"
 import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
+import { HighlightContactList } from "Renderer/components/rest/phone/highlight-contact-list.component"
+import Badge from "Renderer/components/core/badge/badge.component"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -65,19 +60,6 @@ const ClickableCol = styled(Col)`
 export const AvatarPlaceholder = styled.div`
   ${basicAvatarStyles};
   margin-right: 1.2rem;
-`
-
-const MoreNumbers = styled(Text).attrs(() => ({
-  displayStyle: TextDisplayStyle.SmallText,
-}))`
-  width: 3.2rem;
-  padding: 0 1rem;
-  box-sizing: border-box;
-  margin-left: 1.6rem;
-  text-align: center;
-  color: ${textColor("primary")};
-  background-color: ${backgroundColor("disabled")};
-  border-radius: ${borderRadius("medium")};
 `
 
 const ActionsButton = styled.span`
@@ -126,16 +108,17 @@ type SelectHook = Pick<
 
 export interface ContactListProps extends Contacts, ContactActions, SelectHook {
   activeRow?: Contact
+  selectedContact: Contact | null
   onSelect: (contact: Contact) => void
   newContact?: NewContact
   editedContact?: Contact
   resultsState: ResultsState
-  listRef: MutableRefObject<HTMLDivElement>
 }
 
 const ContactList: FunctionComponent<ContactListProps> = ({
   contactList,
   activeRow,
+  selectedContact,
   onSelect,
   onExport,
   onForward,
@@ -148,7 +131,6 @@ const ContactList: FunctionComponent<ContactListProps> = ({
   getRowStatus,
   toggleRow,
   noneRowsSelected,
-  listRef,
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
@@ -194,7 +176,10 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           </Row>
         </Group>
       )}
-      <div ref={listRef}>
+      <HighlightContactList
+        contactList={contactList}
+        selectedContact={selectedContact}
+      >
         {resultsState === ResultsState.Loaded &&
           (contactList.length ? (
             contactList.map(({ category, contacts }, categoryIndex) => (
@@ -274,9 +259,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                       <Col>{phoneNumber}</Col>
                       <Col>
                         {contact.primaryPhoneNumber &&
-                          contact.secondaryPhoneNumber && (
-                            <MoreNumbers>+1</MoreNumbers>
-                          )}
+                          contact.secondaryPhoneNumber && <Badge>+1</Badge>}
                       </Col>
                       <Col>
                         <Actions>
@@ -395,7 +378,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             />
           ))}
         {resultsState === ResultsState.Loading && <LoadingState />}
-      </div>
+      </HighlightContactList>
     </SelectableContacts>
   )
 }
