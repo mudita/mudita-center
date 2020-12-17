@@ -270,7 +270,8 @@
     "usb": "^1.6.3",
     "vcf": "^2.1.0",
     "winston": "^3.3.3",
-    "winston-daily-rotate-file": "^4.5.0"
+    "winston-daily-rotate-file": "^4.5.0",
+    "winston-transport-rollbar-3": "^3.2.0"
   },
   "engines": {
     "node": "12.18.4",
