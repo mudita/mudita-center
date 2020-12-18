@@ -51,7 +51,7 @@ const logger = createLogger({
     }),
     new RollbarTransport({
       rollbarConfig: {
-        accessToken: process.env.ROLLBAR_TOKEN,
+        accessToken: process.env.ROLLBAR_TOKEN || "test",
         captureUncaught: true,
         captureUnhandledRejections: true,
         payload: {
