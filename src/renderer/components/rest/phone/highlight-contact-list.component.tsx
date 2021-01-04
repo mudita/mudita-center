@@ -2,6 +2,7 @@ import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import React, { useEffect, useRef } from "react"
+import { HighLightContactListWrapper } from "Renderer/components/rest/phone/highlight-contact-list.styled"
 
 interface Props {
   contactList: ContactCategory[]
@@ -48,8 +49,8 @@ export const HighlightContactList: FunctionComponent<Props> = ({
   }, [selectedContact])
 
   return (
-    <div ref={listRef} {...props}>
+    <HighLightContactListWrapper ref={listRef} {...props}>
       {children}
-    </div>
+    </HighLightContactListWrapper>
   )
 }

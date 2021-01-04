@@ -244,6 +244,7 @@ export const SidebarHeaderIcon = styled(ButtonComponent).attrs(() => ({
 
 /* Empty state */
 const EmptyStateWrapper = styled.div`
+  height: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
