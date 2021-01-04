@@ -7,6 +7,8 @@ import {
   borderRadius,
   fontWeight,
   textColor,
+  transitionTime,
+  transitionTimingFunction,
   width,
 } from "Renderer/styles/theming/theme-getters"
 import styled, { css } from "styled-components"
@@ -142,6 +144,11 @@ const buttonStyles = css<{
           border: none;
           &:hover {
             background: ${backgroundColor("minor")};
+          }
+
+          svg {
+            height: initial;
+            width: initial;
           }
         `
       case DisplayStyle.IconOnly3:
@@ -350,4 +357,14 @@ export const StyledIcon = styled(Icon)<{
       width: 100%;
       height: 100%;
     `};
+`
+
+export const buttonComponentAnimationStyles = css`
+  opacity: 0.6;
+  transition: opacity ${transitionTime("quick")}
+    ${transitionTimingFunction("smooth")};
+
+  &:hover {
+    opacity: 1;
+  }
 `

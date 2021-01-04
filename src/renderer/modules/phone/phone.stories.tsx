@@ -53,7 +53,6 @@ const PhoneComponent = ({
     flatList={flatList}
     contactList={contactList}
     speedDialChosenList={speedDialChosenList}
-    onSearchTermChange={action("Search")}
     onManageButtonClick={dummyPromise(action("Manage contact"))}
     onNewButtonClick={action("New contact")}
     onEdit={action("Edit contact")}
@@ -79,6 +78,7 @@ const PhoneComponent = ({
     savingContact={false}
     speedDialContacts={[]}
     deleteContacts={asyncNoop}
+    authorize={asyncNoop}
   />
 )
 

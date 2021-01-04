@@ -19,7 +19,13 @@ const renderer = () => {
   return renderWithThemeAndIntl(
     <Router history={history}>
       <Provider store={store}>
-        <Messages language={"en"} searchValue={""} list={mockedList} />
+        <Messages
+          language={"en"}
+          searchValue={""}
+          list={mockedList}
+          attachContactList={[]}
+          attachContactFlatList={[]}
+        />
       </Provider>
     </Router>
   )

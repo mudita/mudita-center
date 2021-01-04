@@ -12,13 +12,12 @@ import disconnectDevice from "Renderer/requests/disconnect-device.request"
 import changeSimRequest from "Renderer/requests/change-sim.request"
 import { Dispatch } from "Renderer/store"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import { Slicer } from "@rematch/select"
+import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import {
   ResultsState,
   SimCard,
   StoreValues,
 } from "Renderer/models/basic-info/basic-info.typings"
-import { basicInfoSeed } from "App/seeds/basic-info"
 
 const initialState = {
   disconnectedDevice: true,
@@ -52,7 +51,13 @@ export default {
     },
   },
   effects: (dispatch: Dispatch) => ({
-    async loadData() {
+    async loadData(
+      _: any,
+      rootState: { basicInfo: { resultsState: ResultsState } }
+    ) {
+      if (rootState.basicInfo.resultsState === ResultsState.Loading) {
+        return
+      }
       dispatch.basicInfo.setResultsState(ResultsState.Loading)
       const responses = await Promise.all([
         getDeviceInfo(),
@@ -105,15 +110,9 @@ export default {
           disconnectedDevice: false,
         })
 
-        dispatch.basicInfo.loadData()
+        await dispatch.basicInfo.loadData()
+        await dispatch.phone.loadData()
       }
-    },
-    async fakeConnect() {
-      dispatch.basicInfo.update({
-        disconnectedDevice: false,
-      })
-      dispatch.basicInfo.update(basicInfoSeed)
-      dispatch.basicInfo.setResultsState(ResultsState.Loaded)
     },
     async disconnect() {
       const disconnectInfo = await disconnectDevice()
@@ -127,7 +126,8 @@ export default {
       dispatch.basicInfo.update({ disconnectedDevice })
 
       if (!disconnectedDevice) {
-        dispatch.basicInfo.loadData()
+        await dispatch.basicInfo.loadData()
+        await dispatch.phone.loadData()
       }
     },
     async changeSim(simCard: SimCard) {
@@ -138,6 +138,12 @@ export default {
     },
   }),
   selectors: (slice: Slicer<typeof initialState>) => ({
+    resultsState() {
+      return slice(({ resultsState }) => resultsState)
+    },
+    disconnectedDevice() {
+      return slice(({ disconnectedDevice }) => disconnectedDevice)
+    },
     activeSimNetworkName() {
       return slice((state: { simCards?: SimCard[] }) => {
         return getActiveNetworkFromSim(state.simCards)
@@ -148,13 +154,19 @@ export default {
         return getActiveNetworkLevelFromSim(state.simCards)
       })
     },
-    isConnected() {
-      return slice((state: StoreValues) => {
-        return (
-          state.resultsState === ResultsState.Loaded &&
-          !state.disconnectedDevice
-        )
-      })
+    isConnected(models: StoreSelectors<any>) {
+      return createSelector(
+        models.phone.resultsState,
+        models.basicInfo.resultsState,
+        models.basicInfo.disconnectedDevice,
+        (phoneResultsState, basicInfoResultsState, disconnectedDevice) => {
+          return (
+            phoneResultsState === ResultsState.Loaded &&
+            basicInfoResultsState === ResultsState.Loaded &&
+            !disconnectedDevice
+          )
+        }
+      )
     },
   }),
 }

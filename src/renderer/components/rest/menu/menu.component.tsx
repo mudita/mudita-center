@@ -1,7 +1,7 @@
 import React from "react"
 import MenuGroup from "Renderer/components/rest/menu/menu-group.component"
 import { menuElements } from "Renderer/constants/menu-elements"
-import { DevMode } from "Renderer/models/dev-mode/dev-mode.interface"
+import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 import styled from "styled-components"
 import {
   backgroundColor,
@@ -40,16 +40,15 @@ const DevSign = styled.span`
   color: ${textColor("secondary")};
 `
 
-interface Props extends DevMode {
+interface Props {
   deviceDisconnected?: boolean
   openHelpWindow?: () => void
-  connectDevice?: () => void
+  devModeEnabled?: DevMode["enabled"]
 }
 
 const Menu: FunctionComponent<Props> = ({
   deviceDisconnected,
   devModeEnabled,
-  connectDevice,
 }) => {
   const links = menuElements
     .filter(({ connectedPhoneOnly }) =>
@@ -61,7 +60,7 @@ const Menu: FunctionComponent<Props> = ({
     })
   return (
     <MenuWrapper>
-      <LogoWrapper onClick={connectDevice}>
+      <LogoWrapper>
         <SvgMuditaLogo type={Type.MuditaLogoWithText} />
         {devModeEnabled && (
           <DevSign>{intl.formatMessage({ id: "dev.view.header" })}</DevSign>

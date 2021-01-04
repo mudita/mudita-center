@@ -24,7 +24,6 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   events = eventsData,
   loadCalendars,
   loadEvents,
-  clearEvents,
 }) => {
   const tableSelectHook = useTableSelect<CalendarEvent>(events)
   const [provider, setProvider] = useState<Provider | undefined>()
@@ -155,7 +154,6 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
     <CalendarUI
       events={events}
       openSelectVendorModal={openSelectVendorModal}
-      _devClearEvents={clearEvents}
       tableSelectHook={tableSelectHook}
       selectedEventIndex={selectedEvent ? events.indexOf(selectedEvent) : -1}
       listRef={eventsListRef as MutableRefObject<HTMLDivElement>}

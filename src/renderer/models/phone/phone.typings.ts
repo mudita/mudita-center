@@ -1,5 +1,3 @@
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-
 export type ContactID = string
 
 export interface BaseContactModel {
@@ -89,7 +87,6 @@ interface StoreSelectors extends Contacts {
 
 interface StoreEffects {
   readonly loadData: () => Promise<void>
-  readonly loadContacts: (provider: Provider) => Promise<Phone>
 }
 
 export type Store = StoreEffects & StoreData & StoreSelectors

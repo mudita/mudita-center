@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { defineMessages } from "react-intl"
-import Button from "Renderer/components/core/button/button.component"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
-import DevModeWrapper from "Renderer/components/rest/dev-mode-wrapper/dev-mode-wrapper.container"
 import MessagesList from "Renderer/components/rest/messages/messages-list.component"
 import {
   ComponentProps as MessagesProps,
@@ -26,6 +24,8 @@ import { AppSettings } from "App/main/store/settings.interface"
 import { useHistory } from "react-router-dom"
 import createRouterPath from "Renderer/utils/create-router-path"
 import { URL_MAIN } from "Renderer/constants/urls"
+import AttachContactModal from "Renderer/components/rest/messages/attach-contact-modal.component"
+import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
@@ -34,7 +34,10 @@ const deleteModalMessages = defineMessages({
   },
 })
 
-interface Props extends MessagesProps, Pick<AppSettings, "language"> {}
+interface Props extends MessagesProps, Pick<AppSettings, "language"> {
+  attachContactList: ContactCategory[]
+  attachContactFlatList: Contact[]
+}
 
 const Messages: FunctionComponent<Props> = ({
   searchValue,
@@ -46,6 +49,8 @@ const Messages: FunctionComponent<Props> = ({
   markAsRead = noop,
   toggleReadStatus = noop,
   language,
+  attachContactList,
+  attachContactFlatList,
 }) => {
   const [messagesList, setMessagesList] = useState(list)
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Topic>(
@@ -67,8 +72,7 @@ const Messages: FunctionComponent<Props> = ({
   const hideReadMessages = () => {
     changeVisibilityFilter(VisibilityFilter.Unread)
   }
-  const _devClearMessages = () => setMessagesList([])
-  const _devLoadDefaultMessages = () => setMessagesList(list)
+
   useEffect(() => setMessagesList(list), [list])
 
   const getDeletingMessage = (ids: string[]): Message => {
@@ -119,17 +123,18 @@ const Messages: FunctionComponent<Props> = ({
     )
   }
 
+  const openAttachContactModal = () => {
+    modalService.openModal(
+      <AttachContactModal
+        contactFlatList={attachContactFlatList}
+        contactList={attachContactList}
+      />,
+      true
+    )
+  }
+
   return (
     <>
-      <DevModeWrapper>
-        <p>Messages on list: {messagesList.length}</p>
-        <Button onClick={_devClearMessages} label="Remove all messages" />
-        <br />
-        <Button
-          onClick={_devLoadDefaultMessages}
-          label="Load default messages"
-        />
-      </DevModeWrapper>
       <MessagesPanel
         searchValue={searchValue}
         hideReadMessages={hideReadMessages}
@@ -161,6 +166,7 @@ const Messages: FunctionComponent<Props> = ({
             details={activeRow}
             onClose={closeSidebar}
             onContactClick={contactClick}
+            onAttachContactClick={openAttachContactModal}
           />
         )}
       </TableWithSidebarWrapper>

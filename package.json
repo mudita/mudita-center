@@ -54,7 +54,8 @@
     "PURE LIB COMMANDS": "=================================================",
     "pure:install": "npm --prefix pure install",
     "pure:build": "npm --prefix pure run build",
-    "pure:lint-staged": "npm --prefix pure run lint-staged"
+    "pure:lint-staged": "npm --prefix pure run lint-staged",
+    "pure:command": "npm --prefix pure run command --"
   },
   "build": {
     "publish": {
@@ -129,6 +130,7 @@
     "@types/auto-launch": "^5.0.1",
     "@types/chai": "^4.2.14",
     "@types/electron-devtools-installer": "^2.2.0",
+    "@types/electron-localshortcut": "^3.1.0",
     "@types/faker": "^5.1.2",
     "@types/history": "^4.7.8",
     "@types/jest": "^26.0.14",
@@ -233,8 +235,8 @@
     "crypto-js": "^4.0.0",
     "dotenv": "^8.2.0",
     "electron-better-ipc": "^1.1.1",
-    "electron-context-menu": "^2.3.0",
     "electron-debug": "^3.1.0",
+    "electron-localshortcut": "^3.2.1",
     "electron-log": "^4.2.4",
     "electron-publisher-s3": "^20.17.2",
     "electron-store": "^6.0.1",

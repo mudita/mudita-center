@@ -187,7 +187,7 @@ const mapToPureNewContact = (contact: NewContact): PureNewContact => {
     numbers: numbers,
     priName: firstName,
     altName: lastName,
-    address: `${firstAddressLine}\n${secondAddressLine}`,
+    address: [firstAddressLine, secondAddressLine].join("\n").trim(),
   }
 }
 

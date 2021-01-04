@@ -9,7 +9,7 @@ Where not otherwise indicated, all Mudita Center content is authored by Mudita e
 
 ## The GNU General Public License v3.0
 
-``` 
+```
 Licensed under the terms of GNU General Public License Version 3 or later.
 
    GNU GENERAL PUBLIC LICENSE

@@ -6,8 +6,4 @@ const mapStateToProps = (state: RootState) => ({
   disconnectedDevice: state.basicInfo.disconnectedDevice,
 })
 
-const mapDispatchToProps = (dispatch: any) => ({
-  disconnectDevice: () => dispatch.basicInfo.disconnect(),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tethering)
+export default connect(mapStateToProps)(Tethering)

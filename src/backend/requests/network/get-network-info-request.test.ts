@@ -6,8 +6,6 @@ import Adapters from "Backend/adapters/adapters.interface"
 import MockPureNodeService from "Backend/mock-device-service"
 import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
 
-jest.mock("pure")
-
 test("returns required network info", async () => {
   registerNetworkInfoRequest(({
     pureNetwork: createPurePhoneNetwork(

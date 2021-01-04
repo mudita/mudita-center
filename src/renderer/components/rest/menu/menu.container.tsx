@@ -4,11 +4,7 @@ import { RootState } from "Renderer/store"
 
 const mapStateToProps = (state: RootState) => ({
   deviceDisconnected: state.basicInfo.disconnectedDevice,
-  devModeEnabled: state.devMode.devModeEnabled,
+  devModeEnabled: state.devMode.enabled,
 })
 
-const mapDispatchToProps = (dispatch: any) => ({
-  connectDevice: () => dispatch.basicInfo.fakeConnect(),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Menu)
+export default connect(mapStateToProps)(Menu)

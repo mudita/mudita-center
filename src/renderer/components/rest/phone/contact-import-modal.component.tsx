@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -11,7 +11,7 @@ import Table, {
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import styled from "styled-components"
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Contact, NewContact } from "Renderer/models/phone/phone.typings"
 import { ModalIcon } from "Renderer/modules/overview/backup-process/modals.styled"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
@@ -20,6 +20,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { createFullName } from "Renderer/models/phone/phone.helpers"
+import { ContactImportModalTestIds } from "Renderer/components/rest/phone/contact-import-modal-test-ids.enum"
 
 const messages = defineMessages({
   title: { id: "view.name.contacts.syncModal.title" },
@@ -46,13 +47,13 @@ const Image = styled(ModalIcon)`
 `
 
 interface Props {
-  onActionButtonClick: () => void
+  onActionButtonClick: (contacts: NewContact[]) => void
   contacts: Contact[]
 }
 
 const ContactImportModal: FunctionComponent<Props> = ({
   onActionButtonClick,
-  contacts,
+  contacts = [],
 }) => {
   const {
     toggleRow,
@@ -60,15 +61,18 @@ const ContactImportModal: FunctionComponent<Props> = ({
     getRowStatus,
     allRowsSelected,
     noneRowsSelected,
-  } = useTableSelect(contacts)
+    selectedRows,
+  } = useTableSelect<NewContact>(contacts)
 
-  const SingleRow = ({ data }: { data: Contact }) => {
+  useEffect(() => toggleAll(), [])
+
+  const SingleRow = ({ data, ...rest }: { data: Contact }) => {
     const onChange = () => {
       toggleRow(data)
     }
     const { selected, indeterminate } = getRowStatus(data)
     return (
-      <Row size={RowSize.Small}>
+      <Row size={RowSize.Small} {...rest}>
         <Col>
           <Checkbox
             checked={selected}
@@ -81,14 +85,15 @@ const ContactImportModal: FunctionComponent<Props> = ({
       </Row>
     )
   }
-
+  const handleButtonClick = () => onActionButtonClick(selectedRows)
   return (
     <Modal
       title={intl.formatMessage(messages.title)}
       closeButton={false}
       actionButtonLabel={intl.formatMessage(messages.button)}
-      onActionButtonClick={onActionButtonClick}
+      onActionButtonClick={handleButtonClick}
       size={ModalSize.Medium}
+      actionButtonDisabled={noneRowsSelected}
     >
       <Image>
         <Icon type={Type.ContactGoogle} width={5} />
@@ -108,6 +113,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
               onChange={toggleAll}
               checked={allRowsSelected}
               indeterminate={!allRowsSelected && !noneRowsSelected}
+              data-testid={ContactImportModalTestIds.ToggleAllCheckbox}
             />
             <div>Contacts</div>
           </Col>
@@ -116,7 +122,10 @@ const ContactImportModal: FunctionComponent<Props> = ({
         <TableContent>
           {contacts.map((row, index) => (
             <React.Fragment key={index}>
-              <SingleRow data={row} />
+              <SingleRow
+                data={row}
+                data-testid={ContactImportModalTestIds.ContactRow}
+              />
             </React.Fragment>
           ))}
         </TableContent>
