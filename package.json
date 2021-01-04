@@ -253,7 +253,7 @@
     "react-dom": "^16.14.0",
     "react-hook-form": "^6.5.2",
     "react-intersection-observer": "^8.29.0",
-    "react-redux": "^7.2.1",
+    "react-redux": "^7.2.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-svg-loader": "^3.0.3",
