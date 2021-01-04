@@ -28,8 +28,7 @@ test("store returns initial state", () => {
   `)
 })
 
-//TODO: handle this test case after implement mock in adapter https://appnroll.atlassian.net/browse/PDA-588
-test.skip("mock calls update state", async () => {
+test("mock calls update state", async () => {
   const store = init({
     models: { basicInfo },
   })
@@ -39,13 +38,11 @@ test.skip("mock calls update state", async () => {
 
   await store.dispatch.basicInfo.loadData()
 
-  console.log("store.getState(): ", store.getState())
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "basicInfo": Object {
         "batteryLevel": 9001,
         "disconnectedDevice": true,
-        "resultsState": 2,
         "lastBackup": Object {
           "createdAt": "20-11-15T07:35:01.562Z20",
           "size": 99999,
@@ -56,6 +53,7 @@ test.skip("mock calls update state", async () => {
         },
         "osUpdateDate": "12-12-2003",
         "osVersion": "0.123v",
+        "resultsState": 1,
         "simCards": Array [
           Object {
             "active": true,
@@ -101,8 +99,7 @@ test("disconnect returns true and updates state", async () => {
   `)
 })
 
-//TODO: handle this test case after implement mock in adapter https://appnroll.atlassian.net/browse/PDA-588
-test.skip("change sim switches active property on sim cards", async () => {
+test("change sim switches active property on sim cards", async () => {
   const store = init({
     models: { basicInfo },
   })
@@ -138,6 +135,7 @@ test.skip("change sim switches active property on sim cards", async () => {
         },
         "osUpdateDate": "12-12-2003",
         "osVersion": "0.123v",
+        "resultsState": 1,
         "simCards": Array [
           Object {
             "active": false,
