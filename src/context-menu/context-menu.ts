@@ -100,7 +100,7 @@ class ContextMenu {
     }
   }
 
-  private rebuildMenu() {
+  private rebuildMenu({ clientX, clientY }: MouseEvent) {
     this.contextMenu = new electron.remote.Menu()
 
     if (this.isDevModeEnabled && this.devModeToggler) {
@@ -121,19 +121,34 @@ class ContextMenu {
 
     this.contextMenu.append(
       new electron.remote.MenuItem({
+        label: "Inspect element",
+        click: () => {
+          electron.remote
+            .getCurrentWindow()
+            .webContents.inspectElement(clientX, clientY)
+        },
+      })
+    )
+
+    this.contextMenu.append(
+      new electron.remote.MenuItem({
         label: "Toggle Developer Tools",
         role: "toggleDevTools",
       })
     )
   }
 
-  private showMenu() {
-    this.rebuildMenu()
+  private showMenu(event: MouseEvent) {
+    this.rebuildMenu(event)
     this.contextMenu.popup()
   }
 
   public init() {
-    window.addEventListener("contextmenu", () => this.showMenu(), false)
+    window.addEventListener(
+      "contextmenu",
+      (event) => this.showMenu(event),
+      false
+    )
   }
 
   public registerItem(mainLabel: string, menuItem: MenuItem) {
