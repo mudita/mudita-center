@@ -1,11 +1,18 @@
 import styled from "styled-components"
 import Text, {
+  getTextStyles,
+  smallTextSharedStyles,
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { fontWeight, textColor } from "Renderer/styles/theming/theme-getters"
+import {
+  borderColor,
+  fontWeight,
+  textColor,
+} from "Renderer/styles/theming/theme-getters"
 import { Sidebar } from "Renderer/components/core/table/table.component"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import { InputComponentProps } from "Renderer/components/core/input-text/input-text.interface"
+import { generalInputStyles } from "Renderer/components/core/input-text/input-text.elements"
 
 export const BasicInfo = styled.div`
   margin: 2.8rem auto 0 auto;
@@ -75,4 +82,22 @@ export const Input = styled(InputComponent).attrs(
 `
 export const ContactDetailsWrapper = styled(Sidebar)`
   margin-top: 6.3rem;
+`
+
+export const ContactDetailsInfo = styled(Text)`
+  ${generalInputStyles};
+  padding: 2.4rem 0 1.6rem 0;
+  white-space: pre-wrap;
+  margin: 0;
+  border-bottom: 0.1rem solid ${borderColor("secondary")};
+`
+
+export const ContactDetailsLabel = styled(Text)`
+  color: ${textColor("secondary")};
+  ${getTextStyles(TextDisplayStyle.MediumLightText)};
+  line-height: 1.5rem;
+  margin: 0;
+  padding: 2.4rem 0 1.6rem 0;
+  ${smallTextSharedStyles};
+  border-bottom: 0.1rem solid ${borderColor("secondary")};
 `
