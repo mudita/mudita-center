@@ -95,7 +95,6 @@ export const ContactDetailsInfo = styled(Text)`
 export const ContactDetailsLabel = styled(Text)`
   color: ${textColor("secondary")};
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
-  line-height: 1.5rem;
   margin: 0;
   padding: 2.4rem 0 1.6rem 0;
   ${smallTextSharedStyles};
