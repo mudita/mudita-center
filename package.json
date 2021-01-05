@@ -258,6 +258,7 @@
     "react-router-dom": "^5.2.0",
     "react-svg-loader": "^3.0.3",
     "react-syntax-highlighter": "^15.2.1",
+    "react-virtualized": "^9.22.3",
     "redux": "^4.0.5",
     "redux-observable": "^1.2.0",
     "redux-thunk": "^2.3.0",

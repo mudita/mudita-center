@@ -20,6 +20,7 @@ import {
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
+import { List } from "react-virtualized"
 
 const Table = styled(BaseSelectableCalls)`
   --columnsTemplate: 4rem 5fr 3fr 3fr;
@@ -38,81 +39,126 @@ const EventsList: FunctionComponent<EventsListProps> = ({
   noneRowsSelected,
   listRef,
   selectedEventIndex,
-}) => (
-  <Table>
-    <Group>
-      <Labels>
-        <Col />
-        <Col />
-      </Labels>
-      <div ref={listRef}>
-        {events.map((event, index) => {
-          const { id, name, startDate, endDate } = event
-          const { selected } = getRowStatus(event)
+}) => {
+  const renderRow = ({ index }) => {
+    const { id, name, startDate, endDate } = events[index]
+    const { selected } = getRowStatus(events[index])
 
-          const onCheckboxToggle = () => toggleRow(event)
+    const onCheckboxToggle = () => toggleRow(events[index])
+    return (
+      <Row
+        active={selectedEventIndex === index}
+        data-testid={CalendarTestIds.Event}
+        key={id}
+      >
+        <Col>
+          <Checkbox
+            checked={selected}
+            onChange={onCheckboxToggle}
+            size={Size.Small}
+            visible={!noneRowsSelected}
+          />
+        </Col>
+        <Col>{name}</Col>
+        <Col>
+          <TimeWindow startDate={startDate} endDate={endDate} />
+        </Col>
+        <Col>
+          <FormattedDate
+            value={startDate}
+            year="numeric"
+            month="long"
+            day="2-digit"
+            weekday="long"
+          />
+        </Col>
+      </Row>
+    )
+  }
+  return (
+    <Table>
+      <Group>
+        <Labels>
+          <Col />
+          <Col />
+        </Labels>
+        <div ref={listRef}>
+          <List
+            width={990}
+            height={700}
+            autoHeight
+            rowRenderer={renderRow}
+            rowCount={events.length}
+            rowHeight={120}
+          />
+          {/*{events.map((event, index) => {*/}
+          {/*  const { id, name, startDate, endDate } = event*/}
+          {/*  const { selected } = getRowStatus(event)*/}
 
-          const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-            <Row
-              ref={ref}
-              active={selectedEventIndex === index}
-              data-testid={CalendarTestIds.Event}
-            >
-              <Col>
-                <Checkbox
-                  checked={selected}
-                  onChange={onCheckboxToggle}
-                  size={Size.Small}
-                  visible={!noneRowsSelected}
-                />
-              </Col>
-              <Col>{name}</Col>
-              <Col>
-                <TimeWindow startDate={startDate} endDate={endDate} />
-              </Col>
-              <Col>
-                <FormattedDate
-                  value={startDate}
-                  year="numeric"
-                  month="long"
-                  day="2-digit"
-                  weekday="long"
-                />
-              </Col>
-            </Row>
-          )
+          {/*  const onCheckboxToggle = () => toggleRow(event)*/}
 
-          const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-            <Row ref={ref} active={selectedEventIndex === index}>
-              <Col />
-              <Col>
-                <TextPlaceholder
-                  charsCount={Faker.random.number({ min: 10, max: 30 })}
-                />
-              </Col>
-              <Col>
-                <TextPlaceholder charsCount={8} /> -{" "}
-                <TextPlaceholder charsCount={8} />
-              </Col>
-              <Col>
-                <TextPlaceholder
-                  charsCount={Faker.random.number({ min: 20, max: 30 })}
-                />
-              </Col>
-            </Row>
-          )
+          {/*const interactiveRow = (ref: Ref<HTMLDivElement>) => (*/}
+          {/*  <Row*/}
+          {/*    ref={ref}*/}
+          {/*    active={selectedEventIndex === index}*/}
+          {/*    data-testid={CalendarTestIds.Event}*/}
+          {/*  >*/}
+          {/*    <Col>*/}
+          {/*      <Checkbox*/}
+          {/*        checked={selected}*/}
+          {/*        onChange={onCheckboxToggle}*/}
+          {/*        size={Size.Small}*/}
+          {/*        visible={!noneRowsSelected}*/}
+          {/*      />*/}
+          {/*    </Col>*/}
+          {/*    <Col>{name}</Col>*/}
+          {/*    <Col>*/}
+          {/*      <TimeWindow startDate={startDate} endDate={endDate} />*/}
+          {/*    </Col>*/}
+          {/*    <Col>*/}
+          {/*      <FormattedDate*/}
+          {/*        value={startDate}*/}
+          {/*        year="numeric"*/}
+          {/*        month="long"*/}
+          {/*        day="2-digit"*/}
+          {/*        weekday="long"*/}
+          {/*      />*/}
+          {/*    </Col>*/}
+          {/*  </Row>*/}
+          {/*)*/}
 
-          return (
-            <InView key={id}>
-              {({ inView, ref }) =>
-                inView ? interactiveRow(ref) : placeholderRow(ref)
-              }
-            </InView>
-          )
-        })}
-      </div>
-    </Group>
-  </Table>
-)
+          {/*  const placeholderRow = (ref: Ref<HTMLDivElement>) => (*/}
+          {/*    <Row ref={ref} active={selectedEventIndex === index}>*/}
+          {/*      <Col />*/}
+          {/*      <Col>*/}
+          {/*        <TextPlaceholder*/}
+          {/*          charsCount={Faker.random.number({ min: 10, max: 30 })}*/}
+          {/*        />*/}
+          {/*      </Col>*/}
+          {/*      <Col>*/}
+          {/*        <TextPlaceholder charsCount={8} /> -{" "}*/}
+          {/*        <TextPlaceholder charsCount={8} />*/}
+          {/*      </Col>*/}
+          {/*      <Col>*/}
+          {/*        <TextPlaceholder*/}
+          {/*          charsCount={Faker.random.number({ min: 20, max: 30 })}*/}
+          {/*        />*/}
+          {/*      </Col>*/}
+          {/*    </Row>*/}
+          {/*  )*/}
+
+          {/*  return (*/}
+          {/*    <InView key={id}>*/}
+          {/*      {({ inView, ref }) =>*/}
+          {/*        inView ? interactiveRow(ref) : placeholderRow(ref)*/}
+          {/*      }*/}
+          {/*    </InView>*/}
+          {/*  )*/}
+          {/*})}*/}
+        </div>
+      </Group>
+    </Table>
+  )
+}
 
 export default EventsList
