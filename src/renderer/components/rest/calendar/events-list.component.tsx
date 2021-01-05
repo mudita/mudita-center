@@ -20,7 +20,7 @@ import {
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
-import { List } from "react-virtualized"
+import { List, WindowScroller } from "react-virtualized"
 
 const Table = styled(BaseSelectableCalls)`
   --columnsTemplate: 4rem 5fr 3fr 3fr;
@@ -40,6 +40,8 @@ const EventsList: FunctionComponent<EventsListProps> = ({
   listRef,
   selectedEventIndex,
 }) => {
+  console.log(events.length)
+  console.log({ events })
   const renderRow = ({ index }) => {
     const { id, name, startDate, endDate } = events[index]
     const { selected } = getRowStatus(events[index])
@@ -83,14 +85,18 @@ const EventsList: FunctionComponent<EventsListProps> = ({
           <Col />
         </Labels>
         <div ref={listRef}>
-          <List
-            width={990}
-            height={700}
-            autoHeight
-            rowRenderer={renderRow}
-            rowCount={events.length}
-            rowHeight={120}
-          />
+          <WindowScroller>
+            {({ height, isScrolling, onChildScroll, scrollTop }) => (
+              <List
+                width={990}
+                height={events.length * 64}
+                autoHeight
+                rowRenderer={renderRow}
+                rowCount={events.length}
+                rowHeight={64}
+              />
+            )}
+          </WindowScroller>
           {/*{events.map((event, index) => {*/}
           {/*  const { id, name, startDate, endDate } = event*/}
           {/*  const { selected } = getRowStatus(event)*/}
