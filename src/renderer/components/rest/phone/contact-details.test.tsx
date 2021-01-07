@@ -28,9 +28,11 @@ const contactWithOutIce = {
   ice: false,
   favourite: false,
   blocked: true,
-  firstAddressLine: "3284 Klocko Plains",
+  firstAddressLine: "",
   secondAddressLine: "",
 }
+
+const noAddress = "[value] view.name.phone.contacts.details.noAddress"
 
 const renderer = (withIce: boolean) => {
   const defaultProps = {
@@ -61,4 +63,14 @@ test("contact with ice", () => {
 test("contact with out ice", () => {
   const { queryByTestId } = renderer(false)
   expect(queryByTestId("icon-Ice")).not.toBeInTheDocument()
+})
+
+test("contact with address", () => {
+  const { getByText } = renderer(true)
+  expect(getByText(contactWithIce.firstAddressLine)).toBeInTheDocument()
+})
+
+test("contact without address", () => {
+  const { getByText } = renderer(false)
+  expect(getByText(noAddress)).toBeInTheDocument()
 })
