@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { CalendarProps } from "Renderer/modules/calendar/calendar.interface"
 import { eventsData } from "App/seeds/calendar"
@@ -135,11 +135,6 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
       const selectedEventIndex = events.indexOf(selectedEvent)
 
       if (selectedEventIndex >= 0) {
-        eventsListRef.current?.children[selectedEventIndex].scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        })
-
         highlightActiveEventTimeout.current = setTimeout(() => {
           setSelectedEvent(null)
         }, 3500)
@@ -157,7 +152,6 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
       openSelectVendorModal={openSelectVendorModal}
       tableSelectHook={tableSelectHook}
       selectedEventIndex={selectedEvent ? events.indexOf(selectedEvent) : -1}
-      listRef={eventsListRef as MutableRefObject<HTMLDivElement>}
       onEventSelect={setSelectedEvent}
     />
   )

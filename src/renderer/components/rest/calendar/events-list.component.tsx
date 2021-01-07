@@ -1,4 +1,4 @@
-import React, { MutableRefObject, Ref } from "react"
+import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import {
@@ -12,7 +12,6 @@ import { FormattedDate } from "react-intl"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { InView } from "react-intersection-observer"
 import Faker from "faker"
 import {
   BaseSelectableCalls,
@@ -20,7 +19,7 @@ import {
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
-import { List, WindowScroller } from "react-virtualized"
+import { List } from "react-virtualized"
 
 const Table = styled(BaseSelectableCalls)`
   --columnsTemplate: 4rem 5fr 3fr 3fr;
@@ -28,7 +27,6 @@ const Table = styled(BaseSelectableCalls)`
 
 export interface EventsListProps extends UseTableSelect<CalendarEvent> {
   events: CalendarEvent[]
-  listRef: MutableRefObject<HTMLDivElement>
   selectedEventIndex?: number
 }
 
@@ -37,17 +35,33 @@ const EventsList: FunctionComponent<EventsListProps> = ({
   getRowStatus,
   toggleRow,
   noneRowsSelected,
-  listRef,
   selectedEventIndex,
 }) => {
   console.log(events.length)
   console.log({ events })
-  const renderRow = ({ index }) => {
+  const renderRow = ({ index, isScrolling }) => {
     const { id, name, startDate, endDate } = events[index]
     const { selected } = getRowStatus(events[index])
-
     const onCheckboxToggle = () => toggleRow(events[index])
-    return (
+    const content = isScrolling ? (
+      <Row active={selectedEventIndex === index}>
+        <Col />
+        <Col>
+          <TextPlaceholder
+            charsCount={Faker.random.number({ min: 10, max: 30 })}
+          />
+        </Col>
+        <Col>
+          <TextPlaceholder charsCount={8} /> -{" "}
+          <TextPlaceholder charsCount={8} />
+        </Col>
+        <Col>
+          <TextPlaceholder
+            charsCount={Faker.random.number({ min: 20, max: 30 })}
+          />
+        </Col>
+      </Row>
+    ) : (
       <Row
         active={selectedEventIndex === index}
         data-testid={CalendarTestIds.Event}
@@ -76,6 +90,8 @@ const EventsList: FunctionComponent<EventsListProps> = ({
         </Col>
       </Row>
     )
+
+    return content
   }
   return (
     <Table>
@@ -84,83 +100,15 @@ const EventsList: FunctionComponent<EventsListProps> = ({
           <Col />
           <Col />
         </Labels>
-        <div ref={listRef}>
-          <WindowScroller>
-            {({ height, isScrolling, onChildScroll, scrollTop }) => (
-              <List
-                width={990}
-                height={events.length * 64}
-                autoHeight
-                rowRenderer={renderRow}
-                rowCount={events.length}
-                rowHeight={64}
-              />
-            )}
-          </WindowScroller>
-          {/*{events.map((event, index) => {*/}
-          {/*  const { id, name, startDate, endDate } = event*/}
-          {/*  const { selected } = getRowStatus(event)*/}
-
-          {/*  const onCheckboxToggle = () => toggleRow(event)*/}
-
-          {/*const interactiveRow = (ref: Ref<HTMLDivElement>) => (*/}
-          {/*  <Row*/}
-          {/*    ref={ref}*/}
-          {/*    active={selectedEventIndex === index}*/}
-          {/*    data-testid={CalendarTestIds.Event}*/}
-          {/*  >*/}
-          {/*    <Col>*/}
-          {/*      <Checkbox*/}
-          {/*        checked={selected}*/}
-          {/*        onChange={onCheckboxToggle}*/}
-          {/*        size={Size.Small}*/}
-          {/*        visible={!noneRowsSelected}*/}
-          {/*      />*/}
-          {/*    </Col>*/}
-          {/*    <Col>{name}</Col>*/}
-          {/*    <Col>*/}
-          {/*      <TimeWindow startDate={startDate} endDate={endDate} />*/}
-          {/*    </Col>*/}
-          {/*    <Col>*/}
-          {/*      <FormattedDate*/}
-          {/*        value={startDate}*/}
-          {/*        year="numeric"*/}
-          {/*        month="long"*/}
-          {/*        day="2-digit"*/}
-          {/*        weekday="long"*/}
-          {/*      />*/}
-          {/*    </Col>*/}
-          {/*  </Row>*/}
-          {/*)*/}
-
-          {/*  const placeholderRow = (ref: Ref<HTMLDivElement>) => (*/}
-          {/*    <Row ref={ref} active={selectedEventIndex === index}>*/}
-          {/*      <Col />*/}
-          {/*      <Col>*/}
-          {/*        <TextPlaceholder*/}
-          {/*          charsCount={Faker.random.number({ min: 10, max: 30 })}*/}
-          {/*        />*/}
-          {/*      </Col>*/}
-          {/*      <Col>*/}
-          {/*        <TextPlaceholder charsCount={8} /> -{" "}*/}
-          {/*        <TextPlaceholder charsCount={8} />*/}
-          {/*      </Col>*/}
-          {/*      <Col>*/}
-          {/*        <TextPlaceholder*/}
-          {/*          charsCount={Faker.random.number({ min: 20, max: 30 })}*/}
-          {/*        />*/}
-          {/*      </Col>*/}
-          {/*    </Row>*/}
-          {/*  )*/}
-
-          {/*  return (*/}
-          {/*    <InView key={id}>*/}
-          {/*      {({ inView, ref }) =>*/}
-          {/*        inView ? interactiveRow(ref) : placeholderRow(ref)*/}
-          {/*      }*/}
-          {/*    </InView>*/}
-          {/*  )*/}
-          {/*})}*/}
+        <div>
+          <List
+            width={990}
+            height={550}
+            scrollToIndex={selectedEventIndex}
+            rowRenderer={renderRow}
+            rowCount={events.length}
+            rowHeight={64}
+          />
         </div>
       </Group>
     </Table>
