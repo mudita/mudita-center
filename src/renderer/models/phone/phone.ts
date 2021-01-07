@@ -143,7 +143,7 @@ export default {
     authorize(provider: Provider) {
       switch (provider) {
         case Provider.Google:
-          externalProvidersStore.dispatch.google.authorize()
+          externalProvidersStore.dispatch.google.authorize("contacts")
           break
         // TODO: update when adding new providers
         case Provider.Apple:

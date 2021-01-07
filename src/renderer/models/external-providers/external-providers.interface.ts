@@ -1,4 +1,8 @@
-import { GoogleProviderState } from "Renderer/models/external-providers/google/google.interface"
+import {
+  GoogleProviderState,
+  Scopes,
+} from "Renderer/models/external-providers/google/google.interface"
+import { AxiosRequestConfig } from "axios"
 
 export enum Provider {
   Google = "google",
@@ -8,4 +12,10 @@ export enum Provider {
 
 export interface ExternalProvidersState {
   google: GoogleProviderState
+}
+
+export interface RequestWrapperPayload {
+  axiosProps: AxiosRequestConfig
+  scope: Scopes
+  tries?: number
 }

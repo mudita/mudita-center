@@ -90,5 +90,12 @@ export interface GoogleEventsSuccess {
 }
 
 export interface GoogleProviderState {
-  auth: Partial<GoogleAuthSuccessResponse>
+  calendar: Partial<GoogleAuthSuccessResponse>
+  contacts: Partial<GoogleAuthSuccessResponse>
 }
+
+export type Scopes = keyof GoogleProviderState
+// {
+//   Contacts, // "https://www.googleapis.com/auth/contacts",
+//   Calendar, // "https://www.googleapis.com/auth/calendar",
+// }
