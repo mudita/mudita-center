@@ -130,6 +130,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   }, [provider])
 
   useEffect(() => {
+    console.log({ eventsListRef })
     if (selectedEvent) {
       const selectedEventIndex = events.indexOf(selectedEvent)
 
