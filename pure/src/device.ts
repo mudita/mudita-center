@@ -1,209 +1,89 @@
-import SerialPort from "serialport"
-import { EventEmitter } from "events"
-import path from "path"
-import * as fs from "fs"
 import {
-  BodyCommand,
   CreateDevice,
-  DeviceEventName,
   Endpoint,
-  FileResponseStatus,
   Method,
-  PureDevice,
   RequestConfig,
   Response,
   ResponseStatus,
-  UpdateResponseStatus,
 } from "./device.types"
-import { createValidRequest, getNewUUID, parseData } from "./parser"
-import { Formatter } from "./formatter"
+import { Contact, CountBodyResponse, DeviceInfo } from "./endpoints"
+import { Formatter, FormatterFactory } from "./formatter"
+import BaseDevice from "./base-device"
 
-class Device implements PureDevice {
-  #port: SerialPort | undefined
-  #eventEmitter = new EventEmitter()
-  #portBlocked = true
+class Device extends BaseDevice {
+  #formatter: Formatter | undefined
 
-  constructor(private formatter: Formatter, private path: string) {}
-
-  public connect(): Promise<Response> {
-    return new Promise((resolve) => {
-      this.#port = new SerialPort(this.path, (error) => {
-        if (error) {
-          resolve({ status: ResponseStatus.ConnectionError })
-        } else {
-          resolve({ status: ResponseStatus.Ok })
-        }
-      })
-
-      this.#port.on("data", (event) => {
-        this.#eventEmitter.emit(DeviceEventName.DataReceived, event)
-      })
-
-      this.#port.on("close", () => {
-        this.#eventEmitter.emit(DeviceEventName.Disconnected)
-      })
-    })
+  constructor(private formatterFactory: FormatterFactory, path: string) {
+    super(path)
   }
 
-  public disconnect(): Promise<Response> {
-    return new Promise((resolve) => {
-      if (this.#port === undefined) {
-        resolve({ status: ResponseStatus.Ok })
-      } else {
-        this.#port.close((error) => {
-          if (error) {
-            resolve({ status: ResponseStatus.ConnectionError })
-          } else {
-            resolve({ status: ResponseStatus.Ok })
-          }
-        })
-      }
+  public async connect(): Promise<Response> {
+    const response = await super.connect()
+    const { body } = await super.request({
+      endpoint: Endpoint.ApiVersion,
+      method: Method.Get,
     })
-  }
 
-  public request(config: RequestConfig): Promise<Response<any>> {
-    if (config.endpoint === Endpoint.FileUpload) {
-      return this.fileUploadRequest(config)
-    } else if (config.endpoint === Endpoint.DeviceUpdate) {
-      return this.deviceUpdateRequest(config)
-    } else {
-      return new Promise((resolve) => {
-        if (!this.#port || !this.#portBlocked) {
-          resolve({ status: ResponseStatus.ConnectionError })
-        } else {
-          const uuid = getNewUUID()
-
-          const listener = async (event: any) => {
-            const response = await parseData(event)
-            const formattedResponse = this.formatter.formatResponse(
-              config.method,
-              response
-            )
-            if (response.uuid === String(uuid)) {
-              this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-              resolve(formattedResponse)
-            }
-          }
-
-          this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
-          const formattedConfig = this.formatter.formatRequestConfig(config)
-          const request = createValidRequest({ ...formattedConfig, uuid })
-          this.#port.write(request)
-        }
-      })
+    if (body === undefined) {
+      return { status: ResponseStatus.ConnectionError }
     }
+
+    this.#formatter = this.formatterFactory.create(body.version)
+
+    return response
   }
 
-  public on(eventName: DeviceEventName, listener: () => void): void {
-    this.#eventEmitter.on(eventName, listener)
-  }
+  public request(config: {
+    endpoint: Endpoint.DeviceInfo
+    method: Method.Get
+  }): Promise<Response<DeviceInfo>>
+  public request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Get
+    body: { count: true }
+  }): Promise<Response<CountBodyResponse>>
+  public request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Get
+    body: { count: number }
+  }): Promise<Response<Contact[]>>
+  public request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Post
+    body: Contact
+  }): Promise<Response<Contact>>
+  public request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Put
+    body: Contact
+  }): Promise<Response<Contact>>
+  public request(config: {
+    endpoint: Endpoint.Contacts
+    method: Method.Delete
+    body: Contact["id"]
+  }): Promise<Response<string>>
+  public request(config: {
+    endpoint: Endpoint.DeviceUpdate
+    method: Method.Post
+    file: string
+  }): Promise<Response>
+  public request(config: {
+    endpoint: Endpoint.FileUpload
+    method: Method.Post
+    file: string
+  }): Promise<Response>
+  public request(config: RequestConfig): Promise<Response<any>>
+  public async request(config: RequestConfig): Promise<Response<any>> {
+    if (this.#formatter === undefined) {
+      return { status: ResponseStatus.ConnectionError }
+    }
 
-  public off(eventName: DeviceEventName, listener: () => void): void {
-    this.#eventEmitter.off(eventName, listener)
-  }
+    const formattedConfig = this.#formatter.formatRequestConfig(config)
+    const response = await super.request(formattedConfig)
 
-  private fileUploadRequest({ file }: RequestConfig): Promise<Response<any>> {
-    return new Promise((resolve) => {
-      if (!this.#port || !this.#portBlocked || !file) {
-        resolve({ status: ResponseStatus.ConnectionError })
-      } else {
-        this.#portBlocked = false
-        const uuid = getNewUUID()
-
-        const listener = async (event: any) => {
-          const response = await parseData(event)
-
-          if (response.uuid === String(uuid)) {
-            if (response.body.status === FileResponseStatus.Ok) {
-              const readStream = fs.createReadStream(file, {
-                highWaterMark: 16384,
-              })
-
-              readStream.on("data", (data) => {
-                if (this.#port) {
-                  this.#port.write(data)
-                  this.#port.drain()
-                }
-              })
-
-              readStream.on("end", () => {
-                this.#portBlocked = true
-              })
-            } else {
-              this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-              this.#portBlocked = true
-              resolve(response)
-            }
-          } else if (
-            response.endpoint === Endpoint.FileSystemUpload &&
-            response.status === ResponseStatus.Accepted
-          ) {
-            this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-            resolve(response)
-          }
-        }
-
-        this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
-
-        const fileName = path.basename(file)
-        const fileSize = fs.lstatSync(file).size
-
-        const config = {
-          uuid,
-          endpoint: Endpoint.FileSystemUpload,
-          method: Method.Post,
-          body: {
-            fileName,
-            fileSize,
-            command: BodyCommand.Download,
-          },
-        }
-
-        const request = createValidRequest(config)
-        this.#port.write(request)
-      }
-    })
-  }
-
-  private deviceUpdateRequest({ file }: RequestConfig): Promise<Response<any>> {
-    return new Promise((resolve) => {
-      if (!this.#port || !this.#portBlocked || !file) {
-        resolve({ status: ResponseStatus.ConnectionError })
-      } else {
-        this.#portBlocked = false
-        const uuid = getNewUUID()
-
-        const listener = async (event: any) => {
-          const response = await parseData(event)
-
-          if (response.endpoint === Endpoint.Update) {
-            if (response.body.status === UpdateResponseStatus.Ok) {
-              this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-              resolve({ status: ResponseStatus.Ok })
-            }
-          }
-        }
-
-        this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
-
-        const fileName = path.basename(file)
-        const config = {
-          uuid,
-          endpoint: Endpoint.Update,
-          method: Method.Post,
-          body: {
-            fileName,
-          },
-        }
-
-        const request = createValidRequest(config)
-        this.#port.write(request)
-      }
-    })
+    return this.#formatter.formatResponse(config.method, response)
   }
 }
 
-export const createDevice: CreateDevice = (
-  formatter: Formatter,
-  path: string
-) => new Device(formatter, path)
+export const createDevice: CreateDevice = (path: string) =>
+  new Device(new FormatterFactory(), path)

@@ -3,7 +3,6 @@ import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
 import { createDevice } from "./device"
 import { CreateDevice, PureDevice } from "./device.types"
-import { Formatter, PureV1Formatter } from "./formatter"
 
 export const productId = "0100"
 export const manufacturer = "Mudita"
@@ -22,7 +21,6 @@ class DeviceManager implements PureDeviceManager {
   #eventEmitter = new EventEmitter()
 
   constructor(
-    private formatter: Formatter,
     private createDevice: CreateDevice,
     private usbDetector: UsbDetector
   ) {}
@@ -41,7 +39,7 @@ class DeviceManager implements PureDeviceManager {
         // commented until the embedded  development with the productId will stabilize
         // && portInfo.productId === productId
       )
-      .map(({ path }) => this.createDevice(this.formatter, path))
+      .map(({ path }) => this.createDevice(path))
   }
 
   public onAttachDevice(listener: (event: PureDevice) => void): void {
@@ -61,7 +59,7 @@ class DeviceManager implements PureDeviceManager {
           ({ serialNumber }) => String(serialNumber) === portInfo.serialNumber
         )
         if (port) {
-          const device = this.createDevice(this.formatter, port.path)
+          const device = this.createDevice(port.path)
           this.#eventEmitter.emit(DeviceManagerEventName.AttachedDevice, device)
         }
       }
@@ -74,15 +72,10 @@ class DeviceManager implements PureDeviceManager {
 }
 
 const createDeviceManager = (
-  formatter: Formatter,
   createDevice: CreateDevice,
   usbDetector: UsbDetector
 ) => {
-  return new DeviceManager(formatter, createDevice, usbDetector).init()
+  return new DeviceManager(createDevice, usbDetector).init()
 }
 
-export default createDeviceManager(
-  new PureV1Formatter(),
-  createDevice,
-  new UsbDetector().init()
-)
+export default createDeviceManager(createDevice, new UsbDetector().init())

@@ -1,8 +1,8 @@
-import { Endpoint, Method, RequestConfig, Response } from "../../device.types"
-import { Formatter } from "../formatter"
+import { Endpoint, Method, RequestConfig, Response } from "../device.types"
+import { Formatter } from "./formatter"
 
 export class PureV1Formatter extends Formatter {
-  formatRequestConfig(config: RequestConfig): any {
+  formatRequestConfig(config: RequestConfig): RequestConfig {
     const { endpoint, method, body } = config
     if (endpoint === Endpoint.Contacts && method === Method.Post) {
       return { ...config, body: { ...body, id: Number(body.id) } }
