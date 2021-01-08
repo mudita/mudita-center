@@ -7,7 +7,7 @@ import {
   GoogleEvent,
   GoogleEventsSuccess,
   GoogleProviderState,
-  Scopes,
+  Scope,
 } from "Renderer/models/external-providers/google/google.interface"
 import { Dispatch } from "Renderer/store/external-providers"
 import { ipcRenderer } from "electron-better-ipc"
@@ -43,7 +43,7 @@ export const createStore = () => ({
       state: GoogleProviderState,
       payload: {
         data: Partial<GoogleAuthSuccessResponse>
-        scope: Scopes
+        scope: Scope
       }
     ) {
       state[payload.scope] = {
@@ -107,7 +107,7 @@ export const createStore = () => ({
         }
       }
     },
-    authorize(scope: Scopes, rootState: ExternalProvidersState) {
+    authorize(scope: Scope, rootState: ExternalProvidersState) {
       return new Promise((resolve, reject) => {
         logger.info("Authorizing in Google")
 
@@ -148,7 +148,7 @@ export const createStore = () => ({
 
       const { data } = await this.requestWrapper<GoogleCalendarsSuccess>(
         {
-          scope: "calendar",
+          scope: Scope.Calendar,
           axiosProps: {
             url: `${googleEndpoints.calendars}/users/me/calendarList`,
           },
@@ -167,7 +167,7 @@ export const createStore = () => ({
 
       const { data } = await this.requestWrapper<GoogleContacts>(
         {
-          scope: "contacts",
+          scope: Scope.Contacts,
           axiosProps: {
             url: `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`,
           },
@@ -194,7 +194,7 @@ export const createStore = () => ({
 
         return this.requestWrapper<GoogleEventsSuccess>(
           {
-            scope: "calendar",
+            scope: Scope.Calendar,
             axiosProps: {
               url: `${
                 googleEndpoints.calendars

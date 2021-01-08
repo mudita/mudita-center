@@ -89,13 +89,12 @@ export interface GoogleEventsSuccess {
   items: GoogleEvent[]
 }
 
-export interface GoogleProviderState {
-  calendar: Partial<GoogleAuthSuccessResponse>
-  contacts: Partial<GoogleAuthSuccessResponse>
+export enum Scope {
+  Calendar = "calendar",
+  Contacts = "contacts",
 }
 
-export type Scopes = keyof GoogleProviderState
-// {
-//   Contacts, // "https://www.googleapis.com/auth/contacts",
-//   Calendar, // "https://www.googleapis.com/auth/calendar",
-// }
+export interface GoogleProviderState {
+  [Scope.Contacts]: Partial<GoogleAuthSuccessResponse>
+  [Scope.Calendar]: Partial<GoogleAuthSuccessResponse>
+}

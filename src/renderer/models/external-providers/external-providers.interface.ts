@@ -1,6 +1,6 @@
 import {
   GoogleProviderState,
-  Scopes,
+  Scope,
 } from "Renderer/models/external-providers/google/google.interface"
 import { AxiosRequestConfig } from "axios"
 
@@ -16,6 +16,6 @@ export interface ExternalProvidersState {
 
 export interface RequestWrapperPayload {
   axiosProps: AxiosRequestConfig
-  scope: Scopes
+  scope: Scope
   tries?: number
 }

@@ -47,7 +47,6 @@ jest.mock(
         switch (channel) {
           case GoogleAuthActions.GotCredentials:
             callback(JSON.stringify(authData))
-            // callback(JSON.stringify({ error: "some error" }))
             return true
           default:
             return false
