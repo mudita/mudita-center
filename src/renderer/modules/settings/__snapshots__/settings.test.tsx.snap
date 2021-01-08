@@ -13,13 +13,13 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.04rem;
 }
 
-.c6 {
+.c7 {
   margin: 0;
   font-size: 1.6rem;
   line-height: 1.05;
 }
 
-.c13 {
+.c16 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -31,6 +31,14 @@ exports[`matches snapshot 1`] = `
 }
 
 .c8 {
+  grid-area: Name;
+  -webkit-align-self: end;
+  -ms-flex-item-align: end;
+  align-self: end;
+  margin-bottom: 0.4rem;
+}
+
+.c10 {
   grid-area: Actions;
   display: -webkit-box;
   display: -webkit-flex;
@@ -47,7 +55,31 @@ exports[`matches snapshot 1`] = `
   width: 9rem;
 }
 
-.c11 {
+.c4 {
+  display: grid;
+  grid-template-columns: 11rem 1fr 9rem;
+  grid-template-areas: "Checkbox . Actions";
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  height: 9rem;
+  min-height: 9rem;
+  box-sizing: border-box;
+  border-bottom: solid 0.1rem #d2d6db;
+  -webkit-transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.c4:hover {
+  background-color: #f4f5f6;
+}
+
+.c4:hover .sc-kEjbxe {
+  opacity: 1;
+  visibility: visible;
+}
+
+.c13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -77,15 +109,15 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c11:hover {
+.c13:hover {
   background: #232426;
 }
 
-.c11 g {
+.c13 g {
   fill: #ffffff;
 }
 
-.c15 {
+.c18 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -113,19 +145,19 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c15 g {
+.c18 g {
   fill: #000000;
 }
 
-.c15:hover {
+.c18:hover {
   border-color: #000000;
 }
 
-.c14 {
+.c17 {
   white-space: nowrap;
 }
 
-.c9 {
+.c11 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -136,11 +168,7 @@ exports[`matches snapshot 1`] = `
   position: relative;
 }
 
-.c10 {
-  margin-right: 4rem;
-}
-
-.c12 {
+.c14 {
   --radius: 0.5rem;
   -webkit-flex: 1;
   -ms-flex: 1;
@@ -148,112 +176,91 @@ exports[`matches snapshot 1`] = `
   z-index: 1;
   pointer-events: all;
   z-index: 3;
-  padding: 0 3.6rem;
-  width: 75%;
 }
 
-.c12:disabled {
+.c14:disabled {
   pointer-events: none;
 }
 
-.c12:hover {
+.c14:hover {
   z-index: 2;
 }
 
-.c12:not(:first-of-type) {
+.c14:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c12:first-of-type:not(:last-of-type) {
+.c14:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c12:last-of-type:not(:first-of-type) {
+.c14:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c16 {
+.c19 {
   --radius: 0.5rem;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
   z-index: 1;
   pointer-events: all;
-  padding: 0 3.6rem;
-  width: 75%;
 }
 
-.c16:disabled {
+.c19:disabled {
   pointer-events: none;
 }
 
-.c16:hover {
+.c19:hover {
   z-index: 2;
 }
 
-.c16:not(:hover) {
+.c19:not(:hover) {
   border: 0.1rem solid #cdcecf;
   color: #6a6a6a;
 }
 
-.c16:not(:hover) g {
+.c19:not(:hover) g {
   fill: #cdcecf;
 }
 
-.c16:not(:first-of-type) {
+.c19:not(:first-of-type) {
   border-radius: 0;
   margin-left: -0.1rem;
 }
 
-.c16:first-of-type:not(:last-of-type) {
+.c19:first-of-type:not(:last-of-type) {
   border-radius: var(--radius) 0 0 var(--radius);
 }
 
-.c16:last-of-type:not(:first-of-type) {
+.c19:last-of-type:not(:first-of-type) {
   border-radius: 0 var(--radius) var(--radius) 0;
 }
 
-.c4 {
-  display: grid;
-  grid-template-columns: 11rem 1fr 9rem;
-  grid-template-areas: "Checkbox . Actions";
-  -webkit-align-content: center;
-  -ms-flex-line-pack: center;
-  align-content: center;
-  height: 9rem;
-  min-height: 9rem;
-  box-sizing: border-box;
-  border-bottom: solid 0.1rem #d2d6db;
-  -webkit-transition: background-color 0.15s ease-in-out;
-  transition: background-color 0.15s ease-in-out;
+.c12 {
+  margin-right: 4rem;
+}
+
+.c15 {
+  padding: 0 3.6rem;
+  width: 75%;
+}
+
+.c5 {
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 15rem;
   border-bottom: solid 0.1rem #d2d6db;
 }
 
-.c4:hover {
-  background-color: #f4f5f6;
-}
-
-.c4:hover .sc-fzpans {
-  opacity: 1;
-  visibility: visible;
-}
-
-.c5 {
+.c6 {
   grid-area: Checkbox;
   -webkit-align-self: center;
   -ms-flex-item-align: center;
   align-self: center;
 }
 
-.c7 {
-  grid-area: Name;
-  -webkit-align-self: end;
-  -ms-flex-item-align: end;
-  align-self: end;
-  margin-bottom: 0.4rem;
+.c9 {
   margin-left: 4rem;
 }
 
@@ -286,44 +293,44 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="c4"
+      class="c4 c5"
       data-testid="settings-tablerow"
     >
       <div
-        class="c5"
+        class="c6"
       >
         <p
-          class="c6 c7"
+          class="c7 c8 c9"
         >
           [value] view.name.settings.autostartLabel
         </p>
       </div>
       <div
-        class="c8"
+        class="c10"
       >
         <section
-          class="c9 c10"
+          class="c11 c12"
         >
           <button
-            class="c11 c12"
+            class="c13 c14 c15"
             data-testid="toggler-active"
             size="2"
             type="button"
           >
             <p
-              class="c13 c14"
+              class="c16 c17"
             >
               [value] view.name.settings.offLabel
             </p>
           </button>
           <button
-            class="c15 c16"
+            class="c18 c19 c15"
             data-testid="toggler-inactive"
             size="2"
             type="button"
           >
             <p
-              class="c13 c14"
+              class="c16 c17"
             >
               [value] view.name.settings.onLabel
             </p>

@@ -13,13 +13,13 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.04rem;
 }
 
-.c6 {
+.c8 {
   margin: 0;
   font-size: 1.6rem;
   line-height: 1.05;
 }
 
-.c11 {
+.c14 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -30,7 +30,7 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.1rem;
 }
 
-.c7 {
+.c9 {
   grid-area: Name;
   -webkit-align-self: end;
   -ms-flex-item-align: end;
@@ -38,7 +38,7 @@ exports[`matches snapshot 1`] = `
   margin-bottom: 0.4rem;
 }
 
-.c8 {
+.c10 {
   grid-area: Message;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -49,7 +49,55 @@ exports[`matches snapshot 1`] = `
   margin-top: 0.4rem;
 }
 
-.c10 {
+.c11 {
+  grid-area: Actions;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 9rem;
+}
+
+.c6 {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 2.4rem 2.4rem;
+  grid-template-areas: "Name Time" "Message Message";
+}
+
+.c4 {
+  display: grid;
+  grid-template-columns: 11rem 1fr 9rem;
+  grid-template-areas: "Checkbox . Actions";
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  height: 9rem;
+  min-height: 9rem;
+  box-sizing: border-box;
+  border-bottom: solid 0.1rem #d2d6db;
+  -webkit-transition: background-color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.c4:hover {
+  background-color: #f4f5f6;
+}
+
+.c4:hover .sc-kEjbxe {
+  opacity: 1;
+  visibility: visible;
+}
+
+.c13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -79,43 +127,22 @@ exports[`matches snapshot 1`] = `
   border: 0.1rem solid #3b3f42;
 }
 
-.c10:hover {
+.c13:hover {
   background: #232426;
 }
 
-.c10 g {
+.c13 g {
   fill: #ffffff;
 }
 
-.c12 {
+.c15 {
   white-space: nowrap;
 }
 
-.c4 {
-  display: grid;
-  grid-template-columns: 11rem 1fr 9rem;
-  grid-template-areas: "Checkbox . Actions";
-  -webkit-align-content: center;
-  -ms-flex-line-pack: center;
-  align-content: center;
-  height: 9rem;
-  min-height: 9rem;
-  box-sizing: border-box;
-  border-bottom: solid 0.1rem #d2d6db;
-  -webkit-transition: background-color 0.15s ease-in-out;
-  transition: background-color 0.15s ease-in-out;
+.c5 {
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 20rem;
   border-bottom: solid 0.1rem #d2d6db;
-}
-
-.c4:hover {
-  background-color: #f4f5f6;
-}
-
-.c4:hover .sc-fzpans {
-  opacity: 1;
-  visibility: visible;
 }
 
 .c1 {
@@ -131,29 +158,11 @@ exports[`matches snapshot 1`] = `
   padding-top: 3.2rem;
 }
 
-.c5 {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: 2.4rem 2.4rem;
-  grid-template-areas: "Name Time" "Message Message";
+.c7 {
   margin-left: 4rem;
 }
 
-.c9 {
-  grid-area: Actions;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  width: 9rem;
+.c12 {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -173,33 +182,33 @@ exports[`matches snapshot 1`] = `
       </p>
     </div>
     <div
-      class="c4"
+      class="c4 c5"
     >
       <div
-        class="c5"
+        class="c6 c7"
       >
         <p
-          class="c6 c7"
+          class="c8 c9"
         >
           [value] view.name.settings.backup.label
         </p>
         <p
-          class="c2 c8"
+          class="c2 c10"
           data-testid="backup-location"
         >
           C:/MuditaOs
         </p>
       </div>
       <div
-        class="c9"
+        class="c11 c12"
       >
         <button
-          class="c10"
+          class="c13"
           size="2"
           type="button"
         >
           <p
-            class="c11 c12"
+            class="c14 c15"
           >
             [value] view.name.settings.backup.buttonLabel
           </p>
