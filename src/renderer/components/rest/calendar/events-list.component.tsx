@@ -19,7 +19,7 @@ import {
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
-import { List } from "react-virtualized"
+import { List, AutoSizer } from "react-virtualized"
 
 const Table = styled(BaseSelectableCalls)`
   --columnsTemplate: 4rem 5fr 3fr 3fr;
@@ -43,25 +43,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
     const { id, name, startDate, endDate } = events[index]
     const { selected } = getRowStatus(events[index])
     const onCheckboxToggle = () => toggleRow(events[index])
-    const content = isScrolling ? (
-      <Row active={selectedEventIndex === index}>
-        <Col />
-        <Col>
-          <TextPlaceholder
-            charsCount={Faker.random.number({ min: 10, max: 30 })}
-          />
-        </Col>
-        <Col>
-          <TextPlaceholder charsCount={8} /> -{" "}
-          <TextPlaceholder charsCount={8} />
-        </Col>
-        <Col>
-          <TextPlaceholder
-            charsCount={Faker.random.number({ min: 20, max: 30 })}
-          />
-        </Col>
-      </Row>
-    ) : (
+    return (
       <Row
         active={selectedEventIndex === index}
         data-testid={CalendarTestIds.Event}
@@ -90,8 +72,6 @@ const EventsList: FunctionComponent<EventsListProps> = ({
         </Col>
       </Row>
     )
-
-    return content
   }
   return (
     <Table>
@@ -101,14 +81,20 @@ const EventsList: FunctionComponent<EventsListProps> = ({
           <Col />
         </Labels>
         <div>
-          <List
-            width={990}
-            height={550}
-            scrollToIndex={selectedEventIndex}
-            rowRenderer={renderRow}
-            rowCount={events.length}
-            rowHeight={64}
-          />
+          <AutoSizer disableHeight>
+            {({ width }) => (
+              <List
+                height={597}
+                width={width}
+                scrollToIndex={selectedEventIndex}
+                overscanRowCount={10}
+                rowRenderer={renderRow}
+                rowCount={events.length}
+                rowHeight={64}
+              />
+            )}
+          </AutoSizer>
+          <List />
         </div>
       </Group>
     </Table>
