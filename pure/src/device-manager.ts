@@ -1,8 +1,7 @@
 import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
-import { createDevice } from "./device/device"
-import { CreateDevice, PureDevice } from "./device/device.types"
+import { CreateDevice, PureDevice, createDevice } from "./device"
 
 export const productId = "0100"
 export const manufacturer = "Mudita"

@@ -68,3 +68,12 @@ test("request method return error if device isn't connected", async () => {
   })
   expect(response.status).toEqual(ResponseStatus.ConnectionError)
 })
+
+test("ApiVersion return mocked '0' version", async () => {
+  await device.connect()
+  const response = await device.request({
+    endpoint: Endpoint.ApiVersion,
+    method: Method.Get,
+  })
+  expect(response.body.version).toEqual(0)
+})

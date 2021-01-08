@@ -62,19 +62,20 @@ class BaseDevice implements PureDevice {
   public request(config: {
     endpoint: Endpoint.ApiVersion
     method: Method.Get
-  }): Promise<Response<{version: number}>>
+  }): Promise<Response<{ version: number }>>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
     if (config.endpoint === Endpoint.FileUpload) {
       return this.fileUploadRequest(config)
     } else if (config.endpoint === Endpoint.DeviceUpdate) {
       return this.deviceUpdateRequest(config)
-    } else if(config.endpoint === Endpoint.ApiVersion) {
+    } else if (config.endpoint === Endpoint.ApiVersion) {
+      // mocked response until the backend implements versioning API
       return {
         status: ResponseStatus.Ok,
         body: {
-          version: 0
-        }
+          version: 0,
+        },
       }
     } else {
       return new Promise((resolve) => {

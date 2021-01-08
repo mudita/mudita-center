@@ -1,9 +1,10 @@
-import { Endpoint, Method } from "pure"
-import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import {
+  Endpoint,
+  Method,
   Contact as PureContact,
   NewContact as PureNewContact,
-} from "pure/dist/formatter/pure-v1/endpoints/contact.types"
+} from "pure"
+import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import {
   Contact,
   ContactID,
