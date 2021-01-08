@@ -24,6 +24,7 @@ import getContacts from "Renderer/requests/get-contacts.request"
 import logger from "App/main/utils/logger"
 import externalProvidersStore from "Renderer/store/external-providers"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import { Scope } from "Renderer/models/external-providers/google/google.interface"
 
 export const initialState: PhoneState = {
   db: {},
@@ -143,7 +144,7 @@ export default {
     authorize(provider: Provider) {
       switch (provider) {
         case Provider.Google:
-          externalProvidersStore.dispatch.google.authorize("contacts")
+          externalProvidersStore.dispatch.google.authorize(Scope.Contacts)
           break
         // TODO: update when adding new providers
         case Provider.Apple:

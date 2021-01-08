@@ -5,6 +5,7 @@ import {
 import {
   GoogleAuthSuccessResponse,
   GoogleContactResourceItem,
+  Scope,
 } from "Renderer/models/external-providers/google/google.interface"
 import axios from "axios"
 import MockAdapter from "axios-mock-adapter"
@@ -84,7 +85,7 @@ test("store returns initial state", () => {
 })
 
 test("auth data is set properly", () => {
-  store.dispatch.google.setAuthData({ data: authData, scope: "calendar" })
+  store.dispatch.google.setAuthData({ data: authData, scope: Scope.Calendar })
   expect(store.getState().google.calendar).toMatchInlineSnapshot(`
     Object {
       "access_token": "some-token",
@@ -115,7 +116,6 @@ test("authorization handles error properly", async () => {
         ) => {
           switch (channel) {
             case GoogleAuthActions.GotCredentials:
-              // callback(JSON.stringify(authData))
               callback(JSON.stringify({ error: "some error" }))
               return true
             default:
@@ -336,7 +336,7 @@ test("requestWrapper handles 401 error properly", async () => {
   expect(
     (
       await store.dispatch.google.requestWrapper({
-        scope: "calendar",
+        scope: Scope.Calendar,
         axiosProps: {
           url: `${googleEndpoints.calendars}/users/me/calendarList`,
         },
@@ -357,7 +357,7 @@ test("requestWrapper handles other errors properly", async () => {
   expect(
     (
       await store.dispatch.google.requestWrapper({
-        scope: "calendar",
+        scope: Scope.Calendar,
         axiosProps: {
           url: `${googleEndpoints.calendars}/users/me/calendarList`,
         },
@@ -379,7 +379,7 @@ test("requestWrapper handles no access token error properly", async () => {
 
   try {
     await store.dispatch.google.requestWrapper({
-      scope: "calendar",
+      scope: Scope.Calendar,
       axiosProps: {
         url: `${googleEndpoints.calendars}/users/me/calendarList`,
       },
