@@ -101,6 +101,6 @@ test("events are cleared properly", () => {
   ]
   store.dispatch.calendar.setEvents(events)
   expect(store.getState().calendar.events).toHaveLength(events.length)
-  store.dispatch.calendar.clearEvents()
+  store.dispatch.calendar._devClearAllEvents()
   expect(store.getState().calendar.events).toHaveLength(0)
 })

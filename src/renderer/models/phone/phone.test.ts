@@ -12,7 +12,12 @@ import {
   editContact,
   findContact,
 } from "Renderer/models/phone/phone.helpers"
-import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
+import {
+  Contact,
+  ContactID,
+  PhoneState,
+  ResultsState,
+} from "Renderer/models/phone/phone.typings"
 import phone from "Renderer/models/phone/phone"
 
 const TEST_CONTACT = { ...phoneSeed.db[phoneSeed.collection[0]] }
@@ -36,11 +41,12 @@ const TEST_CONTACT_TO_CLEAN = {
 }
 const TEST_PHONE_NUMBER = "+82 707 439 683"
 const TEST_EXPECTED_PHONE_NUMBER = "+82707439683"
-const OLD_DB_SHAPE = {
+const OLD_DB_SHAPE: PhoneState = {
   db: {
     [TEST_CONTACT_TO_CLEAN.id]: TEST_CONTACT_TO_CLEAN,
   },
   collection: [TEST_CONTACT_TO_CLEAN.id],
+  resultsState: ResultsState.Empty,
 }
 
 describe("typeGuard tests", () => {
@@ -131,7 +137,14 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
   })
 
   test("should add contacts in batch", () => {
-    const result = addContacts({ db: {}, collection: [] }, TEST_CONTACTS_BATCH)
+    const result = addContacts(
+      {
+        db: {},
+        collection: [],
+        resultsState: ResultsState.Empty,
+      },
+      TEST_CONTACTS_BATCH
+    )
 
     expect(result.collection).toHaveLength(TEST_CONTACTS_BATCH.length)
   })
@@ -149,7 +162,8 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
 
     expect(OLD_DB_SHAPE.db[ID_TO_EDIT].firstName).not.toBe(NEW_NAME)
 
-    const result = editContact(OLD_DB_SHAPE, ID_TO_EDIT, {
+    const result = editContact(OLD_DB_SHAPE, {
+      id: ID_TO_EDIT,
       firstName: NEW_NAME,
     })
 
@@ -212,7 +226,7 @@ describe("redux tests", () => {
       modifiedContact
     )
 
-    store.dispatch.phone.editContact([TEST_CONTACT.id], modifiedContact)
+    store.dispatch.phone.editContact(modifiedContact)
 
     expect(store.getState().phone.db[TEST_CONTACT.id]).toMatchObject(
       modifiedContact
@@ -255,7 +269,7 @@ describe("redux tests", () => {
       store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
     ).toBe(speedDial)
 
-    store.dispatch.phone.editContact(contactToEdit.id, {
+    store.dispatch.phone.editContact({
       ...contactToEdit,
       speedDial,
     })
@@ -283,46 +297,11 @@ describe("redux tests", () => {
   })
 
   test("properly removes multiple contacts", () => {
-    const sliceToRemove = phoneSeed.collection.slice(0, 5)
+    const contactToDelete = phoneSeed.collection[0]
     const initialState = store.getState().phone
-
-    sliceToRemove.forEach((slice) => {
-      expect(initialState.db[slice]).toBeDefined()
-      expect(initialState.collection.indexOf(slice) === -1).toBeFalsy()
-    })
-
-    store.dispatch.phone.removeContact(sliceToRemove)
-
+    expect(initialState.collection.indexOf(contactToDelete) === -1).toBeFalsy()
+    store.dispatch.phone.removeContact(contactToDelete)
     const newState = store.getState().phone
-
-    sliceToRemove.forEach((slice) => {
-      expect(newState.db[slice]).toBeUndefined()
-      expect(newState.collection.indexOf(slice) === -1).toBeTruthy()
-    })
-  })
-
-  test("properly updates contacts", () => {
-    const id = "12121"
-    const contactToUpdate = [
-      {
-        id,
-        firstName: "John",
-        lastName: "Malysz",
-        primaryPhoneNumber: "+123 123 123 123",
-        secondaryPhoneNumber: "",
-        email: "",
-        note: "",
-        ice: false,
-        favourite: false,
-        blocked: false,
-        firstAddressLine: "",
-        secondAddressLine: "",
-      },
-    ]
-    const contactReadyToUpdate = contactDatabaseFactory(contactToUpdate)
-    store.dispatch.phone.updateContacts(contactReadyToUpdate)
-    const state = store.getState()
-    expect(state.phone.collection).toHaveLength(phoneSeed.collection.length + 1)
-    expect(state.phone.db[id]).toBeDefined()
+    expect(newState.collection.indexOf(contactToDelete) === -1).toBeTruthy()
   })
 })

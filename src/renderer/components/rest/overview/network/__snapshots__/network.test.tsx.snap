@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-.c2 {
+.c3 {
   margin: 0;
   font-size: 2.4rem;
   line-height: 0.8;
@@ -12,13 +12,13 @@ exports[`matches snapshot 1`] = `
   letter-spacing: -0.06rem;
 }
 
-.c9 {
+.c10 {
   margin: 0;
   font-size: 1.4rem;
   line-height: 1.05;
 }
 
-.c11 {
+.c12 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -30,7 +30,7 @@ exports[`matches snapshot 1`] = `
   font-weight: 300;
 }
 
-.c14 {
+.c16 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.2;
@@ -41,7 +41,7 @@ exports[`matches snapshot 1`] = `
   letter-spacing: 0.1rem;
 }
 
-.c5 {
+.c6 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -60,12 +60,12 @@ exports[`matches snapshot 1`] = `
   font-style: normal;
 }
 
-.c5 svg {
+.c6 svg {
   width: 100%;
   height: 100%;
 }
 
-.c12 {
+.c13 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -96,23 +96,23 @@ exports[`matches snapshot 1`] = `
   color: #6a6a6a;
 }
 
-.c12 g {
+.c13 g {
   fill: #000000;
 }
 
-.c12 g {
+.c13 g {
   fill: #cdcecf;
 }
 
-.c12:hover {
+.c13:hover {
   border-color: #000000;
 }
 
-.c15 {
+.c17 {
   white-space: nowrap;
 }
 
-.c3 {
+.c4 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -123,7 +123,46 @@ exports[`matches snapshot 1`] = `
   position: relative;
 }
 
-.c8 {
+.c14 {
+  --radius: 0.5rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  z-index: 1;
+  pointer-events: all;
+}
+
+.c14:disabled {
+  pointer-events: none;
+}
+
+.c14:hover {
+  z-index: 2;
+}
+
+.c14:not(:hover) {
+  border: 0.1rem solid #cdcecf;
+  color: #6a6a6a;
+}
+
+.c14:not(:hover) g {
+  fill: #cdcecf;
+}
+
+.c14:not(:first-of-type) {
+  border-radius: 0;
+  margin-left: -0.1rem;
+}
+
+.c14:first-of-type:not(:last-of-type) {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c14:last-of-type:not(:first-of-type) {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c9 {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
@@ -139,20 +178,20 @@ exports[`matches snapshot 1`] = `
   box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
 }
 
-.c6 {
+.c7 {
   position: absolute;
   top: -0.8rem;
   left: -0.8rem;
   z-index: 4;
 }
 
-.c6:hover + .c7 {
+.c7:hover + .c8 {
   visibility: visible;
   opacity: 1;
   z-index: 4;
 }
 
-.c10 {
+.c11 {
   margin-bottom: 0.8rem;
 }
 
@@ -171,63 +210,27 @@ exports[`matches snapshot 1`] = `
   background-color: #ffffff;
 }
 
-.c4 {
+.c1 {
+  grid-area: Text;
+}
+
+.c5 {
   grid-area: Buttons;
   justify-self: end;
   min-width: 18rem;
 }
 
-.c13 {
-  --radius: 0.5rem;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  z-index: 1;
-  pointer-events: all;
+.c15 {
   padding: 0 1.6rem;
   width: 50%;
 }
 
-.c13:disabled {
-  pointer-events: none;
-}
-
-.c13:hover {
-  z-index: 2;
-}
-
-.c13:not(:hover) {
-  border: 0.1rem solid #cdcecf;
-  color: #6a6a6a;
-}
-
-.c13:not(:hover) g {
-  fill: #cdcecf;
-}
-
-.c13:not(:first-of-type) {
-  border-radius: 0;
-  margin-left: -0.1rem;
-}
-
-.c13:first-of-type:not(:last-of-type) {
-  border-radius: var(--radius) 0 0 var(--radius);
-}
-
-.c13:last-of-type:not(:first-of-type) {
-  border-radius: 0 var(--radius) var(--radius) 0;
-}
-
-.c13 svg {
+.c15 svg {
   height: initial;
   width: initial;
 }
 
-.c1 {
-  grid-area: Text;
-}
-
-.c1 p {
+.c2 p {
   margin-top: 1.2rem;
   -webkit-letter-spacing: 0.04rem;
   -moz-letter-spacing: 0.04rem;
@@ -241,19 +244,19 @@ exports[`matches snapshot 1`] = `
     class="c0"
   >
     <div
-      class="c1"
+      class="c1 c2"
     >
       <h2
-        class="c2"
+        class="c3"
       >
         [value] view.name.overview.network.name
       </h2>
     </div>
     <section
-      class="c3 c4"
+      class="c4 c5"
     >
       <i
-        class="c5 c6"
+        class="c6 c7"
         data-testid="icon-Tooltip"
         height="1.6"
         width="1.6"
@@ -263,28 +266,28 @@ exports[`matches snapshot 1`] = `
         />
       </i>
       <div
-        class="c7 c8"
+        class="c8 c9"
         data-testid="tooltip"
       >
         <p
-          class="c9 c10"
+          class="c10 c11"
         >
           [value] view.name.overview.network.tooltipTitle
         </p>
         <p
-          class="c11"
+          class="c12"
         >
           [value] view.name.overview.network.tooltipDescription
         </p>
       </div>
       <button
-        class="c12 c13"
+        class="c13 c14 c15"
         disabled=""
         size="2"
         type="button"
       >
         <p
-          class="c14 c15"
+          class="c16 c17"
         >
           [value] view.name.overview.network.noSimInserted
         </p>

@@ -8,6 +8,8 @@ export interface Contact {
   priName: string
 }
 
+export type NewContact = Omit<Contact, "id">
+
 export interface GetBodyContact {
   count: true | number
 }

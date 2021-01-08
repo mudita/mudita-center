@@ -12,7 +12,6 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
-import ViewWrapper from "Renderer/wrappers/view-wrapper/view-wrapper.container"
 import styled from "styled-components"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
 
@@ -51,6 +50,12 @@ export const HeaderButton = styled(Button)`
     height: 1.4rem;
     width: 1.4rem;
   }
+`
+
+const ViewWrapper = styled.div`
+  grid-area: View;
+  display: flex;
+  flex-direction: column;
 `
 
 const LayoutDesktopWrapper: FunctionComponent = ({ children }) => {

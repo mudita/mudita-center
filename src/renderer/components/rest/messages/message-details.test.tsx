@@ -10,10 +10,18 @@ import {
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
+const defaultProps = {
+  onDeleteClick: jest.fn(),
+  onUnreadStatus: jest.fn(),
+  onContactClick: jest.fn(),
+  onAttachContactClick: jest.fn(),
+  details: mockedDetails,
+}
+
 test("sidebar close button informs parent about closing", () => {
   const onClose = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails details={mockedDetails} onClose={onClose} />
+    <MessageDetails {...defaultProps} onClose={onClose} />
   )
   fireEvent.click(getByTestId("sidebar-close"))
   expect(onClose).toBeCalled()
@@ -21,7 +29,7 @@ test("sidebar close button informs parent about closing", () => {
 
 test("left part of sidebar displays details correctly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails details={mockedDetails} />
+    <MessageDetails {...defaultProps} />
   )
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
     `${mockedDetails.caller.firstName} ${mockedDetails.caller.lastName}`
@@ -33,7 +41,7 @@ test("left part of sidebar displays details correctly", () => {
 
 test("correct amount of message bubbles is displayed", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
-    <MessageDetails details={mockedDetails} />
+    <MessageDetails {...defaultProps} />
   )
   expect(getAllByTestId("message-content")).toHaveLength(
     mockedDetails.messages.length
@@ -42,9 +50,35 @@ test("correct amount of message bubbles is displayed", () => {
 
 test("message from unknown person displays only phone number", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails details={unknownCallerMockedDetails} />
+    <MessageDetails {...defaultProps} details={unknownCallerMockedDetails} />
   )
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
     unknownCallerMockedDetails.caller.phoneNumber
   )
+})
+
+test("mark massage as unread", () => {
+  const onClose = jest.fn()
+  const { getByTestId } = renderWithThemeAndIntl(
+    <MessageDetails {...defaultProps} onClose={onClose} />
+  )
+  fireEvent.click(getByTestId("icon-BorderCheckIcon"))
+  expect(defaultProps.onUnreadStatus).toBeCalledWith([mockedDetails.id])
+  expect(onClose).toBeCalled()
+})
+
+test("open contacts", () => {
+  const { getByTestId } = renderWithThemeAndIntl(
+    <MessageDetails {...defaultProps} />
+  )
+  fireEvent.click(getByTestId("icon-Contact"))
+  expect(defaultProps.onContactClick).toBeCalled()
+})
+
+test("delete messages", () => {
+  const { getAllByTestId } = renderWithThemeAndIntl(
+    <MessageDetails {...defaultProps} />
+  )
+  fireEvent.click(getAllByTestId("icon-Delete")[0])
+  expect(defaultProps.onDeleteClick).toBeCalledWith(mockedDetails.id)
 })

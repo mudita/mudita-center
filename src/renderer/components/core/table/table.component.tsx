@@ -22,6 +22,7 @@ import { Message as MessageInterface } from "Renderer/interfaces/message.interfa
 import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { SortOrder } from "Common/enums/sort-order.enum"
+import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
 
 /* Row */
 export enum RowSize {
@@ -103,6 +104,7 @@ export const Col = styled.div`
   display: flex;
   align-items: center;
   ${({ onClick }) => onClick && clickableRowStyles};
+  word-break: break-word;
 
   :first-of-type {
     padding-left: var(--columnsGap);
@@ -236,25 +238,13 @@ const SidebarWrapper = styled.div<{
 export const SidebarHeaderIcon = styled(ButtonComponent).attrs(() => ({
   displayStyle: DisplayStyle.IconOnly2,
 }))`
-  width: 3.2rem;
-  height: 3.2rem;
+  ${buttonComponentAnimationStyles};
   margin-left: 0.6rem;
-  opacity: 0.6;
-  transition: opacity ${transitionTime("quick")}
-    ${transitionTimingFunction("smooth")};
-
-  &:hover {
-    opacity: 1;
-  }
-
-  svg {
-    height: initial;
-    width: initial;
-  }
 `
 
 /* Empty state */
 const EmptyStateWrapper = styled.div`
+  height: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;

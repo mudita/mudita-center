@@ -83,6 +83,7 @@ export const mockedList = [
 ]
 
 export const mockedDetails = {
+  id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
   caller,
   messages: [
     {
@@ -106,6 +107,7 @@ export const mockedDetails = {
 }
 
 export const unknownCallerMockedDetails = {
+  id: "1231",
   caller: unknownCaller,
   messages: [
     {

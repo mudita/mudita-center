@@ -76,6 +76,11 @@ exports[`Button matches snapshots Icon only displayStyle: 3 size: undefined disa
   background: #f4f5f6;
 }
 
+.c0 svg {
+  height: initial;
+  width: initial;
+}
+
 <button
   class="c0"
   size="2"

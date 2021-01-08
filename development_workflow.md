@@ -18,7 +18,7 @@ Try to commit your changes in small batches. Others need to be able to see a ful
 
 Here's [a helpful article about writing good Git commit messages](https://chris.beams.io/posts/git-commit/).
 
-### Force Pushing 
+### Force Pushing
 
 If your PR is in the code review process it’s not good to force push it - it’s a change of commits history. You're not obligated to forget about `git push -f`, but use it only on private branches that are waiting to be reviewed. Otherwise it breaks the tracking mechanism and may lead to review duplication.
 

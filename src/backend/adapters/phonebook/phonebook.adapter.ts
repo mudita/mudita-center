@@ -1,7 +1,9 @@
 import { Endpoint, Method } from "pure"
-import Faker from "faker"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
-import { Contact as PureContact } from "pure/dist/endpoints/contact.types"
+import {
+  Contact as PureContact,
+  NewContact as PureNewContact,
+} from "pure/dist/endpoints/contact.types"
 import {
   Contact,
   ContactID,
@@ -34,18 +36,17 @@ class Phonebook extends PhonebookAdapter {
   public async addContact(
     contact: NewContact
   ): Promise<DeviceResponse<Contact>> {
-    const { status } = await this.deviceService.request({
+    const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
-      body: mapToPureContact(contact),
+      body: mapToPureNewContact(contact),
     })
 
-    if (status === DeviceResponseStatus.Ok) {
+    if (status === DeviceResponseStatus.Ok && data !== undefined) {
       return {
         status,
         data: {
-          // TODO: return contact from API response after EGD fix, task https://appnroll.atlassian.net/browse/PDA-572
-          id: Faker.random.uuid(),
+          id: String(data.id),
           ...contact,
           primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
         },
@@ -55,17 +56,49 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  public editContact(contact: Contact): DeviceResponse<Contact> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: contact,
+  public async editContact(contact: Contact): Promise<DeviceResponse<Contact>> {
+    const { status } = await this.deviceService.request({
+      endpoint: Endpoint.Contacts,
+      method: Method.Post,
+      body: mapToPureContact(contact),
+    })
+
+    if (status === DeviceResponseStatus.Ok) {
+      return { status, data: contact }
+    } else {
+      return { status, error: { message: "Something went wrong" } }
     }
   }
 
-  public deleteContacts(contactsIds: ContactID[]): DeviceResponse<ContactID[]> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: contactsIds,
+  public async deleteContacts(
+    contactIds: ContactID[]
+  ): Promise<DeviceResponse<ContactID[]>> {
+    const results = contactIds.map(async (id) => {
+      const { status } = await this.deviceService.request({
+        endpoint: Endpoint.Contacts,
+        method: Method.Delete,
+        body: { id: Number(id) },
+      })
+      return {
+        status,
+        id,
+      }
+    })
+    const errorResponses = (await Promise.all(results)).filter(
+      ({ status }) => status === DeviceResponseStatus.Error
+    )
+    if (errorResponses.length > 0) {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: {
+          message: "Something went wrong",
+          data: errorResponses.map(({ id }) => id),
+        },
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Ok,
+      }
     }
   }
 
@@ -77,7 +110,6 @@ class Phonebook extends PhonebookAdapter {
       method: Method.Get,
       body: { count },
     })
-
     if (status === DeviceResponseStatus.Ok) {
       return {
         status,
@@ -134,7 +166,7 @@ const mapToContact = (pureContact: PureContact): Contact => {
   }
 }
 
-const mapToPureContact = (contact: NewContact): PureContact => {
+const mapToPureNewContact = (contact: NewContact): PureNewContact => {
   const {
     blocked = false,
     favourite = false,
@@ -152,11 +184,13 @@ const mapToPureContact = (contact: NewContact): PureContact => {
   return {
     blocked,
     favourite,
-    // TODO: remove this conditional after EGD fix, task https://appnroll.atlassian.net/browse/PDA-572
-    numbers: numbers.length === 0 ? ["999999999"] : numbers,
-    id: Math.round(Math.random() * 1000),
+    numbers: numbers,
     priName: firstName,
     altName: lastName,
-    address: `${firstAddressLine}\n${secondAddressLine}`,
+    address: [firstAddressLine, secondAddressLine].join("\n").trim(),
   }
+}
+
+const mapToPureContact = (contact: Contact): PureContact => {
+  return { ...mapToPureNewContact(contact), id: Number(contact.id) }
 }

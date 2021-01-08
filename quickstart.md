@@ -39,12 +39,16 @@ npm run dev:start:renderer
 npm run dev:start:main
 ```
 
-## Initialize Developer Options inside the application
+## Enable Developer mode inside the application
 
-To run additional Developer Options in Mudita Center, click 7-10 times on the phone box on the "Overview" page. This enables Developer Options which include:
+To run additional Developer mode in Mudita Center, tap on the right button of your mouse and select "Enable developer mode". You can also toggle it on/off using `Ctrl`/`Cmd`+`D` keys. When Developer mode is enabled, `Ctrl`/`Cmd`+`P` toggles simulating phone connection.
 
-- a simulation of a connected Mudita Pure phone
-- additional placeholder data which you can modify inside the app
+Using Developer mode you can:
+
+- simulate a connected Mudita Pure phone
+- load/clear default 'placeholder' topics in the "Messages" view
+- load/clear default 'placeholder' contacts in the "Contacts" view
+- load/clear default 'placeholder' events in the "Calendar" view
 
 ## Packaging
 

@@ -1,9 +1,8 @@
-import React, { ChangeEvent } from "react"
+import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl, textFormatters } from "Renderer/utils/intl"
-import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 import { Contact, ContactID } from "Renderer/models/phone/phone.typings"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
@@ -19,52 +18,65 @@ import {
   Buttons,
   ContactSelectionManager,
   Panel,
-  SearchInput,
 } from "Renderer/components/rest/phone/contact-panel.styled"
 import { ContactPanelTestIdsEnum } from "Renderer/components/rest/phone/contact-panel-test-ids.enum"
+import {
+  ErrorDataModal,
+  LoadingStateDataModal,
+} from "Renderer/components/rest/data-modal/data.modals"
+import delayResponse from "@appnroll/delay-response"
+import ContactInputSearch from "Renderer/components/rest/phone/contact-input-search.component"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
   export: { id: "view.name.phone.contacts.selectionExport" },
   body: { id: "view.name.phone.contacts.modal.deleteMultipleContacts" },
+  deletingText: { id: "view.name.phone.contacts.modal.deleting.text" },
 })
 
 export interface ContactPanelProps {
-  onSearchTermChange: (value: string) => void
+  onContactSelect: (contact: Contact) => void
   onManageButtonClick: () => void
   onNewButtonClick: () => void
   selectedContacts: Contact[]
   allItemsSelected?: boolean
   toggleAll?: UseTableSelect<Contact>["toggleAll"]
-  removeContact?: (id: ContactID[]) => void
+  deleteContacts: (ids: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
-  manageButtonDisabled?: boolean
+  contacts: Contact[]
 }
 
 const ContactPanel: FunctionComponent<ContactPanelProps> = ({
-  onSearchTermChange,
+  onContactSelect,
   onManageButtonClick,
   onNewButtonClick,
   selectedContacts,
   allItemsSelected,
   toggleAll = noop,
-  removeContact = noop,
+  deleteContacts,
   resetRows,
-  manageButtonDisabled,
+  contacts,
 }) => {
-  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    onSearchTermChange(target.value)
-  }
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
   const openModal = () => {
     const selectedContactsIds = selectedContacts.map(({ id }) => id)
     const nameAvailable =
       selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
-    const onDelete = () => {
-      removeContact(selectedContactsIds)
+    const onDelete = async () => {
+      modalService.openModal(
+        <LoadingStateDataModal
+          textMessage={deleteModalMessages.deletingText}
+        />,
+        true
+      )
+      const error = await delayResponse(deleteContacts(selectedContactsIds))
+      if (error) {
+        modalService.openModal(<ErrorDataModal />, true)
+      } else {
+        modalService.closeModal()
+      }
       resetRows()
-      modalService.closeModal()
     }
     const modalConfig = {
       title: intl.formatMessage(deleteModalMessages.title),
@@ -109,14 +121,9 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           data-testid={ContactPanelTestIdsEnum.SelectionManager}
         />
       ) : (
-        <SearchInput
-          leadingIcons={[searchIcon]}
-          label={intl.formatMessage({
-            id: "view.name.phone.contacts.panel.searchPlaceholder",
-          })}
-          onChange={onChange}
-          type="search"
-          outlined
+        <ContactInputSearch
+          contacts={contacts}
+          onContactSelect={onContactSelect}
         />
       )}
       <Buttons>
@@ -125,7 +132,6 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           labelMessage={{ id: "view.name.phone.contacts.panel.manageButton" }}
           onClick={onManageButtonClick}
           data-testid={ContactPanelTestIdsEnum.ManageButton}
-          disabled={manageButtonDisabled}
         />
         <ButtonComponent
           labelMessage={{

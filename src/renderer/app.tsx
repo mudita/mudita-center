@@ -7,14 +7,13 @@ import history from "Renderer/routes/history"
 import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
 import "./fonts/fonts.css"
-import contextMenu from "Renderer/electron/contextMenu"
 import appUpdate from "./components/rest/app-update/app-update.service"
+
+require("dotenv").config()
 
 // Create main element
 const mainElement = document.createElement("div")
 document.body.appendChild(mainElement)
-
-require("dotenv").config()
 
 ReactDOM.render(
   <AppContainer>
@@ -23,9 +22,12 @@ ReactDOM.render(
   mainElement
 )
 
+// Setup modal service
 modalService.bindStore(store)
 modalService.setDefaultLocale(defaultLanguage)
 
+// Initialize app update
 appUpdate()
-contextMenu()
+
+// Load settings
 store.dispatch.settings.loadSettings()

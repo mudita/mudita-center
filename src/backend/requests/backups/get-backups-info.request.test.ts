@@ -5,8 +5,10 @@ import { ipcMain } from "electron-better-ipc"
 
 test("returns required backups info", async () => {
   registerBackupsInfoRequest(getFakeAdapters())
-  const [result] = (ipcMain as any)._flush(IpcRequest.GetBackupsInfo)
-  expect(await result).toMatchInlineSnapshot(`
+  const [pendingResponse] = (ipcMain as any)._flush(IpcRequest.GetBackupsInfo)
+  const result = await pendingResponse
+
+  expect(result.data).toMatchInlineSnapshot(`
     Object {
       "backups": Array [
         Object {

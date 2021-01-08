@@ -2,12 +2,39 @@ import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"
 import StorageInfo from "Common/interfaces/storage-info.interface"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 
-const handleDeviceStorageRequest = ({ pureStorage }: Adapters): StorageInfo => {
-  return {
-    available: pureStorage.getAvailableSpace(),
-    capacity: pureStorage.getCapacity(),
-    categories: pureStorage.getStorageCategories(),
+const handleDeviceStorageRequest = async ({
+  pureStorage,
+}: Adapters): Promise<DeviceResponse<StorageInfo>> => {
+  const responses = await Promise.all([
+    pureStorage.getAvailableSpace(),
+    pureStorage.getCapacity(),
+  ])
+
+  if (
+    responses.every(
+      ({ status, data }) =>
+        status === DeviceResponseStatus.Ok && data !== undefined
+    )
+  ) {
+    const getAvailableSpaceResponse = responses[0].data as number
+    const getCapacityResponse = responses[1].data as number
+
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: {
+        available: getAvailableSpaceResponse,
+        capacity: getCapacityResponse,
+        categories: pureStorage.getStorageCategories(),
+      },
+    }
+  } else {
+    return {
+      status: DeviceResponseStatus.Error,
+    }
   }
 }
 
