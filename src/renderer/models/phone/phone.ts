@@ -1,5 +1,5 @@
 import { Slicer, StoreSelectors } from "@rematch/select"
-import { Dispatch } from "Renderer/store"
+import { Dispatch, RootState } from "Renderer/store"
 import {
   BaseContactModel,
   Contact,
@@ -120,39 +120,43 @@ export default {
    * All these side effects are just for show, since we don't know anything
    * about phone sync flow at the moment.
    */
-  effects: (dispatch: Dispatch) => ({
-    async loadData(
-      _: any,
-      rootState: { phone: { resultsState: ResultsState } }
-    ) {
-      if (rootState.phone.resultsState === ResultsState.Loading) {
-        return
-      }
+  effects: (d: Dispatch) => {
+    const dispatch = (d as unknown) as RootState
 
-      dispatch.phone.setResultsState(ResultsState.Loading)
+    return {
+      async loadData(
+        _: any,
+        rootState: { phone: { resultsState: ResultsState } },
+      ) {
+        if (rootState.phone.resultsState === ResultsState.Loading) {
+          return
+        }
 
-      const { data = [], error } = await getContacts()
-      if (error) {
-        logger.error(error)
-        dispatch.phone.setResultsState(ResultsState.Error)
-      } else {
-        dispatch.phone.setContacts(contactDatabaseFactory(data))
-        dispatch.phone.setResultsState(ResultsState.Loaded)
-      }
-    },
-    authorize(provider: Provider) {
-      switch (provider) {
-        case Provider.Google:
-          externalProvidersStore.dispatch.google.authorize()
-          break
-        // TODO: update when adding new providers
-        case Provider.Apple:
-          break
-        case Provider.Microsoft:
-          break
-      }
-    },
-  }),
+        dispatch.phone.setResultsState(ResultsState.Loading)
+
+        const { data = [], error } = await getContacts()
+        if (error) {
+          logger.error(error)
+          dispatch.phone.setResultsState(ResultsState.Error)
+        } else {
+          dispatch.phone.setContacts(contactDatabaseFactory(data))
+          dispatch.phone.setResultsState(ResultsState.Loaded)
+        }
+      },
+      authorize(provider: Provider) {
+        switch (provider) {
+          case Provider.Google:
+            externalProvidersStore.dispatch.google.authorize()
+            break
+          // TODO: update when adding new providers
+          case Provider.Apple:
+            break
+          case Provider.Microsoft:
+            break
+        }
+      },
+    }
+  },
   selectors: (slice: Slicer<StoreData>) => ({
     resultsState() {
       return slice(({ resultsState }) => resultsState)

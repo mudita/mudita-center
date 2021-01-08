@@ -34,7 +34,7 @@ if (process.env.NODE_ENV !== "test") {
 const store = init(config)
 
 export const { select } = store
-export type RootState = RematchRootState<typeof models>
+export type RootState = RematchRootState<RootModel>
 export type Store = typeof store
 export type Dispatch = RematchDispatch<RootModel>
 

@@ -25,7 +25,7 @@
   },
   "dependencies": {
     "@types/usb": "^1.5.2",
-    "serialport": "^9.0.2",
+    "serialport": "^9.0.4",
     "usb": "^1.6.3"
   }
 }

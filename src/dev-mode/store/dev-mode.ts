@@ -1,11 +1,13 @@
 import { DevMode } from "App/dev-mode/store/dev-mode.interface"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 const initialStateValue: DevMode = {
   enabled: false,
   phoneSimulation: false,
 }
 
-export default {
+const devMode = createModel<RootModel>({
   state: initialStateValue,
   reducers: {
     enableDevMode(state: DevMode) {
@@ -21,4 +23,6 @@ export default {
       return { ...state, phoneSimulation: false }
     },
   },
-}
+})
+
+export default devMode

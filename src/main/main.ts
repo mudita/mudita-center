@@ -86,6 +86,7 @@ const commonWindowOptions = {
   webPreferences: {
     nodeIntegration: true,
     webSecurity: false,
+    enableRemoteModule: true,
   },
 }
 const getWindowOptions = (

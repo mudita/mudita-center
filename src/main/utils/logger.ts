@@ -2,15 +2,16 @@ import { createLogger, format, transports } from "winston"
 import { name } from "../../../package.json"
 const DailyRotateFile = require("winston-daily-rotate-file")
 const isRenderer = require("is-electron-renderer")
+import electron from "electron"
 
 let app
 let type: string
 
 if (isRenderer) {
-  ;({ app } = require("electron").remote)
+  ;({ app } = electron.remote)
   type = "renderer"
 } else {
-  ;({ app } = require("electron"))
+  ;({ app } = electron)
   type = "main"
 }
 
