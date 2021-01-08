@@ -49,6 +49,7 @@ import {
 import { Caller } from "Renderer/models/calls/calls.interface"
 import { isToday } from "Renderer/utils/is-today"
 import { AppSettings } from "App/main/store/settings.interface"
+import { AutoSizer, List, ListRowProps } from "react-virtualized"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -181,154 +182,144 @@ const MessagesList: FunctionComponent<Props> = ({
           2. Add mouseLock prop to <Messages />
    */
   const { enableScroll, disableScroll } = useTableScrolling()
-
+  const renderRow = ({ index, style }: ListRowProps) => {
+    const { messages, caller, unread, id } = list[index]
+    const { selected, indeterminate } = getRowStatus(list[index])
+    const lastMessage = last(messages)
+    const toggle = () => toggleRow(list[index])
+    const open = () => openSidebar(list[index])
+    const nameAvailable = isNameAvailable(caller)
+    const active = activeRow?.id === list[index].id
+    const emitDeleteClick = () => onDeleteClick(id)
+    const toggleReadStatus = () => onToggleReadStatus([id])
+    return (
+      <MessageRow selected={selected} active={active} style={style}>
+        <AvatarCol>
+          <Checkbox
+            checked={selected}
+            onChange={toggle}
+            size={Size.Large}
+            indeterminate={indeterminate}
+            visible={!noneRowsSelected}
+            data-testid="checkbox"
+          />
+          <InitialsAvatar user={caller} light={active} size={AvatarSize.Big} />
+        </AvatarCol>
+        <MessageCol onClick={open} data-testid={MessagesListTestIds.Row}>
+          <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
+            <Name displayStyle={TextDisplayStyle.LargeBoldText}>
+              {nameAvailable ? createFullName(caller) : caller.phoneNumber}
+            </Name>
+            <Time displayStyle={TextDisplayStyle.SmallFadedText}>
+              {isToday(lastMessage?.date)
+                ? moment(lastMessage?.date).format("h:mm A")
+                : moment(lastMessage?.date)
+                    .locale(language ?? "en")
+                    .format("ll")}
+            </Time>
+            <LastMessageText
+              unread={unread}
+              displayStyle={
+                unread
+                  ? TextDisplayStyle.MediumText
+                  : TextDisplayStyle.MediumFadedLightText
+              }
+            >
+              {lastMessage?.content}
+            </LastMessageText>
+          </MessageDataWrapper>
+        </MessageCol>
+        <Col>
+          <Actions>
+            <Dropdown
+              toggler={
+                <ActionsButton>
+                  <Icon type={Type.More} />
+                </ActionsButton>
+              }
+              onOpen={disableScroll}
+              onClose={enableScroll}
+            >
+              <ButtonComponent
+                labelMessage={{
+                  id: "component.dropdown.call",
+                  values: {
+                    name: caller.firstName || caller.phoneNumber,
+                  },
+                }}
+                Icon={Type.Calls}
+                onClick={noop}
+                displayStyle={DisplayStyle.Dropdown}
+                data-testid="dropdown-call"
+              />
+              {nameAvailable ? (
+                <ButtonComponent
+                  labelMessage={{
+                    id: "view.name.messages.dropdownContactDetails",
+                  }}
+                  Icon={Type.Contact}
+                  onClick={noop}
+                  displayStyle={DisplayStyle.Dropdown}
+                  data-testid="dropdown-contact-details"
+                />
+              ) : (
+                <ButtonComponent
+                  labelMessage={{
+                    id: "view.name.messages.dropdownAddToContacts",
+                  }}
+                  Icon={Type.Contact}
+                  onClick={noop}
+                  displayStyle={DisplayStyle.Dropdown}
+                  data-testid="dropdown-add-to-contacts"
+                />
+              )}
+              <ButtonComponent
+                labelMessage={{
+                  id: unread
+                    ? "view.name.messages.markAsRead"
+                    : "view.name.messages.markAsUnread",
+                }}
+                Icon={Type.BorderCheckIcon}
+                onClick={toggleReadStatus}
+                displayStyle={DisplayStyle.Dropdown}
+                data-testid="dropdown-mark-as-read"
+              />
+              <ButtonComponent
+                labelMessage={{
+                  id: "view.name.messages.dropdownDelete",
+                }}
+                Icon={Type.Delete}
+                onClick={emitDeleteClick}
+                displayStyle={DisplayStyle.Dropdown}
+                data-testid="dropdown-delete"
+              />
+            </Dropdown>
+          </Actions>
+        </Col>
+        <ScrollAnchorContainer key={id} active={active} />
+      </MessageRow>
+    )
+  }
   return (
     <Messages
       noneRowsSelected={noneRowsSelected}
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      {list.map((item) => {
-        const { messages, caller, unread, id } = item
-        const { selected, indeterminate } = getRowStatus(item)
-        const lastMessage = last(messages)
-        const toggle = () => toggleRow(item)
-        const open = () => openSidebar(item)
-        const nameAvailable = isNameAvailable(caller)
-        const active = activeRow?.id === item.id
-        const emitDeleteClick = () => onDeleteClick(id)
-        const toggleReadStatus = () => onToggleReadStatus([id])
-        const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow ref={ref} selected={selected} active={active}>
-            <AvatarCol>
-              <Checkbox
-                checked={selected}
-                onChange={toggle}
-                size={Size.Large}
-                indeterminate={indeterminate}
-                visible={!noneRowsSelected}
-                data-testid="checkbox"
-              />
-              <InitialsAvatar
-                user={caller}
-                light={active}
-                size={AvatarSize.Big}
-              />
-            </AvatarCol>
-            <MessageCol onClick={open} data-testid={MessagesListTestIds.Row}>
-              <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
-                <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {nameAvailable ? createFullName(caller) : caller.phoneNumber}
-                </Name>
-                <Time displayStyle={TextDisplayStyle.SmallFadedText}>
-                  {isToday(lastMessage?.date)
-                    ? moment(lastMessage?.date).format("h:mm A")
-                    : moment(lastMessage?.date)
-                        .locale(language ?? "en")
-                        .format("ll")}
-                </Time>
-                <LastMessageText
-                  unread={unread}
-                  displayStyle={
-                    unread
-                      ? TextDisplayStyle.MediumText
-                      : TextDisplayStyle.MediumFadedLightText
-                  }
-                >
-                  {lastMessage?.content}
-                </LastMessageText>
-              </MessageDataWrapper>
-            </MessageCol>
-            <Col>
-              <Actions>
-                <Dropdown
-                  toggler={
-                    <ActionsButton>
-                      <Icon type={Type.More} />
-                    </ActionsButton>
-                  }
-                  onOpen={disableScroll}
-                  onClose={enableScroll}
-                >
-                  <ButtonComponent
-                    labelMessage={{
-                      id: "component.dropdown.call",
-                      values: {
-                        name: caller.firstName || caller.phoneNumber,
-                      },
-                    }}
-                    Icon={Type.Calls}
-                    onClick={noop}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-call"
-                  />
-                  {nameAvailable ? (
-                    <ButtonComponent
-                      labelMessage={{
-                        id: "view.name.messages.dropdownContactDetails",
-                      }}
-                      Icon={Type.Contact}
-                      onClick={noop}
-                      displayStyle={DisplayStyle.Dropdown}
-                      data-testid="dropdown-contact-details"
-                    />
-                  ) : (
-                    <ButtonComponent
-                      labelMessage={{
-                        id: "view.name.messages.dropdownAddToContacts",
-                      }}
-                      Icon={Type.Contact}
-                      onClick={noop}
-                      displayStyle={DisplayStyle.Dropdown}
-                      data-testid="dropdown-add-to-contacts"
-                    />
-                  )}
-                  <ButtonComponent
-                    labelMessage={{
-                      id: unread
-                        ? "view.name.messages.markAsRead"
-                        : "view.name.messages.markAsUnread",
-                    }}
-                    Icon={Type.BorderCheckIcon}
-                    onClick={toggleReadStatus}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-mark-as-read"
-                  />
-                  <ButtonComponent
-                    labelMessage={{
-                      id: "view.name.messages.dropdownDelete",
-                    }}
-                    Icon={Type.Delete}
-                    onClick={emitDeleteClick}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-delete"
-                  />
-                </Dropdown>
-              </Actions>
-            </Col>
-            <ScrollAnchorContainer key={id} active={active} />
-          </MessageRow>
-        )
-
-        const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow ref={ref}>
-            <Col />
-            <Col>
-              <AvatarPlaceholder />
-              <TextPlaceholder charsCount={caller.firstName?.length || 0} />
-            </Col>
-            <ScrollAnchorContainer key={id} active={active} />
-          </MessageRow>
-        )
-
-        return (
-          <InView key={id}>
-            {({ inView, ref }) =>
-              inView ? interactiveRow(ref) : placeholderRow(ref)
-            }
-          </InView>
-        )
-      })}
+      <div>
+        <AutoSizer disableHeight>
+          {({ width }) => (
+            <List
+              height={650}
+              width={width}
+              overscanRowCount={10}
+              rowRenderer={renderRow}
+              rowCount={list.length}
+              rowHeight={90}
+            />
+          )}
+        </AutoSizer>
+      </div>
     </Messages>
   )
 }
