@@ -12,6 +12,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
+import { AutoSizer, List } from "react-virtualized"
 
 const messages = defineMessages({
   name: { id: "view.name.phone.calls.name" },
@@ -48,6 +49,20 @@ const CallsTable: FunctionComponent<Props> = ({
   isContactCreated,
   onDeleteClick,
 }) => {
+  const renderRow = ({ index, style }: any) => (
+    <CallRow
+      key={index}
+      onRowClick={onRowClick}
+      getRowStatus={getRowStatus}
+      toggleRow={toggleRow}
+      callData={calls[index]}
+      noneRowsSelected={noneRowsSelected}
+      sidebarOpened={sidebarOpened}
+      activeRow={activeRow}
+      onDeleteClick={onDeleteClick}
+      style={style}
+    />
+  )
   return (
     <TableWithSidebarWrapper>
       <SelectableCalls
@@ -61,19 +76,18 @@ const CallsTable: FunctionComponent<Props> = ({
           <Col>{intl.formatMessage(messages.duration)}</Col>
           <Col>{intl.formatMessage(messages.date)}</Col>
         </Labels>
-        {calls.map((row, i) => (
-          <CallRow
-            key={i}
-            onRowClick={onRowClick}
-            getRowStatus={getRowStatus}
-            toggleRow={toggleRow}
-            callData={row}
-            noneRowsSelected={noneRowsSelected}
-            sidebarOpened={sidebarOpened}
-            activeRow={activeRow}
-            onDeleteClick={onDeleteClick}
-          />
-        ))}
+        <AutoSizer disableHeight>
+          {({ width }) => (
+            <List
+              height={595}
+              width={width}
+              overscanRowCount={10}
+              rowRenderer={renderRow}
+              rowCount={calls.length}
+              rowHeight={64}
+            />
+          )}
+        </AutoSizer>
       </SelectableCalls>
       {sidebarOpened && (
         <CallDetails
