@@ -47,7 +47,7 @@ import {
 } from "App/main/auth-server"
 import logger from "App/main/utils/logger"
 import registerAutoLaunchListener from "App/main/functions/register-auto-launch-listener"
-import { Scopes } from "Renderer/models/external-providers/google/google.interface"
+import { Scope } from "Renderer/models/external-providers/google/google.interface"
 
 require("dotenv").config()
 
@@ -222,7 +222,7 @@ const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
   )
 }
 
-ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scopes) => {
+ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
   if (process.env.MUDITA_GOOGLE_AUTH_URL) {
     const cb = (data: string) => {
       ipcMain.callRenderer(
@@ -256,10 +256,10 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scopes) => {
       let scopeUrl: string
 
       switch (scope) {
-        case "calendar":
+        case Scope.Calendar:
           scopeUrl = "https://www.googleapis.com/auth/calendar"
           break
-        case "contacts":
+        case Scope.Contacts:
           scopeUrl = "https://www.googleapis.com/auth/contacts"
           break
       }
