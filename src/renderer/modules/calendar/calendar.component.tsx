@@ -28,7 +28,6 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   const tableSelectHook = useTableSelect<CalendarEvent>(events)
   const [provider, setProvider] = useState<Provider | undefined>()
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
-  const eventsListRef = useRef<HTMLDivElement>()
   const highlightActiveEventTimeout = useRef<NodeJS.Timeout>()
 
   const setGoogleProvider = () => setProvider(Provider.Google)
@@ -130,7 +129,6 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   }, [provider])
 
   useEffect(() => {
-    console.log({ eventsListRef })
     if (selectedEvent) {
       const selectedEventIndex = events.indexOf(selectedEvent)
 

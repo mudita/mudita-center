@@ -35,7 +35,6 @@ const EventsList: FunctionComponent<EventsListProps> = ({
   noneRowsSelected,
   selectedEventIndex,
 }) => {
-  const rowHeight = 64
   const renderRow = ({ index, style }: ListRowProps) => {
     const { id, name, startDate, endDate } = events[index]
     const { selected } = getRowStatus(events[index])
@@ -88,7 +87,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
                 overscanRowCount={10}
                 rowRenderer={renderRow}
                 rowCount={events.length}
-                rowHeight={rowHeight}
+                rowHeight={64}
               />
             )}
           </AutoSizer>
