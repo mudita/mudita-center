@@ -6,20 +6,18 @@ import {
   Group,
   Labels,
   Row,
-  TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
 import { FormattedDate } from "react-intl"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import Faker from "faker"
 import {
   BaseSelectableCalls,
   Checkbox,
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
-import { List, AutoSizer } from "react-virtualized"
+import { List, AutoSizer, ListRowProps } from "react-virtualized"
 
 const Table = styled(BaseSelectableCalls)`
   --columnsTemplate: 4rem 5fr 3fr 3fr;
@@ -37,9 +35,8 @@ const EventsList: FunctionComponent<EventsListProps> = ({
   noneRowsSelected,
   selectedEventIndex,
 }) => {
-  console.log(events.length)
-  console.log({ events })
-  const renderRow = ({ index, isScrolling }) => {
+  const rowHeight = 64
+  const renderRow = ({ index, style }: ListRowProps) => {
     const { id, name, startDate, endDate } = events[index]
     const { selected } = getRowStatus(events[index])
     const onCheckboxToggle = () => toggleRow(events[index])
@@ -48,6 +45,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
         active={selectedEventIndex === index}
         data-testid={CalendarTestIds.Event}
         key={id}
+        style={style}
       >
         <Col>
           <Checkbox
@@ -84,17 +82,16 @@ const EventsList: FunctionComponent<EventsListProps> = ({
           <AutoSizer disableHeight>
             {({ width }) => (
               <List
-                height={597}
+                height={595}
                 width={width}
                 scrollToIndex={selectedEventIndex}
                 overscanRowCount={10}
                 rowRenderer={renderRow}
                 rowCount={events.length}
-                rowHeight={64}
+                rowHeight={rowHeight}
               />
             )}
           </AutoSizer>
-          <List />
         </div>
       </Group>
     </Table>

@@ -228,6 +228,7 @@
     "@rematch/select": "^2.0.5",
     "@seznam/compose-react-refs": "^1.0.4",
     "@types/crypto-js": "^4.0.1",
+    "@types/react-virtualized": "^9.21.10",
     "auto-launch": "^5.0.5",
     "awesome-typescript-loader": "^5.2.1",
     "axios": "^0.20.0",
