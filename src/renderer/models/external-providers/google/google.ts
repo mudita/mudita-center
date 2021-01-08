@@ -32,8 +32,8 @@ export const googleEndpoints = {
 }
 
 export const createInitialState = (): GoogleProviderState => ({
-  calendar: {},
-  contacts: {},
+  [Scope.Calendar]: {},
+  [Scope.Contacts]: {},
 })
 
 export const createStore = () => ({
