@@ -1,6 +1,6 @@
 import { init } from "@rematch/core"
 import calls from "Renderer/models/calls/calls"
-import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
+import { Call, VisibilityFilter } from "Renderer/models/calls/calls.interface"
 import { mockData, todaysCall } from "App/__mocks__/calls-mock-data"
 import selectPlugin from "@rematch/select"
 
@@ -28,11 +28,11 @@ test("todays call is at the beginning of the list by default", () => {
 test("deletes call", () => {
   const lookupId = mockData[0].id
   expect(
-    store.getState().calls.calls.find(({ id }) => id === lookupId)
+    store.getState().calls.calls.find(({ id }: Call) => id === lookupId),
   ).toBeDefined()
   store.dispatch.calls.deleteCall([lookupId])
   expect(
-    store.getState().calls.calls.find(({ id }) => id === lookupId)
+    store.getState().calls.calls.find(({ id }: Call) => id === lookupId),
   ).toBeUndefined()
 })
 

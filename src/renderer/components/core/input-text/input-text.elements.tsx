@@ -188,6 +188,7 @@ const TextInput = styled.input<{ type: string }>`
 type InputWrapperProps = Partial<InputProps & TextareaProps> & {
   error: boolean
   inputType?: string
+  children?: JSX.Element
 }
 
 const searchStyles = css`

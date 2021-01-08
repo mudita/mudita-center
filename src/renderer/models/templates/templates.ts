@@ -5,6 +5,8 @@ import { filterTemplates } from "Renderer/models/templates/filter-templates"
 import { Template } from "Renderer/modules/messages/tabs/templates.component"
 import { orderBy } from "lodash"
 import { SortOrder } from "Common/enums/sort-order.enum"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 export type TemplateCallback = (param: Template) => void
 
@@ -20,7 +22,7 @@ export const makeNewTemplate = (
   date = new Date()
 ): Template => ({ id, content, date })
 
-export default {
+const templates = createModel<RootModel>({
   state: initialState,
   reducers: {
     changeSortOrder(state: StateProps, sortOrder: SortOrder) {
@@ -28,7 +30,7 @@ export default {
     },
     changeSearchValue(
       state: StateProps,
-      searchValue: StateProps["searchValue"]
+      searchValue: StateProps["searchValue"],
     ) {
       return { ...state, searchValue }
     },
@@ -94,4 +96,6 @@ export default {
       })
     },
   }),
-}
+})
+
+export default templates

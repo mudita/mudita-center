@@ -1,12 +1,13 @@
-import {
-  createStore,
+import google, {
   googleEndpoints,
 } from "Renderer/models/external-providers/google/google"
 import {
   GoogleAuthSuccessResponse,
+  GoogleCalendarsSuccess,
   GoogleContactResourceItem,
+  Scope,
 } from "Renderer/models/external-providers/google/google.interface"
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 import MockAdapter from "axios-mock-adapter"
 import { mockedGoogleCalendars } from "App/__mocks__/google-calendars-list"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
@@ -47,7 +48,6 @@ jest.mock(
         switch (channel) {
           case GoogleAuthActions.GotCredentials:
             callback(JSON.stringify(authData))
-            // callback(JSON.stringify({ error: "some error" }))
             return true
           default:
             return false
@@ -61,7 +61,7 @@ jest.mock(
 
 const initStore = () => {
   return init({
-    models: { google: createStore() },
+    models: { google },
   })
 }
 
@@ -77,15 +77,16 @@ test("store returns initial state", () => {
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "google": Object {
-        "auth": Object {},
+        "calendar": Object {},
+        "contacts": Object {},
       },
     }
   `)
 })
 
 test("auth data is set properly", () => {
-  store.dispatch.google.setAuthData(authData)
-  expect(store.getState().google.auth).toMatchInlineSnapshot(`
+  store.dispatch.google.setAuthData({ data: authData, scope: Scope.Calendar })
+  expect(store.getState().google.calendar).toMatchInlineSnapshot(`
     Object {
       "access_token": "some-token",
       "expires_in": 3599,
@@ -115,7 +116,6 @@ test("authorization handles error properly", async () => {
         ) => {
           switch (channel) {
             case GoogleAuthActions.GotCredentials:
-              // callback(JSON.stringify(authData))
               callback(JSON.stringify({ error: "some error" }))
               return true
             default:
@@ -125,11 +125,11 @@ test("authorization handles error properly", async () => {
       }
       return { ipcRenderer: mockIpcRenderer }
     },
-    { virtual: true }
+    { virtual: true },
   )
 
-  await store.dispatch.google.authorize()
-  expect(store.getState().google.auth).toMatchInlineSnapshot(`
+  await store.dispatch.google.authorize("calendar")
+  expect(store.getState().google.calendar).toMatchInlineSnapshot(`
     Object {
       "access_token": "some-token",
       "expires_in": 3599,
@@ -334,11 +334,12 @@ test("requestWrapper handles 401 error properly", async () => {
     .reply(200, authData)
 
   expect(
-    (
-      await store.dispatch.google.requestWrapper({
+    (((await store.dispatch.google.requestWrapper({
+      scope: Scope.Calendar,
+      axiosProps: {
         url: `${googleEndpoints.calendars}/users/me/calendarList`,
-      })
-    ).data.items
+      },
+    })) as unknown) as AxiosResponse<GoogleCalendarsSuccess>).data.items,
   ).toHaveLength(mockedGoogleCalendars.length)
 })
 
@@ -352,11 +353,12 @@ test("requestWrapper handles other errors properly", async () => {
     })
 
   expect(
-    (
-      await store.dispatch.google.requestWrapper({
+    (((await store.dispatch.google.requestWrapper({
+      scope: Scope.Calendar,
+      axiosProps: {
         url: `${googleEndpoints.calendars}/users/me/calendarList`,
-      })
-    ).data.items
+      },
+    })) as unknown) as AxiosResponse<GoogleCalendarsSuccess>).data.items,
   ).toHaveLength(mockedGoogleCalendars.length)
 })
 
@@ -373,7 +375,10 @@ test("requestWrapper handles no access token error properly", async () => {
 
   try {
     await store.dispatch.google.requestWrapper({
-      url: `${googleEndpoints.calendars}/users/me/calendarList`,
+      scope: Scope.Calendar,
+      axiosProps: {
+        url: `${googleEndpoints.calendars}/users/me/calendarList`,
+      },
     })
   } catch (error) {
     requestError = error

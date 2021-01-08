@@ -52,7 +52,7 @@ const basicInfo = createModel<RootModel>({
       return { ...state, simCards: newSim }
     },
   },
-  effects: (d) => {
+  effects: (d: any) => {
     const dispatch = (d as unknown) as RootState
 
     return {
@@ -75,7 +75,7 @@ const basicInfo = createModel<RootModel>({
         if (
           responses.every(
             ({ status, data }) =>
-              status === DeviceResponseStatus.Ok && data !== undefined,
+              status === DeviceResponseStatus.Ok && data !== undefined
           )
         ) {
           const [
@@ -88,7 +88,7 @@ const basicInfo = createModel<RootModel>({
 
           const [lastBackup] = backupsInfo.data!.backups.sort(
             (a, b) =>
-              Number(new Date(b.createdAt)) - Number(new Date(a.createdAt)),
+              Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
           )
 
           dispatch.basicInfo.update({
@@ -171,7 +171,7 @@ const basicInfo = createModel<RootModel>({
             basicInfoResultsState === ResultsState.Loaded &&
             !disconnectedDevice
           )
-        },
+        }
       )
     },
   }),

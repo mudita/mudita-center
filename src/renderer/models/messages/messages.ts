@@ -12,18 +12,20 @@ import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import { isCallerMatchingPhoneNumber } from "Renderer/models/messages/utils/caller-utils.ts"
 import { Caller } from "Renderer/models/calls/calls.interface"
 import { messagesData } from "App/seeds/messages"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 export const initialState: MessagesState = {
   topics: [],
   searchValue: "",
 }
 
-export default {
+const messages = createModel<RootModel>({
   state: initialState,
   reducers: {
     changeSearchValue(
       state: MessagesState,
-      searchValue: MessagesState["searchValue"]
+      searchValue: MessagesState["searchValue"],
     ) {
       return { ...state, searchValue }
     },
@@ -96,10 +98,12 @@ export default {
         const callers: Caller[] = models.messages.getAllCallers(state)
         return (phoneNumber: string) => {
           return !callers.some((caller) =>
-            isCallerMatchingPhoneNumber(caller, phoneNumber)
+            isCallerMatchingPhoneNumber(caller, phoneNumber),
           )
         }
       }
     },
   }),
-}
+})
+
+export default messages

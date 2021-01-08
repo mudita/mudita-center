@@ -1,5 +1,5 @@
 import { Slicer, StoreSelectors } from "@rematch/select"
-import { Dispatch, RootState } from "Renderer/store"
+import { RootState } from "Renderer/store"
 import {
   BaseContactModel,
   Contact,
@@ -24,6 +24,9 @@ import getContacts from "Renderer/requests/get-contacts.request"
 import logger from "App/main/utils/logger"
 import externalProvidersStore from "Renderer/store/external-providers"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import { Scope } from "Renderer/models/external-providers/google/google.interface"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 export const initialState: PhoneState = {
   db: {},
@@ -63,7 +66,7 @@ const simulateWriteToPhone = async (time = 2000) => {
   }
 }
 
-export default {
+const phone = createModel<RootModel>({
   state: initialState,
   reducers: {
     setResultsState(state: PhoneState, resultsState: ResultsState): PhoneState {
@@ -120,7 +123,7 @@ export default {
    * All these side effects are just for show, since we don't know anything
    * about phone sync flow at the moment.
    */
-  effects: (d: Dispatch) => {
+  effects: (d) => {
     const dispatch = (d as unknown) as RootState
 
     return {
@@ -146,7 +149,7 @@ export default {
       authorize(provider: Provider) {
         switch (provider) {
           case Provider.Google:
-            externalProvidersStore.dispatch.google.authorize()
+            externalProvidersStore.dispatch.google.authorize(Scope.Contacts)
             break
           // TODO: update when adding new providers
           case Provider.Apple:
@@ -180,10 +183,12 @@ export default {
         const contacts: Contact[] = models.phone.flatList(state)
         return (phoneNumber: string) => {
           return contacts.some((contact) =>
-            isContactMatchingPhoneNumber(contact, phoneNumber)
+            isContactMatchingPhoneNumber(contact, phoneNumber),
           )
         }
       }
     },
   }),
-}
+})
+
+export default phone

@@ -57,7 +57,7 @@ const mapDispatch = ({ phone, auth }: any) => {
 
       switch (provider) {
         case Provider.Google:
-          contacts = await externalProvidersStore.dispatch.google.getContacts()
+          contacts = ((await externalProvidersStore.dispatch.google.getContacts()) as unknown) as Contact[]
           return getFlatList(contactDatabaseFactory(contacts))
         case Provider.Apple:
           return

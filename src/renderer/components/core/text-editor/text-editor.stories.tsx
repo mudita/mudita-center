@@ -112,7 +112,7 @@ storiesOf("Components|Core/TextEditor", module)
     const [note, setNote] = useState(templates[0])
 
     const fakeSave = (newNote: Text) => {
-      return new Promise((resolve) => {
+      return new Promise<void>((resolve) => {
         setTimeout(() => {
           setNote(newNote)
           resolve()

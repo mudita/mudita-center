@@ -232,11 +232,11 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
   }
 
   const editContactWithRetry = async (contact: Contact) => {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       const edit = async (retried?: boolean) => {
         modalService.openModal(
           <LoadingStateDataModal textMessage={messages.editingText} />,
-          true
+          true,
         )
 
         const error = await delayResponse(editContact(contact))
