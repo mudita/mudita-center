@@ -1,4 +1,4 @@
-import { Method, RequestConfig, Response } from "../device.types"
+import { Method, RequestConfig, Response } from "../device/device.types"
 
 export abstract class Formatter {
   abstract formatRequestConfig(config: RequestConfig): RequestConfig

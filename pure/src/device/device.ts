@@ -6,8 +6,8 @@ import {
   Response,
   ResponseStatus,
 } from "./device.types"
-import { Contact, CountBodyResponse, DeviceInfo } from "./endpoints"
-import { Formatter, FormatterFactory } from "./formatter"
+import { Contact, CountBodyResponse, DeviceInfo } from "../endpoints"
+import { Formatter, FormatterFactory } from "../formatter"
 import BaseDevice from "./base-device"
 
 class Device extends BaseDevice {

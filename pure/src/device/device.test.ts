@@ -1,5 +1,5 @@
-import mockSerialPort from "./mock-serial-port"
-import PureNode, { PureDevice } from "./index"
+import mockSerialPort from "../mock-serial-port"
+import PureNode, { PureDevice } from "../index"
 
 import {
   Endpoint,

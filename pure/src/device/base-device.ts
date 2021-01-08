@@ -14,7 +14,7 @@ import {
   ResponseStatus,
   UpdateResponseStatus,
 } from "./device.types"
-import { createValidRequest, getNewUUID, parseData } from "./parser"
+import { createValidRequest, getNewUUID, parseData } from "../parser"
 
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
