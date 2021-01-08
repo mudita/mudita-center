@@ -16,14 +16,14 @@ import {
   UpdateResponseStatus,
 } from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "./parser"
-import { Contact, CountBodyResponse, DeviceInfo } from "./endpoints"
+import { Formatter } from "./formatter"
 
 class Device implements PureDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
   #portBlocked = true
 
-  constructor(private path: string) {}
+  constructor(private formatter: Formatter, private path: string) {}
 
   public connect(): Promise<Response> {
     return new Promise((resolve) => {
@@ -61,46 +61,6 @@ class Device implements PureDevice {
     })
   }
 
-  public request(config: {
-    endpoint: Endpoint.DeviceInfo
-    method: Method.Get
-  }): Promise<Response<DeviceInfo>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-    body: { count: true }
-  }): Promise<Response<CountBodyResponse>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-    body: { count: number }
-  }): Promise<Response<Contact[]>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Post
-    body: Contact
-  }): Promise<Response<Contact>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Put
-    body: Contact
-  }): Promise<Response<Contact>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Delete
-    body: Contact["id"]
-  }): Promise<Response<string>>
-  public request(config: {
-    endpoint: Endpoint.DeviceUpdate
-    method: Method.Post
-    file: string
-  }): Promise<Response>
-  public request(config: {
-    endpoint: Endpoint.FileUpload
-    method: Method.Post
-    file: string
-  }): Promise<Response>
-  public request(config: RequestConfig): Promise<Response<any>>
   public request(config: RequestConfig): Promise<Response<any>> {
     if (config.endpoint === Endpoint.FileUpload) {
       return this.fileUploadRequest(config)
@@ -115,16 +75,19 @@ class Device implements PureDevice {
 
           const listener = async (event: any) => {
             const response = await parseData(event)
-
+            const formattedResponse = this.formatter.formatResponse(
+              config.method,
+              response
+            )
             if (response.uuid === String(uuid)) {
               this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-              resolve(response)
+              resolve(formattedResponse)
             }
           }
 
           this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
-
-          const request = createValidRequest({ ...config, uuid })
+          const formattedConfig = this.formatter.formatRequestConfig(config)
+          const request = createValidRequest({ ...formattedConfig, uuid })
           this.#port.write(request)
         }
       })
@@ -240,4 +203,7 @@ class Device implements PureDevice {
   }
 }
 
-export const createDevice: CreateDevice = (path: string) => new Device(path)
+export const createDevice: CreateDevice = (
+  formatter: Formatter,
+  path: string
+) => new Device(formatter, path)

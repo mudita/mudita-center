@@ -3,7 +3,7 @@ import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class
 import {
   Contact as PureContact,
   NewContact as PureNewContact,
-} from "pure/dist/endpoints/contact.types"
+} from "pure/dist/formatter/pure-v1/endpoints/contact.types"
 import {
   Contact,
   ContactID,
@@ -46,7 +46,7 @@ class Phonebook extends PhonebookAdapter {
       return {
         status,
         data: {
-          id: String(data.id),
+          id: data.id,
           ...contact,
           primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
         },
@@ -77,7 +77,7 @@ class Phonebook extends PhonebookAdapter {
       const { status } = await this.deviceService.request({
         endpoint: Endpoint.Contacts,
         method: Method.Delete,
-        body: { id: Number(id) },
+        body: { id },
       })
       return {
         status,
@@ -192,5 +192,5 @@ const mapToPureNewContact = (contact: NewContact): PureNewContact => {
 }
 
 const mapToPureContact = (contact: Contact): PureContact => {
-  return { ...mapToPureNewContact(contact), id: Number(contact.id) }
+  return { ...contact, ...mapToPureNewContact(contact) }
 }

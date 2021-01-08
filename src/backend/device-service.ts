@@ -12,8 +12,11 @@ import {
 } from "pure/dist/device.types"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { MainProcessIpc } from "electron-better-ipc"
-import { DeviceInfo } from "pure/dist/endpoints/device-info.types"
-import { Contact, CountBodyResponse } from "pure/dist/endpoints/contact.types"
+import { DeviceInfo } from "pure/dist/formatter/pure-v1/endpoints/device-info.types"
+import {
+  Contact,
+  CountBodyResponse,
+} from "pure/dist/formatter/pure-v1/endpoints/contact.types"
 
 class DeviceService {
   device: PureDevice | undefined

@@ -3,7 +3,7 @@ export interface Contact {
   altName: string
   blocked: boolean
   favourite: boolean
-  id: number
+  id: string
   numbers: string[]
   priName: string
 }

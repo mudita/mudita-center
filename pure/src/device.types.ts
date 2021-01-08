@@ -1,3 +1,5 @@
+import { Formatter } from "./formatter"
+
 export interface PureDevice {
   connect(): Promise<Response>
   disconnect(): Promise<Response>
@@ -6,7 +8,7 @@ export interface PureDevice {
   off(eventName: DeviceEventName, listener: () => void): void
 }
 
-export type CreateDevice = (path: string) => PureDevice
+export type CreateDevice = (formatter: Formatter, path: string) => PureDevice
 
 export enum ResponseStatus {
   Ok = 200,
