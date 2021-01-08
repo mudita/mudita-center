@@ -59,12 +59,12 @@ class DeviceService {
     body: Contact["id"]
   }): Promise<DeviceResponse<string>>
   async request(config: {
-    endpoint: Endpoint.PureUpdate
+    endpoint: Endpoint.DeviceUpdate
     method: Method.Post
     file: string
   }): Promise<DeviceResponse>
   async request(config: {
-    endpoint: Endpoint.File
+    endpoint: Endpoint.FileUpload
     method: Method.Post
     file: string
   }): Promise<DeviceResponse>
