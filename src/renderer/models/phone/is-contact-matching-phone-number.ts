@@ -5,7 +5,9 @@ export const isContactMatchingPhoneNumber = (
   { primaryPhoneNumber = "", secondaryPhoneNumber = "" }: Contact,
   phoneNumber: string
 ): boolean => {
-  if (phoneNumber === "") return false
+  if (phoneNumber === "") {
+    return false
+  }
 
   return (
     removeDecoratorsFromPhoneNumber(phoneNumber) ===

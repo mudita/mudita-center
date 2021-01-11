@@ -1,4 +1,6 @@
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 const initialState: PhoneUpdate = {
   pureOsFileName: "",
@@ -6,7 +8,7 @@ const initialState: PhoneUpdate = {
   pureOsDownloaded: false,
 }
 
-export default {
+const phoneUpdate = createModel<RootModel>({
   state: initialState,
   reducers: {
     update(state: Readonly<PhoneUpdate>, payload: PhoneUpdate) {
@@ -16,4 +18,6 @@ export default {
       }
     },
   },
-}
+})
+
+export default phoneUpdate
