@@ -3,7 +3,7 @@ import React from "react"
 import ContactDetails from "Renderer/components/rest/phone/contact-details.component"
 import { noop } from "Renderer/utils/noop"
 
-const contactWithIce = {
+const contactRich = {
   id: "0",
   firstName: "Sławomir",
   lastName: "Borewicz",
@@ -17,14 +17,15 @@ const contactWithIce = {
   firstAddressLine: "Malczewskiego 3, Warszawa",
   secondAddressLine: "",
 }
-const contactWithOutIce = {
+
+const contactBasic = {
   id: "274970a2-13b7-4f42-962d-8fa0b2b48377",
   firstName: "",
   lastName: "",
   primaryPhoneNumber: "+71 195 069 214",
   secondaryPhoneNumber: "",
-  email: "Lavina_Bartoletti@yahoo.com",
-  note: "sapiente rem dignissimos sunt",
+  email: "",
+  note: "",
   ice: false,
   favourite: false,
   blocked: true,
@@ -33,8 +34,10 @@ const contactWithOutIce = {
 }
 
 const noAddress = "[value] view.name.phone.contacts.details.noAddress"
+const noEmail = "[value] view.name.phone.contacts.details.noEmail"
+const noNotes = "[value] view.name.phone.contacts.details.noNotes"
 
-const renderer = (withIce: boolean) => {
+const renderer = (props: { rich: boolean }) => {
   const defaultProps = {
     onUnblock: noop,
     onBlock: noop,
@@ -49,28 +52,48 @@ const renderer = (withIce: boolean) => {
 
   return renderWithThemeAndIntl(
     <ContactDetails
-      contact={withIce ? contactWithIce : contactWithOutIce}
+      contact={props.rich ? contactRich : contactBasic}
       {...defaultProps}
     />
   )
 }
 
-test("contact with ice", () => {
-  const { getByTestId } = renderer(true)
+test("contact with ICE displays ICE icon", () => {
+  const { getByTestId } = renderer({ rich: true })
   expect(getByTestId("icon-Ice")).toBeInTheDocument()
 })
 
-test("contact with out ice", () => {
-  const { queryByTestId } = renderer(false)
+test("contact with out ICE displays no ICE info", () => {
+  const { queryByTestId } = renderer({ rich: false })
   expect(queryByTestId("icon-Ice")).not.toBeInTheDocument()
 })
 
-test("contact with address", () => {
-  const { getByText } = renderer(true)
-  expect(getByText(contactWithIce.firstAddressLine)).toBeInTheDocument()
+test("contact with address displays the address", () => {
+  const { getByText } = renderer({ rich: true })
+  expect(getByText(contactRich.firstAddressLine)).toBeInTheDocument()
 })
 
-test("contact without address", () => {
-  const { getByText } = renderer(false)
+test("contact without address displays no address info", () => {
+  const { getByText } = renderer({ rich: false })
   expect(getByText(noAddress)).toBeInTheDocument()
+})
+
+test("contact with email displays the email", () => {
+  const { getByText } = renderer({ rich: true })
+  expect(getByText(contactRich.email)).toBeInTheDocument()
+})
+
+test("contact without email displays no email info", () => {
+  const { getByText } = renderer({ rich: false })
+  expect(getByText(noEmail)).toBeInTheDocument()
+})
+
+test("contact with note displays the note", () => {
+  const { getByText } = renderer({ rich: true })
+  expect(getByText(contactRich.email)).toBeInTheDocument()
+})
+
+test("contact without note displays no note info", () => {
+  const { getByText } = renderer({ rich: false })
+  expect(getByText(noNotes)).toBeInTheDocument()
 })
