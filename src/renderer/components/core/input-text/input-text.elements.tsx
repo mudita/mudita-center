@@ -131,7 +131,7 @@ const TextInputIcon = styled.span`
   user-select: none;
 `
 
-const generalInputStyles = css`
+export const generalInputStyles = css`
   appearance: none;
   border: none;
   outline: none;
