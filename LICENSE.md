@@ -1,7 +1,7 @@
 # Software License Agreement
 
 Mudita Center – https://github.com/mudita/mudita-center
-Copyright (c) 2017-2020, Mudita Sp. z o.o. All rights reserved.
+Copyright (c) 2017-2021, Mudita Sp. z o.o. All rights reserved.
 
 ## Sources of Intellectual Property Included in Mudita Center
 

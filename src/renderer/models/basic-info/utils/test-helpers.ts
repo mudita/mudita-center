@@ -1,7 +1,19 @@
 import { IpcRequest } from "Common/requests/ipc-request.enum"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
+
+const makeSuccessDeviceResponse = async (
+  data: any
+): Promise<DeviceResponse<any>> => {
+  return {
+    data,
+    status: DeviceResponseStatus.Ok,
+  }
+}
 
 export const commonCalls = {
-  [IpcRequest.GetDeviceInfo]: Promise.resolve({
+  [IpcRequest.GetDeviceInfo]: makeSuccessDeviceResponse({
     name: "Ziemniaczek",
     modelName: "U12300000",
     modelNumber: "A1239999",
@@ -9,35 +21,25 @@ export const commonCalls = {
     osVersion: "0.123v",
     osUpdateDate: "12-12-2003",
   }),
-  [IpcRequest.GetNetworkInfo]: Promise.resolve({
+  [IpcRequest.GetNetworkInfo]: makeSuccessDeviceResponse({
     simCards: [
       {
         active: true,
-        carrier: "AAAAAAAAAAAA",
-        iccid: 1234,
-        imei: 5678,
-        meid: 8765,
         network: "Y-Mobile",
         networkLevel: 0.5,
         number: 12345678,
-        seid: "1234",
         slot: 1,
       },
       {
         active: false,
-        carrier: "BBBBBBBBBBBB",
-        iccid: 412,
-        imei: 42,
-        meid: 1410,
         network: "X-Mobile",
         networkLevel: 0.69,
         number: 7001234523,
-        seid: "x123",
         slot: 2,
       },
     ],
   }),
-  [IpcRequest.GetStorageInfo]: Promise.resolve({
+  [IpcRequest.GetStorageInfo]: makeSuccessDeviceResponse({
     capacity: 9001,
     available: 99999999999999,
     categories: [
@@ -45,12 +47,12 @@ export const commonCalls = {
       { label: "storage", filesCount: 100000, size: 999999999 },
     ],
   }),
-  [IpcRequest.GetBatteryInfo]: Promise.resolve({
+  [IpcRequest.GetBatteryInfo]: makeSuccessDeviceResponse({
     level: 9001,
     charging: false,
     maximumCapacity: 99999,
   }),
-  [IpcRequest.GetBackupsInfo]: Promise.resolve({
+  [IpcRequest.GetBackupsInfo]: makeSuccessDeviceResponse({
     backups: [
       {
         createdAt: "20-11-15T07:35:01.562Z20",
