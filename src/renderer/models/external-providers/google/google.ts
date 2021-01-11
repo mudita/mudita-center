@@ -7,19 +7,23 @@ import {
   GoogleEvent,
   GoogleEventsSuccess,
   GoogleProviderState,
+  Scope,
 } from "Renderer/models/external-providers/google/google.interface"
 import { Dispatch } from "Renderer/store/external-providers"
 import { ipcRenderer } from "electron-better-ipc"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
 import logger from "App/main/utils/logger"
-import { ExternalProvidersState } from "Renderer/models/external-providers/external-providers.interface"
+import {
+  ExternalProvidersState,
+  RequestWrapperPayload,
+} from "Renderer/models/external-providers/external-providers.interface"
 import moment from "moment"
 import {
   mapCalendars,
   mapContact,
   mapEvents,
 } from "Renderer/models/external-providers/google/google.helpers"
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
+import axios, { AxiosResponse } from "axios"
 import { noop } from "Renderer/utils/noop"
 
 export const googleEndpoints = {
@@ -28,7 +32,8 @@ export const googleEndpoints = {
 }
 
 export const createInitialState = (): GoogleProviderState => ({
-  auth: {},
+  [Scope.Calendar]: {},
+  [Scope.Contacts]: {},
 })
 
 export const createStore = () => ({
@@ -36,28 +41,31 @@ export const createStore = () => ({
   reducers: {
     setAuthData(
       state: GoogleProviderState,
-      authData: GoogleProviderState["auth"]
+      payload: {
+        data: Partial<GoogleAuthSuccessResponse>
+        scope: Scope
+      }
     ) {
-      state.auth = {
-        ...state.auth,
-        ...authData,
+      state[payload.scope] = {
+        ...state[payload.scope],
+        ...payload.data,
       }
       return state
     },
   },
   effects: (dispatch: Dispatch) => ({
     async requestWrapper<ReturnType>(
-      axiosProps: AxiosRequestConfig,
-      rootState: ExternalProvidersState,
-      tries = 0
+      payload: RequestWrapperPayload,
+      rootState: ExternalProvidersState
     ): Promise<AxiosResponse<ReturnType>> {
+      const { scope, axiosProps, tries = 0 } = payload
       const { url, method = "GET", headers, ...rest } = axiosProps
 
-      let currentToken = rootState.google.auth.access_token
+      let currentToken = rootState.google[scope].access_token
 
       if (!currentToken) {
-        await dispatch.google.authorize()
-        currentToken = rootState.google.auth.access_token
+        await dispatch.google.authorize(scope)
+        currentToken = rootState.google[scope].access_token
       }
 
       const request = (token = currentToken) => {
@@ -66,7 +74,7 @@ export const createStore = () => ({
           method,
           headers: {
             ...headers,
-            Authorization: `${rootState.google.auth.token_type} ${token}`,
+            Authorization: `${rootState.google[scope].token_type} ${token}`,
           },
         })
       }
@@ -75,19 +83,22 @@ export const createStore = () => ({
         return await request()
       } catch (error) {
         if (error.response.status === 401 && tries < 2) {
-          const refreshToken = rootState.google.auth.refresh_token
+          const refreshToken = rootState.google[scope].refresh_token
 
           const { data } = await axios.post(
             `${process.env.MUDITA_GOOGLE_REFRESH_TOKEN_URL}?refreshToken=${refreshToken}`
           )
-          await dispatch.google.setAuthData(data)
-          return this.requestWrapper(axiosProps, rootState, tries + 1)
+          await dispatch.google.setAuthData({ scope, data })
+          return this.requestWrapper(
+            { scope, axiosProps, tries: tries + 1 },
+            rootState
+          )
         } else {
           logger.error(error)
 
           try {
             logger.info("Reauthorizing Google account")
-            await dispatch.google.authorize()
+            await dispatch.google.authorize(scope)
             return await request()
           } catch (authorizeError) {
             logger.error(authorizeError)
@@ -96,11 +107,11 @@ export const createStore = () => ({
         }
       }
     },
-    authorize(_: undefined, rootState: ExternalProvidersState) {
+    authorize(scope: Scope, rootState: ExternalProvidersState) {
       return new Promise((resolve, reject) => {
         logger.info("Authorizing in Google")
 
-        const token = rootState.google.auth.access_token
+        const token = rootState.google[scope].access_token
 
         if (token) {
           resolve()
@@ -109,16 +120,17 @@ export const createStore = () => ({
 
         let unregisterMainListener = noop
 
-        ipcRenderer.callMain(GoogleAuthActions.OpenWindow)
+        ipcRenderer.callMain(GoogleAuthActions.OpenWindow, scope)
 
         const processResponse = (response: string) => {
           const responseData = JSON.parse(response)
           if (responseData.error) {
             reject((responseData as GoogleAuthFailedResponse).error)
           } else {
-            dispatch.google.setAuthData(
-              responseData as GoogleAuthSuccessResponse
-            )
+            dispatch.google.setAuthData({
+              scope,
+              data: responseData as GoogleAuthSuccessResponse,
+            })
             resolve()
           }
           ipcRenderer.callMain(GoogleAuthActions.CloseWindow)
@@ -136,7 +148,10 @@ export const createStore = () => ({
 
       const { data } = await this.requestWrapper<GoogleCalendarsSuccess>(
         {
-          url: `${googleEndpoints.calendars}/users/me/calendarList`,
+          scope: Scope.Calendar,
+          axiosProps: {
+            url: `${googleEndpoints.calendars}/users/me/calendarList`,
+          },
         },
         rootState
       )
@@ -152,7 +167,10 @@ export const createStore = () => ({
 
       const { data } = await this.requestWrapper<GoogleContacts>(
         {
-          url: `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`,
+          scope: Scope.Contacts,
+          axiosProps: {
+            url: `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`,
+          },
         },
         rootState
       )
@@ -173,11 +191,15 @@ export const createStore = () => ({
           maxResults: "1000",
           ...(pageToken ? { pageToken } : {}),
         })
+
         return this.requestWrapper<GoogleEventsSuccess>(
           {
-            url: `${
-              googleEndpoints.calendars
-            }/calendars/${calendarId}/events?${params.toString()}`,
+            scope: Scope.Calendar,
+            axiosProps: {
+              url: `${
+                googleEndpoints.calendars
+              }/calendars/${calendarId}/events?${params.toString()}`,
+            },
           },
           rootState
         )
