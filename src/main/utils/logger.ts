@@ -1,8 +1,8 @@
 import { createLogger, format, transports } from "winston"
 import { name } from "../../../package.json"
-
 const DailyRotateFile = require("winston-daily-rotate-file")
 const isRenderer = require("is-electron-renderer")
+const RollbarTransport = require("winston-transport-rollbar-3")
 import electron from "electron"
 
 const testing = process.env.NODE_ENV === "test"
@@ -52,6 +52,17 @@ const logger = createLogger({
       level: testing ? "emerg" : "silly",
       silent: testing,
       format: combine(colorize(), simple()),
+    }),
+    new RollbarTransport({
+      rollbarConfig: {
+        accessToken: process.env.ROLLBAR_TOKEN || "test",
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+        payload: {
+          environment: process.env.NODE_ENV,
+        },
+      },
+      level: "warn",
     }),
   ],
 })
