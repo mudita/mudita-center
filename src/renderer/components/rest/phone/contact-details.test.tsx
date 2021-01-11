@@ -90,7 +90,7 @@ test("contact without email displays no email info", () => {
 
 test("contact with note displays the note", () => {
   const { getByText } = renderer({ rich: true })
-  expect(getByText(contactRich.email)).toBeInTheDocument()
+  expect(getByText(contactRich.note)).toBeInTheDocument()
 })
 
 test("contact without note displays no note info", () => {
