@@ -156,7 +156,7 @@
     "@types/webpack-env": "^1.16.0",
     "asar": "^3.0.3",
     "axios-mock-adapter": "^1.18.2",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.1.0",
     "babel-plugin-react-intl": "^7.8.3",
     "babel-plugin-styled-components": "^1.11.1",
     "babel-preset-react-app": "^9.1.2",
