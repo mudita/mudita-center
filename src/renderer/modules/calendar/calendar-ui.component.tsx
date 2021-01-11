@@ -1,4 +1,4 @@
-import React, { MutableRefObject } from "react"
+import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import EventsList from "Renderer/components/rest/calendar/events-list.component"
@@ -20,7 +20,6 @@ interface Props {
   openSelectVendorModal: () => void
   tableSelectHook: UseTableSelect<CalendarEvent>
   selectedEventIndex?: number
-  listRef: MutableRefObject<HTMLDivElement>
   onEventSelect: (item: CalendarEvent) => void
 }
 
@@ -29,7 +28,6 @@ const CalendarUI: FunctionComponent<Props> = ({
   openSelectVendorModal,
   tableSelectHook,
   selectedEventIndex,
-  listRef,
   onEventSelect,
 }) => {
   return (
@@ -43,7 +41,6 @@ const CalendarUI: FunctionComponent<Props> = ({
         <EventsList
           events={events}
           selectedEventIndex={selectedEventIndex}
-          listRef={listRef}
           {...tableSelectHook}
         />
       ) : (
