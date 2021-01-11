@@ -31,7 +31,7 @@ const basicInfo = createModel<RootModel>({
   reducers: {
     setResultsState(
       state: StoreValues,
-      resultsState: ResultsState,
+      resultsState: ResultsState
     ): StoreValues {
       return { ...state, resultsState }
     },
@@ -58,7 +58,7 @@ const basicInfo = createModel<RootModel>({
     return {
       async loadData(
         _: any,
-        rootState: { basicInfo: { resultsState: ResultsState } },
+        rootState: { basicInfo: { resultsState: ResultsState } }
       ) {
         if (rootState.basicInfo.resultsState === ResultsState.Loading) {
           return

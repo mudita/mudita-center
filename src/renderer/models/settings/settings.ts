@@ -32,7 +32,7 @@ const settings = createModel<RootModel>({
       },
       async checkAutostartValue() {
         const value = await ipcRenderer.callMain(
-          SettingsActions.GetAutostartValue,
+          SettingsActions.GetAutostartValue
         )
         this.updateSettings({ key: "appAutostart", value })
         return value
@@ -57,7 +57,7 @@ const settings = createModel<RootModel>({
         this.updateSettings({ key: "appOsUpdates", value })
       },
       setNonStandardAudioFilesConversion(
-        value: AppSettings["appNonStandardAudioFilesConversion"],
+        value: AppSettings["appNonStandardAudioFilesConversion"]
       ) {
         this.updateSettings({
           key: "appNonStandardAudioFilesConversion",

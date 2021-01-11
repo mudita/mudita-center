@@ -24,7 +24,7 @@ const muditaNews = createModel<RootModel>({
     return {
       async loadData(
         _: any,
-        rootState: { networkStatus: { online: boolean } },
+        rootState: { networkStatus: { online: boolean } }
       ) {
         if (rootState.networkStatus.online) {
           const data = await initNews()

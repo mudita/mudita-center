@@ -125,7 +125,7 @@ test("authorization handles error properly", async () => {
       }
       return { ipcRenderer: mockIpcRenderer }
     },
-    { virtual: true },
+    { virtual: true }
   )
 
   await store.dispatch.google.authorize("calendar")
@@ -339,7 +339,7 @@ test("requestWrapper handles 401 error properly", async () => {
       axiosProps: {
         url: `${googleEndpoints.calendars}/users/me/calendarList`,
       },
-    })) as unknown) as AxiosResponse<GoogleCalendarsSuccess>).data.items,
+    })) as unknown) as AxiosResponse<GoogleCalendarsSuccess>).data.items
   ).toHaveLength(mockedGoogleCalendars.length)
 })
 
@@ -358,7 +358,7 @@ test("requestWrapper handles other errors properly", async () => {
       axiosProps: {
         url: `${googleEndpoints.calendars}/users/me/calendarList`,
       },
-    })) as unknown) as AxiosResponse<GoogleCalendarsSuccess>).data.items,
+    })) as unknown) as AxiosResponse<GoogleCalendarsSuccess>).data.items
   ).toHaveLength(mockedGoogleCalendars.length)
 })
 

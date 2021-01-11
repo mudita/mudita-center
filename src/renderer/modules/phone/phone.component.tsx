@@ -236,7 +236,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
       const edit = async (retried?: boolean) => {
         modalService.openModal(
           <LoadingStateDataModal textMessage={messages.editingText} />,
-          true,
+          true
         )
 
         const error = await delayResponse(editContact(contact))
@@ -378,7 +378,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
     await modalService.closeModal()
     modalService.openModal(
       <AuthorizationFailedModal
-        provider={provider as Provider}
+        provider={provider}
         onActionButtonClick={loadGoogleContacts}
       />
     )

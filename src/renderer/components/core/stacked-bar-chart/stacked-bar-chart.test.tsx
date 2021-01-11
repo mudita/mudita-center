@@ -40,7 +40,7 @@ describe("Correct rendering of chart elements and label", () => {
     const { queryByTestId } = renderWithThemeAndIntl(
       <StackedBarChart chartData={chartData} displayStyle={DisplayStyle.Thin} />
     )
-    expect(queryByTestId(barWithLabelId)).toBeNull()
+    expect(queryByTestId(barWithLabelId)).not.toBeInTheDocument()
   })
 
   test("label should render", () => {

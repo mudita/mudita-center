@@ -30,10 +30,10 @@ const parseContact = (contact: vCardContact): NewContact => {
 
   if (contact.tel) {
     if (Array.isArray(contact.tel)) {
-      primaryPhoneNumber = contact.tel[0].valueOf() as string
-      secondaryPhoneNumber = contact.tel[1].valueOf() as string
+      primaryPhoneNumber = contact.tel[0].valueOf()
+      secondaryPhoneNumber = contact.tel[1].valueOf()
     } else {
-      primaryPhoneNumber = contact.tel.valueOf() as string
+      primaryPhoneNumber = contact.tel.valueOf()
     }
   }
 
@@ -41,9 +41,9 @@ const parseContact = (contact: vCardContact): NewContact => {
     let address: string
 
     if (Array.isArray(contact.adr)) {
-      address = contact.adr[0].valueOf() as string
+      address = contact.adr[0].valueOf()
     } else {
-      address = contact.adr.valueOf() as string
+      address = contact.adr.valueOf()
     }
 
     address.split(";").forEach((chunk) => {

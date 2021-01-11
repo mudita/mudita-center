@@ -28,11 +28,11 @@ test("todays call is at the beginning of the list by default", () => {
 test("deletes call", () => {
   const lookupId = mockData[0].id
   expect(
-    store.getState().calls.calls.find(({ id }: Call) => id === lookupId),
+    store.getState().calls.calls.find(({ id }: Call) => id === lookupId)
   ).toBeDefined()
   store.dispatch.calls.deleteCall([lookupId])
   expect(
-    store.getState().calls.calls.find(({ id }: Call) => id === lookupId),
+    store.getState().calls.calls.find(({ id }: Call) => id === lookupId)
   ).toBeUndefined()
 })
 

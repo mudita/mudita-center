@@ -76,7 +76,7 @@ const calendar = createModel<RootModel>({
         switch (calendar.provider) {
           case Provider.Google:
             events = ((await externalProvidersStore.dispatch.google.getEvents(
-              calendar.id,
+              calendar.id
             )) as unknown) as CalendarEvent[]
         }
         dispatch.calendar.setEvents(events)

@@ -28,9 +28,7 @@ const Wrapper = styled.div`
 storiesOf("Views/Calendar/Main view", module)
   .add("With events", () => {
     const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
-    const eventsListRef = useRef<HTMLDivElement>() as MutableRefObject<
-      HTMLDivElement
-    >
+    const eventsListRef = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>
     return (
       <Wrapper>
         <CalendarUI
@@ -45,9 +43,7 @@ storiesOf("Views/Calendar/Main view", module)
   })
   .add("No events", () => {
     const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
-    const eventsListRef = useRef<HTMLDivElement>() as MutableRefObject<
-      HTMLDivElement
-    >
+    const eventsListRef = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>
     return (
       <Wrapper>
         <CalendarUI

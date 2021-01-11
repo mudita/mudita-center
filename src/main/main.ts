@@ -229,7 +229,7 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
       ipcMain.callRenderer(
         win as BrowserWindow,
         GoogleAuthActions.GotCredentials,
-        data,
+        data
       )
     }
 
@@ -266,7 +266,7 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
       }
 
       googleAuthWindow.loadURL(
-        `${process.env.MUDITA_GOOGLE_AUTH_URL}?scope=${scopeUrl}`,
+        `${process.env.MUDITA_GOOGLE_AUTH_URL}?scope=${scopeUrl}`
       )
     } else {
       googleAuthWindow.show()

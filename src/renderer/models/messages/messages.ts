@@ -25,7 +25,7 @@ const messages = createModel<RootModel>({
   reducers: {
     changeSearchValue(
       state: MessagesState,
-      searchValue: MessagesState["searchValue"],
+      searchValue: MessagesState["searchValue"]
     ) {
       return { ...state, searchValue }
     },
@@ -98,7 +98,7 @@ const messages = createModel<RootModel>({
         const callers: Caller[] = models.messages.getAllCallers(state)
         return (phoneNumber: string) => {
           return !callers.some((caller) =>
-            isCallerMatchingPhoneNumber(caller, phoneNumber),
+            isCallerMatchingPhoneNumber(caller, phoneNumber)
           )
         }
       }

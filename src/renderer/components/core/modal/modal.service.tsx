@@ -98,7 +98,7 @@ export class ModalService {
           () => {
             resolve()
           },
-          true,
+          true
         )
       })
     }

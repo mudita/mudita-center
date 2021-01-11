@@ -47,7 +47,7 @@ const google = createModel<ExternalProvidersModels>({
       payload: {
         data: Partial<GoogleAuthSuccessResponse>
         scope: Scope
-      },
+      }
     ) {
       state[payload.scope] = {
         ...state[payload.scope],
@@ -61,7 +61,7 @@ const google = createModel<ExternalProvidersModels>({
 
     const requestWrapper = async <ReturnType>(
       payload: RequestWrapperPayload,
-      rootState: ExternalProvidersState,
+      rootState: ExternalProvidersState
     ): Promise<AxiosResponse<ReturnType>> => {
       const { scope, axiosProps, tries = 0 } = payload
       const { url, method = "GET", headers, ...rest } = axiosProps
@@ -93,12 +93,12 @@ const google = createModel<ExternalProvidersModels>({
           const refreshToken = rootState.google[scope].refresh_token
 
           const { data } = await axios.post(
-            `${process.env.MUDITA_GOOGLE_REFRESH_TOKEN_URL}?refreshToken=${refreshToken}`,
+            `${process.env.MUDITA_GOOGLE_REFRESH_TOKEN_URL}?refreshToken=${refreshToken}`
           )
           await dispatch.google.setAuthData({ scope, data })
           return requestWrapper(
             { scope, axiosProps, tries: tries + 1 },
-            rootState,
+            rootState
           )
         } else {
           logger.error(error)
@@ -147,14 +147,14 @@ const google = createModel<ExternalProvidersModels>({
 
         unregisterMainListener = ipcRenderer.answerMain(
           GoogleAuthActions.GotCredentials,
-          processResponse,
+          processResponse
         )
       })
     }
 
     const getCalendars = async (
       _: undefined,
-      rootState: ExternalProvidersState,
+      rootState: ExternalProvidersState
     ): Promise<Calendar[]> => {
       logger.info("Getting Google calendars")
 
@@ -165,7 +165,7 @@ const google = createModel<ExternalProvidersModels>({
             url: `${googleEndpoints.calendars}/users/me/calendarList`,
           },
         },
-        rootState,
+        rootState
       )
 
       if (!data?.items) {
@@ -185,17 +185,17 @@ const google = createModel<ExternalProvidersModels>({
             url: `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`,
           },
         },
-        rootState,
+        rootState
       )
 
       return data.connections.map((contact: GoogleContactResourceItem) =>
-        mapContact(contact),
+        mapContact(contact)
       )
     }
 
     const getEvents = async (
       calendarId: string,
-      rootState: ExternalProvidersState,
+      rootState: ExternalProvidersState
     ) => {
       logger.info("Getting Google events")
 
@@ -218,7 +218,7 @@ const google = createModel<ExternalProvidersModels>({
               }/calendars/${calendarId}/events?${params.toString()}`,
             },
           },
-          rootState,
+          rootState
         )
       }
 

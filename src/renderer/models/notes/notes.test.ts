@@ -55,13 +55,13 @@ test("properly saves modified note", () => {
 test("properly removes notes", () => {
   const noteId = store.getState().notes.notes[0].id
   expect(
-    store.getState().notes.notes.find(({ id }: Note) => id === noteId),
+    store.getState().notes.notes.find(({ id }: Note) => id === noteId)
   ).toBeDefined()
 
   store.dispatch.notes.removeNotes([noteId])
 
   expect(
-    store.getState().notes.notes.find(({ id }: Note) => id === noteId),
+    store.getState().notes.notes.find(({ id }: Note) => id === noteId)
   ).toBeUndefined()
 })
 

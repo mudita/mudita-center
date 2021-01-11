@@ -38,11 +38,15 @@ test("has proper initial state", () => {
 test("properly removes items", () => {
   const lookupId = templatesSeed.templates[0].id
   expect(
-    store.getState().templates.templates?.find(({ id }: Template) => id === lookupId),
+    store
+      .getState()
+      .templates.templates?.find(({ id }: Template) => id === lookupId)
   ).toBeDefined()
   store.dispatch.templates.removeTemplates([lookupId])
   expect(
-    store.getState().templates.templates?.find(({ id }: Template) => id === lookupId),
+    store
+      .getState()
+      .templates.templates?.find(({ id }: Template) => id === lookupId)
   ).toBeUndefined()
 })
 

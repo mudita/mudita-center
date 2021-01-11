@@ -185,10 +185,15 @@ const TextInput = styled.input<{ type: string }>`
     `};
 `
 
-type InputWrapperProps = Partial<InputProps & TextareaProps> & {
-  error: boolean
-  inputType?: string
-  children?: JSX.Element
+interface InputWrapperProps {
+  outlined?: boolean
+  condensed?: boolean
+  disabled?: boolean
+  readOnly?: boolean
+  error?: boolean
+  focusable?: boolean
+  inputType?: InputProps["type"]
+  initialTransparentBorder?: boolean
 }
 
 const searchStyles = css`

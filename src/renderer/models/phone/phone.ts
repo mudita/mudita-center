@@ -129,7 +129,7 @@ const phone = createModel<RootModel>({
     return {
       async loadData(
         _: any,
-        rootState: { phone: { resultsState: ResultsState } },
+        rootState: { phone: { resultsState: ResultsState } }
       ) {
         if (rootState.phone.resultsState === ResultsState.Loading) {
           return
@@ -183,7 +183,7 @@ const phone = createModel<RootModel>({
         const contacts: Contact[] = models.phone.flatList(state)
         return (phoneNumber: string) => {
           return contacts.some((contact) =>
-            isContactMatchingPhoneNumber(contact, phoneNumber),
+            isContactMatchingPhoneNumber(contact, phoneNumber)
           )
         }
       }

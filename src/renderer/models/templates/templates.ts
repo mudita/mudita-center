@@ -30,7 +30,7 @@ const templates = createModel<RootModel>({
     },
     changeSearchValue(
       state: StateProps,
-      searchValue: StateProps["searchValue"],
+      searchValue: StateProps["searchValue"]
     ) {
       return { ...state, searchValue }
     },

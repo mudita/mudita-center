@@ -28,7 +28,7 @@ class PurePhoneBackups extends PurePhoneBackupAdapter {
           const { size } = await fs.stat(
             path.join(pureOsBackupLocation, fileName)
           )
-          const datetime = fileName.match(regex)?.[1]
+          const datetime = regex.exec(fileName)?.[1]
 
           if (datetime) {
             const createdAt = moment(datetime, "YYYYMMDDhhmm").format()

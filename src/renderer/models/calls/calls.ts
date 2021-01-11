@@ -20,7 +20,7 @@ const calls = createModel<RootModel>({
   reducers: {
     changeVisibilityFilter(
       state: StateProps,
-      visibilityFilter: StateProps["visibilityFilter"],
+      visibilityFilter: StateProps["visibilityFilter"]
     ) {
       return { ...state, visibilityFilter }
     },
