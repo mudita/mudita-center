@@ -89,6 +89,12 @@ export interface GoogleEventsSuccess {
   items: GoogleEvent[]
 }
 
+export enum Scope {
+  Calendar = "calendar",
+  Contacts = "contacts",
+}
+
 export interface GoogleProviderState {
-  auth: Partial<GoogleAuthSuccessResponse>
+  [Scope.Contacts]: Partial<GoogleAuthSuccessResponse>
+  [Scope.Calendar]: Partial<GoogleAuthSuccessResponse>
 }
