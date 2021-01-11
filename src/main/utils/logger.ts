@@ -4,6 +4,8 @@ const DailyRotateFile = require("winston-daily-rotate-file")
 const isRenderer = require("is-electron-renderer")
 const RollbarTransport = require("winston-transport-rollbar-3")
 
+const testing = process.env.NODE_ENV === "test"
+
 let app
 let type: string
 
@@ -46,7 +48,8 @@ const logger = createLogger({
         ]
       : []),
     new transports.Console({
-      level: "silly",
+      level: testing ? "emerg" : "silly",
+      silent: testing,
       format: combine(colorize(), simple()),
     }),
     new RollbarTransport({
