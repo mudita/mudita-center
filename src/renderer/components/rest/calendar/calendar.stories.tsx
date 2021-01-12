@@ -1,5 +1,5 @@
 import { storiesOf } from "@storybook/react"
-import React, { MutableRefObject, useRef } from "react"
+import React from "react"
 import styled, { css } from "styled-components"
 import { mockedCalendars } from "App/__mocks__/calendars-list"
 import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
@@ -28,16 +28,12 @@ const Wrapper = styled.div`
 storiesOf("Views/Calendar/Main view", module)
   .add("With events", () => {
     const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
-    const eventsListRef = useRef<HTMLDivElement>() as MutableRefObject<
-      HTMLDivElement
-    >
     return (
       <Wrapper>
         <CalendarUI
           events={calendarSeed.events}
           openSelectVendorModal={action("open vendor modal")}
           tableSelectHook={tableSelectHook}
-          listRef={eventsListRef}
           onEventSelect={action("event select")}
         />
       </Wrapper>
@@ -45,16 +41,12 @@ storiesOf("Views/Calendar/Main view", module)
   })
   .add("No events", () => {
     const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
-    const eventsListRef = useRef<HTMLDivElement>() as MutableRefObject<
-      HTMLDivElement
-    >
     return (
       <Wrapper>
         <CalendarUI
           events={[]}
           openSelectVendorModal={action("open vendor modal")}
           tableSelectHook={tableSelectHook}
-          listRef={eventsListRef}
           onEventSelect={action("event select")}
         />
       </Wrapper>
