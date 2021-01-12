@@ -6,7 +6,7 @@ const formatterMap: { [key: number]: Formatter } = {
 }
 
 export class FormatterFactory {
-  create(version: number): Formatter | undefined {
-    return formatterMap[version]
+  create(version = 0): Formatter {
+    return formatterMap[version] ?? formatterMap[0]
   }
 }

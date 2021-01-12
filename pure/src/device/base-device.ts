@@ -74,7 +74,7 @@ class BaseDevice implements PureDevice {
       return {
         status: ResponseStatus.Ok,
         body: {
-          version: 0,
+          version: 1,
         },
       }
     } else {

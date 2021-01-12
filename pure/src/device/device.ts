@@ -11,10 +11,11 @@ import { Formatter, FormatterFactory } from "../formatter"
 import BaseDevice from "./base-device"
 
 class Device extends BaseDevice {
-  #formatter: Formatter | undefined
+  #formatter: Formatter
 
   constructor(private formatterFactory: FormatterFactory, path: string) {
     super(path)
+    this.#formatter = this.formatterFactory.create()
   }
 
   public async connect(): Promise<Response> {
@@ -74,10 +75,6 @@ class Device extends BaseDevice {
   }): Promise<Response>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
-    if (this.#formatter === undefined) {
-      return { status: ResponseStatus.ConnectionError }
-    }
-
     const formattedConfig = this.#formatter.formatRequestConfig(config)
     const response = await super.request(formattedConfig)
 
