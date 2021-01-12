@@ -4,6 +4,8 @@ import { makeNewNote } from "Renderer/models/notes/make-new-note"
 import { Slicer } from "@rematch/select"
 import { orderBy } from "lodash"
 import { SortOrder } from "Common/enums/sort-order.enum"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 export type NoteCallback = (param: Note) => void
 
@@ -12,7 +14,7 @@ export const initialState: StateProps = {
   sortOrder: SortOrder.Descending,
 }
 
-export default {
+const notes = createModel<RootModel>({
   state: initialState,
   reducers: {
     changeSortOrder(state: StateProps, sortOrder: SortOrder) {
@@ -70,4 +72,6 @@ export default {
       })
     },
   }),
-}
+})
+
+export default notes

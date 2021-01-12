@@ -178,8 +178,12 @@ const mapToPureNewContact = (contact: NewContact): PureNewContact => {
     secondAddressLine,
   } = contact
   const numbers = []
-  if (primaryPhoneNumber) numbers.push(primaryPhoneNumber)
-  if (secondaryPhoneNumber) numbers.push(secondaryPhoneNumber)
+  if (primaryPhoneNumber) {
+    numbers.push(primaryPhoneNumber)
+  }
+  if (secondaryPhoneNumber) {
+    numbers.push(secondaryPhoneNumber)
+  }
 
   return {
     blocked,

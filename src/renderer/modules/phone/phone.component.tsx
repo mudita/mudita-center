@@ -251,7 +251,7 @@ const Phone: FunctionComponent<PhoneProps> = (props) => {
           reject()
         } else {
           await modalService.closeModal()
-          resolve()
+          resolve(undefined)
         }
       }
 

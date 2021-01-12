@@ -7,13 +7,15 @@ import { Slicer } from "@rematch/select"
 import { filterCalls } from "Renderer/models/calls/filter-calls"
 import { mockData } from "App/__mocks__/calls-mock-data"
 import { orderBy } from "lodash"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 const initalState: StateProps = {
   calls: [...mockData, ...unknownCalls],
   visibilityFilter: VisibilityFilter.All,
 }
 
-export default {
+const calls = createModel<RootModel>({
   state: initalState,
   reducers: {
     changeVisibilityFilter(
@@ -35,4 +37,6 @@ export default {
       })
     },
   }),
-}
+})
+
+export default calls

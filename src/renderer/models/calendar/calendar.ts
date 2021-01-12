@@ -1,17 +1,19 @@
 import { Calendar, CalendarEvent, CalendarState } from "./calendar.interfaces"
 import { getSortedEvents } from "Renderer/models/calendar/calendar.helpers"
 import { Slicer } from "@rematch/select"
-import { Dispatch } from "Renderer/store"
+import { RootState } from "Renderer/store"
 import externalProvidersStore from "Renderer/store/external-providers"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import { eventsData } from "App/seeds/calendar"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 export const initialState: CalendarState = {
   calendars: [],
   events: [],
 }
 
-export default {
+const calendar = createModel<RootModel>({
   state: initialState,
   reducers: {
     setCalendars(state: CalendarState, newCalendars: Calendar[]) {
@@ -50,28 +52,38 @@ export default {
       return slice((state: CalendarState) => getSortedEvents(state.events))
     },
   }),
-  effects: (dispatch: Dispatch) => ({
-    async loadCalendars(provider: Provider) {
-      let calendars: Calendar[] = []
+  effects: (d) => {
+    const dispatch = (d as unknown) as RootState
 
-      dispatch.calendar.clearCalendars()
+    return {
+      async loadCalendars(provider: Provider) {
+        let calendars: Calendar[] = []
 
-      switch (provider) {
-        case Provider.Google:
-          calendars = await externalProvidersStore.dispatch.google.getCalendars()
-      }
-      dispatch.calendar.setCalendars(calendars)
-    },
-    async loadEvents(calendar: Calendar) {
-      let events: CalendarEvent[] = []
-      switch (calendar.provider) {
-        case Provider.Google:
-          events = await externalProvidersStore.dispatch.google.getEvents(
-            calendar.id
-          )
-      }
-      dispatch.calendar.setEvents(events)
-      return events
-    },
-  }),
-}
+        dispatch.calendar.clearCalendars()
+
+        switch (provider) {
+          case Provider.Apple:
+            break
+          case Provider.Microsoft:
+            break
+          case Provider.Google:
+            calendars = ((await externalProvidersStore.dispatch.google.getCalendars()) as unknown) as Calendar[]
+        }
+        dispatch.calendar.setCalendars(calendars)
+      },
+      async loadEvents(calendar: Calendar) {
+        let events: CalendarEvent[] = []
+        switch (calendar.provider) {
+          case Provider.Google:
+            events = ((await externalProvidersStore.dispatch.google.getEvents(
+              calendar.id
+            )) as unknown) as CalendarEvent[]
+        }
+        dispatch.calendar.setEvents(events)
+        return events
+      },
+    }
+  },
+})
+
+export default calendar
