@@ -1,8 +1,8 @@
-import { PureV0Formatter } from "./pure-v0.formatter"
+import { PureV1Formatter } from "./pure-v1.formatter"
 import { Formatter } from "./formatter"
 
 const formatterMap: { [key: number]: Formatter } = {
-  0: new PureV0Formatter(),
+  1: new PureV1Formatter(),
 }
 
 export class FormatterFactory {

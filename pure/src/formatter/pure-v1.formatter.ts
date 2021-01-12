@@ -1,7 +1,7 @@
 import { Endpoint, Method, RequestConfig, Response } from "../device"
 import { Formatter } from "./formatter"
 
-export class PureV0Formatter extends Formatter {
+export class PureV1Formatter extends Formatter {
   formatRequestConfig(config: RequestConfig): RequestConfig {
     const { endpoint, method, body } = config
     if (endpoint === Endpoint.Contacts && method === Method.Post) {
