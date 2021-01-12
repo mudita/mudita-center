@@ -16,6 +16,8 @@ import {
   AdditionalInfo,
   AdditionalInfoItem,
   BasicInfo,
+  ContactDetailsInfo,
+  ContactDetailsLabel,
   ContactDetailsWrapper,
   InfoItem,
   InfoItemName,
@@ -193,30 +195,37 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber && (
                 <Input label={intl.formatMessage(messages.noPhoneNumber)} />
               )}
-              <Input
-                defaultValue={contact.email}
-                label={intl.formatMessage(messages.noEmail)}
-              />
+              {contact.email ? (
+                <ContactDetailsInfo>{contact.email}</ContactDetailsInfo>
+              ) : (
+                <ContactDetailsLabel>
+                  {intl.formatMessage(messages.noEmail)}
+                </ContactDetailsLabel>
+              )}
             </AdditionalInfoItem>
           </div>
           <div>
             <AdditionalInfoItem>
               <InfoItemName message={messages.address} />
-              <Input
-                type="textarea"
-                outlined={false}
-                defaultValue={fullAddress.join("\n")}
-                label={intl.formatMessage(messages.noAddress)}
-              />
+              {fullAddress.length ? (
+                <ContactDetailsInfo>
+                  {fullAddress.join("\n")}
+                </ContactDetailsInfo>
+              ) : (
+                <ContactDetailsLabel>
+                  {intl.formatMessage(messages.noAddress)}
+                </ContactDetailsLabel>
+              )}
             </AdditionalInfoItem>
             <AdditionalInfoItem>
               <InfoItemName message={messages.notes} />
-              <Input
-                type="textarea"
-                outlined={false}
-                defaultValue={contact.note}
-                label={intl.formatMessage(messages.noNotes)}
-              />
+              {contact.note ? (
+                <ContactDetailsInfo>{contact.note}</ContactDetailsInfo>
+              ) : (
+                <ContactDetailsLabel>
+                  {intl.formatMessage(messages.noNotes)}
+                </ContactDetailsLabel>
+              )}
             </AdditionalInfoItem>
           </div>
         </AdditionalInfo>
