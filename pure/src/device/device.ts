@@ -13,9 +13,9 @@ import BaseDevice from "./base-device"
 class Device extends BaseDevice {
   #formatter: Formatter
 
-  constructor(private formatterFactory: FormatterFactory, path: string) {
+  constructor(path: string) {
     super(path)
-    this.#formatter = this.formatterFactory.create()
+    this.#formatter = FormatterFactory.create()
   }
 
   public async connect(): Promise<Response> {
@@ -29,7 +29,7 @@ class Device extends BaseDevice {
       return { status: ResponseStatus.ConnectionError }
     }
 
-    this.#formatter = this.formatterFactory.create(body.version)
+    this.#formatter = FormatterFactory.create(body.version)
 
     return response
   }
@@ -83,4 +83,4 @@ class Device extends BaseDevice {
 }
 
 export const createDevice: CreateDevice = (path: string) =>
-  new Device(new FormatterFactory(), path)
+  new Device(path)
