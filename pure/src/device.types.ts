@@ -35,7 +35,7 @@ export enum Endpoint {
   Invalid = 0,
   DeviceInfo = 1,
   Update = 2,
-  FilesystemUpload = 3,
+  FileSystemUpload = 3,
   Backup = 4,
   Restore = 5,
   Factory = 6,
@@ -44,8 +44,8 @@ export enum Endpoint {
   Callog = 9,
 
   // lib endpoint
-  File = 100,
-  PureUpdate = 101,
+  FileUpload = 100,
+  DeviceUpdate = 101,
 }
 
 export enum Method {
