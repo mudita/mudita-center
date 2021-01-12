@@ -59,14 +59,14 @@ class PurePhone extends PurePhoneAdapter {
 
   public async updateOs(file: string): Promise<DeviceResponse> {
     const fileResponse = await this.deviceService.request({
-      endpoint: Endpoint.File,
+      endpoint: Endpoint.FileUpload,
       method: Method.Post,
       file,
     })
 
     if (fileResponse.status === DeviceResponseStatus.Ok) {
       const PureUpdateResponse = await this.deviceService.request({
-        endpoint: Endpoint.PureUpdate,
+        endpoint: Endpoint.DeviceUpdate,
         method: Method.Post,
         file,
       })
