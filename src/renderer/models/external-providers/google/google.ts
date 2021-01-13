@@ -9,7 +9,6 @@ import {
   GoogleProviderState,
   Scope,
 } from "Renderer/models/external-providers/google/google.interface"
-import { Dispatch } from "Renderer/store/external-providers"
 import { ipcRenderer } from "electron-better-ipc"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
 import logger from "App/main/utils/logger"
@@ -25,6 +24,10 @@ import {
 } from "Renderer/models/external-providers/google/google.helpers"
 import axios, { AxiosResponse } from "axios"
 import { noop } from "Renderer/utils/noop"
+import { createModel } from "@rematch/core"
+import { ExternalProvidersModels } from "Renderer/models/external-providers/external-providers.models"
+import { Calendar } from "Renderer/models/calendar/calendar.interfaces"
+import { RootState } from "App/renderer/store/external-providers"
 
 export const googleEndpoints = {
   people: "https://people.googleapis.com/v1",
@@ -36,7 +39,7 @@ export const createInitialState = (): GoogleProviderState => ({
   [Scope.Contacts]: {},
 })
 
-export const createStore = () => ({
+const google = createModel<ExternalProvidersModels>({
   state: createInitialState(),
   reducers: {
     setAuthData(
@@ -53,28 +56,32 @@ export const createStore = () => ({
       return state
     },
   },
-  effects: (dispatch: Dispatch) => ({
-    async requestWrapper<ReturnType>(
+  effects: (d) => {
+    const dispatch = (d as unknown) as RootState
+
+    const requestWrapper = async <ReturnType>(
       payload: RequestWrapperPayload,
       rootState: ExternalProvidersState
-    ): Promise<AxiosResponse<ReturnType>> {
+    ): Promise<AxiosResponse<ReturnType>> => {
       const { scope, axiosProps, tries = 0 } = payload
       const { url, method = "GET", headers, ...rest } = axiosProps
 
       let currentToken = rootState.google[scope].access_token
 
       if (!currentToken) {
-        await dispatch.google.authorize(scope)
+        await authorize(scope, rootState)
         currentToken = rootState.google[scope].access_token
       }
 
-      const request = (token = currentToken) => {
+      const request = (token?: string) => {
         return axios(url as string, {
           ...rest,
           method,
           headers: {
             ...headers,
-            Authorization: `${rootState.google[scope].token_type} ${token}`,
+            Authorization: `${rootState.google[scope].token_type} ${
+              token || currentToken
+            }`,
           },
         })
       }
@@ -89,7 +96,7 @@ export const createStore = () => ({
             `${process.env.MUDITA_GOOGLE_REFRESH_TOKEN_URL}?refreshToken=${refreshToken}`
           )
           await dispatch.google.setAuthData({ scope, data })
-          return this.requestWrapper(
+          return requestWrapper(
             { scope, axiosProps, tries: tries + 1 },
             rootState
           )
@@ -106,9 +113,10 @@ export const createStore = () => ({
           }
         }
       }
-    },
-    authorize(scope: Scope, rootState: ExternalProvidersState) {
-      return new Promise((resolve, reject) => {
+    }
+
+    const authorize = (scope: Scope, rootState: ExternalProvidersState) => {
+      return new Promise<void>((resolve, reject) => {
         logger.info("Authorizing in Google")
 
         const token = rootState.google[scope].access_token
@@ -142,11 +150,15 @@ export const createStore = () => ({
           processResponse
         )
       })
-    },
-    async getCalendars(_: undefined, rootState: ExternalProvidersState) {
+    }
+
+    const getCalendars = async (
+      _: undefined,
+      rootState: ExternalProvidersState
+    ): Promise<Calendar[]> => {
       logger.info("Getting Google calendars")
 
-      const { data } = await this.requestWrapper<GoogleCalendarsSuccess>(
+      const { data } = await requestWrapper<GoogleCalendarsSuccess>(
         {
           scope: Scope.Calendar,
           axiosProps: {
@@ -161,11 +173,12 @@ export const createStore = () => ({
       }
 
       return mapCalendars(data.items)
-    },
-    async getContacts(_: undefined, rootState: any) {
+    }
+
+    const getContacts = async (_: undefined, rootState: any) => {
       logger.info("Getting Google contacts")
 
-      const { data } = await this.requestWrapper<GoogleContacts>(
+      const { data } = await requestWrapper<GoogleContacts>(
         {
           scope: Scope.Contacts,
           axiosProps: {
@@ -178,8 +191,12 @@ export const createStore = () => ({
       return data.connections.map((contact: GoogleContactResourceItem) =>
         mapContact(contact)
       )
-    },
-    async getEvents(calendarId: string, rootState: ExternalProvidersState) {
+    }
+
+    const getEvents = async (
+      calendarId: string,
+      rootState: ExternalProvidersState
+    ) => {
       logger.info("Getting Google events")
 
       const request = (pageToken?: string) => {
@@ -192,7 +209,7 @@ export const createStore = () => ({
           ...(pageToken ? { pageToken } : {}),
         })
 
-        return this.requestWrapper<GoogleEventsSuccess>(
+        return requestWrapper<GoogleEventsSuccess>(
           {
             scope: Scope.Calendar,
             axiosProps: {
@@ -227,8 +244,15 @@ export const createStore = () => ({
         logger.error(error)
         throw error
       }
-    },
-  }),
+    }
+    return {
+      requestWrapper,
+      authorize,
+      getCalendars,
+      getContacts,
+      getEvents,
+    }
+  },
 })
 
-export default createStore()
+export default google

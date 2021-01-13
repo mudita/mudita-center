@@ -2,6 +2,8 @@ import NickLewis from "Renderer/images/nick-lewis@2x.png"
 import MuditaBell from "Renderer/images/bell@2x.png"
 import MuditaPure from "Renderer/images/pure@2x.png"
 import { Props as ProductCard } from "Renderer/components/rest/news/product-card/product-card.component"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 const productCards: ProductCard[] = [
   {
@@ -53,8 +55,10 @@ const productCards: ProductCard[] = [
   },
 ]
 
-export default {
+const muditaProductCards = createModel<RootModel>({
   state: {
     productCards,
   },
-}
+})
+
+export default muditaProductCards

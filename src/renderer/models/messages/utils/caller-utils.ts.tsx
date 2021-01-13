@@ -5,7 +5,9 @@ export const isCallerMatchingPhoneNumber = (
   caller: Caller,
   phoneNumber: string
 ): boolean => {
-  if (phoneNumber === "") return false
+  if (phoneNumber === "") {
+    return false
+  }
 
   return (
     removeDecoratorsFromPhoneNumber(caller.phoneNumber) ===

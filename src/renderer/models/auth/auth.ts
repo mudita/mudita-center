@@ -1,9 +1,11 @@
 import { Auth, AuthPayload } from "Renderer/models/auth/auth.typings"
 import { authFactory } from "Renderer/models/auth/auth.helpers"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 export const initialState: Auth = {}
 
-export default {
+const auth = createModel<RootModel>({
   state: initialState,
   reducers: {
     setProviderData(state: Auth, payload: AuthPayload): Auth {
@@ -14,4 +16,6 @@ export default {
       }
     },
   },
-}
+})
+
+export default auth
