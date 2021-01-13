@@ -1,4 +1,4 @@
-const tsxMain = production => ({
+const tsxMain = (production) => ({
   test: /\.tsx?$/,
   exclude: /node_modules/,
   loader: "babel-loader",
@@ -12,7 +12,7 @@ const tsxMain = production => ({
   },
 })
 
-const tsxRenderer = production => ({
+const tsxRenderer = (production) => ({
   test: /\.tsx?$/,
   exclude: /node_modules/,
   loader: "babel-loader",
@@ -70,11 +70,11 @@ module.exports = {
     renderer ? tsxRenderer(production) : tsxMain(production),
   scss: {
     test: /\.scss$/,
-    loaders: ["style-loader", "css-loader", "sass-loader"],
+    use: ["style-loader", "css-loader", "sass-loader"],
   },
   css: {
     test: /\.css$/,
-    loaders: ["style-loader", "css-loader"],
+    use: ["style-loader", "css-loader"],
   },
   img: {
     test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
