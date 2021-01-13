@@ -18,6 +18,14 @@ const defaultProps = {
   _devClearAllEvents: jest.fn(),
 }
 
+jest.mock("react-virtualized", () => {
+  const ReactVirtualized = jest.requireActual("react-virtualized")
+  return {
+    ...ReactVirtualized,
+    AutoSizer: ({ children }: any) => children({ height: 1000, width: 1000 }),
+  }
+})
+
 const renderer = (extraProps?: {}) => {
   const props = {
     ...defaultProps,
