@@ -20,7 +20,7 @@ import { ipcMain } from "electron-better-ipc"
  *
  * @docs
  * Documentation regarding creation of new endpoints:
- * https://github.com/Appnroll/pure-desktop-app/wiki/Create-an-endpoint
+ * https://github.com/mudita/mudita-center/wiki/Create-an-endpoint
  *
  * @param name Ipc Request name.
  * @param handler Handler dealing with the logic of constructing data.
