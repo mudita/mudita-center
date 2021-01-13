@@ -1,3 +1,4 @@
+import BaseDevice from "./base-device"
 import {
   CreateDevice,
   Endpoint,
@@ -7,8 +8,8 @@ import {
   ResponseStatus,
 } from "./device.types"
 import { Contact, CountBodyResponse, DeviceInfo } from "../endpoints"
-import { Formatter, FormatterFactory } from "../formatter"
-import BaseDevice from "./base-device"
+import { Formatter } from "../formatter/formatter"
+import { FormatterFactory } from "../formatter/formatter-factory"
 
 class Device extends BaseDevice {
   #formatter: Formatter
@@ -82,5 +83,4 @@ class Device extends BaseDevice {
   }
 }
 
-export const createDevice: CreateDevice = (path: string) =>
-  new Device(path)
+export const createDevice: CreateDevice = (path: string) => new Device(path)

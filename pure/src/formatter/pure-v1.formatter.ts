@@ -1,4 +1,9 @@
-import { Endpoint, Method, RequestConfig, Response } from "../device"
+import {
+  Endpoint,
+  Method,
+  RequestConfig,
+  Response,
+} from "../device/device.types"
 import { Formatter } from "./formatter"
 
 export class PureV1Formatter extends Formatter {
