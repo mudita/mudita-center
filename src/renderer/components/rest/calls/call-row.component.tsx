@@ -40,7 +40,6 @@ export interface CallRowProps {
   noneRowsSelected: boolean
   sidebarOpened: boolean
   onDeleteClick: (id: string) => void
-  style: React.CSSProperties
 }
 
 export const CallRow: FunctionComponent<CallRowProps> = ({
@@ -51,7 +50,6 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
   activeRow,
   noneRowsSelected,
   onDeleteClick,
-  style,
 }) => {
   const { caller, id, date, duration, timesMissed } = callData
   const { selected, indeterminate } = getRowStatus(callData)
@@ -70,7 +68,6 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
       key={id}
       data-testid={CallsTableTestIds.CallsRow}
       active={activeRow?.id === id}
-      style={style}
     >
       <Col>
         <Checkbox
