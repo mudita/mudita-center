@@ -41,7 +41,7 @@ import {
 import { Caller } from "Renderer/models/calls/calls.interface"
 import { isToday } from "Renderer/utils/is-today"
 import { AppSettings } from "App/main/store/settings.interface"
-import { List, ListRowProps } from "react-virtualized"
+import { AutoSizer, List, ListRowProps } from "react-virtualized"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -298,14 +298,18 @@ const MessagesList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      <List
-        height={639}
-        width={975}
-        overscanRowCount={10}
-        rowRenderer={renderRow}
-        rowCount={list.length}
-        rowHeight={90}
-      />
+      <AutoSizer disableHeight>
+        {({ width }) => (
+          <List
+            height={639}
+            overscanRowCount={10}
+            rowRenderer={renderRow}
+            rowCount={list.length}
+            rowHeight={90}
+            width={width}
+          />
+        )}
+      </AutoSizer>
     </Messages>
   )
 }
