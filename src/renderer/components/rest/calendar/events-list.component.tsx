@@ -17,7 +17,7 @@ import {
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
-import { List, ListRowProps } from "react-virtualized"
+import { List, AutoSizer, ListRowProps } from "react-virtualized"
 
 const Table = styled(BaseSelectableCalls)`
   --columnsTemplate: 4rem 5fr 3fr 3fr;
@@ -77,15 +77,21 @@ const EventsList: FunctionComponent<EventsListProps> = ({
           <Col />
           <Col />
         </Labels>
-        <List
-          height={595}
-          width={975}
-          scrollToIndex={selectedEventIndex}
-          overscanRowCount={10}
-          rowRenderer={renderRow}
-          rowCount={events.length}
-          rowHeight={64}
-        />
+        <div>
+          <AutoSizer disableHeight>
+            {({ width }) => (
+              <List
+                height={595}
+                width={width}
+                scrollToIndex={selectedEventIndex}
+                overscanRowCount={10}
+                rowRenderer={renderRow}
+                rowCount={events.length}
+                rowHeight={64}
+              />
+            )}
+          </AutoSizer>
+        </div>
       </Group>
     </Table>
   )
