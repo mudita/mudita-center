@@ -105,6 +105,6 @@ To fix that, `settings.json` file should be updated manually according to change
 
 `settings.json` is located in:
 
-- Windows: `C:\Users\<username>\AppData\Roaming\pure-desktop-app`
-- Linux: `~/.config/pure-desktop-app`
-- macOS: `~/Library/Application Support/pure-desktop-app`
+- Windows: `C:\Users\<username>\AppData\Roaming\mudita-center`
+- Linux: `~/.config/mudita-center`
+- macOS: `~/Library/Application Support/mudita-center`
