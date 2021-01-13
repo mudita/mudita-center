@@ -185,7 +185,7 @@ const MessagesList: FunctionComponent<Props> = ({
     const emitDeleteClick = () => onDeleteClick(id)
     const toggleReadStatus = () => onToggleReadStatus([id])
     return (
-      <MessageRow selected={selected} active={active} style={style}>
+      <MessageRow selected={selected} active={active} style={style} key={id}>
         <AvatarCol>
           <Checkbox
             checked={selected}
@@ -298,10 +298,10 @@ const MessagesList: FunctionComponent<Props> = ({
       hideableColumnsIndexes={[2, 3, 4]}
       hideColumns={Boolean(activeRow)}
     >
-      <AutoSizer disableHeight>
-        {({ width }) => (
+      <AutoSizer>
+        {({ height, width }) => (
           <List
-            height={639}
+            height={height}
             overscanRowCount={10}
             rowRenderer={renderRow}
             rowCount={list.length}

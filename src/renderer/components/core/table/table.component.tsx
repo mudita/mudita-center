@@ -357,7 +357,7 @@ const TableComponent = styled.div<TableProps>`
   ${({ scrollable = true }) =>
     scrollable
       ? css`
-          overflow: scroll !important;
+          overflow: auto !important;
         `
       : css`
           overflow: hidden !important;
