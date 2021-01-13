@@ -91,21 +91,21 @@ class Device implements PureDevice {
     body: Contact["id"]
   }): Promise<Response<string>>
   public request(config: {
-    endpoint: Endpoint.PureUpdate
+    endpoint: Endpoint.DeviceUpdate
     method: Method.Post
     file: string
   }): Promise<Response>
   public request(config: {
-    endpoint: Endpoint.File
+    endpoint: Endpoint.FileUpload
     method: Method.Post
     file: string
   }): Promise<Response>
   public request(config: RequestConfig): Promise<Response<any>>
   public request(config: RequestConfig): Promise<Response<any>> {
-    if (config.endpoint === Endpoint.File) {
-      return this.fileRequest(config)
-    } else if (config.endpoint === Endpoint.PureUpdate) {
-      return this.pureUpdateRequest(config)
+    if (config.endpoint === Endpoint.FileUpload) {
+      return this.fileUploadRequest(config)
+    } else if (config.endpoint === Endpoint.DeviceUpdate) {
+      return this.deviceUpdateRequest(config)
     } else {
       return new Promise((resolve) => {
         if (!this.#port || !this.#portBlocked) {
@@ -139,7 +139,7 @@ class Device implements PureDevice {
     this.#eventEmitter.off(eventName, listener)
   }
 
-  private fileRequest({ file }: RequestConfig): Promise<Response<any>> {
+  private fileUploadRequest({ file }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
       if (!this.#port || !this.#portBlocked || !file) {
         resolve({ status: ResponseStatus.ConnectionError })
@@ -172,7 +172,7 @@ class Device implements PureDevice {
               resolve(response)
             }
           } else if (
-            response.endpoint === Endpoint.FilesystemUpload &&
+            response.endpoint === Endpoint.FileSystemUpload &&
             response.status === ResponseStatus.Accepted
           ) {
             this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
@@ -187,7 +187,7 @@ class Device implements PureDevice {
 
         const config = {
           uuid,
-          endpoint: Endpoint.FilesystemUpload,
+          endpoint: Endpoint.FileSystemUpload,
           method: Method.Post,
           body: {
             fileName,
@@ -202,7 +202,7 @@ class Device implements PureDevice {
     })
   }
 
-  private pureUpdateRequest({ file }: RequestConfig): Promise<Response<any>> {
+  private deviceUpdateRequest({ file }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
       if (!this.#port || !this.#portBlocked || !file) {
         resolve({ status: ResponseStatus.ConnectionError })

@@ -1,5 +1,5 @@
 import { Slicer, StoreSelectors } from "@rematch/select"
-import { Dispatch } from "Renderer/store"
+import { RootState } from "Renderer/store"
 import {
   BaseContactModel,
   Contact,
@@ -24,6 +24,9 @@ import getContacts from "Renderer/requests/get-contacts.request"
 import logger from "App/main/utils/logger"
 import externalProvidersStore from "Renderer/store/external-providers"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import { Scope } from "Renderer/models/external-providers/google/google.interface"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 export const initialState: PhoneState = {
   db: {},
@@ -63,7 +66,7 @@ const simulateWriteToPhone = async (time = 2000) => {
   }
 }
 
-export default {
+const phone = createModel<RootModel>({
   state: initialState,
   reducers: {
     setResultsState(state: PhoneState, resultsState: ResultsState): PhoneState {
@@ -120,39 +123,43 @@ export default {
    * All these side effects are just for show, since we don't know anything
    * about phone sync flow at the moment.
    */
-  effects: (dispatch: Dispatch) => ({
-    async loadData(
-      _: any,
-      rootState: { phone: { resultsState: ResultsState } }
-    ) {
-      if (rootState.phone.resultsState === ResultsState.Loading) {
-        return
-      }
+  effects: (d) => {
+    const dispatch = (d as unknown) as RootState
 
-      dispatch.phone.setResultsState(ResultsState.Loading)
+    return {
+      async loadData(
+        _: any,
+        rootState: { phone: { resultsState: ResultsState } }
+      ) {
+        if (rootState.phone.resultsState === ResultsState.Loading) {
+          return
+        }
 
-      const { data = [], error } = await getContacts()
-      if (error) {
-        logger.error(error)
-        dispatch.phone.setResultsState(ResultsState.Error)
-      } else {
-        dispatch.phone.setContacts(contactDatabaseFactory(data))
-        dispatch.phone.setResultsState(ResultsState.Loaded)
-      }
-    },
-    authorize(provider: Provider) {
-      switch (provider) {
-        case Provider.Google:
-          externalProvidersStore.dispatch.google.authorize()
-          break
-        // TODO: update when adding new providers
-        case Provider.Apple:
-          break
-        case Provider.Microsoft:
-          break
-      }
-    },
-  }),
+        dispatch.phone.setResultsState(ResultsState.Loading)
+
+        const { data = [], error } = await getContacts()
+        if (error) {
+          logger.error(error)
+          dispatch.phone.setResultsState(ResultsState.Error)
+        } else {
+          dispatch.phone.setContacts(contactDatabaseFactory(data))
+          dispatch.phone.setResultsState(ResultsState.Loaded)
+        }
+      },
+      authorize(provider: Provider) {
+        switch (provider) {
+          case Provider.Google:
+            externalProvidersStore.dispatch.google.authorize(Scope.Contacts)
+            break
+          // TODO: update when adding new providers
+          case Provider.Apple:
+            break
+          case Provider.Microsoft:
+            break
+        }
+      },
+    }
+  },
   selectors: (slice: Slicer<StoreData>) => ({
     resultsState() {
       return slice(({ resultsState }) => resultsState)
@@ -182,4 +189,6 @@ export default {
       }
     },
   }),
-}
+})
+
+export default phone

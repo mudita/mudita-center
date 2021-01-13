@@ -115,7 +115,7 @@ storiesOf("Components|Core/TextEditor", module)
       return new Promise((resolve) => {
         setTimeout(() => {
           setNote(newNote)
-          resolve()
+          resolve(undefined)
         }, 1500)
       })
     }
