@@ -9,14 +9,14 @@ import { intl } from "Renderer/utils/intl"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
 import { defineMessages } from "react-intl"
-import { NewContact } from "Renderer/models/phone/phone.typings"
+import { NewContact } from "App/contacts/store/phone.typings"
 import Table, {
   Col,
   Labels,
   Row,
   RowSize,
 } from "Renderer/components/core/table/table.component"
-import { createFullName } from "Renderer/models/phone/phone.helpers"
+import { createFullName } from "App/contacts/store/phone.helpers"
 import styled from "styled-components"
 import { ImportContactsModalTestIds } from "Renderer/components/rest/sync-modals/import-contacts-modal.types"
 

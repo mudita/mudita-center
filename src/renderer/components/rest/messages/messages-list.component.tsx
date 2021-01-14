@@ -32,14 +32,14 @@ import moment from "moment"
 import {
   AvatarPlaceholder,
   lightAvatarStyles,
-} from "Renderer/components/rest/phone/contact-list.component"
+} from "App/contacts/components/contact-list/contact-list.component"
 import { InView } from "react-intersection-observer"
 import Avatar, {
   AvatarSize,
 } from "Renderer/components/core/avatar/avatar.component"
 import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "Renderer/models/phone/phone.helpers"
+import { createFullName } from "App/contacts/store/phone.helpers"
 import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
 import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import {

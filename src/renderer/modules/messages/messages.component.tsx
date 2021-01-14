@@ -25,7 +25,7 @@ import { useHistory } from "react-router-dom"
 import createRouterPath from "Renderer/utils/create-router-path"
 import { URL_MAIN } from "Renderer/constants/urls"
 import AttachContactModal from "Renderer/components/rest/messages/attach-contact-modal.component"
-import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
+import { Contact, ContactCategory } from "App/contacts/store/phone.typings"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
