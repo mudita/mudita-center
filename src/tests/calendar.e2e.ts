@@ -1,6 +1,5 @@
 import { startApp, stopApp } from "App/tests/hooks"
-import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
-import { URL_MAIN } from "Renderer/constants/urls"
+import { backendAdaptersChannel } from "Backend/backend.types"
 
 let app: any
 
@@ -13,7 +12,7 @@ afterEach(async () => {
 })
 
 test("menu button takes user to correct page", async () => {
-  await app.client.$(`*[data-testid=${MenuGroupTestIds.Calendar}]`).click()
-  const hash = await app.client.execute(() => window.location.hash)
-  expect(hash.value).toEqual(`#${URL_MAIN.calendar}`)
+  await app.electron.ipcRenderer.invoke(backendAdaptersChannel)
+  jest.setTimeout(100000)
+  await app.client.debug()
 })

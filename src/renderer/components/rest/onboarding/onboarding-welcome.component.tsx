@@ -51,11 +51,8 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
 
   return (
     <OnboardingWrapper>
-      <header>
-        {process.env.phoneConnected && (
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-          <div onClick={togglePhoneSimulation}>Click</div>
-        )}
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+      <header onClick={togglePhoneSimulation}>
         <Title
           displayStyle={TextDisplayStyle.PrimaryHeading}
           message={{

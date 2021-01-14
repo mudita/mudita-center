@@ -1,5 +1,5 @@
 import store from "Renderer/store"
-import { ipcRenderer } from "electron-better-ipc"
+import { ipcRenderer } from "electron"
 import { backendAdaptersChannel } from "Backend/backend.types"
 
 export const isDevModeEnabled = () => {
@@ -19,7 +19,7 @@ export const toggleDevMode = () => {
 }
 
 export const togglePhoneSimulation = () => {
-  ipcRenderer.callMain(backendAdaptersChannel)
+  ipcRenderer.invoke(backendAdaptersChannel)
 
   if (store.getState().devMode.phoneSimulation) {
     store.dispatch.devMode.disablePhoneSimulation()

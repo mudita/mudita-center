@@ -1,5 +1,5 @@
 import Adapters from "Backend/adapters/adapters.interface"
-import { ipcMain } from "electron-better-ipc"
+import { ipcMain } from "electron"
 import { backendAdaptersChannel, EndpointRemover } from "Backend/backend.types"
 
 class Backend {
@@ -33,7 +33,8 @@ class Backend {
   }
 
   public init() {
-    ipcMain.answerRenderer<boolean>(backendAdaptersChannel, () => {
+    ipcMain.handle<boolean>(backendAdaptersChannel, () => {
+      console.log("toggle adapters")
       this.toggleAdapters()
     })
     this.registerEndpoints()
