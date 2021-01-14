@@ -45,7 +45,7 @@ import {
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
-import parseVcf from "App/contacts/helpers/parseVcf/parse-vcf"
+import parseVcf from "App/contacts/helpers/parse-vcf/parse-vcf"
 import ImportContactsModal from "Renderer/components/rest/sync-modals/import-contacts-modal.component"
 import ImportingContactsModal from "Renderer/components/rest/sync-modals/importing-contacts-modal.component"
 import logger from "App/main/utils/logger"
