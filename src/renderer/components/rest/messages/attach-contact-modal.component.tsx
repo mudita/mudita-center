@@ -2,7 +2,7 @@ import React, { Ref, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { intl } from "Renderer/utils/intl"
-import { Contact, ContactCategory } from "App/contacts/store/phone.typings"
+import { Contact, ContactCategory } from "App/contacts/store/contacts.typings"
 import {
   Col,
   EmptyState,
@@ -11,7 +11,7 @@ import {
   Row,
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
-import { createFullName } from "App/contacts/store/phone.helpers"
+import { createFullName } from "App/contacts/store/contacts.helpers"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import Avatar, {
   AvatarSize,

@@ -1,7 +1,7 @@
 import { connect } from "react-redux"
 
-import { getFlatList } from "App/contacts/store/phone.helpers"
-import { Contact, ContactID } from "App/contacts/store/phone.typings"
+import { getFlatList } from "App/contacts/store/contacts.helpers"
+import { Contact, ContactID } from "App/contacts/store/contacts.typings"
 
 import View from "./speed-dial-modal.component"
 

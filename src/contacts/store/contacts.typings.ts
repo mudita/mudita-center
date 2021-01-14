@@ -42,7 +42,7 @@ export type Contact =
   | ContactWithFirstName
   | ContactWithLastName
 
-export interface Phone {
+export interface PhoneContacts {
   collection: ContactID[]
   db: Record<ContactID, Contact>
 }
@@ -78,7 +78,7 @@ export interface StoreData {
   resultsState: ResultsState
 }
 
-export type PhoneState = Phone & Pick<StoreData, "resultsState">
+export type ContactsState = PhoneContacts & Pick<StoreData, "resultsState">
 
 interface StoreSelectors extends Contacts {
   speedDialContacts: Contact[]

@@ -39,7 +39,7 @@ import Avatar, {
 } from "Renderer/components/core/avatar/avatar.component"
 import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "App/contacts/store/phone.helpers"
+import { createFullName } from "App/contacts/store/contacts.helpers"
 import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
 import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import {

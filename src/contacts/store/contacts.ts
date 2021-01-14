@@ -4,11 +4,11 @@ import {
   BaseContactModel,
   Contact,
   ContactID,
-  Phone,
-  PhoneState,
+  PhoneContacts,
+  ContactsState,
   ResultsState,
   StoreData,
-} from "App/contacts/store/phone.typings"
+} from "App/contacts/store/contacts.typings"
 import {
   addContacts,
   contactDatabaseFactory,
@@ -18,7 +18,7 @@ import {
   getSpeedDialChosenList,
   removeContact,
   revokeField,
-} from "App/contacts/store/phone.helpers"
+} from "App/contacts/store/contacts.helpers"
 import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 import getContacts from "Renderer/requests/get-contacts.request"
 import logger from "App/main/utils/logger"
@@ -28,7 +28,7 @@ import { Scope } from "Renderer/models/external-providers/google/google.interfac
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
 
-export const initialState: PhoneState = {
+export const initialState: ContactsState = {
   db: {},
   collection: [],
   resultsState: ResultsState.Empty,
@@ -66,16 +66,19 @@ const simulateWriteToPhone = async (time = 2000) => {
   }
 }
 
-const phone = createModel<RootModel>({
+const contacts = createModel<RootModel>({
   state: initialState,
   reducers: {
-    setResultsState(state: PhoneState, resultsState: ResultsState): PhoneState {
+    setResultsState(
+      state: ContactsState,
+      resultsState: ResultsState
+    ): ContactsState {
       return { ...state, resultsState }
     },
-    setContacts(state: PhoneState, phone: Phone): PhoneState {
+    setContacts(state: ContactsState, phone: PhoneContacts): ContactsState {
       return { ...state, ...phone }
     },
-    addContact(state: PhoneState, contact: Contact): PhoneState {
+    addContact(state: ContactsState, contact: Contact): ContactsState {
       let currentState = state
 
       /**
@@ -88,7 +91,7 @@ const phone = createModel<RootModel>({
 
       return { ...state, ...addContacts(currentState, contact) }
     },
-    editContact(state: PhoneState, data: BaseContactModel): PhoneState {
+    editContact(state: ContactsState, data: BaseContactModel): ContactsState {
       let currentState = state
 
       if (data.speedDial) {
@@ -98,19 +101,19 @@ const phone = createModel<RootModel>({
       return { ...state, ...editContact(currentState, data) }
     },
     removeContact(
-      state: PhoneState,
+      state: ContactsState,
       input: ContactID | ContactID[]
-    ): PhoneState {
+    ): ContactsState {
       return { ...state, ...removeContact(state, input) }
     },
-    updateContacts(state: PhoneState, contacts: Phone) {
+    updateContacts(state: ContactsState, contacts: PhoneContacts) {
       return {
         ...state,
         db: { ...state.db, ...contacts.db },
         collection: [...state.collection, ...contacts.collection],
       }
     },
-    _devClearAllContacts(state: PhoneState) {
+    _devClearAllContacts(state: ContactsState) {
       return {
         ...state,
         db: {},
@@ -135,15 +138,15 @@ const phone = createModel<RootModel>({
           return
         }
 
-        dispatch.phone.setResultsState(ResultsState.Loading)
+        dispatch.contacts.setResultsState(ResultsState.Loading)
 
         const { data = [], error } = await getContacts()
         if (error) {
           logger.error(error)
-          dispatch.phone.setResultsState(ResultsState.Error)
+          dispatch.contacts.setResultsState(ResultsState.Error)
         } else {
-          dispatch.phone.setContacts(contactDatabaseFactory(data))
-          dispatch.phone.setResultsState(ResultsState.Loaded)
+          dispatch.contacts.setContacts(contactDatabaseFactory(data))
+          dispatch.contacts.setResultsState(ResultsState.Loaded)
         }
       },
       authorize(provider: Provider) {
@@ -178,8 +181,8 @@ const phone = createModel<RootModel>({
         return (id: ContactID) => state.db[id]
       })
     },
-    isContactCreated(models: StoreSelectors<Phone>) {
-      return (state: Phone) => {
+    isContactCreated(models: StoreSelectors<PhoneContacts>) {
+      return (state: PhoneContacts) => {
         const contacts: Contact[] = models.phone.flatList(state)
         return (phoneNumber: string) => {
           return contacts.some((contact) =>
@@ -191,4 +194,4 @@ const phone = createModel<RootModel>({
   }),
 })
 
-export default phone
+export default contacts

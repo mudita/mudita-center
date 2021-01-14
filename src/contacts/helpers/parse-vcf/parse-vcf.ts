@@ -1,5 +1,5 @@
 import vCard from "vcf"
-import { NewContact } from "App/contacts/store/phone.typings"
+import { NewContact } from "App/contacts/store/contacts.typings"
 
 interface vCardContact {
   [key: string]: vCard.Property | vCard.Property[]

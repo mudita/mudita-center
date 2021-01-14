@@ -16,7 +16,7 @@ import {
   ContactID,
   NewContact,
   Store,
-} from "App/contacts/store/phone.typings"
+} from "App/contacts/store/contacts.typings"
 import ContactEdit, {
   defaultContact,
 } from "App/contacts/components/contact-edit/contact-edit.component"
@@ -24,7 +24,7 @@ import { noop } from "Renderer/utils/noop"
 import modalService from "Renderer/components/core/modal/modal.service"
 import SpeedDialModal from "App/contacts/components/speed-dial-modal/speed-dial-modal.container"
 import BlockContactModal from "App/contacts/components/block-contact-modal/block-contact-modal.component"
-import { createFullName } from "App/contacts/store/phone.helpers"
+import { createFullName } from "App/contacts/store/contacts.helpers"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "App/contacts/contacts.styled"

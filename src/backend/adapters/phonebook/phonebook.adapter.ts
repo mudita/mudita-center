@@ -8,7 +8,7 @@ import {
   Contact,
   ContactID,
   NewContact,
-} from "App/contacts/store/phone.typings"
+} from "App/contacts/store/contacts.typings"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"

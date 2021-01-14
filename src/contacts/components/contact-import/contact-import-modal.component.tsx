@@ -11,7 +11,7 @@ import Table, {
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import styled from "styled-components"
-import { Contact, NewContact } from "App/contacts/store/phone.typings"
+import { Contact, NewContact } from "App/contacts/store/contacts.typings"
 import { ModalIcon } from "Renderer/modules/overview/backup-process/modals.styled"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
@@ -19,7 +19,7 @@ import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import { createFullName } from "App/contacts/store/phone.helpers"
+import { createFullName } from "App/contacts/store/contacts.helpers"
 import { ContactImportModalTestIds } from "App/contacts/components/contact-import/contact-import-modal-test-ids.enum"
 
 const messages = defineMessages({
