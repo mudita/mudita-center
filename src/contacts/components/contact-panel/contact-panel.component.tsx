@@ -26,6 +26,7 @@ import {
 } from "Renderer/components/rest/data-modal/data.modals"
 import delayResponse from "@appnroll/delay-response"
 import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
+import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -59,6 +60,11 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
+
+  const exportContactsAction = () => {
+    exportContacts(selectedContacts)
+  }
+
   const openModal = () => {
     const selectedContactsIds = selectedContacts.map(({ id }) => id)
     const nameAvailable =
@@ -107,8 +113,8 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
               key="export"
               label={intl.formatMessage(deleteModalMessages.export)}
               displayStyle={DisplayStyle.Link1}
-              Icon={Type.Upload}
-              onClick={noop}
+              Icon={Type.UploadDark}
+              onClick={exportContactsAction}
             />,
             <ButtonComponent
               key="delete"
