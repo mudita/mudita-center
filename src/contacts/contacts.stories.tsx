@@ -221,7 +221,7 @@ storiesOf("Views|Phone/Contact details/New", module).add("Default", () => (
   />
 ))
 
-storiesOf("Views/Contacts/Modals", module)
+storiesOf("Views|Contacts/Modals", module)
   .add("Speed dial settings", () => (
     <>
       <ModalWrapper>
