@@ -18,6 +18,7 @@ import {
   OnboardingWrapper,
   Title,
 } from "Renderer/components/rest/onboarding/onboarding.elements"
+import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
 
 const Info = styled.div`
   display: flex;
@@ -51,6 +52,10 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
   return (
     <OnboardingWrapper>
       <header>
+        {process.env.phoneConnected && (
+          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+          <div onClick={togglePhoneSimulation}>Click</div>
+        )}
         <Title
           displayStyle={TextDisplayStyle.PrimaryHeading}
           message={{

@@ -6,6 +6,9 @@ export const startApp = async () => {
   return await new Application({
     path: (electron as unknown) as string,
     args: [path.join(__dirname, "../..")],
+    env: {
+      phoneConnected: true,
+    },
   }).start()
 }
 
