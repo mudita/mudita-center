@@ -148,7 +148,7 @@ const useSystemUpdateFlow = (
 
   const install = async () => {
     const updatesInfo = await checkForUpdates(false, true)
-    modalService.openModal(<UpdatingProgressModal />, true)
+    modalService.openModal(<UpdatingProgressModal progressValue={0} />, true)
     const update = async () => {
       const updateResponse = await updatePure(updatesInfo)
       if (isEqual(updateResponse, { status: DeviceResponseStatus.Ok })) {

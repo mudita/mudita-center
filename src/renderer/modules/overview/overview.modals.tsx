@@ -26,6 +26,9 @@ import {
   ErrorWithRetryDataModal,
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
+import { LoadingBar } from "Renderer/modules/overview/backup-process/modals.styled"
+import theme from "Renderer/styles/theming/theme"
+import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 
 const ModalContent = styled.div`
   display: flex;
@@ -66,7 +69,7 @@ const DownloadBar = styled.div`
 `
 
 const ProgressText = styled(ModalText)`
-  margin-bottom: 8.3rem;
+  margin-bottom: 6.8rem;
 `
 
 const messages = defineMessages({
@@ -340,21 +343,44 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
   />
 )
 
-export const UpdatingProgressModal = () => (
-  <OSUpdateModal closeButton={false} closeable={false}>
-    <RoundIconWrapper>
-      <Icon type={Type.MuditaDarkLogo} width={8} />
-    </RoundIconWrapper>
-    <ModalText
-      displayStyle={TextDisplayStyle.LargeBoldText}
-      message={messages.updatingProgressTitle}
-    />
-    <ProgressText
-      displayStyle={TextDisplayStyle.MediumFadedText}
-      message={messages.updatingProgressDescription}
-    />
-  </OSUpdateModal>
-)
+export const UpdatingProgressModal: FunctionComponent<{
+  progressValue: number
+}> = ({ progressValue }) => {
+  const value = progressValue * 100
+
+  return (
+    <OSUpdateModal closeButton={false} closeable={false}>
+      <RoundIconWrapper>
+        <Icon type={Type.MuditaDarkLogo} width={8} />
+      </RoundIconWrapper>
+      <ModalText
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={messages.updatingProgressTitle}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={messages.updatingProgressDescription}
+      />
+      <LoadingBar
+        chartData={[
+          {
+            value,
+            color: backgroundColor("chartBar")({ theme }),
+          },
+          {
+            value: 100 - value,
+            color: backgroundColor("minor")({ theme }),
+          },
+        ]}
+        displayStyle={DisplayStyle.Thin}
+      />
+
+      <ProgressText displayStyle={TextDisplayStyle.MediumLightText}>
+        {value}%
+      </ProgressText>
+    </OSUpdateModal>
+  )
+}
 
 export const UpdatingSuccessModal = () => (
   <OSUpdateModal>
