@@ -61,7 +61,7 @@ const renderer = (extraProps?: {}) => {
 test("search input dropdown shows after writing at least 3 chars", () => {
   const { selectInput, selectList } = renderer()
 
-  fireEvent.focus(selectInput())
+  selectInput().focus()
 
   for (let i = 0; i < 4; i++) {
     const value = defaultProps.contacts[0].firstName?.substr(0, i)
