@@ -12,11 +12,11 @@ import ContactDetails, {
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import {
   Contact,
-  ContactCategory,
   ContactID,
   NewContact,
   Store,
-} from "App/contacts/store/contacts.typings"
+} from "App/contacts/store/contacts.type"
+import { ContactCategory } from "App/contacts/store/contacts.interface"
 import ContactEdit, {
   defaultContact,
 } from "App/contacts/components/contact-edit/contact-edit.component"

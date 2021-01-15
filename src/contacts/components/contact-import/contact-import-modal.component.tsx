@@ -11,7 +11,7 @@ import Table, {
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import styled from "styled-components"
-import { Contact, NewContact } from "App/contacts/store/contacts.typings"
+import { Contact, NewContact } from "App/contacts/store/contacts.type"
 import { ModalIcon } from "Renderer/modules/overview/backup-process/modals.styled"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"

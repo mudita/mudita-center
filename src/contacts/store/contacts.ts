@@ -1,14 +1,10 @@
 import { Slicer, StoreSelectors } from "@rematch/select"
 import { RootState } from "Renderer/store"
 import {
-  BaseContactModel,
   Contact,
   ContactID,
-  PhoneContacts,
   ContactsState,
-  ResultsState,
-  StoreData,
-} from "App/contacts/store/contacts.typings"
+} from "App/contacts/store/contacts.type"
 import {
   addContacts,
   contactDatabaseFactory,
@@ -27,6 +23,12 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 import { Scope } from "Renderer/models/external-providers/google/google.interface"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
+import { ResultsState } from "App/contacts/store/contacts.enum"
+import {
+  BaseContactModel,
+  PhoneContacts,
+  StoreData,
+} from "App/contacts/store/contacts.interface"
 
 export const initialState: ContactsState = {
   db: {},

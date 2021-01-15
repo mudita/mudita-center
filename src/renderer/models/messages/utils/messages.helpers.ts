@@ -1,4 +1,4 @@
-import { Contact } from "App/contacts/store/contacts.typings"
+import { Contact } from "App/contacts/store/contacts.type"
 import { Topic } from "Renderer/models/messages/messages.interface"
 
 export type ContactsCollection = Record<string, Contact>

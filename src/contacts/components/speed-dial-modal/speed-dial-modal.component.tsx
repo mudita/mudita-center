@@ -9,7 +9,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
-import { Contact, ContactID } from "App/contacts/store/contacts.typings"
+import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import Table, {
   Col,
   Labels,

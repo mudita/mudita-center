@@ -2,7 +2,8 @@ import React, { Ref, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { intl } from "Renderer/utils/intl"
-import { Contact, ContactCategory } from "App/contacts/store/contacts.typings"
+import { Contact } from "App/contacts/store/contacts.type"
+import { ContactCategory } from "App/contacts/store/contacts.interface"
 import {
   Col,
   EmptyState,

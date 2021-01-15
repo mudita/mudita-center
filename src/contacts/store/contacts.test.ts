@@ -16,8 +16,8 @@ import {
   Contact,
   ContactID,
   ContactsState,
-  ResultsState,
-} from "App/contacts/store/contacts.typings"
+} from "App/contacts/store/contacts.type"
+import { ResultsState } from "App/contacts/store/contacts.enum"
 import contacts from "App/contacts/store/contacts"
 
 const TEST_CONTACT = { ...phoneSeed.db[phoneSeed.collection[0]] }
