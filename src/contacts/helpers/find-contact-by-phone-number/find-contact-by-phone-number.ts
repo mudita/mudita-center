@@ -1,4 +1,4 @@
-import { Contact } from "App/contacts/store/contacts.typings"
+import { Contact } from "App/contacts/store/contacts.type"
 import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-matching-phone-number/is-contact-matching-phone-number"
 
 const findContactByPhoneNumber = (

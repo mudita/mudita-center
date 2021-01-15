@@ -10,7 +10,7 @@ import {
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import { Contact } from "App/contacts/store/contacts.typings"
+import { Contact } from "App/contacts/store/contacts.type"
 
 const messages = defineMessages({
   unnamedEvent: {
