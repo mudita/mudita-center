@@ -355,6 +355,7 @@
   "view.name.phone.contacts.emptyList.emptyPhonebook.description": "Phonebook is empty",
   "view.name.phone.contacts.emptyList.emptySearch.description": "Search results do not match any contact.",
   "view.name.phone.contacts.emptyList.title": "No contacts found",
+  "view.name.phone.contacts.export.defaultFilename": "{name}{contactsLeft, plural, =0 {} =1 { and other} other { and others (#)}}",
   "view.name.phone.contacts.export.saveDialogTitle": "{count, plural, one {Exporting a contact} other {Exporting # contacts}}",
   "view.name.phone.contacts.googleButtonText": "Continue with Google",
   "view.name.phone.contacts.list.favourites": "Favorites",
