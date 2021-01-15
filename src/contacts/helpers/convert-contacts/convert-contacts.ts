@@ -1,6 +1,6 @@
 import vCard from "vcf"
-import { Contact } from "App/contacts/store/phone.typings"
-import { createFullName } from "App/contacts/store/phone.helpers"
+import { Contact } from "App/contacts/store/contacts.type"
+import { createFullName } from "App/contacts/store/contacts.helpers"
 
 const convertContact = (contact: Contact): string => {
   const {

@@ -1,7 +1,7 @@
 import fs from "fs-extra"
 import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { Contact } from "App/contacts/store/phone.typings"
+import { Contact } from "App/contacts/store/contacts.type"
 import { app, dialog } from "electron"
 import convertContacts from "App/contacts/helpers/convert-contacts/convert-contacts"
 import { intl } from "Renderer/utils/intl"
