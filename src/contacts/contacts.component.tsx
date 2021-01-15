@@ -22,11 +22,11 @@ import {
   getFlatList,
 } from "App/contacts/store/contacts.helpers"
 
-const selector = select(({ phone, messages }) => ({
-  contactList: phone.contactList,
-  flatList: phone.flatList,
-  speedDialChosenList: phone.speedDialChosenList,
-  getContact: phone.getContact,
+const selector = select(({ contacts, messages }) => ({
+  contactList: contacts.contactList,
+  flatList: contacts.flatList,
+  speedDialChosenList: contacts.speedDialChosenList,
+  getContact: contacts.getContact,
   isTopicThreadOpened: messages.isTopicThreadOpened,
 }))
 

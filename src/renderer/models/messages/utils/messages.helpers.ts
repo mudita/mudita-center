@@ -53,11 +53,11 @@ export const expandTopic = (
 
 export const createFullMessagesCollection = (state: {
   messages: { topics: Topic[] }
-  phone: { db: ContactsCollection }
+  contacts: { db: ContactsCollection }
 }): Topic[] => {
   const {
     messages: { topics },
-    phone: { db: baseContacts },
+    contacts: { db: baseContacts },
   } = state
 
   return topics.map(
