@@ -28,6 +28,7 @@ test("single contact is properly converted to vCard format", () => {
     EMAIL:john.doe@example.com
     NOTE:Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
       Pellentesque in ipsum id orci porta dapibus.
+    UID:abc-123
     END:VCARD"
   `)
   expect(vCard.parse(result)).toMatchInlineSnapshot(`
@@ -105,6 +106,12 @@ test("single contact is properly converted to vCard format", () => {
             Object {},
             "text",
             "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.",
+          ],
+          Array [
+            "uid",
+            Object {},
+            "text",
+            "abc-123",
           ],
         ],
       ],
@@ -147,6 +154,7 @@ test("multiple contacts are properly converted to vCard format", () => {
     EMAIL:john.doe@example.com
     NOTE:Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
       Pellentesque in ipsum id orci porta dapibus.
+    UID:abc-123
     END:VCARD
     BEGIN:VCARD
     VERSION:4.0
@@ -156,6 +164,7 @@ test("multiple contacts are properly converted to vCard format", () => {
     ADR;TYPE=home;LABEL=\\"5000 Random Street Atlanta, GA, 30339, USA\\":;;5000
       Random Street;Atlanta; GA; 30339; USA
     EMAIL:john.doe@example.com
+    UID:def-456
     END:VCARD"
   `)
   expect(vCard.parse(result)).toMatchInlineSnapshot(`
@@ -233,6 +242,12 @@ test("multiple contacts are properly converted to vCard format", () => {
             Object {},
             "text",
             "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.",
+          ],
+          Array [
+            "uid",
+            Object {},
+            "text",
+            "abc-123",
           ],
         ],
       ],
@@ -294,6 +309,12 @@ test("multiple contacts are properly converted to vCard format", () => {
             Object {},
             "text",
             "john.doe@example.com",
+          ],
+          Array [
+            "uid",
+            Object {},
+            "text",
+            "def-456",
           ],
         ],
       ],

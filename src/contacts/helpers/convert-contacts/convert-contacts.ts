@@ -4,6 +4,7 @@ import { createFullName } from "App/contacts/store/contacts.helpers"
 
 const convertContact = (contact: Contact): string => {
   const {
+    id,
     firstName,
     lastName,
     primaryPhoneNumber,
@@ -64,6 +65,8 @@ const convertContact = (contact: Contact): string => {
   if (note) {
     card.add("note", note)
   }
+
+  card.add("uid", id)
 
   return card.toString("4.0")
 }
