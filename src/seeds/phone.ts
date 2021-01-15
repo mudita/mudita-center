@@ -1,5 +1,5 @@
-import { contactDatabaseFactory } from "App/contacts/store/phone.helpers"
-import { Contact, Phone } from "App/contacts/store/phone.typings"
+import { contactDatabaseFactory } from "App/contacts/store/contacts.helpers"
+import { Contact, PhoneContacts } from "App/contacts/store/contacts.typings"
 
 export const phoneSeedInput: Contact[] = [
   {
@@ -1510,4 +1510,4 @@ export const phoneSeedInput: Contact[] = [
   },
 ]
 
-export const phoneSeed: Phone = contactDatabaseFactory(phoneSeedInput)
+export const phoneSeed: PhoneContacts = contactDatabaseFactory(phoneSeedInput)

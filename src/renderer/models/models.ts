@@ -8,7 +8,7 @@ import muditaNews from "Renderer/models/mudita-news/mudita-news"
 import muditaProductCards from "Renderer/models/mudita-product-cards/mudita-product-cards"
 import networkStatus from "Renderer/models/network-status/network-status"
 import notes from "Renderer/models/notes/notes"
-import phone from "App/contacts/store/phone"
+import contacts from "App/contacts/store/contacts"
 import phoneUpdate from "Renderer/models/phone-update/phone-update"
 import settings from "Renderer/models/settings/settings"
 import templates from "Renderer/models/templates/templates"
@@ -25,7 +25,7 @@ export interface RootModel {
   muditaProductCards: typeof muditaProductCards
   networkStatus: typeof networkStatus
   notes: typeof notes
-  phone: typeof phone
+  contacts: typeof contacts
   phoneUpdate: typeof phoneUpdate
   settings: typeof settings
   templates: typeof templates
@@ -43,7 +43,7 @@ export const models: RootModel = {
   muditaProductCards,
   networkStatus,
   notes,
-  phone,
+  contacts,
   phoneUpdate,
   settings,
   templates,

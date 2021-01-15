@@ -1,4 +1,4 @@
-import { Contact } from "App/contacts/store/phone.typings"
+import { Contact } from "App/contacts/store/contacts.typings"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import { Message } from "Renderer/interfaces/message.interface"
 

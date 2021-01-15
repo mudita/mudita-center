@@ -3,9 +3,9 @@ import {
   Contact,
   ContactFactorySignature,
   ContactID,
-  Phone,
-  PhoneState,
-} from "App/contacts/store/phone.typings"
+  PhoneContacts,
+  ContactsState,
+} from "App/contacts/store/contacts.typings"
 import { deburr, find, filter, omit } from "lodash"
 import { intl } from "Renderer/utils/intl"
 import { SimpleRecord } from "Common/typings"
@@ -77,9 +77,9 @@ export const contactFactory = (
 export const contactDatabaseFactory = (
   input: Contact[],
   factory: ContactFactorySignature = contactFactory
-): Phone => {
+): PhoneContacts => {
   return input.reduce(
-    (acc: Phone, item: Contact) => {
+    (acc: PhoneContacts, item: Contact) => {
       const contact = factory(item)
 
       if (contact) {
@@ -103,11 +103,11 @@ export const contactDatabaseFactory = (
 }
 
 export const addContacts = (
-  state: PhoneState,
+  state: ContactsState,
   input: Contact | Contact[],
-  factory: (input: Contact[]) => Phone = contactDatabaseFactory,
+  factory: (input: Contact[]) => PhoneContacts = contactDatabaseFactory,
   preFormatter = prepareData
-): PhoneState => {
+): ContactsState => {
   const result = factory(preFormatter(input))
 
   if (result) {
@@ -126,10 +126,10 @@ export const addContacts = (
 }
 
 export const removeContact = (
-  state: PhoneState,
+  state: ContactsState,
   input: ContactID | ContactID[],
   preFormatter = prepareData
-): Phone => {
+): PhoneContacts => {
   const inputArray = Array.isArray(input) ? input : [input]
   const { collection: oldCollection, db: oldDb } = state
   const data = preFormatter(input)
@@ -147,10 +147,10 @@ export const removeContact = (
 }
 
 export const editContact = (
-  state: PhoneState,
+  state: ContactsState,
   data: BaseContactModel,
   guard: (input: any) => boolean = contactTypeGuard
-): Phone => {
+): PhoneContacts => {
   if (guard(data)) {
     return {
       ...state,
@@ -177,7 +177,7 @@ export const createFullName = ({
   return `${firstName} ${lastName}`.trim()
 }
 
-export const getSortedContactList = ({ collection, db }: Phone) => {
+export const getSortedContactList = ({ collection, db }: PhoneContacts) => {
   const anonymousContacts = []
   const favouriteContacts = []
   const uncategorizedContacts = []
@@ -248,18 +248,21 @@ export const getSortedContactList = ({ collection, db }: Phone) => {
   return labeledContacts
 }
 
-export const getFlatList = ({ collection, db }: Phone): Contact[] => {
+export const getFlatList = ({ collection, db }: PhoneContacts): Contact[] => {
   return collection.map((item) => db[item])
 }
 
-export const getSpeedDialChosenList = ({ collection, db }: Phone): number[] => {
+export const getSpeedDialChosenList = ({
+  collection,
+  db,
+}: PhoneContacts): number[] => {
   return collection
     .map((item) => db[item].speedDial)
     .filter((speedDial): speedDial is number => speedDial !== undefined)
 }
 
 export const findContact = (
-  phone: Contact[] | Phone,
+  phone: Contact[] | PhoneContacts,
   query: SimpleRecord,
   idOnly = false,
   formatter = getFlatList
@@ -288,10 +291,10 @@ export const findMultipleContacts = (
 }
 
 export const revokeField = (
-  state: PhoneState,
+  state: ContactsState,
   query: SimpleRecord,
   finder = findContact
-): PhoneState => {
+): ContactsState => {
   const userId = finder(state, query, true)
 
   if (userId && typeof userId === "string") {

@@ -1,4 +1,4 @@
-import { Contact, ContactCategory } from "App/contacts/store/phone.typings"
+import { Contact, ContactCategory } from "App/contacts/store/contacts.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import React, { useEffect, useRef } from "react"

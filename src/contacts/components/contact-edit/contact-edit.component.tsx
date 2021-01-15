@@ -1,6 +1,6 @@
 import React, { useEffect, FocusEvent } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Contact } from "App/contacts/store/phone.typings"
+import { Contact } from "App/contacts/store/contacts.typings"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -38,7 +38,7 @@ import {
   speedDialListStyles,
   SpeedDialSettings,
 } from "App/contacts/components/contact-edit/contact-edit.styled"
-import { NewContact } from "App/contacts/store/phone.typings"
+import { NewContact } from "App/contacts/store/contacts.typings"
 
 const messages = defineMessages({
   editTitle: { id: "view.name.phone.contacts.edit.title" },

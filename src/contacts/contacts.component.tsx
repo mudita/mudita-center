@@ -10,7 +10,7 @@ import {
   Contact,
   ContactID,
   NewContact,
-} from "App/contacts/store/phone.typings"
+} from "App/contacts/store/contacts.typings"
 import addContact from "Renderer/requests/add-contact.request"
 import logger from "App/main/utils/logger"
 import editContact from "Renderer/requests/edit-contact.request"
@@ -20,7 +20,7 @@ import externalProvidersStore from "Renderer/store/external-providers"
 import {
   contactDatabaseFactory,
   getFlatList,
-} from "App/contacts/store/phone.helpers"
+} from "App/contacts/store/contacts.helpers"
 
 const selector = select(({ phone, messages }) => ({
   contactList: phone.contactList,
@@ -31,9 +31,9 @@ const selector = select(({ phone, messages }) => ({
 }))
 
 const mapStateToProps = (state: RootModel) => {
-  const { phone, auth } = state
+  const { contacts, auth } = state
   return {
-    ...phone,
+    ...contacts,
     ...auth,
     ...selector(state, {}),
   }

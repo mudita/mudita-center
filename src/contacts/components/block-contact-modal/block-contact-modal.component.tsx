@@ -3,7 +3,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
-import { Contact } from "App/contacts/store/phone.typings"
+import { Contact } from "App/contacts/store/contacts.typings"
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
@@ -14,7 +14,7 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
-import { createFullName } from "App/contacts/store/phone.helpers"
+import { createFullName } from "App/contacts/store/contacts.helpers"
 
 const ModalContent = styled.div`
   display: flex;

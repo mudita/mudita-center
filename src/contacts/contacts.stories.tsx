@@ -11,7 +11,7 @@ import {
   Contact,
   ContactID,
   ResultsState,
-} from "App/contacts/store/phone.typings"
+} from "App/contacts/store/contacts.typings"
 import ContactEdit, {
   defaultContact,
 } from "App/contacts/components/contact-edit/contact-edit.component"
@@ -28,7 +28,7 @@ import {
   getFlatList,
   getSortedContactList,
   getSpeedDialChosenList,
-} from "App/contacts/store/phone.helpers"
+} from "App/contacts/store/contacts.helpers"
 import { asyncNoop, noop } from "Renderer/utils/noop"
 
 const dummyPromise = (result: any) => () => result
@@ -221,7 +221,7 @@ storiesOf("Views|Phone/Contact details/New", module).add("Default", () => (
   />
 ))
 
-storiesOf("Views/Contacts/Modals", module)
+storiesOf("Views|Contacts/Modals", module)
   .add("Speed dial settings", () => (
     <>
       <ModalWrapper>

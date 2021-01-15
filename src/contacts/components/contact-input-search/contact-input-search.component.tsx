@@ -10,8 +10,8 @@ import {
 } from "Renderer/components/core/list/list.component"
 import InputSelect from "Renderer/components/core/input-select/input-select.component"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
-import { Contact } from "App/contacts/store/phone.typings"
-import { createFullName } from "App/contacts/store/phone.helpers"
+import { Contact } from "App/contacts/store/contacts.typings"
+import { createFullName } from "App/contacts/store/contacts.helpers"
 
 const messages = defineMessages({
   searchPlaceholder: { id: "view.name.phone.contacts.panel.searchPlaceholder" },

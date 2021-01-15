@@ -116,7 +116,7 @@ const basicInfo = createModel<RootModel>({
           })
 
           await dispatch.basicInfo.loadData()
-          await dispatch.phone.loadData()
+          await dispatch.contacts.loadData()
         }
       },
       async disconnect() {
@@ -132,7 +132,7 @@ const basicInfo = createModel<RootModel>({
 
         if (!disconnectedDevice) {
           await dispatch.basicInfo.loadData()
-          await dispatch.phone.loadData()
+          await dispatch.contacts.loadData()
         }
       },
       async changeSim(simCard: SimCard) {
@@ -162,7 +162,7 @@ const basicInfo = createModel<RootModel>({
     },
     isConnected(models: StoreSelectors<any>) {
       return createSelector(
-        models.phone.resultsState,
+        models.contacts.resultsState,
         models.basicInfo.resultsState,
         models.basicInfo.disconnectedDevice,
         (phoneResultsState, basicInfoResultsState, disconnectedDevice) => {

@@ -4,7 +4,7 @@ import {
   Contacts,
   NewContact,
   ResultsState,
-} from "App/contacts/store/phone.typings"
+} from "App/contacts/store/contacts.typings"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -30,7 +30,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
 import { FormattedMessage } from "react-intl"
-import { createFullName } from "App/contacts/store/phone.helpers"
+import { createFullName } from "App/contacts/store/contacts.helpers"
 import { intl } from "Renderer/utils/intl"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import ButtonComponent from "Renderer/components/core/button/button.component"

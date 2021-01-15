@@ -11,14 +11,14 @@ import {
   removeContact,
   editContact,
   findContact,
-} from "App/contacts/store/phone.helpers"
+} from "App/contacts/store/contacts.helpers"
 import {
   Contact,
   ContactID,
-  PhoneState,
+  ContactsState,
   ResultsState,
-} from "App/contacts/store/phone.typings"
-import phone from "App/contacts/store/phone"
+} from "App/contacts/store/contacts.typings"
+import contacts from "App/contacts/store/contacts"
 
 const TEST_CONTACT = { ...phoneSeed.db[phoneSeed.collection[0]] }
 const TEST_CONTACTS_BATCH = phoneSeed.collection
@@ -41,7 +41,7 @@ const TEST_CONTACT_TO_CLEAN = {
 }
 const TEST_PHONE_NUMBER = "+82 707 439 683"
 const TEST_EXPECTED_PHONE_NUMBER = "+82707439683"
-const OLD_DB_SHAPE: PhoneState = {
+const OLD_DB_SHAPE: ContactsState = {
   db: {
     [TEST_CONTACT_TO_CLEAN.id]: TEST_CONTACT_TO_CLEAN,
   },
@@ -173,7 +173,7 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
 
 describe("redux tests", () => {
   const storeConfig = {
-    models: { phone },
+    models: { phone: contacts },
     plugins: [selectPlugin()],
     redux: {
       initialState: {
