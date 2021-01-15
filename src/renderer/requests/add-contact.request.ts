@@ -1,7 +1,6 @@
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { Contact } from "App/contacts/store/contacts.typings"
-import { NewContact } from "App/contacts/store/contacts.typings"
+import { Contact, NewContact } from "App/contacts/store/contacts.type"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const addContact = async (

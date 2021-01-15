@@ -3,7 +3,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
-import { Contact } from "App/contacts/store/contacts.typings"
+import { Contact } from "App/contacts/store/contacts.type"
 import styled from "styled-components"
 import Text, {
   TextDisplayStyle,

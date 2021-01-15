@@ -7,11 +7,8 @@ import Contacts, {
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
-import {
-  Contact,
-  ContactID,
-  ResultsState,
-} from "App/contacts/store/contacts.typings"
+import { Contact, ContactID } from "App/contacts/store/contacts.type"
+import { ResultsState } from "App/contacts/store/contacts.enum"
 import ContactEdit, {
   defaultContact,
 } from "App/contacts/components/contact-edit/contact-edit.component"

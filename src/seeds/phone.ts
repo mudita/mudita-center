@@ -1,5 +1,6 @@
 import { contactDatabaseFactory } from "App/contacts/store/contacts.helpers"
-import { Contact, PhoneContacts } from "App/contacts/store/contacts.typings"
+import { Contact } from "App/contacts/store/contacts.type"
+import { PhoneContacts } from "App/contacts/store/contacts.interface"
 
 export const phoneSeedInput: Contact[] = [
   {

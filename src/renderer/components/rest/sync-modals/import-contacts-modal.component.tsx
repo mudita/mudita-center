@@ -9,7 +9,7 @@ import { intl } from "Renderer/utils/intl"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
 import { defineMessages } from "react-intl"
-import { NewContact } from "App/contacts/store/contacts.typings"
+import { NewContact } from "App/contacts/store/contacts.type"
 import Table, {
   Col,
   Labels,
