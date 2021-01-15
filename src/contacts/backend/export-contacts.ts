@@ -12,6 +12,7 @@ import { createFullName } from "App/contacts/store/contacts.helpers"
 const messages = defineMessages({
   dialogTitle: { id: "view.name.phone.contacts.export.saveDialogTitle" },
   defaultFilename: { id: "view.name.phone.contacts.export.defaultFilename" },
+  button: { id: "view.name.phone.contacts.export.button" },
 })
 
 const registerContactsExportListener = () => {
@@ -29,7 +30,6 @@ const registerContactsExportListener = () => {
             contactsLeft: contacts.length - 1,
           })
         ),
-        buttonLabel: "Save",
         properties: ["createDirectory", "showOverwriteConfirmation"],
         filters: [{ name: "vcf", extensions: ["vcf"] }],
       })
