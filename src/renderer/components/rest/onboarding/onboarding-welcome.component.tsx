@@ -19,6 +19,7 @@ import {
   Title,
 } from "Renderer/components/rest/onboarding/onboarding.elements"
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
+import { OnboardingWelcomeTestIds } from "./onboarding-welcome-test-ids.enum"
 
 const Info = styled.div`
   display: flex;
@@ -48,13 +49,16 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
   const onCheckboxToggle = (event: ChangeEvent<HTMLInputElement>) => {
     onAutostartChange(event.target.checked)
   }
-
   return (
     <OnboardingWrapper>
       <header>
-        {process.env.phoneConnected && (
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-          <div onClick={togglePhoneSimulation}>Click</div>
+        {process.env.simulatePhoneConnection && (
+          <ButtonComponent
+            data-testid={OnboardingWelcomeTestIds.SimulatePhoneButton}
+            onClick={togglePhoneSimulation}
+          >
+            Click
+          </ButtonComponent>
         )}
         <Title
           displayStyle={TextDisplayStyle.PrimaryHeading}

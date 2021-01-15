@@ -3,11 +3,18 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
 import { Type, getEnumName } from "Renderer/components/core/icon/icon.config"
 import { URL_MAIN } from "Renderer/constants/urls"
+import { OnboardingWelcomeTestIds } from "Renderer/components/rest/onboarding/onboarding-welcome-test-ids.enum"
 
 let app: any
 
 beforeEach(async () => {
-  app = await startApp()
+  app = await startApp(true)
+  await app.client
+    .$(`*[data-testid=${OnboardingWelcomeTestIds.SimulatePhoneButton}]`)
+    .click()
+  await app.client.waitUntil(() =>
+    app.client.$(`*[data-testid=${MenuGroupTestIds.Phone}]`).isVisible()
+  )
 })
 
 afterEach(async () => {

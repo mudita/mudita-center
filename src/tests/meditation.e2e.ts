@@ -3,11 +3,18 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 import { URL_MAIN } from "Renderer/constants/urls"
 import { ChartType } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
 import localeEn from "Renderer/locales/default/en-US.json"
+import { OnboardingWelcomeTestIds } from "Renderer/components/rest/onboarding/onboarding-welcome-test-ids.enum"
 
 let app: any
 
 beforeEach(async () => {
-  app = await startApp()
+  app = await startApp(true)
+  await app.client
+    .$(`*[data-testid=${OnboardingWelcomeTestIds.SimulatePhoneButton}]`)
+    .click()
+  await app.client.waitUntil(() =>
+    app.client.$(`*[data-testid=${MenuGroupTestIds.Meditation}]`).isVisible()
+  )
 })
 
 afterEach(async () => {

@@ -3,11 +3,18 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 import { URL_MAIN } from "Renderer/constants/urls"
 import { ContactPanelTestIdsEnum } from "Renderer/components/rest/phone/contact-panel-test-ids.enum"
 import { SyncContactsModalTestIds } from "Renderer/components/rest/sync-modals/sync-contacts-modal-test-ids.enum"
+import { OnboardingWelcomeTestIds } from "Renderer/components/rest/onboarding/onboarding-welcome-test-ids.enum"
 
 let app: any
 
 beforeEach(async () => {
-  app = await startApp()
+  app = await startApp(true)
+  await app.client
+    .$(`*[data-testid=${OnboardingWelcomeTestIds.SimulatePhoneButton}]`)
+    .click()
+  await app.client.waitUntil(() =>
+    app.client.$(`*[data-testid=${MenuGroupTestIds.Contacts}]`).isVisible()
+  )
 })
 
 afterEach(async () => {
