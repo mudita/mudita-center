@@ -12,13 +12,13 @@ export interface SpeedDialProps {
   onSave: () => void
 }
 
-const mapState = ({ phone }: any, ownProps: any) => ({
-  flatList: getFlatList(phone),
+const mapState = ({ contacts }: any, ownProps: any) => ({
+  flatList: getFlatList(contacts),
   ...ownProps,
 })
 
-const mapDispatch = ({ phone }: any) => ({
-  ...phone,
+const mapDispatch = ({ contacts }: any) => ({
+  ...contacts,
 })
 
 export default connect(mapState, mapDispatch)(View)

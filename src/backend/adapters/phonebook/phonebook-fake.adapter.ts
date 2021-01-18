@@ -8,7 +8,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import Faker from "faker"
-import { phoneSeedInput } from "App/seeds/phone"
+import { contactsSeedInput } from "App/seeds/contacts"
 
 export interface PhonebookFakeAdapterProps {
   contactsCount: number
@@ -22,7 +22,7 @@ class PhonebookFake extends PhonebookAdapter {
   public async getContacts(): Promise<DeviceResponse<Contact[]>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: phoneSeedInput,
+      data: contactsSeedInput,
     }
   }
 
