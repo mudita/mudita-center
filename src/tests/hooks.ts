@@ -9,6 +9,8 @@ export const startApp = async (simulatePhoneConnection = false) => {
     env: {
       simulatePhoneConnection,
     },
+    startTimeout: 10000,
+    waitTimeout: 10000,
   }).start()
 }
 
