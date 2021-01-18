@@ -1,5 +1,5 @@
 import { messagesSeed } from "App/seeds/messages"
-import { phoneSeed } from "App/seeds/phone"
+import { contactsSeed } from "App/seeds/contacts"
 
 import {
   expandTopic,
@@ -51,7 +51,7 @@ const contactsMock = {
   },
 }
 
-const testUser = phoneSeed.db[0]
+const testUser = contactsSeed.db[0]
 
 test("properly returns contact data", () => {
   // @ts-ignore
