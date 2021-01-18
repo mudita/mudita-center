@@ -77,8 +77,8 @@ const contacts = createModel<RootModel>({
     ): ContactsState {
       return { ...state, resultsState }
     },
-    setContacts(state: ContactsState, phone: PhoneContacts): ContactsState {
-      return { ...state, ...phone }
+    setContacts(state: ContactsState, contacts: PhoneContacts): ContactsState {
+      return { ...state, ...contacts }
     },
     addContact(state: ContactsState, contact: Contact): ContactsState {
       let currentState = state

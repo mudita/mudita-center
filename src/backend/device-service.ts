@@ -1,20 +1,22 @@
-import { PureDevice, PureDeviceManager, Response } from "pure"
-import { EventEmitter } from "events"
-import DeviceResponse, {
-  DeviceResponseStatus,
-} from "Backend/adapters/device-response.interface"
 import {
+  PureDevice,
+  PureDeviceManager,
+  Response,
   Endpoint,
   DeviceEventName,
   Method,
   RequestConfig,
   ResponseStatus,
-} from "pure/dist/device.types"
+  Contact,
+  CountBodyResponse,
+  DeviceInfo,
+} from "pure"
+import { EventEmitter } from "events"
+import DeviceResponse, {
+  DeviceResponseStatus,
+} from "Backend/adapters/device-response.interface"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { MainProcessIpc } from "electron-better-ipc"
-import { DeviceInfo } from "pure/dist/endpoints/device-info.types"
-import { Contact, CountBodyResponse } from "pure/dist/endpoints/contact.types"
-
 class DeviceService {
   device: PureDevice | undefined
   private eventEmitter = new EventEmitter()
