@@ -52,14 +52,6 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
   return (
     <OnboardingWrapper>
       <header>
-        {process.env.simulatePhoneConnection && (
-          <ButtonComponent
-            data-testid={OnboardingWelcomeTestIds.SimulatePhoneButton}
-            onClick={togglePhoneSimulation}
-          >
-            Click
-          </ButtonComponent>
-        )}
         <Title
           displayStyle={TextDisplayStyle.PrimaryHeading}
           message={{

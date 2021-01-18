@@ -1,17 +1,14 @@
-import { startApp, stopApp } from "App/tests/hooks"
+import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { PhoneTestIds } from "Renderer/components/rest/overview/phone/phone-test-ids.enum"
 import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
-import { OnboardingWelcomeTestIds } from "Renderer/components/rest/onboarding/onboarding-welcome-test-ids.enum"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 
 let app: any
 
 beforeEach(async () => {
   app = await startApp(true)
-  await app.client
-    .$(`*[data-testid=${OnboardingWelcomeTestIds.SimulatePhoneButton}]`)
-    .click()
+  await enablePhoneSimulation(app)
   await app.client.waitUntil(() =>
     app.client.$(`*[data-testid=${MenuGroupTestIds.Overview}]`).isVisible()
   )
