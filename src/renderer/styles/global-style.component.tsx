@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   html, body  {
     background-color: ${backgroundColor("main")};
     font-family: ${font("primary")};
-    /* stylelint-disable unit-whitelist */
+    /* stylelint-disable unit-allowed-list */
     font-size: 10px;
     font-weight: 400;
     line-height: 1.5;
