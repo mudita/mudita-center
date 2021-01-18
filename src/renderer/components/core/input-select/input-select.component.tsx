@@ -220,8 +220,12 @@ const InputSelectComponent: FunctionComponent<InputSelectProps> = ({
   }
 
   const getInputValue = (): ItemValue => {
-    if (searchValue !== null) return searchValue
-    if (selectedItem) return renderItemValue(selectedItem)
+    if (searchValue !== null) {
+      return searchValue
+    }
+    if (selectedItem) {
+      return renderItemValue(selectedItem)
+    }
     return ""
   }
 

@@ -25,16 +25,16 @@ const renderInputSelect = ({ ...props }: Partial<InputSelectProps> = {}) => {
 test("select input focus/blur toggles the list", () => {
   const { list, input } = renderInputSelect()
   expect(list()).not.toBeVisible()
-  fireEvent.focus(input())
+  input().focus()
   expect(list()).toBeVisible()
-  fireEvent.blur(input())
+  input().blur()
   expect(list()).not.toBeVisible()
 })
 
 test("select input focus/blur toggles the list properly when min chars to show results are set up", () => {
   const { list, input } = renderInputSelect({ minCharsToShowResults: 3 })
   expect(list()).not.toBeInTheDocument()
-  fireEvent.focus(input())
+  input().focus()
   expect(list()).not.toBeInTheDocument()
   fireEvent.change(input(), { target: { value: "ap" } })
   expect(list()).not.toBeInTheDocument()

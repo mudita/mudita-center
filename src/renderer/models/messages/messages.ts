@@ -12,13 +12,15 @@ import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import { isCallerMatchingPhoneNumber } from "Renderer/models/messages/utils/caller-utils.ts"
 import { Caller } from "Renderer/models/calls/calls.interface"
 import { messagesData } from "App/seeds/messages"
+import { createModel } from "@rematch/core"
+import { RootModel } from "Renderer/models/models"
 
 export const initialState: MessagesState = {
   topics: [],
   searchValue: "",
 }
 
-export default {
+const messages = createModel<RootModel>({
   state: initialState,
   reducers: {
     changeSearchValue(
@@ -102,4 +104,6 @@ export default {
       }
     },
   }),
-}
+})
+
+export default messages

@@ -4,10 +4,10 @@ import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
 import { RootModel } from "Renderer/models/models"
 import { select } from "Renderer/store"
 
-const selection = select(({ calls, messages, phone }) => ({
+const selection = select(({ calls, messages, contacts }) => ({
   calls: calls.filteredList,
   isTopicThreadOpened: messages.isTopicThreadOpened,
-  isContactCreated: phone.isContactCreated,
+  isContactCreated: contacts.isContactCreated,
 }))
 
 const mapStateToProps = (state: RootModel) => ({

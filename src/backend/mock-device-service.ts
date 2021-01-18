@@ -9,7 +9,7 @@ import DeviceService from "./device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "./adapters/device-response.interface"
-import { Contact, NewContact } from "Renderer/models/phone/phone.typings"
+import { Contact, NewContact } from "App/contacts/store/contacts.type"
 
 export const pureContactId = "19"
 

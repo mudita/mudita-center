@@ -1,13 +1,13 @@
-import {
-  createStore,
+import google, {
   googleEndpoints,
 } from "Renderer/models/external-providers/google/google"
 import {
   GoogleAuthSuccessResponse,
+  GoogleCalendarsSuccess,
   GoogleContactResourceItem,
   Scope,
 } from "Renderer/models/external-providers/google/google.interface"
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 import MockAdapter from "axios-mock-adapter"
 import { mockedGoogleCalendars } from "App/__mocks__/google-calendars-list"
 import { GoogleAuthActions } from "Common/enums/google-auth-actions.enum"
@@ -61,7 +61,7 @@ jest.mock(
 
 const initStore = () => {
   return init({
-    models: { google: createStore() },
+    models: { google },
   })
 }
 
@@ -334,14 +334,12 @@ test("requestWrapper handles 401 error properly", async () => {
     .reply(200, authData)
 
   expect(
-    (
-      await store.dispatch.google.requestWrapper({
-        scope: Scope.Calendar,
-        axiosProps: {
-          url: `${googleEndpoints.calendars}/users/me/calendarList`,
-        },
-      })
-    ).data.items
+    (((await store.dispatch.google.requestWrapper({
+      scope: Scope.Calendar,
+      axiosProps: {
+        url: `${googleEndpoints.calendars}/users/me/calendarList`,
+      },
+    })) as unknown) as AxiosResponse<GoogleCalendarsSuccess>).data.items
   ).toHaveLength(mockedGoogleCalendars.length)
 })
 
@@ -355,14 +353,12 @@ test("requestWrapper handles other errors properly", async () => {
     })
 
   expect(
-    (
-      await store.dispatch.google.requestWrapper({
-        scope: Scope.Calendar,
-        axiosProps: {
-          url: `${googleEndpoints.calendars}/users/me/calendarList`,
-        },
-      })
-    ).data.items
+    (((await store.dispatch.google.requestWrapper({
+      scope: Scope.Calendar,
+      axiosProps: {
+        url: `${googleEndpoints.calendars}/users/me/calendarList`,
+      },
+    })) as unknown) as AxiosResponse<GoogleCalendarsSuccess>).data.items
   ).toHaveLength(mockedGoogleCalendars.length)
 })
 

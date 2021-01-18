@@ -10,7 +10,6 @@ import getStorageInfo from "Renderer/requests/get-storage-info.request"
 import connectDevice from "Renderer/requests/connect-device.request"
 import disconnectDevice from "Renderer/requests/disconnect-device.request"
 import changeSimRequest from "Renderer/requests/change-sim.request"
-import { Dispatch } from "Renderer/store"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import {
@@ -18,13 +17,16 @@ import {
   SimCard,
   StoreValues,
 } from "Renderer/models/basic-info/basic-info.typings"
+import { createModel } from "@rematch/core"
+import { RootState } from "Renderer/store"
+import { RootModel } from "Renderer/models/models"
 
 const initialState = {
   disconnectedDevice: true,
   resultsState: ResultsState.Empty,
 }
 
-export default {
+const basicInfo = createModel<RootModel>({
   state: initialState,
   reducers: {
     setResultsState(
@@ -50,93 +52,97 @@ export default {
       return { ...state, simCards: newSim }
     },
   },
-  effects: (dispatch: Dispatch) => ({
-    async loadData(
-      _: any,
-      rootState: { basicInfo: { resultsState: ResultsState } }
-    ) {
-      if (rootState.basicInfo.resultsState === ResultsState.Loading) {
-        return
-      }
-      dispatch.basicInfo.setResultsState(ResultsState.Loading)
-      const responses = await Promise.all([
-        getDeviceInfo(),
-        getNetworkInfo(),
-        getStorageInfo(),
-        getBatteryInfo(),
-        getBackupsInfo(),
-      ])
+  effects: (d: any) => {
+    const dispatch = (d as unknown) as RootState
 
-      if (
-        responses.every(
-          ({ status, data }) =>
-            status === DeviceResponseStatus.Ok && data !== undefined
-        )
+    return {
+      async loadData(
+        _: any,
+        rootState: { basicInfo: { resultsState: ResultsState } }
       ) {
-        const [
-          info,
-          networkInfo,
-          storageInfo,
-          batteryInfo,
-          backupsInfo,
-        ] = responses
+        if (rootState.basicInfo.resultsState === ResultsState.Loading) {
+          return
+        }
+        dispatch.basicInfo.setResultsState(ResultsState.Loading)
+        const responses = await Promise.all([
+          getDeviceInfo(),
+          getNetworkInfo(),
+          getStorageInfo(),
+          getBatteryInfo(),
+          getBackupsInfo(),
+        ])
 
-        const [lastBackup] = backupsInfo.data!.backups.sort(
-          (a, b) =>
-            Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
-        )
+        if (
+          responses.every(
+            ({ status, data }) =>
+              status === DeviceResponseStatus.Ok && data !== undefined
+          )
+        ) {
+          const [
+            info,
+            networkInfo,
+            storageInfo,
+            batteryInfo,
+            backupsInfo,
+          ] = responses
 
-        dispatch.basicInfo.update({
-          batteryLevel: batteryInfo.data!.level,
-          osVersion: info.data!.osVersion,
-          simCards: networkInfo.data!.simCards,
-          memorySpace: {
-            full: storageInfo.data!.capacity,
-            free: storageInfo.data!.available,
-          },
-          lastBackup,
-          osUpdateDate: info.data!.osUpdateDate,
-        })
-        dispatch.basicInfo.setResultsState(ResultsState.Loaded)
-      } else {
-        dispatch.basicInfo.setResultsState(ResultsState.Error)
-      }
-    },
-    async connect() {
-      const { status } = await connectDevice()
+          const [lastBackup] = backupsInfo.data!.backups.sort(
+            (a, b) =>
+              Number(new Date(b.createdAt)) - Number(new Date(a.createdAt))
+          )
 
-      if (status === DeviceResponseStatus.Ok) {
-        dispatch.basicInfo.update({
-          disconnectedDevice: false,
-        })
+          dispatch.basicInfo.update({
+            batteryLevel: batteryInfo.data!.level,
+            osVersion: info.data!.osVersion,
+            simCards: networkInfo.data!.simCards,
+            memorySpace: {
+              full: storageInfo.data!.capacity,
+              free: storageInfo.data!.available,
+            },
+            lastBackup,
+            osUpdateDate: info.data!.osUpdateDate,
+          })
+          dispatch.basicInfo.setResultsState(ResultsState.Loaded)
+        } else {
+          dispatch.basicInfo.setResultsState(ResultsState.Error)
+        }
+      },
+      async connect() {
+        const { status } = await connectDevice()
 
-        await dispatch.basicInfo.loadData()
-        await dispatch.phone.loadData()
-      }
-    },
-    async disconnect() {
-      const disconnectInfo = await disconnectDevice()
-      if (disconnectInfo.status === DeviceResponseStatus.Ok) {
-        dispatch.basicInfo.update({
-          disconnectedDevice: true,
-        })
-      }
-    },
-    async toggleDisconnectedDevice(disconnectedDevice: boolean) {
-      dispatch.basicInfo.update({ disconnectedDevice })
+        if (status === DeviceResponseStatus.Ok) {
+          dispatch.basicInfo.update({
+            disconnectedDevice: false,
+          })
 
-      if (!disconnectedDevice) {
-        await dispatch.basicInfo.loadData()
-        await dispatch.phone.loadData()
-      }
-    },
-    async changeSim(simCard: SimCard) {
-      const changeSimInfo = await changeSimRequest()
-      if (changeSimInfo.status === DeviceResponseStatus.Ok) {
-        dispatch.basicInfo.updateSim(simCard.number)
-      }
-    },
-  }),
+          await dispatch.basicInfo.loadData()
+          await dispatch.contacts.loadData()
+        }
+      },
+      async disconnect() {
+        const disconnectInfo = await disconnectDevice()
+        if (disconnectInfo.status === DeviceResponseStatus.Ok) {
+          dispatch.basicInfo.update({
+            disconnectedDevice: true,
+          })
+        }
+      },
+      async toggleDisconnectedDevice(disconnectedDevice: boolean) {
+        dispatch.basicInfo.update({ disconnectedDevice })
+
+        if (!disconnectedDevice) {
+          await dispatch.basicInfo.loadData()
+          await dispatch.contacts.loadData()
+        }
+      },
+      async changeSim(simCard: SimCard) {
+        const changeSimInfo = await changeSimRequest()
+        if (changeSimInfo.status === DeviceResponseStatus.Ok) {
+          dispatch.basicInfo.updateSim(simCard.number)
+        }
+      },
+    }
+  },
   selectors: (slice: Slicer<typeof initialState>) => ({
     resultsState() {
       return slice(({ resultsState }) => resultsState)
@@ -156,7 +162,7 @@ export default {
     },
     isConnected(models: StoreSelectors<any>) {
       return createSelector(
-        models.phone.resultsState,
+        models.contacts.resultsState,
         models.basicInfo.resultsState,
         models.basicInfo.disconnectedDevice,
         (phoneResultsState, basicInfoResultsState, disconnectedDevice) => {
@@ -169,4 +175,6 @@ export default {
       )
     },
   }),
-}
+})
+
+export default basicInfo

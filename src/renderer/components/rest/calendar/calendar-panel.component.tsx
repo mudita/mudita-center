@@ -8,7 +8,7 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import {
   Buttons,
   Panel,
-} from "Renderer/components/rest/phone/contact-panel.styled"
+} from "App/contacts/components/contact-panel/contact-panel.styled"
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"

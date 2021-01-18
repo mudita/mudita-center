@@ -85,7 +85,9 @@ const useSystemUpdateFlow = (
   }
 
   const checkForUpdates = (retry?: boolean, silent?: boolean) => {
-    if (!silent) modalService.openModal(<CheckingUpdatesModal />, retry)
+    if (!silent) {
+      modalService.openModal(<CheckingUpdatesModal />, retry)
+    }
     return delayResponse(availableOsUpdateRequest(lastUpdate), silent ? 0 : 500)
   }
 
