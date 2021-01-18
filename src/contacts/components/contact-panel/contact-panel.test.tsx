@@ -3,7 +3,7 @@ import React from "react"
 import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
 import { fireEvent } from "@testing-library/dom"
 import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
-import { Contact } from "App/contacts/store/contacts.typings"
+import { Contact } from "App/contacts/store/contacts.type"
 import { InputSelectTestIds } from "Renderer/components/core/input-select/input-select.component"
 
 const defaultProps = {

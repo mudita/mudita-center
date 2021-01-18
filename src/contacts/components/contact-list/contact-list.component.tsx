@@ -1,10 +1,5 @@
 import React, { createRef, Ref, useEffect } from "react"
-import {
-  Contact,
-  Contacts,
-  NewContact,
-  ResultsState,
-} from "App/contacts/store/contacts.typings"
+import { Contact, NewContact } from "App/contacts/store/contacts.type"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
 import Table, {
@@ -40,6 +35,8 @@ import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/con
 import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
 import Badge from "Renderer/components/core/badge/badge.component"
+import { Contacts } from "App/contacts/store/contacts.interface"
+import { ResultsState } from "Renderer/models/basic-info/basic-info.typings"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;

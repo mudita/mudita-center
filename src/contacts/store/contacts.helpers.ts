@@ -1,11 +1,13 @@
 import {
-  BaseContactModel,
   Contact,
   ContactFactorySignature,
   ContactID,
-  PhoneContacts,
   ContactsState,
-} from "App/contacts/store/contacts.typings"
+} from "App/contacts/store/contacts.type"
+import {
+  BaseContactModel,
+  PhoneContacts,
+} from "App/contacts/store/contacts.interface"
 import { deburr, find, filter, omit } from "lodash"
 import { intl } from "Renderer/utils/intl"
 import { SimpleRecord } from "Common/typings"

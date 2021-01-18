@@ -1,4 +1,5 @@
-export type ContactID = string
+import { Contact, ContactID } from "App/contacts/store/contacts.type"
+import { ResultsState } from "App/contacts/store/contacts.enum"
 
 export interface BaseContactModel {
   id: ContactID
@@ -20,27 +21,21 @@ export interface ContactWithID extends BaseContactModel {
   id: ContactID
 }
 
-interface ContactWithPhoneNumber extends ContactWithID {
+export interface ContactWithPhoneNumber extends ContactWithID {
   primaryPhoneNumber: string
 }
 
-interface ContactWithEmail extends ContactWithID {
+export interface ContactWithEmail extends ContactWithID {
   email: string
 }
 
-interface ContactWithFirstName extends ContactWithID {
+export interface ContactWithFirstName extends ContactWithID {
   firstName: string
 }
 
-interface ContactWithLastName extends ContactWithID {
+export interface ContactWithLastName extends ContactWithID {
   lastName: string
 }
-
-export type Contact =
-  | ContactWithPhoneNumber
-  | ContactWithEmail
-  | ContactWithFirstName
-  | ContactWithLastName
 
 export interface PhoneContacts {
   collection: ContactID[]
@@ -52,9 +47,6 @@ export interface ContactCategory {
   contacts: Contact[]
 }
 
-export type ContactFactorySignature<T = Contact | null> = (...args: any[]) => T
-export type NewContact = Omit<Contact, "id">
-
 export interface ContactCategory {
   category: string
   contacts: Contact[]
@@ -64,13 +56,6 @@ export interface Contacts {
   contactList: ContactCategory[]
 }
 
-export enum ResultsState {
-  Loading,
-  Loaded,
-  Empty,
-  Error,
-}
-
 export interface StoreData {
   inputValue: string
   contacts: Contact[]
@@ -78,15 +63,11 @@ export interface StoreData {
   resultsState: ResultsState
 }
 
-export type ContactsState = PhoneContacts & Pick<StoreData, "resultsState">
-
-interface StoreSelectors extends Contacts {
+export interface StoreSelectors extends Contacts {
   speedDialContacts: Contact[]
   savingContact: boolean
 }
 
-interface StoreEffects {
+export interface StoreEffects {
   readonly loadData: () => Promise<void>
 }
-
-export type Store = StoreEffects & StoreData & StoreSelectors

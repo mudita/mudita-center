@@ -5,10 +5,10 @@ import { RootModel } from "Renderer/models/models"
 import Messages from "./messages.component"
 import { select } from "Renderer/store"
 
-const selector = select(({ messages, phone }) => ({
+const selector = select(({ messages, contacts }) => ({
   list: messages.filteredList,
-  attachContactList: phone.contactList,
-  attachContactFlatList: phone.flatList,
+  attachContactList: contacts.contactList,
+  attachContactFlatList: contacts.flatList,
 }))
 
 const mapStateToProps = (state: RootModel) => ({
