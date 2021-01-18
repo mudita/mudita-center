@@ -20,16 +20,14 @@ const convertContact = (contact: Contact): string => {
   card.add("fn", createFullName(contact))
 
   if (primaryPhoneNumber || secondaryPhoneNumber) {
-    card.add("tel", `tel:${primaryPhoneNumber || secondaryPhoneNumber}`, {
+    card.add("tel", primaryPhoneNumber || secondaryPhoneNumber || "", {
       type: ["voice"],
-      value: "uri",
     })
   }
 
   if (primaryPhoneNumber && secondaryPhoneNumber) {
-    card.add("tel", `tel:${secondaryPhoneNumber}`, {
+    card.add("tel", secondaryPhoneNumber, {
       type: ["voice"],
-      value: "uri",
     })
   }
 

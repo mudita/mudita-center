@@ -21,8 +21,8 @@ test("single contact is properly converted to vCard format", () => {
     VERSION:4.0
     N:Doe;John;;;
     FN:John Doe
-    TEL;TYPE=voice;VALUE=uri:tel:123 456 789
-    TEL;TYPE=voice;VALUE=uri:tel:32 123 44 55
+    TEL;TYPE=voice:123 456 789
+    TEL;TYPE=voice:32 123 44 55
     ADR;TYPE=home;LABEL=\\"4929 Pine Garden Lane Atlanta, GA, 30339, USA\\":;;4929
       Pine Garden Lane;Atlanta; GA; 30339; USA
     EMAIL:john.doe@example.com
@@ -64,19 +64,17 @@ test("single contact is properly converted to vCard format", () => {
             "tel",
             Object {
               "type": "voice",
-              "value": "uri",
             },
-            "uri",
-            "tel:123 456 789",
+            "text",
+            "123 456 789",
           ],
           Array [
             "tel",
             Object {
               "type": "voice",
-              "value": "uri",
             },
-            "uri",
-            "tel:32 123 44 55",
+            "text",
+            "32 123 44 55",
           ],
           Array [
             "adr",
@@ -147,8 +145,8 @@ test("multiple contacts are properly converted to vCard format", () => {
     VERSION:4.0
     N:Doe;John;;;
     FN:John Doe
-    TEL;TYPE=voice;VALUE=uri:tel:123 456 789
-    TEL;TYPE=voice;VALUE=uri:tel:32 123 44 55
+    TEL;TYPE=voice:123 456 789
+    TEL;TYPE=voice:32 123 44 55
     ADR;TYPE=home;LABEL=\\"4929 Pine Garden Lane Atlanta, GA, 30339, USA\\":;;4929
       Pine Garden Lane;Atlanta; GA; 30339; USA
     EMAIL:john.doe@example.com
@@ -160,7 +158,7 @@ test("multiple contacts are properly converted to vCard format", () => {
     VERSION:4.0
     N:;Jane;;;
     FN:Jane
-    TEL;TYPE=voice;VALUE=uri:tel:123 456 789
+    TEL;TYPE=voice:123 456 789
     ADR;TYPE=home;LABEL=\\"5000 Random Street Atlanta, GA, 30339, USA\\":;;5000
       Random Street;Atlanta; GA; 30339; USA
     EMAIL:john.doe@example.com
@@ -200,19 +198,17 @@ test("multiple contacts are properly converted to vCard format", () => {
             "tel",
             Object {
               "type": "voice",
-              "value": "uri",
             },
-            "uri",
-            "tel:123 456 789",
+            "text",
+            "123 456 789",
           ],
           Array [
             "tel",
             Object {
               "type": "voice",
-              "value": "uri",
             },
-            "uri",
-            "tel:32 123 44 55",
+            "text",
+            "32 123 44 55",
           ],
           Array [
             "adr",
@@ -282,10 +278,9 @@ test("multiple contacts are properly converted to vCard format", () => {
             "tel",
             Object {
               "type": "voice",
-              "value": "uri",
             },
-            "uri",
-            "tel:123 456 789",
+            "text",
+            "123 456 789",
           ],
           Array [
             "adr",
