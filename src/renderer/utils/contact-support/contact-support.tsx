@@ -1,14 +1,14 @@
 import { getAppLogs } from "Renderer/requests/app-logs.request"
 import ContactModal, {
   SupportFormData,
-} from "Renderer/components/rest/contact-modal/contact-modal.component"
+} from "App/contacts/components/contact-modal/contact-modal.component"
 import modalService from "Renderer/components/core/modal/modal.service"
 import Base64 from "crypto-js/enc-base64"
 import hmacSHA256 from "crypto-js/hmac-sha256"
 import axios from "axios"
-import { ContactSupportSuccess } from "Renderer/components/rest/contact-modal/contact-modal-success.component"
+import { ContactSupportSuccess } from "App/contacts/components/contact-modal/contact-modal-success.component"
 import logger from "App/main/utils/logger"
-import { ContactSupportFailed } from "Renderer/components/rest/contact-modal/contact-modal-failed.component"
+import { ContactSupportFailed } from "App/contacts/components/contact-modal/contact-modal-failed.component"
 import React from "react"
 
 export const contactSupport = async () => {

@@ -3,7 +3,7 @@ import {
   Contact,
   ContactID,
   NewContact,
-} from "Renderer/models/phone/phone.typings"
+} from "App/contacts/store/contacts.typings"
 
 export default abstract class PhonebookAdapter {
   public abstract getContacts(): Promise<DeviceResponse<Contact[]>>
