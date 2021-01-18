@@ -1,5 +1,5 @@
 {
-  "extends": "@appnroll",
+  "extends": "@mudita",
   "parserOptions": {
     "project": "./tsconfig.json"
   }
