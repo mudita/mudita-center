@@ -105,6 +105,13 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
           })}
           onClick={onContinue}
         />
+        {process.env.simulatePhoneConnection && (
+          <ButtonComponent
+            data-testid={OnboardingWelcomeTestIds.SimulatePhoneButton}
+            onClick={togglePhoneSimulation}
+            label={"Tu se kliknij"}
+          />
+        )}
       </footer>
     </OnboardingWrapper>
   )
