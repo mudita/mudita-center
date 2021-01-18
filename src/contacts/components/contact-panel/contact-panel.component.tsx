@@ -61,8 +61,12 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
 
-  const exportContactsAction = () => {
-    exportContacts(selectedContacts)
+  const exportContactsAction = async () => {
+    const exported = await exportContacts(selectedContacts)
+
+    if (exported) {
+      resetRows()
+    }
   }
 
   const openModal = () => {

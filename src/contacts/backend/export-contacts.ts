@@ -37,7 +37,10 @@ const registerContactsExportListener = () => {
       if (!canceled && filePath) {
         await fs.writeFile(filePath, convertContacts(contacts), "utf-8")
         shell.showItemInFolder(filePath)
+        return true
       }
+
+      return false
     }
   )
 }
