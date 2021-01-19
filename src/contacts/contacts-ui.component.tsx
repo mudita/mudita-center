@@ -378,7 +378,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     await modalService.closeModal()
     modalService.openModal(
       <AuthorizationFailedModal
-        provider={provider as Provider}
+        provider={provider}
         onActionButtonClick={loadGoogleContacts}
       />
     )
