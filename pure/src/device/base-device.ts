@@ -4,7 +4,6 @@ import path from "path"
 import * as fs from "fs"
 import {
   BodyCommand,
-  CreateDevice,
   DeviceEventName,
   Endpoint,
   FileResponseStatus,
@@ -15,10 +14,9 @@ import {
   ResponseStatus,
   UpdateResponseStatus,
 } from "./device.types"
-import { createValidRequest, getNewUUID, parseData } from "./parser"
-import { Contact, CountBodyResponse, DeviceInfo } from "./endpoints"
+import { createValidRequest, getNewUUID, parseData } from "../parser"
 
-class Device implements PureDevice {
+class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
   #portBlocked = true
@@ -62,50 +60,23 @@ class Device implements PureDevice {
   }
 
   public request(config: {
-    endpoint: Endpoint.DeviceInfo
+    endpoint: Endpoint.ApiVersion
     method: Method.Get
-  }): Promise<Response<DeviceInfo>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-    body: { count: true }
-  }): Promise<Response<CountBodyResponse>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-    body: { count: number }
-  }): Promise<Response<Contact[]>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Post
-    body: Contact
-  }): Promise<Response<Contact>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Put
-    body: Contact
-  }): Promise<Response<Contact>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Delete
-    body: Contact["id"]
-  }): Promise<Response<string>>
-  public request(config: {
-    endpoint: Endpoint.DeviceUpdate
-    method: Method.Post
-    file: string
-  }): Promise<Response>
-  public request(config: {
-    endpoint: Endpoint.FileUpload
-    method: Method.Post
-    file: string
-  }): Promise<Response>
+  }): Promise<Response<{ version: number }>>
   public request(config: RequestConfig): Promise<Response<any>>
-  public request(config: RequestConfig): Promise<Response<any>> {
+  public async request(config: RequestConfig): Promise<Response<any>> {
     if (config.endpoint === Endpoint.FileUpload) {
       return this.fileUploadRequest(config)
     } else if (config.endpoint === Endpoint.DeviceUpdate) {
       return this.deviceUpdateRequest(config)
+    } else if (config.endpoint === Endpoint.ApiVersion) {
+      // mocked response until the backend implements versioning API
+      return {
+        status: ResponseStatus.Ok,
+        body: {
+          version: 1,
+        },
+      }
     } else {
       return new Promise((resolve) => {
         if (!this.#port || !this.#portBlocked) {
@@ -240,4 +211,4 @@ class Device implements PureDevice {
   }
 }
 
-export const createDevice: CreateDevice = (path: string) => new Device(path)
+export default BaseDevice
