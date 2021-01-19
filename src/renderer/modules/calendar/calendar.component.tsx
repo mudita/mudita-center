@@ -18,6 +18,7 @@ import {
 } from "Renderer/models/calendar/calendar.interfaces"
 import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
+import parseIcs from "App/calendar/helpers/parse-vcf/parse-ics"
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
@@ -80,12 +81,27 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
     )
   }
 
+  const manualImport = async (inputElement: HTMLInputElement) => {
+    const onFileSelect = () => {
+      if (inputElement.files) {
+        parseIcs(Array.from(inputElement.files).map(({ path }) => path))
+        inputElement.removeEventListener("change", onFileSelect)
+      }
+    }
+
+    inputElement.click()
+    inputElement.addEventListener("change", onFileSelect)
+  }
+
   const openSelectVendorModal = () => {
     resetProvider()
 
     try {
       modalService.openModal(
-        <SelectVendorModal onGoogleButtonClick={setGoogleProvider} />
+        <SelectVendorModal
+          onGoogleButtonClick={setGoogleProvider}
+          onManualImportClick={manualImport}
+        />
       )
     } catch (error) {
       openSynchronizationFailedModal()
