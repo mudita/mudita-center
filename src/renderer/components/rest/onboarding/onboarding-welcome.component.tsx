@@ -101,7 +101,7 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
           <ButtonComponent
             data-testid={OnboardingWelcomeTestIds.SimulatePhoneButton}
             onClick={togglePhoneSimulation}
-            label={"Tu se kliknij"}
+            label={"Simulate phone connection"}
           />
         )}
       </footer>
