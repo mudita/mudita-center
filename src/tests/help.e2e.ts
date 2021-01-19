@@ -6,6 +6,10 @@ let app: any
 
 beforeEach(async () => {
   app = await startApp()
+  await app.client.$(`*[data-testid=icon-Close]`).click()
+  await app.client.waitUntil(() =>
+    app.client.$(`*[data-testid=${MenuGroupTestIds.Help}]`).isVisible()
+  )
 })
 
 afterEach(async () => {
