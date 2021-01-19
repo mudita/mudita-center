@@ -2,7 +2,7 @@ import { contactDatabaseFactory } from "App/contacts/store/contacts.helpers"
 import { Contact } from "App/contacts/store/contacts.type"
 import { PhoneContacts } from "App/contacts/store/contacts.interface"
 
-export const phoneSeedInput: Contact[] = [
+export const contactsSeedInput: Contact[] = [
   {
     id: "0",
     firstName: "Sławomir",
@@ -1511,4 +1511,6 @@ export const phoneSeedInput: Contact[] = [
   },
 ]
 
-export const phoneSeed: PhoneContacts = contactDatabaseFactory(phoneSeedInput)
+export const contactsSeed: PhoneContacts = contactDatabaseFactory(
+  contactsSeedInput
+)

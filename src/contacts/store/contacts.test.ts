@@ -1,7 +1,7 @@
 import { init } from "@rematch/core"
 import selectPlugin from "@rematch/select"
 
-import { phoneSeed } from "App/seeds/phone"
+import { contactsSeed } from "App/seeds/contacts"
 import {
   contactTypeGuard,
   contactFactory,
@@ -20,10 +20,10 @@ import {
 import { ResultsState } from "App/contacts/store/contacts.enum"
 import contacts from "App/contacts/store/contacts"
 
-const TEST_CONTACT = { ...phoneSeed.db[phoneSeed.collection[0]] }
-const TEST_CONTACTS_BATCH = phoneSeed.collection
+const TEST_CONTACT = { ...contactsSeed.db[contactsSeed.collection[0]] }
+const TEST_CONTACTS_BATCH = contactsSeed.collection
   .slice(0, 10)
-  .map((item) => phoneSeed.db[item])
+  .map((item) => contactsSeed.db[item])
 const TEST_EMPTY_CONTACT = { note: "anything" }
 const TEST_CONTACT_TO_CLEAN = {
   id: "1ef4e97e-1bf9-43e2-856f-577bf27fab42",
@@ -173,11 +173,11 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
 
 describe("redux tests", () => {
   const storeConfig = {
-    models: { phone: contacts },
+    models: { contacts },
     plugins: [selectPlugin()],
     redux: {
       initialState: {
-        phone: phoneSeed,
+        contacts: contactsSeed,
       },
     },
   }
@@ -189,13 +189,13 @@ describe("redux tests", () => {
   })
 
   test("has proper initial state", () => {
-    expect("db" in store.getState().phone)
-    expect("db" in store.getState().phone)
+    expect("db" in store.getState().contacts)
+    expect("db" in store.getState().contacts)
   })
 
   test("creates proper flat list", () => {
     expect(
-      Array.isArray(store.select.phone.contactList(store.getState()))
+      Array.isArray(store.select.contacts.contactList(store.getState()))
     ).toBeTruthy()
   })
 
@@ -207,12 +207,14 @@ describe("redux tests", () => {
     }
 
     expect(
-      store.getState().phone.collection.indexOf(testId) === -1
+      store.getState().contacts.collection.indexOf(testId) === -1
     ).toBeTruthy()
 
-    store.dispatch.phone.addContact(testContact)
+    store.dispatch.contacts.addContact(testContact)
 
-    expect(store.getState().phone.collection.indexOf(testId) === -1).toBeFalsy()
+    expect(
+      store.getState().contacts.collection.indexOf(testId) === -1
+    ).toBeFalsy()
   })
 
   test("properly changes contact", () => {
@@ -222,13 +224,13 @@ describe("redux tests", () => {
       name: testName,
     }
 
-    expect(store.getState().phone.db[TEST_CONTACT.id]).not.toMatchObject(
+    expect(store.getState().contacts.db[TEST_CONTACT.id]).not.toMatchObject(
       modifiedContact
     )
 
-    store.dispatch.phone.editContact(modifiedContact)
+    store.dispatch.contacts.editContact(modifiedContact)
 
-    expect(store.getState().phone.db[TEST_CONTACT.id]).toMatchObject(
+    expect(store.getState().contacts.db[TEST_CONTACT.id]).toMatchObject(
       modifiedContact
     )
   })
@@ -236,72 +238,74 @@ describe("redux tests", () => {
   test("properly revokes fields on add", () => {
     const speedDial = 5
     const contactWithSpeedDial = findContact(
-      store.getState().phone,
+      store.getState().contacts,
       { speedDial },
       true
     )
 
     expect(
-      store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
+      store.getState().contacts.db[contactWithSpeedDial as ContactID].speedDial
     ).toBe(speedDial)
 
-    store.dispatch.phone.addContact({
+    store.dispatch.contacts.addContact({
       ...TEST_CONTACT,
       speedDial,
     })
 
-    expect(store.getState().phone.db[TEST_CONTACT.id].speedDial).toBe(speedDial)
+    expect(store.getState().contacts.db[TEST_CONTACT.id].speedDial).toBe(
+      speedDial
+    )
     expect(
-      store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
+      store.getState().contacts.db[contactWithSpeedDial as ContactID].speedDial
     ).toBeUndefined()
   })
 
   test("properly revokes fields on edit", () => {
     const speedDial = 5
     const contactWithSpeedDial = findContact(
-      store.getState().phone,
+      store.getState().contacts,
       { speedDial },
       true
     )
-    const contactToEdit = store.getState().phone.db[0]
+    const contactToEdit = store.getState().contacts.db[0]
 
     expect(
-      store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
+      store.getState().contacts.db[contactWithSpeedDial as ContactID].speedDial
     ).toBe(speedDial)
 
-    store.dispatch.phone.editContact({
+    store.dispatch.contacts.editContact({
       ...contactToEdit,
       speedDial,
     })
 
-    expect(store.getState().phone.db[contactToEdit.id].speedDial).toBe(
+    expect(store.getState().contacts.db[contactToEdit.id].speedDial).toBe(
       speedDial
     )
     expect(
-      store.getState().phone.db[contactWithSpeedDial as ContactID].speedDial
+      store.getState().contacts.db[contactWithSpeedDial as ContactID].speedDial
     ).toBeUndefined()
   })
 
   test("properly removes contact", () => {
-    expect(store.getState().phone.db[TEST_CONTACT.id]).toBeDefined()
+    expect(store.getState().contacts.db[TEST_CONTACT.id]).toBeDefined()
     expect(
-      store.getState().phone.collection.indexOf(TEST_CONTACT.id) === -1
+      store.getState().contacts.collection.indexOf(TEST_CONTACT.id) === -1
     ).toBeFalsy()
 
-    store.dispatch.phone.removeContact(TEST_CONTACT.id)
+    store.dispatch.contacts.removeContact(TEST_CONTACT.id)
 
-    expect(store.getState().phone.db[TEST_CONTACT.id]).toBeUndefined()
+    expect(store.getState().contacts.db[TEST_CONTACT.id]).toBeUndefined()
     expect(
-      store.getState().phone.collection.indexOf(TEST_CONTACT.id) === -1
+      store.getState().contacts.collection.indexOf(TEST_CONTACT.id) === -1
     ).toBeTruthy()
   })
 
   test("properly removes multiple contacts", () => {
-    const contactToDelete = phoneSeed.collection[0]
-    const initialState = store.getState().phone
+    const contactToDelete = contactsSeed.collection[0]
+    const initialState = store.getState().contacts
     expect(initialState.collection.indexOf(contactToDelete) === -1).toBeFalsy()
-    store.dispatch.phone.removeContact(contactToDelete)
-    const newState = store.getState().phone
+    store.dispatch.contacts.removeContact(contactToDelete)
+    const newState = store.getState().contacts
     expect(newState.collection.indexOf(contactToDelete) === -1).toBeTruthy()
   })
 })

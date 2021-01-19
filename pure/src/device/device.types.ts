@@ -46,6 +46,9 @@ export enum Endpoint {
   // lib endpoint
   FileUpload = 100,
   DeviceUpdate = 101,
+
+  // api version (mocked)
+  ApiVersion = 1000,
 }
 
 export enum Method {
