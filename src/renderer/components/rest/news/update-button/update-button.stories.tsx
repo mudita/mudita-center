@@ -14,7 +14,7 @@ storiesOf("News/Update Button", module)
   .add("Updating", () => {
     return (
       <Container>
-        <UpdateButtonComponent updating={true} />
+        <UpdateButtonComponent updating />
       </Container>
     )
   })

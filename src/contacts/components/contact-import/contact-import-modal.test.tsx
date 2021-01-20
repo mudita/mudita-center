@@ -34,7 +34,7 @@ const renderer = (extraProps?: {}) => {
 
 test("action button is disabled when none of the checkboxes are selected", () => {
   const { getByTestId } = renderer()
-  expect(getByTestId(ModalTestIds.ModalActionButton)).not.toBeDisabled()
+  expect(getByTestId(ModalTestIds.ModalActionButton)).toBeEnabled()
   getByTestId(ContactImportModalTestIds.ToggleAllCheckbox).click()
   expect(getByTestId(ModalTestIds.ModalActionButton)).toBeDisabled()
 })
