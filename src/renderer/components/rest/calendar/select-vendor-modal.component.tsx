@@ -20,7 +20,7 @@ import {
 } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
 import { ModalContent } from "Renderer/components/rest/calendar/calendar-modals.styled"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { SyncContactsModalTestIds } from "Renderer/components/rest/sync-modals/sync-contacts-modal-test-ids.enum"
+import { SelectVendorModalTestIds } from "Renderer/components/rest/calendar/select-vendor-modal-test-ids.enum"
 
 const messages = defineMessages({
   title: {
@@ -80,7 +80,7 @@ const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
             labelMessage={messages.button}
             onClick={onGoogleButtonClick}
             Icon={Type.Google}
-            data-testid={"google-button"}
+            data-testid={SelectVendorModalTestIds.GoogleButton}
           />
           {onManualImportClick && (
             <>
@@ -91,6 +91,7 @@ const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
                 })}
                 Icon={Type.Upload}
                 onClick={handleManualImportClick}
+                data-testid={SelectVendorModalTestIds.ManualImportButton}
               />
               <input
                 ref={fileInputRef}
@@ -98,7 +99,6 @@ const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
                 accept=".ics"
                 hidden
                 multiple
-                data-testid={SyncContactsModalTestIds.FileInput}
               />
             </>
           )}

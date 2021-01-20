@@ -88,6 +88,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
         const calendarEvents = await parseIcs(
           Array.from(inputElement.files).map(({ path }) => path)
         )
+        await modalService.closeModal()
         setEvents(calendarEvents)
         inputElement.removeEventListener("change", onFileSelect)
       }

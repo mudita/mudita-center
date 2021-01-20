@@ -5,6 +5,7 @@ import SelectVendorModal, {
   SelectVendorModalProps,
 } from "Renderer/components/rest/calendar/select-vendor-modal.component"
 import { noop } from "Renderer/utils/noop"
+import { SelectVendorModalTestIds } from "Renderer/components/rest/calendar/select-vendor-modal-test-ids.enum"
 
 const renderModal = ({
   onGoogleButtonClick = noop,
@@ -18,7 +19,10 @@ const renderModal = ({
   )
   return {
     ...outcome,
-    googleButton: () => outcome.getByTestId("google-button"),
+    googleButton: () =>
+      outcome.getByTestId(SelectVendorModalTestIds.GoogleButton),
+    manualImportButton: () =>
+      outcome.getByTestId(SelectVendorModalTestIds.ManualImportButton),
   }
 }
 
@@ -34,4 +38,11 @@ test("primary calendar is selected by default", () => {
 
   fireEvent.click(googleButton())
   expect(onGoogleButtonClick).toHaveBeenCalled()
+})
+
+test("manual import button calls right function", () => {
+  const onManualImportClick = jest.fn()
+  const { manualImportButton } = renderModal({ onManualImportClick })
+  fireEvent.click(manualImportButton())
+  expect(onManualImportClick).toHaveBeenCalled()
 })
