@@ -18,13 +18,14 @@ import {
 } from "Renderer/models/calendar/calendar.interfaces"
 import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import parseIcs from "App/calendar/helpers/parse-vcf/parse-ics"
+import parseIcs from "App/calendar/helpers/parse-ics/parse-ics"
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
   events = eventsData,
   loadCalendars,
   loadEvents,
+  setEvents,
 }) => {
   const tableSelectHook = useTableSelect<CalendarEvent>(events)
   const [provider, setProvider] = useState<Provider | undefined>()
@@ -81,10 +82,13 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
     )
   }
 
-  const manualImport = async (inputElement: HTMLInputElement) => {
-    const onFileSelect = () => {
+  const manualImport = (inputElement: HTMLInputElement) => {
+    const onFileSelect = async () => {
       if (inputElement.files) {
-        parseIcs(Array.from(inputElement.files).map(({ path }) => path))
+        const calendarEvents = await parseIcs(
+          Array.from(inputElement.files).map(({ path }) => path)
+        )
+        setEvents(calendarEvents)
         inputElement.removeEventListener("change", onFileSelect)
       }
     }
