@@ -41,18 +41,18 @@ const DevSign = styled.span`
 `
 
 interface Props {
-  deviceDisconnected?: boolean
+  deviceConnected?: boolean
   openHelpWindow?: () => void
   devModeEnabled?: DevMode["enabled"]
 }
 
 const Menu: FunctionComponent<Props> = ({
-  deviceDisconnected,
+  deviceConnected,
   devModeEnabled,
 }) => {
   const links = menuElements
     .filter(({ connectedPhoneOnly }) =>
-      deviceDisconnected ? !connectedPhoneOnly : true
+      deviceConnected ? true : !connectedPhoneOnly
     )
     .filter(({ devModeOnly }) => (devModeEnabled ? true : !devModeOnly))
     .map(({ connectedPhoneOnly, ...props }, indexMenu) => {
