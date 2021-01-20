@@ -29,6 +29,7 @@ import {
 import { LoadingBar } from "Renderer/modules/overview/backup-process/modals.styled"
 import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
+import useDynamicProgressValue from "Renderer/utils/hooks/use-dynamic-progress-value.hook"
 
 const ModalContent = styled.div`
   display: flex;
@@ -346,7 +347,7 @@ export const DownloadingUpdateInterruptedModal = ({ onRetry = noop }) => (
 export const UpdatingProgressModal: FunctionComponent<{
   progressValue: number
 }> = ({ progressValue }) => {
-  const value = progressValue * 100
+  const value = useDynamicProgressValue(progressValue)
 
   return (
     <OSUpdateModal closeButton={false} closeable={false}>
