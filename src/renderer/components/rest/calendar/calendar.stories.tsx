@@ -60,7 +60,10 @@ storiesOf("Views/Calendar/Modals", module).add("All", () => (
     `}
   >
     <Story title="Select provider" transparentMode>
-      <SelectVendorModal onGoogleButtonClick={asyncNoop} />
+      <SelectVendorModal
+        onGoogleButtonClick={asyncNoop}
+        onManualImportClick={noop}
+      />
     </Story>
     <Story title="Select calendars" transparentMode>
       <SelectCalendarsModal calendars={mockedCalendars} onSynchronize={noop} />

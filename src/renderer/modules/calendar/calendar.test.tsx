@@ -16,6 +16,7 @@ const defaultProps = {
   loadCalendars: jest.fn(),
   loadEvents: jest.fn(),
   _devClearAllEvents: jest.fn(),
+  setEvents: jest.fn(),
 }
 
 jest.mock("react-virtualized", () => {

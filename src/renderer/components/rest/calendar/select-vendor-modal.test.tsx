@@ -7,10 +7,14 @@ import SelectVendorModal, {
 import { noop } from "Renderer/utils/noop"
 
 const renderModal = ({
-  onGoogleButtonClick,
+  onGoogleButtonClick = noop,
+  onManualImportClick = noop,
 }: Partial<SelectVendorModalProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
-    <SelectVendorModal onGoogleButtonClick={onGoogleButtonClick || noop} />
+    <SelectVendorModal
+      onGoogleButtonClick={onGoogleButtonClick}
+      onManualImportClick={onManualImportClick}
+    />
   )
   return {
     ...outcome,
