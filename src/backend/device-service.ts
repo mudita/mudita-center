@@ -15,6 +15,11 @@ import { MainProcessIpc } from "electron-better-ipc"
 import { DeviceInfo } from "pure/dist/endpoints/device-info.types"
 import { Contact, CountBodyResponse } from "pure/dist/endpoints/contact.types"
 
+export enum DeviceServiceEventName {
+  ConnectedDevice = "connectedDevice",
+  DisconnectedDevice = "disconnectedDevice",
+}
+
 class DeviceService {
   device: PureDevice | undefined
   private eventEmitter = new EventEmitter()
@@ -126,12 +131,25 @@ class DeviceService {
     }
   }
 
+  public on(eventName: DeviceServiceEventName, listener: () => void): void {
+    this.eventEmitter.on(eventName, listener)
+  }
+
+  public off(eventName: DeviceServiceEventName, listener: () => void): void {
+    this.eventEmitter.off(eventName, listener)
+  }
+
+  public sendToRenderers(eventName: string, data: any): void {
+    this.ipcMain.sendToRenderers(eventName, data)
+  }
+
   private registerAttachDeviceListener(): void {
     this.deviceManager.onAttachDevice(async (device) => {
       if (!this.device) {
         const { status } = await this.deviceConnect(device)
 
         if (status === DeviceResponseStatus.Ok) {
+          this.eventEmitter.emit(DeviceServiceEventName.ConnectedDevice)
           this.ipcMain.sendToRenderers(IpcEmitter.ConnectedDevice)
         }
       }
@@ -159,6 +177,7 @@ class DeviceService {
     if (this.device) {
       this.device.on(DeviceEventName.Disconnected, () => {
         this.device = undefined
+        this.eventEmitter.emit(DeviceServiceEventName.DisconnectedDevice)
         this.ipcMain.sendToRenderers(IpcEmitter.DisconnectedDevice)
       })
     }

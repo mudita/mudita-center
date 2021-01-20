@@ -35,6 +35,11 @@ import { DeviceResponseStatus } from "Backend/adapters/device-response.interface
 import { isEqual } from "lodash"
 import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 import logger from "App/main/utils/logger"
+import registerOsUpdateProgressListener, {
+  OsUpdateProgressListener,
+  removeOsUpdateProgressListener,
+} from "Renderer/listeners/register-os-update-progress.listener"
+import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
@@ -43,7 +48,8 @@ const onOsDownloadCancel = () => {
 const useSystemUpdateFlow = (
   lastUpdate: string,
   onUpdate: (updateInfo: PhoneUpdate) => void,
-  updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void
+  updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
+  toggleUpdatingDevice: (option: boolean) => void
 ) => {
   useEffect(() => {
     const downloadListener = (event: Event, progress: DownloadProgress) => {
@@ -71,16 +77,41 @@ const useSystemUpdateFlow = (
 
   const updatePure = async (updateInfo: UpdateStatusResponse) => {
     const { file, version } = updateInfo
-    const response = await updateOs(file)
+
+    modalService.openModal(<UpdatingProgressModal progressValue={0} />, true)
+
+    toggleUpdatingDevice(true)
+
+    const listener: OsUpdateProgressListener = async (_, { progress }) => {
+      modalService.rerenderModal(
+        <UpdatingProgressModal progressValue={progress} />
+      )
+    }
+
+    registerOsUpdateProgressListener(listener)
+
+    const response = await updateOs(file, IpcEmitter.OsUpdateProgress)
+
+    removeOsUpdateProgressListener(listener)
+
+    if (response.status === DeviceResponseStatus.Ok) {
+      modalService.rerenderModal(<UpdatingProgressModal progressValue={100} />)
+      await delayResponse(Promise.resolve(null), 1000)
+    }
+
+    toggleUpdatingDevice(false)
+
     await onUpdate({
       pureOsFileName: "",
       pureOsDownloaded: false,
       pureOsAvailable: false,
     })
+
     await updateBasicInfo({
       osVersion: version,
       osUpdateDate: new Date().toISOString(),
     })
+
     return response
   }
 
@@ -148,7 +179,6 @@ const useSystemUpdateFlow = (
 
   const install = async () => {
     const updatesInfo = await checkForUpdates(false, true)
-    modalService.openModal(<UpdatingProgressModal progressValue={0} />, true)
     const update = async () => {
       const updateResponse = await updatePure(updatesInfo)
       if (isEqual(updateResponse, { status: DeviceResponseStatus.Ok })) {
