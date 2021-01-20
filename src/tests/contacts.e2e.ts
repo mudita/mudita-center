@@ -1,13 +1,17 @@
-import { startApp, stopApp } from "App/tests/hooks"
+import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
-import { ContactPanelTestIdsEnum } from "Renderer/components/rest/phone/contact-panel-test-ids.enum"
+import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
 import { SyncContactsModalTestIds } from "Renderer/components/rest/sync-modals/sync-contacts-modal-test-ids.enum"
 
 let app: any
 
 beforeEach(async () => {
-  app = await startApp()
+  app = await startApp(true)
+  await enablePhoneSimulation(app)
+  await app.client.waitUntil(() =>
+    app.client.$(`*[data-testid=${MenuGroupTestIds.Contacts}]`).isVisible()
+  )
 })
 
 afterEach(async () => {

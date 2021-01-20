@@ -19,7 +19,7 @@ import {
   CallWrapper,
 } from "Renderer/components/rest/calls/call-details.styled"
 import { Details } from "Renderer/components/rest/calls/call-details.types"
-import { phoneActions } from "Renderer/components/rest/phone/contact-details.component"
+import { phoneActions } from "App/contacts/components/contact-details/contact-details.component"
 import formatDuration from "Renderer/utils/format-duration"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
@@ -30,7 +30,7 @@ import {
   ContactDetailsWrapper,
   InfoItemName,
   Input,
-} from "Renderer/components/rest/phone/contact-details.styled"
+} from "App/contacts/components/contact-details/contact-details.styled"
 import createRouterPath from "Renderer/utils/create-router-path"
 
 const messages = defineMessages({

@@ -1,4 +1,4 @@
-import { Contact } from "Renderer/models/phone/phone.typings"
+import { Contact } from "App/contacts/store/contacts.type"
 import { Topic } from "Renderer/models/messages/messages.interface"
 
 export type ContactsCollection = Record<string, Contact>
@@ -53,11 +53,11 @@ export const expandTopic = (
 
 export const createFullMessagesCollection = (state: {
   messages: { topics: Topic[] }
-  phone: { db: ContactsCollection }
+  contacts: { db: ContactsCollection }
 }): Topic[] => {
   const {
     messages: { topics },
-    phone: { db: baseContacts },
+    contacts: { db: baseContacts },
   } = state
 
   return topics.map(

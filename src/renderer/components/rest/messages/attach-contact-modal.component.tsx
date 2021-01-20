@@ -2,7 +2,8 @@ import React, { Ref, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal from "Renderer/components/core/modal/modal.component"
 import { intl } from "Renderer/utils/intl"
-import { Contact, ContactCategory } from "Renderer/models/phone/phone.typings"
+import { Contact } from "App/contacts/store/contacts.type"
+import { ContactCategory } from "App/contacts/store/contacts.interface"
 import {
   Col,
   EmptyState,
@@ -11,20 +12,20 @@ import {
   Row,
   TextPlaceholder,
 } from "Renderer/components/core/table/table.component"
-import { createFullName } from "Renderer/models/phone/phone.helpers"
-import { ContactListTestIdsEnum } from "Renderer/components/rest/phone/contact-list-test-ids.enum"
+import { createFullName } from "App/contacts/store/contacts.helpers"
+import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import Avatar, {
   AvatarSize,
 } from "Renderer/components/core/avatar/avatar.component"
 import { InView } from "react-intersection-observer"
-import { AvatarPlaceholder } from "Renderer/components/rest/phone/contact-list.component"
+import { AvatarPlaceholder } from "App/contacts/components/contact-list/contact-list.component"
 import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import ContactInputSearch from "Renderer/components/rest/phone/contact-input-search.component"
+import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
 import { defineMessages } from "react-intl"
-import { HighlightContactList } from "Renderer/components/rest/phone/highlight-contact-list.component"
+import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
 import Badge from "Renderer/components/core/badge/badge.component"
 
 export const messages = defineMessages({

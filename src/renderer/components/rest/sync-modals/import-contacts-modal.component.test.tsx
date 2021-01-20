@@ -4,7 +4,7 @@ import ImportContactsModal, {
   ImportContactsModalProps,
 } from "Renderer/components/rest/sync-modals/import-contacts-modal.component"
 import { ImportContactsModalTestIds } from "Renderer/components/rest/sync-modals/import-contacts-modal.types"
-import { createFullName } from "Renderer/models/phone/phone.helpers"
+import { createFullName } from "App/contacts/store/contacts.helpers"
 
 const renderer = (props: ImportContactsModalProps) => {
   return renderWithThemeAndIntl(<ImportContactsModal {...props} />)
