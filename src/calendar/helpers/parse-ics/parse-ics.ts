@@ -39,7 +39,6 @@ const parseIcs = async (paths: string[]) => {
       parsedEvents.push(parseEvent(event))
     }
   }
-  console.log(parsedEvents)
   return parsedEvents
 }
 
