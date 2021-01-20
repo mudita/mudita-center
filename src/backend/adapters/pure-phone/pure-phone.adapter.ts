@@ -150,7 +150,7 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   private static getUpdateOsProgress(step: number): number {
-    return Number(((step / PurePhone.osUpdateStepsMax) * 100).toFixed(0))
+    return Math.round((step / PurePhone.osUpdateStepsMax) * 100)
   }
 }
 
