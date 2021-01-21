@@ -36,7 +36,6 @@ test("the 100 number defines complete progress so the progress value is immediat
 
   rerender(100)
 
-  await act(waitForNextUpdate)
   expect(result.current).not.toBe(2)
   expect(result.current).toBe(100)
 })
