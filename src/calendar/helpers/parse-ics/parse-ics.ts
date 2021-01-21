@@ -27,7 +27,7 @@ const parseEvent = (event: CalendarComponent): CalendarEvent => {
 
   return {
     id,
-    name,
+    name: name || (event.description as string) || "",
     startDate,
     endDate,
   }
@@ -38,7 +38,7 @@ const parseRecurringEvent = (event: VEvent): CalendarEvent[] => {
   const timeDiff =
     new Date(event.end).getTime() - new Date(event.start).getTime()
   // TODO: Return also RRule for export in the future
-  const mapEvents = rule
+  return rule
     .between(event.start, moment(event.start).add(5, "years").toDate())
     .map((mappedEvent: Date) => ({
       id: event.uid.toString(),
@@ -48,7 +48,6 @@ const parseRecurringEvent = (event: VEvent): CalendarEvent[] => {
         new Date(mappedEvent).getTime() + timeDiff
       ).toISOString(),
     }))
-  return mapEvents
 }
 
 const parseIcs = async (filePaths: string[]) => {
@@ -63,7 +62,7 @@ const parseIcs = async (filePaths: string[]) => {
       parsedEvents.push(parseEvent(event))
     }
   }
-  return parsedEvents
+  return parsedEvents.filter((event) => event.startDate && event.endDate)
 }
 
 export default parseIcs

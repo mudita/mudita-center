@@ -11,7 +11,14 @@ test("correct amount of events returned from single file", async () => {
 test("correct amount of events returned from multiple files", async () => {
   const eventsFromMultipleCalendars = await parseIcs([
     path.join(__dirname, "./calendar.ics"),
-    path.join(__dirname, "./calendar-2.ics"),
+    path.join(__dirname, "./calendar-recurring-events.ics"),
   ])
-  expect(eventsFromMultipleCalendars).toHaveLength(4)
+  expect(eventsFromMultipleCalendars).toHaveLength(12)
+})
+
+test("correct amount of events returned from calendar with recurring events", async () => {
+  const eventsFromMultipleCalendars = await parseIcs([
+    path.join(__dirname, "./calendar-recurring-events.ics"),
+  ])
+  expect(eventsFromMultipleCalendars).toHaveLength(10)
 })
