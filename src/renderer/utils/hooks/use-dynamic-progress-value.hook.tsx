@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-interface Option {
+interface Options {
   minFrequencyFactor?: number
   increasingFrequencyFactor?: number
   reducingFrequencyFactor?: number
@@ -9,14 +9,14 @@ interface Option {
 
 const useDynamicProgressValue = (
   progressValue: number,
-  option: Option = {}
+  options: Options = {}
 ) => {
   const {
     minFrequencyFactor = 0.4,
     increasingFrequencyFactor = 1.1,
     reducingFrequencyFactor = 2.4,
     limitValue = 99,
-  } = option
+  } = options
   const [frequencyFactor, setFrequencyFactor] = useState(1)
   const [value, setValue] = useState(0)
 
