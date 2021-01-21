@@ -25,21 +25,21 @@ const parseEvent = (event: CalendarComponent): CalendarEvent => {
 
   return {
     id,
-    name,
+    name: name || (event.description as string) || "",
     startDate,
     endDate,
   }
 }
 
 const parseIcs = async (paths: string[]) => {
-  const parsedEvents: any[] = []
+  const parsedEvents: CalendarEvent[] = []
   for (const path of paths) {
     const calendarEvents = await ical.async.parseFile(path)
     for (const event of Object.values(calendarEvents)) {
       parsedEvents.push(parseEvent(event))
     }
   }
-  return parsedEvents
+  return parsedEvents.filter((event) => event.startDate && event.endDate)
 }
 
 export default parseIcs
