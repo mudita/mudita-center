@@ -96,7 +96,6 @@ const useSystemUpdateFlow = (
 
     if (response.status === DeviceResponseStatus.Ok) {
       modalService.rerenderModal(<UpdatingProgressModal progressValue={100} />)
-      await delayResponse(Promise.resolve(null), 1000)
     }
 
     toggleUpdatingDevice(false)

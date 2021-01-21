@@ -31,10 +31,13 @@ const useDynamicProgressValue = (
   }
 
   useEffect(() => {
+    if (progressValue === 100) {
+      setValue(progressValue)
+      return
+    }
+
     const timeout = setTimeout(() => {
-      if (progressValue === 100) {
-        setValue(progressValue)
-      } else if (progressValue > value) {
+      if (progressValue > value) {
         setValue((prevValue) => ++prevValue)
         setFrequencyFactor(reduceFrequencyFactor)
       } else if (value < limitValue) {
