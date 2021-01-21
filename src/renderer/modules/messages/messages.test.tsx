@@ -100,9 +100,9 @@ test("displays correct amount of dropdown contact details buttons for contacts",
 })
 
 test("displays correct amount of dropdown add to contacts buttons for person that is unknown", () => {
-  const { getAllByTestId } = renderer()
+  const { getByTestId } = renderer()
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-add-to-contacts")).toHaveLength(1)
+  expect(getByTestId("dropdown-add-to-contacts")).toBeInTheDocument()
 })
 
 test("dropdown mark as read button has correct content ", () => {

@@ -5,6 +5,8 @@ Copyright (c) 2017-2021, Mudita Sp. z o.o. All rights reserved.
 
 ## Sources of Intellectual Property Included in Mudita Center
 
+Mudita Center is licensed under GNU GPLv3.
+
 Where not otherwise indicated, all Mudita Center content is authored by Mudita engineers and consists of Mudita-owned intellectual property. In some specific instances, Mudita Center will incorporate work done by developers outside of Mudita with their expressed permission.
 
 ## The GNU General Public License v3.0

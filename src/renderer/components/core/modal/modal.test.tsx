@@ -59,14 +59,14 @@ test("action button is rendered when label and onActionButtonClick are provided"
 })
 
 test("action button is not rendered when only label is provided", () => {
-  const { getAllByTestId } = renderer({ actionButtonLabel: "Action" })
+  const { getByTestId } = renderer({ actionButtonLabel: "Action" })
 
-  expect(getAllByTestId(ModalTestIds.ModalActionButton)).toHaveLength(1)
+  expect(getByTestId(ModalTestIds.ModalActionButton)).toBeInTheDocument()
 })
 
 test("action button is not rendered when only onActionButtonClick is provided", () => {
-  const { getAllByTestId } = renderer({ onActionButtonClick: noop })
-  expect(getAllByTestId(ModalTestIds.ModalActionButton)).toHaveLength(1)
+  const { getByTestId } = renderer({ onActionButtonClick: noop })
+  expect(getByTestId(ModalTestIds.ModalActionButton)).toBeInTheDocument()
 })
 
 test("custom buttons are rendered", () => {

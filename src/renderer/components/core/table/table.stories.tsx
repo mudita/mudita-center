@@ -258,7 +258,7 @@ storiesOf("Components|Core/Table/Parts", module)
           <SelectableFiles>
             <Row selected>
               <Col>
-                <Checkbox checked={true} onChange={noop} />
+                <Checkbox checked onChange={noop} />
                 <div>Music</div>
               </Col>
               <Col>{new Date().toLocaleString()}</Col>
