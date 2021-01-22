@@ -33,7 +33,7 @@
     "test:e2e": "jest --config=jest-e2e.config.js --runInBand",
     "test:watch": "npm test -- --watch",
     "STORYBOOK COMMANDS": "====================================================",
-    "storybook:serve": "start-storybook -p 6006",
+    "storybook:serve": "start-storybook -p 6006 --no-dll",
     "storybook:build": "build-storybook",
     "DATA UPDATE/OVERWRITE COMMANDS": "=========================================",
     "translations:update": "node ./scripts/updateDefaultTranslations.js",
