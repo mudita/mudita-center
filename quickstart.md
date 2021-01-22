@@ -14,7 +14,7 @@ npm install
 
 ### Set up environmental variables
 
-For get the environment variables you need to perform the next steps:
+To get the environment variables you need to perform the following steps:
 
 1. Install AWS cli [Instruction][https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html]
 2. Provide the AWS credentials via `aws configure` command (ask [Igor Bezsmertnyi](https://github.com/igorbezsmertnyi), [Mateusz Kocz](https://github.com/mateuszkocz) or [Piotr Leniec](https://github.com/piotrleniec-mudita) for adding you to the AWS organization and issuing the credentials)
