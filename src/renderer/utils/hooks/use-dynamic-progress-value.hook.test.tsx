@@ -27,7 +27,7 @@ test("new props don't have an impact on the smooth incrementing value", async ()
   expect(result.current).toBe(2)
 })
 
-test("the 100 number defines complete progress so the progress value is immediately set to the on it", async () => {
+test("passing the 100 number value return immediately 100 as complete progress state", async () => {
   const { result, waitForNextUpdate, rerender } = renderHook<number, number>(
     (props = 0) => useDynamicProgressValue(props)
   )
