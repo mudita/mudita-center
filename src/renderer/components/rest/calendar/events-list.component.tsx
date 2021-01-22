@@ -50,7 +50,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
       <Row
         active={selectedEventIndex === index}
         data-testid={CalendarTestIds.Event}
-        key={id}
+        key={id + index}
         style={style}
       >
         <Col>
