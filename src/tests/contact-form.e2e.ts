@@ -1,16 +1,18 @@
-import { startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_RECOVERY_MODE } from "Renderer/constants/urls"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
+import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 
 let app: any
 const incorrectEmail = "e2e"
 const email = "e2e@test.com"
 
 beforeEach(async () => {
-  app = await startApp()
-  await app.client.$(`*[data-testid="icon-Close"]`).click()
-  await app.client.pause(1000)
+  app = await startApp(true)
+  await enablePhoneSimulation(app)
+  await app.client.waitUntil(() =>
+    app.client.$(`*[data-testid=${MenuGroupTestIds.Backup}]`).isVisible()
+  )
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Backup}]`).click()
   const hash = await app.client.execute(() => window.location.hash)
   expect(hash.value).toEqual(`#${URL_RECOVERY_MODE.root}`)
