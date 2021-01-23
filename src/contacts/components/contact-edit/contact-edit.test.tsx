@@ -1,7 +1,7 @@
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import ContactEdit from "App/contacts/components/contact-edit/contact-edit.component"
-import { phoneSeed } from "App/seeds/phone"
+import { contactsSeed } from "App/seeds/contacts"
 import { noop } from "Renderer/utils/noop"
 
 const renderer = (extraProps?: {}) => {
@@ -12,7 +12,11 @@ const renderer = (extraProps?: {}) => {
   }
   return renderWithThemeAndIntl(
     // @ts-ignore
-    <ContactEdit contact={phoneSeed.db[0]} {...defaultProps} {...extraProps} />
+    <ContactEdit
+      contact={contactsSeed.db[0]}
+      {...defaultProps}
+      {...extraProps}
+    />
   )
 }
 

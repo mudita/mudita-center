@@ -39,9 +39,9 @@ const mapStateToProps = (state: RootModel) => {
   }
 }
 
-const mapDispatch = ({ phone, auth }: any) => {
+const mapDispatch = ({ contacts, auth }: any) => {
   return {
-    ...phone,
+    ...contacts,
     ...auth,
     // TODO: Add proper actions
     onExport: noop,
@@ -71,7 +71,7 @@ const mapDispatch = ({ phone, auth }: any) => {
         logger.error(error)
         return error?.message ?? "Something went wrong"
       } else {
-        phone.addContact(data)
+        contacts.addContact(data)
       }
     },
     editContact: async (contact: Contact): Promise<string | void> => {
@@ -80,7 +80,7 @@ const mapDispatch = ({ phone, auth }: any) => {
         logger.error(error)
         return error?.message ?? "Something went wrong"
       } else {
-        phone.editContact(data)
+        contacts.editContact(data)
       }
     },
     deleteContacts: async (ids: ContactID[]): Promise<string | void> => {
@@ -88,10 +88,10 @@ const mapDispatch = ({ phone, auth }: any) => {
       if (error) {
         logger.error(error)
         const successIds = ids.filter((id) => !error.data?.includes(id))
-        phone.removeContact(successIds)
+        contacts.removeContact(successIds)
         return error?.message ?? "Something went wrong"
       } else {
-        phone.removeContact(ids)
+        contacts.removeContact(ids)
       }
     },
   }

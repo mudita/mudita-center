@@ -274,18 +274,18 @@ test("selecting all rows works properly", async () => {
 })
 
 test("selecting single (non-parent) row works properly", async () => {
-  const { getRowCheckboxes, queryAllByTestId } = renderNestedSelectableTable()
+  const { getRowCheckboxes, queryByTestId } = renderNestedSelectableTable()
 
   fireEvent.click(getRowCheckboxes()[0])
 
   await waitFor(() => {
     expect(getRowCheckboxes()[0]).toBeChecked()
-    expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(1)
+    expect(queryByTestId("icon-CheckIndeterminate")).toBeInTheDocument()
   })
 })
 
 test("selecting single (parent) row works properly", async () => {
-  const { getRowCheckboxes, queryAllByTestId } = renderNestedSelectableTable()
+  const { getRowCheckboxes, queryByTestId } = renderNestedSelectableTable()
 
   fireEvent.click(getRowCheckboxes()[2])
 
@@ -293,7 +293,7 @@ test("selecting single (parent) row works properly", async () => {
     for (let i = 2; i < 5; i++) {
       expect(getRowCheckboxes()[i]).toBeChecked()
     }
-    expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(1)
+    expect(queryByTestId("icon-CheckIndeterminate")).toBeInTheDocument()
   })
 })
 
@@ -309,7 +309,7 @@ test("selecting single (nested) row works properly", async () => {
 })
 
 test("selecting all nested rows works properly", async () => {
-  const { getRowCheckboxes, queryAllByTestId } = renderNestedSelectableTable()
+  const { getRowCheckboxes, queryByTestId } = renderNestedSelectableTable()
 
   for (let i = 3; i < 6; i++) {
     fireEvent.click(getRowCheckboxes()[i])
@@ -319,7 +319,7 @@ test("selecting all nested rows works properly", async () => {
     for (let i = 2; i < 5; i++) {
       expect(getRowCheckboxes()[i]).toBeChecked()
     }
-    expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(1)
+    expect(queryByTestId("icon-CheckIndeterminate")).toBeInTheDocument()
   })
 })
 

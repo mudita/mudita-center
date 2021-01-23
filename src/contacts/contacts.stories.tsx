@@ -19,7 +19,7 @@ import {
 } from "Renderer/components/core/modal/modal.styled.elements"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { intl, textFormatters } from "Renderer/utils/intl"
-import { phoneSeed, phoneSeedInput } from "App/seeds/phone"
+import { contactsSeed, contactsSeedInput } from "App/seeds/contacts"
 import {
   createFullName,
   getFlatList,
@@ -29,10 +29,10 @@ import {
 import { asyncNoop, noop } from "Renderer/utils/noop"
 
 const dummyPromise = (result: any) => () => result
-const getContact = (id: ContactID) => phoneSeed.db[id]
-const labeledContactList: any = getSortedContactList(phoneSeed)
-const flatList: any = getFlatList(phoneSeed)
-const speedDialChosenList: number[] = getSpeedDialChosenList(phoneSeed)
+const getContact = (id: ContactID) => contactsSeed.db[id]
+const labeledContactList: any = getSortedContactList(contactsSeed)
+const flatList: any = getFlatList(contactsSeed)
+const speedDialChosenList: number[] = getSpeedDialChosenList(contactsSeed)
 const isTopicThreadOpened = () => true
 
 const ContactsWrapper = styled.div`
@@ -69,7 +69,7 @@ const ContactsComponent = ({
     loadData={asyncNoop}
     addNewContact={asyncNoop}
     editContact={asyncNoop}
-    contacts={phoneSeedInput}
+    contacts={contactsSeedInput}
     loadContacts={asyncNoop}
     inputValue={""}
     savingContact={false}
