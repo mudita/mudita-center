@@ -39,7 +39,7 @@ class DeviceManager implements PureDeviceManager {
         // commented until the embedded  development with the productId will stabilize
         // && portInfo.productId === productId
       )
-      .map(({ path }) => createDevice(path))
+      .map(({ path }) => this.createDevice(path))
   }
 
   public onAttachDevice(listener: (event: PureDevice) => void): void {
@@ -59,7 +59,7 @@ class DeviceManager implements PureDeviceManager {
           ({ serialNumber }) => String(serialNumber) === portInfo.serialNumber
         )
         if (port) {
-          const device = createDevice(port.path)
+          const device = this.createDevice(port.path)
           this.#eventEmitter.emit(DeviceManagerEventName.AttachedDevice, device)
         }
       }

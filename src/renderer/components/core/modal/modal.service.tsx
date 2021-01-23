@@ -96,7 +96,7 @@ export class ModalService {
           "webkitAnimationEnd",
           child,
           () => {
-            resolve()
+            resolve(undefined)
           },
           true
         )

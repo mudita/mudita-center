@@ -8,7 +8,7 @@ import {
   Contact,
   ContactID,
   NewContact,
-} from "Renderer/models/phone/phone.typings"
+} from "App/contacts/store/contacts.type"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -178,8 +178,12 @@ const mapToPureNewContact = (contact: NewContact): PureNewContact => {
     secondAddressLine,
   } = contact
   const numbers = []
-  if (primaryPhoneNumber) numbers.push(primaryPhoneNumber)
-  if (secondaryPhoneNumber) numbers.push(secondaryPhoneNumber)
+  if (primaryPhoneNumber) {
+    numbers.push(primaryPhoneNumber)
+  }
+  if (secondaryPhoneNumber) {
+    numbers.push(secondaryPhoneNumber)
+  }
 
   return {
     blocked,
