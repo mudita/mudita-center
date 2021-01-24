@@ -6,35 +6,31 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { intl } from "Renderer/utils/intl"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
-import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
+import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { defineMessages } from "react-intl"
 import styled from "styled-components"
-import LoaderSpinner from "Renderer/components/core/loader/loader-spinner.component"
-import { noop } from "Renderer/utils/noop"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import StackedBarChart, {
   DisplayStyle,
 } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
+import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
 
 const messages = defineMessages({
   title: {
     id: "view.name.phone.contacts.modal.importing.title",
   },
-  text: {
-    id: "view.name.phone.contacts.modal.importing.text",
+  subtitle: {
+    id: "view.name.phone.contacts.modal.importing.subtitle",
   },
-  failedText: {
-    id: "view.name.phone.contacts.modal.importing.failedText",
-  },
-  closeButton: {
-    id: "view.name.phone.contacts.modal.importing.closeButton",
+  body: {
+    id: "view.name.phone.contacts.modal.importing.body",
   },
 })
 
 const Info = styled(ModalText)`
   width: 100%;
-  text-align: right;
+  text-align: center;
   margin-top: 0.5em;
 `
 
@@ -58,19 +54,25 @@ export interface ImportingContactsModalProps extends ModalProps {
 const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> = ({
   count,
   total,
-  onClose = noop,
 }) => (
   <Modal
     size={ModalSize.Small}
     title={intl.formatMessage(messages.title)}
     closeable={false}
     closeButton={false}
-    onActionButtonClick={onClose}
-    actionButtonLabel={intl.formatMessage(messages.closeButton)}
-    actionButtonDisabled={count < total}
   >
     <Content>
-      {count < total ? <LoaderSpinner /> : <Icon type={Type.Check} size={4} />}
+      <RoundIconWrapper>
+        <Icon type={Type.Download} width={4} />
+      </RoundIconWrapper>
+      <ModalText
+        displayStyle={TextDisplayStyle.LargeBoldText}
+        message={messages.subtitle}
+      />
+      <ModalText
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={messages.body}
+      />
       <ProgressBar
         chartData={[
           { value: count, color: "#6d9bbc" },
@@ -78,10 +80,9 @@ const ImportingContactsModal: FunctionComponent<ImportingContactsModalProps> = (
         ]}
         displayStyle={DisplayStyle.Thin}
       />
-      <Info
-        displayStyle={TextDisplayStyle.MediumLightText}
-        message={{ ...messages.text, values: { count, total } }}
-      />
+      <Info displayStyle={TextDisplayStyle.MediumLightText}>
+        {Math.round((count * 100) / total)}%
+      </Info>
     </Content>
   </Modal>
 )

@@ -152,15 +152,17 @@ const contacts = createModel<RootModel>({
         }
       },
       authorize(provider: Provider) {
+        console.log(provider)
         switch (provider) {
           case Provider.Google:
-            externalProvidersStore.dispatch.google.authorize(Scope.Contacts)
-            break
+            return externalProvidersStore.dispatch.google.authorize(
+              Scope.Contacts
+            )
           // TODO: update when adding new providers
           case Provider.Apple:
-            break
+            return undefined
           case Provider.Microsoft:
-            break
+            return undefined
         }
       },
     }

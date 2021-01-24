@@ -20,7 +20,7 @@ import { convertBytes } from "Renderer/utils/convert-bytes"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
-import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
+import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import {
   ErrorDataModal,
   ErrorWithRetryDataModal,
