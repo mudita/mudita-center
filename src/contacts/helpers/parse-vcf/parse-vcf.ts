@@ -80,14 +80,18 @@ const parseContact = (contact: vCardContact): NewContact => {
 }
 
 const parseVcf = async (files: File[]): Promise<NewContact[]> => {
-  const parsedContacts: NewContact[] = []
+  try {
+    const parsedContacts: NewContact[] = []
 
-  for (const file of files) {
-    const contacts = vCard.parse(await readFile(file))
-    contacts.forEach(({ data }) => parsedContacts.push(parseContact(data)))
+    for (const file of files) {
+      const contacts = vCard.parse(await readFile(file))
+      contacts.forEach(({ data }) => parsedContacts.push(parseContact(data)))
+    }
+
+    return parsedContacts
+  } catch (error) {
+    throw Error(error)
   }
-
-  return parsedContacts
 }
 
 export default parseVcf
