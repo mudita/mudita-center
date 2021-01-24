@@ -75,6 +75,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
               label={intl.formatMessage(messages.googleButtonText)}
               Icon={Type.Google}
               onClick={onGoogleButtonClick}
+              data-testid={SyncContactsModalTestIds.GoogleButton}
             />
           )}
           {onAppleButtonClick && (

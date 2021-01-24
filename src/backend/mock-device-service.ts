@@ -11,7 +11,7 @@ import DeviceResponse, {
 } from "./adapters/device-response.interface"
 import { Contact, NewContact } from "App/contacts/store/contacts.type"
 
-export const pureContactId = 19
+export const pureContactId = "19"
 
 export const newContact: NewContact = {
   firstName: "Alek",

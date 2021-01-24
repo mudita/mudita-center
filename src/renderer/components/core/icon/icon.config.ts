@@ -41,6 +41,7 @@ import Send from "Renderer/svg/send.svg"
 import Sim from "Renderer/svg/sim.svg"
 import Template from "Renderer/svg/template.svg"
 import Upload from "Renderer/svg/upload.svg"
+import UploadDark from "Renderer/svg/upload-dark.svg"
 import Download from "Renderer/svg/download.svg"
 import DownloadWhite from "Renderer/svg/download-white.svg"
 import Calls from "Renderer/svg/phone.svg"
@@ -162,6 +163,7 @@ export enum Type {
   PlusSign,
   Reload,
   Upload,
+  UploadDark,
   VeryHighBattery,
   VeryHighRange,
   VeryLowBattery,
@@ -330,6 +332,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Reload
     case Type.Upload:
       return Upload
+    case Type.UploadDark:
+      return UploadDark
     case Type.VeryHighBattery:
       return VeryHighBattery
     case Type.VeryHighRange:

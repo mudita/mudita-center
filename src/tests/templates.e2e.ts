@@ -1,13 +1,17 @@
-import { startApp, stopApp } from "App/tests/hooks"
+import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_TABS, URL_MAIN } from "Renderer/constants/urls"
 import { TemplatesTestIds } from "Renderer/modules/messages/tabs/templates.enum"
 
 let app: any
-const testText = "essa"
+const testText = "Mudita"
 
 beforeEach(async () => {
-  app = await startApp()
+  app = await startApp(true)
+  await enablePhoneSimulation(app)
+  await app.client.waitUntil(() =>
+    app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).isVisible()
+  )
 })
 
 afterEach(async () => {
