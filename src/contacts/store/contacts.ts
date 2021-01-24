@@ -152,7 +152,6 @@ const contacts = createModel<RootModel>({
         }
       },
       authorize(provider: Provider) {
-        console.log(provider)
         switch (provider) {
           case Provider.Google:
             return externalProvidersStore.dispatch.google.authorize(
