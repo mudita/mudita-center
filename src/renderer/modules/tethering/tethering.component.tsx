@@ -3,18 +3,16 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import TetheringUI from "Renderer/modules/tethering/tethering-ui.component"
 
 interface TetheringProps {
-  disconnectedDevice: boolean
+  deviceConnected: boolean
 }
 
-const Tethering: FunctionComponent<TetheringProps> = ({
-  disconnectedDevice,
-}) => {
+const Tethering: FunctionComponent<TetheringProps> = ({ deviceConnected }) => {
   const [tetheringEnabled, setTetheringEnabled] = useState(false)
   return (
     <TetheringUI
       tetheringEnabled={tetheringEnabled}
       onToggleTethering={setTetheringEnabled}
-      disconnectedDevice={disconnectedDevice}
+      deviceConnected={deviceConnected}
     />
   )
 }

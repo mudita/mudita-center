@@ -1,11 +1,14 @@
+import { Endpoint, Method } from "pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import DeviceService from "Backend/device-service"
-import { Endpoint, Method } from "pure"
+import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
+import { noop } from "Renderer/utils/noop"
 
 class PurePhone extends PurePhoneAdapter {
+  static osUpdateStepsMax = 3
+  static osUpdateRestartStep = PurePhone.osUpdateStepsMax - 1
   constructor(private deviceService: DeviceService) {
     super()
   }
@@ -57,34 +60,97 @@ class PurePhone extends PurePhoneAdapter {
     return this.deviceService.connect()
   }
 
-  public async updateOs(file: string): Promise<DeviceResponse> {
-    const fileResponse = await this.deviceService.request({
-      endpoint: Endpoint.FileUpload,
-      method: Method.Post,
-      file,
-    })
+  public async updateOs(
+    file: string,
+    progressChannel: string
+  ): Promise<DeviceResponse> {
+    let unregisterListeners = noop
+    return new Promise<DeviceResponse>(async (resolve) => {
+      let step = 0
 
-    if (fileResponse.status === DeviceResponseStatus.Ok) {
-      const PureUpdateResponse = await this.deviceService.request({
-        endpoint: Endpoint.DeviceUpdate,
+      const connectedDeviceListener = () => {
+        if (step === PurePhone.osUpdateRestartStep) {
+          resolve({
+            status: DeviceResponseStatus.Ok,
+          })
+        }
+      }
+
+      const disconnectedDeviceListener = () => {
+        if (step < PurePhone.osUpdateRestartStep) {
+          resolve({
+            status: DeviceResponseStatus.Error,
+          })
+        }
+      }
+      unregisterListeners = () => {
+        this.deviceService.off(
+          DeviceServiceEventName.ConnectedDevice,
+          connectedDeviceListener
+        )
+        this.deviceService.off(
+          DeviceServiceEventName.DisconnectedDevice,
+          disconnectedDeviceListener
+        )
+      }
+
+      this.deviceService.on(
+        DeviceServiceEventName.DisconnectedDevice,
+        disconnectedDeviceListener
+      )
+
+      this.deviceService.on(
+        DeviceServiceEventName.ConnectedDevice,
+        connectedDeviceListener
+      )
+
+      const fileResponse = await this.deviceService.request({
+        endpoint: Endpoint.FileUpload,
         method: Method.Post,
         file,
       })
 
-      if (PureUpdateResponse.status === DeviceResponseStatus.Ok) {
-        return {
-          status: DeviceResponseStatus.Ok,
+      if (fileResponse.status === DeviceResponseStatus.Ok) {
+        ++step
+
+        this.deviceService.sendToRenderers(progressChannel, {
+          progress: PurePhone.getUpdateOsProgress(step),
+        })
+
+        const pureUpdateResponse = await this.deviceService.request({
+          endpoint: Endpoint.DeviceUpdate,
+          method: Method.Post,
+          file,
+        })
+
+        if (pureUpdateResponse.status === DeviceResponseStatus.Ok) {
+          ++step
+          this.deviceService.off(
+            DeviceServiceEventName.DisconnectedDevice,
+            disconnectedDeviceListener
+          )
+
+          this.deviceService.sendToRenderers(progressChannel, {
+            progress: PurePhone.getUpdateOsProgress(step),
+          })
+        } else {
+          resolve({
+            status: DeviceResponseStatus.Error,
+          })
         }
       } else {
-        return {
+        resolve({
           status: DeviceResponseStatus.Error,
-        }
+        })
       }
-    } else {
-      return {
-        status: DeviceResponseStatus.Error,
-      }
-    }
+    }).then((response) => {
+      unregisterListeners()
+      return response
+    })
+  }
+
+  private static getUpdateOsProgress(step: number): number {
+    return Math.round((step / PurePhone.osUpdateStepsMax) * 100)
   }
 }
 

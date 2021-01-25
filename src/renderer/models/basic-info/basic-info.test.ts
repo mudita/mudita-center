@@ -23,6 +23,7 @@ test("store returns initial state", () => {
       "basicInfo": Object {
         "disconnectedDevice": true,
         "resultsState": 2,
+        "updatingDevice": false,
       },
     }
   `)
@@ -70,6 +71,7 @@ test("mock calls update state", async () => {
             "slot": 2,
           },
         ],
+        "updatingDevice": false,
       },
     }
   `)
@@ -94,6 +96,7 @@ test("disconnect returns true and updates state", async () => {
       "basicInfo": Object {
         "disconnectedDevice": true,
         "resultsState": 2,
+        "updatingDevice": false,
       },
     }
   `)
@@ -152,6 +155,7 @@ test("change sim switches active property on sim cards", async () => {
             "slot": 2,
           },
         ],
+        "updatingDevice": false,
       },
     }
   `)
