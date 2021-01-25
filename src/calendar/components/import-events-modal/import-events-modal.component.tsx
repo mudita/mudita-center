@@ -18,13 +18,13 @@ import Table, {
   RowSize,
 } from "Renderer/components/core/table/table.component"
 import styled from "styled-components"
-import { ImportContactsModalTestIds } from "Renderer/components/rest/sync-modals/import-contacts-modal.types"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalContent } from "Renderer/components/rest/calendar/calendar-modals.styled"
+import { ImportEventsModalTestIds } from "App/calendar/components/import-events-modal/import-events-modal-test-ids.enum"
 
 const messages = defineMessages({
   title: {
@@ -93,7 +93,7 @@ const ImportEventsModal: FunctionComponent<ImportEventsModalProps> = ({
         <Row
           size={RowSize.Tiny}
           key={index}
-          data-testid={ImportContactsModalTestIds.Row}
+          data-testid={ImportEventsModalTestIds.Row}
         >
           <Col>{event.name}</Col>
           <Col>
