@@ -51,7 +51,10 @@ interface OverviewUIProps {
 }
 
 const OverviewUI: FunctionComponent<
-  Omit<BasicInfoInitialState, "loadData" | "resultsState"> &
+  Omit<
+    BasicInfoInitialState,
+    "loadData" | "resultsState" | "updatingDevice" | "disconnectedDevice"
+  > &
     PhoneUpdate &
     OverviewUIProps &
     Partial<AppSettings>

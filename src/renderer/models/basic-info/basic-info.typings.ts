@@ -21,7 +21,8 @@ export enum ResultsState {
 }
 
 export interface StoreValues {
-  readonly disconnectedDevice?: boolean
+  readonly disconnectedDevice: boolean
+  readonly updatingDevice: boolean
   readonly batteryLevel: number
   readonly networkName: string
   readonly osVersion: string
