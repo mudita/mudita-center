@@ -1,7 +1,7 @@
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
-import { SyncContactsModalTestIds } from "Renderer/components/rest/sync-modals/sync-contacts-modal-test-ids.enum"
+import SyncContactsModal from "App/contacts/components/sync-contacts-modal/sync-contacts-modal.component"
+import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 
 const renderer = (extraProps?: {}) => {
   const props = {

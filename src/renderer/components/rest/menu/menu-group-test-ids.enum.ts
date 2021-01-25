@@ -10,4 +10,5 @@ export enum MenuGroupTestIds {
   Overview = "overview-link",
   Calendar = "calendar-link",
   Meditation = "meditation-link",
+  Backup = "backup-and-recovery-link",
 }

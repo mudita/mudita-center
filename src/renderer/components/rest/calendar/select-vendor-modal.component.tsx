@@ -9,7 +9,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
+import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
@@ -17,7 +17,7 @@ import {
   ButtonsContainer,
   ButtonWrapper,
   SyncButton,
-} from "Renderer/components/rest/sync-modals/sync-contacts.styled"
+} from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { ModalContent } from "Renderer/components/rest/calendar/calendar-modals.styled"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { SelectVendorModalTestIds } from "Renderer/components/rest/calendar/select-vendor-modal-test-ids.enum"
