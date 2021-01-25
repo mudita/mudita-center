@@ -34,7 +34,7 @@ const parseEvent = (event: CalendarComponent): CalendarEvent => {
 }
 
 const parseRecurringEvent = (event: VEvent): CalendarEvent[] => {
-  const rule = new RRule(event.rrule?.options)
+  const rule = new RRule(event.rrule?.origOptions)
   const timeDiff =
     new Date(event.end).getTime() - new Date(event.start).getTime()
   // TODO: Return also RRule for export in the future
