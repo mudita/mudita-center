@@ -40,3 +40,24 @@ test("modal opens new window", async () => {
     .click()
   expect(await app.client.waitUntilWindowLoaded().getWindowCount()).toEqual(2)
 })
+
+test("user can open the new contact sidebar", async () => {
+  await app.client.$(`*[data-testid=${MenuGroupTestIds.Contacts}]`).click()
+  await app.client
+    .$(`*[data-testid=${ContactPanelTestIdsEnum.NewButton}]`)
+    .click()
+  expect(await app.client.isExisting(`*[data-testid='sidebar']`)).toBe(true)
+})
+
+test("user is unable to save empty contact", async () => {
+  await app.client.$(`*[data-testid=${MenuGroupTestIds.Contacts}]`).click()
+  await app.client
+    .$(`*[data-testid=${ContactPanelTestIdsEnum.NewButton}]`)
+    .click()
+  expect(await app.client.isExisting(`*[data-testid='sidebar']`)).toBe(true)
+  expect(
+    await app.client
+      .$(`*[data-testid=${ContactPanelTestIdsEnum.SaveButton}]`)
+      .isEnabled()
+  ).toBe(false)
+})

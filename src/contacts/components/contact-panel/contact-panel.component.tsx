@@ -148,6 +148,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
             id: "view.name.phone.contacts.panel.newContactButton",
           }}
           onClick={onNewButtonClick}
+          data-testid={ContactPanelTestIdsEnum.NewButton}
         />
       </Buttons>
     </Panel>
