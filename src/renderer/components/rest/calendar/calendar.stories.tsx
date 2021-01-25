@@ -18,7 +18,6 @@ import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { calendarSeed, eventsData } from "App/seeds/calendar"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import ImportEventsModal from "App/calendar/components/import-events-modal/import-events-modal.component"
-import { StoryModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 
 const Wrapper = styled.div`
   max-width: 97.5rem;
