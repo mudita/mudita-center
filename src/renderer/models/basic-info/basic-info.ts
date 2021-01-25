@@ -23,6 +23,7 @@ import { RootModel } from "Renderer/models/models"
 
 const initialState = {
   disconnectedDevice: true,
+  updatingDevice: false,
   resultsState: ResultsState.Empty,
 }
 
@@ -50,6 +51,12 @@ const basicInfo = createModel<RootModel>({
         },
       ]
       return { ...state, simCards: newSim }
+    },
+    toggleUpdatingDevice(
+      state: StoreValues,
+      updatingDevice: boolean
+    ): StoreValues {
+      return { ...state, updatingDevice }
     },
   },
   effects: (d: any) => {
@@ -127,10 +134,13 @@ const basicInfo = createModel<RootModel>({
           })
         }
       },
-      async toggleDisconnectedDevice(disconnectedDevice: boolean) {
+      async toggleDisconnectedDevice(
+        disconnectedDevice: boolean,
+        rootState: { basicInfo: { updatingDevice: boolean } }
+      ) {
         dispatch.basicInfo.update({ disconnectedDevice })
 
-        if (!disconnectedDevice) {
+        if (!disconnectedDevice && !rootState.basicInfo.updatingDevice) {
           await dispatch.basicInfo.loadData()
           await dispatch.contacts.loadData()
         }
@@ -150,6 +160,9 @@ const basicInfo = createModel<RootModel>({
     disconnectedDevice() {
       return slice(({ disconnectedDevice }) => disconnectedDevice)
     },
+    updatingDevice() {
+      return slice(({ updatingDevice }) => updatingDevice)
+    },
     activeSimNetworkName() {
       return slice((state: { simCards?: SimCard[] }) => {
         return getActiveNetworkFromSim(state.simCards)
@@ -165,11 +178,18 @@ const basicInfo = createModel<RootModel>({
         models.contacts.resultsState,
         models.basicInfo.resultsState,
         models.basicInfo.disconnectedDevice,
-        (phoneResultsState, basicInfoResultsState, disconnectedDevice) => {
+        models.basicInfo.updatingDevice,
+        (
+          phoneResultsState,
+          basicInfoResultsState,
+          disconnectedDevice,
+          updatingDevice
+        ) => {
           return (
-            phoneResultsState === ResultsState.Loaded &&
-            basicInfoResultsState === ResultsState.Loaded &&
-            !disconnectedDevice
+            (phoneResultsState === ResultsState.Loaded &&
+              basicInfoResultsState === ResultsState.Loaded &&
+              !disconnectedDevice) ||
+            updatingDevice
           )
         }
       )

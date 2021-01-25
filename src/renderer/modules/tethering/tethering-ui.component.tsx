@@ -5,18 +5,18 @@ import PureDisconnected from "Renderer/modules/tethering/screens/pure-disconnect
 import TetheringDisabled from "Renderer/modules/tethering/screens/tethering-disabled.component"
 
 interface TetheringProps {
-  disconnectedDevice?: boolean
+  deviceConnected?: boolean
   tetheringEnabled?: boolean
   onToggleTethering?: Dispatch<SetStateAction<boolean>>
 }
 
 const TetheringUI: FunctionComponent<TetheringProps> = ({
-  disconnectedDevice,
+  deviceConnected,
   tetheringEnabled,
   onToggleTethering,
 }) => (
   <>
-    {disconnectedDevice ? (
+    {!deviceConnected ? (
       <PureDisconnected />
     ) : tetheringEnabled ? (
       <TetheringEnabled

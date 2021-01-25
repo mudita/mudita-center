@@ -5,9 +5,12 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 
 const handleUpdateOs = (
   { purePhone }: Adapters,
-  updateFilePath: string
+  {
+    updateFilePath,
+    progressChannel,
+  }: { updateFilePath: string; progressChannel: string }
 ): Promise<DeviceResponse> | DeviceResponse => {
-  return purePhone.updateOs(updateFilePath)
+  return purePhone.updateOs(updateFilePath, progressChannel)
 }
 
 const registerUpdateOsRequest = createEndpoint({
