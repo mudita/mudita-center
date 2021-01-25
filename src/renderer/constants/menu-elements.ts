@@ -49,7 +49,11 @@ const YOUR_PURE_BUTTONS = [
     icon: Type.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,
   },
-  { button: views.recoveryMode, icon: Type.MuditaLogo },
+  {
+    button: views.recoveryMode,
+    icon: Type.MuditaLogo,
+    testId: MenuGroupTestIds.Backup,
+  },
 ]
 
 const DESKTOP_APP_BUTTONS: Item[] = [
