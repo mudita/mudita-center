@@ -35,6 +35,9 @@ const messages = defineMessages({
   button: {
     id: "common.loginGoogleButton",
   },
+  manualImportButton: {
+    id: "view.name.calendar.manualImportText",
+  },
 })
 
 export interface SelectVendorModalProps extends ModalProps {
@@ -86,9 +89,7 @@ const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
             <>
               <SyncButton
                 displayStyle={DisplayStyle.Primary}
-                label={intl.formatMessage({
-                  id: "view.name.phone.contacts.manualImportText",
-                })}
+                labelMessage={messages.manualImportButton}
                 Icon={Type.Upload}
                 onClick={handleManualImportClick}
                 data-testid={SelectVendorModalTestIds.ManualImportButton}
