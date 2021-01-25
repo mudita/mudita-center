@@ -58,6 +58,7 @@ import VoiceRecorder from "Renderer/svg/voice-recorder.svg"
 import VeryHighBattery from "Renderer/svg/very-high-battery.svg"
 import Pure from "Renderer/svg/pure.svg"
 import Fail from "Renderer/svg/fail.svg"
+import FailRed from "Renderer/svg/fail-red.svg"
 import VeryHighRange from "Renderer/svg/very-high-range.svg"
 import VeryLowBattery from "Renderer/svg/very-low-battery.svg"
 import Info from "Renderer/svg/info.svg"
@@ -173,6 +174,7 @@ export enum Type {
   DownloadWhite,
   Pure,
   Fail,
+  FailRed,
   More,
   Blocked,
   Forward,
@@ -350,6 +352,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return Pure
     case Type.Fail:
       return Fail
+    case Type.FailRed:
+      return FailRed
     case Type.More:
       return More
     case Type.Blocked:
