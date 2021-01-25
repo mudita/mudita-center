@@ -73,14 +73,14 @@ interface Props {
   onActionButtonClick: (contacts: NewContact[]) => void
   contacts: NewContact[]
   modalType: ModalType
-  failedItemIndex?: number
+  successfulItemsCount?: number
 }
 
 const ContactImportModal: FunctionComponent<Props> = ({
   onActionButtonClick,
   contacts = [],
   modalType,
-  failedItemIndex,
+  successfulItemsCount,
 }) => {
   const {
     toggleRow,
@@ -89,15 +89,10 @@ const ContactImportModal: FunctionComponent<Props> = ({
     allRowsSelected,
     noneRowsSelected,
     selectedRows,
-    setSelectedRows,
   } = useTableSelect<NewContact>(contacts)
 
   useEffect(() => {
-    if (failedItemIndex === undefined) {
-      toggleAll()
-    } else {
-      setSelectedRows(contacts.slice(failedItemIndex))
-    }
+    toggleAll()
   }, [])
 
   const SingleRow = ({
@@ -132,9 +127,9 @@ const ContactImportModal: FunctionComponent<Props> = ({
             : ""}
         </Col>
         <Failed data-testid={ContactImportModalTestIds.FailedIcon}>
-          {modalType === ModalType.Fail &&
-            failedItemIndex !== undefined &&
-            index >= failedItemIndex && <Icon type={Type.FailRed} size={2} />}
+          {modalType === ModalType.Fail && (
+            <Icon type={Type.FailRed} size={2} />
+          )}
         </Failed>
       </Row>
     )
@@ -169,7 +164,7 @@ const ContactImportModal: FunctionComponent<Props> = ({
           <ModalText
             message={{
               ...messages.importFailedBody,
-              values: { ...textFormatters, num: failedItemIndex },
+              values: { ...textFormatters, num: successfulItemsCount },
             }}
             displayStyle={TextDisplayStyle.MediumFadedLightText}
           />

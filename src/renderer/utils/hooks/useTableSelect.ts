@@ -10,7 +10,6 @@ export interface UseTableSelect<T> {
   }
   toggleAll: () => void
   toggleRow: (row: T) => void
-  setSelectedRows: (rows: T[]) => void
   selectedRows: T[]
   selectableRows: T[]
   resetRows: () => void
@@ -112,7 +111,6 @@ const useTableSelect = <T, K = T>(
     getRowStatus,
     toggleAll,
     toggleRow,
-    setSelectedRows,
     selectedRows,
     selectableRows,
     resetRows,

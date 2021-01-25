@@ -484,7 +484,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
       if (failed || (syncShouldFail && index > contacts.length / 2)) {
         await closeModal()
-        showFinishedSynchronizationModal(contacts, index)
+        showFinishedSynchronizationModal(contacts.slice(index), index)
         break
       }
       const error = await addNewContact(contact)
@@ -510,9 +510,9 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   // Synchronization, step 6: import summary / failure handling
   const showFinishedSynchronizationModal = async (
     contacts: NewContact[],
-    failedItemIndex?: number
+    successfulItemsNumber?: number
   ) => {
-    const failed = failedItemIndex !== undefined
+    const failed = successfulItemsNumber !== undefined
 
     await closeModal()
     modalService.openModal(
@@ -520,7 +520,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
         contacts={contacts}
         onActionButtonClick={failed ? sendContactsToPhone : closeModal}
         modalType={failed ? ModalType.Fail : ModalType.Success}
-        failedItemIndex={failedItemIndex}
+        successfulItemsCount={successfulItemsNumber}
       />
     )
   }

@@ -157,36 +157,14 @@ test("toggle all checkbox can uncheck remaining checkboxes", () => {
   checkboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked())
 })
 
-test("only failed rows are checked when failure is detected", () => {
+test("failed rows have a proper icon attached", () => {
   const { getAllByTestId } = renderer({
     modalType: ModalType.Fail,
-    failedItemIndex: 3,
-  })
-  getAllByTestId(ContactImportModalTestIds.RowCheckbox).forEach(
-    (checkbox, index) => {
-      if (index < 3) {
-        expect(checkbox).not.toBeChecked()
-      } else {
-        expect(checkbox).toBeChecked()
-      }
-    }
-  )
-})
-
-test("only failed rows has a proper icon attached", () => {
-  const { getAllByTestId } = renderer({
-    modalType: ModalType.Fail,
-    failedItemIndex: 3,
+    successfulItemsCount: 3,
   })
   getAllByTestId(ContactImportModalTestIds.ContactRow).forEach((row, index) => {
-    if (index < 3) {
-      expect(
-        row.querySelector('[data-testid="icon-FailRed"]')
-      ).not.toBeInTheDocument()
-    } else {
-      expect(
-        row.querySelector('[data-testid="icon-FailRed"]')
-      ).toBeInTheDocument()
-    }
+    expect(
+      row.querySelector('[data-testid="icon-FailRed"]')
+    ).toBeInTheDocument()
   })
 })

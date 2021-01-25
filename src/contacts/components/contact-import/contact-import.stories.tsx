@@ -37,7 +37,7 @@ storiesOf("Views|Contacts/Modals", module)
           contacts={contactsSeedInput}
           onActionButtonClick={noop}
           modalType={ModalType.Fail}
-          failedItemIndex={3}
+          successfulItemsCount={3}
         />
       </ModalWrapper>
     )
