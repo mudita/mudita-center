@@ -19,6 +19,7 @@ import {
 import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import parseIcs from "App/calendar/helpers/parse-ics/parse-ics"
+import ImportEventsModal from "App/calendar/components/import-events-modal/import-events-modal.component"
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
@@ -34,7 +35,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
 
   const setGoogleProvider = () => setProvider(Provider.Google)
   const resetProvider = () => setProvider(undefined)
-
+  const closeModal = () => modalService.closeModal()
   const authorizeAndLoadCalendars = async () => {
     if (!provider) {
       throw new Error("No provider selected")
@@ -71,7 +72,6 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   const openSynchronizationFinishedModal = async (
     importedEventsCount: number
   ) => {
-    const closeModal = () => modalService.closeModal()
     await closeModal()
     modalService.openModal(
       <EventsSynchronizationFinishedModal
@@ -82,14 +82,22 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
     )
   }
 
+  const addImportedEvents = async (files: File[]) => {
+    const calendarEvents = await parseIcs(files.map(({ path }) => path))
+    await modalService.closeModal()
+    modalService.openModal(
+      <ImportEventsModal
+        events={calendarEvents}
+        onActionButtonClick={closeModal}
+      />
+    )
+    setEvents(calendarEvents)
+  }
+
   const manualImport = (inputElement: HTMLInputElement) => {
     const onFileSelect = async () => {
       if (inputElement.files) {
-        const calendarEvents = await parseIcs(
-          Array.from(inputElement.files).map(({ path }) => path)
-        )
-        await modalService.closeModal()
-        setEvents(calendarEvents)
+        await addImportedEvents(Array.from(inputElement.files))
         inputElement.removeEventListener("change", onFileSelect)
       }
     }
