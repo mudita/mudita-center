@@ -25,6 +25,7 @@ import logger from "App/main/utils/logger"
 
 interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
+  toggleUpdatingDevice: (option: boolean) => void
 }
 
 /**
@@ -101,6 +102,7 @@ const Overview: FunctionComponent<
   networkName,
   networkLevel,
   updateBasicInfo = noop,
+  toggleUpdatingDevice,
   language,
 }) => {
   /**
@@ -113,7 +115,8 @@ const Overview: FunctionComponent<
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     osUpdateDate,
     updatePhoneOsInfo,
-    updateBasicInfo
+    updateBasicInfo,
+    toggleUpdatingDevice
   )
 
   useEffect(() => {
