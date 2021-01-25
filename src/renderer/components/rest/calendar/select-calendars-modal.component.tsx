@@ -9,7 +9,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
+import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"

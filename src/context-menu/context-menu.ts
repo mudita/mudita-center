@@ -1,5 +1,5 @@
 import * as electron from "electron"
-import { MenuItem } from "App/context-menu/context-menu.types"
+import { MenuItem } from "App/context-menu/context-menu.interface"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 
 interface DevModeProps {
@@ -151,7 +151,7 @@ class ContextMenu {
     )
   }
 
-  public registerItem(mainLabel: string, menuItem: MenuItem) {
+  public registerItem(mainLabel: string, menuItem: MenuItem): Function {
     const newItem: MenuItem = {
       devModeOnly: true,
       ...menuItem,
@@ -160,20 +160,29 @@ class ContextMenu {
     if (this.customMenu.hasOwnProperty(mainLabel)) {
       const menuItems = this.customMenu[mainLabel]
 
-      if (menuItems.some((item) => item.label === newItem.label)) {
-        console.warn(
-          `Duplicate found during registering custom context menu items. "${mainLabel}" > "${newItem.label}" already exists.`
-        )
-      }
+      const label =
+        newItem.label || (newItem.labelCreator && newItem.labelCreator())
 
-      menuItems.push(newItem)
+      if (!menuItems.some((item) => item.label === label)) {
+        menuItems.push(newItem)
+      }
     } else {
       this.customMenu[mainLabel] = [newItem]
     }
+
+    return () => {
+      const menu = this.customMenu[mainLabel]
+      delete menu[menu.indexOf(newItem)]
+    }
   }
 
-  public registerItems(mainLabel: string, menuItems: MenuItem[]) {
-    menuItems.forEach((item) => this.registerItem(mainLabel, item))
+  public registerItems(mainLabel: string, menuItems: MenuItem[]): Function {
+    const unregisterItemsFunctions = menuItems.map((item) =>
+      this.registerItem(mainLabel, item)
+    )
+    return () => {
+      unregisterItemsFunctions.forEach((unregister) => unregister())
+    }
   }
 }
 
