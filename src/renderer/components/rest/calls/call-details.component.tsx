@@ -32,6 +32,7 @@ import {
   Input,
 } from "App/contacts/components/contact-details/contact-details.styled"
 import createRouterPath from "Renderer/utils/create-router-path"
+import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
 
 const messages = defineMessages({
   today: { id: "view.name.phone.calls.today" },
@@ -100,13 +101,7 @@ export const CallDetails = ({
           <CallWrapper key={index}>
             <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
               <NameIcon type={details.icon} size={IconSize.Big} />
-              {details.caller.firstName || details.caller.lastName ? (
-                <>
-                  {details.caller.firstName} {details.caller.lastName}
-                </>
-              ) : (
-                <>{details.caller.phoneNumber}</>
-              )}
+              {getPrettyCaller(details.caller)}
             </ContactName>
             <CallDescription
               displayStyle={TextDisplayStyle.SmallFadedText}

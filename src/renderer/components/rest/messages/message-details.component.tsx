@@ -14,7 +14,7 @@ import styled from "styled-components"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { intl } from "Renderer/utils/intl"
@@ -131,7 +131,6 @@ const MessageDetails: FunctionComponent<Props> = ({
     <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />,
   ]
 
-  const nameAvailable = isNameAvailable(details.caller)
   return (
     <MessagesSidebar
       show
@@ -141,11 +140,9 @@ const MessageDetails: FunctionComponent<Props> = ({
             displayStyle={TextDisplayStyle.LargeBoldText}
             data-testid="sidebar-fullname"
           >
-            {nameAvailable
-              ? createFullName(details.caller)
-              : details.caller.phoneNumber}
+            {getPrettyCaller(details.caller)}
           </Text>
-          {nameAvailable && (
+          {isNameAvailable(details.caller) && (
             <PhoneNumberText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"
