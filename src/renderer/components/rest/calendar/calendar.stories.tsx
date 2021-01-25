@@ -15,8 +15,10 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
 import { action } from "@storybook/addon-actions"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
-import { calendarSeed } from "App/seeds/calendar"
+import { calendarSeed, eventsData } from "App/seeds/calendar"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import ImportEventsModal from "App/calendar/components/import-events-modal/import-events-modal.component"
+import { StoryModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
 
 const Wrapper = styled.div`
   max-width: 97.5rem;
@@ -79,6 +81,9 @@ storiesOf("Views/Calendar/Modals", module).add("All", () => (
     </Story>
     <Story title="Google authorization failed" transparentMode>
       <AuthorizationFailedModal provider={Provider.Google} />
+    </Story>
+    <Story title="Import from ics file" transparentMode>
+      <ImportEventsModal events={eventsData} />
     </Story>
   </StoryContainer>
 ))
