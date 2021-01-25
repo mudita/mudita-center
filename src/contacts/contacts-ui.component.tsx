@@ -349,7 +349,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   useEffect(() => {
     const unregisterItem = appContextMenu.registerItem("Contacts", {
       labelCreator: () =>
-        `${syncShouldFail ? "Disable" : "Enable"} parsing failure`,
+        `${parseShouldFail ? "Disable" : "Enable"} parsing failure`,
       click: () => setParseFailure((prevState) => !prevState),
     })
     return () => unregisterItem()
