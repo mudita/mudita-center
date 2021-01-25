@@ -9,7 +9,7 @@ import { intl, textFormatters } from "Renderer/utils/intl"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { ModalText } from "Renderer/components/rest/sync-modals/sync-contacts.styled"
+import { ModalText } from "Renderer/components/rest/calendar/calendar-modals.styled"
 import { defineMessages, FormattedDate } from "react-intl"
 import Table, {
   Col,
