@@ -39,7 +39,7 @@ import Avatar, {
 } from "Renderer/components/core/avatar/avatar.component"
 import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { createFullName } from "App/contacts/store/contacts.helpers"
+import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
 import { MessagesListTestIds } from "Renderer/modules/messages/messages-list-test-ids.enum"
 import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import {
@@ -194,7 +194,6 @@ const MessagesList: FunctionComponent<Props> = ({
         const lastMessage = last(messages)
         const toggle = () => toggleRow(item)
         const open = () => openSidebar(item)
-        const nameAvailable = isNameAvailable(caller)
         const active = activeRow?.id === item.id
         const emitDeleteClick = () => onDeleteClick(id)
         const toggleReadStatus = () => onToggleReadStatus([id])
@@ -218,7 +217,7 @@ const MessagesList: FunctionComponent<Props> = ({
             <MessageCol onClick={open} data-testid={MessagesListTestIds.Row}>
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {nameAvailable ? createFullName(caller) : caller.phoneNumber}
+                  {getPrettyCaller(caller)}
                 </Name>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {isToday(lastMessage?.date)
@@ -262,7 +261,7 @@ const MessagesList: FunctionComponent<Props> = ({
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
                   />
-                  {nameAvailable ? (
+                  {isNameAvailable(caller) ? (
                     <ButtonComponent
                       labelMessage={{
                         id: "view.name.messages.dropdownContactDetails",

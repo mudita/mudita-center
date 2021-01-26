@@ -1,9 +1,6 @@
 import React from "react"
 import { storiesOf } from "@storybook/react"
-import Contacts, {
-  messages,
-  PhoneProps,
-} from "App/contacts/contacts-ui.component"
+import Contacts, { messages } from "App/contacts/contacts-ui.component"
 import { action } from "@storybook/addon-actions"
 import styled from "styled-components"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
@@ -27,6 +24,7 @@ import {
   getSpeedDialChosenList,
 } from "App/contacts/store/contacts.helpers"
 import { asyncNoop, noop } from "Renderer/utils/noop"
+import { PhoneProps } from "App/contacts/contacts.type"
 
 const dummyPromise = (result: any) => () => result
 const getContact = (id: ContactID) => contactsSeed.db[id]

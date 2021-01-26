@@ -2,6 +2,7 @@ import store from "Renderer/store"
 import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
 import ContextMenu from "App/context-menu/context-menu"
+import contactsContextMenu from "App/contacts/helpers/context-menu/context-menu"
 
 const registerAppContextMenu = (menu: ContextMenu) => {
   menu.registerItems("Device", [
@@ -27,16 +28,7 @@ const registerAppContextMenu = (menu: ContextMenu) => {
     },
   ])
 
-  menu.registerItems("Contacts", [
-    {
-      label: "Load default contacts",
-      click: () => store.dispatch.contacts.loadData(),
-    },
-    {
-      label: "Clear all contacts",
-      click: () => store.dispatch.contacts._devClearAllContacts(),
-    },
-  ])
+  menu.registerItems("Contacts", contactsContextMenu)
 
   menu.registerItems("Calendar", [
     {

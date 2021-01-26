@@ -14,8 +14,8 @@ import {
   ButtonWrapper,
   ModalText,
   SyncButton,
-} from "Renderer/components/rest/sync-modals/sync-contacts.styled"
-import { SyncContactsModalTestIds } from "Renderer/components/rest/sync-modals/sync-contacts-modal-test-ids.enum"
+} from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
+import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 import { defineMessages } from "react-intl"
 
 const messages = defineMessages({

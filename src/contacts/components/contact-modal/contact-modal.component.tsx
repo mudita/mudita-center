@@ -267,6 +267,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
       <Form onSubmit={sendEmail}>
         <FormInputLabel label={messages.emailLabel} />
         <InputComponent
+          data-testid={ModalTestIds.Email}
           type={"text"}
           label={intl.formatMessage(messages.emailPlaceholder)}
           outlined
