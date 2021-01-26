@@ -14,13 +14,12 @@ import {
   StatusCallIcon,
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { Details } from "Renderer/components/rest/calls/call-details.types"
-import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
+import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
 import {
   Actions,
   ActionsButton,
 } from "Renderer/components/rest/messages/messages-list.component"
 import { resolveCallType } from "Renderer/components/rest/calls/call-details.helpers"
-import { createFullName } from "App/contacts/store/contacts.helpers"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import formatDuration from "Renderer/utils/format-duration"
 import { isToday } from "Renderer/utils/is-today"
@@ -54,7 +53,6 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
   const { caller, id, date, duration, timesMissed } = callData
   const { selected, indeterminate } = getRowStatus(callData)
   const toggle = () => toggleRow(callData)
-  const nameAvailable = isNameAvailable(caller)
   const details = resolveCallType(callData.status)
 
   const callDetails = { ...details, ...caller, ...callData }
@@ -84,7 +82,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
         active={activeRow?.id === id}
       >
         <StatusCallIcon type={details.icon} height={2.8} width={2.8} />
-        {nameAvailable ? createFullName(caller) : caller.phoneNumber}
+        {getPrettyCaller(caller)}
         {timesMissed > 1 && ` (${timesMissed})`}
       </ClickableCol>
       <Col>{formatDuration(duration)}</Col>
@@ -107,11 +105,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
             <ButtonComponent
               labelMessage={{
                 id: "component.dropdown.call",
-                values: nameAvailable
-                  ? { name: caller.firstName || caller.lastName }
-                  : {
-                      name: caller.phoneNumber,
-                    },
+                values: { name: getPrettyCaller(caller) },
               }}
               Icon={Type.Calls}
               onClick={noop}

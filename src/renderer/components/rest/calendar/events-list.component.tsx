@@ -7,7 +7,7 @@ import {
   Labels,
   Row,
 } from "Renderer/components/core/table/table.component"
-import { FormattedDate } from "react-intl"
+import { defineMessages, FormattedDate } from "react-intl"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
@@ -18,6 +18,13 @@ import {
 import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
 import { List, AutoSizer, ListRowProps } from "react-virtualized"
+import { intl } from "Renderer/utils/intl"
+
+const messages = defineMessages({
+  unnamedEvent: {
+    id: "view.name.calendar.unnamedEvent",
+  },
+})
 
 const Table = styled(BaseSelectableCalls)`
   --columnsTemplate: 4rem 5fr 3fr 3fr;
@@ -43,7 +50,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
       <Row
         active={selectedEventIndex === index}
         data-testid={CalendarTestIds.Event}
-        key={id}
+        key={id + index}
         style={style}
       >
         <Col>
@@ -54,7 +61,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
             visible={!noneRowsSelected}
           />
         </Col>
-        <Col>{name}</Col>
+        <Col>{!name ? intl.formatMessage(messages.unnamedEvent) : name}</Col>
         <Col>
           <TimeWindow startDate={startDate} endDate={endDate} />
         </Col>
