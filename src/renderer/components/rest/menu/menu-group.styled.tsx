@@ -23,6 +23,7 @@ export const HeaderIconBg = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0.4rem;
+  visibility: hidden; /* TODO: Remove when features become available in menu */
   &:hover {
     background-color: ${backgroundColor("minor")};
   }
