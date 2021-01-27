@@ -1,6 +1,6 @@
 {
   "name": "mudita-center",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Mudita Center",
   "main": "./dist/main.js",
   "productName": "Mudita Center",
@@ -58,25 +58,33 @@
     "pure:command": "npm --prefix pure run command --"
   },
   "build": {
-    "publish": {
-      "provider": "s3",
-      "bucket": "mudita-desktop-app",
-      "path": "/app/"
+    "productName": "Mudita Center",
+    "appId": "com.mudita.center",
+    "copyright": "Copyright (c) 2017-2021, Mudita sp. z o.o. All rights reserved.",
+    "mac": {
+      "category": "public.app-category.utilities",
+      "icon": "./icons/mac/icon.icns",
+      "target": "dmg",
+      "artifactName": "Mudita Center.${ext}"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "./icons/win/icon.ico"
     },
     "nsis": {
       "include": "installer.nsh",
-      "artifactName": "MuditaCenter-Setup-${version}.${ext}",
-      "oneClick": true,
+      "artifactName": "Mudita Center.${ext}",
+      "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": false,
       "runAfterFinish": true,
       "deleteAppDataOnUninstall": true
     },
-    "productName": "Mudita Center",
-    "appId": "com.mudita.center",
-    "mac": {
-      "category": "your.app.category.type",
-      "icon": "./icons/mac/icon.icns"
+    "linux": {
+      "target": "AppImage",
+      "category": "Utility",
+      "executableName": "Mudita Center",
+      "artifactName": "Mudita Center.${ext}"
     },
     "directories": {
       "output": "release"
@@ -85,14 +93,7 @@
       "dist/",
       "node_modules/",
       "package.json"
-    ],
-    "linux": {
-      "target": "AppImage"
-    },
-    "win": {
-      "target": "nsis",
-      "icon": "./icons/win/icon.ico"
-    }
+    ]
   },
   "repository": {
     "type": "git",
