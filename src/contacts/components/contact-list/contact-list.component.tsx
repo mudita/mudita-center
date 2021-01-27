@@ -34,7 +34,6 @@ import { InView } from "react-intersection-observer"
 import { ContactListTestIdsEnum } from "App/contacts/components/contact-list/contact-list-test-ids.enum"
 import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
-import Badge from "Renderer/components/core/badge/badge.component"
 import { Contacts } from "App/contacts/store/contacts.interface"
 import { ResultsState } from "Renderer/models/basic-info/basic-info.typings"
 
@@ -81,7 +80,7 @@ const BlockedIcon = styled(Icon).attrs(() => ({
 const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   flex: 1;
   overflow: auto;
-  --columnsTemplate: 4rem 1fr auto 4.8rem 13.5rem;
+  --columnsTemplate: 4rem 63.8rem 11.5rem 11.5rem auto;
   --columnsTemplateWithOpenedSidebar: 4rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
@@ -256,7 +255,8 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                       <Col>{phoneNumber}</Col>
                       <Col>
                         {contact.primaryPhoneNumber &&
-                          contact.secondaryPhoneNumber && <Badge>+1</Badge>}
+                          contact.secondaryPhoneNumber &&
+                          contact.secondaryPhoneNumber}
                       </Col>
                       <Col>
                         <Actions>
