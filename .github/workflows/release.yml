@@ -15,7 +15,7 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-      - name: Check out Git repository
+      - name: Check out repository
         uses: actions/checkout@v2
 
       - name: Install node and npm
@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: npm install
         
-      - name: Build app
+      - name: Build and publish the app
         run: npm run prerelease && electron-builder --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
