@@ -21,6 +21,7 @@ const NetworkInfo = styled(Network)`
 
 const FileManagerInfo = styled(FilesManager)`
   grid-area: FilesManager;
+  display: none; /* TODO: Remove when feature becomes available */
 `
 
 const BackupInfo = styled(Backup)`
@@ -30,14 +31,14 @@ const BackupInfo = styled(Backup)`
 const OverviewWrapper = styled.div`
   display: grid;
   grid-template-columns: minmax(27rem, 1fr) minmax(59rem, 1fr);
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 4rem;
   grid-row-gap: 3.2rem;
   padding: 3.2rem 3rem 3.7rem 4rem;
   grid-template-areas:
     "Phone Network"
     "Phone System"
-    "Phone FilesManager"
+    /*"Phone FilesManager" TODO: Uncomment when feature is done */
     "Phone Backup";
 `
 
