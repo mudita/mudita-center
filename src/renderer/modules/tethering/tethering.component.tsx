@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import TetheringUI from "Renderer/modules/tethering/tethering-ui.component"
 
-interface TetheringProps {
+export interface TetheringProps {
   deviceConnected: boolean
 }
 

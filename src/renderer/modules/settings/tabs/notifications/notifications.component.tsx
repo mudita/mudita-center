@@ -2,7 +2,7 @@ import React, { useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import NotificationsUI from "Renderer/components/rest/settings/notifications-ui.component"
 
-interface Props {
+export interface NotificationsProps {
   appIncomingCalls?: boolean
   appIncomingMessages?: boolean
   appLowBattery?: boolean
@@ -14,7 +14,7 @@ interface Props {
   loadSettings: () => void
 }
 
-const Notifications: FunctionComponent<Props> = ({
+const Notifications: FunctionComponent<NotificationsProps> = ({
   appIncomingCalls,
   appIncomingMessages,
   appLowBattery,

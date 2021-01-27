@@ -10,7 +10,7 @@ import styled from "styled-components"
 import UpdateButtonComponent from "Renderer/components/rest/news/update-button/update-button.component"
 import LastUpdate from "Renderer/components/rest/news/last-update/last-update.component"
 
-interface Props {
+export interface NewsProps {
   newsItems: NewsEntry[]
   loadData?: () => void
   updateData?: (news: DefaultNewsItems | { updating: boolean }) => void
@@ -42,7 +42,7 @@ const NewsProductCards = styled(ProductCards)`
   margin-bottom: 5.5rem;
 `
 
-const News: FunctionComponent<Props> = ({
+const News: FunctionComponent<NewsProps> = ({
   newsItems,
   loadData = noop,
   updateData = noop,
