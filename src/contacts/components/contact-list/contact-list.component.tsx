@@ -36,6 +36,7 @@ import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-contai
 import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
 import { Contacts } from "App/contacts/store/contacts.interface"
 import { ResultsState } from "Renderer/models/basic-info/basic-info.typings"
+import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -269,7 +270,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             onOpen={disableScroll}
                             onClose={enableScroll}
                           >
-                            <ButtonComponent
+                            <HiddenButton
                               labelMessage={{
                                 id:
                                   "view.name.phone.contacts.action.exportAsVcard",
@@ -278,7 +279,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                               onClick={handleExport}
                               displayStyle={DisplayStyle.Dropdown}
                             />
-                            <ButtonComponent
+                            <HiddenButton
                               labelMessage={{
                                 id:
                                   "view.name.phone.contacts.action.forwardNamecard",
@@ -288,7 +289,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                               displayStyle={DisplayStyle.Dropdown}
                             />
                             {contact.blocked ? (
-                              <ButtonComponent
+                              <HiddenButton
                                 labelMessage={{
                                   id: "view.name.phone.contacts.action.unblock",
                                 }}
@@ -297,7 +298,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                                 displayStyle={DisplayStyle.Dropdown}
                               />
                             ) : (
-                              <ButtonComponent
+                              <HiddenButton
                                 labelMessage={{
                                   id: "view.name.phone.contacts.action.block",
                                 }}
