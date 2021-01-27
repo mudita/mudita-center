@@ -24,7 +24,7 @@ jobs:
           node-version: '12.18.4'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install && npm install electron-builder -g
         
       - name: Build and publish the app
         run: npm run prerelease && electron-builder --publish always
