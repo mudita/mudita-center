@@ -31,6 +31,7 @@ const BackupInfo = styled(Backup)`
 const OverviewWrapper = styled.div`
   display: grid;
   grid-template-columns: minmax(27rem, 1fr) minmax(59rem, 1fr);
+  /* TODO: Change to grid-template-rows: repeat(4, 1fr) when Files Manager will be available */
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 4rem;
   grid-row-gap: 3.2rem;
