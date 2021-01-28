@@ -23,10 +23,13 @@ export const HeaderIconBg = styled.div`
   align-items: center;
   justify-content: center;
   padding: 0.4rem;
-  visibility: hidden; /* TODO: Remove when features become available in menu */
   &:hover {
     background-color: ${backgroundColor("minor")};
   }
+`
+
+export const HiddenIconBg = styled(HeaderIconBg)`
+  visibility: hidden; /* TODO: Remove component and logic associated with it when features become available in menu */
 `
 
 export const HeaderIcon = styled(Icon)`
