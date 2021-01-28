@@ -110,7 +110,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const handleUnblock = () => onUnblock(contact)
     const handleDelete = () => onDelete(contact)
     const handleMessage = (phoneNumber: string) => onMessage(phoneNumber)
-
+    // TODO: Remove prodIcons along with associated logic when features become available
     const prodIcons = (
       <>
         <SidebarHeaderIcon Icon={Type.Edit} onClick={handleEdit} />
@@ -185,6 +185,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               {contact.primaryPhoneNumber && (
                 <Input
                   defaultValue={contact.primaryPhoneNumber}
+                  // TODO: Remove productionEnvironment along with associated logic when features become available
                   trailingIcons={
                     productionEnvironment
                       ? undefined
@@ -200,6 +201,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               {contact.secondaryPhoneNumber && (
                 <Input
                   defaultValue={contact.secondaryPhoneNumber}
+                  // TODO: Remove productionEnvironment along with associated logic when features become available
                   trailingIcons={
                     productionEnvironment
                       ? undefined
