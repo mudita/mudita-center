@@ -36,6 +36,7 @@ import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-contai
 import { HighlightContactList } from "App/contacts/components/highlight-contact-list/highlight-contact-list.component"
 import { Contacts } from "App/contacts/store/contacts.interface"
 import { ResultsState } from "Renderer/models/basic-info/basic-info.typings"
+import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
@@ -278,6 +279,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                               Icon={Type.Upload}
                               onClick={handleExport}
                               displayStyle={DisplayStyle.Dropdown}
+                              hide={productionEnvironment}
                             />
                             <HiddenButton
                               labelMessage={{
@@ -287,6 +289,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                               Icon={Type.Forward}
                               onClick={handleForward}
                               displayStyle={DisplayStyle.Dropdown}
+                              hide={productionEnvironment}
                             />
                             {contact.blocked ? (
                               <HiddenButton
@@ -296,6 +299,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                                 Icon={Type.Blocked}
                                 onClick={handleUnblock}
                                 displayStyle={DisplayStyle.Dropdown}
+                                hide={productionEnvironment}
                               />
                             ) : (
                               <HiddenButton
@@ -305,6 +309,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                                 Icon={Type.Blocked}
                                 onClick={handleBlock}
                                 displayStyle={DisplayStyle.Dropdown}
+                                hide={productionEnvironment}
                               />
                             )}
                             <ButtonComponent
