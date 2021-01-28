@@ -173,12 +173,14 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               {contact.primaryPhoneNumber && (
                 <Input
                   defaultValue={contact.primaryPhoneNumber}
-                  trailingIcons={phoneActions(
+                  /*trailingIcons={phoneActions(
                     contact.primaryPhoneNumber,
                     isTopicThreadOpened(contact.primaryPhoneNumber),
                     onCall,
                     handleMessage
                   )}
+                  TODO: Uncomment when messaging will be available
+                   */
                 />
               )}
               {contact.secondaryPhoneNumber && (
