@@ -9,7 +9,7 @@ export const PhoneCard = styled(Card)`
   grid-template-areas: "Text" "Buttons";
   grid-template-columns: 1fr;
   height: auto;
-  padding: 10.4rem 0 6.4rem 0;
+  padding: 6rem 0 6.4rem 0;
   justify-items: center;
 
   ${CardAction} {
@@ -26,7 +26,7 @@ export const PhoneInfo = styled(CardText)`
   flex-direction: column;
   align-items: center;
   img {
-    height: 25rem;
+    height: 36rem;
   }
 `
 
@@ -46,10 +46,10 @@ export const BatteryStats = styled.div`
 export const SignalStats = styled.div`
   margin-top: 2.4rem;
   margin-bottom: 6rem;
-  display: flex;
+  /* display: flex; TODO: Uncomment when feature becomes available*/
   flex-direction: column;
   align-items: center;
-  visibility: hidden; /* TODO: Remove when feature becomes available */
+  display: none; /* TODO: Remove when feature becomes available */
 
   p {
     margin-top: 0.8rem;

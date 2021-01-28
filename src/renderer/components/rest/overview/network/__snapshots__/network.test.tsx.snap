@@ -203,7 +203,6 @@ exports[`matches snapshot 1`] = `
   align-items: center;
   grid-template-areas: "Text Buttons";
   grid-template-columns: auto minmax(18rem,1fr);
-  height: 19.7rem;
   padding: 0 4.8rem;
   box-sizing: border-box;
   border-radius: 0.5rem;

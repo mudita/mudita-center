@@ -12,8 +12,6 @@ const Card = styled.section`
   align-items: center;
   grid-template-areas: "Text Buttons";
   grid-template-columns: auto minmax(18rem, 1fr);
-  /* height: 14.4rem; TODO: Uncomment when there will be 4 cards in view, remove height beneath */
-  height: 19.7rem;
   padding: 0 4.8rem;
   box-sizing: border-box;
   border-radius: ${borderRadius("medium")};
