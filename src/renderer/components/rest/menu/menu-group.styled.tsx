@@ -28,6 +28,10 @@ export const HeaderIconBg = styled.div`
   }
 `
 
+export const HiddenIconBg = styled(HeaderIconBg)`
+  visibility: hidden; /* TODO: Remove component and logic associated with it when features become available in menu */
+`
+
 export const HeaderIcon = styled(Icon)`
   &:not(:last-of-type) {
     margin-right: 1rem;
