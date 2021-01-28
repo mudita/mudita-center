@@ -35,6 +35,7 @@ const OverviewWrapper = styled.div`
   grid-template-rows: repeat(3, 1fr);
   grid-column-gap: 4rem;
   grid-row-gap: 4rem;
+  height: 100%;
   padding: 3.2rem 3rem 3.7rem 4rem;
   grid-template-areas:
     "Phone Network"
