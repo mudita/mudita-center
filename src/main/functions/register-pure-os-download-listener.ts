@@ -1,3 +1,4 @@
+import fs from "fs-extra"
 import { ipcMain } from "electron-better-ipc"
 import { app } from "electron"
 import { name } from "../../../package.json"
@@ -14,16 +15,17 @@ const registerPureOsDownloadListener = (
     params: DownloadListener
   ) => Promise<DownloadFinished>
 ) => {
-  ipcMain.answerRenderer(
-    PureOsDownloadChannels.start,
-    ({ url }: { url: string }) => {
-      return registerDownloadListener({
-        url,
-        path: `${app.getPath("appData")}/${name}/pure/os/downloads/`,
-        channels: PureOsDownloadChannels,
-      })
-    }
-  )
+  ipcMain.answerRenderer(PureOsDownloadChannels.start, async (url: string) => {
+    const { pureOsDownloadLocation } = await fs.readJSON(
+      `${app.getPath("appData")}/${name}/settings.json`
+    )
+
+    return registerDownloadListener({
+      url,
+      path: pureOsDownloadLocation,
+      channels: PureOsDownloadChannels,
+    })
+  })
 }
 
 export default registerPureOsDownloadListener

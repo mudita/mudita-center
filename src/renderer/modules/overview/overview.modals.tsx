@@ -73,6 +73,10 @@ const ProgressText = styled(ModalText)`
   margin-bottom: 6.8rem;
 `
 
+const CenteredText = styled(Text)`
+  text-align: center;
+`
+
 const messages = defineMessages({
   muditaOsUpdateTitle: {
     id: "view.name.overview.system.modal.muditaOsUpdate.title",
@@ -223,6 +227,46 @@ export const UpdateAvailable = ({
     />
   </OSUpdateModal>
 )
+
+export const DevUpdate = ({
+  onDownload = noop,
+  version = "",
+  date = "",
+  prerelease = false,
+}) => {
+  const textDate = new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  })
+  return (
+    <OSUpdateModal
+      actionButtonLabel={"Download now"}
+      onActionButtonClick={onDownload}
+      closeButton={false}
+    >
+      <RoundIconWrapper>
+        <Icon type={Type.Pure} width={4} />
+      </RoundIconWrapper>
+      <Text displayStyle={TextDisplayStyle.LargeBoldText}>Are you sure?</Text>
+      <CenteredText displayStyle={TextDisplayStyle.MediumText}>
+        You're about to download an update that{" "}
+        {prerelease ? (
+          <span>may be unstable</span>
+        ) : (
+          <span>may be incompatible with the current OS version</span>
+        )}
+        .<br />
+        <br />
+        Version: <strong>{version}</strong> released on{" "}
+        <strong>{textDate}</strong>
+        <br />
+        <br />
+        Please make sure you know what you're doing!
+      </CenteredText>
+    </OSUpdateModal>
+  )
+}
 
 export const UpdateNotAvailable = ({ version = "", date = "" }) => (
   <OSUpdateModal>

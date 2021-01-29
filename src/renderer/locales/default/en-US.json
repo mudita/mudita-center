@@ -281,6 +281,7 @@
   "view.name.overview.phone.battery": "Battery",
   "view.name.overview.phone.disconnectAction": "Disconnect",
   "view.name.overview.phone.noConnection": "No connection",
+  "view.name.overview.phone.phoneDescription": "Pure Phone",
   "view.name.overview.system.checkForUpdates": "Check for updates",
   "view.name.overview.system.downloadAction": "Download now",
   "view.name.overview.system.lastUpdate": "Updated: {date}",

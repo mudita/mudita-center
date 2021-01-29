@@ -1,8 +1,9 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { ipcRenderer } from "electron-better-ipc"
 import modalService from "Renderer/components/core/modal/modal.service"
 import {
   CheckingUpdatesModal,
+  DevUpdate,
   DownloadingUpdateCancelledModal,
   DownloadingUpdateFinishedModal,
   DownloadingUpdateInterruptedModal,
@@ -14,9 +15,7 @@ import {
   UpdatingProgressModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
-import availableOsUpdateRequest, {
-  UpdateStatusResponse,
-} from "Renderer/requests/available-os-update.request"
+import availableOsUpdateRequest from "Renderer/requests/available-os-update.request"
 import downloadOsUpdateRequest, {
   cancelOsDownload,
 } from "Renderer/requests/download-os-update.request"
@@ -24,8 +23,6 @@ import { PureOsDownloadChannels } from "App/main/functions/register-pure-os-down
 import {
   DownloadProgress,
   DownloadStatus,
-  Filename,
-  Filesize,
 } from "Renderer/interfaces/file-download.interface"
 import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-downloaded.request"
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
@@ -40,17 +37,21 @@ import registerOsUpdateProgressListener, {
   removeOsUpdateProgressListener,
 } from "Renderer/listeners/register-os-update-progress.listener"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
+import { Release } from "App/main/functions/register-pure-os-update-listener"
+import appContextMenu from "Renderer/wrappers/app-context-menu"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
 }
 
 const useSystemUpdateFlow = (
-  lastUpdate: string,
+  osVersion: string,
   onUpdate: (updateInfo: PhoneUpdate) => void,
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
   toggleUpdatingDevice: (option: boolean) => void
 ) => {
+  const [releaseToInstall, setReleaseToInstall] = useState<Release>()
+
   useEffect(() => {
     const downloadListener = (event: Event, progress: DownloadProgress) => {
       const { status, percent, speed, timeLeft } = progress
@@ -75,8 +76,166 @@ const useSystemUpdateFlow = (
     }
   }, [])
 
-  const updatePure = async (updateInfo: UpdateStatusResponse) => {
-    const { file, version } = updateInfo
+  // Developer mode
+  const [devReleases, setDevReleases] = useState<Release[]>([])
+
+  useEffect(() => {
+    const unregisterItem = appContextMenu.registerItem("Overview", {
+      label: "Select Pure OS version to update",
+      submenu: devReleases.length
+        ? devReleases.map((release) => {
+            const { prerelease, version } = release
+            return {
+              label: `${prerelease ? "Beta" : "Stable"}: ${version}`,
+              click: () => setReleaseToInstall({ ...release, devMode: true }),
+            }
+          })
+        : [{ label: "No releases available" }],
+    })
+    return () => unregisterItem()
+  }, [devReleases])
+
+  useEffect(() => {
+    if (releaseToInstall?.devMode) {
+      const { prerelease, version, date } = releaseToInstall
+      ;(async () => {
+        if (await osUpdateAlreadyDownloadedCheck(releaseToInstall.file)) {
+          // show install modal
+        } else {
+          modalService.openModal(
+            <DevUpdate
+              date={date}
+              prerelease={prerelease}
+              version={version}
+              onDownload={downloadUpdate}
+            />
+          )
+        }
+      })()
+    }
+  }, [releaseToInstall])
+
+  // Checking for updates
+  const openCheckingForUpdatesModal = () => {
+    modalService.openModal(<CheckingUpdatesModal />)
+  }
+
+  const openCheckingForUpdatesFailedModal = (onRetry: () => void) => {
+    return modalService.openModal(<UpdateServerError onRetry={onRetry} />, true)
+  }
+
+  const openAvailableUpdateModal = () => {
+    const { version, date } = releaseToInstall as Release
+    const onDownload = () => {
+      downloadUpdate()
+      openDownloadingUpdateModal()
+    }
+
+    return modalService.openModal(
+      <UpdateAvailable onDownload={onDownload} version={version} date={date} />,
+      true
+    )
+  }
+
+  const openNotAvailableUpdateModal = () => {
+    return modalService.openModal(
+      <UpdateNotAvailable version={osVersion} />,
+      true
+    )
+  }
+
+  const checkForUpdates = async (silent = false) => {
+    if (!silent) {
+      openCheckingForUpdatesModal()
+    }
+
+    if (osVersion) {
+      try {
+        const { newerReleases, allReleases } = await availableOsUpdateRequest(
+          osVersion
+        )
+
+        setDevReleases(allReleases)
+
+        if (newerReleases.length) {
+          const nextUpdate = newerReleases[0]
+          setReleaseToInstall(nextUpdate)
+
+          onUpdate({
+            pureOsAvailable: true,
+            pureOsFileUrl: nextUpdate.file.url,
+          })
+
+          if (await osUpdateAlreadyDownloadedCheck(nextUpdate.file)) {
+            onUpdate({ pureOsDownloaded: true })
+          }
+
+          if (!silent) {
+            openAvailableUpdateModal()
+          }
+        } else {
+          onUpdate({ pureOsAvailable: false })
+
+          if (!silent) {
+            openNotAvailableUpdateModal()
+          }
+        }
+      } catch (error) {
+        if (!silent) {
+          await openCheckingForUpdatesFailedModal(checkForUpdates)
+        }
+        logger.error(error)
+      }
+    }
+  }
+
+  // Download update
+  const openDownloadSucceededModal = () => {
+    return modalService.openModal(
+      <DownloadingUpdateFinishedModal onOsUpdate={updatePure} />,
+      true
+    )
+  }
+
+  const openDownloadCanceledModal = () => {
+    return modalService.openModal(<DownloadingUpdateCancelledModal />, true)
+  }
+
+  const openDownloadInterruptedModal = (onRetry: () => void) => {
+    return modalService.openModal(
+      <DownloadingUpdateInterruptedModal onRetry={onRetry} />,
+      true
+    )
+  }
+
+  const openDownloadingUpdateModal = async () => {
+    await modalService.openModal(
+      <DownloadingUpdateModal onCancel={onOsDownloadCancel} />,
+      true
+    )
+    modalService.preventClosingModal()
+  }
+
+  const downloadUpdate = async () => {
+    try {
+      await openDownloadingUpdateModal()
+      await delayResponse(
+        downloadOsUpdateRequest(releaseToInstall?.file.url as string)
+      )
+      onUpdate({ pureOsDownloaded: true })
+      await openDownloadSucceededModal()
+    } catch (error) {
+      if (error.status === DownloadStatus.Cancelled) {
+        await openDownloadCanceledModal()
+      } else {
+        await openDownloadInterruptedModal(() => downloadUpdate())
+      }
+    }
+  }
+
+  // Install update
+  const updatePure = async () => {
+    const { file, version } = releaseToInstall as Release
 
     modalService.openModal(<UpdatingProgressModal progressValue={0} />, true)
 
@@ -90,7 +249,8 @@ const useSystemUpdateFlow = (
 
     registerOsUpdateProgressListener(listener)
 
-    const response = await updateOs(file, IpcEmitter.OsUpdateProgress)
+    const fileName = file.url.split("/").pop() as string
+    const response = await updateOs(fileName, IpcEmitter.OsUpdateProgress)
 
     removeOsUpdateProgressListener(listener)
 
@@ -101,7 +261,7 @@ const useSystemUpdateFlow = (
     toggleUpdatingDevice(false)
 
     await onUpdate({
-      pureOsFileName: "",
+      pureOsFileUrl: "",
       pureOsDownloaded: false,
       pureOsAvailable: false,
     })
@@ -111,140 +271,21 @@ const useSystemUpdateFlow = (
       osUpdateDate: new Date().toISOString(),
     })
 
-    return response
-  }
+    const onRetry = () => updatePure()
 
-  const checkForUpdates = (retry?: boolean, silent?: boolean) => {
-    if (!silent) {
-      modalService.openModal(<CheckingUpdatesModal />, retry)
-    }
-    return delayResponse(availableOsUpdateRequest(lastUpdate), silent ? 0 : 500)
-  }
-
-  const checkForUpdatesFailed = (onRetry: () => void) => {
-    return modalService.openModal(<UpdateServerError onRetry={onRetry} />, true)
-  }
-
-  const alreadyDownloadedCheck = (file: Filename, size: Filesize) => {
-    return osUpdateAlreadyDownloadedCheck(file, size)
-  }
-
-  const downloadUpdateFile = async (file: Filename) => {
-    await modalService.openModal(
-      <DownloadingUpdateModal onCancel={onOsDownloadCancel} />,
-      true
-    )
-    modalService.preventClosingModal()
-    return delayResponse(
-      downloadOsUpdateRequest(file.split("/").pop() as Filename)
-    )
-  }
-
-  const downloadSucceeded = (onOsUpdate: () => void) => {
-    return modalService.openModal(
-      <DownloadingUpdateFinishedModal onOsUpdate={onOsUpdate} />,
-      true
-    )
-  }
-
-  const downloadCanceled = () => {
-    return modalService.openModal(<DownloadingUpdateCancelledModal />, true)
-  }
-
-  const downloadInterrupted = (onRetry: () => void) => {
-    return modalService.openModal(
-      <DownloadingUpdateInterruptedModal onRetry={onRetry} />,
-      true
-    )
-  }
-
-  const availableUpdate = (
-    onDownload: () => void,
-    version: string,
-    date: string
-  ) => {
-    return modalService.openModal(
-      <UpdateAvailable onDownload={onDownload} version={version} date={date} />,
-      true
-    )
-  }
-
-  const notAvailableUpdate = (version: string, date: string) => {
-    return modalService.openModal(
-      <UpdateNotAvailable version={version} date={date} />,
-      true
-    )
-  }
-
-  const install = async () => {
-    const updatesInfo = await checkForUpdates(false, true)
-    const update = async () => {
-      const updateResponse = await updatePure(updatesInfo)
-      if (isEqual(updateResponse, { status: DeviceResponseStatus.Ok })) {
-        modalService.openModal(<UpdatingSuccessModal />, true)
-      } else {
-        logger.error(updateResponse)
-        modalService.openModal(<UpdatingFailureModal onRetry={update} />, true)
-      }
-    }
-    await update()
-  }
-
-  const download = async (file: Filename) => {
-    try {
-      await downloadUpdateFile(file)
-      onUpdate({ pureOsDownloaded: true })
-      await downloadSucceeded(install)
-    } catch (error) {
-      if (error.status === DownloadStatus.Cancelled) {
-        await downloadCanceled()
-      } else {
-        await downloadInterrupted(async () => await download(file))
-      }
-    }
-  }
-
-  const initialCheck = async () => {
-    try {
-      const { available, file, size } = await checkForUpdates(false, true)
-      if (available) {
-        if (await alreadyDownloadedCheck(file, size)) {
-          onUpdate({ pureOsAvailable: true, pureOsDownloaded: true })
-        } else {
-          onUpdate({ pureOsAvailable: true, pureOsFileName: file })
-        }
-      }
-    } catch (error) {
-      // do nothing
-    }
-  }
-
-  const check = async (retry?: boolean) => {
-    try {
-      const { available, version, file, date, size } = await checkForUpdates(
-        retry
-      )
-      if (available) {
-        onUpdate({ pureOsFileName: file, pureOsAvailable: true })
-        if (await alreadyDownloadedCheck(file, size)) {
-          onUpdate({ pureOsDownloaded: true })
-          await downloadSucceeded(install)
-        } else {
-          await availableUpdate(async () => await download(file), version, date)
-        }
-      } else {
-        await notAvailableUpdate(version, date)
-      }
-    } catch (error) {
-      await checkForUpdatesFailed(async () => await check(true))
+    if (isEqual(response, { status: DeviceResponseStatus.Ok })) {
+      modalService.openModal(<UpdatingSuccessModal />, true)
+    } else {
+      logger.error(response)
+      modalService.openModal(<UpdatingFailureModal onRetry={onRetry} />, true)
     }
   }
 
   return {
-    initialCheck,
-    check,
-    download,
-    install,
+    initialCheck: () => checkForUpdates(true),
+    check: () => checkForUpdates(),
+    download: downloadUpdate,
+    install: updatePure,
   }
 }
 

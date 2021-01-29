@@ -1,27 +1,42 @@
 import { ipcRenderer } from "electron-better-ipc"
-import { OsUpdateChannel } from "App/main/functions/register-pure-os-update-listener"
+import {
+  OsUpdateChannel,
+  Release,
+} from "App/main/functions/register-pure-os-update-listener"
 
-export interface UpdateStatusResponse {
-  available: boolean
-  version: string
-  file: string
-  date: string
-  size: number
+interface AvailableReleases {
+  allReleases: Release[]
+  newerReleases: Release[]
 }
 
 const availableOsUpdateRequest = (
-  lastUpdate: string
-): Promise<UpdateStatusResponse> => {
+  osVersion?: string
+): Promise<AvailableReleases> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { date, ...rest } = await ipcRenderer.callMain<
-        string,
-        Omit<UpdateStatusResponse, "available">
-      >(OsUpdateChannel.Request)
+      const releases = await ipcRenderer.callMain<string, Release[]>(
+        OsUpdateChannel.Request
+      )
+
+      let availableReleases: Release[] = []
+
+      if (osVersion) {
+        for (const release of releases) {
+          if (osVersion.includes(release.version)) {
+            break
+          } else {
+            availableReleases.push(release)
+          }
+        }
+      } else {
+        availableReleases = releases
+      }
+
       resolve({
-        available: new Date(date) > new Date(lastUpdate),
-        date,
-        ...rest,
+        allReleases: releases,
+        newerReleases: availableReleases
+          .filter((release) => (osVersion ? true : !release.prerelease))
+          .reverse(),
       })
     } catch (error) {
       reject(error)
