@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.15.4]
+        node-version: [13.x]
 
     timeout-minutes: 10
 
