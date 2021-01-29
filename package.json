@@ -15,6 +15,7 @@
     "build": "npm run build:main && npm run build:renderer",
     "build:main": "cross-env NODE_ENV=production webpack --config webpack.config.main.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config webpack.config.renderer.js",
+    "build:shared": "tsc --p tsconfig.shared.json",
     "DEV COMMANDS": "==========================================================",
     "dev:start:main": "webpack --config webpack.config.main.js && electron ./dist/main.js",
     "dev:start:renderer": "webpack-dev-server --config webpack.config.renderer.js --noBabelLoaderCache",
