@@ -21,7 +21,7 @@ jobs:
       - name: Install node and npm
         uses: actions/setup-node@v2.1.4
         with:
-          node-version: '13.12.0'
+          node-version: '12.18.4'
 
       - name: Install dependencies
         run: npm install && npm install electron-builder -g
