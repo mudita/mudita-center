@@ -16,8 +16,6 @@ module.exports = {
     "Storybook/(.*)": ".storybook/$1",
     "Backend/(.*)": "<rootDir>/src/backend/$1",
     "Common/(.*)": "<rootDir>/src/common/$1",
-    electron: "<rootDir>/__mocks__/electron.js",
-    "fs-extra": "<rootDir>/__mocks__/fs-mock.js",
   },
   rootDir: "./",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
