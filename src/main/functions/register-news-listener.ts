@@ -4,9 +4,10 @@ import { ipcMain } from "electron-better-ipc"
 import fs from "fs-extra"
 import getDefaultNewsItems from "App/main/default-news-item"
 import { normalizeContentfulData } from "Renderer/models/mudita-news/normalize-contentful-data"
-import { createClient, EntryCollection } from "contentful"
+import { EntryCollection } from "contentful"
 import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 import logger from "App/main/utils/logger"
+import { createClient, ContentfulResource } from "App/api/contentful"
 
 export enum NewsEvents {
   Get = "get-news-items",
@@ -28,10 +29,7 @@ const registerNewsListener = () => {
       ...newsItems.map((item: any) => new Date(item.updatedAt).getTime())
     )
     try {
-      const client = createClient({
-        accessToken: process.env.MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN as string,
-        space: process.env.MUDITA_WEB_CONTENTFUL_SPACE_ID as string,
-      })
+      const client = createClient({ resource: ContentfulResource.News })
       const data: EntryCollection<NewsEntry> = await client.getEntries({
         content_type: "newsItem",
         limit: 3,
