@@ -23,20 +23,20 @@ afterEach(async () => {
   await stopApp(app)
 })
 
-test("user can navigate to the contact form through Backup screen", async () => {
+test.skip("user can navigate to the contact form through Backup screen", async () => {
   expect(
     await app.client.isExisting(`//*[text()="Mudita Center Support"]`)
   ).toBe(true)
 })
 
-test("contact form informs a user that email is required", async () => {
+test.skip("contact form informs a user that email is required", async () => {
   await app.client.$(`*[data-testid=${ModalTestIds.ModalActionButton}]`).click()
   expect(await app.client.isExisting(`//*[text()="Email is required"]`)).toBe(
     true
   )
 })
 
-test("contact form informs a user that only valid email can be used", async () => {
+test.skip("contact form informs a user that only valid email can be used", async () => {
   await app.client
     .$(`*[data-testid=${ModalTestIds.Email}]`)
     .setValue(incorrectEmail)
@@ -46,7 +46,7 @@ test("contact form informs a user that only valid email can be used", async () =
   )
 })
 
-test("user can send a message to the support", async () => {
+test.skip("user can send a message to the support", async () => {
   await app.client.$(`*[data-testid=${ModalTestIds.Email}]`).setValue(email)
   await app.client.$(`*[data-testid=${ModalTestIds.ModalActionButton}]`).click()
   expect(await app.client.isExisting(`//*[text()="Sending"]`)).toBe(true)
