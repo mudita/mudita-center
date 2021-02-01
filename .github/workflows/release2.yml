@@ -1,36 +1,36 @@
-# Build and release the app
-
-name: Release v2
-on:
-  push:
-    tags:
-      - "v*"
-
-jobs:
-  release:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest]
-        package_manager: [yarn]
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-
-      - name: Install node and npm
-        uses: actions/setup-node@v2.1.4
-        with:
-          node-version: '12.18.4'
-
-      - name: Install dependencies
-        run: npm install && npm install electron-builder -g
-
-      - name: Build and publish the app
-        uses: samuelmeuli/action-electron-builder@v1.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          mac_certs: ${{ secrets.MAC_CERTS }}
-          mac_certs_password: ${{ secrets.MAC_CERTS_PASSWORD }}
-          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+## Build and release the app
+#
+#name: Release v2
+#on:
+#  push:
+#    tags:
+#      - "v*"
+#
+#jobs:
+#  release:
+#    runs-on: ${{ matrix.os }}
+#
+#    strategy:
+#      matrix:
+#        os: [macos-latest, ubuntu-latest]
+#        package_manager: [yarn]
+#
+#    steps:
+#      - name: Check out repository
+#        uses: actions/checkout@v2
+#
+#      - name: Install node and npm
+#        uses: actions/setup-node@v2.1.4
+#        with:
+#          node-version: '12.18.4'
+#
+#      - name: Install dependencies
+#        run: npm install && npm install electron-builder -g
+#
+#      - name: Build and publish the app
+#        uses: samuelmeuli/action-electron-builder@v1.6.0
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          mac_certs: ${{ secrets.MAC_CERTS }}
+#          mac_certs_password: ${{ secrets.MAC_CERTS_PASSWORD }}
+#          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
