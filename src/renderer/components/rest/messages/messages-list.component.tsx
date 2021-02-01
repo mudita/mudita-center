@@ -49,6 +49,8 @@ import {
 import { Caller } from "Renderer/models/calls/calls.interface"
 import { isToday } from "Renderer/utils/is-today"
 import { AppSettings } from "App/main/store/settings.interface"
+import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
+import { productionEnvironment } from "Renderer/constants/menu-elements"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -249,7 +251,7 @@ const MessagesList: FunctionComponent<Props> = ({
                   onOpen={disableScroll}
                   onClose={enableScroll}
                 >
-                  <ButtonComponent
+                  <HiddenButton
                     labelMessage={{
                       id: "component.dropdown.call",
                       values: {
@@ -260,6 +262,7 @@ const MessagesList: FunctionComponent<Props> = ({
                     onClick={noop}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-call"
+                    hide={productionEnvironment}
                   />
                   {isNameAvailable(caller) ? (
                     <ButtonComponent
@@ -282,7 +285,7 @@ const MessagesList: FunctionComponent<Props> = ({
                       data-testid="dropdown-add-to-contacts"
                     />
                   )}
-                  <ButtonComponent
+                  <HiddenButton
                     labelMessage={{
                       id: unread
                         ? "view.name.messages.markAsRead"
@@ -292,6 +295,7 @@ const MessagesList: FunctionComponent<Props> = ({
                     onClick={toggleReadStatus}
                     displayStyle={DisplayStyle.Dropdown}
                     data-testid="dropdown-mark-as-read"
+                    hide={productionEnvironment}
                   />
                   <ButtonComponent
                     labelMessage={{
