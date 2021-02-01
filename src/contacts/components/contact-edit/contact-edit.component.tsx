@@ -38,6 +38,8 @@ import {
   speedDialListStyles,
   SpeedDialSettings,
 } from "App/contacts/components/contact-edit/contact-edit.styled"
+import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/contact-panel-test-ids.enum"
+import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 
 const messages = defineMessages({
   editTitle: { id: "view.name.phone.contacts.edit.title" },
@@ -185,6 +187,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               ref={register}
               errorMessage={errors.firstName?.message}
               onBlur={handleUsernameBlur}
+              data-testid={ContactEditTestIdsEnum.FirstName}
             />
             <Input
               type="text"
@@ -193,6 +196,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               ref={register}
               errorMessage={errors.lastName?.message}
               onBlur={handleUsernameBlur}
+              data-testid={ContactEditTestIdsEnum.SecondName}
             />
             <Input
               type="tel"
@@ -200,6 +204,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               name="primaryPhoneNumber"
               ref={register(phoneNumberValidator)}
               errorMessage={errors.primaryPhoneNumber?.message}
+              data-testid={ContactEditTestIdsEnum.PrimaryNumber}
             />
             <Input
               type="tel"
@@ -207,6 +212,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               name="secondaryPhoneNumber"
               ref={register(phoneNumberValidator)}
               errorMessage={errors.secondaryPhoneNumber?.message}
+              data-testid={ContactEditTestIdsEnum.SecondaryNumber}
             />
             <Input
               type="email"
@@ -215,6 +221,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               defaultValue={contact?.email}
               ref={register(emailValidator)}
               errorMessage={errors.email?.message}
+              data-testid={ContactEditTestIdsEnum.Email}
             />
           </div>
           <div>
@@ -275,6 +282,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               errorMessage={errors.firstAddressLine?.message}
               maxLength={30}
               onBlur={trimInputValue}
+              data-testid={ContactEditTestIdsEnum.FirstAddressLine}
             />
             <Input
               type="text"
@@ -284,6 +292,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               errorMessage={errors.secondAddressLine?.message}
               maxLength={30}
               onBlur={trimInputValue}
+              data-testid={ContactEditTestIdsEnum.SecondAddressLine}
             />
             <Input
               type="text"
@@ -294,6 +303,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               errorMessage={errors.note?.message}
               maxLength={30}
               onBlur={trimInputValue}
+              data-testid={ContactEditTestIdsEnum.Note}
             />
           </div>
         </Content>
@@ -315,6 +325,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
                 intl.formatMessage(messages.save)
               )
             }
+            data-testid={ContactPanelTestIdsEnum.SaveButton}
           />
         </Buttons>
       </form>

@@ -42,11 +42,13 @@ export const tabElements: TabElement[] = [
         label: messages.conversations,
         url: URL_MAIN.messages,
         icon: Type.Message,
+        hidden: productionEnvironment,
       },
       {
         label: messages.templates,
         url: `${URL_MAIN.messages}${URL_TABS.templates}`,
         icon: Type.Templates,
+        hidden: productionEnvironment,
       },
     ],
   },

@@ -25,6 +25,7 @@ import {
   Input,
   Name,
 } from "App/contacts/components/contact-details/contact-details.styled"
+import { productionEnvironment } from "Renderer/constants/menu-elements"
 
 const messages = defineMessages({
   favourites: { id: "view.name.phone.contacts.details.favourites" },
@@ -109,7 +110,14 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const handleUnblock = () => onUnblock(contact)
     const handleDelete = () => onDelete(contact)
     const handleMessage = (phoneNumber: string) => onMessage(phoneNumber)
-
+    // TODO: Remove prodIcons along with associated logic when features become available
+    const prodIcons = (
+      <>
+        <SidebarHeaderIcon Icon={Type.Edit} onClick={handleEdit} />
+        <SidebarHeaderIcon Icon={Type.Upload} onClick={handleExport} />
+        <SidebarHeaderIcon Icon={Type.Delete} onClick={handleDelete} />
+      </>
+    )
     const icons = (
       <>
         <SidebarHeaderIcon Icon={Type.Edit} onClick={handleEdit} />
@@ -134,7 +142,11 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
       : noop()
 
     return (
-      <ContactDetailsWrapper {...rest} show headerRight={icons}>
+      <ContactDetailsWrapper
+        {...rest}
+        show
+        headerRight={productionEnvironment ? prodIcons : icons}
+      >
         <BasicInfo>
           <Name>
             {contact.firstName} {contact.lastName}
@@ -173,23 +185,33 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
               {contact.primaryPhoneNumber && (
                 <Input
                   defaultValue={contact.primaryPhoneNumber}
-                  trailingIcons={phoneActions(
-                    contact.primaryPhoneNumber,
-                    isTopicThreadOpened(contact.primaryPhoneNumber),
-                    onCall,
-                    handleMessage
-                  )}
+                  // TODO: Remove productionEnvironment along with associated logic when features become available
+                  trailingIcons={
+                    productionEnvironment
+                      ? undefined
+                      : phoneActions(
+                          contact.primaryPhoneNumber,
+                          isTopicThreadOpened(contact.primaryPhoneNumber),
+                          onCall,
+                          handleMessage
+                        )
+                  }
                 />
               )}
               {contact.secondaryPhoneNumber && (
                 <Input
                   defaultValue={contact.secondaryPhoneNumber}
-                  trailingIcons={phoneActions(
-                    contact.secondaryPhoneNumber,
-                    isTopicThreadOpened(contact.secondaryPhoneNumber),
-                    onCall,
-                    handleMessage
-                  )}
+                  // TODO: Remove productionEnvironment along with associated logic when features become available
+                  trailingIcons={
+                    productionEnvironment
+                      ? undefined
+                      : phoneActions(
+                          contact.secondaryPhoneNumber,
+                          isTopicThreadOpened(contact.secondaryPhoneNumber),
+                          onCall,
+                          handleMessage
+                        )
+                  }
                 />
               )}
               {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber && (
