@@ -67,30 +67,6 @@ exports[`matches snapshot 1`] = `
   height: 100%;
 }
 
-.c14 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  height: 2.4rem;
-  width: 2.4rem;
-  position: relative;
-  font-style: normal;
-}
-
-.c14 svg {
-  width: 100%;
-  height: 100%;
-}
-
 .c5 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -159,7 +135,7 @@ exports[`matches snapshot 1`] = `
   opacity: 0.75;
 }
 
-.c16 {
+.c12 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -195,35 +171,35 @@ exports[`matches snapshot 1`] = `
   width: 100%;
 }
 
-.c16.active {
+.c12.active {
   background-color: #f4f5f6;
 }
 
-.c16.active * {
+.c12.active * {
   color: #000000;
 }
 
-.c16.active svg {
+.c12.active svg {
   opacity: 1;
   -webkit-transition: opacity 500ms ease;
   transition: opacity 500ms ease;
 }
 
-.c16:hover {
+.c12:hover {
   background-color: #f4f5f6;
 }
 
-.c16:hover * {
+.c12:hover * {
   color: #000000;
 }
 
-.c16:hover svg {
+.c12:hover svg {
   opacity: 1;
   -webkit-transition: opacity 500ms ease;
   transition: opacity 500ms ease;
 }
 
-.c16 svg {
+.c12 svg {
   opacity: 0.75;
 }
 
@@ -235,7 +211,7 @@ exports[`matches snapshot 1`] = `
   white-space: nowrap;
 }
 
-.c17 {
+.c13 {
   padding: 0.4rem 0.8rem;
 }
 
@@ -253,37 +229,6 @@ exports[`matches snapshot 1`] = `
   -ms-flex-pack: justify;
   justify-content: space-between;
   margin: 2.4rem 0 1.6rem 0;
-}
-
-.c12 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.c13 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  padding: 0.4rem;
-}
-
-.c13:hover {
-  background-color: #f4f5f6;
-}
-
-.c15:not(:last-of-type) {
-  margin-right: 1rem;
 }
 
 .c4 {
@@ -362,345 +307,6 @@ exports[`matches snapshot 1`] = `
     </div>
     <div
       class="c10"
-      data-testid="menu.header.yourPure"
-    >
-      <p
-        class="c11"
-      >
-        [value] menu.header.yourPure
-      </p>
-      <div
-        class="c12"
-      >
-        <div
-          class="c13"
-        >
-          <i
-            class="c14"
-            data-testid="icon-HighRange"
-            height="2.4"
-            width="2.4"
-          >
-            <test-file-stub
-              image="test-file-stub"
-            />
-          </i>
-        </div>
-        <div
-          class="c13"
-        >
-          <i
-            class="c14"
-            data-testid="icon-HighBattery"
-            height="2.4"
-            width="2.4"
-          >
-            <test-file-stub
-              image="test-file-stub"
-            />
-          </i>
-        </div>
-        <div
-          class="c13"
-        >
-          <i
-            class="c14 c15"
-            data-testid="icon-Sim"
-            height="2.4"
-            width="2.4"
-          >
-            <test-file-stub
-              image="test-file-stub"
-            />
-          </i>
-        </div>
-        <div
-          class="c13"
-        >
-          <i
-            class="c14 c15"
-            data-testid="icon-TetheringStatus"
-            height="2.4"
-            width="2.4"
-          >
-            <test-file-stub
-              image="test-file-stub"
-            />
-          </i>
-        </div>
-      </div>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        data-testid="overview-link"
-        displaystyle="8"
-        href="#/overview"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-MenuOverview"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.overview
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        data-testid="overview-menu-link"
-        displaystyle="8"
-        href="#/messages"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-Message"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.messages
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        data-testid="phone-menu-link"
-        displaystyle="8"
-        href="#/phone"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-MenuPhone"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.phone
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        data-testid="contacts-menu-link"
-        displaystyle="8"
-        href="#/contacts"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-MenuContacts"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.contacts
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        data-testid="tools-link"
-        displaystyle="8"
-        href="#/tools"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-MenuTools"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.tools
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        data-testid="music-link"
-        displaystyle="8"
-        href="#/music"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-MenuMusic"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.music
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        data-testid="calendar-link"
-        displaystyle="8"
-        href="#/calendar"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-Calendar"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.calendar
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        data-testid="meditation-link"
-        displaystyle="8"
-        href="#/meditation"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-MenuMeditation"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.meditation
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        data-testid="files-manager-link"
-        displaystyle="8"
-        href="#/files-manager"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-MenuFilesManager"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.filesManager
-        </p>
-      </a>
-    </div>
-    <div
-      class="c4"
-    >
-      <a
-        class="c5"
-        displaystyle="8"
-        href="#/recovery-mode"
-        size="2"
-      >
-        <i
-          class="c6 c7"
-          data-testid="icon-MuditaLogo"
-          height="3.2"
-          width="3.2"
-        >
-          <test-file-stub
-            image="test-file-stub"
-          />
-        </i>
-        <p
-          class="c8 c9"
-        >
-          [value] view.name.recoveryMode
-        </p>
-      </a>
-    </div>
-    <div
-      class="c10"
       data-testid="menu.header.desktopApp"
     >
       <p
@@ -766,7 +372,7 @@ exports[`matches snapshot 1`] = `
       class="c4"
     >
       <button
-        class="c16 c17"
+        class="c12 c13"
         data-testid="help-menu-button"
         size="2"
         type="button"

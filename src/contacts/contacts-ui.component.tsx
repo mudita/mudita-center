@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from "react"
 import ContactList from "App/contacts/components/contact-list/contact-list.component"
-import ContactPanel, {
-  ContactPanelProps,
-} from "App/contacts/components/contact-panel/contact-panel.component"
+import ContactPanel from "App/contacts/components/contact-panel/contact-panel.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
-import ContactDetails, {
-  ContactActions,
-  ContactDetailsActions,
-} from "App/contacts/components/contact-details/contact-details.component"
+import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
-import {
-  Contact,
-  ContactID,
-  NewContact,
-  Store,
-} from "App/contacts/store/contacts.type"
+import { Contact, NewContact } from "App/contacts/store/contacts.type"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import ContactEdit, {
   defaultContact,
@@ -28,13 +18,9 @@ import { createFullName } from "App/contacts/store/contacts.helpers"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { ContactSection } from "App/contacts/contacts.styled"
-import { AuthProviders } from "Renderer/models/auth/auth.typings"
-import SyncContactsModal from "Renderer/components/rest/sync-modals/sync-contacts-modal.component"
-import { Type } from "Renderer/components/core/icon/icon.config"
-import { SynchronizingContactsModal } from "Renderer/components/rest/sync-modals/synchronizing-contacts-modal.component"
+import SyncContactsModal from "App/contacts/components/sync-contacts-modal/sync-contacts-modal.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { defineMessages } from "react-intl"
-import { History, LocationState } from "history"
 import { useHistory } from "react-router-dom"
 import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
 import findContactByPhoneNumber from "App/contacts/helpers/find-contact-by-phone-number/find-contact-by-phone-number"
@@ -46,11 +32,15 @@ import {
   LoadingStateDataModal,
 } from "Renderer/components/rest/data-modal/data.modals"
 import parseVcf from "App/contacts/helpers/parse-vcf/parse-vcf"
-import ImportContactsModal from "Renderer/components/rest/sync-modals/import-contacts-modal.component"
-import ImportingContactsModal from "Renderer/components/rest/sync-modals/importing-contacts-modal.component"
 import logger from "App/main/utils/logger"
-import ContactImportModal from "App/contacts/components/contact-import/contact-import-modal.component"
-import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
+import ContactImportModal, {
+  ModalType,
+} from "App/contacts/components/contact-import/contact-import-modal.component"
+import { ExternalService, FileService } from "App/contacts/contacts.interface"
+import { PhoneProps } from "App/contacts/contacts.type"
+import ImportingContactsModal from "App/contacts/components/importing-contacts-modal/importing-contacts-modal.component"
+import appContextMenu from "Renderer/wrappers/app-context-menu"
+import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
 
 export const messages = defineMessages({
   deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -58,28 +48,29 @@ export const messages = defineMessages({
   addingText: { id: "view.name.phone.contacts.modal.adding.text" },
   deletingText: { id: "view.name.phone.contacts.modal.deleting.text" },
   editingText: { id: "view.name.phone.contacts.modal.editing.text" },
-  importingFailed: {
-    id: "view.name.phone.contacts.modal.importingFailed.message",
+  downloadingText: { id: "view.name.phone.contacts.modal.downloading.text" },
+  downloadingErrorTitle: {
+    id: "view.name.contacts.modal.downloadingError.title",
+  },
+  downloadingErrorBody: {
+    id: "view.name.contacts.modal.downloadingError.body",
+  },
+  authorizationFailedTitle: {
+    id: "view.name.contacts.modal.authorizationFailed.title",
+  },
+  authorizationFailedBody: {
+    id: "view.name.calendar.modal.authorizationFailed.body",
+  },
+  authorizationFailedButton: {
+    id: "view.name.contacts.modal.authorizationFailed.button",
+  },
+  parsingFileErrorTitle: {
+    id: "view.name.contacts.modal.parsingFileError.title",
+  },
+  parsingFileErrorBody: {
+    id: "view.name.contacts.modal.parsingFileError.body",
   },
 })
-
-export type PhoneProps = ContactActions &
-  Omit<ContactPanelProps, "onContactSelect"> &
-  ContactDetailsActions & {
-    onSpeedDialSettingsSave: (contacts?: Contact[]) => void
-    getContact: (id: ContactID) => Contact
-    flatList: Contact[]
-    speedDialChosenList: number[]
-    setProviderData: (provider: AuthProviders, data: any) => void
-    onManageButtonClick: (cb?: any) => Promise<void>
-    isTopicThreadOpened: (phoneNumber: string) => boolean
-    onMessage: (history: History<LocationState>, phoneNumber: string) => void
-    authorize: (provider: Provider) => Promise<string | undefined>
-    addNewContact: (contact: NewContact) => Promise<string | void>
-    editContact: (contact: Contact) => Promise<string | void>
-    deleteContacts: (ids: ContactID[]) => Promise<string | void>
-    loadContacts: (provider: Provider) => Promise<Contact[]>
-  } & Store
 
 const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const {
@@ -116,21 +107,6 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
   const [editedContact, setEditedContact] = useState<Contact>()
 
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null)
-
-  const authorizeAndLoadContacts = async (provider: Provider) => {
-    try {
-      if (provider) {
-        await authorize(provider)
-        await delayResponse(openProgressSyncModal(), 1000)
-        const contactsToImport = await loadContacts(provider)
-        await openSuccessSyncModal(contactsToImport)
-      }
-    } catch {
-      await openAuthorizationFailedModal(provider)
-    }
-  }
-
-  const loadGoogleContacts = () => authorizeAndLoadContacts(Provider.Google)
 
   const {
     selectedRows,
@@ -350,105 +326,50 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     modalService.openModal(<SpeedDialModal onSave={closeModal} />)
   }
 
-  const openSuccessSyncModal = async (contacts: Contact[]) => {
-    const onActionButtonClick = async (chosenContacts: NewContact[]) => {
-      await modalService.openModal(
-        <LoadingStateDataModal textMessage={messages.addingText} />,
-        true
-      )
-      for (const chosenContact of chosenContacts) {
-        const error = await addNewContact(chosenContact)
-        if (error) {
-          await modalService.openModal(<ErrorDataModal />, true)
-          break
-        }
-      }
-      await modalService.closeModal()
-    }
-    await modalService.closeModal()
-    await modalService.openModal(
-      <ContactImportModal
-        contacts={contacts}
-        onActionButtonClick={onActionButtonClick}
-      />
-    )
+  const handleContactSelect = (contact: Contact) => {
+    setSelectedContact(contact)
+    openSidebar(contact)
   }
 
-  const openAuthorizationFailedModal = async (provider: Provider) => {
-    await modalService.closeModal()
+  // Synchronization, dev mode: toggle contacts saving failure
+  const [syncShouldFail, setSyncFailure] = useState(false)
+
+  useEffect(() => {
+    const unregisterItem = appContextMenu.registerItem("Contacts", {
+      labelCreator: () =>
+        `${syncShouldFail ? "Disable" : "Enable"} saving failure`,
+      click: () => setSyncFailure((prevState) => !prevState),
+    })
+    return () => unregisterItem()
+  }, [syncShouldFail])
+
+  // Synchronization, dev mode: toggle contacts importing failure
+  const [parseShouldFail, setParseFailure] = useState(false)
+
+  useEffect(() => {
+    const unregisterItem = appContextMenu.registerItem("Contacts", {
+      labelCreator: () =>
+        `${parseShouldFail ? "Disable" : "Enable"} parsing failure`,
+      click: () => setParseFailure((prevState) => !prevState),
+    })
+    return () => unregisterItem()
+  }, [parseShouldFail])
+
+  // Synchronization, step 1: Show modal with action buttons
+  const showSynchronizationSourceSelectModal = () => {
     modalService.openModal(
-      <AuthorizationFailedModal
-        provider={provider}
-        onActionButtonClick={loadGoogleContacts}
+      <SyncContactsModal
+        onGoogleButtonClick={authorizeAtGoogle}
+        onManualImportClick={importFromFile}
       />
     )
   }
 
-  const openProgressSyncModal = async () => {
-    await closeModal()
-    await modalService.openModal(
-      <SynchronizingContactsModal
-        body={{
-          id: "view.name.phone.contacts.synchronizingModalBody",
-        }}
-        subtitle={{
-          id: "view.name.phone.contacts.synchronizingModalTitle",
-        }}
-        closeButtonLabel={intl.formatMessage({
-          id: "view.generic.button.cancel",
-        })}
-        icon={Type.SynchronizeContacts}
-      />
-    )
-  }
-
-  const importContactsFromFile = async (files: File[]) => {
-    const parsedContacts = await parseVcf(files)
-    let failed = false
-
-    const addImportedContacts = async () => {
-      await closeModal()
-      modalService.openModal(
-        <ImportingContactsModal count={0} total={parsedContacts.length} />
-      )
-
-      for (const contact of parsedContacts) {
-        if (failed) {
-          await closeModal()
-          modalService.openModal(
-            <ErrorDataModal textMessage={messages.importingFailed} />
-          )
-          return
-        }
-        const error = await addNewContact(contact)
-        if (error) {
-          failed = true
-        }
-
-        const currentContact = parsedContacts.indexOf(contact) + 1
-        modalService.rerenderModal(
-          <ImportingContactsModal
-            count={currentContact}
-            total={parsedContacts.length}
-            onClose={closeModal}
-          />
-        )
-      }
-    }
-
-    await closeModal()
-    modalService.openModal(
-      <ImportContactsModal
-        contacts={parsedContacts}
-        onActionButtonClick={addImportedContacts}
-      />
-    )
-  }
-
-  const manualImport = async (inputElement: HTMLInputElement) => {
+  // Synchronization, step 2a: file select
+  const importFromFile = async (inputElement: HTMLInputElement) => {
     const onFileSelect = () => {
       if (inputElement.files) {
-        importContactsFromFile(Array.from(inputElement.files))
+        getContacts({ type: "files", data: Array.from(inputElement.files) })
         inputElement.removeEventListener("change", onFileSelect)
       }
     }
@@ -457,18 +378,151 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     inputElement.addEventListener("change", onFileSelect)
   }
 
-  const openSyncModal = async () => {
+  // Synchronization, step 2b: 3-rd party services
+  const authorizeAtGoogle = () => authorizeAtProvider(Provider.Google)
+
+  const authorizeAtProvider = async (provider: Provider) => {
+    try {
+      if (provider) {
+        await authorize(provider)
+        await getContacts({ type: Provider.Google })
+      }
+    } catch {
+      await openAuthorizationFailedModal(provider)
+    }
+  }
+
+  const openAuthorizationFailedModal = async (provider: Provider) => {
+    const retry = async () => {
+      await closeModal()
+      showSynchronizationSourceSelectModal()
+      authorizeAtProvider(provider)
+    }
+    await modalService.closeModal()
     modalService.openModal(
-      <SyncContactsModal
-        onGoogleButtonClick={loadGoogleContacts}
-        onManualImportClick={manualImport}
+      <ErrorModal
+        title={intl.formatMessage(messages.authorizationFailedTitle)}
+        body={intl.formatMessage(messages.authorizationFailedBody)}
+        onActionButtonClick={retry}
+        actionButtonLabel={intl.formatMessage(
+          messages.authorizationFailedButton
+        )}
       />
     )
   }
 
-  const handleContactSelect = (contact: Contact) => {
-    setSelectedContact(contact)
-    openSidebar(contact)
+  // Synchronization, step 3: data loading
+  const showSynchronizationInfiniteLoader = () => {
+    return delayResponse(
+      modalService.openModal(
+        <LoadingStateDataModal textMessage={messages.downloadingText} />,
+        true
+      )
+    )
+  }
+
+  const getContacts = async (service: ExternalService | FileService) => {
+    const handleError = () => {
+      modalService.openModal(
+        <ErrorModal
+          title={intl.formatMessage(
+            service.type === "files"
+              ? messages.parsingFileErrorTitle
+              : messages.downloadingErrorTitle
+          )}
+          body={intl.formatMessage(
+            service.type === "files"
+              ? messages.parsingFileErrorBody
+              : messages.downloadingErrorBody
+          )}
+        />,
+        true
+      )
+    }
+
+    try {
+      await showSynchronizationInfiniteLoader()
+
+      if (parseShouldFail) {
+        handleError()
+        return
+      }
+
+      const contacts = await (service.type === "files"
+        ? parseVcf(service.data)
+        : loadContacts(service.type))
+
+      showContactsSelectingModal(contacts)
+    } catch (error) {
+      handleError()
+    }
+  }
+
+  // Synchronization, step 4: selecting contacts
+  const showContactsSelectingModal = async (contacts: NewContact[]) => {
+    modalService.openModal(
+      <ContactImportModal
+        contacts={contacts}
+        onActionButtonClick={sendContactsToPhone}
+        modalType={ModalType.Select}
+      />,
+      true
+    )
+  }
+
+  // Synchronization, step 5: sending contacts to phone
+  const sendContactsToPhone = async (contacts: NewContact[]) => {
+    let failed = false
+
+    await closeModal()
+    modalService.openModal(
+      <ImportingContactsModal count={0} total={contacts.length} />
+    )
+
+    for (const contact of contacts) {
+      const index = contacts.indexOf(contact)
+
+      if (failed || (syncShouldFail && index > contacts.length / 2)) {
+        await closeModal()
+        showFinishedSynchronizationModal(contacts.slice(index), index)
+        break
+      }
+      const error = await addNewContact(contact)
+      if (error) {
+        failed = true
+      }
+
+      const currentContactIndex = contacts.indexOf(contact) + 1
+      modalService.rerenderModal(
+        <ImportingContactsModal
+          count={currentContactIndex}
+          total={contacts.length}
+        />
+      )
+
+      if (currentContactIndex === contacts.length) {
+        await closeModal()
+        showFinishedSynchronizationModal(contacts)
+      }
+    }
+  }
+
+  // Synchronization, step 6: import summary / failure handling
+  const showFinishedSynchronizationModal = async (
+    contacts: NewContact[],
+    successfulItemsNumber?: number
+  ) => {
+    const failed = successfulItemsNumber !== undefined
+
+    await closeModal()
+    modalService.openModal(
+      <ContactImportModal
+        contacts={contacts}
+        onActionButtonClick={failed ? sendContactsToPhone : closeModal}
+        modalType={failed ? ModalType.Fail : ModalType.Success}
+        successfulItemsCount={successfulItemsNumber}
+      />
+    )
   }
 
   return (
@@ -476,7 +530,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       <ContactSection>
         <ContactPanel
           onContactSelect={handleContactSelect}
-          onManageButtonClick={openSyncModal}
+          onManageButtonClick={showSynchronizationSourceSelectModal}
           onNewButtonClick={handleAddingContact}
           selectedContacts={selectedRows}
           allItemsSelected={allRowsSelected}

@@ -11,6 +11,7 @@ import {
 import { deburr, find, filter, omit } from "lodash"
 import { intl } from "Renderer/utils/intl"
 import { SimpleRecord } from "Common/typings"
+import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 
 const lengthy = (input = "") => input.length > 0
 const prepareData = <T = any>(input: T | T[]): T[] =>
@@ -205,7 +206,7 @@ export const getSortedContactList = ({ collection, db }: PhoneContacts) => {
       favouriteContacts.push(contact)
     }
 
-    if (firstName || lastName) {
+    if (isNameAvailable(contact)) {
       const groupLetter = deburr(
         lastName?.charAt(0) || firstName?.charAt(0)
       ).toUpperCase()

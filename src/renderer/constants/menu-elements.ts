@@ -21,13 +21,23 @@ const YOUR_PURE_BUTTONS = [
     icon: Type.Message,
     testId: MenuGroupTestIds.Messages,
   },
-  { button: views.phone, icon: Type.MenuPhone, testId: MenuGroupTestIds.Phone },
+  {
+    button: views.phone,
+    icon: Type.MenuPhone,
+    testId: MenuGroupTestIds.Phone,
+    hidden: productionEnvironment,
+  },
   {
     button: views.contacts,
     icon: Type.MenuContacts,
     testId: MenuGroupTestIds.Contacts,
   },
-  { button: views.tools, icon: Type.MenuTools, testId: MenuGroupTestIds.Tools },
+  {
+    button: views.tools,
+    icon: Type.MenuTools,
+    testId: MenuGroupTestIds.Tools,
+    hidden: productionEnvironment,
+  },
   {
     button: views.music,
     icon: Type.MenuMusic,
@@ -43,13 +53,20 @@ const YOUR_PURE_BUTTONS = [
     button: views.meditation,
     icon: Type.MenuMeditation,
     testId: MenuGroupTestIds.Meditation,
+    hidden: productionEnvironment,
   },
   {
     button: views.filesManager,
     icon: Type.MenuFilesManager,
     testId: MenuGroupTestIds.FilesManager,
+    hidden: productionEnvironment,
   },
-  { button: views.recoveryMode, icon: Type.MuditaLogo },
+  {
+    button: views.recoveryMode,
+    icon: Type.MuditaLogo,
+    testId: MenuGroupTestIds.Backup,
+    hidden: productionEnvironment,
+  },
 ]
 
 const DESKTOP_APP_BUTTONS: Item[] = [

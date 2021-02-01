@@ -4,6 +4,8 @@ Mudita Center is an Open Source project and we're more than happy to receive con
 
 Before contributing please read and accept our [Code of Conduct](./CODE_OF_CODUCT.md).
 
+**Note:** Before writing a new piece of code please make sure that the thing you want to fix/add can't be simulated using [the built-in Developer mode](quickstart.md#enable-developer-mode-inside-the-application) or isn't explained in [Mudita Center Wiki](https://github.com/mudita/mudita-center/wiki).
+
 ## Reporting bugs
 
 If you think you found a bug or a security issue in Mudita Center, we'd love to hear from you. Before you create a relevant GitHub issue please:

@@ -3,4 +3,5 @@ export enum ModalTestIds {
   CloseButton = "close-modal-button",
   Header = "modal-header",
   Title = "modal-title",
+  Email = "email-label",
 }

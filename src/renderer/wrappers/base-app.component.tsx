@@ -17,12 +17,8 @@ import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { RootState } from "Renderer/store"
 import registerHotkeys from "Renderer/register-hotkeys"
-import ContextMenu from "App/context-menu/context-menu"
 import registerAppContextMenu from "Renderer/register-app-context-menu"
-import {
-  isDevModeEnabled,
-  toggleDevMode,
-} from "App/dev-mode/store/dev-mode.helpers"
+import appContextMenu from "./app-context-menu"
 
 interface Props {
   store: Store
@@ -64,10 +60,7 @@ const BaseApp: FunctionComponent<Props> = ({
     registerHotkeys()
 
     // Register context menu
-    const appContextMenu = new ContextMenu({
-      isEnabled: isDevModeEnabled,
-      toggler: toggleDevMode,
-    })
+
     registerAppContextMenu(appContextMenu)
     appContextMenu.init()
   }, [])

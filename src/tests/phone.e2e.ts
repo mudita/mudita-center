@@ -18,13 +18,13 @@ afterEach(async () => {
   await stopApp(app)
 })
 
-test("menu button takes user to correct page", async () => {
+test.skip("menu button takes user to correct page", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Phone}]`).click()
   const hash = await app.client.execute(() => window.location.hash)
   expect(hash.value).toEqual(`#${URL_MAIN.phone}`)
 })
 
-test("receiving calls filter works correctly", async () => {
+test.skip("receiving calls filter works correctly", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Phone}]`).click()
   await app.client.$(`*[data-testid=${VisibilityFilter.Received}]`).click()
   expect(
@@ -44,7 +44,7 @@ test("receiving calls filter works correctly", async () => {
   ).toBeFalsy()
 })
 
-test("missed calls filter works correctly", async () => {
+test.skip("missed calls filter works correctly", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Phone}]`).click()
   await app.client.$(`*[data-testid=${VisibilityFilter.Missed}]`).click()
   expect(

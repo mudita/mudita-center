@@ -18,13 +18,13 @@ afterEach(async () => {
   await stopApp(app)
 })
 
-test("menu takes user to correct page", async () => {
+test.skip("menu takes user to correct page", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Tools}]`).click()
   const hash = await app.client.execute(() => window.location.hash)
   expect(hash.value).toEqual(`#${URL_MAIN.tools}`)
 })
 
-test("clicking a new note button evokes new note sidebar", async () => {
+test.skip("clicking a new note button evokes new note sidebar", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Tools}]`).click()
   expect(
     await app.client.isVisible(`*[data-testid=${NotesTestIds.NewNoteSidebar}]`)
@@ -35,7 +35,7 @@ test("clicking a new note button evokes new note sidebar", async () => {
   ).toBe(true)
 })
 
-test("user can type a note on a new note sidebar's textarea", async () => {
+test.skip("user can type a note on a new note sidebar's textarea", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Tools}]`).click()
   await app.client.$(`*[data-testid=${NotesTestIds.NewNoteButton}]`).click()
   await app.client.$(`textarea`).click()
@@ -43,7 +43,7 @@ test("user can type a note on a new note sidebar's textarea", async () => {
   expect(await app.client.$("textarea").getValue()).toBe(testText)
 })
 
-test("user can save the notes", async () => {
+test.skip("user can save the notes", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Tools}]`).click()
   const notesCountBefore = await app.client.elements(
     `*[data-testid=${NotesTestIds.Note}]`
