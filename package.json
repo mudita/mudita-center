@@ -241,7 +241,7 @@
     "electron-localshortcut": "^3.2.1",
     "electron-log": "^4.3.1",
     "electron-publisher-s3": "^20.17.2",
-    "electron-store": "^6.0.1",
+    "electron-store": "^7.0.1",
     "electron-updater": "4.3.5",
     "faker": "^5.2.0",
     "history": "^4.10.1",
