@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "App/*": ["src/*"],
+      "Renderer/*": ["src/renderer/*"],
+      "Cypress/*": ["cypress/*"],
+      "Storybook/*": [".storybook/*"],
+      "Backend/*": ["src/backend/*"],
+      "Common/*": ["src/common/*"]
+    }
+  }
+}

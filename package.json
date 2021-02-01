@@ -15,7 +15,7 @@
     "build": "npm run build:main && npm run build:renderer",
     "build:main": "cross-env NODE_ENV=production webpack --config webpack.config.main.js",
     "build:renderer": "cross-env NODE_ENV=production webpack --config webpack.config.renderer.js",
-    "build:shared": "tsc --p tsconfig.shared.json",
+    "build:shared": "tsc --p tsconfig.build-shared.json",
     "DEV COMMANDS": "==========================================================",
     "dev:start:main": "webpack --config webpack.config.main.js && electron ./dist/main.js",
     "dev:start:renderer": "webpack-dev-server --config webpack.config.renderer.js --noBabelLoaderCache",
@@ -56,7 +56,8 @@
     "pure:install": "cd pure && npm install",
     "pure:build": "cd pure && npm run build",
     "pure:lint-staged": "cd pure && npm run lint-staged",
-    "pure:command": "cd pure && npm run command --"
+    "pure:command": "cd pure && npm run command --",
+    "release:shared": "sh shared/build.sh"
   },
   "build": {
     "productName": "Mudita Center",

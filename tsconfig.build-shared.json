@@ -29,7 +29,7 @@
     /* Concatenate and emit output to single file. */
     // "outFile": "./",
     /* Redirect output structure to the directory. */
-    "outDir": "./shared-dist",
+    "outDir": "./shared/dist",
     /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     // "rootDir": "./",
     /* Do not emit comments to output. */
