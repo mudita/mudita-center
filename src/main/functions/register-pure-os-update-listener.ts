@@ -39,6 +39,12 @@ const registerPureOsUpdateListener = () => {
       ).json()
 
       return releases
+        .sort((a, b) => {
+          const versionA = a.tag_name
+          const versionB = b.tag_name
+
+          return versionA > versionB ? -1 : versionB > versionA ? 1 : 0
+        })
         .map((release) => {
           const {
             assets,

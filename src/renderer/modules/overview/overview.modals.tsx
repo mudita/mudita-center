@@ -75,6 +75,7 @@ const ProgressText = styled(ModalText)`
 
 const CenteredText = styled(Text)`
   text-align: center;
+  line-height: 1.3em;
 `
 
 const messages = defineMessages({
@@ -227,46 +228,6 @@ export const UpdateAvailable = ({
     />
   </OSUpdateModal>
 )
-
-export const DevUpdate = ({
-  onDownload = noop,
-  version = "",
-  date = "",
-  prerelease = false,
-}) => {
-  const textDate = new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  })
-  return (
-    <OSUpdateModal
-      actionButtonLabel={"Download now"}
-      onActionButtonClick={onDownload}
-      closeButton={false}
-    >
-      <RoundIconWrapper>
-        <Icon type={Type.Pure} width={4} />
-      </RoundIconWrapper>
-      <Text displayStyle={TextDisplayStyle.LargeBoldText}>Are you sure?</Text>
-      <CenteredText displayStyle={TextDisplayStyle.MediumText}>
-        You're about to download an update that{" "}
-        {prerelease ? (
-          <span>may be unstable</span>
-        ) : (
-          <span>may be incompatible with the current OS version</span>
-        )}
-        .<br />
-        <br />
-        Version: <strong>{version}</strong> released on{" "}
-        <strong>{textDate}</strong>
-        <br />
-        <br />
-        Please make sure you know what you're doing!
-      </CenteredText>
-    </OSUpdateModal>
-  )
-}
 
 export const UpdateNotAvailable = ({ version = "", date = "" }) => (
   <OSUpdateModal>
@@ -451,3 +412,46 @@ export const UpdatingFailureModal = ({ onRetry = noop }) => (
     descriptionMessage={messages.updatingFailedDescription}
   />
 )
+
+export const DevUpdate = ({
+  action = noop,
+  install = false,
+  version = "",
+  date = "",
+  prerelease = false,
+}) => {
+  const textDate = new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  })
+  return (
+    <OSUpdateModal
+      actionButtonLabel={install ? "Install now" : "Download now"}
+      onActionButtonClick={action}
+      closeButton={false}
+    >
+      <RoundIconWrapper>
+        <Icon type={Type.Pure} width={4} />
+      </RoundIconWrapper>
+      <Text displayStyle={TextDisplayStyle.LargeBoldText}>
+        {install ? "Installing" : "Downloading"}. Are you sure?
+      </Text>
+      <CenteredText displayStyle={TextDisplayStyle.MediumText}>
+        You're about to {install ? "install" : "download"} an update that{" "}
+        {prerelease ? (
+          <span>may be unstable</span>
+        ) : (
+          <span>may be incompatible with the current OS version</span>
+        )}
+        .<br />
+        <br />
+        Selected version: <strong>{version}</strong> (
+        <strong>{textDate}</strong>).
+        <br />
+        <br />
+        Please make sure you know what you're doing!
+      </CenteredText>
+    </OSUpdateModal>
+  )
+}

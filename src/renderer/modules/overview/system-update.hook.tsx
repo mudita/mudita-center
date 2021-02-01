@@ -97,23 +97,34 @@ const useSystemUpdateFlow = (
 
   useEffect(() => {
     if (releaseToInstall?.devMode) {
-      const { prerelease, version, date } = releaseToInstall
       ;(async () => {
         if (await osUpdateAlreadyDownloadedCheck(releaseToInstall.file)) {
-          // show install modal
+          openDevModal(true)
         } else {
-          modalService.openModal(
-            <DevUpdate
-              date={date}
-              prerelease={prerelease}
-              version={version}
-              onDownload={downloadUpdate}
-            />
-          )
+          openDevModal()
         }
       })()
     }
   }, [releaseToInstall])
+
+  const openDevModal = async (install = false) => {
+    const { date, version, prerelease } = releaseToInstall as Release
+    const action = async () => {
+      await modalService.closeModal()
+      install ? updatePure() : downloadUpdate()
+    }
+
+    return modalService.openModal(
+      <DevUpdate
+        install={install}
+        date={date}
+        prerelease={prerelease}
+        version={version}
+        action={action}
+      />,
+      true
+    )
+  }
 
   // Checking for updates
   const openCheckingForUpdatesModal = () => {
@@ -222,8 +233,12 @@ const useSystemUpdateFlow = (
       await delayResponse(
         downloadOsUpdateRequest(releaseToInstall?.file.url as string)
       )
-      onUpdate({ pureOsDownloaded: true })
-      await openDownloadSucceededModal()
+      if (releaseToInstall?.devMode) {
+        openDevModal(true)
+      } else {
+        onUpdate({ pureOsDownloaded: true })
+        await openDownloadSucceededModal()
+      }
     } catch (error) {
       if (error.status === DownloadStatus.Cancelled) {
         await openDownloadCanceledModal()
@@ -260,16 +275,18 @@ const useSystemUpdateFlow = (
 
     toggleUpdatingDevice(false)
 
-    await onUpdate({
-      pureOsFileUrl: "",
-      pureOsDownloaded: false,
-      pureOsAvailable: false,
-    })
+    if (!releaseToInstall?.devMode) {
+      await onUpdate({
+        pureOsFileUrl: "",
+        pureOsDownloaded: false,
+        pureOsAvailable: false,
+      })
 
-    await updateBasicInfo({
-      osVersion: version,
-      osUpdateDate: new Date().toISOString(),
-    })
+      await updateBasicInfo({
+        osVersion: version,
+        osUpdateDate: new Date().toISOString(),
+      })
+    }
 
     const onRetry = () => updatePure()
 
