@@ -104,6 +104,7 @@ import FactoryReset from "Renderer/svg/factory-reset.svg"
 import MuditaFlower from "Renderer/svg/mudita-flower.svg"
 import MuditaDarkLogo from "Renderer/svg/mudita-dark-logo.svg"
 import ContactGoogle from "Renderer/svg/contact-google.svg"
+import Manage from "Renderer/svg/manage.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -214,6 +215,7 @@ export enum Type {
   MuditaFlower,
   MuditaDarkLogo,
   ContactGoogle,
+  Manage,
 }
 
 export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
@@ -428,6 +430,8 @@ export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
       return MuditaDarkLogo
     case Type.ContactGoogle:
       return ContactGoogle
+    case Type.Manage:
+      return Manage
     default:
       return Message
   }

@@ -27,6 +27,7 @@ import {
 import delayResponse from "@appnroll/delay-response"
 import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
+import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -142,12 +143,15 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           labelMessage={{ id: "view.name.phone.contacts.panel.manageButton" }}
           onClick={onManageButtonClick}
           data-testid={ContactPanelTestIdsEnum.ManageButton}
+          Icon={Type.Manage}
+          iconSize={IconSize.Small}
         />
         <ButtonComponent
           labelMessage={{
             id: "view.name.phone.contacts.panel.newContactButton",
           }}
           onClick={onNewButtonClick}
+          data-testid={ContactPanelTestIdsEnum.NewButton}
         />
       </Buttons>
     </Panel>
