@@ -7,7 +7,7 @@ import DeviceResponse from "Backend/adapters/device-response.interface"
 test("returns update os info", (done) => {
   registerUpdateOsRequest(getFakeAdapters())
   const [promise] = (ipcMain as any)._flush(IpcRequest.UpdateOs, {
-    updateFilePath: "",
+    fileName: "",
     progressChannel: "",
   })
   promise.then((result: DeviceResponse) => {
