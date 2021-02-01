@@ -16,7 +16,7 @@ afterEach(async () => {
   await stopApp(app)
 })
 
-test("menu button takes user to correct page", async () => {
+test.skip("menu button takes user to correct page", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.FilesManager}]`).click()
   const hash = await app.client.execute(() => window.location.hash)
   expect(hash.value).toEqual(`#${URL_MAIN.filesManager}`)

@@ -41,7 +41,7 @@ npm run command request '{"endpoint":1,"method":1}'
 ##### The example (single) request command with body
 
 ```bash
-npm run command request '{"endpoint":7,"method":3,"body":{"id":1,"primaryName":"Jacek","altName":"Ziemniak","address":"Jana Czeczota 9 \n 02-607 Warszawa","numbers":["797393115"],"blocked":false,"favourite":false}}'
+npm run command request '{"endpoint":7,"method":3,"body":{"id":"1","primaryName":"Jacek","altName":"Ziemniak","address":"Jana Czeczota 9 \n 02-607 Warszawa","numbers":["797393115"],"blocked":false,"favourite":false}}'
 ```
 
 ##### The example to upload file by request command (from file system)

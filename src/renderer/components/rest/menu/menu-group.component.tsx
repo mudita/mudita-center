@@ -19,6 +19,7 @@ import {
   HeaderIconContainer,
   HeaderWrapper,
   HelpButton,
+  HiddenIconBg,
   LinkWrapper,
 } from "Renderer/components/rest/menu/menu-group.styled"
 
@@ -30,17 +31,23 @@ const MenuGroup: FunctionComponent<MenuElement> = ({ label, items, icons }) => {
           <Text displayStyle={TextDisplayStyle.SmallText} message={label} />
           {icons && (
             <HeaderIconContainer>
-              {icons.map((icon: Type, index) => (
-                <HeaderIconBg key={index}>
-                  {icon === Type.MenuRange ? (
-                    <RangeIcon strength={61} size={IconSize.Medium} />
-                  ) : icon === Type.MenuBattery ? (
-                    <BatteryIcon level={0.7} size={IconSize.Medium} />
-                  ) : (
-                    <HeaderIcon type={icon} size={IconSize.Medium} />
-                  )}
-                </HeaderIconBg>
-              ))}
+              {icons.map((icon: Type, index) => {
+                if (process.env.NODE_ENV === "production") {
+                  return <HiddenIconBg key={index} />
+                } else {
+                  return (
+                    <HeaderIconBg key={index}>
+                      {icon === Type.MenuRange ? (
+                        <RangeIcon strength={61} size={IconSize.Medium} />
+                      ) : icon === Type.MenuBattery ? (
+                        <BatteryIcon level={0.7} size={IconSize.Medium} />
+                      ) : (
+                        <HeaderIcon type={icon} size={IconSize.Medium} />
+                      )}
+                    </HeaderIconBg>
+                  )
+                }
+              })}
             </HeaderIconContainer>
           )}
         </HeaderWrapper>

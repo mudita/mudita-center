@@ -1,13 +1,11 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { PhoneProps } from "Renderer/components/rest/overview/phone/phone.interface"
-import Card, {
+import {
   CardAction,
   CardActionButton,
-  CardText,
 } from "Renderer/components/rest/overview/card.elements"
 import { intl } from "Renderer/utils/intl"
-import styled from "styled-components"
 import Image from "Renderer/components/core/image/image.component"
 import PureImage from "Renderer/images/pure-render.png"
 import Text, {
@@ -18,55 +16,18 @@ import { useHistory } from "react-router"
 import RangeIcon from "Renderer/components/core/icon/range-icon.component"
 import BatteryIcon from "Renderer/components/core/icon/battery-icon.component"
 import { PhoneTestIds } from "Renderer/components/rest/overview/phone/phone-test-ids.enum"
-
-const PhoneCard = styled(Card)`
-  grid-template-areas: "Text" "Buttons";
-  grid-template-columns: 1fr;
-  height: auto;
-  padding: 10.4rem 0 6.4rem 0;
-  justify-items: center;
-
-  ${CardAction} {
-    justify-self: center;
-  }
-`
-
-const PhoneInfo = styled(CardText)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  img {
-    height: 25rem;
-  }
-`
-
-const BatteryStats = styled.div`
-  margin-top: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  h2 {
-    margin-top: 0.8rem;
-    margin-bottom: 0.4rem;
-  }
-`
-
-const SignalStats = styled.div`
-  margin-top: 2.4rem;
-  margin-bottom: 6rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  p {
-    margin-top: 0.8rem;
-  }
-`
+import {
+  BatteryStats,
+  PhoneCard,
+  PhoneInfo,
+  SignalStats,
+  PhoneDescription,
+} from "Renderer/components/rest/overview/phone/phone.styled"
 
 const messages = defineMessages({
   battery: { id: "view.name.overview.phone.battery" },
   noConnection: { id: "view.name.overview.phone.noConnection" },
+  phoneDescription: { id: "view.name.overview.phone.phoneDescription" },
 })
 
 const Phone: FunctionComponent<PhoneProps> = ({
@@ -89,6 +50,11 @@ const Phone: FunctionComponent<PhoneProps> = ({
     <PhoneCard className={className} onClick={onClick}>
       <PhoneInfo>
         <Image src={PureImage} />
+        <PhoneDescription
+          displayStyle={TextDisplayStyle.LargeBoldText}
+          element={"h2"}
+          message={messages.phoneDescription}
+        />
         <BatteryStats>
           <BatteryIcon width={2.4} level={batteryLevel} />
           <Text displayStyle={TextDisplayStyle.LargeBoldText} element={"h2"}>
