@@ -24,7 +24,7 @@ jobs:
           node-version: '14.15.4'
 
       - name: Install dependencies
-        run: npm install && npm install electron-builder -g && sudo apt-get install -y build-essential
+        run: npm install && npm install electron-builder -g
 
       - name: Build and publish the app
         run: npm run prerelease && electron-builder --publish always
