@@ -4,11 +4,11 @@ import { UnreadFilters } from "Renderer/components/rest/messages/topics-table.co
 import ButtonToggler from "Renderer/components/core/button-toggler/button-toggler.component"
 import { intl } from "Renderer/utils/intl"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
-import Button from "Renderer/components/core/button/button.component"
+// import Button from "Renderer/components/core/button/button.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import {
   DisplayStyle,
-  Size as ButtonSize,
+  // Size as ButtonSize,
 } from "Renderer/components/core/button/button.config"
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -20,7 +20,7 @@ import {
 import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import {
-  ButtonWrapper,
+  // ButtonWrapper,
   MessageFiltersWrapper,
   MessagesButtonTogglerItem,
   MessageSelectionManager,
@@ -145,17 +145,18 @@ const MessagesPanel: FunctionComponent<Props> = ({
           leadingIcons={[searchIcon]}
         />
       )}
-      <ButtonWrapper>
-        <Button
-          displayStyle={DisplayStyle.Primary}
-          size={ButtonSize.FixedBig}
-          label={intl.formatMessage({
-            id: "view.name.messages.newMessage",
-          })}
-          onClick={noop}
-          Icon={Type.PlusSign}
-        />
-      </ButtonWrapper>
+      {/* TODO: Remove when add feature becomes available */}
+      {/*<ButtonWrapper>*/}
+      {/*  <Button*/}
+      {/*    displayStyle={DisplayStyle.Primary}*/}
+      {/*    size={ButtonSize.FixedBig}*/}
+      {/*    label={intl.formatMessage({*/}
+      {/*      id: "view.name.messages.newMessage",*/}
+      {/*    })}*/}
+      {/*    onClick={noop}*/}
+      {/*    Icon={Type.PlusSign}*/}
+      {/*  />*/}
+      {/*</ButtonWrapper>*/}
     </MessageFiltersWrapper>
   )
 }
