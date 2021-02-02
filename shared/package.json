@@ -1,11 +1,11 @@
 {
-    "name": "mudita-center-shared",
-    "version": "1.0.0",
+    "name": "@mudita/mudita-center-shared",
+    "version": "0.0.1",
     "description": "Mudita center shared",
     "main": "dist/src/shared.js",
     "types": "dist/src/shared.d.ts",
     "files": ["dist"],
-    "private": true,
+    "private": false,
     "repository": {
         "type": "git",
         "url": "git+https://github.com/mudita/mudita-center.git"
