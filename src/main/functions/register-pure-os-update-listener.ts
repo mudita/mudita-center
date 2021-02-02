@@ -77,13 +77,7 @@ const registerPureOsUpdateListener = () => {
       } while (retry)
 
       return releases
-        .sort((a, b) => {
-          const versionA = a.tag_name
-          const versionB = b.tag_name
-
-          return versionA > versionB ? -1 : versionB > versionA ? 1 : 0
-        })
-        .map((release) => {
+        .map((release): Release | null => {
           const {
             assets,
             tag_name,
@@ -110,6 +104,12 @@ const registerPureOsUpdateListener = () => {
           }
         })
         .filter((release) => release !== null)
+        .sort((a, b) => {
+          const versionA = (a as Release).version
+          const versionB = (b as Release).version
+
+          return versionA > versionB ? -1 : versionB > versionA ? 1 : 0
+        })
     })
   }
 }
