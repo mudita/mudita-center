@@ -52,10 +52,10 @@
     "posttranslations:sort": "prettier --write src/**/*.json",
     "posttest:coverage": "prettier --write ./jest.coverage.json",
     "PURE LIB COMMANDS": "=================================================",
-    "pure:install": "npm --prefix pure install",
-    "pure:build": "npm --prefix pure run build",
-    "pure:lint-staged": "npm --prefix pure run lint-staged",
-    "pure:command": "npm --prefix pure run command --"
+    "pure:install": "cd pure && npm install",
+    "pure:build": "cd pure && npm run build",
+    "pure:lint-staged": "cd pure && npm run lint-staged",
+    "pure:command": "cd pure && npm run command --"
   },
   "build": {
     "productName": "Mudita Center",
