@@ -1,5 +1,6 @@
 import { ipcMain } from "electron-better-ipc"
 import fetch from "node-fetch"
+import { URLSearchParams } from "url"
 
 export enum OsUpdateChannel {
   Request = "os-update-request",
@@ -31,12 +32,49 @@ export interface Release {
 
 const osUpdateServerUrl = process.env.OS_UPDATE_SERVER
 
+// It's required only for development when API rate limits may exceed
+// https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting
+const githubToken = process.env.GITHUB_ACCESS_TOKEN
+
+const releasesRequest = async (
+  page = 1,
+  perPage = 100
+): Promise<GithubRelease[]> => {
+  return await (
+    await fetch(
+      osUpdateServerUrl +
+        "?" +
+        new URLSearchParams({
+          page: page.toString(),
+          per_page: perPage.toString(),
+        }).toString(),
+      githubToken
+        ? {
+            headers: {
+              Authorization: `token ${githubToken}`,
+            },
+          }
+        : {}
+    )
+  ).json()
+}
+
 const registerPureOsUpdateListener = () => {
   if (osUpdateServerUrl) {
     ipcMain.answerRenderer(OsUpdateChannel.Request, async () => {
-      const releases: GithubRelease[] = await (
-        await fetch(osUpdateServerUrl)
-      ).json()
+      let releases: GithubRelease[] = []
+      let retry = true
+      let page = 1
+
+      do {
+        const newReleases = await releasesRequest(page)
+        if (newReleases.length === 0) {
+          retry = false
+        } else {
+          releases = [...releases, ...newReleases]
+          page++
+        }
+      } while (retry)
 
       return releases
         .sort((a, b) => {
