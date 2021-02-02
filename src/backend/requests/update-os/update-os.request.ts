@@ -3,7 +3,7 @@ import createEndpoint from "Backend/endpoints/create-endpoint"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
-const handleUpdateOs = async (
+const handleUpdateOs = (
   { purePhone }: Adapters,
   { filePath, progressChannel }: { filePath: string; progressChannel: string }
 ): Promise<DeviceResponse> => {

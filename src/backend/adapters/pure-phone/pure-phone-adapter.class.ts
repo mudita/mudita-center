@@ -12,5 +12,5 @@ export default abstract class PurePhoneAdapter {
   public abstract updateOs(
     updateFilePath: string,
     progressChannel: string
-  ): Promise<DeviceResponse> | DeviceResponse
+  ): Promise<DeviceResponse>
 }
