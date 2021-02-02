@@ -26,10 +26,22 @@ export class Client
   }
 
   getEntries<T>(query: any): Promise<EntryCollection<T>> {
-    return this.client.getEntries({
-      content_type: "newsItem",
-      limit: 3,
+    return fetch("adreslambdy.com", {
+      method: "post",
+      body: JSON.stringify({
+        //TODO:  z constructora
+        resource: ContentfulResource.Help,
+        method: "getEntries",
+        query: {
+          content_type: "newsItem",
+          limit: 3,
+        },
+      }),
     })
+    // return this.client.getEntries({
+    //   content_type: "newsItem",
+    //   limit: 3,
+    // })
   }
 
   sync(query: any): Promise<SyncCollection> {
