@@ -18,14 +18,14 @@ afterEach(async () => {
   await stopApp(app)
 })
 
-test("menu takes user to correct page", async () => {
+test.skip("menu takes user to correct page", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).click()
   await app.client.$(`*[data-testid="icon-Templates"]`).click()
   const hash = await app.client.execute(() => window.location.hash)
   expect(hash.value).toEqual(`#${URL_MAIN.messages}${URL_TABS.templates}`)
 })
 
-test("user can open the text editor", async () => {
+test.skip("user can open the text editor", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).click()
   await app.client.$(`*[data-testid="icon-Templates"]`).click()
   expect(
@@ -39,7 +39,7 @@ test("user can open the text editor", async () => {
   ).toBe(true)
 })
 
-test("user can add value to the text area", async () => {
+test.skip("user can add value to the text area", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).click()
   await app.client.$(`*[data-testid="icon-Templates"]`).click()
   expect(
