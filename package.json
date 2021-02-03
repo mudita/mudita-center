@@ -13,7 +13,12 @@
     "app:lint": "lerna run --scope app lint",
     "app:lint:typecheck": "lerna run --scope app lint:typecheck",
     "app:test:coverage": "lerna run --scope app test:coverage",
-    "app:prerelease": "lerna run --scope app prerelease"
+    "app:prerelease": "lerna run --scope app prerelease",
+    "PURE COMMANDS": "========================================================",
+    "pure:build": "lerna run --scope pure build",
+    "pure:lint": "lerna run --scope pure lint",
+    "pure:test:coverage": "lerna run --scope pure test:coverage",
+    "pure:command": "lerna run --scope pure command --"
   },
   "repository": {
     "type": "git",
