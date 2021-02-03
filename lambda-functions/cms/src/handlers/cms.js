@@ -2,7 +2,7 @@ const contentful = require("contentful")
 /**
  * A Lambda function that logs the payload received from SNS.
  */
-exports.retrieveCMSData = async (event, context) => {
+exports.retrieveCMSData = async (event) => {
   try {
     if (event.httpMethod.toLocaleLowerCase() === "post") {
       const body = JSON.parse(event.body)
