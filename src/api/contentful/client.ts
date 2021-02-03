@@ -23,7 +23,7 @@ export class Client
 
   async getEntries<T>(query: any): Promise<EntryCollection<any>> {
     const { data } = await this.client.post(
-      "https://pmjrquus6h.execute-api.eu-central-1.amazonaws.com/Prod/",
+      process.env.CONTENTFUL_LAMBDA as string,
       JSON.stringify({
         resource: this.resource,
         method: "getEntries",
@@ -35,7 +35,7 @@ export class Client
 
   async sync(query: any): Promise<SyncCollection> {
     const { data } = await this.client.post(
-      "https://pmjrquus6h.execute-api.eu-central-1.amazonaws.com/Prod/",
+      process.env.CONTENTFUL_LAMBDA as string,
       JSON.stringify({
         resource: this.resource,
         method: "sync",
