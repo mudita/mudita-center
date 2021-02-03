@@ -18,6 +18,7 @@
   "devDependencies": {
     "@serialport/binding-mock": "^9.0.2",
     "@types/jest": "^26.0.15",
+    "@types/usb": "^1.5.2",
     "jest": "^26.6.3",
     "ts-jest": "^26.4.3",
     "ts-node": "^9.0.0",
@@ -25,7 +26,6 @@
     "yargs": "^16.1.1"
   },
   "dependencies": {
-    "@types/usb": "^1.5.2",
     "serialport": "^9.0.2",
     "usb": "^1.6.3"
   }
