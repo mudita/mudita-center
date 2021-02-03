@@ -1,6 +1,6 @@
 {
     "name": "@mudita/mudita-center-shared",
-    "version": "0.0.2",
+    "version": "0.0.6",
     "description": "Mudita center shared",
     "main": "dist/src/shared.js",
     "types": "dist/src/shared.d.ts",
