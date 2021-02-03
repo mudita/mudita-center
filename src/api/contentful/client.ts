@@ -4,42 +4,44 @@ import {
   SyncCollection,
 } from "contentful"
 import { ContentfulResource } from "App/api/contentful/contentful-resource.enum"
-import fetch from "node-fetch"
+import axios, { AxiosInstance } from "axios"
 
 export class Client
   implements Pick<ContentfulClientApi, "getEntries" | "sync"> {
   resource: ContentfulResource
+  client: AxiosInstance
   constructor(config: { resource: ContentfulResource }) {
     this.resource = config.resource
+    this.client = axios.create({
+      headers: {
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "OPTIONS,POST",
+      },
+    })
   }
 
-  async getEntries<T>(query: any): Promise<Response> {
-    const response = await fetch(
+  async getEntries<T>(query: any): Promise<EntryCollection<any>> {
+    const { data } = await this.client.post(
       "https://pmjrquus6h.execute-api.eu-central-1.amazonaws.com/Prod/",
-      {
-        method: "post",
-        body: JSON.stringify({
-          resource: this.resource,
-          method: "getEntries",
-          query,
-        }),
-      }
+      JSON.stringify({
+        resource: this.resource,
+        method: "getEntries",
+        query,
+      })
     )
-    return await response.json()
+    return data
   }
 
   async sync(query: any): Promise<SyncCollection> {
-    const response = await fetch(
+    const { data } = await this.client.post(
       "https://pmjrquus6h.execute-api.eu-central-1.amazonaws.com/Prod/",
-      {
-        method: "post",
-        body: JSON.stringify({
-          resource: this.resource,
-          method: "sync",
-          query,
-        }),
-      }
+      JSON.stringify({
+        resource: this.resource,
+        method: "sync",
+        query,
+      })
     )
-    return await response.json()
+    return data
   }
 }
