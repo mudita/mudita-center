@@ -5,6 +5,7 @@
   "productName": "Mudita Center",
   "scripts": {
     "lint": "lerna run lint",
+    "lint:typecheck": "lerna run lint:typecheck",
     "test:coverage": "lerna run test:coverage",
     "postinstall": "lerna bootstrap",
     "prerelease": "npm run app:prerelease",
@@ -17,6 +18,7 @@
     "PURE COMMANDS": "========================================================",
     "pure:build": "lerna run --scope pure build",
     "pure:lint": "lerna run --scope pure lint",
+    "pure:lint:typecheck": "lerna run --scope pure lint:typecheck",
     "pure:test:coverage": "lerna run --scope pure test:coverage",
     "pure:command": "lerna run --scope pure command --"
   },
