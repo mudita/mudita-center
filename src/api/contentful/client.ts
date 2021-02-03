@@ -9,7 +9,7 @@ import axios, { AxiosInstance } from "axios"
 export class Client
   implements Pick<ContentfulClientApi, "getEntries" | "sync"> {
   resource: ContentfulResource
-  client: AxiosInstance
+  private client: AxiosInstance
   constructor(config: { resource: ContentfulResource }) {
     this.resource = config.resource
     this.client = axios.create({
@@ -21,7 +21,10 @@ export class Client
     })
   }
 
-  async getEntries<T>(query: any): Promise<EntryCollection<any>> {
+  async getEntries<Entry>(query: {
+    content_type: string
+    limit?: number
+  }): Promise<EntryCollection<Entry>> {
     const { data } = await this.client.post(
       process.env.CONTENTFUL_LAMBDA as string,
       JSON.stringify({
@@ -33,7 +36,7 @@ export class Client
     return data
   }
 
-  async sync(query: any): Promise<SyncCollection> {
+  async sync(query: Record<string, any>): Promise<SyncCollection> {
     const { data } = await this.client.post(
       process.env.CONTENTFUL_LAMBDA as string,
       JSON.stringify({
