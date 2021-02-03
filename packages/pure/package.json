@@ -13,6 +13,8 @@
     "build": "npm run clean && tsc",
     "prepublish": "npm rebuild && npm run build",
     "lint": "eslint 'src/**/*.ts'",
+    "test": "jest --config=jest.config.js --forceExit --detectOpenHandles",
+    "test:coverage": "npm run test -- --coverage",
     "command": "ts-node scripts/index.ts"
   },
   "devDependencies": {

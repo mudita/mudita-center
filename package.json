@@ -5,11 +5,13 @@
   "productName": "Mudita Center",
   "scripts": {
     "lint": "lerna run lint",
+    "test:coverage": "lerna run test:coverage",
     "postinstall": "lerna bootstrap",
     "APP COMMANDS": "=========================================================",
     "app:develop": "lerna run --scope app develop",
     "app:lint": "lerna run --scope app lint",
-    "app:lint:typecheck": "lerna run --scope app lint:typecheck"
+    "app:lint:typecheck": "lerna run --scope app lint:typecheck",
+    "app:test:coverage": "lerna run --scope app test:coverage"
   },
   "repository": {
     "type": "git",
