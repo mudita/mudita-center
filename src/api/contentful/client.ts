@@ -25,26 +25,43 @@ export class Client
     content_type: string
     limit?: number
   }): Promise<EntryCollection<Entry>> {
-    const { data } = await this.client.post(
-      process.env.CONTENTFUL_LAMBDA as string,
-      JSON.stringify({
-        resource: this.resource,
-        method: "getEntries",
-        query,
-      })
-    )
-    return data
+    if (!query.content_type) {
+      throw new Error("Empty query content type")
+    }
+    if (this.resource !== ContentfulResource.News) {
+      throw new Error("Wrong resource provided")
+    }
+    try {
+      const { data } = await this.client.post(
+        process.env.CONTENTFUL_LAMBDA as string,
+        JSON.stringify({
+          resource: this.resource,
+          method: "getEntries",
+          query,
+        })
+      )
+      return data
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 
   async sync(query: Record<string, any>): Promise<SyncCollection> {
-    const { data } = await this.client.post(
-      process.env.CONTENTFUL_LAMBDA as string,
-      JSON.stringify({
-        resource: this.resource,
-        method: "sync",
-        query,
-      })
-    )
-    return data
+    if (this.resource !== ContentfulResource.Help) {
+      throw new Error("Wrong resource provided")
+    }
+    try {
+      const { data } = await this.client.post(
+        process.env.CONTENTFUL_LAMBDA as string,
+        JSON.stringify({
+          resource: this.resource,
+          method: "sync",
+          query,
+        })
+      )
+      return data
+    } catch (e) {
+      throw new Error(e)
+    }
   }
 }

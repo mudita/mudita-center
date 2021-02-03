@@ -4,6 +4,8 @@ import helpStore from "App/main/store/help"
 import settingsStore from "App/main/store/settings"
 import { normalizeHelpData } from "Renderer/utils/contentful/normalize-help-data"
 import { createClient, ContentfulResource } from "App/api/contentful"
+import logger from "App/main/utils/logger"
+import { SyncCollection } from "contentful"
 
 export const registerDownloadHelpHandler = () => {
   const nextSyncToken =
@@ -23,7 +25,15 @@ export const registerDownloadHelpHandler = () => {
     } else {
       syncConfig.initial = true
     }
-    return normalizeHelpData(await client.sync(syncConfig), locale)
+    try {
+      return normalizeHelpData(
+        (await client.sync(syncConfig)) as SyncCollection,
+        locale
+      )
+    } catch (error) {
+      logger.error(error)
+      return false
+    }
   })
 }
 
