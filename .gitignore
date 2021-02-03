@@ -40,7 +40,7 @@ src/style.css
 src/style.css.map
 dist
 
-tmp/extractedMessages
+packages/app/tmp/extractedMessages
 .idea
 .vscode
 .storybook/tmp/**/*
