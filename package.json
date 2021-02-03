@@ -7,11 +7,13 @@
     "lint": "lerna run lint",
     "test:coverage": "lerna run test:coverage",
     "postinstall": "lerna bootstrap",
+    "prerelease": "npm run app:prerelease",
     "APP COMMANDS": "=========================================================",
     "app:develop": "lerna run --scope app develop",
     "app:lint": "lerna run --scope app lint",
     "app:lint:typecheck": "lerna run --scope app lint:typecheck",
-    "app:test:coverage": "lerna run --scope app test:coverage"
+    "app:test:coverage": "lerna run --scope app test:coverage",
+    "app:prerelease": "lerna run --scope app prerelease"
   },
   "repository": {
     "type": "git",
