@@ -1,23 +1,48 @@
-// Import all functions from sns-payload-logger.js
-const snsPayloadLogger = require("../../../src/handlers/sns-payload-logger.js")
+const cms = require("../../../src/handlers/cms.js")
 
-describe("Test for sns-payload-logger", function () {
-  // This test invokes the sns-payload-logger Lambda function and verifies that the received payload is logged
-  it("Verifies the payload is logged", async () => {
-    // Mock console.log statements so we can verify them. For more information, see
-    // https://jestjs.io/docs/en/mock-functions.html
-    console.info = jest.fn()
-
-    // Create a sample payload with SNS message format
-    var payload = {
-      TopicArn: "arn:aws:sns:us-west-2:123456789012:SimpleTopic",
-      Message: "This is a notification from SNS",
-      Subject: "SNS Notification",
+jest.mock("contentful", () => ({
+  createClient: (config) => {
+    const resource = config.accessToken === "mc-contentful" ? "mc" : "web"
+    return {
+      getEntries: () => `entries ${resource}`,
+      sync: () => `sync ${resource}`,
     }
+  },
+}))
 
-    await snsPayloadLogger.snsPayloadLoggerHandler(payload, null)
+const OLD_ENV = process.env
+beforeEach(() => {
+  jest.resetModules()
+  process.env = {
+    ...OLD_ENV,
+    MC_CONTENTFUL_ACCESS_TOKEN: "mc-contentful",
+    MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN: "web-contentful",
+  }
+})
 
-    // Verify that console.info has been called with the expected payload
-    expect(console.info).toHaveBeenCalledWith(JSON.stringify(payload))
-  })
+afterAll(() => {
+  process.env = OLD_ENV
+})
+
+test("proper request for help data", async () => {
+  const payload = {
+    httpMethod: "POST",
+    body: JSON.stringify({
+      resource: "help",
+      method: "sync",
+      query: {
+        type: "Entry",
+        content_type: "helpItem",
+        locale: "en-US",
+        initial: true,
+      },
+    }),
+  }
+  const result = await cms.retrieveCMSData(payload, null)
+  expect(result).toEqual(
+    expect.objectContaining({
+      body: JSON.stringify("sync mc"),
+      statusCode: 200,
+    })
+  )
 })

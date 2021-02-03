@@ -14,6 +14,12 @@ Transform:
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+Globals:
+    Api:
+      Cors:
+        AllowMethods: "'OPTIONS,POST'"
+        AllowHeaders: "'Content-Type'"
+        AllowOrigin: "'*'"
 Resources:
     cms:
       Type: AWS::Serverless::Function
