@@ -2,6 +2,7 @@ import { Client } from "App/api/contentful/client"
 import { ContentfulResource } from "App/api/contentful/contentful-resource.enum"
 import MockAdapter from "axios-mock-adapter"
 import axios from "axios"
+import { ClientErrors } from "App/api/contentful/client-errors.enum"
 
 let axiosMock = new MockAdapter(axios)
 
@@ -25,14 +26,14 @@ test("error is thrown when no content type is provided", () => {
   const client = new Client({ resource: ContentfulResource.News })
   expect(async () => {
     await client.getEntries({ content_type: "" })
-  }).rejects.toThrowError("Empty query content type")
+  }).rejects.toThrowError(ClientErrors.InvalidContentType)
 })
 
 test("returns error when wrong resource was provided - news", () => {
   const client = new Client({ resource: ContentfulResource.Help })
   expect(async () => {
     await client.getEntries({ content_type: "type" })
-  }).rejects.toThrowError("Wrong resource provided")
+  }).rejects.toThrowError(ClientErrors.InvalidResourceProvided)
 })
 
 test("return help response properly", async () => {
@@ -56,12 +57,14 @@ test("return 404 when no query is provided", () => {
   const client = new Client({ resource: ContentfulResource.Help })
   expect(async () => {
     await client.sync({})
-  }).rejects.toThrowError("Error: Request failed with status code 404")
+  }).rejects.toThrowError(
+    `${ClientErrors.InvalidQuery}: Error: Request failed with status code 404`
+  )
 })
 
 test("returns error when wrong resource was provided - help", () => {
   const client = new Client({ resource: ContentfulResource.News })
   expect(async () => {
     await client.sync({})
-  }).rejects.toThrowError("Wrong resource provided")
+  }).rejects.toThrowError(ClientErrors.InvalidResourceProvided)
 })

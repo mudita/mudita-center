@@ -1,6 +1,6 @@
 {
-    "name": "replaced-by-user-input",
-    "description": "replaced-by-user-input",
+    "name": "contentful-lambda",
+    "description": "Mudita's center contentful lambda",
     "version": "0.0.1",
     "private": true,
     "dependencies": {

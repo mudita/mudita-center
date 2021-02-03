@@ -5,6 +5,7 @@ import {
 } from "contentful"
 import { ContentfulResource } from "App/api/contentful/contentful-resource.enum"
 import axios, { AxiosInstance } from "axios"
+import { ClientErrors } from "App/api/contentful/client-errors.enum"
 
 export class Client
   implements Pick<ContentfulClientApi, "getEntries" | "sync"> {
@@ -26,10 +27,10 @@ export class Client
     limit?: number
   }): Promise<EntryCollection<Entry>> {
     if (!query.content_type) {
-      throw new Error("Empty query content type")
+      throw new Error(ClientErrors.InvalidContentType)
     }
     if (this.resource !== ContentfulResource.News) {
-      throw new Error("Wrong resource provided")
+      throw new Error(ClientErrors.InvalidResourceProvided)
     }
     try {
       const { data } = await this.client.post(
@@ -41,14 +42,14 @@ export class Client
         })
       )
       return data
-    } catch (e) {
-      throw new Error(e)
+    } catch (error) {
+      throw new Error(`${ClientErrors.InvalidQuery}: ${error}`)
     }
   }
 
   async sync(query: Record<string, any>): Promise<SyncCollection> {
     if (this.resource !== ContentfulResource.Help) {
-      throw new Error("Wrong resource provided")
+      throw new Error(ClientErrors.InvalidResourceProvided)
     }
     try {
       const { data } = await this.client.post(
@@ -60,8 +61,8 @@ export class Client
         })
       )
       return data
-    } catch (e) {
-      throw new Error(e)
+    } catch (error) {
+      throw new Error(`${ClientErrors.InvalidQuery}: ${error}`)
     }
   }
 }
