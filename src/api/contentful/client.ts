@@ -4,7 +4,7 @@ import {
   SyncCollection,
 } from "contentful"
 import { ContentfulResource } from "App/api/contentful/contentful-resource.enum"
-import axios, { AxiosInstance } from "axios"
+import axios, { AxiosInstance, AxiosResponse } from "axios"
 import { ClientErrors } from "App/api/contentful/client-errors.enum"
 
 export class Client
@@ -33,7 +33,7 @@ export class Client
       throw new Error(ClientErrors.InvalidResourceProvided)
     }
     try {
-      const { data } = await this.client.post(
+      const { data }: AxiosResponse = await this.client.post(
         process.env.CONTENTFUL_LAMBDA as string,
         JSON.stringify({
           resource: this.resource,
@@ -52,7 +52,7 @@ export class Client
       throw new Error(ClientErrors.InvalidResourceProvided)
     }
     try {
-      const { data } = await this.client.post(
+      const { data }: AxiosResponse = await this.client.post(
         process.env.CONTENTFUL_LAMBDA as string,
         JSON.stringify({
           resource: this.resource,
