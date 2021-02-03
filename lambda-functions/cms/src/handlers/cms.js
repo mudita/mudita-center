@@ -1,6 +1,6 @@
 const contentful = require("contentful")
 /**
- * A Lambda function that logs the payload received from SNS.
+ * A Lambda function that downloads data from Contentful.
  */
 exports.retrieveCMSData = async (event) => {
   try {
