@@ -17,6 +17,8 @@
   },
   "devDependencies": {
     "@serialport/binding-mock": "^9.0.2",
+    "@mudita/eslint-config": "^1.0.14",
+    "@mudita/stylelint-config": "^1.0.4",
     "@types/jest": "^26.0.15",
     "@types/serialport": "^8.0.1",
     "@types/usb": "^1.5.2",
