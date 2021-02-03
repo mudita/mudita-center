@@ -1,0 +1,11 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "mudita-cms"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-cf9a8rq691q0"
+s3_prefix = "mudita-cms"
+region = "eu-central-1"
+profile = "mudita"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
