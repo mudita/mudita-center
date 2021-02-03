@@ -1,6 +1,6 @@
 import { ipcMain } from "electron-better-ipc"
-import fetch from "node-fetch"
-import { URLSearchParams } from "url"
+import logger from "App/main/utils/logger"
+import axios from "axios"
 
 export enum OsUpdateChannel {
   Request = "os-update-request",
@@ -40,23 +40,23 @@ const releasesRequest = async (
   page = 1,
   perPage = 100
 ): Promise<GithubRelease[]> => {
-  return await (
-    await fetch(
-      osUpdateServerUrl +
-        "?" +
-        new URLSearchParams({
-          page: page.toString(),
-          per_page: perPage.toString(),
-        }).toString(),
-      githubToken
-        ? {
-            headers: {
-              Authorization: `token ${githubToken}`,
-            },
-          }
-        : {}
+  try {
+    const response = await axios(osUpdateServerUrl || "", {
+      headers: {
+        ...(githubToken ? { Authorization: `token ${githubToken}` } : {}),
+      },
+      params: {
+        page: page,
+        per_page: perPage,
+      },
+    })
+    return response.data
+  } catch (error) {
+    logger.error(
+      `Checking for OS updated failed with code ${error.response.status}: ${error.response.statusText}`
     )
-  ).json()
+    return []
+  }
 }
 
 const registerPureOsUpdateListener = () => {
