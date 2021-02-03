@@ -1,50 +1,45 @@
 import {
   ContentfulClientApi,
-  createClient,
   EntryCollection,
   SyncCollection,
 } from "contentful"
 import { ContentfulResource } from "App/api/contentful/contentful-resource.enum"
+import fetch from "node-fetch"
 
 export class Client
   implements Pick<ContentfulClientApi, "getEntries" | "sync"> {
-  client: ContentfulClientApi
+  resource: ContentfulResource
   constructor(config: { resource: ContentfulResource }) {
-    this.client =
-      config.resource === ContentfulResource.Help
-        ? createClient({
-            accessToken: process.env.MC_CONTENTFUL_ACCESS_TOKEN as string,
-            space: process.env.MC_CONTENTFUL_SPACE_ID as string,
-            environment: process.env.MC_CONTENTFUL_ENVIRONMENT_ID,
-            host: process.env.MC_CONTENTFUL_HOST,
-          })
-        : createClient({
-            accessToken: process.env
-              .MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN as string,
-            space: process.env.MUDITA_WEB_CONTENTFUL_SPACE_ID as string,
-          })
+    this.resource = config.resource
   }
 
-  getEntries<T>(query: any): Promise<EntryCollection<T>> {
-    return fetch("adreslambdy.com", {
-      method: "post",
-      body: JSON.stringify({
-        //TODO:  z constructora
-        resource: ContentfulResource.Help,
-        method: "getEntries",
-        query: {
-          content_type: "newsItem",
-          limit: 3,
-        },
-      }),
-    })
-    // return this.client.getEntries({
-    //   content_type: "newsItem",
-    //   limit: 3,
-    // })
+  async getEntries<T>(query: any): Promise<Response> {
+    const response = await fetch(
+      "https://pmjrquus6h.execute-api.eu-central-1.amazonaws.com/Prod/",
+      {
+        method: "post",
+        body: JSON.stringify({
+          resource: this.resource,
+          method: "getEntries",
+          query,
+        }),
+      }
+    )
+    return await response.json()
   }
 
-  sync(query: any): Promise<SyncCollection> {
-    return this.client.sync(query)
+  async sync(query: any): Promise<SyncCollection> {
+    const response = await fetch(
+      "https://pmjrquus6h.execute-api.eu-central-1.amazonaws.com/Prod/",
+      {
+        method: "post",
+        body: JSON.stringify({
+          resource: this.resource,
+          method: "sync",
+          query,
+        }),
+      }
+    )
+    return await response.json()
   }
 }
