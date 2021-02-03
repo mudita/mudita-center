@@ -46,3 +46,36 @@ test("proper request for help data", async () => {
     })
   )
 })
+
+test("proper request for news data", async () => {
+  const payload = {
+    httpMethod: "POST",
+    body: JSON.stringify({
+      resource: "news",
+      method: "getEntries",
+      query: {
+        content_type: "newsItem",
+        limit: 3,
+      },
+    }),
+  }
+  const result = await cms.retrieveCMSData(payload, null)
+  expect(result).toEqual(
+    expect.objectContaining({
+      body: JSON.stringify("entries web"),
+      statusCode: 200,
+    })
+  )
+})
+
+test("returns 405 if requests method is different than POST", async () => {
+  const payload = {
+    httpMethod: "GET",
+  }
+  const result = await cms.retrieveCMSData(payload, null)
+  expect(result).toEqual(
+    expect.objectContaining({
+      statusCode: 405,
+    })
+  )
+})
