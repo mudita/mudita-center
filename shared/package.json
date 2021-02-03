@@ -1,6 +1,6 @@
 {
     "name": "@mudita/mudita-center-shared",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Mudita center shared",
     "main": "dist/src/shared.js",
     "types": "dist/src/shared.d.ts",
@@ -158,7 +158,6 @@
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
     "node-ical": "^0.12.8",
-    "pure": "file:pure",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.5.2",
