@@ -19,6 +19,7 @@
     "app:prerelease": "lerna run --scope app prerelease",
     "app:storybook:build": "lerna run --scope app storybook:build --",
     "app:dist": "lerna run --scope app dist --",
+    "app:electron:rebuild-serialport": "lerna run --scope app electron:rebuild-serialport --",
     "PURE COMMANDS": "========================================================",
     "pure:build": "lerna run --scope pure build",
     "pure:lint": "lerna run --scope pure lint",

@@ -92,7 +92,7 @@ the module (for instance, using `npm rebuild` or `npm install`).
 Solution:
 
 ```bash
-electron-rebuild -f -w serialport
+npm run app:electron:rebuild-serialport
 ```
 
 ### Config schema violation: `language` should be a string
