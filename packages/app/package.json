@@ -113,7 +113,6 @@
     "@babel/preset-react": "^7.12.10",
     "@babel/preset-typescript": "^7.12.7",
     "@hot-loader/react-dom": "^16.13.0",
-    "@mudita/eslint-config": "^1.0.14",
     "@mudita/stylelint-config": "^1.0.4",
     "@storybook/addon-actions": "^6.1.15",
     "@storybook/addon-knobs": "^6.1.15",

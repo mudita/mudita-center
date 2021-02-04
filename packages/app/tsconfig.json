@@ -14,7 +14,8 @@
       "es5",
       "es7",
       "es2017",
-      "ESNext"
+      "ESNext",
+      "esnext.intl", "es2017.intl", "es2018.intl"
     ],
     /* Allow javascript files to be compiled. */
     "allowJs": true,
@@ -29,7 +30,7 @@
     /* Concatenate and emit output to single file. */
     // "outFile": "./",
     /* Redirect output structure to the directory. */
-    "outDir": "./dist",
+    /*"outDir": "./dist",*/
     /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     // "rootDir": "./",
     /* Do not emit comments to output. */
@@ -74,12 +75,12 @@
     "baseUrl": "./",
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     "paths": {
-      "App/*": ["src/*"],
-      "Renderer/*": ["src/renderer/*"],
+      "App/*": ["./src/*"],
+      "Renderer/*": ["./src/renderer/*"],
       "Cypress/*": ["cypress/*"],
       "Storybook/*": [".storybook/*"],
-      "Backend/*": ["src/backend/*"],
-      "Common/*": ["src/common/*"]
+      "Backend/*": ["./src/backend/*"],
+      "Common/*": ["./src/common/*"]
     },
     /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "rootDirs": [],
