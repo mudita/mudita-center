@@ -4,7 +4,7 @@ const contentful = require("contentful")
  */
 exports.retrieveCMSData = async (event) => {
   try {
-    if (event.httpMethod.toLocaleLowerCase() === "post") {
+    if (event.httpMethod.toLowerCase() === "post") {
       const body = JSON.parse(event.body)
       const client =
         body.resource === "help"
