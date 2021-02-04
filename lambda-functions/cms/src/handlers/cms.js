@@ -16,9 +16,12 @@ exports.retrieveCMSData = async (event) => {
           accessToken: process.env.MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN,
           space: process.env.MUDITA_WEB_CONTENTFUL_SPACE_ID,
         })
-  const data = await client[body.method](body.query)
-  return {
-    statusCode: 200,
-    body: JSON.stringify(data),
+  const allowedMethods = ["getEntries", "sync"]
+  if (allowedMethods.includes(body.method)) {
+    const data = await client[body.method](body.query)
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data),
+    }
   }
 }
