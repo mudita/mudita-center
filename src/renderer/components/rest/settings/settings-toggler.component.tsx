@@ -18,12 +18,12 @@ const TogglerItem = styled(ButtonTogglerItem)`
   width: 75%;
 `
 
-interface Props {
+export interface SettingsTogglerProps {
   toggleValue?: boolean
   onToggle?: (option: boolean) => void
 }
 
-const SettingsToggler: FunctionComponent<Props> = ({
+const SettingsToggler: FunctionComponent<SettingsTogglerProps> = ({
   toggleValue,
   onToggle = noop,
   ...props

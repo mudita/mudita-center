@@ -30,6 +30,8 @@ export const SearchInput = styled(InputText)`
   animation: ${showToggleableElement} ${transitionTime("veryQuick")} forwards
     ${transitionTimingFunction("standard")};
   width: 38rem;
+  /* TODO: Remove when add feature becomes available */
+  justify-self: end;
 `
 
 export const MessageSelectionManager = styled(SelectionManager)`
@@ -53,4 +55,6 @@ export const MessageFiltersWrapper = styled(FiltersWrapper)<{
       grid-template-columns: 1fr auto;
     `};
   padding: 0 3rem 0 4rem;
+  /* TODO: Remove when add feature becomes available */
+  grid-template-areas: "Filters Search";
 `

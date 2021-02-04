@@ -1,3 +1,6 @@
+# Shared
+shared/dist
+
 # Logs
 logs
 *.log

@@ -3,7 +3,7 @@ import { View, views } from "Renderer/constants/views"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 
-const productionEnvironment = process.env.NODE_ENV === "production"
+export const productionEnvironment = process.env.NODE_ENV === "production"
 
 const messages = defineMessages({
   yourPure: { id: "menu.header.yourPure" },
