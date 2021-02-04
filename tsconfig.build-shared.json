@@ -1,0 +1,58 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "lib": [
+      "dom",
+      "es6",
+      "dom.iterable",
+      "scripthost",
+      "es5",
+      "es7",
+      "es2017",
+      "ESNext"
+    ],
+    "allowJs": true,
+    "jsx": "react",
+    "sourceMap": true,
+    "outDir": "./shared/dist",
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noImplicitReturns": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "App/*": ["src/*"],
+      "Renderer/*": ["src/renderer/*"],
+      "Cypress/*": ["cypress/*"],
+      "Storybook/*": [".storybook/*"],
+      "Backend/*": ["src/backend/*"],
+      "Common/*": ["src/common/*"]
+    },
+    "types": ["jest", "node", "@testing-library/react"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "declaration": true
+  },
+  "include": ["./src/shared.ts", "src/**/*.d.ts", "src/renderer/images"],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "src/**/__mocks__/*",
+    "src/**/*.test.ts",
+    "src/__mocks__",
+    "src/backend",
+    "src/contacts",
+    "src/common",
+    "src/dev-mode",
+    "src/main",
+    "src/seeds"
+  ]
+}

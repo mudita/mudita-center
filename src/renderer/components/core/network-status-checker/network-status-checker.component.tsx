@@ -1,11 +1,11 @@
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { useEffect } from "react"
 
-interface Props {
+export interface NetworkStatusCheckerProps {
   updateOnlineStatus: () => void
 }
 
-const NetworkStatusChecker: FunctionComponent<Props> = ({
+const NetworkStatusChecker: FunctionComponent<NetworkStatusCheckerProps> = ({
   updateOnlineStatus,
 }) => {
   useEffect(() => {
