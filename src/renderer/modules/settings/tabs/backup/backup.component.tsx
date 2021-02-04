@@ -4,11 +4,11 @@ import BackupUI from "Renderer/modules/settings/tabs/backup/backup-ui.component"
 import { AppSettings } from "App/main/store/settings.interface"
 import useLocationPicker from "Renderer/utils/hooks/use-location-picker"
 
-interface Props {
+export interface BackupProps {
   setPureOsBackupLocation: (value: AppSettings["pureOsBackupLocation"]) => void
 }
 
-const Backup: FunctionComponent<Props & AppSettings> = ({
+const Backup: FunctionComponent<BackupProps & AppSettings> = ({
   setPureOsBackupLocation,
   pureOsBackupLocation,
 }) => {

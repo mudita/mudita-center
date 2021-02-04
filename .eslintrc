@@ -1,5 +1,6 @@
 {
   "extends": "@mudita",
+  "ignorePatterns": ["src/shared.ts"],
   "parserOptions": {
     "project": "./tsconfig.json"
   },

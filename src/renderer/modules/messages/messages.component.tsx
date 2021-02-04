@@ -3,7 +3,7 @@ import { defineMessages } from "react-intl"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import MessagesList from "Renderer/components/rest/messages/messages-list.component"
 import {
-  ComponentProps as MessagesProps,
+  ComponentProps as MessagesComponentProps,
   VisibilityFilter,
   Topic,
 } from "Renderer/models/messages/messages.interface"
@@ -35,12 +35,14 @@ const deleteModalMessages = defineMessages({
   },
 })
 
-interface Props extends MessagesProps, Pick<AppSettings, "language"> {
+export interface MessagesProps
+  extends MessagesComponentProps,
+    Pick<AppSettings, "language"> {
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
 }
 
-const Messages: FunctionComponent<Props> = ({
+const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
   changeSearchValue = noop,
   changeVisibilityFilter = noop,
