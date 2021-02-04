@@ -67,15 +67,3 @@ test("proper request for news data", async () => {
     })
   )
 })
-
-test("returns 405 if requests method is different than POST", async () => {
-  const payload = {
-    httpMethod: "GET",
-  }
-  const result = await cms.retrieveCMSData(payload)
-  expect(result).toEqual(
-    expect.objectContaining({
-      statusCode: 405,
-    })
-  )
-})
