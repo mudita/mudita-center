@@ -1,7 +1,9 @@
 import { ChangeEvent } from "react"
 import { Caller } from "Renderer/models/calls/calls.interface"
 
-export type Author = Pick<Caller, "id">
+export interface Author extends Pick<Caller, "id"> {
+  phoneNumber?: string
+}
 
 export interface Content {
   id: string

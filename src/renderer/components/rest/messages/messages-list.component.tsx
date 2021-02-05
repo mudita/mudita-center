@@ -10,7 +10,9 @@ import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
-import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
@@ -26,6 +28,7 @@ import {
   DataWrapper,
   Message,
   Name,
+  NameWrapper,
   Time,
 } from "Renderer/components/rest/messages/topics-table.component"
 import moment from "moment"
@@ -218,9 +221,16 @@ const MessagesList: FunctionComponent<Props> = ({
             </AvatarCol>
             <MessageCol onClick={open} data-testid={MessagesListTestIds.Row}>
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
-                <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                  {getPrettyCaller(caller)}
-                </Name>
+                <NameWrapper>
+                  <Name displayStyle={TextDisplayStyle.LargeBoldText}>
+                    {getPrettyCaller(caller)}{" "}
+                  </Name>
+                  {caller.hasTwoNumbers && (
+                    <Text displayStyle={TextDisplayStyle.LargeFadedText}>
+                      &nbsp;{caller.whichNumber}
+                    </Text>
+                  )}
+                </NameWrapper>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
                   {isToday(lastMessage?.date)
                     ? moment(lastMessage?.date).format("h:mm A")
