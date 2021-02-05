@@ -51,22 +51,22 @@ test("only close button is rendered by default", () => {
 })
 
 test("action button is rendered when label and onActionButtonClick are provided", () => {
-  const { getAllByTestId } = renderer({
+  const { getByTestId } = renderer({
     actionButtonLabel: "Action",
     onActionButtonClick: noop,
   })
-  expect(getAllByTestId(ModalTestIds.ModalActionButton)).toHaveLength(2)
+  expect(getByTestId(ModalTestIds.ModalActionButton)).toBeInTheDocument()
 })
 
 test("action button is not rendered when only label is provided", () => {
-  const { getByTestId } = renderer({ actionButtonLabel: "Action" })
+  const { queryByTestId } = renderer({ actionButtonLabel: "Action" })
 
-  expect(getByTestId(ModalTestIds.ModalActionButton)).toBeInTheDocument()
+  expect(queryByTestId(ModalTestIds.ModalActionButton)).not.toBeInTheDocument()
 })
 
 test("action button is not rendered when only onActionButtonClick is provided", () => {
-  const { getByTestId } = renderer({ onActionButtonClick: noop })
-  expect(getByTestId(ModalTestIds.ModalActionButton)).toBeInTheDocument()
+  const { queryByTestId } = renderer({ onActionButtonClick: noop })
+  expect(queryByTestId(ModalTestIds.ModalActionButton)).not.toBeInTheDocument()
 })
 
 test("custom buttons are rendered", () => {
