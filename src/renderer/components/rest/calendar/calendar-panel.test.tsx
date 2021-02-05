@@ -4,11 +4,13 @@ import React from "react"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { InputSelectTestIds } from "Renderer/components/core/input-select/input-select.component"
+import { CalendarPanelTestIds } from "Renderer/components/rest/calendar/calendar-panel-test-ids.enum"
 
 const defaultProps = {
   onAddEventClick: jest.fn(),
   onSynchroniseClick: jest.fn(),
   onEventSelect: jest.fn(),
+  selectedEvents: [],
   events: [
     {
       id: "test-event-1",
@@ -87,4 +89,9 @@ test("add event is performed after clicking button", () => {
   )
   addEventButton.click()
   expect(defaultProps.onAddEventClick).toBeCalled()
+})
+
+test("selection manager is displayed when there is at least one event selected ", () => {
+  const { getByTestId } = renderer({ selectedEvents: [defaultProps.events[0]] })
+  expect(getByTestId(CalendarPanelTestIds.SelectionManager)).toBeInTheDocument()
 })

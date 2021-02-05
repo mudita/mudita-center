@@ -36,6 +36,9 @@ const CalendarUI: FunctionComponent<Props> = ({
         events={events}
         onEventSelect={onEventSelect}
         onSynchroniseClick={openSelectVendorModal}
+        selectedEvents={tableSelectHook.selectedRows}
+        allEventsSelected={tableSelectHook.allRowsSelected}
+        toggleAll={tableSelectHook.toggleAll}
       />
       {events.length > 0 ? (
         <EventsList
