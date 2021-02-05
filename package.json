@@ -25,7 +25,10 @@
     "pure:lint": "lerna run --scope pure lint",
     "pure:lint:typecheck": "lerna run --scope pure lint:typecheck",
     "pure:test:coverage": "lerna run --scope pure test:coverage",
-    "pure:command": "lerna run --scope pure command --"
+    "pure:command": "lerna run --scope pure command --",
+    "PURE SHARED": "========================================================",
+    "shared:build": "lerna run --scope @mudita/mudita-center-shared build",
+    "shared:release": "lerna run --scope @mudita/mudita-center-shared release"
   },
   "repository": {
     "type": "git",

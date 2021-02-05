@@ -4,12 +4,12 @@ rm -rv shared/dist
 echo "---> Done"
 
 echo "\n## 1. Building and re-writing paths"
-npm run build:shared
+npm run build
 echo "---> Done"
 
 echo "\n## 2. Copying assets"
-cp -rv src/renderer/images  shared/dist/src/renderer
-cp -rv src/renderer/svg  shared/dist/src/renderer
+cp -rv ../app/src/renderer/images  ./dist/app/src/renderer
+cp -rv ../app/src/renderer/svg  ./dist/app/src/renderer
 echo "---> Done"
 
 echo "\033[0m"
