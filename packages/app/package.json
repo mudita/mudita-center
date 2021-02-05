@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "@mudita/mudita-center-app",
   "version": "4.4.0",
   "description": "App",
   "main": "./dist/main.js",
