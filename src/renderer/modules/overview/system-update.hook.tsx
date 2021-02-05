@@ -45,6 +45,7 @@ const onOsDownloadCancel = () => {
 }
 
 const useSystemUpdateFlow = (
+  osUpdateDate: string,
   osVersion: string,
   onUpdate: (updateInfo: PhoneUpdate) => void,
   updateBasicInfo: (updateInfo: Partial<BasicInfoValues>) => void,
@@ -128,7 +129,7 @@ const useSystemUpdateFlow = (
 
   // Checking for updates
   const openCheckingForUpdatesModal = () => {
-    modalService.openModal(<CheckingUpdatesModal />)
+    return modalService.openModal(<CheckingUpdatesModal />, true)
   }
 
   const openCheckingForUpdatesFailedModal = (onRetry: () => void) => {
@@ -150,14 +151,14 @@ const useSystemUpdateFlow = (
 
   const openNotAvailableUpdateModal = () => {
     return modalService.openModal(
-      <UpdateNotAvailable version={osVersion} />,
+      <UpdateNotAvailable version={osVersion} date={osUpdateDate} />,
       true
     )
   }
 
   const checkForUpdates = async (silent = false) => {
     if (!silent) {
-      openCheckingForUpdatesModal()
+      await delayResponse(openCheckingForUpdatesModal(), 1000)
     }
 
     if (osVersion) {
@@ -192,7 +193,7 @@ const useSystemUpdateFlow = (
         }
       } catch (error) {
         if (!silent) {
-          await openCheckingForUpdatesFailedModal(checkForUpdates)
+          await openCheckingForUpdatesFailedModal(() => checkForUpdates())
         }
         logger.error(error)
       }

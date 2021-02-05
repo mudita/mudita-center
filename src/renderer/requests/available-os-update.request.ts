@@ -18,11 +18,20 @@ const availableOsUpdateRequest = (
         OsUpdateChannel.Request
       )
 
+      const officialReleases = releases.filter((release) => !release.prerelease)
+      const newestOfficialRelease = officialReleases[0]
+
+      const updateAvailable =
+        osVersion &&
+        newestOfficialRelease &&
+        !(
+          osVersion.includes(newestOfficialRelease.version) ||
+          newestOfficialRelease.version.includes(osVersion)
+        )
+
       resolve({
-        allReleases: releases.reverse(),
-        latestRelease: !osVersion?.includes(releases[0].version)
-          ? releases[0]
-          : null,
+        allReleases: releases,
+        latestRelease: updateAvailable ? newestOfficialRelease : null,
       })
     } catch (error) {
       reject(error)
