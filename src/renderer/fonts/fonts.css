@@ -1,4 +1,23 @@
 @font-face {
+  font-family: "Roboto Condensed";
+  font-weight: 300;
+  font-display: fallback;
+  src: url(./RobotoCondensed-Light.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Roboto Condensed";
+  font-weight: 400;
+  font-display: fallback;
+  src: url(./RobotoCondensed-Regular.ttf) format("truetype");
+}
+@font-face {
+  font-family: "Roboto Condensed";
+  font-weight: 700;
+  font-display: fallback;
+  src: url(./RobotoCondensed-Bold.ttf) format("truetype");
+}
+
+@font-face {
   font-family: "GT Pressura";
   font-weight: 300;
   font-display: fallback;
