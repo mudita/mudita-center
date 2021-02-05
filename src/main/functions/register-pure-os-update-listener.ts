@@ -108,7 +108,10 @@ const registerPureOsUpdateListener = () => {
           const versionA = (a as Release).version
           const versionB = (b as Release).version
 
-          return versionA > versionB ? -1 : versionB > versionA ? 1 : 0
+          return versionA.localeCompare(versionB, undefined, {
+            numeric: true,
+            sensitivity: "base",
+          })
         })
     })
   }

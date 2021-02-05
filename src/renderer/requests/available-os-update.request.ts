@@ -6,7 +6,7 @@ import {
 
 interface AvailableReleases {
   allReleases: Release[]
-  newerReleases: Release[]
+  latestRelease: Release | null
 }
 
 const availableOsUpdateRequest = (
@@ -18,25 +18,11 @@ const availableOsUpdateRequest = (
         OsUpdateChannel.Request
       )
 
-      let availableReleases: Release[] = []
-
-      if (osVersion) {
-        for (const release of releases) {
-          if (osVersion.includes(release.version)) {
-            break
-          } else {
-            availableReleases.push(release)
-          }
-        }
-      } else {
-        availableReleases = releases
-      }
-
       resolve({
-        allReleases: releases,
-        newerReleases: availableReleases
-          .filter((release) => (osVersion ? true : !release.prerelease))
-          .reverse(),
+        allReleases: releases.reverse(),
+        latestRelease: !osVersion?.includes(releases[0].version)
+          ? releases[0]
+          : null,
       })
     } catch (error) {
       reject(error)

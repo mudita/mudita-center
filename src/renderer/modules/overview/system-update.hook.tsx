@@ -162,22 +162,21 @@ const useSystemUpdateFlow = (
 
     if (osVersion) {
       try {
-        const { newerReleases, allReleases } = await availableOsUpdateRequest(
+        const { latestRelease, allReleases } = await availableOsUpdateRequest(
           osVersion
         )
 
         setDevReleases(allReleases)
 
-        if (newerReleases.length) {
-          const nextUpdate = newerReleases[0]
-          setReleaseToInstall(nextUpdate)
+        if (latestRelease) {
+          setReleaseToInstall(latestRelease)
 
           onUpdate({
             pureOsAvailable: true,
-            pureOsFileUrl: nextUpdate.file.url,
+            pureOsFileUrl: latestRelease.file.url,
           })
 
-          if (await osUpdateAlreadyDownloadedCheck(nextUpdate.file)) {
+          if (await osUpdateAlreadyDownloadedCheck(latestRelease.file)) {
             onUpdate({ pureOsDownloaded: true })
           }
 
