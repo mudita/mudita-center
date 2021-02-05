@@ -1,4 +1,4 @@
-import PureDeviceManager from "pure"
+import PureDeviceManager from "@mudita/mudita-center-pure"
 import registerNetworkInfoRequest from "Backend/requests/network/get-network-info.request"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"

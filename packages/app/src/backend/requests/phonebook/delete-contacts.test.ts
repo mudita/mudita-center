@@ -3,7 +3,7 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import registerDeleteContactsRequest from "Backend/requests/phonebook/delete-contacts.request"
 import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 import MockPureNodeService from "Backend/mock-device-service"
-import PureDeviceManager from "pure"
+import PureDeviceManager from "@mudita/mudita-center-pure"
 import Adapters from "Backend/adapters/adapters.interface"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
 

@@ -10,7 +10,7 @@ import {
   Contact,
   CountBodyResponse,
   DeviceInfo,
-} from "pure"
+} from "@mudita/mudita-center-pure"
 import { EventEmitter } from "events"
 import DeviceResponse, {
   DeviceResponseStatus,

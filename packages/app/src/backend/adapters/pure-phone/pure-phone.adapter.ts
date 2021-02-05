@@ -1,4 +1,4 @@
-import { Endpoint, Method } from "pure"
+import { Endpoint, Method } from "@mudita/mudita-center-pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,

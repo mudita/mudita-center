@@ -4,7 +4,7 @@ import {
   Endpoint,
   Method,
   RequestConfig,
-} from "pure"
+} from "@mudita/mudita-center-pure"
 import DeviceService from "./device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
