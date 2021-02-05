@@ -22,7 +22,10 @@ const availableOsUpdateRequest = (
 
       if (osVersion) {
         for (const release of releases) {
-          if (osVersion.includes(release.version)) {
+          if (
+            osVersion.includes(release.version) ||
+            release.version.includes(osVersion)
+          ) {
             break
           } else {
             availableReleases.push(release)
@@ -35,7 +38,7 @@ const availableOsUpdateRequest = (
       resolve({
         allReleases: releases,
         newerReleases: availableReleases
-          .filter((release) => (osVersion ? true : !release.prerelease))
+          .filter((release) => !release.prerelease)
           .reverse(),
       })
     } catch (error) {

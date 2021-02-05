@@ -113,6 +113,7 @@ const Overview: FunctionComponent<
   const store = useStore()
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
+    osUpdateDate,
     osVersion,
     updatePhoneOsInfo,
     updateBasicInfo,
