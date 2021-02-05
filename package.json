@@ -251,6 +251,7 @@
     "faker": "^5.2.0",
     "fs-extra": "^9.1.0",
     "history": "^4.10.1",
+    "ical-generator": "^1.15.4",
     "is-electron-renderer": "^2.0.1",
     "lodash": "^4.17.20",
     "minimist": "^1.2.5",
