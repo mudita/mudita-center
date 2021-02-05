@@ -30,6 +30,7 @@ import { LoadingBar } from "Renderer/modules/overview/backup-process/modals.styl
 import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import useDynamicProgressValue from "Renderer/utils/hooks/use-dynamic-progress-value.hook"
+import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 
 const ModalContent = styled.div`
   display: flex;
@@ -313,6 +314,7 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
     actionButtonLabel={intl.formatMessage(messages.downloadCompletedButton)}
     closeButtonLabel={intl.formatMessage(messages.downloadCompletedCloseButton)}
     onActionButtonClick={onOsUpdate}
+    data-testid={OverviewTestIds.DownloadingUpdateFinishedModal}
   >
     <RoundIconWrapper>
       <Icon type={Type.Download} width={4} />
@@ -384,7 +386,7 @@ export const UpdatingProgressModal: FunctionComponent<{
 }
 
 export const UpdatingSuccessModal = () => (
-  <OSUpdateModal>
+  <OSUpdateModal data-testid={OverviewTestIds.UpdatingSuccessModal}>
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
