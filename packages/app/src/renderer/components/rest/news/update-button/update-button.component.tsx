@@ -34,7 +34,7 @@ const UpdateButton = styled(Button)<{ updating?: boolean }>`
   }
 `
 
-interface UpdateButtonProps {
+export interface UpdateButtonProps {
   onClick?: () => void
   updating?: boolean
   label?: string

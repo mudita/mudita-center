@@ -48,7 +48,7 @@ export const conversionFormatRadioGroup = [
   },
 ]
 
-interface Props {
+export interface AudioConversionProps {
   appNonStandardAudioFilesConversion: boolean
   appConvert: Convert
   appConversionFormat: ConversionFormat
@@ -58,7 +58,7 @@ interface Props {
   loadSettings: () => void
 }
 
-const AudioConversion: FunctionComponent<Props> = ({
+const AudioConversion: FunctionComponent<AudioConversionProps> = ({
   appNonStandardAudioFilesConversion,
   appConvert,
   appConversionFormat,

@@ -106,7 +106,7 @@ export interface Note {
   id: string
 }
 
-interface NotesProps {
+export interface NotesProps {
   notes: Note[]
   newNoteId?: string
   createNewNote: (noteCallback: NoteCallback) => void

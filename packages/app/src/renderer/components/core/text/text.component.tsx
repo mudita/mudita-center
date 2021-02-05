@@ -205,7 +205,7 @@ const TextWrapper = styled.div<{ displayStyle: TextDisplayStyle }>`
   ${({ displayStyle }) => getTextStyles(displayStyle)};
 `
 
-interface Props {
+export interface TextProps {
   readonly element?: Element
   readonly message?: MessageInterface
   readonly displayStyle?: TextDisplayStyle
@@ -275,7 +275,7 @@ const mapping: ElementsMapping = {
   [TextDisplayStyle.ExtraSmallFadedDimText]: "p",
 }
 
-const Text: FunctionComponent<Props> = ({
+const Text: FunctionComponent<TextProps> = ({
   children,
   displayStyle = TextDisplayStyle.Default,
   message,

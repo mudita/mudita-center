@@ -114,5 +114,5 @@
     "esModuleInterop": true
   },
   "include": ["./src", "./test", "./mocks"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "src/shared.ts"]
 }

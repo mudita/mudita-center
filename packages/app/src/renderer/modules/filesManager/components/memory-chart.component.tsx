@@ -6,7 +6,7 @@ import { DiskSpaceCategory } from "Renderer/models/files-manager/files-manager.i
 import FilesSummary from "Renderer/modules/filesManager/components/files-summary.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
-interface Props {
+export interface MemoryChartProps {
   memoryChartData: DiskSpaceCategory[]
 }
 
@@ -21,7 +21,9 @@ const memoryToStackedBarChartData = (data: DiskSpaceCategory[]) => {
   })
 }
 
-const MemoryChart: FunctionComponent<Props> = ({ memoryChartData }) => {
+const MemoryChart: FunctionComponent<MemoryChartProps> = ({
+  memoryChartData,
+}) => {
   return (
     <>
       <StackedBarChart

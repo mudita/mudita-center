@@ -23,7 +23,7 @@ import { BackupRestorationFinishedModal } from "Renderer/modules/overview/backup
 import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
 import logger from "App/main/utils/logger"
 
-interface UpdateBasicInfo {
+export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
   toggleUpdatingDevice: (option: boolean) => void
 }
