@@ -58,7 +58,9 @@
     "pure:build": "cd pure && npm run build",
     "pure:lint-staged": "cd pure && npm run lint-staged",
     "pure:command": "cd pure && npm run command --",
-    "release:shared": "sh shared/build.sh"
+    "release:shared": "sh shared/build.sh",
+    "COPYRIGHT": "=================================================",
+    "copyright:add": "eslint --fix --rule 'license-header/header: [ \"error\", \"./resources/license-header.ts\" ]' ./src/main/store"
   },
   "build": {
     "productName": "Mudita Center",
@@ -151,9 +153,9 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/react-router-redux": "^5.0.18",
     "@types/react-test-renderer": "^17.0.0",
+    "@types/react-virtualized": "^9.21.11",
     "@types/redux-logger": "^3.0.8",
     "@types/redux-mock-store": "^1.0.2",
-    "@types/react-virtualized": "^9.21.11",
     "@types/serialport": "^8.0.1",
     "@types/sinon": "^9.0.10",
     "@types/styled-components": "^5.1.7",
@@ -179,6 +181,7 @@
     "electron-builder": "^22.9.1",
     "electron-devtools-installer": "^3.1.1",
     "electron-rebuild": "^2.3.4",
+    "eslint-plugin-license-header": "^0.2.0",
     "express": "^4.17.1",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^6.2.0",
