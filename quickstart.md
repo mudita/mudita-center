@@ -40,8 +40,8 @@ This will start the application with hot-reload so you can instantly start devel
 This command runs the User Interface and the backend simultaneously, however, if you wish to have logs from both processes in two separate consoles then please run the following commands in parallel in separate console tabs:
 
 ```bash
-npm run dev:start:renderer
-npm run dev:start:main
+lerna run --scope @mudita/mudita-center-app dev:start:renderer
+lerna run --scope @mudita/mudita-center-app dev:start:main
 ```
 
 ## Enable Developer mode inside the application
