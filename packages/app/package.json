@@ -51,7 +51,9 @@
     "posttranslations:send": "npm run translations:sort",
     "posttranslations:update": "npm run translations:sort",
     "posttranslations:sort": "prettier --write src/**/*.json",
-    "posttest:coverage": "prettier --write ./jest.coverage.json"
+    "posttest:coverage": "prettier --write ./jest.coverage.json",
+    "COPYRIGHT": "=================================================",
+    "copyright:add": "eslint --fix --rule 'license-header/header: [ \"error\", \"../../resources/license-header.js\" ]' ./src"
   },
   "build": {
     "productName": "Mudita Center",
