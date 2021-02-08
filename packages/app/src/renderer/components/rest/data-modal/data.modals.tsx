@@ -59,43 +59,40 @@ export const ErrorDataModal = ({
   onClose = noop,
   title = intl.formatMessage(messages.errorTitle),
   textMessage = messages.errorText,
-}) => (
-  <ErrorModal title={title} onClose={onClose}>
+  descriptionMessage = messages.errorDescription,
+  ...props
+}: {
+  onClose?: () => void
+  title?: string
+  textMessage?: Message
+  descriptionMessage?: Message
+} & Partial<ModalProps>) => (
+  <ErrorModal title={title} onClose={onClose} {...props}>
     <RoundIconWrapper>
       <Icon type={Type.Fail} width={4} />
     </RoundIconWrapper>
     <Text displayStyle={TextDisplayStyle.LargeBoldText} message={textMessage} />
+    {descriptionMessage && (
+      <Text
+        displayStyle={TextDisplayStyle.MediumFadedText}
+        message={descriptionMessage}
+      />
+    )}
   </ErrorModal>
 )
 
-export const ErrorWithRetryDataModal = ({
-  onClose = noop,
-  onRetry,
-  title = intl.formatMessage(messages.errorTitle),
-  textMessage = messages.errorText,
-  descriptionMessage = messages.errorDescription,
-}: {
+export const ErrorWithRetryDataModal = (props: {
   onClose?: () => void
-  onRetry: () => void
+  onRetry?: () => void
   title?: string
   textMessage?: Message
   descriptionMessage?: Message
 }) => (
-  <ErrorModal
-    title={title}
-    onActionButtonClick={onRetry}
+  <ErrorDataModal
     actionButtonLabel={intl.formatMessage(messages.errorWithRetryButton)}
-    onClose={onClose}
-  >
-    <RoundIconWrapper>
-      <Icon type={Type.Fail} width={4} />
-    </RoundIconWrapper>
-    <Text displayStyle={TextDisplayStyle.LargeBoldText} message={textMessage} />
-    <Text
-      displayStyle={TextDisplayStyle.MediumFadedText}
-      message={descriptionMessage}
-    />
-  </ErrorModal>
+    onActionButtonClick={props.onRetry}
+    {...props}
+  />
 )
 
 export const LoadingStateDataModal = ({

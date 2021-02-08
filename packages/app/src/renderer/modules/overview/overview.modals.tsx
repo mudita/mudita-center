@@ -167,10 +167,19 @@ const messages = defineMessages({
     id: "view.name.overview.system.modal.updating.success.description",
   },
   updatingFailedTitle: {
-    id: "view.name.overview.system.modal.updating.fail.title",
+    id: "view.name.overview.system.modal.updatingFailed.title",
   },
   updatingFailedDescription: {
-    id: "view.name.overview.system.modal.updating.fail.description",
+    id: "view.name.overview.system.modal.updatingFailed.description",
+  },
+  updatingFailedOnlySupportDescription: {
+    id: "view.name.overview.system.modal.updatingFailed.onlySupportDescription",
+  },
+  updatingFailedSupportButton: {
+    id: "view.name.overview.system.modal.updatingFailed.supportButton",
+  },
+  updatingFailedHelpButton: {
+    id: "view.name.overview.system.modal.updatingFailed.helpButton",
   },
 })
 
@@ -404,11 +413,40 @@ export const UpdatingSuccessModal = () => (
   </OSUpdateModal>
 )
 
-export const UpdatingFailureModal = ({ onRetry = noop }) => (
-  <ErrorWithRetryDataModal
-    onRetry={onRetry}
+export const UpdatingFailureModal = ({
+  code,
+  onContact,
+}: {
+  code?: number
+  onContact: () => void
+}) => (
+  <ErrorDataModal
+    closeButton={false}
+    onActionButtonClick={onContact}
     title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-    textMessage={messages.updatingFailedTitle}
+    actionButtonLabel={intl.formatMessage(messages.updatingFailedSupportButton)}
+    textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
+    descriptionMessage={messages.updatingFailedOnlySupportDescription}
+  />
+)
+
+export const UpdatingFailureWithHelpModal = ({
+  code,
+  onContact,
+  onHelp,
+}: {
+  code: number
+  onHelp: () => void
+  onContact: () => void
+}) => (
+  <ErrorDataModal
+    closeButton={true}
+    onClose={onContact}
+    closeButtonLabel={intl.formatMessage(messages.updatingFailedSupportButton)}
+    onActionButtonClick={onHelp}
+    title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+    actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
+    textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
     descriptionMessage={messages.updatingFailedDescription}
   />
 )
