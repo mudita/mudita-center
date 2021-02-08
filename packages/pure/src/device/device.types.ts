@@ -68,6 +68,11 @@ export enum BodyCommand {
   Download = "download",
 }
 
+export interface ApiRequestConfig extends RequestConfig {
+  endpoint: Endpoint.ApiVersion
+  method: Method.Get
+}
+
 export interface RequestConfig {
   endpoint: Endpoint
   method: Method
