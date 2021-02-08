@@ -10,7 +10,7 @@
   "private": false,
   "scripts": {
     "build": "tsc --p tsconfig.json && tscpaths -p tsconfig.json -s ./ -o ./design-system/dist",
-    "release": "sh build.sh"
+    "prepublish": "sh build.sh"
   },
   "repository": {
     "type": "git",
