@@ -66,7 +66,7 @@ export interface RequestConfig {
   endpoint: Endpoint
   method: Method
   body?: any
-  file?: string
+  filePath?: string
 }
 
 export enum FileResponseStatus {

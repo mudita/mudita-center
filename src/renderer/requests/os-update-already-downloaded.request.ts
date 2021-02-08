@@ -5,18 +5,17 @@
 
 import { ipcRenderer } from "electron-better-ipc"
 import { osUpdateAlreadyDownloadedChannel } from "App/main/functions/register-os-update-already-downloaded-checker"
-import { Filename, Filesize } from "Renderer/interfaces/file-download.interface"
+import { Release } from "App/main/functions/register-pure-os-update-listener"
 
 const osUpdateAlreadyDownloadedCheck = (
-  filePath: Filename,
-  fileSize: Filesize
+  file: Release["file"]
 ): Promise<boolean> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const data = await ipcRenderer.callMain<
-        { filePath: Filename; fileSize: Filesize },
-        boolean
-      >(osUpdateAlreadyDownloadedChannel, { filePath, fileSize })
+      const data = await ipcRenderer.callMain<Release["file"], boolean>(
+        osUpdateAlreadyDownloadedChannel,
+        file
+      )
       resolve(data)
     } catch (error) {
       reject(error)

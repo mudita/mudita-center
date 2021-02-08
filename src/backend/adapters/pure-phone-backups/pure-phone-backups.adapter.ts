@@ -5,20 +5,17 @@
 
 import PurePhoneBackupAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups-adapter.class"
 import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
-import { app } from "electron"
-import { name } from "../../../../package.json"
 import fs from "fs-extra"
 import path from "path"
 import moment from "moment"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
+import getAppSettingsMain from "App/main/functions/get-app-settings"
 
 class PurePhoneBackups extends PurePhoneBackupAdapter {
   public async getBackups(): Promise<DeviceResponse<BackupItemInfo[]>> {
-    const settingsFilePath = `${app.getPath("appData")}/${name}/settings.json`
-
-    const { pureOsBackupLocation } = await fs.readJson(settingsFilePath)
+    const { pureOsBackupLocation } = await getAppSettingsMain()
     let backups: BackupItemInfo[] = []
 
     const regex = /^pure_backup_(\d{12})\.zip$/m

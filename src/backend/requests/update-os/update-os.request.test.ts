@@ -9,10 +9,22 @@ import { ipcMain } from "electron-better-ipc"
 import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
 import DeviceResponse from "Backend/adapters/device-response.interface"
 
+jest.mock("electron", () => ({
+  app: {
+    getPath: () => "/mocked/path",
+  },
+}))
+
+jest.mock("fs-extra", () => ({
+  readJSON: () => ({
+    pureOsDownloadLocation: "pure/os",
+  }),
+}))
+
 test("returns update os info", (done) => {
   registerUpdateOsRequest(getFakeAdapters())
   const [promise] = (ipcMain as any)._flush(IpcRequest.UpdateOs, {
-    updateFilePath: "",
+    fileName: "",
     progressChannel: "",
   })
   promise.then((result: DeviceResponse) => {

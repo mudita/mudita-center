@@ -74,12 +74,12 @@ class DeviceService {
   async request(config: {
     endpoint: Endpoint.DeviceUpdate
     method: Method.Post
-    file: string
+    filePath: string
   }): Promise<DeviceResponse>
   async request(config: {
     endpoint: Endpoint.FileUpload
     method: Method.Post
-    file: string
+    filePath: string
   }): Promise<DeviceResponse>
   async request(config: RequestConfig): Promise<DeviceResponse<any>>
   async request(config: RequestConfig) {

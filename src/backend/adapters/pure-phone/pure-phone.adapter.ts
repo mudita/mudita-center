@@ -66,7 +66,7 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public async updateOs(
-    file: string,
+    filePath: string,
     progressChannel: string
   ): Promise<DeviceResponse> {
     let unregisterListeners = noop
@@ -112,7 +112,7 @@ class PurePhone extends PurePhoneAdapter {
       const fileResponse = await this.deviceService.request({
         endpoint: Endpoint.FileUpload,
         method: Method.Post,
-        file,
+        filePath,
       })
 
       if (fileResponse.status === DeviceResponseStatus.Ok) {
@@ -125,7 +125,7 @@ class PurePhone extends PurePhoneAdapter {
         const pureUpdateResponse = await this.deviceService.request({
           endpoint: Endpoint.DeviceUpdate,
           method: Method.Post,
-          file,
+          filePath,
         })
 
         if (pureUpdateResponse.status === DeviceResponseStatus.Ok) {

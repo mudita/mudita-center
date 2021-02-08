@@ -8,7 +8,7 @@ import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
 
 const initialState: PhoneUpdate = {
-  pureOsFileName: "",
+  pureOsFileUrl: "",
   pureOsAvailable: false,
   pureOsDownloaded: false,
 }

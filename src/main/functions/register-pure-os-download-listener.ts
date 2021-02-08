@@ -4,13 +4,12 @@
  */
 
 import { ipcMain } from "electron-better-ipc"
-import { app } from "electron"
-import { name } from "../../../package.json"
 import {
   DownloadFinished,
   DownloadListener,
 } from "Renderer/interfaces/file-download.interface"
 import { createDownloadChannels } from "App/main/functions/create-download-listener-registrar"
+import getAppSettingsMain from "App/main/functions/get-app-settings"
 
 export const PureOsDownloadChannels = createDownloadChannels("os")
 
@@ -19,16 +18,15 @@ const registerPureOsDownloadListener = (
     params: DownloadListener
   ) => Promise<DownloadFinished>
 ) => {
-  ipcMain.answerRenderer(
-    PureOsDownloadChannels.start,
-    ({ url }: { url: string }) => {
-      return registerDownloadListener({
-        url,
-        path: `${app.getPath("appData")}/${name}/pure/os/downloads/`,
-        channels: PureOsDownloadChannels,
-      })
-    }
-  )
+  ipcMain.answerRenderer(PureOsDownloadChannels.start, async (url: string) => {
+    const { pureOsDownloadLocation } = await getAppSettingsMain()
+
+    return registerDownloadListener({
+      url,
+      path: pureOsDownloadLocation,
+      channels: PureOsDownloadChannels,
+    })
+  })
 }
 
 export default registerPureOsDownloadListener
