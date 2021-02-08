@@ -12,6 +12,7 @@ import {
   UpdateNotAvailable,
   UpdateServerError,
   UpdatingFailureModal,
+  UpdatingFailureWithHelpModal,
   UpdatingProgressModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
@@ -39,10 +40,21 @@ import registerOsUpdateProgressListener, {
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-pure-os-update-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
+import { DeviceUpdateErrorResponseCode } from "@mudita/mudita-center-pure"
+import { contactSupport } from "Renderer/utils/contact-support/contact-support"
+import { HelpActions } from "Common/enums/help-actions.enum"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
 }
+
+const noCriticalErrorResponseCodes: DeviceUpdateErrorResponseCode[] = [
+  DeviceUpdateErrorResponseCode.VerifyChecksumsFailure,
+  DeviceUpdateErrorResponseCode.VerifyVersionFailure,
+  DeviceUpdateErrorResponseCode.CantOpenUpdateFile,
+  DeviceUpdateErrorResponseCode.NoBootloaderFile,
+  DeviceUpdateErrorResponseCode.CantOpenBootloaderFile,
+]
 
 const useSystemUpdateFlow = (
   osUpdateDate: string,
@@ -126,6 +138,32 @@ const useSystemUpdateFlow = (
       true
     )
   }
+
+  const [activeCode, setActiveCode] = useState<
+    DeviceUpdateErrorResponseCode | undefined
+    >(undefined)
+
+  useEffect(() => {
+    if (activeCode) {
+      displayErrorModal(activeCode)
+    }
+
+    const unregisterItem = appContextMenu.registerItem("Overview", {
+      label: "Select Pure kind of updating failure",
+      submenu: Object.values(DeviceUpdateErrorResponseCode)
+        .filter((k): k is DeviceUpdateErrorResponseCode => !isNaN(Number(k)))
+        .map((code) => {
+          const responseCodeName = DeviceUpdateErrorResponseCode[code]
+          return {
+            label: `${
+              code !== activeCode ? `Enable` : `Disabled`
+            } ${responseCodeName} failure`,
+            click: () => setActiveCode(code),
+          }
+        }),
+    })
+    return () => unregisterItem()
+  }, [activeCode])
 
   // Checking for updates
   const openCheckingForUpdatesModal = () => {
@@ -288,13 +326,34 @@ const useSystemUpdateFlow = (
       })
     }
 
-    const onRetry = () => updatePure()
-
     if (isEqual(response, { status: DeviceResponseStatus.Ok })) {
       modalService.openModal(<UpdatingSuccessModal />, true)
     } else {
+      const responseCode = response.error?.code
+      displayErrorModal(responseCode)
       logger.error(response)
-      modalService.openModal(<UpdatingFailureModal onRetry={onRetry} />, true)
+    }
+  }
+
+  const goToHelp = (code: number) => () => {
+    ipcRenderer.callMain(HelpActions.OpenWindow, { code })
+  }
+
+  const displayErrorModal = (errorCode?: number) => {
+    if (errorCode && noCriticalErrorResponseCodes.includes(errorCode)) {
+      modalService.openModal(
+        <UpdatingFailureWithHelpModal
+          code={errorCode}
+          onHelp={goToHelp(errorCode)}
+          onContact={contactSupport}
+        />,
+        true
+      )
+    } else {
+      modalService.openModal(
+        <UpdatingFailureModal code={errorCode} onContact={contactSupport} />,
+        true
+      )
     }
   }
 

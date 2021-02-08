@@ -171,7 +171,8 @@ app.on("activate", () => {
   }
 })
 
-ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
+ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
+  const code = props?.code ?? ""
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
@@ -181,7 +182,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
     )
     helpWindow.loadURL(
       developmentEnvironment
-        ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
+        ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}?code=${code}`
         : url.format({
             pathname: path.join(__dirname, "index.html"),
             protocol: "file:",

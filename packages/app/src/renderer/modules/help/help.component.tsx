@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from "react"
+import { Link, useHistory } from "react-router-dom"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
@@ -15,10 +16,10 @@ import {
   zIndex,
 } from "Renderer/styles/theming/theme-getters"
 import { URL_MAIN } from "Renderer/constants/urls"
-import { Link } from "react-router-dom"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { NormalizedHelpEntry } from "Renderer/utils/contentful/normalize-help-data"
+import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
 
 export interface QuestionAndAnswer {
   collection: string[]
@@ -80,6 +81,15 @@ const Help: FunctionComponent<HelpProps> = ({
   searchQuestion,
   searchValue,
 }) => {
+  const history = useHistory()
+  const searchParams = useURLSearchParams()
+  const code = searchParams.get("code")
+  const questionKey = code ? Object.keys(items).find((key) => items[key]?.question.includes(`#${code}`)) : undefined
+
+  if(questionKey){
+    history.push(`${URL_MAIN.help}/${items[questionKey].id}`)
+  }
+
   const search = (event: ChangeEvent<HTMLInputElement>) => {
     searchQuestion(event.target.value)
   }
@@ -107,7 +117,21 @@ const Help: FunctionComponent<HelpProps> = ({
         />
       </HelpPanel>
       <QuestionsContainer>
-        {collection.map((id: string) => {
+        {collection
+          .sort((aId, bId) =>{
+            var questionA = items[aId].question.toUpperCase(); // ignore upper and lowercase
+            var questionB = items[bId].question.toUpperCase(); // ignore upper and lowercase
+            if (questionA < questionB) {
+              return -1;
+            }
+            if (questionA > questionB) {
+              return 1;
+            }
+
+            // names must be equal
+            return 0;
+          })
+          .map((id: string) => {
           return (
             <Question
               key={id}
