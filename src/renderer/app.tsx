@@ -6,8 +6,13 @@ import { defaultLanguage } from "App/translations.config.json"
 import history from "Renderer/routes/history"
 import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
-import "./fonts/fonts.css"
 import appUpdate from "./components/rest/app-update/app-update.service"
+
+try {
+  require("./fonts/main/style.css")
+} catch (e) {
+  require("./fonts/fallback/style.css")
+}
 
 require("dotenv").config()
 

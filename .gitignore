@@ -52,3 +52,5 @@ storybook-static
 
 .env.*
 electron-builder.env
+
+src/renderer/fonts/main
