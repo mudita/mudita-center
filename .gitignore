@@ -1,5 +1,5 @@
 # Shared
-shared/dist
+packages/design-system/dist
 
 # Logs
 logs
@@ -43,11 +43,11 @@ src/style.css
 src/style.css.map
 dist
 
-tmp/extractedMessages
+packages/app/tmp/extractedMessages
 .idea
 .vscode
-.storybook/tmp/**/*
-!.storybook/tmp/.gitkeep
+packages/app/.storybook/tmp/**/*
+!packages/app/.storybook/tmp/.gitkeep
 storybook-static
 
 .env.*
