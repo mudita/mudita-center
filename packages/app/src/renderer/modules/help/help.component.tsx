@@ -84,9 +84,13 @@ const Help: FunctionComponent<HelpProps> = ({
   const history = useHistory()
   const searchParams = useURLSearchParams()
   const code = searchParams.get("code")
-  const questionKey = code ? Object.keys(items).find((key) => items[key]?.question.includes(`#${code}`)) : undefined
+  const questionKey = code
+    ? Object.keys(items).find((key) =>
+        items[key]?.question.includes(`#${code}`)
+      )
+    : undefined
 
-  if(questionKey){
+  if (questionKey) {
     history.push(`${URL_MAIN.help}/${items[questionKey].id}`)
   }
 
@@ -118,33 +122,32 @@ const Help: FunctionComponent<HelpProps> = ({
       </HelpPanel>
       <QuestionsContainer>
         {collection
-          .sort((aId, bId) =>{
-            var questionA = items[aId].question.toUpperCase(); // ignore upper and lowercase
-            var questionB = items[bId].question.toUpperCase(); // ignore upper and lowercase
+          .sort((aId, bId) => {
+            const questionA = items[aId].question.toUpperCase()
+            const questionB = items[bId].question.toUpperCase()
             if (questionA < questionB) {
-              return -1;
+              return -1
             }
             if (questionA > questionB) {
-              return 1;
+              return 1
             }
 
-            // names must be equal
-            return 0;
+            return 0
           })
           .map((id: string) => {
-          return (
-            <Question
-              key={id}
-              to={`${URL_MAIN.help}/${id}`}
-              data-testid={HelpComponentTestIds.Question}
-            >
-              <Text displayStyle={TextDisplayStyle.LargeText}>
-                {items[id].question}
-              </Text>
-              <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />
-            </Question>
-          )
-        })}
+            return (
+              <Question
+                key={id}
+                to={`${URL_MAIN.help}/${id}`}
+                data-testid={HelpComponentTestIds.Question}
+              >
+                <Text displayStyle={TextDisplayStyle.LargeText}>
+                  {items[id].question}
+                </Text>
+                <ArrowIcon type={Type.ArrowDown} height={1.2} width={1.2} />
+              </Question>
+            )
+          })}
       </QuestionsContainer>
     </div>
   )
