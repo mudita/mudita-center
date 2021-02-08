@@ -7,7 +7,13 @@ import {
   Response,
   ResponseStatus,
 } from "./device.types"
-import { Contact, CountBodyResponse, DeviceInfo } from "../endpoints"
+import {
+  Contact,
+  CountBodyResponse,
+  DeviceInfo,
+  DeviceUpdateErrorResponse,
+  DeviceUpdateResponse,
+} from "../endpoints"
 import { Formatter } from "../formatter/formatter"
 import { FormatterFactory } from "../formatter/formatter-factory"
 
@@ -68,7 +74,7 @@ class Device extends BaseDevice {
     endpoint: Endpoint.DeviceUpdate
     method: Method.Post
     filePath: string
-  }): Promise<Response>
+  }): Promise<DeviceUpdateResponse | DeviceUpdateErrorResponse>
   public request(config: {
     endpoint: Endpoint.FileUpload
     method: Method.Post

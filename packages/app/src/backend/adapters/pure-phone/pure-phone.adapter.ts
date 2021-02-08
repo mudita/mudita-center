@@ -136,6 +136,7 @@ class PurePhone extends PurePhoneAdapter {
         } else {
           resolve({
             status: DeviceResponseStatus.Error,
+            error: pureUpdateResponse.error
           })
         }
       } else {

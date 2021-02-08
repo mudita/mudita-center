@@ -21,9 +21,12 @@ export class PureV1Formatter extends Formatter {
   }
 
   formatResponse(method: Method, response: Response<any>): Response<any> {
-    const { endpoint, body } = response
+    const { endpoint, body, error } = response
     if (endpoint === Endpoint.Contacts && method === Method.Put) {
       return { ...response, body: { ...body, id: String(body.id) } }
+    }
+    if (endpoint === Endpoint.Update && error) {
+      return { ...response, error: { ...error, code: error.code * 1000 } }
     }
     return response
   }

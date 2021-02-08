@@ -19,11 +19,17 @@ export enum ResponseStatus {
   ConnectionError = 503,
 }
 
+interface ResponseError {
+  code: number
+  message: string
+}
+
 export interface Response<Body = undefined> {
   status: ResponseStatus
   body?: Body
   endpoint?: Endpoint
   uuid?: string
+  error?: ResponseError
 }
 
 export enum DeviceEventName {

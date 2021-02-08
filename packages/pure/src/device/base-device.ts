@@ -185,6 +185,16 @@ class BaseDevice implements PureDevice {
           const response = await parseData(event)
 
           if (response.endpoint === Endpoint.Update) {
+            if (response.status === ResponseStatus.InternalServerError) {
+              resolve({
+                status: ResponseStatus.Ok,
+                error: {
+                  code: response.body.errorCode,
+                  message: response.body.status,
+                },
+              })
+            }
+
             if (response.body.status === UpdateResponseStatus.Ok) {
               this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
               resolve({ status: ResponseStatus.Ok })

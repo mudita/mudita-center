@@ -4,6 +4,7 @@ export enum DeviceResponseStatus {
 }
 
 interface DeviceResponseError<DataType> {
+  code?: number
   message: string
   data?: DataType
 }

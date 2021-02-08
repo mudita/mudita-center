@@ -89,7 +89,7 @@ class DeviceService {
 
       const listener = (response: Response<any>) => {
         this.eventEmitter.off(eventName, listener)
-        const { status, body: data } = response
+        const { status, body: data, error } = response
         if (
           status === ResponseStatus.Ok ||
           status === ResponseStatus.Accepted
@@ -100,7 +100,7 @@ class DeviceService {
           })
         } else {
           resolve({
-            data,
+            error,
             status: DeviceResponseStatus.Error,
           })
         }
