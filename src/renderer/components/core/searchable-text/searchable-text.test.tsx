@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import SearchableText from "Renderer/components/core/searchable-text/searchable-text.component"

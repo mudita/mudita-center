@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { Topic } from "Renderer/models/messages/messages.interface"
 import { isCallerMatchingPhoneNumber } from "Renderer/models/messages/utils/caller-utils.ts"
 

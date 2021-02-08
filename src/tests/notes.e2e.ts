@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { NotesTestIds } from "Renderer/modules/tools/tabs/notes.enum"

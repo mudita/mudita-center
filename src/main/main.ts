@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import PureDeviceManager from "pure"
 import startBackend from "Backend/bootstrap"
 import { check as checkPort } from "tcp-port-used"

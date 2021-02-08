@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import NickLewis from "Renderer/images/nick-lewis@2x.png"
 import MuditaBell from "Renderer/images/bell@2x.png"
 import MuditaPure from "Renderer/images/pure@2x.png"

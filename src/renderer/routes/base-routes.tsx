@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import * as React from "react"
 import { Redirect, Route, Switch } from "react-router"
 import FilesManager from "Renderer/modules/filesManager/files-manager.component"

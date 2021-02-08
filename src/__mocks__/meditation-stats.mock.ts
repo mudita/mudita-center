@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import moment, { DurationInputArg2, Moment } from "moment"
 import { StatsData } from "Renderer/components/rest/meditation/stats/meditation-stats.component"
 import { ChartType } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"

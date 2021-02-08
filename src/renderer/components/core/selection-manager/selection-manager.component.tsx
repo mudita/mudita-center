@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React from "react"
 import { FormattedMessage } from "react-intl"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"

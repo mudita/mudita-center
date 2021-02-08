@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { StateProps } from "Renderer/models/notes/notes.interface"
 import { Note } from "Renderer/modules/tools/tabs/notes.component"
 import { makeNewNote } from "Renderer/models/notes/make-new-note"

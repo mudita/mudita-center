@@ -60,7 +60,7 @@
     "pure:command": "cd pure && npm run command --",
     "release:shared": "sh shared/build.sh",
     "COPYRIGHT": "=================================================",
-    "copyright:add": "eslint --fix --rule 'license-header/header: [ \"error\", \"./resources/license-header.ts\" ]' ./src/main/store"
+    "copyright:add": "eslint --fix --rule 'license-header/header: [ \"error\", \"./resources/license-header.ts\" ]' ."
   },
   "build": {
     "productName": "Mudita Center",

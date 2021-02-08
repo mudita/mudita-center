@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { ipcMain } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
 import { createClient } from "contentful"

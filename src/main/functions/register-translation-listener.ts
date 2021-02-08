@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { ipcMain } from "electron-better-ipc"
 import translationStores from "App/main/store/translations"
 import { TranslationEvents } from "Common/enums/translations.enum"

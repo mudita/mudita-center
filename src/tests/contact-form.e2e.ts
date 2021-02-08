@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_RECOVERY_MODE } from "Renderer/constants/urls"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"

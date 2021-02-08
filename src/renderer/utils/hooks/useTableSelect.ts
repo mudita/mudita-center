@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { useState } from "react"
 import { getRowChildren } from "Renderer/components/core/table/table.helpers"
 

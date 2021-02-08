@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { storiesOf } from "@storybook/react"
 import React from "react"
 import StoryContainer from "Renderer/components/storybook/story-container.component"

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { Topic } from "Renderer/models/messages/messages.interface"
 import findTopicBySearchParams from "Renderer/modules/messages/find-topic-by-search-params"
 import { Caller } from "Renderer/models/calls/calls.interface"

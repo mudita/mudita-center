@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import ical, { CalendarComponent, DateWithTimeZone, VEvent } from "node-ical"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { RRule } from "rrule"

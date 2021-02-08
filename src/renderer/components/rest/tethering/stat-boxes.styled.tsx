@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import styled from "styled-components"
 import { fadeAnimation } from "Renderer/components/core/modal/modal.styled.elements"
 import { DataBoxesWrapper } from "Renderer/components/rest/meditation/data-box/data-boxes.component"

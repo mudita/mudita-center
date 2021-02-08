@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { renderHook } from "@testing-library/react-hooks"
 import useDynamicProgressValue from "Renderer/utils/hooks/use-dynamic-progress-value.hook"
 import { act } from "react-dom/test-utils"
