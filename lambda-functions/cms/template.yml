@@ -24,11 +24,12 @@ Resources:
     cms:
       Type: AWS::Serverless::Function
       Properties:
+        ReservedConcurrentExecutions: 1
         Handler: src/handlers/cms.retrieveCMSData
         Runtime: nodejs12.x
         MemorySize: 128
         Timeout: 100
-        Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
+        Description: Function that downloads Contentful data
         Events:
           Api:
             Type: Api
