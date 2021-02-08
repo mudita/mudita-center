@@ -4,18 +4,21 @@ const contentful = require("contentful")
  */
 exports.retrieveCMSData = async (event) => {
   const body = JSON.parse(event.body)
-  const client =
-    body.resource === "help"
-      ? contentful.createClient({
-          accessToken: process.env.MC_CONTENTFUL_ACCESS_TOKEN,
-          space: process.env.MC_CONTENTFUL_SPACE_ID,
-          environment: process.env.MC_CONTENTFUL_ENVIRONMENT_ID,
-          host: process.env.MC_CONTENTFUL_HOST,
-        })
-      : contentful.createClient({
-          accessToken: process.env.MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN,
-          space: process.env.MUDITA_WEB_CONTENTFUL_SPACE_ID,
-        })
+  let client
+  if (body.resource === "help") {
+    client = contentful.createClient({
+      accessToken: process.env.MC_CONTENTFUL_ACCESS_TOKEN,
+      space: process.env.MC_CONTENTFUL_SPACE_ID,
+      environment: process.env.MC_CONTENTFUL_ENVIRONMENT_ID,
+      host: process.env.MC_CONTENTFUL_HOST,
+    })
+  } else if (body.resource === "news") {
+    client = contentful.createClient({
+      accessToken: process.env.MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN,
+      space: process.env.MUDITA_WEB_CONTENTFUL_SPACE_ID,
+    })
+  }
+
   const allowedMethods = ["getEntries", "sync"]
   if (allowedMethods.includes(body.method)) {
     const data = await client[body.method](body.query)
@@ -25,7 +28,7 @@ exports.retrieveCMSData = async (event) => {
     }
   } else {
     return {
-      statusCode: 405
+      statusCode: 405,
     }
   }
 }
