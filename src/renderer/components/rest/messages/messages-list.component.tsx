@@ -223,9 +223,11 @@ const MessagesList: FunctionComponent<Props> = ({
               <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
                 <NameWrapper>
                   <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                    {getPrettyCaller(caller)}{" "}
+                    {getPrettyCaller(caller)}
                   </Name>
-                  {!!(caller.phoneNumber && caller.secondaryPhoneNumber) && (
+                  {Boolean(
+                    caller.phoneNumber && caller.secondaryPhoneNumber
+                  ) && (
                     <Text displayStyle={TextDisplayStyle.LargeFadedText}>
                       &nbsp;
                       {caller.phoneNumber.split(" ").join("") ===

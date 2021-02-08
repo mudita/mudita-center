@@ -147,7 +147,7 @@ const MessageDetails: FunctionComponent<Props> = ({
             >
               {getPrettyCaller(details.caller)}
             </Text>
-            {!!(
+            {Boolean(
               details.caller.phoneNumber && details.caller.secondaryPhoneNumber
             ) && (
               <Text displayStyle={TextDisplayStyle.LargeFadedText}>
