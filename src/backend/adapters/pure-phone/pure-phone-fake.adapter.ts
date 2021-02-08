@@ -23,7 +23,7 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public async getOsVersion(): Promise<DeviceResponse<string>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: "0.55.1",
+      data: "release-0.55.1",
     }
   }
 
