@@ -1,5 +1,5 @@
 {
-    "name": "contentful-lambda",
+    "name": "@mudita/mudita-center-contentful-lambda",
     "description": "Mudita's Center contentful lambda",
     "version": "0.0.1",
     "private": true,
