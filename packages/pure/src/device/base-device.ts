@@ -110,9 +110,9 @@ class BaseDevice implements PureDevice {
     this.#eventEmitter.off(eventName, listener)
   }
 
-  private fileUploadRequest({ file }: RequestConfig): Promise<Response<any>> {
+  private fileUploadRequest({ filePath }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
-      if (!this.#port || !this.#portBlocked || !file) {
+      if (!this.#port || !this.#portBlocked || !filePath) {
         resolve({ status: ResponseStatus.ConnectionError })
       } else {
         this.#portBlocked = false
@@ -123,7 +123,7 @@ class BaseDevice implements PureDevice {
 
           if (response.uuid === String(uuid)) {
             if (response.body.status === FileResponseStatus.Ok) {
-              const readStream = fs.createReadStream(file, {
+              const readStream = fs.createReadStream(filePath, {
                 highWaterMark: 16384,
               })
 
@@ -153,8 +153,8 @@ class BaseDevice implements PureDevice {
 
         this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
 
-        const fileName = path.basename(file)
-        const fileSize = fs.lstatSync(file).size
+        const fileName = path.basename(filePath)
+        const fileSize = fs.lstatSync(filePath).size
 
         const config = {
           uuid,
@@ -173,9 +173,9 @@ class BaseDevice implements PureDevice {
     })
   }
 
-  private deviceUpdateRequest({ file }: RequestConfig): Promise<Response<any>> {
+  private deviceUpdateRequest({ filePath }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
-      if (!this.#port || !this.#portBlocked || !file) {
+      if (!this.#port || !this.#portBlocked || !filePath) {
         resolve({ status: ResponseStatus.ConnectionError })
       } else {
         this.#portBlocked = false
@@ -194,7 +194,7 @@ class BaseDevice implements PureDevice {
 
         this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
 
-        const fileName = path.basename(file)
+        const fileName = path.basename(filePath)
         const config = {
           uuid,
           endpoint: Endpoint.Update,
