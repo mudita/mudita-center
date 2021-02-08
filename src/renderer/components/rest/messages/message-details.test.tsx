@@ -5,6 +5,7 @@ import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
 import {
   mockedDetails,
+  mockedMessagesFromSecondNumber,
   unknownCallerMockedDetails,
 } from "./__mocks__/caller-data"
 
@@ -16,6 +17,14 @@ const defaultProps = {
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
   details: mockedDetails,
+}
+
+const multipleContactsProps = {
+  onDeleteClick: jest.fn(),
+  onUnreadStatus: jest.fn(),
+  onContactClick: jest.fn(),
+  onAttachContactClick: jest.fn(),
+  details: mockedMessagesFromSecondNumber,
 }
 
 test("sidebar close button informs parent about closing", () => {
@@ -81,4 +90,18 @@ test("delete messages", () => {
   )
   fireEvent.click(getAllByTestId("icon-Delete")[0])
   expect(defaultProps.onDeleteClick).toBeCalledWith(mockedDetails.id)
+})
+
+test("show info about contact with multiple numbers", () => {
+  const { getByText } = renderWithThemeAndIntl(
+    <MessageDetails {...defaultProps} />
+  )
+  expect(getByText("#1")).toBeInTheDocument()
+})
+
+test("show info about second number", () => {
+  const { getByText } = renderWithThemeAndIntl(
+    <MessageDetails {...multipleContactsProps} />
+  )
+  expect(getByText("#2")).toBeInTheDocument()
 })

@@ -1,11 +1,13 @@
 import Faker from "faker"
 import { Caller } from "Renderer/models/calls/calls.interface"
+import { Topic } from "Renderer/models/messages/messages.interface"
 
 const createCaller = (): Caller => ({
   id: Faker.random.uuid(),
   firstName: Faker.name.firstName(),
   lastName: Faker.name.lastName(),
   phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+  secondaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
 })
 
 const caller = createCaller()
@@ -195,3 +197,41 @@ export const randomMockedList = [
     ],
   },
 ]
+
+const contactWithMutlitpleNumbers = {
+  id: "123",
+  firstName: "Johny",
+  lastName: "",
+  phoneNumber: "1123",
+  secondaryPhoneNumber: "345345",
+}
+
+export const mockedMessagesFromSecondNumber: Topic = {
+  id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+  caller: {
+    id: "123",
+    firstName: "Ivan",
+    lastName: "",
+    phoneNumber: "345345",
+  },
+  unread: true,
+  messages: [
+    {
+      author: contactWithMutlitpleNumbers,
+      id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+      date: new Date("2019-10-18T11:27:15.256Z"),
+      content:
+        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+      interlocutor: true,
+    },
+    {
+      author: contactWithMutlitpleNumbers,
+      id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+      date: new Date("2019-10-18T11:45:35.112Z"),
+      content:
+        "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+
+      interlocutor: true,
+    },
+  ],
+}
