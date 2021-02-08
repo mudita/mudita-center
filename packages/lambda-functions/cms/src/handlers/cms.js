@@ -23,5 +23,9 @@ exports.retrieveCMSData = async (event) => {
       statusCode: 200,
       body: JSON.stringify(data),
     }
+  } else {
+    return {
+      statusCode: 405
+    }
   }
 }
