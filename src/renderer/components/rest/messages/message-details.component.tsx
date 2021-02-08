@@ -150,7 +150,10 @@ const MessageDetails: FunctionComponent<Props> = ({
             {Boolean(
               details.caller.phoneNumber && details.caller.secondaryPhoneNumber
             ) && (
-              <Text displayStyle={TextDisplayStyle.LargeFadedText}>
+              <Text
+                displayStyle={TextDisplayStyle.LargeFadedText}
+                data-testid="multiple-number"
+              >
                 &nbsp;
                 {details.caller.phoneNumber.split(" ").join("") ===
                 details.caller.secondaryPhoneNumber?.split(" ").join("")

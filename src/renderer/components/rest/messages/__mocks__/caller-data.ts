@@ -213,6 +213,7 @@ export const mockedMessagesFromSecondNumber: Topic = {
     firstName: "Ivan",
     lastName: "",
     phoneNumber: "345345",
+    secondaryPhoneNumber: "345345",
   },
   unread: true,
   messages: [

@@ -93,10 +93,10 @@ test("delete messages", () => {
 })
 
 test("show info about contact with multiple numbers", () => {
-  const { getByText } = renderWithThemeAndIntl(
+  const { getByTestId } = renderWithThemeAndIntl(
     <MessageDetails {...defaultProps} />
   )
-  expect(getByText("#1")).toBeInTheDocument()
+  expect(getByTestId("multiple-number")).toBeInTheDocument()
 })
 
 test("show info about second number", () => {
