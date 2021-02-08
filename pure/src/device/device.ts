@@ -67,12 +67,12 @@ class Device extends BaseDevice {
   public request(config: {
     endpoint: Endpoint.DeviceUpdate
     method: Method.Post
-    file: string
+    filePath: string
   }): Promise<Response>
   public request(config: {
     endpoint: Endpoint.FileUpload
     method: Method.Post
-    file: string
+    filePath: string
   }): Promise<Response>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {

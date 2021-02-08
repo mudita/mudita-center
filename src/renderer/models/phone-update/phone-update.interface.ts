@@ -1,11 +1,9 @@
-import { Filename } from "Renderer/interfaces/file-download.interface"
-
 export interface Reducers {
   readonly updatePhoneOsInfo: (updateInfo: PhoneUpdate) => void
 }
 
 export interface PhoneUpdate {
-  pureOsFileName?: Filename
+  pureOsFileUrl?: string
   pureOsAvailable?: boolean
   pureOsDownloaded?: boolean
 }
