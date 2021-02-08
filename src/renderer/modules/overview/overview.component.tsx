@@ -82,7 +82,6 @@ const Overview: FunctionComponent<
   lastBackup,
   osVersion,
   osUpdateDate,
-  pureOsFileName = "",
   pureOsAvailable,
   pureOsDownloaded,
   updatePhoneOsInfo = noop,
@@ -112,20 +111,20 @@ const Overview: FunctionComponent<
   let restorations = 0
 
   const store = useStore()
+
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     osUpdateDate,
+    osVersion,
     updatePhoneOsInfo,
     updateBasicInfo,
     toggleUpdatingDevice
   )
 
   useEffect(() => {
-    ;(async () => {
+    if (osVersion) {
       initialCheck()
-    })()
-  }, [osUpdateDate])
-
-  const onUpdateDownload = () => download(pureOsFileName)
+    }
+  }, [osVersion])
 
   const openBackupFinishedModal = () => {
     logger.info("Backup creation finished.")
@@ -220,7 +219,7 @@ const Overview: FunctionComponent<
       pureOsDownloaded={pureOsDownloaded}
       onUpdateCheck={check}
       onUpdateInstall={install}
-      onUpdateDownload={onUpdateDownload}
+      onUpdateDownload={download}
       onOpenBackupModal={openBackupStartModal}
       onOpenBackupRestorationModal={openBackupRestorationStartModal}
       language={language}
