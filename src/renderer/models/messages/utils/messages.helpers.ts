@@ -67,22 +67,7 @@ export const createFullMessagesCollection = (state: {
       const contact: Contact = baseContacts[id]
 
       if (contact) {
-        const {
-          firstName,
-          lastName,
-          secondaryPhoneNumber,
-          primaryPhoneNumber,
-        } = contact
-        const hasTwoNumbers = !!(primaryPhoneNumber && secondaryPhoneNumber)
-        const authorNumber = topic.messages.map((message) =>
-          message.author?.phoneNumber?.split(" ").join("")
-        )
-
-        const whichNumber = authorNumber.includes(
-          primaryPhoneNumber?.split(" ").join("")
-        )
-          ? "#1"
-          : "#2"
+        const { firstName, lastName, secondaryPhoneNumber } = contact
 
         return {
           ...expandTopic(topic, baseContacts, getContactDetails),
@@ -92,8 +77,6 @@ export const createFullMessagesCollection = (state: {
             firstName,
             lastName,
             secondaryPhoneNumber,
-            hasTwoNumbers,
-            whichNumber,
           },
         }
       }

@@ -147,9 +147,15 @@ const MessageDetails: FunctionComponent<Props> = ({
             >
               {getPrettyCaller(details.caller)}
             </Text>
-            {details.caller.hasTwoNumbers && (
+            {!!(
+              details.caller.phoneNumber && details.caller.secondaryPhoneNumber
+            ) && (
               <Text displayStyle={TextDisplayStyle.LargeFadedText}>
-                &nbsp;{details.caller.whichNumber}
+                &nbsp;
+                {details.caller.phoneNumber.split(" ").join("") ===
+                details.caller.secondaryPhoneNumber?.split(" ").join("")
+                  ? "#2"
+                  : "#1"}
               </Text>
             )}
           </NameWrapper>

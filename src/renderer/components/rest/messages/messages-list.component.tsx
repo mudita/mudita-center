@@ -225,9 +225,13 @@ const MessagesList: FunctionComponent<Props> = ({
                   <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                     {getPrettyCaller(caller)}{" "}
                   </Name>
-                  {caller.hasTwoNumbers && (
+                  {!!(caller.phoneNumber && caller.secondaryPhoneNumber) && (
                     <Text displayStyle={TextDisplayStyle.LargeFadedText}>
-                      &nbsp;{caller.whichNumber}
+                      &nbsp;
+                      {caller.phoneNumber.split(" ").join("") ===
+                      caller.secondaryPhoneNumber?.split(" ").join("")
+                        ? "#2"
+                        : "#1"}
                     </Text>
                   )}
                 </NameWrapper>
