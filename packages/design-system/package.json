@@ -1,15 +1,15 @@
 {
-  "name": "@mudita/mudita-center-shared",
+  "name": "@mudita/mudita-center-design-system",
   "version": "0.0.6",
-  "description": "Mudita center shared",
-  "main": "dist/shared/shared.js",
-  "types": "dist/shared/shared.d.ts",
+  "description": "Mudita center Design System",
+  "main": "dist/design-system/index.js",
+  "types": "dist/design-system/index.d.ts",
   "files": [
     "dist"
   ],
   "private": false,
   "scripts": {
-    "build": "tsc --p tsconfig.json && tscpaths -p tsconfig.json -s ./ -o ./shared/dist",
+    "build": "tsc --p tsconfig.json && tscpaths -p tsconfig.json -s ./ -o ./design-system/dist",
     "release": "sh build.sh"
   },
   "repository": {

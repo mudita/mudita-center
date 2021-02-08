@@ -41,7 +41,8 @@
     "esModuleInterop": true,
     "declaration": true
   },
-  "include": ["./shared.ts", "../app/src/**/*.d.ts", "../app/src/renderer/images"],
+  "include": [
+    "./index.ts", "../app/src/**/*.d.ts", "../app/src/renderer/images"],
   "exclude": [
     "../app/dist",
     "node_modules",

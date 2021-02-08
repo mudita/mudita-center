@@ -13,6 +13,7 @@
     "storybook:serve": "npm run app:storybook:serve --",
     "storybook:build": "npm run app:storybook:build --",
     "dist": "npm run app:dist --",
+    "dist:all": "npm run app:dist:all --",
     "APP COMMANDS": "=========================================================",
     "app:develop": "lerna run --scope @mudita/mudita-center-app develop",
     "app:lint": "lerna run --scope @mudita/mudita-center-app lint",
@@ -22,6 +23,7 @@
     "app:storybook:serve": "lerna run --scope @mudita/mudita-center-app storybook:serve --",
     "app:storybook:build": "lerna run --scope @mudita/mudita-center-app storybook:build --",
     "app:dist": "lerna run --scope @mudita/mudita-center-app dist --",
+    "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist --",
     "app:electron:rebuild-serialport": "lerna run --scope app electron:rebuild-serialport --",
     "PURE COMMANDS": "========================================================",
     "pure:build": "lerna run --scope @mudita/mudita-center-pure build",
@@ -29,9 +31,9 @@
     "pure:lint:typecheck": "lerna run --scope @mudita/mudita-center-pure lint:typecheck",
     "pure:test:coverage": "lerna run --scope @mudita/mudita-center-pure test:coverage",
     "pure:command": "lerna run --scope @mudita/mudita-center-pure command --",
-    "SHARED COMMANDS": "========================================================",
-    "shared:build": "lerna run --scope @mudita/mudita-center-shared build",
-    "shared:release": "lerna run --scope @mudita/mudita-center-shared release"
+    "DESIGN SYSTEM COMMANDS": "========================================================",
+    "design-system:build": "lerna run --scope @mudita/mudita-center-design-system build",
+    "design-system:release": "lerna run --scope @mudita/mudita-center-design-system release"
   },
   "repository": {
     "type": "git",
