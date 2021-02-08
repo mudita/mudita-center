@@ -33,7 +33,7 @@ export interface StoreValues {
   readonly resultsState: ResultsState
 }
 
-interface StoreEffects {
+export interface StoreEffects {
   readonly changeSim: (card: SimCard) => void
   readonly loadData: () => void
   readonly disconnectDevice: () => void

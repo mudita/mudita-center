@@ -56,7 +56,7 @@ const clickableRowStyles = css`
   cursor: pointer;
 `
 
-interface TableRowProps {
+export interface TableRowProps {
   size?: RowSize
   active?: boolean
   selected?: boolean
@@ -268,12 +268,12 @@ export const TextPlaceholder = styled.span<{ charsCount: number }>`
   min-width: 5rem;
 `
 
-interface EmptyState {
+export interface EmptyStateProps {
   title: MessageInterface
   description?: MessageInterface
 }
 
-export const EmptyState: FunctionComponent<EmptyState> = ({
+export const EmptyState: FunctionComponent<EmptyStateProps> = ({
   title,
   description,
   ...rest

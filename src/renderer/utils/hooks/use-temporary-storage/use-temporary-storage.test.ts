@@ -1,8 +1,5 @@
-import { HookResult, renderHook } from "@testing-library/react-hooks"
-import {
-  useTemporaryStorage,
-  UseTemporaryStorageHook,
-} from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
+import { renderHook } from "@testing-library/react-hooks"
+import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 
 const testObject = {
   id: "abc123",
@@ -12,7 +9,7 @@ const testObject = {
   },
 }
 
-let result: HookResult<UseTemporaryStorageHook<typeof testObject.value>>
+let result: any
 
 beforeEach(() => {
   ;({ result } = renderHook(() => useTemporaryStorage(testObject.id)))

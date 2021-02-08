@@ -102,7 +102,7 @@ const LabelText = styled(Text)`
   margin-left: 1.3rem;
 `
 
-interface InputCheckboxProps extends InputProps {
+export interface InputCheckboxProps extends InputProps {
   size?: Size
 }
 

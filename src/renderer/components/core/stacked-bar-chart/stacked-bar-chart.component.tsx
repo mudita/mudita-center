@@ -18,7 +18,7 @@ export interface ChartItem {
   free?: boolean
 }
 
-interface Props {
+export interface StackedBarChartProps {
   chartData: ChartItem[]
   displayStyle?: DisplayStyle
   labels?: boolean
@@ -105,7 +105,7 @@ const MemoryLabel = styled(Text)`
   white-space: nowrap;
 `
 
-const StackedBarChart: FunctionComponent<Props> = ({
+const StackedBarChart: FunctionComponent<StackedBarChartProps> = ({
   className,
   chartData,
   displayStyle = DisplayStyle.Thick,

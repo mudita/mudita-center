@@ -14,11 +14,11 @@ const NavTab = styled(Tab)`
   }
 `
 
-interface Props {
+export interface TabsProps {
   currentLocation?: string
 }
 
-const Tabs: FunctionComponent<Props> = ({ className, currentLocation }) => {
+const Tabs: FunctionComponent<TabsProps> = ({ className, currentLocation }) => {
   const currentLocationTabs = tabElements.find(({ parentUrl }) =>
     currentLocation?.includes(parentUrl)
   )?.tabs
