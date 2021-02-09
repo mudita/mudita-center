@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { filterTemplates } from "Renderer/models/templates/filter-templates"
 import { mockedTemplateData } from "Renderer/modules/messages/__mocks__/template-modal-data"
 import { removeNewLinesFromString } from "Renderer/utils/remove-new-lines-from-string"

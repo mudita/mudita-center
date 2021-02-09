@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { ipcRenderer } from "electron-better-ipc"
 import { NewsEvents } from "App/main/functions/register-news-listener"
 import { DefaultNewsItems } from "App/main/default-news-item"

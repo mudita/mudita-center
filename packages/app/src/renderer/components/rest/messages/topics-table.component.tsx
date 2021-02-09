@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 /*
   There are only placeholders for table components.
   They should be removed in the future and replaced with

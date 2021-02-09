@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import ical, { CalendarComponent, DateWithTimeZone, VEvent } from "node-ical"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { RRule } from "rrule"
@@ -18,11 +23,11 @@ const parseEvent = (event: CalendarComponent): CalendarEvent => {
   }
 
   if (event.start) {
-    startDate = new Date(event.start as DateWithTimeZone).toISOString()
+    startDate = new Date(event.start).toISOString()
   }
 
   if (event.end) {
-    endDate = new Date(event.end as DateWithTimeZone).toISOString()
+    endDate = new Date(event.end).toISOString()
   }
 
   return {

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import transferProgress from "Renderer/utils/transfer-progress"
 
 const [zero, half, full] = [0, 5678, 10000]

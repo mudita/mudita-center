@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { AppContainer } from "react-hot-loader"

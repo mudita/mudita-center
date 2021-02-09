@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import formatDuration from "Renderer/utils/format-duration"
 
 test("returns proper duration for 0s with short notation of zero value", () => {

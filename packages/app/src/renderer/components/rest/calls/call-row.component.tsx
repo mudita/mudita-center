@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import moment from "moment"
 import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"

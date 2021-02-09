@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import PureDeviceManager from "@mudita/mudita-center-pure"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
 import { IpcRequest } from "Common/requests/ipc-request.enum"

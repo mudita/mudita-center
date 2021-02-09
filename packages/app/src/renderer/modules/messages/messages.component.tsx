@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React, { useEffect, useState } from "react"
 import { defineMessages } from "react-intl"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"

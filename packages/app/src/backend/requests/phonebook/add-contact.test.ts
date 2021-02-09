@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import registerAddContactRequest from "Backend/requests/phonebook/add-contact.request"

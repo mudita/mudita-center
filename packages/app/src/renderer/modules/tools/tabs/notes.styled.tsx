@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import Button from "Renderer/components/core/button/button.component"
 import { InputText } from "Renderer/components/core/input-text/input-text.elements"
 import BaseSelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"

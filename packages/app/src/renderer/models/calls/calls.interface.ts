@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { Contact } from "App/contacts/store/contacts.type"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 import { Message } from "Renderer/interfaces/message.interface"

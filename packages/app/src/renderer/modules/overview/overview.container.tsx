@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { connect } from "react-redux"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 import Overview from "Renderer/modules/overview/overview.component"

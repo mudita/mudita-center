@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { storiesOf } from "@storybook/react"
 import * as React from "react"
 import InputRadioGroup from "Renderer/components/core/input-radio-group/input-radio-group.component"

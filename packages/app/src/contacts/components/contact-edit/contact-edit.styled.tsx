@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import styled, { css } from "styled-components"
 import { ListItem } from "Renderer/components/core/list/list.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"

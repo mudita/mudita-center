@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { Slicer } from "@rematch/select"
 import { FilesManagerState } from "Renderer/models/files-manager/files-manager.interface"
 import { createModel } from "@rematch/core"

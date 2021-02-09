@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React from "react"
 import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.enum"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"

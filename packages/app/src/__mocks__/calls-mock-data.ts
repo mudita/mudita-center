@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { Call, CallStatus } from "Renderer/models/calls/calls.interface"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 
