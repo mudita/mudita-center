@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import usb, { Device, DeviceDescriptor } from "usb"
 import { EventEmitter } from "events"
 import { PortInfo } from "serialport"
