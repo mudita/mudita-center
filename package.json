@@ -36,8 +36,7 @@
     "DESIGN SYSTEM COMMANDS": "========================================================",
     "design-system:build": "lerna run --scope @mudita/mudita-center-design-system build",
     "design-system:release": "lerna run --scope @mudita/mudita-center-design-system release",
-    "COPYRIGHT": "=================================================",
-    "copyright:add": "eslint --fix --rule 'license-header/header: [ \"error\", \"./resources/license-header.js\" ]' ./packages/app/src"
+    "copyright:add": "lerna run copyright:add",
   },
   "repository": {
     "type": "git",
