@@ -52,7 +52,7 @@ const onOsDownloadCancel = () => {
   cancelOsDownload()
 }
 
-const noCriticalErrorResponseCodes: ResponseErrorCode[] = [
+const noCriticalErrorCodes: ResponseErrorCode[] = [
   PureDeviceUpdateErrorResponseCode.VerifyChecksumsFailure,
   PureDeviceUpdateErrorResponseCode.VerifyVersionFailure,
   PureDeviceUpdateErrorResponseCode.CantOpenUpdateFile,
@@ -352,7 +352,7 @@ const useSystemUpdateFlow = (
   }
 
   const displayErrorModal = (errorCode?: number) => {
-    if (errorCode && noCriticalErrorResponseCodes.includes(errorCode)) {
+    if (errorCode && noCriticalErrorCodes.includes(errorCode)) {
       modalService.openModal(
         <UpdatingFailureWithHelpModal
           code={errorCode}
