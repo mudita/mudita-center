@@ -31,7 +31,9 @@
     "jest-dom/prefer-enabled-disabled": "warn",
     "react/jsx-boolean-value": "warn",
     "@typescript-eslint/prefer-regexp-exec": "warn",
-    "license-header/header": [ "error", "./resources/license-header.js" ]
-
+    "license-header/header": [
+      "error",
+      "./resources/license-header.js"
+    ]
   }
 }
