@@ -29,7 +29,10 @@ import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import delayResponse from "@appnroll/delay-response"
 import updateOs from "Renderer/requests/update-os.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import {
+  DeviceResponseStatus,
+  ResponseErrorCode,
+} from "Backend/adapters/device-response.interface"
 import { isEqual } from "lodash"
 import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 import logger from "App/main/utils/logger"
@@ -40,7 +43,8 @@ import registerOsUpdateProgressListener, {
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-pure-os-update-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
-import { DeviceUpdateErrorResponseCode } from "@mudita/mudita-center-pure"
+import { DeviceUpdateErrorResponseCode as PureDeviceUpdateErrorResponseCode } from "@mudita/mudita-center-pure"
+import { DeviceUpdateResponseErrorCode } from "Backend/adapters/pure-phone/pure-phone.adapter"
 import { contactSupport } from "Renderer/utils/contact-support/contact-support"
 import { HelpActions } from "Common/enums/help-actions.enum"
 
@@ -48,12 +52,14 @@ const onOsDownloadCancel = () => {
   cancelOsDownload()
 }
 
-const noCriticalErrorResponseCodes: DeviceUpdateErrorResponseCode[] = [
-  DeviceUpdateErrorResponseCode.VerifyChecksumsFailure,
-  DeviceUpdateErrorResponseCode.VerifyVersionFailure,
-  DeviceUpdateErrorResponseCode.CantOpenUpdateFile,
-  DeviceUpdateErrorResponseCode.NoBootloaderFile,
-  DeviceUpdateErrorResponseCode.CantOpenBootloaderFile,
+const noCriticalErrorResponseCodes: ResponseErrorCode[] = [
+  PureDeviceUpdateErrorResponseCode.VerifyChecksumsFailure,
+  PureDeviceUpdateErrorResponseCode.VerifyVersionFailure,
+  PureDeviceUpdateErrorResponseCode.CantOpenUpdateFile,
+  PureDeviceUpdateErrorResponseCode.NoBootloaderFile,
+  PureDeviceUpdateErrorResponseCode.CantOpenBootloaderFile,
+  DeviceUpdateResponseErrorCode.RestartTimedOut,
+  DeviceUpdateResponseErrorCode.DeviceDisconnectionBeforeDone,
 ]
 
 const useSystemUpdateFlow = (
@@ -139,9 +145,9 @@ const useSystemUpdateFlow = (
     )
   }
 
-  const [activeCode, setActiveCode] = useState<
-    DeviceUpdateErrorResponseCode | undefined
-    >(undefined)
+  const [activeCode, setActiveCode] = useState<ResponseErrorCode | undefined>(
+    undefined
+  )
 
   useEffect(() => {
     if (activeCode) {
@@ -150,10 +156,16 @@ const useSystemUpdateFlow = (
 
     const unregisterItem = appContextMenu.registerItem("Overview", {
       label: "Select Pure kind of updating failure",
-      submenu: Object.values(DeviceUpdateErrorResponseCode)
-        .filter((k): k is DeviceUpdateErrorResponseCode => !isNaN(Number(k)))
+      submenu: Object.values({
+        ...PureDeviceUpdateErrorResponseCode,
+        ...DeviceUpdateResponseErrorCode,
+      })
+        .filter((code): code is ResponseErrorCode => !isNaN(Number(code)))
         .map((code) => {
-          const responseCodeName = DeviceUpdateErrorResponseCode[code]
+          const responseCodeName = PureDeviceUpdateErrorResponseCode[code]
+            ? PureDeviceUpdateErrorResponseCode[code]
+            : DeviceUpdateResponseErrorCode[code]
+
           return {
             label: `${
               code !== activeCode ? `Enable` : `Disabled`

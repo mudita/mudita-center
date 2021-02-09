@@ -1,10 +1,15 @@
+import { ResponseErrorCode as PureResponseErrorCode } from "@mudita/mudita-center-pure"
+import { DeviceUpdateResponseErrorCode } from "Backend/adapters/pure-phone/pure-phone.adapter"
+
+export type ResponseErrorCode = PureResponseErrorCode | DeviceUpdateResponseErrorCode
+
 export enum DeviceResponseStatus {
   Ok = "ok",
   Error = "error",
 }
 
 interface DeviceResponseError<DataType> {
-  code?: number
+  code?: ResponseErrorCode
   message: string
   data?: DataType
 }

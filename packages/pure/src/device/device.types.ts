@@ -1,3 +1,5 @@
+import { DeviceUpdateErrorResponseCode } from "../endpoints"
+
 export interface PureDevice {
   connect(): Promise<Response>
   disconnect(): Promise<Response>
@@ -19,8 +21,10 @@ export enum ResponseStatus {
   ConnectionError = 503,
 }
 
+export type ResponseErrorCode = DeviceUpdateErrorResponseCode | number
+
 interface ResponseError {
-  code: number
+  code: ResponseErrorCode
   message: string
 }
 

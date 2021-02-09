@@ -5,6 +5,12 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
+import timeout from "Backend/timeout"
+
+export enum DeviceUpdateResponseErrorCode {
+  RestartTimedOut = 9900,
+  DeviceDisconnectionBeforeDone = 9901,
+}
 
 class PurePhone extends PurePhoneAdapter {
   static osUpdateStepsMax = 3
@@ -67,6 +73,7 @@ class PurePhone extends PurePhoneAdapter {
     let unregisterListeners = noop
     return new Promise<DeviceResponse>(async (resolve) => {
       let step = 0
+      let cancelTimeout = noop
 
       const connectedDeviceListener = () => {
         if (step === PurePhone.osUpdateRestartStep) {
@@ -77,12 +84,30 @@ class PurePhone extends PurePhoneAdapter {
       }
 
       const disconnectedDeviceListener = () => {
+        const [promise, cancel] = timeout(30000)
+        cancelTimeout = cancel
+
+        promise.then(() => {
+          resolve({
+            status: DeviceResponseStatus.Error,
+            error: {
+              code: DeviceUpdateResponseErrorCode.RestartTimedOut,
+              message: "restart pure has timed out",
+            },
+          })
+        })
+
         if (step < PurePhone.osUpdateRestartStep) {
           resolve({
             status: DeviceResponseStatus.Error,
+            error: {
+              code: DeviceUpdateResponseErrorCode.DeviceDisconnectionBeforeDone,
+              message: "device has disconnected before updating finish",
+            },
           })
         }
       }
+
       unregisterListeners = () => {
         this.deviceService.off(
           DeviceServiceEventName.ConnectedDevice,
@@ -92,6 +117,7 @@ class PurePhone extends PurePhoneAdapter {
           DeviceServiceEventName.DisconnectedDevice,
           disconnectedDeviceListener
         )
+        cancelTimeout()
       }
 
       this.deviceService.on(
@@ -136,7 +162,7 @@ class PurePhone extends PurePhoneAdapter {
         } else {
           resolve({
             status: DeviceResponseStatus.Error,
-            error: pureUpdateResponse.error
+            error: pureUpdateResponse.error,
           })
         }
       } else {
