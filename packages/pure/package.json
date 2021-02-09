@@ -12,11 +12,12 @@
     "clean": "rm -rf ./dist",
     "build": "npm run clean && tsc",
     "prepublish": "npm rebuild && npm run build",
-    "lint": "eslint 'src/**/*.ts'",
+    "lint": "eslint 'src/**/*.{ts,tsx,js}'",
     "lint:typecheck": "tsc --noEmit",
     "test": "jest --config=jest.config.js --forceExit --detectOpenHandles",
     "test:coverage": "npm run test -- --coverage",
-    "command": "ts-node scripts/index.ts"
+    "command": "ts-node scripts/index.ts",
+    "copyright:add": "eslint --fix --rule 'license-header/header: [ \"error\", \"../../resources/license-header.js\" ]' ./src"
   },
   "devDependencies": {
     "@serialport/binding-mock": "^9.0.2",

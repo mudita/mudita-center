@@ -21,7 +21,7 @@
     "LINT COMMANDS": "=========================================================",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint '{src,test,mocks}/**/*.{ts,tsx}'",
-    "lint:js": "eslint '{src,test,mocks}/**/*.{ts,tsx}'",
+    "lint:js": "eslint '{src,test,mocks}/**/*.{ts,tsx,js}'",
     "lint:typecheck": "tsc --noEmit",
     "DIST COMMANDS": "=========================================================",
     "dist": "npm run build && electron-builder --publish never",
