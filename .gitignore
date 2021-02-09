@@ -51,4 +51,5 @@ packages/app/.storybook/tmp/**/*
 storybook-static
 
 .env.*
+!.env.example
 electron-builder.env
