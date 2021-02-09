@@ -1,3 +1,9 @@
+# Mudita Center - Pure library
+
+This library enables communication with Mudita Pure phone(s) through a serial port. Communication can happen one-way (request) or both ways (event). The library's client decides on the way of processing the data with the phone.
+
+This library also enables communicating with the Pure phone using the terminal.
+
 ## Setup
 
 ### Install
