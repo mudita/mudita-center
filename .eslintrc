@@ -33,7 +33,7 @@
     "@typescript-eslint/prefer-regexp-exec": "warn",
     "license-header/header": [
       "error",
-      "./resources/license-header.js"
+      "../../resources/license-header.js"
     ]
   }
 }
