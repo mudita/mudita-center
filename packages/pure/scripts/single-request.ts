@@ -1,6 +1,9 @@
 import { PureDevice, RequestConfig } from "../src"
 
-const singleRequest = async (device: PureDevice, requestConfig: RequestConfig) => {
+const singleRequest = async (
+  device: PureDevice,
+  requestConfig: RequestConfig
+) => {
   console.log("request: ", JSON.stringify(requestConfig))
 
   const response = await device.request(requestConfig)

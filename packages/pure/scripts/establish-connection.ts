@@ -1,7 +1,9 @@
 import PureDeviceManager, { PureDevice } from "../src"
 import { ResponseStatus } from "../dist"
 
-export const establishConnection = async (command: (device: PureDevice) => void) => {
+export const establishConnection = async (
+  command: (device: PureDevice) => void
+) => {
   const [device] = await PureDeviceManager.getDevices()
 
   if (!device) {

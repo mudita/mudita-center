@@ -51,7 +51,10 @@ export {
   SidebarHeaderIcon,
   SidebarProps,
 } from "../app/src/renderer/components/core/table/table.component"
-export { List, ListItem } from "../app/src/renderer/components/core/list/list.component"
+export {
+  List,
+  ListItem,
+} from "../app/src/renderer/components/core/list/list.component"
 
 // Theme
 export { default as Theme } from "../app/src/renderer/styles/theming/theme"

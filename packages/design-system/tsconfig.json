@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
@@ -42,7 +43,10 @@
     "declaration": true
   },
   "include": [
-    "./index.ts", "../app/src/**/*.d.ts", "../app/src/renderer/images"],
+    "./index.ts",
+    "../app/src/**/*.d.ts",
+    "../app/src/renderer/images"
+  ],
   "exclude": [
     "../app/dist",
     "node_modules",

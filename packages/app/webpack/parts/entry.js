@@ -1,4 +1,4 @@
-module.exports = renderer =>
+module.exports = (renderer) =>
   renderer
     ? {
         app: ["@babel/polyfill", "./src/renderer/app.tsx"],
