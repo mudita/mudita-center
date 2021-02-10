@@ -23,11 +23,11 @@ const parseEvent = (event: CalendarComponent): CalendarEvent => {
   }
 
   if (event.start) {
-    startDate = new Date(event.start).toISOString()
+    startDate = new Date(event.start as DateWithTimeZone).toISOString()
   }
 
   if (event.end) {
-    endDate = new Date(event.end).toISOString()
+    endDate = new Date(event.end as DateWithTimeZone).toISOString()
   }
 
   return {
