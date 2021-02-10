@@ -152,6 +152,7 @@ const useSystemUpdateFlow = (
   useEffect(() => {
     if (activeCode) {
       displayErrorModal(activeCode)
+      setActiveCode(undefined)
     }
 
     const unregisterItem = appContextMenu.registerItem("Overview", {
