@@ -5,7 +5,8 @@
   "productName": "Mudita Center",
   "scripts": {
     "bootstrap:local": "lerna bootstrap",
-    "bootstrap:ci": "lerna bootstrap --ignore-scripts",
+    "bootstrap:ci": "lerna bootstrap --ci",
+    "bootstrap:netlify": "lerna bootstrap --force-local --ignore-scripts",
     "develop": "npm run app:develop --",
     "lint": "lerna run lint",
     "lint:typecheck": "lerna run lint:typecheck",
