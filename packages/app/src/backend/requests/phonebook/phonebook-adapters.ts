@@ -1,6 +1,6 @@
 import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 import MockPureNodeService from "Backend/mock-device-service"
-import PureDeviceManager from "@mudita/mudita-center-pure"
+import PureDeviceManager from "@mudita/pure"
 import { ipcMain } from "electron-better-ipc"
 import Adapters from "Backend/adapters/adapters.interface"
 

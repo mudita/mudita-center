@@ -1,6 +1,6 @@
 import PurePhoneBatteryServiceAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service-adapter.class"
 import DeviceService from "Backend/device-service"
-import { Endpoint, Method } from "@mudita/mudita-center-pure"
+import { Endpoint, Method } from "@mudita/pure"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"

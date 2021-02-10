@@ -1,7 +1,7 @@
 import PurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage-adapter.class"
 import StorageCategoryInfo from "Common/interfaces/storage-category-info.interface"
 import DeviceService from "Backend/device-service"
-import { Endpoint, Method } from "@mudita/mudita-center-pure"
+import { Endpoint, Method } from "@mudita/pure"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"

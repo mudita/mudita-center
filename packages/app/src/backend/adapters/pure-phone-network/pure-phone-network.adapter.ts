@@ -3,7 +3,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
-import { Endpoint, Method, SIM } from "@mudita/mudita-center-pure"
+import { Endpoint, Method, SIM } from "@mudita/pure"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 
 class PurePhoneNetwork extends PurePhoneNetworkAdapter {
