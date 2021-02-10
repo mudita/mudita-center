@@ -15,7 +15,9 @@ import {
   DownloadingUpdateModal,
   UpdateAvailable,
   UpdateNotAvailable,
-  UpdateServerError, UpdatingFailureModal, UpdatingFailureWithHelpModal,
+  UpdateServerError,
+  UpdatingFailureModal,
+  UpdatingFailureWithHelpModal,
   UpdatingProgressModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
@@ -151,6 +153,10 @@ storiesOf("Views|Overview/Modals", module)
   ))
   .add("Updating failure", () => (
     <ModalStory>
-      <UpdatingFailureWithHelpModal code={404} onContact={action("Go to support")} onHelp={action("Go to Help")}  />
+      <UpdatingFailureWithHelpModal
+        code={404}
+        onContact={action("Go to support")}
+        onHelp={action("Go to Help")}
+      />
     </ModalStory>
   ))

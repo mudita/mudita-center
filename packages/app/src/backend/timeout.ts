@@ -1,4 +1,4 @@
-const timeout = (ms:number): [Promise<undefined>, () => void] => {
+const timeout = (ms: number): [Promise<undefined>, () => void] => {
   let timeoutId: NodeJS.Timeout
 
   const promise = new Promise<undefined>((resolve) => {

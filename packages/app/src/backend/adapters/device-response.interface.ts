@@ -1,7 +1,9 @@
 import { ResponseErrorCode as PureResponseErrorCode } from "@mudita/mudita-center-pure"
 import { DeviceUpdateResponseErrorCode } from "Backend/adapters/pure-phone/pure-phone.adapter"
 
-export type ResponseErrorCode = PureResponseErrorCode | DeviceUpdateResponseErrorCode
+export type ResponseErrorCode =
+  | PureResponseErrorCode
+  | DeviceUpdateResponseErrorCode
 
 export enum DeviceResponseStatus {
   Ok = "ok",
