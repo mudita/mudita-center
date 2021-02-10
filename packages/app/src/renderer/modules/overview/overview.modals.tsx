@@ -441,7 +441,7 @@ export const UpdatingFailureWithHelpModal = ({
 }) => (
   <ErrorDataModal
     closeButton={true}
-    onClose={onContact}
+    onCloseButton={onContact}
     closeButtonLabel={intl.formatMessage(messages.updatingFailedSupportButton)}
     onActionButtonClick={onHelp}
     title={intl.formatMessage(messages.muditaOsUpdateTitle)}
