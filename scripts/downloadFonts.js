@@ -10,7 +10,7 @@ require("dotenv").config({
 })
 
 /**
- * Function that downloads "GT Pressura" font which is unavailable publicly.
+ * Function that downloads "GT Pressura" font which is on a private repository.
  * It needs an access to proper repo defined in FONTS_DIRECTORY_URL env
  * and GitHub access token provided in GITHUB_ACCESS_TOKEN env.
  */
@@ -40,6 +40,8 @@ require("dotenv").config({
 
     console.log("Fonts downloading finished.")
   } catch (error) {
-    console.log(error)
+    console.log(
+      "Error while downloading fonts. Fallback font will be used instead."
+    )
   }
 })()
