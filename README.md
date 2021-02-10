@@ -26,6 +26,7 @@ If you would like to help us create Mudita Center as a full-time job - **[we're 
 ## Table of contents
 
 - [Quickstart](#Quickstart)
+- [Scripts](#Scripts)
 - [Contributing](#Contributing)
   - [Discussions](#Discussions)
   - [Reporting issues and feature requests](#Reporting-bugs-and-feature-requests)
@@ -35,6 +36,10 @@ If you would like to help us create Mudita Center as a full-time job - **[we're 
 ## Quickstart
 
 You can quickstart the project by going through the ["Quickstart" article](./quickstart.md).
+
+## Scripts
+
+Take a look at the list of available npm [Scripts](./SCRIPTS.md). 
 
 ## Contributing
 
