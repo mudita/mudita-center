@@ -20,7 +20,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: |
-          npx lerna bootstrap
+          npx lerna bootstrap --no-ci
       - name: Lint test and typecheck
         run: |
           npm run lint
