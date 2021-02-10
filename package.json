@@ -4,6 +4,7 @@
   "description": "Mudita Center",
   "productName": "Mudita Center",
   "scripts": {
+    "setup": "npm install && npm run bootstrap:local",
     "bootstrap:local": "lerna bootstrap",
     "bootstrap:ci": "lerna bootstrap --ci",
     "bootstrap:netlify": "lerna bootstrap --force-local --ignore-scripts",
