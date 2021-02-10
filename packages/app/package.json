@@ -1,9 +1,9 @@
 {
   "name": "@mudita/mudita-center-app",
-  "version": "4.4.0",
-  "description": "App",
+  "version": "5.0.0",
+  "description": "Mudita Center",
   "main": "./dist/main.js",
-  "productName": "App",
+  "productName": "Mudita Center",
   "scripts": {
     "MAIN COMMANDS": "=========================================================",
     "develop": "cross-env START_HOT=1 npm run dev:start:renderer",

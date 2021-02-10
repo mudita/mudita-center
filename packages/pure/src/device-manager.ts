@@ -3,7 +3,8 @@ import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
 import { CreateDevice, PureDevice, createDevice } from "./device"
 
-export const productId = "0100"
+export const productId = "0622"
+export const vendorId = "045e"
 export const manufacturer = "Mudita"
 
 enum DeviceManagerEventName {
@@ -34,9 +35,9 @@ class DeviceManager implements PureDeviceManager {
 
     return portList
       .filter(
-        (portInfo) => portInfo.manufacturer === manufacturer
-        // commented until the embedded  development with the productId will stabilize
-        // && portInfo.productId === productId
+        (portInfo) =>
+          portInfo.productId?.toLowerCase() === productId &&
+          portInfo.vendorId?.toLowerCase() === vendorId
       )
       .map(({ path }) => this.createDevice(path))
   }
@@ -51,7 +52,7 @@ class DeviceManager implements PureDeviceManager {
 
   private registerAttachDeviceEmitter(): void {
     this.usbDetector.onAttachDevice(async (portInfo) => {
-      if (portInfo.manufacturer === manufacturer) {
+      if (portInfo.vendorId?.toLowerCase() === vendorId) {
         const portList = await DeviceManager.getSerialPortList()
 
         const port = portList.find(
