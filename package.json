@@ -9,7 +9,6 @@
     "lint:typecheck": "lerna run lint:typecheck",
     "test:coverage": "lerna run test:coverage",
     "test:e2e": "lerna run test:e2e",
-    "postinstall": "lerna bootstrap",
     "prerelease": "npm run app:prerelease",
     "storybook:serve": "npm run app:storybook:serve --",
     "storybook:build": "npm run app:storybook:build --",
