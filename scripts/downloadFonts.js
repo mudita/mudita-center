@@ -12,7 +12,7 @@ require("dotenv").config({
 /**
  * Function that downloads "GT Pressura" font which is on a private repository.
  * It needs an access to proper repo defined in FONTS_DIRECTORY_URL env
- * and GitHub access token provided in GITHUB_ACCESS_TOKEN env.
+ * and GitHub Access Token provided in GITHUB_ACCESS_TOKEN env.
  */
 ;(async () => {
   console.log("Downloading fonts...")
