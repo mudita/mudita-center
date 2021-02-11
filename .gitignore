@@ -53,3 +53,4 @@ storybook-static
 .env.*
 !.env.example
 electron-builder.env
+tmp/

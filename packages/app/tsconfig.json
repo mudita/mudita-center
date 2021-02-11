@@ -1,4 +1,5 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     /***** Basic Options ******/
     /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', or 'ESNEXT'. */
@@ -15,7 +16,9 @@
       "es7",
       "es2017",
       "ESNext",
-      "esnext.intl", "es2017.intl", "es2018.intl"
+      "esnext.intl",
+      "es2017.intl",
+      "es2018.intl"
     ],
     /* Allow javascript files to be compiled. */
     "allowJs": true,
