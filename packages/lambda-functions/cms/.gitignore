@@ -1,4 +1,0 @@
-node_modules
-.aws-sam
-samconfig.toml
-/bin/.env
