@@ -40,12 +40,16 @@ class UsbDetector {
 
   private async getPortInfo(device: Device): Promise<UsbDetectorPortInfo> {
     device.open()
+    const { idVendor, idProduct } = device.deviceDescriptor
     const manufacturer = await this.getDescriptor(device, "iManufacturer")
     const serialNumber = await this.getDescriptor(device, "iSerialNumber")
     device.close()
+
     return {
       manufacturer,
       serialNumber,
+      vendorId: idVendor.toString(16).padStart(4, "0"),
+      productId: idProduct.toString(16).padStart(4, "0"),
     }
   }
 
