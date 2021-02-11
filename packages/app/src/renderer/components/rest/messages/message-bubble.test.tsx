@@ -5,7 +5,6 @@ import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom"
 
 const user = { firstName: "user", lastName: "userowski", id: "0" }
-const emptyUser = { firstName: "", lastName: "", id: "" }
 const id = "123"
 const message =
   "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae"
@@ -52,11 +51,4 @@ test.skip("removes message", () => {
   )
   fireEvent.click(getByTestId("delete-message"))
   expect(removeMessage).toHaveBeenCalledWith(id)
-})
-
-test("when author of message is unknown, displays default icon in avatar", () => {
-  const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble user={emptyUser} message={message} id={id} previousAuthor />
-  )
-  expect(getByTestId("icon-Contact")).toBeInTheDocument()
 })
