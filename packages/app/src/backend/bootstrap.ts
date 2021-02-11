@@ -1,5 +1,5 @@
 import { MainProcessIpc } from "electron-better-ipc"
-import { PureDeviceManager } from "@mudita/mudita-center-pure"
+import { PureDeviceManager } from "@mudita/pure"
 import { createDeviceService } from "Backend/device-service"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import registerBatteryInfoRequest from "Backend/requests/battery/get-battery-info.request"
