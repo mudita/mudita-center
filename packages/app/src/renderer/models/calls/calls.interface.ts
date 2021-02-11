@@ -22,6 +22,7 @@ export enum VisibilityFilter {
 
 export interface Caller extends Pick<Contact, "id" | "firstName" | "lastName"> {
   phoneNumber: string
+  secondaryPhoneNumber?: string
 }
 
 export interface Call {

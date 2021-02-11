@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import PureDeviceManager from "@mudita/mudita-center-pure"
+import PureDeviceManager from "@mudita/pure"
 import startBackend from "Backend/bootstrap"
 import { check as checkPort } from "tcp-port-used"
 import {

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { Endpoint, Method } from "@mudita/mudita-center-pure"
+import { Endpoint, Method } from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
   DeviceResponseStatus,
