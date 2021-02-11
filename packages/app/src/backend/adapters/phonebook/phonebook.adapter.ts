@@ -3,7 +3,7 @@ import {
   Method,
   Contact as PureContact,
   NewContact as PureNewContact,
-} from "@mudita/mudita-center-pure"
+} from "@mudita/pure"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import {
   Contact,

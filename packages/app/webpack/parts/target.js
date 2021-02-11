@@ -1,1 +1,1 @@
-module.exports = renderer => `electron-${renderer ? "renderer" : "main"}`
+module.exports = (renderer) => `electron-${renderer ? "renderer" : "main"}`
