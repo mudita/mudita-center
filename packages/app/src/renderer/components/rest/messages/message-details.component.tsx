@@ -67,6 +67,10 @@ const MessagesSidebar = styled(Sidebar)`
   border-top: none;
 `
 
+const NameWrapper = styled.div`
+  display: flex;
+`
+
 // const LeadingButton = styled(ButtonComponent).attrs(() => ({
 //   displayStyle: DisplayStyle.IconOnly2,
 // }))`
@@ -140,12 +144,28 @@ const MessageDetails: FunctionComponent<Props> = ({
       show
       headerLeft={
         <>
-          <Text
-            displayStyle={TextDisplayStyle.LargeBoldText}
-            data-testid="sidebar-fullname"
-          >
-            {getPrettyCaller(details.caller)}
-          </Text>
+          <NameWrapper>
+            <Text
+              displayStyle={TextDisplayStyle.LargeBoldText}
+              data-testid="sidebar-fullname"
+            >
+              {getPrettyCaller(details.caller)}
+            </Text>
+            {Boolean(
+              details.caller.phoneNumber && details.caller.secondaryPhoneNumber
+            ) && (
+              <Text
+                displayStyle={TextDisplayStyle.LargeFadedText}
+                data-testid="multiple-number"
+              >
+                &nbsp;
+                {details.caller.phoneNumber.split(" ").join("") ===
+                details.caller.secondaryPhoneNumber?.split(" ").join("")
+                  ? "#2"
+                  : "#1"}
+              </Text>
+            )}
+          </NameWrapper>
           {isNameAvailable(details.caller) && (
             <PhoneNumberText
               displayStyle={TextDisplayStyle.MediumFadedLightText}

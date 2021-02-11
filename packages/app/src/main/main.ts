@@ -1,4 +1,4 @@
-import PureDeviceManager from "@mudita/mudita-center-pure"
+import PureDeviceManager from "@mudita/pure"
 import startBackend from "Backend/bootstrap"
 import { check as checkPort } from "tcp-port-used"
 import {
