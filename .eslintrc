@@ -38,5 +38,6 @@
       "error",
       "../../resources/license-header.js"
     ]
-  }
+  },
+    "ignorePatterns": ["auth-server.test.ts"]
 }
