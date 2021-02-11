@@ -11,13 +11,7 @@ export class Client
   implements ClientInterface {
   private client: AxiosInstance
   constructor() {
-    this.client = axios.create({
-      headers: {
-        "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "OPTIONS,POST",
-      },
-    })
+    this.client = axios.create()
   }
 
   async getNews<Entry>(): Promise<EntryCollection<Entry>> {
