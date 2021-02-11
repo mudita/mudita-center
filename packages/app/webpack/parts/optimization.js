@@ -1,6 +1,6 @@
 const TerserPlugin = require("terser-webpack-plugin")
 
-module.exports = production => {
+module.exports = (production) => {
   const config = {
     minimize: production,
     nodeEnv: production ? "production" : "development",
