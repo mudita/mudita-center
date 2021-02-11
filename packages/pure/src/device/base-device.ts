@@ -115,7 +115,9 @@ class BaseDevice implements PureDevice {
     this.#eventEmitter.off(eventName, listener)
   }
 
-  private fileUploadRequest({ filePath }: RequestConfig): Promise<Response<any>> {
+  private fileUploadRequest({
+    filePath,
+  }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
       if (!this.#port || !this.#portBlocked || !filePath) {
         resolve({ status: ResponseStatus.ConnectionError })
@@ -178,7 +180,9 @@ class BaseDevice implements PureDevice {
     })
   }
 
-  private deviceUpdateRequest({ filePath }: RequestConfig): Promise<Response<any>> {
+  private deviceUpdateRequest({
+    filePath,
+  }: RequestConfig): Promise<Response<any>> {
     return new Promise((resolve) => {
       if (!this.#port || !this.#portBlocked || !filePath) {
         resolve({ status: ResponseStatus.ConnectionError })

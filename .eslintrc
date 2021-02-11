@@ -1,5 +1,8 @@
 {
   "extends": "@mudita",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "root":true,
   "plugins": [
     "license-header"

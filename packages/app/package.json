@@ -41,7 +41,6 @@
     "translations:send": "node ./scripts/updatePhraseTranslations.js",
     "translations:sort": "node ./scripts/sortTranslations.js",
     "UTILITY/AUTO COMMANDS": "=================================================",
-    "beforecommit": "npm run translations:sort && lint-staged",
     "postinstall": "electron-builder install-app-deps && electron-rebuild -f",
     "electron:rebuild-serialport": "electron-rebuild -f -w serialport",
     "prerelease": "npm run translations:overwrite && npm run build",

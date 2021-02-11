@@ -15,4 +15,3 @@ export class FormatterFactory {
     return formatterMap[version] ?? formatterMap[1]
   }
 }
-
