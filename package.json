@@ -28,7 +28,7 @@
     "app:storybook:serve": "lerna run --scope @mudita/mudita-center-app storybook:serve --",
     "app:storybook:build": "lerna run --scope @mudita/mudita-center-app storybook:build --",
     "app:dist": "lerna run --scope @mudita/mudita-center-app dist --",
-    "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist --",
+    "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist:all --",
     "app:electron:rebuild-serialport": "lerna run --scope app electron:rebuild-serialport --",
     "PURE COMMANDS": "========================================================",
     "pure:build": "lerna run --scope @mudita/pure build",
