@@ -3,7 +3,7 @@ import { HelpActions } from "Common/enums/help-actions.enum"
 import helpStore from "App/main/store/help"
 import settingsStore from "App/main/store/settings"
 import { normalizeHelpData } from "Renderer/utils/contentful/normalize-help-data"
-import { createClient, ContentfulResource } from "App/api/contentful"
+import { createClient } from "App/api/contentful"
 import logger from "App/main/utils/logger"
 import { SyncCollection } from "contentful"
 
@@ -14,7 +14,7 @@ export const registerDownloadHelpHandler = () => {
   const locale = settingsStore.get("language")
 
   ipcMain.answerRenderer(HelpActions.DownloadContentfulData, async () => {
-    const client = createClient({ resource: ContentfulResource.Help })
+    const client = createClient()
     const syncConfig: Record<string, any> = {
       type: "Entry",
       content_type: "helpItem",
@@ -27,7 +27,7 @@ export const registerDownloadHelpHandler = () => {
     }
     try {
       return normalizeHelpData(
-        (await client.sync(syncConfig)) as SyncCollection,
+        (await client.getHelp(syncConfig)) as SyncCollection,
         locale
       )
     } catch (error) {

@@ -7,7 +7,7 @@ import { normalizeContentfulData } from "Renderer/models/mudita-news/normalize-c
 import { EntryCollection } from "contentful"
 import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 import logger from "App/main/utils/logger"
-import { createClient, ContentfulResource } from "App/api/contentful"
+import { createClient } from "App/api/contentful"
 
 export enum NewsEvents {
   Get = "get-news-items",
@@ -29,11 +29,8 @@ const registerNewsListener = () => {
       ...newsItems.map((item: any) => new Date(item.updatedAt).getTime())
     )
     try {
-      const client = createClient({ resource: ContentfulResource.News })
-      const data: EntryCollection<NewsEntry> = await client.getEntries({
-        content_type: "newsItem",
-        limit: 3,
-      })
+      const client = createClient()
+      const data: EntryCollection<NewsEntry> = await client.getNews()
       const newestOnlineItemDate = Math.max(
         ...data.items.map((item: any) => new Date(item.sys.updatedAt).getTime())
       )

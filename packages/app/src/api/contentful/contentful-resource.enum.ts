@@ -1,4 +1,4 @@
-export enum ContentfulResource {
+export enum MuditaCenterServerResource {
   News = "news",
   Help = "help",
 }
