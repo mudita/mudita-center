@@ -14,7 +14,7 @@ test("return news response properly", async () => {
   const data = {
     response: "ok",
   }
-  axiosMock.onPost(process.env.CONTENTFUL_LAMBDA).reply(200, {
+  axiosMock.onGet(process.env.CONTENTFUL_LAMBDA).reply(200, {
     data,
   })
   const client = new Client({ resource: ContentfulResource.News })
@@ -40,7 +40,7 @@ test("return help response properly", async () => {
   const data = {
     response: "ok",
   }
-  axiosMock.onPost(process.env.CONTENTFUL_LAMBDA).reply(200, {
+  axiosMock.onGet(process.env.CONTENTFUL_LAMBDA).reply(200, {
     data,
   })
   const client = new Client({ resource: ContentfulResource.Help })

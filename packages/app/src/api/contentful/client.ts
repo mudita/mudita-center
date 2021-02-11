@@ -33,13 +33,13 @@ export class Client
       throw new Error(ClientErrors.InvalidResourceProvided)
     }
     try {
-      const { data }: AxiosResponse = await this.client.post(
-        process.env.CONTENTFUL_LAMBDA as string,
-        JSON.stringify({
-          resource: this.resource,
-          method: "getEntries",
-          query,
-        })
+      const params = new URLSearchParams({
+        method: "getEntries",
+        query: JSON.stringify(query),
+      })
+      const { data }: AxiosResponse = await this.client.get(
+        `${process.env.CONTENTFUL_LAMBDA as string}${this.resource}`,
+        { params }
       )
       return data
     } catch (error) {
@@ -52,13 +52,13 @@ export class Client
       throw new Error(ClientErrors.InvalidResourceProvided)
     }
     try {
-      const { data }: AxiosResponse = await this.client.post(
-        process.env.CONTENTFUL_LAMBDA as string,
-        JSON.stringify({
-          resource: this.resource,
-          method: "sync",
-          query,
-        })
+      const params = new URLSearchParams({
+        method: "sync",
+        query: JSON.stringify(query),
+      })
+      const { data }: AxiosResponse = await this.client.get(
+        `${process.env.CONTENTFUL_LAMBDA as string}${this.resource}`,
+        { params }
       )
       return data
     } catch (error) {
