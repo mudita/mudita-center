@@ -11,16 +11,19 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import styled from "styled-components"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
-import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
+// import InputComponent from "Renderer/components/core/input-text/input-text.component"
+import {
+  // Icon,
+  IconSize,
+} from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "Renderer/components/rest/messages/message-bubble.component"
 import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+// import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
-import { intl } from "Renderer/utils/intl"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
+// import { intl } from "Renderer/utils/intl"
+// import ButtonComponent from "Renderer/components/core/button/button.component"
+// import { DisplayStyle } from "Renderer/components/core/button/button.config"
+// import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
 
 interface Props {
   details: ActiveRow
@@ -49,30 +52,30 @@ const MessageBubblesWrapper = styled.div`
   margin-bottom: 2.4rem;
 `
 
-const TextareaWrapper = styled.div`
-  position: sticky;
-  bottom: 0;
-  background-color: ${backgroundColor("row")};
-  padding: 0 3rem;
-`
-
-const Textarea = styled(InputComponent)`
-  margin-bottom: 1.6rem;
-`
+// const TextareaWrapper = styled.div`
+//   position: sticky;
+//   bottom: 0;
+//   background-color: ${backgroundColor("row")};
+//   padding: 0 3rem;
+// `
+//
+// const Textarea = styled(InputComponent)`
+//   margin-bottom: 1.6rem;
+// `
 
 const MessagesSidebar = styled(Sidebar)`
   border-top: none;
 `
 
-const LeadingButton = styled(ButtonComponent).attrs(() => ({
-  displayStyle: DisplayStyle.IconOnly2,
-}))`
-  ${buttonComponentAnimationStyles};
-`
-
-const trailingIcon = [
-  <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
-]
+// const LeadingButton = styled(ButtonComponent).attrs(() => ({
+//   displayStyle: DisplayStyle.IconOnly2,
+// }))`
+//   ${buttonComponentAnimationStyles};
+// `
+//
+// const trailingIcon = [
+//   <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
+// ]
 
 const MessageDetails: FunctionComponent<Props> = ({
   details,
@@ -80,7 +83,7 @@ const MessageDetails: FunctionComponent<Props> = ({
   // onUnreadStatus,
   // onDeleteClick,
   onContactClick,
-  onAttachContactClick,
+  // onAttachContactClick,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -123,14 +126,14 @@ const MessageDetails: FunctionComponent<Props> = ({
     </>
   )
 
-  const leadingIcons = [
-    <LeadingButton
-      key={Type.AttachContact}
-      Icon={Type.AttachContact}
-      onClick={onAttachContactClick}
-    />,
-    <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />,
-  ]
+  // const leadingIcons = [
+  //   <LeadingButton
+  //     key={Type.AttachContact}
+  //     Icon={Type.AttachContact}
+  //     onClick={onAttachContactClick}
+  //   />,
+  //   <Icon type={Type.Template} key={Type.Template} size={IconSize.Big} />,
+  // ]
 
   return (
     <MessagesSidebar
@@ -191,18 +194,19 @@ const MessageDetails: FunctionComponent<Props> = ({
           )}
         </MessageBubblesWrapper>
       </MessagesWrapper>
-      <TextareaWrapper>
-        <Textarea
-          type="textarea"
-          value={""}
-          onChange={noop}
-          leadingIcons={leadingIcons}
-          trailingIcons={trailingIcon}
-          label={intl.formatMessage({
-            id: "view.name.messages.textAreaPlaceholder",
-          })}
-        />
-      </TextareaWrapper>
+      {/* TODO: Remove when add feature becomes available */}
+      {/*<TextareaWrapper>*/}
+      {/*  <Textarea*/}
+      {/*    type="textarea"*/}
+      {/*    value={""}*/}
+      {/*    onChange={noop}*/}
+      {/*    leadingIcons={leadingIcons}*/}
+      {/*    trailingIcons={trailingIcon}*/}
+      {/*    label={intl.formatMessage({*/}
+      {/*      id: "view.name.messages.textAreaPlaceholder",*/}
+      {/*    })}*/}
+      {/*  />*/}
+      {/*</TextareaWrapper>*/}
     </MessagesSidebar>
   )
 }
