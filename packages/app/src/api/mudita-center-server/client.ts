@@ -2,10 +2,10 @@ import {
   EntryCollection,
   SyncCollection,
 } from "contentful"
-import { MuditaCenterServerResource } from "App/api/contentful/contentful-resource.enum"
 import axios, { AxiosInstance, AxiosResponse } from "axios"
-import { ClientErrors } from "App/api/contentful/client-errors.enum"
-import { ClientInterface } from "App/api/contentful/client.interface"
+import { ClientErrors } from "App/api/mudita-center-server/client-errors.enum"
+import { ClientInterface } from "App/api/mudita-center-server/client.interface"
+import { MuditaCenterServerRoutes } from "App/api/mudita-center-server/mudita-center-server-routes"
 
 export class Client
   implements ClientInterface {
@@ -17,7 +17,7 @@ export class Client
   async getNews<Entry>(): Promise<EntryCollection<Entry>> {
     try {
       const { data }: AxiosResponse = await this.client.get(
-        `${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerResource.News}`
+        `${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerRoutes.News}`
       )
       return data
     } catch (error) {
@@ -31,7 +31,7 @@ export class Client
         query: JSON.stringify(query),
       })
       const { data }: AxiosResponse = await this.client.get(
-        `${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerResource.Help}`,
+        `${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerRoutes.Help}`,
         { params }
       )
       return data

@@ -3,7 +3,7 @@ import { HelpActions } from "Common/enums/help-actions.enum"
 import helpStore from "App/main/store/help"
 import settingsStore from "App/main/store/settings"
 import { normalizeHelpData } from "Renderer/utils/contentful/normalize-help-data"
-import { createClient } from "App/api/contentful"
+import { createClient } from "App/api/mudita-center-server"
 import logger from "App/main/utils/logger"
 import { SyncCollection } from "contentful"
 

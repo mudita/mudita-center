@@ -7,7 +7,7 @@ import { normalizeContentfulData } from "Renderer/models/mudita-news/normalize-c
 import { EntryCollection } from "contentful"
 import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 import logger from "App/main/utils/logger"
-import { createClient } from "App/api/contentful"
+import { createClient } from "App/api/mudita-center-server"
 
 export enum NewsEvents {
   Get = "get-news-items",
