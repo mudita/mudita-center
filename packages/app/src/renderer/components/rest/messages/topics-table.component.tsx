@@ -20,6 +20,12 @@ export const Name = styled(Text)`
   margin-bottom: 0.4rem;
 `
 
+export const NameWrapper = styled.div`
+  display: flex;
+  grid-area: Name;
+  align-self: end;
+`
+
 export const Time = styled(Text)`
   grid-area: Time;
   align-self: end;

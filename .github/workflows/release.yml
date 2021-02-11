@@ -1,52 +1,52 @@
 # Build and release the app
 
-name: Release
-on:
-  push:
-    tags:
-      - "v*"
+# name: Release
+# on:
+#   push:
+#     tags:
+#       - "v*"
 
-jobs:
-  release:
-    runs-on: ${{ matrix.os }}
+# jobs:
+#   release:
+#     runs-on: ${{ matrix.os }}
 
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+#     strategy:
+#       matrix:
+#         os: [macos-latest, ubuntu-latest, windows-latest]
 
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Check out repository
+#         uses: actions/checkout@v2
 
-      - name: Install node and npm
-        uses: actions/setup-node@v2.1.4
-        with:
-          node-version: '12.18.4'
+#       - name: Install node and npm
+#         uses: actions/setup-node@v2.1.4
+#         with:
+#           node-version: '12.18.4'
 
-      - name: Install dependencies
-        run: npm install && npm install electron-builder -g
+#       - name: Install dependencies
+#         run: npm install && npm install electron-builder -g
 
-      - name: Build and publish the app
-        run: npm run prerelease && electron-builder --publish always
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CSC_LINK: ${{ secrets.MAC_CERTS }}
-          CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTS_PASSWORD }}
-          OS_UPDATE_SERVER: ${{ secrets.OS_UPDATE_SERVER }}
-          APP_UPDATE_SERVER: ${{ secrets.APP_UPDATE_SERVER }}
-          MDA_CONTENTFUL_SPACE_ID: ${{ secrets.MDA_CONTENTFUL_SPACE_ID }}
-          MDA_CONTENTFUL_ENVIRONMENT_ID: ${{ secrets.MDA_CONTENTFUL_ENVIRONMENT_ID }}
-          MDA_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.MDA_CONTENTFUL_ACCESS_TOKEN }}
-          MDA_CONTENTFUL_HOST: ${{ secrets.MDA_CONTENTFUL_HOST }}
-          MUDITA_WEB_CONTENTFUL_SPACE_ID: ${{ secrets.MUDITA_WEB_CONTENTFUL_SPACE_ID }}
-          MUDITA_WEB_CONTENTFUL_ENVIRONMENT_ID: ${{ secrets.MUDITA_WEB_CONTENTFUL_ENVIRONMENT_ID }}
-          MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN }}
-          MUDITA_WEB_CONTENTFUL_HOST: ${{ secrets.MUDITA_WEB_CONTENTFUL_HOST }}
-          PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
-          PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
-          MUDITA_COMMUNITY_URL: ${{ secrets.MUDITA_COMMUNITY_URL }}
-          CONTACT_SUPPORT_API_URL: ${{ secrets.CONTACT_SUPPORT_API_URL }}
-          CONTACT_SUPPORT_AUTH_KEY: ${{ secrets.CONTACT_SUPPORT_AUTH_KEY }}
-          MUDITA_GOOGLE_AUTH_URL: ${{ secrets.MUDITA_GOOGLE_AUTH_URL }}
-          MUDITA_GOOGLE_REFRESH_TOKEN_URL: ${{ secrets.MUDITA_GOOGLE_REFRESH_TOKEN_URL }}
-          ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}
+#       - name: Build and publish the app
+#         run: npm run prerelease && electron-builder --publish always
+#         env:
+#           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           CSC_LINK: ${{ secrets.MAC_CERTS }}
+#           CSC_KEY_PASSWORD: ${{ secrets.MAC_CERTS_PASSWORD }}
+#           OS_UPDATE_SERVER: ${{ secrets.OS_UPDATE_SERVER }}
+#           APP_UPDATE_SERVER: ${{ secrets.APP_UPDATE_SERVER }}
+#           MDA_CONTENTFUL_SPACE_ID: ${{ secrets.MDA_CONTENTFUL_SPACE_ID }}
+#           MDA_CONTENTFUL_ENVIRONMENT_ID: ${{ secrets.MDA_CONTENTFUL_ENVIRONMENT_ID }}
+#           MDA_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.MDA_CONTENTFUL_ACCESS_TOKEN }}
+#           MDA_CONTENTFUL_HOST: ${{ secrets.MDA_CONTENTFUL_HOST }}
+#           MUDITA_WEB_CONTENTFUL_SPACE_ID: ${{ secrets.MUDITA_WEB_CONTENTFUL_SPACE_ID }}
+#           MUDITA_WEB_CONTENTFUL_ENVIRONMENT_ID: ${{ secrets.MUDITA_WEB_CONTENTFUL_ENVIRONMENT_ID }}
+#           MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN: ${{ secrets.MUDITA_WEB_CONTENTFUL_ACCESS_TOKEN }}
+#           MUDITA_WEB_CONTENTFUL_HOST: ${{ secrets.MUDITA_WEB_CONTENTFUL_HOST }}
+#           PHRASE_API_KEY: ${{ secrets.PHRASE_API_KEY }}
+#           PHRASE_API_URL: ${{ secrets.PHRASE_API_URL }}
+#           MUDITA_COMMUNITY_URL: ${{ secrets.MUDITA_COMMUNITY_URL }}
+#           CONTACT_SUPPORT_API_URL: ${{ secrets.CONTACT_SUPPORT_API_URL }}
+#           CONTACT_SUPPORT_AUTH_KEY: ${{ secrets.CONTACT_SUPPORT_AUTH_KEY }}
+#           MUDITA_GOOGLE_AUTH_URL: ${{ secrets.MUDITA_GOOGLE_AUTH_URL }}
+#           MUDITA_GOOGLE_REFRESH_TOKEN_URL: ${{ secrets.MUDITA_GOOGLE_REFRESH_TOKEN_URL }}
+#           ROLLBAR_TOKEN: ${{ secrets.ROLLBAR_TOKEN }}

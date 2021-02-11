@@ -1,4 +1,4 @@
-import PureDeviceManager from "@mudita/mudita-center-pure"
+import PureDeviceManager from "@mudita/pure"
 import registerPurePhoneStorageRequest from "Backend/requests/storage/get-storage-info.request"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import { ipcMain } from "electron-better-ipc"
