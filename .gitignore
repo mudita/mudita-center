@@ -52,3 +52,4 @@ storybook-static
 
 .env.*
 electron-builder.env
+tmp/
