@@ -1,4 +1,4 @@
-import { ResponseErrorCode as PureResponseErrorCode } from "@mudita/mudita-center-pure"
+import { ResponseErrorCode as PureResponseErrorCode } from "@mudita/pure"
 import { DeviceUpdateResponseErrorCode } from "Backend/adapters/pure-phone/pure-phone.adapter"
 
 export type ResponseErrorCode =

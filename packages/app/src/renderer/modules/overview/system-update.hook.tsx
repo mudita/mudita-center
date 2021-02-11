@@ -43,7 +43,7 @@ import registerOsUpdateProgressListener, {
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-pure-os-update-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
-import { DeviceUpdateErrorResponseCode as PureDeviceUpdateErrorResponseCode } from "@mudita/mudita-center-pure"
+import { DeviceUpdateErrorResponseCode as PureDeviceUpdateErrorResponseCode } from "@mudita/pure"
 import { DeviceUpdateResponseErrorCode } from "Backend/adapters/pure-phone/pure-phone.adapter"
 import { contactSupport } from "Renderer/utils/contact-support/contact-support"
 import { HelpActions } from "Common/enums/help-actions.enum"
