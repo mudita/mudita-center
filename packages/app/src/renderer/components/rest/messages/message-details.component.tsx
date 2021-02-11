@@ -77,8 +77,8 @@ const trailingIcon = [
 const MessageDetails: FunctionComponent<Props> = ({
   details,
   onClose = noop,
-  onUnreadStatus,
-  onDeleteClick,
+  // onUnreadStatus,
+  // onDeleteClick,
   onContactClick,
   onAttachContactClick,
 }) => {
@@ -89,36 +89,37 @@ const MessageDetails: FunctionComponent<Props> = ({
     }
   }, [ref.current])
 
-  const markAsUnread = () => {
-    onUnreadStatus([details.id])
-    onClose()
-  }
+  // const markAsUnread = () => {
+  //   onUnreadStatus([details.id])
+  //   onClose()
+  // }
 
-  const handleDeleteClick = () => onDeleteClick(details.id)
+  // const handleDeleteClick = () => onDeleteClick(details.id)
   const handleContactClick = () => onContactClick(details.caller.phoneNumber)
 
   const icons = (
     <>
-      <SidebarHeaderIcon
-        Icon={Type.Calls}
-        onClick={noop}
-        iconSize={IconSize.Big}
-      />
+      {/* TODO: Remove when add feature becomes available */}
+      {/*<SidebarHeaderIcon*/}
+      {/*  Icon={Type.Calls}*/}
+      {/*  onClick={noop}*/}
+      {/*  iconSize={IconSize.Big}*/}
+      {/*/>*/}
       <SidebarHeaderIcon
         Icon={Type.Contact}
         onClick={handleContactClick}
         iconSize={IconSize.Big}
       />
-      <SidebarHeaderIcon
-        Icon={Type.BorderCheckIcon}
-        onClick={markAsUnread}
-        iconSize={IconSize.Big}
-      />
-      <SidebarHeaderIcon
-        Icon={Type.Delete}
-        onClick={handleDeleteClick}
-        iconSize={IconSize.Big}
-      />
+      {/*<SidebarHeaderIcon*/}
+      {/*  Icon={Type.BorderCheckIcon}*/}
+      {/*  onClick={markAsUnread}*/}
+      {/*  iconSize={IconSize.Big}*/}
+      {/*/>*/}
+      {/*<SidebarHeaderIcon*/}
+      {/*  Icon={Type.Delete}*/}
+      {/*  onClick={handleDeleteClick}*/}
+      {/*  iconSize={IconSize.Big}*/}
+      {/*/>*/}
     </>
   )
 
