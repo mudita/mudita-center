@@ -9,7 +9,7 @@ To follow these instructions you need to have [Node.js](https://nodejs.org) inst
 After cloning the repository to your local environment please install all packages by typing:
 
 ```bash
-npm install
+npm run setup
 ```
 
 ### Set up environmental variables
