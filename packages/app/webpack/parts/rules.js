@@ -1,4 +1,4 @@
-const tsxMain = production => ({
+const tsxMain = (production) => ({
   test: /\.tsx?$/,
   exclude: /node_modules/,
   loader: "babel-loader",
@@ -12,7 +12,7 @@ const tsxMain = production => ({
   },
 })
 
-const tsxRenderer = production => ({
+const tsxRenderer = (production) => ({
   test: /\.tsx?$/,
   exclude: /node_modules/,
   loader: "babel-loader",
