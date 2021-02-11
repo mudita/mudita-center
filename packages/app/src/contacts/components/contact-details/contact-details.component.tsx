@@ -178,6 +178,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
             </InfoItem>
           )}
         </BasicInfo>
+        <p>Test</p>
         <AdditionalInfo>
           <div>
             <AdditionalInfoItem>
