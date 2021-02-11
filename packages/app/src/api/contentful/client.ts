@@ -23,7 +23,7 @@ export class Client
   async getNews<Entry>(): Promise<EntryCollection<Entry>> {
     try {
       const { data }: AxiosResponse = await this.client.get(
-        `${process.env.CONTENTFUL_LAMBDA as string}${MuditaCenterServerResource.News}`
+        `${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerResource.News}`
       )
       return data
     } catch (error) {
@@ -37,7 +37,7 @@ export class Client
         query: JSON.stringify(query),
       })
       const { data }: AxiosResponse = await this.client.get(
-        `${process.env.CONTENTFUL_LAMBDA as string}${MuditaCenterServerResource.Help}`,
+        `${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerResource.Help}`,
         { params }
       )
       return data

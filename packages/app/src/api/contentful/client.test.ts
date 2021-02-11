@@ -2,6 +2,7 @@ import { Client } from "App/api/contentful/client"
 import MockAdapter from "axios-mock-adapter"
 import axios from "axios"
 import { ClientErrors } from "App/api/contentful/client-errors.enum"
+import { MuditaCenterServerResource } from "App/api/contentful/contentful-resource.enum"
 
 let axiosMock = new MockAdapter(axios)
 
@@ -13,7 +14,7 @@ test("return news response properly", async () => {
   const data = {
     response: "ok",
   }
-  axiosMock.onGet(process.env.CONTENTFUL_LAMBDA).reply(200, {
+  axiosMock.onGet(`${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerResource.News}`).reply(200, {
     data,
   })
   const client = new Client()
@@ -26,7 +27,7 @@ test("return help response properly", async () => {
   const data = {
     response: "ok",
   }
-  axiosMock.onGet(process.env.CONTENTFUL_LAMBDA).reply(200, {
+  axiosMock.onGet(`${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerResource.Help}`).reply(200, {
     data,
   })
   const client = new Client()
