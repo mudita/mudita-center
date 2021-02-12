@@ -15,7 +15,14 @@ require("dotenv").config({
  * and GitHub Access Token provided in GITHUB_ACCESS_TOKEN env.
  */
 ;(async () => {
-  console.log("Downloading fonts...")
+  const fontsDirectory = path.join(
+    __dirname,
+    "..",
+    "src",
+    "renderer",
+    "fonts",
+    "main"
+  )
   const requiredFiles = [
     "GT-Pressura-Bold.otf",
     "GT-Pressura-Light.otf",
@@ -23,19 +30,24 @@ require("dotenv").config({
     "style.css",
   ]
 
+  console.log("Downloading fonts...")
   try {
     for (const fileName of requiredFiles) {
-      const url = `${process.env.FONTS_DIRECTORY_URL}/${fileName}`
-      const { data } = await axios.get(url, {
-        headers: {
-          Authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
-        },
-      })
-      await fs.writeFile(
-        path.join(__dirname, "../src/renderer/fonts/main/", fileName),
-        data
+      const fileExists = await fs.pathExists(
+        path.join(fontsDirectory, fileName)
       )
-      console.log(`Downloaded ${fileName}`)
+      if (!fileExists) {
+        const url = `${process.env.FONTS_DIRECTORY_URL}/${fileName}`
+        const { data } = await axios.get(url, {
+          headers: {
+            Authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
+          },
+        })
+        await fs.writeFile(path.join(fontsDirectory, fileName), data)
+        console.log(`Downloaded ${fileName}`)
+      } else {
+        console.log(`${fileName} already exists. Downloading aborted.`)
+      }
     }
 
     console.log("Fonts downloading finished.")
