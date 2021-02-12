@@ -66,7 +66,7 @@ test("message from unknown person displays only phone number", () => {
   )
 })
 
-test.skip("mark massage as unread", () => {
+test("mark massage as unread", () => {
   const onClose = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
     <MessageDetails {...defaultProps} onClose={onClose} />
@@ -84,7 +84,7 @@ test("open contacts", () => {
   expect(defaultProps.onContactClick).toBeCalled()
 })
 
-test.skip("delete messages", () => {
+test("delete messages", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessageDetails {...defaultProps} />
   )

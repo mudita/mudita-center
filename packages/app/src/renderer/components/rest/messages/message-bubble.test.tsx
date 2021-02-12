@@ -11,14 +11,14 @@ const id = "123"
 const message =
   "2Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae"
 
-test.skip("by default dropdown is not visible", () => {
+test("by default dropdown is not visible", () => {
   const { getByTestId } = renderWithThemeAndIntl(
     <MessageBubble user={user} message={message} id={id} />
   )
   expect(getByTestId("dropdown")).not.toBeVisible()
 })
 
-test.skip("after clicking button, dropdown is displayed", () => {
+test("after clicking button, dropdown is displayed", () => {
   const { getByTestId } = renderWithThemeAndIntl(
     <MessageBubble user={user} message={message} id={id} />
   )
@@ -26,7 +26,7 @@ test.skip("after clicking button, dropdown is displayed", () => {
   expect(getByTestId("dropdown")).toBeVisible()
 })
 
-test.skip("forwards message", () => {
+test("forwards message", () => {
   const forwardMessage = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
     <MessageBubble
@@ -41,7 +41,7 @@ test.skip("forwards message", () => {
   expect(forwardMessage).toHaveBeenCalledWith(id)
 })
 
-test.skip("removes message", () => {
+test("removes message", () => {
   const removeMessage = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
     <MessageBubble
