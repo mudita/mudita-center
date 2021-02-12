@@ -21,7 +21,6 @@ test("returns news response properly", async () => {
   expect(result).toStrictEqual({ data })
 })
 
-
 test("returns help response properly", async () => {
   const data = {
     response: "ok",
@@ -44,4 +43,3 @@ test("returns 404 when no query is provided", () => {
     `Error: Request failed with status code 404`
   )
 })
-
