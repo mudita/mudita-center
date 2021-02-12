@@ -9,14 +9,14 @@ import { MuditaCenterServerRoutes } from "App/api/mudita-center-server/mudita-ce
 
 export class Client
   implements ClientInterface {
-  private client: AxiosInstance
+  private httpClient: AxiosInstance
   constructor() {
-    this.client = axios.create()
+    this.httpClient = axios.create()
   }
 
   async getNews<Entry>(): Promise<EntryCollection<Entry>> {
     try {
-      const { data }: AxiosResponse = await this.client.get(
+      const { data }: AxiosResponse = await this.httpClient.get(
         `${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerRoutes.News}`
       )
       return data
@@ -30,7 +30,7 @@ export class Client
       const params = new URLSearchParams({
         query: JSON.stringify(query),
       })
-      const { data }: AxiosResponse = await this.client.get(
+      const { data }: AxiosResponse = await this.httpClient.get(
         `${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerRoutes.Help}`,
         { params }
       )
