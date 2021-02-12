@@ -1,7 +1,6 @@
 import { Client } from "App/api/mudita-center-server/client"
 import MockAdapter from "axios-mock-adapter"
 import axios from "axios"
-import { ClientErrors } from "App/api/mudita-center-server/client-errors.enum"
 import { MuditaCenterServerRoutes } from "App/api/mudita-center-server/mudita-center-server-routes"
 
 let axiosMock = new MockAdapter(axios)
@@ -10,7 +9,7 @@ beforeEach(() => {
   axiosMock = new MockAdapter(axios)
 })
 
-test("return news response properly", async () => {
+test("returns news response properly", async () => {
   const data = {
     response: "ok",
   }
@@ -23,7 +22,7 @@ test("return news response properly", async () => {
 })
 
 
-test("return help response properly", async () => {
+test("returns help response properly", async () => {
   const data = {
     response: "ok",
   }
@@ -37,12 +36,12 @@ test("return help response properly", async () => {
   expect(result).toStrictEqual({ data })
 })
 
-test("return 404 when no query is provided", () => {
+test("returns 404 when no query is provided", () => {
   const client = new Client()
   expect(async () => {
     await client.getHelp({})
   }).rejects.toThrowError(
-    `${ClientErrors.InvalidQuery}: Error: Request failed with status code 404`
+    `Error: Request failed with status code 404`
   )
 })
 

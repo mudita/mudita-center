@@ -3,7 +3,6 @@ import {
   SyncCollection,
 } from "contentful"
 import axios, { AxiosInstance, AxiosResponse } from "axios"
-import { ClientErrors } from "App/api/mudita-center-server/client-errors.enum"
 import { ClientInterface } from "App/api/mudita-center-server/client.interface"
 import { MuditaCenterServerRoutes } from "App/api/mudita-center-server/mudita-center-server-routes"
 
@@ -21,7 +20,7 @@ export class Client
       )
       return data
     } catch (error) {
-      throw new Error(`${ClientErrors.InvalidQuery}: ${error}`)
+      throw new Error(error)
     }
   }
 
@@ -36,7 +35,7 @@ export class Client
       )
       return data
     } catch (error) {
-      throw new Error(`${ClientErrors.InvalidQuery}: ${error}`)
+      throw new Error(error)
     }
   }
 }
