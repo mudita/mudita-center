@@ -5,10 +5,7 @@ import { MuditaCenterServerRoutes } from "App/api/mudita-center-server/mudita-ce
 import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
 export class Client implements ClientInterface {
-  private httpClient: AxiosInstance
-  constructor() {
-    this.httpClient = axios.create()
-  }
+  private httpClient: AxiosInstance = axios.create()
 
   async getNews(query: { limit: number }): Promise<EntryCollection<NewsEntry>> {
     try {
