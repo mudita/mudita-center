@@ -105,11 +105,16 @@ const MessageDetails: FunctionComponent<Props> = ({
     <>
       {process.env.NODE_ENV !== "production" && (
         <SidebarHeaderIcon
-          Icon={Type.Contact}
-          onClick={handleContactClick}
+          Icon={Type.Calls}
+          onClick={noop}
           iconSize={IconSize.Big}
         />
       )}
+      <SidebarHeaderIcon
+        Icon={Type.Contact}
+        onClick={handleContactClick}
+        iconSize={IconSize.Big}
+      />
       {process.env.NODE_ENV !== "production" && (
         <>
           <SidebarHeaderIcon
