@@ -4,6 +4,8 @@ To follow these instructions you need to have [Node.js](https://nodejs.org) inst
 
 **Note:** Mudita Center utilizes Node.js and npm versions [specified in `package.json` file](package.json#L264). To downgrade your currently installed version of Node.js please use [Node Version Manager](https://github.com/nvm-sh/nvm).
 
+**Note:** Mudita Center utilizes [Lerna](https://github.com/lerna/lerna) for managing packages contained in this repository. Lerna installs the main packages and links internal dependencies. The project has been set up in a way which enables running test and linters for every package separately.
+
 ## Install packages
 
 After cloning the repository to your local environment please install all packages by typing:
@@ -35,7 +37,11 @@ Please run the following command to start the Mudita Center dev environment:
 npm run develop
 ```
 
-This will start the application with hot-reload so you can instantly start developing it.
+This will start the application with hot-reload so you can instantly start developing it. You can also enable logs by executing:
+
+```bash
+npm run develop — --stream
+```
 
 This command runs the User Interface and the backend simultaneously, however, if you wish to have logs from both processes in two separate consoles then please run the following commands in parallel in separate console tabs:
 
