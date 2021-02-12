@@ -4,7 +4,7 @@ import styled from "styled-components"
 import Dropdown from "Renderer/components/core/dropdown/dropdown.component" // , { DropdownPosition, }
 // import Icon from "Renderer/components/core/icon/icon.component"
 // import { Type } from "Renderer/components/core/icon/icon.config"
-import { User } from "Renderer/components/core/avatar/avatar.component"
+import Avatar, { User } from "Renderer/components/core/avatar/avatar.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
@@ -49,7 +49,11 @@ const MessageBubbleWrapper = styled.div<{
   flex-direction: ${({ interlocutor }) =>
     interlocutor ? "row-reverse" : "row"};
   justify-content: flex-end;
+  margin-left: ${({ previousAuthor, interlocutor }) =>
+    previousAuthor && interlocutor ? "0" : "7.5rem"};
   margin-top: ${({ previousAuthor }) => (previousAuthor ? "2.4rem" : "0")};
+  margin-right: ${({ previousAuthor, interlocutor }) =>
+    previousAuthor && !interlocutor ? "0" : "7.5rem"};
 `
 
 const Bubble = styled.div<{ interlocutor: boolean }>`
@@ -68,6 +72,16 @@ const Bubble = styled.div<{ interlocutor: boolean }>`
 // const ActionsButton = styled.span`
 //   cursor: pointer;
 // `
+
+const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
+  margin-left: ${({ interlocutor }) => (interlocutor ? "0" : "2.7rem")};
+  margin-right: ${({ interlocutor }) => (interlocutor ? "2.7rem" : "0")};
+  height: 4.8rem;
+  width: 4.8rem;
+  background-color: ${({ interlocutor }) =>
+    interlocutor ? backgroundColor("minor") : backgroundColor("message")};
+  align-self: end;
+`
 
 interface Props {
   id: string
@@ -144,6 +158,9 @@ const MessageBubble: FunctionComponent<Props> = ({
           </Bubble>
         </MessageBubbleContainer>
       </div>
+      {previousAuthor && (
+        <InitialsAvatar user={user} interlocutor={interlocutor} />
+      )}
     </MessageBubbleWrapper>
   )
 }
