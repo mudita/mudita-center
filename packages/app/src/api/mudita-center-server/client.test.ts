@@ -17,7 +17,7 @@ test("returns news response properly", async () => {
     data,
   })
   const client = new Client()
-  const result = await client.getNews()
+  const result = await client.getNews({limit: 3})
   expect(result).toStrictEqual({ data })
 })
 
