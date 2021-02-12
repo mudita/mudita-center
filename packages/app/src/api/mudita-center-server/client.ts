@@ -1,22 +1,25 @@
-import {
-  EntryCollection,
-  SyncCollection,
-} from "contentful"
+import { EntryCollection, SyncCollection } from "contentful"
 import axios, { AxiosInstance, AxiosResponse } from "axios"
 import { ClientInterface } from "App/api/mudita-center-server/client.interface"
 import { MuditaCenterServerRoutes } from "App/api/mudita-center-server/mudita-center-server-routes"
+import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
-export class Client
-  implements ClientInterface {
+export class Client implements ClientInterface {
   private httpClient: AxiosInstance
   constructor() {
     this.httpClient = axios.create()
   }
 
-  async getNews<Entry>(): Promise<EntryCollection<Entry>> {
+  async getNews(query: { limit: number }): Promise<EntryCollection<NewsEntry>> {
     try {
+      const params = new URLSearchParams({
+        query: JSON.stringify(query),
+      })
       const { data }: AxiosResponse = await this.httpClient.get(
-        `${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerRoutes.News}`
+        `${process.env.MUDITA_CENTER_SERVER_URL as string}${
+          MuditaCenterServerRoutes.News
+        }`,
+        { params }
       )
       return data
     } catch (error) {
@@ -30,7 +33,9 @@ export class Client
         query: JSON.stringify(query),
       })
       const { data }: AxiosResponse = await this.httpClient.get(
-        `${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerRoutes.Help}`,
+        `${process.env.MUDITA_CENTER_SERVER_URL as string}${
+          MuditaCenterServerRoutes.Help
+        }`,
         { params }
       )
       return data

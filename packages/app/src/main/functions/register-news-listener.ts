@@ -30,7 +30,9 @@ const registerNewsListener = () => {
     )
     try {
       const client = createClient()
-      const data: EntryCollection<NewsEntry> = await client.getNews()
+      const data: EntryCollection<NewsEntry> = await client.getNews({
+        limit: 3,
+      })
       const newestOnlineItemDate = Math.max(
         ...data.items.map((item: any) => new Date(item.sys.updatedAt).getTime())
       )
