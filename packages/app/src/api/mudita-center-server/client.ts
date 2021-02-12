@@ -16,7 +16,7 @@ export class Client implements ClientInterface {
         query: JSON.stringify(query),
       })
       const { data }: AxiosResponse = await this.httpClient.get(
-        `${process.env.MUDITA_CENTER_SERVER_URL as string}${
+        `${process.env.MUDITA_CENTER_SERVER_URL as string}/${
           MuditaCenterServerRoutes.News
         }`,
         { params }
@@ -33,7 +33,7 @@ export class Client implements ClientInterface {
         query: JSON.stringify(query),
       })
       const { data }: AxiosResponse = await this.httpClient.get(
-        `${process.env.MUDITA_CENTER_SERVER_URL as string}${
+        `${process.env.MUDITA_CENTER_SERVER_URL as string}/${
           MuditaCenterServerRoutes.Help
         }`,
         { params }
