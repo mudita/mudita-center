@@ -13,7 +13,7 @@ test("returns news response properly", async () => {
   const data = {
     response: "ok",
   }
-  axiosMock.onGet(`${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerRoutes.News}`).reply(200, {
+  axiosMock.onGet(`${process.env.MUDITA_CENTER_SERVER_URL as string}/${MuditaCenterServerRoutes.News}`).reply(200, {
     data,
   })
   const client = new Client()
@@ -25,7 +25,7 @@ test("returns help response properly", async () => {
   const data = {
     response: "ok",
   }
-  axiosMock.onGet(`${process.env.MUDITA_CENTER_SERVER_URL as string}${MuditaCenterServerRoutes.Help}`).reply(200, {
+  axiosMock.onGet(`${process.env.MUDITA_CENTER_SERVER_URL as string}/${MuditaCenterServerRoutes.Help}`).reply(200, {
     data,
   })
   const client = new Client()
