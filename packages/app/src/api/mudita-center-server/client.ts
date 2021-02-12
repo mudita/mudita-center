@@ -1,6 +1,9 @@
 import { EntryCollection, SyncCollection } from "contentful"
 import axios, { AxiosInstance, AxiosResponse } from "axios"
-import { ClientInterface } from "App/api/mudita-center-server/client.interface"
+import {
+  ClientInterface,
+  HelpQuery,
+} from "App/api/mudita-center-server/client.interface"
 import { MuditaCenterServerRoutes } from "App/api/mudita-center-server/mudita-center-server-routes"
 import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
 
@@ -10,7 +13,7 @@ export class Client implements ClientInterface {
   async getNews(query: { limit: number }): Promise<EntryCollection<NewsEntry>> {
     try {
       const params = new URLSearchParams({
-        query: JSON.stringify(query),
+        limit: String(query.limit),
       })
       const { data }: AxiosResponse = await this.httpClient.get(
         `${process.env.MUDITA_CENTER_SERVER_URL as string}/${
@@ -24,11 +27,14 @@ export class Client implements ClientInterface {
     }
   }
 
-  async getHelp(query: Record<string, any>): Promise<SyncCollection> {
+  async getHelp(query: HelpQuery): Promise<SyncCollection> {
     try {
       const params = new URLSearchParams({
-        query: JSON.stringify(query),
+        locale: query.locale as string,
       })
+      if (query.nextSyncToken) {
+        params.append("nextSyncToken", query.nextSyncToken)
+      }
       const { data }: AxiosResponse = await this.httpClient.get(
         `${process.env.MUDITA_CENTER_SERVER_URL as string}/${
           MuditaCenterServerRoutes.Help

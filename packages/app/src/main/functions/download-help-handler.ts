@@ -6,6 +6,7 @@ import { normalizeHelpData } from "Renderer/utils/contentful/normalize-help-data
 import { createClient } from "App/api/mudita-center-server"
 import logger from "App/main/utils/logger"
 import { SyncCollection } from "contentful"
+import { HelpQuery } from "App/api/mudita-center-server/client.interface"
 
 export const registerDownloadHelpHandler = () => {
   const nextSyncToken =
@@ -15,19 +16,15 @@ export const registerDownloadHelpHandler = () => {
 
   ipcMain.answerRenderer(HelpActions.DownloadContentfulData, async () => {
     const client = createClient()
-    const syncConfig: Record<string, any> = {
-      type: "Entry",
-      content_type: "helpItem",
+    const helpQuery: HelpQuery = {
       locale,
     }
     if (nextSyncToken) {
-      syncConfig.nextSyncToken = nextSyncToken
-    } else {
-      syncConfig.initial = true
+      helpQuery.nextSyncToken = nextSyncToken
     }
     try {
       return normalizeHelpData(
-        (await client.getHelp(syncConfig)) as SyncCollection,
+        (await client.getHelp(helpQuery)) as SyncCollection,
         locale
       )
     } catch (error) {
