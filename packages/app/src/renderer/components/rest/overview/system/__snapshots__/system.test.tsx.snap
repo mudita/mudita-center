@@ -1,0 +1,263 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 2.4rem;
+  line-height: 0.8;
+  font-weight: 700;
+  -webkit-letter-spacing: -0.06rem;
+  -moz-letter-spacing: -0.06rem;
+  -ms-letter-spacing: -0.06rem;
+  letter-spacing: -0.06rem;
+}
+
+.c4 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c5 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: #6a6a6a;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+}
+
+.c12 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 2.8rem;
+  width: 2.8rem;
+  position: relative;
+  font-style: normal;
+}
+
+.c12 svg {
+  width: 100%;
+  height: 100%;
+}
+
+.c9 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  height: 4rem;
+  color: #ffffff;
+  border-radius: 0.5rem;
+  background: #3b3f42;
+  border: 0.1rem solid #3b3f42;
+}
+
+.c9:hover {
+  background: #232426;
+}
+
+.c9 g {
+  fill: #ffffff;
+}
+
+.c13 {
+  margin: 0 0.8rem 0 0;
+}
+
+.c14 {
+  white-space: nowrap;
+}
+
+.c7 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  position: relative;
+}
+
+.c10 {
+  --radius: 0.5rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  z-index: 1;
+  pointer-events: all;
+  z-index: 3;
+}
+
+.c10:disabled {
+  pointer-events: none;
+}
+
+.c10:hover {
+  z-index: 2;
+}
+
+.c10:not(:first-of-type) {
+  border-radius: 0;
+  margin-left: -0.1rem;
+}
+
+.c10:first-of-type:not(:last-of-type) {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c10:last-of-type:not(:first-of-type) {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c0 {
+  display: grid;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  grid-template-areas: "Text Buttons";
+  grid-template-columns: auto minmax(18rem,1fr);
+  padding: 0 4.8rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+}
+
+.c1 {
+  grid-area: Text;
+}
+
+.c8 {
+  grid-area: Buttons;
+  justify-self: end;
+  min-width: 18rem;
+}
+
+.c11 {
+  padding: 0 1.6rem;
+  width: 50%;
+}
+
+.c11 svg {
+  height: initial;
+  width: initial;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: baseline;
+  -webkit-box-align: baseline;
+  -ms-flex-align: baseline;
+  align-items: baseline;
+}
+
+.c2 span {
+  margin-left: 0.8rem;
+  font-weight: 300;
+  text-transform: none;
+}
+
+.c6 {
+  margin-top: 1.2rem;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+  color: #6a6a6a;
+}
+
+<div>
+  <section
+    class="c0"
+  >
+    <div
+      class="c1"
+    >
+      <div
+        class="c2"
+      >
+        <h2
+          class="c3"
+        >
+          release-0.55.1
+        </h2>
+        <span
+          class="c4"
+        >
+          [value] view.name.overview.system.version
+        </span>
+      </div>
+      <p
+        class="c5 c6"
+      >
+        [value] view.name.overview.system.lastUpdate
+      </p>
+    </div>
+    <section
+      class="c7 c8"
+    >
+      <button
+        class="c9 c10 c11"
+        size="2"
+        type="button"
+      >
+        <i
+          class="c12 c13"
+          data-testid="icon-Reload"
+          height="2.8"
+          width="2.8"
+        >
+          <test-file-stub
+            image="test-file-stub"
+          />
+        </i>
+        <p
+          class="c4 c14"
+        >
+          [value] view.name.overview.system.checkForUpdates
+        </p>
+      </button>
+    </section>
+  </section>
+</div>
+`;
