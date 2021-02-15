@@ -123,40 +123,42 @@ const MessageBubble: FunctionComponent<Props> = ({
     >
       <div>
         <MessageBubbleContainer interlocutor={interlocutor}>
-          <MessageBubbleDropdown
-            toggler={
-              <ActionsButton data-testid="dropdown-action-button">
-                <Icon type={Type.More} />
-              </ActionsButton>
-            }
-            onOpen={open}
-            onClose={close}
-            dropdownPosition={
-              interlocutor ? DropdownPosition.Left : DropdownPosition.Right
-            }
-            interlocutor={interlocutor}
-            display={clicked === id}
-            data-testid="dropdown"
-          >
-            <ButtonComponent
-              labelMessage={{
-                id: "view.name.messages.messageDropdownForward",
-              }}
-              Icon={Type.Forward}
-              onClick={forward}
-              displayStyle={DisplayStyle.Dropdown}
-              data-testid="forward-message"
-            />
-            <ButtonComponent
-              labelMessage={{
-                id: "view.name.messages.messageDropdownDelete",
-              }}
-              Icon={Type.Delete}
-              onClick={remove}
-              displayStyle={DisplayStyle.Dropdown}
-              data-testid="delete-message"
-            />
-          </MessageBubbleDropdown>
+          {process.env.NODE_ENV !== "production" && (
+            <MessageBubbleDropdown
+              toggler={
+                <ActionsButton data-testid="dropdown-action-button">
+                  <Icon type={Type.More} />
+                </ActionsButton>
+              }
+              onOpen={open}
+              onClose={close}
+              dropdownPosition={
+                interlocutor ? DropdownPosition.Left : DropdownPosition.Right
+              }
+              interlocutor={interlocutor}
+              display={clicked === id}
+              data-testid="dropdown"
+            >
+              <ButtonComponent
+                labelMessage={{
+                  id: "view.name.messages.messageDropdownForward",
+                }}
+                Icon={Type.Forward}
+                onClick={forward}
+                displayStyle={DisplayStyle.Dropdown}
+                data-testid="forward-message"
+              />
+              <ButtonComponent
+                labelMessage={{
+                  id: "view.name.messages.messageDropdownDelete",
+                }}
+                Icon={Type.Delete}
+                onClick={remove}
+                displayStyle={DisplayStyle.Dropdown}
+                data-testid="delete-message"
+              />
+            </MessageBubbleDropdown>
+          )}
           <Bubble interlocutor={interlocutor} data-testid="message-content">
             <Text displayStyle={TextDisplayStyle.MediumLightText}>
               {message}
