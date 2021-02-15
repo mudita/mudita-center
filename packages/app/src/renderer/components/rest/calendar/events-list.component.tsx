@@ -24,6 +24,7 @@ import { TimeWindow } from "Renderer/components/rest/calendar/time-window.compon
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
 import { List, AutoSizer, ListRowProps } from "react-virtualized"
 import { intl } from "Renderer/utils/intl"
+import moment from "moment"
 
 const messages = defineMessages({
   unnamedEvent: {
@@ -32,7 +33,7 @@ const messages = defineMessages({
 })
 
 const Table = styled(BaseSelectableCalls)`
-  --columnsTemplate: 4rem 5fr 3fr 3fr;
+  --columnsTemplate: 4rem 3fr 3fr;
 `
 
 export interface EventsListProps extends UseTableSelect<CalendarEvent> {
@@ -51,6 +52,8 @@ const EventsList: FunctionComponent<EventsListProps> = ({
     const { id, name, startDate, endDate } = events[index]
     const { selected } = getRowStatus(events[index])
     const onCheckboxToggle = () => toggleRow(events[index])
+    const multiDays =
+      moment(startDate).format("L") !== moment(endDate).format("L")
     return (
       <Row
         active={selectedEventIndex === index}
@@ -68,16 +71,38 @@ const EventsList: FunctionComponent<EventsListProps> = ({
         </Col>
         <Col>{!name ? intl.formatMessage(messages.unnamedEvent) : name}</Col>
         <Col>
-          <TimeWindow startDate={startDate} endDate={endDate} />
-        </Col>
-        <Col>
-          <FormattedDate
-            value={startDate}
-            year="numeric"
-            month="long"
-            day="2-digit"
-            weekday="long"
-          />
+          {multiDays ? (
+            <>
+              <FormattedDate
+                value={startDate}
+                year="numeric"
+                month="long"
+                day="2-digit"
+                hour="2-digit"
+                minute="2-digit"
+              />{" "}
+              -{" "}
+              <FormattedDate
+                value={endDate}
+                year="numeric"
+                month="long"
+                day="2-digit"
+                hour="2-digit"
+                minute="2-digit"
+              />
+            </>
+          ) : (
+            <>
+              <FormattedDate
+                value={startDate}
+                year="numeric"
+                month="long"
+                day="2-digit"
+                weekday="long"
+              />{" "}
+              <TimeWindow startDate={startDate} endDate={endDate} />
+            </>
+          )}
         </Col>
       </Row>
     )
