@@ -1,11 +1,24 @@
-import { convertEvents } from "App/calendar/helpers/convert-events/convert-events"
+import { convertEventsToICal } from "App/calendar/helpers/convert-events/convert-events-to-ical"
 import { eventsData } from "App/seeds/calendar"
-import fs from "fs"
-import path from "path"
 
-const filePath = "file.ics"
+test("correct amount of events is converted", () => {
+  const convertedEvents = convertEventsToICal(eventsData)
+  const result = convertedEvents.print()
+  expect(result.events).toHaveLength(eventsData.length)
+})
 
-test("should ", () => {
-  convertEvents(eventsData, filePath)
-  expect(fs.existsSync(path.resolve(filePath))).toBeTruthy()
+test("result has correct prodId", () => {
+  const convertedEvents = convertEventsToICal(eventsData)
+  const result = convertedEvents.print()
+  expect(result).toHaveProperty("prodId", "//mudita.com//Mudita Center//EN")
+})
+
+test("converted event has expected keys and properties", () => {
+  const singleEvent = eventsData[0]
+  const convertedEvents = convertEventsToICal([singleEvent])
+  const { uid, start, end, summary } = convertedEvents.print().events[0]
+  expect(uid).toEqual(singleEvent.id)
+  expect(start).toEqual(singleEvent.startDate)
+  expect(end).toEqual(singleEvent.endDate)
+  expect(summary).toEqual(singleEvent.name)
 })
