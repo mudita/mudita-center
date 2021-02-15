@@ -2,7 +2,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { Provider } from "react-redux"
-import Messages from "./messages.component"
+import Messages from "./messages-ui.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { fireEvent } from "@testing-library/dom"
 import store from "Renderer/store"
@@ -25,7 +25,7 @@ const unknownCaller: Caller = {
   phoneNumber: "+123 456 123",
 }
 
-const topics: Topic[] = [
+export const topics: Topic[] = [
   {
     id: "1231",
     caller,

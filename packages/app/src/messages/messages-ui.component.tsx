@@ -52,6 +52,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   attachContactList,
   attachContactFlatList,
 }) => {
+  console.log("list: ", list)
   const [messagesList, setMessagesList] = useState(list)
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Topic>(
     findTopicBySearchParams(useURLSearchParams(), list)
