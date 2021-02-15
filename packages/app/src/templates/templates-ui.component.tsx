@@ -14,12 +14,15 @@ import TextEditor from "Renderer/components/core/text-editor/text-editor.compone
 import { defineMessages } from "react-intl"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
-import { TemplateCallback } from "App/templates/store/templates"
-import { makeNewTemplate } from "App/templates/store/templates"
+import {
+  makeNewTemplate,
+  TemplateCallback,
+} from "App/templates/store/templates"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteTemplateModal from "App/templates/components/delete-template-modal.component"
 import { TemplatesTestIds } from "App/templates/templates.enum"
 import { SortOrder } from "Common/enums/sort-order.enum"
+import { Template } from "App/templates/store/templates.interface"
 
 const messages = defineMessages({
   charactersNumber: { id: "view.name.messages.templates.charactersNumber" },
@@ -32,12 +35,6 @@ const TemplatesSidebar = styled(Sidebar)`
   --header-height: 5.6rem;
   margin-top: 4.7rem;
 `
-
-export interface Template {
-  date: Date
-  content: string
-  id: string
-}
 
 export interface TemplatesProps {
   templates: Template[]

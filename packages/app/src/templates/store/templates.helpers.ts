@@ -1,4 +1,4 @@
-import { Template } from "App/templates/templates-ui.component"
+import { Template } from "App/templates/store/templates.interface"
 import { removeNewLinesFromString } from "Renderer/utils/remove-new-lines-from-string"
 
 const prepareStringForSearch = (text: string) => {

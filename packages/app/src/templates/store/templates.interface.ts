@@ -1,5 +1,10 @@
-import { Template } from "App/templates/templates-ui.component"
 import { SortOrder } from "Common/enums/sort-order.enum"
+
+export interface Template {
+  date: Date
+  content: string
+  id: string
+}
 
 export interface StateProps {
   templates?: Template[]

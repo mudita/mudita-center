@@ -13,7 +13,7 @@ import {
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
-import { Template } from "App/templates/templates-ui.component"
+import { Template } from "App/templates/store/templates.interface"
 
 interface Props {
   templates: Template[]

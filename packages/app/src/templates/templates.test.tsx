@@ -6,10 +6,43 @@ import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { messages } from "App/templates/components/templates-panel.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
-import { mockedTemplateData } from "App/templates/__mocks__/template-modal-data"
 import { TemplatesTestIds } from "App/templates/templates.enum"
 import { fireEvent } from "@testing-library/dom"
 import { SortOrder } from "Common/enums/sort-order.enum"
+import { Template } from "App/templates/store/templates.interface"
+
+const mockedTemplates: Template[] = [
+  {
+    id: "123",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque? Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque? Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque? Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?",
+    date: new Date("2019-09-30T14:55:29.226Z"),
+  },
+  {
+    id: "321",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?",
+    date: new Date("2019-09-30T14:55:29.226Z"),
+  },
+  {
+    id: "1233",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?",
+    date: new Date("2019-09-30T14:55:29.226Z"),
+  },
+  {
+    id: "12333",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?",
+    date: new Date("2019-09-30T14:55:29.226Z"),
+  },
+  {
+    id: "123331",
+    content:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. A, neque?",
+    date: new Date("2019-09-30T14:55:29.226Z"),
+  },
+]
 
 mockAllIsIntersecting(true)
 
@@ -17,7 +50,7 @@ const renderTemplates = ({
   removeTemplates = noop,
   onSearchTermChange = noop,
   createNewTemplate = noop,
-  templates = mockedTemplateData,
+  templates = mockedTemplates,
   changeSortOrder = noop,
   sortOrder = SortOrder.Descending,
 }: Partial<TemplatesProps> = {}) => {
@@ -62,7 +95,7 @@ test("calls proper action after new template button click", () => {
 
 test("correct number of rows is rendered", () => {
   const { getAllByRole } = renderTemplates()
-  expect(getAllByRole("listitem")).toHaveLength(mockedTemplateData.length)
+  expect(getAllByRole("listitem")).toHaveLength(mockedTemplates.length)
 })
 
 test("when templates are empty, empty state information is rendered", () => {

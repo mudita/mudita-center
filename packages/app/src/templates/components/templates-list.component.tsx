@@ -16,7 +16,7 @@ import Text, {
 import { UseTableSidebar } from "Renderer/utils/hooks/use-table-sidebar"
 import { InView } from "react-intersection-observer"
 import { TemplatesTestIds } from "App/templates/templates.enum"
-import { Template } from "App/templates/templates-ui.component"
+import { Template } from "App/templates/store/templates.interface"
 import { useTemporaryStorage } from "Renderer/utils/hooks/use-temporary-storage/use-temporary-storage.hook"
 import { defineMessages } from "react-intl"
 import {
