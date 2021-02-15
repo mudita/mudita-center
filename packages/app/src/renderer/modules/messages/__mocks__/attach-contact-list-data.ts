@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 export const attachContactFlatListData = [
   {
     id: "6e3810c8-c917-45d2-ae17-b83f73127e08",

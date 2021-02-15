@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { storiesOf } from "@storybook/react"
 import Story from "Renderer/components/storybook/story.component"
 import { StoryModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"

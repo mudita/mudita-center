@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import settingsStore from "App/main/store/settings"
 import axios from "axios"
 import translationStores from "App/main/store/translations"
