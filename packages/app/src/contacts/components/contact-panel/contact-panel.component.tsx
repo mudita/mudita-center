@@ -5,7 +5,6 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import { messages } from "Renderer/components/rest/messages/templates/templates-panel.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
@@ -29,11 +28,12 @@ import ContactInputSearch from "App/contacts/components/contact-input-search/con
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
 
-const deleteModalMessages = defineMessages({
+const messages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
   export: { id: "view.name.phone.contacts.selectionExport" },
   body: { id: "view.name.phone.contacts.modal.deleteMultipleContacts" },
   deletingText: { id: "view.name.phone.contacts.modal.deleting.text" },
+  deleteButton: { id: "view.name.phone.contacts.action.delete" },
 })
 
 export interface ContactPanelProps {
@@ -76,9 +76,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
       selectedContacts.length === 1 && isNameAvailable(selectedContacts[0])
     const onDelete = async () => {
       modalService.openModal(
-        <LoadingStateDataModal
-          textMessage={deleteModalMessages.deletingText}
-        />,
+        <LoadingStateDataModal textMessage={messages.deletingText} />,
         true
       )
       const error = await delayResponse(deleteContacts(selectedContactsIds))
@@ -90,9 +88,9 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
       resetRows()
     }
     const modalConfig = {
-      title: intl.formatMessage(deleteModalMessages.title),
+      title: intl.formatMessage(messages.title),
       message: {
-        ...deleteModalMessages.body,
+        ...messages.body,
         values: {
           num: allItemsSelected ? -1 : selectedContactsIds.length,
           name: nameAvailable && createFullName(selectedContacts[0]),
@@ -116,7 +114,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
           buttons={[
             <ButtonComponent
               key="export"
-              label={intl.formatMessage(deleteModalMessages.export)}
+              label={intl.formatMessage(messages.export)}
               displayStyle={DisplayStyle.Link1}
               Icon={Type.UploadDark}
               onClick={exportContactsAction}

@@ -1,4 +1,4 @@
-import { initialState } from "Renderer/models/templates/templates"
+import { initialState } from "App/templates/store/templates"
 
 export const todaysTemplate = {
   id: "bd100c08-bc73-4e31-b8ae-42345asda",

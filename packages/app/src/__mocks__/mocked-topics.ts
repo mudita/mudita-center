@@ -1,4 +1,4 @@
-import { Topic } from "Renderer/models/messages/messages.interface"
+import { Topic } from "App/messages/store/messages.interface"
 
 export const mockedTopics: Topic[] = [
   {
