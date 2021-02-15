@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { Response, ResponseStatus } from "../device/device.types"
 
 // Enum starts from 1000 temporary until it will be documented in Pure API
