@@ -1,5 +1,9 @@
 /**
- *
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
+/**
  * The function set a timeout. Returns a promise of the timeout and a function to cancel a set timeout.
  *
  * Parameter Value
