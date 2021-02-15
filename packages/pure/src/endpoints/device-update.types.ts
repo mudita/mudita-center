@@ -1,5 +1,6 @@
 import { Response, ResponseStatus } from "../device/device.types"
 
+// Enum starts from 1000 temporary until it will be documented in Pure API
 export enum DeviceUpdateErrorResponseCode {
   NoError = 1000,
   CantCreateTempDir,
