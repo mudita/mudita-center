@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React, { useEffect, useRef, useState } from "react"
 import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter"
 import jsx from "react-syntax-highlighter/dist/cjs/languages/prism/jsx"

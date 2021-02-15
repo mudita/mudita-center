@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import { ResultsState } from "App/contacts/store/contacts.enum"
 
