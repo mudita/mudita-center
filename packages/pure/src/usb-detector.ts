@@ -21,7 +21,7 @@ class UsbDetector {
     return this
   }
 
-  public onAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
+  public onAttachDevice(listener: (event: UsbDetectorPortInfo) => Promise<void> | void): void {
     this.#eventEmitter.on(UsbDetectorEventName.Attach, listener)
   }
 
