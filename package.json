@@ -32,7 +32,7 @@
     "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist --",
     "app:electron:rebuild-serialport": "lerna run --scope app electron:rebuild-serialport --",
     "app:translations:update": "node packages/app/scripts/updateDefaultTranslations.js",
-    "app:translations:overwrite": "cross-env OVERWRITE=true npm run translations:update",
+    "app:translations:overwrite": "cross-env OVERWRITE=true npm run app:translations:update",
     "app:translations:send": "node packages/app/scripts/updatePhraseTranslations.js",
     "app:translations:sort": "node packages/app/scripts/sortTranslations.js",
     "postapp:translations:send": "npm run app:translations:sort",
