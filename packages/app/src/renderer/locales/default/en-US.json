@@ -85,6 +85,7 @@
   "view.generic.yearly": "Yearly",
   "view.name.calendar": "Calendar",
   "view.name.calendar.deleteButton": "Delete",
+  "view.name.calendar.export.saveDialogTitle": "{count, plural, one {Exporting event} other {Exporting # events}}",
   "view.name.calendar.exportButton": "Export",
   "view.name.calendar.manualImportText": "Import from ics file",
   "view.name.calendar.modal.authorizationFailed.body": "You need to allow all requested access rights in order to synchronize your calendar",
