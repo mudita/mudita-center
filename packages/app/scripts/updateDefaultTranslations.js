@@ -25,17 +25,15 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
       defaultLanguage: "",
     }
 
-    console.log("path", path.resolve("packages/app/src/"))
-
     const { data: locales } = await axios.get(localesUrl, axiosConfig)
-
-    await fs.ensureDir("packages/app/src/renderer/locales/default/")
+    await fs.ensureDir(path.resolve(path.join("packages", "app", "src", "renderer", "locales", "default")))
 
     const nonEmptyLocales = locales.filter(
       (locale) => Object.keys(locale).length > 0
     )
 
     for (const { id, code, default: defaultLanguage } of nonEmptyLocales) {
+      const localesJsonPath = path.join("packages", "app", "src", "renderer", "locales", "default", `${code}.json`)
       const { data } = await axios.get(`${localesUrl}/${id}/download`, {
         ...axiosConfig,
         params: { file_format: "react_simple_json" },
@@ -52,13 +50,13 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
           if (
             fs.pathExists(
               path.resolve(
-                `packages/app/src/renderer/locales/default/${code}.json`
+                localesJsonPath
               )
             )
           ) {
             const oldTranslations = await fs.readJson(
               path.resolve(
-                `packages/app/src/renderer/locales/default/${code}.json`
+                localesJsonPath
               )
             )
             translations = {
@@ -70,7 +68,7 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
 
         await fs.writeJson(
           path.resolve(
-            `packages/app/src/renderer/locales/default/${code}.json`
+            localesJsonPath
           ),
           translations
         )
@@ -82,7 +80,12 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
       }
     }
 
-    await fs.writeJson(path.resolve("packages/app/src/translations.config.json"), config)
+    await fs.writeJson(
+      path.resolve(
+        path.join("packages", "app", "src", "translations.config.json")
+      ),
+      config
+    )
     console.log("Translations config updated successfully")
   } catch (error) {
     console.log(error)
