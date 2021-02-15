@@ -10,6 +10,7 @@ const defaultProps = {
   onAddEventClick: jest.fn(),
   onSynchroniseClick: jest.fn(),
   onEventSelect: jest.fn(),
+  resetRows: jest.fn(),
   selectedEvents: [],
   events: [
     {
