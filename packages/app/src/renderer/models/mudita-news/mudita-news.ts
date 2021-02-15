@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { RootState } from "Renderer/store"
 import { Store } from "Renderer/models/mudita-news/mudita-news.interface"
 import { Slicer } from "@rematch/select"

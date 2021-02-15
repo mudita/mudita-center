@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React, { ChangeEvent } from "react"
 import { Link, useHistory } from "react-router-dom"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"

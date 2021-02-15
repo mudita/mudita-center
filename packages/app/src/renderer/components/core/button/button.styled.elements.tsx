@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { Link, NavLink } from "react-router-dom"
 import transition from "Renderer/styles/functions/transition"
 import theme from "Renderer/styles/theming/theme"
