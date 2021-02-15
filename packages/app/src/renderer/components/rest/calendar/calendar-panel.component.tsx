@@ -33,6 +33,7 @@ interface CalendarPanelProps extends CalendarInputSelectProps {
   selectedEvents: CalendarEvent[]
   allEventsSelected?: boolean
   toggleAll?: UseTableSelect<CalendarEvent>["toggleAll"]
+  resetRows: UseTableSelect<CalendarEvent>["resetRows"]
 }
 
 const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
@@ -43,6 +44,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
   selectedEvents,
   allEventsSelected,
   toggleAll = noop,
+  resetRows,
 }) => {
   const selectedEventsCount = selectedEvents.length
   const selectionMode = selectedEventsCount > 0
@@ -51,7 +53,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
     const exported = await exportEvents(selectedEvents)
 
     if (exported) {
-      console.log("exported")
+      resetRows()
     }
   }
   return (
