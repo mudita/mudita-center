@@ -3,28 +3,120 @@ import React from "react"
 import MessageDetails from "App/messages/components/message-details.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
-import {
-  mockedDetails,
-  mockedMessagesFromSecondNumber,
-  unknownCallerMockedDetails,
-} from "App/messages/__mocks__/caller-data"
+import { Topic } from "App/messages/store/messages.interface"
+import { createFakeCaller } from "App/messages/helpers/create-fake-caller"
+import { Caller } from "Renderer/models/calls/calls.interface"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
+const caller = createFakeCaller()
+
+const unknownCaller: Caller = {
+  id: "11",
+  firstName: "",
+  lastName: "",
+  phoneNumber: "+123 456 123",
+}
+const unknownCallerTopic: Topic = {
+  id: "1231",
+  caller: unknownCaller,
+  unread: true,
+  messages: [
+    {
+      author: unknownCaller,
+      id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+      date: new Date("2019-10-18T11:27:15.256Z"),
+      content:
+        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+      interlocutor: true,
+    },
+    {
+      author: unknownCaller,
+      id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+      date: new Date("2019-10-18T11:45:35.112Z"),
+      content:
+        "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+      interlocutor: true,
+    },
+  ],
+}
+
+const topic: Topic = {
+  id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+  unread: true,
+  caller,
+  messages: [
+    {
+      author: caller,
+      id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+      date: new Date("2019-10-18T11:27:15.256Z"),
+      content:
+        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+      interlocutor: true,
+    },
+    {
+      author: caller,
+      id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+      date: new Date("2019-10-18T11:45:35.112Z"),
+      content:
+        "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+
+      interlocutor: true,
+    },
+  ],
+}
 const defaultProps = {
   onDeleteClick: jest.fn(),
   onUnreadStatus: jest.fn(),
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
-  details: mockedDetails,
+  details: topic,
 }
 
+const contactWithMutlitpleNumbers: Caller = {
+  id: "123",
+  firstName: "Johny",
+  lastName: "",
+  phoneNumber: "1123",
+  secondaryPhoneNumber: "345345",
+}
+
+const mockedTopicFromSecondNumber: Topic = {
+  id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+  caller: {
+    id: "123",
+    firstName: "Ivan",
+    lastName: "",
+    phoneNumber: "345345",
+    secondaryPhoneNumber: "345345",
+  },
+  unread: true,
+  messages: [
+    {
+      author: contactWithMutlitpleNumbers,
+      id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+      date: new Date("2019-10-18T11:27:15.256Z"),
+      content:
+        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+      interlocutor: true,
+    },
+    {
+      author: contactWithMutlitpleNumbers,
+      id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+      date: new Date("2019-10-18T11:45:35.112Z"),
+      content:
+        "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+
+      interlocutor: true,
+    },
+  ],
+}
 const multipleContactsProps = {
   onDeleteClick: jest.fn(),
   onUnreadStatus: jest.fn(),
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
-  details: mockedMessagesFromSecondNumber,
+  details: mockedTopicFromSecondNumber,
 }
 
 test("sidebar close button informs parent about closing", () => {
@@ -41,10 +133,10 @@ test("left part of sidebar displays details correctly", () => {
     <MessageDetails {...defaultProps} />
   )
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
-    `${mockedDetails.caller.firstName} ${mockedDetails.caller.lastName}`
+    `${topic.caller.firstName} ${topic.caller.lastName}`
   )
   expect(getByTestId("sidebar-phone-number")).toHaveTextContent(
-    mockedDetails.caller.phoneNumber
+    topic.caller.phoneNumber
   )
 })
 
@@ -52,17 +144,15 @@ test("correct amount of message bubbles is displayed", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessageDetails {...defaultProps} />
   )
-  expect(getAllByTestId("message-content")).toHaveLength(
-    mockedDetails.messages.length
-  )
+  expect(getAllByTestId("message-content")).toHaveLength(topic.messages.length)
 })
 
 test("message from unknown person displays only phone number", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails {...defaultProps} details={unknownCallerMockedDetails} />
+    <MessageDetails {...defaultProps} details={unknownCallerTopic} />
   )
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
-    unknownCallerMockedDetails.caller.phoneNumber
+    unknownCallerTopic.caller.phoneNumber
   )
 })
 
@@ -72,7 +162,7 @@ test("mark massage as unread", () => {
     <MessageDetails {...defaultProps} onClose={onClose} />
   )
   fireEvent.click(getByTestId("icon-BorderCheckIcon"))
-  expect(defaultProps.onUnreadStatus).toBeCalledWith([mockedDetails.id])
+  expect(defaultProps.onUnreadStatus).toBeCalledWith([topic.id])
   expect(onClose).toBeCalled()
 })
 
@@ -89,7 +179,7 @@ test("delete messages", () => {
     <MessageDetails {...defaultProps} />
   )
   fireEvent.click(getAllByTestId("icon-Delete")[0])
-  expect(defaultProps.onDeleteClick).toBeCalledWith(mockedDetails.id)
+  expect(defaultProps.onDeleteClick).toBeCalledWith(topic.id)
 })
 
 test("show info about contact with multiple numbers", () => {

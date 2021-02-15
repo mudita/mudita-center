@@ -5,14 +5,91 @@ import { Provider } from "react-redux"
 import Messages from "./messages.component"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { fireEvent } from "@testing-library/dom"
-import { mockedList } from "App/messages/__mocks__/caller-data"
 import store from "Renderer/store"
 import { intl } from "Renderer/utils/intl"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
+import { Topic } from "App/messages/store/messages.interface"
+import { createFakeCaller } from "App/messages/helpers/create-fake-caller"
+import { Caller } from "Renderer/models/calls/calls.interface"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
+
+const caller = createFakeCaller()
+
+const unknownCaller: Caller = {
+  id: "11",
+  firstName: "",
+  lastName: "",
+  phoneNumber: "+123 456 123",
+}
+
+const topics: Topic[] = [
+  {
+    id: "1231",
+    caller,
+    unread: true,
+    messages: [
+      {
+        author: caller,
+        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+        date: new Date("2019-10-18T11:27:15.256Z"),
+        content:
+          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+      },
+      {
+        author: caller,
+        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+        date: new Date("2019-10-18T11:45:35.112Z"),
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+      },
+    ],
+  },
+  {
+    id: "1233",
+    caller: unknownCaller,
+    unread: false,
+    messages: [
+      {
+        author: unknownCaller,
+        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+        date: new Date("2019-10-18T11:27:15.256Z"),
+        content:
+          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+      },
+      {
+        author: unknownCaller,
+        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+        date: new Date("2019-10-18T11:45:35.112Z"),
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+      },
+    ],
+  },
+  {
+    id: "1234",
+    caller,
+    unread: false,
+    messages: [
+      {
+        author: caller,
+        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+        date: new Date("2019-10-18T11:27:15.256Z"),
+        content:
+          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+      },
+      {
+        author: caller,
+        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+        date: new Date("2019-10-18T11:45:35.112Z"),
+        content:
+          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+      },
+    ],
+  },
+]
 
 const renderer = () => {
   const history = createMemoryHistory()
@@ -22,7 +99,7 @@ const renderer = () => {
         <Messages
           language={"en"}
           searchValue={""}
-          list={mockedList}
+          list={topics}
           attachContactList={[]}
           attachContactFlatList={[]}
         />
@@ -72,7 +149,7 @@ test("dropdown call button has correct content", () => {
       {
         id: "component.dropdown.call",
       },
-      { name: mockedList[0].caller.firstName }
+      { name: topics[0].caller.firstName }
     )
   )
 })
@@ -80,7 +157,7 @@ test("dropdown call button has correct content", () => {
 test("displays correct amount of dropdown call buttons", () => {
   const { getAllByTestId } = renderer()
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-call")).toHaveLength(mockedList.length)
+  expect(getAllByTestId("dropdown-call")).toHaveLength(topics.length)
 })
 
 test("dropdown contact details button has correct content", () => {
@@ -118,9 +195,7 @@ test("dropdown mark as read button has correct content ", () => {
 test("displays correct amount of dropdown mark as read buttons", () => {
   const { getAllByTestId } = renderer()
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(
-    mockedList.length
-  )
+  expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(topics.length)
 })
 
 test("dropdown delete button has correct content", () => {
@@ -136,7 +211,7 @@ test("dropdown delete button has correct content", () => {
 test("displays correct amount of dropdown delete buttons", () => {
   const { getAllByTestId } = renderer()
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-delete")).toHaveLength(mockedList.length)
+  expect(getAllByTestId("dropdown-delete")).toHaveLength(topics.length)
 })
 
 test("when at least one checkbox is checked, selection manager is displayed", () => {
