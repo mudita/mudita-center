@@ -146,7 +146,11 @@ const storeConfig = {
   plugins: [selectPlugin()],
   redux: {
     initialState: {
-      templates: mockedTemplates,
+      templates: {
+        templates: mockedTemplates,
+        searchValue: "",
+        sortOrder: SortOrder.Descending,
+      },
     },
   },
 }
