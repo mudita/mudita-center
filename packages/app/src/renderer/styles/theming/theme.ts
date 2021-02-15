@@ -119,8 +119,7 @@ const theme = {
     textarea: 1.8,
   },
   font: {
-    primary:
-      "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
+    primary: "GT Pressura, Roboto Condensed, sans-serif",
   },
   grid: {
     columnWidth,
