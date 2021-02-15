@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import Adapters from "Backend/adapters/adapters.interface"
 import createFakeElectronAppAdapter from "Backend/adapters/electron-app/fake-electron-app.adapter"
 import createFakePurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups-fake.adapter"

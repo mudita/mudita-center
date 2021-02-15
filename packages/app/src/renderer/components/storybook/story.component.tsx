@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React, { useContext, useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css, FlattenInterpolation } from "styled-components"

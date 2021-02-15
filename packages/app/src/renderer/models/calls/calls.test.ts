@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { init } from "@rematch/core"
 import calls from "Renderer/models/calls/calls"
 import { Call, VisibilityFilter } from "Renderer/models/calls/calls.interface"

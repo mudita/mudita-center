@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 export const mockedCUrrentUser = {
   id: "5de92281daa2dc02ac4881f8",
   forename: "Alba",
