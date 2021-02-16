@@ -29,7 +29,8 @@ const registerEventsExportListener = () => {
         defaultPath: path.join(
           app.getPath("documents"),
           intl.formatMessage(messages.defaultFilename, {
-            date: new Date(Date.now()).toISOString(),
+            name: events[0].name,
+            numberOfEvents: events.length ,
           })
         ),
         properties: ["createDirectory", "showOverwriteConfirmation"],
