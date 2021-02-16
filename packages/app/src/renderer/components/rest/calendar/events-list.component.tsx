@@ -99,7 +99,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
                 month="long"
                 day="2-digit"
                 weekday="long"
-              />{" "}
+              />{", "}
               <TimeWindow startDate={startDate} endDate={endDate} />
             </>
           )}
