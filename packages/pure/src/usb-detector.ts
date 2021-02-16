@@ -1,4 +1,4 @@
-import usb, { Device, DeviceDescriptor } from "usb"
+import usb, { Device } from "usb"
 import { EventEmitter } from "events"
 import { PortInfo } from "serialport"
 
