@@ -29,7 +29,7 @@ export const registerDownloadHelpHandler = () => {
     }
     try {
       return normalizeHelpData(
-        (await client.getHelp(helpQuery)) as SyncCollection,
+        (await client.getHelp(helpQuery)),
         locale
       )
     } catch (error) {
