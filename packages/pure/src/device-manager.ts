@@ -46,12 +46,16 @@ class DeviceManager implements PureDeviceManager {
       .map(({ path }) => this.createDevice(path))
   }
 
-  public onAttachDevice(listener: (event: PureDevice) => void): void {
-    this.#eventEmitter.on(DeviceManagerEventName.AttachedDevice, listener)
+  public onAttachDevice(listener: (event: PureDevice) => Promise<void> | void): void {
+    this.#eventEmitter.on(DeviceManagerEventName.AttachedDevice, (event) => {
+      void listener(event)
+    })
   }
 
-  public offAttachDevice(listener: (event: PureDevice) => void): void {
-    this.#eventEmitter.off(DeviceManagerEventName.AttachedDevice, listener)
+  public offAttachDevice(listener: (event: PureDevice) => Promise<void> | void): void {
+    this.#eventEmitter.off(DeviceManagerEventName.AttachedDevice, (event) => {
+      void listener(event)
+    })
   }
 
   private registerAttachDeviceEmitter(): void {
