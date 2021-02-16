@@ -47,11 +47,15 @@ class DeviceManager implements PureDeviceManager {
   }
 
   public onAttachDevice(listener: (event: PureDevice) => Promise<void> | void): void {
-    this.#eventEmitter.on(DeviceManagerEventName.AttachedDevice, listener)
+    this.#eventEmitter.on(DeviceManagerEventName.AttachedDevice, (event) => {
+      void listener(event)
+    })
   }
 
   public offAttachDevice(listener: (event: PureDevice) => Promise<void> | void): void {
-    this.#eventEmitter.off(DeviceManagerEventName.AttachedDevice, listener)
+    this.#eventEmitter.off(DeviceManagerEventName.AttachedDevice, (event) => {
+      void listener(event)
+    })
   }
 
   private registerAttachDeviceEmitter(): void {
