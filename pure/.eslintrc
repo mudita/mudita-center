@@ -1,6 +1,0 @@
-{
-  "extends": "@mudita",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  }
-}

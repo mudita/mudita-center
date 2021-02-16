@@ -1,0 +1,297 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+.c3 {
+  margin: 0;
+  font-size: 2.4rem;
+  line-height: 0.8;
+  font-weight: 700;
+  -webkit-letter-spacing: -0.06rem;
+  -moz-letter-spacing: -0.06rem;
+  -ms-letter-spacing: -0.06rem;
+  letter-spacing: -0.06rem;
+}
+
+.c10 {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.05;
+}
+
+.c12 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: #6a6a6a;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+  font-weight: 300;
+}
+
+.c16 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  -webkit-letter-spacing: 0.1rem;
+  -moz-letter-spacing: 0.1rem;
+  -ms-letter-spacing: 0.1rem;
+  letter-spacing: 0.1rem;
+}
+
+.c6 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 1.6rem;
+  width: 1.6rem;
+  position: relative;
+  font-style: normal;
+}
+
+.c6 svg {
+  width: 100%;
+  height: 100%;
+}
+
+.c13 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: none;
+  -webkit-transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  transition: background 250ms ease-in-out, color 250ms ease-in-out, border 250ms ease-in-out;
+  cursor: pointer;
+  outline: none;
+  box-sizing: border-box;
+  width: 17rem;
+  pointer-events: none;
+  height: 4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid #3b3f42;
+  border: 0.1rem solid #cdcecf;
+  color: #6a6a6a;
+}
+
+.c13 g {
+  fill: #000000;
+}
+
+.c13 g {
+  fill: #cdcecf;
+}
+
+.c13:hover {
+  border-color: #000000;
+}
+
+.c17 {
+  white-space: nowrap;
+}
+
+.c4 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  position: relative;
+}
+
+.c14 {
+  --radius: 0.5rem;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  z-index: 1;
+  pointer-events: all;
+}
+
+.c14:disabled {
+  pointer-events: none;
+}
+
+.c14:hover {
+  z-index: 2;
+}
+
+.c14:not(:hover) {
+  border: 0.1rem solid #cdcecf;
+  color: #6a6a6a;
+}
+
+.c14:not(:hover) g {
+  fill: #cdcecf;
+}
+
+.c14:not(:first-of-type) {
+  border-radius: 0;
+  margin-left: -0.1rem;
+}
+
+.c14:first-of-type:not(:last-of-type) {
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+
+.c14:last-of-type:not(:first-of-type) {
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+.c9 {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  max-width: 24.3rem;
+  background-color: #ffffff;
+  padding: 1.6rem;
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+  box-shadow: 0 1rem 5.5rem -0.5rem rgba(214,214,214,0.5);
+}
+
+.c7 {
+  position: absolute;
+  top: -0.8rem;
+  left: -0.8rem;
+  z-index: 4;
+}
+
+.c7:hover + .c8 {
+  visibility: visible;
+  opacity: 1;
+  z-index: 4;
+}
+
+.c11 {
+  margin-bottom: 0.8rem;
+}
+
+.c0 {
+  display: grid;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  grid-template-areas: "Text Buttons";
+  grid-template-columns: auto minmax(18rem,1fr);
+  padding: 0 4.8rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+}
+
+.c1 {
+  grid-area: Text;
+}
+
+.c5 {
+  grid-area: Buttons;
+  justify-self: end;
+  min-width: 18rem;
+}
+
+.c15 {
+  padding: 0 1.6rem;
+  width: 50%;
+}
+
+.c15 svg {
+  height: initial;
+  width: initial;
+}
+
+.c2 p {
+  margin-top: 1.2rem;
+  -webkit-letter-spacing: 0.04rem;
+  -moz-letter-spacing: 0.04rem;
+  -ms-letter-spacing: 0.04rem;
+  letter-spacing: 0.04rem;
+  color: #6a6a6a;
+}
+
+<div>
+  <section
+    class="c0"
+  >
+    <div
+      class="c1 c2"
+    >
+      <h2
+        class="c3"
+      >
+        [value] view.name.overview.network.name
+      </h2>
+    </div>
+    <section
+      class="c4 c5"
+    >
+      <i
+        class="c6 c7"
+        data-testid="icon-Tooltip"
+        height="1.6"
+        width="1.6"
+      >
+        <test-file-stub
+          image="test-file-stub"
+        />
+      </i>
+      <div
+        class="c8 c9"
+        data-testid="tooltip"
+      >
+        <p
+          class="c10 c11"
+        >
+          [value] view.name.overview.network.tooltipTitle
+        </p>
+        <p
+          class="c12"
+        >
+          [value] view.name.overview.network.tooltipDescription
+        </p>
+      </div>
+      <button
+        class="c13 c14 c15"
+        disabled=""
+        size="2"
+        type="button"
+      >
+        <p
+          class="c16 c17"
+        >
+          [value] view.name.overview.network.noSimInserted
+        </p>
+      </button>
+    </section>
+  </section>
+</div>
+`;
