@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React, { useEffect, useRef } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
@@ -103,26 +108,32 @@ const MessageDetails: FunctionComponent<Props> = ({
 
   const icons = (
     <>
-      <SidebarHeaderIcon
-        Icon={Type.Calls}
-        onClick={noop}
-        iconSize={IconSize.Big}
-      />
+      {process.env.NODE_ENV !== "production" && (
+        <SidebarHeaderIcon
+          Icon={Type.Calls}
+          onClick={noop}
+          iconSize={IconSize.Big}
+        />
+      )}
       <SidebarHeaderIcon
         Icon={Type.Contact}
         onClick={handleContactClick}
         iconSize={IconSize.Big}
       />
-      <SidebarHeaderIcon
-        Icon={Type.BorderCheckIcon}
-        onClick={markAsUnread}
-        iconSize={IconSize.Big}
-      />
-      <SidebarHeaderIcon
-        Icon={Type.Delete}
-        onClick={handleDeleteClick}
-        iconSize={IconSize.Big}
-      />
+      {process.env.NODE_ENV !== "production" && (
+        <>
+          <SidebarHeaderIcon
+            Icon={Type.BorderCheckIcon}
+            onClick={markAsUnread}
+            iconSize={IconSize.Big}
+          />
+          <SidebarHeaderIcon
+            Icon={Type.Delete}
+            onClick={handleDeleteClick}
+            iconSize={IconSize.Big}
+          />
+        </>
+      )}
     </>
   )
 
@@ -210,18 +221,20 @@ const MessageDetails: FunctionComponent<Props> = ({
           )}
         </MessageBubblesWrapper>
       </MessagesWrapper>
-      <TextareaWrapper>
-        <Textarea
-          type="textarea"
-          value={""}
-          onChange={noop}
-          leadingIcons={leadingIcons}
-          trailingIcons={trailingIcon}
-          label={intl.formatMessage({
-            id: "view.name.messages.textAreaPlaceholder",
-          })}
-        />
-      </TextareaWrapper>
+      {process.env.NODE_ENV !== "production" && (
+        <TextareaWrapper>
+          <Textarea
+            type="textarea"
+            value={""}
+            onChange={noop}
+            leadingIcons={leadingIcons}
+            trailingIcons={trailingIcon}
+            label={intl.formatMessage({
+              id: "view.name.messages.textAreaPlaceholder",
+            })}
+          />
+        </TextareaWrapper>
+      )}
     </MessagesSidebar>
   )
 }

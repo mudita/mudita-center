@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 /*
   There can be an issue when a modal will be requested to open just after the closing
   the previous one, without awaiting the closing procedure to end.

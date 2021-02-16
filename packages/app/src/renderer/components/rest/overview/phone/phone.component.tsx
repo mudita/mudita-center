@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { PhoneProps } from "Renderer/components/rest/overview/phone/phone.interface"
@@ -23,6 +28,7 @@ import {
   SignalStats,
   PhoneDescription,
 } from "Renderer/components/rest/overview/phone/phone.styled"
+import { URL_MAIN } from "Renderer/constants/urls"
 
 const messages = defineMessages({
   battery: { id: "view.name.overview.phone.battery" },
@@ -41,7 +47,7 @@ const Phone: FunctionComponent<PhoneProps> = ({
   const history = useHistory()
   const handleDisconnect = () => {
     onDisconnect()
-    history.push("/news")
+    history.push(URL_MAIN.news)
   }
 
   const strength = Math.round(networkLevel * 100)

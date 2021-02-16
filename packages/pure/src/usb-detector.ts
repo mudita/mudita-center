@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import usb, { Device, DeviceDescriptor } from "usb"
 import { EventEmitter } from "events"
 import { PortInfo } from "serialport"
@@ -16,8 +21,10 @@ class UsbDetector {
     return this
   }
 
-  public onAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
-    this.#eventEmitter.on(UsbDetectorEventName.Attach, listener)
+  public onAttachDevice(listener: (event: UsbDetectorPortInfo) => Promise<void> | void): void {
+    this.#eventEmitter.on(UsbDetectorEventName.Attach, (event) => {
+      void listener(event)
+    })
   }
 
   public offAttachDevice(listener: (event: UsbDetectorPortInfo) => void): void {
@@ -50,9 +57,10 @@ class UsbDetector {
   }
 
   private registerAttachDeviceEmitter() {
-    usb.on("attach", async (device: Device) => {
-      const portInfo = await this.getPortInfo(device)
-      this.#eventEmitter.emit(UsbDetectorEventName.Attach, portInfo)
+    usb.on("attach",  (device: Device) => {
+      void this.getPortInfo(device).then(portInfo => {
+        this.#eventEmitter.emit(UsbDetectorEventName.Attach, portInfo)
+      })
     })
   }
 }

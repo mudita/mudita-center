@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import Adapters from "Backend/adapters/adapters.interface"
 import createEndpoint from "Backend/endpoints/create-endpoint"

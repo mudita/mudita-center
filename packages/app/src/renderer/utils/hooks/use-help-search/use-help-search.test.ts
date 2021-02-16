@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { act, renderHook } from "@testing-library/react-hooks"
 import { useHelpSearch } from "Renderer/utils/hooks/use-help-search/use-help-search"
 import { ipcRenderer } from "electron-better-ipc"

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 const defaultTranslations = require("../renderer/locales/default/en-US.json")
 
 module.exports = (received) => {
