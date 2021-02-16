@@ -3,21 +3,21 @@ const axios = require("axios")
 const fs = require("fs-extra")
 const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
 
-/**
- * Function that updates default translations files. It fetches all translations
- * registered for given project on phrase.com (that are not empty) and creates
- * according JSON files in src/renderer/locales/default/ directory.
- *
- * By default local translations are merged with the new ones. This can be made
- * with
- *    "npm run translations:update"
- * command, while
- *    "npm run translations:overwrite"
- * will overwrite local translations file.
- *
- * It also updates src/translations.config.json file that contains info about
- * all available languages and the default one set on phrase.com app.
- */
+  /**
+   * Function that updates default translations files. It fetches all translations
+   * registered for given project on phrase.com (that are not empty) and creates
+   * according JSON files in src/renderer/locales/default/ directory.
+   *
+   * By default local translations are merged with the new ones. This can be made
+   * with
+   *    "npm run translations:update"
+   * command, while
+   *    "npm run translations:overwrite"
+   * will overwrite local translations file.
+   *
+   * It also updates src/translations.config.json file that contains info about
+   * all available languages and the default one set on phrase.com app.
+   */
 ;(async () => {
   try {
     const config = {
@@ -33,7 +33,7 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
     )
 
     for (const { id, code, default: defaultLanguage } of nonEmptyLocales) {
-      const localesJsonPath = path.join("packages", "app", "src", "renderer", "locales", "default", `${code}.json`)
+      const localesJsonPath = path.join("src", "renderer", "locales", "default", `${code}.json`)
       const { data } = await axios.get(`${localesUrl}/${id}/download`, {
         ...axiosConfig,
         params: { file_format: "react_simple_json" },
@@ -82,7 +82,7 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
 
     await fs.writeJson(
       path.resolve(
-        path.join("packages", "app", "src", "translations.config.json")
+        path.join("src", "translations.config.json")
       ),
       config
     )
