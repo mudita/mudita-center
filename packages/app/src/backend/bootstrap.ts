@@ -31,7 +31,9 @@ import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
 import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
 import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
+import createFakePurePhoneMessages from "Backend/adapters/pure-phone-messages/pure-phone-messages-fake.adapter"
 import Backend from "Backend/backend"
+import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
 
 const bootstrap = (
   deviceManager: PureDeviceManager,
@@ -47,6 +49,7 @@ const bootstrap = (
     pureStorage: createPurePhoneStorageAdapter(deviceService),
     appSettings: createAppSettingsAdapter(),
     pureBackups: createPurePhoneBackupsAdapter(),
+    pureMessages: createFakePurePhoneMessages(),
     app: createElectronAppAdapter(),
   }
 
@@ -67,6 +70,7 @@ const bootstrap = (
     registerAppSettingsUpdateRequest,
     registerAppSettingsResetRequest,
     registerUpdateOsRequest,
+    registerGetThreadsRequest,
   ]
 
   new Backend(adapters, getFakeAdapters(), requests).init()

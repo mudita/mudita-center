@@ -3,7 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { MessagesState, Topic } from "App/messages/store/messages.interface"
+import {
+  MessagesState,
+  ResultsState,
+  Thread,
+} from "App/messages/store/messages.interface"
 
 export const messagesData: Thread[] = [
   {
@@ -2831,4 +2835,5 @@ export const messagesData: Thread[] = [
 export const messagesSeed: MessagesState = {
   threads: messagesData,
   searchValue: "",
+  resultsState: ResultsState.Empty,
 }

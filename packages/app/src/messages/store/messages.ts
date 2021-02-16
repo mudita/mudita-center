@@ -15,16 +15,33 @@ import { Caller } from "Renderer/models/calls/calls.interface"
 import { messagesData } from "App/seeds/messages"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
-import { MessagesState, Topic } from "App/messages/store/messages.interface"
+import {
+  MessagesState,
+  ResultsState,
+  Thread,
+} from "App/messages/store/messages.interface"
+import { RootState } from "Renderer/store"
+import getThreads from "Renderer/requests/get-threads.request"
+import logger from "App/main/utils/logger"
 
 export const initialState: MessagesState = {
   threads: [],
   searchValue: "",
+  resultsState: ResultsState.Empty,
 }
 
 const messages = createModel<RootModel>({
   state: initialState,
   reducers: {
+    setResultsState(
+      state: MessagesState,
+      resultsState: ResultsState
+    ): MessagesState {
+      return { ...state, resultsState }
+    },
+    setThreads(state: MessagesState, threads: Thread[]): MessagesState {
+      return { ...state, threads }
+    },
     changeSearchValue(
       state: MessagesState,
       searchValue: MessagesState["searchValue"]
@@ -77,6 +94,30 @@ const messages = createModel<RootModel>({
         threads: messagesData,
       }
     },
+  },
+  effects: (d) => {
+    const dispatch = (d as unknown) as RootState
+    return {
+      async loadData(
+        _: any,
+        rootState: { messages: { resultsState: ResultsState } }
+      ) {
+        if (rootState.messages.resultsState === ResultsState.Loading) {
+          return
+        }
+
+        dispatch.messages.setResultsState(ResultsState.Loading)
+
+        const { data = [], error } = await getThreads()
+        if (error) {
+          logger.error(error)
+          dispatch.messages.setResultsState(ResultsState.Error)
+        } else {
+          dispatch.messages.setThreads(data)
+          dispatch.messages.setResultsState(ResultsState.Loaded)
+        }
+      },
+    }
   },
   selectors: (slice: Slicer<MessagesState>) => ({
     filteredList() {

@@ -11,6 +11,7 @@ import PurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-ph
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import AppSettingsAdapter from "Backend/adapters/app-settings/app-settings-adapter.class"
+import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 
 export default interface Adapters {
   app: ElectronAppAdapter
@@ -21,4 +22,5 @@ export default interface Adapters {
   pureNetwork: PurePhoneNetworkAdapter
   pureBackups: PurePhoneBackupAdapter
   phonebook: PhonebookAdapter
+  pureMessages: PurePhoneMessagesAdapter
 }

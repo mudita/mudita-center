@@ -15,7 +15,7 @@ export interface Content {
   text: string
 }
 
-export type ComponentProps = Omit<MessagesState, "threads"> &
+export type ComponentProps = Omit<MessagesState, "threads" | "resultsState"> &
   Readonly<{
     changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
     changeVisibilityFilter?: (filter: VisibilityFilter) => void

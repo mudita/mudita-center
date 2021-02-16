@@ -12,6 +12,13 @@ export enum VisibilityFilter {
 
 export type Author = Pick<Caller, "id">
 
+export enum ResultsState {
+  Loading,
+  Loaded,
+  Empty,
+  Error,
+}
+
 export interface Message {
   id: string
   date: Date
@@ -31,4 +38,5 @@ export type MessagesState = Readonly<{
   threads: Thread[]
   searchValue: string
   visibilityFilter?: VisibilityFilter
+  resultsState: ResultsState
 }>
