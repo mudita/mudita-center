@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import networkStatus from "Renderer/models/network-status/network-status"
 import { init } from "@rematch/core"
 

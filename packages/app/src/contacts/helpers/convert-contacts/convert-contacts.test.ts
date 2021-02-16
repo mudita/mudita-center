@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import convertContacts from "App/contacts/helpers/convert-contacts/convert-contacts"
 import vCard from "vcf"
 

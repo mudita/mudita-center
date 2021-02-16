@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import Faker from "faker"
 import { groupBy, random, sample, times } from "lodash"
 import { Call, Caller, CallStatus } from "Renderer/models/calls/calls.interface"

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"

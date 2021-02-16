@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { convertBytes } from "Renderer/utils/convert-bytes"
 const oneKbInBytes = 1024
 const tenMbInBytes = 10485760

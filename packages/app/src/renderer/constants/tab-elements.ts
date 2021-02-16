@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { defineMessages } from "react-intl"
 import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
 import { Type } from "Renderer/components/core/icon/icon.config"

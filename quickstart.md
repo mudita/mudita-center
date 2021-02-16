@@ -4,6 +4,8 @@ To follow these instructions you need to have [Node.js](https://nodejs.org) inst
 
 **Note:** Mudita Center utilizes Node.js and npm versions [specified in `package.json` file](package.json#L264). To downgrade your currently installed version of Node.js please use [Node Version Manager](https://github.com/nvm-sh/nvm).
 
+**Note:** Mudita Center utilizes [Lerna](https://github.com/lerna/lerna) for managing packages contained in this repository. Lerna installs the main packages and links internal dependencies. The project has been set up in a way which enables running test and linters for every package separately.
+
 ## Install packages
 
 After cloning the repository to your local environment please install all packages by typing:
@@ -35,7 +37,11 @@ Please run the following command to start the Mudita Center dev environment:
 npm run develop
 ```
 
-This will start the application with hot-reload so you can instantly start developing it.
+This will start the application with hot-reload so you can instantly start developing it. You can also enable logs by executing:
+
+```bash
+npm run develop — --stream
+```
 
 This command runs the User Interface and the backend simultaneously, however, if you wish to have logs from both processes in two separate consoles then please run the following commands in parallel in separate console tabs:
 
@@ -78,6 +84,13 @@ npm run dist -- -wl
 **Note:** You might not be able to build the app for all platforms one one platform. Read more about it the ["Multi Platform Build" article](https://www.electron.build/multi-platform-build).
 
 ## Troubleshooting common errors
+
+### Font during development is slightly different from what I see in official app
+
+That's because we're using `GT Pressura` font that can't be open-sourced, so we can't publish it in our repository.
+Instead, for development purpose outside the Mudita company, we're using a `Roboto Condensed` font from Google which is quite similar.
+
+More info about managing fonts [can be found here](packages/app/src/renderer/fonts/README.md).
 
 ### The module was compiled against a different Node.js version
 
