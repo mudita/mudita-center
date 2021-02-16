@@ -53,25 +53,25 @@ class DeviceManager implements PureDeviceManager {
   private registerAttachDeviceEmitter(): void {
     this.usbDetector.onAttachDevice(async (portInfo) => {
       if (portInfo.vendorId?.toLowerCase() === vendorId) {
-        const portList = await DeviceManager.getSerialPortList()
-
         let port: PortInfo | undefined
         let intervals = 0
 
         await new Promise((resolve) => {
-          const waitForPort = setInterval(() => {
+          const waitForPort = setInterval(async () => {
+            const portList = await DeviceManager.getSerialPortList()
+
             port = portList.find(
               ({ productId, vendorId }) =>
-                portInfo.vendorId === vendorId &&
-                portInfo.productId === productId
+                portInfo.vendorId?.toLowerCase() === vendorId?.toLowerCase() &&
+                portInfo.productId?.toLowerCase() === productId?.toLowerCase()
             )
 
-            if (intervals === 150 || port) {
+            if (intervals === 20 || port) {
               clearInterval(waitForPort)
               resolve(port)
             }
             intervals++
-          }, 100)
+          }, 500)
         })
 
         if (port) {
