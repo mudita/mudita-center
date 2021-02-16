@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { initialState } from "App/templates/store/templates"
 import { Template } from "App/templates/store/templates.interface"
 

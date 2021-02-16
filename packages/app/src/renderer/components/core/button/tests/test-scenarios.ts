@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { DisplayStyle, Size } from "../button.config"
 import { Type } from "Renderer/components/core/icon/icon.config"

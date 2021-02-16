@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { Entry, SyncCollection } from "contentful"
 import { Document } from "@contentful/rich-text-types"
 import { QuestionAndAnswer } from "Renderer/modules/help/help.component"

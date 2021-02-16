@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import Faker from "faker"
 import { StateProps, Template } from "App/templates/store/templates.interface"
 import { Slicer } from "@rematch/select"

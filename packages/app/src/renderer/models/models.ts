@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import auth from "Renderer/models/auth/auth"
 import basicInfo from "Renderer/models/basic-info/basic-info"
 import calls from "Renderer/models/calls/calls"

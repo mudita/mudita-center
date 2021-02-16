@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import AppSettingsAdapter from "Backend/adapters/app-settings/app-settings-adapter.class"
 import {
   AppSettings as AppSettingsInterface,

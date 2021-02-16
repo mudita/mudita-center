@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import styled, { css, keyframes } from "styled-components"
 import { ButtonTogglerItem } from "Renderer/components/core/button-toggler/button-toggler.component"
 import InputText from "Renderer/components/core/input-text/input-text.component"

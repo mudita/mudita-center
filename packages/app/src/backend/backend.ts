@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import Adapters from "Backend/adapters/adapters.interface"
 import { ipcMain } from "electron-better-ipc"
 import { backendAdaptersChannel, EndpointRemover } from "Backend/backend.types"

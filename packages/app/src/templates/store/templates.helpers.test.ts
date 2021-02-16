@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { filterTemplates } from "App/templates/store/templates.helpers"
 import { removeNewLinesFromString } from "Renderer/utils/remove-new-lines-from-string"
 import { Template } from "App/templates/store/templates.interface"

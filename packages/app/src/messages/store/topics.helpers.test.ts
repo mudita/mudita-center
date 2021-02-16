@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { searchTopics } from "App/messages/store/topics.helpers"
 import { createFakeCaller } from "App/messages/helpers/create-fake-caller"
 import { Topic } from "App/messages/store/messages.interface"

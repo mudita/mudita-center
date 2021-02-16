@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { init } from "@rematch/core"
 import messages from "App/messages/store/messages"
 import selectPlugin from "@rematch/select"
