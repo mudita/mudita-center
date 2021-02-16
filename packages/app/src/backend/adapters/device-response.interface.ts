@@ -3,12 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { ResponseErrorCode as PureResponseErrorCode } from "@mudita/pure"
-import { DeviceUpdateResponseErrorCode } from "Backend/adapters/pure-phone/pure-phone.adapter"
+import { DeviceUpdateError as PureDeviceUpdateError } from "@mudita/pure"
+import { DeviceUpdateError } from "Backend/adapters/pure-phone/pure-phone.adapter"
 
-export type ResponseErrorCode =
-  | PureResponseErrorCode
-  | DeviceUpdateResponseErrorCode
+export type ResponseError = PureDeviceUpdateError | DeviceUpdateError
 
 export enum DeviceResponseStatus {
   Ok = "ok",
@@ -16,7 +14,7 @@ export enum DeviceResponseStatus {
 }
 
 interface DeviceResponseError<DataType> {
-  code?: ResponseErrorCode
+  code?: number
   message: string
   data?: DataType
 }

@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { DeviceUpdateErrorResponseCode } from "../endpoints"
-
 export interface PureDevice {
   connect(): Promise<Response>
   disconnect(): Promise<Response>
@@ -26,7 +24,7 @@ export enum ResponseStatus {
   ConnectionError = 503,
 }
 
-export type ResponseErrorCode = DeviceUpdateErrorResponseCode | number
+export type ResponseErrorCode = number
 
 interface ResponseError {
   code: ResponseErrorCode

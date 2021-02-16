@@ -36,7 +36,7 @@ import delayResponse from "@appnroll/delay-response"
 import updateOs from "Renderer/requests/update-os.request"
 import {
   DeviceResponseStatus,
-  ResponseErrorCode,
+  ResponseError,
 } from "Backend/adapters/device-response.interface"
 import { isEqual } from "lodash"
 import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
@@ -48,8 +48,14 @@ import registerOsUpdateProgressListener, {
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-pure-os-update-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
-import { DeviceUpdateErrorResponseCode as PureDeviceUpdateErrorResponseCode } from "@mudita/pure"
-import { DeviceUpdateResponseErrorCode } from "Backend/adapters/pure-phone/pure-phone.adapter"
+import {
+  DeviceUpdateError as PureDeviceUpdateError,
+  deviceUpdateErrorCodeMap as pureDeviceUpdateErrorCodeMap,
+} from "@mudita/pure"
+import {
+  DeviceUpdateError,
+  deviceUpdateErrorCodeMap,
+} from "Backend/adapters/pure-phone/pure-phone.adapter"
 import { contactSupport } from "Renderer/utils/contact-support/contact-support"
 import { HelpActions } from "Common/enums/help-actions.enum"
 
@@ -57,14 +63,19 @@ const onOsDownloadCancel = () => {
   cancelOsDownload()
 }
 
-const noCriticalErrorCodes: ResponseErrorCode[] = [
-  PureDeviceUpdateErrorResponseCode.VerifyChecksumsFailure,
-  PureDeviceUpdateErrorResponseCode.VerifyVersionFailure,
-  PureDeviceUpdateErrorResponseCode.CantOpenUpdateFile,
-  PureDeviceUpdateErrorResponseCode.NoBootloaderFile,
-  PureDeviceUpdateErrorResponseCode.CantOpenBootloaderFile,
-  DeviceUpdateResponseErrorCode.RestartTimedOut,
-  DeviceUpdateResponseErrorCode.DeviceDisconnectionBeforeDone,
+const errorCodeMap = {
+  ...pureDeviceUpdateErrorCodeMap,
+  ...deviceUpdateErrorCodeMap,
+}
+
+const noCriticalErrorCodes: number[] = [
+  errorCodeMap[PureDeviceUpdateError.VerifyChecksumsFailure],
+  errorCodeMap[PureDeviceUpdateError.VerifyVersionFailure],
+  errorCodeMap[PureDeviceUpdateError.CantOpenUpdateFile],
+  errorCodeMap[PureDeviceUpdateError.NoBootloaderFile],
+  errorCodeMap[PureDeviceUpdateError.CantOpenBootloaderFile],
+  errorCodeMap[DeviceUpdateError.RestartTimedOut],
+  errorCodeMap[DeviceUpdateError.DeviceDisconnectionBeforeDone],
 ]
 
 const useSystemUpdateFlow = (
@@ -150,38 +161,31 @@ const useSystemUpdateFlow = (
     )
   }
 
-  const [activeCode, setActiveCode] = useState<ResponseErrorCode | undefined>(
-    undefined
-  )
+  const [activeResponseError, setResponseError] = useState<
+    ResponseError | undefined
+  >(undefined)
 
   useEffect(() => {
-    if (activeCode) {
-      displayErrorModal(activeCode)
-      setActiveCode(undefined)
+    if (activeResponseError) {
+      console.log("errorCodeMap: ", errorCodeMap, activeResponseError)
+      const code = errorCodeMap[activeResponseError]
+      displayErrorModal(code)
+      setResponseError(undefined)
     }
 
     const unregisterItem = appContextMenu.registerItem("Overview", {
       label: "Select Pure kind of updating failure",
-      submenu: Object.values({
-        ...PureDeviceUpdateErrorResponseCode,
-        ...DeviceUpdateResponseErrorCode,
-      })
-        .filter((code): code is ResponseErrorCode => !isNaN(Number(code)))
-        .map((code) => {
-          const responseCodeName = PureDeviceUpdateErrorResponseCode[code]
-            ? PureDeviceUpdateErrorResponseCode[code]
-            : DeviceUpdateResponseErrorCode[code]
-
-          return {
-            label: `${
-              code !== activeCode ? `Enable` : `Disabled`
-            } ${responseCodeName} failure`,
-            click: () => setActiveCode(code),
-          }
-        }),
+      submenu: Object.keys(errorCodeMap).map((key) => {
+        return {
+          label: `${
+            key !== activeResponseError ? `Enable` : `Disabled`
+          } ${key} failure`,
+          click: () => setResponseError(key as ResponseError),
+        }
+      }),
     })
     return () => unregisterItem()
-  }, [activeCode])
+  }, [activeResponseError])
 
   // Checking for updates
   const openCheckingForUpdatesModal = () => {
@@ -357,19 +361,19 @@ const useSystemUpdateFlow = (
     ipcRenderer.callMain(HelpActions.OpenWindow, { code })
   }
 
-  const displayErrorModal = (errorCode?: number) => {
-    if (errorCode && noCriticalErrorCodes.includes(errorCode)) {
+  const displayErrorModal = (code?: number) => {
+    if (code && noCriticalErrorCodes.includes(code)) {
       modalService.openModal(
         <UpdatingFailureWithHelpModal
-          code={errorCode}
-          onHelp={goToHelp(errorCode)}
+          code={code}
+          onHelp={goToHelp(code)}
           onContact={contactSupport}
         />,
         true
       )
     } else {
       modalService.openModal(
-        <UpdatingFailureModal code={errorCode} onContact={contactSupport} />,
+        <UpdatingFailureModal code={code} onContact={contactSupport} />,
         true
       )
     }

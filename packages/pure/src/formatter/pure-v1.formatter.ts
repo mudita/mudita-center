@@ -10,7 +10,7 @@ import {
   Response,
 } from "../device/device.types"
 import { Formatter } from "./formatter"
-import { DeviceUpdateErrorResponseCode } from "../endpoints"
+import { DeviceUpdateError, deviceUpdateErrorCodeMap } from "../endpoints"
 
 export class PureV1Formatter extends Formatter {
   formatRequestConfig(config: RequestConfig): RequestConfig {
@@ -33,20 +33,17 @@ export class PureV1Formatter extends Formatter {
     }
     if (endpoint === Endpoint.Update && error) {
       /*
-      * `firstDeviceUpdateErrorCode` - factor to multiply pure device error codes
-      * at the moment device error code is local by API
-      */
-      const firstDeviceUpdateErrorCode = DeviceUpdateErrorResponseCode.NoError
-      if (error.code === 0) {
-        return {
-          ...response,
-          error: { ...error, code: firstDeviceUpdateErrorCode },
-        }
-      } else {
-        return {
-          ...response,
-          error: { ...error, code: error.code * firstDeviceUpdateErrorCode },
-        }
+       * `firstDeviceUpdateErrorCode` - factor to multiply pure device error codes
+       * at the moment device error code is local by API
+       */
+      const firstDeviceUpdateErrorCode =
+        deviceUpdateErrorCodeMap[DeviceUpdateError.NoError]
+      return {
+        ...response,
+        error: {
+          ...error,
+          code: Number(error.code) + firstDeviceUpdateErrorCode,
+        },
       }
     }
     return response

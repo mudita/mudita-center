@@ -12,9 +12,14 @@ import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
 import timeout from "Backend/timeout"
 
-export enum DeviceUpdateResponseErrorCode {
-  RestartTimedOut = 9900,
-  DeviceDisconnectionBeforeDone = 9901,
+export enum DeviceUpdateError {
+  RestartTimedOut = "RestartTimedOut",
+  DeviceDisconnectionBeforeDone = "DeviceDisconnectionBeforeDone",
+}
+
+export const deviceUpdateErrorCodeMap: Record<DeviceUpdateError, number> = {
+  [DeviceUpdateError.RestartTimedOut]: 9900,
+  [DeviceUpdateError.DeviceDisconnectionBeforeDone]: 9901,
 }
 
 class PurePhone extends PurePhoneAdapter {
@@ -96,7 +101,7 @@ class PurePhone extends PurePhoneAdapter {
           resolve({
             status: DeviceResponseStatus.Error,
             error: {
-              code: DeviceUpdateResponseErrorCode.RestartTimedOut,
+              code: deviceUpdateErrorCodeMap[DeviceUpdateError.RestartTimedOut],
               message: "restart pure has timed out",
             },
           })
@@ -106,7 +111,10 @@ class PurePhone extends PurePhoneAdapter {
           resolve({
             status: DeviceResponseStatus.Error,
             error: {
-              code: DeviceUpdateResponseErrorCode.DeviceDisconnectionBeforeDone,
+              code:
+                deviceUpdateErrorCodeMap[
+                  DeviceUpdateError.DeviceDisconnectionBeforeDone
+                ],
               message: "device has disconnected before updating finish",
             },
           })
