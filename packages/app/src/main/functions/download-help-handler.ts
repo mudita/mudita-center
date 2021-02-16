@@ -10,7 +10,6 @@ import settingsStore from "App/main/store/settings"
 import { normalizeHelpData } from "Renderer/utils/contentful/normalize-help-data"
 import { createClient } from "App/api/mudita-center-server"
 import logger from "App/main/utils/logger"
-import { SyncCollection } from "contentful"
 import { HelpQuery } from "App/api/mudita-center-server/client.interface"
 
 export const registerDownloadHelpHandler = () => {
