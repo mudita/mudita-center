@@ -90,7 +90,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     onCall,
     onMessage,
     savingContact,
-    isTopicThreadOpened,
+    isThreadOpened,
     resultsState,
     authorize,
   } = props
@@ -593,7 +593,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               onEdit={handleEditingContact}
               onCall={onCall}
               onMessage={handleMessage}
-              isTopicThreadOpened={isTopicThreadOpened}
+              isThreadOpened={isThreadOpened}
             />
           )}
         </TableWithSidebarWrapper>

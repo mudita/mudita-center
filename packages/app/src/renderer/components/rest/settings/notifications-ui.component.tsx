@@ -6,7 +6,7 @@
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { FormattedMessage } from "react-intl"
-import { ActionsWrapper } from "Renderer/components/rest/messages/topics-table.component"
+import { ActionsWrapper } from "Renderer/components/rest/messages/threads-table.component"
 import React from "react"
 import {
   Data,

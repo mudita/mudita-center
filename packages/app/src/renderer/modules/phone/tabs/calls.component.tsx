@@ -30,7 +30,7 @@ export interface CallsProps {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
   calls: Details[]
   deleteCall?: (ids: string[]) => void
-  isTopicThreadOpened: (phoneNumber: string) => boolean
+  isThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
 }
 
@@ -38,7 +38,7 @@ const Calls: FunctionComponent<CallsProps> = ({
   calls,
   changeVisibilityFilter = noop,
   deleteCall = noop,
-  isTopicThreadOpened,
+  isThreadOpened,
   isContactCreated,
 }) => {
   const {
@@ -110,7 +110,7 @@ const Calls: FunctionComponent<CallsProps> = ({
         getRowStatus={getRowStatus}
         toggleRow={toggleRow}
         noneRowsSelected={noneRowsSelected}
-        isTopicThreadOpened={isTopicThreadOpened}
+        isThreadOpened={isThreadOpened}
         isContactCreated={isContactCreated}
         onDeleteClick={removeSingleCall}
         onRowClick={openSidebar}

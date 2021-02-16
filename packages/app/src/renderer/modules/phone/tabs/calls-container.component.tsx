@@ -11,7 +11,7 @@ import { select } from "Renderer/store"
 
 const selection = select(({ calls, messages, contacts }) => ({
   calls: calls.filteredList,
-  isTopicThreadOpened: messages.isTopicThreadOpened,
+  isThreadOpened: messages.isThreadOpened,
   isContactCreated: contacts.isContactCreated,
 }))
 

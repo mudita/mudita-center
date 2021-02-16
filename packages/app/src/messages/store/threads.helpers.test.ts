@@ -3,13 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { searchTopics } from "App/messages/store/topics.helpers"
+import { searchThreads } from "App/messages/store/threads.helpers"
 import { createFakeCaller } from "App/messages/helpers/create-fake-caller"
-import { Topic } from "App/messages/store/messages.interface"
+import { Thread } from "App/messages/store/messages.interface"
 
 const caller = createFakeCaller()
 const randomCaller = createFakeCaller()
-const topics: Topic[] = [
+const thread: Thread[] = [
   {
     id: "1231",
     caller: randomCaller,
@@ -74,41 +74,41 @@ const topics: Topic[] = [
   },
 ]
 test("searches value - first name", () => {
-  const searchValue = topics[0].caller.firstName as string
-  expect(searchTopics(topics, searchValue)).toHaveLength(1)
+  const searchValue = thread[0].caller.firstName as string
+  expect(searchThreads(thread, searchValue)).toHaveLength(1)
 })
 
 test("fails search - first name", () => {
-  expect(searchTopics(topics, "asdadaa")).toHaveLength(0)
+  expect(searchThreads(thread, "asdadaa")).toHaveLength(0)
 })
 
 test("searches value - last name", () => {
-  const searchValue = topics[0].caller.lastName as string
-  expect(searchTopics(topics, searchValue)).toHaveLength(1)
+  const searchValue = thread[0].caller.lastName as string
+  expect(searchThreads(thread, searchValue)).toHaveLength(1)
 })
 
 test("fails search - last name", () => {
-  expect(searchTopics(topics, "ladakslodasiopd")).toHaveLength(0)
+  expect(searchThreads(thread, "ladakslodasiopd")).toHaveLength(0)
 })
 
 test("searches value - phone number", () => {
-  const searchValue = topics[0].caller.phoneNumber
-  expect(searchTopics(topics, searchValue)).toHaveLength(1)
+  const searchValue = thread[0].caller.phoneNumber
+  expect(searchThreads(thread, searchValue)).toHaveLength(1)
 })
 
 test("fails search - phone number", () => {
-  expect(searchTopics(topics, "+123 456 789")).toHaveLength(0)
+  expect(searchThreads(thread, "+123 456 789")).toHaveLength(0)
 })
 
 test("searches value - messages", () => {
-  const searchValue = topics[0].messages[0].content
-  expect(searchTopics(topics, searchValue)).toHaveLength(1)
+  const searchValue = thread[0].messages[0].content
+  expect(searchThreads(thread, searchValue)).toHaveLength(1)
 })
 
 test("fails search - messages", () => {
-  expect(searchTopics(topics, "lalal sadrsa")).toHaveLength(0)
+  expect(searchThreads(thread, "lalal sadrsa")).toHaveLength(0)
 })
 
 test("no search value returns initial list", () => {
-  expect(searchTopics(topics, "")).toBe(topics)
+  expect(searchThreads(thread, "")).toBe(thread)
 })

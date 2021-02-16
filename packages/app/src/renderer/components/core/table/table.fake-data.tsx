@@ -76,7 +76,7 @@ const createMessages = ({ id }: Caller) => {
   }
 }
 
-const createTopic = () => {
+const createThread = () => {
   const caller = createCaller()
   const createMessagesWithAuthor = () => createMessages(caller)
   return {
@@ -87,7 +87,7 @@ const createTopic = () => {
   }
 }
 
-export const rowsMessages = times(random(15, 25), createTopic)
+export const rowsMessages = times(random(15, 25), createThread)
 
 export const basicRows = Array.from({
   length: Math.round(15 + Math.random() * 25),

@@ -15,7 +15,7 @@ import MessageDetails from "App/messages/components/message-details.component"
 import MessagesPanel from "App/messages/components/messages-panel.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
-import findTopicBySearchParams from "App/messages/components/find-topic-by-search-params"
+import findThreadBySearchParams from "App/messages/components/find-thread-by-search-params"
 import { intl, textFormatters } from "Renderer/utils/intl"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
@@ -28,7 +28,7 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import AttachContactModal from "App/messages/components/attach-contact-modal.component"
 import { Contact } from "App/contacts/store/contacts.type"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
-import { Topic, VisibilityFilter } from "App/messages/store/messages.interface"
+import { Thread, VisibilityFilter } from "App/messages/store/messages.interface"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
@@ -58,8 +58,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   attachContactFlatList,
 }) => {
   const [messagesList, setMessagesList] = useState(list)
-  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Topic>(
-    findTopicBySearchParams(useURLSearchParams(), list)
+  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Thread>(
+    findThreadBySearchParams(useURLSearchParams(), list)
   )
 
   const {
@@ -68,7 +68,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     toggleAll,
     resetRows,
     ...rest
-  } = useTableSelect<Topic>(list)
+  } = useTableSelect<Thread>(list)
 
   const showAllMessages = () => {
     changeVisibilityFilter(VisibilityFilter.All)
@@ -81,13 +81,13 @@ const Messages: FunctionComponent<MessagesProps> = ({
   useEffect(() => setMessagesList(list), [list])
 
   const getDeletingMessage = (ids: string[]): Message => {
-    const findById = (topic: Topic) => topic.id === ids[0]
-    const topic = list.find(findById) as Topic
+    const findById = (thread: Thread) => thread.id === ids[0]
+    const thread = list.find(findById) as Thread
 
     return {
       ...deleteModalMessages.body,
       values: {
-        caller: getPrettyCaller(topic.caller),
+        caller: getPrettyCaller(thread.caller),
         num: allRowsSelected ? -1 : ids.length,
         ...textFormatters,
       },

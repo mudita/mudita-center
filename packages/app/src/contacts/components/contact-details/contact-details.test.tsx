@@ -52,7 +52,7 @@ const renderer = (props: { rich: boolean }) => {
     onExport: noop,
     onForward: noop,
     onMessage: noop,
-    isTopicThreadOpened: () => false,
+    isThreadOpened: () => false,
   }
 
   return renderWithThemeAndIntl(

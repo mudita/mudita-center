@@ -4,10 +4,10 @@
  */
 
 import {
-  filterTopics,
-  searchTopics,
-  sortTopics,
-} from "App/messages/store/topics.helpers"
+  filterThreads,
+  searchThreads,
+  sortThreads,
+} from "App/messages/store/threads.helpers"
 import { createFullMessagesCollection } from "App/messages/store/messages.helpers"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import { isCallerMatchingPhoneNumber } from "Renderer/models/calls/caller-utils.ts"
@@ -18,7 +18,7 @@ import { RootModel } from "Renderer/models/models"
 import { MessagesState, Topic } from "App/messages/store/messages.interface"
 
 export const initialState: MessagesState = {
-  topics: [],
+  threads: [],
   searchValue: "",
 }
 
@@ -38,43 +38,43 @@ const messages = createModel<RootModel>({
       return { ...state, visibilityFilter }
     },
     deleteConversation(state: MessagesState, ids: string[]) {
-      const topics = state.topics.filter(({ id }) => !ids.includes(id))
-      return { ...state, topics }
+      const threads = state.threads.filter(({ id }) => !ids.includes(id))
+      return { ...state, threads }
     },
     markAsRead(state: MessagesState, ids: string[]) {
-      const withMarkAsReadTopics = state.topics.map((topic) => {
-        if (ids.includes(topic.id)) {
+      const withMarkAsReadThreads = state.threads.map((thread) => {
+        if (ids.includes(thread.id)) {
           return {
-            ...topic,
+            ...thread,
             unread: false,
           }
         }
-        return topic
+        return thread
       })
-      return { ...state, topics: withMarkAsReadTopics }
+      return { ...state, threads: withMarkAsReadThreads }
     },
     toggleReadStatus(state: MessagesState, ids: string[]) {
-      const withMarkAsUnreadTopics = state.topics.map((topic) => {
-        if (ids.includes(topic.id)) {
+      const withMarkAsUnreadThreads = state.threads.map((thread) => {
+        if (ids.includes(thread.id)) {
           return {
-            ...topic,
-            unread: !topic.unread,
+            ...thread,
+            unread: !thread.unread,
           }
         }
-        return topic
+        return thread
       })
-      return { ...state, topics: withMarkAsUnreadTopics }
+      return { ...state, threads: withMarkAsUnreadThreads }
     },
-    _devClearAllTopics(state: MessagesState) {
+    _devClearAllThreads(state: MessagesState) {
       return {
         ...state,
-        topics: [],
+        threads: [],
       }
     },
-    _devLoadDefaultTopics(state: MessagesState) {
+    _devLoadDefaultThreads(state: MessagesState) {
       return {
         ...state,
-        topics: messagesData,
+        threads: messagesData,
       }
     },
   },
@@ -82,20 +82,20 @@ const messages = createModel<RootModel>({
     filteredList() {
       return (state: any) => {
         let list = createFullMessagesCollection(state)
-        list = searchTopics(list, state.messages.searchValue)
-        list = filterTopics(list, state.messages.visibilityFilter)
-        return sortTopics(list)
+        list = searchThreads(list, state.messages.searchValue)
+        list = filterThreads(list, state.messages.visibilityFilter)
+        return sortThreads(list)
       }
     },
-    getTopics() {
-      return slice((state) => state.topics)
+    getThreads() {
+      return slice((state) => state.threads)
     },
     getAllCallers(models: StoreSelectors<MessagesState>) {
-      return createSelector(models.messages.getTopics, (topics: Topic[]) => {
-        return topics.map(({ caller }) => caller)
+      return createSelector(models.messages.getThreads, (threads: Thread[]) => {
+        return threads.map(({ caller }) => caller)
       })
     },
-    isTopicThreadOpened(models: StoreSelectors<MessagesState>) {
+    isThreadOpened(models: StoreSelectors<MessagesState>) {
       return (state: MessagesState) => {
         const callers: Caller[] = models.messages.getAllCallers(state)
         return (phoneNumber: string) => {

@@ -6,7 +6,7 @@
 import { ChangeEvent } from "react"
 import {
   MessagesState,
-  Topic,
+  Thread,
   VisibilityFilter,
 } from "App/messages/store/messages.interface"
 
@@ -15,12 +15,12 @@ export interface Content {
   text: string
 }
 
-export type ComponentProps = Omit<MessagesState, "topics"> &
+export type ComponentProps = Omit<MessagesState, "threads"> &
   Readonly<{
     changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
     changeVisibilityFilter?: (filter: VisibilityFilter) => void
     deleteConversation?: (ids: string[]) => void
-    list: Topic[]
+    list: Thread[]
     visibilityFilter?: VisibilityFilter
     markAsRead?: (ids: string[]) => void
     toggleReadStatus?: (ids: string[]) => void

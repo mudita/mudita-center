@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { Topic } from "App/messages/store/messages.interface"
+import { Thread } from "App/messages/store/messages.interface"
 
-export const mockedTopics: Topic[] = [
+export const mockedThreads: Thread[] = [
   {
     id: "7352c250-ebe0-43f2-be31-0587e38e3bed",
     caller: {

@@ -8,7 +8,7 @@ import React from "react"
 import MessageDetails from "App/messages/components/message-details.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
-import { Topic } from "App/messages/store/messages.interface"
+import { Thread } from "App/messages/store/messages.interface"
 import { createFakeCaller } from "App/messages/helpers/create-fake-caller"
 import { Caller } from "Renderer/models/calls/calls.interface"
 
@@ -22,7 +22,7 @@ const unknownCaller: Caller = {
   lastName: "",
   phoneNumber: "+123 456 123",
 }
-const unknownCallerTopic: Topic = {
+const unknownCallerThread: Thread = {
   id: "1231",
   caller: unknownCaller,
   unread: true,
@@ -46,7 +46,7 @@ const unknownCallerTopic: Topic = {
   ],
 }
 
-const topic: Topic = {
+const thread: Thread = {
   id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
   unread: true,
   caller,
@@ -75,7 +75,7 @@ const defaultProps = {
   onUnreadStatus: jest.fn(),
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
-  details: topic,
+  details: thread,
 }
 
 const contactWithMutlitpleNumbers: Caller = {
@@ -86,7 +86,7 @@ const contactWithMutlitpleNumbers: Caller = {
   secondaryPhoneNumber: "345345",
 }
 
-const mockedTopicFromSecondNumber: Topic = {
+const mockedThreadFromSecondNumber: Thread = {
   id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
   caller: {
     id: "123",
@@ -121,7 +121,7 @@ const multipleContactsProps = {
   onUnreadStatus: jest.fn(),
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
-  details: mockedTopicFromSecondNumber,
+  details: mockedThreadFromSecondNumber,
 }
 
 test("sidebar close button informs parent about closing", () => {
@@ -138,10 +138,10 @@ test("left part of sidebar displays details correctly", () => {
     <MessageDetails {...defaultProps} />
   )
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
-    `${topic.caller.firstName} ${topic.caller.lastName}`
+    `${thread.caller.firstName} ${thread.caller.lastName}`
   )
   expect(getByTestId("sidebar-phone-number")).toHaveTextContent(
-    topic.caller.phoneNumber
+    thread.caller.phoneNumber
   )
 })
 
@@ -149,15 +149,15 @@ test("correct amount of message bubbles is displayed", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
     <MessageDetails {...defaultProps} />
   )
-  expect(getAllByTestId("message-content")).toHaveLength(topic.messages.length)
+  expect(getAllByTestId("message-content")).toHaveLength(thread.messages.length)
 })
 
 test("message from unknown person displays only phone number", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails {...defaultProps} details={unknownCallerTopic} />
+    <MessageDetails {...defaultProps} details={unknownCallerThread} />
   )
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
-    unknownCallerTopic.caller.phoneNumber
+    unknownCallerThread.caller.phoneNumber
   )
 })
 
@@ -167,7 +167,7 @@ test("mark massage as unread", () => {
     <MessageDetails {...defaultProps} onClose={onClose} />
   )
   fireEvent.click(getByTestId("icon-BorderCheckIcon"))
-  expect(defaultProps.onUnreadStatus).toBeCalledWith([topic.id])
+  expect(defaultProps.onUnreadStatus).toBeCalledWith([thread.id])
   expect(onClose).toBeCalled()
 })
 
@@ -184,7 +184,7 @@ test("delete messages", () => {
     <MessageDetails {...defaultProps} />
   )
   fireEvent.click(getAllByTestId("icon-Delete")[0])
-  expect(defaultProps.onDeleteClick).toBeCalledWith(topic.id)
+  expect(defaultProps.onDeleteClick).toBeCalledWith(thread.id)
 })
 
 test("show info about contact with multiple numbers", () => {

@@ -5,7 +5,7 @@
 
 import { MessagesState, Topic } from "App/messages/store/messages.interface"
 
-export const messagesData: Topic[] = [
+export const messagesData: Thread[] = [
   {
     id: "4ad26ab9-2318-4f55-b3be-861498473211",
     caller: {
@@ -2829,6 +2829,6 @@ export const messagesData: Topic[] = [
 ]
 
 export const messagesSeed: MessagesState = {
-  topics: messagesData,
+  threads: messagesData,
   searchValue: "",
 }

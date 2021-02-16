@@ -5,16 +5,16 @@
 
 import {
   MessagesState as MessagesProps,
-  Topic,
+  Thread,
   VisibilityFilter,
 } from "App/messages/store/messages.interface"
 
-export const searchTopics = (
-  topics: MessagesProps["topics"],
+export const searchThreads = (
+  threads: MessagesProps["threads"],
   searchValue: MessagesProps["searchValue"]
 ) => {
   if (searchValue.length) {
-    return topics?.filter(({ caller, messages }) => {
+    return threads?.filter(({ caller, messages }) => {
       const search = searchValue.toLowerCase()
       const matchesForename = caller.firstName?.toLowerCase().includes(search)
       const matchesSurname = caller.lastName?.toLowerCase().includes(search)
@@ -27,22 +27,22 @@ export const searchTopics = (
       )
     })
   } else {
-    return topics
+    return threads
   }
 }
-export const filterTopics = (
-  topics: MessagesProps["topics"],
+export const filterThreads = (
+  threads: MessagesProps["threads"],
   visibilityFilter: MessagesProps["visibilityFilter"]
 ) =>
-  topics?.filter(({ unread }) =>
+  threads?.filter(({ unread }) =>
     visibilityFilter === VisibilityFilter.Unread ? unread : true
   )
 
-export const sortTopics = (topics: MessagesProps["topics"]) => {
-  const lastMessageDate = ({ messages }: Topic) => {
+export const sortThreads = (threads: MessagesProps["threads"]) => {
+  const lastMessageDate = ({ messages }: Thread) => {
     return messages[messages.length - 1].date
   }
-  return topics?.sort((a, b) => {
+  return threads?.sort((a, b) => {
     const x = lastMessageDate(a)
     const y = lastMessageDate(b)
     return x > y ? -1 : x < y ? 1 : 0

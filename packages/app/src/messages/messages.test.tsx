@@ -15,7 +15,7 @@ import { intl } from "Renderer/utils/intl"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
-import { Topic } from "App/messages/store/messages.interface"
+import { Thread } from "App/messages/store/messages.interface"
 import { createFakeCaller } from "App/messages/helpers/create-fake-caller"
 import { Caller } from "Renderer/models/calls/calls.interface"
 
@@ -30,7 +30,7 @@ const unknownCaller: Caller = {
   phoneNumber: "+123 456 123",
 }
 
-export const topics: Topic[] = [
+export const threads: Thread[] = [
   {
     id: "1231",
     caller,
@@ -104,7 +104,7 @@ const renderer = () => {
         <Messages
           language={"en"}
           searchValue={""}
-          list={topics}
+          list={threads}
           attachContactList={[]}
           attachContactFlatList={[]}
         />
@@ -154,7 +154,7 @@ test("dropdown call button has correct content", () => {
       {
         id: "component.dropdown.call",
       },
-      { name: topics[0].caller.firstName }
+      { name: threads[0].caller.firstName }
     )
   )
 })
@@ -162,7 +162,7 @@ test("dropdown call button has correct content", () => {
 test("displays correct amount of dropdown call buttons", () => {
   const { getAllByTestId } = renderer()
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-call")).toHaveLength(topics.length)
+  expect(getAllByTestId("dropdown-call")).toHaveLength(threads.length)
 })
 
 test("dropdown contact details button has correct content", () => {
@@ -200,7 +200,7 @@ test("dropdown mark as read button has correct content ", () => {
 test("displays correct amount of dropdown mark as read buttons", () => {
   const { getAllByTestId } = renderer()
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(topics.length)
+  expect(getAllByTestId("dropdown-mark-as-read")).toHaveLength(threads.length)
 })
 
 test("dropdown delete button has correct content", () => {
@@ -216,7 +216,7 @@ test("dropdown delete button has correct content", () => {
 test("displays correct amount of dropdown delete buttons", () => {
   const { getAllByTestId } = renderer()
   mockAllIsIntersecting(true)
-  expect(getAllByTestId("dropdown-delete")).toHaveLength(topics.length)
+  expect(getAllByTestId("dropdown-delete")).toHaveLength(threads.length)
 })
 
 test("when at least one checkbox is checked, selection manager is displayed", () => {

@@ -8,7 +8,7 @@ import React from "react"
 import MessagesPanel from "App/messages/components/messages-panel.component"
 import { fireEvent } from "@testing-library/dom"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
-import { mockedUnreadMessages } from "App/__mocks__/mocked-unread-messages"
+import { mockedUnreadThreads } from "App/__mocks__/mocked-unread-threads"
 import { VisibilityFilter } from "App/messages/store/messages.interface"
 
 const defaultProps = {
@@ -36,7 +36,7 @@ test("filter buttons are rendered when there are no selected checkboxes", () => 
 
 test("filter buttons are not rendered when there are selected checkboxes", () => {
   const { queryByTestId } = renderer({
-    selectedConversations: mockedUnreadMessages,
+    selectedConversations: mockedUnreadThreads,
   })
   expect(
     queryByTestId(MessagePanelTestIds.FilterButtons)
@@ -45,7 +45,7 @@ test("filter buttons are not rendered when there are selected checkboxes", () =>
 
 test("when there are selected checkboxes, selection manager is rendered", () => {
   const { getByTestId } = renderer({
-    selectedConversations: mockedUnreadMessages,
+    selectedConversations: mockedUnreadThreads,
   })
   expect(getByTestId(MessagePanelTestIds.SelectionManager)).toBeInTheDocument()
 })
@@ -61,7 +61,7 @@ test("search works", () => {
 test("mark as read button is rendered when filter is set to unread and there is at least one item selected", () => {
   const { getByTestId } = renderer({
     visibilityFilter: VisibilityFilter.Unread,
-    selectedConversations: mockedUnreadMessages,
+    selectedConversations: mockedUnreadThreads,
   })
   expect(
     getByTestId(MessagePanelTestIds.SelectionManagerMarkAsReadButton)
@@ -71,11 +71,11 @@ test("mark as read button is rendered when filter is set to unread and there is 
 test("click on mark as read button performs correct action", () => {
   const { getByTestId } = renderer({
     visibilityFilter: VisibilityFilter.Unread,
-    selectedConversations: mockedUnreadMessages,
+    selectedConversations: mockedUnreadThreads,
   })
   getByTestId(MessagePanelTestIds.SelectionManagerMarkAsReadButton).click()
   expect(defaultProps.onMarkAsRead).toBeCalledWith([
-    mockedUnreadMessages[0].id,
-    mockedUnreadMessages[1].id,
+    mockedUnreadThreads[0].id,
+    mockedUnreadThreads[1].id,
   ])
 })

@@ -20,7 +20,7 @@ export interface Message {
   author: Author
 }
 
-export interface Topic {
+export interface Thread {
   id: string
   caller: Caller
   unread: boolean
@@ -28,7 +28,7 @@ export interface Topic {
 }
 
 export type MessagesState = Readonly<{
-  topics: Topic[]
+  threads: Thread[]
   searchValue: string
   visibilityFilter?: VisibilityFilter
 }>
