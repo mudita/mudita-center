@@ -55,9 +55,25 @@ class DeviceManager implements PureDeviceManager {
       if (portInfo.vendorId?.toLowerCase() === vendorId) {
         const portList = await DeviceManager.getSerialPortList()
 
-        const port = portList.find(
-          ({ serialNumber }) => String(serialNumber) === portInfo.serialNumber
-        )
+        let port: PortInfo | undefined
+        let intervals = 0
+
+        await new Promise((resolve) => {
+          const waitForPort = setInterval(() => {
+            port = portList.find(
+              ({ productId, vendorId }) =>
+                portInfo.vendorId === vendorId &&
+                portInfo.productId === productId
+            )
+
+            if (intervals === 150 || port) {
+              clearInterval(waitForPort)
+              resolve(port)
+            }
+            intervals++
+          }, 100)
+        })
+
         if (port) {
           const device = this.createDevice(port.path)
           this.#eventEmitter.emit(DeviceManagerEventName.AttachedDevice, device)
