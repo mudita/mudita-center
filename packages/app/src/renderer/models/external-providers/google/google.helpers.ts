@@ -16,12 +16,25 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { Contact } from "App/contacts/store/contacts.type"
+import { rrulestr } from "rrule"
 
 const messages = defineMessages({
   unnamedEvent: {
     id: "view.name.calendar.unnamedEvent",
   },
 })
+
+export const createRuleObject = (rules: {
+  rrule?: string
+  exdate?: string
+  rdate?: string
+  exrule?: string
+}) => {
+  const { rrule = "", exdate = "", rdate = "", exrule = "" } = rules
+  return {
+    reccurence: rrulestr(rrule + "\n" + exdate + "\n" + rdate + "\n" + exrule),
+  }
+}
 
 export const mapEvents = (events: GoogleEvent[]): CalendarEvent[] => {
   return events
@@ -33,7 +46,7 @@ export const mapEvents = (events: GoogleEvent[]): CalendarEvent[] => {
       startDate: new Date(event.start?.dateTime as string).toISOString(),
       endDate: new Date(event.end?.dateTime as string).toISOString(),
       ...(event.recurrence
-        ? {
+        ? createRuleObject({
             rrule: event.recurrence.find((element) =>
               element.startsWith("RRULE")
             ),
@@ -41,9 +54,12 @@ export const mapEvents = (events: GoogleEvent[]): CalendarEvent[] => {
               element.startsWith("EXDATE")
             ),
             rdate: event.recurrence.find((element) =>
-              element.startsWith("rdate")
+              element.startsWith("RDATE")
             ),
-          }
+            exrule: event.recurrence.find((element) =>
+              element.startsWith("EXRULE")
+            ),
+          })
         : {}),
       provider: {
         type: Provider.Google,

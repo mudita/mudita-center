@@ -4,6 +4,8 @@
  */
 
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import RRule from "rrule/dist/esm/src/rrule"
+import RRuleSet from "rrule/dist/esm/src/rruleset"
 
 export interface CalendarEvent {
   id: string
@@ -11,9 +13,7 @@ export interface CalendarEvent {
   startDate: string
   endDate: string
   description?: string
-  rrule?: string
-  exdate?: string,
-  rdate?: string,
+  reccurence?: RRule | RRuleSet
   provider?: {
     type: Provider
     id: string
