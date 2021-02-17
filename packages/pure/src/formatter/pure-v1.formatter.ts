@@ -32,10 +32,6 @@ export class PureV1Formatter extends Formatter {
       return { ...response, body: { ...body, id: String(body.id) } }
     }
     if (endpoint === Endpoint.Update && error) {
-      /*
-       * `firstDeviceUpdateErrorCode` - factor to multiply pure device error codes
-       * at the moment device error code is local by API
-       */
       const firstDeviceUpdateErrorCode =
         deviceUpdateErrorCodeMap[DeviceUpdateError.NoError]
       return {
