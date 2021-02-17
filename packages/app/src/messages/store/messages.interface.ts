@@ -19,18 +19,29 @@ export enum ResultsState {
   Error,
 }
 
+enum MessageType {
+  DRAFT   = "DRAFT",
+  FAILED  = "FAILED",
+  INBOX   = "INBOX",
+  OUTBOX  = "OUTBOX",
+  QUEUED  = "QUEUED",
+  INPUT   = "INPUT",
+  UNKNOWN = "UNKNOWN"
+}
+
 export interface Message {
   id: string
-  date: Date
+  contactId: string
   content: string
-  interlocutor?: boolean
-  author: Author
+  messageType: MessageType
 }
 
 export interface Thread {
   id: string
-  caller: Caller
+  contactId: string
   unread: boolean
+  lastUpdatedAt: Date
+  messageSnippet: string
   messages: Message[]
 }
 
