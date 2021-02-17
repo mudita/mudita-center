@@ -137,7 +137,12 @@ export const AppUpdateDownloaded: FunctionComponent<DownloadedAppUpdateInterface
     />
     <Text
       displayStyle={TextDisplayStyle.MediumBoldText}
-      message={messages.downloadedUpdateWarning}
+      message={{
+        ...messages.downloadedUpdateWarning,
+        values: {
+          osxPlatform: process?.platform === "darwin",
+        },
+      }}
     />
   </AppUpdateModal>
 )

@@ -1,6 +1,6 @@
 {
   "name": "@mudita/mudita-center-app",
-  "version": "5.0.0-699",
+  "version": "5.0.0",
   "description": "Mudita Center",
   "main": "./dist/main.js",
   "productName": "Mudita Center",
@@ -60,8 +60,11 @@
     "mac": {
       "category": "public.app-category.utilities",
       "icon": "./icons/mac/icon.icns",
-      "target": "dmg",
-      "artifactName": "Mudita Center.${ext}"
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "artifactName": "Mudita-Center.${ext}"
     },
     "win": {
       "target": "nsis",
@@ -69,7 +72,7 @@
     },
     "nsis": {
       "include": "installer.nsh",
-      "artifactName": "Mudita Center.${ext}",
+      "artifactName": "Mudita-Center.${ext}",
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": false,
@@ -80,7 +83,7 @@
       "target": "AppImage",
       "category": "Utility",
       "executableName": "Mudita Center",
-      "artifactName": "Mudita Center.${ext}"
+      "artifactName": "Mudita-Center.${ext}"
     },
     "directories": {
       "output": "release"
