@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { PhoneTestIds } from "Renderer/components/rest/overview/phone/phone-test-ids.enum"
 import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"

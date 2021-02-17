@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import "@testing-library/jest-dom"
 import React from "react"
 import { SelectionManagerProps } from "Renderer/components/core/selection-manager/selection-manager.interface"

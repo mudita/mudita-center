@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { AppContainer } from "react-hot-loader"
@@ -6,8 +11,13 @@ import { defaultLanguage } from "App/translations.config.json"
 import history from "Renderer/routes/history"
 import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
-import "./fonts/fonts.css"
 import appUpdate from "./components/rest/app-update/app-update.service"
+
+try {
+  require("./fonts/main/style.css")
+} catch (e) {
+  require("./fonts/fallback/style.css")
+}
 
 require("dotenv").config()
 
