@@ -138,6 +138,11 @@ class BaseDevice implements PureDevice {
                 if (this.#port) {
                   this.#port.write(data)
                   this.#port.drain()
+
+                  readStream.pause()
+                  setTimeout(() => {
+                    readStream.resume()
+                  }, 10)
                 }
               })
 
