@@ -11,10 +11,6 @@ import DeviceResponse, {
 import { messagesSeed } from "App/seeds/messages"
 
 class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
-  constructor() {
-    super()
-  }
-
   public async getThreads(): Promise<DeviceResponse<Thread[]>> {
     return {
       status: DeviceResponseStatus.Ok,
