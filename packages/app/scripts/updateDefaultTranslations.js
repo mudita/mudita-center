@@ -1,3 +1,4 @@
+const path = require("path")
 const axios = require("axios")
 const fs = require("fs-extra")
 const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
@@ -25,14 +26,22 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
     }
 
     const { data: locales } = await axios.get(localesUrl, axiosConfig)
-
-    await fs.ensureDir("./src/renderer/locales/default/")
+    await fs.ensureDir(
+      path.resolve(path.join("src", "renderer", "locales", "default"))
+    )
 
     const nonEmptyLocales = locales.filter(
       (locale) => Object.keys(locale).length > 0
     )
 
     for (const { id, code, default: defaultLanguage } of nonEmptyLocales) {
+      const localesJsonPath = path.join(
+        "src",
+        "renderer",
+        "locales",
+        "default",
+        `${code}.json`
+      )
       const { data } = await axios.get(`${localesUrl}/${id}/download`, {
         ...axiosConfig,
         params: { file_format: "react_simple_json" },
@@ -46,9 +55,9 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
         let translations = data
 
         if (!process.env.OVERWRITE) {
-          if (fs.pathExists(`./src/renderer/locales/default/${code}.json`)) {
+          if (fs.pathExists(path.resolve(localesJsonPath))) {
             const oldTranslations = await fs.readJson(
-              `./src/renderer/locales/default/${code}.json`
+              path.resolve(localesJsonPath)
             )
             translations = {
               ...oldTranslations,
@@ -57,10 +66,7 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
           }
         }
 
-        await fs.writeJson(
-          `./src/renderer/locales/default/${code}.json`,
-          translations
-        )
+        await fs.writeJson(path.resolve(localesJsonPath), translations)
         config.availableLanguages.push({
           id,
           code,
@@ -69,7 +75,10 @@ const { localesUrl, axiosConfig } = require("../src/common/configs/phrase")
       }
     }
 
-    await fs.writeJson(`src/translations.config.json`, config)
+    await fs.writeJson(
+      path.resolve(path.join("src", "translations.config.json")),
+      config
+    )
     console.log("Translations config updated successfully")
   } catch (error) {
     console.log(error)
