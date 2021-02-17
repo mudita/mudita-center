@@ -12,6 +12,7 @@ import {
 import selectPlugin from "@rematch/select"
 import { models, RootModel } from "Renderer/models/models"
 import { filesManagerSeed } from "App/seeds/filesManager"
+import { messagesSeed } from "App/seeds/messages"
 import { templatesSeed } from "App/seeds/templates"
 import { helpSeed } from "App/seeds/help"
 import { notesSeed } from "App/seeds/notes"
@@ -26,6 +27,7 @@ if (process.env.NODE_ENV !== "test") {
   config.redux = {
     initialState: {
       filesManager: filesManagerSeed,
+      messages: messagesSeed,
       templates: templatesSeed,
       help: helpSeed,
       notes: notesSeed,
