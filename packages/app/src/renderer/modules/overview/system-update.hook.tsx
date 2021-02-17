@@ -167,7 +167,6 @@ const useSystemUpdateFlow = (
 
   useEffect(() => {
     if (activeResponseError) {
-      console.log("errorCodeMap: ", errorCodeMap, activeResponseError)
       const code = errorCodeMap[activeResponseError]
       displayErrorModal(code)
       setResponseError(undefined)
