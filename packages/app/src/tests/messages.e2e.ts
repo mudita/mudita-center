@@ -28,7 +28,8 @@ test("menu takes user to correct page", async () => {
   expect(hash.value).toEqual(`#${URL_MAIN.messages}`)
 })
 
-test("searching by phone number renders one result", async () => {
+// TODO: It should be returned here https://appnroll.atlassian.net/browse/PDA-720
+test.skip("searching by phone number renders one result", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Messages}]`).click()
   const phoneNumber = await app.client
     .$(`*[data-testid='message-row']`)
