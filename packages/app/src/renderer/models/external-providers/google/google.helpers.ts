@@ -25,13 +25,26 @@ const messages = defineMessages({
 
 export const mapEvents = (events: GoogleEvent[]): CalendarEvent[] => {
   return events
-    .filter((event) => event.start.dateTime && event.end.dateTime)
+    .filter((event) => event.start?.dateTime && event.end?.dateTime)
     .map((event) => ({
       id: `${Provider.Google}_${event.id}`,
       name: event.summary || intl.formatMessage(messages.unnamedEvent),
       description: event.description,
-      startDate: new Date(event.start.dateTime).toISOString(),
-      endDate: new Date(event.end.dateTime).toISOString(),
+      startDate: new Date(event.start?.dateTime as string).toISOString(),
+      endDate: new Date(event.end?.dateTime as string).toISOString(),
+      ...(event.recurrence
+        ? {
+            rrule: event.recurrence.find((element) =>
+              element.startsWith("RRULE")
+            ),
+            exdate: event.recurrence.find((element) =>
+              element.startsWith("EXDATE")
+            ),
+            rdate: event.recurrence.find((element) =>
+              element.startsWith("rdate")
+            ),
+          }
+        : {}),
       provider: {
         type: Provider.Google,
         id: event.id,

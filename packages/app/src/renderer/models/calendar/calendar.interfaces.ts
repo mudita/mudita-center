@@ -11,6 +11,9 @@ export interface CalendarEvent {
   startDate: string
   endDate: string
   description?: string
+  rrule?: string
+  exdate?: string,
+  rdate?: string,
   provider?: {
     type: Provider
     id: string
