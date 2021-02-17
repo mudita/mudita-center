@@ -32,6 +32,8 @@ import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-s
 import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
 import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
 import Backend from "Backend/backend"
+import createCalendar from "Backend/adapters/calendar/calendar.adapter"
+import registerGetEventsRequest from "Backend/requests/calendar/get-events.request"
 
 const bootstrap = (
   deviceManager: PureDeviceManager,
@@ -48,6 +50,7 @@ const bootstrap = (
     appSettings: createAppSettingsAdapter(),
     pureBackups: createPurePhoneBackupsAdapter(),
     app: createElectronAppAdapter(),
+    calendar: createCalendar(deviceService),
   }
 
   const requests = [
@@ -67,6 +70,7 @@ const bootstrap = (
     registerAppSettingsUpdateRequest,
     registerAppSettingsResetRequest,
     registerUpdateOsRequest,
+    registerGetEventsRequest,
   ]
 
   new Backend(adapters, getFakeAdapters(), requests).init()

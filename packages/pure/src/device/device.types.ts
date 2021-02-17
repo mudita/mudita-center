@@ -47,6 +47,7 @@ export enum Endpoint {
   Contacts = 7,
   Messages = 8,
   Callog = 9,
+  Calendar = 10,
 
   // lib endpoint
   FileUpload = 100,
