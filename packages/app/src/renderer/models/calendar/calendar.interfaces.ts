@@ -13,7 +13,7 @@ export interface CalendarEvent {
   startDate: string
   endDate: string
   description?: string
-  reccurence?: RRule | RRuleSet
+  recurrence?: RRule | RRuleSet
   provider?: {
     type: Provider
     id: string

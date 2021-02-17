@@ -32,7 +32,7 @@ export const createRuleObject = (rules: {
 }) => {
   const { rrule = "", exdate = "", rdate = "", exrule = "" } = rules
   return {
-    reccurence: rrulestr(rrule + "\n" + exdate + "\n" + rdate + "\n" + exrule),
+    recurrence: rrulestr(rrule + "\n" + exdate + "\n" + rdate + "\n" + exrule),
   }
 }
 
@@ -43,8 +43,8 @@ export const mapEvents = (events: GoogleEvent[]): CalendarEvent[] => {
       id: `${Provider.Google}_${event.id}`,
       name: event.summary || intl.formatMessage(messages.unnamedEvent),
       description: event.description,
-      startDate: new Date(event.start?.dateTime as string).toISOString(),
-      endDate: new Date(event.end?.dateTime as string).toISOString(),
+      startDate: event.start?.dateTime as string,
+      endDate: event.end?.dateTime as string,
       ...(event.recurrence
         ? createRuleObject({
             rrule: event.recurrence.find((element) =>
