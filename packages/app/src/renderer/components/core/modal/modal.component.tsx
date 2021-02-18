@@ -90,6 +90,7 @@ export interface ModalProps {
   closeButton?: boolean
   closeButtonLabel?: ButtonProps["label"]
   onClose?: () => void
+  onCloseButton?: () => void
   size?: ModalSize
   subtitle?: string
   title?: string | ReactNode
@@ -106,6 +107,7 @@ const Modal: FunctionComponent<ModalProps> = ({
   closeButton = true,
   closeButtonLabel = intl.formatMessage({ id: "component.modal.closeButton" }),
   onClose = noop,
+  onCloseButton = noop,
   size = ModalSize.Large,
   subtitle,
   title,
@@ -119,6 +121,12 @@ const Modal: FunctionComponent<ModalProps> = ({
     await modalService.closeModal()
     onClose()
   }
+
+  const closeModalByButtonClick = () => {
+    onCloseButton()
+    closeModal()
+  }
+
   return (
     <ModalFrame size={size} {...rest}>
       <Header
@@ -156,7 +164,7 @@ const Modal: FunctionComponent<ModalProps> = ({
                 displayStyle={DisplayStyle.Secondary}
                 size={getModalButtonsSize(size)}
                 label={closeButtonLabel}
-                onClick={closeModal}
+                onClick={closeModalByButtonClick}
                 data-testid={ModalTestIds.ModalActionButton}
               />
             )}
