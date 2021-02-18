@@ -17,15 +17,15 @@ const base = {
 const mockedDate = 1594977157202 // 2020-07-17
 
 test("snapshot test since most the fields are private", () => {
-  jest.spyOn(Date, "now").mockImplementation(() => mockedDate)
+  jest.spyOn(Date, "UTC").mockImplementation(() => mockedDate)
   const result = createRuleObject(base)
   expect(result).toMatchInlineSnapshot(`
     Object {
       "recurrence": RRuleSet {
         "_cache": null,
-        "_dtstart": 1997-09-02T09:00:00.000Z,
+        "_dtstart": 2020-07-17T09:12:37.202Z,
         "_exdate": Array [
-          2021-02-26T11:45:00.000Z,
+          2020-07-17T09:12:37.202Z,
         ],
         "_exrule": Array [
           RRule {
@@ -36,23 +36,23 @@ test("snapshot test since most the fields are private", () => {
                 9,
               ],
               "byminute": Array [
-                0,
+                12,
               ],
               "bymonth": null,
               "bymonthday": Array [
-                2,
+                17,
               ],
               "bynmonthday": Array [],
               "bynweekday": null,
               "bysecond": Array [
-                0,
+                37,
               ],
               "bysetpos": null,
               "byweekday": null,
               "byweekno": null,
               "byyearday": null,
               "count": 2,
-              "dtstart": 1997-09-02T09:00:00.000Z,
+              "dtstart": 2020-07-17T09:12:37.202Z,
               "freq": 1,
               "interval": 1,
               "tzid": undefined,
@@ -61,15 +61,14 @@ test("snapshot test since most the fields are private", () => {
             },
             "origOptions": Object {
               "count": 2,
-              "dtstart": 1997-09-02T09:00:00.000Z,
+              "dtstart": 2020-07-17T09:12:37.202Z,
               "freq": 1,
               "tzid": undefined,
             },
           },
         ],
         "_rdate": Array [
-          2015-06-09T00:00:00.000Z,
-          2015-06-11T00:00:00.000Z,
+          2020-07-17T09:12:37.202Z,
         ],
         "_rrule": Array [
           RRule {
@@ -80,14 +79,14 @@ test("snapshot test since most the fields are private", () => {
                 9,
               ],
               "byminute": Array [
-                0,
+                12,
               ],
               "bymonth": null,
               "bymonthday": Array [],
               "bynmonthday": Array [],
               "bynweekday": null,
               "bysecond": Array [
-                0,
+                37,
               ],
               "bysetpos": null,
               "byweekday": Array [
@@ -99,11 +98,11 @@ test("snapshot test since most the fields are private", () => {
               "byweekno": null,
               "byyearday": null,
               "count": null,
-              "dtstart": 1997-09-02T09:00:00.000Z,
+              "dtstart": 2020-07-17T09:12:37.202Z,
               "freq": 2,
               "interval": 2,
               "tzid": undefined,
-              "until": 2021-04-05T21:59:59.000Z,
+              "until": 2020-07-17T09:12:37.202Z,
               "wkst": 6,
             },
             "origOptions": Object {
@@ -125,11 +124,11 @@ test("snapshot test since most the fields are private", () => {
                   "weekday": 1,
                 },
               ],
-              "dtstart": 1997-09-02T09:00:00.000Z,
+              "dtstart": 2020-07-17T09:12:37.202Z,
               "freq": 2,
               "interval": 2,
               "tzid": undefined,
-              "until": 2021-04-05T21:59:59.000Z,
+              "until": 2020-07-17T09:12:37.202Z,
               "wkst": Weekday {
                 "n": undefined,
                 "weekday": 6,
@@ -141,10 +140,10 @@ test("snapshot test since most the fields are private", () => {
         "options": Object {
           "byeaster": null,
           "byhour": Array [
-            15,
+            16,
           ],
           "byminute": Array [
-            51,
+            10,
           ],
           "bymonth": Array [
             2,
@@ -155,14 +154,14 @@ test("snapshot test since most the fields are private", () => {
           "bynmonthday": Array [],
           "bynweekday": null,
           "bysecond": Array [
-            47,
+            13,
           ],
           "bysetpos": null,
           "byweekday": null,
           "byweekno": null,
           "byyearday": null,
           "count": null,
-          "dtstart": 2021-02-18T15:51:47.000Z,
+          "dtstart": 2021-02-18T16:10:13.000Z,
           "freq": 0,
           "interval": 1,
           "tzid": null,
