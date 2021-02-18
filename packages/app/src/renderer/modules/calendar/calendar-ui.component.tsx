@@ -44,6 +44,7 @@ const CalendarUI: FunctionComponent<Props> = ({
         selectedEvents={tableSelectHook.selectedRows}
         allEventsSelected={tableSelectHook.allRowsSelected}
         toggleAll={tableSelectHook.toggleAll}
+        resetRows={tableSelectHook.resetRows}
       />
       {events.length > 0 ? (
         <EventsList

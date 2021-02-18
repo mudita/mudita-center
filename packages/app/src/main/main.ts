@@ -54,6 +54,7 @@ import logger from "App/main/utils/logger"
 import registerAutoLaunchListener from "App/main/functions/register-auto-launch-listener"
 import { Scope } from "Renderer/models/external-providers/google/google.interface"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
+import registerEventsExportListener from "App/calendar/backend/export-events"
 
 require("dotenv").config()
 
@@ -124,6 +125,7 @@ const createWindow = async () => {
   registerTranslationListener()
   registerAutoLaunchListener()
   registerContactsExportListener()
+  registerEventsExportListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)

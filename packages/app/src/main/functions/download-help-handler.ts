@@ -5,10 +5,12 @@
 
 import { ipcMain } from "electron-better-ipc"
 import { HelpActions } from "Common/enums/help-actions.enum"
-import { createClient } from "contentful"
 import helpStore from "App/main/store/help"
 import settingsStore from "App/main/store/settings"
 import { normalizeHelpData } from "Renderer/utils/contentful/normalize-help-data"
+import { createClient } from "App/api/mudita-center-server"
+import logger from "App/main/utils/logger"
+import { HelpQuery } from "App/api/mudita-center-server/client.interface"
 
 export const registerDownloadHelpHandler = () => {
   const nextSyncToken =
@@ -17,23 +19,22 @@ export const registerDownloadHelpHandler = () => {
   const locale = settingsStore.get("language")
 
   ipcMain.answerRenderer(HelpActions.DownloadContentfulData, async () => {
-    const client = createClient({
-      accessToken: process.env.MC_CONTENTFUL_ACCESS_TOKEN as string,
-      space: process.env.MC_CONTENTFUL_SPACE_ID as string,
-      environment: process.env.MC_CONTENTFUL_ENVIRONMENT_ID,
-      host: process.env.MC_CONTENTFUL_HOST,
-    })
-    const syncConfig: Record<string, any> = {
-      type: "Entry",
-      content_type: "helpItem",
+    const client = createClient()
+    const helpQuery: HelpQuery = {
       locale,
     }
     if (nextSyncToken) {
-      syncConfig.nextSyncToken = nextSyncToken
-    } else {
-      syncConfig.initial = true
+      helpQuery.nextSyncToken = nextSyncToken
     }
-    return normalizeHelpData(await client.sync(syncConfig), locale)
+    try {
+      return normalizeHelpData(
+        (await client.getHelp(helpQuery)),
+        locale
+      )
+    } catch (error) {
+      logger.error(error)
+      return false
+    }
   })
 }
 
