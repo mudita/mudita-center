@@ -206,8 +206,6 @@ test("empty calendars list from api is caught properly", async () => {
 
 test("events from google are received properly", async () => {
   const params = new URLSearchParams({
-    singleEvents: "true",
-    orderBy: "startTime",
     timeMin: moment().startOf("day").toISOString(),
     timeMax: moment().add(1, "year").endOf("year").toISOString(),
     maxResults: "1000",
