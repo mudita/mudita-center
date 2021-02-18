@@ -61,7 +61,7 @@ const generateEmptyCaller = (): Caller => ({
 
 const createCaller = (): Caller => generateEmptyCaller()
 
-const createMessages = ({ id }: Caller) => {
+const createMessages = ({ id }: Caller, threadID: string) => {
   const interlocutor = Faker.random.boolean()
   return {
     author: interlocutor
@@ -73,14 +73,16 @@ const createMessages = ({ id }: Caller) => {
     date: Faker.date.past(),
     content: Faker.lorem.sentences(2),
     interlocutor,
+    threadID,
   }
 }
 
 const createThread = () => {
   const caller = createCaller()
-  const createMessagesWithAuthor = () => createMessages(caller)
+  const threadId = Faker.random.uuid()
+  const createMessagesWithAuthor = () => createMessages(caller,threadId)
   return {
-    id: Faker.random.uuid(),
+    id: threadId,
     caller,
     unread: Faker.random.boolean(),
     messages: times(random(5, 15), createMessagesWithAuthor),

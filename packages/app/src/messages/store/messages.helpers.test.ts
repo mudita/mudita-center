@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { messagesSeed } from "App/seeds/messages"
+import { threadsData } from "App/seeds/messages"
 import { contactsSeed } from "App/seeds/contacts"
 
 import {
@@ -74,7 +74,7 @@ test("properly places caller data within conversation", () => {
   const author = "TEST AUTHOR"
   const result =
     // @ts-ignore
-    expandThread(messagesSeed.threads[0], contactsMock, () => author)
+    expandThread(threadsData[0], contactsMock, () => author)
 
   expect(
     result.messages.every(

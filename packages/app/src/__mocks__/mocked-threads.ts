@@ -18,11 +18,12 @@ export const mockedThreads: Thread[] = [
     messages: [
       {
         id: "e9eb31ea-b7e7-499e-a781-88e5f4dc6b0a",
-        date: new Date(new Date("2020-05-26T20:32:01.433Z")),
+        date: new Date("2020-05-26T20:32:01.433Z"),
         content:
           "Aut maiores dolore temporibus ex enim voluptas. Delectus et nemo fuga voluptas dolorum rem nostrum.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "78a5185c-4c72-4386-a24e-e1a5c0f9115b",
@@ -31,6 +32,7 @@ export const mockedThreads: Thread[] = [
           "Libero ea ut quod. Est doloribus cupiditate nulla illum cumque in.",
         interlocutor: true,
         author: { id: "655eeb91-ed31-4215-9842-e5eed886765e" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "6354c436-908e-475e-b2b5-eb729b314f2d",
@@ -39,6 +41,7 @@ export const mockedThreads: Thread[] = [
           "Quas aut nihil facere minima totam animi distinctio dolores. Quia alias ut voluptas laborum doloribus enim harum ut.",
         interlocutor: true,
         author: { id: "655eeb91-ed31-4215-9842-e5eed886765e" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "f80d59f3-d2da-4a2f-9823-fc4401476b89",
@@ -47,6 +50,7 @@ export const mockedThreads: Thread[] = [
           "Similique voluptatem possimus numquam quidem. Maiores quo sed itaque.",
         interlocutor: true,
         author: { id: "655eeb91-ed31-4215-9842-e5eed886765e" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "45446b6f-bfdc-4f84-9513-d9e12fb701f9",
@@ -54,6 +58,7 @@ export const mockedThreads: Thread[] = [
         content: "Est sit aut totam. Laboriosam ex nam sunt ipsa.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "61a884a9-85a6-472c-811f-8dbab840c6f6",
@@ -62,6 +67,7 @@ export const mockedThreads: Thread[] = [
           "Tenetur voluptatibus ab aperiam quia voluptatem et optio quae. Quia et reprehenderit aut quos itaque tempore.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "a50f5489-ee89-4bcf-bf59-5dd012646de2",
@@ -70,6 +76,7 @@ export const mockedThreads: Thread[] = [
           "Omnis totam ullam ea libero qui error excepturi. Facilis vel in totam tempore autem nihil eos.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "40a35d29-f4d0-4ccb-a9d3-6cd7329a05a0",
@@ -78,6 +85,7 @@ export const mockedThreads: Thread[] = [
           "Reiciendis ratione rerum suscipit. Ea quam enim atque et eveniet impedit explicabo reprehenderit sed.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "97d3fdfc-e4c0-42d5-9f30-c341bbf1dcbb",
@@ -86,6 +94,7 @@ export const mockedThreads: Thread[] = [
           "Consequatur quasi ducimus dolorum animi facilis assumenda eaque sapiente beatae. Maiores adipisci molestiae.",
         interlocutor: true,
         author: { id: "655eeb91-ed31-4215-9842-e5eed886765e" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "50e01d46-0f90-41c8-a52a-aee2497f724a",
@@ -94,6 +103,7 @@ export const mockedThreads: Thread[] = [
           "Dolores iure commodi et alias molestiae rerum excepturi odit tempora. Rem suscipit sint cum soluta porro.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "c9b4431c-4eb1-45fd-9479-511ef5859dcb",
@@ -102,6 +112,7 @@ export const mockedThreads: Thread[] = [
           "Voluptatum sed sed sequi omnis sint. Libero quia tempora est.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "de162537-7daf-43b2-b206-1c76daa2774d",
@@ -110,6 +121,7 @@ export const mockedThreads: Thread[] = [
           "Quae sunt id et dolores eaque quidem. Culpa rem consequuntur alias reprehenderit.",
         interlocutor: true,
         author: { id: "655eeb91-ed31-4215-9842-e5eed886765e" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "16885b4c-eaf7-446f-9fb6-1125dd29ab42",
@@ -118,6 +130,7 @@ export const mockedThreads: Thread[] = [
           "Ullam voluptatem enim aut consectetur ea facere beatae architecto. Et et est est non enim consequuntur.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
       {
         id: "1031f88f-4675-40c4-baf4-303fe1ee0fe0",
@@ -126,6 +139,7 @@ export const mockedThreads: Thread[] = [
           "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "7352c250-ebe0-43f2-be31-0587e38e3bed",
       },
     ],
   },
@@ -146,6 +160,7 @@ export const mockedThreads: Thread[] = [
           "Quibusdam consequatur sit excepturi. Possimus et itaque perspiciatis amet autem eum quia sit.",
         interlocutor: true,
         author: { id: "162bf8b4-1190-4baf-9a9f-79b506cb30bc" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
       {
         id: "378a2645-39e1-4ae9-85ef-71be3e23972a",
@@ -154,6 +169,7 @@ export const mockedThreads: Thread[] = [
           "A numquam necessitatibus nam et. Provident dolorem nisi aut sint magnam quo voluptates aliquid.",
         interlocutor: true,
         author: { id: "162bf8b4-1190-4baf-9a9f-79b506cb30bc" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
       {
         id: "c4cb85c3-a687-49bc-8891-9729ef754500",
@@ -162,6 +178,7 @@ export const mockedThreads: Thread[] = [
           "Quia sit et ut quia quod nihil suscipit ducimus ut. Ut velit repudiandae qui maxime aperiam laboriosam et.",
         interlocutor: true,
         author: { id: "162bf8b4-1190-4baf-9a9f-79b506cb30bc" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
       {
         id: "1f9fb1e8-bed1-48a5-a2c8-17dc0dc36f07",
@@ -170,6 +187,7 @@ export const mockedThreads: Thread[] = [
           "Fugiat facere harum. Voluptatibus sit dolorem consequatur voluptas porro quo mollitia.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
       {
         id: "72cce1d4-bcfb-4664-96ba-fc47d5a981f0",
@@ -177,6 +195,7 @@ export const mockedThreads: Thread[] = [
         content: "Et illum hic. Debitis enim sint in tempore nihil id.",
         interlocutor: true,
         author: { id: "162bf8b4-1190-4baf-9a9f-79b506cb30bc" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
       {
         id: "749bf5d3-4ec1-40cb-859f-f22c3ccdf5e8",
@@ -185,6 +204,7 @@ export const mockedThreads: Thread[] = [
           "Quos et deserunt placeat unde eum quaerat repudiandae veritatis id. Voluptatem mollitia voluptatem porro et qui illo aliquid.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
       {
         id: "6447b909-0efe-4b47-9995-4150cf3b5207",
@@ -193,6 +213,7 @@ export const mockedThreads: Thread[] = [
           "Molestiae esse commodi rerum architecto. Accusamus quo minima deleniti earum eos totam non et id.",
         interlocutor: true,
         author: { id: "162bf8b4-1190-4baf-9a9f-79b506cb30bc" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
       {
         id: "0a28e189-51d4-4c17-a6c0-9328fdba6007",
@@ -201,6 +222,7 @@ export const mockedThreads: Thread[] = [
           "Voluptatibus nulla maiores ut quam qui tempore est et. Sequi cum fuga architecto repudiandae.",
         interlocutor: true,
         author: { id: "162bf8b4-1190-4baf-9a9f-79b506cb30bc" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
       {
         id: "e48968b7-8818-4243-917a-cc3aa8516e49",
@@ -209,6 +231,7 @@ export const mockedThreads: Thread[] = [
           "Et velit debitis nostrum commodi laborum mollitia. Eum dolorum neque blanditiis delectus modi et.",
         interlocutor: true,
         author: { id: "162bf8b4-1190-4baf-9a9f-79b506cb30bc" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
       {
         id: "c9b42c87-3c2f-4fec-8d91-5c1507cbede7",
@@ -217,6 +240,7 @@ export const mockedThreads: Thread[] = [
           "Voluptatem aut autem consectetur. Ut pariatur et quia tenetur qui.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
       {
         id: "7270bf34-f71a-4360-8a0d-492ee6f411a9",
@@ -224,6 +248,7 @@ export const mockedThreads: Thread[] = [
         content: "Ex commodi quia iure. Maiores tempore error dolorum.",
         interlocutor: true,
         author: { id: "162bf8b4-1190-4baf-9a9f-79b506cb30bc" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
       {
         id: "35c0783c-0424-4c8e-b608-f3f7546ea5bf",
@@ -232,6 +257,7 @@ export const mockedThreads: Thread[] = [
           "Velit et ut ut odit quo. Ratione eligendi non consequatur ipsum neque.",
         interlocutor: false,
         author: { id: "123" },
+        threadID: "5a016ee9-1869-40ad-b2b7-a4c24cf2db7e",
       },
     ],
   },
