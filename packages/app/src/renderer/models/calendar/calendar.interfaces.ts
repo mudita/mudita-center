@@ -28,5 +28,5 @@ export interface Calendar {
 export interface CalendarState {
   calendars: Calendar[]
   events: CalendarEvent[]
-  resultsState: ResultsState
+  resultState: ResultsState
 }

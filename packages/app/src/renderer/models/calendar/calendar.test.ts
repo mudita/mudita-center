@@ -9,6 +9,12 @@ import { mockedCalendars } from "App/__mocks__/calendars-list"
 import { eventsData } from "App/seeds/calendar"
 import { getSortedEvents } from "Renderer/models/calendar/calendar.helpers"
 import { ResultsState } from "App/contacts/store/contacts.enum"
+import getEvents from "Renderer/requests/get-events.request"
+import Mock = jest.Mock
+
+jest.mock("Renderer/requests/get-events.request", () =>
+  jest.fn(() => ({ data: [{ id: "1" }, { id: "2" }] }))
+)
 
 const initStore = () =>
   init({
@@ -21,12 +27,17 @@ beforeEach(() => {
   store = initStore()
 })
 
+afterEach(() => {
+  ;(getEvents as any).mockClear()
+})
+
 test("store returns initial state", () => {
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "calendar": Object {
         "calendars": Array [],
         "events": Array [],
+        "resultState": 2,
       },
     }
   `)
@@ -112,5 +123,46 @@ test("events are cleared properly", () => {
 })
 
 test("starts with an empty result state", () => {
-  expect(store.getState().calendar.resultsState).toBe(ResultsState.Empty)
+  expect(store.getState().calendar.resultState).toBe(ResultsState.Empty)
+})
+
+test("doesn't load the calendar data if it's already loading", async () => {
+  await store.dispatch.calendar.loadData()
+  expect(getEvents).toHaveBeenCalled()
+})
+
+test("it doesn't load when it's already loading", async () => {
+  await Promise.all([
+    store.dispatch.calendar.loadData(),
+    store.dispatch.calendar.loadData(),
+  ])
+  expect(getEvents).toHaveBeenCalledTimes(1)
+})
+
+test("stores the events after data is loaded", async () => {
+  await store.dispatch.calendar.loadData()
+  expect(store.getState().calendar.events).toEqual([{ id: "1" }, { id: "2" }])
+})
+
+test("starts with the empty result state", () => {
+  expect(store.getState().calendar.resultState).toBe(ResultsState.Empty)
+})
+
+test("sets the loading state when data is in the loading process", async () => {
+  jest.spyOn(store.dispatch.calendar, "setResultState")
+  await store.dispatch.calendar.loadData()
+  expect((store.dispatch.calendar.setResultState as any).mock.calls[0][0]).toBe(
+    ResultsState.Loading
+  )
+})
+
+test("sets the loaded state when data loading is complete", async () => {
+  await store.dispatch.calendar.loadData()
+  expect(store.getState().calendar.resultState).toBe(ResultsState.Loaded)
+})
+
+test("sets the error result when loading events fails", async () => {
+  ;(getEvents as Mock).mockReturnValue({ error: new Error("failed") })
+  await store.dispatch.calendar.loadData()
+  expect(store.getState().calendar.resultState).toBe(ResultsState.Error)
 })
