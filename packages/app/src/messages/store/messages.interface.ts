@@ -25,6 +25,7 @@ export interface Message {
   content: string
   interlocutor?: boolean
   author: Author
+  threadID: string
 }
 
 export interface Thread {
@@ -34,8 +35,17 @@ export interface Thread {
   messages: Message[]
 }
 
+export interface NormalizedObjects<T> {
+  byId: { [id: string]: T }
+  allIds: string[]
+}
+
+export type MessagesInThreads = { [id: string]: string[] }
+
 export type MessagesState = Readonly<{
-  threads: Thread[]
+  threads: NormalizedObjects<Thread>
+  messages: NormalizedObjects<Message>
+  messagesInThreads: MessagesInThreads
   searchValue: string
   visibilityFilter?: VisibilityFilter
   resultsState: ResultsState

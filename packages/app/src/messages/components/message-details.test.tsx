@@ -34,6 +34,7 @@ const unknownCallerThread: Thread = {
       content:
         "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       interlocutor: true,
+      threadID: "1231",
     },
     {
       author: unknownCaller,
@@ -42,6 +43,7 @@ const unknownCallerThread: Thread = {
       content:
         "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
       interlocutor: true,
+      threadID: "1231",
     },
   ],
 }
@@ -58,6 +60,7 @@ const thread: Thread = {
       content:
         "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       interlocutor: true,
+      threadID: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
     },
     {
       author: caller,
@@ -67,6 +70,7 @@ const thread: Thread = {
         "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
 
       interlocutor: true,
+      threadID: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
     },
   ],
 }
@@ -104,6 +108,7 @@ const mockedThreadFromSecondNumber: Thread = {
       content:
         "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
       interlocutor: true,
+      threadID: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
     },
     {
       author: contactWithMutlitpleNumbers,
@@ -111,8 +116,8 @@ const mockedThreadFromSecondNumber: Thread = {
       date: new Date("2019-10-18T11:45:35.112Z"),
       content:
         "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-
       interlocutor: true,
+      threadID: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
     },
   ],
 }

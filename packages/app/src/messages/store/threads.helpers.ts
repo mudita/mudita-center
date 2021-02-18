@@ -10,7 +10,7 @@ import {
 } from "App/messages/store/messages.interface"
 
 export const searchThreads = (
-  threads: MessagesProps["threads"],
+  threads: Thread[],
   searchValue: MessagesProps["searchValue"]
 ) => {
   if (searchValue.length) {
@@ -31,14 +31,14 @@ export const searchThreads = (
   }
 }
 export const filterThreads = (
-  threads: MessagesProps["threads"],
+  threads: Thread[],
   visibilityFilter: MessagesProps["visibilityFilter"]
 ) =>
   threads?.filter(({ unread }) =>
     visibilityFilter === VisibilityFilter.Unread ? unread : true
   )
 
-export const sortThreads = (threads: MessagesProps["threads"]) => {
+export const sortThreads = (threads: Thread[]) => {
   const lastMessageDate = ({ messages }: Thread) => {
     return messages[messages.length - 1].date
   }

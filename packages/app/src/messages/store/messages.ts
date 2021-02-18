@@ -8,11 +8,16 @@ import {
   searchThreads,
   sortThreads,
 } from "App/messages/store/threads.helpers"
-import { createFullMessagesCollection } from "App/messages/store/messages.helpers"
+import {
+  createFullMessagesCollection,
+  updateNormalizeMessages,
+  updateNormalizeThreads,
+  updateMessagesInThreads,
+} from "App/messages/store/messages.helpers"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import { isCallerMatchingPhoneNumber } from "Renderer/models/calls/caller-utils.ts"
 import { Caller } from "Renderer/models/calls/calls.interface"
-import { messagesData } from "App/seeds/messages"
+import { threadsData } from "App/seeds/messages"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
 import {
@@ -23,9 +28,12 @@ import {
 import { RootState } from "Renderer/store"
 import getThreads from "Renderer/requests/get-threads.request"
 import logger from "App/main/utils/logger"
+import getMessages from "Renderer/requests/get-messages.request"
 
 export const initialState: MessagesState = {
-  threads: [],
+  threads: { byId: {}, allIds: [] },
+  messages: { byId: {}, allIds: [] },
+  messagesInThreads: {},
   searchValue: "",
   resultsState: ResultsState.Empty,
 }
@@ -39,8 +47,8 @@ const messages = createModel<RootModel>({
     ): MessagesState {
       return { ...state, resultsState }
     },
-    setThreads(state: MessagesState, threads: Thread[]): MessagesState {
-      return { ...state, threads }
+    setState(state: MessagesState, newState: MessagesState): MessagesState {
+      return { ...state, ...newState }
     },
     changeSearchValue(
       state: MessagesState,
@@ -55,32 +63,13 @@ const messages = createModel<RootModel>({
       return { ...state, visibilityFilter }
     },
     deleteConversation(state: MessagesState, ids: string[]) {
-      const threads = state.threads.filter(({ id }) => !ids.includes(id))
-      return { ...state, threads }
+      return { ...state }
     },
     markAsRead(state: MessagesState, ids: string[]) {
-      const withMarkAsReadThreads = state.threads.map((thread) => {
-        if (ids.includes(thread.id)) {
-          return {
-            ...thread,
-            unread: false,
-          }
-        }
-        return thread
-      })
-      return { ...state, threads: withMarkAsReadThreads }
+      return { ...state }
     },
     toggleReadStatus(state: MessagesState, ids: string[]) {
-      const withMarkAsUnreadThreads = state.threads.map((thread) => {
-        if (ids.includes(thread.id)) {
-          return {
-            ...thread,
-            unread: !thread.unread,
-          }
-        }
-        return thread
-      })
-      return { ...state, threads: withMarkAsUnreadThreads }
+      return { ...state }
     },
     _devClearAllThreads(state: MessagesState) {
       return {
@@ -91,17 +80,14 @@ const messages = createModel<RootModel>({
     _devLoadDefaultThreads(state: MessagesState) {
       return {
         ...state,
-        threads: messagesData,
+        threads: threadsData,
       }
     },
   },
   effects: (d) => {
     const dispatch = (d as unknown) as RootState
     return {
-      async loadData(
-        _: any,
-        rootState: { messages: { resultsState: ResultsState } }
-      ) {
+      async loadData(_: any, rootState: { messages: MessagesState }) {
         if (rootState.messages.resultsState === ResultsState.Loading) {
           return
         }
@@ -109,11 +95,26 @@ const messages = createModel<RootModel>({
         dispatch.messages.setResultsState(ResultsState.Loading)
 
         const { data = [], error } = await getThreads()
-        if (error) {
+        const {
+          data: messagesData = [],
+          error: messagesError,
+        } = await getMessages()
+
+        if (error || messagesError) {
           logger.error(error)
           dispatch.messages.setResultsState(ResultsState.Error)
         } else {
-          dispatch.messages.setThreads(data)
+          dispatch.messages.setState({
+            threads: updateNormalizeThreads(rootState.messages.threads, data),
+            messages: updateNormalizeMessages(
+              rootState.messages.messages,
+              messagesData
+            ),
+            messagesInThreads: updateMessagesInThreads(
+              rootState.messages.messagesInThreads,
+              messagesData
+            ),
+          })
           dispatch.messages.setResultsState(ResultsState.Loaded)
         }
       },
@@ -129,7 +130,11 @@ const messages = createModel<RootModel>({
       }
     },
     getThreads() {
-      return slice((state) => state.threads)
+      return slice((state) =>
+        Object.keys(state.threads.byId).map(
+          (key: string): Thread => state.threads.byId[key]
+        )
+      )
     },
     getAllCallers(models: StoreSelectors<MessagesState>) {
       return createSelector(models.messages.getThreads, (threads: Thread[]) => {

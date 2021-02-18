@@ -20,6 +20,7 @@ const thread: Thread[] = [
         id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
         date: new Date("2019-10-18T11:27:15.256Z"),
         content: "Idziemy na grzyby?",
+        threadID: "1231",
       },
       {
         author: createFakeCaller(),
@@ -27,6 +28,7 @@ const thread: Thread[] = [
         date: new Date("2019-10-18T11:45:35.112Z"),
         content:
           "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        threadID: "1231",
       },
     ],
   },
@@ -41,6 +43,7 @@ const thread: Thread[] = [
         date: new Date("2019-10-18T11:27:15.256Z"),
         content:
           "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        threadID: "1233",
       },
       {
         author: caller,
@@ -48,6 +51,7 @@ const thread: Thread[] = [
         date: new Date("2019-10-18T11:45:35.112Z"),
         content:
           "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        threadID: "1233",
       },
     ],
   },
@@ -62,6 +66,7 @@ const thread: Thread[] = [
         date: new Date("2019-10-18T11:27:15.256Z"),
         content:
           "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+        threadID: "1234",
       },
       {
         author: caller,
@@ -69,6 +74,7 @@ const thread: Thread[] = [
         date: new Date("2019-10-18T11:45:35.112Z"),
         content:
           "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+        threadID: "1234",
       },
     ],
   },

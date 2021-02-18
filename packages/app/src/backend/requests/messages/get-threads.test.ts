@@ -7,7 +7,7 @@ import getFakeAdapters from "App/tests/get-fake-adapters"
 import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
 import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
-import { messagesSeed } from "App/seeds/messages"
+import { threadsData } from "App/seeds/messages"
 
 test("return mapped threads from pure to Thread model", async () => {
   registerGetThreadsRequest(getFakeAdapters())
@@ -16,5 +16,5 @@ test("return mapped threads from pure to Thread model", async () => {
 
   const { data = [] } = await pendingResponse
 
-  expect(data).toMatchObject(messagesSeed.threads)
+  expect(data).toMatchObject(threadsData)
 })

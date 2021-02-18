@@ -6,7 +6,7 @@
 import { init } from "@rematch/core"
 import messages from "App/messages/store/messages"
 import selectPlugin from "@rematch/select"
-import { messagesData } from "App/seeds/messages"
+import { threadsData } from "App/seeds/messages"
 import { mockedUnreadThreads } from "App/__mocks__/mocked-unread-threads"
 import { VisibilityFilter } from "App/messages/store/messages.interface"
 
@@ -16,7 +16,7 @@ const storeConfig = {
   redux: {
     initialState: {
       messages: {
-        threads: [...mockedUnreadThreads, messagesData],
+        threads: [...mockedUnreadThreads, threadsData],
       },
     },
   },

@@ -4,8 +4,9 @@
  */
 
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { Thread } from "App/messages/store/messages.interface"
+import { Message, Thread } from "App/messages/store/messages.interface"
 
 export default abstract class PurePhoneMessagesAdapter {
   public abstract getThreads(): Promise<DeviceResponse<Thread[]>>
+  public abstract getMessages(): Promise<DeviceResponse<Message[]>>
 }
