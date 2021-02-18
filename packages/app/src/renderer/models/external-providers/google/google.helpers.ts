@@ -78,7 +78,7 @@ export const mapEvents = (events: GoogleEvent[]): CalendarEvent[] => {
             dtstart:
               new Date(event.start?.dateTime as string)
                 .toISOString()
-                .replace(/[\-\:]/g, "")
+                .replace(/[-:]/g, "")
                 .split(".")[0] + "Z",
           })
         : {}),
