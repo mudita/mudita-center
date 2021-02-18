@@ -8,7 +8,7 @@ import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { RRule } from "rrule"
 
 const parseIcs = async (filePaths: string[]): Promise<CalendarEvent[]> => {
-  let parsedEvents: CalendarEvent[] = []
+  const parsedEvents: CalendarEvent[] = []
   for (const filePath of filePaths) {
     const calendarEvents = await ical.async.parseFile(filePath)
     for (const event of Object.values(calendarEvents) as VEvent[]) {
