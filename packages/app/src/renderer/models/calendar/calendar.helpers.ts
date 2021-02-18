@@ -14,7 +14,7 @@ export const getSortedEvents = (events: CalendarEvent[]): CalendarEvent[] => {
   })
 }
 
-export const mapRecurringEvents = (events: CalendarEvent[]) => {
+export const mapEvents = (events: CalendarEvent[]) => {
   const recurringEvents = events.filter((event) => "recurrence" in event)
   const result = difference(events, recurringEvents)
 

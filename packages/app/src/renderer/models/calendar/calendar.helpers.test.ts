@@ -1,4 +1,4 @@
-import { mapRecurringEvents } from "Renderer/models/calendar/calendar.helpers"
+import { mapEvents } from "Renderer/models/calendar/calendar.helpers"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 
@@ -52,6 +52,6 @@ const input: CalendarEvent[] = [
 ]
 
 test("should ", () => {
-  const result = mapRecurringEvents(input)
+  const result = mapEvents(input)
   console.log(result)
 })

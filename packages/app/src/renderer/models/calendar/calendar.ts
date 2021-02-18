@@ -4,7 +4,7 @@
  */
 
 import { Calendar, CalendarEvent, CalendarState } from "./calendar.interfaces"
-import { getSortedEvents, mapRecurringEvents } from "Renderer/models/calendar/calendar.helpers"
+import { getSortedEvents, mapEvents } from "Renderer/models/calendar/calendar.helpers"
 import { Slicer } from "@rematch/select"
 import { RootState } from "Renderer/store"
 import externalProvidersStore from "Renderer/store/external-providers"
@@ -55,7 +55,7 @@ const calendar = createModel<RootModel>({
   selectors: (slice: Slicer<CalendarState>) => ({
     sortedEvents() {
       return slice((state: CalendarState) => {
-        const events = mapRecurringEvents(state.events)
+        const events = mapEvents(state.events)
         return getSortedEvents(events)
       })
     },
