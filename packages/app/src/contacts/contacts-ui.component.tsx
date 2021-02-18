@@ -93,7 +93,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     isThreadOpened,
     resultsState,
     authorize,
-    onExport
+    onExport,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()

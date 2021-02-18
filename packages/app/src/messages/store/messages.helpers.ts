@@ -7,7 +7,6 @@ import { Contact } from "App/contacts/store/contacts.type"
 import {
   Message,
   MessagesInThreads,
-  MessagesState,
   NormalizedObjects,
   Thread,
 } from "App/messages/store/messages.interface"
@@ -29,69 +28,46 @@ export const getContactDetails = (
   return undefined
 }
 
-export const expandThread = (
-  thread: Thread,
-  collection: ContactsCollection,
-  getter: Getter
-) => {
-  const { messages } = thread
-
-  return {
-    ...thread,
-    messages: messages.map((msg) => {
-      const author = getter(msg.author.id, collection)
-
-      if (author) {
-        return {
-          ...msg,
-          author,
-        }
-      }
-
-      return msg
-    }),
-  }
-}
-
-export const createFullMessagesCollection = (state: {
-  messages: MessagesState
-  contacts: { db: ContactsCollection }
-}): Thread[] => {
-  const {
-    messages: { threads, messages, messagesInThreads },
-    contacts: { db: baseContacts },
-  } = state
-
-  return Object.keys(threads.byId).map(
-    (key: string): Thread => {
-      const messagesInThread = messagesInThreads[key]
-      const thread = {
-        ...threads.byId[key],
-        messages: messagesInThread.map((id) => messages.byId[id]),
-      }
-      const { id, phoneNumber } = thread.caller
-
-      const contact: Contact = baseContacts[id]
-
-      if (contact) {
-        const { firstName, lastName, secondaryPhoneNumber } = contact
-
-        return {
-          ...expandThread(thread, baseContacts, getContactDetails),
-          caller: {
-            id,
-            phoneNumber,
-            firstName,
-            lastName,
-            secondaryPhoneNumber,
-          },
-        }
-      }
-
-      return thread
-    }
-  )
-}
+// export const createFullMessagesCollection = (state: {
+//   messages: MessagesState
+//   contacts: { db: ContactsCollection }
+// }): Thread[] => {
+//   const {
+//     messages: { threads, messages, messagesInThreads },
+//     contacts: { db: baseContacts },
+//   } = state
+//
+//   return Object.keys(threads.byId).map(
+//     (key: string): Thread => {
+//       const messagesInThread = messagesInThreads[key]
+//       const thread = {
+//         ...threads.byId[key],
+//         messages: messagesInThread.map((id) => messages.byId[id]),
+//       }
+//       const id = thread.contactId
+//       const phoneNumber = thread.id
+//
+//   const contact: Contact = baseContacts[id]
+//
+//       if (contact) {
+//         const { firstName, lastName, secondaryPhoneNumber } = contact
+//
+//         return {
+//           ...thread,
+//           caller: {
+//             id,
+//             phoneNumber,
+//             firstName,
+//             lastName,
+//             secondaryPhoneNumber,
+//           },
+//         }
+//       }
+//
+//       return thread
+//     }
+//   )
+// }
 
 export const updateNormalizeMessages = (
   prevNormalizeMessages: NormalizedObjects<Message>,
@@ -122,9 +98,9 @@ export const updateMessagesInThreads = (
   messages: Message[]
 ): MessagesInThreads => {
   return messages.reduce((prev, message) => {
-    const prevMessagesInThread = prev[message.threadID] ?? []
+    const prevMessagesInThread = prev[message.threadId] ?? []
     prevMessagesInThread.push(message.id)
-    prev[message.threadID] = prevMessagesInThread
+    prev[message.threadId] = prevMessagesInThread
     return prev
   }, prevMessagesInThreads)
 }

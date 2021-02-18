@@ -11,7 +11,6 @@ import {
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
-import { ActiveRow } from "App/messages/components/messages-list.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -26,14 +25,22 @@ import { intl } from "Renderer/utils/intl"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
+import {
+  Message,
+  MessageType,
+  Thread,
+} from "App/messages/store/messages.interface"
+import { Contact } from "App/contacts/store/contacts.type"
 
 interface Props {
-  details: ActiveRow
+  details: Thread
   onClose?: () => void
   onDeleteClick: (id: string) => void
   onUnreadStatus: (ids: string[]) => void
   onContactClick: (phoneNumber: string) => void
   onAttachContactClick: () => void
+  getMessagesByThreadId: (threadId: string) => Message[]
+  getContactByContactId: (contactId: string) => Contact
 }
 
 const PhoneNumberText = styled(Text)`
@@ -90,6 +97,8 @@ const MessageDetails: FunctionComponent<Props> = ({
   onDeleteClick,
   onContactClick,
   onAttachContactClick,
+  getMessagesByThreadId,
+  getContactByContactId,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -104,7 +113,10 @@ const MessageDetails: FunctionComponent<Props> = ({
   }
 
   const handleDeleteClick = () => onDeleteClick(details.id)
-  const handleContactClick = () => onContactClick(details.caller.phoneNumber)
+  const handleContactClick = () => onContactClick(details.id)
+
+  const messages = getMessagesByThreadId(details.id)
+  const contact = getContactByContactId(details.contactId)
 
   const icons = (
     <>
@@ -156,29 +168,27 @@ const MessageDetails: FunctionComponent<Props> = ({
               displayStyle={TextDisplayStyle.LargeBoldText}
               data-testid="sidebar-fullname"
             >
-              {getPrettyCaller(details.caller)}
+              {getPrettyCaller(contact, details.id)}
             </Text>
-            {Boolean(
-              details.caller.phoneNumber && details.caller.secondaryPhoneNumber
-            ) && (
+            {Boolean(details.id && contact.secondaryPhoneNumber) && (
               <Text
                 displayStyle={TextDisplayStyle.LargeFadedText}
                 data-testid="multiple-number"
               >
                 &nbsp;
-                {details.caller.phoneNumber.split(" ").join("") ===
-                details.caller.secondaryPhoneNumber?.split(" ").join("")
+                {details.id.split(" ").join("") ===
+                contact.secondaryPhoneNumber?.split(" ").join("")
                   ? "#2"
                   : "#1"}
               </Text>
             )}
           </NameWrapper>
-          {isNameAvailable(details.caller) && (
+          {isNameAvailable(contact) && (
             <PhoneNumberText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"
             >
-              {details.caller.phoneNumber}
+              {details.id}
             </PhoneNumberText>
           )}
         </>
@@ -190,35 +200,33 @@ const MessageDetails: FunctionComponent<Props> = ({
     >
       <MessagesWrapper>
         <MessageBubblesWrapper>
-          {details.messages.map(
-            ({ author, content, interlocutor, id }, index) => {
-              const prevMessage = details.messages[index - 1]
-              const previousAuthor = prevMessage?.author.id !== author.id
-              if (index === details.messages.length - 1) {
-                return (
-                  <div ref={ref} key={id}>
-                    <MessageBubble
-                      id={id}
-                      user={author}
-                      message={content}
-                      interlocutor={interlocutor}
-                      previousAuthor={previousAuthor}
-                    />
-                  </div>
-                )
-              }
+          {messages.map(({ contactId, content, messageType, id }, index) => {
+            const prevMessage = messages[index - 1]
+            const previousAuthor = prevMessage?.contactId !== contactId
+            if (index === messages.length - 1) {
               return (
-                <MessageBubble
-                  key={id}
-                  id={id}
-                  user={author}
-                  message={content}
-                  interlocutor={interlocutor}
-                  previousAuthor={previousAuthor}
-                />
+                <div ref={ref} key={id}>
+                  <MessageBubble
+                    id={id}
+                    user={getContactByContactId(contactId)}
+                    message={content}
+                    interlocutor={messageType === MessageType.OUTBOX}
+                    previousAuthor={previousAuthor}
+                  />
+                </div>
               )
             }
-          )}
+            return (
+              <MessageBubble
+                key={id}
+                id={id}
+                user={getContactByContactId(contactId)}
+                message={content}
+                interlocutor={messageType === MessageType.OUTBOX}
+                previousAuthor={previousAuthor}
+              />
+            )
+          })}
         </MessageBubblesWrapper>
       </MessagesWrapper>
       {process.env.NODE_ENV !== "production" && (

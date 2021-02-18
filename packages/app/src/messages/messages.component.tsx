@@ -12,6 +12,8 @@ import { VisibilityFilter } from "App/messages/store/messages.interface"
 
 const selector = select(({ messages, contacts }) => ({
   list: messages.filteredList,
+  getContactByContactId: messages.getContactByContactId,
+  getMessagesByThreadId: messages.getMessagesByThreadId,
   attachContactList: contacts.contactList,
   attachContactFlatList: contacts.flatList,
 }))

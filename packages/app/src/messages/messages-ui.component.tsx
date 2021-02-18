@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { defineMessages } from "react-intl"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
 import MessagesList from "App/messages/components/messages-list.component"
@@ -19,7 +19,7 @@ import findThreadBySearchParams from "App/messages/components/find-thread-by-sea
 import { intl, textFormatters } from "Renderer/utils/intl"
 import modalService from "Renderer/components/core/modal/modal.service"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
-import { Message } from "Renderer/interfaces/message.interface"
+import { Message as TranslationMessage } from "Renderer/interfaces/message.interface"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { AppSettings } from "App/main/store/settings.interface"
 import { useHistory } from "react-router-dom"
@@ -29,6 +29,7 @@ import AttachContactModal from "App/messages/components/attach-contact-modal.com
 import { Contact } from "App/contacts/store/contacts.type"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import { Thread, VisibilityFilter } from "App/messages/store/messages.interface"
+import { Message } from "App/messages/store/messages.interface"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.messages.deleteModal.title" },
@@ -42,6 +43,8 @@ export interface MessagesProps
     Pick<AppSettings, "language"> {
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
+  getMessagesByThreadId: (threadId: string) => Message[]
+  getContactByContactId: (contactId: string) => Contact
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -49,7 +52,9 @@ const Messages: FunctionComponent<MessagesProps> = ({
   changeSearchValue = noop,
   changeVisibilityFilter = noop,
   deleteConversation = noop,
-  list,
+  list: threads,
+  getMessagesByThreadId,
+  getContactByContactId,
   visibilityFilter,
   markAsRead = noop,
   toggleReadStatus = noop,
@@ -57,9 +62,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   attachContactList,
   attachContactFlatList,
 }) => {
-  const [messagesList, setMessagesList] = useState(list)
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Thread>(
-    findThreadBySearchParams(useURLSearchParams(), list)
+    findThreadBySearchParams(useURLSearchParams(), threads)
   )
 
   const {
@@ -68,7 +72,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     toggleAll,
     resetRows,
     ...rest
-  } = useTableSelect<Thread>(list)
+  } = useTableSelect<Thread>(threads)
 
   const showAllMessages = () => {
     changeVisibilityFilter(VisibilityFilter.All)
@@ -78,16 +82,17 @@ const Messages: FunctionComponent<MessagesProps> = ({
     changeVisibilityFilter(VisibilityFilter.Unread)
   }
 
-  useEffect(() => setMessagesList(list), [list])
-
-  const getDeletingMessage = (ids: string[]): Message => {
+  const getDeletingMessage = (ids: string[]): TranslationMessage => {
     const findById = (thread: Thread) => thread.id === ids[0]
-    const thread = list.find(findById) as Thread
+    const thread = threads.find(findById) as Thread
 
     return {
       ...deleteModalMessages.body,
       values: {
-        caller: getPrettyCaller(thread.caller),
+        caller: getPrettyCaller(
+          getContactByContactId(thread.contactId),
+          thread.id
+        ),
         num: allRowsSelected ? -1 : ids.length,
         ...textFormatters,
       },
@@ -156,9 +161,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
       />
       <TableWithSidebarWrapper>
         <MessagesList
-          list={messagesList}
+          list={threads}
           openSidebar={openSidebar}
-          activeRow={activeRow}
+          activeThread={activeRow}
+          getContactByContactId={getContactByContactId}
           onDeleteClick={removeSingleConversation}
           onToggleReadStatus={toggleReadStatus}
           language={language}
@@ -168,6 +174,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
           <MessageDetails
             onDeleteClick={removeSingleConversation}
             onUnreadStatus={toggleReadStatus}
+            getMessagesByThreadId={getMessagesByThreadId}
+            getContactByContactId={getContactByContactId}
             details={activeRow}
             onClose={closeSidebar}
             onContactClick={contactClick}

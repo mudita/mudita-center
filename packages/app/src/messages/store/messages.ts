@@ -4,12 +4,6 @@
  */
 
 import {
-  filterThreads,
-  searchThreads,
-  sortThreads,
-} from "App/messages/store/threads.helpers"
-import {
-  createFullMessagesCollection,
   updateNormalizeMessages,
   updateNormalizeThreads,
   updateMessagesInThreads,
@@ -24,11 +18,13 @@ import {
   MessagesState,
   ResultsState,
   Thread,
+  VisibilityFilter,
 } from "App/messages/store/messages.interface"
 import { RootState } from "Renderer/store"
 import getThreads from "Renderer/requests/get-threads.request"
 import logger from "App/main/utils/logger"
 import getMessages from "Renderer/requests/get-messages.request"
+import { ContactsState } from "App/contacts/store/contacts.type"
 
 export const initialState: MessagesState = {
   threads: { byId: {}, allIds: [] },
@@ -36,6 +32,7 @@ export const initialState: MessagesState = {
   messagesInThreads: {},
   searchValue: "",
   resultsState: ResultsState.Empty,
+  visibilityFilter: VisibilityFilter.All,
 }
 
 const messages = createModel<RootModel>({
@@ -121,14 +118,6 @@ const messages = createModel<RootModel>({
     }
   },
   selectors: (slice: Slicer<MessagesState>) => ({
-    filteredList() {
-      return (state: any) => {
-        let list = createFullMessagesCollection(state)
-        list = searchThreads(list, state.messages.searchValue)
-        list = filterThreads(list, state.messages.visibilityFilter)
-        return sortThreads(list)
-      }
-    },
     getThreads() {
       return slice((state) =>
         Object.keys(state.threads.byId).map(
@@ -136,18 +125,51 @@ const messages = createModel<RootModel>({
         )
       )
     },
+    filteredList(models: StoreSelectors<any>) {
+      return createSelector(models.messages.getThreads, (threads: Thread[]) => {
+        // return threads.map(({ caller }) => caller)
+        return threads
+      })
+    },
+    getContactByContactId() {
+      return (state: { messages: MessagesState; contacts: ContactsState }) => {
+        return (contactId: string) => {
+          return (
+            state.contacts.db[contactId] ?? {
+              id: contactId,
+              firstName: "",
+              lastName: "",
+              primaryPhoneNumber: "",
+              email: "",
+              note: "",
+              firstAddressLine: "",
+            }
+          )
+        }
+      }
+    },
+    getMessagesByThreadId() {
+      return (state: { messages: MessagesState }) => {
+        return (threadId: string) => {
+          const messagesInThread = state.messages.messagesInThreads[threadId]
+          return messagesInThread.map((id) => state.messages.messages.byId[id])
+        }
+      }
+    },
     getAllCallers(models: StoreSelectors<MessagesState>) {
       return createSelector(models.messages.getThreads, (threads: Thread[]) => {
-        return threads.map(({ caller }) => caller)
+        // return threads.map(({ caller }) => caller)
+        return []
       })
     },
     isThreadOpened(models: StoreSelectors<MessagesState>) {
       return (state: MessagesState) => {
-        const callers: Caller[] = models.messages.getAllCallers(state)
+        // const callers: Caller[] = models.messages.getAllCallers(state)
         return (phoneNumber: string) => {
-          return !callers.some((caller) =>
-            isCallerMatchingPhoneNumber(caller, phoneNumber)
-          )
+          // return !callers.some((caller) =>
+          //   isCallerMatchingPhoneNumber(caller, phoneNumber)
+          // )
+          return false
         }
       }
     },

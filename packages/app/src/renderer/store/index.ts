@@ -26,7 +26,6 @@ if (process.env.NODE_ENV !== "test") {
   config.redux = {
     initialState: {
       filesManager: filesManagerSeed,
-      messages: messagesSeed,
       templates: templatesSeed,
       help: helpSeed,
       notes: notesSeed,
