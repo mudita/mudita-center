@@ -445,3 +445,14 @@ export const TableSortButton = styled.button<{ sortOrder?: SortOrder }>`
 `
 
 export default Table
+export const ActionsButton = styled.span`
+  cursor: pointer;
+`
+export const Actions = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex: 1;
+  padding-right: 3rem;
+  box-sizing: border-box;
+`
