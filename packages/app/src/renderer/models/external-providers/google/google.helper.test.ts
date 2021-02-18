@@ -6,6 +6,7 @@
 import { createRuleObject } from "Renderer/models/external-providers/google/google.helpers"
 
 const base = {
+  dtstart: "19970902T090000Z",
   rrule:
     "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20210405T215959Z;INTERVAL=2;BYDAY=FR,MO,TH,TU",
   exdate: "EXDATE;TZID=Europe/Warsaw:20210226T114500",
@@ -13,12 +14,16 @@ const base = {
   rdate: "RDATE;VALUE=DATE:20150609,20150611",
 }
 
+const mockedDate = 1594977157202 // 2020-07-17
+
 test("snapshot test since most the fields are private", () => {
+  jest.spyOn(Date, "now").mockImplementation(() => mockedDate)
   const result = createRuleObject(base)
   expect(result).toMatchInlineSnapshot(`
     Object {
-      "reccurence": RRuleSet {
+      "recurrence": RRuleSet {
         "_cache": null,
+        "_dtstart": 1997-09-02T09:00:00.000Z,
         "_exdate": Array [
           2021-02-26T11:45:00.000Z,
         ],
@@ -28,26 +33,26 @@ test("snapshot test since most the fields are private", () => {
             "options": Object {
               "byeaster": null,
               "byhour": Array [
-                12,
+                9,
               ],
               "byminute": Array [
-                3,
+                0,
               ],
               "bymonth": null,
               "bymonthday": Array [
-                17,
+                2,
               ],
               "bynmonthday": Array [],
               "bynweekday": null,
               "bysecond": Array [
-                41,
+                0,
               ],
               "bysetpos": null,
               "byweekday": null,
               "byweekno": null,
               "byyearday": null,
               "count": 2,
-              "dtstart": 2021-02-17T12:03:41.000Z,
+              "dtstart": 1997-09-02T09:00:00.000Z,
               "freq": 1,
               "interval": 1,
               "tzid": undefined,
@@ -56,7 +61,7 @@ test("snapshot test since most the fields are private", () => {
             },
             "origOptions": Object {
               "count": 2,
-              "dtstart": undefined,
+              "dtstart": 1997-09-02T09:00:00.000Z,
               "freq": 1,
               "tzid": undefined,
             },
@@ -72,17 +77,17 @@ test("snapshot test since most the fields are private", () => {
             "options": Object {
               "byeaster": null,
               "byhour": Array [
-                12,
+                9,
               ],
               "byminute": Array [
-                3,
+                0,
               ],
               "bymonth": null,
               "bymonthday": Array [],
               "bynmonthday": Array [],
               "bynweekday": null,
               "bysecond": Array [
-                41,
+                0,
               ],
               "bysetpos": null,
               "byweekday": Array [
@@ -94,7 +99,7 @@ test("snapshot test since most the fields are private", () => {
               "byweekno": null,
               "byyearday": null,
               "count": null,
-              "dtstart": 2021-02-17T12:03:41.000Z,
+              "dtstart": 1997-09-02T09:00:00.000Z,
               "freq": 2,
               "interval": 2,
               "tzid": undefined,
@@ -120,7 +125,7 @@ test("snapshot test since most the fields are private", () => {
                   "weekday": 1,
                 },
               ],
-              "dtstart": undefined,
+              "dtstart": 1997-09-02T09:00:00.000Z,
               "freq": 2,
               "interval": 2,
               "tzid": undefined,
@@ -136,28 +141,28 @@ test("snapshot test since most the fields are private", () => {
         "options": Object {
           "byeaster": null,
           "byhour": Array [
-            12,
+            15,
           ],
           "byminute": Array [
-            3,
+            51,
           ],
           "bymonth": Array [
             2,
           ],
           "bymonthday": Array [
-            17,
+            18,
           ],
           "bynmonthday": Array [],
           "bynweekday": null,
           "bysecond": Array [
-            41,
+            47,
           ],
           "bysetpos": null,
           "byweekday": null,
           "byweekno": null,
           "byyearday": null,
           "count": null,
-          "dtstart": 2021-02-17T12:03:41.000Z,
+          "dtstart": 2021-02-18T15:51:47.000Z,
           "freq": 0,
           "interval": 1,
           "tzid": null,
