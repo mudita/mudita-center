@@ -25,10 +25,7 @@ module.exports = {
   },
   testURL: "http://localhost",
   setupFiles: ["<rootDir>/test-envs.js"],
-  setupFilesAfterEnv: [
-    "<rootDir>/jest.setup.js",
-    "<rootDir>/jest.mocktimezone.js",
-  ],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   roots: ["<rootDir>/src"],
   testResultsProcessor: "./jest.processor.js",
   collectCoverage: false,
