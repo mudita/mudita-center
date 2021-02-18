@@ -77,5 +77,5 @@ export const contactSupport = async () => {
     }
   }
 
-  modalService.openModal(<ContactModal log={appLogs} onSend={sendForm} />)
+  modalService.openModal(<ContactModal log={appLogs} onSend={sendForm} />, true)
 }
