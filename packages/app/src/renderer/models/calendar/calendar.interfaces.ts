@@ -4,6 +4,7 @@
  */
 
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import { ResultsState } from "App/contacts/store/contacts.enum"
 
 export interface CalendarEvent {
   id: string
@@ -27,4 +28,5 @@ export interface Calendar {
 export interface CalendarState {
   calendars: Calendar[]
   events: CalendarEvent[]
+  resultsState: ResultsState
 }

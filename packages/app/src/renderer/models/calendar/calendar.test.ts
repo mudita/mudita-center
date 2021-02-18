@@ -8,6 +8,7 @@ import calendar from "Renderer/models/calendar/calendar"
 import { mockedCalendars } from "App/__mocks__/calendars-list"
 import { eventsData } from "App/seeds/calendar"
 import { getSortedEvents } from "Renderer/models/calendar/calendar.helpers"
+import { ResultsState } from "App/contacts/store/contacts.enum"
 
 const initStore = () =>
   init({
@@ -108,4 +109,8 @@ test("events are cleared properly", () => {
   expect(store.getState().calendar.events).toHaveLength(events.length)
   store.dispatch.calendar._devClearAllEvents()
   expect(store.getState().calendar.events).toHaveLength(0)
+})
+
+test("starts with an empty result state", () => {
+  expect(store.getState().calendar.resultsState).toBe(ResultsState.Empty)
 })
