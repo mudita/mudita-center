@@ -23,6 +23,7 @@ import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.com
 import { intl } from "Renderer/utils/intl"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { CalendarPanelTestIds } from "Renderer/components/rest/calendar/calendar-panel-test-ids.enum"
+import { exportEvents } from "App/calendar/helpers/export-events/export-events"
 
 const messages = defineMessages({
   synchroniseButton: { id: "view.name.calendar.panel.synchroniseButton" },
@@ -37,6 +38,7 @@ interface CalendarPanelProps extends CalendarInputSelectProps {
   selectedEvents: CalendarEvent[]
   allEventsSelected?: boolean
   toggleAll?: UseTableSelect<CalendarEvent>["toggleAll"]
+  resetRows: UseTableSelect<CalendarEvent>["resetRows"]
 }
 
 const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
@@ -47,9 +49,18 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
   selectedEvents,
   allEventsSelected,
   toggleAll = noop,
+  resetRows,
 }) => {
   const selectedEventsCount = selectedEvents.length
   const selectionMode = selectedEventsCount > 0
+
+  const exportEventsAction = async () => {
+    const exported = await exportEvents(selectedEvents)
+
+    if (exported) {
+      resetRows()
+    }
+  }
   return (
     <Panel selectionMode={selectionMode}>
       {selectionMode ? (
@@ -65,7 +76,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
               label={intl.formatMessage(messages.exportButton)}
               displayStyle={DisplayStyle.Link1}
               Icon={Type.UploadDark}
-              onClick={noop}
+              onClick={exportEventsAction}
             />,
             <ButtonComponent
               key="delete"
