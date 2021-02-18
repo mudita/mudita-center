@@ -52,8 +52,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
     const { id, name, startDate, endDate } = events[index]
     const { selected } = getRowStatus(events[index])
     const onCheckboxToggle = () => toggleRow(events[index])
-    const multiDays =
-      moment(startDate).format("L") !== moment(endDate).format("L")
+    const sameDay = moment(startDate).isSame(endDate, "day")
     return (
       <Row
         active={selectedEventIndex === index}
@@ -71,7 +70,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
         </Col>
         <Col>{!name ? intl.formatMessage(messages.unnamedEvent) : name}</Col>
         <Col>
-          {multiDays ? (
+          {!sameDay ? (
             <>
               <FormattedDate
                 value={startDate}
@@ -99,7 +98,8 @@ const EventsList: FunctionComponent<EventsListProps> = ({
                 month="long"
                 day="2-digit"
                 weekday="long"
-              />{", "}
+              />
+              {", "}
               <TimeWindow startDate={startDate} endDate={endDate} />
             </>
           )}
