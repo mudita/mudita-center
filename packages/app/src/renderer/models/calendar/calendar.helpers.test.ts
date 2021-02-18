@@ -4,54 +4,62 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 
 const input: CalendarEvent[] = [
   {
-    id: "google_2e9j542tthmf7glidvdlr63kk6",
-    name: "Mudita Center - retrospection",
+    id: "google_123",
+    name: "Example event",
     startDate: "2021-01-12T09:30:00.000Z",
     endDate: "2021-01-12T10:15:00.000Z",
     recurrence: {
       _cache: null,
       origOptions: {
         freq: 2,
-        // wkst: ,
-        until: new Date("2021-05-31T21:59:59.000Z"),
+        until: new Date("2021-02-25T21:59:59.000Z"),
         interval: 2,
-        wkst:
-        // byweekday: [
-        //   {
-        //     weekday: 1,
-        //   },
-        // ],
       },
       options: {
-        freq: 2,
-        dtstart: new Date("2021-02-17T14:17:51.000Z"),
-        interval: 2,
+        freq: 1,
+        dtstart: new Date("2021-02-18T10:22:36.000Z"),
+        interval: 5,
         wkst: 6,
         count: null,
-        until: new Date("2021-05-31T21:59:59.000Z"),
-        bysetpos: [1],
-        bymonth: [1],
+        until: null,
+        bysetpos: [],
+        bymonth: [],
         bymonthday: [],
         bynmonthday: [],
-        byyearday: [1],
-        byweekno: [1],
-        byweekday: [1],
+        byyearday: [],
+        byweekno: [],
+        byweekday: [3],
         bynweekday: null,
-        byhour: [14],
-        byminute: [17],
-        bysecond: [51],
+        byhour: [10],
+        byminute: [22],
+        bysecond: [36],
         byeaster: null,
-        tzid: null
+        tzid: null,
       },
     },
     provider: {
       type: Provider.Google,
-      id: "2e9j542tthmf7glidvdlr63kk6",
+      id: "123",
     },
   },
 ]
 
-test("should ", () => {
+test("returns correct amount of recurring events", () => {
   const result = mapEvents(input)
-  console.log(result)
+  expect(result).toHaveLength(3)
+})
+
+test("return correct amount of recurring events plus single event", () => {
+  const singleEvent = {
+    id: "google_123",
+    name: "Example event",
+    startDate: "2021-01-12T09:30:00.000Z",
+    endDate: "2021-01-12T10:15:00.000Z",
+    provider: {
+      type: Provider.Google,
+      id: "123",
+    },
+  }
+  const result = mapEvents([...input, singleEvent] )
+  expect(result).toHaveLength(4)
 })
