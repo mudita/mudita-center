@@ -5,8 +5,8 @@
 
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { RRule } from "rrule"
-// import moment from "moment"
 import moment from "moment"
+import difference from "lodash/difference"
 
 export const getSortedEvents = (events: CalendarEvent[]): CalendarEvent[] => {
   return events.sort((a, b) => {
@@ -14,17 +14,18 @@ export const getSortedEvents = (events: CalendarEvent[]): CalendarEvent[] => {
   })
 }
 
-export const parseRecurringEvent = (event: any) => {}
-
 export const mapRecurringEvents = (events: CalendarEvent[]) => {
-  console.log(events)
   const recurringEvents = events.filter((event) => "recurrence" in event)
-  let m = []
+  const result = difference(events, recurringEvents)
+
   for (const event of recurringEvents) {
-    const rule = new RRule(event.recurrence?.origOptions)
+    const rule = new RRule({
+      ...event.recurrence?.origOptions,
+      dtstart: new Date(event.startDate),
+    })
     const timeDiff =
       new Date(event.endDate).getTime() - new Date(event.startDate).getTime()
-    const events = rule
+    const multipleEvents = rule
       .between(
         new Date(event.startDate),
         moment(event.startDate).add(5, "years").toDate()
@@ -38,8 +39,7 @@ export const mapRecurringEvents = (events: CalendarEvent[]) => {
           ).toISOString(),
         }
       })
-    console.log("events", events)
-    m.push(events)
+    result.push(...multipleEvents)
   }
-  return m.flat()
+  return result
 }
