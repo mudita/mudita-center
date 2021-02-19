@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import DeviceService from "Backend/device-service"
 import DeviceResponse, {
   DeviceResponseStatus,
@@ -20,7 +25,7 @@ class CalendarA extends CalendarAdapter {
         data,
       }
     } else {
-      return { status, error: { message: "asfdsdfsd" } }
+      return { status, error: { message: "Something went wrong" } }
     }
   }
 
