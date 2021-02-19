@@ -17,6 +17,7 @@ import {
   UpdateNotAvailable,
   UpdateServerError,
   UpdatingFailureModal,
+  UpdatingFailureWithHelpModal,
   UpdatingProgressModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
@@ -33,7 +34,10 @@ import osUpdateAlreadyDownloadedCheck from "Renderer/requests/os-update-already-
 import { PhoneUpdate } from "Renderer/models/phone-update/phone-update.interface"
 import delayResponse from "@appnroll/delay-response"
 import updateOs from "Renderer/requests/update-os.request"
-import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
+import {
+  DeviceResponseStatus,
+  ResponseError,
+} from "Backend/adapters/device-response.interface"
 import { isEqual } from "lodash"
 import { StoreValues as BasicInfoValues } from "Renderer/models/basic-info/basic-info.typings"
 import logger from "App/main/utils/logger"
@@ -44,10 +48,35 @@ import registerOsUpdateProgressListener, {
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { Release } from "App/main/functions/register-pure-os-update-listener"
 import appContextMenu from "Renderer/wrappers/app-context-menu"
+import {
+  DeviceUpdateError as PureDeviceUpdateError,
+  deviceUpdateErrorCodeMap as pureDeviceUpdateErrorCodeMap,
+} from "@mudita/pure"
+import {
+  DeviceUpdateError,
+  deviceUpdateErrorCodeMap,
+} from "Backend/adapters/pure-phone/pure-phone.adapter"
+import { contactSupport } from "Renderer/utils/contact-support/contact-support"
+import { HelpActions } from "Common/enums/help-actions.enum"
 
 const onOsDownloadCancel = () => {
   cancelOsDownload()
 }
+
+const errorCodeMap = {
+  ...pureDeviceUpdateErrorCodeMap,
+  ...deviceUpdateErrorCodeMap,
+}
+
+const noCriticalErrorCodes: number[] = [
+  errorCodeMap[PureDeviceUpdateError.VerifyChecksumsFailure],
+  errorCodeMap[PureDeviceUpdateError.VerifyVersionFailure],
+  errorCodeMap[PureDeviceUpdateError.CantOpenUpdateFile],
+  errorCodeMap[PureDeviceUpdateError.NoBootloaderFile],
+  errorCodeMap[PureDeviceUpdateError.CantOpenBootloaderFile],
+  errorCodeMap[DeviceUpdateError.RestartTimedOut],
+  errorCodeMap[DeviceUpdateError.DeviceDisconnectionBeforeDone],
+]
 
 const useSystemUpdateFlow = (
   osUpdateDate: string,
@@ -131,6 +160,31 @@ const useSystemUpdateFlow = (
       true
     )
   }
+
+  const [activeResponseError, setResponseError] = useState<
+    ResponseError | undefined
+  >(undefined)
+
+  useEffect(() => {
+    if (activeResponseError) {
+      const code = errorCodeMap[activeResponseError]
+      displayErrorModal(code)
+      setResponseError(undefined)
+    }
+
+    const unregisterItem = appContextMenu.registerItem("Overview", {
+      label: "Select Pure kind of updating failure",
+      submenu: Object.keys(errorCodeMap).map((key) => {
+        return {
+          label: `${
+            key !== activeResponseError ? `Enable` : `Disabled`
+          } ${key} failure`,
+          click: () => setResponseError(key as ResponseError),
+        }
+      }),
+    })
+    return () => unregisterItem()
+  }, [activeResponseError])
 
   // Checking for updates
   const openCheckingForUpdatesModal = () => {
@@ -293,13 +347,34 @@ const useSystemUpdateFlow = (
       })
     }
 
-    const onRetry = () => updatePure()
-
     if (isEqual(response, { status: DeviceResponseStatus.Ok })) {
       modalService.openModal(<UpdatingSuccessModal />, true)
     } else {
+      const responseCode = response.error?.code
+      displayErrorModal(responseCode)
       logger.error(response)
-      modalService.openModal(<UpdatingFailureModal onRetry={onRetry} />, true)
+    }
+  }
+
+  const goToHelp = (code: number) => () => {
+    ipcRenderer.callMain(HelpActions.OpenWindow, { code })
+  }
+
+  const displayErrorModal = (code?: number) => {
+    if (code && noCriticalErrorCodes.includes(code)) {
+      modalService.openModal(
+        <UpdatingFailureWithHelpModal
+          code={code}
+          onHelp={goToHelp(code)}
+          onContact={contactSupport}
+        />,
+        true
+      )
+    } else {
+      modalService.openModal(
+        <UpdatingFailureModal code={code} onContact={contactSupport} />,
+        true
+      )
     }
   }
 

@@ -24,11 +24,19 @@ export enum ResponseStatus {
   ConnectionError = 503,
 }
 
+export type ResponseErrorCode = number
+
+interface ResponseError {
+  code: ResponseErrorCode
+  message: string
+}
+
 export interface Response<Body = undefined> {
   status: ResponseStatus
   body?: Body
   endpoint?: Endpoint
   uuid?: string
+  error?: ResponseError
 }
 
 export enum DeviceEventName {
@@ -66,6 +74,11 @@ export enum Method {
 
 export enum BodyCommand {
   Download = "download",
+}
+
+export interface ApiRequestConfig extends RequestConfig {
+  endpoint: Endpoint.ApiVersion
+  method: Method.Get
 }
 
 export interface RequestConfig {
