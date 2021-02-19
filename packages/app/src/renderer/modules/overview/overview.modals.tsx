@@ -447,7 +447,7 @@ export const UpdatingFailureWithHelpModal = ({
   onContact: () => void
 }) => (
   <ErrorDataModal
-    closeButton={true}
+    closeButton
     onCloseButton={onContact}
     closeButtonLabel={intl.formatMessage(messages.updatingFailedSupportButton)}
     onActionButtonClick={onHelp}
