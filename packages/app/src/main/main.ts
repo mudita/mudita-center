@@ -54,6 +54,7 @@ import logger from "App/main/utils/logger"
 import registerAutoLaunchListener from "App/main/functions/register-auto-launch-listener"
 import { Scope } from "Renderer/models/external-providers/google/google.interface"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
+import registerEventsExportListener from "App/calendar/backend/export-events"
 
 require("dotenv").config()
 
@@ -124,6 +125,7 @@ const createWindow = async () => {
   registerTranslationListener()
   registerAutoLaunchListener()
   registerContactsExportListener()
+  registerEventsExportListener()
 
   if (productionEnvironment) {
     win.setMenuBarVisibility(false)
@@ -176,7 +178,8 @@ app.on("activate", () => {
   }
 })
 
-ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
+ipcMain.answerRenderer(HelpActions.OpenWindow, (props?: { code?: string }) => {
+  const code = props?.code ?? ""
   if (helpWindow === null) {
     helpWindow = new BrowserWindow(
       getWindowOptions({
@@ -186,7 +189,7 @@ ipcMain.answerRenderer(HelpActions.OpenWindow, () => {
     )
     helpWindow.loadURL(
       developmentEnvironment
-        ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}`
+        ? `http://localhost:2003/?mode=${Mode.Help}#${URL_MAIN.help}?code=${code}`
         : url.format({
             pathname: path.join(__dirname, "index.html"),
             protocol: "file:",

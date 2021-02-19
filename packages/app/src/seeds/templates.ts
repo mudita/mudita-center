@@ -3,16 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { initialState } from "Renderer/models/templates/templates"
+import { initialState } from "App/templates/store/templates"
+import { Template } from "App/templates/store/templates.interface"
 
-export const todaysTemplate = {
+const todaysTemplate: Template = {
   id: "bd100c08-bc73-4e31-b8ae-42345asda",
   content:
     "Voluptas ab suscipit accusamus omnis. Qui voluptas veritatis aperiam enim quasi. Totam et at facere. Nam qui iure quibusdam dolorum non velit. Deleniti non sed rerum reprehenderit omnis deserunt et omnis sapiente.",
   date: new Date(),
 }
 
-const data = [
+const data: Template[] = [
   {
     id: "bd100c08-bc73-4e31-b8ae-9a4462a93200",
     content:
