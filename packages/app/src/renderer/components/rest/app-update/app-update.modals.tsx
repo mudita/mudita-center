@@ -140,6 +140,9 @@ export const AppUpdateDownloaded: FunctionComponent<DownloadedAppUpdateInterface
       message={{
         ...messages.downloadedUpdateWarning,
         values: {
+          // On macOS the app can't automatically start after update (so it just quits),
+          // while linux and windows supports that feature (so the app restarts in fact).
+          // That's why there must be a distinction in translation depending on current OS.
           osxPlatform: process?.platform === "darwin",
         },
       }}

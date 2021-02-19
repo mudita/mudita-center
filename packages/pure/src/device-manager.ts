@@ -47,13 +47,17 @@ class DeviceManager implements PureDeviceManager {
       .map(({ path }) => this.createDevice(path))
   }
 
-  public onAttachDevice(listener: (event: PureDevice) => Promise<void> | void): void {
+  public onAttachDevice(
+    listener: (event: PureDevice) => Promise<void> | void
+  ): void {
     this.#eventEmitter.on(DeviceManagerEventName.AttachedDevice, (event) => {
       void listener(event)
     })
   }
 
-  public offAttachDevice(listener: (event: PureDevice) => Promise<void> | void): void {
+  public offAttachDevice(
+    listener: (event: PureDevice) => Promise<void> | void
+  ): void {
     this.#eventEmitter.off(DeviceManagerEventName.AttachedDevice, (event) => {
       void listener(event)
     })
@@ -71,6 +75,8 @@ class DeviceManager implements PureDeviceManager {
 
             port = portList.find(
               ({ productId, vendorId }) =>
+                // toLowerCase() is needed tu unify the codes as different platforms
+                // shows them in different casing (eg. 045E vs 045e)
                 portInfo.vendorId?.toLowerCase() === vendorId?.toLowerCase() &&
                 portInfo.productId?.toLowerCase() === productId?.toLowerCase()
             )
