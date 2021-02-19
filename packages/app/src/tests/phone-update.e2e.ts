@@ -5,6 +5,7 @@ import fs from "fs"
 import { SystemTestIds } from "Renderer/components/rest/overview/system/system-test-ids"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
+import path from "path"
 
 let app: any
 
@@ -16,9 +17,13 @@ const deleteDownloadDirectory = (downloadPath: string) => {
 
 beforeEach(async () => {
   app = await startApp(true)
-  const downloadPath =
-    (await app.electron.remote.app.getPath("appData")) +
-    `/${name}/pure/os/downloads/`
+  const downloadPath = path.join(
+    await app.electron.remote.app.getPath("appData"),
+    name,
+    "pure",
+    "os",
+    "downloads"
+  )
   deleteDownloadDirectory(downloadPath)
   await enablePhoneSimulation(app)
   await app.client.waitUntil(() =>
@@ -27,14 +32,21 @@ beforeEach(async () => {
 })
 
 afterEach(async () => {
-  const downloadPath =
-    (await app.electron.remote.app.getPath("appData")) +
-    `/${name}/pure/os/downloads/`
+  const downloadPath = path.join(
+    await app.electron.remote.app.getPath("appData"),
+    name,
+    "pure",
+    "os",
+    "downloads"
+  )
   deleteDownloadDirectory(downloadPath)
   await stopApp(app)
 })
 
 test("success update test", async () => {
+  await app.client.waitUntil(() =>
+    app.client.$(`*[data-testid=${SystemTestIds.DownloadButton}]`).isVisible()
+  )
   await app.client.$(`*[data-testid=${SystemTestIds.DownloadButton}]`).click()
   await app.client.waitUntil(() =>
     app.client
