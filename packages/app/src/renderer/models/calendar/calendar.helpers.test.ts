@@ -88,7 +88,6 @@ test("generates correct start and end dates for each event", () => {
 
 test("object keys are mapped correctly", () => {
   const events = mapEvents(input)
-  console.log(events)
   events.forEach((event) => {
     expect(event.id).toEqual(input[0].id)
     expect(event.name).toEqual(input[0].name)
