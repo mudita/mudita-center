@@ -11,7 +11,7 @@ import CalendarAdapter from "Backend/adapters/calendar/calendar-adapter.class"
 import { Endpoint, Method } from "@mudita/pure"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 
-class CalendarA extends CalendarAdapter {
+class Calendar extends CalendarAdapter {
   constructor(private deviceService: DeviceService) {
     super()
   }
@@ -34,7 +34,7 @@ class CalendarA extends CalendarAdapter {
   }
 }
 
-const createCalendar = (deviceService: DeviceService): CalendarA =>
-  new CalendarA(deviceService)
+const createCalendar = (deviceService: DeviceService): Calendar =>
+  new Calendar(deviceService)
 
 export default createCalendar
