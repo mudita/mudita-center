@@ -6,7 +6,6 @@
 import { mapEvents } from "Renderer/models/calendar/calendar.helpers"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import moment from "moment"
 
 const input: CalendarEvent[] = [
   {
@@ -72,18 +71,12 @@ test("return correct amount of recurring events plus single event", () => {
 
 test("generates correct start and end dates for each event", () => {
   const events = mapEvents(input)
-  events.forEach((event, index) => {
-    expect(event.startDate).toEqual(
-      moment(input[0].startDate)
-        .add(14 * (index + 1), "days")
-        .toISOString()
-    )
-    expect(event.endDate).toEqual(
-      moment(input[0].endDate)
-        .add(14 * (index + 1), "days")
-        .toISOString()
-    )
-  })
+  expect(events[0].startDate).toEqual("2021-01-26T09:30:00.000Z")
+  expect(events[1].startDate).toEqual("2021-02-09T09:30:00.000Z")
+  expect(events[2].startDate).toEqual("2021-02-23T09:30:00.000Z")
+  expect(events[0].endDate).toEqual("2021-01-26T10:15:00.000Z")
+  expect(events[1].endDate).toEqual("2021-02-09T10:15:00.000Z")
+  expect(events[2].endDate).toEqual("2021-02-23T10:15:00.000Z")
 })
 
 test("object keys are mapped correctly", () => {
