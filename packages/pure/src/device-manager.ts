@@ -68,7 +68,8 @@ class DeviceManager implements PureDeviceManager {
       const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
 
       if (portInfo.vendorId?.toLowerCase() === vendorId) {
-        for (let i = 0; i < 20; i++) {
+        const retryLimit = 20
+        for (let i = 0; i < retryLimit; i++) {
           const portList = await DeviceManager.getSerialPortList()
 
           const port = portList.find(
