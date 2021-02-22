@@ -12,13 +12,14 @@ const parseIcs = async (filePaths: string[]): Promise<CalendarEvent[]> => {
   for (const filePath of filePaths) {
     const calendarEvents = await ical.async.parseFile(filePath)
     for (const event of Object.values(calendarEvents) as VEvent[]) {
-      const rule = new RRule(event.rrule?.origOptions)
       parsedEvents.push({
         id: event.uid.toString(),
         name: event.summary.toString(),
         startDate: new Date(event.start).toISOString(),
         endDate: new Date(new Date(event.end).toISOString()).toISOString(),
-        recurrence: rule,
+        ...(event.rrule?.origOptions
+          ? { recurrence: new RRule(event.rrule?.origOptions) }
+          : {}),
       })
     }
   }
