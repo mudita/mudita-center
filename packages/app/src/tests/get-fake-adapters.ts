@@ -10,6 +10,7 @@ import createFakePurePhoneBatteryAdapter from "Backend/adapters/pure-phone-batte
 import createFakePurePhoneNetworkAdapter from "Backend/adapters/pure-phone-network/pure-phone-network-fake.adapter"
 import createFakePurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage-fake.adapter"
 import createFakePurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-fake.adapter"
+import createFakeCalendarAdapter from "Backend/adapters/calendar/calendar-fake.adapter"
 import createFakePhonebookAdapter, {
   PhonebookFakeAdapterProps,
 } from "Backend/adapters/phonebook/phonebook-fake.adapter"
@@ -31,6 +32,7 @@ const getFakeAdapters = ({
   pureNetwork: createFakePurePhoneNetworkAdapter(),
   pureBackups: createFakePurePhoneBackupsAdapter(),
   phonebook: createFakePhonebookAdapter(),
+  calendar: createFakeCalendarAdapter(),
 })
 
 export default getFakeAdapters

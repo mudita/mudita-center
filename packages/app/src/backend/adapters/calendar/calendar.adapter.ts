@@ -9,15 +9,19 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import CalendarAdapter from "Backend/adapters/calendar/calendar-adapter.class"
 import { Endpoint, Method } from "@mudita/pure"
-import { Calendar } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 
 class CalendarA extends CalendarAdapter {
   constructor(private deviceService: DeviceService) {
     super()
   }
 
-  public async getEvents(): Promise<DeviceResponse<Calendar[]>> {
-    const { status, data } = await this.getEvent()
+  public async getEvents(): Promise<DeviceResponse<CalendarEvent[]>> {
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.Calendar,
+      method: Method.Get,
+      body: {},
+    })
 
     if (status === DeviceResponseStatus.Ok) {
       return {
@@ -27,13 +31,6 @@ class CalendarA extends CalendarAdapter {
     } else {
       return { status, error: { message: "Something went wrong" } }
     }
-  }
-
-  private getEvent(): Promise<DeviceResponse> {
-    return this.deviceService.request({
-      endpoint: Endpoint.Calendar,
-      method: Method.Get,
-    })
   }
 }
 

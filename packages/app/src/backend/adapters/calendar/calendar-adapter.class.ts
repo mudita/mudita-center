@@ -4,8 +4,8 @@
  */
 
 import DeviceResponse from "Backend/adapters/device-response.interface"
-import { Calendar } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 
 export default abstract class CalendarAdapter {
-  public abstract getEvents(): Promise<DeviceResponse<Calendar[]>>
+  public abstract getEvents(): Promise<DeviceResponse<CalendarEvent[]>>
 }
