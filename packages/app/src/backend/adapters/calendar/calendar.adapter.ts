@@ -10,6 +10,7 @@ import DeviceResponse, {
 import CalendarAdapter from "Backend/adapters/calendar/calendar-adapter.class"
 import { Endpoint, Method } from "@mudita/pure"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { handleEventsFromDevice } from "Renderer/models/calendar/calendar.helpers"
 
 class Calendar extends CalendarAdapter {
   constructor(private deviceService: DeviceService) {
@@ -26,7 +27,7 @@ class Calendar extends CalendarAdapter {
     if (status === DeviceResponseStatus.Ok) {
       return {
         status,
-        data,
+        data: handleEventsFromDevice(data),
       }
     } else {
       return { status, error: { message: "Something went wrong" } }

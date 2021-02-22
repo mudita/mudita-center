@@ -13,7 +13,7 @@ export interface CalendarEvent {
   endDate: string
   description?: string
   provider?: {
-    type: Provider
+    type: Provider | string
     id: string
   }
 }
