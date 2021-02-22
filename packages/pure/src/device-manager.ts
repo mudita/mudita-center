@@ -65,33 +65,29 @@ class DeviceManager implements PureDeviceManager {
 
   private registerAttachDeviceEmitter(): void {
     this.usbDetector.onAttachDevice(async (portInfo) => {
+      const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
+
       if (portInfo.vendorId?.toLowerCase() === vendorId) {
-        let port: PortInfo | undefined
-        let intervals = 0
+        for (let i = 0; i < 20; i++) {
+          const portList = await DeviceManager.getSerialPortList()
 
-        await new Promise((resolve) => {
-          const waitForPort = setInterval(async () => {
-            const portList = await DeviceManager.getSerialPortList()
+          const port = portList.find(
+            ({ productId, vendorId }) =>
+              // toLowerCase() is needed tu unify the codes as different platforms
+              // shows them in different casing (eg. 045E vs 045e)
+              portInfo.vendorId?.toLowerCase() === vendorId?.toLowerCase() &&
+              portInfo.productId?.toLowerCase() === productId?.toLowerCase()
+          )
 
-            port = portList.find(
-              ({ productId, vendorId }) =>
-                // toLowerCase() is needed tu unify the codes as different platforms
-                // shows them in different casing (eg. 045E vs 045e)
-                portInfo.vendorId?.toLowerCase() === vendorId?.toLowerCase() &&
-                portInfo.productId?.toLowerCase() === productId?.toLowerCase()
+          if (port) {
+            const device = this.createDevice(port.path)
+            this.#eventEmitter.emit(
+              DeviceManagerEventName.AttachedDevice,
+              device
             )
-
-            if (intervals === 20 || port) {
-              clearInterval(waitForPort)
-              resolve(port)
-            }
-            intervals++
-          }, 500)
-        })
-
-        if (port) {
-          const device = this.createDevice(port.path)
-          this.#eventEmitter.emit(DeviceManagerEventName.AttachedDevice, device)
+            break
+          }
+          await sleep()
         }
       }
     })
