@@ -25,8 +25,8 @@ import { FormatterFactory } from "../formatter/formatter-factory"
 class Device extends BaseDevice {
   #formatter: Formatter
 
-  constructor(path: string) {
-    super(path)
+  constructor(path: string, logger?: any) {
+    super(path, logger)
     this.#formatter = FormatterFactory.create()
   }
 
@@ -93,4 +93,6 @@ class Device extends BaseDevice {
   }
 }
 
-export const createDevice: CreateDevice = (path: string) => new Device(path)
+export const createDevice: CreateDevice = (path: string, logger?: any) => {
+  return new Device(path, logger)
+}

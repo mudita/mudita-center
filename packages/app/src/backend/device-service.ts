@@ -22,6 +22,7 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { MainProcessIpc } from "electron-better-ipc"
+import logger from "App/main/utils/logger"
 
 export enum DeviceServiceEventName {
   ConnectedDevice = "connectedDevice",
@@ -38,6 +39,7 @@ class DeviceService {
   ) {}
 
   public init() {
+    this.deviceManager.registerLogger(logger)
     this.registerAttachDeviceListener()
     return this
   }

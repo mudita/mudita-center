@@ -28,7 +28,7 @@ class BaseDevice implements PureDevice {
   #eventEmitter = new EventEmitter()
   #portBlocked = true
 
-  constructor(private path: string) {}
+  constructor(private path: string, private logger?: any) {}
 
   public connect(): Promise<Response> {
     return new Promise((resolve) => {
@@ -41,10 +41,13 @@ class BaseDevice implements PureDevice {
       })
 
       this.#port.on("data", (event) => {
+        this.logger?.info("==== serial port: data event ====")
+        this.logger?.info(JSON.stringify(event))
         this.#eventEmitter.emit(DeviceEventName.DataReceived, event)
       })
 
       this.#port.on("close", () => {
+        this.logger?.info("==== serial port: close event ====")
         this.#eventEmitter.emit(DeviceEventName.Disconnected)
       })
     })
@@ -226,6 +229,8 @@ class BaseDevice implements PureDevice {
   private deviceRequest(
     config: RequestConfig
   ): Promise<Response<{ version: number }>> {
+    this.logger?.info("==== serial port: device request ====")
+    this.logger?.info(JSON.stringify(config))
     return new Promise((resolve) => {
       if (!this.#port || !this.#portBlocked) {
         resolve({ status: ResponseStatus.ConnectionError })
@@ -233,6 +238,9 @@ class BaseDevice implements PureDevice {
         const uuid = getNewUUID()
 
         const listener = async (event: any) => {
+          this.logger?.info("==== serial port: data received ====")
+          this.logger?.info(JSON.stringify(event))
+
           const response = await parseData(event)
 
           if (response.uuid === String(uuid)) {

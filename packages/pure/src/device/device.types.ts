@@ -11,7 +11,7 @@ export interface PureDevice {
   off(eventName: DeviceEventName, listener: () => void): void
 }
 
-export type CreateDevice = (path: string) => PureDevice
+export type CreateDevice = (path: string, logger?: any) => PureDevice
 
 export enum ResponseStatus {
   Ok = 200,

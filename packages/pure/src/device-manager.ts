@@ -20,6 +20,7 @@ export interface PureDeviceManager {
   getDevices(): Promise<PureDevice[]>
   onAttachDevice(listener: (event: PureDevice) => void): void
   offAttachDevice(listener: (event: PureDevice) => void): void
+  registerLogger(logger: any): void
 }
 
 class DeviceManager implements PureDeviceManager {
@@ -27,7 +28,8 @@ class DeviceManager implements PureDeviceManager {
 
   constructor(
     private createDevice: CreateDevice,
-    private usbDetector: UsbDetector
+    private usbDetector: UsbDetector,
+    private logger?: any
   ) {}
 
   public init(): DeviceManager {
@@ -35,8 +37,12 @@ class DeviceManager implements PureDeviceManager {
     return this
   }
 
+  public registerLogger(logger: any) {
+    this.logger = logger
+  }
+
   public async getDevices(): Promise<PureDevice[]> {
-    const portList = await DeviceManager.getSerialPortList()
+    const portList = await this.getSerialPortList()
 
     return portList
       .filter(
@@ -44,7 +50,7 @@ class DeviceManager implements PureDeviceManager {
           portInfo.productId?.toLowerCase() === productId &&
           portInfo.vendorId?.toLowerCase() === vendorId
       )
-      .map(({ path }) => this.createDevice(path))
+      .map(({ path }) => this.createDevice(path, this.logger))
   }
 
   public onAttachDevice(
@@ -67,35 +73,36 @@ class DeviceManager implements PureDeviceManager {
     this.usbDetector.onAttachDevice(async (portInfo) => {
       const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
 
-      if (portInfo.vendorId?.toLowerCase() === vendorId) {
-        const retryLimit = 20
-        for (let i = 0; i < retryLimit; i++) {
-          const portList = await DeviceManager.getSerialPortList()
+      const retryLimit = 20
+      for (let i = 0; i < retryLimit; i++) {
+        const portList = await this.getSerialPortList()
 
-          const port = portList.find(
-            ({ productId, vendorId }) =>
-              // toLowerCase() is needed tu unify the codes as different platforms
-              // shows them in different casing (eg. 045E vs 045e)
-              portInfo.vendorId?.toLowerCase() === vendorId?.toLowerCase() &&
-              portInfo.productId?.toLowerCase() === productId?.toLowerCase()
-          )
+        const port = portList.find(
+          ({ productId, vendorId }) =>
+            // toLowerCase() is needed tu unify the codes as different platforms
+            // shows them in different casing (eg. 045E vs 045e)
+            portInfo.vendorId?.toLowerCase() === vendorId?.toLowerCase() &&
+            portInfo.productId?.toLowerCase() === productId?.toLowerCase()
+        )
 
-          if (port) {
-            const device = this.createDevice(port.path)
-            this.#eventEmitter.emit(
-              DeviceManagerEventName.AttachedDevice,
-              device
-            )
-            break
-          }
-          await sleep()
+        if (port) {
+          const device = this.createDevice(port.path, this.logger)
+          this.logger?.info("==== device found ====")
+          this.logger?.info(JSON.stringify(device, null, 2))
+
+          this.#eventEmitter.emit(DeviceManagerEventName.AttachedDevice, device)
+          break
         }
+        await sleep()
       }
     })
   }
 
-  private static getSerialPortList(): Promise<PortInfo[]> {
-    return SerialPort.list()
+  private async getSerialPortList(): Promise<PortInfo[]> {
+    const list = await SerialPort.list()
+    this.logger?.info("==== serial ports list ====")
+    this.logger?.info(JSON.stringify(list, null, 2))
+    return list
   }
 }
 
