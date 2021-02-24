@@ -7,6 +7,7 @@ import {
   CalendarEvent,
   CalendarState,
 } from "Renderer/models/calendar/calendar.interfaces"
+import { ResultsState } from "App/contacts/store/contacts.enum"
 
 export const eventsData: CalendarEvent[] = [
   {
@@ -86,4 +87,5 @@ export const eventsData: CalendarEvent[] = [
 export const calendarSeed: CalendarState = {
   events: eventsData,
   calendars: [],
+  resultState: ResultsState.Loaded,
 }
