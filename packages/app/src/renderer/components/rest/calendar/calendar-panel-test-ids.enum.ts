@@ -5,4 +5,5 @@
 
 export enum CalendarPanelTestIds {
   SelectionManager = "calendar-selection-manager",
+  ExportButton = "export-button"
 }

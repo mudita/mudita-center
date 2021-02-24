@@ -58,7 +58,6 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
 
   const exportEventsAction = async () => {
     const exported = await exportEvents(selectedEvents)
-
     if (exported) {
       resetRows()
     } else {
@@ -81,6 +80,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
               displayStyle={DisplayStyle.Link1}
               Icon={Type.UploadDark}
               onClick={exportEventsAction}
+              data-testid={CalendarPanelTestIds.ExportButton}
             />,
             <ButtonComponent
               key="delete"
