@@ -24,6 +24,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { SystemTestIds } from "Renderer/components/rest/overview/system/system-test-ids"
 
 const TextInfo = styled(CardText)``
 
@@ -110,6 +111,7 @@ const System: FunctionComponent<SystemProps> = ({
               })}
               Icon={Type.DownloadWhite}
               onClick={onDownload}
+              data-testid={SystemTestIds.DownloadButton}
             />
           )
         ) : (
