@@ -66,7 +66,9 @@ class BaseDevice implements PureDevice {
     })
   }
 
-  public request(config: ApiRequestConfig): Promise<Response<{ version: number }>>
+  public request(
+    config: ApiRequestConfig
+  ): Promise<Response<{ version: number }>>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
     if (config.endpoint === Endpoint.FileUpload) {
@@ -111,6 +113,13 @@ class BaseDevice implements PureDevice {
                 if (this.#port) {
                   this.#port.write(data)
                   this.#port.drain()
+
+                  // This is a hack for Windows. Writing and draining was too frequent
+                  // so the serialport couldn't handle that.
+                  readStream.pause()
+                  setTimeout(() => {
+                    readStream.resume()
+                  }, 10)
                 }
               })
 
@@ -202,7 +211,9 @@ class BaseDevice implements PureDevice {
     })
   }
 
-  private async apiRequest(config: ApiRequestConfig): Promise<Response<{ version: number }>> {
+  private async apiRequest(
+    config: ApiRequestConfig
+  ): Promise<Response<{ version: number }>> {
     // mocked response until the backend implements versioning API
     return {
       status: ResponseStatus.Ok,
@@ -212,7 +223,9 @@ class BaseDevice implements PureDevice {
     }
   }
 
-  private deviceRequest(config: RequestConfig): Promise<Response<{ version: number }>> {
+  private deviceRequest(
+    config: RequestConfig
+  ): Promise<Response<{ version: number }>> {
     return new Promise((resolve) => {
       if (!this.#port || !this.#portBlocked) {
         resolve({ status: ResponseStatus.ConnectionError })
