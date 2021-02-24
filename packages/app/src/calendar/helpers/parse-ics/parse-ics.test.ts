@@ -17,7 +17,9 @@ test("single events don't have recurrence property", async () => {
   const eventsFromSingleCalendar = await parseIcs([
     path.join(__dirname, "./calendar.ics"),
   ])
-  eventsFromSingleCalendar.forEach(event => expect(event).not.toHaveProperty("recurrence"))
+  eventsFromSingleCalendar.forEach((event) =>
+    expect(event).not.toHaveProperty("recurrence")
+  )
 })
 
 test("correct amount of events returned from multiple files", async () => {
@@ -39,5 +41,13 @@ test("recurring events do have recurrence property", async () => {
   const recurringEvents = await parseIcs([
     path.join(__dirname, "./calendar-recurring-events.ics"),
   ])
-  recurringEvents.forEach(event => expect(event).toHaveProperty("recurrence"))
+  recurringEvents.forEach((event) => expect(event).toHaveProperty("recurrence"))
+})
+
+test("events without required fields are filtered out, event with only name missing is return empty string that is later mapped in a view as unnamed event ", async () => {
+  const result = await parseIcs([
+    path.join(__dirname, "./invalid-calendar.ics"),
+  ])
+  expect(result[1].name).toEqual("")
+  expect(result).toHaveLength(2)
 })
