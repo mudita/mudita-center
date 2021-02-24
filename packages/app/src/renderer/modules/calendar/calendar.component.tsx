@@ -25,6 +25,7 @@ import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import parseIcs from "App/calendar/helpers/parse-ics/parse-ics"
 import ImportEventsModal from "App/calendar/components/import-events-modal/import-events-modal.component"
+import overwriteDuplicates from "App/calendar/helpers/overwrite-duplicates/overwrite-duplicates"
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
@@ -88,7 +89,10 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   }
 
   const addImportedEvents = async (files: File[]) => {
-    const calendarEvents = await parseIcs(files.map(({ path }) => path))
+    const calendarEvents = overwriteDuplicates(
+      events,
+      await parseIcs(files.map(({ path }) => path))
+    )
     await modalService.closeModal()
     modalService.openModal(
       <ImportEventsModal
@@ -141,8 +145,11 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   const synchronizeEvents = async (calendar: Calendar) => {
     try {
       openSynchronizingLoaderModal()
-      const events = await delayResponse(loadEvents(calendar))
-      openSynchronizationFinishedModal(events.length)
+      const newEvents = overwriteDuplicates(
+        events,
+        await delayResponse(loadEvents(calendar))
+      )
+      openSynchronizationFinishedModal(newEvents.length)
     } catch (error) {
       openSynchronizationFailedModal()
       logger.error(error)
