@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import BaseDevice from "./base-device"
 import {
   CreateDevice,
@@ -7,7 +12,13 @@ import {
   Response,
   ResponseStatus,
 } from "./device.types"
-import { Contact, CountBodyResponse, DeviceInfo } from "../endpoints"
+import {
+  Contact,
+  CountBodyResponse,
+  DeviceInfo,
+  DeviceUpdateErrorResponse,
+  DeviceUpdateResponse,
+} from "../endpoints"
 import { Formatter } from "../formatter/formatter"
 import { FormatterFactory } from "../formatter/formatter-factory"
 
@@ -68,7 +79,7 @@ class Device extends BaseDevice {
     endpoint: Endpoint.DeviceUpdate
     method: Method.Post
     filePath: string
-  }): Promise<Response>
+  }): Promise<DeviceUpdateResponse | DeviceUpdateErrorResponse>
   public request(config: {
     endpoint: Endpoint.FileUpload
     method: Method.Post
@@ -78,7 +89,6 @@ class Device extends BaseDevice {
   public async request(config: RequestConfig): Promise<Response<any>> {
     const formattedConfig = this.#formatter.formatRequestConfig(config)
     const response = await super.request(formattedConfig)
-
     return this.#formatter.formatResponse(config.method, response)
   }
 }

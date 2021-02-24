@@ -1,9 +1,9 @@
 {
   "name": "@mudita/mudita-center-app",
-  "version": "4.4.0",
-  "description": "App",
+  "version": "6.0.0",
+  "description": "Mudita Center",
   "main": "./dist/main.js",
-  "productName": "App",
+  "productName": "Mudita Center",
   "scripts": {
     "MAIN COMMANDS": "=========================================================",
     "develop": "cross-env START_HOT=1 npm run dev:start:renderer",
@@ -27,8 +27,8 @@
     "dist": "npm run build && electron-builder --publish never",
     "dist:all": "npm run dist -- -mwl",
     "TEST COMMANDS": "=========================================================",
-    "test": "jest --config=jest-unit.config.js",
-    "test:all": "jest --config=jest.config.js",
+    "test": "TZ=UTC jest --config=jest-unit.config.js",
+    "test:all": "TZ=UTC jest --config=jest.config.js",
     "test:coverage": "npm run test -- --coverage",
     "test:e2e": "jest --config=jest-e2e.config.js --runInBand",
     "test:watch": "npm test -- --watch",
@@ -40,8 +40,9 @@
     "translations:overwrite": "cross-env OVERWRITE=true npm run translations:update",
     "translations:send": "node ./scripts/updatePhraseTranslations.js",
     "translations:sort": "node ./scripts/sortTranslations.js",
+    "fonts:download": "node ./scripts/downloadFonts.js",
     "UTILITY/AUTO COMMANDS": "=================================================",
-    "postinstall": "electron-builder install-app-deps && electron-rebuild -f",
+    "postinstall": "npm run fonts:download && electron-builder install-app-deps && electron-rebuild -f",
     "electron:rebuild-serialport": "electron-rebuild -f -w serialport",
     "prerelease": "npm run translations:overwrite && npm run build",
     "prestart": "npm run build",
@@ -59,8 +60,11 @@
     "mac": {
       "category": "public.app-category.utilities",
       "icon": "./icons/mac/icon.icns",
-      "target": "dmg",
-      "artifactName": "Mudita Center.${ext}"
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "artifactName": "Mudita-Center.${ext}"
     },
     "win": {
       "target": "nsis",
@@ -68,7 +72,7 @@
     },
     "nsis": {
       "include": "installer.nsh",
-      "artifactName": "Mudita Center.${ext}",
+      "artifactName": "Mudita-Center.${ext}",
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": false,
@@ -79,7 +83,7 @@
       "target": "AppImage",
       "category": "Utility",
       "executableName": "Mudita Center",
-      "artifactName": "Mudita Center.${ext}"
+      "artifactName": "Mudita-Center.${ext}"
     },
     "directories": {
       "output": "release"
@@ -218,6 +222,7 @@
     "@appnroll/delay-response": "^1.0.2",
     "@contentful/rich-text-react-renderer": "^14.1.2",
     "@contentful/rich-text-types": "^14.1.2",
+    "@mudita/pure": "*",
     "@rematch/core": "^1.4.0",
     "@rematch/select": "^2.0.5",
     "@seznam/compose-react-refs": "1.0.4",
@@ -237,13 +242,13 @@
     "faker": "^5.2.0",
     "fs-extra": "^9.1.0",
     "history": "^4.10.1",
+    "ical-generator": "^1.15.4",
     "is-electron-renderer": "^2.0.1",
     "lodash": "^4.17.20",
     "minimist": "^1.2.5",
     "moment": "^2.29.1",
     "node-fetch": "^2.6.1",
     "node-ical": "^0.12.8",
-    "@mudita/pure": "*",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.5.2",

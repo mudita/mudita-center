@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import moment from "moment"
 import React from "react"
 import { useHistory } from "react-router-dom"
@@ -32,7 +37,7 @@ import {
   Input,
 } from "App/contacts/components/contact-details/contact-details.styled"
 import createRouterPath from "Renderer/utils/create-router-path"
-import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
+import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 
 const messages = defineMessages({
   today: { id: "view.name.phone.calls.today" },

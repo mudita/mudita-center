@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { Endpoint, Method } from "@mudita/pure"
 import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.class"
 import DeviceResponse, {
@@ -5,6 +10,17 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import DeviceService, { DeviceServiceEventName } from "Backend/device-service"
 import { noop } from "Renderer/utils/noop"
+import timeout from "Backend/timeout"
+
+export enum DeviceUpdateError {
+  RestartTimedOut = "RestartTimedOut",
+  DeviceDisconnectionBeforeDone = "DeviceDisconnectionBeforeDone",
+}
+
+export const deviceUpdateErrorCodeMap: Record<DeviceUpdateError, number> = {
+  [DeviceUpdateError.RestartTimedOut]: 9900,
+  [DeviceUpdateError.DeviceDisconnectionBeforeDone]: 9901,
+}
 
 class PurePhone extends PurePhoneAdapter {
   static osUpdateStepsMax = 3
@@ -67,6 +83,7 @@ class PurePhone extends PurePhoneAdapter {
     let unregisterListeners = noop
     return new Promise<DeviceResponse>(async (resolve) => {
       let step = 0
+      let cancelTimeout = noop
 
       const connectedDeviceListener = () => {
         if (step === PurePhone.osUpdateRestartStep) {
@@ -77,12 +94,33 @@ class PurePhone extends PurePhoneAdapter {
       }
 
       const disconnectedDeviceListener = () => {
+        const [promise, cancel] = timeout(30000)
+        cancelTimeout = cancel
+
+        promise.then(() => {
+          resolve({
+            status: DeviceResponseStatus.Error,
+            error: {
+              code: deviceUpdateErrorCodeMap[DeviceUpdateError.RestartTimedOut],
+              message: "restart pure has timed out",
+            },
+          })
+        })
+
         if (step < PurePhone.osUpdateRestartStep) {
           resolve({
             status: DeviceResponseStatus.Error,
+            error: {
+              code:
+                deviceUpdateErrorCodeMap[
+                  DeviceUpdateError.DeviceDisconnectionBeforeDone
+                ],
+              message: "device has disconnected before updating finish",
+            },
           })
         }
       }
+
       unregisterListeners = () => {
         this.deviceService.off(
           DeviceServiceEventName.ConnectedDevice,
@@ -92,6 +130,7 @@ class PurePhone extends PurePhoneAdapter {
           DeviceServiceEventName.DisconnectedDevice,
           disconnectedDeviceListener
         )
+        cancelTimeout()
       }
 
       this.deviceService.on(
@@ -136,6 +175,7 @@ class PurePhone extends PurePhoneAdapter {
         } else {
           resolve({
             status: DeviceResponseStatus.Error,
+            error: pureUpdateResponse.error,
           })
         }
       } else {

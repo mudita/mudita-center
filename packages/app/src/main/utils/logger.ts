@@ -1,5 +1,11 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { createLogger, format, transports } from "winston"
 import { name } from "../../../package.json"
+import path from "path"
 const DailyRotateFile = require("winston-daily-rotate-file")
 const isRenderer = require("is-electron-renderer")
 const RollbarTransport = require("winston-transport-rollbar-3")
@@ -36,8 +42,8 @@ const logger = createLogger({
     ...(app
       ? [
           new DailyRotateFile({
-            dirname: `${app.getPath("appData")}/${name}/logs`,
-            filename: "pda-%DATE%",
+            dirname: path.join(app.getPath("appData"), name, "logs"),
+            filename: "mc-%DATE%",
             extension: ".log",
             datePattern: "YYYY-MM-DD",
             maxFiles: 3,

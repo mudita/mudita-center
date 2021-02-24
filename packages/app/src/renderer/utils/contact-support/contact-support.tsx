@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { getAppLogs } from "Renderer/requests/app-logs.request"
 import ContactModal, {
   SupportFormData,
@@ -72,5 +77,5 @@ export const contactSupport = async () => {
     }
   }
 
-  modalService.openModal(<ContactModal log={appLogs} onSend={sendForm} />)
+  modalService.openModal(<ContactModal log={appLogs} onSend={sendForm} />, true)
 }

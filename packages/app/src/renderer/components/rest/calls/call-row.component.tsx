@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import moment from "moment"
 import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
@@ -6,7 +11,12 @@ import Dropdown from "Renderer/components/core/dropdown/dropdown.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import { Col, Row } from "Renderer/components/core/table/table.component"
+import {
+  Actions,
+  ActionsButton,
+  Col,
+  Row,
+} from "Renderer/components/core/table/table.component"
 import { CallsTableTestIds } from "Renderer/components/rest/calls/calls-table.enum"
 import {
   Checkbox,
@@ -14,11 +24,7 @@ import {
   StatusCallIcon,
 } from "Renderer/components/rest/calls/calls-table.styled"
 import { Details } from "Renderer/components/rest/calls/call-details.types"
-import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
-import {
-  Actions,
-  ActionsButton,
-} from "Renderer/components/rest/messages/messages-list.component"
+import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { resolveCallType } from "Renderer/components/rest/calls/call-details.helpers"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import formatDuration from "Renderer/utils/format-duration"

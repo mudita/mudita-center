@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import {
   Endpoint,
   Method,
@@ -5,6 +10,7 @@ import {
   Response,
 } from "../device/device.types"
 import { Formatter } from "./formatter"
+import { DeviceUpdateError, deviceUpdateErrorCodeMap } from "../endpoints"
 
 export class PureV1Formatter extends Formatter {
   formatRequestConfig(config: RequestConfig): RequestConfig {
@@ -21,9 +27,20 @@ export class PureV1Formatter extends Formatter {
   }
 
   formatResponse(method: Method, response: Response<any>): Response<any> {
-    const { endpoint, body } = response
+    const { endpoint, body, error } = response
     if (endpoint === Endpoint.Contacts && method === Method.Put) {
       return { ...response, body: { ...body, id: String(body.id) } }
+    }
+    if (endpoint === Endpoint.Update && error) {
+      const firstDeviceUpdateErrorCode =
+        deviceUpdateErrorCodeMap[DeviceUpdateError.NoError]
+      return {
+        ...response,
+        error: {
+          ...error,
+          code: Number(error.code) + firstDeviceUpdateErrorCode,
+        },
+      }
     }
     return response
   }

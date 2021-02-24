@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React from "react"
 import styled from "styled-components"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
@@ -132,7 +137,15 @@ export const AppUpdateDownloaded: FunctionComponent<DownloadedAppUpdateInterface
     />
     <Text
       displayStyle={TextDisplayStyle.MediumBoldText}
-      message={messages.downloadedUpdateWarning}
+      message={{
+        ...messages.downloadedUpdateWarning,
+        values: {
+          // On macOS the app can't automatically start after update (so it just quits),
+          // while linux and windows supports that feature (so the app restarts in fact).
+          // That's why there must be a distinction in translation depending on current OS.
+          osxPlatform: process?.platform === "darwin",
+        },
+      }}
     />
   </AppUpdateModal>
 )

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 const columnWidth = 6.5
 const gutterWidth = 4
 
@@ -114,8 +119,7 @@ const theme = {
     textarea: 1.8,
   },
   font: {
-    primary:
-      "GT Pressura, Arial, Helvetica, Gill Sans, Lucida, Helvetica Narrow, sans-serif",
+    primary: "GT Pressura, Roboto Condensed, sans-serif",
   },
   grid: {
     columnWidth,

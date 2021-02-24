@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { autoUpdater } from "electron-updater"
 import { ipcMain } from "electron-better-ipc"
 import { BrowserWindow } from "electron"
@@ -15,6 +20,13 @@ export enum AppUpdateActions {
 }
 
 export default (win: BrowserWindow) => {
+  autoUpdater.setFeedURL({
+    private: true,
+    provider: "github",
+    token: process.env.GITHUB_ACCESS_TOKEN,
+    owner: "Mudita",
+    repo: "mudita-center"
+  })
   autoUpdater.logger = logger
   autoUpdater.autoDownload = false
   autoUpdater.autoInstallOnAppQuit = true

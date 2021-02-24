@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React, { ComponentProps, ReactNode } from "react"
 import Text, {
   getTextStyles,
@@ -441,3 +446,14 @@ export const TableSortButton = styled.button<{ sortOrder?: SortOrder }>`
 `
 
 export default Table
+export const ActionsButton = styled.span`
+  cursor: pointer;
+`
+export const Actions = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex: 1;
+  padding-right: 3rem;
+  box-sizing: border-box;
+`

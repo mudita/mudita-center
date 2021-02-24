@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 export interface PureDevice {
   connect(): Promise<Response>
   disconnect(): Promise<Response>
@@ -19,11 +24,19 @@ export enum ResponseStatus {
   ConnectionError = 503,
 }
 
+export type ResponseErrorCode = number
+
+interface ResponseError {
+  code: ResponseErrorCode
+  message: string
+}
+
 export interface Response<Body = undefined> {
   status: ResponseStatus
   body?: Body
   endpoint?: Endpoint
   uuid?: string
+  error?: ResponseError
 }
 
 export enum DeviceEventName {
@@ -41,7 +54,7 @@ export enum Endpoint {
   Factory = 6,
   Contacts = 7,
   Messages = 8,
-  Callog = 9,
+  CallLog = 9,
 
   // lib endpoint
   FileUpload = 100,
@@ -60,6 +73,11 @@ export enum Method {
 
 export enum BodyCommand {
   Download = "download",
+}
+
+export interface ApiRequestConfig extends RequestConfig {
+  endpoint: Endpoint.ApiVersion
+  method: Method.Get
 }
 
 export interface RequestConfig {

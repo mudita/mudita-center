@@ -1,9 +1,15 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
 import { CreateDevice, PureDevice, createDevice } from "./device"
 
-export const productId = "0100"
+export const productId = "0622"
+export const vendorId = "045e"
 export const manufacturer = "Mudita"
 
 enum DeviceManagerEventName {
@@ -34,32 +40,55 @@ class DeviceManager implements PureDeviceManager {
 
     return portList
       .filter(
-        (portInfo) => portInfo.manufacturer === manufacturer
-        // commented until the embedded  development with the productId will stabilize
-        // && portInfo.productId === productId
+        (portInfo) =>
+          portInfo.productId?.toLowerCase() === productId &&
+          portInfo.vendorId?.toLowerCase() === vendorId
       )
       .map(({ path }) => this.createDevice(path))
   }
 
-  public onAttachDevice(listener: (event: PureDevice) => void): void {
-    this.#eventEmitter.on(DeviceManagerEventName.AttachedDevice, listener)
+  public onAttachDevice(
+    listener: (event: PureDevice) => Promise<void> | void
+  ): void {
+    this.#eventEmitter.on(DeviceManagerEventName.AttachedDevice, (event) => {
+      void listener(event)
+    })
   }
 
-  public offAttachDevice(listener: (event: PureDevice) => void): void {
-    this.#eventEmitter.off(DeviceManagerEventName.AttachedDevice, listener)
+  public offAttachDevice(
+    listener: (event: PureDevice) => Promise<void> | void
+  ): void {
+    this.#eventEmitter.off(DeviceManagerEventName.AttachedDevice, (event) => {
+      void listener(event)
+    })
   }
 
   private registerAttachDeviceEmitter(): void {
     this.usbDetector.onAttachDevice(async (portInfo) => {
-      if (portInfo.manufacturer === manufacturer) {
-        const portList = await DeviceManager.getSerialPortList()
+      const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
 
-        const port = portList.find(
-          ({ serialNumber }) => String(serialNumber) === portInfo.serialNumber
-        )
-        if (port) {
-          const device = this.createDevice(port.path)
-          this.#eventEmitter.emit(DeviceManagerEventName.AttachedDevice, device)
+      if (portInfo.vendorId?.toLowerCase() === vendorId) {
+        const retryLimit = 20
+        for (let i = 0; i < retryLimit; i++) {
+          const portList = await DeviceManager.getSerialPortList()
+
+          const port = portList.find(
+            ({ productId, vendorId }) =>
+              // toLowerCase() is needed tu unify the codes as different platforms
+              // shows them in different casing (eg. 045E vs 045e)
+              portInfo.vendorId?.toLowerCase() === vendorId?.toLowerCase() &&
+              portInfo.productId?.toLowerCase() === productId?.toLowerCase()
+          )
+
+          if (port) {
+            const device = this.createDevice(port.path)
+            this.#eventEmitter.emit(
+              DeviceManagerEventName.AttachedDevice,
+              device
+            )
+            break
+          }
+          await sleep()
         }
       }
     })

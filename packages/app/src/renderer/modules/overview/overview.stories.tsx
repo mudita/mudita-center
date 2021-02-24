@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { storiesOf } from "@storybook/react"
 import React from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
@@ -17,6 +22,7 @@ import {
   UpdateNotAvailable,
   UpdateServerError,
   UpdatingFailureModal,
+  UpdatingFailureWithHelpModal,
   UpdatingProgressModal,
   UpdatingSuccessModal,
 } from "Renderer/modules/overview/overview.modals"
@@ -147,6 +153,15 @@ storiesOf("Views|Overview/Modals", module)
   ))
   .add("Updating failure", () => (
     <ModalStory>
-      <UpdatingFailureModal />
+      <UpdatingFailureModal code={404} onContact={action("Go to Support")} />
+    </ModalStory>
+  ))
+  .add("Updating failure", () => (
+    <ModalStory>
+      <UpdatingFailureWithHelpModal
+        code={404}
+        onContact={action("Go to support")}
+        onHelp={action("Go to Help")}
+      />
     </ModalStory>
   ))

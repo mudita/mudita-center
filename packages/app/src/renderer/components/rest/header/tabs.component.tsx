@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import * as React from "react"
 import Tab from "Renderer/components/rest/header/tab.component"
 import { tabElements } from "Renderer/constants/tab-elements"

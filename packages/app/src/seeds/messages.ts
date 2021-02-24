@@ -1,7 +1,9 @@
-import {
-  MessagesState,
-  Topic,
-} from "Renderer/models/messages/messages.interface"
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
+import { MessagesState, Topic } from "App/messages/store/messages.interface"
 
 export const messagesData: Topic[] = [
   {

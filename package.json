@@ -1,6 +1,6 @@
 {
   "name": "mudita-center",
-  "version": "4.4.0",
+  "version": "5.0.0",
   "description": "Mudita Center",
   "productName": "Mudita Center",
   "scripts": {
@@ -28,7 +28,7 @@
     "app:storybook:serve": "lerna run --scope @mudita/mudita-center-app storybook:serve --",
     "app:storybook:build": "lerna run --scope @mudita/mudita-center-app storybook:build --",
     "app:dist": "lerna run --scope @mudita/mudita-center-app dist --",
-    "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist --",
+    "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist:all --",
     "app:electron:rebuild-serialport": "lerna run --scope app electron:rebuild-serialport --",
     "PURE COMMANDS": "========================================================",
     "pure:build": "lerna run --scope @mudita/pure build",
@@ -55,6 +55,7 @@
   "homepage": "https://github.com/Mudita/mudita-center",
   "devDependencies": {
     "@mudita/eslint-config": "^1.0.14",
+    "eslint-plugin-license-header": "^0.2.0",
     "husky": "^4.3.8",
     "lerna": "^3.22.1",
     "lint-staged": "^10.5.4",

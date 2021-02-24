@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
@@ -7,7 +12,7 @@ import {
   Labels,
   Row,
 } from "Renderer/components/core/table/table.component"
-import { defineMessages, FormattedDate } from "react-intl"
+import { defineMessages } from "react-intl"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
@@ -15,10 +20,10 @@ import {
   BaseSelectableCalls,
   Checkbox,
 } from "Renderer/components/rest/calls/calls-table.styled"
-import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
 import { List, AutoSizer, ListRowProps } from "react-virtualized"
 import { intl } from "Renderer/utils/intl"
+import EventsListDate from "Renderer/components/rest/calendar/events-list-date.component"
 
 const messages = defineMessages({
   unnamedEvent: {
@@ -27,7 +32,7 @@ const messages = defineMessages({
 })
 
 const Table = styled(BaseSelectableCalls)`
-  --columnsTemplate: 4rem 5fr 3fr 3fr;
+  --columnsTemplate: 4rem 3fr 3fr;
 `
 
 export interface EventsListProps extends UseTableSelect<CalendarEvent> {
@@ -63,16 +68,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
         </Col>
         <Col>{!name ? intl.formatMessage(messages.unnamedEvent) : name}</Col>
         <Col>
-          <TimeWindow startDate={startDate} endDate={endDate} />
-        </Col>
-        <Col>
-          <FormattedDate
-            value={startDate}
-            year="numeric"
-            month="long"
-            day="2-digit"
-            weekday="long"
-          />
+          <EventsListDate startDate={startDate} endDate={endDate} />
         </Col>
       </Row>
     )

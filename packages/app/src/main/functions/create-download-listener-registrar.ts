@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { BrowserWindow, DownloadItem } from "electron"
 import { ipcMain } from "electron-better-ipc"
 import {
@@ -8,6 +13,7 @@ import {
   DownloadStatus,
 } from "Renderer/interfaces/file-download.interface"
 import transferProgress from "Renderer/utils/transfer-progress"
+import path from "path"
 
 const registeredChannels: string[] = []
 
@@ -30,13 +36,13 @@ export const createDownloadChannels = (uniqueKey: string): DownloadChannel => {
 
 const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
   url,
-  path,
+  savePath,
   channels,
 }: DownloadListener): Promise<DownloadFinished> => {
   return new Promise((resolve, reject) => {
     try {
       const willDownloadListener = (event: Event, item: DownloadItem) => {
-        item.setSavePath(path + item.getFilename())
+        item.setSavePath(path.join(savePath, item.getFilename()))
 
         const onDownloadCancel = (interrupt = false) => {
           interrupted = interrupt

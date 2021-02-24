@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { Schema } from "electron-store"
 import {
   ConversionFormat,
@@ -7,6 +12,7 @@ import { app } from "electron"
 import { name } from "../../../package.json"
 import { AppSettings } from "App/main/store/settings.interface"
 import { defaultLanguage } from "App/translations.config.json"
+import path from "path"
 
 const settingsSchema: Schema<AppSettings> = {
   appAutostart: {
@@ -51,11 +57,17 @@ const settingsSchema: Schema<AppSettings> = {
   },
   pureOsBackupLocation: {
     type: "string",
-    default: `${app.getPath("appData")}/${name}/pure/phone/backups/`,
+    default: path.join(
+      app.getPath("appData"),
+      name,
+      "pure",
+      "phone",
+      "backups"
+    ),
   },
   pureOsDownloadLocation: {
     type: "string",
-    default: `${app.getPath("appData")}/${name}/pure/os/downloads/`,
+    default: path.join(app.getPath("appData"), name, "pure", "os", "downloads"),
   },
   language: {
     type: "string",

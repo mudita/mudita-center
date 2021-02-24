@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { TransferProgress } from "Renderer/utils/transfer-progress"
 
 export enum DownloadStatus {
@@ -33,7 +38,7 @@ export interface DownloadFinished {
 
 export interface DownloadListener {
   url: string
-  path: string
+  savePath: string
   channels: DownloadChannel
 }
 

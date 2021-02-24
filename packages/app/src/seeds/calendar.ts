@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import {
   CalendarEvent,
   CalendarState,
@@ -67,14 +72,14 @@ export const eventsData: CalendarEvent[] = [
   {
     id: "test-event-11",
     name: "Felix's Birthday 11",
-    startDate: "2020-01-11T10:00:00.000Z",
-    endDate: "2020-01-11T13:00:00.000Z",
+    startDate: "2020-01-11T00:00:00.000Z",
+    endDate: "2020-01-11T23:59:59.999Z",
   },
   {
     id: "test-event-12",
-    name: "Felix's Birthday 12",
+    name: "Felix's Birthday 12 multi",
     startDate: "2020-02-12T10:00:00.000Z",
-    endDate: "2020-02-12T13:00:00.000Z",
+    endDate: "2020-02-13T20:00:00.000Z",
   },
 ]
 

@@ -1,8 +1,14 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import SerialPort from "serialport"
 import { EventEmitter } from "events"
 import path from "path"
 import * as fs from "fs"
 import {
+  ApiRequestConfig,
   BodyCommand,
   DeviceEventName,
   Endpoint,
@@ -15,6 +21,7 @@ import {
   UpdateResponseStatus,
 } from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
+import { isApiRequestConfig } from "./device-helper"
 
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
@@ -59,46 +66,19 @@ class BaseDevice implements PureDevice {
     })
   }
 
-  public request(config: {
-    endpoint: Endpoint.ApiVersion
-    method: Method.Get
-  }): Promise<Response<{ version: number }>>
+  public request(
+    config: ApiRequestConfig
+  ): Promise<Response<{ version: number }>>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
     if (config.endpoint === Endpoint.FileUpload) {
       return this.fileUploadRequest(config)
     } else if (config.endpoint === Endpoint.DeviceUpdate) {
       return this.deviceUpdateRequest(config)
-    } else if (config.endpoint === Endpoint.ApiVersion) {
-      // mocked response until the backend implements versioning API
-      return {
-        status: ResponseStatus.Ok,
-        body: {
-          version: 1,
-        },
-      }
+    } else if (isApiRequestConfig(config)) {
+      return this.apiRequest(config)
     } else {
-      return new Promise((resolve) => {
-        if (!this.#port || !this.#portBlocked) {
-          resolve({ status: ResponseStatus.ConnectionError })
-        } else {
-          const uuid = getNewUUID()
-
-          const listener = async (event: any) => {
-            const response = await parseData(event)
-
-            if (response.uuid === String(uuid)) {
-              this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
-              resolve(response)
-            }
-          }
-
-          this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
-
-          const request = createValidRequest({ ...config, uuid })
-          this.#port.write(request)
-        }
-      })
+      return this.deviceRequest(config)
     }
   }
 
@@ -133,6 +113,13 @@ class BaseDevice implements PureDevice {
                 if (this.#port) {
                   this.#port.write(data)
                   this.#port.drain()
+
+                  // This is a hack for Windows. Writing and draining was too frequent
+                  // so the serialport couldn't handle that.
+                  readStream.pause()
+                  setTimeout(() => {
+                    readStream.resume()
+                  }, 10)
                 }
               })
 
@@ -189,6 +176,16 @@ class BaseDevice implements PureDevice {
           const response = await parseData(event)
 
           if (response.endpoint === Endpoint.Update) {
+            if (response.status === ResponseStatus.InternalServerError) {
+              resolve({
+                status: ResponseStatus.Ok,
+                error: {
+                  code: response.body.errorCode,
+                  message: response.body.status,
+                },
+              })
+            }
+
             if (response.body.status === UpdateResponseStatus.Ok) {
               this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
               resolve({ status: ResponseStatus.Ok })
@@ -209,6 +206,44 @@ class BaseDevice implements PureDevice {
         }
 
         const request = createValidRequest(config)
+        this.#port.write(request)
+      }
+    })
+  }
+
+  private async apiRequest(
+    config: ApiRequestConfig
+  ): Promise<Response<{ version: number }>> {
+    // mocked response until the backend implements versioning API
+    return {
+      status: ResponseStatus.Ok,
+      body: {
+        version: 1,
+      },
+    }
+  }
+
+  private deviceRequest(
+    config: RequestConfig
+  ): Promise<Response<{ version: number }>> {
+    return new Promise((resolve) => {
+      if (!this.#port || !this.#portBlocked) {
+        resolve({ status: ResponseStatus.ConnectionError })
+      } else {
+        const uuid = getNewUUID()
+
+        const listener = async (event: any) => {
+          const response = await parseData(event)
+
+          if (response.uuid === String(uuid)) {
+            this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
+            resolve(response)
+          }
+        }
+
+        this.#eventEmitter.on(DeviceEventName.DataReceived, listener)
+
+        const request = createValidRequest({ ...config, uuid })
         this.#port.write(request)
       }
     })

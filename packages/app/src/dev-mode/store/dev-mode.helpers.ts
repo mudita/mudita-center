@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import store from "Renderer/store"
 import { ipcRenderer } from "electron-better-ipc"
 import { backendAdaptersChannel } from "Backend/backend.types"
