@@ -65,6 +65,26 @@ test("return correct amount of recurring events plus single event", () => {
       id: "123",
     },
   }
-  const result = mapEvents([...input, singleEvent] )
+  const result = mapEvents([...input, singleEvent])
   expect(result).toHaveLength(4)
+})
+
+test("generates correct start and end dates for each event", () => {
+  const events = mapEvents(input)
+  expect(events[0].startDate).toEqual("2021-01-26T09:30:00.000Z")
+  expect(events[1].startDate).toEqual("2021-02-09T09:30:00.000Z")
+  expect(events[2].startDate).toEqual("2021-02-23T09:30:00.000Z")
+  expect(events[0].endDate).toEqual("2021-01-26T10:15:00.000Z")
+  expect(events[1].endDate).toEqual("2021-02-09T10:15:00.000Z")
+  expect(events[2].endDate).toEqual("2021-02-23T10:15:00.000Z")
+})
+
+test("object keys are mapped correctly", () => {
+  const events = mapEvents(input)
+  events.forEach((event) => {
+    expect(event.id).toEqual(input[0].id)
+    expect(event.name).toEqual(input[0].name)
+    expect(event.provider).toStrictEqual(input[0].provider)
+    expect(event).not.toHaveProperty("recurrence")
+  })
 })

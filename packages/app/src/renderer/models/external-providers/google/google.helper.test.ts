@@ -3,7 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { createRruleString } from "Renderer/models/external-providers/google/google.helpers"
+import {
+  createRruleString,
+  mapEvents,
+} from "Renderer/models/external-providers/google/google.helpers"
+import { mockedGoogleEvents } from "App/__mocks__/google-events-list"
 
 const base = {
   dtstart: "19970902T090000Z",
@@ -24,7 +28,23 @@ test("prepared rrule string with all of the fields", () => {
 test("prepared rrule string with some of the fields", () => {
   const { rrule, dtstart } = base
   const result = createRruleString({ dtstart, rrule })
-  expect(result).toEqual(
-    `DTSTART:${dtstart}\n${rrule}\n\n\n`
-  )
+  expect(result).toEqual(`DTSTART:${dtstart}\n${rrule}\n\n\n`)
+})
+
+test("recurring logic mapped correctly1", () => {
+  const events = [
+    mockedGoogleEvents[0],
+    {
+      id: "id123",
+      summary: "Meeting",
+      start: { dateTime: "2020-01-01T10:00:00.000Z" },
+      end: { dateTime: "2020-01-01T13:00:00.000Z" },
+      recurrence: [
+        "RRULE:FREQ=WEEKLY;UNTIL=20110701T170000Z",
+      ]
+    },
+  ]
+  const [singleEvent, recurringEvent] = mapEvents(events)
+  expect(singleEvent).not.toHaveProperty("recurrence")
+  expect(recurringEvent).toHaveProperty("recurrence")
 })
