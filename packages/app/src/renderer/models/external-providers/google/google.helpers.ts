@@ -41,7 +41,10 @@ export const createRruleString = (rules: {
   return `DTSTART:${dtstart}\n${rrule}\n${exdate}\n${rdate}\n${exrule}`
 }
 
-export const mapEvents = (events: GoogleEvent[]): CalendarEvent[] => {
+export const mapEvents = (
+  events: GoogleEvent[],
+  calendarId?: string
+): CalendarEvent[] => {
   return events
     .filter((event) => event.start?.dateTime && event.end?.dateTime)
     .map((event) => ({
@@ -78,6 +81,7 @@ export const mapEvents = (events: GoogleEvent[]): CalendarEvent[] => {
       provider: {
         type: Provider.Google,
         id: event.id,
+        calendarId,
       },
     }))
 }
