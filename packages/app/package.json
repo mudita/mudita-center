@@ -77,7 +77,8 @@
       "perMachine": false,
       "allowToChangeInstallationDirectory": false,
       "runAfterFinish": true,
-      "deleteAppDataOnUninstall": true
+      "deleteAppDataOnUninstall": true,
+      "license": "LICENSE"
     },
     "linux": {
       "target": "AppImage",
