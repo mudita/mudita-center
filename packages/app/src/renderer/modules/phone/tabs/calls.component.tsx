@@ -17,7 +17,7 @@ import { intl, textFormatters } from "Renderer/utils/intl"
 import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { Message } from "Renderer/interfaces/message.interface"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
-import getPrettyCaller from "Renderer/models/utils/get-pretty-caller"
+import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.calls.deleteModal.title" },

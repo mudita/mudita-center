@@ -28,6 +28,7 @@ import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { SortOrder } from "Common/enums/sort-order.enum"
 import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
+import { TableTestIds } from "Renderer/components/core/table/table.enum"
 
 /* Row */
 export enum RowSize {
@@ -326,7 +327,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
     className={className}
     show={show}
     appColorSidebarHeader={appColorSidebarHeader}
-    data-testid="sidebar"
+    data-testid={TableTestIds.Sidebar}
     {...rest}
   >
     <SidebarHeader>
@@ -445,3 +446,14 @@ export const TableSortButton = styled.button<{ sortOrder?: SortOrder }>`
 `
 
 export default Table
+export const ActionsButton = styled.span`
+  cursor: pointer;
+`
+export const Actions = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex: 1;
+  padding-right: 3rem;
+  box-sizing: border-box;
+`

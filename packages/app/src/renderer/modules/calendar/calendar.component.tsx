@@ -6,7 +6,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { CalendarProps } from "Renderer/modules/calendar/calendar.interface"
-import { eventsData } from "App/seeds/calendar"
 import modalService from "Renderer/components/core/modal/modal.service"
 import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
 import SelectCalendarsModal from "Renderer/components/rest/calendar/select-calendars-modal.component"
@@ -29,7 +28,7 @@ import overwriteDuplicates from "App/calendar/helpers/overwrite-duplicates/overw
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
-  events = eventsData,
+  events,
   loadCalendars,
   loadEvents,
   setEvents,

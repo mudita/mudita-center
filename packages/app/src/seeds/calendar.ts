@@ -7,6 +7,7 @@ import {
   CalendarEvent,
   CalendarState,
 } from "Renderer/models/calendar/calendar.interfaces"
+import { ResultsState } from "App/contacts/store/contacts.enum"
 
 export const eventsData: CalendarEvent[] = [
   {
@@ -72,18 +73,19 @@ export const eventsData: CalendarEvent[] = [
   {
     id: "test-event-11",
     name: "Felix's Birthday 11",
-    startDate: "2020-01-11T10:00:00.000Z",
-    endDate: "2020-01-11T13:00:00.000Z",
+    startDate: "2020-01-11T00:00:00.000Z",
+    endDate: "2020-01-11T23:59:59.999Z",
   },
   {
     id: "test-event-12",
-    name: "Felix's Birthday 12",
+    name: "Felix's Birthday 12 multi",
     startDate: "2020-02-12T10:00:00.000Z",
-    endDate: "2020-02-12T13:00:00.000Z",
+    endDate: "2020-02-13T20:00:00.000Z",
   },
 ]
 
 export const calendarSeed: CalendarState = {
   events: eventsData,
   calendars: [],
+  resultState: ResultsState.Loaded,
 }

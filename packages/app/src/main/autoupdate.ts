@@ -20,6 +20,13 @@ export enum AppUpdateActions {
 }
 
 export default (win: BrowserWindow) => {
+  autoUpdater.setFeedURL({
+    private: true,
+    provider: "github",
+    token: process.env.GITHUB_ACCESS_TOKEN,
+    owner: "Mudita",
+    repo: "mudita-center"
+  })
   autoUpdater.logger = logger
   autoUpdater.autoDownload = false
   autoUpdater.autoInstallOnAppQuit = true
