@@ -35,6 +35,7 @@ import { LoadingBar } from "Renderer/modules/overview/backup-process/modals.styl
 import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import useDynamicProgressValue from "Renderer/utils/hooks/use-dynamic-progress-value.hook"
+import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 
 const ModalContent = styled.div`
   display: flex;
@@ -172,10 +173,19 @@ const messages = defineMessages({
     id: "view.name.overview.system.modal.updating.success.description",
   },
   updatingFailedTitle: {
-    id: "view.name.overview.system.modal.updating.fail.title",
+    id: "view.name.overview.system.modal.updatingFailed.title",
   },
   updatingFailedDescription: {
-    id: "view.name.overview.system.modal.updating.fail.description",
+    id: "view.name.overview.system.modal.updatingFailed.description",
+  },
+  updatingFailedOnlySupportDescription: {
+    id: "view.name.overview.system.modal.updatingFailed.onlySupportDescription",
+  },
+  updatingFailedSupportButton: {
+    id: "view.name.overview.system.modal.updatingFailed.supportButton",
+  },
+  updatingFailedHelpButton: {
+    id: "view.name.overview.system.modal.updatingFailed.helpButton",
   },
 })
 
@@ -323,6 +333,7 @@ export const DownloadingUpdateFinishedModal = ({ onOsUpdate = noop }) => (
     actionButtonLabel={intl.formatMessage(messages.downloadCompletedButton)}
     closeButtonLabel={intl.formatMessage(messages.downloadCompletedCloseButton)}
     onActionButtonClick={onOsUpdate}
+    data-testid={OverviewTestIds.DownloadingUpdateFinishedModal}
   >
     <RoundIconWrapper>
       <Icon type={Type.Download} width={4} />
@@ -394,7 +405,7 @@ export const UpdatingProgressModal: FunctionComponent<{
 }
 
 export const UpdatingSuccessModal = () => (
-  <OSUpdateModal>
+  <OSUpdateModal data-testid={OverviewTestIds.UpdatingSuccessModal}>
     <RoundIconWrapper>
       <Icon type={Type.Pure} width={4} />
     </RoundIconWrapper>
@@ -409,11 +420,40 @@ export const UpdatingSuccessModal = () => (
   </OSUpdateModal>
 )
 
-export const UpdatingFailureModal = ({ onRetry = noop }) => (
-  <ErrorWithRetryDataModal
-    onRetry={onRetry}
+export const UpdatingFailureModal = ({
+  code,
+  onContact,
+}: {
+  code?: number
+  onContact: () => void
+}) => (
+  <ErrorDataModal
+    closeButton={false}
+    onActionButtonClick={onContact}
     title={intl.formatMessage(messages.muditaOsUpdateTitle)}
-    textMessage={messages.updatingFailedTitle}
+    actionButtonLabel={intl.formatMessage(messages.updatingFailedSupportButton)}
+    textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
+    descriptionMessage={messages.updatingFailedOnlySupportDescription}
+  />
+)
+
+export const UpdatingFailureWithHelpModal = ({
+  code,
+  onContact,
+  onHelp,
+}: {
+  code: number
+  onHelp: () => void
+  onContact: () => void
+}) => (
+  <ErrorDataModal
+    closeButton
+    onCloseButton={onContact}
+    closeButtonLabel={intl.formatMessage(messages.updatingFailedSupportButton)}
+    onActionButtonClick={onHelp}
+    title={intl.formatMessage(messages.muditaOsUpdateTitle)}
+    actionButtonLabel={intl.formatMessage(messages.updatingFailedHelpButton)}
+    textMessage={{ ...messages.updatingFailedTitle, values: { code } }}
     descriptionMessage={messages.updatingFailedDescription}
   />
 )

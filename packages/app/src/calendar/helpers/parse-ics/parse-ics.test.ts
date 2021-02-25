@@ -41,7 +41,11 @@ test("recurring events do have recurrence property", async () => {
   const recurringEvents = await parseIcs([
     path.join(__dirname, "./calendar-recurring-events.ics"),
   ])
-  recurringEvents.forEach((event) => expect(event).toHaveProperty("recurrence"))
+  recurringEvents.forEach((event) => {
+    expect(event).toHaveProperty("recurrence")
+    expect(event.recurrence).toHaveProperty("origOptions")
+    expect(event.recurrence).toHaveProperty("options")
+  })
 })
 
 test("events without required fields are filtered out, event with only name missing is return empty string that is later mapped in a view as unnamed event ", async () => {

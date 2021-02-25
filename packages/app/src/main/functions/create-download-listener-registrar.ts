@@ -13,6 +13,7 @@ import {
   DownloadStatus,
 } from "Renderer/interfaces/file-download.interface"
 import transferProgress from "Renderer/utils/transfer-progress"
+import path from "path"
 
 const registeredChannels: string[] = []
 
@@ -35,13 +36,13 @@ export const createDownloadChannels = (uniqueKey: string): DownloadChannel => {
 
 const createDownloadListenerRegistrar = (win: BrowserWindow) => ({
   url,
-  path,
+  savePath,
   channels,
 }: DownloadListener): Promise<DownloadFinished> => {
   return new Promise((resolve, reject) => {
     try {
       const willDownloadListener = (event: Event, item: DownloadItem) => {
-        item.setSavePath(path + item.getFilename())
+        item.setSavePath(path.join(savePath, item.getFilename()))
 
         const onDownloadCancel = (interrupt = false) => {
           interrupted = interrupt
