@@ -24,6 +24,8 @@ import { intl } from "Renderer/utils/intl"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { CalendarPanelTestIds } from "Renderer/components/rest/calendar/calendar-panel-test-ids.enum"
 import { exportEvents } from "App/calendar/helpers/export-events/export-events"
+import modalService from "Renderer/components/core/modal/modal.service"
+import ExportErrorModal from "App/calendar/components/export-error-modal/export-error-modal.component"
 
 const messages = defineMessages({
   synchroniseButton: { id: "view.name.calendar.panel.synchroniseButton" },
@@ -56,9 +58,10 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
 
   const exportEventsAction = async () => {
     const exported = await exportEvents(selectedEvents)
-
     if (exported) {
       resetRows()
+    } else {
+      modalService.openModal(<ExportErrorModal />)
     }
   }
   return (
@@ -77,6 +80,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
               displayStyle={DisplayStyle.Link1}
               Icon={Type.UploadDark}
               onClick={exportEventsAction}
+              data-testid={CalendarPanelTestIds.ExportButton}
             />,
             <ButtonComponent
               key="delete"
