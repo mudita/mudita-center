@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import RRule from "rrule"
 import { intl } from "Renderer/utils/intl"
@@ -65,7 +70,7 @@ export const findDifferences = (
     recurrence &&
     JSON.stringify(recurrence) !== JSON.stringify(newEvent.recurrence)
   ) {
-    const recurrenceRule = new RRule(recurrence.origOptions).toString()
+    const recurrenceRule = new RRule(recurrence.origOptions).toText()
     diffs.push(`${intl.formatMessage(messages.recurrence)}: ${recurrenceRule}`)
   }
 
@@ -80,20 +85,24 @@ export const extendDescription = (
   oldDescription?: string,
   newDescription?: string
 ): string => {
-  const descriptionParts = [newDescription]
+  const descriptionParts = []
+  const description = oldDescription?.trim()
 
-  if (oldDescription) {
-    descriptionParts.push("~~~~~~~~~~~~~~~~~~~~")
-    descriptionParts.push(
-      intl.formatMessage(messages.updatedDescriptionTitle, {
-        date: moment().format("Y-MM-DD"),
-      })
-    )
-    descriptionParts.push("~~~~~~~~~~~~~~~~~~~~")
-    descriptionParts.push(oldDescription)
+  if (newDescription) {
+    descriptionParts.push(newDescription)
   }
 
-  return descriptionParts.filter((chunk) => Boolean(chunk)).join("\n")
+  if (description) {
+    descriptionParts.push("~~~~~~~~~~~~~~~~~~~~")
+    descriptionParts.push(
+      `~~ ${intl.formatMessage(messages.updatedDescriptionTitle, {
+        date: moment().format("Y-MM-DD"),
+      })} ~~`
+    )
+    descriptionParts.push(description)
+  }
+
+  return descriptionParts.join("\n")
 }
 
 const overwriteDuplicates = (
@@ -101,14 +110,14 @@ const overwriteDuplicates = (
   newEvents: CalendarEvent[]
 ): CalendarEvent[] => {
   const newOverwrittenEvents: CalendarEvent[] = []
-  const uniqueOldEvents: CalendarEvent[] = [...oldEvents]
+  const nonDuplicateOldEvents: CalendarEvent[] = [...oldEvents]
 
   newEvents.forEach((event) => {
-    const duplicate = findDuplicate(uniqueOldEvents, event)
-    let newEvent = { ...event }
+    const duplicate = findDuplicate(nonDuplicateOldEvents, event)
+    const newEvent = { ...event }
 
     if (duplicate) {
-      uniqueOldEvents.splice(uniqueOldEvents.indexOf(duplicate), 1)
+      nonDuplicateOldEvents.splice(nonDuplicateOldEvents.indexOf(duplicate), 1)
       const differences = findDifferences(duplicate, event)
 
       if (differences) {
@@ -119,7 +128,7 @@ const overwriteDuplicates = (
     newOverwrittenEvents.push(newEvent)
   })
 
-  return [...newOverwrittenEvents, ...uniqueOldEvents]
+  return [...newOverwrittenEvents, ...nonDuplicateOldEvents]
 }
 
 export default overwriteDuplicates

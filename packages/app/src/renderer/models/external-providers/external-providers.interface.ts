@@ -13,6 +13,7 @@ export enum Provider {
   Google = "google",
   Apple = "apple",
   Microsoft = "microsoft",
+  Pure = "pure",
 }
 
 export interface ExternalProvidersState {

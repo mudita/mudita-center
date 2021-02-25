@@ -1,55 +1,84 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ */
+
 import overwriteDuplicates, {
   createEventUID,
-  findDuplicate,
-  findDifferences,
   extendDescription,
+  findDifferences,
+  findDuplicate,
 } from "./overwrite-duplicates"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 
-const events: CalendarEvent[] = [
-  {
-    id: "test-event-1-0",
-    name: "Felix's Birthday",
-    startDate: "2021-01-01T10:00:00.000Z",
-    endDate: "2021-01-01T13:00:00.000Z",
-    description: "This is an old description",
-    provider: {
-      type: Provider.Google,
-      id: "test-event-1",
-      calendarId: "example@mudita.com",
-    },
+const event1: CalendarEvent = {
+  id: "test-event-1-0",
+  name: "Felix's Birthday",
+  startDate: "2021-01-01T10:00:00.000Z",
+  endDate: "2021-01-01T13:00:00.000Z",
+  description: "This is a description",
+  provider: {
+    type: Provider.Google,
+    id: "test-event-1",
+    calendarId: "example@mudita.com",
   },
-  {
+}
+
+const event2: CalendarEvent = {
+  id: "test-event-3",
+  name: "Felix's Birthday 3",
+  startDate: "2022-02-03T10:00:00.000Z",
+  endDate: "2022-02-03T13:00:00.000Z",
+  provider: {
+    type: Provider.Pure,
     id: "test-event-3",
-    name: "Felix's Birthday 3",
-    startDate: "2022-02-03T10:00:00.000Z",
-    endDate: "2022-02-03T13:00:00.000Z",
   },
-]
+}
 
 test("unique event ID is created properly", () => {
-  expect(createEventUID(events[0])).toBe(
-    "google_example@mudita.com_test-event-1"
-  )
-  expect(createEventUID(events[1])).toBe("test-event-3")
-})
-
-test("events duplicates are found properly", () => {
-  expect(findDuplicate(events, events[0])).toBe(events[0])
   expect(
-    findDuplicate(events, {
-      id: "test-event-4",
-      name: "Felix's Birthday 4",
-      startDate: "2022-02-03T10:00:00.000Z",
-      endDate: "2022-02-03T13:00:00.000Z",
+    createEventUID({
+      id: "event-id",
+      name: "",
+      startDate: "",
+      endDate: "",
+    })
+  ).toBe("event-id")
+  expect(
+    createEventUID({
+      id: "event-id",
+      name: "",
+      startDate: "",
+      endDate: "",
       provider: {
-        type: Provider.Microsoft,
-        id: "test-event-4",
+        type: Provider.Google,
+        id: "",
+        calendarId: "",
+      },
+    })
+  ).toBe("google_event-id")
+  expect(
+    createEventUID({
+      id: "event-id",
+      name: "",
+      startDate: "",
+      endDate: "",
+      provider: {
+        type: Provider.Google,
+        id: "google-id",
         calendarId: "example@mudita.com",
       },
     })
-  ).toBeUndefined()
+  ).toBe("google_example@mudita.com_google-id")
+})
+
+test("events duplicates are found properly", () => {
+  expect(findDuplicate([event1, event2], event1)).toBe(event1)
+})
+
+test("events duplicates are not found when there are none", () => {
+  expect(findDuplicate([event1], event2)).toBeUndefined()
 })
 
 test("differences between events are found properly", () => {
@@ -85,8 +114,7 @@ test("differences between events are found properly", () => {
     .toBe(`[value] view.name.calendar.duplicatedEvent.name: Felix's Birthday 3
 [value] view.name.calendar.duplicatedEvent.startDate: 2022-02-03T10:00:00.000Z
 [value] view.name.calendar.duplicatedEvent.endDate: 2022-02-03T13:00:00.000Z
-[value] view.name.calendar.duplicatedEvent.recurrence: DTSTART:20160825T110000Z
-RRULE:FREQ=DAILY;COUNT=10`)
+[value] view.name.calendar.duplicatedEvent.recurrence: every day for 10 times`)
 })
 
 test("new description is created properly", () => {
@@ -95,112 +123,135 @@ test("new description is created properly", () => {
 })
 
 test("existing description is updated properly", () => {
+  const description = extendDescription("Old text", "New text")
+  expect(description).toBe(
+    "New text\n" +
+      "~~~~~~~~~~~~~~~~~~~~\n" +
+      "~~ [value] view.name.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
+      "Old text"
+  )
+})
+
+test("previously updated description is updated properly", () => {
   const description = extendDescription(
-    "Do something in NY.",
-    "Do something in LA."
+    "New text\n" +
+      "~~~~~~~~~~~~~~~~~~~~\n" +
+      "~~ [value] view.name.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
+      "Old text",
+    "Newer text"
   )
   expect(description).toBe(
-    "Do something in LA.\n" +
+    "Newer text\n" +
       "~~~~~~~~~~~~~~~~~~~~\n" +
-      "[value] view.name.calendar.duplicatedEvent.updatedDescriptionTitle\n" +
+      "~~ [value] view.name.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
+      "New text\n" +
       "~~~~~~~~~~~~~~~~~~~~\n" +
-      "Do something in NY."
+      "~~ [value] view.name.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
+      "Old text"
   )
 })
 
 test("exact duplicates are overwritten properly", () => {
-  const newEvents = overwriteDuplicates(events, [
-    {
-      id: "test-event-1",
-      name: "Felix's Birthday",
-      startDate: "2021-01-01T10:00:00.000Z",
-      endDate: "2021-01-01T13:00:00.000Z",
-      description: "This is an old description",
-      provider: {
-        type: Provider.Google,
-        id: "test-event-1",
-        calendarId: "example@mudita.com",
-      },
-    },
-  ])
-  expect(newEvents).toStrictEqual([
-    {
-      id: "test-event-1",
-      name: "Felix's Birthday",
-      startDate: "2021-01-01T10:00:00.000Z",
-      endDate: "2021-01-01T13:00:00.000Z",
-      description: "This is an old description",
-      provider: {
-        type: Provider.Google,
-        id: "test-event-1",
-        calendarId: "example@mudita.com",
-      },
-    },
-    {
-      id: "test-event-3",
-      name: "Felix's Birthday 3",
-      startDate: "2022-02-03T10:00:00.000Z",
-      endDate: "2022-02-03T13:00:00.000Z",
-    },
-  ])
+  const newEvents = overwriteDuplicates([event1, event2], [event1])
+  expect(newEvents).toStrictEqual([event1, event2])
 })
 
 test("duplicates with slightly modified data are overwritten properly", () => {
-  const newEvents = overwriteDuplicates(
+  const updatedEvents = overwriteDuplicates(
+    [event1, event2],
     [
       {
-        id: "test-event-1-0",
-        name: "Felix's Birthday",
-        startDate: "2021-01-01T10:00:00.000Z",
-        endDate: "2021-01-01T13:00:00.000Z",
-        description: "This is an old description",
-        provider: {
-          type: Provider.Google,
-          id: "test-event-1",
-          calendarId: "example@mudita.com",
-        },
-      },
-      {
-        id: "test-event-3",
-        name: "Felix's Birthday 3",
-        startDate: "2022-02-03T10:00:00.000Z",
-        endDate: "2022-02-03T13:00:00.000Z",
-      },
-    ],
-    [
-      {
-        id: "test-event-1-1",
+        ...event1,
         name: "Felix's Birthday 2",
         startDate: "2022-01-01T10:00:00.000Z",
         endDate: "2022-01-01T13:00:00.000Z",
         description: "This is a new description",
-        provider: {
-          type: Provider.Google,
-          id: "test-event-1",
-          calendarId: "example@mudita.com",
-        },
       },
     ]
   )
-  expect(newEvents).toStrictEqual([
+  expect(updatedEvents).toStrictEqual([
     {
-      id: "test-event-1-1",
+      ...event1,
       name: "Felix's Birthday 2",
       startDate: "2022-01-01T10:00:00.000Z",
       endDate: "2022-01-01T13:00:00.000Z",
       description:
-        "This is a new description\n~~~~~~~~~~~~~~~~~~~~\n[value] view.name.calendar.duplicatedEvent.updatedDescriptionTitle\n~~~~~~~~~~~~~~~~~~~~\n[value] view.name.calendar.duplicatedEvent.name: Felix's Birthday\n[value] view.name.calendar.duplicatedEvent.startDate: 2021-01-01T10:00:00.000Z\n[value] view.name.calendar.duplicatedEvent.endDate: 2021-01-01T13:00:00.000Z\n[value] view.name.calendar.duplicatedEvent.description: This is an old description",
-      provider: {
-        calendarId: "example@mudita.com",
-        id: "test-event-1",
-        type: "google",
+        "This is a new description\n" +
+        "~~~~~~~~~~~~~~~~~~~~\n" +
+        "~~ [value] view.name.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
+        "[value] view.name.calendar.duplicatedEvent.name: Felix's Birthday\n" +
+        "[value] view.name.calendar.duplicatedEvent.startDate: 2021-01-01T10:00:00.000Z\n" +
+        "[value] view.name.calendar.duplicatedEvent.endDate: 2021-01-01T13:00:00.000Z\n" +
+        "[value] view.name.calendar.duplicatedEvent.description: This is a description",
+    },
+    event2,
+  ])
+})
+
+test("duplicates with data modified before are updated properly", () => {
+  const olderEvents = overwriteDuplicates(
+    [event1],
+    [
+      {
+        ...event1,
+        name: "Felix's Birthday 2",
+        startDate: "2022-01-01T10:00:00.000Z",
+        endDate: "2022-01-01T13:00:00.000Z",
+        description: "This is a new description",
       },
-    },
+    ]
+  )
+  const newerEvents = overwriteDuplicates(olderEvents, [
     {
-      id: "test-event-3",
+      ...event1,
       name: "Felix's Birthday 3",
-      startDate: "2022-02-03T10:00:00.000Z",
-      endDate: "2022-02-03T13:00:00.000Z",
+      startDate: "2023-01-01T11:00:00.000Z",
+      endDate: "2023-01-01T15:00:00.000Z",
+      description: "This is a newer description",
     },
+  ])
+  expect(newerEvents).toStrictEqual([
+    {
+      ...event1,
+      name: "Felix's Birthday 3",
+      startDate: "2023-01-01T11:00:00.000Z",
+      endDate: "2023-01-01T15:00:00.000Z",
+      description:
+        "This is a newer description\n" +
+        "~~~~~~~~~~~~~~~~~~~~\n" +
+        "~~ [value] view.name.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
+        "[value] view.name.calendar.duplicatedEvent.name: Felix's Birthday 2\n" +
+        "[value] view.name.calendar.duplicatedEvent.startDate: 2022-01-01T10:00:00.000Z\n" +
+        "[value] view.name.calendar.duplicatedEvent.endDate: 2022-01-01T13:00:00.000Z\n" +
+        "[value] view.name.calendar.duplicatedEvent.description: This is a new description\n" +
+        "~~~~~~~~~~~~~~~~~~~~\n" +
+        "~~ [value] view.name.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
+        "[value] view.name.calendar.duplicatedEvent.name: Felix's Birthday\n" +
+        "[value] view.name.calendar.duplicatedEvent.startDate: 2021-01-01T10:00:00.000Z\n" +
+        "[value] view.name.calendar.duplicatedEvent.endDate: 2021-01-01T13:00:00.000Z\n" +
+        "[value] view.name.calendar.duplicatedEvent.description: This is a description",
+    },
+  ])
+})
+
+test("duplicates with removed data are updated properly", () => {
+  const updatedEvents = overwriteDuplicates(
+    [event1, event2],
+    [
+      {
+        ...event1,
+        description: undefined,
+      },
+    ]
+  )
+  expect(updatedEvents).toStrictEqual([
+    {
+      ...event1,
+      description:
+        "~~~~~~~~~~~~~~~~~~~~\n" +
+        "~~ [value] view.name.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
+        "[value] view.name.calendar.duplicatedEvent.description: This is a description",
+    },
+    event2,
   ])
 })
