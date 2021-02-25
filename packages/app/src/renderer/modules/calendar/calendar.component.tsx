@@ -88,10 +88,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   }
 
   const addImportedEvents = async (files: File[]) => {
-    const calendarEvents = overwriteDuplicates(
-      events,
-      await parseIcs(files.map(({ path }) => path))
-    )
+    const calendarEvents = await parseIcs(files.map(({ path }) => path))
     await modalService.closeModal()
     modalService.openModal(
       <ImportEventsModal
@@ -99,7 +96,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
         onActionButtonClick={closeModal}
       />
     )
-    setEvents(calendarEvents)
+    setEvents(overwriteDuplicates(events, calendarEvents))
   }
 
   const manualImport = (inputElement: HTMLInputElement) => {
@@ -144,10 +141,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   const synchronizeEvents = async (calendar: Calendar) => {
     try {
       openSynchronizingLoaderModal()
-      const newEvents = overwriteDuplicates(
-        events,
-        await delayResponse(loadEvents(calendar))
-      )
+      const newEvents = await delayResponse(loadEvents(calendar))
       openSynchronizationFinishedModal(newEvents.length)
     } catch (error) {
       openSynchronizationFailedModal()
