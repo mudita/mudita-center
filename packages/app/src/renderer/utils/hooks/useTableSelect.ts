@@ -20,6 +20,7 @@ export interface UseTableSelect<T> {
   resetRows: () => void
   allRowsSelected: boolean
   noneRowsSelected: boolean
+  selectRows: (rows: T[]) => void
 }
 
 const useTableSelect = <T, K = T>(
@@ -118,6 +119,7 @@ const useTableSelect = <T, K = T>(
     toggleRow,
     selectedRows,
     selectableRows,
+    selectRows: setSelectedRows,
     resetRows,
     allRowsSelected: allSelected,
     noneRowsSelected: selectedRows.length === 0,
