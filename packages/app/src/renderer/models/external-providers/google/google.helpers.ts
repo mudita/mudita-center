@@ -46,13 +46,21 @@ export const mapEvents = (
   calendarId?: string
 ): CalendarEvent[] => {
   return events
-    .filter((event) => event.start?.dateTime && event.end?.dateTime)
+    .filter(
+      (event) =>
+        (event.start?.dateTime || event.start?.date) &&
+        (event.end?.dateTime || event.end?.date)
+    )
     .map((event) => ({
       id: `${Provider.Google}_${event.id}`,
       name: event.summary || intl.formatMessage(messages.unnamedEvent),
       description: event.description,
-      startDate: new Date(event.start?.dateTime as string).toISOString(),
-      endDate: new Date(event.end?.dateTime as string).toISOString(),
+      startDate: new Date(
+        (event.start?.dateTime || event.start?.date) as string
+      ).toISOString(),
+      endDate: new Date(
+        (event.end?.dateTime || event.end?.date) as string
+      ).toISOString(),
       ...(event.recurrence
         ? {
             recurrence: rrulestr(
