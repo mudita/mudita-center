@@ -8,6 +8,7 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import CalendarAdapter from "Backend/adapters/calendar/calendar-adapter.class"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { eventsData } from "App/seeds/calendar"
 
 class Calendar extends CalendarAdapter {
   constructor() {
@@ -17,11 +18,11 @@ class Calendar extends CalendarAdapter {
   public getEvents(): Promise<DeviceResponse<CalendarEvent[]>> {
     return Promise.resolve({
       status: DeviceResponseStatus.Ok,
-      data: [],
+      data: eventsData,
     })
   }
 }
 
-const createCalendar = (): Calendar => new Calendar()
+const createCalendarAdapter = (): Calendar => new Calendar()
 
-export default createCalendar
+export default createCalendarAdapter
