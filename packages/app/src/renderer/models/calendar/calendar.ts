@@ -44,10 +44,10 @@ const calendar = createModel<RootModel>({
         calendars: [],
       }
     },
-    setEvents(state: CalendarState, events: CalendarEvent[]) {
+    setEvents(state: CalendarState, newEvents: CalendarEvent[]) {
       return {
         ...state,
-        events,
+        events: overwriteDuplicates({ oldEvents: state.events, newEvents }),
       }
     },
     _devClearAllEvents(state: CalendarState) {
@@ -110,7 +110,7 @@ const calendar = createModel<RootModel>({
         }
         dispatch.calendar.setCalendars(calendars)
       },
-      async loadEvents(calendar: Calendar, rootState: RootState) {
+      async loadEvents(calendar: Calendar) {
         let events: CalendarEvent[] = []
         switch (calendar.provider) {
           case Provider.Google:
@@ -118,9 +118,7 @@ const calendar = createModel<RootModel>({
               calendar.id
             )) as unknown) as CalendarEvent[]
         }
-        dispatch.calendar.setEvents(
-          overwriteDuplicates(rootState.calendar.events, events)
-        )
+        dispatch.calendar.setEvents(events)
         return events
       },
     }
