@@ -4,7 +4,10 @@
  */
 
 import { Calendar, CalendarEvent, CalendarState } from "./calendar.interfaces"
-import { getSortedEvents, mapEvents } from "Renderer/models/calendar/calendar.helpers"
+import {
+  getSortedEvents,
+  mapEvents,
+} from "Renderer/models/calendar/calendar.helpers"
 import { Slicer } from "@rematch/select"
 import { RootState } from "Renderer/store"
 import externalProvidersStore from "Renderer/store/external-providers"
@@ -12,6 +15,7 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 import { eventsData } from "App/seeds/calendar"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
+import overwriteDuplicates from "App/calendar/helpers/overwrite-duplicates/overwrite-duplicates"
 
 export const initialState: CalendarState = {
   calendars: [],
@@ -33,10 +37,10 @@ const calendar = createModel<RootModel>({
         calendars: [],
       }
     },
-    setEvents(state: CalendarState, newEvents: CalendarEvent[]) {
+    setEvents(state: CalendarState, events: CalendarEvent[]) {
       return {
         ...state,
-        events: [...state.events, ...newEvents],
+        events,
       }
     },
     _devClearAllEvents(state: CalendarState) {
@@ -79,7 +83,7 @@ const calendar = createModel<RootModel>({
         }
         dispatch.calendar.setCalendars(calendars)
       },
-      async loadEvents(calendar: Calendar) {
+      async loadEvents(calendar: Calendar, rootState: RootState) {
         let events: CalendarEvent[] = []
         switch (calendar.provider) {
           case Provider.Google:
@@ -87,7 +91,9 @@ const calendar = createModel<RootModel>({
               calendar.id
             )) as unknown) as CalendarEvent[]
         }
-        dispatch.calendar.setEvents(events)
+        dispatch.calendar.setEvents(
+          overwriteDuplicates(rootState.calendar.events, events)
+        )
         return events
       },
     }
