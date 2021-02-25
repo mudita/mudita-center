@@ -30,6 +30,8 @@ const messages = defineMessages({
   },
 })
 
+export const descriptionSeparator = "~~~~~~~~~~~~~~~~~~~~"
+
 export const createEventUID = (event: CalendarEvent): string => {
   const ids = [
     event.provider?.type,
@@ -46,6 +48,30 @@ export const findDuplicate = (
   return oldEvents.find(
     (event) => createEventUID(event) === createEventUID(newEvent)
   )
+}
+
+export const parseDescription = (
+  description?: string
+): {
+  text: string
+  metadata: string
+} => {
+  if (description) {
+    const [text = "", ...metadata] = description.split(descriptionSeparator)
+
+    return {
+      text: text.trim(),
+      metadata: metadata[0]
+        ? `${descriptionSeparator}\n` +
+          metadata.join(descriptionSeparator).trim()
+        : "",
+    }
+  }
+
+  return {
+    text: "",
+    metadata: "",
+  }
 }
 
 export const findDifferences = (
@@ -74,41 +100,27 @@ export const findDifferences = (
     diffs.push(`${intl.formatMessage(messages.recurrence)}: ${recurrenceRule}`)
   }
 
-  if (description && description !== newEvent.description) {
-    diffs.push(`${intl.formatMessage(messages.description)}: ${description}`)
+  if (
+    parseDescription(description).text !==
+    parseDescription(newEvent.description).text
+  ) {
+    diffs.push(
+      `${intl.formatMessage(messages.description)}: ${
+        parseDescription(description).text
+      }`
+    )
   }
 
   return diffs.join("\n").trim()
 }
 
-export const extendDescription = (
-  oldDescription?: string,
-  newDescription?: string
-): string => {
-  const descriptionParts = []
-  const description = oldDescription?.trim()
-
-  if (newDescription) {
-    descriptionParts.push(newDescription)
-  }
-
-  if (description) {
-    descriptionParts.push("~~~~~~~~~~~~~~~~~~~~")
-    descriptionParts.push(
-      `~~ ${intl.formatMessage(messages.updatedDescriptionTitle, {
-        date: moment().format("Y-MM-DD"),
-      })} ~~`
-    )
-    descriptionParts.push(description)
-  }
-
-  return descriptionParts.join("\n")
-}
-
-const overwriteDuplicates = (
-  oldEvents: CalendarEvent[],
+const overwriteDuplicates = ({
+  oldEvents,
+  newEvents,
+}: {
+  oldEvents: CalendarEvent[]
   newEvents: CalendarEvent[]
-): CalendarEvent[] => {
+}): CalendarEvent[] => {
   const newOverwrittenEvents: CalendarEvent[] = []
   const nonDuplicateOldEvents: CalendarEvent[] = [...oldEvents]
 
@@ -117,12 +129,31 @@ const overwriteDuplicates = (
     const newEvent = { ...event }
 
     if (duplicate) {
-      nonDuplicateOldEvents.splice(nonDuplicateOldEvents.indexOf(duplicate), 1)
+      const descriptionParts = []
+      const oldDescription = parseDescription(duplicate.description)
       const differences = findDifferences(duplicate, event)
 
-      if (differences) {
-        newEvent.description = extendDescription(differences, event.description)
+      if (newEvent.description) {
+        descriptionParts.push(newEvent.description)
+      } else if (newEvent.description === undefined) {
+        descriptionParts.push(oldDescription.text)
       }
+
+      if (differences) {
+        descriptionParts.push(descriptionSeparator)
+        descriptionParts.push(
+          `~~ ${intl.formatMessage(messages.updatedDescriptionTitle, {
+            date: moment().format("Y-MM-DD"),
+          })} ~~`
+        )
+        descriptionParts.push(differences)
+      }
+
+      descriptionParts.push(oldDescription.metadata)
+
+      newEvent.description = descriptionParts.join("\n").trim()
+
+      nonDuplicateOldEvents.splice(nonDuplicateOldEvents.indexOf(duplicate), 1)
     }
 
     newOverwrittenEvents.push(newEvent)

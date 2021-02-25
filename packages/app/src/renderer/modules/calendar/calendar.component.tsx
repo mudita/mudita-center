@@ -24,7 +24,6 @@ import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import parseIcs from "App/calendar/helpers/parse-ics/parse-ics"
 import ImportEventsModal from "App/calendar/components/import-events-modal/import-events-modal.component"
-import overwriteDuplicates from "App/calendar/helpers/overwrite-duplicates/overwrite-duplicates"
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
@@ -96,7 +95,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
         onActionButtonClick={closeModal}
       />
     )
-    setEvents(overwriteDuplicates(events, calendarEvents))
+    setEvents(calendarEvents)
   }
 
   const manualImport = (inputElement: HTMLInputElement) => {
