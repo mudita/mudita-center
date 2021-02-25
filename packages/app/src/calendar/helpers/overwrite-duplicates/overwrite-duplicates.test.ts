@@ -31,7 +31,7 @@ const event2: CalendarEvent = {
   startDate: "2022-02-03T10:00:00.000Z",
   endDate: "2022-02-03T13:00:00.000Z",
   provider: {
-    type: Provider.Pure,
+    type: "pure",
     id: "test-event-3",
   },
 }
