@@ -165,7 +165,7 @@ const Modal: FunctionComponent<ModalProps> = ({
                 size={getModalButtonsSize(size)}
                 label={closeButtonLabel}
                 onClick={closeModalByButtonClick}
-                data-testid={ModalTestIds.ModalActionButton}
+                data-testid={ModalTestIds.CloseBottomButton}
               />
             )}
             {actionButtonLabel && onActionButtonClick && (

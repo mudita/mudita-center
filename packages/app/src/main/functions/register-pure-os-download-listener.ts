@@ -23,7 +23,7 @@ const registerPureOsDownloadListener = (
 
     return registerDownloadListener({
       url,
-      path: pureOsDownloadLocation,
+      savePath: pureOsDownloadLocation,
       channels: PureOsDownloadChannels,
     })
   })
