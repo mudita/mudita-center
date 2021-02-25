@@ -39,6 +39,7 @@ require("dotenv").config({
       if (!fileExists) {
         const url = `${process.env.FONTS_DIRECTORY_URL}/${fileName}`
         const { data } = await axios.get(url, {
+          responseType: "arraybuffer",
           headers: {
             Authorization: `token ${process.env.GITHUB_ACCESS_TOKEN}`,
           },

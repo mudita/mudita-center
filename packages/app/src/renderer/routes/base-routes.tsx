@@ -7,7 +7,7 @@ import * as React from "react"
 import { Redirect, Route, Switch } from "react-router"
 import FilesManager from "Renderer/modules/filesManager/files-manager.component"
 import Meditation from "Renderer/modules/meditation/meditation.component"
-import MessagesContainer from "Renderer/modules/messages/messages.container"
+import Messages from "App/messages/messages.component"
 import Music from "Renderer/modules/music/music.component"
 import News from "Renderer/modules/news/news.component"
 import OverviewContainer from "Renderer/modules/overview/overview.container"
@@ -21,7 +21,7 @@ import {
   URL_TABS,
 } from "Renderer/constants/urls"
 import Calendar from "Renderer/modules/calendar/calendar.container"
-import Templates from "Renderer/modules/messages/tabs/templates.container"
+import Templates from "App/templates/templates.component"
 import Playlist from "Renderer/modules/music/tabs/playlist.component"
 import Calls from "Renderer/modules/phone/tabs/calls-container.component"
 import Dial from "Renderer/modules/phone/tabs/dial.component"
@@ -64,7 +64,7 @@ export default () => (
       <LayoutDesktopWrapper>
         <Route path={URL_MAIN.filesManager} component={FilesManager} />
         <Route path={URL_MAIN.meditation} component={Meditation} />
-        <Route path={URL_MAIN.messages} component={MessagesContainer} exact />
+        <Route path={URL_MAIN.messages} component={Messages} exact />
         <Route
           path={`${URL_MAIN.messages}${URL_TABS.templates}`}
           component={Templates}
