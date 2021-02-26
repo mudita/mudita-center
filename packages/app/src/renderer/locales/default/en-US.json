@@ -13,7 +13,6 @@
   "common.providers.apple": "Apple",
   "common.providers.google": "Google",
   "common.providers.microsoft": "Microsoft",
-  "common.providers.pure": "Pure",
   "common.supportButton": "Contact support",
   "component.dropdown.call": "Call {name}",
   "component.meditation.nav.goToToday": "Go to Today",
