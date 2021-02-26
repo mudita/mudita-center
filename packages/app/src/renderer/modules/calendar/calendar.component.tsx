@@ -14,7 +14,10 @@ import delayResponse from "@appnroll/delay-response"
 import logger from "App/main/utils/logger"
 import EventsSynchronizationFinishedModal from "Renderer/components/rest/calendar/synchronization-finished-modal.component"
 import EventsSynchronizationFailedModal from "Renderer/components/rest/calendar/synchronization-failed.component"
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import {
+  ExternalProvider,
+  Provider,
+} from "Renderer/models/external-providers/external-providers.interface"
 import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
 import {
   Calendar,
@@ -33,7 +36,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   setEvents,
 }) => {
   const tableSelectHook = useTableSelect<CalendarEvent>(events)
-  const [provider, setProvider] = useState<Provider | undefined>()
+  const [provider, setProvider] = useState<ExternalProvider | undefined>()
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
   const highlightActiveEventTimeout = useRef<NodeJS.Timeout>()
 
@@ -57,7 +60,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
     await modalService.closeModal()
     modalService.openModal(
       <AuthorizationFailedModal
-        provider={provider as Provider}
+        provider={provider as ExternalProvider}
         onActionButtonClick={authorizeAndLoadCalendars}
       />
     )
