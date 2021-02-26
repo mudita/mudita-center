@@ -78,13 +78,16 @@
       "allowToChangeInstallationDirectory": false,
       "runAfterFinish": true,
       "deleteAppDataOnUninstall": true,
-      "license": "LICENSE"
+      "license": "LICENSE.txt"
     },
     "linux": {
       "target": "AppImage",
       "category": "Utility",
       "executableName": "Mudita Center",
       "artifactName": "Mudita-Center.${ext}"
+    },
+    "appImage": {
+      "license": "LICENSE.txt"
     },
     "directories": {
       "output": "release"
