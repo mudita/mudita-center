@@ -111,7 +111,6 @@ import MuditaDarkLogo from "Renderer/svg/mudita-dark-logo.svg"
 import ContactGoogle from "Renderer/svg/contact-google.svg"
 import Manage from "Renderer/svg/manage.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import React from "react"
 
 export enum Type {
   Arrow,
@@ -224,7 +223,7 @@ export enum Type {
   Manage,
 }
 
-const getIconDefault = (icon?: Type) => {
+export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
   const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
     [Type.Arrow]: Arrow,
     [Type.ArrowLongLeft]: ArrowLongLeft,
@@ -337,19 +336,6 @@ const getIconDefault = (icon?: Type) => {
     return Message
   }
   return typeToIcon[icon] || Message
-}
-
-export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
-  const foundIcon = getIconDefault(icon)
-  if (typeof foundIcon === "string") {
-    const FoundIconImageComponent: FunctionComponent<ImageInterface> = ({
-      ...props
-    }) => {
-      return <img src={foundIcon} {...props} />
-    }
-    return FoundIconImageComponent
-  }
-  return foundIcon as FunctionComponent<ImageInterface>
 }
 
 export const getEnumName = (type?: Type) => {
