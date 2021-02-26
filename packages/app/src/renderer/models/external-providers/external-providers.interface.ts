@@ -13,7 +13,10 @@ export enum Provider {
   Google = "google",
   Apple = "apple",
   Microsoft = "microsoft",
+  Pure = "pure",
 }
+
+export type ExternalProvider = Exclude<Provider, Provider.Pure>
 
 export interface ExternalProvidersState {
   google: GoogleProviderState

@@ -16,7 +16,7 @@ export interface CalendarEvent {
   description?: string
   recurrence?: Partial<RRule> | Partial<RRuleSet>
   provider?: {
-    type: Provider | "pure"
+    type: Provider
     id: string
     calendarId?: string
   }
@@ -25,7 +25,7 @@ export interface CalendarEvent {
 export interface Calendar {
   id: string
   name: string
-  provider: Provider | "pure"
+  provider: Provider
   primary?: boolean
 }
 

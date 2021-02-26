@@ -19,7 +19,10 @@ import { intl } from "Renderer/utils/intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { ModalContent } from "Renderer/components/rest/calendar/calendar-modals.styled"
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import {
+  ExternalProvider,
+  Provider,
+} from "Renderer/models/external-providers/external-providers.interface"
 
 const messages = defineMessages({
   title: {
@@ -46,7 +49,7 @@ const messages = defineMessages({
 })
 
 interface AuthorizationFailedModalProps extends ModalProps {
-  provider: Provider
+  provider: ExternalProvider
 }
 
 const AuthorizationFailedModal: FunctionComponent<AuthorizationFailedModalProps> = ({
