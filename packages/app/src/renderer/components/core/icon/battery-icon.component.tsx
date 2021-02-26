@@ -10,7 +10,7 @@ import Icon, {
 } from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
-interface Props {
+export interface BatteryIconProps {
   level: number
   charging?: boolean
 }
@@ -41,7 +41,7 @@ const getInteractiveBatteryIcon = (
   }
 }
 
-const BatteryIcon: FunctionComponent<Props & IconProps> = ({
+const BatteryIcon: FunctionComponent<BatteryIconProps & IconProps> = ({
   level,
   charging = false,
   height = 2,

@@ -12,12 +12,12 @@ const LightPhrase = styled.span`
   opacity: 0.5;
 `
 
-interface Props {
+export interface SearchableTextProps {
   text: string
   search?: string
 }
 
-const SearchableText: FunctionComponent<Props> = ({ text, search = "" }) => {
+const SearchableText: FunctionComponent<SearchableTextProps> = ({ text, search = "" }) => {
   const substrings = text
     .replace(new RegExp(`(${search})`, "gi"), `/$1/`)
     .split("/")

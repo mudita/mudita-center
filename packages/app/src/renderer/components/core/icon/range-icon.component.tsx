@@ -10,13 +10,13 @@ import Icon, {
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
-interface InteractiveIconProps {
+export interface RangeIconProps {
   strength: number
   roaming?: boolean
 }
 
 const getInteractiveRangeIcon = (
-  { strength, roaming }: InteractiveIconProps,
+  { strength, roaming }: RangeIconProps,
   rest: Partial<IconProps>
 ) => {
   switch (true) {
@@ -47,7 +47,7 @@ const getInteractiveRangeIcon = (
   }
 }
 
-const RangeIcon: FunctionComponent<InteractiveIconProps & IconProps> = ({
+const RangeIcon: FunctionComponent<RangeIconProps & IconProps> = ({
   strength,
   roaming = false,
   ...rest

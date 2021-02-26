@@ -1,5 +1,8 @@
 # Shared
 packages/design-system/dist
+packages/design-system/tmp-svg
+packages/design-system/dist-svg
+
 
 # Logs
 logs

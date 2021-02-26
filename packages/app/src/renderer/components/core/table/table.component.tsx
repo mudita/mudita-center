@@ -342,7 +342,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
 )
 
 /* Table */
-interface TableProps {
+ export interface TableProps {
   hideColumns?: boolean
   hideableColumnsIndexes?: number[]
   sidebar?: ReactNode
