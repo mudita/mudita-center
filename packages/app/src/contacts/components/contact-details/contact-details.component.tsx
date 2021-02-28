@@ -117,7 +117,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const handleDelete = () => onDelete(contact)
     const handleMessage = (phoneNumber: string) => onMessage(phoneNumber)
     // TODO: Remove prodIcons along with associated logic when features become available
-    const exportIcon = <SidebarHeaderButton Icon={Type.Upload} onClick={handleExport} data-testid={ContactDetailsTestIds.ExportButton} />
+    const exportIcon = <SidebarHeaderButton Icon={Type.UploadDark} onClick={handleExport} data-testid={ContactDetailsTestIds.ExportButton} />
     const prodIcons = (
       <>
         <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
