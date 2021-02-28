@@ -90,6 +90,7 @@
       "license": "LICENSE.txt"
     },
     "directories": {
+      "buildResources": "resources",
       "output": "release"
     },
     "files": [
