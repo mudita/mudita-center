@@ -48,7 +48,7 @@ export {
   RowSize,
   Col,
   Sidebar,
-  SidebarHeaderIcon,
+  SidebarHeaderButton,
   SidebarProps,
 } from "../app/src/renderer/components/core/table/table.component"
 export {
