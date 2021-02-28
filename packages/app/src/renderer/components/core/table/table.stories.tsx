@@ -18,7 +18,7 @@ import Table, {
   Row,
   RowSize,
   Sidebar,
-  SidebarHeaderIcon,
+  SidebarHeaderButton,
   TableWithSidebarWrapper,
 } from "Renderer/components/core/table/table.component"
 import {
@@ -282,15 +282,15 @@ storiesOf("Components|Core/Table/Parts", module)
     )
     const HeaderRight = () => (
       <>
-        <SidebarHeaderIcon
+        <SidebarHeaderButton
           Icon={Type.Notes}
           onClick={action("Notes icon click")}
         />
-        <SidebarHeaderIcon
+        <SidebarHeaderButton
           Icon={Type.Upload}
           onClick={action("Upload icon click")}
         />
-        <SidebarHeaderIcon
+        <SidebarHeaderButton
           Icon={Type.Delete}
           onClick={action("Delete icon click")}
         />
@@ -734,8 +734,8 @@ storiesOf("Components|Core/Table/Grouped", module)
 
     const SidebarActions = () => (
       <>
-        <SidebarHeaderIcon Icon={Type.Upload} onClick={action("Export")} />
-        <SidebarHeaderIcon Icon={Type.Delete} onClick={action("Delete")} />
+        <SidebarHeaderButton Icon={Type.Upload} onClick={action("Export")} />
+        <SidebarHeaderButton Icon={Type.Delete} onClick={action("Delete")} />
       </>
     )
 
