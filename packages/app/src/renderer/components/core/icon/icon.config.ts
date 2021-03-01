@@ -332,13 +332,9 @@ const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
   [Type.Manage]: Manage,
 }
 
-export const getIconType = (icon?: Type): FunctionComponent<ImageInterface> => {
-  if (!icon) {
-    return Message
-  }
-  return typeToIcon[icon] || Message
-}
+export const getIconType = (
+  icon: Type = Type.Message
+): FunctionComponent<ImageInterface> => typeToIcon[icon] || Message
 
-export const getEnumName = (type?: Type) => {
-  return type !== undefined ? Type[type] : null
-}
+export const getEnumName = (type?: Type) =>
+  type !== undefined ? Type[type] : null
