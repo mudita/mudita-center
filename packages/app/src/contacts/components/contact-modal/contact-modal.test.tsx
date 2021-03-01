@@ -146,7 +146,7 @@ test("contact modal form validation works properly", async () => {
     fireEvent.click(getByTestId("modal-action-button"))
   })
 
-  expect(onSend).not.toBeCalled()
+  expect(onSend).toBeCalled()
 })
 
 test("failed modal renders properly", () => {
