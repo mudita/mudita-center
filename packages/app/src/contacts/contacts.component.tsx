@@ -29,6 +29,7 @@ import {
   contactDatabaseFactory,
   getFlatList,
 } from "App/contacts/store/contacts.helpers"
+import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 
 const selector = select(({ contacts, messages }) => ({
   contactList: contacts.contactList,
@@ -52,7 +53,7 @@ const mapDispatch = ({ contacts, auth }: any) => {
     ...contacts,
     ...auth,
     // TODO: Add proper actions
-    onExport: noop,
+    onExport: exportContacts,
     onForward: noop,
     onBlock: noop,
     onSelect: noop,
