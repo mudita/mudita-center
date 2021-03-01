@@ -93,6 +93,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     isTopicThreadOpened,
     resultsState,
     authorize,
+    onExport
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -585,7 +586,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
             <ContactDetails
               contact={contactFreshData(activeRow as Contact)}
               onClose={closeSidebar}
-              onExport={noop}
+              onExport={onExport}
               onForward={noop}
               onUnblock={handleUnblock}
               onBlock={openBlockModal}
