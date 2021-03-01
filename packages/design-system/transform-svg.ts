@@ -19,7 +19,7 @@ fs.readdir(svgDirName, (dirError, fileNames) => {
     fs.mkdirSync(tempSvgDir)
   }
   fileNames.forEach((fileName) => {
-    const [_, fileType] = fileName.split(".")
+    const fileType = path.extname(fileName)
     if (fileType !== "svg") {
       console.log(`!!! Skipping not .svg file ${fileName}`)
       return
