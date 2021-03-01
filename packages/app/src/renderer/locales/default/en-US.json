@@ -1,4 +1,9 @@
 {
+  "app.collecting.data.modal.agree": "Agree",
+  "app.collecting.data.modal.body": "Lorem ipsum dolor sit amet elit lorem ipsum dolor elit ipsum lorem ipsum dolor see full agreement",
+  "app.collecting.data.modal.cancel": "Not now",
+  "app.collecting.data.modal.text": "Help us improve the Mudita Center",
+  "app.collecting.data.modal.title": "Rollbar agreement",
   "app.update.available.modal.button": "Download",
   "app.update.available.modal.message": "New update is available",
   "app.update.downloaded.modal.button": "Install",
@@ -476,6 +481,7 @@
   "view.name.settings.backup.description": "Select a folder for Pure backup files on this computer",
   "view.name.settings.backup.label": "Backup Location",
   "view.name.settings.backup.tetheringLabel": "Start tethering",
+  "view.name.settings.collectingdata": "Sending data with Rollbar",
   "view.name.settings.connection": "Connection",
   "view.name.settings.description": "Select what happens when connecting your Mudita device to this computer",
   "view.name.settings.notifications": "Notifications",
