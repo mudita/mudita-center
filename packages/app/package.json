@@ -222,6 +222,8 @@
     "@appnroll/delay-response": "^1.0.2",
     "@contentful/rich-text-react-renderer": "^14.1.2",
     "@contentful/rich-text-types": "^14.1.2",
+    "@fullcalendar/daygrid": "^5.5.0",
+    "@fullcalendar/react": "^5.5.0",
     "@mudita/pure": "*",
     "@rematch/core": "^1.4.0",
     "@rematch/select": "^2.0.5",

@@ -12,6 +12,9 @@ import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enu
 import { defineMessages } from "react-intl"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
+import FullCalendar from "@fullcalendar/react"
+import dayGridPlugin from "@fullcalendar/daygrid"
+import styled from "styled-components"
 
 const messages = defineMessages({
   emptyStateTitle: { id: "view.name.calendar.noEvents" },
@@ -19,6 +22,10 @@ const messages = defineMessages({
     id: "view.name.calendar.noEventsDescription",
   },
 })
+
+const Container = styled.div`
+  overflow: auto;
+`
 
 interface Props {
   events: CalendarEvent[]
@@ -47,11 +54,9 @@ const CalendarUI: FunctionComponent<Props> = ({
         resetRows={tableSelectHook.resetRows}
       />
       {events.length > 0 ? (
-        <EventsList
-          events={events}
-          selectedEventIndex={selectedEventIndex}
-          {...tableSelectHook}
-        />
+        <Container>
+          <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" />
+        </Container>
       ) : (
         <EmptyState
           title={messages.emptyStateTitle}
