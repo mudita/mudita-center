@@ -26,7 +26,14 @@ export {
   Type as ButtonType,
 } from "../app/src/renderer/components/core/button/button.config"
 // Button Toggler
-export { default as ButtonToggler } from "../app/src/renderer/components/core/button-toggler/button-toggler.component"
+export {
+  default as ButtonToggler,
+  ButtonTogglerItem,
+} from "../app/src/renderer/components/core/button-toggler/button-toggler.component"
+export {
+  ButtonTogglerItemProps,
+  ButtonTogglerProps,
+} from "../app/src/renderer/components/core/button-toggler/button-toggler.interface"
 // Text Editor
 export {
   default as TextEditor,
@@ -54,6 +61,10 @@ export {
   TitleOrder as ModalTitleOrder,
   ModalSize,
 } from "../app/src/renderer/components/core/modal/modal.interface"
+export {
+  default as DeleteContactModal,
+  DeleteContactModalProps,
+} from "../app/src/renderer/components/core/modal/delete-modal.component"
 export {
   getButtonsPosition as getModalButtonsPosition,
   getHeaderTemplate as getModalHeaderTemplate,
@@ -139,7 +150,7 @@ export {
 // Theme
 export { default as Theme } from "../app/src/renderer/styles/theming/theme"
 export * from "../app/src/renderer/styles/theming/theme-getters"
-export { default as GlobalStyle } from '../app/src/renderer/styles/global-style.component'
+export { default as GlobalStyle } from "../app/src/renderer/styles/global-style.component"
 
 // ############ Interfaces & Types ############
 export { Image } from "../app/src/renderer/interfaces/image.interface"

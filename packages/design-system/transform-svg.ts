@@ -20,7 +20,7 @@ fs.readdir(svgDirName, (dirError, fileNames) => {
   }
   fileNames.forEach((fileName) => {
     const fileType = path.extname(fileName)
-    if (fileType !== "svg") {
+    if (fileType !== ".svg") {
       console.log(`!!! Skipping not .svg file ${fileName}`)
       return
     }
