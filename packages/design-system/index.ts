@@ -155,3 +155,8 @@ export { default as GlobalStyle } from "../app/src/renderer/styles/global-style.
 // ############ Interfaces & Types ############
 export { Image } from "../app/src/renderer/interfaces/image.interface"
 export { InputProps } from "../app/src/renderer/interfaces/input.interface"
+
+// ############ INTL ############
+export { default as TranslationsConfig } from "../app/src/translations.config.json"
+export { default as EnUsMessages } from "../app/src/renderer/locales/default/en-US.json"
+export { default as PlPlMessages } from "../app/src/renderer/locales/default/pl-PL.json"
