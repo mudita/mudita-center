@@ -3,7 +3,7 @@ import * as fs from "fs"
 import svgr from "@svgr/core"
 import { capitalize } from "lodash"
 
-const svgDirName = path.join(__dirname, "./dist/app/src/renderer/svg")
+const svgDirName = path.join(__dirname, "dist", "app", "src", "renderer", "svg")
 const tempSvgDir = "tmp-svg"
 
 console.log("--- Reading original SVG directory")
@@ -41,12 +41,7 @@ fs.readdir(svgDirName, (dirError, fileNames) => {
           fs.writeFileSync(newFilePathAndName, jsCode, "utf-8")
         })
         .catch((svgrError) => {
-          console.log(
-            "--- SVG error:",
-            svgrError,
-            filePath,
-            parsedData
-          )
+          console.log("--- SVG error:", svgrError, filePath, parsedData)
         })
     })
   })
