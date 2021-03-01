@@ -17,13 +17,16 @@ const parseIcs = async (filePaths: string[]): Promise<CalendarEvent[]> => {
         name: event.summary ? event.summary.toString() : "",
         startDate: event.start ? new Date(event.start).toISOString() : "",
         endDate: event.end ? new Date(event.end).toISOString() : "",
+        description: event.description,
         ...(event.rrule?.origOptions
           ? { recurrence: new RRule(event.rrule?.origOptions) }
           : {}),
       })
     }
   }
-  return parsedEvents.filter((event) => event.startDate && event.endDate && event.id)
+  return parsedEvents.filter(
+    (event) => event.startDate && event.endDate && event.id
+  )
 }
 
 export default parseIcs

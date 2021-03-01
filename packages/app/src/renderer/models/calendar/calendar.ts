@@ -4,7 +4,10 @@
  */
 
 import { Calendar, CalendarEvent, CalendarState } from "./calendar.interfaces"
-import { getSortedEvents, mapEvents } from "Renderer/models/calendar/calendar.helpers"
+import {
+  getSortedEvents,
+  mapEvents,
+} from "Renderer/models/calendar/calendar.helpers"
 import { Slicer } from "@rematch/select"
 import { RootState } from "Renderer/store"
 import externalProvidersStore from "Renderer/store/external-providers"
@@ -12,6 +15,7 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 import { eventsData } from "App/seeds/calendar"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
+import overwriteDuplicates from "App/calendar/helpers/overwrite-duplicates/overwrite-duplicates"
 import { ResultsState } from "App/contacts/store/contacts.enum"
 import logger from "App/main/utils/logger"
 import getEvents from "Renderer/requests/get-events.request"
@@ -43,7 +47,7 @@ const calendar = createModel<RootModel>({
     setEvents(state: CalendarState, newEvents: CalendarEvent[]) {
       return {
         ...state,
-        events: [...state.events, ...newEvents],
+        events: overwriteDuplicates({ oldEvents: state.events, newEvents }),
       }
     },
     _devClearAllEvents(state: CalendarState) {
