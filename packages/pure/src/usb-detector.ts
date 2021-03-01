@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import usb, { Device, DeviceDescriptor } from "usb"
+import usb, { Device } from "usb"
 import { EventEmitter } from "events"
 import { PortInfo } from "serialport"
 
@@ -31,36 +31,16 @@ class UsbDetector {
     this.#eventEmitter.off(UsbDetectorEventName.Attach, listener)
   }
 
-  private getDescriptor(
-    device: Device,
-    deviceDescriptor: keyof DeviceDescriptor
-  ): Promise<string> {
-    return new Promise((resolve) => {
-      device.getStringDescriptor(
-        device.deviceDescriptor[deviceDescriptor],
-        (error, data = "") => {
-          resolve(data)
-        }
-      )
-    })
-  }
-
-  private async getPortInfo(device: Device): Promise<UsbDetectorPortInfo> {
-    device.open()
-    const manufacturer = await this.getDescriptor(device, "iManufacturer")
-    const serialNumber = await this.getDescriptor(device, "iSerialNumber")
-    device.close()
-    return {
-      manufacturer,
-      serialNumber,
-    }
-  }
-
   private registerAttachDeviceEmitter() {
-    usb.on("attach",  (device: Device) => {
-      void this.getPortInfo(device).then(portInfo => {
-        this.#eventEmitter.emit(UsbDetectorEventName.Attach, portInfo)
-      })
+    usb.on("attach", async (device: Device) => {
+      const { idVendor, idProduct } = device.deviceDescriptor
+
+      const portInfo = {
+        vendorId: idVendor.toString(16).padStart(4, "0"),
+        productId: idProduct.toString(16).padStart(4, "0"),
+      }
+
+      this.#eventEmitter.emit(UsbDetectorEventName.Attach, portInfo)
     })
   }
 }

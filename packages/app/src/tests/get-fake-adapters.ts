@@ -15,6 +15,7 @@ import createFakePhonebookAdapter, {
 } from "Backend/adapters/phonebook/phonebook-fake.adapter"
 import createFakeAppSettingsAdapter from "Backend/adapters/app-settings/app-settings-fake.adapter"
 import { SettingsUpdateOption } from "App/main/store/settings.interface"
+import createFakeCalendarAdapter from "Backend/adapters/calendar/calendar-fake.adapter"
 
 type FakeAdaptersProps = PhonebookFakeAdapterProps & {
   updateOption: SettingsUpdateOption
@@ -31,6 +32,7 @@ const getFakeAdapters = ({
   pureNetwork: createFakePurePhoneNetworkAdapter(),
   pureBackups: createFakePurePhoneBackupsAdapter(),
   phonebook: createFakePhonebookAdapter(),
+  calendar: createFakeCalendarAdapter(),
 })
 
 export default getFakeAdapters
