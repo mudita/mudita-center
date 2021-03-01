@@ -119,7 +119,7 @@ export {
   RowSize as TableRowSize,
   Col as TableCol,
   Sidebar,
-  SidebarHeaderIcon,
+  SidebarHeaderButton,
   SidebarProps,
   Labels as TableLables,
   Group as TableGroup,

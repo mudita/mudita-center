@@ -241,7 +241,7 @@ const SidebarWrapper = styled.div<{
   margin-right: ${({ show }) => (show ? 0 : -62.1)}rem;
 `
 
-export const SidebarHeaderIcon = styled(ButtonComponent).attrs(() => ({
+export const SidebarHeaderButton = styled(ButtonComponent).attrs(() => ({
   displayStyle: DisplayStyle.IconOnly2,
 }))`
   ${buttonComponentAnimationStyles};
@@ -334,7 +334,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
       {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
       {headerRight && <SidebarHeaderRight>{headerRight}</SidebarHeaderRight>}
       <SidebarClose onClick={onClose} data-testid="sidebar-close">
-        <SidebarHeaderIcon Icon={Type.Close} />
+        <SidebarHeaderButton Icon={Type.Close} />
       </SidebarClose>
     </SidebarHeader>
     <SidebarContent padded={padded}>{children}</SidebarContent>
