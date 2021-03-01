@@ -5,14 +5,11 @@
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/dom"
-import React, { ReactElement } from "react"
+import React from "react"
 import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { InputSelectTestIds } from "Renderer/components/core/input-select/input-select.component"
 import { CalendarPanelTestIds } from "Renderer/components/rest/calendar/calendar-panel-test-ids.enum"
-import { ipcRenderer } from "electron-better-ipc"
-import { IpcRequest } from "Common/requests/ipc-request.enum"
-import modalService from "Renderer/components/core/modal/modal.service"
 import ExportErrorModal from "App/calendar/components/export-error-modal/export-error-modal.component"
 
 const mockedResetRows = jest.fn()
@@ -111,22 +108,29 @@ test("selection manager is displayed when there is at least one event selected "
   expect(getByTestId(CalendarPanelTestIds.SelectionManager)).toBeInTheDocument()
 })
 
-test("modal is opened when there is error returned", async () => {
-  ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.ExportEvents]: Promise.resolve(false),
-  }
-  const mockedReturn = jest.fn()
-  jest.spyOn(modalService, "openModal").mockImplementation((param: ReactElement) => mockedReturn(param))
-  const { getByTestId } = renderer({ selectedEvents: [defaultProps.events[0]] })
-  await getByTestId(CalendarPanelTestIds.ExportButton).click()
-  expect(mockedReturn).toHaveBeenCalledWith(<ExportErrorModal />)
-})
-
-test("reset rows is called when export is succeed", async () => {
-  ;(ipcRenderer as any).__rendererCalls = {
-    [IpcRequest.ExportEvents]: Promise.resolve(true),
-  }
-  const { getByTestId } = renderer({ selectedEvents: [defaultProps.events[0]] })
+test("reset rows is called when export is succeed ", async () => {
+  const selectedEvents = [defaultProps.events[0]]
+  const exportCalendarEvents = jest.fn(() => true)
+  const { getByTestId } = renderer({
+    selectedEvents,
+    exportCalendarEvents,
+  })
   await getByTestId(CalendarPanelTestIds.ExportButton).click()
   expect(mockedResetRows).toHaveBeenCalled()
+  expect(exportCalendarEvents).toHaveBeenCalledWith(selectedEvents)
+})
+
+test("modal is opened when there is error returned ", async () => {
+  const exportCalendarEvents = jest.fn(() => false)
+  const selectedEvents = [defaultProps.events[0]]
+  const openModal = jest.fn()
+  const { getByTestId } = renderer({
+    selectedEvents,
+    exportCalendarEvents,
+    openModal
+  })
+  await getByTestId(CalendarPanelTestIds.ExportButton).click()
+  expect(mockedResetRows).not.toHaveBeenCalled()
+  expect(openModal).toHaveBeenCalledWith(<ExportErrorModal />)
+  expect(exportCalendarEvents).toHaveBeenCalledWith(selectedEvents)
 })

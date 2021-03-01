@@ -18,6 +18,7 @@ export interface CalendarEvent {
   provider?: {
     type: Provider
     id: string
+    calendarId?: string
   }
 }
 

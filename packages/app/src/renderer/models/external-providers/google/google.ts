@@ -242,7 +242,7 @@ const google = createModel<ExternalProvidersModels>({
           nextPageToken = data.nextPageToken
         }
 
-        return mapEvents(events)
+        return mapEvents(events, calendarId)
       } catch (error) {
         logger.error(error)
         throw error

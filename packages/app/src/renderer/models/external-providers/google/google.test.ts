@@ -229,6 +229,7 @@ test("events from google are received properly", async () => {
         "id": "google_google-event-1",
         "name": "Felix's Birthday",
         "provider": Object {
+          "calendarId": "calendar-id-123",
           "id": "google-event-1",
           "type": "google",
         },
@@ -240,6 +241,7 @@ test("events from google are received properly", async () => {
         "id": "google_google-event-2",
         "name": "Kate's Birthday",
         "provider": Object {
+          "calendarId": "calendar-id-123",
           "id": "google-event-2",
           "type": "google",
         },
@@ -251,6 +253,7 @@ test("events from google are received properly", async () => {
         "id": "google_google-event-3",
         "name": "Matthew's Birthday",
         "provider": Object {
+          "calendarId": "calendar-id-123",
           "id": "google-event-3",
           "type": "google",
         },
@@ -262,6 +265,7 @@ test("events from google are received properly", async () => {
         "id": "google_google-event-4",
         "name": "John's Birthday",
         "provider": Object {
+          "calendarId": "calendar-id-123",
           "id": "google-event-4",
           "type": "google",
         },
@@ -399,6 +403,7 @@ test("google events are mapped properly", () => {
         "id": "google_google-event-1",
         "name": "Felix's Birthday",
         "provider": Object {
+          "calendarId": undefined,
           "id": "google-event-1",
           "type": "google",
         },
@@ -410,6 +415,7 @@ test("google events are mapped properly", () => {
         "id": "google_google-event-2",
         "name": "Kate's Birthday",
         "provider": Object {
+          "calendarId": undefined,
           "id": "google-event-2",
           "type": "google",
         },
@@ -421,6 +427,7 @@ test("google events are mapped properly", () => {
         "id": "google_google-event-3",
         "name": "Matthew's Birthday",
         "provider": Object {
+          "calendarId": undefined,
           "id": "google-event-3",
           "type": "google",
         },
@@ -432,6 +439,7 @@ test("google events are mapped properly", () => {
         "id": "google_google-event-4",
         "name": "John's Birthday",
         "provider": Object {
+          "calendarId": undefined,
           "id": "google-event-4",
           "type": "google",
         },
