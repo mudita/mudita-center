@@ -31,8 +31,7 @@ fs.readdir(svgDirName, (dirError, fileNames) => {
       }
       const parsedData = data.toString()
       const componentName = fileName
-        .replace(".", "-")
-        .split("-")
+        .split(new RegExp("[.-]", "gm"))
         .map((partOfName) => capitalize(partOfName))
         .join("")
       svgr(parsedData, { icon: false }, { componentName })
