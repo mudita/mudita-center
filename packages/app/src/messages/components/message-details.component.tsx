@@ -7,7 +7,7 @@ import React, { useEffect, useRef } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   Sidebar,
-  SidebarHeaderIcon,
+  SidebarHeaderButton,
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
@@ -109,25 +109,25 @@ const MessageDetails: FunctionComponent<Props> = ({
   const icons = (
     <>
       {process.env.NODE_ENV !== "production" && (
-        <SidebarHeaderIcon
+        <SidebarHeaderButton
           Icon={Type.Calls}
           onClick={noop}
           iconSize={IconSize.Big}
         />
       )}
-      <SidebarHeaderIcon
+      <SidebarHeaderButton
         Icon={Type.Contact}
         onClick={handleContactClick}
         iconSize={IconSize.Big}
       />
       {process.env.NODE_ENV !== "production" && (
         <>
-          <SidebarHeaderIcon
+          <SidebarHeaderButton
             Icon={Type.BorderCheckIcon}
             onClick={markAsUnread}
             iconSize={IconSize.Big}
           />
-          <SidebarHeaderIcon
+          <SidebarHeaderButton
             Icon={Type.Delete}
             onClick={handleDeleteClick}
             iconSize={IconSize.Big}
