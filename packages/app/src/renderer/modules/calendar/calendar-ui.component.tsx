@@ -61,9 +61,8 @@ const CalendarUI: FunctionComponent<Props> = ({
     },
   ]
   const handleDateSelect = (selectInfo: any) => {
-    console.log("select")
     console.log({ selectInfo })
-    let calendarApi = selectInfo.view.calendar
+    const calendarApi = selectInfo.view.calendar
 
     calendarApi.unselect() // clear date selection
 
@@ -106,6 +105,10 @@ const CalendarUI: FunctionComponent<Props> = ({
             selectable
             select={handleDateSelect}
             eventsSet={handleEvents}
+            eventClick={(event) => {
+              event.event.setProp('title', 'new title');
+              console.log("click", event)
+            }}
             customButtons={{
               myCustomButton: {
                 text: "custom!",
