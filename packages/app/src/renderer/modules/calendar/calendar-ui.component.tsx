@@ -102,14 +102,15 @@ const CalendarUI: FunctionComponent<Props> = ({
             initialView="timeGridWeek"
             initialEvents={INITIAL_EVENTS as any}
             editable
+            eventResizableFromStart
             selectable
             select={handleDateSelect}
             eventsSet={handleEvents}
             customButtons={{
               myCustomButton: {
-                text: 'custom!',
-                click: function() {
-                  alert('clicked the custom button!');
+                text: "custom!",
+                click: function () {
+                  alert("clicked the custom button!")
                 },
               },
             }}
