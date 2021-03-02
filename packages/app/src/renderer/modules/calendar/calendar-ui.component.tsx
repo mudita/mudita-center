@@ -97,7 +97,7 @@ const CalendarUI: FunctionComponent<Props> = ({
             headerToolbar={{
               left: "prev,next today",
               center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
+              right: "dayGridMonth,timeGridWeek,timeGridDay, myCustomButton",
             }}
             initialView="timeGridWeek"
             initialEvents={INITIAL_EVENTS as any}
@@ -105,6 +105,14 @@ const CalendarUI: FunctionComponent<Props> = ({
             selectable
             select={handleDateSelect}
             eventsSet={handleEvents}
+            customButtons={{
+              myCustomButton: {
+                text: 'custom!',
+                click: function() {
+                  alert('clicked the custom button!');
+                },
+              },
+            }}
           />
         </Container>
       ) : (
