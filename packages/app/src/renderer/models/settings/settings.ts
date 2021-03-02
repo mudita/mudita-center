@@ -49,6 +49,9 @@ const settings = createModel<RootModel>({
       setTethering(value: AppSettings["appTethering"]) {
         this.updateSettings({ key: "appTethering", value })
       },
+      setCollectingData(value: AppSettings["appCollectingData"]) {
+        this.updateSettings({ key: "appCollectingData", value })
+      },
       setIncomingCalls(value: AppSettings["appIncomingCalls"]) {
         this.updateSettings({ key: "appIncomingCalls", value })
       },

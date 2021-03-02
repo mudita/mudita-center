@@ -54,6 +54,8 @@ const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
   setAutostart = noop,
   appTethering,
   setTethering = noop,
+  appCollectingData,
+  setCollectingData = noop,
 }) => {
   return (
     <SettingsWrapper data-testid={SettingsTestIds.Wrapper}>
@@ -96,6 +98,24 @@ const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
           </ActionsWrapper>
         </SettingsTableRow>
       )}
+      <SettingsTableRow
+        checkMode={false}
+        data-testid={SettingsTestIds.TableRow}
+      >
+        <Data>
+          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+            <FormattedMessage id="view.name.settings.collectingdata" />
+          </SettingsLabel>
+        </Data>
+        <ActionsWrapper>
+          <SettingsToggler
+            toggleValue={
+              appCollectingData === undefined ? false : appCollectingData
+            }
+            onToggle={setCollectingData}
+          />
+        </ActionsWrapper>
+      </SettingsTableRow>
     </SettingsWrapper>
   )
 }
