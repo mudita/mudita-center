@@ -4,6 +4,7 @@
   "description": "Mudita Center",
   "main": "./dist/main.js",
   "productName": "Mudita Center",
+  "private": true,
   "scripts": {
     "MAIN COMMANDS": "=========================================================",
     "develop": "cross-env START_HOT=1 npm run dev:start:renderer",

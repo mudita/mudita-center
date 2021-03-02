@@ -25,14 +25,14 @@
     "noUnusedLocals": true,
     "noImplicitReturns": true,
     "moduleResolution": "node",
-    "baseUrl": "../app",
+    "baseUrl": "./",
     "paths": {
-      "App/*": ["src/*"],
-      "Renderer/*": ["src/renderer/*"],
-      "Cypress/*": ["cypress/*"],
-      "Storybook/*": [".storybook/*"],
-      "Backend/*": ["src/backend/*"],
-      "Common/*": ["src/common/*"]
+      "App/*": ["../app/src/*"],
+      "Renderer/*": ["../app/src/renderer/*"],
+      "Cypress/*": ["../app/cypress/*"],
+      "Storybook/*": ["../app/.storybook/*"],
+      "Backend/*": ["../app/src/backend/*"],
+      "Common/*": ["../app/src/common/*"]
     },
     "types": ["jest", "node", "@testing-library/react"],
     "experimentalDecorators": true,
@@ -58,6 +58,7 @@
     "../app/src/common",
     "../app/src/dev-mode",
     "../app/src/main",
-    "../app/src/seeds"
+    "../app/src/seeds",
+    "transform-svg.ts"
   ]
 }
