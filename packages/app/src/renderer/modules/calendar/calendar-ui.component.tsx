@@ -14,6 +14,7 @@ import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
+import timeGridPlugin from "@fullcalendar/timegrid"
 import styled from "styled-components"
 
 const messages = defineMessages({
@@ -55,7 +56,15 @@ const CalendarUI: FunctionComponent<Props> = ({
       />
       {events.length > 0 ? (
         <Container>
-          <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" />
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin]}
+            headerToolbar={{
+              left: "prev,next today",
+              center: "title",
+              right: "dayGridMonth,timeGridWeek,timeGridDay",
+            }}
+            initialView="timeGridWeek"
+          />
         </Container>
       ) : (
         <EmptyState
