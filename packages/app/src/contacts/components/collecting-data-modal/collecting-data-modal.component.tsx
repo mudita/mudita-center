@@ -53,6 +53,7 @@ const CollectingDataModal: FunctionComponent<Props> = ({
       onActionButtonClick={onAgree}
       actionButtonLabel={intl.formatMessage(messages.agreeButton)}
       onClose={onClose}
+      onCloseButton={onClose}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
     >
       <ModalContent>

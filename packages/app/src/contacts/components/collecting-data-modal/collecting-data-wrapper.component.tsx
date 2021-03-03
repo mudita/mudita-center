@@ -15,19 +15,21 @@ interface Props {
   setCollectingData: (option: AppSettings["appCollectingData"]) => void
   appCollectingData: boolean | undefined
   openModal?: ModalService["openModal"]
+  closeModal?: ModalService["closeModal"]
 }
 
 const CollectingDataWrapper: FunctionComponent<Props> = ({
   setCollectingData,
   appCollectingData,
-  openModal = modalService.openModal,
+  openModal = modalService.openModal.bind(modalService),
+  closeModal = modalService.closeModal.bind(modalService),
 }) => {
   const onClose = () => {
-    modalService.closeModal()
+    closeModal()
     setCollectingData(false)
   }
   const onAgree = () => {
-    modalService.closeModal()
+    closeModal()
     setCollectingData(true)
   }
 
