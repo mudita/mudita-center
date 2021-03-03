@@ -15,6 +15,7 @@ import Text, {
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { CollectingDataModalTestIds } from "App/contacts/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
 
 const ModalContent = styled.div`
   display: flex;
@@ -59,10 +60,12 @@ const CollectingDataModal: FunctionComponent<Props> = ({
       <ModalContent>
         <Icon type={Type.MuditaLogoBg} width={12} height={12} />
         <Text
+          data-testid={CollectingDataModalTestIds.Subtitle}
           displayStyle={TextDisplayStyle.LargeBoldText}
           message={messages.text}
         />
         <Text
+          data-testid={CollectingDataModalTestIds.Body}
           displayStyle={TextDisplayStyle.MediumText}
           message={messages.body}
         />

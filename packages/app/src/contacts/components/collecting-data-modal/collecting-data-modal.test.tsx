@@ -7,6 +7,7 @@ import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import CollectingDataModal from "App/contacts/components/collecting-data-modal/collecting-data-modal.component"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
+import { CollectingDataModalTestIds } from "App/contacts/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
 
 const onAgree = jest.fn()
 const onClose = jest.fn()
@@ -37,4 +38,18 @@ test("onClose is fired after 'x' button is clicked", () => {
   const { getByTestId } = renderer()
   getByTestId(ModalTestIds.CloseButton).click()
   expect(onClose).toBeCalled()
+})
+
+test("subtitle has correct text", () => {
+  const { getByTestId } = renderer()
+  expect(getByTestId(CollectingDataModalTestIds.Subtitle)).toHaveTextContent(
+    "[value] app.collecting.data.modal.text"
+  )
+})
+
+test("body has correct text", () => {
+  const { getByTestId } = renderer()
+  expect(getByTestId(CollectingDataModalTestIds.Body)).toHaveTextContent(
+    "[value] app.collecting.data.modal.body"
+  )
 })
