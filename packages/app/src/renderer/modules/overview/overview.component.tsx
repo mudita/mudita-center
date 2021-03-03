@@ -27,7 +27,6 @@ import { BackupRestorationStartModal } from "Renderer/modules/overview/backup-pr
 import { BackupRestorationFinishedModal } from "Renderer/modules/overview/backup-process/restoration-finished-modal.component"
 import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
 import logger from "App/main/utils/logger"
-import CollectingDataModal from "App/contacts/components/collecting-data-modal/collecting-data-modal.component"
 
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
@@ -212,22 +211,6 @@ const Overview: FunctionComponent<
     )
   }
 
-  const onClose = () => {
-    modalService.closeModal()
-    setCollectingData(false)
-  }
-  const onAgree = () => {
-    modalService.closeModal()
-    setCollectingData(true)
-  }
-
-  if (appCollectingData === undefined) {
-    modalService.openModal(
-      <CollectingDataModal onAgree={onAgree} onClose={onClose} />,
-      true
-    )
-  }
-
   return (
     <OverviewUI
       batteryLevel={batteryLevel}
@@ -248,6 +231,8 @@ const Overview: FunctionComponent<
       onOpenBackupModal={openBackupStartModal}
       onOpenBackupRestorationModal={openBackupRestorationStartModal}
       language={language}
+      appCollectingData={appCollectingData}
+      setCollectingData={setCollectingData}
     />
   )
 }
