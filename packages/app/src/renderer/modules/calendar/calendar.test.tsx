@@ -47,7 +47,7 @@ const renderer = (extraProps?: {}) => {
   )
 }
 
-test("renders correct amount of events", () => {
+test.skip("renders correct amount of events", () => {
   const { getAllByTestId } = renderer()
   mockAllIsIntersecting(true)
   expect(getAllByTestId(CalendarTestIds.Event)).toHaveLength(
