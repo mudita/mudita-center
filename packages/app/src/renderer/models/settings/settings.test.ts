@@ -149,7 +149,7 @@ test("updates os updates setting", async () => {
   `)
 })
 
-test("updates collecting data setting", async () => {
+test("updates collecting data setting to true", async () => {
   const store = init({
     models: { settings },
   })
@@ -160,6 +160,22 @@ test("updates collecting data setting", async () => {
     Object {
       "settings": Object {
         "appCollectingData": true,
+      },
+    }
+  `)
+})
+
+test("updates collecting data setting to false", async () => {
+  const store = init({
+    models: { settings },
+  })
+  mockIpc()
+  await store.dispatch.settings.setCollectingData(false)
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "appCollectingData": false,
       },
     }
   `)
