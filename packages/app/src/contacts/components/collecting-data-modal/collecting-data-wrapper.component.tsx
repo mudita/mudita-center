@@ -34,7 +34,7 @@ const CollectingDataWrapper: FunctionComponent<Props> = ({
   }
 
   if (appCollectingData === undefined) {
-    openModal(<CollectingDataModal onAgree={agree} onClose={close} />)
+    openModal(<CollectingDataModal agree={agree} close={close} />)
   }
   return null
 }

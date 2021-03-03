@@ -9,35 +9,33 @@ import CollectingDataModal from "App/contacts/components/collecting-data-modal/c
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { CollectingDataModalTestIds } from "App/contacts/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
 
-const onAgree = jest.fn()
-const onClose = jest.fn()
+const agree = jest.fn()
+const close = jest.fn()
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 const renderer = (extraProps?: {}) => {
   const props = {
-    onAgree,
-    onClose,
+    agree,
+    close,
   }
   return renderWithThemeAndIntl(
     <CollectingDataModal {...props} {...extraProps} />
   )
 }
 
-test("onAgree is fired after button is clicked", () => {
+test("agree is fired after button is clicked", () => {
   const { getByTestId } = renderer()
   getByTestId(ModalTestIds.ModalActionButton).click()
-  expect(onAgree).toBeCalled()
+  expect(agree).toBeCalled()
 })
 
-test("onClose is fired after bottom button is clicked", () => {
+test("close is fired after bottom button is clicked", () => {
   const { getByTestId } = renderer()
   getByTestId(ModalTestIds.CloseBottomButton).click()
-  expect(onClose).toBeCalled()
-})
-
-test("onClose is fired after 'x' button is clicked", () => {
-  const { getByTestId } = renderer()
-  getByTestId(ModalTestIds.CloseButton).click()
-  expect(onClose).toBeCalled()
+  expect(close).toBeCalled()
 })
 
 test("subtitle has correct text", () => {

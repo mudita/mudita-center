@@ -27,22 +27,19 @@ const messages = defineMessages({
 })
 
 interface Props {
-  onClose: () => void
-  onAgree: () => void
+  close: () => void
+  agree: () => void
 }
 
-const CollectingDataModal: FunctionComponent<Props> = ({
-  onAgree,
-  onClose,
-}) => {
+const CollectingDataModal: FunctionComponent<Props> = ({ agree, close }) => {
   return (
     <Modal
       title={intl.formatMessage(messages.title)}
       size={ModalSize.Small}
-      onActionButtonClick={onAgree}
+      onActionButtonClick={agree}
       actionButtonLabel={intl.formatMessage(messages.agreeButton)}
-      onClose={onClose}
-      onCloseButton={onClose}
+      onClose={close}
+      onCloseButton={close}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
     >
       <ModalContent>
