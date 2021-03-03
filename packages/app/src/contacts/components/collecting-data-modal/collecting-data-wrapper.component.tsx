@@ -24,19 +24,19 @@ const CollectingDataWrapper: FunctionComponent<Props> = ({
   openModal = modalService.openModal.bind(modalService),
   closeModal = modalService.closeModal.bind(modalService),
 }) => {
-  const onClose = () => {
+  const close = () => {
     closeModal()
     setCollectingData(false)
   }
-  const onAgree = () => {
+  const agree = () => {
     closeModal()
     setCollectingData(true)
   }
 
   if (appCollectingData === undefined) {
-    openModal(<CollectingDataModal onAgree={onAgree} onClose={onClose} />)
+    openModal(<CollectingDataModal onAgree={agree} onClose={close} />)
   }
-  return <div />
+  return null
 }
 
 export default CollectingDataWrapper
