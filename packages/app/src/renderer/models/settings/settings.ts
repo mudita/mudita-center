@@ -16,6 +16,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { SettingsActions } from "Common/enums/settings-actions.enum"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
+import { LoggerService } from "App/main/utils/logger"
 
 const settings = createModel<RootModel>({
   state: {},
@@ -51,6 +52,7 @@ const settings = createModel<RootModel>({
       },
       setCollectingData(value: AppSettings["appCollectingData"]) {
         this.updateSettings({ key: "appCollectingData", value })
+        value ? LoggerService.enableRollbar() : LoggerService.disableRollbar()
       },
       setIncomingCalls(value: AppSettings["appIncomingCalls"]) {
         this.updateSettings({ key: "appIncomingCalls", value })

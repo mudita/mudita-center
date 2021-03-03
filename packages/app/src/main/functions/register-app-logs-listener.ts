@@ -29,7 +29,7 @@ const registerAppLogsListeners = () => {
         }
       }
     } catch (error) {
-      logger.error(error)
+      logger().error(error)
     }
     return logs.join("\n")
   })

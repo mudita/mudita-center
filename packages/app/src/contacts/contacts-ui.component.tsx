@@ -93,7 +93,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     isTopicThreadOpened,
     resultsState,
     authorize,
-    onExport
+    onExport,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -248,7 +248,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       cancelEditingContact(contact)
       openSidebar(contact)
     } catch (error) {
-      logger.error(error)
+      logger().error(error)
     }
   }
 
@@ -293,7 +293,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     try {
       await editContactWithRetry(unblockedContact)
     } catch (error) {
-      logger.error(error)
+      logger().error(error)
     }
 
     if (detailsEnabled) {
@@ -315,7 +315,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
       try {
         await editContactWithRetry(blockedContact)
       } catch (error) {
-        logger.error(error)
+        logger().error(error)
       }
 
       if (detailsEnabled) {

@@ -46,7 +46,7 @@ const registerNewsListener = () => {
       }
       return false
     } catch (e) {
-      logger.error(e)
+      logger().error(e)
       return false
     }
   }

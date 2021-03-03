@@ -30,7 +30,7 @@ const registerEventsExportListener = () => {
           app.getPath("documents"),
           intl.formatMessage(messages.defaultFilename, {
             name: events[0].name,
-            numberOfEvents: events.length ,
+            numberOfEvents: events.length,
           })
         ),
         properties: ["createDirectory", "showOverwriteConfirmation"],
@@ -42,7 +42,7 @@ const registerEventsExportListener = () => {
         try {
           await calendar.saveToFile(filePath)
         } catch (error) {
-          logger.error(error)
+          logger().error(error)
         }
         shell.showItemInFolder(filePath)
         return true

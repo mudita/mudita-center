@@ -71,7 +71,7 @@ export const contactSupport = async () => {
         log: "Log is omitted due to its size",
       }
 
-      logger.error(`Contact support error: ${JSON.stringify(simpleError)}`)
+      logger().error(`Contact support error: ${JSON.stringify(simpleError)}`)
 
       modalService.openModal(<ContactSupportFailed />, true)
     }

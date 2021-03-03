@@ -20,7 +20,7 @@ const registerAutoLaunchListener = () => {
       try {
         return await autoLaunch.isEnabled()
       } catch (error) {
-        logger.error(error)
+        logger().error(error)
         return false
       }
     })
@@ -33,7 +33,7 @@ const registerAutoLaunchListener = () => {
         }
         return true
       } catch (error) {
-        logger.error(error)
+        logger().error(error)
         return false
       }
     })

@@ -27,12 +27,9 @@ export const registerDownloadHelpHandler = () => {
       helpQuery.nextSyncToken = nextSyncToken
     }
     try {
-      return normalizeHelpData(
-        (await client.getHelp(helpQuery)),
-        locale
-      )
+      return normalizeHelpData(await client.getHelp(helpQuery), locale)
     } catch (error) {
-      logger.error(error)
+      logger().error(error)
       return false
     }
   })
