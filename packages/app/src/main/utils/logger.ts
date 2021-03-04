@@ -109,6 +109,6 @@ class Logger {
 
 export const LoggerService = new Logger().init()
 
-const logger = () => LoggerService.getLogger()
+const logger = LoggerService.getLogger()
 
 export default logger

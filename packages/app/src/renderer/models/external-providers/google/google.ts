@@ -106,14 +106,14 @@ const google = createModel<ExternalProvidersModels>({
             rootState
           )
         } else {
-          logger().error(error)
+          logger.error(error)
 
           try {
-            logger().info("Reauthorizing Google account")
+            logger.info("Reauthorizing Google account")
             await dispatch.google.authorize(scope)
             return await request()
           } catch (authorizeError) {
-            logger().error(authorizeError)
+            logger.error(authorizeError)
             throw authorizeError
           }
         }
@@ -122,7 +122,7 @@ const google = createModel<ExternalProvidersModels>({
 
     const authorize = (scope: Scope, rootState: ExternalProvidersState) => {
       return new Promise<void>((resolve, reject) => {
-        logger().info("Authorizing in Google")
+        logger.info("Authorizing in Google")
 
         const token = rootState.google[scope].access_token
 
@@ -161,7 +161,7 @@ const google = createModel<ExternalProvidersModels>({
       _: undefined,
       rootState: ExternalProvidersState
     ): Promise<Calendar[]> => {
-      logger().info("Getting Google calendars")
+      logger.info("Getting Google calendars")
 
       const { data } = await requestWrapper<GoogleCalendarsSuccess>(
         {
@@ -181,7 +181,7 @@ const google = createModel<ExternalProvidersModels>({
     }
 
     const getContacts = async (_: undefined, rootState: any) => {
-      logger().info("Getting Google contacts")
+      logger.info("Getting Google contacts")
 
       const { data } = await requestWrapper<GoogleContacts>(
         {
@@ -202,7 +202,7 @@ const google = createModel<ExternalProvidersModels>({
       calendarId: string,
       rootState: ExternalProvidersState
     ) => {
-      logger().info("Getting Google events")
+      logger.info("Getting Google events")
 
       const request = (pageToken?: string) => {
         const params = new URLSearchParams({
@@ -244,7 +244,7 @@ const google = createModel<ExternalProvidersModels>({
 
         return mapEvents(events, calendarId)
       } catch (error) {
-        logger().error(error)
+        logger.error(error)
         throw error
       }
     }

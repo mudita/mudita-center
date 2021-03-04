@@ -27,7 +27,7 @@ export default (win: BrowserWindow) => {
     owner: "Mudita",
     repo: "mudita-center",
   })
-  autoUpdater.logger = logger()
+  autoUpdater.logger = logger
   autoUpdater.autoDownload = false
   autoUpdater.autoInstallOnAppQuit = true
 

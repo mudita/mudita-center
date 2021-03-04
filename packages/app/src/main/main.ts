@@ -58,7 +58,7 @@ import registerEventsExportListener from "App/calendar/backend/export-events"
 
 require("dotenv").config()
 
-logger().info("Starting the app")
+logger.info("Starting the app")
 
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
@@ -69,7 +69,7 @@ app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
 
 // Fetch and log all errors
 process.on("uncaughtException", async (error) => {
-  logger().error(error)
+  logger.error(error)
   // TODO: Add contact support modal
 })
 
@@ -80,7 +80,7 @@ const installExtensions = async () => {
 
   return Promise.all(
     extensions.map((name) => installer.default(installer[name], forceDownload))
-  ).catch(logger().error)
+  ).catch(logger.error)
 }
 
 const developmentEnvironment = process.env.NODE_ENV === "development"

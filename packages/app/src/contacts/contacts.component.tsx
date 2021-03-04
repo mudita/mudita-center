@@ -77,7 +77,7 @@ const mapDispatch = ({ contacts, auth }: any) => {
     addNewContact: async (contact: NewContact): Promise<string | void> => {
       const { data, error } = await addContact(contact)
       if (error || !data) {
-        logger().error(error)
+        logger.error(error)
         return error?.message ?? "Something went wrong"
       } else {
         contacts.addContact(data)
@@ -86,7 +86,7 @@ const mapDispatch = ({ contacts, auth }: any) => {
     editContact: async (contact: Contact): Promise<string | void> => {
       const { data, error } = await editContact(contact)
       if (error || !data) {
-        logger().error(error)
+        logger.error(error)
         return error?.message ?? "Something went wrong"
       } else {
         contacts.editContact(data)
@@ -95,7 +95,7 @@ const mapDispatch = ({ contacts, auth }: any) => {
     deleteContacts: async (ids: ContactID[]): Promise<string | void> => {
       const { error } = await deleteContactsRequest(ids)
       if (error) {
-        logger().error(error)
+        logger.error(error)
         const successIds = ids.filter((id) => !error.data?.includes(id))
         contacts.removeContact(successIds)
         return error?.message ?? "Something went wrong"

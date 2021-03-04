@@ -13,7 +13,7 @@ import logger from "App/main/utils/logger"
 const updateTranslations = async () => {
   const language = settingsStore.get("language")
   const id = availableLanguages.find(({ code }) => code === language)?.id
-  logger().info(`Preparing translation update for language "${language}"`)
+  logger.info(`Preparing translation update for language "${language}"`)
 
   try {
     if (!id) {
@@ -29,9 +29,9 @@ const updateTranslations = async () => {
     })
 
     translationStores[language].store = data
-    logger().info(`Translation for language "${language}" applied successfully`)
+    logger.info(`Translation for language "${language}" applied successfully`)
   } catch (error) {
-    logger().error(error)
+    logger.error(error)
   }
 }
 

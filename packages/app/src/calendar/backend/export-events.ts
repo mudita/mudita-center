@@ -42,7 +42,7 @@ const registerEventsExportListener = () => {
         try {
           await calendar.saveToFile(filePath)
         } catch (error) {
-          logger().error(error)
+          logger.error(error)
         }
         shell.showItemInFolder(filePath)
         return true

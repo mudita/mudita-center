@@ -254,7 +254,7 @@ const useSystemUpdateFlow = (
         if (!silent) {
           await openCheckingForUpdatesFailedModal(() => checkForUpdates())
         }
-        logger().error(error)
+        logger.error(error)
       }
     }
   }
@@ -352,7 +352,7 @@ const useSystemUpdateFlow = (
     } else {
       const responseCode = response.error?.code
       displayErrorModal(responseCode)
-      logger().error(response)
+      logger.error(response)
     }
   }
 

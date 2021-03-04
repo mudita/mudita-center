@@ -65,7 +65,7 @@ const simulateProgress = async (
   }, 100)
 
   const cancel = () => {
-    logger().warn("Cancelling operation")
+    logger.warn("Cancelling operation")
     clearInterval(progressSimulator)
   }
 
@@ -135,7 +135,7 @@ const Overview: FunctionComponent<
   }, [osVersion])
 
   const openBackupFinishedModal = () => {
-    logger().info("Backup creation finished.")
+    logger.info("Backup creation finished.")
     modalService.openModal(
       <BackupFinishedModal
         items={mockedBackupItems}
@@ -147,13 +147,13 @@ const Overview: FunctionComponent<
 
   const openBackupFailedModal = () => {
     // TODO: Add an error to the message after implementing phone backup
-    logger().error("Backup creation failed.")
+    logger.error("Backup creation failed.")
     modalService.openModal(<BackupFailedModal />, true)
   }
 
   const openBackupLoadingModal = () => {
     backups++
-    logger().info("Creating backup...")
+    logger.info("Creating backup...")
 
     simulateProgress(
       <BackupLoadingModal />,
@@ -178,19 +178,19 @@ const Overview: FunctionComponent<
   }
 
   const openBackupRestorationFinishedModal = () => {
-    logger().info("Backup restoration finished.")
+    logger.info("Backup restoration finished.")
     modalService.openModal(<BackupRestorationFinishedModal />, true)
   }
 
   const openBackupRestorationFailedModal = () => {
     // TODO: Add an error to the message after implementing phone backup
-    logger().error("Backup restoration failed.")
+    logger.error("Backup restoration failed.")
     modalService.openModal(<BackupRestorationFailedModal />, true)
   }
 
   const openBackupRestorationLoadingModal = () => {
     restorations++
-    logger().info(
+    logger.info(
       `Restoring backup from ${lastBackup?.createdAt} with a size of ${lastBackup?.size} bytes.`
     )
 

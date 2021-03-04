@@ -51,7 +51,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
     try {
       return await loadCalendars(provider)
     } catch (error) {
-      logger().error(error)
+      logger.error(error)
       openAuthorizationFailedModal()
     }
   }
@@ -125,7 +125,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
       )
     } catch (error) {
       openSynchronizationFailedModal()
-      logger().error(error)
+      logger.error(error)
       return error
     }
   }
@@ -147,7 +147,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
       openSynchronizationFinishedModal(newEvents.length)
     } catch (error) {
       openSynchronizationFailedModal()
-      logger().error(error)
+      logger.error(error)
       return error
     }
   }
