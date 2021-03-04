@@ -226,9 +226,7 @@
     "react-svg-loader": "^3.0.3",
     "react-syntax-highlighter": "^15.4.3",
     "react-virtualized": "^9.22.3",
-    "@appnroll/delay-response": "^1.0.2"
-  },
-  "dependencies": {
+    "@appnroll/delay-response": "^1.0.2",
     "@contentful/rich-text-react-renderer": "^14.1.2",
     "@contentful/rich-text-types": "^14.1.2",
     "@mudita/pure": "*",
@@ -260,16 +258,18 @@
     "redux-observable": "^1.2.0",
     "redux-thunk": "^2.3.0",
     "rrule": "^2.6.6",
-    "serialport": "^9.0.6",
     "styled-components": "^5.2.1",
     "styled-normalize": "^8.0.7",
     "tcp-port-used": "^1.0.2",
     "update-electron-app": "^1.5.0",
-    "usb": "^1.6.3",
     "vcf": "^2.1.0",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.0",
     "winston-transport-rollbar-3": "^3.2.0"
+  },
+  "dependencies": {
+    "serialport": "^9.0.6",
+    "usb": "^1.6.3"
   },
   "engines": {
     "node": "12.18.4",
