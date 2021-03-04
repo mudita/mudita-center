@@ -8,6 +8,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import CollectingDataModal from "App/contacts/components/collecting-data-modal/collecting-data-modal.component"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { CollectingDataModalTestIds } from "App/contacts/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
+import { waitFor } from "@testing-library/react"
 
 const agree = jest.fn()
 const close = jest.fn()
@@ -36,6 +37,12 @@ test("close is fired after bottom button is clicked", () => {
   const { getByTestId } = renderer()
   getByTestId(ModalTestIds.CloseBottomButton).click()
   expect(close).toBeCalled()
+})
+
+test("close is fired after 'x' button is clicked", async () => {
+  const { getByTestId } = renderer()
+  getByTestId(ModalTestIds.CloseButton).click()
+  await waitFor(() => expect(close).toBeCalled())
 })
 
 test("subtitle has correct text", () => {
