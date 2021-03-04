@@ -14,7 +14,8 @@ import createFakePhonebookAdapter, {
   PhonebookFakeAdapterProps,
 } from "Backend/adapters/phonebook/phonebook-fake.adapter"
 import createFakeAppSettingsAdapter from "Backend/adapters/app-settings/app-settings-fake.adapter"
-import createFakePurePhoneMessages from "Backend/adapters/pure-phone-messages/pure-phone-messages-fake.adapter"
+import createFakeCalendarAdapter from "Backend/adapters/calendar/calendar-fake.adapter"
+import createFakePurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages-fake.adapter"
 import { SettingsUpdateOption } from "App/main/store/settings.interface"
 
 type FakeAdaptersProps = PhonebookFakeAdapterProps & {
@@ -32,7 +33,8 @@ const getFakeAdapters = ({
   pureNetwork: createFakePurePhoneNetworkAdapter(),
   pureBackups: createFakePurePhoneBackupsAdapter(),
   phonebook: createFakePhonebookAdapter(),
-  pureMessages: createFakePurePhoneMessages(),
+  calendar: createFakeCalendarAdapter(),
+  pureMessages: createFakePurePhoneMessagesAdapter(),
 })
 
 export default getFakeAdapters

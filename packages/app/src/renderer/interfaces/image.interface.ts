@@ -4,7 +4,7 @@
  */
 
 export interface Image {
-  width: string
-  height: string
+  width?: string
+  height?: string
   viewBox?: string
 }

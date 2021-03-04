@@ -12,7 +12,7 @@ import {
   Labels,
   Row,
 } from "Renderer/components/core/table/table.component"
-import { defineMessages, FormattedDate } from "react-intl"
+import { defineMessages } from "react-intl"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
@@ -20,10 +20,10 @@ import {
   BaseSelectableCalls,
   Checkbox,
 } from "Renderer/components/rest/calls/calls-table.styled"
-import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
 import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
 import { List, AutoSizer, ListRowProps } from "react-virtualized"
 import { intl } from "Renderer/utils/intl"
+import EventsListDate from "Renderer/components/rest/calendar/events-list-date.component"
 
 const messages = defineMessages({
   unnamedEvent: {
@@ -32,7 +32,7 @@ const messages = defineMessages({
 })
 
 const Table = styled(BaseSelectableCalls)`
-  --columnsTemplate: 4rem 5fr 3fr 3fr;
+  --columnsTemplate: 4rem 3fr 3fr;
 `
 
 export interface EventsListProps extends UseTableSelect<CalendarEvent> {
@@ -43,14 +43,24 @@ export interface EventsListProps extends UseTableSelect<CalendarEvent> {
 const EventsList: FunctionComponent<EventsListProps> = ({
   events,
   getRowStatus,
-  toggleRow,
   noneRowsSelected,
   selectedEventIndex,
+  selectRows,
+  selectedRows,
 }) => {
   const renderRow = ({ index, style }: ListRowProps) => {
     const { id, name, startDate, endDate } = events[index]
     const { selected } = getRowStatus(events[index])
-    const onCheckboxToggle = () => toggleRow(events[index])
+    const onCheckboxToggle = () => {
+      if (selected) {
+        selectRows(selectedRows.filter(row => row.id !== id))
+      } else {
+        selectRows([
+          ...selectedRows,
+          ...events.filter((event) => event.id === id),
+        ])
+      }
+    }
     return (
       <Row
         active={selectedEventIndex === index}
@@ -68,16 +78,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
         </Col>
         <Col>{!name ? intl.formatMessage(messages.unnamedEvent) : name}</Col>
         <Col>
-          <TimeWindow startDate={startDate} endDate={endDate} />
-        </Col>
-        <Col>
-          <FormattedDate
-            value={startDate}
-            year="numeric"
-            month="long"
-            day="2-digit"
-            weekday="long"
-          />
+          <EventsListDate startDate={startDate} endDate={endDate} />
         </Col>
       </Row>
     )

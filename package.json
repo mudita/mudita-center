@@ -1,8 +1,9 @@
 {
   "name": "mudita-center",
-  "version": "4.4.0",
+  "version": "5.0.0",
   "description": "Mudita Center",
   "productName": "Mudita Center",
+  "private": true,
   "scripts": {
     "setup": "npm install && npm run bootstrap:local",
     "bootstrap:local": "lerna bootstrap",
@@ -28,7 +29,7 @@
     "app:storybook:serve": "lerna run --scope @mudita/mudita-center-app storybook:serve --",
     "app:storybook:build": "lerna run --scope @mudita/mudita-center-app storybook:build --",
     "app:dist": "lerna run --scope @mudita/mudita-center-app dist --",
-    "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist --",
+    "app:dist:all": "lerna run --scope @mudita/mudita-center-app dist:all --",
     "app:electron:rebuild-serialport": "lerna run --scope app electron:rebuild-serialport --",
     "PURE COMMANDS": "========================================================",
     "pure:build": "lerna run --scope @mudita/pure build",
@@ -37,8 +38,7 @@
     "pure:test:coverage": "lerna run --scope @mudita/pure test:coverage",
     "pure:command": "lerna run --scope @mudita/pure command --",
     "DESIGN SYSTEM COMMANDS": "========================================================",
-    "design-system:build": "lerna run --scope @mudita/mudita-center-design-system build",
-    "design-system:release": "lerna run --scope @mudita/mudita-center-design-system release"
+    "design-system:prerelease": "lerna run --scope @mudita/mudita-center-design-system prerelease"
   },
   "repository": {
     "type": "git",

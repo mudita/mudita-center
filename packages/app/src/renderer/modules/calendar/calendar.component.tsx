@@ -6,7 +6,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { CalendarProps } from "Renderer/modules/calendar/calendar.interface"
-import { eventsData } from "App/seeds/calendar"
 import modalService from "Renderer/components/core/modal/modal.service"
 import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
 import SelectCalendarsModal from "Renderer/components/rest/calendar/select-calendars-modal.component"
@@ -15,7 +14,10 @@ import delayResponse from "@appnroll/delay-response"
 import logger from "App/main/utils/logger"
 import EventsSynchronizationFinishedModal from "Renderer/components/rest/calendar/synchronization-finished-modal.component"
 import EventsSynchronizationFailedModal from "Renderer/components/rest/calendar/synchronization-failed.component"
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import {
+  ExternalProvider,
+  Provider,
+} from "Renderer/models/external-providers/external-providers.interface"
 import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
 import {
   Calendar,
@@ -28,13 +30,13 @@ import ImportEventsModal from "App/calendar/components/import-events-modal/impor
 
 const CalendarComponent: FunctionComponent<CalendarProps> = ({
   calendars,
-  events = eventsData,
+  events,
   loadCalendars,
   loadEvents,
   setEvents,
 }) => {
   const tableSelectHook = useTableSelect<CalendarEvent>(events)
-  const [provider, setProvider] = useState<Provider | undefined>()
+  const [provider, setProvider] = useState<ExternalProvider | undefined>()
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null)
   const highlightActiveEventTimeout = useRef<NodeJS.Timeout>()
 
@@ -58,7 +60,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
     await modalService.closeModal()
     modalService.openModal(
       <AuthorizationFailedModal
-        provider={provider as Provider}
+        provider={provider as ExternalProvider}
         onActionButtonClick={authorizeAndLoadCalendars}
       />
     )
@@ -141,8 +143,8 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   const synchronizeEvents = async (calendar: Calendar) => {
     try {
       openSynchronizingLoaderModal()
-      const events = await delayResponse(loadEvents(calendar))
-      openSynchronizationFinishedModal(events.length)
+      const newEvents = await delayResponse(loadEvents(calendar))
+      openSynchronizationFinishedModal(newEvents.length)
     } catch (error) {
       openSynchronizationFailedModal()
       logger.error(error)

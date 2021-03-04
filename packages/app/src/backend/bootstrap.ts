@@ -23,6 +23,8 @@ import registerAppSettingsRequest from "Backend/requests/app-settings/get-app-se
 import registerAppSettingsUpdateRequest from "Backend/requests/app-settings/update-app-settings.request"
 import registerAppSettingsResetRequest from "Backend/requests/app-settings/reset-app-settings.request"
 import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
+import registerGetEventsRequest from "Backend/requests/calendar/get-events.request"
+import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
 import createPurePhoneBackupsAdapter from "Backend/adapters/pure-phone-backups/pure-phone-backups.adapter"
@@ -31,9 +33,9 @@ import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
 import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
 import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
-import createFakePurePhoneMessages from "Backend/adapters/pure-phone-messages/pure-phone-messages-fake.adapter"
+import createFakePurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages-fake.adapter"
+import createCalendarAdapter from "Backend/adapters/calendar/calendar.adapter"
 import Backend from "Backend/backend"
-import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
 
 const bootstrap = (
   deviceManager: PureDeviceManager,
@@ -49,7 +51,8 @@ const bootstrap = (
     pureStorage: createPurePhoneStorageAdapter(deviceService),
     appSettings: createAppSettingsAdapter(),
     pureBackups: createPurePhoneBackupsAdapter(),
-    pureMessages: createFakePurePhoneMessages(),
+    calendar: createCalendarAdapter(),
+    pureMessages: createFakePurePhoneMessagesAdapter(),
     app: createElectronAppAdapter(),
   }
 
@@ -70,6 +73,7 @@ const bootstrap = (
     registerAppSettingsUpdateRequest,
     registerAppSettingsResetRequest,
     registerUpdateOsRequest,
+    registerGetEventsRequest,
     registerGetThreadsRequest,
   ]
 

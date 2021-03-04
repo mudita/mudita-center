@@ -19,7 +19,7 @@ class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
   }
 }
 
-const createFakePurePhoneMessages = (): PurePhoneMessagesAdapter =>
+const createFakePurePhoneMessagesAdapter = (): PurePhoneMessagesAdapter =>
   new PurePhoneMessagesFake()
 
-export default createFakePurePhoneMessages
+export default createFakePurePhoneMessagesAdapter

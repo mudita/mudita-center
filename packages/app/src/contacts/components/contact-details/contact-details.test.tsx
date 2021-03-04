@@ -7,6 +7,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import React from "react"
 import ContactDetails from "App/contacts/components/contact-details/contact-details.component"
 import { noop } from "Renderer/utils/noop"
+import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 
 const contactRich = {
   id: "0",
@@ -42,7 +43,7 @@ const noAddress = "[value] view.name.phone.contacts.details.noAddress"
 const noEmail = "[value] view.name.phone.contacts.details.noEmail"
 const noNotes = "[value] view.name.phone.contacts.details.noNotes"
 
-const renderer = (props: { rich: boolean }) => {
+const renderer = (props: {}) => {
   const defaultProps = {
     onUnblock: noop,
     onBlock: noop,
@@ -55,50 +56,52 @@ const renderer = (props: { rich: boolean }) => {
     isThreadOpened: () => false,
   }
 
-  return renderWithThemeAndIntl(
-    <ContactDetails
-      contact={props.rich ? contactRich : contactBasic}
-      {...defaultProps}
-    />
-  )
+  return renderWithThemeAndIntl(<ContactDetails {...defaultProps} {...props} />)
 }
 
 test("contact with ICE displays ICE icon", () => {
-  const { getByTestId } = renderer({ rich: true })
+  const { getByTestId } = renderer({ contact: contactRich })
   expect(getByTestId("icon-Ice")).toBeInTheDocument()
 })
 
 test("contact with out ICE displays no ICE info", () => {
-  const { queryByTestId } = renderer({ rich: false })
+  const { queryByTestId } = renderer({ contact: contactBasic })
   expect(queryByTestId("icon-Ice")).not.toBeInTheDocument()
 })
 
 test("contact with address displays the address", () => {
-  const { getByText } = renderer({ rich: true })
+  const { getByText } = renderer({ contact: contactRich })
   expect(getByText(contactRich.firstAddressLine)).toBeInTheDocument()
 })
 
 test("contact without address displays no address info", () => {
-  const { getByText } = renderer({ rich: false })
+  const { getByText } = renderer({ contact: contactBasic })
   expect(getByText(noAddress)).toBeInTheDocument()
 })
 
 test("contact with email displays the email", () => {
-  const { getByText } = renderer({ rich: true })
+  const { getByText } = renderer({ contact: contactRich })
   expect(getByText(contactRich.email)).toBeInTheDocument()
 })
 
 test("contact without email displays no email info", () => {
-  const { getByText } = renderer({ rich: false })
+  const { getByText } = renderer({ contact: contactBasic })
   expect(getByText(noEmail)).toBeInTheDocument()
 })
 
 test("contact with note displays the note", () => {
-  const { getByText } = renderer({ rich: true })
+  const { getByText } = renderer({ contact: contactRich })
   expect(getByText(contactRich.note)).toBeInTheDocument()
 })
 
 test("contact without note displays no note info", () => {
-  const { getByText } = renderer({ rich: false })
+  const { getByText } = renderer({ contact: contactBasic })
   expect(getByText(noNotes)).toBeInTheDocument()
+})
+
+test("export button performs export action", () => {
+  const onExport = jest.fn()
+  const { getByTestId } = renderer({ contact: contactBasic, onExport })
+  getByTestId(ContactDetailsTestIds.ExportButton).click()
+  expect(onExport).toBeCalledWith([contactBasic])
 })

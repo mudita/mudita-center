@@ -20,12 +20,16 @@ import addContact from "Renderer/requests/add-contact.request"
 import logger from "App/main/utils/logger"
 import editContact from "Renderer/requests/edit-contact.request"
 import deleteContactsRequest from "Renderer/requests/delete-contacts.request"
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import {
+  ExternalProvider,
+  Provider,
+} from "Renderer/models/external-providers/external-providers.interface"
 import externalProvidersStore from "Renderer/store/external-providers"
 import {
   contactDatabaseFactory,
   getFlatList,
 } from "App/contacts/store/contacts.helpers"
+import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
 
 const selector = select(({ contacts, messages }) => ({
   contactList: contacts.contactList,
@@ -49,7 +53,7 @@ const mapDispatch = ({ contacts, auth }: any) => {
     ...contacts,
     ...auth,
     // TODO: Add proper actions
-    onExport: noop,
+    onExport: exportContacts,
     onForward: noop,
     onBlock: noop,
     onSelect: noop,
@@ -57,7 +61,7 @@ const mapDispatch = ({ contacts, auth }: any) => {
     onMessage: (history: History<LocationState>, phoneNumber: string) =>
       history.push(createRouterPath(URL_MAIN.messages, { phoneNumber })),
     onSpeedDialSettingsSave: noop,
-    loadContacts: async (provider: Provider) => {
+    loadContacts: async (provider: ExternalProvider) => {
       let contacts: Contact[]
 
       switch (provider) {
