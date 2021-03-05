@@ -17,6 +17,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
+import { Contact } from "App/contacts/store/contacts.type"
 
 const messages = defineMessages({
   name: { id: "view.name.phone.calls.name" },
@@ -38,6 +39,7 @@ interface Props extends SelectHook {
   onDeleteClick: (id: string) => void
   isThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
+  getContactByContactId: (contactId: string) => Contact
 }
 
 const CallsTable: FunctionComponent<Props> = ({
@@ -52,6 +54,7 @@ const CallsTable: FunctionComponent<Props> = ({
   isThreadOpened,
   isContactCreated,
   onDeleteClick,
+  getContactByContactId,
 }) => {
   return (
     <TableWithSidebarWrapper>
@@ -77,6 +80,7 @@ const CallsTable: FunctionComponent<Props> = ({
             sidebarOpened={sidebarOpened}
             activeRow={activeRow}
             onDeleteClick={onDeleteClick}
+            getContactByContactId={getContactByContactId}
           />
         ))}
       </SelectableCalls>
@@ -87,6 +91,7 @@ const CallsTable: FunctionComponent<Props> = ({
           onDeleteClick={onDeleteClick}
           isThreadOpened={isThreadOpened}
           isContactCreated={isContactCreated}
+          getContactByContactId={getContactByContactId}
         />
       )}
     </TableWithSidebarWrapper>
