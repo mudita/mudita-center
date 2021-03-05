@@ -85,7 +85,7 @@ class BaseDevice implements PureDevice {
       }
     }
 
-    return new Promise<Response<any>>((resolve, reject) => {
+    return new Promise<Response>((resolve, reject) => {
       this.#requestsQueue.add(async () => {
         try {
           const { status, ...rest } = await handleRequest()
@@ -93,7 +93,7 @@ class BaseDevice implements PureDevice {
             reject({
               status,
               ...rest,
-            } as Response<any>)
+            } as Response)
           } else {
             resolve({
               status,
@@ -104,7 +104,7 @@ class BaseDevice implements PureDevice {
           reject({
             status: ResponseStatus.InternalServerError,
             error: error?.message || "Unknown error",
-          } as Response<any>)
+          } as Response)
         }
       })
     })
