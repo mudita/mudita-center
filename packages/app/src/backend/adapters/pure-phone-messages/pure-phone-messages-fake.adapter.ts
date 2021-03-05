@@ -24,6 +24,15 @@ class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
       data: messagesData,
     }
   }
+
+  public async getMessagesByThreadId(
+    threadId: string
+  ): Promise<DeviceResponse<Message[]>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: messagesData.filter((messages) => messages.threadId === threadId),
+    }
+  }
 }
 
 const createFakePurePhoneMessagesAdapter = (): PurePhoneMessagesAdapter =>

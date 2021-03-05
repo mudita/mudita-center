@@ -24,5 +24,6 @@ export enum IpcRequest {
   ExportEvents = "export-events",
   GetEvents = "get-events",
   GetMessages = "get-messages",
+  GetMessagesByThreadId = "get-messages-by-thread-id",
   GetThreads = "get-threads",
 }

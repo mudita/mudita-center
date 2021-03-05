@@ -28,7 +28,11 @@ import { URL_MAIN } from "Renderer/constants/urls"
 import AttachContactModal from "App/messages/components/attach-contact-modal.component"
 import { Contact } from "App/contacts/store/contacts.type"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
-import { Thread, VisibilityFilter } from "App/messages/store/messages.interface"
+import {
+  ResultsState,
+  Thread,
+  VisibilityFilter,
+} from "App/messages/store/messages.interface"
 import { Message } from "App/messages/store/messages.interface"
 
 const deleteModalMessages = defineMessages({
@@ -45,6 +49,8 @@ export interface MessagesProps
   attachContactFlatList: Contact[]
   getMessagesByThreadId: (threadId: string) => Message[]
   getContactByContactId: (contactId: string) => Contact
+  loadMessagesByThreadId: (threadId: string) => Message[]
+  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultsState
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -61,6 +67,8 @@ const Messages: FunctionComponent<MessagesProps> = ({
   language,
   attachContactList,
   attachContactFlatList,
+  loadMessagesByThreadId,
+  getMessagesResultsMapStateByThreadId,
 }) => {
   const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Thread>(
     findThreadBySearchParams(useURLSearchParams(), threads)
@@ -176,6 +184,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onUnreadStatus={toggleReadStatus}
             getMessagesByThreadId={getMessagesByThreadId}
             getContactByContactId={getContactByContactId}
+            loadMessagesByThreadId={loadMessagesByThreadId}
+            getMessagesResultsMapStateByThreadId={
+              getMessagesResultsMapStateByThreadId
+            }
             details={activeRow}
             onClose={closeSidebar}
             onContactClick={contactClick}

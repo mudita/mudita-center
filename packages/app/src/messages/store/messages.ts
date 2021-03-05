@@ -4,13 +4,11 @@
  */
 
 import {
+  updateMessagesInThreads,
   updateNormalizeMessages,
   updateNormalizeThreads,
-  updateMessagesInThreads,
 } from "App/messages/store/messages.helpers"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
-import { isCallerMatchingPhoneNumber } from "Renderer/models/calls/caller-utils.ts"
-import { Caller } from "Renderer/models/calls/calls.interface"
 import { threadsData } from "App/seeds/messages"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
@@ -23,8 +21,8 @@ import {
 import { RootState } from "Renderer/store"
 import getThreads from "Renderer/requests/get-threads.request"
 import logger from "App/main/utils/logger"
-import getMessages from "Renderer/requests/get-messages.request"
 import { ContactsState } from "App/contacts/store/contacts.type"
+import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
 
 export const initialState: MessagesState = {
   threads: { byId: {}, allIds: [] },
@@ -33,6 +31,7 @@ export const initialState: MessagesState = {
   searchValue: "",
   resultsState: ResultsState.Empty,
   visibilityFilter: VisibilityFilter.All,
+  messagesResultsStateMap: {},
 }
 
 const messages = createModel<RootModel>({
@@ -43,6 +42,21 @@ const messages = createModel<RootModel>({
       resultsState: ResultsState
     ): MessagesState {
       return { ...state, resultsState }
+    },
+    setMessagesResultsMapState(
+      state: MessagesState,
+      {
+        resultsState,
+        threadId,
+      }: { resultsState: ResultsState; threadId: string }
+    ): MessagesState {
+      return {
+        ...state,
+        messagesResultsStateMap: {
+          ...state.messagesResultsStateMap,
+          [threadId]: resultsState,
+        },
+      }
     },
     setState(state: MessagesState, newState: MessagesState): MessagesState {
       return { ...state, ...newState }
@@ -92,27 +106,58 @@ const messages = createModel<RootModel>({
         dispatch.messages.setResultsState(ResultsState.Loading)
 
         const { data = [], error } = await getThreads()
-        const {
-          data: messagesData = [],
-          error: messagesError,
-        } = await getMessages()
 
-        if (error || messagesError) {
+        if (error) {
           logger.error(error)
           dispatch.messages.setResultsState(ResultsState.Error)
         } else {
           dispatch.messages.setState({
             threads: updateNormalizeThreads(rootState.messages.threads, data),
+          })
+          dispatch.messages.setResultsState(ResultsState.Loaded)
+        }
+      },
+      async loadMessagesByThreadId(
+        threadId: string,
+        rootState: { messages: MessagesState }
+      ) {
+        const messagesResultState =
+          rootState.messages.messagesResultsStateMap[threadId]
+        if (
+          messagesResultState !== undefined &&
+          messagesResultState === ResultsState.Loading
+        ) {
+          return
+        }
+
+        dispatch.messages.setMessagesResultsMapState({
+          resultsState: ResultsState.Loading,
+          threadId,
+        })
+
+        const { data = [], error } = await getMessagesByThreadId(threadId)
+        if (error) {
+          logger.error(error)
+
+          dispatch.messages.setMessagesResultsMapState({
+            resultsState: ResultsState.Error,
+            threadId,
+          })
+        } else {
+          dispatch.messages.setState({
             messages: updateNormalizeMessages(
               rootState.messages.messages,
-              messagesData
+              data
             ),
             messagesInThreads: updateMessagesInThreads(
               rootState.messages.messagesInThreads,
-              messagesData
+              data
             ),
           })
-          dispatch.messages.setResultsState(ResultsState.Loaded)
+          dispatch.messages.setMessagesResultsMapState({
+            resultsState: ResultsState.Loaded,
+            threadId,
+          })
         }
       },
     }
@@ -148,10 +193,21 @@ const messages = createModel<RootModel>({
         }
       }
     },
+    getMessagesResultsMapStateByThreadId() {
+      return (state: { messages: MessagesState }) => {
+        return (threadId: string) => {
+          return (
+            state.messages.messagesResultsStateMap[threadId] ??
+            ResultsState.Empty
+          )
+        }
+      }
+    },
     getMessagesByThreadId() {
       return (state: { messages: MessagesState }) => {
         return (threadId: string) => {
-          const messagesInThread = state.messages.messagesInThreads[threadId]
+          const messagesInThread =
+            state.messages.messagesInThreads[threadId] ?? []
           return messagesInThread.map((id) => state.messages.messages.byId[id])
         }
       }

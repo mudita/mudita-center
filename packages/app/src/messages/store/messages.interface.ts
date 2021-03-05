@@ -60,4 +60,5 @@ export type MessagesState = Readonly<{
   searchValue: string
   visibilityFilter?: VisibilityFilter
   resultsState: ResultsState
+  messagesResultsStateMap: { [id: string]: ResultsState }
 }>

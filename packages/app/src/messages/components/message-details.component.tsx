@@ -28,6 +28,7 @@ import { buttonComponentAnimationStyles } from "Renderer/components/core/button/
 import {
   Message,
   MessageType,
+  ResultsState,
   Thread,
 } from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
@@ -41,6 +42,8 @@ interface Props {
   onAttachContactClick: () => void
   getMessagesByThreadId: (threadId: string) => Message[]
   getContactByContactId: (contactId: string) => Contact
+  loadMessagesByThreadId: (threadId: string) => Message[]
+  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultsState
 }
 
 const PhoneNumberText = styled(Text)`
@@ -98,8 +101,14 @@ const MessageDetails: FunctionComponent<Props> = ({
   onContactClick,
   onAttachContactClick,
   getMessagesByThreadId,
+  loadMessagesByThreadId,
+  getMessagesResultsMapStateByThreadId,
   getContactByContactId,
 }) => {
+  useEffect(() => {
+    loadMessagesByThreadId(details.id)
+  }, [details.id])
+
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (ref.current) {
@@ -116,6 +125,8 @@ const MessageDetails: FunctionComponent<Props> = ({
   const handleContactClick = () => onContactClick(details.id)
 
   const messages = getMessagesByThreadId(details.id)
+  const resultState = getMessagesResultsMapStateByThreadId(details.id)
+  console.log("resultState: ", details.id, resultState)
   const contact = getContactByContactId(details.contactId)
 
   const icons = (

@@ -14,6 +14,8 @@ const selector = select(({ messages, contacts }) => ({
   list: messages.filteredList,
   getContactByContactId: messages.getContactByContactId,
   getMessagesByThreadId: messages.getMessagesByThreadId,
+  getMessagesResultsMapStateByThreadId:
+    messages.getMessagesResultsMapStateByThreadId,
   attachContactList: contacts.contactList,
   attachContactFlatList: contacts.flatList,
 }))
@@ -33,6 +35,8 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch.messages.deleteConversation(ids),
   markAsRead: (ids: string[]) => dispatch.messages.markAsRead(ids),
   toggleReadStatus: (ids: string[]) => dispatch.messages.toggleReadStatus(ids),
+  loadMessagesByThreadId: (threadId: string) =>
+    dispatch.messages.loadMessagesByThreadId(threadId),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Messages)
