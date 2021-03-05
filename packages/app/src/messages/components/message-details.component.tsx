@@ -32,6 +32,8 @@ import {
   Thread,
 } from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
+import Loader from "Renderer/components/core/loader/loader.component"
 
 interface Props {
   details: Thread
@@ -211,33 +213,37 @@ const MessageDetails: FunctionComponent<Props> = ({
     >
       <MessagesWrapper>
         <MessageBubblesWrapper>
-          {messages.map(({ contactId, content, messageType, id }, index) => {
-            const prevMessage = messages[index - 1]
-            const previousAuthor = prevMessage?.contactId !== contactId
-            if (index === messages.length - 1) {
+          {resultState === ResultsState.Loading && (
+            <Loader size={6} type={LoaderType.Spinner} />
+          )}
+          {resultState === ResultsState.Loaded &&
+            messages.map(({ contactId, content, messageType, id }, index) => {
+              const prevMessage = messages[index - 1]
+              const previousAuthor = prevMessage?.contactId !== contactId
+              if (index === messages.length - 1) {
+                return (
+                  <div ref={ref} key={id}>
+                    <MessageBubble
+                      id={id}
+                      user={getContactByContactId(contactId)}
+                      message={content}
+                      interlocutor={messageType === MessageType.OUTBOX}
+                      previousAuthor={previousAuthor}
+                    />
+                  </div>
+                )
+              }
               return (
-                <div ref={ref} key={id}>
-                  <MessageBubble
-                    id={id}
-                    user={getContactByContactId(contactId)}
-                    message={content}
-                    interlocutor={messageType === MessageType.OUTBOX}
-                    previousAuthor={previousAuthor}
-                  />
-                </div>
+                <MessageBubble
+                  key={id}
+                  id={id}
+                  user={getContactByContactId(contactId)}
+                  message={content}
+                  interlocutor={messageType === MessageType.OUTBOX}
+                  previousAuthor={previousAuthor}
+                />
               )
-            }
-            return (
-              <MessageBubble
-                key={id}
-                id={id}
-                user={getContactByContactId(contactId)}
-                message={content}
-                interlocutor={messageType === MessageType.OUTBOX}
-                previousAuthor={previousAuthor}
-              />
-            )
-          })}
+            })}
         </MessageBubblesWrapper>
       </MessagesWrapper>
       {process.env.NODE_ENV !== "production" && (
