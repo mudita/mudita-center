@@ -21,8 +21,16 @@ import {
 import { RootState } from "Renderer/store"
 import getThreads from "Renderer/requests/get-threads.request"
 import logger from "App/main/utils/logger"
-import { ContactsState } from "App/contacts/store/contacts.type"
+import {
+  Contact,
+  ContactID,
+  ContactsState,
+} from "App/contacts/store/contacts.type"
 import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
+import {
+  filterThreads,
+  searchThreads, sortThreads,
+} from "App/messages/store/threads.helpers"
 
 export const initialState: MessagesState = {
   threads: { byId: {}, allIds: [] },
@@ -163,6 +171,12 @@ const messages = createModel<RootModel>({
     }
   },
   selectors: (slice: Slicer<MessagesState>) => ({
+    getSearchValue() {
+      return slice((state) => state.searchValue)
+    },
+    getVisibilityFilter() {
+      return slice((state) => state.visibilityFilter)
+    },
     getThreads() {
       return slice((state) =>
         Object.keys(state.threads.byId).map(
@@ -171,10 +185,22 @@ const messages = createModel<RootModel>({
       )
     },
     filteredList(models: StoreSelectors<any>) {
-      return createSelector(models.messages.getThreads, (threads: Thread[]) => {
-        // return threads.map(({ caller }) => caller)
-        return threads
-      })
+      return createSelector(
+        models.messages.getThreads,
+        models.contacts.getContactsMap,
+        models.messages.getSearchValue,
+        models.messages.getVisibilityFilter,
+        (
+          threads: Thread[],
+          contactsMap: Record<ContactID, Contact>,
+          searchValue: string,
+          visibilityFilter: VisibilityFilter
+        ) => {
+          let list = searchThreads(threads, contactsMap, searchValue)
+          list = filterThreads(list, visibilityFilter)
+          return sortThreads(list)
+        }
+      )
     },
     getContactByContactId() {
       return (state: { messages: MessagesState; contacts: ContactsState }) => {
