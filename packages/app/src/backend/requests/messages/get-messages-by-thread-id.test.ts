@@ -6,11 +6,11 @@
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import registerGetMessagesRequest from "Backend/requests/messages/get-messages.request"
+import registerGetMessagesByThreadIdRequest from "Backend/requests/messages/get-messages-by-thread-id.request"
 import { messagesData } from "App/seeds/messages"
 
 test("return mapped messages from pure to Message model", async () => {
-  registerGetMessagesRequest(getFakeAdapters())
+  registerGetMessagesByThreadIdRequest(getFakeAdapters())
 
   const [pendingResponse] = await (ipcMain as any)._flush(
     IpcRequest.GetMessages
