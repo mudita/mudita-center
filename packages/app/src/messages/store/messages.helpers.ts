@@ -28,47 +28,6 @@ export const getContactDetails = (
   return undefined
 }
 
-// export const createFullMessagesCollection = (state: {
-//   messages: MessagesState
-//   contacts: { db: ContactsCollection }
-// }): Thread[] => {
-//   const {
-//     messages: { threads, messages, messagesInThreads },
-//     contacts: { db: baseContacts },
-//   } = state
-//
-//   return Object.keys(threads.byId).map(
-//     (key: string): Thread => {
-//       const messagesInThread = messagesInThreads[key]
-//       const thread = {
-//         ...threads.byId[key],
-//         messages: messagesInThread.map((id) => messages.byId[id]),
-//       }
-//       const id = thread.contactId
-//       const phoneNumber = thread.id
-//
-//   const contact: Contact = baseContacts[id]
-//
-//       if (contact) {
-//         const { firstName, lastName, secondaryPhoneNumber } = contact
-//
-//         return {
-//           ...thread,
-//           caller: {
-//             id,
-//             phoneNumber,
-//             firstName,
-//             lastName,
-//             secondaryPhoneNumber,
-//           },
-//         }
-//       }
-//
-//       return thread
-//     }
-//   )
-// }
-
 export const updateNormalizeMessages = (
   prevNormalizeMessages: NormalizedObjects<Message>,
   messages: Message[]
