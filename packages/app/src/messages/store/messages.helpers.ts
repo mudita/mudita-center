@@ -89,6 +89,9 @@ export const updateNormalizeThreads = (
     prev.byId[thread.id] = thread
     prev.allIds.push(thread.id)
 
+    // @ts-ignore
+    prev.allIds = [...new Set(prev.allIds)]
+
     return prev
   }, prevNormalizeThreads)
 }
@@ -100,7 +103,9 @@ export const updateMessagesInThreads = (
   return messages.reduce((prev, message) => {
     const prevMessagesInThread = prev[message.threadId] ?? []
     prevMessagesInThread.push(message.id)
-    prev[message.threadId] = prevMessagesInThread
+      // @ts-ignore
+    const newMessagesInThread = [...new Set(prevMessagesInThread)];
+    prev[message.threadId] = newMessagesInThread
     return prev
   }, prevMessagesInThreads)
 }
