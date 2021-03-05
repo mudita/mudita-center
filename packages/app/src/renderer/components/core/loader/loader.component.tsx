@@ -15,14 +15,14 @@ import LoaderLogo from "Renderer/components/core/loader/loader-logo.component"
 const Loader: FunctionComponent<LoaderProps> = ({
   type,
   size,
-  ...imageProps
+  ...props
 }) => {
   return (
     <>
       {type === LoaderType.Logo ? (
-        <LoaderLogo size={size} {...imageProps} />
+        <LoaderLogo size={size} {...props} />
       ) : (
-        <LoaderSpinner size={size} />
+        <LoaderSpinner size={size} {...props} />
       )}
     </>
   )

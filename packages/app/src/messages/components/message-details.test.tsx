@@ -15,6 +15,7 @@ import {
   Thread,
 } from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
+import { MessageDetailsTestIds } from "App/messages/components/message-details-test-ids.enum"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
@@ -175,5 +176,26 @@ test("show info about contact with multiple numbers", () => {
   })
   expect(getByTestId("multiple-number")).toBeInTheDocument()
   expect(getByText("#2")).toBeInTheDocument()
+})
 
+test("error modals fires when thread wont load", () => {
+  const openErrorModal = jest.fn()
+  const getMessagesResultsMapStateByThreadId = jest.fn(() => ResultsState.Error)
+
+  renderer({
+    openErrorModal,
+    getMessagesResultsMapStateByThreadId,
+  })
+
+  expect(openErrorModal).toHaveBeenCalled()
+})
+
+test("loader renders when thread is loading", () => {
+  const getMessagesResultsMapStateByThreadId = jest.fn(
+    () => ResultsState.Loading
+  )
+  const { getByTestId } = renderer({
+    getMessagesResultsMapStateByThreadId,
+  })
+  expect(getByTestId(MessageDetailsTestIds.Loader)).toBeInTheDocument()
 })

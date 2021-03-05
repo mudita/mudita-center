@@ -34,6 +34,10 @@ import {
 import { Contact } from "App/contacts/store/contacts.type"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
+import modalService, {
+  ModalService,
+} from "Renderer/components/core/modal/modal.service"
+import { MessageDetailsTestIds } from "App/messages/components/message-details-test-ids.enum"
 
 interface Props {
   details: Thread
@@ -46,6 +50,7 @@ interface Props {
   getContactByContactId: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultsMapStateByThreadId: (threadId: string) => ResultsState
+  openErrorModal?: ModalService["openModal"]
 }
 
 const PhoneNumberText = styled(Text)`
@@ -106,6 +111,7 @@ const MessageDetails: FunctionComponent<Props> = ({
   loadMessagesByThreadId,
   getMessagesResultsMapStateByThreadId,
   getContactByContactId,
+  openErrorModal = modalService.openModal,
 }) => {
   useEffect(() => {
     loadMessagesByThreadId(details.id)
@@ -128,7 +134,10 @@ const MessageDetails: FunctionComponent<Props> = ({
 
   const messages = getMessagesByThreadId(details.id)
   const resultState = getMessagesResultsMapStateByThreadId(details.id)
-  console.log("resultState: ", details.id, resultState)
+
+  if (resultState === ResultsState.Error) {
+    openErrorModal(<div>EROROROR</div>)
+  }
   const contact = getContactByContactId(details.contactId)
 
   const icons = (
@@ -214,7 +223,7 @@ const MessageDetails: FunctionComponent<Props> = ({
       <MessagesWrapper>
         <MessageBubblesWrapper>
           {resultState === ResultsState.Loading && (
-            <Loader size={6} type={LoaderType.Spinner} />
+            <Loader size={2} type={LoaderType.Spinner} data-testid={MessageDetailsTestIds.Loader} />
           )}
           {resultState === ResultsState.Loaded &&
             messages.map(({ contactId, content, messageType, id }, index) => {

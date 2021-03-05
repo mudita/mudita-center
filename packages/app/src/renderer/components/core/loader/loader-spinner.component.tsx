@@ -107,17 +107,13 @@ const LoaderDot = styled.span`
 
 const LoaderSpinner: FunctionComponent<LoaderSpinnerProps> = ({
   size = 4,
-  className,
+  ...props
 }) => {
   const arrayOfDots = Array(6)
     .fill(0)
     .map((_, index) => <LoaderDot data-testid="dot" key={index} />)
   return (
-    <LoaderWrapper
-      data-testid="loader-spinner"
-      size={size}
-      className={className}
-    >
+    <LoaderWrapper data-testid="loader-spinner" size={size} {...props}>
       {arrayOfDots}
     </LoaderWrapper>
   )
