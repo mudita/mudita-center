@@ -5,7 +5,7 @@
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import MessageDetails from "App/messages/components/message-details.component"
+import ThreadDetails from "App/messages/components/thread-details.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
 import { Thread } from "App/messages/store/messages.interface"
@@ -79,7 +79,7 @@ const defaultProps = {
   onUnreadStatus: jest.fn(),
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
-  details: thread,
+  thread: thread,
 }
 
 const contactWithMutlitpleNumbers: Caller = {
@@ -126,13 +126,13 @@ const multipleContactsProps = {
   onUnreadStatus: jest.fn(),
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
-  details: mockedThreadFromSecondNumber,
+  thread: mockedThreadFromSecondNumber,
 }
 
 test("sidebar close button informs parent about closing", () => {
   const onClose = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails {...defaultProps} onClose={onClose} />
+    <ThreadDetails {...defaultProps} onClose={onClose} />
   )
   fireEvent.click(getByTestId("sidebar-close"))
   expect(onClose).toBeCalled()
@@ -140,7 +140,7 @@ test("sidebar close button informs parent about closing", () => {
 
 test("left part of sidebar displays details correctly", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails {...defaultProps} />
+    <ThreadDetails {...defaultProps} />
   )
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
     `${thread.caller.firstName} ${thread.caller.lastName}`
@@ -152,14 +152,14 @@ test("left part of sidebar displays details correctly", () => {
 
 test("correct amount of message bubbles is displayed", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
-    <MessageDetails {...defaultProps} />
+    <ThreadDetails {...defaultProps} />
   )
   expect(getAllByTestId("message-content")).toHaveLength(thread.messages.length)
 })
 
 test("message from unknown person displays only phone number", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails {...defaultProps} details={unknownCallerThread} />
+    <ThreadDetails {...defaultProps} thread={unknownCallerThread} />
   )
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
     unknownCallerThread.caller.phoneNumber
@@ -169,7 +169,7 @@ test("message from unknown person displays only phone number", () => {
 test("mark massage as unread", () => {
   const onClose = jest.fn()
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails {...defaultProps} onClose={onClose} />
+    <ThreadDetails {...defaultProps} onClose={onClose} />
   )
   fireEvent.click(getByTestId("icon-BorderCheckIcon"))
   expect(defaultProps.onUnreadStatus).toBeCalledWith([thread.id])
@@ -178,7 +178,7 @@ test("mark massage as unread", () => {
 
 test("open contacts", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails {...defaultProps} />
+    <ThreadDetails {...defaultProps} />
   )
   fireEvent.click(getByTestId("icon-Contact"))
   expect(defaultProps.onContactClick).toBeCalled()
@@ -186,7 +186,7 @@ test("open contacts", () => {
 
 test("delete messages", () => {
   const { getAllByTestId } = renderWithThemeAndIntl(
-    <MessageDetails {...defaultProps} />
+    <ThreadDetails {...defaultProps} />
   )
   fireEvent.click(getAllByTestId("icon-Delete")[0])
   expect(defaultProps.onDeleteClick).toBeCalledWith(thread.id)
@@ -194,14 +194,14 @@ test("delete messages", () => {
 
 test("show info about contact with multiple numbers", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageDetails {...defaultProps} />
+    <ThreadDetails {...defaultProps} />
   )
   expect(getByTestId("multiple-number")).toBeInTheDocument()
 })
 
 test("show info about second number", () => {
   const { getByText } = renderWithThemeAndIntl(
-    <MessageDetails {...multipleContactsProps} />
+    <ThreadDetails {...multipleContactsProps} />
   )
   expect(getByText("#2")).toBeInTheDocument()
 })

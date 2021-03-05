@@ -34,7 +34,7 @@ import {
 import { Contact } from "App/contacts/store/contacts.type"
 
 interface Props {
-  details: Thread
+  thread: Thread
   onClose?: () => void
   onDeleteClick: (id: string) => void
   onUnreadStatus: (ids: string[]) => void
@@ -93,8 +93,8 @@ const trailingIcon = [
   <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
 ]
 
-const MessageDetails: FunctionComponent<Props> = ({
-  details,
+const ThreadDetails: FunctionComponent<Props> = ({
+  thread,
   onClose = noop,
   onUnreadStatus,
   onDeleteClick,
@@ -106,8 +106,8 @@ const MessageDetails: FunctionComponent<Props> = ({
   getContactByContactId,
 }) => {
   useEffect(() => {
-    loadMessagesByThreadId(details.id)
-  }, [details.id])
+    loadMessagesByThreadId(thread.id)
+  }, [thread.id])
 
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -117,17 +117,17 @@ const MessageDetails: FunctionComponent<Props> = ({
   }, [ref.current])
 
   const markAsUnread = () => {
-    onUnreadStatus([details.id])
+    onUnreadStatus([thread.id])
     onClose()
   }
 
-  const handleDeleteClick = () => onDeleteClick(details.id)
-  const handleContactClick = () => onContactClick(details.id)
+  const handleDeleteClick = () => onDeleteClick(thread.id)
+  const handleContactClick = () => onContactClick(thread.id)
 
-  const messages = getMessagesByThreadId(details.id)
-  const resultState = getMessagesResultsMapStateByThreadId(details.id)
-  console.log("resultState: ", details.id, resultState)
-  const contact = getContactByContactId(details.contactId)
+  const messages = getMessagesByThreadId(thread.id)
+  const resultState = getMessagesResultsMapStateByThreadId(thread.id)
+  console.log("resultState: ", thread.id, resultState)
+  const contact = getContactByContactId(thread.contactId)
 
   const icons = (
     <>
@@ -179,15 +179,15 @@ const MessageDetails: FunctionComponent<Props> = ({
               displayStyle={TextDisplayStyle.LargeBoldText}
               data-testid="sidebar-fullname"
             >
-              {getPrettyCaller(contact, details.id)}
+              {getPrettyCaller(contact, thread.id)}
             </Text>
-            {Boolean(details.id && contact.secondaryPhoneNumber) && (
+            {Boolean(thread.id && contact.secondaryPhoneNumber) && (
               <Text
                 displayStyle={TextDisplayStyle.LargeFadedText}
                 data-testid="multiple-number"
               >
                 &nbsp;
-                {details.id.split(" ").join("") ===
+                {thread.id.split(" ").join("") ===
                 contact.secondaryPhoneNumber?.split(" ").join("")
                   ? "#2"
                   : "#1"}
@@ -199,7 +199,7 @@ const MessageDetails: FunctionComponent<Props> = ({
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"
             >
-              {details.id}
+              {thread.id}
             </PhoneNumberText>
           )}
         </>
@@ -258,4 +258,4 @@ const MessageDetails: FunctionComponent<Props> = ({
   )
 }
 
-export default MessageDetails
+export default ThreadDetails

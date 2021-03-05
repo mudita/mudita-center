@@ -110,7 +110,7 @@ const renderer = () => {
         <Messages
           language={"en"}
           searchValue={""}
-          list={threads}
+          threads={threads}
           attachContactList={[]}
           attachContactFlatList={[]}
         />
