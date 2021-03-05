@@ -35,7 +35,7 @@ const myFormat = combine(
   })
 )
 
-const loggerCreator = (enableRollbar = false) => {
+const loggerCreator = (rollbarEnabled = false) => {
   return createLogger({
     level: "info",
     format: format.combine(format.metadata(), format.json()),
@@ -60,7 +60,7 @@ const loggerCreator = (enableRollbar = false) => {
         silent: testing,
         format: combine(colorize(), simple()),
       }),
-      ...(enableRollbar
+      ...(rollbarEnabled
         ? [
             new RollbarTransport({
               rollbarConfig: {
