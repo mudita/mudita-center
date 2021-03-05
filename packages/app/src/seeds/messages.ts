@@ -2093,4 +2093,5 @@ export const messagesSeed: MessagesState = {
   messagesInThreads: updateMessagesInThreads({}, messagesData),
   searchValue: "",
   resultsState: ResultsState.Empty,
+  messagesResultsStateMap: {}
 }
