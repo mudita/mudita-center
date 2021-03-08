@@ -18,6 +18,7 @@ import {
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 import { ResultState } from "App/messages/store/messages.interface"
+import ThreadErrorModal from "App/messages/components/thread-error-modal.component"
 
 export const attachContactFlatListData: Contact[] = [
   {
@@ -133,6 +134,16 @@ storiesOf("Views|Messages/Modals", module)
       <div style={{ maxWidth: "97.5rem" }}>
         <ModalWrapper>
           <AttachContactModal contactList={[]} contactFlatList={[]} />
+        </ModalWrapper>
+        <ModalBackdrop />
+      </div>
+    )
+  })
+  .add("Thread Error Modal", () => {
+    return (
+      <div style={{ maxWidth: "97.5rem" }}>
+        <ModalWrapper>
+          <ThreadErrorModal />
         </ModalWrapper>
         <ModalBackdrop />
       </div>
