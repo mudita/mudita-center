@@ -5,9 +5,7 @@
 
 import React, { useEffect, useRef } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import {
-  SidebarHeaderButton,
-} from "Renderer/components/core/table/table.component"
+import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
 import Text, {
@@ -39,7 +37,10 @@ import {
   PhoneNumberText,
   Textarea,
   TextareaWrapper,
+  ColumnContent,
+  RetryButton,
 } from "App/messages/components/thread-details.styled"
+import { DisplayStyle } from "Renderer/components/core/button/button.config"
 
 export interface ThreadDetailsProps {
   thread: Thread
@@ -62,6 +63,7 @@ const translations = defineMessages({
   errorText: {
     id: "view.name.messages.modal.loadingThreadError.body",
   },
+  tryAgainButtonText: { id: "component.modal.data.errorWithRetry.button" },
 })
 
 const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
@@ -79,8 +81,9 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   const resultState = getMessagesResultsMapStateByThreadId(thread.id)
   const messages = getMessagesByThreadId(thread.id)
   const contact = getContactByContactId(thread.contactId)
+  const loadThread = () => loadMessagesByThreadId(thread.id)
   useEffect(() => {
-    loadMessagesByThreadId(thread.id)
+    loadThread()
   }, [thread.id])
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -176,13 +179,19 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
     >
       <MessagesWrapper>
         {resultState === ResultState.Error && (
-          <Content>
+          <ColumnContent>
             <Text
               displayStyle={TextDisplayStyle.LargeBoldText}
               message={translations.errorText}
               data-testid={ThreadDetailsTestIds.ErrorText}
             />
-          </Content>
+            <RetryButton
+              displayStyle={DisplayStyle.Primary}
+              labelMessage={translations.tryAgainButtonText}
+              onClick={loadThread}
+              data-testid={ThreadDetailsTestIds.RetryButton}
+            />
+          </ColumnContent>
         )}
         {resultState === ResultState.Loading && (
           <Content>

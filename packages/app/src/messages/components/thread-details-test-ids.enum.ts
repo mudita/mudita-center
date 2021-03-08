@@ -4,6 +4,7 @@
  */
 
 export enum ThreadDetailsTestIds {
-    Loader = "loader",
-    ErrorText = "error-text"
+  Loader = "loader",
+  ErrorText = "error-text",
+  RetryButton = "retry-button",
 }

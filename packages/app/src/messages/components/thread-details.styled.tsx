@@ -6,6 +6,7 @@ import { Sidebar } from "Renderer/components/core/table/table.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
+import Button from "Renderer/components/core/button/button.component"
 
 export const PhoneNumberText = styled(Text)`
   margin-top: 0.8rem;
@@ -55,4 +56,12 @@ export const Content = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`
+
+export const ColumnContent = styled(Content)`
+  flex-direction: column;
+`
+
+export const RetryButton = styled(Button)`
+  margin-top: 1.4rem;
 `
