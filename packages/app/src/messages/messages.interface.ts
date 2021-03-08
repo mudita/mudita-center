@@ -17,16 +17,16 @@ export interface Content {
 
 export type ComponentProps = Omit<
   MessagesState,
-  | "threads"
+  | "threadMap"
   | "resultsState"
-  | "messages"
-  | "messagesInThreads"
+  | "messageMap"
+  | "messageIdsInThreadMap"
   | "messagesResultsStateMap"
 > &
   Readonly<{
     changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
     changeVisibilityFilter?: (filter: VisibilityFilter) => void
-    deleteConversation?: (ids: string[]) => void
+    deleteThreads?: (ids: string[]) => void
     threads: Thread[]
     visibilityFilter?: VisibilityFilter
     markAsRead?: (ids: string[]) => void

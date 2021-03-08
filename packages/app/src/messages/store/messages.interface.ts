@@ -38,6 +38,8 @@ export interface Message {
   messageType: MessageType
 }
 
+export type MessageMap = { [id: string]: Message }
+
 export interface Thread {
   id: string
   contactId: string
@@ -46,17 +48,14 @@ export interface Thread {
   unread: boolean
 }
 
-export interface NormalizedObjects<T> {
-  byId: { [id: string]: T }
-  allIds: string[]
-}
+export type ThreadMap = { [id: string]: Thread }
 
-export type MessagesInThreads = { [id: string]: string[] }
+export type MessageIdsInThreadMap = { [id: string]: Message["id"][] }
 
 export type MessagesState = Readonly<{
-  threads: NormalizedObjects<Thread>
-  messages: NormalizedObjects<Message>
-  messagesInThreads: MessagesInThreads
+  threadMap: ThreadMap
+  messageMap: MessageMap
+  messageIdsInThreadMap: MessageIdsInThreadMap
   searchValue: string
   visibilityFilter?: VisibilityFilter
   resultsState: ResultsState

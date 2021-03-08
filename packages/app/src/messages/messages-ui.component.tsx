@@ -57,7 +57,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
   changeSearchValue = noop,
   changeVisibilityFilter = noop,
-  deleteConversation = noop,
+  deleteThreads = noop,
   threads,
   getMessagesByThreadId,
   getContactByContactId,
@@ -70,7 +70,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
   loadMessagesByThreadId,
   getMessagesResultsMapStateByThreadId,
 }) => {
-  const { openSidebar, closeSidebar, activeRow: activeThread } = useTableSidebar<Thread>(
+  const {
+    openSidebar,
+    closeSidebar,
+    activeRow: activeThread,
+  } = useTableSidebar<Thread>(
     findThreadBySearchParams(useURLSearchParams(), threads)
   )
 
@@ -111,7 +115,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     const title = intl.formatMessage(deleteModalMessages.title)
     const message = getDeletingMessage(ids)
     const onDelete = () => {
-      deleteConversation(ids)
+      deleteThreads(ids)
       resetRows()
       closeSidebar()
       modalService.closeModal()
@@ -160,7 +164,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         changeSearchValue={changeSearchValue}
         toggleAll={toggleAll}
         allItemsSelected={allRowsSelected}
-        deleteConversation={deleteConversation}
+        deleteThreads={deleteThreads}
         selectedConversations={selectedRows}
         resetRows={resetRows}
         visibilityFilter={visibilityFilter}

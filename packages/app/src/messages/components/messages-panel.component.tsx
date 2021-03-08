@@ -50,7 +50,7 @@ interface Props {
   showAllMessages?: () => void
   hideReadMessages?: () => void
   selectedConversations: Thread[]
-  deleteConversation: (ids: string[]) => void
+  deleteThreads: (ids: string[]) => void
   searchValue: string
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
   allItemsSelected?: boolean

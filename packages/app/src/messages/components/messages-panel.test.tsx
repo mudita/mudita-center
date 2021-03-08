@@ -14,7 +14,7 @@ import { VisibilityFilter } from "App/messages/store/messages.interface"
 const defaultProps = {
   selectedItemsCount: 0,
   searchValue: "",
-  deleteConversation: jest.fn(),
+  deleteThreads: jest.fn(),
   selectedConversations: [],
   resetRows: jest.fn(),
   onMarkAsRead: jest.fn(),

@@ -3,16 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import {
-  updateMessagesInThreads,
-  updateNormalizeMessages,
-  updateNormalizeThreads,
-} from "App/messages/store/messages.helpers"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
 import { threadsData } from "App/seeds/messages"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
 import {
+  Message,
   MessagesState,
   ResultsState,
   Thread,
@@ -29,13 +25,14 @@ import {
 import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
 import {
   filterThreads,
-  searchThreads, sortThreads,
+  searchThreads,
+  sortThreads,
 } from "App/messages/store/threads.helpers"
 
 export const initialState: MessagesState = {
-  threads: { byId: {}, allIds: [] },
-  messages: { byId: {}, allIds: [] },
-  messagesInThreads: {},
+  threadMap: {},
+  messageMap: {},
+  messageIdsInThreadMap: {},
   searchValue: "",
   resultsState: ResultsState.Empty,
   visibilityFilter: VisibilityFilter.All,
@@ -66,6 +63,32 @@ const messages = createModel<RootModel>({
         },
       }
     },
+    updateThreadMap(state: MessagesState, threads: Thread[]): MessagesState {
+      return {
+        ...state,
+        threadMap: threads.reduce((prevThreadMap, thread) => {
+          prevThreadMap[thread.id] = thread
+          return prevThreadMap
+        }, state.threadMap),
+      }
+    },
+    updateMessages(state: MessagesState, messages: Message[]): MessagesState {
+      return {
+        ...state,
+        messageMap: messages.reduce((prevMessageMap, message) => {
+          prevMessageMap[message.id] = message
+          return prevMessageMap
+        }, state.messageMap),
+        messageIdsInThreadMap: messages.reduce((prev, message) => {
+          const messageIds = prev[message.threadId] ?? []
+          prev[message.threadId] = messageIds.find((id) => id === message.id)
+            ? messageIds
+            : [...messageIds, message.id]
+
+          return prev
+        }, state.messageIdsInThreadMap),
+      }
+    },
     setState(state: MessagesState, newState: MessagesState): MessagesState {
       return { ...state, ...newState }
     },
@@ -81,14 +104,47 @@ const messages = createModel<RootModel>({
     ) {
       return { ...state, visibilityFilter }
     },
-    deleteConversation(state: MessagesState, ids: string[]) {
-      return { ...state }
+    deleteThreads(state: MessagesState, ids: string[]) {
+      ids.forEach((id) => delete state.threadMap[id])
+      return { ...state, threadMap: state.threadMap }
     },
     markAsRead(state: MessagesState, ids: string[]) {
-      return { ...state }
+      const threadMap = Object.keys(state.threadMap).reduce(
+        (prevThreadMap, id) => {
+          if (ids.includes(id)) {
+            const thread = prevThreadMap[id]
+            prevThreadMap[id] = {
+              ...thread,
+              unread: false,
+            }
+            return prevThreadMap
+          } else {
+            return prevThreadMap
+          }
+        },
+        state.threadMap
+      )
+
+      return { ...state, threadMap }
     },
     toggleReadStatus(state: MessagesState, ids: string[]) {
-      return { ...state }
+      const threadMap = Object.keys(state.threadMap).reduce(
+        (prevThreadMap, id) => {
+          if (ids.includes(id)) {
+            const thread = prevThreadMap[id]
+            prevThreadMap[id] = {
+              ...thread,
+              unread: !thread.unread,
+            }
+            return prevThreadMap
+          } else {
+            return prevThreadMap
+          }
+        },
+        state.threadMap
+      )
+
+      return { ...state, threadMap }
     },
     _devClearAllThreads(state: MessagesState) {
       return {
@@ -119,9 +175,7 @@ const messages = createModel<RootModel>({
           logger.error(error)
           dispatch.messages.setResultsState(ResultsState.Error)
         } else {
-          dispatch.messages.setState({
-            threads: updateNormalizeThreads(rootState.messages.threads, data),
-          })
+          dispatch.messages.updateThreadMap(data)
           dispatch.messages.setResultsState(ResultsState.Loaded)
         }
       },
@@ -152,16 +206,7 @@ const messages = createModel<RootModel>({
             threadId,
           })
         } else {
-          dispatch.messages.setState({
-            messages: updateNormalizeMessages(
-              rootState.messages.messages,
-              data
-            ),
-            messagesInThreads: updateMessagesInThreads(
-              rootState.messages.messagesInThreads,
-              data
-            ),
-          })
+          dispatch.messages.updateMessages(data)
           dispatch.messages.setMessagesResultsMapState({
             resultsState: ResultsState.Loaded,
             threadId,
@@ -179,8 +224,8 @@ const messages = createModel<RootModel>({
     },
     getThreads() {
       return slice((state) =>
-        Object.keys(state.threads.byId).map(
-          (key: string): Thread => state.threads.byId[key]
+        Object.keys(state.threadMap).map(
+          (key: string): Thread => state.threadMap[key]
         )
       )
     },
@@ -232,9 +277,11 @@ const messages = createModel<RootModel>({
     getMessagesByThreadId() {
       return (state: { messages: MessagesState }) => {
         return (threadId: string) => {
-          const messagesInThread =
-            state.messages.messagesInThreads[threadId] ?? []
-          return messagesInThread.map((id) => state.messages.messages.byId[id])
+          const messageIds =
+            state.messages.messageIdsInThreadMap[threadId] ?? []
+          return messageIds.map(
+            (messageId) => state.messages.messageMap[messageId]
+          )
         }
       }
     },

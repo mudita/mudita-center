@@ -5,16 +5,9 @@
 
 import {
   Message,
-  MessagesState,
   MessageType,
-  ResultsState,
   Thread,
 } from "App/messages/store/messages.interface"
-import {
-  updateMessagesInThreads,
-  updateNormalizeMessages,
-  updateNormalizeThreads,
-} from "App/messages/store/messages.helpers"
 
 export const threadsData: Thread[] = [
   {
@@ -2086,12 +2079,3 @@ export const messagesData: Message[] = [
     messageType: MessageType.INBOX,
   },
 ]
-
-export const messagesSeed: MessagesState = {
-  threads: updateNormalizeThreads({ byId: {}, allIds: [] }, threadsData),
-  messages: updateNormalizeMessages({ byId: {}, allIds: [] }, messagesData),
-  messagesInThreads: updateMessagesInThreads({}, messagesData),
-  searchValue: "",
-  resultsState: ResultsState.Empty,
-  messagesResultsStateMap: {}
-}
