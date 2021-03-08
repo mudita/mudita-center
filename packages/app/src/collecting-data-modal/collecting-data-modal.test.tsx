@@ -33,10 +33,10 @@ test("agree is fired after button is clicked", () => {
   expect(agree).toBeCalled()
 })
 
-test("close is fired after bottom button is clicked", () => {
+test("close is fired after bottom button is clicked", async () => {
   const { getByTestId } = renderer()
   getByTestId(ModalTestIds.CloseBottomButton).click()
-  expect(close).toBeCalled()
+  await waitFor(() => expect(close).toBeCalled())
 })
 
 test("close is fired after 'x' button is clicked", async () => {
