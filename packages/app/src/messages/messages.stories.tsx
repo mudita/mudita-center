@@ -18,7 +18,6 @@ import {
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 import { ResultState } from "App/messages/store/messages.interface"
-import ThreadErrorModal from "App/messages/components/thread-error-modal.component"
 
 export const attachContactFlatListData: Contact[] = [
   {
