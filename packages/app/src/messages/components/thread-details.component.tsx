@@ -34,11 +34,8 @@ import {
 import { Contact } from "App/contacts/store/contacts.type"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
-import modalService, {
-  ModalService,
-} from "Renderer/components/core/modal/modal.service"
-import ThreadErrorModal from "App/messages/components/thread-error-modal.component"
 import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
+import { defineMessages } from "react-intl"
 
 export interface ThreadDetailsProps {
   thread: Thread
@@ -51,7 +48,6 @@ export interface ThreadDetailsProps {
   getContactByContactId: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultsMapStateByThreadId: (threadId: string) => ResultState
-  openErrorModal?: ModalService["openModal"]
 }
 
 const PhoneNumberText = styled(Text)`
@@ -97,9 +93,22 @@ const LeadingButton = styled(ButtonComponent).attrs(() => ({
   ${buttonComponentAnimationStyles};
 `
 
+const Content = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 const trailingIcon = [
   <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
 ]
+
+const translations = defineMessages({
+  errorText: {
+    id: "view.name.messages.modal.loadingThreadError.body",
+  },
+})
 
 const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   thread,
@@ -112,7 +121,6 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   loadMessagesByThreadId,
   getMessagesResultsMapStateByThreadId,
   getContactByContactId,
-  openErrorModal = modalService.openModal.bind(modalService),
 }) => {
   const resultState = getMessagesResultsMapStateByThreadId(thread.id)
   const messages = getMessagesByThreadId(thread.id)
@@ -120,11 +128,6 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   useEffect(() => {
     loadMessagesByThreadId(thread.id)
   }, [thread.id])
-  useEffect(() => {
-    if (resultState === ResultState.Error) {
-      openErrorModal(<ThreadErrorModal />)
-    }
-  }, [resultState])
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (ref.current) {
@@ -218,16 +221,27 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
       padded={false}
     >
       <MessagesWrapper>
-        <MessageBubblesWrapper>
-          {resultState === ResultState.Loading && (
+        {resultState === ResultState.Error && (
+          <Content>
+            <Text
+              displayStyle={TextDisplayStyle.LargeBoldText}
+              message={translations.errorText}
+              data-testid={ThreadDetailsTestIds.ErrorText}
+            />
+          </Content>
+        )}
+        {resultState === ResultState.Loading && (
+          <Content>
             <Loader
-              size={2}
+              size={4}
               type={LoaderType.Spinner}
               data-testid={ThreadDetailsTestIds.Loader}
             />
-          )}
-          {resultState === ResultState.Loaded &&
-            messages.map(({ contactId, content, messageType, id }, index) => {
+          </Content>
+        )}
+        {resultState === ResultState.Loaded && (
+          <MessageBubblesWrapper>
+            {messages.map(({ contactId, content, messageType, id }, index) => {
               const prevMessage = messages[index - 1]
               const previousAuthor = prevMessage?.contactId !== contactId
               if (index === messages.length - 1) {
@@ -254,7 +268,8 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
                 />
               )
             })}
-        </MessageBubblesWrapper>
+          </MessageBubblesWrapper>
+        )}
       </MessagesWrapper>
       {process.env.NODE_ENV !== "production" && (
         <TextareaWrapper>
