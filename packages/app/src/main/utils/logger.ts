@@ -3,112 +3,97 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { createLogger, format, transports } from "winston"
+import { createLogger, format, transports, Logger } from "winston"
 import { name } from "../../../package.json"
 import path from "path"
-import { getAppSettings } from "Renderer/requests/app-settings.request"
 const DailyRotateFile = require("winston-daily-rotate-file")
-const isRenderer = require("is-electron-renderer")
 const RollbarTransport = require("winston-transport-rollbar-3")
-
 const testing = process.env.NODE_ENV === "test"
-
-let app: { getPath: (arg0: string) => string }
-let type: string
-
-if (isRenderer) {
-  ;({ app } = require("electron").remote)
-  type = "renderer"
-} else {
-  ;({ app } = require("electron"))
-  type = "main"
+const { combine, timestamp, printf, colorize, simple } = format
+type AppType = "main" | "renderer"
+type AppResolver = () => { type: AppType; appDataPath: string }
+// TODO: This type should only have some of the log methods instead of using the full Winston’s interface.
+type AppLogger = Logger & {
+  enableRollbar: () => void
+  disableRollbar: () => void
 }
 
-const { combine, timestamp, printf, colorize, simple } = format
-
-const myFormat = combine(
-  timestamp(),
-  printf(({ level, message, timestamp }) => {
-    const paddedProcess = `[${type}]`.padEnd(10, " ")
-    const paddedLevel = `[${level}]:`.padEnd(8, " ")
-    return `${paddedProcess} [${timestamp}] ${paddedLevel} ${message}`
+const createDailyRotateFileTransport = (appDataPath: string, type: AppType) => {
+  const format = combine(
+    timestamp(),
+    printf(({ level, message, timestamp }) => {
+      const paddedProcess = `[${type}]`.padEnd(10, " ")
+      const paddedLevel = `[${level}]:`.padEnd(8, " ")
+      return `${paddedProcess} [${timestamp}] ${paddedLevel} ${message}`
+    })
+  )
+  return new DailyRotateFile({
+    dirname: path.join(appDataPath, name, "logs"),
+    filename: "mc-%DATE%",
+    extension: ".log",
+    datePattern: "YYYY-MM-DD",
+    maxFiles: 3,
+    maxSize: "1m",
+    level: "info",
+    format,
   })
-)
+}
+const consoleTransport = new transports.Console({
+  level: testing ? "emerg" : "silly",
+  silent: testing,
+  format: combine(colorize(), simple()),
+})
+const resolve: AppResolver = () => {
+  const isRenderer = require("is-electron-renderer")
+  const app = isRenderer
+    ? require("electron").remote.app
+    : require("electron").app
+  const type = isRenderer ? "renderer" : "main"
+  return {
+    appDataPath: app.getPath("appData"),
+    type,
+  }
+}
+// TODO: test this. https://appnroll.atlassian.net/browse/PDA-764
+export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
+  const { appDataPath, type } = resolveApp()
+  const transports = [
+    // TODO: previously this condition was based on `app`. Why it was possible for the app to not be there?
+    ...(appDataPath ? [createDailyRotateFileTransport(appDataPath, type)] : []),
+    consoleTransport,
+  ]
 
-const loggerCreator = (rollbarEnabled = false) => {
-  return createLogger({
+  const rollbarTransport = new RollbarTransport({
+    rollbarConfig: {
+      accessToken: process.env.ROLLBAR_TOKEN || "test",
+      captureUncaught: true,
+      captureUnhandledRejections: true,
+      enabled: false,
+      payload: {
+        environment: process.env.NODE_ENV,
+      },
+    },
+    level: "warn",
+  })
+
+  const appLogger = createLogger({
     level: "info",
     format: format.combine(format.metadata(), format.json()),
     exitOnError: false,
-    transports: [
-      ...(app
-        ? [
-            new DailyRotateFile({
-              dirname: path.join(app.getPath("appData"), name, "logs"),
-              filename: "mc-%DATE%",
-              extension: ".log",
-              datePattern: "YYYY-MM-DD",
-              maxFiles: 3,
-              maxSize: "1m",
-              level: "info",
-              format: myFormat,
-            }),
-          ]
-        : []),
-      new transports.Console({
-        level: testing ? "emerg" : "silly",
-        silent: testing,
-        format: combine(colorize(), simple()),
-      }),
-      ...(rollbarEnabled
-        ? [
-            new RollbarTransport({
-              rollbarConfig: {
-                accessToken: process.env.ROLLBAR_TOKEN || "test",
-                captureUncaught: true,
-                captureUnhandledRejections: true,
-                payload: {
-                  environment: process.env.NODE_ENV,
-                },
-              },
-              level: "warn",
-            }),
-          ]
-        : []),
-    ],
+    transports,
+  })
+  const enableRollbar = () => {
+    appLogger.add(rollbarTransport)
+    rollbarTransport.rollbar.configure({ enabled: true })
+  }
+  const disableRollbar = () => {
+    appLogger.remove(rollbarTransport)
+    rollbarTransport.rollbar.configure({ enabled: false })
+  }
+  return Object.assign(appLogger, {
+    enableRollbar,
+    disableRollbar,
   })
 }
-
-class Logger {
-  private rollbarEnabled = false
-  private logger = loggerCreator(this.rollbarEnabled)
-
-  public init() {
-    ;(async () => {
-      if (isRenderer) {
-        this.rollbarEnabled = Boolean(
-          (await getAppSettings()).appCollectingData
-        )
-      }
-      this.rollbarEnabled ? this.enableRollbar() : this.disableRollbar()
-    })()
-
-    return this
-  }
-
-  public enableRollbar() {
-    this.logger = loggerCreator(true)
-  }
-  public disableRollbar() {
-    this.logger = loggerCreator(false)
-  }
-  public getLogger() {
-    return this.logger
-  }
-}
-
-export const LoggerService = new Logger().init()
-
-const logger = LoggerService.getLogger()
-
+const logger = createAppLogger(resolve)
 export default logger
