@@ -11,7 +11,7 @@ import { select } from "Renderer/store"
 import { VisibilityFilter } from "App/messages/store/messages.interface"
 
 const selector = select(({ messages, contacts }) => ({
-  list: messages.filteredList,
+  threads: messages.filteredList,
   getContactByContactId: messages.getContactByContactId,
   getMessagesByThreadId: messages.getMessagesByThreadId,
   getMessagesResultsMapStateByThreadId:
@@ -31,8 +31,7 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch.messages.changeSearchValue(target.value),
   changeVisibilityFilter: (filter: VisibilityFilter) =>
     dispatch.messages.changeVisibilityFilter(filter),
-  deleteConversation: (ids: string[]) =>
-    dispatch.messages.deleteConversation(ids),
+  deleteThreads: (ids: string[]) => dispatch.messages.deleteThreads(ids),
   markAsRead: (ids: string[]) => dispatch.messages.markAsRead(ids),
   toggleReadStatus: (ids: string[]) => dispatch.messages.toggleReadStatus(ids),
   loadMessagesByThreadId: (threadId: string) =>

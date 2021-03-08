@@ -25,7 +25,6 @@ import registerAppSettingsResetRequest from "Backend/requests/app-settings/reset
 import registerUpdateOsRequest from "Backend/requests/update-os/update-os.request"
 import registerGetEventsRequest from "Backend/requests/calendar/get-events.request"
 import registerGetThreadsRequest from "Backend/requests/messages/get-threads.request"
-import registerGetMessagesRequest from "Backend/requests/messages/get-messages.request"
 import registerGetMessagesByThreadIdRequest from "Backend/requests/messages/get-messages-by-thread-id.request"
 import createElectronAppAdapter from "Backend/adapters/electron-app/electron-app.adapter"
 import createAppSettingsAdapter from "Backend/adapters/app-settings/app-settings.adapter"
@@ -77,7 +76,6 @@ const bootstrap = (
     registerUpdateOsRequest,
     registerGetEventsRequest,
     registerGetThreadsRequest,
-    registerGetMessagesRequest,
     registerGetMessagesByThreadIdRequest,
   ]
 

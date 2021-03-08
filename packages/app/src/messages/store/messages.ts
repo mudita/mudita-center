@@ -3,59 +3,88 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import {
-  updateMessagesInThreads,
-  updateNormalizeMessages,
-  updateNormalizeThreads,
-} from "App/messages/store/messages.helpers"
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
-import { threadsData } from "App/seeds/messages"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
 import {
+  Message,
+  MessageMap,
   MessagesState,
-  ResultsState,
+  ResultState,
   Thread,
+  ThreadMap,
   VisibilityFilter,
 } from "App/messages/store/messages.interface"
 import { RootState } from "Renderer/store"
 import getThreads from "Renderer/requests/get-threads.request"
 import logger from "App/main/utils/logger"
-import { ContactsState } from "App/contacts/store/contacts.type"
+import {
+  Contact,
+  ContactID,
+  ContactsState,
+} from "App/contacts/store/contacts.type"
 import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
+import {
+  filterThreads,
+  searchThreads,
+  sortThreads,
+} from "App/messages/store/threads.helpers"
 
 export const initialState: MessagesState = {
-  threads: { byId: {}, allIds: [] },
-  messages: { byId: {}, allIds: [] },
-  messagesInThreads: {},
+  threadMap: {},
+  messageMap: {},
+  messageIdsInThreadMap: {},
   searchValue: "",
-  resultsState: ResultsState.Empty,
+  resultState: ResultState.Empty,
   visibilityFilter: VisibilityFilter.All,
-  messagesResultsStateMap: {},
+  messagesResultStateMap: {},
 }
 
 const messages = createModel<RootModel>({
   state: initialState,
   reducers: {
-    setResultsState(
+    setResultState(
       state: MessagesState,
-      resultsState: ResultsState
+      resultState: ResultState
     ): MessagesState {
-      return { ...state, resultsState }
+      return { ...state, resultState: resultState }
     },
     setMessagesResultsMapState(
       state: MessagesState,
-      {
-        resultsState,
-        threadId,
-      }: { resultsState: ResultsState; threadId: string }
+      { resultState, threadId }: { resultState: ResultState; threadId: string }
     ): MessagesState {
       return {
         ...state,
-        messagesResultsStateMap: {
-          ...state.messagesResultsStateMap,
-          [threadId]: resultsState,
+        messagesResultStateMap: {
+          ...state.messagesResultStateMap,
+          [threadId]: resultState,
         },
+      }
+    },
+    setThreadMap(state: MessagesState, threads: Thread[]): MessagesState {
+      return {
+        ...state,
+        threadMap: threads.reduce((prevThreadMap, thread) => {
+          prevThreadMap[thread.id] = thread
+          return prevThreadMap
+        }, {} as ThreadMap),
+      }
+    },
+    updateMessages(state: MessagesState, messages: Message[]): MessagesState {
+      return {
+        ...state,
+        messageMap: messages.reduce((prevMessageMap, message) => {
+          prevMessageMap[message.id] = message
+          return prevMessageMap
+        }, state.messageMap),
+        messageIdsInThreadMap: messages.reduce((prev, message) => {
+          const messageIds = prev[message.threadId] ?? []
+          prev[message.threadId] = messageIds.find((id) => id === message.id)
+            ? messageIds
+            : [...messageIds, message.id]
+
+          return prev
+        }, state.messageIdsInThreadMap),
       }
     },
     setState(state: MessagesState, newState: MessagesState): MessagesState {
@@ -73,65 +102,113 @@ const messages = createModel<RootModel>({
     ) {
       return { ...state, visibilityFilter }
     },
-    deleteConversation(state: MessagesState, ids: string[]) {
-      return { ...state }
+    deleteThreads(state: MessagesState, ids: string[]) {
+      ids.forEach((id) => delete state.threadMap[id])
+      ids.forEach((id) => delete state.messageIdsInThreadMap[id])
+
+      const messageMap = Object.keys(state.messageMap).reduce(
+        (prevMessageMap, id) => {
+          const { threadId } = state.messageMap[id]
+          if (ids.includes(threadId)) {
+            return prevMessageMap
+          } else {
+            prevMessageMap[id] = state.messageMap[id]
+            return prevMessageMap
+          }
+        },
+        {} as MessageMap
+      )
+
+      return {
+        ...state,
+        messageMap: messageMap,
+        threadMap: state.threadMap,
+        messageIdsInThreadMap: state.messageIdsInThreadMap,
+      }
     },
     markAsRead(state: MessagesState, ids: string[]) {
-      return { ...state }
+      const threadMap = Object.keys(state.threadMap).reduce(
+        (prevThreadMap, id) => {
+          if (ids.includes(id)) {
+            const thread = prevThreadMap[id]
+            prevThreadMap[id] = {
+              ...thread,
+              unread: false,
+            }
+            return prevThreadMap
+          } else {
+            return prevThreadMap
+          }
+        },
+        state.threadMap
+      )
+
+      return { ...state, threadMap }
     },
     toggleReadStatus(state: MessagesState, ids: string[]) {
-      return { ...state }
+      const threadMap = Object.keys(state.threadMap).reduce(
+        (prevThreadMap, id) => {
+          if (ids.includes(id)) {
+            const thread = prevThreadMap[id]
+            prevThreadMap[id] = {
+              ...thread,
+              unread: !thread.unread,
+            }
+            return prevThreadMap
+          } else {
+            return prevThreadMap
+          }
+        },
+        state.threadMap
+      )
+
+      return { ...state, threadMap }
     },
     _devClearAllThreads(state: MessagesState) {
       return {
         ...state,
-        threads: [],
-      }
-    },
-    _devLoadDefaultThreads(state: MessagesState) {
-      return {
-        ...state,
-        threads: threadsData,
+        threadMap: {},
+        messageMap: {},
+        messageIdsInThreadMap: {},
       }
     },
   },
   effects: (d) => {
     const dispatch = (d as unknown) as RootState
+    const messagesLoadMap: { [key: string]: boolean } = {}
+    let loading = false
+
     return {
-      async loadData(_: any, rootState: { messages: MessagesState }) {
-        if (rootState.messages.resultsState === ResultsState.Loading) {
+      async loadData() {
+        if (loading) {
           return
         }
-
-        dispatch.messages.setResultsState(ResultsState.Loading)
+        loading = true
+        dispatch.messages.setResultState(ResultState.Loading)
 
         const { data = [], error } = await getThreads()
 
         if (error) {
           logger.error(error)
-          dispatch.messages.setResultsState(ResultsState.Error)
+          dispatch.messages.setResultState(ResultState.Error)
         } else {
-          dispatch.messages.setState({
-            threads: updateNormalizeThreads(rootState.messages.threads, data),
-          })
-          dispatch.messages.setResultsState(ResultsState.Loaded)
+          dispatch.messages.setThreadMap(data)
+          dispatch.messages.setResultState(ResultState.Loaded)
         }
+
+        loading = false
       },
-      async loadMessagesByThreadId(
-        threadId: string,
-        rootState: { messages: MessagesState }
-      ) {
-        const messagesResultState =
-          rootState.messages.messagesResultsStateMap[threadId]
-        if (
-          messagesResultState !== undefined &&
-          messagesResultState === ResultsState.Loading
-        ) {
+      async loadMessagesByThreadId(threadId: string) {
+        const messagesLoad = messagesLoadMap[threadId]
+
+        if (messagesLoad !== undefined && messagesLoad) {
           return
         }
 
+        messagesLoadMap[threadId] = true
+
         dispatch.messages.setMessagesResultsMapState({
-          resultsState: ResultsState.Loading,
+          resultState: ResultState.Loading,
           threadId,
         })
 
@@ -140,41 +217,52 @@ const messages = createModel<RootModel>({
           logger.error(error)
 
           dispatch.messages.setMessagesResultsMapState({
-            resultsState: ResultsState.Error,
+            resultState: ResultState.Error,
             threadId,
           })
         } else {
-          dispatch.messages.setState({
-            messages: updateNormalizeMessages(
-              rootState.messages.messages,
-              data
-            ),
-            messagesInThreads: updateMessagesInThreads(
-              rootState.messages.messagesInThreads,
-              data
-            ),
-          })
+          dispatch.messages.updateMessages(data)
           dispatch.messages.setMessagesResultsMapState({
-            resultsState: ResultsState.Loaded,
+            resultState: ResultState.Loaded,
             threadId,
           })
         }
+
+        messagesLoadMap[threadId] = false
       },
     }
   },
   selectors: (slice: Slicer<MessagesState>) => ({
+    getSearchValue() {
+      return slice((state) => state.searchValue)
+    },
+    getVisibilityFilter() {
+      return slice((state) => state.visibilityFilter)
+    },
     getThreads() {
       return slice((state) =>
-        Object.keys(state.threads.byId).map(
-          (key: string): Thread => state.threads.byId[key]
+        Object.keys(state.threadMap).map(
+          (key: string): Thread => state.threadMap[key]
         )
       )
     },
     filteredList(models: StoreSelectors<any>) {
-      return createSelector(models.messages.getThreads, (threads: Thread[]) => {
-        // return threads.map(({ caller }) => caller)
-        return threads
-      })
+      return createSelector(
+        models.messages.getThreads,
+        models.contacts.getContactMap,
+        models.messages.getSearchValue,
+        models.messages.getVisibilityFilter,
+        (
+          threads: Thread[],
+          contactMap: Record<ContactID, Contact>,
+          searchValue: string,
+          visibilityFilter: VisibilityFilter
+        ) => {
+          let list = searchThreads(threads, contactMap, searchValue)
+          list = filterThreads(list, visibilityFilter)
+          return sortThreads(list)
+        }
+      )
     },
     getContactByContactId() {
       return (state: { messages: MessagesState; contacts: ContactsState }) => {
@@ -197,8 +285,7 @@ const messages = createModel<RootModel>({
       return (state: { messages: MessagesState }) => {
         return (threadId: string) => {
           return (
-            state.messages.messagesResultsStateMap[threadId] ??
-            ResultsState.Empty
+            state.messages.messagesResultStateMap[threadId] ?? ResultState.Empty
           )
         }
       }
@@ -206,26 +293,19 @@ const messages = createModel<RootModel>({
     getMessagesByThreadId() {
       return (state: { messages: MessagesState }) => {
         return (threadId: string) => {
-          const messagesInThread =
-            state.messages.messagesInThreads[threadId] ?? []
-          return messagesInThread.map((id) => state.messages.messages.byId[id])
+          const messageIds =
+            state.messages.messageIdsInThreadMap[threadId] ?? []
+          return messageIds.map(
+            (messageId) => state.messages.messageMap[messageId]
+          )
         }
       }
     },
-    getAllCallers(models: StoreSelectors<MessagesState>) {
-      return createSelector(models.messages.getThreads, (threads: Thread[]) => {
-        // return threads.map(({ caller }) => caller)
-        return []
-      })
-    },
-    isThreadOpened(models: StoreSelectors<MessagesState>) {
-      return (state: MessagesState) => {
-        // const callers: Caller[] = models.messages.getAllCallers(state)
+    isThreadOpened() {
+      return (state: { messages: MessagesState }) => {
+        const numbers: string[] = Object.keys(state.messages.threadMap)
         return (phoneNumber: string) => {
-          // return !callers.some((caller) =>
-          //   isCallerMatchingPhoneNumber(caller, phoneNumber)
-          // )
-          return false
+          return !numbers.some((number) => number === phoneNumber)
         }
       }
     },

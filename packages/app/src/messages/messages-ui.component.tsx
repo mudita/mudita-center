@@ -6,12 +6,12 @@
 import React from "react"
 import { defineMessages } from "react-intl"
 import { TableWithSidebarWrapper } from "Renderer/components/core/table/table.component"
-import MessagesList from "App/messages/components/messages-list.component"
+import ThreadList from "App/messages/components/thread-list.component"
 import { ComponentProps as MessagesComponentProps } from "App/messages/messages.interface"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
-import MessageDetails from "App/messages/components/message-details.component"
+import ThreadDetails from "App/messages/components/thread-details.component"
 import MessagesPanel from "App/messages/components/messages-panel.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import useURLSearchParams from "Renderer/utils/hooks/use-url-search-params"
@@ -29,7 +29,7 @@ import AttachContactModal from "App/messages/components/attach-contact-modal.com
 import { Contact } from "App/contacts/store/contacts.type"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import {
-  ResultsState,
+  ResultState,
   Thread,
   VisibilityFilter,
 } from "App/messages/store/messages.interface"
@@ -50,15 +50,15 @@ export interface MessagesProps
   getMessagesByThreadId: (threadId: string) => Message[]
   getContactByContactId: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
-  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultsState
+  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultState
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
   searchValue,
   changeSearchValue = noop,
   changeVisibilityFilter = noop,
-  deleteConversation = noop,
-  list: threads,
+  deleteThreads = noop,
+  threads,
   getMessagesByThreadId,
   getContactByContactId,
   visibilityFilter,
@@ -70,7 +70,11 @@ const Messages: FunctionComponent<MessagesProps> = ({
   loadMessagesByThreadId,
   getMessagesResultsMapStateByThreadId,
 }) => {
-  const { openSidebar, closeSidebar, activeRow } = useTableSidebar<Thread>(
+  const {
+    openSidebar,
+    closeSidebar,
+    activeRow: activeThread,
+  } = useTableSidebar<Thread>(
     findThreadBySearchParams(useURLSearchParams(), threads)
   )
 
@@ -111,7 +115,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     const title = intl.formatMessage(deleteModalMessages.title)
     const message = getDeletingMessage(ids)
     const onDelete = () => {
-      deleteConversation(ids)
+      deleteThreads(ids)
       resetRows()
       closeSidebar()
       modalService.closeModal()
@@ -160,7 +164,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
         changeSearchValue={changeSearchValue}
         toggleAll={toggleAll}
         allItemsSelected={allRowsSelected}
-        deleteConversation={deleteConversation}
+        deleteThreads={deleteThreads}
         selectedConversations={selectedRows}
         resetRows={resetRows}
         visibilityFilter={visibilityFilter}
@@ -168,18 +172,18 @@ const Messages: FunctionComponent<MessagesProps> = ({
         onDeleteClick={removeSelectedRows}
       />
       <TableWithSidebarWrapper>
-        <MessagesList
-          list={threads}
+        <ThreadList
+          threads={threads}
           openSidebar={openSidebar}
-          activeThread={activeRow}
+          activeThread={activeThread}
           getContactByContactId={getContactByContactId}
           onDeleteClick={removeSingleConversation}
           onToggleReadStatus={toggleReadStatus}
           language={language}
           {...rest}
         />
-        {activeRow && (
-          <MessageDetails
+        {activeThread && (
+          <ThreadDetails
             onDeleteClick={removeSingleConversation}
             onUnreadStatus={toggleReadStatus}
             getMessagesByThreadId={getMessagesByThreadId}
@@ -188,7 +192,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             getMessagesResultsMapStateByThreadId={
               getMessagesResultsMapStateByThreadId
             }
-            details={activeRow}
+            thread={activeThread}
             onClose={closeSidebar}
             onContactClick={contactClick}
             onAttachContactClick={openAttachContactModal}

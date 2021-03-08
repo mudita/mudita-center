@@ -5,10 +5,15 @@
 
 import React, { useEffect, useRef } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { Sidebar, SidebarHeaderButton } from "Renderer/components/core/table/table.component"
+import {
+  Sidebar,
+  SidebarHeaderButton,
+} from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
-import Text, { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import styled from "styled-components"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
@@ -20,16 +25,23 @@ import { intl } from "Renderer/utils/intl"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
-import { Message, MessageType, ResultsState, Thread } from "App/messages/store/messages.interface"
+import {
+  Message,
+  MessageType,
+  ResultState,
+  Thread,
+} from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
-import modalService, { ModalService } from "Renderer/components/core/modal/modal.service"
-import { MessageDetailsTestIds } from "App/messages/components/message-details-test-ids.enum"
+import modalService, {
+  ModalService,
+} from "Renderer/components/core/modal/modal.service"
 import ThreadErrorModal from "App/messages/components/thread-error-modal.component"
+import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
 
-interface Props {
-  details: Thread
+export interface ThreadDetailsProps {
+  thread: Thread
   onClose?: () => void
   onDeleteClick: (id: string) => void
   onUnreadStatus: (ids: string[]) => void
@@ -38,7 +50,7 @@ interface Props {
   getMessagesByThreadId: (threadId: string) => Message[]
   getContactByContactId: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
-  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultsState
+  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultState
   openErrorModal?: ModalService["openModal"]
 }
 
@@ -89,8 +101,8 @@ const trailingIcon = [
   <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
 ]
 
-const MessageDetails: FunctionComponent<Props> = ({
-  details,
+const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
+  thread,
   onClose = noop,
   onUnreadStatus,
   onDeleteClick,
@@ -102,16 +114,16 @@ const MessageDetails: FunctionComponent<Props> = ({
   getContactByContactId,
   openErrorModal = modalService.openModal.bind(modalService),
 }) => {
-  const resultState = getMessagesResultsMapStateByThreadId(details.id)
-  const messages = getMessagesByThreadId(details.id)
-  const contact = getContactByContactId(details.contactId)
+  const resultState = getMessagesResultsMapStateByThreadId(thread.id)
+  const messages = getMessagesByThreadId(thread.id)
+  const contact = getContactByContactId(thread.contactId)
   useEffect(() => {
-    loadMessagesByThreadId(details.id)
-  }, [details.id])
+    loadMessagesByThreadId(thread.id)
+  }, [thread.id])
   useEffect(() => {
-   if (resultState === ResultsState.Error)  {
-     openErrorModal(<ThreadErrorModal />)
-   }
+    if (resultState === ResultState.Error) {
+      openErrorModal(<ThreadErrorModal />)
+    }
   }, [resultState])
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -120,11 +132,11 @@ const MessageDetails: FunctionComponent<Props> = ({
     }
   }, [ref.current])
   const markAsUnread = () => {
-    onUnreadStatus([details.id])
+    onUnreadStatus([thread.id])
     onClose()
   }
-  const handleDeleteClick = () => onDeleteClick(details.id)
-  const handleContactClick = () => onContactClick(details.id)
+  const handleDeleteClick = () => onDeleteClick(thread.id)
+  const handleContactClick = () => onContactClick(thread.id)
   const icons = (
     <>
       {process.env.NODE_ENV !== "production" && (
@@ -175,15 +187,15 @@ const MessageDetails: FunctionComponent<Props> = ({
               displayStyle={TextDisplayStyle.LargeBoldText}
               data-testid="sidebar-fullname"
             >
-              {getPrettyCaller(contact, details.id)}
+              {getPrettyCaller(contact, thread.id)}
             </Text>
-            {Boolean(details.id && contact.secondaryPhoneNumber) && (
+            {Boolean(thread.id && contact.secondaryPhoneNumber) && (
               <Text
                 displayStyle={TextDisplayStyle.LargeFadedText}
                 data-testid="multiple-number"
               >
                 &nbsp;
-                {details.id.split(" ").join("") ===
+                {thread.id.split(" ").join("") ===
                 contact.secondaryPhoneNumber?.split(" ").join("")
                   ? "#2"
                   : "#1"}
@@ -195,7 +207,7 @@ const MessageDetails: FunctionComponent<Props> = ({
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"
             >
-              {details.id}
+              {thread.id}
             </PhoneNumberText>
           )}
         </>
@@ -207,14 +219,14 @@ const MessageDetails: FunctionComponent<Props> = ({
     >
       <MessagesWrapper>
         <MessageBubblesWrapper>
-          {resultState === ResultsState.Loading && (
+          {resultState === ResultState.Loading && (
             <Loader
               size={2}
               type={LoaderType.Spinner}
-              data-testid={MessageDetailsTestIds.Loader}
+              data-testid={ThreadDetailsTestIds.Loader}
             />
           )}
-          {resultState === ResultsState.Loaded &&
+          {resultState === ResultState.Loaded &&
             messages.map(({ contactId, content, messageType, id }, index) => {
               const prevMessage = messages[index - 1]
               const previousAuthor = prevMessage?.contactId !== contactId
@@ -262,4 +274,4 @@ const MessageDetails: FunctionComponent<Props> = ({
   )
 }
 
-export default MessageDetails
+export default ThreadDetails

@@ -18,13 +18,6 @@ class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
     }
   }
 
-  public async getMessages(): Promise<DeviceResponse<Message[]>> {
-    return {
-      status: DeviceResponseStatus.Ok,
-      data: messagesData,
-    }
-  }
-
   public async getMessagesByThreadId(
     threadId: string
   ): Promise<DeviceResponse<Message[]>> {

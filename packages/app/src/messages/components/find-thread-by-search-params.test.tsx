@@ -12,33 +12,34 @@ const caller: Caller = {
   phoneNumber: "+33999999999",
 }
 
-const threads = [{ caller } as Thread]
+const mockThread = { id: caller.phoneNumber, contactId: caller.id } as Thread
+const mockThreads = [mockThread]
 
 const searchValue = `?phoneNumber=${caller.phoneNumber}`
 
 test("thread is found by search params", () => {
   const thread = findThreadBySearchParams(
     new URLSearchParams(searchValue),
-    threads
+    mockThreads
   )
-  expect(thread?.caller.id).toEqual(caller.id)
+  expect(thread?.contactId).toEqual(caller.id)
 })
 
 test("thread is found even if phoneNumber has another format", () => {
   const thread = findThreadBySearchParams(new URLSearchParams(searchValue), [
-    { caller: { ...caller, phoneNumber: "+33 999 999 999" } } as Thread,
+    { ...mockThread, id: "+33 999 999 999" },
   ])
-  expect(thread?.caller.id).toEqual(caller.id)
+  expect(thread?.contactId).toEqual(caller.id)
 })
 
 test("thread isn't found when phoneNumber is started with double zero", () => {
   const thread = findThreadBySearchParams(new URLSearchParams(searchValue), [
-    { caller: { ...caller, phoneNumber: "0033 999 999 999" } } as Thread,
+    { ...mockThread, id: "0033 999 999 999" },
   ])
   expect(thread).toBeUndefined()
 })
 
 test("thread isn't found without search value", () => {
-  const thread = findThreadBySearchParams(new URLSearchParams(``), threads)
+  const thread = findThreadBySearchParams(new URLSearchParams(``), mockThreads)
   expect(thread).toBeUndefined()
 })
