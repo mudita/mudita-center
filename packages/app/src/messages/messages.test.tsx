@@ -77,7 +77,7 @@ const defaultProps: MessagesProps = {
   language: "en",
   getContact: jest.fn().mockReturnValue(contact),
   getMessagesByThreadId: jest.fn().mockReturnValue(messages),
-  getMessagesResultsMapStateByThreadId: jest.fn(),
+  getMessagesResultMapStateByThreadId: jest.fn(),
   loadMessagesByThreadId: jest.fn(),
   attachContactList: [
     {

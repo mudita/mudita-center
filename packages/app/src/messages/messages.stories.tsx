@@ -107,9 +107,7 @@ storiesOf("Views|Messages", module).add("Messages", () => (
       attachContactFlatList={attachContactFlatListData}
       getContact={getContact}
       getMessagesByThreadId={getMessagesByThreadId}
-      getMessagesResultsMapStateByThreadId={
-        getMessagesResultsMapStateByThreadId
-      }
+      getMessagesResultMapStateByThreadId={getMessagesResultsMapStateByThreadId}
     />
   </div>
 ))
