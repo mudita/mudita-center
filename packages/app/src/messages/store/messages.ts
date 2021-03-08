@@ -47,7 +47,7 @@ const messages = createModel<RootModel>({
       state: MessagesState,
       resultState: ResultState
     ): MessagesState {
-      return { ...state, resultState: resultState }
+      return { ...state, resultState }
     },
     setMessagesResultsMapState(
       state: MessagesState,
