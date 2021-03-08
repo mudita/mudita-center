@@ -102,7 +102,6 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   onAttachContactClick,
   getMessagesByThreadId,
   loadMessagesByThreadId,
-  getMessagesResultsMapStateByThreadId,
   getContactByContactId,
 }) => {
   useEffect(() => {
@@ -125,8 +124,6 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   const handleContactClick = () => onContactClick(thread.id)
 
   const messages = getMessagesByThreadId(thread.id)
-  const resultState = getMessagesResultsMapStateByThreadId(thread.id)
-  console.log("resultState: ", thread.id, resultState)
   const contact = getContactByContactId(thread.contactId)
 
   const icons = (

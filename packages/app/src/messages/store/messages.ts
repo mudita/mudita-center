@@ -62,7 +62,6 @@ const messages = createModel<RootModel>({
       }
     },
     setThreadMap(state: MessagesState, threads: Thread[]): MessagesState {
-      console.log("state: ", state)
       return {
         ...state,
         threadMap: threads.reduce((prevThreadMap, thread) => {
@@ -188,7 +187,7 @@ const messages = createModel<RootModel>({
         dispatch.messages.setResultState(ResultState.Loading)
 
         const { data = [], error } = await getThreads()
-        console.log("data: ", data)
+
         if (error) {
           logger.error(error)
           dispatch.messages.setResultState(ResultState.Error)
