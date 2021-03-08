@@ -46,7 +46,7 @@ export interface CallRowProps {
   noneRowsSelected: boolean
   sidebarOpened: boolean
   onDeleteClick: (id: string) => void
-  getContactByContactId: (contactId: string) => Contact
+  getContactById: (contactId: string) => Contact
 }
 
 export const CallRow: FunctionComponent<CallRowProps> = ({
@@ -57,13 +57,13 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
   activeRow,
   noneRowsSelected,
   onDeleteClick,
-  getContactByContactId,
+  getContactById,
 }) => {
   const { caller, id, date, duration, timesMissed } = callData
   const { selected, indeterminate } = getRowStatus(callData)
   const toggle = () => toggleRow(callData)
   const details = resolveCallType(callData.status)
-  const contact = getContactByContactId(caller.id)
+  const contact = getContactById(caller.id)
 
   const callDetails = { ...details, ...caller, ...callData }
 

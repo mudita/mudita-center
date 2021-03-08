@@ -48,7 +48,7 @@ export interface MessagesProps
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
   getMessagesByThreadId: (threadId: string) => Message[]
-  getContactByContactId: (contactId: string) => Contact
+  getContactById: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultsMapStateByThreadId: (threadId: string) => ResultState
 }
@@ -60,7 +60,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   deleteThreads = noop,
   threads,
   getMessagesByThreadId,
-  getContactByContactId,
+  getContactById,
   visibilityFilter,
   markAsRead = noop,
   toggleReadStatus = noop,
@@ -101,10 +101,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     return {
       ...deleteModalMessages.body,
       values: {
-        caller: getPrettyCaller(
-          getContactByContactId(thread.contactId),
-          thread.id
-        ),
+        caller: getPrettyCaller(getContactById(thread.contactId), thread.id),
         num: allRowsSelected ? -1 : ids.length,
         ...textFormatters,
       },
@@ -176,7 +173,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
           threads={threads}
           openSidebar={openSidebar}
           activeThread={activeThread}
-          getContactByContactId={getContactByContactId}
+          getContactById={getContactById}
           onDeleteClick={removeSingleConversation}
           onToggleReadStatus={toggleReadStatus}
           language={language}
@@ -187,7 +184,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onDeleteClick={removeSingleConversation}
             onUnreadStatus={toggleReadStatus}
             getMessagesByThreadId={getMessagesByThreadId}
-            getContactByContactId={getContactByContactId}
+            getContactById={getContactById}
             loadMessagesByThreadId={loadMessagesByThreadId}
             getMessagesResultsMapStateByThreadId={
               getMessagesResultsMapStateByThreadId

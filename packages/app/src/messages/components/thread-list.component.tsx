@@ -153,7 +153,7 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
   activeThread?: Thread
   onDeleteClick: (id: string) => void
   onToggleReadStatus: (ids: string[]) => void
-  getContactByContactId: (contactId: string) => Contact
+  getContactById: (contactId: string) => Contact
 }
 
 const ThreadList: FunctionComponent<Props> = ({
@@ -166,7 +166,7 @@ const ThreadList: FunctionComponent<Props> = ({
   toggleRow,
   noneRowsSelected,
   language,
-  getContactByContactId,
+  getContactById,
 }) => {
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
@@ -183,7 +183,7 @@ const ThreadList: FunctionComponent<Props> = ({
     >
       {threads.map((thread) => {
         const { unread, id } = thread
-        const contact = getContactByContactId(thread.contactId)
+        const contact = getContactById(thread.contactId)
         const { selected, indeterminate } = getRowStatus(thread)
 
         const toggle = () => toggleRow(thread)

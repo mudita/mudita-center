@@ -84,7 +84,7 @@ const defaultProps: ThreadDetailsProps = {
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
   getMessagesByThreadId: jest.fn().mockReturnValue(messages),
-  getContactByContactId: jest.fn().mockReturnValue(contact),
+  getContactById: jest.fn().mockReturnValue(contact),
   loadMessagesByThreadId: jest.fn(),
   getMessagesResultsMapStateByThreadId: jest.fn(),
   thread: thread,
@@ -128,7 +128,7 @@ test("correct amount of message bubbles is displayed", () => {
 test("message from unknown person displays only phone number", () => {
   const { getByTestId } = renderer({
     thread: threadFromUnknownCaller,
-    getContactByContactId: jest.fn().mockReturnValue(unknownContact),
+    getContactById: jest.fn().mockReturnValue(unknownContact),
   })
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
     unknownContact.primaryPhoneNumber!

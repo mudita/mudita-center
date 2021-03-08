@@ -93,7 +93,7 @@ export const attachContactListData: ContactCategory[] = [
   },
 ]
 
-const getContactByContactId = () => attachContactFlatListData[0]
+const getContactById = () => attachContactFlatListData[0]
 const getMessagesByThreadId = () => rowMessages
 const getMessagesResultsMapStateByThreadId = () => ResultState.Loaded
 
@@ -105,7 +105,7 @@ storiesOf("Views|Messages", module).add("Messages", () => (
       searchValue={""}
       attachContactList={attachContactListData}
       attachContactFlatList={attachContactFlatListData}
-      getContactByContactId={getContactByContactId}
+      getContactById={getContactById}
       getMessagesByThreadId={getMessagesByThreadId}
       getMessagesResultsMapStateByThreadId={
         getMessagesResultsMapStateByThreadId

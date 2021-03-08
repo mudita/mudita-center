@@ -266,7 +266,7 @@ const messages = createModel<RootModel>({
         }
       )
     },
-    getContactByContactId() {
+    getContactById() {
       return (state: { messages: MessagesState; contacts: ContactsState }) => {
         return (contactId: string) => {
           return (

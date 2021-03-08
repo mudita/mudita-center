@@ -41,7 +41,7 @@ export interface ThreadDetailsProps {
   onContactClick: (phoneNumber: string) => void
   onAttachContactClick: () => void
   getMessagesByThreadId: (threadId: string) => Message[]
-  getContactByContactId: (contactId: string) => Contact
+  getContactById: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultsMapStateByThreadId: (threadId: string) => ResultState
 }
@@ -102,7 +102,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   onAttachContactClick,
   getMessagesByThreadId,
   loadMessagesByThreadId,
-  getContactByContactId,
+  getContactById,
 }) => {
   useEffect(() => {
     loadMessagesByThreadId(thread.id)
@@ -124,7 +124,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   const handleContactClick = () => onContactClick(thread.id)
 
   const messages = getMessagesByThreadId(thread.id)
-  const contact = getContactByContactId(thread.contactId)
+  const contact = getContactById(thread.contactId)
 
   const icons = (
     <>
@@ -216,7 +216,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
                 <div ref={ref} key={id}>
                   <MessageBubble
                     id={id}
-                    user={getContactByContactId(contactId)}
+                    user={getContactById(contactId)}
                     message={content}
                     interlocutor={messageType === MessageType.OUTBOX}
                     previousAuthor={previousAuthor}
@@ -228,7 +228,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
               <MessageBubble
                 key={id}
                 id={id}
-                user={getContactByContactId(contactId)}
+                user={getContactById(contactId)}
                 message={content}
                 interlocutor={messageType === MessageType.OUTBOX}
                 previousAuthor={previousAuthor}

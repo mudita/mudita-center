@@ -12,7 +12,7 @@ import { VisibilityFilter } from "App/messages/store/messages.interface"
 
 const selector = select(({ messages, contacts }) => ({
   threads: messages.filteredList,
-  getContactByContactId: messages.getContactByContactId,
+  getContactById: messages.getContactById,
   getMessagesByThreadId: messages.getMessagesByThreadId,
   getMessagesResultsMapStateByThreadId:
     messages.getMessagesResultsMapStateByThreadId,

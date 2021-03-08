@@ -13,7 +13,7 @@ const selection = select(({ calls, messages, contacts }) => ({
   calls: calls.filteredList,
   isThreadOpened: messages.isThreadOpened,
   isContactCreated: contacts.isContactCreated,
-  getContactByContactId: contacts.getContact,
+  getContactById: contacts.getContact,
 }))
 
 const mapStateToProps = (state: RootModel) => ({

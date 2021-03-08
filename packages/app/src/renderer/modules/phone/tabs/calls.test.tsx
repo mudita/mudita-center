@@ -16,7 +16,7 @@ const defaultProps: CallsProps = {
   calls: mockData,
   isThreadOpened: jest.fn(),
   isContactCreated: jest.fn(),
-  getContactByContactId: jest.fn(),
+  getContactById: jest.fn(),
 }
 
 const renderer = (extraProps?: {}) => {
@@ -45,7 +45,7 @@ test("caller name is displayed correctly", () => {
     secondaryPhoneNumber: caller.secondaryPhoneNumber,
   }
   const { getAllByTestId } = renderer({
-    getContactByContactId: jest.fn().mockReturnValue(contact),
+    getContactById: jest.fn().mockReturnValue(contact),
   })
   const exampleRow = getAllByTestId(CallsTableTestIds.CallerName)[examplesIndex]
   expect(exampleRow).toHaveTextContent(
