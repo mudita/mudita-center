@@ -16,5 +16,5 @@ test("return mapped threads from pure to Thread model", async () => {
 
   const { data = [] } = await pendingResponse
 
-  expect(data).toMatchObject(threadsData)
+  expect(data).toStrictEqual(threadsData)
 })

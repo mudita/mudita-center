@@ -18,6 +18,7 @@ import {
 } from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
+import { createFullName } from "App/contacts/store/contacts.helpers"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
@@ -85,9 +86,9 @@ const defaultProps: ThreadDetailsProps = {
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
   getMessagesByThreadId: jest.fn().mockReturnValue(messages),
-  getContactByContactId: jest.fn().mockReturnValue(contact),
+  getContact: jest.fn().mockReturnValue(contact),
   loadMessagesByThreadId: jest.fn(),
-  getMessagesResultsMapStateByThreadId: jest.fn(),
+  getMessagesResultMapStateByThreadId: jest.fn(),
   thread,
 }
 
@@ -114,7 +115,7 @@ test("sidebar close button informs parent about closing", () => {
 test("left part of sidebar displays details correctly", () => {
   const { getByTestId } = renderer()
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
-    `${contact.firstName} ${contact.lastName}`
+    `${createFullName(contact)}`
   )
   expect(getByTestId("sidebar-phone-number")).toHaveTextContent(
     contact.primaryPhoneNumber!
@@ -123,7 +124,7 @@ test("left part of sidebar displays details correctly", () => {
 
 test("correct amount of message bubbles is displayed", () => {
   const { getAllByTestId } = renderer({
-    getMessagesResultsMapStateByThreadId: jest.fn(() => ResultState.Loaded),
+    getMessagesResultMapStateByThreadId: jest.fn(() => ResultState.Loaded),
   })
   expect(getAllByTestId("message-content")).toHaveLength(messages.length)
 })
@@ -131,7 +132,7 @@ test("correct amount of message bubbles is displayed", () => {
 test("message from unknown person displays only phone number", () => {
   const { getByTestId } = renderer({
     thread: threadFromUnknownCaller,
-    getContactByContactId: jest.fn().mockReturnValue(unknownContact),
+    getContact: jest.fn().mockReturnValue(unknownContact),
   })
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
     unknownContact.primaryPhoneNumber!
@@ -160,7 +161,7 @@ test("delete messages", () => {
 
 test("show info about contact with multiple numbers", () => {
   const { getByTestId, getByText } = renderer({
-    getContactByContactId: jest.fn(() => ({
+    getContact: jest.fn(() => ({
       ...contact,
       secondaryPhoneNumber: thread.id,
     })),
@@ -171,11 +172,11 @@ test("show info about contact with multiple numbers", () => {
 
 test("error text renders with retry button when thread won't load", () => {
   const openErrorModal = jest.fn()
-  const getMessagesResultsMapStateByThreadId = jest.fn(() => ResultState.Error)
+  const getMessagesResultMapStateByThreadId = jest.fn(() => ResultState.Error)
 
   const { getByTestId } = renderer({
     openErrorModal,
-    getMessagesResultsMapStateByThreadId,
+    getMessagesResultMapStateByThreadId,
   })
 
   expect(getByTestId(ThreadDetailsTestIds.ErrorText)).toBeInTheDocument()
@@ -183,22 +184,22 @@ test("error text renders with retry button when thread won't load", () => {
 })
 
 test("loader renders when thread is loading", () => {
-  const getMessagesResultsMapStateByThreadId = jest.fn(
+  const getMessagesResultMapStateByThreadId = jest.fn(
     () => ResultState.Loading
   )
   const { getByTestId } = renderer({
-    getMessagesResultsMapStateByThreadId,
+    getMessagesResultMapStateByThreadId,
   })
   expect(getByTestId(ThreadDetailsTestIds.Loader)).toBeInTheDocument()
 })
 
 test("retry button tries to load thread again after initial call", () => {
   const openErrorModal = jest.fn()
-  const getMessagesResultsMapStateByThreadId = jest.fn(() => ResultState.Error)
+  const getMessagesResultMapStateByThreadId = jest.fn(() => ResultState.Error)
   const loadMessagesByThreadId = jest.fn()
   const { getByTestId } = renderer({
     openErrorModal,
-    getMessagesResultsMapStateByThreadId,
+    getMessagesResultMapStateByThreadId,
     loadMessagesByThreadId
   })
   getByTestId(ThreadDetailsTestIds.RetryButton).click()

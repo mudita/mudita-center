@@ -50,9 +50,9 @@ export interface ThreadDetailsProps {
   onContactClick: (phoneNumber: string) => void
   onAttachContactClick: () => void
   getMessagesByThreadId: (threadId: string) => Message[]
-  getContactByContactId: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
-  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultState
+  getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
 }
 
 const trailingIcon = [
@@ -75,12 +75,12 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   onAttachContactClick,
   getMessagesByThreadId,
   loadMessagesByThreadId,
-  getMessagesResultsMapStateByThreadId,
-  getContactByContactId,
+  getContact,
+                                                                getMessagesResultMapStateByThreadId,
 }) => {
-  const resultState = getMessagesResultsMapStateByThreadId(thread.id)
+  const resultState = getMessagesResultMapStateByThreadId(thread.id)
   const messages = getMessagesByThreadId(thread.id)
-  const contact = getContactByContactId(thread.contactId)
+  const contact = getContact(thread.contactId)
   const loadThread = () => loadMessagesByThreadId(thread.id)
   useEffect(() => {
     loadThread()
@@ -212,7 +212,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
                   <div ref={ref} key={id}>
                     <MessageBubble
                       id={id}
-                      user={getContactByContactId(contactId)}
+                      user={getContact(contactId)}
                       message={content}
                       interlocutor={messageType === MessageType.OUTBOX}
                       previousAuthor={previousAuthor}
@@ -224,7 +224,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
                 <MessageBubble
                   key={id}
                   id={id}
-                  user={getContactByContactId(contactId)}
+                  user={getContact(contactId)}
                   message={content}
                   interlocutor={messageType === MessageType.OUTBOX}
                   previousAuthor={previousAuthor}

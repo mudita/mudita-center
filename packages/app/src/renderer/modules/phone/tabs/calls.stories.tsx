@@ -11,14 +11,14 @@ import { Contact } from "App/contacts/store/contacts.type"
 
 const isThreadOpened = () => true
 const isContactCreated = () => true
-const getContactByContactId = (contactId: string) => ({} as Contact)
+const getContact = (contactId: string) => ({} as Contact)
 
 storiesOf("Views/Calls", module).add("Calls", () => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Calls
       isContactCreated={isContactCreated}
       isThreadOpened={isThreadOpened}
-      getContactByContactId={getContactByContactId}
+      getContact={getContact}
       calls={calls}
     />
   </div>

@@ -33,7 +33,7 @@ export interface CallsProps {
   deleteCall?: (ids: string[]) => void
   isThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
-  getContactByContactId: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact
 }
 
 const Calls: FunctionComponent<CallsProps> = ({
@@ -42,7 +42,7 @@ const Calls: FunctionComponent<CallsProps> = ({
   deleteCall = noop,
   isThreadOpened,
   isContactCreated,
-  getContactByContactId,
+  getContact,
 }) => {
   const {
     selectedRows,
@@ -63,7 +63,7 @@ const Calls: FunctionComponent<CallsProps> = ({
   const getDeletingMessage = (ids: string[]): Message => {
     const findById = (details: Details) => details.id === ids[0]
     const details = calls.find(findById) as Details
-    const contact = getContactByContactId(details.caller.id)
+    const contact = getContact(details.caller.id)
     return {
       ...deleteModalMessages.body,
       values: {
@@ -119,7 +119,7 @@ const Calls: FunctionComponent<CallsProps> = ({
         onDeleteClick={removeSingleCall}
         onRowClick={openSidebar}
         onDetailsCloseClick={closeSidebar}
-        getContactByContactId={getContactByContactId}
+        getContact={getContact}
       />
     </>
   )

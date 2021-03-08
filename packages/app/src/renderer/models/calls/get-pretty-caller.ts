@@ -7,8 +7,14 @@ import { isNameAvailable } from "Renderer/components/rest/messages/is-name-avail
 import { createFullName } from "App/contacts/store/contacts.helpers"
 import { Contact } from "App/contacts/store/contacts.type"
 
-const getPrettyCaller = (contact: Contact, phoneNumber: string): string => {
-  return isNameAvailable(contact) ? createFullName(contact) : phoneNumber
+const getPrettyCaller = (
+  contact: Contact | undefined,
+  phoneNumber: string
+): string => {
+  console.log("contact: ", contact)
+  return isNameAvailable(contact)
+    ? createFullName(contact as Contact)
+    : phoneNumber
 }
 
 export default getPrettyCaller

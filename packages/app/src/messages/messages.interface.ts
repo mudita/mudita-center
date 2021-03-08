@@ -15,13 +15,9 @@ export interface Content {
   text: string
 }
 
-export type ComponentProps = Omit<
+export type ComponentProps = Pick<
   MessagesState,
-  | "threadMap"
-  | "resultState"
-  | "messageMap"
-  | "messageIdsInThreadMap"
-  | "messagesResultStateMap"
+  "searchValue" | "visibilityFilter"
 > &
   Readonly<{
     changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
