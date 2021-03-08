@@ -137,13 +137,3 @@ storiesOf("Views|Messages/Modals", module)
       </div>
     )
   })
-  .add("Thread Error Modal", () => {
-    return (
-      <div style={{ maxWidth: "97.5rem" }}>
-        <ModalWrapper>
-          <ThreadErrorModal />
-        </ModalWrapper>
-        <ModalBackdrop />
-      </div>
-    )
-  })
