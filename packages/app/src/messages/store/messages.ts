@@ -18,11 +18,7 @@ import {
 import { RootState } from "Renderer/store"
 import getThreads from "Renderer/requests/get-threads.request"
 import logger from "App/main/utils/logger"
-import {
-  Contact,
-  ContactID,
-  ContactsState,
-} from "App/contacts/store/contacts.type"
+import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
 import {
   filterThreads,
@@ -86,9 +82,6 @@ const messages = createModel<RootModel>({
           return prev
         }, state.messageIdsInThreadMap),
       }
-    },
-    setState(state: MessagesState, newState: MessagesState): MessagesState {
-      return { ...state, ...newState }
     },
     changeSearchValue(
       state: MessagesState,
@@ -235,25 +228,25 @@ const messages = createModel<RootModel>({
     }
   },
   selectors: (slice: Slicer<MessagesState>) => ({
-    getSearchValue() {
+    searchValue() {
       return slice((state) => state.searchValue)
     },
-    getVisibilityFilter() {
+    visibilityFilter() {
       return slice((state) => state.visibilityFilter)
     },
-    getThreads() {
+    threads() {
       return slice((state) =>
         Object.keys(state.threadMap).map(
           (key: string): Thread => state.threadMap[key]
         )
       )
     },
-    filteredList(models: StoreSelectors<any>) {
+    filteredThreads(models: StoreSelectors<any>) {
       return createSelector(
-        models.messages.getThreads,
+        models.messages.threads,
         models.contacts.getContactMap,
-        models.messages.getSearchValue,
-        models.messages.getVisibilityFilter,
+        models.messages.searchValue,
+        models.messages.visibilityFilter,
         (
           threads: Thread[],
           contactMap: Record<ContactID, Contact>,
@@ -266,24 +259,7 @@ const messages = createModel<RootModel>({
         }
       )
     },
-    getContactById() {
-      return (state: { messages: MessagesState; contacts: ContactsState }) => {
-        return (contactId: string) => {
-          return (
-            state.contacts.db[contactId] ?? {
-              id: contactId,
-              firstName: "",
-              lastName: "",
-              primaryPhoneNumber: "",
-              email: "",
-              note: "",
-              firstAddressLine: "",
-            }
-          )
-        }
-      }
-    },
-    getMessagesResultsMapStateByThreadId() {
+    getMessagesResultMapStateByThreadId() {
       return (state: { messages: MessagesState }) => {
         return (threadId: string) => {
           return (

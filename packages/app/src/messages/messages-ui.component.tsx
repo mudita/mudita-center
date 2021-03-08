@@ -48,9 +48,9 @@ export interface MessagesProps
   attachContactList: ContactCategory[]
   attachContactFlatList: Contact[]
   getMessagesByThreadId: (threadId: string) => Message[]
-  getContactById: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
-  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultState
+  getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({
@@ -60,7 +60,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   deleteThreads = noop,
   threads,
   getMessagesByThreadId,
-  getContactById,
+  getContact,
   visibilityFilter,
   markAsRead = noop,
   toggleReadStatus = noop,
@@ -68,7 +68,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
   attachContactList,
   attachContactFlatList,
   loadMessagesByThreadId,
-  getMessagesResultsMapStateByThreadId,
+  getMessagesResultMapStateByThreadId,
 }) => {
   const {
     openSidebar,
@@ -101,7 +101,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
     return {
       ...deleteModalMessages.body,
       values: {
-        caller: getPrettyCaller(getContactById(thread.contactId), thread.id),
+        caller: getPrettyCaller(getContact(thread.contactId), thread.id),
         num: allRowsSelected ? -1 : ids.length,
         ...textFormatters,
       },
@@ -173,7 +173,7 @@ const Messages: FunctionComponent<MessagesProps> = ({
           threads={threads}
           openSidebar={openSidebar}
           activeThread={activeThread}
-          getContactById={getContactById}
+          getContact={getContact}
           onDeleteClick={removeSingleConversation}
           onToggleReadStatus={toggleReadStatus}
           language={language}
@@ -184,10 +184,10 @@ const Messages: FunctionComponent<MessagesProps> = ({
             onDeleteClick={removeSingleConversation}
             onUnreadStatus={toggleReadStatus}
             getMessagesByThreadId={getMessagesByThreadId}
-            getContactById={getContactById}
+            getContact={getContact}
             loadMessagesByThreadId={loadMessagesByThreadId}
-            getMessagesResultsMapStateByThreadId={
-              getMessagesResultsMapStateByThreadId
+            getMessagesResultMapStateByThreadId={
+              getMessagesResultMapStateByThreadId
             }
             thread={activeThread}
             onClose={closeSidebar}

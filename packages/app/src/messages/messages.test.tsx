@@ -75,7 +75,7 @@ const defaultProps: MessagesProps = {
   threads,
   searchValue: "",
   language: "en",
-  getContactById: jest.fn().mockReturnValue(contact),
+  getContact: jest.fn().mockReturnValue(contact),
   getMessagesByThreadId: jest.fn().mockReturnValue(messages),
   getMessagesResultsMapStateByThreadId: jest.fn(),
   loadMessagesByThreadId: jest.fn(),
@@ -175,7 +175,7 @@ test("displays correct amount of dropdown contact details buttons for contacts",
 
 test("displays correct amount of dropdown add to contacts buttons for person that is unknown", () => {
   const { queryAllByTestId } = renderer({
-    getContactById: jest.fn().mockReturnValue({
+    getContact: jest.fn().mockReturnValue({
       id: unknownContact.id,
       firstName: unknownContact.firstName,
       lastName: unknownContact.lastName,

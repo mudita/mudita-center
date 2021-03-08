@@ -39,7 +39,7 @@ interface Props extends SelectHook {
   onDeleteClick: (id: string) => void
   isThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
-  getContactById: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact
 }
 
 const CallsTable: FunctionComponent<Props> = ({
@@ -54,7 +54,7 @@ const CallsTable: FunctionComponent<Props> = ({
   isThreadOpened,
   isContactCreated,
   onDeleteClick,
-  getContactById,
+  getContact,
 }) => {
   return (
     <TableWithSidebarWrapper>
@@ -80,7 +80,7 @@ const CallsTable: FunctionComponent<Props> = ({
             sidebarOpened={sidebarOpened}
             activeRow={activeRow}
             onDeleteClick={onDeleteClick}
-            getContactById={getContactById}
+            getContact={getContact}
           />
         ))}
       </SelectableCalls>
@@ -91,7 +91,7 @@ const CallsTable: FunctionComponent<Props> = ({
           onDeleteClick={onDeleteClick}
           isThreadOpened={isThreadOpened}
           isContactCreated={isContactCreated}
-          getContactById={getContactById}
+          getContact={getContact}
         />
       )}
     </TableWithSidebarWrapper>

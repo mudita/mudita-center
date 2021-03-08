@@ -4,7 +4,8 @@
  */
 
 import { init } from "@rematch/core"
-import messages  from "App/messages/store/messages"
+import messages from "App/messages/store/messages"
+import contacts from "App/contacts/store/contacts"
 import {
   Message,
   MessageType,
@@ -16,6 +17,7 @@ import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 import Mock = jest.Mock
 import getThreads from "Renderer/requests/get-threads.request"
 import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.request"
+import selectPlugin from "@rematch/select"
 
 jest.mock("Renderer/requests/get-threads.request", () =>
   jest.fn(() => ({ data: [{ id: "1" }, { id: "2" }] }))
@@ -53,7 +55,7 @@ const mockThreads: Thread[] = [
     messageSnippet:
       "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
-  }
+  },
 ]
 
 const mockMessage: Message = {
@@ -66,7 +68,10 @@ const mockMessage: Message = {
   messageType: MessageType.INBOX,
 }
 
-const store = init({ models: { messages } })
+const store = init({
+  models: { messages, contacts },
+  plugins: [selectPlugin()],
+})
 
 afterEach(() => {
   ;(getThreads as any).mockClear()
@@ -196,9 +201,13 @@ test("stores the messages and relation to thread after data is loaded", async ()
 })
 
 test("sets the error result when loading messages fails", async () => {
-  ;(getMessagesByThreadId as Mock).mockReturnValue({ error: new Error("failed") })
+  ;(getMessagesByThreadId as Mock).mockReturnValue({
+    error: new Error("failed"),
+  })
   await store.dispatch.messages.loadMessagesByThreadId("1")
-  expect(store.getState().messages.messagesResultStateMap["1"]).toBe(ResultState.Error)
+  expect(store.getState().messages.messagesResultStateMap["1"]).toBe(
+    ResultState.Error
+  )
 })
 
 test("visibility filter changes correctly", () => {
@@ -207,6 +216,12 @@ test("visibility filter changes correctly", () => {
   expect(store.getState().messages.visibilityFilter).toBe(
     desiredVisibilityFilter
   )
+})
+
+test("search value changes correctly", () => {
+  const value = "search"
+  store.dispatch.messages.changeSearchValue(value)
+  expect(store.getState().messages.searchValue).toBe(value)
 })
 
 test("thread is deleted properly", () => {
@@ -220,7 +235,9 @@ test("thread is deleted properly", () => {
   const afterDeletingThreadIdsLength = Object.keys(
     store.getState().messages.threadMap
   ).length
-  expect(afterDeletingThreadIdsLength).toEqual(beforeDeletingThreadIdsLength - 1)
+  expect(afterDeletingThreadIdsLength).toEqual(
+    beforeDeletingThreadIdsLength - 1
+  )
 })
 
 test("multiple thread are deleted properly", () => {
@@ -269,4 +286,78 @@ test("thread read status is toggled properly?", () => {
 
   expect(store.getState().messages.threadMap[threadIds[0]].unread).toBeFalsy()
   expect(store.getState().messages.threadMap[threadIds[1]].unread).toBeFalsy()
+})
+
+test("search value selector return value properly", () => {
+  const value = "search"
+  store.dispatch.messages.changeSearchValue(value)
+
+  const searchValue = store.select.messages.searchValue(store.getState())
+  expect(searchValue).toBe(value)
+})
+
+test("visibility filter selector return value properly", () => {
+  const desiredVisibilityFilter = VisibilityFilter.All
+  store.dispatch.messages.changeVisibilityFilter(desiredVisibilityFilter)
+
+  const visibilityFilter = store.select.messages.visibilityFilter(
+    store.getState()
+  )
+  expect(visibilityFilter).toBe(desiredVisibilityFilter)
+})
+
+test("threads selector return value properly", () => {
+  store.dispatch.messages.setThreadMap([mockThread])
+
+  const threads = store.select.messages.threads(store.getState())
+  expect(threads).toStrictEqual([mockThread])
+})
+
+test("filtered threads selector return value properly", () => {
+  store.dispatch.messages.setThreadMap(mockThreads)
+  store.dispatch.messages.changeSearchValue(contact.primaryPhoneNumber)
+
+  const filteredThreads = store.select.messages.filteredThreads(
+    store.getState()
+  )
+  expect(filteredThreads).toStrictEqual([mockThread])
+
+  store.dispatch.messages.changeSearchValue("you will not find me")
+
+  const emptyList = store.select.messages.filteredThreads(store.getState())
+  expect(emptyList).toHaveLength(0)
+})
+
+test("get messages result map state by thread id selector return value properly", async () => {
+  store.dispatch.messages.setThreadMap(mockThreads)
+
+  let getMessagesResultsMapStateByThreadId = store.select.messages.getMessagesResultsMapStateByThreadId(
+    store.getState()
+  )
+  expect(getMessagesResultsMapStateByThreadId("1")).toBe(ResultState.Empty)
+
+  await store.dispatch.messages.loadMessagesByThreadId("1")
+  getMessagesResultsMapStateByThreadId = store.select.messages.getMessagesResultsMapStateByThreadId(
+    store.getState()
+  )
+  expect(getMessagesResultsMapStateByThreadId("1")).toBe(ResultState.Loaded)
+})
+
+test("get messages by thread id selector return value properly", () => {
+  store.dispatch.messages.setThreadMap([mockThread])
+  store.dispatch.messages.updateMessages([mockMessage])
+
+  const getMessagesByThreadId = store.select.messages.getMessagesByThreadId(
+    store.getState()
+  )
+  expect(getMessagesByThreadId(mockThread.id)).toStrictEqual([mockMessage])
+})
+
+test("is thread opened selector return value properly", () => {
+  store.dispatch.messages.setThreadMap([mockThread])
+  store.dispatch.messages.updateMessages([mockMessage])
+
+  const isThreadOpened = store.select.messages.isThreadOpened(store.getState())
+  expect(isThreadOpened(contact.secondaryPhoneNumber)).toStrictEqual(true)
+  expect(isThreadOpened(contact.primaryPhoneNumber)).toStrictEqual(false)
 })

@@ -153,7 +153,7 @@ interface Props extends SelectHook, Pick<AppSettings, "language"> {
   activeThread?: Thread
   onDeleteClick: (id: string) => void
   onToggleReadStatus: (ids: string[]) => void
-  getContactById: (contactId: string) => Contact
+  getContact: (contactId: string) => Contact
 }
 
 const ThreadList: FunctionComponent<Props> = ({
@@ -166,7 +166,7 @@ const ThreadList: FunctionComponent<Props> = ({
   toggleRow,
   noneRowsSelected,
   language,
-  getContactById,
+  getContact,
 }) => {
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
@@ -183,7 +183,7 @@ const ThreadList: FunctionComponent<Props> = ({
     >
       {threads.map((thread) => {
         const { unread, id } = thread
-        const contact = getContactById(thread.contactId)
+        const contact = getContact(thread.contactId)
         const { selected, indeterminate } = getRowStatus(thread)
 
         const toggle = () => toggleRow(thread)
@@ -214,11 +214,11 @@ const ThreadList: FunctionComponent<Props> = ({
                   <Name displayStyle={TextDisplayStyle.LargeBoldText}>
                     {getPrettyCaller(contact, thread.id)}
                   </Name>
-                  {Boolean(thread.id && contact.secondaryPhoneNumber) && (
+                  {Boolean(thread.id && contact?.secondaryPhoneNumber) && (
                     <Text displayStyle={TextDisplayStyle.LargeFadedText}>
                       &nbsp;
                       {thread.id.split(" ").join("") ===
-                      contact.secondaryPhoneNumber?.split(" ").join("")
+                      contact?.secondaryPhoneNumber?.split(" ").join("")
                         ? "#2"
                         : "#1"}
                     </Text>
@@ -258,7 +258,7 @@ const ThreadList: FunctionComponent<Props> = ({
                     labelMessage={{
                       id: "component.dropdown.call",
                       values: {
-                        name: contact.firstName || thread.id,
+                        name: contact?.firstName || thread.id,
                       },
                     }}
                     Icon={Type.Calls}
@@ -321,7 +321,7 @@ const ThreadList: FunctionComponent<Props> = ({
             <Col />
             <Col>
               <AvatarPlaceholder />
-              <TextPlaceholder charsCount={contact.firstName?.length || 0} />
+              <TextPlaceholder charsCount={contact?.firstName?.length || 0} />
             </Col>
             <ScrollAnchorContainer key={id} active={active} />
           </ThreadRow>
