@@ -89,14 +89,14 @@ test("store returns initial state", () => {
   `)
 })
 
-test("thread are update properly", () => {
+test("threads are set properly", () => {
   store.dispatch.messages.setThreadMap([mockThread])
   expect(store.getState().messages.threadMap).toStrictEqual({
     [mockThread.id]: mockThread,
   })
 })
 
-test("messages are update properly", () => {
+test("messages are updated properly", () => {
   store.dispatch.messages.setThreadMap([mockThread])
   expect(store.getState().messages.threadMap).toStrictEqual({
     [mockThread.id]: mockThread,
@@ -134,13 +134,13 @@ test("starts with an empty result state", () => {
   expect(store.getState().messages.resultState).toBe(ResultState.Empty)
 })
 
-test("load the threads data set result state to loaded", async () => {
+test("loading threads data sets result state to loaded", async () => {
   await store.dispatch.messages.loadData()
   expect(getThreads).toHaveBeenCalled()
   expect(store.getState().messages.resultState).toBe(ResultState.Loaded)
 })
 
-test("threads doesn't load when it's already loading", async () => {
+test("threads will only load once when they are already loaded", async () => {
   await Promise.all([
     store.dispatch.messages.loadData(),
     store.dispatch.messages.loadData(),
@@ -148,7 +148,7 @@ test("threads doesn't load when it's already loading", async () => {
   expect(getThreads).toHaveBeenCalledTimes(1)
 })
 
-test("stores the threads after data is loaded", async () => {
+test("loaded data is saved in store properly", async () => {
   await store.dispatch.messages.loadData()
   expect(store.getState().messages.threadMap).toEqual({
     "1": {
@@ -160,13 +160,13 @@ test("stores the threads after data is loaded", async () => {
   })
 })
 
-test("sets the error result when loading threads fails", async () => {
+test("sets the result state to error when threads loading fails", async () => {
   ;(getThreads as Mock).mockReturnValue({ error: new Error("failed") })
   await store.dispatch.messages.loadData()
   expect(store.getState().messages.resultState).toBe(ResultState.Error)
 })
 
-test("load the messages data set result state to loaded", async () => {
+test("sets the result state to loaded when messages are loaded", async () => {
   await store.dispatch.messages.loadMessagesByThreadId("1")
   expect(getMessagesByThreadId).toHaveBeenCalled()
   expect(store.getState().messages.messagesResultStateMap["1"]).toBe(
@@ -174,7 +174,7 @@ test("load the messages data set result state to loaded", async () => {
   )
 })
 
-test("messages doesn't load when it's already loading", async () => {
+test("messages will only load once when they are already loaded", async () => {
   await Promise.all([
     store.dispatch.messages.loadMessagesByThreadId("1"),
     store.dispatch.messages.loadMessagesByThreadId("1"),
@@ -209,7 +209,7 @@ test("visibility filter changes correctly", () => {
   )
 })
 
-test("deletes one of the thread", () => {
+test("thread is deleted properly", () => {
   store.dispatch.messages.setThreadMap(mockThreads)
   const threadIds = Object.keys(store.getState().messages.threadMap)
   const threadId = threadIds[0]
@@ -223,7 +223,7 @@ test("deletes one of the thread", () => {
   expect(afterDeletingThreadIdsLength).toEqual(beforeDeletingThreadIdsLength - 1)
 })
 
-test("deletes multiple thread", () => {
+test("multiple thread are deleted properly", () => {
   store.dispatch.messages.setThreadMap(mockThreads)
   const threadIds = Object.keys(store.getState().messages.threadMap)
   const toDeleteThreadIds = [threadIds[0], threadIds[1]]
@@ -260,7 +260,7 @@ test("marks thread as read", () => {
   expect(store.getState().messages.threadMap[threadIds[1]].unread).toBeFalsy()
 })
 
-test("toggle thread", () => {
+test("thread read status is toggled properly?", () => {
   store.dispatch.messages.setThreadMap(mockThreads)
   const threadIds = Object.keys(store.getState().messages.threadMap)
   const toToggleThreadIds = [threadIds[0], threadIds[1]]
