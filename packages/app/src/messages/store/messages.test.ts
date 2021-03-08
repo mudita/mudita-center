@@ -340,12 +340,6 @@ test("get messages result map state by thread id selector return value properly"
     store.getState()
   )
   expect(getMessagesResultMapStateByThreadId("1")).toBe(ResultState.Empty)
-
-  await store.dispatch.messages.loadMessagesByThreadId("1")
-  getMessagesResultMapStateByThreadId = store.select.messages.getMessagesResultMapStateByThreadId(
-    store.getState()
-  )
-  expect(getMessagesResultMapStateByThreadId("1")).toBe(ResultState.Loaded)
 })
 
 test("get messages by thread id selector return value properly", () => {
