@@ -12,19 +12,21 @@ import { Contact, ContactID } from "App/contacts/store/contacts.type"
 
 export const searchThreads = (
   threads: Thread[] = [],
-  contactsMap: Record<ContactID, Contact>,
+  contactMap: Record<ContactID, Contact>,
   searchValue: MessagesProps["searchValue"]
 ) => {
   if (searchValue.length) {
     return threads?.filter(({ contactId, id: phoneNumber }) => {
       const search = searchValue.toLowerCase()
-      const matchesForename = contactsMap[contactId]?.firstName?.toLowerCase().includes(search)
-      const matchesSurname = contactsMap[contactId]?.lastName?.toLowerCase().includes(search)
+      const matchesForename = contactMap[contactId]?.firstName
+        ?.toLowerCase()
+        .includes(search)
+      const matchesSurname = contactMap[contactId]?.lastName
+        ?.toLowerCase()
+        .includes(search)
       const matchesPhone = phoneNumber?.includes(search)
 
-      return (
-        matchesForename || matchesSurname || matchesPhone
-      )
+      return matchesForename || matchesSurname || matchesPhone
     })
   } else {
     return threads

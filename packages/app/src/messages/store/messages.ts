@@ -250,16 +250,16 @@ const messages = createModel<RootModel>({
     filteredList(models: StoreSelectors<any>) {
       return createSelector(
         models.messages.getThreads,
-        models.contacts.getContactsMap,
+        models.contacts.getContactMap,
         models.messages.getSearchValue,
         models.messages.getVisibilityFilter,
         (
           threads: Thread[],
-          contactsMap: Record<ContactID, Contact>,
+          contactMap: Record<ContactID, Contact>,
           searchValue: string,
           visibilityFilter: VisibilityFilter
         ) => {
-          let list = searchThreads(threads, contactsMap, searchValue)
+          let list = searchThreads(threads, contactMap, searchValue)
           list = filterThreads(list, visibilityFilter)
           return sortThreads(list)
         }

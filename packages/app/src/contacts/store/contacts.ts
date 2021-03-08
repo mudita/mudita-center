@@ -192,7 +192,7 @@ const contacts = createModel<RootModel>({
         return (id: ContactID) => state.db[id]
       })
     },
-    getContactsMap() {
+    getContactMap() {
       return slice((state) => state.db)
     },
     isContactCreated(models: StoreSelectors<PhoneContacts>) {
