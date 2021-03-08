@@ -17,6 +17,7 @@ import {
 } from "App/messages/store/messages.interface"
 import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 import { Contact } from "App/contacts/store/contacts.type"
+import { createFullName } from "App/contacts/store/contacts.helpers"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
@@ -112,7 +113,7 @@ test("sidebar close button informs parent about closing", () => {
 test("left part of sidebar displays details correctly", () => {
   const { getByTestId } = renderer()
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
-    `${contact.firstName} ${contact.lastName}`
+    `${createFullName(contact)}`
   )
   expect(getByTestId("sidebar-phone-number")).toHaveTextContent(
     contact.primaryPhoneNumber!
