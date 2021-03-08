@@ -6,7 +6,6 @@
 import React, { useEffect, useRef } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
-  Sidebar,
   SidebarHeaderButton,
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -14,17 +13,11 @@ import { noop } from "Renderer/utils/noop"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import styled from "styled-components"
-import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
 import MessageBubble from "App/messages/components/message-bubble.component"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { intl } from "Renderer/utils/intl"
-import ButtonComponent from "Renderer/components/core/button/button.component"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
 import {
   Message,
   MessageType,
@@ -36,6 +29,17 @@ import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
 import { defineMessages } from "react-intl"
+import {
+  LeadingButton,
+  Content,
+  MessageBubblesWrapper,
+  MessagesSidebar,
+  MessagesWrapper,
+  NameWrapper,
+  PhoneNumberText,
+  Textarea,
+  TextareaWrapper,
+} from "App/messages/components/thread-details.styled"
 
 export interface ThreadDetailsProps {
   thread: Thread
@@ -49,56 +53,6 @@ export interface ThreadDetailsProps {
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultsMapStateByThreadId: (threadId: string) => ResultState
 }
-
-const PhoneNumberText = styled(Text)`
-  margin-top: 0.8rem;
-`
-
-const MessagesWrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0 3rem;
-  overflow: auto;
-`
-
-const MessageBubblesWrapper = styled.div`
-  margin-top: 1.2rem;
-  margin-bottom: 2.4rem;
-`
-
-const TextareaWrapper = styled.div`
-  position: sticky;
-  bottom: 0;
-  background-color: ${backgroundColor("row")};
-  padding: 0 3rem;
-`
-
-const Textarea = styled(InputComponent)`
-  margin-bottom: 1.6rem;
-`
-
-const MessagesSidebar = styled(Sidebar)`
-  border-top: none;
-`
-
-const NameWrapper = styled.div`
-  display: flex;
-`
-
-const LeadingButton = styled(ButtonComponent).attrs(() => ({
-  displayStyle: DisplayStyle.IconOnly2,
-}))`
-  ${buttonComponentAnimationStyles};
-`
-
-const Content = styled.div`
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
 
 const trailingIcon = [
   <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
