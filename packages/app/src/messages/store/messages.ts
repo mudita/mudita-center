@@ -103,8 +103,10 @@ const messages = createModel<RootModel>({
       return { ...state, visibilityFilter }
     },
     deleteThreads(state: MessagesState, ids: string[]) {
-      ids.forEach((id) => delete state.threadMap[id])
-      ids.forEach((id) => delete state.messageIdsInThreadMap[id])
+      ids.forEach((id) => {
+        delete state.threadMap[id]
+        delete state.messageIdsInThreadMap[id]
+      })
 
       const messageMap = Object.keys(state.messageMap).reduce(
         (prevMessageMap, id) => {
