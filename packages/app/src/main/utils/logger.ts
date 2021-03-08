@@ -11,14 +11,17 @@ const RollbarTransport = require("winston-transport-rollbar-3")
 const testing = process.env.NODE_ENV === "test"
 const { combine, timestamp, printf, colorize, simple } = format
 type AppType = "main" | "renderer"
-type AppResolver = () => { type: AppType; appDataPath: string }
+type AppResolver = () => {
+  type: AppType
+  app: { getPath: (arg0: string) => string }
+}
 // TODO: This type should only have some of the log methods instead of using the full Winston’s interface.
 type AppLogger = Logger & {
   enableRollbar: () => void
   disableRollbar: () => void
 }
 
-const createDailyRotateFileTransport = (appDataPath: string, type: AppType) => {
+const createDailyRotateFileTransport = (getPath: string, type: AppType) => {
   const format = combine(
     timestamp(),
     printf(({ level, message, timestamp }) => {
@@ -28,7 +31,7 @@ const createDailyRotateFileTransport = (appDataPath: string, type: AppType) => {
     })
   )
   return new DailyRotateFile({
-    dirname: path.join(appDataPath, name, "logs"),
+    dirname: path.join(getPath, name, "logs"),
     filename: "mc-%DATE%",
     extension: ".log",
     datePattern: "YYYY-MM-DD",
@@ -50,16 +53,17 @@ const resolve: AppResolver = () => {
     : require("electron").app
   const type = isRenderer ? "renderer" : "main"
   return {
-    appDataPath: app.getPath("appData"),
+    app,
     type,
   }
 }
 // TODO: test this. https://appnroll.atlassian.net/browse/PDA-764
 export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
-  const { appDataPath, type } = resolveApp()
+  const { app, type } = resolveApp()
   const transports = [
-    // TODO: previously this condition was based on `app`. Why it was possible for the app to not be there?
-    ...(appDataPath ? [createDailyRotateFileTransport(appDataPath, type)] : []),
+    ...(app
+      ? [createDailyRotateFileTransport(app.getPath("appData"), type)]
+      : []),
     consoleTransport,
   ]
 
