@@ -181,7 +181,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
         {resultState === ResultState.Error && (
           <ColumnContent>
             <Text
-              displayStyle={TextDisplayStyle.LargeBoldText}
+              displayStyle={TextDisplayStyle.LargeFadedText}
               message={translations.errorText}
               data-testid={ThreadDetailsTestIds.ErrorText}
             />
