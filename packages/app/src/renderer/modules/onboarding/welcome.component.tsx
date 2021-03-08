@@ -11,7 +11,6 @@ import { AppSettings } from "App/main/store/settings.interface"
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import CollectingDataWrapper from "App/contacts/components/collecting-data-modal/collecting-data-wrapper.component"
 
 const mapStateToProps = (state: RootModel) => {
   return state.settings
@@ -29,8 +28,6 @@ interface Props {
 const Welcome: FunctionComponent<Props> = ({
   setAutostart,
   checkAutostartValue,
-  setCollectingData,
-  appCollectingData,
 }) => {
   const history = useHistory()
   const [autostartStatus, setAutostartStatus] = useState<
@@ -58,10 +55,6 @@ const Welcome: FunctionComponent<Props> = ({
         onContinue={onContinue}
         onAutostartChange={onAutostartChange}
         autostartEnabled={autostartStatus}
-      />
-      <CollectingDataWrapper
-        appCollectingData={appCollectingData}
-        setCollectingData={setCollectingData}
       />
     </>
   )

@@ -5,9 +5,9 @@
 
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import CollectingDataModal from "App/contacts/components/collecting-data-modal/collecting-data-modal.component"
+import CollectingDataModal from "App/collecting-data-modal/collecting-data-modal.component"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
-import { CollectingDataModalTestIds } from "App/contacts/components/collecting-data-modal/collecting-data-modal-test-ids.enum"
+import { CollectingDataModalTestIds } from "App/collecting-data-modal/collecting-data-modal-test-ids.enum"
 import { waitFor } from "@testing-library/react"
 
 const agree = jest.fn()
@@ -19,8 +19,8 @@ afterEach(() => {
 
 const renderer = (extraProps?: {}) => {
   const props = {
-    agree,
-    close,
+    onActionButtonClick: agree,
+    onClose: close,
   }
   return renderWithThemeAndIntl(
     <CollectingDataModal {...props} {...extraProps} />
@@ -33,10 +33,10 @@ test("agree is fired after button is clicked", () => {
   expect(agree).toBeCalled()
 })
 
-test("close is fired after bottom button is clicked", () => {
+test("close is fired after bottom button is clicked", async () => {
   const { getByTestId } = renderer()
   getByTestId(ModalTestIds.CloseBottomButton).click()
-  expect(close).toBeCalled()
+  await waitFor(() => expect(close).toBeCalled())
 })
 
 test("close is fired after 'x' button is clicked", async () => {

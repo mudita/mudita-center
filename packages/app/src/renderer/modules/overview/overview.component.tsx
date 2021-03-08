@@ -109,8 +109,6 @@ const Overview: FunctionComponent<
   updateBasicInfo = noop,
   toggleUpdatingDevice,
   language,
-  appCollectingData,
-  setCollectingData,
 }) => {
   /**
    * Temporary state to demo failure
@@ -231,8 +229,6 @@ const Overview: FunctionComponent<
       onOpenBackupModal={openBackupStartModal}
       onOpenBackupRestorationModal={openBackupRestorationStartModal}
       language={language}
-      appCollectingData={appCollectingData}
-      setCollectingData={setCollectingData}
     />
   )
 }

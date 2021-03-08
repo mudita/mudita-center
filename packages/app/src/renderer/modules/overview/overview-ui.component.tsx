@@ -86,8 +86,6 @@ const OverviewUI: FunctionComponent<
   pureOsDownloaded,
   simCards,
   toggleDevMode,
-  appCollectingData,
-  setCollectingData,
 }) => (
   <OverviewWrapper>
     <PhoneInfo
