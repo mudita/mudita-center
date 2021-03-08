@@ -207,6 +207,8 @@
   "view.name.messages.markAsUnread": "Mark as unread",
   "view.name.messages.messageDropdownDelete": "Delete message",
   "view.name.messages.messageDropdownForward": "Forward message",
+  "view.name.messages.modal.loadingThreadError.body": "Something went wrong",
+  "view.name.messages.modal.loadingThreadError.title": "Loading thread failed",
   "view.name.messages.newMessage": "New message",
   "view.name.messages.search": "Search",
   "view.name.messages.templates": "Templates",
