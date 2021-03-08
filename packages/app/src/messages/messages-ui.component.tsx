@@ -29,7 +29,7 @@ import AttachContactModal from "App/messages/components/attach-contact-modal.com
 import { Contact } from "App/contacts/store/contacts.type"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import {
-  ResultsState,
+  ResultState,
   Thread,
   VisibilityFilter,
 } from "App/messages/store/messages.interface"
@@ -50,7 +50,7 @@ export interface MessagesProps
   getMessagesByThreadId: (threadId: string) => Message[]
   getContactByContactId: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
-  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultsState
+  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultState
 }
 
 const Messages: FunctionComponent<MessagesProps> = ({

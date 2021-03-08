@@ -28,7 +28,7 @@ import { buttonComponentAnimationStyles } from "Renderer/components/core/button/
 import {
   Message,
   MessageType,
-  ResultsState,
+  ResultState,
   Thread,
 } from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
@@ -43,7 +43,7 @@ export interface ThreadDetailsProps {
   getMessagesByThreadId: (threadId: string) => Message[]
   getContactByContactId: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
-  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultsState
+  getMessagesResultsMapStateByThreadId: (threadId: string) => ResultState
 }
 
 const PhoneNumberText = styled(Text)`

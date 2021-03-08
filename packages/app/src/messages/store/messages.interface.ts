@@ -12,7 +12,7 @@ export enum VisibilityFilter {
 
 export type Author = Pick<Caller, "id">
 
-export enum ResultsState {
+export enum ResultState {
   Loading,
   Loaded,
   Empty,
@@ -58,6 +58,6 @@ export type MessagesState = Readonly<{
   messageIdsInThreadMap: MessageIdsInThreadMap
   searchValue: string
   visibilityFilter?: VisibilityFilter
-  resultsState: ResultsState
-  messagesResultsStateMap: { [id: string]: ResultsState }
+  resultState: ResultState
+  messagesResultStateMap: { [id: string]: ResultState }
 }>

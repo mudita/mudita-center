@@ -4,14 +4,15 @@
  */
 
 import { createSelector, Slicer, StoreSelectors } from "@rematch/select"
-import { threadsData } from "App/seeds/messages"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
 import {
   Message,
+  MessageMap,
   MessagesState,
-  ResultsState,
+  ResultState,
   Thread,
+  ThreadMap,
   VisibilityFilter,
 } from "App/messages/store/messages.interface"
 import { RootState } from "Renderer/store"
@@ -34,42 +35,40 @@ export const initialState: MessagesState = {
   messageMap: {},
   messageIdsInThreadMap: {},
   searchValue: "",
-  resultsState: ResultsState.Empty,
+  resultState: ResultState.Empty,
   visibilityFilter: VisibilityFilter.All,
-  messagesResultsStateMap: {},
+  messagesResultStateMap: {},
 }
 
 const messages = createModel<RootModel>({
   state: initialState,
   reducers: {
-    setResultsState(
+    setResultState(
       state: MessagesState,
-      resultsState: ResultsState
+      resultState: ResultState
     ): MessagesState {
-      return { ...state, resultsState }
+      return { ...state, resultState: resultState }
     },
     setMessagesResultsMapState(
       state: MessagesState,
-      {
-        resultsState,
-        threadId,
-      }: { resultsState: ResultsState; threadId: string }
+      { resultState, threadId }: { resultState: ResultState; threadId: string }
     ): MessagesState {
       return {
         ...state,
-        messagesResultsStateMap: {
-          ...state.messagesResultsStateMap,
-          [threadId]: resultsState,
+        messagesResultStateMap: {
+          ...state.messagesResultStateMap,
+          [threadId]: resultState,
         },
       }
     },
-    updateThreadMap(state: MessagesState, threads: Thread[]): MessagesState {
+    setThreadMap(state: MessagesState, threads: Thread[]): MessagesState {
+      console.log("state: ", state)
       return {
         ...state,
         threadMap: threads.reduce((prevThreadMap, thread) => {
           prevThreadMap[thread.id] = thread
           return prevThreadMap
-        }, state.threadMap),
+        }, {} as ThreadMap),
       }
     },
     updateMessages(state: MessagesState, messages: Message[]): MessagesState {
@@ -106,7 +105,27 @@ const messages = createModel<RootModel>({
     },
     deleteThreads(state: MessagesState, ids: string[]) {
       ids.forEach((id) => delete state.threadMap[id])
-      return { ...state, threadMap: state.threadMap }
+      ids.forEach((id) => delete state.messageIdsInThreadMap[id])
+
+      const messageMap = Object.keys(state.messageMap).reduce(
+        (prevMessageMap, id) => {
+          const { threadId } = state.messageMap[id]
+          if (ids.includes(threadId)) {
+            return prevMessageMap
+          } else {
+            prevMessageMap[id] = state.messageMap[id]
+            return prevMessageMap
+          }
+        },
+        {} as MessageMap
+      )
+
+      return {
+        ...state,
+        messageMap: messageMap,
+        threadMap: state.threadMap,
+        messageIdsInThreadMap: state.messageIdsInThreadMap,
+      }
     },
     markAsRead(state: MessagesState, ids: string[]) {
       const threadMap = Object.keys(state.threadMap).reduce(
@@ -149,51 +168,48 @@ const messages = createModel<RootModel>({
     _devClearAllThreads(state: MessagesState) {
       return {
         ...state,
-        threads: [],
-      }
-    },
-    _devLoadDefaultThreads(state: MessagesState) {
-      return {
-        ...state,
-        threads: threadsData,
+        threadMap: {},
+        messageMap: {},
+        messageIdsInThreadMap: {},
       }
     },
   },
   effects: (d) => {
     const dispatch = (d as unknown) as RootState
+    const messagesLoadMap: { [key: string]: boolean } = {}
+    let loading = false
+
     return {
-      async loadData(_: any, rootState: { messages: MessagesState }) {
-        if (rootState.messages.resultsState === ResultsState.Loading) {
+      async loadData() {
+        if (loading) {
           return
         }
-
-        dispatch.messages.setResultsState(ResultsState.Loading)
+        loading = true
+        dispatch.messages.setResultState(ResultState.Loading)
 
         const { data = [], error } = await getThreads()
-
+        console.log("data: ", data)
         if (error) {
           logger.error(error)
-          dispatch.messages.setResultsState(ResultsState.Error)
+          dispatch.messages.setResultState(ResultState.Error)
         } else {
-          dispatch.messages.updateThreadMap(data)
-          dispatch.messages.setResultsState(ResultsState.Loaded)
+          dispatch.messages.setThreadMap(data)
+          dispatch.messages.setResultState(ResultState.Loaded)
         }
+
+        loading = false
       },
-      async loadMessagesByThreadId(
-        threadId: string,
-        rootState: { messages: MessagesState }
-      ) {
-        const messagesResultState =
-          rootState.messages.messagesResultsStateMap[threadId]
-        if (
-          messagesResultState !== undefined &&
-          messagesResultState === ResultsState.Loading
-        ) {
+      async loadMessagesByThreadId(threadId: string) {
+        const messagesLoad = messagesLoadMap[threadId]
+
+        if (messagesLoad !== undefined && messagesLoad) {
           return
         }
 
+        messagesLoadMap[threadId] = true
+
         dispatch.messages.setMessagesResultsMapState({
-          resultsState: ResultsState.Loading,
+          resultState: ResultState.Loading,
           threadId,
         })
 
@@ -202,16 +218,18 @@ const messages = createModel<RootModel>({
           logger.error(error)
 
           dispatch.messages.setMessagesResultsMapState({
-            resultsState: ResultsState.Error,
+            resultState: ResultState.Error,
             threadId,
           })
         } else {
           dispatch.messages.updateMessages(data)
           dispatch.messages.setMessagesResultsMapState({
-            resultsState: ResultsState.Loaded,
+            resultState: ResultState.Loaded,
             threadId,
           })
         }
+
+        messagesLoadMap[threadId] = false
       },
     }
   },
@@ -268,8 +286,7 @@ const messages = createModel<RootModel>({
       return (state: { messages: MessagesState }) => {
         return (threadId: string) => {
           return (
-            state.messages.messagesResultsStateMap[threadId] ??
-            ResultsState.Empty
+            state.messages.messagesResultStateMap[threadId] ?? ResultState.Empty
           )
         }
       }

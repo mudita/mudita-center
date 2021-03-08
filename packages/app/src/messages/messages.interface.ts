@@ -18,10 +18,10 @@ export interface Content {
 export type ComponentProps = Omit<
   MessagesState,
   | "threadMap"
-  | "resultsState"
+  | "resultState"
   | "messageMap"
   | "messageIdsInThreadMap"
-  | "messagesResultsStateMap"
+  | "messagesResultStateMap"
 > &
   Readonly<{
     changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
