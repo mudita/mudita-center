@@ -5,15 +5,10 @@
 
 import React, { useEffect, useRef } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import {
-  Sidebar,
-  SidebarHeaderButton,
-} from "Renderer/components/core/table/table.component"
+import { Sidebar, SidebarHeaderButton } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
-import Text, {
-  TextDisplayStyle,
-} from "Renderer/components/core/text/text.component"
+import Text, { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import styled from "styled-components"
 import InputComponent from "Renderer/components/core/input-text/input-text.component"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
@@ -25,19 +20,13 @@ import { intl } from "Renderer/utils/intl"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
-import {
-  Message,
-  MessageType,
-  ResultsState,
-  Thread,
-} from "App/messages/store/messages.interface"
+import { Message, MessageType, ResultsState, Thread } from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
-import modalService, {
-  ModalService,
-} from "Renderer/components/core/modal/modal.service"
+import modalService, { ModalService } from "Renderer/components/core/modal/modal.service"
 import { MessageDetailsTestIds } from "App/messages/components/message-details-test-ids.enum"
+import ThreadErrorModal from "App/messages/components/thread-error-modal.component"
 
 interface Props {
   details: Thread
@@ -111,35 +100,31 @@ const MessageDetails: FunctionComponent<Props> = ({
   loadMessagesByThreadId,
   getMessagesResultsMapStateByThreadId,
   getContactByContactId,
-  openErrorModal = modalService.openModal,
+  openErrorModal = modalService.openModal.bind(modalService),
 }) => {
+  const resultState = getMessagesResultsMapStateByThreadId(details.id)
+  const messages = getMessagesByThreadId(details.id)
+  const contact = getContactByContactId(details.contactId)
   useEffect(() => {
     loadMessagesByThreadId(details.id)
   }, [details.id])
-
+  useEffect(() => {
+   if (resultState === ResultsState.Error)  {
+     openErrorModal(<ThreadErrorModal />)
+   }
+  }, [resultState])
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (ref.current) {
       ref.current.scrollIntoView()
     }
   }, [ref.current])
-
   const markAsUnread = () => {
     onUnreadStatus([details.id])
     onClose()
   }
-
   const handleDeleteClick = () => onDeleteClick(details.id)
   const handleContactClick = () => onContactClick(details.id)
-
-  const messages = getMessagesByThreadId(details.id)
-  const resultState = getMessagesResultsMapStateByThreadId(details.id)
-
-  if (resultState === ResultsState.Error) {
-    openErrorModal(<div>EROROROR</div>)
-  }
-  const contact = getContactByContactId(details.contactId)
-
   const icons = (
     <>
       {process.env.NODE_ENV !== "production" && (
@@ -223,7 +208,11 @@ const MessageDetails: FunctionComponent<Props> = ({
       <MessagesWrapper>
         <MessageBubblesWrapper>
           {resultState === ResultsState.Loading && (
-            <Loader size={2} type={LoaderType.Spinner} data-testid={MessageDetailsTestIds.Loader} />
+            <Loader
+              size={2}
+              type={LoaderType.Spinner}
+              data-testid={MessageDetailsTestIds.Loader}
+            />
           )}
           {resultState === ResultsState.Loaded &&
             messages.map(({ contactId, content, messageType, id }, index) => {
