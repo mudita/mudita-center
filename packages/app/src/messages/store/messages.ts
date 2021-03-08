@@ -302,20 +302,11 @@ const messages = createModel<RootModel>({
         }
       }
     },
-    getAllCallers(models: StoreSelectors<MessagesState>) {
-      return createSelector(models.messages.getThreads, (threads: Thread[]) => {
-        // return threads.map(({ caller }) => caller)
-        return []
-      })
-    },
-    isThreadOpened(models: StoreSelectors<MessagesState>) {
-      return (state: MessagesState) => {
-        // const callers: Caller[] = models.messages.getAllCallers(state)
+    isThreadOpened() {
+      return (state: { messages: MessagesState }) => {
+        const numbers: string[] = Object.keys(state.messages.threadMap)
         return (phoneNumber: string) => {
-          // return !callers.some((caller) =>
-          //   isCallerMatchingPhoneNumber(caller, phoneNumber)
-          // )
-          return false
+          return !numbers.some((number) => number === phoneNumber)
         }
       }
     },
