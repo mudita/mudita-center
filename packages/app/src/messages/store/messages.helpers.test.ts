@@ -7,8 +7,9 @@ import {
   ContactsCollection,
   getContactDetails,
 } from "App/messages/store/messages.helpers"
+import { Contact } from "App/contacts/store/contacts.type"
 
-const testUser = {
+const mockContact: Contact = {
   id: "0",
   firstName: "Sławomir",
   lastName: "Borewicz",
@@ -24,7 +25,7 @@ const testUser = {
 }
 
 const contactsMock: ContactsCollection = {
-  [testUser.id]: testUser,
+  [mockContact.id]: mockContact,
   "274970a2-13b7-4f42-962d-8fa0b2b48377": {
     id: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     firstName: "",
@@ -56,8 +57,8 @@ const contactsMock: ContactsCollection = {
 }
 
 test("properly returns contact data", () => {
-  const testUserData = contactsMock[testUser.id]
-  expect(getContactDetails(testUser.id, contactsMock)).toMatchObject(
+  const testUserData = contactsMock[mockContact.id]
+  expect(getContactDetails(mockContact.id, contactsMock)).toMatchObject(
     testUserData
   )
 })
