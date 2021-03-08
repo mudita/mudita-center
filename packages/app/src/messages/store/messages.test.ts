@@ -81,6 +81,11 @@ afterEach(() => {
 test("store returns initial state", () => {
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
+      "contacts": Object {
+        "collection": Array [],
+        "db": Object {},
+        "resultsState": 2,
+      },
       "messages": Object {
         "messageIdsInThreadMap": Object {},
         "messageMap": Object {},
@@ -331,16 +336,16 @@ test("filtered threads selector return value properly", () => {
 test("get messages result map state by thread id selector return value properly", async () => {
   store.dispatch.messages.setThreadMap(mockThreads)
 
-  let getMessagesResultsMapStateByThreadId = store.select.messages.getMessagesResultsMapStateByThreadId(
+  let getMessagesResultMapStateByThreadId = store.select.messages.getMessagesResultMapStateByThreadId(
     store.getState()
   )
-  expect(getMessagesResultsMapStateByThreadId("1")).toBe(ResultState.Empty)
+  expect(getMessagesResultMapStateByThreadId("1")).toBe(ResultState.Empty)
 
   await store.dispatch.messages.loadMessagesByThreadId("1")
-  getMessagesResultsMapStateByThreadId = store.select.messages.getMessagesResultsMapStateByThreadId(
+  getMessagesResultMapStateByThreadId = store.select.messages.getMessagesResultMapStateByThreadId(
     store.getState()
   )
-  expect(getMessagesResultsMapStateByThreadId("1")).toBe(ResultState.Loaded)
+  expect(getMessagesResultMapStateByThreadId("1")).toBe(ResultState.Loaded)
 })
 
 test("get messages by thread id selector return value properly", () => {
