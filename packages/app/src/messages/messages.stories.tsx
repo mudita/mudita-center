@@ -6,7 +6,10 @@
 import { storiesOf } from "@storybook/react"
 import React from "react"
 import Messages from "./messages.component"
-import { rowsMessages } from "Renderer/components/core/table/table.fake-data"
+import {
+  rowMessages,
+  rowThreads,
+} from "Renderer/components/core/table/table.fake-data"
 import AttachContactModal from "App/messages/components/attach-contact-modal.component"
 import {
   ModalBackdrop,
@@ -14,6 +17,7 @@ import {
 } from "Renderer/components/core/modal/modal.styled.elements"
 import { ContactCategory } from "App/contacts/store/contacts.interface"
 import { Contact } from "App/contacts/store/contacts.type"
+import { ResultsState } from "App/messages/store/messages.interface"
 
 export const attachContactFlatListData: Contact[] = [
   {
@@ -88,14 +92,24 @@ export const attachContactListData: ContactCategory[] = [
     ],
   },
 ]
+
+const getContactByContactId = () => attachContactFlatListData[0]
+const getMessagesByThreadId = () => rowMessages
+const getMessagesResultsMapStateByThreadId = () => ResultsState.Loaded
+
 storiesOf("Views|Messages", module).add("Messages", () => (
   <div style={{ maxWidth: "97.5rem" }}>
     <Messages
       language={"en"}
-      list={rowsMessages}
+      threads={rowThreads}
       searchValue={""}
       attachContactList={attachContactListData}
       attachContactFlatList={attachContactFlatListData}
+      getContactByContactId={getContactByContactId}
+      getMessagesByThreadId={getMessagesByThreadId}
+      getMessagesResultsMapStateByThreadId={
+        getMessagesResultsMapStateByThreadId
+      }
     />
   </div>
 ))

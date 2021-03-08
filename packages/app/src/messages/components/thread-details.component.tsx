@@ -33,7 +33,7 @@ import {
 } from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 
-interface Props {
+export interface ThreadDetailsProps {
   thread: Thread
   onClose?: () => void
   onDeleteClick: (id: string) => void
@@ -93,7 +93,7 @@ const trailingIcon = [
   <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
 ]
 
-const ThreadDetails: FunctionComponent<Props> = ({
+const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   thread,
   onClose = noop,
   onUnreadStatus,

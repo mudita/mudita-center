@@ -9,13 +9,17 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import registerGetMessagesByThreadIdRequest from "Backend/requests/messages/get-messages-by-thread-id.request"
 import { messagesData } from "App/seeds/messages"
 
+const threadId = messagesData[0].threadId
+const messages = messagesData.filter((message) => message.threadId === threadId)
+
 test("return mapped messages from pure to Message model", async () => {
   registerGetMessagesByThreadIdRequest(getFakeAdapters())
 
   const [pendingResponse] = await (ipcMain as any)._flush(
-    IpcRequest.GetMessages
+    IpcRequest.GetMessagesByThreadId,
+    threadId
   )
 
   const { data = [] } = await pendingResponse
-  expect(data).toMatchObject(messagesData)
+  expect(data).toMatchObject(messages)
 })

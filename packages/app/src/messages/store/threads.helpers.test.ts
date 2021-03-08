@@ -4,117 +4,69 @@
  */
 
 import { searchThreads } from "App/messages/store/threads.helpers"
-import { createFakeCaller } from "App/messages/helpers/create-fake-caller"
 import { Thread } from "App/messages/store/messages.interface"
+import { createFakeContact } from "App/messages/helpers/create-fake-contact"
+import { ContactsCollection } from "App/messages/store/messages.helpers"
 
-const caller = createFakeCaller()
-const randomCaller = createFakeCaller()
-const thread: Thread[] = [
+const contact = createFakeContact()
+const anotherContact = createFakeContact()
+
+export const threads: Thread[] = [
   {
-    id: "1231",
-    caller: randomCaller,
+    id: contact.primaryPhoneNumber!,
+    contactId: contact.id,
+    lastUpdatedAt: new Date("2020-06-01T13:53:27.087Z"),
+    messageSnippet:
+      "Exercitationem vel quasi doloremque. Enim qui quis quidem eveniet est corrupti itaque recusandae.",
     unread: true,
-    messages: [
-      {
-        author: randomCaller,
-        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-        date: new Date("2019-10-18T11:27:15.256Z"),
-        content: "Idziemy na grzyby?",
-        threadID: "1231",
-      },
-      {
-        author: createFakeCaller(),
-        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
-        date: new Date("2019-10-18T11:45:35.112Z"),
-        content:
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-        threadID: "1231",
-      },
-    ],
   },
   {
-    id: "1233",
-    caller,
-    unread: false,
-    messages: [
-      {
-        author: caller,
-        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-        date: new Date("2019-10-18T11:27:15.256Z"),
-        content:
-          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-        threadID: "1233",
-      },
-      {
-        author: caller,
-        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
-        date: new Date("2019-10-18T11:45:35.112Z"),
-        content:
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-        threadID: "1233",
-      },
-    ],
-  },
-  {
-    id: "1234",
-    caller,
-    unread: false,
-    messages: [
-      {
-        author: caller,
-        id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-        date: new Date("2019-10-18T11:27:15.256Z"),
-        content:
-          "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-        threadID: "1234",
-      },
-      {
-        author: caller,
-        id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
-        date: new Date("2019-10-18T11:45:35.112Z"),
-        content:
-          "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-        threadID: "1234",
-      },
-    ],
+    id: anotherContact.primaryPhoneNumber!,
+    contactId: anotherContact.id,
+    lastUpdatedAt: new Date("2020-05-17T19:58:05.136Z"),
+    messageSnippet:
+      "Velit et ut ut odit quo. Ratione eligendi non consequatur ipsum neque.",
+    unread: true,
   },
 ]
+
+const contactsMock: ContactsCollection = {
+  [contact.id]: contact,
+}
+
 test("searches value - first name", () => {
-  const searchValue = thread[0].caller.firstName as string
-  expect(searchThreads(thread, searchValue)).toHaveLength(1)
+  const searchValue = contact.firstName as string
+  expect(searchThreads(threads, contactsMock, searchValue)).toHaveLength(1)
 })
 
 test("fails search - first name", () => {
-  expect(searchThreads(thread, "asdadaa")).toHaveLength(0)
+  expect(searchThreads(threads, contactsMock, "asdadaa")).toHaveLength(0)
 })
 
 test("searches value - last name", () => {
-  const searchValue = thread[0].caller.lastName as string
-  expect(searchThreads(thread, searchValue)).toHaveLength(1)
+  const searchValue = contact.lastName as string
+  expect(searchThreads(threads, contactsMock, searchValue)).toHaveLength(1)
 })
 
 test("fails search - last name", () => {
-  expect(searchThreads(thread, "ladakslodasiopd")).toHaveLength(0)
+  expect(searchThreads(threads, contactsMock, "ladakslodasiopd")).toHaveLength(
+    0
+  )
 })
 
 test("searches value - phone number", () => {
-  const searchValue = thread[0].caller.phoneNumber
-  expect(searchThreads(thread, searchValue)).toHaveLength(1)
+  const searchValue = contact.primaryPhoneNumber!
+  expect(searchThreads(threads, contactsMock, searchValue)).toHaveLength(1)
 })
 
 test("fails search - phone number", () => {
-  expect(searchThreads(thread, "+123 456 789")).toHaveLength(0)
-})
-
-test("searches value - messages", () => {
-  const searchValue = thread[0].messages[0].content
-  expect(searchThreads(thread, searchValue)).toHaveLength(1)
+  expect(searchThreads(threads, contactsMock, "+123 456 789")).toHaveLength(0)
 })
 
 test("fails search - messages", () => {
-  expect(searchThreads(thread, "lalal sadrsa")).toHaveLength(0)
+  expect(searchThreads(threads, contactsMock, "lalal sadrsa")).toHaveLength(0)
 })
 
 test("no search value returns initial list", () => {
-  expect(searchThreads(thread, "")).toBe(thread)
+  expect(searchThreads(threads, contactsMock, "")).toBe(threads)
 })

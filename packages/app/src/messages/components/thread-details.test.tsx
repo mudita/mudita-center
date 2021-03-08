@@ -5,203 +5,161 @@
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
-import ThreadDetails from "App/messages/components/thread-details.component"
+import ThreadDetails, {
+  ThreadDetailsProps,
+} from "App/messages/components/thread-details.component"
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
-import { Thread } from "App/messages/store/messages.interface"
-import { createFakeCaller } from "App/messages/helpers/create-fake-caller"
-import { Caller } from "Renderer/models/calls/calls.interface"
+import {
+  Message,
+  MessageType,
+  Thread,
+} from "App/messages/store/messages.interface"
+import { createFakeContact } from "App/messages/helpers/create-fake-contact"
+import { Contact } from "App/contacts/store/contacts.type"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
-const caller = createFakeCaller()
+const contact = createFakeContact()
 
-const unknownCaller: Caller = {
+const unknownContact: Contact = {
   id: "11",
   firstName: "",
   lastName: "",
-  phoneNumber: "+123 456 123",
-}
-const unknownCallerThread: Thread = {
-  id: "1231",
-  caller: unknownCaller,
-  unread: true,
-  messages: [
-    {
-      author: unknownCaller,
-      id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-      date: new Date("2019-10-18T11:27:15.256Z"),
-      content:
-        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-      interlocutor: true,
-      threadID: "1231",
-    },
-    {
-      author: unknownCaller,
-      id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
-      date: new Date("2019-10-18T11:45:35.112Z"),
-      content:
-        "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-      interlocutor: true,
-      threadID: "1231",
-    },
-  ],
+  primaryPhoneNumber: "+123 456 123",
 }
 
 const thread: Thread = {
-  id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+  id: contact.primaryPhoneNumber!,
+  contactId: contact.id,
   unread: true,
-  caller,
-  messages: [
-    {
-      author: caller,
-      id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-      date: new Date("2019-10-18T11:27:15.256Z"),
-      content:
-        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-      interlocutor: true,
-      threadID: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-    },
-    {
-      author: caller,
-      id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
-      date: new Date("2019-10-18T11:45:35.112Z"),
-      content:
-        "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-
-      interlocutor: true,
-      threadID: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-    },
-  ],
+  lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
+  messageSnippet:
+    "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
 }
-const defaultProps = {
+
+const threadFromSecondPhoneNumber: Thread = {
+  id: contact.secondaryPhoneNumber!,
+  contactId: contact.id,
+  unread: true,
+  lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
+  messageSnippet:
+    "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+}
+
+const threadFromUnknownCaller: Thread = {
+  id: unknownContact.primaryPhoneNumber!,
+  contactId: unknownContact.id,
+  unread: true,
+  lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
+  messageSnippet:
+    "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+}
+
+const messages: Message[] = [
+  {
+    id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
+    date: new Date("2019-10-18T11:27:15.256Z"),
+    content:
+      "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
+    threadId: contact.secondaryPhoneNumber!,
+    contactId: contact.id,
+    messageType: MessageType.INBOX,
+  },
+  {
+    id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
+    date: new Date("2019-10-18T11:45:35.112Z"),
+    content: "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
+    threadId: contact.secondaryPhoneNumber!,
+    contactId: contact.id,
+    messageType: MessageType.OUTBOX,
+  },
+]
+
+const defaultProps: ThreadDetailsProps = {
+  onClose: jest.fn(),
   onDeleteClick: jest.fn(),
   onUnreadStatus: jest.fn(),
   onContactClick: jest.fn(),
   onAttachContactClick: jest.fn(),
+  getMessagesByThreadId: jest.fn().mockReturnValue(messages),
+  getContactByContactId: jest.fn().mockReturnValue(contact),
+  loadMessagesByThreadId: jest.fn(),
+  getMessagesResultsMapStateByThreadId: jest.fn(),
   thread: thread,
 }
 
-const contactWithMutlitpleNumbers: Caller = {
-  id: "123",
-  firstName: "Johny",
-  lastName: "",
-  phoneNumber: "1123",
-  secondaryPhoneNumber: "345345",
-}
+const renderer = (extraProps?: {}) => {
+  const props: ThreadDetailsProps = {
+    ...defaultProps,
+    ...extraProps,
+  }
 
-const mockedThreadFromSecondNumber: Thread = {
-  id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-  caller: {
-    id: "123",
-    firstName: "Ivan",
-    lastName: "",
-    phoneNumber: "345345",
-    secondaryPhoneNumber: "345345",
-  },
-  unread: true,
-  messages: [
-    {
-      author: contactWithMutlitpleNumbers,
-      id: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-      date: new Date("2019-10-18T11:27:15.256Z"),
-      content:
-        "Adipisicing non qui Lorem aliqua officia laboris ad reprehenderit dolor mollit.",
-      interlocutor: true,
-      threadID: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-    },
-    {
-      author: contactWithMutlitpleNumbers,
-      id: "70cdc31d-ca8e-4d0c-8751-897ae2f3fb7d",
-      date: new Date("2019-10-18T11:45:35.112Z"),
-      content:
-        "Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis. Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-      interlocutor: true,
-      threadID: "27a7108d-d5b8-4bb5-87bc-2cfebcecd571",
-    },
-  ],
-}
-const multipleContactsProps = {
-  onDeleteClick: jest.fn(),
-  onUnreadStatus: jest.fn(),
-  onContactClick: jest.fn(),
-  onAttachContactClick: jest.fn(),
-  thread: mockedThreadFromSecondNumber,
+  const outcome = renderWithThemeAndIntl(<ThreadDetails {...props} />)
+
+  return {
+    ...outcome,
+  }
 }
 
 test("sidebar close button informs parent about closing", () => {
   const onClose = jest.fn()
-  const { getByTestId } = renderWithThemeAndIntl(
-    <ThreadDetails {...defaultProps} onClose={onClose} />
-  )
+  const { getByTestId } = renderer({ onClose })
   fireEvent.click(getByTestId("sidebar-close"))
   expect(onClose).toBeCalled()
 })
 
 test("left part of sidebar displays details correctly", () => {
-  const { getByTestId } = renderWithThemeAndIntl(
-    <ThreadDetails {...defaultProps} />
-  )
+  const { getByTestId } = renderer()
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
-    `${thread.caller.firstName} ${thread.caller.lastName}`
+    `${contact.firstName} ${contact.lastName}`
   )
   expect(getByTestId("sidebar-phone-number")).toHaveTextContent(
-    thread.caller.phoneNumber
+    contact.primaryPhoneNumber!
   )
 })
 
 test("correct amount of message bubbles is displayed", () => {
-  const { getAllByTestId } = renderWithThemeAndIntl(
-    <ThreadDetails {...defaultProps} />
-  )
-  expect(getAllByTestId("message-content")).toHaveLength(thread.messages.length)
+  const { getAllByTestId } = renderer()
+  expect(getAllByTestId("message-content")).toHaveLength(messages.length)
 })
 
 test("message from unknown person displays only phone number", () => {
-  const { getByTestId } = renderWithThemeAndIntl(
-    <ThreadDetails {...defaultProps} thread={unknownCallerThread} />
-  )
+  const { getByTestId } = renderer({
+    thread: threadFromUnknownCaller,
+    getContactByContactId: jest.fn().mockReturnValue(unknownContact),
+  })
   expect(getByTestId("sidebar-fullname")).toHaveTextContent(
-    unknownCallerThread.caller.phoneNumber
+    unknownContact.primaryPhoneNumber!
   )
 })
 
 test("mark massage as unread", () => {
   const onClose = jest.fn()
-  const { getByTestId } = renderWithThemeAndIntl(
-    <ThreadDetails {...defaultProps} onClose={onClose} />
-  )
+  const { getByTestId } = renderer({ onClose })
   fireEvent.click(getByTestId("icon-BorderCheckIcon"))
   expect(defaultProps.onUnreadStatus).toBeCalledWith([thread.id])
   expect(onClose).toBeCalled()
 })
 
 test("open contacts", () => {
-  const { getByTestId } = renderWithThemeAndIntl(
-    <ThreadDetails {...defaultProps} />
-  )
+  const { getByTestId } = renderer()
   fireEvent.click(getByTestId("icon-Contact"))
   expect(defaultProps.onContactClick).toBeCalled()
 })
 
 test("delete messages", () => {
-  const { getAllByTestId } = renderWithThemeAndIntl(
-    <ThreadDetails {...defaultProps} />
-  )
+  const { getAllByTestId } = renderer()
   fireEvent.click(getAllByTestId("icon-Delete")[0])
   expect(defaultProps.onDeleteClick).toBeCalledWith(thread.id)
 })
 
 test("show info about contact with multiple numbers", () => {
-  const { getByTestId } = renderWithThemeAndIntl(
-    <ThreadDetails {...defaultProps} />
-  )
+  const { getByTestId } = renderer()
   expect(getByTestId("multiple-number")).toBeInTheDocument()
 })
 
 test("show info about second number", () => {
-  const { getByText } = renderWithThemeAndIntl(
-    <ThreadDetails {...multipleContactsProps} />
-  )
+  const { getByText } = renderer({ thread: threadFromSecondPhoneNumber })
   expect(getByText("#2")).toBeInTheDocument()
 })

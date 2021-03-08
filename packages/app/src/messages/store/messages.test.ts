@@ -5,12 +5,13 @@
 
 import { init } from "@rematch/core"
 import messages from "App/messages/store/messages"
+import contacts from "App/contacts/store/contacts"
 import selectPlugin from "@rematch/select"
 import { mockedUnreadThreads } from "App/__mocks__/mocked-unread-threads"
 import { VisibilityFilter } from "App/messages/store/messages.interface"
 
 const storeConfig = {
-  models: { messages },
+  models: { messages, contacts },
   plugins: [selectPlugin()],
   redux: {
     initialState: {
