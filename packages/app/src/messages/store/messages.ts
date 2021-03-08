@@ -72,7 +72,7 @@ const messages = createModel<RootModel>({
         messageMap: messages.reduce((prevMessageMap, message) => {
           prevMessageMap[message.id] = message
           return prevMessageMap
-        }, state.messageMap),
+        }, { ...state.messageMap }),
         messageIdsInThreadMap: messages.reduce((prev, message) => {
           const messageIds = prev[message.threadId] ?? []
           prev[message.threadId] = messageIds.find((id) => id === message.id)
@@ -80,7 +80,7 @@ const messages = createModel<RootModel>({
             : [...messageIds, message.id]
 
           return prev
-        }, state.messageIdsInThreadMap),
+        }, { ...state.messageIdsInThreadMap }),
       }
     },
     changeSearchValue(

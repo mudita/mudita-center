@@ -4,7 +4,10 @@
  */
 
 import { init } from "@rematch/core"
-import messages from "App/messages/store/messages"
+import messages, {
+  initialState as messagesInitialState,
+} from "App/messages/store/messages"
+import { initialState as contactsInitialState } from "App/contacts/store/contacts"
 import contacts from "App/contacts/store/contacts"
 import {
   Message,
@@ -68,9 +71,22 @@ const mockMessage: Message = {
   messageType: MessageType.INBOX,
 }
 
-const store = init({
+const storeConfig = {
   models: { messages, contacts },
   plugins: [selectPlugin()],
+  redux: {
+    initialState: {
+      messages: messagesInitialState,
+      contacts: contactsInitialState,
+    },
+  },
+}
+
+let store = init(storeConfig)
+
+beforeEach(() => {
+  console.log("a: ", )
+  store = init(storeConfig)
 })
 
 afterEach(() => {
@@ -336,7 +352,7 @@ test("filtered threads selector return value properly", () => {
 test("get messages result map state by thread id selector return value properly", async () => {
   store.dispatch.messages.setThreadMap(mockThreads)
 
-  let getMessagesResultMapStateByThreadId = store.select.messages.getMessagesResultMapStateByThreadId(
+  const getMessagesResultMapStateByThreadId = store.select.messages.getMessagesResultMapStateByThreadId(
     store.getState()
   )
   expect(getMessagesResultMapStateByThreadId("1")).toBe(ResultState.Empty)
