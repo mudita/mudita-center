@@ -265,7 +265,7 @@ test("toggle thread", () => {
   const threadIds = Object.keys(store.getState().messages.threadMap)
   const toToggleThreadIds = [threadIds[0], threadIds[1]]
 
-  store.dispatch.messages.markAsRead(toToggleThreadIds)
+  store.dispatch.messages.toggleReadStatus(toToggleThreadIds)
 
   expect(store.getState().messages.threadMap[threadIds[0]].unread).toBeFalsy()
   expect(store.getState().messages.threadMap[threadIds[1]].unread).toBeFalsy()
