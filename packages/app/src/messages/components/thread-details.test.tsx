@@ -167,7 +167,7 @@ test("show info about second number", () => {
   expect(getByText("#2")).toBeInTheDocument()
 })
 
-test("error modals fires when thread wont load", () => {
+test("error modals fires when thread won't load", () => {
   const openErrorModal = jest.fn()
   const getMessagesResultsMapStateByThreadId = jest.fn(() => ResultState.Error)
 
