@@ -21,5 +21,5 @@ test("return mapped messages from pure to Message model", async () => {
   )
 
   const { data = [] } = await pendingResponse
-  expect(data).toMatchObject(messages)
+  expect(data).toStrictEqual(messages)
 })
