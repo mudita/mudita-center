@@ -77,6 +77,10 @@ const settingsSchema: Schema<AppSettings> = {
     type: "boolean",
     default: true,
   },
+  appCollectingData: {
+    type: "boolean",
+    default: undefined,
+  },
 }
 
 export default settingsSchema

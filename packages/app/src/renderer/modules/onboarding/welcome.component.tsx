@@ -21,6 +21,8 @@ const mapDispatchToProps = (dispatch: any) => dispatch.settings
 interface Props {
   setAutostart: (option: AppSettings["appAutostart"]) => void
   checkAutostartValue?: any
+  setCollectingData: (option: AppSettings["appCollectingData"]) => void
+  appCollectingData: boolean | undefined
 }
 
 const Welcome: FunctionComponent<Props> = ({
@@ -48,11 +50,13 @@ const Welcome: FunctionComponent<Props> = ({
   }, [])
 
   return (
-    <OnboardingWelcome
-      onContinue={onContinue}
-      onAutostartChange={onAutostartChange}
-      autostartEnabled={autostartStatus}
-    />
+    <>
+      <OnboardingWelcome
+        onContinue={onContinue}
+        onAutostartChange={onAutostartChange}
+        autostartEnabled={autostartStatus}
+      />
+    </>
   )
 }
 

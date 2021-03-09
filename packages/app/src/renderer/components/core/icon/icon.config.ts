@@ -110,6 +110,7 @@ import MuditaFlower from "Renderer/svg/mudita-flower.svg"
 import MuditaDarkLogo from "Renderer/svg/mudita-dark-logo.svg"
 import ContactGoogle from "Renderer/svg/contact-google.svg"
 import Manage from "Renderer/svg/manage.svg"
+import MuditaLogoBg from "Renderer/svg/muditalogo-bg.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -221,6 +222,7 @@ export enum Type {
   MuditaDarkLogo,
   ContactGoogle,
   Manage,
+  MuditaLogoBg,
 }
 
 const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
@@ -329,6 +331,7 @@ const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
   [Type.FactoryReset]: FactoryReset,
   [Type.MuditaDarkLogo]: MuditaDarkLogo,
   [Type.ContactGoogle]: ContactGoogle,
+  [Type.MuditaLogoBg]: MuditaLogoBg,
   [Type.Manage]: Manage,
 }
 

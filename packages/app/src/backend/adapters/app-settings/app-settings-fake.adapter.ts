@@ -28,6 +28,7 @@ export const fakeAppSettings: AppSettings = {
   pureOsDownloadLocation: `fake/path/pure/os/downloads/`,
   language: "en-US",
   pureNeverConnected: true,
+  appCollectingData: undefined,
 }
 
 class AppSettingsFake extends AppSettingsAdapter {
