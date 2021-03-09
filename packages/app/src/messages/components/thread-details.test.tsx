@@ -13,39 +13,41 @@ import "@testing-library/jest-dom/extend-expect"
 import {
   Message,
   MessageType,
+  ResultState,
   Thread,
 } from "App/messages/store/messages.interface"
-import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 import { Contact } from "App/contacts/store/contacts.type"
+import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
 import { createFullName } from "App/contacts/store/contacts.helpers"
 
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
-const contact = createFakeContact()
+const phoneNumberId = "123 456 789"
+
+const contact: Contact = {
+  id: "274970a2-13b7-4f42-962d-8fa0b2b48377",
+  firstName: "John",
+  lastName: "Doe",
+  primaryPhoneNumber: phoneNumberId,
+  email: "hello@mudita.com",
+  note: "",
+  firstAddressLine: "",
+}
+
+const thread: Thread = {
+  id: phoneNumberId,
+  contactId: "274970a2-13b7-4f42-962d-8fa0b2b48377",
+  lastUpdatedAt: new Date("2019-08-14T17:31:16.627Z"),
+  messageSnippet:
+    "Nulla itaque laborum delectus a id aliquam quod. Voluptas molestiae sit excepturi voluptas fuga cupiditate.",
+  unread: false,
+}
 
 const unknownContact: Contact = {
   id: "11",
   firstName: "",
   lastName: "",
   primaryPhoneNumber: "+123 456 123",
-}
-
-const thread: Thread = {
-  id: contact.primaryPhoneNumber!,
-  contactId: contact.id,
-  unread: true,
-  lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
-  messageSnippet:
-    "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
-}
-
-const threadFromSecondPhoneNumber: Thread = {
-  id: contact.secondaryPhoneNumber!,
-  contactId: contact.id,
-  unread: true,
-  lastUpdatedAt: new Date("2019-10-18T11:45:35.112Z"),
-  messageSnippet:
-    "Dolore esse occaecat ipsum officia ad laborum excepteur quis.",
 }
 
 const threadFromUnknownCaller: Thread = {
@@ -87,7 +89,7 @@ const defaultProps: ThreadDetailsProps = {
   getContact: jest.fn().mockReturnValue(contact),
   loadMessagesByThreadId: jest.fn(),
   getMessagesResultMapStateByThreadId: jest.fn(),
-  thread: thread,
+  thread,
 }
 
 const renderer = (extraProps?: {}) => {
@@ -121,7 +123,9 @@ test("left part of sidebar displays details correctly", () => {
 })
 
 test("correct amount of message bubbles is displayed", () => {
-  const { getAllByTestId } = renderer()
+  const { getAllByTestId } = renderer({
+    getMessagesResultMapStateByThreadId: jest.fn(() => ResultState.Loaded),
+  })
   expect(getAllByTestId("message-content")).toHaveLength(messages.length)
 })
 
@@ -156,11 +160,49 @@ test("delete messages", () => {
 })
 
 test("show info about contact with multiple numbers", () => {
-  const { getByTestId } = renderer()
+  const { getByTestId, getByText } = renderer({
+    getContact: jest.fn(() => ({
+      ...contact,
+      secondaryPhoneNumber: thread.id,
+    })),
+  })
   expect(getByTestId("multiple-number")).toBeInTheDocument()
+  expect(getByText("#2")).toBeInTheDocument()
 })
 
-test("show info about second number", () => {
-  const { getByText } = renderer({ thread: threadFromSecondPhoneNumber })
-  expect(getByText("#2")).toBeInTheDocument()
+test("error text renders with retry button when thread won't load", () => {
+  const openErrorModal = jest.fn()
+  const getMessagesResultMapStateByThreadId = jest.fn(() => ResultState.Error)
+
+  const { getByTestId } = renderer({
+    openErrorModal,
+    getMessagesResultMapStateByThreadId,
+  })
+
+  expect(getByTestId(ThreadDetailsTestIds.ErrorText)).toBeInTheDocument()
+  expect(getByTestId(ThreadDetailsTestIds.RetryButton)).toBeInTheDocument()
+})
+
+test("loader renders when thread is loading", () => {
+  const getMessagesResultMapStateByThreadId = jest.fn(
+    () => ResultState.Loading
+  )
+  const { getByTestId } = renderer({
+    getMessagesResultMapStateByThreadId,
+  })
+  expect(getByTestId(ThreadDetailsTestIds.Loader)).toBeInTheDocument()
+})
+
+test("retry button tries to load thread again after initial call", () => {
+  const openErrorModal = jest.fn()
+  const getMessagesResultMapStateByThreadId = jest.fn(() => ResultState.Error)
+  const loadMessagesByThreadId = jest.fn()
+  const { getByTestId } = renderer({
+    openErrorModal,
+    getMessagesResultMapStateByThreadId,
+    loadMessagesByThreadId
+  })
+  getByTestId(ThreadDetailsTestIds.RetryButton).click()
+  expect(loadMessagesByThreadId).toBeCalledWith(phoneNumberId)
+  expect(loadMessagesByThreadId).toBeCalledTimes(2)
 })
