@@ -16,6 +16,7 @@ import { ipcRenderer } from "electron-better-ipc"
 import { SettingsActions } from "Common/enums/settings-actions.enum"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
+import logger from "App/main/utils/logger"
 
 const settings = createModel<RootModel>({
   state: {},
@@ -29,7 +30,11 @@ const settings = createModel<RootModel>({
 
     return {
       async loadSettings() {
-        dispatch.settings.update(await getAppSettings())
+        const appSettings = await getAppSettings()
+        dispatch.settings.update(appSettings)
+        appSettings.appCollectingData
+          ? logger.enableRollbar()
+          : logger.disableRollbar()
       },
       async updateSettings(option: SettingsUpdateOption) {
         updateAppSettings(option)
@@ -48,6 +53,10 @@ const settings = createModel<RootModel>({
       },
       setTethering(value: AppSettings["appTethering"]) {
         this.updateSettings({ key: "appTethering", value })
+      },
+      setCollectingData(value: AppSettings["appCollectingData"]) {
+        this.updateSettings({ key: "appCollectingData", value })
+        value ? logger.enableRollbar() : logger.disableRollbar()
       },
       setIncomingCalls(value: AppSettings["appIncomingCalls"]) {
         this.updateSettings({ key: "appIncomingCalls", value })

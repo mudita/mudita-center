@@ -68,11 +68,16 @@ const Card: FunctionComponent<Props> = ({
 }) => {
   return (
     <CardContainer data-testid="news-card">
-      <a href={url} target="_blank" data-testid="image-link">
+      <a href={url} target="_blank" rel="noreferrer" data-testid="image-link">
         <CardImage src={imageSource} alt={imageAlt} />
       </a>
       <CardContent>
-        <a href={url} data-testid="header-link" target="_blank">
+        <a
+          href={url}
+          data-testid="header-link"
+          target="_blank"
+          rel="noreferrer"
+        >
           <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
             {title}
           </Text>

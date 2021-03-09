@@ -5,15 +5,22 @@
 
 import mockSerialPort from "../mock-serial-port"
 import PureNode, { PureDevice } from "../index"
-
 import {
-  Endpoint,
   DeviceEventName,
+  Endpoint,
   Method,
   ResponseStatus,
 } from "./device.types"
 
 let device: PureDevice
+
+jest.mock("queue-promise", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      add: (fn: () => void) => fn(),
+    }
+  })
+})
 
 beforeEach(async (done) => {
   mockSerialPort()
@@ -72,4 +79,14 @@ test("request method return error if device isn't connected", async () => {
     method: Method.Get,
   })
   expect(response.status).toEqual(ResponseStatus.ConnectionError)
+})
+
+test("multiple requests are executed properly", async () => {
+  const request = jest.fn()
+  const queue = Array.from({ length: 10 }).map(request)
+
+  await device.connect()
+  await Promise.all(queue.map((request) => device.request(request)))
+
+  expect(request).toBeCalledTimes(10)
 })

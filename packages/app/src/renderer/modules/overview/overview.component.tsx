@@ -31,6 +31,7 @@ import logger from "App/main/utils/logger"
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
   toggleUpdatingDevice: (option: boolean) => void
+  setCollectingData: (option: AppSettings["appCollectingData"]) => void
 }
 
 /**

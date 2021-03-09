@@ -60,6 +60,7 @@ storiesOf("Views|Overview", module).add("Overview", () => (
         onUpdateInstall={noop}
         onOpenBackupModal={action("Starting backup creation")}
         onOpenBackupRestorationModal={action("Starting backup restoration")}
+        setCollectingData={noop}
       />
     </Router>
   </div>
@@ -77,6 +78,7 @@ const ModalStory: FunctionComponent = ({ children }) => (
         onUpdateInstall={noop}
         onOpenBackupModal={action("Starting backup creation")}
         onOpenBackupRestorationModal={action("Starting backup restoration")}
+        setCollectingData={noop}
       />
     </Router>
     <ModalWrapper>{children}</ModalWrapper>

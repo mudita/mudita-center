@@ -93,7 +93,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     isThreadOpened,
     resultsState,
     authorize,
-    onExport
+    onExport,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -488,14 +488,15 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     for (const contact of contacts) {
       const index = contacts.indexOf(contact)
 
+      const error = await addNewContact(contact)
+      if (error) {
+        failed = true
+      }
+
       if (failed || (syncShouldFail && index > contacts.length / 2)) {
         await closeModal()
         showFinishedSynchronizationModal(contacts.slice(index), index)
         break
-      }
-      const error = await addNewContact(contact)
-      if (error) {
-        failed = true
       }
 
       const currentContactIndex = contacts.indexOf(contact) + 1

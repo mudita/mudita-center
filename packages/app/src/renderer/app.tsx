@@ -12,6 +12,7 @@ import history from "Renderer/routes/history"
 import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
 import appUpdate from "./components/rest/app-update/app-update.service"
+import requestDataCollecting from "App/collecting-data-modal/collecting-data-service"
 
 try {
   require("./fonts/main/style.css")
@@ -36,8 +37,11 @@ ReactDOM.render(
 modalService.bindStore(store)
 modalService.setDefaultLocale(defaultLanguage)
 
-// Initialize app update
-appUpdate()
-
 // Load settings
 store.dispatch.settings.loadSettings()
+
+// Request data collecting
+requestDataCollecting()
+
+// Initialize app update
+appUpdate()
