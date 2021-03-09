@@ -9,8 +9,13 @@ import React from "react"
 import SettingsUI from "Renderer/components/rest/settings/settings-ui.component"
 import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
 
-const renderer = (config = { appAutostart: false, appTethering: false }) =>
-  renderWithThemeAndIntl(<SettingsUI {...config} />)
+const renderer = (
+  config = {
+    appAutostart: false,
+    appTethering: false,
+    appCollectingData: false,
+  }
+) => renderWithThemeAndIntl(<SettingsUI {...config} />)
 
 test("matches snapshot", () => {
   const { container } = renderer()

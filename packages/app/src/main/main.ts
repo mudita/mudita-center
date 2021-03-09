@@ -68,10 +68,8 @@ let googleAuthWindow: BrowserWindow | null = null
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
 
 // Fetch and log all errors
-process.on("uncaughtException", (error) => {
-  // TODO: add a Rollbar
+process.on("uncaughtException", async (error) => {
   logger.error(error)
-
   // TODO: Add contact support modal
 })
 

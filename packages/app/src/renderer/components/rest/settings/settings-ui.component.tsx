@@ -17,7 +17,6 @@ import styled from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
-import { noop } from "Renderer/utils/noop"
 import { SettingsProps } from "Renderer/modules/settings/settings.component"
 import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
 
@@ -51,9 +50,11 @@ export const SettingsWrapper = styled.section`
 
 const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
   appAutostart,
-  setAutostart = noop,
+  setAutostart,
   appTethering,
-  setTethering = noop,
+  setTethering,
+  appCollectingData,
+  setCollectingData,
 }) => {
   return (
     <SettingsWrapper data-testid={SettingsTestIds.Wrapper}>
@@ -96,6 +97,24 @@ const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
           </ActionsWrapper>
         </SettingsTableRow>
       )}
+      <SettingsTableRow
+        checkMode={false}
+        data-testid={SettingsTestIds.TableRow}
+      >
+        <Data>
+          <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
+            <FormattedMessage id="view.name.settings.collectingdata" />
+          </SettingsLabel>
+        </Data>
+        <ActionsWrapper>
+          <SettingsToggler
+            toggleValue={
+              appCollectingData === undefined ? false : appCollectingData
+            }
+            onToggle={setCollectingData}
+          />
+        </ActionsWrapper>
+      </SettingsTableRow>
     </SettingsWrapper>
   )
 }
