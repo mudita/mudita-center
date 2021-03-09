@@ -11,7 +11,6 @@ const getPrettyCaller = (
   contact: Contact | undefined,
   phoneNumber: string
 ): string => {
-  console.log("contact: ", contact)
   return isNameAvailable(contact)
     ? createFullName(contact as Contact)
     : phoneNumber

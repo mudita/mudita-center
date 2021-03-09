@@ -149,7 +149,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
             >
               {getPrettyCaller(contact, thread.id)}
             </Text>
-            {Boolean(thread.id && contact.secondaryPhoneNumber) && (
+            {Boolean(thread.id && contact?.secondaryPhoneNumber) && (
               <Text
                 displayStyle={TextDisplayStyle.LargeFadedText}
                 data-testid="multiple-number"
