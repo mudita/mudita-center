@@ -30,7 +30,7 @@ const registerEventsExportListener = () => {
           app.getPath("documents"),
           intl.formatMessage(messages.defaultFilename, {
             name: events[0].name,
-            numberOfEvents: events.length ,
+            numberOfEvents: events.length,
           })
         ),
         properties: ["createDirectory", "showOverwriteConfirmation"],

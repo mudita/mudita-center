@@ -338,6 +338,52 @@ exports[`matches snapshot 1`] = `
         </section>
       </div>
     </div>
+    <div
+      class="c4 c5"
+      data-testid="settings-tablerow"
+    >
+      <div
+        class="c6"
+      >
+        <p
+          class="c7 c8 c9"
+        >
+          [value] view.name.settings.collectingdata
+        </p>
+      </div>
+      <div
+        class="c10"
+      >
+        <section
+          class="c11 c12"
+        >
+          <button
+            class="c13 c14 c15"
+            data-testid="toggler-active"
+            size="2"
+            type="button"
+          >
+            <p
+              class="c16 c17"
+            >
+              [value] view.name.settings.offLabel
+            </p>
+          </button>
+          <button
+            class="c18 c19 c15"
+            data-testid="toggler-inactive"
+            size="2"
+            type="button"
+          >
+            <p
+              class="c16 c17"
+            >
+              [value] view.name.settings.onLabel
+            </p>
+          </button>
+        </section>
+      </div>
+    </div>
   </section>
 </div>
 `;

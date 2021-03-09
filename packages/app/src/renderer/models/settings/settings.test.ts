@@ -34,6 +34,7 @@ test("loads settings", async () => {
     Object {
       "settings": Object {
         "appAutostart": false,
+        "appCollectingData": undefined,
         "appConversionFormat": "WAV",
         "appConvert": "Convert automatically",
         "appIncomingCalls": false,
@@ -143,6 +144,38 @@ test("updates os updates setting", async () => {
     Object {
       "settings": Object {
         "appOsUpdates": true,
+      },
+    }
+  `)
+})
+
+test("updates collecting data setting to true", async () => {
+  const store = init({
+    models: { settings },
+  })
+  mockIpc()
+  await store.dispatch.settings.setCollectingData(true)
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "appCollectingData": true,
+      },
+    }
+  `)
+})
+
+test("updates collecting data setting to false", async () => {
+  const store = init({
+    models: { settings },
+  })
+  mockIpc()
+  await store.dispatch.settings.setCollectingData(false)
+  const state = store.getState()
+  expect(state).toMatchInlineSnapshot(`
+    Object {
+      "settings": Object {
+        "appCollectingData": false,
       },
     }
   `)

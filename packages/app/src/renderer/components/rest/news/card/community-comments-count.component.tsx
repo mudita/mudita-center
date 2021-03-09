@@ -29,7 +29,12 @@ const CommunityCommentsCount: FunctionComponent<Props> = ({
   return (
     <>
       <CommentsLine />
-      <a href={communityLink} data-testid="community-link" target="_blank">
+      <a
+        href={communityLink}
+        data-testid="community-link"
+        target="_blank"
+        rel="noreferrer"
+      >
         <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
           {count === undefined ? (
             <FormattedMessage id="view.name.news.cardCommunityCommentsLoading" />
