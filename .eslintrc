@@ -28,7 +28,6 @@
     "@typescript-eslint/unbound-method": "warn",
     "react-hooks/rules-of-hooks": "warn",
     "no-prototype-builtins": "warn",
-    "react/jsx-no-target-blank": "warn",
     "jest-dom/prefer-in-document": "warn",
     "@typescript-eslint/no-unnecessary-type-assertion": "warn",
     "jest-dom/prefer-enabled-disabled": "warn",
