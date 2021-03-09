@@ -23,4 +23,5 @@ export enum IpcRequest {
   ExportContacts = "export-contacts",
   ExportEvents = "export-events",
   GetEvents = "get-events",
+  GetThreads = "get-threads",
 }

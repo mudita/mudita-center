@@ -12,6 +12,7 @@ import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.cla
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import AppSettingsAdapter from "Backend/adapters/app-settings/app-settings-adapter.class"
 import CalendarAdapter from "Backend/adapters/calendar/calendar-adapter.class"
+import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
 
 export default interface Adapters {
   app: ElectronAppAdapter
@@ -23,4 +24,5 @@ export default interface Adapters {
   pureBackups: PurePhoneBackupAdapter
   phonebook: PhonebookAdapter
   calendar: CalendarAdapter
+  pureMessages: PurePhoneMessagesAdapter
 }

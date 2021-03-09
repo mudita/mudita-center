@@ -7,7 +7,7 @@ import { messagesSeed } from "App/seeds/messages"
 import { contactsSeed } from "App/seeds/contacts"
 
 import {
-  expandTopic,
+  expandThread,
   getContactDetails,
 } from "App/messages/store/messages.helpers"
 
@@ -74,7 +74,7 @@ test("properly places caller data within conversation", () => {
   const author = "TEST AUTHOR"
   const result =
     // @ts-ignore
-    expandTopic(messagesSeed.topics[0], contactsMock, () => author)
+    expandThread(messagesSeed.threads[0], contactsMock, () => author)
 
   expect(
     result.messages.every(

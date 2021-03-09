@@ -33,7 +33,7 @@ import {
   Name,
   NameWrapper,
   Time,
-} from "Renderer/components/rest/messages/topics-table.component"
+} from "Renderer/components/rest/messages/threads-table.component"
 import moment from "moment"
 import {
   AvatarPlaceholder,
@@ -57,7 +57,7 @@ import { isToday } from "Renderer/utils/is-today"
 import { AppSettings } from "App/main/store/settings.interface"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { productionEnvironment } from "Renderer/constants/menu-elements"
-import { Message as Msg, Topic } from "App/messages/store/messages.interface"
+import { Message as Msg, Thread } from "App/messages/store/messages.interface"
 
 const MessageRow = styled(Row)`
   height: 9rem;
@@ -142,7 +142,7 @@ const MessageDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
 `
 
 type SelectHook = Pick<
-  UseTableSelect<Topic>,
+  UseTableSelect<Thread>,
   "getRowStatus" | "toggleRow" | "noneRowsSelected"
 >
 
@@ -153,9 +153,9 @@ export interface ActiveRow {
 }
 
 interface Props extends SelectHook, Pick<AppSettings, "language"> {
-  list: Topic[]
-  openSidebar?: (row: Topic) => void
-  activeRow?: Topic
+  list: Thread[]
+  openSidebar?: (row: Thread) => void
+  activeRow?: Thread
   onDeleteClick: (id: string) => void
   onToggleReadStatus: (ids: string[]) => void
 }

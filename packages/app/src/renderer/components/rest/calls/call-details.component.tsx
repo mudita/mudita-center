@@ -55,7 +55,7 @@ const messages = defineMessages({
 interface ContactDetailsProps {
   calls: Details[]
   onClose: () => void
-  isTopicThreadOpened: (phoneNumber: string) => boolean
+  isThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
   onDeleteClick: (id: string) => void
 }
@@ -64,7 +64,7 @@ export const CallDetails = ({
   calls,
   onClose,
   onDeleteClick,
-  isTopicThreadOpened,
+  isThreadOpened,
   isContactCreated,
 }: ContactDetailsProps) => {
   const history = useHistory()
@@ -144,7 +144,7 @@ export const CallDetails = ({
                       value={details.caller.phoneNumber}
                       trailingIcons={phoneActions(
                         details.caller.phoneNumber,
-                        isTopicThreadOpened(details.caller.phoneNumber),
+                        isThreadOpened(details.caller.phoneNumber),
                         noop,
                         redirectToMessagesPage
                       )}

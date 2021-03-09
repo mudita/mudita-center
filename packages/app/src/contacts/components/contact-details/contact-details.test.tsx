@@ -53,7 +53,7 @@ const renderer = (props: {}) => {
     onExport: noop,
     onForward: noop,
     onMessage: noop,
-    isTopicThreadOpened: () => false,
+    isThreadOpened: () => false,
   }
 
   return renderWithThemeAndIntl(<ContactDetails {...defaultProps} {...props} />)

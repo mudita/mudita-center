@@ -5,7 +5,7 @@
 
 import React, { ChangeEvent, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { UnreadFilters } from "Renderer/components/rest/messages/topics-table.component"
+import { UnreadFilters } from "Renderer/components/rest/messages/threads-table.component"
 import ButtonToggler from "Renderer/components/core/button-toggler/button-toggler.component"
 import { intl } from "Renderer/utils/intl"
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
@@ -28,7 +28,7 @@ import {
 } from "App/messages/components/messages-panel.styled"
 import { MessagePanelTestIds } from "App/messages/components/messages-panel-test-ids.enum"
 import { defineMessages } from "react-intl"
-import { Topic, VisibilityFilter } from "App/messages/store/messages.interface"
+import { Thread, VisibilityFilter } from "App/messages/store/messages.interface"
 
 const toggleState = [
   intl.formatMessage({
@@ -49,13 +49,13 @@ const messages = defineMessages({
 interface Props {
   showAllMessages?: () => void
   hideReadMessages?: () => void
-  selectedConversations: Topic[]
+  selectedConversations: Thread[]
   deleteConversation: (ids: string[]) => void
   searchValue: string
   changeSearchValue?: (event: ChangeEvent<HTMLInputElement>) => void
   allItemsSelected?: boolean
-  toggleAll?: UseTableSelect<Topic>["toggleAll"]
-  resetRows: UseTableSelect<Topic>["resetRows"]
+  toggleAll?: UseTableSelect<Thread>["toggleAll"]
+  resetRows: UseTableSelect<Thread>["resetRows"]
   visibilityFilter?: VisibilityFilter
   onMarkAsRead: (ids: string[]) => void
   onDeleteClick: () => void

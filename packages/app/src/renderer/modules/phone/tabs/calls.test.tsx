@@ -12,7 +12,7 @@ import Calls, { CallsProps } from "Renderer/modules/phone/tabs/calls.component"
 
 const defaultProps: CallsProps = {
   calls: mockData,
-  isTopicThreadOpened: jest.fn(),
+  isThreadOpened: jest.fn(),
   isContactCreated: jest.fn(),
 }
 

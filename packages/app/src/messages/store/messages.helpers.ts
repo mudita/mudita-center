@@ -4,7 +4,7 @@
  */
 
 import { Contact } from "App/contacts/store/contacts.type"
-import { Topic } from "App/messages/store/messages.interface"
+import { Thread } from "App/messages/store/messages.interface"
 
 export type ContactsCollection = Record<string, Contact>
 export type Getter = (
@@ -23,15 +23,15 @@ export const getContactDetails = (
   return undefined
 }
 
-export const expandTopic = (
-  topic: Topic,
+export const expandThread = (
+  thread: Thread,
   collection: ContactsCollection,
   getter: Getter
 ) => {
-  const { messages } = topic
+  const { messages } = thread
 
   return {
-    ...topic,
+    ...thread,
     messages: messages.map((msg) => {
       const author = getter(msg.author.id, collection)
 
@@ -48,17 +48,17 @@ export const expandTopic = (
 }
 
 export const createFullMessagesCollection = (state: {
-  messages: { topics: Topic[] }
+  messages: { threads: Thread[] }
   contacts: { db: ContactsCollection }
-}): Topic[] => {
+}): Thread[] => {
   const {
-    messages: { topics },
+    messages: { threads },
     contacts: { db: baseContacts },
   } = state
 
-  return topics.map(
-    (topic: Topic): Topic => {
-      const { id, phoneNumber } = topic.caller
+  return threads.map(
+    (thread: Thread): Thread => {
+      const { id, phoneNumber } = thread.caller
 
       const contact: Contact = baseContacts[id]
 
@@ -66,7 +66,7 @@ export const createFullMessagesCollection = (state: {
         const { firstName, lastName, secondaryPhoneNumber } = contact
 
         return {
-          ...expandTopic(topic, baseContacts, getContactDetails),
+          ...expandThread(thread, baseContacts, getContactDetails),
           caller: {
             id,
             phoneNumber,
@@ -77,7 +77,7 @@ export const createFullMessagesCollection = (state: {
         }
       }
 
-      return topic
+      return thread
     }
   )
 }

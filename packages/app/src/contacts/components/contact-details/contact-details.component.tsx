@@ -66,7 +66,7 @@ interface ContactDetailsProps
     ContactActions,
     ContactDetailsActions {
   contact?: Contact
-  isTopicThreadOpened: (phoneNumber: string) => boolean
+  isThreadOpened: (phoneNumber: string) => boolean
 }
 
 export const phoneActions = (
@@ -105,7 +105,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onDelete,
   onCall,
   onMessage,
-  isTopicThreadOpened,
+  isThreadOpened,
   ...rest
 }) => {
   if (contact) {
@@ -198,7 +198,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                       ? undefined
                       : phoneActions(
                           contact.primaryPhoneNumber,
-                          isTopicThreadOpened(contact.primaryPhoneNumber),
+                          isThreadOpened(contact.primaryPhoneNumber),
                           onCall,
                           handleMessage
                         )
@@ -214,7 +214,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                       ? undefined
                       : phoneActions(
                           contact.secondaryPhoneNumber,
-                          isTopicThreadOpened(contact.secondaryPhoneNumber),
+                          isThreadOpened(contact.secondaryPhoneNumber),
                           onCall,
                           handleMessage
                         )
