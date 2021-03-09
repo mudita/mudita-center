@@ -192,6 +192,9 @@ const contacts = createModel<RootModel>({
         return (id: ContactID) => state.db[id]
       })
     },
+    getContactMap() {
+      return slice((state) => state.db)
+    },
     isContactCreated(models: StoreSelectors<PhoneContacts>) {
       return (state: PhoneContacts) => {
         const contacts: Contact[] = models.contacts.flatList(state)

@@ -4,17 +4,26 @@
  */
 
 import PurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.class"
-import { Thread } from "App/messages/store/messages.interface"
+import { Message, Thread } from "App/messages/store/messages.interface"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import { messagesSeed } from "App/seeds/messages"
+import { messagesData, threadsData } from "App/seeds/messages"
 
 class PurePhoneMessagesFake extends PurePhoneMessagesAdapter {
   public async getThreads(): Promise<DeviceResponse<Thread[]>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: messagesSeed.threads,
+      data: threadsData,
+    }
+  }
+
+  public async getMessagesByThreadId(
+    threadId: string
+  ): Promise<DeviceResponse<Message[]>> {
+    return {
+      status: DeviceResponseStatus.Ok,
+      data: messagesData.filter((messages) => messages.threadId === threadId),
     }
   }
 }

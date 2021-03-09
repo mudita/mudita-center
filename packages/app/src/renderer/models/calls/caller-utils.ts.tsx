@@ -3,11 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { Caller } from "Renderer/models/calls/calls.interface"
 import { removeDecoratorsFromPhoneNumber } from "Renderer/models/utils/remove-decorators-from-phone-number"
 
 export const isCallerMatchingPhoneNumber = (
-  caller: Caller,
+  contactNumber: string,
   phoneNumber: string
 ): boolean => {
   if (phoneNumber === "") {
@@ -15,7 +14,7 @@ export const isCallerMatchingPhoneNumber = (
   }
 
   return (
-    removeDecoratorsFromPhoneNumber(caller.phoneNumber) ===
+    removeDecoratorsFromPhoneNumber(contactNumber) ===
     removeDecoratorsFromPhoneNumber(phoneNumber)
   )
 }

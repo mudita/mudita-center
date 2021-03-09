@@ -3,13 +3,13 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import { Caller } from "Renderer/models/calls/calls.interface"
 import Faker from "faker"
+import { Contact } from "App/contacts/store/contacts.type"
 
-export const createFakeCaller = (): Caller => ({
+export const createFakeContact = (): Contact => ({
   id: Faker.random.uuid(),
   firstName: Faker.name.firstName(),
   lastName: Faker.name.lastName(),
-  phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
+  primaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
   secondaryPhoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
 })

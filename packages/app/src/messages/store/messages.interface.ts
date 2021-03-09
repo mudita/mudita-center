@@ -12,31 +12,52 @@ export enum VisibilityFilter {
 
 export type Author = Pick<Caller, "id">
 
-export enum ResultsState {
+export enum ResultState {
   Loading,
   Loaded,
   Empty,
   Error,
 }
 
+export enum MessageType {
+  DRAFT = "DRAFT",
+  FAILED = "FAILED",
+  INBOX = "INBOX",
+  OUTBOX = "OUTBOX",
+  QUEUED = "QUEUED",
+  INPUT = "INPUT",
+  UNKNOWN = "UNKNOWN",
+}
+
 export interface Message {
   id: string
   date: Date
   content: string
-  interlocutor?: boolean
-  author: Author
+  contactId: string
+  threadId: string
+  messageType: MessageType
 }
+
+export type MessageMap = { [id: string]: Message }
 
 export interface Thread {
   id: string
-  caller: Caller
+  contactId: string
+  lastUpdatedAt: Date
+  messageSnippet: string
   unread: boolean
-  messages: Message[]
 }
 
+export type ThreadMap = { [id: string]: Thread }
+
+export type MessageIdsInThreadMap = { [id: string]: Message["id"][] }
+
 export type MessagesState = Readonly<{
-  threads: Thread[]
+  threadMap: ThreadMap
+  messageMap: MessageMap
+  messageIdsInThreadMap: MessageIdsInThreadMap
   searchValue: string
   visibilityFilter?: VisibilityFilter
-  resultsState: ResultsState
+  resultState: ResultState
+  messagesResultStateMap: { [id: string]: ResultState }
 }>

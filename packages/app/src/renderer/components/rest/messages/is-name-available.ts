@@ -4,9 +4,9 @@
  */
 
 export const isNameAvailable = ({
-  firstName,
-  lastName,
+  firstName = "",
+  lastName = "",
 }: {
   firstName?: string
   lastName?: string
-}): boolean => Boolean(firstName || lastName)
+} = {}): boolean => Boolean(firstName || lastName)

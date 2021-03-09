@@ -5,10 +5,15 @@
 
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { createFullName } from "App/contacts/store/contacts.helpers"
-import { Caller } from "Renderer/models/calls/calls.interface"
+import { Contact } from "App/contacts/store/contacts.type"
 
-const getPrettyCaller = (caller: Caller): string => {
-  return isNameAvailable(caller) ? createFullName(caller) : caller.phoneNumber
+const getPrettyCaller = (
+  contact: Contact | undefined,
+  phoneNumber: string
+): string => {
+  return isNameAvailable(contact)
+    ? createFullName(contact as Contact)
+    : phoneNumber
 }
 
 export default getPrettyCaller

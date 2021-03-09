@@ -5,8 +5,14 @@
 
 import Faker from "faker"
 import { groupBy, random, sample, times } from "lodash"
-import { Call, Caller, CallStatus } from "Renderer/models/calls/calls.interface"
+import { Call, CallStatus } from "Renderer/models/calls/calls.interface"
 import { resolveCallType } from "Renderer/components/rest/calls/call-details.helpers"
+import {
+  Message,
+  MessageType,
+  Thread,
+} from "App/messages/store/messages.interface"
+import { createFakeContact } from "App/messages/helpers/create-fake-contact"
 
 const createCall = (): Call => {
   const status = sample([
@@ -52,42 +58,35 @@ const createText = () => ({
 
 export const templates = times(random(15, 25), createText)
 
-const generateEmptyCaller = (): Caller => ({
-  id: Faker.random.uuid(),
-  firstName: "",
-  lastName: "",
-  phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
-})
-
-const createCaller = (): Caller => generateEmptyCaller()
-
-const createMessages = ({ id }: Caller) => {
-  const interlocutor = Faker.random.boolean()
+const createMessage = ({ id, contactId }: Thread): Message => {
   return {
-    author: interlocutor
-      ? { id }
-      : {
-          id: "123",
-        },
+    contactId,
     id: Faker.random.uuid(),
     date: Faker.date.past(),
     content: Faker.lorem.sentences(2),
-    interlocutor,
+    threadId: id,
+    messageType: Faker.random.boolean()
+      ? MessageType.OUTBOX
+      : MessageType.INBOX,
   }
 }
 
-const createThread = () => {
-  const caller = createCaller()
-  const createMessagesWithAuthor = () => createMessages(caller)
+const createThread = (): Thread => {
+  const contact = createFakeContact()
+  const threadId = contact.primaryPhoneNumber!
   return {
-    id: Faker.random.uuid(),
-    caller,
+    id: threadId,
+    contactId: contact.id,
     unread: Faker.random.boolean(),
-    messages: times(random(5, 15), createMessagesWithAuthor),
+    lastUpdatedAt: Faker.date.past(),
+    messageSnippet: Faker.lorem.paragraphs(random(1, 3)),
   }
 }
 
-export const rowsMessages = times(random(15, 25), createThread)
+export const rowThreads: Thread[] = times(random(15, 25), createThread)
+export const rowMessages: Message[] = rowThreads.reduce((prev, thread) => {
+  return [...prev, ...times(random(1, 5), () => createMessage(thread))]
+}, [] as Message[])
 
 export const basicRows = Array.from({
   length: Math.round(15 + Math.random() * 25),

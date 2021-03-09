@@ -130,6 +130,7 @@ const basicInfo = createModel<RootModel>({
           await dispatch.basicInfo.loadData()
           await dispatch.contacts.loadData()
           await dispatch.calendar.loadData()
+          await dispatch.messages.loadData()
         }
       },
       async disconnect() {

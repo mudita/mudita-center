@@ -9,15 +9,22 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import { mockData } from "App/__mocks__/calls-mock-data"
 import { intl } from "Renderer/utils/intl"
 import Calls, { CallsProps } from "Renderer/modules/phone/tabs/calls.component"
+import { Contact } from "App/contacts/store/contacts.type"
+import { Caller } from "Renderer/models/calls/calls.interface"
 
 const defaultProps: CallsProps = {
   calls: mockData,
   isThreadOpened: jest.fn(),
   isContactCreated: jest.fn(),
+  getContact: jest.fn(),
 }
 
-const renderer = () => {
-  return renderWithThemeAndIntl(<Calls {...defaultProps} />)
+const renderer = (extraProps?: {}) => {
+  const props: CallsProps = {
+    ...defaultProps,
+    ...extraProps,
+  }
+  return renderWithThemeAndIntl(<Calls {...props} />)
 }
 
 test("render correct amount of rows", () => {
@@ -28,11 +35,21 @@ test("render correct amount of rows", () => {
 })
 
 test("caller name is displayed correctly", () => {
-  const { getAllByTestId } = renderer()
   const examplesIndex = 0
+  const caller: Caller = mockData[examplesIndex].caller
+  const contact: Contact = {
+    id: caller.id,
+    firstName: caller.firstName,
+    lastName: caller.lastName,
+    primaryPhoneNumber: caller.phoneNumber,
+    secondaryPhoneNumber: caller.secondaryPhoneNumber,
+  }
+  const { getAllByTestId } = renderer({
+    getContact: jest.fn().mockReturnValue(contact),
+  })
   const exampleRow = getAllByTestId(CallsTableTestIds.CallerName)[examplesIndex]
   expect(exampleRow).toHaveTextContent(
-    `${mockData[examplesIndex].caller.firstName} ${mockData[examplesIndex].caller.lastName} (${mockData[examplesIndex].timesMissed})`
+    `${caller.firstName} ${caller.lastName} (${mockData[examplesIndex].timesMissed})`
   )
 })
 

@@ -8,43 +8,43 @@ import {
   Thread,
   VisibilityFilter,
 } from "App/messages/store/messages.interface"
+import { Contact, ContactID } from "App/contacts/store/contacts.type"
 
 export const searchThreads = (
-  threads: MessagesProps["threads"],
+  threads: Thread[] = [],
+  contactMap: Record<ContactID, Contact>,
   searchValue: MessagesProps["searchValue"]
 ) => {
   if (searchValue.length) {
-    return threads?.filter(({ caller, messages }) => {
+    return threads?.filter(({ contactId, id: phoneNumber }) => {
       const search = searchValue.toLowerCase()
-      const matchesForename = caller.firstName?.toLowerCase().includes(search)
-      const matchesSurname = caller.lastName?.toLowerCase().includes(search)
-      const matchesPhone = caller.phoneNumber?.includes(search)
-      const matchesMessages = messages.some(({ content }) =>
-        content.toLowerCase().includes(search)
-      )
-      return (
-        matchesForename || matchesSurname || matchesPhone || matchesMessages
-      )
+      const matchesForename = contactMap[contactId]?.firstName
+        ?.toLowerCase()
+        .includes(search)
+      const matchesSurname = contactMap[contactId]?.lastName
+        ?.toLowerCase()
+        .includes(search)
+      const matchesPhone = phoneNumber?.includes(search)
+
+      return matchesForename || matchesSurname || matchesPhone
     })
   } else {
     return threads
   }
 }
+
 export const filterThreads = (
-  threads: MessagesProps["threads"],
+  threads: Thread[],
   visibilityFilter: MessagesProps["visibilityFilter"]
 ) =>
   threads?.filter(({ unread }) =>
     visibilityFilter === VisibilityFilter.Unread ? unread : true
   )
 
-export const sortThreads = (threads: MessagesProps["threads"]) => {
-  const lastMessageDate = ({ messages }: Thread) => {
-    return messages[messages.length - 1].date
-  }
+export const sortThreads = (threads: Thread[]) => {
   return threads?.sort((a, b) => {
-    const x = lastMessageDate(a)
-    const y = lastMessageDate(b)
+    const x = a.lastUpdatedAt
+    const y = b.lastUpdatedAt
     return x > y ? -1 : x < y ? 1 : 0
   })
 }

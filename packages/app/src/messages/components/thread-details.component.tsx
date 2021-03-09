@@ -11,7 +11,6 @@ import {
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { noop } from "Renderer/utils/noop"
-import { ActiveRow } from "App/messages/components/messages-list.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -26,14 +25,25 @@ import { intl } from "Renderer/utils/intl"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
+import {
+  Message,
+  MessageType,
+  ResultState,
+  Thread,
+} from "App/messages/store/messages.interface"
+import { Contact } from "App/contacts/store/contacts.type"
 
-interface Props {
-  details: ActiveRow
+export interface ThreadDetailsProps {
+  thread: Thread
   onClose?: () => void
   onDeleteClick: (id: string) => void
   onUnreadStatus: (ids: string[]) => void
   onContactClick: (phoneNumber: string) => void
   onAttachContactClick: () => void
+  getMessagesByThreadId: (threadId: string) => Message[]
+  getContact: (contactId: string) => Contact
+  loadMessagesByThreadId: (threadId: string) => Message[]
+  getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
 }
 
 const PhoneNumberText = styled(Text)`
@@ -83,14 +93,21 @@ const trailingIcon = [
   <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
 ]
 
-const MessageDetails: FunctionComponent<Props> = ({
-  details,
+const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
+  thread,
   onClose = noop,
   onUnreadStatus,
   onDeleteClick,
   onContactClick,
   onAttachContactClick,
+  getMessagesByThreadId,
+  loadMessagesByThreadId,
+  getContact,
 }) => {
+  useEffect(() => {
+    loadMessagesByThreadId(thread.id)
+  }, [thread.id])
+
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (ref.current) {
@@ -99,12 +116,15 @@ const MessageDetails: FunctionComponent<Props> = ({
   }, [ref.current])
 
   const markAsUnread = () => {
-    onUnreadStatus([details.id])
+    onUnreadStatus([thread.id])
     onClose()
   }
 
-  const handleDeleteClick = () => onDeleteClick(details.id)
-  const handleContactClick = () => onContactClick(details.caller.phoneNumber)
+  const handleDeleteClick = () => onDeleteClick(thread.id)
+  const handleContactClick = () => onContactClick(thread.id)
+
+  const messages = getMessagesByThreadId(thread.id)
+  const contact = getContact(thread.contactId)
 
   const icons = (
     <>
@@ -156,29 +176,27 @@ const MessageDetails: FunctionComponent<Props> = ({
               displayStyle={TextDisplayStyle.LargeBoldText}
               data-testid="sidebar-fullname"
             >
-              {getPrettyCaller(details.caller)}
+              {getPrettyCaller(contact, thread.id)}
             </Text>
-            {Boolean(
-              details.caller.phoneNumber && details.caller.secondaryPhoneNumber
-            ) && (
+            {Boolean(thread.id && contact?.secondaryPhoneNumber) && (
               <Text
                 displayStyle={TextDisplayStyle.LargeFadedText}
                 data-testid="multiple-number"
               >
                 &nbsp;
-                {details.caller.phoneNumber.split(" ").join("") ===
-                details.caller.secondaryPhoneNumber?.split(" ").join("")
+                {thread.id.split(" ").join("") ===
+                contact.secondaryPhoneNumber?.split(" ").join("")
                   ? "#2"
                   : "#1"}
               </Text>
             )}
           </NameWrapper>
-          {isNameAvailable(details.caller) && (
+          {isNameAvailable(contact) && (
             <PhoneNumberText
               displayStyle={TextDisplayStyle.MediumFadedLightText}
               data-testid="sidebar-phone-number"
             >
-              {details.caller.phoneNumber}
+              {thread.id}
             </PhoneNumberText>
           )}
         </>
@@ -190,35 +208,33 @@ const MessageDetails: FunctionComponent<Props> = ({
     >
       <MessagesWrapper>
         <MessageBubblesWrapper>
-          {details.messages.map(
-            ({ author, content, interlocutor, id }, index) => {
-              const prevMessage = details.messages[index - 1]
-              const previousAuthor = prevMessage?.author.id !== author.id
-              if (index === details.messages.length - 1) {
-                return (
-                  <div ref={ref} key={id}>
-                    <MessageBubble
-                      id={id}
-                      user={author}
-                      message={content}
-                      interlocutor={interlocutor}
-                      previousAuthor={previousAuthor}
-                    />
-                  </div>
-                )
-              }
+          {messages.map(({ contactId, content, messageType, id }, index) => {
+            const prevMessage = messages[index - 1]
+            const previousAuthor = prevMessage?.contactId !== contactId
+            if (index === messages.length - 1) {
               return (
-                <MessageBubble
-                  key={id}
-                  id={id}
-                  user={author}
-                  message={content}
-                  interlocutor={interlocutor}
-                  previousAuthor={previousAuthor}
-                />
+                <div ref={ref} key={id}>
+                  <MessageBubble
+                    id={id}
+                    user={getContact(contactId)}
+                    message={content}
+                    interlocutor={messageType === MessageType.OUTBOX}
+                    previousAuthor={previousAuthor}
+                  />
+                </div>
               )
             }
-          )}
+            return (
+              <MessageBubble
+                key={id}
+                id={id}
+                user={getContact(contactId)}
+                message={content}
+                interlocutor={messageType === MessageType.OUTBOX}
+                previousAuthor={previousAuthor}
+              />
+            )
+          })}
         </MessageBubblesWrapper>
       </MessagesWrapper>
       {process.env.NODE_ENV !== "production" && (
@@ -239,4 +255,4 @@ const MessageDetails: FunctionComponent<Props> = ({
   )
 }
 
-export default MessageDetails
+export default ThreadDetails
