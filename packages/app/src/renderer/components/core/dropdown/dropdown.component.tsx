@@ -20,7 +20,7 @@ export enum DropdownPosition {
   Right,
 }
 
-interface Props {
+export interface DropdownProps {
   toggler: ReactNode
   dropdownPosition?: DropdownPosition
   onOpen?: () => void
@@ -68,7 +68,7 @@ const DropdownList = styled.ul<{
         `};
 `
 
-const Dropdown: FunctionComponent<Props> = ({
+const Dropdown: FunctionComponent<DropdownProps> = ({
   className,
   toggler,
   children,

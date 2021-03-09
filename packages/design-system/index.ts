@@ -41,6 +41,13 @@ export {
   Status,
   TextEditorProps,
 } from "../app/src/renderer/components/core/text-editor/text-editor.component"
+// Dropdown
+export {
+  default as Dropdown,
+  DropdownProps,
+  DropdownPosition,
+} from "../app/src/renderer/components/core/dropdown/dropdown.component"
+export { DropdownButton } from "../app/src/renderer/components/core/dropdown/dropdown-button.styled"
 
 // ############ Displayig state ############
 // Badge
