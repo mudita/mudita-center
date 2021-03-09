@@ -85,7 +85,6 @@ const storeConfig = {
 let store = init(storeConfig)
 
 beforeEach(() => {
-  console.log("a: ", )
   store = init(storeConfig)
 })
 
