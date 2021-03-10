@@ -30,7 +30,6 @@ export interface DropdownProps {
 const DropdownWrapper = styled.div<{ visible: boolean }>`
   position: relative;
   z-index: ${({ visible }) => (visible ? zIndex("dropdown") : 0)};
-  overflow: ${({ visible }) => (visible ? "initial" : "hidden")};
 `
 
 const DropdownList = styled.ul<{
