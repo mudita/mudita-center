@@ -12,8 +12,10 @@ import { noop } from "Renderer/utils/noop"
 export interface SettingsProps {
   appAutostart: boolean
   appTethering: boolean
+  appCollectingData: boolean
   setAutostart?: (option: AppSettings["appAutostart"]) => void
   setTethering?: (option: AppSettings["appTethering"]) => void
+  setCollectingData?: (option: AppSettings["appCollectingData"]) => void
   checkAutostartValue?: () => Promise<boolean>
 }
 
@@ -23,12 +25,16 @@ const Settings: FunctionComponent<SettingsProps> = ({
   setAutostart = noop,
   setTethering = noop,
   checkAutostartValue = noop,
+  appCollectingData,
+  setCollectingData = noop,
 }) => {
   useEffect(() => {
     checkAutostartValue()
   }, [])
   return (
     <SettingsUI
+      appCollectingData={appCollectingData}
+      setCollectingData={setCollectingData}
       appAutostart={appAutostart}
       appTethering={appTethering}
       setAutostart={setAutostart}

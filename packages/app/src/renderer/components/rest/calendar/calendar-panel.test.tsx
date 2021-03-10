@@ -10,12 +10,14 @@ import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.comp
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import { InputSelectTestIds } from "Renderer/components/core/input-select/input-select.component"
 import { CalendarPanelTestIds } from "Renderer/components/rest/calendar/calendar-panel-test-ids.enum"
+import ExportErrorModal from "App/calendar/components/export-error-modal/export-error-modal.component"
 
+const mockedResetRows = jest.fn()
 const defaultProps = {
   onAddEventClick: jest.fn(),
   onSynchroniseClick: jest.fn(),
   onEventSelect: jest.fn(),
-  resetRows: jest.fn(),
+  resetRows: mockedResetRows,
   selectedEvents: [],
   events: [
     {
@@ -32,6 +34,10 @@ const defaultProps = {
     },
   ] as CalendarEvent[],
 }
+
+afterEach(() => {
+  jest.clearAllMocks()
+})
 
 const renderer = (extraProps?: {}) => {
   const props = {
@@ -100,4 +106,31 @@ test("add event is performed after clicking button", () => {
 test("selection manager is displayed when there is at least one event selected ", () => {
   const { getByTestId } = renderer({ selectedEvents: [defaultProps.events[0]] })
   expect(getByTestId(CalendarPanelTestIds.SelectionManager)).toBeInTheDocument()
+})
+
+test("reset rows is called when export is succeed ", async () => {
+  const selectedEvents = [defaultProps.events[0]]
+  const exportCalendarEvents = jest.fn(() => true)
+  const { getByTestId } = renderer({
+    selectedEvents,
+    exportCalendarEvents,
+  })
+  await getByTestId(CalendarPanelTestIds.ExportButton).click()
+  expect(mockedResetRows).toHaveBeenCalled()
+  expect(exportCalendarEvents).toHaveBeenCalledWith(selectedEvents)
+})
+
+test("modal is opened when there is error returned ", async () => {
+  const exportCalendarEvents = jest.fn(() => false)
+  const selectedEvents = [defaultProps.events[0]]
+  const openModal = jest.fn()
+  const { getByTestId } = renderer({
+    selectedEvents,
+    exportCalendarEvents,
+    openModal
+  })
+  await getByTestId(CalendarPanelTestIds.ExportButton).click()
+  expect(mockedResetRows).not.toHaveBeenCalled()
+  expect(openModal).toHaveBeenCalledWith(<ExportErrorModal />)
+  expect(exportCalendarEvents).toHaveBeenCalledWith(selectedEvents)
 })

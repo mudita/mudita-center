@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "module": "CommonJS",
+        "declaration": true,
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "strict": false,
+        "outDir": "./dist-svg",
+        "skipLibCheck": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "jsx": "react"
+    },
+    "include": [
+        "./tmp-svg"
+    ],
+}

@@ -8,7 +8,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
   FiltersWrapper,
   UnreadFilters,
-} from "Renderer/components/rest/messages/topics-table.component"
+} from "Renderer/components/rest/messages/threads-table.component"
 import ButtonToggler, {
   ButtonTogglerItem,
 } from "Renderer/components/core/button-toggler/button-toggler.component"

@@ -6,7 +6,7 @@
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
-  SidebarHeaderIcon,
+  SidebarHeaderButton,
   SidebarProps,
 } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -31,6 +31,7 @@ import {
   Name,
 } from "App/contacts/components/contact-details/contact-details.styled"
 import { productionEnvironment } from "Renderer/constants/menu-elements"
+import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 
 const messages = defineMessages({
   favourites: { id: "view.name.phone.contacts.details.favourites" },
@@ -47,7 +48,7 @@ const messages = defineMessages({
 })
 
 export interface ContactActions {
-  onExport: (contact: Contact) => void
+  onExport: (contact: Contact[]) => void
   onForward: (contact: Contact) => void
   onBlock: (contact: Contact) => void
   onUnblock: (contact: Contact) => void
@@ -65,7 +66,7 @@ interface ContactDetailsProps
     ContactActions,
     ContactDetailsActions {
   contact?: Contact
-  isTopicThreadOpened: (phoneNumber: string) => boolean
+  isThreadOpened: (phoneNumber: string) => boolean
 }
 
 export const phoneActions = (
@@ -104,36 +105,37 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onDelete,
   onCall,
   onMessage,
-  isTopicThreadOpened,
+  isThreadOpened,
   ...rest
 }) => {
   if (contact) {
     const handleEdit = () => onEdit(contact)
-    const handleExport = () => onExport(contact)
+    const handleExport = () => onExport([contact])
     const handleForward = () => onForward(contact)
     const handleBlock = () => onBlock(contact)
     const handleUnblock = () => onUnblock(contact)
     const handleDelete = () => onDelete(contact)
     const handleMessage = (phoneNumber: string) => onMessage(phoneNumber)
     // TODO: Remove prodIcons along with associated logic when features become available
+    const exportIcon = <SidebarHeaderButton Icon={Type.UploadDark} onClick={handleExport} data-testid={ContactDetailsTestIds.ExportButton} />
     const prodIcons = (
       <>
-        <SidebarHeaderIcon Icon={Type.Edit} onClick={handleEdit} />
-        <SidebarHeaderIcon Icon={Type.Upload} onClick={handleExport} />
-        <SidebarHeaderIcon Icon={Type.Delete} onClick={handleDelete} />
+        <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
+        {exportIcon}
+        <SidebarHeaderButton Icon={Type.Delete} onClick={handleDelete} />
       </>
     )
     const icons = (
       <>
-        <SidebarHeaderIcon Icon={Type.Edit} onClick={handleEdit} />
-        <SidebarHeaderIcon Icon={Type.Upload} onClick={handleExport} />
-        <SidebarHeaderIcon Icon={Type.Forward} onClick={handleForward} />
+        <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
+        {exportIcon}
+        <SidebarHeaderButton Icon={Type.Forward} onClick={handleForward} />
         {contact.blocked ? (
-          <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleUnblock} />
+          <SidebarHeaderButton Icon={Type.Blocked} onClick={handleUnblock} />
         ) : (
-          <SidebarHeaderIcon Icon={Type.Blocked} onClick={handleBlock} />
+          <SidebarHeaderButton Icon={Type.Blocked} onClick={handleBlock} />
         )}
-        <SidebarHeaderIcon Icon={Type.Delete} onClick={handleDelete} />
+        <SidebarHeaderButton Icon={Type.Delete} onClick={handleDelete} />
       </>
     )
 
@@ -196,7 +198,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                       ? undefined
                       : phoneActions(
                           contact.primaryPhoneNumber,
-                          isTopicThreadOpened(contact.primaryPhoneNumber),
+                          isThreadOpened(contact.primaryPhoneNumber),
                           onCall,
                           handleMessage
                         )
@@ -212,7 +214,7 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
                       ? undefined
                       : phoneActions(
                           contact.secondaryPhoneNumber,
-                          isTopicThreadOpened(contact.secondaryPhoneNumber),
+                          isThreadOpened(contact.secondaryPhoneNumber),
                           onCall,
                           handleMessage
                         )

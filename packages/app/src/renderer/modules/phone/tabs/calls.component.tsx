@@ -18,6 +18,7 @@ import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 import { Message } from "Renderer/interfaces/message.interface"
 import useTableSidebar from "Renderer/utils/hooks/use-table-sidebar"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
+import { Contact } from "App/contacts/store/contacts.type"
 
 const deleteModalMessages = defineMessages({
   title: { id: "view.name.calls.deleteModal.title" },
@@ -30,16 +31,18 @@ export interface CallsProps {
   changeVisibilityFilter?: (filter: VisibilityFilter) => void
   calls: Details[]
   deleteCall?: (ids: string[]) => void
-  isTopicThreadOpened: (phoneNumber: string) => boolean
+  isThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
+  getContact: (contactId: string) => Contact
 }
 
 const Calls: FunctionComponent<CallsProps> = ({
   calls,
   changeVisibilityFilter = noop,
   deleteCall = noop,
-  isTopicThreadOpened,
+  isThreadOpened,
   isContactCreated,
+  getContact,
 }) => {
   const {
     selectedRows,
@@ -60,10 +63,11 @@ const Calls: FunctionComponent<CallsProps> = ({
   const getDeletingMessage = (ids: string[]): Message => {
     const findById = (details: Details) => details.id === ids[0]
     const details = calls.find(findById) as Details
+    const contact = getContact(details.caller.id)
     return {
       ...deleteModalMessages.body,
       values: {
-        caller: getPrettyCaller(details.caller),
+        caller: getPrettyCaller(contact, details.caller.phoneNumber),
         num: allRowsSelected ? -1 : ids.length,
         ...textFormatters,
       },
@@ -110,11 +114,12 @@ const Calls: FunctionComponent<CallsProps> = ({
         getRowStatus={getRowStatus}
         toggleRow={toggleRow}
         noneRowsSelected={noneRowsSelected}
-        isTopicThreadOpened={isTopicThreadOpened}
+        isThreadOpened={isThreadOpened}
         isContactCreated={isContactCreated}
         onDeleteClick={removeSingleCall}
         onRowClick={openSidebar}
         onDetailsCloseClick={closeSidebar}
+        getContact={getContact}
       />
     </>
   )

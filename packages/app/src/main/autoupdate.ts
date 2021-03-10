@@ -25,7 +25,7 @@ export default (win: BrowserWindow) => {
     provider: "github",
     token: process.env.GITHUB_ACCESS_TOKEN,
     owner: "Mudita",
-    repo: "mudita-center"
+    repo: "mudita-center",
   })
   autoUpdater.logger = logger
   autoUpdater.autoDownload = false

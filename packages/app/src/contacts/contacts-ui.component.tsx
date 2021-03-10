@@ -90,9 +90,10 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     onCall,
     onMessage,
     savingContact,
-    isTopicThreadOpened,
+    isThreadOpened,
     resultsState,
     authorize,
+    onExport,
   } = props
   const history = useHistory()
   const searchParams = useURLSearchParams()
@@ -487,14 +488,15 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     for (const contact of contacts) {
       const index = contacts.indexOf(contact)
 
+      const error = await addNewContact(contact)
+      if (error) {
+        failed = true
+      }
+
       if (failed || (syncShouldFail && index > contacts.length / 2)) {
         await closeModal()
         showFinishedSynchronizationModal(contacts.slice(index), index)
         break
-      }
-      const error = await addNewContact(contact)
-      if (error) {
-        failed = true
       }
 
       const currentContactIndex = contacts.indexOf(contact) + 1
@@ -585,7 +587,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
             <ContactDetails
               contact={contactFreshData(activeRow as Contact)}
               onClose={closeSidebar}
-              onExport={noop}
+              onExport={onExport}
               onForward={noop}
               onUnblock={handleUnblock}
               onBlock={openBlockModal}
@@ -593,7 +595,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
               onEdit={handleEditingContact}
               onCall={onCall}
               onMessage={handleMessage}
-              isTopicThreadOpened={isTopicThreadOpened}
+              isThreadOpened={isThreadOpened}
             />
           )}
         </TableWithSidebarWrapper>

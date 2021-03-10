@@ -194,7 +194,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                 {contacts.map((contact, index) => {
                   const { selected } = getRowStatus(contact)
                   const onChange = () => toggleRow(contact)
-                  const handleExport = () => onExport(contact)
+                  const handleExport = () => onExport([contact])
                   const handleForward = () => onForward(contact)
                   const handleBlock = () => onBlock(contact)
                   const handleUnblock = () => onUnblock(contact)

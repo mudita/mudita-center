@@ -24,6 +24,10 @@ import { intl } from "Renderer/utils/intl"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import { CalendarPanelTestIds } from "Renderer/components/rest/calendar/calendar-panel-test-ids.enum"
 import { exportEvents } from "App/calendar/helpers/export-events/export-events"
+import modalService, {
+  ModalService,
+} from "Renderer/components/core/modal/modal.service"
+import ExportErrorModal from "App/calendar/components/export-error-modal/export-error-modal.component"
 
 const messages = defineMessages({
   synchroniseButton: { id: "view.name.calendar.panel.synchroniseButton" },
@@ -39,6 +43,8 @@ interface CalendarPanelProps extends CalendarInputSelectProps {
   allEventsSelected?: boolean
   toggleAll?: UseTableSelect<CalendarEvent>["toggleAll"]
   resetRows: UseTableSelect<CalendarEvent>["resetRows"]
+  openModal?: ModalService["openModal"]
+  exportCalendarEvents?: (calendarEvents: CalendarEvent[]) => Promise<boolean>
 }
 
 const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
@@ -50,15 +56,18 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
   allEventsSelected,
   toggleAll = noop,
   resetRows,
+  openModal = modalService.openModal,
+  exportCalendarEvents = exportEvents,
 }) => {
   const selectedEventsCount = selectedEvents.length
   const selectionMode = selectedEventsCount > 0
 
   const exportEventsAction = async () => {
-    const exported = await exportEvents(selectedEvents)
-
+    const exported = await exportCalendarEvents(selectedEvents)
     if (exported) {
       resetRows()
+    } else {
+      openModal(<ExportErrorModal />)
     }
   }
   return (
@@ -77,6 +86,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
               displayStyle={DisplayStyle.Link1}
               Icon={Type.UploadDark}
               onClick={exportEventsAction}
+              data-testid={CalendarPanelTestIds.ExportButton}
             />,
             <ButtonComponent
               key="delete"

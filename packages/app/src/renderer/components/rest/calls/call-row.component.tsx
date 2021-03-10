@@ -30,6 +30,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import formatDuration from "Renderer/utils/format-duration"
 import { isToday } from "Renderer/utils/is-today"
 import { noop } from "Renderer/utils/noop"
+import { Contact } from "App/contacts/store/contacts.type"
 
 export interface CallRowProps {
   onRowClick: (detail: Details) => void
@@ -45,6 +46,7 @@ export interface CallRowProps {
   noneRowsSelected: boolean
   sidebarOpened: boolean
   onDeleteClick: (id: string) => void
+  getContact: (contactId: string) => Contact
 }
 
 export const CallRow: FunctionComponent<CallRowProps> = ({
@@ -55,11 +57,13 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
   activeRow,
   noneRowsSelected,
   onDeleteClick,
+  getContact,
 }) => {
   const { caller, id, date, duration, timesMissed } = callData
   const { selected, indeterminate } = getRowStatus(callData)
   const toggle = () => toggleRow(callData)
   const details = resolveCallType(callData.status)
+  const contact = getContact(caller.id)
 
   const callDetails = { ...details, ...caller, ...callData }
 
@@ -88,7 +92,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
         active={activeRow?.id === id}
       >
         <StatusCallIcon type={details.icon} height={2.8} width={2.8} />
-        {getPrettyCaller(caller)}
+        {getPrettyCaller(contact, caller.phoneNumber)}
         {timesMissed > 1 && ` (${timesMissed})`}
       </ClickableCol>
       <Col>{formatDuration(duration)}</Col>
@@ -111,7 +115,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
             <ButtonComponent
               labelMessage={{
                 id: "component.dropdown.call",
-                values: { name: getPrettyCaller(caller) },
+                values: { name: getPrettyCaller(contact, caller.phoneNumber) },
               }}
               Icon={Type.Calls}
               onClick={noop}

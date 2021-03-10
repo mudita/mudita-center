@@ -40,7 +40,7 @@ const DropdownList = styled.ul<{
 }>`
   position: absolute;
   list-style-type: none;
-  padding: 2.4rem 0;
+  padding: 1.4rem 0;
   background-color: ${backgroundColor("row")};
   border-radius: 0.2rem 0.2rem;
   box-shadow: 0 1rem 5.5rem -0.5rem ${boxShadowColor("semi")};

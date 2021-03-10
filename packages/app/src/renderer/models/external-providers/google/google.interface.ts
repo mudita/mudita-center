@@ -14,12 +14,15 @@ export interface GoogleEvent {
   id: string
   summary?: string
   description?: string
-  start: {
-    dateTime: string
+  start?: {
+    dateTime?: string
+    date?: string
   }
-  end: {
-    dateTime: string
+  end?: {
+    dateTime?: string
+    date?: string
   }
+  recurrence?: string[]
 }
 
 export interface GoogleContactMetadata {

@@ -13,7 +13,7 @@ import BaseTable, {
 } from "Renderer/components/core/table/table.component"
 import Text from "Renderer/components/core/text/text.component"
 import { VisibleCheckbox } from "Renderer/components/rest/visible-checkbox/visible-checkbox"
-import { FiltersWrapper as FiltersWrapperBase } from "Renderer/components/rest/messages/topics-table.component"
+import { FiltersWrapper as FiltersWrapperBase } from "Renderer/components/rest/messages/threads-table.component"
 import {
   textColor,
   transitionTime,

@@ -69,6 +69,7 @@ const checkedStyles = css`
 const Input = styled.input<{ indeterminate: boolean }>`
   appearance: none;
   outline: none;
+  margin: 0;
   display: inline-block;
   height: 100%;
   width: 100%;

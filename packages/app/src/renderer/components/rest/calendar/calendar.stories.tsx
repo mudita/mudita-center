@@ -23,6 +23,7 @@ import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { calendarSeed, eventsData } from "App/seeds/calendar"
 import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
 import ImportEventsModal from "App/calendar/components/import-events-modal/import-events-modal.component"
+import ExportErrorModal from "App/calendar/components/export-error-modal/export-error-modal.component"
 
 const Wrapper = styled.div`
   max-width: 97.5rem;
@@ -88,6 +89,9 @@ storiesOf("Views/Calendar/Modals", module).add("All", () => (
     </Story>
     <Story title="Import from ics file" transparentMode>
       <ImportEventsModal events={eventsData} />
+    </Story>
+    <Story title="Export failed" transparentMode>
+      <ExportErrorModal />
     </Story>
   </StoryContainer>
 ))

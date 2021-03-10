@@ -27,7 +27,7 @@ export type PhoneProps = ContactActions &
     speedDialChosenList: number[]
     setProviderData: (provider: AuthProviders, data: any) => void
     onManageButtonClick: (cb?: any) => Promise<void>
-    isTopicThreadOpened: (phoneNumber: string) => boolean
+    isThreadOpened: (phoneNumber: string) => boolean
     onMessage: (history: History<LocationState>, phoneNumber: string) => void
     authorize: (provider: Provider) => Promise<string | undefined>
     addNewContact: (contact: NewContact) => Promise<string | void>

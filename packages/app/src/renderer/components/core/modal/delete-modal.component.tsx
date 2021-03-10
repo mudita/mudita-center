@@ -37,7 +37,7 @@ const messages = defineMessages({
   deleteButton: { id: "view.name.phone.contacts.modal.delete.deleteButton" },
 })
 
-interface DeleteContactModalProps {
+export interface DeleteContactModalProps {
   onDelete?: () => void
   onClose?: () => void
   deleting?: boolean

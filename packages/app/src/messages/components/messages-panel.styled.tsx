@@ -7,7 +7,7 @@ import styled, { css, keyframes } from "styled-components"
 import { ButtonTogglerItem } from "Renderer/components/core/button-toggler/button-toggler.component"
 import InputText from "Renderer/components/core/input-text/input-text.component"
 import SelectionManager from "Renderer/components/core/selection-manager/selection-manager.component"
-import { FiltersWrapper } from "Renderer/components/rest/messages/topics-table.component"
+import { FiltersWrapper } from "Renderer/components/rest/messages/threads-table.component"
 import {
   transitionTime,
   transitionTimingFunction,

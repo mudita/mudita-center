@@ -14,6 +14,7 @@ test("returns required app settings info", async () => {
   expect(await result).toMatchInlineSnapshot(`
     Object {
       "appAutostart": false,
+      "appCollectingData": undefined,
       "appConversionFormat": "WAV",
       "appConvert": "Convert automatically",
       "appIncomingCalls": false,

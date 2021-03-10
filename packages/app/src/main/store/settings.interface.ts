@@ -28,4 +28,5 @@ export interface AppSettings extends Record<string, any> {
   pureOsDownloadLocation: string
   language: string
   pureNeverConnected: boolean
+  appCollectingData: boolean | undefined
 }
