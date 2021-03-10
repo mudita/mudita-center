@@ -33,7 +33,7 @@ import {
   Name,
   NameWrapper,
   Time,
-} from "Renderer/components/rest/messages/topics-table.component"
+} from "Renderer/components/rest/messages/threads-table.component"
 import moment from "moment"
 import {
   AvatarPlaceholder,
@@ -43,23 +43,22 @@ import { InView } from "react-intersection-observer"
 import Avatar, {
   AvatarSize,
 } from "Renderer/components/core/avatar/avatar.component"
-import { last } from "lodash"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
-import { MessagesListTestIds } from "App/messages/components/messages-list-test-ids.enum"
+import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
 import ScrollAnchorContainer from "Renderer/components/rest/scroll-anchor-container/scroll-anchor-container.component"
 import {
   animatedOpacityActiveStyles,
   animatedOpacityStyles,
 } from "Renderer/components/rest/animated-opacity/animated-opacity"
-import { Caller } from "Renderer/models/calls/calls.interface"
 import { isToday } from "Renderer/utils/is-today"
 import { AppSettings } from "App/main/store/settings.interface"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
 import { productionEnvironment } from "Renderer/constants/menu-elements"
-import { Message as Msg, Topic } from "App/messages/store/messages.interface"
+import { Thread } from "App/messages/store/messages.interface"
+import { Contact } from "App/contacts/store/contacts.type"
 
-const MessageRow = styled(Row)`
+const ThreadRow = styled(Row)`
   height: 9rem;
 `
 
@@ -82,7 +81,7 @@ const dotStyles = css`
   }
 `
 
-const MessageCol = styled(Col)`
+const ThreadCol = styled(Col)`
   height: 100%;
 `
 
@@ -107,7 +106,7 @@ const LastMessageText = styled(Message)<{ unread?: boolean }>`
   ${({ unread }) => unread && dotStyles};
 `
 
-const Messages = styled(Table)<{
+const Threads = styled(Table)<{
   noneRowsSelected?: boolean
 }>`
   --columnsTemplate: 11.2rem 60.5rem 1fr;
@@ -120,6 +119,7 @@ const Messages = styled(Table)<{
       ${InitialsAvatar} {
         ${animatedOpacityStyles};
       }
+
       ${Checkbox} {
         ${animatedOpacityActiveStyles};
       }
@@ -130,6 +130,7 @@ const Messages = styled(Table)<{
       ${Checkbox} {
         ${animatedOpacityActiveStyles};
       }
+
       ${InitialsAvatar} {
         display: none;
       }
@@ -137,32 +138,27 @@ const Messages = styled(Table)<{
   }
 `
 
-const MessageDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
+const ThreadDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
   margin-right: ${({ sidebarOpened }) => (sidebarOpened ? "4rem" : "0")};
 `
 
 type SelectHook = Pick<
-  UseTableSelect<Topic>,
+  UseTableSelect<Thread>,
   "getRowStatus" | "toggleRow" | "noneRowsSelected"
 >
 
-export interface ActiveRow {
-  id: string
-  caller: Caller
-  messages: Msg[]
-}
-
 interface Props extends SelectHook, Pick<AppSettings, "language"> {
-  list: Topic[]
-  openSidebar?: (row: Topic) => void
-  activeRow?: Topic
+  threads: Thread[]
+  openSidebar?: (thread: Thread) => void
+  activeThread?: Thread
   onDeleteClick: (id: string) => void
   onToggleReadStatus: (ids: string[]) => void
+  getContact: (contactId: string) => Contact
 }
 
-const MessagesList: FunctionComponent<Props> = ({
-  activeRow,
-  list,
+const ThreadList: FunctionComponent<Props> = ({
+  activeThread,
+  threads,
   openSidebar = noop,
   onDeleteClick,
   onToggleReadStatus,
@@ -170,6 +166,7 @@ const MessagesList: FunctionComponent<Props> = ({
   toggleRow,
   noneRowsSelected,
   language,
+  getContact,
 }) => {
   /* TODO in new message feature task:
           1. Destructure scrollable from useTableScrolling
@@ -179,22 +176,23 @@ const MessagesList: FunctionComponent<Props> = ({
   const { enableScroll, disableScroll } = useTableScrolling()
 
   return (
-    <Messages
+    <Threads
       noneRowsSelected={noneRowsSelected}
       hideableColumnsIndexes={[2, 3, 4]}
-      hideColumns={Boolean(activeRow)}
+      hideColumns={Boolean(activeThread)}
     >
-      {list.map((item) => {
-        const { messages, caller, unread, id } = item
-        const { selected, indeterminate } = getRowStatus(item)
-        const lastMessage = last(messages)
-        const toggle = () => toggleRow(item)
-        const open = () => openSidebar(item)
-        const active = activeRow?.id === item.id
+      {threads.map((thread) => {
+        const { unread, id } = thread
+        const contact = getContact(thread.contactId)
+        const { selected, indeterminate } = getRowStatus(thread)
+
+        const toggle = () => toggleRow(thread)
+        const open = () => openSidebar(thread)
+        const active = activeThread?.id === thread.id
         const emitDeleteClick = () => onDeleteClick(id)
         const toggleReadStatus = () => onToggleReadStatus([id])
         const interactiveRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow ref={ref} selected={selected} active={active}>
+          <ThreadRow ref={ref} selected={selected} active={active}>
             <AvatarCol>
               <Checkbox
                 checked={selected}
@@ -205,33 +203,31 @@ const MessagesList: FunctionComponent<Props> = ({
                 data-testid="checkbox"
               />
               <InitialsAvatar
-                user={caller}
+                user={contact}
                 light={active}
                 size={AvatarSize.Big}
               />
             </AvatarCol>
-            <MessageCol onClick={open} data-testid={MessagesListTestIds.Row}>
-              <MessageDataWrapper sidebarOpened={Boolean(activeRow)}>
+            <ThreadCol onClick={open} data-testid={ThreadListTestIds.Row}>
+              <ThreadDataWrapper sidebarOpened={Boolean(activeThread)}>
                 <NameWrapper>
                   <Name displayStyle={TextDisplayStyle.LargeBoldText}>
-                    {getPrettyCaller(caller)}
+                    {getPrettyCaller(contact, thread.id)}
                   </Name>
-                  {Boolean(
-                    caller.phoneNumber && caller.secondaryPhoneNumber
-                  ) && (
+                  {Boolean(thread.id && contact?.secondaryPhoneNumber) && (
                     <Text displayStyle={TextDisplayStyle.LargeFadedText}>
                       &nbsp;
-                      {caller.phoneNumber.split(" ").join("") ===
-                      caller.secondaryPhoneNumber?.split(" ").join("")
+                      {thread.id.split(" ").join("") ===
+                      contact?.secondaryPhoneNumber?.split(" ").join("")
                         ? "#2"
                         : "#1"}
                     </Text>
                   )}
                 </NameWrapper>
                 <Time displayStyle={TextDisplayStyle.SmallFadedText}>
-                  {isToday(lastMessage?.date)
-                    ? moment(lastMessage?.date).format("h:mm A")
-                    : moment(lastMessage?.date)
+                  {isToday(thread.lastUpdatedAt)
+                    ? moment(thread.lastUpdatedAt).format("h:mm A")
+                    : moment(thread.lastUpdatedAt)
                         .locale(language ?? "en")
                         .format("ll")}
                 </Time>
@@ -243,10 +239,10 @@ const MessagesList: FunctionComponent<Props> = ({
                       : TextDisplayStyle.MediumFadedLightText
                   }
                 >
-                  {lastMessage?.content}
+                  {thread?.messageSnippet}
                 </LastMessageText>
-              </MessageDataWrapper>
-            </MessageCol>
+              </ThreadDataWrapper>
+            </ThreadCol>
             <Col>
               <Actions>
                 <Dropdown
@@ -262,7 +258,7 @@ const MessagesList: FunctionComponent<Props> = ({
                     labelMessage={{
                       id: "component.dropdown.call",
                       values: {
-                        name: caller.firstName || caller.phoneNumber,
+                        name: contact?.firstName || thread.id,
                       },
                     }}
                     Icon={Type.Calls}
@@ -271,7 +267,7 @@ const MessagesList: FunctionComponent<Props> = ({
                     data-testid="dropdown-call"
                     hide={productionEnvironment}
                   />
-                  {isNameAvailable(caller) ? (
+                  {isNameAvailable(contact) ? (
                     <ButtonComponent
                       labelMessage={{
                         id: "view.name.messages.dropdownContactDetails",
@@ -317,18 +313,18 @@ const MessagesList: FunctionComponent<Props> = ({
               </Actions>
             </Col>
             <ScrollAnchorContainer key={id} active={active} />
-          </MessageRow>
+          </ThreadRow>
         )
 
         const placeholderRow = (ref: Ref<HTMLDivElement>) => (
-          <MessageRow ref={ref}>
+          <ThreadRow ref={ref}>
             <Col />
             <Col>
               <AvatarPlaceholder />
-              <TextPlaceholder charsCount={caller.firstName?.length || 0} />
+              <TextPlaceholder charsCount={contact?.firstName?.length || 0} />
             </Col>
             <ScrollAnchorContainer key={id} active={active} />
-          </MessageRow>
+          </ThreadRow>
         )
 
         return (
@@ -339,8 +335,8 @@ const MessagesList: FunctionComponent<Props> = ({
           </InView>
         )
       })}
-    </Messages>
+    </Threads>
   )
 }
 
-export default MessagesList
+export default ThreadList

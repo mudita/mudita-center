@@ -48,6 +48,7 @@ exports[`matches snapshot 1`] = `
   -moz-appearance: none;
   appearance: none;
   outline: none;
+  margin: 0;
   display: inline-block;
   height: 100%;
   width: 100%;

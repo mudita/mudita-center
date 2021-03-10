@@ -43,14 +43,24 @@ export interface EventsListProps extends UseTableSelect<CalendarEvent> {
 const EventsList: FunctionComponent<EventsListProps> = ({
   events,
   getRowStatus,
-  toggleRow,
   noneRowsSelected,
   selectedEventIndex,
+  selectRows,
+  selectedRows,
 }) => {
   const renderRow = ({ index, style }: ListRowProps) => {
     const { id, name, startDate, endDate } = events[index]
     const { selected } = getRowStatus(events[index])
-    const onCheckboxToggle = () => toggleRow(events[index])
+    const onCheckboxToggle = () => {
+      if (selected) {
+        selectRows(selectedRows.filter(row => row.id !== id))
+      } else {
+        selectRows([
+          ...selectedRows,
+          ...events.filter((event) => event.id === id),
+        ])
+      }
+    }
     return (
       <Row
         active={selectedEventIndex === index}

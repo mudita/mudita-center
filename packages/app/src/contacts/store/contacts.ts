@@ -24,7 +24,10 @@ import { isContactMatchingPhoneNumber } from "App/contacts/helpers/is-contact-ma
 import getContacts from "Renderer/requests/get-contacts.request"
 import logger from "App/main/utils/logger"
 import externalProvidersStore from "Renderer/store/external-providers"
-import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import {
+  ExternalProvider,
+  Provider,
+} from "Renderer/models/external-providers/external-providers.interface"
 import { Scope } from "Renderer/models/external-providers/google/google.interface"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
@@ -156,7 +159,7 @@ const contacts = createModel<RootModel>({
           dispatch.contacts.setResultsState(ResultsState.Loaded)
         }
       },
-      authorize(provider: Provider) {
+      authorize(provider: ExternalProvider) {
         switch (provider) {
           case Provider.Google:
             return externalProvidersStore.dispatch.google.authorize(
@@ -188,6 +191,9 @@ const contacts = createModel<RootModel>({
       return slice((state) => {
         return (id: ContactID) => state.db[id]
       })
+    },
+    getContactMap() {
+      return slice((state) => state.db)
     },
     isContactCreated(models: StoreSelectors<PhoneContacts>) {
       return (state: PhoneContacts) => {

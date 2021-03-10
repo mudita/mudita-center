@@ -12,7 +12,7 @@ import {
   Message,
   Name,
   TableRow,
-} from "Renderer/components/rest/messages/topics-table.component"
+} from "Renderer/components/rest/messages/threads-table.component"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,

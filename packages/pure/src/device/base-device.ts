@@ -22,11 +22,13 @@ import {
 } from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
 import { isApiRequestConfig } from "./device-helper"
+import Queue from "queue-promise"
 
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
   #portBlocked = true
+  #requestsQueue = new Queue({ concurrent: 1, interval: 1 })
 
   constructor(private path: string, private logger?: any) {}
 
@@ -74,15 +76,41 @@ class BaseDevice implements PureDevice {
   ): Promise<Response<{ version: number }>>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
-    if (config.endpoint === Endpoint.FileUpload) {
-      return this.fileUploadRequest(config)
-    } else if (config.endpoint === Endpoint.DeviceUpdate) {
-      return this.deviceUpdateRequest(config)
-    } else if (isApiRequestConfig(config)) {
-      return this.apiRequest(config)
-    } else {
-      return this.deviceRequest(config)
+    const handleRequest = () => {
+      if (config.endpoint === Endpoint.FileUpload) {
+        return this.fileUploadRequest(config)
+      } else if (config.endpoint === Endpoint.DeviceUpdate) {
+        return this.deviceUpdateRequest(config)
+      } else if (isApiRequestConfig(config)) {
+        return this.apiRequest(config)
+      } else {
+        return this.deviceRequest(config)
+      }
     }
+
+    return new Promise<Response>((resolve, reject) => {
+      this.#requestsQueue.add(async () => {
+        try {
+          const { status, ...rest } = await handleRequest()
+          if (status >= 300) {
+            reject({
+              status,
+              ...rest,
+            } as Response)
+          } else {
+            resolve({
+              status,
+              ...rest,
+            })
+          }
+        } catch (error) {
+          reject({
+            status: ResponseStatus.InternalServerError,
+            error: error?.message || "Unknown error",
+          } as Response)
+        }
+      })
+    })
   }
 
   public on(eventName: DeviceEventName, listener: () => void): void {

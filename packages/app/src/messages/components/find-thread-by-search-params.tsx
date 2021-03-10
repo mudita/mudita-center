@@ -4,17 +4,17 @@
  */
 
 import { isCallerMatchingPhoneNumber } from "Renderer/models/calls/caller-utils.ts"
-import { Topic } from "App/messages/store/messages.interface"
+import { Thread } from "App/messages/store/messages.interface"
 
-const findTopicBySearchParams = (
+const findThreadBySearchParams = (
   searchParams: URLSearchParams,
-  topics: Topic[]
-): Topic | undefined => {
+  threads: Thread[]
+): Thread | undefined => {
   const paramsPhoneNumber = searchParams.get("phoneNumber") || ""
 
-  return topics.find(({ caller }) =>
-    isCallerMatchingPhoneNumber(caller, paramsPhoneNumber)
+  return threads.find(({ id }) =>
+    isCallerMatchingPhoneNumber(id, paramsPhoneNumber)
   )
 }
 
-export default findTopicBySearchParams
+export default findThreadBySearchParams

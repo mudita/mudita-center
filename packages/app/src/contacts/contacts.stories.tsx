@@ -36,7 +36,7 @@ const getContact = (id: ContactID) => contactsSeed.db[id]
 const labeledContactList: any = getSortedContactList(contactsSeed)
 const flatList: any = getFlatList(contactsSeed)
 const speedDialChosenList: number[] = getSpeedDialChosenList(contactsSeed)
-const isTopicThreadOpened = () => true
+const isThreadOpened = () => true
 
 const ContactsWrapper = styled.div`
   max-width: 97.5rem;
@@ -68,7 +68,7 @@ const ContactsComponent = ({
     selectedContacts={[]}
     resetRows={action("Reset rows")}
     setProviderData={noop}
-    isTopicThreadOpened={isTopicThreadOpened}
+    isThreadOpened={isThreadOpened}
     loadData={asyncNoop}
     addNewContact={asyncNoop}
     editContact={asyncNoop}
@@ -138,7 +138,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onMessage={action("Send message")}
       onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isTopicThreadOpened={isTopicThreadOpened}
+      isThreadOpened={isThreadOpened}
     />
   ))
   .add("Favourite, speed dial", () => (
@@ -153,7 +153,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onMessage={action("Send message")}
       onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isTopicThreadOpened={isTopicThreadOpened}
+      isThreadOpened={isThreadOpened}
     />
   ))
   .add("Favourite only", () => (
@@ -168,7 +168,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onMessage={action("Send message")}
       onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isTopicThreadOpened={isTopicThreadOpened}
+      isThreadOpened={isThreadOpened}
     />
   ))
   .add("Speed dial only", () => (
@@ -183,7 +183,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onMessage={action("Send message")}
       onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isTopicThreadOpened={isTopicThreadOpened}
+      isThreadOpened={isThreadOpened}
     />
   ))
   .add("Blocked", () => (
@@ -198,7 +198,7 @@ storiesOf("Views|Phone/Contact details/Existing", module)
       onMessage={action("Send message")}
       onCall={action("Call")}
       onClose={action("Close sidebar")}
-      isTopicThreadOpened={isTopicThreadOpened}
+      isThreadOpened={isThreadOpened}
     />
   ))
 

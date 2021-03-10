@@ -4,7 +4,10 @@
  */
 
 import { Calendar, CalendarEvent, CalendarState } from "./calendar.interfaces"
-import { getSortedEvents } from "Renderer/models/calendar/calendar.helpers"
+import {
+  getSortedEvents,
+  mapEvents,
+} from "Renderer/models/calendar/calendar.helpers"
 import { Slicer } from "@rematch/select"
 import { RootState } from "Renderer/store"
 import externalProvidersStore from "Renderer/store/external-providers"
@@ -12,15 +15,23 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 import { eventsData } from "App/seeds/calendar"
 import { createModel } from "@rematch/core"
 import { RootModel } from "Renderer/models/models"
+import overwriteDuplicates from "App/calendar/helpers/overwrite-duplicates/overwrite-duplicates"
+import { ResultsState } from "App/contacts/store/contacts.enum"
+import logger from "App/main/utils/logger"
+import getEvents from "Renderer/requests/get-events.request"
 
 export const initialState: CalendarState = {
   calendars: [],
   events: [],
+  resultState: ResultsState.Empty,
 }
 
 const calendar = createModel<RootModel>({
   state: initialState,
   reducers: {
+    setResultState(state: CalendarState, resultState: ResultsState) {
+      return { ...state, resultState }
+    },
     setCalendars(state: CalendarState, newCalendars: Calendar[]) {
       return {
         ...state,
@@ -36,7 +47,7 @@ const calendar = createModel<RootModel>({
     setEvents(state: CalendarState, newEvents: CalendarEvent[]) {
       return {
         ...state,
-        events: [...state.events, ...newEvents],
+        events: overwriteDuplicates({ oldEvents: state.events, newEvents }),
       }
     },
     _devClearAllEvents(state: CalendarState) {
@@ -54,13 +65,36 @@ const calendar = createModel<RootModel>({
   },
   selectors: (slice: Slicer<CalendarState>) => ({
     sortedEvents() {
-      return slice((state: CalendarState) => getSortedEvents(state.events))
+      return slice((state: CalendarState) => {
+        const events = mapEvents(state.events)
+        return getSortedEvents(events)
+      })
     },
   }),
   effects: (d) => {
     const dispatch = (d as unknown) as RootState
+    let loading = false
 
     return {
+      async loadData() {
+        // FIXME: due to the async nature of the store, this won't work. How to deal with that?
+        // if (rootState.calendar.resultsState === ResultsState.Loading) {
+        if (loading) {
+          return
+        }
+        loading = true
+        dispatch.calendar.setResultState(ResultsState.Loading)
+        const { error, data = [] } = await getEvents()
+        if (error) {
+          logger.error(error)
+          dispatch.calendar.setResultState(ResultsState.Error)
+        } else {
+          dispatch.calendar.setEvents(data)
+          dispatch.calendar.setResultState(ResultsState.Loaded)
+        }
+        loading = false
+      },
+
       async loadCalendars(provider: Provider) {
         let calendars: Calendar[] = []
 

@@ -206,8 +206,6 @@ const google = createModel<ExternalProvidersModels>({
 
       const request = (pageToken?: string) => {
         const params = new URLSearchParams({
-          singleEvents: "true",
-          orderBy: "startTime",
           timeMin: moment().startOf("day").toISOString(),
           timeMax: moment().add(1, "year").endOf("year").toISOString(),
           maxResults: "1000",
@@ -244,7 +242,7 @@ const google = createModel<ExternalProvidersModels>({
           nextPageToken = data.nextPageToken
         }
 
-        return mapEvents(events)
+        return mapEvents(events, calendarId)
       } catch (error) {
         logger.error(error)
         throw error

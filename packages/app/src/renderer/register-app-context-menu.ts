@@ -24,12 +24,12 @@ const registerAppContextMenu = (menu: ContextMenu) => {
 
   menu.registerItems("Messages", [
     {
-      label: "Load default topics",
-      click: () => store.dispatch.messages._devLoadDefaultTopics(),
+      label: "Load default threads",
+      click: () => store.dispatch.messages.loadData(),
     },
     {
-      label: "Clear all topics",
-      click: () => store.dispatch.messages._devClearAllTopics(),
+      label: "Clear all threads",
+      click: () => store.dispatch.messages._devClearAllThreads(),
     },
   ])
 

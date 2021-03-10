@@ -16,6 +16,7 @@ import { Provider } from "Renderer/models/external-providers/external-providers.
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 import { Contact } from "App/contacts/store/contacts.type"
+import { rrulestr } from "rrule"
 
 const messages = defineMessages({
   unnamedEvent: {
@@ -23,18 +24,72 @@ const messages = defineMessages({
   },
 })
 
-export const mapEvents = (events: GoogleEvent[]): CalendarEvent[] => {
+export const createRruleString = (rules: {
+  rrule?: string
+  exdate?: string
+  rdate?: string
+  exrule?: string
+  dtstart?: string
+}) => {
+  const {
+    rrule = "",
+    exdate = "",
+    rdate = "",
+    exrule = "",
+    dtstart = "",
+  } = rules
+  return `DTSTART:${dtstart}\n${rrule}\n${exdate}\n${rdate}\n${exrule}`
+}
+
+export const mapEvents = (
+  events: GoogleEvent[],
+  calendarId?: string
+): CalendarEvent[] => {
   return events
-    .filter((event) => event.start.dateTime && event.end.dateTime)
+    .filter(
+      (event) =>
+        (event.start?.dateTime || event.start?.date) &&
+        (event.end?.dateTime || event.end?.date)
+    )
     .map((event) => ({
       id: `${Provider.Google}_${event.id}`,
       name: event.summary || intl.formatMessage(messages.unnamedEvent),
       description: event.description,
-      startDate: new Date(event.start.dateTime).toISOString(),
-      endDate: new Date(event.end.dateTime).toISOString(),
+      startDate: new Date(
+        (event.start?.dateTime || event.start?.date) as string
+      ).toISOString(),
+      endDate: new Date(
+        (event.end?.dateTime || event.end?.date) as string
+      ).toISOString(),
+      ...(event.recurrence
+        ? {
+            recurrence: rrulestr(
+              createRruleString({
+                rrule: event.recurrence.find((element) =>
+                  element.startsWith("RRULE")
+                ),
+                exdate: event.recurrence.find((element) =>
+                  element.startsWith("EXDATE")
+                ),
+                rdate: event.recurrence.find((element) =>
+                  element.startsWith("RDATE")
+                ),
+                exrule: event.recurrence.find((element) =>
+                  element.startsWith("EXRULE")
+                ),
+                dtstart:
+                  new Date(event.start?.dateTime as string)
+                    .toISOString()
+                    .replace(/[-:]/g, "")
+                    .split(".")[0] + "Z",
+              })
+            ),
+          }
+        : {}),
       provider: {
         type: Provider.Google,
         id: event.id,
+        calendarId,
       },
     }))
 }

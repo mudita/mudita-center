@@ -278,13 +278,7 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
           outlined
           condensed
           name="email"
-          inputRef={register({
-            ...emailValidator,
-            required: {
-              value: true,
-              message: intl.formatMessage(messages.emailRequiredError),
-            },
-          })}
+          inputRef={register(emailValidator)}
           errorMessage={errors.email?.message}
         />
         <FormInputLabel label={messages.messageLabel} optional />

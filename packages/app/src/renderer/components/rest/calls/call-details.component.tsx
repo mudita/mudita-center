@@ -38,6 +38,7 @@ import {
 } from "App/contacts/components/contact-details/contact-details.styled"
 import createRouterPath from "Renderer/utils/create-router-path"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
+import { Contact } from "App/contacts/store/contacts.type"
 
 const messages = defineMessages({
   today: { id: "view.name.phone.calls.today" },
@@ -55,8 +56,9 @@ const messages = defineMessages({
 interface ContactDetailsProps {
   calls: Details[]
   onClose: () => void
-  isTopicThreadOpened: (phoneNumber: string) => boolean
+  isThreadOpened: (phoneNumber: string) => boolean
   isContactCreated: (phoneNumber: string) => boolean
+  getContact: (contactId: string) => Contact
   onDeleteClick: (id: string) => void
 }
 
@@ -64,8 +66,9 @@ export const CallDetails = ({
   calls,
   onClose,
   onDeleteClick,
-  isTopicThreadOpened,
+  isThreadOpened,
   isContactCreated,
+  getContact,
 }: ContactDetailsProps) => {
   const history = useHistory()
   return (
@@ -101,12 +104,13 @@ export const CallDetails = ({
         const contactCreated = isContactCreated(details.caller.phoneNumber)
 
         const emitDeleteClick = () => onDeleteClick(details.id)
+        const contact = getContact(details.caller.id)
 
         return (
           <CallWrapper key={index}>
             <ContactName displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
               <NameIcon type={details.icon} size={IconSize.Big} />
-              {getPrettyCaller(details.caller)}
+              {getPrettyCaller(contact, details.caller.phoneNumber)}
             </ContactName>
             <CallDescription
               displayStyle={TextDisplayStyle.SmallFadedText}
@@ -144,7 +148,7 @@ export const CallDetails = ({
                       value={details.caller.phoneNumber}
                       trailingIcons={phoneActions(
                         details.caller.phoneNumber,
-                        isTopicThreadOpened(details.caller.phoneNumber),
+                        isThreadOpened(details.caller.phoneNumber),
                         noop,
                         redirectToMessagesPage
                       )}

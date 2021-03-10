@@ -22,4 +22,7 @@ export enum IpcRequest {
   UpdateOs = "update-os",
   ExportContacts = "export-contacts",
   ExportEvents = "export-events",
+  GetEvents = "get-events",
+  GetMessagesByThreadId = "get-messages-by-thread-id",
+  GetThreads = "get-threads",
 }

@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-export enum MessagesListTestIds {
+export enum ThreadListTestIds {
   Row = "message-row",
 }

@@ -28,6 +28,7 @@ import Loader from "Renderer/components/core/loader/loader.component"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import { SortOrder } from "Common/enums/sort-order.enum"
 import { buttonComponentAnimationStyles } from "Renderer/components/core/button/button.styled.elements"
+import { TableTestIds } from "Renderer/components/core/table/table.enum"
 
 /* Row */
 export enum RowSize {
@@ -240,7 +241,7 @@ const SidebarWrapper = styled.div<{
   margin-right: ${({ show }) => (show ? 0 : -62.1)}rem;
 `
 
-export const SidebarHeaderIcon = styled(ButtonComponent).attrs(() => ({
+export const SidebarHeaderButton = styled(ButtonComponent).attrs(() => ({
   displayStyle: DisplayStyle.IconOnly2,
 }))`
   ${buttonComponentAnimationStyles};
@@ -326,14 +327,14 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
     className={className}
     show={show}
     appColorSidebarHeader={appColorSidebarHeader}
-    data-testid="sidebar"
+    data-testid={TableTestIds.Sidebar}
     {...rest}
   >
     <SidebarHeader>
       {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
       {headerRight && <SidebarHeaderRight>{headerRight}</SidebarHeaderRight>}
       <SidebarClose onClick={onClose} data-testid="sidebar-close">
-        <SidebarHeaderIcon Icon={Type.Close} />
+        <SidebarHeaderButton Icon={Type.Close} />
       </SidebarClose>
     </SidebarHeader>
     <SidebarContent padded={padded}>{children}</SidebarContent>
@@ -341,7 +342,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
 )
 
 /* Table */
-interface TableProps {
+ export interface TableProps {
   hideColumns?: boolean
   hideableColumnsIndexes?: number[]
   sidebar?: ReactNode
