@@ -184,9 +184,7 @@ test("error text renders with retry button when thread won't load", () => {
 })
 
 test("loader renders when thread is loading", () => {
-  const getMessagesResultMapStateByThreadId = jest.fn(
-    () => ResultState.Loading
-  )
+  const getMessagesResultMapStateByThreadId = jest.fn(() => ResultState.Loading)
   const { getByTestId } = renderer({
     getMessagesResultMapStateByThreadId,
   })
@@ -200,9 +198,17 @@ test("retry button tries to load thread again after initial call", () => {
   const { getByTestId } = renderer({
     openErrorModal,
     getMessagesResultMapStateByThreadId,
-    loadMessagesByThreadId
+    loadMessagesByThreadId,
   })
   getByTestId(ThreadDetailsTestIds.RetryButton).click()
   expect(loadMessagesByThreadId).toBeCalledWith(phoneNumberId)
   expect(loadMessagesByThreadId).toBeCalledTimes(2)
+})
+
+test("error modal renders when error is thrown", () => {
+  const getMessagesResultMapStateByThreadId = jest.fn(() => ResultState.Error)
+  const { getByLabelText } = renderer({
+    getMessagesResultMapStateByThreadId,
+  })
+  expect(getByLabelText("modal1")).toBeInTheDocument()
 })

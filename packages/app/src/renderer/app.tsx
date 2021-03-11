@@ -13,6 +13,7 @@ import store from "Renderer/store"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
 import appUpdate from "./components/rest/app-update/app-update.service"
 import requestDataCollecting from "App/collecting-data-modal/collecting-data-service"
+import Modal from "react-modal"
 
 try {
   require("./fonts/main/style.css")
@@ -24,7 +25,10 @@ require("dotenv").config()
 
 // Create main element
 const mainElement = document.createElement("div")
+mainElement.id = "app"
 document.body.appendChild(mainElement)
+
+Modal.setAppElement("#app")
 
 ReactDOM.render(
   <AppContainer>

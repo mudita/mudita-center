@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
-import React, { useEffect, useRef } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -41,6 +41,7 @@ import {
   RetryButton,
 } from "App/messages/components/thread-details.styled"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import Modal from "react-modal"
 
 export interface ThreadDetailsProps {
   thread: Thread
@@ -76,8 +77,10 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   getMessagesByThreadId,
   loadMessagesByThreadId,
   getContact,
-                                                                getMessagesResultMapStateByThreadId,
+  getMessagesResultMapStateByThreadId,
 }) => {
+  const [openModal1, setOpenModal1] = useState(false)
+  const [openModal2, setOpenModal2] = useState(false)
   const resultState = getMessagesResultMapStateByThreadId(thread.id)
   const messages = getMessagesByThreadId(thread.id)
   const contact = getContact(thread.contactId)
@@ -85,6 +88,14 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   useEffect(() => {
     loadThread()
   }, [thread.id])
+  useEffect(() => {
+    if (resultState === ResultState.Error) {
+      setOpenModal1(true)
+    }
+    return () => {
+      setOpenModal1(false)
+    }
+  }, [resultState])
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
     if (ref.current) {
@@ -97,6 +108,27 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   }
   const handleDeleteClick = () => onDeleteClick(thread.id)
   const handleContactClick = () => onContactClick(thread.id)
+
+  const openModal = () => {
+    setOpenModal1(true)
+  }
+
+  const openSecondModal = () => {
+    setOpenModal1(false)
+    setOpenModal2(true)
+  }
+
+  const afterOpenModal = () => {
+    console.log("after")
+  }
+
+  const closeModal = () => {
+    setOpenModal1(false)
+  }
+
+  const closeSecondModal = () => {
+    setOpenModal2(false)
+  }
   const icons = (
     <>
       {process.env.NODE_ENV !== "production" && (
@@ -178,6 +210,52 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
       padded={false}
     >
       <MessagesWrapper>
+        <button onClick={openModal}>Open Modal</button>
+        <Modal
+          isOpen={openModal1}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          contentLabel="modal1"
+          style={{
+            overlay: {
+              backgroundColor: "transparent",
+              zIndex: 5,
+            },
+            content: {
+              display: "flex",
+              justifyContent: "center",
+              width: "300px",
+            },
+          }}
+        >
+          <button onClick={closeModal}>close</button>
+          <button onClick={openSecondModal}>open modal 2</button>
+          <Text
+            displayStyle={TextDisplayStyle.LargeFadedText}
+            message={translations.errorText}
+            data-testid={ThreadDetailsTestIds.ErrorText}
+          />
+          <h1>modal1</h1>
+        </Modal>
+        <Modal
+          isOpen={openModal2}
+          onRequestClose={closeSecondModal}
+          contentLabel="modal2"
+          style={{
+            overlay: {
+              backgroundColor: "transparent",
+              zIndex: 5,
+            },
+            content: {
+              display: "flex",
+              justifyContent: "center",
+              width: "300px",
+            },
+          }}
+        >
+          <button onClick={closeSecondModal}>close</button>
+          <h1>modal2</h1>
+        </Modal>
         {resultState === ResultState.Error && (
           <ColumnContent>
             <Text
