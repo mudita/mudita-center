@@ -17,6 +17,15 @@ const makeSuccessDeviceResponse = async (
   }
 }
 
+const makeErrorDeviceResponse = async (): Promise<DeviceResponse<any>> => {
+  return {
+    status: DeviceResponseStatus.Error,
+    error: {
+      message: "Error",
+    },
+  }
+}
+
 export const commonCalls = {
   [IpcRequest.GetDeviceInfo]: makeSuccessDeviceResponse({
     name: "Ziemniaczek",
@@ -69,4 +78,9 @@ export const commonCalls = {
       },
     ],
   }),
+}
+
+export const commonCallsWithError = {
+  ...commonCalls,
+  [IpcRequest.GetBatteryInfo]: makeErrorDeviceResponse(),
 }

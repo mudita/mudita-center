@@ -7,9 +7,15 @@ import { init } from "@rematch/core"
 import basicInfo from "./basic-info"
 import { ipcRenderer } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
+import {
+  SimCard,
+  ResultsState,
+} from "Renderer/models/basic-info/basic-info.typings"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import { commonCalls } from "Renderer/models/basic-info/utils/test-helpers"
+import {
+  commonCalls,
+  commonCallsWithError,
+} from "Renderer/models/basic-info/utils/test-helpers"
 
 afterEach(() => {
   for (const property in (ipcRenderer as any).__rendererCalls) {
@@ -164,4 +170,15 @@ test("change sim switches active property on sim cards", async () => {
       },
     }
   `)
+})
+
+test("sets the error result when one of the requests fails", async () => {
+  const store = init({
+    models: { basicInfo },
+  })
+  ;(ipcRenderer as any).__rendererCalls = {
+    ...commonCallsWithError,
+  }
+  await store.dispatch.basicInfo.loadData()
+  expect(store.getState().basicInfo.resultsState).toBe(ResultsState.Error)
 })
