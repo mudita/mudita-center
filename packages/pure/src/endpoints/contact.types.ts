@@ -14,11 +14,3 @@ export interface Contact {
 }
 
 export type NewContact = Omit<Contact, "id">
-
-export interface GetBodyContact {
-  count: true | number
-}
-
-export interface CountBodyResponse {
-  count: number
-}
