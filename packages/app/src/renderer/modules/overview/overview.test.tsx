@@ -40,18 +40,6 @@ jest.mock("electron", () => ({
   },
 }))
 
-jest.mock(
-  "electron-better-ipc",
-  () => {
-    const mockIpcRenderer = {
-      on: jest.fn(),
-      removeListener: jest.fn(),
-    }
-    return { ipcRenderer: mockIpcRenderer }
-  }
-  // { virtual: true }
-)
-
 const renderer = (extraProps?: {}) => {
   const defaultProps: BasicInfoInitialState &
     PhoneUpdateStore &
