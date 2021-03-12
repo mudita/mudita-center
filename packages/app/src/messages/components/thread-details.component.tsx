@@ -217,6 +217,8 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
           onRequestClose={closeModal}
           contentLabel="modal1"
           testId={"modal1"}
+          shouldCloseOnEsc={false}
+          shouldCloseOnOverlayClick={false}
           style={{
             overlay: {
               backgroundColor: "transparent",
