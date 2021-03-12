@@ -20,6 +20,9 @@ import { Contact } from "App/contacts/store/contacts.type"
 import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
 import { createFullName } from "App/contacts/store/contacts.helpers"
 
+const ReactModal = require("react-modal")
+ReactModal.setAppElement(document.createElement("div"))
+
 beforeAll(() => (Element.prototype.scrollIntoView = jest.fn()))
 
 const phoneNumberId = "123 456 789"
