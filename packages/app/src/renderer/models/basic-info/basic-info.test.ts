@@ -12,10 +12,7 @@ import {
   ResultsState,
 } from "Renderer/models/basic-info/basic-info.typings"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import {
-  commonCalls,
-  commonCallsWithError,
-} from "Renderer/models/basic-info/utils/test-helpers"
+import { commonCalls } from "Renderer/models/basic-info/utils/test-helpers"
 
 afterEach(() => {
   for (const property in (ipcRenderer as any).__rendererCalls) {
