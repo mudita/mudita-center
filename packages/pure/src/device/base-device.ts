@@ -131,7 +131,7 @@ class BaseDevice implements PureDevice {
         const listener = async (event: any) => {
           const response = await parseData(event)
 
-          if (response.uuid === String(uuid)) {
+          if (response.uuid === uuid) {
             if (response.body.status === FileResponseStatus.Ok) {
               const readStream = fs.createReadStream(filePath, {
                 highWaterMark: 16384,
@@ -263,7 +263,7 @@ class BaseDevice implements PureDevice {
         const listener = async (event: any) => {
           const response = await parseData(event)
 
-          if (response.uuid === String(uuid)) {
+          if (response.uuid === uuid) {
             this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
             resolve(response)
           }
