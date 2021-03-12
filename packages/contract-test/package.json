@@ -18,9 +18,12 @@
     "url": "git+https://github.com/Mudita/mudita-center.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "jest"
   },
   "bugs": {
     "url": "https://github.com/Mudita/mudita-center/issues"
+  },
+  "dependencies": {
+    "jest": "^26.6.3"
   }
 }
