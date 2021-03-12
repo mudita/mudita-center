@@ -3,5 +3,5 @@
 module.exports = contractTest;
 
 function contractTest() {
-    // TODO
+    return 2
 }
