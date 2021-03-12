@@ -24,6 +24,7 @@
     "url": "https://github.com/Mudita/mudita-center/issues"
   },
   "dependencies": {
+    "@mudita/pure": "^1.0.0",
     "jest": "^26.6.3"
   }
 }
