@@ -33,6 +33,9 @@ const messages = defineMessages({
   googleButtonText: {
     id: "view.name.phone.contacts.googleButtonText",
   },
+  outlookButtonText: {
+    id: "view.name.phone.contacts.outlookButtonText",
+  },
   appleButtonText: {
     id: "view.name.phone.contacts.appleButtonText",
   },
@@ -43,6 +46,7 @@ const messages = defineMessages({
 
 interface SyncContactsModal extends ModalProps {
   onGoogleButtonClick?: () => void
+  onOutlookButtonClick?: () => void
   onAppleButtonClick?: () => void
   onManualImportClick?: (inputElement: HTMLInputElement) => void
 }
@@ -50,6 +54,7 @@ interface SyncContactsModal extends ModalProps {
 const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
   onClose = noop,
   onAppleButtonClick,
+  onOutlookButtonClick,
   onGoogleButtonClick,
   onManualImportClick,
 }) => {
@@ -81,6 +86,15 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
               Icon={Type.Google}
               onClick={onGoogleButtonClick}
               data-testid={SyncContactsModalTestIds.GoogleButton}
+            />
+          )}
+          {onOutlookButtonClick && (
+            <SyncButton
+              displayStyle={DisplayStyle.Primary}
+              label={intl.formatMessage(messages.outlookButtonText)}
+              Icon={Type.Outlook}
+              onClick={onOutlookButtonClick}
+              data-testid={SyncContactsModalTestIds.OutlookButton}
             />
           )}
           {onAppleButtonClick && (

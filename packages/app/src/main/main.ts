@@ -55,6 +55,8 @@ import registerAutoLaunchListener from "App/main/functions/register-auto-launch-
 import { Scope } from "Renderer/models/external-providers/google/google.interface"
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
+import { OutlookAuthActions } from "Common/enums/outlook-auth-actions.enum"
+import { requestTokens } from "Renderer/models/external-providers/outlook/outlook.helpers"
 
 require("dotenv").config()
 
@@ -63,6 +65,7 @@ logger.info("Starting the app")
 let win: BrowserWindow | null
 let helpWindow: BrowserWindow | null = null
 let googleAuthWindow: BrowserWindow | null = null
+let outlookAuthWindow: BrowserWindow | null = null
 
 // Disables CORS in Electron 9
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
@@ -291,4 +294,64 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
 ipcMain.answerRenderer(GoogleAuthActions.CloseWindow, () => {
   killAuthServer()
   googleAuthWindow?.close()
+})
+
+ipcMain.answerRenderer(
+  OutlookAuthActions.OpenWindow,
+  async (data: { authorizationUrl: string; scope: string }) => {
+    const { authorizationUrl, scope } = data
+    if (process.env.LOGIN_MICROSOFT_ONLINE_CLIENT_ID) {
+      if (outlookAuthWindow === null) {
+        outlookAuthWindow = new BrowserWindow(
+          getWindowOptions({
+            width: 600,
+            height: 600,
+            titleBarStyle:
+              process.env.NODE_ENV === "development" ? "default" : "hidden",
+            webPreferences: {
+              nodeIntegration: true,
+              webSecurity: false,
+            },
+          })
+        )
+
+        outlookAuthWindow.loadURL(authorizationUrl)
+
+        const {
+          session: { webRequest },
+        } = outlookAuthWindow.webContents
+        webRequest.onBeforeRequest(
+          {
+            urls: [
+              "https://login.microsoftonline.com/common/oauth2/nativeclient*",
+            ],
+          }, // * character is used to "catch all" url params
+          async ({ url }) => {
+            const code = new URL(url).searchParams.get("code") || ""
+            const tokens = await requestTokens(code, scope)
+            ipcMain.callRenderer(
+              win as BrowserWindow,
+              OutlookAuthActions.GotCredentials,
+              tokens
+            )
+            outlookAuthWindow?.close()
+          }
+        )
+      } else {
+        outlookAuthWindow.show()
+      }
+
+      outlookAuthWindow.on("close", () => {
+        outlookAuthWindow = null
+        killAuthServer()
+      })
+    } else {
+      console.log("No Outlook Auth URL defined!")
+    }
+  }
+)
+
+ipcMain.answerRenderer(OutlookAuthActions.CloseWindow, () => {
+  killAuthServer()
+  outlookAuthWindow?.close()
 })
