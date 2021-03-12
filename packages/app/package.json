@@ -65,7 +65,9 @@
         "dmg",
         "zip"
       ],
-      "artifactName": "Mudita-Center.${ext}"
+      "artifactName": "Mudita-Center.${ext}",
+      "hardenedRuntime": true,
+      "entitlements": "./entitlements.mac.inherit.plist"
     },
     "win": {
       "target": "nsis",
