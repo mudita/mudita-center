@@ -78,7 +78,8 @@
       "perMachine": false,
       "allowToChangeInstallationDirectory": false,
       "runAfterFinish": true,
-      "deleteAppDataOnUninstall": true
+      "deleteAppDataOnUninstall": true,
+      "license": "resources/license_en.txt"
     },
     "linux": {
       "target": "AppImage",
@@ -86,7 +87,11 @@
       "executableName": "Mudita Center",
       "artifactName": "Mudita-Center.${ext}"
     },
+    "appImage": {
+      "license": "resources/license_en.txt"
+    },
     "directories": {
+      "buildResources": "resources",
       "output": "release"
     },
     "files": [
@@ -172,7 +177,7 @@
     "css-loader": "^5.0.1",
     "devtron": "^1.4.0",
     "electron": "^8.5.0",
-    "electron-builder": "^22.9.1",
+    "electron-builder": "^22.10.5",
     "electron-devtools-installer": "^3.1.1",
     "electron-rebuild": "^2.3.4",
     "extract-text-webpack-plugin": "^3.0.2",
