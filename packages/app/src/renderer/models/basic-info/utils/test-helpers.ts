@@ -8,7 +8,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 
-const makeSuccessDeviceResponse = async (
+export const makeSuccessDeviceResponse = async (
   data: any
 ): Promise<DeviceResponse<any>> => {
   return {
@@ -17,7 +17,9 @@ const makeSuccessDeviceResponse = async (
   }
 }
 
-const makeErrorDeviceResponse = async (): Promise<DeviceResponse<any>> => {
+export const makeErrorDeviceResponse = async (): Promise<
+  DeviceResponse<any>
+> => {
   return {
     status: DeviceResponseStatus.Error,
     error: {
@@ -78,9 +80,4 @@ export const commonCalls = {
       },
     ],
   }),
-}
-
-export const commonCallsWithError = {
-  ...commonCalls,
-  [IpcRequest.GetBatteryInfo]: makeErrorDeviceResponse(),
 }
