@@ -207,8 +207,11 @@ test("retry button tries to load thread again after initial call", () => {
 
 test("error modal renders when error is thrown", () => {
   const getMessagesResultMapStateByThreadId = jest.fn(() => ResultState.Error)
-  const { getByLabelText } = renderer({
+  const { getByLabelText, getByText, queryByLabelText } = renderer({
     getMessagesResultMapStateByThreadId,
   })
   expect(getByLabelText("modal1")).toBeInTheDocument()
+  getByText("open modal 2").click()
+  expect(queryByLabelText("modal1")).not.toBeInTheDocument()
+  expect(getByLabelText("modal2")).toBeInTheDocument()
 })
