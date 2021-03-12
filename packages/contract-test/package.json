@@ -18,7 +18,7 @@
     "url": "git+https://github.com/Mudita/mudita-center.git"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest --runInBand --bail"
   },
   "bugs": {
     "url": "https://github.com/Mudita/mudita-center/issues"
