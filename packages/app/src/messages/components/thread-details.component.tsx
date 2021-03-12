@@ -228,6 +228,10 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
               display: "flex",
               justifyContent: "center",
               width: "300px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              left: 0,
+              right: 0,
             },
           }}
         >
