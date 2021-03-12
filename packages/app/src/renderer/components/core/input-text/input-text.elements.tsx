@@ -125,6 +125,7 @@ const LabeledInputWrapper = styled.div`
   display: flex;
   min-height: ${lineHeight("textarea")}rem;
   width: 100%;
+  user-select: none;
 `
 
 const TextInputIcon = styled.span`
@@ -163,7 +164,6 @@ export const generalInputStyles = css`
 
 const TextInput = styled.input<{ type: string }>`
   ${generalInputStyles};
-  user-select: none;
   :focus {
     ${({ type }) =>
       type === "search" &&
