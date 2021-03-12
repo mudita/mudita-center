@@ -216,6 +216,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
           onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
           contentLabel="modal1"
+          testId={"modal1"}
           style={{
             overlay: {
               backgroundColor: "transparent",
@@ -241,6 +242,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
           isOpen={openModal2}
           onRequestClose={closeSecondModal}
           contentLabel="modal2"
+          testId={"modal2"}
           style={{
             overlay: {
               backgroundColor: "transparent",
