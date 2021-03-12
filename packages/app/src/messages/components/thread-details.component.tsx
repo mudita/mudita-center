@@ -236,7 +236,6 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
           <Text
             displayStyle={TextDisplayStyle.LargeFadedText}
             message={translations.errorText}
-            data-testid={ThreadDetailsTestIds.ErrorText}
           />
           <h1>modal1</h1>
         </Modal>
