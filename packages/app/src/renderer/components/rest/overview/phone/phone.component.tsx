@@ -29,6 +29,7 @@ import {
   PhoneDescription,
 } from "Renderer/components/rest/overview/phone/phone.styled"
 import { URL_MAIN } from "Renderer/constants/urls"
+import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 
 const messages = defineMessages({
   battery: { id: "view.name.overview.phone.battery" },
@@ -63,7 +64,11 @@ const Phone: FunctionComponent<PhoneProps> = ({
         />
         <BatteryStats>
           <BatteryIcon width={2.4} level={batteryLevel} />
-          <Text displayStyle={TextDisplayStyle.LargeBoldText} element={"h2"}>
+          <Text
+            displayStyle={TextDisplayStyle.LargeBoldText}
+            element={"h2"}
+            data-testid={OverviewTestIds.BatteryLevel}
+          >
             {Math.round(batteryLevel * 100)} %
           </Text>
           <Text
@@ -74,7 +79,12 @@ const Phone: FunctionComponent<PhoneProps> = ({
         <SignalStats>
           <RangeIcon strength={strength} height={2.4} width={2.4} />
           {network ? (
-            <Text displayStyle={TextDisplayStyle.LargeBoldText}>{network}</Text>
+            <Text
+              displayStyle={TextDisplayStyle.LargeBoldText}
+              data-testid={OverviewTestIds.NetworkName}
+            >
+              {network}
+            </Text>
           ) : (
             <Text
               displayStyle={TextDisplayStyle.LargeBoldText}

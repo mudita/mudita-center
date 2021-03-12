@@ -29,6 +29,7 @@ import {
   makeSuccessDeviceResponse,
 } from "Renderer/models/basic-info/utils/test-helpers"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
+import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 
 jest.mock("electron", () => ({
   remote: {
@@ -154,6 +155,11 @@ test("loadData is fired when component is mounted", () => {
     [IpcRequest.GetBatteryInfo]: makeErrorDeviceResponse(),
   }
   const loadData = jest.fn()
-  renderer({ loadData })
+  const { getByTestId } = renderer({ loadData })
   expect(loadData).toBeCalledTimes(1)
+  expect(getByTestId(OverviewTestIds.BatteryLevel)).toHaveTextContent("0 %")
+  expect(getByTestId(OverviewTestIds.NetworkName)).toHaveTextContent(
+    "network name"
+  )
+  expect(getByTestId(OverviewTestIds.OsVersion)).toHaveTextContent("1.0.0")
 })
