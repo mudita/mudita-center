@@ -96,7 +96,7 @@
       "node_modules/",
       "package.json"
     ],
-    "afterSign": "./after-sign-hook.js"
+    "afterSign": "./scripts/notarize.js"
   },
   "repository": {
     "type": "git",
