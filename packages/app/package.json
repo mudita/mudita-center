@@ -67,7 +67,7 @@
       ],
       "artifactName": "Mudita-Center.${ext}",
       "hardenedRuntime": true,
-      "entitlements": "./entitlements.mac.inherit.plist"
+      "entitlements": "./entitlements.mac.plist"
     },
     "win": {
       "target": "nsis",
