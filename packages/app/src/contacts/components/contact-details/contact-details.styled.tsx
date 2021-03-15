@@ -73,7 +73,7 @@ export const AdditionalInfoItem = styled.div`
   width: 100%;
   margin-bottom: 4.2rem;
 `
-export const Input = styled(InputComponent).attrs(
+export const Input = styled(InputComponent).attrs<{ label: string }>(
   ({ value, defaultValue, label }) => ({
     label: value || defaultValue ? undefined : label,
     readOnly: true,
