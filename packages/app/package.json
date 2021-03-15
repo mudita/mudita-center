@@ -274,7 +274,7 @@
   },
   "dependencies": {
     "serialport": "^9.0.7",
-    "usb": "^1.6.3"
+    "usb": "^1.6.5"
   },
   "engines": {
     "node": "12.18.4",
