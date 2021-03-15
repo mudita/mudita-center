@@ -122,6 +122,48 @@ test("single contact is properly converted to vCard format", () => {
   `)
 })
 
+test("if second address line is undefined address field is converted properly", () => {
+  const result = convertContacts([
+    {
+      id: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
+      firstName: "Carmelo",
+      primaryPhoneNumber: "+98007298780",
+      firstAddressLine: "935 Gwen Park",
+    },
+  ])
+  expect(result).toMatchInlineSnapshot(`
+    "BEGIN:VCARD
+    VERSION:4.0
+    N:;Carmelo;;;
+    FN:Carmelo
+    TEL;TYPE=voice:+98007298780
+    ADR;TYPE=home;LABEL=\\"935 Gwen Park\\":;;935 Gwen Park;;;;
+    UID:ae193f79-a65b-4b36-bef7-b6b6532811ca
+    END:VCARD"
+  `)
+})
+
+test("if first address line is undefined address field is converted properly", () => {
+  const result = convertContacts([
+    {
+      id: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
+      firstName: "Carmelo",
+      primaryPhoneNumber: "+98007298780",
+      secondAddressLine: "935 Gwen Park",
+    },
+  ])
+  expect(result).toMatchInlineSnapshot(`
+    "BEGIN:VCARD
+    VERSION:4.0
+    N:;Carmelo;;;
+    FN:Carmelo
+    TEL;TYPE=voice:+98007298780
+    ADR;TYPE=home;LABEL=\\"935 Gwen Park\\":;;;935 Gwen Park;;;
+    UID:ae193f79-a65b-4b36-bef7-b6b6532811ca
+    END:VCARD"
+  `)
+})
+
 test("multiple contacts are properly converted to vCard format", () => {
   const result = convertContacts([
     {
