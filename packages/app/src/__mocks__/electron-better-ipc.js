@@ -55,6 +55,8 @@ const createMock = () => {
           throw new Error(`No call with name: ${name}`)
         }
       }),
+      on: jest.fn(),
+      removeListener: jest.fn(),
     },
   }
   return mock

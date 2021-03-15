@@ -8,12 +8,23 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 
-const makeSuccessDeviceResponse = async (
+export const makeSuccessDeviceResponse = async (
   data: any
 ): Promise<DeviceResponse<any>> => {
   return {
     data,
     status: DeviceResponseStatus.Ok,
+  }
+}
+
+export const makeErrorDeviceResponse = async (): Promise<
+  DeviceResponse<any>
+> => {
+  return {
+    status: DeviceResponseStatus.Error,
+    error: {
+      message: "Error",
+    },
   }
 }
 
