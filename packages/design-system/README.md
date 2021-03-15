@@ -16,7 +16,7 @@ npm install
 
 2. Rebuild the `design-system` package:
    ```
-   cd packages/app
+   cd packages/design-system
    npm run prerelease
    ```
    
