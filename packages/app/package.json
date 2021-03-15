@@ -271,10 +271,10 @@
     "webpack-hot-middleware": "2.25.0",
     "winston": "^3.3.3",
     "winston-daily-rotate-file": "^4.5.0",
-    "winston-transport-rollbar-3": "^3.2.0"
+    "winston-transport-rollbar-3": "^3.2.0",
+    "react-modal": "^3.12.1"
   },
   "dependencies": {
-    "react-modal": "^3.12.1",
     "serialport": "^9.0.6",
     "usb": "^1.6.3"
   },
