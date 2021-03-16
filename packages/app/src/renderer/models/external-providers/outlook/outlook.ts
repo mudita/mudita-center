@@ -12,6 +12,7 @@ import { ExternalProvidersModels } from "Renderer/models/external-providers/exte
 import { RootState } from "App/renderer/store/external-providers"
 import { OutlookAuthActions } from "Common/enums/outlook-auth-actions.enum"
 import {
+  OutlookAuthErrorResponse,
   OutlookAuthSuccessResponse,
   OutLookScope,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
@@ -72,8 +73,10 @@ const outlook = createModel<ExternalProvidersModels>({
           scope,
         })
 
-        const processResponse = (response: any) => {
-          if (response.error) {
+        const processResponse = (
+          response: OutlookAuthSuccessResponse | OutlookAuthErrorResponse
+        ) => {
+          if ("error" in response && response.error) {
             reject(response.error)
           } else {
             dispatch.outlook.setAuthData({

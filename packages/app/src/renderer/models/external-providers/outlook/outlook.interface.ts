@@ -8,6 +8,10 @@ export interface OutlookAuthSuccessResponse {
   refresh_token?: string
 }
 
+export interface OutlookAuthErrorResponse {
+  error: string
+}
+
 export enum OutLookScope {
   Contacts = "contacts",
 }
