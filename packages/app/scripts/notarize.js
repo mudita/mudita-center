@@ -14,6 +14,14 @@ module.exports = async function (context) {
     return
   }
 
+  if (
+    process.env.APPLE_ID === undefined ||
+    process.env.APPLE_ID_PASSWORD === undefined
+  ) {
+    console.log("The username and app-specific password isn't set")
+    return
+  }
+
   const appBundleId = build.appId
   const appPath = path.join(
     appOutDir,
