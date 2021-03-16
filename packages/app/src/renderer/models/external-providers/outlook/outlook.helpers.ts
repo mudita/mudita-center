@@ -13,6 +13,7 @@ import {
   OutlookAuthSuccessResponse,
   OutLookScope,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
+import { Contact } from "App/contacts/store/contacts.type"
 
 export const requestTokens = async (code: string, scope: string) => {
   const urlSearchParams = new URLSearchParams({
@@ -43,5 +44,62 @@ export const handleScope = (scope: OutLookScope): string => {
   switch (scope) {
     case OutLookScope.Contacts:
       return "offline_access, https://graph.microsoft.com/contacts.readwrite"
+  }
+}
+
+export const mapContact = (contact: any): Contact => {
+  console.log({ contact })
+  let firstName = ""
+  let lastName = ""
+  const primaryPhoneNumber = ""
+  const secondaryPhoneNumber = ""
+  const firstAddressLine = ""
+  const secondAddressLine = ""
+  let email = ""
+  let note = ""
+
+  if (contact.givenName) {
+    firstName = contact.givenName
+  }
+
+  if (contact.surname) {
+    lastName = contact.surname
+  }
+
+  // if (contact.mobilePhone) {
+  //   primaryPhoneNumber =
+  //     contact.mobilePhone.find(({ metadata }: any) => metadata.primary)
+  //       ?.value || contact.phoneNumbers[0].value
+  //   secondaryPhoneNumber =
+  //     contact.phoneNumbers.find(
+  //       ({ value }: any) => value !== primaryPhoneNumber
+  //     )?.value || ""
+  // }
+
+  // if (contact.addresses) {
+  //   firstAddressLine = contact.addresses[0].streetAddress
+  //   secondAddressLine = `${contact.addresses[0].postalCode} ${contact.addresses[0].city} ${contact.addresses[0].extendedAddress}`
+  // }
+
+  if (contact.emailAddresses[0]) {
+    email = contact.emailAddresses[0].address
+  }
+
+  if (contact.personalNotes) {
+    note = contact.personalNotes
+  }
+  return {
+    id: contact.id,
+    firstName,
+    lastName,
+    primaryPhoneNumber,
+    secondaryPhoneNumber,
+    firstAddressLine,
+    secondAddressLine,
+    email,
+    ice: false,
+    favourite: false,
+    blocked: false,
+    note,
   }
 }

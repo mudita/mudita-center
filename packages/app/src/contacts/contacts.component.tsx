@@ -71,7 +71,10 @@ const mapDispatch = ({ contacts, auth }: any) => {
         case Provider.Apple:
           return
         case Provider.Microsoft:
-          return
+          contacts = ((await externalProvidersStore.dispatch.outlook.getContacts()) as unknown) as Contact[]
+          console.log("asd", contacts)
+          console.log("flat", getFlatList(contactDatabaseFactory(contacts)))
+          return getFlatList(contactDatabaseFactory(contacts))
       }
     },
     addNewContact: async (contact: NewContact): Promise<string | void> => {
