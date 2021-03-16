@@ -309,7 +309,7 @@ ipcMain.answerRenderer(
             titleBarStyle:
               process.env.NODE_ENV === "development" ? "default" : "hidden",
             webPreferences: {
-              nodeIntegration: true,
+              nodeIntegration: false,
               webSecurity: false,
             },
           })
