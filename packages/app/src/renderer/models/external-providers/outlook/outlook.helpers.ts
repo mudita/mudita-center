@@ -14,7 +14,10 @@ import {
   OutLookScope,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
 
-export const requestTokens = async (code: string, scope: string) => {
+export const requestTokens = async (
+  code: string,
+  scope: string
+): Promise<OutlookAuthSuccessResponse> => {
   const urlSearchParams = new URLSearchParams({
     client_id: clientId,
     scope,
