@@ -13,6 +13,21 @@ const authData = {
   refresh_token: "refresh-token-123",
 }
 
+const initStore = () => {
+  return init({
+    models: { outlook },
+  })
+}
+
+let store = initStore()
+
+beforeEach(() => {
+  store = initStore()
+  jest.resetModules()
+})
+
+const rejectedError = { error: "some error" }
+
 jest.mock(
   "electron-better-ipc",
   () => {
@@ -27,11 +42,11 @@ jest.mock(
       },
       answerMain: (
         channel: OutlookAuthActions,
-        callback: (data: unknown) => PromiseLike<unknown>
+        callback: (data: any) => PromiseLike<any>
       ) => {
         switch (channel) {
           case OutlookAuthActions.GotCredentials:
-            callback(JSON.stringify(authData))
+            callback(rejectedError)
             return true
           default:
             return false
@@ -43,18 +58,6 @@ jest.mock(
   { virtual: true }
 )
 
-const initStore = () => {
-  return init({
-    models: { outlook },
-  })
-}
-
-let store = initStore()
-
-beforeEach(() => {
-  store = initStore()
-})
-
 test("store returns initial state", () => {
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
@@ -65,51 +68,17 @@ test("store returns initial state", () => {
   `)
 })
 
+test("authorization handles error properly", async () => {
+  await expect(store.dispatch.outlook.authorize("contacts")).rejects.toMatch(
+    rejectedError.error
+  )
+})
+
 test("auth data is set properly", () => {
   store.dispatch.outlook.setAuthData({
     data: authData,
     scope: OutLookScope.Contacts,
   })
-  expect(store.getState().outlook.contacts).toMatchInlineSnapshot(`
-    Object {
-      "access_token": "token-123",
-      "refresh_token": "refresh-token-123",
-    }
-  `)
-})
-
-test("authorization handles error properly", async () => {
-  jest.mock(
-    "electron-better-ipc",
-    () => {
-      const mockIpcRenderer = {
-        callMain: (channel: OutlookAuthActions) => {
-          switch (channel) {
-            case OutlookAuthActions.OpenWindow:
-              return jest.fn()
-            default:
-              return false
-          }
-        },
-        answerMain: (
-          channel: OutlookAuthActions,
-          callback: (data: any) => PromiseLike<any>
-        ) => {
-          switch (channel) {
-            case OutlookAuthActions.GotCredentials:
-              callback(JSON.stringify({ error: "some error" }))
-              return true
-            default:
-              return false
-          }
-        },
-      }
-      return { ipcRenderer: mockIpcRenderer }
-    },
-    { virtual: true }
-  )
-
-  await store.dispatch.outlook.authorize("contacts")
   expect(store.getState().outlook.contacts).toMatchInlineSnapshot(`
     Object {
       "access_token": "token-123",
