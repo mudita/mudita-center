@@ -18,7 +18,7 @@ module.exports = async function (context) {
     process.env.APPLE_ID === undefined ||
     process.env.APPLE_ID_PASSWORD === undefined
   ) {
-    console.log("The username and app-specific password isn't set")
+    console.log("The username and app-specific password aren't set")
     return
   }
 
