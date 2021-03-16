@@ -101,29 +101,12 @@ const outlook = createModel<ExternalProvidersModels>({
 
     const getContacts = async (_: undefined, rootState: any) => {
       logger.info("Getting Google contacts")
-
-      // const { data } = await requestWrapper<GoogleContacts>(
-      //   {
-      //     scope: Scope.Contacts,
-      //     axiosProps: {
-      //       url: `${googleEndpoints.people}/people/me/connections?personFields=names,addresses,phoneNumbers,emailAddresses,biographies`,
-      //     },
-      //   },
-      //   rootState
-      // )
-      //
-      // return data.connections.map((contact: GoogleContactResourceItem) =>
-      //   mapContact(contact)
-      // )
       const token = rootState.outlook[OutLookScope.Contacts].access_token
       const { data } = await axios.get(`${baseGraphUrl}/me/contacts`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-
-      console.log("data.value", data.value)
-      const aaa = data.value.map((contact: any) => mapContact(contact))
-      console.log({ aaa })
-      return aaa
+      const contacts = data.value.map((contact: any) => mapContact(contact))
+      return contacts
     }
 
     return {

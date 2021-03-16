@@ -51,10 +51,10 @@ export const mapContact = (contact: any): Contact => {
   console.log({ contact })
   let firstName = ""
   let lastName = ""
-  const primaryPhoneNumber = ""
-  const secondaryPhoneNumber = ""
-  const firstAddressLine = ""
-  const secondAddressLine = ""
+  let primaryPhoneNumber = ""
+  // let secondaryPhoneNumber = ""
+  // let firstAddressLine = ""
+  // let secondAddressLine = ""
   let email = ""
   let note = ""
 
@@ -66,19 +66,17 @@ export const mapContact = (contact: any): Contact => {
     lastName = contact.surname
   }
 
-  // if (contact.mobilePhone) {
-  //   primaryPhoneNumber =
-  //     contact.mobilePhone.find(({ metadata }: any) => metadata.primary)
-  //       ?.value || contact.phoneNumbers[0].value
-  //   secondaryPhoneNumber =
-  //     contact.phoneNumbers.find(
-  //       ({ value }: any) => value !== primaryPhoneNumber
-  //     )?.value || ""
-  // }
-
-  // if (contact.addresses) {
-  //   firstAddressLine = contact.addresses[0].streetAddress
-  //   secondAddressLine = `${contact.addresses[0].postalCode} ${contact.addresses[0].city} ${contact.addresses[0].extendedAddress}`
+  if (contact.mobilePhone) {
+    primaryPhoneNumber = contact.mobilePhone
+  } else if (contact.homePhones) {
+    primaryPhoneNumber = contact.homePhones[0]
+  } else if (contact.businessPhones) {
+    primaryPhoneNumber = contact.businessPhones[0]
+  }
+  //
+  // if (contact.homeAddress) {
+  //   firstAddressLine = contact.homeAddress[0].street
+  //   secondAddressLine = `${contact.homeAddress[0].postalCode} ${contact.homeAddress[0].city} ${contact.homeAddress[0].countryOrRegion}`
   // }
 
   if (contact.emailAddresses[0]) {
