@@ -74,9 +74,9 @@ const outlook = createModel<ExternalProvidersModels>({
         })
 
         const processResponse = (
-          response: OutlookAuthSuccessResponse | OutlookAuthErrorResponse
+          response: OutlookAuthSuccessResponse & OutlookAuthErrorResponse
         ) => {
-          if ("error" in response && response.error) {
+          if (response.error) {
             reject(response.error)
           } else {
             dispatch.outlook.setAuthData({
