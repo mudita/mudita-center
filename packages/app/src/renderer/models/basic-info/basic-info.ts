@@ -66,15 +66,14 @@ const basicInfo = createModel<RootModel>({
   },
   effects: (d: any) => {
     const dispatch = (d as unknown) as RootState
+    let loading = false
 
     return {
-      async loadData(
-        _: any,
-        rootState: { basicInfo: { resultsState: ResultsState } }
-      ) {
-        if (rootState.basicInfo.resultsState === ResultsState.Loading) {
+      async loadData(_: any) {
+        if (loading) {
           return
         }
+        loading = true
         dispatch.basicInfo.setResultsState(ResultsState.Loading)
         const responses = await Promise.all([
           getDeviceInfo(),

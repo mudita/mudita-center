@@ -99,6 +99,18 @@ module.exports = {
   js: {
     enforce: "pre",
     test: /\.js$/,
-    loader: "source-map-loader",
+    use: [
+      {
+        loader: "source-map-loader",
+        options: {
+          filterSourceMappingUrl: (url, resourcePath) => {
+            if (/.*\/node_modules\/.*/.test(resourcePath)) {
+              return false
+            }
+            return true
+          },
+        },
+      },
+    ],
   },
 }
