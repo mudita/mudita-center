@@ -250,10 +250,6 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           height: GOOGLE_AUTH_WINDOW_SIZE.height,
           titleBarStyle:
             process.env.NODE_ENV === "development" ? "default" : "hidden",
-          webPreferences: {
-            nodeIntegration: false,
-            webSecurity: false,
-          },
         })
       )
 
