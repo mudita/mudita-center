@@ -19,3 +19,27 @@ export enum OutLookScope {
 export interface OutlookProviderState {
   [OutLookScope.Contacts]: Partial<OutlookAuthSuccessResponse>
 }
+
+interface OutlookContactAddress {
+  street?: string
+  city?: string
+  postalCode?: string
+  countryOrRegion?: string
+}
+
+export interface OutlookContactResourceItem {
+  id: string
+  givenName?: string
+  surname?: string
+  mobilePhone?: string
+  homePhones?: string[]
+  businessPhones?: string[]
+  homeAddress?: OutlookContactAddress
+  businessAddress?: OutlookContactAddress
+  otherAddress?: OutlookContactAddress
+  emailAddresses?: Array<{
+    address: string
+    name: string
+  }>
+  personalNotes?: string
+}
