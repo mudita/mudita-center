@@ -17,7 +17,7 @@ import Story from "Renderer/components/storybook/story.component"
 import { asyncNoop, noop } from "Renderer/utils/noop"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import CalendarUI from "App/calendar/calendar-ui.component"
+import CalendarUIStateless from "App/calendar/components/calendar-ui-stateless.component"
 import { action } from "@storybook/addon-actions"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { calendarSeed, eventsData } from "App/seeds/calendar"
@@ -37,7 +37,7 @@ storiesOf("Views/Calendar/Main view", module)
     const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
     return (
       <Wrapper>
-        <CalendarUI
+        <CalendarUIStateless
           events={calendarSeed.events}
           openSelectVendorModal={action("open vendor modal")}
           tableSelectHook={tableSelectHook}
@@ -50,7 +50,7 @@ storiesOf("Views/Calendar/Main view", module)
     const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
     return (
       <Wrapper>
-        <CalendarUI
+        <CalendarUIStateless
           events={[]}
           openSelectVendorModal={action("open vendor modal")}
           tableSelectHook={tableSelectHook}

@@ -12,7 +12,7 @@ import { CalendarTestIds } from "App/calendar/calendar-test-ids.enum"
 import { mockAllIsIntersecting } from "react-intersection-observer/test-utils"
 import { Provider } from "react-redux"
 import store from "Renderer/store"
-import Calendar from "App/calendar/calendar.component"
+import CalendarUI from "App/calendar/calendar-ui.component"
 import { mockedCalendars } from "App/__mocks__/calendars-list"
 
 const defaultProps = {
@@ -41,7 +41,7 @@ const renderer = (extraProps?: {}) => {
   return renderWithThemeAndIntl(
     <Router history={history}>
       <Provider store={store}>
-        <Calendar {...props} />
+        <CalendarUI {...props} />
       </Provider>
     </Router>
   )
