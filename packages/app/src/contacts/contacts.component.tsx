@@ -72,8 +72,6 @@ const mapDispatch = ({ contacts, auth }: any) => {
           return
         case Provider.Microsoft:
           contacts = ((await externalProvidersStore.dispatch.outlook.getContacts()) as unknown) as Contact[]
-          console.log("asd", contacts)
-          console.log("flat", getFlatList(contactDatabaseFactory(contacts)))
           return getFlatList(contactDatabaseFactory(contacts))
       }
     },
