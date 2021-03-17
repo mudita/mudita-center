@@ -45,6 +45,6 @@ export const requestTokens = async (
 export const handleScope = (scope: OutLookScope): string => {
   switch (scope) {
     case OutLookScope.Contacts:
-      return "offline_access, https://graph.microsoft.com/contacts.readwrite"
+      return "offline_access, https://graph.microsoft.com/contacts.read"
   }
 }
