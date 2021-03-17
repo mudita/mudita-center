@@ -102,37 +102,7 @@ test("auth data is set properly", () => {
   `)
 })
 
-test("authorization handles error properly", async () => {
-  jest.mock(
-    "electron-better-ipc",
-    () => {
-      const mockIpcRenderer = {
-        callMain: (channel: GoogleAuthActions) => {
-          switch (channel) {
-            case GoogleAuthActions.OpenWindow:
-              return jest.fn()
-            default:
-              return false
-          }
-        },
-        answerMain: (
-          channel: GoogleAuthActions,
-          callback: (data: any) => PromiseLike<any>
-        ) => {
-          switch (channel) {
-            case GoogleAuthActions.GotCredentials:
-              callback(JSON.stringify({ error: "some error" }))
-              return true
-            default:
-              return false
-          }
-        },
-      }
-      return { ipcRenderer: mockIpcRenderer }
-    },
-    { virtual: true }
-  )
-
+test("handles authorization properly", async () => {
   await store.dispatch.google.authorize("calendar")
   expect(store.getState().google.calendar).toMatchInlineSnapshot(`
     Object {
@@ -144,6 +114,8 @@ test("authorization handles error properly", async () => {
     }
   `)
 })
+
+test.todo("authorization handles error properly")
 
 test("calendars from google are received properly", async () => {
   axiosMock

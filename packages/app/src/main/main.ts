@@ -57,6 +57,7 @@ import registerContactsExportListener from "App/contacts/backend/export-contacts
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import { OutlookAuthActions } from "Common/enums/outlook-auth-actions.enum"
 import { requestTokens } from "Renderer/models/external-providers/outlook/outlook.helpers"
+import { clientId } from "Renderer/models/external-providers/outlook/outlook.constants"
 
 require("dotenv").config()
 
@@ -296,7 +297,7 @@ ipcMain.answerRenderer(
   OutlookAuthActions.OpenWindow,
   async (data: { authorizationUrl: string; scope: string }) => {
     const { authorizationUrl, scope } = data
-    if (process.env.LOGIN_MICROSOFT_ONLINE_CLIENT_ID) {
+    if (clientId) {
       if (outlookAuthWindow === null) {
         outlookAuthWindow = new BrowserWindow(
           getWindowOptions({
