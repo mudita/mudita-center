@@ -56,7 +56,7 @@ import { Scope } from "Renderer/models/external-providers/google/google.interfac
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import { OutlookAuthActions } from "Common/enums/outlook-auth-actions.enum"
-import { requestTokens } from "Renderer/models/external-providers/outlook/outlook.helpers"
+import { TokenRequester } from "Renderer/models/external-providers/outlook/token-requester"
 
 require("dotenv").config()
 
@@ -324,7 +324,8 @@ ipcMain.answerRenderer(
           }, // * character is used to "catch all" url params
           async ({ url }) => {
             const code = new URL(url).searchParams.get("code") || ""
-            const tokens = await requestTokens(code, scope)
+            const tokenRequester = new TokenRequester()
+            const tokens = await tokenRequester.requestTokens(code, scope)
             ipcMain.callRenderer(
               win as BrowserWindow,
               OutlookAuthActions.GotCredentials,

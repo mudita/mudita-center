@@ -3,9 +3,14 @@
  * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
  */
 
+export interface TokenPayload {
+  accessToken: string
+  refreshToken: string
+}
+
 export interface OutlookAuthSuccessResponse {
   access_token: string
-  refresh_token?: string
+  refresh_token: string
 }
 
 export interface OutlookAuthErrorResponse {
@@ -17,7 +22,7 @@ export enum OutLookScope {
 }
 
 export interface OutlookProviderState {
-  [OutLookScope.Contacts]: Partial<OutlookAuthSuccessResponse>
+  [OutLookScope.Contacts]: TokenPayload
 }
 
 interface OutlookContactAddress {
