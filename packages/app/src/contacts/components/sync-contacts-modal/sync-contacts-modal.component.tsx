@@ -45,10 +45,10 @@ const messages = defineMessages({
 })
 
 interface SyncContactsModal extends ModalProps {
-  onGoogleButtonClick?: () => void
-  onOutlookButtonClick?: () => void
+  onGoogleButtonClick: () => void
+  onOutlookButtonClick: () => void
   onAppleButtonClick?: () => void
-  onManualImportClick?: (inputElement: HTMLInputElement) => void
+  onManualImportClick: (inputElement: HTMLInputElement) => void
 }
 
 const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
