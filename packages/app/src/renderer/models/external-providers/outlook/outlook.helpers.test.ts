@@ -4,7 +4,7 @@
  */
 
 import {
-  handleScope,
+  getOutlookEndpoint,
   requestTokens,
 } from "Renderer/models/external-providers/outlook/outlook.helpers"
 import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
@@ -28,6 +28,6 @@ test("requestTokens returns token", async () => {
   expect(tokens.access_token).toBe("token-123")
 })
 
-test("handleScope returns proper value", () => {
-  expect(handleScope(OutLookScope.Contacts)).toBe(scope)
+test("getOutlookEndpoint returns proper value", () => {
+  expect(getOutlookEndpoint(OutLookScope.Contacts)).toBe(scope)
 })
