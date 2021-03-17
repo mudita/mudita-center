@@ -10,11 +10,11 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { CalendarEventProps } from "Renderer/modules/calendar/calendar.interface"
+import { CalendarEventProps } from "App/calendar/calendar.interface"
 import { FormattedDate } from "react-intl"
 import React from "react"
-import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
-import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
+import { TimeWindow } from "App/calendar/components/time-window.component"
+import { CalendarTestIds } from "App/calendar/calendar-test-ids.enum"
 
 export const EventsList = styled(Table)`
   --columnsTemplate: 5fr 3fr 3fr;

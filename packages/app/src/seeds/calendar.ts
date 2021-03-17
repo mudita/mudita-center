@@ -6,7 +6,7 @@
 import {
   CalendarEvent,
   CalendarState,
-} from "Renderer/models/calendar/calendar.interfaces"
+} from "App/calendar/store/calendar.interfaces"
 import { ResultsState } from "App/contacts/store/contacts.enum"
 
 export const eventsData: CalendarEvent[] = [

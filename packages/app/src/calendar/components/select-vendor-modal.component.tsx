@@ -23,9 +23,9 @@ import {
   ButtonWrapper,
   SyncButton,
 } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
-import { ModalContent } from "Renderer/components/rest/calendar/calendar-modals.styled"
+import { ModalContent } from "App/calendar/components/calendar-modals.styled"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
-import { SelectVendorModalTestIds } from "Renderer/components/rest/calendar/select-vendor-modal-test-ids.enum"
+import { SelectVendorModalTestIds } from "App/calendar/components/select-vendor-modal-test-ids.enum"
 
 const messages = defineMessages({
   title: {

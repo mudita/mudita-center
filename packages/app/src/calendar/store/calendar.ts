@@ -3,11 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Calendar, CalendarEvent, CalendarState } from "./calendar.interfaces"
+import { Calendar, CalendarEvent, CalendarState } from "App/calendar/store/calendar.interfaces"
 import {
   getSortedEvents,
   mapEvents,
-} from "Renderer/models/calendar/calendar.helpers"
+} from "App/calendar/store/calendar.helpers"
 import { Slicer } from "@rematch/select"
 import { RootState } from "Renderer/store"
 import externalProvidersStore from "Renderer/store/external-providers"

@@ -7,49 +7,42 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
+import Loader from "Renderer/components/core/loader/loader.component"
+import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
-import {
-  ModalContent,
-  ModalText,
-} from "Renderer/components/rest/calendar/calendar-modals.styled"
+import { ModalContent } from "App/calendar/components/calendar-modals.styled"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
-import { Type } from "Renderer/components/core/icon/icon.config"
-import Icon from "Renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.calendar.modal.synchronizationFailed.title",
+    id: "view.name.calendar.modal.synchronizing.title",
   },
   subtitle: {
-    id: "view.name.calendar.modal.synchronizationFailed.subtitle",
+    id: "view.name.calendar.modal.synchronizing.subtitle",
   },
   body: {
-    id: "view.name.calendar.modal.synchronizationFailed.body",
-  },
-  button: {
-    id: "common.supportButton",
+    id: "view.name.calendar.modal.synchronizing.body",
   },
 })
 
-const EventsSynchronizationFailedModal: FunctionComponent<ModalProps> = (
-  props
-) => (
+const SynchronizingEventsModal: FunctionComponent<ModalProps> = (...props) => (
   <Modal
     {...props}
     size={ModalSize.Small}
     title={intl.formatMessage(messages.title)}
     closeButton={false}
-    actionButtonLabel={intl.formatMessage(messages.button)}
+    closeable={false}
   >
     <ModalContent>
       <RoundIconWrapper>
-        <Icon type={Type.CalendarIcon} width={4} />
+        <Loader type={LoaderType.Spinner} />
       </RoundIconWrapper>
       <Text
         displayStyle={TextDisplayStyle.LargeBoldText}
@@ -63,4 +56,4 @@ const EventsSynchronizationFailedModal: FunctionComponent<ModalProps> = (
   </Modal>
 )
 
-export default EventsSynchronizationFailedModal
+export default SynchronizingEventsModal

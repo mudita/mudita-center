@@ -5,9 +5,9 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { FormattedDate } from "react-intl"
-import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
+import { TimeWindow } from "App/calendar/components/time-window.component"
 import moment from "moment"
 
 type Props = Pick<CalendarEvent, "startDate" | "endDate">

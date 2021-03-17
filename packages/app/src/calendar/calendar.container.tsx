@@ -6,7 +6,7 @@
 import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { connect } from "react-redux"
-import CalendarComponent from "Renderer/modules/calendar/calendar.component"
+import CalendarComponent from "App/calendar/calendar.component"
 
 const selector = select(({ calendar }) => ({
   events: calendar.sortedEvents,
