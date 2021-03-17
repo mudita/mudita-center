@@ -79,24 +79,21 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
       />
       <ButtonsContainer>
         <ButtonWrapper>
-          {onGoogleButtonClick && (
-            <SyncButton
-              displayStyle={DisplayStyle.Primary}
-              label={intl.formatMessage(messages.googleButtonText)}
-              Icon={Type.Google}
-              onClick={onGoogleButtonClick}
-              data-testid={SyncContactsModalTestIds.GoogleButton}
-            />
-          )}
-          {onOutlookButtonClick && (
-            <SyncButton
-              displayStyle={DisplayStyle.Primary}
-              label={intl.formatMessage(messages.outlookButtonText)}
-              Icon={Type.Outlook}
-              onClick={onOutlookButtonClick}
-              data-testid={SyncContactsModalTestIds.OutlookButton}
-            />
-          )}
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            label={intl.formatMessage(messages.googleButtonText)}
+            Icon={Type.Google}
+            onClick={onGoogleButtonClick}
+            data-testid={SyncContactsModalTestIds.GoogleButton}
+          />
+
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            label={intl.formatMessage(messages.outlookButtonText)}
+            Icon={Type.Outlook}
+            onClick={onOutlookButtonClick}
+            data-testid={SyncContactsModalTestIds.OutlookButton}
+          />
           {onAppleButtonClick && (
             <SyncButton
               displayStyle={DisplayStyle.Primary}
@@ -105,24 +102,20 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
               onClick={onAppleButtonClick}
             />
           )}
-          {onManualImportClick && (
-            <>
-              <SyncButton
-                displayStyle={DisplayStyle.Primary}
-                label={intl.formatMessage(messages.manualImportText)}
-                Icon={Type.Upload}
-                onClick={handleManualImportClick}
-              />
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".vcf"
-                hidden
-                multiple
-                data-testid={SyncContactsModalTestIds.FileInput}
-              />
-            </>
-          )}
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            label={intl.formatMessage(messages.manualImportText)}
+            Icon={Type.Upload}
+            onClick={handleManualImportClick}
+          />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".vcf"
+            hidden
+            multiple
+            data-testid={SyncContactsModalTestIds.FileInput}
+          />
         </ButtonWrapper>
       </ButtonsContainer>
     </Modal>
