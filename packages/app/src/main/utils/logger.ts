@@ -76,6 +76,17 @@ export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
       payload: {
         environment: process.env.NODE_ENV,
       },
+      scrubTelemetryInputs: true,
+      autoInstrument: {
+        network: false,
+        log: false,
+        dom: true,
+        navigation: true,
+        connectivity: false,
+        contentSecurityPolicy: false,
+        errorOnContentSecurityPolicy: false,
+      },
+      captureIp: "anonymize",
     },
     level: "warn",
   })
