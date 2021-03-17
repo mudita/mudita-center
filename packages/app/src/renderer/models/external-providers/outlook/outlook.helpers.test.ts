@@ -11,7 +11,7 @@ import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook
 import MockAdapter from "axios-mock-adapter"
 import axios from "axios"
 
-const scope = "offline_access, https://graph.microsoft.com/contacts.readwrite"
+const scope = "offline_access, https://graph.microsoft.com/contacts.read"
 
 let axiosMock = new MockAdapter(axios)
 
