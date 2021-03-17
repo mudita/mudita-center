@@ -41,6 +41,29 @@ export const requestTokens = async (code: string, scope: string) => {
   }
 }
 
+export const regenerateTokens = async (
+  refreshToken: string,
+  scope: OutLookScope
+) => {
+  const urlSearchParams = new URLSearchParams({
+    client_id: clientId,
+    scope: handleScope(scope),
+    refresh_token: refreshToken,
+    grant_type: "refresh_token",
+  })
+
+  const response = await axios.post(
+    `${apiBaseUrl}/token`,
+    urlSearchParams.toString(),
+    { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
+  )
+
+  return {
+    accessToken: response.data.access_token,
+    refreshToken: response.data.refresh_token,
+  }
+}
+
 export const handleScope = (scope: OutLookScope): string => {
   switch (scope) {
     case OutLookScope.Contacts:
