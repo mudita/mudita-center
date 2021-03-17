@@ -5,7 +5,7 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import CalendarPanel from "App/calendar/components/calendar-panel.component"
+import CalendarPanel from "App/calendar/components/calendar-panel/calendar-panel.component"
 import EventsList from "App/calendar/components/events-list.component"
 import { EmptyState } from "Renderer/components/core/table/table.component"
 import { CalendarTestIds } from "App/calendar/calendar-test-ids.enum"

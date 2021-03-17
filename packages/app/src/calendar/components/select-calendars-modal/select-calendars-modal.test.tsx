@@ -7,7 +7,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import React from "react"
 import SelectCalendarsModal, {
   SelectCalendarsModalProps,
-} from "App/calendar/components/select-calendars-modal.component"
+} from "App/calendar/components/select-calendars-modal/select-calendars-modal.component"
 import { mockedCalendars } from "App/__mocks__/calendars-list"
 import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/react"

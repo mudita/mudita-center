@@ -6,10 +6,10 @@
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { fireEvent } from "@testing-library/dom"
 import React from "react"
-import CalendarPanel from "App/calendar/components/calendar-panel.component"
+import CalendarPanel from "App/calendar/components/calendar-panel/calendar-panel.component"
 import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { InputSelectTestIds } from "Renderer/components/core/input-select/input-select.component"
-import { CalendarPanelTestIds } from "App/calendar/components/calendar-panel-test-ids.enum"
+import { CalendarPanelTestIds } from "App/calendar/components/calendar-panel/calendar-panel-test-ids.enum"
 import ExportErrorModal from "App/calendar/components/export-error-modal/export-error-modal.component"
 
 const mockedResetRows = jest.fn()
@@ -127,7 +127,7 @@ test("modal is opened when there is error returned ", async () => {
   const { getByTestId } = renderer({
     selectedEvents,
     exportCalendarEvents,
-    openModal
+    openModal,
   })
   await getByTestId(CalendarPanelTestIds.ExportButton).click()
   expect(mockedResetRows).not.toHaveBeenCalled()

@@ -5,7 +5,7 @@
 
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import EventsListDate from "App/calendar/components/events-list-date.component"
+import EventsListDate from "App/calendar/components/events-list-date/events-list-date.component"
 
 const oneDayEvent = {
   id: "event-1",

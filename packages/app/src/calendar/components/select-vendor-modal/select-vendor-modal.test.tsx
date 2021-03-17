@@ -8,7 +8,7 @@ import React from "react"
 import { fireEvent } from "@testing-library/react"
 import SelectVendorModal, {
   SelectVendorModalProps,
-} from "App/calendar/components/select-vendor-modal.component"
+} from "App/calendar/components/select-vendor-modal/select-vendor-modal.component"
 import { noop } from "Renderer/utils/noop"
 import { SelectVendorModalTestIds } from "App/calendar/components/select-vendor-modal-test-ids.enum"
 

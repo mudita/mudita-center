@@ -22,7 +22,7 @@ import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { intl } from "Renderer/utils/intl"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { CalendarPanelTestIds } from "App/calendar/components/calendar-panel-test-ids.enum"
+import { CalendarPanelTestIds } from "App/calendar/components/calendar-panel/calendar-panel-test-ids.enum"
 import { exportEvents } from "App/calendar/helpers/export-events/export-events"
 import modalService, {
   ModalService,
