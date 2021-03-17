@@ -335,9 +335,7 @@ test("requestWrapper handles 401 error properly", async () => {
     .reply(200, {
       items: mockedGoogleCalendars,
     })
-    .onPost(
-      `${process.env.MUDITA_GOOGLE_REFRESH_TOKEN_URL}?refreshToken=refresh-token-123`
-    )
+    .onPost()
     .reply(200, authData)
 
   expect(
