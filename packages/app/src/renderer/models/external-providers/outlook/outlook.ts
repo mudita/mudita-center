@@ -36,11 +36,13 @@ const outlook = createModel<ExternalProvidersModels>({
         scope: OutLookScope
       }
     ) {
-      state[payload.scope] = {
-        ...state[payload.scope],
-        ...payload.data,
+      return {
+        ...state,
+        [payload.scope]: {
+          ...state[payload.scope],
+          ...payload.data,
+        },
       }
-      return state
     },
   },
   effects: (d) => {
