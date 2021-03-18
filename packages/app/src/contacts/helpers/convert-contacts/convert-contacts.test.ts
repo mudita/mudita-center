@@ -12,7 +12,7 @@ test("single contact is properly converted to vCard format", () => {
       id: "abc-123",
       firstName: "John",
       lastName: "Doe",
-      email: "john.doe@example.com",
+      email: "example@mudita.com",
       primaryPhoneNumber: "123 456 789",
       secondaryPhoneNumber: "32 123 44 55",
       firstAddressLine: "4929 Pine Garden Lane",
@@ -30,7 +30,7 @@ test("single contact is properly converted to vCard format", () => {
     TEL;TYPE=voice:32 123 44 55
     ADR;TYPE=home;LABEL=\\"4929 Pine Garden Lane Atlanta, GA, 30339, USA\\":;;4929
       Pine Garden Lane;Atlanta; GA; 30339; USA
-    EMAIL:john.doe@example.com
+    EMAIL:example@mudita.com
     NOTE:Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
       Pellentesque in ipsum id orci porta dapibus.
     UID:abc-123
@@ -102,7 +102,7 @@ test("single contact is properly converted to vCard format", () => {
             "email",
             Object {},
             "text",
-            "john.doe@example.com",
+            "example@mudita.com",
           ],
           Array [
             "note",
@@ -128,7 +128,7 @@ test("multiple contacts are properly converted to vCard format", () => {
       id: "abc-123",
       firstName: "John",
       lastName: "Doe",
-      email: "john.doe@example.com",
+      email: "example@mudita.com",
       primaryPhoneNumber: "123 456 789",
       secondaryPhoneNumber: "32 123 44 55",
       firstAddressLine: "4929 Pine Garden Lane",
@@ -139,7 +139,7 @@ test("multiple contacts are properly converted to vCard format", () => {
     {
       id: "def-456",
       firstName: "Jane",
-      email: "john.doe@example.com",
+      email: "example@mudita.com",
       primaryPhoneNumber: "123 456 789",
       firstAddressLine: "5000 Random Street",
       secondAddressLine: "Atlanta, GA, 30339, USA",
@@ -154,7 +154,7 @@ test("multiple contacts are properly converted to vCard format", () => {
     TEL;TYPE=voice:32 123 44 55
     ADR;TYPE=home;LABEL=\\"4929 Pine Garden Lane Atlanta, GA, 30339, USA\\":;;4929
       Pine Garden Lane;Atlanta; GA; 30339; USA
-    EMAIL:john.doe@example.com
+    EMAIL:example@mudita.com
     NOTE:Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
       Pellentesque in ipsum id orci porta dapibus.
     UID:abc-123
@@ -166,7 +166,7 @@ test("multiple contacts are properly converted to vCard format", () => {
     TEL;TYPE=voice:123 456 789
     ADR;TYPE=home;LABEL=\\"5000 Random Street Atlanta, GA, 30339, USA\\":;;5000
       Random Street;Atlanta; GA; 30339; USA
-    EMAIL:john.doe@example.com
+    EMAIL:example@mudita.com
     UID:def-456
     END:VCARD"
   `)
@@ -236,7 +236,7 @@ test("multiple contacts are properly converted to vCard format", () => {
             "email",
             Object {},
             "text",
-            "john.doe@example.com",
+            "example@mudita.com",
           ],
           Array [
             "note",
@@ -308,7 +308,7 @@ test("multiple contacts are properly converted to vCard format", () => {
             "email",
             Object {},
             "text",
-            "john.doe@example.com",
+            "example@mudita.com",
           ],
           Array [
             "uid",

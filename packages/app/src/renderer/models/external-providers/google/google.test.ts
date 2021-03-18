@@ -485,7 +485,7 @@ test("contacts are received properly", async () => {
     Array [
       Object {
         "blocked": false,
-        "email": "bombol@examplemail.com",
+        "email": "example@mudita.com",
         "favourite": false,
         "firstAddressLine": "bomboladzka 1",
         "firstName": "Bombolo",
@@ -499,7 +499,7 @@ test("contacts are received properly", async () => {
       },
       Object {
         "blocked": false,
-        "email": "alolo@examplemail.pl",
+        "email": "example@mudita.com",
         "favourite": false,
         "firstAddressLine": "lolo 123",
         "firstName": "Kolejny bombolek",

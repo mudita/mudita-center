@@ -100,7 +100,7 @@ test("contact modal form sending works properly", async () => {
 
   await act(async () => {
     fireEvent.change(getEmailInput() as Element, {
-      target: { value: "email@example.com" },
+      target: { value: "example@mudita.com" },
     })
     fireEvent.change(getMessageInput() as Element, {
       target: { value: "Example message" },
@@ -113,7 +113,7 @@ test("contact modal form sending works properly", async () => {
   })
 
   expect(onSend).toBeCalledWith({
-    email: "email@example.com",
+    email: "example@mudita.com",
     message: "Example message",
     attachments: [file],
   })
