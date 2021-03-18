@@ -70,7 +70,7 @@ const mapDispatch = ({ contacts, auth }: any) => {
           return getFlatList(contactDatabaseFactory(contacts))
         case Provider.Apple:
           return
-        case Provider.Microsoft:
+        case Provider.Outlook:
           return
       }
     },

@@ -13,7 +13,7 @@ import { OutlookProviderState } from "Renderer/models/external-providers/outlook
 export enum Provider {
   Google = "google",
   Apple = "apple",
-  Microsoft = "microsoft",
+  Outlook = "outlook",
   Pure = "pure",
 }
 

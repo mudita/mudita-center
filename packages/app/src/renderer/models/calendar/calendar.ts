@@ -103,7 +103,7 @@ const calendar = createModel<RootModel>({
         switch (provider) {
           case Provider.Apple:
             break
-          case Provider.Microsoft:
+          case Provider.Outlook:
             break
           case Provider.Google:
             calendars = ((await externalProvidersStore.dispatch.google.getCalendars()) as unknown) as Calendar[]
