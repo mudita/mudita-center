@@ -8,36 +8,34 @@ import React from "react"
 import SyncContactsModal from "App/contacts/components/sync-contacts-modal/sync-contacts-modal.component"
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 
-const onAppleButtonClick = jest.fn()
-const onGoogleButtonClick = jest.fn()
-const onManualImportClick = jest.fn()
-const onOutlookButtonClick = jest.fn()
-
 const renderer = (extraProps?: {}) => {
   const props = {
-    onAppleButtonClick,
-    onGoogleButtonClick,
-    onManualImportClick,
-    onOutlookButtonClick,
+    onAppleButtonClick: jest.fn(),
+    onGoogleButtonClick: jest.fn(),
+    onManualImportClick: jest.fn(),
+    onOutlookButtonClick: jest.fn(),
     ...extraProps,
   }
   return renderWithThemeAndIntl(<SyncContactsModal {...props} />)
 }
 
 test("apple button calls right function", () => {
-  const { getByText } = renderer()
+  const onAppleButtonClick = jest.fn()
+  const { getByText } = renderer({ onAppleButtonClick })
   getByText("[value] view.name.phone.contacts.appleButtonText").click()
   expect(onAppleButtonClick).toBeCalled()
 })
 
 test("google button calls right function", () => {
-  const { getByText } = renderer()
+  const onGoogleButtonClick = jest.fn()
+  const { getByText } = renderer({ onGoogleButtonClick })
   getByText("[value] view.name.phone.contacts.googleButtonText").click()
   expect(onGoogleButtonClick).toBeCalled()
 })
 
 test("manual import button calls right function", () => {
-  const { getByText, getByTestId } = renderer()
+  const onManualImportClick = jest.fn()
+  const { getByText, getByTestId } = renderer({ onManualImportClick })
   getByText("[value] view.name.phone.contacts.manualImportText").click()
   expect(onManualImportClick).toHaveBeenCalledWith(
     getByTestId(SyncContactsModalTestIds.FileInput)
@@ -45,7 +43,8 @@ test("manual import button calls right function", () => {
 })
 
 test("outlook button calls right function", () => {
-  const { getByText } = renderer()
+  const onOutlookButtonClick = jest.fn()
+  const { getByText } = renderer({ onOutlookButtonClick })
   getByText("[value] view.name.phone.contacts.outlookButtonText").click()
   expect(onOutlookButtonClick).toBeCalled()
 })

@@ -387,7 +387,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   // Synchronization, step 2b: 3-rd party services
   const authorizeAtGoogle = () => authorizeAtProvider(Provider.Google)
-  const authorizeAtOutLook = () => authorizeAtProvider(Provider.Microsoft)
+  const authorizeAtOutLook = () => authorizeAtProvider(Provider.Outlook)
 
   const authorizeAtProvider = async (provider: Provider) => {
     try {

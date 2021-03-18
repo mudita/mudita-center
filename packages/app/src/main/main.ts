@@ -56,7 +56,10 @@ import { Scope } from "Renderer/models/external-providers/google/google.interfac
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import { OutlookAuthActions } from "Common/enums/outlook-auth-actions.enum"
-import { clientId } from "Renderer/models/external-providers/outlook/outlook.constants"
+import {
+  clientId,
+  redirectUrl,
+} from "Renderer/models/external-providers/outlook/outlook.constants"
 import { TokenRequester } from "Renderer/models/external-providers/outlook/token-requester"
 
 require("dotenv").config()
@@ -315,9 +318,7 @@ ipcMain.answerRenderer(
         } = outlookAuthWindow.webContents
         webRequest.onBeforeRequest(
           {
-            urls: [
-              "https://login.microsoftonline.com/common/oauth2/nativeclient*",
-            ],
+            urls: [`${redirectUrl}*`],
           }, // * character is used to "catch all" url params
           async ({ url }) => {
             const code = new URL(url).searchParams.get("code") || ""
@@ -334,18 +335,12 @@ ipcMain.answerRenderer(
       } else {
         outlookAuthWindow.show()
       }
-
-      outlookAuthWindow.on("close", () => {
-        outlookAuthWindow = null
-        killAuthServer()
-      })
     } else {
-      console.log("No Outlook Auth URL defined!")
+      logger.info("No Outlook Auth URL defined!")
     }
   }
 )
 
 ipcMain.answerRenderer(OutlookAuthActions.CloseWindow, () => {
-  killAuthServer()
   outlookAuthWindow?.close()
 })
