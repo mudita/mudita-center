@@ -15,6 +15,7 @@ import {
   TokenPayload,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
 import { getOutlookEndpoint } from "Renderer/models/external-providers/outlook/outlook.helpers"
+import logger from "App/main/utils/logger"
 
 interface TokenRequesterInterface {
   requestTokens(code: string, scope: string): Promise<TokenPayload>
@@ -34,20 +35,24 @@ export class TokenRequester implements TokenRequesterInterface {
       redirect_uri: redirectUrl,
       grant_type: "authorization_code",
     })
+    try {
+      const {
+        data,
+      }: {
+        data: OutlookAuthSuccessResponse
+      } = await this.httpClient.post(
+        `${apiBaseUrl}/token`,
+        urlSearchParams.toString(),
+        { headers: { "Content-Type": "application/x-www-form-urlencoded" } } // The header is required
+      )
 
-    const {
-      data,
-    }: {
-      data: OutlookAuthSuccessResponse
-    } = await this.httpClient.post(
-      `${apiBaseUrl}/token`,
-      urlSearchParams.toString(),
-      { headers: { "Content-Type": "application/x-www-form-urlencoded" } } // The header is required
-    )
-
-    return {
-      accessToken: data.access_token,
-      refreshToken: data.refresh_token,
+      return {
+        accessToken: data.access_token,
+        refreshToken: data.refresh_token,
+      }
+    } catch (error) {
+      logger.error(error)
+      throw new Error(error)
     }
   }
   async regenerateTokens(
@@ -60,22 +65,26 @@ export class TokenRequester implements TokenRequesterInterface {
       refresh_token: refreshToken,
       grant_type: "refresh_token",
     })
+    try {
+      const {
+        data,
+      }: {
+        data: OutlookAuthSuccessResponse
+      } = await this.httpClient.post(
+        `${apiBaseUrl}/token`,
+        urlSearchParams.toString(),
+        {
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        }
+      )
 
-    const {
-      data,
-    }: {
-      data: OutlookAuthSuccessResponse
-    } = await this.httpClient.post(
-      `${apiBaseUrl}/token`,
-      urlSearchParams.toString(),
-      {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      return {
+        accessToken: data.access_token,
+        refreshToken: data.refresh_token,
       }
-    )
-
-    return {
-      accessToken: data.access_token,
-      refreshToken: data.refresh_token,
+    } catch (error) {
+      logger.error(error)
+      throw new Error(error)
     }
   }
 }

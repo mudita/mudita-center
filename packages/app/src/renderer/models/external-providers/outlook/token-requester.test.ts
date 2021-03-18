@@ -9,7 +9,9 @@ import axios from "axios"
 import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
 
 const axiosInstance = axios.create()
-let axiosMock = new MockAdapter(axiosInstance, { onNoMatch: "throwException" })
+let axiosMock: MockAdapter = new MockAdapter(axiosInstance, {
+  onNoMatch: "throwException",
+})
 
 beforeEach(() => {
   axiosMock = new MockAdapter(axiosInstance, { onNoMatch: "throwException" })
@@ -34,6 +36,19 @@ test("should return tokens", async () => {
   })
 })
 
+test("returns error while requesting tokens fails", async () => {
+  axiosMock
+    .onPost("https://login.microsoftonline.com/common/oauth2/v2.0/token")
+    .networkErrorOnce()
+  const tokenRequester = new TokenRequester(axiosInstance)
+  await expect(
+    tokenRequester.regenerateTokens(
+      "https://login.microsoftonline.com/common/oauth2/v2.0/",
+      OutLookScope.Contacts
+    )
+  ).rejects.toThrowError("Network Error")
+})
+
 test("returns regenerated tokens", async () => {
   const data = {
     access_token: "token",
@@ -51,4 +66,14 @@ test("returns regenerated tokens", async () => {
     accessToken: data.access_token,
     refreshToken: data.refresh_token,
   })
+})
+
+test("returns error while requesting regenerated tokens fails ", async () => {
+  axiosMock
+    .onPost("https://login.microsoftonline.com/common/oauth2/v2.0/token")
+    .networkErrorOnce()
+  const tokenRequester = new TokenRequester(axiosInstance)
+  await expect(
+    tokenRequester.regenerateTokens("token", OutLookScope.Contacts)
+  ).rejects.toThrowError("Network Error")
 })
