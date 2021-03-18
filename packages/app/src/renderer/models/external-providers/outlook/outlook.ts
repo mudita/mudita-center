@@ -115,7 +115,6 @@ const outlook = createModel<ExternalProvidersModels>({
       try {
         return await fetchContacts(accessToken)
       } catch ({ error }) {
-        logger.error(error)
         if (error === "invalid_grant") {
           const tokenRequester = new TokenRequester()
           const regeneratedTokens = await tokenRequester.regenerateTokens(
