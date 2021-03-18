@@ -25,11 +25,16 @@ export interface OutlookProviderState {
   [OutLookScope.Contacts]: TokenPayload
 }
 
-interface OutlookContactAddress {
+export interface OutlookContactAddress {
   street?: string
   city?: string
   postalCode?: string
   countryOrRegion?: string
+}
+
+export interface OutlookEmailAddress {
+  address: string
+  name: string
 }
 
 export interface OutlookContactResourceItem {
@@ -42,9 +47,6 @@ export interface OutlookContactResourceItem {
   homeAddress?: OutlookContactAddress
   businessAddress?: OutlookContactAddress
   otherAddress?: OutlookContactAddress
-  emailAddresses?: Array<{
-    address: string
-    name: string
-  }>
+  emailAddresses?: OutlookEmailAddress[]
   personalNotes?: string
 }
