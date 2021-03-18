@@ -9,6 +9,13 @@ import {
   OutlookEmailAddress,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
 
+test("adds id", () => {
+  const contactBuilder = new ContactBuilder()
+  const id = "123"
+  contactBuilder.addId(id)
+  expect(contactBuilder.build().id).toEqual(id)
+})
+
 test("adds multiple phone numbers correctly", () => {
   const contactBuilder = new ContactBuilder()
   const phoneNumbers = ["12345667", "2312312", "123123"]
