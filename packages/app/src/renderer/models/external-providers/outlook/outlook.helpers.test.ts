@@ -63,8 +63,8 @@ test("maps contacts correctly", () => {
 test("phone numbers are mapped correctly with home phone numbers as input", () => {
   const contact = {
     id: "AQMkADA=",
-    givenName: "Kamil",
-    surname: "Bombolowski",
+    givenName: "John",
+    surname: "Doe",
     homePhones: ["111111111111", "2222222222"],
   }
   const { primaryPhoneNumber, secondaryPhoneNumber } = mapContact(contact)
@@ -75,8 +75,8 @@ test("phone numbers are mapped correctly with home phone numbers as input", () =
 test("phone numbers are mapped correctly with mobile and business phone numbers as input", () => {
   const contact = {
     id: "AQMkADA=",
-    givenName: "Kamil",
-    surname: "Bombolowski",
+    givenName: "John",
+    surname: "Doe",
     mobilePhone: "+484238423489234",
     businessPhones: ["2222222222"],
   }
@@ -88,8 +88,8 @@ test("phone numbers are mapped correctly with mobile and business phone numbers 
 test("phone numbers are mapped correctly with home and business phone numbers as input", () => {
   const contact = {
     id: "AQMkADA=",
-    givenName: "Kamil",
-    surname: "Bombolowski",
+    givenName: "John",
+    surname: "Doe",
     homePhones: ["111111111111"],
     businessPhones: ["2222222222"],
   }
@@ -101,8 +101,8 @@ test("phone numbers are mapped correctly with home and business phone numbers as
 test("phone numbers are mapped correctly with business phone numbers as input", () => {
   const contact = {
     id: "AQMkADA=",
-    givenName: "Kamil",
-    surname: "Bombolowski",
+    givenName: "John",
+    surname: "Doe",
     businessPhones: ["111111111111", "2222222222"],
   }
   const { primaryPhoneNumber, secondaryPhoneNumber } = mapContact(contact)
@@ -113,8 +113,8 @@ test("phone numbers are mapped correctly with business phone numbers as input", 
 test("address is mapped correctly with business address as input", () => {
   const contact = {
     id: "AQMkADA=",
-    givenName: "Kamil",
-    surname: "Bombolowski",
+    givenName: "John",
+    surname: "Doe",
     businessAddress: {
       street: "business street",
       city: "Warsaw",
@@ -132,8 +132,8 @@ test("address is mapped correctly with business address as input", () => {
 test("address is mapped correctly with other address as input", () => {
   const contact = {
     id: "AQMkADA=",
-    givenName: "Kamil",
-    surname: "Bombolowski",
+    givenName: "John",
+    surname: "Doe",
     otherAddress: {
       street: "business street",
       city: "Warsaw",
