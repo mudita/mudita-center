@@ -57,7 +57,10 @@ import registerContactsExportListener from "App/contacts/backend/export-contacts
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import { OutlookAuthActions } from "Common/enums/outlook-auth-actions.enum"
 import { requestTokens } from "Renderer/models/external-providers/outlook/outlook.helpers"
-import { clientId } from "Renderer/models/external-providers/outlook/outlook.constants"
+import {
+  clientId,
+  redirectUrl,
+} from "Renderer/models/external-providers/outlook/outlook.constants"
 
 require("dotenv").config()
 
@@ -315,9 +318,7 @@ ipcMain.answerRenderer(
         } = outlookAuthWindow.webContents
         webRequest.onBeforeRequest(
           {
-            urls: [
-              "https://login.microsoftonline.com/common/oauth2/nativeclient*",
-            ],
+            urls: [`${redirectUrl}*`],
           }, // * character is used to "catch all" url params
           async ({ url }) => {
             const code = new URL(url).searchParams.get("code") || ""
