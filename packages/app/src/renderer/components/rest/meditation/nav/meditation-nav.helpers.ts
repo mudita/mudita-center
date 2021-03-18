@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import moment from "moment"
@@ -10,6 +10,12 @@ export enum DateFormatItems {
   Year = "Year",
   Month = "Month",
   Day = "Day",
+}
+
+export interface intlFormatDateConfig {
+  year?: "numeric" | "2-digit"
+  month?: "numeric" | "2-digit" | "long" | "short" | "narrow"
+  day?: "numeric" | "2-digit"
 }
 
 export interface MeditationNavProps {

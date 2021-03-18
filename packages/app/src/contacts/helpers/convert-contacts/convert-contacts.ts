@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import vCard from "vcf"
@@ -14,8 +14,8 @@ const convertContact = (contact: Contact): string => {
     lastName,
     primaryPhoneNumber,
     secondaryPhoneNumber,
-    firstAddressLine,
-    secondAddressLine,
+    firstAddressLine = "",
+    secondAddressLine = "",
     email,
     note,
   } = contact
@@ -43,6 +43,8 @@ const convertContact = (contact: Contact): string => {
       secondAddressLine
     ).split(",")
 
+    const address = `${firstAddressLine} ${secondAddressLine}`.trim()
+
     card.add(
       "adr",
       [
@@ -56,7 +58,7 @@ const convertContact = (contact: Contact): string => {
       ].join(";"),
       {
         type: "home",
-        label: `"${firstAddressLine} ${secondAddressLine}"`.trim(),
+        label: `"${address}"`,
       }
     )
   }
