@@ -333,11 +333,6 @@ ipcMain.answerRenderer(
       } else {
         outlookAuthWindow.show()
       }
-
-      outlookAuthWindow.on("close", () => {
-        outlookAuthWindow = null
-        killAuthServer()
-      })
     } else {
       console.log("No Outlook Auth URL defined!")
     }
@@ -345,6 +340,5 @@ ipcMain.answerRenderer(
 )
 
 ipcMain.answerRenderer(OutlookAuthActions.CloseWindow, () => {
-  killAuthServer()
   outlookAuthWindow?.close()
 })
