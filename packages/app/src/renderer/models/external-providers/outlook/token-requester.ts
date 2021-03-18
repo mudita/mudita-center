@@ -25,7 +25,7 @@ interface TokenRequesterInterface {
 }
 
 export class TokenRequester implements TokenRequesterInterface {
-  private httpClient: AxiosInstance = axios.create()
+  constructor(private readonly httpClient: AxiosInstance = axios.create()) {}
   async requestTokens(code: string, scope: string): Promise<TokenPayload> {
     const urlSearchParams = new URLSearchParams({
       client_id: clientId,

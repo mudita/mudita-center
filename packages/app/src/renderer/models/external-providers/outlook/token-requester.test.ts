@@ -8,10 +8,11 @@ import MockAdapter from "axios-mock-adapter"
 import axios from "axios"
 import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
 
-let axiosMock = new MockAdapter(axios)
+const axiosInstance = axios.create()
+let axiosMock = new MockAdapter(axiosInstance, { onNoMatch: "throwException" })
 
 beforeEach(() => {
-  axiosMock = new MockAdapter(axios)
+  axiosMock = new MockAdapter(axiosInstance, { onNoMatch: "throwException" })
 })
 
 test("should return tokens", async () => {
@@ -19,8 +20,10 @@ test("should return tokens", async () => {
     access_token: "lala",
     refresh_token: "ASdsa",
   }
-  axiosMock.onPost().reply(200, data)
-  const tokenRequester = new TokenRequester()
+  axiosMock
+    .onPost("https://login.microsoftonline.com/common/oauth2/v2.0/token")
+    .replyOnce(200, data)
+  const tokenRequester = new TokenRequester(axiosInstance)
   const result = await tokenRequester.requestTokens(
     "https://login.microsoftonline.com/common/oauth2/v2.0/",
     OutLookScope.Contacts
@@ -36,8 +39,10 @@ test("returns regenerated tokens", async () => {
     access_token: "token",
     refresh_token: "refresh",
   }
-  axiosMock.onPost().reply(200, data)
-  const tokenRequester = new TokenRequester()
+  axiosMock
+    .onPost("https://login.microsoftonline.com/common/oauth2/v2.0/token")
+    .replyOnce(200, data)
+  const tokenRequester = new TokenRequester(axiosInstance)
   const result = await tokenRequester.regenerateTokens(
     "token",
     OutLookScope.Contacts

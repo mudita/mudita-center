@@ -13,8 +13,8 @@ const scope = "offline_access, https://graph.microsoft.com/contacts.read"
 
 const contact = {
   id: "AQMkADA=",
-  givenName: "Kamil",
-  surname: "Bombolowski",
+  givenName: "John",
+  surname: "Doe",
   homePhones: ["111111111111", "2222222222"],
   mobilePhone: "+484238423489234",
   personalNotes: "notatka",
@@ -28,7 +28,7 @@ const contact = {
     street: "home",
     city: "Warszawa",
     countryOrRegion: "Polska",
-    postalCode: "00-732",
+    postalCode: "00-000",
   },
   businessAddress: {
     street: "business",

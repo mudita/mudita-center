@@ -14,18 +14,15 @@ import { OutlookAuthActions } from "Common/enums/outlook-auth-actions.enum"
 import {
   OutlookAuthErrorResponse,
   OutlookAuthSuccessResponse,
-  OutlookContactResourceItem,
   OutLookScope,
   TokenPayload,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
 import {
   apiBaseUrl,
-  baseGraphUrl,
   clientId,
   redirectUrl,
 } from "Renderer/models/external-providers/outlook/outlook.constants"
-import axios from "axios"
-import { mapContact } from "Renderer/models/external-providers/outlook/outlook.helpers"
+import { fetchContacts } from "Renderer/models/external-providers/outlook/outlook.helpers"
 import { TokenRequester } from "Renderer/models/external-providers/outlook/token-requester"
 
 export const createInitialState = () => ({
@@ -116,14 +113,9 @@ const outlook = createModel<ExternalProvidersModels>({
       const refreshToken =
         rootState.outlook[OutLookScope.Contacts].refresh_token
       try {
-        const { data } = await axios.get(`${baseGraphUrl}/me/contacts`, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        })
-        const contacts = data.value.map((contact: OutlookContactResourceItem) =>
-          mapContact(contact)
-        )
-        return contacts
+        return await fetchContacts(accessToken)
       } catch ({ error }) {
+        logger.error(error)
         if (error === "invalid_grant") {
           const tokenRequester = new TokenRequester()
           const regeneratedTokens = await tokenRequester.regenerateTokens(
@@ -134,12 +126,7 @@ const outlook = createModel<ExternalProvidersModels>({
             scope: OutLookScope.Contacts,
             data: regeneratedTokens,
           })
-          const { data } = await axios.get(`${baseGraphUrl}/me/contacts`, {
-            headers: {
-              Authorization: `Bearer ${regeneratedTokens.accessToken}`,
-            },
-          })
-          return data
+          return await fetchContacts(regeneratedTokens.accessToken)
         }
       }
     }

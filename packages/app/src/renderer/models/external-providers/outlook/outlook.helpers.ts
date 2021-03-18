@@ -8,6 +8,8 @@ import {
   OutLookScope,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
 import { Contact } from "App/contacts/store/contacts.type"
+import axios from "axios"
+import { baseGraphUrl } from "Renderer/models/external-providers/outlook/outlook.constants"
 
 export const getOutlookEndpoint = (scope: OutLookScope): string => {
   switch (scope) {
@@ -85,4 +87,16 @@ export const mapContact = (contact: OutlookContactResourceItem): Contact => {
     blocked: false,
     note,
   }
+}
+
+export const fetchContacts = async (accessToken: string) => {
+  const { data } = await axios.get(`${baseGraphUrl}/me/contacts`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+  console.log("data", data)
+  return data.value.map((contact: OutlookContactResourceItem) =>
+    mapContact(contact)
+  )
 }
