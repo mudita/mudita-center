@@ -54,11 +54,13 @@ const google = createModel<ExternalProvidersModels>({
         scope: Scope
       }
     ) {
-      state[payload.scope] = {
-        ...state[payload.scope],
-        ...payload.data,
+      return {
+        ...state,
+        [payload.scope]: {
+          ...state[payload.scope],
+          ...payload.data,
+        },
       }
-      return state
     },
   },
   effects: (d) => {

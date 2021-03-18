@@ -32,6 +32,12 @@ export const createInitialState = () => ({
   [OutLookScope.Contacts]: {},
 })
 
+const isOutlookErrorResponse = (
+  response: OutlookAuthSuccessResponse | OutlookAuthErrorResponse
+): response is OutlookAuthErrorResponse => {
+  return "error" in response
+}
+
 const outlook = createModel<ExternalProvidersModels>({
   state: createInitialState(),
   reducers: {
@@ -42,11 +48,13 @@ const outlook = createModel<ExternalProvidersModels>({
         scope: OutLookScope
       }
     ) {
-      state[payload.scope] = {
-        ...state[payload.scope],
-        ...payload.data,
+      return {
+        ...state,
+        [payload.scope]: {
+          ...state[payload.scope],
+          ...payload.data,
+        },
       }
-      return state
     },
   },
   effects: (d) => {
@@ -82,7 +90,7 @@ const outlook = createModel<ExternalProvidersModels>({
         const processResponse = (
           response: OutlookAuthSuccessResponse | OutlookAuthErrorResponse
         ) => {
-          if ("error" in response && response.error) {
+          if (isOutlookErrorResponse(response)) {
             reject(response.error)
           } else {
             dispatch.outlook.setAuthData({

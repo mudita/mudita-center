@@ -9,10 +9,10 @@ import {
 } from "Renderer/models/external-providers/outlook/outlook.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 
-export const handleScope = (scope: OutLookScope): string => {
+export const getOutlookEndpoint = (scope: OutLookScope): string => {
   switch (scope) {
     case OutLookScope.Contacts:
-      return "offline_access, https://graph.microsoft.com/contacts.readwrite"
+      return "offline_access, https://graph.microsoft.com/contacts.read"
   }
 }
 

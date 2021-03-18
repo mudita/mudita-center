@@ -4,12 +4,12 @@
  */
 
 import {
-  handleScope,
+  getOutlookEndpoint,
   mapContact,
 } from "Renderer/models/external-providers/outlook/outlook.helpers"
 import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
 
-const scope = "offline_access, https://graph.microsoft.com/contacts.readwrite"
+const scope = "offline_access, https://graph.microsoft.com/contacts.read"
 
 const contact = {
   id: "AQMkADA=",
@@ -37,8 +37,8 @@ const contact = {
   otherAddress: {},
 }
 
-test("handleScope returns proper value", () => {
-  expect(handleScope(OutLookScope.Contacts)).toBe(scope)
+test("getOutlookEndpoint returns proper value", () => {
+  expect(getOutlookEndpoint(OutLookScope.Contacts)).toBe(scope)
 })
 
 test("maps contacts correctly", () => {

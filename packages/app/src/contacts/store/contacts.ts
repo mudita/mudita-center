@@ -37,7 +37,7 @@ import {
   PhoneContacts,
   StoreData,
 } from "App/contacts/store/contacts.interface"
-import { handleScope } from "Renderer/models/external-providers/outlook/outlook.helpers"
+import { getOutlookEndpoint } from "Renderer/models/external-providers/outlook/outlook.helpers"
 import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
 
 export const initialState: ContactsState = {
@@ -172,7 +172,7 @@ const contacts = createModel<RootModel>({
             return undefined
           case Provider.Microsoft:
             return externalProvidersStore.dispatch.outlook.authorize(
-              handleScope(OutLookScope.Contacts)
+              getOutlookEndpoint(OutLookScope.Contacts)
             )
         }
       },

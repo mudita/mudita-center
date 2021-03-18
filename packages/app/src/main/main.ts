@@ -56,6 +56,7 @@ import { Scope } from "Renderer/models/external-providers/google/google.interfac
 import registerContactsExportListener from "App/contacts/backend/export-contacts"
 import registerEventsExportListener from "App/calendar/backend/export-events"
 import { OutlookAuthActions } from "Common/enums/outlook-auth-actions.enum"
+import { clientId } from "Renderer/models/external-providers/outlook/outlook.constants"
 import { TokenRequester } from "Renderer/models/external-providers/outlook/token-requester"
 
 require("dotenv").config()
@@ -250,10 +251,6 @@ ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
           height: GOOGLE_AUTH_WINDOW_SIZE.height,
           titleBarStyle:
             process.env.NODE_ENV === "development" ? "default" : "hidden",
-          webPreferences: {
-            nodeIntegration: false,
-            webSecurity: false,
-          },
         })
       )
 
@@ -300,7 +297,7 @@ ipcMain.answerRenderer(
   OutlookAuthActions.OpenWindow,
   async (data: { authorizationUrl: string; scope: string }) => {
     const { authorizationUrl, scope } = data
-    if (process.env.LOGIN_MICROSOFT_ONLINE_CLIENT_ID) {
+    if (clientId) {
       if (outlookAuthWindow === null) {
         outlookAuthWindow = new BrowserWindow(
           getWindowOptions({

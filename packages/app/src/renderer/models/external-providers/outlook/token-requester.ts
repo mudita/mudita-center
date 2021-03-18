@@ -14,7 +14,7 @@ import {
   OutLookScope,
   TokenPayload,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
-import { handleScope } from "Renderer/models/external-providers/outlook/outlook.helpers"
+import { getOutlookEndpoint } from "Renderer/models/external-providers/outlook/outlook.helpers"
 
 interface TokenRequesterInterface {
   requestTokens(code: string, scope: string): Promise<TokenPayload>
@@ -56,7 +56,7 @@ export class TokenRequester implements TokenRequesterInterface {
   ): Promise<TokenPayload> {
     const urlSearchParams = new URLSearchParams({
       client_id: clientId,
-      scope: handleScope(scope),
+      scope: getOutlookEndpoint(scope),
       refresh_token: refreshToken,
       grant_type: "refresh_token",
     })
