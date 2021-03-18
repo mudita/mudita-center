@@ -56,7 +56,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
   allEventsSelected,
   toggleAll = noop,
   resetRows,
-  openModal = modalService.openModal,
+  openModal = modalService.openModal.bind(modalService),
   exportCalendarEvents = exportEvents,
 }) => {
   const selectedEventsCount = selectedEvents.length
