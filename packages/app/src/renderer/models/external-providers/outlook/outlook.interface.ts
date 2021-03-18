@@ -39,14 +39,14 @@ export interface OutlookEmailAddress {
 
 export interface OutlookContactResourceItem {
   id: string
-  givenName?: string
-  surname?: string
-  mobilePhone?: string
+  givenName?: string | null
+  surname?: string | null
+  mobilePhone?: string | null
   homePhones?: string[]
   businessPhones?: string[]
   homeAddress?: OutlookContactAddress
   businessAddress?: OutlookContactAddress
   otherAddress?: OutlookContactAddress
   emailAddresses?: OutlookEmailAddress[]
-  personalNotes?: string
+  personalNotes?: string | null
 }

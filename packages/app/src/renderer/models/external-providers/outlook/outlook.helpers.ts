@@ -23,10 +23,10 @@ export const mapContact = (contact: OutlookContactResourceItem): Contact => {
   const builder = new ContactBuilder()
   return builder
     .addId(contact.id)
-    .addFirstName(contact.givenName)
-    .addLastName(contact.surname)
+    .addFirstName(contact.givenName ?? "")
+    .addLastName(contact.surname ?? "")
     .addPhoneNumbers([
-      contact.mobilePhone,
+      contact.mobilePhone ?? "",
       ...(contact.homePhones ?? []),
       ...(contact.businessPhones ?? []),
     ])
@@ -36,7 +36,7 @@ export const mapContact = (contact: OutlookContactResourceItem): Contact => {
       { ...(contact.otherAddress ?? {}) },
     ])
     .addEmailAddress([...(contact.emailAddresses ?? [])])
-    .addNote(contact.personalNotes)
+    .addNote(contact.personalNotes ?? "")
     .build()
 }
 
