@@ -334,7 +334,7 @@ ipcMain.answerRenderer(
         outlookAuthWindow.show()
       }
     } else {
-      console.log("No Outlook Auth URL defined!")
+      logger.info("No Outlook Auth URL defined!")
     }
   }
 )
