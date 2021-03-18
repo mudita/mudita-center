@@ -38,19 +38,19 @@ export const mapContact = (contact: OutlookContactResourceItem): Contact => {
 
   if (contact.mobilePhone) {
     primaryPhoneNumber = contact.mobilePhone
-    if (contact.homePhones) {
+    if (contact.homePhones?.length) {
       secondaryPhoneNumber = contact.homePhones[0]
     }
-    if (contact.businessPhones) {
+    if (contact.businessPhones?.length) {
       secondaryPhoneNumber = contact.businessPhones[0] || ""
     }
-  } else if (contact.homePhones) {
+  } else if (contact.homePhones?.length) {
     primaryPhoneNumber = contact.homePhones[0]
     secondaryPhoneNumber = contact.homePhones[1] || ""
-    if (contact.businessPhones) {
+    if (contact.businessPhones?.length) {
       secondaryPhoneNumber = contact?.businessPhones[0] || ""
     }
-  } else if (contact.businessPhones) {
+  } else if (contact.businessPhones?.length) {
     primaryPhoneNumber = contact.businessPhones[0]
     secondaryPhoneNumber = contact?.businessPhones[1] || ""
   }
@@ -66,7 +66,7 @@ export const mapContact = (contact: OutlookContactResourceItem): Contact => {
     secondAddressLine = `${contact.otherAddress.postalCode} ${contact.otherAddress.city} ${contact.otherAddress.countryOrRegion}`
   }
 
-  if (contact.emailAddresses) {
+  if (contact.emailAddresses?.length) {
     email = contact.emailAddresses[0].address
   }
 
