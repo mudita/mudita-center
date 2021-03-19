@@ -46,7 +46,5 @@ export const fetchContacts = async (accessToken: string) => {
       Authorization: `Bearer ${accessToken}`,
     },
   })
-  return data.value.map((contact: OutlookContactResourceItem) =>
-    mapContact(contact)
-  )
+  return data.value.map(mapContact)
 }
