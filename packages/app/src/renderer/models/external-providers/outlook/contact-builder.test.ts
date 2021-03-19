@@ -67,6 +67,20 @@ test("adds address correctly with multiple addresses as input", () => {
   )
 })
 
+test("maps first address that is not empty", () => {
+  const addresses: OutlookContactAddress[] = [
+    {},
+    {},
+    {
+      city: "city2",
+      street: "street2",
+    },
+  ]
+  contactBuilder.addAddress(addresses)
+  expect(contactBuilder.build().firstAddressLine).toEqual(addresses[2].street)
+  expect(contactBuilder.build().secondAddressLine).toEqual(addresses[2].city)
+})
+
 test("adds address lines correctly with some fields missing", () => {
   const addresses: OutlookContactAddress[] = [
     {

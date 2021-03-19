@@ -60,8 +60,11 @@ export class ContactBuilder implements ContactBuilderInterface {
   }
 
   addAddress(addresses: OutlookContactAddress[]) {
-    if (addresses.length) {
-      const { street, postalCode, city, countryOrRegion } = addresses[0]
+    const filteredAddresses = addresses.filter(
+      (address) => Object.keys(address).length !== 0
+    )
+    if (filteredAddresses.length) {
+      const { street, postalCode, city, countryOrRegion } = filteredAddresses[0]
       this.contact.firstAddressLine = street || ""
       this.contact.secondAddressLine = [postalCode, city, countryOrRegion]
         .filter(Boolean)
