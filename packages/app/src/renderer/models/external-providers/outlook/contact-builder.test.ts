@@ -30,14 +30,14 @@ test("adds single phone number correctly", () => {
   const phoneNumbers = ["12345667"]
   contactBuilder.addPhoneNumbers(phoneNumbers)
   expect(contactBuilder.build().primaryPhoneNumber).toEqual(phoneNumbers[0])
-  expect(contactBuilder.build().secondaryPhoneNumber).toEqual("")
+  expect(contactBuilder.build().secondaryPhoneNumber).toBeUndefined()
 })
 
 test("empty phone numbers stay empty", () => {
   const phoneNumbers = [""]
   contactBuilder.addPhoneNumbers(phoneNumbers)
   expect(contactBuilder.build().primaryPhoneNumber).toEqual("")
-  expect(contactBuilder.build().secondaryPhoneNumber).toEqual("")
+  expect(contactBuilder.build().secondaryPhoneNumber).toBeUndefined()
 })
 
 test("adds address correctly with multiple addresses as input", () => {

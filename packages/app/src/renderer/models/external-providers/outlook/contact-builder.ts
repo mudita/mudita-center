@@ -29,7 +29,6 @@ export class ContactBuilder implements ContactBuilderInterface {
       lastName: "",
       email: "",
       primaryPhoneNumber: "",
-      secondaryPhoneNumber: "",
       firstAddressLine: "",
       secondAddressLine: "",
       ice: false,
