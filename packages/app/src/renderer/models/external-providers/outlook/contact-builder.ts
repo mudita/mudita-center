@@ -21,20 +21,17 @@ interface ContactBuilderInterface {
 }
 
 export class ContactBuilder implements ContactBuilderInterface {
-  private contact: Contact
-  constructor() {
-    this.contact = {
-      id: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      primaryPhoneNumber: "",
-      firstAddressLine: "",
-      secondAddressLine: "",
-      ice: false,
-      favourite: false,
-      blocked: false,
-    }
+  private contact: Contact = {
+    id: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    primaryPhoneNumber: "",
+    firstAddressLine: "",
+    secondAddressLine: "",
+    ice: false,
+    favourite: false,
+    blocked: false,
   }
   build(): Contact {
     return this.contact
