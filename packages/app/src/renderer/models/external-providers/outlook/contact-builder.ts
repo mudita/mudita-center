@@ -54,12 +54,8 @@ export class ContactBuilder implements ContactBuilderInterface {
 
   addPhoneNumbers(phoneNumbers: Array<string | undefined>) {
     const filteredPhoneNumbers = phoneNumbers.filter(Boolean)
-    if (filteredPhoneNumbers.length === 1) {
-      this.contact.primaryPhoneNumber = filteredPhoneNumbers[0]
-    } else if (filteredPhoneNumbers.length > 1) {
-      this.contact.primaryPhoneNumber = filteredPhoneNumbers[0]
-      this.contact.secondaryPhoneNumber = filteredPhoneNumbers[1]
-    }
+    this.contact.primaryPhoneNumber = filteredPhoneNumbers[0] || ""
+    this.contact.secondaryPhoneNumber = filteredPhoneNumbers[1]
     return this
   }
 
