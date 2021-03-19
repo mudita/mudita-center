@@ -322,13 +322,22 @@ ipcMain.answerRenderer(
           }, // * character is used to "catch all" url params
           async ({ url }) => {
             const code = new URL(url).searchParams.get("code") || ""
-            const tokenRequester = new TokenRequester()
-            const tokens = await tokenRequester.requestTokens(code, scope)
-            ipcMain.callRenderer(
-              win as BrowserWindow,
-              OutlookAuthActions.GotCredentials,
-              tokens
-            )
+            try {
+              const tokenRequester = new TokenRequester()
+              const tokens = await tokenRequester.requestTokens(code, scope)
+              ipcMain.callRenderer(
+                win as BrowserWindow,
+                OutlookAuthActions.GotCredentials,
+                tokens
+              )
+            } catch (error) {
+              ipcMain.callRenderer(
+                win as BrowserWindow,
+                OutlookAuthActions.GotCredentials,
+                { error }
+              )
+            }
+
             outlookAuthWindow?.close()
             outlookAuthWindow = null
           }
