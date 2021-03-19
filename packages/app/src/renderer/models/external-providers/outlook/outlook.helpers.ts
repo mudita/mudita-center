@@ -31,9 +31,9 @@ export const mapContact = (contact: OutlookContactResourceItem): Contact => {
       ...(contact.businessPhones ?? []),
     ])
     .addAddress([
-      { ...(contact.homeAddress ?? {}) },
-      { ...(contact.businessAddress ?? {}) },
-      { ...(contact.otherAddress ?? {}) },
+      contact.homeAddress ?? {},
+      contact.businessAddress ?? {},
+      contact.otherAddress ?? {},
     ])
     .addEmailAddress([...(contact.emailAddresses ?? [])])
     .addNote(contact.personalNotes ?? "")
