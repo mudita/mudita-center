@@ -323,12 +323,16 @@ ipcMain.answerRenderer(
           async ({ url }) => {
             const code = new URL(url).searchParams.get("code") || ""
             const tokenRequester = new TokenRequester()
-            const tokens = await tokenRequester.requestTokens(code, scope)
-            ipcMain.callRenderer(
-              win as BrowserWindow,
-              OutlookAuthActions.GotCredentials,
-              tokens
-            )
+            try {
+              const tokens = await tokenRequester.requestTokens(code, scope)
+              ipcMain.callRenderer(
+                win as BrowserWindow,
+                OutlookAuthActions.GotCredentials,
+                tokens
+              )
+            } catch (error) {
+              logger.error(error)
+            }
             outlookAuthWindow?.close()
           }
         )
