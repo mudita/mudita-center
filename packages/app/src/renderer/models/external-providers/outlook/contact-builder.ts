@@ -41,7 +41,7 @@ export class ContactBuilder implements ContactBuilderInterface {
     return this.contact
   }
 
-  addId(id = "") {
+  addId(id: string) {
     this.contact.id = id
     return this
   }
