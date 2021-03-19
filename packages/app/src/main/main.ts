@@ -334,6 +334,7 @@ ipcMain.answerRenderer(
               logger.error(error)
             }
             outlookAuthWindow?.close()
+            outlookAuthWindow = null
           }
         )
       } else {
