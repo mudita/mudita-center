@@ -117,19 +117,15 @@ const outlook = createModel<ExternalProvidersModels>({
       } catch ({ error }) {
         if (error === "invalid_grant") {
           const tokenRequester = new TokenRequester()
-          try {
-            const regeneratedTokens = await tokenRequester.regenerateTokens(
-              refreshToken,
-              OutLookScope.Contacts
-            )
-            dispatch.outlook.setAuthData({
-              scope: OutLookScope.Contacts,
-              data: regeneratedTokens,
-            })
-            return await fetchContacts(regeneratedTokens.accessToken)
-          } catch (error) {
-            logger.error(error)
-          }
+          const regeneratedTokens = await tokenRequester.regenerateTokens(
+            refreshToken,
+            OutLookScope.Contacts
+          )
+          dispatch.outlook.setAuthData({
+            scope: OutLookScope.Contacts,
+            data: regeneratedTokens,
+          })
+          return await fetchContacts(regeneratedTokens.accessToken)
         }
       }
     }

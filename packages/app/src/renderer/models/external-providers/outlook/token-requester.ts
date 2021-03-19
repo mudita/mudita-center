@@ -15,6 +15,7 @@ import {
   TokenPayload,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
 import { getOutlookEndpoint } from "Renderer/models/external-providers/outlook/outlook.helpers"
+import logger from "App/main/utils/logger"
 
 interface TokenRequesterInterface {
   requestTokens(code: string, scope: string): Promise<TokenPayload>
@@ -50,7 +51,8 @@ export class TokenRequester implements TokenRequesterInterface {
         refreshToken: data.refresh_token,
       }
     } catch (error) {
-      throw new Error(error)
+      logger.error(error)
+      throw error
     }
   }
   async regenerateTokens(
@@ -81,7 +83,8 @@ export class TokenRequester implements TokenRequesterInterface {
         refreshToken: data.refresh_token,
       }
     } catch (error) {
-      throw new Error(error)
+      logger.error(error)
+      throw error
     }
   }
 }
