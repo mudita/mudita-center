@@ -9,12 +9,16 @@ import axios from "axios"
 import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
 
 const axiosInstance = axios.create()
-let axiosMock: MockAdapter = new MockAdapter(axiosInstance, {
-  onNoMatch: "throwException",
-})
+
+const createMockAdapter = () =>
+  new MockAdapter(axiosInstance, {
+    onNoMatch: "throwException",
+  })
+
+let axiosMock: MockAdapter = createMockAdapter()
 
 beforeEach(() => {
-  axiosMock = new MockAdapter(axiosInstance, { onNoMatch: "throwException" })
+  axiosMock = createMockAdapter()
 })
 
 test("should return tokens", async () => {
