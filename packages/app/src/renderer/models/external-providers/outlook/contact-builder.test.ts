@@ -9,15 +9,17 @@ import {
   OutlookEmailAddress,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
 
+let contactBuilder: ContactBuilder
+
+beforeEach(() => (contactBuilder = new ContactBuilder()))
+
 test("adds id", () => {
-  const contactBuilder = new ContactBuilder()
   const id = "123"
   contactBuilder.addId(id)
   expect(contactBuilder.build().id).toEqual(id)
 })
 
 test("adds multiple phone numbers correctly", () => {
-  const contactBuilder = new ContactBuilder()
   const phoneNumbers = ["12345667", "2312312", "123123"]
   contactBuilder.addPhoneNumbers(phoneNumbers)
   expect(contactBuilder.build().primaryPhoneNumber).toEqual(phoneNumbers[0])
@@ -25,7 +27,6 @@ test("adds multiple phone numbers correctly", () => {
 })
 
 test("adds single phone number correctly", () => {
-  const contactBuilder = new ContactBuilder()
   const phoneNumbers = ["12345667"]
   contactBuilder.addPhoneNumbers(phoneNumbers)
   expect(contactBuilder.build().primaryPhoneNumber).toEqual(phoneNumbers[0])
@@ -33,7 +34,6 @@ test("adds single phone number correctly", () => {
 })
 
 test("empty phone numbers stay empty", () => {
-  const contactBuilder = new ContactBuilder()
   const phoneNumbers = [""]
   contactBuilder.addPhoneNumbers(phoneNumbers)
   expect(contactBuilder.build().primaryPhoneNumber).toEqual("")
@@ -41,7 +41,6 @@ test("empty phone numbers stay empty", () => {
 })
 
 test("adds address correctly with multiple addresses as input", () => {
-  const contactBuilder = new ContactBuilder()
   const addresses: OutlookContactAddress[] = [
     {
       city: "city1",
@@ -62,7 +61,6 @@ test("adds address correctly with multiple addresses as input", () => {
 })
 
 test("adds address lines correctly with some fields missing", () => {
-  const contactBuilder = new ContactBuilder()
   const addresses: OutlookContactAddress[] = [
     {
       city: "city1",
@@ -78,20 +76,17 @@ test("adds address lines correctly with some fields missing", () => {
 })
 
 test("adds first name correctly ", () => {
-  const contactBuilder = new ContactBuilder()
   contactBuilder.addFirstName("John")
   expect(contactBuilder.build().firstName).toEqual("John")
 })
 
 test("adds last name correctly ", () => {
-  const contactBuilder = new ContactBuilder()
   const lastName = "Doe"
   contactBuilder.addLastName(lastName)
   expect(contactBuilder.build().lastName).toEqual(lastName)
 })
 
 test("adds note correctly", () => {
-  const contactBuilder = new ContactBuilder()
   const exampleNote =
     "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias, quae?"
   contactBuilder.addNote(exampleNote)
@@ -99,7 +94,6 @@ test("adds note correctly", () => {
 })
 
 test("adds email correctly", () => {
-  const contactBuilder = new ContactBuilder()
   const emails: OutlookEmailAddress[] = [
     { name: "email name", address: "example@mudita.com" },
   ]
