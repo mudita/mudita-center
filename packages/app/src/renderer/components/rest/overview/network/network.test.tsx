@@ -11,7 +11,6 @@ import Network from "Renderer/components/rest/overview/network/network.component
 import { intl } from "Renderer/utils/intl"
 import getFakeAdapters from "App/tests/get-fake-adapters"
 import { fireEvent } from "@testing-library/dom"
-import { waitFor } from "@testing-library/react"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 
 const renderNetwork = ({
@@ -111,7 +110,7 @@ test("renders two sim cards info properly", () => {
   expect(getDescription()).toBeInTheDocument()
 })
 
-test("returns a SIM info after its activation", async () => {
+test("returns a SIM info after its activation", () => {
   const onSimChange = jest.fn()
 
   const { getButtons } = renderNetwork({
@@ -121,5 +120,5 @@ test("returns a SIM info after its activation", async () => {
 
   fireEvent.click(getButtons()[1])
 
-  await waitFor(() => expect(onSimChange).toHaveBeenCalledWith(fakeSimCards[1]))
+  expect(onSimChange).toHaveBeenCalledWith(fakeSimCards[1])
 })

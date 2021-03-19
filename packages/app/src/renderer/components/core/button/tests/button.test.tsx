@@ -10,7 +10,6 @@ import Button from "../button.component"
 import { DisplayStyle, Size } from "../button.config"
 
 import { fireEvent } from "@testing-library/dom"
-import { waitFor } from "@testing-library/react"
 import { MemoryRouter } from "react-router-dom"
 import { Type } from "Renderer/components/core/icon/icon.config"
 
@@ -46,7 +45,7 @@ describe("Button matches snapshots", () => {
   })
 })
 
-test("link-button should have active class when clicked", async () => {
+test("link-button should have active class when clicked", () => {
   const currentPath = "/music"
   const data = {
     displayStyle: DisplayStyle.Link4,
@@ -75,7 +74,5 @@ test("link-button should have active class when clicked", async () => {
 
   fireEvent.click(firstButton)
 
-  await waitFor(() => {
-    expect(firstLink).toHaveClass("active")
-  })
+  expect(firstLink).toHaveClass("active")
 })

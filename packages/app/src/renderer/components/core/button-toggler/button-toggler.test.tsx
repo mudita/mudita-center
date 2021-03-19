@@ -5,7 +5,6 @@
 
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom/extend-expect"
-import { waitFor } from "@testing-library/react"
 import React from "react"
 import ButtonToggler, {
   ButtonTogglerItem,
@@ -70,21 +69,19 @@ test("render buttons labels properly", () => {
   expect(getButtons()[1]).toHaveTextContent(twoStateToggler[1])
 })
 
-test("switches active state properly", async () => {
+test("switches active state properly", () => {
   const onToggle = jest.fn()
 
   const { getButtons } = renderButtonToggler(threeStateToggler, onToggle)
 
-  const clickOnButton = async (index: number) => {
+  const clickOnButton = (index: number) => {
     fireEvent.click(getButtons()[index])
-    await waitFor(() =>
-      expect(onToggle).toHaveBeenCalledWith(threeStateToggler[index])
-    )
+    expect(onToggle).toHaveBeenCalledWith(threeStateToggler[index])
   }
 
-  await clickOnButton(1)
-  await clickOnButton(0)
-  await clickOnButton(2)
+  clickOnButton(1)
+  clickOnButton(0)
+  clickOnButton(2)
 })
 
 test("renders tooltip", () => {
