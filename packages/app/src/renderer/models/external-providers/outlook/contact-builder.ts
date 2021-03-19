@@ -56,11 +56,12 @@ export class ContactBuilder implements ContactBuilderInterface {
   }
 
   addPhoneNumbers(phoneNumbers: Array<string | undefined>) {
-    if (phoneNumbers.length === 1) {
-      this.contact.primaryPhoneNumber = phoneNumbers[0]
-    } else if (phoneNumbers.length > 1) {
-      this.contact.primaryPhoneNumber = phoneNumbers[0]
-      this.contact.secondaryPhoneNumber = phoneNumbers[1]
+    const filteredPhoneNumbers = phoneNumbers.filter(Boolean)
+    if (filteredPhoneNumbers.length === 1) {
+      this.contact.primaryPhoneNumber = filteredPhoneNumbers[0]
+    } else if (filteredPhoneNumbers.length > 1) {
+      this.contact.primaryPhoneNumber = filteredPhoneNumbers[0]
+      this.contact.secondaryPhoneNumber = filteredPhoneNumbers[1]
     }
     return this
   }

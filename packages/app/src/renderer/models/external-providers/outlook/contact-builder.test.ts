@@ -40,6 +40,13 @@ test("empty phone numbers stay empty", () => {
   expect(contactBuilder.build().secondaryPhoneNumber).toBeUndefined()
 })
 
+test("takes second passed number as primary if first one is empty", () => {
+  const phoneNumbers = ["", "123"]
+  contactBuilder.addPhoneNumbers(phoneNumbers)
+  expect(contactBuilder.build().primaryPhoneNumber).toEqual(phoneNumbers[1])
+  expect(contactBuilder.build().secondaryPhoneNumber).toBeUndefined()
+})
+
 test("adds address correctly with multiple addresses as input", () => {
   const addresses: OutlookContactAddress[] = [
     {
