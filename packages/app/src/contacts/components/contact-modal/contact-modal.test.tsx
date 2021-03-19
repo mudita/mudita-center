@@ -86,7 +86,8 @@ describe("contact modal details", () => {
 })
 
 test("contact modal form sending works properly", async () => {
-  const onSend = jest.fn()
+  const promise = Promise.resolve()
+  const onSend = jest.fn(() => promise)
   const {
     getEmailInput,
     getMessageInput,
@@ -98,19 +99,16 @@ test("contact modal form sending works properly", async () => {
 
   const file = mockJpg("screenshot1")
 
-  await act(async () => {
-    fireEvent.change(getEmailInput() as Element, {
-      target: { value: "email@example.com" },
-    })
-    fireEvent.change(getMessageInput() as Element, {
-      target: { value: "Example message" },
-    })
-    fireEvent.change(getFileInput() as Element, mockEvent(file))
+  fireEvent.change(getEmailInput() as Element, {
+    target: { value: "email@example.com" },
   })
+  fireEvent.change(getMessageInput() as Element, {
+    target: { value: "Example message" },
+  })
+  fireEvent.change(getFileInput() as Element, mockEvent(file))
+  fireEvent.click(getByTestId("modal-action-button"))
 
-  await act(async () => {
-    fireEvent.click(getByTestId("modal-action-button"))
-  })
+  await act(() => promise)
 
   expect(onSend).toBeCalledWith({
     email: "email@example.com",
@@ -120,31 +118,31 @@ test("contact modal form sending works properly", async () => {
 })
 
 test("contact modal email validation works properly", async () => {
-  const onSend = jest.fn()
+  const promise = Promise.resolve()
+  const onSend = jest.fn(() => promise)
   const { getEmailInput, getByTestId } = renderContactModal({
     onSend,
   })
 
-  await act(async () => {
-    fireEvent.change(getEmailInput() as Element, {
-      target: { value: "wrongEmail" },
-    })
-
-    fireEvent.click(getByTestId("modal-action-button"))
+  fireEvent.change(getEmailInput() as Element, {
+    target: { value: "wrongEmail" },
   })
+  fireEvent.click(getByTestId("modal-action-button"))
 
+  await act(() => promise)
   expect(onSend).not.toBeCalled()
 })
 
 test("contact modal form validation works properly", async () => {
-  const onSend = jest.fn()
+  const promise = Promise.resolve()
+  const onSend = jest.fn(() => promise)
   const { getByTestId } = renderContactModal({
     onSend,
   })
 
-  await act(async () => {
-    fireEvent.click(getByTestId("modal-action-button"))
-  })
+  fireEvent.click(getByTestId("modal-action-button"))
+
+  await act(() => promise)
 
   expect(onSend).toBeCalled()
 })
