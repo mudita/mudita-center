@@ -18,44 +18,34 @@ beforeEach(() => {
 })
 
 test("have default state properly defined", () => {
-  const { getState } = store
-
-  expect(getState().devMode).toMatchObject({
+  expect(store.getState().devMode).toMatchObject({
     enabled: false,
     phoneSimulation: false,
   })
 })
 
 test("properly enables dev mode", () => {
-  const { dispatch, getState } = store
-
-  expect(getState().devMode).toMatchObject({ enabled: false })
-  dispatch.devMode.enableDevMode()
-  expect(getState().devMode).toMatchObject({ enabled: true })
+  expect(store.getState().devMode).toMatchObject({ enabled: false })
+  store.dispatch.devMode.enableDevMode()
+  expect(store.getState().devMode).toMatchObject({ enabled: true })
 })
 
 test("properly disables dev mode", () => {
-  const { dispatch, getState } = store
-
-  dispatch.devMode.enableDevMode()
-  expect(getState().devMode).toMatchObject({ enabled: true })
-  dispatch.devMode.disableDevMode()
-  expect(getState().devMode).toMatchObject({ enabled: false })
+  store.dispatch.devMode.enableDevMode()
+  expect(store.getState().devMode).toMatchObject({ enabled: true })
+  store.dispatch.devMode.disableDevMode()
+  expect(store.getState().devMode).toMatchObject({ enabled: false })
 })
 
 test("properly enables phone simulation mode", () => {
-  const { dispatch, getState } = store
-
-  expect(getState().devMode).toMatchObject({ phoneSimulation: false })
-  dispatch.devMode.enablePhoneSimulation()
-  expect(getState().devMode).toMatchObject({ phoneSimulation: true })
+  expect(store.getState().devMode).toMatchObject({ phoneSimulation: false })
+  store.dispatch.devMode.enablePhoneSimulation()
+  expect(store.getState().devMode).toMatchObject({ phoneSimulation: true })
 })
 
 test("properly disables phone simulation mode", () => {
-  const { dispatch, getState } = store
-
-  dispatch.devMode.enablePhoneSimulation()
-  expect(getState().devMode).toMatchObject({ phoneSimulation: true })
-  dispatch.devMode.disablePhoneSimulation()
-  expect(getState().devMode).toMatchObject({ phoneSimulation: false })
+  store.dispatch.devMode.enablePhoneSimulation()
+  expect(store.getState().devMode).toMatchObject({ phoneSimulation: true })
+  store.dispatch.devMode.disablePhoneSimulation()
+  expect(store.getState().devMode).toMatchObject({ phoneSimulation: false })
 })
