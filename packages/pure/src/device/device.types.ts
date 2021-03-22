@@ -22,6 +22,7 @@ export enum ResponseStatus {
 
   // lib status
   ConnectionError = 503,
+  ParserError = 504,
 }
 
 export type ResponseErrorCode = number

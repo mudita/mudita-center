@@ -53,10 +53,18 @@ class BaseDevice implements PureDevice {
       })
 
       this.#port.on("data", async (event) => {
-        const data = await parseData(event)
-        logger.log("==== serial port: data received ====")
-        logger.log(JSON.stringify(data, null, 2))
-        this.#eventEmitter.emit(DeviceEventName.DataReceived, data)
+        try {
+          const data = await parseData(event)
+          logger.log("==== serial port: data received ====")
+          logger.log(JSON.stringify(data, null, 2))
+          this.#eventEmitter.emit(DeviceEventName.DataReceived, data)
+        } catch (error) {
+          logger.log("==== serial port error: data impossible to parse ====")
+          logger.log(JSON.stringify(error, null, 2))
+          this.#eventEmitter.emit(DeviceEventName.DataReceived, {
+            status: ResponseStatus.ParserError,
+          })
+        }
       })
 
       this.#port.on("close", () => {
@@ -137,6 +145,11 @@ class BaseDevice implements PureDevice {
       this.#portBlocked = false
 
       const listener = (response: any) => {
+        if (response.status === ResponseStatus.ParserError) {
+          this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
+          resolve(response)
+        }
+
         if (response.uuid === uuid) {
           if (response.body.status === FileResponseStatus.Ok) {
             const readStream = fs.createReadStream(filePath, {
@@ -200,6 +213,11 @@ class BaseDevice implements PureDevice {
       this.#portBlocked = false
 
       const listener = (response: any) => {
+        if (response.status === ResponseStatus.ParserError) {
+          this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
+          resolve(response)
+        }
+
         if (response.endpoint === Endpoint.Update) {
           if (response.status === ResponseStatus.InternalServerError) {
             resolve({
@@ -252,7 +270,10 @@ class BaseDevice implements PureDevice {
   ): Promise<Response<{ version: number }>> {
     return new Promise((resolve) => {
       const listener = (response: any) => {
-        if (response.uuid === payload.uuid) {
+        if (
+          response.uuid === payload.uuid ||
+          response.status === ResponseStatus.ParserError
+        ) {
           this.#eventEmitter.off(DeviceEventName.DataReceived, listener)
           resolve(response)
         }
