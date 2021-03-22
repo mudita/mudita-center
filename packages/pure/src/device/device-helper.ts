@@ -9,17 +9,17 @@ import {
   Endpoint,
   FileUploadRequestPayload,
   Method,
-  RequestConfig,
+  RequestPayload,
 } from "./device.types"
 
-export const isApiRequestConfig = (
-  config: RequestConfig
+export const isApiRequestPayload = (
+  config: RequestPayload
 ): config is ApiRequestPayload => {
   return config.endpoint === Endpoint.ApiVersion && config.method === Method.Get
 }
 
-export const isFileUploadRequest = (
-  config: RequestConfig
+export const isFileUploadPayload = (
+  config: RequestPayload
 ): config is FileUploadRequestPayload => {
   return (
     config.endpoint === Endpoint.FileUpload &&
@@ -28,8 +28,8 @@ export const isFileUploadRequest = (
   )
 }
 
-export const isDeviceUpdateRequestConfig = (
-  config: RequestConfig
+export const isDeviceUpdateRequestPayload = (
+  config: RequestPayload
 ): config is DeviceUpdateRequestPayload => {
   return (
     config.endpoint === Endpoint.DeviceUpdate &&

@@ -25,9 +25,9 @@ import {
 } from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
 import {
-  isApiRequestConfig,
-  isDeviceUpdateRequestConfig,
-  isFileUploadRequest,
+  isApiRequestPayload,
+  isDeviceUpdateRequestPayload,
+  isFileUploadPayload,
 } from "./device-helper"
 import Queue from "queue-promise"
 import logger from "../logger"
@@ -122,11 +122,11 @@ class BaseDevice implements PureDevice {
       const payload: RequestPayload = { ...config, uuid }
 
       this.#requestsQueue.add(async () => {
-        if (isFileUploadRequest(payload)) {
+        if (isFileUploadPayload(payload)) {
           resolve(await this.fileUploadRequest(port, payload))
-        } else if (isDeviceUpdateRequestConfig(payload)) {
+        } else if (isDeviceUpdateRequestPayload(payload)) {
           resolve(await this.deviceUpdateRequest(port, payload))
-        } else if (isApiRequestConfig(payload)) {
+        } else if (isApiRequestPayload(payload)) {
           resolve(await this.apiRequest(payload))
         } else {
           resolve(await this.deviceRequest(port, payload))
