@@ -15,12 +15,15 @@ import {
   OutlookAuthErrorResponse,
   OutlookAuthSuccessResponse,
   OutLookScope,
+  TokenPayload,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
 import {
   apiBaseUrl,
   clientId,
   redirectUrl,
 } from "Renderer/models/external-providers/outlook/outlook.constants"
+import { fetchContacts } from "Renderer/models/external-providers/outlook/outlook.helpers"
+import { TokenRequester } from "Renderer/models/external-providers/outlook/token-requester"
 
 export const createInitialState = () => ({
   [OutLookScope.Contacts]: {},
@@ -38,7 +41,7 @@ const outlook = createModel<ExternalProvidersModels>({
     setAuthData(
       state,
       payload: {
-        data: Partial<OutlookAuthSuccessResponse>
+        data: TokenPayload
         scope: OutLookScope
       }
     ) {
@@ -57,7 +60,7 @@ const outlook = createModel<ExternalProvidersModels>({
     const authorize = (scope: string, rootState: ExternalProvidersState) => {
       return new Promise<void>((resolve, reject) => {
         logger.info("Authorizing in Outlook")
-        const token = rootState.outlook[OutLookScope.Contacts].access_token
+        const token = rootState.outlook[OutLookScope.Contacts].accessToken
 
         const getAuthorizationUrl = () => {
           const urlSearchParams = new URLSearchParams({
@@ -104,8 +107,32 @@ const outlook = createModel<ExternalProvidersModels>({
       })
     }
 
+    const getContacts = async (_: undefined, rootState: any) => {
+      logger.info("Getting Outlook contacts")
+      const accessToken = rootState.outlook[OutLookScope.Contacts].accessToken
+      const refreshToken =
+        rootState.outlook[OutLookScope.Contacts].refresh_token
+      try {
+        return await fetchContacts(accessToken)
+      } catch ({ error }) {
+        if (error === "invalid_grant") {
+          const tokenRequester = new TokenRequester()
+          const regeneratedTokens = await tokenRequester.regenerateTokens(
+            refreshToken,
+            OutLookScope.Contacts
+          )
+          dispatch.outlook.setAuthData({
+            scope: OutLookScope.Contacts,
+            data: regeneratedTokens,
+          })
+          return await fetchContacts(regeneratedTokens.accessToken)
+        }
+      }
+    }
+
     return {
       authorize,
+      getContacts,
     }
   },
 })
