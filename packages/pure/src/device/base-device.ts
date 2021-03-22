@@ -92,9 +92,7 @@ class BaseDevice implements PureDevice {
     })
   }
 
-  public request(
-    config: ApiRequestPayload
-  ): Promise<Response<{ version: number }>>
+  public request(config: RequestConfig): Promise<Response<{ version: number }>>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
     if (this.#port === undefined || !this.#portBlocked) {
