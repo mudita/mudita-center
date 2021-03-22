@@ -1,21 +1,17 @@
-const { coverageThreshold } = require("./jest.coverage.json")
-
 module.exports = {
-  preset: "ts-jest",
   transform: {
-    "^.+\\.tsx?$": "ts-jest",
+    "^.+\\.(ts|tsx|js|jsx)$": "ts-jest",
   },
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec|e2e))\\.([tj]sx?)$",
+  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|tsx|js|jsx)$",
   moduleNameMapper: {
     ".+\\.(css|styl|less|sass|scss)$": "identity-obj-proxy",
     "(.*)svg.component": "<rootDir>/__mocks__/file-mock.js",
     ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-      "<rootDir>/__mocks__/file-mock.js",
+      "<rootDir>/config/jest/mocks/file-mock.js",
     "Renderer/(.*)": "<rootDir>/src/renderer/$1",
     "App/(.*)": "<rootDir>/src/$1",
     "Cypress/(.*)": "cypress/$1",
     "Storybook/(.*)": ".storybook/$1",
-    "Backend/(.*)": "<rootDir>/src/backend/$1",
     "Common/(.*)": "<rootDir>/src/common/$1",
   },
   rootDir: "./",
@@ -25,13 +21,10 @@ module.exports = {
     __PATH_PREFIX__: "",
   },
   testURL: "http://localhost",
-  setupFiles: ["<rootDir>/test-envs.js"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   roots: ["<rootDir>/src"],
-  testResultsProcessor: "./jest.processor.js",
-  collectCoverage: false,
-  collectCoverageFrom: ["src/**/*.{js,ts,tsx}"],
+  collectCoverage: true,
+  collectCoverageFrom: ["src/**/*.{ts,tsx,js,jsx}"],
   coverageReporters: ["lcov", "text-summary", "json-summary"],
   coverageDirectory: "coverage",
-  coverageThreshold,
 }

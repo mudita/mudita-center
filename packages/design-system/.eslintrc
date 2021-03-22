@@ -1,0 +1,4 @@
+{
+  "extends": "@mudita/eslint-config",
+  "root": true
+}
