@@ -4,7 +4,7 @@
  */
 
 import mockSerialPort from "../mock-serial-port"
-import PureNode, { PureDevice } from "../index"
+import PureNode, { PureDevice, RequestConfig } from "../index"
 import {
   DeviceEventName,
   Endpoint,
@@ -82,11 +82,12 @@ test("request method return error if device isn't connected", async () => {
 })
 
 test("multiple requests are executed properly", async () => {
-  const request = jest.fn()
-  const queue = Array.from({ length: 10 }).map(request)
+  jest.spyOn(device, "request")
+  const config = {} as RequestConfig
+  const queue = Array.from({ length: 10 }).map(() => config)
 
   await device.connect()
-  await Promise.all(queue.map((request) => device.request(request)))
+  await Promise.all(queue.map((config) => device.request(config)))
 
-  expect(request).toBeCalledTimes(10)
+  expect(device.request).toBeCalledTimes(10)
 })
