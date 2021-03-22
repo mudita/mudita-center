@@ -11,13 +11,13 @@ import {
 
 interface ContactBuilderInterface {
   build(): Contact
-  addId(id: string): void
-  addFirstName(name: string): void
-  addLastName(lastName: string): void
-  addPhoneNumbers(phoneNumbers: Array<string | undefined>): void
-  addAddress(address: OutlookContactAddress[]): void
-  addEmailAddress(emails: OutlookEmailAddress[]): void
-  addNote(note: string): void
+  addId(id: string): this
+  addFirstName(name: string): this
+  addLastName(lastName: string): this
+  addPhoneNumbers(phoneNumbers: Array<string | undefined>): this
+  addAddress(address: OutlookContactAddress[]): this
+  addEmailAddress(emails: OutlookEmailAddress[]): this
+  addNote(note: string): this
 }
 
 export class ContactBuilder implements ContactBuilderInterface {
