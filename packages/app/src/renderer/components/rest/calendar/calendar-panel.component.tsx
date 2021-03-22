@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import React from "react"
@@ -56,7 +56,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
   allEventsSelected,
   toggleAll = noop,
   resetRows,
-  openModal = modalService.openModal,
+  openModal = modalService.openModal.bind(modalService),
   exportCalendarEvents = exportEvents,
 }) => {
   const selectedEventsCount = selectedEvents.length

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import styled from "styled-components"
@@ -31,7 +31,7 @@ export const PhoneInfo = styled(CardText)`
   flex-direction: column;
   align-items: center;
   img {
-    height: 36rem;
+    height: 24rem;
   }
 `
 
@@ -40,7 +40,6 @@ export const BatteryStats = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  visibility: hidden; /* TODO: Remove when feature becomes available */
 
   h2 {
     margin-top: 0.8rem;
@@ -51,10 +50,9 @@ export const BatteryStats = styled.div`
 export const SignalStats = styled.div`
   margin-top: 2.4rem;
   margin-bottom: 6rem;
-  /* display: flex; TODO: Uncomment when feature becomes available*/
+  display: flex;
   flex-direction: column;
   align-items: center;
-  display: none; /* TODO: Remove when feature becomes available */
 
   p {
     margin-top: 0.8rem;

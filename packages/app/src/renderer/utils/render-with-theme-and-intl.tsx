@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import {
@@ -31,7 +31,7 @@ export function renderWithThemeAndIntl<Q extends Queries>(
   ui: React.ReactElement,
   options?: RenderOptions<Q>
 ): RenderResult {
-  return render<Q>(
+  return render(
     <ThemeProvider theme={theme}>
       <IntlProvider
         defaultLocale={defaultLanguage}

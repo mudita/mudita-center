@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import {
@@ -66,15 +66,14 @@ const basicInfo = createModel<RootModel>({
   },
   effects: (d: any) => {
     const dispatch = (d as unknown) as RootState
+    let loading = false
 
     return {
-      async loadData(
-        _: any,
-        rootState: { basicInfo: { resultsState: ResultsState } }
-      ) {
-        if (rootState.basicInfo.resultsState === ResultsState.Loading) {
+      async loadData(_: any) {
+        if (loading) {
           return
         }
+        loading = true
         dispatch.basicInfo.setResultsState(ResultsState.Loading)
         const responses = await Promise.all([
           getDeviceInfo(),

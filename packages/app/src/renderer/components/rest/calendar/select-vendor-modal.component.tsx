@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import React, { useRef } from "react"
@@ -90,24 +90,14 @@ const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
             Icon={Type.Google}
             data-testid={SelectVendorModalTestIds.GoogleButton}
           />
-          {onManualImportClick && (
-            <>
-              <SyncButton
-                displayStyle={DisplayStyle.Primary}
-                labelMessage={messages.manualImportButton}
-                Icon={Type.Upload}
-                onClick={handleManualImportClick}
-                data-testid={SelectVendorModalTestIds.ManualImportButton}
-              />
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".ics"
-                hidden
-                multiple
-              />
-            </>
-          )}
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            labelMessage={messages.manualImportButton}
+            Icon={Type.Upload}
+            onClick={handleManualImportClick}
+            data-testid={SelectVendorModalTestIds.ManualImportButton}
+          />
+          <input ref={fileInputRef} type="file" accept=".ics" hidden multiple />
         </ButtonWrapper>
       </ButtonsContainer>
     </Modal>

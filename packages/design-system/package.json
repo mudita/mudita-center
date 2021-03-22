@@ -1,6 +1,6 @@
 {
   "name": "@mudita/design-system",
-  "version": "0.0.19",
+  "version": "0.0.22",
   "description": "Mudita Design System",
   "main": "dist/design-system/index.js",
   "types": "dist/design-system/index.d.ts",
