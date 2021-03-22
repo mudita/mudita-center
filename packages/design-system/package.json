@@ -12,14 +12,13 @@
   },
   "homepage": "https://github.com/mudita/mudita-center#readme",
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
     "storybook:serve": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "test": "TZ=UTC jest --config=jest.config.js",
     "lint": "npm run lint:js && npm run lint:css",
     "lint:css": "stylelint 'src/**/*.{ts,tsx,js,jsx}'",
-    "lint:js": "eslint 'src/**/*.{ts,tsx,js,jsx}'"
+    "lint:js": "eslint 'src/**/*.{ts,tsx,js,jsx}'",
+    "typecheck": "tsc --noEmit"
   },
   "browserslist": {
     "production": [
@@ -33,7 +32,7 @@
       "last 1 safari version"
     ]
   },
-  "dependencies": {
+  "devDependencies": {
     "@babel/core": "7.13.10",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@svgr/webpack": "5.5.0",
@@ -96,11 +95,10 @@
     "webpack": "4.44.2",
     "webpack-dev-server": "3.11.2",
     "webpack-manifest-plugin": "2.2.0",
-    "workbox-webpack-plugin": "5.1.4"
-  },
-  "devDependencies": {
+    "workbox-webpack-plugin": "5.1.4",
     "@babel/preset-env": "^7.13.10",
     "@babel/preset-react": "^7.12.13",
+    "@mudita/app-function-component": "^1.0.10",
     "@mudita/eslint-config": "^1.0.15",
     "@mudita/stylelint-config": "^1.0.4",
     "@storybook/addon-actions": "^6.1.21",
@@ -111,6 +109,9 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/react-hooks": "^5.1.0",
     "@types/jest": "^26.0.21",
+    "@types/node": "^14.14.35",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.2",
     "babel-plugin-styled-components": "^1.12.0",
     "jest-styled-components": "^7.0.3",
     "jest-svg-transformer": "^1.0.0",

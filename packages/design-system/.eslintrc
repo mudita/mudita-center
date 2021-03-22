@@ -1,4 +1,7 @@
 {
   "extends": "@mudita/eslint-config",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
   "root": true
 }

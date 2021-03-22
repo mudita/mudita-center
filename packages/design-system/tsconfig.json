@@ -79,17 +79,14 @@
     /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     "paths": {
       "App/*": ["./src/*"],
-      "Renderer/*": ["./src/renderer/*"],
-      "Cypress/*": ["cypress/*"],
-      "Storybook/*": [".storybook/*"],
-      "Common/*": ["./src/common/*"]
+      "Components/*": ["./src/components/*"]
     },
     /* List of root folders whose combined content represents the structure of the project at runtime. */
     // "rootDirs": [],
     /* List of folders to include type definitions from. */
     // "typeRoots": [],
     /* Type declaration files to be included in compilation. */
-    "types": ["jest", "node"],
+    "types": ["jest", "node", "@testing-library/jest-dom"],
     /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
     // "allowSyntheticDefaultImports": true,
     /* Do not resolve the real path of symlinks. */
@@ -115,6 +112,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["./src", "./test", "./mocks"],
+  "include": ["./src/**/*", "./images.d.ts", "./extend-expect.d.ts"],
   "exclude": ["dist", "node_modules"]
 }
