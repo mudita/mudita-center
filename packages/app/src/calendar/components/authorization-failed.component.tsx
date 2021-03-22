@@ -62,7 +62,7 @@ const AuthorizationFailedModal: FunctionComponent<AuthorizationFailedModalProps>
         return intl.formatMessage(messages.google)
       case Provider.Apple:
         return intl.formatMessage(messages.apple)
-      case Provider.Microsoft:
+      case Provider.Outlook:
         return intl.formatMessage(messages.microsoft)
     }
   })()
