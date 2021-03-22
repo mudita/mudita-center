@@ -65,5 +65,5 @@ test("renders children", () => {
 
   fireEvent.click(getByText(buttonText))
 
-  expect(getByText(childText)).toBeInTheDocument()
+  expect(getByText(childText)).toBeVisible()
 })
