@@ -114,7 +114,7 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
-  const enabled = Boolean(process.env.PURE_LOGGER_ENABLED) ?? false
+  const enabled = Boolean(process.env.PURE_LOGGER_ENABLED)
 
   PureDeviceManager.toggleLogs(enabled)
 
