@@ -376,5 +376,6 @@ test("outlook button opens new window", async () => {
   await app.client
     .$(`*[data-testid=${SyncContactsModalTestIds.OutlookButton}]`)
     .click()
-  expect(await app.client.waitUntilWindowLoaded().getWindowCount()).toEqual(2)
+  await app.client.waitUntilWindowLoaded()
+  expect(await app.client.getWindowCount()).toEqual(2)
 })
