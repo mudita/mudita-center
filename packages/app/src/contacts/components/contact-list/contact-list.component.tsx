@@ -329,7 +329,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         </Actions>
                       </Col>
                       <ScrollAnchorContainer
-                        key={contact.id + category + index}
+                        key={contact.id}
                         active={scrollActive}
                       />
                     </Row>
@@ -349,7 +349,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                           )}
                         </Col>
                         <ScrollAnchorContainer
-                          key={contact.id + category + index}
+                          key={contact.id}
                           active={scrollActive}
                         />
                       </Row>
@@ -357,7 +357,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                   }
 
                   return (
-                    <InView key={category + contact.id + index}>
+                    <InView key={contact.id}>
                       {({ inView, ref }) =>
                         inView ? interactiveRow(ref) : placeholderRow(ref)
                       }
