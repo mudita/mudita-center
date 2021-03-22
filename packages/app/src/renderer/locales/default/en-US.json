@@ -443,6 +443,7 @@
   "view.name.phone.contacts.modal.speedDial.speedDialLabel": "Speed dial number",
   "view.name.phone.contacts.modal.speedDial.title": "Speed dial settings",
   "view.name.phone.contacts.new.title": "New contact",
+  "view.name.phone.contacts.outlookButtonText": "continue with outlook",
   "view.name.phone.contacts.panel.manageButton": "Manage",
   "view.name.phone.contacts.panel.newContactButton": "New contact",
   "view.name.phone.contacts.panel.searchPlaceholder": "Search contacts",
