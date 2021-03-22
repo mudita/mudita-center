@@ -47,11 +47,13 @@ const messages = defineMessages({
 
 export interface SelectVendorModalProps extends ModalProps {
   onGoogleButtonClick: () => void
+  onOutlookButtonClick: () => void
   onManualImportClick: (inputElement: HTMLInputElement) => void
 }
 
 const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
   onGoogleButtonClick,
+  onOutlookButtonClick,
   onManualImportClick,
   ...props
 }) => {
@@ -90,24 +92,21 @@ const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
             Icon={Type.Google}
             data-testid={SelectVendorModalTestIds.GoogleButton}
           />
-          {onManualImportClick && (
-            <>
-              <SyncButton
-                displayStyle={DisplayStyle.Primary}
-                labelMessage={messages.manualImportButton}
-                Icon={Type.Upload}
-                onClick={handleManualImportClick}
-                data-testid={SelectVendorModalTestIds.ManualImportButton}
-              />
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".ics"
-                hidden
-                multiple
-              />
-            </>
-          )}
+          <SyncButton
+            labelMessage={messages.button}
+            onClick={onOutlookButtonClick}
+            Icon={Type.Outlook}
+            data-testid={SelectVendorModalTestIds.GoogleButton}
+          />
+
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            labelMessage={messages.manualImportButton}
+            Icon={Type.Upload}
+            onClick={handleManualImportClick}
+            data-testid={SelectVendorModalTestIds.ManualImportButton}
+          />
+          <input ref={fileInputRef} type="file" accept=".ics" hidden multiple />
         </ButtonWrapper>
       </ButtonsContainer>
     </Modal>

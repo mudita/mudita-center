@@ -62,6 +62,7 @@ test("store returns initial state", () => {
   expect(store.getState()).toMatchInlineSnapshot(`
     Object {
       "outlook": Object {
+        "calendars": Object {},
         "contacts": Object {},
       },
     }

@@ -19,10 +19,12 @@ export interface OutlookAuthErrorResponse {
 
 export enum OutLookScope {
   Contacts = "contacts",
+  Calendars = "calendars",
 }
 
 export interface OutlookProviderState {
   [OutLookScope.Contacts]: TokenPayload
+  [OutLookScope.Calendars]: TokenPayload
 }
 
 export interface OutlookContactAddress {
@@ -49,4 +51,36 @@ export interface OutlookContactResourceItem {
   otherAddress?: OutlookContactAddress
   emailAddresses?: OutlookEmailAddress[]
   personalNotes?: string | null
+}
+
+export interface OutlookCalendar {
+  id: string
+  name: string
+  isDefaultCalendar: boolean
+}
+
+export interface OutlookEvent {
+  id: string
+  subject: string
+  start: { dateTime: string; timeZone: string }
+  end: { dateTime: string; timeZone: string }
+  isAllDay: boolean
+  recurrence?: {
+    pattern: {
+      type: string
+      interval: number
+      month: number
+      dayOfMonth: number
+      daysOfWeek: string[]
+      firstDayOfWeek: string
+      index: string
+    }
+    range: {
+      type: string
+      startDate: string
+      endDate: string
+      recurrenceTimeZone: string
+      numberOfOccurrences: number
+    }
+  }
 }

@@ -104,6 +104,9 @@ const calendar = createModel<RootModel>({
           case Provider.Apple:
             break
           case Provider.Outlook:
+            console.log("Provider.Microsoft")
+            calendars = ((await externalProvidersStore.dispatch.outlook.getCalendars()) as unknown) as Calendar[]
+            console.log("calendars aa", calendars)
             break
           case Provider.Google:
             calendars = ((await externalProvidersStore.dispatch.google.getCalendars()) as unknown) as Calendar[]
@@ -111,12 +114,20 @@ const calendar = createModel<RootModel>({
         dispatch.calendar.setCalendars(calendars)
       },
       async loadEvents(calendar: Calendar) {
+        console.log({ calendar })
         let events: CalendarEvent[] = []
         switch (calendar.provider) {
           case Provider.Google:
             events = ((await externalProvidersStore.dispatch.google.getEvents(
               calendar.id
             )) as unknown) as CalendarEvent[]
+            break
+          case Provider.Outlook:
+            events = ((await externalProvidersStore.dispatch.outlook.getEvents(
+              calendar.id
+            )) as unknown) as CalendarEvent[]
+            console.log("aaaaa", events)
+            break
         }
         dispatch.calendar.setEvents(events)
         return events
