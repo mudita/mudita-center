@@ -34,7 +34,7 @@ export class ContactBuilder implements ContactBuilderInterface {
     blocked: false,
   }
   build(): Contact {
-    return this.contact
+    return { ...this.contact }
   }
 
   addId(id: string) {
