@@ -31,7 +31,6 @@
     "jest-dom/prefer-in-document": "warn",
     "@typescript-eslint/no-unnecessary-type-assertion": "warn",
     "jest-dom/prefer-enabled-disabled": "warn",
-    "react/jsx-boolean-value": "warn",
     "@typescript-eslint/prefer-regexp-exec": "warn",
     "license-header/header": [
       "error",
