@@ -99,7 +99,7 @@ test("contact modal form sending works properly", async () => {
   const file = mockJpg("screenshot1")
 
   fireEvent.change(getEmailInput() as Element, {
-    target: { value: "email@example.com" },
+    target: { value: "example@mudita.com" },
   })
   fireEvent.change(getMessageInput() as Element, {
     target: { value: "Example message" },
@@ -109,7 +109,7 @@ test("contact modal form sending works properly", async () => {
 
   await waitFor(() => {
     expect(onSend).toBeCalledWith({
-      email: "email@example.com",
+      email: "example@mudita.com",
       message: "Example message",
       attachments: [file],
     })

@@ -18,6 +18,7 @@ storiesOf("Components|Rest/Sync Contacts Modal", module)
     <Story transparentMode>
       <StoryModalWrapper>
         <SyncContactsModal
+          onOutlookButtonClick={noop}
           onGoogleButtonClick={noop}
           onManualImportClick={action("Import")}
         />
