@@ -24,7 +24,7 @@ const deleteDownloadDirectory = (downloadPath: string) => {
 beforeEach(async () => {
   app = await startApp(true)
   const downloadPath = path.join(
-    await app.electron.remote.app.getPath("appData"),
+    app.electron.remote.app.getPath("appData"),
     name,
     "pure",
     "os",
@@ -39,7 +39,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
   const downloadPath = path.join(
-    await app.electron.remote.app.getPath("appData"),
+    app.electron.remote.app.getPath("appData"),
     name,
     "pure",
     "os",

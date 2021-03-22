@@ -36,7 +36,7 @@ test("searching by phone number renders one result", async () => {
     .$("p")
     .getText()
   await app.client.$("input").setValue(phoneNumber)
-  const rows = await app.client.$$(`*[data-testid=${ThreadListTestIds.Row}]`)
+  const rows = app.client.$$(`*[data-testid=${ThreadListTestIds.Row}]`)
   expect(rows).toHaveLength(1)
   const resultsText = await app.client
     .$(`*[data-testid='message-row']`)
