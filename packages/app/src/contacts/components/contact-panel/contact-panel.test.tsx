@@ -25,7 +25,7 @@ const defaultProps = {
       lastName: "Borewicz",
       primaryPhoneNumber: "+71 195 069 214",
       secondaryPhoneNumber: "",
-      email: "milicjant@buziaczek.pl",
+      email: "example@mudita.com",
       note: "sapiente rem dignissimos sunt",
       ice: false,
       favourite: false,
