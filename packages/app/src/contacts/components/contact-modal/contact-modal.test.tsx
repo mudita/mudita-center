@@ -15,7 +15,7 @@ import {
 import { intl } from "Renderer/utils/intl"
 import { ContactSupportFailed } from "App/contacts/components/contact-modal/contact-modal-failed.component"
 import { ContactSupportSuccess } from "App/contacts/components/contact-modal/contact-modal-success.component"
-import { fireEvent, act } from "@testing-library/react"
+import { fireEvent, waitFor } from "@testing-library/react"
 
 const renderContactModal = ({ ...props }: Partial<ContactModalProps> = {}) => {
   const outcome = renderWithThemeAndIntl(<ContactModal {...props} />)
@@ -98,24 +98,21 @@ test("contact modal form sending works properly", async () => {
 
   const file = mockJpg("screenshot1")
 
-  await act(async () => {
-    fireEvent.change(getEmailInput() as Element, {
-      target: { value: "example@mudita.com" },
-    })
-    fireEvent.change(getMessageInput() as Element, {
-      target: { value: "Example message" },
-    })
-    fireEvent.change(getFileInput() as Element, mockEvent(file))
+  fireEvent.change(getEmailInput() as Element, {
+    target: { value: "example@mudita.com" },
   })
-
-  await act(async () => {
-    fireEvent.click(getByTestId("modal-action-button"))
+  fireEvent.change(getMessageInput() as Element, {
+    target: { value: "Example message" },
   })
+  fireEvent.change(getFileInput() as Element, mockEvent(file))
+  fireEvent.click(getByTestId("modal-action-button"))
 
-  expect(onSend).toBeCalledWith({
-    email: "example@mudita.com",
-    message: "Example message",
-    attachments: [file],
+  await waitFor(() => {
+    expect(onSend).toBeCalledWith({
+      email: "example@mudita.com",
+      message: "Example message",
+      attachments: [file],
+    })
   })
 })
 
@@ -125,15 +122,14 @@ test("contact modal email validation works properly", async () => {
     onSend,
   })
 
-  await act(async () => {
-    fireEvent.change(getEmailInput() as Element, {
-      target: { value: "wrongEmail" },
-    })
-
-    fireEvent.click(getByTestId("modal-action-button"))
+  fireEvent.change(getEmailInput() as Element, {
+    target: { value: "wrongEmail" },
   })
+  fireEvent.click(getByTestId("modal-action-button"))
 
-  expect(onSend).not.toBeCalled()
+  await waitFor(() => {
+    expect(onSend).not.toBeCalled()
+  })
 })
 
 test("contact modal form validation works properly", async () => {
@@ -142,11 +138,11 @@ test("contact modal form validation works properly", async () => {
     onSend,
   })
 
-  await act(async () => {
-    fireEvent.click(getByTestId("modal-action-button"))
-  })
+  fireEvent.click(getByTestId("modal-action-button"))
 
-  expect(onSend).toBeCalled()
+  await waitFor(() => {
+    expect(onSend).toBeCalled()
+  })
 })
 
 test("failed modal renders properly", () => {
