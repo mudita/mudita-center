@@ -4,10 +4,16 @@
  */
 
 class Logger {
-  toggleLogs(): void {}
+  #enabled = false
+
+  toggleLogs(enabled: boolean): void {
+    this.#enabled = enabled
+  }
 
   log(message: string): void {
-    console.log(message)
+    if (this.#enabled) {
+      console.log(message)
+    }
   }
 }
 
