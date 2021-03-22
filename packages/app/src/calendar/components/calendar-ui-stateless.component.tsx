@@ -5,12 +5,12 @@
 
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import CalendarPanel from "Renderer/components/rest/calendar/calendar-panel.component"
-import EventsList from "Renderer/components/rest/calendar/events-list.component"
+import CalendarPanel from "App/calendar/components/calendar-panel/calendar-panel.component"
+import EventsList from "App/calendar/components/events-list.component"
 import { EmptyState } from "Renderer/components/core/table/table.component"
-import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
+import { CalendarTestIds } from "App/calendar/calendar-test-ids.enum"
 import { defineMessages } from "react-intl"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
 const messages = defineMessages({
@@ -28,7 +28,7 @@ interface Props {
   onEventSelect: (item: CalendarEvent) => void
 }
 
-const CalendarUI: FunctionComponent<Props> = ({
+const CalendarUIStateless: FunctionComponent<Props> = ({
   events,
   openSelectVendorModal,
   tableSelectHook,
@@ -63,4 +63,4 @@ const CalendarUI: FunctionComponent<Props> = ({
   )
 }
 
-export default CalendarUI
+export default CalendarUIStateless

@@ -4,10 +4,10 @@
  */
 
 import { init } from "@rematch/core"
-import calendar from "Renderer/models/calendar/calendar"
+import calendar from "App/calendar/store/calendar"
 import { mockedCalendars } from "App/__mocks__/calendars-list"
 import { eventsData } from "App/seeds/calendar"
-import { getSortedEvents } from "Renderer/models/calendar/calendar.helpers"
+import { getSortedEvents } from "App/calendar/store/calendar.helpers"
 import { ResultsState } from "App/contacts/store/contacts.enum"
 import Mock = jest.Mock
 import getEvents from "Renderer/requests/get-events.request"

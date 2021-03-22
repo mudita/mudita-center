@@ -6,7 +6,7 @@
 import { select } from "Renderer/store"
 import { RootModel } from "Renderer/models/models"
 import { connect } from "react-redux"
-import CalendarComponent from "Renderer/modules/calendar/calendar.component"
+import CalendarUI from "App/calendar/calendar-ui.component"
 
 const selector = select(({ calendar }) => ({
   events: calendar.sortedEvents,
@@ -24,4 +24,4 @@ const mapDispatch = ({ calendar }: any) => ({
   ...calendar,
 })
 
-export default connect(mapStateToProps, mapDispatch)(CalendarComponent)
+export default connect(mapStateToProps, mapDispatch)(CalendarUI)

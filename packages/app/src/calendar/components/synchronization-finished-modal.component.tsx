@@ -17,7 +17,7 @@ import { defineMessages } from "react-intl"
 import {
   ModalContent,
   ModalText,
-} from "Renderer/components/rest/calendar/calendar-modals.styled"
+} from "App/calendar/components/calendar-modals.styled"
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"

@@ -7,21 +7,21 @@ import { storiesOf } from "@storybook/react"
 import React from "react"
 import styled, { css } from "styled-components"
 import { mockedCalendars } from "App/__mocks__/calendars-list"
-import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
-import SelectCalendarsModal from "Renderer/components/rest/calendar/select-calendars-modal.component"
-import SynchronizingEventsModal from "Renderer/components/rest/calendar/synchronizing-events-modal.component"
-import EventsSynchronizationFinishedModal from "Renderer/components/rest/calendar/synchronization-finished-modal.component"
-import EventsSynchronizationFailedModal from "Renderer/components/rest/calendar/synchronization-failed.component"
-import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
+import SelectVendorModal from "App/calendar/components/select-vendor-modal/select-vendor-modal.component"
+import SelectCalendarsModal from "App/calendar/components/select-calendars-modal/select-calendars-modal.component"
+import SynchronizingEventsModal from "App/calendar/components/synchronizing-events-modal.component"
+import EventsSynchronizationFinishedModal from "App/calendar/components/synchronization-finished-modal.component"
+import EventsSynchronizationFailedModal from "App/calendar/components/synchronization-failed.component"
+import AuthorizationFailedModal from "App/calendar/components/authorization-failed.component"
 import Story from "Renderer/components/storybook/story.component"
 import { asyncNoop, noop } from "Renderer/utils/noop"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
-import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
+import CalendarUIStateless from "App/calendar/components/calendar-ui-stateless.component"
 import { action } from "@storybook/addon-actions"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { calendarSeed, eventsData } from "App/seeds/calendar"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import ImportEventsModal from "App/calendar/components/import-events-modal/import-events-modal.component"
 import ExportErrorModal from "App/calendar/components/export-error-modal/export-error-modal.component"
 
@@ -37,7 +37,7 @@ storiesOf("Views/Calendar/Main view", module)
     const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
     return (
       <Wrapper>
-        <CalendarUI
+        <CalendarUIStateless
           events={calendarSeed.events}
           openSelectVendorModal={action("open vendor modal")}
           tableSelectHook={tableSelectHook}
@@ -50,7 +50,7 @@ storiesOf("Views/Calendar/Main view", module)
     const tableSelectHook = useTableSelect<CalendarEvent>(calendarSeed.events)
     return (
       <Wrapper>
-        <CalendarUI
+        <CalendarUIStateless
           events={[]}
           openSelectVendorModal={action("open vendor modal")}
           tableSelectHook={tableSelectHook}

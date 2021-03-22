@@ -18,7 +18,7 @@ import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
-import { ModalContent } from "Renderer/components/rest/calendar/calendar-modals.styled"
+import { ModalContent } from "App/calendar/components/calendar-modals.styled"
 import {
   ExternalProvider,
   Provider,

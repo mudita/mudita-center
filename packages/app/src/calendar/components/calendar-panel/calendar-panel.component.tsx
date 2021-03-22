@@ -7,7 +7,7 @@ import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import CalendarInputSearch, {
   CalendarInputSelectProps,
-} from "Renderer/components/rest/calendar/calendar-input-search.component"
+} from "App/calendar/components/calendar-input-search.component"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import {
@@ -18,11 +18,11 @@ import {
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { defineMessages } from "react-intl"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { intl } from "Renderer/utils/intl"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
-import { CalendarPanelTestIds } from "Renderer/components/rest/calendar/calendar-panel-test-ids.enum"
+import { CalendarPanelTestIds } from "App/calendar/components/calendar-panel/calendar-panel-test-ids.enum"
 import { exportEvents } from "App/calendar/helpers/export-events/export-events"
 import modalService, {
   ModalService,

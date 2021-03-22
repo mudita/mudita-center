@@ -18,13 +18,13 @@ import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-cont
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
-import { ModalContent } from "Renderer/components/rest/calendar/calendar-modals.styled"
+import { ModalContent } from "App/calendar/components/calendar-modals.styled"
 import InputSelect, {
   RenderInputSelectListItem,
 } from "Renderer/components/core/input-select/input-select.component"
 import styled from "styled-components"
 import { ListItem } from "Renderer/components/core/list/list.component"
-import { Calendar } from "Renderer/models/calendar/calendar.interfaces"
+import { Calendar } from "App/calendar/store/calendar.interfaces"
 
 const messages = defineMessages({
   title: {

@@ -14,16 +14,16 @@ import {
 } from "Renderer/components/core/table/table.component"
 import { defineMessages } from "react-intl"
 import { Size } from "Renderer/components/core/input-checkbox/input-checkbox.component"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 import {
   BaseSelectableCalls,
   Checkbox,
 } from "Renderer/components/rest/calls/calls-table.styled"
-import { CalendarTestIds } from "Renderer/modules/calendar/calendar-test-ids.enum"
+import { CalendarTestIds } from "App/calendar/calendar-test-ids.enum"
 import { List, AutoSizer, ListRowProps } from "react-virtualized"
 import { intl } from "Renderer/utils/intl"
-import EventsListDate from "Renderer/components/rest/calendar/events-list-date.component"
+import EventsListDate from "App/calendar/components/events-list-date/events-list-date.component"
 
 const messages = defineMessages({
   unnamedEvent: {
@@ -53,7 +53,7 @@ const EventsList: FunctionComponent<EventsListProps> = ({
     const { selected } = getRowStatus(events[index])
     const onCheckboxToggle = () => {
       if (selected) {
-        selectRows(selectedRows.filter(row => row.id !== id))
+        selectRows(selectedRows.filter((row) => row.id !== id))
       } else {
         selectRows([
           ...selectedRows,

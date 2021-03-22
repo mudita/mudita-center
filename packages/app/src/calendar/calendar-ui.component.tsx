@@ -5,30 +5,27 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { CalendarProps } from "Renderer/modules/calendar/calendar.interface"
+import { CalendarProps } from "App/calendar/calendar.interface"
 import modalService from "Renderer/components/core/modal/modal.service"
-import SelectVendorModal from "Renderer/components/rest/calendar/select-vendor-modal.component"
-import SelectCalendarsModal from "Renderer/components/rest/calendar/select-calendars-modal.component"
-import SynchronizingEventsModal from "Renderer/components/rest/calendar/synchronizing-events-modal.component"
+import SelectVendorModal from "App/calendar/components/select-vendor-modal/select-vendor-modal.component"
+import SelectCalendarsModal from "App/calendar/components/select-calendars-modal/select-calendars-modal.component"
+import SynchronizingEventsModal from "App/calendar/components/synchronizing-events-modal.component"
 import delayResponse from "@appnroll/delay-response"
 import logger from "App/main/utils/logger"
-import EventsSynchronizationFinishedModal from "Renderer/components/rest/calendar/synchronization-finished-modal.component"
-import EventsSynchronizationFailedModal from "Renderer/components/rest/calendar/synchronization-failed.component"
+import EventsSynchronizationFinishedModal from "App/calendar/components/synchronization-finished-modal.component"
+import EventsSynchronizationFailedModal from "App/calendar/components/synchronization-failed.component"
 import {
   ExternalProvider,
   Provider,
 } from "Renderer/models/external-providers/external-providers.interface"
-import AuthorizationFailedModal from "Renderer/components/rest/calendar/authorization-failed.component"
-import {
-  Calendar,
-  CalendarEvent,
-} from "Renderer/models/calendar/calendar.interfaces"
-import CalendarUI from "Renderer/modules/calendar/calendar-ui.component"
+import AuthorizationFailedModal from "App/calendar/components/authorization-failed.component"
+import { Calendar, CalendarEvent } from "App/calendar/store/calendar.interfaces"
+import CalendarUIStateless from "App/calendar/components/calendar-ui-stateless.component"
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import parseIcs from "App/calendar/helpers/parse-ics/parse-ics"
 import ImportEventsModal from "App/calendar/components/import-events-modal/import-events-modal.component"
 
-const CalendarComponent: FunctionComponent<CalendarProps> = ({
+const CalendarUI: FunctionComponent<CalendarProps> = ({
   calendars,
   events,
   loadCalendars,
@@ -181,7 +178,7 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
     }
   }, [selectedEvent])
   return (
-    <CalendarUI
+    <CalendarUIStateless
       events={events}
       openSelectVendorModal={openSelectVendorModal}
       tableSelectHook={tableSelectHook}
@@ -191,4 +188,4 @@ const CalendarComponent: FunctionComponent<CalendarProps> = ({
   )
 }
 
-export default CalendarComponent
+export default CalendarUI
