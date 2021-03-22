@@ -24,7 +24,8 @@ const deleteDownloadDirectory = (downloadPath: string) => {
 beforeEach(async () => {
   app = await startApp(true)
   const downloadPath = path.join(
-    app.electron.remote.app.getPath("appData"),
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    await app.electron.remote.app.getPath("appData"),
     name,
     "pure",
     "os",
@@ -39,7 +40,8 @@ beforeEach(async () => {
 
 afterEach(async () => {
   const downloadPath = path.join(
-    app.electron.remote.app.getPath("appData"),
+    // eslint-disable-next-line @typescript-eslint/await-thenable
+    await app.electron.remote.app.getPath("appData"),
     name,
     "pure",
     "os",
