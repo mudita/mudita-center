@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "outDir": "./lib",
     "target": "es5",
     "module": "commonjs",
     "lib": [
@@ -11,12 +12,14 @@
       "es5",
       "es7",
       "es2017",
-      "ESNext"
+      "ESNext",
+      "esnext.intl",
+      "es2017.intl",
+      "es2018.intl"
     ],
     "allowJs": true,
     "jsx": "react",
     "sourceMap": true,
-    "outDir": "./dist",
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -27,38 +30,17 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "App/*": ["../app/src/*"],
-      "Renderer/*": ["../app/src/renderer/*"],
-      "Cypress/*": ["../app/cypress/*"],
-      "Storybook/*": ["../app/.storybook/*"],
-      "Backend/*": ["../app/src/backend/*"],
-      "Common/*": ["../app/src/common/*"]
+      "Components/*": ["./src/components/*"],
+      "Theme/*": ["./src/theme/*"],
+      "Utils/*": ["./src/utils/*"],
+      "Storybook/*": ["./.storybook/*"]
     },
-    "types": ["jest", "node", "@testing-library/react"],
+    "types": ["jest", "node", "@testing-library/jest-dom"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "declaration": true
+    "esModuleInterop": true
   },
-  "include": [
-    "./index.ts",
-    "../app/src/**/*.d.ts",
-    "../app/src/renderer/images"
-  ],
-  "exclude": [
-    "../app/dist",
-    "node_modules",
-    "../app/src/**/__mocks__/*",
-    "../app/src/**/*.test.ts",
-    "../app/src/__mocks__",
-    "../app/src/backend",
-    "../app/src/contacts",
-    "../app/src/common",
-    "../app/src/dev-mode",
-    "../app/src/main",
-    "../app/src/seeds",
-    "transform-svg.ts"
-  ]
+  "include": ["./src/**/*", "./images.d.ts"]
 }
