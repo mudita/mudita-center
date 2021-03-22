@@ -13,6 +13,7 @@ import { noop } from "Renderer/utils/noop"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { mockDefineMessages } from "Renderer/utils/mock-define-messages"
 import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
+import { waitFor } from "@testing-library/react"
 
 export const singleStateToggler = ["Turn on"]
 
@@ -69,19 +70,22 @@ test("render buttons labels properly", () => {
   expect(getButtons()[1]).toHaveTextContent(twoStateToggler[1])
 })
 
-test("switches active state properly", () => {
+test("switches active state properly", async () => {
   const onToggle = jest.fn()
 
   const { getButtons } = renderButtonToggler(threeStateToggler, onToggle)
 
-  const clickOnButton = (index: number) => {
-    fireEvent.click(getButtons()[index])
-    expect(onToggle).toHaveBeenCalledWith(threeStateToggler[index])
-  }
+  fireEvent.click(getButtons()[1])
+  await waitFor(() => {
+    expect(onToggle).toHaveBeenCalledWith(threeStateToggler[1])
+  })
+  expect(onToggle).not.toHaveBeenCalledWith(threeStateToggler[0])
 
-  clickOnButton(1)
-  clickOnButton(0)
-  clickOnButton(2)
+  fireEvent.click(getButtons()[0])
+  await waitFor(() => {
+    expect(onToggle).toHaveBeenCalledWith(threeStateToggler[0])
+  })
+  expect(onToggle).not.toHaveBeenCalledWith(threeStateToggler[2])
 })
 
 test("renders tooltip", () => {
