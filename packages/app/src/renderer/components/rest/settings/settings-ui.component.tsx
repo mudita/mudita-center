@@ -3,6 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+import { AppSettings } from "App/main/store/settings.interface"
 import React from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import {
@@ -13,11 +14,11 @@ import {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
+import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
 import { FormattedMessage } from "react-intl"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
-import { SettingsProps } from "Renderer/modules/settings/settings.component"
 import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
 
 export const SettingsTableRow = styled(TableRow)`
@@ -48,13 +49,22 @@ export const SettingsWrapper = styled.section`
   padding-top: 3.2rem;
 `
 
-const SettingsUI: FunctionComponent<Omit<SettingsProps, "updateSettings">> = ({
+interface Properties {
+  appAutostart: boolean
+  appTethering: boolean
+  appCollectingData: boolean
+  setAutostart?: (option: AppSettings["appAutostart"]) => void
+  setTethering?: (option: AppSettings["appTethering"]) => void
+  setCollectingData?: (option: AppSettings["appCollectingData"]) => void
+}
+
+const SettingsUI: FunctionComponent<Omit<Properties, "updateSettings">> = ({
   appAutostart,
-  setAutostart,
+  setAutostart = noop,
   appTethering,
-  setTethering,
+  setTethering = noop,
   appCollectingData,
-  setCollectingData,
+  setCollectingData = noop,
 }) => {
   return (
     <SettingsWrapper data-testid={SettingsTestIds.Wrapper}>
