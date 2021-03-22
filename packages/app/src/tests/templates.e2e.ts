@@ -7,8 +7,9 @@ import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_TABS, URL_MAIN } from "Renderer/constants/urls"
 import { TemplatesTestIds } from "App/templates/templates.enum"
+import { Application } from "spectron";
 
-let app: any
+let app: Application
 const testText = "Mudita"
 
 beforeEach(async () => {

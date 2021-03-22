@@ -4,8 +4,9 @@
  */
 
 import { startApp, stopApp } from "App/tests/hooks"
+import { Application } from "spectron";
 
-let app: any
+let app: Application
 
 beforeEach(async () => {
   app = await startApp()

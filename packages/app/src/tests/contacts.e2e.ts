@@ -10,8 +10,9 @@ import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/c
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
+import { Application } from "spectron";
 
-let app: any
+let app: Application
 const shortNumber = "1234"
 const incorrectNumber = "mudita"
 const incorrectEmail = "mudita.com"

@@ -5,6 +5,7 @@
 
 import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
+import { Application } from "spectron";
 import { name } from "../../package.json"
 import fs from "fs"
 import { SystemTestIds } from "Renderer/components/rest/overview/system/system-test-ids"
@@ -12,7 +13,7 @@ import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enu
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import path from "path"
 
-let app: any
+let app: Application
 
 const deleteDownloadDirectory = (downloadPath: string) => {
   if (fs.existsSync(downloadPath)) {
