@@ -24,6 +24,7 @@ afterEach(async () => {
 
 test("help takes user to correct location", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Help}]`).click()
+  // @ts-ignore FIXME: windowHandles is deprecated and returns `never`.
   app.client.windowHandles().then((handles: any) => {
     const helpWindow = handles.values[1]
     app.client.window(helpWindow)
@@ -33,13 +34,11 @@ test("help takes user to correct location", async () => {
 })
 
 test("help link opens new window", async () => {
-  const initialWindowCount = await app.client
-    .waitUntilWindowLoaded()
-    .getWindowCount()
+  await app.client.waitUntilWindowLoaded()
+  const initialWindowCount = await app.client.getWindowCount()
   expect(initialWindowCount).toEqual(1)
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Help}]`).click()
-  const windowCountAfterHelpClick = await app.client
-    .waitUntilWindowLoaded()
-    .getWindowCount()
+  await app.client.waitUntilWindowLoaded()
+  const windowCountAfterHelpClick = await app.client.getWindowCount()
   expect(windowCountAfterHelpClick).toEqual(2)
 })

@@ -17,7 +17,8 @@ afterEach(async () => {
 })
 
 test("opens a window, checks its count", async () => {
-  const count = await app.client.waitUntilWindowLoaded().getWindowCount()
+  await app.client.waitUntilWindowLoaded()
+  const count = await app.client.getWindowCount()
   expect(count).toEqual(1)
 })
 

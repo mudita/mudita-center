@@ -56,7 +56,8 @@ test("modal opens new window", async () => {
   await app.client
     .$(`*[data-testid=${SyncContactsModalTestIds.GoogleButton}]`)
     .click()
-  expect(await app.client.waitUntilWindowLoaded().getWindowCount()).toEqual(2)
+  await app.client.waitUntilWindowLoaded()
+  expect(await app.client.getWindowCount()).toEqual(2)
 })
 
 test("user can open the new contact sidebar", async () => {
