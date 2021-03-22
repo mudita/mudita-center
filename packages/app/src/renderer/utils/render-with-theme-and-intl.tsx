@@ -31,7 +31,7 @@ export function renderWithThemeAndIntl<Q extends Queries>(
   ui: React.ReactElement,
   options?: RenderOptions<Q>
 ): RenderResult {
-  return render<Q>(
+  return render(
     <ThemeProvider theme={theme}>
       <IntlProvider
         defaultLocale={defaultLanguage}
