@@ -15,7 +15,7 @@ import {
 import { intl } from "Renderer/utils/intl"
 import { ContactSupportFailed } from "App/contacts/components/contact-modal/contact-modal-failed.component"
 import { ContactSupportSuccess } from "App/contacts/components/contact-modal/contact-modal-success.component"
-import { fireEvent, act } from "@testing-library/react"
+import { fireEvent, waitFor } from "@testing-library/react"
 
 const renderContactModal = ({ ...props }: Partial<ContactModalProps> = {}) => {
   const outcome = renderWithThemeAndIntl(<ContactModal {...props} />)
@@ -86,8 +86,7 @@ describe("contact modal details", () => {
 })
 
 test("contact modal form sending works properly", async () => {
-  const promise = Promise.resolve()
-  const onSend = jest.fn(() => promise)
+  const onSend = jest.fn()
   const {
     getEmailInput,
     getMessageInput,
@@ -108,18 +107,17 @@ test("contact modal form sending works properly", async () => {
   fireEvent.change(getFileInput() as Element, mockEvent(file))
   fireEvent.click(getByTestId("modal-action-button"))
 
-  await act(() => promise)
-
-  expect(onSend).toBeCalledWith({
-    email: "email@example.com",
-    message: "Example message",
-    attachments: [file],
+  await waitFor(() => {
+    expect(onSend).toBeCalledWith({
+      email: "email@example.com",
+      message: "Example message",
+      attachments: [file],
+    })
   })
 })
 
 test("contact modal email validation works properly", async () => {
-  const promise = Promise.resolve()
-  const onSend = jest.fn(() => promise)
+  const onSend = jest.fn()
   const { getEmailInput, getByTestId } = renderContactModal({
     onSend,
   })
@@ -129,22 +127,22 @@ test("contact modal email validation works properly", async () => {
   })
   fireEvent.click(getByTestId("modal-action-button"))
 
-  await act(() => promise)
-  expect(onSend).not.toBeCalled()
+  await waitFor(() => {
+    expect(onSend).not.toBeCalled()
+  })
 })
 
 test("contact modal form validation works properly", async () => {
-  const promise = Promise.resolve()
-  const onSend = jest.fn(() => promise)
+  const onSend = jest.fn()
   const { getByTestId } = renderContactModal({
     onSend,
   })
 
   fireEvent.click(getByTestId("modal-action-button"))
 
-  await act(() => promise)
-
-  expect(onSend).toBeCalled()
+  await waitFor(() => {
+    expect(onSend).toBeCalled()
+  })
 })
 
 test("failed modal renders properly", () => {
