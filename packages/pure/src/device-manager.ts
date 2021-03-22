@@ -70,6 +70,9 @@ class DeviceManager implements PureDeviceManager {
 
   private registerAttachDeviceEmitter(): void {
     this.usbDetector.onAttachDevice(async (portInfo) => {
+      logger.log("==== usb detector: attached device ====")
+      logger.log(JSON.stringify(portInfo, null, 2))
+
       const sleep = () => new Promise((resolve) => setTimeout(resolve, 500))
 
       if (portInfo.vendorId?.toLowerCase() === vendorId) {
@@ -87,6 +90,8 @@ class DeviceManager implements PureDeviceManager {
 
           if (port) {
             const device = this.createDevice(port.path)
+            logger.log("==== serial port: attached device is pure device ====")
+            logger.log(JSON.stringify(device, null, 2))
             this.#eventEmitter.emit(
               DeviceManagerEventName.AttachedDevice,
               device
@@ -99,8 +104,11 @@ class DeviceManager implements PureDeviceManager {
     })
   }
 
-  private static getSerialPortList(): Promise<PortInfo[]> {
-    return SerialPort.list()
+  private static async getSerialPortList(): Promise<PortInfo[]> {
+    const list = await SerialPort.list()
+    logger.log("==== serial port: list ====")
+    logger.log(JSON.stringify(list, null, 2))
+    return list
   }
 }
 
