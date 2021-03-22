@@ -7,6 +7,7 @@ import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
 import { CreateDevice, PureDevice, createDevice } from "./device"
+import logger from "./logger"
 
 export const productId = "0622"
 export const vendorId = "045e"
@@ -33,6 +34,10 @@ class DeviceManager implements PureDeviceManager {
   public init(): DeviceManager {
     this.registerAttachDeviceEmitter()
     return this
+  }
+
+  public toggleLogs(enabled: boolean): void {
+    logger.toggleLogs(enabled)
   }
 
   public async getDevices(): Promise<PureDevice[]> {
