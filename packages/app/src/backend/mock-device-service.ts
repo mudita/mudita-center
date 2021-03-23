@@ -74,17 +74,10 @@ class MockPureNodeService extends DeviceService {
   }: RequestConfig): Promise<DeviceResponse<any>> {
     if (
       endpoint === Endpoint.Contacts &&
-      method === Method.Get &&
-      body.count === true
-    ) {
-      return { data: { count: 1 }, status: DeviceResponseStatus.Ok }
-    } else if (
-      endpoint === Endpoint.Contacts &&
-      method === Method.Get &&
-      typeof body.count === "number"
+      method === Method.Get
     ) {
       return {
-        data: mockPureData,
+        data: {entries: mockPureData, totalCount: mockPureData.length},
         status: DeviceResponseStatus.Ok,
       }
     } else if (endpoint === Endpoint.Contacts && method === Method.Put) {
