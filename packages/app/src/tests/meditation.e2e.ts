@@ -8,8 +8,9 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 import { URL_MAIN } from "Renderer/constants/urls"
 import { ChartType } from "Renderer/components/rest/meditation/stats/meditation-stats.enum"
 import localeEn from "Renderer/locales/default/en-US.json"
+import { Application } from "spectron";
 
-let app: any
+let app: Application
 
 beforeEach(async () => {
   app = await startApp(true)
