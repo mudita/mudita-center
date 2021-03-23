@@ -31,7 +31,6 @@ const availableOsUpdateRequest = async (
       osVersion.includes(newestOfficialRelease.version) ||
       newestOfficialRelease.version.includes(osVersion)
     )
-
   return {
     allReleases: releases,
     latestRelease: updateAvailable ? newestOfficialRelease : null,
