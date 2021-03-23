@@ -58,7 +58,7 @@ interface Properties {
   setCollectingData?: (option: AppSettings["appCollectingData"]) => void
 }
 
-const SettingsUI: FunctionComponent<Omit<Properties, "updateSettings">> = ({
+const SettingsUI: FunctionComponent<Properties> = ({
   appAutostart,
   setAutostart = noop,
   appTethering,
