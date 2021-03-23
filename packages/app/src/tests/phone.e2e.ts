@@ -8,8 +8,9 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 import { VisibilityFilter } from "Renderer/models/calls/calls.interface"
 import { Type, getEnumName } from "Renderer/components/core/icon/icon.config"
 import { URL_MAIN } from "Renderer/constants/urls"
+import { Application } from "spectron";
 
-let app: any
+let app: Application
 
 beforeEach(async () => {
   app = await startApp(true)

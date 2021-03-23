@@ -10,8 +10,9 @@ import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/c
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 import { TableTestIds } from "Renderer/components/core/table/table.enum"
+import { Application } from "spectron";
 
-let app: any
+let app: Application
 const shortNumber = "1234"
 const incorrectNumber = "mudita"
 const incorrectEmail = "mudita.com"
@@ -56,7 +57,8 @@ test("modal opens new window", async () => {
   await app.client
     .$(`*[data-testid=${SyncContactsModalTestIds.GoogleButton}]`)
     .click()
-  expect(await app.client.waitUntilWindowLoaded().getWindowCount()).toEqual(2)
+  await app.client.waitUntilWindowLoaded()
+  expect(await app.client.getWindowCount()).toEqual(2)
 })
 
 test("user can open the new contact sidebar", async () => {
@@ -374,5 +376,6 @@ test("outlook button opens new window", async () => {
   await app.client
     .$(`*[data-testid=${SyncContactsModalTestIds.OutlookButton}]`)
     .click()
-  expect(await app.client.waitUntilWindowLoaded().getWindowCount()).toEqual(2)
+  await app.client.waitUntilWindowLoaded()
+  expect(await app.client.getWindowCount()).toEqual(2)
 })

@@ -7,8 +7,9 @@ import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { ThreadListTestIds } from "App/messages/components/thread-list-test-ids.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
+import { Application } from "spectron";
 
-let app: any
+let app: Application
 
 beforeEach(async () => {
   app = await startApp(true)
@@ -35,6 +36,7 @@ test("searching by phone number renders one result", async () => {
     .$("p")
     .getText()
   await app.client.$("input").setValue(phoneNumber)
+  // eslint-disable-next-line @typescript-eslint/await-thenable
   const rows = await app.client.$$(`*[data-testid=${ThreadListTestIds.Row}]`)
   expect(rows).toHaveLength(1)
   const resultsText = await app.client
