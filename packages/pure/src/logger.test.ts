@@ -3,13 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-let logger: any
+import Logger from "./logger"
+
+let logger: Logger
 
 beforeEach(() => {
-  jest.isolateModules(() => {
-    const loggerModule = require("./logger")
-    logger = loggerModule.default
-  })
+  logger = new Logger()
 })
 
 afterEach(() => {

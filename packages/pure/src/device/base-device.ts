@@ -30,7 +30,7 @@ import {
   isFileUploadPayload,
 } from "./device-helper"
 import Queue from "queue-promise"
-import logger from "../logger"
+import Logger from "../logger"
 
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
@@ -38,16 +38,16 @@ class BaseDevice implements PureDevice {
   #portBlocked = true
   #requestsQueue = new Queue({ concurrent: 1, interval: 1 })
 
-  constructor(private path: string) {}
+  constructor(private path: string, private logger: Logger) {}
 
   public connect(): Promise<Response> {
     return new Promise((resolve) => {
       this.#port = new SerialPort(this.path, (error) => {
         if (error) {
-          logger.log("==== serial port: failure connected ====")
+          this.logger.log("==== serial port: failure connected ====")
           resolve({ status: ResponseStatus.ConnectionError })
         } else {
-          logger.log("==== serial port: success connected ====")
+          this.logger.log("==== serial port: success connected ====")
           resolve({ status: ResponseStatus.Ok })
         }
       })
@@ -55,12 +55,14 @@ class BaseDevice implements PureDevice {
       this.#port.on("data", async (event) => {
         try {
           const data = await parseData(event)
-          logger.log("==== serial port: data received ====")
-          logger.log(JSON.stringify(data, null, 2))
+          this.logger.log("==== serial port: data received ====")
+          this.logger.log(JSON.stringify(data, null, 2))
           this.#eventEmitter.emit(DeviceEventName.DataReceived, data)
         } catch (error) {
-          logger.log("==== serial port error: data impossible to parse ====")
-          logger.log(JSON.stringify(error, null, 2))
+          this.logger.log(
+            "==== serial port error: data impossible to parse ===="
+          )
+          this.logger.log(JSON.stringify(error, null, 2))
           this.#eventEmitter.emit(DeviceEventName.DataReceived, {
             status: ResponseStatus.ParserError,
           })
@@ -68,7 +70,7 @@ class BaseDevice implements PureDevice {
       })
 
       this.#port.on("close", () => {
-        logger.log("==== serial port: close event ====")
+        this.logger.log("==== serial port: close event ====")
         this.#eventEmitter.emit(DeviceEventName.Disconnected)
       })
     })
@@ -81,10 +83,10 @@ class BaseDevice implements PureDevice {
       } else {
         this.#port.close((error) => {
           if (error) {
-            logger.log("==== serial port: failure connected ====")
+            this.logger.log("==== serial port: failure connected ====")
             resolve({ status: ResponseStatus.ConnectionError })
           } else {
-            logger.log("==== serial port: success disconnect ====")
+            this.logger.log("==== serial port: success disconnect ====")
             resolve({ status: ResponseStatus.Ok })
           }
         })
@@ -97,8 +99,8 @@ class BaseDevice implements PureDevice {
   public async request(config: RequestConfig): Promise<Response<any>> {
     if (this.#port === undefined || !this.#portBlocked) {
       const response = { status: ResponseStatus.ConnectionError }
-      logger.log("==== serial port: device request ====")
-      logger.log(JSON.stringify(response, null, 2))
+      this.logger.log("==== serial port: device request ====")
+      this.logger.log(JSON.stringify(response, null, 2))
       return response
     } else {
       return this.writeRequest(this.#port, config)
@@ -284,8 +286,8 @@ class BaseDevice implements PureDevice {
   }
 
   private portWrite(port: SerialPort, payload: RequestPayload): void {
-    logger.log("==== serial port: device request ====")
-    logger.log(JSON.stringify(payload, null, 2))
+    this.logger.log("==== serial port: device request ====")
+    this.logger.log(JSON.stringify(payload, null, 2))
     port.write(createValidRequest(payload))
   }
 }

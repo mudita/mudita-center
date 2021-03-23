@@ -22,12 +22,13 @@ import {
 } from "../endpoints"
 import { Formatter } from "../formatter/formatter"
 import { FormatterFactory } from "../formatter/formatter-factory"
+import Logger from "../logger"
 
 class Device extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
 
-  constructor(path: string) {
-    super(path)
+  constructor(path: string, logger: Logger) {
+    super(path, logger)
   }
 
   public async connect(): Promise<Response> {
@@ -81,4 +82,5 @@ class Device extends BaseDevice {
   }
 }
 
-export const createDevice: CreateDevice = (path: string) => new Device(path)
+export const createDevice: CreateDevice = (path: string, logger: Logger) =>
+  new Device(path, logger)

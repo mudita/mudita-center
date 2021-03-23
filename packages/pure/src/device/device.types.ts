@@ -1,3 +1,5 @@
+import Logger from "../logger"
+
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
@@ -11,7 +13,7 @@ export interface PureDevice {
   off(eventName: DeviceEventName, listener: () => void): void
 }
 
-export type CreateDevice = (path: string) => PureDevice
+export type CreateDevice = (path: string, logger: Logger) => PureDevice
 
 export enum ResponseStatus {
   Ok = 200,
