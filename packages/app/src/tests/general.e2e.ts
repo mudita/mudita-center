@@ -4,8 +4,9 @@
  */
 
 import { startApp, stopApp } from "App/tests/hooks"
+import { Application } from "spectron";
 
-let app: any
+let app: Application
 
 beforeEach(async () => {
   app = await startApp()
@@ -16,7 +17,8 @@ afterEach(async () => {
 })
 
 test("opens a window, checks its count", async () => {
-  const count = await app.client.waitUntilWindowLoaded().getWindowCount()
+  await app.client.waitUntilWindowLoaded()
+  const count = await app.client.getWindowCount()
   expect(count).toEqual(1)
 })
 

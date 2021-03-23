@@ -342,5 +342,8 @@ export const getIconType = (
   icon: Type = Type.Message
 ): FunctionComponent<ImageInterface> => typeToIcon[icon] || Message
 
-export const getEnumName = (type?: Type) =>
-  type !== undefined ? Type[type] : null
+export function getEnumName(type: Type): string
+export function getEnumName(type?: Type): null
+export function getEnumName(type?: Type): string | null {
+  return type !== undefined ? Type[type] : null
+}
