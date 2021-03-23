@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import RRule from "rrule"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"

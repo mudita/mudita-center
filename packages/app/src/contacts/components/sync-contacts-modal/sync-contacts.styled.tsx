@@ -21,8 +21,12 @@ export const ButtonsContainer = styled.div`
 export const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  button:first-child {
+
+  button {
     margin-bottom: 1.6rem;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
   }
 `
 

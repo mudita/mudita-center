@@ -366,6 +366,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
     modalService.openModal(
       <SyncContactsModal
         onGoogleButtonClick={authorizeAtGoogle}
+        onOutlookButtonClick={authorizeAtOutLook}
         onManualImportClick={importFromFile}
       />
     )
@@ -386,13 +387,12 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
 
   // Synchronization, step 2b: 3-rd party services
   const authorizeAtGoogle = () => authorizeAtProvider(Provider.Google)
+  const authorizeAtOutLook = () => authorizeAtProvider(Provider.Outlook)
 
   const authorizeAtProvider = async (provider: Provider) => {
     try {
-      if (provider) {
-        await authorize(provider)
-        await getContacts({ type: Provider.Google })
-      }
+      await authorize(provider)
+      await getContacts({ type: provider })
     } catch {
       await openAuthorizationFailedModal(provider)
     }
