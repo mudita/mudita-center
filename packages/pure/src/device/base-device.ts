@@ -52,21 +52,23 @@ class BaseDevice implements PureDevice {
         }
       })
 
-      this.#port.on("data", async (event) => {
-        try {
-          const data = await parseData(event)
-          this.logger.log("==== serial port: data received ====")
-          this.logger.log(JSON.stringify(data, null, 2))
-          this.#eventEmitter.emit(DeviceEventName.DataReceived, data)
-        } catch (error) {
-          this.logger.log(
-            "==== serial port error: data impossible to parse ===="
-          )
-          this.logger.log(JSON.stringify(error, null, 2))
-          this.#eventEmitter.emit(DeviceEventName.DataReceived, {
-            status: ResponseStatus.ParserError,
-          })
-        }
+      this.#port.on("data", (event) => {
+        void (async () => {
+          try {
+            const data: unknown = await parseData(event)
+            this.logger.log("==== serial port: data received ====")
+            this.logger.log(JSON.stringify(data, null, 2))
+            this.#eventEmitter.emit(DeviceEventName.DataReceived, data)
+          } catch (error) {
+            this.logger.log(
+              "==== serial port error: data impossible to parse ===="
+            )
+            this.logger.log(JSON.stringify(error, null, 2))
+            this.#eventEmitter.emit(DeviceEventName.DataReceived, {
+              status: ResponseStatus.ParserError,
+            })
+          }
+        })()
       })
 
       this.#port.on("close", () => {
