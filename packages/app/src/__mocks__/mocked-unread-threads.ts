@@ -7,7 +7,7 @@ import { Thread } from "App/messages/store/messages.interface"
 
 export const mockedUnreadThreads: Thread[] = [
   {
-    id: "+03026752736",
+    id: 3026752736,
     contactId: "a62a36da-7203-4ba4-a14a-51e4a3d617be",
     lastUpdatedAt: new Date("2019-08-07T13:29:51.401Z"),
     messageSnippet:
@@ -15,7 +15,7 @@ export const mockedUnreadThreads: Thread[] = [
     unread: true,
   },
   {
-    id: "+03026752716",
+    id: 3026752716,
     contactId: "11a62a36da-7203-4ba4-a14a-51e4a3d617be",
     lastUpdatedAt: new Date("2019-08-07T13:29:51.401Z"),
     messageSnippet:

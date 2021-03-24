@@ -8,11 +8,14 @@ import { Caller } from "Renderer/models/calls/calls.interface"
 import { Thread } from "App/messages/store/messages.interface"
 
 const caller: Caller = {
-  id: "1",
+  id: 1,
   phoneNumber: "+33999999999",
 }
 
-const mockThread = { id: caller.phoneNumber, contactId: caller.id } as Thread
+const mockThread = ({
+  id: caller.phoneNumber,
+  contactId: caller.id,
+} as unknown) as Thread
 const mockThreads = [mockThread]
 
 const searchValue = `?phoneNumber=${caller.phoneNumber}`

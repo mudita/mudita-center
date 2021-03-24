@@ -76,7 +76,7 @@ const AvatarWrapper = styled.div<{ size: AvatarSize; light?: boolean }>`
 export interface User {
   firstName?: string
   lastName?: string
-  id?: string
+  id?: number
 }
 
 export interface AvatarProps {

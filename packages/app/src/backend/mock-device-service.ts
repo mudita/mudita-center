@@ -6,9 +6,9 @@
 import {
   DeviceInfo,
   Endpoint,
-  FormattedContact,
   Method,
   RequestConfig,
+  Contact as PureContact,
 } from "@mudita/pure"
 import DeviceService from "./device-service"
 import DeviceResponse, {
@@ -16,7 +16,7 @@ import DeviceResponse, {
 } from "./adapters/device-response.interface"
 import { Contact, NewContact } from "App/contacts/store/contacts.type"
 
-export const pureContactId = "19"
+export const pureContactId = 19
 
 export const newContact: NewContact = {
   firstName: "Alek",
@@ -37,7 +37,7 @@ export const contact: Contact = {
   id: pureContactId,
 } as Contact
 
-const mockPureData: FormattedContact[] = [
+const mockPureData: PureContact[] = [
   {
     address: "6 Czeczota St.\n02600 Warsaw",
     altName: "Boligłowa",

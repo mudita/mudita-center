@@ -9,7 +9,7 @@ import { Type as IconType } from "Renderer/components/core/icon/icon.config"
 export const todaysCall: Call = {
   id: "05ed5479-1770-44e8-9e7c-09333ddc87195",
   caller: {
-    id: "1233213121",
+    id: 1233213121,
     firstName: "Adam",
     lastName: "Malysz",
     phoneNumber: "+48 733 853 216",
@@ -26,7 +26,7 @@ export const mockData: Call[] = [
   {
     id: "05ed5479-1770-44e8-9e7c-09b2ddc87195",
     caller: {
-      id: "12321",
+      id: 12321,
       firstName: "Judge",
       lastName: "Kris",
       phoneNumber: "+48 755 853 216",
@@ -41,7 +41,7 @@ export const mockData: Call[] = [
   {
     id: "cee9d540-8e92-4ce0-b322-cc58bc4411dc",
     caller: {
-      id: "345345",
+      id: 345345,
       firstName: "Judge",
       lastName: "Weber",
       phoneNumber: "+53 548 728 355",
@@ -56,7 +56,7 @@ export const mockData: Call[] = [
   {
     id: "fa2bbc67-50f9-48ea-9bb1-a53ae578ed2b",
     caller: {
-      id: "34534569045",
+      id: 34534569045,
       firstName: "",
       lastName: "",
       phoneNumber: "+87 233 198 378",
@@ -71,7 +71,7 @@ export const mockData: Call[] = [
   {
     id: "03dc3086-7610-4de9-8967-f1c25dab674f",
     caller: {
-      id: "edfhs0432423",
+      id: 123123111,
       firstName: "Lewis",
       lastName: "Sporer",
       phoneNumber: "+61 019 141 174",
@@ -86,7 +86,7 @@ export const mockData: Call[] = [
   {
     id: "3a94a064-de00-4d8f-8cf9-56edecee0ce6",
     caller: {
-      id: "324934asd",
+      id: 1231212110,
       firstName: "Shyann",
       lastName: "Feil",
       phoneNumber: "+56 159 553 446",
@@ -101,7 +101,7 @@ export const mockData: Call[] = [
   {
     id: "Z3a94a064-de00-4d8f-8cf9-56edecee0ce6",
     caller: {
-      id: "Z90b36120-4d6b-4fbb-a7b1-f30398973a37",
+      id: 9999991,
       firstName: "Johnny",
       lastName: "Ovarb",
       phoneNumber: "+33 999 999 999",

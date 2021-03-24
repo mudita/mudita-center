@@ -14,7 +14,7 @@ import {
   StoreSelectors,
 } from "App/contacts/store/contacts.interface"
 
-export type ContactID = string
+export type ContactID = number
 
 export type Contact =
   | ContactWithPhoneNumber

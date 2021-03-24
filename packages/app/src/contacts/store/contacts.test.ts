@@ -31,7 +31,7 @@ const TEST_CONTACTS_BATCH = contactsSeed.collection
   .map((item) => contactsSeed.db[item])
 const TEST_EMPTY_CONTACT = { note: "anything" }
 const TEST_CONTACT_TO_CLEAN = {
-  id: "1ef4e97e-1bf9-43e2-856f-577bf27fab42",
+  id: 1,
   firstName: "Zakary",
   lastName: "",
   primaryPhoneNumber: "",

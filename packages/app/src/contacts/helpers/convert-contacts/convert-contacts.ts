@@ -71,7 +71,7 @@ const convertContact = (contact: Contact): string => {
     card.add("note", note)
   }
 
-  card.add("uid", id)
+  card.add("uid", String(id))
 
   return card.toString("4.0")
 }
