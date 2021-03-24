@@ -91,7 +91,7 @@ Remember to update npm version in `package.json` and `package-lock.json`. You ca
 
 ```bash
 cd packages/app
-npm version 8.0.0
+npm version CURRENT_VERSION + 1
 ```
 
 ## Troubleshooting common errors
