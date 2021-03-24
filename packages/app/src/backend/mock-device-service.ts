@@ -43,7 +43,7 @@ const mockPureData: PureContact[] = [
     altName: "Boligłowa",
     blocked: false,
     favourite: true,
-    id: pureContactId,
+    id: Number(pureContactId),
     numbers: ["500400300"],
     priName: "Alek",
   },
@@ -72,12 +72,9 @@ class MockPureNodeService extends DeviceService {
     endpoint,
     method,
   }: RequestConfig): Promise<DeviceResponse<any>> {
-    if (
-      endpoint === Endpoint.Contacts &&
-      method === Method.Get
-    ) {
+    if (endpoint === Endpoint.Contacts && method === Method.Get) {
       return {
-        data: {entries: mockPureData, totalCount: mockPureData.length},
+        data: { entries: mockPureData, totalCount: mockPureData.length },
         status: DeviceResponseStatus.Ok,
       }
     } else if (endpoint === Endpoint.Contacts && method === Method.Put) {

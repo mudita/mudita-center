@@ -10,7 +10,11 @@ import {
   Response,
 } from "../device/device.types"
 import { Formatter } from "./formatter"
-import { DeviceUpdateError, deviceUpdateErrorCodeMap } from "../endpoints"
+import {
+  Contact,
+  DeviceUpdateError,
+  deviceUpdateErrorCodeMap,
+} from "../endpoints"
 
 export class PureV1Formatter extends Formatter {
   formatRequestConfig(config: RequestConfig): RequestConfig {
@@ -28,8 +32,25 @@ export class PureV1Formatter extends Formatter {
 
   formatResponse(method: Method, response: Response<any>): Response<any> {
     const { endpoint, body, error } = response
-    if (endpoint === Endpoint.Contacts && method === Method.Put) {
+    console.log(response)
+    console.log(JSON.stringify(response))
+    if (
+      (endpoint === Endpoint.Contacts && method === Method.Put) ||
+      (endpoint === Endpoint.Contacts && method === Method.Post)
+    ) {
       return { ...response, body: { ...body, id: String(body.id) } }
+    }
+
+    if (endpoint === Endpoint.Contacts && method === Method.Get) {
+      return {
+        ...response,
+        body: {
+          entries: body.entries.map((entry: Contact) => ({
+            ...entry,
+            id: String(entry.id),
+          })),
+        },
+      }
     }
     if (endpoint === Endpoint.Update && error) {
       const firstDeviceUpdateErrorCode =

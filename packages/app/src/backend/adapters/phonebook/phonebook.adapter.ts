@@ -6,8 +6,8 @@
 import {
   Endpoint,
   Method,
-  Contact as PureContact,
   NewContact as PureNewContact,
+  FormattedContact,
 } from "@mudita/pure"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import {
@@ -119,7 +119,7 @@ const createPhonebook = (deviceService: DeviceService): Phonebook =>
 
 export default createPhonebook
 
-const mapToContact = (pureContact: PureContact): Contact => {
+const mapToContact = (pureContact: FormattedContact): Contact => {
   const {
     id,
     blocked,
@@ -140,7 +140,7 @@ const mapToContact = (pureContact: PureContact): Contact => {
     secondaryPhoneNumber,
     firstAddressLine,
     secondAddressLine,
-    id: String(id),
+    id: id,
     firstName: priName,
     lastName: altName,
     // TODO: map missing fields in separate issue https://appnroll.atlassian.net/browse/PDA-571 (after EGD implementation)
@@ -180,6 +180,6 @@ const mapToPureNewContact = (contact: NewContact): PureNewContact => {
   }
 }
 
-const mapToPureContact = (contact: Contact): PureContact => {
+const mapToPureContact = (contact: Contact): PureNewContact => {
   return { ...contact, ...mapToPureNewContact(contact) }
 }
