@@ -140,7 +140,7 @@ const mapToContact = (pureContact: FormattedContact): Contact => {
     secondaryPhoneNumber,
     firstAddressLine,
     secondAddressLine,
-    id: id,
+    id,
     firstName: priName,
     lastName: altName,
     // TODO: map missing fields in separate issue https://appnroll.atlassian.net/browse/PDA-571 (after EGD implementation)
