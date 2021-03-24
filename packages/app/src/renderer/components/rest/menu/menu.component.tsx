@@ -45,13 +45,13 @@ const DevSign = styled.span`
   color: ${textColor("secondary")};
 `
 
-export interface MenuProps {
+interface Properties {
   deviceConnected?: boolean
   openHelpWindow?: () => void
   devModeEnabled?: DevMode["enabled"]
 }
 
-const Menu: FunctionComponent<MenuProps> = ({
+const Menu: FunctionComponent<Properties> = ({
   deviceConnected,
   devModeEnabled,
 }) => {
