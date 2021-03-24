@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import React from "react"
@@ -45,13 +45,13 @@ const DevSign = styled.span`
   color: ${textColor("secondary")};
 `
 
-export interface MenuProps {
+interface Properties {
   deviceConnected?: boolean
   openHelpWindow?: () => void
   devModeEnabled?: DevMode["enabled"]
 }
 
-const Menu: FunctionComponent<MenuProps> = ({
+const Menu: FunctionComponent<Properties> = ({
   deviceConnected,
   devModeEnabled,
 }) => {

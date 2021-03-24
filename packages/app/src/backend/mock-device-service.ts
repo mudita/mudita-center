@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import {
@@ -74,17 +74,10 @@ class MockPureNodeService extends DeviceService {
   }: RequestConfig): Promise<DeviceResponse<any>> {
     if (
       endpoint === Endpoint.Contacts &&
-      method === Method.Get &&
-      body.count === true
-    ) {
-      return { data: { count: 1 }, status: DeviceResponseStatus.Ok }
-    } else if (
-      endpoint === Endpoint.Contacts &&
-      method === Method.Get &&
-      typeof body.count === "number"
+      method === Method.Get
     ) {
       return {
-        data: mockPureData,
+        data: {entries: mockPureData, totalCount: mockPureData.length},
         status: DeviceResponseStatus.Ok,
       }
     } else if (endpoint === Endpoint.Contacts && method === Method.Put) {

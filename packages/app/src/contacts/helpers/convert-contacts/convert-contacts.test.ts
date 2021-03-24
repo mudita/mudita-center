@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import convertContacts from "App/contacts/helpers/convert-contacts/convert-contacts"
@@ -12,7 +12,7 @@ test("single contact is properly converted to vCard format", () => {
       id: "abc-123",
       firstName: "John",
       lastName: "Doe",
-      email: "john.doe@example.com",
+      email: "example@mudita.com",
       primaryPhoneNumber: "123 456 789",
       secondaryPhoneNumber: "32 123 44 55",
       firstAddressLine: "4929 Pine Garden Lane",
@@ -30,7 +30,7 @@ test("single contact is properly converted to vCard format", () => {
     TEL;TYPE=voice:32 123 44 55
     ADR;TYPE=home;LABEL=\\"4929 Pine Garden Lane Atlanta, GA, 30339, USA\\":;;4929
       Pine Garden Lane;Atlanta; GA; 30339; USA
-    EMAIL:john.doe@example.com
+    EMAIL:example@mudita.com
     NOTE:Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
       Pellentesque in ipsum id orci porta dapibus.
     UID:abc-123
@@ -102,7 +102,7 @@ test("single contact is properly converted to vCard format", () => {
             "email",
             Object {},
             "text",
-            "john.doe@example.com",
+            "example@mudita.com",
           ],
           Array [
             "note",
@@ -122,13 +122,56 @@ test("single contact is properly converted to vCard format", () => {
   `)
 })
 
+test("if second address line is undefined address field is converted properly", () => {
+  const result = convertContacts([
+    {
+      id: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
+      firstName: "Carmelo",
+      primaryPhoneNumber: "+98007298780",
+      firstAddressLine: "935 Gwen Park",
+    },
+  ])
+  expect(result).toMatchInlineSnapshot(`
+    "BEGIN:VCARD
+    VERSION:4.0
+    N:;Carmelo;;;
+    FN:Carmelo
+    TEL;TYPE=voice:+98007298780
+    ADR;TYPE=home;LABEL=\\"935 Gwen Park\\":;;935 Gwen Park;;;;
+    UID:ae193f79-a65b-4b36-bef7-b6b6532811ca
+    END:VCARD"
+  `)
+})
+
+test("if first address line is undefined address field is converted properly", () => {
+  const result = convertContacts([
+    {
+      id: "ae193f79-a65b-4b36-bef7-b6b6532811cb",
+      firstName: "Kareem",
+      primaryPhoneNumber: "+98007298785",
+      secondAddressLine: "800 East Gwen Street, Phoenix",
+    },
+  ])
+  expect(result).toMatchInlineSnapshot(`
+    "BEGIN:VCARD
+    VERSION:4.0
+    N:;Kareem;;;
+    FN:Kareem
+    TEL;TYPE=voice:+98007298785
+    ADR;TYPE=home;LABEL=\\"800 East Gwen Street, Phoenix\\":;;;800 East Gwen
+      Street; Phoenix;;
+    UID:ae193f79-a65b-4b36-bef7-b6b6532811cb
+    END:VCARD"
+  `)
+})
+
 test("multiple contacts are properly converted to vCard format", () => {
   const result = convertContacts([
     {
       id: "abc-123",
       firstName: "John",
       lastName: "Doe",
-      email: "john.doe@example.com",
+      email: "example@mudita.com",
       primaryPhoneNumber: "123 456 789",
       secondaryPhoneNumber: "32 123 44 55",
       firstAddressLine: "4929 Pine Garden Lane",
@@ -139,7 +182,7 @@ test("multiple contacts are properly converted to vCard format", () => {
     {
       id: "def-456",
       firstName: "Jane",
-      email: "john.doe@example.com",
+      email: "example@mudita.com",
       primaryPhoneNumber: "123 456 789",
       firstAddressLine: "5000 Random Street",
       secondAddressLine: "Atlanta, GA, 30339, USA",
@@ -154,7 +197,7 @@ test("multiple contacts are properly converted to vCard format", () => {
     TEL;TYPE=voice:32 123 44 55
     ADR;TYPE=home;LABEL=\\"4929 Pine Garden Lane Atlanta, GA, 30339, USA\\":;;4929
       Pine Garden Lane;Atlanta; GA; 30339; USA
-    EMAIL:john.doe@example.com
+    EMAIL:example@mudita.com
     NOTE:Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui.
       Pellentesque in ipsum id orci porta dapibus.
     UID:abc-123
@@ -166,7 +209,7 @@ test("multiple contacts are properly converted to vCard format", () => {
     TEL;TYPE=voice:123 456 789
     ADR;TYPE=home;LABEL=\\"5000 Random Street Atlanta, GA, 30339, USA\\":;;5000
       Random Street;Atlanta; GA; 30339; USA
-    EMAIL:john.doe@example.com
+    EMAIL:example@mudita.com
     UID:def-456
     END:VCARD"
   `)
@@ -236,7 +279,7 @@ test("multiple contacts are properly converted to vCard format", () => {
             "email",
             Object {},
             "text",
-            "john.doe@example.com",
+            "example@mudita.com",
           ],
           Array [
             "note",
@@ -308,7 +351,7 @@ test("multiple contacts are properly converted to vCard format", () => {
             "email",
             Object {},
             "text",
-            "john.doe@example.com",
+            "example@mudita.com",
           ],
           Array [
             "uid",

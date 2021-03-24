@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import "@testing-library/jest-dom/extend-expect"
@@ -10,7 +10,6 @@ import { PhoneProps } from "Renderer/components/rest/overview/phone/phone.interf
 import Phone from "Renderer/components/rest/overview/phone/phone.component"
 import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
-import { waitFor } from "@testing-library/react"
 import { intl } from "Renderer/utils/intl"
 import { Router } from "react-router"
 import { createMemoryHistory } from "history"
@@ -53,7 +52,5 @@ test("disconnect button works properly", async () => {
 
   fireEvent.click(disconnectButton())
 
-  await waitFor(() => {
-    expect(onDisconnect).toHaveBeenCalled()
-  })
+  expect(onDisconnect).toHaveBeenCalled()
 })

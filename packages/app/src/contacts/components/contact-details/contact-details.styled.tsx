@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import styled from "styled-components"
@@ -73,7 +73,7 @@ export const AdditionalInfoItem = styled.div`
   width: 100%;
   margin-bottom: 4.2rem;
 `
-export const Input = styled(InputComponent).attrs(
+export const Input = styled(InputComponent).attrs<{ label: string }>(
   ({ value, defaultValue, label }) => ({
     label: value || defaultValue ? undefined : label,
     readOnly: true,

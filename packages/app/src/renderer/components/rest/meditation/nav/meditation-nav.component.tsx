@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import React from "react"
@@ -22,17 +22,18 @@ import {
   DateFormatItems,
   dateWithinThisWeek,
   formatDate,
+  intlFormatDateConfig,
   MeditationNavProps,
 } from "Renderer/components/rest/meditation/nav/meditation-nav.helpers"
 
 const intlDateFormat = (show: DateFormatItems[]) => {
-  const baseConfig = {
+  const baseConfig: intlFormatDateConfig = {
     day: "2-digit",
     month: "short",
     year: "numeric",
   }
 
-  const config: { day?: string; month?: string; year?: string } = {}
+  const config: intlFormatDateConfig = {}
 
   show.forEach((item) => {
     if (item === DateFormatItems.Day) {

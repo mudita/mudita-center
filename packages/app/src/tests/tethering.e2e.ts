@@ -1,15 +1,17 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { TetheringTestIds } from "Renderer/modules/tethering/screens/tethering.enum"
-import { SettingsTestIds } from "Renderer/modules/settings/settings.enum.ts"
-import { PhoneTestIds } from "Renderer/components/rest/overview/phone/phone-test-ids.enum.ts"
-let app: any
+import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
+import { PhoneTestIds } from "Renderer/components/rest/overview/phone/phone-test-ids.enum"
+import { Application } from "spectron";
+
+let app: Application
 
 beforeEach(async () => {
   app = await startApp()

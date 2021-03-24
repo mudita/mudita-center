@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 export interface Contact {
@@ -14,11 +14,3 @@ export interface Contact {
 }
 
 export type NewContact = Omit<Contact, "id">
-
-export interface GetBodyContact {
-  count: true | number
-}
-
-export interface CountBodyResponse {
-  count: number
-}

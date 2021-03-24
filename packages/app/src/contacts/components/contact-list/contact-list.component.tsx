@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import React, { createRef, Ref, useEffect } from "react"
@@ -329,7 +329,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         </Actions>
                       </Col>
                       <ScrollAnchorContainer
-                        key={contact.id + category}
+                        key={contact.id}
                         active={scrollActive}
                       />
                     </Row>
@@ -349,7 +349,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                           )}
                         </Col>
                         <ScrollAnchorContainer
-                          key={contact.id + category}
+                          key={contact.id}
                           active={scrollActive}
                         />
                       </Row>
@@ -357,7 +357,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                   }
 
                   return (
-                    <InView key={category + contact.id}>
+                    <InView key={contact.id}>
                       {({ inView, ref }) =>
                         inView ? interactiveRow(ref) : placeholderRow(ref)
                       }

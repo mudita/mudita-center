@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import {
@@ -13,7 +13,6 @@ import {
   RequestConfig,
   ResponseStatus,
   Contact,
-  CountBodyResponse,
   DeviceInfo,
 } from "@mudita/pure"
 import { EventEmitter } from "events"
@@ -49,13 +48,8 @@ class DeviceService {
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-    body: { count: true }
-  }): Promise<DeviceResponse<CountBodyResponse>>
-  async request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
     body: { count: number }
-  }): Promise<DeviceResponse<Contact[]>>
+  }): Promise<DeviceResponse<{ entries: Contact[]; totalCount: number }>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post

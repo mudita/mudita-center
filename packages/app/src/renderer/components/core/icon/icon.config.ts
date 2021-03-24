@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { Image as ImageInterface } from "Renderer/interfaces/image.interface"
@@ -111,6 +111,7 @@ import MuditaDarkLogo from "Renderer/svg/mudita-dark-logo.svg"
 import ContactGoogle from "Renderer/svg/contact-google.svg"
 import Manage from "Renderer/svg/manage.svg"
 import MuditaLogoBg from "Renderer/svg/muditalogo-bg.svg"
+import Outlook from "Renderer/svg/Outlook.svg"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 
 export enum Type {
@@ -223,6 +224,7 @@ export enum Type {
   ContactGoogle,
   Manage,
   MuditaLogoBg,
+  Outlook,
 }
 
 const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
@@ -333,11 +335,15 @@ const typeToIcon: Partial<Record<Type, typeof Arrow>> = {
   [Type.ContactGoogle]: ContactGoogle,
   [Type.MuditaLogoBg]: MuditaLogoBg,
   [Type.Manage]: Manage,
+  [Type.Outlook]: Outlook,
 }
 
 export const getIconType = (
   icon: Type = Type.Message
 ): FunctionComponent<ImageInterface> => typeToIcon[icon] || Message
 
-export const getEnumName = (type?: Type) =>
-  type !== undefined ? Type[type] : null
+export function getEnumName(type: Type): string
+export function getEnumName(type?: Type): null
+export function getEnumName(type?: Type): string | null {
+  return type !== undefined ? Type[type] : null
+}

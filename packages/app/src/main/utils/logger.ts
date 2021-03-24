@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { createLogger, format, transports, Logger } from "winston"
@@ -76,6 +76,17 @@ export const createAppLogger = (resolveApp: AppResolver): AppLogger => {
       payload: {
         environment: process.env.NODE_ENV,
       },
+      scrubTelemetryInputs: true,
+      autoInstrument: {
+        network: false,
+        log: false,
+        dom: true,
+        navigation: true,
+        connectivity: false,
+        contentSecurityPolicy: false,
+        errorOnContentSecurityPolicy: false,
+      },
+      captureIp: "anonymize",
     },
     level: "warn",
   })

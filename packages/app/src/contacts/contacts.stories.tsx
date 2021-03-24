@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import React from "react"
@@ -115,7 +115,7 @@ const singleContact = ({
   lastName: "Doe",
   primaryPhoneNumber: "+40 211 456 285",
   secondaryPhoneNumber: "+37 030 922 283",
-  email: "jondoe@gmail.com",
+  email: "example@mudita.com",
   note: "Lorem ipsum dolor sit amet.",
   firstAddressLine: "50856 Mabelle Motorway",
   secondAddressLine: "USA",

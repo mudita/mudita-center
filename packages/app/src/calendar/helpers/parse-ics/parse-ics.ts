@@ -1,10 +1,10 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import ical, { VEvent } from "node-ical"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { RRule } from "rrule"
 
 const parseIcs = async (filePaths: string[]): Promise<CalendarEvent[]> => {

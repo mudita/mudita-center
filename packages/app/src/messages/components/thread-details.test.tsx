@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
@@ -29,7 +29,7 @@ const contact: Contact = {
   firstName: "John",
   lastName: "Doe",
   primaryPhoneNumber: phoneNumberId,
-  email: "hello@mudita.com",
+  email: "example@mudita.com",
   note: "",
   firstAddressLine: "",
 }
@@ -184,9 +184,7 @@ test("error text renders with retry button when thread won't load", () => {
 })
 
 test("loader renders when thread is loading", () => {
-  const getMessagesResultMapStateByThreadId = jest.fn(
-    () => ResultState.Loading
-  )
+  const getMessagesResultMapStateByThreadId = jest.fn(() => ResultState.Loading)
   const { getByTestId } = renderer({
     getMessagesResultMapStateByThreadId,
   })
@@ -200,7 +198,7 @@ test("retry button tries to load thread again after initial call", () => {
   const { getByTestId } = renderer({
     openErrorModal,
     getMessagesResultMapStateByThreadId,
-    loadMessagesByThreadId
+    loadMessagesByThreadId,
   })
   getByTestId(ThreadDetailsTestIds.RetryButton).click()
   expect(loadMessagesByThreadId).toBeCalledWith(phoneNumberId)

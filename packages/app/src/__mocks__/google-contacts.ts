@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 export const mockedGoogleContacts = {
@@ -44,7 +44,7 @@ export const mockedGoogleContacts = {
               id: "4b3a68250d7520cd",
             },
           },
-          value: "bombol@examplemail.com",
+          value: "example@mudita.com",
         },
       ],
       phoneNumbers: [
@@ -112,7 +112,7 @@ export const mockedGoogleContacts = {
               id: "53a3da810b4cdd4f",
             },
           },
-          value: "alolo@examplemail.pl",
+          value: "example@mudita.com",
         },
       ],
       phoneNumbers: [

@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import overwriteDuplicates, {
@@ -10,7 +10,7 @@ import overwriteDuplicates, {
   findDuplicate,
   parseDescription,
 } from "./overwrite-duplicates"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 
 const event1: CalendarEvent = {

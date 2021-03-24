@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { connect } from "react-redux"
@@ -70,8 +70,9 @@ const mapDispatch = ({ contacts, auth }: any) => {
           return getFlatList(contactDatabaseFactory(contacts))
         case Provider.Apple:
           return
-        case Provider.Microsoft:
-          return
+        case Provider.Outlook:
+          contacts = ((await externalProvidersStore.dispatch.outlook.getContacts()) as unknown) as Contact[]
+          return getFlatList(contactDatabaseFactory(contacts))
       }
     },
     addNewContact: async (contact: NewContact): Promise<string | void> => {

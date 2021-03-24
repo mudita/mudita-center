@@ -1,14 +1,15 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_RECOVERY_MODE } from "Renderer/constants/urls"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
+import { Application } from "spectron";
 
-let app: any
+let app: Application
 const incorrectEmail = "e2e"
 const email = "e2e@test.com"
 

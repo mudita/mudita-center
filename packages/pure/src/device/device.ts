@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import BaseDevice from "./base-device"
@@ -14,7 +14,6 @@ import {
 } from "./device.types"
 import {
   Contact,
-  CountBodyResponse,
   DeviceInfo,
   DeviceUpdateErrorResponse,
   DeviceUpdateResponse,
@@ -53,13 +52,7 @@ class Device extends BaseDevice {
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-    body: { count: true }
-  }): Promise<Response<CountBodyResponse>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-    body: { count: number }
-  }): Promise<Response<Contact[]>>
+  }): Promise<Response<{ entries: Contact[]; totalCount: number }>>
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
