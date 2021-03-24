@@ -31,7 +31,7 @@ import axios, { AxiosResponse } from "axios"
 import { noop } from "Renderer/utils/noop"
 import { createModel } from "@rematch/core"
 import { ExternalProvidersModels } from "Renderer/models/external-providers/external-providers.models"
-import { Calendar } from "Renderer/models/calendar/calendar.interfaces"
+import { Calendar } from "App/calendar/store/calendar.interfaces"
 import { RootState } from "App/renderer/store/external-providers"
 
 export const googleEndpoints = {
@@ -54,11 +54,13 @@ const google = createModel<ExternalProvidersModels>({
         scope: Scope
       }
     ) {
-      state[payload.scope] = {
-        ...state[payload.scope],
-        ...payload.data,
+      return {
+        ...state,
+        [payload.scope]: {
+          ...state[payload.scope],
+          ...payload.data,
+        },
       }
-      return state
     },
   },
   effects: (d) => {

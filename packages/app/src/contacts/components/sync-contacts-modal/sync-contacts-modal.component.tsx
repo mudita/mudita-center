@@ -33,6 +33,9 @@ const messages = defineMessages({
   googleButtonText: {
     id: "view.name.phone.contacts.googleButtonText",
   },
+  outlookButtonText: {
+    id: "view.name.phone.contacts.outlookButtonText",
+  },
   appleButtonText: {
     id: "view.name.phone.contacts.appleButtonText",
   },
@@ -42,14 +45,16 @@ const messages = defineMessages({
 })
 
 interface SyncContactsModal extends ModalProps {
-  onGoogleButtonClick?: () => void
+  onGoogleButtonClick: () => void
+  onOutlookButtonClick: () => void
   onAppleButtonClick?: () => void
-  onManualImportClick?: (inputElement: HTMLInputElement) => void
+  onManualImportClick: (inputElement: HTMLInputElement) => void
 }
 
 const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
   onClose = noop,
   onAppleButtonClick,
+  onOutlookButtonClick,
   onGoogleButtonClick,
   onManualImportClick,
 }) => {
@@ -74,15 +79,21 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
       />
       <ButtonsContainer>
         <ButtonWrapper>
-          {onGoogleButtonClick && (
-            <SyncButton
-              displayStyle={DisplayStyle.Primary}
-              label={intl.formatMessage(messages.googleButtonText)}
-              Icon={Type.Google}
-              onClick={onGoogleButtonClick}
-              data-testid={SyncContactsModalTestIds.GoogleButton}
-            />
-          )}
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            label={intl.formatMessage(messages.googleButtonText)}
+            Icon={Type.Google}
+            onClick={onGoogleButtonClick}
+            data-testid={SyncContactsModalTestIds.GoogleButton}
+          />
+
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            label={intl.formatMessage(messages.outlookButtonText)}
+            Icon={Type.Outlook}
+            onClick={onOutlookButtonClick}
+            data-testid={SyncContactsModalTestIds.OutlookButton}
+          />
           {onAppleButtonClick && (
             <SyncButton
               displayStyle={DisplayStyle.Primary}
@@ -91,24 +102,20 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
               onClick={onAppleButtonClick}
             />
           )}
-          {onManualImportClick && (
-            <>
-              <SyncButton
-                displayStyle={DisplayStyle.Primary}
-                label={intl.formatMessage(messages.manualImportText)}
-                Icon={Type.Upload}
-                onClick={handleManualImportClick}
-              />
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".vcf"
-                hidden
-                multiple
-                data-testid={SyncContactsModalTestIds.FileInput}
-              />
-            </>
-          )}
+          <SyncButton
+            displayStyle={DisplayStyle.Primary}
+            label={intl.formatMessage(messages.manualImportText)}
+            Icon={Type.Upload}
+            onClick={handleManualImportClick}
+          />
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".vcf"
+            hidden
+            multiple
+            data-testid={SyncContactsModalTestIds.FileInput}
+          />
         </ButtonWrapper>
       </ButtonsContainer>
     </Modal>

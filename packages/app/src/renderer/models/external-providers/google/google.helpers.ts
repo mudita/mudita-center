@@ -6,7 +6,7 @@
 import {
   Calendar,
   CalendarEvent,
-} from "Renderer/models/calendar/calendar.interfaces"
+} from "App/calendar/store/calendar.interfaces"
 import {
   GoogleCalendar,
   GoogleContactResourceItem,

@@ -7,7 +7,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import CalendarAdapter from "Backend/adapters/calendar/calendar-adapter.class"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { eventsData } from "App/seeds/calendar"
 
 class Calendar extends CalendarAdapter {
