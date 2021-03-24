@@ -31,17 +31,25 @@ export class PureV1Formatter extends Formatter {
   }
 
   formatResponse(method: Method, response: Response<any>): Response<any> {
-    const { endpoint, body, error } = response
-    console.log(response)
-    console.log(JSON.stringify(response))
-    if (
-      (endpoint === Endpoint.Contacts && method === Method.Put) ||
-      (endpoint === Endpoint.Contacts && method === Method.Post)
-    ) {
-      return { ...response, body: { ...body, id: String(body.id) } }
+    const { endpoint } = response
+    switch (endpoint) {
+      case Endpoint.Contacts:
+        return this.handleContactEndpointResponse(method, response)
+      case Endpoint.Update:
+        return this.handleUpdateEndpointResponse(method, response)
+      default:
+        return response
     }
+  }
 
-    if (endpoint === Endpoint.Contacts && method === Method.Get) {
+  handleContactEndpointResponse(
+    method: Method,
+    response: Response<any>
+  ): Response<any> {
+    const { body } = response
+    if (method === Method.Put || method === Method.Post) {
+      return { ...response, body: { ...body, id: String(body.id) } }
+    } else if (method === Method.Get) {
       return {
         ...response,
         body: {
@@ -51,8 +59,17 @@ export class PureV1Formatter extends Formatter {
           })),
         },
       }
+    } else {
+      return response
     }
-    if (endpoint === Endpoint.Update && error) {
+  }
+
+  handleUpdateEndpointResponse(
+    method: Method,
+    response: Response<any>
+  ): Response<any> {
+    const { error } = response
+    if (error) {
       const firstDeviceUpdateErrorCode =
         deviceUpdateErrorCodeMap[DeviceUpdateError.NoError]
       return {
