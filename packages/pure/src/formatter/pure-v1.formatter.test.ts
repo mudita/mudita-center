@@ -56,12 +56,12 @@ let formatter: PureV1Formatter
 
 beforeEach(() => (formatter = new PureV1Formatter()))
 
-test("should  post", () => {
+test("body id is returned as number when method is set to POST", () => {
   const { body } = formatter.formatRequestConfig(requestConfig)
   expect(typeof body.id).toBe("number")
 })
 
-test("should delete ", () => {
+test("body id is returned as number when method is set to DELETE", () => {
   const { body } = formatter.formatRequestConfig({
     ...requestConfig,
     method: Method.Delete,
@@ -69,7 +69,7 @@ test("should delete ", () => {
   expect(typeof body.id).toBe("number")
 })
 
-test("should get ", () => {
+test("body id is not formatted when method is set to GET", () => {
   const { body } = formatter.formatRequestConfig({
     ...requestConfig,
     method: Method.Get,
