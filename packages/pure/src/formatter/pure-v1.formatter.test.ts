@@ -82,11 +82,6 @@ test("formatResponse handles response correctly", () => {
   expect(typeof result.body.entries[0].id).toBe("string")
 })
 
-test("body's id is returned as a string in POST method in format response", () => {
-  const { body } = formatter.formatResponse(Method.Post, postOrPutResponse)
-  expect(typeof body.id).toBe("string")
-})
-
 test("body's id is returned as a string in PUT method in format response", () => {
   const { body } = formatter.formatResponse(Method.Put, postOrPutResponse)
   expect(typeof body.id).toBe("string")
@@ -103,14 +98,6 @@ test("entries id in get response is returned as a string", () => {
     getResponse
   )
   expect(typeof result.body.entries[0].id).toBe("string")
-})
-
-test("body's id is returned as a string in POST method", () => {
-  const { body } = formatter.handleContactEndpointResponse(
-    Method.Post,
-    postOrPutResponse
-  )
-  expect(typeof body.id).toBe("string")
 })
 
 test("body's id is returned as a string in PUT method ", () => {

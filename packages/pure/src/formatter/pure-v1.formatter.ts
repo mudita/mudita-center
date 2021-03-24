@@ -47,7 +47,7 @@ export class PureV1Formatter extends Formatter {
     response: Response<any>
   ): Response<any> {
     const { body } = response
-    if (method === Method.Put || method === Method.Post) {
+    if (method === Method.Put) {
       return { ...response, body: { ...body, id: String(body.id) } }
     } else if (method === Method.Get) {
       return {
