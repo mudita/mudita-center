@@ -4,9 +4,9 @@
  */
 
 import {
-  Contact as PureContact,
   DeviceInfo,
   Endpoint,
+  FormattedContact,
   Method,
   RequestConfig,
 } from "@mudita/pure"
@@ -34,16 +34,16 @@ export const newContact: NewContact = {
 
 export const contact: Contact = {
   ...newContact,
-  id: String(pureContactId),
+  id: pureContactId,
 } as Contact
 
-const mockPureData: PureContact[] = [
+const mockPureData: FormattedContact[] = [
   {
     address: "6 Czeczota St.\n02600 Warsaw",
     altName: "Boligłowa",
     blocked: false,
     favourite: true,
-    id: Number(pureContactId),
+    id: pureContactId,
     numbers: ["500400300"],
     priName: "Alek",
   },
