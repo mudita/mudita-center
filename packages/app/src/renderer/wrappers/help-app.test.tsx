@@ -9,7 +9,6 @@ import HelpApp from "Renderer/wrappers/help-app.component"
 import { createMemoryHistory } from "history"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { data } from "App/seeds/help"
-import { waitFor } from "@testing-library/react"
 import { HelpComponentTestIds } from "Renderer/modules/help/help.enum"
 import { useHelpSearch } from "../utils/hooks/use-help-search/use-help-search"
 
@@ -41,11 +40,9 @@ beforeEach(() =>
 )
 afterEach(() => (useHelpSearch as jest.Mock).mockRestore())
 
-test("render questions correctly", async () => {
+test("render questions correctly", () => {
   const { getAllByTestId } = renderer()
-  await waitFor(() =>
-    expect(getAllByTestId(HelpComponentTestIds.Question)).toHaveLength(
-      data.collection.length
-    )
+  expect(getAllByTestId(HelpComponentTestIds.Question)).toHaveLength(
+    data.collection.length
   )
 })

@@ -11,7 +11,7 @@ import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
 import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"
-import { fireEvent, waitFor } from "@testing-library/react"
+import { fireEvent } from "@testing-library/react"
 
 const renderBackup = ({
   onBackupCreate = noop,
@@ -54,7 +54,7 @@ test("renders available backup info properly", () => {
   expect(createButton()).toBeInTheDocument()
 })
 
-test("backup creation button works properly", async () => {
+test("backup creation button works properly", () => {
   const onBackupCreate = jest.fn()
 
   const { createButton } = renderBackup({
@@ -63,12 +63,10 @@ test("backup creation button works properly", async () => {
 
   fireEvent.click(createButton())
 
-  await waitFor(() => {
-    expect(onBackupCreate).toHaveBeenCalled()
-  })
+  expect(onBackupCreate).toHaveBeenCalled()
 })
 
-test("backup restore button works properly", async () => {
+test("backup restore button works properly", () => {
   const onBackupRestore = jest.fn()
 
   const { restoreButton } = renderBackup({
@@ -78,7 +76,5 @@ test("backup restore button works properly", async () => {
 
   fireEvent.click(restoreButton())
 
-  await waitFor(() => {
-    expect(onBackupRestore).toHaveBeenCalled()
-  })
+  expect(onBackupRestore).toHaveBeenCalled()
 })
