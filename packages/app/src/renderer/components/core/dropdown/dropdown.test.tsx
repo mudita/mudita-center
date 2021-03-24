@@ -44,7 +44,7 @@ test("renders dropdown", () => {
 
   fireEvent.click(getByText(buttonText))
 
-  expect(getByTestId("dropdown")).toBeInTheDocument()
+  expect(getByTestId("dropdown")).toBeVisible()
   expect(container).toMatchSnapshot()
 })
 
