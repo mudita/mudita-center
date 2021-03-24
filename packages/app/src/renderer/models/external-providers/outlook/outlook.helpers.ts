@@ -4,6 +4,7 @@
  */
 
 import {
+  OutlookCalendar,
   OutlookContactResourceItem,
   OutLookScope,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
@@ -11,10 +12,16 @@ import { Contact } from "App/contacts/store/contacts.type"
 import axios from "axios"
 import { baseGraphUrl } from "Renderer/models/external-providers/outlook/outlook.constants"
 import { ContactBuilder } from "Renderer/models/external-providers/outlook/contact-builder"
+import { Provider } from "Renderer/models/external-providers/external-providers.interface"
+import { Calendar } from "App/calendar/store/calendar.interfaces"
 
-export const getOutlookEndpoint = (scope: OutLookScope): string => {
+export const getOutlookEndpoint = (scope: OutLookScope | string): string => {
   switch (scope) {
     case OutLookScope.Contacts:
+      return "offline_access, https://graph.microsoft.com/contacts.read"
+    case OutLookScope.Calendars:
+      return "offline_access, https://graph.microsoft.com/calendars.read"
+    default:
       return "offline_access, https://graph.microsoft.com/contacts.read"
   }
 }
@@ -47,4 +54,23 @@ export const fetchContacts = async (accessToken: string) => {
     },
   })
   return data.value.map(mapContact)
+}
+
+export const mapCalendars = (calendars: OutlookCalendar[]): Calendar[] => {
+  return calendars.map((calendar) => ({
+    id: calendar.id,
+    name: calendar.name,
+    provider: Provider.Outlook,
+    primary: calendar.isDefaultCalendar,
+  }))
+}
+
+export const fetchCalendars = async (
+  accessToken: string
+): Promise<Calendar[]> => {
+  const { data } = await axios.get(`${baseGraphUrl}/me/calendars`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  })
+
+  return mapCalendars(data.value)
 }

@@ -47,12 +47,14 @@ const messages = defineMessages({
 
 export interface SelectVendorModalProps extends ModalProps {
   onGoogleButtonClick: () => void
+  onOutlookButtonClick: () => void
   onManualImportClick: (inputElement: HTMLInputElement) => void
 }
 
 const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
   onGoogleButtonClick,
   onManualImportClick,
+  onOutlookButtonClick,
   ...props
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -89,6 +91,12 @@ const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
             onClick={onGoogleButtonClick}
             Icon={Type.Google}
             data-testid={SelectVendorModalTestIds.GoogleButton}
+          />
+          <SyncButton
+            labelMessage={messages.button}
+            onClick={onOutlookButtonClick}
+            Icon={Type.Outlook}
+            data-testid={SelectVendorModalTestIds.OutlookButton}
           />
           <SyncButton
             displayStyle={DisplayStyle.Primary}

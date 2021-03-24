@@ -69,6 +69,7 @@ storiesOf("Views/Calendar/Modals", module).add("All", () => (
     <Story title="Select provider" transparentMode>
       <SelectVendorModal
         onGoogleButtonClick={asyncNoop}
+        onOutlookButtonClick={noop}
         onManualImportClick={noop}
       />
     </Story>

@@ -15,11 +15,13 @@ import { SelectVendorModalTestIds } from "App/calendar/components/select-vendor-
 const renderModal = ({
   onGoogleButtonClick = noop,
   onManualImportClick = noop,
+  onOutlookButtonClick = noop,
 }: Partial<SelectVendorModalProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <SelectVendorModal
       onGoogleButtonClick={onGoogleButtonClick}
       onManualImportClick={onManualImportClick}
+      onOutlookButtonClick={onOutlookButtonClick}
     />
   )
   return {
