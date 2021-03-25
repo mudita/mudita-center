@@ -18,7 +18,6 @@ import {
 import useTableSelect from "Renderer/utils/hooks/useTableSelect"
 import { nestedRows } from "Renderer/components/core/table/table.fake-data"
 import { fireEvent } from "@testing-library/dom"
-import { waitFor } from "@testing-library/react"
 
 // Basic table
 const renderBasicTable = (
@@ -266,66 +265,56 @@ const renderNestedSelectableTable = () => {
   }
 }
 
-test("selecting all rows works properly", async () => {
+test("selecting all rows works properly", () => {
   const { getByTestId, getRowCheckboxes } = renderNestedSelectableTable()
 
   fireEvent.click(getByTestId("main-checkbox"))
 
-  await waitFor(() => {
-    getRowCheckboxes().forEach((checkbox) => {
-      expect(checkbox).toBeChecked()
-    })
+  getRowCheckboxes().forEach((checkbox) => {
+    expect(checkbox).toBeChecked()
   })
 })
 
-test("selecting single (non-parent) row works properly", async () => {
+test("selecting single (non-parent) row works properly", () => {
   const { getRowCheckboxes, queryByTestId } = renderNestedSelectableTable()
 
   fireEvent.click(getRowCheckboxes()[0])
 
-  await waitFor(() => {
-    expect(getRowCheckboxes()[0]).toBeChecked()
-    expect(queryByTestId("icon-CheckIndeterminate")).toBeInTheDocument()
-  })
+  expect(getRowCheckboxes()[0]).toBeChecked()
+  expect(queryByTestId("icon-CheckIndeterminate")).toBeInTheDocument()
 })
 
-test("selecting single (parent) row works properly", async () => {
+test("selecting single (parent) row works properly", () => {
   const { getRowCheckboxes, queryByTestId } = renderNestedSelectableTable()
 
   fireEvent.click(getRowCheckboxes()[2])
 
-  await waitFor(() => {
-    for (let i = 2; i < 5; i++) {
-      expect(getRowCheckboxes()[i]).toBeChecked()
-    }
-    expect(queryByTestId("icon-CheckIndeterminate")).toBeInTheDocument()
-  })
+  for (let i = 2; i < 5; i++) {
+    expect(getRowCheckboxes()[i]).toBeChecked()
+  }
+  expect(queryByTestId("icon-CheckIndeterminate")).toBeInTheDocument()
 })
 
-test("selecting single (nested) row works properly", async () => {
+test("selecting single (nested) row works properly", () => {
   const { getRowCheckboxes, queryAllByTestId } = renderNestedSelectableTable()
 
   fireEvent.click(getRowCheckboxes()[4])
 
-  await waitFor(() => {
-    expect(getRowCheckboxes()[4]).toBeChecked()
-    expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(2)
-  })
+  expect(getRowCheckboxes()[4]).toBeChecked()
+  expect(queryAllByTestId("icon-CheckIndeterminate")).toHaveLength(2)
 })
 
-test("selecting all nested rows works properly", async () => {
+test("selecting all nested rows works properly", () => {
   const { getRowCheckboxes, queryByTestId } = renderNestedSelectableTable()
 
   for (let i = 3; i < 6; i++) {
     fireEvent.click(getRowCheckboxes()[i])
   }
 
-  await waitFor(() => {
-    for (let i = 2; i < 5; i++) {
-      expect(getRowCheckboxes()[i]).toBeChecked()
-    }
-    expect(queryByTestId("icon-CheckIndeterminate")).toBeInTheDocument()
-  })
+  for (let i = 2; i < 5; i++) {
+    expect(getRowCheckboxes()[i]).toBeChecked()
+  }
+  expect(queryByTestId("icon-CheckIndeterminate")).toBeInTheDocument()
 })
 
 test("sidebar renders close button properly", () => {

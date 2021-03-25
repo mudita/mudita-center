@@ -57,8 +57,8 @@ class Phonebook extends PhonebookAdapter {
       return {
         status,
         data: {
-          id: data.id,
           ...contact,
+          id: data.id,
           primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
         },
       }

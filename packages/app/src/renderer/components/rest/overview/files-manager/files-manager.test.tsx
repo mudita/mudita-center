@@ -11,7 +11,6 @@ import FilesManager from "Renderer/components/rest/overview/files-manager/files-
 import { FilesManagerProps } from "Renderer/components/rest/overview/files-manager/files-manager.interface"
 import { noop } from "Renderer/utils/noop"
 import { fireEvent } from "@testing-library/dom"
-import { waitFor } from "@testing-library/react"
 import history from "Renderer/routes/history"
 import { Router } from "react-router"
 
@@ -40,7 +39,7 @@ test("renders space info properly", () => {
   expect(getByText(`/ ${convertBytes(512)}`)).toBeInTheDocument()
 })
 
-test("triggers opening files manager after button click", async () => {
+test("triggers opening files manager after button click", () => {
   const onFilesOpen = jest.fn()
 
   const { getByRole } = renderFilesManager({
@@ -49,7 +48,5 @@ test("triggers opening files manager after button click", async () => {
 
   fireEvent.click(getByRole("link"))
 
-  await waitFor(() => {
-    expect(onFilesOpen).toHaveBeenCalled()
-  })
+  expect(onFilesOpen).toHaveBeenCalled()
 })
