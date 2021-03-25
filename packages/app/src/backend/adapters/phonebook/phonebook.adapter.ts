@@ -6,8 +6,8 @@
 import {
   Endpoint,
   Method,
+  Contact as PureContact,
   NewContact as PureNewContact,
-  FormattedContact,
 } from "@mudita/pure"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import {
@@ -119,7 +119,7 @@ const createPhonebook = (deviceService: DeviceService): Phonebook =>
 
 export default createPhonebook
 
-const mapToContact = (pureContact: FormattedContact): Contact => {
+const mapToContact = (pureContact: PureContact): Contact => {
   const {
     id,
     blocked,

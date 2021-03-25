@@ -13,8 +13,4 @@ export interface Contact {
   priName: string
 }
 
-export interface FormattedContact extends Omit<Contact, "id"> {
-  id: string
-}
-
 export type NewContact = Omit<Contact, "id">
