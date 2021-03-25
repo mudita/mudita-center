@@ -6,33 +6,6 @@
 import { PureV1Formatter } from "./pure-v1.formatter"
 import { Endpoint, Method, RequestConfig, ResponseStatus } from "../device"
 
-const contact = {
-  address: "6 Czeczota St.02600 Warsaw",
-  altName: "Boligłowa",
-  blocked: false,
-  favourite: true,
-  id: 19,
-  numbers: ["123123213123"],
-  priName: "Alek",
-}
-
-const getResponse = {
-  status: ResponseStatus.Ok,
-  body: {
-    entries: [contact, contact],
-    totalCount: 2,
-  },
-  endpoint: Endpoint.Contacts,
-  uuid: 3227,
-}
-
-const postOrPutResponse = {
-  status: ResponseStatus.Ok,
-  body: contact,
-  endpoint: Endpoint.Contacts,
-  uuid: 3227,
-}
-
 const updateErrorResponse = {
   status: ResponseStatus.BadRequest,
   endpoint: Endpoint.Update,
