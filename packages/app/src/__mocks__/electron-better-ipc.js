@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 const ebi = require("electron-better-ipc")
@@ -55,6 +55,8 @@ const createMock = () => {
           throw new Error(`No call with name: ${name}`)
         }
       }),
+      on: jest.fn(),
+      removeListener: jest.fn(),
     },
   }
   return mock

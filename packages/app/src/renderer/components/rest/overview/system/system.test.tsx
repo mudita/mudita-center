@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import "@testing-library/jest-dom/extend-expect"
@@ -11,7 +11,6 @@ import getFakeAdapters from "App/tests/get-fake-adapters"
 import { intl } from "Renderer/utils/intl"
 import System from "Renderer/components/rest/overview/system/system.component"
 import { fireEvent } from "@testing-library/dom"
-import { waitFor } from "@testing-library/react"
 
 const fakeSystemInfo = getFakeAdapters().purePhone
 const fakeLastUpdate = "2020-01-14T11:31:08.244Z"
@@ -80,7 +79,7 @@ test("renders 'update now' button properly", () => {
   )
 })
 
-test("checks for update after button click", async () => {
+test("checks for update after button click", () => {
   const onUpdateCheck = jest.fn()
 
   const { getByRole } = renderSystem({
@@ -89,12 +88,10 @@ test("checks for update after button click", async () => {
 
   fireEvent.click(getByRole("button"))
 
-  await waitFor(() => {
-    expect(onUpdateCheck).toHaveBeenCalled()
-  })
+  expect(onUpdateCheck).toHaveBeenCalled()
 })
 
-test("triggers download after button click", async () => {
+test("triggers download after button click", () => {
   const onDownload = jest.fn()
 
   const { getByRole } = renderSystem({
@@ -104,12 +101,10 @@ test("triggers download after button click", async () => {
 
   fireEvent.click(getByRole("button"))
 
-  await waitFor(() => {
-    expect(onDownload).toHaveBeenCalled()
-  })
+  expect(onDownload).toHaveBeenCalled()
 })
 
-test("triggers update after button click", async () => {
+test("triggers update after button click", () => {
   const onUpdate = jest.fn()
 
   const { getByRole } = renderSystem({
@@ -120,7 +115,5 @@ test("triggers update after button click", async () => {
 
   fireEvent.click(getByRole("button"))
 
-  await waitFor(() => {
-    expect(onUpdate).toHaveBeenCalled()
-  })
+  expect(onUpdate).toHaveBeenCalled()
 })

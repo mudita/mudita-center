@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import React from "react"
@@ -14,7 +14,7 @@ import { intl, textFormatters } from "Renderer/utils/intl"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { ModalText } from "Renderer/components/rest/calendar/calendar-modals.styled"
+import { ModalText } from "App/calendar/components/calendar-modals.styled"
 import { defineMessages, FormattedDate } from "react-intl"
 import Table, {
   Col,
@@ -23,12 +23,12 @@ import Table, {
   RowSize,
 } from "Renderer/components/core/table/table.component"
 import styled from "styled-components"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
-import { TimeWindow } from "Renderer/components/rest/calendar/time-window.component"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
+import { TimeWindow } from "App/calendar/components/time-window.component"
 import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import { ModalContent } from "Renderer/components/rest/calendar/calendar-modals.styled"
+import { ModalContent } from "App/calendar/components/calendar-modals.styled"
 import { ImportEventsModalTestIds } from "App/calendar/components/import-events-modal/import-events-modal-test-ids.enum"
 
 const messages = defineMessages({

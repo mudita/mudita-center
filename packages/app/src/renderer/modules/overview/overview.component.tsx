@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
@@ -109,6 +109,7 @@ const Overview: FunctionComponent<
   updateBasicInfo = noop,
   toggleUpdatingDevice,
   language,
+  loadData,
 }) => {
   /**
    * Temporary state to demo failure
@@ -125,6 +126,10 @@ const Overview: FunctionComponent<
     updateBasicInfo,
     toggleUpdatingDevice
   )
+
+  useEffect(() => {
+    loadData()
+  }, [])
 
   useEffect(() => {
     if (osVersion) {

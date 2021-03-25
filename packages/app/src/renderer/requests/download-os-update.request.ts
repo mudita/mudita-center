@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { ipcRenderer } from "electron-better-ipc"
@@ -14,15 +14,18 @@ export const cancelOsDownload = (interrupt = false) => {
   ipcRenderer.send(PureOsDownloadChannels.cancel, interrupt)
 }
 
-const downloadOsUpdateRequest = (url: string): Promise<DownloadFinished> => {
-  return new Promise(async (resolve, reject) => {
-    const data: DownloadFinished = await ipcRenderer.callMain(
-      PureOsDownloadChannels.start,
-      url
-    )
-
-    data.status === DownloadStatus.Completed ? resolve(data) : reject(data)
-  })
+const downloadOsUpdateRequest = async (
+  url: string
+): Promise<DownloadFinished> => {
+  const data: DownloadFinished = await ipcRenderer.callMain(
+    PureOsDownloadChannels.start,
+    url
+  )
+  if (data.status === DownloadStatus.Completed) {
+    return data
+  } else {
+    throw new Error("There was a problem when downloading OS update")
+  }
 }
 
 export default downloadOsUpdateRequest

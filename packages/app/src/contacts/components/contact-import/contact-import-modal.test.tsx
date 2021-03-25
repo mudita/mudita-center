@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
@@ -19,7 +19,7 @@ const contacts = [
     lastName: "Doe",
     primaryPhoneNumber: "+71 195 069 214",
     secondaryPhoneNumber: "",
-    email: "johndoe@mudita.com",
+    email: "example@mudita.com",
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
@@ -33,7 +33,7 @@ const contacts = [
     lastName: "Borewicz",
     primaryPhoneNumber: "+71 195 069 214",
     secondaryPhoneNumber: "",
-    email: "milicjant@buziaczek.pl",
+    email: "example@mudita.com",
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
@@ -47,7 +47,7 @@ const contacts = [
     lastName: "",
     primaryPhoneNumber: "+71 195 069 214",
     secondaryPhoneNumber: "",
-    email: "Lavina_Bartoletti@yahoo.com",
+    email: "example@mudita.com",
     note: "sapiente rem dignissimos sunt",
     ice: true,
     favourite: false,
@@ -61,7 +61,7 @@ const contacts = [
     lastName: "",
     primaryPhoneNumber: "",
     secondaryPhoneNumber: "",
-    email: "Crystel_Prosacco@yahoo.com",
+    email: "example@mudita.com",
     note: "voluptatem expedita vel",
     ice: false,
     favourite: false,
@@ -103,7 +103,7 @@ const contacts = [
     lastName: "",
     primaryPhoneNumber: "+85 102 096 521",
     secondaryPhoneNumber: "+04 349 051 883",
-    email: "Jennifer87@gmail.com",
+    email: "example@mudita.com",
     note: "sequi recusandae eveniet",
     ice: true,
     favourite: false,

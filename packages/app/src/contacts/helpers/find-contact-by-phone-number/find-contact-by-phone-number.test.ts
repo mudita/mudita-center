@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import findContactByPhoneNumber from "App/contacts/helpers/find-contact-by-phone-number/find-contact-by-phone-number"
@@ -13,7 +13,7 @@ const contacts: Contact[] = [
     lastName: "Borewicz",
     primaryPhoneNumber: "+48 256 123 009",
     secondaryPhoneNumber: "",
-    email: "milicjant@buziaczek.pl",
+    email: "example@mudita.com",
     note: "sapiente rem dignissimos sunt",
     ice: false,
     favourite: false,
@@ -27,7 +27,7 @@ const contacts: Contact[] = [
     lastName: "",
     primaryPhoneNumber: "+71 195 069 214",
     secondaryPhoneNumber: "322 12 21",
-    email: "Lavina_Bartoletti@yahoo.com",
+    email: "example@mudita.com",
     note: "sapiente rem dignissimos sunt",
     ice: true,
     favourite: false,

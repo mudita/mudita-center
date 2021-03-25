@@ -1,14 +1,15 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { enablePhoneSimulation, startApp, stopApp } from "App/tests/hooks"
 import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-ids.enum"
 import { URL_TABS, URL_MAIN } from "Renderer/constants/urls"
 import { TemplatesTestIds } from "App/templates/templates.enum"
+import { Application } from "spectron";
 
-let app: any
+let app: Application
 const testText = "Mudita"
 
 beforeEach(async () => {

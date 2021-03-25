@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
@@ -25,7 +25,7 @@ const defaultProps = {
       lastName: "Borewicz",
       primaryPhoneNumber: "+71 195 069 214",
       secondaryPhoneNumber: "",
-      email: "milicjant@buziaczek.pl",
+      email: "example@mudita.com",
       note: "sapiente rem dignissimos sunt",
       ice: false,
       favourite: false,

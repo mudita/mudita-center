@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import React from "react"
@@ -25,6 +25,7 @@ import {
 import { noop } from "Renderer/utils/noop"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { SystemTestIds } from "Renderer/components/rest/overview/system/system-test-ids"
+import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
 
 const TextInfo = styled(CardText)``
 
@@ -65,7 +66,10 @@ const System: FunctionComponent<SystemProps> = ({
     <Card className={className}>
       <TextInfo>
         <Version>
-          <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
+          <Text
+            displayStyle={TextDisplayStyle.SecondaryBoldHeading}
+            data-testid={OverviewTestIds.OsVersion}
+          >
             {osVersion}
           </Text>
           <Text element={"span"} displayStyle={TextDisplayStyle.SmallText}>

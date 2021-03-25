@@ -1,12 +1,12 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import { ChangeEvent } from "react"
 import { connect } from "react-redux"
 import { RootModel } from "Renderer/models/models"
-import Messages from "App/messages/messages-ui.component.tsx"
+import Messages from "App/messages/messages-ui.component"
 import { select } from "Renderer/store"
 import { VisibilityFilter } from "App/messages/store/messages.interface"
 

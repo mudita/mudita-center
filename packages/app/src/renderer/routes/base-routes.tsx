@@ -1,6 +1,6 @@
 /**
  * Copyright (c) Mudita sp. z o.o. All rights reserved.
- * For licensing, see https://github.com/mudita/mudita-center/LICENSE.md
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
 import * as React from "react"
@@ -20,7 +20,7 @@ import {
   URL_RECOVERY_MODE,
   URL_TABS,
 } from "Renderer/constants/urls"
-import Calendar from "Renderer/modules/calendar/calendar.container"
+import Calendar from "App/calendar/calendar.component"
 import Templates from "App/templates/templates.component"
 import Playlist from "Renderer/modules/music/tabs/playlist.component"
 import Calls from "Renderer/modules/phone/tabs/calls-container.component"
