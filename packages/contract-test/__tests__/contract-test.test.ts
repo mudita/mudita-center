@@ -3,10 +3,10 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceManager from "@mudita/pure"
+import DeviceManager, { PureDevice } from "@mudita/pure"
 
 describe("contract-test", () => {
-  let phone: any
+  let phone: PureDevice
 
   beforeAll(async () => {
     const [device] = await DeviceManager.getDevices()
