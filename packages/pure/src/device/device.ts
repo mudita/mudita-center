@@ -31,13 +31,10 @@ class Device extends BaseDevice {
 
   public async connect(): Promise<Response> {
     const response = await super.connect()
-    console.log("response device", response)
     const { body } = await super.request({
       endpoint: Endpoint.ApiVersion,
       method: Method.Get,
     })
-
-    console.log("body", body)
 
     if (body === undefined) {
       return { status: ResponseStatus.ConnectionError }

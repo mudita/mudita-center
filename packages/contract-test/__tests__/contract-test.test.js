@@ -1,14 +1,9 @@
 const DeviceManager = require("@mudita/pure").default
-const BaseDevice = require("@mudita/pure").BaseDevice
-// jest.mock("@mudita/pure").BaseDevice
 
 describe("contract-test", () => {
   let phone
 
   beforeAll(async () => {
-    jest
-      .spyOn(BaseDevice.prototype, "handleRequestQueue")
-      .mockImplementation(() => {})
     const [device] = await DeviceManager.getDevices()
     phone = device
     if (!phone) {
@@ -38,37 +33,43 @@ describe("contract-test", () => {
     test("GET", () => {
       expect(response).toMatchInlineSnapshot(
         {
-          uuid: expect.any(String),
+          uuid: expect.any(Number),
           body: {
             batteryLevel: expect.any(String),
+            batteryState: expect.any(String),
             currentRTCTime: expect.any(String),
+            fsFree: expect.any(String),
+            fsFreePercent: expect.any(String),
+            fsTotal: expect.any(String),
             signalStrength: expect.any(String),
+            selectedSim: expect.any(String),
           },
         },
         `
-              Object {
-                "body": Object {
-                  "accessTechnology": "255",
-                  "batteryLevel": Any<String>,
-                  "batteryState": "1",
-                  "currentRTCTime": Any<String>,
-                  "fsFree": "13879",
-                  "fsFreePercent": "100",
-                  "fsTotal": "13913",
-                  "gitBranch": "master",
-                  "gitRevision": "888744e",
-                  "gitTag": "release-0.52.1-35-g888744ee",
-                  "networkStatus": "0",
-                  "selectedSim": "4",
-                  "signalStrength": Any<String>,
-                  "trayState": "1",
-                  "updateHistory": null,
-                },
-                "endpoint": 1,
-                "status": 200,
-                "uuid": Any<String>,
-              }
-          `
+        Object {
+          "body": Object {
+            "accessTechnology": "255",
+            "batteryLevel": Any<String>,
+            "batteryState": Any<String>,
+            "currentRTCTime": Any<String>,
+            "fsFree": Any<String>,
+            "fsFreePercent": Any<String>,
+            "fsTotal": Any<String>,
+            "gitBranch": "EGD-6104-Fix_Pure_MC_communication",
+            "gitRevision": "6ee9543b9",
+            "gitTag": "release-0.59.1-rc4-18-g6ee9543b9",
+            "networkStatus": "0",
+            "selectedSim": Any<String>,
+            "signalStrength": Any<String>,
+            "trayState": "1",
+            "updateHistory": null,
+            "version": "0.59.1",
+          },
+          "endpoint": 1,
+          "status": 200,
+          "uuid": Any<Number>,
+        }
+      `
       )
     })
     test("battery level", () => {
@@ -100,7 +101,7 @@ describe("contract-test", () => {
       test("works", () => {
         expect(contactCreationResponse).toMatchInlineSnapshot(
           {
-            uuid: expect.any(String),
+            uuid: expect.any(Number),
             body: {
               id: expect.any(String),
             },
@@ -112,7 +113,7 @@ describe("contract-test", () => {
             },
             "endpoint": 7,
             "status": 200,
-            "uuid": Any<String>,
+            "uuid": Any<Number>,
           }
         `
         )
@@ -134,7 +135,7 @@ describe("contract-test", () => {
       test("getResponse 12321", () => {
         expect(getResponse).toMatchInlineSnapshot(
           {
-            uuid: expect.any(String),
+            uuid: expect.any(Number),
             body: {
               id: expect.any(Number),
             },
@@ -155,7 +156,7 @@ describe("contract-test", () => {
             },
             "endpoint": 7,
             "status": 200,
-            "uuid": Any<String>,
+            "uuid": Any<Number>,
           }
         `
         )

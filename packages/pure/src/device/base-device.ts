@@ -22,28 +22,25 @@ import {
 } from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
 import { isApiRequestConfig } from "./device-helper"
-import Queue from "queue-promise"
+import PQueue from "p-queue"
 
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
   #portBlocked = true
-  #requestsQueue = new Queue({ concurrent: 1, interval: 1 })
+  #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
   constructor(private path: string) {}
 
   public connect(): Promise<Response> {
-    console.log("path", this.path)
     return new Promise((resolve) => {
       this.#port = new SerialPort(this.path, (error) => {
         if (error) {
           resolve({ status: ResponseStatus.ConnectionError })
         } else {
-          console.log("connected")
           resolve({ status: ResponseStatus.Ok })
         }
       })
-      console.log("port", this.#port)
 
       this.#port.on("data", (event) => {
         this.#eventEmitter.emit(DeviceEventName.DataReceived, event)
@@ -88,14 +85,10 @@ class BaseDevice implements PureDevice {
       }
     }
 
-    return this.handleRequestQueue(handleRequest)
-  }
-
-  public async handleRequestQueue(handler: any) {
     return new Promise<Response>((resolve, reject) => {
       this.#requestsQueue.add(async () => {
         try {
-          const { status, ...rest } = await handler()
+          const { status, ...rest } = await handleRequest()
           if (status >= 300) {
             reject({
               status,
