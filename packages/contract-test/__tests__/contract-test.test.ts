@@ -3,7 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-// const DeviceManager = require("@mudita/pure").default
 import DeviceManager from "@mudita/pure"
 
 describe("contract-test", () => {
@@ -36,7 +35,7 @@ describe("contract-test", () => {
         method: 1,
       })
     })
-    test("GET", () => {
+    test("GET request", () => {
       expect(response).toMatchInlineSnapshot(
         {
           uuid: expect.any(Number),
@@ -78,7 +77,7 @@ describe("contract-test", () => {
       `
       )
     })
-    test("battery level", () => {
+    test("battery level has to be between 0 and 100", () => {
       const level = Number(response.body.batteryLevel)
       expect(level).toEqual(expect.any(Number))
       expect(level).toBeGreaterThanOrEqual(0)
@@ -104,7 +103,7 @@ describe("contract-test", () => {
           body: contact,
         })
       })
-      test("works", () => {
+      test("POST response snapshot", () => {
         expect(contactCreationResponse).toMatchInlineSnapshot(
           {
             uuid: expect.any(Number),
@@ -138,7 +137,7 @@ describe("contract-test", () => {
         })
       })
 
-      test("getResponse 12321", () => {
+      test("GET response snapshot", () => {
         expect(getResponse).toMatchInlineSnapshot(
           {
             uuid: expect.any(Number),
