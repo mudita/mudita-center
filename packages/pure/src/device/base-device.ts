@@ -61,6 +61,7 @@ class BaseDevice implements PureDevice {
           if (error) {
             resolve({ status: ResponseStatus.ConnectionError })
           } else {
+            console.log("resolved")
             resolve({ status: ResponseStatus.Ok })
           }
         })

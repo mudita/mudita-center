@@ -45,6 +45,12 @@ class Device extends BaseDevice {
     return response
   }
 
+  public async disconnect(): Promise<Response> {
+    const response = await super.disconnect()
+    console.log(response)
+    return response
+  }
+
   public request(config: {
     endpoint: Endpoint.DeviceInfo
     method: Method.Get
