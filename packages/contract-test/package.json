@@ -5,7 +5,6 @@
   "author": "Mudita",
   "homepage": "https://github.com/Mudita/mudita-center/tree/master/packages/contract-test#readme",
   "license": "ISC",
-  "main": "lib/contract-test.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
