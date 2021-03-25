@@ -30,7 +30,7 @@ import {
   isFileUploadPayload,
 } from "./device-helper"
 import Queue from "queue-promise"
-import Logger from "../logger"
+import log, { LogConfig } from "../log-decorator"
 
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
@@ -38,16 +38,15 @@ class BaseDevice implements PureDevice {
   #portBlocked = true
   #requestsQueue = new Queue({ concurrent: 1, interval: 1 })
 
-  constructor(private path: string, private logger: Logger) {}
+  constructor(private path: string) {}
 
+  @log("==== serial port: connect ====")
   public connect(): Promise<Response> {
     return new Promise((resolve) => {
       this.#port = new SerialPort(this.path, (error) => {
         if (error) {
-          this.logger.log("==== serial port: failure connected ====")
           resolve({ status: ResponseStatus.ConnectionError })
         } else {
-          this.logger.log("==== serial port: success connected ====")
           resolve({ status: ResponseStatus.Ok })
         }
       })
@@ -55,29 +54,23 @@ class BaseDevice implements PureDevice {
       this.#port.on("data", (event) => {
         void (async () => {
           try {
-            const data: unknown = await parseData(event)
-            this.logger.log("==== serial port: data received ====")
-            this.logger.log(JSON.stringify(data, null, 2))
-            this.#eventEmitter.emit(DeviceEventName.DataReceived, data)
+            const data = await parseData(event)
+            this.emitDataReceivedEvent(data)
           } catch (error) {
-            this.logger.log(
-              "==== serial port error: data impossible to parse ===="
-            )
-            this.logger.log(JSON.stringify(error, null, 2))
-            this.#eventEmitter.emit(DeviceEventName.DataReceived, {
+            this.emitDataReceivedEvent({
               status: ResponseStatus.ParserError,
             })
           }
         })()
       })
 
-      this.#port.on("close", () => {
-        this.logger.log("==== serial port: close event ====")
-        this.#eventEmitter.emit(DeviceEventName.Disconnected)
+      this.#port.on("close", (event) => {
+        this.emitCloseEvent(event)
       })
     })
   }
 
+  // @log("==== serial port: disconnect ====")
   public disconnect(): Promise<Response> {
     return new Promise((resolve) => {
       if (this.#port === undefined) {
@@ -85,10 +78,8 @@ class BaseDevice implements PureDevice {
       } else {
         this.#port.close((error) => {
           if (error) {
-            this.logger.log("==== serial port: failure connected ====")
             resolve({ status: ResponseStatus.ConnectionError })
           } else {
-            this.logger.log("==== serial port: success disconnect ====")
             resolve({ status: ResponseStatus.Ok })
           }
         })
@@ -100,10 +91,7 @@ class BaseDevice implements PureDevice {
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
     if (this.#port === undefined || !this.#portBlocked) {
-      const response = { status: ResponseStatus.ConnectionError }
-      this.logger.log("==== serial port: device request ====")
-      this.logger.log(JSON.stringify(response, null, 2))
-      return response
+      return { status: ResponseStatus.ConnectionError }
     } else {
       return this.writeRequest(this.#port, config)
     }
@@ -288,9 +276,22 @@ class BaseDevice implements PureDevice {
   }
 
   private portWrite(port: SerialPort, payload: RequestPayload): void {
-    this.logger.log("==== serial port: device request ====")
-    this.logger.log(JSON.stringify(payload, null, 2))
-    port.write(createValidRequest(payload))
+    port.write(this.mapPayloadToRequest(payload))
+  }
+
+  @log("==== serial port: create valid request ====", LogConfig.Args)
+  private mapPayloadToRequest(payload: RequestPayload): string {
+    return createValidRequest(payload)
+  }
+
+  @log("==== serial port: close event ====", LogConfig.Args)
+  private emitCloseEvent(event: unknown): void {
+    this.#eventEmitter.emit(DeviceEventName.Disconnected, event)
+  }
+
+  @log("==== serial port: data received ====", LogConfig.Args)
+  private emitDataReceivedEvent(event: unknown): void {
+    this.#eventEmitter.emit(DeviceEventName.DataReceived, event)
   }
 }
 

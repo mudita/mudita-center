@@ -6,6 +6,7 @@
 import usb, { Device } from "usb"
 import { EventEmitter } from "events"
 import { PortInfo } from "serialport"
+import log, { LogConfig } from "./log-decorator"
 
 type UsbDetectorPortInfo = Omit<PortInfo, "path">
 
@@ -21,7 +22,9 @@ class UsbDetector {
     return this
   }
 
-  public onAttachDevice(listener: (event: UsbDetectorPortInfo) => Promise<void> | void): void {
+  public onAttachDevice(
+    listener: (event: UsbDetectorPortInfo) => Promise<void> | void
+  ): void {
     this.#eventEmitter.on(UsbDetectorEventName.Attach, (event) => {
       void listener(event)
     })
@@ -32,7 +35,7 @@ class UsbDetector {
   }
 
   private registerAttachDeviceEmitter() {
-    usb.on("attach", async (device: Device) => {
+    usb.on("attach", (device: Device) => {
       const { idVendor, idProduct } = device.deviceDescriptor
 
       const portInfo = {
@@ -40,8 +43,14 @@ class UsbDetector {
         productId: idProduct.toString(16).padStart(4, "0"),
       }
 
-      this.#eventEmitter.emit(UsbDetectorEventName.Attach, portInfo)
+      this.emitAttachedDeviceEvent(portInfo)
     })
+  }
+
+  @log("==== usb detector: attached device ====", LogConfig.Args)
+  private emitAttachedDeviceEvent(event: UsbDetectorPortInfo) {
+    console.log("event: ", event)
+    this.#eventEmitter.emit(UsbDetectorEventName.Attach, event)
   }
 }
 

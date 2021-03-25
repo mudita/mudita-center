@@ -3,8 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import Logger from "../logger"
-
 export interface PureDevice {
   connect(): Promise<Response>
   disconnect(): Promise<Response>
@@ -13,7 +11,7 @@ export interface PureDevice {
   off(eventName: DeviceEventName, listener: () => void): void
 }
 
-export type CreateDevice = (path: string, logger: Logger) => PureDevice
+export type CreateDevice = (path: string) => PureDevice
 
 export enum ResponseStatus {
   Ok = 200,
