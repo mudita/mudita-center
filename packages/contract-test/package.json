@@ -1,7 +1,7 @@
 {
   "name": "contract-test",
   "version": "0.0.0",
-  "description": "> TODO: description",
+  "description": "Contact tests between Mudita Center and Pure",
   "author": "Mudita",
   "homepage": "https://github.com/Mudita/mudita-center/tree/master/packages/contract-test#readme",
   "license": "ISC",
@@ -21,6 +21,10 @@
   },
   "bugs": {
     "url": "https://github.com/Mudita/mudita-center/issues"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "ts-jest": "^26.4.3"
   },
   "dependencies": {
     "@mudita/pure": "^1.0.0",

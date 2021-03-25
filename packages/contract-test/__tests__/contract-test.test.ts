@@ -1,7 +1,8 @@
-const DeviceManager = require("@mudita/pure").default
+// const DeviceManager = require("@mudita/pure").default
+import DeviceManager from "@mudita/pure"
 
 describe("contract-test", () => {
-  let phone
+  let phone: any
 
   beforeAll(async () => {
     const [device] = await DeviceManager.getDevices()
@@ -23,7 +24,7 @@ describe("contract-test", () => {
   })
 
   describe("Device Info", () => {
-    let response
+    let response: any
     beforeAll(async () => {
       response = await phone.request({
         endpoint: 1,
@@ -81,7 +82,7 @@ describe("contract-test", () => {
   })
 
   describe("Contacts", () => {
-    let contactCreationResponse
+    let contactCreationResponse: any
     const contact = {
       address: "6 Czeczota St.\n 02600 Warsaw",
       altName: "Turk",
@@ -121,7 +122,7 @@ describe("contract-test", () => {
     })
 
     describe("GET", () => {
-      let getResponse
+      let getResponse: any
       beforeAll(async () => {
         getResponse = await phone.request({
           endpoint: 7,
