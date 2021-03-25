@@ -17,15 +17,15 @@ export default function log(
   logConfig = LogConfig.ReturnValue
 ) {
   return function (
-    target: any,
+    target: unknown,
     propertyKey: string,
     descriptor: PropertyDescriptor
   ): PropertyDescriptor {
     const targetMethod = descriptor.value
-    descriptor.value = function (...args: any[]) {
-      const valueOrPromise: Promise<any> | any = targetMethod.apply(this, args)
+    descriptor.value = function (...args: unknown[]) {
+      const valueOrPromise: Promise<unknown> | unknown = targetMethod.apply(this, args)
 
-      Promise.resolve(valueOrPromise).then((value: any) => {
+      void Promise.resolve(valueOrPromise).then((value: unknown) => {
         logger.info(message)
 
         if (logConfig === LogConfig.ReturnValue) {
