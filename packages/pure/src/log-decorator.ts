@@ -26,12 +26,12 @@ export default function log(
       const valueOrPromise: Promise<any> | any = targetMethod.apply(this, args)
 
       Promise.resolve(valueOrPromise).then((value: any) => {
-        logger.log(message)
+        logger.info(message)
 
         if (logConfig === LogConfig.ReturnValue) {
-          logger.log(JSON.stringify(value, null, 2))
+          logger.info(JSON.stringify(value, null, 2))
         } else {
-          logger.log(JSON.stringify(args, null, 2))
+          logger.info(JSON.stringify(args, null, 2))
         }
       })
 

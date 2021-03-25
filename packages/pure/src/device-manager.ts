@@ -9,6 +9,7 @@ import UsbDetector from "./usb-detector"
 import { CreateDevice, PureDevice, createDevice } from "./device"
 import log, { LogConfig } from "./log-decorator"
 import { LoggerFactory } from "./logger-factory"
+import { PureLogger } from "./logger"
 
 const logger = LoggerFactory.getInstance()
 
@@ -37,6 +38,10 @@ class DeviceManager implements PureDeviceManager {
   public init(): DeviceManager {
     this.registerAttachDeviceEmitter()
     return this
+  }
+
+  public registerLogger(l: PureLogger): void {
+    logger.registerLogger(l)
   }
 
   public toggleLogs(enabled: boolean): void {

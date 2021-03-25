@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import Logger from "./logger"
+import Logger, { PureLogger } from "./logger"
 
 let logger: Logger
 
@@ -15,21 +15,32 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
-jest.spyOn(global.console, "log")
+jest.spyOn(global.console, "info")
 
-test("console log isn't called by default ", () => {
-  logger.log("")
-  expect(console.log).not.toBeCalled()
+test("console info isn't called by default ", () => {
+  logger.info("")
+  expect(console.info).not.toBeCalled()
 })
 
-test("console log is called if is enabled ", () => {
+test("console info is called if is enabled ", () => {
   logger.toggleLogs(true)
-  logger.log("")
-  expect(console.log).toBeCalled()
+  logger.info("")
+  expect(console.info).toBeCalled()
 })
 
-test("console log isn't called if is disabled ", () => {
+test("console info isn't called if is disabled ", () => {
   logger.toggleLogs(false)
-  logger.log("")
-  expect(console.log).not.toBeCalled()
+  logger.info("")
+  expect(console.info).not.toBeCalled()
+})
+
+test("registration custom logger works properly ", () => {
+  const l: PureLogger = {
+    info: jest.fn()
+  }
+  logger.registerLogger(l)
+  logger.toggleLogs(true)
+  logger.info("")
+  expect(console.info).not.toBeCalled()
+  expect(l.info).toBeCalled()
 })

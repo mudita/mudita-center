@@ -3,16 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export interface PureLogger {
+  info: (message: string) => void
+}
+
 class Logger {
   #enabled = false
+  #logger: PureLogger = console;
+
+  registerLogger(logger: PureLogger): void {
+    this.#logger = logger
+  }
 
   toggleLogs(enabled: boolean): void {
     this.#enabled = enabled
   }
 
-  log(message: string): void {
+  info(message: string): void {
     if (this.#enabled) {
-      console.log(message)
+      this.#logger.info(message)
     }
   }
 }
