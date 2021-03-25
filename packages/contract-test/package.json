@@ -17,6 +17,7 @@
     "url": "git+https://github.com/Mudita/mudita-center.git"
   },
   "scripts": {
+    "lint": "eslint '__tests__/**/*.ts'",
     "test": "jest --runInBand --bail"
   },
   "bugs": {
