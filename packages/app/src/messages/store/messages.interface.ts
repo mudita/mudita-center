@@ -41,7 +41,7 @@ export interface Message {
 export type MessageMap = { [id: string]: Message }
 
 export interface Thread {
-  id: number
+  id: string
   contactId: string
   lastUpdatedAt: Date
   messageSnippet: string
