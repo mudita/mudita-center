@@ -15,6 +15,7 @@
   "app.update.error.modal.message": "Error",
   "app.update.modal.title": "App update",
   "common.loginGoogleButton": "Continue with Google",
+  "common.loginOutlookButton": "Continue with Outlook",
   "common.providers.apple": "Apple",
   "common.providers.google": "Google",
   "common.providers.microsoft": "Microsoft",

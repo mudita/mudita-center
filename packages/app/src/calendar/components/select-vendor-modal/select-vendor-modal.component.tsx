@@ -37,8 +37,11 @@ const messages = defineMessages({
   body: {
     id: "view.name.calendar.modal.selectVendor.body",
   },
-  button: {
+  buttonGoogle: {
     id: "common.loginGoogleButton",
+  },
+  buttonOutlook: {
+    id: "common.loginOutlookButton",
   },
   manualImportButton: {
     id: "view.name.calendar.manualImportText",
@@ -87,13 +90,13 @@ const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
       <ButtonsContainer>
         <ButtonWrapper>
           <SyncButton
-            labelMessage={messages.button}
+            labelMessage={messages.buttonGoogle}
             onClick={onGoogleButtonClick}
             Icon={Type.Google}
             data-testid={SelectVendorModalTestIds.GoogleButton}
           />
           <SyncButton
-            labelMessage={messages.button}
+            labelMessage={messages.buttonOutlook}
             onClick={onOutlookButtonClick}
             Icon={Type.Outlook}
             data-testid={SelectVendorModalTestIds.OutlookButton}

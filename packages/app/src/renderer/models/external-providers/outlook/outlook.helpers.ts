@@ -15,7 +15,7 @@ import { ContactBuilder } from "Renderer/models/external-providers/outlook/conta
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import { Calendar } from "App/calendar/store/calendar.interfaces"
 
-export const getOutlookEndpoint = (scope: OutLookScope | string): string => {
+export const getOutlookEndpoint = (scope: OutLookScope): string => {
   switch (scope) {
     case OutLookScope.Contacts:
       return "offline_access, https://graph.microsoft.com/contacts.read"
