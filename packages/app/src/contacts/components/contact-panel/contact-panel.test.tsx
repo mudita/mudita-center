@@ -20,7 +20,7 @@ const defaultProps = {
   selectedContacts: [],
   contacts: [
     {
-      id: 0,
+      id: "0",
       firstName: "Sławomir",
       lastName: "Borewicz",
       primaryPhoneNumber: "+71 195 069 214",
@@ -34,7 +34,7 @@ const defaultProps = {
       secondAddressLine: "",
     },
     {
-      id: 593,
+      id: "593cbb53-a8e7-48ca-8fa5-e18d525ea1f6",
       firstName: "Edmund",
       lastName: "",
       primaryPhoneNumber: "+46 333 060 911",

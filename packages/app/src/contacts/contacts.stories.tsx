@@ -110,7 +110,7 @@ const singleContact = ({
   speedDial,
 }: Partial<Contact> = {}) => ({
   ...defaultContact,
-  id: 107,
+  id: "107c8787-31a8-4499-ab43-776640fd3ca7",
   firstName: "John",
   lastName: "Doe",
   primaryPhoneNumber: "+40 211 456 285",

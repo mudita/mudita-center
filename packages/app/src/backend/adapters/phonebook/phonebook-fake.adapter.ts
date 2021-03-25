@@ -39,7 +39,7 @@ class PhonebookFake extends PhonebookAdapter {
       data: {
         ...contact,
         primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
-        id: Faker.random.number(),
+        id: Faker.random.uuid(),
       },
     }
   }

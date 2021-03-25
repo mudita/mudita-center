@@ -11,6 +11,10 @@ export abstract class Formatter {
     method: Method,
     response: Response<any>
   ): Response<any>
+  abstract handleContactEndpointResponse(
+    method: Method,
+    response: Response<any>
+  ): Response<any>
   abstract handleUpdateEndpointResponse(
     method: Method,
     response: Response<any>

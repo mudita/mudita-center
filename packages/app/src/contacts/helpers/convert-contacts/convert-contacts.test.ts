@@ -9,7 +9,7 @@ import vCard from "vcf"
 test("single contact is properly converted to vCard format", () => {
   const result = convertContacts([
     {
-      id: 123,
+      id: "abc-123",
       firstName: "John",
       lastName: "Doe",
       email: "example@mudita.com",
@@ -125,7 +125,7 @@ test("single contact is properly converted to vCard format", () => {
 test("if second address line is undefined address field is converted properly", () => {
   const result = convertContacts([
     {
-      id: 333,
+      id: "ae193f79-a65b-4b36-bef7-b6b6532811ca",
       firstName: "Carmelo",
       primaryPhoneNumber: "+98007298780",
       firstAddressLine: "935 Gwen Park",
@@ -146,7 +146,7 @@ test("if second address line is undefined address field is converted properly", 
 test("if first address line is undefined address field is converted properly", () => {
   const result = convertContacts([
     {
-      id: 6532811,
+      id: "ae193f79-a65b-4b36-bef7-b6b6532811cb",
       firstName: "Kareem",
       primaryPhoneNumber: "+98007298785",
       secondAddressLine: "800 East Gwen Street, Phoenix",
@@ -168,7 +168,7 @@ test("if first address line is undefined address field is converted properly", (
 test("multiple contacts are properly converted to vCard format", () => {
   const result = convertContacts([
     {
-      id: 123,
+      id: "abc-123",
       firstName: "John",
       lastName: "Doe",
       email: "example@mudita.com",
@@ -180,7 +180,7 @@ test("multiple contacts are properly converted to vCard format", () => {
         "Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Pellentesque in ipsum id orci porta dapibus.",
     },
     {
-      id: 456,
+      id: "def-456",
       firstName: "Jane",
       email: "example@mudita.com",
       primaryPhoneNumber: "123 456 789",

@@ -8,7 +8,7 @@ import { Contact } from "App/contacts/store/contacts.type"
 
 const contacts: Contact[] = [
   {
-    id: 0,
+    id: "0",
     firstName: "Sławomir",
     lastName: "Borewicz",
     primaryPhoneNumber: "+48 256 123 009",
@@ -22,7 +22,7 @@ const contacts: Contact[] = [
     secondAddressLine: "",
   },
   {
-    id: 27497,
+    id: "274970a2-13b7-4f42-962d-8fa0b2b48377",
     firstName: "",
     lastName: "",
     primaryPhoneNumber: "+71 195 069 214",
