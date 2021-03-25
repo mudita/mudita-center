@@ -77,35 +77,9 @@ test("body id is not formatted when method is set to GET", () => {
   expect(typeof body.id).toBe("string")
 })
 
-test("formatResponse handles response correctly", () => {
-  const result = formatter.formatResponse(Method.Get, getResponse)
-  expect(typeof result.body.entries[0].id).toBe("string")
-})
-
-test("body's id is returned as a string in PUT method in format response", () => {
-  const { body } = formatter.formatResponse(Method.Put, postOrPutResponse)
-  expect(typeof body.id).toBe("string")
-})
-
 test("correct error is returned when formatting", () => {
   const result = formatter.formatResponse(Method.Post, updateErrorResponse)
   expect(result.error?.code).toEqual(1012)
-})
-
-test("entries id in get response is returned as a string", () => {
-  const result = formatter.handleContactEndpointResponse(
-    Method.Get,
-    getResponse
-  )
-  expect(typeof result.body.entries[0].id).toBe("string")
-})
-
-test("body's id is returned as a string in PUT method ", () => {
-  const { body } = formatter.handleContactEndpointResponse(
-    Method.Put,
-    postOrPutResponse
-  )
-  expect(typeof body.id).toBe("string")
 })
 
 test("correct error is returned when input is directly passed to the handler", () => {

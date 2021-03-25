@@ -18,5 +18,5 @@ test("adds contact properly", async () => {
   )
   const { data } = await pendingResponse
 
-  expect(data.id).toEqual(String(pureContactId))
+  expect(data.id).toEqual(pureContactId)
 })

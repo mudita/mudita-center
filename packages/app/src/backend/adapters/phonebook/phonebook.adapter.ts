@@ -58,7 +58,7 @@ class Phonebook extends PhonebookAdapter {
         status,
         data: {
           ...contact,
-          id: data.id,
+          id: String(data.id),
           primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
         },
       }
@@ -140,7 +140,7 @@ const mapToContact = (pureContact: FormattedContact): Contact => {
     secondaryPhoneNumber,
     firstAddressLine,
     secondAddressLine,
-    id,
+    id: String(id),
     firstName: priName,
     lastName: altName,
     // TODO: map missing fields in separate issue https://appnroll.atlassian.net/browse/PDA-571 (after EGD implementation)
