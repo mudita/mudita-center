@@ -1,9 +1,14 @@
 const DeviceManager = require("@mudita/pure").default
+const BaseDevice = require("@mudita/pure").BaseDevice
+// jest.mock("@mudita/pure").BaseDevice
 
 describe("contract-test", () => {
   let phone
 
   beforeAll(async () => {
+    jest
+      .spyOn(BaseDevice.prototype, "handleRequestQueue")
+      .mockImplementation(() => {})
     const [device] = await DeviceManager.getDevices()
     phone = device
     if (!phone) {
