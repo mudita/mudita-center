@@ -1,4 +1,4 @@
 {
     "*.{js,json,css,md,ts,tsx}": ["prettier --write", "git add"],
-    "packages/**/*.{js,json,css,md,ts,tsx}": ["prettier --write", "git add"],
+    "packages/**/*.{js,json,css,md,ts,tsx}": ["prettier --write"],
 }
