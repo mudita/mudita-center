@@ -28,3 +28,5 @@ yarn-error.log*
 .env
 src/fonts/main/**/*
 !src/fonts/main/.gitkeep
+
+.npmrc
