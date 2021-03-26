@@ -2,6 +2,12 @@ import { createGlobalStyle } from "styled-components"
 import { theme } from "Theme/theme-provider"
 import { getColor } from "Theme/theme-getters"
 
+try {
+  require("../fonts/main/style.css")
+} catch (e) {
+  require("../fonts/fallback/style.css")
+}
+
 export const MuditaGlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
   html, body  {
     --scrollbar-width: .2rem;
