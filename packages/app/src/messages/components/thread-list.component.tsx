@@ -126,15 +126,16 @@ const Threads = styled(Table)<{
     `};
 
   ${Row} {
-    :hover {
-      ${Checkbox} {
-        ${animatedOpacityActiveStyles};
-      }
-
-      ${InitialsAvatar} {
-        display: none;
-      }
-    }
+    // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
+    // :hover {
+    //   ${Checkbox} {
+    //     ${animatedOpacityActiveStyles};
+    //   }
+    //
+    //   ${InitialsAvatar} {
+    //     display: none;
+    //   }
+    // }
   }
 `
 
@@ -288,27 +289,33 @@ const ThreadList: FunctionComponent<Props> = ({
                       data-testid="dropdown-add-to-contacts"
                     />
                   )}
-                  <HiddenButton
-                    labelMessage={{
-                      id: unread
-                        ? "view.name.messages.markAsRead"
-                        : "view.name.messages.markAsUnread",
-                    }}
-                    Icon={Type.BorderCheckIcon}
-                    onClick={toggleReadStatus}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-mark-as-read"
-                    hide={productionEnvironment}
-                  />
-                  <ButtonComponent
-                    labelMessage={{
-                      id: "view.name.messages.dropdownDelete",
-                    }}
-                    Icon={Type.Delete}
-                    onClick={emitDeleteClick}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-delete"
-                  />
+                  {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
+                  {process.env.NODE_ENV !== "production" && (
+                    <>
+                      <HiddenButton
+                        labelMessage={{
+                          id: unread
+                            ? "view.name.messages.markAsRead"
+                            : "view.name.messages.markAsUnread",
+                        }}
+                        Icon={Type.BorderCheckIcon}
+                        onClick={toggleReadStatus}
+                        displayStyle={DisplayStyle.Dropdown}
+                        data-testid="dropdown-mark-as-read"
+                        hide={productionEnvironment}
+                      />
+
+                      <ButtonComponent
+                        labelMessage={{
+                          id: "view.name.messages.dropdownDelete",
+                        }}
+                        Icon={Type.Delete}
+                        onClick={emitDeleteClick}
+                        displayStyle={DisplayStyle.Dropdown}
+                        data-testid="dropdown-delete"
+                      />
+                    </>
+                  )}
                 </Dropdown>
               </Actions>
             </Col>
