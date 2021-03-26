@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "Roboto Condensed";
+  font-weight: 300;
+  font-display: fallback;
+  src: url(./RobotoCondensed-Light.otf) format("opentype");
+}
+@font-face {
+  font-family: "Roboto Condensed";
+  font-weight: 400;
+  font-display: fallback;
+  src: url(./RobotoCondensed-Regular.otf) format("opentype");
+}
+@font-face {
+  font-family: "Roboto Condensed";
+  font-weight: 700;
+  font-display: fallback;
+  src: url(./RobotoCondensed-Bold.otf) format("opentype");
+}
