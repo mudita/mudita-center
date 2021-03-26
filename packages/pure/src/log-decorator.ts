@@ -14,18 +14,18 @@ const logger = LoggerFactory.getInstance()
 
 export default function log(
   message: string,
-  logConfig = LogConfig.ReturnValue,
+  logConfig = LogConfig.ReturnValue
 ) {
-  return function(
+  return function (
     target: unknown,
     propertyKey: string,
-    descriptor: PropertyDescriptor,
+    descriptor: PropertyDescriptor
   ): PropertyDescriptor {
     const targetMethod = descriptor.value
-    descriptor.value = function(...args: unknown[]) {
+    descriptor.value = function (...args: unknown[]) {
       const valueOrPromise: Promise<unknown> | unknown = targetMethod.apply(this, args)
 
-      const logValue = (value: unknown) => {
+      void Promise.resolve(valueOrPromise).then((value: unknown) => {
         logger.info(message)
 
         if (logConfig === LogConfig.ReturnValue) {
@@ -33,9 +33,7 @@ export default function log(
         } else {
           logger.info(JSON.stringify(args, null, 2))
         }
-      }
-
-      void Promise.resolve(valueOrPromise).then(logValue, logValue)
+      })
 
       return valueOrPromise
     }
