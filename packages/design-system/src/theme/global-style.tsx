@@ -1,12 +1,12 @@
 import { createGlobalStyle } from "styled-components"
 import { theme } from "Theme/theme-provider"
-import { color } from "Theme/theme-getters"
+import { getColor } from "Theme/theme-getters"
 
 export const MuditaGlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
   html, body  {
     --scrollbar-width: .2rem;
 
-    background-color: ${color("grey100")};
+    background-color: ${getColor("grey100")};
     font-family: "GT Pressura", "Roboto Condensed", sans-serif;
     /* stylelint-disable unit-allowed-list */
     font-size: 10px;
@@ -15,7 +15,7 @@ export const MuditaGlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
   }
   a {
     appearance: none;
-    color: ${color("black")};
+    color: ${getColor("black")};
     text-decoration: none;
   }
   * {
@@ -44,10 +44,10 @@ export const MuditaGlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
     /* stylelint-disable no-descending-specificity */
     :hover, :focus {
       ::-webkit-scrollbar-thumb {
-        background-color: ${color("grey600")};
+        background-color: ${getColor("grey600")};
       }
       ::-webkit-scrollbar-thumb:horizontal {
-        background-color: ${color("grey600")};
+        background-color: ${getColor("grey600")};
       }
     }
     /* stylelint-enable no-descending-specificity */
