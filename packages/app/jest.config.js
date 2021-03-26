@@ -1,6 +1,7 @@
 const { coverageThreshold } = require("./jest.coverage.json")
 
 module.exports = {
+  preset: "ts-jest",
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
