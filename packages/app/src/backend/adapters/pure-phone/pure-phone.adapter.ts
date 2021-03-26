@@ -67,7 +67,6 @@ class PurePhone extends PurePhoneAdapter {
   }
 
   public disconnectDevice(): DeviceResponse {
-    console.log("disconnect")
     return {
       status: DeviceResponseStatus.Ok,
     }
