@@ -20,6 +20,7 @@ import {
 } from "../endpoints"
 import { Formatter } from "../formatter/formatter"
 import { FormatterFactory } from "../formatter/formatter-factory"
+import { GetThreadsBody, Thread } from "../endpoints/messages.types"
 
 class Device extends BaseDevice {
   #formatter: Formatter
@@ -53,6 +54,11 @@ class Device extends BaseDevice {
     endpoint: Endpoint.Contacts
     method: Method.Get
   }): Promise<Response<{ entries: Contact[]; totalCount: number }>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Get
+    body: GetThreadsBody
+  }): Promise<Response<{ entries: Thread[]; totalCount: number }>>
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post

@@ -21,6 +21,10 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import { IpcEmitter } from "Common/emitters/ipc-emitter.enum"
 import { MainProcessIpc } from "electron-better-ipc"
+import {
+  GetThreadsBody,
+  Thread,
+} from "@mudita/pure/dist/endpoints/messages.types"
 
 export enum DeviceServiceEventName {
   ConnectedDevice = "connectedDevice",
@@ -50,6 +54,11 @@ class DeviceService {
     method: Method.Get
     body: { count: number }
   }): Promise<DeviceResponse<{ entries: Contact[]; totalCount: number }>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Get
+    body: GetThreadsBody
+  }): Promise<DeviceResponse<{ entries: Thread[]; totalCount: number }>>
   async request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
