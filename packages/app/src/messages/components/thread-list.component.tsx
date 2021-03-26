@@ -106,6 +106,39 @@ const LastMessageText = styled(Message)<{ unread?: boolean }>`
   ${({ unread }) => unread && dotStyles};
 `
 
+// TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
+// const Threads = styled(Table)<{
+//   noneRowsSelected?: boolean
+// }>`
+//   --columnsTemplate: 11.2rem 60.5rem 1fr;
+//   --columnsTemplateWithOpenedSidebar: 11.2rem 1fr;
+//   --columnsGap: 0;
+//
+//   ${({ noneRowsSelected }) =>
+//     !noneRowsSelected &&
+//     css`
+//       ${InitialsAvatar} {
+//         ${animatedOpacityStyles};
+//       }
+//
+//       ${Checkbox} {
+//         ${animatedOpacityActiveStyles};
+//       }
+//     `};
+//
+//   ${Row} {
+//     :hover {
+//       ${Checkbox} {
+//         ${animatedOpacityActiveStyles};
+//       }
+//
+//       ${InitialsAvatar} {
+//         display: none;
+//       }
+//     }
+//   }
+// `
+
 const Threads = styled(Table)<{
   noneRowsSelected?: boolean
 }>`
@@ -124,19 +157,6 @@ const Threads = styled(Table)<{
         ${animatedOpacityActiveStyles};
       }
     `};
-
-  ${Row} {
-    // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
-    // :hover {
-    //   ${Checkbox} {
-    //     ${animatedOpacityActiveStyles};
-    //   }
-    //
-    //   ${InitialsAvatar} {
-    //     display: none;
-    //   }
-    // }
-  }
 `
 
 const ThreadDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
