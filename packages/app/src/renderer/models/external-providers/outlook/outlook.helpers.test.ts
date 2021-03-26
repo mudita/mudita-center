@@ -35,14 +35,14 @@ test("mapCalendars returns proper values", () => {
       owner: { name: "Jon Doe", address: "example@mudita.com" },
     },
   ]
-  expect(mapCalendars(calendar)).toMatchInlineSnapshot(`
-    Array [
-      Object {
-        "id": "AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAIBBgAAAKDVfFOEmcdKhNFYkpYqCvYAAAAEnFEKAAAA",
-        "name": "Calendar",
-        "primary": false,
-        "provider": "outlook",
-      },
-    ]
-  `)
+  const calendarAfterMap = [
+    {
+      id:
+        "AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAIBBgAAAKDVfFOEmcdKhNFYkpYqCvYAAAAEnFEKAAAA",
+      name: "Calendar",
+      primary: false,
+      provider: "outlook",
+    },
+  ]
+  expect(mapCalendars(calendar)).toMatchObject(calendarAfterMap)
 })
