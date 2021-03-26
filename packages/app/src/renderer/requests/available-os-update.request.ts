@@ -14,34 +14,27 @@ interface AvailableReleases {
   latestRelease: Release | null
 }
 
-const availableOsUpdateRequest = (
+const availableOsUpdateRequest = async (
   osVersion?: string
 ): Promise<AvailableReleases> => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const releases = await ipcRenderer.callMain<string, Release[]>(
-        OsUpdateChannel.Request
-      )
+  const releases: Release[] = await ipcRenderer.callMain<string, Release[]>(
+    OsUpdateChannel.Request
+  )
 
-      const officialReleases = releases.filter((release) => !release.prerelease)
-      const newestOfficialRelease = officialReleases[0]
+  const officialReleases = releases.filter((release) => !release.prerelease)
+  const newestOfficialRelease = officialReleases[0]
 
-      const updateAvailable =
-        osVersion &&
-        newestOfficialRelease &&
-        !(
-          osVersion.includes(newestOfficialRelease.version) ||
-          newestOfficialRelease.version.includes(osVersion)
-        )
-
-      resolve({
-        allReleases: releases,
-        latestRelease: updateAvailable ? newestOfficialRelease : null,
-      })
-    } catch (error) {
-      reject(error)
-    }
-  })
+  const updateAvailable =
+    osVersion &&
+    newestOfficialRelease &&
+    !(
+      osVersion.includes(newestOfficialRelease.version) ||
+      newestOfficialRelease.version.includes(osVersion)
+    )
+  return {
+    allReleases: releases,
+    latestRelease: updateAvailable ? newestOfficialRelease : null,
+  }
 }
 
 export default availableOsUpdateRequest

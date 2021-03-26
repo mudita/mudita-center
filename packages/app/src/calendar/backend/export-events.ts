@@ -5,7 +5,7 @@
 
 import { ipcMain } from "electron-better-ipc"
 import { IpcRequest } from "Common/requests/ipc-request.enum"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { app, dialog, shell } from "electron"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"

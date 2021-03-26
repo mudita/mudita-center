@@ -8,12 +8,7 @@ import { IpcRequest } from "Common/requests/ipc-request.enum"
 import registerGetContactsRequest from "Backend/requests/phonebook/get-contacts.request"
 import { getAdapters } from "Backend/requests/phonebook/phonebook-adapters"
 import { DeviceResponseStatus } from "Backend/adapters/device-response.interface"
-import {
-  Contact as PureContact,
-  Endpoint,
-  Method,
-  RequestConfig,
-} from "@mudita/pure"
+import { Contact as PureContact } from "@mudita/pure"
 import { Contact } from "App/contacts/store/contacts.type"
 import DeviceService from "Backend/device-service"
 
@@ -51,26 +46,10 @@ jest.mock("Backend/device-service")
 test("return mapped contacts from pure to Contact model", async () => {
   ;(DeviceService as jest.Mock).mockImplementation(() => {
     return {
-      request: ({ body, endpoint, method }: RequestConfig) => {
-        if (
-          endpoint === Endpoint.Contacts &&
-          method === Method.Get &&
-          body.count === true
-        ) {
-          return { data: { count: 1 }, status: DeviceResponseStatus.Ok }
-        } else if (
-          endpoint === Endpoint.Contacts &&
-          method === Method.Get &&
-          typeof body.count === "number"
-        ) {
-          return {
-            data: mockPureData,
-            status: DeviceResponseStatus.Ok,
-          }
-        } else {
-          return {
-            status: DeviceResponseStatus.Error,
-          }
+      request: () => {
+        return {
+          data: { entries: mockPureData, totalCount: mockPureData.length },
+          status: DeviceResponseStatus.Ok,
         }
       },
     }

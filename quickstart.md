@@ -83,6 +83,17 @@ npm run dist -- -wl
 
 **Note:** You might not be able to build the app for all platforms one one platform. Read more about it the ["Multi Platform Build" article](https://www.electron.build/multi-platform-build).
 
+## Release
+
+### Update NPM version in App
+
+Remember to update npm version in `package.json` and `package-lock.json`. You can do it by following the commands:
+
+```bash
+cd packages/app
+npm version CURRENT_VERSION + 1
+```
+
 ## Troubleshooting common errors
 
 ### Font during development is slightly different from what I see in official app

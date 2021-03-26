@@ -14,7 +14,6 @@ import {
 } from "./device.types"
 import {
   Contact,
-  CountBodyResponse,
   DeviceInfo,
   DeviceUpdateErrorResponse,
   DeviceUpdateResponse,
@@ -53,13 +52,7 @@ class Device extends BaseDevice {
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Get
-    body: { count: true }
-  }): Promise<Response<CountBodyResponse>>
-  public request(config: {
-    endpoint: Endpoint.Contacts
-    method: Method.Get
-    body: { count: number }
-  }): Promise<Response<Contact[]>>
+  }): Promise<Response<{ entries: Contact[]; totalCount: number }>>
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post
