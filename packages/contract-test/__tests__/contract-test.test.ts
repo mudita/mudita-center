@@ -22,8 +22,8 @@ describe("contract-test", () => {
 
   describe("device connection", () => {
     test("device connects", async () => {
-      const { status } = await phone.connect()
-      expect(status).toEqual(200)
+      const response = await phone.connect()
+      expect(response.status).toEqual(200)
     })
   })
 
@@ -95,7 +95,7 @@ describe("contract-test", () => {
       numbers: ["724832287"],
       priName: "Tolek",
     }
-    describe("POST", () => {
+    describe("POST (which in pure API is PUT)", () => {
       beforeAll(async () => {
         contactCreationResponse = await phone.request({
           endpoint: 7,
@@ -172,6 +172,67 @@ describe("contract-test", () => {
           ...contact,
           id: Number(contactCreationResponse.body.id),
         })
+      })
+    })
+
+    describe("DELETE", () => {
+      let deleteResponse: any
+      test("contact is successfully deleted", async () => {
+        deleteResponse = await phone.request({
+          endpoint: 7,
+          method: 4,
+          body: {
+            id: Number(contactCreationResponse.body.id),
+          },
+        })
+        expect(deleteResponse.status).toEqual(200)
+      })
+
+      test("delete response snapshot", () => {
+        expect(deleteResponse).toMatchInlineSnapshot(
+          {
+            uuid: expect.any(Number),
+          },
+          `
+          Object {
+            "body": null,
+            "endpoint": 7,
+            "status": 200,
+            "uuid": Any<Number>,
+          }
+        `
+        )
+      })
+    })
+
+    describe("PUT (which in pure API is POST)", () => {
+      let putResponse: any
+      test("contact is edited successfully", async () => {
+        putResponse = await phone.request({
+          endpoint: 7,
+          method: 2,
+          body: {
+            ...contactCreationResponse.body,
+            firstName: "John",
+          },
+        })
+        expect(putResponse.status).toEqual(200)
+      })
+
+      test("put response snapshot", () => {
+        expect(putResponse).toMatchInlineSnapshot(
+          {
+            uuid: expect.any(Number),
+          },
+          `
+          Object {
+            "body": null,
+            "endpoint": 7,
+            "status": 200,
+            "uuid": Any<Number>,
+          }
+        `
+        )
       })
     })
   })
