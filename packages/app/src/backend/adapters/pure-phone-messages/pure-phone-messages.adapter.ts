@@ -8,29 +8,43 @@ import { Message, Thread } from "App/messages/store/messages.interface"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import { messagesData } from "App/seeds/messages"
 import DeviceService from "Backend/device-service"
-import { Endpoint, Method, Thread as PureThread } from "@mudita/pure"
+import {
+  Endpoint,
+  GetThreadResponseBody,
+  GetThreadsBody,
+  Method,
+  Thread as PureThread,
+} from "@mudita/pure"
+
+const initGetThreadsBody: GetThreadsBody = {
+  category: "thread",
+  limit: 15,
+}
 
 class PurePhoneMessages extends PurePhoneMessagesAdapter {
   constructor(private deviceService: DeviceService) {
     super()
   }
 
-  public async getThreads(): Promise<DeviceResponse<Thread[]>> {
-    const { status, data } = await this.deviceService.request({
-      endpoint: Endpoint.Messages,
-      method: Method.Get,
-      body: {
-        category: "thread",
-        limit: 10,
-      },
-    })
+  public async getThreads(
+    threads: Thread[] = [],
+    body = initGetThreadsBody
+  ): Promise<DeviceResponse<Thread[]>> {
+    const { status, data } = await this.getNextPageThreads(body)
 
-    if (status === DeviceResponseStatus.Ok && data?.entries !== undefined) {
+    if (data?.nextPage !== undefined) {
+      return this.getThreads([...threads, ...data.entries.map(mapToThreads)], {
+        ...initGetThreadsBody,
+        ...data.nextPage,
+      })
+    } else if (
+      status === DeviceResponseStatus.Ok &&
+      data?.entries !== undefined
+    ) {
       return {
         status: DeviceResponseStatus.Ok,
-        data: data.entries.map(mapToThreads),
+        data: [...threads, ...data.entries.map(mapToThreads)],
       }
     } else {
       return {
@@ -45,8 +59,18 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
   ): Promise<DeviceResponse<Message[]>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: messagesData.filter((messages) => messages.threadId === threadId),
+      data: [],
     }
+  }
+
+  private async getNextPageThreads(
+    body: GetThreadsBody
+  ): Promise<DeviceResponse<GetThreadResponseBody>> {
+    return await this.deviceService.request({
+      body,
+      endpoint: Endpoint.Messages,
+      method: Method.Get,
+    })
   }
 }
 

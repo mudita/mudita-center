@@ -17,6 +17,7 @@ import {
   DeviceInfo,
   DeviceUpdateErrorResponse,
   DeviceUpdateResponse,
+  GetThreadResponseBody,
 } from "../endpoints"
 import { Formatter } from "../formatter/formatter"
 import { FormatterFactory } from "../formatter/formatter-factory"
@@ -58,7 +59,7 @@ class Device extends BaseDevice {
     endpoint: Endpoint.Messages
     method: Method.Get
     body: GetThreadsBody
-  }): Promise<Response<{ entries: Thread[]; totalCount: number }>>
+  }): Promise<Response<GetThreadResponseBody>>
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post

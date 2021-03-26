@@ -19,3 +19,9 @@ export interface GetThreadsBody {
   limit?: number
   offset?: number
 }
+
+export interface GetThreadResponseBody {
+  entries: Thread[]
+  totalCount: number
+  nextPage?: { limit: number; offset: number }
+}
