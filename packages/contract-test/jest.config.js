@@ -4,4 +4,5 @@ module.exports = {
   },
   rootDir: "./",
   roots: ["<rootDir>/__tests__"],
+  setupFilesAfterEnv: ["jest-extended"],
 }

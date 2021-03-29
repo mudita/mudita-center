@@ -3,28 +3,31 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceManager, { Endpoint, Method, PureDevice } from "@mudita/pure"
-import fs from "fs-extra"
+import DeviceManager, {
+  Endpoint,
+  Method,
+  PureDevice,
+  Contact,
+} from "@mudita/pure"
+// import fs from "fs-extra"
 
-describe("contract-test", () => {
-  let phone: PureDevice
+describe("Contract tests", () => {
+  let device: PureDevice
 
   beforeAll(async () => {
-    const [device] = await DeviceManager.getDevices()
-    phone = device
-    if (!phone) {
-      throw new Error("Your phone is not connected or was not recognised.")
+    device = (await DeviceManager.getDevices())[0]
+    if (!device) {
+      throw new Error("Your device is not connected or was not recognised.")
     }
   })
 
   afterAll(async () => {
-    await phone.disconnect()
+    await device.disconnect()
   })
 
-  describe("device connection", () => {
-    test("device connects", async () => {
-      const response = await phone.connect()
-      await fs.writeJSON("test.json", response)
+  describe("Device connection", () => {
+    test("Device connects", async () => {
+      const response = await device.connect()
       expect(response.status).toEqual(200)
     })
   })
@@ -32,7 +35,7 @@ describe("contract-test", () => {
   describe("Device Info", () => {
     let response: any
     beforeAll(async () => {
-      response = await phone.request({
+      response = await device.request({
         endpoint: Endpoint.DeviceInfo,
         method: Method.Get,
       })
@@ -79,7 +82,7 @@ describe("contract-test", () => {
       `
       )
     })
-    test("battery level has to be between 0 and 100", () => {
+    test("Battery level has to be between 0 and 100", () => {
       const level = Number(response.body.batteryLevel)
       expect(level).toEqual(expect.any(Number))
       expect(level).toBeGreaterThanOrEqual(0)
@@ -97,9 +100,9 @@ describe("contract-test", () => {
       numbers: ["724832287"],
       priName: "Tolek",
     }
-    describe("POST (which in pure API is PUT)", () => {
+    describe("POST", () => {
       beforeAll(async () => {
-        contactCreationResponse = await phone.request({
+        contactCreationResponse = await device.request({
           endpoint: Endpoint.Contacts,
           method: Method.Put,
           body: contact,
@@ -127,10 +130,47 @@ describe("contract-test", () => {
       })
     })
 
-    describe("GET", () => {
+    describe("GET for all contacts", () => {
+      test("Contacts are successfully requested ", async () => {
+        const response = await device.request({
+          endpoint: 7,
+          method: 1,
+        })
+        expect(response.status).toEqual(200)
+      })
+
+      test("Response has correct structure", async () => {
+        const response = await device.request({
+          endpoint: 7,
+          method: 1,
+        })
+        response.body.entries.forEach(
+          ({
+            address,
+            altName,
+            blocked,
+            favourite,
+            id,
+            numbers,
+            priName,
+          }: Contact) => {
+            expect(address).toBeString()
+            expect(altName).toBeString()
+            expect(blocked).toBeBoolean()
+            expect(favourite).toBeBoolean()
+            expect(id).toBeNumber()
+            expect(numbers).toBeArray()
+            numbers.forEach((number: string) => expect(number).toBeString())
+            expect(priName).toBeString()
+          }
+        )
+      })
+    })
+
+    describe("GET for a single contact", () => {
       let getResponse: any
       beforeAll(async () => {
-        getResponse = await phone.request({
+        getResponse = await device.request({
           endpoint: Endpoint.Contacts,
           method: Method.Get,
           body: {
@@ -169,7 +209,7 @@ describe("contract-test", () => {
         )
       })
 
-      test("response body is the same as post body", () => {
+      test("Response body is the same as post body", () => {
         expect(getResponse.body).toStrictEqual({
           ...contact,
           id: Number(contactCreationResponse.body.id),
@@ -179,8 +219,8 @@ describe("contract-test", () => {
 
     describe("DELETE", () => {
       let deleteResponse: any
-      test("contact is successfully deleted", async () => {
-        deleteResponse = await phone.request({
+      test("Contact is successfully deleted", async () => {
+        deleteResponse = await device.request({
           endpoint: Endpoint.Contacts,
           method: Method.Delete,
           body: {
@@ -190,7 +230,7 @@ describe("contract-test", () => {
         expect(deleteResponse.status).toEqual(200)
       })
 
-      test("delete response snapshot", () => {
+      test("Delete response snapshot", () => {
         expect(deleteResponse).toMatchInlineSnapshot(
           {
             uuid: expect.any(Number),
@@ -207,10 +247,10 @@ describe("contract-test", () => {
       })
     })
 
-    describe("PUT (which in pure API is POST)", () => {
+    describe("PUT", () => {
       let putResponse: any
-      test("contact is edited successfully", async () => {
-        putResponse = await phone.request({
+      test("Contact is edited successfully", async () => {
+        putResponse = await device.request({
           endpoint: Endpoint.Contacts,
           method: Method.Post,
           body: {
@@ -221,7 +261,7 @@ describe("contract-test", () => {
         expect(putResponse.status).toEqual(200)
       })
 
-      test("put response snapshot", () => {
+      test("Put response snapshot", () => {
         expect(putResponse).toMatchInlineSnapshot(
           {
             uuid: expect.any(Number),
@@ -241,7 +281,7 @@ describe("contract-test", () => {
 
   describe("Messages", () => {
     test("GET", async () => {
-      const response = await phone.request({
+      const response = await device.request({
         endpoint: Endpoint.Messages,
         method: Method.Get,
         body: { category: "thread", limit: 15 },
@@ -258,14 +298,14 @@ describe("contract-test", () => {
           numberID,
           threadID,
         }: any) => {
-          expect(typeof contactID).toEqual("number")
-          expect(typeof isUnread).toEqual("boolean")
-          expect(typeof lastUpdatedAt).toEqual("number")
-          expect(typeof messageCount).toEqual("number")
-          expect(typeof messageSnippet).toEqual("string")
-          expect(typeof messageType).toEqual("number")
-          expect(typeof numberID).toEqual("number")
-          expect(typeof threadID).toEqual("number")
+          expect(contactID).toBeNumber()
+          expect(isUnread).toBeBoolean()
+          expect(lastUpdatedAt).toBeNumber()
+          expect(messageCount).toBeNumber()
+          expect(messageSnippet).toBeString()
+          expect(messageType).toBeNumber()
+          expect(numberID).toBeNumber()
+          expect(threadID).toBeNumber()
         }
       )
     })
