@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useRef } from "react"
+import React, { ComponentProps, useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -12,20 +12,16 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import MessageBubble from "App/messages/components/message-bubble.component"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { intl } from "Renderer/utils/intl"
 import {
   Message,
-  MessageType,
   ResultState,
   Thread,
 } from "App/messages/store/messages.interface"
-import { Contact } from "App/contacts/store/contacts.type"
 import {
   LeadingButton,
-  MessageBubblesWrapper,
   MessagesSidebar,
   MessagesWrapper,
   NameWrapper,
@@ -35,8 +31,10 @@ import {
 } from "App/messages/components/thread-details.styled"
 import ThreadDetailsError from "App/messages/components/thread-details-error.component"
 import ThreadDetailsLoading from "App/messages/components/thread-details-loading.component"
+import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 
-export interface ThreadDetailsProps {
+export interface ThreadDetailsProps
+  extends Pick<ComponentProps<typeof ThreadDetailsMessages>, "getContact"> {
   thread: Thread
   onClose?: () => void
   onDeleteClick: (id: string) => void
@@ -44,7 +42,6 @@ export interface ThreadDetailsProps {
   onContactClick: (phoneNumber: string) => void
   onAttachContactClick: () => void
   getMessagesByThreadId: (threadId: string) => Message[]
-  getContact: (contactId: string) => Contact
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
 }
@@ -72,12 +69,6 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   useEffect(() => {
     loadThread()
   }, [thread.id])
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.scrollIntoView()
-    }
-  }, [ref.current])
   const markAsUnread = () => {
     onUnreadStatus([thread.id])
     onClose()
@@ -171,35 +162,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
         )}
         {resultState === ResultState.Loading && <ThreadDetailsLoading />}
         {resultState === ResultState.Loaded && (
-          <MessageBubblesWrapper>
-            {messages.map(({ contactId, content, messageType, id }, index) => {
-              const prevMessage = messages[index - 1]
-              const previousAuthor = prevMessage?.contactId !== contactId
-              if (index === messages.length - 1) {
-                return (
-                  <div ref={ref} key={id}>
-                    <MessageBubble
-                      id={id}
-                      user={getContact(contactId)}
-                      message={content}
-                      interlocutor={messageType === MessageType.OUTBOX}
-                      previousAuthor={previousAuthor}
-                    />
-                  </div>
-                )
-              }
-              return (
-                <MessageBubble
-                  key={id}
-                  id={id}
-                  user={getContact(contactId)}
-                  message={content}
-                  interlocutor={messageType === MessageType.OUTBOX}
-                  previousAuthor={previousAuthor}
-                />
-              )
-            })}
-          </MessageBubblesWrapper>
+          <ThreadDetailsMessages messages={messages} getContact={getContact} />
         )}
       </MessagesWrapper>
       {process.env.NODE_ENV !== "production" && (
