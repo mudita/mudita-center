@@ -22,8 +22,7 @@
     "lint:css": "stylelint 'src/**/*.{ts,tsx,js,jsx}'",
     "lint:js": "eslint 'src/**/*.{ts,tsx,js,jsx}'",
     "typecheck": "tsc --noEmit",
-    "download:fonts": "node ./scripts/downloadFonts.js",
-    "postinstall": "npm run download:fonts"
+    "download:fonts": "node ./scripts/downloadFonts.js"
   },
   "browserslist": [
     ">0.2%",

@@ -6,9 +6,21 @@ This repo will contain Mudita Center design components.
 
 ### Installing
 
+##### Dependencies
+
 ```
 npm install
 ```
+
+##### Additional fonts
+
+To install an additional font (`GT Pressura`) which is used across different Mudita products, you need to run:
+
+```
+npm run download:fonts
+```
+
+> **Note:** Please make sure you have access rights to the font (refer to troubleshooting section).
 
 ### Release flow
 
@@ -36,21 +48,30 @@ npm install
 
 ### Troubleshooting
 
-- Authentication error while publishing package
+- `401 Authentication` error while publishing package
 
   ```
-   code E401
-   npm ERR! Unable to authenticate, need: Basic realm="GitHub Package Registry"
+  code E401
+  npm ERR! Unable to authenticate, need: Basic realm="GitHub Package Registry"
   ```
-
   **Solution:**
   Please make sure you have the GitHub access token provided in `.npmrc` file:
-
+  
   ```
   //npm.pkg.github.com/:_authToken=YOUR_GH_TOKEN
   ```
+  
+- `402 Payment Required` error while publishing package
+  ```
+  code E402
+  npm ERR! 402 Payment Required - PUT https://registry.npmjs.org/@mudita%2fdesign-system - You must sign up for private packages
+  ```
+  **Solution:**
+  Please make sure you have the registry parameter provided in `.npmrc` file:
 
-  > **Note:** The token should have granted at least `write:packages` scope.
+  ```
+  registry=https://npm.pkg.github.com/mudita
+  ```
 
 - Authentication error while downloading fonts (`npm run download:fonts`).
 
