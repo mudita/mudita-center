@@ -3,6 +3,6 @@ module.exports = {
     "^.+\\.tsx?$": "ts-jest",
   },
   rootDir: "./",
-  roots: ["<rootDir>/__tests__"],
+  roots: ["<rootDir>/src/__tests__"],
   setupFilesAfterEnv: ["jest-extended"],
 }

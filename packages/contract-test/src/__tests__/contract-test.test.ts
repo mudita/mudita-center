@@ -9,11 +9,9 @@ import DeviceManager, {
   PureDevice,
   Contact,
 } from "@mudita/pure"
-// import fs from "fs-extra"
 
 describe("Contract tests", () => {
   let device: PureDevice
-
   beforeAll(async () => {
     device = (await DeviceManager.getDevices())[0]
     if (!device) {
