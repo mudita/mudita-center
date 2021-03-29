@@ -125,7 +125,7 @@ describe("contract-test", () => {
       })
     })
 
-    describe("GET", () => {
+    describe("GET for a single contact", () => {
       let getResponse: any
       beforeAll(async () => {
         getResponse = await phone.request({
