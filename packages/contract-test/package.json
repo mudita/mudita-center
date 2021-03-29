@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
+    "jest-extended": "^0.11.5",
     "ts-jest": "^26.4.3"
   },
   "dependencies": {

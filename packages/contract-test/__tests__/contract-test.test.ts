@@ -3,7 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceManager, { PureDevice } from "@mudita/pure"
+import DeviceManager, { PureDevice, Contact } from "@mudita/pure"
+import "jest-extended"
 
 describe("contract-test", () => {
   let phone: PureDevice
@@ -121,6 +122,43 @@ describe("contract-test", () => {
             "uuid": Any<Number>,
           }
         `
+        )
+      })
+    })
+
+    describe("GET for all contacts", () => {
+      test("contacts are successfully requested ", async () => {
+        const response = await phone.request({
+          endpoint: 7,
+          method: 1,
+        })
+        expect(response.status).toEqual(200)
+      })
+
+      test("response has correct structure", async () => {
+        const response = await phone.request({
+          endpoint: 7,
+          method: 1,
+        })
+        response.body.entries.forEach(
+          ({
+            address,
+            altName,
+            blocked,
+            favourite,
+            id,
+            numbers,
+            priName,
+          }: Contact) => {
+            expect(address).toBeString()
+            expect(altName).toBeString()
+            expect(blocked).toBeBoolean()
+            expect(favourite).toBeBoolean()
+            expect(id).toBeNumber()
+            expect(numbers).toBeArray()
+            numbers.forEach((number: string) => expect(number).toBeString())
+            expect(priName).toBeString()
+          }
         )
       })
     })
