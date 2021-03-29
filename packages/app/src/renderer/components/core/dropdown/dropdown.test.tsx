@@ -5,7 +5,6 @@
 
 import { fireEvent } from "@testing-library/dom"
 import "@testing-library/jest-dom"
-import { waitFor } from "@testing-library/react"
 import React from "react"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -29,7 +28,7 @@ test("renders toggler passed to component", () => {
   expect(getByText(buttonText)).toBeInTheDocument()
 })
 
-test("renders dropdown", async () => {
+test("renders dropdown", () => {
   const buttonText = "Example"
   const { getByTestId, getByText, container } = renderWithThemeAndIntl(
     <Dropdown toggler={<ButtonComponent label={buttonText} />}>
@@ -45,13 +44,11 @@ test("renders dropdown", async () => {
 
   fireEvent.click(getByText(buttonText))
 
-  await waitFor(() => {
-    expect(getByTestId("dropdown")).toBeInTheDocument()
-    expect(container).toMatchSnapshot()
-  })
+  expect(getByTestId("dropdown")).toBeVisible()
+  expect(container).toMatchSnapshot()
 })
 
-test("renders children", async () => {
+test("renders children", () => {
   const buttonText = "Example"
   const childText = "childText"
   const { getByText } = renderWithThemeAndIntl(
@@ -68,7 +65,5 @@ test("renders children", async () => {
 
   fireEvent.click(getByText(buttonText))
 
-  await waitFor(() => {
-    expect(getByText(childText)).toBeInTheDocument()
-  })
+  expect(getByText(childText)).toBeVisible()
 })
