@@ -6,23 +6,22 @@
 import DeviceManager, { PureDevice, Contact } from "@mudita/pure"
 
 describe("Contract tests", () => {
-  let phone: PureDevice
+  let device: PureDevice
 
   beforeAll(async () => {
-    const [device] = await DeviceManager.getDevices()
-    phone = device
-    if (!phone) {
-      throw new Error("Your phone is not connected or was not recognised.")
+    device = (await DeviceManager.getDevices())[0]
+    if (!device) {
+      throw new Error("Your device is not connected or was not recognised.")
     }
   })
 
   afterAll(async () => {
-    await phone.disconnect()
+    await device.disconnect()
   })
 
   describe("Device connection", () => {
     test("Device connects", async () => {
-      const response = await phone.connect()
+      const response = await device.connect()
       expect(response.status).toEqual(200)
     })
   })
@@ -30,7 +29,7 @@ describe("Contract tests", () => {
   describe("Device Info", () => {
     let response: any
     beforeAll(async () => {
-      response = await phone.request({
+      response = await device.request({
         endpoint: 1,
         method: 1,
       })
@@ -97,7 +96,7 @@ describe("Contract tests", () => {
     }
     describe("POST", () => {
       beforeAll(async () => {
-        contactCreationResponse = await phone.request({
+        contactCreationResponse = await device.request({
           endpoint: 7,
           method: 3,
           body: contact,
@@ -127,7 +126,7 @@ describe("Contract tests", () => {
 
     describe("GET for all contacts", () => {
       test("Contacts are successfully requested ", async () => {
-        const response = await phone.request({
+        const response = await device.request({
           endpoint: 7,
           method: 1,
         })
@@ -135,7 +134,7 @@ describe("Contract tests", () => {
       })
 
       test("Response has correct structure", async () => {
-        const response = await phone.request({
+        const response = await device.request({
           endpoint: 7,
           method: 1,
         })
@@ -165,7 +164,7 @@ describe("Contract tests", () => {
     describe("GET for a single contact", () => {
       let getResponse: any
       beforeAll(async () => {
-        getResponse = await phone.request({
+        getResponse = await device.request({
           endpoint: 7,
           method: 1,
           body: {
@@ -215,7 +214,7 @@ describe("Contract tests", () => {
     describe("DELETE", () => {
       let deleteResponse: any
       test("Contact is successfully deleted", async () => {
-        deleteResponse = await phone.request({
+        deleteResponse = await device.request({
           endpoint: 7,
           method: 4,
           body: {
@@ -245,7 +244,7 @@ describe("Contract tests", () => {
     describe("PUT", () => {
       let putResponse: any
       test("Contact is edited successfully", async () => {
-        putResponse = await phone.request({
+        putResponse = await device.request({
           endpoint: 7,
           method: 2,
           body: {
