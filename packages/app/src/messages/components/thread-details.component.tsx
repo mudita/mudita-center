@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, useEffect } from "react"
+import React, { useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -32,15 +32,16 @@ import {
 import ThreadDetailsError from "App/messages/components/thread-details-error.component"
 import ThreadDetailsLoading from "App/messages/components/thread-details-loading.component"
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
+import { Contact } from "App/contacts/store/contacts.type"
 
-export interface ThreadDetailsProps
-  extends Pick<ComponentProps<typeof ThreadDetailsMessages>, "getContact"> {
+export interface ThreadDetailsProps {
   thread: Thread
   onClose?: () => void
   onDeleteClick: (id: string) => void
   onUnreadStatus: (ids: string[]) => void
   onContactClick: (phoneNumber: string) => void
   onAttachContactClick: () => void
+  getContact: (contactId: string) => Contact
   getMessagesByThreadId: (threadId: string) => Message[]
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
@@ -162,7 +163,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
         )}
         {resultState === ResultState.Loading && <ThreadDetailsLoading />}
         {resultState === ResultState.Loaded && (
-          <ThreadDetailsMessages messages={messages} getContact={getContact} />
+          <ThreadDetailsMessages messages={messages} contact={contact} />
         )}
       </MessagesWrapper>
       {process.env.NODE_ENV !== "production" && (

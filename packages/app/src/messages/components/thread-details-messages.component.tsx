@@ -12,12 +12,12 @@ import { Contact } from "App/contacts/store/contacts.type"
 
 interface Properties {
   messages: Message[]
-  getContact: (contactId: string) => Contact
+  contact: Contact
 }
 
 const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   messages,
-  getContact,
+  contact,
 }) => {
   const ref = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -30,13 +30,15 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
     <MessageBubblesWrapper>
       {messages.map(({ contactId, content, messageType, id }, index) => {
         const prevMessage = messages[index - 1]
-        const previousAuthor = prevMessage?.contactId !== contactId
+        const previousAuthor = prevMessage?.messageType !== messageType
+        const user = messageType === MessageType.OUTBOX ? contact : {}
+
         if (index === messages.length - 1) {
           return (
             <div ref={ref} key={id}>
               <MessageBubble
                 id={id}
-                user={getContact(contactId)}
+                user={user}
                 message={content}
                 interlocutor={messageType === MessageType.OUTBOX}
                 previousAuthor={previousAuthor}
@@ -48,7 +50,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
           <MessageBubble
             key={id}
             id={id}
-            user={getContact(contactId)}
+            user={user}
             message={content}
             interlocutor={messageType === MessageType.OUTBOX}
             previousAuthor={previousAuthor}
