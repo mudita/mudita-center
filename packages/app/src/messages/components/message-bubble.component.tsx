@@ -20,6 +20,7 @@ import transition from "Renderer/styles/functions/transition"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
@@ -159,7 +160,10 @@ const MessageBubble: FunctionComponent<Props> = ({
               />
             </MessageBubbleDropdown>
           )}
-          <Bubble interlocutor={interlocutor} data-testid="message-content">
+          <Bubble
+            interlocutor={interlocutor}
+            data-testid={MessageBubbleTestIds.MessageContent}
+          >
             <Text displayStyle={TextDisplayStyle.MediumLightText}>
               {message}
             </Text>
