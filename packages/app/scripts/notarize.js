@@ -41,6 +41,7 @@ module.exports = async function (context) {
       appPath,
       appleId: process.env.APPLE_ID,
       appleIdPassword: process.env.APPLE_ID_PASSWORD,
+      ascProvider: process.env.APPLE_ASC_PROVIDER,
     })
     console.log(`Done notarizing ${appBundleId}`)
   } catch (error) {
