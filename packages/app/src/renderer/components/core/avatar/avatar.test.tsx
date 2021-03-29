@@ -11,7 +11,7 @@ import Avatar, {
   AvatarSize,
   getAvatarSize,
 } from "Renderer/components/core/avatar/avatar.component"
-import { AvatarTestIds } from "Renderer/components/core/avatar/avatar.enum"
+import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
 
 const avatarUser = {
   firstName: "John",

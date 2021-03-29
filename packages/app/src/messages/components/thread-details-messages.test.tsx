@@ -9,7 +9,7 @@ import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-int
 import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
 import { Contact } from "App/contacts/store/contacts.type"
 import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
-import { AvatarTestIds } from "Renderer/components/core/avatar/avatar.enum"
+import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
 
 window.HTMLElement.prototype.scrollIntoView = jest.fn()
 
