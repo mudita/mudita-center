@@ -57,6 +57,20 @@ export interface OutlookCalendar {
   id: string
   name: string
   isDefaultCalendar: boolean
+  color: string
+  hexColor: string
+  changeKey: string
+  canShare: boolean
+  canViewPrivateItems: boolean
+  canEdit: boolean
+  allowedOnlineMeetingProviders: string[]
+  defaultOnlineMeetingProvider: string
+  isTallyingResponses: boolean
+  isRemovable: boolean
+  owner: {
+    name: string
+    address: string
+  }
 }
 
 export interface OutlookEvent {

@@ -7,7 +7,10 @@ import {
   getOutlookEndpoint,
   mapCalendars,
 } from "Renderer/models/external-providers/outlook/outlook.helpers"
-import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
+import {
+  OutlookCalendar,
+  OutLookScope,
+} from "Renderer/models/external-providers/outlook/outlook.interface"
 
 const scope = "offline_access, https://graph.microsoft.com/contacts.read"
 
@@ -16,7 +19,7 @@ test("getOutlookEndpoint returns proper value", () => {
 })
 
 test("mapCalendars returns proper values", () => {
-  const calendar = [
+  const calendar: OutlookCalendar[] = [
     {
       id:
         "AQMkADAwATMwMAItMzk0MS0yZGY0LTAwAi0wMAoARgAAAw8iE_MkrdNBkDkmTx5SnwkHAKDVfFOEmcdKhNFYkpYqCvYAAAIBBgAAAKDVfFOEmcdKhNFYkpYqCvYAAAAEnFEKAAAA",
