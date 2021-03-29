@@ -1,5 +1,3 @@
-import "jest-styled-components"
-
 // Theme
 export * from "Theme/theme-provider"
 export * from "Theme/global-style"
