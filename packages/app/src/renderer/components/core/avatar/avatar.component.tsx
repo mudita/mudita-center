@@ -109,7 +109,6 @@ const Avatar: FunctionComponent<AvatarProps> = ({
       <Icon
         type={Type.Contact}
         width={getAvatarSize(size) / 1.5}
-        data-testid={AvatarTestIds.AvatarIcon}
       />
     )}
   </AvatarWrapper>

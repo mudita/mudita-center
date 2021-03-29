@@ -6,5 +6,4 @@
 export enum AvatarTestIds {
   AvatarImage = "avatar-image",
   AvatarText = "avatar-text",
-  AvatarIcon = "avatar-icon",
 }
