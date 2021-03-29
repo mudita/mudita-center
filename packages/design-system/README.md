@@ -2,25 +2,106 @@
 
 This repo will contain Mudita Center design components.
 
-## Instructions
+## Usage
 
-### Installing
+1. Install `@mudita/design-system` package:
+   ```
+   npm install --save @mudita/design-system
+   ```
+2. This package contains React components that are built using `styled-components` library so make sure you also have installed the `5.x` version, otherwise install it:
+   ```
+   npm install --save styled-components
+   ```
+3. Use the `ThemeProvider` and global styles from the package:
 
-##### Dependencies
+   ```TSX
+   import { MuditaGlobalStyle, MuditaThemeProvider } from "@mudita/design-system"
 
+   ReactDOM.render(
+     <MuditaThemeProvider>
+       <MuditaGlobalStyle />
+       <App />
+     </MuditaThemeProvider>,
+     document.getElementById("root")
+   )
+   ```
+
+4. Now you can use the library freely:
+
+   ```TSX
+   import {
+     AppFunctionComponent,
+     Text,
+     TextDecorator,
+     TextVariant,
+   } from "@mudita/design-system"
+
+   const SomeComponent: AppFunctionComponent = () => (
+     <Text
+       variant={TextVariant.HeadingPrimary}
+       decorators={[TextDecorator.Accent]}
+     >
+       Mudita is awesome!
+     </Text>
+   )
+   ```
+
+### Fonts
+
+The basic Mudita's font is `GT Pressura` but it's not open sourced, so we can't provide you with it. Instead, there's very similar font bundled - `Roboto Condensed`. However, you can still attach a `GT Pressura` font to your project if you [own it](https://www.grillitype.com/shops/gt-pressura):
+
+```CSS
+/* style.css */
+
+@font-face {
+ font-family: "GT Pressura";
+ font-weight: 300;
+ font-display: fallback;
+ src: url(path/to/font/GT-Pressura-Light.otf) format("opentype");
+}
+@font-face {
+ font-family: "GT Pressura";
+ font-weight: 400;
+ font-display: fallback;
+ src: url(path/to/font/GT-Pressura-Regular.otf) format("opentype");
+}
+@font-face {
+ font-family: "GT Pressura";
+ font-weight: 700;
+ font-display: fallback;
+ src: url(path/to/font/GT-Pressura-Bold.otf) format("opentype");
+}
 ```
-npm install
+
+Then, you just need to import the CSS file in your main app's component:
+
+```TSX
+// index.tsx
+
+import "./path/to/font/style.css"
+
+ReactDOM.render(...)
 ```
 
-##### Additional fonts
+The `GT Pressura` font has bigger priority, so no additional actions are required. It will be immediately displayed instead of other fonts.
 
-To install an additional font (`GT Pressura`) which is used across different Mudita products, you need to run:
+## Development
 
-```
-npm run download:fonts
-```
+### Installation
 
-> **Note:** Please make sure you have access rights to the font (refer to troubleshooting section).
+1. Install dependencies:
+
+   ```
+   npm install
+   ```
+
+2. Install additional font - `GT Pressura` (optional):
+
+   ```
+   npm run download:fonts
+   ```
+
+   > **Note:** Please make sure you have access rights to the font (refer to troubleshooting section).
 
 ### Release flow
 
@@ -29,7 +110,7 @@ npm run download:fonts
 2. Rebuild the `design-system` package:
    ```
    cd packages/design-system
-   npm run prerelease
+   npm run build
    ```
 3. Increase package version:
 
@@ -54,18 +135,21 @@ npm run download:fonts
   code E401
   npm ERR! Unable to authenticate, need: Basic realm="GitHub Package Registry"
   ```
+
   **Solution:**
   Please make sure you have the GitHub access token provided in `.npmrc` file:
-  
+
   ```
   //npm.pkg.github.com/:_authToken=YOUR_GH_TOKEN
   ```
-  
+
 - `402 Payment Required` error while publishing package
+
   ```
   code E402
   npm ERR! 402 Payment Required - PUT https://registry.npmjs.org/@mudita%2fdesign-system - You must sign up for private packages
   ```
+
   **Solution:**
   Please make sure you have the registry parameter provided in `.npmrc` file:
 
