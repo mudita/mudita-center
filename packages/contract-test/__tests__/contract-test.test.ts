@@ -4,6 +4,7 @@
  */
 
 import DeviceManager, { Endpoint, Method, PureDevice } from "@mudita/pure"
+import fs from "fs-extra"
 
 describe("contract-test", () => {
   let phone: PureDevice
@@ -23,6 +24,7 @@ describe("contract-test", () => {
   describe("device connection", () => {
     test("device connects", async () => {
       const response = await phone.connect()
+      await fs.writeJSON("test.json", response)
       expect(response.status).toEqual(200)
     })
   })
