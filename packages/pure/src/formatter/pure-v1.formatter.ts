@@ -12,16 +12,13 @@ export class PureV1Formatter extends Formatter {
     const { endpoint } = response
     switch (endpoint) {
       case Endpoint.Update:
-        return this.handleUpdateEndpointResponse(method, response)
+        return this.handleUpdateEndpointResponse(response)
       default:
         return response
     }
   }
 
-  handleUpdateEndpointResponse(
-    method: Method,
-    response: Response<any>
-  ): Response<any> {
+  private handleUpdateEndpointResponse(response: Response<any>): Response<any> {
     const { error } = response
     if (error) {
       const firstDeviceUpdateErrorCode =
