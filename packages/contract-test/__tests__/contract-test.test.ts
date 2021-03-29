@@ -4,7 +4,6 @@
  */
 
 import DeviceManager, { PureDevice, Contact } from "@mudita/pure"
-import "jest-extended"
 
 describe("Contract tests", () => {
   let phone: PureDevice
