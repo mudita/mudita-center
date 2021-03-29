@@ -3,12 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Endpoint,
-  Method,
-  Contact as PureContact,
-  NewContact as PureNewContact,
-} from "@mudita/pure"
+import { Endpoint, Method, Contact as PureContact } from "@mudita/pure"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import DeviceResponse, {
@@ -44,7 +39,7 @@ class Phonebook extends PhonebookAdapter {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
-      body: mapToPureNewContact(contact),
+      body: mapToPureContact(contact),
     })
 
     if (status === DeviceResponseStatus.Ok && data !== undefined) {
@@ -65,7 +60,7 @@ class Phonebook extends PhonebookAdapter {
     const { status } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Post,
-      body: mapContactToPureNewContact(contact),
+      body: mapToPureContact(contact),
     })
 
     if (status === DeviceResponseStatus.Ok) {
@@ -145,7 +140,7 @@ const mapToContact = (pureContact: PureContact): Contact => {
   }
 }
 
-const mapToPureNewContact = (contact: Contact): PureContact => {
+const mapToPureContact = (contact: Contact): PureContact => {
   const {
     blocked = false,
     favourite = false,
@@ -174,8 +169,4 @@ const mapToPureNewContact = (contact: Contact): PureContact => {
     altName: lastName,
     address: [firstAddressLine, secondAddressLine].join("\n").trim(),
   }
-}
-
-const mapContactToPureNewContact = (contact: Contact): PureNewContact => {
-  return { ...contact, ...mapToPureNewContact(contact) }
 }
