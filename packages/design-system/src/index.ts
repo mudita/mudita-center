@@ -1,3 +1,6 @@
+// Fonts
+import "./fonts/fallback/style.css"
+
 // Theme
 export * from "Theme/theme-provider"
 export * from "Theme/global-style"

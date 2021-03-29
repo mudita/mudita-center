@@ -6,6 +6,7 @@
   "exclude": [
     "./src/**/*.stories.tsx",
     "./src/components/storybook/**/*",
-    "./src/utils/**/*"
+    "./src/utils/**/*",
+    "./src/fonts/main/**/*"
   ]
 }

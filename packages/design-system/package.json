@@ -1,6 +1,6 @@
 {
   "name": "@mudita/design-system",
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.9",
   "description": "Mudita Design System",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -15,6 +15,7 @@
   "homepage": "https://github.com/mudita/mudita-center#readme",
   "scripts": {
     "build": "tsc --p tsconfig.build.json && tscpaths -p tsconfig.build.json -s ./src -o ./lib",
+    "postbuild": "npm run copy:files",
     "storybook:serve": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "test": "TZ=UTC jest --config=jest.config.js",
@@ -22,13 +23,17 @@
     "lint:css": "stylelint 'src/**/*.{ts,tsx,js,jsx}'",
     "lint:js": "eslint 'src/**/*.{ts,tsx,js,jsx}'",
     "typecheck": "tsc --noEmit",
-    "download:fonts": "node ./scripts/downloadFonts.js"
+    "download:fonts": "node ./scripts/downloadFonts.js",
+    "copy:files": "copyfiles --error --up 1 ./src/fonts/fallback/* lib"
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not op_mini all"
   ],
+  "dependencies": {
+    "@mudita/app-function-component": "^1.0.10"
+  },
   "peerDependencies": {
     "react": "^17.x",
     "react-dom": "^17.x"
@@ -40,7 +45,6 @@
     "@babel/plugin-proposal-optional-chaining": "^7.13.12",
     "@babel/preset-env": "^7.13.12",
     "@babel/preset-react": "^7.12.13",
-    "@mudita/app-function-component": "^1.0.10",
     "@mudita/eslint-config": "^1.0.15",
     "@mudita/stylelint-config": "^1.0.4",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
@@ -70,6 +74,7 @@
     "bfj": "^7.0.2",
     "camelcase": "^6.2.0",
     "case-sensitive-paths-webpack-plugin": "2.4.0",
+    "copyfiles": "^2.4.1",
     "css-loader": "4.3.0",
     "eslint": "^7.22.0",
     "eslint-config-react-app": "^6.0.0",

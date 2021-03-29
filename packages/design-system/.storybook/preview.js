@@ -55,11 +55,19 @@ const StorybookGlobalStyle = createGlobalStyle`
 `
 
 export const decorators = [
-  (Story) => (
-    <MuditaThemeProvider>
-      <MuditaGlobalStyle />
-      <StorybookGlobalStyle />
-      <Story />
-    </MuditaThemeProvider>
-  ),
+  (Story) => {
+    try {
+      require("../src/fonts/main/style.css")
+    } catch (e) {
+      require("../src/fonts/fallback/style.css")
+    }
+
+    return (
+      <MuditaThemeProvider>
+        <MuditaGlobalStyle />
+        <StorybookGlobalStyle />
+        <Story />
+      </MuditaThemeProvider>
+    )
+  },
 ]
