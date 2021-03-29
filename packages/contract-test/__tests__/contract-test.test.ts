@@ -6,7 +6,7 @@
 import DeviceManager, { PureDevice, Contact } from "@mudita/pure"
 import "jest-extended"
 
-describe("contract-test", () => {
+describe("Contract tests", () => {
   let phone: PureDevice
 
   beforeAll(async () => {
@@ -21,8 +21,8 @@ describe("contract-test", () => {
     await phone.disconnect()
   })
 
-  describe("device connection", () => {
-    test("device connects", async () => {
+  describe("Device connection", () => {
+    test("Device connects", async () => {
       const response = await phone.connect()
       expect(response.status).toEqual(200)
     })
@@ -78,7 +78,7 @@ describe("contract-test", () => {
       `
       )
     })
-    test("battery level has to be between 0 and 100", () => {
+    test("Battery level has to be between 0 and 100", () => {
       const level = Number(response.body.batteryLevel)
       expect(level).toEqual(expect.any(Number))
       expect(level).toBeGreaterThanOrEqual(0)
@@ -96,7 +96,7 @@ describe("contract-test", () => {
       numbers: ["724832287"],
       priName: "Tolek",
     }
-    describe("POST (which in pure API is PUT)", () => {
+    describe("POST", () => {
       beforeAll(async () => {
         contactCreationResponse = await phone.request({
           endpoint: 7,
@@ -127,7 +127,7 @@ describe("contract-test", () => {
     })
 
     describe("GET for all contacts", () => {
-      test("contacts are successfully requested ", async () => {
+      test("Contacts are successfully requested ", async () => {
         const response = await phone.request({
           endpoint: 7,
           method: 1,
@@ -135,7 +135,7 @@ describe("contract-test", () => {
         expect(response.status).toEqual(200)
       })
 
-      test("response has correct structure", async () => {
+      test("Response has correct structure", async () => {
         const response = await phone.request({
           endpoint: 7,
           method: 1,
@@ -205,7 +205,7 @@ describe("contract-test", () => {
         )
       })
 
-      test("response body is the same as post body", () => {
+      test("Response body is the same as post body", () => {
         expect(getResponse.body).toStrictEqual({
           ...contact,
           id: Number(contactCreationResponse.body.id),
@@ -215,7 +215,7 @@ describe("contract-test", () => {
 
     describe("DELETE", () => {
       let deleteResponse: any
-      test("contact is successfully deleted", async () => {
+      test("Contact is successfully deleted", async () => {
         deleteResponse = await phone.request({
           endpoint: 7,
           method: 4,
@@ -226,7 +226,7 @@ describe("contract-test", () => {
         expect(deleteResponse.status).toEqual(200)
       })
 
-      test("delete response snapshot", () => {
+      test("Delete response snapshot", () => {
         expect(deleteResponse).toMatchInlineSnapshot(
           {
             uuid: expect.any(Number),
@@ -243,9 +243,9 @@ describe("contract-test", () => {
       })
     })
 
-    describe("PUT (which in pure API is POST)", () => {
+    describe("PUT", () => {
       let putResponse: any
-      test("contact is edited successfully", async () => {
+      test("Contact is edited successfully", async () => {
         putResponse = await phone.request({
           endpoint: 7,
           method: 2,
@@ -257,7 +257,7 @@ describe("contract-test", () => {
         expect(putResponse.status).toEqual(200)
       })
 
-      test("put response snapshot", () => {
+      test("Put response snapshot", () => {
         expect(putResponse).toMatchInlineSnapshot(
           {
             uuid: expect.any(Number),
