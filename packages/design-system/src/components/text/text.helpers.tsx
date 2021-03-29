@@ -1,6 +1,6 @@
 import { TextDecorator, TextVariant } from "Components/text/text.enum"
 import { TextStyleProps } from "Components/text/text.interface"
-import { Decorators } from "Components/text/text.type"
+import { TextDecorators } from "Components/text/text.type"
 import { css } from "styled-components"
 import { getColor } from "Theme/theme-getters"
 
@@ -77,7 +77,7 @@ export const textVariants: Record<TextVariant, TextStyleProps> = {
   },
 }
 
-export const textDecorators: Record<TextDecorator, Decorators> = {
+export const textDecorators: Record<TextDecorator, TextDecorators> = {
   [TextDecorator.Accent]: css`
     color: ${getColor("blue500")};
   `,
