@@ -65,7 +65,7 @@ class Phonebook extends PhonebookAdapter {
     const { status } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Post,
-      body: mapToPureContact(contact),
+      body: mapContactToPureNewContact(contact),
     })
 
     if (status === DeviceResponseStatus.Ok) {
@@ -176,6 +176,6 @@ const mapToPureNewContact = (contact: Contact): PureContact => {
   }
 }
 
-const mapToPureContact = (contact: Contact): PureNewContact => {
+const mapContactToPureNewContact = (contact: Contact): PureNewContact => {
   return { ...contact, ...mapToPureNewContact(contact) }
 }
