@@ -4,7 +4,7 @@
  */
 
 import { PureV1Formatter } from "./pure-v1.formatter"
-import { Endpoint, Method, RequestConfig, ResponseStatus } from "../device"
+import { Endpoint, Method, ResponseStatus } from "../device"
 
 const updateErrorResponse = {
   status: ResponseStatus.BadRequest,
@@ -16,19 +16,8 @@ const updateErrorResponse = {
   },
 }
 
-let formatter: PureV1Formatter
-
-beforeEach(() => (formatter = new PureV1Formatter()))
-
 test("correct error is returned when formatting", () => {
+  const formatter = new PureV1Formatter()
   const result = formatter.formatResponse(Method.Post, updateErrorResponse)
-  expect(result.error?.code).toEqual(1012)
-})
-
-test("correct error is returned when input is directly passed to the handler", () => {
-  const result = formatter.handleUpdateEndpointResponse(
-    Method.Post,
-    updateErrorResponse
-  )
   expect(result.error?.code).toEqual(1012)
 })
