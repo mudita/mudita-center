@@ -20,22 +20,27 @@ import DeviceResponse, {
 } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
 
-interface ContactCount {
-  count: number
-}
-
 class Phonebook extends PhonebookAdapter {
   constructor(private deviceService: DeviceService) {
     super()
   }
 
   public async getContacts(): Promise<DeviceResponse<Contact[]>> {
-    const { status, data } = await this.getContactCount()
+    const { status, data } = await this.deviceService.request({
+      endpoint: Endpoint.Contacts,
+      method: Method.Get,
+    })
 
-    if (status === DeviceResponseStatus.Ok && data?.count !== undefined) {
-      return this.getContactsByCount({ count: data.count })
+    if (status === DeviceResponseStatus.Ok && data?.entries !== undefined) {
+      return {
+        status,
+        data: data.entries.map(mapToContact),
+      }
     } else {
-      return { status, error: { message: "Something went wrong" } }
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Something went wrong" },
+      }
     }
   }
 
@@ -52,8 +57,8 @@ class Phonebook extends PhonebookAdapter {
       return {
         status,
         data: {
-          id: data.id,
           ...contact,
+          id: data.id,
           primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
         },
       }
@@ -106,32 +111,6 @@ class Phonebook extends PhonebookAdapter {
         status: DeviceResponseStatus.Ok,
       }
     }
-  }
-
-  private async getContactsByCount({
-    count,
-  }: ContactCount): Promise<DeviceResponse<Contact[]>> {
-    const { status, data = [] } = await this.deviceService.request({
-      endpoint: Endpoint.Contacts,
-      method: Method.Get,
-      body: { count },
-    })
-    if (status === DeviceResponseStatus.Ok) {
-      return {
-        status,
-        data: data.map(mapToContact),
-      }
-    } else {
-      return { status, data: [] }
-    }
-  }
-
-  private getContactCount(): Promise<DeviceResponse<ContactCount>> {
-    return this.deviceService.request({
-      endpoint: Endpoint.Contacts,
-      method: Method.Get,
-      body: { count: true },
-    })
   }
 }
 

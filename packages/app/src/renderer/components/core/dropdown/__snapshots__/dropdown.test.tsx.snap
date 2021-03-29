@@ -42,7 +42,6 @@ exports[`matches snapshot 1`] = `
 .c0 {
   position: relative;
   z-index: 0;
-  overflow: hidden;
 }
 
 .c2 {
@@ -203,7 +202,6 @@ exports[`renders dropdown 1`] = `
 .c0 {
   position: relative;
   z-index: 3;
-  overflow: initial;
 }
 
 .c4 {

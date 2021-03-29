@@ -102,37 +102,7 @@ test("auth data is set properly", () => {
   `)
 })
 
-test("authorization handles error properly", async () => {
-  jest.mock(
-    "electron-better-ipc",
-    () => {
-      const mockIpcRenderer = {
-        callMain: (channel: GoogleAuthActions) => {
-          switch (channel) {
-            case GoogleAuthActions.OpenWindow:
-              return jest.fn()
-            default:
-              return false
-          }
-        },
-        answerMain: (
-          channel: GoogleAuthActions,
-          callback: (data: any) => PromiseLike<any>
-        ) => {
-          switch (channel) {
-            case GoogleAuthActions.GotCredentials:
-              callback(JSON.stringify({ error: "some error" }))
-              return true
-            default:
-              return false
-          }
-        },
-      }
-      return { ipcRenderer: mockIpcRenderer }
-    },
-    { virtual: true }
-  )
-
+test("handles authorization properly", async () => {
   await store.dispatch.google.authorize("calendar")
   expect(store.getState().google.calendar).toMatchInlineSnapshot(`
     Object {
@@ -144,6 +114,8 @@ test("authorization handles error properly", async () => {
     }
   `)
 })
+
+test.todo("authorization handles error properly")
 
 test("calendars from google are received properly", async () => {
   axiosMock
@@ -335,9 +307,7 @@ test("requestWrapper handles 401 error properly", async () => {
     .reply(200, {
       items: mockedGoogleCalendars,
     })
-    .onPost(
-      `${process.env.MUDITA_GOOGLE_REFRESH_TOKEN_URL}?refreshToken=refresh-token-123`
-    )
+    .onPost()
     .reply(200, authData)
 
   expect(
@@ -485,7 +455,7 @@ test("contacts are received properly", async () => {
     Array [
       Object {
         "blocked": false,
-        "email": "bombol@examplemail.com",
+        "email": "example@mudita.com",
         "favourite": false,
         "firstAddressLine": "bomboladzka 1",
         "firstName": "Bombolo",
@@ -499,7 +469,7 @@ test("contacts are received properly", async () => {
       },
       Object {
         "blocked": false,
-        "email": "alolo@examplemail.pl",
+        "email": "example@mudita.com",
         "favourite": false,
         "firstAddressLine": "lolo 123",
         "firstName": "Kolejny bombolek",

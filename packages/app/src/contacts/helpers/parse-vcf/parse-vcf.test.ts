@@ -26,7 +26,7 @@ test("reading vcf file works properly", async () => {
     PRODID:-//Apple Inc.//macOS 11.0.1//EN
     N:Doe;John;;;
     FN:John Doe
-    EMAIL;type=INTERNET;type=HOME;type=pref:john.doe@example.com
+    EMAIL;type=INTERNET;type=HOME;type=pref:example@mudita.com
     TEL;type=CELL;type=VOICE;type=pref:123 456 789
     TEL;type=HOME;type=VOICE:32 123 44 55
     ADR;type=HOME;type=pref:;;4929 Pine Garden Lane;Atlanta;;GA 30339;USA
@@ -43,7 +43,7 @@ test("parsing vCard contact works properly", async () => {
     {
       firstName: "John",
       lastName: "Doe",
-      email: "john.doe@example.com",
+      email: "example@mudita.com",
       primaryPhoneNumber: "123 456 789",
       secondaryPhoneNumber: "32 123 44 55",
       firstAddressLine: "4929 Pine Garden Lane, Atlanta",
@@ -62,7 +62,7 @@ test("parsing multiple vCard contacts works properly", async () => {
     {
       firstName: "Jane",
       lastName: "Doe",
-      email: "jane.doe@example.com",
+      email: "example@mudita.com",
       primaryPhoneNumber: "987 654 321",
       secondaryPhoneNumber: "",
       firstAddressLine: "",
@@ -72,7 +72,7 @@ test("parsing multiple vCard contacts works properly", async () => {
     {
       firstName: "John",
       lastName: "Doe",
-      email: "john.doe@example.com",
+      email: "example@mudita.com",
       primaryPhoneNumber: "123 456 789",
       secondaryPhoneNumber: "32 123 44 55",
       firstAddressLine: "4929 Pine Garden Lane, Atlanta",

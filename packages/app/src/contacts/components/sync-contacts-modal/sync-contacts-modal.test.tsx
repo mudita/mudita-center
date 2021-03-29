@@ -10,6 +10,10 @@ import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-
 
 const renderer = (extraProps?: {}) => {
   const props = {
+    onAppleButtonClick: jest.fn(),
+    onGoogleButtonClick: jest.fn(),
+    onManualImportClick: jest.fn(),
+    onOutlookButtonClick: jest.fn(),
     ...extraProps,
   }
   return renderWithThemeAndIntl(<SyncContactsModal {...props} />)
@@ -36,4 +40,11 @@ test("manual import button calls right function", () => {
   expect(onManualImportClick).toHaveBeenCalledWith(
     getByTestId(SyncContactsModalTestIds.FileInput)
   )
+})
+
+test("outlook button calls right function", () => {
+  const onOutlookButtonClick = jest.fn()
+  const { getByText } = renderer({ onOutlookButtonClick })
+  getByText("[value] view.name.phone.contacts.outlookButtonText").click()
+  expect(onOutlookButtonClick).toBeCalled()
 })

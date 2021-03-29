@@ -4,7 +4,7 @@
  */
 
 import ical, { VEvent } from "node-ical"
-import { CalendarEvent } from "Renderer/models/calendar/calendar.interfaces"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { RRule } from "rrule"
 
 const parseIcs = async (filePaths: string[]): Promise<CalendarEvent[]> => {

@@ -17,7 +17,7 @@ import contacts from "App/contacts/store/contacts"
 import phoneUpdate from "Renderer/models/phone-update/phone-update"
 import settings from "Renderer/models/settings/settings"
 import templates from "App/templates/store/templates"
-import calendar from "Renderer/models/calendar/calendar"
+import calendar from "App/calendar/store/calendar"
 
 export interface RootModel {
   auth: typeof auth
