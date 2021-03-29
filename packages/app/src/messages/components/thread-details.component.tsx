@@ -23,12 +23,8 @@ import {
   Thread,
 } from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
 import {
   LeadingButton,
-  Content,
   MessageBubblesWrapper,
   MessagesSidebar,
   MessagesWrapper,
@@ -38,6 +34,7 @@ import {
   TextareaWrapper,
 } from "App/messages/components/thread-details.styled"
 import ThreadDetailsError from "App/messages/components/thread-details-error.component"
+import ThreadDetailsLoading from "App/messages/components/thread-details-loading.component"
 
 export interface ThreadDetailsProps {
   thread: Thread
@@ -172,15 +169,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
         {resultState === ResultState.Error && (
           <ThreadDetailsError onClick={loadThread} />
         )}
-        {resultState === ResultState.Loading && (
-          <Content>
-            <Loader
-              size={4}
-              type={LoaderType.Spinner}
-              data-testid={ThreadDetailsTestIds.Loader}
-            />
-          </Content>
-        )}
+        {resultState === ResultState.Loading && <ThreadDetailsLoading />}
         {resultState === ResultState.Loaded && (
           <MessageBubblesWrapper>
             {messages.map(({ contactId, content, messageType, id }, index) => {
