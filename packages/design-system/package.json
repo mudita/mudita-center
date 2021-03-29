@@ -1,6 +1,6 @@
 {
   "name": "@mudita/design-system",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0-rc.2",
   "description": "Mudita Design System",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -31,8 +31,7 @@
   ],
   "peerDependencies": {
     "react": "^17.x",
-    "react-dom": "^17.x",
-    "styled-components": "^5.x"
+    "react-dom": "^17.x"
   },
   "devDependencies": {
     "@babel/core": "7.13.10",

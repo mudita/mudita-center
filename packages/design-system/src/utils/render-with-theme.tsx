@@ -7,6 +7,7 @@ import {
 } from "@testing-library/react"
 import { MuditaThemeProvider } from "Theme/theme-provider"
 import { MuditaGlobalStyle } from "Theme/global-style"
+import "jest-styled-components"
 
 export function renderWithTheme(
   ui: React.ReactElement,
