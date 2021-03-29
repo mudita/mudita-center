@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceManager, { PureDevice } from "@mudita/pure"
+import DeviceManager, { Endpoint, Method, PureDevice } from "@mudita/pure"
 
 describe("contract-test", () => {
   let phone: PureDevice
@@ -31,8 +31,8 @@ describe("contract-test", () => {
     let response: any
     beforeAll(async () => {
       response = await phone.request({
-        endpoint: 1,
-        method: 1,
+        endpoint: Endpoint.DeviceInfo,
+        method: Method.Get,
       })
     })
     test("GET request", () => {
@@ -98,8 +98,8 @@ describe("contract-test", () => {
     describe("POST (which in pure API is PUT)", () => {
       beforeAll(async () => {
         contactCreationResponse = await phone.request({
-          endpoint: 7,
-          method: 3,
+          endpoint: Endpoint.Contacts,
+          method: Method.Put,
           body: contact,
         })
       })
@@ -129,8 +129,8 @@ describe("contract-test", () => {
       let getResponse: any
       beforeAll(async () => {
         getResponse = await phone.request({
-          endpoint: 7,
-          method: 1,
+          endpoint: Endpoint.Contacts,
+          method: Method.Get,
           body: {
             id: Number(contactCreationResponse.body.id),
           },
@@ -179,8 +179,8 @@ describe("contract-test", () => {
       let deleteResponse: any
       test("contact is successfully deleted", async () => {
         deleteResponse = await phone.request({
-          endpoint: 7,
-          method: 4,
+          endpoint: Endpoint.Contacts,
+          method: Method.Delete,
           body: {
             id: Number(contactCreationResponse.body.id),
           },
@@ -209,8 +209,8 @@ describe("contract-test", () => {
       let putResponse: any
       test("contact is edited successfully", async () => {
         putResponse = await phone.request({
-          endpoint: 7,
-          method: 2,
+          endpoint: Endpoint.Contacts,
+          method: Method.Post,
           body: {
             ...contactCreationResponse.body,
             firstName: "John",
@@ -234,6 +234,38 @@ describe("contract-test", () => {
         `
         )
       })
+    })
+  })
+
+  describe("Messages", () => {
+    test("GET", async () => {
+      const response = await phone.request({
+        endpoint: Endpoint.Messages,
+        method: Method.Get,
+        body: { category: "thread", limit: 15 },
+      })
+      expect(response.status).toEqual(200)
+      response.body.entries.forEach(
+        ({
+          contactID,
+          isUnread,
+          lastUpdatedAt,
+          messageCount,
+          messageSnippet,
+          messageType,
+          numberID,
+          threadID,
+        }: any) => {
+          expect(typeof contactID).toEqual("number")
+          expect(typeof isUnread).toEqual("boolean")
+          expect(typeof lastUpdatedAt).toEqual("number")
+          expect(typeof messageCount).toEqual("number")
+          expect(typeof messageSnippet).toEqual("string")
+          expect(typeof messageType).toEqual("number")
+          expect(typeof numberID).toEqual("number")
+          expect(typeof threadID).toEqual("number")
+        }
+      )
     })
   })
 })
