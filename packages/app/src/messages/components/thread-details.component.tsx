@@ -26,7 +26,6 @@ import { Contact } from "App/contacts/store/contacts.type"
 import { LoaderType } from "Renderer/components/core/loader/loader.interface"
 import Loader from "Renderer/components/core/loader/loader.component"
 import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
-import { defineMessages } from "react-intl"
 import {
   LeadingButton,
   Content,
@@ -37,10 +36,8 @@ import {
   PhoneNumberText,
   Textarea,
   TextareaWrapper,
-  ColumnContent,
-  RetryButton,
 } from "App/messages/components/thread-details.styled"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import ThreadDetailsError from "App/messages/components/thread-details-error.component"
 
 export interface ThreadDetailsProps {
   thread: Thread
@@ -58,13 +55,6 @@ export interface ThreadDetailsProps {
 const trailingIcon = [
   <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
 ]
-
-const translations = defineMessages({
-  errorText: {
-    id: "view.name.messages.modal.loadingThreadError.body",
-  },
-  tryAgainButtonText: { id: "component.modal.data.errorWithRetry.button" },
-})
 
 const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   thread,
@@ -180,19 +170,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
     >
       <MessagesWrapper>
         {resultState === ResultState.Error && (
-          <ColumnContent>
-            <Text
-              displayStyle={TextDisplayStyle.LargeFadedText}
-              message={translations.errorText}
-              data-testid={ThreadDetailsTestIds.ErrorText}
-            />
-            <RetryButton
-              displayStyle={DisplayStyle.Primary}
-              labelMessage={translations.tryAgainButtonText}
-              onClick={loadThread}
-              data-testid={ThreadDetailsTestIds.RetryButton}
-            />
-          </ColumnContent>
+          <ThreadDetailsError onClick={loadThread} />
         )}
         {resultState === ResultState.Loading && (
           <Content>
