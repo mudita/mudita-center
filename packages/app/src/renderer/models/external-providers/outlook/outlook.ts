@@ -160,16 +160,29 @@ const outlook = createModel<ExternalProvidersModels>({
       try {
         return await fetchCalendars(accessToken)
       } catch (error) {
-        const tokenRequester = new TokenRequester()
-        const regeneratedTokens = await tokenRequester.regenerateTokens(
-          refreshToken,
-          OutLookScope.Calendars
-        )
-        dispatch.outlook.setAuthData({
-          scope: OutLookScope.Calendars,
-          data: regeneratedTokens,
-        })
-        return await fetchCalendars(regeneratedTokens.accessToken)
+        if (error === "invalid_grant") {
+          const tokenRequester = new TokenRequester()
+          const regeneratedTokens = await tokenRequester.regenerateTokens(
+            refreshToken,
+            OutLookScope.Calendars
+          )
+          dispatch.outlook.setAuthData({
+            scope: OutLookScope.Calendars,
+            data: regeneratedTokens,
+          })
+          return await fetchCalendars(regeneratedTokens.accessToken)
+        } else {
+          logger.error(error)
+
+          try {
+            logger.info("Reauthorizing Outlook account")
+            await dispatch.outlook.authorize(OutLookScope.Calendars)
+            return await fetchCalendars(accessToken)
+          } catch (authorizeError) {
+            logger.error(authorizeError)
+            throw authorizeError
+          }
+        }
       }
     }
 
