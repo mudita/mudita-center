@@ -6,7 +6,7 @@
   "scripts": {
     "setup": "npm install && npm run bootstrap:local",
     "bootstrap:local": "lerna bootstrap",
-    "bootstrap:ci": "lerna bootstrap",
+    "bootstrap:ci": "lerna bootstrap --no-ci",
     "bootstrap:netlify": "lerna bootstrap --force-local --ignore-scripts",
     "develop": "npm run app:develop --",
     "lint": "lerna run lint",
