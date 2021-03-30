@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import json from "./test.json"
+import fixtures from "./fixtures.json"
 
-export default json
+export default fixtures

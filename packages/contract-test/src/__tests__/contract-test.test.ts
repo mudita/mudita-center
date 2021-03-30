@@ -9,11 +9,14 @@ import DeviceManager, {
   PureDevice,
   Contact,
 } from "@mudita/pure"
+import FixtureCreator from "../fixture-creator"
 
 describe("Contract tests", () => {
   let device: PureDevice
+  let fixtureCreator: FixtureCreator
   beforeAll(async () => {
     device = (await DeviceManager.getDevices())[0]
+    fixtureCreator = new FixtureCreator()
     if (!device) {
       throw new Error("Your device is not connected or was not recognised.")
     }
@@ -26,6 +29,7 @@ describe("Contract tests", () => {
   describe("Device connection", () => {
     test("Device connects", async () => {
       const response = await device.connect()
+      await fixtureCreator.addFixture("deviceConnection", response)
       expect(response.status).toEqual(200)
     })
   })
@@ -37,6 +41,7 @@ describe("Contract tests", () => {
         endpoint: Endpoint.DeviceInfo,
         method: Method.Get,
       })
+      await fixtureCreator.addFixture("deviceInfo", response)
     })
     test("GET request", () => {
       expect(response).toMatchInlineSnapshot(
@@ -142,6 +147,7 @@ describe("Contract tests", () => {
           endpoint: 7,
           method: 1,
         })
+        await fixtureCreator.addFixture("allContacts", response)
         response.body.entries.forEach(
           ({
             address,
