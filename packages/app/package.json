@@ -239,7 +239,7 @@
     "@contentful/rich-text-react-renderer": "^14.1.2",
     "@contentful/rich-text-types": "^14.1.2",
     "@mudita/pure": "*",
-    "@mudita/contract-test": "*",
+    "@mudita/contract-test": "file:../contract-test",
     "@rematch/core": "^1.4.0",
     "@rematch/select": "^2.0.5",
     "@seznam/compose-react-refs": "1.0.4",
