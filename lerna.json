@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "command": {
     "bootstrap": {
-      "ignore": "@mudita/contract-test"
+      "ignore": ["@mudita/contract-test", "@mudita/pure"]
     }
   }
 }
