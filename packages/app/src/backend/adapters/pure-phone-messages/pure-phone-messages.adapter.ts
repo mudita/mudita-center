@@ -21,7 +21,7 @@ const initGetThreadsBody: GetThreadsBody = {
   limit: 15,
 }
 
-class PurePhoneMessages extends PurePhoneMessagesAdapter {
+export class PurePhoneMessages extends PurePhoneMessagesAdapter {
   constructor(private deviceService: DeviceService) {
     super()
   }
@@ -63,7 +63,9 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     ) {
       return {
         status: DeviceResponseStatus.Ok,
-        data: [...pureThreads, ...data.entries].map(mapToThreads),
+        data: [...pureThreads, ...data.entries].map(
+          PurePhoneMessages.mapToThreads
+        ),
       }
     } else {
       return {
@@ -72,23 +74,23 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
       }
     }
   }
-}
 
-const mapToThreads = (pureThread: PureThread): Thread => {
-  const {
-    contactID,
-    isUnread,
-    lastUpdatedAt,
-    messageSnippet,
-    threadID,
-  } = pureThread
-  return {
-    messageSnippet,
-    // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
-    unread: process.env.NODE_ENV !== "production" ? isUnread : false,
-    id: String(threadID),
-    contactId: String(contactID),
-    lastUpdatedAt: new Date(lastUpdatedAt),
+  private static mapToThreads(pureThread: PureThread): Thread {
+    const {
+      contactID,
+      isUnread,
+      lastUpdatedAt,
+      messageSnippet,
+      threadID,
+    } = pureThread
+    return {
+      messageSnippet,
+      // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
+      unread: process.env.NODE_ENV !== "production" ? isUnread : false,
+      id: String(threadID),
+      contactId: String(contactID),
+      lastUpdatedAt: new Date(lastUpdatedAt),
+    }
   }
 }
 
