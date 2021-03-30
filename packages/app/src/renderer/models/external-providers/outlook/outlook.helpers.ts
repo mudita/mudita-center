@@ -21,8 +21,6 @@ export const getOutlookEndpoint = (scope: OutLookScope): string => {
       return "offline_access, https://graph.microsoft.com/contacts.read"
     case OutLookScope.Calendars:
       return "offline_access, https://graph.microsoft.com/calendars.read"
-    default:
-      return "offline_access, https://graph.microsoft.com/contacts.read"
   }
 }
 
