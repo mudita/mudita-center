@@ -37,7 +37,9 @@
     "pure:test:coverage": "lerna run --scope @mudita/pure test:coverage",
     "pure:command": "lerna run --scope @mudita/pure command --",
     "DESIGN SYSTEM COMMANDS": "========================================================",
-    "design-system:prerelease": "lerna run --scope @mudita/mudita-center-design-system prerelease"
+    "design-system:prerelease": "lerna run --scope @mudita/mudita-center-design-system prerelease",
+    "CONTRACT TEST COMMANDS": "========================================================",
+    "contract:test": "lerna run --scope @mudita/contract-test test"
   },
   "repository": {
     "type": "git",

@@ -110,6 +110,7 @@ describe("Contract tests", () => {
           method: Method.Put,
           body: contact,
         })
+        await fixtureCreator.addFixture("postContact", contactCreationResponse)
       })
       test("POST response snapshot", () => {
         expect(contactCreationResponse).toMatchInlineSnapshot(
@@ -136,9 +137,10 @@ describe("Contract tests", () => {
     describe("GET for all contacts", () => {
       test("Contacts are successfully requested ", async () => {
         const response = await device.request({
-          endpoint: 7,
-          method: 1,
+          endpoint: Endpoint.Contacts,
+          method: Method.Get,
         })
+        await fixtureCreator.addFixture("allContacts", response)
         expect(response.status).toEqual(200)
       })
 
@@ -147,7 +149,7 @@ describe("Contract tests", () => {
           endpoint: 7,
           method: 1,
         })
-        await fixtureCreator.addFixture("allContacts", response)
+
         response.body.entries.forEach(
           ({
             address,

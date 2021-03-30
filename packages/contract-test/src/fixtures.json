@@ -6,7 +6,7 @@
       "accessTechnology": "255",
       "batteryLevel": "61",
       "batteryState": "3",
-      "currentRTCTime": "163427",
+      "currentRTCTime": "173968",
       "fsFree": "126",
       "fsFreePercent": "12",
       "fsTotal": "1021",
@@ -21,7 +21,7 @@
       "version": "0.59.1"
     },
     "endpoint": 1,
-    "uuid": 4174
+    "uuid": 9467
   },
   "allContacts": {
     "status": 200,
@@ -320,7 +320,7 @@
           "altName": "Turk",
           "blocked": true,
           "favourite": true,
-          "id": 85,
+          "id": 80,
           "numbers": ["724832287"],
           "priName": "Tolek"
         },
@@ -789,5 +789,10 @@
     "endpoint": 7,
     "uuid": 6495
   },
-  "example": [{ "contactId": 123 }]
+  "postContact": {
+    "status": 200,
+    "body": { "id": "80" },
+    "endpoint": 7,
+    "uuid": 7825
+  }
 }
