@@ -8,7 +8,8 @@ import FixtureCreator from "./fixture-creator"
 const writeJson = jest.fn()
 
 jest.mock("fs-extra", () => ({
-  writeJson: (location: string, payload: {}) => writeJson(location, payload),
+  writeJson: (location: string, payload: Record<string, any>) =>
+    writeJson(location, payload),
   pathExists: () => false,
 }))
 

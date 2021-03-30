@@ -19,9 +19,12 @@ class FixtureCreator implements FixtureCreatorInterface {
     return await fs.pathExists(path.resolve(this.fixturesLocation))
   }
 
-  async addFixture(key: string, payload: {}): Promise<void> {
+  async addFixture(key: string, payload: Record<string, any>): Promise<void> {
     if (await this.jsonExists()) {
       const oldFixtures = await fs.readJson(path.resolve(this.fixturesLocation))
+      if (Object.keys(oldFixtures).includes(key)) {
+        return
+      }
       await fs.writeJson(this.fixturesLocation, {
         ...oldFixtures,
         [`${key}`]: payload,

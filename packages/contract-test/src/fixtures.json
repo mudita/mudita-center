@@ -794,5 +794,56 @@
     "body": { "id": "80" },
     "endpoint": 7,
     "uuid": 7825
+  },
+  "getAllMessages": {
+    "status": 200,
+    "body": {
+      "entries": [
+        {
+          "contactID": 1,
+          "isUnread": true,
+          "lastUpdatedAt": 1574335694,
+          "messageCount": 6,
+          "messageSnippet": "Wiadomość testowa.",
+          "messageType": 1,
+          "numberID": 1,
+          "threadID": 1
+        },
+        {
+          "contactID": 5,
+          "isUnread": true,
+          "lastUpdatedAt": 5,
+          "messageCount": 1,
+          "messageSnippet": "Lorem ipsum dolor sit amet, consectetur adipiscing",
+          "messageType": 16,
+          "numberID": 5,
+          "threadID": 5
+        },
+        {
+          "contactID": 6,
+          "isUnread": false,
+          "lastUpdatedAt": 5,
+          "messageCount": 1,
+          "messageSnippet": "cos tam",
+          "messageType": 8,
+          "numberID": 6,
+          "threadID": 6
+        },
+        {
+          "contactID": 4,
+          "isUnread": false,
+          "lastUpdatedAt": 4,
+          "messageCount": 1,
+          "messageSnippet": "Lorem ipsum dolor sit amet, consectetur adipiscing",
+          "messageType": 8,
+          "numberID": 4,
+          "threadID": 4
+        }
+      ],
+      "nextPage": { "limit": 3, "offset": 4 },
+      "totalCount": 7
+    },
+    "endpoint": 8,
+    "uuid": 8475
   }
 }

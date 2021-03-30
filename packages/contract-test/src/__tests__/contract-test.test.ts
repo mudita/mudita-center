@@ -292,6 +292,7 @@ describe("Contract tests", () => {
         method: Method.Get,
         body: { category: "thread", limit: 15 },
       })
+      await fixtureCreator.addFixture("getAllMessages", response)
       expect(response.status).toEqual(200)
       response.body.entries.forEach(
         ({
