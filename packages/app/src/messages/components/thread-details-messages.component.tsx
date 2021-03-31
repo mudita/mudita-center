@@ -3,10 +3,11 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useRef } from "react"
+import React, { ComponentProps, useEffect, useRef } from "react"
+import moment from "moment"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { MessageBubblesWrapper } from "App/messages/components/thread-details.styled"
-import MessageBubble from "App/messages/components/message-bubble.component"
+import MessageDayBubble from "App/messages/components/message-day-bubble.component"
 import { Message, MessageType } from "App/messages/store/messages.interface"
 import { Contact } from "App/contacts/store/contacts.type"
 
@@ -28,34 +29,31 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
 
   return (
     <MessageBubblesWrapper>
-      {messages.map(({ contactId, content, messageType, id }, index) => {
+      {messages.map(({ messageType, date, content, id }, index) => {
+        const user = messageType === MessageType.OUTBOX ? contact : {}
+        const interlocutor = messageType === MessageType.OUTBOX
         const prevMessage = messages[index - 1]
         const previousAuthor = prevMessage?.messageType !== messageType
-        const user = messageType === MessageType.OUTBOX ? contact : {}
+        const previousDateIsSame = moment(prevMessage?.date).isSame(date, "day")
+        const messageDayBubble: ComponentProps<typeof MessageDayBubble> = {
+          user,
+          id,
+          date,
+          interlocutor,
+          previousAuthor,
+          previousDateIsSame,
+          message: content,
+        }
 
         if (index === messages.length - 1) {
           return (
             <div ref={ref} key={id}>
-              <MessageBubble
-                id={id}
-                user={user}
-                message={content}
-                interlocutor={messageType === MessageType.OUTBOX}
-                previousAuthor={previousAuthor}
-              />
+              <MessageDayBubble {...messageDayBubble} />
             </div>
           )
+        } else {
+          return <MessageDayBubble key={id} {...messageDayBubble} />
         }
-        return (
-          <MessageBubble
-            key={id}
-            id={id}
-            user={user}
-            message={content}
-            interlocutor={messageType === MessageType.OUTBOX}
-            previousAuthor={previousAuthor}
-          />
-        )
       })}
     </MessageBubblesWrapper>
   )
