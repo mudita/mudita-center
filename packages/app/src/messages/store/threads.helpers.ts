@@ -4,6 +4,7 @@
  */
 
 import {
+  Message,
   MessagesState as MessagesProps,
   Thread,
   VisibilityFilter,
@@ -46,5 +47,11 @@ export const sortThreads = (threads: Thread[]) => {
     const x = a.lastUpdatedAt
     const y = b.lastUpdatedAt
     return x > y ? -1 : x < y ? 1 : 0
+  })
+}
+
+export const sortMessages = (messages: Message[]): Message[] => {
+  return messages.sort((a, b) => {
+    return new Date(a.date).getTime() - new Date(b.date).getTime()
   })
 }

@@ -23,6 +23,7 @@ import getMessagesByThreadId from "Renderer/requests/get-messages-by-thread-id.r
 import {
   filterThreads,
   searchThreads,
+  sortMessages,
   sortThreads,
 } from "App/messages/store/threads.helpers"
 
@@ -69,18 +70,24 @@ const messages = createModel<RootModel>({
     updateMessages(state: MessagesState, messages: Message[]): MessagesState {
       return {
         ...state,
-        messageMap: messages.reduce((prevMessageMap, message) => {
-          prevMessageMap[message.id] = message
-          return prevMessageMap
-        }, { ...state.messageMap }),
-        messageIdsInThreadMap: messages.reduce((prev, message) => {
-          const messageIds = prev[message.threadId] ?? []
-          prev[message.threadId] = messageIds.find((id) => id === message.id)
-            ? messageIds
-            : [...messageIds, message.id]
+        messageMap: messages.reduce(
+          (prevMessageMap, message) => {
+            prevMessageMap[message.id] = message
+            return prevMessageMap
+          },
+          { ...state.messageMap }
+        ),
+        messageIdsInThreadMap: messages.reduce(
+          (prev, message) => {
+            const messageIds = prev[message.threadId] ?? []
+            prev[message.threadId] = messageIds.find((id) => id === message.id)
+              ? messageIds
+              : [...messageIds, message.id]
 
-          return prev
-        }, { ...state.messageIdsInThreadMap }),
+            return prev
+          },
+          { ...state.messageIdsInThreadMap }
+        ),
       }
     },
     changeSearchValue(
@@ -273,9 +280,10 @@ const messages = createModel<RootModel>({
         return (threadId: string) => {
           const messageIds =
             state.messages.messageIdsInThreadMap[threadId] ?? []
-          return messageIds.map(
+          const messages = messageIds.map(
             (messageId) => state.messages.messageMap[messageId]
           )
+          return sortMessages(messages)
         }
       }
     },
