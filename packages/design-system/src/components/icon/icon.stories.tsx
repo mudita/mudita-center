@@ -16,7 +16,7 @@ import {
 import styled from "styled-components"
 
 const TemplateIcon = styled(Icon)`
-  box-shadow: 0 0 1px 0 #000;
+  box-shadow: 0 0 0.1rem 0 #000;
 `
 
 const Template: Story<ComponentProps<typeof Icon>> = ({
