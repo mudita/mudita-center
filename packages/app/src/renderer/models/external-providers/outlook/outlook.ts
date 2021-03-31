@@ -25,6 +25,7 @@ import {
 import {
   fetchCalendars,
   fetchContacts,
+  fetchEvents,
   getOutlookEndpoint,
 } from "Renderer/models/external-providers/outlook/outlook.helpers"
 
@@ -186,10 +187,20 @@ const outlook = createModel<ExternalProvidersModels>({
       }
     }
 
+    const getEvents = async (
+      calendarId: string,
+      rootState: ExternalProvidersState
+    ) => {
+      const accessToken = rootState.outlook[OutLookScope.Calendars].accessToken
+
+      return fetchEvents(accessToken, calendarId)
+    }
+
     return {
       authorize,
       getContacts,
       getCalendars,
+      getEvents,
     }
   },
 })

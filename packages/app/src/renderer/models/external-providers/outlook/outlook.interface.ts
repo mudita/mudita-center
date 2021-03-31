@@ -3,6 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
+export enum OutlookFreq {
+  daily = "daily",
+  weekly = "weekly",
+  absoluteMonthly = "absoluteMonthly",
+  relativeMonthly = "relativeMonthly",
+  absoluteYearly = "absoluteYearly",
+  relativeYearly = "relativeYearly",
+}
+
+export enum Days {
+  monday = "monday",
+  tuesday = "tuesday",
+  wednesday = "wednesday",
+  thursday = "thursday",
+  friday = "friday",
+  saturday = "saturday",
+  sunday = "sunday",
+}
+
 export interface TokenPayload {
   accessToken: string
   refreshToken: string
