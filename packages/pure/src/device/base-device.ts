@@ -22,13 +22,13 @@ import {
 } from "./device.types"
 import { createValidRequest, getNewUUID, parseData } from "../parser"
 import { isApiRequestConfig } from "./device-helper"
-import Queue from "queue-promise"
+import PQueue from "p-queue"
 
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
   #portBlocked = true
-  #requestsQueue = new Queue({ concurrent: 1, interval: 1 })
+  #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
   constructor(private path: string) {}
 
