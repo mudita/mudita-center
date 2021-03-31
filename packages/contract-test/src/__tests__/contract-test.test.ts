@@ -13,12 +13,12 @@ import DeviceManager, {
 } from "@mudita/pure"
 import FixtureCreator from "../fixture-creator"
 
+const fixtureCreator = new FixtureCreator()
+
 describe("Contract tests", () => {
   let device: PureDevice
-  let fixtureCreator: FixtureCreator
   beforeAll(async () => {
     device = (await DeviceManager.getDevices())[0]
-    fixtureCreator = new FixtureCreator()
     if (!device) {
       throw new Error("Your device is not connected or was not recognised.")
     }
