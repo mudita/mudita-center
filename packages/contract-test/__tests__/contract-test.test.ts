@@ -105,15 +105,15 @@ describe("Contract tests", () => {
       test("POST response snapshot", () => {
         expect(contactCreationResponse).toMatchInlineSnapshot(
           {
-            uuid: expect.any(Number),
             body: {
-              id: expect.any(String),
+              id: expect.any(Number),
             },
+            uuid: expect.any(Number),
           },
           `
           Object {
             "body": Object {
-              "id": Any<String>,
+              "id": Any<Number>,
             },
             "endpoint": 7,
             "status": 200,
