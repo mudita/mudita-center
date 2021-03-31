@@ -7,6 +7,7 @@ import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
 import { SlackDateTestIds } from "App/messages/components/slack-date-test-ids.enum"
+import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
 
 type Properties = ComponentProps<typeof MessageDayBubble>
 
@@ -48,4 +49,40 @@ test("date tag is visible if previousDateIsSame flag is set to false", () => {
   const dateTagElement = queryByTestId(SlackDateTestIds.DateTag)
   expect(dateTagElement).toBeInTheDocument()
   expect(dateTagElement).toBeVisible()
+})
+
+test("avatar is visible if previousDateIsSame flag is set to false", () => {
+  const { queryByTestId } = renderer({ previousDateIsSame: false })
+  const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)
+  expect(textAvatarElement).toBeInTheDocument()
+  expect(textAvatarElement).toBeVisible()
+})
+
+test("avatar is visible if previousDateIsSame flag is set to true and previousAuthor false", () => {
+  const { queryByTestId } = renderer({
+    previousDateIsSame: false,
+    previousAuthor: false,
+  })
+  const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)
+  expect(textAvatarElement).toBeInTheDocument()
+  expect(textAvatarElement).toBeVisible()
+})
+
+test("avatar is visible if previousDateIsSame flag is set to true and previousAuthor true", () => {
+  const { queryByTestId } = renderer({
+    previousDateIsSame: false,
+    previousAuthor: true,
+  })
+  const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)
+  expect(textAvatarElement).toBeInTheDocument()
+  expect(textAvatarElement).toBeVisible()
+})
+
+test("avatar isn't visible if previousDateIsSame flag is set to true and previousAuthor false", () => {
+  const { queryByTestId } = renderer({
+    previousDateIsSame: true,
+    previousAuthor: false,
+  })
+  const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)
+  expect(textAvatarElement).not.toBeInTheDocument()
 })
