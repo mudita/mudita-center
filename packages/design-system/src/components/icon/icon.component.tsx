@@ -30,7 +30,7 @@ export const Icon: AppFunctionComponent<Props> = ({
   color,
   ...rest
 }) => {
-  let Svg = icons[type] as SvgrComponent
+  const Svg = icons[type]
   const svgProps = Svg({})?.props as SVGAttributes<SVGElement>
   const { viewBox, width: orgWidth, height: orgHeight } = svgProps
 
