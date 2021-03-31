@@ -11,6 +11,10 @@ class Logger {
   #enabled = false
   #logger: PureLogger = console
 
+  /**
+   * The method allows registering custom loggers in runtime.
+   * Default is as global.console
+   */
   registerLogger(logger: PureLogger): void {
     this.#logger = logger
   }
