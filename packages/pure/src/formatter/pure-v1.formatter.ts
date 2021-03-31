@@ -3,35 +3,24 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Endpoint,
-  Method,
-  RequestConfig,
-  Response,
-} from "../device/device.types"
+import { Endpoint, Method, Response } from "../device/device.types"
 import { Formatter } from "./formatter"
 import { DeviceUpdateError, deviceUpdateErrorCodeMap } from "../endpoints"
 
 export class PureV1Formatter extends Formatter {
-  formatRequestConfig(config: RequestConfig): RequestConfig {
-    const { endpoint, method, body } = config
-    if (endpoint === Endpoint.Contacts && method === Method.Post) {
-      return { ...config, body: { ...body, id: Number(body.id) } }
+  formatResponse(method: Method, response: Response<any>): Response<any> {
+    const { endpoint } = response
+    switch (endpoint) {
+      case Endpoint.Update:
+        return this.handleUpdateEndpointResponse(response)
+      default:
+        return response
     }
-
-    if (endpoint === Endpoint.Contacts && method === Method.Delete) {
-      return { ...config, body: { ...body, id: Number(body.id) } }
-    }
-
-    return config
   }
 
-  formatResponse(method: Method, response: Response<any>): Response<any> {
-    const { endpoint, body, error } = response
-    if (endpoint === Endpoint.Contacts && method === Method.Put) {
-      return { ...response, body: { ...body, id: String(body.id) } }
-    }
-    if (endpoint === Endpoint.Update && error) {
+  private handleUpdateEndpointResponse(response: Response<any>): Response<any> {
+    const { error } = response
+    if (error) {
       const firstDeviceUpdateErrorCode =
         deviceUpdateErrorCodeMap[DeviceUpdateError.NoError]
       return {
