@@ -3,9 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import Logger, { PureLogger } from "./logger"
+import Logger, { PureLogger, ConsoleLogger } from "./logger"
 
-let logger: Logger
+let logger: PureLogger
 
 beforeEach(() => {
   logger = new Logger()
@@ -35,7 +35,7 @@ test("console info isn't called if is disabled ", () => {
 })
 
 test("registration custom logger works properly ", () => {
-  const l: PureLogger = {
+  const l: ConsoleLogger = {
     info: jest.fn(),
   }
   logger.registerLogger(l)
