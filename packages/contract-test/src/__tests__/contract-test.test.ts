@@ -11,9 +11,8 @@ import DeviceManager, {
   DeviceInfo,
   Response,
 } from "@mudita/pure"
-import FixtureCreator from "../fixture-creator"
+import addFixture from "../add-fixture"
 
-const fixtureCreator = new FixtureCreator()
 
 describe("Contract tests", () => {
   let device: PureDevice
@@ -31,7 +30,7 @@ describe("Contract tests", () => {
   describe("Device connection", () => {
     test("Device connects", async () => {
       const response = await device.connect()
-      await fixtureCreator.addFixture("deviceConnection", response)
+      await addFixture("deviceConnection", response)
       expect(response.status).toEqual(200)
     })
   })
@@ -43,7 +42,7 @@ describe("Contract tests", () => {
         endpoint: Endpoint.DeviceInfo,
         method: Method.Get,
       })
-      await fixtureCreator.addFixture("deviceInfo", response)
+      await addFixture("deviceInfo", response)
     })
     test("GET request", () => {
       expect(response).toMatchInlineSnapshot(
@@ -112,7 +111,7 @@ describe("Contract tests", () => {
           method: Method.Put,
           body: contact,
         })
-        await fixtureCreator.addFixture("postContact", contactCreationResponse)
+        await addFixture("postContact", contactCreationResponse)
       })
       test("POST response snapshot", () => {
         expect(contactCreationResponse).toMatchInlineSnapshot(
@@ -142,7 +141,7 @@ describe("Contract tests", () => {
           endpoint: Endpoint.Contacts,
           method: Method.Get,
         })
-        await fixtureCreator.addFixture("allContacts", response)
+        await addFixture("allContacts", response)
         expect(response.status).toEqual(200)
       })
 
@@ -298,7 +297,7 @@ describe("Contract tests", () => {
         method: Method.Get,
         body: { category: "thread", limit: 15 },
       })
-      await fixtureCreator.addFixture("getAllMessages", response)
+      await addFixture("getAllMessages", response)
       expect(response.status).toEqual(200)
       response.body.entries.forEach(
         ({
