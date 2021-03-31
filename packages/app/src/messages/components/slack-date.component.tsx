@@ -12,9 +12,9 @@ import { SlackDateTestIds } from "App/messages/components/slack-date-test-ids.en
 import Tag from "Renderer/components/core/tag/tag.component"
 import Text from "Renderer/components/core/text/text.component"
 
-export const messages = defineMessages({
+const messages = defineMessages({
   today: {
-    id: "view.name.messages.todaySlackDate",
+    id: "view.generic.today",
   },
 })
 

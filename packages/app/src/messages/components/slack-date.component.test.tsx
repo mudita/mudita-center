@@ -24,7 +24,7 @@ test("the correct translation is displaying for today date", () => {
     date: new Date(),
   })
   expect(getByTestId(SlackDateTestIds.DateTag)).toHaveTextContent(
-    "[value] view.name.messages.todaySlackDate"
+    "[value] view.generic.today"
   )
 })
 
