@@ -1,8 +1,22 @@
-import styled from "styled-components"
-import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Tag from "Renderer/components/core/tag/tag.component"
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import React from "react"
 import moment from "moment"
+import styled from "styled-components"
+import { defineMessages } from "react-intl"
+import { FunctionComponent } from "Renderer/types/function-component.interface"
+import { SlackDateTestIds } from "App/messages/components/slack-date-test-ids.enum"
+import Tag from "Renderer/components/core/tag/tag.component"
+import Text from "Renderer/components/core/text/text.component"
+
+export const messages = defineMessages({
+  today: {
+    id: "view.name.messages.todaySlackDate",
+  },
+})
 
 const TagContainer = styled.div`
   display: flex;
@@ -16,9 +30,9 @@ interface Properties {
   date: Date
 }
 
-const formatToSlackDate = (date: Date): string => {
+const formatToSlackDate = (date: Date): string | JSX.Element => {
   if (isToday(date)) {
-    return "Today"
+    return <Text message={messages.today} />
   } else if (isThisYear(date)) {
     return moment(date).format("dddd, MMMM Do")
   } else {
@@ -37,7 +51,9 @@ const isThisYear = (date: Date): boolean => {
 const SlackDate: FunctionComponent<Properties> = ({ date }) => {
   return (
     <TagContainer>
-      <Tag>{formatToSlackDate(date)}</Tag>
+      <Tag data-testid={SlackDateTestIds.DateTag}>
+        {formatToSlackDate(date)}
+      </Tag>
     </TagContainer>
   )
 }

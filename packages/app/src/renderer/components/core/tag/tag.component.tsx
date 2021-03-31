@@ -14,6 +14,7 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 
 const Tag = styled(Text).attrs(() => ({
+  element: "div",
   displayStyle: TextDisplayStyle.SmallFadedText,
 }))`
   max-width: 100%;
