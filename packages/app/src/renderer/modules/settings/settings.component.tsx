@@ -19,9 +19,7 @@ const Settings: FunctionComponent<Properties> = ({
   useEffect(() => {
     checkAutostartValue()
   }, [])
-  return (
-    <SettingsUI {...uiComponentProperties} />
-  )
+  return <SettingsUI {...uiComponentProperties} />
 }
 
 export default Settings

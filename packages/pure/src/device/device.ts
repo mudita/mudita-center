@@ -81,8 +81,7 @@ class Device extends BaseDevice {
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
     try {
-      const formattedConfig = this.#formatter.formatRequestConfig(config)
-      const response = await super.request(formattedConfig)
+      const response = await super.request(config)
       return this.#formatter.formatResponse(config.method, response)
     } catch (error) {
       return error

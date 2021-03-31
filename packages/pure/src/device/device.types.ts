@@ -35,7 +35,7 @@ export interface Response<Body = undefined> {
   status: ResponseStatus
   body?: Body
   endpoint?: Endpoint
-  uuid?: string
+  uuid?: number
   error?: ResponseError
 }
 
