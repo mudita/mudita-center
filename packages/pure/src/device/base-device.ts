@@ -73,15 +73,15 @@ class BaseDevice implements PureDevice {
   ): Promise<Response<{ version: number }>>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
-    const handleRequest = async () => {
+    const handleRequest = () => {
       if (config.endpoint === Endpoint.FileUpload) {
-        return await this.fileUploadRequest(config)
+        return this.fileUploadRequest(config)
       } else if (config.endpoint === Endpoint.DeviceUpdate) {
-        return await this.deviceUpdateRequest(config)
+        return this.deviceUpdateRequest(config)
       } else if (isApiRequestConfig(config)) {
-        return await this.apiRequest(config)
+        return this.apiRequest(config)
       } else {
-        return await this.deviceRequest(config)
+        return this.deviceRequest(config)
       }
     }
 

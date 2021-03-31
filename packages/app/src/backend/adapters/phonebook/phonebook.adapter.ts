@@ -5,11 +5,7 @@
 
 import { Endpoint, Method } from "@mudita/pure"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
-import {
-  Contact,
-  ContactID,
-  NewContact,
-} from "App/contacts/store/contacts.type"
+import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -17,7 +13,6 @@ import DeviceService from "Backend/device-service"
 import {
   mapToContact,
   mapToPureContact,
-  mapToPureNewContact,
 } from "Backend/adapters/phonebook/phonebook-mappers"
 
 class Phonebook extends PhonebookAdapter {
@@ -44,13 +39,11 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  public async addContact(
-    contact: NewContact
-  ): Promise<DeviceResponse<Contact>> {
+  public async addContact(contact: Contact): Promise<DeviceResponse<Contact>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
-      body: mapToPureNewContact(contact),
+      body: mapToPureContact(contact),
     })
 
     if (status === DeviceResponseStatus.Ok && data !== undefined) {
@@ -58,7 +51,7 @@ class Phonebook extends PhonebookAdapter {
         status,
         data: {
           ...contact,
-          id: data.id,
+          id: String(data.id),
           primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
         },
       }
@@ -88,7 +81,7 @@ class Phonebook extends PhonebookAdapter {
       const { status } = await this.deviceService.request({
         endpoint: Endpoint.Contacts,
         method: Method.Delete,
-        body: { id },
+        body: { id: Number(id) },
       })
       return {
         status,

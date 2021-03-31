@@ -3,11 +3,8 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Contact as PureContact,
-  NewContact as PureNewContact,
-} from "@mudita/pure"
-import { Contact, NewContact } from "App/contacts/store/contacts.type"
+import { Contact as PureContact } from "@mudita/pure"
+import { Contact } from "App/contacts/store/contacts.type"
 
 export const mapToContact = (pureContact: PureContact): Contact => {
   const {
@@ -41,7 +38,7 @@ export const mapToContact = (pureContact: PureContact): Contact => {
   }
 }
 
-export const mapToPureNewContact = (contact: NewContact): PureNewContact => {
+export const mapToPureContact = (contact: Contact): PureContact => {
   const {
     blocked = false,
     favourite = false,
@@ -51,6 +48,7 @@ export const mapToPureNewContact = (contact: NewContact): PureNewContact => {
     secondaryPhoneNumber,
     firstAddressLine,
     secondAddressLine,
+    id,
   } = contact
   const numbers = []
   if (primaryPhoneNumber) {
@@ -61,6 +59,7 @@ export const mapToPureNewContact = (contact: NewContact): PureNewContact => {
   }
 
   return {
+    id: Number(id),
     blocked,
     favourite,
     numbers: numbers,
@@ -68,8 +67,4 @@ export const mapToPureNewContact = (contact: NewContact): PureNewContact => {
     altName: lastName,
     address: [firstAddressLine, secondAddressLine].join("\n").trim(),
   }
-}
-
-export const mapToPureContact = (contact: Contact): PureContact => {
-  return { ...contact, ...mapToPureNewContact(contact) }
 }

@@ -19,11 +19,12 @@ npm install
    cd packages/design-system
    npm run prerelease
    ```
-   
 3. Increase package version:
+
    ```
    npm version <version>
    ```
+
    > **Note:** For version `0.0.31` the command will be `npm version 0.0.30`.
 
 4. Publish the package to the GitHub registry
@@ -31,18 +32,16 @@ npm install
    npm publish
    ```
 
-
 ### Troubleshooting
 
-- Authentication error 
-   ```
-    code E401
-    npm ERR! Unable to authenticate, need: Basic realm="GitHub Package Registry"
-   ```
-    
-    **Solution:**
-    Please make sure you have the GitHub access token provided in `.npmrc` file:
-    ```
-    //npm.pkg.github.com/:_authToken=YOUR_GH_TOKEN
-   ``` 
-   > **Note:** The token should have granted at least `write:packages` scope.
+- Authentication error
+  ```
+   code E401
+   npm ERR! Unable to authenticate, need: Basic realm="GitHub Package Registry"
+  ```
+  **Solution:**
+  Please make sure you have the GitHub access token provided in `.npmrc` file:
+  ```
+  //npm.pkg.github.com/:_authToken=YOUR_GH_TOKEN
+  ```
+  > **Note:** The token should have granted at least `write:packages` scope.
