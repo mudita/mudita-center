@@ -106,8 +106,8 @@ class DeviceManager implements PureDeviceManager {
   }
 
   @log("==== serial port: list ====")
-  private static async getSerialPortList(): Promise<PortInfo[]> {
-    return await SerialPort.list()
+  private static getSerialPortList(): Promise<PortInfo[]> {
+    return SerialPort.list()
   }
 
   @log("==== serial port: attached device ====", LogConfig.Args)
