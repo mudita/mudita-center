@@ -14,14 +14,6 @@ import {
 
 let device: PureDevice
 
-jest.mock("queue-promise", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      add: (fn: () => void) => fn(),
-    }
-  })
-})
-
 beforeEach(async (done) => {
   mockSerialPort()
 

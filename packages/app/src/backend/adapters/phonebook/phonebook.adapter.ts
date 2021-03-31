@@ -3,18 +3,9 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Endpoint,
-  Method,
-  Contact as PureContact,
-  NewContact as PureNewContact,
-} from "@mudita/pure"
+import { Endpoint, Method, Contact as PureContact } from "@mudita/pure"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
-import {
-  Contact,
-  ContactID,
-  NewContact,
-} from "App/contacts/store/contacts.type"
+import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
@@ -44,13 +35,11 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  public async addContact(
-    contact: NewContact
-  ): Promise<DeviceResponse<Contact>> {
+  public async addContact(contact: Contact): Promise<DeviceResponse<Contact>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
-      body: mapToPureNewContact(contact),
+      body: mapToPureContact(contact),
     })
 
     if (status === DeviceResponseStatus.Ok && data !== undefined) {
@@ -58,7 +47,7 @@ class Phonebook extends PhonebookAdapter {
         status,
         data: {
           ...contact,
-          id: data.id,
+          id: String(data.id),
           primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
         },
       }
@@ -88,7 +77,7 @@ class Phonebook extends PhonebookAdapter {
       const { status } = await this.deviceService.request({
         endpoint: Endpoint.Contacts,
         method: Method.Delete,
-        body: { id },
+        body: { id: Number(id) },
       })
       return {
         status,
@@ -151,7 +140,7 @@ const mapToContact = (pureContact: PureContact): Contact => {
   }
 }
 
-const mapToPureNewContact = (contact: NewContact): PureNewContact => {
+const mapToPureContact = (contact: Contact): PureContact => {
   const {
     blocked = false,
     favourite = false,
@@ -161,6 +150,7 @@ const mapToPureNewContact = (contact: NewContact): PureNewContact => {
     secondaryPhoneNumber,
     firstAddressLine,
     secondAddressLine,
+    id,
   } = contact
   const numbers = []
   if (primaryPhoneNumber) {
@@ -171,6 +161,7 @@ const mapToPureNewContact = (contact: NewContact): PureNewContact => {
   }
 
   return {
+    id: Number(id),
     blocked,
     favourite,
     numbers: numbers,
@@ -178,8 +169,4 @@ const mapToPureNewContact = (contact: NewContact): PureNewContact => {
     altName: lastName,
     address: [firstAddressLine, secondAddressLine].join("\n").trim(),
   }
-}
-
-const mapToPureContact = (contact: Contact): PureContact => {
-  return { ...contact, ...mapToPureNewContact(contact) }
 }
