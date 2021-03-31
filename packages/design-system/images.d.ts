@@ -1,6 +1,6 @@
 declare module "*.svg" {
-  const content: string
-  export default content
+  const ReactComponent: SvgrComponent
+  export default ReactComponent
 }
 declare module "*.png" {
   const content: string

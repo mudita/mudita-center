@@ -17,6 +17,18 @@ module.exports = {
       __dirname,
       path.join("..", "src", "theme")
     )
+
+    const rules = config.module.rules;
+
+    // modify storybook's file-loader rule to avoid conflicts with your inline svg
+    const fileLoaderRule = rules.find(rule => rule.test.test('.svg'));
+    fileLoaderRule.exclude = /\.svg$/;
+
+    rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
+    })
+
     return config
   },
 }
