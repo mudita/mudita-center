@@ -4,15 +4,12 @@
  */
 
 import DeviceManager, {
-  Endpoint,
-  Method,
   PureDevice,
   Contact,
   DeviceInfo,
   Response,
 } from "@mudita/pure"
 import addFixture from "../add-fixture"
-
 
 describe("Contract tests", () => {
   let device: PureDevice
@@ -39,8 +36,8 @@ describe("Contract tests", () => {
     let response: Response<DeviceInfo>
     beforeAll(async () => {
       response = await device.request({
-        endpoint: Endpoint.DeviceInfo,
-        method: Method.Get,
+        endpoint: 1,
+        method: 1,
       })
       await addFixture("deviceInfo", response)
     })
@@ -107,8 +104,8 @@ describe("Contract tests", () => {
     describe("POST", () => {
       beforeAll(async () => {
         contactCreationResponse = await device.request({
-          endpoint: Endpoint.Contacts,
-          method: Method.Put,
+          endpoint: 7,
+          method: 3,
           body: contact,
         })
         await addFixture("postContact", contactCreationResponse)
@@ -138,8 +135,8 @@ describe("Contract tests", () => {
     describe("GET for all contacts", () => {
       test("Contacts are successfully requested ", async () => {
         const response = await device.request({
-          endpoint: Endpoint.Contacts,
-          method: Method.Get,
+          endpoint: 7,
+          method: 1,
         })
         await addFixture("allContacts", response)
         expect(response.status).toEqual(200)
@@ -178,8 +175,8 @@ describe("Contract tests", () => {
       let getResponse: Response<Contact>
       beforeAll(async () => {
         getResponse = await device.request({
-          endpoint: Endpoint.Contacts,
-          method: Method.Get,
+          endpoint: 7,
+          method: 1,
           body: {
             id: Number(contactCreationResponse.body?.id),
           },
@@ -228,8 +225,8 @@ describe("Contract tests", () => {
       let deleteResponse: Response<Contact["id"]>
       test("Contact is successfully deleted", async () => {
         deleteResponse = await device.request({
-          endpoint: Endpoint.Contacts,
-          method: Method.Delete,
+          endpoint: 7,
+          method: 4,
           body: {
             id: Number(contactCreationResponse.body?.id),
           },
@@ -258,8 +255,8 @@ describe("Contract tests", () => {
       let putResponse: Response<Contact>
       test("Contact is edited successfully", async () => {
         putResponse = await device.request({
-          endpoint: Endpoint.Contacts,
-          method: Method.Post,
+          endpoint: 7,
+          method: 2,
           body: {
             ...contactCreationResponse.body,
             firstName: "John",
@@ -293,8 +290,8 @@ describe("Contract tests", () => {
     let response: any
     test("GET threads", async () => {
       response = await device.request({
-        endpoint: Endpoint.Messages,
-        method: Method.Get,
+        endpoint: 8,
+        method: 1,
         body: { category: "thread", limit: 15 },
       })
       await addFixture("getAllMessages", response)
@@ -325,8 +322,8 @@ describe("Contract tests", () => {
     test("GET thread by ID ", async () => {
       const threadId = response.body.entries[0].threadID
       const getThreadByIdResponse = await device.request({
-        endpoint: Endpoint.Messages,
-        method: Method.Get,
+        endpoint: 8,
+        method: 1,
         body: {
           category: "message",
           threadId,
