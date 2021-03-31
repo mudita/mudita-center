@@ -9,7 +9,7 @@ export interface PureLogger {
 
 class Logger {
   #enabled = false
-  #logger: PureLogger = console;
+  #logger: PureLogger = console
 
   registerLogger(logger: PureLogger): void {
     this.#logger = logger

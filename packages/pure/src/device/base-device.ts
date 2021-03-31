@@ -30,7 +30,7 @@ import {
   isFileUploadPayload,
 } from "./device-helper"
 import Queue from "queue-promise"
-import log, { LogConfig } from "../log-decorator"
+import log, { LogConfig } from "../logger/log-decorator"
 
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined

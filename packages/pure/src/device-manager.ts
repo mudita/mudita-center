@@ -7,9 +7,9 @@ import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
 import { CreateDevice, PureDevice, createDevice } from "./device"
-import log, { LogConfig } from "./log-decorator"
-import { LoggerFactory } from "./logger-factory"
-import { PureLogger } from "./logger"
+import log, { LogConfig } from "./logger/log-decorator"
+import { LoggerFactory } from "./logger/logger-factory"
+import { PureLogger } from "./logger/logger"
 
 const logger = LoggerFactory.getInstance()
 

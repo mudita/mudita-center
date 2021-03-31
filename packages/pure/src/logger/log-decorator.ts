@@ -23,7 +23,10 @@ export default function log(
   ): PropertyDescriptor {
     const targetMethod = descriptor.value
     descriptor.value = function (...args: unknown[]) {
-      const valueOrPromise: Promise<unknown> | unknown = targetMethod.apply(this, args)
+      const valueOrPromise: Promise<unknown> | unknown = targetMethod.apply(
+        this,
+        args
+      )
 
       void Promise.resolve(valueOrPromise).then((value: unknown) => {
         logger.info(message)

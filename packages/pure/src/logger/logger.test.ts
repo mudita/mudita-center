@@ -36,7 +36,7 @@ test("console info isn't called if is disabled ", () => {
 
 test("registration custom logger works properly ", () => {
   const l: PureLogger = {
-    info: jest.fn()
+    info: jest.fn(),
   }
   logger.registerLogger(l)
   logger.toggleLogs(true)
