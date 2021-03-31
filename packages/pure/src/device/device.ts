@@ -75,8 +75,7 @@ class Device extends BaseDevice {
   public request(config: FileUploadRequestPayload): Promise<Response>
   public request(config: RequestConfig): Promise<Response<any>>
   public async request(config: RequestConfig): Promise<Response<any>> {
-    const formattedConfig = this.#formatter.formatRequestConfig(config)
-    const response = await super.request(formattedConfig)
+    const response = await super.request(config)
     return this.#formatter.formatResponse(config.method, response)
   }
 }
