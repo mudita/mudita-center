@@ -3,12 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import Logger from "./logger"
+import Logger, { PureLogger } from "./logger"
 
-let logger: Logger
+let logger: PureLogger
 
 export class LoggerFactory {
-  public static getInstance(): Logger {
+  public static getInstance(): PureLogger {
     if (!logger) {
       logger = new Logger()
     }

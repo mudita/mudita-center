@@ -9,9 +9,9 @@ import UsbDetector from "./usb-detector"
 import { CreateDevice, PureDevice, createDevice } from "./device"
 import log, { LogConfig } from "./logger/log-decorator"
 import { LoggerFactory } from "./logger/logger-factory"
-import { PureLogger } from "./logger/logger"
+import { PureLogger, ConsoleLogger } from "./logger/logger"
 
-const logger = LoggerFactory.getInstance()
+const logger: PureLogger = LoggerFactory.getInstance()
 
 export const productId = "0622"
 export const vendorId = "045e"
@@ -40,7 +40,7 @@ class DeviceManager implements PureDeviceManager {
     return this
   }
 
-  public registerLogger(l: PureLogger): void {
+  public registerLogger(l: ConsoleLogger): void {
     logger.registerLogger(l)
   }
 

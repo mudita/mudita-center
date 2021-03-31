@@ -3,19 +3,25 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export interface PureLogger {
+export interface ConsoleLogger {
   info: (message: string) => void
 }
 
-class Logger {
+export interface PureLogger {
+  registerLogger(console: ConsoleLogger): void
+  toggleLogs(enabled: boolean): void
+  info(message: string): void
+}
+
+class Logger implements PureLogger {
   #enabled = false
-  #logger: PureLogger = console
+  #logger: ConsoleLogger = console
 
   /**
    * The method allows registering custom loggers in runtime.
    * Default is as global.console
    */
-  registerLogger(logger: PureLogger): void {
+  registerLogger(logger: ConsoleLogger): void {
     this.#logger = logger
   }
 
