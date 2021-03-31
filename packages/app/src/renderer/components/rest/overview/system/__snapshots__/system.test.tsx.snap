@@ -220,7 +220,7 @@ exports[`matches snapshot 1`] = `
           class="c3"
           data-testid="os-version"
         >
-          release-0.55.1
+          release-0.59.1-rc4-18-g6ee9543b9
         </h2>
         <span
           class="c4"
