@@ -4,6 +4,7 @@
  */
 
 import React, { ComponentProps } from "react"
+import moment from "moment"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { SlackDateTestIds } from "App/messages/components/slack-date-test-ids.enum"
 import SlackDate from "App/messages/components/slack-date.component"
@@ -25,4 +26,36 @@ test("the correct translation is displaying for today date", () => {
   expect(getByTestId(SlackDateTestIds.DateTag)).toHaveTextContent(
     "[value] view.name.messages.todaySlackDate"
   )
+})
+
+test("the correct date format is displaying for current year", () => {
+  const today = new Date()
+  const yesterday = new Date(today.setDate(today.getDate() - 1))
+
+  const { getByTestId } = renderer({
+    date: yesterday,
+  })
+
+  expect(
+    moment(
+      getByTestId(SlackDateTestIds.DateTag).textContent,
+      "dddd, MMMM Do"
+    ).isValid()
+  ).toBeTruthy()
+})
+
+test("the correct date format is displaying for previous year", () => {
+  const today = new Date()
+  const previousYear = new Date(today.setDate(today.getDate() - 356))
+
+  const { getByTestId } = renderer({
+    date: previousYear,
+  })
+
+  expect(
+    moment(
+      getByTestId(SlackDateTestIds.DateTag).textContent,
+      "MMMM Do, YYYY"
+    ).isValid()
+  ).toBeTruthy()
 })
