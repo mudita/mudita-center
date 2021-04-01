@@ -46,7 +46,7 @@ const getModalSize = (size: ModalSize) => {
 }
 
 interface Properties extends Props, ModalProps {
-  closeButton?: any
+  close?: any
   closeModal?: any
 }
 
@@ -58,7 +58,9 @@ const ModalDialog: FunctionComponent<Properties> = ({
   title,
   subtitle,
   closeModal,
-  closeButton = (
+  closeButton = true,
+  onClose,
+  close = (
     <Close
       displayStyle={DisplayStyle.IconOnly2}
       onClick={closeModal}
@@ -96,6 +98,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
         },
       }}
       shouldCloseOnOverlayClick={false}
+      onAfterClose={onClose}
     >
       <Header
         titleOrder={titleOrder}
@@ -110,7 +113,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
         >
           {title}
         </ModalTitle>
-        {Boolean(closeModal) && closeButton}
+        {Boolean(closeModal) && close}
         <ModalSubTitle displayStyle={getSubtitleStyle(size)} element={"p"}>
           {subtitle}
         </ModalSubTitle>
