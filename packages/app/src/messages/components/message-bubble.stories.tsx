@@ -28,6 +28,7 @@ storiesOf("Components/Message Bubble", module)
       <Wrapper>
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
+          date={new Date()}
           message={message}
           id="123"
           previousAuthor
@@ -40,6 +41,7 @@ storiesOf("Components/Message Bubble", module)
       <Wrapper>
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
+          date={new Date()}
           message={message}
           interlocutor
           id="123"
@@ -53,6 +55,7 @@ storiesOf("Components/Message Bubble", module)
       <ColumnWrapper>
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
+          date={new Date()}
           message={message}
           interlocutor
           id="123"
@@ -60,6 +63,7 @@ storiesOf("Components/Message Bubble", module)
         />
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
+          date={new Date()}
           message={message}
           interlocutor
           id="321"
@@ -72,12 +76,14 @@ storiesOf("Components/Message Bubble", module)
       <ColumnWrapper>
         <MessageBubble
           user={{ firstName: "Kuser", lastName: "Luserowski" }}
+          date={new Date()}
           message={message}
           previousAuthor
           id="321"
         />
         <MessageBubble
           user={{ firstName: "Kuser", lastName: "Luserowski" }}
+          date={new Date()}
           message={message}
           id="123"
         />
