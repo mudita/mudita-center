@@ -35,10 +35,18 @@ const getModalSize = (size: ModalSize) => {
         width: "27.5rem",
         padding: "2.4rem",
       }
+    case ModalSize.Small:
+      return {
+        width: "38rem",
+        padding: "3.2rem 2.4rem 4.8rem 2.4rem",
+      }
+    case ModalSize.Medium:
+      return {
+        width: "59rem",
+      }
     case ModalSize.Large:
       return {
         width: "101rem",
-        padding: "4rem 3.2rem 4.8rem 3.2rem",
       }
     default:
       return
@@ -83,6 +91,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
           zIndex: 5,
         },
         content: {
+          boxSizing: "border-box",
           marginLeft: "auto",
           marginRight: "auto",
           transform: "translateY(-50%)",
@@ -92,7 +101,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
           right: 0,
           height: "fit-content",
           border: "none",
-          padding: 0,
+          padding: "4rem 3.2rem 4.8rem 3.2rem",
           overflow: "hidden",
           ...getModalSize(size),
         },
