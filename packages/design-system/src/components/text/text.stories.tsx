@@ -20,7 +20,7 @@ export default {
   title: `${paths.atoms}/Text`,
   parameters: {
     docs: {
-      page: () => (
+      page: (): JSX.Element => (
         <>
           <Title>Text</Title>
           <Subtitle>Atom component</Subtitle>

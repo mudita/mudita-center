@@ -88,7 +88,7 @@ export default {
       default: "White",
     },
     docs: {
-      page: () => (
+      page: (): JSX.Element => (
         <>
           <Title>Style</Title>
           <Subtitle>Colors</Subtitle>

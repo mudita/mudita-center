@@ -88,7 +88,7 @@ export default {
       source: {
         type: "dynamic",
       },
-      page: () => (
+      page: (): JSX.Element => (
         <>
           <Title>Style</Title>
           <Subtitle>Basic typography</Subtitle>

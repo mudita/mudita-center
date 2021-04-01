@@ -141,7 +141,7 @@ export default {
   },
   parameters: {
     docs: {
-      page: () => (
+      page: (): JSX.Element => (
         <>
           <Title>Style</Title>
           <Subtitle>Advanced typography</Subtitle>
