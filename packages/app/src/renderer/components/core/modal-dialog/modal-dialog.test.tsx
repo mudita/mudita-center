@@ -1,10 +1,15 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import React from "react"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 
 const renderer = (props = {}) =>
-  renderWithThemeAndIntl(<ModalDialog isOpen={true} {...props} />)
+  renderWithThemeAndIntl(<ModalDialog isOpen  {...props} />)
 
 test("close button is hidden by default", () => {
   const { queryByTestId } = renderer()

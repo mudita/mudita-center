@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal, { Props } from "react-modal"
@@ -84,7 +89,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
 }) => {
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen
       style={{
         overlay: {
           backgroundColor: "transparent",

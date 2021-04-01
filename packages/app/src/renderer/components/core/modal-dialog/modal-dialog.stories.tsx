@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { storiesOf } from "@storybook/react"
 import Story from "Renderer/components/storybook/story.component"
 import { StoryModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
@@ -12,7 +17,7 @@ storiesOf("Components|Core/ModalDialog/Default (large)", module)
     return (
       <Story title="With title" transparentMode>
         <StoryModalWrapper>
-          <ModalDialog title={"Title"} isOpen={true}>
+          <ModalDialog title={"Title"} isOpen>
             <Text displayStyle={TextDisplayStyle.LargeText}>
               Lorem ipsum dolor sit amet
             </Text>
@@ -24,7 +29,7 @@ storiesOf("Components|Core/ModalDialog/Default (large)", module)
   .add("With title and subtitle", () => (
     <Story title="With title and subtitle" transparentMode>
       <StoryModalWrapper>
-        <ModalDialog isOpen={true} title={"Title"} subtitle={"Subtitle"}>
+        <ModalDialog isOpen title={"Title"} subtitle={"Subtitle"}>
           <Text displayStyle={TextDisplayStyle.LargeText}>
             Lorem ipsum dolor sit amet
           </Text>
@@ -36,7 +41,7 @@ storiesOf("Components|Core/ModalDialog/Default (large)", module)
     <Story title="With titles reversed" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
-          isOpen={true}
+          isOpen
           title={"Title"}
           subtitle={"Subtitle"}
           titleOrder={TitleOrder.SubtitleFirst}
@@ -52,7 +57,7 @@ storiesOf("Components|Core/ModalDialog/Default (large)", module)
     <Story title="With action button" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
-          isOpen={true}
+          isOpen
           title={"Title"}
           subtitle={"Subtitle"}
           actionButtonLabel={"Done"}
@@ -72,7 +77,7 @@ storiesOf("Components|Core/ModalDialog/Medium", module)
     return (
       <Story title="With title" transparentMode>
         <StoryModalWrapper>
-          <ModalDialog title={"Title"} isOpen={true} size={ModalSize.Medium}>
+          <ModalDialog title={"Title"} isOpen size={ModalSize.Medium}>
             <Text displayStyle={TextDisplayStyle.LargeText}>
               Lorem ipsum dolor sit amet
             </Text>
@@ -84,7 +89,7 @@ storiesOf("Components|Core/ModalDialog/Medium", module)
   .add("With title and subtitle", () => (
     <Story title="With title and subtitle" transparentMode>
       <StoryModalWrapper>
-        <ModalDialog isOpen={true} title={"Title"} subtitle={"Subtitle"}  size={ModalSize.Medium}>
+        <ModalDialog isOpen title={"Title"} subtitle={"Subtitle"}  size={ModalSize.Medium}>
           <Text displayStyle={TextDisplayStyle.LargeText}>
             Lorem ipsum dolor sit amet
           </Text>
@@ -96,7 +101,7 @@ storiesOf("Components|Core/ModalDialog/Medium", module)
     <Story title="With titles reversed" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
-          isOpen={true}
+          isOpen
           title={"Title"}
           subtitle={"Subtitle"}
           titleOrder={TitleOrder.SubtitleFirst}
@@ -113,7 +118,7 @@ storiesOf("Components|Core/ModalDialog/Medium", module)
     <Story title="With action button" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
-          isOpen={true}
+          isOpen
           title={"Title"}
           subtitle={"Subtitle"}
           actionButtonLabel={"Done"}
@@ -133,7 +138,7 @@ storiesOf("Components|Core/ModalDialog/Small", module)
     return (
       <Story title="With title" transparentMode>
         <StoryModalWrapper>
-          <ModalDialog title={"Title"} isOpen={true} size={ModalSize.Small}>
+          <ModalDialog title={"Title"} isOpen size={ModalSize.Small}>
             <Text displayStyle={TextDisplayStyle.LargeText}>
               Lorem ipsum dolor sit amet
             </Text>
@@ -145,7 +150,7 @@ storiesOf("Components|Core/ModalDialog/Small", module)
   .add("With title and subtitle", () => (
     <Story title="With title and subtitle" transparentMode>
       <StoryModalWrapper>
-        <ModalDialog isOpen={true} title={"Title"} subtitle={"Subtitle"}  size={ModalSize.Small}>
+        <ModalDialog isOpen title={"Title"} subtitle={"Subtitle"}  size={ModalSize.Small}>
           <Text displayStyle={TextDisplayStyle.LargeText}>
             Lorem ipsum dolor sit amet
           </Text>
@@ -157,7 +162,7 @@ storiesOf("Components|Core/ModalDialog/Small", module)
     <Story title="With titles reversed" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
-          isOpen={true}
+          isOpen
           title={"Title"}
           subtitle={"Subtitle"}
           titleOrder={TitleOrder.SubtitleFirst}
@@ -174,7 +179,7 @@ storiesOf("Components|Core/ModalDialog/Small", module)
     <Story title="With action button" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
-          isOpen={true}
+          isOpen
           title={"Title"}
           subtitle={"Subtitle"}
           actionButtonLabel={"Done"}
@@ -194,7 +199,7 @@ storiesOf("Components|Core/ModalDialog/Very small", module)
     return (
       <Story title="With title" transparentMode>
         <StoryModalWrapper>
-          <ModalDialog title={"Title"} isOpen={true} size={ModalSize.VerySmall}>
+          <ModalDialog title={"Title"} isOpen size={ModalSize.VerySmall}>
             <Text displayStyle={TextDisplayStyle.LargeText}>
               Lorem ipsum dolor sit amet
             </Text>
@@ -206,7 +211,7 @@ storiesOf("Components|Core/ModalDialog/Very small", module)
   .add("With title and subtitle", () => (
     <Story title="With title and subtitle" transparentMode>
       <StoryModalWrapper>
-        <ModalDialog isOpen={true} title={"Title"} subtitle={"Subtitle"}  size={ModalSize.VerySmall}>
+        <ModalDialog isOpen title={"Title"} subtitle={"Subtitle"}  size={ModalSize.VerySmall}>
           <Text displayStyle={TextDisplayStyle.LargeText}>
             Lorem ipsum dolor sit amet
           </Text>
@@ -218,7 +223,7 @@ storiesOf("Components|Core/ModalDialog/Very small", module)
     <Story title="With titles reversed" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
-          isOpen={true}
+          isOpen
           title={"Title"}
           subtitle={"Subtitle"}
           titleOrder={TitleOrder.SubtitleFirst}
@@ -235,7 +240,7 @@ storiesOf("Components|Core/ModalDialog/Very small", module)
     <Story title="With action button" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
-          isOpen={true}
+          isOpen
           title={"Title"}
           subtitle={"Subtitle"}
           actionButtonLabel={"Done"}
