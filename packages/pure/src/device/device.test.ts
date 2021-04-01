@@ -14,20 +14,20 @@ import {
 
 let device: PureDevice
 
-jest.mock("queue-promise", () => {
-  return jest.fn().mockImplementation(() => {
-    return {
-      add: (fn: () => void) => fn(),
-    }
-  })
-})
-
 beforeEach(async (done) => {
   mockSerialPort()
 
   const devices = await PureNode.getDevices()
   device = devices[0]
   done()
+})
+
+jest.mock("p-queue", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      add: (fn: () => void) => fn(),
+    }
+  })
 })
 
 test("allow to establish a connection with a given device", async () => {

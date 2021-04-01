@@ -29,14 +29,14 @@ import {
   isDeviceUpdateRequestPayload,
   isFileUploadPayload,
 } from "./device-helper"
-import Queue from "queue-promise"
+import PQueue from "p-queue"
 import log, { LogConfig } from "../logger/log-decorator"
 
 class BaseDevice implements PureDevice {
   #port: SerialPort | undefined
   #eventEmitter = new EventEmitter()
   #portBlocked = true
-  #requestsQueue = new Queue({ concurrent: 1, interval: 1 })
+  #requestsQueue = new PQueue({ concurrency: 1, interval: 1 })
 
   constructor(private path: string) {}
 

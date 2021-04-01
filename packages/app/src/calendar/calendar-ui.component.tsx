@@ -38,6 +38,7 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
   const highlightActiveEventTimeout = useRef<NodeJS.Timeout>()
 
   const setGoogleProvider = () => setProvider(Provider.Google)
+  const setOutlookProvider = () => setProvider(Provider.Outlook)
   const resetProvider = () => setProvider(undefined)
   const closeModal = () => modalService.closeModal()
   const authorizeAndLoadCalendars = async () => {
@@ -118,6 +119,7 @@ const CalendarUI: FunctionComponent<CalendarProps> = ({
         <SelectVendorModal
           onGoogleButtonClick={setGoogleProvider}
           onManualImportClick={manualImport}
+          onOutlookButtonClick={setOutlookProvider}
         />
       )
     } catch (error) {
