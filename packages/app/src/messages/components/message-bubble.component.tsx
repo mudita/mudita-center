@@ -204,7 +204,7 @@ const MessageBubble: FunctionComponent<Props> = ({
             </Text>
             <MessageDate>
               <Text displayStyle={TextDisplayStyle.SmallFadedText}>
-                {moment(date).format("dd h:mm a")}
+                {moment(date).format("dd h:mm A")}
               </Text>
             </MessageDate>
           </Bubble>
