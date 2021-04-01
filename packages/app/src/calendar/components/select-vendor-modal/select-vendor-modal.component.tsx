@@ -37,8 +37,11 @@ const messages = defineMessages({
   body: {
     id: "view.name.calendar.modal.selectVendor.body",
   },
-  button: {
+  buttonGoogle: {
     id: "common.loginGoogleButton",
+  },
+  buttonOutlook: {
+    id: "common.loginOutlookButton",
   },
   manualImportButton: {
     id: "view.name.calendar.manualImportText",
@@ -47,12 +50,14 @@ const messages = defineMessages({
 
 export interface SelectVendorModalProps extends ModalProps {
   onGoogleButtonClick: () => void
+  onOutlookButtonClick: () => void
   onManualImportClick: (inputElement: HTMLInputElement) => void
 }
 
 const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
   onGoogleButtonClick,
   onManualImportClick,
+  onOutlookButtonClick,
   ...props
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -85,10 +90,16 @@ const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
       <ButtonsContainer>
         <ButtonWrapper>
           <SyncButton
-            labelMessage={messages.button}
+            labelMessage={messages.buttonGoogle}
             onClick={onGoogleButtonClick}
             Icon={Type.Google}
             data-testid={SelectVendorModalTestIds.GoogleButton}
+          />
+          <SyncButton
+            labelMessage={messages.buttonOutlook}
+            onClick={onOutlookButtonClick}
+            Icon={Type.Outlook}
+            data-testid={SelectVendorModalTestIds.OutlookButton}
           />
           <SyncButton
             displayStyle={DisplayStyle.Primary}
