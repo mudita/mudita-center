@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ComponentProps } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal, { Props } from "react-modal"
 import {
@@ -54,8 +54,8 @@ const getModalSize = (size: ModalSize) => {
 }
 
 interface Properties extends Props, ModalProps {
-  close?: any
-  closeModal?: any
+  close?: ComponentProps<typeof Button>
+  closeModal?: () => void
 }
 
 const ModalDialog: FunctionComponent<Properties> = ({
