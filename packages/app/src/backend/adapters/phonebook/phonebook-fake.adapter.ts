@@ -13,8 +13,7 @@ import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import Faker from "faker"
-import fixtures from "@mudita/contract-test"
-import { mapToContact } from "Backend/adapters/phonebook/phonebook-mappers"
+import { contactsSeedInput } from "App/seeds/contacts"
 
 export interface PhonebookFakeAdapterProps {
   contactsCount: number
@@ -28,7 +27,7 @@ class PhonebookFake extends PhonebookAdapter {
   public async getContacts(): Promise<DeviceResponse<Contact[]>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: fixtures.allContacts.body.entries.map(mapToContact),
+      data: contactsSeedInput,
     }
   }
 

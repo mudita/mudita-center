@@ -9,7 +9,6 @@ import DeviceManager, {
   DeviceInfo,
   Response,
 } from "@mudita/pure"
-import addFixture from "../add-fixture"
 
 describe("Contract tests", () => {
   let device: PureDevice
@@ -27,7 +26,6 @@ describe("Contract tests", () => {
   describe("Device connection", () => {
     test("Device connects", async () => {
       const response = await device.connect()
-      await addFixture("deviceConnection", response)
       expect(response.status).toEqual(200)
     })
   })
@@ -39,7 +37,6 @@ describe("Contract tests", () => {
         endpoint: 1,
         method: 1,
       })
-      await addFixture("deviceInfo", response)
     })
     test("GET request", () => {
       expect(response).toMatchInlineSnapshot(
@@ -108,7 +105,6 @@ describe("Contract tests", () => {
           method: 3,
           body: contact,
         })
-        await addFixture("postContact", contactCreationResponse)
       })
       test("POST response snapshot", () => {
         expect(contactCreationResponse).toMatchInlineSnapshot(
@@ -138,7 +134,6 @@ describe("Contract tests", () => {
           endpoint: 7,
           method: 1,
         })
-        await addFixture("allContacts", response)
         expect(response.status).toEqual(200)
       })
 
@@ -294,7 +289,6 @@ describe("Contract tests", () => {
         method: 1,
         body: { category: "thread", limit: 15 },
       })
-      await addFixture("getAllMessages", response)
       expect(response.status).toEqual(200)
       response.body.entries.forEach(
         ({

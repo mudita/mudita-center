@@ -7,7 +7,6 @@ import PurePhoneAdapter from "Backend/adapters/pure-phone/pure-phone-adapter.cla
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
-import fixtures from "@mudita/contract-test"
 
 class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public getModelName(): string {
@@ -29,7 +28,7 @@ class PurePhoneFakeAdapter extends PurePhoneAdapter {
   public async getOsVersion(): Promise<DeviceResponse<string>> {
     return {
       status: DeviceResponseStatus.Ok,
-      data: fixtures.deviceInfo.body.gitTag,
+      data: "release-0.55.1",
     }
   }
 

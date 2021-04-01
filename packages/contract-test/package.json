@@ -24,7 +24,7 @@
     "prepublish": "npm run build",
     "lint": "eslint 'src/**/*.ts'",
     "lint:typecheck": "tsc --noEmit",
-    "test": "jest --runInBand --bail"
+    "test": "jest --runInBand --bail --forceExit --detectOpenHandles"
   },
   "bugs": {
     "url": "https://github.com/Mudita/mudita-center/issues"
