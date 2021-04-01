@@ -29,6 +29,7 @@ const MessageDayBubble: FunctionComponent<Properties> = ({
         id={id}
         user={user}
         message={message}
+        date={date}
         interlocutor={interlocutor}
         previousAuthor={!previousDateIsSame || previousAuthor}
       />
