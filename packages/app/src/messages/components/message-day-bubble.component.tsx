@@ -7,6 +7,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React, { ComponentProps } from "react"
 import MessageBubble from "App/messages/components/message-bubble.component"
 import SlackDate from "App/messages/components/slack-date.component"
+import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 
 interface Properties extends ComponentProps<typeof MessageBubble> {
   displayDate: boolean
@@ -21,7 +22,9 @@ const MessageDayBubble: FunctionComponent<Properties> = ({
 }) => {
   return (
     <>
-      {!displayDate && <SlackDate date={date} />}
+      {!displayDate && (
+        <SlackDate data-testid={MessageDayBubbleTestIds.Date} date={date} />
+      )}
       <MessageBubble
         {...messageProps}
         previousAuthor={!displayDate || previousAuthor}

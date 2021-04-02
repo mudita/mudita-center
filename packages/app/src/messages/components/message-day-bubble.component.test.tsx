@@ -6,7 +6,7 @@
 import React, { ComponentProps } from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import MessageDayBubble from "App/messages/components/message-day-bubble.component"
-import { SlackDateTestIds } from "App/messages/components/slack-date-test-ids.enum"
+import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
 
 type Properties = ComponentProps<typeof MessageDayBubble>
@@ -40,13 +40,13 @@ const renderer = (extraProps?: {}) => {
 
 test("date tag isn't visible if previousDateIsSame flag is set to true", () => {
   const { queryByTestId } = renderer({ previousDateIsSame: true })
-  const dateTagElement = queryByTestId(SlackDateTestIds.DateTag)
+  const dateTagElement = queryByTestId(MessageDayBubbleTestIds.Date)
   expect(dateTagElement).not.toBeInTheDocument()
 })
 
 test("date tag is visible if previousDateIsSame flag is set to false", () => {
   const { queryByTestId } = renderer({ previousDateIsSame: false })
-  const dateTagElement = queryByTestId(SlackDateTestIds.DateTag)
+  const dateTagElement = queryByTestId(MessageDayBubbleTestIds.Date)
   expect(dateTagElement).toBeInTheDocument()
   expect(dateTagElement).toBeVisible()
 })
