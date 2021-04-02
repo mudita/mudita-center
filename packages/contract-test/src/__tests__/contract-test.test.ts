@@ -3,11 +3,15 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import DeviceManager, { PureDevice, Contact } from "@mudita/pure"
+import DeviceManager, {
+  PureDevice,
+  Contact,
+  DeviceInfo,
+  Response,
+} from "@mudita/pure"
 
 describe("Contract tests", () => {
   let device: PureDevice
-
   beforeAll(async () => {
     device = (await DeviceManager.getDevices())[0]
     if (!device) {
@@ -27,7 +31,7 @@ describe("Contract tests", () => {
   })
 
   describe("Device Info", () => {
-    let response: any
+    let response: Response<DeviceInfo>
     beforeAll(async () => {
       response = await device.request({
         endpoint: 1,
@@ -77,7 +81,7 @@ describe("Contract tests", () => {
       )
     })
     test("Battery level has to be between 0 and 100", () => {
-      const level = Number(response.body.batteryLevel)
+      const level = Number(response.body?.batteryLevel)
       expect(level).toEqual(expect.any(Number))
       expect(level).toBeGreaterThanOrEqual(0)
       expect(level).toBeLessThanOrEqual(100)
@@ -85,7 +89,7 @@ describe("Contract tests", () => {
   })
 
   describe("Contacts", () => {
-    let contactCreationResponse: any
+    let contactCreationResponse: Response<Contact>
     const contact = {
       address: "6 Czeczota St.\n 02600 Warsaw",
       altName: "Turk",
@@ -138,6 +142,7 @@ describe("Contract tests", () => {
           endpoint: 7,
           method: 1,
         })
+
         response.body.entries.forEach(
           ({
             address,
@@ -162,13 +167,13 @@ describe("Contract tests", () => {
     })
 
     describe("GET for a single contact", () => {
-      let getResponse: any
+      let getResponse: Response<Contact>
       beforeAll(async () => {
         getResponse = await device.request({
           endpoint: 7,
           method: 1,
           body: {
-            id: Number(contactCreationResponse.body.id),
+            id: Number(contactCreationResponse.body?.id),
           },
         })
       })
@@ -206,19 +211,19 @@ describe("Contract tests", () => {
       test("Response body is the same as post body", () => {
         expect(getResponse.body).toStrictEqual({
           ...contact,
-          id: Number(contactCreationResponse.body.id),
+          id: Number(contactCreationResponse.body?.id),
         })
       })
     })
 
     describe("DELETE", () => {
-      let deleteResponse: any
+      let deleteResponse: Response<Contact["id"]>
       test("Contact is successfully deleted", async () => {
         deleteResponse = await device.request({
           endpoint: 7,
           method: 4,
           body: {
-            id: Number(contactCreationResponse.body.id),
+            id: Number(contactCreationResponse.body?.id),
           },
         })
         expect(deleteResponse.status).toEqual(200)
@@ -242,7 +247,7 @@ describe("Contract tests", () => {
     })
 
     describe("PUT", () => {
-      let putResponse: any
+      let putResponse: Response<Contact>
       test("Contact is edited successfully", async () => {
         putResponse = await device.request({
           endpoint: 7,
@@ -269,6 +274,66 @@ describe("Contract tests", () => {
           }
         `
         )
+      })
+    })
+  })
+  /*
+  TODO:Since this is readonly for now, tests assumes that Pure has at least one thread with messages inside.
+  When CRUD becomes available, add tests that first create a thread and then check other actions, like it was done in Contacts.
+   */
+  describe("Messages", () => {
+    let response: any
+    test("GET threads", async () => {
+      response = await device.request({
+        endpoint: 8,
+        method: 1,
+        body: { category: "thread", limit: 15 },
+      })
+      expect(response.status).toEqual(200)
+      response.body.entries.forEach(
+        ({
+          contactID,
+          isUnread,
+          lastUpdatedAt,
+          messageCount,
+          messageSnippet,
+          messageType,
+          numberID,
+          threadID,
+        }: any) => {
+          expect(contactID).toBeNumber()
+          expect(isUnread).toBeBoolean()
+          expect(lastUpdatedAt).toBeNumber()
+          expect(messageCount).toBeNumber()
+          expect(messageSnippet).toBeString()
+          expect(messageType).toBeNumber()
+          expect(numberID).toBeNumber()
+          expect(threadID).toBeNumber()
+        }
+      )
+    })
+
+    test("GET thread by ID ", async () => {
+      const threadId = response.body.entries[0].threadID
+      const getThreadByIdResponse = await device.request({
+        endpoint: 8,
+        method: 1,
+        body: {
+          category: "message",
+          threadId,
+          offset: 0,
+          limit: 6,
+        },
+      })
+      expect(getThreadByIdResponse.status).toEqual(200)
+      getThreadByIdResponse.body.entries.forEach((entry: any) => {
+        expect(entry.contactID).toBeNumber()
+        expect(entry.messageBody).toBeString()
+        expect(entry.messageID).toBeNumber()
+        expect(entry.messageType).toBeNumber()
+        expect(entry.receivedAt).toBeNumber()
+        expect(entry.sentAt).toBeNumber()
+        expect(entry.threadID).toBeNumber()
       })
     })
   })

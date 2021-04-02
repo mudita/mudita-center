@@ -22,6 +22,7 @@ export enum ResponseStatus {
 
   // lib status
   ConnectionError = 503,
+  ParserError = 504,
 }
 
 export type ResponseErrorCode = number
@@ -75,9 +76,25 @@ export enum BodyCommand {
   Download = "download",
 }
 
-export interface ApiRequestConfig extends RequestConfig {
+export interface ApiRequestPayload extends RequestPayload {
   endpoint: Endpoint.ApiVersion
   method: Method.Get
+}
+
+export interface FileUploadRequestPayload extends RequestPayload {
+  endpoint: Endpoint.FileUpload
+  method: Method.Post
+  filePath: string
+}
+
+export interface DeviceUpdateRequestPayload extends RequestPayload {
+  endpoint: Endpoint.DeviceUpdate
+  method: Method.Post
+  filePath: string
+}
+
+export interface RequestPayload extends RequestConfig {
+  uuid: number
 }
 
 export interface RequestConfig {
