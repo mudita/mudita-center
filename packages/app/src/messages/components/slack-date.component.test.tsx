@@ -4,9 +4,8 @@
  */
 
 import React, { ComponentProps } from "react"
-import moment from "moment"
+import * as MockDate from "mockdate"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import { SlackDateTestIds } from "App/messages/components/slack-date-test-ids.enum"
 import SlackDate from "App/messages/components/slack-date.component"
 
 type Properties = ComponentProps<typeof SlackDate>
@@ -19,11 +18,13 @@ const renderer = (props: Properties) => {
   }
 }
 
+MockDate.set('2000-2-1');
+
 test("the correct translation is displaying for today date", () => {
-  const { getByTestId } = renderer({
+  const { container } = renderer({
     date: new Date(),
   })
-  expect(getByTestId(SlackDateTestIds.DateTag)).toHaveTextContent(
+  expect(container).toHaveTextContent(
     "[value] view.generic.today"
   )
 })
@@ -32,30 +33,20 @@ test("the correct date format is displaying for current year", () => {
   const today = new Date()
   const yesterday = new Date(today.setDate(today.getDate() - 1))
 
-  const { getByTestId } = renderer({
+  const { container } = renderer({
     date: yesterday,
   })
 
-  expect(
-    moment(
-      getByTestId(SlackDateTestIds.DateTag).textContent,
-      "dddd, MMMM Do"
-    ).isValid()
-  ).toBeTruthy()
+  expect(container).toHaveTextContent("Monday, January 31st")
 })
 
 test("the correct date format is displaying for previous year", () => {
   const today = new Date()
-  const previousYear = new Date(today.setDate(today.getDate() - 356))
+  const previousYear = new Date(today.setDate(today.getDate() - 366))
 
-  const { getByTestId } = renderer({
+  const { container } = renderer({
     date: previousYear,
   })
 
-  expect(
-    moment(
-      getByTestId(SlackDateTestIds.DateTag).textContent,
-      "MMMM Do, YYYY"
-    ).isValid()
-  ).toBeTruthy()
+  expect(container).toHaveTextContent("January 31st, 1999")
 })

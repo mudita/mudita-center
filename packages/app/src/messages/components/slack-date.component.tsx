@@ -8,7 +8,6 @@ import moment from "moment"
 import styled from "styled-components"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { SlackDateTestIds } from "App/messages/components/slack-date-test-ids.enum"
 import Tag from "Renderer/components/core/tag/tag.component"
 import Text, { TextDisplayStyle } from "Renderer/components/core/text/text.component"
 import { textColor } from "Renderer/styles/theming/theme-getters"
@@ -58,7 +57,7 @@ const isThisYear = (date: Date): boolean => {
 const SlackDate: FunctionComponent<Properties> = ({ date }) => {
   return (
     <TagContainer>
-      <SlackDateTag data-testid={SlackDateTestIds.DateTag}>
+      <SlackDateTag>
         <Text displayStyle={TextDisplayStyle.SmallFadedText} >
           {formatToSlackDate(date)}
         </Text>
