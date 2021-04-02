@@ -33,7 +33,8 @@
       "Components/*": ["./src/components/*"],
       "Theme/*": ["./src/theme/*"],
       "Utils/*": ["./src/utils/*"],
-      "Storybook/*": ["./.storybook/*"]
+      "Storybook/*": ["./.storybook/*"],
+      "Icons": ["./src/icons/index"]
     },
     "types": ["jest", "node", "@testing-library/jest-dom"],
     "experimentalDecorators": true,

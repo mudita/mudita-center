@@ -2,7 +2,6 @@ import { paths } from "Storybook/paths"
 import { Icon } from "Components/icon/icon.component"
 import React, { ComponentProps } from "react"
 import { Story } from "@storybook/react"
-import { IconSize, IconType } from "Components/icon/icon.enum"
 import { theme } from "Theme/theme-provider"
 import {
   ArgsTable,
@@ -13,17 +12,10 @@ import {
   Subtitle,
   Title,
 } from "@storybook/addon-docs/blocks"
-import styled from "styled-components"
+import { IconType } from "Icons"
 
-const TemplateIcon = styled(Icon)`
-  box-shadow: 0 0 0.1rem 0 #000;
-`
-
-const Template: Story<ComponentProps<typeof Icon>> = ({
-  type = IconType.CheckboxChecked,
-  ...props
-}) => {
-  return <TemplateIcon {...props} type={type} />
+const Template: Story<ComponentProps<typeof Icon>> = ({ ...props }) => {
+  return <Icon {...props} />
 }
 
 const storyCreator = ({
@@ -32,58 +24,47 @@ const storyCreator = ({
   const Story = Template.bind({})
   Story.args = {
     ...props,
-    size: IconSize.Basic,
+    style: {
+      boxShadow: "0 0 .1rem 0 rgba(0,0,0,.5)",
+    },
   }
+
+  const [enumName] =
+    Object.entries(IconType).find(([, value]) => value === props.children) || []
+
+  const sizeProp = props.size ? ` size={${props.size}}` : ""
 
   Story.parameters = {
     docs: {
       source: {
-        code: `<Icon type={IconType.${props.type}} />`,
+        code: `<Icon${sizeProp}>{IconType.${enumName}}</Icon>`,
       },
     },
   }
   return Story
 }
 
-const description = `\`<Icon>\` component allows to easily use and customize all icons defined in our design system.
+const description = `\`<Icon>\` component is a wrapper that allows rendering our custom \`"Mudita Icons"\` font. It always renders as \`<span>\` element so it can be freely used in many different scenarios.
 
-It always renders as \`<span>\` element so it can be freely used in many different scenarios.
+Because icons are de facto ligatures, they can be easily used in the following way:
 
-> **Note:** The border around icons is only for presentation purpose to show the real size of icon component.`
+\`\`\`TSX
+<Icon>checkbox-checked</Icon>
+\`\`\`
+
+However, for easier development, there is an \`IconType\` enum that can be used instead:
+
+\`\`\`TSX
+<Icon>{IconType.CheckboxChecked}</Icon>
+\`\`\`
+
+> **Note:** The grey border around icons is only for demo purposes to show the size of icon container.
+`
 
 export default {
   title: `${paths.atoms}/Icon`,
   component: Icon,
   argTypes: {
-    type: {
-      control: {
-        type: "select",
-        options: Object.values(IconType),
-      },
-      description: "The selected icon.",
-      defaultValue: null,
-      table: {
-        type: {
-          summary: "IconType",
-          detail: `IconType.CheckboxChecked, IconType.CheckboxDropdown, ...`,
-        },
-      },
-    },
-    size: {
-      control: {
-        type: "select",
-        options: [...Object.values(IconSize), undefined],
-      },
-      defaultValue: null,
-      description:
-        "One of predefined size. If not provided, the original SVG size will be applied (from `width` and `height` but converted to `rem`).",
-      table: {
-        type: {
-          summary: "IconSize",
-          detail: `IconSize.Basic, IconSize.Small, IconSize.Big`,
-        },
-      },
-    },
     color: {
       control: {
         type: "select",
@@ -98,34 +79,15 @@ export default {
         },
       },
     },
-    stretch: {
-      description:
-        "Decides whether icon should be stretched (preserving aspect ratio) to the container or preserve original ratio between icon size and `viewBox`.",
-      table: {
-        type: {
-          detail: "Default is `false`",
-        },
-      },
-    },
-    width: {
+    size: {
       control: {
         type: "number",
-        min: 0,
+        min: 0.5,
         max: 10,
-        step: 1,
+        step: 0.1,
       },
-      description:
-        "Custom width in `rem` unit. It's applied with the following rules:\n\n- if it's specified along with `size`, it overrides its `width`\n- if no `size` and `height` are specified, it's treated as `height` too (square icon)\n- `0` is treated as undefined",
-      table: {
-        type: {
-          summary: "Number",
-          detail: "Only positive numbers are allowed",
-        },
-      },
-    },
-    height: {
-      description:
-        "Custom height in `rem` unit. It's applied with the following rules:\n\n- if it's specified along with `size`, it overrides its `height`\n- if no `size` and `width` are specified, it's treated as `width` too (square icon)\n- `0` is treated as undefined",
+      defaultValue: 2,
+      description: "Font size in `rem` unit. Default is `2rem`.",
       table: {
         type: {
           summary: "Number",
@@ -134,6 +96,36 @@ export default {
       },
     },
     className: {
+      table: {
+        disable: true,
+      },
+    },
+    children: {
+      table: {
+        disable: true,
+      },
+    },
+    ref: {
+      table: {
+        disable: true,
+      },
+    },
+    theme: {
+      table: {
+        disable: true,
+      },
+    },
+    as: {
+      table: {
+        disable: true,
+      },
+    },
+    forwardedAs: {
+      table: {
+        disable: true,
+      },
+    },
+    style: {
       table: {
         disable: true,
       },
@@ -148,26 +140,21 @@ export default {
           <Description markdown={description} />
           <Primary />
           <ArgsTable story={PRIMARY_STORY} />
-          <Stories title={"Available icons"} />
+          <Stories includePrimary title={"Available icons"} />
         </>
       ),
     },
   },
 }
 
-export const Default = Template.bind({})
-Default.parameters = {
-  docs: {
-    source: {
-      code: " ",
-    },
-  },
-}
-
-export const CheckboxChecked = storyCreator({ type: IconType.CheckboxChecked })
-export const CheckboxIndeterminate = storyCreator({
-  type: IconType.CheckboxIndeterminate,
+export const CheckboxChecked = storyCreator({
+  children: IconType.CheckboxChecked,
 })
+
+export const CheckboxIndeterminate = storyCreator({
+  children: IconType.CheckboxIndeterminate,
+})
+
 export const CheckboxDropdown = storyCreator({
-  type: IconType.CheckboxDropdown,
+  children: IconType.CheckboxDropdown,
 })

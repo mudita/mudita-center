@@ -1,6 +1,10 @@
 // Fonts
 import "./fonts/fallback/style.css"
 
+// Icons
+import "./icons/style.css"
+export { IconType } from "Icons"
+
 // Theme
 export * from "Theme/theme-provider"
 export * from "Theme/global-style"
@@ -12,8 +16,7 @@ export { Spacing } from "Theme/spacing"
 export { AppFunctionComponent } from "@mudita/app-function-component"
 
 // Components
-export { TextVariant, TextDecorator } from "Components/text/text.enum"
 export { Text } from "Components/text/text.component"
+export { TextVariant, TextDecorator } from "Components/text/text.enum"
 
 export { Icon } from "Components/icon/icon.component"
-export * from "Components/icon/icon.type"

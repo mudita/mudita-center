@@ -5,13 +5,13 @@ module.exports = {
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|tsx|js|jsx)$",
   moduleNameMapper: {
     ".+\\.(css|styl|less|sass|scss)$": "identity-obj-proxy",
-    "\\.svg": "<rootDir>/config/jest/mocks/svgrMock.js",
     ".+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
       "<rootDir>/config/jest/mocks/file-mock.js",
     "Components/(.*)": "<rootDir>/src/components/$1",
     "Theme/(.*)": "<rootDir>/src/theme/$1",
     "Utils/(.*)": "<rootDir>/src/utils/$1",
     "Storybook/(.*)": "<rootDir>/.storybook/$1",
+    Icons: "<rootDir>/src/icons/index.ts",
   },
   rootDir: "./",
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],

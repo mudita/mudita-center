@@ -17,15 +17,10 @@ module.exports = {
       __dirname,
       path.join("..", "src", "theme")
     )
-
-    const rules = config.module.rules;
-    const fileLoaderRule = rules.find(rule => rule.test.test('.svg'));
-    fileLoaderRule.exclude = /\.svg$/;
-
-    rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    })
+    config.resolve.alias["Icons"] = path.resolve(
+      __dirname,
+      path.join("..", "src", "icons")
+    )
 
     return config
   },

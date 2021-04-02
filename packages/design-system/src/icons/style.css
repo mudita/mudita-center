@@ -1,0 +1,5 @@
+@font-face {
+  font-family: "Mudita Icons";
+  src: url("./icons.ttf") format("truetype"), url("./icons.woff") format("woff"),
+    url("./icons.woff2") format("woff2");
+}
