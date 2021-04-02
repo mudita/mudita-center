@@ -133,7 +133,7 @@ export class PurePhoneMessages extends PurePhoneMessagesAdapter {
       return {
         status: DeviceResponseStatus.Ok,
         data: [...pureMessages, ...data.entries]
-          .filter(PurePhoneMessages.isMessageType)
+          .filter(PurePhoneMessages.isAcceptablePureMessageType)
           .map(PurePhoneMessages.mapToMessages),
       }
     } else {
@@ -165,13 +165,13 @@ export class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 
-  private static isMessageType(
+  private static isAcceptablePureMessageType(
     pureMessage: PureMessage
   ): pureMessage is PureMessage & { messageType: AcceptablePureMessageType } {
     return (
-      pureMessage.messageType !== PureMessageType.FAILED &&
-      pureMessage.messageType !== PureMessageType.INBOX &&
-      pureMessage.messageType !== PureMessageType.OUTBOX
+      pureMessage.messageType === PureMessageType.FAILED ||
+      pureMessage.messageType === PureMessageType.INBOX ||
+      pureMessage.messageType === PureMessageType.OUTBOX
     )
   }
 
