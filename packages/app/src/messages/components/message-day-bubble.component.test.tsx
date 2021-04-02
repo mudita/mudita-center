@@ -74,7 +74,6 @@ test("avatar is visible if previousDateIsSame flag is set to true and previousAu
     previousAuthor: true,
   })
   const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)
-  expect(textAvatarElement).toBeInTheDocument()
   expect(textAvatarElement).toBeVisible()
 })
 
