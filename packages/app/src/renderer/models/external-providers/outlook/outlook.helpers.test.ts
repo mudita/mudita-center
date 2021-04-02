@@ -18,6 +18,7 @@ import {
   OutlookEvent,
   OutLookScope,
 } from "Renderer/models/external-providers/outlook/outlook.interface"
+import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 
 const scope = "offline_access, https://graph.microsoft.com/contacts.read"
 
@@ -120,7 +121,7 @@ test("mapEvents returns proper value", () => {
       },
     },
   ]
-  const output = [
+  const output: CalendarEvent[] = [
     {
       endDate: "2021-04-02T08:00:00.000Z",
       id:
