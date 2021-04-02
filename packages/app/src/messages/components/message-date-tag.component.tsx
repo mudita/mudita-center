@@ -26,7 +26,7 @@ const TagContainer = styled.div`
   margin: 3.6rem 0 2.8rem 0;
 `
 
-const SlackDateTag = styled(Tag)`
+const DateTag = styled(Tag)`
   p {
     color: ${textColor("primary")};
   }
@@ -36,7 +36,7 @@ interface Properties {
   date: Date
 }
 
-const formatToSlackDate = (date: Date): string | JSX.Element => {
+const formatToMessageDate = (date: Date): string | JSX.Element => {
   if (isToday(date)) {
     return <Text message={messages.today} element={"span"} />
   } else if (isThisYear(date)) {
@@ -54,16 +54,16 @@ const isThisYear = (date: Date): boolean => {
   return moment(date).isSame(new Date(), "year")
 }
 
-const SlackDate: FunctionComponent<Properties> = ({ date, ...props }) => {
+const MessageDateTag: FunctionComponent<Properties> = ({ date, ...props }) => {
   return (
     <TagContainer {...props}>
-      <SlackDateTag>
+      <DateTag>
         <Text displayStyle={TextDisplayStyle.SmallFadedText} >
-          {formatToSlackDate(date)}
+          {formatToMessageDate(date)}
         </Text>
-      </SlackDateTag>
+      </DateTag>
     </TagContainer>
   )
 }
 
-export default SlackDate
+export default MessageDateTag

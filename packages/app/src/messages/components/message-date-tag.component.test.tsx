@@ -6,12 +6,12 @@
 import React, { ComponentProps } from "react"
 import * as MockDate from "mockdate"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
-import SlackDate from "App/messages/components/slack-date.component"
+import MessageDateTag from "App/messages/components/message-date-tag.component"
 
-type Properties = ComponentProps<typeof SlackDate>
+type Properties = ComponentProps<typeof MessageDateTag>
 
 const renderer = (props: Properties) => {
-  const outcome = renderWithThemeAndIntl(<SlackDate {...props} />)
+  const outcome = renderWithThemeAndIntl(<MessageDateTag {...props} />)
 
   return {
     ...outcome,
