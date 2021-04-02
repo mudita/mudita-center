@@ -18,6 +18,9 @@ import Modal, {
 } from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
+import ModalDialog, {
+  Properties,
+} from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 export const ModalContent = styled.div`
   display: flex;
@@ -71,19 +74,20 @@ export const LoadingBar = styled(StackedBarChart)`
 `
 
 export const PureBackupModal: FunctionComponent<
-  Partial<ModalProps> & { icon?: Type }
+  Properties & { icon?: Type }
 > = ({
+  isOpen,
   icon = Type.FilesManager,
   size = ModalSize.Small,
   children,
   ...props
 }) => (
-  <Modal size={size} {...props}>
+  <ModalDialog isOpen={isOpen} size={size} {...props}>
     <ModalContent>
       <ModalIcon>
         <Icon type={icon} width={5} />
       </ModalIcon>
       {children}
     </ModalContent>
-  </Modal>
+  </ModalDialog>
 )

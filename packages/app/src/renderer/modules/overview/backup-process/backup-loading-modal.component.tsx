@@ -19,6 +19,10 @@ import {
 } from "Renderer/modules/overview/backup-process/modals.styled"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
+import {
+  Properties,
+} from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 
 const messages = defineMessages({
   cancel: { id: "view.generic.button.cancel" },
@@ -30,18 +34,19 @@ const messages = defineMessages({
   },
 })
 
-interface BackupLoadingModalProps extends Pick<ModalProps, "onClose"> {
+interface BackupLoadingModalProps extends Properties {
   progress?: number
 }
 
 export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps> = ({
   onClose = noop,
   progress = 0,
+  ...props
 }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     closeable={false}
-    onClose={onClose}
+    {...props}
   >
     <Text
       message={messages.title}

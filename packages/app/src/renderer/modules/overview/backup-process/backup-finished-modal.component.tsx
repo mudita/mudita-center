@@ -21,6 +21,7 @@ import {
 } from "Renderer/modules/overview/backup-process/modals.styled"
 import { BackupItem } from "Renderer/modules/overview/backup-process/modals.interface"
 import { defineMessages } from "react-intl"
+import { Properties } from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   filename: {
@@ -38,7 +39,7 @@ const messages = defineMessages({
   },
 })
 
-interface BackupFinishedModalProps {
+interface BackupFinishedModalProps extends Properties {
   items: BackupItem[]
   destination: string
 }
@@ -46,10 +47,12 @@ interface BackupFinishedModalProps {
 export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = ({
   items,
   destination,
+  ...props
 }) => (
   <PureBackupModal
     actionButtonLabel={intl.formatMessage(messages.ok)}
     size={ModalSize.Medium}
+    {...props}
   >
     <Text
       message={messages.title}

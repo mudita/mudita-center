@@ -51,9 +51,10 @@ const simulateProgress = async (
   const progressSimulator = setInterval(() => {
     if (progress < 100) {
       progress += 2
-      modalService.rerenderModal(
-        React.cloneElement(Component, { onClose: cancel, progress })
-      )
+      // modalService.rerenderModal(
+      //   React.cloneElement(Component, { onClose: cancel, progress })
+      // )
+      React.cloneElement(Component, { onClose: cancel, progress })
       if (fail && progress > 30) {
         clearInterval(progressSimulator)
         onFail()
@@ -118,7 +119,11 @@ const Overview: FunctionComponent<
   let restorations = 0
   const [modals, setModals] = useState({
     backupStartModal: false,
+    loadingModal: false,
+    finishedModal: false,
   })
+  const [progress, setProgress] = useState(0)
+  console.log(progress)
   const store = useStore()
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
@@ -138,6 +143,18 @@ const Overview: FunctionComponent<
       initialCheck()
     }
   }, [osVersion])
+
+  useEffect(() => {
+    if (progress === 50) {
+      console.log("progress")
+      setModals((prevState) => ({
+        ...prevState,
+        loadingModal: false,
+        finishedModal: true,
+      }))
+      // clearInterval(progressSimulator)
+    }
+  }, [progress])
 
   const openBackupFinishedModal = () => {
     logger.info("Backup creation finished.")
@@ -159,13 +176,32 @@ const Overview: FunctionComponent<
   const openBackupLoadingModal = () => {
     backups++
     logger.info("Creating backup...")
+    closeBackupStartModal()
+    setModals((prevState) => ({
+      ...prevState,
+      loadingModal: true,
+    }))
+    // wrzucic w useEffect
+    const progressSimulator = setInterval(() => {
+      setProgress((prevState) => prevState + 2)
+      if (progress === 50) {
+        console.log("progress")
+        setModals((prevState) => ({
+          ...prevState,
+          loadingModal: false,
+          finishedModal: true,
+        }))
+        // clearInterval(progressSimulator)
+      }
+    }, 100)
 
-    simulateProgress(
-      <BackupLoadingModal />,
-      openBackupFailedModal,
-      openBackupFinishedModal,
-      backups % 3 === 0
-    )
+    // pro
+    // simulateProgress(
+    //   <BackupLoadingModal isOpen={modals.loadingModal}/>,
+    //   openBackupFailedModal,
+    //   openBackupFinishedModal,
+    //   backups % 3 === 0
+    // )
   }
 
   const openBackupStartModal = () => {
@@ -229,6 +265,13 @@ const Overview: FunctionComponent<
         }
         closeModal={closeBackupStartModal}
       />
+      <BackupLoadingModal isOpen={modals.loadingModal} progress={progress} />,
+      <BackupFinishedModal
+        isOpen={modals.finishedModal}
+        items={mockedBackupItems}
+        destination={store.getState().settings.pureOsBackupLocation as string}
+      />
+      ,
       <OverviewUI
         batteryLevel={batteryLevel}
         changeSim={changeSim}
