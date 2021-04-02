@@ -6,14 +6,19 @@
 import { storiesOf } from "@storybook/react"
 import Story from "Renderer/components/storybook/story.component"
 import { StoryModalWrapper } from "Renderer/components/core/modal/modal.styled.elements"
-import Text, { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import * as React from "react"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { ModalSize, TitleOrder } from "Renderer/components/core/modal/modal.interface"
+import {
+  ModalSize,
+  TitleOrder,
+} from "Renderer/components/core/modal/modal.interface"
 import { noop } from "Renderer/utils/noop"
 
-storiesOf("Components|Core/ModalDialog/Default (large)", module)
-  .add("With title", () => {
+storiesOf("Components|Core/ModalDialog", module)
+  .add("Large With title", () => {
     return (
       <Story title="With title" transparentMode>
         <StoryModalWrapper>
@@ -26,7 +31,7 @@ storiesOf("Components|Core/ModalDialog/Default (large)", module)
       </Story>
     )
   })
-  .add("With title and subtitle", () => (
+  .add("Large With title and subtitle", () => (
     <Story title="With title and subtitle" transparentMode>
       <StoryModalWrapper>
         <ModalDialog isOpen title={"Title"} subtitle={"Subtitle"}>
@@ -37,7 +42,7 @@ storiesOf("Components|Core/ModalDialog/Default (large)", module)
       </StoryModalWrapper>
     </Story>
   ))
-  .add("With titles reversed", () => (
+  .add("Large With titles reversed", () => (
     <Story title="With titles reversed" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
@@ -53,7 +58,7 @@ storiesOf("Components|Core/ModalDialog/Default (large)", module)
       </StoryModalWrapper>
     </Story>
   ))
-  .add("With action button", () => (
+  .add("Large With action button", () => (
     <Story title="With action button" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
@@ -70,10 +75,7 @@ storiesOf("Components|Core/ModalDialog/Default (large)", module)
       </StoryModalWrapper>
     </Story>
   ))
-
-
-storiesOf("Components|Core/ModalDialog/Medium", module)
-  .add("With title", () => {
+  .add("Medium With title", () => {
     return (
       <Story title="With title" transparentMode>
         <StoryModalWrapper>
@@ -86,10 +88,15 @@ storiesOf("Components|Core/ModalDialog/Medium", module)
       </Story>
     )
   })
-  .add("With title and subtitle", () => (
+  .add("Medium With title and subtitle", () => (
     <Story title="With title and subtitle" transparentMode>
       <StoryModalWrapper>
-        <ModalDialog isOpen title={"Title"} subtitle={"Subtitle"}  size={ModalSize.Medium}>
+        <ModalDialog
+          isOpen
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Medium}
+        >
           <Text displayStyle={TextDisplayStyle.LargeText}>
             Lorem ipsum dolor sit amet
           </Text>
@@ -97,7 +104,7 @@ storiesOf("Components|Core/ModalDialog/Medium", module)
       </StoryModalWrapper>
     </Story>
   ))
-  .add("With titles reversed", () => (
+  .add("Medium With titles reversed", () => (
     <Story title="With titles reversed" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
@@ -114,7 +121,7 @@ storiesOf("Components|Core/ModalDialog/Medium", module)
       </StoryModalWrapper>
     </Story>
   ))
-  .add("With action button", () => (
+  .add("Medium With action button", () => (
     <Story title="With action button" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
@@ -132,9 +139,7 @@ storiesOf("Components|Core/ModalDialog/Medium", module)
       </StoryModalWrapper>
     </Story>
   ))
-
-storiesOf("Components|Core/ModalDialog/Small", module)
-  .add("With title", () => {
+  .add("Small With title", () => {
     return (
       <Story title="With title" transparentMode>
         <StoryModalWrapper>
@@ -147,10 +152,15 @@ storiesOf("Components|Core/ModalDialog/Small", module)
       </Story>
     )
   })
-  .add("With title and subtitle", () => (
+  .add("Small With title and subtitle", () => (
     <Story title="With title and subtitle" transparentMode>
       <StoryModalWrapper>
-        <ModalDialog isOpen title={"Title"} subtitle={"Subtitle"}  size={ModalSize.Small}>
+        <ModalDialog
+          isOpen
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.Small}
+        >
           <Text displayStyle={TextDisplayStyle.LargeText}>
             Lorem ipsum dolor sit amet
           </Text>
@@ -158,7 +168,7 @@ storiesOf("Components|Core/ModalDialog/Small", module)
       </StoryModalWrapper>
     </Story>
   ))
-  .add("With titles reversed", () => (
+  .add("Small With titles reversed", () => (
     <Story title="With titles reversed" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
@@ -175,7 +185,7 @@ storiesOf("Components|Core/ModalDialog/Small", module)
       </StoryModalWrapper>
     </Story>
   ))
-  .add("With action button", () => (
+  .add("Small With action button", () => (
     <Story title="With action button" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
@@ -193,9 +203,7 @@ storiesOf("Components|Core/ModalDialog/Small", module)
       </StoryModalWrapper>
     </Story>
   ))
-
-storiesOf("Components|Core/ModalDialog/Very small", module)
-  .add("With title", () => {
+  .add("Very small With title", () => {
     return (
       <Story title="With title" transparentMode>
         <StoryModalWrapper>
@@ -208,10 +216,15 @@ storiesOf("Components|Core/ModalDialog/Very small", module)
       </Story>
     )
   })
-  .add("With title and subtitle", () => (
+  .add("Very small With title and subtitle", () => (
     <Story title="With title and subtitle" transparentMode>
       <StoryModalWrapper>
-        <ModalDialog isOpen title={"Title"} subtitle={"Subtitle"}  size={ModalSize.VerySmall}>
+        <ModalDialog
+          isOpen
+          title={"Title"}
+          subtitle={"Subtitle"}
+          size={ModalSize.VerySmall}
+        >
           <Text displayStyle={TextDisplayStyle.LargeText}>
             Lorem ipsum dolor sit amet
           </Text>
@@ -219,7 +232,7 @@ storiesOf("Components|Core/ModalDialog/Very small", module)
       </StoryModalWrapper>
     </Story>
   ))
-  .add("With titles reversed", () => (
+  .add("Very small With titles reversed", () => (
     <Story title="With titles reversed" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
@@ -236,7 +249,7 @@ storiesOf("Components|Core/ModalDialog/Very small", module)
       </StoryModalWrapper>
     </Story>
   ))
-  .add("With action button", () => (
+  .add("Very small With action button", () => (
     <Story title="With action button" transparentMode>
       <StoryModalWrapper>
         <ModalDialog
