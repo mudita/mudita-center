@@ -33,14 +33,14 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
         const interlocutor = messageType === MessageType.OUTBOX
         const user = interlocutor ? contact : {}
         const prevMessage = messages[index - 1]
-        const previousAuthor = prevMessage?.messageType !== messageType
+        const displayAvatar = prevMessage?.messageType !== messageType
         const previousDateIsSame = moment(prevMessage?.date).isSame(date, "day")
         const messageDayBubble: ComponentProps<typeof MessageDayBubble> = {
           user,
           id,
           date,
           interlocutor,
-          previousAuthor,
+          displayAvatar,
           displayDate: previousDateIsSame,
           message: content,
         }

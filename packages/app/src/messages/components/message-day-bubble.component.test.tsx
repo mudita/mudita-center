@@ -18,7 +18,7 @@ const defaultProps: Properties = {
     id: "99d5b104-d04c-46a0-9366-b14da9ec11a0",
   },
   interlocutor: true,
-  previousAuthor: true,
+  displayAvatar: true,
   message: "Molestiae molestias voluptate rerum. Dolores possimus id.",
   id: "c7873064-ee7c-49ae-a1c0-bd2d73f401ib",
   displayDate: false,
@@ -58,29 +58,29 @@ test("avatar is visible if displayDate flag is set to false", () => {
   expect(textAvatarElement).toBeVisible()
 })
 
-test("avatar is visible if displayDate flag is set to true and previousAuthor false", () => {
+test("avatar is visible if displayDate flag is set to true and displayAvatar false", () => {
   const { queryByTestId } = renderer({
     displayDate: false,
-    previousAuthor: false,
+    displayAvatar: false,
   })
   const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)
   expect(textAvatarElement).toBeInTheDocument()
   expect(textAvatarElement).toBeVisible()
 })
 
-test("avatar is visible if displayDate flag is set to true and previousAuthor true", () => {
+test("avatar is visible if displayDate flag is set to true and displayAvatar true", () => {
   const { queryByTestId } = renderer({
     displayDate: false,
-    previousAuthor: true,
+    displayAvatar: true,
   })
   const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)
   expect(textAvatarElement).toBeVisible()
 })
 
-test("avatar isn't visible if displayDate flag is set to true and previousAuthor false", () => {
+test("avatar isn't visible if displayDate flag is set to true and displayAvatar false", () => {
   const { queryByTestId } = renderer({
     displayDate: true,
-    previousAuthor: false,
+    displayAvatar: false,
   })
   const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)
   expect(textAvatarElement).not.toBeInTheDocument()

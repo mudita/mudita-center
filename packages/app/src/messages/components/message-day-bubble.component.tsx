@@ -15,7 +15,7 @@ interface Properties extends ComponentProps<typeof MessageBubble> {
 }
 
 const MessageDayBubble: FunctionComponent<Properties> = ({
-  previousAuthor,
+  displayAvatar,
   displayDate,
   date,
   ...messageProps
@@ -27,7 +27,7 @@ const MessageDayBubble: FunctionComponent<Properties> = ({
       )}
       <MessageBubble
         {...messageProps}
-        previousAuthor={!displayDate || previousAuthor}
+        displayAvatar={!displayDate || displayAvatar}
       />
     </>
   )
