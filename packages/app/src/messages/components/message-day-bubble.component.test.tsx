@@ -38,29 +38,29 @@ const renderer = (extraProps?: {}) => {
   }
 }
 
-test("date tag isn't visible if previousDateIsSame flag is set to true", () => {
-  const { queryByTestId } = renderer({ previousDateIsSame: true })
+test("date tag isn't visible if displayDate flag is set to true", () => {
+  const { queryByTestId } = renderer({ displayDate: true })
   const dateTagElement = queryByTestId(MessageDayBubbleTestIds.Date)
   expect(dateTagElement).not.toBeInTheDocument()
 })
 
-test("date tag is visible if previousDateIsSame flag is set to false", () => {
-  const { queryByTestId } = renderer({ previousDateIsSame: false })
+test("date tag is visible if displayDate flag is set to false", () => {
+  const { queryByTestId } = renderer({ displayDate: false })
   const dateTagElement = queryByTestId(MessageDayBubbleTestIds.Date)
   expect(dateTagElement).toBeInTheDocument()
   expect(dateTagElement).toBeVisible()
 })
 
-test("avatar is visible if previousDateIsSame flag is set to false", () => {
-  const { queryByTestId } = renderer({ previousDateIsSame: false })
+test("avatar is visible if displayDate flag is set to false", () => {
+  const { queryByTestId } = renderer({ displayDate: false })
   const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)
   expect(textAvatarElement).toBeInTheDocument()
   expect(textAvatarElement).toBeVisible()
 })
 
-test("avatar is visible if previousDateIsSame flag is set to true and previousAuthor false", () => {
+test("avatar is visible if displayDate flag is set to true and previousAuthor false", () => {
   const { queryByTestId } = renderer({
-    previousDateIsSame: false,
+    displayDate: false,
     previousAuthor: false,
   })
   const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)
@@ -68,18 +68,18 @@ test("avatar is visible if previousDateIsSame flag is set to true and previousAu
   expect(textAvatarElement).toBeVisible()
 })
 
-test("avatar is visible if previousDateIsSame flag is set to true and previousAuthor true", () => {
+test("avatar is visible if displayDate flag is set to true and previousAuthor true", () => {
   const { queryByTestId } = renderer({
-    previousDateIsSame: false,
+    displayDate: false,
     previousAuthor: true,
   })
   const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)
   expect(textAvatarElement).toBeVisible()
 })
 
-test("avatar isn't visible if previousDateIsSame flag is set to true and previousAuthor false", () => {
+test("avatar isn't visible if displayDate flag is set to true and previousAuthor false", () => {
   const { queryByTestId } = renderer({
-    previousDateIsSame: true,
+    displayDate: true,
     previousAuthor: false,
   })
   const textAvatarElement = queryByTestId(AvatarTestIds.AvatarText)

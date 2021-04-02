@@ -54,9 +54,9 @@ const isThisYear = (date: Date): boolean => {
   return moment(date).isSame(new Date(), "year")
 }
 
-const SlackDate: FunctionComponent<Properties> = ({ date }) => {
+const SlackDate: FunctionComponent<Properties> = ({ date, ...props }) => {
   return (
-    <TagContainer>
+    <TagContainer {...props}>
       <SlackDateTag>
         <Text displayStyle={TextDisplayStyle.SmallFadedText} >
           {formatToSlackDate(date)}
