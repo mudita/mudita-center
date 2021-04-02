@@ -14,22 +14,16 @@ interface Properties extends ComponentProps<typeof MessageBubble> {
 }
 
 const MessageDayBubble: FunctionComponent<Properties> = ({
-  user,
-  interlocutor,
   previousAuthor,
-  message,
-  id,
   previousDateIsSame,
   date,
+  ...messageProps
 }) => {
   return (
     <>
       {!previousDateIsSame && <SlackDate date={date} />}
       <MessageBubble
-        id={id}
-        user={user}
-        message={message}
-        interlocutor={interlocutor}
+        {...messageProps}
         previousAuthor={!previousDateIsSame || previousAuthor}
       />
     </>
