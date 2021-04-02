@@ -10,7 +10,8 @@ import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { SlackDateTestIds } from "App/messages/components/slack-date-test-ids.enum"
 import Tag from "Renderer/components/core/tag/tag.component"
-import Text from "Renderer/components/core/text/text.component"
+import Text, { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import { textColor } from "Renderer/styles/theming/theme-getters"
 
 const messages = defineMessages({
   today: {
@@ -26,13 +27,19 @@ const TagContainer = styled.div`
   margin: 3.6rem 0 2.8rem 0;
 `
 
+const SlackDateTag = styled(Tag)`
+  p {
+    color: ${textColor("primary")};
+  }
+`
+
 interface Properties {
   date: Date
 }
 
 const formatToSlackDate = (date: Date): string | JSX.Element => {
   if (isToday(date)) {
-    return <Text message={messages.today} />
+    return <Text message={messages.today} element={"span"} />
   } else if (isThisYear(date)) {
     return moment(date).format("dddd, MMMM Do")
   } else {
@@ -51,9 +58,11 @@ const isThisYear = (date: Date): boolean => {
 const SlackDate: FunctionComponent<Properties> = ({ date }) => {
   return (
     <TagContainer>
-      <Tag data-testid={SlackDateTestIds.DateTag}>
-        {formatToSlackDate(date)}
-      </Tag>
+      <SlackDateTag data-testid={SlackDateTestIds.DateTag}>
+        <Text displayStyle={TextDisplayStyle.SmallFadedText} >
+          {formatToSlackDate(date)}
+        </Text>
+      </SlackDateTag>
     </TagContainer>
   )
 }
