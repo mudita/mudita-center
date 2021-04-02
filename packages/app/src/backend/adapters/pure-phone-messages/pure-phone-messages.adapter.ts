@@ -32,6 +32,11 @@ const initGetMessagesBody: GetMessagesBody = {
   limit: 15,
 }
 
+type AcceptablePureMessageType =
+  | PureMessageType.FAILED
+  | PureMessageType.INBOX
+  | PureMessageType.OUTBOX
+
 export class PurePhoneMessages extends PurePhoneMessagesAdapter {
   constructor(private deviceService: DeviceService) {
     super()
@@ -127,9 +132,9 @@ export class PurePhoneMessages extends PurePhoneMessagesAdapter {
     ) {
       return {
         status: DeviceResponseStatus.Ok,
-        data: [...pureMessages, ...data.entries].map(
-          PurePhoneMessages.mapToMessages
-        ),
+        data: [...pureMessages, ...data.entries]
+          .filter(PurePhoneMessages.isMessageType)
+          .map(PurePhoneMessages.mapToMessages),
       }
     } else {
       return {
@@ -139,7 +144,9 @@ export class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 
-  private static mapToMessages(pureMessage: PureMessage): Message {
+  private static mapToMessages(
+    pureMessage: PureMessage & { messageType: AcceptablePureMessageType }
+  ): Message {
     const {
       contactID,
       messageBody,
@@ -158,21 +165,26 @@ export class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 
-  private static getMessageType(messageType: PureMessageType): MessageType {
-    if (messageType === PureMessageType.DRAFT) {
-      return MessageType.DRAFT
-    } else if (messageType === PureMessageType.FAILED) {
-      return MessageType.FAILED
-    } else if (messageType === PureMessageType.INBOX) {
+  private static isMessageType(
+    pureMessage: PureMessage
+  ): pureMessage is PureMessage & { messageType: AcceptablePureMessageType } {
+    return (
+      pureMessage.messageType !== PureMessageType.FAILED &&
+      pureMessage.messageType !== PureMessageType.INBOX &&
+      pureMessage.messageType !== PureMessageType.OUTBOX
+    )
+  }
+
+  private static getMessageType(
+    messageType: AcceptablePureMessageType
+  ): MessageType {
+    if (
+      messageType === PureMessageType.FAILED ||
+      messageType === PureMessageType.INBOX
+    ) {
       return MessageType.INBOX
-    } else if (messageType === PureMessageType.OUTBOX) {
-      return MessageType.OUTBOX
-    } else if (messageType === PureMessageType.QUEUED) {
-      return MessageType.QUEUED
-    } else if (messageType === PureMessageType.INPUT) {
-      return MessageType.INPUT
     } else {
-      return MessageType.UNKNOWN
+      return MessageType.OUTBOX
     }
   }
 }
