@@ -21,7 +21,7 @@ const defaultProps: Properties = {
   previousAuthor: true,
   message: "Molestiae molestias voluptate rerum. Dolores possimus id.",
   id: "c7873064-ee7c-49ae-a1c0-bd2d73f401ib",
-  previousDateIsSame: false,
+  displayDate: false,
   date: new Date("2021-02-13T22:22:13.615Z"),
 }
 

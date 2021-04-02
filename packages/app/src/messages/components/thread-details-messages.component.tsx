@@ -41,7 +41,7 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
           date,
           interlocutor,
           previousAuthor,
-          previousDateIsSame,
+          displayDate: previousDateIsSame,
           message: content,
         }
 

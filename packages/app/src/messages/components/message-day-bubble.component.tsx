@@ -9,22 +9,22 @@ import MessageBubble from "App/messages/components/message-bubble.component"
 import SlackDate from "App/messages/components/slack-date.component"
 
 interface Properties extends ComponentProps<typeof MessageBubble> {
-  previousDateIsSame: boolean
+  displayDate: boolean
   date: Date
 }
 
 const MessageDayBubble: FunctionComponent<Properties> = ({
   previousAuthor,
-  previousDateIsSame,
+  displayDate,
   date,
   ...messageProps
 }) => {
   return (
     <>
-      {!previousDateIsSame && <SlackDate date={date} />}
+      {!displayDate && <SlackDate date={date} />}
       <MessageBubble
         {...messageProps}
-        previousAuthor={!previousDateIsSame || previousAuthor}
+        previousAuthor={!displayDate || previousAuthor}
       />
     </>
   )
