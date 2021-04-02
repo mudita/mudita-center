@@ -8,7 +8,7 @@ export interface Contact {
   altName: string
   blocked: boolean
   favourite: boolean
-  id: string
+  id: number
   numbers: string[]
   priName: string
 }

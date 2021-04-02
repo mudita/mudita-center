@@ -15,11 +15,13 @@ import { SelectVendorModalTestIds } from "App/calendar/components/select-vendor-
 const renderModal = ({
   onGoogleButtonClick = noop,
   onManualImportClick = noop,
+  onOutlookButtonClick = noop,
 }: Partial<SelectVendorModalProps> = {}) => {
   const outcome = renderWithThemeAndIntl(
     <SelectVendorModal
       onGoogleButtonClick={onGoogleButtonClick}
       onManualImportClick={onManualImportClick}
+      onOutlookButtonClick={onOutlookButtonClick}
     />
   )
   return {
@@ -28,6 +30,8 @@ const renderModal = ({
       outcome.getByTestId(SelectVendorModalTestIds.GoogleButton),
     manualImportButton: () =>
       outcome.getByTestId(SelectVendorModalTestIds.ManualImportButton),
+    outlookButton: () =>
+      outcome.getByTestId(SelectVendorModalTestIds.OutlookButton),
   }
 }
 
@@ -50,4 +54,11 @@ test("manual import button calls right function", () => {
   const { manualImportButton } = renderModal({ onManualImportClick })
   fireEvent.click(manualImportButton())
   expect(onManualImportClick).toHaveBeenCalled()
+})
+
+test("outlook button calls right function", () => {
+  const onOutlookButtonClick = jest.fn()
+  const { outlookButton } = renderModal({ onOutlookButtonClick })
+  fireEvent.click(outlookButton())
+  expect(onOutlookButtonClick).toHaveBeenCalled()
 })

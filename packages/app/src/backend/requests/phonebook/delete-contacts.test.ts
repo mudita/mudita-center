@@ -19,7 +19,7 @@ const mockPureData: PureContact[] = [
     altName: "Boligłowa",
     blocked: false,
     favourite: true,
-    id: pureContactId,
+    id: Number(pureContactId),
     numbers: ["500400300"],
     priName: "Alek",
   },
