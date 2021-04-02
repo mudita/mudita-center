@@ -58,7 +58,7 @@ const getModalSize = (size: ModalSize) => {
   }
 }
 
-interface Properties extends Props, ModalProps {
+export interface Properties extends Props, ModalProps {
   close?: ComponentProps<typeof Button>
   closeModal?: () => void
 }
@@ -89,11 +89,11 @@ const ModalDialog: FunctionComponent<Properties> = ({
 }) => {
   return (
     <Modal
-      isOpen
+      isOpen={isOpen}
       style={{
         overlay: {
-          backgroundColor: "transparent",
           zIndex: 5,
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
         },
         content: {
           boxSizing: "border-box",

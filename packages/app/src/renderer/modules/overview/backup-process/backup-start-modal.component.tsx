@@ -12,7 +12,6 @@ import { FileList } from "Renderer/modules/overview/backup-process/modals.styled
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { defineMessages } from "react-intl"
-import Modal from "Renderer/components/core/modal/modal.component"
 import {
   Col,
   Labels,
@@ -22,6 +21,9 @@ import { BackupItem } from "Renderer/modules/overview/backup-process/modals.inte
 import moment from "moment"
 import styled from "styled-components"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
+import ModalDialog, {
+  Properties,
+} from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   filename: {
@@ -61,7 +63,7 @@ const TotalText = styled(Text)`
   margin-left: 0.8rem;
 `
 
-interface BackupStartModalProps {
+interface BackupStartModalProps extends Properties {
   startBackup?: () => void
   date?: string
   total?: string
@@ -73,13 +75,15 @@ export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
   date,
   total,
   items,
+  ...props
 }) => (
-  <Modal
+  <ModalDialog
     title={intl.formatMessage(messages.title)}
     onActionButtonClick={startBackup}
     actionButtonLabel={intl.formatMessage(messages.title)}
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     size={ModalSize.Medium}
+    {...props}
   >
     <BackupFileList>
       <Labels>
@@ -107,5 +111,5 @@ export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
         <Text displayStyle={TextDisplayStyle.MediumText}>{total}</Text>
       </SizeColumn>
     </TotalTextWrapper>
-  </Modal>
+  </ModalDialog>
 )

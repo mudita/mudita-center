@@ -9,7 +9,7 @@ import {
   StoreValues as BasicInfoValues,
 } from "Renderer/models/basic-info/basic-info.typings"
 import { DevMode } from "App/dev-mode/store/dev-mode.interface"
-import React, { ReactElement, useEffect } from "react"
+import React, { ReactElement, useEffect, useState } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
 import { useStore } from "react-redux"
@@ -116,7 +116,9 @@ const Overview: FunctionComponent<
    */
   let backups = 0
   let restorations = 0
-
+  const [modals, setModals] = useState({
+    backupStartModal: false,
+  })
   const store = useStore()
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
@@ -167,17 +169,17 @@ const Overview: FunctionComponent<
   }
 
   const openBackupStartModal = () => {
-    modalService.openModal(
-      <BackupStartModal
-        items={mockedBackupItems}
-        startBackup={openBackupLoadingModal}
-        total={"18.1 Gb"}
-        date={
-          lastBackup &&
-          new Date(lastBackup.createdAt).toLocaleDateString(language)
-        }
-      />
-    )
+    setModals((prevState) => ({
+      ...prevState,
+      backupStartModal: true,
+    }))
+  }
+
+  const closeBackupStartModal = () => {
+    setModals((prevState) => ({
+      ...prevState,
+      backupStartModal: false,
+    }))
   }
 
   const openBackupRestorationFinishedModal = () => {
@@ -215,26 +217,39 @@ const Overview: FunctionComponent<
   }
 
   return (
-    <OverviewUI
-      batteryLevel={batteryLevel}
-      changeSim={changeSim}
-      disconnectDevice={disconnectDevice}
-      lastBackup={lastBackup}
-      osVersion={osVersion}
-      osUpdateDate={osUpdateDate}
-      memorySpace={memorySpace}
-      simCards={simCards}
-      networkName={networkName}
-      networkLevel={networkLevel}
-      pureOsAvailable={pureOsAvailable}
-      pureOsDownloaded={pureOsDownloaded}
-      onUpdateCheck={check}
-      onUpdateInstall={install}
-      onUpdateDownload={download}
-      onOpenBackupModal={openBackupStartModal}
-      onOpenBackupRestorationModal={openBackupRestorationStartModal}
-      language={language}
-    />
+    <>
+      <BackupStartModal
+        isOpen={modals.backupStartModal}
+        items={mockedBackupItems}
+        startBackup={openBackupLoadingModal}
+        total={"18.1 Gb"}
+        date={
+          lastBackup &&
+          new Date(lastBackup.createdAt).toLocaleDateString(language)
+        }
+        closeModal={closeBackupStartModal}
+      />
+      <OverviewUI
+        batteryLevel={batteryLevel}
+        changeSim={changeSim}
+        disconnectDevice={disconnectDevice}
+        lastBackup={lastBackup}
+        osVersion={osVersion}
+        osUpdateDate={osUpdateDate}
+        memorySpace={memorySpace}
+        simCards={simCards}
+        networkName={networkName}
+        networkLevel={networkLevel}
+        pureOsAvailable={pureOsAvailable}
+        pureOsDownloaded={pureOsDownloaded}
+        onUpdateCheck={check}
+        onUpdateInstall={install}
+        onUpdateDownload={download}
+        onOpenBackupModal={openBackupStartModal}
+        onOpenBackupRestorationModal={openBackupRestorationStartModal}
+        language={language}
+      />
+    </>
   )
 }
 
