@@ -4,22 +4,22 @@
  */
 
 export enum OutlookFreq {
-  daily = "daily",
-  weekly = "weekly",
-  absoluteMonthly = "absoluteMonthly",
-  relativeMonthly = "relativeMonthly",
-  absoluteYearly = "absoluteYearly",
-  relativeYearly = "relativeYearly",
+  Daily = "daily",
+  Weekly = "weekly",
+  AbsoluteMonthly = "absoluteMonthly",
+  RelativeMonthly = "relativeMonthly",
+  AbsoluteYearly = "absoluteYearly",
+  RelativeYearly = "relativeYearly",
 }
 
 export enum Days {
-  monday = "monday",
-  tuesday = "tuesday",
-  wednesday = "wednesday",
-  thursday = "thursday",
-  friday = "friday",
-  saturday = "saturday",
-  sunday = "sunday",
+  Monday = "monday",
+  Tuesday = "tuesday",
+  Wednesday = "wednesday",
+  Thursday = "thursday",
+  Friday = "friday",
+  Saturday = "saturday",
+  Sunday = "sunday",
 }
 
 export interface TokenPayload {

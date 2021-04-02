@@ -82,19 +82,19 @@ export const fetchCalendars = async (
 
 export const mapDay = (day: string): WeekdayStr => {
   switch (day) {
-    case Days.monday:
+    case Days.Monday:
       return "MO"
-    case Days.tuesday:
+    case Days.Tuesday:
       return "TU"
-    case Days.wednesday:
+    case Days.Wednesday:
       return "WE"
-    case Days.thursday:
+    case Days.Thursday:
       return "TH"
-    case Days.friday:
+    case Days.Friday:
       return "FR"
-    case Days.saturday:
+    case Days.Saturday:
       return "SA"
-    case Days.sunday:
+    case Days.Sunday:
       return "SU"
     default:
       return "MO"
@@ -106,17 +106,17 @@ export const mapDays = (value: string[] = []): ByWeekday[] =>
 
 export const mapFreq = (value: string): Frequency => {
   switch (value) {
-    case OutlookFreq.daily:
+    case OutlookFreq.Daily:
       return Frequency.DAILY
-    case OutlookFreq.weekly:
+    case OutlookFreq.Weekly:
       return Frequency.WEEKLY
-    case OutlookFreq.absoluteMonthly:
+    case OutlookFreq.AbsoluteMonthly:
       return Frequency.MONTHLY
-    case OutlookFreq.relativeMonthly:
+    case OutlookFreq.RelativeMonthly:
       return Frequency.MONTHLY
-    case OutlookFreq.absoluteYearly:
+    case OutlookFreq.AbsoluteYearly:
       return Frequency.YEARLY
-    case OutlookFreq.relativeYearly:
+    case OutlookFreq.RelativeYearly:
       return Frequency.YEARLY
     default:
       return Frequency.YEARLY
@@ -131,19 +131,19 @@ export const convertTime = (time: string): string => {
 
 export const mapWkst = (day: string): number => {
   switch (day) {
-    case Days.monday:
+    case Days.Monday:
       return 0
-    case Days.tuesday:
+    case Days.Tuesday:
       return 1
-    case Days.wednesday:
+    case Days.Wednesday:
       return 2
-    case Days.thursday:
+    case Days.Thursday:
       return 3
-    case Days.friday:
+    case Days.Friday:
       return 4
-    case Days.saturday:
+    case Days.Saturday:
       return 5
-    case Days.sunday:
+    case Days.Sunday:
       return 6
     default:
       return 0
