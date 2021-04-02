@@ -10,10 +10,10 @@
     "alwaysStrict": true,
     "downlevelIteration": true,
     "skipLibCheck": true,
-    "experimentalDecorators": true,
+    "resolveJsonModule": true,
     "rootDir": "src",
     "outDir": "./dist"
   },
   "exclude": ["node_modules"],
-  "include": ["src"]
+  "include": ["src", "./global.d.ts"]
 }

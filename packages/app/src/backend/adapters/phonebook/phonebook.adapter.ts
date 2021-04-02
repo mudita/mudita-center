@@ -3,22 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import {
-  Endpoint,
-  Method,
-  Contact as PureContact,
-  NewContact as PureNewContact,
-} from "@mudita/pure"
+import { Endpoint, Method } from "@mudita/pure"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
-import {
-  Contact,
-  ContactID,
-  NewContact,
-} from "App/contacts/store/contacts.type"
+import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
+import {
+  mapToContact,
+  mapToPureContact,
+} from "Backend/adapters/phonebook/phonebook-mappers"
 
 class Phonebook extends PhonebookAdapter {
   constructor(private deviceService: DeviceService) {
@@ -44,13 +39,11 @@ class Phonebook extends PhonebookAdapter {
     }
   }
 
-  public async addContact(
-    contact: NewContact
-  ): Promise<DeviceResponse<Contact>> {
+  public async addContact(contact: Contact): Promise<DeviceResponse<Contact>> {
     const { status, data } = await this.deviceService.request({
       endpoint: Endpoint.Contacts,
       method: Method.Put,
-      body: mapToPureNewContact(contact),
+      body: mapToPureContact(contact),
     })
 
     if (status === DeviceResponseStatus.Ok && data !== undefined) {
@@ -58,7 +51,7 @@ class Phonebook extends PhonebookAdapter {
         status,
         data: {
           ...contact,
-          id: data.id,
+          id: String(data.id),
           primaryPhoneNumber: contact.primaryPhoneNumber ?? "",
         },
       }
@@ -88,7 +81,7 @@ class Phonebook extends PhonebookAdapter {
       const { status } = await this.deviceService.request({
         endpoint: Endpoint.Contacts,
         method: Method.Delete,
-        body: { id },
+        body: { id: Number(id) },
       })
       return {
         status,
@@ -118,68 +111,3 @@ const createPhonebook = (deviceService: DeviceService): Phonebook =>
   new Phonebook(deviceService)
 
 export default createPhonebook
-
-const mapToContact = (pureContact: PureContact): Contact => {
-  const {
-    id,
-    blocked,
-    favourite,
-    address = "",
-    altName,
-    priName,
-    numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
-  } = pureContact
-
-  const firstAddressLine = address.substr(0, address.indexOf("\n"))
-  const secondAddressLine = address.substr(address.indexOf("\n") + 1)
-
-  return {
-    blocked,
-    favourite,
-    primaryPhoneNumber,
-    secondaryPhoneNumber,
-    firstAddressLine,
-    secondAddressLine,
-    id: String(id),
-    firstName: priName,
-    lastName: altName,
-    // TODO: map missing fields in separate issue https://appnroll.atlassian.net/browse/PDA-571 (after EGD implementation)
-    // speedDial: undefined,
-    ice: false,
-    note: "",
-    email: "",
-  }
-}
-
-const mapToPureNewContact = (contact: NewContact): PureNewContact => {
-  const {
-    blocked = false,
-    favourite = false,
-    firstName = "",
-    lastName = "",
-    primaryPhoneNumber,
-    secondaryPhoneNumber,
-    firstAddressLine,
-    secondAddressLine,
-  } = contact
-  const numbers = []
-  if (primaryPhoneNumber) {
-    numbers.push(primaryPhoneNumber)
-  }
-  if (secondaryPhoneNumber) {
-    numbers.push(secondaryPhoneNumber)
-  }
-
-  return {
-    blocked,
-    favourite,
-    numbers: numbers,
-    priName: firstName,
-    altName: lastName,
-    address: [firstAddressLine, secondAddressLine].join("\n").trim(),
-  }
-}
-
-const mapToPureContact = (contact: Contact): PureContact => {
-  return { ...contact, ...mapToPureNewContact(contact) }
-}

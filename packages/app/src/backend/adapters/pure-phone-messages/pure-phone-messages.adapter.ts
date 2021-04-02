@@ -11,7 +11,6 @@ import DeviceResponse, {
 import DeviceService from "Backend/device-service"
 import {
   Endpoint,
-  GetThreadResponseBody,
   GetThreadsBody,
   Method,
   Thread as PureThread,
@@ -27,31 +26,8 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     super()
   }
 
-  public async getThreads(
-    threads: Thread[] = [],
-    body = initGetThreadsBody
-  ): Promise<DeviceResponse<Thread[]>> {
-    const { status, data } = await this.getNextPageThreads(body)
-
-    if (data?.nextPage !== undefined) {
-      return this.getThreads([...threads, ...data.entries.map(mapToThreads)], {
-        ...initGetThreadsBody,
-        ...data.nextPage,
-      })
-    } else if (
-      status === DeviceResponseStatus.Ok &&
-      data?.entries !== undefined
-    ) {
-      return {
-        status: DeviceResponseStatus.Ok,
-        data: [...threads, ...data.entries.map(mapToThreads)],
-      }
-    } else {
-      return {
-        status: DeviceResponseStatus.Error,
-        error: { message: "Something went wrong" },
-      }
-    }
+  public getThreads(): Promise<DeviceResponse<Thread[]>> {
+    return this.loadAllThreadsInSingleRequest()
   }
 
   public async getMessagesByThreadId(
@@ -63,32 +39,58 @@ class PurePhoneMessages extends PurePhoneMessagesAdapter {
     }
   }
 
-  private async getNextPageThreads(
-    body: GetThreadsBody
-  ): Promise<DeviceResponse<GetThreadResponseBody>> {
-    return await this.deviceService.request({
+  private async loadAllThreadsInSingleRequest(
+    pureThreads: PureThread[] = [],
+    body = initGetThreadsBody
+  ): Promise<DeviceResponse<Thread[]>> {
+    const { status, data } = await this.deviceService.request({
       body,
       endpoint: Endpoint.Messages,
       method: Method.Get,
     })
-  }
-}
 
-const mapToThreads = (pureThread: PureThread): Thread => {
-  const {
-    contactID,
-    isUnread,
-    lastUpdatedAt,
-    messageSnippet,
-    threadID,
-  } = pureThread
-  return {
-    messageSnippet,
-    // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
-    unread: process.env.NODE_ENV !== "production" ? isUnread : false,
-    id: String(threadID),
-    contactId: String(contactID),
-    lastUpdatedAt: new Date(lastUpdatedAt),
+    if (data?.nextPage !== undefined) {
+      return this.loadAllThreadsInSingleRequest(
+        [...pureThreads, ...data.entries],
+        {
+          ...initGetThreadsBody,
+          ...data.nextPage,
+        }
+      )
+    } else if (
+      status === DeviceResponseStatus.Ok &&
+      data?.entries !== undefined
+    ) {
+      return {
+        status: DeviceResponseStatus.Ok,
+        data: [...pureThreads, ...data.entries].map(
+          PurePhoneMessages.mapToThreads
+        ),
+      }
+    } else {
+      return {
+        status: DeviceResponseStatus.Error,
+        error: { message: "Something went wrong" },
+      }
+    }
+  }
+
+  private static mapToThreads(pureThread: PureThread): Thread {
+    const {
+      contactID,
+      isUnread,
+      lastUpdatedAt,
+      messageSnippet,
+      threadID,
+    } = pureThread
+    return {
+      messageSnippet,
+      // TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
+      unread: process.env.NODE_ENV !== "production" ? isUnread : false,
+      id: String(threadID),
+      contactId: String(contactID),
+      lastUpdatedAt: new Date(lastUpdatedAt),
+    }
   }
 }
 
