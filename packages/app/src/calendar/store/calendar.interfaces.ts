@@ -14,9 +14,9 @@ export interface CalendarEvent {
   startDate: string
   endDate: string
   description?: string
-  recurrence?: Partial<RRule> | Partial<RRuleSet> | unknown
+  recurrence?: Partial<RRule> | Partial<RRuleSet>
   provider?: {
-    type: Provider | string
+    type: Provider
     id: string
     calendarId?: string
   }
