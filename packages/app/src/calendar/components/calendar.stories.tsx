@@ -14,7 +14,7 @@ import EventsSynchronizationFinishedModal from "App/calendar/components/synchron
 import EventsSynchronizationFailedModal from "App/calendar/components/synchronization-failed.component"
 import AuthorizationFailedModal from "App/calendar/components/authorization-failed.component"
 import Story from "Renderer/components/storybook/story.component"
-import { asyncNoop, noop } from "Renderer/utils/noop"
+import { noop } from "Renderer/utils/noop"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import { Provider } from "Renderer/models/external-providers/external-providers.interface"
 import CalendarUIStateless from "App/calendar/components/calendar-ui-stateless.component"
@@ -68,8 +68,9 @@ storiesOf("Views/Calendar/Modals", module).add("All", () => (
   >
     <Story title="Select provider" transparentMode>
       <SelectVendorModal
-        onGoogleButtonClick={asyncNoop}
-        onManualImportClick={noop}
+        onGoogleButtonClick={action("clicked on google button")}
+        onOutlookButtonClick={action("clicked on outlook button ")}
+        onManualImportClick={action("clicked on manual import button")}
       />
     </Story>
     <Story title="Select calendars" transparentMode>
