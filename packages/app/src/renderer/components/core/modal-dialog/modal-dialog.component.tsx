@@ -89,7 +89,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
 }) => {
   return (
     <Modal
-      isOpen
+      isOpen={isOpen}
       style={{
         overlay: {
           backgroundColor: "transparent",
