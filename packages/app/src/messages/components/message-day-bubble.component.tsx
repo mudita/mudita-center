@@ -17,13 +17,15 @@ interface Properties extends ComponentProps<typeof MessageBubble> {
 const MessageDayBubble: FunctionComponent<Properties> = ({
   displayAvatar,
   displayDate,
-  date,
   ...messageProps
 }) => {
   return (
     <>
       {!displayDate && (
-        <MessageDateTag data-testid={MessageDayBubbleTestIds.Date} date={date} />
+        <MessageDateTag
+          data-testid={MessageDayBubbleTestIds.Date}
+          date={messageProps.date}
+        />
       )}
       <MessageBubble
         {...messageProps}

@@ -18,15 +18,13 @@ const renderer = (props: Properties) => {
   }
 }
 
-MockDate.set('2000-2-1');
+MockDate.set("2000-2-1")
 
 test("the correct translation is displaying for today date", () => {
   const { container } = renderer({
     date: new Date(),
   })
-  expect(container).toHaveTextContent(
-    "[value] view.generic.today"
-  )
+  expect(container).toHaveTextContent("[value] view.generic.today")
 })
 
 test("the correct date format is displaying for current year", () => {

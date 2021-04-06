@@ -9,7 +9,9 @@ import styled from "styled-components"
 import { defineMessages } from "react-intl"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Tag from "Renderer/components/core/tag/tag.component"
-import Text, { TextDisplayStyle } from "Renderer/components/core/text/text.component"
+import Text, {
+  TextDisplayStyle,
+} from "Renderer/components/core/text/text.component"
 import { textColor } from "Renderer/styles/theming/theme-getters"
 
 const messages = defineMessages({
@@ -58,7 +60,7 @@ const MessageDateTag: FunctionComponent<Properties> = ({ date, ...props }) => {
   return (
     <TagContainer {...props}>
       <DateTag>
-        <Text displayStyle={TextDisplayStyle.SmallFadedText} >
+        <Text displayStyle={TextDisplayStyle.SmallFadedText}>
           {formatToMessageDate(date)}
         </Text>
       </DateTag>
