@@ -37,7 +37,7 @@ type AcceptablePureMessageType =
   | PureMessageType.INBOX
   | PureMessageType.OUTBOX
 
-export class PurePhoneMessages extends PurePhoneMessagesAdapter {
+class PurePhoneMessages extends PurePhoneMessagesAdapter {
   constructor(private deviceService: DeviceService) {
     super()
   }

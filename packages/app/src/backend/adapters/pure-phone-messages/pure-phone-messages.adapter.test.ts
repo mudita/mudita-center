@@ -104,7 +104,7 @@ const messages: Message[] = [
 
 jest.mock("Backend/device-service")
 
-test("threads are return properly", async () => {
+test("threads are returned properly", async () => {
   ;(DeviceService as jest.Mock).mockImplementation(() => {
     return {
       request: () => {
@@ -123,7 +123,7 @@ test("threads are return properly", async () => {
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })
 
-test("threads are returned properly even the API is paginated", async () => {
+test("threads are returned properly even though API is paginated", async () => {
   let requestCount = 0
   ;(DeviceService as jest.Mock).mockImplementation(() => {
     return {
@@ -157,7 +157,7 @@ test("threads are returned properly even the API is paginated", async () => {
   expect(status).toEqual(DeviceResponseStatus.Ok)
 })
 
-test("status is error when returned data is undefined ", async () => {
+test("error status is returned when data is undefined ", async () => {
   ;(DeviceService as jest.Mock).mockImplementation(() => {
     return {
       request: () => {

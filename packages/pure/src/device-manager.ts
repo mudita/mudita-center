@@ -7,6 +7,11 @@ import { EventEmitter } from "events"
 import SerialPort, { PortInfo } from "serialport"
 import UsbDetector from "./usb-detector"
 import { CreateDevice, PureDevice, createDevice } from "./device"
+import log, { LogConfig } from "./logger/log-decorator"
+import { LoggerFactory } from "./logger/logger-factory"
+import { PureLogger, ConsoleLogger } from "./logger/logger"
+
+const logger: PureLogger = LoggerFactory.getInstance()
 
 export const productId = "0622"
 export const vendorId = "045e"
@@ -33,6 +38,14 @@ class DeviceManager implements PureDeviceManager {
   public init(): DeviceManager {
     this.registerAttachDeviceEmitter()
     return this
+  }
+
+  public registerLogger(l: ConsoleLogger): void {
+    logger.registerLogger(l)
+  }
+
+  public toggleLogs(enabled: boolean): void {
+    logger.toggleLogs(enabled)
   }
 
   public async getDevices(): Promise<PureDevice[]> {
@@ -82,10 +95,8 @@ class DeviceManager implements PureDeviceManager {
 
           if (port) {
             const device = this.createDevice(port.path)
-            this.#eventEmitter.emit(
-              DeviceManagerEventName.AttachedDevice,
-              device
-            )
+            this.emitAttachedDeviceEvent(device)
+
             break
           }
           await sleep()
@@ -94,8 +105,14 @@ class DeviceManager implements PureDeviceManager {
     })
   }
 
+  @log("==== serial port: list ====")
   private static getSerialPortList(): Promise<PortInfo[]> {
     return SerialPort.list()
+  }
+
+  @log("==== serial port: attached device ====", LogConfig.Args)
+  private emitAttachedDeviceEvent(device: PureDevice) {
+    this.#eventEmitter.emit(DeviceManagerEventName.AttachedDevice, device)
   }
 }
 
