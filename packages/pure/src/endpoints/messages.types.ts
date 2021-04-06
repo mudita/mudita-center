@@ -25,3 +25,35 @@ export interface GetThreadResponseBody {
   totalCount: number
   nextPage?: { limit: number; offset: number }
 }
+
+export enum MessageType {
+  DRAFT = 1,
+  FAILED = 2,
+  INBOX = 4,
+  OUTBOX = 8,
+  QUEUED = 16,
+  INPUT = 18,
+  UNKNOWN = 255,
+}
+
+export interface Message {
+  contactID: number
+  messageBody: string
+  messageID: number
+  messageType: MessageType
+  sentAt: number
+  threadID: number
+}
+
+export interface GetMessagesBody {
+  category: "message"
+  threadID?: number
+  limit?: number
+  offset?: number
+}
+
+export interface GetMessageResponseBody {
+  entries: Message[]
+  totalCount: number
+  nextPage?: { limit: number; offset: number }
+}
