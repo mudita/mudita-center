@@ -105,22 +105,25 @@ const MessagesPanel: FunctionComponent<Props> = ({
     <MessageFiltersWrapper selectionMode={selectionMode}>
       {!selectionMode && (
         <UnreadFilters data-testid={MessagePanelTestIds.FilterButtons}>
-          <ButtonToggler>
-            {toggleState.map((label, i) => {
-              const toggle = () => {
-                i === 0 ? showAllMessages() : hideReadMessages()
-                setActiveLabel(label)
-              }
-              return (
-                <MessagesButtonTogglerItem
-                  key={i}
-                  label={label}
-                  onClick={toggle}
-                  active={activeLabel === label}
-                />
-              )
-            })}
-          </ButtonToggler>
+          {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
+          {process.env.NODE_ENV !== "production" && (
+            <ButtonToggler>
+              {toggleState.map((label, i) => {
+                const toggle = () => {
+                  i === 0 ? showAllMessages() : hideReadMessages()
+                  setActiveLabel(label)
+                }
+                return (
+                  <MessagesButtonTogglerItem
+                    key={i}
+                    label={label}
+                    onClick={toggle}
+                    active={activeLabel === label}
+                  />
+                )
+              })}
+            </ButtonToggler>
+          )}
         </UnreadFilters>
       )}
       {selectionMode ? (
