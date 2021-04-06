@@ -4,7 +4,6 @@
  */
 
 import React from "react"
-import { storiesOf } from "@storybook/react"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 import Tag from "Renderer/components/core/tag/tag.component"
@@ -14,7 +13,7 @@ const customStyle = css`
   width: 30rem;
 `
 
-storiesOf("Components|Core/Tag", module).add("Default", () => (
+export const tag = () => (
   <StoryContainer title="Tag">
     <Story title="Default" customStyle={customStyle}>
       <Tag>Wednesday, February 17th</Tag>
@@ -26,4 +25,8 @@ storiesOf("Components|Core/Tag", module).add("Default", () => (
       <Tag>i</Tag>
     </Story>
   </StoryContainer>
-))
+)
+
+export default {
+  title: "Components|Core/Tag",
+}
