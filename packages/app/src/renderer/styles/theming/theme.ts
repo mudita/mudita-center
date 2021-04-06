@@ -25,6 +25,7 @@ const grey7 = "#fbfbfb"
 const grey8 = "#e9e9e9"
 const grey9 = "#e6e8eb"
 const grey10 = "rgba(0, 0, 0, 0.08)"
+const grey11 = "rgba(0, 0, 0, 0.3)"
 const transparentGrey1 = "rgba(188,188,188,0.5)"
 const transparentGrey2 = "rgba(214, 214, 214, 0.5)"
 const transparentBlue1 = "rgba(148,162,174,0.2)"
@@ -64,6 +65,7 @@ const theme = {
       chartAxisLine: transparentBlue1,
       chartTooltip: white,
       modal: white,
+      modalBackdrop: grey11,
       bannerBackground: blue6,
       error: red1,
       lightIcon: white,
