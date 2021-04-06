@@ -19,9 +19,11 @@ import {
   DeviceInfo,
   DeviceUpdateErrorResponse,
   DeviceUpdateResponse,
+  GetThreadResponseBody,
 } from "../endpoints"
 import { Formatter } from "../formatter/formatter"
 import { FormatterFactory } from "../formatter/formatter-factory"
+import { GetThreadsBody, Thread } from "../endpoints/messages.types"
 
 class Device extends BaseDevice {
   #formatter: Formatter = FormatterFactory.create()
@@ -54,6 +56,11 @@ class Device extends BaseDevice {
     endpoint: Endpoint.Contacts
     method: Method.Get
   }): Promise<Response<{ entries: Contact[]; totalCount: number }>>
+  public request(config: {
+    endpoint: Endpoint.Messages
+    method: Method.Get
+    body: GetThreadsBody
+  }): Promise<Response<GetThreadResponseBody>>
   public request(config: {
     endpoint: Endpoint.Contacts
     method: Method.Post

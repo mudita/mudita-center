@@ -34,7 +34,7 @@ import createPhonebook from "Backend/adapters/phonebook/phonebook.adapter"
 import createPurePhoneBatteryAdapter from "Backend/adapters/pure-phone-battery-service/pure-phone-battery-service.adapter"
 import createPurePhoneNetwork from "Backend/adapters/pure-phone-network/pure-phone-network.adapter"
 import createPurePhoneStorageAdapter from "Backend/adapters/pure-phone-storage/pure-phone-storage.adapter"
-import createFakePurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages-fake.adapter"
+import createPurePhoneMessagesAdapter from "Backend/adapters/pure-phone-messages/pure-phone-messages.adapter"
 import createCalendarAdapter from "Backend/adapters/calendar/calendar.adapter"
 import Backend from "Backend/backend"
 
@@ -53,7 +53,7 @@ const bootstrap = (
     appSettings: createAppSettingsAdapter(),
     pureBackups: createPurePhoneBackupsAdapter(),
     calendar: createCalendarAdapter(),
-    pureMessages: createFakePurePhoneMessagesAdapter(),
+    pureMessages: createPurePhoneMessagesAdapter(deviceService),
     app: createElectronAppAdapter(),
   }
 
