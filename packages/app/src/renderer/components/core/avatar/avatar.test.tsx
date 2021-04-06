@@ -11,6 +11,7 @@ import Avatar, {
   AvatarSize,
   getAvatarSize,
 } from "Renderer/components/core/avatar/avatar.component"
+import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
 
 const avatarUser = {
   firstName: "John",
@@ -53,7 +54,7 @@ test("avatar renders text content properly", () => {
 
 test("avatar renders image properly", () => {
   const { getByTestId } = renderAvatar({ imageSrc: "someImageSrc" })
-  expect(getByTestId("avatar-image")).toBeInTheDocument()
+  expect(getByTestId(AvatarTestIds.AvatarImage)).toBeInTheDocument()
 })
 
 test("avatar renders default image properly", () => {
@@ -66,6 +67,6 @@ test("avatar renders image first", () => {
     user: avatarUser,
     imageSrc: "someImageSrc",
   })
-  expect(getByTestId("avatar-image")).toBeInTheDocument()
+  expect(getByTestId(AvatarTestIds.AvatarImage)).toBeInTheDocument()
   expect(queryByText("JD")).not.toBeInTheDocument()
 })

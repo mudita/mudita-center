@@ -17,6 +17,7 @@ import Image from "Renderer/components/core/image/image.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import { AvatarTestIds } from "Renderer/components/core/avatar/avatar-test-ids.enum"
 
 export enum AvatarSize {
   Small,
@@ -95,9 +96,12 @@ const Avatar: FunctionComponent<AvatarProps> = ({
 }) => (
   <AvatarWrapper className={className} size={size} light={light}>
     {imageSrc ? (
-      <AvatarImage data-testid="avatar-image" src={imageSrc} />
+      <AvatarImage data-testid={AvatarTestIds.AvatarImage} src={imageSrc} />
     ) : user?.firstName || user?.lastName ? (
-      <Text displayStyle={getAvatarTextStyle(size)}>
+      <Text
+        displayStyle={getAvatarTextStyle(size)}
+        data-testid={AvatarTestIds.AvatarText}
+      >
         {user.firstName?.charAt(0)}
         {user.lastName?.charAt(0)}
       </Text>
