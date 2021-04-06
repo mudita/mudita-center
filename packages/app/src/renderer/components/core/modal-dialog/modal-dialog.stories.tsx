@@ -30,6 +30,7 @@ const Template: StoryInterface<
           titleOrder={args.titleOrder}
           actionButtonLabel={args.actionButtonLabel}
           onActionButtonClick={args.onActionButtonClick}
+          size={args.size}
           isOpen
         >
           <Text displayStyle={TextDisplayStyle.LargeText}>
