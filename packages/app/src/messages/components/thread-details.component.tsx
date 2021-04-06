@@ -76,7 +76,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   getMessagesByThreadId,
   loadMessagesByThreadId,
   getContact,
-                                                                getMessagesResultMapStateByThreadId,
+  getMessagesResultMapStateByThreadId,
 }) => {
   const resultState = getMessagesResultMapStateByThreadId(thread.id)
   const messages = getMessagesByThreadId(thread.id)
@@ -111,6 +111,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
         onClick={handleContactClick}
         iconSize={IconSize.Big}
       />
+      {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
       {process.env.NODE_ENV !== "production" && (
         <>
           <SidebarHeaderButton
