@@ -1,9 +1,9 @@
 import React from "react"
 import { ThemeProvider } from "styled-components"
-import { color } from "Theme/color"
-import { spacing } from "Theme/spacing"
-import { fontSize } from "Theme/font-size"
-import { fontWeight } from "Theme/font-weight"
+import { color } from "./color"
+import { spacing } from "./spacing"
+import { fontSize } from "./font-size"
+import { fontWeight } from "./font-weight"
 import { AppFunctionComponent } from "@mudita/app-function-component"
 
 export const theme = {

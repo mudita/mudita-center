@@ -1,10 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "declaration": true
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
   "exclude": [
     "./src/**/*.stories.tsx",
+    "./src/**/*.test.tsx",
     "./src/components/storybook/**/*",
     "./src/utils/**/*",
     "./src/fonts/main/**/*"

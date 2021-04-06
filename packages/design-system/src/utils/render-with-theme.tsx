@@ -5,8 +5,8 @@ import {
   RenderOptions,
   RenderResult,
 } from "@testing-library/react"
-import { MuditaThemeProvider } from "Theme/theme-provider"
-import { MuditaGlobalStyle } from "Theme/global-style"
+import { MuditaThemeProvider } from ".."
+import { MuditaGlobalStyle } from ".."
 import "jest-styled-components"
 
 export function renderWithTheme(

@@ -1,8 +1,8 @@
-import { TextDecorator, TextVariant } from "Components/text/text.enum"
-import { TextStyleProps } from "Components/text/text.interface"
-import { TextDecorators } from "Components/text/text.type"
+import { TextDecorator, TextVariant } from "./text.enum"
+import { TextStyleProps } from "./text.interface"
+import { TextDecorators } from "./text.type"
 import { css } from "styled-components"
-import { getColor } from "Theme/theme-getters"
+import { getColor } from "../../theme/theme-getters"
 
 export const textVariants: Record<TextVariant, TextStyleProps> = {
   [TextVariant.HeadingPrimary]: {

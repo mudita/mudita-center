@@ -1,19 +1,19 @@
 import React from "react"
-import { paths } from "Storybook/paths"
+import { paths } from "../../../../.storybook/paths"
 import {
   Description,
   Stories,
   Subtitle,
   Title,
 } from "@storybook/addon-docs/blocks"
-import { Text } from "Components/text/text.component"
-import { storyCreator } from "Components/storybook/typography/typography.helpers"
-import { TextVariant } from "Components/text/text.enum"
+import { Text, TextVariant } from "../../.."
+import { storyCreator } from "./typography.helpers"
+import { Meta } from "@storybook/react"
 
 const description = `
 There is a \`<Text>\` component that allows to style texts in different ways.
 
-The basic usage is very simple. Just wrap the \`Text\` tags around given content and put the \`variant\` property which is a \`TextVariant\` enum, for example:
+The basic usage is very simple. Just wrap the \`Text\` tags around given content and put the \`variant\` property which is a \`TextVariant\` enum. For example:
 
 \`\`\`TSX
 <Text variant={TextVariant.PrimaryHeading}>
@@ -21,7 +21,7 @@ The basic usage is very simple. Just wrap the \`Text\` tags around given content
 </Text>
 \`\`\`
 
-This will style text in one of predefined ways:
+Text can be styled in one of predefined ways:
 `
 
 export default {
@@ -40,34 +40,20 @@ export default {
       },
     },
     variant: {
-      control: {
-        type: "select",
-        options: Object.values(TextVariant),
-      },
       description:
         "One of predefined text styles. It also specifies which HTML tag is used to render the content.",
       table: {
         type: {
-          detail: `TextVariant.Basic, TextVariant.HeadingPrimary, TextVariant.SmallLight, ...`,
+          summary: "TextVariant",
         },
       },
     },
-    color: {
-      table: {
-        disable: true,
-      },
-    },
-    className: {
-      table: {
-        disable: true,
-      },
-    },
-    decorators: {
-      table: {
-        disable: true,
-      },
-    },
     tag: {
+      table: {
+        disable: true,
+      },
+    },
+    color: {
       table: {
         disable: true,
       },
@@ -78,6 +64,16 @@ export default {
       },
     },
     weight: {
+      table: {
+        disable: true,
+      },
+    },
+    decorators: {
+      table: {
+        disable: true,
+      },
+    },
+    className: {
       table: {
         disable: true,
       },
@@ -98,7 +94,7 @@ export default {
       ),
     },
   },
-}
+} as Meta
 
 export const HeadingPrimary = storyCreator({
   variant: TextVariant.HeadingPrimary,

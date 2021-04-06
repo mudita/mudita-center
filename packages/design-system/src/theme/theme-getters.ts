@@ -1,4 +1,4 @@
-import { theme } from "Theme/theme-provider"
+import { theme } from "./theme-provider"
 
 type Theme = typeof theme
 

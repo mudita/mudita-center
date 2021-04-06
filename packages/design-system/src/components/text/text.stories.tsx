@@ -1,6 +1,6 @@
-import { paths } from "Storybook/paths"
-import { storyCreator } from "Components/storybook/typography/typography.helpers"
-import typographyStory from "Components/storybook/typography/advanced-typography.stories"
+import { paths } from "../../../.storybook/paths"
+import { storyCreator } from "../storybook/typography/typography.helpers"
+import advancedTypographyStory from "../storybook/typography/advanced-typography.stories"
 import {
   ArgsTable,
   Description,
@@ -10,13 +10,14 @@ import {
   Title,
 } from "@storybook/addon-docs/blocks"
 import React from "react"
+import { Meta } from "@storybook/react"
 
 const description = `
 \`<Text>\` component allows to easily implement the Mudita style typography. Examples of usage can be found in \`STYLE\` \\ \`Typography\` section.
 `
 
 export default {
-  ...typographyStory,
+  ...advancedTypographyStory,
   title: `${paths.atoms}/Text`,
   parameters: {
     docs: {
@@ -31,13 +32,6 @@ export default {
       ),
     },
   },
-}
+} as Meta
 
 export const Default = storyCreator({})
-Default.parameters = {
-  docs: {
-    source: {
-      code: " ",
-    },
-  },
-}

@@ -1,8 +1,6 @@
 import React, { ComponentProps } from "react"
-import { Story } from "@storybook/react"
-import { paths } from "Storybook/paths"
-import { getSpacing } from "Theme/theme-getters"
-import { theme } from "Theme/theme-provider"
+import { Meta, Story } from "@storybook/react"
+import { Spacing, getSpacing, theme } from "../../.."
 import {
   Title,
   Subtitle,
@@ -10,13 +8,17 @@ import {
   Stories,
 } from "@storybook/addon-docs/blocks"
 import { SpaceBox } from "./spacing.component"
-import { Spacing } from "Theme/spacing"
+import { paths } from "../../../../.storybook/paths"
 
 const description = `
-Theme provider exports a \`spacing\` function that accepts one argument which is a size and returns \`rem\` representation of that size.
+Theme provider exports a \`getSpacing\` function that accepts one argument which is a size and returns \`rem\` representation of that size.
 
 \`\`\`TSX
-spacing("24"); // 2.4rem
+getSpacing("24"); // 2.4rem
+
+const SomeStyledComponent = styled("p")\`
+  margin: \${getSpacing("8")};
+\`
 \`\`\`
 
 Sizes are always a multiplication of \`4\` but there are only several values available in theme:
@@ -69,13 +71,13 @@ export default {
       ),
     },
   },
-}
+} as Meta
 
 const Template: Story<ComponentProps<typeof SpaceBox>> = (props) => (
   <SpaceBox {...props} />
 )
 
-const storyCreator = (size: Spacing) => {
+const storyCreator = (size: Spacing): Story<{ size: Spacing }> => {
   const Story = Template.bind({})
   Story.args = {
     size,

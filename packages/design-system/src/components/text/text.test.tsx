@@ -1,13 +1,17 @@
 import React, { ComponentProps } from "react"
-import { renderWithTheme } from "Utils/render-with-theme"
-import { Text } from "Components/text/text.component"
-import { TextDecorator, TextVariant } from "Components/text/text.enum"
-import { textVariants } from "Components/text/text.helpers"
-import { getColor, getFontSize, getFontWeight } from "Theme/theme-getters"
-import { Color } from "Theme/color"
-import { theme } from "Theme/theme-provider"
-import { FontSize } from "Theme/font-size"
-import { FontWeight } from "Theme/font-weight"
+import { renderWithTheme } from "../../utils/render-with-theme"
+import { Text } from "./text.component"
+import { TextDecorator, TextVariant } from "./text.enum"
+import { textVariants } from "./text.helpers"
+import {
+  Color,
+  FontSize,
+  FontWeight,
+  getColor,
+  getFontSize,
+  getFontWeight,
+  theme,
+} from "../.."
 
 const testText = "Mudita is soo cool"
 

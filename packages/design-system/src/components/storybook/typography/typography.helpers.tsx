@@ -1,16 +1,21 @@
-import { Text } from "Components/text/text.component"
 import React, { ComponentProps } from "react"
 import { Story } from "@storybook/react"
-import { getColor, getFontSize, getFontWeight } from "Theme/theme-getters"
-import { theme } from "Theme/theme-provider"
-import { TextDecorator, TextVariant } from "Components/text/text.enum"
-import { textVariants } from "Components/text/text.helpers"
+import {
+  Text,
+  getColor,
+  getFontSize,
+  getFontWeight,
+  theme,
+  TextDecorator,
+  TextVariant,
+} from "../../.."
+import { textVariants } from "../../text/text.helpers"
 
 const Template: Story<ComponentProps<typeof Text>> = (props) => (
   <Text {...props} />
 )
 
-const createCode = (props: ComponentProps<typeof Text>) => {
+const createCode = (props: ComponentProps<typeof Text>): string => {
   let variant = ""
   let decorators = ""
 
@@ -49,7 +54,7 @@ const createCode = (props: ComponentProps<typeof Text>) => {
 </Text>`
 }
 
-const createDescription = (props: ComponentProps<typeof Text>) => {
+const createDescription = (props: ComponentProps<typeof Text>): string => {
   const { tag = "p", size = "16", color = "black", weight = "normal" } = {
     ...(props.variant !== undefined ? textVariants[props.variant] : {}),
     ...props,
