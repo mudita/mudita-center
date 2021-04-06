@@ -3,11 +3,12 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Calendar, CalendarEvent, CalendarState } from "App/calendar/store/calendar.interfaces"
 import {
-  getSortedEvents,
-  mapEvents,
-} from "App/calendar/store/calendar.helpers"
+  Calendar,
+  CalendarEvent,
+  CalendarState,
+} from "App/calendar/store/calendar.interfaces"
+import { getSortedEvents, mapEvents } from "App/calendar/store/calendar.helpers"
 import { Slicer } from "@rematch/select"
 import { RootState } from "Renderer/store"
 import externalProvidersStore from "Renderer/store/external-providers"
@@ -19,6 +20,7 @@ import overwriteDuplicates from "App/calendar/helpers/overwrite-duplicates/overw
 import { ResultsState } from "App/contacts/store/contacts.enum"
 import logger from "App/main/utils/logger"
 import getEvents from "Renderer/requests/get-events.request"
+import { OutLookScope } from "Renderer/models/external-providers/outlook/outlook.interface"
 
 export const initialState: CalendarState = {
   calendars: [],
@@ -104,6 +106,10 @@ const calendar = createModel<RootModel>({
           case Provider.Apple:
             break
           case Provider.Outlook:
+            await externalProvidersStore.dispatch.outlook.authorize(
+              OutLookScope.Calendars
+            )
+            calendars = ((await externalProvidersStore.dispatch.outlook.getCalendars()) as unknown) as Calendar[]
             break
           case Provider.Google:
             calendars = ((await externalProvidersStore.dispatch.google.getCalendars()) as unknown) as Calendar[]

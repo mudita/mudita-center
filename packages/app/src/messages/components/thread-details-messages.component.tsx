@@ -30,18 +30,18 @@ const ThreadDetailsMessages: FunctionComponent<Properties> = ({
   return (
     <MessageBubblesWrapper>
       {messages.map(({ messageType, date, content, id }, index) => {
-        const user = messageType === MessageType.OUTBOX ? contact : {}
         const interlocutor = messageType === MessageType.OUTBOX
+        const user = interlocutor ? contact : {}
         const prevMessage = messages[index - 1]
-        const previousAuthor = prevMessage?.messageType !== messageType
+        const displayAvatar = prevMessage?.messageType !== messageType
         const previousDateIsSame = moment(prevMessage?.date).isSame(date, "day")
         const messageDayBubble: ComponentProps<typeof MessageDayBubble> = {
           user,
           id,
           date,
           interlocutor,
-          previousAuthor,
-          previousDateIsSame,
+          displayAvatar,
+          displayDate: previousDateIsSame,
           message: content,
         }
 

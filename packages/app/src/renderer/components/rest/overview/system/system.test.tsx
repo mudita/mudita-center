@@ -7,19 +7,12 @@ import "@testing-library/jest-dom/extend-expect"
 import React from "react"
 import { renderWithThemeAndIntl } from "Renderer/utils/render-with-theme-and-intl"
 import { SystemProps } from "Renderer/components/rest/overview/system/system.interface"
-import getFakeAdapters from "App/tests/get-fake-adapters"
 import { intl } from "Renderer/utils/intl"
 import System from "Renderer/components/rest/overview/system/system.component"
 import { fireEvent } from "@testing-library/dom"
 
-const fakeSystemInfo = getFakeAdapters().purePhone
 const fakeLastUpdate = "2020-01-14T11:31:08.244Z"
-let fakeOsVersion: string
-
-beforeEach(async () => {
-  const { data } = await fakeSystemInfo.getOsVersion()
-  fakeOsVersion = data ?? ""
-})
+const fakeOsVersion = "release-0.55.1"
 
 const renderSystem = ({
   osVersion = fakeOsVersion,

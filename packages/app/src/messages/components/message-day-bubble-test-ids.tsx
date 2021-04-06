@@ -3,6 +3,6 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-export enum SlackDateTestIds {
-  DateTag = "date-tag",
+export enum MessageDayBubbleTestIds {
+  Date = "date",
 }

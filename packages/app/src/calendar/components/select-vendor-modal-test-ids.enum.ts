@@ -6,4 +6,5 @@
 export enum SelectVendorModalTestIds {
   GoogleButton = "google-button",
   ManualImportButton = "manual-import-button",
+  OutlookButton = "outlook-button",
 }

@@ -6,32 +6,30 @@
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React, { ComponentProps } from "react"
 import MessageBubble from "App/messages/components/message-bubble.component"
-import SlackDate from "App/messages/components/slack-date.component"
+import MessageDateTag from "App/messages/components/message-date-tag.component"
+import { MessageDayBubbleTestIds } from "App/messages/components/message-day-bubble-test-ids"
 
 interface Properties extends ComponentProps<typeof MessageBubble> {
-  previousDateIsSame: boolean
+  displayDate: boolean
   date: Date
 }
 
 const MessageDayBubble: FunctionComponent<Properties> = ({
-  user,
-  interlocutor,
-  previousAuthor,
-  message,
-  id,
-  previousDateIsSame,
-  date,
+  displayAvatar,
+  displayDate,
+  ...messageProps
 }) => {
   return (
     <>
-      {!previousDateIsSame && <SlackDate date={date} />}
+      {!displayDate && (
+        <MessageDateTag
+          data-testid={MessageDayBubbleTestIds.Date}
+          date={messageProps.date}
+        />
+      )}
       <MessageBubble
-        id={id}
-        user={user}
-        message={message}
-        date={date}
-        interlocutor={interlocutor}
-        previousAuthor={!previousDateIsSame || previousAuthor}
+        {...messageProps}
+        displayAvatar={!displayDate || displayAvatar}
       />
     </>
   )

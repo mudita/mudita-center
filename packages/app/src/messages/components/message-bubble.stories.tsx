@@ -31,7 +31,7 @@ storiesOf("Components/Message Bubble", module)
           date={new Date()}
           message={message}
           id="123"
-          previousAuthor
+          displayAvatar
         />
       </Wrapper>
     )
@@ -45,7 +45,7 @@ storiesOf("Components/Message Bubble", module)
           message={message}
           interlocutor
           id="123"
-          previousAuthor
+          displayAvatar
         />
       </Wrapper>
     )
@@ -59,7 +59,7 @@ storiesOf("Components/Message Bubble", module)
           message={message}
           interlocutor
           id="123"
-          previousAuthor
+          displayAvatar
         />
         <MessageBubble
           user={{ firstName: "user", lastName: "Luserowski" }}
@@ -78,7 +78,7 @@ storiesOf("Components/Message Bubble", module)
           user={{ firstName: "Kuser", lastName: "Luserowski" }}
           date={new Date()}
           message={message}
-          previousAuthor
+          displayAvatar
           id="321"
         />
         <MessageBubble

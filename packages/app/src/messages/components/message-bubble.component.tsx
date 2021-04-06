@@ -56,18 +56,18 @@ const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
 
 const MessageBubbleWrapper = styled.div<{
   interlocutor: boolean
-  previousAuthor: boolean
+  displayAvatar: boolean
 }>`
   display: flex;
   align-items: center;
   flex-direction: ${({ interlocutor }) =>
     interlocutor ? "row-reverse" : "row"};
   justify-content: flex-end;
-  margin-left: ${({ previousAuthor, interlocutor }) =>
-    previousAuthor && interlocutor ? "0" : "7.5rem"};
-  margin-top: ${({ previousAuthor }) => (previousAuthor ? "2.4rem" : "0")};
-  margin-right: ${({ previousAuthor, interlocutor }) =>
-    previousAuthor && !interlocutor ? "0" : "7.5rem"};
+  margin-left: ${({ displayAvatar, interlocutor }) =>
+    displayAvatar && interlocutor ? "0" : "7.5rem"};
+  margin-top: ${({ displayAvatar }) => (displayAvatar ? "2.4rem" : "0")};
+  margin-right: ${({ displayAvatar, interlocutor }) =>
+    displayAvatar && !interlocutor ? "0" : "7.5rem"};
 `
 
 const MessageDate = styled.div`
@@ -129,7 +129,7 @@ interface Props {
   message: string
   date: Date
   interlocutor?: boolean
-  previousAuthor?: boolean
+  displayAvatar?: boolean
   forwardMessage?: () => void
   removeMessage?: () => void
 }
@@ -141,7 +141,7 @@ const MessageBubble: FunctionComponent<Props> = ({
   message,
   date,
   interlocutor = false,
-  previousAuthor = false,
+  displayAvatar = false,
   forwardMessage = noop,
   removeMessage = noop,
 }) => {
@@ -154,7 +154,7 @@ const MessageBubble: FunctionComponent<Props> = ({
     <MessageBubbleWrapper
       className={className}
       interlocutor={interlocutor}
-      previousAuthor={previousAuthor}
+      displayAvatar={displayAvatar}
     >
       <div>
         <MessageBubbleContainer interlocutor={interlocutor}>
@@ -210,7 +210,7 @@ const MessageBubble: FunctionComponent<Props> = ({
           </Bubble>
         </MessageBubbleContainer>
       </div>
-      {previousAuthor && (
+      {displayAvatar && (
         <InitialsAvatar user={user} interlocutor={interlocutor} />
       )}
     </MessageBubbleWrapper>

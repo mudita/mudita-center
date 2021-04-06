@@ -18,14 +18,14 @@ const message =
 
 test("by default dropdown is not visible", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble user={user} date={date} message={message} id={id}/>,
+    <MessageBubble user={user} date={date} message={message} id={id} />
   )
   expect(getByTestId("dropdown")).not.toBeVisible()
 })
 
 test("after clicking button, dropdown is displayed", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble user={user} date={date} message={message} id={id}/>,
+    <MessageBubble user={user} date={date} message={message} id={id} />
   )
   fireEvent.click(getByTestId("dropdown-action-button"))
   expect(getByTestId("dropdown")).toBeVisible()
@@ -40,7 +40,7 @@ test("forwards message", () => {
       message={message}
       forwardMessage={forwardMessage}
       id={id}
-    />,
+    />
   )
   fireEvent.click(getByTestId("forward-message"))
   expect(forwardMessage).toHaveBeenCalled()
@@ -56,7 +56,7 @@ test("removes message", () => {
       message={message}
       removeMessage={removeMessage}
       id={id}
-    />,
+    />
   )
   fireEvent.click(getByTestId("delete-message"))
   expect(removeMessage).toHaveBeenCalledWith(id)
@@ -64,7 +64,13 @@ test("removes message", () => {
 
 test("when author of message is unknown, displays default icon in avatar", () => {
   const { getByTestId } = renderWithThemeAndIntl(
-    <MessageBubble user={emptyUser} date={date} message={message} id={id} previousAuthor/>,
+    <MessageBubble
+      user={emptyUser}
+      date={date}
+      message={message}
+      id={id}
+      displayAvatar
+    />
   )
   expect(getByTestId("icon-Contact")).toBeInTheDocument()
 })
