@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from "react"
+import moment from "moment"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled from "styled-components"
 import Dropdown, {
@@ -12,7 +13,12 @@ import Dropdown, {
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Avatar, { User } from "Renderer/components/core/avatar/avatar.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
+import {
+  backgroundColor,
+  borderRadius,
+  boxShadowColor,
+  textColor,
+} from "Renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -20,6 +26,7 @@ import transition from "Renderer/styles/functions/transition"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { noop } from "Renderer/utils/noop"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import { MessageBubbleTestIds } from "App/messages/components/message-bubble-test-ids.enum"
 
 const MessageBubbleDropdown = styled(Dropdown)<{
   interlocutor: boolean
@@ -49,21 +56,40 @@ const MessageBubbleContainer = styled.div<{ interlocutor: boolean }>`
 
 const MessageBubbleWrapper = styled.div<{
   interlocutor: boolean
-  previousAuthor: boolean
+  displayAvatar: boolean
 }>`
   display: flex;
   align-items: center;
   flex-direction: ${({ interlocutor }) =>
     interlocutor ? "row-reverse" : "row"};
   justify-content: flex-end;
-  margin-left: ${({ previousAuthor, interlocutor }) =>
-    previousAuthor && interlocutor ? "0" : "7.5rem"};
-  margin-top: ${({ previousAuthor }) => (previousAuthor ? "2.4rem" : "0")};
-  margin-right: ${({ previousAuthor, interlocutor }) =>
-    previousAuthor && !interlocutor ? "0" : "7.5rem"};
+  margin-left: ${({ displayAvatar, interlocutor }) =>
+    displayAvatar && interlocutor ? "0" : "7.5rem"};
+  margin-top: ${({ displayAvatar }) => (displayAvatar ? "2.4rem" : "0")};
+  margin-right: ${({ displayAvatar, interlocutor }) =>
+    displayAvatar && !interlocutor ? "0" : "7.5rem"};
+`
+
+const MessageDate = styled.div`
+  box-sizing: border-box;
+  position: absolute;
+  top: -0.5rem;
+  right: 0;
+  transform: translateY(-100%);
+  padding: 0.5rem;
+  opacity: 0;
+  background-color: ${backgroundColor("row")};
+  border-radius: ${borderRadius("medium")};
+  box-shadow: 0 0.5rem 1.5rem 0 ${boxShadowColor("light")};
+  white-space: nowrap;
+
+  p {
+    color: ${textColor("primary")};
+  }
 `
 
 const Bubble = styled.div<{ interlocutor: boolean }>`
+  position: relative;
   padding: 1.1rem 1.2rem;
   margin-top: 0.8rem;
   background-color: ${({ interlocutor }) =>
@@ -74,6 +100,13 @@ const Bubble = styled.div<{ interlocutor: boolean }>`
       : "1.2rem 1.2rem 0.2rem 1.2rem"};
   max-width: 38rem;
   box-sizing: border-box;
+
+  &:hover {
+    ${MessageDate} {
+      opacity: 1;
+      transition: ${transition("opacity", undefined, "ease")};
+    }
+  }
 `
 
 const ActionsButton = styled.span`
@@ -94,8 +127,9 @@ interface Props {
   id: string
   user: User
   message: string
+  date: Date
   interlocutor?: boolean
-  previousAuthor?: boolean
+  displayAvatar?: boolean
   forwardMessage?: () => void
   removeMessage?: () => void
 }
@@ -105,8 +139,9 @@ const MessageBubble: FunctionComponent<Props> = ({
   id,
   user,
   message,
+  date,
   interlocutor = false,
-  previousAuthor = false,
+  displayAvatar = false,
   forwardMessage = noop,
   removeMessage = noop,
 }) => {
@@ -119,10 +154,11 @@ const MessageBubble: FunctionComponent<Props> = ({
     <MessageBubbleWrapper
       className={className}
       interlocutor={interlocutor}
-      previousAuthor={previousAuthor}
+      displayAvatar={displayAvatar}
     >
       <div>
         <MessageBubbleContainer interlocutor={interlocutor}>
+          {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
           {process.env.NODE_ENV !== "production" && (
             <MessageBubbleDropdown
               toggler={
@@ -159,14 +195,22 @@ const MessageBubble: FunctionComponent<Props> = ({
               />
             </MessageBubbleDropdown>
           )}
-          <Bubble interlocutor={interlocutor} data-testid="message-content">
+          <Bubble
+            interlocutor={interlocutor}
+            data-testid={MessageBubbleTestIds.MessageContent}
+          >
             <Text displayStyle={TextDisplayStyle.MediumLightText}>
               {message}
             </Text>
+            <MessageDate>
+              <Text displayStyle={TextDisplayStyle.SmallFadedText}>
+                {moment(date).format("dd h:mm A")}
+              </Text>
+            </MessageDate>
           </Bubble>
         </MessageBubbleContainer>
       </div>
-      {previousAuthor && (
+      {displayAvatar && (
         <InitialsAvatar user={user} interlocutor={interlocutor} />
       )}
     </MessageBubbleWrapper>
