@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components"
-import { theme } from "Theme/theme-provider"
-import { getColor } from "Theme/theme-getters"
+import { theme } from "./theme-provider"
+import { getColor } from "./theme-getters"
 
 export const MuditaGlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
   html, body  {

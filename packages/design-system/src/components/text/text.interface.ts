@@ -1,6 +1,4 @@
-import { FontSize } from "Theme/font-size"
-import { Color } from "Theme/color"
-import { FontWeight } from "Theme/font-weight"
+import { FontSize, Color, FontWeight } from "../../.."
 
 export interface TextStyleProps {
   tag?: keyof HTMLElementTagNameMap

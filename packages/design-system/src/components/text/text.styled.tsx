@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components"
-import { getColor, getFontSize, getFontWeight } from "Theme/theme-getters"
-import { TextStyleProps } from "Components/text/text.interface"
-import { TextDecorators } from "Components/text/text.type"
+import { getColor, getFontSize, getFontWeight } from "../../theme/theme-getters"
+import { TextStyleProps } from "./text.interface"
+import { TextDecorators } from "./text.type"
 
 export const TextWrapper = styled("p")<
   TextStyleProps & { decorators?: TextDecorators[] }

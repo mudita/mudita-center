@@ -1,8 +1,6 @@
 import { AppFunctionComponent } from "@mudita/app-function-component"
 import React from "react"
-import { Spacing } from "Theme/spacing"
-import { getColor, getSpacing } from "Theme/theme-getters"
-import { theme } from "Theme/theme-provider"
+import { Spacing, getColor, getSpacing, theme } from "../../.."
 
 interface Props {
   size: Spacing

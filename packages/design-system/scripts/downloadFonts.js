@@ -2,7 +2,7 @@ const axios = require("axios")
 const fs = require("fs-extra")
 const path = require("path")
 
-require("dotenv").config({ path: path.join(__dirname, "..", ".env") })
+require("dotenv").config()
 
 /**
  * Function that downloads "GT Pressura" font which is on a private repository.

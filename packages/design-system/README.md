@@ -1,6 +1,9 @@
-# Mudita Center - design-system
+# Mudita Design System
 
-This repo will contain Mudita Center design components.
+Mudita Design system contains components and predefined styles for products like Mudita Center and Mudita Cloud. It consists of the following components:
+- `Text`
+
+**Storybook:** https://mudita-design-system.netlify.app
 
 ## Usage
 
@@ -45,6 +48,8 @@ This repo will contain Mudita Center design components.
      </Text>
    )
    ```
+
+**CJS, ESModules, and UMD module formats are supported.**
 
 ### Fonts
 
@@ -168,3 +173,7 @@ The `GT Pressura` font has bigger priority, so no additional actions are require
   ```
 
   > **Note:** The token should have granted at least `repo` scope and be able to access `mudita/mudita-dev-resources` repository.
+
+### Bundle analysis
+
+Calculates the real cost of your library using [size-limit](https://github.com/ai/size-limit) with `npm run size` and visulize it with `npm run analyze`.

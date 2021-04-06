@@ -1,22 +1,20 @@
 import React, { ComponentProps } from "react"
-import { Story } from "@storybook/react"
-import { paths } from "Storybook/paths"
-import { getColor } from "Theme/theme-getters"
-import { theme } from "Theme/theme-provider"
+import { Meta, Story } from "@storybook/react"
+import { getColor, theme, Color } from "../../.."
+import { paths } from "../../../../.storybook/paths"
 import {
   Title,
   Subtitle,
   Description,
   Stories,
 } from "@storybook/addon-docs/blocks"
-import { ColorBox } from "Components/storybook/color/color.component"
-import { Color } from "Theme/color"
+import { ColorBox } from "./color.component"
 
 const description = `
-Theme provider exports a \`color\` function that accepts a color name and returns color value (hex, rgb, etc.):
+Theme provider exports a \`getColor\` function that accepts a color name and returns color value (hex, rgb, etc.):
 
 \`\`\`TSX
-color("black") // #000000
+getColor("black") // #000000
 \`\`\`
 
 Available color names are equal to the \`color\` object keys defined in theme:
@@ -59,14 +57,9 @@ export default {
   argTypes: {
     color: {
       description: "Color name as key of `color` object defined in theme.",
-      control: {
-        type: "select",
-        options: Object.keys(theme.color),
-      },
       table: {
         type: {
           summary: "Color",
-          detail: '"grey100", "red", "black", "blue500", ...',
         },
       },
     },
@@ -88,7 +81,7 @@ export default {
       default: "White",
     },
     docs: {
-      page: () => (
+      page: (): JSX.Element => (
         <>
           <Title>Style</Title>
           <Subtitle>Colors</Subtitle>
@@ -98,13 +91,13 @@ export default {
       ),
     },
   },
-}
+} as Meta
 
 const Template: Story<ComponentProps<typeof ColorBox>> = (props) => (
   <ColorBox {...props} />
 )
 
-const storyCreator = (color: Color) => {
+const storyCreator = (color: Color): Story<{ color: Color }> => {
   const Story = Template.bind({})
   Story.args = {
     color,

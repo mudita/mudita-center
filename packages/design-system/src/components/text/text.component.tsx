@@ -1,9 +1,9 @@
 import React from "react"
 import { AppFunctionComponent } from "@mudita/app-function-component"
-import { TextDecorator, TextVariant } from "Components/text/text.enum"
-import { TextStyleProps } from "Components/text/text.interface"
-import { textDecorators, textVariants } from "Components/text/text.helpers"
-import { TextWrapper } from "Components/text/text.styled"
+import { TextDecorator, TextVariant } from "./text.enum"
+import { TextStyleProps } from "./text.interface"
+import { textDecorators, textVariants } from "./text.helpers"
+import { TextWrapper } from "./text.styled"
 
 interface Props extends TextStyleProps {
   variant?: TextVariant
