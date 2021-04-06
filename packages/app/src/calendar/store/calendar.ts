@@ -123,6 +123,12 @@ const calendar = createModel<RootModel>({
             events = ((await externalProvidersStore.dispatch.google.getEvents(
               calendar.id
             )) as unknown) as CalendarEvent[]
+            break
+          case Provider.Outlook:
+            events = ((await externalProvidersStore.dispatch.outlook.getEvents(
+              calendar.id
+            )) as unknown) as CalendarEvent[]
+            break
         }
         dispatch.calendar.setEvents(events)
         return events
