@@ -22,11 +22,18 @@ import {
   clientId,
   redirectUrl,
 } from "Renderer/models/external-providers/outlook/outlook.constants"
-import { fetchContacts } from "Renderer/models/external-providers/outlook/outlook.helpers"
+import {
+  fetchCalendars,
+  fetchContacts,
+  fetchEvents,
+  getOutlookEndpoint,
+} from "Renderer/models/external-providers/outlook/outlook.helpers"
+
 import { TokenRequester } from "Renderer/models/external-providers/outlook/token-requester"
 
 export const createInitialState = () => ({
   [OutLookScope.Contacts]: {},
+  [OutLookScope.Calendars]: {},
 })
 
 const isOutlookErrorResponse = (
@@ -57,31 +64,35 @@ const outlook = createModel<ExternalProvidersModels>({
   effects: (d) => {
     const dispatch = (d as unknown) as RootState
 
-    const authorize = (scope: string, rootState: ExternalProvidersState) => {
+    const authorize = (
+      scope: OutLookScope,
+      rootState: ExternalProvidersState
+    ) => {
       return new Promise<void>((resolve, reject) => {
         logger.info("Authorizing in Outlook")
-        const token = rootState.outlook[OutLookScope.Contacts].accessToken
+        const token = rootState.outlook[scope].accessToken
+
+        if (token) {
+          resolve()
+          return
+        }
 
         const getAuthorizationUrl = () => {
           const urlSearchParams = new URLSearchParams({
             client_id: clientId,
             response_type: "code",
             redirect_uri: redirectUrl,
-            scope,
+            scope: getOutlookEndpoint(scope),
           })
 
           return `${apiBaseUrl}/authorize?${urlSearchParams.toString()}`
-        }
-        if (token) {
-          resolve()
-          return
         }
 
         let unregisterMainListener = noop
 
         ipcRenderer.callMain(OutlookAuthActions.OpenWindow, {
           authorizationUrl: getAuthorizationUrl(),
-          scope,
+          scope: getOutlookEndpoint(scope),
         })
 
         const processResponse = (
@@ -91,7 +102,7 @@ const outlook = createModel<ExternalProvidersModels>({
             reject(response.error)
           } else {
             dispatch.outlook.setAuthData({
-              scope: OutLookScope.Contacts,
+              scope,
               data: response,
             })
             resolve()
@@ -107,11 +118,13 @@ const outlook = createModel<ExternalProvidersModels>({
       })
     }
 
-    const getContacts = async (_: undefined, rootState: any) => {
+    const getContacts = async (
+      _: undefined,
+      rootState: ExternalProvidersState
+    ) => {
       logger.info("Getting Outlook contacts")
       const accessToken = rootState.outlook[OutLookScope.Contacts].accessToken
-      const refreshToken =
-        rootState.outlook[OutLookScope.Contacts].refresh_token
+      const refreshToken = rootState.outlook[OutLookScope.Contacts].refreshToken
       try {
         return await fetchContacts(accessToken)
       } catch ({ error }) {
@@ -130,9 +143,64 @@ const outlook = createModel<ExternalProvidersModels>({
       }
     }
 
+    const getCalendars = async (
+      _: undefined,
+      rootState: ExternalProvidersState
+    ) => {
+      logger.info("Getting Outlook calendars")
+
+      let accessToken = rootState.outlook[OutLookScope.Calendars].accessToken
+      const refreshToken =
+        rootState.outlook[OutLookScope.Calendars].refreshToken
+
+      if (!accessToken) {
+        await authorize(OutLookScope.Calendars, rootState)
+        accessToken = rootState.outlook[OutLookScope.Calendars].accessToken
+      }
+
+      try {
+        return await fetchCalendars(accessToken)
+      } catch (error) {
+        if (error === "invalid_grant") {
+          const tokenRequester = new TokenRequester()
+          const regeneratedTokens = await tokenRequester.regenerateTokens(
+            refreshToken,
+            OutLookScope.Calendars
+          )
+          dispatch.outlook.setAuthData({
+            scope: OutLookScope.Calendars,
+            data: regeneratedTokens,
+          })
+          return await fetchCalendars(regeneratedTokens.accessToken)
+        } else {
+          logger.error(error)
+
+          try {
+            logger.info("Reauthorizing Outlook account")
+            await dispatch.outlook.authorize(OutLookScope.Calendars)
+            return await fetchCalendars(accessToken)
+          } catch (authorizeError) {
+            logger.error(authorizeError)
+            throw authorizeError
+          }
+        }
+      }
+    }
+
+    const getEvents = async (
+      calendarId: string,
+      rootState: ExternalProvidersState
+    ) => {
+      const accessToken = rootState.outlook[OutLookScope.Calendars].accessToken
+
+      return fetchEvents(accessToken, calendarId)
+    }
+
     return {
       authorize,
       getContacts,
+      getCalendars,
+      getEvents,
     }
   },
 })

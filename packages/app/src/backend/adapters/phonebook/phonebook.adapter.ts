@@ -3,13 +3,17 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import { Endpoint, Method, Contact as PureContact } from "@mudita/pure"
+import { Endpoint, Method } from "@mudita/pure"
 import PhonebookAdapter from "Backend/adapters/phonebook/phonebook-adapter.class"
 import { Contact, ContactID } from "App/contacts/store/contacts.type"
 import DeviceResponse, {
   DeviceResponseStatus,
 } from "Backend/adapters/device-response.interface"
 import DeviceService from "Backend/device-service"
+import {
+  mapToContact,
+  mapToPureContact,
+} from "Backend/adapters/phonebook/phonebook-mappers"
 
 class Phonebook extends PhonebookAdapter {
   constructor(private deviceService: DeviceService) {
@@ -107,66 +111,3 @@ const createPhonebook = (deviceService: DeviceService): Phonebook =>
   new Phonebook(deviceService)
 
 export default createPhonebook
-
-const mapToContact = (pureContact: PureContact): Contact => {
-  const {
-    id,
-    blocked,
-    favourite,
-    address = "",
-    altName,
-    priName,
-    numbers: [primaryPhoneNumber = "", secondaryPhoneNumber = ""],
-  } = pureContact
-
-  const firstAddressLine = address.substr(0, address.indexOf("\n"))
-  const secondAddressLine = address.substr(address.indexOf("\n") + 1)
-
-  return {
-    blocked,
-    favourite,
-    primaryPhoneNumber,
-    secondaryPhoneNumber,
-    firstAddressLine,
-    secondAddressLine,
-    id: String(id),
-    firstName: priName,
-    lastName: altName,
-    // TODO: map missing fields in separate issue https://appnroll.atlassian.net/browse/PDA-571 (after EGD implementation)
-    // speedDial: undefined,
-    ice: false,
-    note: "",
-    email: "",
-  }
-}
-
-const mapToPureContact = (contact: Contact): PureContact => {
-  const {
-    blocked = false,
-    favourite = false,
-    firstName = "",
-    lastName = "",
-    primaryPhoneNumber,
-    secondaryPhoneNumber,
-    firstAddressLine,
-    secondAddressLine,
-    id,
-  } = contact
-  const numbers = []
-  if (primaryPhoneNumber) {
-    numbers.push(primaryPhoneNumber)
-  }
-  if (secondaryPhoneNumber) {
-    numbers.push(secondaryPhoneNumber)
-  }
-
-  return {
-    id: Number(id),
-    blocked,
-    favourite,
-    numbers: numbers,
-    priName: firstName,
-    altName: lastName,
-    address: [firstAddressLine, secondAddressLine].join("\n").trim(),
-  }
-}
