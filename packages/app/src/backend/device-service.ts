@@ -84,7 +84,7 @@ class DeviceService {
   }): Promise<DeviceResponse>
   async request(config: RequestConfig): Promise<DeviceResponse<any>>
   async request(config: RequestConfig) {
-    return new Promise(async (resolve) => {
+    return new Promise( (resolve) => {
       if (!this.device) {
         return resolve({
           status: DeviceResponseStatus.Error,
@@ -116,7 +116,7 @@ class DeviceService {
         this.eventEmitter.on(eventName, listener)
       } else {
         this.eventEmitter.on(eventName, listener)
-        const response = await this.device.request(config)
+        const response = this.device.request(config)
         this.eventEmitter.emit(eventName, response)
       }
     })
