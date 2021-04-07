@@ -90,7 +90,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
   onActionButtonClick,
   actionButtonIcon,
   actionButtonDisabled,
-  theme= muditaTheme,
+  theme = muditaTheme,
   ...props
 }) => {
   return (
