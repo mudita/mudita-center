@@ -26,12 +26,12 @@ const Template: Story<ComponentProps<typeof Icon>> = ({ ...props }) => {
   return <TemplateIcon {...props} />
 }
 
+type StoryCreatorProps = { name: string } & ComponentProps<typeof Icon>
+
 const storyCreator = ({
   name,
   ...props
-}: ComponentProps<typeof Icon>): Story<
-  { name: string } & ComponentProps<typeof Icon>
-> => {
+}: StoryCreatorProps): Story<StoryCreatorProps> => {
   const Story = Template.bind({})
   Story.args = {
     ...props,
@@ -161,7 +161,6 @@ export default {
 
 export const Default = Template.bind({})
 Default.args = {
-  name: "CheckboxChecked",
   children: <CheckboxChecked />,
 }
 Default.parameters = {

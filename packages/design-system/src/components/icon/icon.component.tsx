@@ -1,14 +1,15 @@
+import { AppFunctionComponent } from "@mudita/app-function-component"
 import styled from "styled-components"
 import { Color } from "../../theme/color"
 import { getColor } from "../../theme/theme-getters"
 
-interface Props {
+export interface Props {
   color?: Color
   width?: number
   height?: number
 }
 
-export const Icon = styled("span")<Props>`
+export const Icon: AppFunctionComponent<Props> = styled("span")<Props>`
   display: flex;
   align-items: center;
   justify-content: center;
