@@ -11,6 +11,7 @@ import React from "react"
 import { PureBackupModal } from "Renderer/modules/overview/backup-process/modals.styled"
 import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
+import { Properties } from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   ok: { id: "view.generic.button.ok" },
@@ -22,8 +23,13 @@ const messages = defineMessages({
   },
 })
 
-export const BackupRestorationFinishedModal: FunctionComponent = () => (
-  <PureBackupModal actionButtonLabel={intl.formatMessage(messages.ok)}>
+export const BackupRestorationFinishedModal: FunctionComponent<Properties> = ({
+  ...props
+}) => (
+  <PureBackupModal
+    actionButtonLabel={intl.formatMessage(messages.ok)}
+    {...props}
+  >
     <Text
       message={messages.title}
       displayStyle={TextDisplayStyle.LargeBoldText}

@@ -22,6 +22,7 @@ import {
   Labels,
   Row,
 } from "Renderer/components/core/table/table.component"
+import { Properties } from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   filename: {
@@ -42,7 +43,7 @@ const messages = defineMessages({
   },
 })
 
-interface BackupRestorationStartModalProps {
+interface BackupRestorationStartModalProps extends Properties{
   items: BackupItem[]
   restoreBackup?: () => void
 }
@@ -50,12 +51,14 @@ interface BackupRestorationStartModalProps {
 export const BackupRestorationStartModal: FunctionComponent<BackupRestorationStartModalProps> = ({
   items,
   restoreBackup = noop,
+  ...props
 }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     actionButtonLabel={intl.formatMessage(messages.actionButton)}
     onActionButtonClick={restoreBackup}
     size={ModalSize.Medium}
+    {...props}
   >
     <Text
       message={messages.title}

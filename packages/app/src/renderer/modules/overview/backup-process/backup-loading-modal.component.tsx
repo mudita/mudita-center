@@ -4,7 +4,6 @@
  */
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { ModalProps } from "Renderer/components/core/modal/modal.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
@@ -22,7 +21,6 @@ import { defineMessages } from "react-intl"
 import {
   Properties,
 } from "Renderer/components/core/modal-dialog/modal-dialog.component"
-import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 
 const messages = defineMessages({
   cancel: { id: "view.generic.button.cancel" },

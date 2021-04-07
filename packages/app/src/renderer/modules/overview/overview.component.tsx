@@ -9,22 +9,17 @@ import {
   StoreValues as BasicInfoValues,
 } from "Renderer/models/basic-info/basic-info.typings"
 import { DevMode } from "App/dev-mode/store/dev-mode.interface"
-import React, { ReactElement, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
 import { useStore } from "react-redux"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
 import { AppSettings } from "App/main/store/settings.interface"
-import modalService from "Renderer/components/core/modal/modal.service"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
 import { BackupFailedModal } from "Renderer/modules/overview/backup-process/backup-failed-modal.component"
 import { BackupFinishedModal } from "Renderer/modules/overview/backup-process/backup-finished-modal.component"
 import { BackupLoadingModal } from "Renderer/modules/overview/backup-process/backup-loading-modal.component"
 import { BackupStartModal } from "Renderer/modules/overview/backup-process/backup-start-modal.component"
-import { BackupRestorationFailedModal } from "Renderer/modules/overview/backup-process/restoration-failed-modal.component"
-import { BackupRestorationLoadingModal } from "Renderer/modules/overview/backup-process/restoration-loading-modal.component"
-import { BackupRestorationStartModal } from "Renderer/modules/overview/backup-process/restoration-start-modal.component"
-import { BackupRestorationFinishedModal } from "Renderer/modules/overview/backup-process/restoration-finished-modal.component"
 import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
 import logger from "App/main/utils/logger"
 
@@ -32,48 +27,6 @@ export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
   toggleUpdatingDevice: (option: boolean) => void
   setCollectingData: (option: AppSettings["appCollectingData"]) => void
-}
-
-/**
- * TODO: Remove after implementing the real backup system
- */
-const simulateProgress = async (
-  Component: ReactElement,
-  onFail: () => void,
-  onSuccess: () => void,
-  fail?: boolean
-) => {
-  let progress = 0
-
-  /**
-   * Temporary interval to simulate backup restoration process
-   */
-  const progressSimulator = setInterval(() => {
-    if (progress < 100) {
-      progress += 2
-      // modalService.rerenderModal(
-      //   React.cloneElement(Component, { onClose: cancel, progress })
-      // )
-      React.cloneElement(Component, { onClose: cancel, progress })
-      if (fail && progress > 30) {
-        clearInterval(progressSimulator)
-        onFail()
-      }
-    } else {
-      clearInterval(progressSimulator)
-      onSuccess()
-    }
-  }, 100)
-
-  const cancel = () => {
-    logger.warn("Cancelling operation")
-    clearInterval(progressSimulator)
-  }
-
-  await modalService.openModal(
-    React.cloneElement(Component, { onClose: cancel }),
-    true
-  )
 }
 
 const Overview: FunctionComponent<
@@ -116,7 +69,7 @@ const Overview: FunctionComponent<
    * Temporary state to demo failure
    */
   const [backups, setBackup] = useState(0)
-  let restorations = 0
+  // let restorations = 0
   const [modals, setModals] = useState({
     backupStartModal: false,
     loadingModal: false,
@@ -124,7 +77,6 @@ const Overview: FunctionComponent<
     failedModal: false,
   })
   const [progress, setProgress] = useState(0)
-  console.log(progress)
   const store = useStore()
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
@@ -215,39 +167,39 @@ const Overview: FunctionComponent<
     }))
   }
 
-  const openBackupRestorationFinishedModal = () => {
-    logger.info("Backup restoration finished.")
-    modalService.openModal(<BackupRestorationFinishedModal />, true)
-  }
+  // const openBackupRestorationFinishedModal = () => {
+  //   logger.info("Backup restoration finished.")
+  //   modalService.openModal(<BackupRestorationFinishedModal />, true)
+  // }
+  //
+  // const openBackupRestorationFailedModal = () => {
+  //   // TODO: Add an error to the message after implementing phone backup
+  //   logger.error("Backup restoration failed.")
+  //   modalService.openModal(<BackupRestorationFailedModal />, true)
+  // }
+  //
+  // const openBackupRestorationLoadingModal = () => {
+  //   restorations++
+  //   logger.info(
+  //     `Restoring backup from ${lastBackup?.createdAt} with a size of ${lastBackup?.size} bytes.`
+  //   )
+  //
+  //   simulateProgress(
+  //     <BackupRestorationLoadingModal />,
+  //     openBackupRestorationFailedModal,
+  //     openBackupRestorationFinishedModal,
+  //     restorations % 3 === 0
+  //   )
+  // }
 
-  const openBackupRestorationFailedModal = () => {
-    // TODO: Add an error to the message after implementing phone backup
-    logger.error("Backup restoration failed.")
-    modalService.openModal(<BackupRestorationFailedModal />, true)
-  }
-
-  const openBackupRestorationLoadingModal = () => {
-    restorations++
-    logger.info(
-      `Restoring backup from ${lastBackup?.createdAt} with a size of ${lastBackup?.size} bytes.`
-    )
-
-    simulateProgress(
-      <BackupRestorationLoadingModal />,
-      openBackupRestorationFailedModal,
-      openBackupRestorationFinishedModal,
-      restorations % 3 === 0
-    )
-  }
-
-  const openBackupRestorationStartModal = () => {
-    modalService.openModal(
-      <BackupRestorationStartModal
-        items={mockedBackupItems}
-        restoreBackup={openBackupRestorationLoadingModal}
-      />
-    )
-  }
+  // const openBackupRestorationStartModal = () => {
+  //   modalService.openModal(
+  //     <BackupRestorationStartModal
+  //       items={mockedBackupItems}
+  //       restoreBackup={openBackupRestorationLoadingModal}
+  //     />
+  //   )
+  // }
 
   return (
     <>
@@ -287,7 +239,7 @@ const Overview: FunctionComponent<
         onUpdateInstall={install}
         onUpdateDownload={download}
         onOpenBackupModal={openBackupStartModal}
-        onOpenBackupRestorationModal={openBackupRestorationStartModal}
+        onOpenBackupRestorationModal={noop}
         language={language}
       />
     </>

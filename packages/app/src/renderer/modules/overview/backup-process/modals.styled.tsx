@@ -13,9 +13,6 @@ import Table from "Renderer/components/core/table/table.component"
 import StackedBarChart from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import Modal, {
-  ModalProps,
-} from "Renderer/components/core/modal/modal.component"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
 import ModalDialog, {

@@ -54,16 +54,18 @@ storiesOf("Views|Overview/Backup", module)
           date="2020-07-20T19:25:00+02:00"
           items={mockedBackupItems}
           total={"18.1 Gb"}
+          isOpen
         />
       </Story>
       <Story title="In progress" transparentMode>
-        <BackupLoadingModal progress={49} />
+        <BackupLoadingModal progress={49} isOpen />
       </Story>
       <Story title="Failed" transparentMode>
-        <BackupFailedModal />
+        <BackupFailedModal isOpen />
       </Story>
       <Story title="Completed" transparentMode>
         <BackupFinishedModal
+          isOpen
           items={mockedBackupItems}
           destination={"/Users/John Doe/backups"}
         />
@@ -73,16 +75,16 @@ storiesOf("Views|Overview/Backup", module)
   .add("Modals - restoring backup", () => (
     <StoryContainer column>
       <Story title="Start" transparentMode>
-        <BackupRestorationStartModal items={mockedBackupItems} />
+        <BackupRestorationStartModal items={mockedBackupItems} isOpen />
       </Story>
       <Story title="In progress" transparentMode>
-        <BackupRestorationLoadingModal progress={49} />
+        <BackupRestorationLoadingModal progress={49} isOpen />
       </Story>
       <Story title="Failed" transparentMode>
-        <BackupRestorationFailedModal />
+        <BackupRestorationFailedModal isOpen />
       </Story>
       <Story title="Completed" transparentMode>
-        <BackupRestorationFinishedModal />
+        <BackupRestorationFinishedModal isOpen />
       </Story>
     </StoryContainer>
   ))

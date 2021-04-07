@@ -13,12 +13,11 @@ import {
   PureBackupModal,
 } from "Renderer/modules/overview/backup-process/modals.styled"
 import { defineMessages } from "react-intl"
-import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
-import { ModalProps } from "Renderer/components/core/modal/modal.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
+import { Properties } from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   cancel: { id: "view.generic.button.cancel" },
@@ -30,19 +29,18 @@ const messages = defineMessages({
   },
 })
 
-interface BackupRestorationLoadingModalProps
-  extends Pick<ModalProps, "onClose"> {
+interface BackupRestorationLoadingModalProps extends Properties {
   progress?: number
 }
 
 export const BackupRestorationLoadingModal: FunctionComponent<BackupRestorationLoadingModalProps> = ({
-  onClose = noop,
   progress = 0,
+  ...props
 }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     closeable={false}
-    onClose={onClose}
+    {...props}
   >
     <Text
       message={messages.title}
