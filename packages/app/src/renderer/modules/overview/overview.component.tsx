@@ -145,16 +145,25 @@ const Overview: FunctionComponent<
   }, [osVersion])
 
   useEffect(() => {
-    if (progress === 50) {
-      console.log("progress")
-      setModals((prevState) => ({
-        ...prevState,
-        loadingModal: false,
-        finishedModal: true,
-      }))
-      // clearInterval(progressSimulator)
+    let progressSimulator: NodeJS.Timeout
+    if (modals.loadingModal) {
+      progressSimulator = setInterval(() => {
+        setProgress((prevState) => prevState + 2)
+        if (progress === 50) {
+          console.log("progress")
+          setModals((prevState) => ({
+            ...prevState,
+            loadingModal: false,
+            finishedModal: true,
+          }))
+        }
+      }, 100)
     }
-  }, [progress])
+
+    return () => {
+      clearInterval(progressSimulator)
+    }
+  }, [modals, progress])
 
   const openBackupFinishedModal = () => {
     logger.info("Backup creation finished.")
@@ -181,27 +190,6 @@ const Overview: FunctionComponent<
       ...prevState,
       loadingModal: true,
     }))
-    // wrzucic w useEffect
-    const progressSimulator = setInterval(() => {
-      setProgress((prevState) => prevState + 2)
-      if (progress === 50) {
-        console.log("progress")
-        setModals((prevState) => ({
-          ...prevState,
-          loadingModal: false,
-          finishedModal: true,
-        }))
-        // clearInterval(progressSimulator)
-      }
-    }, 100)
-
-    // pro
-    // simulateProgress(
-    //   <BackupLoadingModal isOpen={modals.loadingModal}/>,
-    //   openBackupFailedModal,
-    //   openBackupFinishedModal,
-    //   backups % 3 === 0
-    // )
   }
 
   const openBackupStartModal = () => {
