@@ -69,7 +69,6 @@ const Overview: FunctionComponent<
    * Temporary state to demo failure
    */
   const [backups, setBackup] = useState(0)
-  // let restorations = 0
   const [modals, setModals] = useState({
     backupStartModal: false,
     loadingModal: false,
@@ -120,7 +119,7 @@ const Overview: FunctionComponent<
   }, [modals, progress])
 
   useEffect(() => {
-    if (backups === 3)  {
+    if (backups === 3) {
       setModals((prevState) => ({
         ...prevState,
         loadingModal: false,
@@ -130,7 +129,7 @@ const Overview: FunctionComponent<
   }, [backups])
 
   const openBackupLoadingModal = () => {
-    setBackup(prevState => prevState + 1)
+    setBackup((prevState) => prevState + 1)
     logger.info("Creating backup...")
     closeBackupStartModal()
     setModals((prevState) => ({
@@ -166,40 +165,6 @@ const Overview: FunctionComponent<
       failedModal: false,
     }))
   }
-
-  // const openBackupRestorationFinishedModal = () => {
-  //   logger.info("Backup restoration finished.")
-  //   modalService.openModal(<BackupRestorationFinishedModal />, true)
-  // }
-  //
-  // const openBackupRestorationFailedModal = () => {
-  //   // TODO: Add an error to the message after implementing phone backup
-  //   logger.error("Backup restoration failed.")
-  //   modalService.openModal(<BackupRestorationFailedModal />, true)
-  // }
-  //
-  // const openBackupRestorationLoadingModal = () => {
-  //   restorations++
-  //   logger.info(
-  //     `Restoring backup from ${lastBackup?.createdAt} with a size of ${lastBackup?.size} bytes.`
-  //   )
-  //
-  //   simulateProgress(
-  //     <BackupRestorationLoadingModal />,
-  //     openBackupRestorationFailedModal,
-  //     openBackupRestorationFinishedModal,
-  //     restorations % 3 === 0
-  //   )
-  // }
-
-  // const openBackupRestorationStartModal = () => {
-  //   modalService.openModal(
-  //     <BackupRestorationStartModal
-  //       items={mockedBackupItems}
-  //       restoreBackup={openBackupRestorationLoadingModal}
-  //     />
-  //   )
-  // }
 
   return (
     <>
