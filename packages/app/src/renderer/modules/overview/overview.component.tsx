@@ -64,7 +64,6 @@ const Overview: FunctionComponent<
   /**
    * Temporary state to demo failure
    */
-  console.log(pureOsBackupLocation)
   const [backups, setBackup] = useState(0)
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
