@@ -61,7 +61,6 @@ export const decorators = [
     } catch (e) {
       require("../src/fonts/fallback/style.css")
     }
-    require("../src/icons/style.css")
 
     return (
       <MuditaThemeProvider>

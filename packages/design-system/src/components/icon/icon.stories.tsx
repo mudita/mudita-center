@@ -1,8 +1,9 @@
-import { paths } from "Storybook/paths"
-import { Icon } from "Components/icon/icon.component"
-import React, { ComponentProps } from "react"
-import { Story } from "@storybook/react"
-import { theme } from "Theme/theme-provider"
+import React from "react"
+import { paths } from "../../../.storybook/paths"
+import { Icon } from "./icon.component"
+import { ComponentProps } from "react"
+import { Meta, Story } from "@storybook/react"
+import { theme } from "../.."
 import {
   ArgsTable,
   Description,
@@ -12,59 +13,65 @@ import {
   Subtitle,
   Title,
 } from "@storybook/addon-docs/blocks"
-import { IconType } from "Icons"
+import styled from "styled-components"
+import CheckboxChecked from "../../../assets/checkbox-checked.svg"
+import CheckboxIndeterminate from "../../../assets/checkbox-indeterminate.svg"
+import CheckboxDropdown from "../../../assets/checkbox-dropdown.svg"
+
+const TemplateIcon = styled(Icon)`
+  box-shadow: 0 0 0.1rem 0 #000;
+`
 
 const Template: Story<ComponentProps<typeof Icon>> = ({ ...props }) => {
-  return <Icon {...props} />
+  return <TemplateIcon {...props} />
 }
 
 const storyCreator = ({
+  name,
   ...props
-}: ComponentProps<typeof Icon>): Story<ComponentProps<typeof Icon>> => {
+}: ComponentProps<typeof Icon>): Story<
+  { name: string } & ComponentProps<typeof Icon>
+> => {
   const Story = Template.bind({})
   Story.args = {
     ...props,
-    style: {
-      boxShadow: "0 0 .1rem 0 rgba(0,0,0,.5)",
-    },
   }
-
-  const [enumName] =
-    Object.entries(IconType).find(([, value]) => value === props.children) || []
-
-  const sizeProp = props.size ? ` size={${props.size}}` : ""
 
   Story.parameters = {
     docs: {
       source: {
-        code: `<Icon${sizeProp}>{IconType.${enumName}}</Icon>`,
+        code: `<Icon>
+  <${name} />
+</Icon>`,
       },
     },
   }
   return Story
 }
 
-const description = `\`<Icon>\` component is a wrapper that allows rendering our custom \`"Mudita Icons"\` font. It always renders as \`<span>\` element so it can be freely used in many different scenarios.
+const description = `\`<Icon>\` component allows to easily use and customize all icons defined in our design system.
+It always renders as \`<span>\` element so it can be freely used in many different scenarios.
 
-Because icons are de facto ligatures, they can be easily used in the following way:
-
-\`\`\`TSX
-<Icon>checkbox-checked</Icon>
-\`\`\`
-
-However, for easier development, there is an \`IconType\` enum that can be used instead:
+It's just a wrapper that adds some additional styling to the \`svg\` component placed inside, so the implementation is as following:
 
 \`\`\`TSX
-<Icon>{IconType.CheckboxChecked}</Icon>
+import
+
+<Icon>
+  <CheckboxChecked />
+</Icon>
 \`\`\`
 
-> **Note:** The grey border around icons is only for demo purposes to show the size of icon container.
-`
+> **Note:** The border around icons is only for presentation purpose to show the real size of icon component.`
 
 export default {
   title: `${paths.atoms}/Icon`,
   component: Icon,
   argTypes: {
+    children: {
+      control: "",
+      description: "An SVG component",
+    },
     color: {
       control: {
         type: "select",
@@ -79,15 +86,25 @@ export default {
         },
       },
     },
-    size: {
+    width: {
       control: {
         type: "number",
-        min: 0.5,
+        min: 0,
         max: 10,
-        step: 0.1,
+        step: 1,
       },
+      description: "Custom width in `rem` unit.",
       defaultValue: 2,
-      description: "Font size in `rem` unit. Default is `2rem`.",
+      table: {
+        type: {
+          summary: "Number",
+          detail: "Only positive numbers are allowed",
+        },
+      },
+    },
+    height: {
+      description: "Custom height in `rem` unit.",
+      defaultValue: 2,
       table: {
         type: {
           summary: "Number",
@@ -96,11 +113,6 @@ export default {
       },
     },
     className: {
-      table: {
-        disable: true,
-      },
-    },
-    children: {
       table: {
         disable: true,
       },
@@ -125,7 +137,7 @@ export default {
         disable: true,
       },
     },
-    style: {
+    name: {
       table: {
         disable: true,
       },
@@ -140,21 +152,35 @@ export default {
           <Description markdown={description} />
           <Primary />
           <ArgsTable story={PRIMARY_STORY} />
-          <Stories includePrimary title={"Available icons"} />
+          <Stories title={"Available icons"} />
         </>
       ),
     },
   },
+} as Meta
+
+export const Default = Template.bind({})
+Default.args = {
+  name: "CheckboxChecked",
+  children: <CheckboxChecked />,
+}
+Default.parameters = {
+  docs: {
+    source: {
+      code: " ",
+    },
+  },
 }
 
-export const CheckboxChecked = storyCreator({
-  children: IconType.CheckboxChecked,
+export const CheckboxCheckedIcon = storyCreator({
+  name: "CheckboxChecked",
+  children: <CheckboxChecked />,
 })
-
-export const CheckboxIndeterminate = storyCreator({
-  children: IconType.CheckboxIndeterminate,
+export const CheckboxIndeterminateIcon = storyCreator({
+  name: "CheckboxIndeterminate",
+  children: <CheckboxIndeterminate />,
 })
-
-export const CheckboxDropdown = storyCreator({
-  children: IconType.CheckboxDropdown,
+export const CheckboxDropdownIcon = storyCreator({
+  name: "CheckboxDropdown",
+  children: <CheckboxDropdown />,
 })

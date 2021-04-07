@@ -1,21 +1,23 @@
 import styled from "styled-components"
-import { Color } from "Theme/color"
-import { getColor } from "Theme/theme-getters"
+import { Color } from "../../theme/color"
+import { getColor } from "../../theme/theme-getters"
 
 interface Props {
   color?: Color
-  size?: number
+  width?: number
+  height?: number
 }
 
 export const Icon = styled("span")<Props>`
-  font-family: "Mudita Icons" !important;
-  font-style: normal;
-  font-weight: normal !important;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: ${({ color }) => (color ? getColor(color) : "inherit")};
-  font-size: ${({ size = 2 }) => (size ? `${size}rem` : "inherit")};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${({ width = 2 }) => width}rem;
+  height: ${({ height = 2 }) => height}rem;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    color: ${({ color }) => (color ? getColor(color) : "inherit")};
+  }
 `

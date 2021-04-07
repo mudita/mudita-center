@@ -15,4 +15,4 @@ export { AppFunctionComponent } from "@mudita/app-function-component"
 export { TextVariant, TextDecorator } from "./components/text/text.enum"
 export { Text } from "./components/text/text.component"
 
-export { Icon } from "Components/icon/icon.component"
+export { Icon } from "./components/icon/icon.component"
