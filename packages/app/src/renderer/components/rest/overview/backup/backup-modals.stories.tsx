@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { Meta } from "@storybook/react"
 import { BackupStartModal } from "Renderer/modules/overview/backup-process/backup-start-modal.component"
 import Story from "Renderer/components/storybook/story.component"
