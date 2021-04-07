@@ -3,7 +3,7 @@ import styled from "styled-components"
 import { Color } from "../../theme/color"
 import { getColor } from "../../theme/theme-getters"
 
-interface Props {
+export interface Props {
   color?: Color
   width?: number
   height?: number

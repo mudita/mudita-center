@@ -5,7 +5,7 @@ import { TextStyleProps } from "./text.interface"
 import { textDecorators, textVariants } from "./text.helpers"
 import { TextWrapper } from "./text.styled"
 
-interface Props extends TextStyleProps {
+export interface Props extends TextStyleProps {
   variant?: TextVariant
   decorators?: TextDecorator[]
 }

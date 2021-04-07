@@ -14,9 +14,9 @@ import {
   Title,
 } from "@storybook/addon-docs/blocks"
 import styled from "styled-components"
-import CheckboxChecked from "../../../assets/checkbox-checked.svg"
-import CheckboxIndeterminate from "../../../assets/checkbox-indeterminate.svg"
-import CheckboxDropdown from "../../../assets/checkbox-dropdown.svg"
+import CheckboxChecked from "../../icons/assets/checkbox-checked.svg"
+import CheckboxIndeterminate from "../../icons/assets/checkbox-indeterminate.svg"
+import CheckboxDropdown from "../../icons/assets/checkbox-dropdown.svg"
 
 const TemplateIcon = styled(Icon)`
   box-shadow: 0 0 0.1rem 0 #000;
