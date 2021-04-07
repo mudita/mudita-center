@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useRef } from "react"
+import React, { useEffect } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { SidebarHeaderButton } from "Renderer/components/core/table/table.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
@@ -12,35 +12,27 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import Icon, { IconSize } from "Renderer/components/core/icon/icon.component"
-import MessageBubble from "App/messages/components/message-bubble.component"
 import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { isNameAvailable } from "Renderer/components/rest/messages/is-name-available"
 import { intl } from "Renderer/utils/intl"
 import {
   Message,
-  MessageType,
   ResultState,
   Thread,
 } from "App/messages/store/messages.interface"
-import { Contact } from "App/contacts/store/contacts.type"
-import { LoaderType } from "Renderer/components/core/loader/loader.interface"
-import Loader from "Renderer/components/core/loader/loader.component"
-import { ThreadDetailsTestIds } from "App/messages/components/thread-details-test-ids.enum"
-import { defineMessages } from "react-intl"
 import {
   LeadingButton,
-  Content,
-  MessageBubblesWrapper,
   MessagesSidebar,
   MessagesWrapper,
   NameWrapper,
   PhoneNumberText,
   Textarea,
   TextareaWrapper,
-  ColumnContent,
-  RetryButton,
 } from "App/messages/components/thread-details.styled"
-import { DisplayStyle } from "Renderer/components/core/button/button.config"
+import ThreadDetailsError from "App/messages/components/thread-details-error.component"
+import ThreadDetailsLoading from "App/messages/components/thread-details-loading.component"
+import ThreadDetailsMessages from "App/messages/components/thread-details-messages.component"
+import { Contact } from "App/contacts/store/contacts.type"
 
 export interface ThreadDetailsProps {
   thread: Thread
@@ -49,8 +41,8 @@ export interface ThreadDetailsProps {
   onUnreadStatus: (ids: string[]) => void
   onContactClick: (phoneNumber: string) => void
   onAttachContactClick: () => void
-  getMessagesByThreadId: (threadId: string) => Message[]
   getContact: (contactId: string) => Contact
+  getMessagesByThreadId: (threadId: string) => Message[]
   loadMessagesByThreadId: (threadId: string) => Message[]
   getMessagesResultMapStateByThreadId: (threadId: string) => ResultState
 }
@@ -58,13 +50,6 @@ export interface ThreadDetailsProps {
 const trailingIcon = [
   <Icon type={Type.Send} key={Type.Send} size={IconSize.Big} />,
 ]
-
-const translations = defineMessages({
-  errorText: {
-    id: "view.name.messages.modal.loadingThreadError.body",
-  },
-  tryAgainButtonText: { id: "component.modal.data.errorWithRetry.button" },
-})
 
 const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   thread,
@@ -76,7 +61,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   getMessagesByThreadId,
   loadMessagesByThreadId,
   getContact,
-                                                                getMessagesResultMapStateByThreadId,
+  getMessagesResultMapStateByThreadId,
 }) => {
   const resultState = getMessagesResultMapStateByThreadId(thread.id)
   const messages = getMessagesByThreadId(thread.id)
@@ -85,12 +70,6 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
   useEffect(() => {
     loadThread()
   }, [thread.id])
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.scrollIntoView()
-    }
-  }, [ref.current])
   const markAsUnread = () => {
     onUnreadStatus([thread.id])
     onClose()
@@ -111,6 +90,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
         onClick={handleContactClick}
         iconSize={IconSize.Big}
       />
+      {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
       {process.env.NODE_ENV !== "production" && (
         <>
           <SidebarHeaderButton
@@ -179,59 +159,11 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
     >
       <MessagesWrapper>
         {resultState === ResultState.Error && (
-          <ColumnContent>
-            <Text
-              displayStyle={TextDisplayStyle.LargeFadedText}
-              message={translations.errorText}
-              data-testid={ThreadDetailsTestIds.ErrorText}
-            />
-            <RetryButton
-              displayStyle={DisplayStyle.Primary}
-              labelMessage={translations.tryAgainButtonText}
-              onClick={loadThread}
-              data-testid={ThreadDetailsTestIds.RetryButton}
-            />
-          </ColumnContent>
+          <ThreadDetailsError onClick={loadThread} />
         )}
-        {resultState === ResultState.Loading && (
-          <Content>
-            <Loader
-              size={4}
-              type={LoaderType.Spinner}
-              data-testid={ThreadDetailsTestIds.Loader}
-            />
-          </Content>
-        )}
+        {resultState === ResultState.Loading && <ThreadDetailsLoading />}
         {resultState === ResultState.Loaded && (
-          <MessageBubblesWrapper>
-            {messages.map(({ contactId, content, messageType, id }, index) => {
-              const prevMessage = messages[index - 1]
-              const previousAuthor = prevMessage?.contactId !== contactId
-              if (index === messages.length - 1) {
-                return (
-                  <div ref={ref} key={id}>
-                    <MessageBubble
-                      id={id}
-                      user={getContact(contactId)}
-                      message={content}
-                      interlocutor={messageType === MessageType.OUTBOX}
-                      previousAuthor={previousAuthor}
-                    />
-                  </div>
-                )
-              }
-              return (
-                <MessageBubble
-                  key={id}
-                  id={id}
-                  user={getContact(contactId)}
-                  message={content}
-                  interlocutor={messageType === MessageType.OUTBOX}
-                  previousAuthor={previousAuthor}
-                />
-              )
-            })}
-          </MessageBubblesWrapper>
+          <ThreadDetailsMessages messages={messages} contact={contact} />
         )}
       </MessagesWrapper>
       {process.env.NODE_ENV !== "production" && (

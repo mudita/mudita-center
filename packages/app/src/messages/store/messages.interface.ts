@@ -20,13 +20,8 @@ export enum ResultState {
 }
 
 export enum MessageType {
-  DRAFT = "DRAFT",
-  FAILED = "FAILED",
   INBOX = "INBOX",
   OUTBOX = "OUTBOX",
-  QUEUED = "QUEUED",
-  INPUT = "INPUT",
-  UNKNOWN = "UNKNOWN",
 }
 
 export interface Message {

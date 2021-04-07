@@ -122,13 +122,6 @@ test("left part of sidebar displays details correctly", () => {
   )
 })
 
-test("correct amount of message bubbles is displayed", () => {
-  const { getAllByTestId } = renderer({
-    getMessagesResultMapStateByThreadId: jest.fn(() => ResultState.Loaded),
-  })
-  expect(getAllByTestId("message-content")).toHaveLength(messages.length)
-})
-
 test("message from unknown person displays only phone number", () => {
   const { getByTestId } = renderer({
     thread: threadFromUnknownCaller,

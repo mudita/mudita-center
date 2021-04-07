@@ -23,7 +23,8 @@ export const MessagesWrapper = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 0 3rem;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 `
 
 export const MessageBubblesWrapper = styled.div`

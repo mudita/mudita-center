@@ -106,6 +106,39 @@ const LastMessageText = styled(Message)<{ unread?: boolean }>`
   ${({ unread }) => unread && dotStyles};
 `
 
+// TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802
+// const Threads = styled(Table)<{
+//   noneRowsSelected?: boolean
+// }>`
+//   --columnsTemplate: 11.2rem 60.5rem 1fr;
+//   --columnsTemplateWithOpenedSidebar: 11.2rem 1fr;
+//   --columnsGap: 0;
+//
+//   ${({ noneRowsSelected }) =>
+//     !noneRowsSelected &&
+//     css`
+//       ${InitialsAvatar} {
+//         ${animatedOpacityStyles};
+//       }
+//
+//       ${Checkbox} {
+//         ${animatedOpacityActiveStyles};
+//       }
+//     `};
+//
+//   ${Row} {
+//     :hover {
+//       ${Checkbox} {
+//         ${animatedOpacityActiveStyles};
+//       }
+//
+//       ${InitialsAvatar} {
+//         display: none;
+//       }
+//     }
+//   }
+// `
+
 const Threads = styled(Table)<{
   noneRowsSelected?: boolean
 }>`
@@ -124,18 +157,6 @@ const Threads = styled(Table)<{
         ${animatedOpacityActiveStyles};
       }
     `};
-
-  ${Row} {
-    :hover {
-      ${Checkbox} {
-        ${animatedOpacityActiveStyles};
-      }
-
-      ${InitialsAvatar} {
-        display: none;
-      }
-    }
-  }
 `
 
 const ThreadDataWrapper = styled(DataWrapper)<{ sidebarOpened: boolean }>`
@@ -288,27 +309,33 @@ const ThreadList: FunctionComponent<Props> = ({
                       data-testid="dropdown-add-to-contacts"
                     />
                   )}
-                  <HiddenButton
-                    labelMessage={{
-                      id: unread
-                        ? "view.name.messages.markAsRead"
-                        : "view.name.messages.markAsUnread",
-                    }}
-                    Icon={Type.BorderCheckIcon}
-                    onClick={toggleReadStatus}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-mark-as-read"
-                    hide={productionEnvironment}
-                  />
-                  <ButtonComponent
-                    labelMessage={{
-                      id: "view.name.messages.dropdownDelete",
-                    }}
-                    Icon={Type.Delete}
-                    onClick={emitDeleteClick}
-                    displayStyle={DisplayStyle.Dropdown}
-                    data-testid="dropdown-delete"
-                  />
+                  {/* TODO: turn on in https://appnroll.atlassian.net/browse/PDA-802 */}
+                  {process.env.NODE_ENV !== "production" && (
+                    <>
+                      <HiddenButton
+                        labelMessage={{
+                          id: unread
+                            ? "view.name.messages.markAsRead"
+                            : "view.name.messages.markAsUnread",
+                        }}
+                        Icon={Type.BorderCheckIcon}
+                        onClick={toggleReadStatus}
+                        displayStyle={DisplayStyle.Dropdown}
+                        data-testid="dropdown-mark-as-read"
+                        hide={productionEnvironment}
+                      />
+
+                      <ButtonComponent
+                        labelMessage={{
+                          id: "view.name.messages.dropdownDelete",
+                        }}
+                        Icon={Type.Delete}
+                        onClick={emitDeleteClick}
+                        displayStyle={DisplayStyle.Dropdown}
+                        data-testid="dropdown-delete"
+                      />
+                    </>
+                  )}
                 </Dropdown>
               </Actions>
             </Col>

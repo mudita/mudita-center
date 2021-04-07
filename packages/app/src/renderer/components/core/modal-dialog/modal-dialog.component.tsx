@@ -32,6 +32,9 @@ import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Button from "Renderer/components/core/button/button.component"
 import { intl } from "Renderer/utils/intl"
+import { withTheme } from "styled-components"
+import { backgroundColor, zIndex } from "Renderer/styles/theming/theme-getters"
+import { Theme } from "Renderer/styles/theming/theme"
 
 const getModalSize = (size: ModalSize) => {
   switch (size) {
@@ -61,6 +64,7 @@ const getModalSize = (size: ModalSize) => {
 export interface Properties extends Props, ModalProps {
   close?: ComponentProps<typeof Button>
   closeModal?: () => void
+  theme: Theme
 }
 
 const ModalDialog: FunctionComponent<Properties> = ({
@@ -86,14 +90,15 @@ const ModalDialog: FunctionComponent<Properties> = ({
   onActionButtonClick,
   actionButtonIcon,
   actionButtonDisabled,
+  theme,
 }) => {
   return (
     <Modal
       isOpen={isOpen}
       style={{
         overlay: {
-          zIndex: 5,
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
+          backgroundColor: backgroundColor("modalBackdrop")({ theme }),
+          zIndex: zIndex("modalBackdrop")({ theme }),
         },
         content: {
           boxSizing: "border-box",
@@ -164,4 +169,4 @@ const ModalDialog: FunctionComponent<Properties> = ({
   )
 }
 
-export default ModalDialog
+export default withTheme(ModalDialog)

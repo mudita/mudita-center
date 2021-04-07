@@ -121,6 +121,11 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
+  const enabled = process.env.PURE_LOGGER_ENABLED === "true"
+
+  PureDeviceManager.registerLogger(logger)
+  PureDeviceManager.toggleLogs(enabled)
+
   startBackend(PureDeviceManager, ipcMain)
   registerPureOsDownloadListener(registerDownloadListener)
   registerPureOsUpdateListener()
