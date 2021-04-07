@@ -10,7 +10,6 @@
     "./src/components/storybook/**/*",
     "./src/utils/**/*",
     "./src/fonts/main/**/*",
-    "./src/**/*.test.tsx",
-    "./src/icons/**/*"
+    "./src/**/*.test.tsx"
   ]
 }
