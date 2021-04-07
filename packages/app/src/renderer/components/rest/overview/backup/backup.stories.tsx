@@ -12,6 +12,7 @@ import Story from "Renderer/components/storybook/story.component"
 import { css } from "styled-components"
 import { Story as StoryInterface } from "@storybook/react/dist/client/preview/types-6-0"
 import { noop } from "Renderer/utils/noop"
+import { action } from "@storybook/addon-actions"
 
 const lastBackup: BackupItemInfo = {
   createdAt: "2020-01-15T07:35:01.562Z",
@@ -41,13 +42,13 @@ const Template: StoryInterface<
 }
 export const NoBackupAvailable = Template.bind({})
 NoBackupAvailable.args = {
-  onBackupCreate: noop,
+  onBackupCreate: action("create backup") ,
 }
 
 export const BackupAvailable = Template.bind({})
 BackupAvailable.args = {
-  onBackupCreate: noop,
-  onBackupRestore: noop,
+  onBackupCreate: action("create backup"),
+  onBackupRestore: action("restore backup"),
   lastBackup,
 }
 
