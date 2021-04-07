@@ -34,7 +34,7 @@ import Button from "Renderer/components/core/button/button.component"
 import { intl } from "Renderer/utils/intl"
 import { withTheme } from "styled-components"
 import { backgroundColor, zIndex } from "Renderer/styles/theming/theme-getters"
-import { Theme } from "Renderer/styles/theming/theme"
+import muditaTheme, { Theme } from "Renderer/styles/theming/theme"
 
 const getModalSize = (size: ModalSize) => {
   switch (size) {
@@ -64,7 +64,7 @@ const getModalSize = (size: ModalSize) => {
 export interface Properties extends Props, ModalProps {
   close?: ComponentProps<typeof Button>
   closeModal?: () => void
-  theme: Theme
+  theme?: Theme
 }
 
 const ModalDialog: FunctionComponent<Properties> = ({
@@ -90,7 +90,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
   onActionButtonClick,
   actionButtonIcon,
   actionButtonDisabled,
-  theme,
+  theme= muditaTheme,
 }) => {
   return (
     <Modal

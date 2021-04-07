@@ -115,12 +115,13 @@ const Overview: FunctionComponent<
   /**
    * Temporary state to demo failure
    */
-  let backups = 0
+  const [backups, setBackup] = useState(0)
   let restorations = 0
   const [modals, setModals] = useState({
     backupStartModal: false,
     loadingModal: false,
     finishedModal: false,
+    failedModal: false,
   })
   const [progress, setProgress] = useState(0)
   console.log(progress)
@@ -149,13 +150,14 @@ const Overview: FunctionComponent<
     if (modals.loadingModal) {
       progressSimulator = setInterval(() => {
         setProgress((prevState) => prevState + 2)
-        if (progress === 50) {
-          console.log("progress")
+        if (progress === 20) {
+          setProgress(0)
           setModals((prevState) => ({
             ...prevState,
             loadingModal: false,
             finishedModal: true,
           }))
+          logger.info("Backup creation finished.")
         }
       }, 100)
     }
@@ -165,25 +167,18 @@ const Overview: FunctionComponent<
     }
   }, [modals, progress])
 
-  const openBackupFinishedModal = () => {
-    logger.info("Backup creation finished.")
-    modalService.openModal(
-      <BackupFinishedModal
-        items={mockedBackupItems}
-        destination={store.getState().settings.pureOsBackupLocation as string}
-      />,
-      true
-    )
-  }
-
-  const openBackupFailedModal = () => {
-    // TODO: Add an error to the message after implementing phone backup
-    logger.error("Backup creation failed.")
-    modalService.openModal(<BackupFailedModal />, true)
-  }
+  useEffect(() => {
+    if (backups === 3)  {
+      setModals((prevState) => ({
+        ...prevState,
+        loadingModal: false,
+        failedModal: true,
+      }))
+    }
+  }, [backups])
 
   const openBackupLoadingModal = () => {
-    backups++
+    setBackup(prevState => prevState + 1)
     logger.info("Creating backup...")
     closeBackupStartModal()
     setModals((prevState) => ({
@@ -203,6 +198,20 @@ const Overview: FunctionComponent<
     setModals((prevState) => ({
       ...prevState,
       backupStartModal: false,
+    }))
+  }
+
+  const closeBackupFinishedModal = () => {
+    setModals((prevState) => ({
+      ...prevState,
+      finishedModal: false,
+    }))
+  }
+
+  const closeBackupFailedModal = () => {
+    setModals((prevState) => ({
+      ...prevState,
+      failedModal: false,
     }))
   }
 
@@ -258,8 +267,9 @@ const Overview: FunctionComponent<
         isOpen={modals.finishedModal}
         items={mockedBackupItems}
         destination={store.getState().settings.pureOsBackupLocation as string}
+        closeModal={closeBackupFinishedModal}
       />
-      ,
+      <BackupFailedModal isOpen={modals.failedModal} closeModal={closeBackupFailedModal}/>
       <OverviewUI
         batteryLevel={batteryLevel}
         changeSim={changeSim}

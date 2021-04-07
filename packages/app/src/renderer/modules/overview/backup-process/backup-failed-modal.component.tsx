@@ -10,6 +10,7 @@ import Text, {
 import React from "react"
 import { PureBackupModal } from "Renderer/modules/overview/backup-process/modals.styled"
 import { defineMessages } from "react-intl"
+import { Properties } from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   title: {
@@ -20,8 +21,8 @@ const messages = defineMessages({
   },
 })
 
-export const BackupFailedModal: FunctionComponent = () => (
-  <PureBackupModal>
+export const BackupFailedModal: FunctionComponent<Properties> = ({...props}) => (
+  <PureBackupModal {...props}>
     <Text
       message={messages.title}
       displayStyle={TextDisplayStyle.LargeBoldText}
