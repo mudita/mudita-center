@@ -4,24 +4,16 @@
  */
 
 import React from "react"
-import { storiesOf } from "@storybook/react"
+import { Meta } from "@storybook/react"
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
-import { action } from "@storybook/addon-actions"
 import BackupItemInfo from "Common/interfaces/backup-item-info.interface"
 import StoryContainer from "Renderer/components/storybook/story-container.component"
 import Story from "Renderer/components/storybook/story.component"
 import { css } from "styled-components"
-import { BackupStartModal } from "Renderer/modules/overview/backup-process/backup-start-modal.component"
-import { BackupLoadingModal } from "Renderer/modules/overview/backup-process/backup-loading-modal.component"
-import { BackupFailedModal } from "Renderer/modules/overview/backup-process/backup-failed-modal.component"
-import { BackupFinishedModal } from "Renderer/modules/overview/backup-process/backup-finished-modal.component"
-import { BackupRestorationStartModal } from "Renderer/modules/overview/backup-process/restoration-start-modal.component"
-import { BackupRestorationLoadingModal } from "Renderer/modules/overview/backup-process/restoration-loading-modal.component"
-import { BackupRestorationFailedModal } from "Renderer/modules/overview/backup-process/restoration-failed-modal.component"
-import { BackupRestorationFinishedModal } from "Renderer/modules/overview/backup-process/restoration-finished-modal.component"
-import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
+import { Story as StoryInterface } from "@storybook/react/dist/client/preview/types-6-0"
+import { noop } from "Renderer/utils/noop"
 
-export const lastBackup: BackupItemInfo = {
+const lastBackup: BackupItemInfo = {
   createdAt: "2020-01-15T07:35:01.562Z",
   size: 102400,
 }
@@ -32,59 +24,34 @@ const storyContainerStyle = css`
   }
 `
 
-storiesOf("Views|Overview/Backup", module)
-  .add("Default", () => (
+const Template: StoryInterface<
+  React.ComponentProps<typeof Backup> & { storyTitle: string }
+> = (args) => {
+  return (
     <StoryContainer column customStyle={storyContainerStyle}>
-      <Story title="No backup available" transparentMode>
-        <Backup onBackupCreate={action("create backup")} />
-      </Story>
-      <Story title="A backup is available" transparentMode>
+      <Story title={args.storyTitle} transparentMode>
         <Backup
-          lastBackup={lastBackup}
-          onBackupCreate={action("create backup")}
-          onBackupRestore={action("restore backup")}
+          onBackupCreate={args.onBackupCreate}
+          onBackupRestore={args.onBackupRestore}
+          lastBackup={args.lastBackup}
         />
       </Story>
     </StoryContainer>
-  ))
-  .add("Modals - creating backup", () => (
-    <StoryContainer column>
-      <Story title="Start" transparentMode>
-        <BackupStartModal
-          date="2020-07-20T19:25:00+02:00"
-          items={mockedBackupItems}
-          total={"18.1 Gb"}
-          isOpen
-        />
-      </Story>
-      <Story title="In progress" transparentMode>
-        <BackupLoadingModal progress={49} isOpen />
-      </Story>
-      <Story title="Failed" transparentMode>
-        <BackupFailedModal isOpen />
-      </Story>
-      <Story title="Completed" transparentMode>
-        <BackupFinishedModal
-          isOpen
-          items={mockedBackupItems}
-          destination={"/Users/John Doe/backups"}
-        />
-      </Story>
-    </StoryContainer>
-  ))
-  .add("Modals - restoring backup", () => (
-    <StoryContainer column>
-      <Story title="Start" transparentMode>
-        <BackupRestorationStartModal items={mockedBackupItems} isOpen />
-      </Story>
-      <Story title="In progress" transparentMode>
-        <BackupRestorationLoadingModal progress={49} isOpen />
-      </Story>
-      <Story title="Failed" transparentMode>
-        <BackupRestorationFailedModal isOpen />
-      </Story>
-      <Story title="Completed" transparentMode>
-        <BackupRestorationFinishedModal isOpen />
-      </Story>
-    </StoryContainer>
-  ))
+  )
+}
+export const NoBackupAvailable = Template.bind({})
+NoBackupAvailable.args = {
+  onBackupCreate: noop,
+}
+
+export const BackupAvailable = Template.bind({})
+BackupAvailable.args = {
+  onBackupCreate: noop,
+  onBackupRestore: noop,
+  lastBackup,
+}
+
+export default {
+  title: "Views|Overview/Backup",
+  component: Backup,
+} as Meta
