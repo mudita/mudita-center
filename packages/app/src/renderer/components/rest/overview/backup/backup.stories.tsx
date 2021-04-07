@@ -11,7 +11,6 @@ import StoryContainer from "Renderer/components/storybook/story-container.compon
 import Story from "Renderer/components/storybook/story.component"
 import { css } from "styled-components"
 import { Story as StoryInterface } from "@storybook/react/dist/client/preview/types-6-0"
-import { noop } from "Renderer/utils/noop"
 import { action } from "@storybook/addon-actions"
 
 const lastBackup: BackupItemInfo = {
