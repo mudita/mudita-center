@@ -12,16 +12,11 @@ import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 import React, { useEffect, useState } from "react"
 import OverviewUI from "Renderer/modules/overview/overview-ui.component"
 import { noop } from "Renderer/utils/noop"
-import { useStore } from "react-redux"
 import { PhoneUpdateStore } from "Renderer/models/phone-update/phone-update.interface"
 import { AppSettings } from "App/main/store/settings.interface"
 import useSystemUpdateFlow from "Renderer/modules/overview/system-update.hook"
-import { BackupFailedModal } from "Renderer/modules/overview/backup-process/backup-failed-modal.component"
-import { BackupFinishedModal } from "Renderer/modules/overview/backup-process/backup-finished-modal.component"
-import { BackupLoadingModal } from "Renderer/modules/overview/backup-process/backup-loading-modal.component"
-import { BackupStartModal } from "Renderer/modules/overview/backup-process/backup-start-modal.component"
-import { mockedBackupItems } from "App/__mocks__/mocked-backup-items"
 import logger from "App/main/utils/logger"
+import BackupModalFlow from "Renderer/components/rest/overview/backup/backup-modal-flow.component"
 
 export interface UpdateBasicInfo {
   updateBasicInfo?: (updateInfo: Partial<BasicInfoValues>) => void
@@ -64,10 +59,12 @@ const Overview: FunctionComponent<
   toggleUpdatingDevice,
   language,
   loadData,
+  pureOsBackupLocation
 }) => {
   /**
    * Temporary state to demo failure
    */
+  console.log(pureOsBackupLocation)
   const [backups, setBackup] = useState(0)
   const [openModal, setOpenModal] = useState({
     backupStartModal: false,
@@ -76,7 +73,6 @@ const Overview: FunctionComponent<
     failedModal: false,
   })
   const [progress, setProgress] = useState(0)
-  const store = useStore()
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     osUpdateDate,
@@ -168,25 +164,18 @@ const Overview: FunctionComponent<
 
   return (
     <>
-      <BackupStartModal
-        isOpen={openModal.backupStartModal}
-        items={mockedBackupItems}
+      <BackupModalFlow
+        openBackupStartModal={openModal.backupStartModal}
+        openBackupLoadingModal={openModal.loadingModal}
+        openBackupFinishedModal={openModal.finishedModal}
+        openBackupFailedModal={openModal.failedModal}
+        closeBackupStartModal={closeBackupStartModal}
+        closeBackupFinishedModal={closeBackupFinishedModal}
+        closeBackupFailedModal={closeBackupFailedModal}
         startBackup={openBackupLoadingModal}
-        total={"18.1 Gb"}
-        date={
-          lastBackup &&
-          new Date(lastBackup.createdAt).toLocaleDateString(language)
-        }
-        closeModal={closeBackupStartModal}
+        language={language}
+        pureOsBackupLocation={pureOsBackupLocation}
       />
-      <BackupLoadingModal isOpen={openModal.loadingModal} progress={progress} />,
-      <BackupFinishedModal
-        isOpen={openModal.finishedModal}
-        items={mockedBackupItems}
-        destination={store.getState().settings.pureOsBackupLocation as string}
-        closeModal={closeBackupFinishedModal}
-      />
-      <BackupFailedModal isOpen={openModal.failedModal} closeModal={closeBackupFailedModal}/>
       <OverviewUI
         batteryLevel={batteryLevel}
         changeSim={changeSim}

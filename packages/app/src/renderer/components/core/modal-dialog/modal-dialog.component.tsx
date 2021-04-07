@@ -91,6 +91,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
   actionButtonIcon,
   actionButtonDisabled,
   theme= muditaTheme,
+  ...props
 }) => {
   return (
     <Modal
@@ -118,6 +119,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
       }}
       shouldCloseOnOverlayClick={false}
       onAfterClose={onClose}
+      {...props}
     >
       <Header
         titleOrder={titleOrder}
