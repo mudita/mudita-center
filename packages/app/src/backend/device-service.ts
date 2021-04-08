@@ -84,7 +84,7 @@ class DeviceService {
   }): Promise<DeviceResponse>
   async request(config: RequestConfig): Promise<DeviceResponse<any>>
   async request(config: RequestConfig) {
-    return new Promise( async (resolve) => {
+    return new Promise(async (resolve) => {
       if (!this.device) {
         return resolve({
           status: DeviceResponseStatus.Error,
