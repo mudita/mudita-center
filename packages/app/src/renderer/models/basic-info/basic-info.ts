@@ -120,14 +120,14 @@ const basicInfo = createModel<RootModel>({
       },
       async connect() {
         const { status } = await connectDevice()
-
+        console.log("connect", status)
         if (status === DeviceResponseStatus.Ok) {
           dispatch.basicInfo.update({
             disconnectedDevice: false,
           })
 
           await dispatch.basicInfo.loadData()
-          await dispatch.contacts.loadData()
+          // await dispatch.contacts.loadData()
           await dispatch.calendar.loadData()
           await dispatch.messages.loadData()
         }
@@ -181,19 +181,18 @@ const basicInfo = createModel<RootModel>({
     },
     isConnected(models: StoreSelectors<any>) {
       return createSelector(
-        models.contacts.resultsState,
+        // models.contacts.resultsState,
         models.basicInfo.resultsState,
         models.basicInfo.disconnectedDevice,
         models.basicInfo.updatingDevice,
         (
-          phoneResultsState,
+          // phoneResultsState,
           basicInfoResultsState,
           disconnectedDevice,
           updatingDevice
         ) => {
           return (
-            (phoneResultsState === ResultsState.Loaded &&
-              basicInfoResultsState === ResultsState.Loaded &&
+            (basicInfoResultsState === ResultsState.Loaded &&
               !disconnectedDevice) ||
             updatingDevice
           )

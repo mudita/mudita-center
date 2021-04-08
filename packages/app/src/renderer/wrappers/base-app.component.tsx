@@ -24,6 +24,7 @@ import { RootState } from "Renderer/store"
 import registerHotkeys from "Renderer/register-hotkeys"
 import registerAppContextMenu from "Renderer/register-app-context-menu"
 import appContextMenu from "./app-context-menu"
+import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
 
 interface Props {
   store: Store
@@ -69,6 +70,8 @@ const BaseApp: FunctionComponent<Props> = ({
     registerAppContextMenu(appContextMenu)
     appContextMenu.init()
   }, [])
+
+  useRouterListener(history, store)
 
   useEffect(() => {
     if (!connected && !pureNeverConnected) {
