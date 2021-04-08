@@ -16,11 +16,11 @@ const renderer = (extraProps?: {}) => {
     onSave: noop,
   }
   return renderWithThemeAndIntl(
-    // @ts-ignore
     <ContactEdit
       contact={contactsSeed.db[0]}
       {...defaultProps}
       {...extraProps}
+      speedDialChosenList={[0]}
     />
   )
 }
