@@ -133,14 +133,6 @@ describe("contactDatabaseFactory and mergeContacts tests", () => {
     expect(TEST_CONTACT_TO_CLEAN.id in result.db).toBeTruthy()
   })
 
-  test("doesn't modify the state if contact is not valid", () => {
-    // @ts-ignore –due to passing broken data on purpose
-    const result = addContacts(OLD_DB_SHAPE, [{}])
-
-    expect(result.db).toMatchObject(OLD_DB_SHAPE.db)
-    expect(result.collection).toHaveLength(OLD_DB_SHAPE.collection.length)
-  })
-
   test("should add contacts in batch", () => {
     const result = addContacts(
       {
