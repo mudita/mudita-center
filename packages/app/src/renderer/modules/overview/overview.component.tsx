@@ -72,6 +72,7 @@ const Overview: FunctionComponent<
     failedModal: false,
   })
   const [progress, setProgress] = useState(0)
+  console.log(progress)
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     osUpdateDate,
@@ -96,7 +97,7 @@ const Overview: FunctionComponent<
     if (openModal.loadingModal) {
       progressSimulator = setInterval(() => {
         setProgress((prevState) => prevState + 2)
-        if (progress === 20) {
+        if (progress === 100) {
           setProgress(0)
           setOpenModal((prevState) => ({
             ...prevState,
@@ -106,6 +107,10 @@ const Overview: FunctionComponent<
           logger.info("Backup creation finished.")
         }
       }, 100)
+    }
+
+    if (!openModal.loadingModal) {
+      setProgress(0)
     }
 
     return () => {
@@ -147,6 +152,13 @@ const Overview: FunctionComponent<
     }))
   }
 
+  const closeBackupLoadingModal = () => {
+    setOpenModal((prevState) => ({
+      ...prevState,
+      loadingModal: false,
+    }))
+  }
+
   const closeBackupFinishedModal = () => {
     setOpenModal((prevState) => ({
       ...prevState,
@@ -169,11 +181,13 @@ const Overview: FunctionComponent<
         openBackupFinishedModal={openModal.finishedModal}
         openBackupFailedModal={openModal.failedModal}
         closeBackupStartModal={closeBackupStartModal}
+        closeBackupLoadingModal={closeBackupLoadingModal}
         closeBackupFinishedModal={closeBackupFinishedModal}
         closeBackupFailedModal={closeBackupFailedModal}
         startBackup={openBackupLoadingModal}
         language={language}
         pureOsBackupLocation={pureOsBackupLocation}
+        progress={progress}
       />
       <OverviewUI
         batteryLevel={batteryLevel}

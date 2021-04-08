@@ -19,6 +19,7 @@ interface Properties {
   openBackupFinishedModal?: boolean
   openBackupFailedModal?: boolean
   closeBackupStartModal: () => void
+  closeBackupLoadingModal: () => void
   closeBackupFinishedModal: () => void
   closeBackupFailedModal: () => void
   startBackup: () => void
@@ -34,6 +35,7 @@ const BackupModalFlow: FunctionComponent<Properties> = ({
   openBackupFinishedModal = false,
   openBackupFailedModal = false,
   closeBackupStartModal,
+  closeBackupLoadingModal,
   closeBackupFinishedModal,
   closeBackupFailedModal,
   startBackup,
@@ -60,6 +62,7 @@ const BackupModalFlow: FunctionComponent<Properties> = ({
         open={openBackupLoadingModal}
         progress={progress}
         testId={BackupModalFlowTestIds.Loading}
+        closeModal={closeBackupLoadingModal}
       />
       <BackupFinishedModal
         open={openBackupFinishedModal}

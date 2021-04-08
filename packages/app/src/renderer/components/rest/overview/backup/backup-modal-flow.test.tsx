@@ -13,6 +13,7 @@ const defaultProps: React.ComponentProps<typeof BackupModalFlow> = {
   closeBackupFailedModal: jest.fn(),
   closeBackupFinishedModal: jest.fn(),
   closeBackupStartModal: jest.fn(),
+  closeBackupLoadingModal: jest.fn(),
   startBackup: jest.fn(),
   language: "en-US",
   pureOsBackupLocation: "pure/backups",
@@ -93,6 +94,16 @@ test("close start backup modal action is performed", () => {
   })
   getByTestId(ModalTestIds.CloseBottomButton).click()
   expect(closeBackupStartModal).toBeCalled()
+})
+
+test("close loading backup modal action is performed", () => {
+  const closeBackupLoadingModal = jest.fn()
+  const { getByTestId } = renderer({
+    openBackupLoadingModal: true,
+    closeBackupLoadingModal,
+  })
+  getByTestId(ModalTestIds.CloseBottomButton).click()
+  expect(closeBackupLoadingModal).toBeCalled()
 })
 
 test("close finished backup modal action is performed", () => {
