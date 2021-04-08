@@ -7,7 +7,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React from "react"
+import React, { ComponentProps } from "react"
 import {
   FileList,
   PureBackupModal,
@@ -22,7 +22,6 @@ import {
   Labels,
   Row,
 } from "Renderer/components/core/table/table.component"
-import { Properties } from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   filename: {
@@ -43,12 +42,12 @@ const messages = defineMessages({
   },
 })
 
-interface BackupRestorationStartModalProps extends Properties{
+interface BackupRestorationStartModalProps {
   items: BackupItem[]
   restoreBackup?: () => void
 }
 
-export const BackupRestorationStartModal: FunctionComponent<BackupRestorationStartModalProps> = ({
+export const BackupRestorationStartModal: FunctionComponent<BackupRestorationStartModalProps & ComponentProps<typeof PureBackupModal>> = ({
   items,
   restoreBackup = noop,
   ...props

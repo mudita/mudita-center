@@ -7,7 +7,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React from "react"
+import React, { ComponentProps } from "react"
 import {
   LoadingBar,
   PureBackupModal,
@@ -17,7 +17,6 @@ import { intl } from "Renderer/utils/intl"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import { Properties } from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   cancel: { id: "view.generic.button.cancel" },
@@ -29,11 +28,11 @@ const messages = defineMessages({
   },
 })
 
-interface BackupRestorationLoadingModalProps extends Properties {
+interface BackupRestorationLoadingModalProps {
   progress?: number
 }
 
-export const BackupRestorationLoadingModal: FunctionComponent<BackupRestorationLoadingModalProps> = ({
+export const BackupRestorationLoadingModal: FunctionComponent<BackupRestorationLoadingModalProps & ComponentProps<typeof PureBackupModal>> = ({
   progress = 0,
   ...props
 }) => (

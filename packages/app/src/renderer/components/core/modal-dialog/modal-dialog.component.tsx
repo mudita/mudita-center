@@ -61,7 +61,7 @@ const getModalSize = (size: ModalSize) => {
   }
 }
 
-export interface Properties extends Props, ModalProps {
+interface Properties extends Props, ModalProps {
   close?: ComponentProps<typeof Button>
   closeModal?: () => void
   theme?: Theme

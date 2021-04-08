@@ -14,14 +14,13 @@ import {
   Row,
 } from "Renderer/components/core/table/table.component"
 import { intl, textFormatters } from "Renderer/utils/intl"
-import React from "react"
+import React, { ComponentProps } from "react"
 import {
   FileList,
   PureBackupModal,
 } from "Renderer/modules/overview/backup-process/modals.styled"
 import { BackupItem } from "Renderer/modules/overview/backup-process/modals.interface"
 import { defineMessages } from "react-intl"
-import { Properties } from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   filename: {
@@ -39,12 +38,12 @@ const messages = defineMessages({
   },
 })
 
-interface BackupFinishedModalProps extends Properties {
+interface BackupFinishedModalProps {
   items: BackupItem[]
   destination: string
 }
 
-export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = ({
+export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps & ComponentProps<typeof PureBackupModal>> = ({
   items,
   destination,
   ...props

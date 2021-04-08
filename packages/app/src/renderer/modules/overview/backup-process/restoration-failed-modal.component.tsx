@@ -7,10 +7,9 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React from "react"
+import React, { ComponentProps } from "react"
 import { PureBackupModal } from "Renderer/modules/overview/backup-process/modals.styled"
 import { defineMessages } from "react-intl"
-import { Properties } from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   title: {
@@ -21,7 +20,7 @@ const messages = defineMessages({
   },
 })
 
-export const BackupRestorationFailedModal: FunctionComponent<Properties> = ({
+export const BackupRestorationFailedModal: FunctionComponent<ComponentProps<typeof PureBackupModal>> = ({
   ...props
 }) => (
   <PureBackupModal {...props}>

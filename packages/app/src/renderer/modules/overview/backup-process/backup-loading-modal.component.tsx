@@ -10,7 +10,7 @@ import Text, {
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import React from "react"
+import React, { ComponentProps } from "react"
 import { noop } from "Renderer/utils/noop"
 import {
   LoadingBar,
@@ -18,9 +18,6 @@ import {
 } from "Renderer/modules/overview/backup-process/modals.styled"
 import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
-import {
-  Properties,
-} from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   cancel: { id: "view.generic.button.cancel" },
@@ -32,11 +29,11 @@ const messages = defineMessages({
   },
 })
 
-interface BackupLoadingModalProps extends Properties {
+interface BackupLoadingModalProps {
   progress?: number
 }
 
-export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps> = ({
+export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps & ComponentProps<typeof PureBackupModal>> = ({
   onClose = noop,
   progress = 0,
   ...props

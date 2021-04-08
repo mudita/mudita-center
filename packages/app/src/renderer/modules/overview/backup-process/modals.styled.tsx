@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
+import React, { ComponentProps } from "react"
 import styled from "styled-components"
 import {
   backgroundColor,
@@ -15,9 +15,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
-import ModalDialog, {
-  Properties,
-} from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 export const ModalContent = styled.div`
   display: flex;
@@ -71,7 +69,7 @@ export const LoadingBar = styled(StackedBarChart)`
 `
 
 export const PureBackupModal: FunctionComponent<
-  Properties & { icon?: Type }
+  ComponentProps<typeof ModalDialog>  & { icon?: Type }
 > = ({
   isOpen,
   icon = Type.FilesManager,

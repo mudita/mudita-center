@@ -7,8 +7,8 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React from "react"
-import { FileList } from "Renderer/modules/overview/backup-process/modals.styled"
+import React, { ComponentProps } from "react"
+import { FileList, PureBackupModal } from "Renderer/modules/overview/backup-process/modals.styled"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { defineMessages } from "react-intl"
@@ -21,9 +21,7 @@ import { BackupItem } from "Renderer/modules/overview/backup-process/modals.inte
 import moment from "moment"
 import styled from "styled-components"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
-import ModalDialog, {
-  Properties,
-} from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   filename: {
@@ -63,14 +61,14 @@ const TotalText = styled(Text)`
   margin-left: 0.8rem;
 `
 
-interface BackupStartModalProps extends Properties {
+interface BackupStartModalProps {
   startBackup?: () => void
   date?: string
   total?: string
   items: BackupItem[]
 }
 
-export const BackupStartModal: FunctionComponent<BackupStartModalProps> = ({
+export const BackupStartModal: FunctionComponent<BackupStartModalProps & ComponentProps<typeof PureBackupModal>> = ({
   startBackup = noop,
   date,
   total,
