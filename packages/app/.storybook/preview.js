@@ -11,6 +11,8 @@ import devMode from "App/dev-mode/store/dev-mode"
 import selectPlugin from "@rematch/select"
 import { Provider } from "react-redux"
 import StorybookWrapper from "../src/renderer/components/storybook/storybook-wrapper.component"
+import Modal from "react-modal"
+Modal.setAppElement("#root")
 
 try {
   require("Renderer/fonts/main/style.css")

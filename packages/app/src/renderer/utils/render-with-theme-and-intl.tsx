@@ -16,7 +16,9 @@ import localeEn from "Renderer/locales/default/en-US.json"
 import { ThemeProvider } from "styled-components"
 import theme from "../styles/theming/theme"
 import extractLanguageKeys from "Renderer/utils/extract-test-locale"
+import ReactModal from "react-modal"
 
+ReactModal.setAppElement(document.createElement("div"))
 const testLocale = extractLanguageKeys(localeEn)
 
 export function renderWithThemeAndIntl(
