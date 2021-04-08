@@ -72,7 +72,6 @@ const Overview: FunctionComponent<
     failedModal: false,
   })
   const [progress, setProgress] = useState(0)
-  console.log(progress)
 
   const { initialCheck, check, download, install } = useSystemUpdateFlow(
     osUpdateDate,
