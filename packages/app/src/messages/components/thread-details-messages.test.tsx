@@ -72,11 +72,11 @@ test("correct amount of message bubbles is displayed", () => {
 
 test("avatar renders in thread details properly", () => {
   const { getByTestId } = renderer()
-  const textAvatars = getByTestId(AvatarTestIds.AvatarText)
-  const iconAvatars = getByTestId("icon-Contact")
-  expect(textAvatars).toBeInTheDocument()
-  expect(iconAvatars).toBeInTheDocument()
-  expect(textAvatars).toBeVisible()
-  expect(iconAvatars).toBeVisible()
-  expect(textAvatars).toHaveTextContent("JD")
+  const textAvatar = getByTestId(AvatarTestIds.AvatarText)
+  const iconAvatar = getByTestId("icon-Contact")
+  expect(textAvatar).toBeInTheDocument()
+  expect(iconAvatar).toBeInTheDocument()
+  expect(textAvatar).toBeVisible()
+  expect(iconAvatar).toBeVisible()
+  expect(textAvatar).toHaveTextContent("JD")
 })
