@@ -61,15 +61,16 @@ const getModalSize = (size: ModalSize) => {
   }
 }
 
-interface Properties extends Props, ModalProps {
+interface Properties extends Omit<Props, "isOpen">, ModalProps {
   close?: ComponentProps<typeof Button>
   closeModal?: () => void
   theme?: Theme
+  open: boolean
 }
 
 const ModalDialog: FunctionComponent<Properties> = ({
   children,
-  isOpen = false,
+  open = false,
   size = ModalSize.Large,
   titleOrder = TitleOrder.TitleFirst,
   title,
@@ -95,7 +96,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
 }) => {
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen={open}
       style={{
         overlay: {
           backgroundColor: backgroundColor("modalBackdrop")({ theme }),

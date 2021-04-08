@@ -23,7 +23,7 @@ export const BackupStartStory = () => {
         date="2020-07-20T19:25:00+02:00"
         items={mockedBackupItems}
         total={"18.1 Gb"}
-        isOpen
+        open
       />
     </Story>
   )
@@ -32,7 +32,7 @@ export const BackupStartStory = () => {
 export const BackupLoadingStory = () => {
   return (
     <Story transparentMode>
-      <BackupLoadingModal progress={49} isOpen />
+      <BackupLoadingModal progress={49} open />
     </Story>
   )
 }
@@ -41,7 +41,7 @@ export const BackupFinishedStory = () => {
   return (
     <Story transparentMode>
       <BackupFinishedModal
-        isOpen
+        open
         items={mockedBackupItems}
         destination={"/Users/John Doe/backups"}
       />
@@ -52,7 +52,7 @@ export const BackupFinishedStory = () => {
 export const BackupFailedStory = () => {
   return (
     <Story transparentMode>
-      <BackupFailedModal isOpen />
+      <BackupFailedModal open />
     </Story>
   )
 }
@@ -60,7 +60,7 @@ export const BackupFailedStory = () => {
 export const BackupRestorationStartStory = () => {
   return (
     <Story transparentMode>
-      <BackupRestorationStartModal items={mockedBackupItems} isOpen />
+      <BackupRestorationStartModal items={mockedBackupItems} open />
     </Story>
   )
 }
@@ -68,7 +68,7 @@ export const BackupRestorationStartStory = () => {
 export const BackupRestorationLoadingStory = () => {
   return (
     <Story transparentMode>
-      <BackupRestorationLoadingModal progress={49} isOpen />
+      <BackupRestorationLoadingModal progress={49} open />
     </Story>
   )
 }
@@ -76,7 +76,7 @@ export const BackupRestorationLoadingStory = () => {
 export const BackupRestorationFailedStory = () => {
   return (
     <Story transparentMode>
-      <BackupRestorationFailedModal isOpen />
+      <BackupRestorationFailedModal open />
     </Story>
   )
 }
@@ -84,7 +84,7 @@ export const BackupRestorationFailedStory = () => {
 export const BackupRestorationFinishedStory = () => {
   return (
     <Story transparentMode>
-      <BackupRestorationFinishedModal isOpen />
+      <BackupRestorationFinishedModal open />
     </Story>
   )
 }

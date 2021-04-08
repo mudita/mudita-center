@@ -45,7 +45,7 @@ const BackupModalFlow: FunctionComponent<Properties> = ({
   return (
     <>
       <BackupStartModal
-        isOpen={openBackupStartModal}
+        open={openBackupStartModal}
         items={mockedBackupItems}
         startBackup={startBackup}
         total={"18.1 Gb"}
@@ -57,19 +57,19 @@ const BackupModalFlow: FunctionComponent<Properties> = ({
         testId={BackupModalFlowTestIds.Start}
       />
       <BackupLoadingModal
-        isOpen={openBackupLoadingModal}
+        open={openBackupLoadingModal}
         progress={progress}
         testId={BackupModalFlowTestIds.Loading}
       />
       <BackupFinishedModal
-        isOpen={openBackupFinishedModal}
+        open={openBackupFinishedModal}
         items={mockedBackupItems}
         destination={pureOsBackupLocation}
         closeModal={closeBackupFinishedModal}
         testId={BackupModalFlowTestIds.Finished}
       />
       <BackupFailedModal
-        isOpen={openBackupFailedModal}
+        open={openBackupFailedModal}
         closeModal={closeBackupFailedModal}
         testId={BackupModalFlowTestIds.Failed}
       />

@@ -8,7 +8,10 @@ import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import React, { ComponentProps } from "react"
-import { FileList, PureBackupModal } from "Renderer/modules/overview/backup-process/modals.styled"
+import {
+  FileList,
+  PureBackupModal,
+} from "Renderer/modules/overview/backup-process/modals.styled"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { defineMessages } from "react-intl"
@@ -66,21 +69,19 @@ interface BackupStartModalProps {
   date?: string
   total?: string
   items: BackupItem[]
+  open: boolean
 }
 
-export const BackupStartModal: FunctionComponent<BackupStartModalProps & ComponentProps<typeof PureBackupModal>> = ({
-  startBackup = noop,
-  date,
-  total,
-  items,
-  ...props
-}) => (
+export const BackupStartModal: FunctionComponent<
+  BackupStartModalProps & ComponentProps<typeof PureBackupModal>
+> = ({ startBackup = noop, date, total, items, open, ...props }) => (
   <ModalDialog
     title={intl.formatMessage(messages.title)}
     onActionButtonClick={startBackup}
     actionButtonLabel={intl.formatMessage(messages.title)}
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     size={ModalSize.Medium}
+    open={open}
     {...props}
   >
     <BackupFileList>

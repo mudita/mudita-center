@@ -69,15 +69,15 @@ export const LoadingBar = styled(StackedBarChart)`
 `
 
 export const PureBackupModal: FunctionComponent<
-  ComponentProps<typeof ModalDialog>  & { icon?: Type }
+  ComponentProps<typeof ModalDialog> & { icon?: Type }
 > = ({
-  isOpen,
+  open,
   icon = Type.FilesManager,
   size = ModalSize.Small,
   children,
   ...props
 }) => (
-  <ModalDialog isOpen={isOpen} size={size} {...props}>
+  <ModalDialog open={open} size={size} {...props}>
     <ModalContent>
       <ModalIcon>
         <Icon type={icon} width={5} />

@@ -31,6 +31,7 @@ const messages = defineMessages({
 
 interface BackupLoadingModalProps {
   progress?: number
+  open: boolean
 }
 
 export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps & ComponentProps<typeof PureBackupModal>> = ({
