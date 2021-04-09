@@ -1,7 +1,7 @@
 # Shared
-packages/design-system/dist
-packages/design-system/tmp-svg
-packages/design-system/dist-svg
+packages/design-system-obsolete/dist
+packages/design-system-obsolete/tmp-svg
+packages/design-system-obsolete/dist-svg
 
 
 # Logs

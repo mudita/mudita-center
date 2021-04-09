@@ -1,7 +1,7 @@
 {
-  "name": "@mudita/design-system",
+  "name": "@mudita/design-system-obsolete",
   "version": "0.0.26",
-  "description": "Mudita Design System",
+  "description": "Mudita Design System (obsolete)",
   "main": "dist/design-system/index.js",
   "types": "dist/design-system/index.d.ts",
   "files": [
