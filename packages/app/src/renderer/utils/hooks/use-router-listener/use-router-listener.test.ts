@@ -29,5 +29,5 @@ test("actions is called on correct location render", () => {
       [URL_MAIN.contacts]: contactsAction,
     })
   )
-  waitFor(() => expect(contactsAction).toBeCalled())
+  waitFor(() => expect(contactsAction).toBeCalled()).then(() => console.log(`action was called on location ${location.pathname}`))
 })
