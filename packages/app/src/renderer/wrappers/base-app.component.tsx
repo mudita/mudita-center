@@ -72,9 +72,9 @@ const BaseApp: FunctionComponent<Props> = ({
   }, [])
 
   useRouterListener(history, {
-    [URL_MAIN.contacts]: store.dispatch.contacts.loadData,
-    [URL_MAIN.phone]: store.dispatch.contacts.loadData,
-    [URL_MAIN.overview]: store.dispatch.basicInfo.loadData,
+    [URL_MAIN.contacts]: [store.dispatch.contacts.loadData],
+    [URL_MAIN.phone]: [store.dispatch.contacts.loadData],
+    [URL_MAIN.overview]: [store.dispatch.basicInfo.loadData],
   })
 
   useEffect(() => {

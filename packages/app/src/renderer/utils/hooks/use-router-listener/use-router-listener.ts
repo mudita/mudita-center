@@ -6,14 +6,19 @@
 import { History } from "history"
 import { useEffect } from "react"
 
-const useRouterListener = (history: Pick<History, "listen">, actions: {[key: string]: Function}) => {
+const useRouterListener = (
+  history: Pick<History, "listen">,
+  actions: { [key: string]: Array<Function> }
+) => {
   useEffect(() => {
     return history.listen((location) => {
-      if (Object.keys(actions).includes((location.pathname))) {
-        actions[location.pathname]()
+      if (Object.keys(actions).includes(location.pathname)) {
+        for (const action of actions[location.pathname]) {
+          action()
+        }
       }
     })
-  },[history])
+  }, [history])
 }
 
 export default useRouterListener
