@@ -1,6 +1,6 @@
 {
   "name": "@mudita/design-system-obsolete",
-  "version": "0.0.31",
+  "version": "0.0.28",
   "description": "Mudita Design System (obsolete)",
   "main": "dist/design-system-obsolete/index.js",
   "types": "dist/design-system-obsolete/index.d.ts",
@@ -9,7 +9,7 @@
   ],
   "private": false,
   "scripts": {
-    "build": "tsc --p tsconfig.json && tscpaths -p tsconfig.json -s ../ -o ./dist",
+    "build": "tsc --p tsconfig.json && tscpaths -p tsconfig.json -s ./ -o ./dist",
     "transform:svg": "ts-node --project tsconfig.transform-svg.json transform-svg.ts",
     "build:svg": "tsc --p tsconfig.build-svg.json",
     "prerelease": "sh build.sh"
@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/mudita/mudita-center#readme",
   "devDependencies": {
-    "@mudita/pure": "*",
     "@babel/core": "^7.12.10",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",

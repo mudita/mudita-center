@@ -147,6 +147,7 @@ export {
   LoadingState,
 } from "../app/src/renderer/components/core/table/table.component"
 export { getRowChildren as getTableRowChildren } from "../app/src/renderer/components/core/table/table.helpers"
+export { SortOrder } from "../app/src/common/enums/sort-order.enum"
 // List
 export {
   List,

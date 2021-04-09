@@ -55,7 +55,6 @@
     "../app/src/__mocks__",
     "../app/src/backend",
     "../app/src/contacts",
-    "../app/src/common",
     "../app/src/dev-mode",
     "../app/src/main",
     "../app/src/seeds",
