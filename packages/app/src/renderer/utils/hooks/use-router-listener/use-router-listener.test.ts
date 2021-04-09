@@ -8,6 +8,7 @@ import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-rout
 import { History, Location } from "history"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { waitFor } from "@testing-library/react"
+// import history from "Renderer/routes/history"
 
 const location: Location = {
   pathname: URL_MAIN.contacts,
@@ -22,6 +23,16 @@ const fakeHistory: Pick<History, "listen"> = {
   },
 }
 
+test("action on wrong path is not called", async () => {
+  const contactsAction = jest.fn()
+  renderHook(() =>
+    useRouterListener(fakeHistory, {
+      [URL_MAIN.overview]: contactsAction,
+    })
+  )
+  await waitFor(() => expect(contactsAction).not.toBeCalled())
+})
+
 test("actions is called on correct location render", () => {
   const contactsAction = jest.fn()
   renderHook(() =>
@@ -29,5 +40,7 @@ test("actions is called on correct location render", () => {
       [URL_MAIN.contacts]: contactsAction,
     })
   )
-  waitFor(() => expect(contactsAction).toBeCalled()).then(() => console.log(`action was called on location ${location.pathname}`))
+  waitFor(() => expect(contactsAction).toBeCalled()).then(() =>
+    console.log(`action was called on location ${location.pathname}`)
+  )
 })

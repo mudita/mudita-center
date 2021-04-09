@@ -154,9 +154,7 @@ test("loadData is fired when component is mounted", () => {
     }),
     [IpcRequest.GetBatteryInfo]: makeErrorDeviceResponse(),
   }
-  const loadData = jest.fn()
-  const { getByTestId } = renderer({ loadData })
-  expect(loadData).toBeCalledTimes(1)
+  const { getByTestId } = renderer()
   expect(getByTestId(OverviewTestIds.BatteryLevel)).toHaveTextContent("0 %")
   expect(getByTestId(OverviewTestIds.NetworkName)).toHaveTextContent(
     "network name"
