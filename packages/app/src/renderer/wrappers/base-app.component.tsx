@@ -71,7 +71,9 @@ const BaseApp: FunctionComponent<Props> = ({
     appContextMenu.init()
   }, [])
 
-  useRouterListener(history, store)
+  useRouterListener(history, {
+    [URL_MAIN.contacts]: store.dispatch.contacts.loadData,
+  })
 
   useEffect(() => {
     if (!connected && !pureNeverConnected) {

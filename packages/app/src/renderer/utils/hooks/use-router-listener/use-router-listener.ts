@@ -1,18 +1,12 @@
 import { History } from "history"
 import { useEffect } from "react"
-import { ModelConfig, RematchStore } from "@rematch/core"
-import { URL_MAIN } from "Renderer/constants/urls"
 
-
-const useRouterListener = (history: Pick<History, "listen">, store: RematchStore<{ contacts: ModelConfig }>) => {
+const useRouterListener = (history: Pick<History, "listen">, actions: {[key: string]: Function}) => {
   useEffect(() => {
-    return history.listen((location, action) => {
-      console.log(window.location)
-      if (location.pathname === URL_MAIN.contacts) {
-        console.log("location", location, action)
-        store.dispatch.contacts.loadData()
+    return history.listen((location) => {
+      if (Object.keys(actions).includes((location.pathname))) {
+        actions[location.pathname]()
       }
-      // console.log(`You changed the page to: ${location.pathname}`)
     })
   },[history])
 }
