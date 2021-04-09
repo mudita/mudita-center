@@ -109,7 +109,6 @@ const Overview: FunctionComponent<
   updateBasicInfo = noop,
   toggleUpdatingDevice,
   language,
-  loadData,
 }) => {
   /**
    * Temporary state to demo failure
@@ -126,10 +125,6 @@ const Overview: FunctionComponent<
     updateBasicInfo,
     toggleUpdatingDevice
   )
-
-  useEffect(() => {
-    loadData()
-  }, [])
 
   useEffect(() => {
     if (osVersion) {
