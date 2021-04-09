@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) Mudita sp. z o.o. All rights reserved.
+ * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
+ */
+
 import { renderHook } from "@testing-library/react-hooks"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
 import { History, Location } from "history"
