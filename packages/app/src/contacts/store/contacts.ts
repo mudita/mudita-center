@@ -145,7 +145,6 @@ const contacts = createModel<RootModel>({
         _: any,
         rootState: { contacts: { resultsState: ResultsState } }
       ) {
-        console.log("loadData")
         if (rootState.contacts.resultsState === ResultsState.Loading) {
           return
         }
@@ -153,7 +152,6 @@ const contacts = createModel<RootModel>({
         dispatch.contacts.setResultsState(ResultsState.Loading)
 
         const { data = [], error } = await getContacts()
-        console.log("data", data)
         if (error) {
           logger.error(error)
           dispatch.contacts.setResultsState(ResultsState.Error)
