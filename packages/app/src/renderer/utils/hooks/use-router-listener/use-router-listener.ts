@@ -5,15 +5,28 @@
 
 import { History } from "history"
 import { useEffect } from "react"
+import { URL_MAIN } from "Renderer/constants/urls"
+
+type Keys = keyof typeof URL_MAIN
+type Values = typeof URL_MAIN[Keys]
+
+type Actions = { [key in Values]?: Array<Function> }
+
+const isPathnameCorrect = (
+  actions: Actions,
+  pathname: string
+): pathname is Values => {
+  return Object.keys(actions).includes(location.pathname)
+}
 
 const useRouterListener = (
   history: Pick<History, "listen">,
-  actions: { [key: string]: Array<Function> }
+  actions: Actions
 ) => {
   useEffect(() => {
     return history.listen((location) => {
-      if (Object.keys(actions).includes(location.pathname)) {
-        for (const action of actions[location.pathname]) {
+      if (isPathnameCorrect(actions, location.pathname)) {
+        for (const action of actions[location.pathname] ?? []) {
           action()
         }
       }
