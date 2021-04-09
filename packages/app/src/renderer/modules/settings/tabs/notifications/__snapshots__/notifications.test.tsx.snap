@@ -253,6 +253,10 @@ exports[`matches snapshot 1`] = `
   border-bottom: solid 0.1rem #d2d6db;
 }
 
+.c5:hover {
+  background-color: transparent;
+}
+
 .c6 {
   grid-area: Checkbox;
   -webkit-align-self: center;
