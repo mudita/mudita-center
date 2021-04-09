@@ -9,7 +9,13 @@ interface Props {
   height?: number
 }
 
-export const Icon: AppFunctionComponent<Props> = styled("span")<Props>`
+export const Icon: AppFunctionComponent<Props> = styled("span").attrs(
+  (props) => ({
+    "aria-hidden": true,
+    role: "img",
+    ...props,
+  })
+)<Props>`
   display: flex;
   align-items: center;
   justify-content: center;
