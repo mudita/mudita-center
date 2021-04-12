@@ -19,7 +19,6 @@ module.exports = {
       })
     )
 
-    // config.plugins.unshift(image())
     config.plugins.unshift(
       reactSvg({
         // svgo options
