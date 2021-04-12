@@ -15,6 +15,7 @@ const renderCheckboxComponent = (props: ComponentProps<typeof Checkbox>) => {
   const outcome = renderWithTheme(<Checkbox {...props} />)
   return {
     ...outcome,
+    wrapper: () => outcome.queryByTestId(TestId.Wrapper),
     input: () => outcome.getByRole("checkbox"),
     checkedIcon: () => outcome.queryByTestId(TestId.CheckedIcon),
     indeterminateIcon: () => outcome.queryByTestId(TestId.IndeterminateIcon),
@@ -64,22 +65,23 @@ test("Indeterminate checkbox renders properly", () => {
   expect(indeterminateIcon()).toBeVisible()
 })
 
-test("String type label renders properly", () => {
+test("Default label renders properly", () => {
   const { getByText, label } = renderCheckboxComponent({
     children: "Test label",
   })
 
-  expect(label()).toBeInTheDocument()
+  expect(label()).not.toBeInTheDocument()
   expect(getByText("Test label")).toBeInTheDocument()
 })
 
-test("Numeric type label renders properly", () => {
+test("Simple styled label renders properly", () => {
   const { getByText, label } = renderCheckboxComponent({
-    children: 5,
+    children: "Test label",
+    simpleLabel: true,
   })
 
   expect(label()).toBeInTheDocument()
-  expect(getByText(5)).toBeInTheDocument()
+  expect(getByText("Test label")).toBeInTheDocument()
 })
 
 test("Custom label renders properly", () => {
@@ -120,12 +122,13 @@ test("Checkbox size 'big' is rendered properly", () => {
   expect(icon()).toHaveStyleRule("height", `${size}rem`)
 })
 
-test("Label is styled properly depending on checkbox size", () => {
+test("Simple label is styled properly depending on checkbox size", () => {
   const size = CheckboxSize.Big
 
   const { label } = renderCheckboxComponent({
     size,
     children: "label",
+    simpleLabel: true,
   })
 
   const variant = getLabelTextVariant(size)
@@ -136,14 +139,14 @@ test("Label is styled properly depending on checkbox size", () => {
   expect(label()).toHaveStyleRule("margin-left", spacing)
 })
 
-test("Clicking on label toggles checkbox properly", () => {
-  const { label, input } = renderCheckboxComponent({
+test("Clicking on a wrapper toggles checkbox properly", () => {
+  const { wrapper, input } = renderCheckboxComponent({
     children: "label",
   })
 
-  fireEvent.click(label() as Element)
+  fireEvent.click(wrapper() as Element)
   expect(input()).toBeChecked()
-  fireEvent.click(label() as Element)
+  fireEvent.click(wrapper() as Element)
   expect(input()).not.toBeChecked()
 })
 

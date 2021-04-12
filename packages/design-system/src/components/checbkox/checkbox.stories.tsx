@@ -52,7 +52,7 @@ Any other children type is rendered as is. No wrappers are added, so the label c
     },
     size: {
       description:
-        "Predefined size of checkbox. It also applies additional styling to the label if children is of type `Number` or `String`.\n",
+        "Predefined size of checkbox. It also applies additional styling to the label if `simpleLabel` is `true`.\n",
       table: {
         type: {
           summary: "CheckboxSize | undefined",
@@ -78,6 +78,10 @@ Any other children type is rendered as is. No wrappers are added, so the label c
           summary: "boolean",
         },
       },
+    },
+    simpleLabel: {
+      description:
+        "Indicates whether label should be wrapped in predefined `<Text>` component with basic styling applied or a totally custom one with no predefined styling.",
     },
     ref: {
       description:
@@ -124,15 +128,21 @@ export const IndeterminateBigCheckbox = storyCreator({
   size: CheckboxSize.Big,
 })
 
-export const CheckboxWithDefaultStyledLabel = storyCreator({
+export const CheckboxWithDefaultLabel = storyCreator({
   children: "Click me to change my state",
-})
-
-export const BigCheckboxWithDefaultStyledLabel = storyCreator({
-  children: "Click me to change my state",
-  size: CheckboxSize.Big,
 })
 
 export const CheckboxWithCustomLabel = storyCreator({
   children: <Text variant={TextVariant.SmallLightGrey}>Custom label</Text>,
+})
+
+export const CheckboxWithSimpleStyledLabel = storyCreator({
+  children: "Click me to change my state",
+  simpleLabel: true,
+})
+
+export const BigCheckboxWithSimpleStyledLabel = storyCreator({
+  children: "Click me to change my state",
+  size: CheckboxSize.Big,
+  simpleLabel: true,
 })
