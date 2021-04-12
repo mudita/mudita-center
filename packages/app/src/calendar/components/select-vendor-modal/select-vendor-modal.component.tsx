@@ -38,10 +38,10 @@ const messages = defineMessages({
     id: "view.name.calendar.modal.selectVendor.body",
   },
   buttonGoogle: {
-    id: "common.loginGoogleButton",
+    id: "component.loginGoogleButton",
   },
   buttonOutlook: {
-    id: "common.loginOutlookButton",
+    id: "component.loginOutlookButton",
   },
   manualImportButton: {
     id: "view.name.calendar.manualImportText",
