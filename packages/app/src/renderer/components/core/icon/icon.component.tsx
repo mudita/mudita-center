@@ -43,7 +43,7 @@ const badgeStyles = css`
   }
 `
 
-const Wrapper = styled.i<{
+const Wrapper = styled.span<{
   badge?: boolean
   height?: number
   width?: number

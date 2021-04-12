@@ -35,7 +35,7 @@ const Info = styled.div`
   align-items: center;
   margin-bottom: 2.4rem;
 
-  > i {
+  > span {
     margin-right: 1.2rem;
   }
 `
