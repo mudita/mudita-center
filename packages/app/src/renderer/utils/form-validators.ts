@@ -10,21 +10,21 @@ export const phoneNumberValidator: ValidationRules = {
   minLength: {
     value: 5,
     message: intl.formatMessage(
-      { id: "form.error.tooShort" },
+      { id: "component.form.error.tooShort" },
       { minLength: 5 }
     ),
   },
   maxLength: {
     value: 15,
     message: intl.formatMessage(
-      { id: "form.error.tooLong" },
+      { id: "component.form.error.tooLong" },
       { maxLength: 15 }
     ),
   },
   pattern: {
     value: /^(\+?)(\d(\s?\d)+)$/im,
     message: intl.formatMessage({
-      id: "form.error.phoneNumber.numbersAndSpacesOnly",
+      id: "component.form.error.numbersAndSpacesOnly",
     }),
   },
 }
@@ -32,6 +32,6 @@ export const phoneNumberValidator: ValidationRules = {
 export const emailValidator: ValidationRules = {
   pattern: {
     value: /^\S+@\S+(\.\S+)+$/im,
-    message: intl.formatMessage({ id: "form.error.invalidEmail" }),
+    message: intl.formatMessage({ id: "component.form.error.invalidEmail" }),
   },
 }

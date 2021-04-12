@@ -64,7 +64,7 @@ const messages = defineMessages({
   detailsShowButton: { id: "component.modal.support.form.details.showButton" },
   detailsHideButton: { id: "component.modal.support.form.details.hideButton" },
   optional: { id: "component.modal.support.form.optional" },
-  emailRequiredError: { id: "form.error.requiredEmail" },
+  emailRequiredError: { id: "component.form.error.requiredEmail" },
 })
 
 const MessageInput = styled(InputComponent)<InputComponentProps>`
