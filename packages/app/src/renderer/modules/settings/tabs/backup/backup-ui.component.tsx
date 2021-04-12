@@ -48,6 +48,10 @@ const BackupDataWrapper = styled(DataWrapper)`
 const BackupActionsWrapper = styled(ActionsWrapper)`
   width: fit-content;
 `
+const BackupButtonComponent = styled(ButtonComponent)`
+  padding: 0;
+`
+
 interface Props {
   backupLocation?: AppSettings["pureOsBackupLocation"]
   openDialog?: () => void
@@ -73,7 +77,7 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => (
         </Message>
       </BackupDataWrapper>
       <BackupActionsWrapper>
-        <ButtonComponent
+        <BackupButtonComponent
           onClick={openDialog}
           label={intl.formatMessage({
             id: "view.name.settings.backup.buttonLabel",

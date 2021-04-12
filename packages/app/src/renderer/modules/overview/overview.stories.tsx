@@ -28,13 +28,15 @@ import {
 } from "Renderer/modules/overview/overview.modals"
 import { Router } from "react-router"
 import history from "Renderer/routes/history"
-import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"
 import { action } from "@storybook/addon-actions"
 
 const fakeState = {
   batteryLevel: 0,
   disconnectDevice: false,
-  lastBackup,
+  lastBackup: {
+    createdAt: "2020-01-15T07:35:01.562Z",
+    size: 102400,
+  },
   osVersion: "3.0",
   osUpdateAvailable: false,
   osUpdateAlreadyDownloaded: false,
