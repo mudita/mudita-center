@@ -10,8 +10,12 @@ import { BackupProps } from "Renderer/components/rest/overview/backup/backup.int
 import Backup from "Renderer/components/rest/overview/backup/backup.component"
 import { noop } from "Renderer/utils/noop"
 import { intl } from "Renderer/utils/intl"
-import { lastBackup } from "Renderer/components/rest/overview/backup/backup.stories"
 import { fireEvent } from "@testing-library/react"
+
+const lastBackup = {
+  createdAt: "2020-01-15T07:35:01.562Z",
+  size: 102400,
+}
 
 const renderBackup = ({
   onBackupCreate = noop,

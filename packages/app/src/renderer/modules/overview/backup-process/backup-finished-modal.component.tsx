@@ -14,7 +14,7 @@ import {
   Row,
 } from "Renderer/components/core/table/table.component"
 import { intl, textFormatters } from "Renderer/utils/intl"
-import React from "react"
+import React, { ComponentProps } from "react"
 import {
   FileList,
   PureBackupModal,
@@ -43,13 +43,15 @@ interface BackupFinishedModalProps {
   destination: string
 }
 
-export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps> = ({
+export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps & ComponentProps<typeof PureBackupModal>> = ({
   items,
   destination,
+  ...props
 }) => (
   <PureBackupModal
     actionButtonLabel={intl.formatMessage(messages.ok)}
     size={ModalSize.Medium}
+    {...props}
   >
     <Text
       message={messages.title}
