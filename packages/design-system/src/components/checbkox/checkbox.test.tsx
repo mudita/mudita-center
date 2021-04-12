@@ -94,33 +94,18 @@ test("Custom label renders properly", () => {
   expect(getByText("Custom label")).toBeInTheDocument()
 })
 
-test("Checkbox size 'small' is rendered properly", () => {
-  const { icon } = renderCheckboxComponent({
-    size: CheckboxSize.Small,
-  })
+test.each(Object.values(CheckboxSize))(
+  "Checkbox size '%p' is rendered properly",
+  (checkboxSize) => {
+    const { icon } = renderCheckboxComponent({
+      size: checkboxSize,
+    })
 
-  const size = getCheckboxSize(CheckboxSize.Small)
-  expect(icon()).toHaveStyleRule("width", `${size}rem`)
-  expect(icon()).toHaveStyleRule("height", `${size}rem`)
-})
-
-test("Checkbox size 'basic' is rendered properly", () => {
-  const { icon } = renderCheckboxComponent({ size: CheckboxSize.Basic })
-
-  const size = getCheckboxSize(CheckboxSize.Basic)
-
-  expect(icon()).toHaveStyleRule("width", `${size}rem`)
-  expect(icon()).toHaveStyleRule("height", `${size}rem`)
-})
-
-test("Checkbox size 'big' is rendered properly", () => {
-  const { icon } = renderCheckboxComponent({ size: CheckboxSize.Big })
-
-  const size = getCheckboxSize(CheckboxSize.Big)
-
-  expect(icon()).toHaveStyleRule("width", `${size}rem`)
-  expect(icon()).toHaveStyleRule("height", `${size}rem`)
-})
+    const size = getCheckboxSize(checkboxSize)
+    expect(icon()).toHaveStyleRule("width", `${size}rem`)
+    expect(icon()).toHaveStyleRule("height", `${size}rem`)
+  }
+)
 
 test("Simple label is styled properly depending on checkbox size", () => {
   const size = CheckboxSize.Big
