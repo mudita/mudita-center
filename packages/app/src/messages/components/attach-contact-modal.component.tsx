@@ -35,7 +35,7 @@ import Badge from "Renderer/components/core/badge/badge.component"
 
 export const messages = defineMessages({
   title: { id: "view.name.messages.attachModal.title" },
-  unnamedContact: { id: "view.name.phone.contacts.list.unnamedContact" },
+  unnamedContact: { id: "view.name.contacts.list.unnamedContact" },
 })
 
 interface Props {

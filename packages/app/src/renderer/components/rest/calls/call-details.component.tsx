@@ -44,11 +44,11 @@ const messages = defineMessages({
   duration: { id: "view.name.phone.calls.duration" },
   date: { id: "view.name.phone.calls.date" },
   type: { id: "view.name.phone.calls.type" },
-  information: { id: "view.name.phone.contacts.details.information" },
-  deleteCallLabel: { id: "view.name.phone.contacts.details.deleteCallLabel" },
-  contactCallLabel: { id: "view.name.phone.contacts.details.contactCallLabel" },
+  information: { id: "view.name.contacts.details.information" },
+  deleteCallLabel: { id: "view.name.contacts.details.deleteCallLabel" },
+  contactCallLabel: { id: "view.name.contacts.details.contactCallLabel" },
   newContactCallLabel: {
-    id: "view.name.phone.contacts.details.newContactCallLabel",
+    id: "view.name.contacts.details.newContactCallLabel",
   },
 })
 

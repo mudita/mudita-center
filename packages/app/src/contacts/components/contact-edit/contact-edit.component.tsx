@@ -47,28 +47,28 @@ import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/c
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 
 const messages = defineMessages({
-  editTitle: { id: "view.name.phone.contacts.edit.title" },
-  newTitle: { id: "view.name.phone.contacts.new.title" },
-  firstName: { id: "view.name.phone.contacts.edit.firstName" },
-  secondName: { id: "view.name.phone.contacts.edit.secondName" },
-  primaryNumber: { id: "view.name.phone.contacts.edit.primaryNumber" },
-  secondaryNumber: { id: "view.name.phone.contacts.edit.secondaryNumber" },
-  email: { id: "view.name.phone.contacts.edit.email" },
+  editTitle: { id: "view.name.contacts.edit.title" },
+  newTitle: { id: "view.name.contacts.new.title" },
+  firstName: { id: "view.name.contacts.edit.firstName" },
+  secondName: { id: "view.name.contacts.edit.secondName" },
+  primaryNumber: { id: "view.name.contacts.edit.primaryNumber" },
+  secondaryNumber: { id: "view.name.contacts.edit.secondaryNumber" },
+  email: { id: "view.name.contacts.edit.email" },
   speedDialKeyEmptyOption: {
-    id: "view.name.phone.contacts.edit.speedDialKeyEmptyOption",
+    id: "view.name.contacts.edit.speedDialKeyEmptyOption",
   },
   speedDialKeySelect: {
-    id: "view.name.phone.contacts.edit.speedDialKeySelect",
+    id: "view.name.contacts.edit.speedDialKeySelect",
   },
-  speedDialKey: { id: "view.name.phone.contacts.edit.speedDialKey" },
-  speedDialSettings: { id: "view.name.phone.contacts.edit.speedDialSettings" },
-  addToFavourites: { id: "view.name.phone.contacts.edit.addToFavourites" },
-  iceContact: { id: "view.name.phone.contacts.edit.iceContact" },
-  firstAddressLine: { id: "view.name.phone.contacts.edit.firstAddressLine" },
-  secondAddressLine: { id: "view.name.phone.contacts.edit.secondAddressLine" },
-  notes: { id: "view.name.phone.contacts.edit.notes" },
-  cancel: { id: "view.name.phone.contacts.edit.cancel" },
-  save: { id: "view.name.phone.contacts.edit.save" },
+  speedDialKey: { id: "view.name.contacts.edit.speedDialKey" },
+  speedDialSettings: { id: "view.name.contacts.edit.speedDialSettings" },
+  addToFavourites: { id: "view.name.contacts.edit.addToFavourites" },
+  iceContact: { id: "view.name.contacts.edit.iceContact" },
+  firstAddressLine: { id: "view.name.contacts.edit.firstAddressLine" },
+  secondAddressLine: { id: "view.name.contacts.edit.secondAddressLine" },
+  notes: { id: "view.name.contacts.edit.notes" },
+  cancel: { id: "view.name.contacts.edit.cancel" },
+  save: { id: "view.name.contacts.edit.save" },
 })
 
 export const defaultContact = {

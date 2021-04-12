@@ -26,7 +26,7 @@ const renderer = (extraProps?: {}) => {
 }
 
 test("cancel is called", () => {
-  const cancelButtonText = "[value] view.name.phone.contacts.edit.cancel"
+  const cancelButtonText = "[value] view.name.contacts.edit.cancel"
   const onCancel = jest.fn()
   const { getByText } = renderer({ onCancel })
   const cancelButton = getByText(cancelButtonText)

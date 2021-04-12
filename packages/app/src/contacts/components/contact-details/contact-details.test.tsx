@@ -39,9 +39,9 @@ const contactBasic = {
   secondAddressLine: "",
 }
 
-const noAddress = "[value] view.name.phone.contacts.details.noAddress"
-const noEmail = "[value] view.name.phone.contacts.details.noEmail"
-const noNotes = "[value] view.name.phone.contacts.details.noNotes"
+const noAddress = "[value] view.name.contacts.details.noAddress"
+const noEmail = "[value] view.name.contacts.details.noEmail"
+const noNotes = "[value] view.name.contacts.details.noNotes"
 
 const renderer = (props: {}) => {
   const defaultProps = {

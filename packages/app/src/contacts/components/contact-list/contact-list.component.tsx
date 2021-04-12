@@ -167,7 +167,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           <Labels>
             <Col />
             <Col>
-              <FormattedMessage id={"view.name.phone.contacts.new.title"} />
+              <FormattedMessage id={"view.name.contacts.new.title"} />
             </Col>
           </Labels>
           <Row active>
@@ -253,7 +253,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         />
                         {createStyledFullName() ||
                           intl.formatMessage({
-                            id: "view.name.phone.contacts.list.unnamedContact",
+                            id: "view.name.contacts.list.unnamedContact",
                           })}
                         {contact.blocked && (
                           <BlockedIcon width={1.4} height={1.4} />
@@ -279,7 +279,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             <HiddenButton
                               labelMessage={{
                                 id:
-                                  "view.name.phone.contacts.action.exportAsVcard",
+                                  "view.name.contacts.action.exportAsVcard",
                               }}
                               Icon={Type.Upload}
                               onClick={handleExport}
@@ -289,7 +289,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             <HiddenButton
                               labelMessage={{
                                 id:
-                                  "view.name.phone.contacts.action.forwardNamecard",
+                                  "view.name.contacts.action.forwardNamecard",
                               }}
                               Icon={Type.Forward}
                               onClick={handleForward}
@@ -299,7 +299,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             {contact.blocked ? (
                               <HiddenButton
                                 labelMessage={{
-                                  id: "view.name.phone.contacts.action.unblock",
+                                  id: "view.name.contacts.action.unblock",
                                 }}
                                 Icon={Type.Blocked}
                                 onClick={handleUnblock}
@@ -309,7 +309,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             ) : (
                               <HiddenButton
                                 labelMessage={{
-                                  id: "view.name.phone.contacts.action.block",
+                                  id: "view.name.contacts.action.block",
                                 }}
                                 Icon={Type.Blocked}
                                 onClick={handleBlock}
@@ -319,7 +319,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             )}
                             <ButtonComponent
                               labelMessage={{
-                                id: "view.name.phone.contacts.action.delete",
+                                id: "view.name.contacts.action.delete",
                               }}
                               Icon={Type.Delete}
                               onClick={handleDelete}
@@ -368,20 +368,20 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             ))
           ) : (
             <EmptyState
-              title={{ id: "view.name.phone.contacts.emptyList.title" }}
+              title={{ id: "view.name.contacts.emptyList.title" }}
               description={{
                 id:
-                  "view.name.phone.contacts.emptyList.emptySearch.description",
+                  "view.name.contacts.emptyList.emptySearch.description",
               }}
             />
           ))}
         {resultsState === ResultsState.Empty ||
           (resultsState === ResultsState.Error && (
             <EmptyState
-              title={{ id: "view.name.phone.contacts.emptyList.title" }}
+              title={{ id: "view.name.contacts.emptyList.title" }}
               description={{
                 id:
-                  "view.name.phone.contacts.emptyList.emptyPhonebook.description",
+                  "view.name.contacts.emptyList.emptyPhonebook.description",
               }}
             />
           ))}

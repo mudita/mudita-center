@@ -361,9 +361,9 @@ storiesOf("Components|Core/Table/Empty states", module)
   .add("Empty", () => (
     <Story customStyle={fullPageStoryStyles} transparentMode>
       <EmptyState
-        title={{ id: "view.name.phone.contacts.emptyList.title" }}
+        title={{ id: "view.name.contacts.emptyList.title" }}
         description={{
-          id: "view.name.phone.contacts.emptyList.emptyPhonebook.description",
+          id: "view.name.contacts.emptyList.emptyPhonebook.description",
         }}
       />
     </Story>

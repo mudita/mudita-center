@@ -48,12 +48,12 @@ import appContextMenu from "Renderer/wrappers/app-context-menu"
 import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
 
 export const messages = defineMessages({
-  deleteTitle: { id: "view.name.phone.contacts.modal.delete.title" },
-  deleteText: { id: "view.name.phone.contacts.modal.delete.text" },
-  addingText: { id: "view.name.phone.contacts.modal.adding.text" },
-  deletingText: { id: "view.name.phone.contacts.modal.deleting.text" },
-  editingText: { id: "view.name.phone.contacts.modal.editing.text" },
-  downloadingText: { id: "view.name.phone.contacts.modal.downloading.text" },
+  deleteTitle: { id: "view.name.contacts.modal.delete.title" },
+  deleteText: { id: "view.name.contacts.modal.delete.text" },
+  addingText: { id: "view.name.contacts.modal.adding.text" },
+  deletingText: { id: "view.name.contacts.modal.deleting.text" },
+  editingText: { id: "view.name.contacts.modal.editing.text" },
+  downloadingText: { id: "view.name.contacts.modal.downloading.text" },
   downloadingErrorTitle: {
     id: "view.name.contacts.modal.downloadingError.title",
   },

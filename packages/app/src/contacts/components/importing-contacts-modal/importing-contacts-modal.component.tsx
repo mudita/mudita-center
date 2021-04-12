@@ -23,13 +23,13 @@ import { RoundIconWrapper } from "Renderer/modules/overview/overview.modals"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.phone.contacts.modal.importing.title",
+    id: "view.name.contacts.modal.importing.title",
   },
   subtitle: {
-    id: "view.name.phone.contacts.modal.importing.subtitle",
+    id: "view.name.contacts.modal.importing.subtitle",
   },
   body: {
-    id: "view.name.phone.contacts.modal.importing.body",
+    id: "view.name.contacts.modal.importing.body",
   },
 })
 

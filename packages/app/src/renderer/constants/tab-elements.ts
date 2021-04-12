@@ -12,7 +12,7 @@ const productionEnvironment = process.env.NODE_ENV === "production"
 const messages = defineMessages({
   conversations: { id: "view.name.messages.conversations" },
   templates: { id: "view.name.messages.templates" },
-  contacts: { id: "view.name.phone.contacts" },
+  contacts: { id: "view.name.contacts" },
   calls: { id: "view.name.phone.calls" },
   dial: { id: "view.name.phone.dial" },
   allSongs: { id: "view.name.music.allSongs" },
