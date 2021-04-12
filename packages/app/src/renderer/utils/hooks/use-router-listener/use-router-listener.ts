@@ -15,9 +15,7 @@ type Actions = { [key in Values]?: Array<Function> }
 const isPathnameCorrect = (
   actions: Actions,
   pathname: string
-): pathname is Values => {
-  return Object.keys(actions).includes(location.pathname)
-}
+): pathname is Values => Object.keys(actions).includes(pathname)
 
 const useRouterListener = (
   history: Pick<History, "listen">,

@@ -120,12 +120,14 @@ const basicInfo = createModel<RootModel>({
       },
       async connect() {
         const { status } = await connectDevice()
+
         if (status === DeviceResponseStatus.Ok) {
           dispatch.basicInfo.update({
             disconnectedDevice: false,
           })
 
           await dispatch.basicInfo.loadData()
+          await dispatch.contacts.loadData()
           await dispatch.calendar.loadData()
           await dispatch.messages.loadData()
         }
