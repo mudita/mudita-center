@@ -25,6 +25,9 @@ export const SettingsTableRow = styled(TableRow)`
   grid-template-areas: "Checkbox Actions";
   grid-template-columns: 1fr 15rem;
   border-bottom: solid 0.1rem ${borderColor("list")};
+  &:hover {
+    background-color: transparent;
+  }
 `
 
 export const Data = styled.div`
