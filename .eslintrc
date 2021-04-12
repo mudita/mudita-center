@@ -29,7 +29,6 @@
     "react-hooks/rules-of-hooks": "warn",
     "no-prototype-builtins": "warn",
     "jest-dom/prefer-in-document": "warn",
-    "@typescript-eslint/no-unnecessary-type-assertion": "warn",
     "jest-dom/prefer-enabled-disabled": "warn",
     "@typescript-eslint/prefer-regexp-exec": "warn",
     "license-header/header": [

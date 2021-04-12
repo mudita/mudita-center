@@ -5,10 +5,7 @@
 
 const path = require("path")
 require("dotenv").config({
-  path:
-    process.env.NODE_ENV === "production"
-      ? path.join(__dirname, "../../../.env.production")
-      : path.join(__dirname, "../../../.env.development"),
+  path: path.join(__dirname, "../../../../../.env"),
 })
 
 const localesUrl = `${process.env.PHRASE_API_URL}/locales`
