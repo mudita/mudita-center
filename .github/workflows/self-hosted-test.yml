@@ -1,0 +1,18 @@
+name: self-hosted test
+
+on:
+  - push
+
+jobs:
+  build:
+    runs-on:
+      - self-hosted
+      - macOS
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 12.18.4
+      - run: npm run setup
+      - run: npm run dist -- -- -- -ml
