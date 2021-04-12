@@ -44,7 +44,7 @@ export default () => (
 
     <Route exact path={[...Object.values(URL_ONBOARDING)]}>
       <LayoutBlankWrapper>
-        <Route path={URL_ONBOARDING.welcome} component={Welcome}  />
+        <Route path={URL_ONBOARDING.welcome} component={Welcome} />
         <Route path={URL_ONBOARDING.connecting} component={Connecting} />
         <Route
           path={URL_ONBOARDING.troubleshooting}
