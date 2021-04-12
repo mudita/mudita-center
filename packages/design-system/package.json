@@ -1,6 +1,6 @@
 {
   "name": "@mudita/design-system",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.6",
   "description": "Mudita Design System",
   "author": "Mudita",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "typecheck": "tsc --noEmit",
     "prepare": "npm run build",
     "size": "size-limit",
-    "analyze": "size-limit --why --tsconfig ./tsconfig.build.json",
+    "analyze": "size-limit --why",
     "storybook:serve": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "fonts:download": "node ./scripts/downloadFonts.js",
@@ -33,12 +33,13 @@
     "@babel/core": "^7.13.14",
     "@mudita/eslint-config": "^1.0.15",
     "@mudita/stylelint-config": "^1.0.4",
+    "@rollup/plugin-image": "^2.0.6",
     "@size-limit/preset-small-lib": "^4.10.2",
-    "@storybook/addon-essentials": "^6.2.3",
+    "@storybook/addon-essentials": "^6.2.4",
     "@storybook/addon-info": "^5.3.21",
-    "@storybook/addon-links": "^6.2.3",
-    "@storybook/addons": "^6.2.3",
-    "@storybook/react": "^6.2.3",
+    "@storybook/addon-links": "^6.2.4",
+    "@storybook/addons": "^6.2.4",
+    "@storybook/react": "^6.2.4",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/react-hooks": "^5.1.1",
@@ -59,6 +60,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-is": "^17.0.2",
+    "react-svg-loader": "^3.0.3",
     "rollup-plugin-postcss": "^4.0.0",
     "size-limit": "^4.10.2",
     "styled-components": "^5.2.3",
@@ -96,7 +98,8 @@
   ],
   "files": [
     "dist",
-    "src"
+    "src",
+    "assets"
   ],
   "engines": {
     "node": ">=10"

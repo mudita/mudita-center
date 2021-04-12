@@ -24,7 +24,7 @@ export default {
       page: (): JSX.Element => (
         <>
           <Title>Text</Title>
-          <Subtitle>Atom component</Subtitle>
+          <Subtitle>Atomic component</Subtitle>
           <Description markdown={description} />
           <Primary />
           <ArgsTable story={PRIMARY_STORY} />

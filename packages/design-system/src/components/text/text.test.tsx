@@ -12,10 +12,13 @@ import {
   getFontWeight,
   theme,
 } from "../.."
+import { RenderResult } from "@testing-library/react"
 
 const testText = "Mudita is soo cool"
 
-const renderTextComponent = (props: ComponentProps<typeof Text>) => {
+const renderTextComponent = (
+  props: ComponentProps<typeof Text>
+): RenderResult => {
   const outcome = renderWithTheme(<Text data-testid="text" {...props} />)
   return {
     ...outcome,

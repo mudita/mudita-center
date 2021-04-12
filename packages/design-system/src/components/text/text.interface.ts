@@ -1,4 +1,4 @@
-import { FontSize, Color, FontWeight } from "../../.."
+import { FontSize, Color, FontWeight } from "../.."
 
 export interface TextStyleProps {
   tag?: keyof HTMLElementTagNameMap

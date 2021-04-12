@@ -9,6 +9,7 @@
     "./src/**/*.test.tsx",
     "./src/components/storybook/**/*",
     "./src/utils/**/*",
-    "./src/fonts/main/**/*"
+    "./src/fonts/main/**/*",
+    "./src/**/*.test.tsx"
   ]
 }
