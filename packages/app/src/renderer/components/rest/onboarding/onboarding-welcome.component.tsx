@@ -12,7 +12,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import Image from "Renderer/components/core/image/image.component"
-import ModemDesktop from "Renderer/images/onboarding/modem-desktop@2x.png"
+import Infographic from "Renderer/images/onboarding/infographic.png"
 import ButtonComponent from "Renderer/components/core/button/button.component"
 import { Type as ButtonType } from "Renderer/components/core/button/button.config"
 import { Type as IconType } from "Renderer/components/core/icon/icon.config"
@@ -26,19 +26,6 @@ import {
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
 import { OnboardingWelcomeTestIds } from "./onboarding-welcome-test-ids.enum"
 
-const OnboardingWelcomeWrapper = styled(OnboardingWrapper)`
-  position: relative;
-  grid-template-areas: "Main" "Footer";
-  grid-template-rows: 1fr 11rem;
-`
-
-const Header = styled.header`
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-  width: 100%;
-`
 const InstructionText = styled(Text)`
   margin-bottom: 1.3rem;
 `
@@ -54,13 +41,21 @@ const Info = styled.div`
 `
 
 const Autostart = styled.div`
-  text-align: center;
   margin-top: 4.8rem;
   margin-bottom: 1.6rem;
-
+  display: flex;
+  align-items: center;
   label {
     margin-bottom: 1.2rem;
   }
+`
+const AutostartLabel = styled.div`
+  margin-left: 1.3rem;
+`
+
+const AutostartSubText = styled(Text)`
+  text-align: left;
+  margin-top: 0.4rem;
 `
 
 const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
@@ -72,8 +67,8 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
     onAutostartChange(event.target.checked)
   }
   return (
-    <OnboardingWelcomeWrapper>
-      <Header>
+    <OnboardingWrapper>
+      <header>
         <Title
           displayStyle={TextDisplayStyle.PrimaryHeading}
           message={{
@@ -92,25 +87,30 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
             message={{ id: "view.name.onboarding.welcome.bluetoothInfo" }}
           />
         </Info>
-      </Header>
+      </header>
 
       <main>
-        <Image src={ModemDesktop} width={1010} />
-        <Autostart>
-          {autostartEnabled !== undefined && (
+        <Image src={Infographic} width={1010} />
+        {autostartEnabled !== undefined && (
+          <Autostart>
             <InputCheckbox
               defaultChecked={autostartEnabled}
-              label={intl.formatMessage({
-                id: "view.name.onboarding.welcome.autostartMessage",
-              })}
               onChange={onCheckboxToggle}
             />
-          )}
-          <Text
-            displayStyle={TextDisplayStyle.SmallFadedText}
-            message={{ id: "view.name.onboarding.welcome.autostartInfo" }}
-          />
-        </Autostart>
+            <AutostartLabel>
+              <Text
+                displayStyle={TextDisplayStyle.MediumText}
+                message={{
+                  id: "view.name.onboarding.welcome.autostartMessage",
+                }}
+              />
+              <AutostartSubText
+                displayStyle={TextDisplayStyle.SmallFadedText}
+                message={{ id: "view.name.onboarding.welcome.autostartInfo" }}
+              />
+            </AutostartLabel>
+          </Autostart>
+        )}
       </main>
       <footer>
         <ButtonComponent
@@ -128,7 +128,7 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
           />
         )}
       </footer>
-    </OnboardingWelcomeWrapper>
+    </OnboardingWrapper>
   )
 }
 
