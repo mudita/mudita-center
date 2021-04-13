@@ -13,7 +13,7 @@ let history: MemoryHistory
 beforeEach(() => (history = createMemoryHistory()))
 
 test("action on wrong path is not called", async () => {
-  const contactsAction = jest.fn(() => console.log("should not be called"))
+  const contactsAction = jest.fn()
   const { rerender } = renderHook(() =>
     useRouterListener(history, {
       [URL_MAIN.overview]: [contactsAction],
@@ -25,9 +25,7 @@ test("action on wrong path is not called", async () => {
 })
 
 test("actions are called on correct location render", async () => {
-  const contactsAction = jest.fn(() =>
-    console.log("contacts action, should be called twice")
-  )
+  const contactsAction = jest.fn()
   const { rerender } = renderHook(() =>
     useRouterListener(history, {
       [URL_MAIN.contacts]: [contactsAction, contactsAction],
@@ -39,10 +37,7 @@ test("actions are called on correct location render", async () => {
 })
 
 test("actions in nested routes are handled", async () => {
-  const nestedRouteAction = jest.fn(() =>
-    console.log("nested func, should be called once")
-  )
-
+  const nestedRouteAction = jest.fn()
   const { rerender } = renderHook(() =>
     useRouterListener(history, {
       [`${URL_MAIN.messages}${URL_TABS.templates}`]: [nestedRouteAction],
