@@ -5,41 +5,50 @@
 
 import { renderHook } from "@testing-library/react-hooks"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
-import { History, Location } from "history"
-import { URL_MAIN } from "Renderer/constants/urls"
-import { waitFor } from "@testing-library/react"
+import { createMemoryHistory } from "history"
+import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
+import { MemoryHistory } from "history/createMemoryHistory"
 
-const location: Location = {
-  pathname: URL_MAIN.contacts,
-  search: "",
-  hash: "",
-  state: undefined,
-}
-
-const fakeHistory: Pick<History, "listen"> = {
-  listen(listener) {
-    return () => listener(location, "PUSH")
-  },
-}
+let history: MemoryHistory
+beforeEach(() => (history = createMemoryHistory()))
 
 test("action on wrong path is not called", async () => {
-  const contactsAction = jest.fn()
-  renderHook(() =>
-    useRouterListener(fakeHistory, {
+  const contactsAction = jest.fn(() => console.log("should not be called"))
+  const { rerender } = renderHook(() =>
+    useRouterListener(history, {
       [URL_MAIN.overview]: [contactsAction],
     })
   )
-  await waitFor(() => expect(contactsAction).not.toBeCalled())
+  history.push(URL_MAIN.contacts)
+  rerender()
+  expect(contactsAction).not.toBeCalled()
 })
 
-test("actions are called on correct location render", () => {
-  const contactsAction = jest.fn()
-  renderHook(() =>
-    useRouterListener(fakeHistory, {
+test("actions are called on correct location render", async () => {
+  const contactsAction = jest.fn(() =>
+    console.log("contacts action, should be called twice")
+  )
+  const { rerender } = renderHook(() =>
+    useRouterListener(history, {
       [URL_MAIN.contacts]: [contactsAction, contactsAction],
     })
   )
-  waitFor(() => expect(contactsAction).toBeCalledTimes(2)).then(() =>
-    console.log(`action was called on location ${location.pathname}`)
+  history.push(URL_MAIN.contacts)
+  rerender()
+  expect(contactsAction).toBeCalledTimes(2)
+})
+
+test("actions in nested routes are handled", async () => {
+  const nestedRouteAction = jest.fn(() =>
+    console.log("nested func, should be called once")
   )
+
+  const { rerender } = renderHook(() =>
+    useRouterListener(history, {
+      [`${URL_MAIN.messages}${URL_TABS.templates}`]: [nestedRouteAction],
+    })
+  )
+  history.push(`${URL_MAIN.messages}${URL_TABS.templates}`)
+  rerender()
+  expect(nestedRouteAction).toBeCalledTimes(1)
 })

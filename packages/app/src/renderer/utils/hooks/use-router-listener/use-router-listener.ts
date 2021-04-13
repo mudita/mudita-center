@@ -5,20 +5,24 @@
 
 import { History } from "history"
 import { useEffect } from "react"
-import { URL_MAIN } from "Renderer/constants/urls"
+import { URL_MAIN, URL_TABS } from "Renderer/constants/urls"
+import { useHistory } from "react-router-dom"
 
-type Keys = keyof typeof URL_MAIN
-type Values = typeof URL_MAIN[Keys]
+type MainRoutesKeys = keyof typeof URL_MAIN
+type MainRoutesValues = typeof URL_MAIN[MainRoutesKeys]
+type NestedRoutesKeys = keyof typeof URL_TABS
+type NestedRoutesValues = typeof URL_TABS[NestedRoutesKeys]
+type Values = MainRoutesValues | `${MainRoutesValues}${NestedRoutesValues}`
 
 type Actions = { [key in Values]?: Array<Function> }
 
 const isPathnameCorrect = (
   actions: Actions,
   pathname: string
-): pathname is Values => Object.keys(actions).includes(pathname)
+): pathname is MainRoutesValues => Object.keys(actions).includes(pathname)
 
 const useRouterListener = (
-  history: Pick<History, "listen">,
+  history: Pick<History, "listen"> = useHistory(),
   actions: Actions
 ) => {
   useEffect(() => {
