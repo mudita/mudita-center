@@ -23,6 +23,6 @@ test("table renders correct amount of rows", () => {
 test("action button has correct text", () => {
   const { getByTestId } = renderer({ onActionButtonClick: jest.fn() })
   expect(getByTestId(ModalTestIds.ModalActionButton)).toHaveTextContent(
-    "[value] view.generic.button.ok"
+    "[value] component.button.ok"
   )
 })

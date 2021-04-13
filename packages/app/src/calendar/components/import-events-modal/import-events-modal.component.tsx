@@ -42,7 +42,7 @@ const messages = defineMessages({
     id: "view.name.calendar.import.text",
   },
   button: {
-    id: "view.generic.button.ok",
+    id: "component.button.ok",
   },
 })
 

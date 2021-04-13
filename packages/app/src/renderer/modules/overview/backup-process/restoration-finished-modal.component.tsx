@@ -13,7 +13,7 @@ import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 
 const messages = defineMessages({
-  ok: { id: "view.generic.button.ok" },
+  ok: { id: "component.button.ok" },
   title: {
     id: "view.name.overview.backup.restoredBackupModal.title",
   },

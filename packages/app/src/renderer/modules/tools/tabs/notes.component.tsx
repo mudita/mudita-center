@@ -88,7 +88,7 @@ const messages = defineMessages({
     id: "view.name.tools.notes.edited",
   },
   today: {
-    id: "view.generic.today",
+    id: "component.text.today",
   },
   selectionsNumber: {
     id: "view.name.tools.notes.selectionsNumber",

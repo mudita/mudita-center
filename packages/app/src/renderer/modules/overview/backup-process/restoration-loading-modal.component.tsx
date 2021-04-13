@@ -21,7 +21,7 @@ import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 
 const messages = defineMessages({
-  cancel: { id: "view.generic.button.cancel" },
+  cancel: { id: "component.button.cancel" },
   title: {
     id: "view.name.overview.backup.restoringBackupModal.title",
   },

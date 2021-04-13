@@ -21,7 +21,7 @@ import { intl } from "Renderer/utils/intl"
 import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
-  cancel: { id: "view.generic.button.cancel" },
+  cancel: { id: "component.button.cancel" },
   title: {
     id: "view.name.overview.backup.loadingBackupModal.title",
   },

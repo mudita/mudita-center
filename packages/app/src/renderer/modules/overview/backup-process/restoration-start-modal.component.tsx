@@ -25,12 +25,12 @@ import {
 
 const messages = defineMessages({
   filename: {
-    id: "view.generic.filename",
+    id: "component.column.filename",
   },
   size: {
-    id: "view.generic.size",
+    id: "component.column.size",
   },
-  cancel: { id: "view.generic.button.cancel" },
+  cancel: { id: "component.button.cancel" },
   title: {
     id: "view.name.overview.backup.restoreBackupModal.title",
   },

@@ -25,15 +25,15 @@ import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 
 const messages = defineMessages({
   filename: {
-    id: "view.generic.filename",
+    id: "component.column.filename",
   },
   size: {
-    id: "view.generic.size",
+    id: "component.column.size",
   },
   lastBackup: {
-    id: "view.generic.lastBackup",
+    id: "component.column.lastBackup",
   },
-  cancel: { id: "view.generic.button.cancel" },
+  cancel: { id: "component.button.cancel" },
   title: {
     id: "view.name.overview.backup.createBackupModal.title",
   },

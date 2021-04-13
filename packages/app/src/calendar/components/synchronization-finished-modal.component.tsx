@@ -33,7 +33,7 @@ const messages = defineMessages({
     id: "view.name.calendar.synchronizationFinished.body",
   },
   button: {
-    id: "view.generic.button.ok",
+    id: "component.button.ok",
   },
 })
 

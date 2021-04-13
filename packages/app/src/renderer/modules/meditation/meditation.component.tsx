@@ -24,13 +24,13 @@ import MeditationNoStats from "App/renderer/components/rest/meditation/stats/med
 
 const messages = defineMessages({
   weekly: {
-    id: "view.generic.weekly",
+    id: "component.text.weekly",
   },
   monthly: {
-    id: "view.generic.monthly",
+    id: "component.button.monthly",
   },
   yearly: {
-    id: "view.generic.yearly",
+    id: "component.text.yearly",
   },
 })
 

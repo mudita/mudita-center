@@ -53,7 +53,7 @@ const messages = defineMessages({
     id: "view.name.messages.templates.edited",
   },
   today: {
-    id: "view.generic.today",
+    id: "component.text.today",
   },
   newTemplate: {
     id: "view.name.messages.templates.newTemplate",
