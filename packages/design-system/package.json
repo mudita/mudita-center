@@ -27,10 +27,12 @@
   },
   "peerDependencies": {
     "react": ">=16",
-    "styled-components": ">=5"
+    "styled-components": ">=5",
+    "@mudita/app-function-component": "^1.0.10"
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",
+    "@mudita/app-function-component": "^1.0.10",
     "@mudita/eslint-config": "^1.0.15",
     "@mudita/stylelint-config": "^1.0.4",
     "@size-limit/preset-small-lib": "^4.10.2",
@@ -70,7 +72,6 @@
     "typescript": "^4.2.3"
   },
   "dependencies": {
-    "@mudita/app-function-component": "^1.0.10",
     "react-merge-refs": "^1.1.0"
   },
   "private": false,
