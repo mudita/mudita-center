@@ -152,7 +152,7 @@ export const DisabledCheckbox = storyCreator({
 export const DisabledCheckboxWithCustomLabel = storyCreator({
   children: (
     <Text variant={TextVariant.SmallLight} decorators={[TextDecorator.Error]}>
-      You can't change me
+      You can&apos;t change me
     </Text>
   ),
   defaultChecked: true,
