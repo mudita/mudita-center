@@ -11,8 +11,8 @@ import { MenuGroupTestIds } from "Renderer/components/rest/menu/menu-group-test-
 export const productionEnvironment = process.env.NODE_ENV === "production"
 
 const messages = defineMessages({
-  yourPure: { id: "menu.header.yourPure" },
-  desktopApp: { id: "menu.header.desktopApp" },
+  yourPure: { id: "component.menu.headerYourPure" },
+  desktopApp: { id: "component.menu.headerDesktopApp" },
 })
 
 const YOUR_PURE_BUTTONS = [

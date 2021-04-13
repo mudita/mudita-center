@@ -68,7 +68,7 @@ const Menu: FunctionComponent<Properties> = ({
       <LogoWrapper>
         <SvgMuditaLogo type={Type.MuditaLogoWithText} />
         {devModeEnabled && (
-          <DevSign>{intl.formatMessage({ id: "dev.view.header" })}</DevSign>
+          <DevSign>{intl.formatMessage({ id: "component.devMode.header" })}</DevSign>
         )}
       </LogoWrapper>
       {links}

@@ -307,12 +307,12 @@ exports[`matches snapshot 1`] = `
     </div>
     <div
       class="c10"
-      data-testid="menu.header.desktopApp"
+      data-testid="component.menu.headerDesktopApp"
     >
       <p
         class="c11"
       >
-        [value] menu.header.desktopApp
+        [value] component.menu.headerDesktopApp
       </p>
     </div>
     <div
