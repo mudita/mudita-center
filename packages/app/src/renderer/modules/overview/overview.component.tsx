@@ -58,7 +58,6 @@ const Overview: FunctionComponent<
   updateBasicInfo = noop,
   toggleUpdatingDevice,
   language,
-  loadData,
   pureOsBackupLocation
 }) => {
   /**
@@ -80,10 +79,6 @@ const Overview: FunctionComponent<
     updateBasicInfo,
     toggleUpdatingDevice
   )
-
-  useEffect(() => {
-    loadData()
-  }, [])
 
   useEffect(() => {
     if (osVersion) {
