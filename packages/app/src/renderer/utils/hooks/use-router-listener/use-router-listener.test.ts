@@ -31,6 +31,7 @@ test("actions are called on correct location render", async () => {
       [URL_MAIN.contacts]: [contactsAction, contactsAction],
     })
   )
+  expect(contactsAction).not.toBeCalledTimes(2)
   history.push(URL_MAIN.contacts)
   rerender()
   expect(contactsAction).toBeCalledTimes(2)
@@ -43,6 +44,7 @@ test("actions in nested routes are handled", async () => {
       [`${URL_MAIN.messages}${URL_TABS.templates}`]: [nestedRouteAction],
     })
   )
+  expect(nestedRouteAction).not.toBeCalled()
   history.push(`${URL_MAIN.messages}${URL_TABS.templates}`)
   rerender()
   expect(nestedRouteAction).toBeCalledTimes(1)
