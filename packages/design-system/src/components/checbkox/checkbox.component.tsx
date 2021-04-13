@@ -1,5 +1,4 @@
 import React, {
-  ChangeEvent,
   ForwardedRef,
   forwardRef,
   InputHTMLAttributes,
@@ -36,7 +35,6 @@ const CheckboxComponent: AppFunctionComponent<Props> = ({
   children,
   indeterminate,
   ref,
-  onChange,
   basicLabelStyle,
   ...rest
 }) => {
@@ -44,10 +42,6 @@ const CheckboxComponent: AppFunctionComponent<Props> = ({
   const refs = mergeRefs([inputRef, ...(ref ? [ref] : [])])
 
   const labelVariant = basicLabelStyle ? getLabelTextVariant(size) : undefined
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange && onChange(event)
-  }
 
   useEffect(() => {
     if (inputRef.current) {
@@ -57,7 +51,7 @@ const CheckboxComponent: AppFunctionComponent<Props> = ({
 
   return (
     <CheckboxWrapper className={className} data-testid={TestId.Wrapper}>
-      <NativeInput {...rest} onChange={handleChange} ref={refs} />
+      <NativeInput {...rest} ref={refs} />
       <CustomInput size={size} data-testid={TestId.Icon}>
         <CheckedIcon data-testid={TestId.CheckedIcon} />
         <IndeterminateIcon data-testid={TestId.IndeterminateIcon} />
