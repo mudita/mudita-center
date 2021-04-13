@@ -16,7 +16,7 @@ export const Content = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-top: 1.8rem;
+  margin-top: 0.3rem;
 
   > div {
     width: calc(50% - 3.2rem);

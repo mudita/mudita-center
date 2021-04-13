@@ -18,6 +18,7 @@ const defaultProps = {
   resetRows: jest.fn(),
   deleteContacts: jest.fn(),
   selectedContacts: [],
+  editedContact: undefined,
   contacts: [
     {
       id: "0",

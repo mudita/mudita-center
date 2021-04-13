@@ -24,7 +24,6 @@ import Avatar, {
   AvatarSize,
   basicAvatarStyles,
 } from "Renderer/components/core/avatar/avatar.component"
-import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
@@ -49,7 +48,7 @@ export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
 `
 
 export const lightAvatarStyles = css`
-  background-color: ${backgroundColor("row")};
+  background-color: s;
 `
 
 const InitialsAvatar = styled(Avatar)`
@@ -87,7 +86,7 @@ const BlockedIcon = styled(Icon).attrs(() => ({
 const SelectableContacts = styled(Table)<{ mouseLock?: boolean }>`
   flex: 1;
   overflow: auto;
-  --columnsTemplate: 4rem 63.8rem 11.5rem 11.5rem auto;
+  --columnsTemplate: 4rem 63rem 11.5rem 11.5rem auto;
   --columnsTemplateWithOpenedSidebar: 4rem 1fr;
   --columnsGap: 0;
   pointer-events: ${({ mouseLock }) => (mouseLock ? "none" : "all")};
@@ -137,6 +136,12 @@ const ContactList: FunctionComponent<ContactListProps> = ({
 }) => {
   const { enableScroll, disableScroll, scrollable } = useTableScrolling()
   const tableRef = createRef<HTMLDivElement>()
+  const CategoryLabels = styled(Labels)`
+    align-items: end;
+    > div:last-child {
+      margin-bottom: 1.5rem;
+    }
+  `
 
   useEffect(() => {
     const table = tableRef.current
@@ -164,16 +169,20 @@ const ContactList: FunctionComponent<ContactListProps> = ({
     >
       {newContact && (
         <Group>
-          <Labels>
+          <CategoryLabels>
             <Col />
             <Col>
               <FormattedMessage id={"view.name.phone.contacts.new.title"} />
             </Col>
-          </Labels>
+          </CategoryLabels>
           <Row active>
             <Col />
             <Col>
-              <InitialsAvatar user={newContact} light size={AvatarSize.Small} />
+              <InitialsAvatar
+                user={newContact}
+                light
+                size={AvatarSize.Medium}
+              />
               {newContact.firstName} {newContact.lastName}
             </Col>
           </Row>
@@ -187,10 +196,10 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           (contactList.length ? (
             contactList.map(({ category, contacts }, categoryIndex) => (
               <Group key={category}>
-                <Labels>
+                <CategoryLabels>
                   <Col />
                   <Col>{category}</Col>
-                </Labels>
+                </CategoryLabels>
                 {contacts.map((contact, index) => {
                   const { selected } = getRowStatus(contact)
                   const onChange = () => toggleRow(contact)
@@ -248,8 +257,12 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                       >
                         <InitialsAvatar
                           user={contact}
-                          light={selected || activeRow === contact}
-                          size={AvatarSize.Small}
+                          light={
+                            selected ||
+                            activeRow === contact ||
+                            editedContact === contact
+                          }
+                          size={AvatarSize.Medium}
                         />
                         {createStyledFullName() ||
                           intl.formatMessage({

@@ -74,7 +74,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
       onClose={onClose}
     >
       <ModalText
-        displayStyle={TextDisplayStyle.MediumLightText}
+        displayStyle={TextDisplayStyle.MediumFadedLightText}
         message={messages.text}
       />
       <ButtonsContainer>

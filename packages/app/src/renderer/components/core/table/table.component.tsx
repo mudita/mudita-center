@@ -227,7 +227,7 @@ const SidebarWrapper = styled.div<{
   show?: boolean
   appColorSidebarHeader: boolean
 }>`
-  --header-height: 10.4rem;
+  --header-height: 6.2rem;
   --header-background: ${({ appColorSidebarHeader = "transparent" }) =>
     appColorSidebarHeader && backgroundColor("main")};
 
@@ -342,7 +342,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
 )
 
 /* Table */
- export interface TableProps {
+export interface TableProps {
   hideColumns?: boolean
   hideableColumnsIndexes?: number[]
   sidebar?: ReactNode

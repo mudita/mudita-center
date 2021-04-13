@@ -31,7 +31,6 @@ import {
 import delayResponse from "@appnroll/delay-response"
 import ContactInputSearch from "App/contacts/components/contact-input-search/contact-input-search.component"
 import { exportContacts } from "App/contacts/helpers/export-contacts/export-contacts"
-import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
   title: { id: "view.name.phone.contacts.modal.delete.title" },
@@ -51,6 +50,7 @@ export interface ContactPanelProps {
   deleteContacts: (ids: ContactID[]) => Promise<string | void>
   resetRows: UseTableSelect<Contact>["resetRows"]
   contacts: Contact[]
+  editedContact: Contact | undefined
 }
 
 const ContactPanel: FunctionComponent<ContactPanelProps> = ({
@@ -63,6 +63,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
   deleteContacts,
   resetRows,
   contacts,
+  editedContact,
 }) => {
   const selectedItemsCount = selectedContacts.length
   const selectionMode = selectedItemsCount > 0
@@ -143,17 +144,16 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
       <Buttons>
         <ButtonComponent
           displayStyle={DisplayStyle.Secondary}
-          labelMessage={{ id: "view.name.phone.contacts.panel.manageButton" }}
+          labelMessage={{ id: "view.name.phone.contacts.panel.importButton" }}
           onClick={onManageButtonClick}
-          data-testid={ContactPanelTestIdsEnum.ManageButton}
-          Icon={Type.Manage}
-          iconSize={IconSize.Small}
+          data-testid={ContactPanelTestIdsEnum.ImportButton}
         />
         <ButtonComponent
           labelMessage={{
             id: "view.name.phone.contacts.panel.newContactButton",
           }}
           onClick={onNewButtonClick}
+          disabled={Boolean(editedContact)}
           data-testid={ContactPanelTestIdsEnum.NewButton}
         />
       </Buttons>

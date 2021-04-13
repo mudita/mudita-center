@@ -67,7 +67,7 @@ export const InputError = styled(Text)<{ visible: boolean }>`
   top: 100%;
   width: 100%;
   margin-top: 0.4rem;
-  padding-left: 0.8rem;
+  padding-left: 0rem;
   color: ${textColor("error")};
   opacity: 0;
   visibility: hidden;
