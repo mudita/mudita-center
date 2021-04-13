@@ -8,6 +8,6 @@ export enum TestId {
   Wrapper = "wrapper",
   CheckedIcon = "checked-icon",
   IndeterminateIcon = "indeterminate-icon",
-  Label = "label",
+  BasicLabel = "label",
   Icon = "icon",
 }

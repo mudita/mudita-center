@@ -67,7 +67,7 @@ const CheckboxComponent: AppFunctionComponent<Props> = ({
           variant={labelVariant}
           tag={"span"}
           checkboxSize={size}
-          data-testid={TestId.Label}
+          data-testid={TestId.BasicLabel}
         >
           {children}
         </LabelText>

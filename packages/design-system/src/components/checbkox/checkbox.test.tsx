@@ -19,7 +19,7 @@ const renderCheckboxComponent = (props: ComponentProps<typeof Checkbox>) => {
     input: () => outcome.getByRole("checkbox"),
     checkedIcon: () => outcome.queryByTestId(TestId.CheckedIcon),
     indeterminateIcon: () => outcome.queryByTestId(TestId.IndeterminateIcon),
-    label: () => outcome.queryByTestId(TestId.Label),
+    basicLabel: () => outcome.queryByTestId(TestId.BasicLabel),
     icon: () => outcome.queryByTestId(TestId.Icon),
   }
 }
@@ -29,19 +29,13 @@ test("Default checkbox renders properly", () => {
     input,
     checkedIcon,
     indeterminateIcon,
-    label,
-    icon,
+    basicLabel,
   } = renderCheckboxComponent({})
 
   expect(input()).not.toBeChecked()
   expect(checkedIcon()).not.toBeVisible()
   expect(indeterminateIcon()).not.toBeVisible()
-  expect(label()).not.toBeInTheDocument()
-
-  const size = getCheckboxSize(undefined)
-
-  expect(icon()).toHaveStyleRule("width", `${size}rem`)
-  expect(icon()).toHaveStyleRule("height", `${size}rem`)
+  expect(basicLabel()).not.toBeInTheDocument()
 })
 
 test("Checked checkbox renders properly", () => {
@@ -66,35 +60,25 @@ test("Indeterminate checkbox renders properly", () => {
 })
 
 test("Default label renders properly", () => {
-  const { getByText, label } = renderCheckboxComponent({
+  const { getByText, basicLabel } = renderCheckboxComponent({
     children: "Test label",
   })
 
-  expect(label()).not.toBeInTheDocument()
+  expect(basicLabel()).not.toBeInTheDocument()
   expect(getByText("Test label")).toBeInTheDocument()
 })
 
-test("Simple styled label renders properly", () => {
-  const { getByText, label } = renderCheckboxComponent({
+test("Basic label renders properly", () => {
+  const { getByText, basicLabel } = renderCheckboxComponent({
     children: "Test label",
     basicLabelStyle: true,
   })
 
-  expect(label()).toBeInTheDocument()
+  expect(basicLabel()).toBeInTheDocument()
   expect(getByText("Test label")).toBeInTheDocument()
 })
 
-test("Custom label renders properly", () => {
-  const customLabel = <span>Custom label</span>
-  const { getByText, label } = renderCheckboxComponent({
-    children: customLabel,
-  })
-
-  expect(label()).not.toBeInTheDocument()
-  expect(getByText("Custom label")).toBeInTheDocument()
-})
-
-test.each(Object.values(CheckboxSize))(
+test.each([...Object.values(CheckboxSize), undefined])(
   "Checkbox size '%p' is rendered properly",
   (checkboxSize) => {
     const { icon } = renderCheckboxComponent({
@@ -107,22 +91,28 @@ test.each(Object.values(CheckboxSize))(
   }
 )
 
-test("Simple label is styled properly depending on checkbox size", () => {
-  const size = CheckboxSize.Big
+test.each([...Object.values(CheckboxSize), undefined])(
+  "Basic label is styled properly for '%p' checkbox size",
+  (checkboxSize) => {
+    const { basicLabel } = renderCheckboxComponent({
+      size: checkboxSize,
+      children: "label",
+      basicLabelStyle: true,
+    })
 
-  const { label } = renderCheckboxComponent({
-    size,
-    children: "label",
-    basicLabelStyle: true,
-  })
+    const variant = getLabelTextVariant(checkboxSize)
+    const spacing = getCheckboxLabelSpacing(checkboxSize)
+    expect(basicLabel()).toHaveStyleRule("margin-left", spacing)
 
-  const variant = getLabelTextVariant(size)
-  const fontSize = getFontSize(textVariants[variant].size || "16")({ theme })
-  const spacing = getCheckboxLabelSpacing(size)
-
-  expect(label()).toHaveStyleRule("font-size", fontSize)
-  expect(label()).toHaveStyleRule("margin-left", spacing)
-})
+    const size = textVariants[variant].size
+    if (size) {
+      const fontSize = getFontSize(size)({ theme })
+      expect(basicLabel()).toHaveStyleRule("font-size", fontSize)
+    } else {
+      expect(basicLabel()).not.toHaveStyleRule("font-size")
+    }
+  }
+)
 
 test("Clicking on a wrapper toggles checkbox properly", () => {
   const { wrapper, input } = renderCheckboxComponent({
