@@ -143,7 +143,7 @@ exports[`matches snapshot 1`] = `
           class="c3"
           type="checkbox"
         />
-        <i
+        <span
           class="c4 c5"
           data-testid="icon-CheckIndeterminate"
           height="1.5"
@@ -152,7 +152,7 @@ exports[`matches snapshot 1`] = `
           <test-file-stub
             image="test-file-stub"
           />
-        </i>
+        </span>
       </div>
     </div>
     <p

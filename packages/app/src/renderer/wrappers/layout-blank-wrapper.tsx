@@ -6,7 +6,11 @@
 import * as React from "react"
 import styled from "styled-components"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { textColor, width } from "Renderer/styles/theming/theme-getters"
+import {
+  textColor,
+  backgroundColor,
+  width,
+} from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Text, {
@@ -23,6 +27,7 @@ const Layout = styled.div`
   flex: 1;
   height: 100vh;
   max-width: ${width("viewWidth")};
+  background-color: ${backgroundColor("row")};
 `
 
 const Header = styled.header`
@@ -58,6 +63,10 @@ interface Props {
   onClose?: () => void
 }
 
+const MainTitle = styled(Text)`
+  padding-top: 0.3rem;
+`
+
 const LayoutBlankWrapper: FunctionComponent<Props> = ({
   children,
   recoveryMode,
@@ -67,7 +76,7 @@ const LayoutBlankWrapper: FunctionComponent<Props> = ({
     <Layout>
       <Header>
         <Icon type={Type.MuditaLogoWithText} width={8.6} height={2} />
-        <Text
+        <MainTitle
           displayStyle={TextDisplayStyle.LargeFadedText}
           message={{ id: "view.name.onboarding.mainTitle" }}
         />

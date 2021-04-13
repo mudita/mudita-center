@@ -75,7 +75,7 @@ let outlookAuthWindow: BrowserWindow | null = null
 app.commandLine.appendSwitch("disable-features", "OutOfBlinkCors")
 
 // Fetch and log all errors
-process.on("uncaughtException",  (error) => {
+process.on("uncaughtException", (error) => {
   logger.error(error)
   // TODO: Add contact support modal
 })
