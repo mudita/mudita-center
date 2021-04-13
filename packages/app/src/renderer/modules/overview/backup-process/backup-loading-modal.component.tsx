@@ -4,14 +4,13 @@
  */
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import { ModalProps } from "Renderer/components/core/modal/modal.component"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
-import React from "react"
+import React, { ComponentProps } from "react"
 import { noop } from "Renderer/utils/noop"
 import {
   LoadingBar,
@@ -30,18 +29,20 @@ const messages = defineMessages({
   },
 })
 
-interface BackupLoadingModalProps extends Pick<ModalProps, "onClose"> {
+interface BackupLoadingModalProps {
   progress?: number
+  open: boolean
 }
 
-export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps> = ({
+export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps & ComponentProps<typeof PureBackupModal>> = ({
   onClose = noop,
   progress = 0,
+  ...props
 }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     closeable={false}
-    onClose={onClose}
+    {...props}
   >
     <Text
       message={messages.title}
