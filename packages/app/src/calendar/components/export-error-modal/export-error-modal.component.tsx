@@ -23,13 +23,13 @@ import { ExportErrorModalTestIds } from "App/calendar/components/export-error-mo
 
 const messages = defineMessages({
   title: {
-    id: "view.name.calendar.modal.exportFailed.title",
+    id: "view.name.calendar.exportFailed.title",
   },
   subtitle: {
-    id: "view.name.calendar.modal.exportFailed.subtitle"
+    id: "view.name.calendar.exportFailed.subtitle"
   },
   body: {
-    id: "view.name.calendar.modal.exportFailed.body",
+    id: "view.name.calendar.exportFailed.body",
   },
 })
 

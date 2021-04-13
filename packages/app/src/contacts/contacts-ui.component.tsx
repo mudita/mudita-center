@@ -64,7 +64,7 @@ export const messages = defineMessages({
     id: "view.name.contacts.authorizationFailed.title",
   },
   authorizationFailedBody: {
-    id: "view.name.calendar.modal.authorizationFailed.body",
+    id: "view.name.calendar.authorizationFailed.body",
   },
   authorizationFailedButton: {
     id: "view.name.contacts.authorizationFailed.button",
