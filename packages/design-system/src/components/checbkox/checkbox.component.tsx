@@ -27,7 +27,7 @@ export interface Props extends CheckboxProps {
   size?: CheckboxSize
   indeterminate?: boolean
   ref?: ForwardedRef<HTMLInputElement>
-  simpleLabel?: boolean
+  basicLabelStyle?: boolean
 }
 
 const CheckboxComponent: AppFunctionComponent<Props> = ({
@@ -37,13 +37,13 @@ const CheckboxComponent: AppFunctionComponent<Props> = ({
   indeterminate,
   ref,
   onChange,
-  simpleLabel,
+  basicLabelStyle,
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const refs = mergeRefs([inputRef, ...(ref ? [ref] : [])])
 
-  const labelVariant = simpleLabel ? getLabelTextVariant(size) : undefined
+  const labelVariant = basicLabelStyle ? getLabelTextVariant(size) : undefined
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     onChange && onChange(event)
@@ -62,7 +62,7 @@ const CheckboxComponent: AppFunctionComponent<Props> = ({
         <CheckedIcon data-testid={TestId.CheckedIcon} />
         <IndeterminateIcon data-testid={TestId.IndeterminateIcon} />
       </CustomInput>
-      {simpleLabel ? (
+      {basicLabelStyle ? (
         <LabelText
           variant={labelVariant}
           tag={"span"}

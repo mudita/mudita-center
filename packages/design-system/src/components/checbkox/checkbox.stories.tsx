@@ -79,9 +79,9 @@ Any other children type is rendered as is. No wrappers are added, so the label c
         },
       },
     },
-    simpleLabel: {
+    basicLabelStyle: {
       description:
-        "Indicates whether label should be wrapped in predefined `<Text>` component with basic styling applied or a totally custom one with no predefined styling.",
+        "Indicates whether label should be wrapped in predefined `<Text>` component with basic styling applied (if `true`) or a totally custom one with no predefined styling (if `false`).",
     },
     ref: {
       description:
@@ -138,11 +138,11 @@ export const CheckboxWithCustomLabel = storyCreator({
 
 export const CheckboxWithSimpleStyledLabel = storyCreator({
   children: "Click me to change my state",
-  simpleLabel: true,
+  basicLabelStyle: true,
 })
 
 export const BigCheckboxWithSimpleStyledLabel = storyCreator({
   children: "Click me to change my state",
   size: CheckboxSize.Big,
-  simpleLabel: true,
+  basicLabelStyle: true,
 })

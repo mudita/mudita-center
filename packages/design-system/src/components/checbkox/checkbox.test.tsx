@@ -77,7 +77,7 @@ test("Default label renders properly", () => {
 test("Simple styled label renders properly", () => {
   const { getByText, label } = renderCheckboxComponent({
     children: "Test label",
-    simpleLabel: true,
+    basicLabelStyle: true,
   })
 
   expect(label()).toBeInTheDocument()
@@ -113,7 +113,7 @@ test("Simple label is styled properly depending on checkbox size", () => {
   const { label } = renderCheckboxComponent({
     size,
     children: "label",
-    simpleLabel: true,
+    basicLabelStyle: true,
   })
 
   const variant = getLabelTextVariant(size)
