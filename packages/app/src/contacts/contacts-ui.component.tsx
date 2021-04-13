@@ -48,32 +48,32 @@ import appContextMenu from "Renderer/wrappers/app-context-menu"
 import ErrorModal from "App/contacts/components/error-modal/error-modal.component"
 
 export const messages = defineMessages({
-  deleteTitle: { id: "view.name.contacts.modal.delete.title" },
-  deleteText: { id: "view.name.contacts.modal.delete.text" },
-  addingText: { id: "view.name.contacts.modal.adding.text" },
-  deletingText: { id: "view.name.contacts.modal.deleting.text" },
-  editingText: { id: "view.name.contacts.modal.editing.text" },
-  downloadingText: { id: "view.name.contacts.modal.downloading.text" },
+  deleteTitle: { id: "view.name.contacts.delete.title" },
+  deleteText: { id: "view.name.contacts.delete.text" },
+  addingText: { id: "view.name.contacts.adding.text" },
+  deletingText: { id: "view.name.contacts.deleting.text" },
+  editingText: { id: "view.name.contacts.editing.text" },
+  downloadingText: { id: "view.name.contacts.downloading.text" },
   downloadingErrorTitle: {
-    id: "view.name.contacts.modal.downloadingError.title",
+    id: "view.name.contacts.downloadingError.title",
   },
   downloadingErrorBody: {
-    id: "view.name.contacts.modal.downloadingError.body",
+    id: "view.name.contacts.downloadingError.body",
   },
   authorizationFailedTitle: {
-    id: "view.name.contacts.modal.authorizationFailed.title",
+    id: "view.name.contacts.authorizationFailed.title",
   },
   authorizationFailedBody: {
     id: "view.name.calendar.modal.authorizationFailed.body",
   },
   authorizationFailedButton: {
-    id: "view.name.contacts.modal.authorizationFailed.button",
+    id: "view.name.contacts.authorizationFailed.button",
   },
   parsingFileErrorTitle: {
-    id: "view.name.contacts.modal.parsingFileError.title",
+    id: "view.name.contacts.parsingFileError.title",
   },
   parsingFileErrorBody: {
-    id: "view.name.contacts.modal.parsingFileError.body",
+    id: "view.name.contacts.parsingFileError.body",
   },
 })
 

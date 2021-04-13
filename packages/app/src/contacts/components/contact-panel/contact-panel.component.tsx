@@ -34,10 +34,10 @@ import { exportContacts } from "App/contacts/helpers/export-contacts/export-cont
 import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
-  title: { id: "view.name.contacts.modal.delete.title" },
+  title: { id: "view.name.contacts.delete.title" },
   export: { id: "view.name.contacts.selectionExport" },
-  body: { id: "view.name.contacts.modal.deleteMultipleContacts" },
-  deletingText: { id: "view.name.contacts.modal.deleting.text" },
+  body: { id: "view.name.contacts.deleteMultipleContacts" },
+  deletingText: { id: "view.name.contacts.deleting.text" },
   deleteButton: { id: "view.name.contacts.action.delete" },
 })
 
