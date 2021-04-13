@@ -26,22 +26,22 @@ export interface Props extends CheckboxProps {
   size?: CheckboxSize
   indeterminate?: boolean
   ref?: ForwardedRef<HTMLInputElement>
-  basicLabelStyle?: boolean
+  label?: string | number
 }
 
 const CheckboxComponent: AppFunctionComponent<Props> = ({
   size = CheckboxSize.Basic,
+  label,
   className,
   children,
   indeterminate,
   ref,
-  basicLabelStyle,
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const refs = mergeRefs([inputRef, ...(ref ? [ref] : [])])
 
-  const labelVariant = basicLabelStyle ? getLabelTextVariant(size) : undefined
+  const labelVariant = label ? getLabelTextVariant(size) : undefined
 
   useEffect(() => {
     if (inputRef.current) {
@@ -56,14 +56,14 @@ const CheckboxComponent: AppFunctionComponent<Props> = ({
         <CheckedIcon data-testid={TestId.CheckedIcon} />
         <IndeterminateIcon data-testid={TestId.IndeterminateIcon} />
       </CustomInput>
-      {basicLabelStyle ? (
+      {label ? (
         <LabelText
           variant={labelVariant}
           tag={"span"}
           checkboxSize={size}
           data-testid={TestId.BasicLabel}
         >
-          {children}
+          {label}
         </LabelText>
       ) : (
         children

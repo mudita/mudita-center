@@ -12,7 +12,7 @@ import {
   Title,
 } from "@storybook/addon-docs/blocks"
 import { CheckboxSize } from "./checkbox.enum"
-import { Text, TextVariant } from "../.."
+import { Text, TextDecorator, TextVariant } from "../.."
 
 const Template: Story<ComponentProps<typeof Checkbox>> = ({ ...props }) => {
   return <Checkbox {...props} />
@@ -38,11 +38,13 @@ export default {
   title: `${paths.atoms}/Checkbox`,
   component: Checkbox,
   argTypes: {
+    label: {
+      description: "Basic label with some predefined styles applied.",
+      control: "text",
+    },
     children: {
-      description: `If children is of \`String\` or \`Number\` type, it's being wrapped in \`<Text>\` tags.
-This also applies additional styling to \`font-size\` and \`margin-left\` props, depending on checkbox's \`size\`.
-
-Any other children type is rendered as is. No wrappers are added, so the label can be fully customized.`,
+      description:
+        "A custom text or component rendered if no `label` is applied. No styling is applied.",
       table: {
         type: {
           summary:
@@ -78,10 +80,6 @@ Any other children type is rendered as is. No wrappers are added, so the label c
           summary: "boolean",
         },
       },
-    },
-    basicLabelStyle: {
-      description:
-        "Indicates whether label should be wrapped in predefined `<Text>` component with basic styling applied (if `true`) or a totally custom one with no predefined styling (if `false`).",
     },
     ref: {
       description:
@@ -121,28 +119,42 @@ Default.args = {
 
 export const SimpleSmallCheckbox = storyCreator({ size: CheckboxSize.Small })
 
-export const CheckedBasicCheckbox = storyCreator({ checked: true })
+export const CheckedBasicCheckbox = storyCreator({ defaultChecked: true })
 
 export const IndeterminateBigCheckbox = storyCreator({
   indeterminate: true,
   size: CheckboxSize.Big,
 })
 
-export const CheckboxWithDefaultLabel = storyCreator({
-  children: "Click me to change my state",
+export const CheckboxWithLabel = storyCreator({
+  label: "Click me to change my state",
+})
+
+export const BigCheckboxWithLabel = storyCreator({
+  label: "Click me to change my state",
+  size: CheckboxSize.Big,
 })
 
 export const CheckboxWithCustomLabel = storyCreator({
-  children: <Text variant={TextVariant.SmallLightGrey}>Custom label</Text>,
+  children: (
+    <Text variant={TextVariant.SmallLight} decorators={[TextDecorator.Error]}>
+      Click me to change my state
+    </Text>
+  ),
 })
 
-export const CheckboxWithSimpleStyledLabel = storyCreator({
-  children: "Click me to change my state",
-  basicLabelStyle: true,
+export const DisabledCheckbox = storyCreator({
+  label: "You can't change me",
+  defaultChecked: true,
+  disabled: true,
 })
 
-export const BigCheckboxWithSimpleStyledLabel = storyCreator({
-  children: "Click me to change my state",
-  size: CheckboxSize.Big,
-  basicLabelStyle: true,
+export const DisabledCheckboxWithCustomLabel = storyCreator({
+  children: (
+    <Text variant={TextVariant.SmallLight} decorators={[TextDecorator.Error]}>
+      You can't change me
+    </Text>
+  ),
+  defaultChecked: true,
+  disabled: true,
 })

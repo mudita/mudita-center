@@ -37,7 +37,8 @@ const checkboxFocusedStyle = css`
 `
 
 const checkboxDisabledStyle = css`
-  background-color: ${getColor("grey300")};
+  background-color: ${getColor("grey400")};
+  border-color: ${getColor("grey400")};
 `
 
 export const CheckedIcon = styled(IconCheckboxChecked)`
@@ -116,6 +117,10 @@ export const CheckboxWrapper = styled("label")`
 
     &:disabled + ${CustomInput} {
       ${checkboxDisabledStyle};
+    }
+
+    &:disabled ~ ${LabelText} {
+      color: ${getColor("grey600")};
     }
   }
 `
