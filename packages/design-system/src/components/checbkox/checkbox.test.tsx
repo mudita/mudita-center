@@ -4,7 +4,6 @@ import { Checkbox } from "./checkbox.component"
 import { CheckboxSize, TestId } from "./checkbox.enum"
 import {
   getCheckboxLabelSpacing,
-  getCheckboxSize,
   getLabelTextVariant,
 } from "./checkbox.helpers"
 import { textVariants } from "../text/text.helpers"
@@ -59,18 +58,19 @@ test("Indeterminate checkbox renders properly", () => {
   expect(indeterminateIcon()).toBeVisible()
 })
 
-test.each([...Object.values(CheckboxSize), undefined])(
-  "Checkbox size '%p' is rendered properly",
-  (checkboxSize) => {
-    const { icon } = renderCheckboxComponent({
-      size: checkboxSize,
-    })
+test.each([
+  [CheckboxSize.Small, 1.4],
+  [CheckboxSize.Basic, 1.6],
+  [CheckboxSize.Big, 2],
+  [undefined, 1.6],
+])("Checkbox size '%p' is rendered properly", (checkboxSize, expectedSize) => {
+  const { icon } = renderCheckboxComponent({
+    size: checkboxSize,
+  })
 
-    const size = getCheckboxSize(checkboxSize)
-    expect(icon()).toHaveStyleRule("width", `${size}rem`)
-    expect(icon()).toHaveStyleRule("height", `${size}rem`)
-  }
-)
+  expect(icon()).toHaveStyleRule("width", `${expectedSize}rem`)
+  expect(icon()).toHaveStyleRule("height", `${expectedSize}rem`)
+})
 
 test("Basic label is rendered properly", () => {
   const { label } = renderCheckboxComponent({
@@ -98,10 +98,10 @@ test.each([...Object.values(CheckboxSize), undefined])(
       label: "label",
     })
 
-    const variant = getLabelTextVariant(checkboxSize)
     const spacing = getCheckboxLabelSpacing(checkboxSize)
     expect(label()).toHaveStyleRule("margin-left", spacing)
 
+    const variant = getLabelTextVariant(checkboxSize)
     const size = textVariants[variant].size
     if (size) {
       const fontSize = getFontSize(size)({ theme })
