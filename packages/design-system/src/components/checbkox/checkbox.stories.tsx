@@ -4,7 +4,6 @@ import { Checkbox } from "./checkbox.component"
 import React, { ComponentProps } from "react"
 import {
   ArgsTable,
-  Description,
   Primary,
   PRIMARY_STORY,
   Stories,
@@ -31,8 +30,6 @@ const storyCreator = ({
   }
   return Story
 }
-
-const description = ""
 
 export default {
   title: `${paths.atoms}/Checkbox`,
@@ -81,6 +78,11 @@ export default {
         },
       },
     },
+    disabled: {
+      control: "boolean",
+      description:
+        "Indicates whether checkbox is disabled or not. Disabled checkbox state cannot be changed.",
+    },
     ref: {
       description:
         "A reference object that can be passed to the native checkbox input.\n\n It's useful to customize behavior programmatically or integrate with external library.",
@@ -102,7 +104,6 @@ export default {
         <>
           <Title>Checkbox</Title>
           <Subtitle>Atomic component</Subtitle>
-          <Description markdown={description} />
           <Primary />
           <ArgsTable story={PRIMARY_STORY} />
           <Stories title="" />
@@ -114,7 +115,7 @@ export default {
 
 export const Default = Template.bind({})
 Default.args = {
-  children: "Lorem ipsum dolor sit amet",
+  label: "Lorem ipsum dolor sit amet",
 }
 
 export const SimpleSmallCheckbox = storyCreator({ size: CheckboxSize.Small })
