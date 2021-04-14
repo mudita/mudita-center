@@ -7,7 +7,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React from "react"
+import React, { ComponentProps } from "react"
 import {
   FileList,
   PureBackupModal,
@@ -47,15 +47,15 @@ interface BackupRestorationStartModalProps {
   restoreBackup?: () => void
 }
 
-export const BackupRestorationStartModal: FunctionComponent<BackupRestorationStartModalProps> = ({
-  items,
-  restoreBackup = noop,
-}) => (
+export const BackupRestorationStartModal: FunctionComponent<
+  BackupRestorationStartModalProps & ComponentProps<typeof PureBackupModal>
+> = ({ items, restoreBackup = noop, ...props }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     actionButtonLabel={intl.formatMessage(messages.actionButton)}
     onActionButtonClick={restoreBackup}
     size={ModalSize.Medium}
+    {...props}
   >
     <Text
       message={messages.title}

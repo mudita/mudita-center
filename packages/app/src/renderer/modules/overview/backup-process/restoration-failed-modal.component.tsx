@@ -7,7 +7,7 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import React from "react"
+import React, { ComponentProps } from "react"
 import { PureBackupModal } from "Renderer/modules/overview/backup-process/modals.styled"
 import { defineMessages } from "react-intl"
 
@@ -20,8 +20,10 @@ const messages = defineMessages({
   },
 })
 
-export const BackupRestorationFailedModal: FunctionComponent = () => (
-  <PureBackupModal>
+export const BackupRestorationFailedModal: FunctionComponent<
+  ComponentProps<typeof PureBackupModal>
+> = ({ ...props }) => (
+  <PureBackupModal {...props}>
     <Text
       message={messages.title}
       displayStyle={TextDisplayStyle.LargeBoldText}

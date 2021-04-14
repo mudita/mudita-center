@@ -254,7 +254,7 @@ exports[`matches snapshot 1`] = `
     <section
       class="c4 c5"
     >
-      <i
+      <span
         class="c6 c7"
         data-testid="icon-Tooltip"
         height="1.6"
@@ -263,7 +263,7 @@ exports[`matches snapshot 1`] = `
         <test-file-stub
           image="test-file-stub"
         />
-      </i>
+      </span>
       <div
         class="c8 c9"
         data-testid="tooltip"

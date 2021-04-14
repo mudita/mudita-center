@@ -26,24 +26,36 @@ import {
 import { togglePhoneSimulation } from "App/dev-mode/store/dev-mode.helpers"
 import { OnboardingWelcomeTestIds } from "./onboarding-welcome-test-ids.enum"
 
+const InstructionText = styled(Text)`
+  margin-bottom: 1.3rem;
+`
 const Info = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 2.4rem;
 
-  > div {
+  > span {
     margin-right: 1.2rem;
   }
 `
 
 const Autostart = styled.div`
-  text-align: center;
-  margin-top: 2.4rem;
-
+  margin-top: 4.8rem;
+  margin-bottom: 1.6rem;
+  display: flex;
+  align-items: center;
   label {
     margin-bottom: 1.2rem;
   }
+`
+const AutostartLabel = styled.div`
+  margin-left: 1.3rem;
+`
+
+const AutostartSubText = styled(Text)`
+  text-align: left;
+  margin-top: 0.4rem;
 `
 
 const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
@@ -64,12 +76,10 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
             values: textFormatters,
           }}
         />
-        <Text
+        <InstructionText
           displayStyle={TextDisplayStyle.LargeFadedText}
           message={{ id: "view.name.onboarding.welcome.instruction" }}
         />
-      </header>
-      <main>
         <Info>
           <Icon type={IconType.Info} width={1.6} />
           <Text
@@ -77,22 +87,30 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
             message={{ id: "view.name.onboarding.welcome.bluetoothInfo" }}
           />
         </Info>
+      </header>
+
+      <main>
         <Image src={Infographic} width={1010} />
-        <Autostart>
-          {autostartEnabled !== undefined && (
+        {autostartEnabled !== undefined && (
+          <Autostart>
             <InputCheckbox
               defaultChecked={autostartEnabled}
-              label={intl.formatMessage({
-                id: "view.name.onboarding.welcome.autostartMessage",
-              })}
               onChange={onCheckboxToggle}
             />
-          )}
-          <Text
-            displayStyle={TextDisplayStyle.SmallFadedText}
-            message={{ id: "view.name.onboarding.welcome.autostartInfo" }}
-          />
-        </Autostart>
+            <AutostartLabel>
+              <Text
+                displayStyle={TextDisplayStyle.MediumText}
+                message={{
+                  id: "view.name.onboarding.welcome.autostartMessage",
+                }}
+              />
+              <AutostartSubText
+                displayStyle={TextDisplayStyle.SmallFadedText}
+                message={{ id: "view.name.onboarding.welcome.autostartInfo" }}
+              />
+            </AutostartLabel>
+          </Autostart>
+        )}
       </main>
       <footer>
         <ButtonComponent

@@ -31,7 +31,7 @@ const Template: StoryInterface<
           actionButtonLabel={args.actionButtonLabel}
           onActionButtonClick={args.onActionButtonClick}
           size={args.size}
-          isOpen
+          open
         >
           <Text displayStyle={TextDisplayStyle.LargeText}>
             Lorem ipsum dolor sit amet

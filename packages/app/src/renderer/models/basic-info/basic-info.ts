@@ -181,19 +181,12 @@ const basicInfo = createModel<RootModel>({
     },
     isConnected(models: StoreSelectors<any>) {
       return createSelector(
-        models.contacts.resultsState,
         models.basicInfo.resultsState,
         models.basicInfo.disconnectedDevice,
         models.basicInfo.updatingDevice,
-        (
-          phoneResultsState,
-          basicInfoResultsState,
-          disconnectedDevice,
-          updatingDevice
-        ) => {
+        (basicInfoResultsState, disconnectedDevice, updatingDevice) => {
           return (
-            (phoneResultsState === ResultsState.Loaded &&
-              basicInfoResultsState === ResultsState.Loaded &&
+            (basicInfoResultsState === ResultsState.Loaded &&
               !disconnectedDevice) ||
             updatingDevice
           )
