@@ -20,7 +20,7 @@ import { intl } from "Renderer/utils/intl"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 import {
   backgroundColor,
   fontWeight,
@@ -92,7 +92,7 @@ const FilesManager: FunctionComponent<FilesManagerProps> = ({
           </Text>
         </SpaceData>
         <Text displayStyle={TextDisplayStyle.SmallFadedText}>
-          <FormattedMessage id="view.name.overview.filesManager.usedSpace" />
+          <TranslationMessages id="view.name.overview.filesManager.usedSpace" />
         </Text>
         <BarChart chartData={stackedBarData} displayStyle={DisplayStyle.Thin} />
       </TextInfo>

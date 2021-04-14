@@ -8,6 +8,7 @@ import { DevMode } from "App/dev-mode/store/dev-mode.interface"
 const initialStateValue: DevMode = {
   enabled: false,
   phoneSimulation: false,
+  showPhrase: false,
 }
 
 export default {
@@ -24,6 +25,12 @@ export default {
     },
     disablePhoneSimulation(state: DevMode) {
       return { ...state, phoneSimulation: false }
+    },
+    enablePhraseMode(state: DevMode) {
+      return { ...state, showPhrase: true }
+    },
+    disablePhraseMode(state: DevMode) {
+      return { ...state, showPhrase: false }
     },
   },
 }

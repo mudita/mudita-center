@@ -9,7 +9,7 @@ import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
 import styled, { css, keyframes } from "styled-components"
-import { defineMessages, FormattedMessage } from "react-intl"
+import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
@@ -39,6 +39,7 @@ import { emailValidator } from "Renderer/utils/form-validators"
 import { getModalButtonsSize } from "Renderer/components/core/modal/modal.helpers"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 const messages = defineMessages({
   actionButton: {
@@ -189,14 +190,14 @@ const FormInputLabelComponent: FunctionComponent<FormInputLabelProps> = ({
   optional,
 }) => (
   <Text className={className} displayStyle={TextDisplayStyle.MediumText}>
-    <FormattedMessage {...label} />
+    <TranslationMessages {...label} />
     {optional && (
       <Text
         displayStyle={TextDisplayStyle.MediumFadedLightText}
         element={"span"}
       >
         {" "}
-        (<FormattedMessage {...messages.optional} />)
+        (<TranslationMessages {...messages.optional} />)
       </Text>
     )}
   </Text>

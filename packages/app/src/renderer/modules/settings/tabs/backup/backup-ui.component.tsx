@@ -17,7 +17,7 @@ import { borderColor } from "Renderer/styles/theming/theme-getters"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 import { intl } from "Renderer/utils/intl"
 import ButtonComponent from "App/renderer/components/core/button/button.component"
 import { AppSettings } from "App/main/store/settings.interface"
@@ -61,13 +61,13 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => (
   <BackupWrapper>
     <BackupDescriptionWrapper>
       <BackupDescription displayStyle={TextDisplayStyle.MediumFadedLightText}>
-        <FormattedMessage id="view.name.settings.backup.description" />
+        <TranslationMessages id="view.name.settings.backup.description" />
       </BackupDescription>
     </BackupDescriptionWrapper>
     <BackupTableRow checkMode={false}>
       <BackupDataWrapper>
         <Name displayStyle={TextDisplayStyle.LargeText}>
-          <FormattedMessage id="view.name.settings.backup.label" />
+          <TranslationMessages id="view.name.settings.backup.label" />
         </Name>
         <Message
           displayStyle={TextDisplayStyle.MediumFadedLightText}

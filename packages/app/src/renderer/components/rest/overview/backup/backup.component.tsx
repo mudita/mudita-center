@@ -14,7 +14,7 @@ import Card, {
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { defineMessages, FormattedMessage } from "react-intl"
+import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import styled from "styled-components"
 import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
@@ -23,6 +23,7 @@ import ButtonComponent from "Renderer/components/core/button/button.component"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { AppSettings } from "App/main/store/settings.interface"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 const messages = defineMessages({
   lastBackup: { id: "view.name.overview.backup.lastBackup" },
@@ -30,9 +31,6 @@ const messages = defineMessages({
     id: "view.name.overview.backup.restoreAction",
   },
   createFirst: { id: "view.name.overview.backup.createFirst" },
-  createAction: {
-    id: "view.name.overview.backup.createAction",
-  },
 })
 
 const LastBackup = styled(CardText)`
@@ -42,9 +40,9 @@ const LastBackup = styled(CardText)`
     margin-bottom: 1.2rem;
     display: block;
   }
+
   button {
-    margin: -0.8rem;
-    margin-top: 1.6rem;
+    margin: 1.6rem -0.8rem -0.8rem;
     height: 3rem;
     width: auto;
   }
@@ -68,7 +66,7 @@ const Backup: FunctionComponent<BackupProps & Partial<AppSettings>> = ({
     {lastBackup ? (
       <LastBackup>
         <Text displayStyle={TextDisplayStyle.SmallFadedText} element={"span"}>
-          <FormattedMessage {...messages.lastBackup} />
+          <TranslationMessages {...messages.lastBackup} />
         </Text>
         <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
           {new Date(lastBackup.createdAt).toLocaleDateString(language)}
@@ -82,14 +80,14 @@ const Backup: FunctionComponent<BackupProps & Partial<AppSettings>> = ({
     ) : (
       <FirstBackup>
         <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
-          <FormattedMessage {...messages.createFirst} />
+          <TranslationMessages {...messages.createFirst} />
         </Text>
       </FirstBackup>
     )}
     <CardAction filled>
       <CardActionButton
         active
-        label={intl.formatMessage(messages.createAction)}
+        labelMessage={{ id: "view.name.overview.backup.createAction" }}
         Icon={Type.Backup}
         onClick={onBackupCreate}
       />

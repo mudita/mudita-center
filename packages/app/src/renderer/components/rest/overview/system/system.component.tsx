@@ -15,8 +15,7 @@ import styled from "styled-components"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
-import { intl } from "Renderer/utils/intl"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 import {
   fontWeight,
   letterSpacing,
@@ -73,12 +72,12 @@ const System: FunctionComponent<SystemProps> = ({
             {osVersion}
           </Text>
           <Text element={"span"} displayStyle={TextDisplayStyle.SmallText}>
-            <FormattedMessage id="view.name.overview.system.version" />
+            <TranslationMessages id="view.name.overview.system.version" />
           </Text>
         </Version>
         {Boolean(lastUpdate) && (
           <LastUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
-            <FormattedMessage
+            <TranslationMessages
               id="view.name.overview.system.lastUpdate"
               values={{
                 date: new Date(lastUpdate).toLocaleDateString("en-US"),
@@ -89,9 +88,9 @@ const System: FunctionComponent<SystemProps> = ({
         {updateAvailable && (
           <AvailableUpdate displayStyle={TextDisplayStyle.SmallText}>
             {updateDownloaded ? (
-              <FormattedMessage id="view.name.overview.system.updateDownloaded" />
+              <TranslationMessages id="view.name.overview.system.updateDownloaded" />
             ) : (
-              <FormattedMessage id="view.name.overview.system.updateAvailable" />
+              <TranslationMessages id="view.name.overview.system.updateAvailable" />
             )}
           </AvailableUpdate>
         )}
@@ -101,18 +100,18 @@ const System: FunctionComponent<SystemProps> = ({
           updateDownloaded ? (
             <CardActionButton
               active
-              label={intl.formatMessage({
+              labelMessage={{
                 id: "view.name.overview.system.updateAction",
-              })}
+              }}
               Icon={Type.Reload}
               onClick={onUpdate}
             />
           ) : (
             <CardActionButton
               active
-              label={intl.formatMessage({
+              labelMessage={{
                 id: "view.name.overview.system.downloadAction",
-              })}
+              }}
               Icon={Type.DownloadWhite}
               onClick={onDownload}
               data-testid={SystemTestIds.DownloadButton}
@@ -121,9 +120,9 @@ const System: FunctionComponent<SystemProps> = ({
         ) : (
           <CardActionButton
             active
-            label={intl.formatMessage({
+            labelMessage={{
               id: "view.name.overview.system.checkForUpdates",
-            })}
+            }}
             Icon={Type.Reload}
             onClick={onUpdateCheck}
           />

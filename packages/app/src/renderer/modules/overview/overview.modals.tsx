@@ -22,7 +22,7 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { DownloadProgress } from "Renderer/interfaces/file-download.interface"
 import { convertBytes } from "Renderer/utils/convert-bytes"
-import { defineMessages, FormattedMessage } from "react-intl"
+import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import formatDuration from "Renderer/utils/format-duration"
 import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
@@ -36,6 +36,7 @@ import theme from "Renderer/styles/theming/theme"
 import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked-bar-chart.component"
 import useDynamicProgressValue from "Renderer/utils/hooks/use-dynamic-progress-value.hook"
 import { OverviewTestIds } from "Renderer/modules/overview/overview-test-ids.enum"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 const ModalContent = styled.div`
   display: flex;
@@ -286,10 +287,10 @@ export const DownloadingUpdateModal = ({
   onCancel = noop,
 }: Partial<DownloadProgress & { onCancel: () => void }>) => {
   const starting = (
-    <FormattedMessage {...messages.downloadingUpdateDescriptionStarting} />
+    <TranslationMessages {...messages.downloadingUpdateDescriptionStarting} />
   )
   const downloading = (
-    <FormattedMessage
+    <TranslationMessages
       {...messages.downloadingUpdateDescriptionDownloading}
       values={{
         speed: convertBytes(speed) + "/s",
@@ -298,7 +299,7 @@ export const DownloadingUpdateModal = ({
     />
   )
   const finishing = (
-    <FormattedMessage {...messages.downloadingUpdateDescriptionFinishing} />
+    <TranslationMessages {...messages.downloadingUpdateDescriptionFinishing} />
   )
   return (
     <OSUpdateModal

@@ -9,7 +9,7 @@ import { NetworkProps } from "Renderer/components/rest/overview/network/network.
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { defineMessages, FormattedMessage } from "react-intl"
+import { defineMessages } from "react-intl"
 import styled from "styled-components"
 import { intl } from "Renderer/utils/intl"
 import { letterSpacing, textColor } from "Renderer/styles/theming/theme-getters"
@@ -21,6 +21,7 @@ import Card, {
 import { noop } from "Renderer/utils/noop"
 import { SimCard } from "Renderer/models/basic-info/basic-info.typings"
 import { ButtonTogglerTestIds } from "Renderer/components/core/button-toggler/button-toggler-test-ids.enum"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 const TextInfo = styled(CardText)`
   p {
@@ -81,11 +82,11 @@ const Network: FunctionComponent<NetworkProps> = ({
     <Card className={className}>
       <TextInfo>
         <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-          <FormattedMessage id="view.name.overview.network.name" />
+          <TranslationMessages id="view.name.overview.network.name" />
         </Text>
         {activatingAvailable && (
           <Text displayStyle={TextDisplayStyle.SmallFadedText}>
-            <FormattedMessage id="view.name.overview.network.description" />
+            <TranslationMessages id="view.name.overview.network.description" />
           </Text>
         )}
       </TextInfo>

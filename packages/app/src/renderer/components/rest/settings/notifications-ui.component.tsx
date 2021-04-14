@@ -5,7 +5,6 @@
 
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { TextDisplayStyle } from "Renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
 import { ActionsWrapper } from "Renderer/components/rest/messages/threads-table.component"
 import React from "react"
 import {
@@ -18,6 +17,7 @@ import {
 } from "Renderer/components/rest/settings/settings-ui.component"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { noop } from "Renderer/utils/noop"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 interface Props {
   appIncomingCalls?: boolean
@@ -46,13 +46,13 @@ const NotificationsUI: FunctionComponent<Props> = ({
         <SettingsDescription
           displayStyle={TextDisplayStyle.MediumFadedLightText}
         >
-          <FormattedMessage id="view.name.settings.notifications.description" />
+          <TranslationMessages id="view.name.settings.notifications.description" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>
       <SettingsTableRow checkMode={false}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.incomingCallsNotificationsLabel" />
+            <TranslationMessages id="view.name.settings.notifications.incomingCallsNotificationsLabel" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
@@ -65,7 +65,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
       <SettingsTableRow checkMode={false}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.incomingMessagesNotifications" />
+            <TranslationMessages id="view.name.settings.notifications.incomingMessagesNotifications" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
@@ -78,7 +78,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
       <SettingsTableRow checkMode={false}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.lowBatteryNotifications" />
+            <TranslationMessages id="view.name.settings.notifications.lowBatteryNotifications" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
@@ -91,7 +91,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
       <SettingsTableRow checkMode={false}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.pureOsUpdatesNotifications" />
+            <TranslationMessages id="view.name.settings.notifications.pureOsUpdatesNotifications" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>

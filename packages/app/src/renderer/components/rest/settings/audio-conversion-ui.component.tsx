@@ -10,7 +10,7 @@ import { InputProps } from "Renderer/interfaces/input.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 import { ActionsWrapper } from "Renderer/components/rest/messages/threads-table.component"
 import {
   Data,
@@ -72,13 +72,13 @@ const AudioConversionUI: FunctionComponent<Props> = ({
           <SettingsDescription
             displayStyle={TextDisplayStyle.MediumFadedLightText}
           >
-            <FormattedMessage id="view.name.settings.audioConversion.description" />
+            <TranslationMessages id="view.name.settings.audioConversion.description" />
           </SettingsDescription>
         </SettingsDescriptionWrapper>
         <SettingsTableRow checkMode={false}>
           <Data>
             <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-              <FormattedMessage id="view.name.settings.audioConversion.convertNonStandardFilesLabel" />
+              <TranslationMessages id="view.name.settings.audioConversion.convertNonStandardFilesLabel" />
             </SettingsLabel>
           </Data>
           <ActionsWrapper>
@@ -97,7 +97,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
       />
       <ConversionFormatWrapper>
         <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
-          <FormattedMessage id="view.name.settings.audioConversion.conversionFormat" />
+          <TranslationMessages id="view.name.settings.audioConversion.conversionFormat" />
         </Text>
         <ConversionFormatRadioGroup
           value={appConversionFormat}

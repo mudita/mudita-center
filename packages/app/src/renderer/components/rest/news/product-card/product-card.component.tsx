@@ -20,9 +20,9 @@ import {
   DisplayStyle,
   Size,
 } from "Renderer/components/core/button/button.config"
-import { FormattedMessage } from "react-intl"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 const ProductCardContainer = styled.div`
   width: 27.5rem;
@@ -149,7 +149,7 @@ const ProductCard: FunctionComponent<Props> = ({
           width={2.1}
         />
         <Text displayStyle={TextDisplayStyle.LargeText}>
-          <FormattedMessage id="view.name.news.productCardNotification" />
+          <TranslationMessages id="view.name.news.productCardNotification" />
         </Text>
       </ProductCardNotification>
     )}

@@ -8,9 +8,9 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FormattedMessage } from "react-intl"
 import styled from "styled-components"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 interface Props {
   count?: number
@@ -37,9 +37,9 @@ const CommunityCommentsCount: FunctionComponent<Props> = ({
       >
         <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
           {count === undefined ? (
-            <FormattedMessage id="view.name.news.cardCommunityCommentsLoading" />
+            <TranslationMessages id="view.name.news.cardCommunityCommentsLoading" />
           ) : (
-            <FormattedMessage
+            <TranslationMessages
               id="view.name.news.cardCommunityComments"
               values={{ count }}
             />

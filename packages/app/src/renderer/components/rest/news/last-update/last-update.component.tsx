@@ -8,7 +8,8 @@ import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Text, {
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
-import { FormattedDate, FormattedMessage } from "react-intl"
+import { FormattedDate } from "react-intl"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 interface Props {
   online?: boolean
@@ -24,10 +25,10 @@ const LastUpdate: FunctionComponent<Props> = ({
     displayStyle={TextDisplayStyle.MediumFadedLightText}
     className={className}
   >
-    {!online && <FormattedMessage id="view.name.news.offlineText" />}{" "}
+    {!online && <TranslationMessages id="view.name.news.offlineText" />}{" "}
     {date && (
       <>
-        <FormattedMessage id="view.name.news.lastUpdate" />
+        <TranslationMessages id="view.name.news.lastUpdate" />
         <FormattedDate
           value={new Date(date)}
           year="numeric"

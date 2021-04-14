@@ -4,7 +4,6 @@
  */
 
 import * as React from "react"
-import { FormattedMessage } from "react-intl"
 import { Message as MessageInterface } from "Renderer/interfaces/message.interface"
 import {
   backgroundColor,
@@ -15,6 +14,8 @@ import {
 } from "Renderer/styles/theming/theme-getters"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css } from "styled-components"
+import { MutableRefObject } from "react"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 export const tertiaryHeadingSharedStyles = css`
   font-size: 1.8rem;
@@ -214,6 +215,9 @@ export interface TextProps {
   readonly element?: Element
   readonly message?: MessageInterface
   readonly displayStyle?: TextDisplayStyle
+  readonly ref?: MutableRefObject<null>
+  readonly onMouseEnter?: (e: React.MouseEvent<HTMLInputElement>) => void
+  readonly onMouseLeave?: (e: React.MouseEvent<HTMLInputElement>) => void
 }
 
 export enum TextDisplayStyle {
@@ -294,7 +298,7 @@ const Text: FunctionComponent<TextProps> = ({
     displayStyle={displayStyle}
     {...rest}
   >
-    {message ? <FormattedMessage {...message} /> : children}
+    {message ? <TranslationMessages {...message} /> : children}
   </TextWrapper>
 )
 

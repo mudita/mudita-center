@@ -34,3 +34,9 @@ export const togglePhoneSimulation = () => {
     store.dispatch.basicInfo.connect()
   }
 }
+
+export const togglePhraseTooltip = () => {
+  store.getState().devMode.showPhrase
+    ? store.dispatch.devMode.disablePhraseMode()
+    : store.dispatch.devMode.enablePhraseMode()
+}

@@ -10,6 +10,7 @@ import { AppHotkeys } from "App/hotkeys/hotkeys.types"
 interface DevModeProps {
   isEnabled: () => boolean
   toggler: () => void
+  phraseToggler: () => void
 }
 
 /**
@@ -57,12 +58,14 @@ interface DevModeProps {
 class ContextMenu {
   private readonly isDevModeEnabled?: () => boolean
   private readonly devModeToggler?: () => void
+  private readonly togglePhraseTooltip?: () => void
   private contextMenu = new electron.remote.Menu()
   private customMenu: Record<string, MenuItem[]> = {}
 
   constructor(devMode?: DevModeProps) {
     this.isDevModeEnabled = devMode?.isEnabled
     this.devModeToggler = devMode?.toggler
+    this.togglePhraseTooltip = devMode?.phraseToggler
   }
 
   private addSeparator() {
@@ -139,6 +142,14 @@ class ContextMenu {
       new electron.remote.MenuItem({
         label: "Toggle Developer Tools",
         role: "toggleDevTools",
+      })
+    )
+
+    this.contextMenu.append(
+      new electron.remote.MenuItem({
+        label: "Display Phrase tooltip",
+        click: this.togglePhraseTooltip,
+        accelerator: AppHotkeys.Phrase,
       })
     )
   }

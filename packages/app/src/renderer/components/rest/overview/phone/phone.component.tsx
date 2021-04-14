@@ -10,7 +10,6 @@ import {
   CardAction,
   CardActionButton,
 } from "Renderer/components/rest/overview/card.elements"
-import { intl } from "Renderer/utils/intl"
 import Image from "Renderer/components/core/image/image.component"
 import PureImage from "Renderer/images/pure-render.png"
 import Text, {
@@ -96,9 +95,9 @@ const Phone: FunctionComponent<PhoneProps> = ({
       <CardAction>
         <CardActionButton
           active
-          label={intl.formatMessage({
+          labelMessage={{
             id: "view.name.overview.phone.disconnectAction",
-          })}
+          }}
           onClick={handleDisconnect}
           data-testid={PhoneTestIds.DisconnectButton}
         />

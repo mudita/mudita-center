@@ -29,7 +29,6 @@ import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
 import useTableScrolling from "Renderer/utils/hooks/use-table-scrolling"
-import { FormattedMessage } from "react-intl"
 import { createFullName } from "App/contacts/store/contacts.helpers"
 import { intl } from "Renderer/utils/intl"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
@@ -43,6 +42,7 @@ import { Contacts } from "App/contacts/store/contacts.interface"
 import { ResultsState } from "Renderer/models/basic-info/basic-info.typings"
 import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { HiddenButton } from "App/contacts/components/contact-list/contact-list.styled"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
   margin: 0 auto;
@@ -167,7 +167,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           <Labels>
             <Col />
             <Col>
-              <FormattedMessage id={"view.name.phone.contacts.new.title"} />
+              <TranslationMessages id="view.name.phone.contacts.new.title" />
             </Col>
           </Labels>
           <Row active>

@@ -4,7 +4,6 @@
  */
 
 import React from "react"
-import { FormattedMessage } from "react-intl"
 import InputCheckbox from "Renderer/components/core/input-checkbox/input-checkbox.component"
 import { SelectionManagerProps } from "Renderer/components/core/selection-manager/selection-manager.interface"
 import Text, {
@@ -18,6 +17,7 @@ import {
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 const Buttons = styled.div`
   grid-area: Buttons;
@@ -87,7 +87,7 @@ const SelectionManager: FunctionComponent<SelectionManagerProps> = ({
         displayStyle={TextDisplayStyle.MediumFadedLightText}
         data-testid="info"
       >
-        <FormattedMessage
+        <TranslationMessages
           {...message}
           values={{ num: allItemsSelected ? -1 : selectedItemsNumber }}
         />

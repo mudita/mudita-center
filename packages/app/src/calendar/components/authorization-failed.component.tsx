@@ -14,7 +14,7 @@ import { ModalText } from "App/contacts/components/sync-contacts-modal/sync-cont
 import Modal, {
   ModalProps,
 } from "Renderer/components/core/modal/modal.component"
-import { defineMessages, FormattedMessage } from "react-intl"
+import { defineMessages } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -23,6 +23,7 @@ import {
   ExternalProvider,
   Provider,
 } from "Renderer/models/external-providers/external-providers.interface"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 
 const messages = defineMessages({
   title: {
@@ -72,7 +73,7 @@ const AuthorizationFailedModal: FunctionComponent<AuthorizationFailedModalProps>
       {...props}
       size={ModalSize.Small}
       title={
-        <FormattedMessage
+        <TranslationMessages
           {...messages.title}
           values={{ provider: providerName }}
         />

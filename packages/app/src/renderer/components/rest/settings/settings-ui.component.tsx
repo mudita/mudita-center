@@ -16,7 +16,7 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 import { noop } from "Renderer/utils/noop"
 import styled from "styled-components"
-import { FormattedMessage } from "react-intl"
+import TranslationMessages from "Renderer/components/core/translations-tooltip/translation-messages.component"
 import { borderColor } from "Renderer/styles/theming/theme-getters"
 import SettingsToggler from "Renderer/components/rest/settings/settings-toggler.component"
 import { SettingsTestIds } from "Renderer/modules/settings/settings.enum"
@@ -75,7 +75,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
         <SettingsDescription
           displayStyle={TextDisplayStyle.MediumFadedLightText}
         >
-          <FormattedMessage id="view.name.settings.description" />
+          <TranslationMessages id="view.name.settings.description" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>
       <SettingsTableRow
@@ -84,7 +84,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
       >
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.autostartLabel" />
+            <TranslationMessages id="view.name.settings.autostartLabel" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
@@ -99,7 +99,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
         >
           <Data>
             <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-              <FormattedMessage id="view.name.settings.tetheringLabel" />
+              <TranslationMessages id="view.name.settings.tetheringLabel" />
             </SettingsLabel>
           </Data>
           <ActionsWrapper>
@@ -116,7 +116,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
       >
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.collectingdata" />
+            <TranslationMessages id="view.name.settings.collectingdata" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
