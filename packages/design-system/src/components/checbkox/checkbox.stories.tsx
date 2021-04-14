@@ -51,7 +51,7 @@ export default {
     },
     size: {
       description:
-        "Predefined size of checkbox. It also applies additional styling to the label if `simpleLabel` is `true`.\n",
+        "Predefined size of checkbox. It also applies additional styling to the `label`.",
       table: {
         type: {
           summary: "CheckboxSize | undefined",
