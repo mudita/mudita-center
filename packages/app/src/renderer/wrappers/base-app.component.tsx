@@ -25,6 +25,7 @@ import registerHotkeys from "Renderer/register-hotkeys"
 import registerAppContextMenu from "Renderer/register-app-context-menu"
 import appContextMenu from "./app-context-menu"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
+import CollectingDataModal from "App/collecting-data-modal/collecting-data-modal.component"
 
 interface Props {
   store: Store
@@ -40,6 +41,9 @@ const BaseApp: FunctionComponent<Props> = ({
   history,
 }) => {
   const [pureNeverConnected, setPureNeverConnected] = useState(false)
+  const [appCollectingData, setAppCollectingData] = useState<
+    boolean | undefined
+  >(false)
   useEffect(() => {
     const listener = () => {
       toggleDisconnectedDevice(true)
@@ -60,6 +64,7 @@ const BaseApp: FunctionComponent<Props> = ({
     ;(async () => {
       const response = await getAppSettings()
       setPureNeverConnected(response.pureNeverConnected)
+      setAppCollectingData(response.appCollectingData)
     })()
 
     // Register hotkeys
@@ -69,7 +74,7 @@ const BaseApp: FunctionComponent<Props> = ({
 
     registerAppContextMenu(appContextMenu)
     appContextMenu.init()
-  }, [])
+  }, [toggleDisconnectedDevice])
 
   useRouterListener(history, {
     [URL_MAIN.contacts]: [store.dispatch.contacts.loadData],
@@ -90,9 +95,22 @@ const BaseApp: FunctionComponent<Props> = ({
     }
   }, [connected, pureNeverConnected])
 
+  const agree = () => {
+    setAppCollectingData(true)
+    store.dispatch.settings.setCollectingData(true)
+  }
+
+  const close = () => {
+    store.dispatch.settings.setCollectingData(false)
+  }
   return (
     <Provider store={store}>
       <NetworkStatusChecker />
+      <CollectingDataModal
+        open={typeof appCollectingData === "undefined"}
+        onActionButtonClick={agree}
+        closeModal={close}
+      />
       <Router history={history}>
         <BaseRoutes />
       </Router>

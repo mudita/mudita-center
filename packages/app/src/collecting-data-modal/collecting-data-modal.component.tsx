@@ -3,10 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React from "react"
-import Modal, {
-  ModalProps,
-} from "Renderer/components/core/modal/modal.component"
+import React, { ComponentProps } from "react"
 import { intl } from "Renderer/utils/intl"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -19,6 +16,7 @@ import {
   ModalContent,
   Paragraph,
 } from "App/collecting-data-modal/collecting-data-modal.styled"
+import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   title: { id: "app.collecting.data.modal.title" },
@@ -28,9 +26,9 @@ const messages = defineMessages({
   agreeButton: { id: "app.collecting.data.modal.agree" },
 })
 
-const CollectingDataModal: FunctionComponent<ModalProps> = ({ ...props }) => {
+const CollectingDataModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({ ...props }) => {
   return (
-    <Modal
+    <ModalDialog
       title={intl.formatMessage(messages.title)}
       size={ModalSize.Small}
       actionButtonLabel={intl.formatMessage(messages.agreeButton)}
@@ -50,7 +48,7 @@ const CollectingDataModal: FunctionComponent<ModalProps> = ({ ...props }) => {
           message={messages.body}
         />
       </ModalContent>
-    </Modal>
+    </ModalDialog>
   )
 }
 
