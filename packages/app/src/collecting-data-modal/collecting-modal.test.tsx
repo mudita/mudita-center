@@ -30,33 +30,19 @@ describe("when user has no settings regarding collection of data", () => {
   })
 })
 
-describe("when user agreed to collecting data", () => {
+describe.each([
+  ["agreed", true],
+  ["have not agreed", false],
+])("when user %s to collecting data", (_, agreement) => {
   beforeEach(() => {
     jest
       .spyOn(appSettingsRequest, "getAppSettings")
       .mockImplementation(() =>
-        Promise.resolve({ ...fakeAppSettings, appCollectingData: true })
+        Promise.resolve({ ...fakeAppSettings, appCollectingData: agreement })
       )
   })
   afterEach(() => jest.resetAllMocks())
   test("modal is not rendered", async () => {
-    await act(async () => {
-      renderer()
-    })
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
-  })
-})
-
-describe("when user have not agreed to collecting data", () => {
-  beforeEach(() => {
-    jest
-      .spyOn(appSettingsRequest, "getAppSettings")
-      .mockImplementation(() =>
-        Promise.resolve({ ...fakeAppSettings, appCollectingData: false })
-      )
-  })
-  afterEach(() => jest.resetAllMocks())
-  test("modal is not rendered ", async () => {
     await act(async () => {
       renderer()
     })
