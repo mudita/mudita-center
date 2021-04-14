@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { useEffect, useState } from "react"
+import React, { ComponentProps, useEffect, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import { connect, Provider } from "react-redux"
 import NetworkStatusChecker from "Renderer/components/core/network-status-checker/network-status-checker.container"
@@ -21,29 +21,36 @@ import { getAppSettings } from "Renderer/requests/app-settings.request"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { RootState } from "Renderer/store"
-import registerHotkeys from "Renderer/register-hotkeys"
-import registerAppContextMenu from "Renderer/register-app-context-menu"
-import appContextMenu from "./app-context-menu"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
-import CollectingDataModal from "App/collecting-data-modal/collecting-data-modal.component"
+import RootWrapper from "Renderer/wrappers/root-wrapper"
+import registerAppContextMenu from "Renderer/register-app-context-menu"
+import registerHotkeys from "Renderer/register-hotkeys"
+import appContextMenu from "Renderer/wrappers/app-context-menu"
+import ContextMenu from "App/context-menu/context-menu"
+import CollectingModal from "App/collecting-data-modal/collecting-modal.component"
 
 interface Props {
   store: Store
   history: History
   toggleDisconnectedDevice: (disconnectedDevice: boolean) => void
   connected: boolean
+  registerKeys?: () => void
+  registerMenu?: (menu: ContextMenu) => void
+  contextMenu?: ContextMenu
 }
 
-const BaseApp: FunctionComponent<Props> = ({
+const BaseApp: FunctionComponent<
+  Props & ComponentProps<typeof RootWrapper>
+> = ({
   connected,
   toggleDisconnectedDevice,
   store,
   history,
+  registerMenu = registerAppContextMenu,
+  registerKeys = registerHotkeys,
+  contextMenu = appContextMenu,
 }) => {
   const [pureNeverConnected, setPureNeverConnected] = useState(false)
-  const [appCollectingData, setAppCollectingData] = useState<
-    boolean | undefined
-  >(false)
   useEffect(() => {
     const listener = () => {
       toggleDisconnectedDevice(true)
@@ -64,16 +71,15 @@ const BaseApp: FunctionComponent<Props> = ({
     ;(async () => {
       const response = await getAppSettings()
       setPureNeverConnected(response.pureNeverConnected)
-      setAppCollectingData(response.appCollectingData)
     })()
 
     // Register hotkeys
-    registerHotkeys()
+    registerKeys()
 
     // Register context menu
 
-    registerAppContextMenu(appContextMenu)
-    appContextMenu.init()
+    registerMenu(appContextMenu)
+    contextMenu.init()
   }, [toggleDisconnectedDevice])
 
   useRouterListener(history, {
@@ -95,22 +101,10 @@ const BaseApp: FunctionComponent<Props> = ({
     }
   }, [connected, pureNeverConnected])
 
-  const agree = () => {
-    setAppCollectingData(true)
-    store.dispatch.settings.setCollectingData(true)
-  }
-
-  const close = () => {
-    store.dispatch.settings.setCollectingData(false)
-  }
   return (
     <Provider store={store}>
       <NetworkStatusChecker />
-      <CollectingDataModal
-        open={typeof appCollectingData === "undefined"}
-        onActionButtonClick={agree}
-        closeModal={close}
-      />
+      <CollectingModal/>
       <Router history={history}>
         <BaseRoutes />
       </Router>

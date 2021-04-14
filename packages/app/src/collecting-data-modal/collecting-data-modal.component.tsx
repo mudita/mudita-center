@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps } from "react"
+import React, { ComponentProps, useEffect, useState } from "react"
 import { intl } from "Renderer/utils/intl"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Icon from "Renderer/components/core/icon/icon.component"
@@ -17,6 +17,7 @@ import {
   Paragraph,
 } from "App/collecting-data-modal/collecting-data-modal.styled"
 import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
+import { getAppSettings } from "Renderer/requests/app-settings.request"
 
 const messages = defineMessages({
   title: { id: "app.collecting.data.modal.title" },
@@ -26,7 +27,26 @@ const messages = defineMessages({
   agreeButton: { id: "app.collecting.data.modal.agree" },
 })
 
-const CollectingDataModal: FunctionComponent<ComponentProps<typeof ModalDialog>> = ({ ...props }) => {
+type Properties = Required<Pick<ComponentProps<typeof ModalDialog>, "onActionButtonClick" | "closeModal">>
+
+const CollectingDataModal: FunctionComponent<Properties> = ({onActionButtonClick, closeModal, ...props }) => {
+  const [openModal, setOpenModal] = useState(false)
+  useEffect(() => {
+    ;(async () => {
+      const response = await getAppSettings()
+      setOpenModal(response.appCollectingData === undefined)
+    })()
+  }, [])
+
+  const agree = () => {
+    onActionButtonClick()
+    setOpenModal(false)
+  }
+
+  const close = () => {
+    closeModal()
+    setOpenModal(false)
+  }
   return (
     <ModalDialog
       title={intl.formatMessage(messages.title)}
@@ -34,6 +54,9 @@ const CollectingDataModal: FunctionComponent<ComponentProps<typeof ModalDialog>>
       actionButtonLabel={intl.formatMessage(messages.agreeButton)}
       closeButtonLabel={intl.formatMessage(messages.cancelButton)}
       {...props}
+      open={openModal}
+      closeModal={close}
+      onActionButtonClick={agree}
     >
       <ModalContent>
         <Icon type={Type.MuditaLogoBg} width={12} height={12} />

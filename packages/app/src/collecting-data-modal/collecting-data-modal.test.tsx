@@ -19,6 +19,7 @@ afterEach(() => {
 
 const renderer = (extraProps?: {}) => {
   const props = {
+    open: true,
     onActionButtonClick: agree,
     onClose: close,
   }
