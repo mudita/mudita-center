@@ -54,7 +54,7 @@ export default {
         "Predefined size of checkbox. It also applies additional styling to the `label`.",
       table: {
         type: {
-          summary: "CheckboxSize | undefined",
+          summary: "CheckboxSize",
         },
       },
       control: "select",
