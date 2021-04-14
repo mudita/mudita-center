@@ -33,4 +33,14 @@ export const ButtonWrapper = styled.div`
 
 export const SyncButton = styled(Button)`
   width: 24.4rem;
+  position: relative;
+
+  > span {
+    position: absolute;
+    top: 0.6rem;
+    left: 1.6rem;
+  }
+  > p {
+    padding-left: 3rem;
+  }
 `

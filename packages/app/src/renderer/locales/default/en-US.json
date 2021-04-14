@@ -387,6 +387,8 @@
   "view.name.phone.contacts.details.noEmail": "No email address",
   "view.name.phone.contacts.details.noNotes": "No notes",
   "view.name.phone.contacts.details.noPhoneNumber": "No phone number",
+  "view.name.phone.contacts.details.noPrimaryNumber": "No primary number",
+  "view.name.phone.contacts.details.noSecondNumber": "No second number",
   "view.name.phone.contacts.details.notes": "Note",
   "view.name.phone.contacts.details.speedDial": "Speed dial",
   "view.name.phone.contacts.edit.addToFavourites": "Add to favorites",

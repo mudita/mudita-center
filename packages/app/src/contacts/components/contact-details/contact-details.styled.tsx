@@ -6,7 +6,6 @@
 import styled from "styled-components"
 import Text, {
   getTextStyles,
-  smallTextSharedStyles,
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import {
@@ -102,6 +101,5 @@ export const ContactDetailsLabel = styled(Text)`
   ${getTextStyles(TextDisplayStyle.MediumLightText)};
   margin: 0;
   padding: 2.4rem 0 1.6rem 0;
-  ${smallTextSharedStyles};
   border-bottom: 0.1rem solid ${borderColor("secondary")};
 `

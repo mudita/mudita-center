@@ -22,6 +22,7 @@ import {
 } from "App/contacts/components/sync-contacts-modal/sync-contacts.styled"
 import { SyncContactsModalTestIds } from "App/contacts/components/sync-contacts-modal/sync-contacts-modal-test-ids.enum"
 import { defineMessages } from "react-intl"
+import { IconSize } from "App/renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
   title: {
@@ -83,6 +84,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
             displayStyle={DisplayStyle.Primary}
             label={intl.formatMessage(messages.googleButtonText)}
             Icon={Type.Google}
+            iconSize={IconSize.Medium}
             onClick={onGoogleButtonClick}
             data-testid={SyncContactsModalTestIds.GoogleButton}
           />
@@ -91,6 +93,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
             displayStyle={DisplayStyle.Primary}
             label={intl.formatMessage(messages.outlookButtonText)}
             Icon={Type.Outlook}
+            iconSize={IconSize.Medium}
             onClick={onOutlookButtonClick}
             data-testid={SyncContactsModalTestIds.OutlookButton}
           />
@@ -99,6 +102,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
               displayStyle={DisplayStyle.Primary}
               label={intl.formatMessage(messages.appleButtonText)}
               Icon={Type.Apple}
+              iconSize={IconSize.Medium}
               onClick={onAppleButtonClick}
             />
           )}
@@ -106,6 +110,7 @@ const SyncContactsModal: FunctionComponent<SyncContactsModal> = ({
             displayStyle={DisplayStyle.Primary}
             label={intl.formatMessage(messages.manualImportText)}
             Icon={Type.Upload}
+            iconSize={IconSize.Medium}
             onClick={handleManualImportClick}
           />
           <input
