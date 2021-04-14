@@ -24,6 +24,7 @@ import Avatar, {
   AvatarSize,
   basicAvatarStyles,
 } from "Renderer/components/core/avatar/avatar.component"
+import { backgroundColor } from "Renderer/styles/theming/theme-getters"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
 import { ContactActions } from "App/contacts/components/contact-details/contact-details.component"
@@ -48,7 +49,7 @@ export const Checkbox = styled(VisibleCheckbox)<{ visible?: boolean }>`
 `
 
 export const lightAvatarStyles = css`
-  background-color: s;
+  background-color: ${backgroundColor("row")};
 `
 
 const InitialsAvatar = styled(Avatar)`
