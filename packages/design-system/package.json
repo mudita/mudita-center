@@ -72,6 +72,7 @@
     "typescript": "^4.2.3"
   },
   "dependencies": {
+    "modern-normalize": "^1.0.0",
     "react-merge-refs": "^1.1.0"
   },
   "private": false,
