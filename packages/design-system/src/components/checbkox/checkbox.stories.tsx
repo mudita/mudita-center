@@ -41,7 +41,7 @@ export default {
     },
     children: {
       description:
-        "A custom text or component rendered if no `label` is applied. No styling is applied.",
+        "A custom text or component rendered if `label` is empty. No styling is applied.",
       table: {
         type: {
           summary:
