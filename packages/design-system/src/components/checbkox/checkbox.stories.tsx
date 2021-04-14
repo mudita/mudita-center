@@ -85,7 +85,7 @@ export default {
     },
     ref: {
       description:
-        "A reference object that can be passed to the native checkbox input.\n\n It's useful to customize behavior programmatically or integrate with external library.",
+        "A reference object that can be passed to the native checkbox input.\n\nIt's useful in customizing its behavior programmatically or integrate with external library.",
       table: {
         type: {
           summary: "ForwardedRef<HTMLInputElement>",
