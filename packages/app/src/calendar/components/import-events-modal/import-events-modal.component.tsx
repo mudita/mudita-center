@@ -33,13 +33,13 @@ import { ImportEventsModalTestIds } from "App/calendar/components/import-events-
 
 const messages = defineMessages({
   title: {
-    id: "view.name.calendar.import.title",
+    id: "module.calendar.import.title",
   },
   bodyTitle: {
-    id: "view.name.calendar.import.bodyTitle",
+    id: "module.calendar.import.bodyTitle",
   },
   text: {
-    id: "view.name.calendar.import.text",
+    id: "module.calendar.import.text",
   },
   button: {
     id: "component.button.ok",

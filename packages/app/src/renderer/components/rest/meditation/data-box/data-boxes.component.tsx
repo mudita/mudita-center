@@ -15,13 +15,13 @@ import { defineMessages } from "react-intl"
 
 export const messages = defineMessages({
   daysPracticed: {
-    id: "view.name.meditation.dataBox.daysPracticed",
+    id: "module.meditation.dataBox.daysPracticed",
   },
   totalPracticeTime: {
-    id: "view.name.meditation.dataBox.totalPracticeTime",
+    id: "module.meditation.dataBox.totalPracticeTime",
   },
   averageSessionLength: {
-    id: "view.name.meditation.dataBox.averageSessionLength",
+    id: "module.meditation.dataBox.averageSessionLength",
   },
 })
 

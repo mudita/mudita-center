@@ -37,10 +37,10 @@ const CommunityCommentsCount: FunctionComponent<Props> = ({
       >
         <Text displayStyle={TextDisplayStyle.MediumTextUppercased}>
           {count === undefined ? (
-            <FormattedMessage id="view.name.news.cardCommunityCommentsLoading" />
+            <FormattedMessage id="module.news.cardCommunityCommentsLoading" />
           ) : (
             <FormattedMessage
-              id="view.name.news.cardCommunityComments"
+              id="module.news.cardCommunityComments"
               values={{ count }}
             />
           )}

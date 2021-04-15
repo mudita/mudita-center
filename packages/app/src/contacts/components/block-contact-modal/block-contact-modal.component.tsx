@@ -35,10 +35,10 @@ const ModalContent = styled.div`
 `
 
 const messages = defineMessages({
-  title: { id: "view.name.contacts.block.title" },
-  text: { id: "view.name.contacts.block.text" },
-  cancelButton: { id: "view.name.contacts.block.cancelButton" },
-  blockButton: { id: "view.name.contacts.block.blockButton" },
+  title: { id: "module.contacts.block.title" },
+  text: { id: "module.contacts.block.text" },
+  cancelButton: { id: "module.contacts.block.cancelButton" },
+  blockButton: { id: "module.contacts.block.blockButton" },
 })
 
 interface DeleteContactModalProps {

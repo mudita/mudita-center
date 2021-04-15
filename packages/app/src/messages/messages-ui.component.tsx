@@ -36,9 +36,9 @@ import {
 import { Message } from "App/messages/store/messages.interface"
 
 const deleteModalMessages = defineMessages({
-  title: { id: "view.name.messages.deleteModal.title" },
+  title: { id: "module.messages.deleteModal.title" },
   body: {
-    id: "view.name.messages.deleteModal.body",
+    id: "module.messages.deleteModal.body",
   },
 })
 

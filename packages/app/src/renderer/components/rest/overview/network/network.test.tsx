@@ -25,7 +25,7 @@ const renderNetwork = ({
     getButtons: () => outcome.queryAllByRole("button"),
     getDescription: () =>
       outcome.queryByText(
-        intl.formatMessage({ id: "view.name.overview.network.description" })
+        intl.formatMessage({ id: "module.overview.network.description" })
       ),
   }
 }
@@ -45,7 +45,7 @@ test("matches snapshot", () => {
 test("renders card name properly", () => {
   const { queryByText } = renderNetwork()
   expect(
-    queryByText(intl.formatMessage({ id: "view.name.overview.network.name" }))
+    queryByText(intl.formatMessage({ id: "module.overview.network.name" }))
   ).toBeInTheDocument()
 })
 
@@ -53,7 +53,7 @@ test("renders 'no sim card' state properly", () => {
   const { getButtons, getDescription } = renderNetwork()
   expect(getButtons()).toHaveLength(1)
   expect(getButtons()[0]).toHaveTextContent(
-    intl.formatMessage({ id: "view.name.overview.network.noSimInserted" })
+    intl.formatMessage({ id: "module.overview.network.noSimInserted" })
   )
   expect(getDescription()).not.toBeInTheDocument()
 })
@@ -67,7 +67,7 @@ test("renders single active sim card info properly", () => {
   expect(getButtons()[0]).toHaveTextContent(
     intl.formatMessage(
       {
-        id: "view.name.overview.network.simInfo",
+        id: "module.overview.network.simInfo",
       },
       { slot: simCard.slot, phone: simCard.number }
     )
@@ -84,7 +84,7 @@ test("renders single inactive sim card info properly", () => {
   expect(getButtons()[0]).toHaveTextContent(
     intl.formatMessage(
       {
-        id: "view.name.overview.network.simInfo",
+        id: "module.overview.network.simInfo",
       },
       { slot: simCard.slot, phone: simCard.number }
     )
@@ -101,7 +101,7 @@ test("renders two sim cards info properly", () => {
     expect(getButtons()[index]).toHaveTextContent(
       intl.formatMessage(
         {
-          id: "view.name.overview.network.simInfo",
+          id: "module.overview.network.simInfo",
         },
         { slot: simCard.slot, phone: simCard.number }
       )

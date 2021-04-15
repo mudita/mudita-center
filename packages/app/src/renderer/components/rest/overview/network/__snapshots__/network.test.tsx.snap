@@ -248,7 +248,7 @@ exports[`matches snapshot 1`] = `
       <h2
         class="c3"
       >
-        [value] view.name.overview.network.name
+        [value] module.overview.network.name
       </h2>
     </div>
     <section
@@ -271,12 +271,12 @@ exports[`matches snapshot 1`] = `
         <p
           class="c10 c11"
         >
-          [value] view.name.overview.network.tooltipTitle
+          [value] module.overview.network.tooltipTitle
         </p>
         <p
           class="c12"
         >
-          [value] view.name.overview.network.tooltipDescription
+          [value] module.overview.network.tooltipDescription
         </p>
       </div>
       <button
@@ -288,7 +288,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c16 c17"
         >
-          [value] view.name.overview.network.noSimInserted
+          [value] module.overview.network.noSimInserted
         </p>
       </button>
     </section>

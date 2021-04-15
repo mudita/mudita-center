@@ -56,7 +56,7 @@ const TemplateModal: FunctionComponent<Props> = ({
     size={ModalSize.Large}
     closeButton={false}
     title={intl.formatMessage({
-      id: "view.name.messages.templatesModalTitle",
+      id: "module.messages.templatesModalTitle",
     })}
   >
     <TemplatesWrapper>

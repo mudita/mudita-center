@@ -14,8 +14,8 @@ import path from "path"
 import logger from "App/main/utils/logger"
 
 const messages = defineMessages({
-  dialogTitle: { id: "view.name.calendar.export.saveDialogTitle" },
-  defaultFilename: { id: "view.name.calendar.export.defaultFileName" },
+  dialogTitle: { id: "module.calendar.export.saveDialogTitle" },
+  defaultFilename: { id: "module.calendar.export.defaultFileName" },
 })
 
 const registerEventsExportListener = () => {

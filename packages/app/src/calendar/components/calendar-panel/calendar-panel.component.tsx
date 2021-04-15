@@ -30,10 +30,10 @@ import modalService, {
 import ExportErrorModal from "App/calendar/components/export-error-modal/export-error-modal.component"
 
 const messages = defineMessages({
-  synchroniseButton: { id: "view.name.calendar.panel.synchroniseButton" },
-  addEventButton: { id: "view.name.calendar.panel.addEventButton" },
-  exportButton: { id: "view.name.calendar.exportButton" },
-  deleteButton: { id: "view.name.calendar.deleteButton" },
+  synchroniseButton: { id: "module.calendar.panel.synchroniseButton" },
+  addEventButton: { id: "module.calendar.panel.addEventButton" },
+  exportButton: { id: "module.calendar.exportButton" },
+  deleteButton: { id: "module.calendar.deleteButton" },
 })
 
 interface CalendarPanelProps extends CalendarInputSelectProps {
@@ -76,7 +76,7 @@ const CalendarPanel: FunctionComponent<CalendarPanelProps> = ({
         <ContactSelectionManager
           selectedItemsNumber={selectedEventsCount}
           allItemsSelected={Boolean(allEventsSelected)}
-          message={{ id: "view.name.calendar.selectionsNumber" }}
+          message={{ id: "module.calendar.selectionsNumber" }}
           checkboxSize={Size.Large}
           onToggle={toggleAll}
           buttons={[

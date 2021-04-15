@@ -95,13 +95,13 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
         <Title
           displayStyle={TextDisplayStyle.PrimaryHeading}
           message={{
-            id: "view.name.onboarding.troubleshooting.title",
+            id: "module.onboarding.troubleshooting.title",
             values: textFormatters,
           }}
         />
         <Text
           displayStyle={TextDisplayStyle.LargeFadedText}
-          message={{ id: "view.name.onboarding.troubleshooting.instruction" }}
+          message={{ id: "module.onboarding.troubleshooting.instruction" }}
         />
       </header>
       <main>
@@ -109,39 +109,39 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.LargeText}
-            message={{ id: "view.name.onboarding.troubleshooting.steps.1" }}
+            message={{ id: "module.onboarding.troubleshooting.steps.1" }}
           />
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.LargeText}
-            message={{ id: "view.name.onboarding.troubleshooting.steps.2" }}
+            message={{ id: "module.onboarding.troubleshooting.steps.2" }}
           />
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.LargeText}
-            message={{ id: "view.name.onboarding.troubleshooting.steps.3" }}
+            message={{ id: "module.onboarding.troubleshooting.steps.3" }}
           />
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.LargeText}
-            message={{ id: "view.name.onboarding.troubleshooting.steps.4" }}
+            message={{ id: "module.onboarding.troubleshooting.steps.4" }}
           />
           <ul>
             <Text
               element={"li"}
               displayStyle={TextDisplayStyle.MediumFadedText}
-              message={{ id: "view.name.onboarding.troubleshooting.steps.4.a" }}
+              message={{ id: "module.onboarding.troubleshooting.steps.4.a" }}
             />
             <Text
               element={"li"}
               displayStyle={TextDisplayStyle.MediumFadedText}
-              message={{ id: "view.name.onboarding.troubleshooting.steps.4.b" }}
+              message={{ id: "module.onboarding.troubleshooting.steps.4.b" }}
             />
           </ul>
           <Text
             element={"li"}
             displayStyle={TextDisplayStyle.LargeText}
-            message={{ id: "view.name.onboarding.troubleshooting.steps.5" }}
+            message={{ id: "module.onboarding.troubleshooting.steps.5" }}
           />
         </Steps>
       </main>
@@ -149,7 +149,7 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
         <ButtonComponent
           type={ButtonType.Button}
           label={intl.formatMessage({
-            id: "view.name.onboarding.troubleshooting.button",
+            id: "module.onboarding.troubleshooting.button",
           })}
           onClick={onRetry}
           data-testid="retry"
@@ -158,13 +158,13 @@ const OnboardingTroubleshooting: FunctionComponent<OnboardingTroubleshootingProp
           <Text
             displayStyle={TextDisplayStyle.SmallFadedText}
             message={{
-              id: "view.name.onboarding.troubleshooting.support.message",
+              id: "module.onboarding.troubleshooting.support.message",
             }}
           />
           <ButtonComponent
             displayStyle={DisplayStyle.Link3}
             labelMessage={{
-              id: "view.name.onboarding.troubleshooting.support.button",
+              id: "module.onboarding.troubleshooting.support.button",
             }}
             onClick={onContact}
             data-testid="contact-support"

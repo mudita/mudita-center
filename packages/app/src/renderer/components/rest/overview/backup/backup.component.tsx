@@ -25,13 +25,13 @@ import { Type } from "Renderer/components/core/icon/icon.config"
 import { AppSettings } from "App/main/store/settings.interface"
 
 const messages = defineMessages({
-  lastBackup: { id: "view.name.overview.backup.lastBackup" },
+  lastBackup: { id: "module.overview.backup.lastBackup" },
   restoreAction: {
-    id: "view.name.overview.backup.restoreAction",
+    id: "module.overview.backup.restoreAction",
   },
-  createFirst: { id: "view.name.overview.backup.createFirst" },
+  createFirst: { id: "module.overview.backup.createFirst" },
   createAction: {
-    id: "view.name.overview.backup.createAction",
+    id: "module.overview.backup.createAction",
   },
 })
 

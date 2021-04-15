@@ -49,7 +49,7 @@ const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
           Icon={Type.ArrowLongLeft}
           displayStyle={DisplayStyle.Link1}
           label={intl.formatMessage({
-            id: "view.name.help.backLinkText",
+            id: "module.help.backLinkText",
           })}
           to={URL_MAIN.help}
           data-testid={AnswerUiTestIds.BackLink}
@@ -64,7 +64,7 @@ const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
         ) : (
           <Text
             displayStyle={TextDisplayStyle.MediumText}
-            message={{ id: "view.name.help.answer.error" }}
+            message={{ id: "module.help.answer.error" }}
           />
         )}
       </div>

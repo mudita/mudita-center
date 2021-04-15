@@ -16,12 +16,12 @@ test("title has correct text", () => {
   const { getByTestId } = renderer()
   expect(
     getByTestId(MeditationNoStatsTestIdsEnum.NoStatsTitle)
-  ).toHaveTextContent("[value] view.name.meditation.noStatsTitle")
+  ).toHaveTextContent("[value] module.meditation.noStatsTitle")
 })
 
 test("subtitle has correct text", () => {
   const { getByTestId } = renderer()
   expect(
     getByTestId(MeditationNoStatsTestIdsEnum.NoStatsSubtitle)
-  ).toHaveTextContent("[value] view.name.meditation.noStatsSubtitle")
+  ).toHaveTextContent("[value] module.meditation.noStatsSubtitle")
 })

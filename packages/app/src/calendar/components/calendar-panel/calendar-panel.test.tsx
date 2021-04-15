@@ -88,7 +88,7 @@ test("clicking on searched option returns given item properly", () => {
 test("synchronising is performed after clicking button", () => {
   const { getByText } = renderer()
   const synchroniseButton = getByText(
-    "[value] view.name.calendar.panel.synchroniseButton"
+    "[value] module.calendar.panel.synchroniseButton"
   )
   synchroniseButton.click()
   expect(defaultProps.onSynchroniseClick).toBeCalled()
@@ -97,7 +97,7 @@ test("synchronising is performed after clicking button", () => {
 test("add event is performed after clicking button", () => {
   const { getByText } = renderer()
   const addEventButton = getByText(
-    "[value] view.name.calendar.panel.addEventButton"
+    "[value] module.calendar.panel.addEventButton"
   )
   addEventButton.click()
   expect(defaultProps.onAddEventClick).toBeCalled()

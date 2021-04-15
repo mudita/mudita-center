@@ -73,13 +73,13 @@ const System: FunctionComponent<SystemProps> = ({
             {osVersion}
           </Text>
           <Text element={"span"} displayStyle={TextDisplayStyle.SmallText}>
-            <FormattedMessage id="view.name.overview.system.version" />
+            <FormattedMessage id="module.overview.system.version" />
           </Text>
         </Version>
         {Boolean(lastUpdate) && (
           <LastUpdate displayStyle={TextDisplayStyle.SmallFadedText}>
             <FormattedMessage
-              id="view.name.overview.system.lastUpdate"
+              id="module.overview.system.lastUpdate"
               values={{
                 date: new Date(lastUpdate).toLocaleDateString("en-US"),
               }}
@@ -89,9 +89,9 @@ const System: FunctionComponent<SystemProps> = ({
         {updateAvailable && (
           <AvailableUpdate displayStyle={TextDisplayStyle.SmallText}>
             {updateDownloaded ? (
-              <FormattedMessage id="view.name.overview.system.updateDownloaded" />
+              <FormattedMessage id="module.overview.system.updateDownloaded" />
             ) : (
-              <FormattedMessage id="view.name.overview.system.updateAvailable" />
+              <FormattedMessage id="module.overview.system.updateAvailable" />
             )}
           </AvailableUpdate>
         )}
@@ -102,7 +102,7 @@ const System: FunctionComponent<SystemProps> = ({
             <CardActionButton
               active
               label={intl.formatMessage({
-                id: "view.name.overview.system.updateAction",
+                id: "module.overview.system.updateAction",
               })}
               Icon={Type.Reload}
               onClick={onUpdate}
@@ -111,7 +111,7 @@ const System: FunctionComponent<SystemProps> = ({
             <CardActionButton
               active
               label={intl.formatMessage({
-                id: "view.name.overview.system.downloadAction",
+                id: "module.overview.system.downloadAction",
               })}
               Icon={Type.DownloadWhite}
               onClick={onDownload}
@@ -122,7 +122,7 @@ const System: FunctionComponent<SystemProps> = ({
           <CardActionButton
             active
             label={intl.formatMessage({
-              id: "view.name.overview.system.checkForUpdates",
+              id: "module.overview.system.checkForUpdates",
             })}
             Icon={Type.Reload}
             onClick={onUpdateCheck}

@@ -72,19 +72,19 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
         <Title
           displayStyle={TextDisplayStyle.PrimaryHeading}
           message={{
-            id: "view.name.onboarding.welcome.title",
+            id: "module.onboarding.welcome.title",
             values: textFormatters,
           }}
         />
         <InstructionText
           displayStyle={TextDisplayStyle.LargeFadedText}
-          message={{ id: "view.name.onboarding.welcome.instruction" }}
+          message={{ id: "module.onboarding.welcome.instruction" }}
         />
         <Info>
           <Icon type={IconType.Info} width={1.6} />
           <Text
             displayStyle={TextDisplayStyle.SmallFadedText}
-            message={{ id: "view.name.onboarding.welcome.bluetoothInfo" }}
+            message={{ id: "module.onboarding.welcome.bluetoothInfo" }}
           />
         </Info>
       </header>
@@ -101,12 +101,12 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
               <Text
                 displayStyle={TextDisplayStyle.MediumText}
                 message={{
-                  id: "view.name.onboarding.welcome.autostartMessage",
+                  id: "module.onboarding.welcome.autostartMessage",
                 }}
               />
               <AutostartSubText
                 displayStyle={TextDisplayStyle.SmallFadedText}
-                message={{ id: "view.name.onboarding.welcome.autostartInfo" }}
+                message={{ id: "module.onboarding.welcome.autostartInfo" }}
               />
             </AutostartLabel>
           </Autostart>
@@ -116,7 +116,7 @@ const OnboardingWelcome: FunctionComponent<OnboardingWelcomeProps> = ({
         <ButtonComponent
           type={ButtonType.Button}
           label={intl.formatMessage({
-            id: "view.name.onboarding.welcome.button",
+            id: "module.onboarding.welcome.button",
           })}
           onClick={onContinue}
         />

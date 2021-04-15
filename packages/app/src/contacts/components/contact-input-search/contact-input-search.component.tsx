@@ -19,7 +19,7 @@ import { Contact } from "App/contacts/store/contacts.type"
 import { createFullName } from "App/contacts/store/contacts.helpers"
 
 const messages = defineMessages({
-  searchPlaceholder: { id: "view.name.contacts.panel.searchPlaceholder" },
+  searchPlaceholder: { id: "module.contacts.panel.searchPlaceholder" },
 })
 
 const ContactListItem = styled(ListItem)`

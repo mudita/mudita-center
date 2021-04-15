@@ -26,16 +26,16 @@ import {
 
 const messages = defineMessages({
   title: {
-    id: "view.name.calendar.authorizationFailed.title",
+    id: "module.calendar.authorizationFailed.title",
   },
   subtitle: {
-    id: "view.name.calendar.authorizationFailed.subtitle",
+    id: "module.calendar.authorizationFailed.subtitle",
   },
   body: {
-    id: "view.name.calendar.authorizationFailed.body",
+    id: "module.calendar.authorizationFailed.body",
   },
   button: {
-    id: "view.name.calendar.authorizationFailed.button",
+    id: "module.calendar.authorizationFailed.button",
   },
   google: {
     id: "component.modal.providers.google",

@@ -13,10 +13,10 @@ import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.overview.backup.failedRestoringBackupModal.title",
+    id: "module.overview.backup.failedRestoringBackupModal.title",
   },
   body: {
-    id: "view.name.overview.backup.failedRestoringBackupModal.body",
+    id: "module.overview.backup.failedRestoringBackupModal.body",
   },
 })
 

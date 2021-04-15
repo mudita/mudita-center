@@ -124,7 +124,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
             />
             <ButtonComponent
               labelMessage={{
-                id: "view.name.phone.calls.sendMessage",
+                id: "module.phone.calls.sendMessage",
               }}
               Icon={Type.BorderCheckIcon}
               onClick={noop}
@@ -133,7 +133,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
             />
             <ButtonComponent
               labelMessage={{
-                id: "view.name.phone.calls.details",
+                id: "module.phone.calls.details",
               }}
               Icon={Type.Contact}
               onClick={emitClickRow}
@@ -142,7 +142,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
             />
             <ButtonComponent
               labelMessage={{
-                id: "view.name.phone.calls.deleteCall",
+                id: "module.phone.calls.deleteCall",
               }}
               Icon={Type.Delete}
               onClick={emitDeleteClick}

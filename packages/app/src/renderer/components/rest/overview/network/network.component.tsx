@@ -38,7 +38,7 @@ const SimButton: FunctionComponent<SimCard & { onClick: () => void }> = ({
 }) => {
   const label = intl.formatMessage(
     {
-      id: "view.name.overview.network.simInfo",
+      id: "module.overview.network.simInfo",
     },
     { slot, phone }
   )
@@ -58,15 +58,15 @@ const SimButton: FunctionComponent<SimCard & { onClick: () => void }> = ({
 
 const NoSimButton = () => {
   const label = intl.formatMessage({
-    id: "view.name.overview.network.noSimInserted",
+    id: "module.overview.network.noSimInserted",
   })
 
   return <CardActionButton label={label} disabled />
 }
 
 export const messages = defineMessages({
-  tooltipTitle: { id: "view.name.overview.network.tooltipTitle" },
-  tooltipDescription: { id: "view.name.overview.network.tooltipDescription" },
+  tooltipTitle: { id: "module.overview.network.tooltipTitle" },
+  tooltipDescription: { id: "module.overview.network.tooltipDescription" },
 })
 
 const Network: FunctionComponent<NetworkProps> = ({
@@ -81,11 +81,11 @@ const Network: FunctionComponent<NetworkProps> = ({
     <Card className={className}>
       <TextInfo>
         <Text displayStyle={TextDisplayStyle.SecondaryBoldHeading}>
-          <FormattedMessage id="view.name.overview.network.name" />
+          <FormattedMessage id="module.overview.network.name" />
         </Text>
         {activatingAvailable && (
           <Text displayStyle={TextDisplayStyle.SmallFadedText}>
-            <FormattedMessage id="view.name.overview.network.description" />
+            <FormattedMessage id="module.overview.network.description" />
           </Text>
         )}
       </TextInfo>

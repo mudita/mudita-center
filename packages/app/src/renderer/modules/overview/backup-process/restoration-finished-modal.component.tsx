@@ -15,10 +15,10 @@ import { intl } from "Renderer/utils/intl"
 const messages = defineMessages({
   ok: { id: "component.button.ok" },
   title: {
-    id: "view.name.overview.backup.restoredBackupModal.title",
+    id: "module.overview.backup.restoredBackupModal.title",
   },
   body: {
-    id: "view.name.overview.backup.restoredBackupModal.body",
+    id: "module.overview.backup.restoredBackupModal.body",
   },
 })
 

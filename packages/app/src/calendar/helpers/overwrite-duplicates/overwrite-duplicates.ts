@@ -11,22 +11,22 @@ import moment from "moment"
 
 const messages = defineMessages({
   updatedDescriptionTitle: {
-    id: "view.name.calendar.duplicatedEvent.updatedDescriptionTitle",
+    id: "module.calendar.duplicatedEvent.updatedDescriptionTitle",
   },
   name: {
-    id: "view.name.calendar.duplicatedEvent.name",
+    id: "module.calendar.duplicatedEvent.name",
   },
   startDate: {
-    id: "view.name.calendar.duplicatedEvent.startDate",
+    id: "module.calendar.duplicatedEvent.startDate",
   },
   endDate: {
-    id: "view.name.calendar.duplicatedEvent.endDate",
+    id: "module.calendar.duplicatedEvent.endDate",
   },
   recurrence: {
-    id: "view.name.calendar.duplicatedEvent.recurrence",
+    id: "module.calendar.duplicatedEvent.recurrence",
   },
   description: {
-    id: "view.name.calendar.duplicatedEvent.description",
+    id: "module.calendar.duplicatedEvent.description",
   },
 })
 

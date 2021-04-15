@@ -32,13 +32,13 @@ const messages = defineMessages({
   },
   cancel: { id: "component.button.cancel" },
   title: {
-    id: "view.name.overview.backup.restoreBackupModal.title",
+    id: "module.overview.backup.restoreBackupModal.title",
   },
   body: {
-    id: "view.name.overview.backup.restoreBackupModal.body",
+    id: "module.overview.backup.restoreBackupModal.body",
   },
   actionButton: {
-    id: "view.name.overview.backup.restoreBackupModal.restoreButton",
+    id: "module.overview.backup.restoreBackupModal.restoreButton",
   },
 })
 

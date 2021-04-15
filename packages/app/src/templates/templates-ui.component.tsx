@@ -30,10 +30,10 @@ import { SortOrder } from "Common/enums/sort-order.enum"
 import { Template } from "App/templates/store/templates.interface"
 
 const messages = defineMessages({
-  charactersNumber: { id: "view.name.messages.templates.charactersNumber" },
-  title: { id: "view.name.messages.templatesDeleteModal.title" },
-  many: { id: "view.name.messages.templatesDeleteModal.many" },
-  single: { id: "view.name.messages.templatesDeleteModal.single" },
+  charactersNumber: { id: "module.messages.templates.charactersNumber" },
+  title: { id: "module.messages.templatesDeleteModal.title" },
+  many: { id: "module.messages.templatesDeleteModal.many" },
+  single: { id: "module.messages.templatesDeleteModal.single" },
 })
 
 const TemplatesSidebar = styled(Sidebar)`

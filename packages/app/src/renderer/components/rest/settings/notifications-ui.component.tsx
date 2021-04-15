@@ -46,13 +46,13 @@ const NotificationsUI: FunctionComponent<Props> = ({
         <SettingsDescription
           displayStyle={TextDisplayStyle.MediumFadedLightText}
         >
-          <FormattedMessage id="view.name.settings.notifications.description" />
+          <FormattedMessage id="module.settings.notifications.description" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>
       <SettingsTableRow checkMode={false}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.incomingCallsNotificationsLabel" />
+            <FormattedMessage id="module.settings.notifications.incomingCallsNotificationsLabel" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
@@ -65,7 +65,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
       <SettingsTableRow checkMode={false}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.incomingMessagesNotifications" />
+            <FormattedMessage id="module.settings.notifications.incomingMessagesNotifications" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
@@ -78,7 +78,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
       <SettingsTableRow checkMode={false}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.lowBatteryNotifications" />
+            <FormattedMessage id="module.settings.notifications.lowBatteryNotifications" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
@@ -91,7 +91,7 @@ const NotificationsUI: FunctionComponent<Props> = ({
       <SettingsTableRow checkMode={false}>
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.notifications.pureOsUpdatesNotifications" />
+            <FormattedMessage id="module.settings.notifications.pureOsUpdatesNotifications" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>

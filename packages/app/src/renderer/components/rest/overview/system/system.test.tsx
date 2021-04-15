@@ -33,7 +33,7 @@ test("renders os version properly", () => {
   const { getByText } = renderSystem()
   expect(getByText(fakeOsVersion)).toBeInTheDocument()
   expect(
-    getByText(intl.formatMessage({ id: "view.name.overview.system.version" }))
+    getByText(intl.formatMessage({ id: "module.overview.system.version" }))
   ).toBeInTheDocument()
 })
 
@@ -42,7 +42,7 @@ test("renders last update info properly", () => {
   expect(
     getByText(
       intl.formatMessage(
-        { id: "view.name.overview.system.lastUpdate" },
+        { id: "module.overview.system.lastUpdate" },
         { date: fakeLastUpdate }
       )
     )
@@ -53,7 +53,7 @@ test("renders available update info properly", () => {
   const { getByText } = renderSystem({ updateAvailable: true })
   expect(
     getByText(
-      intl.formatMessage({ id: "view.name.overview.system.updateAvailable" })
+      intl.formatMessage({ id: "module.overview.system.updateAvailable" })
     )
   ).toBeInTheDocument()
 })
@@ -61,14 +61,14 @@ test("renders available update info properly", () => {
 test("renders 'check for updates' button properly", () => {
   const { queryByRole } = renderSystem()
   expect(queryByRole("button")).toHaveTextContent(
-    intl.formatMessage({ id: "view.name.overview.system.checkForUpdates" })
+    intl.formatMessage({ id: "module.overview.system.checkForUpdates" })
   )
 })
 
 test("renders 'update now' button properly", () => {
   const { queryByRole } = renderSystem({ updateAvailable: true })
   expect(queryByRole("button")).toHaveTextContent(
-    intl.formatMessage({ id: "view.name.overview.system.downloadAction" })
+    intl.formatMessage({ id: "module.overview.system.downloadAction" })
   )
 })
 

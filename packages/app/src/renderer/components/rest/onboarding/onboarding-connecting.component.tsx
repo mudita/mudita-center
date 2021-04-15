@@ -44,7 +44,7 @@ const OnboardingConnecting: FunctionComponent<OnboardingConnectingProps> = ({
         </LoaderWrapper>
         <Text
           displayStyle={TextDisplayStyle.SecondaryBoldHeading}
-          message={{ id: "view.name.onboarding.connecting.message" }}
+          message={{ id: "module.onboarding.connecting.message" }}
         />
       </main>
       <footer>
@@ -52,7 +52,7 @@ const OnboardingConnecting: FunctionComponent<OnboardingConnectingProps> = ({
           type={ButtonType.Button}
           displayStyle={DisplayStyle.Secondary}
           label={intl.formatMessage({
-            id: "view.name.onboarding.connecting.button",
+            id: "module.onboarding.connecting.button",
           })}
           onClick={onCancel}
         />

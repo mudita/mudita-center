@@ -51,11 +51,11 @@ test("error text is rendered", () => {
     route: `${URL_MAIN.help}/error-route`,
     path: `${URL_MAIN.help}/:questionId`,
   })
-  expect(getByText("[value] view.name.help.answer.error")).toBeInTheDocument()
+  expect(getByText("[value] module.help.answer.error")).toBeInTheDocument()
 })
 
 test("back link has correct text ", () => {
   const { getByTestId } = renderWithRouterMatch(mockedRouteAndPath)
-  const backLinkText = "view.name.help.backLinkText"
+  const backLinkText = "module.help.backLinkText"
   expect(getByTestId(AnswerUiTestIds.BackLink)).toHaveTextContent(backLinkText)
 })

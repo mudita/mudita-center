@@ -41,28 +41,28 @@ import { normalizeText } from "Renderer/components/core/text-editor/text-editor.
 import { SortOrder } from "Common/enums/sort-order.enum"
 
 const messages = defineMessages({
-  emptyStateTitle: { id: "view.name.messages.templates.emptyList.title" },
-  temporaryText: { id: "view.name.messages.templates.temporary" },
+  emptyStateTitle: { id: "module.messages.templates.emptyList.title" },
+  temporaryText: { id: "module.messages.templates.temporary" },
   emptyStateDescription: {
-    id: "view.name.messages.templates.emptyList.description",
+    id: "module.messages.templates.emptyList.description",
   },
   note: {
-    id: "view.name.messages.templates.template",
+    id: "module.messages.templates.template",
   },
   edited: {
-    id: "view.name.messages.templates.edited",
+    id: "module.messages.templates.edited",
   },
   today: {
     id: "component.text.today",
   },
   newTemplate: {
-    id: "view.name.messages.templates.newTemplate",
+    id: "module.messages.templates.newTemplate",
   },
   emptyTemplate: {
-    id: "view.name.messages.templates.emptyTemplate",
+    id: "module.messages.templates.emptyTemplate",
   },
   unsavedTemplate: {
-    id: "view.name.messages.templates.unsavedTemplate",
+    id: "module.messages.templates.unsavedTemplate",
   },
 })
 

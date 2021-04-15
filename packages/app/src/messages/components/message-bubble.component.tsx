@@ -177,7 +177,7 @@ const MessageBubble: FunctionComponent<Props> = ({
             >
               <ButtonComponent
                 labelMessage={{
-                  id: "view.name.messages.messageDropdownForward",
+                  id: "module.messages.messageDropdownForward",
                 }}
                 Icon={Type.Forward}
                 onClick={forward}
@@ -186,7 +186,7 @@ const MessageBubble: FunctionComponent<Props> = ({
               />
               <ButtonComponent
                 labelMessage={{
-                  id: "view.name.messages.messageDropdownDelete",
+                  id: "module.messages.messageDropdownDelete",
                 }}
                 Icon={Type.Delete}
                 onClick={remove}

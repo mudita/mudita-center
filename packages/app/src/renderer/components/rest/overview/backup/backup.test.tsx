@@ -28,11 +28,11 @@ const renderBackup = ({
     ...outcome,
     createButton: () =>
       outcome.getByText(
-        intl.formatMessage({ id: "view.name.overview.backup.createAction" })
+        intl.formatMessage({ id: "module.overview.backup.createAction" })
       ),
     restoreButton: () =>
       outcome.getByText(
-        intl.formatMessage({ id: "view.name.overview.backup.restoreAction" })
+        intl.formatMessage({ id: "module.overview.backup.restoreAction" })
       ),
   }
 }
@@ -41,7 +41,7 @@ test("renders no backup info properly", () => {
   const { getByText, createButton } = renderBackup()
   expect(
     getByText(
-      intl.formatMessage({ id: "view.name.overview.backup.createFirst" })
+      intl.formatMessage({ id: "module.overview.backup.createFirst" })
     )
   ).toBeInTheDocument()
   expect(createButton()).toBeInTheDocument()
@@ -52,7 +52,7 @@ test("renders available backup info properly", () => {
     lastBackup,
   })
   expect(
-    getByText("view.name.overview.backup.lastBackup", { exact: false })
+    getByText("module.overview.backup.lastBackup", { exact: false })
   ).toBeInTheDocument()
   expect(restoreButton()).toBeInTheDocument()
   expect(createButton()).toBeInTheDocument()

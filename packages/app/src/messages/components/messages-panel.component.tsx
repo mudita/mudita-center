@@ -32,17 +32,17 @@ import { Thread, VisibilityFilter } from "App/messages/store/messages.interface"
 
 const toggleState = [
   intl.formatMessage({
-    id: "view.name.messages.allMessages",
+    id: "module.messages.allMessages",
   }),
   intl.formatMessage({
-    id: "view.name.messages.unreadOnly",
+    id: "module.messages.unreadOnly",
   }),
 ] as const
 
 const messages = defineMessages({
-  markAsReadButton: { id: "view.name.messages.markAsRead" },
+  markAsReadButton: { id: "module.messages.markAsRead" },
   deleteButton: {
-    id: "view.name.messages.deleteButton",
+    id: "module.messages.deleteButton",
   },
 })
 
@@ -130,7 +130,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
         <MessageSelectionManager
           selectedItemsNumber={selectedConversations.length}
           allItemsSelected={Boolean(allItemsSelected)}
-          message={{ id: "view.name.messages.conversations.selectionsNumber" }}
+          message={{ id: "module.messages.conversations.selectionsNumber" }}
           checkboxSize={Size.Large}
           onToggle={toggleAll}
           buttons={
@@ -144,7 +144,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
         <SearchInput
           type={"search"}
           label={intl.formatMessage({
-            id: "view.name.messages.search",
+            id: "module.messages.search",
           })}
           outlined
           defaultValue={searchValue}
@@ -158,7 +158,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
       {/*    displayStyle={DisplayStyle.Primary}*/}
       {/*    size={ButtonSize.FixedBig}*/}
       {/*    label={intl.formatMessage({*/}
-      {/*      id: "view.name.messages.newMessage",*/}
+      {/*      id: "module.messages.newMessage",*/}
       {/*    })}*/}
       {/*    onClick={noop}*/}
       {/*    Icon={Type.PlusSign}*/}

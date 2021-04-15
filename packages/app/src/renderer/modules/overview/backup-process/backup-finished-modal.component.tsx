@@ -31,10 +31,10 @@ const messages = defineMessages({
   },
   ok: { id: "component.button.ok" },
   title: {
-    id: "view.name.overview.backup.finishedBackupModal.title",
+    id: "module.overview.backup.finishedBackupModal.title",
   },
   body: {
-    id: "view.name.overview.backup.finishedBackupModal.body",
+    id: "module.overview.backup.finishedBackupModal.body",
   },
 })
 

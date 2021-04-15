@@ -47,28 +47,28 @@ import { ContactPanelTestIdsEnum } from "App/contacts/components/contact-panel/c
 import { ContactEditTestIdsEnum } from "App/contacts/components/contact-edit/contact-edit-test-ids.enum"
 
 const messages = defineMessages({
-  editTitle: { id: "view.name.contacts.edit.title" },
-  newTitle: { id: "view.name.contacts.new.title" },
-  firstName: { id: "view.name.contacts.edit.firstName" },
-  secondName: { id: "view.name.contacts.edit.secondName" },
-  primaryNumber: { id: "view.name.contacts.edit.primaryNumber" },
-  secondaryNumber: { id: "view.name.contacts.edit.secondaryNumber" },
-  email: { id: "view.name.contacts.edit.email" },
+  editTitle: { id: "module.contacts.edit.title" },
+  newTitle: { id: "module.contacts.new.title" },
+  firstName: { id: "module.contacts.edit.firstName" },
+  secondName: { id: "module.contacts.edit.secondName" },
+  primaryNumber: { id: "module.contacts.edit.primaryNumber" },
+  secondaryNumber: { id: "module.contacts.edit.secondaryNumber" },
+  email: { id: "module.contacts.edit.email" },
   speedDialKeyEmptyOption: {
-    id: "view.name.contacts.edit.speedDialKeyEmptyOption",
+    id: "module.contacts.edit.speedDialKeyEmptyOption",
   },
   speedDialKeySelect: {
-    id: "view.name.contacts.edit.speedDialKeySelect",
+    id: "module.contacts.edit.speedDialKeySelect",
   },
-  speedDialKey: { id: "view.name.contacts.edit.speedDialKey" },
-  speedDialSettings: { id: "view.name.contacts.edit.speedDialSettings" },
-  addToFavourites: { id: "view.name.contacts.edit.addToFavourites" },
-  iceContact: { id: "view.name.contacts.edit.iceContact" },
-  firstAddressLine: { id: "view.name.contacts.edit.firstAddressLine" },
-  secondAddressLine: { id: "view.name.contacts.edit.secondAddressLine" },
-  notes: { id: "view.name.contacts.edit.notes" },
-  cancel: { id: "view.name.contacts.edit.cancel" },
-  save: { id: "view.name.contacts.edit.save" },
+  speedDialKey: { id: "module.contacts.edit.speedDialKey" },
+  speedDialSettings: { id: "module.contacts.edit.speedDialSettings" },
+  addToFavourites: { id: "module.contacts.edit.addToFavourites" },
+  iceContact: { id: "module.contacts.edit.iceContact" },
+  firstAddressLine: { id: "module.contacts.edit.firstAddressLine" },
+  secondAddressLine: { id: "module.contacts.edit.secondAddressLine" },
+  notes: { id: "module.contacts.edit.notes" },
+  cancel: { id: "module.contacts.edit.cancel" },
+  save: { id: "module.contacts.edit.save" },
 })
 
 export const defaultContact = {

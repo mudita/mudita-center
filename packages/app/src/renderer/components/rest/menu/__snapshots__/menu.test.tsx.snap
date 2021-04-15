@@ -301,7 +301,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          [value] view.name.news
+          [value] module.news
         </p>
       </a>
     </div>
@@ -338,7 +338,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          [value] view.name.tethering
+          [value] module.tethering
         </p>
       </a>
     </div>
@@ -364,7 +364,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          [value] view.name.settings
+          [value] module.settings
         </p>
       </a>
     </div>
@@ -390,7 +390,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c8 c9"
         >
-          [value] view.name.help
+          [value] module.help
         </p>
       </button>
     </div>

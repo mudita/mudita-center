@@ -61,13 +61,13 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => (
   <BackupWrapper>
     <BackupDescriptionWrapper>
       <BackupDescription displayStyle={TextDisplayStyle.MediumFadedLightText}>
-        <FormattedMessage id="view.name.settings.backup.description" />
+        <FormattedMessage id="module.settings.backup.description" />
       </BackupDescription>
     </BackupDescriptionWrapper>
     <BackupTableRow checkMode={false}>
       <BackupDataWrapper>
         <Name displayStyle={TextDisplayStyle.LargeText}>
-          <FormattedMessage id="view.name.settings.backup.label" />
+          <FormattedMessage id="module.settings.backup.label" />
         </Name>
         <Message
           displayStyle={TextDisplayStyle.MediumFadedLightText}
@@ -80,7 +80,7 @@ const BackupUI: FunctionComponent<Props> = ({ backupLocation, openDialog }) => (
         <BackupButtonComponent
           onClick={openDialog}
           label={intl.formatMessage({
-            id: "view.name.settings.backup.buttonLabel",
+            id: "module.settings.backup.buttonLabel",
           })}
         />
       </BackupActionsWrapper>

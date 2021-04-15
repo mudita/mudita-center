@@ -25,22 +25,22 @@ import { defineMessages } from "react-intl"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.contacts.syncModalTitle",
+    id: "module.contacts.syncModalTitle",
   },
   text: {
-    id: "view.name.contacts.syncModalText",
+    id: "module.contacts.syncModalText",
   },
   googleButtonText: {
-    id: "view.name.contacts.googleButtonText",
+    id: "module.contacts.googleButtonText",
   },
   outlookButtonText: {
-    id: "view.name.contacts.outlookButtonText",
+    id: "module.contacts.outlookButtonText",
   },
   appleButtonText: {
-    id: "view.name.contacts.appleButtonText",
+    id: "module.contacts.appleButtonText",
   },
   manualImportText: {
-    id: "view.name.contacts.manualImportText",
+    id: "module.contacts.manualImportText",
   },
 })
 

@@ -29,21 +29,21 @@ import { ContactImportModalTestIds } from "App/contacts/components/contact-impor
 import { textColor } from "Renderer/styles/theming/theme-getters"
 
 const messages = defineMessages({
-  title: { id: "view.name.contacts.import.title" },
-  importingSubtitle: { id: "view.name.contacts.import.subtitle" },
-  importingBody: { id: "view.name.contacts.import.body" },
-  importingButton: { id: "view.name.contacts.import.button" },
+  title: { id: "module.contacts.import.title" },
+  importingSubtitle: { id: "module.contacts.import.subtitle" },
+  importingBody: { id: "module.contacts.import.body" },
+  importingButton: { id: "module.contacts.import.button" },
   importSuccessSubtitle: {
-    id: "view.name.contacts.importSuccess.subtitle",
+    id: "module.contacts.importSuccess.subtitle",
   },
-  importSuccessBody: { id: "view.name.contacts.importSuccess.body" },
-  importSuccessButton: { id: "view.name.contacts.importSuccess.button" },
+  importSuccessBody: { id: "module.contacts.importSuccess.body" },
+  importSuccessButton: { id: "module.contacts.importSuccess.button" },
   importFailedSubtitle: {
-    id: "view.name.contacts.importFailed.subtitle",
+    id: "module.contacts.importFailed.subtitle",
   },
-  importFailedBody: { id: "view.name.contacts.importFailed.body" },
-  importFailedBody2: { id: "view.name.contacts.importFailed.body2" },
-  importFailedButton: { id: "view.name.contacts.importFailed.button" },
+  importFailedBody: { id: "module.contacts.importFailed.body" },
+  importFailedBody2: { id: "module.contacts.importFailed.body2" },
+  importFailedButton: { id: "module.contacts.importFailed.button" },
 })
 
 const Checkbox = styled(InputCheckbox)`

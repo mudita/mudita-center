@@ -20,7 +20,7 @@ import InputSelect from "Renderer/components/core/input-select/input-select.comp
 import { searchIcon } from "Renderer/components/core/input-text/input-text.elements"
 
 const messages = defineMessages({
-  searchPlaceholder: { id: "view.name.calendar.panel.searchPlaceholder" },
+  searchPlaceholder: { id: "module.calendar.panel.searchPlaceholder" },
 })
 
 const CalendarListItem = styled(ListItem)`

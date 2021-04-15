@@ -92,7 +92,7 @@ test("send message button has correct content", () => {
   const { getAllByTestId } = renderer()
   expect(getAllByTestId("send-message")[0]).toHaveTextContent(
     intl.formatMessage({
-      id: "view.name.phone.calls.sendMessage",
+      id: "module.phone.calls.sendMessage",
     })
   )
 })
@@ -101,7 +101,7 @@ test("call details button has correct content", () => {
   const { getAllByTestId } = renderer()
   expect(getAllByTestId("call-details")[0]).toHaveTextContent(
     intl.formatMessage({
-      id: "view.name.phone.calls.details",
+      id: "module.phone.calls.details",
     })
   )
 })
@@ -110,7 +110,7 @@ test("delete call button has correct content", () => {
   const { getAllByTestId } = renderer()
   expect(getAllByTestId("delete-call")[0]).toHaveTextContent(
     intl.formatMessage({
-      id: "view.name.phone.calls.deleteCall",
+      id: "module.phone.calls.deleteCall",
     })
   )
 })

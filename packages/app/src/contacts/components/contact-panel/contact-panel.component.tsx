@@ -34,11 +34,11 @@ import { exportContacts } from "App/contacts/helpers/export-contacts/export-cont
 import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
-  title: { id: "view.name.contacts.delete.title" },
-  export: { id: "view.name.contacts.selectionExport" },
-  body: { id: "view.name.contacts.deleteMultipleContacts" },
-  deletingText: { id: "view.name.contacts.deleting.text" },
-  deleteButton: { id: "view.name.contacts.action.delete" },
+  title: { id: "module.contacts.delete.title" },
+  export: { id: "module.contacts.selectionExport" },
+  body: { id: "module.contacts.deleteMultipleContacts" },
+  deletingText: { id: "module.contacts.deleting.text" },
+  deleteButton: { id: "module.contacts.action.delete" },
 })
 
 export interface ContactPanelProps {
@@ -113,7 +113,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
         <ContactSelectionManager
           selectedItemsNumber={selectedItemsCount}
           allItemsSelected={Boolean(allItemsSelected)}
-          message={{ id: "view.name.contacts.selectionsNumber" }}
+          message={{ id: "module.contacts.selectionsNumber" }}
           checkboxSize={Size.Large}
           onToggle={toggleAll}
           buttons={[
@@ -143,7 +143,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
       <Buttons>
         <ButtonComponent
           displayStyle={DisplayStyle.Secondary}
-          labelMessage={{ id: "view.name.contacts.panel.manageButton" }}
+          labelMessage={{ id: "module.contacts.panel.manageButton" }}
           onClick={onManageButtonClick}
           data-testid={ContactPanelTestIdsEnum.ManageButton}
           Icon={Type.Manage}
@@ -151,7 +151,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
         />
         <ButtonComponent
           labelMessage={{
-            id: "view.name.contacts.panel.newContactButton",
+            id: "module.contacts.panel.newContactButton",
           }}
           onClick={onNewButtonClick}
           data-testid={ContactPanelTestIdsEnum.NewButton}
