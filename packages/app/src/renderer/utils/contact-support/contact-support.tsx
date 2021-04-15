@@ -17,6 +17,12 @@ import { ContactSupportFailed } from "App/contacts/components/contact-modal/cont
 import React from "react"
 
 export const contactSupport = async () => {
+  logger.info(
+    `ENV: contactSupport  -> process.env.CONTACT_SUPPORT_AUTH_KEY: ${process.env.CONTACT_SUPPORT_AUTH_KEY}`
+  )
+  logger.info(
+    `ENV: contactSupport  -> CONTACT_SUPPORT_API_URL: ${process.env.CONTACT_SUPPORT_API_URL}`
+  )
   const appLogs = await getAppLogs()
 
   const sendForm = async (formData: SupportFormData) => {

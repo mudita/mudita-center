@@ -11,11 +11,15 @@ import {
 } from "App/api/mudita-center-server/client.interface"
 import { MuditaCenterServerRoutes } from "App/api/mudita-center-server/mudita-center-server-routes"
 import { NewsEntry } from "Renderer/models/mudita-news/mudita-news.interface"
+import logger from "App/main/utils/logger"
 
 export class Client implements ClientInterface {
   private httpClient: AxiosInstance = axios.create()
 
   async getNews(query: { limit: number }): Promise<EntryCollection<NewsEntry>> {
+    logger.info(
+      `ENV: getNews  -> process.env.MUDITA_CENTER_SERVER_URL: ${process.env.MUDITA_CENTER_SERVER_URL}`
+    )
     try {
       const params = new URLSearchParams({
         limit: String(query.limit),
@@ -33,6 +37,9 @@ export class Client implements ClientInterface {
   }
 
   async getHelp(query: HelpQuery): Promise<SyncCollection> {
+    logger.info(
+      `ENV: getHelp  -> process.env.MUDITA_CENTER_SERVER_URL: ${process.env.MUDITA_CENTER_SERVER_URL}`
+    )
     try {
       const params = new URLSearchParams({
         locale: query.locale as string,

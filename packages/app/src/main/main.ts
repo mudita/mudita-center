@@ -121,6 +121,9 @@ const createWindow = async () => {
 
   const registerDownloadListener = createDownloadListenerRegistrar(win)
 
+  logger.info(
+    `ENV: main.createWindow  -> process.env.PURE_LOGGER_ENABLED: ${process.env.PURE_LOGGER_ENABLED}`
+  )
   const enabled = process.env.PURE_LOGGER_ENABLED === "true"
 
   PureDeviceManager.registerLogger(logger)
@@ -243,6 +246,9 @@ const createErrorWindow = async (googleAuthWindow: BrowserWindow) => {
 }
 
 ipcMain.answerRenderer(GoogleAuthActions.OpenWindow, async (scope: Scope) => {
+  logger.info(
+    `ENV: GoogleAuthActions.OpenWindow  -> process.env.MUDITA_GOOGLE_AUTH_URL: ${process.env.MUDITA_GOOGLE_AUTH_URL}`
+  )
   if (process.env.MUDITA_GOOGLE_AUTH_URL) {
     const cb = (data: string) => {
       ipcMain.callRenderer(

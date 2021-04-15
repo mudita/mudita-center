@@ -36,9 +36,15 @@ export interface Release {
 }
 
 const osUpdateServerUrl = process.env.OS_UPDATE_SERVER
+logger.info(
+  `ENV: register-pure-os-update-listener osUpdateServerUrl  -> process.env.OS_UPDATE_SERVER: ${process.env.OS_UPDATE_SERVER}`
+)
 
 // It's required only for development when API rate limits may exceed
 // https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting
+logger.info(
+  `ENV: register-pure-os-update-listener githubToken  -> process.env.GITHUB_ACCESS_TOKEN: ${process.env.GITHUB_ACCESS_TOKEN}`
+)
 const githubToken = process.env.GITHUB_ACCESS_TOKEN
 
 const releasesRequest = async (

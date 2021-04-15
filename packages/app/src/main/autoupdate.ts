@@ -20,6 +20,10 @@ export enum AppUpdateActions {
 }
 
 export default (win: BrowserWindow) => {
+  logger.info(
+    `ENV: autoupdate  -> process.env.GITHUB_ACCESS_TOKEN: ${process.env.GITHUB_ACCESS_TOKEN}`
+  )
+
   autoUpdater.setFeedURL({
     private: true,
     provider: "github",
