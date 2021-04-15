@@ -82,6 +82,9 @@ export const Input = styled(InputComponent).attrs<{ label: string }>(
 
   div {
     transition: all 0s;
+    input {
+      line-height: 2.4rem;
+    }
   }
 `
 export const ContactDetailsWrapper = styled(Sidebar)`

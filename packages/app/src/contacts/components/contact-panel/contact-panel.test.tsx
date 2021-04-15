@@ -103,3 +103,10 @@ test("selection manager is displayed when there is at least one contact selected
     getByTestId(ContactPanelTestIdsEnum.SelectionManager)
   ).toBeInTheDocument()
 })
+
+test("Block New contact button while editing contact", () => {
+  const { getByTestId } = renderer({
+    editedContact: [defaultProps.contacts[0]],
+  })
+  expect(getByTestId(ContactPanelTestIdsEnum.NewButton)).toBeDisabled()
+})
