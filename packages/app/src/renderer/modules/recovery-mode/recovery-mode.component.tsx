@@ -8,23 +8,16 @@ import RecoveryModeUI from "Renderer/modules/recovery-mode/recovery-mode-ui.comp
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import React from "react"
 import { contactSupport } from "Renderer/utils/contact-support/contact-support"
-import ContactSupportModalFlow from "App/contacts/components/contact-modal/contact-support-modal-flow.component"
 
 const RecoveryMode: FunctionComponent<{}> = () => {
-  const {openModal, sendForm} = contactSupport()
-  console.log(openModal)
   return (
-    <>
-      <ContactSupportModalFlow config={openModal}/>
-      <RecoveryModeUI
-        onBackupClick={noop}
-        onRebootOsClick={noop}
-        onRestoreClick={noop}
-        onFactoryResetClick={noop}
-        onSupportButtonClick={sendForm}
-      />
-    </>
-
+    <RecoveryModeUI
+      onBackupClick={noop}
+      onRebootOsClick={noop}
+      onRestoreClick={noop}
+      onFactoryResetClick={noop}
+      onSupportButtonClick={contactSupport}
+    />
   )
 }
 

@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import Modal, {
   ModalProps,
@@ -39,7 +39,6 @@ import { emailValidator } from "Renderer/utils/form-validators"
 import { getModalButtonsSize } from "Renderer/components/core/modal/modal.helpers"
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 import { IconSize } from "Renderer/components/core/icon/icon.component"
-import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.component"
 
 const messages = defineMessages({
   actionButton: {
@@ -121,7 +120,7 @@ const ButtonWrapper = styled.div`
   margin-top: 4rem;
 `
 
-const ModalComponent = styled(ModalDialog)<{ sending?: boolean }>`
+const ModalComponent = styled(Modal)<{ sending?: boolean }>`
   h2 {
     ~ p {
       ${mediumTextSharedStyles};
@@ -217,15 +216,18 @@ export interface SupportFormData {
   attachments?: File[]
 }
 
-export interface ContactModalProps {
+export interface ContactModalProps extends ModalProps {
   onSend?: (data: SupportFormData) => void
   log?: string
   sending?: boolean
 }
 
-const ContactModal: FunctionComponent<
-  ContactModalProps & ComponentProps<typeof ModalDialog>
-> = ({ onSend = noop, log, sending, ...rest }) => {
+const ContactModal: FunctionComponent<ContactModalProps> = ({
+  onSend = noop,
+  log,
+  sending,
+  ...rest
+}) => {
   const [moreDetailsEnabled, enableMoreDetails] = useState(false)
   const [showingDetails, showDetails] = useState(false)
   const logRef = useRef<HTMLPreElement>(null)
@@ -259,13 +261,13 @@ const ContactModal: FunctionComponent<
   }, [showingDetails])
 
   return (
-    <ModalDialog
+    <ModalComponent
       closeButton={false}
       size={ModalSize.Medium}
       title={intl.formatMessage(messages.title)}
       subtitle={intl.formatMessage(messages.description)}
       {...rest}
-      // sending={sending}
+      sending={sending}
     >
       <Form onSubmit={sendEmail}>
         <FormInputLabel label={messages.emailLabel} />
@@ -322,7 +324,7 @@ const ContactModal: FunctionComponent<
           />
         </ButtonWrapper>
       </Form>
-    </ModalDialog>
+    </ModalComponent>
   )
 }
 
