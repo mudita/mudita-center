@@ -21,12 +21,11 @@ import { getAppSettings } from "Renderer/requests/app-settings.request"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import { URL_MAIN } from "Renderer/constants/urls"
 import { RootState } from "Renderer/store"
+import registerHotkeys from "Renderer/register-hotkeys"
+import registerAppContextMenu from "Renderer/register-app-context-menu"
+import appContextMenu from "./app-context-menu"
 import useRouterListener from "Renderer/utils/hooks/use-router-listener/use-router-listener"
 import RootWrapper from "Renderer/wrappers/root-wrapper"
-import registerAppContextMenu from "Renderer/register-app-context-menu"
-import registerHotkeys from "Renderer/register-hotkeys"
-import appContextMenu from "Renderer/wrappers/app-context-menu"
-import ContextMenu from "App/context-menu/context-menu"
 import CollectingModal from "App/collecting-data-modal/collecting-modal.component"
 
 interface Props {
@@ -34,9 +33,6 @@ interface Props {
   history: History
   toggleDisconnectedDevice: (disconnectedDevice: boolean) => void
   connected: boolean
-  registerKeys?: () => void
-  registerMenu?: (menu: ContextMenu) => void
-  contextMenu?: ContextMenu
 }
 
 const BaseApp: FunctionComponent<
@@ -46,9 +42,6 @@ const BaseApp: FunctionComponent<
   toggleDisconnectedDevice,
   store,
   history,
-  registerMenu = registerAppContextMenu,
-  registerKeys = registerHotkeys,
-  contextMenu = appContextMenu,
 }) => {
   const [pureNeverConnected, setPureNeverConnected] = useState(false)
   useEffect(() => {
@@ -74,12 +67,12 @@ const BaseApp: FunctionComponent<
     })()
 
     // Register hotkeys
-    registerKeys()
+    registerHotkeys()
 
     // Register context menu
 
-    registerMenu(appContextMenu)
-    contextMenu.init()
+    registerAppContextMenu(appContextMenu)
+    appContextMenu.init()
   }, [toggleDisconnectedDevice])
 
   useRouterListener(history, {
