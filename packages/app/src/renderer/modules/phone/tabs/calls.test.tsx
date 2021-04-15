@@ -81,7 +81,7 @@ test("dropdown call button has correct content", () => {
   expect(getAllByTestId("dropdown-call")[0]).toHaveTextContent(
     intl.formatMessage(
       {
-        id: "component.dropdown.call",
+        id: "component.dropdownCall",
       },
       { name: mockData[0].caller.firstName }
     )

@@ -38,13 +38,13 @@ const messages = defineMessages({
     id: "module.calendar.authorizationFailed.button",
   },
   google: {
-    id: "component.modal.providers.google",
+    id: "component.modalProvidersGoogle",
   },
   apple: {
-    id: "component.modal.providers.apple",
+    id: "component.modalProvidersApple",
   },
   microsoft: {
-    id: "component.modal.providers.microsoft",
+    id: "component.modalProvidersMicrosoft",
   },
 })
 

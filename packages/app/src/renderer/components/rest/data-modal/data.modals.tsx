@@ -43,11 +43,11 @@ export const RoundIconWrapper = styled.div`
   margin-bottom: 3.2rem;
 `
 const messages = defineMessages({
-  errorTitle: { id: "component.modal.data.error.title" },
-  errorText: { id: "component.modal.data.error.text" },
-  errorDescription: { id: "component.modal.data.error.description" },
-  errorWithRetryButton: { id: "component.modal.data.errorWithRetry.button" },
-  loadingTitle: { id: "component.modal.data.loading.title" },
+  errorTitle: { id: "component.dataModal.errorTitle" },
+  errorText: { id: "component.dataModal.errorText" },
+  errorDescription: { id: "component.dataModal.error.description" },
+  errorWithRetryButton: { id: "component.dataModal.errorWithRetry.button" },
+  loadingTitle: { id: "component.dataModal.loading.title" },
 })
 
 const ErrorModal: FunctionComponent<Partial<ModalProps>> = ({

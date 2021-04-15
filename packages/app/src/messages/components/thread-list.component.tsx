@@ -277,7 +277,7 @@ const ThreadList: FunctionComponent<Props> = ({
                 >
                   <HiddenButton
                     labelMessage={{
-                      id: "component.dropdown.call",
+                      id: "component.dropdownCall",
                       values: {
                         name: contact?.firstName || thread.id,
                       },

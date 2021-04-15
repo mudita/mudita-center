@@ -86,7 +86,7 @@ const ModalDialog: FunctionComponent<Properties> = ({
       data-testid={ModalTestIds.CloseButton}
     />
   ),
-  closeButtonLabel = intl.formatMessage({ id: "component.modal.closeButton" }),
+  closeButtonLabel = intl.formatMessage({ id: "component.modalCloseButton" }),
   actionButtonLabel,
   onActionButtonClick,
   actionButtonIcon,

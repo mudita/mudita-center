@@ -19,8 +19,8 @@ import Text, {
 } from "Renderer/components/core/text/text.component"
 
 const messages = defineMessages({
-  title: { id: "component.modal.support.fail.title" },
-  body: { id: "component.modal.support.fail.body" },
+  title: { id: "component.supportModalFailTitle" },
+  body: { id: "component.supportModalFailBody" },
 })
 
 export const ContactSupportFailed: FunctionComponent = (props) => (

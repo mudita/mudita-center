@@ -114,7 +114,7 @@ export const CallRow: FunctionComponent<CallRowProps> = ({
           >
             <ButtonComponent
               labelMessage={{
-                id: "component.dropdown.call",
+                id: "component.dropdownCall",
                 values: { name: getPrettyCaller(contact, caller.phoneNumber) },
               }}
               Icon={Type.Calls}
