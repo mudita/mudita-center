@@ -4,11 +4,11 @@
  */
 
 import vCard from "vcf"
+import utf8 from "utf8"
+import quotedPrintable from "quoted-printable"
 import { NewContact } from "App/contacts/store/contacts.type"
 
-interface vCardContact {
-  [key: string]: vCard.Property | vCard.Property[]
-}
+type vCardContact = Record<string, vCard.Property | vCard.Property[]>
 
 export const readFile = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -72,16 +72,27 @@ const parseContact = (contact: vCardContact): NewContact => {
     note = (contact.note.valueOf() as string).substr(0, 30)
   }
 
-  return {
+  return decodeObject({
     firstName: !firstName && !lastName ? fullName : firstName,
     lastName,
-    email: contact.email?.valueOf() as string,
+    email: contact.email ? (contact.email.valueOf() as string) : "",
     primaryPhoneNumber,
     secondaryPhoneNumber,
     firstAddressLine,
     secondAddressLine,
     note,
-  }
+  })
+}
+
+const decodeObject = (
+  object: Record<string, string>
+): Record<string, string> => {
+  return Object.fromEntries(
+    Object.entries(object).map(([key, val]) => [
+      key,
+      utf8.decode(quotedPrintable.decode(val)),
+    ])
+  )
 }
 
 const parseVcf = async (files: File[]): Promise<NewContact[]> => {
