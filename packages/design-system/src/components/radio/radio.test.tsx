@@ -44,7 +44,7 @@ test.each([
   [RadioSize.Basic, 1.6],
   [RadioSize.Big, 2],
   [undefined, 1.6],
-])("Checkbox size '%p' is rendered properly", (radioSize, expectedSize) => {
+])("Radio size '%p' is rendered properly", (radioSize, expectedSize) => {
   const { customInput } = renderCheckboxComponent({
     size: radioSize,
   })
