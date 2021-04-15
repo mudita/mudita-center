@@ -2,31 +2,43 @@ import { getColor } from "../../theme"
 import styled, { css } from "styled-components"
 import { Text } from "../text"
 import { Props } from "./radio.component"
-import {
-  getRadioCircleSize,
-  getRadioLabelSpacing,
-  getRadioSize,
-} from "./radio.helpers"
+import { getRadioLabelSpacing, getRadioSize } from "./radio.helpers"
 import { RadioSize } from "./radio.enum"
+import { Icon } from "../icon"
+import { IconRadioChecked } from "../../icons"
 
-const radioActiveStyle = css`
-  border-color: ${getColor("grey800")};
+const radioIconStyle = css`
+  opacity: 0;
+  visibility: hidden;
+  transform: scale3d(0, 0, 0);
+  transition: opacity var(--transition), visibility var(--transition),
+    transform var(--transition);
 `
 
-const circleActiveStyle = css`
+const radioIconActiveStyle = css`
+  opacity: 1;
+  visibility: visible;
   transform: scale3d(1, 1, 1);
+  transition: opacity var(--transition) var(--transition-delay),
+    visibility var(--transition) var(--transition-delay),
+    transform var(--transition);
 `
 
 const radioFocusedStyle = css`
   border-color: ${getColor("grey700")};
 `
 
+const radioActiveStyle = css`
+  border-color: ${getColor("grey800")};
+`
+
 const radioDisabledStyle = css`
+  color: ${getColor("grey400")};
   border-color: ${getColor("grey400")};
 `
 
-const circleDisabledStyle = css`
-  background-color: ${getColor("grey400")};
+export const CheckedIcon = styled(IconRadioChecked)`
+  ${radioIconStyle};
 `
 
 export const NativeInput = styled("input").attrs(() => ({
@@ -38,23 +50,8 @@ export const NativeInput = styled("input").attrs(() => ({
   opacity: 0;
 `
 
-export const RadioCircle = styled("span")<Props>`
-  display: block;
-  position: relative;
-  width: ${({ size }) => getRadioCircleSize(size)}rem;
-  height: ${({ size }) => getRadioCircleSize(size)}rem;
-  border-radius: inherit;
-  background-color: ${getColor("grey800")};
-  transform: scale3d(0, 0, 0);
-  transition: transform var(--transition);
-`
-
-export const CustomInput = styled("span")<Props>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+export const CustomInput = styled(Icon)<Props>`
   border: solid 0.1rem ${getColor("grey500")};
-  position: relative;
   width: ${({ size }) => getRadioSize(size)}rem;
   height: ${({ size }) => getRadioSize(size)}rem;
   border-radius: ${({ size }) => getRadioSize(size)}rem;
@@ -91,21 +88,19 @@ export const RadioWrapper = styled("label")`
     &:checked + ${CustomInput} {
       ${radioActiveStyle};
 
-      ${RadioCircle} {
-        ${circleActiveStyle};
+      ${CheckedIcon} {
+        ${radioIconActiveStyle};
       }
     }
 
-    &:disabled + ${CustomInput} {
-      ${radioDisabledStyle};
-
-      ${RadioCircle} {
-        ${circleDisabledStyle};
+    &:disabled {
+      + ${CustomInput} {
+        ${radioDisabledStyle};
       }
-    }
 
-    &:disabled ~ ${LabelText} {
-      color: ${getColor("grey600")};
+      ~ ${LabelText} {
+        color: ${getColor("grey600")};
+      }
     }
   }
 `

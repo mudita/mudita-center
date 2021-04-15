@@ -2,7 +2,7 @@ import React, { ForwardedRef, forwardRef, InputHTMLAttributes } from "react"
 import { AppFunctionComponent } from "@mudita/app-function-component"
 import { RadioSize, TestId } from "./radio.enum"
 import {
-  RadioCircle,
+  CheckedIcon,
   CustomInput,
   LabelText,
   NativeInput,
@@ -32,7 +32,7 @@ const RadioComponent: AppFunctionComponent<Props> = ({
     <RadioWrapper className={className} data-testid={TestId.Wrapper}>
       <NativeInput {...rest} ref={ref} />
       <CustomInput size={size} data-testid={TestId.CustomInput}>
-        <RadioCircle size={size} data-testid={TestId.Circle} />
+        <CheckedIcon data-testid={TestId.CheckedIcon} />
       </CustomInput>
       {label ? (
         <LabelText

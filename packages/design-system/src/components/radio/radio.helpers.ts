@@ -16,17 +16,6 @@ export const getRadioSize = (size: Size): number => {
   }
 }
 
-export const getRadioCircleSize = (size: Size): number => {
-  switch (size) {
-    case RadioSize.Small:
-      return 0.8
-    case RadioSize.Big:
-      return 1.2
-    default:
-      return 1
-  }
-}
-
 export const getRadioLabelSpacing = (size: Size): string => {
   switch (size) {
     case RadioSize.Big:

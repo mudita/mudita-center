@@ -31,20 +31,20 @@
     "@mudita/app-function-component": "^1.0.10"
   },
   "devDependencies": {
-    "@babel/core": "^7.13.14",
+    "@babel/core": "^7.13.15",
     "@mudita/app-function-component": "^1.0.10",
     "@mudita/eslint-config": "^1.0.15",
     "@mudita/stylelint-config": "^1.0.4",
     "@size-limit/preset-small-lib": "^4.10.2",
-    "@storybook/addon-essentials": "^6.2.4",
+    "@storybook/addon-essentials": "^6.2.8",
     "@storybook/addon-info": "^5.3.21",
-    "@storybook/addon-links": "^6.2.4",
-    "@storybook/addons": "^6.2.4",
-    "@storybook/react": "^6.2.4",
+    "@storybook/addon-links": "^6.2.8",
+    "@storybook/addons": "^6.2.8",
+    "@storybook/react": "^6.2.8",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "^11.2.6",
     "@testing-library/react-hooks": "^5.1.1",
-    "@testing-library/user-event": "^13.1.1",
+    "@testing-library/user-event": "^13.1.3",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
     "@types/styled-components": "^5.1.9",
@@ -69,7 +69,7 @@
     "tscpaths": "0.0.9",
     "tsdx": "^0.14.1",
     "tslib": "^2.2.0",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.4"
   },
   "dependencies": {
     "modern-normalize": "^1.0.0",

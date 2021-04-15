@@ -7,6 +7,6 @@ export enum RadioSize {
 export enum TestId {
   Wrapper = "wrapper",
   CustomInput = "custom-input",
-  Circle = "circle",
+  CheckedIcon = "checked-icon",
   BasicLabel = "label",
 }

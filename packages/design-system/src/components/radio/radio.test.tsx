@@ -15,28 +15,28 @@ const renderCheckboxComponent = (props: ComponentProps<typeof Radio>) => {
     input: () => outcome.getByRole("radio"),
     customInput: () => outcome.queryByTestId(TestId.CustomInput),
     label: () => outcome.queryByTestId(TestId.BasicLabel),
-    circle: () => outcome.queryByTestId(TestId.Circle),
+    icon: () => outcome.queryByTestId(TestId.CheckedIcon),
   }
 }
 
 test("Default radio renders properly", () => {
-  const { input, customInput, circle, label } = renderCheckboxComponent({})
+  const { input, customInput, icon, label } = renderCheckboxComponent({})
 
   expect(input()).not.toBeChecked()
   expect(customInput()).toBeInTheDocument()
   expect(label()).not.toBeInTheDocument()
-  expect(circle()).toBeInTheDocument()
-  expect(circle()).not.toBeVisible()
+  expect(icon()).toBeInTheDocument()
+  expect(icon()).not.toBeVisible()
 })
 
 test("Checked radio renders properly", () => {
-  const { input, circle } = renderCheckboxComponent({
+  const { input, icon } = renderCheckboxComponent({
     checked: true,
     onChange: jest.fn,
   })
 
   expect(input()).toBeChecked()
-  expect(circle()).toBeVisible()
+  expect(icon()).toBeVisible()
 })
 
 test.each([
