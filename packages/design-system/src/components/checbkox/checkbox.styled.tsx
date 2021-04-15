@@ -61,7 +61,6 @@ export const NativeInput = styled("input").attrs(() => ({
 export const CustomInput = styled(Icon)<Props>`
   border: solid 0.1rem ${getColor("grey500")};
   border-radius: 0.2rem;
-  box-sizing: border-box;
   position: relative;
   color: ${getColor("white")};
   transition: background-color var(--transition) var(--transition-delay),

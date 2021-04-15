@@ -5,6 +5,7 @@ import { spacing } from "./spacing"
 import { fontSize } from "./font-size"
 import { fontWeight } from "./font-weight"
 import { AppFunctionComponent } from "@mudita/app-function-component"
+import { MuditaGlobalStyle } from "./global-style"
 
 export const theme = {
   color,
@@ -14,5 +15,8 @@ export const theme = {
 } as const
 
 export const MuditaThemeProvider: AppFunctionComponent = ({ children }) => (
-  <ThemeProvider theme={theme}>{children}</ThemeProvider>
+  <ThemeProvider theme={theme}>
+    <MuditaGlobalStyle />
+    {children}
+  </ThemeProvider>
 )

@@ -2,6 +2,8 @@ import { createGlobalStyle } from "styled-components"
 import { theme } from "./theme-provider"
 import { getColor } from "./theme-getters"
 
+import "modern-normalize/modern-normalize.css"
+
 export const MuditaGlobalStyle = createGlobalStyle<{ theme: typeof theme }>`
   html, body  {
     --scrollbar-width: .2rem;

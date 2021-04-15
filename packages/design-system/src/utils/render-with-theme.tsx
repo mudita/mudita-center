@@ -6,7 +6,6 @@ import {
   RenderResult,
 } from "@testing-library/react"
 import { MuditaThemeProvider } from ".."
-import { MuditaGlobalStyle } from ".."
 import "jest-styled-components"
 
 export function renderWithTheme(
@@ -21,11 +20,5 @@ export function renderWithTheme<Q extends Queries>(
   ui: React.ReactElement,
   options?: RenderOptions<Q>
 ): RenderResult {
-  return render(
-    <MuditaThemeProvider>
-      <MuditaGlobalStyle />
-      {ui}
-    </MuditaThemeProvider>,
-    options
-  )
+  return render(<MuditaThemeProvider>{ui}</MuditaThemeProvider>, options)
 }
