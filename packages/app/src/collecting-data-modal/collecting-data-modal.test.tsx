@@ -21,7 +21,7 @@ const renderer = (extraProps?: {}) => {
   const props = {
     open: true,
     onActionButtonClick: agree,
-    onClose: close,
+    closeModal: close,
   }
   return renderWithThemeAndIntl(
     <CollectingDataModal {...props} {...extraProps} />
@@ -29,7 +29,8 @@ const renderer = (extraProps?: {}) => {
 }
 
 test("agree is fired after button is clicked", () => {
-  const { getByTestId } = renderer()
+  const { getByTestId, debug } = renderer()
+  debug()
   getByTestId(ModalTestIds.ModalActionButton).click()
   expect(agree).toBeCalled()
 })
