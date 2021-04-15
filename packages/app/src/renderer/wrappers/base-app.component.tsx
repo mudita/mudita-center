@@ -73,7 +73,7 @@ const BaseApp: FunctionComponent<
 
     registerAppContextMenu(appContextMenu)
     appContextMenu.init()
-  }, [toggleDisconnectedDevice])
+  }, [])
 
   useRouterListener(history, {
     [URL_MAIN.contacts]: [store.dispatch.contacts.loadData],
