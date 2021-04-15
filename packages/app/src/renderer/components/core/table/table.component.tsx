@@ -205,7 +205,9 @@ const SidebarHeaderRight = styled.div`
   }
 `
 
-const SidebarHeader = styled.div`
+const SidebarHeader = styled.div<{
+  withBottomBorder: boolean
+}>`
   display: grid;
   height: var(--header-height);
   grid-template-columns: 1fr auto 3.8rem;
@@ -213,6 +215,9 @@ const SidebarHeader = styled.div`
   align-items: center;
   background-color: var(--header-background);
   padding: 0 2.3rem 0 3rem;
+  border-bottom: solid
+    ${({ withBottomBorder }) => (withBottomBorder ? `0.1rem` : 0)}
+    ${borderColor("list")};
 `
 
 const SidebarContent = styled.div<{ padded: boolean }>`
@@ -310,6 +315,7 @@ export interface SidebarProps {
   headerRight?: ReactNode
   appColorSidebarHeader?: boolean
   padded?: boolean
+  withBottomBorder?: boolean
 }
 
 export const Sidebar: FunctionComponent<SidebarProps> = ({
@@ -321,6 +327,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
   headerRight,
   appColorSidebarHeader = false,
   padded = true,
+  withBottomBorder = false,
   ...rest
 }) => (
   <SidebarWrapper
@@ -330,7 +337,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
     data-testid={TableTestIds.Sidebar}
     {...rest}
   >
-    <SidebarHeader>
+    <SidebarHeader withBottomBorder={withBottomBorder}>
       {headerLeft && <SidebarHeaderLeft>{headerLeft}</SidebarHeaderLeft>}
       {headerRight && <SidebarHeaderRight>{headerRight}</SidebarHeaderRight>}
       <SidebarClose onClick={onClose} data-testid="sidebar-close">
@@ -342,7 +349,7 @@ export const Sidebar: FunctionComponent<SidebarProps> = ({
 )
 
 /* Table */
- export interface TableProps {
+export interface TableProps {
   hideColumns?: boolean
   hideableColumnsIndexes?: number[]
   sidebar?: ReactNode

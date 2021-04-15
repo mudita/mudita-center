@@ -12,7 +12,10 @@ import Dropdown, {
 } from "Renderer/components/core/dropdown/dropdown.component"
 import Icon from "Renderer/components/core/icon/icon.component"
 import { Type } from "Renderer/components/core/icon/icon.config"
-import Avatar, { User } from "Renderer/components/core/avatar/avatar.component"
+import Avatar, {
+  User,
+  AvatarSize,
+} from "Renderer/components/core/avatar/avatar.component"
 import {
   backgroundColor,
   borderRadius,
@@ -116,8 +119,6 @@ const ActionsButton = styled.span`
 const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
   margin-left: ${({ interlocutor }) => (interlocutor ? "0" : "2.7rem")};
   margin-right: ${({ interlocutor }) => (interlocutor ? "2.7rem" : "0")};
-  height: 4.8rem;
-  width: 4.8rem;
   background-color: ${({ interlocutor }) =>
     interlocutor ? backgroundColor("minor") : backgroundColor("message")};
   align-self: end;
@@ -211,7 +212,11 @@ const MessageBubble: FunctionComponent<Props> = ({
         </MessageBubbleContainer>
       </div>
       {displayAvatar && (
-        <InitialsAvatar user={user} interlocutor={interlocutor} />
+        <InitialsAvatar
+          user={user}
+          interlocutor={interlocutor}
+          size={AvatarSize.Big}
+        />
       )}
     </MessageBubbleWrapper>
   )

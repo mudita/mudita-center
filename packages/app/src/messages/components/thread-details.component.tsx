@@ -154,7 +154,7 @@ const ThreadDetails: FunctionComponent<ThreadDetailsProps> = ({
       }
       headerRight={icons}
       onClose={onClose}
-      appColorSidebarHeader
+      withBottomBorder
       padded={false}
     >
       <MessagesWrapper>
