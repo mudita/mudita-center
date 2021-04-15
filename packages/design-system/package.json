@@ -1,6 +1,6 @@
 {
   "name": "@mudita/design-system",
-  "version": "1.0.0-alpha.6",
+  "version": "1.0.0-alpha.7",
   "description": "Mudita Design System",
   "author": "Mudita",
   "license": "MIT",
@@ -27,13 +27,14 @@
   },
   "peerDependencies": {
     "react": ">=16",
-    "styled-components": ">=5"
+    "styled-components": ">=5",
+    "@mudita/app-function-component": "^1.0.10"
   },
   "devDependencies": {
     "@babel/core": "^7.13.14",
+    "@mudita/app-function-component": "^1.0.10",
     "@mudita/eslint-config": "^1.0.15",
     "@mudita/stylelint-config": "^1.0.4",
-    "@rollup/plugin-image": "^2.0.6",
     "@size-limit/preset-small-lib": "^4.10.2",
     "@storybook/addon-essentials": "^6.2.4",
     "@storybook/addon-info": "^5.3.21",
@@ -62,6 +63,7 @@
     "react-is": "^17.0.2",
     "react-svg-loader": "^3.0.3",
     "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-react-svg": "^3.0.3",
     "size-limit": "^4.10.2",
     "styled-components": "^5.2.3",
     "tscpaths": "0.0.9",
@@ -70,7 +72,7 @@
     "typescript": "^4.2.3"
   },
   "dependencies": {
-    "@mudita/app-function-component": "^1.0.10"
+    "react-merge-refs": "^1.1.0"
   },
   "private": false,
   "repository": {
@@ -98,8 +100,7 @@
   ],
   "files": [
     "dist",
-    "src",
-    "assets"
+    "src"
   ],
   "engines": {
     "node": ">=10"

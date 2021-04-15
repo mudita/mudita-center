@@ -1,4 +1,6 @@
 {
+  "sourceMaps": true,
+  "inputSourceMap": true,
   "plugins": [
     [
       "babel-plugin-styled-components",

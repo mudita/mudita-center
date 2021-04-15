@@ -1,7 +1,7 @@
 const postcss = require("rollup-plugin-postcss")
 const autoprefixer = require("autoprefixer")
 const cssnano = require("cssnano")
-const image = require("@rollup/plugin-image")
+const reactSvg = require("rollup-plugin-react-svg")
 
 module.exports = {
   rollup(config, options) {
@@ -19,7 +19,24 @@ module.exports = {
       })
     )
 
-    config.plugins.unshift(image())
+    config.plugins.unshift(
+      reactSvg({
+        // svgo options
+        svgo: {
+          plugins: [], // passed to svgo
+          multipass: true,
+        },
+
+        // whether to output jsx
+        jsx: false,
+
+        // include: string
+        include: null,
+
+        // exclude: string
+        exclude: null,
+      })
+    )
 
     return config
   },
