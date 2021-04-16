@@ -232,7 +232,12 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
   const [showingDetails, showDetails] = useState(false)
   const logRef = useRef<HTMLPreElement>(null)
 
-  const { register, errors, handleSubmit, setValue } = useForm({
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    setValue,
+  } = useForm({
     mode: "onChange",
   })
 
@@ -277,16 +282,14 @@ const ContactModal: FunctionComponent<ContactModalProps> = ({
           label={intl.formatMessage(messages.emailPlaceholder)}
           outlined
           condensed
-          name="email"
-          inputRef={register(emailValidator)}
+          {...register("email", emailValidator)}
           errorMessage={errors.email?.message}
         />
         <FormInputLabel label={messages.messageLabel} optional />
         <MessageInput
           type="textarea"
           label={intl.formatMessage(messages.messagePlaceholder)}
-          name="message"
-          inputRef={register}
+          {...register("message")}
           maxRows={3}
         />
         <FormInputLabel label={messages.filesLabel} optional />
