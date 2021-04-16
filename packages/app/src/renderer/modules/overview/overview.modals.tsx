@@ -86,106 +86,106 @@ const CenteredText = styled(Text)`
 
 const messages = defineMessages({
   muditaOsUpdateTitle: {
-    id: "module.overview.muditaOsUpdate.title",
+    id: "module.overview.muditaOsUpdateTitle",
   },
   checkingForUpdatesMessage: {
-    id: "module.overview.checkingForUpdates.message",
+    id: "module.overview.checkingForUpdatesMessage",
   },
   checkingForUpdatesCloseButton: {
-    id: "module.overview.checkingForUpdates.closeButton",
+    id: "module.overview.checkingForUpdatesCloseButton",
   },
   updateAvailableMessage: {
-    id: "module.overview.updateAvailable.message",
+    id: "module.overview.updateAvailableMessage",
   },
   updateAvailableDescription: {
-    id: "module.overview.updateAvailable.description",
+    id: "module.overview.updateAvailableDescription",
   },
   updateAvailableButton: {
-    id: "module.overview.updateAvailable.button",
+    id: "module.overview.updateAvailableButton",
   },
   updateNotAvailableMessage: {
-    id: "module.overview.updateNotAvailable.message",
+    id: "module.overview.updateNotAvailableMessage",
   },
   updateNotAvailableDescription: {
-    id: "module.overview.updateAvailable.description",
+    id: "module.overview.updateAvailableDescription",
   },
   downloadingUpdateMessage: {
-    id: "module.overview.downloadingUpdate.message",
+    id: "module.overview.downloadingUpdateMessage",
   },
   downloadingUpdateDescriptionStarting: {
     id:
-      "module.overview.downloadingUpdate.starting",
+      "module.overview.downloadingUpdateStarting",
   },
   downloadingUpdateDescriptionDownloading: {
     id:
-      "module.overview.downloadingUpdate.downloading",
+      "module.overview.downloadingUpdateDownloading",
   },
   downloadingUpdateDescriptionFinishing: {
     id:
-      "vmodule.overview.downloadingUpdate.finishing",
+      "vmodule.overview.downloadingUpdateFinishing",
   },
   downloadingUpdateButton: {
-    id: "module.overview.downloadingUpdate.button",
+    id: "module.overview.downloadingUpdateButton",
   },
   downloadCompletedMessage: {
-    id: "module.overview.downloadCompleted.message",
+    id: "module.overview.downloadCompletedMessage",
   },
   downloadCompletedDescription: {
-    id: "module.overview.downloadCompleted.description",
+    id: "module.overview.downloadCompletedDescription",
   },
   downloadCompletedButton: {
-    id: "module.overview.downloadCompleted.button",
+    id: "module.overview.downloadCompletedButton",
   },
   downloadCompletedCloseButton: {
-    id: "module.overview.downloadCompleted.closeButton",
+    id: "module.overview.downloadCompletedCloseButton",
   },
   checkingUpdateFailedMessage: {
-    id: "module.overview.checkingUpdateFailed.message",
+    id: "module.overview.checkingUpdateFailedMessage",
   },
   checkingUpdateFailedDescription: {
-    id: "module.overview.checkingUpdateFailed.description",
+    id: "module.overview.checkingUpdateFailedDescription",
   },
   checkingUpdateFailedButton: {
-    id: "module.overview.checkingUpdateFailed.button",
+    id: "module.overview.checkingUpdateFailedButton",
   },
   downloadingFailedMessage: {
-    id: "module.overview.downloadingFailed.message",
+    id: "module.overview.downloadingFailedMessage",
   },
   downloadingFailedDescription: {
-    id: "module.overview.downloadingFailed.description",
+    id: "module.overview.downloadingFailedDescription",
   },
   downloadingFailedButton: {
-    id: "module.overview.downloadingFailed.button",
+    id: "module.overview.downloadingFailedButton",
   },
   downloadingCancelledMessage: {
-    id: "module.overview.downloadingCancelled.message",
+    id: "module.overview.downloadingCancelledMessage",
   },
   updatingProgressTitle: {
-    id: "module.overview.updatingProgress.title",
+    id: "module.overview.updatingProgressTitle",
   },
   updatingProgressDescription: {
-    id: "module.overview.updatingProgress.description",
+    id: "module.overview.updatingProgressDescription",
   },
   updatingSuccessTitle: {
-    id: "module.overview.updatingSuccess.title",
+    id: "module.overview.updatingSuccessTitle",
   },
   updatingSuccessDescription: {
-    id: "module.overview.updatingSuccess.description",
+    id: "module.overview.updatingSuccessDescription",
   },
   updatingFailedTitle: {
-    id: "module.overview.updatingFailed.title",
+    id: "module.overview.updatingFailedTitle",
   },
   updatingFailedDescription: {
-    id: "module.overview.updatingFailed.description",
+    id: "module.overview.updatingFailedDescription",
   },
   updatingFailedOnlySupportDescription: {
-    id: "module.overview.updatingFailed.onlySupportDescription",
+    id: "module.overview.updatingFailedOnlySupportDescription",
   },
   updatingFailedSupportButton: {
-    id: "module.overview.updatingFailed.supportButton",
+    id: "module.overview.updatingFailedSupportButton",
   },
   updatingFailedHelpButton: {
-    id: "module.overview.updatingFailed.helpButton",
+    id: "module.overview.updatingFailedHelpButton",
   },
 })
 

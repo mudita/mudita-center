@@ -80,7 +80,7 @@ const messages = defineMessages({
     id: "module.recoveryMode.supportMessage",
   },
   supportButtonText: {
-    id: "module.onboarding.troubleshooting.support.button",
+    id: "module.onboarding.supportButton",
   },
 })
 

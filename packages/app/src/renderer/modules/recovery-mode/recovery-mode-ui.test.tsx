@@ -46,7 +46,7 @@ test("factory reset action is performed", () => {
 test("support button works correctly", () => {
   const { getByText } = renderer()
   getByText(
-    "[value] module.onboarding.troubleshooting.support.button"
+    "[value] module.onboarding.supportButton"
   ).click()
   expect(defaultProps.onSupportButtonClick).toBeCalled()
 })

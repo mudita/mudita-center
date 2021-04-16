@@ -22,10 +22,10 @@ import { defineMessages } from "react-intl"
 const messages = defineMessages({
   cancel: { id: "component.cancelButton" },
   title: {
-    id: "module.overview.backup.loadingBackupModal.title",
+    id: "module.overview.backupLoadingBackupModalTitle",
   },
   body: {
-    id: "module.overview.backup.loadingBackupModal.body",
+    id: "module.overview.backupLoadingBackupModalBody",
   },
 })
 

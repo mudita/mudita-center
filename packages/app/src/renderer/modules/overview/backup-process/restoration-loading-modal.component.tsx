@@ -21,10 +21,10 @@ import { DisplayStyle } from "Renderer/components/core/stacked-bar-chart/stacked
 const messages = defineMessages({
   cancel: { id: "component.cancelButton" },
   title: {
-    id: "module.overview.backup.restoringBackupModal.title",
+    id: "module.overview.backupRestoringBackupModalTitle",
   },
   body: {
-    id: "module.overview.backup.loadingBackupModal.body",
+    id: "module.overview.backupLoadingBackupModalBody",
   },
 })
 

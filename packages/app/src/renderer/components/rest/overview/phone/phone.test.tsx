@@ -40,7 +40,7 @@ test("phone info renders properly", () => {
   expect(getByText("75 %")).toBeInTheDocument()
   expect(getByText("Play")).toBeInTheDocument()
   expect(
-    getByText(intl.formatMessage({ id: "module.overview.phone.battery" }))
+    getByText(intl.formatMessage({ id: "module.overview.phoneBattery" }))
   ).toBeInTheDocument()
   expect(disconnectButton()).toBeInTheDocument()
 })

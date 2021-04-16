@@ -38,10 +38,10 @@ const messages = defineMessages({
   },
   cancel: { id: "component.cancelButton" },
   title: {
-    id: "module.overview.backup.createBackupModal.title",
+    id: "module.overview.backupCreateBackupModalTotal",
   },
   total: {
-    id: "module.overview.backup.createBackupModal.total",
+    id: "module.overview.backup.createBackupModalTotal",
   },
 })
 

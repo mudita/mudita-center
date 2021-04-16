@@ -225,13 +225,13 @@ exports[`matches snapshot 1`] = `
         <span
           class="c4"
         >
-          [value] module.overview.system.version
+          [value] module.overview.systemVersion
         </span>
       </div>
       <p
         class="c5 c6"
       >
-        [value] module.overview.system.lastUpdate
+        [value] module.overview.systemLastUpdate
       </p>
     </div>
     <section
@@ -255,7 +255,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c4 c14"
         >
-          [value] module.overview.system.checkForUpdates
+          [value] module.overview.systemCheckForUpdates
         </p>
       </button>
     </section>
