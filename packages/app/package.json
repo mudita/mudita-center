@@ -187,7 +187,7 @@
     "circular-dependency-plugin": "^5.2.2",
     "concurrently": "^6.0.2",
     "contentful": "^8.2.1",
-    "core-js": "^3.9.1",
+    "core-js": "^3.10.1",
     "cross-env": "^7.0.3",
     "crypto-js": "^4.0.0",
     "css-loader": "^5.1.2",
