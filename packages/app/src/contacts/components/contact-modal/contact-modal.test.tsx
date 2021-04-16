@@ -69,8 +69,8 @@ describe("contact modal details", () => {
       fireEvent.click(
         getByText(
           intl.formatMessage({
-            id: `component.modal.support.form.details.${
-              toggled ? "hideButton" : "showButton"
+            id: `component.supportModalFormDetails${
+              toggled ? "HideButton" : "ShowButton"
             }`,
           })
         )
