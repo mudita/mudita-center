@@ -130,7 +130,7 @@ const MessagesPanel: FunctionComponent<Props> = ({
         <MessageSelectionManager
           selectedItemsNumber={selectedConversations.length}
           allItemsSelected={Boolean(allItemsSelected)}
-          message={{ id: "module.messages.conversations.selectionsNumber" }}
+          message={{ id: "module.messages.conversationsSelectionsNumber" }}
           checkboxSize={Size.Large}
           onToggle={toggleAll}
           buttons={

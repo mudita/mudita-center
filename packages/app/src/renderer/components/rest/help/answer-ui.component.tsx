@@ -64,7 +64,7 @@ const AnswerUI: FunctionComponent<Props> = ({ match, list }) => {
         ) : (
           <Text
             displayStyle={TextDisplayStyle.MediumText}
-            message={{ id: "module.help.answer.error" }}
+            message={{ id: "module.help.answerError" }}
           />
         )}
       </div>

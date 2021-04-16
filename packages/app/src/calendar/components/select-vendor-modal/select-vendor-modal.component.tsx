@@ -29,13 +29,13 @@ import { SelectVendorModalTestIds } from "App/calendar/components/select-vendor-
 
 const messages = defineMessages({
   title: {
-    id: "module.calendar.selectVendor.title",
+    id: "module.calendar.selectVendorTitle",
   },
   subtitle: {
-    id: "module.calendar.selectVendor.subtitle",
+    id: "module.calendar.selectVendorSubtitle",
   },
   body: {
-    id: "module.calendar.selectVendor.body",
+    id: "module.calendar.selectVendorBody",
   },
   buttonGoogle: {
     id: "component.loginGoogleButton",

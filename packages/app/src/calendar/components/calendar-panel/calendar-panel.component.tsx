@@ -30,8 +30,8 @@ import modalService, {
 import ExportErrorModal from "App/calendar/components/export-error-modal/export-error-modal.component"
 
 const messages = defineMessages({
-  synchroniseButton: { id: "module.calendar.panel.synchroniseButton" },
-  addEventButton: { id: "module.calendar.panel.addEventButton" },
+  synchroniseButton: { id: "module.calendar.panelSynchroniseButton" },
+  addEventButton: { id: "module.calendar.panelAddEventButton" },
   exportButton: { id: "module.calendar.exportButton" },
   deleteButton: { id: "module.calendar.deleteButton" },
 })

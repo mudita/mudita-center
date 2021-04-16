@@ -14,7 +14,7 @@ import path from "path"
 import logger from "App/main/utils/logger"
 
 const messages = defineMessages({
-  dialogTitle: { id: "module.calendar.export.saveDialogTitle" },
+  dialogTitle: { id: "module.calendar.exportSaveDialogTitle" },
   defaultFilename: { id: "module.calendar.export.defaultFileName" },
 })
 

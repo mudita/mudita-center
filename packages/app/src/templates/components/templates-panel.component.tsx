@@ -22,16 +22,16 @@ import { TemplatesTestIds } from "App/templates/templates.enum"
 
 export const messages = defineMessages({
   searchPlaceholder: {
-    id: "module.messages.templates.searchPlaceholder",
+    id: "module.templates.searchPlaceholder",
   },
   selectionsNumber: {
-    id: "module.messages.templates.selectionsNumber",
+    id: "module.templates.selectionsNumber",
   },
   newButton: {
-    id: "module.messages.templates.newButton",
+    id: "module.templates.newButton",
   },
   deleteButton: {
-    id: "module.messages.templates.deleteButton",
+    id: "module.templates.deleteButton",
   },
 })
 

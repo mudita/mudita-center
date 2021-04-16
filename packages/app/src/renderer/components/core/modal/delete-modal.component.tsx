@@ -33,8 +33,8 @@ export const ModalContent = styled.div`
 `
 
 const messages = defineMessages({
-  cancelButton: { id: "module.contacts.delete.cancelButton" },
-  deleteButton: { id: "module.contacts.delete.deleteButton" },
+  cancelButton: { id: "module.contacts.deleteCancelButton" },
+  deleteButton: { id: "module.contacts.deleteButton" },
 })
 
 export interface DeleteContactModalProps {

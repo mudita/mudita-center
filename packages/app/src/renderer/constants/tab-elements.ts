@@ -11,12 +11,12 @@ const productionEnvironment = process.env.NODE_ENV === "production"
 
 const messages = defineMessages({
   conversations: { id: "module.messages.conversations" },
-  templates: { id: "module.messages.templates" },
+  templates: { id: "module.templates" },
   contacts: { id: "module.contacts" },
   calls: { id: "module.phone.calls" },
   dial: { id: "module.phone.dial" },
   allSongs: { id: "module.music.allSongs" },
-  playlist: { id: "module.music.playlist" },
+  playlist: { id: "module.playlist" },
   notes: { id: "module.tools.notes" },
   voiceRecorder: { id: "module.tools.voiceRecorder" },
   connection: { id: "module.settings.connection" },

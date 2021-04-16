@@ -34,11 +34,11 @@ import { exportContacts } from "App/contacts/helpers/export-contacts/export-cont
 import { IconSize } from "Renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
-  title: { id: "module.contacts.delete.title" },
+  title: { id: "module.contacts.deleteTitle" },
   export: { id: "module.contacts.selectionExport" },
   body: { id: "module.contacts.deleteMultipleContacts" },
-  deletingText: { id: "module.contacts.deleting.text" },
-  deleteButton: { id: "module.contacts.action.delete" },
+  deletingText: { id: "module.contacts.deletingText" },
+  deleteButton: { id: "module.contacts.delete" },
 })
 
 export interface ContactPanelProps {
@@ -143,7 +143,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
       <Buttons>
         <ButtonComponent
           displayStyle={DisplayStyle.Secondary}
-          labelMessage={{ id: "module.contacts.panel.manageButton" }}
+          labelMessage={{ id: "module.contacts.panelManageButton" }}
           onClick={onManageButtonClick}
           data-testid={ContactPanelTestIdsEnum.ManageButton}
           Icon={Type.Manage}
@@ -151,7 +151,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
         />
         <ButtonComponent
           labelMessage={{
-            id: "module.contacts.panel.newContactButton",
+            id: "module.contacts.panelNewContactButton",
           }}
           onClick={onNewButtonClick}
           data-testid={ContactPanelTestIdsEnum.NewButton}

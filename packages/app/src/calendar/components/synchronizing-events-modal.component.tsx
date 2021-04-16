@@ -22,13 +22,13 @@ import { intl } from "Renderer/utils/intl"
 
 const messages = defineMessages({
   title: {
-    id: "module.calendar.synchronizing.title",
+    id: "module.calendar.synchronizingTitle",
   },
   subtitle: {
-    id: "module.calendar.synchronizing.subtitle",
+    id: "module.calendar.synchronizingSubtitle",
   },
   body: {
-    id: "module.calendar.synchronizing.body",
+    id: "module.calendar.synchronizingBody",
   },
 })
 

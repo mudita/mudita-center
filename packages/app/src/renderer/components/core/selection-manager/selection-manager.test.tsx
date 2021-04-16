@@ -20,7 +20,7 @@ const PredefinedSelectionManager = ({
 }: Partial<SelectionManagerProps>) => {
   return (
     <SelectionManager
-      message={{ id: "module.messages.conversations.selectionsNumber" }}
+      message={{ id: "module.messages.conversationsSelectionsNumber" }}
       selectedItemsNumber={selectedItemsNumber}
       allItemsSelected={allItemsSelected}
       {...props}
@@ -76,21 +76,21 @@ test("render buttons properly", () => {
 test("renders text info for one item properly", () => {
   const { getInfo } = renderSelectionManager({ selectedItemsNumber: 1 })
   expect(getInfo()).toHaveTextContent(
-    "module.messages.conversations.selectionsNumber"
+    "module.messages.conversationsSelectionsNumber"
   )
 })
 
 test("renders text info for few items properly", () => {
   const { getInfo } = renderSelectionManager({ selectedItemsNumber: 4 })
   expect(getInfo()).toHaveTextContent(
-    "module.messages.conversations.selectionsNumber"
+    "module.messages.conversationsSelectionsNumber"
   )
 })
 
 test("renders text info for all items properly", () => {
   const { getInfo } = renderSelectionManager({ allItemsSelected: true })
   expect(getInfo()).toHaveTextContent(
-    "module.messages.conversations.selectionsNumber"
+    "module.messages.conversationsSelectionsNumber"
   )
 })
 

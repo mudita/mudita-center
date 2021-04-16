@@ -240,7 +240,7 @@ export const getSortedContactList = ({ collection, db }: PhoneContacts) => {
   if (favouriteContacts.length) {
     labeledContacts.unshift({
       category: intl.formatMessage({
-        id: "module.contacts.list.favourites",
+        id: "module.contacts.listFavourites",
       }),
       contacts: favouriteContacts,
     })

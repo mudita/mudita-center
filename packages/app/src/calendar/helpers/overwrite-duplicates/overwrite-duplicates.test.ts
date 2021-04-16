@@ -149,10 +149,10 @@ test("differences between events are found properly", () => {
     }
   )
   expect(diff)
-    .toBe(`[value] module.calendar.duplicatedEvent.name: Felix's Birthday 3
-[value] module.calendar.duplicatedEvent.startDate: 2022-02-03T10:00:00.000Z
-[value] module.calendar.duplicatedEvent.endDate: 2022-02-03T13:00:00.000Z
-[value] module.calendar.duplicatedEvent.recurrence: every day for 10 times`)
+    .toBe(`[value] module.calendar.duplicatedEventName: Felix's Birthday 3
+[value] module.calendar.duplicatedEventStartDate: 2022-02-03T10:00:00.000Z
+[value] module.calendar.duplicatedEventEndDate: 2022-02-03T13:00:00.000Z
+[value] module.calendar.duplicatedEventRecurrence: every day for 10 times`)
 })
 
 test("exact duplicates are overwritten properly", () => {
@@ -184,10 +184,10 @@ test("duplicates with slightly modified data are overwritten properly", () => {
       description:
         "This is a description\n" +
         "~~~~~~~~~~~~~~~~~~~~\n" +
-        "~~ [value] module.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
-        "[value] module.calendar.duplicatedEvent.name: Felix's Birthday\n" +
-        "[value] module.calendar.duplicatedEvent.startDate: 2021-01-01T10:00:00.000Z\n" +
-        "[value] module.calendar.duplicatedEvent.endDate: 2021-01-01T13:00:00.000Z",
+        "~~ [value] module.calendar.duplicatedEventTitle ~~\n" +
+        "[value] module.calendar.duplicatedEventName: Felix's Birthday\n" +
+        "[value] module.calendar.duplicatedEventStartDate: 2021-01-01T10:00:00.000Z\n" +
+        "[value] module.calendar.duplicatedEventEndDate: 2021-01-01T13:00:00.000Z",
     },
     event2,
   ])
@@ -204,11 +204,11 @@ test("duplicates with data modified before are updated properly", () => {
         description:
           "This is a new description\n" +
           "~~~~~~~~~~~~~~~~~~~~\n" +
-          "~~ [value] module.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
-          "[value] module.calendar.duplicatedEvent.name: Felix's Birthday\n" +
-          "[value] module.calendar.duplicatedEvent.startDate: 2021-01-01T10:00:00.000Z\n" +
-          "[value] module.calendar.duplicatedEvent.endDate: 2021-01-01T13:00:00.000Z\n" +
-          "[value] module.calendar.duplicatedEvent.description: This is a description",
+          "~~ [value] module.calendar.duplicatedEventTitle ~~\n" +
+          "[value] module.calendar.duplicatedEventName: Felix's Birthday\n" +
+          "[value] module.calendar.duplicatedEventStartDate: 2021-01-01T10:00:00.000Z\n" +
+          "[value] module.calendar.duplicatedEventEndDate: 2021-01-01T13:00:00.000Z\n" +
+          "[value] module.calendar.duplicatedEventDescription: This is a description",
       },
     ],
     newEvents: [
@@ -230,15 +230,15 @@ test("duplicates with data modified before are updated properly", () => {
       description:
         "This is a new description" +
         "\n~~~~~~~~~~~~~~~~~~~~\n" +
-        "~~ [value] module.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
-        "[value] module.calendar.duplicatedEvent.name: Felix's Birthday 2\n" +
-        "[value] module.calendar.duplicatedEvent.description: This is a new description\n" +
+        "~~ [value] module.calendar.duplicatedEventTitle ~~\n" +
+        "[value] module.calendar.duplicatedEventName: Felix's Birthday 2\n" +
+        "[value] module.calendar.duplicatedEventDescription: This is a new description\n" +
         "~~~~~~~~~~~~~~~~~~~~\n" +
-        "~~ [value] module.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
-        "[value] module.calendar.duplicatedEvent.name: Felix's Birthday\n" +
-        "[value] module.calendar.duplicatedEvent.startDate: 2021-01-01T10:00:00.000Z\n" +
-        "[value] module.calendar.duplicatedEvent.endDate: 2021-01-01T13:00:00.000Z\n" +
-        "[value] module.calendar.duplicatedEvent.description: This is a description",
+        "~~ [value] module.calendar.duplicatedEventTitle ~~\n" +
+        "[value] module.calendar.duplicatedEventName: Felix's Birthday\n" +
+        "[value] module.calendar.duplicatedEventStartDate: 2021-01-01T10:00:00.000Z\n" +
+        "[value] module.calendar.duplicatedEventEndDate: 2021-01-01T13:00:00.000Z\n" +
+        "[value] module.calendar.duplicatedEventDescription: This is a description",
     },
   ])
 })
@@ -258,8 +258,8 @@ test("duplicates with removed description are updated properly", () => {
       ...event1,
       description:
         "~~~~~~~~~~~~~~~~~~~~\n" +
-        "~~ [value] module.calendar.duplicatedEvent.updatedDescriptionTitle ~~\n" +
-        "[value] module.calendar.duplicatedEvent.description: This is a description",
+        "~~ [value] module.calendar.duplicatedEventTitle ~~\n" +
+        "[value] module.calendar.duplicatedEventDescription: This is a description",
     },
     event2,
   ])

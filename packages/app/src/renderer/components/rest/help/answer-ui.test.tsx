@@ -51,7 +51,7 @@ test("error text is rendered", () => {
     route: `${URL_MAIN.help}/error-route`,
     path: `${URL_MAIN.help}/:questionId`,
   })
-  expect(getByText("[value] module.help.answer.error")).toBeInTheDocument()
+  expect(getByText("[value] module.help.answerError")).toBeInTheDocument()
 })
 
 test("back link has correct text ", () => {

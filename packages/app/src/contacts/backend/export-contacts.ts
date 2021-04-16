@@ -15,8 +15,8 @@ import { defineMessages } from "react-intl"
 import { createFullName } from "App/contacts/store/contacts.helpers"
 
 const messages = defineMessages({
-  dialogTitle: { id: "module.contacts.export.saveDialogTitle" },
-  defaultFilename: { id: "module.contacts.export.defaultFilename" },
+  dialogTitle: { id: "module.contacts.exportSaveDialogTitle" },
+  defaultFilename: { id: "module.contacts.exportDefaultFilename" },
   button: { id: "module.contacts.export.button" },
 })
 

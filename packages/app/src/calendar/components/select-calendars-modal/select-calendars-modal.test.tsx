@@ -37,7 +37,7 @@ test("select calendar modal renders properly", () => {
   const { synchronizeButton, selectInput } = renderModal()
 
   expect(synchronizeButton()).toHaveTextContent(
-    "[value] module.calendar.selectCalendars.button"
+    "[value] module.calendar.selectCalendarsButton"
   )
   expect(selectInput()).toBeInTheDocument()
 })

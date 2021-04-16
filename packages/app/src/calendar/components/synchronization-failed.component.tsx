@@ -24,13 +24,13 @@ import Icon from "Renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
   title: {
-    id: "module.calendar.synchronizationFailed.title",
+    id: "module.calendar.synchronizationFailedTitle",
   },
   subtitle: {
-    id: "module.calendar.synchronizationFailed.subtitle",
+    id: "module.calendar.synchronizationFailedSubtitle",
   },
   body: {
-    id: "module.calendar.synchronizationFailed.body",
+    id: "module.calendar.synchronizationFailedBody",
   },
   button: {
     id: "component.supportButton",

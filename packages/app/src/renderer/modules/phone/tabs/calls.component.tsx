@@ -21,9 +21,9 @@ import getPrettyCaller from "Renderer/models/calls/get-pretty-caller"
 import { Contact } from "App/contacts/store/contacts.type"
 
 const deleteModalMessages = defineMessages({
-  title: { id: "module.calls.deleteModal.title" },
+  title: { id: "module.calls.deleteModalTitle" },
   body: {
-    id: "module.calls.deleteModal.body",
+    id: "module.calls.deleteModalBody",
   },
 })
 

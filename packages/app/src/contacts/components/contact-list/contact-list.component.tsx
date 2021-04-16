@@ -167,7 +167,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
           <Labels>
             <Col />
             <Col>
-              <FormattedMessage id={"module.contacts.new.title"} />
+              <FormattedMessage id={"module.contacts.newTitle"} />
             </Col>
           </Labels>
           <Row active>
@@ -253,7 +253,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                         />
                         {createStyledFullName() ||
                           intl.formatMessage({
-                            id: "module.contacts.list.unnamedContact",
+                            id: "module.contacts.listUnnamedContact",
                           })}
                         {contact.blocked && (
                           <BlockedIcon width={1.4} height={1.4} />
@@ -279,7 +279,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             <HiddenButton
                               labelMessage={{
                                 id:
-                                  "module.contacts.action.exportAsVcard",
+                                  "module.contacts.exportAsVcard",
                               }}
                               Icon={Type.Upload}
                               onClick={handleExport}
@@ -289,7 +289,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             <HiddenButton
                               labelMessage={{
                                 id:
-                                  "module.contacts.action.forwardNamecard",
+                                  "module.contacts.forwardNamecard",
                               }}
                               Icon={Type.Forward}
                               onClick={handleForward}
@@ -299,7 +299,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             {contact.blocked ? (
                               <HiddenButton
                                 labelMessage={{
-                                  id: "module.contacts.action.unblock",
+                                  id: "module.contacts.unblock",
                                 }}
                                 Icon={Type.Blocked}
                                 onClick={handleUnblock}
@@ -309,7 +309,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             ) : (
                               <HiddenButton
                                 labelMessage={{
-                                  id: "module.contacts.action.block",
+                                  id: "module.contacts.block",
                                 }}
                                 Icon={Type.Blocked}
                                 onClick={handleBlock}
@@ -319,7 +319,7 @@ const ContactList: FunctionComponent<ContactListProps> = ({
                             )}
                             <ButtonComponent
                               labelMessage={{
-                                id: "module.contacts.action.delete",
+                                id: "module.contacts.delete",
                               }}
                               Icon={Type.Delete}
                               onClick={handleDelete}
@@ -368,20 +368,20 @@ const ContactList: FunctionComponent<ContactListProps> = ({
             ))
           ) : (
             <EmptyState
-              title={{ id: "module.contacts.emptyList.title" }}
+              title={{ id: "module.contacts.emptyListTitle" }}
               description={{
                 id:
-                  "module.contacts.emptyList.emptySearch.description",
+                  "module.contacts.emptySearchDescription",
               }}
             />
           ))}
         {resultsState === ResultsState.Empty ||
           (resultsState === ResultsState.Error && (
             <EmptyState
-              title={{ id: "module.contacts.emptyList.title" }}
+              title={{ id: "module.contacts.emptyListTitle" }}
               description={{
                 id:
-                  "module.contacts.emptyList.emptyPhonebook.description",
+                  "module.contacts.emptyPhonebook",
               }}
             />
           ))}
