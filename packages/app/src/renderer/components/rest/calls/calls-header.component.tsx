@@ -34,19 +34,19 @@ import { CallsHeaderTestIds } from "Renderer/components/rest/calls/calls-header-
 const toggleState = [
   {
     label: intl.formatMessage({
-      id: "module.phone.calls.allCallTypes",
+      id: "module.phone.callsAllCallTypes",
     }),
     visibilityFilter: VisibilityFilter.All,
   },
   {
     label: intl.formatMessage({
-      id: "module.phone.calls.receivedCalls",
+      id: "module.phone.callsReceivedCalls",
     }),
     visibilityFilter: VisibilityFilter.Received,
   },
   {
     label: intl.formatMessage({
-      id: "module.phone.calls.missedCalls",
+      id: "module.phone.callsMissedCalls",
     }),
     visibilityFilter: VisibilityFilter.Missed,
   },
@@ -127,7 +127,7 @@ const CallsHeader: FunctionComponent<Props> = ({
       {selectionMode ? (
         <CallsSelectionManager
           selectedItemsNumber={selectedCalls.length}
-          message={{ id: "module.phone.calls.selectionsNumber" }}
+          message={{ id: "module.phone.callsSelectionsNumber" }}
           onToggle={toggleAll}
           allItemsSelected={allRowsSelected}
           buttons={[

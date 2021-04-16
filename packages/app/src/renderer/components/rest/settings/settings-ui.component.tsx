@@ -116,7 +116,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
       >
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="module.settings.collectingdata" />
+            <FormattedMessage id="module.settings.collectingData" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>

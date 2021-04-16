@@ -20,9 +20,9 @@ import { defineMessages } from "react-intl"
 import { Contact } from "App/contacts/store/contacts.type"
 
 const messages = defineMessages({
-  name: { id: "module.phone.calls.name" },
-  duration: { id: "module.phone.calls.duration" },
-  date: { id: "module.phone.calls.date" },
+  name: { id: "module.phone.callsName" },
+  duration: { id: "module.phone.callsDuration" },
+  date: { id: "module.phone.callsDate" },
 })
 
 type SelectHook = Pick<

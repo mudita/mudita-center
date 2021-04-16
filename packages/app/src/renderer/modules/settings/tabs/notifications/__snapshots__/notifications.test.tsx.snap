@@ -291,7 +291,7 @@ exports[`matches snapshot 1`] = `
       <p
         class="c2 c3"
       >
-        [value] module.settings.notifications.description
+        [value] module.settings.notificationsDescription
       </p>
     </div>
     <div
@@ -303,7 +303,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c7 c8 c9"
         >
-          [value] module.settings.notifications.incomingCallsNotificationsLabel
+          [value] module.settings.notificationsIncomingCallsNotificationsLabel
         </p>
       </div>
       <div
@@ -348,7 +348,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c7 c8 c9"
         >
-          [value] module.settings.notifications.incomingMessagesNotifications
+          [value] module.settings.notificationsIncomingMessagesNotifications
         </p>
       </div>
       <div
@@ -393,7 +393,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c7 c8 c9"
         >
-          [value] module.settings.notifications.lowBatteryNotifications
+          [value] module.settings.notificationsLowBatteryNotifications
         </p>
       </div>
       <div
@@ -438,7 +438,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c7 c8 c9"
         >
-          [value] module.settings.notifications.pureOsUpdatesNotifications
+          [value] module.settings.notificationsPureOsUpdatesNotifications
         </p>
       </div>
       <div

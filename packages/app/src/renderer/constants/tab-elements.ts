@@ -14,7 +14,7 @@ const messages = defineMessages({
   templates: { id: "module.templates" },
   contacts: { id: "module.contacts" },
   calls: { id: "module.phone.calls" },
-  dial: { id: "module.phone.dial" },
+  dial: { id: "module.dial" },
   allSongs: { id: "module.music.allSongs" },
   playlist: { id: "module.playlist" },
   notes: { id: "module.tools.notes" },

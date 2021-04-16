@@ -352,7 +352,7 @@ exports[`matches snapshot 1`] = `
         <p
           class="c7 c8 c9"
         >
-          [value] module.settings.collectingdata
+          [value] module.settings.collectingData
         </p>
       </div>
       <div

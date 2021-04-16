@@ -16,13 +16,13 @@ export const conversionRadioGroup = [
   {
     value: "Always ask",
     label: intl.formatMessage({
-      id: "module.settings.audioConversion.alwaysAskLabel",
+      id: "module.settings.audioConversionAlwaysAskLabel",
     }),
   },
   {
     value: "Convert automatically",
     label: intl.formatMessage({
-      id: "module.settings.audioConversion.convertAutomatically",
+      id: "module.settings.audioConversionConvertAutomatically",
     }),
   },
 ]
@@ -32,23 +32,23 @@ export const conversionFormatRadioGroup = [
     value: "FLAC",
     label: "FLAC",
     subLabel: intl.formatMessage({
-      id: "module.settings.audioConversion.conversionFormatFlacSubLabel",
+      id: "module.settings.audioConversionConversionFormatFlacSubLabel",
     }),
   },
   {
     value: "WAV",
     label: `WAV (${intl.formatMessage({
-      id: "module.settings.audioConversion.conversionFormatWavLabel",
+      id: "module.settings.audioConversionConversionFormatWavLabel",
     })})`,
     subLabel: intl.formatMessage({
-      id: "module.settings.audioConversion.conversionFormatWavSubLabel",
+      id: "module.settings.audioConversionConversionFormatWavSubLabel",
     }),
   },
   {
     value: "MP3",
     label: "MP3",
     subLabel: intl.formatMessage({
-      id: "module.settings.audioConversion.conversionFormatMp3SubLabel",
+      id: "module.settings.audioConversionConversionFormatMp3SubLabel",
     }),
   },
 ]

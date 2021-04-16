@@ -188,7 +188,7 @@ exports[`matches snapshot with tabs 1`] = `
       <p
         class="c8 c9"
       >
-        [value] module.phone.dial
+        [value] module.dial
       </p>
     </a>
   </div>

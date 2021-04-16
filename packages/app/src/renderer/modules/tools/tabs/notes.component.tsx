@@ -61,46 +61,46 @@ import DeleteModal from "Renderer/components/core/modal/delete-modal.component"
 
 const messages = defineMessages({
   searchPlaceholder: {
-    id: "module.tools.notes.searchPlaceholder",
+    id: "module.tools.notesSearchPlaceholder",
   },
   searchNotes: {
-    id: "module.tools.notes.searchNotes",
+    id: "module.tools.notesSearchNotes",
   },
   emptyListTitle: {
-    id: "module.tools.notes.emptyList.title",
+    id: "module.tools.notesEmptyListTitle",
   },
   emptyListNoNotes: {
-    id: "module.tools.notes.emptyList.noNotes",
+    id: "module.tools.notesEmptyListNoNotes",
   },
   emptyListNotFound: {
-    id: "module.tools.notes.emptyList.notFound",
+    id: "module.tools.notesEmptyListNotFound",
   },
   newNote: {
-    id: "module.tools.notes.newNote",
+    id: "module.tools.notesNewNote",
   },
   unsavedNote: {
-    id: "module.tools.notes.unsavedNote",
+    id: "module.tools.notesUnsavedNote",
   },
   note: {
-    id: "module.tools.notes.note",
+    id: "module.tools.notesNote",
   },
   edited: {
-    id: "module.tools.notes.edited",
+    id: "module.tools.notesEdited",
   },
   today: {
     id: "component.textToday",
   },
   selectionsNumber: {
-    id: "module.tools.notes.selectionsNumber",
+    id: "module.tools.notesSelectionsNumber",
   },
   newButton: {
-    id: "module.tools.notes.newButton",
+    id: "module.tools.notesNewButton",
   },
   deleteButton: {
-    id: "module.tools.notes.deleteButton",
+    id: "module.tools.notesDeleteButton",
   },
-  charactersNumber: { id: "module.tools.notes.editor.charactersNumber" },
-  emptyNoteText: { id: "module.tools.notes.emptyNote" },
+  charactersNumber: { id: "module.tools.notesEditorCharactersNumber" },
+  emptyNoteText: { id: "module.tools.notesEmptyNote" },
   deleteModalTitle: { id: "module.tools.notes.deleteModal.title" },
   deleteModalThreadText: { id: "module.tools.notes.deleteModal.threadText" },
 })
