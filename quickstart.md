@@ -37,6 +37,7 @@ Please run the following command to start the Mudita Center dev environment:
 npm run develop
 ```
 
+
 This will start the application with hot-reload so you can instantly start developing it. You can also enable logs by executing:
 
 ```bash
@@ -134,6 +135,14 @@ To fix that, `settings.json` file should be updated manually according to change
 
 `settings.json` is located in:
 
-- Windows: `C:\Users\<username>\AppData\Roaming\mudita-center`
-- Linux: `~/.config/mudita-center`
-- macOS: `~/Library/Application Support/mudita-center`
+- Windows: `C:\Users\<username>\AppData\Roaming\@mudita\mudita-center`
+- Linux: `~/.config/@mudita/mudita-center`
+- macOS: `~/Library/Application Support/@mudita/mudita-center`
+
+### How to get logs from the built application
+
+Logs are saved in file logs catalog. The file format is `mc-YYYY-MM-DD`.
+
+- Windows: `C:\Users\<username>\AppData\Roaming\@mudita\mudita-center\logs`
+- Linux: `~/.config/@mudita/mudita-center/logs`
+- macOS: `~/Library/Application Support/@mudita/mudita-center/logs`
