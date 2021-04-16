@@ -59,7 +59,7 @@ test("avatar renders image properly", () => {
 
 test("avatar renders default image properly", () => {
   const { getByTestId } = renderAvatar()
-  expect(getByTestId("icon-Contact")).toBeInTheDocument()
+  expect(getByTestId("icon-ContactFilled")).toBeInTheDocument()
 })
 
 test("avatar renders image first", () => {
@@ -69,4 +69,9 @@ test("avatar renders image first", () => {
   })
   expect(getByTestId(AvatarTestIds.AvatarImage)).toBeInTheDocument()
   expect(queryByText("JD")).not.toBeInTheDocument()
+})
+
+test("avatar renders ap user image properly", () => {
+  const { getByTestId } = renderAvatar({ interlocutor: false })
+  expect(getByTestId("icon-UserAvatar")).toBeInTheDocument()
 })
