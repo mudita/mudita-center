@@ -378,5 +378,14 @@
   "module.tools.notesSelectionsNumber": "{num, plural, =-1 {All Notes} one {# Note} other {# Notes}} selected",
   "module.tools.notesTemporaryText": "New Note",
   "module.tools.notesUnsavedNote": "unsaved",
-  "module.tools.voiceRecorder": "Voice Recorder"
+  "module.tools.voiceRecorder": "Voice Recorder",
+  "module.overview.phoneDisconnectAction": "Disconnect",
+  "module.overview.phoneDescription": "Mudita Pure",
+  "module.overview.networkName": "Network",
+  "module.overview.networkDescription": "Select SIM card to activate",
+  "module.overview.networkTooltipTitle": "Activate card",
+  "module.overview.networkTooltipDescription": "You can activate this SIM card by going to the network settings on your phone",
+  "module.overview.networkSimInfo": "SIM {slot} ({phone})",
+  "module.overview.systemCheckForUpdates": "Check for updates",
+  "module.overview.systemLastUpdate": "Updated: {date}"
 }
