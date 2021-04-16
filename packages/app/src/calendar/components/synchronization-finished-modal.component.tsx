@@ -33,7 +33,7 @@ const messages = defineMessages({
     id: "module.calendar.synchronizationFinished.body",
   },
   button: {
-    id: "component.button.ok",
+    id: "component.okButton",
   },
 })
 

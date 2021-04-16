@@ -6,14 +6,14 @@
 import extractLanguageKeys from "Renderer/utils/extract-test-locale"
 
 const TEST_DATA = {
-  "component.menu.headerDesktopApp": "Desktop App",
-  "component.menu.headerYourPure": "Your Pure",
+  "component.menuHeaderDesktopApp": "Desktop App",
+  "component.menuHeaderYourPure": "Your Pure",
 }
 
 test("values are the same as keys", () => {
   expect(extractLanguageKeys(TEST_DATA)).toMatchObject({
-    "component.menu.headerDesktopApp": "[value] component.menu.headerDesktopApp",
-    "component.menu.headerYourPure": "[value] component.menu.headerYourPure",
+    "component.menuHeaderDesktopApp": "[value] component.menuHeaderDesktopApp",
+    "component.menuHeaderYourPure": "[value] component.menuHeaderYourPure",
   })
 })
 

@@ -31,11 +31,11 @@ test("app starts on the correct page", async () => {
 
 test("after clicking disconnect button, part of menu is not displayed", async () => {
   expect(
-    await app.client.isExisting("*[data-testid='component.menu.headerYourPure']")
+    await app.client.isExisting("*[data-testid='component.menuHeaderYourPure']")
   ).toBeTruthy()
   await app.client.$(`*[data-testid=${PhoneTestIds.DisconnectButton}]`).click()
   expect(
-    await app.client.isExisting("*[data-testid='component.menu.headerYourPure']")
+    await app.client.isExisting("*[data-testid='component.menuHeaderYourPure']")
   ).toBeFalsy()
 })
 

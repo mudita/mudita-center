@@ -55,10 +55,10 @@ test.skip("filter can be changed back to weekly", async () => {
     await app.client.isExisting(`*[data-testid=${ChartType.Weekly}]`)
   ).toBeTruthy()
   await app.client
-    .$(`//button[p[text()='${localeEn["component.button.monthly"]}']]`)
+    .$(`//button[p[text()='${localeEn["component.buttonMonthly"]}']]`)
     .click()
   await app.client
-    .$(`//button[p[text()='${localeEn["component.text.today"]}']]`)
+    .$(`//button[p[text()='${localeEn["component.textToday"]}']]`)
     .click()
   expect(
     await app.client.isExisting(`*[data-testid=${ChartType.Monthly}]`)
@@ -74,7 +74,7 @@ test.skip("filter can be changed back to weekly", async () => {
 test.skip("filter can be changed to monthly", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Meditation}]`).click()
   await app.client
-    .$(`//button[p[text()='${localeEn["component.button.monthly"]}']]`)
+    .$(`//button[p[text()='${localeEn["component.buttonMonthly"]}']]`)
     .click()
   expect(
     await app.client.isExisting(`*[data-testid=${ChartType.Weekly}]`)
@@ -90,7 +90,7 @@ test.skip("filter can be changed to monthly", async () => {
 test.skip("filter can be changed to yearly", async () => {
   await app.client.$(`*[data-testid=${MenuGroupTestIds.Meditation}]`).click()
   await app.client
-    .$(`//button[p[text()='${localeEn["component.text.yearly"]}']]`)
+    .$(`//button[p[text()='${localeEn["component.textYearly"]}']]`)
     .click()
   expect(
     await app.client.isExisting(`*[data-testid=${ChartType.Weekly}]`)

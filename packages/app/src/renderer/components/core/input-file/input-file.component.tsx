@@ -157,19 +157,19 @@ const FilesList = styled.ul`
 
 const messages = defineMessages({
   single: {
-    id: "component.form.fileUpload.description",
+    id: "component.formFileUploadDescription",
   },
   multiple: {
-    id: "component.form.multipleFileUpload.description",
+    id: "component.formMultipleFileUpload",
   },
   sizeError: {
-    id: "component.form.error.nameIsTooBig",
+    id: "component.formErrorNameIsTooBig",
   },
   typeError: {
-    id: "component.form.error.typeNotAllowed",
+    id: "component.formErrorTypeNotAllowed",
   },
   countError: {
-    id: "component.form.error.tooManyFiles",
+    id: "component.formErrorTooManyFiles",
   },
 })
 

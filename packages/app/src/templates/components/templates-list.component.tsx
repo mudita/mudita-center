@@ -53,7 +53,7 @@ const messages = defineMessages({
     id: "module.messages.templates.edited",
   },
   today: {
-    id: "component.text.today",
+    id: "component.textToday",
   },
   newTemplate: {
     id: "module.messages.templates.newTemplate",

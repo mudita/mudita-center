@@ -42,7 +42,7 @@ const messages = defineMessages({
     id: "module.calendar.import.text",
   },
   button: {
-    id: "component.button.ok",
+    id: "component.okButton",
   },
 })
 

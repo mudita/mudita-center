@@ -28,15 +28,15 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 
 const messages = defineMessages({
   filename: {
-    id: "component.column.filename",
+    id: "component.columnFileName",
   },
   size: {
-    id: "component.column.size",
+    id: "component.columnSize",
   },
   lastBackup: {
-    id: "component.column.lastBackup",
+    id: "component.columnLastBackup",
   },
-  cancel: { id: "component.button.cancel" },
+  cancel: { id: "component.cancelButton" },
   title: {
     id: "module.overview.backup.createBackupModal.title",
   },

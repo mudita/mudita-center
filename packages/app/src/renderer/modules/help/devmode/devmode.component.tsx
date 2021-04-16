@@ -23,12 +23,12 @@ const DevMode: FunctionComponent<Props> = ({ disable }) => {
   return (
     <>
       <Text
-        message={{ id: "component.devMode.enabled" }}
+        message={{ id: "component.devModeEnabled" }}
         data-testid={DevModeTestIds.Wrapper}
       />
       <Button
         displayStyle={DisplayStyle.Secondary}
-        labelMessage={{ id: "component.devMode.disableAction" }}
+        labelMessage={{ id: "component.devModeDisableAction" }}
         size={Size.FixedSmall}
         onClick={disable}
       />

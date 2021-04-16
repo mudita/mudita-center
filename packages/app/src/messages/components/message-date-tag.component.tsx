@@ -16,7 +16,7 @@ import { textColor } from "Renderer/styles/theming/theme-getters"
 
 const messages = defineMessages({
   today: {
-    id: "component.text.today",
+    id: "component.textToday",
   },
 })
 

@@ -88,7 +88,7 @@ const messages = defineMessages({
     id: "module.tools.notes.edited",
   },
   today: {
-    id: "component.text.today",
+    id: "component.textToday",
   },
   selectionsNumber: {
     id: "module.tools.notes.selectionsNumber",
