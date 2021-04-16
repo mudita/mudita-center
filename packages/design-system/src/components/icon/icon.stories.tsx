@@ -3,7 +3,13 @@ import { paths } from "../../../.storybook/paths"
 import { Icon } from "./icon.component"
 import { ComponentProps } from "react"
 import { Meta, Story } from "@storybook/react"
-import { theme } from "../.."
+import {
+  IconCheckboxChecked,
+  IconCheckboxDropdown,
+  IconCheckboxIndeterminate,
+  IconRadioChecked,
+  theme,
+} from "../.."
 import {
   ArgsTable,
   Description,
@@ -15,8 +21,6 @@ import {
 } from "@storybook/addon-docs/blocks"
 import styled from "styled-components"
 import CheckboxChecked from "../../icons/assets/checkbox-checked.svg"
-import CheckboxIndeterminate from "../../icons/assets/checkbox-indeterminate.svg"
-import CheckboxDropdown from "../../icons/assets/checkbox-dropdown.svg"
 
 const TemplateIcon = styled(Icon)`
   box-shadow: 0 0 0.1rem 0 #000;
@@ -147,14 +151,19 @@ Default.parameters = {
 }
 
 export const CheckboxCheckedIcon = storyCreator({
-  name: "CheckboxChecked",
-  children: <CheckboxChecked />,
+  name: "IconCheckboxChecked",
+  children: <IconCheckboxChecked />,
 })
 export const CheckboxIndeterminateIcon = storyCreator({
-  name: "CheckboxIndeterminate",
-  children: <CheckboxIndeterminate />,
+  name: "IconCheckboxIndeterminate",
+  children: <IconCheckboxIndeterminate />,
 })
 export const CheckboxDropdownIcon = storyCreator({
-  name: "CheckboxDropdown",
-  children: <CheckboxDropdown />,
+  name: "IconCheckboxDropdown",
+  children: <IconCheckboxDropdown />,
+})
+
+export const RadioChecked = storyCreator({
+  name: "IconRadioChecked",
+  children: <IconRadioChecked />,
 })
