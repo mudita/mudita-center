@@ -24,7 +24,7 @@ cp .env.example .env
 
 Please keep in mind that we can not give full access to all environments to the Open Source community , so part of the integration may not work, but it should not affect the development process and the work of the application.
 
-If you are Mudita employee please follow this [instruction](https://appnroll.atlassian.net/l/c/aSD9NC1u)
+If you are Mudita employee please follow these [instructions](https://appnroll.atlassian.net/l/c/aSD9NC1u).
 
 ## Run Mudita Center development environment
 
