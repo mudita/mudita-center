@@ -11,6 +11,7 @@ interface Properties {
   sendForm: (formData: SupportFormData) => Promise<void>
   sending?: boolean
   log?: string
+  closeModal: (payload: any) => void
 }
 
 const ContactSupportModalFlow: FunctionComponent<Properties> = ({
@@ -18,17 +19,25 @@ const ContactSupportModalFlow: FunctionComponent<Properties> = ({
   sendForm,
   sending,
   log,
-}) => (
-  <>
-    <ContactModal
-      open={config.contactModal}
-      onSend={sendForm}
-      sending={sending}
-      log={log}
-    />
-    <ContactSupportSuccess open={config.successModal} />
-    <ContactSupportFailed open={config.failModal} />
-  </>
-)
+  closeModal,
+}) => {
+  const closeSuccessModal = () => {
+    closeModal({
+      successModal: false
+    })
+  }
+  return (
+    <>
+      <ContactModal
+        open={config.contactModal}
+        onSend={sendForm}
+        sending={sending}
+        log={log}
+      />
+      <ContactSupportSuccess open={config.successModal} closeModal={closeSuccessModal} />
+      <ContactSupportFailed open={config.failModal} />
+    </>
+  )
+}
 
 export default ContactSupportModalFlow

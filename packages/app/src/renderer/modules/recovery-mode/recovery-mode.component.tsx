@@ -17,6 +17,7 @@ const RecoveryMode: FunctionComponent<{}> = () => {
     sendForm,
     sending,
     log,
+   closeModal
   } = useContactSupport()
   return (
     <>
@@ -25,6 +26,7 @@ const RecoveryMode: FunctionComponent<{}> = () => {
         sendForm={sendForm}
         sending={sending}
         log={log}
+        closeModal={closeModal}
       />
       <RecoveryModeUI
         onBackupClick={noop}

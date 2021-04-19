@@ -99,10 +99,10 @@ export const useContactSupport = () => {
     sendForm,
     sending,
     log,
-    closeSuccessModal: () =>
+    closeModal: (payload: {}) =>
       setOpenModal((prevState) => ({
         ...prevState,
-        successModal: false,
+        ...payload,
       })),
   }
 }
