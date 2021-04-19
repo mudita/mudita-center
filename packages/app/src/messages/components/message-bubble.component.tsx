@@ -122,6 +122,11 @@ const InitialsAvatar = styled(Avatar)<{ interlocutor: boolean }>`
   background-color: ${({ interlocutor }) =>
     interlocutor ? backgroundColor("minor") : backgroundColor("message")};
   align-self: end;
+
+  svg g g {
+    fill: ${({ interlocutor }) =>
+      interlocutor ? textColor("secondary") : textColor("iconUser")};
+  }
 `
 
 interface Props {

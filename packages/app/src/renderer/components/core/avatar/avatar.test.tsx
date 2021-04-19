@@ -70,8 +70,3 @@ test("avatar renders image first", () => {
   expect(getByTestId(AvatarTestIds.AvatarImage)).toBeInTheDocument()
   expect(queryByText("JD")).not.toBeInTheDocument()
 })
-
-test("avatar renders ap user image properly", () => {
-  const { getByTestId } = renderAvatar({ interlocutor: false })
-  expect(getByTestId("icon-UserAvatar")).toBeInTheDocument()
-})
