@@ -55,10 +55,10 @@ const releasesRequest = async (
     `APP: releasesRequest`,
   )
   try {
-    const url = osUpdateServerUrl || ""
+    const url = (osUpdateServerUrl || "").replace(/'/g, "")
     const config = {
       headers: {
-        ...(githubToken ? { Authorization: `token ${githubToken}` } : {}),
+        ...(githubToken ? { Authorization: `token ${githubToken.replace(/'/g, "")}` } : {}),
       },
       params: {
         page: page,
