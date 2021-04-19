@@ -7,7 +7,7 @@ import React from "react"
 import { useHistory } from "react-router"
 import { URL_ONBOARDING } from "Renderer/constants/urls"
 import OnboardingTroubleshooting from "Renderer/components/rest/onboarding/onboarding-troubleshooting.component"
-import { contactSupport } from "Renderer/utils/contact-support/contact-support"
+import { useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
 
 const Troubleshooting = () => {
   const history = useHistory()
@@ -18,7 +18,7 @@ const Troubleshooting = () => {
   }
 
   return (
-    <OnboardingTroubleshooting onRetry={onRetry} onContact={contactSupport} />
+    <OnboardingTroubleshooting onRetry={onRetry} onContact={useContactSupport} />
   )
 }
 

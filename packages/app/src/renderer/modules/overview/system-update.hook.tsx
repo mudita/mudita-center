@@ -56,7 +56,7 @@ import {
   DeviceUpdateError,
   deviceUpdateErrorCodeMap,
 } from "Backend/adapters/pure-phone/pure-phone.adapter"
-import { contactSupport } from "Renderer/utils/contact-support/contact-support"
+import { useContactSupport } from "Renderer/utils/contact-support/use-contact-support"
 import { HelpActions } from "Common/enums/help-actions.enum"
 
 const onOsDownloadCancel = () => {
@@ -366,13 +366,13 @@ const useSystemUpdateFlow = (
         <UpdatingFailureWithHelpModal
           code={code}
           onHelp={goToHelp(code)}
-          onContact={contactSupport}
+          onContact={useContactSupport}
         />,
         true
       )
     } else {
       modalService.openModal(
-        <UpdatingFailureModal code={code} onContact={contactSupport} />,
+        <UpdatingFailureModal code={code} onContact={useContactSupport} />,
         true
       )
     }

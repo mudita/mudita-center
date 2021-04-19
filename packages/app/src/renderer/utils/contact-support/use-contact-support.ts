@@ -11,7 +11,7 @@ import axios from "axios"
 import logger from "App/main/utils/logger"
 import { useEffect, useState } from "react"
 
-export const contactSupport = () => {
+export const useContactSupport = () => {
   const [openModal, setOpenModal] = useState({
     contactModal: false,
     successModal: false,
