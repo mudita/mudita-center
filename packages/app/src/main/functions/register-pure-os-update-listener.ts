@@ -74,13 +74,13 @@ const releasesRequest = async (
     )
     const response = await axios(url, config)
     logger.info(
-      `APP: releasesRequest -> response: ${JSON.stringify(response, null, 2)}`,
+      `APP: releasesRequest -> response: ${response}`,
     )
 
     return response.data
   } catch (error) {
     logger.error(
-      `Checking for OS updated failed with code ${error.response.status}: ${error.response.statusText}`,
+      `Checking for OS updated failed with code ${error}`,
     )
     return []
   }
