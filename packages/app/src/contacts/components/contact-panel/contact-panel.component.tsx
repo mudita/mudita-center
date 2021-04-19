@@ -143,7 +143,7 @@ const ContactPanel: FunctionComponent<ContactPanelProps> = ({
       <Buttons>
         <ButtonComponent
           displayStyle={DisplayStyle.Secondary}
-          labelMessage={{ id: "module.contacts.panelManageButton" }}
+          labelMessage={{ id: "module.contacts.importButton" }}
           onClick={onManageButtonClick}
           data-testid={ContactPanelTestIdsEnum.ManageButton}
           Icon={Type.Manage}
