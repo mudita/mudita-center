@@ -220,10 +220,21 @@ const useSystemUpdateFlow = (
       await delayResponse(openCheckingForUpdatesModal(), 1000)
     }
 
+    logger.info(
+      `APP: checkForUpdates ${osVersion}`
+    )
+
     if (osVersion) {
       try {
         const { latestRelease, allReleases } = await availableOsUpdateRequest(
           osVersion
+        )
+
+        logger.info(
+          `APP: availableOsUpdateRequest -> latestRelease: ${JSON.stringify(latestRelease, null, 2)}`
+        )
+        logger.info(
+          `APP: availableOsUpdateRequest -> allReleases: ${JSON.stringify(allReleases, null, 2)}`
         )
 
         setDevReleases(allReleases)

@@ -51,6 +51,9 @@ const releasesRequest = async (
   page = 1,
   perPage = 100
 ): Promise<GithubRelease[]> => {
+  logger.info(
+    `APP: releasesRequest`
+  )
   try {
     const response = await axios(osUpdateServerUrl || "", {
       headers: {
@@ -71,6 +74,9 @@ const releasesRequest = async (
 }
 
 const registerPureOsUpdateListener = () => {
+  logger.info(
+    `APP: registerPureOsUpdateListener ${Boolean(osUpdateServerUrl)}`
+  )
   if (osUpdateServerUrl) {
     ipcMain.answerRenderer(OsUpdateChannel.Request, async () => {
       let releases: GithubRelease[] = []
