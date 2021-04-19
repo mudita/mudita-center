@@ -48,13 +48,13 @@ test("close is fired after 'x' button is clicked", async () => {
 test("subtitle has correct text", () => {
   const { getByTestId } = renderer()
   expect(getByTestId(CollectingDataModalTestIds.Subtitle)).toHaveTextContent(
-    "[value] component.collectingDataModal.text"
+    "[value] component.collectingDataModalText"
   )
 })
 
 test("body has correct text", () => {
   const { getByTestId } = renderer()
   expect(getByTestId(CollectingDataModalTestIds.Body)).toHaveTextContent(
-    "[value] component.collectingDataModal.body"
+    "[value] component.collectingDataModalBody"
   )
 })

@@ -21,11 +21,11 @@ import {
 } from "App/collecting-data-modal/collecting-data-modal.styled"
 
 const messages = defineMessages({
-  title: { id: "component.collectingDataModal.title" },
-  text: { id: "component.collectingDataModal.text" },
-  body: { id: "component.collectingDataModal.body" },
-  cancelButton: { id: "component.collectingDataModal.cancel" },
-  agreeButton: { id: "component.collectingDataModal.agree" },
+  title: { id: "component.collectingDataModalTitle" },
+  text: { id: "component.collectingDataModalText" },
+  body: { id: "component.collectingDataModalBody" },
+  cancelButton: { id: "component.collectingDataModalCancel" },
+  agreeButton: { id: "component.collectingDataModalAgree" },
 })
 
 const CollectingDataModal: FunctionComponent<ModalProps> = ({ ...props }) => {
