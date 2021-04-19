@@ -37,25 +37,26 @@ export interface Release {
 
 const osUpdateServerUrl = process.env.OS_UPDATE_SERVER
 logger.info(
-  `ENV: register-pure-os-update-listener osUpdateServerUrl  -> process.env.OS_UPDATE_SERVER: ${process.env.OS_UPDATE_SERVER}`
+  `ENV: register-pure-os-update-listener osUpdateServerUrl  -> process.env.OS_UPDATE_SERVER: ${process.env.OS_UPDATE_SERVER}`,
 )
 
 // It's required only for development when API rate limits may exceed
 // https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting
 logger.info(
-  `ENV: register-pure-os-update-listener githubToken  -> process.env.GITHUB_ACCESS_TOKEN: ${process.env.GITHUB_ACCESS_TOKEN}`
+  `ENV: register-pure-os-update-listener githubToken  -> process.env.GITHUB_ACCESS_TOKEN: ${process.env.GITHUB_ACCESS_TOKEN}`,
 )
 const githubToken = process.env.GITHUB_ACCESS_TOKEN
 
 const releasesRequest = async (
   page = 1,
-  perPage = 100
+  perPage = 100,
 ): Promise<GithubRelease[]> => {
   logger.info(
-    `APP: releasesRequest`
+    `APP: releasesRequest`,
   )
   try {
-    const response = await axios(osUpdateServerUrl || "", {
+    const url = osUpdateServerUrl || ""
+    const config = {
       headers: {
         ...(githubToken ? { Authorization: `token ${githubToken}` } : {}),
       },
@@ -63,11 +64,23 @@ const releasesRequest = async (
         page: page,
         per_page: perPage,
       },
-    })
+    }
+
+    logger.info(
+      `APP: releasesRequest -> url: ${url}`,
+    )
+    logger.info(
+      `APP: releasesRequest -> config: ${JSON.stringify(config, null, 2)}`,
+    )
+    const response = await axios(url, config)
+    logger.info(
+      `APP: releasesRequest -> response: ${JSON.stringify(response, null, 2)}`,
+    )
+
     return response.data
   } catch (error) {
     logger.error(
-      `Checking for OS updated failed with code ${error.response.status}: ${error.response.statusText}`
+      `Checking for OS updated failed with code ${error.response.status}: ${error.response.statusText}`,
     )
     return []
   }
@@ -75,7 +88,7 @@ const releasesRequest = async (
 
 const registerPureOsUpdateListener = () => {
   logger.info(
-    `APP: registerPureOsUpdateListener ${Boolean(osUpdateServerUrl)}`
+    `APP: registerPureOsUpdateListener ${Boolean(osUpdateServerUrl)}`,
   )
   if (osUpdateServerUrl) {
     ipcMain.answerRenderer(OsUpdateChannel.Request, async () => {
@@ -104,7 +117,7 @@ const registerPureOsUpdateListener = () => {
             published_at,
           } = release
           const asset = assets.find(
-            (asset) => asset.content_type === "application/x-tar"
+            (asset) => asset.content_type === "application/x-tar",
           )
           if (asset && !draft) {
             return {
