@@ -5,22 +5,17 @@
 
 import React, { ComponentProps, useEffect, useRef, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
-import Modal, {
-  ModalProps,
-} from "Renderer/components/core/modal/modal.component"
 import styled, { css, keyframes } from "styled-components"
 import { defineMessages, FormattedMessage } from "react-intl"
 import { intl } from "Renderer/utils/intl"
 import { noop } from "Renderer/utils/noop"
 import { ModalSize } from "Renderer/components/core/modal/modal.interface"
 import Text, {
-  mediumTextSharedStyles,
   TextDisplayStyle,
 } from "Renderer/components/core/text/text.component"
 import {
   backgroundColor,
   borderRadius,
-  textColor,
 } from "Renderer/styles/theming/theme-getters"
 import { InputComponent } from "Renderer/components/core/input-text/input-text.component"
 import { Message } from "Renderer/interfaces/message.interface"
@@ -121,39 +116,20 @@ const ButtonWrapper = styled.div`
   margin-top: 4rem;
 `
 
-const ModalComponent = styled(ModalDialog)<{ sending?: boolean }>`
-  h2 {
-    ~ p {
-      ${mediumTextSharedStyles};
-      color: ${textColor("secondary")};
-    }
+const ButtonWithRotatingIcon = styled(Button)<{ sending?: boolean }>`
+  svg {
+    fill: ${backgroundColor("lightIcon")};
   }
+  ${({ sending }) =>
+    sending &&
+    css`
+      pointer-events: none;
+      ${disabledPrimaryStyles};
 
-  > div {
-    &:first-of-type {
-      grid-row-gap: 1.6rem;
-    }
-
-    &:last-of-type {
-      justify-content: flex-start;
-    }
-  }
-
-  button[type="submit"] {
-    svg {
-      fill: ${backgroundColor("lightIcon")};
-    }
-    ${({ sending }) =>
-      sending &&
-      css`
-        pointer-events: none;
-        ${disabledPrimaryStyles};
-
-        svg {
-          animation: ${iconAnimation} 1s infinite linear;
-        }
-      `};
-  }
+      svg {
+        animation: ${iconAnimation} 1s infinite linear;
+      }
+    `};
 `
 
 const Log = styled.pre<{ enabled?: boolean }>`
@@ -245,6 +221,7 @@ const ContactModal: FunctionComponent<
   })
 
   useEffect(() => {
+    console.log(logRef)
     if (logRef.current) {
       if (logRef.current.scrollHeight > 38) {
         enableMoreDetails(true)
@@ -265,7 +242,6 @@ const ContactModal: FunctionComponent<
       title={intl.formatMessage(messages.title)}
       subtitle={intl.formatMessage(messages.description)}
       {...rest}
-      // sending={sending}
     >
       <Form onSubmit={sendEmail}>
         <FormInputLabel label={messages.emailLabel} />
@@ -309,7 +285,7 @@ const ContactModal: FunctionComponent<
           </Log>
         </LogWrapper>
         <ButtonWrapper>
-          <Button
+          <ButtonWithRotatingIcon
             displayStyle={DisplayStyle.Primary}
             size={getModalButtonsSize(ModalSize.Medium)}
             label={intl.formatMessage(
@@ -319,6 +295,7 @@ const ContactModal: FunctionComponent<
             iconSize={IconSize.Small}
             Icon={sending ? IconType.Refresh : IconType.SendButton}
             type={Type.Submit}
+            sending={sending}
           />
         </ButtonWrapper>
       </Form>

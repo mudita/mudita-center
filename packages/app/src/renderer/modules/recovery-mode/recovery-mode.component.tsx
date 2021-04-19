@@ -11,20 +11,29 @@ import { contactSupport } from "Renderer/utils/contact-support/contact-support"
 import ContactSupportModalFlow from "App/contacts/components/contact-modal/contact-support-modal-flow.component"
 
 const RecoveryMode: FunctionComponent<{}> = () => {
-  const {openModal, sendForm} = contactSupport()
-  console.log(openModal)
+  const {
+    openModal,
+    openContactSupportModal,
+    sendForm,
+    sending,
+    log,
+  } = contactSupport()
   return (
     <>
-      <ContactSupportModalFlow config={openModal}/>
+      <ContactSupportModalFlow
+        config={openModal}
+        sendForm={sendForm}
+        sending={sending}
+        log={log}
+      />
       <RecoveryModeUI
         onBackupClick={noop}
         onRebootOsClick={noop}
         onRestoreClick={noop}
         onFactoryResetClick={noop}
-        onSupportButtonClick={sendForm}
+        onSupportButtonClick={openContactSupportModal}
       />
     </>
-
   )
 }
 
