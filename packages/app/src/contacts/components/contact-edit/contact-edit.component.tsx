@@ -108,7 +108,13 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
   saving,
   ...rest
 }) => {
-  const { register, handleSubmit, watch, errors, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setValue,
+  } = useForm({
     defaultValues: contact,
     mode: "onChange",
   })
@@ -188,8 +194,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstName)}
-              name="firstName"
-              ref={register}
+              {...register("firstName")}
               errorMessage={errors.firstName?.message}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.FirstName}
@@ -197,8 +202,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.secondName)}
-              name="lastName"
-              ref={register}
+              {...register("lastName")}
               errorMessage={errors.lastName?.message}
               onBlur={handleUsernameBlur}
               data-testid={ContactEditTestIdsEnum.SecondName}
@@ -206,25 +210,22 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="tel"
               label={intl.formatMessage(messages.primaryNumber)}
-              name="primaryPhoneNumber"
-              ref={register(phoneNumberValidator)}
+              {...register("primaryPhoneNumber", phoneNumberValidator)}
               errorMessage={errors.primaryPhoneNumber?.message}
               data-testid={ContactEditTestIdsEnum.PrimaryNumber}
             />
             <Input
               type="tel"
               label={intl.formatMessage(messages.secondaryNumber)}
-              name="secondaryPhoneNumber"
-              ref={register(phoneNumberValidator)}
+              {...register("secondaryPhoneNumber", phoneNumberValidator)}
               errorMessage={errors.secondaryPhoneNumber?.message}
               data-testid={ContactEditTestIdsEnum.SecondaryNumber}
             />
             <Input
               type="email"
-              name="email"
               label={intl.formatMessage(messages.email)}
               defaultValue={contact?.email}
-              ref={register(emailValidator)}
+              {...register("email", emailValidator)}
               errorMessage={errors.email?.message}
               data-testid={ContactEditTestIdsEnum.Email}
             />
@@ -232,8 +233,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
           <div>
             <SpeedDial>
               <InputSelect
-                name="speedDial"
-                ref={register}
+                {...register("speedDial")}
                 disabled={!speedDialAssignPossible}
                 items={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
                 disabledItems={speedDialChosenList}
@@ -258,8 +258,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <CustomCheckbox>
               <InputCheckbox
                 size={Size.Medium}
-                name="favourite"
-                ref={register}
+                {...register("favourite")}
                 defaultChecked={contact?.favourite}
               />
               <Text displayStyle={TextDisplayStyle.SmallText}>
@@ -270,8 +269,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <CustomCheckbox>
               <InputCheckbox
                 size={Size.Medium}
-                name="ice"
-                ref={register}
+                {...register("ice")}
                 defaultChecked={contact?.ice}
               />
               <Text displayStyle={TextDisplayStyle.SmallText}>
@@ -282,8 +280,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.firstAddressLine)}
-              name="firstAddressLine"
-              ref={register}
+              {...register("firstAddressLine")}
               errorMessage={errors.firstAddressLine?.message}
               maxLength={30}
               onBlur={trimInputValue}
@@ -292,8 +289,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
             <Input
               type="text"
               label={intl.formatMessage(messages.secondAddressLine)}
-              name="secondAddressLine"
-              ref={register}
+              {...register("secondAddressLine")}
               errorMessage={errors.secondAddressLine?.message}
               maxLength={30}
               onBlur={trimInputValue}
@@ -303,8 +299,7 @@ const ContactEdit: FunctionComponent<ContactEditProps> = ({
               type="text"
               label={"Note"}
               defaultValue={contact?.note}
-              name="note"
-              ref={register}
+              {...register("note")}
               errorMessage={errors.note?.message}
               maxLength={30}
               onBlur={trimInputValue}
