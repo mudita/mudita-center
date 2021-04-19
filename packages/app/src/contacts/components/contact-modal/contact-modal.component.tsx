@@ -3,7 +3,7 @@
  * For licensing, see https://github.com/mudita/mudita-center/blob/master/LICENSE.md
  */
 
-import React, { ComponentProps, useEffect, useRef, useState } from "react"
+import React, { ComponentProps, useState } from "react"
 import { FunctionComponent } from "Renderer/types/function-component.interface"
 import styled, { css, keyframes } from "styled-components"
 import { defineMessages, FormattedMessage } from "react-intl"
@@ -204,7 +204,7 @@ const ContactModal: FunctionComponent<
 > = ({ onSend = noop, log, sending, ...rest }) => {
   const [moreDetailsEnabled, enableMoreDetails] = useState(false)
   const [showingDetails, showDetails] = useState(false)
-  const logRef = useRef<HTMLPreElement>(null)
+  let logRef: HTMLPreElement | null
 
   const { register, errors, handleSubmit, setValue } = useForm({
     mode: "onChange",
@@ -220,20 +220,16 @@ const ContactModal: FunctionComponent<
     onSend(data)
   })
 
-  useEffect(() => {
-    console.log(logRef)
-    if (logRef.current) {
-      if (logRef.current.scrollHeight > 38) {
+  const handleOnAfterOpenModal = () => {
+    if (logRef) {
+      if (logRef.scrollHeight > 38) {
         enableMoreDetails(true)
       }
     }
-  }, [logRef])
-
-  useEffect(() => {
-    if (!showingDetails && logRef.current) {
-      logRef.current.scrollTop = 0
+    if (!showingDetails && logRef) {
+      logRef.scrollTop = 0
     }
-  }, [showingDetails])
+  }
 
   return (
     <ModalDialog
@@ -241,6 +237,7 @@ const ContactModal: FunctionComponent<
       size={ModalSize.Medium}
       title={intl.formatMessage(messages.title)}
       subtitle={intl.formatMessage(messages.description)}
+      onAfterOpen={handleOnAfterOpenModal}
       {...rest}
     >
       <Form onSubmit={sendEmail}>
@@ -280,7 +277,7 @@ const ContactModal: FunctionComponent<
           )}
         </DetailsLabel>
         <LogWrapper>
-          <Log enabled={showingDetails} ref={logRef}>
+          <Log enabled={showingDetails} ref={(_logRef) => (logRef = _logRef)}>
             {log}
           </Log>
         </LogWrapper>
