@@ -101,8 +101,8 @@ const messages = defineMessages({
   },
   charactersNumber: { id: "module.tools.notesEditorCharactersNumber" },
   emptyNoteText: { id: "module.tools.notesEmptyNote" },
-  deleteModalTitle: { id: "module.tools.notes.deleteModal.title" },
-  deleteModalThreadText: { id: "module.tools.notes.deleteModal.threadText" },
+  deleteModalTitle: { id: "module.tools.notesDeleteModalTitle" },
+  deleteModalThreadText: { id: "module.tools.notesDeleteModalThreadText" },
 })
 
 export interface Note {

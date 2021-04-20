@@ -493,5 +493,7 @@
   "module.tools.notesUnsavedNote": "unsaved",
   "module.tools.voiceRecorder": "Voice Recorder",
   "module.messagesAttachModalTitle": "Attach Contact",
-  "module.messages.attachModalEmptyList": "Empty list"
+  "module.messages.attachModalEmptyList": "Empty list",
+  "module.tools.notesDeleteModalTitle": "Delete notes",
+  "module.tools.notesDeleteModalThreadText": "Thread text"
 }
