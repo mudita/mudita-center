@@ -217,7 +217,7 @@
   "module.contacts.noPhoneNumber": "No phone number",
   "module.contacts.notes": "Note",
   "module.contacts.outlookButtonText": "continue with outlook",
-  "module.contacts.panel.searchPlaceholder": "Search contacts",
+  "module.contacts.panelSearchPlaceholder": "Search contacts",
   "module.contacts.panelManageButton": "Manage",
   "module.contacts.panelNewContactButton": "New contact",
   "module.contacts.parsingFileErrorBody": "Please make sure the file you used is not damaged or contact our support.",
@@ -491,5 +491,7 @@
   "module.tools.notesSelectionsNumber": "{num, plural, =-1 {All Notes} one {# Note} other {# Notes}} selected",
   "module.tools.notesTemporaryText": "New Note",
   "module.tools.notesUnsavedNote": "unsaved",
-  "module.tools.voiceRecorder": "Voice Recorder"
+  "module.tools.voiceRecorder": "Voice Recorder",
+  "module.messagesAttachModalTitle": "Attach Contact",
+  "module.messages.attachModalEmptyList": "Empty list"
 }
