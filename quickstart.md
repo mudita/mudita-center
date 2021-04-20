@@ -141,7 +141,7 @@ To fix that, `settings.json` file should be updated manually according to change
 
 ### How to get logs from the built application
 
-Logs are saved in file logs catalog. The file format is `mc-YYYY-MM-DD`.
+Logs are saved in file logs folder. The file format is `mc-YYYY-MM-DD`.
 
 - Windows: `C:\Users\<username>\AppData\Roaming\@mudita\mudita-center\logs`
 - Linux: `~/.config/@mudita/mudita-center/logs`
