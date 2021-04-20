@@ -46,7 +46,7 @@ const messages = defineMessages({
   errorTitle: { id: "component.dataModal.errorTitle" },
   errorText: { id: "component.dataModal.errorText" },
   errorDescription: { id: "component.dataModal.error.description" },
-  errorWithRetryButton: { id: "component.dataModal.errorWithRetry.button" },
+  errorWithRetryButton: { id: "component.dataModalErrorWithRetryButton" },
   loadingTitle: { id: "component.dataModal.loading.title" },
 })
 

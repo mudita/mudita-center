@@ -20,7 +20,7 @@ const translations = defineMessages({
   errorText: {
     id: "module.messages.loadingThreadModalErrorBody",
   },
-  tryAgainButtonText: { id: "component.dataModal.errorWithRetry.button" },
+  tryAgainButtonText: { id: "component.dataModalErrorWithRetryButton" },
 })
 
 interface Properties {

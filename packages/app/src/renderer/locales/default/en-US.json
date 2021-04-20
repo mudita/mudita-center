@@ -12,7 +12,7 @@
   "component.dataModal.errorDescription": "Please check that your phone is attached to device",
   "component.dataModal.errorText": "Data transfer failed",
   "component.dataModal.errorTitle": "Error",
-  "component.dataModal.errorWithRetry.button": "Try again",
+  "component.dataModalErrorWithRetryButton": "Try again",
   "component.dataModal.loading.title": "Loading",
   "component.devModeDisableAction": "Turn it off!",
   "component.devModeEnabled": "Dev Mode is ready!",
