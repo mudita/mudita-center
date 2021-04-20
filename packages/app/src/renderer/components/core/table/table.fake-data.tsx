@@ -22,20 +22,20 @@ const createCall = (): Call => {
     CallStatus.Conference,
   ]) as CallStatus
   return {
-    id: Faker.random.uuid(),
+    id: Faker.datatype.uuid(),
     caller: {
-      id: Faker.random.uuid(),
+      id: Faker.datatype.uuid(),
       firstName: Math.random() < 0.6 ? Faker.name.firstName() : "",
       lastName: Math.random() < 0.6 ? Faker.name.lastName() : "",
       phoneNumber: Faker.phone.phoneNumber("+## ### ### ###"),
     },
-    duration: status === CallStatus.Missed ? 0 : Faker.random.number(500),
+    duration: status === CallStatus.Missed ? 0 : Faker.datatype.number(500),
     date: Math.random() < 0.6 ? Faker.date.past() : Faker.date.recent(),
     status,
     ...resolveCallType(status),
     timesMissed:
       status === CallStatus.Missed
-        ? Faker.random.number({
+        ? Faker.datatype.number({
             min: 2,
             max: 20,
           })
@@ -52,7 +52,7 @@ export const unknownCalls = calls.map(
 )
 
 const createText = () => ({
-  id: Faker.random.uuid(),
+  id: Faker.datatype.uuid(),
   content: Faker.lorem.paragraphs(random(1, 3)),
 })
 
@@ -61,11 +61,11 @@ export const templates = times(random(15, 25), createText)
 const createMessage = ({ id, contactId }: Thread): Message => {
   return {
     contactId,
-    id: Faker.random.uuid(),
+    id: Faker.datatype.uuid(),
     date: Faker.date.past(),
     content: Faker.lorem.sentences(2),
     threadId: id,
-    messageType: Faker.random.boolean()
+    messageType: Faker.datatype.boolean()
       ? MessageType.OUTBOX
       : MessageType.INBOX,
   }
@@ -77,7 +77,7 @@ const createThread = (): Thread => {
   return {
     id: threadId,
     contactId: contact.id,
-    unread: Faker.random.boolean(),
+    unread: Faker.datatype.boolean(),
     lastUpdatedAt: Faker.date.past(),
     messageSnippet: Faker.lorem.paragraphs(random(1, 3)),
   }
@@ -108,60 +108,60 @@ export const nestedRows = [
   {
     fileType: "Messages",
     lastBackup: Faker.date.past(),
-    size: `${Faker.random.number(64)}.${Faker.random.number(
+    size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
       9
-    )}${Faker.random.number(9)} MB`,
+    )}${Faker.datatype.number(9)} MB`,
   },
   {
     fileType: "Contacts",
     lastBackup: Faker.date.past(),
-    size: `${Faker.random.number(64)}.${Faker.random.number(
+    size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
       9
-    )}${Faker.random.number(9)} MB`,
+    )}${Faker.datatype.number(9)} MB`,
   },
   {
     fileType: "Files",
     lastBackup: Faker.date.past(),
-    size: `${Faker.random.number(64)}.${Faker.random.number(
+    size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
       9
-    )}${Faker.random.number(9)} MB`,
+    )}${Faker.datatype.number(9)} MB`,
     _children: [
       {
         fileType: "Music files",
         lastBackup: Faker.date.past(),
-        size: `${Faker.random.number(64)}.${Faker.random.number(
+        size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
           9
-        )}${Faker.random.number(9)} MB`,
+        )}${Faker.datatype.number(9)} MB`,
       },
       {
         fileType: "Recorded files",
         lastBackup: Faker.date.past(),
-        size: `${Faker.random.number(64)}.${Faker.random.number(
+        size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
           9
-        )}${Faker.random.number(9)} MB`,
+        )}${Faker.datatype.number(9)} MB`,
       },
       {
         fileType: "Storage files",
         lastBackup: Faker.date.past(),
-        size: `${Faker.random.number(64)}.${Faker.random.number(
+        size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
           9
-        )}${Faker.random.number(9)} MB`,
+        )}${Faker.datatype.number(9)} MB`,
       },
     ],
   },
   {
     fileType: "Notes",
     lastBackup: Faker.date.past(),
-    size: `${Faker.random.number(64)}.${Faker.random.number(
+    size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
       9
-    )}${Faker.random.number(9)} MB`,
+    )}${Faker.datatype.number(9)} MB`,
   },
   {
     fileType: "Meditation timer data",
     lastBackup: Faker.date.past(),
-    size: `${Faker.random.number(64)}.${Faker.random.number(
+    size: `${Faker.datatype.number(64)}.${Faker.datatype.number(
       9
-    )}${Faker.random.number(9)} MB`,
+    )}${Faker.datatype.number(9)} MB`,
   },
 ]
 
