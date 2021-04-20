@@ -545,6 +545,7 @@ const Contacts: FunctionComponent<PhoneProps> = (props) => {
           deleteContacts={deleteContacts}
           resetRows={resetRows}
           contacts={flatList}
+          editedContact={editedContact}
         />
         <TableWithSidebarWrapper>
           <ContactList

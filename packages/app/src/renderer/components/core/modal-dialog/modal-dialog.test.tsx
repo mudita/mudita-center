@@ -9,7 +9,7 @@ import ModalDialog from "Renderer/components/core/modal-dialog/modal-dialog.comp
 import { ModalTestIds } from "Renderer/components/core/modal/modal-test-ids.enum"
 
 const renderer = (props = {}) =>
-  renderWithThemeAndIntl(<ModalDialog open  {...props} />)
+  renderWithThemeAndIntl(<ModalDialog open {...props} />)
 
 test("close button is hidden by default", () => {
   const { queryByTestId } = renderer()

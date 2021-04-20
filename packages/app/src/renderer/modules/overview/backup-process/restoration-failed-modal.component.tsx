@@ -20,9 +20,9 @@ const messages = defineMessages({
   },
 })
 
-export const BackupRestorationFailedModal: FunctionComponent<ComponentProps<typeof PureBackupModal>> = ({
-  ...props
-}) => (
+export const BackupRestorationFailedModal: FunctionComponent<
+  ComponentProps<typeof PureBackupModal>
+> = ({ ...props }) => (
   <PureBackupModal {...props}>
     <Text
       message={messages.title}

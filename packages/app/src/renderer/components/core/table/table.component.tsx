@@ -232,7 +232,7 @@ const SidebarWrapper = styled.div<{
   show?: boolean
   appColorSidebarHeader: boolean
 }>`
-  --header-height: 10.4rem;
+  --header-height: 6.2rem;
   --header-background: ${({ appColorSidebarHeader = "transparent" }) =>
     appColorSidebarHeader && backgroundColor("main")};
 
