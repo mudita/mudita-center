@@ -41,7 +41,7 @@ const messages = defineMessages({
     id: "module.overview.backupCreateBackupModalTitle",
   },
   total: {
-    id: "module.overview.backup.createBackupModalTotal",
+    id: "module.overview.createBackupModalTotal",
   },
 })
 
