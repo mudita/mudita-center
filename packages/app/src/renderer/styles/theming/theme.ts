@@ -10,7 +10,7 @@ const blue1 = "#3e6988"
 const blue2 = "#6d9bbc"
 const blue4 = "#e3f3ff"
 const blue5 = "#f3f8fc"
-const blue6 = "#f3f7f9"
+const blue6 = "#aebec9"
 const messageBlue = "#f2f7fa"
 
 const black = "#000000"
@@ -46,6 +46,7 @@ const theme = {
       primary: black,
       secondary: grey2,
       iconBody: white,
+      iconUser: blue6,
     },
     background: {
       activity: blue2,
@@ -66,7 +67,6 @@ const theme = {
       chartTooltip: white,
       modal: white,
       modalBackdrop: grey11,
-      bannerBackground: blue6,
       error: red1,
       lightIcon: white,
     },
