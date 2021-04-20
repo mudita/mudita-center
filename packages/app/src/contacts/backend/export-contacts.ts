@@ -17,7 +17,7 @@ import { createFullName } from "App/contacts/store/contacts.helpers"
 const messages = defineMessages({
   dialogTitle: { id: "module.contacts.exportSaveDialogTitle" },
   defaultFilename: { id: "module.contacts.exportDefaultFilename" },
-  button: { id: "module.contacts.export.button" },
+  button: { id: "module.contacts.exportButton" },
 })
 
 const registerContactsExportListener = () => {
