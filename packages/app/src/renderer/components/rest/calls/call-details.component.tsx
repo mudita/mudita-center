@@ -46,7 +46,7 @@ const messages = defineMessages({
   type: { id: "module.phone.callsType" },
   information: { id: "module.contacts.information" },
   deleteCallLabel: { id: "module.contacts.deleteCallLabel" },
-  contactCallLabel: { id: "module.contacts.details.contactCallLabel" },
+  contactCallLabel: { id: "module.contacts.detailsContactCallLabel" },
   newContactCallLabel: {
     id: "module.contacts.newContactCallLabel",
   },
