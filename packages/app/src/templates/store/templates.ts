@@ -21,7 +21,7 @@ export const initialState: StateProps = {
 }
 
 export const makeNewTemplate = (
-  id: string = Faker.random.uuid(),
+  id: string = Faker.datatype.uuid(),
   content = "",
   date = new Date()
 ): Template => ({ id, content, date })

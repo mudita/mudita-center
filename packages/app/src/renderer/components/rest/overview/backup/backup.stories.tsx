@@ -41,7 +41,7 @@ const Template: StoryInterface<
 }
 export const NoBackupAvailable = Template.bind({})
 NoBackupAvailable.args = {
-  onBackupCreate: action("create backup") ,
+  onBackupCreate: action("create backup"),
 }
 
 export const BackupAvailable = Template.bind({})

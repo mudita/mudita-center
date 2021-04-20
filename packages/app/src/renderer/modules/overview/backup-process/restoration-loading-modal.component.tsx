@@ -32,10 +32,9 @@ interface BackupRestorationLoadingModalProps {
   progress?: number
 }
 
-export const BackupRestorationLoadingModal: FunctionComponent<BackupRestorationLoadingModalProps & ComponentProps<typeof PureBackupModal>> = ({
-  progress = 0,
-  ...props
-}) => (
+export const BackupRestorationLoadingModal: FunctionComponent<
+  BackupRestorationLoadingModalProps & ComponentProps<typeof PureBackupModal>
+> = ({ progress = 0, ...props }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     closeable={false}

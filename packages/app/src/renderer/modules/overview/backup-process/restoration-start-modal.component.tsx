@@ -47,11 +47,9 @@ interface BackupRestorationStartModalProps {
   restoreBackup?: () => void
 }
 
-export const BackupRestorationStartModal: FunctionComponent<BackupRestorationStartModalProps & ComponentProps<typeof PureBackupModal>> = ({
-  items,
-  restoreBackup = noop,
-  ...props
-}) => (
+export const BackupRestorationStartModal: FunctionComponent<
+  BackupRestorationStartModalProps & ComponentProps<typeof PureBackupModal>
+> = ({ items, restoreBackup = noop, ...props }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     actionButtonLabel={intl.formatMessage(messages.actionButton)}

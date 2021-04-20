@@ -34,11 +34,9 @@ interface BackupLoadingModalProps {
   open: boolean
 }
 
-export const BackupLoadingModal: FunctionComponent<BackupLoadingModalProps & ComponentProps<typeof PureBackupModal>> = ({
-  onClose = noop,
-  progress = 0,
-  ...props
-}) => (
+export const BackupLoadingModal: FunctionComponent<
+  BackupLoadingModalProps & ComponentProps<typeof PureBackupModal>
+> = ({ onClose = noop, progress = 0, ...props }) => (
   <PureBackupModal
     closeButtonLabel={intl.formatMessage(messages.cancel)}
     closeable={false}

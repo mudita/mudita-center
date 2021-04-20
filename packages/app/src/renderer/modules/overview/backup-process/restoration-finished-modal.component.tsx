@@ -22,9 +22,9 @@ const messages = defineMessages({
   },
 })
 
-export const BackupRestorationFinishedModal: FunctionComponent<ComponentProps<typeof PureBackupModal>> = ({
-  ...props
-}) => (
+export const BackupRestorationFinishedModal: FunctionComponent<
+  ComponentProps<typeof PureBackupModal>
+> = ({ ...props }) => (
   <PureBackupModal
     actionButtonLabel={intl.formatMessage(messages.ok)}
     {...props}

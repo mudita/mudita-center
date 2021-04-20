@@ -4,7 +4,7 @@
  */
 
 import { startApp, stopApp } from "App/tests/hooks"
-import { Application } from "spectron";
+import { Application } from "spectron"
 
 let app: Application
 

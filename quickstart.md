@@ -16,18 +16,15 @@ npm run setup
 
 ### Set up environmental variables
 
-To get the environment variables you need to perform the following steps:
+Please run the following command to copy and rename `.env.example` file
 
-1. Install AWS cli [Instruction][https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html]
-2. Provide the AWS credentials via `aws configure` command (ask [Igor Bezsmertnyi](https://github.com/igorbezsmertnyi), [Mateusz Kocz](https://github.com/mateuszkocz) or [Piotr Leniec](https://github.com/piotrleniec-mudita) for adding you to the AWS organization and issuing the credentials)
-3. Install globally [@mudita/sm-cli](https://www.npmjs.com/package/@mudita/sm-cli) via `npm i -g @mudita/sm-cli`
-4. Run `sm-cli fetch`. It should create `.env` file in the root directory
+```bash
+cp .env.example .env
+```
 
-Read more about [@mudita/sm-cli](https://github.com/mudita/secrets-manager)
+Please keep in mind that we can not give full access to all environments to the Open Source community, so part of the integration may not work, but it should not affect the development process and the work of the application.
 
-There are migrations scripts that will allow you to mirror our setup from Phrase (which we use for translating the UI) and Contentful (which we use for managing the "News" section content and help articles):
-
-- _to be added_
+If you are Mudita employee please follow these [instructions](https://appnroll.atlassian.net/l/c/aSD9NC1u).
 
 ## Run Mudita Center development environment
 

@@ -43,11 +43,9 @@ interface BackupFinishedModalProps {
   destination: string
 }
 
-export const BackupFinishedModal: FunctionComponent<BackupFinishedModalProps & ComponentProps<typeof PureBackupModal>> = ({
-  items,
-  destination,
-  ...props
-}) => (
+export const BackupFinishedModal: FunctionComponent<
+  BackupFinishedModalProps & ComponentProps<typeof PureBackupModal>
+> = ({ items, destination, ...props }) => (
   <PureBackupModal
     actionButtonLabel={intl.formatMessage(messages.ok)}
     size={ModalSize.Medium}

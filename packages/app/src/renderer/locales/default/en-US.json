@@ -499,5 +499,7 @@
   "module.contacts.exportButton": "Export",
   "module.overview.createBackupModalTotal": "Total:",
   "module.contacts.detailsContactCallLabel": "Call label",
-  "component.dataModalErrorDescription": "Error description"
+  "component.dataModalErrorDescription": "Error description",
+  "module.phone.noPrimaryNumber": "No primary number",
+  "module.phone.noSecondaryNumber": "No second number"
 }

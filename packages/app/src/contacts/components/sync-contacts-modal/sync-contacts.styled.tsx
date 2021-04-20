@@ -10,6 +10,7 @@ import Button from "Renderer/components/core/button/button.component"
 export const ModalText = styled(Text)`
   text-align: center;
   margin-top: 1.2rem;
+  line-height: 1.8rem;
 `
 
 export const ButtonsContainer = styled.div`
@@ -32,4 +33,14 @@ export const ButtonWrapper = styled.div`
 
 export const SyncButton = styled(Button)`
   width: 24.4rem;
+  position: relative;
+
+  > span {
+    position: absolute;
+    top: 0.6rem;
+    left: 1.6rem;
+  }
+  > p {
+    padding-left: 3rem;
+  }
 `
