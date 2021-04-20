@@ -13,7 +13,7 @@
   "component.dataModal.errorText": "Data transfer failed",
   "component.dataModal.errorTitle": "Error",
   "component.dataModalErrorWithRetryButton": "Try again",
-  "component.dataModal.loading.title": "Loading",
+  "component.dataModalLoadingTitle": "Loading",
   "component.devModeDisableAction": "Turn it off!",
   "component.devModeEnabled": "Dev Mode is ready!",
   "component.devModeHeader": "DEV",
@@ -498,5 +498,6 @@
   "module.tools.notesDeleteModalThreadText": "Thread text",
   "module.contacts.exportButton": "Export",
   "module.overview.createBackupModalTotal": "Total:",
-  "module.contacts.detailsContactCallLabel": "Call label"
+  "module.contacts.detailsContactCallLabel": "Call label",
+  "component.dataModalErrorDescription": "Error description"
 }

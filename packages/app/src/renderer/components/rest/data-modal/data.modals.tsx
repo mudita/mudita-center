@@ -45,9 +45,9 @@ export const RoundIconWrapper = styled.div`
 const messages = defineMessages({
   errorTitle: { id: "component.dataModal.errorTitle" },
   errorText: { id: "component.dataModal.errorText" },
-  errorDescription: { id: "component.dataModal.error.description" },
+  errorDescription: { id: "component.dataModalErrorDescription" },
   errorWithRetryButton: { id: "component.dataModalErrorWithRetryButton" },
-  loadingTitle: { id: "component.dataModal.loading.title" },
+  loadingTitle: { id: "component.dataModalLoadingTitle" },
 })
 
 const ErrorModal: FunctionComponent<Partial<ModalProps>> = ({
