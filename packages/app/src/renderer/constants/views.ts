@@ -8,22 +8,22 @@ import { defineMessages } from "react-intl"
 import { URL_MAIN, URL_ONBOARDING, URL_RECOVERY_MODE } from "./urls"
 
 const messages = defineMessages({
-  onboarding: { id: "view.name.onboarding" },
-  recoveryMode: { id: "view.name.recoveryMode" },
-  contacts: { id: "view.name.contacts" },
-  news: { id: "view.name.news" },
-  overview: { id: "view.name.overview" },
-  messages: { id: "view.name.messages" },
-  phone: { id: "view.name.phone" },
-  music: { id: "view.name.music" },
-  calendar: { id: "view.name.calendar" },
-  tools: { id: "view.name.tools" },
-  meditation: { id: "view.name.meditation" },
-  filesManager: { id: "view.name.filesManager" },
-  tethering: { id: "view.name.tethering" },
-  settings: { id: "view.name.settings" },
-  help: { id: "view.name.help" },
-  error: { id: "view.name.error" },
+  onboarding: { id: "module.onboarding" },
+  recoveryMode: { id: "module.recoveryMode" },
+  contacts: { id: "module.contacts" },
+  news: { id: "module.news" },
+  overview: { id: "module.overview" },
+  messages: { id: "module.messages" },
+  phone: { id: "module.phone" },
+  music: { id: "module.music" },
+  calendar: { id: "module.calendar" },
+  tools: { id: "module.tools" },
+  meditation: { id: "module.meditation" },
+  filesManager: { id: "module.filesManager" },
+  tethering: { id: "module.tethering" },
+  settings: { id: "module.settings" },
+  help: { id: "module.help" },
+  error: { id: "module.error" },
 })
 
 export enum View {

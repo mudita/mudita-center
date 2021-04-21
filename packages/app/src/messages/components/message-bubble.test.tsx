@@ -70,7 +70,8 @@ test("when author of message is unknown, displays default icon in avatar", () =>
       message={message}
       id={id}
       displayAvatar
+      interlocutor
     />
   )
-  expect(getByTestId("icon-Contact")).toBeInTheDocument()
+  expect(getByTestId("icon-ContactFilled")).toBeInTheDocument()
 })

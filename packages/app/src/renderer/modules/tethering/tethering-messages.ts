@@ -7,18 +7,18 @@ import { defineMessages } from "react-intl"
 
 export const tetheringMessages = defineMessages({
   notConnected: {
-    id: "view.name.tethering.tetheringDisabled",
+    id: "module.tethering.tetheringDisabled",
   },
   enablingInfo: {
-    id: "view.name.tethering.enablingInfo",
+    id: "module.tethering.enablingInfo",
   },
   usbTethering: {
-    id: "view.name.tethering.usbTethering",
+    id: "module.tethering.usbTethering",
   },
   explanation: {
-    id: "view.name.tethering.explanation",
+    id: "module.tethering.explanation",
   },
   openConnectionSettings: {
-    id: "view.name.tethering.openConnectionSettings",
+    id: "module.tethering.openConnectionSettings",
   },
 })

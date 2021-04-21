@@ -34,17 +34,19 @@ import { productionEnvironment } from "Renderer/constants/menu-elements"
 import { ContactDetailsTestIds } from "App/contacts/components/contact-details/contact-details-test-ids.enum"
 
 const messages = defineMessages({
-  favourites: { id: "view.name.phone.contacts.details.favourites" },
-  speedDial: { id: "view.name.phone.contacts.details.speedDial" },
-  blocked: { id: "view.name.phone.contacts.details.blocked" },
-  information: { id: "view.name.phone.contacts.details.information" },
-  address: { id: "view.name.phone.contacts.details.address" },
-  notes: { id: "view.name.phone.contacts.details.notes" },
-  noPhoneNumber: { id: "view.name.phone.contacts.details.noPhoneNumber" },
-  noEmail: { id: "view.name.phone.contacts.details.noEmail" },
-  noAddress: { id: "view.name.phone.contacts.details.noAddress" },
-  noNotes: { id: "view.name.phone.contacts.details.noNotes" },
-  ice: { id: "view.name.phone.contacts.details.ice" },
+  favourites: { id: "module.contacts.favourites" },
+  speedDial: { id: "module.contacts.speedDial" },
+  blocked: { id: "module.contacts.detailsBlocked" },
+  information: { id: "module.contacts.information" },
+  address: { id: "module.contacts.detailsAddress" },
+  notes: { id: "module.contacts.notes" },
+  noPhoneNumber: { id: "module.contacts.noPhoneNumber" },
+  noPrimaryNumber: { id: "module.phone.noPrimaryNumber" },
+  noSecondNumber: { id: "module.phone.noSecondaryNumber" },
+  noEmail: { id: "module.contacts.noEmail" },
+  noAddress: { id: "module.contacts.noAddress" },
+  noNotes: { id: "module.contacts.noNotes" },
+  ice: { id: "module.contacts.ice" },
 })
 
 export interface ContactActions {
@@ -117,7 +119,13 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
     const handleDelete = () => onDelete(contact)
     const handleMessage = (phoneNumber: string) => onMessage(phoneNumber)
     // TODO: Remove prodIcons along with associated logic when features become available
-    const exportIcon = <SidebarHeaderButton Icon={Type.UploadDark} onClick={handleExport} data-testid={ContactDetailsTestIds.ExportButton} />
+    const exportIcon = (
+      <SidebarHeaderButton
+        Icon={Type.UploadDark}
+        onClick={handleExport}
+        data-testid={ContactDetailsTestIds.ExportButton}
+      />
+    )
     const prodIcons = (
       <>
         <SidebarHeaderButton Icon={Type.Edit} onClick={handleEdit} />
@@ -189,40 +197,45 @@ const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
           <div>
             <AdditionalInfoItem>
               <InfoItemName message={messages.information} />
-              {contact.primaryPhoneNumber && (
-                <Input
-                  defaultValue={contact.primaryPhoneNumber}
-                  // TODO: Remove productionEnvironment along with associated logic when features become available
-                  trailingIcons={
-                    productionEnvironment
-                      ? undefined
-                      : phoneActions(
-                          contact.primaryPhoneNumber,
-                          isThreadOpened(contact.primaryPhoneNumber),
-                          onCall,
-                          handleMessage
-                        )
-                  }
-                />
-              )}
-              {contact.secondaryPhoneNumber && (
-                <Input
-                  defaultValue={contact.secondaryPhoneNumber}
-                  // TODO: Remove productionEnvironment along with associated logic when features become available
-                  trailingIcons={
-                    productionEnvironment
-                      ? undefined
-                      : phoneActions(
-                          contact.secondaryPhoneNumber,
-                          isThreadOpened(contact.secondaryPhoneNumber),
-                          onCall,
-                          handleMessage
-                        )
-                  }
-                />
-              )}
-              {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber && (
+              {!contact.primaryPhoneNumber && !contact.secondaryPhoneNumber ? (
                 <Input label={intl.formatMessage(messages.noPhoneNumber)} />
+              ) : (
+                <div>
+                  <Input
+                    defaultValue={contact.primaryPhoneNumber}
+                    label={intl.formatMessage(messages.noPrimaryNumber)}
+                    // TODO: Remove productionEnvironment along with associated logic when features become available
+                    trailingIcons={
+                      contact.primaryPhoneNumber
+                        ? productionEnvironment
+                          ? undefined
+                          : phoneActions(
+                              contact.primaryPhoneNumber,
+                              isThreadOpened(contact.primaryPhoneNumber),
+                              onCall,
+                              handleMessage
+                            )
+                        : undefined
+                    }
+                  />
+                  <Input
+                    defaultValue={contact.secondaryPhoneNumber}
+                    label={intl.formatMessage(messages.noSecondNumber)}
+                    // TODO: Remove productionEnvironment along with associated logic when features become available
+                    trailingIcons={
+                      contact.secondaryPhoneNumber
+                        ? productionEnvironment
+                          ? undefined
+                          : phoneActions(
+                              contact.secondaryPhoneNumber,
+                              isThreadOpened(contact.secondaryPhoneNumber),
+                              onCall,
+                              handleMessage
+                            )
+                        : undefined
+                    }
+                  />
+                </div>
               )}
               {contact.email ? (
                 <ContactDetailsInfo>{contact.email}</ContactDetailsInfo>

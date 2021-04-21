@@ -69,8 +69,8 @@ describe("contact modal details", () => {
       fireEvent.click(
         getByText(
           intl.formatMessage({
-            id: `component.modal.support.form.details.${
-              toggled ? "hideButton" : "showButton"
+            id: `component.supportModalFormDetails${
+              toggled ? "HideButton" : "ShowButton"
             }`,
           })
         )
@@ -149,10 +149,10 @@ test("failed modal renders properly", () => {
   const { getByText } = renderWithThemeAndIntl(<ContactSupportFailed />)
 
   expect(
-    getByText("component.modal.support.fail.title", { exact: false })
+    getByText("component.supportModalFailTitle", { exact: false })
   ).toBeInTheDocument()
   expect(
-    getByText("component.modal.support.fail.body", { exact: false })
+    getByText("component.supportModalFailBody", { exact: false })
   ).toBeInTheDocument()
 })
 
@@ -160,9 +160,9 @@ test("success modal renders properly", () => {
   const { getByText } = renderWithThemeAndIntl(<ContactSupportSuccess />)
 
   expect(
-    getByText("component.modal.support.success.title", { exact: false })
+    getByText("component.supportModalSuccessTitle", { exact: false })
   ).toBeInTheDocument()
   expect(
-    getByText("component.modal.support.success.body", { exact: false })
+    getByText("component.supportModalSuccessBody", { exact: false })
   ).toBeInTheDocument()
 })

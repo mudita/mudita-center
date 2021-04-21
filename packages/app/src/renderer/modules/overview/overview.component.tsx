@@ -58,7 +58,7 @@ const Overview: FunctionComponent<
   updateBasicInfo = noop,
   toggleUpdatingDevice,
   language,
-  pureOsBackupLocation
+  pureOsBackupLocation,
 }) => {
   /**
    * Temporary state to demo failure

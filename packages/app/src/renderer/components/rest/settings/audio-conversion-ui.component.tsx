@@ -72,13 +72,13 @@ const AudioConversionUI: FunctionComponent<Props> = ({
           <SettingsDescription
             displayStyle={TextDisplayStyle.MediumFadedLightText}
           >
-            <FormattedMessage id="view.name.settings.audioConversion.description" />
+            <FormattedMessage id="module.settings.audioConversionDescription" />
           </SettingsDescription>
         </SettingsDescriptionWrapper>
         <SettingsTableRow checkMode={false}>
           <Data>
             <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-              <FormattedMessage id="view.name.settings.audioConversion.convertNonStandardFilesLabel" />
+              <FormattedMessage id="module.settings.audioConversionConvertNonStandardFilesLabel" />
             </SettingsLabel>
           </Data>
           <ActionsWrapper>
@@ -97,7 +97,7 @@ const AudioConversionUI: FunctionComponent<Props> = ({
       />
       <ConversionFormatWrapper>
         <Text displayStyle={TextDisplayStyle.MediumFadedLightText}>
-          <FormattedMessage id="view.name.settings.audioConversion.conversionFormat" />
+          <FormattedMessage id="module.settings.audioConversionConversionFormat" />
         </Text>
         <ConversionFormatRadioGroup
           value={appConversionFormat}

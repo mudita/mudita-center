@@ -26,25 +26,26 @@ import {
 import { ModalContent } from "App/calendar/components/calendar-modals.styled"
 import { DisplayStyle } from "Renderer/components/core/button/button.config"
 import { SelectVendorModalTestIds } from "App/calendar/components/select-vendor-modal-test-ids.enum"
+import { IconSize } from "App/renderer/components/core/icon/icon.component"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.calendar.modal.selectVendor.title",
+    id: "module.calendar.selectVendorTitle",
   },
   subtitle: {
-    id: "view.name.calendar.modal.selectVendor.subtitle",
+    id: "module.calendar.selectVendorSubtitle",
   },
   body: {
-    id: "view.name.calendar.modal.selectVendor.body",
+    id: "module.calendar.selectVendorBody",
   },
   buttonGoogle: {
-    id: "common.loginGoogleButton",
+    id: "component.loginGoogleButton",
   },
   buttonOutlook: {
-    id: "common.loginOutlookButton",
+    id: "component.loginOutlookButton",
   },
   manualImportButton: {
-    id: "view.name.calendar.manualImportText",
+    id: "module.calendar.manualImportText",
   },
 })
 
@@ -93,18 +94,21 @@ const SelectVendorModal: FunctionComponent<SelectVendorModalProps> = ({
             labelMessage={messages.buttonGoogle}
             onClick={onGoogleButtonClick}
             Icon={Type.Google}
+            iconSize={IconSize.Medium}
             data-testid={SelectVendorModalTestIds.GoogleButton}
           />
           <SyncButton
             labelMessage={messages.buttonOutlook}
             onClick={onOutlookButtonClick}
             Icon={Type.Outlook}
+            iconSize={IconSize.Medium}
             data-testid={SelectVendorModalTestIds.OutlookButton}
           />
           <SyncButton
             displayStyle={DisplayStyle.Primary}
             labelMessage={messages.manualImportButton}
             Icon={Type.Upload}
+            iconSize={IconSize.Medium}
             onClick={handleManualImportClick}
             data-testid={SelectVendorModalTestIds.ManualImportButton}
           />

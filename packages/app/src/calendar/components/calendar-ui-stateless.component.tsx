@@ -14,9 +14,9 @@ import { CalendarEvent } from "App/calendar/store/calendar.interfaces"
 import { UseTableSelect } from "Renderer/utils/hooks/useTableSelect"
 
 const messages = defineMessages({
-  emptyStateTitle: { id: "view.name.calendar.noEvents" },
+  emptyStateTitle: { id: "module.calendar.noEvents" },
   emptyStateDescription: {
-    id: "view.name.calendar.noEventsDescription",
+    id: "module.calendar.noEventsDescription",
   },
 })
 

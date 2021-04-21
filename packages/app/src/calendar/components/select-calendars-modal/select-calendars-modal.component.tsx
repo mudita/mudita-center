@@ -28,16 +28,16 @@ import { Calendar } from "App/calendar/store/calendar.interfaces"
 
 const messages = defineMessages({
   title: {
-    id: "view.name.calendar.modal.selectCalendars.title",
+    id: "module.calendar.selectCalendarsTitle",
   },
   subtitle: {
-    id: "view.name.calendar.modal.selectCalendars.subtitle",
+    id: "module.calendar.selectCalendarsSubtitle",
   },
   body: {
-    id: "view.name.calendar.modal.selectCalendars.body",
+    id: "module.calendar.selectCalendarsBody",
   },
   button: {
-    id: "view.name.calendar.modal.selectCalendars.button",
+    id: "module.calendar.selectCalendarsButton",
   },
 })
 

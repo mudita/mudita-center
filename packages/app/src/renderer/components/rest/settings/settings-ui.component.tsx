@@ -75,7 +75,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
         <SettingsDescription
           displayStyle={TextDisplayStyle.MediumFadedLightText}
         >
-          <FormattedMessage id="view.name.settings.description" />
+          <FormattedMessage id="module.settings.description" />
         </SettingsDescription>
       </SettingsDescriptionWrapper>
       <SettingsTableRow
@@ -84,7 +84,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
       >
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.autostartLabel" />
+            <FormattedMessage id="module.settings.autostartLabel" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>
@@ -99,7 +99,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
         >
           <Data>
             <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-              <FormattedMessage id="view.name.settings.tetheringLabel" />
+              <FormattedMessage id="module.settings.tetheringLabel" />
             </SettingsLabel>
           </Data>
           <ActionsWrapper>
@@ -116,7 +116,7 @@ const SettingsUI: FunctionComponent<Properties> = ({
       >
         <Data>
           <SettingsLabel displayStyle={TextDisplayStyle.LargeText}>
-            <FormattedMessage id="view.name.settings.collectingdata" />
+            <FormattedMessage id="module.settings.collectingData" />
           </SettingsLabel>
         </Data>
         <ActionsWrapper>

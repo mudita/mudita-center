@@ -144,7 +144,7 @@ test("dropdown call button has correct content", () => {
   expect(getAllByTestId("dropdown-call")[0]).toHaveTextContent(
     intl.formatMessage(
       {
-        id: "component.dropdown.call",
+        id: "component.dropdownCall",
       },
       { name: contact.firstName }
     )
@@ -162,7 +162,7 @@ test("dropdown contact details button has correct content", () => {
   mockAllIsIntersecting(true)
   expect(getAllByTestId("dropdown-contact-details")[0]).toHaveTextContent(
     intl.formatMessage({
-      id: "view.name.messages.dropdownContactDetails",
+      id: "module.messages.dropdownContactDetails",
     })
   )
 })
@@ -191,7 +191,7 @@ test("dropdown mark as read button has correct content ", () => {
   mockAllIsIntersecting(true)
   expect(getAllByTestId("dropdown-mark-as-read")[0]).toHaveTextContent(
     intl.formatMessage({
-      id: "view.name.messages.markAsRead",
+      id: "module.messages.markAsRead",
     })
   )
 })
@@ -207,7 +207,7 @@ test("dropdown delete button has correct content", () => {
   mockAllIsIntersecting(true)
   expect(getAllByTestId("dropdown-delete")[0]).toHaveTextContent(
     intl.formatMessage({
-      id: "view.name.messages.dropdownDelete",
+      id: "module.messages.dropdownDelete",
     })
   )
 })
